@@ -66,9 +66,9 @@ typedef struct _Work
     /* +0x3858 */ MenuPrim primbuf;
     /* +0x386C */ char     field_386C[0x2000];
     /* +0x586C */ char     field_586C[0x2000];
-    /* +0x786C */ char     pad_786C[0x7870 - 0x786C];
+    /* +0x786C */ int      field_786C;
     /* +0x7870 */ int      field_7870;
-    /* +0x7874 */ char     pad_7874[0x7878 - 0x7874];
+    /* +0x7874 */ int      field_7874;
     /* +0x7878 */ int      field_7878;
     /* +0x787C */ int      field_787C;
     /* +0x7880 */ char     pad_7880[0x7884 - 0x7880];
@@ -499,8 +499,765 @@ void abst_800CB73C(Work *work)
     MENU_Printf(abst_dword_800CE8B4, 2);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/abst/abst_800CB8A4.s")
-void abst_800CB8A4(Work *work);
+/* ---- group1 consts, placed BEFORE abst_800CB8A4 (0x800CE8B4..0x800CE8D8) ---- */
+const char abst_dword_800CE8B4[] = {'%', 'd', 0x0, 0x0};
+const char abst_dword_800CE8B8[] = {'/', 0x0, 0x0, 0x0};
+const char abst_dword_800CE8BC[] = {'R', 'E', 'A', 'D'};
+const char abst_dword_800CE8C0[] = {' ', 'M', 'I', 'S'};
+const char abst_dword_800CE8C4[] = {'S', 'I', 'O', 'N'};
+const char abst_dword_800CE8C8[] = {' ', 'L', 'O', 'G'};
+const char abst_dword_800CE8CC[] = {'?', 0x0, 0x0, 0x0};
+const char abst_dword_800CE8D0[] = {'Y', 'E', 'S', 0x0};
+const char abst_dword_800CE8D4[] = {'N', 'O', 0x0, 0x0};
+const char abst_dword_800CE8D8[] = {0x0, 0x0, 0x0, 0x0};
+
+void abst_800CB8A4(Work *work)
+{
+    int       press;
+    int       i;
+    int       r, g, b;
+    POLY_FT4 *poly;
+    int       shade;
+    int       col;
+    int       base;
+
+    press = work->pad->press;
+
+    work->primbuf.next = work->primbuf.buf[GV_Clock];
+    work->primbuf.ot = DG_Chanl(1)->ot[GV_Clock];
+
+    switch (work->field_3830)
+    {
+    case 0:
+        if (work->field_3828 < 5)
+        {
+            MENU_Locate(90, 90, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(abst_dword_800CE8BC);
+            abst_800CB644(&work->primbuf, 92, 85, 130, 15);
+        }
+        else if (work->field_3828 < 10)
+        {
+            MENU_Locate(90, 90 - (work->field_3828 - 4) * 8, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(abst_dword_800CE8BC);
+            abst_800CB644(&work->primbuf, 92, 85, 130, 15);
+        }
+        else if (work->field_3828 == 10)
+        {
+            MENU_Locate(90, 50, 0x10);
+            MENU_Color(86, 137, 116);
+            MENU_Printf(abst_dword_800CE8BC);
+            MENU_Locate(100, 105, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(abst_dword_800CE8D0);
+            MENU_Locate(200, 105, 0x10);
+            MENU_Color(46, 72, 61);
+            MENU_Printf(abst_dword_800CE8D4);
+            abst_800CB644(&work->primbuf, 92, 85, 130, 15);
+        }
+        else if (work->field_3828 < 14)
+        {
+            MENU_Locate(90, 50, 0x10);
+            MENU_Color(86, 137, 116);
+            MENU_Printf(abst_dword_800CE8BC);
+            MENU_Locate(100, 105, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(abst_dword_800CE8D0);
+            MENU_Locate(200, 105, 0x10);
+            MENU_Color(46, 72, 61);
+            MENU_Printf(abst_dword_800CE8D4);
+            abst_800CB644(&work->primbuf, 92, (work->field_3828 - 10) * 5 + 85, 130 - (work->field_3828 - 10) * 30, 15);
+        }
+        else
+        {
+            MENU_Locate(90, 50, 0x10);
+            MENU_Color(86, 137, 116);
+            MENU_Printf(abst_dword_800CE8BC);
+            MENU_Locate(100, 105, 0x10);
+            if (work->field_3834 == 0)
+            {
+                MENU_Color(192, 192, 192);
+            }
+            else
+            {
+                MENU_Color(46, 72, 61);
+            }
+            MENU_Printf(abst_dword_800CE8D0);
+            MENU_Locate(200, 105, 0x10);
+            if (work->field_3834 == 1)
+            {
+                MENU_Color(192, 192, 192);
+            }
+            else
+            {
+                MENU_Color(46, 72, 61);
+            }
+            MENU_Printf(abst_dword_800CE8D4);
+            if (work->field_3834 == 0)
+            {
+                abst_800CB644(&work->primbuf, 92, 100, 40, 15);
+            }
+            else
+            {
+                abst_800CB644(&work->primbuf, 188, 100, 40, 15);
+            }
+
+            if (press & (PAD_START | PAD_CIRCLE))
+            {
+                if (work->field_3834 == 0)
+                {
+                    GM_SeSet2(0, 63, SE_MENU_SELECT);
+                    work->field_3830 = 1;
+                    for (i = 0; i < 8; i++)
+                    {
+                        work->attrs1[i] = 0x100;
+                    }
+                    work->attrs1[4] = 0;
+                    work->field_3828 = 0;
+                    r = 86;
+                    g = 137;
+                    b = 116;
+                    poly = work->polys1;
+                    setRGB0(&poly[2], r, g, b);
+                    setRGB0(&poly[3], r, g, b);
+                    setRGB0(&poly[4], r, g, b);
+                    setRGB0(&poly[5], r, g, b);
+                    for (i = 0; i < 1; i++)
+                    {
+                        abst_800CB1E0(work, i, 0);
+                    }
+                    for (i = 0; i < 9; i++)
+                    {
+                        work->attrs2[i] = 0x200;
+                    }
+                    abst_800CB360(work, 30, 86, 16, 14, 255, 1);
+                    poly = work->polys2;
+                    for (i = 0; i < 9; i++)
+                    {
+                        setRGB0(poly, 0, 0, 0);
+                        poly++;
+                    }
+                }
+                else
+                {
+                    GM_SeSet2(0, 63, SE_MENU_EXIT);
+                    GCL_ExecProc(work->end_proc, NULL);
+                    GV_DestroyActor(work);
+                }
+            }
+            else if (press & PAD_CROSS)
+            {
+                GM_SeSet2(0, 63, SE_MENU_EXIT);
+                GCL_ExecProc(work->end_proc, NULL);
+                GV_DestroyActor(work);
+            }
+            else if (press & PAD_UDLR)
+            {
+                GM_SeSet2(0, 63, SE_MENU_CURSOR);
+                if (work->field_3834 == 0)
+                {
+                    work->field_3834 = 1;
+                }
+                else
+                {
+                    work->field_3834 = 0;
+                }
+            }
+
+            work->field_786C = 1;
+        }
+        work->field_3828++;
+        break;
+
+    case 1:
+        if (work->field_3828 < 9)
+        {
+            poly = work->polys1;
+            r = (work->field_3828 * 86) / 64;
+            g = (work->field_3828 * 137) / 64;
+            b = (work->field_3828 * 116) / 64;
+            for (i = 0; i < 2; i++)
+            {
+                setRGB0(poly, r, g, b);
+                poly++;
+            }
+            col = 0;
+            for (i = 1; i < 8; i++)
+            {
+                abst_800CB1E0(work, i, col);
+            }
+        }
+        else if (work->field_3828 < 0x41)
+        {
+            poly = work->polys1;
+            r = (work->field_3828 * 86) / 64;
+            g = (work->field_3828 * 137) / 64;
+            b = (work->field_3828 * 116) / 64;
+            for (i = 0; i < 2; i++)
+            {
+                setRGB0(poly, r, g, b);
+                poly++;
+            }
+            col = 0;
+            for (i = 1; i < 8; i++)
+            {
+                abst_800CB1E0(work, i, col);
+            }
+        }
+        else if (work->field_3828 < 0x51)
+        {
+            poly = work->polys1;
+            r = 86;
+            g = 137;
+            b = 116;
+            for (i = 0; i < 8; i++)
+            {
+                setRGB0(poly, r, g, b);
+                poly++;
+            }
+            col = 0;
+            for (i = 1; i < 8; i++)
+            {
+                abst_800CB1E0(work, i, col);
+            }
+        }
+        else if (work->field_3828 < 0x89)
+        {
+            poly = work->polys1;
+            r = 86;
+            g = 137;
+            b = 116;
+            for (i = 0; i < 8; i++)
+            {
+                setRGB0(poly, r, g, b);
+                poly++;
+            }
+            shade = ((work->field_3828 - 0x50) * 25) / 64;
+            col = (shade << 10) | (shade << 5) | shade;
+            for (i = 1; i < 8; i++)
+            {
+                abst_800CB1E0(work, i, col);
+            }
+            work->field_3828++;
+            if (work->field_3828 < 0x59)
+            {
+                work->field_786C = 0;
+            }
+            else
+            {
+                work->field_786C = 1;
+            }
+            break;
+        }
+        else if (work->field_3828 < 0x91)
+        {
+            shade = ((work->field_3828 - 0x88) * 255) / 8;
+            poly = work->polys2;
+            for (i = 0; i < 9; i++)
+            {
+                setRGB0(poly, shade, shade, shade);
+                poly++;
+            }
+            poly = work->polys1;
+            r = 86;
+            g = 137;
+            b = 116;
+            for (i = 0; i < 8; i++)
+            {
+                setRGB0(poly, r, g, b);
+                poly++;
+            }
+            shade = ((work->field_3828 - 0x50) * 25) / 64;
+            col = (shade << 10) | (shade << 5) | shade;
+            for (i = 1; i < 8; i++)
+            {
+                abst_800CB1E0(work, i, col);
+            }
+            work->field_3828++;
+            if (work->field_3828 < 0x59)
+            {
+                work->field_786C = 0;
+            }
+            else
+            {
+                work->field_786C = 1;
+            }
+            break;
+        }
+        else
+        {
+            work->field_3830 = 2;
+            work->field_786C = 1;
+            work->field_7874 = 2;
+            abst_800CB73C(work);
+            break;
+        }
+        work->field_3828++;
+        break;
+
+    case 2:
+        switch (work->field_7874)
+        {
+        case 2:
+            if (press & PAD_R)
+            {
+                work->field_7874 = 3;
+                abst_800CB360(work, 66, 87, 78, 12, 255, 1);
+                GM_SeSet2(0, 63, SE_MENU_CURSOR);
+            }
+            else if (press & PAD_L)
+            {
+                work->field_7874 = 0;
+                abst_800CB360(work, -137, 87, 78, 12, 255, 1);
+                GM_SeSet2(0, 63, SE_MENU_CURSOR);
+            }
+            else if (press & (PAD_CIRCLE | PAD_R1))
+            {
+                work->field_3830 = 4;
+                work->field_7874 = 3;
+                GM_SeSet2(0, 63, 0xb0);
+                work->field_3828 = 0;
+                abst_800CB360(work, 66, 87, 78, 12, 255, 1);
+                work->attrs1[4] = 0x100;
+                work->attrs1[5] = 0;
+            }
+            else if (press & PAD_SELECT)
+            {
+                base = (work->field_7878 - 1) * 7;
+                if (work->field_7870 == 0)
+                {
+                    work->field_7870 = 1;
+                    for (i = base + 1; i < base + 8; i++)
+                    {
+                        abst_800CB1E0(work, i, 0);
+                    }
+                }
+                else
+                {
+                    work->field_7870 = 0;
+                    for (i = base + 1; i < base + 8; i++)
+                    {
+                        abst_800CB1E0(work, i, 0x6739);
+                    }
+                }
+            }
+            else if (press & PAD_CROSS)
+            {
+                GM_SeSet2(0, 63, SE_MENU_EXIT);
+                work->field_3830 = 3;
+                work->field_7874 = 3;
+                work->field_3828 = 0;
+                abst_800CB360(work, 66, 87, 78, 12, 255, 1);
+            }
+            break;
+
+        case 1:
+            if (press & PAD_R)
+            {
+                work->field_7874 = 3;
+                abst_800CB360(work, 66, 87, 78, 12, 255, 1);
+                GM_SeSet2(0, 63, SE_MENU_CURSOR);
+            }
+            else if (press & PAD_L)
+            {
+                work->field_7874 = 0;
+                abst_800CB360(work, -137, 87, 78, 12, 255, 1);
+                GM_SeSet2(0, 63, SE_MENU_CURSOR);
+            }
+            else if (press & (PAD_CIRCLE | PAD_L1))
+            {
+                work->field_3830 = 5;
+                work->field_7874 = 2;
+                GM_SeSet2(0, 63, 0xb0);
+                work->field_3828 = 0;
+                abst_800CB360(work, 30, 86, 16, 14, 255, 1);
+                work->attrs1[4] = 0;
+                work->attrs1[5] = 0x100;
+            }
+            else if (press & PAD_SELECT)
+            {
+                base = (work->field_7878 - 1) * 7;
+                if (work->field_7870 == 0)
+                {
+                    work->field_7870 = 1;
+                    for (i = base + 1; i < base + 8; i++)
+                    {
+                        abst_800CB1E0(work, i, 0);
+                    }
+                }
+                else
+                {
+                    work->field_7870 = 0;
+                    for (i = base + 1; i < base + 8; i++)
+                    {
+                        abst_800CB1E0(work, i, 0x6739);
+                    }
+                }
+            }
+            else if (press & PAD_CROSS)
+            {
+                GM_SeSet2(0, 63, SE_MENU_EXIT);
+                work->field_3830 = 3;
+                work->field_7874 = 3;
+                work->field_3828 = 0;
+                abst_800CB360(work, 66, 87, 78, 12, 255, 1);
+            }
+            break;
+
+        case 3:
+            if (press & PAD_L)
+            {
+                if (work->field_7878 == 1)
+                {
+                    work->field_7874 = 2;
+                    abst_800CB360(work, 30, 86, 16, 14, 255, 1);
+                    GM_SeSet2(0, 63, SE_MENU_CURSOR);
+                }
+                else
+                {
+                    work->field_7874 = 1;
+                    abst_800CB360(work, -46, 86, 16, 14, 255, 1);
+                    GM_SeSet2(0, 63, SE_MENU_CURSOR);
+                }
+            }
+            else if (press & PAD_L1)
+            {
+                if (work->field_7878 == 1)
+                {
+                    /* footer */
+                }
+                else
+                {
+                    work->field_3830 = 5;
+                    work->field_7874 = 2;
+                    GM_SeSet2(0, 63, 0xb0);
+                    work->field_3828 = 0;
+                    abst_800CB360(work, 30, 86, 16, 14, 255, 1);
+                    work->attrs1[4] = 0;
+                    work->attrs1[5] = 0x100;
+                }
+            }
+            else if (press & PAD_R1)
+            {
+                if (work->field_7878 == 2)
+                {
+                    /* footer */
+                }
+                else
+                {
+                    work->field_3830 = 4;
+                    work->field_7874 = 1;
+                    GM_SeSet2(0, 63, 0xb0);
+                    work->field_3828 = 0;
+                    abst_800CB360(work, -46, 86, 16, 14, 255, 1);
+                    work->attrs1[4] = 0x100;
+                    work->attrs1[5] = 0;
+                }
+            }
+            else if (press & PAD_SELECT)
+            {
+                base = (work->field_7878 - 1) * 7;
+                if (work->field_7870 == 0)
+                {
+                    work->field_7870 = 1;
+                    for (i = base + 1; i < base + 8; i++)
+                    {
+                        abst_800CB1E0(work, i, 0);
+                    }
+                }
+                else
+                {
+                    work->field_7870 = 0;
+                    for (i = base + 1; i < base + 8; i++)
+                    {
+                        abst_800CB1E0(work, i, 0x6739);
+                    }
+                }
+            }
+            else if (press & PAD_CIRCLE)
+            {
+                GM_SeSet2(0, 63, SE_MENU_SELECT);
+                work->field_3830 = 3;
+                work->field_3828 = 0;
+            }
+            else if (press & PAD_CROSS)
+            {
+                GM_SeSet2(0, 63, SE_MENU_EXIT);
+                work->field_3830 = 3;
+                work->field_3828 = 0;
+            }
+            break;
+
+        case 0:
+            if (press & PAD_R)
+            {
+                if (work->field_7878 == 1)
+                {
+                    work->field_7874 = 2;
+                    abst_800CB360(work, 30, 86, 16, 14, 255, 1);
+                    GM_SeSet2(0, 63, SE_MENU_CURSOR);
+                }
+                else
+                {
+                    work->field_7874 = 1;
+                    abst_800CB360(work, -46, 86, 16, 14, 255, 1);
+                    GM_SeSet2(0, 63, SE_MENU_CURSOR);
+                }
+            }
+            else if (press & PAD_L1)
+            {
+                if (work->field_7878 == 1)
+                {
+                    /* footer */
+                }
+                else
+                {
+                    work->field_3830 = 5;
+                    work->field_7874 = 2;
+                    GM_SeSet2(0, 63, 0xb0);
+                    work->field_3828 = 0;
+                    abst_800CB360(work, 30, 86, 16, 14, 255, 1);
+                    work->attrs1[4] = 0;
+                    work->attrs1[5] = 0x100;
+                }
+            }
+            else if (press & PAD_R1)
+            {
+                if (work->field_7878 == 2)
+                {
+                    /* footer */
+                }
+                else
+                {
+                    work->field_3830 = 4;
+                    work->field_7874 = 1;
+                    GM_SeSet2(0, 63, 0xb0);
+                    work->field_3828 = 0;
+                    abst_800CB360(work, -46, 86, 16, 14, 255, 1);
+                    work->attrs1[4] = 0x100;
+                    work->attrs1[5] = 0;
+                }
+            }
+            else if (press & PAD_SELECT)
+            {
+                base = (work->field_7878 - 1) * 7;
+                if (work->field_7870 == 0)
+                {
+                    work->field_7870 = 1;
+                    for (i = base + 1; i < base + 8; i++)
+                    {
+                        abst_800CB1E0(work, i, 0);
+                    }
+                }
+                else
+                {
+                    work->field_7870 = 0;
+                    for (i = base + 1; i < base + 8; i++)
+                    {
+                        abst_800CB1E0(work, i, 0x6739);
+                    }
+                }
+            }
+            else if (press & PAD_CIRCLE)
+            {
+                GM_SeSet2(0, 63, SE_MENU_SELECT);
+                work->field_3830 = 3;
+                work->field_3828 = 0;
+            }
+            else if (press & PAD_CROSS)
+            {
+                GM_SeSet2(0, 63, SE_MENU_EXIT);
+                work->field_3830 = 3;
+                work->field_7874 = 3;
+                work->field_3828 = 0;
+                abst_800CB360(work, 66, 87, 78, 12, 255, 1);
+            }
+            break;
+        }
+        abst_800CB73C(work);
+        break;
+
+    case 4:
+        if (work->field_3828 < 9)
+        {
+            work->field_787C = -(work->field_3828 * 0x28);
+        }
+        else if (work->field_3828 == 9)
+        {
+            base = (work->field_7878 - 1) * 7;
+            for (i = base + 1; i < base + 8; i++)
+            {
+                abst_800CB1E0(work, i, 0);
+            }
+            for (i = base + 8; i < base + 15; i++)
+            {
+                abst_800CB1E0(work, i, 0x6739);
+            }
+        }
+        else if (work->field_3828 < 0x12)
+        {
+            work->field_787C = (17 - work->field_3828) * 0x28;
+        }
+        else
+        {
+            work->field_3830 = 2;
+            work->field_7870 = 0;
+            work->field_7878++;
+        }
+        work->field_3828++;
+        abst_800CB73C(work);
+        break;
+
+    case 5:
+        if (work->field_3828 < 9)
+        {
+            work->field_787C = work->field_3828 * 0x28;
+        }
+        else if (work->field_3828 == 9)
+        {
+            base = (work->field_7878 - 1) * 7;
+            for (i = base + 1; i < base + 8; i++)
+            {
+                abst_800CB1E0(work, i, 0);
+            }
+            for (i = base - 6; i < base + 1; i++)
+            {
+                abst_800CB1E0(work, i, 0x6739);
+            }
+        }
+        else if (work->field_3828 < 0x12)
+        {
+            work->field_787C = -((17 - work->field_3828) * 0x28);
+        }
+        else
+        {
+            work->field_3830 = 2;
+            work->field_7870 = 0;
+            work->field_7878--;
+        }
+        work->field_3828++;
+        abst_800CB73C(work);
+        break;
+
+    case 3:
+        if (work->field_3828 < 0x61)
+        {
+            if (work->field_3828 < 9)
+            {
+                shade = 255 - (work->field_3828 * 255) / 8;
+                poly = work->polys2;
+                for (i = 0; i < 9; i++)
+                {
+                    setRGB0(poly, shade, shade, shade);
+                    poly++;
+                }
+                abst_800CB73C(work);
+            }
+
+            r = 86 - (work->field_3828 * 86) / 96;
+            g = 137 - (work->field_3828 * 137) / 96;
+            b = 116 - (work->field_3828 * 116) / 96;
+            poly = work->polys1;
+            for (i = 0; i < 8; i++)
+            {
+                setRGB0(poly, r, g, b);
+                poly++;
+            }
+
+            shade = 25 - (work->field_3828 * 25) / 96;
+            col = (shade << 10) | (shade << 5) | shade;
+            base = (work->field_7878 - 1) * 7;
+            for (i = base + 1; i < base + 8; i++)
+            {
+                abst_800CB1E0(work, i, col);
+            }
+
+            if (work->field_7870 == 1)
+            {
+                for (i = base + 1; i < base + 8; i++)
+                {
+                    abst_800CB1E0(work, i, 0);
+                }
+            }
+
+            work->field_3828++;
+        }
+        else
+        {
+            if (work->field_7874 == 3)
+            {
+                GCL_ExecProc(work->end_proc, NULL);
+            }
+            else
+            {
+                GCL_ExecProc(work->field_24, NULL);
+            }
+            GV_DestroyActor(work);
+        }
+        break;
+    }
+
+    abst_800CA7F0(work, DG_Chanl(1)->ot[GV_Clock], work->field_786C);
+    abst_800CB23C(work);
+}
+
+/* ---- group2 consts, placed AFTER abst_800CB8A4 (0x800CE8F4..0x800CE9CC) ---- */
+const char abst_dword_800CE8F4[] = {'T', 'e', 'x', 't'};
+const char abst_dword_800CE8F8[] = {'u', 'r', 'e', ' '};
+const char abst_dword_800CE8FC[] = {'L', 'o', 'a', 'd'};
+const char abst_dword_800CE900[] = {'I', 'm', 'a', 'g'};
+const char abst_dword_800CE904[] = {'e', ' ', 'F', 'i'};
+const char abst_dword_800CE908[] = {'n', 'i', 's', 'h'};
+const char abst_dword_800CE90C[] = {'!', '\n', 0x0, 0x0};
+const char abst_dword_800CE910[] = {'C', 'a', 'n', 'n'};
+const char abst_dword_800CE914[] = {'o', 't', ' ', 'F'};
+const char abst_dword_800CE918[] = {'i', 'n', 'd', ' '};
+const char abst_dword_800CE91C[] = {'T', 'e', 'x', 't'};
+const char abst_dword_800CE920[] = {'u', 'r', 'e', '\n'};
+const char abst_dword_800CE924[] = {0x0, 0x0, 0x0, 0x0};
+const char abst_dword_800CE928[] = {'C', 'a', 'n', 'n'};
+const char abst_dword_800CE92C[] = {'o', 't', ' ', 'S'};
+const char abst_dword_800CE930[] = {'e', 't', ' ', 'T'};
+const char abst_dword_800CE934[] = {'e', 'x', 't', 'u'};
+const char abst_dword_800CE938[] = {'r', 'e', '!', '!'};
+const char abst_dword_800CE93C[] = {'\n', 0x0, 0x0, 0x0};
+const char abst_dword_800CE940[] = {'a', 'b', 's', 't'};
+const char abst_dword_800CE944[] = {'_', 'u', 'd', '_'};
+const char abst_dword_800CE948[] = {'l', 0x0, 0x0, 0x0};
+const char abst_dword_800CE94C[] = {'a', 'b', 's', 't'};
+const char abst_dword_800CE950[] = {'_', 'u', 'd', '_'};
+const char abst_dword_800CE954[] = {'r', 0x0, 0x0, 0x0};
+const char abst_dword_800CE958[] = {'a', 'b', 's', 't'};
+const char abst_dword_800CE95C[] = {'_', 'd', 'd', '_'};
+const char abst_dword_800CE960[] = {'l', '2', 0x0, 0x0};
+const char abst_dword_800CE964[] = {'a', 'b', 's', 't'};
+const char abst_dword_800CE968[] = {'_', 'd', 'd', '_'};
+const char abst_dword_800CE96C[] = {'r', '1', 0x0, 0x0};
+const char abst_dword_800CE970[] = {'a', 'b', 's', 't'};
+const char abst_dword_800CE974[] = {'_', 'd', 'd', '_'};
+const char abst_dword_800CE978[] = {'r', '2', 0x0, 0x0};
+const char abst_dword_800CE97C[] = {'a', 'b', 's', 't'};
+const char abst_dword_800CE980[] = {'_', 'd', 'd', '_'};
+const char abst_dword_800CE984[] = {'l', '1', 0x0, 0x0};
+const char abst_dword_800CE988[] = {'c', 'u', 'r', '_'};
+const char abst_dword_800CE98C[] = {'l', 'u', 0x0, 0x0};
+const char abst_dword_800CE990[] = {'c', 'u', 'r', '_'};
+const char abst_dword_800CE994[] = {'r', 'u', 0x0, 0x0};
+const char abst_dword_800CE998[] = {'c', 'u', 'r', '_'};
+const char abst_dword_800CE99C[] = {'l', 'd', 0x0, 0x0};
+const char abst_dword_800CE9A0[] = {'c', 'u', 'r', '_'};
+const char abst_dword_800CE9A4[] = {'r', 'd', 0x0, 0x0};
+const char abst_dword_800CE9A8[] = {'c', 'u', 'r', '_'};
+const char abst_dword_800CE9AC[] = {'u', 0x0, 0x0, 0x0};
+const char abst_dword_800CE9B0[] = {'c', 'u', 'r', '_'};
+const char abst_dword_800CE9B4[] = {'d', 0x0, 0x0, 0x0};
+const char abst_dword_800CE9B8[] = {'c', 'u', 'r', '_'};
+const char abst_dword_800CE9BC[] = {'l', 0x0, 0x0, 0x0};
+const char abst_dword_800CE9C0[] = {'c', 'u', 'r', '_'};
+const char abst_dword_800CE9C4[] = {'r', 0x0, 0x0, 0x0};
+const char abst_dword_800CE9C8[] = {'c', 'u', 'r', '_'};
+const char abst_dword_800CE9CC[] = {'c', 0x0, 0x0, 0x0};
 
 void abst_800CCC20(Work *work)
 {
