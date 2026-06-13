@@ -329,7 +329,7 @@ void abst_800C51F4(Work *work)
     for (i = 0; i < 6; i++)
     {
         *dst = *src;
-        *(u_short *)dst = work->attrs1[i];
+        SSTOREL(work->attrs1[i], dst);
         src++;
         dst++;
     }
@@ -339,7 +339,7 @@ void abst_800C51F4(Work *work)
     for (i = 0; i < 9; i++)
     {
         *dst = *src;
-        *(u_short *)dst = work->attrs2[i];
+        SSTOREL(work->attrs2[i], dst);
         src++;
         dst++;
     }
