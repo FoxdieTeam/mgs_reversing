@@ -32,7 +32,7 @@ typedef struct _Work
     GV_ACT        actor;
     DVECTOR      *field_20;
     int           field_24;
-    int           timer;
+    int           time;
     newsight_t    func;
 } Work;
 
@@ -161,7 +161,7 @@ static void Act(Work *work)
             work->field_20[i].vx = work->field_20[i].vy = 0;
         }
 
-        work->timer = 0;
+        work->time = 0;
 
         func = work->func;
         func(RIFLE_SIGHT1, GV_StrCode("rifle"), rfsight_flag_800ABBE0, IT_Scope, (short *)&work->field_20[0]);
@@ -170,8 +170,8 @@ static void Act(Work *work)
     }
     else
     {
-        time = work->timer++;
-        work->timer = time + 1;
+        time = work->time++;
+        work->time = time + 1;
 
         MoveSightElement(time, pad, &work->field_20[0], 3, 1, 8);
         MoveSightElement(time, pad, &work->field_20[1], 3, 1, 8);
@@ -195,7 +195,7 @@ static int GetResources(Work *work)
         work->field_20[i].vx = work->field_20[i].vy = 0;
     }
 
-    work->timer = 0;
+    work->time = 0;
     return 0;
 }
 

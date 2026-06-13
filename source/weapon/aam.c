@@ -30,15 +30,15 @@ extern int dword_800AB8A4;
 
 typedef struct _Work
 {
-    GV_ACT          actor;
-    OBJECT_NO_ROTS  object;
-    CONTROL        *control;
-    OBJECT         *parent;
-    int             num_parent;
-    u_long         *flags;
-    int             which_side;
-    int             cooldown;
-    GV_ACT         *sight;
+    GV_ACT         actor;
+    OBJECT_NO_ROTS object;
+    CONTROL       *root_ctrl;
+    OBJECT        *root_obj;
+    int            unit;
+    u_long        *flags;
+    int            side;
+    int            time;
+    void          *sight;
 } Work;
 
 TARGET *StnTarget = NULL;
@@ -59,13 +59,13 @@ static void Act(Work *work)
 
     if (!work->sight)
     {
-        work->sight = NewStnSight(work->control);
+        work->sight = NewStnSight(work->root_ctrl);
     }
 
-    GM_SetCurrentMap(work->control->map->index);
+    GM_SetCurrentMap(work->root_ctrl->map->index);
     DG_GroupObjsEx(work->object.objs);
 
-    if (work->parent->objs->flag & DG_FLAG_INVISIBLE)
+    if (work->root_obj->objs->flag & DG_FLAG_INVISIBLE)
     {
         DG_InvisibleObjs(work->object.objs);
     }
@@ -76,23 +76,23 @@ static void Act(Work *work)
 
     flags = *work->flags;
 
-    if (work->cooldown > 0)
+    if (work->time > 0)
     {
-        if (work->cooldown >= 27)
+        if (work->time >= 27)
         {
-            GM_SnakeCamera.rotate2.vx += (30 - work->cooldown) * -36;
+            GM_SnakeCamera.rotate2.vx += (30 - work->time) * -36;
         }
-        else if (work->cooldown > 14)
+        else if (work->time > 14)
         {
-            GM_SnakeCamera.rotate2.vx += (work->cooldown - 12) * -12;
+            GM_SnakeCamera.rotate2.vx += (work->time - 12) * -12;
         }
 
-        work->cooldown--;
+        work->time--;
     }
 
-    if ((work->cooldown == 0) && (flags & WEAPON_TRIG) && !amissile_alive_8009F490)
+    if ((work->time == 0) && (flags & WEAPON_TRIG) && !amissile_alive_8009F490)
     {
-        work->cooldown = 30;
+        work->time = 30;
 
         ammo = GM_Weapons[WP_Stinger];
 
@@ -107,8 +107,8 @@ static void Act(Work *work)
                 StnTarget = NULL;
             }
 
-            rot.vx = work->control->rot.vx - 1024;
-            rot.vy = work->control->rot.vy;
+            rot.vx = work->root_ctrl->rot.vx - 1024;
+            rot.vy = work->root_ctrl->rot.vy;
             rot.vz = 0;
 
             RotMatrixYXZ(&rot, &world);
@@ -121,12 +121,12 @@ static void Act(Work *work)
             world.t[1] = pos.t[1];
             world.t[2] = pos.t[2];
 
-            if (NewAMissile(&world, work->which_side))
+            if (NewAMissile(&world, work->side))
             {
                 GM_Weapons[WP_Stinger] = --ammo;
 
-                GM_SeSet(&work->control->mov, SE_MISSILE_FIRED);
-                GM_SetNoise(200, 2, &work->control->mov);
+                GM_SeSet(&work->root_ctrl->mov, SE_MISSILE_FIRED);
+                GM_SetNoise(200, 2, &work->root_ctrl->mov);
 
                 NewPadVibration(byte_8009F40C, 1);
                 NewPadVibration(byte_8009F414, 2);
@@ -145,7 +145,7 @@ static void Die(Work *work)
     }
 }
 
-static int GetResources(Work *work, OBJECT *parent, int num_parent)
+static int GetResources(Work *work, OBJECT *root_obj, int unit)
 {
     OBJECT_NO_ROTS *object;
 
@@ -157,13 +157,13 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
     if (!object->objs)
         return -1;
 
-    GM_ConfigObjectRoot((OBJECT *)object, parent, num_parent);
+    GM_ConfigObjectRoot((OBJECT *)object, root_obj, unit);
     return 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void *NewAAM(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side)
+void *NewAAM(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side)
 {
     Work *work;
 
@@ -172,18 +172,18 @@ void *NewAAM(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, in
     {
         GV_SetNamedActor(&work->actor, Act, Die, "aam.c");
 
-        if (GetResources(work, parent, num_parent) < 0)
+        if (GetResources(work, root_obj, unit) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        work->control = control;
-        work->parent = parent;
-        work->num_parent = num_parent;
+        work->root_ctrl = root_ctrl;
+        work->root_obj = root_obj;
+        work->unit = unit;
         work->flags = flags;
-        work->which_side = which_side;
-        work->cooldown = 0;
+        work->side = side;
+        work->time = 0;
     }
 
     GM_MagazineMax = 0;

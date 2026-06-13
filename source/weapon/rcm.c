@@ -27,14 +27,14 @@ typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS object;
-    CONTROL       *control;
-    OBJECT        *parent;
-    int            num_parent;
+    CONTROL       *root_ctrl;
+    OBJECT        *root_obj;
+    int            unit;
     u_long        *flags;
-    int            which_side;
-    int            counter;
+    int            side;
+    int            time;
     DG_PRIM       *prim;
-    int            shade; // state of the blinking light
+    int            bright; // state of the blinking light
 } Work;
 
 STATIC SVECTOR stru_800AB870 = {-100, -800, 80, 0};
@@ -76,36 +76,36 @@ static void SetLightTexture(POLY_FT4 *poly, DG_TEX *tex)
  */
 static void UpdateLight(Work *work, u_long flags)
 {
-    int      shade;
+    int      bright;
     LINE_G2 *prim;
 
 
-    shade = work->shade;
+    bright = work->bright;
     if ((flags & 1) != 0)
     {
-        if (shade <= 0)
+        if (bright <= 0)
         {
-            shade = 256;
+            bright = 256;
         }
         // fade the light out
-        shade -= 8;
+        bright -= 8;
     }
     else
     {
         // light off if the button is not pressed
-        shade = 0;
+        bright = 0;
     }
-    work->shade = shade;
+    work->bright = bright;
 
-    shade -= 64;
+    bright -= 64;
 
-    if (shade < 0)
+    if (bright < 0)
     {
-        shade = 0;
+        bright = 0;
     }
 
     prim = work->prim->packs[GV_Clock];
-    setRGB0(prim, shade, shade, shade);
+    setRGB0(prim, bright, bright, bright);
 }
 
 /**
@@ -122,14 +122,14 @@ static void Act(Work *work)
     MATRIX  mt2;
     SVECTOR vec1;
 
-    mapBit = work->control->map->index;
+    mapBit = work->root_ctrl->map->index;
 
     DG_GroupObjsEx(work->object.objs);
     DG_GroupPrim(work->prim, DG_CurrentGroupID);
 
     GM_CurrentMap = mapBit;
 
-    if ((work->parent->objs->flag & DG_FLAG_INVISIBLE) || (GM_PlayerStatus & PLAYER_CB_BOX))
+    if ((work->root_obj->objs->flag & DG_FLAG_INVISIBLE) || (GM_PlayerStatus & PLAYER_CB_BOX))
     {
         DG_InvisibleObjs( work->object.objs );
         DG_InvisiblePrim( work->prim );
@@ -151,8 +151,8 @@ static void Act(Work *work)
     // if no ammo and the button is released, play a sound effect
     if (!ammo_count && (p_flags & 2))
     {
-        GM_SeSet(&work->control->mov, SE_KARASHT);
-        GM_SetNoise(5, 2, &work->control->mov);
+        GM_SeSet(&work->root_ctrl->mov, SE_KARASHT);
+        GM_SetNoise(5, 2, &work->root_ctrl->mov);
         return;
     }
 
@@ -160,22 +160,22 @@ static void Act(Work *work)
     {
         // add a delay before firing the missile
         // to avoid hitting the player
-        work->counter = 6;
+        work->time = 6;
         return;
     }
-    if (work->counter)
+    if (work->time)
     {
-        work->counter--;
-        if (work->counter < 2)
+        work->time--;
+        if (work->time < 2)
         {
-            work->counter = 0;
+            work->time = 0;
 
             vec1.vx = -1024;
             vec1.vz = 0;
-            vec1.vy = work->control->rot.vy;
+            vec1.vy = work->root_ctrl->rot.vy;
 
             RotMatrixYXZ(&vec1, &mt1);
-            DG_SetPos(&work->parent->objs->objs[work->num_parent].world);
+            DG_SetPos(&work->root_obj->objs->objs[work->unit].world);
             DG_MovePos(&stru_800AB870);
             ReadRotMatrix(&mt2);
 
@@ -185,11 +185,11 @@ static void Act(Work *work)
             mt1.t[1] = mt2.t[1];
             mt1.t[2] = mt2.t[2];
 
-            if (NewRMissile(&mt1, work->which_side))
+            if (NewRMissile(&mt1, work->side))
             {
                 GM_Weapons[WP_Nikita] = --ammo_count;
-                GM_SeSet(&work->control->mov, SE_MISSILE_FIRED);
-                GM_SetNoise(100, 2, &work->control->mov);
+                GM_SeSet(&work->root_ctrl->mov, SE_MISSILE_FIRED);
+                GM_SetNoise(100, 2, &work->root_ctrl->mov);
             }
         }
     }
@@ -210,9 +210,9 @@ static void Die(Work *work)
  * @brief Loads resources for the Nikita launcher.
  *
  * @param   work    The Work structure to initialize.
- * @param   parent  The parent OBJECT structure.
+ * @param   root_obj  The root_obj OBJECT structure.
  */
-static int GetResources(Work *work, OBJECT *parent, int unit)
+static int GetResources(Work *work, OBJECT *root_obj, int unit)
 {
     DG_PRIM        *prim;
     DG_TEX         *tex;
@@ -225,7 +225,7 @@ static int GetResources(Work *work, OBJECT *parent, int unit)
         return -1;
     }
 
-    GM_ConfigObjectRoot((OBJECT *)obj, parent, unit);
+    GM_ConfigObjectRoot((OBJECT *)obj, root_obj, unit);
 
     prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 1, &svector_800AB880, &rect_800AB878);
     work->prim = prim;
@@ -237,7 +237,7 @@ static int GetResources(Work *work, OBJECT *parent, int unit)
         {
             SetLightTexture(prim->packs[0], tex);
             SetLightTexture(prim->packs[1], tex);
-            prim->root = &parent->objs->objs[unit].world;
+            prim->root = &root_obj->objs->objs[unit].world;
             return 0;
         }
     }
@@ -250,15 +250,15 @@ static int GetResources(Work *work, OBJECT *parent, int unit)
 /**
  * @brief   Creates a new RC missile actor.
  *
- * @param   control     The control structure for the Nikita launcher.
- * @param   parent      The parent OBJECT structure.
- * @param   num_parent  The parent object index.
+ * @param   root_ctrl     The root_ctrl structure for the Nikita launcher.
+ * @param   root_obj      The root_obj OBJECT structure.
+ * @param   unit  The root_obj object index.
  * @param   flags       Pointer to flags indicating Nikita state.
- * @param   which_side  Indicates which side the Nikita is on.
+ * @param   side  Indicates which side the Nikita is on.
  *
  * @returns The actor's work area.
  */
-void *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side)
+void *NewRCM(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side)
 {
     Work *work;
 
@@ -267,19 +267,19 @@ void *NewRCM(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, in
     {
         GV_SetNamedActor(&work->actor, Act, Die, "rcm.c");
 
-        if (GetResources(work, parent, num_parent) < 0)
+        if (GetResources(work, root_obj, unit) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        work->control = control;
-        work->parent = parent;
-        work->num_parent = num_parent;
+        work->root_ctrl = root_ctrl;
+        work->root_obj = root_obj;
+        work->unit = unit;
         work->flags = flags;
-        work->which_side = which_side;
-        work->shade = 0;
-        work->counter = 0;
+        work->side = side;
+        work->bright = 0;
+        work->time = 0;
     }
 
     GM_MagazineMax = 0;

@@ -16,23 +16,23 @@ enum GRENADE_TYPE
     GRD_TBOMB   = 3
 };
 
-void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
-void *NewFAMAS( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
+void *NewSOCOM( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
+void *NewFAMAS( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
 
-void *NewGrenade( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
-void *NewStanGrenade( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
-void *NewChaffGrenade( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
-void *NewTimerBomb( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
+void *NewGrenade( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
+void *NewStanGrenade( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
+void *NewChaffGrenade( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
+void *NewTimerBomb( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
 
-void *NewRCM( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
-void *NewAAM( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
+void *NewRCM( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
+void *NewAAM( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
 
-void *NewMine( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
-void *NewBomb( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
+void *NewMine( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
+void *NewBomb( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
 
-void *NewRifle( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side );
+void *NewRifle( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
 
-void *NewStnSight( CONTROL *control );
+void *NewStnSight( CONTROL *root_ctrl );
 
 void *NewRifleSight();
 void *NewRifleSightFast();

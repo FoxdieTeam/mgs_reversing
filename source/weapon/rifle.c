@@ -34,13 +34,13 @@ typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS object;
-    CONTROL       *control;
-    OBJECT        *parent;
-    int            num_parent;
+    CONTROL       *root_ctrl;
+    OBJECT        *root_obj;
+    int            unit;
     u_long        *flags;
-    int            which_side;
-    int            field_58;
-    void          *field_5c;
+    int            side;
+    int            time;
+    void          *sight;
 } Work;
 
 /*---------------------------------------------------------------------------*/
@@ -113,10 +113,10 @@ static void Act(Work *work)
     int temp_v0_2;
     short zoomLevel;
 
-    GM_CurrentMap = work->control->map->index;
+    GM_CurrentMap = work->root_ctrl->map->index;
     DG_GroupObjsEx(work->object.objs);
 
-    if (!(work->parent->objs->flag & DG_FLAG_INVISIBLE))
+    if (!(work->root_obj->objs->flag & DG_FLAG_INVISIBLE))
     {
         DG_VisibleObjs(work->object.objs);
         GM_Camera.zoom = 320;
@@ -128,18 +128,18 @@ static void Act(Work *work)
     flags = *work->flags;
 
     if ((GM_Camera.first_person == 1) &&
-        !work->field_5c &&
+        !work->sight &&
         (flags & 1) &&
-        (work->parent->objs->flag & DG_FLAG_INVISIBLE))
+        (work->root_obj->objs->flag & DG_FLAG_INVISIBLE))
     {
-        work->field_5c = (void *)NewRifleSight(1);
+        work->sight = (void *)NewRifleSight(1);
         sd_set_cli(0x01ffff20, SD_ASYNC);
     }
 
     if (flags & 1)
     {
-        temp_v0 = work->field_58;
-        work->field_58++;
+        temp_v0 = work->time;
+        work->time++;
 
         if (temp_v0 >= 9)
         {
@@ -166,18 +166,18 @@ static void Act(Work *work)
 
     if (!temp_s1 && (flags & 2))
     {
-        GM_SeSet(&work->control->mov, SE_KARASHT);
-        GM_SetNoise(5, 2, &work->control->mov);
+        GM_SeSet(&work->root_ctrl->mov, SE_KARASHT);
+        GM_SetNoise(5, 2, &work->root_ctrl->mov);
     }
     else if ((temp_s1 > 0) && (flags & 2))
     {
-        vec.vx = work->control->rot.vx - 0x400;
-        vec.vy = work->control->rot.vy;
+        vec.vx = work->root_ctrl->rot.vx - 0x400;
+        vec.vy = work->root_ctrl->rot.vy;
         vec.vz = 0;
 
         RotMatrixYXZ(&vec, &mtx);
 
-        DG_SetPos(&work->parent->objs->objs[work->num_parent].world);
+        DG_SetPos(&work->root_obj->objs->objs[work->unit].world);
         DG_MovePos(&svector_800AB8D4);
 
         ReadRotMatrix(&mtx2);
@@ -186,10 +186,10 @@ static void Act(Work *work)
         mtx.t[1] = mtx2.t[1];
         mtx.t[2] = mtx2.t[2];
 
-        NewBullet(&mtx, work->which_side, 0, 2);
+        NewBullet(&mtx, work->side, 0, 2);
 
         GM_SeSet2(0, 63, SE_PSG1_SHOT);
-        GM_SetNoise(100, 2, &work->control->mov);
+        GM_SetNoise(100, 2, &work->root_ctrl->mov);
 
         GM_Magazine = --temp_s1;
         GM_Weapons[WP_Rifle]--;
@@ -207,13 +207,13 @@ static void Die(Work *work)
 
     sd_set_cli(0x01ffff21, SD_ASYNC);
 
-    if ((GV_ACT *)work->field_5c)
+    if ((GV_ACT *)work->sight)
     {
-        GV_DestroyOtherActor((GV_ACT *)work->field_5c);
+        GV_DestroyOtherActor((GV_ACT *)work->sight);
     }
 }
 
-static int GetResources(Work *work, OBJECT *parent, int num_parent)
+static int GetResources(Work *work, OBJECT *root_obj, int unit)
 {
     OBJECT_NO_ROTS *obj = &work->object;
 
@@ -222,15 +222,15 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
     if (!obj->objs)
         return -1;
 
-    GM_ConfigObjectRoot((OBJECT *)obj, parent, num_parent);
-    work->field_5c = 0;
+    GM_ConfigObjectRoot((OBJECT *)obj, root_obj, unit);
+    work->sight = 0;
 
     return 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void *NewRifle(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side)
+void *NewRifle(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side)
 {
     Work *work;
     int mag_size, ammo;
@@ -240,18 +240,18 @@ void *NewRifle(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, 
     {
         GV_SetNamedActor(&work->actor, &Act, &Die, "rifle.c");
 
-        if (GetResources(work, parent, num_parent) < 0)
+        if (GetResources(work, root_obj, unit) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        work->control = control;
-        work->parent = parent;
-        work->num_parent = num_parent;
+        work->root_ctrl = root_ctrl;
+        work->root_obj = root_obj;
+        work->unit = unit;
         work->flags = flags;
-        work->which_side = which_side;
-        work->field_58 = 0;
+        work->side = side;
+        work->time = 0;
     }
 
     mag_size = GM_Magazine ? (MAGAZINE_SIZE + 1) : MAGAZINE_SIZE;

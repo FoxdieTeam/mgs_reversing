@@ -24,13 +24,13 @@ extern int   bakudan_count_8009F42C;
 typedef struct _Work
 {
     GV_ACT         actor;
-    CONTROL       *control;
-    OBJECT        *parent;
+    CONTROL       *root_ctrl;
+    OBJECT        *root_obj;
     OBJECT_NO_ROTS object;
-    int            num_parent;
+    int            unit;
     u_long        *flags;
-    int            f54;
-    int            which_side;
+    int            time;
+    int            side;
 } Work;
 
 /*---------------------------------------------------------------------------*/
@@ -40,22 +40,22 @@ static void Act( Work *work )
     int ammo;
     u_long flags;
     MATRIX *world;
-    DG_OBJS *parent;
+    DG_OBJS *root_obj;
 
-    GM_CurrentMap = work->control->map->index;
+    GM_CurrentMap = work->root_ctrl->map->index;
     DG_GroupObjsEx( work->object.objs );
-    if ( work->parent->objs->flag & DG_FLAG_INVISIBLE )
+    if ( work->root_obj->objs->flag & DG_FLAG_INVISIBLE )
     {
         DG_InvisibleObjs( work->object.objs );
     }
-    else if ( work->f54 == 0 )
+    else if ( work->time == 0 )
     {
         DG_VisibleObjs( work->object.objs );
     }
 
     ammo = GM_Weapons[ WP_C4 ];
-    parent = work->parent->objs;
-    world = &parent->objs[ work->num_parent ].world;
+    root_obj = work->root_obj->objs;
+    world = &root_obj->objs[ work->unit ].world;
 
     flags = *work->flags;
 
@@ -63,11 +63,11 @@ static void Act( Work *work )
     {
         if ( flags & 2 )
         {
-            if (NewBakudan(world, NULL, 0, work->which_side, GM_BombSeg))
+            if (NewBakudan(world, NULL, 0, work->side, GM_BombSeg))
             {
                 GM_Weapons[ WP_C4 ] = --ammo;
-                GM_SeSet( &work->control->mov, SE_C4_PUT );
-                work->f54 = 0x18;
+                GM_SeSet( &work->root_ctrl->mov, SE_C4_PUT );
+                work->time = 0x18;
                 DG_InvisibleObjs( work->object.objs );
             }
 
@@ -75,11 +75,11 @@ static void Act( Work *work )
         else if ( flags & 4 )
         {
             GM_Weapons[ WP_C4 ] = --ammo;
-            work->f54 = 0x18;
+            work->time = 0x18;
             DG_InvisibleObjs( work->object.objs );
         }
     }
-    if ( ( work->f54 > 0 ) && ( --work->f54 == 0 ) )
+    if ( ( work->time > 0 ) && ( --work->time == 0 ) )
     {
         DG_VisibleObjs( work->object.objs );
     }
@@ -94,7 +94,7 @@ static void Die(Work *work)
     GM_FreeObject((OBJECT *)&work->object);
 }
 
-static int GetResources(Work *work, OBJECT *parent, int num_parent)
+static int GetResources(Work *work, OBJECT *root_obj, int unit)
 {
     OBJECT_NO_ROTS *obj = &work->object;
 
@@ -103,30 +103,30 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
     if (!obj->objs)
         return -1;
 
-    GM_ConfigObjectRoot((OBJECT *)obj, parent, num_parent);
+    GM_ConfigObjectRoot((OBJECT *)obj, root_obj, unit);
     return 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void *NewBomb(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side)
+void *NewBomb(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side)
 {
     Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "bomb.c");
-        if (GetResources(work, parent, num_parent) < 0)
+        if (GetResources(work, root_obj, unit) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        work->control = control;
-        work->parent = parent;
-        work->num_parent = num_parent;
+        work->root_ctrl = root_ctrl;
+        work->root_obj = root_obj;
+        work->unit = unit;
         work->flags = flags;
-        work->f54 = 0;
-        work->which_side = which_side;
+        work->time = 0;
+        work->side = side;
     }
 
     GM_MagazineMax = 0;

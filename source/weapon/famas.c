@@ -29,13 +29,13 @@ typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS obj;
-    CONTROL       *control;
-    OBJECT        *parent;
-    int            num_parent;
+    CONTROL       *root_ctrl;
+    OBJECT        *root_obj;
+    int            unit;
     u_long        *flags;
-    int            field_54;
-    int            counter;
-    int            mp5_flag;    // Use H&K MP5 (for VERY EASY)
+    int            side;
+    int            time;
+    int            is_mp5;    // Use H&K MP5 (for VERY EASY)
 } Work;
 
 STATIC SVECTOR stru_800AB850 = { 5, -500, 80, 0 };
@@ -44,7 +44,7 @@ STATIC SVECTOR stru_800AB850 = { 5, -500, 80, 0 };
 
 static void Act(Work *work)
 {
-    int mp5_flag;
+    int is_mp5;
     u_long flags;
     CONTROL *ctrl1;
 
@@ -59,12 +59,12 @@ static void Act(Work *work)
     MATRIX mtx;
     MATRIX *pMtx;
 
-    GM_CurrentMap = work->control->map->index;
+    GM_CurrentMap = work->root_ctrl->map->index;
     DG_GroupObjsEx(work->obj.objs);
 
-    mp5_flag = work->mp5_flag;
+    is_mp5 = work->is_mp5;
 
-    if (work->parent->objs->flag & DG_FLAG_INVISIBLE)
+    if (work->root_obj->objs->flag & DG_FLAG_INVISIBLE)
     {
         DG_InvisibleObjs(work->obj.objs);
     }
@@ -81,8 +81,8 @@ static void Act(Work *work)
     {
         if (GV_Clock)
         {
-            GM_SeSet(&work->control->mov, SE_KARASHT);
-            ctrl1 = work->control;
+            GM_SeSet(&work->root_ctrl->mov, SE_KARASHT);
+            ctrl1 = work->root_ctrl;
             GM_SetNoise(5, 2, &ctrl1->mov);
         }
     }
@@ -90,7 +90,7 @@ static void Act(Work *work)
     {
         if (newSize > 0 && (flags & 2))
         {
-            if ( (work->counter & 1) == 0 )
+            if ( (work->time & 1) == 0 )
             {
                 newSize--;
 
@@ -101,19 +101,19 @@ static void Act(Work *work)
                 GM_Magazine = newSize;
                 GM_MagazineMax = MAGAZINE_SIZE;
 
-                if ( !mp5_flag )
+                if ( !is_mp5 )
                 {
                     pMtx = &mtx;
 
                     if ( newSize < 3 )
                     {
-                        f54 = work->field_54;
+                        f54 = work->side;
                         v9 = 2;
                         v10 = 0;
                     }
                     else
                     {
-                        f54 = work->field_54;
+                        f54 = work->side;
                         v9 = 0;
                         v10 = 1;
                     }
@@ -121,8 +121,8 @@ static void Act(Work *work)
                     NewBullet(pMtx, f54, v9, v10);
                     --GM_Weapons[WP_Famas];
 
-                    GM_SeSet(&work->control->mov, SE_FAMAS_SHOT);
-                    ctrl2 = work->control;
+                    GM_SeSet(&work->root_ctrl->mov, SE_FAMAS_SHOT);
+                    ctrl2 = work->root_ctrl;
 
                     GM_SetNoise(200, 2, &ctrl2->mov);
                     NewAnime_8005D604(&mtx);
@@ -133,29 +133,29 @@ static void Act(Work *work)
 
                     if ( newSize < 3 )
                     {
-                        f54 = work->field_54;
+                        f54 = work->side;
                         v13 = 2;
                         v14 = 0;
                     }
                     else
                     {
-                        f54 = work->field_54;
+                        f54 = work->side;
                         v13 = 0;
                         v14 = 1;
                     }
 
                     NewBullet(pMtx, f54, v13, v14);
-                    GM_SeSet(&work->control->mov, SE_MP5_SHOT);
+                    GM_SeSet(&work->root_ctrl->mov, SE_MP5_SHOT);
                 }
 
-                NewAnime_8005D6BC(&work->obj.objs->world, work->counter == 0);
+                NewAnime_8005D6BC(&work->obj.objs->world, work->time == 0);
             }
 
-            ++work->counter;
+            ++work->time;
         }
         else
         {
-            work->counter = 0;
+            work->time = 0;
         }
     }
 }
@@ -165,12 +165,12 @@ static void Die(Work *work)
     GM_FreeObject((OBJECT *)&work->obj);
 }
 
-static int GetResources(Work *work, OBJECT *parent, int num_parent, int mp5flag)
+static int GetResources(Work *work, OBJECT *root_obj, int unit, int is_mp5)
 {
     OBJECT_NO_ROTS *obj = &work->obj;
     int id;
 
-    if (mp5flag == 0)
+    if (is_mp5 == 0)
         id = FAMAS_MODEL;
     else
         id = MP5SD_MODEL;
@@ -180,13 +180,13 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent, int mp5flag)
     if (!obj->objs)
         return -1;
 
-    GM_ConfigObjectRoot((OBJECT *)obj, parent, num_parent);
+    GM_ConfigObjectRoot((OBJECT *)obj, root_obj, unit);
     return 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int mp5flag)
+static void *InitFAMAS(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int is_mp5)
 {
     int mag_size;
 
@@ -194,26 +194,26 @@ static void *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, u_long 
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "famas.c");
-        if (GetResources(work, parent, num_parent, mp5flag) < 0)
+        if (GetResources(work, root_obj, unit, is_mp5) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        work->control = control;
-        work->parent = parent;
-        work->num_parent = num_parent;
+        work->root_ctrl = root_ctrl;
+        work->root_obj = root_obj;
+        work->unit = unit;
         work->flags = flags;
-        work->field_54 = 1;
-        work->counter = 0;
-        work->mp5_flag = mp5flag;
+        work->side = PLAYER_SIDE;
+        work->time = 0;
+        work->is_mp5 = is_mp5;
     }
 
     mag_size = MAGAZINE_SIZE;
     if (GM_Magazine)
         mag_size = MAGAZINE_SIZE + 1;   /* +1 in the chamber */
 
-    if (mp5flag == 0)
+    if (is_mp5 == 0)
     {
         int temp = GM_Weapons[WP_Famas];
 
@@ -234,7 +234,7 @@ static void *InitFAMAS(CONTROL *control, OBJECT *parent, int num_parent, u_long 
     return (void *)work;
 }
 
-void *NewFAMAS(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side)
+void *NewFAMAS(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side)
 {
-    return InitFAMAS(control, parent, num_parent, flags, (unsigned int)GM_DifficultyFlag >> 31);
+    return InitFAMAS(root_ctrl, root_obj, unit, flags, GM_DifficultyFlag < 0);
 }
