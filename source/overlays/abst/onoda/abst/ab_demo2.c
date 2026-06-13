@@ -1,4 +1,5 @@
 #include "game/game.h"
+#include "libgcl/libgcl.h"
 #include "font/font.h"
 #include "libfs/libfs.h"
 #include "mts/mts.h"
@@ -35,8 +36,8 @@ typedef struct _Work
 {
     /* +0x0000 */ GV_ACT   actor;
     /* +0x0020 */ int      end_proc;
-    /* +0x0024 */ GV_PAD  *pad;
-    /* +0x0028 */ int      field_28;
+    /* +0x0024 */ int      field_24;
+    /* +0x0028 */ GV_PAD  *pad;
     /* +0x002C */ DG_PRIM *prim1;
     /* +0x0030 */ DG_PRIM *prim2;
     /* +0x0034 */ POLY_FT4 polys1[8];
@@ -55,9 +56,17 @@ typedef struct _Work
     /* +0x3828 */ int      field_3828;
     /* +0x382C */ char     pad_382C[0x3830 - 0x382C];
     /* +0x3830 */ int      field_3830;
-    /* +0x3834 */ char     pad_3834[0x7878 - 0x3834];
+    /* +0x3834 */ int      field_3834;
+    /* +0x3838 */ char     pad_3838[0x3858 - 0x3838];
+    /* +0x3858 */ MenuPrim primbuf;
+    /* +0x386C */ char     field_386C[0x2000];
+    /* +0x586C */ char     field_586C[0x2000];
+    /* +0x786C */ char     pad_786C[0x7870 - 0x786C];
+    /* +0x7870 */ int      field_7870;
+    /* +0x7874 */ char     pad_7874[0x7878 - 0x7874];
     /* +0x7878 */ int      field_7878;
-    /* +0x787C */ char     pad_787C[0x7884 - 0x787C];
+    /* +0x787C */ int      field_787C;
+    /* +0x7880 */ char     pad_7880[0x7884 - 0x7880];
 } Work;
 
 typedef struct _AbstRes
@@ -73,6 +82,22 @@ extern const char abst_dword_800CE8B4[];
 extern const char abst_dword_800CE8B8[];
 extern const char abst_dword_800CE8F4[];
 extern const char abst_dword_800CE910[];
+extern const char abst_dword_800CE928[];
+extern const char abst_dword_800CE940[];
+extern const char abst_dword_800CE94C[];
+extern const char abst_dword_800CE958[];
+extern const char abst_dword_800CE964[];
+extern const char abst_dword_800CE970[];
+extern const char abst_dword_800CE97C[];
+extern const char abst_dword_800CE988[];
+extern const char abst_dword_800CE990[];
+extern const char abst_dword_800CE998[];
+extern const char abst_dword_800CE9A0[];
+extern const char abst_dword_800CE9A8[];
+extern const char abst_dword_800CE9B0[];
+extern const char abst_dword_800CE9B8[];
+extern const char abst_dword_800CE9C0[];
+extern const char abst_dword_800CE9C8[];
 
 void abst_800CA568(Work *work, int index)
 {
@@ -397,8 +422,262 @@ void abst_800CCE14(void *work, int name, POLY_FT4 *poly, int x0, int y0, int x1,
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/abst/abst_800CCF98.s")
-int abst_800CCF98(Work *work, int where);
+int abst_800CCF98(Work *work, int where)
+{
+    char     *opt;
+    POLY_FT4 *poly;
+    DG_PRIM  *prim;
+    int       i;
+
+    GM_CurrentMap = where;
+
+    work->font_x = 576;
+    work->font_y = 256;
+    work->clut_x = 576;
+    work->clut_y = 276;
+
+    prim = DG_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 8, 0, 0, 0);
+    if (prim)
+    {
+        DG_QueuePrim(prim);
+        DG_GroupPrim(prim, GM_CurrentMap);
+    }
+    work->prim1 = prim;
+
+    prim = DG_MakePrim(DG_PRIM_SORTONLY | DG_PRIM_POLY_FT4, 9, 0, 0, 0);
+    if (prim)
+    {
+        DG_QueuePrim(prim);
+        DG_GroupPrim(prim, GM_CurrentMap);
+    }
+    work->prim2 = prim;
+
+    poly = work->polys1;
+    i = 0;
+
+    opt = GCL_GetOption('l');
+    if (opt)
+    {
+        abst_800CCCBC(work, GCL_StrToInt(opt));
+        abst_800CCE14(work, GCL_StrToInt(opt), poly, -160, -82, 0, 82, 0, 0);
+    }
+    else
+    {
+        printf((char *)abst_dword_800CE928);
+    }
+
+    poly++;
+    work->attrs1[i] = 0;
+    i++;
+
+    opt = GCL_GetOption('r');
+    if (opt)
+    {
+        abst_800CCCBC(work, GCL_StrToInt(opt));
+        abst_800CCE14(work, GCL_StrToInt(opt), poly, 0, -82, 160, 82, 0, 0);
+    }
+    else
+    {
+        printf((char *)abst_dword_800CE928);
+    }
+
+    poly++;
+    work->attrs1[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE940), poly, -160, -112, 0, -82, 0, 0);
+
+    poly++;
+    work->attrs1[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE94C), poly, 0, -112, 160, -82, 0, 0);
+
+    poly++;
+    work->attrs1[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE958), poly, -160, 87, 0, 117, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+
+    poly++;
+    work->attrs1[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE964), poly, 0, 87, 60, 117, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+
+    poly++;
+    work->attrs1[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE970), poly, 60, 87, 160, 117, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+
+    poly++;
+    work->attrs1[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE97C), poly, -160, 87, 0, 117, 1, 0);
+    setRGB0(poly, 86, 137, 116);
+
+    work->attrs1[i] = 0;
+
+    poly = work->polys2;
+    i = 0;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE988), poly, -33, 81, -25, 89, 0, 0);
+
+    poly++;
+    work->attrs2[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE990), poly, 25, 81, 33, 89, 0, 0);
+
+    poly++;
+    work->attrs2[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE998), poly, -33, 97, -25, 105, 0, 0);
+
+    poly++;
+    work->attrs2[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE9A0), poly, 25, 97, 33, 105, 0, 0);
+
+    poly++;
+    work->attrs2[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE9A8), poly, -25, 81, 25, 89, 0, 2);
+
+    poly++;
+    work->attrs2[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE9B0), poly, -25, 97, 25, 105, 0, 2);
+
+    poly++;
+    work->attrs2[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE9B8), poly, -33, 89, -25, 97, 0, 1);
+
+    poly++;
+    work->attrs2[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE9C0), poly, 25, 89, 33, 97, 0, 1);
+
+    poly++;
+    work->attrs2[i] = 0;
+    i++;
+
+    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE9C8), poly, -25, 89, 25, 97, 0, 3);
+
+    work->attrs2[i] = 0;
+
+    if (GCL_GetOption('e'))
+    {
+        work->end_proc = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->end_proc = -1;
+    }
+
+    if (GCL_GetOption('d'))
+    {
+        work->field_24 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->field_24 = -1;
+    }
+
+    if (GCL_GetOption('i'))
+    {
+        work->field_320 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->field_320 = 24;
+    }
+
+    for (i = 0; i < work->field_320 + 1; i++)
+    {
+        work->field_818[i].string = GCL_GetString(GCL_NextStr());
+        work->field_818[i].num = 0;
+        abst_800CA568(work, i);
+    }
+
+    for (i = 0; i < work->field_320 + 1; i++)
+    {
+        abst_800CA6FC(work, i);
+    }
+
+    work->pad = &GV_PadData[2];
+    work->field_3828 = 0;
+    work->field_3830 = 0;
+    work->field_3834 = 0;
+
+    for (i = 0; i < 1; i++)
+    {
+        abst_800CB1E0(work, i, 0x6739);
+    }
+
+    for (i = 1; i < 24; i++)
+    {
+        abst_800CB1E0(work, i, 0);
+    }
+
+    work->primbuf.buf[0] = work->field_386C;
+    work->primbuf.buf[1] = work->field_586C;
+    sub_80048124();
+
+    work->field_7870 = 0;
+    work->field_7878 = 1;
+    work->field_787C = 0;
+    work->field_3830 = 1;
+
+    for (i = 0; i < 8; i++)
+    {
+        work->attrs1[i] = 0x100;
+    }
+
+    work->attrs1[4] = 0;
+    work->field_3828 = 0;
+
+    {
+        POLY_FT4 *p = work->polys1;
+        setRGB0(&p[2], 86, 137, 116);
+        setRGB0(&p[3], 86, 137, 116);
+        setRGB0(&p[4], 86, 137, 116);
+        setRGB0(&p[5], 86, 137, 116);
+    }
+
+    for (i = 0; i < 1; i++)
+    {
+        abst_800CB1E0(work, i, 0);
+    }
+
+    for (i = 0; i < 9; i++)
+    {
+        work->attrs2[i] = 0x200;
+    }
+
+    abst_800CB360(work, 30, 86, 16, 14, 255, 1);
+
+    poly = work->polys2;
+    for (i = 0; i < 9; i++)
+    {
+        setRGB0(poly, 0, 0, 0);
+        poly++;
+    }
+
+    return 0;
+}
 
 void *NewAbstractDemo2(int name, int where)
 {
