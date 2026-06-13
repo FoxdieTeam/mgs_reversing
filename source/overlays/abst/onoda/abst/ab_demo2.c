@@ -158,9 +158,52 @@ void *abst_800CB230(KCB *kcb)
     return kcb->cbuffer;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/abst/abst_800CB23C.s")
+void abst_800CB23C(Work *work)
+{
+    POLY_FT4 *src;
+    POLY_FT4 *dst;
+    int       i;
+
+    src = work->polys1;
+    dst = (POLY_FT4 *)work->prim1->packs[GV_Clock];
+    for (i = 0; i < 8; i++)
+    {
+        *dst = *src;
+        *(u_short *)dst = work->attrs1[i];
+        src++;
+        dst++;
+    }
+
+    src = work->polys2;
+    dst = (POLY_FT4 *)work->prim2->packs[GV_Clock];
+    for (i = 0; i < 9; i++)
+    {
+        *dst = *src;
+        *(u_short *)dst = work->attrs2[i];
+        src++;
+        dst++;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/abst/abst_800CB360.s")
-#pragma INCLUDE_ASM("asm/overlays/abst/abst_800CB644.s")
+void abst_800CB644(MenuPrim *prim, int x, int y, int w, int h)
+{
+    TILE *pTile;
+
+    _NEW_PRIM(pTile, prim);
+
+    LSTORE(0x72A452, &pTile->r0);
+    setTile(pTile);
+    pTile->x0 = x;
+    pTile->y0 = y;
+    pTile->w = w;
+    pTile->h = h;
+    setSemiTrans(pTile, 0);
+    addPrim(prim->ot, pTile);
+
+    radio_draw_face_frame(prim, x, y, w, h);
+    radio_draw_face_frame(prim, x, y, w, h);
+}
 
 void abst_800CB73C(Work *work)
 {
