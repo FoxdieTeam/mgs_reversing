@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef brf_800C6620
+brf_800C6620:
+	dw 0xAC800FD4 ; 800C6620
+	dw 0xAC800FD8 ; 800C6624
+	dw 0xAC800FDC ; 800C6628
+	dw 0x03E00008 ; 800C662C
+	dw 0xAC800FE0 ; 800C6630

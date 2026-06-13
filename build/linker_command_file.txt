@@ -356,7 +356,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}.bin")
       OVERLAY == "s11g" or
       OVERLAY == "s15b" or
       OVERLAY == "s16b" or
-      OVERLAY == "s20a" or OVERLAY == "s20ar" or 
+      OVERLAY == "s20a" or OVERLAY == "s20ar" or
       OVERLAY == "title" %}
 
 {% if OVERLAY_SUFFIX == "lhs" %}
@@ -2163,6 +2163,17 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
+;------------------------------------------------------------------------------
+{% elif OVERLAY == "brf" %}
+    include "{{OBJ_DIR}}\stage\brf.obj", overlay
+
+    include "{{OBJ_DIR}}\overlays\brf\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\overlays\brf\onoda\brf\b_select.obj", overlay
+
+    include "{{OBJ_DIR}}\overlays\brf\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\brf\onoda\brf\b_graph.obj", overlay
+
+    include "{{OBJ_DIR}}\onoda\brf\b_count.obj", overlay
 ;------------------------------------------------------------------------------
 {% endif %}
 

@@ -81,7 +81,7 @@ Individual overlay progress:
             <td><b>brf</b></td>
             <td>125 KB</td>
             <td>Briefing</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>camera</b></td>
