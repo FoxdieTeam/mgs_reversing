@@ -84,26 +84,10 @@ typedef struct _AbstRes
 extern int abst_dword_800C3CD0;
 extern signed char abst_dword_800C3D48[];
 extern AbstRes abst_dword_800C3D50[];
+
+/* forward decls: abst_800CB73C uses these before they are defined below */
 extern const char abst_dword_800CE8B4[];
 extern const char abst_dword_800CE8B8[];
-extern const char abst_dword_800CE8F4[];
-extern const char abst_dword_800CE910[];
-extern const char abst_dword_800CE928[];
-extern const char abst_dword_800CE940[];
-extern const char abst_dword_800CE94C[];
-extern const char abst_dword_800CE958[];
-extern const char abst_dword_800CE964[];
-extern const char abst_dword_800CE970[];
-extern const char abst_dword_800CE97C[];
-extern const char abst_dword_800CE988[];
-extern const char abst_dword_800CE990[];
-extern const char abst_dword_800CE998[];
-extern const char abst_dword_800CE9A0[];
-extern const char abst_dword_800CE9A8[];
-extern const char abst_dword_800CE9B0[];
-extern const char abst_dword_800CE9B8[];
-extern const char abst_dword_800CE9C0[];
-extern const char abst_dword_800CE9C8[];
 
 void abst_800CA568(Work *work, int index)
 {
