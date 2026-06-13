@@ -80,6 +80,9 @@ typedef struct _AbstRes
 extern Unknown2 abst_dword_800C37B8[];
 extern signed char abst_dword_800C3818[];
 extern AbstRes abst_dword_800C3820[];
+extern const char abst_dword_800CE7C8[];
+extern const char abst_dword_800CE7DC[];
+extern const char abst_dword_800CE7E0[];
 extern const char abst_dword_800CE7E4[];
 extern const char abst_dword_800CE800[];
 extern const char abst_dword_800CE818[];
@@ -428,8 +431,431 @@ void abst_800C8A60(MenuPrim *prim, int x, int y, int w, int h)
     radio_draw_face_frame(prim, x, y, w, h);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/abst/abst_800C8B58.s")
-void abst_800C8B58(Work *work);
+void abst_800C8B58(Work *work)
+{
+    int       press;
+    int       i;
+    int       r, g, b;
+    POLY_FT4 *poly;
+    int       shade;
+    int       col;
+
+    press = work->pad->press;
+
+    work->primbuf.next = work->primbuf.buf[GV_Clock];
+    work->primbuf.ot = DG_Chanl(1)->ot[GV_Clock];
+
+    switch (work->field_1D68)
+    {
+    case 0:
+        if (work->field_1D60 < 5)
+        {
+            MENU_Locate(90, 90, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(abst_dword_800CE7C8);
+
+            abst_800C8A60(&work->primbuf, 92, 85, 130, 15);
+        }
+        else if (work->field_1D60 < 10)
+        {
+            MENU_Locate(90, 90 - (work->field_1D60 - 4) * 8, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(abst_dword_800CE7C8);
+
+            abst_800C8A60(&work->primbuf, 92, 85, 130, 15);
+        }
+        else if (work->field_1D60 == 10)
+        {
+            MENU_Locate(90, 50, 0x10);
+            MENU_Color(86, 137, 116);
+            MENU_Printf(abst_dword_800CE7C8);
+
+            MENU_Locate(100, 105, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(abst_dword_800CE7DC);
+
+            MENU_Locate(200, 105, 0x10);
+            MENU_Color(46, 72, 61);
+            MENU_Printf(abst_dword_800CE7E0);
+
+            abst_800C8A60(&work->primbuf, 92, 85, 130, 15);
+        }
+        else if (work->field_1D60 < 14)
+        {
+            MENU_Locate(90, 50, 0x10);
+            MENU_Color(86, 137, 116);
+            MENU_Printf(abst_dword_800CE7C8);
+
+            MENU_Locate(100, 105, 0x10);
+            MENU_Color(192, 192, 192);
+            MENU_Printf(abst_dword_800CE7DC);
+
+            MENU_Locate(200, 105, 0x10);
+            MENU_Color(46, 72, 61);
+            MENU_Printf(abst_dword_800CE7E0);
+
+            abst_800C8A60(&work->primbuf, 92, (work->field_1D60 - 10) * 5 + 85, 130 - (work->field_1D60 - 10) * 30, 15);
+        }
+        else
+        {
+            MENU_Locate(90, 50, 0x10);
+            MENU_Color(86, 137, 116);
+            MENU_Printf(abst_dword_800CE7C8);
+
+            MENU_Locate(100, 105, 0x10);
+            if (work->field_1D6C == 0)
+            {
+                MENU_Color(192, 192, 192);
+            }
+            else
+            {
+                MENU_Color(46, 72, 61);
+            }
+            MENU_Printf(abst_dword_800CE7DC);
+
+            MENU_Locate(200, 105, 0x10);
+            if (work->field_1D6C == 1)
+            {
+                MENU_Color(192, 192, 192);
+            }
+            else
+            {
+                MENU_Color(46, 72, 61);
+            }
+            MENU_Printf(abst_dword_800CE7E0);
+
+            if (work->field_1D6C == 0)
+            {
+                abst_800C8A60(&work->primbuf, 92, 100, 40, 15);
+            }
+            else
+            {
+                abst_800C8A60(&work->primbuf, 188, 100, 40, 15);
+            }
+
+            if (press & (PAD_START | PAD_CIRCLE))
+            {
+                if (work->field_1D6C == 0)
+                {
+                    GM_SeSet2(0, 63, SE_MENU_SELECT);
+
+                    work->field_1D68 = 1;
+
+                    for (i = 0; i < 6; i++)
+                    {
+                        work->attrs1[i] = 0x100;
+                    }
+
+                    work->field_1D60 = 0;
+
+                    r = 86;
+                    g = 137;
+                    b = 116;
+                    poly = work->polys1;
+                    setRGB0(&poly[2], r, g, b);
+                    setRGB0(&poly[3], r, g, b);
+                    setRGB0(&poly[4], r, g, b);
+                    setRGB0(&poly[5], r, g, b);
+
+                    for (i = 0; i < 1; i++)
+                    {
+                        abst_800C85FC(work, i, 0);
+                    }
+
+                    for (i = 0; i < 9; i++)
+                    {
+                        work->attrs2[i] = 0x200;
+                    }
+
+                    poly = work->polys2;
+                    for (i = 0; i < 9; i++)
+                    {
+                        setRGB0(poly, 0, 0, 0);
+                        poly++;
+                    }
+                }
+                else
+                {
+                    GM_SeSet2(0, 63, SE_MENU_EXIT);
+                    GCL_ExecProc(work->end_proc, NULL);
+                    GV_DestroyActor(work);
+                }
+            }
+            else if (press & PAD_CROSS)
+            {
+                GM_SeSet2(0, 63, SE_MENU_EXIT);
+                GCL_ExecProc(work->end_proc, NULL);
+                GV_DestroyActor(work);
+            }
+            else if (press & PAD_UDLR)
+            {
+                GM_SeSet2(0, 63, SE_MENU_CURSOR);
+
+                if (work->field_1D6C == 0)
+                {
+                    work->field_1D6C = 1;
+                }
+                else
+                {
+                    work->field_1D6C = 0;
+                }
+            }
+
+            work->field_5DA4 = 1;
+        }
+
+        work->field_1D60++;
+        break;
+
+    case 1:
+        if (work->field_1D60 < 9)
+        {
+            poly = work->polys2;
+            shade = (work->field_1D60 * 255) / 8;
+            for (i = 0; i < 9; i++)
+            {
+                setRGB0(poly, shade, shade, shade);
+                poly++;
+            }
+
+            poly = work->polys1;
+            r = (work->field_1D60 * 86) / 64;
+            g = (work->field_1D60 * 137) / 64;
+            b = (work->field_1D60 * 116) / 64;
+            for (i = 0; i < 2; i++)
+            {
+                setRGB0(poly, r, g, b);
+                poly++;
+            }
+
+            col = 0;
+            for (i = 1; i < work->field_2C8 + 1; i++)
+            {
+                abst_800C85FC(work, i, col);
+            }
+        }
+        else if (work->field_1D60 < 65)
+        {
+            poly = work->polys1;
+            r = (work->field_1D60 * 86) / 64;
+            g = (work->field_1D60 * 137) / 64;
+            b = (work->field_1D60 * 116) / 64;
+            for (i = 0; i < 2; i++)
+            {
+                setRGB0(poly, r, g, b);
+                poly++;
+            }
+
+            col = 0;
+            for (i = 1; i < work->field_2C8 + 1; i++)
+            {
+                abst_800C85FC(work, i, col);
+            }
+        }
+        else if (work->field_1D60 < 81)
+        {
+            poly = work->polys1;
+            r = 86;
+            g = 137;
+            b = 116;
+            for (i = 0; i < 6; i++)
+            {
+                setRGB0(poly, r, g, b);
+                poly++;
+            }
+
+            col = 0;
+            for (i = 1; i < work->field_2C8 + 1; i++)
+            {
+                abst_800C85FC(work, i, col);
+            }
+        }
+        else if (work->field_1D60 < 145)
+        {
+            poly = work->polys1;
+            r = 86;
+            g = 137;
+            b = 116;
+            for (i = 0; i < 6; i++)
+            {
+                setRGB0(poly, r, g, b);
+                poly++;
+            }
+
+            shade = ((work->field_1D60 - 80) * 25) / 64;
+            col = (shade << 10) | (shade << 5) | shade;
+            for (i = 1; i < work->field_2C8 + 1; i++)
+            {
+                abst_800C85FC(work, i, col);
+            }
+
+            if (++work->field_1D60 < 89)
+            {
+                work->field_5DA4 = 0;
+            }
+            else
+            {
+                work->field_5DA4 = 1;
+            }
+            break;
+        }
+        else
+        {
+            work->field_1D68 = 2;
+            work->field_5DA4 = 1;
+            work->field_5DAC = 0;
+            break;
+        }
+
+        work->field_1D60++;
+        break;
+
+    case 2:
+        switch (work->field_5DAC)
+        {
+        case 0:
+            if (press & PAD_SELECT)
+            {
+                if (work->field_5DA8 == 0)
+                {
+                    work->field_5DA8 = 1;
+                    for (i = 1; i < work->field_2C8 + 1; i++)
+                    {
+                        abst_800C85FC(work, i, 0);
+                    }
+                }
+                else
+                {
+                    work->field_5DA8 = 0;
+                    for (i = 1; i < work->field_2C8 + 1; i++)
+                    {
+                        abst_800C85FC(work, i, 0x6739);
+                    }
+                }
+            }
+            else if (press & PAD_LEFT)
+            {
+                GM_SeSet2(0, 63, SE_MENU_CURSOR);
+                work->field_5DAC = 1;
+                abst_800C877C(work, -119, 87, 78, 12, 255, 1);
+            }
+            else if (press & PAD_CIRCLE)
+            {
+                GM_SeSet2(0, 63, SE_MENU_SELECT);
+                work->field_1D68 = 3;
+                work->field_1D60 = 0;
+            }
+            else if (press & PAD_CROSS)
+            {
+                GM_SeSet2(0, 63, SE_MENU_EXIT);
+                work->field_1D68 = 3;
+                work->field_1D60 = 0;
+            }
+            break;
+
+        case 1:
+            if (press & PAD_SELECT)
+            {
+                if (work->field_5DA8 == 0)
+                {
+                    work->field_5DA8 = 1;
+                    for (i = 1; i < work->field_2C8 + 1; i++)
+                    {
+                        abst_800C85FC(work, i, 0);
+                    }
+                }
+                else
+                {
+                    work->field_5DA8 = 0;
+                    for (i = 1; i < work->field_2C8 + 1; i++)
+                    {
+                        abst_800C85FC(work, i, 0x6739);
+                    }
+                }
+            }
+            else if (press & PAD_RIGHT)
+            {
+                GM_SeSet2(0, 63, SE_MENU_CURSOR);
+                work->field_5DAC = 0;
+                abst_800C877C(work, 41, 87, 78, 12, 255, 1);
+            }
+            else if (press & PAD_CIRCLE)
+            {
+                GM_SeSet2(0, 63, SE_MENU_SELECT);
+                work->field_1D68 = 3;
+                work->field_1D60 = 0;
+            }
+            else if (press & PAD_CROSS)
+            {
+                GM_SeSet2(0, 63, SE_MENU_EXIT);
+                work->field_1D68 = 3;
+                work->field_5DAC = 0;
+                work->field_1D60 = 0;
+                abst_800C877C(work, 41, 87, 78, 12, 255, 1);
+            }
+            break;
+        }
+        break;
+
+    case 3:
+        if (work->field_1D60 < 97)
+        {
+            if (work->field_1D60 < 9)
+            {
+                poly = work->polys2;
+                shade = 255 - (work->field_1D60 * 255) / 8;
+                for (i = 0; i < 9; i++)
+                {
+                    setRGB0(poly, shade, shade, shade);
+                    poly++;
+                }
+            }
+
+            poly = work->polys1;
+            r = 86 - (work->field_1D60 * 86) / 96;
+            g = 137 - (work->field_1D60 * 137) / 96;
+            b = 116 - (work->field_1D60 * 116) / 96;
+            for (i = 0; i < 6; i++)
+            {
+                setRGB0(poly, r, g, b);
+                poly++;
+            }
+
+            shade = 25 - (work->field_1D60 * 25) / 96;
+            col = (shade << 10) | (shade << 5) | shade;
+            for (i = 1; i < work->field_2C8 + 1; i++)
+            {
+                abst_800C85FC(work, i, col);
+            }
+
+            if (work->field_5DA8 == 1)
+            {
+                for (i = 1; i < work->field_2C8 + 1; i++)
+                {
+                    abst_800C85FC(work, i, 0);
+                }
+            }
+
+            work->field_1D60++;
+        }
+        else
+        {
+            if (work->field_5DAC == 0)
+            {
+                GCL_ExecProc(work->end_proc, NULL);
+            }
+            else
+            {
+                GCL_ExecProc(work->field_24, NULL);
+            }
+            GV_DestroyActor(work);
+        }
+        break;
+    }
+
+    abst_800C7CF4(work, DG_Chanl(1)->ot[GV_Clock], work->field_5DA4);
+    abst_800C8658(work);
+}
 
 void abst_800C98B8(Work *work)
 {
