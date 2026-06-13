@@ -75,7 +75,7 @@ Individual overlay progress:
             <td><b>abst</b></td>
             <td>46 KB</td>
             <td>Abstract (Save/Load Menu)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>brf</b></td>

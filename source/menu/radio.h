@@ -208,7 +208,7 @@ void draw_radio_wait_mark(MenuWork *work, u_long *ot);
 void menu_radio_init(MenuWork *work);
 void menu_radio_kill(MenuWork *work);
 // void MENU_RadioCall(int param_1, int param_2, int param_3);
-void MENU_SetLoad(int procNameHashed, int param_2, short param_3);
+void MENU_SetLoad(int procNameHashed, char *param_2, short param_3);
 // void MENU_ResetCall(void);
 // void MENU_SetRadioCallbackProc(int proc_id);
 void menu_number_init(MenuWork *work);

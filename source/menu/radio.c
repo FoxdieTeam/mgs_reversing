@@ -1678,11 +1678,11 @@ void MENU_RadioCall(int param_1, int param_2, int time)
     }
 }
 
-void MENU_SetLoad(int procNameHashed, int param_2, short param_3)
+void MENU_SetLoad(int procNameHashed, char *param_2, short param_3)
 {
     gRadioIncomingCall_8009E708.field_0 = param_3;
     gRadioIncomingCall_8009E708.field_2_timer = -1;
-    gRadioIncomingCall_8009E708.field_4 = param_2;
+    gRadioIncomingCall_8009E708.field_4 = (int)param_2;
     gMenuCallbackProc_800ABB08.procNameHashed = procNameHashed;
     gMenuCallbackProc_800ABB08.type = 1;
 }
