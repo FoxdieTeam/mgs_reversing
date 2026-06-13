@@ -78,6 +78,7 @@ typedef struct _AbstRes
 } AbstRes;
 
 extern Unknown2 abst_dword_800C37B8[];
+extern signed char abst_dword_800C3818[];
 extern AbstRes abst_dword_800C3820[];
 extern const char abst_dword_800CE7E4[];
 extern const char abst_dword_800CE800[];
@@ -159,7 +160,162 @@ void abst_800C7C0C(Work *work, int index)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/abst/abst_800C7CF4.s")
+void abst_800C7CF4(Work *work, u_long *ot, int arg2)
+{
+    int       i, j;
+    SPRT     *sprt;
+    DR_TPAGE *tpage;
+    int       index;
+    SPRT     *sprt1;
+    SPRT     *sprt2;
+
+    index = 0;
+    for (i = 0; i < work->field_2C8 + 3; i++)
+    {
+        if (work->field_520[index].num == 1)
+        {
+            sprt = &work->field_520[index].text_sprt[GV_Clock];
+            setSprt(sprt);
+            setRGB0(sprt, 128, 128, 128);
+            setSemiTrans(sprt, 1);
+            LCOPY(&work->field_520[index].rect.x, &sprt->x0);
+            LCOPY(&work->field_520[index].unk1, &sprt->w);
+            setUV0(sprt, 0, work->field_520[index].y0);
+            setClut(sprt, work->field_520[index].cx, work->field_520[index].cy);
+            addPrim(ot, sprt);
+            index++;
+        }
+    }
+
+    tpage = &work->tpage[0];
+    setDrawTPage(tpage, 1, 0, getTPage(0, 1, 704, 256));
+    addPrim(ot, tpage);
+
+    index = 0;
+    for (i = 0; i < work->field_2C8 + 3; i++)
+    {
+        if (work->field_520[index].num == 1)
+        {
+            sprt = &work->field_520[index].text_sprt2[GV_Clock];
+            setSprt(sprt);
+            setRGB0(sprt, 128, 128, 128);
+            setSemiTrans(sprt, 1);
+            LCOPY(&work->field_520[index].rect.w, &sprt->x0);
+            LCOPY(&work->field_520[index].unk3, &sprt->w);
+            setUV0(sprt, 0, work->field_520[index].y1);
+            setClut(sprt, work->field_520[index].cx, work->field_520[index].cy);
+            addPrim(ot, sprt);
+            index++;
+        }
+    }
+
+    tpage = &work->tpage[1];
+    setDrawTPage(tpage, 1, 0, getTPage(0, 1, 768, 256));
+    addPrim(ot, tpage);
+
+    index = 0;
+    for (i = 0; i < work->field_2C8 + 3; i++)
+    {
+        if (work->field_520[index].num == 1)
+        {
+            sprt = &work->field_520[index].text_sprt3[GV_Clock];
+            setSprt(sprt);
+            setRGB0(sprt, 128, 128, 128);
+            setSemiTrans(sprt, 1);
+            LCOPY(&work->field_520[index].rect.x, &sprt->x0);
+            LCOPY(&work->field_520[index].unk1, &sprt->w);
+            setUV0(sprt, 0, work->field_520[index].y0);
+            setClut(sprt, work->field_520[index].cx, work->field_520[index].cy);
+            addPrim(ot, sprt);
+            index++;
+        }
+    }
+
+    tpage = &work->tpage[4];
+    setDrawTPage(tpage, 1, 0, getTPage(0, 2, 704, 256));
+    addPrim(ot, tpage);
+
+    index = 0;
+    for (i = 0; i < work->field_2C8 + 3; i++)
+    {
+        if (work->field_520[index].num == 1)
+        {
+            sprt = &work->field_520[index].text_sprt4[GV_Clock];
+            setSprt(sprt);
+            setRGB0(sprt, 128, 128, 128);
+            setSemiTrans(sprt, 1);
+            LCOPY(&work->field_520[index].rect.w, &sprt->x0);
+            LCOPY(&work->field_520[index].unk3, &sprt->w);
+            setUV0(sprt, 0, work->field_520[index].y1);
+            setClut(sprt, work->field_520[index].cx, work->field_520[index].cy);
+            addPrim(ot, sprt);
+            index++;
+        }
+    }
+
+    tpage = &work->tpage[5];
+    setDrawTPage(tpage, 1, 0, getTPage(0, 2, 768, 256));
+    addPrim(ot, tpage);
+
+    if (arg2 == 1)
+    {
+        index = 0;
+        for (i = 0; i < work->field_2C8 + 3; i++)
+        {
+            if (work->field_520[index].num == 1)
+            {
+                sprt2 = work->field_520[index].text_sprt_outline[GV_Clock];
+                sprt1 = &work->field_520[index].text_sprt[GV_Clock];
+
+                for (j = 0; j < 8; j += 2)
+                {
+                    *sprt2 = *sprt1;
+                    setSprt(sprt2);
+                    setRGB0(sprt2, 128, 128, 128);
+                    setSemiTrans(sprt2, 1);
+                    sprt2->x0 += abst_dword_800C3818[j];
+                    sprt2->y0 += abst_dword_800C3818[j + 1];
+                    addPrim(ot, sprt2);
+                    sprt2++;
+                }
+
+                index++;
+            }
+        }
+
+        tpage = &work->tpage[2];
+        setDrawTPage(tpage, 1, 0, getTPage(0, 2, 704, 256));
+        addPrim(ot, tpage);
+
+        index = 0;
+        for (i = 0; i < work->field_2C8 + 3; i++)
+        {
+            if (work->field_520[index].num == 1)
+            {
+                sprt2 = work->field_520[index].text_sprt_outline2[GV_Clock];
+                sprt1 = &work->field_520[index].text_sprt2[GV_Clock];
+
+                for (j = 0; j < 8; j += 2, sprt++)
+                {
+                    *sprt2 = *sprt1;
+                    setSprt(sprt2);
+                    setRGB0(sprt2, 128, 128, 128);
+                    setSemiTrans(sprt2, 1);
+                    sprt2->x0 += abst_dword_800C3818[j];
+                    sprt2->y0 += abst_dword_800C3818[j + 1];
+                    addPrim(ot, sprt2);
+                    sprt2++;
+                }
+
+                index++;
+            }
+        }
+
+        tpage = &work->tpage[3];
+        setDrawTPage(tpage, 1, 0, getTPage(0, 2, 768, 256));
+        addPrim(ot, tpage);
+    }
+}
 
 void abst_800C85FC(Work *work, int index, int col)
 {
