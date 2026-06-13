@@ -500,16 +500,12 @@ void abst_800CB73C(Work *work)
 }
 
 /* ---- group1 consts, placed BEFORE abst_800CB8A4 (0x800CE8B4..0x800CE8D8) ---- */
-const char abst_dword_800CE8B4[] = {'%', 'd', 0x0, 0x0};
-const char abst_dword_800CE8B8[] = {'/', 0x0, 0x0, 0x0};
-const char abst_dword_800CE8BC[] = {'R', 'E', 'A', 'D'};
-const char abst_dword_800CE8C0[] = {' ', 'M', 'I', 'S'};
-const char abst_dword_800CE8C4[] = {'S', 'I', 'O', 'N'};
-const char abst_dword_800CE8C8[] = {' ', 'L', 'O', 'G'};
-const char abst_dword_800CE8CC[] = {'?', 0x0, 0x0, 0x0};
-const char abst_dword_800CE8D0[] = {'Y', 'E', 'S', 0x0};
-const char abst_dword_800CE8D4[] = {'N', 'O', 0x0, 0x0};
-const char abst_dword_800CE8D8[] = {0x0, 0x0, 0x0, 0x0};
+const char abst_dword_800CE8B4[] = "%d";
+const char abst_dword_800CE8B8[] = "/";
+const char abst_dword_800CE8BC[] = "READ MISSION LOG?";
+const char abst_dword_800CE8D0[] = "YES";
+const char abst_dword_800CE8D4[] = "NO";
+const char abst_dword_800CE8D8[] = {0x0, 0x0, 0x0, 0x0}; /* pads the jump table to 0x800CE8DC */
 
 void abst_800CB8A4(Work *work)
 {
@@ -1203,61 +1199,24 @@ void abst_800CB8A4(Work *work)
 }
 
 /* ---- group2 consts, placed AFTER abst_800CB8A4 (0x800CE8F4..0x800CE9CC) ---- */
-const char abst_dword_800CE8F4[] = {'T', 'e', 'x', 't'};
-const char abst_dword_800CE8F8[] = {'u', 'r', 'e', ' '};
-const char abst_dword_800CE8FC[] = {'L', 'o', 'a', 'd'};
-const char abst_dword_800CE900[] = {'I', 'm', 'a', 'g'};
-const char abst_dword_800CE904[] = {'e', ' ', 'F', 'i'};
-const char abst_dword_800CE908[] = {'n', 'i', 's', 'h'};
-const char abst_dword_800CE90C[] = {'!', '\n', 0x0, 0x0};
-const char abst_dword_800CE910[] = {'C', 'a', 'n', 'n'};
-const char abst_dword_800CE914[] = {'o', 't', ' ', 'F'};
-const char abst_dword_800CE918[] = {'i', 'n', 'd', ' '};
-const char abst_dword_800CE91C[] = {'T', 'e', 'x', 't'};
-const char abst_dword_800CE920[] = {'u', 'r', 'e', '\n'};
-const char abst_dword_800CE924[] = {0x0, 0x0, 0x0, 0x0};
-const char abst_dword_800CE928[] = {'C', 'a', 'n', 'n'};
-const char abst_dword_800CE92C[] = {'o', 't', ' ', 'S'};
-const char abst_dword_800CE930[] = {'e', 't', ' ', 'T'};
-const char abst_dword_800CE934[] = {'e', 'x', 't', 'u'};
-const char abst_dword_800CE938[] = {'r', 'e', '!', '!'};
-const char abst_dword_800CE93C[] = {'\n', 0x0, 0x0, 0x0};
-const char abst_dword_800CE940[] = {'a', 'b', 's', 't'};
-const char abst_dword_800CE944[] = {'_', 'u', 'd', '_'};
-const char abst_dword_800CE948[] = {'l', 0x0, 0x0, 0x0};
-const char abst_dword_800CE94C[] = {'a', 'b', 's', 't'};
-const char abst_dword_800CE950[] = {'_', 'u', 'd', '_'};
-const char abst_dword_800CE954[] = {'r', 0x0, 0x0, 0x0};
-const char abst_dword_800CE958[] = {'a', 'b', 's', 't'};
-const char abst_dword_800CE95C[] = {'_', 'd', 'd', '_'};
-const char abst_dword_800CE960[] = {'l', '2', 0x0, 0x0};
-const char abst_dword_800CE964[] = {'a', 'b', 's', 't'};
-const char abst_dword_800CE968[] = {'_', 'd', 'd', '_'};
-const char abst_dword_800CE96C[] = {'r', '1', 0x0, 0x0};
-const char abst_dword_800CE970[] = {'a', 'b', 's', 't'};
-const char abst_dword_800CE974[] = {'_', 'd', 'd', '_'};
-const char abst_dword_800CE978[] = {'r', '2', 0x0, 0x0};
-const char abst_dword_800CE97C[] = {'a', 'b', 's', 't'};
-const char abst_dword_800CE980[] = {'_', 'd', 'd', '_'};
-const char abst_dword_800CE984[] = {'l', '1', 0x0, 0x0};
-const char abst_dword_800CE988[] = {'c', 'u', 'r', '_'};
-const char abst_dword_800CE98C[] = {'l', 'u', 0x0, 0x0};
-const char abst_dword_800CE990[] = {'c', 'u', 'r', '_'};
-const char abst_dword_800CE994[] = {'r', 'u', 0x0, 0x0};
-const char abst_dword_800CE998[] = {'c', 'u', 'r', '_'};
-const char abst_dword_800CE99C[] = {'l', 'd', 0x0, 0x0};
-const char abst_dword_800CE9A0[] = {'c', 'u', 'r', '_'};
-const char abst_dword_800CE9A4[] = {'r', 'd', 0x0, 0x0};
-const char abst_dword_800CE9A8[] = {'c', 'u', 'r', '_'};
-const char abst_dword_800CE9AC[] = {'u', 0x0, 0x0, 0x0};
-const char abst_dword_800CE9B0[] = {'c', 'u', 'r', '_'};
-const char abst_dword_800CE9B4[] = {'d', 0x0, 0x0, 0x0};
-const char abst_dword_800CE9B8[] = {'c', 'u', 'r', '_'};
-const char abst_dword_800CE9BC[] = {'l', 0x0, 0x0, 0x0};
-const char abst_dword_800CE9C0[] = {'c', 'u', 'r', '_'};
-const char abst_dword_800CE9C4[] = {'r', 0x0, 0x0, 0x0};
-const char abst_dword_800CE9C8[] = {'c', 'u', 'r', '_'};
-const char abst_dword_800CE9CC[] = {'c', 0x0, 0x0, 0x0};
+const char abst_dword_800CE8F4[] = "Texture LoadImage Finish!\n";
+const char abst_dword_800CE910[] = "Cannot Find Texture\n";
+const char abst_dword_800CE928[] = "Cannot Set Texture!!\n";
+const char abst_dword_800CE940[] = "abst_ud_l";
+const char abst_dword_800CE94C[] = "abst_ud_r";
+const char abst_dword_800CE958[] = "abst_dd_l2";
+const char abst_dword_800CE964[] = "abst_dd_r1";
+const char abst_dword_800CE970[] = "abst_dd_r2";
+const char abst_dword_800CE97C[] = "abst_dd_l1";
+const char abst_dword_800CE988[] = "cur_lu";
+const char abst_dword_800CE990[] = "cur_ru";
+const char abst_dword_800CE998[] = "cur_ld";
+const char abst_dword_800CE9A0[] = "cur_rd";
+const char abst_dword_800CE9A8[] = "cur_u";
+const char abst_dword_800CE9B0[] = "cur_d";
+const char abst_dword_800CE9B8[] = "cur_l";
+const char abst_dword_800CE9C0[] = "cur_r";
+const char abst_dword_800CE9C8[] = "cur_c";
 
 void abst_800CCC20(Work *work)
 {
