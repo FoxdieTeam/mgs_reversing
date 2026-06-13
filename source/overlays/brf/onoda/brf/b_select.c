@@ -1,0 +1,94 @@
+#include "game/game.h"
+
+typedef struct _Work
+{
+    GV_ACT actor;
+    char   pad1[0xFC8];
+} Work;
+
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5230.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5350.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C53E4.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5478.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5584.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C56C0.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5A68.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5DE4.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5EAC.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5F74.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5FB4.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5FE0.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C600C.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C609C.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C60FC.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6228.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C62B0.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C65C8.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C65E8.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6620.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6634.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C68EC.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6930.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C69B4.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C69FC.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6AD0.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6B54.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6C00.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6C74.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6D04.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6D7C.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6E14.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6E88.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C731C.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7488.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C75F0.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7B28.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7B94.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F20.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F3C.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F6C.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F9C.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7FF0.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C8038.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C80A8.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C80C8.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C80E8.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C8108.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C8128.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C8154.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C8180.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C81AC.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C81D8.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C829C.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C95B4.s")
+
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C96DC.s")
+void brf_800C96DC(Work *work); // Act
+
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C972C.s")
+void brf_800C972C(Work *work); // Die
+
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C97CC.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C983C.s")
+
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C99C0.s")
+int brf_800C99C0(Work *work, int where); // GetResources
+
+void *NewBriefingSelect(int name, int where)
+{
+    Work *work;
+
+    GM_GameStatus |= (STATE_MENU_OFF | STATE_LIFEBAR_OFF | STATE_PAUSE_OFF | STATE_RADIO_OFF);
+
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
+    if (work != NULL)
+    {
+        GV_SetNamedActor(work, brf_800C96DC, brf_800C972C, "b_select.c");
+        if (brf_800C99C0(work, where) < 0)
+        {
+            GV_DestroyActor(work);
+            return NULL;
+        }
+    }
+    return (void *)work;
+}
