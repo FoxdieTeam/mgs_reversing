@@ -58,9 +58,15 @@ typedef struct _Work
     int             field_9A8;      /* 0x9A8 */
     char            pad_9AC[0xAA8 - 0x9AC];
     int             field_AA8[8];   /* 0xAA8 */
-    char            pad_AC8[0xB32 - 0xAC8];
-    char            field_B32;      /* 0xB32 */
-    char            pad_B33[0xC00 - 0xB33];
+    char            pad_AC8[0xB20 - 0xAC8];
+    unsigned short  field_B20;      /* 0xB20 */
+    unsigned short  field_B22;      /* 0xB22 */
+    unsigned short  field_B24;      /* 0xB24 */
+    short           field_B26;      /* 0xB26 */
+    char            pad_B28[0xB32 - 0xB28];
+    unsigned char   field_B32;      /* 0xB32 */
+    unsigned char   field_B33;      /* 0xB33 */
+    char            pad_B34[0xC00 - 0xB34];
 } Work;
 
 extern int s03d_dword_800DC2F8;
@@ -427,7 +433,31 @@ void Zako_800D0F6C(Work *work)
         }
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0FCC.s")
+void Zako_800D0FCC(Work *work)
+{
+    unsigned short    *src = &work->field_B20;
+    RADAR_SIGHT_PARAM *rp = &work->control.radar_param;
+
+    rp->dir = src[0];
+    rp->dis = src[2];
+    rp->range = src[1];
+    rp->r = 0;
+}
+
+void Zako_800D0FF4(Work *work)
+{
+    if (work->field_B33 & 4)
+    {
+        if (((unsigned short *)work->field_8FC)[3] & 6)
+        {
+            work->field_B32 |= 4;
+        }
+        if (work->field_900.damaged & 0x80)
+        {
+            work->field_B26 = 2;
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D1054.s")
 void Zako_800D13E8(Work *work)
 {
