@@ -3,6 +3,7 @@
 #include "mts/mts.h" // for fprintf
 #include "takabe/cinema.h" // for NewCinemaScreen
 #include "libgcl/libgcl.h" // for GCL_NextStr, GCL_StrToInt
+#include "game/vibrate.h" // for NewPadVibration
 
 extern int s03d_dword_800DC2E0;
 extern int s03d_dword_800DC2E8;
@@ -20,6 +21,9 @@ extern const char s03d_dword_800DBBC0[];
 extern int s03d_dword_800C3BC4;
 extern int s03d_dword_800C3BC8;
 extern int s03d_dword_800C3BCC;
+extern unsigned char s03d_dword_800C3B98[4];
+extern unsigned char s03d_dword_800C3B9C[4];
+extern int s03d_dword_800DC2F4;
 
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3FF4.s")
 int ZakoCom_800D4038(void)
@@ -49,7 +53,19 @@ void ZakoCom_800D407C(int value)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4088.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D414C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D41C0.s")
+void ZakoCom_800D41C0(void)
+{
+    if (s03d_dword_800DC2F4 > 0)
+    {
+        NewPadVibration(s03d_dword_800C3B98, 1);
+        NewPadVibration(s03d_dword_800C3B9C, 2);
+        s03d_dword_800DC2F4--;
+    }
+    else
+    {
+        s03d_dword_800DC2F4 = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4224.s")
 int ZakoCom_800D4284(int arg0, short *out)
 {
