@@ -11,6 +11,7 @@ extern int s03d_dword_800DC31C;
 extern const char s03d_dword_800DBB48[];
 extern const char s03d_dword_800DBB54[];
 extern const char s03d_dword_800DBB64[];
+extern const char s03d_dword_800DBB74[];
 
 extern int s03d_dword_800C3BC4;
 extern int s03d_dword_800C3BC8;
@@ -98,7 +99,21 @@ void ZakoCom_800D44B4(int *out)
         out[0] = 0x8B;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4508.s")
+void ZakoCom_800D4508(int *out)
+{
+    int r = ZakoCom_800D43CC(2);
+
+    if (r == 0)
+    {
+        fprintf(1, s03d_dword_800DBB74);
+        out[0] = 0x8A;
+    }
+    else if (r == 1)
+    {
+        fprintf(1, s03d_dword_800DBB74);
+        out[0] = 0x8A;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D455C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D45B0.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4640.s")
