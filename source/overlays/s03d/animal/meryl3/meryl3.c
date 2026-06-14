@@ -1,14 +1,22 @@
 #include "common.h"
 #include "game/game.h"
 #include "game/camera.h"
+#include "game/motion.h"
 #include "libdg/libdg.h"
+#include "libgv/libgv.h"
+#include "libgcl/libgcl.h"
+#include "chara/snake/shadow.h"
+#include "enemy/glight.h"
 
 typedef struct _Work
 {
     GV_ACT          actor;          /* 0x000 */
     CONTROL         control;        /* 0x020 */
     OBJECT          field_9C;       /* 0x09C */
-    char            pad_180[0x798 - 0x180];
+    MOTION_CONTROL  field_180;      /* 0x180 */
+    MOTION_SEGMENT  field_1D0[17];  /* 0x1D0 */
+    MOTION_SEGMENT  field_434[17];  /* 0x434 */
+    SVECTOR         field_698[32];  /* 0x698 */
     MATRIX          field_798;      /* 0x798 */
     char            pad_7B8[0x7DC - 0x7B8];
     OBJECT          field_7DC;      /* 0x7DC */
@@ -27,12 +35,15 @@ typedef struct _Work
 
 extern int s03d_dword_800C3960;
 extern int s03d_dword_800C3968;
+extern const char s03d_dword_800DB374[];
+extern const char s03d_dword_800DB37C[];
+extern const char s03d_dword_800DB388[];
+extern const char s03d_dword_800DB390[];
 extern int s03d_dword_800DC2F8;
 extern const char s03d_dword_800DB398[];
 extern GM_CameraSystemWork GM_Camera;
 void Zako_800CC480(Work *work);
 void Meryl3_800CB530(Work *work);
-int s03d_800CB640(Work *work);
 
 void Meryl3_800CB4B4(DG_OBJS *objs, DG_DEF *def)
 {
@@ -82,7 +93,53 @@ void Meryl3_800CB5B4(Work *work)
     }
     Meryl3_800CB530(work);
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CB640.s")
+int Meryl3_800CB640(Work *work, int scriptData, int scriptBinds)
+{
+    CONTROL *ctl = &work->control;
+    OBJECT  *head;
+    OBJECT  *body;
+    char    *opt_p;
+    int      strcode;
+    SVECTOR  indices;
+
+    if (GM_InitControl(ctl, scriptData, scriptBinds) < 0)
+    {
+        return -1;
+    }
+    opt_p = GCL_GetOption('p');
+    GM_ConfigControlString(ctl, opt_p, GCL_GetOption('d'));
+    GM_ConfigControlAttribute(ctl, 5);
+    GM_ConfigControlInterp(ctl, 4);
+
+    head = &work->field_9C;
+    body = &work->field_7DC;
+    ctl->seg_flag = 1;
+    strcode = GV_StrCode(s03d_dword_800DB374);
+    GM_InitObject(head, strcode, 0x32D, GV_StrCode(s03d_dword_800DB37C));
+    GM_ConfigObjectJoint(head);
+    GM_ConfigMotionControl(head, &work->field_180, GV_StrCode(s03d_dword_800DB37C),
+                           &work->field_1D0[0], &work->field_434[0], ctl, work->field_698);
+    GM_ConfigObjectLight(head, &work->field_798);
+
+    work->field_8C8 = head->objs->def;
+    work->field_8C4 = GV_GetCache(GV_CacheID(GV_StrCode(s03d_dword_800DB388), 0x6B));
+    work->field_8C0 = 1;
+    GM_InitObject(body, GV_StrCode(s03d_dword_800DB390), 0x6D, 0);
+    GM_ConfigObjectLight(body, &work->field_798);
+    GM_ConfigObjectRoot(body, head, 4);
+    work->field_9B4 = NewGunLight(&head->objs->objs[4].world, 0);
+
+    indices.vx = 0;
+    indices.vy = 6;
+    indices.vz = 0xC;
+    indices.pad = 0xF;
+    work->field_9B0 = NewShadow(ctl, head, indices);
+    if (work->field_9B0 == 0)
+    {
+        return -1;
+    }
+    return 0;
+}
 void Meryl3_800CB834(Work *work)
 {
     TARGET *t = work->target;
@@ -103,7 +160,7 @@ void Meryl3_800CB894(Work *work)
 
 int Meryl3_800CB8F0(Work *work, int arg1, int arg2)
 {
-    if (s03d_800CB640(work) < 0)
+    if (Meryl3_800CB640(work, arg1, arg2) < 0)
     {
         return -1;
     }
