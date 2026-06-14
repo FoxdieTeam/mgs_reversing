@@ -361,7 +361,14 @@ int Zako_800CDD40(int from, int to)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDD94.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDE1C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDF2C.s")
+void Zako_800CDF2C(Work *work)
+{
+    TARGET *t = &work->field_900;
+
+    GM_SetPowerTarget(t, 7, 5, 0, 3, (SVECTOR *)&s03d_dword_800C39C8);
+    GM_MoveTarget(t, &work->control.mov);
+    GM_PowerTarget(t);
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDF94.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE12C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE2C0.s")
