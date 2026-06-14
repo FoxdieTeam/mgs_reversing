@@ -10,11 +10,17 @@ typedef struct _Work
     OBJECT          field_180;      /* 0x180 */
     char            pad_264[0x728 - 0x264];
     short           field_728;      /* 0x728 */
-    char            pad_72A[0x748 - 0x72A];
+    char            pad_72A[0x734 - 0x72A];
+    short           field_734;      /* 0x734 */
+    char            pad_736[0x748 - 0x736];
     short           field_748;      /* 0x748 */
     char            pad_74A[0x750 - 0x74A];
     short           field_750;      /* 0x750 */
-    char            pad_752[0x8C8 - 0x752];
+    char            pad_752[0x754 - 0x752];
+    short           field_754;      /* 0x754 */
+    char            pad_756[0x75C - 0x756];
+    short           field_75C;      /* 0x75C */
+    char            pad_75E[0x8C8 - 0x75E];
     int             field_8C8;      /* 0x8C8 */
     int             field_8CC;      /* 0x8CC */
     char            pad_8D0[0x8DC - 0x8D0];
@@ -66,7 +72,9 @@ typedef struct _Work
     char            pad_B28[0xB32 - 0xB28];
     unsigned char   field_B32;      /* 0xB32 */
     unsigned char   field_B33;      /* 0xB33 */
-    char            pad_B34[0xC00 - 0xB34];
+    char            pad_B34[0xB90 - 0xB34];
+    int             field_B90;      /* 0xB90 */
+    char            pad_B94[0xC00 - 0xB94];
 } Work;
 
 extern int s03d_dword_800DC2F8;
@@ -370,7 +378,25 @@ int Zako_800CDD40(int from, int to)
     }
     return 2;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDD94.s")
+void Zako_800CDD94(Work *work)
+{
+    int diff;
+    int v;
+
+    diff = *(int *)((char *)GM_PlayerBody->objs + 0x288) -
+           *(int *)((char *)work->field_9C.objs + 0x288);
+    v = GV_NearExp8(work->field_734, (ratan2(work->field_B90, diff) & 0xFFF) - 0x400);
+    work->field_734 = v;
+    work->field_754 = v;
+    if (v < 0)
+    {
+        work->field_75C = v * 3;
+    }
+    else
+    {
+        work->field_75C = v * 3 / 2;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDE1C.s")
 void Zako_800CDF2C(Work *work)
 {
