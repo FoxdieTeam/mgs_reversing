@@ -2,6 +2,7 @@
 #include "game/game.h"
 #include "game/item.h"
 #include "libgcl/libgcl.h"
+#include "linkvar.h"
 
 typedef struct _Work
 {
@@ -509,14 +510,14 @@ void Zako_800D0BEC(Work *work, int type)
         if (type < 2)
         {
             info.type = 4;
-            info.id = 0xD;
+            info.id = IT_Ration;
             info.num = 1;
             info.message = (const char *)s03d_dword_800C3A84;
         }
         else if (type < 4)
         {
             info.type = 2;
-            info.id = 0;
+            info.id = WP_Socom;
             info.num = 0xC;
             info.message = (const char *)s03d_dword_800C3A88;
         }
