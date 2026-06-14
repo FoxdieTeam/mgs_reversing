@@ -3,7 +3,9 @@
 
 typedef struct _Work
 {
-    char            pad_0[0x5A];
+    char            pad_0[0x20];
+    SVECTOR         field_20;       /* 0x020 */
+    char            pad_28[0x5A - 0x28];
     short           field_5A;       /* 0x05A */
     char            pad_5C[0xB6 - 0x5C];
     short           field_B6;       /* 0x0B6 */
@@ -43,6 +45,7 @@ int s03d_800D3184(Work *work);
 void s03d_800D367C(Work *work);
 void s03d_800D2C68(Work *work);
 void s03d_800D3ACC(Work *work);
+void s03d_800D0C90(Work *work, int arg);
 
 void s03d_800D2C20(Work *work)
 {
@@ -78,7 +81,20 @@ int s03d_800D2D84(SVECTOR *a, SVECTOR *b)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D2DBC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D307C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D311C.s")
+int s03d_800D311C(Work *work)
+{
+    if (work->field_AD0 == 0)
+    {
+        GM_SeSet(&work->field_20, 0x53);
+        s03d_800D0C90(work, 0);
+    }
+    if (work->field_AD0 >= 21)
+    {
+        return 1;
+    }
+    work->field_AD0++;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3184.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D31F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D327C.s")
