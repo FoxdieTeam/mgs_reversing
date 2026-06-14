@@ -89,6 +89,8 @@ extern int s03d_dword_800C39B0;
 extern int s03d_dword_800C39B8;
 extern int s03d_dword_800C39C0;
 extern int s03d_dword_800C39C8;
+extern int s03d_dword_800C3988;
+extern int s03d_dword_800C3990;
 extern int s03d_dword_800C3A90[];
 extern int s03d_dword_800C3A64;
 extern int s03d_dword_800C3A6C;
@@ -128,7 +130,19 @@ void Zako_800CBAEC(Work *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBB2C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBC10.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC244.s")
+void Zako_800CC244(Work *work, int index, int count)
+{
+    MATRIX m;
+
+    DG_SetPos(&work->field_9C.objs->objs[index].world);
+    DG_MovePos((SVECTOR *)&s03d_dword_800C3988);
+    DG_RotatePos((SVECTOR *)&s03d_dword_800C3990);
+    ReadRotMatrix(&m);
+    NewBlood(&m, count);
+    work->control.step = DG_ZeroVector;
+}
+
+#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC2E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC374.s")
 void Zako_800CC430(Work *work)
 {
