@@ -231,7 +231,18 @@ void Zako_800CC7D4(Work *work)
         work->field_988++;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC8C0.s")
+void Zako_800CC8C0(Work *work)
+{
+    if (work->field_988 < 4)
+    {
+        work->field_974 |= 8;
+    }
+    if (s03d_dword_800DC2F8 == 8)
+    {
+        work->field_984 = 2;
+    }
+    work->field_988++;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC910.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC984.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCA34.s")
