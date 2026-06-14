@@ -442,8 +442,8 @@ void Zako_800CDD94(Work *work)
     int diff;
     int v;
 
-    diff = *(int *)((char *)GM_PlayerBody->objs + 0x288) -
-           *(int *)((char *)work->field_9C.objs + 0x288);
+    diff = GM_PlayerBody->objs->objs[6].world.t[1] -
+           work->field_9C.objs->objs[6].world.t[1];
     v = GV_NearExp8(work->field_734, (ratan2(work->field_B90, diff) & 0xFFF) - 0x400);
     work->field_734 = v;
     work->field_754 = v;
