@@ -36,7 +36,7 @@ typedef struct _Work
     int             field_8F0;      /* 0x8F0 */
     int             field_8F4;      /* 0x8F4 */
     int             field_8F8;      /* 0x8F8 */
-    short          *field_8FC;      /* 0x8FC */
+    TARGET         *field_8FC;      /* 0x8FC */
     TARGET          field_900;      /* 0x900 */
     char            pad_948[0x954 - 0x948];
     int             field_954;      /* 0x954 */
@@ -340,7 +340,25 @@ int Zako_800CD16C(char *opt, char *out)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD1C4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD61C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD6A8.s")
+int Zako_800CD6A8(Work *work)
+{
+    TARGET *t = work->field_8FC;
+
+    if (t->damaged & 4)
+    {
+        if (t->a_mode == 1)
+        {
+            t->force = DG_ZeroVector;
+            if (t->vital <= 0)
+            {
+                return 1;
+            }
+        }
+        t->damage = 0;
+        t->damaged = 0;
+    }
+    return 0;
+}
 int Zako_800CD720(SVECTOR *vec)
 {
     int x = vec->vx;
@@ -359,7 +377,7 @@ int Zako_800CDA04(Work *work)
 
     if (a | b | c)
     {
-        *work->field_8FC = 1;
+        work->field_8FC->class = 1;
         return 1;
     }
     return 0;
@@ -532,7 +550,7 @@ void Zako_800D0FF4(Work *work)
 {
     if (work->field_B33 & 4)
     {
-        if (((unsigned short *)work->field_8FC)[3] & 6)
+        if (work->field_8FC->damaged & 6)
         {
             work->field_B32 |= 4;
         }
