@@ -424,7 +424,13 @@ void Zako_800D0F6C(Work *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0FCC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D1054.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D13E8.s")
+void Zako_800D13E8(Work *work)
+{
+    SVECTOR unused[2];
+
+    (void)unused;
+    work->field_B32 = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D13F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D14AC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D153C.s")
