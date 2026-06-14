@@ -161,7 +161,33 @@ void Zako_800CC60C(Work *work)
         work->field_988++;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC6C4.s")
+void Zako_800CC6C4(Work *work)
+{
+    if (s03d_dword_800DC2F8 == 0xE)
+    {
+        work->field_984 = 6;
+        work->field_988 = 0;
+    }
+    else
+    {
+        if (s03d_800CC4EC(work, 8))
+        {
+            work->field_974 |= 1;
+            if ((work->field_990 & 0x3F) == 0)
+            {
+                work->field_970 = GV_RandU(8) + 0xE;
+                work->field_984 = 3;
+                work->field_988 = 0;
+                return;
+            }
+        }
+        else
+        {
+            work->field_974 |= 1;
+        }
+        work->field_988++;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC768.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC7D4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC8C0.s")
