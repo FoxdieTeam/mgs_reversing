@@ -102,7 +102,23 @@ int s03d_800D311C(Work *work)
     return 0;
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3184.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D31F4.s")
+int s03d_800D31F4(Work *work, int range)
+{
+    SVECTOR local;
+    int dx = work->field_B48.vx - work->field_20.vx;
+    int dz;
+
+    local.vx = dx;
+    dz = work->field_B48.vz - work->field_20.vz;
+    local.vz = dz;
+    if (-range < dx && dx < range && -range < dz && dz < range)
+    {
+        return 1;
+    }
+    work->field_AE6 = GV_VecDir2(&local);
+    work->field_AD0++;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D327C.s")
 int s03d_800D3310(Work *work)
 {
