@@ -243,7 +243,23 @@ void Zako_800CC8C0(Work *work)
     }
     work->field_988++;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC910.s")
+void Zako_800CC910(Work *work)
+{
+    SVECTOR vec;
+
+    GV_SubVec3((SVECTOR *)&s03d_dword_800C39A0, &work->control.mov, &vec);
+    vec.vy = 0;
+    work->field_978 = GV_VecDir2(&vec);
+    if (GV_VecLen3(&vec) < 500)
+    {
+        work->field_984 = 7;
+        work->field_988 = 0;
+    }
+    else
+    {
+        work->field_988++;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC984.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCA34.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCA64.s")
