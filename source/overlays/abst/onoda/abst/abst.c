@@ -1,5 +1,7 @@
 #include "game/game.h"
 #include "libgcl/libgcl.h"
+#include "libfs/libfs.h"
+#include "mts/mts.h"
 
 #include <stdio.h>
 
@@ -305,19 +307,62 @@ void func_800C4890(Work *work, u_long *ot, int arg2)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/abst/abst_800C5198.s")
-void abst_800C5198(Work *work, int index, int col);
+void abst_800C5198(Work *work, int index, int col)
+{
+    font_set_color(&work->kcb[index], 0, col, 0);
+    font_clut_update(&work->kcb[index]);
+}
 
 void *abst_800C51E8(KCB *kcb)
 {
     return kcb->cbuffer;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/abst/abst_800C51F4.s")
-void abst_800C51F4(Work *work);
+void abst_800C51F4(Work *work)
+{
+    POLY_FT4 *src;
+    POLY_FT4 *dst;
+    int       i;
 
-#pragma INCLUDE_ASM("asm/overlays/abst/abst_800C5318.s")
-void abst_800C5318(MenuPrim *prim, int x, int y, int w, int h);
+    src = work->polys1;
+    dst = (POLY_FT4 *)work->prim1->packs[GV_Clock];
+    for (i = 0; i < 6; i++)
+    {
+        *dst = *src;
+        SSTOREL(work->attrs1[i], dst);
+        src++;
+        dst++;
+    }
+
+    src = work->polys2;
+    dst = (POLY_FT4 *)work->prim2->packs[GV_Clock];
+    for (i = 0; i < 9; i++)
+    {
+        *dst = *src;
+        SSTOREL(work->attrs2[i], dst);
+        src++;
+        dst++;
+    }
+}
+
+void abst_800C5318(MenuPrim *prim, int x, int y, int w, int h)
+{
+    TILE *pTile;
+
+    _NEW_PRIM(pTile, prim);
+
+    LSTORE(0x72A452, &pTile->r0);
+    setTile(pTile);
+    pTile->x0 = x;
+    pTile->y0 = y;
+    pTile->w = w;
+    pTile->h = h;
+    setSemiTrans(pTile, 0);
+    addPrim(prim->ot, pTile);
+
+    radio_draw_face_frame(prim, x, y, w, h);
+    radio_draw_face_frame(prim, x, y, w, h);
+}
 
 void func_800C5410(Work *work)
 {
@@ -691,312 +736,162 @@ void func_800C5F8C(Work *work)
     }
 }
 
-// TODO: convert to struct array
-int abst_dword_800C32A0 = 0x00000FD3;
-int abst_dword_800C32A4 = 0x00000837;
-int abst_dword_800C32A8 = 0x00002657;
-int abst_dword_800C32AC = 0x00000FD9;
-int abst_dword_800C32B0 = 0x0000083C;
-int abst_dword_800C32B4 = 0x00002E07;
-int abst_dword_800C32B8 = 0x000061D1;
-int abst_dword_800C32BC = 0x00000842;
-int abst_dword_800C32C0 = 0x000017D6;
-int abst_dword_800C32C4 = 0x000061D7;
-int abst_dword_800C32C8 = 0x00000845;
-int abst_dword_800C32CC = 0x00002478;
-int abst_dword_800C32D0 = 0x000088D4;
-int abst_dword_800C32D4 = 0x0000084A;
-int abst_dword_800C32D8 = 0x0000276E;
-int abst_dword_800C32DC = 0x000088DA;
-int abst_dword_800C32E0 = 0x0000084F;
-int abst_dword_800C32E4 = 0x00000544;
-int abst_dword_800C32E8 = 0x000035A6;
-int abst_dword_800C32EC = 0x00000850;
-int abst_dword_800C32F0 = 0x000021E8;
-int abst_dword_800C32F4 = 0x000035AC;
-int abst_dword_800C32F8 = 0x00000855;
-int abst_dword_800C32FC = 0x000025DB;
-int abst_dword_800C3300 = 0x000059BF;
-int abst_dword_800C3304 = 0x0000085A;
-int abst_dword_800C3308 = 0x00002D5A;
-int abst_dword_800C330C = 0x000059C5;
-int abst_dword_800C3310 = 0x00000860;
-int abst_dword_800C3314 = 0x000006DF;
-int abst_dword_800C3318 = 0x0000D1AF;
-int abst_dword_800C331C = 0x00000861;
-int abst_dword_800C3320 = 0x000026FD;
-int abst_dword_800C3324 = 0x0000D1B5;
-int abst_dword_800C3328 = 0x00000866;
-int abst_dword_800C332C = 0x000026C0;
-int abst_dword_800C3330 = 0x0000AD18;
-int abst_dword_800C3334 = 0x0000086B;
-int abst_dword_800C3338 = 0x00002467;
-int abst_dword_800C333C = 0x0000AD1E;
-int abst_dword_800C3340 = 0x00000870;
-int abst_dword_800C3344 = 0x00001890;
-int abst_dword_800C3348 = 0x00000F8F;
-int abst_dword_800C334C = 0x00000874;
-int abst_dword_800C3350 = 0x0000188C;
-int abst_dword_800C3354 = 0x00000F95;
-int abst_dword_800C3358 = 0x00000878;
-int abst_dword_800C335C = 0x00002CC3;
-int abst_dword_800C3360 = 0x0000335B;
-int abst_dword_800C3364 = 0x0000087E;
-int abst_dword_800C3368 = 0x0000255C;
-int abst_dword_800C336C = 0x00003361;
-int abst_dword_800C3370 = 0x00000883;
-int abst_dword_800C3374 = 0x000021BE;
-int abst_dword_800C3378 = 0x000093D1;
-int abst_dword_800C337C = 0x00000888;
-int abst_dword_800C3380 = 0x000026D9;
-int abst_dword_800C3384 = 0x000093D7;
-int abst_dword_800C3388 = 0x0000088D;
-int abst_dword_800C338C = 0x00002824;
-int abst_dword_800C3390 = 0x000094D4;
-int abst_dword_800C3394 = 0x00000893;
-int abst_dword_800C3398 = 0x000024D9;
-int abst_dword_800C339C = 0x000094DA;
-int abst_dword_800C33A0 = 0x00000898;
-int abst_dword_800C33A4 = 0x0000304C;
-int abst_dword_800C33A8 = 0x0000494D;
-int abst_dword_800C33AC = 0x0000089F;
-int abst_dword_800C33B0 = 0x00001AB5;
-int abst_dword_800C33B4 = 0x00004953;
-int abst_dword_800C33B8 = 0x000008A3;
-int abst_dword_800C33BC = 0x00002546;
-int abst_dword_800C33C0 = 0x00004DBE;
-int abst_dword_800C33C4 = 0x000008A8;
-int abst_dword_800C33C8 = 0x000027B1;
-int abst_dword_800C33CC = 0x00004DC4;
-int abst_dword_800C33D0 = 0x000008AD;
-int abst_dword_800C33D4 = 0x00001D11;
-int abst_dword_800C33D8 = 0x000018A3;
-int abst_dword_800C33DC = 0x000008B1;
-int abst_dword_800C33E0 = 0x00001928;
-int abst_dword_800C33E4 = 0x000018A9;
-int abst_dword_800C33E8 = 0x000008B5;
-int abst_dword_800C33EC = 0x00002EB7;
-int abst_dword_800C33F0 = 0x000086E7;
-int abst_dword_800C33F4 = 0x000008BB;
-int abst_dword_800C33F8 = 0x0000209B;
-int abst_dword_800C33FC = 0x000086ED;
-int abst_dword_800C3400 = 0x000008C0;
-int abst_dword_800C3404 = 0x000021AA;
-int abst_dword_800C3408 = 0x00005E14;
-int abst_dword_800C340C = 0x000008C5;
-int abst_dword_800C3410 = 0x00002CD1;
-int abst_dword_800C3414 = 0x00005E1A;
-int abst_dword_800C3418 = 0x000008CB;
-int abst_dword_800C341C = 0x000029B9;
-int abst_dword_800C3420 = 0x000069AB;
-int abst_dword_800C3424 = 0x000008D1;
-int abst_dword_800C3428 = 0x000031FB;
-int abst_dword_800C342C = 0x000069B1;
-int abst_dword_800C3430 = 0x000008D8;
-int abst_dword_800C3434 = 0x000034F1;
-int abst_dword_800C3438 = 0x00008115;
-int abst_dword_800C343C = 0x000008DF;
-int abst_dword_800C3440 = 0x00002CCC;
-int abst_dword_800C3444 = 0x0000811B;
-int abst_dword_800C3448 = 0x000008E5;
-int abst_dword_800C344C = 0x000020D7;
-int abst_dword_800C3450 = 0x0000CE7C;
-int abst_dword_800C3454 = 0x000008EA;
-int abst_dword_800C3458 = 0x000020BD;
-int abst_dword_800C345C = 0x0000CE82;
-int abst_dword_800C3460 = 0x000008EF;
-int abst_dword_800C3464 = 0x00002345;
-int abst_dword_800C3468 = 0x00007990;
-int abst_dword_800C346C = 0x000008F4;
-int abst_dword_800C3470 = 0x000029C8;
-int abst_dword_800C3474 = 0x00007996;
-int abst_dword_800C3478 = 0x000008FA;
-int abst_dword_800C347C = 0x0000221E;
-int abst_dword_800C3480 = 0x0000B0A2;
-int abst_dword_800C3484 = 0x000008FF;
-int abst_dword_800C3488 = 0x00001E4A;
-int abst_dword_800C348C = 0x0000B0A8;
-int abst_dword_800C3490 = 0x00000903;
-int abst_dword_800C3494 = 0x00002848;
-int abst_dword_800C3498 = 0x00009166;
-int abst_dword_800C349C = 0x00000909;
-int abst_dword_800C34A0 = 0x00001AE9;
-int abst_dword_800C34A4 = 0x0000916C;
-int abst_dword_800C34A8 = 0x0000090D;
-int abst_dword_800C34AC = 0x00002EA3;
-int abst_dword_800C34B0 = 0x00004B62;
-int abst_dword_800C34B4 = 0x00000913;
-int abst_dword_800C34B8 = 0x000028A1;
-int abst_dword_800C34BC = 0x00004B68;
-int abst_dword_800C34C0 = 0x00000919;
-int abst_dword_800C34C4 = 0x00000E9B;
-int abst_dword_800C34C8 = 0x0000AFBE;
-int abst_dword_800C34CC = 0x0000091B;
-int abst_dword_800C34D0 = 0x00001F90;
-int abst_dword_800C34D4 = 0x0000AFC4;
-int abst_dword_800C34D8 = 0x0000091F;
-int abst_dword_800C34DC = 0x00001770;
-int abst_dword_800C34E0 = 0x0000104B;
-int abst_dword_800C34E4 = 0x00000922;
-int abst_dword_800C34E8 = 0x000027E7;
-int abst_dword_800C34EC = 0x00001051;
-int abst_dword_800C34F0 = 0x00000927;
-int abst_dword_800C34F4 = 0x000012C2;
-int abst_dword_800C34F8 = 0x0000A854;
-int abst_dword_800C34FC = 0x0000092A;
-int abst_dword_800C3500 = 0x00001B64;
-int abst_dword_800C3504 = 0x0000A85A;
-int abst_dword_800C3508 = 0x0000092E;
-int abst_dword_800C350C = 0x00001777;
-int abst_dword_800C3510 = 0x0000844F;
-int abst_dword_800C3514 = 0x00000931;
-int abst_dword_800C3518 = 0x00002DB4;
-int abst_dword_800C351C = 0x00008455;
-int abst_dword_800C3520 = 0x00000937;
-int abst_dword_800C3524 = 0x00002931;
-int abst_dword_800C3528 = 0x00008DFD;
-int abst_dword_800C352C = 0x0000093D;
-int abst_dword_800C3530 = 0x0000278A;
-int abst_dword_800C3534 = 0x00008E03;
-int abst_dword_800C3538 = 0x00000942;
-int abst_dword_800C353C = 0x000021A7;
-int abst_dword_800C3540 = 0x0000B2D9;
-int abst_dword_800C3544 = 0x00000947;
-int abst_dword_800C3548 = 0x0000199D;
-int abst_dword_800C354C = 0x0000B2DF;
-int abst_dword_800C3550 = 0x0000094B;
-int abst_dword_800C3554 = 0x00002A45;
-int abst_dword_800C3558 = 0x00008B76;
-int abst_dword_800C355C = 0x00000951;
-int abst_dword_800C3560 = 0x000027C5;
-int abst_dword_800C3564 = 0x00008B7C;
-int abst_dword_800C3568 = 0x00000956;
-int abst_dword_800C356C = 0x00000F3C;
-int abst_dword_800C3570 = 0x0000C2B0;
-int abst_dword_800C3574 = 0x00000958;
-int abst_dword_800C3578 = 0x00001E66;
-int abst_dword_800C357C = 0x0000C2B6;
-int abst_dword_800C3580 = 0x0000095C;
-int abst_dword_800C3584 = 0x00001F25;
-int abst_dword_800C3588 = 0x0000D28A;
-int abst_dword_800C358C = 0x00000960;
-int abst_dword_800C3590 = 0x00002DDE;
-int abst_dword_800C3594 = 0x0000D290;
-int abst_dword_800C3598 = 0x00000966;
-int abst_dword_800C359C = 0x000015CB;
-int abst_dword_800C35A0 = 0x00001695;
-int abst_dword_800C35A4 = 0x00000969;
-int abst_dword_800C35A8 = 0x000020EE;
-int abst_dword_800C35AC = 0x0000169B;
-int abst_dword_800C35B0 = 0x0000096E;
-int abst_dword_800C35B4 = 0x00000D3D;
-int abst_dword_800C35B8 = 0x00007F45;
-int abst_dword_800C35BC = 0x00000970;
-int abst_dword_800C35C0 = 0x000014B9;
-int abst_dword_800C35C4 = 0x00007F4B;
-int abst_dword_800C35C8 = 0x00000973;
-int abst_dword_800C35CC = 0x00002D84;
-int abst_dword_800C35D0 = 0x0000CBCC;
-int abst_dword_800C35D4 = 0x00000979;
-int abst_dword_800C35D8 = 0x00002011;
-int abst_dword_800C35DC = 0x0000CBD2;
-int abst_dword_800C35E0 = 0x0000097E;
-int abst_dword_800C35E4 = 0x00002044;
-int abst_dword_800C35E8 = 0x0000A02C;
-int abst_dword_800C35EC = 0x00000983;
-int abst_dword_800C35F0 = 0x000028CF;
-int abst_dword_800C35F4 = 0x0000A032;
-int abst_dword_800C35F8 = 0x00000989;
-int abst_dword_800C35FC = 0x000028EB;
-int abst_dword_800C3600 = 0x00009664;
-int abst_dword_800C3604 = 0x0000098F;
-int abst_dword_800C3608 = 0x00002D22;
-int abst_dword_800C360C = 0x0000966A;
-int abst_dword_800C3610 = 0x00000995;
-int abst_dword_800C3614 = 0x000020C4;
-int abst_dword_800C3618 = 0x00001953;
-int abst_dword_800C361C = 0x0000099A;
-int abst_dword_800C3620 = 0x000028E7;
-int abst_dword_800C3624 = 0x00001959;
-int abst_dword_800C3628 = 0x000009A0;
-int abst_dword_800C362C = 0x00003932;
-int abst_dword_800C3630 = 0x00006B08;
-int abst_dword_800C3634 = 0x000009A8;
-int abst_dword_800C3638 = 0x000030AD;
-int abst_dword_800C363C = 0x00006B0E;
-int abst_dword_800C3640 = 0x000009AF;
-int abst_dword_800C3644 = 0x0000252C;
-int abst_dword_800C3648 = 0x0000876C;
-int abst_dword_800C364C = 0x000009B4;
-int abst_dword_800C3650 = 0x00001EB8;
-int abst_dword_800C3654 = 0x00008772;
-int abst_dword_800C3658 = 0x000009B8;
-int abst_dword_800C365C = 0x00002582;
-int abst_dword_800C3660 = 0x0000FC00;
-int abst_dword_800C3664 = 0x000009BD;
-int abst_dword_800C3668 = 0x00002AD0;
-int abst_dword_800C366C = 0x0000FC06;
-int abst_dword_800C3670 = 0x000009C3;
-int abst_dword_800C3674 = 0x00002631;
-int abst_dword_800C3678 = 0x00006975;
-int abst_dword_800C367C = 0x000009C8;
-int abst_dword_800C3680 = 0x00002B8E;
-int abst_dword_800C3684 = 0x0000697B;
-int abst_dword_800C3688 = 0x000009CE;
-int abst_dword_800C368C = 0x00002DAE;
-int abst_dword_800C3690 = 0x0000783A;
-int abst_dword_800C3694 = 0x000009D4;
-int abst_dword_800C3698 = 0x0000260B;
-int abst_dword_800C369C = 0x00007840;
-int abst_dword_800C36A0 = 0x000009D9;
-int abst_dword_800C36A4 = 0x000024FD;
-int abst_dword_800C36A8 = 0x00009181;
-int abst_dword_800C36AC = 0x000009DE;
-int abst_dword_800C36B0 = 0x00001CBF;
-int abst_dword_800C36B4 = 0x00009187;
-int abst_dword_800C36B8 = 0x000009E2;
-int abst_dword_800C36BC = 0x000029C6;
-int abst_dword_800C36C0 = 0x00009295;
-int abst_dword_800C36C4 = 0x000009E8;
-int abst_dword_800C36C8 = 0x0000232F;
-int abst_dword_800C36CC = 0x0000929B;
-int abst_dword_800C36D0 = 0x000009ED;
-int abst_dword_800C36D4 = 0x00001AF0;
-int abst_dword_800C36D8 = 0x00007953;
-int abst_dword_800C36DC = 0x000009F1;
-int abst_dword_800C36E0 = 0x00002862;
-int abst_dword_800C36E4 = 0x00007959;
-int abst_dword_800C36E8 = 0x000009F7;
-int abst_dword_800C36EC = 0x000006F8;
-int abst_dword_800C36F0 = 0x00005083;
-int abst_dword_800C36F4 = 0x000009F8;
-int abst_dword_800C36F8 = 0x00002902;
-int abst_dword_800C36FC = 0x00005089;
-int abst_dword_800C3700 = 0x000009FE;
-int abst_dword_800C3704 = 0x00001801;
-int abst_dword_800C3708 = 0x0000F1E2;
-int abst_dword_800C370C = 0x00000A02;
-int abst_dword_800C3710 = 0x00000F72;
-int abst_dword_800C3714 = 0x0000F1E8;
-int abst_dword_800C3718 = 0x00000A04;
-int abst_dword_800C371C = 0x000025C2;
-int abst_dword_800C3720 = 0x00002EC5;
-int abst_dword_800C3724 = 0x00000A09;
-int abst_dword_800C3728 = 0x00002DE5;
-int abst_dword_800C372C = 0x00002ECB;
-int abst_dword_800C3730 = 0x00000A0F;
-int abst_dword_800C3734 = 0x00001EAC;
-int abst_dword_800C3738 = 0x00002F87;
-int abst_dword_800C373C = 0x00000A13;
-int abst_dword_800C3740 = 0x00003148;
-int abst_dword_800C3744 = 0x00002F8D;
-int abst_dword_800C3748 = 0x00000A1A;
-int abst_dword_800C374C = 0x00001FA1;
+typedef struct _AbstRes
+{
+    int id;
+    int file;
+    int size;
+} AbstRes;
+
+// TODO: give these proper names
+AbstRes abst_resources_800C32A0[] =
+{
+    {0x00000FD3, 0x00000837, 0x00002657},
+    {0x00000FD9, 0x0000083C, 0x00002E07},
+    {0x000061D1, 0x00000842, 0x000017D6},
+    {0x000061D7, 0x00000845, 0x00002478},
+    {0x000088D4, 0x0000084A, 0x0000276E},
+    {0x000088DA, 0x0000084F, 0x00000544},
+    {0x000035A6, 0x00000850, 0x000021E8},
+    {0x000035AC, 0x00000855, 0x000025DB},
+    {0x000059BF, 0x0000085A, 0x00002D5A},
+    {0x000059C5, 0x00000860, 0x000006DF},
+    {0x0000D1AF, 0x00000861, 0x000026FD},
+    {0x0000D1B5, 0x00000866, 0x000026C0},
+    {0x0000AD18, 0x0000086B, 0x00002467},
+    {0x0000AD1E, 0x00000870, 0x00001890},
+    {0x00000F8F, 0x00000874, 0x0000188C},
+    {0x00000F95, 0x00000878, 0x00002CC3},
+    {0x0000335B, 0x0000087E, 0x0000255C},
+    {0x00003361, 0x00000883, 0x000021BE},
+    {0x000093D1, 0x00000888, 0x000026D9},
+    {0x000093D7, 0x0000088D, 0x00002824},
+    {0x000094D4, 0x00000893, 0x000024D9},
+    {0x000094DA, 0x00000898, 0x0000304C},
+    {0x0000494D, 0x0000089F, 0x00001AB5},
+    {0x00004953, 0x000008A3, 0x00002546},
+    {0x00004DBE, 0x000008A8, 0x000027B1},
+    {0x00004DC4, 0x000008AD, 0x00001D11},
+    {0x000018A3, 0x000008B1, 0x00001928},
+    {0x000018A9, 0x000008B5, 0x00002EB7},
+    {0x000086E7, 0x000008BB, 0x0000209B},
+    {0x000086ED, 0x000008C0, 0x000021AA},
+    {0x00005E14, 0x000008C5, 0x00002CD1},
+    {0x00005E1A, 0x000008CB, 0x000029B9},
+    {0x000069AB, 0x000008D1, 0x000031FB},
+    {0x000069B1, 0x000008D8, 0x000034F1},
+    {0x00008115, 0x000008DF, 0x00002CCC},
+    {0x0000811B, 0x000008E5, 0x000020D7},
+    {0x0000CE7C, 0x000008EA, 0x000020BD},
+    {0x0000CE82, 0x000008EF, 0x00002345},
+    {0x00007990, 0x000008F4, 0x000029C8},
+    {0x00007996, 0x000008FA, 0x0000221E},
+    {0x0000B0A2, 0x000008FF, 0x00001E4A},
+    {0x0000B0A8, 0x00000903, 0x00002848},
+    {0x00009166, 0x00000909, 0x00001AE9},
+    {0x0000916C, 0x0000090D, 0x00002EA3},
+    {0x00004B62, 0x00000913, 0x000028A1},
+    {0x00004B68, 0x00000919, 0x00000E9B},
+    {0x0000AFBE, 0x0000091B, 0x00001F90},
+    {0x0000AFC4, 0x0000091F, 0x00001770},
+    {0x0000104B, 0x00000922, 0x000027E7},
+    {0x00001051, 0x00000927, 0x000012C2},
+    {0x0000A854, 0x0000092A, 0x00001B64},
+    {0x0000A85A, 0x0000092E, 0x00001777},
+    {0x0000844F, 0x00000931, 0x00002DB4},
+    {0x00008455, 0x00000937, 0x00002931},
+    {0x00008DFD, 0x0000093D, 0x0000278A},
+    {0x00008E03, 0x00000942, 0x000021A7},
+    {0x0000B2D9, 0x00000947, 0x0000199D},
+    {0x0000B2DF, 0x0000094B, 0x00002A45},
+    {0x00008B76, 0x00000951, 0x000027C5},
+    {0x00008B7C, 0x00000956, 0x00000F3C},
+    {0x0000C2B0, 0x00000958, 0x00001E66},
+    {0x0000C2B6, 0x0000095C, 0x00001F25},
+    {0x0000D28A, 0x00000960, 0x00002DDE},
+    {0x0000D290, 0x00000966, 0x000015CB},
+    {0x00001695, 0x00000969, 0x000020EE},
+    {0x0000169B, 0x0000096E, 0x00000D3D},
+    {0x00007F45, 0x00000970, 0x000014B9},
+    {0x00007F4B, 0x00000973, 0x00002D84},
+    {0x0000CBCC, 0x00000979, 0x00002011},
+    {0x0000CBD2, 0x0000097E, 0x00002044},
+    {0x0000A02C, 0x00000983, 0x000028CF},
+    {0x0000A032, 0x00000989, 0x000028EB},
+    {0x00009664, 0x0000098F, 0x00002D22},
+    {0x0000966A, 0x00000995, 0x000020C4},
+    {0x00001953, 0x0000099A, 0x000028E7},
+    {0x00001959, 0x000009A0, 0x00003932},
+    {0x00006B08, 0x000009A8, 0x000030AD},
+    {0x00006B0E, 0x000009AF, 0x0000252C},
+    {0x0000876C, 0x000009B4, 0x00001EB8},
+    {0x00008772, 0x000009B8, 0x00002582},
+    {0x0000FC00, 0x000009BD, 0x00002AD0},
+    {0x0000FC06, 0x000009C3, 0x00002631},
+    {0x00006975, 0x000009C8, 0x00002B8E},
+    {0x0000697B, 0x000009CE, 0x00002DAE},
+    {0x0000783A, 0x000009D4, 0x0000260B},
+    {0x00007840, 0x000009D9, 0x000024FD},
+    {0x00009181, 0x000009DE, 0x00001CBF},
+    {0x00009187, 0x000009E2, 0x000029C6},
+    {0x00009295, 0x000009E8, 0x0000232F},
+    {0x0000929B, 0x000009ED, 0x00001AF0},
+    {0x00007953, 0x000009F1, 0x00002862},
+    {0x00007959, 0x000009F7, 0x000006F8},
+    {0x00005083, 0x000009F8, 0x00002902},
+    {0x00005089, 0x000009FE, 0x00001801},
+    {0x0000F1E2, 0x00000A02, 0x00000F72},
+    {0x0000F1E8, 0x00000A04, 0x000025C2},
+    {0x00002EC5, 0x00000A09, 0x00002DE5},
+    {0x00002ECB, 0x00000A0F, 0x00001EAC},
+    {0x00002F87, 0x00000A13, 0x00003148},
+    {0x00002F8D, 0x00000A1A, 0x00001FA1},
+};
 
 const char abst_dword_800CE42C[] = "Texture LoadImage Finish!\n";
 const char abst_dword_800CE448[] = "Cannot Find Texture\n";
-#pragma INCLUDE_ASM("asm/overlays/abst/abst_800C6028.s")
-void abst_800C6028(Work *work, int opt);
+
+void abst_800C6028(Work *work, int opt)
+{
+    AbstRes *res;
+    int      i;
+    int      found;
+    int      file;
+    int      size;
+    void    *buf;
+
+    found = -1;
+    file = 0;
+    size = 0;
+    for (i = 0; i < 100; i++)
+    {
+        res = &abst_resources_800C32A0[i];
+        if (opt == res->id)
+        {
+            found = i;
+            file = res->file;
+            size = res->size;
+        }
+    }
+
+    if (found != -1)
+    {
+        buf = GV_Malloc(size);
+        FS_LoadFileRequest(6, file, size, buf);
+        while (FS_LoadFileSync() > 0)
+        {
+            mts_wait_vbl(1);
+        }
+
+        DG_LoadInitPcx(buf, opt);
+        printf((char *)abst_dword_800CE42C);
+        GV_Free(buf);
+    }
+    else
+    {
+        printf((char *)abst_dword_800CE448);
+    }
+}
 
 void func_800C6114(void *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
