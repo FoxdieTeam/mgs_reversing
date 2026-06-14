@@ -22,6 +22,9 @@ extern const char s03d_dword_800DBBC0[];
 extern unsigned char s03d_dword_800C3B98[4];
 extern unsigned char s03d_dword_800C3B9C[4];
 extern int s03d_dword_800DC2F4;
+extern int s03d_dword_800DC2FC;
+extern int s03d_dword_800DC300;
+extern SVECTOR s03d_dword_800DC308;
 extern int s03d_dword_800DC424;
 extern const char s03d_dword_800DBC50[];
 
@@ -391,7 +394,17 @@ void ZakoCom_800D4B20(int targetval, ZakoComMgr *mgr)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4B84.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4CE0.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4DD4.s")
+void ZakoCom_800D4DD4(void)
+{
+    int addr = GM_PlayerAddress;
+
+    if ((addr & 0xFF) == ((addr >> 8) & 0xFF) && (addr & 0xFF) != 0xFF)
+    {
+        s03d_dword_800DC2FC = addr;
+        s03d_dword_800DC308 = GM_PlayerPosition;
+        s03d_dword_800DC300 = GM_PlayerMap;
+    }
+}
 int ZakoCom_800D4E48(char *str)
 {
     int count = 0;
