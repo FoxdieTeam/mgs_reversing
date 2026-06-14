@@ -62,6 +62,10 @@ typedef struct _ZakoComMgr
 
 #define ZAKOCOM_MGR ((ZakoComMgr *)&s03d_dword_800DC310)
 
+extern const char s03d_dword_800DBBF0[];
+extern int printf(const char *format, ...);
+void s03d_800D42DC(void);
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3FF4.s")
 int ZakoCom_800D4038(void)
 {
@@ -249,7 +253,55 @@ void ZakoCom_800D4694(int *out)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D46F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D47BC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D490C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D49F0.s")
+void ZakoCom_800D49F0(ZakoComEntry *e, int idx)
+{
+    int state = e->field_8;
+
+    switch (state)
+    {
+    case 0:
+        if (e->field_4 == 1)
+        {
+            e->field_8 = 1;
+            e->field_0 = 1;
+            printf(s03d_dword_800DBBF0, idx, ++ZAKOCOM_MGR->field_60);
+        }
+        break;
+    case 1:
+        e->field_0--;
+        if (e->field_0 <= 0)
+        {
+            e->field_8 = 2;
+            e->field_0 = 0;
+        }
+        break;
+    case 2:
+    {
+        ZakoComMgr *mgr = ZAKOCOM_MGR;
+
+        switch (mgr->field_1C)
+        {
+        case 0:
+            if (mgr->field_10C & 1)
+            {
+                s03d_800D42DC();
+                e->field_4 = state;
+                e->field_8 = 0;
+            }
+            break;
+        case 1:
+            if (mgr->field_60 < 16)
+            {
+                s03d_800D42DC();
+                e->field_4 = state;
+                e->field_8 = 0;
+            }
+            break;
+        }
+        break;
+    }
+    }
+}
 int ZakoCom_800D4B08(int a, int b)
 {
     if (a < b)
