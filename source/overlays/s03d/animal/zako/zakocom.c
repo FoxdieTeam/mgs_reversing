@@ -6,6 +6,7 @@
 extern int s03d_dword_800DC2E0;
 extern int s03d_dword_800DC2E8;
 extern int s03d_dword_800DC2EC;
+extern int s03d_dword_800DC310;
 extern int s03d_dword_800DC31C;
 extern const char s03d_dword_800DBB48[];
 
@@ -22,7 +23,14 @@ int ZakoCom_800D4038(void)
     return v;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4050.s")
+void ZakoCom_800D4050(int idx)
+{
+    int *base = &s03d_dword_800DC310;
+
+    base[idx * 4 + 0x98 / 4] = 0;
+    base[idx * 4 + 0x90 / 4] = 1;
+}
+
 void ZakoCom_800D4070(int value)
 {
     s03d_dword_800DC2EC = value;
