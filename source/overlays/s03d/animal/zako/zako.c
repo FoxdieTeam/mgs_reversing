@@ -382,7 +382,20 @@ int Zako_800D0408(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0B88.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0BEC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0C90.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0EF0.s")
+int Zako_800D0EF0(Work *work, int index)
+{
+    int i;
+
+    for (i = 0; i < 8; i++)
+    {
+        if (work->field_AA8[i] == 0)
+        {
+            work->field_AA8[i] = s03d_dword_800C3A90[index];
+            return 1;
+        }
+    }
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0F38.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0F6C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0FCC.s")
