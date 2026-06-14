@@ -1,5 +1,6 @@
 #include "common.h"
 #include "game/game.h"
+#include "game/item.h"
 #include "libgcl/libgcl.h"
 
 typedef struct _Work
@@ -23,7 +24,8 @@ typedef struct _Work
     char            pad_75E[0x8C8 - 0x75E];
     int             field_8C8;      /* 0x8C8 */
     int             field_8CC;      /* 0x8CC */
-    char            pad_8D0[0x8DC - 0x8D0];
+    char            pad_8D0[0x8D4 - 0x8D0];
+    SVECTOR         field_8D4;      /* 0x8D4 */
     int             field_8DC;      /* 0x8DC */
     short           field_8E0;      /* 0x8E0 */
     short           field_8E2;      /* 0x8E2 */
@@ -83,6 +85,8 @@ extern int s03d_dword_800C39C8;
 extern int s03d_dword_800C3A90[];
 extern int s03d_dword_800C3A64;
 extern int s03d_dword_800C3A6C;
+extern int s03d_dword_800C3A84;
+extern int s03d_dword_800C3A88;
 extern int s03d_dword_800C3A74;
 extern int s03d_dword_800C3A7C;
 
@@ -446,7 +450,32 @@ void Zako_800D0B88(Work *work)
     sv.vz = *(short *)&m.t[2];
     AN_Fog(&sv);
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0BEC.s")
+void Zako_800D0BEC(Work *work, int type)
+{
+    SVECTOR   step = work->field_8D4;
+    SVECTOR  *pos = &work->control.mov;
+    Item_Info info;
+
+    if (type >= 0)
+    {
+        if (type < 2)
+        {
+            info.type = 4;
+            info.id = 0xD;
+            info.num = 1;
+            info.message = (const char *)s03d_dword_800C3A84;
+        }
+        else if (type < 4)
+        {
+            info.type = 2;
+            info.id = 0;
+            info.num = 0xC;
+            info.message = (const char *)s03d_dword_800C3A88;
+        }
+    }
+    info.time = 0x384;
+    NewItemPut(pos, &step, &info);
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0C90.s")
 int Zako_800D0EF0(Work *work, int index)
 {
