@@ -76,7 +76,22 @@ extern int s03d_dword_800C3BC0;
 void s03d_800D42DC(void);
 int s03d_800D46F8(int cmd);
 
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3FF4.s")
+int ZakoCom_800D3FF4(ZakoActor *actor)
+{
+    ZakoComMgr *mgr = ZAKOCOM_MGR;
+    int i;
+
+    for (i = 0; i < 8; i++)
+    {
+        if (mgr->entries[i].field_C == 0)
+        {
+            mgr->entries[i].field_C = actor;
+            mgr->entries[i].field_4 = 2;
+            return i;
+        }
+    }
+    return -1;
+}
 int ZakoCom_800D4038(void)
 {
     int v = s03d_dword_800DC2E0;
