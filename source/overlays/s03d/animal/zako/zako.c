@@ -410,7 +410,18 @@ int Zako_800D0F38(Work *work, int value)
     }
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0F6C.s")
+void Zako_800D0F6C(Work *work)
+{
+    int i;
+
+    for (i = 0; i < 8; i++)
+    {
+        if (work->field_AA8[i])
+        {
+            ((void (*)(Work *))work->field_AA8[i])(work);
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0FCC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D1054.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D13E8.s")
