@@ -98,7 +98,15 @@ void Zako_800CBAEC(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBC10.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC244.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC374.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC430.s")
+void Zako_800CC430(Work *work)
+{
+    SVECTOR vec;
+
+    GV_SubVec3(&GM_PlayerPosition, &work->control.mov, &vec);
+    vec.vy = 0;
+    work->field_9A4 = GV_VecDir2(&vec);
+    work->field_9A8 = GV_VecLen3(&vec);
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC480.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC4B4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC4EC.s")
