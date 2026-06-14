@@ -296,7 +296,18 @@ void Zako_800CCDE0(Work *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCE3C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD0C8.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD16C.s")
+int Zako_800CD16C(char *opt, char *out)
+{
+    int count = 0;
+    char *str;
+
+    while ((str = GCL_NextStr()) != NULL)
+    {
+        *out++ = GCL_StrToInt(str);
+        count++;
+    }
+    return count;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD1C4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD61C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD6A8.s")
