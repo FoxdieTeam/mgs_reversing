@@ -5,7 +5,9 @@ typedef struct _Work
 {
     char            pad_0[0x20];
     SVECTOR         field_20;       /* 0x020 */
-    char            pad_28[0x5A - 0x28];
+    char            pad_28[0x4C - 0x28];
+    MAP            *field_4C;       /* 0x04C */
+    char            pad_50[0x5A - 0x50];
     short           field_5A;       /* 0x05A */
     char            pad_5C[0x9C - 0x5C];
     char           *field_9C;       /* 0x09C */
@@ -138,7 +140,23 @@ int s03d_800D31F4(Work *work, int range)
     work->field_AD0++;
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D327C.s")
+int s03d_800D327C(Work *work)
+{
+    s03d_800D2C20(work);
+    if (work->field_4C->index != work->field_B60)
+    {
+        return -1;
+    }
+    if (work->field_AD0 & 0x10)
+    {
+        work->field_B70 = HZD_GetAddress(work->field_4C->hzd, &work->field_20, -1);
+        if (HZD_ReachTo(work->field_4C->hzd, work->field_B70, work->field_B5C) >= 2)
+        {
+            return -1;
+        }
+    }
+    return s03d_800D31F4(work, 0x5DC);
+}
 int s03d_800D3310(Work *work)
 {
     if (work->field_B08 == 2)
