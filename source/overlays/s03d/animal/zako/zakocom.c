@@ -29,12 +29,24 @@ extern int s03d_dword_800DC2F4;
 extern int s03d_dword_800DC424;
 extern const char s03d_dword_800DBC50[];
 
+typedef struct _ZakoActor
+{
+    char            pad_0[0xAE8];
+    short           field_AE8;      /* 0xAE8 */
+    char            pad_AEA[0xB28 - 0xAEA];
+    int             field_B28;      /* 0xB28 */
+    char            pad_B2C[0xB64 - 0xB2C];
+    int             field_B64;      /* 0xB64 */
+    char            pad_B68[0xB90 - 0xB68];
+    int             field_B90;      /* 0xB90 */
+} ZakoActor;
+
 typedef struct _ZakoComEntry
 {
     int             field_0;        /* 0x00 */
     int             field_4;        /* 0x04 */
     int             field_8;        /* 0x08 */
-    void           *field_C;        /* 0x0C - zako actor work */
+    ZakoActor      *field_C;        /* 0x0C - zako actor work */
 } ZakoComEntry;                     /* 0x10 */
 
 typedef struct _ZakoComMgr
@@ -64,7 +76,9 @@ typedef struct _ZakoComMgr
 
 extern const char s03d_dword_800DBBF0[];
 extern int printf(const char *format, ...);
+extern int s03d_dword_800C3BC0;
 void s03d_800D42DC(void);
+int s03d_800D46F8(int cmd);
 
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3FF4.s")
 int ZakoCom_800D4038(void)
@@ -252,7 +266,43 @@ void ZakoCom_800D4694(int *out)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D46F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D47BC.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D490C.s")
+void ZakoCom_800D490C(ZakoComMgr *mgr)
+{
+    int i;
+    int min;
+    int best;
+
+    s03d_dword_800C3BC0--;
+    if (s03d_dword_800C3BC0 < 0)
+    {
+        s03d_dword_800C3BC0 = 0;
+    }
+    if (s03d_dword_800C3BC0 > 0)
+    {
+        return;
+    }
+    min = 100000;
+    best = 0;
+    for (i = 0; i < mgr->count; i++)
+    {
+        if (mgr->entries[i].field_4 == 2)
+        {
+            ZakoActor *w = mgr->entries[i].field_C;
+
+            if (w->field_AE8 != 0 && w->field_B90 < min)
+            {
+                best = w->field_AE8;
+                min = w->field_B90;
+            }
+            w->field_AE8 = 0;
+        }
+    }
+    if (best != 0)
+    {
+        s03d_dword_800C3BC0 = 0x1E;
+        GM_SeSet2(0, 0x30, s03d_800D46F8(best));
+    }
+}
 void ZakoCom_800D49F0(ZakoComEntry *e, int idx)
 {
     int state = e->field_8;
