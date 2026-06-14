@@ -75,7 +75,7 @@ Individual overlay progress:
             <td><b>abst</b></td>
             <td>46 KB</td>
             <td>Abstract (Save/Load Menu)</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>brf</b></td>

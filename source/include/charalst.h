@@ -24,9 +24,9 @@
 #define CHARA_11G_DEMO          { 0x153e, NewStage11GDemo }         // okajima/11g_demo.c
 #define CHARA_9FFD_2ND          { 0x9ffd, GM_SetSecondAvailable }   // game/second.c
 #define CHARA_2D0A_2ND          { 0x2d0a, ? }                       // game/second.c
-#define CHARA_ABST              { 0x566f, ? }                       // GV_StrCode("アブスト") onoda/abst/abst.c
-#define CHARA_ABST_DEMO1        { 0x4974, ? }                       // GV_StrCode("アブストデモ１") onoda/abst/ab_demo1.c
-#define CHARA_ABST_DEMO2        { 0x4975, ? }                       // GV_StrCode("アブストデモ２") onoda/abst/ab_demo2.c
+#define CHARA_ABST              { 0x566f, NewAbstract }             // GV_StrCode("アブスト") onoda/abst/abst.c
+#define CHARA_ABST_DEMO1        { 0x4974, NewAbstractDemo1 }        // GV_StrCode("アブストデモ１") onoda/abst/ab_demo1.c
+#define CHARA_ABST_DEMO2        { 0x4975, NewAbstractDemo2 }        // GV_StrCode("アブストデモ２") onoda/abst/ab_demo2.c
 #define CHARA_AIRSHOWER         { 0x05ef, ? }                       // GV_StrCode("エアシャワー") okajima/a_shower.c (PC-ONLY)
 #define CHARA_ARRAY             { 0x2a90, ? }                       // takabe/gclarray.c
 #define CHARA_ASIATOKUN         { 0x02c4, NewAsiatoKun }            // GV_StrCode("足跡君") enemy/asiato.c
@@ -126,8 +126,8 @@
 #define CHARA_LIFT              { 0x425f, NewLift }                 // GV_StrCode("リフト") takabe/lift.c
 #define CHARA_LIFT2             { 0x921b, ? }                       // GV_StrCode("リフト２") takabe/lift2.c (PC-ONLY)
 #define CHARA_LIQUID            { 0x7bf2, ? }                       // GV_StrCode("リキッド") animal/liquid/liquid.c
-#define CHARA_AB_CH             { 0xcf72, ? }                       // onoda/abst/ab_ch.c
-#define CHARA_LOAD_DATA         { 0x53c7, ? }                       // GV_StrCode("ロードデータ") menu/mload.c
+#define CHARA_AB_CH             { 0xcf72, NewAbstractChange }       // onoda/abst/ab_ch.c
+#define CHARA_LOAD_DATA         { 0x53c7, NewLoadData }             // GV_StrCode("ロードデータ") menu/mload.c
 #define CHARA_M1E1              { 0x9d71, ? }                       // kojo/m1e1.c
 #define CHARA_M1E1CAME          { 0xd5ec, ? }                       // kojo/m1e1came.c
 #define CHARA_DOLL2             { 0xe448, ? }                       // takabe/doll2.c
@@ -468,6 +468,7 @@ extern NEWCHARA NewVrWindow;                    /* koba/vr/vrwindow.c           
 extern NEWCHARA NewFamasLight;                  /* kojo/famaslit.c              */
 extern NEWCHARA NewInverseLight2;               /* kojo/inverlt2.c              */
 extern NEWCHARA NewSnowStorm;                   /* kojo/sstorm.c                */
+extern NEWCHARA NewLoadData;                    /* menu/mload.c                 */
 extern NEWCHARA NewStage11GDemo;                /* okajima/11g_demo.c           */
 extern NEWCHARA NewBlinkTexture;                /* okajima/blink_tx.c           */
 extern NEWCHARA NewBlood;                       /* okajima/blood.c              */
@@ -511,6 +512,10 @@ extern NEWCHARA NewCrow;                        /* okajima/valcan/crow.c        
 extern NEWCHARA s15c_dyncon_800D8C9C;           /* okajima/valcan/dyncon.c      */
 extern NEWCHARA NewWallSpark;                   /* okajima/wall_spa.c           */
 extern NEWCHARA NewWolf2;                       /* okajima/wolf/wolf2.c         */
+extern NEWCHARA NewAbstractChange;              /* onoda/abst/ab_ch.c           */
+extern NEWCHARA NewAbstractDemo1;               /* onoda/abst/ab_demo1.c        */
+extern NEWCHARA NewAbstractDemo2;               /* onoda/abst/ab_demo2.c        */
+extern NEWCHARA NewAbstract;                    /* onoda/abst/abst.c            */
 extern NEWCHARA NewCdChange;                    /* onoda/change/change.c        */
 extern NEWCHARA Safety_800C47A0;                /* onoda/change/safety.c (?)    */
 extern NEWCHARA NewDemoSelect;                  /* onoda/demosel/demosel.c      */

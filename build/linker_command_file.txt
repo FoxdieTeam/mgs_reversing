@@ -2180,16 +2180,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "abst" %}
     include "{{OBJ_DIR}}\stage\abst.obj", overlay
     include "{{OBJ_DIR}}\menu\mload.obj", overlay
-    include "{{OBJ_DIR}}\overlays\abst\onoda\abst\abst.obj", overlay
+    include "{{OBJ_DIR}}\onoda\abst\abst.obj", overlay
     include "{{OBJ_DIR}}\onoda\abst\ab_ch.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\abst\overlay2.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\abst\onoda\abst\ab_demo1.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\abst\overlay3.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\abst\onoda\abst\ab_demo2.obj", overlay
+    include "{{OBJ_DIR}}\onoda\abst\ab_demo1.obj", overlay
+    include "{{OBJ_DIR}}\onoda\abst\ab_demo2.obj", overlay
     include "{{OBJ_DIR}}\onoda\change\met_logo.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "s03d" %}
