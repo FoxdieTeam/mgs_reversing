@@ -1,12 +1,17 @@
 #include "common.h"
 #include "game/game.h"
 #include "mts/mts.h" // for fprintf
+#include "takabe/cinema.h" // for NewCinemaScreen
 
 extern int s03d_dword_800DC2E0;
 extern int s03d_dword_800DC2E8;
 extern int s03d_dword_800DC2EC;
 extern int s03d_dword_800DC31C;
 extern const char s03d_dword_800DBB48[];
+
+extern int s03d_dword_800C3BC4;
+extern int s03d_dword_800C3BC8;
+extern int s03d_dword_800C3BCC;
 
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3FF4.s")
 int ZakoCom_800D4038(void)
@@ -82,5 +87,17 @@ int ZakoCom_800D4B08(int a, int b)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D54DC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D5538.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D55C8.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D5888.s")
+void ZakoCom_800D5888(int type, int time)
+{
+    void *screen;
+
+    if (!s03d_dword_800C3BC4)
+    {
+        s03d_dword_800C3BC4 = 1;
+        s03d_dword_800C3BC8 = time;
+        screen = NewCinemaScreen(time, type);
+        s03d_dword_800C3BCC = (int)screen;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D58D4.s")
