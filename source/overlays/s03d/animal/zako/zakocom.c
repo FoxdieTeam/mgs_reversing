@@ -29,6 +29,39 @@ extern int s03d_dword_800DC2F4;
 extern int s03d_dword_800DC424;
 extern const char s03d_dword_800DBC50[];
 
+typedef struct _ZakoComEntry
+{
+    int             field_0;        /* 0x00 */
+    int             field_4;        /* 0x04 */
+    int             field_8;        /* 0x08 */
+    void           *field_C;        /* 0x0C - zako actor work */
+} ZakoComEntry;                     /* 0x10 */
+
+typedef struct _ZakoComMgr
+{
+    char            pad_0[0x8];
+    int             count;          /* 0x08 */
+    char            pad_C[0x18 - 0xC];
+    int             field_18;       /* 0x18 */
+    int             field_1C;       /* 0x1C */
+    char            pad_20[0x34 - 0x20];
+    short           field_34;       /* 0x34 */
+    char            pad_36[0x38 - 0x36];
+    short           field_38;       /* 0x38 */
+    char            pad_3A[0x40 - 0x3A];
+    int             field_40;       /* 0x40 */
+    char            pad_44[0x60 - 0x44];
+    int             field_60;       /* 0x60 */
+    int             field_64;       /* 0x64 */
+    char            pad_68[0x8C - 0x68];
+    ZakoComEntry    entries[8];     /* 0x8C - 0x10C */
+    int             field_10C;      /* 0x10C */
+    char            pad_110[0x124 - 0x110];
+    int             field_124[8];   /* 0x124 */
+} ZakoComMgr;
+
+#define ZAKOCOM_MGR ((ZakoComMgr *)&s03d_dword_800DC310)
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3FF4.s")
 int ZakoCom_800D4038(void)
 {
@@ -225,7 +258,24 @@ int ZakoCom_800D4B08(int a, int b)
     }
     return a;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4B20.s")
+void ZakoCom_800D4B20(int targetval, ZakoComMgr *mgr)
+{
+    int v = mgr->field_18;
+
+    if (v - targetval >= 5)
+    {
+        mgr->field_18 = v - 4;
+    }
+    else
+    {
+        mgr->field_18 = targetval;
+    }
+    if (mgr->field_18 < s03d_dword_800DC2EC)
+    {
+        mgr->field_18 = s03d_dword_800DC2EC;
+    }
+    ZakoCom_800D4070(0);
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4B84.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4CE0.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4DD4.s")
