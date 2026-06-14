@@ -281,7 +281,19 @@ void Zako_800CCA64(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCAB0.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCB2C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCCF4.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCDE0.s")
+void Zako_800CCDE0(Work *work)
+{
+    short *p = (short *)&work->field_8C8;
+
+    GV_ZeroMemory(p, 0x20);
+    work->field_8C8 = 0;
+    p[0x0D] = 0x1C2;
+    p[0x0E] = 1;
+    work->field_8E8 = 0;
+    work->field_8EC = 0;
+    work->field_8F0 = 0;
+    work->field_8F4 = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCE3C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD0C8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD16C.s")
