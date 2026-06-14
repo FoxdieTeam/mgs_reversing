@@ -16,7 +16,9 @@ typedef struct _Work
     DG_DEF         *field_8C4;      /* 0x8C4 */
     DG_DEF         *field_8C8;      /* 0x8C8 */
     TARGET         *target;         /* 0x8CC */
-    char            pad_8D0[0x990 - 0x8D0];
+    char            pad_8D0[0x954 - 0x8D0];
+    int             field_954;      /* 0x954 */
+    char            pad_958[0x990 - 0x958];
     int             field_990;      /* 0x990 */
     char            pad_994[0x9B0 - 0x994];
     void           *field_9B0;      /* 0x9B0 */
@@ -26,10 +28,12 @@ typedef struct _Work
 extern int s03d_dword_800C3960;
 extern int s03d_dword_800C3968;
 extern int s03d_dword_800DC2F8;
+extern const char s03d_dword_800DB398[];
 extern GM_CameraSystemWork GM_Camera;
 void s03d_800CB4B4(DG_OBJS *objs, DG_DEF *def);
 void Zako_800CC480(Work *work);
 void Meryl3_800CB530(Work *work);
+int s03d_800CB640(Work *work);
 
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CB4B4.s")
 void Meryl3_800CB530(Work *work)
@@ -83,4 +87,36 @@ void Meryl3_800CB894(Work *work)
     GM_FreeTarget(work->target);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CB8F0.s")
+int Meryl3_800CB8F0(Work *work, int arg1, int arg2)
+{
+    if (s03d_800CB640(work) < 0)
+    {
+        return -1;
+    }
+    work->target = GM_AllocTarget();
+    if (work->target != NULL)
+    {
+        Meryl3_800CB834(work);
+    }
+    work->control.mov.vx = 0x1F40;
+    work->field_954 = 0;
+    work->control.mov.vy = 0;
+    work->control.mov.vz = -0x3E8;
+    work->field_990 = 0;
+    return 0;
+}
+void *Meryl3_800CB954(int arg0, int arg1)
+{
+    Work *work = GV_NewActor(4, 0x9B8);
+
+    if (work != NULL)
+    {
+        GV_SetNamedActor(&work->actor, Meryl3_800CB5B4, Meryl3_800CB894, s03d_dword_800DB398);
+        if (Meryl3_800CB8F0(work, arg0, arg1) < 0)
+        {
+            GV_DestroyActor(&work->actor);
+            return NULL;
+        }
+    }
+    return (void *)work;
+}
