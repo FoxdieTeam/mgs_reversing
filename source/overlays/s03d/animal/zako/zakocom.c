@@ -27,6 +27,7 @@ extern int s03d_dword_800DC300;
 extern SVECTOR s03d_dword_800DC308;
 extern int s03d_dword_800DC424;
 extern const char s03d_dword_800DBC50[];
+extern CONTROL *GM_WhereList[96];
 
 typedef struct _ZakoActor
 {
@@ -55,7 +56,10 @@ typedef struct _ZakoComMgr
     char            pad_C[0x18 - 0xC];
     int             field_18;       /* 0x18 */
     int             field_1C;       /* 0x1C */
-    char            pad_20[0x34 - 0x20];
+    char            pad_20[0x24 - 0x20];
+    int             field_24;       /* 0x24 */
+    int             field_28;       /* 0x28 */
+    SVECTOR         field_2C;       /* 0x2C */
     short           field_34;       /* 0x34 */
     char            pad_36[0x38 - 0x36];
     short           field_38;       /* 0x38 */
@@ -120,7 +124,23 @@ void ZakoCom_800D407C(int value)
 {
     s03d_dword_800DC2E8 = value;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4088.s")
+void ZakoCom_800D4088(void)
+{
+    ZakoComMgr *mgr = ZAKOCOM_MGR;
+
+    mgr->field_24 = s03d_dword_800DC2FC;
+    mgr->field_2C = s03d_dword_800DC308;
+    mgr->field_28 = s03d_dword_800DC300;
+}
+void ZakoCom_800D40D4(void)
+{
+    int addr = HZD_GetAddress(GM_WhereList[0]->map->hzd, &GM_NoisePosition, -1);
+    ZakoComMgr *mgr = ZAKOCOM_MGR;
+
+    mgr->field_24 = addr;
+    mgr->field_2C = GM_NoisePosition;
+    mgr->field_28 = GM_PlayerMap;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D414C.s")
 void ZakoCom_800D41C0(void)
 {
