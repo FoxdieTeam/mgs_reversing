@@ -53,6 +53,7 @@ extern int s03d_dword_800DC300;
 extern SVECTOR s03d_dword_800DC308;
 extern SVECTOR s03d_dword_800C3B68[];
 extern const char s03d_dword_800DBAB0[];
+extern int s03d_dword_800DC2F8;
 extern int s03d_dword_800DC32C;
 void s03d_800D3F14(void *dest, SVECTOR *pos, const char *name, int flag);
 void s03d_800D2CCC(Work *work);
@@ -251,7 +252,43 @@ int s03d_800D3508(Work *work)
     work->field_AD0++;
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3570.s")
+int s03d_800D3570(Work *work)
+{
+    if (work->field_B08 == 2)
+    {
+        work->field_AD8 |= 0x20000;
+    }
+    else
+    {
+        work->field_AD8 |= 0x10000;
+    }
+    work->field_AE6 = work->field_B94;
+    if (s03d_dword_800DC2F8 < 7)
+    {
+        if (s03d_dword_800DC2F8 >= 4)
+        {
+            return 0;
+        }
+    }
+    if (work->field_AD0 == 0x10)
+    {
+        work->field_AD0 += GV_RandU(0xE);
+    }
+    if (work->field_AD0 >= 0x21)
+    {
+        if (work->field_B64 < 0xBB9 && (GM_PlayerStatus & 2))
+        {
+            return 9;
+        }
+        if (work->field_B90 < 0x3E8 && !(GM_PlayerStatus & 0x1060))
+        {
+            return 0xA;
+        }
+        return 6;
+    }
+    work->field_AD0++;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D367C.s")
 void s03d_800D3724(Work *work)
 {
