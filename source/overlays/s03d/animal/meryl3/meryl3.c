@@ -30,12 +30,26 @@ extern int s03d_dword_800C3968;
 extern int s03d_dword_800DC2F8;
 extern const char s03d_dword_800DB398[];
 extern GM_CameraSystemWork GM_Camera;
-void s03d_800CB4B4(DG_OBJS *objs, DG_DEF *def);
 void Zako_800CC480(Work *work);
 void Meryl3_800CB530(Work *work);
 int s03d_800CB640(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CB4B4.s")
+void Meryl3_800CB4B4(DG_OBJS *objs, DG_DEF *def)
+{
+    int i;
+    DG_OBJ *obj;
+
+    DG_FreeObjsPacket(objs, 0);
+    DG_FreeObjsPacket(objs, 1);
+    objs->def = def;
+    obj = objs->objs;
+    for (i = 0; i < 16; i++)
+    {
+        obj->model = &def->model[i];
+        obj->n_packs = *(short *)&def->model[i].n_faces;
+        obj++;
+    }
+}
 void Meryl3_800CB530(Work *work)
 {
     if ((GM_GameStatus & 0x50) || GM_Camera.first_person)
@@ -43,7 +57,7 @@ void Meryl3_800CB530(Work *work)
         if (work->field_8C0 != 1)
         {
             work->field_8C0 = 1;
-            s03d_800CB4B4(work->field_9C.objs, work->field_8C8);
+            Meryl3_800CB4B4(work->field_9C.objs, work->field_8C8);
         }
     }
     else
@@ -51,7 +65,7 @@ void Meryl3_800CB530(Work *work)
         if (work->field_8C0 != 0)
         {
             work->field_8C0 = 0;
-            s03d_800CB4B4(work->field_9C.objs, work->field_8C4);
+            Meryl3_800CB4B4(work->field_9C.objs, work->field_8C4);
         }
     }
 }
