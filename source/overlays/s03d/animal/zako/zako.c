@@ -117,7 +117,20 @@ int Zako_800CC4B4(SVECTOR *from, SVECTOR *to)
     return GV_VecDir2(&vec);
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC4EC.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC5B8.s")
+void Zako_800CC5B8(Work *work)
+{
+    work->field_974 |= 4;
+    work->field_968 = work->field_9A4;
+    if (s03d_dword_800DC2F8 == 0 || s03d_dword_800DC2F8 == 4)
+    {
+        work->field_984 = 1;
+        work->field_988 = 0;
+    }
+    else
+    {
+        work->field_988++;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC60C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC6C4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC768.s")
