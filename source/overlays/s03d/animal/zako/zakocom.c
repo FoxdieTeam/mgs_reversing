@@ -1,9 +1,13 @@
 #include "common.h"
 #include "game/game.h"
+#include "mts/mts.h" // for fprintf
 
 extern int s03d_dword_800DC2E0;
 extern int s03d_dword_800DC2E8;
 extern int s03d_dword_800DC2EC;
+extern const char s03d_dword_800DBB48[];
+
+int s03d_800D43CC(int arg);
 
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3FF4.s")
 int ZakoCom_800D4038(void)
@@ -31,7 +35,21 @@ void ZakoCom_800D407C(int value)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4284.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D42DC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D43CC.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D440C.s")
+void ZakoCom_800D440C(int *out)
+{
+    int r = s03d_800D43CC(2);
+
+    if (r == 0)
+    {
+        fprintf(1, s03d_dword_800DBB48);
+        out[0] = 0x80;
+    }
+    else if (r == 1)
+    {
+        fprintf(1, s03d_dword_800DBB48);
+        out[0] = 0x80;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4460.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D44B4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4508.s")
