@@ -26,7 +26,8 @@ typedef struct _Work
     int             field_ADC;      /* 0xADC */
     char            pad_AE0[0xAE6 - 0xAE0];
     short           field_AE6;      /* 0xAE6 */
-    char            pad_AE8[0xB08 - 0xAE8];
+    short           field_AE8;      /* 0xAE8 */
+    char            pad_AEA[0xB08 - 0xAEA];
     signed char     field_B08;      /* 0xB08 */
     char            pad_B09[0xB0B - 0xB09];
     signed char     field_B0B;      /* 0xB0B */
@@ -50,7 +51,9 @@ extern int s03d_dword_800DC300;
 extern SVECTOR s03d_dword_800DC308;
 extern SVECTOR s03d_dword_800C3B68[];
 extern const char s03d_dword_800DBAB0[];
+extern int s03d_dword_800DC32C;
 void s03d_800D3F14(void *dest, SVECTOR *pos, const char *name, int flag);
+void s03d_800D2CCC(Work *work);
 
 int s03d_800D3184(Work *work);
 void s03d_800D367C(Work *work);
@@ -254,7 +257,47 @@ void s03d_800D3724(Work *work)
         s03d_800D367C(work);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3754.s")
+void s03d_800D3754(Work *work)
+{
+    switch (work->field_ACC)
+    {
+    case 1:
+        if (s03d_800D307C(work) != 0)
+        {
+            s03d_800D2CCC(work);
+            if (s03d_dword_800DC32C != 0)
+            {
+                work->field_AE8 = 0xF6;
+            }
+            else
+            {
+                work->field_AE8 = 0xF0;
+            }
+            work->field_B28 = 0xFF;
+        }
+        break;
+    case 2:
+        if (s03d_800D311C(work) != 0)
+        {
+            work->field_ACA = 3;
+            work->field_ACC = 0xD;
+            work->field_ADC = 1;
+            work->field_AE8 = 0xF0;
+            work->field_AC8 = 0;
+            work->field_AD0 = 0;
+            work->field_B28 = 0xFF;
+        }
+        break;
+    case 3:
+        if (s03d_800D311C(work) != 0)
+        {
+            s03d_800D2CCC(work);
+            work->field_AE8 = 0xF0;
+            work->field_B28 = 0xFF;
+        }
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3848.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3984.s")
 void s03d_800D3A7C(Work *work)
