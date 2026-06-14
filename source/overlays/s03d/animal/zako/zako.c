@@ -373,7 +373,10 @@ void Zako_800CDF2C(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE12C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE2C0.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CF114.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0408.s")
+int Zako_800D0408(Work *work)
+{
+    return work->control.mov.vx >= 0x1195;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D041C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0B18.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0B88.s")
