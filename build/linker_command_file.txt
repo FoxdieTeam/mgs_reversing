@@ -2216,32 +2216,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\s03d\overlay3.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D2C20.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D2C68.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D2CCC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D2D44.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D2D68.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D2D84.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D2DBC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D307C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D311C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3184.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D31F4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D327C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3310.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3390.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D33E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D34AC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3508.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3570.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D367C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3724.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3754.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3848.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3984.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3A7C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3ACC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3B5C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s03d\s03d.obj", overlay
 
     ; eyeflash.c
     include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3BA4.obj", overlay
