@@ -66,7 +66,10 @@ typedef struct _Work
     int             field_9A8;      /* 0x9A8 */
     char            pad_9AC[0xAA8 - 0x9AC];
     int             field_AA8[8];   /* 0xAA8 */
-    char            pad_AC8[0xB20 - 0xAC8];
+    char            pad_AC8[0xB14 - 0xAC8];
+    short           field_B14;      /* 0xB14 */
+    short           field_B16;      /* 0xB16 */
+    char            pad_B18[0xB20 - 0xB18];
     unsigned short  field_B20;      /* 0xB20 */
     unsigned short  field_B22;      /* 0xB22 */
     unsigned short  field_B24;      /* 0xB24 */
@@ -81,6 +84,9 @@ typedef struct _Work
 
 extern int s03d_dword_800DC2F8;
 extern int s03d_dword_800C39A0;
+extern int s03d_dword_800C39B0;
+extern int s03d_dword_800C39B8;
+extern int s03d_dword_800C39C0;
 extern int s03d_dword_800C39C8;
 extern int s03d_dword_800C3A90[];
 extern int s03d_dword_800C3A64;
@@ -310,7 +316,19 @@ void Zako_800CCA64(Work *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCAB0.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCB2C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCCF4.s")
+void Zako_800CCCF4(Work *work)
+{
+    TARGET *t = work->field_8FC;
+    int     b14 = work->field_B14;
+    int     b16 = work->field_B16;
+
+    GM_SetTarget(t, 0x9E, 2, (SVECTOR *)&s03d_dword_800C39B0);
+    GM_SetPowerTarget(t, 1, -1, b14, b16, (SVECTOR *)&s03d_dword_800C39B8);
+    GM_SetCaptureTarget(t, -1, b16, NULL, NULL);
+    GM_TargetBody(t, &work->field_9C.objs->objs[1].world);
+    GM_SetTarget(&work->field_900, 4, 1, (SVECTOR *)&s03d_dword_800C39C0);
+    GM_SetPowerTarget(&work->field_900, 7, 5, 0, 3, (SVECTOR *)&s03d_dword_800C39C8);
+}
 void Zako_800CCDE0(Work *work)
 {
     short *p = (short *)&work->field_8C8;
@@ -382,7 +400,19 @@ int Zako_800CDA04(Work *work)
     }
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDA70.s")
+void Zako_800CDA70(Work *work)
+{
+    TARGET *t = work->field_8FC;
+    int     b14 = work->field_B14;
+    int     b16 = work->field_B16;
+
+    GM_SetTarget(t, 0x9E, 2, (SVECTOR *)&s03d_dword_800C39B0);
+    GM_SetPowerTarget(t, 1, -1, b14, b16, (SVECTOR *)&s03d_dword_800C39B8);
+    GM_SetCaptureTarget(t, -1, b16, NULL, NULL);
+    GM_TargetBody(t, &work->field_9C.objs->objs[1].world);
+    GM_SetTarget(&work->field_900, 4, 1, (SVECTOR *)&s03d_dword_800C39C0);
+    GM_SetPowerTarget(&work->field_900, 7, 5, 0, 3, (SVECTOR *)&s03d_dword_800C39C8);
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDB5C.s")
 int Zako_800CDD40(int from, int to)
 {
