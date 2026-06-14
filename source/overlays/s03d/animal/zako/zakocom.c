@@ -2,6 +2,7 @@
 #include "game/game.h"
 #include "mts/mts.h" // for fprintf
 #include "takabe/cinema.h" // for NewCinemaScreen
+#include "libgcl/libgcl.h" // for GCL_NextStr, GCL_StrToInt
 
 extern int s03d_dword_800DC2E0;
 extern int s03d_dword_800DC2E8;
@@ -49,7 +50,21 @@ void ZakoCom_800D407C(int value)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D414C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D41C0.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4224.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4284.s")
+int ZakoCom_800D4284(int arg0, short *out)
+{
+    short *p = out;
+    int count = 0;
+    char *str;
+
+    while ((str = GCL_NextStr()) != 0)
+    {
+        *p = GCL_StrToInt(str);
+        p++;
+        count++;
+    }
+
+    return count;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D42DC.s")
 int ZakoCom_800D43CC(int arg)
 {
