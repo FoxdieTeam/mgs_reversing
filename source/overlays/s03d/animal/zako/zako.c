@@ -311,7 +311,14 @@ int Zako_800CD16C(char *opt, char *out)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD1C4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD61C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD6A8.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD720.s")
+int Zako_800CD720(SVECTOR *vec)
+{
+    int x = vec->vx;
+    int y = vec->vy;
+    int z = vec->vz;
+
+    return ABS(x) + ABS(y) + ABS(z);
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD75C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD984.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDA04.s")
