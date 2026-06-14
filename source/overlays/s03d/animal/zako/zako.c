@@ -81,10 +81,13 @@ extern int s03d_dword_800DC2F8;
 extern int s03d_dword_800C39A0;
 extern int s03d_dword_800C39C8;
 extern int s03d_dword_800C3A90[];
+extern int s03d_dword_800C3A64;
+extern int s03d_dword_800C3A6C;
 extern int s03d_dword_800C3A74;
 extern int s03d_dword_800C3A7C;
 
 void AN_Fog(SVECTOR *svec);
+extern void NewBlood(MATRIX *, int);
 
 void s03d_800CC374(Work *work);
 int  s03d_800CC4EC(Work *work, int arg);
@@ -419,7 +422,16 @@ int Zako_800D0408(Work *work)
     return work->control.mov.vx >= 0x1195;
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D041C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0B18.s")
+void Zako_800D0B18(Work *work, int index, int count)
+{
+    MATRIX m;
+
+    DG_SetPos(&work->field_9C.objs->objs[index].world);
+    DG_MovePos((SVECTOR *)&s03d_dword_800C3A64);
+    DG_RotatePos((SVECTOR *)&s03d_dword_800C3A6C);
+    ReadRotMatrix(&m);
+    NewBlood(&m, count);
+}
 void Zako_800D0B88(Work *work)
 {
     MATRIX  m;
