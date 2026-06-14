@@ -24,6 +24,8 @@ extern int s03d_dword_800C3BCC;
 extern unsigned char s03d_dword_800C3B98[4];
 extern unsigned char s03d_dword_800C3B9C[4];
 extern int s03d_dword_800DC2F4;
+extern int s03d_dword_800DC424;
+extern const char s03d_dword_800DBC50[];
 
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3FF4.s")
 int ZakoCom_800D4038(void)
@@ -225,7 +227,21 @@ int ZakoCom_800D5484(int arg0, int *out)
 
     return count;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D54DC.s")
+int ZakoCom_800D54DC(void)
+{
+    char *opt = GCL_GetOption('s');
+
+    if (opt == 0)
+    {
+        return 0;
+    }
+    if (ZakoCom_800D5484((int)opt, &s03d_dword_800DC424) < 4)
+    {
+        return 0;
+    }
+    fprintf(0, s03d_dword_800DBC50);
+    return -1;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D5538.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D55C8.s")
 void ZakoCom_800D5888(int type, int time)
