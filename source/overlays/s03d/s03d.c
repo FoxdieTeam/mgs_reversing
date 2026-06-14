@@ -31,7 +31,8 @@ typedef struct _Work
     signed char     field_B08;      /* 0xB08 */
     char            pad_B09[0xB0B - 0xB09];
     signed char     field_B0B;      /* 0xB0B */
-    unsigned char   field_B0C[0xB28 - 0xB0C];   /* 0xB0C */
+    unsigned char   field_B0C[0xB26 - 0xB0C];   /* 0xB0C */
+    short           field_B26;      /* 0xB26 */
     int             field_B28;      /* 0xB28 */
     char            pad_B2C[0xB48 - 0xB2C];
     SVECTOR         field_B48;      /* 0xB48 */
@@ -39,10 +40,11 @@ typedef struct _Work
     int             field_B58;      /* 0xB58 */
     int             field_B5C;      /* 0xB5C */
     int             field_B60;      /* 0xB60 */
-    char            pad_B64[0xB68 - 0xB64];
+    int             field_B64;      /* 0xB64 */
     SVECTOR         field_B68;      /* 0xB68 */
     int             field_B70;      /* 0xB70 */
-    char            pad_B74[0xB94 - 0xB74];
+    char            pad_B74[0xB90 - 0xB74];
+    int             field_B90;      /* 0xB90 */
     unsigned short  field_B94;      /* 0xB94 */
 } Work;
 
@@ -54,6 +56,7 @@ extern const char s03d_dword_800DBAB0[];
 extern int s03d_dword_800DC32C;
 void s03d_800D3F14(void *dest, SVECTOR *pos, const char *name, int flag);
 void s03d_800D2CCC(Work *work);
+void ZakoCom_800D4088(void);
 
 int s03d_800D3184(Work *work);
 void s03d_800D367C(Work *work);
@@ -299,7 +302,51 @@ void s03d_800D3754(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3848.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3984.s")
+void s03d_800D3984(Work *work)
+{
+    switch (work->field_ACC)
+    {
+    case 4:
+        s03d_800D2C20(work);
+        if (s03d_800D3184(work) != 0)
+        {
+            work->field_ACC = 5;
+            work->field_AD0 = 0;
+        }
+        break;
+    case 5:
+        {
+            int r = s03d_800D327C(work);
+
+            if (r < 0)
+            {
+                work->field_ACC = 4;
+                work->field_AD0 = 0;
+            }
+            else if (r > 0)
+            {
+                work->field_ACA = 2;
+                work->field_ACC = 0xC;
+                work->field_AD0 = 0;
+            }
+        }
+        break;
+    }
+    if (work->field_B90 < work->field_B64)
+    {
+        if (work->field_B64 >= 0x1B58 || work->field_B26 == 2)
+        {
+            work->field_ACA = 2;
+            work->field_ACC = 0xC;
+            work->field_AD0 = 0;
+        }
+    }
+    if (work->field_B26 == 2)
+    {
+        work->field_B28 = 0xFF;
+    }
+    ZakoCom_800D4088();
+}
 void s03d_800D3A7C(Work *work)
 {
     if (work->field_ACC == 13)
