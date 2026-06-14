@@ -81,6 +81,10 @@ extern int s03d_dword_800DC2F8;
 extern int s03d_dword_800C39A0;
 extern int s03d_dword_800C39C8;
 extern int s03d_dword_800C3A90[];
+extern int s03d_dword_800C3A74;
+extern int s03d_dword_800C3A7C;
+
+void AN_Fog(SVECTOR *svec);
 
 void s03d_800CC374(Work *work);
 int  s03d_800CC4EC(Work *work, int arg);
@@ -416,7 +420,20 @@ int Zako_800D0408(Work *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D041C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0B18.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0B88.s")
+void Zako_800D0B88(Work *work)
+{
+    MATRIX  m;
+    SVECTOR sv;
+
+    DG_SetPos(&work->field_9C.objs->objs[1].world);
+    DG_MovePos((SVECTOR *)&s03d_dword_800C3A74);
+    DG_RotatePos((SVECTOR *)&s03d_dword_800C3A7C);
+    ReadRotMatrix(&m);
+    sv.vx = *(short *)&m.t[0];
+    sv.vy = *(short *)&m.t[1];
+    sv.vz = *(short *)&m.t[2];
+    AN_Fog(&sv);
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0BEC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0C90.s")
 int Zako_800D0EF0(Work *work, int index)
