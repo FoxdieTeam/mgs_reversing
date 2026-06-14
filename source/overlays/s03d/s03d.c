@@ -3,9 +3,13 @@
 
 typedef struct _Work
 {
-    char            pad_0[0xB6];
+    char            pad_0[0x5A];
+    short           field_5A;       /* 0x05A */
+    char            pad_5C[0xB6 - 0x5C];
     short           field_B6;       /* 0x0B6 */
-    char            pad_B8[0xAC8 - 0xB8];
+    char            pad_B8[0x8E4 - 0xB8];
+    short           field_8E4;      /* 0x8E4 */
+    char            pad_8E6[0xAC8 - 0x8E6];
     short           field_AC8;      /* 0xAC8 */
     short           field_ACA;      /* 0xACA */
     short           field_ACC;      /* 0xACC */
@@ -18,7 +22,11 @@ typedef struct _Work
     short           field_AE6;      /* 0xAE6 */
     char            pad_AE8[0xB08 - 0xAE8];
     signed char     field_B08;      /* 0xB08 */
-    char            pad_B09[0xB48 - 0xB09];
+    char            pad_B09[0xB0B - 0xB09];
+    signed char     field_B0B;      /* 0xB0B */
+    unsigned char   field_B0C[0xB28 - 0xB0C];   /* 0xB0C */
+    int             field_B28;      /* 0xB28 */
+    char            pad_B2C[0xB48 - 0xB2C];
     SVECTOR         field_B48;      /* 0xB48 */
     char            pad_B50[0xB5C - 0xB50];
     int             field_B5C;      /* 0xB5C */
@@ -33,6 +41,8 @@ extern SVECTOR s03d_dword_800DC308;
 
 int s03d_800D3184(Work *work);
 void s03d_800D367C(Work *work);
+void s03d_800D2C68(Work *work);
+void s03d_800D3ACC(Work *work);
 
 void s03d_800D2C20(Work *work)
 {
@@ -58,7 +68,14 @@ void s03d_800D2D68(Work *work)
     work->field_AD0 = 0;
     work->field_ADC = 1;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D2D84.s")
+int s03d_800D2D84(SVECTOR *a, SVECTOR *b)
+{
+    SVECTOR diff;
+
+    GV_SubVec3(b, a, &diff);
+    diff.vy = 0;
+    return GV_VecDir2(&diff);
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D2DBC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D307C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D311C.s")
@@ -163,4 +180,15 @@ void s03d_800D3A7C(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3ACC.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3B5C.s")
+void s03d_800D3B5C(Work *work)
+{
+    work->field_AE6 = -1;
+    work->field_5A = 5;
+    work->field_AD8 = 0;
+    work->field_B28 = 0xFF;
+    if (work->field_AC8 == 0)
+    {
+        work->field_8E4 = 1;
+        s03d_800D3ACC(work);
+    }
+}
