@@ -16,7 +16,9 @@ typedef struct _Work
     int             field_ADC;      /* 0xADC */
     char            pad_AE0[0xAE6 - 0xAE0];
     short           field_AE6;      /* 0xAE6 */
-    char            pad_AE8[0xB48 - 0xAE8];
+    char            pad_AE8[0xB08 - 0xAE8];
+    signed char     field_B08;      /* 0xB08 */
+    char            pad_B09[0xB48 - 0xB09];
     SVECTOR         field_B48;      /* 0xB48 */
     char            pad_B50[0xB5C - 0xB50];
     int             field_B5C;      /* 0xB5C */
@@ -28,6 +30,9 @@ typedef struct _Work
 extern int s03d_dword_800DC2FC;
 extern int s03d_dword_800DC300;
 extern SVECTOR s03d_dword_800DC308;
+
+int s03d_800D3184(Work *work);
+void s03d_800D367C(Work *work);
 
 void s03d_800D2C20(Work *work)
 {
@@ -60,7 +65,30 @@ void s03d_800D2D68(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3184.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D31F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D327C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3310.s")
+int s03d_800D3310(Work *work)
+{
+    if (work->field_B08 == 2)
+    {
+        work->field_AD8 |= 0x20000;
+    }
+    else
+    {
+        work->field_AD8 |= 0x10000;
+    }
+    if (work->field_AD0 < 4)
+    {
+        if ((work->field_AD0 & 1) != 0)
+        {
+            work->field_AD8 |= 0x40000;
+        }
+    }
+    else if (work->field_AD0 >= 21)
+    {
+        return 1;
+    }
+    work->field_AD0++;
+    return 0;
+}
 int s03d_800D3390(Work *work)
 {
     work->field_AD8 |= 0x20000;
@@ -92,13 +120,47 @@ int s03d_800D34AC(Work *work)
     work->field_AD0++;
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3508.s")
+int s03d_800D3508(Work *work)
+{
+    work->field_AD8 |= 0x10000;
+    if (work->field_AD0 < 10)
+    {
+        if ((work->field_AD0 & 1) == 0)
+        {
+            work->field_AD8 |= 0x40000;
+        }
+    }
+    else if (work->field_AD0 >= 20)
+    {
+        return 1;
+    }
+    work->field_AE6 = work->field_B94;
+    work->field_AD0++;
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3570.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D367C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3724.s")
+void s03d_800D3724(Work *work)
+{
+    if (work->field_ACC == 0)
+    {
+        s03d_800D367C(work);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3754.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3848.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3984.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3A7C.s")
+void s03d_800D3A7C(Work *work)
+{
+    if (work->field_ACC == 13)
+    {
+        if (s03d_800D3184(work))
+        {
+            work->field_ACA = 2;
+            work->field_ACC = 12;
+            work->field_AD0 = 0;
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3ACC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3B5C.s")
