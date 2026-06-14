@@ -23,9 +23,6 @@ int s03d_dword_800C3BB4 = 0x00001F40;
 int s03d_dword_800C3BB8 = 0x00001F40;
 int s03d_dword_800C3BBC = 0x00001F40;
 int s03d_dword_800C3BC0 = 0x00000000;
-int s03d_dword_800C3BC4 = 0x00000000;
-int s03d_dword_800C3BC8 = 0x00000000;
-int s03d_dword_800C3BCC = 0x00000000;
 
 const char s03d_dword_800DBAB0[] = {'k', 'i', 'r', 'a'};
 const char s03d_dword_800DBAB4[] = {'r', 'i', '0', '1'};

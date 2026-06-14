@@ -1,7 +1,6 @@
 #include "common.h"
 #include "game/game.h"
 #include "mts/mts.h" // for fprintf
-#include "takabe/cinema.h" // for NewCinemaScreen
 #include "libgcl/libgcl.h" // for GCL_NextStr, GCL_StrToInt
 #include "game/vibrate.h" // for NewPadVibration
 
@@ -20,9 +19,6 @@ extern const char s03d_dword_800DBBA0[];
 extern const char s03d_dword_800DBBAC[];
 extern const char s03d_dword_800DBBC0[];
 
-extern int s03d_dword_800C3BC4;
-extern int s03d_dword_800C3BC8;
-extern int s03d_dword_800C3BCC;
 extern unsigned char s03d_dword_800C3B98[4];
 extern unsigned char s03d_dword_800C3B9C[4];
 extern int s03d_dword_800DC2F4;
@@ -432,34 +428,3 @@ int ZakoCom_800D54DC(void)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D5538.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D55C8.s")
-void ZakoCom_800D5888(int type, int time)
-{
-    void *screen;
-
-    if (!s03d_dword_800C3BC4)
-    {
-        s03d_dword_800C3BC4 = 1;
-        s03d_dword_800C3BC8 = time;
-        screen = NewCinemaScreen(time, type);
-        s03d_dword_800C3BCC = (int)screen;
-    }
-}
-
-void ZakoCom_800D58D4(void)
-{
-    if (s03d_dword_800C3BC8 != 0 && s03d_dword_800C3BC4 && s03d_dword_800C3BCC)
-    {
-        NewCinemaScreenClose((void *)s03d_dword_800C3BCC);
-        s03d_dword_800C3BCC = 0;
-        s03d_dword_800C3BC4 = 0;
-    }
-}
-
-void ZakoCom_800D5938(void)
-{
-    if (s03d_dword_800C3BC8 != 0 && --s03d_dword_800C3BC8 == 0)
-    {
-        s03d_dword_800C3BCC = 0;
-        s03d_dword_800C3BC4 = 0;
-    }
-}

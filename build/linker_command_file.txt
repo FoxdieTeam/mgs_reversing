@@ -2251,6 +2251,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     ; zakocom.c
     include "{{OBJ_DIR}}\overlays\s03d\animal\zako\zakocom.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
 
     include "{{OBJ_DIR}}\okajima\uji.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
