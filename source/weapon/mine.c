@@ -25,12 +25,12 @@ extern void      *GM_BombSeg;
 typedef struct _Work
 {
     GV_ACT         actor;
-    CONTROL       *control;
-    OBJECT        *parent;
+    CONTROL       *root_ctrl;
+    OBJECT        *root_obj;
     OBJECT_NO_ROTS object;
-    int            num_parent;
+    int            unit;
     u_long        *flags;
-    int            counter;
+    int            time;
 } Work;
 
 /*---------------------------------------------------------------------------*/
@@ -43,19 +43,19 @@ static void Act(Work *work)
     int local_54;
     DG_OBJ *obj;
 
-    map = work->control->map->index;
+    map = work->root_ctrl->map->index;
     DG_GroupObjsEx(work->object.objs);
 
     GM_CurrentMap = map;
-    if ( (work->parent->objs->flag & DG_FLAG_INVISIBLE) != 0 )
+    if ( (work->root_obj->objs->flag & DG_FLAG_INVISIBLE) != 0 )
     {
         DG_InvisibleObjs(work->object.objs);
     }
-    else if ( !work->counter )
+    else if ( !work->time )
     {
         DG_VisibleObjs(work->object.objs);
     }
-    obj = &work->parent->objs->objs[work->num_parent];
+    obj = &work->root_obj->objs->objs[work->unit];
 
     weapon_state = GM_Weapons[ WP_Claymore ];
     weapon_flags = *work->flags;
@@ -66,20 +66,20 @@ static void Act(Work *work)
       && counter_8009F448 < 8
       && NewJirai(&obj->world, GM_BombSeg))
     {
-        GM_SeSet(&work->control->mov, SE_C4_PUT);
+        GM_SeSet(&work->root_ctrl->mov, SE_C4_PUT);
         GM_Weapons[ WP_Claymore ] = --weapon_state;
 
-        work->counter = 21;
+        work->time = 21;
         DG_InvisibleObjs(work->object.objs);
     }
 
-    local_54 = work->counter;
+    local_54 = work->time;
 
     //new_54 = local_54 - 1;
     if ( local_54 > 0 )
     {
-        work->counter = local_54 - 1;
-        if ( !work->counter )
+        work->time = local_54 - 1;
+        if ( !work->time )
         {
             DG_VisibleObjs(work->object.objs);
         }
@@ -95,7 +95,7 @@ static void Die(Work *work)
     GM_FreeObject((OBJECT *)&work->object);
 }
 
-static int GetResources(Work *work, OBJECT *parent, int num_parent)
+static int GetResources(Work *work, OBJECT *root_obj, int unit)
 {
     OBJECT_NO_ROTS *obj = &work->object;
 
@@ -104,13 +104,13 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
     if (!obj->objs)
         return -1;
 
-    GM_ConfigObjectRoot((OBJECT *)obj, parent, num_parent);
+    GM_ConfigObjectRoot((OBJECT *)obj, root_obj, unit);
     return 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void *NewMine(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side)
+void *NewMine(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side)
 {
     Work *work;
 
@@ -118,17 +118,17 @@ void *NewMine(CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, i
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "mine.c");
-        if (GetResources(work, parent, num_parent) < 0)
+        if (GetResources(work, root_obj, unit) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
 
-        work->control = control;
-        work->parent = parent;
-        work->num_parent = num_parent;
+        work->root_ctrl = root_ctrl;
+        work->root_obj = root_obj;
+        work->unit = unit;
         work->flags = flags;
-        work->counter = 0;
+        work->time = 0;
     }
 
     GM_MagazineMax = 0;

@@ -35,20 +35,20 @@ typedef struct _Work
 {
     GV_ACT         actor;
     OBJECT_NO_ROTS object;
-    CONTROL       *control;
-    OBJECT        *parent;
-    int            num_parent;
+    CONTROL       *root_ctrl;
+    OBJECT        *root_obj;
+    int            unit;
     u_long        *flags;
-    short          bullet_type;
-    short          field_56;
-    DG_PRIM       *prim1;
-    DG_TEX        *tex;
-    SVECTOR        vertices[20]; // 2x10
-    int            field_100;
-    int            random;
-    int            field_108;
-    DG_PRIM       *prim2;
-    SVECTOR        field_110[2];
+    short          side;
+    short          supressor;
+    DG_PRIM       *laser_prim;
+    DG_TEX        *laser_tex;
+    SVECTOR        laser_verts[20];
+    int            laser_len;
+    int            jitter;
+    int            time;
+    DG_PRIM       *light_prim;
+    SVECTOR        light_verts[2];
 } Work;
 
 STATIC short word_800AB824 = -215;
@@ -60,7 +60,7 @@ STATIC SVECTOR stru_8009F3D4[2] = {{0, 600, 32, 0}, {0, -9640, 32, 0}};
 
 /*---------------------------------------------------------------------------*/
 
-static void SocomSetPolyTexture( POLY_FT4 *poly, DG_TEX *tex )
+static void SocomSetPolyTexture( POLY_FT4 *poly, DG_TEX *laser_tex )
 {
     int       i;
     POLY_FT4 *pft4 = poly;
@@ -70,16 +70,16 @@ static void SocomSetPolyTexture( POLY_FT4 *poly, DG_TEX *tex )
         setPolyFT4( pft4 );
         setSemiTrans( pft4, 1 );
         setRGB0( pft4, 16, 16, 16 );
-        pft4->tpage = tex->tpage;
-        pft4->clut = tex->clut;
+        pft4->tpage = laser_tex->tpage;
+        pft4->clut = laser_tex->clut;
         pft4++;
     }
 }
 
-static void SocomSetPolyUVs( POLY_FT4 *poly, DG_TEX *tex, int a3 )
+static void SocomSetPolyUVs( POLY_FT4 *poly, DG_TEX *laser_tex, int a3 )
 {
-    char offy = tex->off_y + ( a3 & 0x3f );
-    char offx = tex->off_x;
+    char offy = laser_tex->off_y + ( a3 & 0x3f );
+    char offx = laser_tex->off_x;
     int  i;
 
     for ( i = 10; i > 0; i-- )
@@ -101,7 +101,7 @@ static void SocomInitVectors( Work *work )
     int      i;
     SVECTOR *vp;
 
-    vp = work->vertices;
+    vp = work->laser_verts;
     for ( i = 20; i > 0; i-- )
     {
         vp->vx = 0;
@@ -113,7 +113,7 @@ static void SocomInitVectors( Work *work )
 
 static void socom_act_helper_8006528C(Work *work)
 {
-    int primsOrig =  work->field_100;
+    int primsOrig =  work->laser_len;
     int prims;
     SVECTOR *pVec;
     int iVar3;
@@ -135,9 +135,9 @@ static void socom_act_helper_8006528C(Work *work)
         prims = 10;
     }
 
-    work->prim1->prim_count = prims;
+    work->laser_prim->prim_count = prims;
 
-    pVec = work->vertices;
+    pVec = work->laser_verts;
     iVar3 = word_800AB824;
 
     for(--prims; prims >= 0; --prims)
@@ -176,18 +176,18 @@ static void SocomSetTilesColor( TILE *tile, int color )
 
 static void socom_act_helper_800653B8( Work *socom )
 {
-    int local_var = socom->field_100;
+    int local_var = socom->laser_len;
 
     if ( local_var == 0 )
     {
-        socom->prim2->prim_count = 1;
-        ( socom->field_110[0] ).vy = word_800AB824;
+        socom->light_prim->prim_count = 1;
+        ( socom->light_verts[0] ).vy = word_800AB824;
     }
     else
     {
-        socom->prim2->prim_count = 2;
-        ( socom->field_110[1] ).vy = -215 - (short)local_var;
-        ( socom->field_110[0] ).vy = word_800AB824;
+        socom->light_prim->prim_count = 2;
+        ( socom->light_verts[1] ).vy = -215 - (short)local_var;
+        ( socom->light_verts[0] ).vy = word_800AB824;
     }
 }
 
@@ -199,9 +199,9 @@ static int socom_act_helper_80065408( Work *work )
     SVECTOR     vecs[ 2 ];
 
     bCalcLen = 0;
-    DG_SetPos( &work->parent->objs->objs[ work->num_parent ].world );
+    DG_SetPos( &work->root_obj->objs->objs[ work->unit ].world );
     DG_PutVector( stru_8009F3D4, vecs, 2 );
-    map = work->control->map;
+    map = work->root_ctrl->map;
     if ( HZD_OnlineHazardCheck( map->hzd, vecs, &vecs[ 1 ], HZD_CHK_ALL, SEGMENT_ATR ) )
     {
         HZD_GetOnlinePoint( &vecs[ 1 ] );
@@ -241,10 +241,10 @@ static void Act( Work *work )
         return;
     }
 
-    GM_CurrentMap = work->control->map->index;
+    GM_CurrentMap = work->root_ctrl->map->index;
 
     DG_GroupObjsEx( work->object.objs );
-    DG_GroupPrim( work->prim1, DG_CurrentGroupID );
+    DG_GroupPrim( work->laser_prim, DG_CurrentGroupID );
 
     flags = *work->flags;
 
@@ -252,23 +252,23 @@ static void Act( Work *work )
     {
         word_800AB824 = -215;
 
-        if ( work->parent->objs->flag & DG_FLAG_INVISIBLE )
+        if ( work->root_obj->objs->flag & DG_FLAG_INVISIBLE )
         {
-            DG_InvisiblePrim( work->prim1 );
-            DG_InvisiblePrim( work->prim2 );
+            DG_InvisiblePrim( work->laser_prim );
+            DG_InvisiblePrim( work->light_prim );
             DG_InvisibleObjs( work->object.objs );
         }
         else
         {
             if ( flags & 1 )
             {
-                DG_VisiblePrim( work->prim1 );
-                DG_VisiblePrim( work->prim2 );
+                DG_VisiblePrim( work->laser_prim );
+                DG_VisiblePrim( work->light_prim );
             }
             else
             {
-                DG_InvisiblePrim( work->prim1 );
-                DG_InvisiblePrim( work->prim2 );
+                DG_InvisiblePrim( work->laser_prim );
+                DG_InvisiblePrim( work->light_prim );
 
             }
 
@@ -281,16 +281,16 @@ static void Act( Work *work )
 
         if ( flags & 1 )
         {
-            DG_VisiblePrim( work->prim1 );
-            DG_VisiblePrim( work->prim2 );
+            DG_VisiblePrim( work->laser_prim );
+            DG_VisiblePrim( work->light_prim );
         }
         else
         {
-            DG_InvisiblePrim( work->prim1 );
-            DG_InvisiblePrim( work->prim2 );
+            DG_InvisiblePrim( work->laser_prim );
+            DG_InvisiblePrim( work->light_prim );
         }
 
-        if ( work->parent->objs->flag & DG_FLAG_INVISIBLE )
+        if ( work->root_obj->objs->flag & DG_FLAG_INVISIBLE )
         {
             DG_InvisibleObjs( work->object.objs );
         }
@@ -302,20 +302,20 @@ static void Act( Work *work )
 
     if ( flags & 1 )
     {
-        work->field_100 = socom_act_helper_80065408( work );
+        work->laser_len = socom_act_helper_80065408( work );
         if ( !( GV_Time & 0x3f ) )
         {
-            work->random = GV_RandU( 2 ) + 1;
+            work->jitter = GV_RandU( 2 ) + 1;
         }
 
-        f108 = work->field_108 + work->random;
-        work->field_108 = f108;
+        f108 = work->time + work->jitter;
+        work->time = f108;
 
-        SocomSetPolyUVs( work->prim1->packs[ 0 ], work->tex, f108 );
-        SocomSetPolyUVs( work->prim1->packs[ 1 ], work->tex, f108 );
+        SocomSetPolyUVs( work->laser_prim->packs[ 0 ], work->laser_tex, f108 );
+        SocomSetPolyUVs( work->laser_prim->packs[ 1 ], work->laser_tex, f108 );
         socom_act_helper_8006528C( work );
 
-        color = work->parent->objs->objs[ work->num_parent ].screen.m[2][1] / 16;
+        color = work->root_obj->objs->objs[ work->unit ].screen.m[2][1] / 16;
 
         if ( color < 0 )
         {
@@ -327,8 +327,8 @@ static void Act( Work *work )
             color = 0xff;
         }
 
-        SocomSetTilesColor( work->prim2->packs[ 0 ], color );
-        SocomSetTilesColor( work->prim2->packs[ 1 ], color );
+        SocomSetTilesColor( work->light_prim->packs[ 0 ], color );
+        SocomSetTilesColor( work->light_prim->packs[ 1 ], color );
         socom_act_helper_800653B8( work );
     }
 
@@ -336,8 +336,8 @@ static void Act( Work *work )
 
     if ( ( mag_size == 0 ) && ( flags & 2 ) )
     {
-        GM_SeSet( &work->control->mov, SE_KARASHT );
-        GM_SetNoise(5, 2, &work->control->mov);
+        GM_SeSet( &work->root_ctrl->mov, SE_KARASHT );
+        GM_SetNoise(5, 2, &work->root_ctrl->mov);
     }
     else if ( ( mag_size > 0 ) && ( flags & 2 ) )
     {
@@ -346,18 +346,18 @@ static void Act( Work *work )
         DG_SetPos( world );
         DG_MovePos( &stru_8009F3BC[0] );
         ReadRotMatrix( &MStack48 );
-        NewBullet( &MStack48, work->bullet_type, 0, 1 );
+        NewBullet( &MStack48, work->side, 0, 1 );
 
-        if ( work->field_56 == 0 )
+        if ( work->supressor == 0 )
         {
-            GM_SeSet( &work->control->mov, SE_SOCOM_SHOT );
-            GM_SetNoise(200, 2, &work->control->mov);
+            GM_SeSet( &work->root_ctrl->mov, SE_SOCOM_SHOT );
+            GM_SetNoise(200, 2, &work->root_ctrl->mov);
             NewAnime_8005D988( world, &MStack48, 0 );
         }
         else
         {
-            GM_SeSet( &work->control->mov, SE_SOCOM_SUPPRESSED );
-            GM_SetNoise(5, 2, &work->control->mov);
+            GM_SeSet( &work->root_ctrl->mov, SE_SOCOM_SUPPRESSED );
+            GM_SetNoise(5, 2, &work->root_ctrl->mov);
             NewAnime_8005D988( world, &MStack48, 1 );
         }
 
@@ -370,13 +370,13 @@ static void Act( Work *work )
 static void Die( Work *work )
 {
     GM_FreeObject( (OBJECT *)&work->object );
-    GM_FreePrim( work->prim1 );
-    GM_FreePrim( work->prim2 );
+    GM_FreePrim( work->laser_prim );
+    GM_FreePrim( work->light_prim );
 }
 
-static int GetResources( Work *actor, OBJECT *parent, int num_parent )
+static int GetResources( Work *actor, OBJECT *root_obj, int unit )
 {
-    DG_TEX         *tex;
+    DG_TEX         *laser_tex;
     DG_PRIM        *newprim;
     DG_PRIM        *prim;
     OBJECT_NO_ROTS *obj;
@@ -385,12 +385,12 @@ static int GetResources( Work *actor, OBJECT *parent, int num_parent )
     if ( GM_SilencerFlag < 0 )
     {
         GM_InitObjectNoRots(obj, SOCOM_MODEL, BODY_FLAG, 0);
-        actor->field_56 = 0;
+        actor->supressor = 0;
     }
     else
     {
         GM_InitObjectNoRots(obj, SOCOM_MODEL2, BODY_FLAG, 0);
-        actor->field_56 = 1;
+        actor->supressor = 1;
         GM_SilencerFlag = 0;
         if ( GM_CurrentItemId == IT_Suppressor )
         {
@@ -399,29 +399,29 @@ static int GetResources( Work *actor, OBJECT *parent, int num_parent )
     }
     if ( obj->objs )
     {
-        GM_ConfigObjectRoot( (OBJECT *)obj, parent, num_parent );
-        prim = GM_MakePrim( DG_PRIM_LINE_FT2, 10, actor->vertices, NULL );
-        newprim = ( actor->prim1 = prim );
+        GM_ConfigObjectRoot( (OBJECT *)obj, root_obj, unit );
+        prim = GM_MakePrim( DG_PRIM_LINE_FT2, 10, actor->laser_verts, NULL );
+        newprim = ( actor->laser_prim = prim );
         prim = newprim;
         if ( newprim )
         {
-            tex = DG_GetTexture( LASER_TEXTURE );
-            actor->tex = tex;
-            if ( tex )
+            laser_tex = DG_GetTexture( LASER_TEXTURE );
+            actor->laser_tex = laser_tex;
+            if ( laser_tex )
             {
-                SocomSetPolyTexture( newprim->packs[ 0 ], tex );
-                SocomSetPolyTexture( newprim->packs[ 1 ], tex );
+                SocomSetPolyTexture( newprim->packs[ 0 ], laser_tex );
+                SocomSetPolyTexture( newprim->packs[ 1 ], laser_tex );
                 SocomInitVectors( actor );
-                newprim->root = &parent->objs->objs[ num_parent ].world;
-                actor->prim2 = prim = GM_MakePrim( DG_PRIM_RECTANGLE | DG_PRIM_TILE, 2, actor->field_110, &stru_800AB828 );
-                actor->field_110[0] = actor->field_110[1] = stru_8009F3C4[0];
+                newprim->root = &root_obj->objs->objs[ unit ].world;
+                actor->light_prim = prim = GM_MakePrim( DG_PRIM_RECTANGLE | DG_PRIM_TILE, 2, actor->light_verts, &stru_800AB828 );
+                actor->light_verts[0] = actor->light_verts[1] = stru_8009F3C4[0];
                 if ( prim )
                 {
                     SocomInitLight( ( TILE* )prim->packs[ 0 ] );
                     SocomInitLight( ( TILE* )prim->packs[ 1 ] );
                     prim->raise = 0x1F4;
                     DG_InvisiblePrim( prim );
-                    prim->root = &parent->objs->objs[ num_parent ].world;
+                    prim->root = &root_obj->objs->objs[ unit ].world;
                     return 0;
                 }
             }
@@ -432,7 +432,7 @@ static int GetResources( Work *actor, OBJECT *parent, int num_parent )
 
 /*---------------------------------------------------------------------------*/
 
-void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side )
+void *NewSOCOM( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side )
 {
     Work *work;
     int mag_size;
@@ -442,20 +442,20 @@ void *NewSOCOM( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags,
     if ( work )
     {
         GV_SetNamedActor( &work->actor, Act, Die, "socom.c" );
-        if ( GetResources( work, parent, num_parent ) < 0 )
+        if ( GetResources( work, root_obj, unit ) < 0 )
         {
             GV_DestroyActor( &work->actor );
             return NULL;
         }
 
-        work->control = control;
-        work->parent = parent;
-        work->num_parent = num_parent;
+        work->root_ctrl = root_ctrl;
+        work->root_obj = root_obj;
+        work->unit = unit;
         work->flags = flags;
-        work->bullet_type = which_side;
-        work->field_108 = 0;
-        work->random = 1;
-        work->field_100 = 1000;
+        work->side = side;
+        work->time = 0;
+        work->jitter = 1;
+        work->laser_len = 1000;
     }
 
     mag_size = MAGAZINE_SIZE;

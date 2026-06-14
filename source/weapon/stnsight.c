@@ -69,20 +69,23 @@ extern TARGET          *target_800BDF00;
 
 typedef struct _Work
 {
-    GV_ACT      actor;
-    CONTROL    *control;
-    GV_PAD     *pad_data;
-    LINE_F4    *field_28_lines_2Array[2];
-    LINE_F4    *field_30_lines_2Array[2];
-    LINE_F4    *field_38_lines_2Array[2];
-    LINE_F4    *field_40_lines_2Array[2];
-    TILE_1     *field_48_tiles_2Array[2];
-    POLY_G4    *field_50_polys_2Array[2];
-    int         delay;      //'delay' in the leaks, but they must mean deltay
-    int         deltax;
-    DVECTOR     pos[9];
-    int         field_84_4Array[4];
-    int         field_94;
+    GV_ACT   actor;
+    CONTROL *root_ctrl;
+    GV_PAD  *pad;
+    LINE_F4 *lines1[2];
+    LINE_F4 *lines2[2];
+    LINE_F4 *lines3[2];
+    LINE_F4 *lines4[2];
+    TILE_1  *tiles[2];
+    POLY_G4 *bg_prim[2];
+    int      delay;      //'delay' in the leaks, but they must mean deltay
+    int      deltax;
+    DVECTOR  pos[9];
+    int      sight_time;
+    int      lockon_time;
+    void    *sight;
+    void    *sgtrect;
+    int      enable_time;
 } Work;
 
 STATIC short word_800AB8EC = 0;
@@ -103,11 +106,11 @@ static void stnsight_act_helper_8006837C( Work *work )
 
     if (!target_800BDF00)
     {
-        work->field_84_4Array[1] = 0;
+        work->lockon_time = 0;
         return;
     }
 
-    iVar1 = work->field_84_4Array[1]++;
+    iVar1 = work->lockon_time++;
 
     if ((GM_PlayerStatus & PLAYER_NOT_SIGHT) != 0)
     {
@@ -139,7 +142,7 @@ static void stnsight_act_helper_80068420( Work *work, u_long *ot )
     int v6;
     int v7;
 
-    pad_status = work->pad_data->status;
+    pad_status = work->pad->status;
     GM_CheckShukanReverse(&pad_status);
 
     if (GV_PauseLevel || ((GM_PlayerStatus & PLAYER_PAD_OFF) != 0))
@@ -147,7 +150,7 @@ static void stnsight_act_helper_80068420( Work *work, u_long *ot )
         pad_status = 0;
     }
 
-    v3 = -work->control->turn.vx;
+    v3 = -work->root_ctrl->turn.vx;
     v4 = 5 * (v3 / 32 / 5);
     v5 = 16 * (v3 / 32 % 5) / 5 + 112;
 
@@ -188,9 +191,9 @@ static void stnsight_act_helper_80068420( Work *work, u_long *ot )
         }
     }
 
-    lines = work->field_30_lines_2Array[GV_Clock];
-    lines2 = work->field_28_lines_2Array[GV_Clock];
-    tiles = work->field_48_tiles_2Array[GV_Clock];
+    lines = work->lines2[GV_Clock];
+    lines2 = work->lines1[GV_Clock];
+    tiles = work->tiles[GV_Clock];
     deltay = work->delay;
 
     MENU_Color(104, 111, 116);
@@ -251,7 +254,7 @@ static void stnsight_act_helper_80068420( Work *work, u_long *ot )
 
 static void stnsight_act_helper_80068798( Work *work, u_long *ot )
 {
-    LINE_F4 *lines = work->field_40_lines_2Array[GV_Clock];
+    LINE_F4 *lines = work->lines4[GV_Clock];
     DVECTOR *pos = work->pos;
     int      dy = work->delay;
     int      dx = work->deltax;
@@ -295,12 +298,12 @@ static void SetMissileRect( Work *work, u_long *ot )
 
     if (amissile_alive_8009F490 != 0)
     {
-        if (++work->field_84_4Array[0] < 28)
+        if (++work->sight_time < 28)
         {
             return;
         }
 
-        lines = work->field_38_lines_2Array[GV_Clock];
+        lines = work->lines3[GV_Clock];
 
         DG_Clip(&DG_Chanl(0)->clip_rect, DG_Chanl(0)->clip_distance);
         SetRotMatrix(&DG_Chanl(0)->eye_inv);
@@ -350,7 +353,7 @@ static void SetMissileRect( Work *work, u_long *ot )
     }
     else
     {
-        work->field_84_4Array[0] = 0;
+        work->sight_time = 0;
     }
 }
 
@@ -362,7 +365,7 @@ static void stnsight_act_helper_80068BF4( Work *work, u_long *ot )
     int             v1;
     unsigned short *s4 = gOldRootCnt_800B1DC8;
     int             uVar9 = s4[0];
-    POLY_G4        *poly = work->field_50_polys_2Array[GV_Clock]; // s5
+    POLY_G4        *poly = work->bg_prim[GV_Clock]; // s5
 
     ++s4;
     for (x = N_ChanlPerfMax - 1; x > 0; --x)
@@ -400,29 +403,26 @@ static void Act( Work *work )
     int     local_20[2];
     u_short pad_status;
 
-    if (work->field_94 > 0)
+    if (work->enable_time > 0)
     {
         if (!GV_PauseLevel)
         {
-            work->field_94--;
+            work->enable_time--;
         }
 
         return;
     }
 
-    if (work->field_84_4Array[2] == 0)
+    if (work->sight == 0)
     {
-        // TODO: fix data
-        work->field_84_4Array[2] =
-            (int)NewSight(STINGER_SIGHT, STINGER_SIGHT, &word_800AB8EC, IT_Scope, NULL);
+        work->sight = NewSight(STINGER_SIGHT, STINGER_SIGHT, &word_800AB8EC, IT_Scope, NULL);
     }
 
-    if (work->field_84_4Array[3] == 0)
+    if (work->sgtrect == 0)
     {
         local_20[0] = COLOR_DARK_CYAN;
         local_20[1] = COLOR_BRIGHT_RED;
-        // todo: fix data.
-        work->field_84_4Array[3] = (int)NewSgtRect3(&word_800AB8EC, 1, local_20, 1);
+        work->sgtrect = NewSgtRect3(&word_800AB8EC, 1, local_20, 1);
     }
 
     ot = DG_ChanlOTag(1);
@@ -439,7 +439,7 @@ static void Act( Work *work )
         return;
     }
 
-    pad_status = work->pad_data->status;
+    pad_status = work->pad->status;
     GM_CheckShukanReverse(&pad_status);
 
     iVar3 = work->delay;
@@ -475,29 +475,29 @@ static void Act( Work *work )
 
 static void Die( Work *work )
 {
-    if (work->field_28_lines_2Array[0])
+    if (work->lines1[0])
     {
-        GV_DelayedFree(work->field_28_lines_2Array[0]);
+        GV_DelayedFree(work->lines1[0]);
     }
 
-    if (work->field_48_tiles_2Array[0])
+    if (work->tiles[0])
     {
-        GV_DelayedFree(work->field_48_tiles_2Array[0]);
+        GV_DelayedFree(work->tiles[0]);
     }
 
-    if (work->field_38_lines_2Array[0])
+    if (work->lines3[0])
     {
-        GV_DelayedFree(work->field_38_lines_2Array[0]);
+        GV_DelayedFree(work->lines3[0]);
     }
 
-    if (work->field_40_lines_2Array[0])
+    if (work->lines4[0])
     {
-        GV_DelayedFree(work->field_40_lines_2Array[0]);
+        GV_DelayedFree(work->lines4[0]);
     }
 
-    if (work->field_50_polys_2Array[0])
+    if (work->bg_prim[0])
     {
-        GV_DelayedFree(work->field_50_polys_2Array[0]);
+        GV_DelayedFree(work->bg_prim[0]);
     }
 
     word_800AB8EC = 0;
@@ -511,25 +511,25 @@ static int stnsight_init_helper_helper_80068F74( Work *work )
     TILE_1  *tiles;
     int      count;
 
-    work->field_28_lines_2Array[0] = lines = GV_Malloc(sizeof(LINE_F4) * 56);
+    work->lines1[0] = lines = GV_Malloc(sizeof(LINE_F4) * 56);
 
     if (!lines)
     {
         return -1;
     }
 
-    work->field_28_lines_2Array[1] = lines + 14;
-    work->field_30_lines_2Array[0] = lines + 28;
-    work->field_30_lines_2Array[1] = lines + 42;
+    work->lines1[1] = lines + 14;
+    work->lines2[0] = lines + 28;
+    work->lines2[1] = lines + 42;
 
-    work->field_48_tiles_2Array[0] = tiles = GV_Malloc(sizeof(TILE_1) * 14);
+    work->tiles[0] = tiles = GV_Malloc(sizeof(TILE_1) * 14);
 
     if (!tiles)
     {
         return -1;
     }
 
-    work->field_48_tiles_2Array[1] = tiles + 7;
+    work->tiles[1] = tiles + 7;
 
     for (count = 0; count < 14; count++)
     {
@@ -559,7 +559,7 @@ static int stnsight_init_helper_helper_80068F74( Work *work )
         lines++;
     }
 
-    tiles = work->field_48_tiles_2Array[0];
+    tiles = work->tiles[0];
 
     for (count = 0; count < 14; count++)
     {
@@ -577,14 +577,14 @@ static int stnsight_init_helper_helper_80069100( Work *work )
     LINE_F4 *lines;
     int      count;
 
-    work->field_38_lines_2Array[0] = lines = GV_Malloc(sizeof(LINE_F4) * 4);
+    work->lines3[0] = lines = GV_Malloc(sizeof(LINE_F4) * 4);
 
     if (!lines)
     {
         return -1;
     }
 
-    work->field_38_lines_2Array[1] = lines + 2;
+    work->lines3[1] = lines + 2;
 
     for (count = 0; count < 4; count++)
     {
@@ -601,14 +601,14 @@ static int stnsight_init_helper_helper_80069184( Work *work )
     LINE_F4 *lines;
     int      count;
 
-    work->field_40_lines_2Array[0] = lines = GV_Malloc(sizeof(LINE_F4) * 6);
+    work->lines4[0] = lines = GV_Malloc(sizeof(LINE_F4) * 6);
 
     if (!lines)
     {
         return -1;
     }
 
-    work->field_40_lines_2Array[1] = lines + 3;
+    work->lines4[1] = lines + 3;
 
     for (count = 0; count < 2; count++)
     {
@@ -633,14 +633,14 @@ static int stnsight_init_helper_helper_80069234( Work *work )
     POLY_G4 *polys;
     int      count;
 
-    work->field_50_polys_2Array[0] = polys = GV_Malloc(sizeof(POLY_G4) * 64);
+    work->bg_prim[0] = polys = GV_Malloc(sizeof(POLY_G4) * 64);
 
     if (!polys)
     {
         return -1;
     }
 
-    work->field_50_polys_2Array[1] = polys + 32;
+    work->bg_prim[1] = polys + 32;
 
     for (count = 0; count < 64; count++)
     {
@@ -660,7 +660,7 @@ static int stnsight_init_helper_helper_80069234( Work *work )
     return 0;
 }
 
-static int GetResources( Work *work, CONTROL *control )
+static int GetResources( Work *work, CONTROL *root_ctrl )
 {
     if (stnsight_init_helper_helper_80068F74(work) < 0)
     {
@@ -700,22 +700,22 @@ static int GetResources( Work *work, CONTROL *control )
     work->pos[7].vy = 123;
     work->pos[8].vx = 174;
     work->pos[8].vy = 120;
-    work->pad_data = GV_PadData;
+    work->pad = GV_PadData;
     work->deltax = 0;
     work->delay = 0;
-    work->control = control;
-    work->field_84_4Array[0] = 0;
-    work->field_84_4Array[1] = 0;
-    work->field_84_4Array[2] = 0;
-    work->field_84_4Array[3] = 0;
-    work->field_94 = 8;
+    work->root_ctrl = root_ctrl;
+    work->sight_time = 0;
+    work->lockon_time = 0;
+    work->sight = NULL;
+    work->sgtrect = NULL;
+    work->enable_time = 8;
 
     return 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-void *NewStnSight( CONTROL *control )
+void *NewStnSight( CONTROL *root_ctrl )
 {
     Work *work;
 
@@ -729,7 +729,7 @@ void *NewStnSight( CONTROL *control )
     {
         GV_SetNamedActor(&work->actor, Act, Die, "stnsight.c");
 
-        if (GetResources(work, control) < 0)
+        if (GetResources(work, root_ctrl) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

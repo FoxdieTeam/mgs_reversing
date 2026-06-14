@@ -35,14 +35,14 @@ extern BLAST_DATA    blast_data_8009F4B8[8];
 typedef struct _Work
 {
     GV_ACT         actor;
-    CONTROL       *control;
-    OBJECT        *parent;
+    CONTROL       *root_ctrl;
+    OBJECT        *root_obj;
     OBJECT_NO_ROTS object;
-    int            num_parent;
+    int            unit;
     u_long        *flags;
     SVECTOR        pos;
-    int            timer;
-    int            grenade_type;
+    int            time;
+    int            type;
     int            has_exploded;
 } Work;
 
@@ -80,36 +80,36 @@ static void SetGrenadeTarget( void )
 
 static void Act( Work *work )
 {
-    unsigned int  parent_objs_flag;
+    unsigned int  root_obj_objs_flag;
     SVECTOR      *svector;
     SVECTOR      *ctrl_pos;
     u_long        flags;
-    int           grenade_type;
+    int           type;
     int           ammo;
     MATRIX       *world;
     SVECTOR       tenage_vec1;
     SVECTOR       tenage_vec2;
     GV_ACT       *tenage;
 
-    GM_CurrentMap = work->control->map->index;
+    GM_CurrentMap = work->root_ctrl->map->index;
     DG_GroupObjsEx( work->object.objs );
-    parent_objs_flag = ( work->parent->objs->flag & 0xFF ) >> 7;
+    root_obj_objs_flag = ( work->root_obj->objs->flag & 0xFF ) >> 7;
 
-    if ( !( parent_objs_flag ) )
+    if ( !( root_obj_objs_flag ) )
     {
         DG_VisibleObjs( work->object.objs );
     }
 
     flags = *work->flags;
-    grenade_type = work->grenade_type;
-    world = &work->parent->objs->objs[ work->num_parent ].world;
+    type = work->type;
+    world = &work->root_obj->objs->objs[ work->unit ].world;
 
     if ( flags & 1 )
     {
         DG_VisibleObjs( work->object.objs );
-        if ( --work->timer < 1 )
+        if ( --work->time < 1 )
         {
-            switch ( grenade_type )
+            switch ( type )
             {
             case GRD_GRENADE:
             case GRD_TBOMB:
@@ -125,15 +125,15 @@ static void Act( Work *work )
                 break;
             default:
             }
-            work->timer = 168;
-            if ( grenade_type != GRD_TBOMB )
+            work->time = 168;
+            if ( type != GRD_TBOMB )
             {
                 --GM_CurrentWeapon;
             }
             work->has_exploded = TRUE;
             flags &= ~( 2 | 4 | 8 );
         }
-        if ( grenade_type == GRD_TBOMB )
+        if ( type == GRD_TBOMB )
         {
             ammo = 1;
         }
@@ -148,7 +148,7 @@ static void Act( Work *work )
                 work->has_exploded = FALSE;
                 return;
             }
-            ctrl_pos = &work->control->mov;
+            ctrl_pos = &work->root_ctrl->mov;
             DG_SetPos2( &ctrl_pos[ 0 ], &ctrl_pos[ 1 ] );
             if ( !( flags & 4 ) )
             {
@@ -177,43 +177,43 @@ static void Act( Work *work )
             tenage_vec1.vz = world->t[ 2 ];
             tenage = NewTenage( &tenage_vec1,
                                 &tenage_vec2,
-                                work->timer,
-                                work->grenade_type,
-                                (int)grenade_model_8009F3E4[ work->grenade_type ] );
+                                work->time,
+                                work->type,
+                                (int)grenade_model_8009F3E4[ work->type ] );
             if ( tenage )
             {
                 DG_InvisibleObjs( work->object.objs );
-                work->timer = 168;
-                if ( grenade_type != GRD_TBOMB )
+                work->time = 168;
+                if ( type != GRD_TBOMB )
                 {
                     GM_CurrentWeapon = --ammo;
                 }
             }
         }
     }
-    else if ( ( grenade_type == GRD_TBOMB ) || ( GM_CurrentWeapon > 0 ) )
+    else if ( ( type == GRD_TBOMB ) || ( GM_CurrentWeapon > 0 ) )
     {
-        if ( work->timer > 120 )
+        if ( work->time > 120 )
         {
-            work->timer--;
+            work->time--;
             DG_InvisibleObjs( work->object.objs );
         }
         else
         {
             DG_VisibleObjs( work->object.objs );
-            work->timer = 120;
+            work->time = 120;
         }
     }
     else
     {
         DG_InvisibleObjs( work->object.objs );
-        work->timer = 120;
+        work->time = 120;
     }
-    if ( parent_objs_flag == 1 )
+    if ( root_obj_objs_flag == 1 )
     {
         DG_InvisibleObjs( work->object.objs );
     }
-    work->pos = work->control->mov;
+    work->pos = work->root_ctrl->mov;
 }
 
 static void Die( Work *work )
@@ -221,7 +221,7 @@ static void Die( Work *work )
     GM_FreeObject( (OBJECT *)&work->object );
 }
 
-static int GetResources( Work *work, OBJECT *parent, int num_parent, int grd_type )
+static int GetResources( Work *work, OBJECT *root_obj, int unit, int grd_type )
 {
     OBJECT_NO_ROTS *obj;
 
@@ -231,14 +231,14 @@ static int GetResources( Work *work, OBJECT *parent, int num_parent, int grd_typ
     if ( !obj->objs )
         return -1;
 
-    GM_ConfigObjectRoot( (OBJECT *)obj, parent, num_parent );
+    GM_ConfigObjectRoot( (OBJECT *)obj, root_obj, unit );
     return 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
-                          u_long *flags, int which_side, int grd_type )
+static void *InitGrenade( CONTROL *root_ctrl, OBJECT *root_obj, int unit,
+                          u_long *flags, int side, int grd_type )
 {
     Work *work;
 
@@ -246,20 +246,20 @@ static void *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
     if ( work )
     {
         GV_SetNamedActor( &work->actor, &Act, &Die, "grenade.c");
-        if ( GetResources( work, parent, num_parent, grd_type ) < 0 )
+        if ( GetResources( work, root_obj, unit, grd_type ) < 0 )
         {
             GV_DestroyActor( &work->actor );
             return NULL;
         }
 
-        work->control = control;
-        work->parent = parent;
-        work->num_parent = num_parent;
+        work->root_ctrl = root_ctrl;
+        work->root_obj = root_obj;
+        work->unit = unit;
         work->flags = flags;
-        work->timer = 120;
-        work->grenade_type = grd_type;
+        work->time = 120;
+        work->type = grd_type;
         work->has_exploded = FALSE;
-        work->pos = control->mov;
+        work->pos = root_ctrl->mov;
     }
 
     GM_MagazineMax = 0;
@@ -268,22 +268,22 @@ static void *InitGrenade( CONTROL *control, OBJECT *parent, int num_parent,
     return (void *)work;
 }
 
-void *NewGrenade( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side )
+void *NewGrenade( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side )
 {
-    return InitGrenade( control, parent, num_parent, flags, which_side, GRD_GRENADE );
+    return InitGrenade( root_ctrl, root_obj, unit, flags, side, GRD_GRENADE );
 }
 
-void *NewStanGrenade( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side )
+void *NewStanGrenade( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side )
 {
-    return InitGrenade( control, parent, num_parent, flags, which_side, GRD_STUN );
+    return InitGrenade( root_ctrl, root_obj, unit, flags, side, GRD_STUN );
 }
 
-void *NewChaffGrenade( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side )
+void *NewChaffGrenade( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side )
 {
-    return InitGrenade( control, parent, num_parent, flags, which_side, GRD_CHAFF );
+    return InitGrenade( root_ctrl, root_obj, unit, flags, side, GRD_CHAFF );
 }
 
-void *NewTimerBomb( CONTROL *control, OBJECT *parent, int num_parent, u_long *flags, int which_side )
+void *NewTimerBomb( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side )
 {
-    return InitGrenade( control, parent, num_parent, flags, which_side, GRD_TBOMB );
+    return InitGrenade( root_ctrl, root_obj, unit, flags, side, GRD_TBOMB );
 }
