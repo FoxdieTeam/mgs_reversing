@@ -40,7 +40,7 @@ typedef struct _Work
     TARGET         *field_8FC;      /* 0x8FC */
     TARGET          field_900;      /* 0x900 */
     char            pad_948[0x954 - 0x948];
-    int             field_954;      /* 0x954 */
+    void          (*field_954)(struct _Work *);  /* 0x954 */
     int             field_958;      /* 0x958 */
     int             field_95C;      /* 0x95C */
     int             field_960;      /* 0x960 */
@@ -102,6 +102,9 @@ extern int s03d_dword_800C3A7C;
 void AN_Fog(SVECTOR *svec);
 extern void NewBlood(MATRIX *, int);
 
+void s03d_800CBE2C(Work *work);
+void s03d_800CBEF4(Work *work);
+void s03d_800CC05C(Work *work);
 void s03d_800CC374(Work *work);
 int  s03d_800CC4EC(Work *work, int arg);
 void s03d_800CC984(Work *work);
@@ -111,7 +114,36 @@ int  s03d_800CD984(Work *work);
 
 void Zako_800CCA64(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CB9E8.s")
+int Zako_800CB9E8(Work *work)
+{
+    int flags = work->field_974;
+
+    if (flags & 1)
+    {
+        work->field_954 = s03d_800CC05C;
+        work->field_95C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return 1;
+    }
+    if (flags & 4)
+    {
+        work->field_954 = s03d_800CBE2C;
+        work->field_95C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return 1;
+    }
+    if (flags & 8)
+    {
+        work->field_954 = s03d_800CBEF4;
+        work->field_95C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return 1;
+    }
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBA60.s")
 void Zako_800CBAEC(Work *work)
 {
@@ -130,6 +162,9 @@ void Zako_800CBAEC(Work *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBB2C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBC10.s")
+#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBE2C.s")
+#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBEF4.s")
+#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC05C.s")
 void Zako_800CC244(Work *work, int index, int count)
 {
     MATRIX m;
