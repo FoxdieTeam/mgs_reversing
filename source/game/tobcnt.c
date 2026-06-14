@@ -210,8 +210,6 @@ static short tobcnt_logo_data[] = {
      28, 129, 285, 129  /* 165 */
 };
 
-short s01a_dword_800C381A = 0x800C;
-
 /*---------------------------------------------------------------------------*/
 
 static char *SetOptionPrim( char *buf, int x, int y, int name, unsigned int color, u_long *ot )

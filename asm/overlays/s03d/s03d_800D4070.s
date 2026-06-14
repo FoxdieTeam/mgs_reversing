@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s03d_800D4070
+s03d_800D4070:
+	dw 0x3C02800E ; 800D4070
+	dw 0x03E00008 ; 800D4074
+	dw 0xAC44C2EC ; 800D4078
+	dw 0x3C02800E ; 800D407C
+	dw 0x03E00008 ; 800D4080
+	dw 0xAC44C2E8 ; 800D4084
