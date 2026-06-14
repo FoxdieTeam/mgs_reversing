@@ -267,4 +267,11 @@ void ZakoCom_800D58D4(void)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D5938.s")
+void ZakoCom_800D5938(void)
+{
+    if (s03d_dword_800C3BC8 != 0 && --s03d_dword_800C3BC8 == 0)
+    {
+        s03d_dword_800C3BCC = 0;
+        s03d_dword_800C3BC4 = 0;
+    }
+}
