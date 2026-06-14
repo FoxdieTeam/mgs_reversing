@@ -210,7 +210,24 @@ int ZakoCom_800D4B08(int a, int b)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4B84.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4CE0.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4DD4.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4E48.s")
+int ZakoCom_800D4E48(char *str)
+{
+    int count = 0;
+
+    if (str != 0)
+    {
+        do
+        {
+            int proc = GCL_StrToInt(str);
+
+            str = GCL_NextStr();
+            GCL_ExecProc(proc, NULL);
+            count++;
+        } while (str != 0);
+    }
+
+    return count;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4EAC.s")
 int ZakoCom_800D5484(int arg0, int *out)
 {
