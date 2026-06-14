@@ -2,7 +2,7 @@
 #include "libgcl/libgcl.h"
 #include "menu/radio.h"
 
-void *NewMenuLoad(int name, int where)
+void *NewLoadData(int name, int where)
 {
     int proc_id;
     char *code;
@@ -23,7 +23,7 @@ static void Act(GV_ACT *work)
     }
 }
 
-void *NewMenuSave(int name, int where)
+void *NewSaveData(int name, int where)
 {
     int proc_id;
     char *code;

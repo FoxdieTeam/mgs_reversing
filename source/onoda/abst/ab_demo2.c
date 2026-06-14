@@ -6,12 +6,6 @@
 
 #include <stdio.h>
 
-typedef struct _Unknown2
-{
-    short x, y;
-    int   color;
-} Unknown2;
-
 typedef struct _Unknown
 {
     SPRT  text_sprt[2];
@@ -20,59 +14,27 @@ typedef struct _Unknown
     SPRT  text_sprt_outline2[2][4];
     SPRT  text_sprt3[2];
     SPRT  text_sprt4[2];
-    /* +0x1E0 */ char *string;
-    /* +0x1E4 */ short num;
-    /* +0x1E6 */ short num2;
-    /* +0x1E8 */ RECT  rect;
-    /* +0x1F0 */ short unk1;
-    /* +0x1F2 */ short unk2;
-    /* +0x1F4 */ short x0;
-    /* +0x1F6 */ short y0;
-    /* +0x1F8 */ short cx;
-    /* +0x1FA */ short cy;
-    /* +0x1FC */ short unk3;
-    /* +0x1FE */ short unk4;
-    /* +0x200 */ short x1;
-    /* +0x202 */ short y1;
+    char *string;
+    short num;
+    short num2;
+    RECT  rect;
+    short unk1;
+    short unk2;
+    short x0;
+    short y0;
+    short cx;
+    short cy;
+    short unk3;
+    short unk4;
+    short x1;
+    short y1;
 } Unknown;
 
-typedef struct _Work
+typedef struct _Unknown2
 {
-    /* +0x0000 */ GV_ACT   actor;
-    /* +0x0020 */ int      end_proc;
-    /* +0x0024 */ int      field_24;
-    /* +0x0028 */ GV_PAD  *pad;
-    /* +0x002C */ DG_PRIM *prim1;
-    /* +0x0030 */ DG_PRIM *prim2;
-    /* +0x0034 */ POLY_FT4 polys1[8];
-    /* +0x0174 */ POLY_FT4 polys2[9];
-    /* +0x02DC */ int      attrs1[8];
-    /* +0x02FC */ int      attrs2[9];
-    /* +0x0320 */ int      field_320;
-    /* +0x0324 */ KCB      kcb[24];
-    /* +0x0744 */ char     pad_744[0x758 - 0x744];
-    /* +0x0758 */ DR_TPAGE tpage[12];
-    /* +0x07B8 */ Unknown  field_7B8[12];
-    /* +0x1FE8 */ char     pad_1FE8[0x3818 - 0x1FE8];
-    /* +0x3818 */ int      font_x;
-    /* +0x381C */ int      font_y;
-    /* +0x3820 */ int      clut_x;
-    /* +0x3824 */ int      clut_y;
-    /* +0x3828 */ int      field_3828;
-    /* +0x382C */ char     pad_382C[0x3830 - 0x382C];
-    /* +0x3830 */ int      field_3830;
-    /* +0x3834 */ int      field_3834;
-    /* +0x3838 */ char     pad_3838[0x3858 - 0x3838];
-    /* +0x3858 */ MenuPrim primbuf;
-    /* +0x386C */ char     field_386C[0x2000];
-    /* +0x586C */ char     field_586C[0x2000];
-    /* +0x786C */ int      field_786C;
-    /* +0x7870 */ int      field_7870;
-    /* +0x7874 */ int      field_7874;
-    /* +0x7878 */ int      field_7878;
-    /* +0x787C */ int      field_787C;
-    /* +0x7880 */ char     pad_7880[0x7884 - 0x7880];
-} Work;
+    short x, y;
+    int   color;
+} Unknown2;
 
 typedef struct _AbstRes
 {
@@ -81,15 +43,171 @@ typedef struct _AbstRes
     int size;
 } AbstRes;
 
-extern int abst_dword_800C3CD0;
-extern signed char abst_dword_800C3D48[];
-extern AbstRes abst_dword_800C3D50[];
+typedef struct _Work
+{
+    GV_ACT   actor;
+    int      end_proc;
+    int      field_24;
+    GV_PAD  *pad;
+    DG_PRIM *prim1;
+    DG_PRIM *prim2;
+    POLY_FT4 polys1[8];
+    POLY_FT4 polys2[9];
+    int      attrs1[8];
+    int      attrs2[9];
+    int      field_320;
+    KCB      kcb[24];
+    char     pad_744[0x758 - 0x744];
+    DR_TPAGE tpage[12];
+    Unknown  field_7B8[12];
+    char     pad_1FE8[0x3818 - 0x1FE8];
+    int      font_x;
+    int      font_y;
+    int      clut_x;
+    int      clut_y;
+    int      field_3828;
+    char     pad_382C[0x3830 - 0x382C];
+    int      field_3830;
+    int      field_3834;
+    char     pad_3838[0x3858 - 0x3838];
+    MenuPrim primbuf;
+    char     field_386C[0x2000];
+    char     field_586C[0x2000];
+    int      field_786C;
+    int      field_7870;
+    int      field_7874;
+    int      field_7878;
+    int      field_787C;
+    char     pad_7880[0x7884 - 0x7880];
+} Work;
 
-/* forward decls: abst_800CB73C uses these before they are defined below */
-extern const char abst_dword_800CE8B4[];
-extern const char abst_dword_800CE8B8[];
+Unknown2 abst_dword_800C3CD0[] =
+{
+    {0x0058, 0x00B4, 0x00006739},
+    {0x0008, 0x0023, 0},
+    {0x0008, 0x0039, 0},
+    {0x0008, 0x004F, 0},
+    {0x0008, 0x0065, 0},
+    {0x0008, 0x007B, 0},
+    {0x0008, 0x0091, 0},
+    {0x0008, 0x00A7, 0},
+    {0x0008, 0x0023, 0},
+    {0x0008, 0x0039, 0},
+    {0x0008, 0x004F, 0},
+    {0x0008, 0x0065, 0},
+    {0x0008, 0x007B, 0},
+    {0x0008, 0x0091, 0},
+    {0x0008, 0x00A7, 0},
+};
 
-void abst_800CA568(Work *work, int index)
+signed char abst_dword_800C3D48[] = {-1, 0, 1, 0, 0, 1, 0, -1};
+
+// TODO: give these proper names
+AbstRes abst_dword_800C3D50[] =
+{
+    {0x00000FD3, 0x00000837, 0x00002657},
+    {0x00000FD9, 0x0000083C, 0x00002E07},
+    {0x000061D1, 0x00000842, 0x000017D6},
+    {0x000061D7, 0x00000845, 0x00002478},
+    {0x000088D4, 0x0000084A, 0x0000276E},
+    {0x000088DA, 0x0000084F, 0x00000544},
+    {0x000035A6, 0x00000850, 0x000021E8},
+    {0x000035AC, 0x00000855, 0x000025DB},
+    {0x000059BF, 0x0000085A, 0x00002D5A},
+    {0x000059C5, 0x00000860, 0x000006DF},
+    {0x0000D1AF, 0x00000861, 0x000026FD},
+    {0x0000D1B5, 0x00000866, 0x000026C0},
+    {0x0000AD18, 0x0000086B, 0x00002467},
+    {0x0000AD1E, 0x00000870, 0x00001890},
+    {0x00000F8F, 0x00000874, 0x0000188C},
+    {0x00000F95, 0x00000878, 0x00002CC3},
+    {0x0000335B, 0x0000087E, 0x0000255C},
+    {0x00003361, 0x00000883, 0x000021BE},
+    {0x000093D1, 0x00000888, 0x000026D9},
+    {0x000093D7, 0x0000088D, 0x00002824},
+    {0x000094D4, 0x00000893, 0x000024D9},
+    {0x000094DA, 0x00000898, 0x0000304C},
+    {0x0000494D, 0x0000089F, 0x00001AB5},
+    {0x00004953, 0x000008A3, 0x00002546},
+    {0x00004DBE, 0x000008A8, 0x000027B1},
+    {0x00004DC4, 0x000008AD, 0x00001D11},
+    {0x000018A3, 0x000008B1, 0x00001928},
+    {0x000018A9, 0x000008B5, 0x00002EB7},
+    {0x000086E7, 0x000008BB, 0x0000209B},
+    {0x000086ED, 0x000008C0, 0x000021AA},
+    {0x00005E14, 0x000008C5, 0x00002CD1},
+    {0x00005E1A, 0x000008CB, 0x000029B9},
+    {0x000069AB, 0x000008D1, 0x000031FB},
+    {0x000069B1, 0x000008D8, 0x000034F1},
+    {0x00008115, 0x000008DF, 0x00002CCC},
+    {0x0000811B, 0x000008E5, 0x000020D7},
+    {0x0000CE7C, 0x000008EA, 0x000020BD},
+    {0x0000CE82, 0x000008EF, 0x00002345},
+    {0x00007990, 0x000008F4, 0x000029C8},
+    {0x00007996, 0x000008FA, 0x0000221E},
+    {0x0000B0A2, 0x000008FF, 0x00001E4A},
+    {0x0000B0A8, 0x00000903, 0x00002848},
+    {0x00009166, 0x00000909, 0x00001AE9},
+    {0x0000916C, 0x0000090D, 0x00002EA3},
+    {0x00004B62, 0x00000913, 0x000028A1},
+    {0x00004B68, 0x00000919, 0x00000E9B},
+    {0x0000AFBE, 0x0000091B, 0x00001F90},
+    {0x0000AFC4, 0x0000091F, 0x00001770},
+    {0x0000104B, 0x00000922, 0x000027E7},
+    {0x00001051, 0x00000927, 0x000012C2},
+    {0x0000A854, 0x0000092A, 0x00001B64},
+    {0x0000A85A, 0x0000092E, 0x00001777},
+    {0x0000844F, 0x00000931, 0x00002DB4},
+    {0x00008455, 0x00000937, 0x00002931},
+    {0x00008DFD, 0x0000093D, 0x0000278A},
+    {0x00008E03, 0x00000942, 0x000021A7},
+    {0x0000B2D9, 0x00000947, 0x0000199D},
+    {0x0000B2DF, 0x0000094B, 0x00002A45},
+    {0x00008B76, 0x00000951, 0x000027C5},
+    {0x00008B7C, 0x00000956, 0x00000F3C},
+    {0x0000C2B0, 0x00000958, 0x00001E66},
+    {0x0000C2B6, 0x0000095C, 0x00001F25},
+    {0x0000D28A, 0x00000960, 0x00002DDE},
+    {0x0000D290, 0x00000966, 0x000015CB},
+    {0x00001695, 0x00000969, 0x000020EE},
+    {0x0000169B, 0x0000096E, 0x00000D3D},
+    {0x00007F45, 0x00000970, 0x000014B9},
+    {0x00007F4B, 0x00000973, 0x00002D84},
+    {0x0000CBCC, 0x00000979, 0x00002011},
+    {0x0000CBD2, 0x0000097E, 0x00002044},
+    {0x0000A02C, 0x00000983, 0x000028CF},
+    {0x0000A032, 0x00000989, 0x000028EB},
+    {0x00009664, 0x0000098F, 0x00002D22},
+    {0x0000966A, 0x00000995, 0x000020C4},
+    {0x00001953, 0x0000099A, 0x000028E7},
+    {0x00001959, 0x000009A0, 0x00003932},
+    {0x00006B08, 0x000009A8, 0x000030AD},
+    {0x00006B0E, 0x000009AF, 0x0000252C},
+    {0x0000876C, 0x000009B4, 0x00001EB8},
+    {0x00008772, 0x000009B8, 0x00002582},
+    {0x0000FC00, 0x000009BD, 0x00002AD0},
+    {0x0000FC06, 0x000009C3, 0x00002631},
+    {0x00006975, 0x000009C8, 0x00002B8E},
+    {0x0000697B, 0x000009CE, 0x00002DAE},
+    {0x0000783A, 0x000009D4, 0x0000260B},
+    {0x00007840, 0x000009D9, 0x000024FD},
+    {0x00009181, 0x000009DE, 0x00001CBF},
+    {0x00009187, 0x000009E2, 0x000029C6},
+    {0x00009295, 0x000009E8, 0x0000232F},
+    {0x0000929B, 0x000009ED, 0x00001AF0},
+    {0x00007953, 0x000009F1, 0x00002862},
+    {0x00007959, 0x000009F7, 0x000006F8},
+    {0x00005083, 0x000009F8, 0x00002902},
+    {0x00005089, 0x000009FE, 0x00001801},
+    {0x0000F1E2, 0x00000A02, 0x00000F72},
+    {0x0000F1E8, 0x00000A04, 0x000025C2},
+    {0x00002EC5, 0x00000A09, 0x00002DE5},
+    {0x00002ECB, 0x00000A0F, 0x00001EAC},
+    {0x00002F87, 0x00000A13, 0x00003148},
+    {0x00002F8D, 0x00000A1A, 0x00001FA1},
+};
+
+static void abst_800CA568(Work *work, int index)
 {
     RECT  rect;
     KCB  *kcb;
@@ -128,11 +246,11 @@ void abst_800CA568(Work *work, int index)
     buf = GV_AllocMemory(GV_NORMAL_MEMORY, font_get_buffer_size(kcb));
     font_set_buffer(kcb, buf);
 
-    font_set_color(kcb, 0, ((Unknown2 *)&abst_dword_800C3CD0)[index].color, 0);
+    font_set_color(kcb, 0, abst_dword_800C3CD0[index].color, 0);
     font_clut_update(kcb);
 }
 
-void abst_800CA6FC(Work *work, int index)
+static void abst_800CA6FC(Work *work, int index)
 {
     KCB *kcb;
 
@@ -146,21 +264,21 @@ void abst_800CA6FC(Work *work, int index)
         work->field_7B8[index].unk1 = 256;
         work->field_7B8[index].unk2 = kcb->max_height - 1;
 
-        work->field_7B8[index].rect.x = ((Unknown2 *)&abst_dword_800C3CD0)[index].x;
-        work->field_7B8[index].rect.y = ((Unknown2 *)&abst_dword_800C3CD0)[index].y;
+        work->field_7B8[index].rect.x = abst_dword_800C3CD0[index].x;
+        work->field_7B8[index].rect.y = abst_dword_800C3CD0[index].y;
         work->field_7B8[index].unk3 = 128;
 
         work->field_7B8[index].unk4 = kcb->max_height - 1;
 
-        work->field_7B8[index].rect.w = ((Unknown2 *)&abst_dword_800C3CD0)[index].x + 256;
+        work->field_7B8[index].rect.w = abst_dword_800C3CD0[index].x + 256;
 
-        work->field_7B8[index].rect.h = ((Unknown2 *)&abst_dword_800C3CD0)[index].y;
+        work->field_7B8[index].rect.h = abst_dword_800C3CD0[index].y;
         work->field_7B8[index].string = NULL;
         work->field_7B8[index].num = 1;
     }
 }
 
-void abst_800CA7F0(Work *work, u_long *ot, int arg2)
+static void abst_800CA7F0(Work *work, u_long *ot, int arg2)
 {
     int       i, j;
     SPRT     *sprt;
@@ -340,18 +458,18 @@ void abst_800CA7F0(Work *work, u_long *ot, int arg2)
     }
 }
 
-void abst_800CB1E0(Work *work, int index, int col)
+static void abst_800CB1E0(Work *work, int index, int col)
 {
     font_set_color(&work->kcb[index], 0, col, 0);
     font_clut_update(&work->kcb[index]);
 }
 
-void *abst_800CB230(KCB *kcb)
+static void *abst_800CB230(KCB *kcb)
 {
     return kcb->cbuffer;
 }
 
-void abst_800CB23C(Work *work)
+static void abst_800CB23C(Work *work)
 {
     POLY_FT4 *src;
     POLY_FT4 *dst;
@@ -378,7 +496,7 @@ void abst_800CB23C(Work *work)
     }
 }
 
-void abst_800CB360(Work *work, int x, int y, int w, int h, int color, int sel)
+static void abst_800CB360(Work *work, int x, int y, int w, int h, int color, int sel)
 {
     POLY_FT4 *poly;
     int       i;
@@ -433,7 +551,8 @@ void abst_800CB360(Work *work, int x, int y, int w, int h, int color, int sel)
         setXY4(&poly[8], xi, yi, xrl, yi, xi, ybl, xrl, ybl);
     }
 }
-void abst_800CB644(MenuPrim *prim, int x, int y, int w, int h)
+
+static void abst_800CB644(MenuPrim *prim, int x, int y, int w, int h)
 {
     TILE *pTile;
 
@@ -452,7 +571,7 @@ void abst_800CB644(MenuPrim *prim, int x, int y, int w, int h)
     radio_draw_face_frame(prim, x, y, w, h);
 }
 
-void abst_800CB73C(Work *work)
+static void abst_800CB73C(Work *work)
 {
     int r, g, b;
 
@@ -472,26 +591,18 @@ void abst_800CB73C(Work *work)
 
     MENU_Locate(145, 202, 16);
     MENU_Color(r, g, b);
-    MENU_Printf(abst_dword_800CE8B4, work->field_7878);
+    MENU_Printf("%d", work->field_7878);
 
     MENU_Locate(156, 202, 16);
     MENU_Color(r, g, b);
-    MENU_Printf(abst_dword_800CE8B8);
+    MENU_Printf("/");
 
     MENU_Locate(167, 202, 16);
     MENU_Color(r, g, b);
-    MENU_Printf(abst_dword_800CE8B4, 2);
+    MENU_Printf("%d", 2);
 }
 
-/* ---- group1 consts, placed BEFORE abst_800CB8A4 (0x800CE8B4..0x800CE8D8) ---- */
-const char abst_dword_800CE8B4[] = "%d";
-const char abst_dword_800CE8B8[] = "/";
-const char abst_dword_800CE8BC[] = "READ MISSION LOG?";
-const char abst_dword_800CE8D0[] = "YES";
-const char abst_dword_800CE8D4[] = "NO";
-const char abst_dword_800CE8D8[] = {0x0, 0x0, 0x0, 0x0}; /* pads the jump table to 0x800CE8DC */
-
-void abst_800CB8A4(Work *work)
+static void Act(Work *work)
 {
     int       press;
     int       i;
@@ -513,47 +624,47 @@ void abst_800CB8A4(Work *work)
         {
             MENU_Locate(90, 90, 0x10);
             MENU_Color(192, 192, 192);
-            MENU_Printf(abst_dword_800CE8BC);
+            MENU_Printf("READ MISSION LOG?");
             abst_800CB644(&work->primbuf, 92, 85, 130, 15);
         }
         else if (work->field_3828 < 10)
         {
             MENU_Locate(90, 90 - (work->field_3828 - 4) * 8, 0x10);
             MENU_Color(192, 192, 192);
-            MENU_Printf(abst_dword_800CE8BC);
+            MENU_Printf("READ MISSION LOG?");
             abst_800CB644(&work->primbuf, 92, 85, 130, 15);
         }
         else if (work->field_3828 == 10)
         {
             MENU_Locate(90, 50, 0x10);
             MENU_Color(86, 137, 116);
-            MENU_Printf(abst_dword_800CE8BC);
+            MENU_Printf("READ MISSION LOG?");
             MENU_Locate(100, 105, 0x10);
             MENU_Color(192, 192, 192);
-            MENU_Printf(abst_dword_800CE8D0);
+            MENU_Printf("YES");
             MENU_Locate(200, 105, 0x10);
             MENU_Color(46, 72, 61);
-            MENU_Printf(abst_dword_800CE8D4);
+            MENU_Printf("NO");
             abst_800CB644(&work->primbuf, 92, 85, 130, 15);
         }
         else if (work->field_3828 < 14)
         {
             MENU_Locate(90, 50, 0x10);
             MENU_Color(86, 137, 116);
-            MENU_Printf(abst_dword_800CE8BC);
+            MENU_Printf("READ MISSION LOG?");
             MENU_Locate(100, 105, 0x10);
             MENU_Color(192, 192, 192);
-            MENU_Printf(abst_dword_800CE8D0);
+            MENU_Printf("YES");
             MENU_Locate(200, 105, 0x10);
             MENU_Color(46, 72, 61);
-            MENU_Printf(abst_dword_800CE8D4);
+            MENU_Printf("NO");
             abst_800CB644(&work->primbuf, 92, (work->field_3828 - 10) * 5 + 85, 130 - (work->field_3828 - 10) * 30, 15);
         }
         else
         {
             MENU_Locate(90, 50, 0x10);
             MENU_Color(86, 137, 116);
-            MENU_Printf(abst_dword_800CE8BC);
+            MENU_Printf("READ MISSION LOG?");
             MENU_Locate(100, 105, 0x10);
             if (work->field_3834 == 0)
             {
@@ -563,7 +674,7 @@ void abst_800CB8A4(Work *work)
             {
                 MENU_Color(46, 72, 61);
             }
-            MENU_Printf(abst_dword_800CE8D0);
+            MENU_Printf("YES");
             MENU_Locate(200, 105, 0x10);
             if (work->field_3834 == 1)
             {
@@ -573,7 +684,7 @@ void abst_800CB8A4(Work *work)
             {
                 MENU_Color(46, 72, 61);
             }
-            MENU_Printf(abst_dword_800CE8D4);
+            MENU_Printf("NO");
             if (work->field_3834 == 0)
             {
                 abst_800CB644(&work->primbuf, 92, 100, 40, 15);
@@ -1182,27 +1293,7 @@ void abst_800CB8A4(Work *work)
     abst_800CB23C(work);
 }
 
-/* ---- group2 consts, placed AFTER abst_800CB8A4 (0x800CE8F4..0x800CE9CC) ---- */
-const char abst_dword_800CE8F4[] = "Texture LoadImage Finish!\n";
-const char abst_dword_800CE910[] = "Cannot Find Texture\n";
-const char abst_dword_800CE928[] = "Cannot Set Texture!!\n";
-const char abst_dword_800CE940[] = "abst_ud_l";
-const char abst_dword_800CE94C[] = "abst_ud_r";
-const char abst_dword_800CE958[] = "abst_dd_l2";
-const char abst_dword_800CE964[] = "abst_dd_r1";
-const char abst_dword_800CE970[] = "abst_dd_r2";
-const char abst_dword_800CE97C[] = "abst_dd_l1";
-const char abst_dword_800CE988[] = "cur_lu";
-const char abst_dword_800CE990[] = "cur_ru";
-const char abst_dword_800CE998[] = "cur_ld";
-const char abst_dword_800CE9A0[] = "cur_rd";
-const char abst_dword_800CE9A8[] = "cur_u";
-const char abst_dword_800CE9B0[] = "cur_d";
-const char abst_dword_800CE9B8[] = "cur_l";
-const char abst_dword_800CE9C0[] = "cur_r";
-const char abst_dword_800CE9C8[] = "cur_c";
-
-void abst_800CCC20(Work *work)
+static void Die(Work *work)
 {
     int   i;
     void *buf;
@@ -1217,7 +1308,7 @@ void abst_800CCC20(Work *work)
     }
 }
 
-void abst_800CCCBC(Work *work, int opt)
+static void abst_800CCCBC(Work *work, int opt)
 {
     AbstRes *res;
     int      i;
@@ -1250,16 +1341,16 @@ void abst_800CCCBC(Work *work, int opt)
         }
 
         DG_LoadInitPcx(buf, opt);
-        printf((char *)abst_dword_800CE8F4);
+        printf("Texture LoadImage Finish!\n");
         GV_Free(buf);
     }
     else
     {
-        printf((char *)abst_dword_800CE910);
+        printf("Cannot Find Texture\n");
     }
 }
 
-void abst_800CCDA8(void *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
+static void abst_800CCDA8(void *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe)
 {
     setPolyFT4(poly);
     setRGB0(poly, 0, 0, 0);
@@ -1281,7 +1372,7 @@ static inline void InitTex(POLY_FT4 *poly, DG_TEX *tex, int x, int y)
     poly->clut = tex->clut;
 }
 
-void abst_800CCE14(void *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int mode)
+static void Init_Res(void *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int mode)
 {
     DG_TEX *tex;
 
@@ -1306,7 +1397,7 @@ void abst_800CCE14(void *work, int name, POLY_FT4 *poly, int x0, int y0, int x1,
     }
 }
 
-int abst_800CCF98(Work *work, int where)
+static int GetResources(Work *work, int where)
 {
     char     *opt;
     POLY_FT4 *poly;
@@ -1343,11 +1434,11 @@ int abst_800CCF98(Work *work, int where)
     if (opt)
     {
         abst_800CCCBC(work, GCL_StrToInt(opt));
-        abst_800CCE14(work, GCL_StrToInt(opt), poly, -160, -82, 0, 82, 0, 0);
+        Init_Res(work, GCL_StrToInt(opt), poly, -160, -82, 0, 82, 0, 0);
     }
     else
     {
-        printf((char *)abst_dword_800CE928);
+        printf("Cannot Set Texture!!\n");
     }
 
     poly++;
@@ -1358,51 +1449,51 @@ int abst_800CCF98(Work *work, int where)
     if (opt)
     {
         abst_800CCCBC(work, GCL_StrToInt(opt));
-        abst_800CCE14(work, GCL_StrToInt(opt), poly, 0, -82, 160, 82, 0, 0);
+        Init_Res(work, GCL_StrToInt(opt), poly, 0, -82, 160, 82, 0, 0);
     }
     else
     {
-        printf((char *)abst_dword_800CE928);
+        printf("Cannot Set Texture!!\n");
     }
 
     poly++;
     work->attrs1[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE940), poly, -160, -112, 0, -82, 0, 0);
+    Init_Res(work, GV_StrCode("abst_ud_l"), poly, -160, -112, 0, -82, 0, 0);
 
     poly++;
     work->attrs1[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE94C), poly, 0, -112, 160, -82, 0, 0);
+    Init_Res(work, GV_StrCode("abst_ud_r"), poly, 0, -112, 160, -82, 0, 0);
 
     poly++;
     work->attrs1[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE958), poly, -160, 87, 0, 117, 1, 0);
+    Init_Res(work, GV_StrCode("abst_dd_l2"), poly, -160, 87, 0, 117, 1, 0);
     setRGB0(poly, 86, 137, 116);
 
     poly++;
     work->attrs1[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE964), poly, 0, 87, 60, 117, 1, 0);
+    Init_Res(work, GV_StrCode("abst_dd_r1"), poly, 0, 87, 60, 117, 1, 0);
     setRGB0(poly, 86, 137, 116);
 
     poly++;
     work->attrs1[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE970), poly, 60, 87, 160, 117, 1, 0);
+    Init_Res(work, GV_StrCode("abst_dd_r2"), poly, 60, 87, 160, 117, 1, 0);
     setRGB0(poly, 86, 137, 116);
 
     poly++;
     work->attrs1[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE97C), poly, -160, 87, 0, 117, 1, 0);
+    Init_Res(work, GV_StrCode("abst_dd_l1"), poly, -160, 87, 0, 117, 1, 0);
     setRGB0(poly, 86, 137, 116);
 
     work->attrs1[i] = 0;
@@ -1410,55 +1501,55 @@ int abst_800CCF98(Work *work, int where)
     poly = work->polys2;
     i = 0;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE988), poly, -33, 81, -25, 89, 0, 0);
+    Init_Res(work, GV_StrCode("cur_lu"), poly, -33, 81, -25, 89, 0, 0);
 
     poly++;
     work->attrs2[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE990), poly, 25, 81, 33, 89, 0, 0);
+    Init_Res(work, GV_StrCode("cur_ru"), poly, 25, 81, 33, 89, 0, 0);
 
     poly++;
     work->attrs2[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE998), poly, -33, 97, -25, 105, 0, 0);
+    Init_Res(work, GV_StrCode("cur_ld"), poly, -33, 97, -25, 105, 0, 0);
 
     poly++;
     work->attrs2[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE9A0), poly, 25, 97, 33, 105, 0, 0);
+    Init_Res(work, GV_StrCode("cur_rd"), poly, 25, 97, 33, 105, 0, 0);
 
     poly++;
     work->attrs2[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE9A8), poly, -25, 81, 25, 89, 0, 2);
+    Init_Res(work, GV_StrCode("cur_u"), poly, -25, 81, 25, 89, 0, 2);
 
     poly++;
     work->attrs2[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE9B0), poly, -25, 97, 25, 105, 0, 2);
+    Init_Res(work, GV_StrCode("cur_d"), poly, -25, 97, 25, 105, 0, 2);
 
     poly++;
     work->attrs2[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE9B8), poly, -33, 89, -25, 97, 0, 1);
+    Init_Res(work, GV_StrCode("cur_l"), poly, -33, 89, -25, 97, 0, 1);
 
     poly++;
     work->attrs2[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE9C0), poly, 25, 89, 33, 97, 0, 1);
+    Init_Res(work, GV_StrCode("cur_r"), poly, 25, 89, 33, 97, 0, 1);
 
     poly++;
     work->attrs2[i] = 0;
     i++;
 
-    abst_800CCE14(work, GV_StrCode((char *)abst_dword_800CE9C8), poly, -25, 89, 25, 97, 0, 3);
+    Init_Res(work, GV_StrCode("cur_c"), poly, -25, 89, 25, 97, 0, 3);
 
     work->attrs2[i] = 0;
 
@@ -1568,12 +1659,12 @@ void *NewAbstractDemo2(int name, int where)
     Work *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
-    
+
     work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(work, abst_800CB8A4, abst_800CCC20, "ab_demo2.c");
-        if (abst_800CCF98(work, where) < 0)
+        GV_SetNamedActor(work, Act, Die, "ab_demo2.c");
+        if (GetResources(work, where) < 0)
         {
             GV_DestroyActor(work);
             return NULL;
