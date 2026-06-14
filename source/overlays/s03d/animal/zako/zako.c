@@ -336,7 +336,29 @@ int Zako_800CDA04(Work *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDA70.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDB5C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDD40.s")
+int Zako_800CDD40(int from, int to)
+{
+    int dir;
+
+    if (to < 0)
+    {
+        return 0;
+    }
+    if (from < 0)
+    {
+        return 0;
+    }
+    dir = GV_DiffDirS(from, to);
+    if ((unsigned int)(dir + 0x380) >= 0x701)
+    {
+        return 0;
+    }
+    if (dir >= 0)
+    {
+        return 1;
+    }
+    return 2;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDD94.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDE1C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDF2C.s")
