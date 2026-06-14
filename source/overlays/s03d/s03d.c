@@ -7,7 +7,9 @@ typedef struct _Work
     SVECTOR         field_20;       /* 0x020 */
     char            pad_28[0x5A - 0x28];
     short           field_5A;       /* 0x05A */
-    char            pad_5C[0xB6 - 0x5C];
+    char            pad_5C[0x9C - 0x5C];
+    char           *field_9C;       /* 0x09C */
+    char            pad_A0[0xB6 - 0xA0];
     short           field_B6;       /* 0x0B6 */
     char            pad_B8[0x8E4 - 0xB8];
     short           field_8E4;      /* 0x8E4 */
@@ -45,6 +47,8 @@ extern int s03d_dword_800DC2FC;
 extern int s03d_dword_800DC300;
 extern SVECTOR s03d_dword_800DC308;
 extern SVECTOR s03d_dword_800C3B68[];
+extern const char s03d_dword_800DBAB0[];
+void s03d_800D3F14(void *dest, SVECTOR *pos, const char *name, int flag);
 
 int s03d_800D3184(Work *work);
 void s03d_800D367C(Work *work);
@@ -86,7 +90,22 @@ int s03d_800D2D84(SVECTOR *a, SVECTOR *b)
     return GV_VecDir2(&diff);
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D2DBC.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D307C.s")
+int s03d_800D307C(Work *work)
+{
+    if (work->field_AD0 == 0)
+    {
+        s03d_800D0C90(work, 0);
+        GM_SeSet(&work->field_20, 0x53);
+        s03d_800D3F14(work->field_9C + 0x270, &work->field_20, s03d_dword_800DBAB0, 0);
+    }
+    if (work->field_AD0 < 20)
+    {
+        work->field_AD8 |= 0x20;
+        work->field_AD0++;
+        return 0;
+    }
+    return 1;
+}
 int s03d_800D311C(Work *work)
 {
     if (work->field_AD0 == 0)
