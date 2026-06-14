@@ -108,7 +108,14 @@ void Zako_800CC430(Work *work)
     work->field_9A8 = GV_VecLen3(&vec);
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC480.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC4B4.s")
+int Zako_800CC4B4(SVECTOR *from, SVECTOR *to)
+{
+    SVECTOR vec;
+
+    GV_SubVec3(to, from, &vec);
+    vec.vy = 0;
+    return GV_VecDir2(&vec);
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC4EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC5B8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC60C.s")
