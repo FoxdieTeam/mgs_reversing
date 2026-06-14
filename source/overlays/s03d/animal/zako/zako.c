@@ -2,6 +2,7 @@
 #include "game/game.h"
 #include "game/item.h"
 #include "libgcl/libgcl.h"
+#include "libdg/libdg.h"
 #include "linkvar.h"
 
 typedef struct _Work
@@ -364,7 +365,22 @@ void Zako_800CCA64(Work *work)
     }
     work->field_98C++;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCAB0.s")
+void Zako_800CCAB0(DG_OBJS *objs, DG_DEF *def)
+{
+    int i;
+    DG_OBJ *obj;
+
+    DG_FreeObjsPacket(objs, 0);
+    DG_FreeObjsPacket(objs, 1);
+    objs->def = def;
+    obj = objs->objs;
+    for (i = 0; i < 16; i++)
+    {
+        obj->model = &def->model[i];
+        obj->n_packs = *(short *)&def->model[i].n_faces;
+        obj++;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCB2C.s")
 void Zako_800CCCF4(Work *work)
 {
