@@ -257,4 +257,14 @@ void ZakoCom_800D5888(int type, int time)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D58D4.s")
+void ZakoCom_800D58D4(void)
+{
+    if (s03d_dword_800C3BC8 != 0 && s03d_dword_800C3BC4 && s03d_dword_800C3BCC)
+    {
+        NewCinemaScreenClose((void *)s03d_dword_800C3BCC);
+        s03d_dword_800C3BCC = 0;
+        s03d_dword_800C3BC4 = 0;
+    }
+}
+
+#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D5938.s")
