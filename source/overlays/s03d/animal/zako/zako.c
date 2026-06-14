@@ -321,7 +321,19 @@ int Zako_800CD720(SVECTOR *vec)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD75C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD984.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDA04.s")
+int Zako_800CDA04(Work *work)
+{
+    int a = s03d_800CD61C(work);
+    int b = s03d_800CD75C(work);
+    int c = s03d_800CD984(work);
+
+    if (a | b | c)
+    {
+        *work->field_8FC = 1;
+        return 1;
+    }
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDA70.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDB5C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDD40.s")
