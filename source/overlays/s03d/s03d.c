@@ -30,22 +30,28 @@ typedef struct _Work
     int             field_B28;      /* 0xB28 */
     char            pad_B2C[0xB48 - 0xB2C];
     SVECTOR         field_B48;      /* 0xB48 */
-    char            pad_B50[0xB5C - 0xB50];
+    char            pad_B50[0xB58 - 0xB50];
+    int             field_B58;      /* 0xB58 */
     int             field_B5C;      /* 0xB5C */
     int             field_B60;      /* 0xB60 */
-    char            pad_B64[0xB94 - 0xB64];
+    char            pad_B64[0xB68 - 0xB64];
+    SVECTOR         field_B68;      /* 0xB68 */
+    int             field_B70;      /* 0xB70 */
+    char            pad_B74[0xB94 - 0xB74];
     unsigned short  field_B94;      /* 0xB94 */
 } Work;
 
 extern int s03d_dword_800DC2FC;
 extern int s03d_dword_800DC300;
 extern SVECTOR s03d_dword_800DC308;
+extern SVECTOR s03d_dword_800C3B68[];
 
 int s03d_800D3184(Work *work);
 void s03d_800D367C(Work *work);
 void s03d_800D2C68(Work *work);
 void s03d_800D3ACC(Work *work);
 void s03d_800D0C90(Work *work, int arg);
+int s03d_800D2DBC(Work *work);
 
 void s03d_800D2C20(Work *work)
 {
@@ -137,7 +143,22 @@ int s03d_800D3390(Work *work)
     work->field_AD0++;
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D33E8.s")
+int s03d_800D33E8(Work *work)
+{
+    work->field_AD8 |= 0x10000;
+    if (work->field_AD0 == 30)
+    {
+        work->field_AD8 |= 0x100000;
+        work->field_B68 = s03d_dword_800C3B68[work->field_B08];
+    }
+    else if (work->field_B6 != 0)
+    {
+        return 1;
+    }
+    work->field_AE6 = s03d_800D2D84(&work->field_20, &s03d_dword_800C3B68[work->field_B08]);
+    work->field_AD0++;
+    return 0;
+}
 int s03d_800D34AC(Work *work)
 {
     work->field_AD8 |= 0x10000;
