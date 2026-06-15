@@ -6,6 +6,18 @@
 #include "game/motion.h"
 #include "libdg/libdg.h"
 
+/* Same input-pad layout as animal/meryl72/meryl72.h's Meryl72Pad. */
+typedef struct _Meryl72Pad
+{
+    int   press;
+    int   mode;
+    int   tmp;
+    short time;
+    short dir;
+    short sound;
+    short field_14;
+} Meryl72Pad;
+
 typedef struct _Meryl3Work
 {
     GV_ACT          actor;          /* 0x000 */
@@ -33,9 +45,8 @@ typedef struct _Meryl3Work
     int             field_968;      /* 0x968 */
     int             field_96C;      /* 0x96C */
     char            pad_970[0x974 - 0x970];
-    int             field_974;      /* 0x974 */
-    int             field_978;      /* 0x978 */
-    char            pad_97C[0x990 - 0x97C];
+    Meryl72Pad      pad;            /* 0x974 */
+    char            pad_988[0x990 - 0x988];
     int             field_990;      /* 0x990 */
     char            pad_994[0x9A4 - 0x994];
     int             field_9A4;      /* 0x9A4 */

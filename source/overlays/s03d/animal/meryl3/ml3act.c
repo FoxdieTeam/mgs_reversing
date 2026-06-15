@@ -23,7 +23,7 @@ int  Zako_800CB9E8(Meryl3Work *work);
 
 int Zako_800CB9E8(Meryl3Work *work)
 {
-    int flags = work->field_974;
+    int flags = work->pad.press;
 
     if (flags & 1)
     {
@@ -113,7 +113,7 @@ void s03d_800CBC10(Meryl3Work *work, int arg)
     {
         return;
     }
-    if (work->field_978 >= 0)
+    if (work->pad.mode >= 0)
     {
         SetMode(work, s03d_800CBCDC);
     }
@@ -123,7 +123,7 @@ void s03d_800CBC10(Meryl3Work *work, int arg)
 void s03d_800CBCDC(Meryl3Work *work, int arg)
 {
     CONTROL *ctl = &work->control;
-    int      v = work->field_978;
+    int      v = work->pad.mode;
 
     if (arg == 0)
     {
@@ -173,7 +173,7 @@ void s03d_800CBE2C(Meryl3Work *work, int arg)
     {
         return;
     }
-    if (!(work->field_974 & 4))
+    if (!(work->pad.press & 4))
     {
         if (Zako_800CB9E8(work))
         {
@@ -224,7 +224,7 @@ void s03d_800CBEF4(Meryl3Work *work, int arg)
 }
 void s03d_800CC05C(Meryl3Work *work, int arg)
 {
-    int flags = work->field_974;
+    int flags = work->pad.press;
 
     work->control.step.vx = 0;
     work->control.step.vz = 0;
