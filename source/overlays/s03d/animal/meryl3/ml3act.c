@@ -34,11 +34,12 @@ typedef struct _Work
     char            pad_9AC[0xC00 - 0x9AC];
 } Work;
 
-extern int s03d_dword_800C3978;
+extern short s03d_word_800C3970[8];
 extern int s03d_dword_800C3988;
 extern int s03d_dword_800C3990;
 
 extern void NewBlood(MATRIX *, int);
+extern void *NewAnime_8005DDE0(MATRIX *);
 
 int  s03d_800CBA60(Work *work);
 void s03d_800CBC10(Work *work, int arg);
@@ -106,7 +107,7 @@ void s03d_800CBE2C(Work *work, int arg)
     if (arg == 0)
     {
         work->field_964 = 5;
-        GM_ConfigObjectAction(&work->field_9C, ((short *)&s03d_dword_800C3978)[1], 0, 4);
+        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3970[5], 0, 4);
     }
     if (s03d_800CBA60(work))
     {
@@ -129,7 +130,44 @@ void s03d_800CBE2C(Work *work, int arg)
         work->field_8CC->class |= 0x14;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBEF4.s")
+void s03d_800CBEF4(Work *work, int arg)
+{
+    CONTROL *ctl = &work->control;
+
+    if (arg == 0)
+    {
+        work->field_964 = 2;
+        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3970[2], 0, 4);
+    }
+    if (arg < 0x1E && (arg & 7) == 0)
+    {
+        GM_SeSetMode(&work->control, 4, 1);
+    }
+    if (arg == 0x1E)
+    {
+        work->field_964 = 6;
+        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3970[6], 0, 4);
+        NewAnime_8005DDE0(&work->field_9C.objs->objs[4].world);
+    }
+    if (arg == 0x2E)
+    {
+        GM_SeSetMode(&work->control, 0x2F, 1);
+    }
+    if (arg >= 0x1F && work->field_9C.is_end)
+    {
+        work->field_954 = s03d_800CBC10;
+        work->field_95C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_SeSetMode(&work->control, 9, 1);
+    }
+    else
+    {
+        ctl->turn.vy = *(unsigned short *)&work->field_968;
+        ctl->step = DG_ZeroVector;
+        work->field_8CC->class |= 0x14;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC05C.s")
 void Zako_800CC244(Work *work, int index, int count)
 {
