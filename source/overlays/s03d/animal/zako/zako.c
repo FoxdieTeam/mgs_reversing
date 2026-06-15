@@ -1,5 +1,6 @@
 #include "common.h"
 #include "game/game.h"
+#include "game/homing.h"
 #include "game/item.h"
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
@@ -98,6 +99,7 @@ typedef struct _Work
 } Work;
 
 extern int s03d_dword_800DC2F8;
+extern int s03d_dword_800C3998;
 extern int s03d_dword_800C39A0;
 extern int s03d_dword_800C39B0;
 extern int s03d_dword_800C39B8;
@@ -153,7 +155,21 @@ int Zako_800CC4B4(SVECTOR *from, SVECTOR *to)
     vec.vy = 0;
     return GV_VecDir2(&vec);
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC4EC.s")
+int s03d_800CC4EC(Work *work, int arg)
+{
+    CONTROL *ctl = &work->control;
+    int dir = Zako_800CC4B4(&ctl->mov, (SVECTOR *)&s03d_dword_800C3998);
+    GM_GetHomingTarget2(&work->field_9C.objs->objs[6].world, dir,
+                        &work->field_968, &work->field_96C,
+                        ctl->map->index, 0x1770, 0x1000);
+    if (work->field_968 < 0)
+    {
+        work->field_968 = dir + GV_RandS(arg);
+        return 0;
+    }
+    work->field_968 += GV_RandS(arg);
+    return 1;
+}
 void Zako_800CC5B8(Work *work)
 {
     work->field_974 |= 4;
