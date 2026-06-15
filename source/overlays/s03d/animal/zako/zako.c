@@ -592,7 +592,29 @@ void s03d_800D05DC(Work *work, int arg1)
         work->field_B20 = (*(unsigned short *)&work->control.rot.vy - 0x400) & 0xFFF;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0698.s")
+void s03d_800D0698(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39F4, 0, 4, 0x3FE);
+    }
+    if (!(work->field_AD8 & 2))
+    {
+        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        work->field_8EC = 0;
+        work->field_8F4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+    else if (arg1 < 4)
+    {
+        work->field_B20 = (*(unsigned short *)&work->control.rot.vy + (arg1 << 8)) & 0xFFF;
+    }
+    else
+    {
+        work->field_B20 = (*(unsigned short *)&work->control.rot.vy + 0x400) & 0xFFF;
+    }
+}
 void s03d_800D0754(Work *work, int arg1)
 {
     work->field_B24 = 0x7D0;
