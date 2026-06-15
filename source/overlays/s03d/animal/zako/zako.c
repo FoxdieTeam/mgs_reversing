@@ -104,6 +104,7 @@ extern int s03d_dword_800C3A7C;
 extern int s03d_dword_800C39F0;
 extern int s03d_dword_800C39F4;
 extern int s03d_dword_800C3A00;
+extern int s03d_dword_800C3A04;
 extern int s03d_dword_800C3A08;
 extern int s03d_dword_800C3A0C;
 extern int s03d_dword_800C39E0;
@@ -114,6 +115,7 @@ extern void NewBlood(MATRIX *, int);
 
 void s03d_800D01C4(struct _Work *work, int arg);
 void s03d_800CF68C(struct _Work *work, int arg);
+void s03d_800CE12C(struct _Work *work, int arg);
 int  s03d_800CC4EC(Work *work, int arg);
 void s03d_800CC984(Work *work);
 int  s03d_800CD61C(Work *work);
@@ -486,7 +488,29 @@ void s03d_800CE5B4(Work *work, int arg)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE9E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CEB38.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CECBC.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CED94.s")
+void s03d_800CED94(Work *work, int arg)
+{
+    work->field_B24 = 0;
+    if (arg == 0)
+    {
+        work->field_8E0 = 0x13;
+        GM_ConfigObjectAction(&work->field_9C, ((short *)&s03d_dword_800C3A04)[1], 0, 4);
+    }
+    if (Zako_800CDA04(work))
+    {
+        return;
+    }
+    work->field_8FC->class |= 0x9E;
+    if (work->field_9C.is_end)
+    {
+        work->field_8F8 = 1;
+        work->field_8E8 = s03d_800CE12C;
+        work->field_8F0 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CEE3C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CF114.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CF194.s")
