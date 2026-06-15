@@ -72,7 +72,9 @@ typedef struct _Work
     int             field_AD8;      /* 0xAD8 */
     char            pad_ADC[0xAE0 - 0xADC];
     int             field_AE0;      /* 0xAE0 */
-    char            pad_AE4[0xB14 - 0xAE4];
+    char            pad_AE4[0xAF6 - 0xAE4];
+    short           field_AF6;      /* 0xAF6 */
+    char            pad_AF8[0xB14 - 0xAF8];
     short           field_B14;      /* 0xB14 */
     short           field_B16;      /* 0xB16 */
     char            pad_B18[0xB20 - 0xB18];
@@ -562,7 +564,47 @@ void s03d_800CF844(Work *work, int arg)
         GM_ConfigMotionAdjust(&work->field_9C, NULL);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CF90C.s")
+void s03d_800CF90C(Work *work, int arg)
+{
+    work->field_8E4 = 0;
+    if (arg == 0)
+    {
+        if (work->field_8DC < 3)
+        {
+            if (work->field_AF6 >= 0x96)
+            {
+                work->field_8E0 = 0x28;
+                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[16], 0, 4);
+            }
+            else
+            {
+                work->field_8E0 = 0x26;
+                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[14], 0, 4);
+            }
+        }
+        else
+        {
+            if (work->field_AF6 >= 0x96)
+            {
+                work->field_8E0 = 0x29;
+                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[17], 0, 4);
+            }
+            else
+            {
+                work->field_8E0 = 0x27;
+                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[15], 0, 4);
+            }
+        }
+    }
+    if (work->field_9C.is_end)
+    {
+        work->field_8E8 = s03d_800CE12C;
+        work->field_8F0 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFA04.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFB04.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFFF0.s")
