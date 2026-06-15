@@ -558,7 +558,44 @@ void s03d_800CE8F4(Work *work, int arg)
         work->control.turn.vx = 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE9E8.s")
+void s03d_800CE9E8(Work *work, int arg)
+{
+    SVECTOR *rot;
+    work->field_8FC->class |= 0x9E;
+    work->field_B24 = 0xFA0;
+    if (arg == 0)
+    {
+        GM_ConfigMotionAdjust(&work->field_9C, &work->field_724);
+    }
+    rot = &work->control.rot;
+    if (arg == 1 || arg == 7)
+    {
+        rot->vy = (*(unsigned short *)&rot->vy - 0x100) & 0xFFF;
+    }
+    if (arg == 3 || arg == 5)
+    {
+        rot->vy = (*(unsigned short *)&rot->vy + 0x100) & 0xFFF;
+    }
+    if (arg == 2 || arg == 4 || arg == 6)
+    {
+        work->field_8E0 = 6;
+        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C39EC[0], 0, 0);
+        Zako_800D0EF0(work, 3);
+    }
+    Zako_800CDD94(work);
+    if (!Zako_800CDA04(work))
+    {
+        if (work->field_9C.is_end)
+        {
+            work->field_8E8 = s03d_800CE720;
+            work->field_8F0 = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            GM_ConfigMotionAdjust(&work->field_9C, NULL);
+        }
+        work->control.rot.vy = rot->vy;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CEB38.s")
 void s03d_800CECBC(Work *work, int arg)
 {
