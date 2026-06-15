@@ -24,9 +24,9 @@ typedef struct _Work
     int             field_920;      /* 0x920 */
     char            pad_924[0x954 - 0x924];
     void          (*field_954)(struct _Work *, int);  /* 0x954 */
-    char            pad_958[0x95C - 0x958];
+    int             field_958;      /* 0x958 */
     int             field_95C;      /* 0x95C */
-    char            pad_960[0x964 - 0x960];
+    int             field_960;      /* 0x960 */
     int             field_964;      /* 0x964 */
     int             field_968;      /* 0x968 */
     int             field_96C;      /* 0x96C */
@@ -180,7 +180,47 @@ void s03d_800CBC10(Work *work, int arg)
     work->control.step = DG_ZeroVector;
     work->field_8CC->class |= 0x14;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBCDC.s")
+void s03d_800CBCDC(Work *work, int arg)
+{
+    CONTROL *ctl = &work->control;
+    int      v = work->field_978;
+
+    if (arg == 0)
+    {
+        work->field_964 = 1;
+        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3970[1], 0, 4);
+    }
+    if (s03d_800CBA60(work))
+    {
+        return;
+    }
+    if (Zako_800CB9E8(work))
+    {
+        return;
+    }
+    if (v < 0)
+    {
+        work->field_954 = s03d_800CBC10;
+        work->field_95C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_ConfigObjectOverride(&work->field_9C, s03d_word_800C3970[0], 0, 4, 0);
+        work->field_958 = 0;
+        work->field_960 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+    else
+    {
+        int s1;
+
+        ctl->turn.vy = v;
+        s1 = (arg < 0xA) ? arg * 4 : 0x28;
+        ctl->step.vx = s1 * rsin(v) / 4096;
+        ctl->step.vz = s1 * rcos(v) / 4096;
+        work->field_8CC->class |= 0x14;
+    }
+}
 void s03d_800CBE2C(Work *work, int arg)
 {
     CONTROL *ctl = &work->control;
