@@ -46,4 +46,12 @@ typedef struct _Meryl3Work
     char            pad_9B8[0xC00 - 0x9B8];
 } Meryl3Work;
 
+static inline void SetMode(Meryl3Work *work, void (*action)(struct _Meryl3Work *, int))
+{
+    work->field_954 = action;
+    work->field_95C = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+}
+
 #endif // _S03D_MERYL3_H

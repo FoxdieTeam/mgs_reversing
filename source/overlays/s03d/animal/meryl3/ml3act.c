@@ -30,26 +30,17 @@ int Zako_800CB9E8(Meryl3Work *work)
 
     if (flags & 1)
     {
-        work->field_954 = s03d_800CC05C;
-        work->field_95C = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode(work, s03d_800CC05C);
         return 1;
     }
     if (flags & 4)
     {
-        work->field_954 = s03d_800CBE2C;
-        work->field_95C = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode(work, s03d_800CBE2C);
         return 1;
     }
     if (flags & 8)
     {
-        work->field_954 = s03d_800CBEF4;
-        work->field_95C = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode(work, s03d_800CBEF4);
         return 1;
     }
     return 0;
@@ -63,18 +54,12 @@ int s03d_800CBA60(Meryl3Work *work)
         if (t->a_mode == 1)
         {
             t->force = DG_ZeroVector;
-            work->field_954 = s03d_800CC2E8;
-            work->field_95C = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
+            SetMode(work, s03d_800CC2E8);
         }
         else if (t->a_mode == 2)
         {
             t->force = DG_ZeroVector;
-            work->field_954 = s03d_800CC2E8;
-            work->field_95C = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
+            SetMode(work, s03d_800CC2E8);
         }
         t->damage = 0;
         t->damaged = 0;
@@ -133,10 +118,7 @@ void s03d_800CBC10(Meryl3Work *work, int arg)
     }
     if (work->field_978 >= 0)
     {
-        work->field_954 = s03d_800CBCDC;
-        work->field_95C = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode(work, s03d_800CBCDC);
     }
     work->control.step = DG_ZeroVector;
     work->target->class |= 0x14;
@@ -161,10 +143,7 @@ void s03d_800CBCDC(Meryl3Work *work, int arg)
     }
     if (v < 0)
     {
-        work->field_954 = s03d_800CBC10;
-        work->field_95C = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode(work, s03d_800CBC10);
         GM_ConfigObjectOverride(&work->body, s03d_word_800C3970[0], 0, 4, 0);
         work->field_958 = 0;
         work->field_960 = 0;
@@ -203,10 +182,7 @@ void s03d_800CBE2C(Meryl3Work *work, int arg)
         {
             return;
         }
-        work->field_954 = s03d_800CBC10;
-        work->field_95C = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode(work, s03d_800CBC10);
     }
     else
     {
@@ -239,10 +215,7 @@ void s03d_800CBEF4(Meryl3Work *work, int arg)
     }
     if (arg >= 0x1F && work->body.is_end)
     {
-        work->field_954 = s03d_800CBC10;
-        work->field_95C = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode(work, s03d_800CBC10);
         GM_SeSetMode(&work->control.mov, 9, 1);
     }
     else
@@ -271,10 +244,7 @@ void s03d_800CC05C(Meryl3Work *work, int arg)
     Zako_800CBAEC(work);
     if (!(flags & 1))
     {
-        work->field_954 = s03d_800CBC10;
-        work->field_95C = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode(work, s03d_800CBC10);
     }
     else
     {
@@ -282,10 +252,7 @@ void s03d_800CC05C(Meryl3Work *work, int arg)
         work->control.step = DG_ZeroVector;
         if (flags & 2)
         {
-            work->field_954 = s03d_800CC168;
-            work->field_95C = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
+            SetMode(work, s03d_800CC168);
         }
         else
         {
@@ -309,10 +276,7 @@ void s03d_800CC168(Meryl3Work *work, int arg)
     Zako_800CBAEC(work);
     work->control.turn.vy = *(unsigned short *)&work->field_968;
     work->control.step = DG_ZeroVector;
-    work->field_954 = s03d_800CC05C;
-    work->field_95C = 0;
-    work->control.turn.vz = 0;
-    work->control.turn.vx = 0;
+    SetMode(work, s03d_800CC05C);
     work->target->class |= 0x14;
 }
 void Zako_800CC244(Meryl3Work *work, int index, int count)
@@ -340,10 +304,7 @@ void s03d_800CC2E8(Meryl3Work *work, int arg)
     }
     if (work->body.is_end)
     {
-        work->field_954 = s03d_800CBC10;
-        work->field_95C = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode(work, s03d_800CBC10);
     }
 }
 void s03d_800CC374(Meryl3Work *work)
