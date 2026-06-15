@@ -2216,6 +2216,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s03d\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\ml3think.obj", overlay
 
     ; eyeflash.c
     include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3BA4.obj", overlay
