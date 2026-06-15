@@ -87,7 +87,8 @@ typedef struct _Work
     unsigned char   field_B33;      /* 0xB33 */
     char            pad_B34[0xB90 - 0xB34];
     int             field_B90;      /* 0xB90 */
-    char            pad_B94[0xC00 - 0xB94];
+    unsigned short  field_B94;      /* 0xB94 */
+    char            pad_B96[0xC00 - 0xB96];
 } Work;
 
 extern int s03d_dword_800DC2F8;
@@ -103,7 +104,7 @@ extern int s03d_dword_800C3A84;
 extern int s03d_dword_800C3A88;
 extern int s03d_dword_800C3A74;
 extern int s03d_dword_800C3A7C;
-extern int s03d_dword_800C39F0;
+extern short s03d_word_800C39F0[2];
 extern int s03d_dword_800C39F4;
 extern int s03d_dword_800C3A00;
 extern int s03d_dword_800C3A04;
@@ -122,6 +123,8 @@ void s03d_800CE12C(struct _Work *work, int arg);
 void Zako_800D0BEC(Work *work, int type);
 void Zako_800D0B18(Work *work, int index, int count);
 void Zako_800D0B88(Work *work);
+int  s03d_800CDE1C(Work *work);
+void s03d_800CE720(struct _Work *work, int arg);
 int  s03d_800CC4EC(Work *work, int arg);
 void s03d_800CC984(Work *work);
 int  s03d_800CD61C(Work *work);
@@ -493,7 +496,33 @@ void s03d_800CE5B4(Work *work, int arg)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE8F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE9E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CEB38.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CECBC.s")
+void s03d_800CECBC(Work *work, int arg)
+{
+    work->field_8FC->class |= 0x9E;
+    work->field_B24 = 0xFA0;
+    if (arg == 0)
+    {
+        work->field_8E0 = 8;
+        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C39F0[0], 0, 0);
+    }
+    if (arg == 3 && s03d_800CDE1C(work))
+    {
+        GM_SeSet(&work->control.mov, 0x25);
+    }
+    work->control.turn.vy = work->field_B94;
+    if (Zako_800CDA04(work))
+    {
+        return;
+    }
+    if (work->field_9C.is_end)
+    {
+        work->field_8E8 = s03d_800CE720;
+        work->field_8F0 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+    }
+}
 void s03d_800CED94(Work *work, int arg)
 {
     work->field_B24 = 0;
@@ -699,7 +728,7 @@ void s03d_800D05DC(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->field_9C, ((short *)&s03d_dword_800C39F0)[1], 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->field_9C, s03d_word_800C39F0[1], 0, 4, 0x3FE);
     }
     if (!(work->field_AD8 & 1))
     {
