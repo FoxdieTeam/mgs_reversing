@@ -20,7 +20,9 @@ typedef struct _Work
     short           field_750;      /* 0x750 */
     char            pad_752[0x8CC - 0x752];
     TARGET         *field_8CC;      /* 0x8CC */
-    char            pad_8D0[0x954 - 0x8D0];
+    char            pad_8D0[0x920 - 0x8D0];
+    int             field_920;      /* 0x920 */
+    char            pad_924[0x954 - 0x924];
     void          (*field_954)(struct _Work *, int);  /* 0x954 */
     char            pad_958[0x95C - 0x958];
     int             field_95C;      /* 0x95C */
@@ -314,7 +316,35 @@ void s03d_800CC2E8(Work *work, int arg)
         work->control.turn.vx = 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC374.s")
+void s03d_800CC374(Work *work)
+{
+    CONTROL *ctl = &work->control;
+    OBJECT  *obj = &work->field_9C;
+    void   (*h)(struct _Work *, int);
+    int      n;
+
+    work->field_8CC->class = 1;
+    n = work->field_95C;
+    h = work->field_954;
+    work->field_95C = n + 1;
+    if (h == 0)
+    {
+        h = s03d_800CBC10;
+        work->field_954 = h;
+    }
+    h(work, n);
+    ctl->height = *(unsigned short *)&obj->height;
+    ctl->r_sphere = -1;
+    if (work->field_920 < 0)
+    {
+        if (ctl->grounded)
+        {
+            work->field_920 = 0;
+        }
+    }
+    work->field_920 -= 0x10;
+    ctl->step.vy = *(unsigned short *)&work->field_920;
+}
 void Zako_800CC430(Work *work)
 {
     SVECTOR vec;
