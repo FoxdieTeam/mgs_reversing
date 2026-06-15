@@ -439,14 +439,6 @@ void s03d_800D367C(Work *work)
     work->field_AD0++;
 }
 const char s03d_dword_800DBAF4[] = {0x0, 0x0, 0x0, 0x0};
-const int s03d_dword_800DBAF8 = 0x800D3894;
-const int s03d_dword_800DBAFC = 0x800D38A4;
-const int s03d_dword_800DBB00 = 0x800D3954;
-const int s03d_dword_800DBB04 = 0x800D38B4;
-const int s03d_dword_800DBB08 = 0x800D38D4;
-const int s03d_dword_800DBB0C = 0x800D38E4;
-const int s03d_dword_800DBB10 = 0x800D3900;
-const char s03d_dword_800DBB14[] = {0x0, 0x0, 0x0, 0x0};
 
 
 void s03d_800D3724(Work *work)
@@ -497,7 +489,73 @@ void s03d_800D3754(Work *work)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3848.s")
+void s03d_800D3848(Work *work)
+{
+    switch (work->field_ACC)
+    {
+    case 6:
+        if (s03d_800D3310(work) != 0)
+        {
+            work->field_ACC = 0xC;
+            work->field_AD0 = 0;
+        }
+        break;
+    case 7:
+        if (s03d_800D3390(work) != 0)
+        {
+            work->field_ACC = 0xC;
+            work->field_AD0 = 0;
+        }
+        break;
+    case 9:
+        if (s03d_800D33E8(work) != 0)
+        {
+            s03d_800D2D68(work);
+            work->field_AD0 = 0;
+        }
+        break;
+    case 10:
+        if (s03d_800D34AC(work) != 0)
+        {
+            work->field_ACC = 0xC;
+            work->field_AD0 = 0;
+        }
+        break;
+    case 11:
+        if (s03d_800D3508(work) != 0)
+        {
+            work->field_ACC = 0xC;
+            work->field_AD0 = 0;
+        }
+        break;
+    case 12:
+    {
+        int r = s03d_800D3570(work);
+
+        if (r != 0)
+        {
+            work->field_ACC = r;
+            work->field_AD0 = 0;
+        }
+        if (work->field_B26 != 2)
+        {
+            if (HZD_InsideZone(work->field_4C->hzd, &work->field_20, work->field_B0C[work->field_B0B]) == 0)
+            {
+                s03d_800D2CCC(work);
+            }
+        }
+        break;
+    }
+    }
+    if (work->field_B26 == 2)
+    {
+        ZakoCom_800D4088();
+        work->field_B28 = 0xFF;
+    }
+}
+const char s03d_dword_800DBB14[] = {0x0, 0x0, 0x0, 0x0};
+
+
 void s03d_800D3984(Work *work)
 {
     switch (work->field_ACC)
