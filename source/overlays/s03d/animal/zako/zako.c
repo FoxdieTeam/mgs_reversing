@@ -70,7 +70,9 @@ typedef struct _Work
     int             field_AA8[8];   /* 0xAA8 */
     char            pad_AC8[0xAD8 - 0xAC8];
     int             field_AD8;      /* 0xAD8 */
-    char            pad_ADC[0xB14 - 0xADC];
+    char            pad_ADC[0xAE0 - 0xADC];
+    int             field_AE0;      /* 0xAE0 */
+    char            pad_AE4[0xB14 - 0xAE4];
     short           field_B14;      /* 0xB14 */
     short           field_B16;      /* 0xB16 */
     char            pad_B18[0xB20 - 0xB18];
@@ -111,6 +113,7 @@ void AN_Fog(SVECTOR *svec);
 extern void NewBlood(MATRIX *, int);
 
 void s03d_800D01C4(struct _Work *work, int arg);
+void s03d_800CF68C(struct _Work *work, int arg);
 int  s03d_800CC4EC(Work *work, int arg);
 void s03d_800CC984(Work *work);
 int  s03d_800CD61C(Work *work);
@@ -459,7 +462,24 @@ void Zako_800CDF2C(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE12C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE2C0.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE318.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE5B4.s")
+void s03d_800CE5B4(Work *work, int arg)
+{
+    if (arg == 0)
+    {
+        work->field_8DC = 3;
+        work->field_8E0 = 0x1F;
+        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[7], 0, 4);
+    }
+    if (Zako_800CDA04(work) == 0 && work->field_9C.is_end)
+    {
+        work->field_AE0 = 0;
+        work->field_8E8 = s03d_800CF68C;
+        work->field_8F0 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE644.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE720.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE8F4.s")
