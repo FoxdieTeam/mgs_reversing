@@ -99,6 +99,8 @@ extern int s03d_dword_800C3A84;
 extern int s03d_dword_800C3A88;
 extern int s03d_dword_800C3A74;
 extern int s03d_dword_800C3A7C;
+extern int s03d_dword_800C3A08;
+extern int s03d_dword_800C39E0;
 
 void AN_Fog(SVECTOR *svec);
 extern void NewBlood(MATRIX *, int);
@@ -565,7 +567,22 @@ int Zako_800D0408(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0698.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0754.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D07DC.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D085C.s")
+void s03d_800D085C(Work *work, int arg1)
+{
+    work->field_B24 = 0;
+    if (arg1 == 0)
+    {
+        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C3A08, 0, 4, 0x3FE);
+    }
+    if (work->field_9C.time2)
+    {
+        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        work->field_8EC = 0;
+        work->field_8F4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D08DC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0958.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D09D8.s")
