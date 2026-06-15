@@ -99,6 +99,7 @@ extern int s03d_dword_800C3A84;
 extern int s03d_dword_800C3A88;
 extern int s03d_dword_800C3A74;
 extern int s03d_dword_800C3A7C;
+extern int s03d_dword_800C3A00;
 extern int s03d_dword_800C3A08;
 extern int s03d_dword_800C3A0C;
 extern int s03d_dword_800C39E0;
@@ -599,8 +600,37 @@ void s03d_800D085C(Work *work, int arg1)
         work->control.turn.vx = 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D08DC.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0958.s")
+void s03d_800D08DC(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        GM_ConfigObjectOverride(&work->field_9C, ((short *)&s03d_dword_800C3A08)[1], 0, 4, 0x3FE);
+    }
+    if (work->field_9C.time2)
+    {
+        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        work->field_8EC = 0;
+        work->field_8F4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+}
+void s03d_800D0958(Work *work, int arg1)
+{
+    work->field_B24 = 0;
+    if (arg1 == 0)
+    {
+        GM_ConfigObjectOverride(&work->field_9C, ((short *)&s03d_dword_800C3A00)[1], 0, 4, 0x3FE);
+    }
+    if (work->field_9C.time2)
+    {
+        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        work->field_8EC = 0;
+        work->field_8F4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D09D8.s")
 void Zako_800D0B18(Work *work, int index, int count)
 {
