@@ -44,6 +44,7 @@ extern void NewBlood(MATRIX *, int);
 extern void *NewAnime_8005DDE0(MATRIX *);
 
 int  s03d_800CBA60(Work *work);
+void s03d_800CBB2C(Work *work);
 void s03d_800CBC10(Work *work, int arg);
 void s03d_800CC168(Work *work, int arg);
 void s03d_800CBE2C(Work *work, int arg);
@@ -212,7 +213,28 @@ void s03d_800CC05C(Work *work, int arg)
         }
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC168.s")
+void s03d_800CC168(Work *work, int arg)
+{
+    if (s03d_800CBA60(work))
+    {
+        return;
+    }
+    if (arg == 0)
+    {
+        work->field_964 = 2;
+        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3970[2], 0, 0);
+        s03d_800CBB2C(work);
+        GM_ConfigMotionAdjust(&work->field_9C, &work->field_718);
+    }
+    Zako_800CBAEC(work);
+    work->control.turn.vy = *(unsigned short *)&work->field_968;
+    work->control.step = DG_ZeroVector;
+    work->field_954 = s03d_800CC05C;
+    work->field_95C = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    work->field_8CC->class |= 0x14;
+}
 void Zako_800CC244(Work *work, int index, int count)
 {
     MATRIX m;
