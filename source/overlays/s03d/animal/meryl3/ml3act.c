@@ -47,6 +47,7 @@ int  s03d_800CBA60(Work *work);
 void s03d_800CBB2C(Work *work);
 void s03d_800CBC10(Work *work, int arg);
 void s03d_800CC168(Work *work, int arg);
+void s03d_800CC2E8(Work *work, int arg);
 void s03d_800CBE2C(Work *work, int arg);
 void s03d_800CBEF4(Work *work, int arg);
 void s03d_800CC05C(Work *work, int arg);
@@ -84,7 +85,34 @@ int Zako_800CB9E8(Work *work)
     }
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBA60.s")
+int s03d_800CBA60(Work *work)
+{
+    TARGET *t = work->field_8CC;
+
+    if (t->damaged & 4)
+    {
+        if (t->a_mode == 1)
+        {
+            t->force = DG_ZeroVector;
+            work->field_954 = s03d_800CC2E8;
+            work->field_95C = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+        }
+        else if (t->a_mode == 2)
+        {
+            t->force = DG_ZeroVector;
+            work->field_954 = s03d_800CC2E8;
+            work->field_95C = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+        }
+        t->damage = 0;
+        t->damaged = 0;
+        return 1;
+    }
+    return 0;
+}
 void Zako_800CBAEC(Work *work)
 {
     int v = work->field_96C;
