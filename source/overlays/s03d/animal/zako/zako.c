@@ -110,6 +110,7 @@ extern int s03d_dword_800C3A04;
 extern int s03d_dword_800C3A08;
 extern int s03d_dword_800C3A0C;
 extern int s03d_dword_800C39E0;
+extern int s03d_dword_800C39FC;
 extern short s03d_word_800C3A10[20];
 
 void AN_Fog(SVECTOR *svec);
@@ -119,6 +120,8 @@ void s03d_800D01C4(struct _Work *work, int arg);
 void s03d_800CF68C(struct _Work *work, int arg);
 void s03d_800CE12C(struct _Work *work, int arg);
 void Zako_800D0BEC(Work *work, int type);
+void Zako_800D0B18(Work *work, int index, int count);
+void Zako_800D0B88(Work *work);
 int  s03d_800CC4EC(Work *work, int arg);
 void s03d_800CC984(Work *work);
 int  s03d_800CD61C(Work *work);
@@ -605,7 +608,41 @@ void s03d_800CF90C(Work *work, int arg)
         GM_ConfigMotionAdjust(&work->field_9C, NULL);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFA04.s")
+void s03d_800CFA04(Work *work, int arg)
+{
+    TARGET *t;
+    work->field_8E4 = 0;
+    work->field_8FC->class |= 0x9E;
+    work->field_B24 = 0xFA0;
+    if (Zako_800CDA04(work))
+    {
+        return;
+    }
+    t = work->field_8FC;
+    if (arg == 0)
+    {
+        work->field_8E0 = 0xF;
+        GM_ConfigObjectAction(&work->field_9C, ((short *)&s03d_dword_800C39FC)[1], 0, 4);
+        GM_SeSet(&work->control.mov, 0x8D);
+        if (t->a_mode == 3)
+        {
+            GM_SeSet(&work->control.mov, 0x34);
+            Zako_800D0B88(work);
+        }
+        else
+        {
+            Zako_800D0B18(work, 5, 0);
+        }
+    }
+    if (work->field_9C.is_end)
+    {
+        work->field_8E8 = s03d_800CE12C;
+        work->field_8F0 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFB04.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFFF0.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D01C4.s")
