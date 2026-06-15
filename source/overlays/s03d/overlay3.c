@@ -27,7 +27,8 @@ typedef struct _Work
     char            pad_AE0[0xAE6 - 0xAE0];
     short           field_AE6;      /* 0xAE6 */
     short           field_AE8;      /* 0xAE8 */
-    char            pad_AEA[0xB08 - 0xAEA];
+    char            pad_AEA[0xB04 - 0xAEA];
+    int             field_B04;      /* 0xB04 */
     signed char     field_B08;      /* 0xB08 */
     char            pad_B09[0xB0B - 0xB09];
     signed char     field_B0B;      /* 0xB0B */
@@ -182,28 +183,6 @@ const char s03d_dword_800DBAB0[] = {'k', 'i', 'r', 'a'};
 const char s03d_dword_800DBAB4[] = {'r', 'i', '0', '1'};
 const char s03d_dword_800DBAB8[] = {0x0, 0x0, 0x0, 0x0};
 const char s03d_dword_800DBABC[] = {0x0, 0x0, 0x0, 0x0};
-const int s03d_dword_800DBAC0 = 0x800D36E4;
-const int s03d_dword_800DBAC4 = 0x800D3704;
-const int s03d_dword_800DBAC8 = 0x800D3704;
-const int s03d_dword_800DBACC = 0x800D3704;
-const int s03d_dword_800DBAD0 = 0x800D36E4;
-const int s03d_dword_800DBAD4 = 0x800D36E4;
-const int s03d_dword_800DBAD8 = 0x800D3704;
-const int s03d_dword_800DBADC = 0x800D36E4;
-const int s03d_dword_800DBAE0 = 0x800D36D0;
-const int s03d_dword_800DBAE4 = 0x800D36BC;
-const int s03d_dword_800DBAE8 = 0x800D36F4;
-const int s03d_dword_800DBAEC = 0x800D3704;
-const int s03d_dword_800DBAF0 = 0x800D36E4;
-const char s03d_dword_800DBAF4[] = {0x0, 0x0, 0x0, 0x0};
-const int s03d_dword_800DBAF8 = 0x800D3894;
-const int s03d_dword_800DBAFC = 0x800D38A4;
-const int s03d_dword_800DBB00 = 0x800D3954;
-const int s03d_dword_800DBB04 = 0x800D38B4;
-const int s03d_dword_800DBB08 = 0x800D38D4;
-const int s03d_dword_800DBB0C = 0x800D38E4;
-const int s03d_dword_800DBB10 = 0x800D3900;
-const char s03d_dword_800DBB14[] = {0x0, 0x0, 0x0, 0x0};
 
 void s03d_800D2C20(Work *work)
 {
@@ -428,7 +407,48 @@ int s03d_800D3570(Work *work)
     work->field_AD0++;
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D367C.s")
+void s03d_800D367C(Work *work)
+{
+    switch (s03d_dword_800DC2F8)
+    {
+    case 9:
+        if (work->field_B04 >= 0xF)
+        {
+            break;
+        }
+        /* fallthrough */
+    case 8:
+        if (work->field_AD0 < 0x1F)
+        {
+            break;
+        }
+        /* fallthrough */
+    case 0:
+    case 4:
+    case 5:
+    case 7:
+    case 12:
+        s03d_800D2CCC(work);
+        work->field_AD0 = 0;
+        return;
+    case 10:
+        s03d_800D2D44(work);
+        work->field_AD0 = 0;
+        return;
+    }
+    work->field_AD0++;
+}
+const char s03d_dword_800DBAF4[] = {0x0, 0x0, 0x0, 0x0};
+const int s03d_dword_800DBAF8 = 0x800D3894;
+const int s03d_dword_800DBAFC = 0x800D38A4;
+const int s03d_dword_800DBB00 = 0x800D3954;
+const int s03d_dword_800DBB04 = 0x800D38B4;
+const int s03d_dword_800DBB08 = 0x800D38D4;
+const int s03d_dword_800DBB0C = 0x800D38E4;
+const int s03d_dword_800DBB10 = 0x800D3900;
+const char s03d_dword_800DBB14[] = {0x0, 0x0, 0x0, 0x0};
+
+
 void s03d_800D3724(Work *work)
 {
     if (work->field_ACC == 0)
