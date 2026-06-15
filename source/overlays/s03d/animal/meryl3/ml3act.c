@@ -8,7 +8,9 @@ typedef struct _Work
     CONTROL         control;        /* 0x020 */
     OBJECT          field_9C;       /* 0x09C */
     OBJECT          field_180;      /* 0x180 */
-    char            pad_264[0x728 - 0x264];
+    char            pad_264[0x718 - 0x264];
+    SVECTOR         field_718;      /* 0x718 */
+    char            pad_720[0x728 - 0x720];
     short           field_728;      /* 0x728 */
     char            pad_72A[0x734 - 0x72A];
     short           field_734;      /* 0x734 */
@@ -43,6 +45,7 @@ extern void *NewAnime_8005DDE0(MATRIX *);
 
 int  s03d_800CBA60(Work *work);
 void s03d_800CBC10(Work *work, int arg);
+void s03d_800CC168(Work *work, int arg);
 void s03d_800CBE2C(Work *work, int arg);
 void s03d_800CBEF4(Work *work, int arg);
 void s03d_800CC05C(Work *work, int arg);
@@ -168,7 +171,48 @@ void s03d_800CBEF4(Work *work, int arg)
         work->field_8CC->class |= 0x14;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC05C.s")
+void s03d_800CC05C(Work *work, int arg)
+{
+    int flags = work->field_974;
+
+    work->control.step.vx = 0;
+    work->control.step.vz = 0;
+    if (s03d_800CBA60(work))
+    {
+        return;
+    }
+    if (arg == 0)
+    {
+        work->field_964 = 2;
+        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3970[2], 0, 4);
+        GM_ConfigMotionAdjust(&work->field_9C, &work->field_718);
+    }
+    Zako_800CBAEC(work);
+    if (!(flags & 1))
+    {
+        work->field_954 = s03d_800CBC10;
+        work->field_95C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+    else
+    {
+        work->control.turn.vy = *(unsigned short *)&work->field_968;
+        work->control.step = DG_ZeroVector;
+        if (flags & 2)
+        {
+            work->field_954 = s03d_800CC168;
+            work->field_95C = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+        }
+        else
+        {
+            work->field_8CC->class |= 0x14;
+        }
+    }
+}
+#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC168.s")
 void Zako_800CC244(Work *work, int index, int count)
 {
     MATRIX m;
