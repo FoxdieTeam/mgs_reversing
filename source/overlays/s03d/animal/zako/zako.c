@@ -150,6 +150,10 @@ void s03d_800CC984(Work *work);
 int  s03d_800CD61C(Work *work);
 int  s03d_800CD75C(Work *work);
 int  s03d_800CD984(Work *work);
+void s03d_800D041C(Work *work);
+void s03d_800D14AC(Work *work);
+void s03d_800D13F8(Work *work);
+void s03d_800D3B5C(Work *work);
 
 void Zako_800CCA64(Work *work);
 
@@ -1188,4 +1192,17 @@ void Zako_800D13E8(Work *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D13F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D14AC.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D153C.s")
+void s03d_800D153C(Work *work)
+{
+    if (work->field_8E0 < 0x2D)
+    {
+        Zako_800D0FCC(work);
+        s03d_800D14AC(work);
+        Zako_800D13E8(work);
+        s03d_800D13F8(work);
+        s03d_800D3B5C(work);
+        Zako_800D0F6C(work);
+    }
+    s03d_800D041C(work);
+}
+#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D15A8.s")
