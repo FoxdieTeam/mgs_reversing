@@ -275,7 +275,25 @@ void Zako_800CC244(Work *work, int index, int count)
     work->control.step = DG_ZeroVector;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC2E8.s")
+void s03d_800CC2E8(Work *work, int arg)
+{
+    work->control.step.vx = 0;
+    work->control.step.vz = 0;
+    if (arg == 0)
+    {
+        work->field_964 = 4;
+        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3970[4], 0, 4);
+        GM_SeSet(&work->control.mov, 0xBB);
+        Zako_800CC244(work, 5, 0);
+    }
+    if (work->field_9C.is_end)
+    {
+        work->field_954 = s03d_800CBC10;
+        work->field_95C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC374.s")
 void Zako_800CC430(Work *work)
 {
