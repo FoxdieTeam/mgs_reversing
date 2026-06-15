@@ -2207,6 +2207,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s03d\overlay2.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\meryl3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\ml3act.obj", overlay
     include "{{OBJ_DIR}}\overlays\s03d\animal\zako\zako.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay

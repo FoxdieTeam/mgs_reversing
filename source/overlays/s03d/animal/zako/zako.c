@@ -92,8 +92,6 @@ extern int s03d_dword_800C39B0;
 extern int s03d_dword_800C39B8;
 extern int s03d_dword_800C39C0;
 extern int s03d_dword_800C39C8;
-extern int s03d_dword_800C3988;
-extern int s03d_dword_800C3990;
 extern int s03d_dword_800C3A90[];
 extern int s03d_dword_800C3A64;
 extern int s03d_dword_800C3A6C;
@@ -111,10 +109,6 @@ extern int s03d_dword_800C39E0;
 void AN_Fog(SVECTOR *svec);
 extern void NewBlood(MATRIX *, int);
 
-void s03d_800CBE2C(Work *work);
-void s03d_800CBEF4(Work *work);
-void s03d_800CC05C(Work *work);
-void s03d_800CC374(Work *work);
 int  s03d_800CC4EC(Work *work, int arg);
 void s03d_800CC984(Work *work);
 int  s03d_800CD61C(Work *work);
@@ -123,86 +117,6 @@ int  s03d_800CD984(Work *work);
 
 void Zako_800CCA64(Work *work);
 
-int Zako_800CB9E8(Work *work)
-{
-    int flags = work->field_974;
-
-    if (flags & 1)
-    {
-        work->field_954 = s03d_800CC05C;
-        work->field_95C = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        return 1;
-    }
-    if (flags & 4)
-    {
-        work->field_954 = s03d_800CBE2C;
-        work->field_95C = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        return 1;
-    }
-    if (flags & 8)
-    {
-        work->field_954 = s03d_800CBEF4;
-        work->field_95C = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        return 1;
-    }
-    return 0;
-}
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBA60.s")
-void Zako_800CBAEC(Work *work)
-{
-    int v = work->field_96C;
-
-    work->field_728 = v;
-    work->field_748 = v;
-    if (v < 0)
-    {
-        work->field_750 = v * 3;
-    }
-    else
-    {
-        work->field_750 = v * 3 / 2;
-    }
-}
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBB2C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBC10.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBE2C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBEF4.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC05C.s")
-void Zako_800CC244(Work *work, int index, int count)
-{
-    MATRIX m;
-
-    DG_SetPos(&work->field_9C.objs->objs[index].world);
-    DG_MovePos((SVECTOR *)&s03d_dword_800C3988);
-    DG_RotatePos((SVECTOR *)&s03d_dword_800C3990);
-    ReadRotMatrix(&m);
-    NewBlood(&m, count);
-    work->control.step = DG_ZeroVector;
-}
-
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC2E8.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC374.s")
-void Zako_800CC430(Work *work)
-{
-    SVECTOR vec;
-
-    GV_SubVec3(&GM_PlayerPosition, &work->control.mov, &vec);
-    vec.vy = 0;
-    work->field_9A4 = GV_VecDir2(&vec);
-    work->field_9A8 = GV_VecLen3(&vec);
-}
-void Zako_800CC480(Work *work)
-{
-    Zako_800CC430(work);
-    Zako_800CCA64(work);
-    s03d_800CC374(work);
-}
 int Zako_800CC4B4(SVECTOR *from, SVECTOR *to)
 {
     SVECTOR vec;
