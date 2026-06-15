@@ -109,10 +109,10 @@ int ZakoCom_800D4038(void)
 
 void ZakoCom_800D4050(int idx)
 {
-    int *base = &s03d_dword_800DC310;
+    ZakoComMgr *mgr = ZAKOCOM_MGR;
 
-    base[idx * 4 + 0x98 / 4] = 0;
-    base[idx * 4 + 0x90 / 4] = 1;
+    mgr->entries[idx].field_C = 0;
+    mgr->entries[idx].field_4 = 1;
 }
 
 void ZakoCom_800D4070(int value)
