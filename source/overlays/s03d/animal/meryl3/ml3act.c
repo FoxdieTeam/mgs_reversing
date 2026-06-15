@@ -1,15 +1,12 @@
 #include "meryl3.h"
+#include "okajima/blood.h"
+#include "okajima/bullet.h"
+#include "anime/animconv/anime.h"
 
 extern short s03d_word_800C3970[8];
 extern int s03d_dword_800C3980;
 extern int s03d_dword_800C3988;
 extern int s03d_dword_800C3990;
-
-extern void NewBlood(MATRIX *, int);
-extern void *NewAnime_8005DDE0(MATRIX *);
-extern void NewAnime_8005D6BC(MATRIX *, int);
-extern void NewAnime_8005D604(MATRIX *);
-extern void *NewBulletEx(int, MATRIX *, int, int, int, int, int, int, int);
 
 int  s03d_800CBA60(Meryl3Work *work);
 void s03d_800CBB2C(Meryl3Work *work);
