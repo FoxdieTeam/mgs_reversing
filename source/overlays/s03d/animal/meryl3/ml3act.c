@@ -37,11 +37,15 @@ typedef struct _Work
 } Work;
 
 extern short s03d_word_800C3970[8];
+extern int s03d_dword_800C3980;
 extern int s03d_dword_800C3988;
 extern int s03d_dword_800C3990;
 
 extern void NewBlood(MATRIX *, int);
 extern void *NewAnime_8005DDE0(MATRIX *);
+extern void NewAnime_8005D6BC(MATRIX *, int);
+extern void NewAnime_8005D604(MATRIX *);
+extern void *NewBulletEx(int, MATRIX *, int, int, int, int, int, int, int);
 
 int  s03d_800CBA60(Work *work);
 void s03d_800CBB2C(Work *work);
@@ -128,7 +132,23 @@ void Zako_800CBAEC(Work *work)
         work->field_750 = v * 3 / 2;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBB2C.s")
+void s03d_800CBB2C(Work *work)
+{
+    MATRIX  mat;
+    SVECTOR rot;
+    MATRIX *m = &work->field_9C.objs->objs[4].world;
+
+    DG_SetPos(m);
+    DG_MovePos((SVECTOR *)&s03d_dword_800C3980);
+    rot = DG_ZeroVector;
+    rot.vx = 0x400;
+    DG_RotatePos(&rot);
+    ReadRotMatrix(&mat);
+    NewBulletEx(0x100, &mat, 1, 1, 0, 0xA, 0x41, 0x2710, 0x2EE);
+    GM_SeSetMode(&work->control.mov, 0x2E, 1);
+    NewAnime_8005D6BC(m, 0);
+    NewAnime_8005D604(&mat);
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBC10.s")
 void s03d_800CBE2C(Work *work, int arg)
 {
