@@ -536,7 +536,50 @@ void s03d_800CF4D4(Work *work, int arg)
         GM_ConfigMotionAdjust(&work->field_9C, NULL);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CF548.s")
+void s03d_800CF548(Work *work, int arg)
+{
+    SVECTOR *pos = &work->control.mov;
+    int phase;
+    work->field_8E4 = 0;
+    work->field_B24 = 0;
+    if (arg == 0)
+    {
+        work->field_8E0 = 0x1C;
+        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[4], 0, 4);
+        work->field_8FC->faint = 0;
+    }
+    if (Zako_800CDA04(work))
+    {
+        return;
+    }
+    phase = 0xA;
+    if (arg == phase)
+    {
+        work->field_8DC = 1;
+        work->field_8E0 = 0x21;
+        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[9], 0, 4);
+    }
+    else
+    {
+        work->field_8FC->class |= 0x9E;
+    }
+    if (arg == phase + 0x18)
+    {
+        GM_SeSet(pos, 0x51);
+    }
+    if (arg == phase + 0x2E)
+    {
+        GM_SeSet(pos, 0x33);
+    }
+    if (arg >= phase + 0x32 && work->field_9C.is_end)
+    {
+        work->field_8E8 = s03d_800CF68C;
+        work->field_8F0 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CF68C.s")
 void s03d_800CF844(Work *work, int arg)
 {
