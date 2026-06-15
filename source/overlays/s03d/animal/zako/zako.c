@@ -74,7 +74,9 @@ typedef struct _Work
     int             field_AE0;      /* 0xAE0 */
     char            pad_AE4[0xAF6 - 0xAE4];
     short           field_AF6;      /* 0xAF6 */
-    char            pad_AF8[0xB08 - 0xAF8];
+    char            pad_AF8[0xB00 - 0xAF8];
+    int             field_B00;      /* 0xB00 */
+    char            pad_B04[0xB08 - 0xB04];
     signed char     field_B08;      /* 0xB08 */
     char            pad_B09[0xB14 - 0xB09];
     short           field_B14;      /* 0xB14 */
@@ -90,7 +92,9 @@ typedef struct _Work
     char            pad_B34[0xB90 - 0xB34];
     int             field_B90;      /* 0xB90 */
     unsigned short  field_B94;      /* 0xB94 */
-    char            pad_B96[0xC00 - 0xB96];
+    char            pad_B96[0xBA0 - 0xB96];
+    short           field_BA0;      /* 0xBA0 */
+    char            pad_BA2[0xC00 - 0xBA2];
 } Work;
 
 extern int s03d_dword_800DC2F8;
@@ -116,6 +120,8 @@ extern int s03d_dword_800C39E0;
 extern int s03d_dword_800C39FC;
 extern short s03d_word_800C39E8[2];
 extern short s03d_word_800C39EC[2];
+extern int s03d_dword_800DC310;
+extern int s03d_dword_800C3B88;
 extern short s03d_word_800C3A10[20];
 
 void AN_Fog(SVECTOR *svec);
@@ -130,6 +136,7 @@ void Zako_800D0B88(Work *work);
 int  s03d_800CDE1C(Work *work);
 void s03d_800CE720(struct _Work *work, int arg);
 int  Zako_800D0EF0(Work *work, int index);
+void s03d_800CDB5C(Work *work);
 int  s03d_800CC4EC(Work *work, int arg);
 void s03d_800CC984(Work *work);
 int  s03d_800CD61C(Work *work);
@@ -819,7 +826,34 @@ void s03d_800CFA04(Work *work, int arg)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFB04.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFFF0.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D01C4.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0324.s")
+void s03d_800D0324(Work *work, int arg)
+{
+    if (arg == 0)
+    {
+        int *base = &s03d_dword_800DC310;
+        work->field_B00 = 0;
+        work->control.mov = *(SVECTOR *)&s03d_dword_800C3B88;
+        base[work->field_B08 * 4 + 0x90 / 4] = 1;
+        if (work->field_BA0 == 0)
+        {
+            unsigned short *lv = (unsigned short *)linkvarbuf;
+            lv[0x4F]++;
+        }
+    }
+    {
+        int *base = &s03d_dword_800DC310;
+        if (base[work->field_B08 * 4 + 0x90 / 4] != 2)
+        {
+            return;
+        }
+        s03d_800CDB5C(work);
+        work->field_8E8 = s03d_800CE12C;
+        work->field_8F0 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+    }
+}
 int Zako_800D0408(Work *work)
 {
     return work->control.mov.vx >= 0x1195;
