@@ -16,11 +16,15 @@ typedef struct _Work
     short           field_748;      /* 0x748 */
     char            pad_74A[0x750 - 0x74A];
     short           field_750;      /* 0x750 */
-    char            pad_752[0x954 - 0x752];
-    void          (*field_954)(struct _Work *);  /* 0x954 */
+    char            pad_752[0x8CC - 0x752];
+    TARGET         *field_8CC;      /* 0x8CC */
+    char            pad_8D0[0x954 - 0x8D0];
+    void          (*field_954)(struct _Work *, int);  /* 0x954 */
     char            pad_958[0x95C - 0x958];
     int             field_95C;      /* 0x95C */
-    char            pad_960[0x96C - 0x960];
+    char            pad_960[0x964 - 0x960];
+    int             field_964;      /* 0x964 */
+    int             field_968;      /* 0x968 */
     int             field_96C;      /* 0x96C */
     char            pad_970[0x974 - 0x970];
     int             field_974;      /* 0x974 */
@@ -30,16 +34,20 @@ typedef struct _Work
     char            pad_9AC[0xC00 - 0x9AC];
 } Work;
 
+extern int s03d_dword_800C3978;
 extern int s03d_dword_800C3988;
 extern int s03d_dword_800C3990;
 
 extern void NewBlood(MATRIX *, int);
 
-void s03d_800CBE2C(Work *work);
-void s03d_800CBEF4(Work *work);
-void s03d_800CC05C(Work *work);
+int  s03d_800CBA60(Work *work);
+void s03d_800CBC10(Work *work, int arg);
+void s03d_800CBE2C(Work *work, int arg);
+void s03d_800CBEF4(Work *work, int arg);
+void s03d_800CC05C(Work *work, int arg);
 void s03d_800CC374(Work *work);
 void Zako_800CCA64(Work *work);
+int  Zako_800CB9E8(Work *work);
 
 int Zako_800CB9E8(Work *work)
 {
@@ -89,7 +97,38 @@ void Zako_800CBAEC(Work *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBB2C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBC10.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBE2C.s")
+void s03d_800CBE2C(Work *work, int arg)
+{
+    CONTROL *ctl = &work->control;
+
+    work->control.step.vx = 0;
+    work->control.step.vz = 0;
+    if (arg == 0)
+    {
+        work->field_964 = 5;
+        GM_ConfigObjectAction(&work->field_9C, ((short *)&s03d_dword_800C3978)[1], 0, 4);
+    }
+    if (s03d_800CBA60(work))
+    {
+        return;
+    }
+    if (!(work->field_974 & 4))
+    {
+        if (Zako_800CB9E8(work))
+        {
+            return;
+        }
+        work->field_954 = s03d_800CBC10;
+        work->field_95C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+    else
+    {
+        ctl->turn.vy = *(unsigned short *)&work->field_968;
+        work->field_8CC->class |= 0x14;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBEF4.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC05C.s")
 void Zako_800CC244(Work *work, int index, int count)
