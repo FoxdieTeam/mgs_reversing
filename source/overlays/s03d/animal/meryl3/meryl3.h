@@ -42,7 +42,8 @@ typedef struct _Meryl3Work
     int             field_95C;      /* 0x95C */
     int             field_960;      /* 0x960 */
     int             field_964;      /* 0x964 */
-    int             field_968;      /* 0x968 */
+    unsigned short  field_968;      /* 0x968 */
+    char            pad_96A[0x96C - 0x96A];
     int             field_96C;      /* 0x96C */
     char            pad_970[0x974 - 0x970];
     Meryl72Pad      pad;            /* 0x974 */

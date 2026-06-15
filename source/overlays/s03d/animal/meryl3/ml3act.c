@@ -183,7 +183,7 @@ void s03d_800CBE2C(Meryl3Work *work, int arg)
     }
     else
     {
-        ctl->turn.vy = *(unsigned short *)&work->field_968;
+        ctl->turn.vy = work->field_968;
         work->target->class |= 0x14;
     }
 }
@@ -217,7 +217,7 @@ void s03d_800CBEF4(Meryl3Work *work, int arg)
     }
     else
     {
-        ctl->turn.vy = *(unsigned short *)&work->field_968;
+        ctl->turn.vy = work->field_968;
         ctl->step = DG_ZeroVector;
         work->target->class |= 0x14;
     }
@@ -245,7 +245,7 @@ void s03d_800CC05C(Meryl3Work *work, int arg)
     }
     else
     {
-        work->control.turn.vy = *(unsigned short *)&work->field_968;
+        work->control.turn.vy = work->field_968;
         work->control.step = DG_ZeroVector;
         if (flags & 2)
         {
@@ -271,7 +271,7 @@ void s03d_800CC168(Meryl3Work *work, int arg)
         GM_ConfigMotionAdjust(&work->body, &work->adjust[0]);
     }
     Zako_800CBAEC(work);
-    work->control.turn.vy = *(unsigned short *)&work->field_968;
+    work->control.turn.vy = work->field_968;
     work->control.step = DG_ZeroVector;
     SetMode(work, s03d_800CC05C);
     work->target->class |= 0x14;
