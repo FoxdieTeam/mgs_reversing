@@ -11,9 +11,9 @@ typedef struct _Work
     CONTROL         control;        /* 0x020 */
     OBJECT          field_9C;       /* 0x09C */
     OBJECT          field_180;      /* 0x180 */
-    char            pad_264[0x728 - 0x264];
-    short           field_728;      /* 0x728 */
-    char            pad_72A[0x734 - 0x72A];
+    char            pad_264[0x724 - 0x264];
+    SVECTOR         field_724;      /* 0x724 */
+    char            pad_72C[0x734 - 0x72C];
     short           field_734;      /* 0x734 */
     char            pad_736[0x748 - 0x736];
     short           field_748;      /* 0x748 */
@@ -74,7 +74,9 @@ typedef struct _Work
     int             field_AE0;      /* 0xAE0 */
     char            pad_AE4[0xAF6 - 0xAE4];
     short           field_AF6;      /* 0xAF6 */
-    char            pad_AF8[0xB14 - 0xAF8];
+    char            pad_AF8[0xB08 - 0xAF8];
+    signed char     field_B08;      /* 0xB08 */
+    char            pad_B09[0xB14 - 0xB09];
     short           field_B14;      /* 0xB14 */
     short           field_B16;      /* 0xB16 */
     char            pad_B18[0xB20 - 0xB18];
@@ -112,6 +114,8 @@ extern int s03d_dword_800C3A08;
 extern int s03d_dword_800C3A0C;
 extern int s03d_dword_800C39E0;
 extern int s03d_dword_800C39FC;
+extern short s03d_word_800C39E8[2];
+extern short s03d_word_800C39EC[2];
 extern short s03d_word_800C3A10[20];
 
 void AN_Fog(SVECTOR *svec);
@@ -125,6 +129,7 @@ void Zako_800D0B18(Work *work, int index, int count);
 void Zako_800D0B88(Work *work);
 int  s03d_800CDE1C(Work *work);
 void s03d_800CE720(struct _Work *work, int arg);
+int  Zako_800D0EF0(Work *work, int index);
 int  s03d_800CC4EC(Work *work, int arg);
 void s03d_800CC984(Work *work);
 int  s03d_800CD61C(Work *work);
@@ -522,7 +527,37 @@ void s03d_800CE644(Work *work, int arg)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE720.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE8F4.s")
+void s03d_800CE8F4(Work *work, int arg)
+{
+    work->field_8FC->class |= 0x9E;
+    work->field_B24 = 0xFA0;
+    if (arg == 0)
+    {
+        if (work->field_AD8 & 0x10000)
+        {
+            work->field_8E0 = 4;
+            GM_ConfigObjectAction(&work->field_9C, s03d_word_800C39E8[0], 0, 0);
+        }
+        else
+        {
+            work->field_8E0 = 6;
+            GM_ConfigObjectAction(&work->field_9C, s03d_word_800C39EC[0], 0, 0);
+        }
+        Zako_800D0EF0(work, 3);
+        GM_ConfigMotionAdjust(&work->field_9C, &work->field_724);
+    }
+    if (work->field_B08 != 1 || !(GV_Time & 0x100))
+    {
+        Zako_800CDD94(work);
+    }
+    if (!Zako_800CDA04(work))
+    {
+        work->field_8E8 = s03d_800CE720;
+        work->field_8F0 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE9E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CEB38.s")
 void s03d_800CECBC(Work *work, int arg)
