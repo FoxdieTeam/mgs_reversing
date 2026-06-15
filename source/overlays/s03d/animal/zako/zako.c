@@ -77,7 +77,7 @@ typedef struct _Work
     short           field_AF6;      /* 0xAF6 */
     char            pad_AF8[0xB00 - 0xAF8];
     int             field_B00;      /* 0xB00 */
-    char            pad_B04[0xB08 - 0xB04];
+    int             field_B04;      /* 0xB04 */
     signed char     field_B08;      /* 0xB08 */
     char            pad_B09[0xB14 - 0xB09];
     short           field_B14;      /* 0xB14 */
@@ -87,7 +87,8 @@ typedef struct _Work
     unsigned short  field_B22;      /* 0xB22 */
     unsigned short  field_B24;      /* 0xB24 */
     short           field_B26;      /* 0xB26 */
-    char            pad_B28[0xB32 - 0xB28];
+    int             field_B28;      /* 0xB28 */
+    char            pad_B2C[0xB32 - 0xB2C];
     unsigned char   field_B32;      /* 0xB32 */
     unsigned char   field_B33;      /* 0xB33 */
     char            pad_B34[0xB90 - 0xB34];
@@ -120,6 +121,10 @@ extern int s03d_dword_800C3A08;
 extern int s03d_dword_800C3A0C;
 extern int s03d_dword_800C39E0;
 extern int s03d_dword_800C39FC;
+extern short s03d_word_800C3A38[2];
+extern short s03d_word_800C3A3C[2];
+extern const char s03d_dword_800DB594[];
+extern int printf(const char *format, ...);
 extern short s03d_word_800C39E8[2];
 extern short s03d_word_800C39EC[2];
 extern int s03d_dword_800DC310;
@@ -130,6 +135,7 @@ void AN_Fog(SVECTOR *svec);
 extern void NewBlood(MATRIX *, int);
 
 void s03d_800D01C4(struct _Work *work, int arg);
+void s03d_800D0324(struct _Work *work, int arg);
 void s03d_800CF68C(struct _Work *work, int arg);
 void s03d_800CE12C(struct _Work *work, int arg);
 void Zako_800D0BEC(Work *work, int type);
@@ -841,7 +847,62 @@ void s03d_800CFA04(Work *work, int arg)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFB04.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFFF0.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D01C4.s")
+void s03d_800D01C4(Work *work, int arg)
+{
+    if (arg == 0)
+    {
+        if (work->field_8DC < 3)
+        {
+            if (work->field_8DC == 1)
+            {
+                work->field_8E0 = 0x2F;
+                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A3C[1], 0, 4);
+            }
+            else
+            {
+                work->field_8E0 = 0x2D;
+                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A38[1], 0, 4);
+            }
+        }
+        else
+        {
+            work->field_8E0 = 0x2E;
+            GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A3C[0], 0, 4);
+        }
+        GM_ConfigControlAttribute(&work->control, 0);
+        work->field_B28 = 0;
+    }
+    if (arg == 4)
+    {
+        int b04 = work->field_B04;
+
+        printf(s03d_dword_800DB594, b04);
+        if (b04 == 6 || b04 == 0xA || b04 == 0xE)
+        {
+            Zako_800D0BEC(work, 2);
+        }
+        if (b04 == 8 || b04 == 0xC)
+        {
+            Zako_800D0BEC(work, 0);
+        }
+    }
+    if (arg & 2)
+    {
+        work->field_B00 = 0;
+    }
+    else
+    {
+        work->field_B00 = 1;
+    }
+    if (arg >= 9)
+    {
+        work->field_8E8 = s03d_800D0324;
+        work->field_8F0 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+    }
+}
 void s03d_800D0324(Work *work, int arg)
 {
     if (arg == 0)

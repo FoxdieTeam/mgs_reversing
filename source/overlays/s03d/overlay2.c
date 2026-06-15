@@ -46,8 +46,8 @@ short s03d_word_800C3A10[20] = {
     0x0026, 0x0003, 0x0029, 0x0011, 0x0012, 0x002B, 0x0017, 0x0018,
     0x001C, 0x001D, 0x0000, 0x0001,
 };
-int s03d_dword_800C3A38 = 0x00110033;
-int s03d_dword_800C3A3C = 0x002B0012;
+short s03d_word_800C3A38[2] = {0x0033, 0x0011};
+short s03d_word_800C3A3C[2] = {0x0012, 0x002B};
 int s03d_dword_800C3A40 = 0x00000016;
 int s03d_dword_800C3A44 = 0x00FA109A;
 int s03d_dword_800C3A48 = 0x000001F4;
