@@ -101,6 +101,7 @@ extern int s03d_dword_800C3A84;
 extern int s03d_dword_800C3A88;
 extern int s03d_dword_800C3A74;
 extern int s03d_dword_800C3A7C;
+extern int s03d_dword_800C39F0;
 extern int s03d_dword_800C39F4;
 extern int s03d_dword_800C3A00;
 extern int s03d_dword_800C3A08;
@@ -568,7 +569,29 @@ int Zako_800D0408(Work *work)
     return work->control.mov.vx >= 0x1195;
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D041C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D05DC.s")
+void s03d_800D05DC(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        GM_ConfigObjectOverride(&work->field_9C, ((short *)&s03d_dword_800C39F0)[1], 0, 4, 0x3FE);
+    }
+    if (!(work->field_AD8 & 1))
+    {
+        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        work->field_8EC = 0;
+        work->field_8F4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+    else if (arg1 < 4)
+    {
+        work->field_B20 = (*(unsigned short *)&work->control.rot.vy - (arg1 << 8)) & 0xFFF;
+    }
+    else
+    {
+        work->field_B20 = (*(unsigned short *)&work->control.rot.vy - 0x400) & 0xFFF;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0698.s")
 void s03d_800D0754(Work *work, int arg1)
 {
