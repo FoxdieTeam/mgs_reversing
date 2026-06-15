@@ -173,7 +173,7 @@ void s03d_800CBEF4(Work *work, int arg)
     }
     if (arg < 0x1E && (arg & 7) == 0)
     {
-        GM_SeSetMode(&work->control, 4, 1);
+        GM_SeSetMode(&work->control.mov, 4, 1);
     }
     if (arg == 0x1E)
     {
@@ -183,7 +183,7 @@ void s03d_800CBEF4(Work *work, int arg)
     }
     if (arg == 0x2E)
     {
-        GM_SeSetMode(&work->control, 0x2F, 1);
+        GM_SeSetMode(&work->control.mov, 0x2F, 1);
     }
     if (arg >= 0x1F && work->field_9C.is_end)
     {
@@ -191,7 +191,7 @@ void s03d_800CBEF4(Work *work, int arg)
         work->field_95C = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_SeSetMode(&work->control, 9, 1);
+        GM_SeSetMode(&work->control.mov, 9, 1);
     }
     else
     {
