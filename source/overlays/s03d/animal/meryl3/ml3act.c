@@ -32,7 +32,8 @@ typedef struct _Work
     int             field_96C;      /* 0x96C */
     char            pad_970[0x974 - 0x970];
     int             field_974;      /* 0x974 */
-    char            pad_978[0x9A4 - 0x978];
+    int             field_978;      /* 0x978 */
+    char            pad_97C[0x9A4 - 0x97C];
     int             field_9A4;      /* 0x9A4 */
     int             field_9A8;      /* 0x9A8 */
     char            pad_9AC[0xC00 - 0x9AC];
@@ -52,6 +53,7 @@ extern void *NewBulletEx(int, MATRIX *, int, int, int, int, int, int, int);
 int  s03d_800CBA60(Work *work);
 void s03d_800CBB2C(Work *work);
 void s03d_800CBC10(Work *work, int arg);
+void s03d_800CBCDC(Work *work, int arg);
 void s03d_800CC168(Work *work, int arg);
 void s03d_800CC2E8(Work *work, int arg);
 void s03d_800CBE2C(Work *work, int arg);
@@ -151,7 +153,34 @@ void s03d_800CBB2C(Work *work)
     NewAnime_8005D6BC(m, 0);
     NewAnime_8005D604(&mat);
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBC10.s")
+void s03d_800CBC10(Work *work, int arg)
+{
+    work->control.step.vx = 0;
+    work->control.step.vz = 0;
+    if (arg == 0)
+    {
+        work->field_964 = 0;
+        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3970[0], 0, 4);
+    }
+    if (s03d_800CBA60(work))
+    {
+        return;
+    }
+    if (Zako_800CB9E8(work))
+    {
+        return;
+    }
+    if (work->field_978 >= 0)
+    {
+        work->field_954 = s03d_800CBCDC;
+        work->field_95C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+    work->control.step = DG_ZeroVector;
+    work->field_8CC->class |= 0x14;
+}
+#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CBCDC.s")
 void s03d_800CBE2C(Work *work, int arg)
 {
     CONTROL *ctl = &work->control;
