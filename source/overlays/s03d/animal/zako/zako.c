@@ -68,7 +68,9 @@ typedef struct _Work
     int             field_9A8;      /* 0x9A8 */
     char            pad_9AC[0xAA8 - 0x9AC];
     int             field_AA8[8];   /* 0xAA8 */
-    char            pad_AC8[0xB14 - 0xAC8];
+    char            pad_AC8[0xAD8 - 0xAC8];
+    int             field_AD8;      /* 0xAD8 */
+    char            pad_ADC[0xB14 - 0xADC];
     short           field_B14;      /* 0xB14 */
     short           field_B16;      /* 0xB16 */
     char            pad_B18[0xB20 - 0xB18];
@@ -99,6 +101,7 @@ extern int s03d_dword_800C3A84;
 extern int s03d_dword_800C3A88;
 extern int s03d_dword_800C3A74;
 extern int s03d_dword_800C3A7C;
+extern int s03d_dword_800C39F4;
 extern int s03d_dword_800C3A00;
 extern int s03d_dword_800C3A08;
 extern int s03d_dword_800C3A0C;
@@ -567,7 +570,22 @@ int Zako_800D0408(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D041C.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D05DC.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0698.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D0754.s")
+void s03d_800D0754(Work *work, int arg1)
+{
+    work->field_B24 = 0x7D0;
+    if (arg1 == 0)
+    {
+        GM_ConfigObjectOverride(&work->field_9C, ((short *)&s03d_dword_800C39F4)[1], 0, 4, 0x3FE);
+    }
+    if (!(work->field_AD8 & 4))
+    {
+        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        work->field_8EC = 0;
+        work->field_8F4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+}
 void s03d_800D07DC(Work *work, int arg1)
 {
     work->field_B24 = 0;
