@@ -194,7 +194,12 @@ void brf_800D5D9C(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCED4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DD6DC.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DD77C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DD7C8.s")
+void brf_800DD7C8(POLY_FT4 *p, int scale)
+{
+    p->r0 = p->r0 * scale / 128;
+    p->g0 = p->g0 * scale / 128;
+    p->b0 = p->b0 * scale / 128;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DD830.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DDBC8.s")
 
