@@ -106,7 +106,7 @@ void brf_800C5350(Work *work, int idx)
     BrfResource *table = (BrfResource *)&brf_dword_800C321C;
     BrfResource *e = &table[idx];
 
-    printf(brf_dword_800E1088, e->name);
+    printf((char *)brf_dword_800E1088, e->name);
     work->field_E4 = (void *)0x80182000;
     FS_LoadFileRequest(6, e->file, e->size, (void *)0x80182000);
     while (FS_LoadFileSync() > 0)
@@ -121,7 +121,7 @@ void brf_800C53E4(Work *work, int idx)
     BrfResource *table = (BrfResource *)&brf_dword_800C3300;
     BrfResource *e = &table[idx];
 
-    printf(brf_dword_800E1088, e->name);
+    printf((char *)brf_dword_800E1088, e->name);
     work->field_E4 = (void *)0x80182000;
     FS_LoadFileRequest(6, e->file, e->size, (void *)0x80182000);
     while (FS_LoadFileSync() > 0)
