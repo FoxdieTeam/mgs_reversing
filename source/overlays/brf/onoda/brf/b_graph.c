@@ -28,7 +28,14 @@ typedef struct _Work
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC388.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC480.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC560.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC5CC.s")
+int brf_800CC5CC(int a)
+{
+    if ((unsigned int)a >= 10)
+    {
+        a = 0;
+    }
+    return a;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC5E4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CCBD4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CD164.s")
