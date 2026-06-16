@@ -418,7 +418,21 @@ void Zako_800CDF2C(Work *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDF94.s")
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE12C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE2C0.s")
+void s03d_800CE2C0(Work *work, int arg1)
+{
+    int dir = GV_DiffDirS(arg1, work->control.rot.vy);
+
+    if (dir > 128)
+    {
+        dir = 128;
+    }
+    else if (dir < -128)
+    {
+        dir = -128;
+    }
+
+    work->control.turn.vz = dir;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE318.s")
 void s03d_800CE5B4(Work *work, int arg)
 {
