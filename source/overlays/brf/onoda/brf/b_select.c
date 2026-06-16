@@ -110,7 +110,21 @@ void brf_800C5350(Work *work, int idx)
         mts_wait_vbl(1);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C53E4.s")
+extern int brf_dword_800C3300;
+
+void brf_800C53E4(Work *work, int idx)
+{
+    BrfResource *table = (BrfResource *)&brf_dword_800C3300;
+    BrfResource *e = &table[idx];
+
+    printf(brf_dword_800E1088, e->name);
+    work->field_E4 = (void *)0x80182000;
+    FS_LoadFileRequest(6, e->file, e->size, (void *)0x80182000);
+    while (FS_LoadFileSync() > 0)
+    {
+        mts_wait_vbl(1);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5478.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5584.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C56C0.s")
@@ -142,12 +156,12 @@ void brf_800C5FB4(Work *work, int arg)
     brf_800C5DE4(work);
 }
 
-void brf_800C53E4(Work *work);
+void brf_800C53E4(Work *work, int idx);
 void brf_800C5EAC(Work *work);
 
 void brf_800C5FE0(Work *work, int arg)
 {
-    brf_800C53E4(work);
+    brf_800C53E4(work, arg);
     brf_800C5EAC(work);
 }
 typedef struct
