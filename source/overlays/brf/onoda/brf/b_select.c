@@ -13,7 +13,9 @@ typedef struct _Work
     char   field_48;          /* 0x048 */
     char   pad_49[0x27];      /* 0x049 */
     int    field_70;          /* 0x070 */
-    char   pad_74[0x5C];      /* 0x074 */
+    int    field_74;          /* 0x074 */
+    char   pad_78[0x54];      /* 0x078 */
+    int    field_CC;          /* 0x0CC */
     int    field_D0;          /* 0x0D0 */
     char   pad_D4[0x354];     /* 0x0D4 */
     int    field_428[64];     /* 0x428 */
@@ -21,7 +23,8 @@ typedef struct _Work
     char   pad_52C[0x100];    /* 0x52C */
     int    field_62C[64];     /* 0x62C */
     int    field_72C;         /* 0x72C */
-    char   pad_730[0x8A4];    /* 0x730 */
+    int    field_730[20];     /* 0x730 */
+    char   pad_780[0x854];    /* 0x780 */
     int    field_FD4;         /* 0xFD4 */
     int    field_FD8;         /* 0xFD8 */
     int    field_FDC;         /* 0xFDC */
@@ -85,7 +88,19 @@ void brf_800C609C(Work *work, int sel, int arg)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C60FC.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6228.s")
+void brf_800C60FC(Work *work);
+
+void brf_800C6228(Work *work, int a1, int a2)
+{
+    GM_SeSet2(0, 0x3F, 0xB7);
+    brf_800C60FC(work);
+    GM_VoxStream(work->field_730[a1], 0x40000000);
+    work->field_74 = work->field_70;
+    work->field_70 = a2;
+    work->field_D0 = 0;
+    work->field_CC = a1;
+    GM_SetSound(0x01FFFF0B, 0);
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C62B0.s")
 void brf_800C65C8(Work *work)
 {
