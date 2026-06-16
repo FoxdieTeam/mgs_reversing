@@ -468,7 +468,10 @@ void brf_800C80A8(Work *work)
 {
     brf_800C7F20(work);
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C80C8.s")
+void brf_800C80C8(Work *work)
+{
+    brf_800C7F3C(work);
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C80E8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C8108.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C8128.s")
