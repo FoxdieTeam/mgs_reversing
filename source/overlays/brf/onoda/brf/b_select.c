@@ -61,7 +61,17 @@ void brf_800C65C8(Work *work)
         p[0x58] = 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C65E8.s")
+void brf_800C65E8(Work *work)
+{
+    int i = 0x2B;
+    char *p = (char *)work + i;
+
+    for (; i >= 0; i--, p--)
+    {
+        p[0x2C] = 0;
+    }
+    brf_800C65C8(work);
+}
 void brf_800C6620(Work *work)
 {
     work->field_FD4 = 0;
