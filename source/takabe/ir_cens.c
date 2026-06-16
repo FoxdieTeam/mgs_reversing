@@ -366,7 +366,7 @@ void IrCensAct_800D9EF8(Work *work)
 
     if (work->fF0 != 0 && GM_CurrentItemId != IT_Stealth)
     {
-        if (GM_Target_8002E1B8(&sp20, &sp28, work->map, &sp18, ENEMY_SIDE))
+        if (GM_OnlineTargetCheck(&sp20, &sp28, work->map, &sp18, ENEMY_SIDE))
         {
             ENE_SetTopCommAL(255);
             ENE_SetGopointLast();

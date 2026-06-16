@@ -476,7 +476,7 @@ static int InitJiraiTarget(JiraiWork *work, MATRIX *pMtx, int a3)
         GCL_StrToSV(GCL_NextStr(), (short *)&v12);
     }
     GM_SetTarget(target, 9, NO_SIDE, &v12);
-    target->field_3C |= 2;
+    target->flag |= 2;
     DG_SetPos(pMtx);
     DG_PutVector(v8, &v12, 1);
     GM_MoveTarget(target, &v12);

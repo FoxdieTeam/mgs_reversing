@@ -457,7 +457,7 @@ static void s01a_object_800DA08C(Work *work)
         GM_SetTarget(target, 0x18, 0, &object_svec1_800C3CAC);
     }
 
-    target->field_3C = 1;
+    target->flag = 1;
 }
 
 static int s01a_object_800DA108(Work *work, int unused, int unused2)

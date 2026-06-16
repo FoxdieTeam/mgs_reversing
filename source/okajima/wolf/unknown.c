@@ -395,7 +395,7 @@ void s12a_wolf2_800CF2C4(Wolf2Work *work)
         sp20.vy = sp38.vy;
         sp20.vz = sp38.vz;
 
-        if (GM_Target_8002E1B8(&sp28, &sp20, map->index, &sp20, ENEMY_SIDE))
+        if (GM_OnlineTargetCheck(&sp28, &sp20, map->index, &sp20, ENEMY_SIDE))
         {
             hit = 1;
             hit_target = 1;

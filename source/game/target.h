@@ -22,7 +22,7 @@ typedef struct TARGET
     short    faint;
     SVECTOR  force;
     SVECTOR  offset;
-    short    field_3C;
+    short    flag;
     short    a_mode;
     short    push_side;
     short    captured;
@@ -81,9 +81,6 @@ static inline void UnsetTargetClass( TARGET *target, unsigned int flag )
 #define TARGET_MAX 64
 
 /* target.c */
-int GM_TargetIntersects(TARGET *a, TARGET *b);
-int GM_TargetIntersectsNoSide(TARGET *a, TARGET *b);
-
 void    GM_InitTargetSystem(void);
 TARGET *GM_AllocTarget(void);
 void    GM_FreeTarget(TARGET *target);
@@ -97,10 +94,8 @@ void    GM_SetTarget(TARGET *target, int class, int side, SVECTOR *size);
 void    GM_SetCaptureTarget(TARGET *target, int a_mode, int faint, int *a4, SVECTOR *a5);
 void    GM_SetPowerTarget(TARGET *target, int p_mode, int a_mode, int vital, int faint, SVECTOR *force);
 void    GM_TargetBody(TARGET *target, MATRIX *body) ;
-void    sub_8002DD1C(SVECTOR *a1, SVECTOR *a2, TARGET *a3);
-int     sub_8002DDE0(SVECTOR *a1, SVECTOR *a2, TARGET *a3, SVECTOR *a4);
-int     GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side);
-int     sub_8002E2A8(SVECTOR *arg0, SVECTOR *arg1, int map, SVECTOR *arg3);
-void    GM_Target_8002E374(int *ppDownCount, TARGET **ppTargets);
+int     GM_OnlineTargetCheck(SVECTOR *from, SVECTOR *to, int map, SVECTOR *hit, int side);
+int     GM_OnlineTargetCheckAny(SVECTOR *from, SVECTOR *to, int map, SVECTOR *hit);
+void    GM_GetTargets(int *count, TARGET **targets);
 
 #endif // __MGS_GAME_TARGET_H__

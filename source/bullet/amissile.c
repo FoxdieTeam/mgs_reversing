@@ -288,7 +288,7 @@ static void Act(Work *work)
     if (work->control.n_touches <= 0 && !work->control.grounded)
     {
         if (++work->field_120 != 90 &&
-            !GM_Target_8002E1B8(&control->mov, &addition, work->control.map->index, &addition, 1) &&
+            !GM_OnlineTargetCheck(&control->mov, &addition, work->control.map->index, &addition, 1) &&
             !dword_8009F49C)
         {
             if (!result)

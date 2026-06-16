@@ -146,7 +146,7 @@ static void sgtrect3_act_helper_8007020C(Work *work, DVECTOR *outScreenCoordsArr
     u_short    *outResultsIter;
 
     targets = NULL;
-    GM_Target_8002E374(&downCount, &targets);
+    GM_GetTargets(&downCount, &targets);
     if (downCount != 1)
     {
         TARGET *lastTarget;

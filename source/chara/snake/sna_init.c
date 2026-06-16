@@ -5639,7 +5639,7 @@ void sna_anim_claymore_80057474(SnaInitWork *work, int time)
     if (time == 0)
     {
         GM_ClearPlayerStatusFlag(PLAYER_MOVE);
-        GM_Target_8002E374(&down_count, &targets);
+        GM_GetTargets(&down_count, &targets);
 
         if (counter_8009F448 == 8 || down_count == 64)
         {

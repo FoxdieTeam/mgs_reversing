@@ -10,7 +10,7 @@
 #include "linkvar.h"
 
 // Instead of dynamically allocating TARGETs,
-// the game uses the big TARGET array gTargets_800B64E0.
+// the game uses the big TARGET array GM_TargetDatas.
 //
 // This also makes it easier to iterate over all TARGETs in use.
 //
@@ -20,50 +20,50 @@
 //
 // When allocating new TARGETs, the game will try to find a "free" slot in this array.
 // It tries to do it efficiently (without having to scan the whole array too often).
-// The game tries to ensure that slots [0, gTargets_lastSlotUsed_800ABA68)
+// The game tries to ensure that slots [0, GM_TargetCount)
 // are all actively used, while the latter part of the array is free.
 // However, deallocating TARGETs can result in "holes" in that contiguous prefix.
 //
 // Two indicies are maintained:
-// - gTargets_lastSlotUsed_800ABA68:
-//      slots [0, gTargets_lastSlotUsed_800ABA68) are potentially used
-//      slots [gTargets_lastSlotUsed_800ABA68, TARGET_MAX) are definitely not used
-// - gTargets_orphanedSlots_800ABA6C:
-//      how many slots [0, gTargets_lastSlotUsed_800ABA68) are not used
+// - GM_TargetCount:
+//      slots [0, GM_TargetCount) are potentially used
+//      slots [GM_TargetCount, TARGET_MAX) are definitely not used
+// - GM_StaleTargetCount:
+//      how many slots [0, GM_TargetCount) are not used
 //
-// In most cases the game will just take gTargets_lastSlotUsed_800ABA68+1
+// In most cases the game will just take GM_TargetCount+1
 // as a next used slot. If a TARGET is freed in the middle of the array
-// (gets orphaned: gTargets_orphanedSlots_800ABA6C) the code will try
+// (gets orphaned: GM_StaleTargetCount) the code will try
 // to "plug" the hole when allocating the next target.
 //
 // Example:
 //   - [Target1, Target2, Target3, FREE, FREE, FREE, FREE...]
-//     gTargets_lastSlotUsed_800ABA68 = 3, gTargets_orphanedSlots_800ABA6C = 0
+//     GM_TargetCount = 3, GM_StaleTargetCount = 0
 //
 //   - GM_AllocTarget()
 //
 //   - [Target1, Target2, Target3, Target4, FREE, FREE, FREE...]
-//     gTargets_lastSlotUsed_800ABA68 = 4, gTargets_orphanedSlots_800ABA6C = 0
+//     GM_TargetCount = 4, GM_StaleTargetCount = 0
 //
 //   - GM_FreeTarget(Target3)
 //
 //   - [Target1, Target2, FREE, Target4, FREE, FREE, FREE...]
-//     gTargets_lastSlotUsed_800ABA68 = 4, gTargets_orphanedSlots_800ABA6C = 1
+//     GM_TargetCount = 4, GM_StaleTargetCount = 1
 //
 //   - GM_AllocTarget()
 //
 //   - [Target1, Target2, Target5, Target4, FREE, FREE, FREE...]
-//     gTargets_lastSlotUsed_800ABA68 = 4, gTargets_orphanedSlots_800ABA6C = 0
+//     GM_TargetCount = 4, GM_StaleTargetCount = 0
 //
 //   - GM_FreeTarget(Target4)
 //
 //   - [Target1, Target2, Target5, FREE, FREE, FREE, FREE...]
-//     gTargets_lastSlotUsed_800ABA68 = 3, gTargets_orphanedSlots_800ABA6C = 0
+//     GM_TargetCount = 3, GM_StaleTargetCount = 0
 //
-extern TARGET gTargets_800B64E0[TARGET_MAX];
+extern TARGET GM_TargetDatas[TARGET_MAX];
 
-STATIC int SECTION(".sbss") gTargets_lastSlotUsed_800ABA68;
-STATIC int SECTION(".sbss") gTargets_orphanedSlots_800ABA6C;
+STATIC int SECTION(".sbss") GM_TargetCount;
+STATIC int SECTION(".sbss") GM_StaleTargetCount;
 
 static inline int BoundContains(int asize, int bsize, int apos, int bpos)
 {
@@ -83,7 +83,7 @@ static inline int MapContains(int a, int b)
 // 1. On opposing sides (PLAYER_SIDE & ENEMY_SIDE)
 // 2. Contained within one's bounds
 // 3. On the same map(s)
-int GM_TargetIntersects(TARGET *a, TARGET *b)
+static int TargetIntersects(TARGET *a, TARGET *b)
 {
     return (((a->side & b->side) == 0) &&
             BoundContains(a->size.vx, b->size.vx, a->center.vx, b->center.vx) &&
@@ -93,8 +93,8 @@ int GM_TargetIntersects(TARGET *a, TARGET *b)
 }
 
 // Checks if a target with no side intersects with a given target.
-// Similar to GM_TargetIntersects, but `a` must be on NO_SIDE.
-int GM_TargetIntersectsNoSide(TARGET *a, TARGET *b)
+// Similar to TargetIntersects, but `a` must be on NO_SIDE.
+int TargetIntersectsNoSide(TARGET *a, TARGET *b)
 {
     return (a->side == NO_SIDE &&
             BoundContains(a->size.vx, b->size.vx, a->center.vx, b->center.vx) &&
@@ -105,8 +105,8 @@ int GM_TargetIntersectsNoSide(TARGET *a, TARGET *b)
 
 void GM_InitTargetSystem(void)
 {
-    gTargets_lastSlotUsed_800ABA68 = 0;
-    gTargets_orphanedSlots_800ABA6C = 0;
+    GM_TargetCount = 0;
+    GM_StaleTargetCount = 0;
 }
 
 TARGET *GM_AllocTarget(void)
@@ -114,68 +114,68 @@ TARGET *GM_AllocTarget(void)
     TARGET *target;
     int     i;
 
-    // The game tries to maintain that slots [0, gTargets_lastSlotUsed_800ABA68)
-    // in gTargets_800B64E0 are all used up. However some "holes" could appear.
+    // The game tries to maintain that slots [0, GM_TargetCount)
+    // in GM_TargetDatas are all used up. However some "holes" could appear.
 
-    // Are there no "holes" to plug in the gTargets_800B64E0 array?
-    if (gTargets_orphanedSlots_800ABA6C == 0)
+    // Are there no "holes" to plug in the GM_TargetDatas array?
+    if (GM_StaleTargetCount == 0)
     {
-        // There are no "holes" in the gTargets_800B64E0 array
-        // so let's just take the next slot and increment gTargets_lastSlotUsed_800ABA68
+        // There are no "holes" in the GM_TargetDatas array
+        // so let's just take the next slot and increment GM_TargetCount
 
-        if (gTargets_lastSlotUsed_800ABA68 >= TARGET_MAX)
+        if (GM_TargetCount >= TARGET_MAX)
         {
             // Out of memory...
             return NULL;
         }
 
-        target = &gTargets_800B64E0[gTargets_lastSlotUsed_800ABA68];
+        target = &GM_TargetDatas[GM_TargetCount];
         target->class = TARGET_AVAIL;
-        gTargets_lastSlotUsed_800ABA68++;
+        GM_TargetCount++;
         return target;
     }
 
-    // There are "holes" in the gTargets_800B64E0 array, let's
+    // There are "holes" in the GM_TargetDatas array, let's
     // try to find one and use it up.
 
-    target = gTargets_800B64E0;
-    if (gTargets_lastSlotUsed_800ABA68 > 0)
+    target = GM_TargetDatas;
+    if (GM_TargetCount > 0)
     {
-        for (i = gTargets_lastSlotUsed_800ABA68; i > 0; i--, target++)
+        for (i = GM_TargetCount; i > 0; i--, target++)
         {
             if (target->class == TARGET_STALE)
             {
                 // Found unused slot, let's use it.
                 target->class = TARGET_AVAIL;
-                gTargets_orphanedSlots_800ABA6C--;
+                GM_StaleTargetCount--;
                 return target;
             }
         }
     }
 
     // This should be unreachable, we should have found a slot above.
-    gTargets_orphanedSlots_800ABA6C = 0;
+    GM_StaleTargetCount = 0;
     return NULL;
 }
 
 void GM_FreeTarget(TARGET *target)
 {
-    // The game tries to maintain that slots [0, gTargets_lastSlotUsed_800ABA68)
-    // in gTargets_800B64E0 are all used up. However some "holes" could appear
+    // The game tries to maintain that slots [0, GM_TargetCount)
+    // in GM_TargetDatas are all used up. However some "holes" could appear
     // due to freeing a TARGET here:
 
     if (target)
     {
-        if (target == &gTargets_800B64E0[gTargets_lastSlotUsed_800ABA68 - 1])
+        if (target == &GM_TargetDatas[GM_TargetCount - 1])
         {
             // Freeing the last used TARGET doesn't result
             // in a "hole", just adjust the lastSlotUsed.
-            gTargets_lastSlotUsed_800ABA68--;
+            GM_TargetCount--;
         }
         else
         {
             // Freeing this TARGET resulted in a "hole" in the array:
-            gTargets_orphanedSlots_800ABA6C++;
+            GM_StaleTargetCount++;
         }
         target->class = TARGET_STALE; // mark as a free slot
     }
@@ -192,8 +192,8 @@ TARGET *GM_CaptureTarget(TARGET *target)
     TARGET *iter;
     int     i;
 
-    iter = gTargets_800B64E0;
-    for (i = gTargets_lastSlotUsed_800ABA68; i > 0; iter++, i--)
+    iter = GM_TargetDatas;
+    for (i = GM_TargetCount; i > 0; iter++, i--)
     {
         // Skip if we are checking the current target
         if (target == iter)
@@ -208,7 +208,7 @@ TARGET *GM_CaptureTarget(TARGET *target)
         }
 
         // Return if this is the first intersection for the class
-        if (GM_TargetIntersects(iter, target) && !(iter->damaged & TARGET_CAPTURE))
+        if (TargetIntersects(iter, target) && !(iter->damaged & TARGET_CAPTURE))
         {
             iter->damaged |= TARGET_CAPTURE;
             iter->a_mode = target->a_mode;
@@ -231,8 +231,8 @@ TARGET *GM_C4Target(TARGET *target)
     TARGET *iter;
     int     i;
 
-    iter = gTargets_800B64E0;
-    for (i = gTargets_lastSlotUsed_800ABA68; i > 0; iter++, i--)
+    iter = GM_TargetDatas;
+    for (i = GM_TargetCount; i > 0; iter++, i--)
     {
         // Skip if we are checking the current target
         if (target == iter)
@@ -247,7 +247,7 @@ TARGET *GM_C4Target(TARGET *target)
         }
 
         // Return if this is the first intersection for the class
-        if (GM_TargetIntersects(iter, target) && !(iter->damaged & TARGET_C4))
+        if (TargetIntersects(iter, target) && !(iter->damaged & TARGET_C4))
         {
             iter->damaged |= TARGET_C4;
             target->damaged |= TARGET_C4;
@@ -274,13 +274,13 @@ int GM_TouchTarget(TARGET *target)
         return 1;
     }
 
-    iter = gTargets_800B64E0;
-    i = gTargets_lastSlotUsed_800ABA68;
+    iter = GM_TargetDatas;
+    i = GM_TargetCount;
 
     hp = target->vital;
 
-    iter = gTargets_800B64E0;
-    for (i = gTargets_lastSlotUsed_800ABA68; i > 0; iter++, i--)
+    iter = GM_TargetDatas;
+    for (i = GM_TargetCount; i > 0; iter++, i--)
     {
         // Skip if we are checking the current target
         if (target == iter)
@@ -295,7 +295,7 @@ int GM_TouchTarget(TARGET *target)
         }
 
         // Touch if there is an intersection for the class
-        if (GM_TargetIntersects(iter, target))
+        if (TargetIntersects(iter, target))
         {
             oldhp = iter->vital;
             iter->vital -= hp;
@@ -347,8 +347,8 @@ int GM_PowerTarget(TARGET *target)
     hp = target->vital;
     p_mode = target->p_mode;
 
-    iter = gTargets_800B64E0;
-    for (i = gTargets_lastSlotUsed_800ABA68; i > 0; iter++, i--)
+    iter = GM_TargetDatas;
+    for (i = GM_TargetCount; i > 0; iter++, i--)
     {
         if (target == iter)
         {
@@ -360,7 +360,7 @@ int GM_PowerTarget(TARGET *target)
             continue;
         }
 
-        if (!GM_TargetIntersects(iter, target))
+        if (!TargetIntersects(iter, target))
         {
             continue;
         }
@@ -456,7 +456,7 @@ static inline int sub_helper_8002DA14(TARGET *target, TARGET *iter)
         return 0;
     }
 
-    if (!(iter->field_3C & 2))
+    if (!(iter->flag & 2))
     {
         // this is NOT an inline, /= 2 does not work otherwise
         if (abs(val) <= abs(val2))
@@ -490,7 +490,7 @@ static inline int sub_helper_8002DA14(TARGET *target, TARGET *iter)
             }
         }
 
-        if (iter->field_3C & 1)
+        if (iter->flag & 1)
         {
             target->offset.pad = which;
         }
@@ -512,13 +512,13 @@ int GM_PushTarget(TARGET *target)
     target->offset = DG_ZeroVector;
     target->offset.pad = 0;
 
-    iter = gTargets_800B64E0;
+    iter = GM_TargetDatas;
 
-    for (count = gTargets_lastSlotUsed_800ABA68; count > 0; iter++, count--)
+    for (count = GM_TargetCount; count > 0; iter++, count--)
     {
         iter->push_side = NO_SIDE;
 
-        if ((target == iter) || !(iter->class & TARGET_PUSH) || !GM_TargetIntersectsNoSide(iter, target))
+        if ((target == iter) || !(iter->class & TARGET_PUSH) || !TargetIntersectsNoSide(iter, target))
         {
             continue;
         }
@@ -542,7 +542,7 @@ void GM_SetTarget(TARGET *target, int class, int side, SVECTOR *size)
     target->damaged = 0;
     target->map = cur_map;
     target->size = *size;
-    target->field_3C = 0;
+    target->flag = 0;
 }
 
 void GM_SetCaptureTarget(TARGET *target, int a_mode, int faint, int *a4, SVECTOR *a5)
@@ -569,156 +569,161 @@ void GM_TargetBody(TARGET *target, MATRIX *body)
     target->body = body;
 }
 
-void sub_8002DD1C(SVECTOR *from, SVECTOR *to, TARGET *target)
+static void SetFromToTarget(SVECTOR *from, SVECTOR *to, TARGET *targ)
 {
-    int coord1, coord2;
-    int size;
+    int f, t, s;
 
-    coord1 = from->vx;
-    coord2 = to->vx;
-    size = (coord1 - coord2) / 2;
-    target->center.vx = (coord1 + coord2) / 2;
-    target->size.vx = abs(size);
-
-    coord1 = from->vy;
-    coord2 = to->vy;
-    size = (coord1 - coord2) / 2;
-    target->center.vy = (coord1 + coord2) / 2;
-    target->size.vy = abs(size);
-
-    coord1 = from->vz;
-    coord2 = to->vz;
-    size = (coord1 - coord2) / 2;
-    target->center.vz = (coord1 + coord2) / 2;
-    target->size.vz = abs(size);
+    f = from->vx; t = to->vx; s = (f - t) / 2;
+    targ->center.vx = (f + t) / 2;
+    targ->size.vx = abs(s);
+    f = from->vy; t = to->vy; s = (f - t) / 2;
+    targ->center.vy = (f + t) / 2;
+    targ->size.vy = abs(s);
+    f = from->vz; t = to->vz; s = (f - t) / 2;
+    targ->center.vz = (f + t) / 2;
+    targ->size.vz = abs(s);
 }
 
-#define sub_8002DDE0_helper(AXIS1, AXIS2, AXIS3)                                                                       \
-    {                                                                                                                  \
-        int vec1_axis1, vec1_axis2, vec1_axis3;                                                                        \
-        int outvec_axis1, outvec_axis3;                                                                                \
-        int outvec_addend_axis2;                                                                                       \
-        int multiplier;                                                                                                \
-        int target_field_10_axis1;                                                                                     \
-        vec1_axis1 = vec1->AXIS1;                                                                                      \
-        divisor = vec2->AXIS1 - vec1_axis1;                                                                            \
-        if (divisor != 0)                                                                                              \
-        {                                                                                                              \
-            outvec_axis1 = target->center.AXIS1;                                                                  \
-            target_field_10_axis1 = target->size.AXIS1;                                                       \
-            if (target->center.AXIS1 < vec1_axis1)                                                                \
-            {                                                                                                          \
-                outvec_axis1 += target_field_10_axis1;                                                                 \
-                if (vec1_axis1 < outvec_axis1)                                                                         \
-                {                                                                                                      \
-                    outvec_axis1 = vec1_axis1;                                                                         \
-                }                                                                                                      \
-            }                                                                                                          \
-            else                                                                                                       \
-            {                                                                                                          \
-                outvec_axis1 -= target_field_10_axis1;                                                                 \
-                if (outvec_axis1 < vec1_axis1)                                                                         \
-                {                                                                                                      \
-                    outvec_axis1 = vec1_axis1;                                                                         \
-                }                                                                                                      \
-            }                                                                                                          \
-            multiplier = outvec_axis1 - vec1_axis1;                                                                    \
-            vec1_axis2 = vec1->AXIS2;                                                                                  \
-            outvec_addend_axis2 = (vec2->AXIS2 - vec1_axis2) * multiplier / divisor;                                   \
-            if (vec1_axis2 + outvec_addend_axis2 >= target->center.AXIS2 - target->size.AXIS2 &&         \
-                target->center.AXIS2 + target->size.AXIS2 >= vec1_axis2 + outvec_addend_axis2)           \
-            {                                                                                                          \
-                vec1_axis3 = vec1->AXIS3;                                                                              \
-                outvec_axis3 = vec1_axis3;                                                                             \
-                outvec_axis3 += (vec2->AXIS3 - outvec_axis3) * multiplier / divisor;                                   \
-                if (outvec_axis3 >= target->center.AXIS3 - target->size.AXIS3 &&                         \
-                    target->center.AXIS3 + target->size.AXIS3 >= outvec_axis3)                           \
-                {                                                                                                      \
-                    do                                                                                                 \
-                    {                                                                                                  \
-                        outvec->AXIS1 = outvec_axis1;                                                                  \
-                        outvec->AXIS2 = vec1_axis2 + outvec_addend_axis2;                                              \
-                        outvec->AXIS3 = outvec_axis3;                                                                  \
-                    } while (0);                                                                                       \
-                    return 1;                                                                                          \
-                }                                                                                                      \
-            }                                                                                                          \
-        }                                                                                                              \
-    }
-
-int sub_8002DDE0(SVECTOR *vec1, SVECTOR *vec2, TARGET *target, SVECTOR *outvec)
+static int OnlineTarget(SVECTOR *from, SVECTOR *to, TARGET *def, SVECTOR *hit)
 {
-    int divisor;
-    sub_8002DDE0_helper(vx, vy, vz);
-    sub_8002DDE0_helper(vy, vz, vx);
-    sub_8002DDE0_helper(vz, vx, vy);
+    int cx, cy, cz, sx, sy, sz, df, f0;
+    int c1, c2;
+
+    f0 = from->vx;
+    if ((df = to->vx - f0) == 0) goto cutx_failed;
+    cx = def->center.vx; sx = def->size.vx;    
+    if (cx < f0)                                                                
+    {                                                                                                          
+        cx += sx;                                                                 
+        if (cx > f0) cx = f0;                                                                                                                                                                         
+    }                                                                                                          
+    else                                                                                                       
+    {                                                                                                          
+        cx -= sx;                                                                 
+        if (cx < f0) cx = f0;                                                                                                                                                              
+    }
+    c1 = from->vy + (to->vy - from->vy) * (cx - f0) / df;
+    if (c1 < def->center.vy - def->size.vy ||
+        c1 > def->center.vy + def->size.vy) goto cutx_failed;
+    c2 = from->vz + (to->vz - from->vz) * (cx - f0) / df;
+    if (c2 < def->center.vz - def->size.vz ||
+        c2 > def->center.vz + def->size.vz) goto cutx_failed;
+    hit->vx = cx;
+    hit->vy = c1;
+    hit->vz = c2;
+    return 1;
+cutx_failed:
+    f0 = from->vy;
+    if ((df = to->vy - f0) == 0) goto cuty_failed;
+    cy = def->center.vy; sy = def->size.vy;    
+    if (cy < f0)                                                                
+    {                                                                                                          
+        cy += sy;                                                                 
+        if (cy > f0) cy = f0;                                                                                                                                                                         
+    }                                                                                                          
+    else                                                                                                       
+    {                                                                                                          
+        cy -= sy;                                                                 
+        if (cy < f0) cy = f0;                                                                                                                                                              
+    }
+    c1 = from->vz + (to->vz - from->vz) * (cy - f0) / df;
+    if (c1 < def->center.vz - def->size.vz ||
+        c1 > def->center.vz + def->size.vz) goto cuty_failed;
+    c2 = from->vx + (to->vx - from->vx) * (cy - f0) / df;
+    if (c2 < def->center.vx - def->size.vx ||
+        c2 > def->center.vx + def->size.vx) goto cuty_failed;
+    hit->vy = cy;
+    hit->vz = c1;
+    hit->vx = c2;
+    return 1;
+cuty_failed:
+    f0 = from->vz;
+    if ((df = to->vz - f0) == 0) goto cutz_failed;
+    cz = def->center.vz; sz = def->size.vz;
+    if (cz < f0)                                                                
+    {                                                                                                          
+        cz += sz;                                                                 
+        if (cz > f0) cz = f0;                                                                                                                                                                         
+    }                                                                                                          
+    else                                                                                                       
+    {                                                                                                          
+        cz -= sz;                                                                 
+        if (cz < f0) cz = f0;                                                                                                                                                              
+    }
+    c1 = from->vx + (to->vx - from->vx) * (cz - f0) / df;
+    if (c1 < def->center.vx - def->size.vx ||
+        c1 > def->center.vx + def->size.vx) goto cutz_failed;
+    c2 = from->vy + (to->vy - from->vy) * (cz - f0) / df;
+    if (c2 < def->center.vy - def->size.vy ||
+        c2 > def->center.vy + def->size.vy) goto cutz_failed;
+    hit->vz = cz;
+    hit->vx = c1;
+    hit->vy = c2;
+    return 1;
+cutz_failed:
     return 0;
 }
 
-int GM_Target_8002E1B8(SVECTOR *pVec, SVECTOR *pVec1, int map_bit, SVECTOR *pVec2, int side)
+int GM_OnlineTargetCheck(SVECTOR *from, SVECTOR *to, int map, SVECTOR *hit, int side)
 {
+    TARGET tmp;
     TARGET *iter;
-    int     i;
-    int     bResult;
-    TARGET  target;
+    int found, i;
 
-    target.map = map_bit;
-    target.side = NO_SIDE;
-    sub_8002DD1C(pVec, pVec1, &target);
+    tmp.map = map;
+    tmp.side = NO_SIDE;
 
-    iter = gTargets_800B64E0;
-    i = gTargets_lastSlotUsed_800ABA68;
-    for (bResult = 0; i > 0; ++iter)
+    SetFromToTarget(from, to, &tmp);
+
+    iter = GM_TargetDatas;
+    found = 0;
+    for (i = GM_TargetCount; i > 0; i--)
     {
-        if (iter->side != side && (iter->class & TARGET_SEEK) != 0)
+        if (iter->side != side && (iter->class & TARGET_SEEK))
         {
-            if (GM_TargetIntersects(iter, &target))
+            if (TargetIntersects(iter, &tmp) && OnlineTarget(from, to, iter, hit))
             {
-                if (sub_8002DDE0(pVec, pVec1, iter, pVec2))
-                {
-                    sub_8002DD1C(pVec, pVec2, &target);
-                    bResult = 1;
-                }
+                SetFromToTarget(from, hit, &tmp);
+                found = 1;
             }
-        }
-        --i;
-    }
-    return bResult;
-}
-
-int sub_8002E2A8(SVECTOR *from, SVECTOR *to, int map, SVECTOR *arg3)
-{
-    TARGET  target;
-    TARGET *iter;
-    int     count;
-
-    target.map = map;
-    target.side = NO_SIDE;
-
-    sub_8002DD1C(from, to, &target);
-
-    iter = gTargets_800B64E0;
-    count = gTargets_lastSlotUsed_800ABA68;
-
-    while (count > 0)
-    {
-        if (((iter->field_3C & 0x1) != 0) &&
-            ((iter->class & TARGET_SEEK) != 0) &&
-            GM_TargetIntersects(iter, &target) &&
-            sub_8002DDE0(from, to, iter, arg3))
-        {
-            return 1;
         }
 
         iter++;
-        count--;
+    }
+
+    return found;
+}
+
+int GM_OnlineTargetCheckAny(SVECTOR *from, SVECTOR *to, int map, SVECTOR *hit)
+{
+    TARGET tmp;
+    TARGET *iter;
+    int i;
+
+    tmp.map = map;
+    tmp.side = NO_SIDE;
+
+    SetFromToTarget(from, to, &tmp);
+
+    iter = GM_TargetDatas;
+    for (i = GM_TargetCount; i > 0; i--)
+    {
+        if ((iter->flag & 0x1) && (iter->class & TARGET_SEEK))
+        {
+            if (TargetIntersects(iter, &tmp) && OnlineTarget(from, to, iter, hit))
+            {
+                return 1;
+            }
+        }
+
+        iter++;
     }
 
     return 0;
 }
 
-void GM_Target_8002E374(int *ppDownCount, TARGET **targets)
+void GM_GetTargets(int *count, TARGET **targets)
 {
-    *ppDownCount = gTargets_lastSlotUsed_800ABA68;
-    *targets = gTargets_800B64E0;
+    *count = GM_TargetCount;
+    *targets = GM_TargetDatas;
 }

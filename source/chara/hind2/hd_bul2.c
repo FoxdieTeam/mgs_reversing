@@ -43,7 +43,7 @@ int HdBul2_800C5920( HdBul2Work *work )
     GV_LenVec3( &diff, &scaled, GV_VecLen3( &diff ), 2000 );
     GV_AddVec3( &mov, &scaled, &scaled );
 
-    hit = GM_Target_8002E1B8( &mov, &scaled, work->map, &scaled, ENEMY_SIDE );
+    hit = GM_OnlineTargetCheck( &mov, &scaled, work->map, &scaled, ENEMY_SIDE );
     if ( hit != 0 )
     {
         GM_MoveTarget( &work->target, &scaled );

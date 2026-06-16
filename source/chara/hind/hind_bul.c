@@ -34,7 +34,7 @@ static int CheckTarget(Work *work)
     GV_LenVec3(&diff, &out, GV_VecLen3(&diff), 2000);
     GV_AddVec3(&mov, &out, &out);
 
-    hit = GM_Target_8002E1B8(&mov, &out, work->map, &out, ENEMY_SIDE);
+    hit = GM_OnlineTargetCheck(&mov, &out, work->map, &out, ENEMY_SIDE);
     if (hit)
     {
         GM_MoveTarget(&work->target, &out);

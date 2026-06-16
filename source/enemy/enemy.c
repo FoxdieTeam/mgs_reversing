@@ -309,7 +309,7 @@ void s00a_command_800C9E68( WatcherWork* work )
                     map = work->control.map;
                     if ( !( HZD_OnlineHazardCheck( map->hzd, pos, &ctrl->mov, HZD_CHK_ALL, SEGMENT_ATR ) ) )
                     {
-                        if ( !( sub_8002E2A8( &ctrl->mov, pos, map->index, &svec ) ) )
+                        if ( !( GM_OnlineTargetCheckAny( &ctrl->mov, pos, map->index, &svec ) ) )
                         {
                             if ( work->vision.length < dis )
                             {
