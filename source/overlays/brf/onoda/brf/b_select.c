@@ -75,7 +75,8 @@ typedef struct _Work
     int    field_D4;          /* 0x0D4 */
     char   pad_D8[0xC];       /* 0x0D8 */
     void  *field_E4;          /* 0x0E4 */
-    char   pad_E8[0x340];     /* 0x0E8 */
+    char   field_E8[0x40];    /* 0x0E8 */
+    char   pad_128[0x300];    /* 0x128 */
     int    field_428[64];     /* 0x428 */
     int    field_528;         /* 0x528 */
     char   pad_52C[0x100];    /* 0x52C */
@@ -135,7 +136,41 @@ void brf_800C53E4(Work *work, int idx)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5584.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C56C0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5A68.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5DE4.s")
+void brf_800C56C0(Work *work, void *data, int cache_id);
+extern const char brf_dword_800E10D4[];
+
+void brf_800C5DE4(Work *work)
+{
+    char *p = (char *)work->field_E4;
+    int count = *(int *)p;
+    char *dst;
+    char c;
+    int n;
+
+    p += 4;
+    do
+    {
+        c = *p++;
+        work->field_E8[0] = c;
+        dst = &work->field_E8[1];
+        if (c != 0)
+        {
+            do
+            {
+                c = *p++;
+                *dst++ = c;
+            } while (c != 0);
+        }
+        p += (4 - ((int)p & 3)) & 3;
+        n = *(int *)p;
+        p += 4;
+        brf_800C56C0(work, p, GV_CacheID3(work->field_E8));
+        count--;
+        n++;
+        p += n;
+    } while (count > 0);
+    printf((char *)brf_dword_800E10D4);
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5EAC.s")
 void brf_800C5F74(Work *work)
 {
