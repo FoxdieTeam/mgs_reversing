@@ -148,7 +148,22 @@ void brf_800C68EC(Work *work, int a1, int a2, int a3)
     GM_SeSet2(0, 0x3F, 0x1F);
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6930.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C69B4.s")
+int brf_800C69B4(Work *work, int idx, int y, int h)
+{
+    POLY_FT4 *p = work->field_780;
+    int x0 = p[idx].x0;
+    int x3 = p[idx].x3;
+
+    p[idx].y0 = y;
+    p[idx].y1 = y;
+    p[idx].y2 = y + 0xD;
+    p[idx].y3 = y + 0xD;
+    p[idx].x0 = x0;
+    p[idx].x1 = x3;
+    p[idx].x2 = x0;
+    p[idx].x3 = x3;
+    return y + h;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C69FC.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6AD0.s")
 void brf_800C6B54(Work *work, int a1, int a2)
