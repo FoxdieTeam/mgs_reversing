@@ -2,8 +2,10 @@
 
 typedef struct _Work
 {
-    GV_ACT actor;             /* 0x000, size 0x20 */
-    char   pad_20[0x10];      /* 0x020 */
+    GV_ACT  actor;            /* 0x000, size 0x20 */
+    DG_PRIM *field_20;        /* 0x020 */
+    DG_PRIM *field_24;        /* 0x024 */
+    char   pad_28[0x8];       /* 0x028 */
     char   field_30;          /* 0x030 */
     char   field_31;          /* 0x031 */
     char   field_32;          /* 0x032 */
@@ -589,8 +591,30 @@ void brf_800C81AC(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C96DC.s")
 void brf_800C96DC(Work *work); // Act
 
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C972C.s")
-void brf_800C972C(Work *work); // Die
+extern const char brf_dword_800E1274[];
+
+void brf_800C972C(Work *work) // Die
+{
+    DG_PRIM *prim;
+
+    prim = work->field_20;
+    if (prim)
+    {
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
+    }
+    prim = work->field_24;
+    if (prim)
+    {
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
+    }
+    GV_InitResidentMemory();
+    GV_InitCacheSystem();
+    DG_ClearResidentTexture();
+    GM_SetArea(GV_StrCode(brf_dword_800E1274), (char *)brf_dword_800E1274);
+    GM_LoadRequest = 1;
+}
 
 void brf_800C97CC(int prim, POLY_FT4 *poly, int xl, int yt, int xr, int yb, int abe)
 {
