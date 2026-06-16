@@ -48,10 +48,11 @@ typedef struct _Work
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC560.s")
 int brf_800CC5CC(int a)
 {
-    if ((unsigned int)a >= 10)
+    if (a < 0 || a > 9)
     {
         a = 0;
     }
+
     return a;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC5E4.s")
