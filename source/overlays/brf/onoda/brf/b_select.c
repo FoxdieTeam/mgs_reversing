@@ -57,7 +57,7 @@ void brf_800C5F74(Work *work)
 void brf_800C5350(Work *work);
 void brf_800C5DE4(Work *work);
 
-void brf_800C5FB4(Work *work)
+void brf_800C5FB4(Work *work, int arg)
 {
     brf_800C5350(work);
     brf_800C5DE4(work);
@@ -66,13 +66,24 @@ void brf_800C5FB4(Work *work)
 void brf_800C53E4(Work *work);
 void brf_800C5EAC(Work *work);
 
-void brf_800C5FE0(Work *work)
+void brf_800C5FE0(Work *work, int arg)
 {
     brf_800C53E4(work);
     brf_800C5EAC(work);
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C600C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C609C.s")
+void brf_800C609C(Work *work, int sel, int arg)
+{
+    if (sel == 0)
+    {
+        brf_800C5FB4(work, arg);
+    }
+    else if (sel == 1)
+    {
+        brf_800C5FB4(work, arg);
+        brf_800C5FE0(work, arg);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C60FC.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6228.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C62B0.s")
