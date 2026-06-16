@@ -19,7 +19,9 @@ typedef struct _Work
     char   pad_49[0x27];      /* 0x049 */
     int    field_70;          /* 0x070 */
     int    field_74;          /* 0x074 */
-    char   pad_78[0x54];      /* 0x078 */
+    char   pad_78[0x8];       /* 0x078 */
+    int    field_80;          /* 0x080 */
+    char   pad_84[0x48];      /* 0x084 */
     int    field_CC;          /* 0x0CC */
     int    field_D0;          /* 0x0D0 */
     char   pad_D4[0x354];     /* 0x0D4 */
@@ -364,7 +366,18 @@ void brf_800C7F20(Work *work)
     work->field_47 = 0;
     work->field_48 = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F3C.s")
+void brf_800C7F3C(Work *work)
+{
+    work->field_35 = 1;
+    if (work->field_80 == 1)
+    {
+        work->field_36 = 1;
+        work->field_47 = 1;
+        work->field_48 = 1;
+    }
+    work->field_45 = 1;
+    work->field_46 = 1;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F6C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F9C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7FF0.s")
