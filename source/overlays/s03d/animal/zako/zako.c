@@ -38,6 +38,7 @@ extern short s03d_word_800C39E8[2];
 extern short s03d_word_800C39EC[2];
 extern int s03d_dword_800DC310;
 extern int s03d_dword_800C3B88;
+extern int s03d_dword_800C3A5C;
 extern short s03d_word_800C3A10[20];
 
 void AN_Fog(SVECTOR *svec);
@@ -622,7 +623,15 @@ void s03d_800CED94(Work *work, int arg)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CEE3C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CF114.s")
+void s03d_800CF114(Work *work)
+{
+    SVECTOR vec;
+
+    work->control.turn = GM_PlayerControl->rot;
+    DG_SetPos2(&GM_PlayerPosition, &GM_PlayerControl->rot);
+    DG_PutVector((SVECTOR *)&s03d_dword_800C3A5C, &vec, 1);
+    GV_SubVec3(&vec, &work->control.mov, &work->control.step);
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CF194.s")
 void s03d_800CF4D4(Work *work, int arg)
 {
