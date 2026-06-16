@@ -1,53 +1,6 @@
 #include "common.h"
 #include "game/game.h"
-
-typedef struct _Work
-{
-    char            pad_0[0x20];
-    SVECTOR         field_20;       /* 0x020 */
-    char            pad_28[0x4C - 0x28];
-    MAP            *field_4C;       /* 0x04C */
-    char            pad_50[0x5A - 0x50];
-    short           field_5A;       /* 0x05A */
-    char            pad_5C[0x9C - 0x5C];
-    char           *field_9C;       /* 0x09C */
-    char            pad_A0[0xB6 - 0xA0];
-    short           field_B6;       /* 0x0B6 */
-    char            pad_B8[0x8E4 - 0xB8];
-    short           field_8E4;      /* 0x8E4 */
-    char            pad_8E6[0xAC8 - 0x8E6];
-    short           field_AC8;      /* 0xAC8 */
-    short           field_ACA;      /* 0xACA */
-    short           field_ACC;      /* 0xACC */
-    char            pad_ACE[0xAD0 - 0xACE];
-    int             field_AD0;      /* 0xAD0 */
-    char            pad_AD4[0xAD8 - 0xAD4];
-    int             field_AD8;      /* 0xAD8 */
-    int             field_ADC;      /* 0xADC */
-    char            pad_AE0[0xAE6 - 0xAE0];
-    short           field_AE6;      /* 0xAE6 */
-    short           field_AE8;      /* 0xAE8 */
-    char            pad_AEA[0xB04 - 0xAEA];
-    int             field_B04;      /* 0xB04 */
-    signed char     field_B08;      /* 0xB08 */
-    char            pad_B09[0xB0B - 0xB09];
-    signed char     field_B0B;      /* 0xB0B */
-    unsigned char   field_B0C[0xB26 - 0xB0C];   /* 0xB0C */
-    short           field_B26;      /* 0xB26 */
-    int             field_B28;      /* 0xB28 */
-    char            pad_B2C[0xB48 - 0xB2C];
-    SVECTOR         field_B48;      /* 0xB48 */
-    char            pad_B50[0xB58 - 0xB50];
-    int             field_B58;      /* 0xB58 */
-    int             field_B5C;      /* 0xB5C */
-    int             field_B60;      /* 0xB60 */
-    int             field_B64;      /* 0xB64 */
-    SVECTOR         field_B68;      /* 0xB68 */
-    int             field_B70;      /* 0xB70 */
-    char            pad_B74[0xB90 - 0xB74];
-    int             field_B90;      /* 0xB90 */
-    unsigned short  field_B94;      /* 0xB94 */
-} Work;
+#include "overlays/s03d/animal/zako/zako.h"
 
 void s03d_800D3F14(void *dest, SVECTOR *pos, const char *name, int flag);
 void s03d_800D2CCC(Work *work);
@@ -110,8 +63,8 @@ int s03d_800D307C(Work *work)
     if (work->field_AD0 == 0)
     {
         s03d_800D0C90(work, 0);
-        GM_SeSet(&work->field_20, 0x53);
-        s03d_800D3F14(work->field_9C + 0x270, &work->field_20, s03d_dword_800DBAB0, 0);
+        GM_SeSet(&work->control.mov, 0x53);
+        s03d_800D3F14((char *)work->field_9C.objs + 0x270, &work->control.mov, s03d_dword_800DBAB0, 0);
     }
     if (work->field_AD0 < 20)
     {
@@ -125,7 +78,7 @@ int s03d_800D311C(Work *work)
 {
     if (work->field_AD0 == 0)
     {
-        GM_SeSet(&work->field_20, 0x53);
+        GM_SeSet(&work->control.mov, 0x53);
         s03d_800D0C90(work, 0);
     }
     if (work->field_AD0 >= 21)
@@ -139,11 +92,11 @@ int s03d_800D311C(Work *work)
 int s03d_800D31F4(Work *work, int range)
 {
     SVECTOR local;
-    int dx = work->field_B48.vx - work->field_20.vx;
+    int dx = work->field_B48.vx - work->control.mov.vx;
     int dz;
 
     local.vx = dx;
-    dz = work->field_B48.vz - work->field_20.vz;
+    dz = work->field_B48.vz - work->control.mov.vz;
     local.vz = dz;
     if (-range < dx && dx < range && -range < dz && dz < range)
     {
@@ -156,14 +109,14 @@ int s03d_800D31F4(Work *work, int range)
 int s03d_800D327C(Work *work)
 {
     s03d_800D2C20(work);
-    if (work->field_4C->index != work->field_B60)
+    if (work->control.map->index != work->field_B60)
     {
         return -1;
     }
     if (work->field_AD0 & 0x10)
     {
-        work->field_B70 = HZD_GetAddress(work->field_4C->hzd, &work->field_20, -1);
-        if (HZD_ReachTo(work->field_4C->hzd, work->field_B70, work->field_B5C) >= 2)
+        work->field_B70 = HZD_GetAddress(work->control.map->hzd, &work->control.mov, -1);
+        if (HZD_ReachTo(work->control.map->hzd, work->field_B70, work->field_B5C) >= 2)
         {
             return -1;
         }
@@ -217,11 +170,11 @@ int s03d_800D33E8(Work *work)
         work->field_AD8 |= 0x100000;
         work->field_B68 = ((SVECTOR *)&s03d_dword_800C3B68)[work->field_B08];
     }
-    else if (work->field_B6 != 0)
+    else if (work->field_9C.is_end != 0)
     {
         return 1;
     }
-    work->field_AE6 = s03d_800D2D84(&work->field_20, &((SVECTOR *)&s03d_dword_800C3B68)[work->field_B08]);
+    work->field_AE6 = s03d_800D2D84(&work->control.mov, &((SVECTOR *)&s03d_dword_800C3B68)[work->field_B08]);
     work->field_AD0++;
     return 0;
 }
@@ -232,7 +185,7 @@ int s03d_800D34AC(Work *work)
     {
         work->field_AD8 |= 0x200000;
     }
-    else if (work->field_B6 != 0)
+    else if (work->field_9C.is_end != 0)
     {
         return 1;
     }
@@ -427,7 +380,7 @@ void s03d_800D3848(Work *work)
         }
         if (work->field_B26 != 2)
         {
-            if (HZD_InsideZone(work->field_4C->hzd, &work->field_20, work->field_B0C[work->field_B0B]) == 0)
+            if (HZD_InsideZone(work->control.map->hzd, &work->control.mov, work->field_B0C[work->field_B0B]) == 0)
             {
                 s03d_800D2CCC(work);
             }
@@ -574,7 +527,7 @@ const char s03d_dword_800DBC84[] = {'c', 0x0, 0x0, 0xf};
 void s03d_800D3B5C(Work *work)
 {
     work->field_AE6 = -1;
-    work->field_5A = 5;
+    work->control.radar_atr = 5;
     work->field_AD8 = 0;
     work->field_B28 = 0xFF;
     if (work->field_AC8 == 0)
