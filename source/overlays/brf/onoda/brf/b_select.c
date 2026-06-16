@@ -575,7 +575,13 @@ void brf_800C96DC(Work *work); // Act
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C972C.s")
 void brf_800C972C(Work *work); // Die
 
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C97CC.s")
+void brf_800C97CC(int prim, POLY_FT4 *poly, int xl, int yt, int xr, int yb, int abe)
+{
+    setPolyFT4(poly);
+    setRGB0(poly, 0x80, 0x80, 0x80);
+    setXY4(poly, xl, yt, xr, yt, xl, yb, xr, yb);
+    SetSemiTrans(poly, abe);
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C983C.s")
 
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C99C0.s")
