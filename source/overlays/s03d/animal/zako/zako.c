@@ -1116,47 +1116,53 @@ void s03d_800D153C(Work *work)
 }
 void s03d_800D15A8(Work *work)
 {
-    TARGET *t = work->field_8FC;
-    int s1 = 0;
+    TARGET  *trg;
+    CONTROL *ctrl;
+    int      turn;
+    int      last_set;
 
-    if (t->damaged & 8)
+    trg = work->field_8FC;
+    turn = 0;
+    if (!(trg->damaged & TARGET_PUSH))
     {
-        GV_AddVec3(&t->offset, &work->control.step, &work->control.step);
-        t->damaged &= ~8;
-        if ((unsigned int)(work->field_8E0 - 1) < 2)
+        return;
+    }
+
+    GV_AddVec3(&trg->offset, &work->control.step, &work->control.step);
+    trg->damaged &= ~TARGET_PUSH;
+
+    last_set = work->field_8E0;
+    if (last_set == 1 || last_set == 2)
+    {
+        if (trg->offset.pad != 0)
         {
-            int a0 = t->offset.pad;
-            if (a0 != 0)
+            if (GV_Time & 0x100)
             {
-                if (GV_Time & 0x100)
+                if (work->field_B08 & 1)
                 {
-                    if (work->field_B08 & 1)
-                    {
-                        s1 = a0 << 10;
-                    }
-                    else
-                    {
-                        s1 = (a0 + 2) << 10;
-                    }
+                    turn = trg->offset.pad << 10;
                 }
                 else
                 {
-                    if (work->field_B08 & 1)
-                    {
-                        s1 = (a0 + 2) << 10;
-                    }
-                    else
-                    {
-                        s1 = a0 << 10;
-                    }
+                    turn = (trg->offset.pad + 2) << 10;
                 }
-                s1 &= 0xFFF;
             }
+            else
             {
-                CONTROL *ctl = &work->control;
-                ctl->turn.vy = s1;
-                ctl->r_sphere = GV_NearExp2(ctl->r_sphere, work->field_8E2);
+                if (work->field_B08 & 1)
+                {
+                    turn = (trg->offset.pad + 2) << 10;
+                }
+                else
+                {
+                    turn = trg->offset.pad << 10;
+                }
             }
+            turn &= 0xFFF;
         }
+
+        ctrl = &work->control;
+        ctrl->turn.vy = turn;
+        ctrl->r_sphere = GV_NearExp2(ctrl->r_sphere, work->field_8E2);
     }
 }
