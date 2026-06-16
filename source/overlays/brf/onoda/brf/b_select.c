@@ -33,7 +33,11 @@ typedef struct _Work
     int    field_74;          /* 0x074 */
     char   pad_78[0x8];       /* 0x078 */
     int    field_80;          /* 0x080 */
-    char   pad_84[0x48];      /* 0x084 */
+    char   pad_84[0x4];       /* 0x084 */
+    int    field_88;          /* 0x088 */
+    char   pad_8C[0x4];       /* 0x08C */
+    int    field_90;          /* 0x090 */
+    char   pad_94[0x38];      /* 0x094 */
     int    field_CC;          /* 0x0CC */
     int    field_D0;          /* 0x0D0 */
     char   pad_D4[0x354];     /* 0x0D4 */
@@ -404,7 +408,26 @@ void brf_800C7F6C(Work *work)
     work->field_53 = 0;
     work->field_54 = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F9C.s")
+void brf_800C7F9C(Work *work)
+{
+    work->field_37 = 1;
+    work->field_39 = 1;
+    work->field_3B = 1;
+    if (work->field_88 == 1)
+    {
+        work->field_38 = 1;
+        work->field_49 = 1;
+        work->field_4A = 1;
+    }
+    if (work->field_90 == 1)
+    {
+        work->field_3A = 1;
+        work->field_4B = 1;
+        work->field_4C = 1;
+    }
+    work->field_53 = 1;
+    work->field_54 = 1;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7FF0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C8038.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C80A8.s")
