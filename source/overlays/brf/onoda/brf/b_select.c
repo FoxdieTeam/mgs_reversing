@@ -2,8 +2,13 @@
 
 typedef struct _Work
 {
-    GV_ACT actor;
-    char   pad1[0xFC8];
+    GV_ACT actor;             /* 0x000, size 0x20 */
+    char   pad_20[0xFB4];     /* 0x020 */
+    int    field_FD4;         /* 0xFD4 */
+    int    field_FD8;         /* 0xFD8 */
+    int    field_FDC;         /* 0xFDC */
+    int    field_FE0;         /* 0xFE0 */
+    char   pad_FE4[0x4];      /* 0xFE4 */
 } Work;
 
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5230.s")
@@ -40,7 +45,13 @@ void brf_800C5FE0(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C62B0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C65C8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C65E8.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6620.s")
+void brf_800C6620(Work *work)
+{
+    work->field_FD4 = 0;
+    work->field_FD8 = 0;
+    work->field_FDC = 0;
+    work->field_FE0 = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6634.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C68EC.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6930.s")
