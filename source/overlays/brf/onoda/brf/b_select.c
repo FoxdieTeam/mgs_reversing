@@ -147,7 +147,33 @@ void brf_800C68EC(Work *work, int a1, int a2, int a3)
     work->field_FE0 = a3;
     GM_SeSet2(0, 0x3F, 0x1F);
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6930.s")
+void brf_800C6930(Work *work, int idx1, int idx2, int base_y)
+{
+    POLY_FT4 *p = work->field_780;
+    int x0, x3;
+
+    x0 = p[idx1].x0;
+    x3 = p[idx1].x3;
+    p[idx1].y0 = base_y + 0xA;
+    p[idx1].y1 = base_y + 0xA;
+    p[idx1].y2 = base_y + 0xB;
+    p[idx1].y3 = base_y + 0xB;
+    p[idx1].x0 = x0;
+    p[idx1].x1 = x3;
+    p[idx1].x2 = x0;
+    p[idx1].x3 = x3;
+
+    x0 = p[idx2].x0;
+    x3 = p[idx2].x3;
+    p[idx2].y0 = base_y - 4;
+    p[idx2].y1 = base_y - 4;
+    p[idx2].y2 = base_y + 0xA;
+    p[idx2].y3 = base_y + 0xA;
+    p[idx2].x0 = x0;
+    p[idx2].x1 = x3;
+    p[idx2].x2 = x0;
+    p[idx2].x3 = x3;
+}
 int brf_800C69B4(Work *work, int idx, int y, int h)
 {
     POLY_FT4 *p = work->field_780;
