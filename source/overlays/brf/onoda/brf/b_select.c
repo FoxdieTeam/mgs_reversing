@@ -206,8 +206,52 @@ void brf_800C609C(Work *work, int sel, int arg)
         brf_800C5FE0(work, arg);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C60FC.s")
-void brf_800C60FC(Work *work);
+void brf_800C60FC(Work *work)
+{
+    int i;
+    int found;
+
+    GV_PauseLevel |= 1;
+    DG_FreeObjectQueue();
+    GV_ResetPacketMemory();
+    brf_800C5F74(work);
+
+    switch (work->field_70)
+    {
+    case 0:
+    case 4:
+        brf_800C609C(work, 1, 0x10);
+        break;
+    case 8:
+        if (work->field_D4 == 0)
+        {
+            brf_800C609C(work, 1, 0x11);
+        }
+        else
+        {
+            found = 0;
+            for (i = 0; i < 16; i++)
+            {
+                if (*(int *)((char *)work + i * 4 + 0x80) == 0)
+                {
+                    found = 1;
+                }
+            }
+            if (!found)
+            {
+                brf_800C609C(work, 0, 0x12);
+            }
+        }
+        break;
+    default:
+        brf_800C600C(work);
+        break;
+    }
+
+    GV_ResetPacketMemory();
+    GV_PauseLevel &= ~1;
+    DG_RestartMainChanlSystem();
+}
 
 void brf_800C6228(Work *work, int a1, int a2)
 {
