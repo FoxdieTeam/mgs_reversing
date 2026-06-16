@@ -171,7 +171,41 @@ void brf_800C5DE4(Work *work)
     } while (count > 0);
     printf((char *)brf_dword_800E10D4);
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5EAC.s")
+void brf_800C5A68(Work *work, void *data, int cache_id);
+extern const char brf_dword_800E10F8[];
+
+void brf_800C5EAC(Work *work)
+{
+    char *p = (char *)work->field_E4;
+    int count = *(int *)p;
+    char *dst;
+    char c;
+    int n;
+
+    p += 4;
+    do
+    {
+        c = *p++;
+        work->field_E8[0] = c;
+        dst = &work->field_E8[1];
+        if (c != 0)
+        {
+            do
+            {
+                c = *p++;
+                *dst++ = c;
+            } while (c != 0);
+        }
+        p += (4 - ((int)p & 3)) & 3;
+        n = *(int *)p;
+        p += 4;
+        brf_800C5A68(work, p, GV_CacheID3(work->field_E8));
+        count--;
+        n++;
+        p += n;
+    } while (count > 0);
+    printf((char *)brf_dword_800E10F8);
+}
 void brf_800C5F74(Work *work)
 {
     int i;
