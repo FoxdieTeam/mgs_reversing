@@ -121,7 +121,30 @@ void brf_800C5FE0(Work *work, int arg)
     brf_800C53E4(work);
     brf_800C5EAC(work);
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C600C.s")
+typedef struct
+{
+    short sel;
+    short arg;
+} BrfDispatch;
+
+extern int brf_dword_800C3430;
+
+void brf_800C600C(Work *work)
+{
+    int idx = work->field_70 - 9;
+    BrfDispatch e = ((BrfDispatch *)&brf_dword_800C3430)[idx];
+    int arg = e.arg;
+
+    if (e.sel == 0)
+    {
+        brf_800C5FB4(work, arg);
+    }
+    else if (e.sel == 1)
+    {
+        brf_800C5FB4(work, arg);
+        brf_800C5FE0(work, arg);
+    }
+}
 void brf_800C609C(Work *work, int sel, int arg)
 {
     if (sel == 0)
