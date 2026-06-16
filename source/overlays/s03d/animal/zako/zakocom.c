@@ -155,7 +155,21 @@ void ZakoCom_800D41C0(void)
         s03d_dword_800DC2F4 = 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4224.s")
+int ZakoCom_800D4224(int arg0, short *out)
+{
+    int count = 0;
+    int i = 0;
+
+    do
+    {
+        count++;
+        out[i + 2] = GCL_StrToInt(GCL_NextStr());
+        out[i + 3] = GCL_StrToInt(GCL_NextStr());
+        i += 2;
+    } while (GCL_NextStr() != 0);
+
+    return count;
+}
 int ZakoCom_800D4284(int arg0, short *out)
 {
     short *p = out;
