@@ -58,18 +58,8 @@ typedef struct _Work
     int    field_74;          /* 0x074 */
     char   pad_78[0x4];       /* 0x078 */
     int    field_7C;          /* 0x07C */
-    int    field_80;          /* 0x080 */
-    char   pad_84[0x4];       /* 0x084 */
-    int    field_88;          /* 0x088 */
-    char   pad_8C[0x4];       /* 0x08C */
-    int    field_90;          /* 0x090 */
-    char   pad_94[0x10];      /* 0x094 */
-    int    field_A4;          /* 0x0A4 */
-    char   pad_A8[0x8];       /* 0x0A8 */
-    int    field_B0;          /* 0x0B0 */
-    char   pad_B4[0x4];       /* 0x0B4 */
-    int    field_B8;          /* 0x0B8 */
-    char   pad_BC[0x10];      /* 0x0BC */
+    int    field_80[16];      /* 0x080 */
+    char   pad_C0[0xC];       /* 0x0C0 */
     int    field_CC;          /* 0x0CC */
     int    field_D0;          /* 0x0D0 */
     int    field_D4;          /* 0x0D4 */
@@ -97,7 +87,7 @@ typedef struct _Work
 typedef struct
 {
     char *name;
-    int   file;
+    int   offset;
     int   size;
 } BrfResource;
 
@@ -111,7 +101,7 @@ void brf_800C5350(Work *work, int idx)
 
     printf((char *)brf_dword_800E1088, e->name);
     work->field_E4 = (void *)0x80182000;
-    FS_LoadFileRequest(6, e->file, e->size, (void *)0x80182000);
+    FS_LoadFileRequest(6, e->offset, e->size, (void *)0x80182000);
     while (FS_LoadFileSync() > 0)
     {
         mts_wait_vbl(1);
@@ -126,7 +116,7 @@ void brf_800C53E4(Work *work, int idx)
 
     printf((char *)brf_dword_800E1088, e->name);
     work->field_E4 = (void *)0x80182000;
-    FS_LoadFileRequest(6, e->file, e->size, (void *)0x80182000);
+    FS_LoadFileRequest(6, e->offset, e->size, (void *)0x80182000);
     while (FS_LoadFileSync() > 0)
     {
         mts_wait_vbl(1);
@@ -301,7 +291,7 @@ void brf_800C60FC(Work *work)
             found = 0;
             for (i = 0; i < 16; i++)
             {
-                if (*(int *)((char *)work + i * 4 + 0x80) == 0)
+                if (work->field_80[i] == 0)
                 {
                     found = 1;
                 }
@@ -673,7 +663,7 @@ void brf_800C7F20(Work *work)
 void brf_800C7F3C(Work *work)
 {
     work->field_35 = 1;
-    if (work->field_80 == 1)
+    if (work->field_80[0] == 1)
     {
         work->field_36 = 1;
         work->field_47 = 1;
@@ -701,13 +691,13 @@ void brf_800C7F9C(Work *work)
     work->field_37 = 1;
     work->field_39 = 1;
     work->field_3B = 1;
-    if (work->field_88 == 1)
+    if (work->field_80[2] == 1)
     {
         work->field_38 = 1;
         work->field_49 = 1;
         work->field_4A = 1;
     }
-    if (work->field_90 == 1)
+    if (work->field_80[4] == 1)
     {
         work->field_3A = 1;
         work->field_4B = 1;
@@ -741,7 +731,7 @@ void brf_800C8038(Work *work)
     work->field_3C = 1;
     work->field_3D = 1;
     work->field_3E = 1;
-    if (work->field_A4 == 1)
+    if (work->field_80[9] == 1)
     {
         work->field_3F = 1;
         work->field_4D = 1;
@@ -749,14 +739,14 @@ void brf_800C8038(Work *work)
     }
     work->field_40 = 1;
     work->field_41 = 1;
-    if (work->field_B0 == 1)
+    if (work->field_80[12] == 1)
     {
         work->field_42 = 1;
         work->field_4F = 1;
         work->field_50 = 1;
     }
     work->field_43 = 1;
-    if (work->field_B8 == 1)
+    if (work->field_80[14] == 1)
     {
         work->field_44 = 1;
         work->field_51 = 1;
@@ -819,7 +809,7 @@ void brf_800C81D8(Work *work)
         found = 0;
         for (i = 0; i < 16; i++)
         {
-            if (*(int *)((char *)work + i * 4 + 0x80) == 0)
+            if (work->field_80[i] == 0)
             {
                 found = 1;
             }
