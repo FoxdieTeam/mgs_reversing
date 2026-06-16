@@ -588,8 +588,18 @@ void brf_800C81AC(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C829C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C95B4.s")
 
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C96DC.s")
-void brf_800C96DC(Work *work); // Act
+void brf_800C829C(Work *work);
+void brf_800C95B4(Work *work);
+
+void brf_800C96DC(Work *work) // Act
+{
+    if (GV_PauseLevel != 8)
+    {
+        brf_800C829C(work);
+        brf_800C95B4(work);
+        work->field_D0++;
+    }
+}
 
 extern const char brf_dword_800E1274[];
 
