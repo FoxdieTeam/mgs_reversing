@@ -1,4 +1,8 @@
 #include "game/game.h"
+#include "libfs/libfs.h"
+#include "mts/mts.h"
+
+#include <stdio.h>
 
 typedef struct _Work
 {
@@ -63,7 +67,9 @@ typedef struct _Work
     char   pad_BC[0x10];      /* 0x0BC */
     int    field_CC;          /* 0x0CC */
     int    field_D0;          /* 0x0D0 */
-    char   pad_D4[0x354];     /* 0x0D4 */
+    char   pad_D4[0x10];      /* 0x0D4 */
+    void  *field_E4;          /* 0x0E4 */
+    char   pad_E8[0x340];     /* 0x0E8 */
     int    field_428[64];     /* 0x428 */
     int    field_528;         /* 0x528 */
     char   pad_52C[0x100];    /* 0x52C */
@@ -80,7 +86,30 @@ typedef struct _Work
 } Work;
 
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5230.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5350.s")
+
+typedef struct
+{
+    char *name;
+    int   file;
+    int   size;
+} BrfResource;
+
+extern int brf_dword_800C321C;
+extern const char brf_dword_800E1088[];
+
+void brf_800C5350(Work *work, int idx)
+{
+    BrfResource *table = (BrfResource *)&brf_dword_800C321C;
+    BrfResource *e = &table[idx];
+
+    printf(brf_dword_800E1088, e->name);
+    work->field_E4 = (void *)0x80182000;
+    FS_LoadFileRequest(6, e->file, e->size, (void *)0x80182000);
+    while (FS_LoadFileSync() > 0)
+    {
+        mts_wait_vbl(1);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C53E4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5478.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5584.s")
@@ -104,12 +133,12 @@ void brf_800C5F74(Work *work)
         work->field_62C[i] = 0;
     }
 }
-void brf_800C5350(Work *work);
+void brf_800C5350(Work *work, int idx);
 void brf_800C5DE4(Work *work);
 
 void brf_800C5FB4(Work *work, int arg)
 {
-    brf_800C5350(work);
+    brf_800C5350(work, arg);
     brf_800C5DE4(work);
 }
 
