@@ -49,6 +49,8 @@ void s03d_800D0324(struct _Work *work, int arg);
 void s03d_800CF68C(struct _Work *work, int arg);
 void s03d_800CE12C(struct _Work *work, int arg);
 void s03d_800CF548(struct _Work *work, int arg);
+void s03d_800CEE3C(struct _Work *work, int arg);
+void s03d_800CF194(struct _Work *work, int arg);
 void Zako_800D0BEC(Work *work, int type);
 void Zako_800D0B18(Work *work, int index, int count);
 void Zako_800D0B88(Work *work);
@@ -310,7 +312,34 @@ int Zako_800CD16C(char *opt, char *out)
     return count;
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD1C4.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD61C.s")
+int s03d_800CD61C(Work *work)
+{
+    TARGET *t = work->field_8FC;
+
+    if (t->damaged & TARGET_CAPTURE)
+    {
+        if (t->a_mode == 0x24)
+        {
+            work->field_8E8 = s03d_800CEE3C;
+            work->field_8F0 = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            GM_ConfigMotionAdjust(&work->field_9C, 0);
+            t->damaged = 0;
+        }
+        else
+        {
+            work->field_8E8 = s03d_800CF194;
+            work->field_8F0 = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            GM_ConfigMotionAdjust(&work->field_9C, 0);
+            t->damaged = 0;
+        }
+        return 1;
+    }
+    return 0;
+}
 int Zako_800CD6A8(Work *work)
 {
     TARGET *t = work->field_8FC;
