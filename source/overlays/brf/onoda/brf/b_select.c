@@ -7,7 +7,8 @@ typedef struct _Work
     char   field_30;          /* 0x030 */
     char   field_31;          /* 0x031 */
     char   field_32;          /* 0x032 */
-    char   pad_33[0x2];       /* 0x033 */
+    char   field_33;          /* 0x033 */
+    char   pad_34[0x1];       /* 0x034 */
     char   field_35;          /* 0x035 */
     char   field_36;          /* 0x036 */
     char   pad_37[0xE];       /* 0x037 */
@@ -226,7 +227,31 @@ void brf_800C6D04(Work *work, int a1, int a2)
     p[6].x3 = -22;
     p[6].y3 = q - 78;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6D7C.s")
+void brf_800C6D7C(Work *work, int a1, int a2)
+{
+    POLY_FT4 *p = work->field_780;
+    int d = work->field_D0;
+    int q;
+
+    if (d < a1)
+    {
+        return;
+    }
+    if (a2 < d)
+    {
+        return;
+    }
+    work->field_33 = 1;
+    q = (d - a1) * 86 / 5;
+    p[7].x0 = -142;
+    p[7].y0 = q - 95;
+    p[7].x1 = -46;
+    p[7].y1 = q - 95;
+    p[7].x2 = -142;
+    p[7].y2 = q - 78;
+    p[7].x3 = -46;
+    p[7].y3 = q - 78;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6E14.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6E88.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C731C.s")
