@@ -150,7 +150,7 @@ int Meryl3_800CB8F0(Meryl3Work *work, int arg1, int arg2)
 }
 void *Meryl3_800CB954(int arg0, int arg1)
 {
-    Meryl3Work *work = GV_NewActor(4, 0x9B8);
+    Meryl3Work *work = GV_NewActor(GV_ACTOR_PREV, sizeof(Meryl3Work));
 
     if (work != NULL)
     {

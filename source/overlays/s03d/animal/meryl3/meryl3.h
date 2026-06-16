@@ -55,7 +55,6 @@ typedef struct _Meryl3Work
     char            pad_9AC[0x9B0 - 0x9AC];
     void           *shadow;         /* 0x9B0 */
     void           *glight;         /* 0x9B4 */
-    char            pad_9B8[0xC00 - 0x9B8];
 } Meryl3Work;
 
 static inline void SetMode(Meryl3Work *work, void (*action)(struct _Meryl3Work *, int))
