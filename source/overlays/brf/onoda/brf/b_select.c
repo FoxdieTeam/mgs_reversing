@@ -352,7 +352,73 @@ void brf_800C6620(Work *work)
     work->field_FDC = 0;
     work->field_FE0 = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6634.s")
+void brf_800C6634(Work *work)
+{
+    POLY_FT4 *poly = work->field_780;
+    int i;
+
+    for (i = 0; i < 16; i++)
+    {
+        if (work->field_80[i] == 1)
+        {
+            poly[i + 9].r0 = 0x46;
+            poly[i + 9].g0 = 0x50;
+            poly[i + 9].b0 = 0x4B;
+        }
+    }
+
+    if (work->field_80[1] == 1)
+    {
+        poly[27].r0 = 0x46; poly[27].g0 = 0x50; poly[27].b0 = 0x4B;
+        poly[28].r0 = 0x46; poly[28].g0 = 0x50; poly[28].b0 = 0x4B;
+    }
+    if (work->field_80[3] == 1)
+    {
+        poly[29].r0 = 0x46; poly[29].g0 = 0x50; poly[29].b0 = 0x4B;
+        poly[30].r0 = 0x46; poly[30].g0 = 0x50; poly[30].b0 = 0x4B;
+    }
+    if (work->field_80[5] == 1)
+    {
+        poly[31].r0 = 0x46; poly[31].g0 = 0x50; poly[31].b0 = 0x4B;
+        poly[32].r0 = 0x46; poly[32].g0 = 0x50; poly[32].b0 = 0x4B;
+    }
+    if (work->field_80[10] == 1)
+    {
+        poly[33].r0 = 0x46; poly[33].g0 = 0x50; poly[33].b0 = 0x4B;
+        poly[34].r0 = 0x46; poly[34].g0 = 0x50; poly[34].b0 = 0x4B;
+    }
+    if (work->field_80[13] == 1)
+    {
+        poly[35].r0 = 0x46; poly[35].g0 = 0x50; poly[35].b0 = 0x4B;
+        poly[36].r0 = 0x46; poly[36].g0 = 0x50; poly[36].b0 = 0x4B;
+    }
+    if (work->field_80[15] == 1)
+    {
+        poly[37].r0 = 0x46; poly[37].g0 = 0x50; poly[37].b0 = 0x4B;
+        poly[38].r0 = 0x46; poly[38].g0 = 0x50; poly[38].b0 = 0x4B;
+    }
+    if (work->field_80[0] == 1 && work->field_80[1] == 1)
+    {
+        poly[5].r0 = 0x46;
+        poly[5].g0 = 0x50;
+        poly[5].b0 = 0x4B;
+    }
+    if (work->field_80[2] == 1 && work->field_80[3] == 1 && work->field_80[4] == 1 &&
+        work->field_80[5] == 1 && work->field_80[6] == 1)
+    {
+        poly[6].r0 = 0x46;
+        poly[6].g0 = 0x50;
+        poly[6].b0 = 0x4B;
+    }
+    if (work->field_80[7] == 1 && work->field_80[8] == 1 && work->field_80[9] == 1 &&
+        work->field_80[10] == 1 && work->field_80[11] == 1 && work->field_80[12] == 1 &&
+        work->field_80[13] == 1 && work->field_80[14] == 1 && work->field_80[15] == 1)
+    {
+        poly[7].r0 = 0x46;
+        poly[7].g0 = 0x50;
+        poly[7].b0 = 0x4B;
+    }
+}
 void brf_800C68EC(Work *work, int a1, int a2, int a3)
 {
     work->field_FD8 = work->field_70;
