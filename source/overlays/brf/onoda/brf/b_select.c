@@ -16,7 +16,14 @@ typedef struct _Work
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5DE4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5EAC.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5F74.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5FB4.s")
+void brf_800C5350(Work *work);
+void brf_800C5DE4(Work *work);
+
+void brf_800C5FB4(Work *work)
+{
+    brf_800C5350(work);
+    brf_800C5DE4(work);
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5FE0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C600C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C609C.s")
