@@ -47,6 +47,7 @@ void s03d_800D01C4(struct _Work *work, int arg);
 void s03d_800D0324(struct _Work *work, int arg);
 void s03d_800CF68C(struct _Work *work, int arg);
 void s03d_800CE12C(struct _Work *work, int arg);
+void s03d_800CF548(struct _Work *work, int arg);
 void Zako_800D0BEC(Work *work, int type);
 void Zako_800D0B18(Work *work, int index, int count);
 void Zako_800D0B88(Work *work);
@@ -337,7 +338,24 @@ int Zako_800CD720(SVECTOR *vec)
     return ABS(x) + ABS(y) + ABS(z);
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD75C.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD984.s")
+int s03d_800CD984(Work *work)
+{
+    if (work->control.mov.vx < 0x1194)
+    {
+        return 0;
+    }
+    if (work->control.mov.vz >= 0xBB9 || !(GM_GameStatus & 2))
+    {
+        return 0;
+    }
+
+    work->field_8E8 = s03d_800CF548;
+    work->field_8F0 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    GM_ConfigMotionAdjust(&work->field_9C, 0);
+    return 1;
+}
 int Zako_800CDA04(Work *work)
 {
     int a = s03d_800CD61C(work);
