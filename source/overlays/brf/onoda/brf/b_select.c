@@ -56,7 +56,8 @@ typedef struct _Work
     char   pad_58[0x18];      /* 0x058 */
     int    field_70;          /* 0x070 */
     int    field_74;          /* 0x074 */
-    char   pad_78[0x8];       /* 0x078 */
+    char   pad_78[0x4];       /* 0x078 */
+    int    field_7C;          /* 0x07C */
     int    field_80;          /* 0x080 */
     char   pad_84[0x4];       /* 0x084 */
     int    field_88;          /* 0x088 */
@@ -71,7 +72,8 @@ typedef struct _Work
     char   pad_BC[0x10];      /* 0x0BC */
     int    field_CC;          /* 0x0CC */
     int    field_D0;          /* 0x0D0 */
-    char   pad_D4[0x10];      /* 0x0D4 */
+    int    field_D4;          /* 0x0D4 */
+    char   pad_D8[0xC];       /* 0x0D8 */
     void  *field_E4;          /* 0x0E4 */
     char   pad_E8[0x340];     /* 0x0E8 */
     int    field_428[64];     /* 0x428 */
@@ -686,7 +688,41 @@ void brf_800C81AC(Work *work)
     brf_800C7FF0(work);
     brf_800C7F9C(work);
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C81D8.s")
+void brf_800C81D8(Work *work)
+{
+    int i;
+    int found;
+
+    work->field_70 = 8;
+
+    if (work->field_D4 == 0)
+    {
+        brf_800C6228(work, 0x11, 0x1F);
+        return;
+    }
+
+    if (work->field_7C == 0)
+    {
+        found = 0;
+        for (i = 0; i < 16; i++)
+        {
+            if (*(int *)((char *)work + i * 4 + 0x80) == 0)
+            {
+                found = 1;
+            }
+        }
+        if (!found)
+        {
+            brf_800C6228(work, 0x12, 0x22);
+            return;
+        }
+    }
+
+    work->field_70 = 0x1D;
+    GM_SeSet2(0, 0x3F, 0x21);
+    brf_800C65C8(work);
+    work->field_D0 = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C829C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C95B4.s")
 
