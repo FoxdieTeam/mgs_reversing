@@ -3,7 +3,15 @@
 typedef struct _Work
 {
     GV_ACT actor;             /* 0x000, size 0x20 */
-    char   pad_20[0xFB4];     /* 0x020 */
+    char   pad_20[0x15];      /* 0x020 */
+    char   field_35;          /* 0x035 */
+    char   field_36;          /* 0x036 */
+    char   pad_37[0xE];       /* 0x037 */
+    char   field_45;          /* 0x045 */
+    char   field_46;          /* 0x046 */
+    char   field_47;          /* 0x047 */
+    char   field_48;          /* 0x048 */
+    char   pad_49[0xF8B];     /* 0x049 */
     int    field_FD4;         /* 0xFD4 */
     int    field_FD8;         /* 0xFD8 */
     int    field_FDC;         /* 0xFDC */
@@ -70,7 +78,15 @@ void brf_800C6620(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C75F0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7B28.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7B94.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F20.s")
+void brf_800C7F20(Work *work)
+{
+    work->field_35 = 0;
+    work->field_36 = 0;
+    work->field_45 = 0;
+    work->field_46 = 0;
+    work->field_47 = 0;
+    work->field_48 = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F3C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F6C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F9C.s")
