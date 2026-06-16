@@ -9,7 +9,10 @@ typedef struct _Work
     GV_ACT  actor;            /* 0x000, size 0x20 */
     DG_PRIM *field_20;        /* 0x020 */
     DG_PRIM *field_24;        /* 0x024 */
-    char   pad_28[0x8];       /* 0x028 */
+    char   pad_28[0x4];       /* 0x028 */
+    char   field_2C;          /* 0x02C */
+    char   field_2D;          /* 0x02D */
+    char   pad_2E[0x2];       /* 0x02E */
     char   field_30;          /* 0x030 */
     char   field_31;          /* 0x031 */
     char   field_32;          /* 0x032 */
@@ -49,7 +52,8 @@ typedef struct _Work
     char   field_54;          /* 0x054 */
     char   field_55;          /* 0x055 */
     char   field_56;          /* 0x056 */
-    char   pad_57[0x19];      /* 0x057 */
+    char   field_57;          /* 0x057 */
+    char   pad_58[0x18];      /* 0x058 */
     int    field_70;          /* 0x070 */
     int    field_74;          /* 0x074 */
     char   pad_78[0x8];       /* 0x078 */
@@ -76,8 +80,8 @@ typedef struct _Work
     int    field_62C[64];     /* 0x62C */
     int    field_72C;         /* 0x72C */
     int      field_730[20];   /* 0x730 */
-    POLY_FT4 field_780[9];    /* 0x780 */
-    char     pad_8E8[0x6EC];  /* 0x8E8 */
+    POLY_FT4 field_780[44];   /* 0x780 */
+    char     pad_E60[0x174];  /* 0xE60 */
     int    field_FD4;         /* 0xFD4 */
     int    field_FD8;         /* 0xFD8 */
     int    field_FDC;         /* 0xFDC */
@@ -297,7 +301,39 @@ int brf_800C69B4(Work *work, int idx, int y, int h)
     p[idx].x3 = x3;
     return y + h;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C69FC.s")
+void brf_800C69FC(Work *work, int lo, int hi)
+{
+    POLY_FT4 *p = work->field_780;
+    int d = work->field_D0;
+    int color;
+
+    if (d < lo) return;
+    if (hi < d) return;
+
+    work->field_2C = 3;
+    work->field_2D = 3;
+    work->field_57 = 3;
+
+    color = (d - lo) * 8;
+
+    p[0].x0 = -0xA0; p[0].y0 = -0x70;
+    p[0].x1 = 0;     p[0].y1 = -0x70;
+    p[0].x2 = -0xA0; p[0].y2 = 0x70;
+    p[0].x3 = 0;     p[0].y3 = 0x70;
+    p[0].r0 = color; p[0].g0 = color; p[0].b0 = color;
+
+    p[1].x0 = 0;     p[1].y0 = -0x70;
+    p[1].x1 = 0xA0;  p[1].y1 = -0x70;
+    p[1].x2 = 0;     p[1].y2 = 0;
+    p[1].x3 = 0xA0;  p[1].y3 = 0;
+    p[1].r0 = color; p[1].g0 = color; p[1].b0 = color;
+
+    p[43].x0 = 0;    p[43].y0 = 0;
+    p[43].x1 = 0xA0; p[43].y1 = 0;
+    p[43].x2 = 0;    p[43].y2 = 0x70;
+    p[43].x3 = 0xA0; p[43].y3 = 0x70;
+    p[43].r0 = color; p[43].g0 = color; p[43].b0 = color;
+}
 void brf_800C6AD0(Work *work, int a1, int a2)
 {
     POLY_FT4 *p = work->field_780;
