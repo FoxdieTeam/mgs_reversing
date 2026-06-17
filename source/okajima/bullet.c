@@ -416,7 +416,7 @@ static void Act(Work *work)
         GV_AddVec3(&work->field_110, &work->field_120, &vec);
     }
 
-    if (GM_Target_8002E1B8(&work->field_110, &vec, map->index, &vec, work->side))
+    if (GM_OnlineTargetCheck(&work->field_110, &vec, map->index, &vec, work->side))
     {
         GM_MoveTarget(&work->target, &vec);
         GM_PowerTarget(&work->target);

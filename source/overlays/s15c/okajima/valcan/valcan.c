@@ -485,7 +485,7 @@ int ValcanGetResources2_800D9774(Work *work)
         if (target2 != NULL)
         {
             GM_SetTarget(target2, 8, 0, &s15c_dword_800C35F8);
-            target2->field_3C = 1;
+            target2->flag = 1;
             return 0;
         }
     }

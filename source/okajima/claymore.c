@@ -240,7 +240,7 @@ STATIC void claymore_Act(Work *work)
             vec = work->field_110;
         }
 
-        GM_Target_8002E1B8(&work->field_24, &vec, work->field_20_map, &vec, 0xff);
+        GM_OnlineTargetCheck(&work->field_24, &vec, work->field_20_map, &vec, 0xff);
         GM_MoveTarget(&work->field_3C_target, &vec);
 
         if (GM_GameOverTimer == 0)

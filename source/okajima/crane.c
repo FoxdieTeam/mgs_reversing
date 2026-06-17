@@ -899,7 +899,7 @@ void s13a_crane_800D5338(Work *work)
     target = GM_AllocTarget();
     work->target = target;
     GM_SetTarget(target, TARGET_SEEK | TARGET_PUSH | TARGET_POWER, NO_SIDE, &crane_800C3614);
-    target->field_3C = 1;
+    target->flag = 1;
     work->has_target = 1;
 }
 

@@ -207,7 +207,7 @@ static int socom_act_helper_80065408( Work *work )
         HZD_GetOnlinePoint( &vecs[ 1 ] );
         bCalcLen = 1;
     }
-    if ( GM_Target_8002E1B8( vecs, &vecs[ 1 ], map->index, &vecs[ 1 ], 1 ) )
+    if ( GM_OnlineTargetCheck( vecs, &vecs[ 1 ], map->index, &vecs[ 1 ], 1 ) )
     {
         bCalcLen = 1;
     }

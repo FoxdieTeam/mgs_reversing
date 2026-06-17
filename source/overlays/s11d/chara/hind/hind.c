@@ -45,8 +45,6 @@ typedef struct _Work
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-extern const char s11d_dword_800D1E48[]; // "hind.c"
-
 int s11d_hind_800C976C(short *p, int target, int step)
 {
     short val = *p;
@@ -330,7 +328,7 @@ void *NewHind(int name, int where)
         return NULL;
     }
 
-    GV_SetNamedActor(work, s11d_hind_800CAF20, s11d_hind_800CAF9C, s11d_dword_800D1E48);
+    GV_SetNamedActor(work, s11d_hind_800CAF20, s11d_hind_800CAF9C, "hind.c");
 
     if (s11d_hind_800CB3A0(work, name, where) < 0)
     {

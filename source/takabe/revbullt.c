@@ -211,7 +211,7 @@ static void Act(Work *work)
 
         GV_AddVec3(&work->f24, &work->f2C, &sp38);
 
-        if (GM_Target_8002E1B8(&work->f24, &sp38, work->map, &work->f24, ENEMY_SIDE)
+        if (GM_OnlineTargetCheck(&work->f24, &sp38, work->map, &work->f24, ENEMY_SIDE)
             && GM_GameOverTimer == 0
             && (GM_MoveTarget(&work->target, &work->f24), GM_PowerTarget(&work->target)))
         {

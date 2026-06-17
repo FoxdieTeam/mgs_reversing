@@ -295,7 +295,7 @@ void s11i_asiato_800CDD64( Zako11FWork *work )
             return;
         }
 
-        if ( !( sub_8002E2A8( mov, pos, map->index, &diff ) ) )
+        if ( !( GM_OnlineTargetCheckAny( mov, pos, map->index, &diff ) ) )
         {
             if ( work->vision.length < dis )
             {

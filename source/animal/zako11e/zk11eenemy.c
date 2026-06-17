@@ -280,7 +280,7 @@ void s11e_zk11ecom_800D8668( ZakoWork* work )
                     map = work->control.map;
                     if ( !( HZD_OnlineHazardCheck( map->hzd, pos, &ctrl->mov, HZD_CHK_ALL, SEGMENT_ATR ) ) )
                     {
-                        if ( !( sub_8002E2A8( &ctrl->mov, pos, map->index, &svec ) ) )
+                        if ( !( GM_OnlineTargetCheckAny( &ctrl->mov, pos, map->index, &svec ) ) )
                         {
                             if ( work->vision.length < dis )
                             {

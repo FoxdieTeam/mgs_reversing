@@ -82,7 +82,7 @@ void s11d_dsmoke2_800CC0E0(Work *work, SVECTOR *arg1, SVECTOR *size)
         GV_AddVec3(vec, arg1, &sp18);
         GV_AddVec3(&sp18, size, &sp20);
 
-        hit = GM_Target_8002E1B8(&sp18, &sp20, map, &sp20, ENEMY_SIDE);
+        hit = GM_OnlineTargetCheck(&sp18, &sp20, map, &sp20, ENEMY_SIDE);
         if (hit)
         {
             break;

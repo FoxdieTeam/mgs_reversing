@@ -49,4 +49,3 @@ int SECTION(".bss") s11d_dword_800D1F78;
 int SECTION(".bss") s11d_dword_800D1F7C;
 int SECTION(".bss") s11d_dword_800D1F80;
 int SECTION(".bss") s11d_dword_800D1F84;
-int SECTION(".bss") s11d_dword_800D1F88;

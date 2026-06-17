@@ -287,7 +287,7 @@ static void Act(Work *work)
         GV_AddVec3(&work->pos, &work->step, &pos);
     }
 
-    if (GM_Target_8002E1B8(&work->pos, &pos, map->index, &pos, work->side))
+    if (GM_OnlineTargetCheck(&work->pos, &pos, map->index, &pos, work->side))
     {
         GM_MoveTarget(&work->target, &pos);
         GM_PowerTarget(&work->target);
