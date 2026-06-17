@@ -93,9 +93,7 @@ void brf_800CDAA8(Work *work, int idx)
     if (v < 0x11)
     {
         v <<= 3;
-        base[idx].r0 = v;
-        base[idx].g0 = v;
-        base[idx].b0 = v;
+        setRGB0(&base[idx], v, v, v);
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDAEC.s")
@@ -190,12 +188,8 @@ void brf_800D17E8(Work *work, int idx1, int idx2)
     POLY_FT4 *base = work->field_28C;
     int v = work->field_AD3C << 2;
 
-    base[idx1].r0 = v;
-    base[idx1].g0 = v;
-    base[idx1].b0 = v;
-    base[idx2].r0 = v;
-    base[idx2].g0 = v;
-    base[idx2].b0 = v;
+    setRGB0(&base[idx1], v, v, v);
+    setRGB0(&base[idx2], v, v, v);
 }
 void brf_800D1838(Work *work)
 {
@@ -236,12 +230,8 @@ void brf_800D39F0(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 {
     int v = work->field_AD30 << 2;
 
-    a1->r0 = v;
-    a1->g0 = v;
-    a1->b0 = v;
-    a2->r0 = v;
-    a2->g0 = v;
-    a2->b0 = v;
+    setRGB0(a1, v, v, v);
+    setRGB0(a2, v, v, v);
     work->field_AD30++;
 }
 void brf_800D3A30(Work *work)
@@ -250,25 +240,17 @@ void brf_800D3A30(Work *work)
     int c = 0x80 - (work->field_AD30 << 2);
     int i;
 
-    base[4].r0 = c;
-    base[4].g0 = c;
-    base[4].b0 = c;
-    base[5].r0 = c;
-    base[5].g0 = c;
-    base[5].b0 = c;
+    setRGB0(&base[4], c, c, c);
+    setRGB0(&base[5], c, c, c);
     for (i = 6; i < 22; i++)
     {
         work->field_A597[i] = 2;
-        base[i].r0 = c;
-        base[i].g0 = c;
-        base[i].b0 = c;
+        setRGB0(&base[i], c, c, c);
     }
     for (i = 180; i < 291; i++)
     {
         work->field_A597[i] = 2;
-        base[i].r0 = c;
-        base[i].g0 = c;
-        base[i].b0 = c;
+        setRGB0(&base[i], c, c, c);
     }
     work->field_AD30++;
 }
@@ -294,12 +276,8 @@ void brf_800D486C(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 {
     int v = work->field_AD30 << 2;
 
-    a1->r0 = v;
-    a1->g0 = v;
-    a1->b0 = v;
-    a2->r0 = v;
-    a2->g0 = v;
-    a2->b0 = v;
+    setRGB0(a1, v, v, v);
+    setRGB0(a2, v, v, v);
     work->field_AD30++;
 }
 void brf_800D48AC(Work *work)
@@ -308,23 +286,13 @@ void brf_800D48AC(Work *work)
     int c = 0x80 - (work->field_AD30 << 2);
     int i;
 
-    base[2].r0 = c;
-    base[2].g0 = c;
-    base[2].b0 = c;
-    base[3].r0 = c;
-    base[3].g0 = c;
-    base[3].b0 = c;
-    base[7].r0 = c;
-    base[7].g0 = c;
-    base[7].b0 = c;
-    base[8].r0 = c;
-    base[8].g0 = c;
-    base[8].b0 = c;
+    setRGB0(&base[2], c, c, c);
+    setRGB0(&base[3], c, c, c);
+    setRGB0(&base[7], c, c, c);
+    setRGB0(&base[8], c, c, c);
     for (i = 9; i < 38; i++)
     {
-        base[i].r0 = c;
-        base[i].g0 = c;
-        base[i].b0 = c;
+        setRGB0(&base[i], c, c, c);
     }
     work->field_AD30++;
 }
@@ -348,18 +316,10 @@ void brf_800D5CC4(Work *work)
         int c;
         v <<= 3;
         c = 0x80 - v;
-        base[0].r0 = c;
-        base[0].g0 = c;
-        base[0].b0 = c;
-        base[1].r0 = c;
-        base[1].g0 = c;
-        base[1].b0 = c;
-        base[2].r0 = c;
-        base[2].g0 = c;
-        base[2].b0 = c;
-        base[3].r0 = v;
-        base[3].g0 = v;
-        base[3].b0 = v;
+        setRGB0(&base[0], c, c, c);
+        setRGB0(&base[1], c, c, c);
+        setRGB0(&base[2], c, c, c);
+        setRGB0(&base[3], v, v, v);
     }
     work->field_AD30++;
 }
@@ -373,18 +333,10 @@ void brf_800D5D30(Work *work)
         int c;
         v <<= 3;
         c = 0x80 - v;
-        base[3].r0 = c;
-        base[3].g0 = c;
-        base[3].b0 = c;
-        base[4].r0 = v;
-        base[4].g0 = v;
-        base[4].b0 = v;
-        base[5].r0 = v;
-        base[5].g0 = v;
-        base[5].b0 = v;
-        base[6].r0 = v;
-        base[6].g0 = v;
-        base[6].b0 = v;
+        setRGB0(&base[3], c, c, c);
+        setRGB0(&base[4], v, v, v);
+        setRGB0(&base[5], v, v, v);
+        setRGB0(&base[6], v, v, v);
     }
     work->field_AD30++;
 }
@@ -392,12 +344,8 @@ void brf_800D5D9C(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 {
     int v = work->field_AD30 << 2;
 
-    a1->r0 = v;
-    a1->g0 = v;
-    a1->b0 = v;
-    a2->r0 = v;
-    a2->g0 = v;
-    a2->b0 = v;
+    setRGB0(a1, v, v, v);
+    setRGB0(a2, v, v, v);
     work->field_AD30++;
 }
 void brf_800D5DDC(Work *work)
@@ -406,17 +354,11 @@ void brf_800D5DDC(Work *work)
     int c = 0x80 - (work->field_AD30 << 2);
     int i;
 
-    base[10].r0 = c;
-    base[10].g0 = c;
-    base[10].b0 = c;
-    base[11].r0 = c;
-    base[11].g0 = c;
-    base[11].b0 = c;
+    setRGB0(&base[10], c, c, c);
+    setRGB0(&base[11], c, c, c);
     for (i = 12; i < 20; i++)
     {
-        base[i].r0 = c;
-        base[i].g0 = c;
-        base[i].b0 = c;
+        setRGB0(&base[i], c, c, c);
     }
     work->field_AD30++;
 }
@@ -431,18 +373,10 @@ void brf_800D68D0(Work *work)
         int c;
         v <<= 3;
         c = 0x80 - v;
-        base[0].r0 = c;
-        base[0].g0 = c;
-        base[0].b0 = c;
-        base[1].r0 = c;
-        base[1].g0 = c;
-        base[1].b0 = c;
-        base[2].r0 = c;
-        base[2].g0 = c;
-        base[2].b0 = c;
-        base[3].r0 = v;
-        base[3].g0 = v;
-        base[3].b0 = v;
+        setRGB0(&base[0], c, c, c);
+        setRGB0(&base[1], c, c, c);
+        setRGB0(&base[2], c, c, c);
+        setRGB0(&base[3], v, v, v);
     }
     work->field_AD30++;
 }
@@ -458,24 +392,12 @@ void brf_800D8420(Work *work)
     if (v < 0x21)
     {
         int c = v << 2;
-        base[8].r0 = c;
-        base[8].g0 = c;
-        base[8].b0 = c;
-        base[9].r0 = c;
-        base[9].g0 = c;
-        base[9].b0 = c;
-        base[10].r0 = c;
-        base[10].g0 = c;
-        base[10].b0 = c;
-        base[11].r0 = c;
-        base[11].g0 = c;
-        base[11].b0 = c;
-        base[12].r0 = c;
-        base[12].g0 = c;
-        base[12].b0 = c;
-        base[13].r0 = c;
-        base[13].g0 = c;
-        base[13].b0 = c;
+        setRGB0(&base[8], c, c, c);
+        setRGB0(&base[9], c, c, c);
+        setRGB0(&base[10], c, c, c);
+        setRGB0(&base[11], c, c, c);
+        setRGB0(&base[12], c, c, c);
+        setRGB0(&base[13], c, c, c);
     }
     work->field_AD38++;
 }
@@ -490,15 +412,11 @@ void brf_800D849C(Work *work)
         int i;
         for (i = 8; i < 14; i++)
         {
-            base[i].r0 = c;
-            base[i].g0 = c;
-            base[i].b0 = c;
+            setRGB0(&base[i], c, c, c);
         }
         for (i = 16; i < 28; i++)
         {
-            base[i].r0 = c;
-            base[i].g0 = c;
-            base[i].b0 = c;
+            setRGB0(&base[i], c, c, c);
             work->field_A597[i] = 2;
         }
     }
@@ -514,18 +432,10 @@ void brf_800D853C(Work *work)
         int c;
         v <<= 3;
         c = 0x80 - v;
-        base[0].r0 = c;
-        base[0].g0 = c;
-        base[0].b0 = c;
-        base[1].r0 = c;
-        base[1].g0 = c;
-        base[1].b0 = c;
-        base[2].r0 = c;
-        base[2].g0 = c;
-        base[2].b0 = c;
-        base[3].r0 = v;
-        base[3].g0 = v;
-        base[3].b0 = v;
+        setRGB0(&base[0], c, c, c);
+        setRGB0(&base[1], c, c, c);
+        setRGB0(&base[2], c, c, c);
+        setRGB0(&base[3], v, v, v);
     }
     work->field_AD30++;
 }
@@ -538,18 +448,10 @@ void brf_800D85A8(Work *work)
     {
         int v8 = v << 3;
         int c = 0x80 - v8;
-        base[0].r0 = v8;
-        base[0].g0 = v8;
-        base[0].b0 = v8;
-        base[1].r0 = v8;
-        base[1].g0 = v8;
-        base[1].b0 = v8;
-        base[2].r0 = v8;
-        base[2].g0 = v8;
-        base[2].b0 = v8;
-        base[3].r0 = c;
-        base[3].g0 = c;
-        base[3].b0 = c;
+        setRGB0(&base[0], v8, v8, v8);
+        setRGB0(&base[1], v8, v8, v8);
+        setRGB0(&base[2], v8, v8, v8);
+        setRGB0(&base[3], c, c, c);
     }
     work->field_AD30++;
 }
@@ -562,15 +464,9 @@ void brf_800D8614(Work *work)
     {
         int q = (v << 7) / 12;
         int c = 0x80 - q;
-        base[14].r0 = c;
-        base[14].g0 = c;
-        base[14].b0 = c;
-        base[15].r0 = c;
-        base[15].g0 = c;
-        base[15].b0 = c;
-        base[7].r0 = q;
-        base[7].g0 = q;
-        base[7].b0 = q;
+        setRGB0(&base[14], c, c, c);
+        setRGB0(&base[15], c, c, c);
+        setRGB0(&base[7], q, q, q);
     }
     work->field_AD30++;
 }
