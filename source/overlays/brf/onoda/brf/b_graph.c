@@ -16,7 +16,7 @@ typedef struct _Work
     char    pad_AD2C[0x4];   /* 0xAD2C */
     int     field_AD30;      /* 0xAD30 */
     int     field_AD34;      /* 0xAD34 */
-    char    pad_AD38[0x4];   /* 0xAD38 */
+    int     field_AD38;      /* 0xAD38 */
     int     field_AD3C;      /* 0xAD3C */
     char    pad_AD40[0x1C];  /* 0xAD40 */
     int     field_AD5C;      /* 0xAD5C */
@@ -319,7 +319,35 @@ void brf_800D68D0(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D6F98.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D75F0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D8274.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D8420.s")
+void brf_800D8420(Work *work)
+{
+    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    int v = work->field_AD38;
+
+    if (v < 0x21)
+    {
+        int c = v << 2;
+        base[8].r0 = c;
+        base[8].g0 = c;
+        base[8].b0 = c;
+        base[9].r0 = c;
+        base[9].g0 = c;
+        base[9].b0 = c;
+        base[10].r0 = c;
+        base[10].g0 = c;
+        base[10].b0 = c;
+        base[11].r0 = c;
+        base[11].g0 = c;
+        base[11].b0 = c;
+        base[12].r0 = c;
+        base[12].g0 = c;
+        base[12].b0 = c;
+        base[13].r0 = c;
+        base[13].g0 = c;
+        base[13].b0 = c;
+    }
+    work->field_AD38++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D849C.s")
 void brf_800D853C(Work *work)
 {
