@@ -439,7 +439,20 @@ void brf_800DDDE8(int a0, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int ab
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DDE5C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DE004.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DE0F4.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DE270.s")
+void brf_800DE270(int a0, POLY_F4 *poly, int x0, int y0, int x1, int y2, int abe, int gray)
+{
+    setPolyF4(poly);
+    poly->x0 = x0;
+    poly->y0 = y0;
+    poly->y1 = y0;
+    poly->x2 = x0;
+    setRGB0(poly, gray, gray, gray);
+    poly->x1 = x1;
+    poly->y2 = y2;
+    poly->x3 = x1;
+    poly->y3 = y2;
+    SetSemiTrans(poly, abe);
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DE2E0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DECF8.s")
 
