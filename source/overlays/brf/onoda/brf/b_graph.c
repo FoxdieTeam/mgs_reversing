@@ -25,7 +25,10 @@ typedef struct _Work
     char    pad_AD60[0x44];  /* 0xAD60 */
     int     field_ADA4;      /* 0xADA4 */
     int     field_ADA8;      /* 0xADA8 */
-    char    pad_ADAC[0x18];  /* 0xADAC */
+    char    pad_ADAC[0xC];   /* 0xADAC */
+    int     field_ADB8;      /* 0xADB8 */
+    int     field_ADBC;      /* 0xADBC */
+    char    pad_ADC0[0x4];   /* 0xADC0 */
     char    field_ADC4;      /* 0xADC4 */
     char    pad_ADC5[0x3];   /* 0xADC5 */
 } Work;
@@ -106,7 +109,8 @@ void brf_800CDAA8(Work *work, int idx)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE8E8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE9A0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CEA58.s")
-void brf_800CE8E8(Work *work);
+void brf_800CE8E8();
+void brf_800CE2F8(Work *work);
 void brf_800CE9A0(Work *work);
 
 void brf_800CEAF4(Work *work)
@@ -141,7 +145,20 @@ void brf_800CF354(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF4E0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF5A8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D0234.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D1764.s")
+void brf_800D1764(Work *work)
+{
+    if (work->field_AD34 < 0xBE)
+    {
+        brf_800CE8E8(work, 1, 1);
+    }
+    else if (work->field_AD34 == 0xBE)
+    {
+        work->field_ADB8 = 0;
+        work->field_ADBC = 1;
+    }
+    brf_800CE2F8(work);
+    work->field_AD34++;
+}
 void brf_800D17E8(Work *work, int idx1, int idx2)
 {
     POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
