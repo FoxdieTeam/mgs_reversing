@@ -65,17 +65,15 @@ extern TARGET GM_TargetDatas[TARGET_MAX];
 STATIC int SECTION(".sbss") GM_TargetCount;
 STATIC int SECTION(".sbss") GM_StaleTargetCount;
 
-static inline int BoundContains(int asize, int bsize, int apos, int bpos)
+static inline int Conflict(int center1, int size1, int center2, int size2)
 {
-    int size;
-
-    size = asize + bsize;
-    return ( bpos >= ( apos - size ) ) && ( apos >= ( bpos - size ) );
+    size1 += size2;
+    return center1 - size1 <= center2 && center2 - size1 <= center1;
 }
 
-static inline int MapContains(int a, int b)
+static inline int MapConflict(int map1, int map2)
 {
-    return (GM_PlayerMap & a) && (GM_PlayerMap & b);
+    return (GM_PlayerMap & map1) && (GM_PlayerMap & map2);
 }
 
 // Checks if two targets intersect.
@@ -83,24 +81,24 @@ static inline int MapContains(int a, int b)
 // 1. On opposing sides (PLAYER_SIDE & ENEMY_SIDE)
 // 2. Contained within one's bounds
 // 3. On the same map(s)
-static int TargetIntersects(TARGET *a, TARGET *b)
+static int TargetConflict(TARGET *a, TARGET *b)
 {
     return (((a->side & b->side) == 0) &&
-            BoundContains(a->size.vx, b->size.vx, a->center.vx, b->center.vx) &&
-            BoundContains(a->size.vz, b->size.vz, a->center.vz, b->center.vz) &&
-            BoundContains(a->size.vy, b->size.vy, a->center.vy, b->center.vy) &&
-            MapContains(a->map, b->map));
+            Conflict(a->center.vx, a->size.vx, b->center.vx, b->size.vx) &&
+            Conflict(a->center.vz, a->size.vz, b->center.vz, b->size.vz) &&
+            Conflict(a->center.vy, a->size.vy, b->center.vy, b->size.vy) &&
+            MapConflict(a->map, b->map));
 }
 
 // Checks if a target with no side intersects with a given target.
-// Similar to TargetIntersects, but `a` must be on NO_SIDE.
-int TargetIntersectsNoSide(TARGET *a, TARGET *b)
+// Similar to TargetConflict, but `a` must be on NO_SIDE.
+static int TargetConflictMap(TARGET *a, TARGET *b)
 {
     return (a->side == NO_SIDE &&
-            BoundContains(a->size.vx, b->size.vx, a->center.vx, b->center.vx) &&
-            BoundContains(a->size.vz, b->size.vz, a->center.vz, b->center.vz) &&
-            BoundContains(a->size.vy, b->size.vy, a->center.vy, b->center.vy) &&
-            MapContains(a->map, b->map));
+            Conflict(a->center.vx, a->size.vx, b->center.vx, b->size.vx) &&
+            Conflict(a->center.vz, a->size.vz, b->center.vz, b->size.vz) &&
+            Conflict(a->center.vy, a->size.vy, b->center.vy, b->size.vy) &&
+            MapConflict(a->map, b->map));
 }
 
 void GM_InitTargetSystem(void)
@@ -208,7 +206,7 @@ TARGET *GM_CaptureTarget(TARGET *target)
         }
 
         // Return if this is the first intersection for the class
-        if (TargetIntersects(iter, target) && !(iter->damaged & TARGET_CAPTURE))
+        if (TargetConflict(iter, target) && !(iter->damaged & TARGET_CAPTURE))
         {
             iter->damaged |= TARGET_CAPTURE;
             iter->a_mode = target->a_mode;
@@ -247,7 +245,7 @@ TARGET *GM_C4Target(TARGET *target)
         }
 
         // Return if this is the first intersection for the class
-        if (TargetIntersects(iter, target) && !(iter->damaged & TARGET_C4))
+        if (TargetConflict(iter, target) && !(iter->damaged & TARGET_C4))
         {
             iter->damaged |= TARGET_C4;
             target->damaged |= TARGET_C4;
@@ -295,7 +293,7 @@ int GM_TouchTarget(TARGET *target)
         }
 
         // Touch if there is an intersection for the class
-        if (TargetIntersects(iter, target))
+        if (TargetConflict(iter, target))
         {
             oldhp = iter->vital;
             iter->vital -= hp;
@@ -360,7 +358,7 @@ int GM_PowerTarget(TARGET *target)
             continue;
         }
 
-        if (!TargetIntersects(iter, target))
+        if (!TargetConflict(iter, target))
         {
             continue;
         }
@@ -404,98 +402,56 @@ int GM_PowerTarget(TARGET *target)
     return hp_diff;
 }
 
-static inline int sub_helper2_8002DA14( TARGET *target, TARGET *target2, int use_z )
+static inline int Push(int center1, int size1, int center2, int size2)
 {
-    int a, b;
-    int v0, v1;
-
-    b = use_z ? target2->size.vz : target2->size.vx;
-    a = use_z ? target->size.vz : target->size.vx;
-
-    v1 = use_z ? target2->center.vz : target2->center.vx;
-    v0 = use_z ? target->center.vz : target->center.vx;
-
-    b = b + a;
-    a = v0 - v1;
-
-
-    if (a >= 0)
+    size1 += size2;
+    size2 = center2 - center1;
+    if (size2 >= 0)
     {
-        b -= a;
-        if (b < 0)
-        {
-            b = 0;
-        }
-        return b;
+        size1 -= size2;
+        if (size1 < 0) size1 = 0;
+        return size1;
     }
     else
     {
-        a += b;
-        if (a < 0)
-        {
-            a = 0;
-        }
-        return -a;
+        size2 += size1;
+        if (size2 < 0) size2 = 0;
+        return -size2;
     }
 }
 
-static inline int sub_helper_8002DA14(TARGET *target, TARGET *iter)
+static inline int PushTarget(TARGET *off, TARGET *def)
 {
-    int val, val2;
-    int which;
+    int x, z, x2, z2;
+    int dir;
 
-    val = sub_helper2_8002DA14(target, iter, 0);
-    if (val == 0)
+    x = Push(def->center.vx, def->size.vx, off->center.vx, off->size.vx);
+    if (x == 0) return 0;
+
+    z = Push(def->center.vz, def->size.vz, off->center.vz, off->size.vz);
+    if (z == 0) return 0;
+
+    if (def->flag & 2) return 1;
+
+    x2 = abs(x);
+    z2 = abs(z);
+
+    if (x2 <= z2)
     {
-        return 0;
+        x /= 2;
+        off->offset.vx += x;
+        def->offset.vx -= x;
+        dir = (x > 0) ? 2 : 4;
+    }
+    else
+    {
+        z /= 2;
+        off->offset.vz += z;
+        def->offset.vz -= z;
+        dir = (z > 0) ? 1 : 3;
     }
 
-    val2 = sub_helper2_8002DA14(target, iter, 1);
-    if (val2 == 0)
-    {
-        return 0;
-    }
-
-    if (!(iter->flag & 2))
-    {
-        // this is NOT an inline, /= 2 does not work otherwise
-        if (abs(val) <= abs(val2))
-        {
-            val /= 2;
-            target->offset.vx += val;
-            iter->offset.vx -= val;
-
-            if (val > 0)
-            {
-                which = 2;
-            }
-            else
-            {
-                which = 4;
-            }
-        }
-        else
-        {
-            val2 /= 2;
-            target->offset.vz += val2;
-            iter->offset.vz -= val2;
-
-            if (val2 > 0)
-            {
-                which = 1;
-            }
-            else
-            {
-                which = 3;
-            }
-        }
-
-        if (iter->flag & 1)
-        {
-            target->offset.pad = which;
-        }
-    }
-
+    if (def->flag & 1) off->offset.pad = dir;
     return 1;
 }
 
@@ -518,12 +474,12 @@ int GM_PushTarget(TARGET *target)
     {
         iter->push_side = NO_SIDE;
 
-        if ((target == iter) || !(iter->class & TARGET_PUSH) || !TargetIntersectsNoSide(iter, target))
+        if ((target == iter) || !(iter->class & TARGET_PUSH) || !TargetConflictMap(iter, target))
         {
             continue;
         }
 
-        if (sub_helper_8002DA14(target, iter))
+        if (PushTarget(target, iter))
         {
             iter->damaged |= TARGET_PUSH;
             target->damaged |= TARGET_PUSH;
@@ -681,7 +637,7 @@ int GM_OnlineTargetCheck(SVECTOR *from, SVECTOR *to, int map, SVECTOR *hit, int 
     {
         if (iter->side != side && (iter->class & TARGET_SEEK))
         {
-            if (TargetIntersects(iter, &tmp) && OnlineTarget(from, to, iter, hit))
+            if (TargetConflict(iter, &tmp) && OnlineTarget(from, to, iter, hit))
             {
                 SetFromToTarget(from, hit, &tmp);
                 found = 1;
@@ -710,7 +666,7 @@ int GM_OnlineTargetCheckAny(SVECTOR *from, SVECTOR *to, int map, SVECTOR *hit)
     {
         if ((iter->flag & 0x1) && (iter->class & TARGET_SEEK))
         {
-            if (TargetIntersects(iter, &tmp) && OnlineTarget(from, to, iter, hit))
+            if (TargetConflict(iter, &tmp) && OnlineTarget(from, to, iter, hit))
             {
                 return 1;
             }
