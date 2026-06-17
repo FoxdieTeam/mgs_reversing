@@ -4,7 +4,9 @@
 typedef struct _Work
 {
     GV_ACT  actor;           /* 0x000 */
-    char    pad_20[0xA597 - 0x20]; /* 0x020 */
+    char    pad_20[0x28C - 0x20]; /* 0x020 */
+    POLY_FT4 field_28C[291];      /* 0x28C */
+    char    pad_3004[0xA597 - 0x3004]; /* 0x3004 */
     unsigned char field_A597[0xA9B6 - 0xA597]; /* 0xA597 */
     unsigned char field_A9B6[0xAD00 - 0xA9B6]; /* 0xA9B6 */
     GV_PAD *field_AD00;      /* 0xAD00 */
@@ -73,7 +75,7 @@ int brf_800CC5CC(int a)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CD7DC.s")
 void brf_800CD870(Work *work, int idx)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
 
     base[idx].y0 -= 12;
     base[idx].y1 -= 12;
@@ -86,7 +88,7 @@ void brf_800CD870(Work *work, int idx)
 void brf_800CDAA8(Work *work, int idx)
 {
     int v = work->field_AD30;
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
 
     if (v < 0x11)
     {
@@ -185,7 +187,7 @@ void brf_800D1764(Work *work)
 }
 void brf_800D17E8(Work *work, int idx1, int idx2)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
     int v = work->field_AD3C << 2;
 
     base[idx1].r0 = v;
@@ -215,7 +217,7 @@ void brf_800D1838(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D1BDC.s")
 void brf_800D2E70(Work *work)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
     int x = 0x7F - work->field_AD34 * 3;
 
     base[3].y0 = -0x96;
@@ -244,7 +246,7 @@ void brf_800D39F0(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 }
 void brf_800D3A30(Work *work)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
     int c = 0x80 - (work->field_AD30 << 2);
     int i;
 
@@ -302,7 +304,7 @@ void brf_800D486C(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 }
 void brf_800D48AC(Work *work)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
     int c = 0x80 - (work->field_AD30 << 2);
     int i;
 
@@ -338,7 +340,7 @@ void brf_800D493C(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D49B8.s")
 void brf_800D5CC4(Work *work)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
     int v = work->field_AD30;
 
     if (v < 0x11)
@@ -363,7 +365,7 @@ void brf_800D5CC4(Work *work)
 }
 void brf_800D5D30(Work *work)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
     int v = work->field_AD30;
 
     if (v < 0x11)
@@ -400,7 +402,7 @@ void brf_800D5D9C(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 }
 void brf_800D5DDC(Work *work)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
     int c = 0x80 - (work->field_AD30 << 2);
     int i;
 
@@ -421,7 +423,7 @@ void brf_800D5DDC(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D5E54.s")
 void brf_800D68D0(Work *work)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
     int v = work->field_AD30;
 
     if (v < 0x11)
@@ -450,7 +452,7 @@ void brf_800D68D0(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D8274.s")
 void brf_800D8420(Work *work)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
     int v = work->field_AD38;
 
     if (v < 0x21)
@@ -479,7 +481,7 @@ void brf_800D8420(Work *work)
 }
 void brf_800D849C(Work *work)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
     int v = work->field_AD38;
 
     if (v < 0x21)
@@ -504,7 +506,7 @@ void brf_800D849C(Work *work)
 }
 void brf_800D853C(Work *work)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
     int v = work->field_AD30;
 
     if (v < 0x11)
@@ -529,7 +531,7 @@ void brf_800D853C(Work *work)
 }
 void brf_800D85A8(Work *work)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
     int v = work->field_AD30;
 
     if (v < 0x11)
@@ -553,7 +555,7 @@ void brf_800D85A8(Work *work)
 }
 void brf_800D8614(Work *work)
 {
-    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    POLY_FT4 *base = work->field_28C;
     int v = work->field_AD30;
 
     if (v < 0xD)
@@ -600,7 +602,7 @@ void brf_800DCAA8(Work *work)
 {
     if (work->field_AD34 % 3 == 0)
     {
-        POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+        POLY_FT4 *base = work->field_28C;
         int i;
         for (i = 0; i < 8; i++)
         {
