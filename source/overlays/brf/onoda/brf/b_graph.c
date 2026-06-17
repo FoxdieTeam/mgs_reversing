@@ -207,7 +207,15 @@ void brf_800D486C(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
     work->field_AD30++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D48AC.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D493C.s")
+void brf_800D493C(Work *work)
+{
+    work->field_A597[work->field_AD34 + 9] = 2;
+    if (work->field_A9B6[work->field_AD34 + 9] != 0)
+    {
+        GM_SeSet2(0, 0x30, 0xB6);
+    }
+    work->field_AD34++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D49B8.s")
 void brf_800D5CC4(Work *work)
 {
