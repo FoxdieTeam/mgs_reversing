@@ -5,7 +5,10 @@ typedef struct _Work
     GV_ACT  actor;           /* 0x000 */
     char    pad_20[0xACE0];  /* 0x020 */
     GV_PAD *field_AD00;      /* 0xAD00 */
-    char    pad_AD04[0x1C];  /* 0xAD04 */
+    char    pad_AD04[0x10];  /* 0xAD04 */
+    int     field_AD14;      /* 0xAD14 */
+    char    pad_AD18[0x4];   /* 0xAD18 */
+    void  **field_AD1C;      /* 0xAD1C */
     int     field_AD20;      /* 0xAD20 */
     char    pad_AD24[0x4];   /* 0xAD24 */
     int     field_AD28;      /* 0xAD28 */
@@ -400,7 +403,18 @@ void brf_800DD7C8(POLY_FT4 *p, int scale)
     p->b0 = p->b0 * scale / 128;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DD830.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DDBC8.s")
+extern const char brf_dword_800E23E4[];
+
+void brf_800DDBC8(Work *work)
+{
+    int i;
+
+    for (i = 0; i < work->field_AD14; i++)
+    {
+        GV_Free(work->field_AD1C[i]);
+    }
+    printf((char *)brf_dword_800E23E4);
+}
 
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DDC40.s")
 void brf_800DDC40(Work *work); // Act
