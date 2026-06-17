@@ -22,7 +22,9 @@ typedef struct _Work
     int     field_AD3C;      /* 0xAD3C */
     char    pad_AD40[0x1C];  /* 0xAD40 */
     int     field_AD5C;      /* 0xAD5C */
-    char    pad_AD60[0x44];  /* 0xAD60 */
+    char    pad_AD60[0x3C];  /* 0xAD60 */
+    int     field_AD9C;      /* 0xAD9C */
+    char    pad_ADA0[0x4];   /* 0xADA0 */
     int     field_ADA4;      /* 0xADA4 */
     int     field_ADA8;      /* 0xADA8 */
     char    pad_ADAC[0xC];   /* 0xADAC */
@@ -108,7 +110,29 @@ void brf_800CDAA8(Work *work, int idx)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE840.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE8E8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE9A0.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CEA58.s")
+void brf_800CE648(Work *work);
+void brf_800CE6F0(Work *work);
+void brf_800CE798(Work *work);
+void brf_800CE840(Work *work);
+
+void brf_800CEA58(Work *work)
+{
+    switch (work->field_AD9C)
+    {
+    case 1:
+        brf_800CE648(work);
+        break;
+    case 0:
+        brf_800CE6F0(work);
+        break;
+    case 2:
+        brf_800CE840(work);
+        break;
+    case 3:
+        brf_800CE798(work);
+        break;
+    }
+}
 void brf_800CE8E8();
 void brf_800CE2F8(Work *work);
 void brf_800CE9A0(Work *work);
