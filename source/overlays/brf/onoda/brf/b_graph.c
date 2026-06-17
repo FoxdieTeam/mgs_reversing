@@ -398,7 +398,27 @@ void brf_800D85A8(Work *work)
     }
     work->field_AD30++;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D8614.s")
+void brf_800D8614(Work *work)
+{
+    POLY_FT4 *base = (POLY_FT4 *)((char *)work + 0x28C);
+    int v = work->field_AD30;
+
+    if (v < 0xD)
+    {
+        int q = (v << 7) / 12;
+        int c = 0x80 - q;
+        base[14].r0 = c;
+        base[14].g0 = c;
+        base[14].b0 = c;
+        base[15].r0 = c;
+        base[15].g0 = c;
+        base[15].b0 = c;
+        base[7].r0 = q;
+        base[7].g0 = q;
+        base[7].b0 = q;
+    }
+    work->field_AD30++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D8690.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D872C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D8858.s")
