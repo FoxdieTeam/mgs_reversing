@@ -6,7 +6,9 @@ typedef struct _Work
     GV_ACT  actor;           /* 0x000 */
     char    pad_20[0x28C - 0x20]; /* 0x020 */
     POLY_FT4 field_28C[291];      /* 0x28C */
-    char    pad_3004[0xA595 - 0x3004]; /* 0x3004 */
+    char    pad_3004[0xA588 - 0x3004]; /* 0x3004 */
+    int     field_A588;                /* 0xA588 */
+    char    pad_A58C[0xA595 - 0xA58C]; /* 0xA58C */
     unsigned char field_A595;          /* 0xA595 */
     char    pad_A596[0xA597 - 0xA596]; /* 0xA596 */
     unsigned char field_A597[0xA9A7 - 0xA597]; /* 0xA597 */
@@ -81,7 +83,19 @@ void brf_800CC150(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC28C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC388.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC480.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC560.s")
+extern int brf_dword_800C3508;
+
+void brf_800CC560(Work *work)
+{
+    int i;
+
+    work->field_AD5C = 0;
+
+    for (i = 0; i < ((short *)&brf_dword_800C3508)[work->field_A588]; i++)
+    {
+        work->field_A597[i] = 0;
+    }
+}
 int brf_800CC5CC(int a)
 {
     if (a < 0 || a > 9)
