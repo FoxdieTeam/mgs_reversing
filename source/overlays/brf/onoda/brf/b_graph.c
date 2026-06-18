@@ -20,9 +20,12 @@ typedef struct _Work
     unsigned char field_A9A7[0xA9B6 - 0xA9A7]; /* 0xA9A7 */
     unsigned char field_A9B6[0xAD00 - 0xA9B6]; /* 0xA9B6 */
     GV_PAD *field_AD00;      /* 0xAD00 */
-    char    pad_AD04[0x10];  /* 0xAD04 */
+    int     field_AD04;      /* 0xAD04 */
+    void   *field_AD08;      /* 0xAD08 */
+    int    *field_AD0C;      /* 0xAD0C */
+    int     field_AD10;      /* 0xAD10 */
     int     field_AD14;      /* 0xAD14 */
-    char    pad_AD18[0x4];   /* 0xAD18 */
+    int    *field_AD18;      /* 0xAD18 */
     void  **field_AD1C;      /* 0xAD1C */
     int     field_AD20;      /* 0xAD20 */
     char    pad_AD24[0x4];   /* 0xAD24 */
@@ -50,7 +53,9 @@ typedef struct _Work
     char    pad_ADA0[0x4];   /* 0xADA0 */
     int     field_ADA4;      /* 0xADA4 */
     int     field_ADA8;      /* 0xADA8 */
-    char    pad_ADAC[0xC];   /* 0xADAC */
+    char    pad_ADAC[0x4];   /* 0xADAC */
+    int     field_ADB0;      /* 0xADB0 */
+    char    pad_ADB4[0x4];   /* 0xADB4 */
     int     field_ADB8;      /* 0xADB8 */
     int     field_ADBC;      /* 0xADBC */
     char    pad_ADC0[0x4];   /* 0xADC0 */
@@ -1103,8 +1108,30 @@ void brf_800DE270(int a0, POLY_F4 *poly, int x0, int y0, int x1, int y2, int abe
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DE2E0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DECF8.s")
 
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DFCF8.s")
-int brf_800DFCF8(Work *work, int, int, int, int, int, int, int, int, int); // GetResources
+void brf_800DE2E0(Work *work);
+void brf_800DECF8(Work *work, int a1);
+
+int brf_800DFCF8(Work *work, int p1, int p2, int p3, int p4, int p5, int p6, int p7, int p8, int p9) // GetResources
+{
+    work->field_AD10 = p2;
+    work->field_AD0C = (int *)p3;
+    work->field_AD00 = &GV_PadData[2];
+    work->field_AD04 = p1;
+    work->field_AD28 = 0;
+    work->field_AD5C = 0;
+    work->field_ADB0 = 0;
+    work->field_ADB8 = 0x64;
+    work->field_ADC4 = 0;
+    GM_CurrentMap = p1;
+    work->field_A588 = p5;
+    work->field_AD08 = (void *)p4;
+    work->field_AD14 = p7;
+    work->field_AD18 = (int *)p8;
+    work->field_AD1C = (void **)p9;
+    brf_800DE2E0(work);
+    brf_800DECF8(work, p5);
+    return 0;
+}
 
 void *NewBriefingGraph(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8)
 {
