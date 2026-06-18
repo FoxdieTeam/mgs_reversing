@@ -62,8 +62,25 @@ typedef struct _Work
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBB68.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBC04.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBCB0.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBD5C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBDC8.s")
+void brf_800CBC04();
+void brf_800CBCB0();
+
+void brf_800CBD5C(Work *work, void *a1)
+{
+    if (work->field_AD34 % 3 == 2)
+    {
+        brf_800CBC04(work, a1, work->field_AD34);
+    }
+    work->field_AD34++;
+}
+void brf_800CBDC8(Work *work, void *a1)
+{
+    if (work->field_AD34 % 3 == 2)
+    {
+        brf_800CBCB0(work, a1, work->field_AD34);
+    }
+    work->field_AD34++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBE34.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBF48.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC070.s")
