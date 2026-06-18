@@ -110,7 +110,7 @@ void brf_800CBB68(Work *work, void *a1, int a2)
     {
         if (work->field_AD40)
         {
-            printf(brf_dword_800E1C90);
+            printf((char *)brf_dword_800E1C90);
         }
         else
         {
