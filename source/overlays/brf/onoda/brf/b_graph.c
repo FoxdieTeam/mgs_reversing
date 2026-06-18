@@ -200,6 +200,8 @@ int delta;
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE8E8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE9A0.s")
 
+void brf_800CE798();
+
 void brf_800CEA58(Work *work)
 {
     switch (work->field_AD9C)
@@ -268,7 +270,12 @@ void brf_800CF430(Work *work)
         brf_800CECE4(work);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF4A0.s")
+void brf_800CDAEC();
+
+void brf_800CF4A0(Work *work, int a, int b, int c, int d, int e, int f)
+{
+    brf_800CDAEC(work->field_28C, e, f, a, b, d, c);
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF4E0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF5A8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D0234.s")
