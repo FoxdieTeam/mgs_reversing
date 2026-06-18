@@ -4,7 +4,12 @@
 typedef struct _Work
 {
     GV_ACT  actor;           /* 0x000 */
-    char    pad_20[0x28C - 0x20]; /* 0x020 */
+    void   *field_20;        /* 0x020 */
+    void   *field_24;        /* 0x024 */
+    void   *field_28;        /* 0x028 */
+    void   *field_2C;        /* 0x02C */
+    void   *field_30;        /* 0x030 */
+    char    pad_34[0x28C - 0x34]; /* 0x034 */
     POLY_FT4 field_28C[291];      /* 0x28C */
     char    pad_3004[0xA588 - 0x3004]; /* 0x3004 */
     int     field_A588;                /* 0xA588 */
@@ -432,7 +437,26 @@ void brf_800D1838(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D18D8.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D1A04.s")
+void brf_800D1A04(Work *work, int a1, int a2)
+{
+    int i;
+
+    for (i = 0; i < 0x335; i++)
+    {
+        work->field_A597[i + 0xF] = 0;
+    }
+
+    for (i = 0; i < 0x11; i++)
+    {
+        work->field_A597[i + 0xF] = 2;
+    }
+
+    for (i = a1; i < a2; i++)
+    {
+        work->field_A597[i] = 2;
+        brf_800CD870(work, i);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D1AD8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D1BDC.s")
 void brf_800D2E70(Work *work)
@@ -495,7 +519,26 @@ void brf_800D3AF0(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D3B8C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D3CB8.s")
+void brf_800D3CB8(Work *work, int a1, int a2)
+{
+    int i;
+
+    for (i = 0; i < 0x11D; i++)
+    {
+        work->field_A597[i + 6] = 0;
+    }
+
+    for (i = 0; i < 0x10; i++)
+    {
+        work->field_A597[i + 6] = 2;
+    }
+
+    for (i = a1; i < a2; i++)
+    {
+        work->field_A597[i] = 2;
+        brf_800CD870(work, i);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D3D8C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D45C4.s")
 void brf_800D486C(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
@@ -711,8 +754,59 @@ void brf_800D8690(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D872C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D8858.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D892C.s")
+void brf_800D8858(Work *work, int a1, int a2)
+{
+    int i;
+
+    for (i = 0; i < 0x29C; i++)
+    {
+        work->field_A597[i + 0x10] = 0;
+    }
+
+    for (i = 0; i < 0xC; i++)
+    {
+        work->field_A597[i + 0x10] = 2;
+    }
+
+    for (i = a1; i < a2; i++)
+    {
+        work->field_A597[i] = 2;
+        brf_800CD870(work, i);
+    }
+}
+void brf_800D892C(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+    int i;
+
+    for (i = 0; i < 0x29C; i++)
+    {
+        work->field_A597[i + 0x10] = 0;
+    }
+
+    for (i = 0; i < 0xC; i++)
+    {
+        work->field_A597[i + 0x10] = 2;
+    }
+
+    if (work->field_AD38 < 0x385)
+    {
+        for (i = 0x250; i < 0x2AC; i++)
+        {
+            work->field_A597[i] = 2;
+        }
+    }
+    else if (work->field_AD38 < 0x3A5)
+    {
+        int c = 0x80 - ((work->field_AD38 - 0x384) << 2);
+
+        for (i = 0x250; i < 0x2AC; i++)
+        {
+            setRGB0(&base[i], c, c, c);
+            work->field_A597[i] = 2;
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D8A24.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DA04C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DA3A8.s")
@@ -800,7 +894,42 @@ void brf_800DDBC8(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DDC40.s")
 void brf_800DDC40(Work *work); // Act
 
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DDCA8.s")
+void brf_800DDCA8(Work *work)
+{
+    void *p;
+
+    p = work->field_28;
+    if (p)
+    {
+        DG_DequeuePrim(p);
+        DG_FreePrim(p);
+    }
+    p = work->field_2C;
+    if (p)
+    {
+        DG_DequeuePrim(p);
+        DG_FreePrim(p);
+    }
+    p = work->field_20;
+    if (p)
+    {
+        DG_DequeuePrim(p);
+        DG_FreePrim(p);
+    }
+    p = work->field_24;
+    if (p)
+    {
+        DG_DequeuePrim(p);
+        DG_FreePrim(p);
+    }
+    p = work->field_30;
+    if (p)
+    {
+        DG_DequeuePrim(p);
+        DG_FreePrim(p);
+    }
+    brf_800DDBC8(work);
+}
 void brf_800DDCA8(Work *work); // Die
 
 void brf_800DDD78(int a0, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int abe)
