@@ -36,7 +36,9 @@ typedef struct _Work
     int     field_AD38;      /* 0xAD38 */
     int     field_AD3C;      /* 0xAD3C */
     int     field_AD40;      /* 0xAD40 */
-    char    pad_AD44[0xC];   /* 0xAD44 */
+    int     field_AD44;      /* 0xAD44 */
+    int     field_AD48;      /* 0xAD48 */
+    char    pad_AD4C[0x4];   /* 0xAD4C */
     int     field_AD50;      /* 0xAD50 */
     int     field_AD54;      /* 0xAD54 */
     int     field_AD58;      /* 0xAD58 */
@@ -75,7 +77,26 @@ typedef struct
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CABF4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CAC7C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CAD24.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CADD4.s")
+extern const char brf_dword_800E1C14[];
+int jimctrl_helper_80037F68();
+void brf_800CAD24();
+
+void brf_800CADD4(Work *work, void *a1, int a2)
+{
+    int v0 = jimctrl_helper_80037F68(GV_StrCode(brf_dword_800E1C14));
+    int s0 = v0 & 0xFF;
+
+    work->field_AD60 = v0;
+    if (work->field_AD44 != s0)
+    {
+        brf_800CAD24(work, a1, 0, s0, a2);
+    }
+    else if (work->field_AD48 != 0)
+    {
+        brf_800CAD24(work, a1, 1, s0, a2);
+    }
+    work->field_AD44 = s0;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CAE84.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CB23C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CB5F4.s")
