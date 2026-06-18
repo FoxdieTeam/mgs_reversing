@@ -24,7 +24,16 @@ typedef struct _Work
     int     field_AD3C;      /* 0xAD3C */
     char    pad_AD40[0x1C];  /* 0xAD40 */
     int     field_AD5C;      /* 0xAD5C */
-    char    pad_AD60[0x3C];  /* 0xAD60 */
+    char    pad_AD60[0x18];  /* 0xAD60 */
+    int     field_AD78;      /* 0xAD78 */
+    int     field_AD7C;      /* 0xAD7C */
+    char    pad_AD80[0x4];   /* 0xAD80 */
+    int     field_AD84;      /* 0xAD84 */
+    int     field_AD88;      /* 0xAD88 */
+    char    pad_AD8C[0x4];   /* 0xAD8C */
+    int     field_AD90;      /* 0xAD90 */
+    int     field_AD94;      /* 0xAD94 */
+    char    pad_AD98[0x4];   /* 0xAD98 */
     int     field_AD9C;      /* 0xAD9C */
     char    pad_ADA0[0x4];   /* 0xADA0 */
     int     field_ADA4;      /* 0xADA4 */
@@ -104,16 +113,78 @@ void brf_800CDAA8(Work *work, int idx)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE1C4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE2F8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE430.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE648.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE6F0.s")
+void brf_800CE648(work, idx, mode, delta)
+Work *work;
+int idx;
+int mode;
+int delta;
+{
+    if (work->field_28C[idx].x0 < -127)
+    {
+        switch (mode)
+        {
+        case 1:
+            work->field_AD78 += delta;
+            break;
+        case 2:
+            work->field_AD84 += delta;
+            break;
+        case 3:
+            work->field_AD90 += delta;
+            break;
+        }
+    }
+}
+
+void brf_800CE6F0(work, idx, mode, delta)
+Work *work;
+int idx;
+int mode;
+int delta;
+{
+    if (work->field_28C[idx].x1 >= 0x80)
+    {
+        switch (mode)
+        {
+        case 1:
+            work->field_AD78 -= delta;
+            break;
+        case 2:
+            work->field_AD84 -= delta;
+            break;
+        case 3:
+            work->field_AD90 -= delta;
+            break;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE798.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE840.s")
+
+void brf_800CE840(work, idx, mode, delta)
+Work *work;
+int idx;
+int mode;
+int delta;
+{
+    if (work->field_28C[idx].y0 < -104)
+    {
+        switch (mode)
+        {
+        case 1:
+            work->field_AD7C += delta;
+            break;
+        case 2:
+            work->field_AD88 += delta;
+            break;
+        case 3:
+            work->field_AD94 += delta;
+            break;
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE8E8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE9A0.s")
-void brf_800CE648(Work *work);
-void brf_800CE6F0(Work *work);
-void brf_800CE798(Work *work);
-void brf_800CE840(Work *work);
 
 void brf_800CEA58(Work *work)
 {
