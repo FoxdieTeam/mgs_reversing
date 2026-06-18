@@ -6,8 +6,11 @@ typedef struct _Work
     GV_ACT  actor;           /* 0x000 */
     char    pad_20[0x28C - 0x20]; /* 0x020 */
     POLY_FT4 field_28C[291];      /* 0x28C */
-    char    pad_3004[0xA597 - 0x3004]; /* 0x3004 */
-    unsigned char field_A597[0xA9B6 - 0xA597]; /* 0xA597 */
+    char    pad_3004[0xA595 - 0x3004]; /* 0x3004 */
+    unsigned char field_A595;          /* 0xA595 */
+    char    pad_A596[0xA597 - 0xA596]; /* 0xA596 */
+    unsigned char field_A597[0xA9A7 - 0xA597]; /* 0xA597 */
+    unsigned char field_A9A7[0xA9B6 - 0xA9A7]; /* 0xA9A7 */
     unsigned char field_A9B6[0xAD00 - 0xA9B6]; /* 0xA9B6 */
     GV_PAD *field_AD00;      /* 0xAD00 */
     char    pad_AD04[0x10];  /* 0xAD04 */
@@ -62,7 +65,18 @@ typedef struct _Work
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBE34.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBF48.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC070.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC150.s")
+void brf_800CC150(Work *work)
+{
+    int i;
+
+    work->field_A595 = 0;
+    work->field_A9A7[0] = 0;
+
+    for (i = 1; i < 15; i++)
+    {
+        work->field_A9A7[i] = 2;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC190.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC28C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC388.s")
