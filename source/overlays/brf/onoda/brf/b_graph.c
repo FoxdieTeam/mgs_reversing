@@ -119,7 +119,22 @@ void brf_800CD870(Work *work, int idx)
     base[idx].y2 -= 12;
     base[idx].y3 -= 12;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CD8B8.s")
+void brf_800CD8B8(Work *work, int a1, int a2, int a3)
+{
+    POLY_FT4 *base = work->field_28C;
+    int v = work->field_AD30;
+
+    if (a1 >= v)
+    {
+        int q = v * 128 / a1;
+        int c = 128 - q;
+
+        setRGB0(&base[a2], c, c, c);
+        setRGB0(&base[a3], q, q, q);
+    }
+
+    work->field_AD30++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CD958.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDA10.s")
 void brf_800CDAA8(Work *work, int idx)
