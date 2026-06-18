@@ -660,7 +660,30 @@ void brf_800D8690(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DA04C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DA3A8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DA4E8.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DA638.s")
+void brf_800DA638(Work *work, POLY_FT4 *poly)
+{
+    if (work->field_AD34 % 4 == 0)
+    {
+        poly->y0 += 12;
+        poly->y1 += 12;
+    }
+    else if (work->field_AD34 % 4 == 1)
+    {
+        poly->y0 -= 12;
+        poly->y1 -= 12;
+    }
+    else if (work->field_AD34 % 4 == 2)
+    {
+        poly->y0 -= 12;
+        poly->y1 -= 12;
+    }
+    else if (work->field_AD34 % 4 == 3)
+    {
+        poly->y0 += 12;
+        poly->y1 += 12;
+    }
+    work->field_AD34++;
+}
 void brf_800DA6E4(int a, POLY_FT4 *poly)
 {
     poly->y0 += 12;
