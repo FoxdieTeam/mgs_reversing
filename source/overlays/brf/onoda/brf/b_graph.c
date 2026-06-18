@@ -136,7 +136,20 @@ void brf_800CD8B8(Work *work, int a1, int a2, int a3)
     work->field_AD30++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CD958.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDA10.s")
+void brf_800CDA10(Work *work, int a1, int a2)
+{
+    POLY_FT4 *base = work->field_28C;
+    int v = work->field_AD30;
+
+    if (v < 17)
+    {
+        int c1 = base[a1].r0 * (16 - v) / 16;
+        int c2 = base[a2].r0 * (16 - v) / 16;
+
+        setRGB0(&base[a1], c1, c1, c1);
+        setRGB0(&base[a2], c2, c2, c2);
+    }
+}
 void brf_800CDAA8(Work *work, int idx)
 {
     int v = work->field_AD30;
