@@ -30,7 +30,7 @@ typedef struct _Work
     int     field_AD20;      /* 0xAD20 */
     char    pad_AD24[0x4];   /* 0xAD24 */
     int     field_AD28;      /* 0xAD28 */
-    char    pad_AD2C[0x4];   /* 0xAD2C */
+    int     field_AD2C;      /* 0xAD2C */
     int     field_AD30;      /* 0xAD30 */
     int     field_AD34;      /* 0xAD34 */
     int     field_AD38;      /* 0xAD38 */
@@ -63,7 +63,7 @@ typedef struct _Work
     char    pad_ADB4[0x4];   /* 0xADB4 */
     int     field_ADB8;      /* 0xADB8 */
     int     field_ADBC;      /* 0xADBC */
-    char    pad_ADC0[0x4];   /* 0xADC0 */
+    int     field_ADC0;      /* 0xADC0 */
     char    field_ADC4;      /* 0xADC4 */
     char    pad_ADC5[0x3];   /* 0xADC5 */
 } Work;
@@ -158,11 +158,99 @@ void brf_800CC150(Work *work)
         work->field_A9A7[i] = 2;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC190.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC28C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC388.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC480.s")
+void brf_800CC070();
 extern int brf_dword_800C3508;
+
+void brf_800CC190(Work *work)
+{
+    int i;
+
+    work->field_AD5C = 0;
+    work->field_AD2C = 0;
+    work->field_AD44 = 0;
+    work->field_AD48 = 0;
+    work->field_ADB8 = 0;
+    work->field_ADBC = 0;
+
+    for (i = 1; i < 15; i++)
+    {
+        work->field_A9A7[i] = 2;
+    }
+
+    brf_800CC070(work, 0);
+    GM_SeSet2(0, 0x3F, 0xC1);
+
+    {
+        short *tbl = (short *)&brf_dword_800C3508;
+        for (i = 0; i < tbl[work->field_A588]; i++)
+        {
+            work->field_A597[i] = 0;
+        }
+    }
+
+    work->field_ADC0 = GV_RandU(8) + 8;
+}
+
+void brf_800CC28C(Work *work)
+{
+    int i;
+
+    work->field_AD5C = 0;
+    work->field_AD40 = 0;
+    work->field_AD44 = 0;
+    work->field_AD48 = 0;
+    work->field_ADB8 = 0;
+    work->field_ADBC = 0;
+
+    for (i = 1; i < 15; i++)
+    {
+        work->field_A9A7[i] = 2;
+    }
+
+    brf_800CC070(work, 1);
+    GM_SeSet2(0, 0x3F, 0xC1);
+
+    {
+        short *tbl = (short *)&brf_dword_800C3508;
+        for (i = 0; i < tbl[work->field_A588]; i++)
+        {
+            work->field_A597[i] = 0;
+        }
+    }
+
+    work->field_ADC0 = GV_RandU(8) + 8;
+}
+
+void brf_800CC388(Work *work)
+{
+    int i;
+
+    work->field_AD5C = 0;
+    work->field_AD44 = 0;
+    work->field_AD48 = 0;
+    work->field_ADB8 = 0;
+    work->field_ADBC = 0;
+
+    for (i = 1; i < 15; i++)
+    {
+        work->field_A9A7[i] = 2;
+    }
+
+    brf_800CC070(work, 2);
+    GM_SeSet2(0, 0x3F, 0xC1);
+
+    {
+        short *tbl = (short *)&brf_dword_800C3508;
+        for (i = 0; i < tbl[work->field_A588]; i++)
+        {
+            work->field_A597[i] = 0;
+        }
+    }
+
+    work->field_ADC0 = GV_RandU(8) + 8;
+}
+
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC480.s")
 
 void brf_800CC560(Work *work)
 {
