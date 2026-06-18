@@ -309,9 +309,44 @@ void brf_800CF354(Work *work)
         brf_800CF22C(work);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF394.s")
-void brf_800CC28C(Work *work);
+void brf_800CC190(Work *work);
+void brf_800CC388(Work *work);
 void brf_800CECE4(Work *work);
+
+void brf_800CF394(Work *work, int a1)
+{
+    unsigned short press = work->field_AD00->press;
+
+    if (a1)
+    {
+        if (press & 0x20)
+        {
+            work->field_ADA4 = 1;
+            brf_800CC190(work);
+            GM_SeSet2(0, 0x3F, 0xB0);
+        }
+        else if (press & 0xFFFF)
+        {
+            work->field_ADA4 = 3;
+            brf_800CECE4(work);
+        }
+    }
+    else
+    {
+        if (press & 0x20)
+        {
+            work->field_ADA4 = 3;
+            brf_800CC388(work);
+            GM_SeSet2(0, 0x3F, 0xB0);
+        }
+        else if (press & 0xFFFF)
+        {
+            work->field_ADA4 = 2;
+            brf_800CECE4(work);
+        }
+    }
+}
+void brf_800CC28C(Work *work);
 
 void brf_800CF430(Work *work)
 {
