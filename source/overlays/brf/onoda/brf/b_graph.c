@@ -653,7 +653,30 @@ int delta;
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE798.s")
+void brf_800CE798(work, a1, a2, a3)
+Work *work;
+int a1;
+int a2;
+int a3;
+{
+    POLY_FT4 *base = work->field_28C;
+    if (base[a1 + 1].y2 < 0x59)
+    {
+        return;
+    }
+    switch (a2)
+    {
+    case 1:
+        work->field_AD7C -= a3;
+        break;
+    case 2:
+        work->field_AD88 -= a3;
+        break;
+    case 3:
+        work->field_AD94 -= a3;
+        break;
+    }
+}
 
 void brf_800CE840(work, idx, mode, delta)
 Work *work;
