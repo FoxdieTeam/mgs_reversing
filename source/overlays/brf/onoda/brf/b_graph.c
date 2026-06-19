@@ -100,9 +100,45 @@ void brf_800CADD4(Work *work, void *a1, int a2)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CAE84.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CB23C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CB5F4.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBA84.s")
+typedef struct
+{
+    char    pad_0[4];
+    u_short field_4;  /* tpage */
+    u_short field_6;  /* clut */
+    u_char  field_8;  /* u */
+    u_char  field_9;  /* v */
+    u_char  field_A;  /* w */
+    u_char  field_B;  /* h */
+} BrfGlyph;
+extern int brf_dword_800C50DC;
+BrfGlyph *brf_800CABF4();
+
+void brf_800CBA84(Work *work, POLY_FT4 *dest, int idx)
+{
+    BrfGlyph *g = brf_800CABF4(work, ((unsigned short *)((int *)&brf_dword_800C50DC)[idx])[(work->field_AD40 - 1) / 2]);
+    int u = g->field_8;
+    int uw = u + g->field_A + 1;
+    int v = g->field_9;
+    int vh = v + g->field_B + 1;
+
+    dest->u0 = u;
+    dest->v0 = v;
+    dest->u1 = uw;
+    dest->v1 = v;
+    dest->u2 = u;
+    dest->v2 = vh;
+    dest->u3 = uw;
+    dest->v3 = vh;
+    dest->tpage = g->field_4;
+    dest->clut = g->field_6;
+
+    work->field_AD40++;
+    if (work->field_AD40 >= 7)
+    {
+        work->field_AD40 = 0;
+    }
+}
 extern const char brf_dword_800E1C90[];
-void brf_800CBA84();
 
 void brf_800CBB68(Work *work, void *a1, int a2)
 {
