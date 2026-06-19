@@ -349,7 +349,31 @@ void brf_800CC388(Work *work)
     work->field_ADC0 = GV_RandU(8) + 8;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC480.s")
+void brf_800CC480(Work *work)
+{
+    int i;
+
+    work->field_AD5C = 0;
+    work->field_ADB8 = 0;
+    work->field_ADBC = 0;
+
+    for (i = 1; i < 15; i++)
+    {
+        work->field_A9A7[i] = 0;
+    }
+
+    GM_SeSet2(0, 0x3F, 0xC1);
+
+    {
+        short *tbl = (short *)&brf_dword_800C3508;
+        for (i = 0; i < tbl[work->field_A588]; i++)
+        {
+            work->field_A597[i] = 0;
+        }
+    }
+
+    work->field_ADC0 = GV_RandU(8) + 8;
+}
 
 void brf_800CC560(Work *work)
 {
