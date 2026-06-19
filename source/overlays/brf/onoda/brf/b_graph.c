@@ -555,7 +555,24 @@ void brf_800CDC8C(Work *work, POLY_FT4 *poly)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDDD4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDF34.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDFE4.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE1C4.s")
+extern int brf_dword_800C35F4, brf_dword_800C360C, brf_dword_800C3690;
+void brf_800CDAEC();
+
+void brf_800CE1C4(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+    int x = work->field_AD78;
+    int y = work->field_AD7C;
+    int m = work->field_AD80;
+
+    brf_800CDAEC(base, 2, &brf_dword_800C35F4, x, y, m, 0xc8);
+    brf_800CDAEC(base, 0xb, &brf_dword_800C360C, x * 12 / 10, y, m, 0xc8);
+    brf_800CDAEC(base, 2, &brf_dword_800C3690, x * 15 / 10, y, m, 0xc8);
+    if (work->field_ADB0 & 3)
+    {
+        GM_SeSet2(0, 0x30, 0x24);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE2F8.s")
 void brf_800CE430(work)
 Work *work;
