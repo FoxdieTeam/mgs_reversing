@@ -106,7 +106,29 @@ int key;
     }
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CAC7C.s")
+void brf_800CAC7C(Work *work, int key)
+{
+    int i;
+    int found = 0;
+    void *result = 0;
+    for (i = 0; i < work->field_AD14; i++)
+    {
+        if (work->field_AD18[i] == key)
+        {
+            result = work->field_AD1C[i];
+            found = 1;
+        }
+    }
+    if (found)
+    {
+        LoadImage((RECT *)result, (u_long *)((char *)result + 8));
+        LoadImage((RECT *)((char *)result + 0x208), (u_long *)((char *)result + 0x210));
+    }
+    else
+    {
+        printf(brf_dword_800E1BF0, key);
+    }
+}
 extern const char brf_dword_800E1C14[];
 int jimctrl_helper_80037F68();
 extern int brf_dword_800C5094;
