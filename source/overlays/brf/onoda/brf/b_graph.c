@@ -85,8 +85,27 @@ typedef struct
     u_char  field_B;  /* h */
 } BrfGlyph;
 BrfGlyph *brf_800CABF4();
+extern char brf_dword_800E1BF0[];
 
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CABF4.s")
+BrfGlyph *brf_800CABF4(work, key)
+Work *work;
+int key;
+{
+    int i;
+    int found = 0;
+    for (i = 0; i < work->field_AD10; i++)
+    {
+        if (work->field_AD0C[i] == key)
+        {
+            return (BrfGlyph *)((char *)work->field_AD08 + i * 12);
+        }
+    }
+    if (!found)
+    {
+        printf(brf_dword_800E1BF0, key);
+    }
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CAC7C.s")
 extern const char brf_dword_800E1C14[];
 int jimctrl_helper_80037F68();
