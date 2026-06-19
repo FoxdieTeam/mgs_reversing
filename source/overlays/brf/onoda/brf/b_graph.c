@@ -9,7 +9,9 @@ typedef struct _Work
     void   *field_28;        /* 0x028 */
     void   *field_2C;        /* 0x02C */
     void   *field_30;        /* 0x030 */
-    char    pad_34[0x28C - 0x34]; /* 0x034 */
+    char    pad_34[0x84 - 0x34];  /* 0x034 */
+    POLY_FT4 field_84;            /* 0x084 */
+    char    pad_AC[0x28C - 0xAC]; /* 0x0AC */
     POLY_FT4 field_28C[291];      /* 0x28C */
     char    pad_3004[0xA588 - 0x3004]; /* 0x3004 */
     int     field_A588;                /* 0xA588 */
@@ -285,7 +287,30 @@ void brf_800CBDC8(Work *work, void *a1)
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBE34.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBF48.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC070.s")
+extern const char brf_dword_800E1D58[];
+
+void brf_800CC070(Work *work, int idx)
+{
+    POLY_FT4 *p = &work->field_84;
+    DG_TEX *tex = DG_GetTexture(GV_StrCode(brf_dword_800E1D58));
+    int w1 = tex->w + 1;
+    int ul = tex->off_x + w1 * idx / 3;
+    int ur = tex->off_x + w1 * (idx + 1) / 3;
+    int vt = tex->off_y;
+    int h1 = tex->h + 1;
+    int vb = tex->off_y + h1;
+
+    p->u0 = ul;
+    p->v0 = vt;
+    p->u1 = ur;
+    p->v1 = vt;
+    p->u2 = ul;
+    p->v2 = vb;
+    p->u3 = ur;
+    p->v3 = vb;
+    p->tpage = tex->tpage;
+    p->clut = tex->clut;
+}
 void brf_800CC150(Work *work)
 {
     int i;
