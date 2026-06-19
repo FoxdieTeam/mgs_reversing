@@ -1413,7 +1413,68 @@ void brf_800DDDE8(int a0, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int ab
     poly->y3 = y2;
     SetSemiTrans(poly, abe);
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DDE5C.s")
+void brf_800DDE5C(int prim, int tex_id, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int abe, int orient, int use_dg)
+{
+    DG_TEX *tex;
+
+    brf_800DDD78(prim, poly, x0, y0, x1, y2, abe);
+    if (!use_dg)
+    {
+        tex = (DG_TEX *)brf_800CABF4(prim, tex_id);
+    }
+    else
+    {
+        tex = DG_GetTexture(tex_id);
+    }
+
+    switch (orient)
+    {
+    case 0:
+        {
+            int u = tex->off_x, w = tex->w, v = tex->off_y, h = tex->h;
+            poly->u0 = u;
+            poly->v0 = v;
+            poly->u1 = u + w + 1;
+            poly->v1 = v;
+            poly->u2 = u;
+            poly->v2 = v + h + 1;
+            poly->u3 = u + w + 1;
+            poly->v3 = v + h + 1;
+        }
+        break;
+    case 1:
+        {
+            int u = tex->off_x, w = tex->w, v = tex->off_y, h = tex->h;
+            poly->u0 = u;
+            poly->v0 = v;
+            poly->u1 = u + w + 1;
+            poly->v1 = v;
+            poly->u2 = u;
+            poly->v2 = v + h;
+            poly->u3 = u + w + 1;
+            poly->v3 = v + h;
+        }
+        break;
+    case 2:
+        {
+            int u = tex->off_x, w = tex->w, v = tex->off_y, h = tex->h;
+            poly->u0 = u;
+            poly->v0 = v;
+            poly->u1 = u + w;
+            poly->v1 = v;
+            poly->u2 = u;
+            poly->v2 = v + h + 1;
+            poly->u3 = u + w;
+            poly->v3 = v + h + 1;
+        }
+        break;
+    default:
+        return;
+    }
+
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DE004.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DE0F4.s")
 void brf_800DE270(int a0, POLY_F4 *poly, int x0, int y0, int x1, int y2, int abe, int gray)
