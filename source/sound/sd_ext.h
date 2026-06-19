@@ -194,7 +194,7 @@ extern  int             str_mute_fg;
 extern  unsigned int    str_int_ctr;
 extern  int             song_end_last;
 
-extern  int             dword_800BEFFC;
+extern  int             se_stop_fg;
 extern  int             sd_print_fg;
 extern  int             se_tracks;
 

@@ -269,7 +269,7 @@ void sd_set(int sound_code)
         if (sound_code & 0xFF)
         {
         #ifdef VR_EXE
-            if (dword_800BEFFC)
+            if (se_stop_fg)
             {
                 return;
             }
@@ -334,10 +334,10 @@ void sd_set(int sound_code)
         {
     #ifdef VR_EXE
         case 0xFF000003:
-            dword_800BEFFC = 1;
+            se_stop_fg = 1;
             return;
         case 0xFF000004:
-            dword_800BEFFC = 0;
+            se_stop_fg = 0;
             return;
     #endif
         case 0xFF000005:

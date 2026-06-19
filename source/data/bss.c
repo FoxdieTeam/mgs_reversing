@@ -422,7 +422,7 @@ int BSS             song_end_last; // 0x4 (4) bytes
 #ifdef VR_EXE
 gap                                     vrgap1[0x4]; // 4 bytes
 #endif
-int BSS             dword_800BEFFC; // 0x4 (4) bytes
+int BSS             se_stop_fg; // 0x4 (4) bytes
 int BSS             sd_print_fg; // 0x4 (4) bytes
 int BSS             se_tracks; // 0x4 (4) bytes
 #ifdef VR_EXE
