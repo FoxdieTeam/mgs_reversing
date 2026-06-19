@@ -478,7 +478,81 @@ void brf_800CDC8C(Work *work, POLY_FT4 *poly)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDFE4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE1C4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE2F8.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE430.s")
+void brf_800CE430(work)
+Work *work;
+{
+    unsigned short status = work->field_AD00->status;
+
+    if (work->field_ADA0 == 1 || work->field_ADA0 == 2)
+    {
+        switch (work->field_AD9C)
+        {
+        case 0:
+            if (status & 0x2000) work->field_ADA0++;
+            else { work->field_ADA0--; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            break;
+        case 1:
+            if (status & 0x8000) work->field_ADA0++;
+            else { work->field_ADA0--; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            break;
+        case 2:
+            if (status & 0x1000) work->field_ADA0++;
+            else { work->field_ADA0--; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            break;
+        case 3:
+            if (status & 0x4000) work->field_ADA0++;
+            else { work->field_ADA0--; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            break;
+        }
+    }
+    else if (work->field_ADA0 == 3)
+    {
+        switch (work->field_AD9C)
+        {
+        case 0:
+            if (!(status & 0x2000)) { work->field_ADA0 = 2; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            break;
+        case 1:
+            if (!(status & 0x8000)) { work->field_ADA0 = 2; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            break;
+        case 2:
+            if (!(status & 0x1000)) { work->field_ADA0--; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            break;
+        case 3:
+            if (!(status & 0x4000)) { work->field_ADA0--; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            break;
+        }
+    }
+
+    if (work->field_ADAC == 1 || work->field_ADAC == 2)
+    {
+        switch (work->field_ADA8)
+        {
+        case 4:
+            if (status & 0x10) { work->field_ADAC++; work->field_ADB0++; return; }
+            work->field_ADAC--; work->field_ADB0 = 0; work->field_ADB8 = 0; work->field_ADBC = 1;
+            break;
+        case 5:
+            if (status & 0x80) { work->field_ADAC++; work->field_ADB0++; return; }
+            work->field_ADAC--; work->field_ADB0 = 0; work->field_ADB8 = 0; work->field_ADBC = 1;
+            break;
+        }
+    }
+    else if (work->field_ADAC == 3)
+    {
+        switch (work->field_ADA8)
+        {
+        case 4:
+            if (status & 0x10) return;
+            work->field_ADAC = 2; work->field_ADB0 = 0; work->field_ADB8 = 0; work->field_ADBC = 1;
+            break;
+        case 5:
+            if (status & 0x80) return;
+            work->field_ADAC = 2; work->field_ADB0 = 0; work->field_ADB8 = 0; work->field_ADBC = 1;
+            break;
+        }
+    }
+}
 void brf_800CE648(work, idx, mode, delta)
 Work *work;
 int idx;
