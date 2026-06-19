@@ -452,7 +452,27 @@ void brf_800CDAA8(Work *work, int idx)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDAEC.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDC8C.s")
+void brf_800CDC8C(Work *work, POLY_FT4 *poly)
+{
+    int n = work->field_AD2C;
+    int mul = n * 2 + 5;
+    int dx = n * 2 + 3;
+    int rx0 = poly->x0 * mul / dx;
+    int rx1 = poly->x1 * mul / dx;
+    int my = 3 - n;
+    int dy = my + 1;
+    int ry0 = poly->y0 * my / dy;
+    int ry2 = poly->y2 * my / dy;
+
+    poly->x0 = rx0;
+    poly->x2 = rx0;
+    poly->x1 = rx1;
+    poly->x3 = rx1;
+    poly->y0 = ry0;
+    poly->y1 = ry0;
+    poly->y2 = ry2;
+    poly->y3 = ry2;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDDD4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDF34.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDFE4.s")
