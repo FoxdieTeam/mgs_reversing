@@ -6211,15 +6211,148 @@ void title_open_800CE748(Work *work, int index)
 }
 
 const int title_dword_800D8B18 = 0x00000000;
-const int title_dword_800D8B00 = 0x800CEB74;
-const int title_dword_800D8B04 = 0x800CEC14;
-const int title_dword_800D8B08 = 0x800CEC68;
-const int title_dword_800D8B0C = 0x800CED18;
-const int title_dword_800D8B10 = 0x800CEDC8;
-const int title_dword_800D8B14 = 0x800CEE20;
 
-#pragma INCLUDE_ASM("asm/overlays/title/title_open_800CEB14.s")
-void title_open_800CEB14(Work *work, int index);
+void title_open_800CEB14(Work *work, int index)
+{
+    POLY_FT4 *poly;
+    int       r, g, b;
+    int       bright;
+    int       nr, ng, nb;
+    DG_TEX   *tex;
+
+    poly = work->f18C_polys;
+    poly += index;
+
+    r = work->fAAC;
+    g = work->fAAD;
+    b = work->fAAE;
+
+    switch (work->fA80)
+    {
+    case 1:
+        bright = work->f16C * 2;
+        nr = bright * r / 128;
+        ng = bright * g / 128;
+        nb = bright * b / 128;
+        poly->r0 = nr;
+        poly->g0 = ng;
+        poly->b0 = nb;
+        poly->y0--;
+        poly->y1--;
+        poly->y2--;
+        poly->y3--;
+        if (work->f16C == 0x40)
+        {
+            work->fA80 = 2;
+            work->f16C = 0;
+            setRGB0(poly, r, g, b);
+        }
+        break;
+    case 2:
+        nr = r;
+        nb = b;
+        poly->r0 = nr;
+        poly->g0 = g;
+        poly->b0 = nb;
+        poly->y0--;
+        poly->y1--;
+        poly->y2--;
+        poly->y3--;
+        if (work->f16C == 0x94)
+        {
+            work->fA80 = 3;
+            work->f16C = 0;
+        }
+        break;
+    case 3:
+        bright = work->f16C * 2;
+        nr = bright * r / 128;
+        ng = bright * g / 128;
+        nb = bright * b / 128;
+        nr = r - nr;
+        ng = g - ng;
+        nb = b - nb;
+        poly->r0 = nr;
+        poly->g0 = ng;
+        poly->b0 = nb;
+        poly->y0--;
+        poly->y1--;
+        poly->y2--;
+        poly->y3--;
+        if (work->f16C == 0x40)
+        {
+            work->fA80 = 4;
+            work->f16C = 0;
+            tex = DG_GetTexture(GV_StrCode("op_back_l"));
+            title_open_800C5238(poly, tex, 6, 0x140, 0x1F4);
+            setXY4(poly, -0xA0, -0x70, 0xA0, -0x70, -0xA0, 0x184, 0xA0, 0x184);
+            setRGB0(poly, 0, 0, 0);
+            title_open_800C5200(poly, 2);
+        }
+        break;
+    case 4:
+        bright = work->f16C * 2;
+        nr = bright * r / 128;
+        ng = bright * g / 128;
+        nb = bright * b / 128;
+        poly->r0 = nr;
+        poly->g0 = ng;
+        poly->b0 = nb;
+        poly->y0--;
+        poly->y1--;
+        poly->y2--;
+        poly->y3--;
+        if (work->f16C == 0x40)
+        {
+            work->fA80 = 5;
+            work->f16C = 0;
+            setRGB0(poly, r, g, b);
+        }
+        break;
+    case 5:
+        nr = r;
+        nb = b;
+        poly->r0 = nr;
+        poly->g0 = g;
+        poly->b0 = nb;
+        poly->y0--;
+        poly->y1--;
+        poly->y2--;
+        poly->y3--;
+        if (work->f16C == 0x94)
+        {
+            work->fA80 = 6;
+            work->f16C = 0;
+        }
+        break;
+    case 6:
+        bright = work->f16C * 2;
+        nr = bright * r / 128;
+        ng = bright * g / 128;
+        nb = bright * b / 128;
+        nr = r - nr;
+        ng = g - ng;
+        nb = b - nb;
+        poly->r0 = nr;
+        poly->g0 = ng;
+        poly->b0 = nb;
+        poly->y0--;
+        poly->y1--;
+        poly->y2--;
+        poly->y3--;
+        if (work->f16C == 0x40)
+        {
+            work->fA80 = 1;
+            work->f16C = 0;
+            tex = DG_GetTexture(GV_StrCode("op_back_r"));
+            title_open_800C5238(poly, tex, 6, 0x140, 0x1F4);
+            setXY4(poly, -0xA0, -0x70, 0xA0, -0x70, -0xA0, 0x184, 0xA0, 0x184);
+            setRGB0(poly, 0, 0, 0);
+            title_open_800C5200(poly, 2);
+        }
+        break;
+    }
+}
 
 void title_open_800CEF54(Work *work, int index)
 {
