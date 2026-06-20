@@ -621,7 +621,7 @@ Individual overlay progress:
             <td><b>title</b></td>
             <td>89 KB</td>
             <td>Title Screen</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         </tbody>
     </table>
