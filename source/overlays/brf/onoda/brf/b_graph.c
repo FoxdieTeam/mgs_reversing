@@ -840,9 +840,7 @@ void brf_800CEB4C(Work *work, int a1, int a2)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CECE4.s")
 void brf_800CE1C4(Work *work);
 
-void brf_800CF22C(work, a1)
-Work *work;
-int a1;
+void brf_800CF22C(Work *work, int a1)
 {
     unsigned short press = work->field_AD00->press;
 
@@ -893,12 +891,12 @@ int a1;
     }
 }
 
-void brf_800CF354(Work *work)
+void brf_800CF354(Work *work, int a1)
 {
     if (work->field_AD00->press != 0)
     {
         work->field_ADA4 = 1;
-        brf_800CF22C(work);
+        brf_800CF22C(work, a1);
     }
 }
 void brf_800CC190(Work *work);
