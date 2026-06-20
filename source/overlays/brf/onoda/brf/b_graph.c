@@ -260,7 +260,88 @@ void brf_800CAE84(Work *work, int idx1, int idx2)
         setRGB0(&base[idx2], 0, 0, 0);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CB23C.s")
+void brf_800CB23C(Work *work, int idx1, int idx2)
+{
+    POLY_FT4 *base = work->field_28C;
+    int n = work->field_AD38;
+
+    if (n < 0x20)
+    {
+        int c = n * 4;
+        int c2 = 0x80 - c;
+        setRGB0(&base[idx1], c2, c2, c2);
+        setRGB0(&base[idx2], c, c, c);
+        work->field_AD38++;
+    }
+    else if (n == 0x20)
+    {
+        switch (work->field_AD74)
+        {
+        case 1:
+        {
+            POLY_FT4 *dest = &base[idx1];
+            BrfGlyph *g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1C20));
+            int u = g->field_8, uw = u + g->field_A + 1, v = g->field_9, vh = v + g->field_B + 1;
+            dest->u0 = u; dest->v0 = v; dest->u1 = uw; dest->v1 = v;
+            dest->u2 = u; dest->v2 = vh; dest->u3 = uw; dest->v3 = vh;
+            dest->tpage = g->field_4; dest->clut = g->field_6;
+            break;
+        }
+        case 2:
+        {
+            POLY_FT4 *dest = &base[idx1];
+            BrfGlyph *g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1C30));
+            int u = g->field_8, uw = u + g->field_A + 1, v = g->field_9, vh = v + g->field_B + 1;
+            dest->u0 = u; dest->v0 = v; dest->u1 = uw; dest->v1 = v;
+            dest->u2 = u; dest->v2 = vh; dest->u3 = uw; dest->v3 = vh;
+            dest->tpage = g->field_4; dest->clut = g->field_6;
+            break;
+        }
+        }
+        setRGB0(&base[idx1], 0, 0, 0);
+        setRGB0(&base[idx2], 0x80, 0x80, 0x80);
+        work->field_AD38++;
+    }
+    else if (n < 0x40)
+    {
+        int c = (n - 0x20) * 4;
+        int c2 = 0x80 - c;
+        setRGB0(&base[idx1], c, c, c);
+        setRGB0(&base[idx2], c2, c2, c2);
+        work->field_AD38++;
+    }
+    else if (n == 0x40)
+    {
+        switch (work->field_AD74)
+        {
+        case 1:
+        {
+            POLY_FT4 *dest = &base[idx2];
+            BrfGlyph *g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1C40));
+            int u = g->field_8, uw = u + g->field_A + 1, v = g->field_9, vh = v + g->field_B + 1;
+            dest->u0 = u; dest->v0 = v; dest->u1 = uw; dest->v1 = v;
+            dest->u2 = u; dest->v2 = vh; dest->u3 = uw; dest->v3 = vh;
+            dest->tpage = g->field_4; dest->clut = g->field_6;
+            work->field_AD74 = 2;
+            break;
+        }
+        case 2:
+        {
+            POLY_FT4 *dest = &base[idx2];
+            BrfGlyph *g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1C50));
+            int u = g->field_8, uw = u + g->field_A + 1, v = g->field_9, vh = v + g->field_B + 1;
+            dest->u0 = u; dest->v0 = v; dest->u1 = uw; dest->v1 = v;
+            dest->u2 = u; dest->v2 = vh; dest->u3 = uw; dest->v3 = vh;
+            dest->tpage = g->field_4; dest->clut = g->field_6;
+            work->field_AD74 = 1;
+            break;
+        }
+        }
+        work->field_AD38 = 0;
+        setRGB0(&base[idx1], 0x80, 0x80, 0x80);
+        setRGB0(&base[idx2], 0, 0, 0);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CB5F4.s")
 extern int brf_dword_800C50DC;
 
