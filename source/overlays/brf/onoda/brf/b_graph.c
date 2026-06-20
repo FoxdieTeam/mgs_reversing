@@ -1571,7 +1571,59 @@ void brf_800D892C(Work *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D8A24.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DA04C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DA3A8.s")
+void brf_800DA3A8(Work *work, POLY_FT4 *poly)
+{
+    int xl, xr, yt, yb;
+    if (work->field_AD34 < 0x21)
+    {
+        int t = -(work->field_AD34 * 12);
+        xl = t + 0x7f;
+        yt = -0x11c;
+        xr = t + 0x27b;
+        yb = 0x64;
+    }
+    else if (work->field_AD34 < 0x31)
+    {
+        xl = -0x101;
+        yt = -0x11c;
+        xr = 0xfb;
+        yb = 0x64;
+    }
+    else
+    {
+        int t = -((work->field_AD34 - 0x10) * 12);
+        xl = t + 0x7f;
+        yt = -0x11c;
+        xr = t + 0x27b;
+        yb = 0x64;
+    }
+    poly->x1 = xr;
+    poly->x3 = xr;
+    poly->x0 = xl;
+    poly->y0 = yt;
+    poly->y1 = yt;
+    poly->x2 = xl;
+    poly->y2 = yb;
+    poly->y3 = yb;
+    switch (work->field_AD34)
+    {
+    case 0x10:
+        GM_SeSet2(0x19, 0x3f, 0xb4);
+        break;
+    case 0x20:
+        GM_SeSet2(0, 0x3f, 0xb5);
+        break;
+    case 0x30:
+        break;
+    case 0x40:
+        GM_SeSet2(0, 0x3f, 0xb4);
+        break;
+    case 0x50:
+        GM_SeSet2(0xe6, 0x3f, 0xb5);
+        break;
+    }
+    work->field_AD34++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DA4E8.s")
 void brf_800DA638(Work *work, POLY_FT4 *poly)
 {
