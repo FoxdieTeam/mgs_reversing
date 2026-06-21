@@ -534,7 +534,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\onoda\change\safety.obj", overlay
     include "{{OBJ_DIR}}\safechk.obj", overlay
     include "{{OBJ_DIR}}\chara\others\fonttext.obj", overlay
-    include "{{OBJ_DIR}}\overlays\title\onoda\open\open.obj", overlay
+    include "{{OBJ_DIR}}\onoda\open\open.obj", overlay
     include "{{OBJ_DIR}}\onoda\change\met_logo.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
 
