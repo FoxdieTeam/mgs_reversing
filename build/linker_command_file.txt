@@ -2246,6 +2246,61 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 ;------------------------------------------------------------------------------
+{% elif OVERLAY == "s05a" %}
+    include "{{OBJ_DIR}}\stage\s05a.obj", overlay
+    include "{{OBJ_DIR}}\game\pad.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
+    include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\thing\snow.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s05a\thing\sphere2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11g\okajima\blst_ln.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\smke_ln.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\shuter.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\telop.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_flr.obj", overlay
+    include "{{OBJ_DIR}}\kojo\sstorm.obj", overlay
+
+    include "{{OBJ_DIR}}\overlays\s05a\overlay2.obj", overlay
+
+    include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s05a\chara\others\m1throw.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1act.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1shel.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1smke.obj", overlay
+    include "{{OBJ_DIR}}\okajima\splash2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ripple.obj", overlay
+
+    include "{{OBJ_DIR}}\overlays\s05a\overlay3.obj", overlay
+
+    include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1valc.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1sold.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1came.obj", overlay
+
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% endif %}
 
 {% endif %}

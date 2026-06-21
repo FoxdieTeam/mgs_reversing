@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s05a_800E00B0
+s05a_800E00B0:
+	dw 0x8C820894 ; 800E00B0
+	dw 0x00000000 ; 800E00B4
+	dw 0x00451025 ; 800E00B8
+	dw 0x03E00008 ; 800E00BC
+	dw 0xAC820894 ; 800E00C0
