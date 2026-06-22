@@ -15,6 +15,10 @@ typedef struct _Work
     int            field_768;   /* 0x768 */
 } Work;
 
+extern const char s05a_dword_800E345C[]; /* = "m1throw.c" */
+
+void s05a_800D46A4(Work *work);
+
 void s05a_800D4654(MOTION_SEGMENT *dst, MOTION_SEGMENT *src, int mask)
 {
     int i;
@@ -47,4 +51,23 @@ int s05a_800D4998(Work *work, int name)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D49F8.s")
+void *s05a_800D49F8(int arg)
+{
+    Work *work;
+
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
+    if (work == NULL)
+    {
+        return NULL;
+    }
+
+    GV_SetNamedActor(work, s05a_800D46A4, s05a_800D4968, s05a_dword_800E345C);
+
+    if (s05a_800D4998(work, arg) < 0)
+    {
+        GV_DestroyActor(work);
+        return NULL;
+    }
+
+    return work;
+}
