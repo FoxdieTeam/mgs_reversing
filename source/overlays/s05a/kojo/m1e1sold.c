@@ -22,7 +22,14 @@ void s05a_800DFFF8(Work *work, int action, int interp)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E002C.s")
+void s05a_800E002C(Work *work, int action, int interp, u_long mask)
+{
+    if (work->body.action2 != action)
+    {
+        GM_ConfigObjectOverride(&work->body, action, 0, interp, mask);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0068.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0080.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0098.s")
