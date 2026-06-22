@@ -7,6 +7,14 @@ typedef struct _Work
     OBJECT  body;      /* 0x09C */
     char    pad_180[0x894 - 0x180];
     int     field_894; /* 0x894 */
+    char    pad_898[0x9B8 - 0x898];
+    int     field_9B8; /* 0x9B8 */
+    int     field_9BC; /* 0x9BC */
+    char    pad_9C0[0xA2A - 0x9C0];
+    unsigned short field_A2A; /* 0xA2A */
+    char    pad_A2C[0xA38 - 0xA2C];
+    short   field_A38; /* 0xA38 */
+    short   field_A3A; /* 0xA3A */
 } Work;
 
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DDCBC.s")
@@ -14,7 +22,23 @@ typedef struct _Work
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DEDE8.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DF834.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DF9C8.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DFFC0.s")
+
+void s05a_800DFFC0(Work *work, int arg)
+{
+    short v;
+
+    work->field_9B8 = arg;
+    work->field_9BC = 0;
+    work->field_A3A = 0;
+    work->field_A38 = 0;
+    v = 0;
+    if (GM_PlayerStatus & PLAYER_GROUND)
+    {
+        v = work->field_A2A;
+    }
+    work->control.turn.vx = v;
+    work->control.turn.vz = 0;
+}
 
 void s05a_800DFFF8(Work *work, int action, int interp)
 {
