@@ -2,9 +2,11 @@
 
 typedef struct _Work
 {
-    GV_ACT  actor;   /* 0x000 */
-    CONTROL control;  /* 0x020 */
-    OBJECT  body;     /* 0x09C */
+    GV_ACT  actor;    /* 0x000 */
+    CONTROL control;   /* 0x020 */
+    OBJECT  body;      /* 0x09C */
+    char    pad_180[0x894 - 0x180];
+    int     field_894; /* 0x894 */
 } Work;
 
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DDCBC.s")
@@ -45,7 +47,11 @@ void s05a_800E0098(int mask)
     GM_PlayerStatus &= ~mask;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00B0.s")
+int s05a_800E00B0(Work *work, int mask)
+{
+    return work->field_894 |= mask;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00C4.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00EC.s")
