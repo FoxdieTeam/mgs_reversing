@@ -558,6 +558,7 @@ def gen_build_target(targetName):
         "brf",
         "abst",
         "s03d",
+        "s05a",
     ]
 
     if args.variant == 'vr_exe' or args.variant == 'dev_exe':

@@ -255,13 +255,13 @@ Individual overlay progress:
             <td><b>s03d</b></td>
             <td>101 KB</td>
             <td>Holding Cell</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s03dr</b></td>
             <td>101 KB</td>
             <td>Holding Cell (RED)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s03e</b></td>
@@ -303,7 +303,7 @@ Individual overlay progress:
             <td><b>s05a</b></td>
             <td>130 KB</td>
             <td>Canyon</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s06a</b></td>
