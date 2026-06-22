@@ -7,6 +7,13 @@ typedef struct _Work
     OBJECT  body;     /* 0x09C */
 } Work;
 
+typedef struct _Casing
+{
+    GV_ACT   actor;     /* 0x00 */
+    int      field_20;  /* 0x20 */
+    DG_PRIM *field_24;  /* 0x24 */
+} Casing;
+
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DAE58.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DB278.s")
 
@@ -15,10 +22,19 @@ void s05a_800DB654(Work *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
 }
-
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DB684.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DBA94.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DBC44.s")
+
+void s05a_800DBC44(Casing *work)
+{
+    DG_PRIM *prim = work->field_24;
+    if (prim)
+    {
+        DG_DequeuePrim(prim);
+        DG_FreePrim(prim);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DBC80.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DBD14.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DBED0.s")
