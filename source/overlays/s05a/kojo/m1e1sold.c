@@ -30,7 +30,11 @@ void s05a_800E002C(Work *work, int action, int interp, u_long mask)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0068.s")
+int s05a_800E0068(int mask)
+{
+    return (GM_PlayerStatus & mask) != 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0080.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0098.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00B0.s")
