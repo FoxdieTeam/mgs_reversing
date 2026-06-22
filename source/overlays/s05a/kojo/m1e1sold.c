@@ -52,7 +52,11 @@ int s05a_800E00B0(Work *work, int mask)
     return work->field_894 |= mask;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00C4.s")
+int s05a_800E00C4(Work *work, int mask)
+{
+    return work->field_894 &= ~mask;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E066C.s")
