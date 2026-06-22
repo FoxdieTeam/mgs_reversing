@@ -40,7 +40,11 @@ int s05a_800E0080(int mask)
     return GM_PlayerStatus |= mask;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0098.s")
+void s05a_800E0098(int mask)
+{
+    GM_PlayerStatus &= ~mask;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00B0.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00C4.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00D8.s")
