@@ -1,12 +1,27 @@
 #include "game/game.h"
 
+typedef struct _Work
+{
+    GV_ACT  actor;   /* 0x000 */
+    CONTROL control;  /* 0x020 */
+    OBJECT  body;     /* 0x09C */
+} Work;
+
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DDCBC.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DEC18.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DEDE8.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DF834.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DF9C8.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DFFC0.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DFFF8.s")
+
+void s05a_800DFFF8(Work *work, int action, int interp)
+{
+    if (work->body.action != action)
+    {
+        GM_ConfigObjectAction(&work->body, action, 0, interp);
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E002C.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0068.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0080.s")
