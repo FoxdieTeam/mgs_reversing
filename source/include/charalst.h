@@ -230,7 +230,7 @@
 #define CHARA_SOUNDTEST         { 0x4efc, NewSoundTest }            // GV_StrCode("サウンドテスト") game/sndtst.c
 #define CHARA_FAA8_MOVIE        { 0xfaa8, ? }                       // chara/movie/movie.c
 #define CHARA_SPHERE            { 0x73ea, NewSphere }               // GV_StrCode("天球") thing/sphere.c
-#define CHARA_SPHERE2           { 0xbee1, ? }                       // GV_StrCode("天球２") thing/sphere2.c
+#define CHARA_SPHERE2           { 0xbee1, NewSphere2 }              // GV_StrCode("天球２") thing/sphere2.c
 #define CHARA_STAGESELECT       { 0xd2f6, NewSelect }               // GV_StrCode("ステージセレクト") game/select.c
 #define CHARA_SMKTRGT           { 0x175b, NewSmokeTarget }          // okajima/smktrgt.c
 #define CHARA_TELOP             { 0x7ff7, NewTelopSet }             // GV_StrCode("テロップ") takabe/telop.c
@@ -597,6 +597,7 @@ extern NEWCHARA NewDoor;                        /* thing/door.c                 
 extern NEWCHARA NewEmitter;                     /* thing/emitter.c              */
 extern NEWCHARA NewSnow;                        /* thing/snow.c                 */
 extern NEWCHARA NewSphere;                      /* thing/sphere.c               */
+extern NEWCHARA NewSphere2;                     /* thing/sphere2.c              */
 
 #endif // DECLARE_NEWCHARA_PROTOS
 #endif // __MGS_CHARALST_H__
