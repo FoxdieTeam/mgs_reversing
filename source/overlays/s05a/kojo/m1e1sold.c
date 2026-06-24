@@ -89,7 +89,52 @@ int s05a_800E00D8(Work *work, int mask)
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E066C.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0D38.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0E28.s")
+void s05a_800E0E28(CONTROL *control, HZD_HDL *hzd)
+{
+    SVECTOR local;
+    int     half = control->r_sphere / 2;
+    int     dist = control->step.vx;
+
+    if (dist < 0)
+    {
+        dist = -dist;
+    }
+    if (control->step.vz > 0)
+    {
+        dist += control->step.vz;
+    }
+    else
+    {
+        dist -= control->step.vz;
+    }
+
+    if (half < dist)
+    {
+        GV_AddVec3(&control->mov, &control->step, &local);
+        if (HZD_OnlineHazardCheck(hzd, &control->mov, &local, 5, control->seg_flag))
+        {
+            int len;
+            int diff;
+
+            control->n_touches = 1;
+            control->segs[0] = HZD_GetOnlineHazard();
+            control->is_edge[0] = HZD_GetOnlineHazardAtr();
+            HZD_GetOnlineVector(control->vecs);
+            len = GV_VecLen3(control->vecs);
+            diff = len - half;
+            if (diff < 0)
+            {
+                GV_LenVec3(control->vecs, &local, len, -diff);
+                GV_SubVec3(&DG_ZeroVector, &local, &local);
+            }
+            else
+            {
+                GV_LenVec3(control->vecs, &local, len, diff);
+            }
+            control->step = local;
+        }
+    }
+}
 void s05a_800E0F64(CONTROL *control, HZD_HDL *hzd)
 {
     SVECTOR react;
