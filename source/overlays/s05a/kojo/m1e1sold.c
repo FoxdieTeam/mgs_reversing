@@ -55,7 +55,7 @@ int s05a_800DEC18(Work *work, SVECTOR *s2, int a2)
 
     local = *s2;
     local.vy += 0x2710;
-    if (HZD_LevelHazardCheck(work->control.map->hzd, &local, 3) != 1)
+    if (HZD_LevelHazardCheck(work->control.map->hzd, &local, HZD_CHK_FLOOR) != 1)
     {
         local.vy = 0;
     }
@@ -266,7 +266,7 @@ void s05a_800E0E28(CONTROL *control, HZD_HDL *hzd)
     if (half < dist)
     {
         GV_AddVec3(&control->mov, &control->step, &local);
-        if (HZD_OnlineHazardCheck(hzd, &control->mov, &local, 5, control->seg_flag))
+        if (HZD_OnlineHazardCheck(hzd, &control->mov, &local, HZD_CHK_FIX, control->seg_flag))
         {
             int len;
             int diff;
@@ -295,7 +295,7 @@ void s05a_800E0F64(CONTROL *control, HZD_HDL *hzd)
     SVECTOR react;
     int     n;
 
-    n = HZD_NearHazardCheck(hzd, &control->mov, 0x1F4, 4, control->seg_flag);
+    n = HZD_NearHazardCheck(hzd, &control->mov, 0x1F4, HZD_CHK_F_SEGMENT, control->seg_flag);
     if (n > 0)
     {
         SVECTOR *vecs;

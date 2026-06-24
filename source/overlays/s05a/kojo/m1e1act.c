@@ -2,11 +2,6 @@
 
 typedef struct
 {
-    int a, b, c, d;
-} Quad;
-
-typedef struct
-{
     HZD_VEC pOut[8];
     HZD_VEC pOut2[12];
 } HzdBlock; /* 0xA0 */
@@ -21,9 +16,9 @@ typedef struct _Work
     SVECTOR  bbox[10];      /* 0xF8C */
     char     pad_FDC[0xFEC - 0xFDC];
     HzdBlock hzd[5];        /* 0xFEC */
-    char     copy0[0x30];   /* 0x130C */
-    char     copy1[0x30];   /* 0x133C */
-    char     copy2[0x30];   /* 0x136C */
+    HZD_FLR  copy0;         /* 0x130C */
+    HZD_FLR  copy1;         /* 0x133C */
+    HZD_FLR  copy2;         /* 0x136C */
 } Work;
 
 extern void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform,
@@ -42,31 +37,9 @@ extern void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform,
 
 void s05a_800DACF0(Work *work)
 {
-    Quad *src, *dst, *end;
-
-    dst = (Quad *)((char *)work + 0x130C);
-    src = (Quad *)((char *)work + 0x105C);
-    end = (Quad *)((char *)work + 0x108C);
-    do
-    {
-        *dst++ = *src++;
-    } while (src != end);
-
-    dst = (Quad *)((char *)work + 0x133C);
-    src = (Quad *)((char *)work + 0x10FC);
-    end = (Quad *)((char *)work + 0x112C);
-    do
-    {
-        *dst++ = *src++;
-    } while (src != end);
-
-    dst = (Quad *)((char *)work + 0x136C);
-    src = (Quad *)((char *)work + 0x12DC);
-    end = (Quad *)((char *)work + 0x130C);
-    do
-    {
-        *dst++ = *src++;
-    } while (src != end);
+    work->copy0 = *(HZD_FLR *)((char *)work + 0x105C);
+    work->copy1 = *(HZD_FLR *)((char *)work + 0x10FC);
+    work->copy2 = *(HZD_FLR *)((char *)work + 0x12DC);
 
     sub_8007E1C0(work->hzd[0].pOut, work->hzd[0].pOut2,
                  (MATRIX *)((char *)work->body.objs + 0xA4), &work->bbox[0], &work->bbox[1]);
