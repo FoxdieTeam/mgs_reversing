@@ -1,7 +1,42 @@
 #include "game/game.h"
 
 extern GM_CameraSystemWork GM_Camera;
-extern int s05a_dword_800C38CC;
+
+typedef struct _CamModel
+{
+    char    pad_000[0x3F4];
+    u_short field_3F4; /* 0x3F4 */
+    char    pad_3F6[0x3F8 - 0x3F6];
+    u_short field_3F8; /* 0x3F8 */
+    char    pad_3FA[0x3FC - 0x3FA];
+    u_short field_3FC; /* 0x3FC */
+} CamModel;
+
+typedef struct _CamActor
+{
+    char      pad_000[0xDC];
+    CamModel *field_DC; /* 0x0DC */
+} CamActor;
+
+typedef struct _Camera
+{
+    char    pad_000[0x64];
+    u_short field_64; /* 0x64 */
+    u_short field_66; /* 0x66 */
+    u_short field_68; /* 0x68 */
+    char    pad_6A[0x6C - 0x6A];
+    u_short field_6C; /* 0x6C */
+    u_short field_6E; /* 0x6E */
+    u_short field_70; /* 0x70 */
+    char    pad_72[0x74 - 0x72];
+    SVECTOR field_74; /* 0x74 */
+    u_short field_7C; /* 0x7C */
+} Camera;
+
+extern CamActor *s05a_dword_800C362C;
+extern Camera  *s05a_dword_800C38CC;
+
+void s05a_800E209C(VECTOR *out, VECTOR *in, int (*fn)());
 
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E1134.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E1448.s")
@@ -13,7 +48,37 @@ void s05a_800E1A68(void)
     s05a_dword_800C38CC = 0;
 }
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E1AA8.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E1C14.s")
+void s05a_800E1C14(void)
+{
+    VECTOR  pos;
+    VECTOR  rot;
+    SVECTOR off;
+
+    GM_PlayerStatus &= ~PLAYER_NOT_SIGHT;
+    DG_SetPos2(&DG_ZeroVector, (SVECTOR *)&s05a_dword_800C38CC->field_64);
+
+    memset(&off, 0, 8);
+    off.vz = s05a_dword_800C38CC->field_7C;
+    DG_PutVector(&off, &off, 1);
+
+    s05a_dword_800C38CC->field_74.vx = s05a_dword_800C362C->field_DC->field_3F4;
+    s05a_dword_800C38CC->field_74.vy = s05a_dword_800C362C->field_DC->field_3F8;
+    s05a_dword_800C38CC->field_74.vz = s05a_dword_800C362C->field_DC->field_3FC;
+
+    pos.vx = s05a_dword_800C38CC->field_74.vx + off.vx;
+    pos.vy = s05a_dword_800C38CC->field_74.vy + off.vy;
+    pos.vz = s05a_dword_800C38CC->field_74.vz + off.vz;
+
+    rot.vx = s05a_dword_800C38CC->field_74.vx;
+    rot.vy = s05a_dword_800C38CC->field_74.vy;
+    rot.vz = s05a_dword_800C38CC->field_74.vz;
+
+    s05a_800E209C(&pos, &rot, GV_NearExp2);
+
+    s05a_dword_800C38CC->field_64 += s05a_dword_800C38CC->field_6C;
+    s05a_dword_800C38CC->field_66 += s05a_dword_800C38CC->field_6E;
+    s05a_dword_800C38CC->field_68 += s05a_dword_800C38CC->field_70;
+}
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E1D7C.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E1F0C.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E209C.s")
