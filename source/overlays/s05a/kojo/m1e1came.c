@@ -42,7 +42,7 @@ typedef struct _Camera
     u_short field_58; /* 0x58 */
     char    pad_5A[0x5C - 0x5A];
     int     field_5C; /* 0x5C */
-    char    pad_60[0x64 - 0x60];
+    int     field_60; /* 0x60 */
     u_short field_64; /* 0x64 */
     u_short field_66; /* 0x66 */
     u_short field_68; /* 0x68 */
@@ -60,8 +60,61 @@ extern Camera  *s05a_dword_800C38CC;
 
 void s05a_800E209C(VECTOR *out, VECTOR *in, int (*fn)());
 void s05a_800E2328(VECTOR *out, SVECTOR *cam, VECTOR *in, SVECTOR *p3c, SVECTOR *p44);
+void s05a_800E1448(void);
+void s05a_800E1A68(void);
+extern const char s05a_dword_800E35D8[];
 
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E1134.s")
+void *s05a_800E1134(void)
+{
+    Camera *cam;
+    char   *s;
+
+    cam = GV_NewActor(GV_ACTOR_USER, 0x90);
+    if (cam == NULL)
+    {
+        return 0;
+    }
+    GV_SetNamedActor(cam, s05a_800E1448, s05a_800E1A68, s05a_dword_800E35D8);
+
+    if (GCL_GetOption(0x62))
+    {
+        if ((s = GCL_NextStr())) cam->field_20.vx = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_20.vy = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_20.vz = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_28.vx = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_28.vy = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_28.vz = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_3C.vx = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_3C.vy = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_3C.vz = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_44.vx = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_44.vy = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_44.vz = GCL_StrToInt(s);
+    }
+    if (GCL_GetOption(0x72))
+    {
+        if ((s = GCL_NextStr())) cam->field_30.vx = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_30.vy = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_30.vz = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_4C.vx = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_4C.vy = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) cam->field_4C.vz = GCL_StrToInt(s);
+    }
+    if (GCL_GetOption(0x74))
+    {
+        if ((s = GCL_NextStr())) *(int *)&cam->field_38 = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) *(int *)&cam->field_54 = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) *(int *)&cam->field_58 = GCL_StrToInt(s);
+    }
+    if (GCL_GetOption(0x6F))
+    {
+        if ((s = GCL_NextStr())) cam->field_5C = GCL_StrToInt(s);
+    }
+
+    cam->field_60 = 1;
+    s05a_dword_800C38CC = cam;
+    return cam;
+}
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E1448.s")
 
 void s05a_800E1A68(void)
