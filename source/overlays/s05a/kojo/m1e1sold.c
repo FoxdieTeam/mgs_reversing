@@ -87,7 +87,95 @@ int s05a_800DEC18(Work *work, SVECTOR *s2, int a2)
     return v;
 }
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DEDE8.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DF834.s")
+typedef struct _CamBbox
+{
+    char    pad_00[8];
+    u_short field_08;
+    char    pad_0A[0x10 - 0x0A];
+    u_short field_10;
+    char    pad_12[0x14 - 0x12];
+    u_short field_14;
+    char    pad_16[0x1C - 0x16];
+    u_short field_1C;
+} CamBbox;
+
+typedef struct _CamModel
+{
+    char     pad_000[0x420];
+    CamBbox *field_420;
+    char     pad_424[0x4AC - 0x424];
+    u_short  field_4AC;
+    char     pad_4AE[0x4B0 - 0x4AE];
+    u_short  field_4B0;
+    char     pad_4B2[0x4B4 - 0x4B2];
+    u_short  field_4B4;
+} CamModel;
+
+typedef struct _CamEb0
+{
+    char  pad_000[0x1C0];
+    char *field_1C0;
+} CamEb0;
+
+typedef struct _CamActor
+{
+    char      pad_000[0xDC];
+    CamModel *field_DC;
+    char      pad_E0[0xDFC - 0xE0];
+    int       field_DFC;
+    char      pad_E00[0xE60 - 0xE00];
+    int       field_E60;
+    char      pad_E64[0xEB0 - 0xE64];
+    CamEb0   *field_EB0;
+} CamActor;
+
+typedef struct _DfVec
+{
+    u_short field_0;
+    u_short field_2;
+    u_short field_4;
+} DfVec;
+
+extern CamActor *s05a_dword_800C362C;
+
+int s05a_800DF834(int arg0, DfVec *vec, u_short *arg3)
+{
+    SVECTOR d;
+    SVECTOR e;
+    int     dist;
+
+    if (arg0 != 0)
+    {
+        return 0;
+    }
+    if (s05a_dword_800C362C->field_EB0 == NULL)
+    {
+        return 0;
+    }
+
+    d.vx = s05a_dword_800C362C->field_DC->field_4AC;
+    d.vy = s05a_dword_800C362C->field_DC->field_4B0;
+    d.vz = s05a_dword_800C362C->field_DC->field_4B4;
+    d.vx -= vec->field_0;
+    d.vy -= vec->field_2;
+    d.vz -= vec->field_4;
+
+    e.vx = s05a_dword_800C362C->field_DC->field_420->field_14 -
+           s05a_dword_800C362C->field_DC->field_420->field_08;
+    e.vz = s05a_dword_800C362C->field_DC->field_420->field_1C -
+           s05a_dword_800C362C->field_DC->field_420->field_10;
+    e.vx = (e.vx + e.vz) >> 2;
+
+    dist = SquareRoot0(d.vx * d.vx + d.vy * d.vy + d.vz * d.vz);
+    if (dist < e.vx * s05a_dword_800C362C->field_DFC)
+    {
+        GM_SeSetPan((SVECTOR *)(s05a_dword_800C362C->field_EB0->field_1C0 + 8), 0xB2,
+                    s05a_dword_800C362C->field_E60);
+        *arg3 |= 4;
+        return 1;
+    }
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DF9C8.s")
 
 void s05a_800DFFC0(Work *work, int arg)
