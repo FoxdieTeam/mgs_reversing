@@ -90,5 +90,24 @@ int s05a_800E00D8(Work *work, int mask)
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E066C.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0D38.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0E28.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0F64.s")
+void s05a_800E0F64(CONTROL *control, HZD_HDL *hzd)
+{
+    SVECTOR react;
+    int     n;
+
+    n = HZD_NearHazardCheck(hzd, &control->mov, 0x1F4, 4, control->seg_flag);
+    if (n > 0)
+    {
+        SVECTOR *vecs;
+
+        control->n_touches = n;
+        HZD_GetNearHazard(control->segs);
+        HZD_GetIsEdge(control->is_edge);
+        vecs = control->vecs;
+        HZD_GetNearVector(vecs);
+        HZD_HazardReaction(vecs, n, control->r_sphere, &react);
+        control->mov.vx += react.vx;
+        control->mov.vz += react.vz;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E1014.s")
