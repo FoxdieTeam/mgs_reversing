@@ -1,4 +1,5 @@
 #include "game/game.h"
+#include "libgcl/libgcl.h"
 
 extern GM_CameraSystemWork GM_Camera;
 
