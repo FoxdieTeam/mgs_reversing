@@ -28,7 +28,12 @@ typedef struct _CamActor
 
 typedef struct _Camera
 {
-    char    pad_000[0x3C];
+    char    pad_000[0x20];
+    SVECTOR field_20; /* 0x20 */
+    SVECTOR field_28; /* 0x28 */
+    SVECTOR field_30; /* 0x30 */
+    u_short field_38; /* 0x38 */
+    char    pad_3A[0x3C - 0x3A];
     SVECTOR field_3C; /* 0x3C */
     SVECTOR field_44; /* 0x44 */
     SVECTOR field_4C; /* 0x4C */
@@ -168,6 +173,45 @@ void s05a_800E1D7C(void)
         GM_Camera.target.vz -= 1;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E1F0C.s")
+void s05a_800E1F0C(void)
+{
+    VECTOR  hi;
+    VECTOR  lo;
+    SVECTOR off;
+
+    DG_SetPos2(&DG_ZeroVector, (SVECTOR *)&s05a_dword_800C38CC->field_30);
+
+    memset(&off, 0, 8);
+    {
+        u_short base = s05a_dword_800C38CC->field_38;
+
+        off.vz = base;
+        if (s05a_dword_800C362C->field_E5C <= s05a_dword_800C38CC->field_5C)
+        {
+            off.vz = base + s05a_dword_800C38CC->field_58;
+        }
+    }
+    DG_PutVector(&off, &off, 1);
+
+    hi.vx = GM_PlayerPosition.vx + off.vx;
+    hi.vy = GM_PlayerPosition.vy + off.vy;
+    hi.vz = GM_PlayerPosition.vz + off.vz;
+    s05a_800E2328(&hi, &GM_Camera.position, &hi, &s05a_dword_800C38CC->field_20,
+                  &s05a_dword_800C38CC->field_28);
+
+    lo.vx = GM_PlayerPosition.vx;
+    lo.vy = GM_PlayerPosition.vy;
+    lo.vz = GM_PlayerPosition.vz;
+    s05a_800E2328(&lo, &GM_Camera.target, &lo, &s05a_dword_800C38CC->field_20,
+                  &s05a_dword_800C38CC->field_28);
+
+    lo.vx = hi.vx;
+    s05a_800E209C(&hi, &lo, GV_NearExp8);
+
+    if (GM_Camera.target.vz <= GM_Camera.position.vz)
+    {
+        GM_Camera.target.vz -= 1;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E209C.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E2328.s")
