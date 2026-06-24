@@ -84,7 +84,46 @@ void s05a_800DBC44(Casing *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DBC80.s")
+typedef struct _CasingTex
+{
+    char    pad_00[4];
+    u_short field_04; /* 0x04 -> tpage */
+    u_short field_06; /* 0x06 -> clut */
+    u_char  field_08; /* 0x08 -> u */
+    u_char  field_09; /* 0x09 -> v */
+    u_char  field_0A; /* 0x0A -> w */
+    u_char  field_0B; /* 0x0B -> h */
+} CasingTex;
+
+void s05a_800DBC80(POLY_FT4 *poly, CasingTex *src)
+{
+    int i;
+
+    for (i = 0; i < 2; i++, poly++)
+    {
+        setPolyFT4(poly);
+        {
+            int u = src->field_08;
+            int w = src->field_0A;
+            int uw = u + w;
+            int v = src->field_09;
+            int h = src->field_0B;
+
+            poly->u0 = u;
+            poly->v0 = v;
+            poly->u1 = uw;
+            poly->v1 = v;
+            poly->u2 = u;
+            poly->v2 = v + h;
+            poly->u3 = uw;
+            poly->v3 = v + h;
+        }
+        poly->tpage = src->field_04;
+        poly->clut = src->field_06;
+        poly->code |= 2;
+        poly->tpage |= 0x60;
+    }
+}
 
 void *s05a_800DBD14(SVECTOR *arg0, SVECTOR *arg1)
 {
