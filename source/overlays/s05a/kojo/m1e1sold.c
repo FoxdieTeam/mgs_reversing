@@ -5,7 +5,12 @@ typedef struct _Work
     GV_ACT  actor;    /* 0x000 */
     CONTROL control;   /* 0x020 */
     OBJECT  body;      /* 0x09C */
-    char    pad_180[0x894 - 0x180];
+    char    pad_180[0x204 - 0x180];
+    int     field_204; /* 0x204 */
+    int     field_208; /* 0x208 */
+    char    pad_20C[0x238 - 0x20C];
+    short   field_238; /* 0x238 */
+    char    pad_23A[0x894 - 0x23A];
     int     field_894; /* 0x894 */
     char    pad_898[0x9B8 - 0x898];
     int     field_9B8; /* 0x9B8 */
@@ -18,7 +23,69 @@ typedef struct _Work
 } Work;
 
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DDCBC.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DEC18.s")
+int s05a_800DEC18(Work *work, SVECTOR *s2, int a2)
+{
+    int     v;
+    int     heights[2];
+    SVECTOR local;
+
+    v = 1;
+    if (work->field_204 == 0)
+    {
+        work->field_208 = 0;
+    }
+
+    if (a2 - s2->vy <= 0)
+    {
+        work->field_204 += s2->vy - a2;
+    }
+    if (work->field_204 < 0x190)
+    {
+        return a2;
+    }
+
+    if (work->field_208 == 0)
+    {
+        v = work->field_238;
+        if (v <= 0)
+        {
+            v = 1;
+        }
+    }
+
+    local = *s2;
+    local.vy += 0x2710;
+    if (HZD_LevelHazardCheck(work->control.map->hzd, &local, 3) != 1)
+    {
+        local.vy = 0;
+    }
+    else
+    {
+        HZD_GetLevelHeight(heights);
+        local.vy = heights[0];
+    }
+    local.vy += 0x64;
+
+    if (work->field_208 == 0)
+    {
+        work->field_208 = (s2->vy - local.vy) / v;
+    }
+
+    v = s2->vy - work->field_208;
+    if (v < local.vy)
+    {
+        v = local.vy;
+    }
+    {
+        int t = work->field_208 * 15;
+        work->field_208 = t / 14;
+    }
+    if (work->field_208 >= 0x3E9)
+    {
+        work->field_208 = 0x3E8;
+    }
+    return v;
+}
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DEDE8.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DF834.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DF9C8.s")
