@@ -4,7 +4,13 @@ extern GM_CameraSystemWork GM_Camera;
 
 typedef struct _CamModel
 {
-    char    pad_000[0x3F4];
+    char    pad_000[0x284];
+    u_short field_284; /* 0x284 */
+    char    pad_286[0x288 - 0x286];
+    u_short field_288; /* 0x288 */
+    char    pad_28A[0x28C - 0x28A];
+    u_short field_28C; /* 0x28C */
+    char    pad_28E[0x3F4 - 0x28E];
     u_short field_3F4; /* 0x3F4 */
     char    pad_3F6[0x3F8 - 0x3F6];
     u_short field_3F8; /* 0x3F8 */
@@ -47,7 +53,38 @@ void s05a_800E1A68(void)
     GM_SetCameraCallbackFunc(1, NULL);
     s05a_dword_800C38CC = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E1AA8.s")
+void s05a_800E1AA8(void)
+{
+    VECTOR  pos;
+    VECTOR  rot;
+    SVECTOR off;
+
+    GM_PlayerStatus &= ~PLAYER_NOT_SIGHT;
+    DG_SetPos2(&DG_ZeroVector, (SVECTOR *)&s05a_dword_800C38CC->field_64);
+
+    memset(&off, 0, 8);
+    off.vz = s05a_dword_800C38CC->field_7C;
+    DG_PutVector(&off, &off, 1);
+
+    s05a_dword_800C38CC->field_74.vx = s05a_dword_800C362C->field_DC->field_284;
+    s05a_dword_800C38CC->field_74.vy = s05a_dword_800C362C->field_DC->field_288;
+    s05a_dword_800C38CC->field_74.vz = s05a_dword_800C362C->field_DC->field_28C;
+    s05a_dword_800C38CC->field_74.vy += 0x1F4;
+
+    pos.vx = s05a_dword_800C38CC->field_74.vx + off.vx;
+    pos.vy = s05a_dword_800C38CC->field_74.vy + off.vy;
+    pos.vz = s05a_dword_800C38CC->field_74.vz + off.vz;
+
+    rot.vx = s05a_dword_800C38CC->field_74.vx;
+    rot.vy = s05a_dword_800C38CC->field_74.vy;
+    rot.vz = s05a_dword_800C38CC->field_74.vz;
+
+    s05a_800E209C(&pos, &rot, GV_NearExp2);
+
+    s05a_dword_800C38CC->field_64 += s05a_dword_800C38CC->field_6C;
+    s05a_dword_800C38CC->field_66 += s05a_dword_800C38CC->field_6E;
+    s05a_dword_800C38CC->field_68 += s05a_dword_800C38CC->field_70;
+}
 void s05a_800E1C14(void)
 {
     VECTOR  pos;
