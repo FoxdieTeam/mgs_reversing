@@ -21,7 +21,7 @@ typedef struct _Work
     unsigned char field_A597[0xA9A7 - 0xA597]; /* 0xA597 */
     unsigned char field_A9A7[0xA9B6 - 0xA9A7]; /* 0xA9A7 */
     unsigned char field_A9B6[0xAD00 - 0xA9B6]; /* 0xA9B6 */
-    GV_PAD *field_AD00;      /* 0xAD00 */
+    GV_PAD *pad;      /* 0xAD00 */
     int     field_AD04;      /* 0xAD04 */
     void   *field_AD08;      /* 0xAD08 */
     int    *field_AD0C;      /* 0xAD0C */
@@ -584,7 +584,7 @@ void brf_800CE2F8(Work *work)
 void brf_800CE430(work)
 Work *work;
 {
-    unsigned short status = work->field_AD00->status;
+    unsigned short status = work->pad->status;
 
     if (work->field_ADA0 == 1 || work->field_ADA0 == 2)
     {
@@ -754,8 +754,7 @@ int delta;
 
 void brf_800CE798();
 
-void brf_800CEA58(work)
-Work *work;
+void brf_800CEA58(Work *work, int a1, int a2, int a3)
 {
     switch (work->field_AD9C)
     {
@@ -832,7 +831,7 @@ void brf_800CE1C4(Work *work);
 
 void brf_800CF22C(Work *work, int a1)
 {
-    unsigned short press = work->field_AD00->press;
+    unsigned short press = work->pad->press;
 
     if (press & 0x2000)
     {
@@ -883,7 +882,7 @@ void brf_800CF22C(Work *work, int a1)
 
 void brf_800CF354(Work *work, int a1)
 {
-    if (work->field_AD00->press != 0)
+    if (work->pad->press != 0)
     {
         work->field_ADA4 = 1;
         brf_800CF22C(work, a1);
@@ -895,7 +894,7 @@ void brf_800CECE4(Work *work);
 
 void brf_800CF394(Work *work, int a1)
 {
-    unsigned short press = work->field_AD00->press;
+    unsigned short press = work->pad->press;
 
     if (a1)
     {
@@ -930,7 +929,7 @@ void brf_800CC28C(Work *work);
 
 void brf_800CF430(Work *work)
 {
-    unsigned short press = work->field_AD00->press;
+    unsigned short press = work->pad->press;
 
     if (press & 0x20)
     {
@@ -1684,7 +1683,7 @@ void brf_800DD6DC(Work *work)
 }
 void brf_800DD77C(Work *work)
 {
-    int press = work->field_AD00->press;
+    int press = work->pad->press;
 
     if (work->field_ADC4 != 1 && (press & 0x40) && work->field_AD28 >= 0x33)
     {
@@ -1842,7 +1841,7 @@ int brf_800DFCF8(Work *work, int p1, int p2, int p3, int p4, int p5, int p6, int
 {
     work->field_AD10 = p2;
     work->field_AD0C = (int *)p3;
-    work->field_AD00 = &GV_PadData[2];
+    work->pad = &GV_PadData[2];
     work->field_AD04 = p1;
     work->field_AD28 = 0;
     work->field_AD5C = 0;
