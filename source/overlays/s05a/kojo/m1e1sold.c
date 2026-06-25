@@ -1,4 +1,5 @@
 #include "game/game.h"
+#include "strcode.h"
 
 typedef struct _Work
 {
@@ -243,7 +244,47 @@ int s05a_800E00D8(Work *work, int mask)
 
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E066C.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0D38.s")
+void s05a_800E0D38(CONTROL *control)
+{
+    GV_MSG *msg;
+    int     name;
+    int     n_msg;
+    int     map_msg, move_msg;
+    MAP    *map;
+
+    name = control->name;
+
+    if ((name != 0) && !(control->skip_flag & CTRL_SKIP_MESSAGE))
+    {
+        n_msg = GV_ReceiveMessage(name, &control->msg);
+        control->n_msg = n_msg;
+
+        msg = control->msg;
+
+        map_msg = HASH_MAP;
+        move_msg = HASH_MOVE2;
+
+        for (n_msg--; n_msg >= 0; n_msg--, msg++)
+        {
+            if (msg->message[0] == map_msg)
+            {
+                map = GM_FindMap(msg->message[1]);
+
+                if (map)
+                {
+                    control->map = map;
+                }
+            }
+            else if (msg->message[0] == move_msg)
+            {
+                control->mov.vx = msg->message[1];
+                control->mov.vy = msg->message[2];
+                control->mov.vz = msg->message[3];
+            }
+        }
+    }
+}
+
 void s05a_800E0E28(CONTROL *control, HZD_HDL *hzd)
 {
     SVECTOR local;
