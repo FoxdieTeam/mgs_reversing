@@ -9,7 +9,11 @@ typedef struct
 
 typedef struct _Work
 {
-    char     pad_000[0xDC];
+    char     pad_000[0x20];
+    SVECTOR  field_20;      /* 0x020 */
+    char     pad_28[0x6C - 0x28];
+    SVECTOR  field_6C;      /* 0x06C */
+    char     pad_74[0xDC - 0x74];
     OBJECT   body;          /* 0x0DC */
     OBJECT   bodies_a[3];   /* 0x1C0 */
     OBJECT   bodies_b[3];   /* 0x46C */
@@ -51,7 +55,7 @@ void s05a_800DA940(Work *work)
         return;
     }
 
-    DG_SetPos2((SVECTOR *)((char *)work + 0x20), (SVECTOR *)((char *)work + 0x6C));
+    DG_SetPos2(&work->field_20, &work->field_6C);
     M1E1GetCaterpillerVertex(&work->bodies_a[0], &work->bodies_b[0], verts, 1);
     for (i = 0; i < 10; i++) verts[i].vy += 0x258;
     DG_PutVector(verts, verts, 10);
