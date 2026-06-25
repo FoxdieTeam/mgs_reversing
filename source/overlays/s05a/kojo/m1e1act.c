@@ -20,7 +20,13 @@ typedef struct _Work
     void    *field_718[10]; /* 0x718 */
     char     pad_740[0xA84 - 0x740];
     struct { char _pad[0x48]; } field_A84[10]; /* 0xA84 */
-    char     pad_D54[0xF8C - 0xD54];
+    char     pad_D54[0xE9C - 0xD54];
+    u_short  field_E9C;     /* 0xE9C */
+    char     pad_E9E[0xEA0 - 0xE9E];
+    u_short  field_EA0;     /* 0xEA0 */
+    char     pad_EA2[0xF58 - 0xEA2];
+    int      field_F58;     /* 0xF58 */
+    char     pad_F5C[0xF8C - 0xF5C];
     SVECTOR  bbox[10];      /* 0xF8C */
     char     pad_FDC[0xFEC - 0xFDC];
     HzdBlock hzd[5];        /* 0xFEC */
@@ -31,13 +37,55 @@ typedef struct _Work
 
 extern void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform,
                          SVECTOR *pMin, SVECTOR *pMax);
+extern void AN_Smoke_800CE08C(SVECTOR *pos);
 
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D4A74.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D5E30.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D627C.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D797C.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D863C.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D9754.s")
+void s05a_800D9754(Work *work)
+{
+    SVECTOR vec;
+    int     s0;
+
+    if (work->field_F58 <= 0) return;
+    if (work->field_F58 >= 0xF)
+    {
+        DG_SetPos2(&work->field_20, &work->field_6C);
+        memset(&vec, 0, 8); vec.vy = *(u_short *)&work->bbox[1].vy; vec.vz = (short)*(u_short *)&work->bbox[0].vz >> 1;
+        DG_PutVector(&vec, &vec, 1); AN_Smoke_800CE08C(&vec);
+        memset(&vec, 0, 8); vec.vy = *(u_short *)&work->bbox[1].vy; vec.vz = (short)*(u_short *)&work->bbox[1].vz >> 1;
+        DG_PutVector(&vec, &vec, 1); AN_Smoke_800CE08C(&vec);
+        memset(&vec, 0, 8);
+        vec.vx = *(u_short *)(*(char **)((char *)work->body.objs + 0xE4) + 0x20);
+        vec.vy = *(u_short *)(*(char **)((char *)work->body.objs + 0xE4) + 0x24) + (*(u_short *)&work->bbox[9].vy - *(u_short *)&work->bbox[8].vy);
+        vec.vz = *(u_short *)(*(char **)((char *)work->body.objs + 0xE4) + 0x28);
+        DG_PutVector(&vec, &vec, 1); AN_Smoke_800CE08C(&vec);
+    }
+    s0 = work->field_F58 - 0xA;
+    {
+        int d;
+        if (s0 >= 0) { d = 5; s0 = 5 - s0; } else { d = 0xA; s0 = work->field_F58; }
+        s0 = s0 * 34 / d;
+    }
+    memset(&vec, 0, 8); vec.vx = s0; DG_SetPos2(&DG_ZeroVector, &vec);
+    DG_RotatePos(&work->body.rots[3]);
+    {
+        int dist, r;
+        short pv[3];
+        memset(&vec, 0, 8); vec.vz = 0x64; DG_PutVector(&vec, &vec, 1);
+        dist = SquareRoot0(vec.vx * vec.vx + vec.vz * vec.vz); r = ratan2(vec.vy, dist);
+        pv[0] = r;
+        r = (short)r; if (r < 0) r = -r; pv[2] = s0 - r;
+        s0 = work->body.rots[3].vy;
+        while (s0 < 0) s0 += 0x1000;
+        while (s0 >= 0x1001) s0 -= 0x1000;
+        if (s0 >= 0x801) pv[2] = -pv[2];
+        work->field_E9C += pv[0];
+        work->field_EA0 += pv[2];
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D9A14.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DA02C.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DA62C.s")
