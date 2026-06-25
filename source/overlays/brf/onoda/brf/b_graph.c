@@ -77,46 +77,36 @@ typedef struct
     short field_2;
 } BrfKeyframe;
 
-typedef struct
-{
-    char    pad_0[4];
-    u_short field_4;  /* tpage */
-    u_short field_6;  /* clut */
-    u_char  field_8;  /* u */
-    u_char  field_9;  /* v */
-    u_char  field_A;  /* w */
-    u_char  field_B;  /* h */
-} BrfGlyph;
-BrfGlyph *brf_800CABF4();
+DG_TEX *brf_800CABF4();
 extern char brf_dword_800E1BF0[];
 
-BrfGlyph *brf_800CABF4(work, key)
+DG_TEX *brf_800CABF4(work, id)
 Work *work;
-int key;
+int id;
 {
     int i;
     int found = 0;
     for (i = 0; i < work->field_AD10; i++)
     {
-        if (work->field_AD0C[i] == key)
+        if (work->field_AD0C[i] == id)
         {
-            return (BrfGlyph *)((char *)work->field_AD08 + i * 12);
+            return (DG_TEX *)((char *)work->field_AD08 + i * 12);
         }
     }
     if (!found)
     {
-        printf(brf_dword_800E1BF0, key);
+        printf(brf_dword_800E1BF0, id);
     }
     return 0;
 }
-void brf_800CAC7C(Work *work, int key)
+void brf_800CAC7C(Work *work, int id)
 {
     int i;
     int found = 0;
-    void *result = 0;
+    DG_Image *result = 0;
     for (i = 0; i < work->field_AD14; i++)
     {
-        if (work->field_AD18[i] == key)
+        if (work->field_AD18[i] == id)
         {
             result = work->field_AD1C[i];
             found = 1;
@@ -124,12 +114,12 @@ void brf_800CAC7C(Work *work, int key)
     }
     if (found)
     {
-        LoadImage((RECT *)result, (u_long *)((char *)result + 8));
-        LoadImage((RECT *)((char *)result + 0x208), (u_long *)((char *)result + 0x210));
+        LoadImage(&result[0].dim, (u_long *)result[0].data);
+        LoadImage(&result[1].dim, (u_long *)result[1].data);
     }
     else
     {
-        printf(brf_dword_800E1BF0, key);
+        printf(brf_dword_800E1BF0, id);
     }
 }
 extern const char brf_dword_800E1C14[];
@@ -138,15 +128,15 @@ extern int brf_dword_800C5094;
 
 void brf_800CAD24(Work *work, POLY_FT4 *dest, int a2, int a3, int a4)
 {
-    BrfGlyph *g;
+    DG_TEX *g;
     int u, uw, v, vh;
 
     work->field_AD48 = a2;
     g = brf_800CABF4(work, ((unsigned short *)((int *)&brf_dword_800C5094)[a4])[a3]);
-    u = g->field_8;
-    uw = u + g->field_A + 1;
-    v = g->field_9;
-    vh = v + g->field_B + 1;
+    u = g->off_x;
+    uw = u + g->w + 1;
+    v = g->off_y;
+    vh = v + g->h + 1;
 
     dest->u0 = u;
     dest->v0 = v;
@@ -156,8 +146,8 @@ void brf_800CAD24(Work *work, POLY_FT4 *dest, int a2, int a3, int a4)
     dest->v2 = vh;
     dest->u3 = uw;
     dest->v3 = vh;
-    dest->tpage = g->field_4;
-    dest->clut = g->field_6;
+    dest->tpage = g->tpage;
+    dest->clut = g->clut;
 }
 
 void brf_800CADD4(Work *work, void *a1, int a2)
@@ -183,11 +173,11 @@ extern int brf_dword_800C50DC;
 
 void brf_800CBA84(Work *work, POLY_FT4 *dest, int idx)
 {
-    BrfGlyph *g = brf_800CABF4(work, ((unsigned short *)((int *)&brf_dword_800C50DC)[idx])[(work->field_AD40 - 1) / 2]);
-    int u = g->field_8;
-    int uw = u + g->field_A + 1;
-    int v = g->field_9;
-    int vh = v + g->field_B + 1;
+    DG_TEX *g = brf_800CABF4(work, ((unsigned short *)((int *)&brf_dword_800C50DC)[idx])[(work->field_AD40 - 1) / 2]);
+    int u = g->off_x;
+    int uw = u + g->w + 1;
+    int v = g->off_y;
+    int vh = v + g->h + 1;
 
     dest->u0 = u;
     dest->v0 = v;
@@ -197,8 +187,8 @@ void brf_800CBA84(Work *work, POLY_FT4 *dest, int idx)
     dest->v2 = vh;
     dest->u3 = uw;
     dest->v3 = vh;
-    dest->tpage = g->field_4;
-    dest->clut = g->field_6;
+    dest->tpage = g->tpage;
+    dest->clut = g->clut;
 
     work->field_AD40++;
     if (work->field_AD40 >= 7)
@@ -232,11 +222,11 @@ extern int brf_dword_800C50F4;
 void brf_800CBC04(Work *work, POLY_FT4 *dest, int idx)
 {
     unsigned short *tbl = (unsigned short *)&brf_dword_800C50E8;
-    BrfGlyph *g = brf_800CABF4(work, tbl[idx / 3]);
-    int u = g->field_8;
-    int uw = u + g->field_A + 1;
-    int v = g->field_9;
-    int vh = v + g->field_B + 1;
+    DG_TEX *g = brf_800CABF4(work, tbl[idx / 3]);
+    int u = g->off_x;
+    int uw = u + g->w + 1;
+    int v = g->off_y;
+    int vh = v + g->h + 1;
 
     dest->u0 = u;
     dest->v0 = v;
@@ -246,17 +236,17 @@ void brf_800CBC04(Work *work, POLY_FT4 *dest, int idx)
     dest->v2 = vh;
     dest->u3 = uw;
     dest->v3 = vh;
-    dest->tpage = g->field_4;
-    dest->clut = g->field_6;
+    dest->tpage = g->tpage;
+    dest->clut = g->clut;
 }
 void brf_800CBCB0(Work *work, POLY_FT4 *dest, int idx)
 {
     unsigned short *tbl = (unsigned short *)&brf_dword_800C50F4;
-    BrfGlyph *g = brf_800CABF4(work, tbl[idx / 3]);
-    int u = g->field_8;
-    int uw = u + g->field_A + 1;
-    int v = g->field_9;
-    int vh = v + g->field_B + 1;
+    DG_TEX *g = brf_800CABF4(work, tbl[idx / 3]);
+    int u = g->off_x;
+    int uw = u + g->w + 1;
+    int v = g->off_y;
+    int vh = v + g->h + 1;
 
     dest->u0 = u;
     dest->v0 = v;
@@ -266,8 +256,8 @@ void brf_800CBCB0(Work *work, POLY_FT4 *dest, int idx)
     dest->v2 = vh;
     dest->u3 = uw;
     dest->v3 = vh;
-    dest->tpage = g->field_4;
-    dest->clut = g->field_6;
+    dest->tpage = g->tpage;
+    dest->clut = g->clut;
 }
 
 void brf_800CBD5C(Work *work, void *a1)
@@ -1727,38 +1717,11 @@ void brf_800DDC40(Work *work); // Act
 
 void brf_800DDCA8(Work *work)
 {
-    void *p;
-
-    p = work->field_28;
-    if (p)
-    {
-        DG_DequeuePrim(p);
-        DG_FreePrim(p);
-    }
-    p = work->field_2C;
-    if (p)
-    {
-        DG_DequeuePrim(p);
-        DG_FreePrim(p);
-    }
-    p = work->field_20;
-    if (p)
-    {
-        DG_DequeuePrim(p);
-        DG_FreePrim(p);
-    }
-    p = work->field_24;
-    if (p)
-    {
-        DG_DequeuePrim(p);
-        DG_FreePrim(p);
-    }
-    p = work->field_30;
-    if (p)
-    {
-        DG_DequeuePrim(p);
-        DG_FreePrim(p);
-    }
+    GM_FreePrim(work->field_28);
+    GM_FreePrim(work->field_2C);
+    GM_FreePrim(work->field_20);
+    GM_FreePrim(work->field_24);
+    GM_FreePrim(work->field_30);
     brf_800DDBC8(work);
 }
 void brf_800DDCA8(Work *work); // Die
