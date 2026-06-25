@@ -33,7 +33,69 @@ void s05a_800D4654(MOTION_SEGMENT *dst, MOTION_SEGMENT *src, int mask)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D46A4.s")
+void s05a_800D46A4(Work *work)
+{
+    int i;
+
+    if (GM_PlayerBody == NULL) return;
+    if (GM_PlayerControl == NULL) return;
+    if (GM_uTenageMotion == -1) return;
+
+    if (work->field_760 == 0)
+    {
+        for (i = 0; i < 16; i++)
+        {
+            work->rots[i] = GM_PlayerBody->objs->rots[i];
+            work->body.height = GM_PlayerBody->height;
+        }
+        *work->body.objs->waist_rot = *GM_PlayerBody->objs->waist_rot;
+        if (GM_PlayerBody->action2 == 0x32)
+        {
+            work->field_760 = 1;
+            work->field_764 = 0;
+        }
+    }
+    else if (work->field_760 == 1)
+    {
+        int motion = work->field_764;
+        int mask;
+
+        work->field_764 = motion + 1;
+        mask = GM_PlayerBody->m_ctrl->info1.mask;
+        if (motion == 0)
+        {
+            s05a_800D4654(work->body.m_ctrl->info1.m_segs, GM_PlayerBody->m_ctrl->info1.m_segs, mask);
+            GM_ConfigObjectAction(&work->body, GM_uTenageMotion, 0, 4);
+        }
+        GM_ActMotion(&work->body);
+        GM_PlayerBody->height = work->body.height;
+        {
+            int m = mask;
+            for (i = 0; i < 16; i++)
+            {
+                if (m & 1)
+                {
+                    GM_PlayerBody->objs->rots[i] = work->rots[i];
+                }
+                m >>= 1;
+            }
+        }
+        *GM_PlayerBody->objs->waist_rot = *work->body.objs->waist_rot;
+        if (work->body.m_ctrl->info1.frames_left == 2 || GM_PlayerBody->action2 != 0x32)
+        {
+            s05a_800D4654(GM_PlayerBody->m_ctrl->info1.m_segs, work->body.m_ctrl->info1.m_segs, mask);
+            GM_PlayerBody->m_ctrl->interp = 4;
+            work->field_760 = 2;
+        }
+    }
+    else
+    {
+        if (GM_PlayerBody->action2 != 0x32)
+        {
+            work->field_760 = 0;
+        }
+    }
+}
 
 void s05a_800D4968(Work *work)
 {
