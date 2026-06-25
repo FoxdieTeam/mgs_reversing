@@ -54,13 +54,15 @@ typedef struct _Camera
     char    pad_72[0x74 - 0x72];
     SVECTOR field_74; /* 0x74 */
     u_short field_7C; /* 0x7C */
+    char    pad_7E[0x88 - 0x7E];
+    int     field_88; /* 0x88 */
 } Camera;
 
 extern CamActor *s05a_dword_800C362C;
 extern Camera  *s05a_dword_800C38CC;
 
 void s05a_800E209C(VECTOR *out, VECTOR *in, int (*fn)());
-void s05a_800E2328(VECTOR *out, SVECTOR *cam, VECTOR *in, SVECTOR *p3c, SVECTOR *p44);
+VECTOR *s05a_800E2328(VECTOR *out, SVECTOR *cam, VECTOR *in, SVECTOR *lo, SVECTOR *hi);
 void s05a_800E1448(void);
 void s05a_800E1A68(void);
 extern const char s05a_dword_800E35D8[];
@@ -268,4 +270,41 @@ void s05a_800E1F0C(void)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E209C.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E2328.s")
+VECTOR *s05a_800E2328(VECTOR *out, SVECTOR *cam, VECTOR *in, SVECTOR *lo, SVECTOR *hi)
+{
+    VECTOR  p;
+    SVECTOR pad;
+
+    p.vx = cam->vx;
+    p.vy = cam->vy;
+    p.vz = cam->vz;
+
+    if (s05a_dword_800C38CC->field_88 == 0) { p.vx = in->vx; }
+    else {
+        int delta = in->vx - p.vx;
+        if (delta >= 0x3E9) { int r = p.vx - 0x3E8; p.vx = r + delta; }
+        else if (p.vx - in->vx >= 0x3E9) { int r = p.vx + 0x3E8; p.vx = r + delta; }
+    }
+    if (s05a_dword_800C38CC->field_88 == 0) { p.vy = in->vy; }
+    else {
+        int delta = in->vy - p.vy;
+        if (delta >= 0x3E9) { int r = p.vy - 0x3E8; p.vy = r + delta; }
+        else if (p.vy - in->vy >= 0x3E9) { int r = p.vy + 0x3E8; p.vy = r + delta; }
+    }
+    if (s05a_dword_800C38CC->field_88 == 0) { p.vz = in->vz; }
+    else {
+        int delta = in->vz - p.vz;
+        if (delta >= 0x3E9) { int r = p.vz - 0x3E8; p.vz = r + delta; }
+        else if (p.vz - in->vz >= 0x3E9) { int r = p.vz + 0x3E8; p.vz = r + delta; }
+    }
+
+    { int t = lo->vx; if (t < p.vx) t = p.vx; p.vx = t; }
+    { int t = hi->vx; if (p.vx < t) t = p.vx; p.vx = t; }
+    { int t = lo->vy; if (t < p.vy) t = p.vy; p.vy = t; }
+    { int t = hi->vy; if (p.vy < t) t = p.vy; p.vy = t; }
+    { int t = lo->vz; if (t < p.vz) t = p.vz; p.vz = t; }
+    { int t = hi->vz; if (p.vz < t) t = p.vz; p.vz = t; }
+
+    *out = p;
+    return out;
+}
