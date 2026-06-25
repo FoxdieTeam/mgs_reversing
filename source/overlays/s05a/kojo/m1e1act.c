@@ -1,4 +1,5 @@
 #include "game/game.h"
+#include "kojo/m1e1.h"
 
 typedef struct
 {
@@ -12,7 +13,10 @@ typedef struct _Work
     OBJECT   body;          /* 0x0DC */
     OBJECT   bodies_a[3];   /* 0x1C0 */
     OBJECT   bodies_b[3];   /* 0x46C */
-    char     pad_718[0xF8C - 0x718];
+    void    *field_718[10]; /* 0x718 */
+    char     pad_740[0xA84 - 0x740];
+    struct { char _pad[0x48]; } field_A84[10]; /* 0xA84 */
+    char     pad_D54[0xF8C - 0xD54];
     SVECTOR  bbox[10];      /* 0xF8C */
     char     pad_FDC[0xFEC - 0xFDC];
     HzdBlock hzd[5];        /* 0xFEC */
@@ -33,7 +37,54 @@ extern void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform,
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D9A14.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DA02C.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DA62C.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DA940.s")
+#define WMDL(off) (*(u_short *)((char *)work->body.objs->objs[0].model + (off)))
+
+void s05a_800DA940(Work *work)
+{
+    SVECTOR vec;
+    SVECTOR verts[10];
+    int     i;
+    int     s0, s1;
+
+    if (*(int *)((char *)work + 0xD54) == 6)
+    {
+        return;
+    }
+
+    DG_SetPos2((SVECTOR *)((char *)work + 0x20), (SVECTOR *)((char *)work + 0x6C));
+    M1E1GetCaterpillerVertex(&work->bodies_a[0], &work->bodies_b[0], verts, 1);
+    for (i = 0; i < 10; i++) verts[i].vy += 0x258;
+    DG_PutVector(verts, verts, 10);
+    for (i = 0; i < 10; i++)
+    {
+        GM_MoveTarget((TARGET *)work->field_718[i], &verts[i]);
+        GM_PushTarget((TARGET *)work->field_718[i]);
+    }
+
+    M1E1GetCaterpillerVertex(&work->bodies_a[0], &work->bodies_b[0], verts, 0);
+    for (i = 0; i < 10; i++) verts[i].vy += 0x12C;
+    DG_PutVector(verts, verts, 10);
+    for (i = 0; i < 10; i++)
+    {
+        GM_MoveTarget((TARGET *)&work->field_A84[i], &verts[i]);
+    }
+
+    s0 = (*(int *)((char *)work + 0x8C8) * 3) >> 2;
+    s1 = (*(int *)((char *)work + 0x95C) * 3) >> 2;
+
+    vec.vx = 0; vec.vz = WMDL(0x1C) - s0; vec.vy = WMDL(0x18);
+    DG_PutVector(&vec, &vec, 1); GM_MoveTarget((TARGET *)((char *)work + 0x8CC), &vec);
+    vec.vx = 0; vec.vz = WMDL(0x10) + s0; vec.vy = WMDL(0x18);
+    DG_PutVector(&vec, &vec, 1); GM_MoveTarget((TARGET *)((char *)work + 0x914), &vec);
+    vec.vx = WMDL(0x08) + s1; vec.vz = WMDL(0x1C) - s1; vec.vy = WMDL(0x18);
+    DG_PutVector(&vec, &vec, 1); GM_MoveTarget((TARGET *)((char *)work + 0x960), &vec);
+    vec.vx = WMDL(0x08) + s1; vec.vz = WMDL(0x10) + s1; vec.vy = WMDL(0x18);
+    DG_PutVector(&vec, &vec, 1); GM_MoveTarget((TARGET *)((char *)work + 0x9A8), &vec);
+    vec.vx = WMDL(0x14) - s1; vec.vz = WMDL(0x1C) - s1; vec.vy = WMDL(0x18);
+    DG_PutVector(&vec, &vec, 1); GM_MoveTarget((TARGET *)((char *)work + 0x9F0), &vec);
+    vec.vx = WMDL(0x14) - s1; vec.vz = WMDL(0x10) + s1; vec.vy = WMDL(0x18);
+    DG_PutVector(&vec, &vec, 1); GM_MoveTarget((TARGET *)((char *)work + 0xA38), &vec);
+}
 
 void s05a_800DACF0(Work *work)
 {
