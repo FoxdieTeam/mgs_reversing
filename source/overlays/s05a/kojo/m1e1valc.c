@@ -1,3 +1,4 @@
+#include <rand.h>
 #include "game/game.h"
 #include "linkvar.h"
 
