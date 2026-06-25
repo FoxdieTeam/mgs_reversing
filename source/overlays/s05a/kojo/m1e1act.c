@@ -58,9 +58,9 @@ void s05a_800D9754(Work *work)
         memset(&vec, 0, 8); vec.vy = *(u_short *)&work->bbox[1].vy; vec.vz = (short)*(u_short *)&work->bbox[1].vz >> 1;
         DG_PutVector(&vec, &vec, 1); AN_Smoke_800CE08C(&vec);
         memset(&vec, 0, 8);
-        vec.vx = *(u_short *)(*(char **)((char *)work->body.objs + 0xE4) + 0x20);
-        vec.vy = *(u_short *)(*(char **)((char *)work->body.objs + 0xE4) + 0x24) + (*(u_short *)&work->bbox[9].vy - *(u_short *)&work->bbox[8].vy);
-        vec.vz = *(u_short *)(*(char **)((char *)work->body.objs + 0xE4) + 0x28);
+        vec.vx = *(u_short *)((char *)work->body.objs->objs[1].model + 0x20);
+        vec.vy = *(u_short *)((char *)work->body.objs->objs[1].model + 0x24) + (*(u_short *)&work->bbox[9].vy - *(u_short *)&work->bbox[8].vy);
+        vec.vz = *(u_short *)((char *)work->body.objs->objs[1].model + 0x28);
         DG_PutVector(&vec, &vec, 1); AN_Smoke_800CE08C(&vec);
     }
     s0 = work->field_F58 - 0xA;
