@@ -1,6 +1,7 @@
 #include "game/game.h"
 #include "chara/snake/sna_init.h"
 #include "libhzd/libhzd.h"
+#include "strcode.h"
 
 /* Partial view of the actor passed to s05a_800DEC18. The 0x204/0x208/0x238
    fields fall inside SnaInitWork's motion arrays, so they are kept separate
@@ -237,7 +238,47 @@ int s05a_800E00D8(SnaInitWork *snake, SnaFlag1 flags)
 }
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E066C.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E0D38.s")
+void s05a_800E0D38(CONTROL *control)
+{
+    GV_MSG *msg;
+    int     name;
+    int     n_msg;
+    int     map_msg, move_msg;
+    MAP    *map;
+
+    name = control->name;
+
+    if ((name != 0) && !(control->skip_flag & CTRL_SKIP_MESSAGE))
+    {
+        n_msg = GV_ReceiveMessage(name, &control->msg);
+        control->n_msg = n_msg;
+
+        msg = control->msg;
+
+        map_msg = HASH_MAP;
+        move_msg = HASH_MOVE2;
+
+        for (n_msg--; n_msg >= 0; n_msg--, msg++)
+        {
+            if (msg->message[0] == map_msg)
+            {
+                map = GM_FindMap(msg->message[1]);
+
+                if (map)
+                {
+                    control->map = map;
+                }
+            }
+            else if (msg->message[0] == move_msg)
+            {
+                control->mov.vx = msg->message[1];
+                control->mov.vy = msg->message[2];
+                control->mov.vz = msg->message[3];
+            }
+        }
+    }
+}
+
 void s05a_800E0E28(CONTROL *work, HZD_HDL *hzd)
 {
     SVECTOR local;
