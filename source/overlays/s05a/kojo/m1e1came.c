@@ -56,6 +56,7 @@ typedef struct _Camera
     u_short field_7C; /* 0x7C */
     char    pad_7E[0x88 - 0x7E];
     int     field_88; /* 0x88 */
+    int     field_8C; /* 0x8C */
 } Camera;
 
 extern CamActor *s05a_dword_800C362C;
@@ -269,7 +270,37 @@ void s05a_800E1F0C(void)
         GM_Camera.target.vz -= 1;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E209C.s")
+void s05a_800E209C(VECTOR *out, VECTOR *in, int (*fn)())
+{
+    { int t = s05a_dword_800C38CC->field_20.vx; if (t < out->vx) t = out->vx; out->vx = t; }
+    { int t = s05a_dword_800C38CC->field_28.vx; if (out->vx < t) t = out->vx; out->vx = t; }
+    { int t = s05a_dword_800C38CC->field_20.vy; if (t < out->vy) t = out->vy; out->vy = t; }
+    { int t = s05a_dword_800C38CC->field_28.vy; if (out->vy < t) t = out->vy; out->vy = t; }
+    { int t = s05a_dword_800C38CC->field_20.vz; if (t < out->vz) t = out->vz; out->vz = t; }
+    { int t = s05a_dword_800C38CC->field_28.vz; if (out->vz < t) t = out->vz; out->vz = t; }
+    { int t = s05a_dword_800C38CC->field_20.vx; if (t < in->vx) t = in->vx; in->vx = t; }
+    { int t = s05a_dword_800C38CC->field_28.vx; if (in->vx < t) t = in->vx; in->vx = t; }
+    { int t = s05a_dword_800C38CC->field_20.vy; if (t < in->vy) t = in->vy; in->vy = t; }
+    { int t = s05a_dword_800C38CC->field_28.vy; if (in->vy < t) t = in->vy; in->vy = t; }
+    { int t = s05a_dword_800C38CC->field_20.vz; if (t < in->vz) t = in->vz; in->vz = t; }
+    { int t = s05a_dword_800C38CC->field_28.vz; if (in->vz < t) t = in->vz; in->vz = t; }
+
+    if (s05a_dword_800C38CC->field_8C == 0)
+    {
+        GM_Camera.position.vx = out->vx;
+        GM_Camera.position.vy = out->vy;
+        GM_Camera.position.vz = out->vz;
+        GM_Camera.target.vx = in->vx;
+        GM_Camera.target.vy = in->vy;
+        GM_Camera.target.vz = in->vz;
+    }
+    GM_Camera.position.vx = fn(GM_Camera.position.vx, out->vx);
+    GM_Camera.position.vy = fn(GM_Camera.position.vy, out->vy);
+    GM_Camera.position.vz = fn(GM_Camera.position.vz, out->vz);
+    GM_Camera.target.vx = fn(GM_Camera.target.vx, in->vx);
+    GM_Camera.target.vy = fn(GM_Camera.target.vy, in->vy);
+    GM_Camera.target.vz = fn(GM_Camera.target.vz, in->vz);
+}
 VECTOR *s05a_800E2328(VECTOR *out, SVECTOR *cam, VECTOR *in, SVECTOR *lo, SVECTOR *hi)
 {
     VECTOR  p;
