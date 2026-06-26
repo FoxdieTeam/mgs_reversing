@@ -114,20 +114,41 @@ typedef struct _CamModel
 
 typedef struct _CamEb0
 {
-    char  pad_000[0x1C0];
-    char *field_1C0;
+    char    pad_000[0x1C0];
+    TARGET *field_1C0;      /* 0x1C0 */
 } CamEb0;
 
 typedef struct _CamActor
 {
     char      pad_000[0xDC];
-    CamModel *field_DC;
-    char      pad_E0[0xDFC - 0xE0];
-    int       field_DFC;
-    char      pad_E00[0xE60 - 0xE00];
-    int       field_E60;
+    CamModel *field_DC;        /* 0x0DC */
+    char      pad_E0[0x718 - 0xE0];
+    TARGET   *field_718[10];   /* 0x718 */
+    char      pad_740[0xD64 - 0x740];
+    int       field_D64;       /* 0xD64 */
+    int       field_D68;       /* 0xD68 */
+    char      pad_D6C[0xD74 - 0xD6C];
+    int       field_D74;       /* 0xD74 */
+    char      pad_D78[0xD88 - 0xD78];
+    int       field_D88;       /* 0xD88 */
+    int       field_D8C;       /* 0xD8C */
+    char      pad_D90[0xDEC - 0xD90];
+    int       field_DEC;       /* 0xDEC */
+    char      pad_DF0[0xDFC - 0xDF0];
+    int       field_DFC;       /* 0xDFC */
+    char      pad_E00[0xE0C - 0xE00];
+    int       field_E0C;       /* 0xE0C */
+    char      pad_E10[0xE60 - 0xE10];
+    int       field_E60;       /* 0xE60 */
     char      pad_E64[0xEB0 - 0xE64];
-    CamEb0   *field_EB0;
+    CamEb0   *field_EB0;       /* 0xEB0 */
+    char      pad_EB4[0xED0 - 0xEB4];
+    int       field_ED0;       /* 0xED0 */
+    char      pad_ED4[0xF4C - 0xED4];
+    int       field_F4C;       /* 0xF4C */
+    int       field_F50;       /* 0xF50 */
+    char      pad_F54[0xF5C - 0xF54];
+    int       field_F5C;       /* 0xF5C */
 } CamActor;
 
 typedef struct _DfVec
@@ -136,6 +157,14 @@ typedef struct _DfVec
     u_short field_2;
     u_short field_4;
 } DfVec;
+
+typedef struct _UVec
+{
+    u_short vx;
+    u_short vy;
+    u_short vz;
+    u_short pad;
+} UVec;
 
 extern CamActor *s05a_dword_800C362C;
 
@@ -170,14 +199,152 @@ int s05a_800DF834(int arg0, DfVec *vec, u_short *arg3)
     dist = SquareRoot0(d.vx * d.vx + d.vy * d.vy + d.vz * d.vz);
     if (dist < e.vx * s05a_dword_800C362C->field_DFC)
     {
-        GM_SeSetPan((SVECTOR *)(s05a_dword_800C362C->field_EB0->field_1C0 + 8), 0xB2,
+        GM_SeSetPan(&s05a_dword_800C362C->field_EB0->field_1C0->center, 0xB2,
                     s05a_dword_800C362C->field_E60);
         *arg3 |= 4;
         return 1;
     }
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DF9C8.s")
+int s05a_800DF9C8(TARGET *t, int flags)
+{
+    UVec    delta;
+    SVECTOR e;
+    int     i;
+    short   dx, dy, dz;
+    int     dist;
+
+    if (s05a_dword_800C362C->field_ED0 != 0)
+    {
+        if (s05a_dword_800C362C->field_EB0 != 0)
+        {
+            s05a_dword_800C362C->field_EB0->field_1C0->vital = 0x2710;
+            s05a_dword_800C362C->field_EB0->field_1C0->damage = 0;
+            s05a_dword_800C362C->field_EB0->field_1C0->damaged = 0;
+        }
+        for (i = 0; i < 10; i++)
+        {
+            s05a_dword_800C362C->field_718[i]->vital = 0x2710;
+            s05a_dword_800C362C->field_718[i]->damage = 0;
+            s05a_dword_800C362C->field_718[i]->damaged = 0;
+        }
+        return 1;
+    }
+
+    if (s05a_dword_800C362C->field_EB0 != 0)
+    {
+        delta = *(UVec *)&s05a_dword_800C362C->field_EB0->field_1C0->center;
+        dx = delta.vx - ((UVec *)&t->center)->vx;
+        delta.vx = dx;
+        dy = delta.vy - ((UVec *)&t->center)->vy;
+        delta.vy = dy;
+        dz = delta.vz - ((UVec *)&t->center)->vz;
+        delta.vz = dz;
+
+        e.vx = s05a_dword_800C362C->field_DC->field_420->field_14 -
+               s05a_dword_800C362C->field_DC->field_420->field_08;
+        e.vz = s05a_dword_800C362C->field_DC->field_420->field_1C -
+               s05a_dword_800C362C->field_DC->field_420->field_10;
+        e.vx = (e.vx + e.vz) >> 2;
+
+        if (flags & 4)
+        {
+            for (i = 0; i < 10; i++)
+            {
+                s05a_dword_800C362C->field_718[i]->vital = 0x2710;
+                s05a_dword_800C362C->field_718[i]->damage = 0;
+                s05a_dword_800C362C->field_718[i]->damaged = 0;
+            }
+            if (s05a_dword_800C362C->field_F5C > 0)
+            {
+                return 0;
+            }
+            s05a_dword_800C362C->field_EB0->field_1C0->damaged =
+                (u_short)s05a_dword_800C362C->field_D74;
+            return 1;
+        }
+
+        if (s05a_dword_800C362C->field_EB0->field_1C0->damaged != 0)
+        {
+            dist = SquareRoot0(dx * dx + dy * dy + dz * dz);
+            if (dist < e.vx * s05a_dword_800C362C->field_DFC * 3 &&
+                t->center.vy >=
+                    s05a_dword_800C362C->field_EB0->field_1C0->center.vy - 0x3E8)
+            {
+                for (i = 0; i < 10; i++)
+                {
+                    s05a_dword_800C362C->field_718[i]->vital = 0x2710;
+                    s05a_dword_800C362C->field_718[i]->damage = 0;
+                    s05a_dword_800C362C->field_718[i]->damaged = 0;
+                }
+                if (s05a_dword_800C362C->field_F5C > 0)
+                {
+                    return 0;
+                }
+                s05a_dword_800C362C->field_EB0->field_1C0->damaged =
+                    s05a_dword_800C362C->field_D74 / s05a_dword_800C362C->field_DEC;
+                return (s05a_dword_800C362C->field_E0C -
+                        s05a_dword_800C362C->field_EB0->field_1C0->damaged) < 1;
+            }
+        }
+
+        s05a_dword_800C362C->field_EB0->field_1C0->vital = 0x2710;
+        s05a_dword_800C362C->field_EB0->field_1C0->damage = 0;
+        s05a_dword_800C362C->field_EB0->field_1C0->damaged = 0;
+    }
+
+    if (s05a_dword_800C362C->field_F4C > 0 ||
+        s05a_dword_800C362C->field_F50 > 0 ||
+        HZD_GetFloorHit((HZD_FLR *)((char *)s05a_dword_800C362C + 0x12AC), &t->center) == 1 ||
+        HZD_GetFloorHit((HZD_FLR *)((char *)s05a_dword_800C362C + 0x102C), &t->center) == 1 ||
+        HZD_GetFloorHit((HZD_FLR *)((char *)s05a_dword_800C362C + 0x10CC), &t->center) == 1)
+    {
+        for (i = 0; i < 10; i++)
+        {
+            s05a_dword_800C362C->field_718[i]->vital = 0x2710;
+            s05a_dword_800C362C->field_718[i]->damage = 0;
+            s05a_dword_800C362C->field_718[i]->damaged = 0;
+        }
+        return 0;
+    }
+
+    for (i = 0; i < 10; i++)
+    {
+        dx = ((UVec *)&s05a_dword_800C362C->field_718[i]->center)->vx -
+             ((UVec *)&t->center)->vx;
+        delta.vx = dx;
+        dy = ((UVec *)&s05a_dword_800C362C->field_718[i]->center)->vy -
+             ((UVec *)&t->center)->vy;
+        delta.vy = dy;
+        dz = ((UVec *)&s05a_dword_800C362C->field_718[i]->center)->vz -
+             ((UVec *)&t->center)->vz;
+        delta.vz = dz;
+        if (s05a_dword_800C362C->field_718[i]->damaged != 0)
+        {
+            dist = SquareRoot0(dx * dx + dy * dy + dz * dz);
+            if (dist >= 0x9C5)
+            {
+                s05a_dword_800C362C->field_718[i]->vital = 0x2710;
+                s05a_dword_800C362C->field_718[i]->damage = 0;
+                s05a_dword_800C362C->field_718[i]->damaged = 0;
+            }
+        }
+    }
+
+    if (s05a_dword_800C362C->field_D64 > s05a_dword_800C362C->field_D88 ||
+        s05a_dword_800C362C->field_D68 > s05a_dword_800C362C->field_D8C)
+    {
+        for (i = 0; i < 10; i++)
+        {
+            if (s05a_dword_800C362C->field_718[i]->damaged != 0)
+            {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
 
 void s05a_800DFFC0(Work *work, int arg)
 {
