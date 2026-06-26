@@ -2,9 +2,21 @@
 
 typedef struct _Work
 {
-    GV_ACT  actor;   /* 0x000 */
-    CONTROL control;  /* 0x020 */
-    OBJECT  body;     /* 0x09C */
+    GV_ACT  actor;       /* 0x000 */
+    CONTROL control;     /* 0x020 */
+    OBJECT  body;        /* 0x09C */
+    MATRIX  field_180;   /* 0x180 */
+    char    pad_1A0[0x1C0 - 0x1A0];
+    TARGET  target;      /* 0x1C0 */
+    char    pad_208[0x228 - 0x208];
+    SVECTOR *field_228;  /* 0x228 */
+    SVECTOR field_22C;   /* 0x22C */
+    char    pad_234[0x238 - 0x234];
+    int     field_238;   /* 0x238 */
+    int     field_23C;   /* 0x23C */
+    int    *field_240;   /* 0x240 */
+    int     field_244;   /* 0x244 */
+    int     field_248;   /* 0x248 */
 } Work;
 
 typedef struct _Casing
@@ -35,8 +47,69 @@ extern void *s05a_800DBF58(int arg0, SVECTOR *arg1, SVECTOR *arg2);
 void s05a_800DBED0(Smoke *work);
 void s05a_800DBF50(void *work);
 
+void *s05a_800DBD14(SVECTOR *arg0, SVECTOR *arg1);
+void *s05a_800DB684(Work *work);
+
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DAE58.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DB278.s")
+void s05a_800DB278(Work *work)
+{
+    SVECTOR vec;
+    int s0;
+    int s2 = 0;
+
+    work->field_22C = work->control.mov;
+    GM_ActControl(&work->control);
+    GM_ActObject2(&work->body);
+    DG_GetLightMatrix2(&work->control.mov, &work->field_180);
+    GM_MoveTarget(&work->target, &work->control.mov);
+    work->field_244++;
+    if (work->field_244 < 2)
+        s05a_800DBF58(s2, &work->control.mov, &work->control.rot);
+
+    if (work->field_228 == 0)
+    {
+        DG_SetPos2(&work->control.mov, &work->control.rot);
+        vec.vx = 0;
+        vec.vy = 0;
+        vec.vz = work->field_23C;
+        DG_RotVector(&vec, &work->control.step, 1);
+    }
+    else
+    {
+        int dist;
+        vec.vx = work->field_228->vx - work->control.mov.vx;
+        vec.vy = work->field_228->vy - work->control.mov.vy;
+        vec.vz = work->field_228->vz - work->control.mov.vz;
+        dist = SquareRoot0(vec.vx * vec.vx + vec.vy * vec.vy + vec.vz * vec.vz);
+        if (dist == 0) dist = 1;
+        work->control.step.vx = vec.vx * work->field_23C / dist;
+        work->control.step.vy = vec.vy * work->field_23C / dist;
+        work->control.step.vz = vec.vz * work->field_23C / dist;
+        work->control.turn.vx = -ratan2(vec.vy, SquareRoot0(vec.vx * vec.vx + vec.vz * vec.vz));
+        work->control.turn.vy = ratan2(vec.vx, vec.vz);
+        work->control.turn.vz = 0;
+    }
+
+    s0 = work->control.n_touches;
+    if (s0 > 0)
+        s0 = GM_CheckControlTouches(&work->control, work->field_248);
+    if (s0 > 0 || (s2 = GM_PowerTarget(&work->target)) != 0 || work->field_244 >= work->field_238 ||
+        work->control.mov.vx < -0x6978 || work->control.mov.vx >= 0x6979 ||
+        work->control.mov.vy < -0x6978 || work->control.mov.vy >= 0x6979 ||
+        work->control.mov.vz < -0x6978 || work->control.mov.vz >= 0x6979)
+    {
+        if (s2 != 0) *work->field_240 = 1;
+        else if (s0 > 0) *work->field_240 = 2;
+        else *work->field_240 = 3;
+        GM_SeSetPan(&work->control.mov, 0xB7, 0x3F);
+        s05a_800DBD14(&work->control.mov, &work->control.rot);
+        GV_DestroyActor(work);
+    }
+    else
+    {
+        s05a_800DB684(work);
+    }
+}
 
 void s05a_800DB654(Work *work)
 {
