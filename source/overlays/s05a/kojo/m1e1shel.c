@@ -24,7 +24,7 @@ typedef struct _Casing
     GV_ACT   actor;     /* 0x00 */
     int      field_20;  /* 0x20 */
     DG_PRIM *field_24;  /* 0x24 */
-    char     pad_28[0x68 - 0x28];
+    SVECTOR  verts[8];  /* 0x28 */
     int      field_68;  /* 0x68 */
     int      field_6C;  /* 0x6C */
     int      field_70;  /* 0x70 */
@@ -116,7 +116,91 @@ void s05a_800DB654(Work *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
 }
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DB684.s")
+typedef struct _CasingTex
+{
+    char    pad_00[4];
+    u_short field_04; /* 0x04 -> tpage */
+    u_short field_06; /* 0x06 -> clut */
+    u_char  field_08; /* 0x08 -> u */
+    u_char  field_09; /* 0x09 -> v */
+    u_char  field_0A; /* 0x0A -> w */
+    u_char  field_0B; /* 0x0B -> h */
+} CasingTex;
+
+extern const char s05a_dword_800E34E0[];
+void s05a_800DBA94(Casing *work);
+void s05a_800DBC44(Casing *work);
+void s05a_800DBC80(POLY_FT4 *poly, CasingTex *src);
+
+void *s05a_800DB684(Work *parent)
+{
+    Casing  *casing;
+    DG_PRIM *prim;
+    DG_TEX  *tex;
+    SVECTOR  off1;
+    SVECTOR  off2;
+
+    casing = GV_NewActor(GV_ACTOR_USER, sizeof(Casing));
+    if (casing == NULL)
+    {
+        return NULL;
+    }
+    GV_SetNamedActor(casing, s05a_800DBA94, s05a_800DBC44, s05a_dword_800E34D4);
+
+    casing->field_6C = 0xFF;
+    casing->field_70 = 0xE0;
+    casing->field_74 = 0xC0;
+    casing->field_20 = GM_CurrentMap;
+
+    prim = GM_MakePrim(0x12, 2, casing->verts, NULL);
+    casing->field_24 = prim;
+    tex = DG_GetTexture(GV_StrCode(s05a_dword_800E34E0));
+    s05a_800DBC80((POLY_FT4 *)casing->field_24->packs[0], (CasingTex *)tex);
+    s05a_800DBC80((POLY_FT4 *)casing->field_24->packs[1], (CasingTex *)tex);
+    casing->field_24->raise = 0x3E8;
+
+    off1.vx = *(u_short *)&parent->body.objs->def->min.vx - *(u_short *)&parent->body.objs->def->max.vx;
+    off1.vy = *(u_short *)&parent->body.objs->def->min.vy - *(u_short *)&parent->body.objs->def->max.vy;
+    off1.vz = 0;
+    off2.vx = -off1.vx;
+    off2.vz = 0;
+    off2.vy = -off1.vy;
+    DG_SetPos2(&DG_ZeroVector, &parent->control.rot);
+    DG_PutVector(&off1, &off1, 1);
+    DG_PutVector(&off2, &off2, 1);
+
+    casing->verts[0].vx = parent->field_22C.vx;
+    casing->verts[0].vy = parent->field_22C.vy + off2.vy;
+    casing->verts[0].vz = parent->field_22C.vz;
+    casing->verts[1].vx = parent->field_22C.vx;
+    casing->verts[1].vy = parent->field_22C.vy + off1.vy;
+    casing->verts[1].vz = parent->field_22C.vz;
+    casing->verts[4].vx = parent->field_22C.vx + off2.vx;
+    casing->verts[4].vy = parent->field_22C.vy;
+    casing->verts[4].vz = parent->field_22C.vz;
+    casing->verts[5].vx = parent->field_22C.vx + off1.vx;
+    casing->verts[5].vy = parent->field_22C.vy;
+    casing->verts[5].vz = parent->field_22C.vz;
+    casing->verts[2].vx = parent->control.mov.vx;
+    casing->verts[2].vy = parent->control.mov.vy + off2.vy;
+    casing->verts[2].vz = parent->control.mov.vz;
+    casing->verts[3].vx = parent->control.mov.vx;
+    casing->verts[3].vy = parent->control.mov.vy + off1.vy;
+    casing->verts[3].vz = parent->control.mov.vz;
+    casing->verts[6].vx = parent->control.mov.vx + off2.vx;
+    casing->verts[6].vy = parent->control.mov.vy;
+    casing->verts[6].vz = parent->control.mov.vz;
+    casing->verts[7].vx = parent->control.mov.vx + off1.vx;
+    casing->verts[7].vy = parent->control.mov.vy;
+    casing->verts[7].vz = parent->control.mov.vz;
+
+    setRGB0((POLY_FT4 *)casing->field_24->packs[0], casing->field_6C, casing->field_70, casing->field_74);
+    setRGB0((POLY_FT4 *)casing->field_24->packs[0] + 1, casing->field_6C, casing->field_70, casing->field_74);
+    setRGB0((POLY_FT4 *)casing->field_24->packs[1], casing->field_6C, casing->field_70, casing->field_74);
+    setRGB0((POLY_FT4 *)casing->field_24->packs[1] + 1, casing->field_6C, casing->field_70, casing->field_74);
+
+    return casing;
+}
 
 void s05a_800DBA94(Casing *work)
 {
@@ -156,17 +240,6 @@ void s05a_800DBC44(Casing *work)
         DG_FreePrim(prim);
     }
 }
-
-typedef struct _CasingTex
-{
-    char    pad_00[4];
-    u_short field_04; /* 0x04 -> tpage */
-    u_short field_06; /* 0x06 -> clut */
-    u_char  field_08; /* 0x08 -> u */
-    u_char  field_09; /* 0x09 -> v */
-    u_char  field_0A; /* 0x0A -> w */
-    u_char  field_0B; /* 0x0B -> h */
-} CasingTex;
 
 void s05a_800DBC80(POLY_FT4 *poly, CasingTex *src)
 {
