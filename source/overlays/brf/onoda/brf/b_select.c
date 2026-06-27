@@ -1,75 +1,996 @@
 #include "game/game.h"
+#include "libfs/libfs.h"
+#include "mts/mts.h"
+
+#include <stdio.h>
 
 typedef struct _Work
 {
-    GV_ACT actor;
-    char   pad1[0xFC8];
+    GV_ACT  actor;            /* 0x000, size 0x20 */
+    DG_PRIM *field_20;        /* 0x020 */
+    DG_PRIM *field_24;        /* 0x024 */
+    char   pad_28[0x4];       /* 0x028 */
+    char   field_2C;          /* 0x02C */
+    char   field_2D;          /* 0x02D */
+    char   pad_2E[0x2];       /* 0x02E */
+    char   field_30;          /* 0x030 */
+    char   field_31;          /* 0x031 */
+    char   field_32;          /* 0x032 */
+    char   field_33;          /* 0x033 */
+    char   field_34;          /* 0x034 */
+    char   field_35;          /* 0x035 */
+    char   field_36;          /* 0x036 */
+    char   field_37;          /* 0x037 */
+    char   field_38;          /* 0x038 */
+    char   field_39;          /* 0x039 */
+    char   field_3A;          /* 0x03A */
+    char   field_3B;          /* 0x03B */
+    char   field_3C;          /* 0x03C */
+    char   field_3D;          /* 0x03D */
+    char   field_3E;          /* 0x03E */
+    char   field_3F;          /* 0x03F */
+    char   field_40;          /* 0x040 */
+    char   field_41;          /* 0x041 */
+    char   field_42;          /* 0x042 */
+    char   field_43;          /* 0x043 */
+    char   field_44;          /* 0x044 */
+    char   field_45;          /* 0x045 */
+    char   field_46;          /* 0x046 */
+    char   field_47;          /* 0x047 */
+    char   field_48;          /* 0x048 */
+    char   field_49;          /* 0x049 */
+    char   field_4A;          /* 0x04A */
+    char   field_4B;          /* 0x04B */
+    char   field_4C;          /* 0x04C */
+    char   field_4D;          /* 0x04D */
+    char   field_4E;          /* 0x04E */
+    char   field_4F;          /* 0x04F */
+    char   field_50;          /* 0x050 */
+    char   field_51;          /* 0x051 */
+    char   field_52;          /* 0x052 */
+    char   field_53;          /* 0x053 */
+    char   field_54;          /* 0x054 */
+    char   field_55;          /* 0x055 */
+    char   field_56;          /* 0x056 */
+    char   field_57;          /* 0x057 */
+    char   pad_58[0x18];      /* 0x058 */
+    int    field_70;          /* 0x070 */
+    int    field_74;          /* 0x074 */
+    char   pad_78[0x4];       /* 0x078 */
+    int    field_7C;          /* 0x07C */
+    int    field_80[16];      /* 0x080 */
+    char   pad_C0[0xC];       /* 0x0C0 */
+    int    field_CC;          /* 0x0CC */
+    int    field_D0;          /* 0x0D0 */
+    int    field_D4;          /* 0x0D4 */
+    char   pad_D8[0xC];       /* 0x0D8 */
+    void  *field_E4;          /* 0x0E4 */
+    char   field_E8[0x40];    /* 0x0E8 */
+    char   pad_128[0x300];    /* 0x128 */
+    int    field_428[64];     /* 0x428 */
+    int    field_528;         /* 0x528 */
+    char   pad_52C[0x100];    /* 0x52C */
+    int    field_62C[64];     /* 0x62C */
+    int    field_72C;         /* 0x72C */
+    int      field_730[20];   /* 0x730 */
+    POLY_FT4 field_780[44];   /* 0x780 */
+    char     pad_E60[0x174];  /* 0xE60 */
+    int    field_FD4;         /* 0xFD4 */
+    int    field_FD8;         /* 0xFD8 */
+    int    field_FDC;         /* 0xFDC */
+    int    field_FE0;         /* 0xFE0 */
+    char   pad_FE4[0x4];      /* 0xFE4 */
 } Work;
 
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5230.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5350.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C53E4.s")
+
+typedef struct
+{
+    char *name;
+    int   offset;
+    int   size;
+} BrfResource;
+
+extern int brf_dword_800C321C;
+extern const char brf_dword_800E1088[];
+
+void brf_800C5350(Work *work, int idx)
+{
+    BrfResource *table = (BrfResource *)&brf_dword_800C321C;
+    BrfResource *e = &table[idx];
+
+    printf((char *)brf_dword_800E1088, e->name);
+    work->field_E4 = PACK_ADDR0;
+    FS_LoadFileRequest(FS_FILEID_BRF, e->offset, e->size, PACK_ADDR0);
+    while (FS_LoadFileSync() > 0)
+    {
+        mts_wait_vbl(1);
+    }
+}
+extern int brf_dword_800C3300;
+
+void brf_800C53E4(Work *work, int idx)
+{
+    BrfResource *table = (BrfResource *)&brf_dword_800C3300;
+    BrfResource *e = &table[idx];
+
+    printf((char *)brf_dword_800E1088, e->name);
+    work->field_E4 = PACK_ADDR0;
+    FS_LoadFileRequest(FS_FILEID_BRF, e->offset, e->size, PACK_ADDR0);
+    while (FS_LoadFileSync() > 0)
+    {
+        mts_wait_vbl(1);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5478.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5584.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C56C0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5A68.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5DE4.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5EAC.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5F74.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5FB4.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5FE0.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C600C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C609C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C60FC.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6228.s")
+void brf_800C56C0(Work *work, void *data, int cache_id);
+extern const char brf_dword_800E10D4[];
+
+void brf_800C5DE4(Work *work)
+{
+    char *p = (char *)work->field_E4;
+    int count = *(int *)p;
+    char *dst;
+    char c;
+    int n;
+
+    p += 4;
+    do
+    {
+        c = *p++;
+        work->field_E8[0] = c;
+        dst = &work->field_E8[1];
+        if (c != 0)
+        {
+            do
+            {
+                c = *p++;
+                *dst++ = c;
+            } while (c != 0);
+        }
+        p += (4 - ((int)p & 3)) & 3;
+        n = *(int *)p;
+        p += 4;
+        brf_800C56C0(work, p, GV_CacheID3(work->field_E8));
+        count--;
+        n++;
+        p += n;
+    } while (count > 0);
+    printf((char *)brf_dword_800E10D4);
+}
+void brf_800C5A68(Work *work, void *data, int cache_id);
+extern const char brf_dword_800E10F8[];
+
+void brf_800C5EAC(Work *work)
+{
+    char *p = (char *)work->field_E4;
+    int count = *(int *)p;
+    char *dst;
+    char c;
+    int n;
+
+    p += 4;
+    do
+    {
+        c = *p++;
+        work->field_E8[0] = c;
+        dst = &work->field_E8[1];
+        if (c != 0)
+        {
+            do
+            {
+                c = *p++;
+                *dst++ = c;
+            } while (c != 0);
+        }
+        p += (4 - ((int)p & 3)) & 3;
+        n = *(int *)p;
+        p += 4;
+        brf_800C5A68(work, p, GV_CacheID3(work->field_E8));
+        count--;
+        n++;
+        p += n;
+    } while (count > 0);
+    printf((char *)brf_dword_800E10F8);
+}
+void brf_800C5F74(Work *work)
+{
+    int i;
+
+    work->field_528 = 0;
+    for (i = 0x3F; i >= 0; i--)
+    {
+        work->field_428[i] = 0;
+    }
+
+    work->field_72C = 0;
+    for (i = 0x3F; i >= 0; i--)
+    {
+        work->field_62C[i] = 0;
+    }
+}
+void brf_800C5350(Work *work, int idx);
+void brf_800C5DE4(Work *work);
+
+void brf_800C5FB4(Work *work, int arg)
+{
+    brf_800C5350(work, arg);
+    brf_800C5DE4(work);
+}
+
+void brf_800C53E4(Work *work, int idx);
+void brf_800C5EAC(Work *work);
+
+void brf_800C5FE0(Work *work, int arg)
+{
+    brf_800C53E4(work, arg);
+    brf_800C5EAC(work);
+}
+typedef struct
+{
+    short sel;
+    short arg;
+} BrfDispatch;
+
+extern int brf_dword_800C3430;
+
+void brf_800C600C(Work *work)
+{
+    int idx = work->field_70 - 9;
+    BrfDispatch e = ((BrfDispatch *)&brf_dword_800C3430)[idx];
+    int arg = e.arg;
+
+    if (e.sel == 0)
+    {
+        brf_800C5FB4(work, arg);
+    }
+    else if (e.sel == 1)
+    {
+        brf_800C5FB4(work, arg);
+        brf_800C5FE0(work, arg);
+    }
+}
+void brf_800C609C(Work *work, int sel, int arg)
+{
+    if (sel == 0)
+    {
+        brf_800C5FB4(work, arg);
+    }
+    else if (sel == 1)
+    {
+        brf_800C5FB4(work, arg);
+        brf_800C5FE0(work, arg);
+    }
+}
+void brf_800C60FC(Work *work)
+{
+    int i;
+    int found;
+
+    GV_PauseLevel |= GV_PAUSE_STOP;
+    DG_FreeObjectQueue();
+    GV_ResetPacketMemory();
+    brf_800C5F74(work);
+
+    switch (work->field_70)
+    {
+    case 0:
+    case 4:
+        brf_800C609C(work, 1, 0x10);
+        break;
+    case 8:
+        if (work->field_D4 == 0)
+        {
+            brf_800C609C(work, 1, 0x11);
+        }
+        else
+        {
+            found = 0;
+            for (i = 0; i < 16; i++)
+            {
+                if (work->field_80[i] == 0)
+                {
+                    found = 1;
+                }
+            }
+            if (!found)
+            {
+                brf_800C609C(work, 0, 0x12);
+            }
+        }
+        break;
+    default:
+        brf_800C600C(work);
+        break;
+    }
+
+    GV_ResetPacketMemory();
+    GV_PauseLevel &= ~GV_PAUSE_STOP;
+    DG_RestartMainChanlSystem();
+}
+
+void brf_800C6228(Work *work, int a1, int a2)
+{
+    GM_SeSet2(0, 0x3F, 0xB7);
+    brf_800C60FC(work);
+    GM_VoxStream(work->field_730[a1], 0x40000000);
+    work->field_74 = work->field_70;
+    work->field_70 = a2;
+    work->field_D0 = 0;
+    work->field_CC = a1;
+    GM_SetSound(0x01FFFF0B, 0);
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C62B0.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C65C8.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C65E8.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6620.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6634.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C68EC.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6930.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C69B4.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C69FC.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6AD0.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6B54.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6C00.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6C74.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6D04.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6D7C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6E14.s")
+void brf_800C65C8(Work *work)
+{
+    int i = 8;
+    char *p = (char *)work + i;
+
+    for (; i >= 0; i--, p--)
+    {
+        p[0x58] = 0;
+    }
+}
+void brf_800C65E8(Work *work)
+{
+    int i = 0x2B;
+    char *p = (char *)work + i;
+
+    for (; i >= 0; i--, p--)
+    {
+        p[0x2C] = 0;
+    }
+    brf_800C65C8(work);
+}
+void brf_800C6620(Work *work)
+{
+    work->field_FD4 = 0;
+    work->field_FD8 = 0;
+    work->field_FDC = 0;
+    work->field_FE0 = 0;
+}
+void brf_800C6634(Work *work)
+{
+    POLY_FT4 *poly = work->field_780;
+    int i;
+
+    for (i = 0; i < 16; i++)
+    {
+        if (work->field_80[i] == 1)
+        {
+            poly[i + 9].r0 = 0x46;
+            poly[i + 9].g0 = 0x50;
+            poly[i + 9].b0 = 0x4B;
+        }
+    }
+
+    if (work->field_80[1] == 1)
+    {
+        poly[27].r0 = 0x46; poly[27].g0 = 0x50; poly[27].b0 = 0x4B;
+        poly[28].r0 = 0x46; poly[28].g0 = 0x50; poly[28].b0 = 0x4B;
+    }
+    if (work->field_80[3] == 1)
+    {
+        poly[29].r0 = 0x46; poly[29].g0 = 0x50; poly[29].b0 = 0x4B;
+        poly[30].r0 = 0x46; poly[30].g0 = 0x50; poly[30].b0 = 0x4B;
+    }
+    if (work->field_80[5] == 1)
+    {
+        poly[31].r0 = 0x46; poly[31].g0 = 0x50; poly[31].b0 = 0x4B;
+        poly[32].r0 = 0x46; poly[32].g0 = 0x50; poly[32].b0 = 0x4B;
+    }
+    if (work->field_80[10] == 1)
+    {
+        poly[33].r0 = 0x46; poly[33].g0 = 0x50; poly[33].b0 = 0x4B;
+        poly[34].r0 = 0x46; poly[34].g0 = 0x50; poly[34].b0 = 0x4B;
+    }
+    if (work->field_80[13] == 1)
+    {
+        poly[35].r0 = 0x46; poly[35].g0 = 0x50; poly[35].b0 = 0x4B;
+        poly[36].r0 = 0x46; poly[36].g0 = 0x50; poly[36].b0 = 0x4B;
+    }
+    if (work->field_80[15] == 1)
+    {
+        poly[37].r0 = 0x46; poly[37].g0 = 0x50; poly[37].b0 = 0x4B;
+        poly[38].r0 = 0x46; poly[38].g0 = 0x50; poly[38].b0 = 0x4B;
+    }
+    if (work->field_80[0] == 1 && work->field_80[1] == 1)
+    {
+        poly[5].r0 = 0x46;
+        poly[5].g0 = 0x50;
+        poly[5].b0 = 0x4B;
+    }
+    if (work->field_80[2] == 1 && work->field_80[3] == 1 && work->field_80[4] == 1 &&
+        work->field_80[5] == 1 && work->field_80[6] == 1)
+    {
+        poly[6].r0 = 0x46;
+        poly[6].g0 = 0x50;
+        poly[6].b0 = 0x4B;
+    }
+    if (work->field_80[7] == 1 && work->field_80[8] == 1 && work->field_80[9] == 1 &&
+        work->field_80[10] == 1 && work->field_80[11] == 1 && work->field_80[12] == 1 &&
+        work->field_80[13] == 1 && work->field_80[14] == 1 && work->field_80[15] == 1)
+    {
+        poly[7].r0 = 0x46;
+        poly[7].g0 = 0x50;
+        poly[7].b0 = 0x4B;
+    }
+}
+void brf_800C68EC(Work *work, int a1, int a2, int a3)
+{
+    work->field_FD8 = work->field_70;
+    work->field_FD4 = a1;
+    work->field_FDC = a2;
+    work->field_70 = a2;
+    work->field_D0 = 0;
+    work->field_FE0 = a3;
+    GM_SeSet2(0, 0x3F, 0x1F);
+}
+void brf_800C6930(Work *work, int idx1, int idx2, int base_y)
+{
+    POLY_FT4 *p = work->field_780;
+    int x0, x3;
+
+    x0 = p[idx1].x0;
+    x3 = p[idx1].x3;
+    p[idx1].y0 = base_y + 0xA;
+    p[idx1].y1 = base_y + 0xA;
+    p[idx1].y2 = base_y + 0xB;
+    p[idx1].y3 = base_y + 0xB;
+    p[idx1].x0 = x0;
+    p[idx1].x1 = x3;
+    p[idx1].x2 = x0;
+    p[idx1].x3 = x3;
+
+    x0 = p[idx2].x0;
+    x3 = p[idx2].x3;
+    p[idx2].y0 = base_y - 4;
+    p[idx2].y1 = base_y - 4;
+    p[idx2].y2 = base_y + 0xA;
+    p[idx2].y3 = base_y + 0xA;
+    p[idx2].x0 = x0;
+    p[idx2].x1 = x3;
+    p[idx2].x2 = x0;
+    p[idx2].x3 = x3;
+}
+int brf_800C69B4(Work *work, int idx, int y, int h)
+{
+    POLY_FT4 *p = work->field_780;
+    int x0 = p[idx].x0;
+    int x3 = p[idx].x3;
+
+    p[idx].y0 = y;
+    p[idx].y1 = y;
+    p[idx].y2 = y + 0xD;
+    p[idx].y3 = y + 0xD;
+    p[idx].x0 = x0;
+    p[idx].x1 = x3;
+    p[idx].x2 = x0;
+    p[idx].x3 = x3;
+    return y + h;
+}
+void brf_800C69FC(Work *work, int lo, int hi)
+{
+    POLY_FT4 *p = work->field_780;
+    int d = work->field_D0;
+    int color;
+
+    if (d < lo) return;
+    if (hi < d) return;
+
+    work->field_2C = 3;
+    work->field_2D = 3;
+    work->field_57 = 3;
+
+    color = (d - lo) * 8;
+
+    p[0].x0 = -0xA0; p[0].y0 = -0x70;
+    p[0].x1 = 0;     p[0].y1 = -0x70;
+    p[0].x2 = -0xA0; p[0].y2 = 0x70;
+    p[0].x3 = 0;     p[0].y3 = 0x70;
+    p[0].r0 = color; p[0].g0 = color; p[0].b0 = color;
+
+    p[1].x0 = 0;     p[1].y0 = -0x70;
+    p[1].x1 = 0xA0;  p[1].y1 = -0x70;
+    p[1].x2 = 0;     p[1].y2 = 0;
+    p[1].x3 = 0xA0;  p[1].y3 = 0;
+    p[1].r0 = color; p[1].g0 = color; p[1].b0 = color;
+
+    p[43].x0 = 0;    p[43].y0 = 0;
+    p[43].x1 = 0xA0; p[43].y1 = 0;
+    p[43].x2 = 0;    p[43].y2 = 0x70;
+    p[43].x3 = 0xA0; p[43].y3 = 0x70;
+    p[43].r0 = color; p[43].g0 = color; p[43].b0 = color;
+}
+void brf_800C6AD0(Work *work, int a1, int a2)
+{
+    POLY_FT4 *p = work->field_780;
+    int d = work->field_D0;
+    int xl;
+
+    if (d < a1)
+    {
+        return;
+    }
+    if (a2 < d)
+    {
+        return;
+    }
+    xl = -70 - (d - a1) * 24;
+    p[2].x0 = xl;
+    p[2].y0 = -12;
+    p[2].x1 = xl + 140;
+    p[2].y1 = -12;
+    p[2].x2 = xl;
+    p[2].y2 = 0;
+    p[2].x3 = xl + 140;
+    p[2].y3 = 0;
+    p[3].x0 = xl;
+    p[3].y0 = -12;
+    p[3].x1 = xl + 140;
+    p[3].y1 = -12;
+    p[3].x2 = xl;
+    p[3].y2 = 0;
+    p[3].x3 = xl + 140;
+    p[3].y3 = 0;
+}
+void brf_800C6B54(Work *work, int a1, int a2)
+{
+    POLY_FT4 *p = work->field_780;
+    int d = work->field_D0;
+    int q;
+
+    if (d < a1)
+    {
+        return;
+    }
+    if (a2 < d)
+    {
+        return;
+    }
+    q = -12 - (d - a1) * 83 / 3;
+    p[2].x0 = -142;
+    p[2].y0 = q;
+    p[2].x1 = -2;
+    p[2].y1 = q;
+    p[2].x2 = -142;
+    p[2].y2 = q + 12;
+    p[2].x3 = -2;
+    p[2].y3 = q + 12;
+    p[3].x0 = -142;
+    p[3].y0 = q;
+    p[3].x1 = -2;
+    p[3].y1 = q;
+    p[3].x2 = -142;
+    p[3].y2 = q + 12;
+    p[3].x3 = -2;
+    p[3].y3 = q + 12;
+}
+void brf_800C6C00(Work *work, int a1, int a2)
+{
+    POLY_FT4 *p = work->field_780;
+    int d = work->field_D0;
+    int diff;
+
+    if (d < a1)
+    {
+        return;
+    }
+    if (a2 < d)
+    {
+        return;
+    }
+    work->field_30 = 1;
+    diff = d - a1;
+    p[4].x0 = -142;
+    p[4].y0 = diff * 13 - 95;
+    p[4].x1 = -22;
+    p[4].y1 = diff * 13 - 95;
+    p[4].x2 = -142;
+    p[4].y2 = diff * 13 - 78;
+    p[4].x3 = -22;
+    p[4].y3 = diff * 13 - 78;
+}
+void brf_800C6C74(Work *work, int a1, int a2)
+{
+    POLY_FT4 *p = work->field_780;
+    int d = work->field_D0;
+    int q;
+
+    if (d < a1)
+    {
+        return;
+    }
+    if (a2 < d)
+    {
+        return;
+    }
+    work->field_31 = 1;
+    q = (d - a1) * 46 / 3;
+    p[5].x0 = -142;
+    p[5].y0 = q - 95;
+    p[5].x1 = -46;
+    p[5].y1 = q - 95;
+    p[5].x2 = -142;
+    p[5].y2 = q - 78;
+    p[5].x3 = -46;
+    p[5].y3 = q - 78;
+}
+void brf_800C6D04(Work *work, int a1, int a2)
+{
+    POLY_FT4 *p = work->field_780;
+    int d = work->field_D0;
+    int q;
+
+    if (d < a1)
+    {
+        return;
+    }
+    if (a2 < d)
+    {
+        return;
+    }
+    work->field_32 = 1;
+    q = (d - a1) * 66 / 4;
+    p[6].x0 = -142;
+    p[6].y0 = q - 95;
+    p[6].x1 = -22;
+    p[6].y1 = q - 95;
+    p[6].x2 = -142;
+    p[6].y2 = q - 78;
+    p[6].x3 = -22;
+    p[6].y3 = q - 78;
+}
+void brf_800C6D7C(Work *work, int a1, int a2)
+{
+    POLY_FT4 *p = work->field_780;
+    int d = work->field_D0;
+    int q;
+
+    if (d < a1)
+    {
+        return;
+    }
+    if (a2 < d)
+    {
+        return;
+    }
+    work->field_33 = 1;
+    q = (d - a1) * 86 / 5;
+    p[7].x0 = -142;
+    p[7].y0 = q - 95;
+    p[7].x1 = -46;
+    p[7].y1 = q - 95;
+    p[7].x2 = -142;
+    p[7].y2 = q - 78;
+    p[7].x3 = -46;
+    p[7].y3 = q - 78;
+}
+void brf_800C6E14(Work *work, int a1, int a2)
+{
+    POLY_FT4 *p = work->field_780;
+    int d = work->field_D0;
+    int q;
+
+    if (d < a1)
+    {
+        return;
+    }
+    if (a2 < d)
+    {
+        return;
+    }
+    work->field_34 = 1;
+    q = (d - a1) * 23;
+    p[8].x0 = -142;
+    p[8].y0 = q - 95;
+    p[8].x1 = -86;
+    p[8].y1 = q - 95;
+    p[8].x2 = -142;
+    p[8].y2 = q - 83;
+    p[8].x3 = -86;
+    p[8].y3 = q - 83;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6E88.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C731C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7488.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C75F0.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7B28.s")
+void brf_800C62B0(Work *work, int x, int y, int w, int h, int a5, int a6);
+
+void brf_800C7B28(Work *work, int arg)
+{
+    POLY_FT4 *p = work->field_780;
+    int idx = work->field_74;
+    int x0, x3, y0, y3;
+
+    if (work->field_D0 < arg)
+    {
+        return;
+    }
+    x0 = p[idx].x0;
+    x3 = p[idx].x3;
+    y0 = p[idx].y0;
+    y3 = p[idx].y3;
+    brf_800C62B0(work, x0, y0, x3 - x0, y3 - y0, 0x80, 1);
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7B94.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F20.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F3C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F6C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7F9C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7FF0.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C8038.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C80A8.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C80C8.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C80E8.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C8108.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C8128.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C8154.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C8180.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C81AC.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C81D8.s")
+void brf_800C7F20(Work *work)
+{
+    work->field_35 = 0;
+    work->field_36 = 0;
+    work->field_45 = 0;
+    work->field_46 = 0;
+    work->field_47 = 0;
+    work->field_48 = 0;
+}
+void brf_800C7F3C(Work *work)
+{
+    work->field_35 = 1;
+    if (work->field_80[0] == 1)
+    {
+        work->field_36 = 1;
+        work->field_47 = 1;
+        work->field_48 = 1;
+    }
+    work->field_45 = 1;
+    work->field_46 = 1;
+}
+void brf_800C7F6C(Work *work)
+{
+    work->field_37 = 0;
+    work->field_38 = 0;
+    work->field_39 = 0;
+    work->field_3A = 0;
+    work->field_3B = 0;
+    work->field_49 = 0;
+    work->field_4A = 0;
+    work->field_4B = 0;
+    work->field_4C = 0;
+    work->field_53 = 0;
+    work->field_54 = 0;
+}
+void brf_800C7F9C(Work *work)
+{
+    work->field_37 = 1;
+    work->field_39 = 1;
+    work->field_3B = 1;
+    if (work->field_80[2] == 1)
+    {
+        work->field_38 = 1;
+        work->field_49 = 1;
+        work->field_4A = 1;
+    }
+    if (work->field_80[4] == 1)
+    {
+        work->field_3A = 1;
+        work->field_4B = 1;
+        work->field_4C = 1;
+    }
+    work->field_53 = 1;
+    work->field_54 = 1;
+}
+void brf_800C7FF0(Work *work)
+{
+    work->field_3C = 0;
+    work->field_3D = 0;
+    work->field_3E = 0;
+    work->field_3F = 0;
+    work->field_40 = 0;
+    work->field_41 = 0;
+    work->field_42 = 0;
+    work->field_43 = 0;
+    work->field_44 = 0;
+    work->field_4D = 0;
+    work->field_4E = 0;
+    work->field_4F = 0;
+    work->field_50 = 0;
+    work->field_51 = 0;
+    work->field_52 = 0;
+    work->field_55 = 0;
+    work->field_56 = 0;
+}
+void brf_800C8038(Work *work)
+{
+    work->field_3C = 1;
+    work->field_3D = 1;
+    work->field_3E = 1;
+    if (work->field_80[9] == 1)
+    {
+        work->field_3F = 1;
+        work->field_4D = 1;
+        work->field_4E = 1;
+    }
+    work->field_40 = 1;
+    work->field_41 = 1;
+    if (work->field_80[12] == 1)
+    {
+        work->field_42 = 1;
+        work->field_4F = 1;
+        work->field_50 = 1;
+    }
+    work->field_43 = 1;
+    if (work->field_80[14] == 1)
+    {
+        work->field_44 = 1;
+        work->field_51 = 1;
+        work->field_52 = 1;
+    }
+    work->field_55 = 1;
+    work->field_56 = 1;
+}
+void brf_800C80A8(Work *work)
+{
+    brf_800C7F20(work);
+}
+void brf_800C80C8(Work *work)
+{
+    brf_800C7F3C(work);
+}
+void brf_800C80E8(Work *work)
+{
+    brf_800C7FF0(work);
+}
+void brf_800C8108(Work *work)
+{
+    brf_800C8038(work);
+}
+void brf_800C8128(Work *work)
+{
+    brf_800C7F20(work);
+    brf_800C7F9C(work);
+}
+void brf_800C8154(Work *work)
+{
+    brf_800C7F6C(work);
+    brf_800C7F3C(work);
+}
+void brf_800C8180(Work *work)
+{
+    brf_800C7F6C(work);
+    brf_800C8038(work);
+}
+void brf_800C81AC(Work *work)
+{
+    brf_800C7FF0(work);
+    brf_800C7F9C(work);
+}
+void brf_800C81D8(Work *work)
+{
+    int i;
+    int found;
+
+    work->field_70 = 8;
+
+    if (work->field_D4 == 0)
+    {
+        brf_800C6228(work, 0x11, 0x1F);
+        return;
+    }
+
+    if (work->field_7C == 0)
+    {
+        found = 0;
+        for (i = 0; i < 16; i++)
+        {
+            if (work->field_80[i] == 0)
+            {
+                found = 1;
+            }
+        }
+        if (!found)
+        {
+            brf_800C6228(work, 0x12, 0x22);
+            return;
+        }
+    }
+
+    work->field_70 = 0x1D;
+    GM_SeSet2(0, 0x3F, 0x21);
+    brf_800C65C8(work);
+    work->field_D0 = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C829C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C95B4.s")
 
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C96DC.s")
-void brf_800C96DC(Work *work); // Act
+void brf_800C829C(Work *work);
+void brf_800C95B4(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C972C.s")
-void brf_800C972C(Work *work); // Die
+void brf_800C96DC(Work *work) // Act
+{
+    if (GV_PauseLevel != GV_PAUSE_READERROR)
+    {
+        brf_800C829C(work);
+        brf_800C95B4(work);
+        work->field_D0++;
+    }
+}
 
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C97CC.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C983C.s")
+extern const char brf_dword_800E1274[];
+
+void brf_800C972C(Work *work) // Die
+{
+    GM_FreePrim(work->field_20);
+    GM_FreePrim(work->field_24);
+    GV_InitResidentMemory();
+    GV_InitCacheSystem();
+    DG_ClearResidentTexture();
+    GM_SetArea(GV_StrCode(brf_dword_800E1274), (char *)brf_dword_800E1274);
+    GM_LoadRequest = 1;
+}
+
+void brf_800C97CC(int prim, POLY_FT4 *poly, int xl, int yt, int xr, int yb, int abe)
+{
+    setPolyFT4(poly);
+    setRGB0(poly, 0x80, 0x80, 0x80);
+    setXY4(poly, xl, yt, xr, yt, xl, yb, xr, yb);
+    SetSemiTrans(poly, abe);
+}
+void brf_800C983C(int prim, int tex_id, POLY_FT4 *poly, int xl, int yt, int xr, int yb, int abe, int orient)
+{
+    DG_TEX *tex;
+
+    brf_800C97CC(prim, poly, xl, yt, xr, yb, abe);
+    tex = DG_GetTexture(tex_id);
+
+    if (orient == 0)
+    {
+        int u = tex->off_x, w = tex->w, v = tex->off_y, h = tex->h;
+        poly->u0 = u;
+        poly->v0 = v;
+        poly->u1 = u + w + 1;
+        poly->v1 = v;
+        poly->u2 = u;
+        poly->v2 = v + h + 1;
+        poly->u3 = u + w + 1;
+        poly->v3 = v + h + 1;
+    }
+    else if (orient == 1)
+    {
+        int u = tex->off_x, w = tex->w, v = tex->off_y, h = tex->h;
+        poly->u0 = u;
+        poly->v0 = v;
+        poly->u1 = u + w + 1;
+        poly->v1 = v;
+        poly->u2 = u;
+        poly->v2 = v + h;
+        poly->u3 = u + w + 1;
+        poly->v3 = v + h;
+    }
+    else if (orient == 2)
+    {
+        int u = tex->off_x, w = tex->w, v = tex->off_y, h = tex->h;
+        poly->u0 = u;
+        poly->v0 = v;
+        poly->u1 = u + w;
+        poly->v1 = v;
+        poly->u2 = u;
+        poly->v2 = v + h + 1;
+        poly->u3 = u + w;
+        poly->v3 = v + h + 1;
+    }
+    else if (orient == 3)
+    {
+        int u = tex->off_x, w = tex->w, v = tex->off_y, h = tex->h;
+        poly->u0 = u;
+        poly->v0 = v;
+        poly->u1 = u + w;
+        poly->v1 = v;
+        poly->u2 = u;
+        poly->v2 = v + h;
+        poly->u3 = u + w;
+        poly->v3 = v + h;
+    }
+    else
+    {
+        return;
+    }
+
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
+}
 
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C99C0.s")
 int brf_800C99C0(Work *work, int where); // GetResources
