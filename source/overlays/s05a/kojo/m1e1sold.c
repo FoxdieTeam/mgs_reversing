@@ -26,71 +26,6 @@ typedef struct _Work
     short   field_A3A; /* 0xA3A */
 } Work;
 
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DDCBC.s")
-int s05a_800DEC18(Work *work, SVECTOR *s2, int a2)
-{
-    int     v;
-    int     heights[2];
-    SVECTOR local;
-
-    v = 1;
-    if (work->field_204 == 0)
-    {
-        work->field_208 = 0;
-    }
-
-    if (a2 - s2->vy <= 0)
-    {
-        work->field_204 += s2->vy - a2;
-    }
-    if (work->field_204 < 0x190)
-    {
-        return a2;
-    }
-
-    if (work->field_208 == 0)
-    {
-        v = work->field_238;
-        if (v <= 0)
-        {
-            v = 1;
-        }
-    }
-
-    local = *s2;
-    local.vy += 0x2710;
-    if (HZD_LevelHazardCheck(work->control.map->hzd, &local, HZD_CHK_FLOOR) != 1)
-    {
-        local.vy = 0;
-    }
-    else
-    {
-        HZD_GetLevelHeight(heights);
-        local.vy = heights[0];
-    }
-    local.vy += 0x64;
-
-    if (work->field_208 == 0)
-    {
-        work->field_208 = (s2->vy - local.vy) / v;
-    }
-
-    v = s2->vy - work->field_208;
-    if (v < local.vy)
-    {
-        v = local.vy;
-    }
-    {
-        int t = work->field_208 * 15;
-        work->field_208 = t / 14;
-    }
-    if (work->field_208 >= 0x3E9)
-    {
-        work->field_208 = 0x3E8;
-    }
-    return v;
-}
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DEDE8.s")
 typedef struct _CamBbox
 {
     char    pad_00[8];
@@ -179,9 +114,107 @@ typedef struct _UVec
     u_short pad;
 } UVec;
 
+typedef struct _Sol
+{
+    GV_ACT    actor;       /* 0x000 */
+    CONTROL   control;     /* 0x020 */
+    char      pad_9C[0xDC - 0x9C];
+    OBJECT    body;        /* 0x0DC */
+    TARGET   *field_1C0;   /* 0x1C0 */
+    HOMING   *field_1C4;   /* 0x1C4 */
+    char      pad_1C8[0x1EC - 0x1C8];
+    CamActor *field_1EC;   /* 0x1EC */
+    char      pad_1F0[0x228 - 0x1F0];
+    void     *field_228;   /* 0x228 */
+} Sol;
+
 extern CamActor *s05a_dword_800C362C;
 extern CONTROL   s05a_dword_800E3800;
 
+#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DDCBC.s")
+
+void s05a_800DEB94(Sol *work)
+{
+    work->field_1EC->field_EB0 = 0;
+    if (work->field_228)
+    {
+        GV_DestroyActor(work->field_228);
+    }
+    GM_FreeObject(&work->body);
+    GM_FreeControl(&work->control);
+    if (work->field_1C0)
+    {
+        GM_FreeTarget(work->field_1C0);
+    }
+    if (work->field_1C4)
+    {
+        GM_FreeHomingTarget(work->field_1C4);
+    }
+}
+int s05a_800DEC18(Work *work, SVECTOR *s2, int a2)
+{
+    int     v;
+    int     heights[2];
+    SVECTOR local;
+
+    v = 1;
+    if (work->field_204 == 0)
+    {
+        work->field_208 = 0;
+    }
+
+    if (a2 - s2->vy <= 0)
+    {
+        work->field_204 += s2->vy - a2;
+    }
+    if (work->field_204 < 0x190)
+    {
+        return a2;
+    }
+
+    if (work->field_208 == 0)
+    {
+        v = work->field_238;
+        if (v <= 0)
+        {
+            v = 1;
+        }
+    }
+
+    local = *s2;
+    local.vy += 0x2710;
+    if (HZD_LevelHazardCheck(work->control.map->hzd, &local, HZD_CHK_FLOOR) != 1)
+    {
+        local.vy = 0;
+    }
+    else
+    {
+        HZD_GetLevelHeight(heights);
+        local.vy = heights[0];
+    }
+    local.vy += 0x64;
+
+    if (work->field_208 == 0)
+    {
+        work->field_208 = (s2->vy - local.vy) / v;
+    }
+
+    v = s2->vy - work->field_208;
+    if (v < local.vy)
+    {
+        v = local.vy;
+    }
+    {
+        int t = work->field_208 * 15;
+        work->field_208 = t / 14;
+    }
+    if (work->field_208 >= 0x3E9)
+    {
+        work->field_208 = 0x3E8;
+    }
+    return v;
+}
+#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DEDE8.s")
 int s05a_800DF834(int arg0, DfVec *vec, u_short *arg3)
 {
     SVECTOR d;
