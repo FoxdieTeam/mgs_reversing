@@ -1,6 +1,7 @@
 #include "game/game.h"
 #include "chara/snake/sna_init.h"
 #include "libhzd/libhzd.h"
+#include "linkvar.h"
 #include "strcode.h"
 
 /* Partial view of the actor passed to s05a_800DEC18. The 0x204/0x208/0x238
@@ -115,11 +116,15 @@ typedef struct _CamEb0
 
 typedef struct _CamActor
 {
-    char      pad_000[0xDC];
+    char      pad_000[0x20];
+    CONTROL   control;         /* 0x020 */
+    char      pad_09C[0xDC - 0x9C];
     CamModel *field_DC;        /* 0x0DC */
     char      pad_E0[0x718 - 0xE0];
     TARGET   *field_718[10];   /* 0x718 */
-    char      pad_740[0xD64 - 0x740];
+    char      pad_740[0xD54 - 0x740];
+    int       field_D54;       /* 0xD54 */
+    char      pad_D58[0xD64 - 0xD58];
     int       field_D64;       /* 0xD64 */
     int       field_D68;       /* 0xD68 */
     char      pad_D6C[0xD74 - 0xD6C];
@@ -127,7 +132,9 @@ typedef struct _CamActor
     char      pad_D78[0xD88 - 0xD78];
     int       field_D88;       /* 0xD88 */
     int       field_D8C;       /* 0xD8C */
-    char      pad_D90[0xDEC - 0xD90];
+    char      pad_D90[0xDA0 - 0xD90];
+    int       field_DA0;       /* 0xDA0 */
+    char      pad_DA4[0xDEC - 0xDA4];
     int       field_DEC;       /* 0xDEC */
     char      pad_DF0[0xDFC - 0xDF0];
     int       field_DFC;       /* 0xDFC */
@@ -144,6 +151,10 @@ typedef struct _CamActor
     int       field_F50;       /* 0xF50 */
     char      pad_F54[0xF5C - 0xF54];
     int       field_F5C;       /* 0xF5C */
+    char      pad_F60[0xF78 - 0xF60];
+    int       field_F78;       /* 0xF78 */
+    char      pad_F7C[0x102C - 0xF7C];
+    HZD_FLR   trap;            /* 0x102C */
 } CamActor;
 
 typedef struct _DfVec
@@ -162,6 +173,7 @@ typedef struct _UVec
 } UVec;
 
 extern CamActor *s05a_dword_800C362C;
+extern CONTROL   s05a_dword_800E3800;
 
 int s05a_800DF834(int arg0, DfVec *vec, u_short *arg3)
 {
@@ -405,7 +417,160 @@ int s05a_800E00D8(SnaInitWork *snake, SnaFlag1 flags)
     return (snake->field_894_flags1 & flags) != 0;
 }
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00EC.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E066C.s")
+int s05a_800E066C(SnaInitWork *work_)
+{
+    SnaInitWork *work = work_;
+    int     heights[2];
+    SVECTOR size;
+    TARGET  target;
+    int     hit;
+    int     dx, dz, dist;
+    int     status;
+
+    if (s05a_dword_800C362C->field_ED0 == 1)
+    {
+        s05a_dword_800E3800.step.vx = 0;
+        s05a_dword_800E3800.step.vy = 0;
+        s05a_dword_800E3800.step.vz = 0;
+        GM_PlayerControl->mov  = s05a_dword_800E3800.mov;
+        GM_PlayerControl->step = s05a_dword_800E3800.step;
+        GM_PlayerControl->rot  = s05a_dword_800E3800.rot;
+        GM_PlayerControl->turn = s05a_dword_800E3800.turn;
+        GM_GameStatus   &= ~STATE_PADRELEASE;
+        GM_PlayerStatus &= ~PLAYER_PAD_OFF;
+        return 0;
+    }
+    if (s05a_dword_800C362C->field_ED0 != 0)
+    {
+        GM_PlayerControl->mov.vx = 0x7530;
+        GM_PlayerControl->mov.vy = 0;
+        GM_PlayerControl->mov.vz = 0x7530;
+        GM_PlayerStatus |= PLAYER_PAD_OFF;
+        return 0;
+    }
+
+    if (s05a_dword_800C362C->field_D54 == 1 || s05a_dword_800C362C->field_D54 == 6)
+    {
+        s05a_dword_800E3800 = *GM_PlayerControl;
+        return 0;
+    }
+
+    if (HZD_GetFloorHit((HZD_FLR *)&s05a_dword_800C362C->trap, &GM_PlayerPosition) != 0)
+    {
+        if (s05a_dword_800C362C->field_F78 > 0)
+        {
+            s05a_dword_800C362C->field_F78 = 0x5a;
+        }
+        hit = HZD_LevelHazardCheck(s05a_dword_800C362C->control.map->hzd, &s05a_dword_800E3800.mov, HZD_CHK_F_FLOOR);
+        HZD_GetLevelHeight(heights);
+        if (hit & 1)
+        {
+            s05a_dword_800E3800.mov.vy = heights[0];
+        }
+        else if (hit & 2)
+        {
+            s05a_dword_800E3800.mov.vy = heights[1];
+        }
+        else
+        {
+            s05a_dword_800E3800.mov.vy = 0;
+        }
+        s05a_dword_800E3800.step.vx = 0;
+        s05a_dword_800E3800.step.vy = 0;
+        s05a_dword_800E3800.step.vz = 0;
+        s05a_dword_800E3800.mov.vy += 0x64;
+        GM_PlayerControl->mov  = s05a_dword_800E3800.mov;
+        GM_PlayerControl->step = s05a_dword_800E3800.step;
+        GM_PlayerControl->rot  = s05a_dword_800E3800.rot;
+        GM_PlayerControl->turn = s05a_dword_800E3800.turn;
+        GM_PlayerStatus |= PLAYER_PAD_OFF;
+        DG_SetPos2(&GM_PlayerControl->mov, &GM_PlayerControl->rot);
+
+        if ((u_int)(GM_PlayerAction - 0x43) < 2)
+        {
+            GM_ActObject(&work->body);
+            return 1;
+        }
+        status = GM_PlayerStatus;
+        if (status & PLAYER_DOWNED)
+        {
+            GM_ActObject(&work->body);
+            return 1;
+        }
+        if (GM_Vitality == 0)
+        {
+            GM_ActObject(&work->body);
+            return 1;
+        }
+        if (GM_GameOverTimer != 0)
+        {
+            GM_ActObject(&work->body);
+            return 1;
+        }
+
+        work->field_894_flags1 &= ~1;
+        work->field_89C_pTarget->class |= 0x9e;
+        GM_PlayerStatus = status & ~(PLAYER_INVINCIBLE | PLAYER_DAMAGED);
+        *(int *)&work->body.objs->flag &= ~0x80;
+        size.vx = 0x7d0;
+        size.vy = 0x7d0;
+        size.vz = 0x7d0;
+        memset(&target, 0, sizeof(target));
+        GM_SetTarget(&target, 4, ENEMY_SIDE, &size);
+        GM_SetPowerTarget(&target, POWER_CONST, ATK_BLAST, s05a_dword_800C362C->field_DA0, 0, &DG_ZeroVector);
+        GM_MoveTarget(&target, &GM_PlayerPosition);
+        GM_PowerTarget(&target);
+        GM_PushTarget(&target);
+        if (work->field_89C_pTarget->damaged != 0)
+        {
+            GM_PlayerStatus |= PLAYER_DOWNED;
+            s05a_dword_800C362C->field_F78 = 0x5a;
+            GM_SeSetPan(&GM_PlayerPosition, 0xbd, 0x3f);
+        }
+        return 0;
+    }
+
+    size.vy = 0;
+    dx = (s05a_dword_800E3800.mov.vx - GM_PlayerControl->mov.vx) >> 2;
+    size.vx = dx;
+    dz = (s05a_dword_800E3800.mov.vz - GM_PlayerControl->mov.vz) >> 2;
+    size.vz = dz;
+    dist = SquareRoot0(dx * dx + dz * dz);
+    if ((dist << 2) < 0x1f4)
+    {
+        GM_GameStatus   &= ~STATE_PADRELEASE;
+        GM_PlayerStatus &= ~PLAYER_PAD_OFF;
+        s05a_dword_800E3800 = *GM_PlayerControl;
+        return 0;
+    }
+
+    hit = HZD_LevelHazardCheck(s05a_dword_800C362C->control.map->hzd, &s05a_dword_800E3800.mov, HZD_CHK_F_FLOOR);
+    HZD_GetLevelHeight(heights);
+    if (hit & 1)
+    {
+        s05a_dword_800E3800.mov.vy = heights[0];
+    }
+    else if (hit & 2)
+    {
+        s05a_dword_800E3800.mov.vy = heights[1];
+    }
+    else
+    {
+        s05a_dword_800E3800.mov.vy = 0;
+    }
+    s05a_dword_800E3800.step.vx = 0;
+    s05a_dword_800E3800.step.vy = 0;
+    s05a_dword_800E3800.step.vz = 0;
+    s05a_dword_800E3800.mov.vy += 0x64;
+    GM_PlayerControl->mov  = s05a_dword_800E3800.mov;
+    GM_PlayerControl->step = s05a_dword_800E3800.step;
+    GM_PlayerControl->rot  = s05a_dword_800E3800.rot;
+    GM_PlayerControl->turn = s05a_dword_800E3800.turn;
+    GM_PlayerStatus |= PLAYER_PAD_OFF;
+    DG_SetPos2(&GM_PlayerControl->mov, &GM_PlayerControl->rot);
+    GM_ActObject(&work->body);
+    return 1;
+}
 void s05a_800E0D38(CONTROL *control)
 {
     GV_MSG *msg;
