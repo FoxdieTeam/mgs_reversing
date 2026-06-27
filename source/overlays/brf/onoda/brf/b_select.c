@@ -270,7 +270,7 @@ void brf_800C60FC(Work *work)
     int i;
     int found;
 
-    GV_PauseLevel |= 1;
+    GV_PauseLevel |= GV_PAUSE_STOP;
     DG_FreeObjectQueue();
     GV_ResetPacketMemory();
     brf_800C5F74(work);
@@ -308,7 +308,7 @@ void brf_800C60FC(Work *work)
     }
 
     GV_ResetPacketMemory();
-    GV_PauseLevel &= ~1;
+    GV_PauseLevel &= ~GV_PAUSE_STOP;
     DG_RestartMainChanlSystem();
 }
 
@@ -900,7 +900,7 @@ void brf_800C95B4(Work *work);
 
 void brf_800C96DC(Work *work) // Act
 {
-    if (GV_PauseLevel != 8)
+    if (GV_PauseLevel != GV_PAUSE_READERROR)
     {
         brf_800C829C(work);
         brf_800C95B4(work);
@@ -912,20 +912,8 @@ extern const char brf_dword_800E1274[];
 
 void brf_800C972C(Work *work) // Die
 {
-    DG_PRIM *prim;
-
-    prim = work->field_20;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
-    prim = work->field_24;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(work->field_20);
+    GM_FreePrim(work->field_24);
     GV_InitResidentMemory();
     GV_InitCacheSystem();
     DG_ClearResidentTexture();
