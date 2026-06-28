@@ -40,7 +40,9 @@ typedef struct _Work
     void    *field_EB0;     /* 0xEB0 */
     char     pad_EB4[0xEDC - 0xEB4];
     void    *field_EDC;     /* 0xEDC */
-    char     pad_EE0[0xF58 - 0xEE0];
+    char     pad_EE0[0xEF0 - 0xEE0];
+    SVECTOR  field_EF0[10]; /* 0xEF0 */
+    char     pad_F40[0xF58 - 0xF40];
     int      field_F58;     /* 0xF58 */
     char     pad_F5C[0xF8C - 0xF5C];
     SVECTOR  bbox[10];      /* 0xF8C */
@@ -171,7 +173,124 @@ void s05a_800D9754(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D9A14.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DA02C.s")
+extern void M1E1GetCaterpillerVertex(OBJECT *obj1, OBJECT *obj2, SVECTOR *pos, int a4);
+
+#define HZD_FLOOR(v)                                                            \
+    if (HZD_LevelHazardCheck(work->control.map->hzd, (v), HZD_CHK_F_FLOOR) != 1) \
+    {                                                                          \
+        (v)->vy = 0;                                                          \
+    }                                                                          \
+    else                                                                       \
+    {                                                                          \
+        HZD_GetLevelHeight(levels);                                           \
+        (v)->vy = levels[0];                                                  \
+    }
+
+void s05a_800DA02C(Work *work)
+{
+    int     levels[2];
+    SVECTOR mov;
+    SVECTOR turn;
+    SVECTOR verts[10];
+    SVECTOR mid[4];
+
+    mov = work->control.mov;
+    mov.vy = mov.vy + *(u_short *)&work->body.objs->def->max.vy;
+    turn.vx = 0;
+    turn.vy = work->control.turn.vy;
+    turn.vz = 0;
+    DG_SetPos2(&mov, &turn);
+
+    M1E1GetCaterpillerVertex(&work->bodies_a[0], &work->bodies_b[0], verts, 1);
+    DG_PutVector(verts, verts, 10);
+
+    if ((GV_Time & 1) == 0)
+    {
+        verts[0].vy = work->field_EF0[0].vy;
+        verts[1].vy = work->field_EF0[1].vy;
+        verts[2].vy = work->field_EF0[2].vy;
+        verts[3].vy = work->field_EF0[3].vy;
+        verts[4].vy = work->field_EF0[4].vy;
+    }
+    else
+    {
+        HZD_FLOOR(&verts[0]);
+        HZD_FLOOR(&verts[1]);
+        HZD_FLOOR(&verts[3]);
+        HZD_FLOOR(&verts[4]);
+        work->field_EF0[0].vy = verts[0].vy;
+        work->field_EF0[1].vy = verts[1].vy;
+        work->field_EF0[2].vy = verts[2].vy;
+        work->field_EF0[3].vy = verts[3].vy;
+        work->field_EF0[4].vy = verts[4].vy;
+    }
+
+    {
+        SVECTOR *r = &verts[5];
+        if (GV_Time & 1)
+        {
+            verts[5].vy = work->field_EF0[5].vy;
+            verts[6].vy = work->field_EF0[6].vy;
+            verts[7].vy = work->field_EF0[7].vy;
+            verts[8].vy = work->field_EF0[8].vy;
+            verts[9].vy = work->field_EF0[9].vy;
+        }
+        else
+        {
+            if (HZD_LevelHazardCheck(work->control.map->hzd, r, HZD_CHK_F_FLOOR) != 1)
+            {
+                verts[5].vy = 0;
+            }
+            else
+            {
+                HZD_GetLevelHeight(levels);
+                verts[5].vy = levels[0];
+            }
+            HZD_FLOOR(&verts[6]);
+            HZD_FLOOR(&verts[8]);
+            HZD_FLOOR(&verts[9]);
+            work->field_EF0[5].vy = verts[5].vy;
+            work->field_EF0[6].vy = verts[6].vy;
+            work->field_EF0[7].vy = verts[7].vy;
+            work->field_EF0[8].vy = verts[8].vy;
+            work->field_EF0[9].vy = verts[9].vy;
+        }
+    }
+
+    {
+    SVECTOR *mp = mid;
+    int i = 0;
+    mid[0].vx = (verts[0].vx + verts[1].vx) >> 1;
+    mid[0].vy = (verts[0].vy + verts[1].vy) >> 1;
+    mid[0].vz = (verts[0].vz + verts[1].vz) >> 1;
+    mid[1].vx = (verts[3].vx + verts[4].vx) >> 1;
+    mid[1].vy = (verts[3].vy + verts[4].vy) >> 1;
+    mid[1].vz = (verts[3].vz + verts[4].vz) >> 1;
+    mid[2].vx = (verts[5].vx + verts[6].vx) >> 1;
+    mid[2].vy = (verts[5].vy + verts[6].vy) >> 1;
+    mid[2].vz = (verts[5].vz + verts[6].vz) >> 1;
+    mid[3].vx = (verts[8].vx + verts[9].vx) >> 1;
+    mid[3].vy = (verts[8].vy + verts[9].vy) >> 1;
+    mid[3].vz = (verts[8].vz + verts[9].vz) >> 1;
+
+    work->control.mov.vy = 0;
+    for (i = 0; i < 4; i++)
+    {
+        work->control.mov.vy = work->control.mov.vy + mp[i].vy;
+    }
+    work->control.mov.vy = (short)work->control.mov.vy >> 2;
+    }
+
+    mov.vx = (mid[1].vx + mid[3].vx) - (mid[0].vx + mid[2].vx);
+    mov.vy = (mid[1].vy + mid[3].vy) - (mid[0].vy + mid[2].vy);
+    mov.vz = (mid[1].vz + mid[3].vz) - (mid[0].vz + mid[2].vz);
+    work->control.turn.vx = ratan2(mov.vy, SquareRoot0(mov.vx * mov.vx + mov.vz * mov.vz));
+
+    mov.vx = (mid[0].vx + mid[1].vx) - (mid[2].vx + mid[3].vx);
+    mov.vy = (mid[0].vy + mid[1].vy) - (mid[2].vy + mid[3].vy);
+    mov.vz = (mid[0].vz + mid[1].vz) - (mid[2].vz + mid[3].vz);
+    work->control.turn.vz = ratan2(mov.vy, SquareRoot0(mov.vx * mov.vx + mov.vz * mov.vz));
+}
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DA62C.s")
 #define WMDL(off) (*(u_short *)((char *)work->body.objs->objs[0].model + (off)))
 
