@@ -1,6 +1,7 @@
 #include "game/game.h"
 #include "kojo/m1e1.h"
 #include "libgcl/libgcl.h"
+#include "libhzd/libhzd.h"
 
 extern int s05a_dword_800C362C;
 
@@ -32,7 +33,19 @@ typedef struct _Work
     char     pad_E14[0xE1C - 0xE14];
     int      field_E1C;     /* 0xE1C */
     int      field_E20;     /* 0xE20 */
-    char     pad_E24[0xE9C - 0xE24];
+    char     pad_E24[0xE30 - 0xE24];
+    int      field_E30;     /* 0xE30 */
+    char     pad_E34[0xE44 - 0xE34];
+    int      field_E44;     /* 0xE44 */
+    int      field_E48;     /* 0xE48 */
+    int      field_E4C;     /* 0xE4C */
+    char     pad_E50[0xE54 - 0xE50];
+    u_short  field_E54;     /* 0xE54 */
+    u_short  field_E56;     /* 0xE56 */
+    u_short  field_E58;     /* 0xE58 */
+    char     pad_E5A[0xE64 - 0xE5A];
+    int      field_E64;     /* 0xE64 */
+    char     pad_E68[0xE9C - 0xE68];
     u_short  field_E9C;     /* 0xE9C */
     char     pad_E9E[0xEA0 - 0xE9E];
     u_short  field_EA0;     /* 0xEA0 */
@@ -44,7 +57,9 @@ typedef struct _Work
     SVECTOR  field_EF0[10]; /* 0xEF0 */
     char     pad_F40[0xF58 - 0xF40];
     int      field_F58;     /* 0xF58 */
-    char     pad_F5C[0xF8C - 0xF5C];
+    char     pad_F5C[0xF78 - 0xF5C];
+    int      field_F78;     /* 0xF78 */
+    char     pad_F7C[0xF8C - 0xF7C];
     SVECTOR  bbox[10];      /* 0xF8C */
     char     pad_FDC[0xFEC - 0xFDC];
     HzdBlock hzd[5];        /* 0xFEC */
@@ -172,7 +187,125 @@ void s05a_800D9754(Work *work)
         work->field_EA0 += pv[2];
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D9A14.s")
+extern const char s05a_dword_800E349C[]; /* "drive4" */
+extern const char s05a_dword_800E34A4[]; /* "drive5" */
+extern const char s05a_dword_800E34AC[]; /* "drive6" */
+extern const char s05a_dword_800E34B4[]; /* "drive7" */
+extern const char s05a_dword_800E34BC[]; /* "drive1" */
+extern const char s05a_dword_800E34C4[]; /* "drive2" */
+extern const char s05a_dword_800E34CC[]; /* "drive3" */
+
+void s05a_800D9A14(Work *work)
+{
+    int      cnt;
+    HZD_TRP *trap;
+    HZD_DEF *def;
+    HZD_PAT *route;
+    SVECTOR  d;
+    int      dist, thr, s5;
+
+    {
+    HZD_HDL *hzd = work->control.map->hzd;
+    HZD_GRP *grp = hzd->grp;
+    trap = (HZD_TRP *)grp->triggers;
+    cnt = grp->n_triggers - hzd->n_cameras;
+    }
+    for (; cnt > 0; cnt--, trap++)
+    {
+        if (trap->name_id == GV_StrCode(s05a_dword_800E349C))
+        {
+            if (trap->b1.x <= work->field_E44 && work->field_E44 <= trap->b2.x &&
+                trap->b1.y <= work->field_E48 && work->field_E48 <= trap->b2.y &&
+                trap->b1.z <= work->field_E4C && work->field_E4C <= trap->b2.z)
+                break;
+        }
+        if (work->field_F78 > 0)
+        {
+            if (trap->name_id == GV_StrCode(s05a_dword_800E34A4) ||
+                trap->name_id == GV_StrCode(s05a_dword_800E34AC) ||
+                trap->name_id == GV_StrCode(s05a_dword_800E34B4))
+            {
+                if (trap->b1.x <= work->field_E44 && work->field_E44 <= trap->b2.x &&
+                    trap->b1.y <= work->field_E48 && work->field_E48 <= trap->b2.y &&
+                    trap->b1.z <= work->field_E4C && work->field_E4C <= trap->b2.z)
+                    break;
+            }
+        }
+    }
+
+    if (cnt <= 0)
+    {
+        HZD_HDL *hzd = work->control.map->hzd;
+        HZD_GRP *grp = hzd->grp;
+        trap = (HZD_TRP *)grp->triggers;
+        cnt = grp->n_triggers - hzd->n_cameras;
+        if (cnt <= 0) return;
+        for (; cnt > 0; cnt--, trap++)
+        {
+            if (work->field_E08 < 2 && work->field_E64 == 0)
+            {
+                if (trap->name_id == GV_StrCode(s05a_dword_800E34BC) ||
+                    trap->name_id == GV_StrCode(s05a_dword_800E34C4) ||
+                    trap->name_id == GV_StrCode(s05a_dword_800E34CC))
+                {
+                    if (trap->b1.x <= work->control.mov.vx && work->control.mov.vx <= trap->b2.x &&
+                        trap->b1.y <= work->control.mov.vy && work->control.mov.vy <= trap->b2.y &&
+                        trap->b1.z <= work->control.mov.vz && work->control.mov.vz <= trap->b2.z)
+                        break;
+                }
+            }
+        }
+        if (cnt <= 0) return;
+    }
+
+    /* phase 3: dispatch found trap's name_id -> field_E30 + route */
+    def = work->control.map->hzd->def;
+    route = def->routes;
+    if (trap->name_id == GV_StrCode(s05a_dword_800E34BC)) { work->field_E30 = 8; }
+    else if (trap->name_id == GV_StrCode(s05a_dword_800E34C4)) { work->field_E30 = 9; route += 1; }
+    else if (trap->name_id == GV_StrCode(s05a_dword_800E34CC)) { work->field_E30 = 0xA; route += 2; }
+    else if (trap->name_id == GV_StrCode(s05a_dword_800E349C)) { work->field_E30 = 0xB; route += 3; }
+    else if (trap->name_id == GV_StrCode(s05a_dword_800E34A4)) { work->field_E30 = 0xC; route += 4; }
+    else if (trap->name_id == GV_StrCode(s05a_dword_800E34AC)) { work->field_E30 = 0xD; route += 5; }
+    else if (trap->name_id == GV_StrCode(s05a_dword_800E34B4)) { work->field_E30 = 0xE; route += 6; }
+
+    /* phase 4: initial distance target->route->points[0] */
+    d.vx = (work->control.mov.vx - route->points->x) >> 2;
+    d.vy = (work->control.mov.vy - route->points->y) >> 2;
+    d.vz = (work->control.mov.vz - route->points->z) >> 2;
+    dist = SquareRoot0(d.vx * d.vx + d.vy * d.vy + d.vz * d.vz);
+    cnt = 1;
+    thr = (dist << 2) - 0x7d0;
+    s5 = 0xbb8;
+
+    /* phase 5: find nearest patrol point */
+    {
+        HZD_PTP *cur = route->points + 1;
+        if (cnt < route->n_points)
+        do
+        {
+            d.vx = (route->points[0].x - cur->x) >> 2;
+            d.vy = (route->points[0].y - cur->y) >> 2;
+            d.vz = (route->points[0].z - cur->z) >> 2;
+            dist = SquareRoot0(d.vx * d.vx + d.vy * d.vy + d.vz * d.vz);
+            if ((dist << 2) >= thr)
+                break;
+            if (cur->x - s5 <= work->control.mov.vx &&
+                work->control.mov.vx <= cur->x + s5 &&
+                cur->z - s5 <= work->control.mov.vz &&
+                work->control.mov.vz <= cur->z + s5)
+                break;
+            cnt++;
+            cur++;
+        } while (cnt < route->n_points);
+    }
+
+    /* phase 6: store chosen point */
+    cnt--;
+    work->field_E54 = route->points[cnt].x;
+    work->field_E56 = route->points[cnt].y;
+    work->field_E58 = route->points[cnt].z;
+}
 extern void M1E1GetCaterpillerVertex(OBJECT *obj1, OBJECT *obj2, SVECTOR *pos, int a4);
 
 #define HZD_FLOOR(v)                                                            \
