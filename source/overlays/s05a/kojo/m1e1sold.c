@@ -724,37 +724,31 @@ void s05a_800E1014(CONTROL *control, HZD_HDL *hzd)
     int y = control->mov.vy + control->step.vy;
     int height = control->height;
     int flags;
-    int flags1;
-    int flags2;
     int floor_limit;
 
     control->grounded = 0;
-    flags = HZD_LevelHazardCheck(hzd, &control->mov, 1);
+    flags = HZD_LevelHazardCheck(hzd, &control->mov, HZD_CHK_F_FLOOR);
     HZD_GetLevelHeight(lvl);
-    flags1 = flags & 1;
 
-    if (((flags & 2) != 0) && ((unsigned int)(lvl[1] - control->levels[0] + 0xC7) < 0x18F))
+    if (((flags & 2) != 0) && ((lvl[1] - control->levels[0]) + 199U < 399))
     {
         lvl[0] = lvl[1];
         flags &= ~2;
-        flags1 = flags & 1;
     }
 
-    flags2 = flags & 2;
-
-    if (flags1 == 0)
+    if ((flags & 1) == 0)
     {
         lvl[0] = 0;
     }
 
-    if (flags2 == 0)
+    if ((flags & 2) == 0)
     {
         lvl[1] = 0x7D00;
     }
 
     floor_limit = height;
 
-    if (flags1 != 0)
+    if ((flags & 1) != 0)
     {
         floor_limit = height + lvl[0];
     }
@@ -764,7 +758,7 @@ void s05a_800E1014(CONTROL *control, HZD_HDL *hzd)
         y = floor_limit;
         control->grounded = 1;
     }
-    else if (flags2 != 0)
+    else if ((flags & 2) != 0)
     {
         floor_limit = lvl[1] - height;
 
