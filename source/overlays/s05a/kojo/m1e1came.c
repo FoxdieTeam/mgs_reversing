@@ -5,7 +5,9 @@ extern GM_CameraSystemWork GM_Camera;
 
 typedef struct _CamModel
 {
-    char    pad_000[0x284];
+    char    pad_000[0x15C];
+    MATRIX  field_15C; /* 0x15C */
+    char    pad_17C[0x284 - 0x17C];
     u_short field_284; /* 0x284 */
     char    pad_286[0x288 - 0x286];
     u_short field_288; /* 0x288 */
@@ -17,14 +19,26 @@ typedef struct _CamModel
     u_short field_3F8; /* 0x3F8 */
     char    pad_3FA[0x3FC - 0x3FA];
     u_short field_3FC; /* 0x3FC */
+    char    pad_3FE[0x498 - 0x3FE];
+    MATRIX  field_498; /* 0x498 */
 } CamModel;
 
 typedef struct _CamActor
 {
-    char      pad_000[0xDC];
-    CamModel *field_DC; /* 0x0DC */
-    char      pad_E0[0xE5C - 0xE0];
+    char      pad_000[0x24];
+    short     field_24;  /* 0x024 */
+    char      pad_26[0x4C - 0x26];
+    MAP      *field_4C;  /* 0x04C */
+    char      pad_50[0xDC - 0x50];
+    CamModel *field_DC;  /* 0x0DC */
+    char      pad_E0[0xD54 - 0xE0];
+    int       field_D54; /* 0xD54 */
+    char      pad_D58[0xDBC - 0xD58];
+    int       field_DBC; /* 0xDBC */
+    char      pad_DC0[0xE5C - 0xDC0];
     int       field_E5C; /* 0xE5C */
+    char      pad_E60[0xED0 - 0xE60];
+    int       field_ED0; /* 0xED0 */
 } CamActor;
 
 typedef struct _Camera
@@ -54,7 +68,9 @@ typedef struct _Camera
     char    pad_72[0x74 - 0x72];
     SVECTOR field_74; /* 0x74 */
     u_short field_7C; /* 0x7C */
-    char    pad_7E[0x88 - 0x7E];
+    char    pad_7E[0x80 - 0x7E];
+    void   *field_80; /* 0x80 */
+    int     field_84; /* 0x84 */
     int     field_88; /* 0x88 */
     int     field_8C; /* 0x8C */
 } Camera;
@@ -64,9 +80,20 @@ extern Camera  *s05a_dword_800C38CC;
 
 void s05a_800E209C(VECTOR *out, VECTOR *in, int (*fn)());
 VECTOR *s05a_800E2328(VECTOR *out, SVECTOR *cam, VECTOR *in, SVECTOR *lo, SVECTOR *hi);
-void s05a_800E1448(void);
+void s05a_800E1448(Camera *actor);
 void s05a_800E1A68(void);
+void s05a_800E1AA8(void);
+void s05a_800E1C14(void);
+void s05a_800E1D7C(void);
+void s05a_800E1F0C(void);
 extern const char s05a_dword_800E35D8[];
+extern const char s05a_dword_800E35E4[];
+
+extern GM_SnakeCameraWork GM_SnakeCamera;
+
+void *NewCinemaScreen(int time, int type);
+void *NewCinemaScreenClose(void *addr);
+void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx);
 
 void *s05a_800E1134(void)
 {
@@ -119,7 +146,212 @@ void *s05a_800E1134(void)
     s05a_dword_800C38CC = cam;
     return cam;
 }
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E1448.s")
+void s05a_800E1448(Camera *actor)
+{
+    CamActor *listener;
+    SVECTOR   sp10;
+
+    listener = s05a_dword_800C362C;
+    if (listener == NULL || listener->field_D54 == 6)
+    {
+        GV_DestroyActor((GV_ACT *)actor);
+        return;
+    }
+
+    actor->field_84++;
+
+    if (listener->field_ED0 == 2)
+    {
+        if (actor->field_60 != 3)
+        {
+            int t;
+            int u;
+
+            sub_8007EF34(&sp10, (SVECTOR *)&actor->field_64, &listener->field_DC->field_15C);
+            memset(&actor->field_6C, 0, 8);
+            memset(&actor->field_74, 0, 8);
+            t = -3;
+            actor->field_6E = t;
+            t = actor->field_64;
+            u = 0xDAC;
+            *(int *)&actor->field_7C = u;
+            u = (int)actor->field_80;
+            t += 0x71;
+            actor->field_64 = t;
+            t = actor->field_66;
+            actor->field_84 = 0;
+            actor->field_88 = 0;
+            actor->field_8C = 0;
+            actor->field_68 = 0;
+            actor->field_6C = 0;
+            t += 0x156;
+            actor->field_66 = t;
+            if (u == 0)
+            {
+                actor->field_80 = NewCinemaScreen(0x77359400, 0);
+            }
+            GM_GameStatus |= 0x104A2000;
+            GM_Camera.flag |= 0x202;
+            sub_800309B4(0, 0);
+            GM_SetCameraCallbackFunc(0, s05a_800E1AA8);
+            GM_SetCameraCallbackFunc(1, s05a_800E1AA8);
+        }
+        else
+        {
+            actor->field_8C = 1;
+        }
+        GM_Camera.type = 0;
+        actor->field_60 = 3;
+        return;
+    }
+
+    if (listener->field_ED0 == 3)
+    {
+        if (actor->field_60 != 4)
+        {
+            sub_8007EF34(&sp10, (SVECTOR *)&actor->field_64, &listener->field_DC->field_498);
+            memset(&actor->field_6C, 0, 8);
+            memset(&actor->field_74, 0, 8);
+            *(int *)&actor->field_7C = 0xBB8;
+            actor->field_84 = 0;
+            actor->field_88 = 0;
+            actor->field_8C = 0;
+            actor->field_68 = 0;
+            actor->field_6C = 2;
+            actor->field_6E = 6;
+            actor->field_64 += -0x11C;
+            if (actor->field_80 == 0)
+            {
+                actor->field_80 = NewCinemaScreen(0x77359400, 0);
+            }
+            GM_GameStatus |= 0x104A2000;
+            GM_Camera.flag |= 0x202;
+            sub_800309B4(0, 0);
+            GM_SetCameraCallbackFunc(0, s05a_800E1C14);
+            GM_SetCameraCallbackFunc(1, s05a_800E1C14);
+        }
+        else
+        {
+            actor->field_8C = 1;
+        }
+        GM_Camera.type = 0;
+        actor->field_60 = 4;
+        return;
+    }
+
+    {
+        HZD_HDL *hzd;
+        HZD_GRP *grp;
+        HZD_TRP *trp;
+        int      i;
+
+        hzd = listener->field_4C->hzd;
+        grp = hzd->grp;
+        trp = (HZD_TRP *)grp->triggers;
+
+        for (i = grp->n_triggers - hzd->n_cameras; i > 0; i--, trp++)
+        {
+            if (trp->name_id != GV_StrCode(s05a_dword_800E35E4)) continue;
+            if (trp->b1.x > GM_PlayerPosition.vx) continue;
+            if (trp->b2.x < GM_PlayerPosition.vx) continue;
+            if (trp->b1.y > GM_PlayerPosition.vy) continue;
+            if (trp->b2.y < GM_PlayerPosition.vy) continue;
+            if (trp->b1.z > GM_PlayerPosition.vz) continue;
+            if (trp->b2.z < GM_PlayerPosition.vz) continue;
+            break;
+        }
+
+        if (i <= 0 &&
+            s05a_dword_800C362C->field_E5C < s05a_dword_800C362C->field_DBC &&
+            GM_PlayerPosition.vz > s05a_dword_800C362C->field_24)
+        {
+            if (actor->field_60 != 2)
+            {
+                if (actor->field_80 != 0)
+                {
+                    NewCinemaScreenClose(actor->field_80);
+                    actor->field_80 = 0;
+                }
+                actor->field_84 = 0;
+                if (actor->field_60 != 1)
+                {
+                    actor->field_8C = 0;
+                    GM_SnakeCamera.position = GM_PlayerPosition;
+                }
+                else
+                {
+                    actor->field_8C = actor->field_60;
+                }
+                GM_GameStatus &= ~0x104A2000;
+                GM_Camera.flag = (GM_Camera.flag | 2) & ~0x200;
+                sub_800309B4(0, -1);
+                GM_SetCameraCallbackFunc(0, NULL);
+                GM_SetCameraCallbackFunc(1, s05a_800E1D7C);
+            }
+            else
+            {
+                actor->field_8C = 1;
+            }
+            if (GM_Camera.interp > 0)
+            {
+                actor->field_88 = 0;
+            }
+            else if (actor->field_60 != 1)
+            {
+                actor->field_88 = 0;
+            }
+            else
+            {
+                actor->field_88 = actor->field_60;
+            }
+            GM_Camera.type = 0;
+            actor->field_60 = 2;
+            return;
+        }
+
+        if (actor->field_60 != 1)
+        {
+            if (actor->field_80 != 0)
+            {
+                NewCinemaScreenClose(actor->field_80);
+                actor->field_80 = 0;
+            }
+            actor->field_84 = 0;
+            if (actor->field_60 != 2)
+            {
+                actor->field_8C = 0;
+                GM_SnakeCamera.position = GM_PlayerPosition;
+            }
+            else
+            {
+                actor->field_8C = 1;
+            }
+            GM_GameStatus &= ~0x104A2000;
+            GM_Camera.flag = (GM_Camera.flag | 2) & ~0x200;
+            sub_800309B4(0, -1);
+            GM_SetCameraCallbackFunc(0, NULL);
+            GM_SetCameraCallbackFunc(1, s05a_800E1F0C);
+        }
+        else
+        {
+            actor->field_8C = actor->field_60;
+        }
+        if (GM_Camera.interp > 0)
+        {
+            actor->field_88 = 0;
+        }
+        else if (actor->field_60 != 2)
+        {
+            actor->field_88 = 0;
+        }
+        else
+        {
+            actor->field_88 = 1;
+        }
+        GM_Camera.type = 0;
+        actor->field_60 = 1;
+    }
+}
 
 void s05a_800E1A68(void)
 {
