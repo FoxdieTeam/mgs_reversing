@@ -60,11 +60,18 @@ typedef struct _CamActor
 {
     char      pad_000[0x20];
     CONTROL   control;         /* 0x020 */
-    char      pad_09C[0xDC - 0x9C];
+    char      pad_09C[0xB0 - 0x9C];
+    int       field_B0;        /* 0x0B0 */
+    int       field_B4;        /* 0x0B4 */
+    int       field_B8;        /* 0x0B8 */
+    char      pad_BC[0xDC - 0xBC];
     CamModel *field_DC;        /* 0x0DC */
     char      pad_E0[0x718 - 0xE0];
     TARGET   *field_718[10];   /* 0x718 */
-    char      pad_740[0xD54 - 0x740];
+    char      pad_740[0x744 - 0x740];
+    int       field_744;       /* 0x744 */
+    int       field_748;       /* 0x748 */
+    char      pad_74C[0xD54 - 0x74C];
     int       field_D54;       /* 0xD54 */
     char      pad_D58[0xD64 - 0xD58];
     int       field_D64;       /* 0xD64 */
@@ -118,20 +125,100 @@ typedef struct _Sol
 {
     GV_ACT    actor;       /* 0x000 */
     CONTROL   control;     /* 0x020 */
-    char      pad_9C[0xDC - 0x9C];
+    MATRIX    field_9C[2]; /* 0x09C light matrices */
     OBJECT    body;        /* 0x0DC */
     TARGET   *field_1C0;   /* 0x1C0 */
     HOMING   *field_1C4;   /* 0x1C4 */
-    char      pad_1C8[0x1EC - 0x1C8];
+    MATRIX    field_1C8;   /* 0x1C8 */
+    int       field_1E8;   /* 0x1E8 */
     CamActor *field_1EC;   /* 0x1EC */
     char      pad_1F0[0x228 - 0x1F0];
     void     *field_228;   /* 0x228 */
+    char      pad_22C[0x234 - 0x22C];
+    char      field_234[0x284 - 0x234]; /* MOTION_CONTROL */
+    char      field_284[0x4E8 - 0x284]; /* MOTION_SEGMENT[] */
+    char      field_4E8[0x74C - 0x4E8]; /* MOTION_SEGMENT[] */
+    char      field_74C[0x7C8 - 0x74C]; /* CONTROL (motion) */
+    char      field_7C8[0x848 - 0x7C8]; /* SVECTOR rots[] */
 } Sol;
 
 extern CamActor *s05a_dword_800C362C;
 extern CONTROL   s05a_dword_800E3800;
 
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DDCBC.s")
+void s05a_800DDF18(Sol *work);
+void s05a_800DEB94(Sol *work);
+extern const char s05a_dword_800E356C[]; /* "m1e1" */
+extern const char s05a_dword_800E3578[]; /* "out_" */
+extern const char s05a_dword_800E3584[]; /* "tank" */
+extern MATRIX DG_ZeroMatrix;
+
+void *s05a_800DDCBC(CamActor *director)
+{
+    Sol      *work;
+    int       one;
+    int       name;
+    int       i;
+    OBJECT   *bodyp;
+    const char *tankstr;
+    DG_OBJS  *objs;
+    SVECTOR   size;
+
+    work = GV_NewActor(6, 0x848);
+    if (work == NULL)
+    {
+        return 0;
+    }
+    one = 1;
+    work->field_1E8 = one;
+    work->field_1EC = director;
+    GV_SetNamedActor(work, s05a_800DDF18, s05a_800DEB94, s05a_dword_800E356C);
+
+    if (GM_InitControl(&work->control, work->field_1EC->field_744,
+                       work->field_1EC->field_748) < 0)
+    {
+        GV_DestroyActor(work);
+        return 0;
+    }
+
+    *(short *)((char *)&work->control + 0x36) = -2; /* sh -2, 0x56(s3) */
+    *(char *)((char *)&work->control + 0x54) = 0;   /* sb 0, 0x74(s3) */
+    GM_ConfigControlAttribute(&work->control, 5);
+
+    *(int *)&work->field_9C[0].t[0] = *(int *)&work->field_1EC->field_B0;
+    *(int *)&work->field_9C[0].t[1] = *(int *)&work->field_1EC->field_B4;
+    *(int *)&work->field_9C[0].t[2] = *(int *)&work->field_1EC->field_B8;
+    name = GV_StrCode(s05a_dword_800E3578);  /* "out_" */
+
+    tankstr = s05a_dword_800E3584;
+    bodyp = &work->body;
+    GM_InitObject(bodyp, name, 0x32d, GV_StrCode(tankstr));
+    GM_ConfigObjectJoint(bodyp);
+    GM_ConfigMotionControl(bodyp, (MOTION_CONTROL *)work->field_234,
+                           GV_StrCode(tankstr),
+                           (MOTION_SEGMENT *)work->field_284,
+                           (MOTION_SEGMENT *)work->field_4E8,
+                           (CONTROL *)work->field_74C,
+                           (SVECTOR *)work->field_7C8);
+    GM_ConfigObjectLight(bodyp, &work->field_9C[0]);
+
+    objs = bodyp->objs;
+    *(int *)&objs->flag |= 0x80;
+    work->field_1C4 = GM_AllocHomingTarget(&work->field_1C8, &work->control);
+    work->field_1C4->flag = one;
+    work->field_1C0 = GM_AllocTarget();
+    size.vx = 0x12c;
+    size.vy = 0x12c;
+    size.vz = 0x12c;
+    GM_SetTarget(work->field_1C0, 0x94, 2, &size);
+    GM_SetPowerTarget(work->field_1C0, 1, -1, 0x2710, 0, &DG_ZeroVector);
+
+    for (i = 0; i < 0x10; i++)
+    {
+        work->body.objs->objs[i].world = DG_ZeroMatrix;
+    }
+    return work;
+}
+#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DDF18.s")
 
 void s05a_800DEB94(Sol *work)
 {
