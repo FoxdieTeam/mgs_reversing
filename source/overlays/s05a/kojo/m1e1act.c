@@ -1,9 +1,16 @@
 #include "game/game.h"
+#include "game/target.h"
 #include "kojo/m1e1.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
+#include "libdg/libdg.h"
+#include "linkvar.h"
 
-extern int s05a_dword_800C362C;
+extern int rand(void);
+extern void *NewFadeInOut(int mode, int shade);
+extern void *NewSmokeLn_800CDFA4(int a0, int a1, int a2, SVECTOR *p, SVECTOR *q,
+                                 SVECTOR *r, char b, char c, char d);
+extern void AN_Blast_high2(SVECTOR *pos, SVECTOR *offset);
 
 typedef struct
 {
@@ -20,46 +27,123 @@ typedef struct _Work
     OBJECT   bodies_a[3];   /* 0x1C0 */
     OBJECT   bodies_b[3];   /* 0x46C */
     void    *field_718[10]; /* 0x718 */
-    char     pad_740[0xA84 - 0x740];
-    struct { char _pad[0x48]; } field_A84[10]; /* 0xA84 */
+    int      field_740;     /* 0x740 */
+    char     pad_744[0x74C - 0x744];
+    char     snap_control[0x7C];   /* 0x74C */
+    char     snap_body[0xE4];      /* 0x7C8 */
+    char     pad_8AC[0x8BC - 0x8AC];
+    int      field_8BC;     /* 0x8BC */
+    char     pad_8C0[0x8CC - 0x8C0];
+    TARGET   target0;       /* 0x8CC */
+    TARGET   target1;       /* 0x914 */
+    char     pad_95C[0x960 - 0x95C];
+    TARGET   target2;       /* 0x960 */
+    TARGET   target3;       /* 0x9A8 */
+    TARGET   target4;       /* 0x9F0 */
+    TARGET   target5;       /* 0xA38 */
+    char     pad_A80[0xA84 - 0xA80];
+    TARGET   field_A84[10]; /* 0xA84 */
     int      field_D54;     /* 0xD54 */
-    char     pad_D58[0xD64 - 0xD58];
+    int      field_D58;     /* 0xD58 */
+    int      field_D5C;
+    int      field_D60;
     int      field_D64;     /* 0xD64 */
     int      field_D68;     /* 0xD68 */
-    char     pad_D6C[0xE08 - 0xD6C];
+    int      field_D6C;
+    int      field_D70;
+    int      field_D74;
+    int      field_D78;
+    int      field_D7C;
+    int      field_D80;
+    int      field_D84;
+    int      field_D88;
+    int      field_D8C;
+    int      field_D90;
+    int      field_D94;
+    int      field_D98;
+    int      field_D9C;
+    int      field_DA0;
+    int      field_DA4;
+    int      field_DA8;
+    int      field_DAC;
+    int      field_DB0;
+    int      field_DB4;
+    int      field_DB8;
+    char     pad_DBC[0xDC4 - 0xDBC];
+    int      field_DC4;
+    char     pad_DC8[0xE08 - 0xDC8];
     int      field_E08;     /* 0xE08 */
     int      field_E0C;     /* 0xE0C */
     int      field_E10;     /* 0xE10 */
-    char     pad_E14[0xE1C - 0xE14];
+    char     pad_E14[0xE14 - 0xE14];
+    int      field_E14;
+    char     pad_E18[0xE1C - 0xE18];
     int      field_E1C;     /* 0xE1C */
     int      field_E20;     /* 0xE20 */
-    char     pad_E24[0xE30 - 0xE24];
-    int      field_E30;     /* 0xE30 */
-    char     pad_E34[0xE44 - 0xE34];
-    int      field_E44;     /* 0xE44 */
-    int      field_E48;     /* 0xE48 */
-    int      field_E4C;     /* 0xE4C */
+    char     pad_E24[0xE24 - 0xE24];
+    int      field_E24;
+    int      field_E28;
+    char     pad_E2C[0xE2C - 0xE2C];
+    int      field_E2C;
+    int      field_E30;
+    char     pad_E34[0xE34 - 0xE34];
+    int      field_E34;
+    char     pad_E38[0xE3C - 0xE38];
+    int      field_E3C;
+    char     pad_E40[0xE44 - 0xE40];
+    int      field_E44;
+    int      field_E48;
+    int      field_E4C;
     char     pad_E50[0xE54 - 0xE50];
     u_short  field_E54;     /* 0xE54 */
     u_short  field_E56;     /* 0xE56 */
     u_short  field_E58;     /* 0xE58 */
-    char     pad_E5A[0xE64 - 0xE5A];
+    char     pad_E5A[0xE5C - 0xE5A];
+    int      field_E5C;
+    int      field_E60;
     int      field_E64;     /* 0xE64 */
-    char     pad_E68[0xE9C - 0xE68];
+    int      field_E68;
+    char     pad_E6C[0xE88 - 0xE6C];
+    int      field_E88;
+    char     pad_E8C[0xE9C - 0xE8C];
     u_short  field_E9C;     /* 0xE9C */
-    char     pad_E9E[0xEA0 - 0xE9E];
+    short    field_E9E;     /* 0xE9E */
     u_short  field_EA0;     /* 0xEA0 */
-    char     pad_EA2[0xEB0 - 0xEA2];
+    char     pad_EA2[0xEA4 - 0xEA2];
+    short    field_EA4;     /* 0xEA4 */
+    char     pad_EA6[0xEB0 - 0xEA6];
     void    *field_EB0;     /* 0xEB0 */
-    char     pad_EB4[0xEDC - 0xEB4];
+    char     pad_EB4[0xEC0 - 0xEB4];
+    int      field_EC0;     /* 0xEC0 */
+    int      field_EC4;
+    int      field_EC8;
+    char     pad_ECC[0xED0 - 0xECC];
+    int      field_ED0;     /* 0xED0 */
+    char     pad_ED4[0xED8 - 0xED4];
+    int      field_ED8;
     void    *field_EDC;     /* 0xEDC */
     char     pad_EE0[0xEF0 - 0xEE0];
     SVECTOR  field_EF0[10]; /* 0xEF0 */
-    char     pad_F40[0xF58 - 0xF40];
+    char     pad_F40[0xF40 - 0xF40];
+    int      field_F40;     /* 0xF40 */
+    int      field_F44;
+    int      field_F48;
+    int      field_F4C;
+    int      field_F50;
+    int      field_F54;
     int      field_F58;     /* 0xF58 */
-    char     pad_F5C[0xF78 - 0xF5C];
-    int      field_F78;     /* 0xF78 */
-    char     pad_F7C[0xF8C - 0xF7C];
+    int      field_F5C;
+    int      field_F60;
+    int      field_F64;
+    int      field_F68;
+    int      field_F6C;
+    int      field_F70;
+    int      field_F74;
+    int      field_F78;
+    char     pad_F7C[0xF80 - 0xF7C];
+    int      field_F80;
+    char     pad_F84[0xF88 - 0xF84];
+    int      field_F88;
     SVECTOR  bbox[10];      /* 0xF8C */
     char     pad_FDC[0xFEC - 0xFDC];
     HzdBlock hzd[5];        /* 0xFEC */
@@ -68,11 +152,507 @@ typedef struct _Work
     HZD_FLR  copy2;         /* 0x136C */
 } Work;
 
+extern Work *s05a_dword_800C362C;
+extern int   s05a_dword_800C3630;
+extern int   s05a_dword_800C3634;
+extern int   s05a_dword_800C3638;
+
 extern void sub_8007E1C0(HZD_SEG *seg, HZD_FLR *flr, MATRIX *pTransform,
                          SVECTOR *pMin, SVECTOR *pMax);
 extern void AN_Smoke_800CE08C(SVECTOR *pos);
 
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D4A74.s")
+void  s05a_800D627C(Work *work);
+void  s05a_800D797C(Work *work);
+void  s05a_800D863C(Work *work);
+void  s05a_800D9754(Work *work);
+void  s05a_800DA02C(Work *work);
+void  s05a_800DA62C(Work *work);
+void  s05a_800DA940(Work *work);
+void  s05a_800DACF0(Work *work);
+void  s05a_800DD1C8(Work *work);
+
+void s05a_800D4A74(Work *work)
+{
+    SVECTOR va;         /* sp+0x28 */
+    SVECTOR vb;         /* sp+0x30 */
+    SVECTOR vc;         /* sp+0x38 */
+    int     i;
+    int     s0;
+    OBJECT *bodyp;
+
+    MENU_Locate(0x50, 0x5a, 0);
+
+    /* control + light-matrix snapshot */
+    memcpy(work->snap_control, &work->control, 0x7C);
+    memcpy(work->snap_body, &work->body, 0xE4);
+
+    bodyp = &work->body;
+    work->body.rots[10].vy = 0x11c;
+    GM_ActMotion(bodyp);
+
+    /* ---- animation/control update ---- */
+    work->control.turn.vx += work->field_E9C;
+    work->control.turn.vy += work->field_E9E;
+    work->control.turn.vz += work->field_EA0;
+    GM_ActControl(&work->control);
+    GM_ActObject(bodyp);
+    for (i = 0; i < 3; i++)
+    {
+        GM_ActMotion(&work->bodies_a[i]);
+        GM_ActMotion(&work->bodies_b[i]);
+    }
+
+    va = work->control.mov;
+    va.vy -= work->field_EA4;
+    vb.vx = work->control.rot.vx - work->field_E9C;
+    vb.vy = work->control.rot.vy - work->field_E9E;
+    vb.vz = work->control.rot.vz - work->field_EA0;
+    DG_SetPos2(&va, &vb);
+
+    for (i = 0; i < 3; i++)
+    {
+        GM_ActObject(&work->bodies_a[i]);
+        GM_ActObject(&work->bodies_b[i]);
+    }
+    DG_GetLightMatrix2(&work->control.mov, (MATRIX *)&work->pad_9C[0]);
+
+    if (work->field_740 == 0)
+    {
+        work->body.objs->flag &= ~0x80;
+    }
+
+    if (--work->field_F40 < 0) work->field_F40 = 0;
+    if (--work->field_F44 < 0) work->field_F44 = 0;
+    if (--work->field_F48 < 0) work->field_F48 = 0;
+    if (--work->field_F4C < 0) work->field_F4C = 0;
+    if (--work->field_F50 < 0) work->field_F50 = 0;
+    if (--work->field_F54 < 0) work->field_F54 = 0;
+    if (--work->field_F58 < 0) work->field_F58 = 0;
+    if (--work->field_F60 < 0) work->field_F60 = 0;
+    if (--work->field_F64 < 0) work->field_F64 = 0;
+    if (--work->field_F5C < 0) work->field_F5C = 0;
+    if (--work->field_F68 < 0) work->field_F68 = 0;
+    if (--work->field_F6C < 0) work->field_F6C = 0;
+    if (--work->field_F70 < 0) work->field_F70 = 0;
+    if (--work->field_F74 < 0) work->field_F74 = 0;
+    if (--work->field_F78 < 0) work->field_F78 = 0;
+    if (--work->field_F80 < 0) work->field_F80 = 0;
+
+    /* ======== EC0 audio state machine ======== */
+    if (work->field_EC0 == 1)
+    {
+        work->field_EC4++;
+        work->field_EC8 = 0;
+    }
+    else if (work->field_EC0 == 2 && !(GM_PlayerStatus & 0x800300))
+    {
+        if (++work->field_EC8 >= 3)
+        {
+            work->field_EC8 = 0;
+            if (rand() & 3)
+                GM_SeSetPan(&work->control.mov, 0x86, work->field_E60);
+        }
+    }
+    else if (work->field_EC0 == 3)
+    {
+        work->field_EC8 = 0;
+    }
+
+    /* snapshot player position into E44/E48/E4C, compute distance + volume */
+    if (s05a_dword_800C362C->field_ED0 == 0)
+    {
+        work->field_E44 = GM_PlayerPosition.vx;
+        work->field_E48 = GM_PlayerPosition.vy;
+        work->field_E4C = GM_PlayerPosition.vz;
+    }
+    va.vx = (work->control.mov.vx - work->field_E44) >> 2;
+    va.vy = (work->control.mov.vy - work->field_E48) >> 2;
+    va.vz = (work->control.mov.vz - work->field_E4C) >> 2;
+    work->field_E5C = SquareRoot0(va.vx * va.vx + va.vy * va.vy + va.vz * va.vz) << 2;
+    work->field_E60 = 0x1f;
+    {
+        int d = work->field_E5C;
+        if (d < 0x1f41)
+            work->field_E60 = 0x3f;
+        else if (d < 0x7531)
+        {
+            int r = 0x3f;
+            r -= ((d - 0x1f40) << 5) / 22000;
+            work->field_E60 = r;
+        }
+    }
+
+    /* ======== F. D54 transition machine ======== */
+    if (work->field_D54 == 1 && work->field_740 == 0 && work->field_E5C < work->field_DC4)
+    {
+        work->field_D54 = 2;
+    }
+    if (work->field_EB0 && *(int *)((char *)work->field_EB0 + 0x1f0) == 1)
+    {
+        if (--work->field_E08 <= 0)
+        {
+            work->field_D54 = 5;
+            work->field_F80 = 0x1e;
+            NewFadeInOut(2, 0x1e);
+        }
+        else
+        {
+            work->field_D54 = 4;
+            work->field_F4C = work->field_D78;
+        }
+    }
+
+    if (work->field_E08 <= 0 && work->field_D54 == 5 && work->field_F80 <= 0)
+    {
+        GV_DestroyActor(work);
+        return;
+    }
+
+    if (work->field_F4C <= 0 && work->field_D54 == 4 &&
+        work->field_EB0 == 0 && work->field_ED0 == 0)
+    {
+        if (!work->field_D58)
+            work->field_D54 = 2;
+        else
+            work->field_D54 = 7;
+        work->field_F5C = work->field_E14;
+    }
+
+    /* ======== G. MENU progress bar ======== */
+    if (work->field_D54 != 1 && work->field_D54 != 6)
+    {
+        s0 = ((work->field_E0C + work->field_D74 * (work->field_E08 - 1)) << 10) /
+             (work->field_D74 * work->field_D70);
+        if (s0 < 0)
+            s0 = 0;
+        MENU_DrawBar(0x10, 0x1c, work->field_ED8, s0, (MENU_BAR_CONF *)&work->field_8BC);
+        work->field_ED8 = s0;
+    }
+
+    /* ======== H. memset + 11-call cascade ======== */
+    memset(&work->field_E9C, 0, 8);
+    *(int *)&work->field_EA4 = 0;
+    s05a_800D797C(work);
+    s05a_800D863C(work);
+    s05a_800D627C(work);
+    s05a_800DA02C(work);
+    s05a_800DA62C(work);
+    s05a_800D9754(work);
+    work->control.mov.vy += work->field_EA4;
+    s05a_800DA940(work);
+    M1E1Caterpiller((LPM1E1ACTOR)work);
+    s05a_800DACF0(work);
+    s05a_800DD1C8(work);
+
+    /* ======== I. ED0/EC0/740 reset ======== */
+    if (work->field_ED0 == 1)
+        work->field_ED0 = 0;
+    work->field_EC0 = 0;
+    work->field_740 = 0;
+    work->field_E2C = work->field_E30;
+    if (work->field_D54 == 6)
+        return;
+
+    /* ======== J. Target-power section 1 ======== */
+    if (work->field_F78 <= 0)
+    {
+        for (i = 0; i < 10; i++)
+        {
+            GM_PowerTarget(&work->field_A84[i]);
+            if (work->field_A84[i].vital != work->field_DA0)
+            {
+                GM_PlayerStatus |= 0x200;
+                work->field_F78 = 0x5a;
+                GM_SeSetPan(&GM_PlayerPosition, 0xbd, 0x3f);
+                break;
+            }
+        }
+        for (i = 0; i < 10; i++)
+            work->field_A84[i].vital = work->field_DA0;
+    }
+
+    s0 = work->field_E68 - work->field_D9C;
+    i = 0;
+    if (s0 >= 0)
+        i = (work->field_E24 * s0) / work->field_E28 + work->field_D90;
+
+    work->target0.vital = i;
+    work->target1.vital = i;
+    work->target2.vital = i;
+    work->target3.vital = i;
+    work->target4.vital = i;
+    work->target5.vital = i;
+    if (work->field_F78 <= 0 && i > 0)
+    {
+        int r;
+        int d;
+        va = work->control.turn;
+        while (va.vy < -0x800)
+            va.vy += 0x1000;
+        while (va.vy >= 0x801)
+            va.vy -= 0x1000;
+        r = ratan2(work->field_E34, work->field_E3C);
+        d = va.vy;
+        d -= r;
+        if (d < 0)
+            d = -d;
+        d = d < 0x400;
+        if (d)
+        {
+            GM_PowerTarget(&work->target0);
+            GM_PowerTarget(&work->target2);
+            GM_PowerTarget(&work->target4);
+        }
+        else
+        {
+            GM_PowerTarget(&work->target1);
+            GM_PowerTarget(&work->target3);
+            GM_PowerTarget(&work->target5);
+        }
+        if (work->target0.vital != i || work->target1.vital != i ||
+            work->target2.vital != i || work->target3.vital != i ||
+            work->target4.vital != i || work->target5.vital != i)
+        {
+            GM_PlayerStatus |= 0x200;
+            work->field_F78 = 0x5a;
+            GM_SeSetPan(&GM_PlayerPosition, 0xbd, 0x3f);
+        }
+    }
+
+    /* ======== K. Smoke/blast keyed on F4C ======== */
+    if (work->field_F4C > 0 && (work->field_F4C & 0xf) == 0)
+    {
+        DG_SetPos((MATRIX *)&work->body.objs->objs[10].world);
+        memset(&va, 0, 8);
+        DG_PutVector(&va, &va, 1);
+        va.vy -= 0x1f4;
+        vb = va;
+        vb.vy += 0x3e8;
+        memset(&vc, 0, 8);
+        vc.vy = 0x3e;
+        NewSmokeLn_800CDFA4(7, 1, 0, &va, &vb, &vc, 0, 0, 0);
+    }
+
+    /* ======== L. Target-power section 2 keyed on F50 ======== */
+    if (work->field_F4C <= 0)
+    {
+        if (work->field_F50 <= 0)
+        {
+            if (work->field_D64 > work->field_D88 || work->field_D68 > work->field_D8C)
+            {
+                s0 = 0;
+                for (i = 0; i < 10; i++)
+                {
+                    TARGET *t = (TARGET *)work->field_718[i];
+                    if (t->damaged != 0 && t->damaged >= s0 &&
+                        (unsigned int)(t->weapon - 2) < 5)
+                    {
+                        s0 = t->damaged;
+                        work->field_E88 = i;
+                        work->field_F50 = work->field_D78 >> 1;
+                    }
+                }
+                if (s0)
+                {
+                    int dx;
+                    dx = (work->field_D7C * s0) / work->field_D84;
+                    work->field_D64 -= dx;
+                    work->field_D68 -= (work->field_D80 * s0) / work->field_D84;
+                    {
+                        int lo = work->field_D88;
+                        if (lo < work->field_D64)
+                            lo = work->field_D64;
+                        work->field_D64 = lo;
+                    }
+                    {
+                        int lo = work->field_D8C;
+                        if (lo < work->field_D68)
+                            lo = work->field_D68;
+                        work->field_D68 = lo;
+                    }
+                    DG_SetPos2(&DG_ZeroVector, &work->control.rot);
+                    memset(&va, 0, 8);
+                    if (work->field_E88 < 5)
+                        va.vy = 0x400;
+                    else
+                        va.vy = -0x400;
+                    DG_RotatePos(&va);
+                    memset(&va, 0, 8);
+                    va.vz = 0x258;
+                    DG_PutVector(&va, &va, 1);
+                    AN_Blast_high2((SVECTOR *)((char *)work->field_718[work->field_E88] + 8), &va);
+                    GM_SeSetPan(&work->control.mov, 0xb1, work->field_E60);
+                }
+            }
+        }
+    }
+
+    if (work->field_F50 > 0 && (work->field_F50 & 0xf) == 0)
+    {
+        va = *(SVECTOR *)((char *)work->field_718[work->field_E88] + 8);
+        vb = va;
+        vb.vy += 0x3e8;
+        memset(&vc, 0, 8);
+        vc.vy = 0x3e;
+        NewSmokeLn_800CDFA4(7, 2, 0, &va, &vb, &vc, 0, 0, 0);
+    }
+
+    for (i = 0; i < 10; i++)
+    {
+        ((TARGET *)work->field_718[i])->vital = 0x2710;
+        ((TARGET *)work->field_718[i])->damage = 0;
+        ((TARGET *)work->field_718[i])->damaged = 0;
+    }
+
+    /* ======== M. Pad-driven 14-case state machine ======== */
+    if (GM_BonusItemsFlag == 0)
+        return;
+
+    {
+        int *p3634 = &s05a_dword_800C3634;
+
+        if (--*p3634 < 0)
+        {
+            s05a_dword_800C3630 = 0;
+            *p3634 = 0;
+        }
+
+        if (work->field_D54 == 7)
+        {
+            if (GV_PadData[1].status == 0xf0)
+            {
+                work->field_D58 = 0;
+                work->field_D54 = 2;
+                return;
+            }
+        }
+        else
+        {
+            if (s05a_dword_800C3630 == 0)
+            {
+                if (GV_PadData[1].status == 0xf0)
+                {
+                    s05a_dword_800C3630 = 1;
+                    *p3634 = 0x1e;
+                    return;
+                }
+            }
+
+            if ((unsigned int)(s05a_dword_800C3634 - 1) >= 0x1d)
+                return;
+
+            if (s05a_dword_800C3630 == 1 && GV_PadData[1].status == 5)
+            {
+                s05a_dword_800C3630 = 2;
+                s05a_dword_800C3634 = 0x1e;
+            }
+            else if (s05a_dword_800C3630 == 2 && GV_PadData[1].status == 0xa)
+            {
+                s05a_dword_800C3630 = 3;
+                s05a_dword_800C3634 = 0x1e;
+            }
+            else if (s05a_dword_800C3630 == 3 && GV_PadData[1].status == 0xc)
+            {
+                s05a_dword_800C3630 = 4;
+                s05a_dword_800C3634 = 0x1e;
+            }
+            else if (s05a_dword_800C3630 == 4 && GV_PadData[1].status == 0x1000)
+            {
+                s05a_dword_800C3630 = 5;
+                s05a_dword_800C3634 = 0x1e;
+            }
+            else if (s05a_dword_800C3630 == 5 && GV_PadData[1].status == 0x4000)
+            {
+                s05a_dword_800C3630 = 6;
+                s05a_dword_800C3634 = 0x1e;
+            }
+            else if (s05a_dword_800C3630 == 6 && GV_PadData[1].status == 6)
+            {
+                s05a_dword_800C3630 = 7;
+                s05a_dword_800C3634 = 0x1e;
+            }
+            else if (s05a_dword_800C3630 == 7 && GV_PadData[1].status == 0x8000)
+            {
+                s05a_dword_800C3630 = 8;
+                s05a_dword_800C3634 = 0x1e;
+            }
+            else if (s05a_dword_800C3630 == 8 && GV_PadData[1].status == 0x2000)
+            {
+                s05a_dword_800C3630 = 9;
+                s05a_dword_800C3634 = 0x1e;
+            }
+            else if (s05a_dword_800C3630 == 9 && GV_PadData[1].status == 3)
+            {
+                s05a_dword_800C3630 = 0xa;
+                s05a_dword_800C3634 = 0x1e;
+            }
+            else if (s05a_dword_800C3630 == 0xa && GV_PadData[1].status == 0xe0)
+            {
+                s05a_dword_800C3630 = 0xb;
+                s05a_dword_800C3634 = 0x1e;
+            }
+            else if (s05a_dword_800C3630 == 0xb && GV_PadData[1].status == 0x1000)
+            {
+                s05a_dword_800C3630 = 0xc;
+                s05a_dword_800C3634 = 0x1e;
+            }
+            else if (s05a_dword_800C3630 == 0xc && GV_PadData[1].status == 3)
+            {
+                s05a_dword_800C3630 = 0xd;
+                s05a_dword_800C3634 = 0x1e;
+            }
+            else if (s05a_dword_800C3630 == 0xd && GV_PadData[1].status == 0x90)
+            {
+                work->field_D58 = 1;
+                work->field_D54 = 7;
+            }
+        }
+    }
+
+    /* ======== N. D54==7 final pad input + DG_LookAt + AN_Blast tail ======== */
+    if (work->field_D54 == 7)
+    {
+        u_short pad;
+        if (GV_PadData[1].status & 1)
+        {
+            va.vx = work->field_E44;
+            va.vy = work->field_E48;
+            va.vz = work->field_E4C;
+            va.vy += 0x320;
+            vb = work->control.mov;
+            vb.vx = va.vx + (vb.vx - va.vx) / 3;
+            vb.vy = va.vy + (vb.vy - va.vy) / 3;
+            vb.vz = va.vz + (vb.vz - va.vz) / 3;
+            DG_LookAt(DG_Chanl(0), &va, &vb, 0x140);
+            GM_PlayerBody->objs->flag |= 0x80;
+            s05a_dword_800C3638 = 1;
+        }
+        else if (s05a_dword_800C3638 == 1)
+        {
+            GM_PlayerBody->objs->flag &= ~0x80;
+            s05a_dword_800C3638 = 0;
+        }
+
+        pad = GV_PadData[1].status;
+        if (!(pad & 4))
+            return;
+        if (pad & 8)
+            work->field_F88 += 0x32;
+        else if (pad & 2)
+            work->field_F88 -= 0x32;
+
+        DG_SetPos((MATRIX *)&work->body.objs->objs[6].world);
+        memset(&va, 0, 8);
+        memset(&vb, 0, 8);
+        va.vz = 0x3e8;
+        va.vy = 0x3e8;
+        vb.vz = 0x7d0;
+        vb.vy = work->field_F88 + 0x3e8;
+        DG_PutVector(&va, &va, 1);
+        DG_PutVector(&vb, &vb, 1);
+        DG_LookAt(DG_Chanl(0), &va, &vb, 0x140);
+    }
+}
 void s05a_800D5E30(Work *work)
 {
     int i;
