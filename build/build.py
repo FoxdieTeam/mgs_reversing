@@ -116,6 +116,8 @@ def ninja_run():
         r'blur\.c:\d+: warning: unused variable `pad3\'',
         # in thing
         r'door\.c:\d+: warning: unused variable `pad\'',
+        # in s05a
+        r'm1e1came\.c:\d+: warning: unused variable `pad\'',
         r'sphere.c:\d+: warning: `xoff\' might be used uninitialized in this function',
         r'sphere.c:\d+: warning: `yoff\' might be used uninitialized in this function',
         r'sphere.c:\d+: warning: `tpage\' might be used uninitialized in this function',
