@@ -91,10 +91,7 @@ typedef struct _Work
     char     pad_E38[0xE3C - 0xE38];
     int      field_E3C;
     char     pad_E40[0xE44 - 0xE40];
-    int      field_E44;
-    int      field_E48;
-    int      field_E4C;
-    char     pad_E50[0xE54 - 0xE50];
+    VECTOR   field_E44;     /* 0xE44 */
     u_short  field_E54;     /* 0xE54 */
     u_short  field_E56;     /* 0xE56 */
     u_short  field_E58;     /* 0xE58 */
@@ -261,13 +258,13 @@ void s05a_800D4A74(Work *work)
     /* snapshot player position into E44/E48/E4C, compute distance + volume */
     if (s05a_dword_800C362C->field_ED0 == 0)
     {
-        work->field_E44 = GM_PlayerPosition.vx;
-        work->field_E48 = GM_PlayerPosition.vy;
-        work->field_E4C = GM_PlayerPosition.vz;
+        work->field_E44.vx = GM_PlayerPosition.vx;
+        work->field_E44.vy = GM_PlayerPosition.vy;
+        work->field_E44.vz = GM_PlayerPosition.vz;
     }
-    va.vx = (work->control.mov.vx - work->field_E44) >> 2;
-    va.vy = (work->control.mov.vy - work->field_E48) >> 2;
-    va.vz = (work->control.mov.vz - work->field_E4C) >> 2;
+    va.vx = (work->control.mov.vx - work->field_E44.vx) >> 2;
+    va.vy = (work->control.mov.vy - work->field_E44.vy) >> 2;
+    va.vz = (work->control.mov.vz - work->field_E44.vz) >> 2;
     work->field_E5C = SquareRoot0(va.vx * va.vx + va.vy * va.vy + va.vz * va.vz) << 2;
     work->field_E60 = 0x1f;
     {
@@ -615,9 +612,9 @@ void s05a_800D4A74(Work *work)
         u_short pad;
         if (GV_PadData[1].status & 1)
         {
-            va.vx = work->field_E44;
-            va.vy = work->field_E48;
-            va.vz = work->field_E4C;
+            va.vx = work->field_E44.vx;
+            va.vy = work->field_E44.vy;
+            va.vz = work->field_E44.vz;
             va.vy += 0x320;
             vb = work->control.mov;
             vb.vx = va.vx + (vb.vx - va.vx) / 3;
@@ -787,16 +784,16 @@ void s05a_800D9A14(Work *work)
     {
     HZD_HDL *hzd = work->control.map->hzd;
     HZD_GRP *grp = hzd->grp;
-    trap = (HZD_TRP *)grp->triggers;
+    trap = &grp->triggers->trap;
     cnt = grp->n_triggers - hzd->n_cameras;
     }
     for (; cnt > 0; cnt--, trap++)
     {
         if (trap->name_id == GV_StrCode(s05a_dword_800E349C))
         {
-            if (trap->b1.x <= work->field_E44 && work->field_E44 <= trap->b2.x &&
-                trap->b1.y <= work->field_E48 && work->field_E48 <= trap->b2.y &&
-                trap->b1.z <= work->field_E4C && work->field_E4C <= trap->b2.z)
+            if (trap->b1.x <= work->field_E44.vx && work->field_E44.vx <= trap->b2.x &&
+                trap->b1.y <= work->field_E44.vy && work->field_E44.vy <= trap->b2.y &&
+                trap->b1.z <= work->field_E44.vz && work->field_E44.vz <= trap->b2.z)
                 break;
         }
         if (work->field_F78 > 0)
@@ -805,9 +802,9 @@ void s05a_800D9A14(Work *work)
                 trap->name_id == GV_StrCode(s05a_dword_800E34AC) ||
                 trap->name_id == GV_StrCode(s05a_dword_800E34B4))
             {
-                if (trap->b1.x <= work->field_E44 && work->field_E44 <= trap->b2.x &&
-                    trap->b1.y <= work->field_E48 && work->field_E48 <= trap->b2.y &&
-                    trap->b1.z <= work->field_E4C && work->field_E4C <= trap->b2.z)
+                if (trap->b1.x <= work->field_E44.vx && work->field_E44.vx <= trap->b2.x &&
+                    trap->b1.y <= work->field_E44.vy && work->field_E44.vy <= trap->b2.y &&
+                    trap->b1.z <= work->field_E44.vz && work->field_E44.vz <= trap->b2.z)
                     break;
             }
         }
@@ -817,7 +814,7 @@ void s05a_800D9A14(Work *work)
     {
         HZD_HDL *hzd = work->control.map->hzd;
         HZD_GRP *grp = hzd->grp;
-        trap = (HZD_TRP *)grp->triggers;
+        trap = &grp->triggers->trap;
         cnt = grp->n_triggers - hzd->n_cameras;
         if (cnt <= 0) return;
         for (; cnt > 0; cnt--, trap++)
