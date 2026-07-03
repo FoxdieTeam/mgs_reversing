@@ -817,6 +817,7 @@ void s05a_800E1014(CONTROL *control, HZD_HDL *hzd)
     flags = HZD_LevelHazardCheck(hzd, &control->mov, HZD_CHK_F_FLOOR);
     HZD_GetLevelHeight(lvl);
 
+    /* -200 < lvl[1] - control->levels[0] < 200 */
     if (((flags & 2) != 0) && ((lvl[1] - control->levels[0]) + 199U < 399))
     {
         lvl[0] = lvl[1];

@@ -247,7 +247,7 @@ void s05a_800E1448(Camera *actor)
 
         hzd = listener->field_4C->hzd;
         grp = hzd->grp;
-        trp = (HZD_TRP *)grp->triggers;
+        trp = &grp->triggers->trap;
 
         for (i = grp->n_triggers - hzd->n_cameras; i > 0; i--, trp++)
         {
