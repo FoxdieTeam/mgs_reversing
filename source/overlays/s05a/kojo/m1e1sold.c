@@ -106,21 +106,6 @@ typedef struct _CamActor
     HZD_FLR   trap;            /* 0x102C */
 } CamActor;
 
-typedef struct _DfVec
-{
-    u_short field_0;
-    u_short field_2;
-    u_short field_4;
-} DfVec;
-
-typedef struct _UVec
-{
-    u_short vx;
-    u_short vy;
-    u_short vz;
-    u_short pad;
-} UVec;
-
 typedef struct _Sol
 {
     GV_ACT    actor;       /* 0x000 */
@@ -302,7 +287,7 @@ int s05a_800DEC18(Work *work, SVECTOR *s2, int a2)
     return v;
 }
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DEDE8.s")
-int s05a_800DF834(int arg0, DfVec *vec, u_short *arg3)
+int s05a_800DF834(int arg0, SVECTOR *vec, u_short *arg3)
 {
     SVECTOR d;
     SVECTOR e;
@@ -320,9 +305,9 @@ int s05a_800DF834(int arg0, DfVec *vec, u_short *arg3)
     d.vx = s05a_dword_800C362C->field_DC->field_4AC;
     d.vy = s05a_dword_800C362C->field_DC->field_4B0;
     d.vz = s05a_dword_800C362C->field_DC->field_4B4;
-    d.vx -= vec->field_0;
-    d.vy -= vec->field_2;
-    d.vz -= vec->field_4;
+    d.vx -= vec->vx;
+    d.vy -= vec->vy;
+    d.vz -= vec->vz;
 
     e.vx = s05a_dword_800C362C->field_DC->field_420->field_14 -
            s05a_dword_800C362C->field_DC->field_420->field_08;
@@ -342,7 +327,7 @@ int s05a_800DF834(int arg0, DfVec *vec, u_short *arg3)
 }
 int s05a_800DF9C8(TARGET *t, int flags)
 {
-    UVec    delta;
+    SVECTOR delta;
     SVECTOR e;
     int     i;
     short   dx, dy, dz;
@@ -367,12 +352,12 @@ int s05a_800DF9C8(TARGET *t, int flags)
 
     if (s05a_dword_800C362C->field_EB0 != 0)
     {
-        delta = *(UVec *)&s05a_dword_800C362C->field_EB0->field_1C0->center;
-        dx = delta.vx - ((UVec *)&t->center)->vx;
+        delta = s05a_dword_800C362C->field_EB0->field_1C0->center;
+        dx = delta.vx - t->center.vx;
         delta.vx = dx;
-        dy = delta.vy - ((UVec *)&t->center)->vy;
+        dy = delta.vy - t->center.vy;
         delta.vy = dy;
-        dz = delta.vz - ((UVec *)&t->center)->vz;
+        dz = delta.vz - t->center.vz;
         delta.vz = dz;
 
         e.vx = s05a_dword_800C362C->field_DC->field_420->field_14 -
@@ -444,14 +429,14 @@ int s05a_800DF9C8(TARGET *t, int flags)
 
     for (i = 0; i < 10; i++)
     {
-        dx = ((UVec *)&s05a_dword_800C362C->field_718[i]->center)->vx -
-             ((UVec *)&t->center)->vx;
+        dx = s05a_dword_800C362C->field_718[i]->center.vx -
+             t->center.vx;
         delta.vx = dx;
-        dy = ((UVec *)&s05a_dword_800C362C->field_718[i]->center)->vy -
-             ((UVec *)&t->center)->vy;
+        dy = s05a_dword_800C362C->field_718[i]->center.vy -
+             t->center.vy;
         delta.vy = dy;
-        dz = ((UVec *)&s05a_dword_800C362C->field_718[i]->center)->vz -
-             ((UVec *)&t->center)->vz;
+        dz = s05a_dword_800C362C->field_718[i]->center.vz -
+             t->center.vz;
         delta.vz = dz;
         if (s05a_dword_800C362C->field_718[i]->damaged != 0)
         {
