@@ -1,10 +1,6 @@
 #include "game/game.h"
 #include "libgcl/libgcl.h"
 
-/* ------------------------------------------------------------------ *
- * s05a_800D26CC  --  m1e1 DIRECTOR constructor (GCL config parser)
- * ------------------------------------------------------------------ */
-
 typedef struct _M1e1Dir M1e1Dir;
 
 typedef struct
@@ -18,11 +14,7 @@ struct _M1e1Dir
 {
     GV_ACT  actor;          /* 0x000 */
     CONTROL control;        /* 0x020 */
-    char    pad_9C[0xB0 - (0x20 + sizeof(CONTROL))];
-    int     field_B0;       /* 0x0B0 */
-    int     field_B4;       /* 0x0B4 */
-    int     field_B8;       /* 0x0B8 */
-    char    pad_BC[0xDC - 0xBC];
+    MATRIX  light[2];       /* 0x09C */
     OBJECT  body[7];        /* 0x0DC stride 0xE4 */
     TARGET *field_718[10];  /* 0x718 */
     int     field_740;      /* 0x740 */
@@ -198,9 +190,9 @@ void *s05a_800D26CC(int a0, int a1)
         return 0;
     }
 
-    work->field_B0 = 0xFF;
-    work->field_B4 = 0xFF;
-    work->field_B8 = 0xFF;
+    work->light[0].t[0] = 0xFF;
+    work->light[0].t[1] = 0xFF;
+    work->light[0].t[2] = 0xFF;
 
     /* ---- option 'e' ---- */
     if (GCL_GetOption('e'))
@@ -415,43 +407,43 @@ void *s05a_800D26CC(int a0, int a1)
     name = GV_StrCode(s05a_dword_800E3414);
     GM_InitObject(&work->body[0], name, 0x2D, 0);
     GM_ConfigObjectJoint(&work->body[0]);
-    GM_ConfigObjectLight(&work->body[0], (MATRIX *)&work->pad_9C[0]);
+    GM_ConfigObjectLight(&work->body[0], &work->light[0]);
     *(int *)&work->body[0].objs->flag |= 0x80;
 
     name = GV_StrCode(s05a_dword_800E341C);
     GM_InitObject(&work->body[1], name, 0x2D, 0);
     GM_ConfigObjectJoint(&work->body[1]);
-    GM_ConfigObjectLight(&work->body[1], (MATRIX *)&work->pad_9C[0]);
+    GM_ConfigObjectLight(&work->body[1], &work->light[0]);
     *(int *)&work->body[1].objs->flag |= 0x80;
 
     name = GV_StrCode(s05a_dword_800E3424);
     GM_InitObject(&work->body[2], name, 0x2D, 0);
     GM_ConfigObjectJoint(&work->body[2]);
-    GM_ConfigObjectLight(&work->body[2], (MATRIX *)&work->pad_9C[0]);
+    GM_ConfigObjectLight(&work->body[2], &work->light[0]);
     *(int *)&work->body[2].objs->flag |= 0x80;
 
     name = GV_StrCode(s05a_dword_800E342C);
     GM_InitObject(&work->body[3], name, 0x2D, 0);
     GM_ConfigObjectJoint(&work->body[3]);
-    GM_ConfigObjectLight(&work->body[3], (MATRIX *)&work->pad_9C[0]);
+    GM_ConfigObjectLight(&work->body[3], &work->light[0]);
     *(int *)&work->body[3].objs->flag |= 0x80;
 
     name = GV_StrCode(s05a_dword_800E3434);
     GM_InitObject(&work->body[4], name, 0x2D, 0);
     GM_ConfigObjectJoint(&work->body[4]);
-    GM_ConfigObjectLight(&work->body[4], (MATRIX *)&work->pad_9C[0]);
+    GM_ConfigObjectLight(&work->body[4], &work->light[0]);
     *(int *)&work->body[4].objs->flag |= 0x80;
 
     name = GV_StrCode(s05a_dword_800E343C);
     GM_InitObject(&work->body[5], name, 0x2D, 0);
     GM_ConfigObjectJoint(&work->body[5]);
-    GM_ConfigObjectLight(&work->body[5], (MATRIX *)&work->pad_9C[0]);
+    GM_ConfigObjectLight(&work->body[5], &work->light[0]);
     *(int *)&work->body[5].objs->flag |= 0x80;
 
     name = GV_StrCode(s05a_dword_800E3444);
     GM_InitObject(&work->body[6], name, 0x2D, 0);
     GM_ConfigObjectJoint(&work->body[6]);
-    GM_ConfigObjectLight(&work->body[6], (MATRIX *)&work->pad_9C[0]);
+    GM_ConfigObjectLight(&work->body[6], &work->light[0]);
     *(int *)&work->body[6].objs->flag |= 0x80;
 
     /* ======================= SECTION 1: derived ======================= */
