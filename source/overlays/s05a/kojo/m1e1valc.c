@@ -38,8 +38,7 @@ struct _Work
 {
     GV_ACT  actor;       /* 0x000 */
     CONTROL control;     /* 0x020 */
-    MATRIX  light;       /* 0x09C */
-    char    pad_BC[0xDC - 0xBC];
+    MATRIX  light[2];    /* 0x09C */
     OBJECT  body;        /* 0x0DC */
     char    pad_1C0[0x1E8 - 0x1C0];
     int     field_1E8;   /* 0x1E8 */
@@ -127,7 +126,7 @@ void s05a_800DD1C8(M1e1 *m1e1)
             m1e1->field_EBC->field_214 == 0)
         {
             m1e1->field_140 = GV_NearSpeed(m1e1->field_140, -0x638, 0x2D);
-            if ((u_short)(m1e1->field_140 + 0x5B1) < 0x2D)
+            if (m1e1->field_140 >= -0x5B1 && m1e1->field_140 < -0x584)
             {
                 GM_SeSetPan(&pos, 0xBC, s1);
             }
@@ -135,7 +134,7 @@ void s05a_800DD1C8(M1e1 *m1e1)
         if (m1e1->field_EBC == NULL || m1e1->field_EBC->body.action == 5)
         {
             m1e1->field_140 = GV_NearSpeed(m1e1->field_140, 0, 0x2D);
-            if ((u_short)(m1e1->field_140 + 0xB4) < 0x2D)
+            if (m1e1->field_140 >= -0xB4 && m1e1->field_140 < -0x87)
             {
                 GM_SeSetPan(&pos, 0xBB, s1);
             }
@@ -163,14 +162,14 @@ Work *NewM1E1Vulcan(M1e1 *m1e1)
     work->control.r_sphere = -2;
     work->control.interp = 0;
     GM_ConfigControlAttribute(&work->control, 5);
-    work->light.t[0] = work->field_1EC->field_B0;
-    work->light.t[1] = work->field_1EC->field_B4;
-    work->light.t[2] = work->field_1EC->field_B8;
+    work->light[0].t[0] = work->field_1EC->field_B0;
+    work->light[0].t[1] = work->field_1EC->field_B4;
+    work->light[0].t[2] = work->field_1EC->field_B8;
     GM_InitObject(&work->body, GV_StrCode(s05a_dword_800E3528), 0x32D, GV_StrCode(s05a_dword_800E3530));
     GM_ConfigObjectJoint(&work->body);
     GM_ConfigMotionControl(&work->body, &work->m_ctrl, GV_StrCode(s05a_dword_800E3530),
                            work->m_segs1, work->m_segs2, &work->subcontrol, work->rots);
-    GM_ConfigObjectLight(&work->body, &work->light);
+    GM_ConfigObjectLight(&work->body, &work->light[0]);
     DG_InvisibleObjs(work->body.objs);
     for (i = 0; i < 16; i++)
     {
