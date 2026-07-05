@@ -45,8 +45,8 @@ struct _Work
     int     field_1E8;   /* 0x1E8 */
     M1e1   *field_1EC;   /* 0x1EC */
     char    pad_1F0[0x1F8 - 0x1F0];
-    int     field_1F8;   /* 0x1F8 */
-    int     field_1FC;   /* 0x1FC */
+    int     last_weapon; /* 0x1F8 */
+    int     last_item;   /* 0x1FC */
     char    pad_200[0x214 - 0x200];
     int     field_214;   /* 0x214 */
     char    pad_218[0x234 - 0x218];
@@ -66,7 +66,7 @@ extern const char s05a_dword_800E3530[];
 
 void  s05a_800DD6B8(Work *work);
 void  s05a_800DDC14(Work *work);
-Work *s05a_800DD440(M1e1 *m1e1);
+Work *NewM1E1Vulcan(M1e1 *m1e1);
 
 void s05a_800DD1C8(M1e1 *m1e1)
 {
@@ -101,7 +101,7 @@ void s05a_800DD1C8(M1e1 *m1e1)
         {
             if (m1e1->field_EC4 < 2 || !(rand() & 1))
             {
-                m1e1->field_EBC = s05a_800DD440(m1e1);
+                m1e1->field_EBC = NewM1E1Vulcan(m1e1);
                 GM_ConfigObjectAction(&m1e1->field_EBC->body, 2, 0, 5);
             }
             else
@@ -142,7 +142,7 @@ void s05a_800DD1C8(M1e1 *m1e1)
         }
     }
 }
-Work *s05a_800DD440(M1e1 *m1e1)
+Work *NewM1E1Vulcan(M1e1 *m1e1)
 {
     Work *work;
     int   i;
@@ -171,7 +171,7 @@ Work *s05a_800DD440(M1e1 *m1e1)
     GM_ConfigMotionControl(&work->body, &work->m_ctrl, GV_StrCode(s05a_dword_800E3530),
                            work->m_segs1, work->m_segs2, &work->subcontrol, work->rots);
     GM_ConfigObjectLight(&work->body, &work->light);
-    work->body.objs->flag |= 0x80;
+    DG_InvisibleObjs(work->body.objs);
     for (i = 0; i < 16; i++)
     {
         work->body.objs->objs[i].world = DG_ZeroMatrix;
@@ -180,12 +180,12 @@ Work *s05a_800DD440(M1e1 *m1e1)
     {
         work->field_1EC->field_D54 = 3;
         work->field_1EC->field_ED0 = 2;
-        work->field_1F8 = GM_CurrentWeaponId;
-        work->field_1FC = GM_CurrentItemId;
-        GM_CurrentWeaponId = -1;
-        if ((u_short)(GM_CurrentItemId - 5) >= 2)
+        work->last_weapon = GM_CurrentWeaponId;
+        work->last_item = GM_CurrentItemId;
+        GM_CurrentWeaponId = WP_None;
+        if (GM_CurrentItemId != IT_NVG && GM_CurrentItemId != IT_ThermG)
         {
-            GM_CurrentItemId = -1;
+            GM_CurrentItemId = IT_None;
         }
     }
     work->field_214 = 0x1E;
@@ -207,8 +207,8 @@ void s05a_800DDC14(Work *work)
         }
         work->field_1EC->field_ED0 = 1;
         work->field_1EC->field_F48 = work->field_1EC->field_DB8;
-        GM_CurrentWeaponId = work->field_1F8;
-        GM_CurrentItemId = work->field_1FC;
+        GM_CurrentWeaponId = work->last_weapon;
+        GM_CurrentItemId = work->last_item;
     }
 
     work->field_1EC->field_EBC = 0;
