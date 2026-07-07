@@ -5,8 +5,7 @@ typedef struct _Work
     GV_ACT  actor;       /* 0x000 */
     CONTROL control;     /* 0x020 */
     OBJECT  body;        /* 0x09C */
-    MATRIX  field_180;   /* 0x180 */
-    char    pad_1A0[0x1C0 - 0x1A0];
+    MATRIX  light[2];    /* 0x180 */
     TARGET  target;      /* 0x1C0 */
     char    pad_208[0x228 - 0x208];
     SVECTOR *field_228;  /* 0x228 */
@@ -60,7 +59,7 @@ void s05a_800DB278(Work *work)
     work->field_22C = work->control.mov;
     GM_ActControl(&work->control);
     GM_ActObject2(&work->body);
-    DG_GetLightMatrix2(&work->control.mov, &work->field_180);
+    DG_GetLightMatrix2(&work->control.mov, &work->light[0]);
     GM_MoveTarget(&work->target, &work->control.mov);
     work->field_244++;
     if (work->field_244 < 2)
@@ -116,21 +115,10 @@ void s05a_800DB654(Work *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
 }
-typedef struct _CasingTex
-{
-    char    pad_00[4];
-    u_short field_04; /* 0x04 -> tpage */
-    u_short field_06; /* 0x06 -> clut */
-    u_char  field_08; /* 0x08 -> u */
-    u_char  field_09; /* 0x09 -> v */
-    u_char  field_0A; /* 0x0A -> w */
-    u_char  field_0B; /* 0x0B -> h */
-} CasingTex;
-
 extern const char s05a_dword_800E34E0[];
 void s05a_800DBA94(Casing *work);
 void s05a_800DBC44(Casing *work);
-void s05a_800DBC80(POLY_FT4 *poly, CasingTex *src);
+void s05a_800DBC80(POLY_FT4 *poly, DG_TEX *src);
 
 void *s05a_800DB684(Work *parent)
 {
@@ -155,8 +143,8 @@ void *s05a_800DB684(Work *parent)
     prim = GM_MakePrim(0x12, 2, casing->verts, NULL);
     casing->field_24 = prim;
     tex = DG_GetTexture(GV_StrCode(s05a_dword_800E34E0));
-    s05a_800DBC80((POLY_FT4 *)casing->field_24->packs[0], (CasingTex *)tex);
-    s05a_800DBC80((POLY_FT4 *)casing->field_24->packs[1], (CasingTex *)tex);
+    s05a_800DBC80((POLY_FT4 *)casing->field_24->packs[0], tex);
+    s05a_800DBC80((POLY_FT4 *)casing->field_24->packs[1], tex);
     casing->field_24->raise = 0x3E8;
 
     off1.vx = *(u_short *)&parent->body.objs->def->min.vx - *(u_short *)&parent->body.objs->def->max.vx;
@@ -241,7 +229,7 @@ void s05a_800DBC44(Casing *work)
     }
 }
 
-void s05a_800DBC80(POLY_FT4 *poly, CasingTex *src)
+void s05a_800DBC80(POLY_FT4 *poly, DG_TEX *src)
 {
     int i;
 
@@ -249,11 +237,11 @@ void s05a_800DBC80(POLY_FT4 *poly, CasingTex *src)
     {
         setPolyFT4(poly);
         {
-            int u = src->field_08;
-            int w = src->field_0A;
+            int u = src->off_x;
+            int w = src->w;
             int uw = u + w;
-            int v = src->field_09;
-            int h = src->field_0B;
+            int v = src->off_y;
+            int h = src->h;
 
             poly->u0 = u;
             poly->v0 = v;
@@ -264,8 +252,8 @@ void s05a_800DBC80(POLY_FT4 *poly, CasingTex *src)
             poly->u3 = uw;
             poly->v3 = v + h;
         }
-        poly->tpage = src->field_04;
-        poly->clut = src->field_06;
+        poly->tpage = src->tpage;
+        poly->clut = src->clut;
         poly->code |= 2;
         poly->tpage |= 0x60;
     }
