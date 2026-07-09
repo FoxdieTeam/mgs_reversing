@@ -140,15 +140,15 @@ void *s05a_800DB684(Work *parent)
     casing->field_74 = 0xC0;
     casing->field_20 = GM_CurrentMap;
 
-    prim = GM_MakePrim(0x12, 2, casing->verts, NULL);
+    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 2, casing->verts, NULL);
     casing->field_24 = prim;
     tex = DG_GetTexture(GV_StrCode(s05a_dword_800E34E0));
     s05a_800DBC80((POLY_FT4 *)casing->field_24->packs[0], tex);
     s05a_800DBC80((POLY_FT4 *)casing->field_24->packs[1], tex);
     casing->field_24->raise = 0x3E8;
 
-    off1.vx = *(u_short *)&parent->body.objs->def->min.vx - *(u_short *)&parent->body.objs->def->max.vx;
-    off1.vy = *(u_short *)&parent->body.objs->def->min.vy - *(u_short *)&parent->body.objs->def->max.vy;
+    off1.vx = parent->body.objs->def->min.vx - parent->body.objs->def->max.vx;
+    off1.vy = parent->body.objs->def->min.vy - parent->body.objs->def->max.vy;
     off1.vz = 0;
     off2.vx = -off1.vx;
     off2.vz = 0;

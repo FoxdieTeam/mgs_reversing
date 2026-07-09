@@ -95,6 +95,8 @@ def ninja_run():
         r'sndtst\.c:\d+: warning: `code\' might be used uninitialized in this function',
         r'select\.c:\d+: warning: `proc_id\' might be used uninitialized in this function',
         r'select\.c:\d+: warning: `entry_name\' might be used uninitialized in this function',
+        # in kojo
+        r'm1e1came\.c:\d+: warning: unused variable `pad\'',
         # in libfs
         r'select\.c:\d+: warning: control reaches end of non-void function',
         r'select\.c:\d+: warning: unsigned int format, pointer arg \(arg 2\)',
@@ -116,8 +118,6 @@ def ninja_run():
         r'blur\.c:\d+: warning: unused variable `pad3\'',
         # in thing
         r'door\.c:\d+: warning: unused variable `pad\'',
-        # in s05a
-        r'm1e1came\.c:\d+: warning: unused variable `pad\'',
         r'sphere.c:\d+: warning: `xoff\' might be used uninitialized in this function',
         r'sphere.c:\d+: warning: `yoff\' might be used uninitialized in this function',
         r'sphere.c:\d+: warning: `tpage\' might be used uninitialized in this function',
