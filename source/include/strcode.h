@@ -11,6 +11,7 @@
 //-----------------------------------------------------------------------------
 
 #define HASH_TRAP_ALL           0x14c9 // GV_StrCode( "？" )
+#define HASH_TRAP_KETCHUP       0xc09e // GV_StrCode( "ketchup" )
 
 //  Events
 #define HASH_ENTER              0x0dd2 // GV_StrCode( "入る" )
