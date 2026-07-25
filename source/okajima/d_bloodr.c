@@ -1,88 +1,81 @@
 #include "d_bloodr.h"
 
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
-
 #include "common.h"
-#include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "libgv/libgv.h"
 #include "game/game.h"
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct _DBloodWorkr
+typedef struct _Work
 {
     GV_ACT   actor;
-    DG_PRIM *field_20_prims;
-    SVECTOR  field_24[16];
-    SVECTOR  field_A4_positions[4];
-    SVECTOR  field_C4_rotation;
-    int      field_CC_map;
-    char     field_D0_pad[0x4];
-    int      field_D4_sequence;
-    int      field_D8;
-} DBloodWorkr;
-
-#define EXEC_LEVEL GV_ACTOR_AFTER2
+    DG_PRIM *prim;
+    SVECTOR  verts[16];
+    SVECTOR  pos[4];
+    SVECTOR  rot;
+    int      map;
+    char     unused[4];
+    int      time;
+    int      height;
+} Work;
 
 /*---------------------------------------------------------------------------*/
 
-STATIC void d_bloodr_Die(DBloodWorkr *work)
+static void Die(Work *work)
 {
-    GM_FreePrim(work->field_20_prims);
+    GM_FreePrim(work->prim);
 }
 
-STATIC void d_bloodr_Act(DBloodWorkr *work)
+static void Act(Work *work)
 {
     SVECTOR vecs[4];
-    SVECTOR rotation;
+    SVECTOR rot;
     SVECTOR diff;
-    int temp_s0;
-    int i;
+    int     dist;
+    int     i;
 
-    GM_SetCurrentMap(work->field_CC_map);
+    GM_SetCurrentMap(work->map);
 
-    if ((work->field_D4_sequence > 10) && (work->field_D4_sequence < 200))
+    if (work->time > 10 && work->time < 200)
     {
-        temp_s0 = ((work->field_D4_sequence - 10) * 3) / 2;
-
+        dist = (work->time - 10) * 3 / 2;
         for (i = 0; i < 4; i++)
         {
-            vecs[0].vx = -temp_s0;
+            vecs[0].vx = -dist;
             vecs[0].vy = 0;
-            vecs[0].vz = temp_s0;
+            vecs[0].vz = dist;
 
-            vecs[1].vx = temp_s0;
+            vecs[1].vx = dist;
             vecs[1].vy = 0;
-            vecs[1].vz = temp_s0;
+            vecs[1].vz = dist;
 
-            vecs[2].vx = -temp_s0;
+            vecs[2].vx = -dist;
             vecs[2].vy = 0;
-            vecs[2].vz = -temp_s0;
+            vecs[2].vz = -dist;
 
-            vecs[3].vx = temp_s0;
+            vecs[3].vx = dist;
             vecs[3].vy = 0;
-            vecs[3].vz = -temp_s0;
+            vecs[3].vz = -dist;
 
-            rotation = work->field_C4_rotation;
-            rotation.vy += i * 200;
+            rot = work->rot;
+            rot.vy += i * 200;
 
-            DG_SetPos2(&work->field_A4_positions[i], &work->field_C4_rotation);
-            DG_PutVector(vecs, &work->field_24[i * 4], 4);
+            DG_SetPos2(&work->pos[i], &work->rot);
+            DG_PutVector(vecs, &work->verts[i * 4], 4);
         }
     }
 
-    if ((work->field_D4_sequence < 200) && (++work->field_D4_sequence == 100))
+    if (work->time < 200 && ++work->time == 100)
     {
         GM_PlayerStatus |= PLAYER_KETCHUP;
     }
 
-    if (work->field_D4_sequence >= 100)
+    if (work->time >= 100)
     {
         if (GM_PlayerStatus & PLAYER_GROUND)
         {
-            GV_SubVec3(&GM_PlayerPosition, &work->field_A4_positions[0], &diff);
+            GV_SubVec3(&GM_PlayerPosition, &work->pos[0], &diff);
 
             if (GV_VecLen3(&diff) > 640)
             {
@@ -100,102 +93,83 @@ STATIC void d_bloodr_Act(DBloodWorkr *work)
     }
 }
 
-STATIC void d_bloodr_loader_helper_helper_80072DE8(POLY_FT4 *pPolysA, POLY_FT4 *pPolysB, int count, DG_TEX *tex)
+static void InitPacks(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *tex)
 {
-    while (--count >= 0)
+    while (--n_packs >= 0)
     {
-        setPolyFT4(pPolysA);
-        setSemiTrans(pPolysA, 1);
+        setPolyFT4(packs0);
+        setSemiTrans(packs0, 1);
 
-        setPolyFT4(pPolysB);
-        setSemiTrans(pPolysB, 1);
+        setPolyFT4(packs1);
+        setSemiTrans(packs1, 1);
 
-        setRGB0(pPolysA, 0, 255, 255);
-        DG_SetPacketTexture4(pPolysA, tex);
+        setRGB0(packs0, 0, 255, 255);
+        DG_SetPacketTexture4(packs0, tex);
 
-        setRGB0(pPolysB, 0, 255, 255);
-        DG_SetPacketTexture4(pPolysB, tex);
+        setRGB0(packs1, 0, 255, 255);
+        DG_SetPacketTexture4(packs1, tex);
 
-        pPolysA->tpage |= 0x40;
-        pPolysA++;
+        packs0->tpage |= (2 << 5);
+        packs0++;
 
-        pPolysB->tpage |= 0x40;
-        pPolysB++;
+        packs1->tpage |= (2 << 5);
+        packs1++;
     }
 }
 
-STATIC int d_bloodr_loader_helper_80072EFC(DBloodWorkr *work)
+static int InitPrim(Work *work)
 {
-    int indices[4];
-    SVECTOR vecs[4];
-    int i;
+    int      unit[4];
+    SVECTOR  vecs[4];
+    int      i;
     DG_PRIM *prim;
-    DG_TEX *tex;
+    DG_TEX  *tex;
 
-    indices[0] = 0;
-    indices[1] = 5;
-    indices[2] = 2;
-    indices[3] = 7;
+    unit[0] = 0;
+    unit[1] = 5;
+    unit[2] = 2;
+    unit[3] = 7;
 
-    work->field_C4_rotation = DG_ZeroVector;
+    work->rot = DG_ZeroVector;
 
     for (i = 0; i < 4; i++)
     {
-        work->field_A4_positions[i].vx = GM_PlayerBody->objs->objs[indices[i]].world.t[0];
-        work->field_A4_positions[i].vy = GM_PlayerBody->objs->objs[0].world.t[1] - work->field_D8;
-        work->field_A4_positions[i].vz = GM_PlayerBody->objs->objs[indices[i]].world.t[2];
+        work->pos[i].vx = GM_PlayerBody->objs->objs[unit[i]].world.t[0];
+        work->pos[i].vy = GM_PlayerBody->objs->objs[0].world.t[1] - work->height;
+        work->pos[i].vz = GM_PlayerBody->objs->objs[unit[i]].world.t[2];
 
-        vecs[0].vx = 0;
-        vecs[0].vy = 0;
-        vecs[0].vz = 0;
+        setVector(&vecs[0], 0, 0, 0);
+        setVector(&vecs[1], 0, 0, 0);
+        setVector(&vecs[2], 0, 0, 0);
+        setVector(&vecs[3], 0, 0, 0);
 
-        vecs[1].vx = 0;
-        vecs[1].vy = 0;
-        vecs[1].vz = 0;
-
-        vecs[2].vx = 0;
-        vecs[2].vy = 0;
-        vecs[2].vz = 0;
-
-        vecs[3].vx = 0;
-        vecs[3].vy = 0;
-        vecs[3].vz = 0;
-
-        DG_SetPos2(&work->field_A4_positions[i], &work->field_C4_rotation);
-        DG_PutVector(vecs, &work->field_24[i * 4], 4);
+        DG_SetPos2(&work->pos[i], &work->rot);
+        DG_PutVector(vecs, &work->verts[i * 4], 4);
     }
 
-    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 4, work->field_24, NULL);
-    work->field_20_prims = prim;
-
-    if (!prim)
-    {
-        return -1;
-    }
+    work->prim  = prim = GM_MakePrim(DG_PRIM_POLY_FT4, 4, work->verts, NULL);
+    if (prim == NULL) return -1;
 
     prim->raise = 0;
+
     tex = DG_GetTexture(GV_StrCode("ketchap_grey"));
+    if (tex == NULL) return -1;
 
-    if (!tex)
-    {
-        return -1;
-    }
-
-    d_bloodr_loader_helper_helper_80072DE8(prim->packs[0], prim->packs[1], 4, tex);
+    InitPacks(prim->packs[0], prim->packs[1], 4, tex);
     return 0;
 }
 
-STATIC int d_bloodr_GetResources(DBloodWorkr *work, int map)
+static int GetResources(Work *work, int map)
 {
-    work->field_CC_map = map;
-    work->field_D4_sequence = 0;
-    work->field_D8 = GM_PlayerControl->height;
+    work->map = map;
+    work->time = 0;
+    work->height = GM_PlayerControl->height;
 
     GM_SetCurrentMap(map);
 
-    if (d_bloodr_loader_helper_80072EFC(work) == -1)
+    if (InitPrim(work) == -1)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
     }
 
     return 0;
@@ -203,21 +177,20 @@ STATIC int d_bloodr_GetResources(DBloodWorkr *work, int map)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewKetchap_r(int map)
+void *NewKetchapRing(int map)
 {
-    DBloodWorkr *work;
+    Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(DBloodWorkr));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(&work->actor, &d_bloodr_Act, &d_bloodr_Die, "d_bloodr.c");
+        GV_SetNamedActor(work, Act, Die, "d_bloodr.c");
 
-        if (d_bloodr_GetResources(work, map) < 0)
+        if (GetResources(work, map) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }
-
     return (void *)work;
 }

@@ -3,6 +3,6 @@
 
 #include "game/game.h"
 
-void *NewKetchap(CONTROL *control, OBJECT *parent_obj, int num_parent);
+void *NewKetchap(CONTROL *root_ctrl, OBJECT *root_obj, int unit);
 
 #endif // __MGS_OKAJIMA_D_BLOOD_H__
