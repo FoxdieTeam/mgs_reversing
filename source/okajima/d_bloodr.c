@@ -177,7 +177,7 @@ static int GetResources(Work *work, int map)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewKetchapRing(int map)
+void *NewKetchap_r(int map)
 {
     Work *work;
 

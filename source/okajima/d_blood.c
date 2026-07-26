@@ -60,7 +60,7 @@ static void Act(Work *work)
                 {
                     GM_SeSet2(0, 63, 183);
                     work->state = 1;
-                    NewKetchapRing(work->map);
+                    NewKetchap_r(work->map);
                     GM_GameStatus |= STATE_PADRELEASE;
                 }
                 else

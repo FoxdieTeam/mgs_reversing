@@ -1642,7 +1642,7 @@
 80072DE8 276 d_bloodr_loader_helper_helper_80072DE8
 80072EFC 496 d_bloodr_loader_helper_80072EFC
 800730EC 92 d_bloodr_GetResources
-80073148 132 NewKetchapRing
+80073148 132 NewKetchap_r
 800731CC 44 claymore_800731CC
 800731F8 184 claymore_loader_helper2_800731F8
 800732B0 180 claymore_act_helper_800732B0

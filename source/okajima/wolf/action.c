@@ -10,7 +10,7 @@ SVECTOR wolf2_800C3568 = {-1024, 0, 0};
 extern SVECTOR wolf2_position;
 
 void   NewBlood( MATRIX *, int );
-void * NewDBloods_800D5B70( SVECTOR *, int, int, int );
+void * NewKetchap_s( SVECTOR *, int, int, int );
 
 void wolf2_PlayVoice(Wolf2Work *work, int index)
 {
@@ -52,7 +52,7 @@ void wolf2_PutBlood(Wolf2Work *work, int unit, int count)
     pos.vx = world.t[0];
     pos.vy = -30000;
     pos.vz = world.t[2];
-    NewDBloods_800D5B70(&pos, 0, GV_RandU(256) + 256, 60);
+    NewKetchap_s(&pos, 0, GV_RandU(256) + 256, 60);
 }
 
 void wolf2_SetAction(Wolf2Work *work, int action)
