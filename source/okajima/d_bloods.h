@@ -5,6 +5,6 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-void *NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3);
+void *NewKetchap_s(SVECTOR *pos, int type, int size, int speed);
 
 #endif // __MGS_OKAJIMA_D_BLOODS_H__

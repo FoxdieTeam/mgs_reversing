@@ -1,290 +1,282 @@
 #include "d_bloods.h"
 
 #include "common.h"
-#include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "libgv/libgv.h"
 #include "game/game.h"
 
 typedef struct _Work
 {
     GV_ACT   actor;
     DG_PRIM *prim;
-    SVECTOR  vecs[8];
-    SVECTOR  f64[2];
+    SVECTOR  verts[8];
+    SVECTOR  pos[2];
     SVECTOR  rot;
     int      map;
-    int      f80;
-    SVECTOR  f84;
-    int      f8C;
-    int      f90;
-    int      f94;
+    int      time;
+    SVECTOR  start_pos;
+    int      type;
+    int      size;
+    int      max_time;
 } Work;
 
-int d00a_dword_800E1650;
+static int blood_count;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
-
-void DBloodsDie_800D5078(Work *work)
+static void Die(Work *work)
 {
     GM_FreePrim(work->prim);
 }
 
-void DBloodsAct_800D50B4(Work *work)
+static void Act(Work *work)
 {
-    SVECTOR sp10[4];
-    int     iVar2;
-    int     iVar4;
+    SVECTOR vecs[4];
+    int     dist;
 
     GM_CurrentMap = work->map;
 
-    switch(work->f8C)
+    switch (work->type)
     {
     case 0:
     case 2:
-        if (work->f80 < (work->f94 / 2))
+        if (work->time < (work->max_time / 2))
         {
-            iVar4 = (work->f90 * work->f80 * 2) / work->f94;
+            dist = work->size * work->time * 2 / work->max_time;
 
-            work->f64[0].vx = work->f84.vx;
-            work->f64[0].vy = work->f84.vy;
-            work->f64[0].vz = work->f84.vz;
+            work->pos[0].vx = work->start_pos.vx;
+            work->pos[0].vy = work->start_pos.vy;
+            work->pos[0].vz = work->start_pos.vz;
 
-            sp10[0].vx = (-iVar4 * 3) / 2;
-            sp10[0].vy = 0;
-            sp10[0].vz = iVar4;
+            vecs[0].vx = (-dist * 3) / 2;
+            vecs[0].vy = 0;
+            vecs[0].vz = dist;
 
-            sp10[1].vx = iVar4;
-            sp10[1].vy = 0;
-            sp10[1].vz = iVar4;
+            vecs[1].vx = dist;
+            vecs[1].vy = 0;
+            vecs[1].vz = dist;
 
-            sp10[2].vx = -iVar4;
-            sp10[2].vy = 0;
-            sp10[2].vz = -iVar4;
+            vecs[2].vx = -dist;
+            vecs[2].vy = 0;
+            vecs[2].vz = -dist;
 
-            sp10[3].vx = iVar4;
-            sp10[3].vy = 0;
-            sp10[3].vz = -iVar4;
+            vecs[3].vx = dist;
+            vecs[3].vy = 0;
+            vecs[3].vz = -dist;
 
-            DG_SetPos2(&work->f64[0], &work->rot);
-            DG_PutVector(sp10, work->vecs, 4);
+            DG_SetPos2(&work->pos[0], &work->rot);
+            DG_PutVector(vecs, work->verts, 4);
         }
 
-        if ((work->f80 > (work->f94 / 4)) && (work->f80 < work->f94))
+        if (work->time > (work->max_time / 4) && work->time < work->max_time)
         {
-            iVar2 = work->f90 * (work->f80 - (work->f94 / 4));
-            iVar4 = iVar2 / ((work->f94 * 3) / 4);
+            dist = work->size * (work->time - work->max_time / 4) / (work->max_time * 3 / 4);
 
-            work->f64[1].vx = work->f84.vx;
-            work->f64[1].vy = work->f84.vy;
-            work->f64[1].vz = work->f84.vz;
+            work->pos[1].vx = work->start_pos.vx;
+            work->pos[1].vy = work->start_pos.vy;
+            work->pos[1].vz = work->start_pos.vz;
 
-            sp10[0].vx = -iVar4;
-            sp10[0].vy = 0;
-            sp10[0].vz = (iVar4 * 2) / 3;
+            vecs[0].vx = -dist;
+            vecs[0].vy = 0;
+            vecs[0].vz = (dist * 2) / 3;
 
-            sp10[1].vx = iVar4;
-            sp10[1].vy = 0;
-            sp10[1].vz = (iVar4 * 2) / 3;
+            vecs[1].vx = dist;
+            vecs[1].vy = 0;
+            vecs[1].vz = (dist * 2) / 3;
 
-            sp10[2].vx = -iVar4 * 2;
-            sp10[2].vy = 0;
-            sp10[2].vz = (-iVar4 * 2) / 3;
+            vecs[2].vx = -dist * 2;
+            vecs[2].vy = 0;
+            vecs[2].vz = (-dist * 2) / 3;
 
-            sp10[3].vx = iVar4;
-            sp10[3].vy = 0;
-            sp10[3].vz = (-iVar4 * 2) / 3;
+            vecs[3].vx = dist;
+            vecs[3].vy = 0;
+            vecs[3].vz = (-dist * 2) / 3;
 
-            DG_SetPos2(&work->f64[1], &work->rot);
-            DG_PutVector(sp10, work->vecs + 4, 4);
+            DG_SetPos2(&work->pos[1], &work->rot);
+            DG_PutVector(vecs, work->verts + 4, 4);
         }
 
-        if (work->f80 < work->f94)
+        if (work->time < work->max_time)
         {
-            work->f80++;
+            work->time++;
         }
         break;
-
     case 1:
     case 3:
-        iVar4 = work->f90;
+        dist = work->size;
 
-        work->f64[0].vx = work->f84.vx;
-        work->f64[0].vy = work->f84.vy;
-        work->f64[0].vz = work->f84.vz;
+        work->pos[0].vx = work->start_pos.vx;
+        work->pos[0].vy = work->start_pos.vy;
+        work->pos[0].vz = work->start_pos.vz;
 
-        sp10[0].vx = (-iVar4 * 3) / 2;
-        sp10[0].vy = 0;
-        sp10[0].vz = iVar4;
+        vecs[0].vx = -dist * 3 / 2;
+        vecs[0].vy = 0;
+        vecs[0].vz = dist;
 
-        sp10[1].vx = iVar4;
-        sp10[1].vy = 0;
-        sp10[1].vz = iVar4;
+        vecs[1].vx = dist;
+        vecs[1].vy = 0;
+        vecs[1].vz = dist;
 
-        sp10[2].vx = -iVar4;
-        sp10[2].vy = 0;
-        sp10[2].vz = -iVar4;
+        vecs[2].vx = -dist;
+        vecs[2].vy = 0;
+        vecs[2].vz = -dist;
 
-        sp10[3].vx = iVar4;
-        sp10[3].vy = 0;
-        sp10[3].vz = -iVar4;
+        vecs[3].vx = dist;
+        vecs[3].vy = 0;
+        vecs[3].vz = -dist;
 
-        DG_SetPos2(&work->f64[0], &work->rot);
-        DG_PutVector(sp10, work->vecs, 4);
+        DG_SetPos2(&work->pos[0], &work->rot);
+        DG_PutVector(vecs, work->verts, 4);
 
-        iVar4 = (work->f90 * 120) / 100;
+        dist = work->size * 120 / 100;
 
-        work->f64[1].vx = work->f84.vx;
-        work->f64[1].vy = work->f84.vy;
-        work->f64[1].vz = work->f84.vz;
+        work->pos[1].vx = work->start_pos.vx;
+        work->pos[1].vy = work->start_pos.vy;
+        work->pos[1].vz = work->start_pos.vz;
 
-        sp10[0].vx = -iVar4;
-        sp10[0].vy = 0;
-        sp10[0].vz = (iVar4 * 2) / 3;
+        vecs[0].vx = -dist;
+        vecs[0].vy = 0;
+        vecs[0].vz = dist * 2 / 3;
 
-        sp10[1].vx = iVar4;
-        sp10[1].vy = 0;
-        sp10[1].vz = (iVar4 * 2) / 3;
+        vecs[1].vx = dist;
+        vecs[1].vy = 0;
+        vecs[1].vz = dist * 2 / 3;
 
-        sp10[2].vx = -iVar4 * 2;
-        sp10[2].vy = 0;
-        sp10[2].vz = (-iVar4 * 2) / 3;
+        vecs[2].vx = -dist * 2;
+        vecs[2].vy = 0;
+        vecs[2].vz = -dist * 2 / 3;
 
-        sp10[3].vx = iVar4;
-        sp10[3].vy = 0;
-        sp10[3].vz = (-iVar4 * 2) / 3;
+        vecs[3].vx = dist;
+        vecs[3].vy = 0;
+        vecs[3].vz = -dist * 2 / 3;
 
-        DG_SetPos2(&work->f64[1], &work->rot);
-        DG_PutVector(sp10, work->vecs + 4, 4);
+        DG_SetPos2(&work->pos[1], &work->rot);
+        DG_PutVector(vecs, work->verts + 4, 4);
         break;
-
     case 4:
     case 6:
-        if (d00a_dword_800E1650 < work->f94 / 2)
+        if (blood_count < work->max_time / 2)
         {
-            iVar4 = (work->f90 * d00a_dword_800E1650 * 2) / work->f94;
+            dist = work->size * blood_count * 2 / work->max_time;
 
-            work->f64[0].vx = work->f84.vx;
-            work->f64[0].vy = work->f84.vy;
-            work->f64[0].vz = work->f84.vz;
+            work->pos[0].vx = work->start_pos.vx;
+            work->pos[0].vy = work->start_pos.vy;
+            work->pos[0].vz = work->start_pos.vz;
 
-            sp10[0].vx = (-iVar4 * 3) / 2;
-            sp10[0].vy = 0;
-            sp10[0].vz = iVar4;
+            vecs[0].vx = -dist * 3 / 2;
+            vecs[0].vy = 0;
+            vecs[0].vz = dist;
 
-            sp10[1].vx = iVar4;
-            sp10[1].vy = 0;
-            sp10[1].vz = iVar4;
+            vecs[1].vx = dist;
+            vecs[1].vy = 0;
+            vecs[1].vz = dist;
 
-            sp10[2].vx = -iVar4;
-            sp10[2].vy = 0;
-            sp10[2].vz = -iVar4;
+            vecs[2].vx = -dist;
+            vecs[2].vy = 0;
+            vecs[2].vz = -dist;
 
-            sp10[3].vx = iVar4;
-            sp10[3].vy = 0;
-            sp10[3].vz = -iVar4;
+            vecs[3].vx = dist;
+            vecs[3].vy = 0;
+            vecs[3].vz = -dist;
 
-            DG_SetPos2(&work->f64[0], &work->rot);
-            DG_PutVector(sp10, work->vecs, 4);
+            DG_SetPos2(&work->pos[0], &work->rot);
+            DG_PutVector(vecs, work->verts, 4);
         }
 
-        if ((d00a_dword_800E1650 > (work->f94 / 4)) && (d00a_dword_800E1650 < work->f94))
+        if (blood_count > (work->max_time / 4) && blood_count < work->max_time)
         {
-            iVar2 = work->f90 * (d00a_dword_800E1650 - (work->f94 / 4));
-            iVar4 = iVar2 / ((work->f94 * 3) / 4);
+            dist = work->size * (blood_count - work->max_time / 4) / (work->max_time * 3 / 4);
 
-            work->f64[1].vx = work->f84.vx;
-            work->f64[1].vy = work->f84.vy;
-            work->f64[1].vz = work->f84.vz;
+            work->pos[1].vx = work->start_pos.vx;
+            work->pos[1].vy = work->start_pos.vy;
+            work->pos[1].vz = work->start_pos.vz;
 
-            sp10[0].vx = -iVar4;
-            sp10[0].vy = 0;
-            sp10[0].vz = (iVar4 * 2) / 3;
+            vecs[0].vx = -dist;
+            vecs[0].vy = 0;
+            vecs[0].vz = dist * 2 / 3;
 
-            sp10[1].vx = iVar4;
-            sp10[1].vy = 0;
-            sp10[1].vz = (iVar4 * 2) / 3;
+            vecs[1].vx = dist;
+            vecs[1].vy = 0;
+            vecs[1].vz = dist * 2 / 3;
 
-            sp10[2].vx = -iVar4 * 2;
-            sp10[2].vy = 0;
-            sp10[2].vz = (-iVar4 * 2) / 3;
+            vecs[2].vx = -dist * 2;
+            vecs[2].vy = 0;
+            vecs[2].vz = -dist * 2 / 3;
 
-            sp10[3].vx = iVar4;
-            sp10[3].vy = 0;
-            sp10[3].vz = (-iVar4 * 2) / 3;
+            vecs[3].vx = dist;
+            vecs[3].vy = 0;
+            vecs[3].vz = -dist * 2 / 3;
 
-            DG_SetPos2(&work->f64[1], &work->rot);
-            DG_PutVector(sp10, work->vecs + 4, 4);
+            DG_SetPos2(&work->pos[1], &work->rot);
+            DG_PutVector(vecs, work->verts + 4, 4);
         }
 
-        if (d00a_dword_800E1650 < work->f94)
+        if (blood_count < work->max_time)
         {
-            d00a_dword_800E1650++;
+            blood_count++;
         }
         else
         {
-            d00a_dword_800E1650 = 0;
+            blood_count = 0;
         }
 
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
         break;
-
     case 5:
     case 7:
-        iVar4 = work->f90;
+        dist = work->size;
 
-        work->f64[0].vx = work->f84.vx;
-        work->f64[0].vy = work->f84.vy;
-        work->f64[0].vz = work->f84.vz;
+        work->pos[0].vx = work->start_pos.vx;
+        work->pos[0].vy = work->start_pos.vy;
+        work->pos[0].vz = work->start_pos.vz;
 
-        sp10[0].vx = (-iVar4 * 3) / 2;
-        sp10[0].vy = 0;
-        sp10[0].vz = iVar4;
+        vecs[0].vx = -dist * 3 / 2;
+        vecs[0].vy = 0;
+        vecs[0].vz = dist;
 
-        sp10[1].vx = iVar4;
-        sp10[1].vy = 0;
-        sp10[1].vz = iVar4;
+        vecs[1].vx = dist;
+        vecs[1].vy = 0;
+        vecs[1].vz = dist;
 
-        sp10[2].vx = -iVar4;
-        sp10[2].vy = 0;
-        sp10[2].vz = -iVar4;
+        vecs[2].vx = -dist;
+        vecs[2].vy = 0;
+        vecs[2].vz = -dist;
 
-        sp10[3].vx = iVar4;
-        sp10[3].vy = 0;
-        sp10[3].vz = -iVar4;
+        vecs[3].vx = dist;
+        vecs[3].vy = 0;
+        vecs[3].vz = -dist;
 
-        DG_SetPos2(&work->f64[0], &work->rot);
-        DG_PutVector(sp10, work->vecs, 4);
+        DG_SetPos2(&work->pos[0], &work->rot);
+        DG_PutVector(vecs, work->verts, 4);
 
-        iVar4 = (work->f90 * 120) / 100;
+        dist = work->size * 120 / 100;
 
-        work->f64[1].vx = work->f84.vx;
-        work->f64[1].vy = work->f84.vy;
-        work->f64[1].vz = work->f84.vz;
+        work->pos[1].vx = work->start_pos.vx;
+        work->pos[1].vy = work->start_pos.vy;
+        work->pos[1].vz = work->start_pos.vz;
 
-        sp10[0].vx = -iVar4;
-        sp10[0].vy = 0;
-        sp10[0].vz = (iVar4 * 2) / 3;
+        vecs[0].vx = -dist;
+        vecs[0].vy = 0;
+        vecs[0].vz = dist * 2 / 3;
 
-        sp10[1].vx = iVar4;
-        sp10[1].vy = 0;
-        sp10[1].vz = (iVar4 * 2) / 3;
+        vecs[1].vx = dist;
+        vecs[1].vy = 0;
+        vecs[1].vz = dist * 2 / 3;
 
-        sp10[2].vx = -iVar4 * 2;
-        sp10[2].vy = 0;
-        sp10[2].vz = (-iVar4 * 2) / 3;
+        vecs[2].vx = -dist * 2;
+        vecs[2].vy = 0;
+        vecs[2].vz = -dist * 2 / 3;
 
-        sp10[3].vx = iVar4;
-        sp10[3].vy = 0;
-        sp10[3].vz = (-iVar4 * 2) / 3;
+        vecs[3].vx = dist;
+        vecs[3].vy = 0;
+        vecs[3].vz = -dist * 2 / 3;
 
-        DG_SetPos2(&work->f64[1], &work->rot);
-        DG_PutVector(sp10, work->vecs + 4, 4);
-        GV_DestroyActor(&work->actor);
+        DG_SetPos2(&work->pos[1], &work->rot);
+        DG_PutVector(vecs, work->verts + 4, 4);
+        GV_DestroyActor(work);
         break;
     }
 }
 
-void DBloods_800D57F0(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *tex, int arg4)
+static void InitPacks(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *tex, int type)
 {
     while (--n_packs >= 0)
     {
@@ -297,7 +289,7 @@ void DBloods_800D57F0(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *t
         DG_SetPacketTexture4(packs0, tex);
         DG_SetPacketTexture4(packs1, tex);
 
-        if (arg4 > 1 && arg4 < 6)
+        if (type > 1 && type < 6)
         {
             setRGB0(packs0, 0, 0, 32);
             setRGB0(packs1, 0, 0, 32);
@@ -313,20 +305,20 @@ void DBloods_800D57F0(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *t
     }
 }
 
-int DBloods_800D591C(Work *work, SVECTOR *arg1, int arg2, int arg3, int arg4)
+static int InitState(Work *work, SVECTOR *pos, int type, int size, int speed)
 {
-    work->f80 = 0;
-    work->f84 = *arg1;
-    work->f8C = arg2;
-    work->f90 = arg3;
-    work->f94 = arg4;
+    work->time = 0;
+    work->start_pos = *pos;
+    work->type = type;
+    work->size = size;
+    work->max_time = speed;
     return 0;
 }
 
-int DBloods_800D5958(Work *work, int arg1)
+static int InitPrim(Work *work, int type)
 {
-    SVECTOR  sp18;
-    SVECTOR  sp20[4];
+    SVECTOR  pos;
+    SVECTOR  vecs[4];
     int      i;
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -335,79 +327,61 @@ int DBloods_800D5958(Work *work, int arg1)
 
     for (i = 0; i < 2; i++)
     {
-        sp18.vx = work->f84.vx;
-        sp18.vy = work->f84.vy;
-        sp18.vz = work->f84.vz;
+        pos.vx = work->start_pos.vx;
+        pos.vy = work->start_pos.vy;
+        pos.vz = work->start_pos.vz;
 
-        work->f64[i] = sp18;
+        work->pos[i] = pos;
 
-        sp20[0].vx = 0;
-        sp20[0].vy = 0;
-        sp20[0].vz = 0;
-        sp20[1].vx = 0;
-        sp20[1].vy = 0;
-        sp20[1].vz = 0;
-        sp20[2].vx = 0;
-        sp20[2].vy = 0;
-        sp20[2].vz = 0;
-        sp20[3].vx = 0;
-        sp20[3].vy = 0;
-        sp20[3].vz = 0;
+        setVector(&vecs[0], 0, 0, 0);
+        setVector(&vecs[1], 0, 0, 0);
+        setVector(&vecs[2], 0, 0, 0);
+        setVector(&vecs[3], 0, 0, 0);
 
-        DG_SetPos2(&work->f64[i], &DG_ZeroVector);
-        DG_PutVector(sp20, &work->vecs[i * 4], 4);
+        DG_SetPos2(&work->pos[i], &DG_ZeroVector);
+        DG_PutVector(vecs, &work->verts[i * 4], 4);
     }
 
-    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 2, work->vecs, NULL);
-    work->prim = prim;
-    if (prim == NULL)
-    {
-        return -1;
-    }
+    work->prim = prim = GM_MakePrim(DG_PRIM_POLY_FT4, 2, work->verts, NULL);
+    if (prim == NULL) return -1;
 
-    prim->raise = 500;
-    prim->raise *= -1;
+    DG_RaisePrim(prim, -500);
 
     tex = DG_GetTexture(GV_StrCode("ketchap"));
-    if (tex == NULL)
-    {
-        return -1;
-    }
+    if (tex == NULL) return -1;
 
-    DBloods_800D57F0(prim->packs[0], prim->packs[1], 2, tex, arg1);
-
+    InitPacks(prim->packs[0], prim->packs[1], 2, tex, type);
     return 0;
 }
 
-int DBloodsGetResources_800D5B08(Work *work, SVECTOR *arg1, int arg2, int arg3, int arg4)
+static int GetResources(Work *work, SVECTOR *pos, int type, int size, int speed)
 {
     work->map = GM_CurrentMap;
 
-    DBloods_800D591C(work, arg1, arg2, arg3, arg4);
+    InitState(work, pos, type, size, speed);
 
-    if (DBloods_800D5958(work, arg2) == -1)
+    if (InitPrim(work, type) == -1)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
     }
 
     return 0;
 }
 
-void *NewDBloods_800D5B70(SVECTOR *arg0, int arg1, int arg2, int arg3)
+void *NewKetchap_s(SVECTOR *pos, int type, int size, int speed)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, DBloodsAct_800D50B4, DBloodsDie_800D5078, "d_bloods.c");
+        GV_SetNamedActor(work, Act, Die, "d_bloods.c");
 
-        if (DBloodsGetResources_800D5B08(work, arg0, arg1, arg2, arg3) < 0)
+        if (GetResources(work, pos, type, size, speed) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }
-
     return (void *)work;
 }

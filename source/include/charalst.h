@@ -318,7 +318,7 @@
 #define DEMO_BLOOD2             { 0x000a, NewSplash_800C8D6C }      // okajima/splash.c
 #define DEMO_BULLET             { 0x000b, NewBulletEx }             // okajima/bullet.c
 #define DEMO_MISSILESMOKE       { 0x000c, ? }                       // --> anime/animconv/anime.c
-#define DEMO_BLOODCIRCLE        { 0x000d, NewDBloods_800D5B70 }     // okajima/d_bloods.c
+#define DEMO_BLOODCIRCLE        { 0x000d, NewKetchap_s }            // okajima/d_bloods.c
 #define DEMO_BREATH             { 0x000e, AN_Breath }               // --> anime/animconv/anime.c
 #define DEMO_SHADOW             { 0x000f, NewDemoKage }             // enemy/demokage.c
 #define DEMO_FOOTPRINTS         { 0x0010, NewDemoAsiato }           // enemy/demoasi.c
@@ -348,7 +348,7 @@
 #define DEMO_MONOTONE           { 0x0028, NewSepia_800C5214 }       // takabe/sepia.c
 #define DEMO_RIFLESIGHT         { 0x0029, ? }                       // weapon/rfsight.c (PC-ONLY)
 #define DEMO_BLACKSMOKE         { 0x002a, ? }                       // ???
-#define DEMO_URINATIONCIRCLE2   { 0x002b, NewDBloods_800D5B70 }     // okajima/d_bloods.c
+#define DEMO_URINATIONCIRCLE2   { 0x002b, NewKetchap_s }            // okajima/d_bloods.c
 #define DEMO_SIGHT              { 0x002c, ? }                       // thing/sight.c (PC-ONLY)
 #define DEMO_NINJASWORD         { 0x002d, NewDemoKatana }           // enemy/katana.c
 #define DEMO_SUBMARINEROOM      { 0x002e, NewSubRoom_800C815C }     // okajima/sub_room.c
@@ -482,7 +482,7 @@ extern NEWCHARA NewBubbleS;                     /* okajima/bubble_s.c           
 extern NEWCHARA NewBubbleT;                     /* okajima/bubble_t.c           */
 extern NEWCHARA NewBulletEx;                    /* okajima/bullet.c             */
 extern NEWCHARA NewCrane;                       /* okajima/crane.c              */
-extern NEWCHARA NewDBloods_800D5B70;            /* okajima/d_bloods.c           */
+extern NEWCHARA NewKetchap_s;                   /* okajima/d_bloods.c           */
 extern NEWCHARA NewDeathSpark;                  /* okajima/death_sp.c           */
 extern NEWCHARA NewDog;                         /* okajima/dog/dog.c            */
 extern NEWCHARA NewDuctMouse;                   /* okajima/ductmous.c           */
