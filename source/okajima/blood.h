@@ -6,7 +6,7 @@
 #include <libgpu.h>
 #include "common.h"
 
-void *NewBlood(MATRIX *, int count);
+void *NewBlood(MATRIX *world, int count);
 
 void AN_Blood_Mist(SVECTOR *pos, SVECTOR *speed);
 
