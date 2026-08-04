@@ -336,7 +336,7 @@ def get_file_global_size(file):
         "/game/object.c",
         "/game/over.c",
         "/game/script.c",
-        "/game/sound.c",
+        "/game/g_sound.c",
         "/game/target.c",
         "/kojo/m1e1catr.c",
         "/libdg/bound.c",

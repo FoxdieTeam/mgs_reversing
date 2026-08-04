@@ -95,7 +95,7 @@
     include "{{OBJ_DIR}}\libdg\pshade.obj"
 
     ; game.lib (cont.)
-    include "{{OBJ_DIR}}\game\sound.obj"
+    include "{{OBJ_DIR}}\game\g_sound.obj"
     include "{{OBJ_DIR}}\game\homing.obj"
     include "{{OBJ_DIR}}\game\delay.obj"
     include "{{OBJ_DIR}}\game\item.obj"

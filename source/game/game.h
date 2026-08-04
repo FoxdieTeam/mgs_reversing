@@ -359,7 +359,7 @@ void GM_AlertModeSet(int mode);
 void GM_AlertModeInit(void);
 void GM_AlertModeReset(void);
 
-/* sound.c */
+/* g_sound.c */
 void GM_SeSet(SVECTOR *pos, int se_id);
 void GM_SeSet2(int pan, int vol, int se_id);
 void GM_SeSetMode(SVECTOR *pos, int se_id, int mode);
