@@ -19,7 +19,7 @@ typedef enum {
     PLAYER_WATCH                = 0x0001,       /* 1st-person */
     PLAYER_INTRUDE              = 0x0002,       /* Intrusion mode */
     PLAYER_ACT_ONLY             = 0x0004,
-    PLAYER_NORMAL_WATCH         = 0x0008,       /* 1st person (can peek left/right) */
+    PLAYER_NORMAL_WATCH         = 0x0008,       /* 1st-person (can peek left/right) */
     PLAYER_MOVE                 = 0x0010,       /* On the move */
     PLAYER_SQUAT                = 0x0020,       /* Crouching */
     PLAYER_GROUND               = 0x0040,       /* Crawling, downed */
