@@ -64,18 +64,18 @@ void sna_8004E260(SnaInitWork *work, int a2, int interp, int a4)
     }
 }
 
-int GM_CheckPlayerStatusFlag(PlayerStatusFlag arg0) // Status()
+int GM_CheckPlayerStatusFlag(PlayerStatusFlag flag) // Status()
 {
-    return (GM_PlayerStatus & arg0) != 0;
+    return (GM_PlayerStatus & flag) != 0;
 }
 
-int GM_SetPlayerStatusFlag(PlayerStatusFlag arg0)
+int GM_SetPlayerStatusFlag(PlayerStatusFlag flag)
 {
-    int temp_v0;
+    int new;
 
-    temp_v0 = GM_PlayerStatus | arg0;
-    GM_PlayerStatus = temp_v0;
-    return temp_v0;
+    new = GM_PlayerStatus | flag;
+    GM_PlayerStatus = new;
+    return new;
 }
 
 void GM_ClearPlayerStatusFlag(PlayerStatusFlag flag)
