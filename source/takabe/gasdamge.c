@@ -34,7 +34,7 @@ void GasDamageAct_800E1348(Work *work)
 
     if (s02c_dword_800E3F40 != 0)
     {
-        if (GM_CurrentItemId == IT_GasMask)
+        if (GM_Item == IT_GasMask)
         {
             divisor = work->field_38;
         }
@@ -49,7 +49,7 @@ void GasDamageAct_800E1348(Work *work)
         {
             GM_O2 = 0;
             temp_a0_2 = work->field_30 + work->field_34;
-            GM_SnakeCurrentHealth -= temp_a0_2 >> 12;
+            GM_Vitality -= temp_a0_2 >> 12;
             work->field_30 = temp_a0_2 & 0x0FFF;
         }
     }

@@ -920,7 +920,7 @@ extern int              dword_8009F46C;
 
 int menu_weapon_isWeaponDisabled_8003DF30(int weaponId)
 {
-    if (((GM_ItemTypes[GM_CurrentItemId + 1] & 1) && (GM_WeaponTypes[weaponId + 1] & 0x200)))
+    if (((GM_ItemTypes[GM_Item + 1] & 1) && (GM_WeaponTypes[weaponId + 1] & 0x200)))
     {
         return TRUE;
     }
@@ -1064,7 +1064,7 @@ void menu_weapon_printDescription_8003E030(int wpn_id)
             wpn_descriptions_8009E5CC[WP_Socom][0x72] = 0x91;
         }
     }
-    else if (GM_DifficultyFlag == DIFFICULTY_VERY_EASY && wpn_id == WP_Famas)
+    else if (GM_GameLevel == GM_LEVEL_VERYEASY && wpn_id == WP_Famas)
     {
         weaponDescription = wpn_mp5_description_800AB5CC;
     }
@@ -1124,13 +1124,13 @@ void menu_weapon_init_helper_8003E0E8(MenuWork *work, u_long *ot, int off_x, int
 
         if (pPanel->field_6_current && GM_MagazineMax > 0)
         {
-            pSubCnt2 = (GM_CurrentWeaponId == WP_Famas ? 3 : 0);
+            pSubCnt2 = (GM_Weapon == WP_Famas ? 3 : 0);
             menu_number_draw_magazine(work, ot, offset_x + 45, off_y + 20, GM_Magazine,
                                       GM_MagazineMax, pSubCnt2);
         }
         else
         {
-            if (weaponIdxCopy == WP_Famas && GM_DifficultyFlag == DIFFICULTY_VERY_EASY)
+            if (weaponIdxCopy == WP_Famas && GM_GameLevel == GM_LEVEL_VERYEASY)
             {
                 str = "MP 5 SD";
             }
@@ -1168,14 +1168,14 @@ void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work)
 
     if (id >= 0 && !menu_weapon_isWeaponDisabled_8003DF30(id))
     {
-        GM_CurrentWeaponId = work->field_1F0_menu_weapon.field_0_current.field_0_id;
+        GM_Weapon = work->field_1F0_menu_weapon.field_0_current.field_0_id;
         GM_WeaponChanged = 1;
-        if (GM_CurrentWeaponId >= 0)
+        if (GM_Weapon >= 0)
         {
             sub_8003CFE0(
                 menu_weapon_get_weapon_rpk_info_8003DED8(work->field_1F0_menu_weapon.field_0_current.field_0_id), 1);
         }
-        work->field_1F0_menu_weapon.field_11 = varbuf[14]; // GM_CurrentWeaponId would not match...
+        work->field_1F0_menu_weapon.field_11 = varbuf[14]; // GM_Weapon would not match...
     }
     else
     {
@@ -1184,7 +1184,7 @@ void menu_weapon_update_helper2_helper2_8003E3B0(MenuWork *work)
             dword_800ABAE8 = id;
             work->field_1F0_menu_weapon.field_11 = id;
         }
-        GM_CurrentWeaponId = -1;
+        GM_Weapon = -1;
         work->field_1F0_menu_weapon.field_0_current.field_0_id = -1;
         GM_WeaponChanged = 1;
     }
@@ -1225,9 +1225,9 @@ int menu_weapon_update_helper_8003E4B8(MenuWork *work)
             return 0;
         }
 
-        if (GM_CurrentWeaponId != -1)
+        if (GM_Weapon != -1)
         {
-            dword_800ABAE8 = GM_CurrentWeaponId;
+            dword_800ABAE8 = GM_Weapon;
         }
         else if (dword_800ABAE8 < 0)
         {
@@ -1305,7 +1305,7 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, u_long *ot)
                 menu_sub_menu_update_8003DA0C(work, ot, &work->field_1F0_menu_weapon);
 
                 if (((anim_frame2 & 3) == 3) &&
-                    (GM_CurrentWeaponId != work->field_1F0_menu_weapon.field_0_current.field_0_id) &&
+                    (GM_Weapon != work->field_1F0_menu_weapon.field_0_current.field_0_id) &&
                     menu_weapon_isWeaponDisabled_8003DF30(work->field_1F0_menu_weapon.field_0_current.field_0_id) &&
                     (DG_UnDrawFrameCount == 0))
                 {
@@ -1318,17 +1318,17 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, u_long *ot)
         {
             switched_weapon = 0;
 
-            if (menu_weapon_isWeaponDisabled_8003DF30(GM_CurrentWeaponId))
+            if (menu_weapon_isWeaponDisabled_8003DF30(GM_Weapon))
             {
-                last_id = GM_CurrentWeaponId;
-                GM_CurrentWeaponId = WP_None;
+                last_id = GM_Weapon;
+                GM_Weapon = WP_None;
                 GM_WeaponChanged = 1;
                 work->field_1F0_menu_weapon.field_12_flashingAnimationFrame = 19;
                 dword_800ABAE8 = last_id;
                 break;
             }
 
-            if (GM_CurrentWeaponId != work->field_1F0_menu_weapon.field_0_current.field_0_id)
+            if (GM_Weapon != work->field_1F0_menu_weapon.field_0_current.field_0_id)
             {
                 switched_weapon = 1;
                 GM_WeaponChanged = 1;
@@ -1339,18 +1339,18 @@ void menu_weapon_update_helper2_8003E674(MenuWork *work, u_long *ot)
                     dword_800ABAE8 = work->field_1F0_menu_weapon.field_0_current.field_0_id;
                 }
 
-                work->field_1F0_menu_weapon.field_0_current.field_0_id = GM_CurrentWeaponId;
+                work->field_1F0_menu_weapon.field_0_current.field_0_id = GM_Weapon;
             }
 
-            if (GM_CurrentWeaponId >= 0)
+            if (GM_Weapon >= 0)
             {
                 if (switched_weapon != 0)
                 {
-                    sub_8003CFE0(menu_weapon_get_weapon_rpk_info_8003DED8(GM_CurrentWeaponId), 1);
-                    work->field_1F0_menu_weapon.field_11 = GM_CurrentWeaponId;
+                    sub_8003CFE0(menu_weapon_get_weapon_rpk_info_8003DED8(GM_Weapon), 1);
+                    work->field_1F0_menu_weapon.field_11 = GM_Weapon;
                 }
 
-                work->field_1F0_menu_weapon.field_0_current.field_2_num = GM_Weapons[GM_CurrentWeaponId];
+                work->field_1F0_menu_weapon.field_0_current.field_2_num = GM_Weapons[GM_Weapon];
                 menu_sub_menu_update_8003DA0C(work, ot, &work->field_1F0_menu_weapon);
             }
         }
@@ -1434,11 +1434,11 @@ void menu_weapon_update_8003E990(MenuWork *work, u_long *ot)
             }
             else if ((!(GM_GameStatus & GAME_FLAG_BIT_19)) && (pPad->press & PAD_R1))
             {
-                weapon_id = GM_CurrentWeaponId;
+                weapon_id = GM_Weapon;
 
-                if (GM_CurrentWeaponId > WP_None)
+                if (GM_Weapon > WP_None)
                 {
-                    GM_CurrentWeaponId = WP_None;
+                    GM_Weapon = WP_None;
                 }
                 else if (!menu_weapon_isWeaponDisabled_8003DF30(work->field_1F0_menu_weapon.field_11))
                 {
@@ -1446,11 +1446,11 @@ void menu_weapon_update_8003E990(MenuWork *work, u_long *ot)
 
                     if (GM_Weapons[selected_id] > WP_None)
                     {
-                        GM_CurrentWeaponId = selected_id;
+                        GM_Weapon = selected_id;
                     }
                 }
 
-                if (weapon_id != GM_CurrentWeaponId)
+                if (weapon_id != GM_Weapon)
                 {
                     GM_WeaponChanged = 1;
                     GM_SeSet2(0, 63, SE_ITEM_EQUIP);
@@ -1482,7 +1482,7 @@ void menu_weapon_update_8003E990(MenuWork *work, u_long *ot)
     }
     else
     {
-        if (GM_CurrentWeaponId > WP_None)
+        if (GM_Weapon > WP_None)
         {
             xoffset = sub_8003D52C();
 

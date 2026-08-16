@@ -128,7 +128,7 @@ static void Act( Work *work )
             work->time = 168;
             if ( type != GRD_TBOMB )
             {
-                --GM_CurrentWeapon;
+                --GM_Weapons[ GM_Weapon ];
             }
             work->has_exploded = TRUE;
             flags &= ~( 2 | 4 | 8 );
@@ -139,7 +139,7 @@ static void Act( Work *work )
         }
         else
         {
-            ammo = GM_CurrentWeapon;
+            ammo = GM_Weapons[ GM_Weapon ];
         }
         if ( ( ammo > 0 ) && ( flags & ( 2 | 4 | 8 ) ) )
         {
@@ -186,12 +186,12 @@ static void Act( Work *work )
                 work->time = 168;
                 if ( type != GRD_TBOMB )
                 {
-                    GM_CurrentWeapon = --ammo;
+                    GM_Weapons[ GM_Weapon ] = --ammo;
                 }
             }
         }
     }
-    else if ( ( type == GRD_TBOMB ) || ( GM_CurrentWeapon > 0 ) )
+    else if ( ( type == GRD_TBOMB ) || ( GM_Weapons[ GM_Weapon ] > 0 ) )
     {
         if ( work->time > 120 )
         {

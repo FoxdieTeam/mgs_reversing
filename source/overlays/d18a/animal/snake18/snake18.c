@@ -800,7 +800,7 @@ void d18a_snake18_800CBE58(Snake18Work *work)
         if (*p == 0)
         {
             *p = -1;
-            GM_CurrentWeaponId = -1;
+            GM_Weapon = -1;
             GM_WeaponChanged = 1;
         }
     }
@@ -1042,14 +1042,14 @@ void d18a_snake18_800CCF30(Snake18Work *work)
     }
 
     actor = NULL;
-    work->f864 = GM_CurrentWeaponId;
-    wid = GM_CurrentWeaponId;
+    work->f864 = GM_Weapon;
+    wid = GM_Weapon;
     work->f868 = GM_WeaponTypes[wid + 1];
 
     e = &d18a_dword_800C3878[wid];
-    if (GM_CurrentWeaponId >= 0)
+    if (GM_Weapon >= 0)
     {
-        work->f860 = &GM_CurrentWeapon;
+        work->f860 = &GM_Weapons[ GM_Weapon ];
     }
 
     d18a_snake18_800CB7BC(work, (int)e->mStateFn);
@@ -1060,7 +1060,7 @@ void d18a_snake18_800CCF30(Snake18Work *work)
     }
     work->f850 = actor;
 
-    work->f8A8 = &d18a_dword_800C36C8[GM_CurrentWeaponId];
+    work->f8A8 = &d18a_dword_800C36C8[GM_Weapon];
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD040.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD2C4.s")
@@ -2304,7 +2304,7 @@ int d18a_snake18_800D4BA4(Snake18Work *work)
     }
 
     GM_SetTarget(target, 0x9F, work->f930, &d18a_dword_800C3A28);
-    GM_SetPowerTarget(target, 1, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector);
+    GM_SetPowerTarget(target, 1, -1, GM_Vitality, 0, &DG_ZeroVector);
     GM_SetCaptureTarget(target, 0, 0, &work->f840, &work->f848);
     return 0;
 }

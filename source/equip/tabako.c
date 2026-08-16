@@ -68,9 +68,9 @@ static void Act(Work *work)
     }
 
     // Snake, smoking is bad for your health!
-    if (!(GV_Time & 63) && GM_SnakeCurrentHealth >= 2)
+    if (!(GV_Time & 63) && GM_Vitality >= 2)
     {
-        GM_SnakeCurrentHealth--;
+        GM_Vitality--;
         GM_GameStatus |= STATE_DAMAGED;
     }
 }

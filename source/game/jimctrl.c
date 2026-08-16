@@ -2,8 +2,9 @@
 
 #include <stdio.h>
 #include "common.h"
-#include "libfs/libfs.h"
 #include "linkvar.h"
+#include "libfs/libfs.h"
+#include "game/game.h"
 #include "menu/menuman.h"
 #include "sound/sd_cli.h"
 
@@ -357,7 +358,7 @@ void *NewJimakuControl(u_long flags)
     }
     seekResult = FS_StreamGetData(toSeek);
 
-    if (GM_OptionFlag & OPTION_ENGLISH)
+    if (GM_Configuration & GM_CONFIG_ENGLISH)
     {
         jimctrl_work.field_27 = 3;
         jimctrl_work.field_26 = 6;

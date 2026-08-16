@@ -54,7 +54,7 @@ static void Act(Work *work)
 
     if (snake_weapon_idx_800BDCBA >= 0)
     {
-        ammo = GM_CurrentWeapon;
+        ammo = GM_Weapons[ GM_Weapon ];
         if (ammo < snake_weapon_max_ammo_800BDCBC)
         {
             GM_Weapons[snake_weapon_idx_800BDCBA] = snake_weapon_max_ammo_800BDCBC;

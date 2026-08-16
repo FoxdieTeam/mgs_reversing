@@ -87,7 +87,7 @@ void InitTarget(Work *work)
     int     hp;
 
     target = work->target;
-    hp = GM_SnakeCurrentHealth;
+    hp = GM_Vitality;
 
     GM_SetTarget(target, ( TARGET_POWER | TARGET_SEEK ), PLAYER_SIDE, &s19b_dword_800C39F8);
     GM_SetPowerTarget(target, POWER_DECREASE, -1, hp, 0, &DG_ZeroVector);
@@ -137,7 +137,7 @@ static int GetResources(Work *work, int name)
     GM_PlayerBody = body;
     GM_PlayerControl = control;
 
-    work->hp = GM_SnakeCurrentHealth;
+    work->hp = GM_Vitality;
 
     Takabe_JeepSystem.snake_body = body;
     work->pos = Takabe_JeepSystem.control->mov;
@@ -328,7 +328,7 @@ void s19b_jlamp2_800D5484(Work *work, int arg1)
         }
         s19b_jlamp2_800D5054(work, 5, 0);
         Takabe_JeepSystem.field_4C |= 1;
-        if (linkvarbuf[0xB] > 0)
+        if (GM_Vitality > 0)
         {
             GM_SeSet(&work->control.mov, 0x88);
         }

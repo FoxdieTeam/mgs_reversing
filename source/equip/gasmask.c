@@ -51,8 +51,8 @@ static void Act(Work *work)
 
     if (GM_Camera.first_person &&
         (work->parent->objs->flag & DG_FLAG_INVISIBLE) &&
-        GM_CurrentWeaponId != WP_Stinger &&
-        GM_CurrentWeaponId != WP_Rifle &&
+        GM_Weapon != WP_Stinger &&
+        GM_Weapon != WP_Rifle &&
         dword_8009F46C != 1)
     {
         work->time++;

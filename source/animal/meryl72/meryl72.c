@@ -108,13 +108,13 @@ void s07c_meryl72_800C6C48( Meryl72Work *work )
         param->max_life -= 4;
     }
 
-    MENU_DrawBar2( 28, param->max_life, param->life, GM_SnakeMaxHealth, &s07c_dword_800C32E4 );
+    MENU_DrawBar2( 28, param->max_life, param->life, GM_VitalityMax, &s07c_dword_800C32E4 );
 
     if ( work->fC36 > 0 )
     {
         work->fC36--;
     }
-    else if ( param->life > ( GM_SnakeMaxHealth / 2 ) )
+    else if ( param->life > ( GM_VitalityMax / 2 ) )
     {
         GM_GameStatus &= ~STATE_SHOW_LIFEBAR;
     }
@@ -509,7 +509,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
 
     work->fB58 = 2000;
     work->fB0B = work->param.roots[0];
-    work->param.life = GM_SnakeMaxHealth;
+    work->param.life = GM_VitalityMax;
 
     opt = GCL_GetOption( 'l' );
     if ( opt )

@@ -2903,7 +2903,7 @@ static void Johnny_800C8D58(Work *work, int action)
         GM_SeSet(&work->control.mov, VO_ENEMY_SNAPPED);
         SetAction(work, 29);
         work->target->vital -= 255;
-        GM_TotalEnemiesKilled++;
+        GM_EnemyKillCount++;
     }
     if (action > 48 && action < 60)
     {

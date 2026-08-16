@@ -176,7 +176,7 @@ void PLamp_800CCE6C(Work *work)
     switch (work->field_1C0)
     {
     case 0:
-        if (GM_SnakeCurrentHealth == 0 || GM_GameOverTimer != 0)
+        if (GM_Vitality == 0 || GM_GameOverTimer != 0)
         {
             break;
         }

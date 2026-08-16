@@ -95,11 +95,11 @@ int GCL_MakeSaveFile(char *save_buf)
     save_data->version2 = SAVE_VERSION2;
     save_data->totalFrameTime = gTotalFrameTime;
 
-    GM_LastSaveHours = GM_TotalHours;
-    GM_LastSaveSeconds = GM_TotalSeconds;
-    SAVE_LINKVAR(sv_linkvarbuf, GM_LastSaveHours) = GM_TotalHours;
-    SAVE_LINKVAR(sv_linkvarbuf, GM_LastSaveSeconds) = GM_TotalSeconds;
-    SAVE_LINKVAR(sv_linkvarbuf, GM_TotalSaves) = GM_TotalSaves;
+    GM_LastSaveHours = GM_PlayTimeHours;
+    GM_LastSaveSeconds = GM_PlayTimeSeconds;
+    SAVE_LINKVAR(sv_linkvarbuf, GM_LastSaveHours) = GM_PlayTimeHours;
+    SAVE_LINKVAR(sv_linkvarbuf, GM_LastSaveSeconds) = GM_PlayTimeSeconds;
+    SAVE_LINKVAR(sv_linkvarbuf, GM_SaveCount) = GM_SaveCount;
 
     save_data->padding[0] = 0;
     save_data->padding[1] = 0;
@@ -156,22 +156,22 @@ int GCL_SetLoadFile(char *save_buf)
 void GCL_InitVar( void )
 {
     int option;
-    int difficulty;
+    int level;
 
-    option = GM_OptionFlag;
-    difficulty = GM_DifficultyFlag;
+    option = GM_Configuration;
+    level = GM_GameLevel;
 
     gGcl_vars_800B3CC8 = ( GCL_Vars ){{ 0 }};
     memset( linkvarbuf, 0, MAX_LINKVARBUF * sizeof(short) );
 
-    GM_DifficultyFlag = difficulty;
-    GM_OptionFlag = option;
+    GM_GameLevel = level;
+    GM_Configuration = option;
 }
 
 void GCL_InitClearVar( void )
 {
     gGcl_vars_800B3CC8 = ( GCL_Vars ){{ 0 }};
-    memset( &GM_CurrentStageFlag, 0, 0xb4 );
+    memset( &GM_SaveArea, 0, 0xb4 );
 
     GCL_SaveVar();
 }

@@ -42,21 +42,21 @@ void s11g_hind_800D4744(HindWork *work)
         work->field_A70 = work->body.objs->def->model[2].vertices;
         work->body.objs->def->model[2].vertices = work->field_970;
 
-        work->last_item = GM_CurrentItemId;
-        work->last_weapon = GM_CurrentWeaponId;
+        work->last_item = GM_Item;
+        work->last_weapon = GM_Weapon;
 
-        if (GM_CurrentItemId == IT_Scope  ||
-            GM_CurrentItemId == IT_Camera ||
-            GM_CurrentItemId == IT_NVG    ||
-            GM_CurrentItemId == IT_ThermG)
+        if (GM_Item == IT_Scope  ||
+            GM_Item == IT_Camera ||
+            GM_Item == IT_NVG    ||
+            GM_Item == IT_ThermG)
         {
-            GM_CurrentItemId = IT_None;
+            GM_Item = IT_None;
         }
 
-        if (GM_CurrentWeaponId == WP_Rifle ||
-            GM_CurrentWeaponId == WP_Stinger)
+        if (GM_Weapon == WP_Rifle ||
+            GM_Weapon == WP_Stinger)
         {
-            GM_CurrentWeaponId = WP_None;
+            GM_Weapon = WP_None;
         }
 
         switch (work->field_8C4++ % 4)

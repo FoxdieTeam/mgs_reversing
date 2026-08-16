@@ -152,7 +152,7 @@ int s01a_camera_800D4E08(Work *work)
     int      dir;
     int      dir2;
 
-    if (GM_CurrentItemId == IT_Stealth)
+    if (GM_Item == IT_Stealth)
     {
         work->field_1DC = 0;
         return 0;

@@ -474,7 +474,7 @@ static void Act(Work *work)
 
         if (sound != 0)
         {
-            if (GM_CurrentWeaponId == WP_Rifle)
+            if (GM_Weapon == WP_Rifle)
             {
                 GM_SeSet2(0, 63, sound);
             }
@@ -642,7 +642,7 @@ void *NewBullet(MATRIX *world, int side, int color, int type)
         work->scale = GV_VecLen3(&vec);
         work->size = 10;
 
-        if ( ( side == PLAYER_SIDE ) && ( GM_CurrentWeaponId == WP_Rifle ) )
+        if ( ( side == PLAYER_SIDE ) && ( GM_Weapon == WP_Rifle ) )
         {
             work->damage = 256;
         }

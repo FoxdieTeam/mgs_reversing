@@ -200,4 +200,114 @@ enum {
 };
 
 /*---------------------------------------------------------------------------*/
+
+// GM_GameLevel
+enum {
+    GM_LEVEL_VERYEASY = -1, // added for MGS:INTEGRAL
+    GM_LEVEL_EASY      = 0, // the Japanese version's original (only) difficulty
+    GM_LEVEL_NORMAL    = 1,
+    GM_LEVEL_HARD      = 2,
+    GM_LEVEL_EXTREME   = 3,
+};
+
+/*---------------------------------------------------------------------------*/
+
+// GM_Configuration
+enum {
+    GM_CONFIG_BUTTON_TYPE_A  = 0x0000,
+    GM_CONFIG_BUTTON_TYPE_B  = 0x0001,
+    GM_CONFIG_BUTTON_TYPE_C  = 0x0002,
+    GM_CONFIG_BUTTON_MASK    = 0x0007,
+    GM_CONFIG_UNKNOWN_0008   = 0x0008,
+    GM_CONFIG_UNKNOWN_0010   = 0x0010,
+    GM_CONFIG_TUXEDO         = 0x0020, // + Red Ninja, Sneaking Suit Meryl
+    GM_CONFIG_ENGLISH        = 0x0100, // 0: Japanese, 1: English
+    GM_CONFIG_VIBRATION_OFF  = 0x0400,
+    GM_CONFIG_RADAR_OFF      = 0x0800,
+    GM_CONFIG_SHUKAN_REVERSE = 0x1000,
+    GM_CONFIG_UNKNOWN_2000   = 0x2000,
+    GM_CONFIG_CAPTION_OFF    = 0x4000,
+    GM_CONFIG_SOUND_MONAURAL = 0x8000,
+};
+
+/*---------------------------------------------------------------------------*/
+
+enum // GM_StatusEvent
+{
+    EV_CommonCold   = 0x1,
+    EV_Tranquilizer = 0x4,
+    EV_BlownUp      = 0x8,
+};
+
+/*---------------------------------------------------------------------------*/
+
+// GM_PlayerStance
+enum {
+    STAND   = 0,
+    CROUCH  = 1, /* Should be SQUAT but that conflicts with the quaternion struct name */
+    GROUND  = 2,
+    INTRUDE = 3,
+};
+
+/*---------------------------------------------------------------------------*/
+
+// GM_Weapons
+enum {
+    WP_None             = -1,
+    WP_Socom            = 0,
+    WP_Famas            = 1,
+    WP_Grenade          = 2,
+    WP_Nikita           = 3,
+    WP_Stinger          = 4,
+    WP_Claymore         = 5,
+    WP_C4               = 6,
+    WP_StunGrenade      = 7,
+    WP_ChaffGrenade     = 8,
+    WP_Rifle            = 9,
+    WP_Max              = 10,
+};
+
+/*---------------------------------------------------------------------------*/
+
+// GM_Items
+enum {
+    IT_None             = -1,   // types:
+    IT_Cigs             = 0,    // 0x8000
+    IT_Scope            = 1,    // 0x8003
+    IT_Box1             = 2,    // 0x8001
+    IT_Box2             = 3,    // 0x8001
+    IT_Box3             = 4,    // 0x8001
+    IT_NVG              = 5,    // 0x8000
+    IT_ThermG           = 6,    // 0x8000
+    IT_GasMask          = 7,    // 0x8000
+    IT_BodyArmor        = 8,    // 0x8000
+    IT_Ketchup          = 9,    // 0x8000
+    IT_Stealth          = 10,   // 0x8000
+    IT_Bandana          = 11,   // 0x8000
+    IT_Camera           = 12,   // 0x8003
+    IT_Ration           = 13,   // 0x2000
+    IT_ColdMedicine     = 14,   // 0x2000
+    IT_Diazepam         = 15,   // 0x2000
+    IT_PalKey           = 16,   // 0
+    IT_Card             = 17,   // 0
+    IT_TimerBomb        = 18,   // 0
+    IT_MineDetector     = 19,   // 0
+    IT_Disk             = 20,   // 0
+    IT_Rope             = 21,   // 0
+    IT_Handkerchief     = 22,   // 0
+    IT_Suppressor       = 23,   // 0
+    IT_Max              = 24,
+};
+
+/*---------------------------------------------------------------------------*/
+
+// GM_ItemTypes
+enum {
+    // ...
+    IT_TYPE_CONSUMABLE = 0x2000,
+    IT_TYPE_BITMASK    = 0x4000, // unused
+    IT_TYPE_DISABLED   = 0x8000,
+};
+
+/*---------------------------------------------------------------------------*/
 #endif // __MGS_G_DEFINE_H__

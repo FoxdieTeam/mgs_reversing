@@ -124,8 +124,8 @@ extern int gOverlayBinSize_800B5290;
 
 static void GM_ClearWeaponAndItem(void)
 {
-    GM_CurrentWeaponId = WP_None;
-    GM_CurrentItemId = IT_None;
+    GM_Weapon = WP_None;
+    GM_Item = IT_None;
 }
 
 static void GM_InitGameSystem(void)
@@ -150,9 +150,9 @@ static void GM_InitGameSystem(void)
     GM_O2 = 1024;
     GM_StageName = NULL;
     GM_EnvironTemp = 0;
-    GM_PlayerPosition.vx = GM_SnakePosX;
-    GM_PlayerPosition.vy = GM_SnakePosY;
-    GM_PlayerPosition.vz = GM_SnakePosZ;
+    GM_PlayerPosition.vx = GM_PlayerPosX;
+    GM_PlayerPosition.vy = GM_PlayerPosY;
+    GM_PlayerPosition.vz = GM_PlayerPosZ;
 
     for (i = 5; i >= 0; i--)
     {
@@ -201,9 +201,9 @@ static void GM_ResetMemory(void)
 static void GM_CreateLoader(void)
 {
     char *stage = "init";
-    if (GM_CurrentStageFlag != 0)
+    if (GM_SaveArea != 0)
     {
-        stage = GM_GetArea(GM_CurrentStageFlag);
+        stage = GM_GetArea(GM_SaveArea);
     }
     NewLoader(stage);
 }
@@ -322,14 +322,14 @@ static void Act(gameWork *work)
 
     if (mts_get_pad_vibration_type(1) == 1)
     {
-        GM_OptionFlag &= ~OPTION_VIBRATION_OFF;
+        GM_Configuration &= ~GM_CONFIG_VIBRATION_OFF;
     }
     else
     {
-        GM_OptionFlag |= OPTION_VIBRATION_OFF;
+        GM_Configuration |= GM_CONFIG_VIBRATION_OFF;
     }
 
-    if ((GM_OptionFlag & (OPTION_UNKNOWN_2000 | OPTION_VIBRATION_OFF)) == 0)
+    if ((GM_Configuration & (GM_CONFIG_UNKNOWN_2000 | GM_CONFIG_VIBRATION_OFF)) == 0)
     {
         int vibration2;
         if (GM_PadVibration != 0)
@@ -373,8 +373,8 @@ static void Act(gameWork *work)
         int minutes;
         gTotalFrameTime += GV_PassageTime;
         minutes = gTotalFrameTime / 60;
-        GM_TotalHours = minutes / 3600;
-        GM_TotalSeconds = minutes % 3600;
+        GM_PlayTimeHours = minutes / 3600;
+        GM_PlayTimeSeconds = minutes % 3600;
     }
 
     status = work->status;
@@ -664,10 +664,10 @@ void GM_ContinueStart(void)
     int current_stage;
 
     GM_CallSystemCallbackProc(1, 0);
-    total_continues = GM_TotalContinues;
-    current_stage = GM_CurrentStageFlag;
+    total_continues = GM_ContinueCount;
+    current_stage = GM_SaveArea;
     GCL_RestoreVar();
-    if (GM_CurrentStageFlag != current_stage)
+    if (GM_SaveArea != current_stage)
     {
         GM_LoadRequest = 1;
     }
@@ -676,7 +676,7 @@ void GM_ContinueStart(void)
         GM_SetLoadCallbackProc(-1);
     }
 
-    GM_TotalContinues = total_continues + 1;
+    GM_ContinueCount = total_continues + 1;
 
     // Set the bomb to no less than 10 seconds to prevent instant death
     // note: casting needed to produce sltiu and lhu vs lh
@@ -742,7 +742,7 @@ void GM_StartDaemon(void)
     GM_ActInit(&GameWork);
     GM_ResetMemory();
     GM_CurrentPadData = GV_PadData;
-    GM_CurrentDiskFlag = FS_DiskNum + 1;
+    GM_Disk = FS_DiskNum + 1;
     GV_SaveResidentTop();
     GameWork.status = 0;
     GameWork.killing_count = 0;

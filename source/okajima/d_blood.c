@@ -75,7 +75,7 @@ static void Act(Work *work)
         {
             work->state = 2;
             GM_GameStatus &= ~STATE_PADRELEASE;
-            GM_CurrentItemId = IT_None;
+            GM_Item = IT_None;
             GM_Items[IT_Ketchup] = IT_None;
         }
         break;

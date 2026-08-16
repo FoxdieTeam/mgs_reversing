@@ -174,7 +174,7 @@ static void Act(Work *work)
             work->state = 4;
             GM_ConfigObjectAction(&work->body, 4, 0, 0);
 
-            if (GM_SnakeCurrentHealth > 0)
+            if (GM_Vitality > 0)
             {
                 printf("GameOver!\n");
                 GCL_ExecProc(work->end_proc, 0);

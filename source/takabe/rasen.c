@@ -697,7 +697,7 @@ void RasenAct_800CB530(Work *work)
 
     if (GM_WhereList[0]->name)
     {
-        if (GM_UnkFlagBE || GM_Camera.first_person == 0 || (GM_Camera.flag & 0x200))
+        if (GM_FirstPerson || GM_Camera.first_person == 0 || (GM_Camera.flag & 0x200))
         {
             level = GM_PlayerControl->levels[0] + 1100;
 

@@ -67,7 +67,7 @@ void Eventmouse_800C8E88(Work *work, SVECTOR *arg1, int arg2)
     SVECTOR view;
     SVECTOR rot;
 
-    if ((GM_SnakeCurrentHealth == 0) || (GM_GameOverTimer != 0) || (work->f68C != 0))
+    if ((GM_Vitality == 0) || (GM_GameOverTimer != 0) || (work->f68C != 0))
     {
         return;
     }
@@ -112,18 +112,18 @@ void Eventmouse_800C8E88(Work *work, SVECTOR *arg1, int arg2)
     DG_SetPos2(&work->center, &rot);
     DG_PutVector(&view, &work->eye, 1);
 
-    work->item = GM_CurrentItemId;
-    work->weapon = GM_CurrentWeaponId;
+    work->item = GM_Item;
+    work->weapon = GM_Weapon;
 
-    if ((GM_CurrentItemId == IT_Scope) || (GM_CurrentItemId == IT_Camera) ||
-        (GM_CurrentItemId == IT_NVG) || (GM_CurrentItemId == IT_ThermG))
+    if ((GM_Item == IT_Scope) || (GM_Item == IT_Camera) ||
+        (GM_Item == IT_NVG) || (GM_Item == IT_ThermG))
     {
-        GM_CurrentItemId = IT_None;
+        GM_Item = IT_None;
     }
 
-    if ((GM_CurrentWeaponId == WP_Rifle) || (GM_CurrentWeaponId == WP_Stinger))
+    if ((GM_Weapon == WP_Rifle) || (GM_Weapon == WP_Stinger))
     {
-        GM_CurrentWeaponId = WP_None;
+        GM_Weapon = WP_None;
     }
 
     GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
@@ -515,13 +515,13 @@ void EventMouseAct_800C9F14(Work *work)
         {
             if ((work->weapon == WP_Rifle) || (work->weapon == WP_Stinger))
             {
-                GM_CurrentWeaponId = work->weapon;
+                GM_Weapon = work->weapon;
             }
 
             if ((work->item == IT_Scope) || (work->item == IT_Camera) ||
                 (work->item == IT_NVG) || (work->item == IT_ThermG))
             {
-                GM_CurrentItemId = work->item;
+                GM_Item = work->item;
             }
 
             if (work->f690 != 0)
@@ -544,7 +544,7 @@ void EventMouseAct_800C9F14(Work *work)
         return;
     }
 
-    if ((work->f208 == 0) && (GM_CurrentItemId == IT_MineDetector))
+    if ((work->f208 == 0) && (GM_Item == IT_MineDetector))
     {
         GM_ConfigControlAttribute(control, RADAR_VISIBLE);
     }

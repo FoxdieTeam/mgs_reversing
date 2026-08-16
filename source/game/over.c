@@ -546,31 +546,33 @@ static void Act( Work *work )
 
 static void Die( Work *work )
 {
-    char *stage_name;
+    char *stage;
 
     GV_PauseLevel &= ~GV_PAUSE_STOP;
     DG_RestartMainChanlSystem();
     GM_StreamPlayStop();
     GM_GameOverTimer = 0;
+
     if ( work->option == OPTION_CONTINUE )
     {
         GM_ContinueStart();
         return;
     }
-    if ( ( GM_OptionFlag & OPTION_TUXEDO ) ||
-        ( GM_DifficultyFlag == DIFFICULTY_VERY_EASY ) )
+
+    if ( ( GM_Configuration & GM_CONFIG_TUXEDO ) || ( GM_GameLevel == GM_LEVEL_VERYEASY ) )
     {
         GV_InitResidentMemory();
         GV_InitCacheSystem();
         DG_ClearResidentTexture();
-        stage_name = "init";
-        GM_OptionFlag &= ~OPTION_TUXEDO;
+        stage = "init";
+        GM_Configuration &= ~GM_CONFIG_TUXEDO;
     }
     else
     {
-        stage_name = "title";
+        stage = "title";
     }
-    GM_SetArea( GV_StrCode( stage_name ), stage_name );
+
+    GM_SetArea( GV_StrCode( stage ), stage );
     GM_LoadRequest = 0x81;
 }
 

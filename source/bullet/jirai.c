@@ -295,7 +295,7 @@ static void Act(JiraiWork *work)
         DG_InvisibleObjs(work->body.objs);
     }
 
-    if (GM_CurrentItemId == IT_MineDetector)
+    if (GM_Item == IT_MineDetector)
     {
         GM_ConfigControlAttribute(control, 0x202D);
     }

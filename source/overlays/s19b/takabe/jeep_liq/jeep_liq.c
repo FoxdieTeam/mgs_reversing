@@ -527,7 +527,7 @@ int s19b_spark2_m_800D88D8(Work *work)
 void s19b_spark2_m_800D8918(Work *work)
 {
     TARGET *target = work->f8E4;
-    int     level  = GM_DifficultyFlag;
+    int     level  = GM_GameLevel;
     int     vital;
 
     if (level > 0)
@@ -1264,7 +1264,7 @@ void s19b_spark2_m_800D9C04(Work *work)
 
     work->f904 = -1;
     work->f900 = 0;
-    idx = GM_DifficultyFlag + 1;
+    idx = GM_GameLevel + 1;
     s19b_dword_800DE650 = table[idx];
 
     if (work->f90C == 0)

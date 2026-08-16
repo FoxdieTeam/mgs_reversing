@@ -419,7 +419,7 @@ void s07a_meryl_unk_800D76CC( WatcherWork *work, int time )
     }
 
     if ( time == 130 ) {
-        GM_CurrentItemId = IT_None ;
+        GM_Item = IT_None ;
     }
 
     if ( time > 150  ) {
@@ -1077,7 +1077,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
             SetAction( work, ACTION37, ACTINTERP );
             if ( work->target->vital <= 0 )
             {
-                if ( GM_CurrentWeaponId == WP_Rifle )
+                if ( GM_Weapon == WP_Rifle )
                 {
                     MERYL_PutBlood( work, 6, 2 );
                 }
@@ -1119,7 +1119,7 @@ void s07a_meryl_unk_800D8CB4( WatcherWork *work, int time )
         }
     }
 
-    if ( time == 2 && work->target->vital <= 0 && GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0 )
+    if ( time == 2 && work->target->vital <= 0 && GM_GameOverTimer == 0 && GM_Vitality > 0 )
     {
         if ( work->field_C3C >= 0 )
         {

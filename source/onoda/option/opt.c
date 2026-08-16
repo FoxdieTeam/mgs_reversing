@@ -1453,79 +1453,79 @@ static inline void SetGameOptionFlag( Work *work )
 
     if ( work->f924[4] == 1 )
     {
-        GM_OptionFlag |= OPTION_UNKNOWN_2000;
+        GM_Configuration |= GM_CONFIG_UNKNOWN_2000;
     }
     else
     {
-        GM_OptionFlag &= ~( OPTION_UNKNOWN_2000 );
+        GM_Configuration &= ~( GM_CONFIG_UNKNOWN_2000 );
     }
 
     if ( !( work->f2B54 ) )
     {
-        GM_OptionFlag |= OPTION_UNKNOWN_2000;
+        GM_Configuration |= GM_CONFIG_UNKNOWN_2000;
     }
 
     if ( work->f924[3] == 1 )
     {
-        GM_OptionFlag |= OPTION_SOUND_MONO;
+        GM_Configuration |= GM_CONFIG_SOUND_MONAURAL;
     }
     else
     {
-        GM_OptionFlag &= ~( OPTION_SOUND_MONO );
+        GM_Configuration &= ~( GM_CONFIG_SOUND_MONAURAL );
     }
 
     if ( work->f924[1] == 1 )
     {
-        GM_OptionFlag |= OPTION_CAPTION_OFF;
+        GM_Configuration |= GM_CONFIG_CAPTION_OFF;
     }
     else
     {
-        GM_OptionFlag &= ~( OPTION_CAPTION_OFF );
+        GM_Configuration &= ~( GM_CONFIG_CAPTION_OFF );
     }
 
     if ( work->f924[2] == 1 )
     {
-        GM_OptionFlag |= OPTION_ENGLISH;
+        GM_Configuration |= GM_CONFIG_ENGLISH;
     }
     else
     {
-        GM_OptionFlag &= ~( OPTION_ENGLISH );
+        GM_Configuration &= ~( GM_CONFIG_ENGLISH );
     }
 
     switch ( work->f29E8 )
     {
     case 0:
-        GM_OptionFlag &= ~( OPTION_SHUKAN_REVERSE | OPTION_BUTTON_MASK );
+        GM_Configuration &= ~( GM_CONFIG_SHUKAN_REVERSE | GM_CONFIG_BUTTON_MASK );
         if ( work->f2B60 )
         {
-            GM_OptionFlag |= OPTION_UNKNOWN_0008;
+            GM_Configuration |= GM_CONFIG_UNKNOWN_0008;
         }
         break;
     case 1:
-        GM_OptionFlag &= ~( OPTION_SHUKAN_REVERSE | OPTION_BUTTON_MASK );
-        GM_OptionFlag |= OPTION_BUTTON_TYPE_B;
+        GM_Configuration &= ~( GM_CONFIG_SHUKAN_REVERSE | GM_CONFIG_BUTTON_MASK );
+        GM_Configuration |= GM_CONFIG_BUTTON_TYPE_B;
         if ( work->f2B60 )
         {
-            GM_OptionFlag |= ( OPTION_UNKNOWN_0008 | OPTION_BUTTON_TYPE_B );
+            GM_Configuration |= ( GM_CONFIG_UNKNOWN_0008 | GM_CONFIG_BUTTON_TYPE_B );
         }
         break;
     case 2:
-        GM_OptionFlag &= ~( OPTION_SHUKAN_REVERSE | OPTION_BUTTON_MASK );
-        GM_OptionFlag |= OPTION_BUTTON_TYPE_C;
+        GM_Configuration &= ~( GM_CONFIG_SHUKAN_REVERSE | GM_CONFIG_BUTTON_MASK );
+        GM_Configuration |= GM_CONFIG_BUTTON_TYPE_C;
         if ( work->f2B60 )
         {
-            GM_OptionFlag |= ( OPTION_UNKNOWN_0008 | OPTION_BUTTON_TYPE_C );
+            GM_Configuration |= ( GM_CONFIG_UNKNOWN_0008 | GM_CONFIG_BUTTON_TYPE_C );
         }
         break;
     }
 
     if ( work->f29EC == 1 )
     {
-        GM_OptionFlag |= OPTION_SHUKAN_REVERSE;
+        GM_Configuration |= GM_CONFIG_SHUKAN_REVERSE;
     }
     else
     {
-        GM_OptionFlag &= ~( OPTION_SHUKAN_REVERSE );
+        GM_Configuration &= ~( GM_CONFIG_SHUKAN_REVERSE );
     }
 
     work->f920 = 11;
@@ -2285,7 +2285,7 @@ static void Act(Work *work)
     case 11:
         if (++work->f2B58 > 16)
         {
-            GM_OptionFlag |= OPTION_UNKNOWN_0010;
+            GM_Configuration |= GM_CONFIG_UNKNOWN_0010;
             GCL_ExecProc(work->f91C, NULL);
             GV_DestroyActor(&work->actor);
         }
@@ -2730,37 +2730,37 @@ static int GetResources(Work *work, int map)
         work->f924[i] = 0;
     }
 
-    if (GM_OptionFlag & OPTION_CAPTION_OFF)
+    if (GM_Configuration & GM_CONFIG_CAPTION_OFF)
     {
         work->f924[1] = 1;
     }
 
-    if (GM_OptionFlag & OPTION_ENGLISH)
+    if (GM_Configuration & GM_CONFIG_ENGLISH)
     {
         work->f924[2] = 1;
     }
 
-    if (GM_OptionFlag & OPTION_UNKNOWN_2000)
+    if (GM_Configuration & GM_CONFIG_UNKNOWN_2000)
     {
         work->f924[4] = 1;
     }
 
-    if (GM_OptionFlag & OPTION_SOUND_MONO)
+    if (GM_Configuration & GM_CONFIG_SOUND_MONAURAL)
     {
         work->f924[3] = 1;
     }
 
-    if (GM_OptionFlag & OPTION_SHUKAN_REVERSE)
+    if (GM_Configuration & GM_CONFIG_SHUKAN_REVERSE)
     {
         work->f29EC = 1;
     }
 
-    if (GM_OptionFlag & OPTION_BUTTON_TYPE_B)
+    if (GM_Configuration & GM_CONFIG_BUTTON_TYPE_B)
     {
         work->f29E8 = 1;
     }
 
-    if (GM_OptionFlag & OPTION_BUTTON_TYPE_C)
+    if (GM_Configuration & GM_CONFIG_BUTTON_TYPE_C)
     {
         work->f29E8 = 2;
     }
@@ -2793,11 +2793,11 @@ static int GetResources(Work *work, int map)
     GM_PadVibration = 0;
     GM_PadVibration2 = 0;
 
-    GM_OptionFlag &= ~OPTION_UNKNOWN_2000;
+    GM_Configuration &= ~GM_CONFIG_UNKNOWN_2000;
 
     work->f2B58 = 0;
 
-    if (GM_OptionFlag & OPTION_UNKNOWN_0008)
+    if (GM_Configuration & GM_CONFIG_UNKNOWN_0008)
     {
         work->f2B60 = 1;
     }

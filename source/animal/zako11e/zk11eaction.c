@@ -945,7 +945,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
             SetAction( work, ACTION37, ACTINTERP );
             if ( work->target->vital <= 0 )
             {
-                if ( GM_CurrentWeaponId == WP_Rifle )
+                if ( GM_Weapon == WP_Rifle )
                 {
                     ZAKO11E_PutBlood_800D7A14( work, 6, 2 );
                 }
@@ -1199,7 +1199,7 @@ void s11e_zk11ecom_800D6CE8( ZakoWork *work, int time )
 
         if ( !work->field_C4C )
         {
-            GM_TotalEnemiesKilled++;
+            GM_EnemyKillCount++;
         }
     }
 

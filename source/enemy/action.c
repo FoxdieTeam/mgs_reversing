@@ -390,7 +390,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
     }
 
     if ( time == 130 ) {
-        GM_CurrentItemId = IT_None ; //Actually should be named GM_Item and IT_None
+        GM_Item = IT_None ;
     }
 
     if ( time > 150  ) {
@@ -1058,7 +1058,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             SetAction( work, ACTION37, ACTINTERP );
             if ( work->target->vital <= 0 )
             {
-                if ( GM_CurrentWeaponId == WP_Rifle )
+                if ( GM_Weapon == WP_Rifle )
                 {
                     ENE_PutBlood( work, 6, 2 );
                 }
@@ -1312,7 +1312,7 @@ void s00a_command_800C818C( WatcherWork *work, int time )
 
         if ( !work->field_C48 )
         {
-            GM_TotalEnemiesKilled++;
+            GM_EnemyKillCount++;
         }
 
         if ( work->field_C3C >= 0 )
@@ -1853,7 +1853,7 @@ void ENE_PutItem( WatcherWork *work )
         break;
     case 2:
         //famas
-        if ( GM_FamasFlag < 0 || GM_DifficultyFlag < 0 )
+        if ( GM_FamasFlag < 0 || GM_GameLevel < 0 )
         {
             item.type   = 4;
             item.id     = IT_Ration;
@@ -2014,7 +2014,7 @@ void ENE_PutBulletEx( WatcherWork *work )
     DG_RotatePos( &svec );
     ReadRotMatrix( &local_mat );
 
-    switch ( GM_DifficultyFlag )
+    switch ( GM_GameLevel )
     {
     case 1:
         damage = 96;

@@ -56,17 +56,17 @@ void ElcDamgAct_800D4AE4(Work *work)
     {
         sum = work->field_28 + work->addend;
 
-        GM_SnakeCurrentHealth -= sum >> 8;
+        GM_Vitality -= sum >> 8;
         work->field_28 = sum & 0xFF;
 
-        if (GM_SnakeCurrentHealth < 0)
+        if (GM_Vitality < 0)
         {
-            GM_SnakeCurrentHealth = 0;
+            GM_Vitality = 0;
         }
 
         if (--work->field_34 == 0)
         {
-            if (GM_SnakeCurrentHealth <= 0 && GM_GameOverTimer == 0 && sna_ration_available_8004FB4C() == 0)
+            if (GM_Vitality <= 0 && GM_GameOverTimer == 0 && sna_ration_available_8004FB4C() == 0)
             {
                 ElcDamgExecProc_800D4AAC(work->proc_id, 0x1A75);
                 GM_GameOver();

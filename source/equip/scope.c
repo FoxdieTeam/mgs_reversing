@@ -620,7 +620,7 @@ static void Act(Work *work)
 
     if (dword_8009F604 != SCOPE_SIGHT)
     {
-        NewSight(SCOPE_SIGHT, SCOPE_SIGHT, &GM_CurrentItemId, IT_Scope, NULL);
+        NewSight(SCOPE_SIGHT, SCOPE_SIGHT, &GM_Item, IT_Scope, NULL);
         GM_SeSet2(0, 63, SE_ITEM_OPENWINDOW);
     }
 

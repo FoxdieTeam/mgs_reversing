@@ -874,7 +874,7 @@ void s08b_bunsin2_800CDB54(int vox_code)
 {
     if (GM_StreamStatus() == -1 &&
         GM_GameOverTimer == 0 &&
-        GM_SnakeCurrentHealth > 0)
+        GM_Vitality > 0)
     {
         GM_VoxStream(vox_code, 0);
     }
@@ -885,7 +885,7 @@ void s08b_bunsin2_800CDBAC(Work *work)
     {
         if (GM_StreamStatus() == -1)
         {
-            if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            if (GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
                 GM_VoxStream(work->field_1A98[1], 0);
             }
@@ -896,7 +896,7 @@ void s08b_bunsin2_800CDBAC(Work *work)
     {
         if (GM_StreamStatus() == -1)
         {
-            if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            if (GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
                 GM_VoxStream(work->field_1A98[2], 0);
             }
@@ -907,7 +907,7 @@ void s08b_bunsin2_800CDBAC(Work *work)
     {
         if (GM_StreamStatus() == -1)
         {
-            if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            if (GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
                 GM_VoxStream(work->field_1A98[15], 0);
             }
@@ -918,7 +918,7 @@ void s08b_bunsin2_800CDBAC(Work *work)
     {
         if (GM_StreamStatus() == -1)
         {
-            if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            if (GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
                 GM_VoxStream(work->field_1A98[16], 0);
             }
@@ -929,7 +929,7 @@ void s08b_bunsin2_800CDBAC(Work *work)
     {
         if (GM_StreamStatus() == -1)
         {
-            if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            if (GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
                 GM_VoxStream(work->field_1A98[14], 0);
             }
@@ -1264,7 +1264,7 @@ int s08b_bunsin2_800CFA80(Work *work)
     {
         if (GM_StreamStatus() == -1 &&
             GM_GameOverTimer == 0 &&
-            GM_SnakeCurrentHealth > 0)
+            GM_Vitality > 0)
         {
             GM_VoxStream(work->field_1A98[18], 0);
         }
@@ -1476,7 +1476,7 @@ int s08b_bunsin2_800D0330(Work *work)
     if (work->field_19D0 == 0 &&
         GM_StreamStatus() == -1 &&
         GM_GameOverTimer == 0 &&
-        GM_SnakeCurrentHealth > 0)
+        GM_Vitality > 0)
     {
         GM_VoxStream(work->field_1A98[17], 0);
     }
@@ -1628,7 +1628,7 @@ int s08b_bunsin2_800D09C4(Work *work)
     }
     work->field_19C0 |= 2;
 
-    g = GM_DifficultyFlag;
+    g = GM_GameLevel;
     if (g == 1)
     {
         threshold = 0x96;
@@ -1677,7 +1677,7 @@ void s08b_bunsin2_800D0A90(Work *work)
         work->field_19DC = work->field_19DC + 1;
     }
 
-    g = GM_DifficultyFlag;
+    g = GM_GameLevel;
     if (g == 1)
     {
         threshold = 0xF;
@@ -1770,7 +1770,7 @@ int s08b_bunsin2_800D1014(Work *work)
     int threshold;
     int n;
 
-    g = GM_DifficultyFlag;
+    g = GM_GameLevel;
     if (g == 1)
     {
         threshold = 4;
@@ -1794,7 +1794,7 @@ int s08b_bunsin2_800D1014(Work *work)
         {
             work->field_19B0 = 0x12;
         }
-        else if (GM_CurrentWeaponId == -1)
+        else if (GM_Weapon == -1)
         {
             work->field_19B0 = 0x11;
         }
@@ -1826,7 +1826,7 @@ int s08b_bunsin2_800D10C4(Work *work)
     {
         work->field_19B0 = 0x12;
     }
-    else if (GM_CurrentWeaponId == WP_None)
+    else if (GM_Weapon == WP_None)
     {
         work->field_19B0 = 0x10;
     }
@@ -2001,7 +2001,7 @@ int s08b_bunsin2_800D1400(Work *work)
         work->field_19DC % 3 == 0 &&
         GM_StreamStatus() == -1 &&
         GM_GameOverTimer == 0 &&
-        GM_SnakeCurrentHealth > 0)
+        GM_Vitality > 0)
     {
         GM_VoxStream(work->field_1A98[7], 0);
     }
@@ -2042,7 +2042,7 @@ int s08b_bunsin2_800D1588(Work *work)
     {
         if (GM_StreamStatus() == -1 &&
             GM_GameOverTimer == 0 &&
-            GM_SnakeCurrentHealth > 0)
+            GM_Vitality > 0)
         {
             GM_VoxStream(work->field_1A98[6], 0);
         }
@@ -2062,7 +2062,7 @@ int s08b_bunsin2_800D1638(Work *work)
 
     if (s == 0xA)
     {
-        if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+        if (GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
             GM_VoxStream(work->field_1A98[3], 0);
         }
@@ -2096,7 +2096,7 @@ int s08b_bunsin2_800D1738(Work *work)
     {
         if (GM_StreamStatus() == -1 &&
             GM_GameOverTimer == 0 &&
-            GM_SnakeCurrentHealth > 0)
+            GM_Vitality > 0)
         {
             GM_VoxStream(work->field_1A98[1], 0);
         }
@@ -2118,15 +2118,15 @@ int s08b_bunsin2_800D17F8(Work *work)
 {
     if (work->field_19D0 == 0)
     {
-        if (GM_ItemTypes[GM_CurrentItemId + 1] & 2)
+        if (GM_ItemTypes[GM_Item + 1] & 2)
         {
-            GM_CurrentItemId = -1;
+            GM_Item = -1;
         }
-        if (GM_WeaponTypes[GM_CurrentWeaponId + 1] & 0x200)
+        if (GM_WeaponTypes[GM_Weapon + 1] & 0x200)
         {
-            GM_CurrentWeaponId = -1;
+            GM_Weapon = -1;
         }
-        if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+        if (GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
             GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40;
             s08b_ninja_800C79D4(7);
@@ -2136,7 +2136,7 @@ int s08b_bunsin2_800D17F8(Work *work)
     {
         if (GM_StreamStatus() == -1 &&
             GM_GameOverTimer == 0 &&
-            GM_SnakeCurrentHealth > 0)
+            GM_Vitality > 0)
         {
             GM_VoxStream(work->field_1A98[12], 0);
         }
@@ -2156,7 +2156,7 @@ int s08b_bunsin2_800D195C(Work *work)
     {
         if (GM_StreamStatus() == -1 &&
             GM_GameOverTimer == 0 &&
-            GM_SnakeCurrentHealth > 0)
+            GM_Vitality > 0)
         {
             GM_VoxStream(work->field_1A98[14], 0);
         }
@@ -2181,7 +2181,7 @@ int s08b_bunsin2_800D1A18(Work *work)
     }
     if (work->field_19D0 == 0x1E)
     {
-        if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+        if (GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
             s08b_ninja_800C79D4(6);
         }
@@ -2200,15 +2200,15 @@ int s08b_bunsin2_800D1AF8(Work *work)
 {
     if (work->field_19D0 == 0)
     {
-        if (GM_ItemTypes[GM_CurrentItemId + 1] & 2)
+        if (GM_ItemTypes[GM_Item + 1] & 2)
         {
-            GM_CurrentItemId = -1;
+            GM_Item = -1;
         }
-        if (GM_WeaponTypes[GM_CurrentWeaponId + 1] & 0x200)
+        if (GM_WeaponTypes[GM_Weapon + 1] & 0x200)
         {
-            GM_CurrentWeaponId = -1;
+            GM_Weapon = -1;
         }
-        if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+        if (GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
             GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40;
             s08b_ninja_800C79D4(8);
@@ -2216,14 +2216,14 @@ int s08b_bunsin2_800D1AF8(Work *work)
     }
     if (work->field_19D0 == 0x1E)
     {
-        if (GM_StreamStatus() == -1 && GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+        if (GM_StreamStatus() == -1 && GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
             GM_VoxStream(work->field_1A98[5], 0);
         }
     }
     if (work->field_19D0 == 0x82)
     {
-        if (GM_StreamStatus() == -1 && GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+        if (GM_StreamStatus() == -1 && GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
             GM_VoxStream(work->field_1A98[10], 0);
         }
@@ -2512,7 +2512,7 @@ void s08b_bunsin2_800D2DB0(Work *work)
             work->field_19CC = 0x1B;
             work->field_19C8 = 1;
             work->field_19B8 = 3;
-            if (x >= 0 && GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            if (x >= 0 && GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
                 GCL_ExecProc(x, 0);
             }

@@ -270,7 +270,7 @@ void menu_item_printDescription_8003B614(int itemIndex)
         itemDescription[46] = GM_CardFlag + 48;
     }
 
-    if (itemIndex == IT_MineDetector && GM_DifficultyFlag >= DIFFICULTY_HARD)
+    if (itemIndex == IT_MineDetector && GM_GameLevel >= GM_LEVEL_HARD)
     {
         itemDescription = (char *)mineDetectorUnusable_8009E44C;
     }
@@ -292,7 +292,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
     int bit;
 
     // If both the weapon and item use the first person view
-    if ((GM_WeaponTypes[GM_CurrentWeaponId + 1] & 0x200) && (GM_ItemTypes[item + 1] & 1))
+    if ((GM_WeaponTypes[GM_Weapon + 1] & 0x200) && (GM_ItemTypes[item + 1] & 1))
     {
         return TRUE;
     }
@@ -397,10 +397,10 @@ void menu_item_helper_8003B8F0(MenuWork *work, u_long *ot, int xpos, int ypos, M
             }
         }
         // If the item is a consumable, draw the current and max values
-        if (GM_ItemTypes[pMenuSub->field_0_current.field_0_id + 1] & ITEMTYPE_CONSUMABLE)
+        if (GM_ItemTypes[pMenuSub->field_0_current.field_0_id + 1] & IT_TYPE_CONSUMABLE)
         {
             menu_number_draw_number2(work, xpos, ypos + 11, pMenuSub->field_0_current.field_2_num,
-                                     GM_ItemsMax[pMenuSub->field_0_current.field_0_id]);
+                                     GM_ItemsMax[pMenuSub->field_0_current.field_0_id - IT_Ration]);
         }
         else if (pMenuSub->field_0_current.field_0_id == IT_Card)
         {
@@ -490,7 +490,7 @@ void menu_8003BBEC(MenuWork *work)
             dword_800ABAD0 = index;
         }
 
-        GM_CurrentItemId = IT_None;
+        GM_Item = IT_None;
         work->field_1DC_menu_item.field_0_current.field_0_id = IT_None;
     }
 
@@ -533,9 +533,9 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
             return 0;
         }
 
-        if ((GM_CurrentItemId != IT_None) && (GM_CurrentItemId != IT_Card))
+        if ((GM_Item != IT_None) && (GM_Item != IT_Card))
         {
-            dword_800ABAD0 = GM_CurrentItemId;
+            dword_800ABAD0 = GM_Item;
         }
         else if (dword_800ABAD0 < 0)
         {
@@ -561,7 +561,7 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
 
                 if (cardVal == 0)
                 {
-                    if (GM_CurrentItemId == IT_None)
+                    if (GM_Item == IT_None)
                     {
                         AssignXY_8003D1A8(&pPanels->field_20_array[panelIndex], IT_Card, GM_Items[IT_Card]);
                         panelIndex++;
@@ -641,7 +641,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot)
                 menu_sub_menu_update_8003DA0C(work, ot, &work->field_1DC_menu_item);
 
                 if (((anim_frame2 & 3) == 3) &&
-                    (work->field_1DC_menu_item.field_0_current.field_0_id != GM_CurrentItemId) &&
+                    (work->field_1DC_menu_item.field_0_current.field_0_id != GM_Item) &&
                     menu_item_IsItemDisabled_8003B6D0(work->field_1DC_menu_item.field_0_current.field_0_id) &&
                     (DG_UnDrawFrameCount == 0))
                 {
@@ -653,16 +653,16 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot)
         else
         {
             switched_weapon = 0;
-            if (menu_item_IsItemDisabled_8003B6D0(GM_CurrentItemId))
+            if (menu_item_IsItemDisabled_8003B6D0(GM_Item))
             {
-                last_id = GM_CurrentItemId;
-                GM_CurrentItemId = IT_None;
+                last_id = GM_Item;
+                GM_Item = IT_None;
                 work->field_1DC_menu_item.field_12_flashingAnimationFrame = 19;
                 dword_800ABAD0 = last_id;
                 break;
             }
 
-            if (work->field_1DC_menu_item.field_0_current.field_0_id != GM_CurrentItemId)
+            if (work->field_1DC_menu_item.field_0_current.field_0_id != GM_Item)
             {
                 switched_weapon = 1;
 
@@ -672,18 +672,18 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot)
                     dword_800ABAD0 = work->field_1DC_menu_item.field_0_current.field_0_id;
                 }
 
-                work->field_1DC_menu_item.field_0_current.field_0_id = GM_CurrentItemId;
+                work->field_1DC_menu_item.field_0_current.field_0_id = GM_Item;
             }
 
-            if (GM_CurrentItemId >= 0)
+            if (GM_Item >= 0)
             {
                 if (switched_weapon != 0)
                 {
-                    sub_8003CFE0(menu_rpk_8003B5E0(GM_CurrentItemId), 0);
-                    work->field_1DC_menu_item.field_11 = GM_CurrentItemId;
+                    sub_8003CFE0(menu_rpk_8003B5E0(GM_Item), 0);
+                    work->field_1DC_menu_item.field_11 = GM_Item;
                 }
 
-                work->field_1DC_menu_item.field_0_current.field_2_num = GM_Items[GM_CurrentItemId];
+                work->field_1DC_menu_item.field_0_current.field_2_num = GM_Items[GM_Item];
                 menu_sub_menu_update_8003DA0C(work, ot, &work->field_1DC_menu_item);
             }
         }
@@ -788,7 +788,7 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
             return;
         }
 
-        if (GM_SnakeCurrentHealth == GM_SnakeMaxHealth)
+        if (GM_Vitality == GM_VitalityMax)
         {
             GM_SeSet2(0, 63, SE_BUZZER);
             return;
@@ -796,11 +796,11 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
 
         if (pPanel->field_0_id == IT_Ration)
         {
-            if (GM_DifficultyFlag == DIFFICULTY_VERY_EASY)
+            if (GM_GameLevel == GM_LEVEL_VERYEASY)
             {
                 heal_amount = 1024;
             }
-            else if (GM_DifficultyFlag == DIFFICULTY_EASY)
+            else if (GM_GameLevel == GM_LEVEL_EASY)
             {
                 heal_amount = 384;
             }
@@ -816,12 +816,12 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
             GM_KetchupFlag = 0;
         }
 
-        GM_SnakeCurrentHealth += heal_amount;
-        GM_TotalRationsUsed++;
+        GM_Vitality += heal_amount;
+        GM_RationUseCount++;
 
-        if (GM_SnakeCurrentHealth > GM_SnakeMaxHealth)
+        if (GM_Vitality > GM_VitalityMax)
         {
-            GM_SnakeCurrentHealth = GM_SnakeMaxHealth;
+            GM_Vitality = GM_VitalityMax;
         }
 
         GM_SeSet2(0, 63, SE_RECOVER_LIFE);
@@ -831,8 +831,8 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
         if (GM_StatusEvent & EV_CommonCold) // Snake has a cold :(
         {
             GM_StatusEvent &= ~EV_CommonCold;
-            GM_SnakeColdTimer = 0;
-            GM_SnakeColdUnk9A = 0;
+            GM_PlayerSneezeCount = 0;
+            GM_PlayerSneezing = 0;
         }
 
         GM_SeSet2(0, 63, SE_ITEM_MEDICINE);
@@ -916,7 +916,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
         }
         // If the player is holding a ration, assumes that the body temperature
         // influences the speed of the freezing process
-        if (GM_CurrentItemId == IT_Ration)
+        if (GM_Item == IT_Ration)
         {
             if (speed > 0)
             {
@@ -951,7 +951,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
         {
             GM_FrozenItemsState = 0;
 
-            if (GM_CurrentItemId == IT_Ration || GM_CurrentItemId == IT_Ketchup)
+            if (GM_Item == IT_Ration || GM_Item == IT_Ketchup)
             {
                 GM_SeSet2(0, 63, SE_SIGNAL04); // Unfreeze sound (also used by Nikita)
             }
@@ -1064,34 +1064,34 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
                 mtx.t[2] = GM_PlayerPosition.vz;
                 NewBlast(&mtx, &blastData);
 
-                GM_CurrentItemId = IT_None;
+                GM_Item = IT_None;
                 GM_StatusEvent |= EV_BlownUp;
             }
         }
-        else if (GM_CurrentItemId == IT_TimerBomb)
+        else if (GM_Item == IT_TimerBomb)
         {
             GM_SeSet2(0, 63, SE_TIMEBOMB_TICK);
         }
         break;
 
     case 3: // Snake's cold status update
-        if (GM_SnakeColdUnk9A < 0)
+        if (GM_PlayerSneezing < 0)
         {
-            if (--GM_SnakeColdTimer < GM_SnakeColdUnk98)
+            if (--GM_PlayerSneezeCount < GM_PlayerSneezeTime)
             {
-                GM_SnakeColdTimer = GM_SnakeColdUnk98;
+                GM_PlayerSneezeCount = GM_PlayerSneezeTime;
                 GM_StatusEvent |= EV_CommonCold;
             }
         }
         else
         {
-            GM_SnakeColdTimer = 0;
+            GM_PlayerSneezeCount = 0;
         }
 
         break;
 
     case 4:
-        GM_GameTimeSeconds++;
+        GM_StageTimeSeconds++;
         break;
     }
 }
@@ -1123,22 +1123,22 @@ void menu_item_update_8003C95C(MenuWork *work, u_long *ot)
                 // Quick item equip (L1)
                 else if (!(GM_GameStatus & GAME_FLAG_BIT_19) && (pPad->press & PAD_L1))
                 {
-                    int itemid = GM_CurrentItemId;
+                    int itemid = GM_Item;
 
                     // Unequip the current item if it is equipped
                     if (itemid >= 0)
                     {
-                        GM_CurrentItemId = IT_None;
+                        GM_Item = IT_None;
                     }
                     else if (!menu_item_IsItemDisabled_8003B6D0(work->field_1DC_menu_item.field_11))
                     {
                         if (GM_Items[work->field_1DC_menu_item.field_11] > 0)
                         {
-                            GM_CurrentItemId = work->field_1DC_menu_item.field_11;
+                            GM_Item = work->field_1DC_menu_item.field_11;
                         }
                     }
 
-                    if (itemid != GM_CurrentItemId)
+                    if (itemid != GM_Item)
                     {
                         GM_SeSet2(0, 63, SE_ITEM_EQUIP);
                     }
@@ -1166,7 +1166,7 @@ void menu_item_update_8003C95C(MenuWork *work, u_long *ot)
     }
     else if (work->field_2A_state != MENU_CODEC_OPEN) // ... else if not using Codec (i.e. browsing weapons menu)...
     {
-        if (GM_CurrentItemId >= 0)
+        if (GM_Item >= 0)
         {
             int ret = sub_8003D52C();
             if (ret < 255)

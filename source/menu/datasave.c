@@ -128,7 +128,7 @@ STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
     char *buffer, *buffer_copy;
     int success;
     int retries;
-    int difficulty;
+    int level;
     int flags1, flags2;
     int i, idx;
 
@@ -154,8 +154,8 @@ STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
 
     if (idx == 0)
     {
-        idx = GM_BonusItemsFlag;
-        flags1 = GM_BonusItemsFlag;
+        idx = GM_ClearFlag;
+        flags1 = GM_ClearFlag;
 
         if (flags1 >= 4)
         {
@@ -166,7 +166,7 @@ STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
         }
         }
 
-        flags2 = flags1 | ((GM_CurrentDiskFlag - 1) * 8);
+        flags2 = flags1 | ((GM_Disk - 1) * 8);
     }
     else
     {
@@ -178,8 +178,8 @@ STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
     // The save data title, which comes before the CLUT, is set few lines below.
     memcpy(buffer_copy + 96, clutsAndIcons_8009E774[idx], 160);
 
-    hours = GM_TotalHours;
-    minutes = GM_TotalSeconds / 60;
+    hours = GM_PlayTimeHours;
+    minutes = GM_PlayTimeSeconds / 60;
     if (hours > 99)
     {
         minutes = hours = c99;
@@ -196,21 +196,21 @@ STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
 
     if (data_info->field_0[0] == 71)
     {
-        difficulty = GM_DifficultyFlag;
+        level = GM_GameLevel;
     }
     else
     {
-        difficulty = 0;
+        level = 0;
     }
 
-    if (difficulty < 0)
+    if (level < 0)
     {
-        difficulty = 0;
+        level = 0;
         memoryCardFileName[13] |= 0x40;
     }
 
-    memoryCardFileName[15] = ((minutes / 10) + '0') + ((difficulty & 2) << 5);
-    memoryCardFileName[16] = ((minutes % 10) + '0') + ((difficulty & 1) << 6);
+    memoryCardFileName[15] = ((minutes / 10) + '0') + ((level & 2) << 5);
+    memoryCardFileName[16] = ((minutes % 10) + '0') + ((level & 1) << 6);
     memoryCardFileName[17] = flags2 + '@';
     memoryCardFileName[18] = data_info->field_2 + '@';
 
@@ -218,7 +218,7 @@ STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
     {
         memoryCardFileName[13] &= 0x40;
         memoryCardFileName[13] |= 0x3A;
-        memoryCardFileName[14] = GM_LastResultFlag + '@';
+        memoryCardFileName[14] = GM_Result + '@';
     }
 
     for (i = 0; i < 16; i++)
@@ -344,25 +344,25 @@ STATIC int loadFile_80049CE8(MEM_CARD *pMemcard, int idx)
 
         if (memcard_get_status() == 0)
         {
-            optionFlagTmp = GM_OptionFlag & ~OPTION_RADAR_OFF;
+            optionFlagTmp = GM_Configuration & ~GM_CONFIG_RADAR_OFF;
             optionFlag = optionFlagTmp;
             // 256: start position (offset) of game data (as there is only one icon).
             if (GCL_SetLoadFile(buf + 256) != 0)
             {
                 success = 1;
-                if (optionFlag & OPTION_UNKNOWN_0010)
+                if (optionFlag & GM_CONFIG_UNKNOWN_0010)
                 {
-                    // 0xE100 == OPTION_ENGLISH | 0x2000 | OPTION_CAPTION_OFF | OPTION_SOUND_MONO
-                    GM_OptionFlag = (GM_OptionFlag & ~0xE100) | (optionFlag & 0xE100);
+                    // 0xE100 == GM_CONFIG_ENGLISH | 0x2000 | GM_CONFIG_CAPTION_OFF | GM_CONFIG_SOUND_MONAURAL
+                    GM_Configuration = (GM_Configuration & ~0xE100) | (optionFlag & 0xE100);
                 }
-                if (optionFlag & OPTION_UNKNOWN_0008)
+                if (optionFlag & GM_CONFIG_UNKNOWN_0008)
                 {
-                    // 0x1007 == OPTION_SHUKAN_REVERSE | OPTION_BUTTON_MASK
-                    GM_OptionFlag = (GM_OptionFlag & ~0x1007) | (optionFlag & 0x1007);
+                    // 0x1007 == GM_CONFIG_SHUKAN_REVERSE | GM_CONFIG_BUTTON_MASK
+                    GM_Configuration = (GM_Configuration & ~0x1007) | (optionFlag & 0x1007);
                 }
-                GM_OptionFlag &= ~(OPTION_UNKNOWN_0008 | OPTION_UNKNOWN_0010);
-                GCL_SaveLinkVar(&GM_OptionFlag);
-                if (GM_OptionFlag & OPTION_SOUND_MONO)
+                GM_Configuration &= ~(GM_CONFIG_UNKNOWN_0008 | GM_CONFIG_UNKNOWN_0010);
+                GCL_SaveLinkVar(&GM_Configuration);
+                if (GM_Configuration & GM_CONFIG_SOUND_MONAURAL)
                 {
                     GM_SetSound(0xff000005, SD_ASYNC);
                 }
@@ -2153,8 +2153,8 @@ int menu_radio_do_file_mode(MenuWork *work, GV_PAD *pPad)
             freeMemoryForSelectInfo(dword_800ABB78);
             menu_radio_do_file_mode_helper_8004A858();
             GV_FreeMemory(GV_PACKET_MEMORY0, stack_800ABB50);
-            GM_LastResultFlag = dword_800ABB54;
-            printf("END STATE %d\n", GM_LastResultFlag);
+            GM_Result = dword_800ABB54;
+            printf("END STATE %d\n", GM_Result);
             if (dword_800ABB48 != 2)
             {
                 font_set_color(work->field_214_font, 1, 0x3BEF, 0);
@@ -2258,7 +2258,7 @@ STATIC void makeTitle_8004D008(char *title, MEM_CARD *pUnused, int hours, int mi
     }
 
     /* ＭＧＳ∫ */
-    sprintf(title, "%s%s%s%s%s%s", "\x82\x6C\x82\x66\x82\x72\x81\xE7", diff_names_8009EC1C[GM_DifficultyFlag + 1], "\x81\x40", playTime, "\x81\x40", areaName);
+    sprintf(title, "%s%s%s%s%s%s", "\x82\x6C\x82\x66\x82\x72\x81\xE7", diff_names_8009EC1C[GM_GameLevel + 1], "\x81\x40", playTime, "\x81\x40", areaName);
 }
 
 // Called by data_info->make_menu
@@ -2299,7 +2299,7 @@ STATIC void writeGameData(char *saveBuf)
     // has not been written yet. If a write error occurs and
     // then you save again (this time successfully), the
     // counter is wrong because it is never decremented.
-    GM_TotalSaves++;
+    GM_SaveCount++;
     for (;;)
     {
         size = GCL_MakeSaveFile(saveBufIter);

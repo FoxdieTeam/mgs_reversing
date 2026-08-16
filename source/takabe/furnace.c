@@ -82,7 +82,7 @@ static void Act(Work *work)
         GM_SeSet(&svec, 186);
         GM_SetNoise(100, 2, &svec);
 
-        GM_SnakeCurrentHealth = 0; // :(
+        GM_Vitality = 0; // :(
 
         ExecProc(work->proc_id, 0);
         GM_GameOver();

@@ -265,7 +265,7 @@ static inline int HZD_helper2_80029D50(HZD_BND *pBind, HZD_EVT *event)
         }
         else if (GM_PlayerStatus != 0)
         {
-            if ((GM_UnkFlagBE != 0) && !(GM_PlayerStatus & 0x2))
+            if ((GM_FirstPerson != 0) && !(GM_PlayerStatus & 0x2))
             {
                 mask = 0xFFF4C011;
             }

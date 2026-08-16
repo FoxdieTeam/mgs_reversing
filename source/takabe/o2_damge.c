@@ -99,7 +99,7 @@ void O2DamageAct_800DE5B8(Work *work)
     {
         if (work->f48 != 0)
         {
-            if (GM_CurrentItemId == IT_GasMask)
+            if (GM_Item == IT_GasMask)
             {
                 reduction = work->f3C;
             }
@@ -137,7 +137,7 @@ void O2DamageAct_800DE5B8(Work *work)
             damage += work->f38;
         }
 
-        if (GM_SnakeCurrentHealth > 0)
+        if (GM_Vitality > 0)
         {
             temp_s1 = work->f30;
             temp_s1 += damage;
@@ -152,11 +152,11 @@ void O2DamageAct_800DE5B8(Work *work)
                 }
             }
 
-            GM_SnakeCurrentHealth -= damage;
+            GM_Vitality -= damage;
             work->f30 = temp_s1 & 0xFFF;
 
             // "We haven't managed to avoid drowning"
-            if ((GM_SnakeCurrentHealth <= 0) && (GM_GameOverTimer == 0) && !sna_ration_available_8004FB4C())
+            if ((GM_Vitality <= 0) && (GM_GameOverTimer == 0) && !sna_ration_available_8004FB4C())
             {
                 ExecProc_800DE580(work->f54, (GM_PlayerStatus & PLAYER_GROUND) ? 0xEF61 : 0xB9AA);
                 GM_GameOver();

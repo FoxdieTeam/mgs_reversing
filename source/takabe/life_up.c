@@ -27,10 +27,10 @@ STATIC void LifeUpAct_800DF1A8(Work *work)
 
     if (work->f34 <= 0)
     {
-        GM_SnakeMaxHealth += work->f28;
-        if (GM_SnakeMaxHealth > work->max)
+        GM_VitalityMax += work->f28;
+        if (GM_VitalityMax > work->max)
         {
-            GM_SnakeMaxHealth = work->max;
+            GM_VitalityMax = work->max;
         }
     }
 
@@ -39,17 +39,17 @@ STATIC void LifeUpAct_800DF1A8(Work *work)
         work->f24 = work->f34;
     }
 
-    GM_SnakeCurrentHealth += work->f24;
+    GM_Vitality += work->f24;
     work->f34 -= work->f24;
 
-    if (GM_SnakeCurrentHealth > work->max)
+    if (GM_Vitality > work->max)
     {
-        GM_SnakeCurrentHealth = work->max;
+        GM_Vitality = work->max;
     }
 
-    if (GM_SnakeCurrentHealth > GM_SnakeMaxHealth)
+    if (GM_Vitality > GM_VitalityMax)
     {
-        GM_SnakeMaxHealth = GM_SnakeCurrentHealth;
+        GM_VitalityMax = GM_Vitality;
     }
 
     work->time += GV_PassageTime;
@@ -59,7 +59,7 @@ STATIC void LifeUpAct_800DF1A8(Work *work)
         GM_SeSet(NULL, SE_LIFE_UP);
     }
 
-    if (GM_SnakeMaxHealth == work->max)
+    if (GM_VitalityMax == work->max)
     {
         if (work->proc != 0)
         {
@@ -102,7 +102,7 @@ STATIC int LifeUpGetResources_800DF334(Work *work, int name, int map)
     }
     else
     {
-        work->f34 = work->max - GM_SnakeCurrentHealth;
+        work->f34 = work->max - GM_Vitality;
     }
 
     work->f28 = work->f24;

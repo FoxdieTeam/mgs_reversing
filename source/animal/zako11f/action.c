@@ -1391,7 +1391,7 @@ void s11i_asiato_800CBACC(Zako11FWork *work, int time)
             SetAction(work, ACTION37, ACTINTERP);
             if (work->target->vital <= 0)
             {
-                if (GM_CurrentWeaponId == WP_Rifle)
+                if (GM_Weapon == WP_Rifle)
                 {
                     ZAKO11F_PutBlood_800CCFD4(work, 6, 2);
                 }
@@ -1641,7 +1641,7 @@ void s11i_asiato_800CC314(Zako11FWork *work, int time)
 
         if (work->field_C40 == 0)
         {
-            GM_TotalEnemiesKilled++;
+            GM_EnemyKillCount++;
         }
     }
 }

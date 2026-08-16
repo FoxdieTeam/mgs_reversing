@@ -200,7 +200,7 @@ static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->object);
 
-    if (GM_CurrentWeaponId != WP_Rifle)
+    if (GM_Weapon != WP_Rifle)
     {
         GM_Camera.zoom = 320;
     }

@@ -610,7 +610,7 @@ void s11e_zk11ecom_800DA85C(void)
     int i;
     int a0 = ZakoCommand_800DF280.field_0x60;
 
-    if ( GM_GameOverTimer || GM_SnakeCurrentHealth <= 0 )
+    if ( GM_GameOverTimer || GM_Vitality <= 0 )
     {
         return;
     }

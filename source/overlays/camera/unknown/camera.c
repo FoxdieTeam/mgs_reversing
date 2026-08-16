@@ -1299,7 +1299,7 @@ void jpegcam_initSaveBuffer_800C8234(char *arg0)
     int totalSavedSize = 0x100;
     char *buff = arg0;
 
-    GM_TotalSaves++;
+    GM_SaveCount++;
 
     while (1)
     {

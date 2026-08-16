@@ -420,7 +420,7 @@ void s00a_command_800CF200(void)
 {
     if ( EnemyCommand.field_0x170 < 6000 && ( mts_get_tick_count() - EnemyCommand.field_0x174 ) > 40 )
     {
-       if ( EnemyCommand.field_0x17A && GM_CurrentWeaponId != WP_Rifle )
+       if ( EnemyCommand.field_0x17A && GM_Weapon != WP_Rifle )
        {
            GM_SeSetMode( &GM_PlayerPosition, SE_HEARTBEAT, GM_SEMODE_REAL );
        }

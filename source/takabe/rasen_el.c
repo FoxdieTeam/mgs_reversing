@@ -654,7 +654,7 @@ void s11c_800CD340(Work *work, int arg1)
         if (work->f2D4 == 0)
         {
             if (GM_Camera.first_person == 1 &&
-                (GM_UnkFlagBE == 0 || (GM_UnkFlagBE == 1 && !(GM_PlayerStatus & PLAYER_MOVE_WATCH))))
+                (GM_FirstPerson == 0 || (GM_FirstPerson == 1 && !(GM_PlayerStatus & PLAYER_MOVE_WATCH))))
             {
                 printf("cancel\n");
                 work->f2D8 = -1;
@@ -662,13 +662,13 @@ void s11c_800CD340(Work *work, int arg1)
                 break;
             }
 
-            if (GM_CurrentItemId == IT_Scope ||
-                GM_CurrentItemId == IT_Camera ||
-                GM_CurrentWeaponId == WP_Stinger ||
-                GM_CurrentWeaponId == WP_Rifle ||
-                GM_CurrentItemId == IT_Box1 ||
-                GM_CurrentItemId == IT_Box2 ||
-                GM_CurrentItemId == IT_Box3)
+            if (GM_Item == IT_Scope ||
+                GM_Item == IT_Camera ||
+                GM_Weapon == WP_Stinger ||
+                GM_Weapon == WP_Rifle ||
+                GM_Item == IT_Box1 ||
+                GM_Item == IT_Box2 ||
+                GM_Item == IT_Box3)
             {
                 if (!(GM_Camera.flag & 0x200))
                 {

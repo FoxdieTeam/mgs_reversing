@@ -307,7 +307,7 @@ void s07c_meryl72_unk1_800C8C7C( Meryl72Work* work, int time )
 
     if ( time == 90 )
     {
-        GM_CurrentItemId = -1;
+        GM_Item = -1;
         GM_SeSet( &( work->control.mov ), SE_ITEM_EQUIP );
     }
 
@@ -869,7 +869,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
         {
             work->f8BC.field_14 = 6;
             target->side = ENEMY_SIDE;
-            if ( !GM_GameOverTimer && GM_SnakeCurrentHealth > 0 )
+            if ( !GM_GameOverTimer && GM_Vitality > 0 )
             {
                 ExecProc_800C7C58( work, 1 ) ;
                 GM_GameOver();
@@ -918,7 +918,7 @@ void s07c_meryl72_unk1_800C9B30( Meryl72Work* work, int time )
         work->f8BC.field_14 = 5;
         target->side = ENEMY_SIDE;
         target->vital = 0;
-        if ( !GM_GameOverTimer && GM_SnakeCurrentHealth > 0 )
+        if ( !GM_GameOverTimer && GM_Vitality > 0 )
         {
             ExecProc_800C7C58( work, 1 ) ;
             GM_GameOver();
@@ -1217,7 +1217,7 @@ void s07c_meryl72_unk1_800CA538( Meryl72Work *work, int time )
                 {
                     GM_SeSet( &ctrl->mov, 195 );
                 }
-                if ( GM_CurrentWeaponId == WP_Rifle )
+                if ( GM_Weapon == WP_Rifle )
                 {
                     ML72_PutBlood_800CB2EC( work, 6, 2 );
                 }

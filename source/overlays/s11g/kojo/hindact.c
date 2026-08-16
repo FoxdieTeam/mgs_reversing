@@ -45,12 +45,12 @@ void s11g_hind_800D2CB4(HindWork *work)
         return;
     }
 
-    if (GM_OptionFlag & OPTION_RADAR_OFF)
+    if (GM_Configuration & GM_CONFIG_RADAR_OFF)
     {
         return;
     }
 
-    if (GM_CurrentItemId == IT_Camera)
+    if (GM_Item == IT_Camera)
     {
         return;
     }
@@ -740,12 +740,12 @@ void HindAct(HindWork *work)
 
             if ((work->last_weapon == WP_Rifle) || (work->last_weapon == WP_Stinger))
             {
-                GM_CurrentWeaponId = work->last_weapon;
+                GM_Weapon = work->last_weapon;
             }
 
             if ((work->last_item == IT_Scope) || (work->last_item == IT_Camera) || (work->last_item == IT_NVG) || (work->last_item == IT_ThermG))
             {
-                GM_CurrentItemId = work->last_item;
+                GM_Item = work->last_item;
             }
 
             work->last_weapon = WP_None;

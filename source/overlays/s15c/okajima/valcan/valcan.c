@@ -249,7 +249,7 @@ void ValcanAct_800D9088(Work *work)
 {
     CONTROL *control;
 
-    if (GM_SnakeCurrentHealth <= 0)
+    if (GM_Vitality <= 0)
     {
         GCL_ExecProc(work->field_8D4, NULL);
     }
@@ -270,7 +270,7 @@ void ValcanAct_800D9088(Work *work)
             GM_MoveTarget(work->field_664, &control->mov);
             GM_MoveTarget(work->field_668, &control->mov);
             GM_PushTarget(work->field_668);
-            if (GM_CurrentItemId == IT_ThermG)
+            if (GM_Item == IT_ThermG)
             {
                 DG_AmbientObjs(work->field_A0.objs);
             }
@@ -630,7 +630,7 @@ void Valcan_800D9B5C(Work *work)
     work->field_184.objs->root = &work->field_A0.objs->objs[4].world;
     GM_ActObject2(&work->field_184);
 
-    if (GM_CurrentItemId == IT_ThermG)
+    if (GM_Item == IT_ThermG)
     {
         DG_AmbientObjs(work->field_184.objs);
     }

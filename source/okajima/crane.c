@@ -717,11 +717,11 @@ void CraneAct_800D4C28(Work *work)
         !(GM_PlayerStatus & PLAYER_CAUTION) &&
         work->f370 != -1)
     {
-        if (GM_SnakeCurrentHealth == 0)
+        if (GM_Vitality == 0)
         {
             GM_GameOverTimer = 0;
             GM_PlayerControl->skip_flag &= ~CTRL_SKIP_TRAP;
-            GM_SnakeCurrentHealth = 1;
+            GM_Vitality = 1;
         }
 
         GCL_ExecProc(work->f370, NULL);
@@ -836,11 +836,11 @@ void CraneAct_800D4C28(Work *work)
                     ABS(work->mov.vz - GM_PlayerPosition.vz) < 400) &&
                     work->f370 != -1)
                 {
-                    if (GM_SnakeCurrentHealth == 0)
+                    if (GM_Vitality == 0)
                     {
                         GM_GameOverTimer = 0;
                         GM_PlayerControl->skip_flag &= ~CTRL_SKIP_TRAP;
-                        GM_SnakeCurrentHealth = 1;
+                        GM_Vitality = 1;
                     }
 
                     GCL_ExecProc(work->f370, NULL);
