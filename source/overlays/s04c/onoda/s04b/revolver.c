@@ -1621,7 +1621,7 @@ static void Act(Work *work)
 
     if ((work->body.action2 == 3) && (work->field_888 != 0))
     {
-        diff = (GM_DifficultyFlag >= 0) ? GM_DifficultyFlag : 0;
+        diff = (GM_GameLevel >= 0) ? GM_GameLevel : 0;
         work->control.step.vx = (work->control.step.vx * (diff * 40 + 256)) / 256;
         work->control.step.vz = (work->control.step.vz * (diff * 40 + 256)) / 256;
     }

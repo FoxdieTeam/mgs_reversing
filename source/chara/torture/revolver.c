@@ -422,8 +422,8 @@ check:
         break;
 
     case 2:
-         if ((GM_TotalHours * 3600 + GM_TotalSeconds) - (GM_LastSaveHours * 3600 + GM_LastSaveSeconds) < 0
-             || (GM_TotalHours * 3600 + GM_TotalSeconds) - (GM_LastSaveHours * 3600 + GM_LastSaveSeconds) > 1800)
+         if ((GM_PlayTimeHours * 3600 + GM_PlayTimeSeconds) - (GM_LastSaveHours * 3600 + GM_LastSaveSeconds) < 0
+             || (GM_PlayTimeHours * 3600 + GM_PlayTimeSeconds) - (GM_LastSaveHours * 3600 + GM_LastSaveSeconds) > 1800)
         {
             s03b_revolver_800C7384(work, 2);
             work->field_96A = 3;

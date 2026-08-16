@@ -557,14 +557,13 @@ static void Die( Work *work )
         GM_ContinueStart();
         return;
     }
-    if ( ( GM_OptionFlag & OPTION_TUXEDO ) ||
-        ( GM_DifficultyFlag == DIFFICULTY_VERY_EASY ) )
+    if ( ( GM_Configuration & GM_CONFIG_TUXEDO ) || ( GM_GameLevel == GM_LEVEL_VERYEASY ) )
     {
         GV_InitResidentMemory();
         GV_InitCacheSystem();
         DG_ClearResidentTexture();
         stage_name = "init";
-        GM_OptionFlag &= ~OPTION_TUXEDO;
+        GM_Configuration &= ~GM_CONFIG_TUXEDO;
     }
     else
     {

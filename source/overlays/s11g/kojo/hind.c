@@ -419,7 +419,7 @@ void *NewHindBoss(int name, int where)
 
     if (work->field_4AC != 2)
     {
-        switch (GM_DifficultyFlag)
+        switch (GM_GameLevel)
         {
         default:
         case -1:
@@ -651,7 +651,7 @@ void *NewHindBoss(int name, int where)
     GM_ConfigObjectLight(&work->move_missile_body, work->move_missile_light);
     GM_SetTarget(&work->field_57C, TARGET_POWER, ENEMY_SIDE, &s11g_dword_800C3598);
 
-    switch (GM_DifficultyFlag)
+    switch (GM_GameLevel)
     {
     default:
     case -1:

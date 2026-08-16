@@ -369,7 +369,7 @@ int s11d_dsmoke2_800CC794(Work *work)
 int s11d_dsmoke2_800CCAB4(Work *work)
 {
     SVECTOR size;
-    int     difficulty;
+    int     level;
     int     i;
 
     GCL_StrToSV(GCL_GetOption('s'), (short *)&work->start);
@@ -388,15 +388,15 @@ int s11d_dsmoke2_800CCAB4(Work *work)
     work->field_84.vy = work->size.vy / 16;
     work->field_84.vz = work->size.vz / 16;
 
-    difficulty = GM_DifficultyFlag;
-    if (difficulty < DIFFICULTY_EASY)
+    level = GM_GameLevel;
+    if (level < GM_LEVEL_EASY)
     {
-        difficulty = DIFFICULTY_EASY;
+        level = GM_LEVEL_EASY;
     }
 
     if (GCL_GetOption('x'))
     {
-        for (i = 0; i < difficulty; i++)
+        for (i = 0; i < level; i++)
         {
             GCL_GetNextInt();
         }

@@ -850,7 +850,7 @@ void s11d_rope_800C7EC4(Work *work, int arg1)
         work->field_F74 |= 0x02000000;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_SnakeCurrentHealth = 0;
+        GM_Vitality = 0;
         if (work->object.action != 14)
         {
             GM_ConfigObjectAction(&work->object, 14, 0, 4);
@@ -953,9 +953,9 @@ int s11d_rope_800C879C(Work *work)
     }
 
     GM_SetTarget(target, TARGET_FLAG, PLAYER_SIDE, &target_size);
-    vital = GM_SnakeMaxHealth;
+    vital = GM_VitalityMax;
     GM_SetPowerTarget(target, POWER_DECREASE, -1, vital, 0, &DG_ZeroVector);
-    GM_SnakeCurrentHealth = vital;
+    GM_Vitality = vital;
 
     return 0;
 }

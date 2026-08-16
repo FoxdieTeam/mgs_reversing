@@ -236,5 +236,5 @@ static void *InitFAMAS(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *f
 
 void *NewFAMAS(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side)
 {
-    return InitFAMAS(root_ctrl, root_obj, unit, flags, GM_DifficultyFlag < 0);
+    return InitFAMAS(root_ctrl, root_obj, unit, flags, GM_GameLevel < 0);
 }

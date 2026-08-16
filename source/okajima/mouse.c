@@ -293,7 +293,7 @@ void s00a_mouse_800D4430(Work *work)
         {
             GM_SeSet2(0, 127, 191);
         }
-        else if (GM_CurrentStageFlag != STAGE_s00a)
+        else if (GM_SaveArea != STAGE_s00a)
         {
             GM_SeSet2(0, 127, 176);
         }
@@ -500,7 +500,7 @@ void MouseAct_800D4904(Work *work)
 
         s00a_mouse_800D3B68(work, object);
 
-        if (GM_CurrentItemId == IT_ThermG)
+        if (GM_Item == IT_ThermG)
         {
             DG_AmbientObjs(object->objs);
             DG_GetLightMatrix2(&sp30, entry->light);

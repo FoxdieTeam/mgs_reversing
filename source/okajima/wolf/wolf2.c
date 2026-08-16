@@ -276,7 +276,7 @@ void wolf2_Act(Wolf2Work *work)
     GM_ActObject2(&work->body);
     GM_ActObject2(&work->weapon);
 
-    if (GM_CurrentItemId == IT_ThermG)
+    if (GM_Item == IT_ThermG)
     {
         DG_AmbientObjs(work->body.objs);
     }
@@ -303,7 +303,7 @@ void wolf2_Act(Wolf2Work *work)
     wolf2_SetTileShade(work->f7E0->packs[0], shade);
     wolf2_SetTileShade(work->f7E0->packs[1], shade);
 
-    if (work->fA28 == 1 && GM_SnakeCurrentHealth != 0 && GM_GameOverTimer == 0)
+    if (work->fA28 == 1 && GM_Vitality != 0 && GM_GameOverTimer == 0)
     {
         GM_GameStatus |= STATE_PADRELEASE;
 
@@ -325,14 +325,14 @@ void wolf2_Act(Wolf2Work *work)
         {
             if (GM_PlayerPosition.vz < -14000 && work->fA28 == 0)
             {
-                GM_CurrentWeaponId = WP_None;
+                GM_Weapon = WP_None;
                 GM_GameStatus |= (STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
 
-                if (GM_CurrentItemId != IT_Box1 &&
-                    GM_CurrentItemId != IT_Box2 &&
-                    GM_CurrentItemId != IT_Box3)
+                if (GM_Item != IT_Box1 &&
+                    GM_Item != IT_Box2 &&
+                    GM_Item != IT_Box3)
                 {
-                    GM_CurrentItemId = IT_None;
+                    GM_Item = IT_None;
                 }
 
                 work->cinema_screen = NewCinemaScreen(2000000000, 0);

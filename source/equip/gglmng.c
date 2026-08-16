@@ -27,8 +27,8 @@ static void Act(Work *work)
 {
     if (GM_Camera.first_person != 0)
     {
-        if (GM_CurrentWeaponId == WP_Stinger ||
-            GM_CurrentWeaponId == WP_Rifle ||
+        if (GM_Weapon == WP_Stinger ||
+            GM_Weapon == WP_Rifle ||
             dword_8009F46C == 1 ||
             (GM_PlayerStatus & PLAYER_NOT_SIGHT))
         {

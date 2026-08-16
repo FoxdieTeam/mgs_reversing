@@ -59,7 +59,7 @@ static void Act(Work *work)
         return;
     }
 
-    if (GM_CurrentItemId == work->item && GM_CurrentItemId != IT_None)
+    if (GM_Item == work->item && GM_Item != IT_None)
     {
         if (GV_PadData[0].status & 0xF013)
         {
@@ -118,11 +118,11 @@ static void Act(Work *work)
     }
     else
     {
-        if (GM_CurrentItemId == IT_Box1 ||
-            GM_CurrentItemId == IT_Box2 ||
-            GM_CurrentItemId == IT_Box3)
+        if (GM_Item == IT_Box1 ||
+            GM_Item == IT_Box2 ||
+            GM_Item == IT_Box3)
         {
-            work->item = GM_CurrentItemId;
+            work->item = GM_Item;
         }
         else
         {

@@ -362,14 +362,14 @@ static void s03e_evpanel_800C39F8(Work *work)
 
     DG_InvisibleObjs(GM_PlayerBody->objs);
 
-    if (((1 << GM_CurrentItemId) & 0x101E) != 0)
+    if (((1 << GM_Item) & 0x101E) != 0)
     {
-        GM_CurrentItemId = IT_None;
+        GM_Item = IT_None;
     }
 
-    if (((1 << GM_CurrentWeaponId) & 0x210) != 0)
+    if (((1 << GM_Weapon) & 0x210) != 0)
     {
-        GM_CurrentWeaponId = WP_None;
+        GM_Weapon = WP_None;
     }
 }
 
@@ -537,7 +537,7 @@ static void Act(Work *work)
             {
                 if ((GM_Camera.first_person != 0) || (GM_PlayerStatus & PLAYER_WATCH))
                 {
-                    if ((GM_UnkFlagBE == 0) || !(GM_PlayerStatus & PLAYER_MOVE_WATCH))
+                    if ((GM_FirstPerson == 0) || !(GM_PlayerStatus & PLAYER_MOVE_WATCH))
                     {
                         break;
                     }

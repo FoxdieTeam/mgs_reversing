@@ -1488,9 +1488,9 @@ void s03b_torture_800C5E48(Work *work, int arg1)
         work->f804 += work->f84A;
     }
 
-    if (work->f804 > GM_SnakeMaxHealth)
+    if (work->f804 > GM_VitalityMax)
     {
-        work->f804 = GM_SnakeMaxHealth;
+        work->f804 = GM_VitalityMax;
     }
 
     if (arg1 == work->f84C)
@@ -1836,7 +1836,7 @@ void TortureAct_800C6600(Work *work)
     cam->position.vy = work->body.objs->objs[6].world.t[1];
     cam->position.vz = work->body.objs->objs[6].world.t[2];
 
-    GM_SnakeCurrentHealth = (work->f804 > 0) ? work->f804 : 0;
+    GM_Vitality = (work->f804 > 0) ? work->f804 : 0;
 
     work->control.height = work->body.height;
 
@@ -1863,7 +1863,7 @@ void TortureDie_800C6774(Work *work)
     CloseCinemaScreen();
     s03b_boxall_800C9328();
 
-    GM_SnakeCurrentHealth = GM_SnakeMaxHealth;
+    GM_Vitality = GM_VitalityMax;
 
     if (GM_PlayerControl == &work->control)
     {
@@ -1940,7 +1940,7 @@ void Torture_800C695C(Work *work)
     work->f7FE = 0;
     work->f800 = 0;
     work->f802 = 0;
-    work->f804 = GM_SnakeMaxHealth;
+    work->f804 = GM_VitalityMax;
     work->f810 = 0;
     work->f814 = 0;
     work->f81A = 0;

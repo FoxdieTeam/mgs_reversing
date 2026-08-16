@@ -123,7 +123,7 @@ static void socom_act_helper_8006528C(Work *work)
         primsOrig = 10240;
     }
 
-    if (GM_UnkFlagBE && GM_Camera.first_person)
+    if (GM_FirstPerson && GM_Camera.first_person)
     {
         primsOrig += 515;
     }
@@ -248,7 +248,7 @@ static void Act( Work *work )
 
     flags = *work->flags;
 
-    if ( !GM_UnkFlagBE )
+    if ( !GM_FirstPerson )
     {
         word_800AB824 = -215;
 
@@ -392,9 +392,9 @@ static int GetResources( Work *actor, OBJECT *root_obj, int unit )
         GM_InitObjectNoRots(obj, SOCOM_MODEL2, BODY_FLAG, 0);
         actor->supressor = 1;
         GM_SilencerFlag = 0;
-        if ( GM_CurrentItemId == IT_Suppressor )
+        if ( GM_Item == IT_Suppressor )
         {
-            GM_CurrentItemId = IT_None;
+            GM_Item = IT_None;
         }
     }
     if ( obj->objs )

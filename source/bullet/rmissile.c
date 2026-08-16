@@ -633,7 +633,7 @@ static void Act(Work *work)
         }
     }
 
-    if (GM_CurrentWeaponId != 3)
+    if (GM_Weapon != 3)
     {
         /* player has unequipped the Nikita launcher */
         if (!work->field_112)
@@ -643,7 +643,7 @@ static void Act(Work *work)
             ReadRotMatrix(&rotation);
 
             if (GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO | STATE_DEMO)
-                || !GM_SnakeCurrentHealth || GM_GameOverTimer)
+                || !GM_Vitality || GM_GameOverTimer)
             {
                 blast = &blast_data_8009F4B8[7];
             #ifdef VR_EXE

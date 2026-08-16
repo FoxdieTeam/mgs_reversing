@@ -154,7 +154,7 @@ static void Act(Work *work)
             {
                 if (work->f198 == 1)
                 {
-                    GM_UnkFlagA0++;
+                    GM_PitfallDeathCount++;
                     dword_800ABA1C = 1;
 
                     if (work->proc_id != 0)
@@ -221,7 +221,7 @@ static void Act(Work *work)
         if ((GM_GameOverTimer == 0) && (work->f198 == 1))
         {
             work->f1A4 = 1;
-            GM_UnkFlagA0++;
+            GM_PitfallDeathCount++;
             dword_800ABA1C = 1;
 
             if (work->proc_id != 0)

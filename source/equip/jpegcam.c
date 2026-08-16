@@ -915,7 +915,7 @@ static void JpegcamTakePhoto(Work *work)
         GV_PauseLevel &= ~GV_PAUSE_STOP;
         DG_RestartMainChanlSystem();
         work->state = 0;
-        work->field_90_pSight = NewSight(CAMERA_SIGHT2, CAMERA_SIGHT, &GM_CurrentItemId, IT_Camera, NULL);
+        work->field_90_pSight = NewSight(CAMERA_SIGHT2, CAMERA_SIGHT, &GM_Item, IT_Camera, NULL);
     }
 }
 
@@ -1006,8 +1006,8 @@ static void Act(Work *work)
 
         if (dword_8009F604 != CAMERA_SIGHT)
         {
-            NewSight(CAMERA_SIGHT, CAMERA_SIGHT, &GM_CurrentItemId, IT_Camera, NULL);
-            work->field_90_pSight = NewSight(CAMERA_SIGHT2, CAMERA_SIGHT, &GM_CurrentItemId, IT_Camera, NULL);
+            NewSight(CAMERA_SIGHT, CAMERA_SIGHT, &GM_Item, IT_Camera, NULL);
+            work->field_90_pSight = NewSight(CAMERA_SIGHT2, CAMERA_SIGHT, &GM_Item, IT_Camera, NULL);
             GM_SeSet2(0, 63, SE_ITEM_OPENWINDOW);
         }
 

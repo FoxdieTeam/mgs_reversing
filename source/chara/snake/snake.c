@@ -113,7 +113,7 @@ unsigned int sna_sub_8004E358(SnaInitWork *snake, SnaFlag2 param_2)
 {
     unsigned int result = 0;
 
-    if (GM_UnkFlagBE != 0)
+    if (GM_FirstPerson != 0)
     {
         result = (((unsigned int)snake->field_898_flags2 & param_2) != result);
     }
@@ -124,7 +124,7 @@ unsigned int sna_sub_8004E358(SnaInitWork *snake, SnaFlag2 param_2)
 
 void CheckSnakeDead_8004E384(SnaInitWork *snake)
 {
-    if ((GM_SnakeCurrentHealth == 0) || (GM_GameOverTimer != 0))
+    if ((GM_Vitality == 0) || (GM_GameOverTimer != 0))
     {
         snake->control.skip_flag |= CTRL_SKIP_TRAP;
         GM_SetPlayerStatusFlag(PLAYER_PAD_OFF | PLAYER_MENU_DISABLE);
@@ -424,17 +424,17 @@ void sub_8004EA50(SnaInitWork *work, int param_2)
 
 int sna_8004EAA8( SnaInitWork *work, int stance )
 {
-    if ( stance == SNA_STANCE_STANDING )
+    if ( stance == STAND )
     {
         return work->actpack->still->stand;
     }
 
-    if ( stance == SNA_STANCE_SQUAT )
+    if ( stance == CROUCH )
     {
         return work->actpack->still->squat;
     }
 
-    if ( stance == SNA_STANCE_CROUCH )
+    if ( stance == GROUND )
     {
         return work->actpack->still->crouch;
     }

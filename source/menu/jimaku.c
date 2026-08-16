@@ -2,10 +2,11 @@
 
 #include <stdio.h>
 #include "common.h"
-#include "libgv/libgv.h"
+#include "linkvar.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "linkvar.h"
+#include "libgv/libgv.h"
+#include "game/game.h"
 
 void *SECTION(".sbss") MENU_JimakuTextBody;
 
@@ -34,7 +35,7 @@ void menu_jimaku_act( MenuWork *work, u_long *ot )
     if ( gUnkJimakuStruct_800BDA70.field_0_active == 1 )
     {
         if ( (gUnkJimakuStruct_800BDA70.field_1_type != 0) ||
-            !(GM_OptionFlag & OPTION_CAPTION_OFF) )
+            !(GM_Configuration & GM_CONFIG_CAPTION_OFF) )
         {
             NEW_PRIM(pSprt, work);
             LSTORE(0x808080, &pSprt->r0);

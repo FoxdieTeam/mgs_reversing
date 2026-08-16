@@ -562,29 +562,29 @@ static int GM_Command_load(char *top)
         {
             // Soft restart?
             scriptStageName = dword_800ABA58;
-            GM_SetArea(GM_CurrentStageFlag, scriptStageName);
+            GM_SetArea(GM_SaveArea, scriptStageName);
         }
 
         GM_LoadRequest = 1;
         return GCL_OK;
     }
 
-    GM_PreviousStageFlag = GM_CurrentStageFlag;
-    GM_CurrentStageFlag = GV_StrCode(scriptStageName);
+    GM_PrevArea = GM_SaveArea;
+    GM_SaveArea = GV_StrCode(scriptStageName);
 
-    GM_SetArea(GM_CurrentStageFlag, scriptStageName);
+    GM_SetArea(GM_SaveArea, scriptStageName);
 
     if (GCL_GetOption('m')) // map
     {
-        GM_CurrentMapFlag = GCL_GetNextInt();
+        GM_SaveMap = GCL_GetNextInt();
     }
 
     if (GCL_GetOption('p')) // pos
     {
         GCL_StrToSV(GCL_NextStr(), (short *)&vec);
-        GM_SnakePosX = vec.vx;
-        GM_SnakePosY = vec.vy;
-        GM_SnakePosZ = vec.vz;
+        GM_PlayerPosX = vec.vx;
+        GM_PlayerPosY = vec.vy;
+        GM_PlayerPosZ = vec.vz;
     }
 
     if (GCL_GetOption('s'))
@@ -708,7 +708,7 @@ static int GM_Command_restart(char *top)
 
     if (GCL_GetOption('a')) // area
     {
-        GM_SetArea(GM_CurrentStageFlag, GM_GetArea(0));
+        GM_SetArea(GM_SaveArea, GM_GetArea(0));
     }
 
     return GCL_OK;
@@ -982,7 +982,7 @@ static int GM_Command_rand(char *top)
 
     param = GCL_GetNextInt();
     randValue = rand();
-    GM_LastResultFlag = randValue % param;
+    GM_Result = randValue % param;
     return GCL_OK;
 }
 
@@ -998,19 +998,19 @@ static int GM_Command_func(char *top)
     if (GCL_GetOption('v')) // vector
     {
         GCL_StrToSV(GCL_NextStr(), (short *)&vec);
-        GM_LastResultFlag = DG_PointCheckOne((DVECTOR *)&vec);
+        GM_Result = DG_PointCheckOne((DVECTOR *)&vec);
     }
     if (GCL_GetOption('s'))
     {
         control = GM_PlayerControl;
-        GM_SnakePosX = control->mov.vx;
-        GM_SnakePosY = control->mov.vy;
-        GM_SnakePosZ = control->mov.vz;
-        GM_LastResultFlag = control->rot.vy;
+        GM_PlayerPosX = control->mov.vx;
+        GM_PlayerPosY = control->mov.vy;
+        GM_PlayerPosZ = control->mov.vz;
+        GM_Result = control->rot.vy;
     }
     if (GCL_GetOption('a')) // area
     {
-        GM_LastResultFlag = GM_AreaHistory(GCL_GetNextInt());
+        GM_Result = GM_AreaHistory(GCL_GetNextInt());
     }
     if (GCL_GetOption('p')) // photo (used for ghosts easter egg)
     {
@@ -1027,23 +1027,23 @@ static int GM_Command_func(char *top)
         map = GM_FindMap(GCL_GetNextInt());
         if (map && map->used)
         {
-            GM_LastResultFlag = 1;
+            GM_Result = 1;
         }
         else
         {
-            GM_LastResultFlag = 0;
+            GM_Result = 0;
         }
     }
     if (GCL_GetOption('c'))
     {
-        GM_LastResultFlag = GM_StreamStatus();
+        GM_Result = GM_StreamStatus();
     }
     if (GCL_GetOption('n'))
     {
-        GM_LastResultFlag = dword_8009F46C;
-        GM_SnakePosX = svector_8009F478.vx;
-        GM_SnakePosY = svector_8009F478.vy;
-        GM_SnakePosZ = svector_8009F478.vz;
+        GM_Result = dword_8009F46C;
+        GM_PlayerPosX = svector_8009F478.vx;
+        GM_PlayerPosY = svector_8009F478.vy;
+        GM_PlayerPosZ = svector_8009F478.vz;
     }
     return GCL_OK;
 }

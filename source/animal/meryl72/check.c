@@ -65,7 +65,7 @@ int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
         {
         case 3:
             target->force = DG_ZeroVector;
-            target->vital -= GM_SnakeMaxHealth / 48;
+            target->vital -= GM_VitalityMax / 48;
 
             if ( ( target->faint <= 0 ) || ( ( target->vital << 16 ) <= 0 ) )
             {
@@ -80,7 +80,7 @@ int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
             break;
         case 4:
             work->f8BC.field_14 = 0;
-            target->vital -= GM_SnakeMaxHealth / 32;
+            target->vital -= GM_VitalityMax / 32;
             SetMode( work, s07c_meryl72_unk1_800CA538 ) ;
             break;
         case 1:
@@ -103,7 +103,7 @@ int s07c_meryl72_unk1_800C7D1C( Meryl72Work *work )
         target->damage = 0;
         target->damaged = 0;
 
-        if ( target->vital <= 0 && !GM_GameOverTimer && GM_SnakeCurrentHealth > 0 )
+        if ( target->vital <= 0 && !GM_GameOverTimer && GM_Vitality > 0 )
         {
             ExecProc_800C7C58( work, 1 ) ;
             GM_GameOver();
@@ -222,11 +222,11 @@ int AttackForce_800C80DC( Meryl72Work * work, int check )
 
 int s07c_meryl72_unk1_800C829C( Meryl72Work * work )
 {
-    if ( GM_CurrentItemId != 8 )
+    if ( GM_Item != 8 )
     {
-        if ( ( GM_SnakeCurrentHealth < 17 ) )
+        if ( ( GM_Vitality < 17 ) )
         {
-           if ( GM_CurrentItemId == 13 )
+           if ( GM_Item == 13 )
            {
                if ( 1 == GM_FrozenItemsState )
                {
@@ -239,7 +239,7 @@ int s07c_meryl72_unk1_800C829C( Meryl72Work * work )
            }
         }
     }
-    else if ( GM_SnakeCurrentHealth < 9 )
+    else if ( GM_Vitality < 9 )
     {
         return 1;
     }

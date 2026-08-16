@@ -447,9 +447,9 @@ void s19b_jbullet_800C5278(Work *work)
 
     trg = work->target1;
 
-    if (GM_DifficultyFlag > DIFFICULTY_EASY)
+    if (GM_GameLevel > GM_LEVEL_EASY)
     {
-        life = 255 + GM_DifficultyFlag * 64;
+        life = 255 + GM_GameLevel * 64;
     }
     else
     {
@@ -765,7 +765,7 @@ void s19b_jbullet_800C598C(Work *work, int arg1)
         }
 
         GM_SeSet(&work->control.mov, SE_ENEMY_DAMAGE);
-        GM_TotalEnemiesKilled++;
+        GM_EnemyKillCount++;
     }
 
     switch (work->field_934)

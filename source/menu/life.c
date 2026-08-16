@@ -26,7 +26,7 @@ int SECTION(".sbss") dword_800ABAF4;
  * @brief Updates the displayed health bar value to match the actual health of Snake.
  *
  * This function gradually updates the displayed health bar value (`displayedHp`) to match
- * the actual health (`GM_SnakeCurrentHealth`). It uses a delay counter to control the speed
+ * the actual health (`GM_Vitality`). It uses a delay counter to control the speed
  * of the update, making the health bar decrease more slowly when Snake takes damage.
  *
  * @param pBars Pointer to the MenuMan_MenuBars structure containing the health bar state.
@@ -38,14 +38,14 @@ int menu_life_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
 
     displayedHp = pBars->field_6_snake_hp;
 
-    if (displayedHp == GM_SnakeCurrentHealth)
+    if (displayedHp == GM_Vitality)
     {
         pBars->health_delay_counter = 10;
         return 0;
     }
     else
     {
-        if (GM_SnakeCurrentHealth < displayedHp)
+        if (GM_Vitality < displayedHp)
         {
             if (pBars->health_delay_counter == 0)
             {
@@ -58,9 +58,9 @@ int menu_life_update_helper_8003ECCC(MenuMan_MenuBars *pBars)
             }
         }
         // if we overshhoot the displayed health, just match real health
-        if (pBars->field_6_snake_hp < GM_SnakeCurrentHealth)
+        if (pBars->field_6_snake_hp < GM_Vitality)
         {
-            pBars->field_6_snake_hp = GM_SnakeCurrentHealth;
+            pBars->field_6_snake_hp = GM_Vitality;
         }
         return 1;
     }
@@ -235,8 +235,8 @@ void menu_life_update_helper2_8003F30C(MenuPrim *prim, MenuMan_MenuBars *pBars)
                   pBars->field_2_bar_x,
                   pBars->field_4_bar_y,
                   pBars->field_6_snake_hp,
-                  GM_SnakeCurrentHealth,
-                  GM_SnakeMaxHealth,
+                  GM_Vitality,
+                  GM_VitalityMax,
                   pBar);
 
     // If the oxygen bar is not full then draw it
@@ -282,9 +282,9 @@ void draw_player_life_8003F4B8(MenuPrim *prim, long x, long y)
     menu_draw_bar(prim,
                   x,
                   y,
-                  GM_SnakeCurrentHealth,
-                  GM_SnakeCurrentHealth,
-                  GM_SnakeMaxHealth,
+                  GM_Vitality,
+                  GM_Vitality,
+                  GM_VitalityMax,
                   &gSnakeLifeBarConfig_8009E5F4);
 }
 
@@ -331,7 +331,7 @@ void menu_life_update_8003F530(MenuWork *work, u_long *ot)
     }
 
     if ((pBars->field_0_state == BAR_STATE_HIDDEN || pBars->field_0_state == BAR_STATE_MOVING_UP) &&
-        (updated || GM_GameStatus & STATE_SHOW_LIFEBAR || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth))
+        (updated || GM_GameStatus & STATE_SHOW_LIFEBAR || (GM_VitalityMax / 2) >= GM_Vitality))
     {
         // hide the bar by moving it off screen
         if (pBars->field_0_state == BAR_STATE_HIDDEN)
@@ -390,7 +390,7 @@ void menu_life_update_8003F530(MenuWork *work, u_long *ot)
         break;
 
     case BAR_STATE_VISIBLE:
-        if (updated || (GM_SnakeMaxHealth / 2) >= GM_SnakeCurrentHealth || GM_GameStatus & STATE_SHOW_LIFEBAR)
+        if (updated || (GM_VitalityMax / 2) >= GM_Vitality || GM_GameStatus & STATE_SHOW_LIFEBAR)
         {
             pBars->field_8_hide_bar_delay_counter = 150;
             // If the oxigen bar is not hidden then decrease the oxygen bar
@@ -430,7 +430,7 @@ void menu_life_init_8003F7E0(MenuWork *work)
     work->field_28_flags |= 1;
 
     pBar = &work->field_204_bars;
-    pBar->field_6_snake_hp = GM_SnakeCurrentHealth;
+    pBar->field_6_snake_hp = GM_Vitality;
     pBar->health_delay_counter = 10;
     pBar->field_2_bar_x = 16;
     pBar->field_0_state = BAR_STATE_HIDDEN;

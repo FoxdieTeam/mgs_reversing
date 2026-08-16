@@ -246,9 +246,9 @@ int GunCame_800C7224(Work *work)
     index = 0;
     success = 0;
 
-    if ((GM_CurrentItemId != IT_Stealth) || (work->field_3A4 != 0))
+    if ((GM_Item != IT_Stealth) || (work->field_3A4 != 0))
     {
-        if (GM_CurrentItemId == IT_Stealth)
+        if (GM_Item == IT_Stealth)
         {
             index = 1;
         }
@@ -326,23 +326,23 @@ void GunCame_800C73D0(Work *work)
     }
     else
     {
-        switch(GM_DifficultyFlag)
+        switch(GM_GameLevel)
         {
-        case DIFFICULTY_VERY_EASY:
-        case DIFFICULTY_EASY:
+        case GM_LEVEL_VERYEASY:
+        case GM_LEVEL_EASY:
         default:
             NewBulletEx(BULLET_RECOILSPARK, &pos, 0, 1, 0, 30, 80, work->field_364, 2000);
             break;
 
-        case DIFFICULTY_NORMAL:
+        case GM_LEVEL_NORMAL:
             NewBulletEx(BULLET_RECOILSPARK, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);
             break;
 
-        case DIFFICULTY_HARD:
+        case GM_LEVEL_HARD:
             NewBulletEx(BULLET_RECOILSPARK, &pos, 0, 1, 0, 30, 120, work->field_364, 2000);;
             break;
 
-        case DIFFICULTY_EXTREME:
+        case GM_LEVEL_EXTREME:
             NewBulletEx(BULLET_RECOILSPARK, &pos, 0, 1, 0, 30, 160, work->field_364, 2000);
             break;
         }
@@ -875,7 +875,7 @@ void GunCame_Act_800C80F4(Work *work)
             GM_ActControl(control);
         }
 
-        if (GM_CurrentItemId == IT_ThermG)
+        if (GM_Item == IT_ThermG)
         {
             work->field_3D8 = 1;
 

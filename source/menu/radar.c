@@ -1061,7 +1061,7 @@ void draw_radar(MenuWork *work, u_long *ot)
             return;
         }
 
-        if (GM_OptionFlag & OPTION_RADAR_OFF)
+        if (GM_Configuration & GM_CONFIG_RADAR_OFF)
         {
             return;
         }

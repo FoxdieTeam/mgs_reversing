@@ -51,12 +51,12 @@ static Work movie_work;
 
 static inline int MovieType(void)
 {
-    if (GM_OptionFlag & OPTION_ENGLISH)
+    if (GM_Configuration & GM_CONFIG_ENGLISH)
     {
         return 1;
     }
 
-    return (GM_OptionFlag & OPTION_ENGLISH) ? 1 : 2;
+    return (GM_Configuration & GM_CONFIG_ENGLISH) ? 1 : 2;
 }
 
 static inline void int_to_loc(int pos, CdlLOC *loc)

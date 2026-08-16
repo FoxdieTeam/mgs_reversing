@@ -332,7 +332,7 @@ void sub_8004EB74(SnaInitWork *work)
     work->field_A56 = 0;
     GM_SetPlayerStatusFlag(PLAYER_WATCH);
 
-    if (GM_UnkFlagBE == 0)
+    if (GM_FirstPerson == 0)
     {
         GM_SetPlayerStatusFlag(PLAYER_MENU_DISABLE);
     }
@@ -564,7 +564,7 @@ void sna_act_helper2_helper4_8004F090(SnaInitWork *work, int param_2)
 void sub_8004F14C(SnaInitWork *work)
 {
     work->field_91C_weapon_idx = WP_None;
-    GM_CurrentWeaponId = WP_None;
+    GM_Weapon = WP_None;
 
     if (work->field_908_weapon_actor != 0)
     {
@@ -602,7 +602,7 @@ void sub_8004F204(SnaInitWork *work)
 
     work->field_9A4_item_actor = 0;
     work->field_9A8_current_item = IT_None;
-    GM_CurrentItemId = IT_None;
+    GM_Item = IT_None;
     work->field_9AC = GM_ItemTypes[0];
 
     if (GM_CheckPlayerStatusFlag(PLAYER_INTRUDE) != 0)
@@ -767,28 +767,28 @@ static inline int sna_update_life_helper_8004F6E8(int health, int item)
         (GM_Items[IT_Ration] > 0) &&
         !GM_FrozenItemsState)
     {
-        temp = (GM_DifficultyFlag > DIFFICULTY_EASY) ? 256 : 384;
+        temp = (GM_GameLevel > GM_LEVEL_EASY) ? 256 : 384;
 
-        if (GM_DifficultyFlag < DIFFICULTY_EASY)
+        if (GM_GameLevel < GM_LEVEL_EASY)
         {
-            temp = GM_SnakeMaxHealth;
+            temp = GM_VitalityMax;
         }
 
         health = temp;
 
-        if (health > GM_SnakeMaxHealth)
+        if (health > GM_VitalityMax)
         {
-            health = GM_SnakeMaxHealth;
+            health = GM_VitalityMax;
         }
 
         GM_Items[IT_Ration] -= 1;
 
         if (GM_Items[IT_Ration] == 0)
         {
-            GM_CurrentItemId = IT_None;
+            GM_Item = IT_None;
         }
 
-        GM_TotalRationsUsed += 1;
+        GM_RationUseCount += 1;
         GM_SeSet2(0, 63, SE_RECOVER_LIFE);
     }
 
@@ -805,7 +805,7 @@ void UpdateLife_8004F6E8(SnaInitWork *work)
     }
 
     if (sna_check_flags1_8004E31C(work,SNA_FLAG1_UNK25) &&
-        (GM_SnakeCurrentHealth == work->field_89C_pTarget->vital))
+        (GM_Vitality == work->field_89C_pTarget->vital))
     {
         return;
     }
@@ -817,11 +817,11 @@ void UpdateLife_8004F6E8(SnaInitWork *work)
         work->field_89C_pTarget->damage = 0;
     }
 
-    health = work->field_89C_pTarget->vital + GM_SnakeCurrentHealth - work->field_A22_snake_current_health;
+    health = work->field_89C_pTarget->vital + GM_Vitality - work->field_A22_snake_current_health;
 
-    if (health > GM_SnakeMaxHealth)
+    if (health > GM_VitalityMax)
     {
-        health = GM_SnakeMaxHealth;
+        health = GM_VitalityMax;
     }
 
     if (health < 0)
@@ -840,7 +840,7 @@ void UpdateLife_8004F6E8(SnaInitWork *work)
 
     work->field_89C_pTarget->vital = health;
     work->field_A22_snake_current_health = health;
-    GM_SnakeCurrentHealth = health;
+    GM_Vitality = health;
 
     sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK25);
 }
@@ -883,7 +883,7 @@ void sna_8004F8E4(SnaInitWork *work, int a2)
 
 int sna_act_unk_helper4_8004FA3C(void)
 {
-    if (GM_SnakeCurrentHealth == 0 || GM_GameOverTimer != 0)
+    if (GM_Vitality == 0 || GM_GameOverTimer != 0)
     {
         return 1;
     }
@@ -962,7 +962,7 @@ void GM_CheckShukanReverse(unsigned short *pInput)
     unsigned int   v2; // $v1
     unsigned int   v3; // $v0
 
-    if ((GM_OptionFlag & OPTION_SHUKAN_REVERSE) != 0
+    if ((GM_Configuration & GM_CONFIG_SHUKAN_REVERSE) != 0
         && (GM_GameStatus & STATE_PADDEMO) == 0)
     {
         old = *pInput;
@@ -986,7 +986,7 @@ void GM_CheckShukanReverse(unsigned short *pInput)
 
 void GM_CheckShukanReverseAnalog(unsigned char *pInput)
 {
-    if ((GM_OptionFlag & OPTION_SHUKAN_REVERSE) != 0
+    if ((GM_Configuration & GM_CONFIG_SHUKAN_REVERSE) != 0
         && (GM_GameStatus & STATE_PADDEMO) == 0)
     {
         *pInput = ~*pInput;
@@ -1080,7 +1080,7 @@ int sna_act_helper2_helper5_8004FF88(SnaInitWork *work)
     {
         if (!GM_CheckPlayerStatusFlag(0x20001304) &&
             !sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK9) &&
-            (GM_SnakeCurrentHealth != 0) &&
+            (GM_Vitality != 0) &&
             (GM_GameOverTimer == 0) &&
             (GM_StreamStatus() == -1) &&
             (work->body.action2 == 0))
@@ -1211,7 +1211,7 @@ void sna_8005027C(SnaInitWork *work, int time)
     {
         pVec = &stru_8009EFD4[0];
 
-        if (work->field_A26_stance != SNA_STANCE_STANDING)
+        if (work->field_A26_stance != STAND)
         {
             pVec = &stru_8009EFD4[1];
         }
@@ -1254,7 +1254,7 @@ void sna_80050440(SnaInitWork *work)
     SnaInitWork *work2;
     int a;
 
-    if ((GM_GameOverTimer == 0) && (GM_SnakeCurrentHealth != 0))
+    if ((GM_GameOverTimer == 0) && (GM_Vitality != 0))
     {
         pCtrl = &work->control;
         pArr = pCtrl->evt.inside;
@@ -1436,7 +1436,7 @@ void CheckMessage0_80050878(SnaInitWork *work)
     unsigned short id;
 
     if (GM_CheckPlayerStatusFlag(PLAYER_TIMERBOMB_THROWN) &&
-        (GM_SnakeCurrentHealth != 0) &&
+        (GM_Vitality != 0) &&
         (GM_GameOverTimer == 0) &&
         !GM_CheckPlayerStatusFlag(PLAYER_ACT_ONLY))
     {
@@ -1820,7 +1820,7 @@ static inline int sna_weapon_switching_helper_800511BC(SnaInitWork *work)
 {
     int flag;
 
-    flag = (GM_UnkFlagBE != 0) ? 1024 : 1;
+    flag = (GM_FirstPerson != 0) ? 1024 : 1;
 
     if (sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK5))
     {
@@ -1840,7 +1840,7 @@ static inline int sna_weapon_switching_helper_800511BC(SnaInitWork *work)
     if (GM_CheckPlayerStatusFlag(PLAYER_PAD_OFF) ||
         (GM_GameStatus & STATE_PADRELEASE))
     {
-        if (GM_WeaponTypes[GM_CurrentWeaponId + 1] & 0x200)
+        if (GM_WeaponTypes[GM_Weapon + 1] & 0x200)
         {
             return 0;
         }
@@ -1862,7 +1862,7 @@ static inline int sna_weapon_switching_helper2_800511BC(SnaInitWork *work, int c
         GV_DestroyActorQuick(pWeaponActor);
     }
 
-    pWeaponEntry = &gSnakeWeapons_8009EF3C[GM_CurrentWeaponId + 1];
+    pWeaponEntry = &gSnakeWeapons_8009EF3C[GM_Weapon + 1];
     pWeaponCreateFn = pWeaponEntry->mCreateActorFn;
     pWeaponActor = NULL;
 
@@ -1887,18 +1887,18 @@ static inline int sna_weapon_switching_helper2_800511BC(SnaInitWork *work, int c
         GM_ClearPlayerStatusFlag(PLAYER_WEAPON_DISABLE | PLAYER_ITEM_DISABLE);
     }
 
-    work->field_91C_weapon_idx = GM_CurrentWeaponId;
+    work->field_91C_weapon_idx = GM_Weapon;
 
     if (callback)
     {
-        GM_CallSystemCallbackProc(3, GM_CurrentWeaponId);
+        GM_CallSystemCallbackProc(3, GM_Weapon);
     }
 
-    work->field_920_tbl = GM_WeaponTypes[GM_CurrentWeaponId + 1];
+    work->field_920_tbl = GM_WeaponTypes[GM_Weapon + 1];
 
-    if (GM_CurrentWeaponId >= 0)
+    if (GM_Weapon >= 0)
     {
-        work->field_918_n_bullets = &GM_Weapons[GM_CurrentWeaponId];
+        work->field_918_n_bullets = &GM_Weapons[GM_Weapon];
     }
 
     work->field_90C_pWeaponFn = pWeaponEntry->mStateFn;
@@ -1907,7 +1907,7 @@ static inline int sna_weapon_switching_helper2_800511BC(SnaInitWork *work, int c
     work->field_926 = 0;
     work->field_924 = 0;
     work->field_908_weapon_actor = pWeaponActor;
-    work->actpack = &weapon_actions_8009ED8C[GM_CurrentWeaponId];
+    work->actpack = &weapon_actions_8009ED8C[GM_Weapon];
 
     return 0;
 }
@@ -1916,7 +1916,7 @@ void sna_weapon_switching_800511BC(SnaInitWork *work, int callback)
 {
     int temp_s1_2;
 
-    if (GM_CurrentWeaponId != work->field_91C_weapon_idx)
+    if (GM_Weapon != work->field_91C_weapon_idx)
     {
         GM_WeaponChanged = 1;
     }
@@ -1931,7 +1931,7 @@ void sna_weapon_switching_800511BC(SnaInitWork *work, int callback)
         return;
     }
 
-    if (!(work->field_920_tbl & 0x1000) && (GM_CurrentWeaponId == work->field_91C_weapon_idx))
+    if (!(work->field_920_tbl & 0x1000) && (GM_Weapon == work->field_91C_weapon_idx))
     {
         return;
     }
@@ -1948,13 +1948,13 @@ void sna_weapon_switching_800511BC(SnaInitWork *work, int callback)
     {
         sub_8004EB74(work);
 
-        if (GM_UnkFlagBE != 0)
+        if (GM_FirstPerson != 0)
         {
             GM_SetPlayerStatusFlag(PLAYER_STILL_WATCH);
             sna_clear_flags2_8004E344(work, SNA_FLAG2_UNK6 | SNA_FLAG2_UNK5);
         }
     }
-    else if (!GM_CheckPlayerStatusFlag(PLAYER_INTRUDE) && ((GM_UnkFlagBE == 0) || !(work->field_898_flags2 & 0x10)))
+    else if (!GM_CheckPlayerStatusFlag(PLAYER_INTRUDE) && ((GM_FirstPerson == 0) || !(work->field_898_flags2 & 0x10)))
     {
         sna_8004EC00(work);
     }
@@ -2003,14 +2003,14 @@ static inline int sna_helper_800515BC(SnaInitWork *work)
         return 0;
     }
 
-    if ( (GM_CurrentItemId == IT_Bandana) && (work->field_90C_pWeaponFn == &sna_80057A90) )
+    if ( (GM_Item == IT_Bandana) && (work->field_90C_pWeaponFn == &sna_80057A90) )
     {
         return 0;
     }
 
     if ( (GM_CheckPlayerStatusFlag(PLAYER_PAD_OFF) ||
          ((GM_GameStatus & (STATE_PADRELEASE | STATE_PADDEMO)) == STATE_PADRELEASE)) &&
-         ((GM_ItemTypes[GM_CurrentItemId + 1] & 2) != 0) )
+         ((GM_ItemTypes[GM_Item + 1] & 2) != 0) )
     {
         return 0;
     }
@@ -2033,12 +2033,12 @@ void sna_800515BC(SnaInitWork *work, int a2)
         return;
     }
 
-    if ( GM_CurrentItemId == work->field_9A8_current_item )
+    if ( GM_Item == work->field_9A8_current_item )
     {
         return;
     }
 
-    itemType = GM_ItemTypes[GM_CurrentItemId + 1];
+    itemType = GM_ItemTypes[GM_Item + 1];
 
     if ( GM_CheckPlayerStatusFlag(0x300) && ((itemType & 0x8000) != 0) )
     {
@@ -2053,14 +2053,14 @@ void sna_800515BC(SnaInitWork *work, int a2)
         GV_DestroyActorQuick(pItemActor);
     }
 
-    ppfnEquip = &gSnakeEquips_8009EF8C[GM_CurrentItemId];
+    ppfnEquip = &gSnakeEquips_8009EF8C[GM_Item];
     pItemActor = NULL;
 
     if ( ((itemType & 0x8000) != 0) && (*ppfnEquip != 0) )
     {
         pfnEquip = *ppfnEquip;
 
-        if ( (GM_CurrentItemId == 2) || (GM_CurrentItemId == 3) || (GM_CurrentItemId == 4) )
+        if ( (GM_Item == 2) || (GM_Item == 3) || (GM_Item == 4) )
         {
             pItemActor = pfnEquip(&work->control, &work->body, 0);
         }
@@ -2078,11 +2078,11 @@ void sna_800515BC(SnaInitWork *work, int a2)
 
     GM_ClearPlayerStatusFlag(PLAYER_WEAPON_DISABLE | PLAYER_CB_BOX);
 
-    work->field_9A8_current_item = GM_CurrentItemId;
+    work->field_9A8_current_item = GM_Item;
 
     if ( a2 != 0 )
     {
-        GM_CallSystemCallbackProc(4, GM_CurrentItemId);
+        GM_CallSystemCallbackProc(4, GM_Item);
     }
 
     work->field_9AC = itemType;
@@ -2090,11 +2090,11 @@ void sna_800515BC(SnaInitWork *work, int a2)
 
     if ( (itemType & 1) != 0 )
     {
-        if ( GM_CurrentItemId == IT_Scope )
+        if ( GM_Item == IT_Scope )
         {
             sna_start_anim_8004E1F4(work, &sna_anim_scope_80055334);
         }
-        else if ( GM_CurrentItemId == IT_Camera )
+        else if ( GM_Item == IT_Camera )
         {
             sna_start_anim_8004E1F4(work, &sna_anim_jpegcam_800553CC);
         }
@@ -2136,7 +2136,7 @@ void sna_800515BC(SnaInitWork *work, int a2)
     {
         sub_8004EB74(work);
 
-        if ( GM_UnkFlagBE != 0 )
+        if ( GM_FirstPerson != 0 )
         {
             GM_SetPlayerStatusFlag(PLAYER_STILL_WATCH);
             sna_clear_flags2_8004E344(work, 0x30);
@@ -2145,7 +2145,7 @@ void sna_800515BC(SnaInitWork *work, int a2)
         GM_SetPlayerStatusFlag(PLAYER_WEAPON_DISABLE);
     } else if ( !(work->field_920_tbl & 0x200) &&
                 !GM_CheckPlayerStatusFlag(PLAYER_INTRUDE) &&
-                ((GM_UnkFlagBE == 0) || ((work->field_898_flags2 & 0x10) == 0)) )
+                ((GM_FirstPerson == 0) || ((work->field_898_flags2 & 0x10) == 0)) )
     {
         sna_8004EC00(work);
     }
@@ -2315,7 +2315,7 @@ void sna_80051DA0(SnaInitWork *work)
 
     if (work->field_9D0[0] == 0)
     {
-        if (work->field_A26_stance == SNA_STANCE_CROUCH)
+        if (work->field_A26_stance == GROUND)
         {
             var_s0 = work->field_A2A;
         }
@@ -2329,7 +2329,7 @@ void sna_80051DA0(SnaInitWork *work)
         var_s0 = work->control.turn.vx;
     }
 
-    if (work->field_A26_stance == SNA_STANCE_CROUCH)
+    if (work->field_A26_stance == GROUND)
     {
         if (work->field_91C_weapon_idx == WP_Rifle)
         {
@@ -2441,7 +2441,7 @@ void sna_fn_80052120(SnaInitWork *work, int time)
 
     if (GM_CheckPlayerStatusFlag(PLAYER_INTRUDE) != 0)
     {
-        if (GM_UnkFlagBE == 0)
+        if (GM_FirstPerson == 0)
         {
             sna_8004EC00(work);
         }
@@ -2461,7 +2461,7 @@ void sna_fn_80052120(SnaInitWork *work, int time)
 
         if ((work->field_9B0_pad_ptr->status & PAD_TRIANGLE) == 0)
         {
-            if (GM_UnkFlagBE == 0)
+            if (GM_FirstPerson == 0)
             {
                 sna_8004EC00(work);
             }
@@ -2538,7 +2538,7 @@ void sub_8005230C(SnaInitWork *work, int time)
         {
             GM_ClearPlayerStatusFlag(PLAYER_MOVE);
 
-            if (work->field_A26_stance == SNA_STANCE_STANDING)
+            if (work->field_A26_stance == STAND)
             {
                 action = work->actpack->still->against_wall;
             }
@@ -2561,7 +2561,7 @@ void sub_8005230C(SnaInitWork *work, int time)
 
         if (!sna_80051BA4(work) && (press & PAD_CROSS) != 0)
         {
-            if (work->field_A26_stance == SNA_STANCE_STANDING)
+            if (work->field_A26_stance == STAND)
             {
                 sna_start_anim_8004E1F4(work, sna_anim_wall_crouch_80052CCC);
             }
@@ -2608,7 +2608,7 @@ void sna_fn_80052540(SnaInitWork *work, int time)
 {
     if ((work->field_9B0_pad_ptr->status & PAD_TRIANGLE) == 0)
     {
-        if (GM_UnkFlagBE == 0)
+        if (GM_FirstPerson == 0)
         {
             sna_8004EC00(work);
         }
@@ -2641,7 +2641,7 @@ void sna_fn_800525F8(SnaInitWork *work, int time)
 
     if (!(work->field_9B0_pad_ptr->status & PAD_TRIANGLE))
     {
-        if (!GM_UnkFlagBE)
+        if (!GM_FirstPerson)
         {
             sna_8004EC00(work);
         }
@@ -2669,7 +2669,7 @@ void sna_act_helper2_helper_helper_800526BC(SnaInitWork *work, int time)
                                      | PLAYER_NORMAL_WATCH
                                      | PLAYER_WATCH);
         }
-        else if (!GM_UnkFlagBE)
+        else if (!GM_FirstPerson)
         {
             sna_8004EC00(work);
         }
@@ -2691,7 +2691,7 @@ void sna_anim_idle_8005275C(SnaInitWork *work, int time)
 
     if (time == 0)
     {
-        work->field_A26_stance = SNA_STANCE_STANDING;
+        work->field_A26_stance = STAND;
 
         work->field_9C8_anim_update_fn_3p = sna_fn_80052E58;
         work->field_9CC_anim_update_fn_1p = sna_fn_80052120;
@@ -2715,7 +2715,7 @@ void sna_anim_crouch_800527DC(SnaInitWork *work, int time)
 
     if (time == 0)
     {
-        if (work->field_A26_stance != SNA_STANCE_SQUAT)
+        if (work->field_A26_stance != CROUCH)
         {
             sound = SE_CHANGE_STANCE;
             if (GM_CheckPlayerStatusFlag(PLAYER_IN_THE_WATER) != 0)
@@ -2731,11 +2731,11 @@ void sna_anim_crouch_800527DC(SnaInitWork *work, int time)
         work->field_A2C.vy = -128;
     }
 
-    if ((time == 0 && work->field_A26_stance != SNA_STANCE_STANDING) ||
-        (time == 4 && work->field_A26_stance == SNA_STANCE_STANDING))
+    if ((time == 0 && work->field_A26_stance != STAND) ||
+        (time == 4 && work->field_A26_stance == STAND))
     {
         GM_SetPlayerStatusFlag(PLAYER_SQUAT);
-        work->field_A26_stance = SNA_STANCE_SQUAT;
+        work->field_A26_stance = CROUCH;
     }
 }
 
@@ -2743,7 +2743,7 @@ void sna_anim_prone_idle_800528BC(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_A26_stance = SNA_STANCE_CROUCH;
+        work->field_A26_stance = GROUND;
         work->field_A28 = 450;
         work->field_9C8_anim_update_fn_3p = sna_fn_800531F4;
         work->field_9CC_anim_update_fn_1p = sna_fn_80052120;
@@ -2877,7 +2877,7 @@ void sna_anim_wall_crouch_80052CCC(SnaInitWork *work, int time)
 
     if (time == 0)
     {
-        if (work->field_A26_stance != SNA_STANCE_SQUAT)
+        if (work->field_A26_stance != CROUCH)
         {
             sound = SE_CHANGE_STANCE;
             if (GM_CheckPlayerStatusFlag(PLAYER_IN_THE_WATER) != 0)
@@ -2887,7 +2887,7 @@ void sna_anim_wall_crouch_80052CCC(SnaInitWork *work, int time)
             GM_SeSet(&work->control.mov, sound);
         }
 
-        work->field_A26_stance = SNA_STANCE_SQUAT;
+        work->field_A26_stance = CROUCH;
         work->field_9C8_anim_update_fn_3p = sna_anim_wall_crouch_helper_80053A54;
         work->field_9CC_anim_update_fn_1p = sub_8005230C;
 
@@ -3443,7 +3443,7 @@ void sna_anim_prone_begin_80053BE8(SnaInitWork *work, int time)
         work->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
         sna_set_flags1_8004E2F4(work, (SNA_FLAG1_UNK5 | SNA_FLAG1_UNK6));
         SetAction_8004E22C(work, work->actpack->trans->crouch, 4);
-        work->field_A26_stance = SNA_STANCE_CROUCH;
+        work->field_A26_stance = GROUND;
         work->control.skip_flag |= CTRL_BOTH_CHECK | CTRL_SKIP_TRAP;
         GM_ClearPlayerStatusFlag(PLAYER_SQUAT);
         GM_SetPlayerStatusFlag(PLAYER_GROUND);
@@ -3512,7 +3512,7 @@ void sna_anim_prone_standup_80053D74(SnaInitWork *work, int time)
 
     if (work->control.height > 500)
     {
-        work->field_A26_stance = SNA_STANCE_STANDING;
+        work->field_A26_stance = STAND;
     }
 
     if (time == 2)
@@ -3790,22 +3790,22 @@ void sna_anim_shot_flinch_800544E0(SnaInitWork *work, int time)
         if (work->field_89C_pTarget->vital < 1)
         {
             GM_SeSet2(0, 0x3f, SE_PLAYEROUT);
-            sna_8004F8E4(work, work->field_A26_stance == SNA_STANCE_CROUCH ? 125 : 128);
+            sna_8004F8E4(work, work->field_A26_stance == GROUND ? 125 : 128);
         }
 
-        if (work->field_A26_stance == SNA_STANCE_CROUCH)
+        if (work->field_A26_stance == GROUND)
         {
             action_flag = work->actpack->damage->field_8;
         }
         else if ((GV_Time & 1) != 0)
         {
             action_flag = work->actpack->damage->field_0;
-            work->field_A26_stance = SNA_STANCE_STANDING;
+            work->field_A26_stance = STAND;
         }
         else
         {
             action_flag = work->actpack->damage->field_1;
-            work->field_A26_stance = SNA_STANCE_STANDING;
+            work->field_A26_stance = STAND;
         }
 
         SetAction_8004E22C(work, action_flag, 4);
@@ -3818,7 +3818,7 @@ void sna_anim_shot_flinch_800544E0(SnaInitWork *work, int time)
         sna_start_anim_8004E1F4(work, dword_8009EEA4[work->field_A26_stance]);
     }
 
-    if (work->field_A26_stance == SNA_STANCE_CROUCH)
+    if (work->field_A26_stance == GROUND)
     {
         sna_80050568(work);
     }
@@ -3858,7 +3858,7 @@ void sna_anim_knockdown_80054710(SnaInitWork *work, int time)
     if (time == 0)
     {
         work->field_9C8_anim_update_fn_3p = sna_fn_nothing_80053B80;
-        work->field_A26_stance = SNA_STANCE_STANDING;
+        work->field_A26_stance = STAND;
         work->field_9CC_anim_update_fn_1p = sna_fn_80052540;
         sna_set_invuln_8004F2A0(work, 0);
 
@@ -3887,7 +3887,7 @@ void sna_anim_knockdown_80054710(SnaInitWork *work, int time)
 
     if (work->control.height < 500)
     {
-        work->field_A26_stance = SNA_STANCE_CROUCH;
+        work->field_A26_stance = GROUND;
         GM_SetPlayerStatusFlag(PLAYER_GROUND);
     }
 
@@ -3939,7 +3939,7 @@ void sna_anim_knockdown_idle_80054930(SnaInitWork *work, int time)
         GM_SetPlayerStatusFlag(PLAYER_DOWNED | PLAYER_GROUND);
         GM_ClearPlayerStatusFlag(PLAYER_DAMAGED);
         local_field_A54 = work->field_A54.prone_bool_thing;
-        work->field_A26_stance = SNA_STANCE_CROUCH;
+        work->field_A26_stance = GROUND;
         if (local_field_A54 == 1)
         {
             action_flag = work->actpack->damage->field_4;
@@ -3989,7 +3989,7 @@ void sna_anim_knockdown_getup_80054A10(SnaInitWork *work, int time)
 
     if (work->control.height >= 501)
     {
-        work->field_A26_stance = SNA_STANCE_STANDING;
+        work->field_A26_stance = STAND;
     }
 
     if (time == 2)
@@ -4276,7 +4276,7 @@ void sna_anim_scope_80055334(SnaInitWork *param_1, int time)
         param_1->field_9C8_anim_update_fn_3p = sna_fn_nothing_80053B80;
         param_1->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
 
-        if (param_1->field_A26_stance == SNA_STANCE_STANDING)
+        if (param_1->field_A26_stance == STAND)
         {
             action_flag = 0x87;
         }
@@ -4314,7 +4314,7 @@ void sna_anim_box_idle_800553EC(SnaInitWork *work, int time)
         work->field_9C8_anim_update_fn_3p = sna_80056A54;
         work->field_9CC_anim_update_fn_1p = sna_fn_800525F8;
         GM_ClearPlayerStatusFlag(PLAYER_GROUND | PLAYER_SQUAT);
-        work->field_A26_stance = SNA_STANCE_STANDING;
+        work->field_A26_stance = STAND;
         SetAction_8004E22C(work, work->actpack->special2->field_2, 4);
     }
 }
@@ -4426,7 +4426,7 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
                     sub_8004F14C(work);
                 }
             }
-            else if (work->field_91C_weapon_idx != -1 && GM_CurrentWeaponId == WP_None)
+            else if (work->field_91C_weapon_idx != -1 && GM_Weapon == WP_None)
             {
                 sub_8004F14C(work);
             }
@@ -4509,7 +4509,7 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
             fa38 = work->field_A38_local_data;
             fa3a = work->field_A3A;
 
-            if (stance < SNA_STANCE_STANDING)
+            if (stance < STAND)
             {
                 if (!GM_CheckPlayerStatusFlag(PLAYER_INTRUDE))
                 {
@@ -4517,18 +4517,18 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
                 }
                 else
                 {
-                    stance = SNA_STANCE_UNK;
+                    stance = INTRUDE;
                 }
             }
 
             if ((unk2->field_9EC_flags3 & 0x1000) != 0)
             {
                 sna_start_anim_8004E1F4(work, sna_anim_box_idle_800553EC);
-                work->field_A26_stance = SNA_STANCE_STANDING;
+                work->field_A26_stance = STAND;
             }
             else
             {
-                if (stance < SNA_STANCE_UNK)
+                if (stance < INTRUDE)
                 {
                     if (GM_CheckPlayerStatusFlag(PLAYER_INTRUDE))
                     {
@@ -4543,7 +4543,7 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
                 {
                     if (!GM_CheckPlayerStatusFlag(PLAYER_INTRUDE))
                     {
-                        work->field_A26_stance = SNA_STANCE_CROUCH;
+                        work->field_A26_stance = GROUND;
                         GM_SetPlayerStatusFlag(PLAYER_INTRUDE | PLAYER_GROUND);
                         sna_8004EC8C(work);
                     }
@@ -4555,21 +4555,21 @@ void sna_anim_dying_80055524(SnaInitWork *work, int time)
                 {
                     if (fa38 >= 0)
                     {
-                        GM_CurrentItemId = fa38;
+                        GM_Item = fa38;
 
                         if ((unsigned int)(fa38 - 2) < 3)
                         {
-                            work->field_A26_stance = SNA_STANCE_STANDING;
+                            work->field_A26_stance = STAND;
                         }
                     }
                     if (fa3a >= 0)
                     {
-                        GM_CurrentWeaponId = fa3a;
+                        GM_Weapon = fa3a;
                         GM_WeaponChanged = 1;
 
                         if (fa3a == WP_Rifle)
                         {
-                            work->field_A26_stance = SNA_STANCE_CROUCH;
+                            work->field_A26_stance = GROUND;
                         }
                     }
                 }
@@ -4646,18 +4646,18 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
 
         if (pStr->field_9EC_flags3 & 0x100)
         {
-            stance = SNA_STANCE_STANDING;
+            stance = STAND;
             action = work->actpack->special2->field_3;
         }
         else if (pStr->field_9EC_flags3 & 1)
         {
-            stance = SNA_STANCE_CROUCH;
+            stance = GROUND;
             action = work->actpack->move->crouch;
             GM_SetPlayerStatusFlag(PLAYER_GROUND);
         }
         else
         {
-            stance = SNA_STANCE_STANDING;
+            stance = STAND;
             action = work->actpack->move->stand;
         }
 
@@ -4697,26 +4697,26 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
 
             if (item >= 0)
             {
-                GM_CurrentItemId = item;
+                GM_Item = item;
 
                 if ((item == IT_Box1) || (item == IT_Box2) || (item == IT_Box3))
                 {
-                    work->field_A26_stance = SNA_STANCE_STANDING;
+                    work->field_A26_stance = STAND;
                 }
             }
 
             if (weapon >= 0)
             {
-                GM_CurrentWeaponId = weapon;
+                GM_Weapon = weapon;
                 GM_WeaponChanged = 1;
 
                 if (weapon == WP_Rifle)
                 {
-                    work->field_A26_stance = SNA_STANCE_CROUCH;
+                    work->field_A26_stance = GROUND;
                 }
                 else if (weapon == WP_Stinger)
                 {
-                    work->field_A26_stance = SNA_STANCE_STANDING;
+                    work->field_A26_stance = STAND;
                 }
             }
         }
@@ -4802,7 +4802,7 @@ static inline void sna_act_unk_helper3_helper2_80055DD8(SnaInitWork *work)
     case 0:
         switch (work->field_A26_stance)
         {
-        case SNA_STANCE_STANDING:
+        case STAND:
             if (++work->field_9E4.field_9EE >= 4)
             {
                 work->field_9E4.field_9EE = 0;
@@ -4810,7 +4810,7 @@ static inline void sna_act_unk_helper3_helper2_80055DD8(SnaInitWork *work)
             }
             break;
 
-        case SNA_STANCE_SQUAT:
+        case CROUCH:
             SetAction_8004E22C(work, work->actpack->still->stand, 4);
 
             if (++work->field_9E4.field_9EE == 4)
@@ -4821,7 +4821,7 @@ static inline void sna_act_unk_helper3_helper2_80055DD8(SnaInitWork *work)
 
             break;
 
-        case SNA_STANCE_CROUCH:
+        case GROUND:
             SetAction_8004E22C(work, work->actpack->trans->stand, 4);
 
             if (work->body.is_end != 0)
@@ -4836,7 +4836,7 @@ static inline void sna_act_unk_helper3_helper2_80055DD8(SnaInitWork *work)
     case 1:
         switch (work->field_A26_stance)
         {
-        case SNA_STANCE_STANDING:
+        case STAND:
             SetAction_8004E22C(work, work->actpack->still->squat, 4);
 
             if (++work->field_9E4.field_9EE == 4)
@@ -4846,7 +4846,7 @@ static inline void sna_act_unk_helper3_helper2_80055DD8(SnaInitWork *work)
             }
             break;
 
-        case SNA_STANCE_SQUAT:
+        case CROUCH:
             if (++work->field_9E4.field_9EE == 4)
             {
                 work->field_9E4.field_9EE = 0;
@@ -4854,13 +4854,13 @@ static inline void sna_act_unk_helper3_helper2_80055DD8(SnaInitWork *work)
             }
             break;
 
-        case SNA_STANCE_CROUCH:
+        case GROUND:
             SetAction_8004E22C(work, work->actpack->trans->stand, 4);
 
             if (work->body.is_end != 0)
             {
                 SetAction_8004E22C(work, work->actpack->still->squat, 4);
-                work->field_A26_stance = SNA_STANCE_STANDING;
+                work->field_A26_stance = STAND;
             }
             break;
         }
@@ -4869,17 +4869,17 @@ static inline void sna_act_unk_helper3_helper2_80055DD8(SnaInitWork *work)
     case 2:
         switch (work->field_A26_stance)
         {
-        case SNA_STANCE_STANDING:
+        case STAND:
             SetAction_8004E22C(work, work->actpack->still->squat, 4);
 
             if (++work->field_9E4.field_9EE == 4)
             {
                 work->field_9E4.field_9EE = 0;
-                work->field_A26_stance = SNA_STANCE_SQUAT;
+                work->field_A26_stance = CROUCH;
             }
             break;
 
-        case SNA_STANCE_SQUAT:
+        case CROUCH:
             SetAction_8004E22C(work, work->actpack->trans->crouch, 4);
 
             if (work->body.is_end != 0)
@@ -4889,7 +4889,7 @@ static inline void sna_act_unk_helper3_helper2_80055DD8(SnaInitWork *work)
             }
             break;
 
-        case SNA_STANCE_CROUCH:
+        case GROUND:
             if (++work->field_9E4.field_9EE == 4)
             {
                 work->field_9E4.field_9EE = 0;
@@ -4954,7 +4954,7 @@ void sna_act_unk_helper3_80055DD8(SnaInitWork *work, int time)
     case 0:
         if (height > 500)
         {
-            work->field_A26_stance = SNA_STANCE_STANDING;
+            work->field_A26_stance = STAND;
         }
         break;
 
@@ -5035,11 +5035,11 @@ void sna_act_unk_helper3_80055DD8(SnaInitWork *work, int time)
     case 6:
         work->field_A26_stance = pStr->field_9EA;
 
-        if (work->field_A26_stance == SNA_STANCE_SQUAT)
+        if (work->field_A26_stance == CROUCH)
         {
             GM_SetPlayerStatusFlag(PLAYER_SQUAT);
         }
-        else if (work->field_A26_stance == SNA_STANCE_CROUCH)
+        else if (work->field_A26_stance == GROUND)
         {
             GM_SetPlayerStatusFlag(PLAYER_GROUND);
         }
@@ -5056,26 +5056,26 @@ void sna_act_unk_helper3_80055DD8(SnaInitWork *work, int time)
 
             if (item >= 0)
             {
-                GM_CurrentItemId = item;
+                GM_Item = item;
 
                 if (item == IT_Box1 || item == IT_Box2 || item == IT_Box3)
                 {
-                    work->field_A26_stance = SNA_STANCE_STANDING;
+                    work->field_A26_stance = STAND;
                 }
             }
 
             if (weapon >= 0)
             {
-                GM_CurrentWeaponId = weapon;
+                GM_Weapon = weapon;
                 GM_WeaponChanged = 1;
 
                 if (weapon == WP_Rifle)
                 {
-                    work->field_A26_stance = SNA_STANCE_CROUCH;
+                    work->field_A26_stance = GROUND;
                 }
                 else if (weapon == WP_Stinger)
                 {
-                    work->field_A26_stance = SNA_STANCE_STANDING;
+                    work->field_A26_stance = STAND;
                 }
             }
         }
@@ -5477,7 +5477,7 @@ void sna_anim_psg1_80056DDC(SnaInitWork *work, int time)
         sub_8004EB74(work);
         GM_SetPlayerStatusFlag(PLAYER_NORMAL_WATCH);
 
-        if (GM_UnkFlagBE != 0)
+        if (GM_FirstPerson != 0)
         {
             GM_SetPlayerStatusFlag(PLAYER_STILL_WATCH);
         }
@@ -5514,7 +5514,7 @@ void sna_anim_stinger_800570C0(SnaInitWork *work, int time)
         work->field_9C8_anim_update_fn_3p = OP_ShootStinger;
         work->field_9CC_anim_update_fn_1p = OP_ShootStinger;
         SetAction_8004E22C(work, SET, 4);
-        work->field_A26_stance = SNA_STANCE_STANDING;
+        work->field_A26_stance = STAND;
         GM_ClearPlayerStatusFlag(PLAYER_MENU_DISABLE | PLAYER_GROUND |
                                           PLAYER_SQUAT);
     }
@@ -5616,7 +5616,7 @@ void sna_80057378(SnaInitWork *work, int time)
         sna_8004E260(work, action, 4, 0xffff);
     }
 
-    if ((stance == SNA_STANCE_STANDING && time == 6) || (stance == SNA_STANCE_SQUAT && time == 14))
+    if ((stance == STAND && time == 6) || (stance == CROUCH && time == 14))
     {
         work->field_914_trigger = 3;
         GM_BombSeg = dword_800ABBB0;
@@ -7628,7 +7628,7 @@ static inline int sna_init_main_logic_helper6_helper_800596FC(SnaInitWork *work,
         return 0;
     }
 
-    if ((GM_UnkFlagBE != 0) && !(work->field_898_flags2 & 0x10))
+    if ((GM_FirstPerson != 0) && !(work->field_898_flags2 & 0x10))
     {
         return 0;
     }
@@ -7666,7 +7666,7 @@ static inline void sna_init_main_logic_helper6_800596FC(SnaInitWork *work)
 {
     int flags;
 
-    if (GM_UnkFlagBE == 0)
+    if (GM_FirstPerson == 0)
     {
         if ((work->field_9B0_pad_ptr->press & PAD_TRIANGLE) &&
             sna_init_main_logic_helper6_helper_800596FC(work, PLAYER_WATCH | PLAYER_ATTACK))
@@ -7708,7 +7708,7 @@ static inline void sna_init_main_logic_helper6_800596FC(SnaInitWork *work)
 
         flags = PLAYER_ATTACK;
 
-        if (GM_UnkFlagBE == 0)
+        if (GM_FirstPerson == 0)
         {
             flags |= PLAYER_WATCH;
         }
@@ -7822,7 +7822,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
          (*work->field_918_n_bullets == 0))
     {
         *work->field_918_n_bullets = -1;
-        GM_CurrentWeaponId = WP_None;
+        GM_Weapon = WP_None;
         work->field_90C_pWeaponFn = &sna_anim_chokethrow_begin1_80054210;
         work->field_910 = 0;
         work->field_926 = 0;
@@ -7840,7 +7840,7 @@ void sna_init_main_logic_800596FC(SnaInitWork *work)
     frame = work->field_9BC_anim_frame++;
     work->field_9B8_fn_anim(work, frame);
 
-    if ( GM_UnkFlagBE != 0 )
+    if ( GM_FirstPerson != 0 )
     {
         var_v0_8 = sna_sub_8004E358(work, SNA_FLAG2_UNK6);
     }
@@ -7996,7 +7996,7 @@ static void Act(SnaInitWork *work)
         return;
     }
 
-    if ( (GM_UnkFlagBE != 0) && (GM_GameStatus & STATE_PADDEMO) )
+    if ( (GM_FirstPerson != 0) && (GM_GameStatus & STATE_PADDEMO) )
     {
         if ( !GM_CheckPlayerStatusFlag(PLAYER_INTRUDE) && !(work->field_9B0_pad_ptr->status & PAD_TRIANGLE) )
         {
@@ -8004,13 +8004,13 @@ static void Act(SnaInitWork *work)
             work->control.turn.vx = work->field_A2A;
         }
 
-        GM_UnkFlagBE = 0;
+        GM_FirstPerson = 0;
         sna_set_flags2_8004E330(work, SNA_FLAG2_UNK13);
     }
 
     if ( (work->field_898_flags2 & 0x1000) && !(GM_GameStatus & STATE_PADDEMO) )
     {
-        GM_UnkFlagBE = 1;
+        GM_FirstPerson = 1;
         sna_clear_flags2_8004E344(work, SNA_FLAG2_UNK13);
     }
 
@@ -8063,7 +8063,7 @@ static void Act(SnaInitWork *work)
     }
 
     /* しゃがみ天井突き抜け防止 */
-    if ( (work->field_A26_stance != SNA_STANCE_STANDING) && (height >= 500) )
+    if ( (work->field_A26_stance != STAND) && (height >= 500) )
     {
         work->control.height = 496;
     }
@@ -8136,7 +8136,7 @@ static void Act(SnaInitWork *work)
         vec2.vy = work->body.objs->objs[6].world.t[1];
     }
 
-    if (work->field_A26_stance == SNA_STANCE_CROUCH)
+    if (work->field_A26_stance == GROUND)
     {
         vec2.vy += 320;
     }
@@ -8206,7 +8206,7 @@ static void Die(SnaInitWork *work)
 
     if ((work->field_898_flags2 & 0x1000) != 0)
     {
-        GM_UnkFlagBE = 1;
+        GM_FirstPerson = 1;
     }
 
     pCtrl = &work->control;
@@ -8324,17 +8324,17 @@ static inline void InitEmpty(SnaInitWork *work)
     stance = work->field_A26_stance = GM_PlayerStance;
     if (stance == 3)
     {
-        t1 = GM_ItemTypes[GM_CurrentItemId + 1];
-        t2 = GM_CurrentItemId;
+        t1 = GM_ItemTypes[GM_Item + 1];
+        t2 = GM_Item;
 
         if ((t1 & 2) || ((t2 - 2) < 3u))
         {
-            GM_CurrentItemId = IT_None;
+            GM_Item = IT_None;
         }
 
-        if (GM_WeaponTypes[GM_CurrentWeaponId + 1] & 0x200)
+        if (GM_WeaponTypes[GM_Weapon + 1] & 0x200)
         {
-            GM_CurrentWeaponId = WP_None;
+            GM_Weapon = WP_None;
         }
     }
 
@@ -8347,7 +8347,7 @@ static inline void InitEmpty(SnaInitWork *work)
 
     sna_800515BC(work, 0);
 
-    work->actpack = &weapon_actions_8009ED8C[GM_CurrentWeaponId];
+    work->actpack = &weapon_actions_8009ED8C[GM_Weapon];
     work->field_A28 = 450;
     work->field_A44 = work->control.mov;
     work->field_A60 = work->control.mov;
@@ -8510,11 +8510,11 @@ static inline int GetResources(SnaInitWork *work, int name, int where)
 
     trg = work->field_89C_pTarget = GM_AllocTarget();
     GM_SetTarget(trg, ( TARGET_AVAIL | TARGET_FLAG ), PLAYER_SIDE, size);
-    GM_SetPowerTarget(trg, POWER_DECREASE, -1, GM_SnakeCurrentHealth, 0, &DG_ZeroVector);
+    GM_SetPowerTarget(trg, POWER_DECREASE, -1, GM_Vitality, 0, &DG_ZeroVector);
     GM_SetCaptureTarget(trg, 0, 0, &work->field_8F4, &work->field_8FC);
     GM_MoveTarget(trg, &work->control.mov);
 
-    work->field_A22_snake_current_health = GM_SnakeCurrentHealth;
+    work->field_A22_snake_current_health = GM_Vitality;
 
     InitPacks(work->field_950, 2, DG_GetTexture(PCX_EMPTY2));
 

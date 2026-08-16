@@ -119,8 +119,6 @@ typedef struct GCL_Vars
 #define GCL_MAX_ARGS        8
 #define GCL_PROC_MAX_ARGS   16
 
-#define MAX_LINKVARBUF 96
-
 /*---------------------------------------------------------------------------*/
 // clang-format off
 

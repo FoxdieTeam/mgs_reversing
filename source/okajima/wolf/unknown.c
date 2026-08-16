@@ -106,20 +106,20 @@ void s12a_wolf2_800CEF50(Wolf2Work *work)
 {
     work->f6E8 = GV_RandU(16);
 
-    switch (GM_DifficultyFlag)
+    switch (GM_GameLevel)
     {
-    case DIFFICULTY_VERY_EASY:
-    case DIFFICULTY_EASY:
+    case GM_LEVEL_VERYEASY:
+    case GM_LEVEL_EASY:
     default:
         work->f6E8 += 150;
         break;
-    case DIFFICULTY_NORMAL:
+    case GM_LEVEL_NORMAL:
         work->f6E8 += 120;
         break;
-    case DIFFICULTY_HARD:
+    case GM_LEVEL_HARD:
         work->f6E8 += 90;
         break;
-    case DIFFICULTY_EXTREME:
+    case GM_LEVEL_EXTREME:
         work->f6E8 += 20;
         break;
     }
@@ -422,7 +422,7 @@ void s12a_wolf2_800CF2C4(Wolf2Work *work)
             (GM_Camera.zoom > 900) &&
             (work->f9A8 == 0) &&
             (hit_target == 1) &&
-            ((GM_CurrentWeaponId == WP_Rifle) || (GM_CurrentItemId == IT_Scope)))
+            ((GM_Weapon == WP_Rifle) || (GM_Item == IT_Scope)))
         {
             chanl = DG_Chanl(0);
             DG_Clip(&chanl->clip_rect, chanl->clip_distance);
@@ -619,7 +619,7 @@ void s12a_wolf2_800D0358(Wolf2Work *work)
             sp70.vy = 0;
             sp70.vz = 0;
 
-            if ((GM_SnakeCurrentHealth != 0) && (GM_GameOverTimer == 0))
+            if ((GM_Vitality != 0) && (GM_GameOverTimer == 0))
             {
                 work->fA70 = 1;
 
@@ -632,18 +632,18 @@ void s12a_wolf2_800D0358(Wolf2Work *work)
 
                     if (work->f9C8 != -1)
                     {
-                        work->last_item = GM_CurrentItemId;
-                        work->last_weapon = GM_CurrentWeaponId;
+                        work->last_item = GM_Item;
+                        work->last_weapon = GM_Weapon;
 
-                        if ((GM_CurrentItemId == IT_Scope) || (GM_CurrentItemId == IT_Camera) ||
-                            (GM_CurrentItemId == IT_NVG) || (GM_CurrentItemId == IT_ThermG))
+                        if ((GM_Item == IT_Scope) || (GM_Item == IT_Camera) ||
+                            (GM_Item == IT_NVG) || (GM_Item == IT_ThermG))
                         {
-                            GM_CurrentItemId = -1;
+                            GM_Item = -1;
                         }
 
-                        if ((GM_CurrentWeaponId == WP_Rifle) || (GM_CurrentWeaponId == WP_Stinger))
+                        if ((GM_Weapon == WP_Rifle) || (GM_Weapon == WP_Stinger))
                         {
-                            GM_CurrentWeaponId = -1;
+                            GM_Weapon = -1;
                         }
 
                         work->f9CC = 1;
@@ -757,7 +757,7 @@ void s12a_wolf2_800D09D4(Wolf2Work *work, int arg1)
 
     if (work->body.objs->bound_mode != 0)
     {
-        if ((work->f704 == 0) && (GM_CurrentWeaponId == WP_Rifle))
+        if ((work->f704 == 0) && (GM_Weapon == WP_Rifle))
         {
             work->f704 = 1;
             work->f708 = 150;
@@ -1358,7 +1358,7 @@ void s12a_wolf2_800D0ED4(Wolf2Work *work)
         {
             work->f6F4--;
 
-            if ((work->fA4C != -1) && (GM_SnakeCurrentHealth != 0) && (GM_GameOverTimer == 0))
+            if ((work->fA4C != -1) && (GM_Vitality != 0) && (GM_GameOverTimer == 0))
             {
                 GCL_ForceExecProc(work->fA4C, 0);
             }
@@ -1421,6 +1421,11 @@ void s12a_wolf2_800D1BE8(Wolf2Work *work)
     gUnkCameraStruct2_800B7868.target = center;
 }
 
+static inline int InBox(void)
+{
+    return (GM_Item == IT_Box1) || (GM_Item == IT_Box2) || (GM_Item == IT_Box3);
+}
+
 void s12a_wolf2_800D1EBC(Wolf2Work *work)
 {
     SVECTOR target_pos;
@@ -1439,7 +1444,7 @@ void s12a_wolf2_800D1EBC(Wolf2Work *work)
     target1 = work->f65C;
     target2 = work->f660;
 
-    if ((work->f99C == 0) && (GM_CurrentWeaponId == WP_Nikita))
+    if ((work->f99C == 0) && (GM_Weapon == WP_Nikita))
     {
         target1->class &= ~TARGET_FLAG;
         target1->class |= TARGET_AVAIL;
@@ -1483,7 +1488,7 @@ void s12a_wolf2_800D1EBC(Wolf2Work *work)
 
             s12a_wolf2_800D1BE8(work);
 
-            if (!(GM_PlayerStatus & STATE_JAMMING) || GM_InBox())
+            if (!(GM_PlayerStatus & STATE_JAMMING) || InBox())
             {
                 work->f9CC = 3;
             }
@@ -1517,13 +1522,13 @@ void s12a_wolf2_800D1EBC(Wolf2Work *work)
             {
                 if ((work->last_weapon == WP_Rifle) || (work->last_weapon == WP_Stinger))
                 {
-                    GM_CurrentWeaponId = work->last_weapon;
+                    GM_Weapon = work->last_weapon;
                 }
 
                 if ((work->last_item == IT_Scope) || (work->last_item == IT_Camera) ||
                     (work->last_item == IT_NVG) || (work->last_item == IT_ThermG))
                 {
-                    GM_CurrentItemId = work->last_item;
+                    GM_Item = work->last_item;
                 }
 
                 GV_DemoPadStatus[0] = ( PAD_L1 | PAD_R1 );
@@ -1536,7 +1541,7 @@ void s12a_wolf2_800D1EBC(Wolf2Work *work)
             }
         }
 
-        if ((work->f9CC == 1) && (GM_SnakeCurrentHealth != 0) && (GM_GameOverTimer == 0))
+        if ((work->f9CC == 1) && (GM_Vitality != 0) && (GM_GameOverTimer == 0))
         {
             work->f9CC = 2;
 
@@ -1585,21 +1590,21 @@ void s12a_wolf2_800D1EBC(Wolf2Work *work)
     if ((work->f6FC > 0) &&
         (work->f9D0 > GM_PlayerPosition.vz) &&
         ~(GM_PlayerStatus & STATE_JAMMING) &&
-        (GM_CurrentWeaponId != WP_Rifle) &&
-        (GM_SnakeCurrentHealth != 0) &&
+        (GM_Weapon != WP_Rifle) &&
+        (GM_Vitality != 0) &&
         (GM_GameOverTimer == 0))
     {
         GM_GameStatus |= STATE_PADRELEASE;
 
-        if ((GM_CurrentItemId == IT_Scope) || (GM_CurrentItemId == IT_Camera) ||
-            (GM_CurrentItemId == IT_NVG) || (GM_CurrentItemId == IT_ThermG))
+        if ((GM_Item == IT_Scope) || (GM_Item == IT_Camera) ||
+            (GM_Item == IT_NVG) || (GM_Item == IT_ThermG))
         {
-            GM_CurrentItemId = IT_None;
+            GM_Item = IT_None;
         }
 
-        if ((GM_CurrentWeaponId == WP_Rifle) || (GM_CurrentWeaponId == WP_Stinger))
+        if ((GM_Weapon == WP_Rifle) || (GM_Weapon == WP_Stinger))
         {
-            GM_CurrentWeaponId = WP_None;
+            GM_Weapon = WP_None;
         }
 
         work->f718 = 1;
@@ -1684,7 +1689,7 @@ void s12a_wolf2_800D1EBC(Wolf2Work *work)
 
     s12a_wolf2_800CF2C4(work);
 
-    if (GM_CurrentWeaponId == WP_Rifle)
+    if (GM_Weapon == WP_Rifle)
     {
         if (work->fA10.vx > 0)
         {
@@ -1722,7 +1727,7 @@ void s12a_wolf2_800D1EBC(Wolf2Work *work)
         work->fA10 = DG_ZeroVector;
     }
 
-    if (GM_CurrentWeaponId == WP_Stinger)
+    if (GM_Weapon == WP_Stinger)
     {
         target_pos.vx = 0;
         target_pos.vy = -10000;

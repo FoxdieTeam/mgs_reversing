@@ -76,8 +76,8 @@ BOOL CreateDemo(LPMGSDEMOACT lpAct, DMO_DEF *header)
     lpAct->old_screen = DG_SetChanlSystemUnits(DG_SCREEN_CHANL, DemoScreenChanl);
     lpAct->old_game_status = GM_GameStatus;
     lpAct->old_camera = GM_Camera;
-    lpAct->old_item = GM_CurrentItemId;
-    lpAct->old_weapon = GM_CurrentWeaponId;
+    lpAct->old_item = GM_Item;
+    lpAct->old_weapon = GM_Weapon;
 
     OFFSET_TO_PTR(header, &header->maps);
     OFFSET_TO_PTR(header, &header->models);
@@ -373,8 +373,8 @@ BOOL DestroyDemo(LPMGSDEMOACT lpAct)
     DG_SetChanlSystemUnits(DG_SCREEN_CHANL, lpAct->old_screen);
     GM_GameStatus = lpAct->old_game_status;
     GM_Camera = lpAct->old_camera;
-    GM_CurrentItemId = lpAct->old_item;
-    GM_CurrentWeaponId = lpAct->old_weapon;
+    GM_Item = lpAct->old_item;
+    GM_Weapon = lpAct->old_weapon;
     return 1;
 }
 

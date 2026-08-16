@@ -93,9 +93,9 @@ static void CheckWireCut(Work *work)
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer = -2;
 
-                            if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
+                            if (GM_Item == IT_Camera || GM_Item == IT_Scope)
                             {
-                                GM_CurrentItemId = IT_None;
+                                GM_Item = IT_None;
                             }
                         }
 
@@ -118,9 +118,9 @@ static void CheckWireCut(Work *work)
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer = -2;
 
-                            if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
+                            if (GM_Item == IT_Camera || GM_Item == IT_Scope)
                             {
-                                GM_CurrentItemId = IT_None;
+                                GM_Item = IT_None;
                             }
                         }
 
@@ -143,9 +143,9 @@ static void CheckWireCut(Work *work)
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer = -2;
 
-                            if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
+                            if (GM_Item == IT_Camera || GM_Item == IT_Scope)
                             {
-                                GM_CurrentItemId = IT_None;
+                                GM_Item = IT_None;
                             }
                         }
 
@@ -168,9 +168,9 @@ static void CheckWireCut(Work *work)
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer = -2;
 
-                            if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
+                            if (GM_Item == IT_Camera || GM_Item == IT_Scope)
                             {
-                                GM_CurrentItemId = IT_None;
+                                GM_Item = IT_None;
                             }
                         }
 
@@ -193,9 +193,9 @@ static void CheckWireCut(Work *work)
                             printf("Wire Cut!!\n");
                             GM_GameOverTimer = -2;
 
-                            if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
+                            if (GM_Item == IT_Camera || GM_Item == IT_Scope)
                             {
-                                GM_CurrentItemId = IT_None;
+                                GM_Item = IT_None;
                             }
                         }
 
@@ -216,9 +216,9 @@ static void CheckWireCut(Work *work)
                         printf("Wire Cut!!\n");
                         GM_GameOverTimer = -2;
 
-                        if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
+                        if (GM_Item == IT_Camera || GM_Item == IT_Scope)
                         {
-                            GM_CurrentItemId = IT_None;
+                            GM_Item = IT_None;
                         }
                     }
 
@@ -243,9 +243,9 @@ static void CheckWireCut(Work *work)
                 printf("Wire Cut by HOFUKU!!\n");
                 GM_GameOverTimer = -2;
 
-                if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
+                if (GM_Item == IT_Camera || GM_Item == IT_Scope)
                 {
-                    GM_CurrentItemId = IT_None;
+                    GM_Item = IT_None;
                 }
             }
 
@@ -310,9 +310,9 @@ static void CheckWireCut(Work *work)
             printf("Wire Cut by BAKUFUU!!\n");
             GM_GameOverTimer = -2;
 
-            if (GM_CurrentItemId == IT_Camera || GM_CurrentItemId == IT_Scope)
+            if (GM_Item == IT_Camera || GM_Item == IT_Scope)
             {
-                GM_CurrentItemId = IT_None;
+                GM_Item = IT_None;
             }
         }
 

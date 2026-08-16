@@ -105,13 +105,13 @@ static int add_item(int id, int num)
         return 1;
     }
 
-    if (GM_ItemTypes[id + 1] & ITEMTYPE_BITMASK)
+    if (GM_ItemTypes[id + 1] & IT_TYPE_BITMASK)
     {
         SET_ITEM_BIT(id, num - 1);
         return 1;
     }
 
-    if (GM_ItemTypes[id + 1] & ITEMTYPE_CONSUMABLE)
+    if (GM_ItemTypes[id + 1] & IT_TYPE_CONSUMABLE)
     {
         max = GM_Items[id + 11];
 
@@ -144,12 +144,12 @@ void disable_equipment(void)
 
     for (i = 0; i < IT_Max; i++)
     {
-        GM_Items[i] |= ITEMTYPE_DISABLED;
+        GM_Items[i] |= IT_TYPE_DISABLED;
     }
 
     for (i = 0; i < WP_Max; i++)
     {
-        GM_Weapons[i] |= ITEMTYPE_DISABLED;
+        GM_Weapons[i] |= IT_TYPE_DISABLED;
     }
 }
 
@@ -161,7 +161,7 @@ void enable_equipment(void)
     {
         if (GM_Items[i] != -1)
         {
-            GM_Items[i] &= ~ITEMTYPE_DISABLED;
+            GM_Items[i] &= ~IT_TYPE_DISABLED;
         }
     }
 
@@ -169,7 +169,7 @@ void enable_equipment(void)
     {
         if (GM_Weapons[i] != -1)
         {
-            GM_Weapons[i] &= ~ITEMTYPE_DISABLED;
+            GM_Weapons[i] &= ~IT_TYPE_DISABLED;
         }
     }
 }
@@ -581,7 +581,7 @@ static int check_type( Work *work, int type )
     {
     case 2:
     case 3:
-        if ( (GM_DifficultyFlag == DIFFICULTY_VERY_EASY) && (id == WP_Famas) )
+        if ( (GM_GameLevel == GM_LEVEL_VERYEASY) && (id == WP_Famas) )
         {
             return 0;
         }
@@ -718,7 +718,7 @@ static int GetResources(Work *work, int name, int where)
         return 0;
     }
 
-    if ((GM_DifficultyFlag == DIFFICULTY_EXTREME) && (type == 4) && (work->id == IT_Ration))
+    if ((GM_GameLevel == GM_LEVEL_EXTREME) && (type == 4) && (work->id == IT_Ration))
     {
         return 0;
     }

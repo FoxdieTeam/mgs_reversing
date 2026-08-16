@@ -306,9 +306,9 @@ static void CreateTarget(Work *work, int side)
     force.vy = work->step.vy / 32;
     force.vz = work->step.vz / 32;
 
-    if (GM_DifficultyFlag > 0)
+    if (GM_GameLevel > 0)
     {
-        damage = GM_DifficultyFlag * 6 + 48;
+        damage = GM_GameLevel * 6 + 48;
     }
     else
     {

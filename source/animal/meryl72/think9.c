@@ -454,7 +454,7 @@ void s07c_meryl72_unk2_800CF67C(Meryl72Work *work)
     {
         if (GM_StreamStatus() == -1)
         {
-            if (GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            if (GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
                 GM_VoxStream(work->voices[work->fC0C + 7], 0);
             }
@@ -524,7 +524,7 @@ void s07c_meryl72_unk2_800CF824(Meryl72Work *work)
     {
         if (s07c_meryl72_unk2_800CECB4(&GM_PlayerPosition))
         {
-            if (GM_StreamStatus() == -1 && GM_GameOverTimer == 0 && GM_SnakeCurrentHealth > 0)
+            if (GM_StreamStatus() == -1 && GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
                 GM_VoxStream(work->voices[18], 0);
             }
@@ -735,15 +735,15 @@ void s07c_meryl72_unk2_800CFD80(Meryl72Work *work)
         work->think3 = 0;
 
         // Unequip item if it changes camera
-        if (GM_ItemTypes[GM_CurrentItemId + 1] & 0x2)
+        if (GM_ItemTypes[GM_Item + 1] & 0x2)
         {
-            GM_CurrentItemId = IT_None;
+            GM_Item = IT_None;
         }
 
         // Unequip weapon if it changes camera
-        if (GM_WeaponTypes[GM_CurrentWeaponId + 1] & 0x200)
+        if (GM_WeaponTypes[GM_Weapon + 1] & 0x200)
         {
-            GM_CurrentWeaponId = WP_None;
+            GM_Weapon = WP_None;
         }
 
         work->fC38 = 0;

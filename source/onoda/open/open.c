@@ -1827,15 +1827,15 @@ void title_open_800C628C(Work *work)
             }
             else if (press & PAD_CIRCLE)
             {
-                GM_DifficultyFlag = work->f24E4;
-                printf("\n Game Level = %d\n\n", GM_DifficultyFlag);
+                GM_GameLevel = work->f24E4;
+                printf("\n Game Level = %d\n\n", GM_GameLevel);
                 if (work->f24E4 == 2 || work->f24E4 == 3)
                 {
-                    GM_OptionFlag |= 0x800;
+                    GM_Configuration |= GM_CONFIG_RADAR_OFF;
                 }
                 else
                 {
-                    GM_OptionFlag &= 0xF7FF;
+                    GM_Configuration &= ~GM_CONFIG_RADAR_OFF;
                 }
                 GM_SeSet2(0, 63, SE_MENU_SELECT);
                 work->fA74 = 0x14;
@@ -3187,7 +3187,7 @@ void title_open_800C628C(Work *work)
                         if (sd_sng_play() == 0)
                         {
                             argv[0] = work->demo_rank;
-                            GM_OptionFlag &= 0xF7FF;
+                            GM_Configuration &= ~GM_CONFIG_RADAR_OFF;
                             GCL_ExecProc(work->fAF4, &args);
                             GV_DestroyActor(&work->actor);
                         }
@@ -3667,7 +3667,7 @@ void title_open_800C628C(Work *work)
                         if (sd_sng_play() == 0)
                         {
                             argv[0] = work->demo_rank;
-                            GM_OptionFlag &= 0xF7FF;
+                            GM_Configuration &= ~GM_CONFIG_RADAR_OFF;
                             GCL_ExecProc(work->fAF4, &args);
                             GV_DestroyActor(&work->actor);
                         }
@@ -4730,7 +4730,7 @@ void title_open_800C628C(Work *work)
                         if (sd_sng_play() == 0)
                         {
                             argv[0] = work->demo_rank;
-                            GM_OptionFlag &= 0xF7FF;
+                            GM_Configuration &= ~GM_CONFIG_RADAR_OFF;
                             GCL_ExecProc(work->fAF4, &args);
                             GV_DestroyActor(&work->actor);
                         }
@@ -5121,7 +5121,7 @@ void title_open_800C628C(Work *work)
                         if (sd_sng_play() == 0)
                         {
                             argv[0] = work->demo_rank;
-                            GM_OptionFlag &= 0xF7FF;
+                            GM_Configuration &= ~GM_CONFIG_RADAR_OFF;
                             GCL_ExecProc(work->fAF4, &args);
                             GV_DestroyActor(&work->actor);
                         }
@@ -8215,7 +8215,7 @@ void title_open_800D2AFC(Work *work)
             }
             break;
         }
-        GM_OptionFlag &= 0xF7FF;
+        GM_Configuration &= ~GM_CONFIG_RADAR_OFF;
         GCL_ExecProc(work->fAF4, &args);
         GV_DestroyActor(work);
     }

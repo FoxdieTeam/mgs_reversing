@@ -157,7 +157,7 @@ void MirrorAct_800DFDDC(Work *work)
     {
         if (entry->name == SNAKE_NAME)
         {
-            if (GM_CurrentItemId == IT_Stealth)
+            if (GM_Item == IT_Stealth)
             {
                 if (!(work->snake_flags & 0x1))
                 {
@@ -174,7 +174,7 @@ void MirrorAct_800DFDDC(Work *work)
 
             prev_flags = work->snake_flags;
 
-            if (GM_CurrentItemId == IT_BodyArmor)
+            if (GM_Item == IT_BodyArmor)
             {
                 work->snake_flags |= 0x4;
             }
@@ -183,7 +183,7 @@ void MirrorAct_800DFDDC(Work *work)
                 work->snake_flags &= ~0x4;
             }
 
-            if (GM_CurrentItemId == IT_Bandana)
+            if (GM_Item == IT_Bandana)
             {
                 work->snake_flags |= 0x8;
             }

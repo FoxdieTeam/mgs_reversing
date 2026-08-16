@@ -898,7 +898,7 @@ int menu_radio_codec_helper_helper12_80041280(MenuWork *work, u_long *ot, GV_PAD
 
     if (pPad->press & PAD_CIRCLE)
     {
-        GM_LastResultFlag = pMenuChara->field_1A_index;
+        GM_Result = pMenuChara->field_1A_index;
         sub_80041118(work);
         return 1;
     }
@@ -1309,7 +1309,7 @@ skip_fading:
             work->field_212--;
             if (work->field_212 == 0)
             {
-                if (GM_OptionFlag & OPTION_ENGLISH)
+                if (GM_Configuration & GM_CONFIG_ENGLISH)
                 {
                     menu_radio_codec_helper__helper13_800410E4(work, "NO RESPONSE");
                 }

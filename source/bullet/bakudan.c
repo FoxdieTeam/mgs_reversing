@@ -97,12 +97,12 @@ static void Act(BakudanWork *work)
     // of the condition below to a temporary variable!?
     cond = 0;
 #endif
-    if (((work->active_pad->press & PAD_CIRCLE) &&      /* if the circle button was pressed */
-         (time_last_press_8009F430 != GV_Time) &&       /* and it's not on the same frame */
-         (GM_CurrentMap & GM_PlayerMap) &&              /* and the player is on the same map as the C4 */
-         !(GM_GameStatus & STATE_PADRELEASE) &&         /* and the player has not released the button */
-         !(GM_PlayerStatus & PLAYER_PAD_OFF) &&         /* and pad input isn't disabled */
-         !(GM_ItemTypes[GM_CurrentItemId + 1] & 2)) ||  /* and the player hasn't equipped an incompatible item */
+    if (((work->active_pad->press & PAD_CIRCLE) && /* if the circle button was pressed */
+         (time_last_press_8009F430 != GV_Time) &&  /* and it's not on the same frame */
+         (GM_CurrentMap & GM_PlayerMap) &&         /* and the player is on the same map as the C4 */
+         !(GM_GameStatus & STATE_PADRELEASE) &&    /* and the player has not released the button */
+         !(GM_PlayerStatus & PLAYER_PAD_OFF) &&    /* and pad input isn't disabled */
+         !(GM_ItemTypes[GM_Item + 1] & 2)) ||      /* and the player hasn't equipped an incompatible item */
         dword_8009F434)
 #ifdef VR_EXE
     {

@@ -143,11 +143,11 @@ void s11g_hind_800DA614(HindWork *work)
     work->field_5C8 = 6;
     work->field_5E4 = GV_RandU(8) + 16;
 
-    switch (GM_DifficultyFlag)
+    switch (GM_GameLevel)
     {
     default:
-    case DIFFICULTY_EASY:
-    case DIFFICULTY_NORMAL:
+    case GM_LEVEL_EASY:
+    case GM_LEVEL_NORMAL:
         if ((work->field_5E8 < 10) && ((work->field_5E8 & 3) == 0))
         {
             if (GV_RandU(2) == 0)
@@ -158,7 +158,7 @@ void s11g_hind_800DA614(HindWork *work)
 
         amount = 64;
         break;
-    case DIFFICULTY_HARD:
+    case GM_LEVEL_HARD:
         if ((work->field_5E8 == 5) || (work->field_5E8 == 10))
         {
             if (GV_RandU(2) == 0)
@@ -169,7 +169,7 @@ void s11g_hind_800DA614(HindWork *work)
 
         amount = 70;
         break;
-    case DIFFICULTY_EXTREME:
+    case GM_LEVEL_EXTREME:
         if ((work->field_5E8 == 5) || (work->field_5E8 == 10))
         {
             if (GV_RandU(2) == 0)

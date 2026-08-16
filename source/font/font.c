@@ -6,8 +6,9 @@
 #include <libgpu.h>
 
 #include "common.h"
-#include "libgv/libgv.h"
 #include "linkvar.h"
+#include "libgv/libgv.h"
+#include "game/game.h"
 
 // This struct describes the structure of
 // "rubi.res" file.
@@ -1117,20 +1118,20 @@ long font_draw_string(KCB *kcb, long xtop, long ytop, const char *string, long c
                 goto block_136;
 
             case 0x901D:
-                next_mdata = (GM_OptionFlag & OPTION_BUTTON_MASK) == OPTION_BUTTON_TYPE_C ? 0x9024 : 0x901D;
+                next_mdata = (GM_Configuration & GM_CONFIG_BUTTON_MASK) == GM_CONFIG_BUTTON_TYPE_C ? 0x9024 : 0x901D;
                 goto block_136;
 
             case 0x901E:
             case 0x9024:
-                switch (GM_OptionFlag & OPTION_BUTTON_MASK)
+                switch (GM_Configuration & GM_CONFIG_BUTTON_MASK)
                 {
-                case OPTION_BUTTON_TYPE_A:
+                case GM_CONFIG_BUTTON_TYPE_A:
                     next_mdata = d;
                     break;
-                case OPTION_BUTTON_TYPE_B:
+                case GM_CONFIG_BUTTON_TYPE_B:
                     next_mdata = 0x9018;
                     break;
-                case OPTION_BUTTON_TYPE_C:
+                case GM_CONFIG_BUTTON_TYPE_C:
                     next_mdata = 0x901D;
                     break;
                 }
