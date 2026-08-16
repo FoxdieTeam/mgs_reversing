@@ -91,7 +91,21 @@ typedef struct HOMING {
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct MOTION_INFO {
+typedef struct _MOTION_SEGMENT {
+    SVECTOR  base;
+    SVECTOR  delta;
+    int      interp;
+    u_short *stream;
+    short    field_18;
+    short    field_1A;
+    u_char   field_1C;
+    char     bit_offset;
+    char     x_size;
+    char     y_size;
+    char     z_size;
+} MOTION_SEGMENT;
+
+typedef struct _MOTION_INFO {
     short           frames_left;
     // Controls the sound of Snake's footsteps; values, ranging from 0x0-0x11 (with intermediary jumps to 0x80 and
     // 0xff), appear to be the current frame of the sound sample (with frame 0x8 corresponding to the hard footstep
