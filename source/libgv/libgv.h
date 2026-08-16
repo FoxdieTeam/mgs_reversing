@@ -1,5 +1,6 @@
 /**
- * Main include header for the GV library.
+ * @file    libgv.h
+ * @brief   Game enVironment library header
  *
  * LibGV is the core of the MGS "system" library group and provides various
  * services, including memory management, resource loading, input processing,
