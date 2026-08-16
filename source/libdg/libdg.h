@@ -16,6 +16,8 @@
 #include "fmt_tex.h"
 #include "fmt_mot.h"
 
+#define DG_MAX_JOINTS 24
+
 /*---------------------------------------------------------------------------*/
 
 typedef struct DG_VECTOR

@@ -2,7 +2,6 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "game/control.h"
 
 typedef struct _Work
 {

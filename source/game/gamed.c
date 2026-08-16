@@ -38,15 +38,15 @@ int GM_GameOverTimer = 0;
 
 SVECTOR *GM_lpsvectWind = NULL;
 
-TPlayerActFunction GM_lpfnPlayerActControl = NULL;
-TPlayerActFunction GM_lpfnPlayerActObject2 = NULL;
+int (*GM_lpfnPlayerActControl)(GV_ACT *) = NULL;
+int (*GM_lpfnPlayerActObject2)(GV_ACT *) = NULL;
 
 short GM_uBombHoming = 0;
 short GM_uTenageMotion = -1;
 
-TBombFunction  GM_lpfnBombHoming = NULL;
-TBombFunction2 GM_lpfnBombBound = NULL;
-TBombFunction3 GM_lpfnBombExplosion = NULL;
+int (*GM_lpfnBombHoming)(CONTROL *, int, int *) = NULL;
+int (*GM_lpfnBombBound)(int, CONTROL *, int *) = NULL;
+int (*GM_lpfnBombExplosion)(TARGET *, int) = NULL;
 
 int GM_PadResetDisable = FALSE;
 

@@ -1,5 +1,3 @@
-#include "homing.h"
-
 #include <stdio.h>
 #include <sys/types.h>
 #include <libapi.h>
@@ -10,7 +8,7 @@
 #include "libgv/libgv.h"
 #include "game.h"
 
-extern HOMING homing_targets[NUM_HOMING_TARGETS];
+extern HOMING homing_targets[HOMING_MAX];
 
 void GM_ResetHomingTargets(void)
 {
@@ -18,7 +16,7 @@ void GM_ResetHomingTargets(void)
     int     i;
 
     hom = homing_targets;
-    for (i = NUM_HOMING_TARGETS; i > 0; i--)
+    for (i = HOMING_MAX; i > 0; i--)
     {
         hom->used = FALSE;
         hom++;
@@ -31,7 +29,7 @@ HOMING *GM_AllocHomingTarget(MATRIX *world, CONTROL *control)
     int     i;
 
     hom = homing_targets;
-    for (i = NUM_HOMING_TARGETS; i > 0; i--)
+    for (i = HOMING_MAX; i > 0; i--)
     {
         if (!hom->used)
         {
@@ -83,7 +81,7 @@ void GM_GetHomingTarget(MATRIX *world, int ang, int *yaw, int *pitch, int map)
     *yaw = -1;
     *pitch = 0;
 
-    for (i = NUM_HOMING_TARGETS; i > 0; i--)
+    for (i = HOMING_MAX; i > 0; i--)
     {
         if (hom->used && (hom->control->map->index & map) && (hom->flag == TRUE))
         {
@@ -131,7 +129,7 @@ void GM_GetHomingTarget2(MATRIX *world, int ang, int *yaw, int *pitch, int map, 
     *yaw = -1;
     *pitch = 0;
 
-    for (i = NUM_HOMING_TARGETS; i > 0; i--)
+    for (i = HOMING_MAX; i > 0; i--)
     {
         if (hom->used && (hom->control->map->index & map) && (hom->flag == TRUE))
         {

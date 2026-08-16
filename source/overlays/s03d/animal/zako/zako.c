@@ -1,6 +1,5 @@
 #include "common.h"
 #include "game/game.h"
-#include "game/homing.h"
 #include "game/item.h"
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"

@@ -7,7 +7,6 @@
 #include "libdg/libdg.h"
 
 #include "game.h"
-#include "motion.h"
 
 /*-----sbss---------------------------------------*/
 int SECTION(".sbss") fc_rt;     // Unused?

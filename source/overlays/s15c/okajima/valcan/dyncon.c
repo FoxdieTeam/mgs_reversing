@@ -5,7 +5,6 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/item.h"
-#include "game/map.h"
 #include "linkvar.h"
 
 extern DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
