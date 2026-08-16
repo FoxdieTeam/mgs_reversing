@@ -1,5 +1,4 @@
-#include "control.h"
-
+#define __GAME_CONTROL_C__
 #include <stdio.h>
 #include <sys/types.h>
 #include <libgte.h>
@@ -10,7 +9,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
-#include "game/map.h"
+#include "game/game.h"
 #include "strcode.h"
 
 #define MAX_WHERES 96

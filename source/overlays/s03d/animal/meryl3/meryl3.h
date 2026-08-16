@@ -3,7 +3,6 @@
 
 #include "common.h"
 #include "game/game.h"
-#include "game/motion.h"
 #include "libdg/libdg.h"
 
 /* Same input-pad layout as animal/meryl72/meryl72.h's Meryl72Pad. */

@@ -6,7 +6,7 @@
 #include <libgpu.h>
 #include "common.h"
 #include "libhzd/libhzd.h"  // for HZD_HDL
-#include "game/control.h"   // for CONTROL
+#include "game/game.h"      // for CONTROL
 
 typedef struct CAMERA
 {

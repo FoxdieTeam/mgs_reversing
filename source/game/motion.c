@@ -1,8 +1,5 @@
-#include "motion.h"
-
 #include "common.h"
 #include "game.h"
-#include "control.h"
 #include "libgv/libgv.h"
 
 short word_8009D69C[15][64] = {

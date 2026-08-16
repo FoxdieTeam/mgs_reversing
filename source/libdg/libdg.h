@@ -1,3 +1,8 @@
+/**
+ * @file    libdg.h
+ * @brief   Display Generator library header
+ */
+
 #ifndef __MGS_LIBDG_H__
 #define __MGS_LIBDG_H__
 
@@ -10,6 +15,8 @@
 #include "libgv/libgv.h"
 #include "fmt_tex.h"
 #include "fmt_mot.h"
+
+#define DG_MAX_JOINTS 24
 
 /*---------------------------------------------------------------------------*/
 

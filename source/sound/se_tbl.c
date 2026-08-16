@@ -1,9 +1,12 @@
 #include "sd_incl.h"
 
-/* data definition */
+/*---------------------- Sound Effect Data -----------------------------*/
+
 #include "se_data/blob.h"
 
 unsigned char se_dummy[] = { 0x00,0x00,0xfe,0xff };
+
+/*---------------------- Sound Effect Table ----------------------------*/
 
 SETBL se_tbl[128] = {
     /* pri,tracks,kind,character */
