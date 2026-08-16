@@ -131,9 +131,11 @@ int DG_LoadInitNar(void *buf, int id)
 
 int DG_LoadInitOar(void *buf, int id)
 {
-    DG_OAR *oar = (DG_OAR *)buf;
-    oar->archive = (MOTION_ARCHIVE*)&oar->oarData[ ( ( (oar->n_joint + 2) ) * oar->n_motion) * 2 ];
-    oar->table   = (MOTION_TABLE*)oar->oarData;
+    DG_OAR *oar;
+
+    oar = (DG_OAR *)buf;
+    oar->archive = &oar->data[ ( oar->n_joint + 2 ) * oar->n_motion ];
+    oar->table = oar->data;
     return 1;
 }
 

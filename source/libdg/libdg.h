@@ -248,7 +248,7 @@ typedef struct DG_OAR
     unsigned int    n_joint;
     unsigned int    n_motion;
     MOTION_TABLE   *table;
-    char            oarData[ 0 ];
+    unsigned short  data[ 0 ];
 } DG_OAR;
 
 /*---------------------------------------------------------------------------*/

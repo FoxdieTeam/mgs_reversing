@@ -5,11 +5,11 @@
 #include <libgpu.h>
 
 #include "common.h"
-#include "libgv/libgv.h"
+#include "strcode.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "libgv/libgv.h"
 #include "game/game.h"
-#include "strcode.h"
 
 /*---------------------------------------------------------------------------*/
 
