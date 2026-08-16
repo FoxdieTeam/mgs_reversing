@@ -3,6 +3,8 @@
 
 /*---------------------------------------------------------------------------*/
 #ifndef __GAME_GAMED_C__
+#ifndef __GAME_CONTROL_C__ // HACK: for GM_CurrentMap
+
 // clang-format off
 
 extern int GM_CurrentMap;               // for GM_Set/GetCurrentMap, etc.
@@ -79,6 +81,7 @@ static inline void GM_SetNoise( int power, int length, SVECTOR *pos )
 }
 
 // clang-format on
+#endif // __GAME_CONTROL_C__
 #endif // __GAME_GAMED_C__
 /*---------------------------------------------------------------------------*/
 

@@ -1,3 +1,4 @@
+#define __GAME_CONTROL_C__
 #include <stdio.h>
 #include <sys/types.h>
 #include <libgte.h>
