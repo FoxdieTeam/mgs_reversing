@@ -1,6 +1,10 @@
 #ifndef __MGS_G_EXTERN_H__
 #define __MGS_G_EXTERN_H__
 
+#ifndef __MGS_GAME_H__
+#error "g_extern.h must be included via game.h!"
+#endif
+
 /*---------------------------------------------------------------------------*/
 
 /* gamed.c */
