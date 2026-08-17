@@ -26,14 +26,14 @@ SETBL se_tbl[128] = {
     { 0x90, 0x01, 0x00, 0x00, { item000300, se_dummy,   se_dummy   }}, /* 13 */
     { 0x90, 0x01, 0x00, 0x00, { radar00100, se_dummy,   se_dummy   }}, /* 14 */
     { 0xF0, 0x03, 0x00, 0x00, { over0300,   over0301,   over0302   }}, /* 15 */
-    { 0x20, 0x01, 0x00, 0x00, { r_rcv0100,  se_dummy,   se_dummy   }}, /* 16 */
-    { 0x90, 0x01, 0x00, 0x00, { photo0100,  se_dummy,   se_dummy   }}, /* 17 */
+    { 0x20, 0x01, 0x00, 0x00, { call0100,   se_dummy,   se_dummy   }}, /* 16 */
+    { 0x90, 0x01, 0x00, 0x00, { camera0200, se_dummy,   se_dummy   }}, /* 17 */
     { 0xA0, 0x01, 0x01, 0x01, { pout000300, se_dummy,   se_dummy   }}, /* 18 */
     { 0xA0, 0x01, 0x01, 0x01, { sneeze0100, se_dummy,   se_dummy   }}, /* 19 */
     { 0x90, 0x01, 0x01, 0x00, { idec0300,   se_dummy,   se_dummy   }}, /* 20 */
     { 0x20, 0x01, 0x00, 0x00, { idisp0200,  se_dummy,   se_dummy   }}, /* 21 */
     { 0x90, 0x02, 0x00, 0x00, { iget0100,   iget0101,   se_dummy   }}, /* 22 */
-    { 0x10, 0x01, 0x00, 0x00, { isel0100,   se_dummy,   se_dummy   }}, /* 23 */
+    { 0x10, 0x01, 0x00, 0x00, { isel0200,   se_dummy,   se_dummy   }}, /* 23 */
     { 0xA0, 0x01, 0x01, 0x01, { pdmg0100,   se_dummy,   se_dummy   }}, /* 24 */
     { 0xA0, 0x01, 0x01, 0x01, { pdmg0200,   se_dummy,   se_dummy   }}, /* 25 */
     { 0xF0, 0x01, 0x00, 0x01, { pout000100, se_dummy,   se_dummy   }}, /* 26 */
@@ -58,7 +58,7 @@ SETBL se_tbl[128] = {
     { 0x30, 0x01, 0x01, 0x00, { shot_e0300, se_dummy,   se_dummy   }}, /* 45 */
     { 0x30, 0x01, 0x01, 0x00, { shot_e0200, se_dummy,   se_dummy   }}, /* 46 */
     { 0x30, 0x01, 0x01, 0x00, { reload0100, se_dummy,   se_dummy   }}, /* 47 */
-    { 0x40, 0x01, 0x01, 0x00, { famas0100,  se_dummy,   se_dummy   }}, /* 48 */
+    { 0x40, 0x01, 0x01, 0x00, { famas0300,  se_dummy,   se_dummy   }}, /* 48 */
     { 0x40, 0x01, 0x01, 0x00, { c4put0100,  se_dummy,   se_dummy   }}, /* 49 */
     { 0x40, 0x01, 0x01, 0x00, { c4sw0100,   se_dummy,   se_dummy   }}, /* 50 */
     { 0x70, 0x01, 0x01, 0x00, { down000200, se_dummy,   se_dummy   }}, /* 51 */
@@ -82,18 +82,18 @@ SETBL se_tbl[128] = {
     { 0x01, 0x00, 0x00, 0x00, { se_dummy,   se_dummy,   se_dummy   }}, /* 69 */
     { 0x01, 0x00, 0x00, 0x00, { se_dummy,   se_dummy,   se_dummy   }}, /* 70 */
     { 0x01, 0x00, 0x00, 0x00, { se_dummy,   se_dummy,   se_dummy   }}, /* 71 */
-    { 0x30, 0x01, 0x01, 0x00, { seunk07200, se_dummy,   se_dummy   }}, /* 72 */
+    { 0x30, 0x01, 0x01, 0x00, { magazi0100, se_dummy,   se_dummy   }}, /* 72 */
     { 0x40, 0x01, 0x01, 0x00, { shot_m0200, se_dummy,   se_dummy   }}, /* 73 */
     { 0x80, 0x02, 0x00, 0x00, { facechg100, facechg101, se_dummy   }}, /* 74 */
     { 0xFF, 0x01, 0x00, 0x00, { run0000100, se_dummy,   se_dummy   }}, /* 75 */
-    { 0x40, 0x01, 0x01, 0x00, { nikita0100, se_dummy,   se_dummy   }}, /* 76 */
-    { 0x40, 0x01, 0x01, 0x00, { nikita0200, se_dummy,   se_dummy   }}, /* 77 */
+    { 0x40, 0x01, 0x01, 0x00, { missil0100, se_dummy,   se_dummy   }}, /* 76 */
+    { 0x40, 0x01, 0x01, 0x00, { misile0300, se_dummy,   se_dummy   }}, /* 77 */
     { 0x30, 0x01, 0x01, 0x00, { ninja0100,  se_dummy,   se_dummy   }}, /* 78 */
-    { 0x30, 0x01, 0x00, 0x00, { lockon100,  se_dummy,   se_dummy   }}, /* 79 */
+    { 0x30, 0x01, 0x00, 0x00, { signal0100, se_dummy,   se_dummy   }}, /* 79 */
     { 0x30, 0x01, 0x01, 0x00, { ninja0200,  se_dummy,   se_dummy   }}, /* 80 */
     { 0x60, 0x01, 0x01, 0x00, { hiza0100,   se_dummy,   se_dummy   }}, /* 81 */
-    { 0x40, 0x01, 0x01, 0x00, { shot_s0100, se_dummy,   se_dummy   }}, /* 82 */
-    { 0xA0, 0x03, 0x00, 0x00, { bikkuri00,  bikkuri01,  bikkuri02  }}, /* 83 */
+    { 0x40, 0x01, 0x01, 0x00, { sosire0100, se_dummy,   se_dummy   }}, /* 82 */
+    { 0xA0, 0x03, 0x00, 0x00, { bikkri0100, bikkri0101, bikkri0102 }}, /* 83 */
     { 0x80, 0x02, 0x00, 0x00, { r_windw100, r_windw101, se_dummy   }}, /* 84 */
     { 0x80, 0x01, 0x00, 0x00, { r_sel0100,  se_dummy,   se_dummy   }}, /* 85 */
     { 0x80, 0x01, 0x00, 0x00, { r_snd0100,  se_dummy,   se_dummy   }}, /* 86 */
@@ -111,7 +111,7 @@ SETBL se_tbl[128] = {
     { 0x20, 0x01, 0x01, 0x00, { eleopn0300, se_dummy,   se_dummy   }}, /* 98 */
     { 0x10, 0x01, 0x01, 0x00, { sight0800,  se_dummy,   se_dummy   }}, /* 99 */
     { 0xFF, 0x03, 0x00, 0x00, { inelev0200, inelev0201, inelev0202 }}, /* 100 */
-    { 0x40, 0x01, 0x01, 0x00, { shot_s0200, se_dummy,   se_dummy   }}, /* 101 */
+    { 0x40, 0x01, 0x01, 0x00, { case0300,   se_dummy,   se_dummy   }}, /* 101 */
     { 0xF0, 0x02, 0x00, 0x00, { start00100, start00101, se_dummy   }}, /* 102 */
     { 0x20, 0x01, 0x00, 0x00, { r_tune0100, se_dummy,   se_dummy   }}, /* 103 */
     { 0x80, 0x01, 0x00, 0x00, { r_cancel00, se_dummy,   se_dummy   }}, /* 104 */

@@ -1516,7 +1516,7 @@ void s12a_wolf2_800D1EBC(Wolf2Work *work)
             }
             else if (work->f9CC == 119)
             {
-                GM_SeSet2(0, 63, SE_RADIO_INCOMING);
+                GM_SeSet2(0, 63, SE_RADIO_CALL);
             }
             else if (work->f9CC == 149)
             {

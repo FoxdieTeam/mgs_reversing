@@ -36,10 +36,10 @@
 #define SE_RADAR_CHIME          SE_RADAR001     // all-clear chime
 #define SE_OVER03               ( 15)
 #define SE_GAMEOVER             SE_OVER03
-#define SE_R_RCV01              ( 16)
-#define SE_RADIO_INCOMING       SE_R_RCV01
-#define SE_PHOTO01              ( 17)
-#define SE_PHOTO_SHUTTER        SE_PHOTO01
+#define SE_CALL01               ( 16)
+#define SE_RADIO_CALL           SE_CALL01
+#define SE_CAMERA02             ( 17)
+#define SE_PHOTO_SHUTTER        SE_CAMERA02
 #define SE_POUT0003             ( 18)
 #define SE_PLAYEROUT_GAS        SE_POUT0003     // asphyxiation
 #define SE_SNEEZE01             ( 19)
@@ -50,8 +50,8 @@
 #define SE_ITEM_OPENWINDOW      SE_IDISP02
 #define SE_IGET01               ( 22)
 #define SE_ITEM_GET             SE_IGET01
-#define SE_ISEL01               ( 23)
-#define SE_ITEM_SELECT          SE_ISEL01
+#define SE_ISEL02               ( 23)
+#define SE_ITEM_SELECT          SE_ISEL02
 #define SE_PDMG01               ( 24)
 #define SE_PLAYER_DAMAGE1       SE_PDMG01
 #define SE_PDMG02               ( 25)
@@ -82,8 +82,10 @@
 #define SE_HIT                  SE_ATARU01
 #define SE_EDMG01               ( 38)
 #define SE_ENEMY_DAMAGE         SE_EDMG01
-#define SE_REB01                ( 39)           // ricochet?
-#define SE_REBDRM01             ( 40)           // ricochet?
+#define SE_REB01                ( 39)
+#define SE_RICOCHET_WEAK        SE_REB01
+#define SE_REBDRM01             ( 40)
+#define SE_RICOCHET_STRONG      SE_REBDRM01
 #define SE_EXP_05               ( 41)
 #define SE_EXPLOSION            SE_EXP_05
 #define SE_SIREN0600            ( 42)
@@ -98,8 +100,8 @@
 #define SE_GUNCAM_SHOT          SE_SHOT_E02
 #define SE_RELOAD01             ( 47)
 #define SE_RELOAD               SE_RELOAD01
-#define SE_FAMAS01              ( 48)
-#define SE_FAMAS_SHOT           SE_FAMAS01
+#define SE_FAMAS03              ( 48)
+#define SE_FAMAS_SHOT           SE_FAMAS03
 #define SE_C4PUT01              ( 49)
 #define SE_C4_PUT               SE_C4PUT01
 #define SE_C4SW01               ( 50)
@@ -143,28 +145,28 @@
 #define SE_DUMMY_069            ( 69)           // (reserved)
 #define SE_DUMMY_070            ( 70)           // (reserved)
 #define SE_DUMMY_071            ( 71)           // (reserved)
-#define SE_UNK072               ( 72)
+#define SE_MAGAZI01             ( 72)
 #define SE_SHOT_M02             ( 73)
 #define SE_SOCOM_SHOT2          SE_SHOT_M02
 #define SE_FACECHG1             ( 74)
 #define SE_RADIO_FACECHANGE     SE_FACECHG1
 #define SE_RUN00001             ( 75)
 #define SE_RUNNING_ENGINE       SE_RUN00001
-#define SE_NIKITA01             ( 76)
-#define SE_MISSILE_FIRED        SE_NIKITA01
-#define SE_NIKITA02             ( 77)
-#define SE_MISSILE_BOOST        SE_NIKITA02
+#define SE_MISSIL01             ( 76)
+#define SE_MISSILE_FIRED        SE_MISSIL01
+#define SE_MISILE03             ( 77)
+#define SE_MISSILE_BOOST        SE_MISILE03
 #define SE_NINJA01              ( 78)
 #define SE_NINJA_STEALTH        SE_NINJA01
-#define SE_LOCKON1              ( 79)
-#define SE_STINGER_LOCKON       SE_LOCKON1
+#define SE_SIGNAL01             ( 79)
+#define SE_STINGER_LOCKON       SE_SIGNAL01
 #define SE_NINJA02              ( 80)
 #define SE_HIZA01               ( 81)           // 膝
 #define SE_ENEMY_COLLAPSE       SE_HIZA01
-#define SE_SHOT_S01             ( 82)
-#define SE_SOCOM_SUPPRESSED     SE_SHOT_S01
-#define SE_BIKKURI              ( 83)           // びっくりマーク
-#define SE_EXCLAMATION          SE_BIKKURI      // "!"
+#define SE_SOSIRE01             ( 82)
+#define SE_SOCOM_SUPPRESSED     SE_SOSIRE01
+#define SE_BIKKRI01             ( 83)           // びっくりマーク
+#define SE_EXCLAMATION          SE_BIKKRI01     // "!"
 #define SE_R_WINDW1             ( 84)
 #define SE_RADIO_CONNECT        SE_R_WINDW1
 #define SE_R_SEL01              ( 85)
@@ -199,8 +201,8 @@
 #define SE_LASER_SIGHT          SE_SIGHT08      // Wolf's laser sight
 #define SE_INELEV02             (100)
 #define SE_ELEVATOR_RUNNING     SE_INELEV02
-#define SE_SHOT_S02             (101)
-#define SE_MP5_SHOT             SE_SHOT_S02
+#define SE_CASE03               (101)
+#define SE_MP5_SHOT             SE_CASE03
 #define SE_START001             (102)
 #define SE_MENU_GUNSHOT         SE_START001
 #define SE_R_TUNE01             (103)
@@ -247,7 +249,6 @@
 #define SE_LIFE_UP              SE_KAIHUKU4
 #define SE_IDEC04               (127)
 #define SE_MENU_TOGGLE          SE_IDEC04
-#define SE_TBL_MAX              (128)
 
 /*---------------------------------------------------------------------------*/
 /*  Non-Resident Sound Effects                                               */
@@ -262,45 +263,45 @@
 
 /*----- Enemy Soldier -----*/
 
-#define VO_ENEMY_WHOSTHAT       (128)   // 兵士「誰だ！」
+#define SE_V_ENE_FOUND01        (0x80)  // 敵兵「誰だ！」
                                         // Soldier: Who's that!?
-#define VO_ENEMY_THISWAY        (129)   // 兵士「（無線）こっちだ！」
+#define SE_V_ENE_FOUND02        (0x81)  // 敵兵「（無線）こっちだ！」
                                         // Soldier: (radio) This way!
-#define VO_ENEMY_LETSGO         (130)   // 兵士「（無線）行くぞ！」
+#define SE_V_ENE_FOUND03        (0x82)  // 敵兵「（無線）いたぞ！」
                                         // Soldier: (radio) There he is!
-#define VO_ENEMY_EATTHIS        (131)   // 兵士「くらえ！」
+#define SE_V_ENE_GRENADE        (0x83)  // 敵兵「くらえ！」
                                         // Soldier: Eat this!
-#define VO_ENEMY_WHEREDHEGO     (132)   // 兵士「どこ行った？」
+#define SE_V_ENE_LOST           (0x84)  // 敵兵「どこ行った？」
                                         // Soldier: Where'd he go?
-#define VO_ENEMY_RETURN         (133)   // 兵士「（無線）配置に戻るぞ！」
+#define SE_V_ENE_RETURN         (0x85)  // 敵兵「（無線）配置に戻るぞ！」
                                         // Soldier: (radio) Return to your positions!
-#define VO_ENEMY_NOTHINGHERE    (134)   // 兵士「気のせいか」
+#define SE_V_ENE_NOTHING        (0x86)  // 敵兵「気のせいか」
                                         // Soldier: Hm...
-#define VO_ENEMY_THATNOISE      (135)   // 兵士「何の音だ？」
+#define SE_V_ENE_NOISE          (0x87)  // 敵兵「何の音だ？」
                                         // Soldier: What was that noise?
-#define VO_ENEMY_HUH            (136)   // 兵士「ん？」
+#define SE_V_ENE_HUH            (0x88)  // 敵兵「ん？」
                                         // Soldier: Huh?
-#define VO_ENEMY_UNUSED10       (137)   // 兵士「何か動いたぞ！」
-                                        // 
-#define VO_ENEMY_FOOTPRINTS     (138)   // 兵士「この足跡は？」
+#define SE_V_ENE_UNUSED10       (0x89)  // 敵兵「何か動いたぞ！」
+                                        // ---
+#define SE_V_ENE_FOOTPRINTS     (0x8A)  // 敵兵「この足跡は？」
                                         // Soldier: Whose footprints are these?
-#define VO_ENEMY_JUSTABOX       (139)   // 兵士「ただの箱か」
+#define SE_V_ENE_JUSTABOX       (0x8B)  // 敵兵「ただの箱か」
                                         // Soldier: Just a box.
-#define VO_ENEMY_INMYWAY        (140)   // 兵士「邪魔だ！」
+#define SE_V_ENE_INMYWAY        (0x8C)  // 敵兵「邪魔だ！」
                                         // Soldier: Get out of the way!
 
-#define VO_ENEMY_PUNCHED        (141)
-#define VO_ENEMY_THROWN         (142)
-#define VO_ENEMY_GRABBED        (143)
-#define VO_ENEMY_SNAPPED        (144)
-#define VO_ENEMY_KILLED         (145)
-#define VO_ENEMY_YAWN           (146)
-#define VO_ENEMY_SNORE          (147)
-#define VO_ENEMY_SNEEZE         (148)
+#define SE_V_ENE_PUNCHED        (0x8D)
+#define SE_V_ENE_THROWN         (0x8E)
+#define SE_V_ENE_GRABBED        (0x8F)
+#define SE_V_ENE_SNAPPED        (0x90)
+#define SE_V_ENE_KILLED         (0x91)
+#define SE_V_ENE_YAWN           (0x92)
+#define SE_V_ENE_SNORE          (0x93)
+#define SE_V_ENE_SNEEZE         (0x94)
 
-#define VO_ENEMY_THATSOUND      (149)   // 兵士「今の音は！」
+#define SE_V_ENE_THATSOUND      (0x95)  // 敵兵「今の音は！」
                                         // Soldier: I heard something!
-#define VO_ENEMY_WHATSTHAT      (150)   // 兵士「何だ？」
+#define SE_V_ENE_WHATSTHAT      (0x96)  // 敵兵「何だ？」
                                         // Soldier: What's that?
 
 #endif // __G_SOUND_H__
