@@ -266,7 +266,7 @@ void s11e_zk11ecom_800DA044( int* val )
     {
     case 0:
         fprintf( 1, "kottida !!\n" );
-        *val = SE_V_ENE_ALERT02; // 敵兵「（無線）こっちだ！」
+        *val = SE_V_ENE_FOUND02; // 敵兵「（無線）こっちだ！」
         return;
     case 1:
         *val = 0;
