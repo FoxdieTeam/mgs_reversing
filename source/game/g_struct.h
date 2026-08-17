@@ -1,6 +1,10 @@
 #ifndef __MGS_G_STRUCT_H__
 #define __MGS_G_STRUCT_H__
 
+#ifndef __MGS_GAME_H__
+#error "g_struct.h must be included via game.h!"
+#endif
+
 #include "fmt_lit.h"
 #include "fmt_mot.h"
 

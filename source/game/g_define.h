@@ -1,6 +1,10 @@
 #ifndef __MGS_G_DEFINE_H__
 #define __MGS_G_DEFINE_H__
 
+#ifndef __MGS_GAME_H__
+#error "g_define.h must be included via game.h!"
+#endif
+
 // private to target.c
 #define TARGET_MAX 64
 

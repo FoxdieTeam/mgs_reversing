@@ -1,6 +1,10 @@
 #ifndef __MGS_G_MACRO_H__
 #define __MGS_G_MACRO_H__
 
+#ifndef __MGS_GAME_H__
+#error "g_macro.h must be included via game.h!"
+#endif
+
 /*---------------------------------------------------------------------------*/
 #ifndef __GAME_GAMED_C__
 #ifndef __GAME_CONTROL_C__ // HACK: for GM_CurrentMap

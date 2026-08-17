@@ -974,7 +974,7 @@ void s11i_asiato_800CADDC( Zako11FWork *work, int time )
         {
             if ( control->mov.vy - control->levels[0] < 2000 )
             {
-                GM_SeSet( &control->mov, VO_ENEMY_PUNCHED ) ;
+                GM_SeSet( &control->mov, SE_V_ENE_PUNCHED ) ;
                 GM_SeSet( &control->mov, SE_HIT_FLOOR ) ;
                 ZAKO11F_PutBlood_800CCFD4( work, 6, 0 ) ;
                 GM_SetNoise( 100, 4, &work->control.mov ) ;
@@ -983,7 +983,7 @@ void s11i_asiato_800CADDC( Zako11FWork *work, int time )
             else if ( control->mov.vy - control->levels[0] > 3000 )
             {
                 work->target->vital = 0;
-                GM_SeSet( &control->mov, VO_ENEMY_THROWN ) ;
+                GM_SeSet( &control->mov, SE_V_ENE_THROWN ) ;
             }
         }
 
@@ -1001,7 +1001,7 @@ void s11i_asiato_800CADDC( Zako11FWork *work, int time )
     }
     else if ( control->grounded )
     {
-        GM_SeSet( &control->mov, VO_ENEMY_PUNCHED );
+        GM_SeSet( &control->mov, SE_V_ENE_PUNCHED );
         GM_SeSet( &control->mov, SE_HIT_FLOOR ) ;
         GM_SetNoise( 100, 4, &work->control.mov ) ;
 
@@ -1054,19 +1054,19 @@ void s11i_asiato_800CB140( Zako11FWork *work, int time )
     if ( time == 0 )
     {
         work->field_B5A = target->faint;
-        GM_SeSet( &work->control.mov, VO_ENEMY_GRABBED );
+        GM_SeSet( &work->control.mov, SE_V_ENE_GRABBED );
     }
 
     if ( work->field_B5A != target->faint )
     {
-        GM_SeSet( &work->control.mov, VO_ENEMY_GRABBED );
+        GM_SeSet( &work->control.mov, SE_V_ENE_GRABBED );
         work->field_B5A = target->faint;
     }
 
     if ( target->damaged & TARGET_POWER )
     {
         ZAKO11F_PutBlood_800CCFD4( work, 5, 0 );
-        GM_SeSet( &work->control.mov, VO_ENEMY_GRABBED );
+        GM_SeSet( &work->control.mov, SE_V_ENE_GRABBED );
         target->force = DG_ZeroVector;
         target->damage = 0;
         target->damaged = TARGET_STALE;
@@ -1340,7 +1340,7 @@ void s11i_asiato_800CB9BC(Zako11FWork *work, int time)
     {
         SetAction(work, ACTION15, ACTINTERP);
 
-        GM_SeSet(&work->control.mov, VO_ENEMY_PUNCHED);
+        GM_SeSet(&work->control.mov, SE_V_ENE_PUNCHED);
         if (target->a_mode == 3)
         {
             GM_SeSet(&work->control.mov, SE_PUNCH_HIT);
@@ -1373,7 +1373,7 @@ void s11i_asiato_800CBACC(Zako11FWork *work, int time)
     {
         if (work->target->vital <= 0)
         {
-            GM_SeSetMode(&work->control.mov, VO_ENEMY_PUNCHED, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->control.mov, SE_V_ENE_PUNCHED, GM_SEMODE_BOMB);
             s11i_zk11fcom_800D0DB8();
         }
 
@@ -1382,7 +1382,7 @@ void s11i_asiato_800CBACC(Zako11FWork *work, int time)
         case 0:
             GM_SeSet(&control->mov, SE_PUNCH_HIT);
             SetAction(work, ACTION34, ACTINTERP);
-            GM_SeSetMode(&control->mov, VO_ENEMY_THROWN, GM_SEMODE_BOMB);
+            GM_SeSetMode(&control->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB);
             ZAKO11F_PutBlood_800CCFD4(work, 5, 0);
             work->field_B5A = 17;
             break;
@@ -1400,33 +1400,33 @@ void s11i_asiato_800CBACC(Zako11FWork *work, int time)
                     ZAKO11F_PutBlood_800CCFD4(work, 6, 1);
                 }
 
-                GM_SeSetMode(&control->mov, VO_ENEMY_KILLED, GM_SEMODE_BOMB);
+                GM_SeSetMode(&control->mov, SE_V_ENE_KILLED, GM_SEMODE_BOMB);
             }
             else
             {
                 ZAKO11F_PutBlood_800CCFD4(work, 5, 0);
-                GM_SeSetMode(&control->mov, VO_ENEMY_THROWN, GM_SEMODE_BOMB);
+                GM_SeSetMode(&control->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB);
             }
 
             work->field_B5A = 46;
             break;
 
         case 3:
-            GM_SeSetMode(&control->mov, VO_ENEMY_THROWN, GM_SEMODE_BOMB);
+            GM_SeSetMode(&control->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB);
             SetAction(work, ACTION35, ACTINTERP);
             ZAKO11F_PutBlood_800CCFD4(work, 5, 0);
             work->field_B5A = 17;
             break;
 
         case 2:
-            GM_SeSetMode(&control->mov, VO_ENEMY_THROWN, GM_SEMODE_BOMB);
+            GM_SeSetMode(&control->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB);
             SetAction(work, ACTION36, ACTINTERP);
             ZAKO11F_PutBlood_800CCFD4(work, 5, 0);
             work->field_B5A = 22;
             break;
 
         case 4:
-            GM_SeSetMode(&control->mov, VO_ENEMY_SNAPPED, GM_SEMODE_BOMB);
+            GM_SeSetMode(&control->mov, SE_V_ENE_SNAPPED, GM_SEMODE_BOMB);
             SetAction(work, ACTION29, ACTINTERP);
             work->field_B5A = 67;
             break;
@@ -1549,7 +1549,7 @@ void s11i_asiato_800CC038(Zako11FWork *work, int time)
 
     if (time == 0 && work->unknown.field_14 != 2)
     {
-        GM_SeSet(&control->mov, VO_ENEMY_KILLED);
+        GM_SeSet(&control->mov, SE_V_ENE_KILLED);
     }
 
     if (time > 16 && control->grounded)
@@ -1800,7 +1800,7 @@ void s11i_asiato_800CC7F0(Zako11FWork *work, int time)
     if (time == 0)
     {
         UnsetAction(work, ACTION24);
-        GM_SeSet(&work->control.mov, VO_ENEMY_SNEEZE);
+        GM_SeSet(&work->control.mov, SE_V_ENE_SNEEZE);
     }
 
     if (work->body.time2 != 0 || !(work->pad.press & 0x40))
@@ -1821,7 +1821,7 @@ void s11i_asiato_800CC8A4(Zako11FWork *work, int time)
 
     if (time == 60)
     {
-        GM_SeSet(&work->control.mov, VO_ENEMY_YAWN);
+        GM_SeSet(&work->control.mov, SE_V_ENE_YAWN);
     }
 
     if ((work->body.time2 != 0) || !(work->pad.press & 0x80))
@@ -1856,7 +1856,7 @@ void s11i_asiato_800CCA10(Zako11FWork *work, int time)
 
     if (time == 90)
     {
-        GM_SeSet(&work->control.mov, VO_ENEMY_YAWN);
+        GM_SeSet(&work->control.mov, SE_V_ENE_YAWN);
     }
 
     if (work->body.time2 != 0 || !(work->pad.press & 0x800))
@@ -1879,7 +1879,7 @@ void s11i_asiato_800CCAD8(Zako11FWork *work, int time)
 
     if (time == 90)
     {
-        GM_SeSet(&work->control.mov, VO_ENEMY_YAWN);
+        GM_SeSet(&work->control.mov, SE_V_ENE_YAWN);
     }
 
     if (time == 110)
@@ -1898,7 +1898,7 @@ void s11i_asiato_800CCAD8(Zako11FWork *work, int time)
 
             AN_Sleep(&pos);
 
-            GM_SeSet(&work->control.mov, VO_ENEMY_SNORE);
+            GM_SeSet(&work->control.mov, SE_V_ENE_SNORE);
 
             if (work->sn_dis < 1000 && (GM_PlayerStatus & PLAYER_WATCH) && GV_RandU(12) > 10)
             {

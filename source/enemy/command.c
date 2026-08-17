@@ -322,32 +322,32 @@ void s00a_command_800CF024( int *val )
 {
     if ( COM_GameStatus & 1 )
     {
-        *val = VO_ENEMY_LETSGO;
+        *val = SE_V_ENE_FOUND03; // 敵兵「（無線）いたぞ！」
     }
     else
     {
-        *val = VO_ENEMY_WHOSTHAT;
+        *val = SE_V_ENE_FOUND01; // 敵兵「誰だ！」
     }
 }
 
 void s00a_command_800CF050( int *val )
 {
-    *val = VO_ENEMY_THATNOISE;
+    *val = SE_V_ENE_NOISE; // 敵兵「何の音だ？」
 }
 
 void s00a_command_800CF05C( int *val )
 {
-    *val = VO_ENEMY_JUSTABOX;
+    *val = SE_V_ENE_JUSTABOX; // 敵兵「ただの箱か」
 }
 
 void s00a_command_800CF068( int *val )
 {
-    *val = VO_ENEMY_FOOTPRINTS;
+    *val = SE_V_ENE_FOOTPRINTS; // 敵兵「この足跡は？」
 }
 
 void s00a_command_800CF074( int *val )
 {
-    *val = VO_ENEMY_NOTHINGHERE;
+    *val = SE_V_ENE_NOTHING; // 敵兵「気のせいか」
 }
 
 void s00a_command_800CF080( int* val )
@@ -355,18 +355,18 @@ void s00a_command_800CF080( int* val )
     switch( s00a_command_800CEFE4( 3 ) )
     {
     case 0:
-        *val = VO_ENEMY_LETSGO;
+        *val = SE_V_ENE_FOUND03; // 敵兵「（無線）いたぞ！」
         break;
     case 1:
     case 2:
-        *val = VO_ENEMY_THISWAY;
+        *val = SE_V_ENE_FOUND02; // 敵兵「（無線）こっちだ！」
         break;
     }
 }
 
 void s00a_command_800CF0CC( int *val )
 {
-    *val = VO_ENEMY_RETURN;
+    *val = SE_V_ENE_RETURN; // 敵兵「（無線）配置に戻るぞ！」
 }
 
 void s00a_command_800CF0D8( int* val )
@@ -375,7 +375,7 @@ void s00a_command_800CF0D8( int* val )
     {
     case 0:
         fprintf( 1, aKottida_800E0810 );
-        *val = VO_ENEMY_THISWAY;
+        *val = SE_V_ENE_FOUND02; // 敵兵「（無線）こっちだ！」
         return;
     case 1:
         *val = 0;

@@ -157,11 +157,11 @@ void s11e_zk11ecom_800D9DBC( int* val )
     {
     case 0:
         fprintf( 1, "dareda!!\n" );
-        *val = VO_ENEMY_WHOSTHAT;
+        *val = SE_V_ENE_FOUND01; // 敵兵「誰だ！」
         break;
     case 1:
         fprintf( 1, "dareda!!\n" );
-        *val = VO_ENEMY_WHOSTHAT;
+        *val = SE_V_ENE_FOUND01; // 敵兵「誰だ！」
         break;
     }
 }
@@ -172,11 +172,11 @@ void s11e_zk11ecom_800D9E10( int* val )
     {
     case 0:
         fprintf( 1, "nanno otoda!!\n" );
-        *val = VO_ENEMY_THATNOISE;
+        *val = SE_V_ENE_NOISE; // 敵兵「何の音だ？」
         break;
     case 1:
         fprintf( 1, "nanno otoda!!\n" );
-        *val = VO_ENEMY_THATNOISE;
+        *val = SE_V_ENE_NOISE; // 敵兵「何の音だ？」
         break;
     }
 }
@@ -187,11 +187,11 @@ void s11e_zk11ecom_800D9E64( int* val )
     {
     case 0:
         fprintf( 1, "tadano hakoka\n" );
-        *val = VO_ENEMY_JUSTABOX;
+        *val = SE_V_ENE_JUSTABOX; // 敵兵「ただの箱か」
         break;
     case 1:
         fprintf( 1, "tadano hakoka\n" );
-        *val = VO_ENEMY_JUSTABOX;
+        *val = SE_V_ENE_JUSTABOX; // 敵兵「ただの箱か」
         break;
     }
 }
@@ -202,11 +202,11 @@ void s11e_zk11ecom_800D9EB8( int* val )
     {
     case 0:
         fprintf( 1, "kono asiatoha??\n" );
-        *val = VO_ENEMY_FOOTPRINTS;
+        *val = SE_V_ENE_FOOTPRINTS; // 敵兵「この足跡は？」
         break;
     case 1:
         fprintf( 1, "kono asiatoha??\n" );
-        *val = VO_ENEMY_FOOTPRINTS;
+        *val = SE_V_ENE_FOOTPRINTS; // 敵兵「この足跡は？」
         break;
     }
 }
@@ -217,11 +217,11 @@ void s11e_zk11ecom_800D9F0C( int* val )
     {
     case 0:
         fprintf( 1, "kinoseika !!\n" );
-        *val = VO_ENEMY_NOTHINGHERE;
+        *val = SE_V_ENE_NOTHING; // 敵兵「気のせいか」
         break;
     case 1:
         fprintf( 1, "kinoseika !!\n" );
-        *val = VO_ENEMY_NOTHINGHERE;
+        *val = SE_V_ENE_NOTHING; // 敵兵「気のせいか」
         break;
     }
 }
@@ -232,15 +232,15 @@ void s11e_zk11ecom_800D9F60( int* val )
     {
     case 0:
         fprintf( 1, "itazo \n" );
-        *val = VO_ENEMY_LETSGO;
+        *val = SE_V_ENE_FOUND03; // 敵兵「（無線）いたぞ！」
         return;
     case 1:
         fprintf( 1, "kottida!!\n" );
-        *val = VO_ENEMY_THISWAY;
+        *val = SE_V_ENE_FOUND02; // 敵兵「（無線）こっちだ！」
         break;
     case 2:
         fprintf( 1, "kottida!!\n" );
-        *val = VO_ENEMY_THISWAY;
+        *val = SE_V_ENE_FOUND02; // 敵兵「（無線）こっちだ！」
         break;
     }
 }
@@ -251,11 +251,11 @@ void s11e_zk11ecom_800D9FF0( int* val )
     {
     case 0:
         fprintf( 1, "haitini modoruzo!!\n" );
-        *val = VO_ENEMY_RETURN;
+        *val = SE_V_ENE_RETURN; // 敵兵「（無線）配置に戻るぞ！」
         break;
     case 1:
         fprintf( 1, "haitini modoruzo!!\n" );
-        *val = VO_ENEMY_RETURN;
+        *val = SE_V_ENE_RETURN; // 敵兵「（無線）配置に戻るぞ！」
         break;
     }
 }
@@ -266,7 +266,7 @@ void s11e_zk11ecom_800DA044( int* val )
     {
     case 0:
         fprintf( 1, "kottida !!\n" );
-        *val = VO_ENEMY_THISWAY;
+        *val = SE_V_ENE_FOUND02; // 敵兵「（無線）こっちだ！」
         return;
     case 1:
         *val = 0;

@@ -1586,7 +1586,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, u_long *ot)
                     if (timer == 0 &&
                         (gRadioIncomingCall_8009E708.field_2_timer > 240 || gRadioIncomingCall_8009E708.field_8 != 0))
                     {
-                        GM_SeSet2(0, 0x3F, SE_RADIO_INCOMING);
+                        GM_SeSet2(0, 0x3F, SE_RADIO_CALL);
                         return;
                     }
                 }
