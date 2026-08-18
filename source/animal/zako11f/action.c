@@ -364,7 +364,7 @@ int AttackForce_800C9D38( Zako11FWork *work )
 {
     TARGET *target;
     SVECTOR svec;
-    SVECTOR rp_shift  = {-200, 1000, 600}; /* âEÉpÉìÉ` */
+    SVECTOR rp_shift  = {-200, 1000, 600}; /* Âè≥„Éë„É≥„ÉÅ */
     SVECTOR force     = {5, 0, 100};
     SVECTOR size      = {400, 1000, 400};
 
