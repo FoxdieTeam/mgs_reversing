@@ -1,3 +1,8 @@
+/**
+ * @file    libhzd.h
+ * @brief   Hazard library header
+ */
+
 #ifndef __MGS_LIBHZD_H__
 #define __MGS_LIBHZD_H__
 

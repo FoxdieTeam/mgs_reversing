@@ -1,3 +1,8 @@
+/**
+ * @file    libgcl.h
+ * @brief   Game Command Language library header
+ */
+
 #ifndef __MGS_LIBGCL_H__
 #define __MGS_LIBGCL_H__
 
