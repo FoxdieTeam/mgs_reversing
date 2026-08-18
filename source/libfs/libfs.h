@@ -1,3 +1,8 @@
+/**
+ * @file    libfs.h
+ * @brief   File System library header
+ */
+
 #ifndef __MGS_LIBFS_H__
 #define __MGS_LIBFS_H__
 
