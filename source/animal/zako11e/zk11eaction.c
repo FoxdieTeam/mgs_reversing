@@ -393,7 +393,7 @@ void s11e_zk11ecom_800D5410( ZakoWork* work, int time )
 void ActGrenade_800D54C8( ZakoWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;         /* �???? */
+    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;         /* 視力 */
 
     if ( time == 0 )
     {
