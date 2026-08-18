@@ -561,7 +561,7 @@ void s07a_meryl_unk_800D7B48( WatcherWork* work, int time )
 void ActGrenade_800D7C98( WatcherWork* work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision.length = COM_EYE_LENGTH ;         /* Ž‹—Í */
+    work->vision.length = COM_EYE_LENGTH ;         /* è¦–åŠ› */
 
     if ( time == 0 )
     {
