@@ -17,7 +17,6 @@
 #include "fmt_kmd.h"
 #include "fmt_lit.h"
 #include "fmt_mot.h"
-#include "fmt_nar.h"
 #include "fmt_tex.h"
 
 #define DG_MAX_JOINTS 24

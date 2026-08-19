@@ -14,4 +14,12 @@ typedef struct _DG_OAR {
     u_short         data[ 0 ];
 } DG_OAR;
 
+/*----------------------------------------------------------------*/
+
+/* Older motion format */
+typedef struct _DG_NARS {
+    u_int   unknown0;
+    u_char *unknown1;
+} DG_NARS;
+
 #endif // __MGS_FMT_MOT_H__
