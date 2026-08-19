@@ -2,201 +2,213 @@
 #include "common.h"
 #include "game/game.h"
 
-STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx);
-STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx);
 STATIC void DG_BoundIrTexture(DG_CHANL *chanl, int idx);
 
-static inline void copy_bounding_box_to_spad(DG_BOUND *bounds)
-{
-    DG_BOUND *bounding_box = (DG_BOUND *)SCRPAD_ADDR;
-    bounding_box->min.vx = bounds->min.vx;
-    bounding_box->min.vy = bounds->min.vy;
-    bounding_box->min.vz = bounds->min.vz;
+typedef struct {
+    int vx, vy, vz;
+} VECTOREX;
 
-    bounding_box->max.vx = bounds->max.vx;
-    bounding_box->max.vy = bounds->max.vy;
-    bounding_box->max.vz = bounds->max.vz;
-}
+typedef	struct {
+    VECTOREX bound_min;
+    VECTOREX bound_max;
+    SVECTOR  clip[ 3 ];
+    DVECTOR  vxy[ 4 ][ 3 ];
+    long     vzp[ 4 ][ 3 ];
+} ScrPad;
 
-static inline void set_svec_from_bounding_box(int i, SVECTOR *svec)
-{
-    svec->vx = i & 1 ? ((long *)SCRPAD_ADDR)[3] : ((long *)SCRPAD_ADDR)[0];
-    svec->vy = i & 2 ? ((long *)SCRPAD_ADDR)[4] : ((long *)SCRPAD_ADDR)[1];
-    svec->vz = i & 4 ? ((long *)SCRPAD_ADDR)[5] : ((long *)SCRPAD_ADDR)[2];
-}
+#define SCRPAD      ((ScrPad *)SCRPAD_ADDR)
 
-void DG_BoundStart(void)
+#define	BOUND_MIN   (&(SCRPAD->bound_min))
+#define	BOUND_MAX   (&(SCRPAD->bound_max))
+#define	CLIP        (SCRPAD->clip)
+#define	VXY         (SCRPAD->vxy)
+#define	VZP         (SCRPAD->vzp)
+
+void DG_BoundStart( void )
 {
     /* do nothing */
 }
 
-STATIC void DG_BoundObjs(DG_OBJS *objs, int idx, unsigned int flag, int in_bound_mode)
+static inline void CopyBounds( int *input )
 {
-    int        i, i2, i3, a2, t0, a3, t1;
-    int        bound_mode;
-    int        n_models;
-    int        n_bounding_box_vec;
-    int        ret, extra;
-    long      *test;
-    DG_OBJ    *obj;
-    DVECTOR   *dvec;
-    SVECTOR   *svec;
-    DG_VECTOR *vec3_1;
-    DG_VECTOR *vec3_2;
-    DG_BOUND  *mdl_bounds;
+    BOUND_MIN->vx = input[ 0 ];
+    BOUND_MIN->vy = input[ 1 ];
+    BOUND_MIN->vz = input[ 2 ];
+    BOUND_MAX->vx = input[ 3 ];
+    BOUND_MAX->vy = input[ 4 ];
+    BOUND_MAX->vz = input[ 5 ];
+}
 
-    n_models = objs->n_models;
-    obj = (DG_OBJ *)&objs->objs;
+static inline void GetClipBounds( int flag, SVECTOR *clip )
+{
+    clip->vx = ( flag & 1 ) ? BOUND_MAX->vx : BOUND_MIN->vx;
+    clip->vy = ( flag & 2 ) ? BOUND_MAX->vy : BOUND_MIN->vy;
+    clip->vz = ( flag & 4 ) ? BOUND_MAX->vz : BOUND_MIN->vz;
+}
 
-    for (; n_models > 0; --n_models)
+static inline int GetDepthBoundMode( int xl, int yl, int xh, int yh )
+{
+    int i, mode;
+    long *depth;
+
+    if ( xh > 160 || xl < -160 || yh > 112 || yl < -112 )
     {
-        bound_mode = 0;
-        if (in_bound_mode)
+        /* prim partially on-screen */
+        mode = 1;
+    }
+    else
+    {
+        /* prim entirely on-screen */
+        mode = 2;
+    }
+
+    depth = VZP[ 1 ];
+    for ( i = 8; i > 0; i-- )
+    {
+        if ( *depth != 0 ) return mode;
+        depth++;
+    }
+
+    /* clip prim with zero depth */
+    return 0;
+}
+
+static inline int GetBoundMode( DVECTOR *vert )
+{
+    int i, mode;
+    int xl, yl, xh, yh;
+
+    xh = xl = VXY[ 1 ][ 0 ].vx;
+    yh = yl = VXY[ 1 ][ 0 ].vy;
+
+    for ( i = 7; i > 0; i-- )
+    {
+        vert++;
+
+        if ( vert->vx < xl )
         {
-            bound_mode = 2;
-            if (flag & DG_FLAG_BOUND)
+            xl = vert->vx;
+        }
+        else if ( vert->vx > xh )
+        {
+            xh = vert->vx;
+        }
+
+        if ( vert->vy < yl )
+        {
+            yl = vert->vy;
+        }
+        else if ( vert->vy > yh )
+        {
+            yh = vert->vy;
+        }
+    }
+
+    if ( xl > 160 || xh < -160 || yl > 112 || yh < -112 )
+    {
+        /* prim completely off-screen */
+        mode = 0;
+    }
+    else
+    {
+        /* prim on-screen, check against depth */
+        mode = GetDepthBoundMode( xl, yl, xh, yh );
+    }
+
+    return mode;
+}
+
+STATIC void DG_BoundObjs( DG_OBJS *objs, int pack, int flag, int check )
+{
+    int i, j, mode, n_models;
+    DG_OBJ *obj;
+    SVECTOR *clip;
+    DVECTOR *vxy;
+    long *vzp;
+
+    obj = objs->objs;
+    for ( n_models = objs->n_models; n_models > 0; n_models-- )
+    {
+        mode = 0;
+
+        if ( check )
+        {
+            mode = 2;
+
+            if ( flag & DG_FLAG_BOUND )
             {
-                gte_SetRotMatrix(&obj->screen);
-                gte_SetTransMatrix(&obj->screen);
+                gte_SetRotMatrix( &obj->screen );
+                gte_SetTransMatrix( &obj->screen );
 
-                svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                mdl_bounds = (DG_BOUND *)&obj->model->lx;
-                copy_bounding_box_to_spad(mdl_bounds);
-                vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
-                vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
-                i = 9;
+                CopyBounds( &obj->model->lx );
+                clip = CLIP;
+                vxy = VXY[ 0 ];
+                vzp = VZP[ 0 ];
 
-                while (i > 0)
+                for ( i = 9; i > 0; )
                 {
-                    n_bounding_box_vec = 3;
-                    do
+                    for ( j = 3; j > 0; j-- )
                     {
-                        set_svec_from_bounding_box(i, svec);
-                        ++svec;
-                        --i;
-                        --n_bounding_box_vec;
-                    } while (n_bounding_box_vec > 0);
+                        GetClipBounds( i, clip );
+                        clip++;
+                        i--;
+                    }
 
-                    svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                    gte_stsxy3c(vec3_1);
-                    gte_stsz3c(vec3_2);
+                    clip = CLIP;
+                    gte_stsxy3c( vxy );
+                    gte_stsz3c( vzp );
 
-                    gte_ldv3c((SVECTOR *)(SCRPAD_ADDR + 0x18));
-                    vec3_1++;
-                    vec3_2++;
+                    gte_ldv3c( CLIP );
+                    vxy += 3;
+                    vzp += 3;
                     gte_rtpt_b();
                 }
 
-                gte_stsxy3c(vec3_1);
-                gte_stsz3c(vec3_2);
+                gte_stsxy3c( vxy );
+                gte_stsz3c( vzp );
 
-                // probably start of another inline func
-                a2 = *(short *)(SCRPAD_ADDR + 0x3C);
-                t0 = *(short *)(SCRPAD_ADDR + 0x3E);
-                a3 = a2;
-                t1 = t0;
-                dvec = (DVECTOR *)(SCRPAD_ADDR + 0x3C);
-
-                for (i2 = 7; i2 > 0; --i2)
-                {
-                    dvec++;
-                    // loc_800187FC:
-                    if (dvec->vx < a2)
-                    {
-                        a2 = dvec->vx;
-                    }
-                    else
-                    {
-                        if (a3 < dvec->vx)
-                            a3 = dvec->vx;
-                    }
-                    if (dvec->vy < t0)
-                    {
-                        t0 = dvec->vy;
-                    }
-                    else
-                    {
-                        if (t1 < dvec->vy)
-                            t1 = dvec->vy;
-                    }
-                }
-                // loc_80018858
-                // this seems ridiculous but was the only way it matched
-                if ((a2 >= 0xA1) || (a3 < -0xA0) || (t0 >= 0x71) || (t1 < -0x70))
-                {
-                    extra = 0;
-                }
-                else
-                {
-                    ret = ((a3 >= 0xA1) || (a2 < -0xA0) || (t1 >= 0x71) || (t0 < -0x70)) ? 1 : 2;
-                    test = (long *)(SCRPAD_ADDR + 0x6C);
-                    i3 = 8;
-                    while (i3 > 0)
-                    {
-                        --i3;
-                        if (*test)
-                        {
-                            extra = ret;
-                            goto END;
-                        }
-                        test++;
-                    }
-                    extra = 0;
-                }
-            END:
-                ret = extra;
-                bound_mode = ret;
+                mode = GetBoundMode( VXY[ 1 ] );
             }
         }
 
-        // loc_800188E4
-        obj->bound_mode = bound_mode;
-        if (bound_mode)
+        obj->bound_mode = mode;
+        if ( mode != 0 )
         {
             obj->free_count = 8;
-            if (!obj->packs[idx])
+
+            if ( obj->packs[ pack ] == NULL && DG_MakeObjPacket( obj, pack, flag ) < 0 )
             {
-                int res = DG_MakeObjPacket(obj, idx, flag);
-                if (res < 0)
+                obj->bound_mode = 0;
+
+                if ( flag & DG_FLAG_GBOUND )
                 {
-                    obj->bound_mode = 0;
-                    if (flag & DG_FLAG_GBOUND)
-                    {
-                        objs->bound_mode = 0;
-                        return;
-                    }
+                    objs->bound_mode = 0;
+                    return;
                 }
             }
         }
-        else
+        else if ( obj->packs[ pack ] != NULL && --obj->free_count <= 0 )
         {
-            if (obj->packs[idx])
-            {
-                --obj->free_count;
-                if (obj->free_count <= 0)
-                {
-                    DG_FreeObjPacket(obj, idx);
-                }
-            }
+            DG_FreeObjPacket( obj, pack );
         }
+
         obj++;
     }
 }
 
 void DG_BoundChanl(DG_CHANL *chanl, int idx)
 {
-    int          i, i2, i3, a2, t0, a3, t1;
+    int          i, i2, i3, xl, yl, xh, yh;
     int          n_objs;
     int          bound_mode;
     DG_OBJS    **objs;
     int          local_group_id;
     DVECTOR     *dvec;
-    SVECTOR     *svec;
-    DG_VECTOR   *vec3_1;
-    DG_VECTOR   *vec3_2;
-    DG_BOUND    *mdl_bounds;
-    int          n_bounding_box_vec;
-    long        *test;
+    SVECTOR     *clip;
+    DG_VECTOR   *vxy;
+    DG_VECTOR   *vzp;
+    int          j;
+    long        *depth;
     unsigned int flag;
 
     DG_Clip(&chanl->clip_rect, chanl->clip_distance);
@@ -222,84 +234,83 @@ void DG_BoundChanl(DG_CHANL *chanl, int idx)
                     gte_SetRotMatrix(&current_objs->objs->screen);
                     gte_SetTransMatrix(&current_objs->objs->screen);
 
-                    svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                    mdl_bounds = (DG_BOUND *)&current_objs->def->lx;
-                    copy_bounding_box_to_spad(mdl_bounds);
-                    vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
-                    vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
+                    clip = CLIP;
+                    CopyBounds(&current_objs->def->lx);
+                    vxy = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
+                    vzp = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
                     i = 9;
 
                     while (i > 0)
                     {
-                        n_bounding_box_vec = 3;
+                        j = 3;
                         do
                         {
-                            set_svec_from_bounding_box(i, svec);
-                            ++svec;
+                            GetClipBounds(i, clip);
+                            ++clip;
                             --i;
-                            --n_bounding_box_vec;
-                        } while (n_bounding_box_vec > 0);
+                            --j;
+                        } while (j > 0);
 
-                        svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                        gte_stsxy3c(vec3_1);
-                        gte_stsz3c(vec3_2);
+                        clip = CLIP;
+                        gte_stsxy3c(vxy);
+                        gte_stsz3c(vzp);
 
-                        gte_ldv3c((SVECTOR *)(SCRPAD_ADDR + 0x18));
-                        vec3_1++;
-                        vec3_2++;
+                        gte_ldv3c(CLIP);
+                        vxy++;
+                        vzp++;
                         gte_rtpt_b();
                     }
 
-                    gte_stsxy3c(vec3_1);
-                    gte_stsz3c(vec3_2);
+                    gte_stsxy3c(vxy);
+                    gte_stsz3c(vzp);
 
                     // probably start of another inline func
-                    a2 = *(short *)(SCRPAD_ADDR + 0x3C);
-                    t0 = *(short *)(SCRPAD_ADDR + 0x3E);
-                    a3 = a2;
-                    t1 = t0;
+                    xl = *(short *)(SCRPAD_ADDR + 0x3C);
+                    yl = *(short *)(SCRPAD_ADDR + 0x3E);
+                    xh = xl;
+                    yh = yl;
                     dvec = (DVECTOR *)(SCRPAD_ADDR + 0x3C);
 
                     for (i2 = 7; i2 > 0; --i2)
                     {
                         dvec++;
-                        if (dvec->vx < a2)
+                        if (dvec->vx < xl)
                         {
-                            a2 = dvec->vx;
+                            xl = dvec->vx;
                         }
                         else
                         {
-                            if (a3 < dvec->vx)
-                                a3 = dvec->vx;
+                            if (xh < dvec->vx)
+                                xh = dvec->vx;
                         }
-                        if (dvec->vy < t0)
+                        if (dvec->vy < yl)
                         {
-                            t0 = dvec->vy;
+                            yl = dvec->vy;
                         }
                         else
                         {
-                            if (t1 < dvec->vy)
-                                t1 = dvec->vy;
+                            if (yh < dvec->vy)
+                                yh = dvec->vy;
                         }
                     }
 
-                    if ((a2 >= 0xA1) || (a3 < -0xA0) || (t0 >= 0x71) || (t1 < -0x70))
+                    if ((xl >= 0xA1) || (xh < -0xA0) || (yl >= 0x71) || (yh < -0x70))
                     {
                         bound_mode = 0;
                     }
                     else
                     {
-                        bound_mode = ((a3 >= 0xA1) || (a2 < -0xA0) || (t1 >= 0x71) || (t0 < -0x70)) ? 1 : 2;
-                        test = (long *)(SCRPAD_ADDR + 0x6C);
+                        bound_mode = ((xh >= 0xA1) || (xl < -0xA0) || (yh >= 0x71) || (yl < -0x70)) ? 1 : 2;
+                        depth = (long *)(SCRPAD_ADDR + 0x6C);
                         i3 = 8;
                         while (i3 > 0)
                         {
                             --i3;
-                            if (*test)
+                            if (*depth)
                             {
                                 goto END;
                             }
-                            test++;
+                            depth++;
                         }
                         bound_mode = 0;
                     }
@@ -315,7 +326,7 @@ void DG_BoundChanl(DG_CHANL *chanl, int idx)
     DG_BoundIrTexture(chanl, idx);
 }
 
-void DG_BoundEnd(void)
+void DG_BoundEnd( void )
 {
     /* do nothing */
 }
