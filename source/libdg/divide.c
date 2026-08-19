@@ -431,7 +431,7 @@ STATIC void DG_InitRVector( DG_OBJ *obj,  int idx )
     while ( obj )
     {
         unsigned char *faceIndexOffset   = obj->model->vindices;
-        SVECTOR       *vertexIndexOffset = obj->model->vertices;
+        SVECTOR       *vertexIndexOffset = obj->model->verts;
         n_packs = obj->n_packs;
         pack = org_pack;
 

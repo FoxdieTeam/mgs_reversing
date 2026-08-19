@@ -217,9 +217,9 @@ void s11d_rope_800C42F4(DG_OBJS *objs, VECTOR *out)
     {
         mdl = obj->model;
         RotMatrixZYX(rots, &rot);
-        rot.t[0] = mdl->pos.vx;
-        rot.t[1] = mdl->pos.vy;
-        rot.t[2] = mdl->pos.vz;
+        rot.t[0] = mdl->tx;
+        rot.t[1] = mdl->ty;
+        rot.t[2] = mdl->tz;
         CompMatrix(&mat, &rot, &mat);
         obj++;
         rots++;

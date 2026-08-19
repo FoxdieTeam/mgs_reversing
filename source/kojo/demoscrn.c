@@ -163,9 +163,9 @@ void DemoApplyRots(DG_OBJS *pObjs, int n_models)
         RotMatrixZYX_gte(pObjs->rots, pWorkMatrix);
     }
 
-    pWorkMatrix->t[0] = pMdl->pos.vx;
-    pWorkMatrix->t[1] = pMdl->pos.vy;
-    pWorkMatrix->t[2] = pMdl->pos.vz;
+    pWorkMatrix->t[0] = pMdl->tx;
+    pWorkMatrix->t[1] = pMdl->ty;
+    pWorkMatrix->t[2] = pMdl->tz;
 
     if (pAdjust == NULL)
     {
@@ -178,9 +178,9 @@ void DemoApplyRots(DG_OBJS *pObjs, int n_models)
 
             RotMatrixZYX_gte(pRots, pWorld);
 
-            pWorld->t[0] = pMdl->pos.vx;
-            pWorld->t[1] = pMdl->pos.vy;
-            pWorld->t[2] = pMdl->pos.vz;
+            pWorld->t[0] = pMdl->tx;
+            pWorld->t[1] = pMdl->ty;
+            pWorld->t[2] = pMdl->tz;
 
             if (count == (n_models - 1))
             {
@@ -209,9 +209,9 @@ void DemoApplyRots(DG_OBJS *pObjs, int n_models)
 
             RotMatrixZYX_gte(pRots, pWorld);
 
-            pWorld->t[0] = pMdl->pos.vx;
-            pWorld->t[1] = pMdl->pos.vy;
-            pWorld->t[2] = pMdl->pos.vz;
+            pWorld->t[0] = pMdl->tx;
+            pWorld->t[1] = pMdl->ty;
+            pWorld->t[2] = pMdl->tz;
 
             if (count == (n_models - 1))
             {

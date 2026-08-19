@@ -19,7 +19,7 @@ typedef struct _Rasen2Item
 {
     DG_OBJS *objs;
     DG_DEF  *def;
-    LIT     *lit;
+    DG_LITS *lit;
 } Rasen2Item;
 
 // Actor created by NewRasen2
@@ -74,7 +74,7 @@ unsigned short SECTION(".bss")
 
 void Takabe_FreeObjs(DG_OBJS *objs);
 void Takabe_RefreshObjectPacks(DG_OBJS *objs);
-void Takabe_ReshadeModel(DG_OBJS *objs, LIT *lit);
+void Takabe_ReshadeModel(DG_OBJS *objs, DG_LITS *lit);
 void Takabe_FreeDuplicateMemory();
 
 extern GM_CameraSystemWork       GM_Camera;
@@ -554,7 +554,7 @@ void Rasen2_800CB150(Rasen2Work *work)
 {
     DG_DEF     *def;
     DG_OBJS    *objs;
-    LIT        *lit;
+    DG_LITS    *lit;
     Rasen2Item *item;
     int         i;
 

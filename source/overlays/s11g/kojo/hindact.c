@@ -593,7 +593,7 @@ void HindAct(HindWork *work)
     work->control.mov.vz = local_50.vz;
 
     eye = work->control.mov;
-    eye.vy -= -work->body.objs->objs[0].model->min.vy / 12;
+    eye.vy -= -work->body.objs->objs[0].model->ly / 12;
 
     local_30[0] = DG_ZeroVector;
     local_30[0].vy = (work->field_66C * -2000) / 4096;
@@ -736,7 +736,7 @@ void HindAct(HindWork *work)
             GM_GameStatus &= ~0x004A0040;
             GM_GameStatus &= ~0x40000000;
 
-            work->body.objs->def->model[2].vertices = work->field_A70;
+            work->body.objs->def->models[2].verts = work->field_A70;
 
             if ((work->last_weapon == WP_Rifle) || (work->last_weapon == WP_Stinger))
             {

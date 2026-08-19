@@ -264,8 +264,8 @@ void Zako_800CCAB0(DG_OBJS *objs, DG_DEF *def)
     obj = objs->objs;
     for (i = 0; i < 16; i++)
     {
-        obj->model = &def->model[i];
-        obj->n_packs = *(short *)&def->model[i].n_faces;
+        obj->model = &def->models[i];
+        obj->n_packs = *(short *)&def->models[i].n_faces;
         obj++;
     }
 }

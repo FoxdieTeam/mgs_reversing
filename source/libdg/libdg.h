@@ -13,13 +13,17 @@
 #include <gtemac.h>
 
 #include "libgv/libgv.h"
-#include "fmt_tex.h"
+#include "fmt_img.h"
+#include "fmt_kmd.h"
+#include "fmt_lit.h"
 #include "fmt_mot.h"
+#include "fmt_tex.h"
 
 #define DG_MAX_JOINTS 24
 
 /*---------------------------------------------------------------------------*/
 
+/* TODO: Remove */
 typedef struct DG_VECTOR
 {
     int vx;
@@ -27,6 +31,7 @@ typedef struct DG_VECTOR
     int vz;
 } DG_VECTOR;            /* long word type 3D vector (without padding) */
 
+/* TODO: Remove */
 typedef struct DG_SVECTOR
 {
     short vx;
@@ -34,6 +39,7 @@ typedef struct DG_SVECTOR
     short vz;
 } DG_SVECTOR;           /* short word type 3D vector (without padding) */
 
+/* TODO: Remove */
 typedef struct DG_RVECTOR
 {
     DG_SVECTOR  v;
@@ -43,6 +49,7 @@ typedef struct DG_RVECTOR
     u_long      sz;
 } DG_RVECTOR;           /* division vertex data (without padding) */
 
+/* TODO: Remove */
 typedef struct DG_PVECTOR
 {
     long vxy;
@@ -52,42 +59,6 @@ typedef struct DG_PVECTOR
 /*---------------------------------------------------------------------------*/
 
 #define DG_MAX_TEXTURES 512
-
-enum DG_MODEL_FLAGS {
-    DG_MODEL_TRANS    = 0x00002,
-    DG_MODEL_UNLIT    = 0x00004,
-    DG_MODEL_BOTHFACE = 0x00400,
-    DG_MODEL_INDIRECT = 0x10000,
-};
-
-typedef struct _DG_MDL
-{
-    int             flags;
-    int             n_faces;
-    DG_VECTOR       min;
-    DG_VECTOR       max;
-    DG_VECTOR       pos;
-    int             parent;
-    int             extend;
-    int             n_verts;
-    SVECTOR        *vertices;
-    unsigned char  *vindices;
-    int             n_normals;
-    SVECTOR        *normals;
-    unsigned char  *nindices;
-    unsigned char  *texcoords;
-    unsigned short *materials; // hashed texture names
-    int             padding;
-} DG_MDL;
-
-typedef struct _DG_DEF
-{
-    int         n_visible;      // ???
-    int         n_models;
-    DG_VECTOR   min;
-    DG_VECTOR   max;
-    DG_MDL      model[ 0 ];
-} DG_DEF;
 
 // clang-format off
 typedef struct _DG_TEX {
@@ -147,19 +118,7 @@ enum {
 };
 // clang-format on
 
-typedef struct {
-    u_int       id;
-    DG_DEF      def;
-} DG_KMDPACK;
-
-typedef struct {
-    u_int       ident;
-    u_int       n_kmd;
-    u_int       vert_offset;
-    u_int       body_len;
-    DG_KMDPACK  kmd[ 0 ];
-} DG_ZMD_DEF;
-
+/* TODO: Remove */
 typedef struct {    // libdg internal
     DG_VECTOR min;
     DG_VECTOR max;
@@ -189,67 +148,29 @@ typedef struct _DG_PRIM
     TPRIM_FN handler;
 } DG_PRIM;
 
-typedef struct DG_LIT
-{
-    SVECTOR        pos;
-    unsigned short field_8_brightness;
-    unsigned short field_A_radius;
-    CVECTOR        field_C_color;
-} DG_LIT;
+#define MAX_TMPLIGHTS  8
+#define MAX_FIX_LIGHTS 8
 
-typedef struct DG_FixedLight
-{
-    int     field_0_lightCount;
-    DG_LIT *field_4_pLights;
-} DG_FixedLight;
-
-typedef struct DG_TmpLightList
+/* Should be local to light.c */
+typedef struct TLIGHT
 {
     int    n_lights;
-    DG_LIT lights[ 8 ];
-} DG_TmpLightList;
+    DG_LIT lights[ MAX_TMPLIGHTS ];
+} TLIGHT;
 
-typedef struct DG_LitVertex
+/* Should be local to light.c */
+typedef struct FIXLIGHT
 {
-    SVECTOR intensity[2];
+    int     n_lights;
+    DG_LIT *lights;
+} FIXLIGHT;
+
+/* Should be local to pshade.c */
+typedef struct PLIGHT
+{
+    SVECTOR point[2];
     CVECTOR color[2];
-} DG_LitVertex;
-
-typedef struct DG_IMG_ATTRIB
-{
-    unsigned char texid;
-    unsigned char xoff;
-    unsigned char yoff;
-    unsigned char unused;
-} DG_IMG_ATTRIB;
-
-typedef struct DG_IMG
-{
-    unsigned short  image_width;
-    unsigned short  image_height;
-    unsigned short  tile_width;
-    unsigned short  tile_height;
-    unsigned short *textures; // textures[0] = count
-    DG_IMG_ATTRIB  *attribs;
-    unsigned char  *tilemap;
-} DG_IMG;
-
-/*---------------------------------------------------------------------------*/
-
-typedef struct DG_NARS
-{
-    unsigned int   unknown0;
-    unsigned char *unknown1;
-} DG_NARS;
-
-typedef struct DG_OAR
-{
-    MOTION_ARCHIVE *archive;
-    unsigned int    n_joint;
-    unsigned int    n_motion;
-    MOTION_TABLE   *table;
-    unsigned short  data[ 0 ];
-} DG_OAR;
+} PLIGHT;
 
 /*---------------------------------------------------------------------------*/
 

@@ -56,7 +56,7 @@ typedef struct _Work
 SVECTOR s04a_dword_800C3620 = {100, 100, 100};
 
 void     Takabe_FreeObjs(DG_OBJS *objs);
-DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
+DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
 
 extern HITTABLE      GM_C4Datas[C4_COUNT];
 
@@ -196,7 +196,7 @@ int DummyWallGetResources_800D7178(Work *work, int name, int where)
     GM_ConfigObjectLight(obj, &work->field_108);
 
     DummyWall_800D7104(work);
-    DummyWall_800D7488(work, &work->field_24.objs->def->model[0]);
+    DummyWall_800D7488(work, &work->field_24.objs->def->models[0]);
 
     svec1.vx = work->field_16C;
     svec1.vy = work->field_16E;
@@ -266,7 +266,7 @@ void DummyWall_800D7488(Work *work, DG_MDL *mdl)
     min_vx = min_vy = min_vz = 32000;
 
     numVertex = mdl->n_verts;
-    vertexIndexOffsetIter = mdl->vertices;
+    vertexIndexOffsetIter = mdl->verts;
 
     for (; numVertex > 0; vertexIndexOffsetIter++, numVertex--)
     {

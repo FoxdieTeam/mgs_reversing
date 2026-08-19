@@ -205,9 +205,9 @@ static void Act(Work *work)
         def = work->models[work->lod];
         work->body.objs->def = def;
 
-        mdl = def->model;
+        mdl = def->models;
         obj = work->body.objs->objs;
-        for (n_models = def->n_models; n_models > 0; n_models--)
+        for (n_models = def->n_x_models; n_models > 0; n_models--)
         {
             obj->n_packs = mdl->n_faces;
             obj->model = mdl;

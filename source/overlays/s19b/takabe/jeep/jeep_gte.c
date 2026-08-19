@@ -198,10 +198,10 @@ static void InitTarget(Work *work)
     DG_MDL *model;
     TARGET *trg;
 
-    model = work->body.objs->def->model;
-    size.vx = (model->max.vx - model->min.vx) / 4;
-    size.vy = (model->max.vy - model->min.vy) / 4;
-    size.vz = (model->max.vz - model->min.vz) / 4;
+    model = work->body.objs->def->models;
+    size.vx = (model->ux - model->lx) / 4;
+    size.vy = (model->uy - model->ly) / 4;
+    size.vz = (model->uz - model->lz) / 4;
 
     force = DG_ZeroVector;
     size.vy = 1000;

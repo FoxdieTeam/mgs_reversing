@@ -248,29 +248,29 @@ static int GetResources(Work *work, int name, int where)
     {
         if (i & 1)
         {
-            work->bounds[i].vx = def->max.vx;
+            work->bounds[i].vx = def->ux;
         }
         else
         {
-            work->bounds[i].vx = def->min.vx;
+            work->bounds[i].vx = def->lx;
         }
 
         if (i & 2)
         {
-            work->bounds[i].vy = def->max.vy;
+            work->bounds[i].vy = def->uy;
         }
         else
         {
-            work->bounds[i].vy = def->min.vy;
+            work->bounds[i].vy = def->ly;
         }
 
         if (i & 4)
         {
-            work->bounds[i].vz = def->max.vz;
+            work->bounds[i].vz = def->uz;
         }
         else
         {
-            work->bounds[i].vz = def->min.vz;
+            work->bounds[i].vz = def->lz;
         }
     }
 

@@ -360,7 +360,7 @@ STATIC void DG_TransObj( DG_OBJ *obj, int idx )
     while ( obj )
     {
         model = obj->model;
-        vertices = (DG_PVECTOR *)model->vertices;
+        vertices = (DG_PVECTOR *)model->verts;
 
         if ( SPAD->flags & 0x1 )
         {
@@ -419,7 +419,7 @@ void DG_TransChanl( DG_CHANL *chanl, int idx )
 
 
             work->parent_packs = parent->packs[GV_Clock];
-            work->vertices = model->vertices;
+            work->vertices = model->verts;
 
             gte_SetRotMatrix(&obj->screen);
             gte_SetTransMatrix(&obj->screen);

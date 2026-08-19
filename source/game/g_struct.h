@@ -15,7 +15,7 @@ typedef struct MAP {
     u_short  name;
     u_short  used;
     HZD_HDL *hzd;
-    LIT     *lit;
+    DG_LITS *lit;
     int      zone;
 } MAP;
 

@@ -67,7 +67,7 @@ extern int            rasen_800C3408;
 extern unsigned short rasen_el_800C342C[];
 extern unsigned short rasen_el_800D2CA4[];
 
-void Takabe_ReshadeModel(DG_OBJS *objs, LIT *lit);
+void Takabe_ReshadeModel(DG_OBJS *objs, DG_LITS *lit);
 void Takabe_FreeObjs(DG_OBJS *objs);
 
 void s11c_800CCFCC(Work *, int);
@@ -79,7 +79,7 @@ void s11c_800CDB6C(Work *work);
 void s11c_800CD120(Work *work);
 void s11c_800CD17C(OBJECT *, int, int);
 
-DG_OBJS * Takabe_MakeElevatorPreshade(int model, LIT *lit);
+DG_OBJS * Takabe_MakeElevatorPreshade(int model, DG_LITS *lit);
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
 
@@ -442,8 +442,8 @@ int RasenElGetResources_800CCB9C(Work *work, int name, int map)
     work->f2C8 = THING_Gcl_GetShort('o');
     work->f2CC = THING_Gcl_GetShort('u');
 
-    sp10.vx = object->objs->def->max.vx + 100;
-    sp10.vz = object->objs->def->max.vz + 100;
+    sp10.vx = object->objs->def->ux + 100;
+    sp10.vz = object->objs->def->uz + 100;
     sp10.vy = 1;
 
     sp18 = work->f214;

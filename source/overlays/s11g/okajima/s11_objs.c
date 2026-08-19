@@ -45,7 +45,7 @@ typedef struct _Work
 
 #define ATTACK_DAMAGE   (256)
 
-DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
+DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
 
 SVECTOR positions[] =
 {

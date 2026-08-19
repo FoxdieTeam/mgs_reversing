@@ -35,7 +35,7 @@ void SubEfct_800CC798(DG_MDL *model)
     base = 128;
     out = (u_char *)SCRPAD_ADDR;
 
-    vertices = model->vertices;
+    vertices = model->verts;
     n_vertices = model->n_verts;
 
     gte_ldv3c(vertices);

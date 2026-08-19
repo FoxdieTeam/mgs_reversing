@@ -88,8 +88,8 @@ void DG_WriteObjPacketUV( DG_OBJ* obj, int idx )
 
         while ( obj )
         {
-            tex_ids = obj->model->materials;
-            texcoords = obj->model->texcoords;
+            tex_ids = obj->model->texids;
+            texcoords = obj->model->uvs;
             for (n_packs = obj->n_packs; n_packs > 0 ; --n_packs )
             {
                 current_id = *tex_ids;

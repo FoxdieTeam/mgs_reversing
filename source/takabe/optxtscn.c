@@ -269,7 +269,7 @@ int OptxtscnGetResources_800CD080(Work *work)
         DG_QueueObjs(objs);
         DG_GroupObjs(objs, GM_CurrentMap);
 
-        tex = DG_GetTexture(def->model[0].materials[0]);
+        tex = DG_GetTexture(def->models[0].texids[0]);
         tex->clut = work->field_2C->clut;
         tex->tpage = (work->field_28->tpage & 0xFF9F) | 0x20;
 

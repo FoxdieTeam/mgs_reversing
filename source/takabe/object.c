@@ -5,7 +5,7 @@
 
 void Takabe_RefreshObjectPacks(DG_OBJS *objs);
 
-static DG_OBJS *MakePreshade(int model, LIT *lit, int flag)
+static DG_OBJS *MakePreshade(int model, DG_LITS *lit, int flag)
 {
     DG_DEF  *def;
     DG_OBJS *objs;
@@ -29,12 +29,12 @@ static DG_OBJS *MakePreshade(int model, LIT *lit, int flag)
     return objs;
 }
 
-DG_OBJS *Takabe_MakePreshade(int model, LIT *lit)
+DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit)
 {
     return MakePreshade(model, lit, ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE ));
 }
 
-DG_OBJS *Takabe_MakeElevatorPreshade(int model, LIT *lit)
+DG_OBJS *Takabe_MakeElevatorPreshade(int model, DG_LITS *lit)
 {
     DG_SetPos(&DG_ZeroMatrix);
     return Takabe_MakePreshade(model, lit);
@@ -47,7 +47,7 @@ void Takabe_FreeObjs(DG_OBJS *objs)
     DG_FreeObjs(objs);
 }
 
-void Takabe_ReshadeModel(DG_OBJS *objs, LIT *lit)
+void Takabe_ReshadeModel(DG_OBJS *objs, DG_LITS *lit)
 {
     DG_MakePreshade(objs, lit->lights, lit->n_lights);
     Takabe_RefreshObjectPacks(objs);

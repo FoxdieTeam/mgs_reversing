@@ -226,7 +226,7 @@ void MirrorAct_800DFDDC(Work *work)
         {
             object--;
 
-            mdl = &object->objs.def->model[0];
+            mdl = &object->objs.def->models[0];
             mdl->flags = object->flags;
 
             DG_FreeObjPacket(&object->obj, 0);
@@ -251,8 +251,8 @@ void MirrorAct_800DFDDC(Work *work)
         if ((objs->n_models == 1) && ((objs->group_id & work->map) != 0))
         {
             object->objs = *objs;
-            object->flags = objs->def->model[0].flags;
-            objs->def->model[0].flags |= 0x400;
+            object->flags = objs->def->models[0].flags;
+            objs->def->models[0].flags |= 0x400;
 
             obj = &object->obj;
             *obj = objs->objs[0];
@@ -361,7 +361,7 @@ void MirrorDie_800E0670(Work *work)
         {
             object--;
 
-            mdl = &object->objs.def->model[0];
+            mdl = &object->objs.def->models[0];
             mdl->flags = object->flags;
 
             DG_FreeObjPacket(&object->obj, 0);
@@ -478,13 +478,13 @@ DG_DEF * Mirror_800E0AD8(DG_DEF *def, int arg1)
     DG_MDL *src;
     DG_MDL *dst;
 
-    n_models = def->n_models;
+    n_models = def->n_x_models;
 
     copy = GV_Malloc(sizeof(DG_DEF) + n_models * sizeof(DG_MDL));
     memcpy(copy, def, sizeof(DG_DEF));
 
-    src = def->model;
-    dst = copy->model;
+    src = def->models;
+    dst = copy->models;
 
     for (; n_models > 0; n_models--)
     {

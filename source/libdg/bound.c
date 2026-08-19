@@ -60,7 +60,7 @@ STATIC void DG_BoundObjs(DG_OBJS *objs, int idx, unsigned int flag, int in_bound
                 gte_SetTransMatrix(&obj->screen);
 
                 svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                mdl_bounds = (DG_BOUND *)&obj->model->min;
+                mdl_bounds = (DG_BOUND *)&obj->model->lx;
                 copy_bounding_box_to_spad(mdl_bounds);
                 vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
                 vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
@@ -223,7 +223,7 @@ void DG_BoundChanl(DG_CHANL *chanl, int idx)
                     gte_SetTransMatrix(&current_objs->objs->screen);
 
                     svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                    mdl_bounds = (DG_BOUND *)&current_objs->def->min;
+                    mdl_bounds = (DG_BOUND *)&current_objs->def->lx;
                     copy_bounding_box_to_spad(mdl_bounds);
                     vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
                     vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
@@ -366,7 +366,7 @@ STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx)
         id = 0;
         while (obj)
         {
-            tex_ids = obj->model->materials;
+            tex_ids = obj->model->texids;
             for (n_packs = obj->n_packs; n_packs > 0; --n_packs)
             {
                 current_id = *tex_ids;

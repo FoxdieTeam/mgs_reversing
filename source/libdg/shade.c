@@ -168,8 +168,8 @@ STATIC void DG_ShadeObj( DG_OBJ *obj, int idx )
                    &DG_PacketCode[1] :
                    &DG_PacketCode[0] );
 
-        normals = (Unit *)model->normals;
-        n_normals = model->n_normals;
+        normals = (Unit *)model->norms;
+        n_normals = model->n_norms;
 
         *(Unit *)getScratchAddr(8) = normals[0];
         *(Unit *)getScratchAddr(11) = normals[1];

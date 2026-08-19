@@ -114,11 +114,11 @@ void s19b_jeep_gls_800CF330(Work *work)
     DG_MDL *model;
     TARGET* trg;
 
-    model = work->body.objs->def->model;
+    model = work->body.objs->def->models;
 
-    size.vx = (model->max.vx - model->min.vx) / 4;
-    size.vy = (model->max.vy - model->min.vy) / 4 + 100;
-    size.vz = (model->max.vz - model->min.vz) / 4;
+    size.vx = (model->ux - model->lx) / 4;
+    size.vy = (model->uy - model->ly) / 4 + 100;
+    size.vz = (model->uz - model->lz) / 4;
 
     force = DG_ZeroVector;
 
