@@ -75,7 +75,7 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
         memset(&svect1, 0, 8);
 
         model = lpAct->field_1C0[0].objs->objs[0].model;
-        svect1.vx = model->min.vx + (model->max.vx - model->min.vx) / 2;
+        svect1.vx = model->lx + (model->ux - model->lx) / 2;
 
         DG_PutVector(&svect1, &svect1, 1);
 
@@ -158,7 +158,7 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
         memset(&svect1, 0, 8);
 
         model2 = lpAct->field_46C[0].objs->objs[0].model;
-        svect1.vx = model2->min.vx + (model2->max.vx - model2->min.vx) / 2;
+        svect1.vx = model2->lx + (model2->ux - model2->lx) / 2;
 
         DG_SetPos2(&lpAct->control.mov, &lpAct->control.turn);
         DG_PutVector(&svect1, &svect1, 1);
@@ -246,57 +246,57 @@ void M1E1GetCaterpillerVertex(OBJECT *obj1, OBJECT *obj2, SVECTOR *pos, int a4)
 
     /* left caterpillar */
     model = obj1->objs->objs[0].model;
-    vx = model->min.vx;
+    vx = model->lx;
     if ( a4 == 1 )
     {
-        vx += (model->max.vx - vx) >> 1;
+        vx += (model->ux - vx) >> 1;
     }
 
     pos[0].vx = vx;
-    pos[0].vy = obj1->objs->objs[0].model->min.vy;
-    pos[0].vz = 2 * obj1->objs->objs[0].model->max.vz / 3;
+    pos[0].vy = obj1->objs->objs[0].model->ly;
+    pos[0].vz = 2 * obj1->objs->objs[0].model->uz / 3;
 
     pos[1].vx = vx;
-    pos[1].vy = obj1->objs->objs[0].model->min.vy;
-    pos[1].vz = obj1->objs->objs[0].model->max.vz / 3;
+    pos[1].vy = obj1->objs->objs[0].model->ly;
+    pos[1].vz = obj1->objs->objs[0].model->uz / 3;
 
     pos[2].vx = vx;
-    pos[2].vy = obj1->objs->objs[0].model->min.vy;
+    pos[2].vy = obj1->objs->objs[0].model->ly;
     pos[2].vz = 0;
 
     pos[3].vx = vx;
-    pos[3].vy = obj1->objs->objs[0].model->min.vy;
-    pos[3].vz = obj1->objs->objs[0].model->min.vz / 3;
+    pos[3].vy = obj1->objs->objs[0].model->ly;
+    pos[3].vz = obj1->objs->objs[0].model->lz / 3;
 
     pos[4].vx = vx;
-    pos[4].vy = obj1->objs->objs[0].model->min.vy;
-    pos[4].vz = (2 * obj1->objs->objs[0].model->min.vz) / 3;
+    pos[4].vy = obj1->objs->objs[0].model->ly;
+    pos[4].vz = (2 * obj1->objs->objs[0].model->lz) / 3;
 
     /* right caterpillar */
     model = obj2->objs->objs[0].model;
-    vx = model->max.vx;
+    vx = model->ux;
     if ( a4 == 1 )
     {
-        vx += (model->min.vx - vx) >> 1;
+        vx += (model->lx - vx) >> 1;
     }
 
     pos[5].vx = vx;
-    pos[5].vy = obj2->objs->objs[0].model->min.vy;
-    pos[5].vz = 2 * obj2->objs->objs[0].model->max.vz / 3;
+    pos[5].vy = obj2->objs->objs[0].model->ly;
+    pos[5].vz = 2 * obj2->objs->objs[0].model->uz / 3;
 
     pos[6].vx = vx;
-    pos[6].vy = obj2->objs->objs[0].model->min.vy;
-    pos[6].vz = obj2->objs->objs[0].model->max.vz / 3;
+    pos[6].vy = obj2->objs->objs[0].model->ly;
+    pos[6].vz = obj2->objs->objs[0].model->uz / 3;
 
     pos[7].vx = vx;
-    pos[7].vy = obj2->objs->objs[0].model->min.vy;
+    pos[7].vy = obj2->objs->objs[0].model->ly;
     pos[7].vz = 0;
 
     pos[8].vx = vx;
-    pos[8].vy = obj2->objs->objs[0].model->min.vy;
-    pos[8].vz = obj2->objs->objs[0].model->min.vz / 3;
+    pos[8].vy = obj2->objs->objs[0].model->ly;
+    pos[8].vz = obj2->objs->objs[0].model->lz / 3;
 
     pos[9].vx = vx;
-    pos[9].vy = obj2->objs->objs[0].model->min.vy;
-    pos[9].vz = 2 * obj2->objs->objs[0].model->min.vz / 3;
+    pos[9].vy = obj2->objs->objs[0].model->ly;
+    pos[9].vz = 2 * obj2->objs->objs[0].model->lz / 3;
 }

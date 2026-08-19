@@ -517,7 +517,7 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
                 gte_SetTransMatrix(&obj->screen);
 
                 svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                mdl_bounds = (DG_BOUND *)&obj->model->min;
+                mdl_bounds = (DG_BOUND *)&obj->model->lx;
                 copy_bounding_box_to_spad(mdl_bounds);
                 vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
                 vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
@@ -748,7 +748,7 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx)
                     gte_SetTransMatrix(&current_objs->objs->screen);
 
                     svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                    mdl_bounds = (DG_BOUND *)&current_objs->def->min;
+                    mdl_bounds = (DG_BOUND *)&current_objs->def->lx;
                     copy_bounding_box_to_spad(mdl_bounds);
                     vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
                     vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
@@ -946,7 +946,7 @@ void s12c_800D5A34(DG_OBJ *obj, int idx)
         id = 0;
         while (obj)
         {
-            tex_ids = obj->model->materials;
+            tex_ids = obj->model->texids;
             for (n_packs = obj->n_packs; n_packs > 0; --n_packs)
             {
                 current_id = *tex_ids;
@@ -1341,7 +1341,7 @@ void s12c_800D6020(DG_OBJ *obj, int idx)
     while (obj)
     {
         mdl = obj->model;
-        verts = (DG_PVECTOR *)mdl->vertices;
+        verts = (DG_PVECTOR *)mdl->verts;
 
         if (*(unsigned short *)0x1F8001FE & 1)
         {
@@ -1402,7 +1402,7 @@ void FogTransChanl_800D63B0(DG_CHANL *chanl, int idx)
             pParent = &pObjs->objs[pMdl->parent];
 
             ((POLY_GT4 **)pScratchpad)[0xfe] = pParent->packs[GV_Clock];
-            ((SVECTOR **)pScratchpad)[0xff] = pMdl->vertices;
+            ((SVECTOR **)pScratchpad)[0xff] = pMdl->verts;
 
             gte_SetRotMatrix(&pObj->screen);
             gte_SetTransMatrix(&pObj->screen);
@@ -1555,8 +1555,8 @@ void s12c_800D6698(DG_MDL *mdl)
     }
 
     gte_ldrgb(code);
-    nidx = (long *)mdl->normals;
-    n_normals = mdl->n_normals;
+    nidx = (long *)mdl->norms;
+    n_normals = mdl->n_norms;
 
     v1 = nidx[0];
     v2 = nidx[1];
@@ -1754,8 +1754,8 @@ void s12c_800D6958(DG_OBJ *obj, int idx)
 
         gte_ldrgb( code );
         scrpd_nidx = (DG_VECTOR*)0x1F800020;
-        nidx = (DG_VECTOR*)mdl->normals; //a2
-        n_normals = mdl->n_normals;
+        nidx = (DG_VECTOR*)mdl->norms; //a2
+        n_normals = mdl->n_norms;
 
         scrpd_nidx[0] = nidx[0]; //maybe copyvector macro
         scrpd_nidx[1] = nidx[1];

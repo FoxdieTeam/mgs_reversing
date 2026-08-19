@@ -211,7 +211,7 @@ static int GetResources(Work *work, int name, int where)
     work->field_1F0 = 0;
     work->field_1EC = 0;
     work->field_1F4 = FALSE;
-    work->height = -body->objs->def->model[0].min.vy / 2;
+    work->height = -body->objs->def->models[0].ly / 2;
     control->mov.vy += work->height;
     return 0;
 }

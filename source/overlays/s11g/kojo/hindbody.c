@@ -39,8 +39,8 @@ void s11g_hind_800D4744(HindWork *work)
         work->field_5F0 = 90;
         NewCinemaScreen(90, 0);
 
-        work->field_A70 = work->body.objs->def->model[2].vertices;
-        work->body.objs->def->model[2].vertices = work->field_970;
+        work->field_A70 = work->body.objs->def->models[2].verts;
+        work->body.objs->def->models[2].verts = work->field_970;
 
         work->last_item = GM_Item;
         work->last_weapon = GM_Weapon;

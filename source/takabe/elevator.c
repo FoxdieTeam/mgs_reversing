@@ -88,8 +88,8 @@ void Elevator_800DA3F8(Work *, HZD_GRP *);
 int  Elevator_800DA464(Work *, void *);
 void Elevator_800DA57C(int proc, long arg);
 
-void      Takabe_ReshadeModel(DG_OBJS *objs, LIT *lit);
-DG_OBJS * Takabe_MakeElevatorPreshade(int model, LIT *lit);
+void      Takabe_ReshadeModel(DG_OBJS *objs, DG_LITS *lit);
+DG_OBJS * Takabe_MakeElevatorPreshade(int model, DG_LITS *lit);
 void      Takabe_FreeObjs(DG_OBJS *objs);
 
 #define EXEC_LEVEL GV_ACTOR_USER

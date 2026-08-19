@@ -219,10 +219,10 @@ static int AllocVertsMemory( Work *work )
     SVECTOR *src;
 
     def = work->def;
-    mdl = def->model;
+    mdl = def->models;
     n_verts = 0;
 
-    for (n_models = def->n_models; n_models > 0; mdl++, n_models--)
+    for (n_models = def->n_x_models; n_models > 0; mdl++, n_models--)
     {
         n_verts += mdl->n_verts;
     }
@@ -235,11 +235,11 @@ static int AllocVertsMemory( Work *work )
         return -1;
     }
 
-    mdl = def->model;
+    mdl = def->models;
 
-    for (n_models = def->n_models; n_models > 0; mdl++, n_models--)
+    for (n_models = def->n_x_models; n_models > 0; mdl++, n_models--)
     {
-        src = (SVECTOR *)((short *)mdl->vertices + work->move_axis);
+        src = (SVECTOR *)((short *)mdl->verts + work->move_axis);
 
         for (n_verts = mdl->n_verts; n_verts > 0; n_verts--)
         {
@@ -261,14 +261,14 @@ static int MoveVerts( Work *work, short *scrpad )
     int      n_verts;
     int      ret;
 
-    mdl = work->def->model;
+    mdl = work->def->models;
     src = work->points;
     index = 0;
     ret = 0;
 
-    for (n_models = work->def->n_models; n_models > 0; n_models--, mdl++)
+    for (n_models = work->def->n_x_models; n_models > 0; n_models--, mdl++)
     {
-        vertex = (SVECTOR *)((short *)mdl->vertices + work->move_axis);
+        vertex = (SVECTOR *)((short *)mdl->verts + work->move_axis);
 
         for (n_verts = mdl->n_verts; n_verts > 0; n_verts--)
         {
@@ -289,12 +289,12 @@ static int RestoreVerts( Work *work )
     SVECTOR *vertex;
     int      n_verts;
 
-    mdl = work->def->model;
+    mdl = work->def->models;
     src = work->points;
 
-    for (n_models = work->def->n_models; n_models > 0; n_models--, mdl++)
+    for (n_models = work->def->n_x_models; n_models > 0; n_models--, mdl++)
     {
-        vertex = (SVECTOR *)((short *)mdl->vertices + work->move_axis);
+        vertex = (SVECTOR *)((short *)mdl->verts + work->move_axis);
 
         for (n_verts = mdl->n_verts; n_verts > 0; n_verts--)
         {

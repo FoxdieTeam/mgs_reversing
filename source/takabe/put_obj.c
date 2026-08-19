@@ -57,7 +57,7 @@ static int GetResources(Work *work, int name, int where)
     DG_OBJS  *createdObjs;
     DG_OBJS **workObjs;
     int       n_models;
-    LIT      *lit;
+    DG_LITS  *lit;
     int       i;
     DG_OBJ   *objsIter2;
     DG_OBJ   *objsIter1;

@@ -7,7 +7,7 @@
 #include "anime/animconv/anime.h"
 
 void     Takabe_FreeObjs(DG_OBJS *objs);
-DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
+DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
 
 /*---------------------------------------------------------------------------*/
 
@@ -147,9 +147,9 @@ static int GetResources(Work *work, int name, int where)
     def = work->object.objs->def;
     svec3 = &work->svec3;
 
-    svec3->vx = (def->max.vx - def->min.vx) / 2;
-    svec3->vy = (def->max.vy - def->min.vy) / 2;
-    svec3->vz = (def->max.vz - def->min.vz) / 2;
+    svec3->vx = (def->ux - def->lx) / 2;
+    svec3->vy = (def->uy - def->ly) / 2;
+    svec3->vz = (def->uz - def->lz) / 2;
 
     GV_AddVec3(&work->svec3, svec1, svec3);
 

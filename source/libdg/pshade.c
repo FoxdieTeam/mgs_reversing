@@ -6,7 +6,7 @@
 
 extern DG_LitVertex DG_LitVertices_800B7A50[84];
 
-STATIC void prim_lighting( SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_LIT *light, int n_lights )
+static void MakeLight( SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG_LIT *light, int n_lights )
 {
     VECTOR distance;
     VECTOR position;
@@ -29,37 +29,37 @@ STATIC void prim_lighting( SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG
         plit = light;
         for (lights = n_lights; lights > 0; lights--, plit++)
         {
-            radius = plit->field_A_radius;
+            radius = plit->e_range;
 
-            distance.vx = position.vx - plit->pos.vx;
+            distance.vx = position.vx - plit->point.vx;
             if ((distance.vx < -radius) || (distance.vx > radius))
             {
                 continue;
             }
 
-            distance.vy = position.vy - plit->pos.vy;
+            distance.vy = position.vy - plit->point.vy;
             if ((distance.vy < -radius) || (distance.vy > radius))
             {
                 continue;
             }
 
-            distance.vz = position.vz - plit->pos.vz;
+            distance.vz = position.vz - plit->point.vz;
             if ((distance.vz < -radius) || (distance.vz > radius))
             {
                 continue;
             }
 
-            brightness = plit->field_8_brightness;
+            brightness = plit->r_range;
 
             if (--remaining == 0)
             {
-                DG_GetLightVector(&distance, plit->field_8_brightness, &pOut->intensity[1]);
-                LCOPY(&plit->field_C_color, &pOut->color[1]);
+                DG_GetLightVector(&distance, plit->r_range, &pOut->intensity[1]);
+                LCOPY(&plit->color, &pOut->color[1]);
                 break;
             }
 
             DG_GetLightVector(&distance, brightness, &pOut->intensity[0]);
-            LCOPY(&plit->field_C_color, &pOut->color[0]);
+            LCOPY(&plit->color, &pOut->color[0]);
         }
 
         switch (remaining)
@@ -74,29 +74,29 @@ STATIC void prim_lighting( SVECTOR *pVerts, int numVerts, DG_LitVertex *pOut, DG
     }
 }
 
-STATIC void prim_80031B00( DG_MDL *mdl, DG_LIT *light, int n_lights )
+static void MakeLights( DG_MDL *mdl, DG_LIT *light, int n_lights )
 {
     unsigned int  numVerts;
     SVECTOR      *pVerts;
     DG_LitVertex *pLitVertices;
 
     numVerts = mdl->n_verts;
-    pVerts = mdl->vertices;
+    pVerts = mdl->verts;
     pLitVertices = (DG_LitVertex *)getScratchAddr(0);
 
     // If there are many verts do the first patch in the SPAD
     if (numVerts > 42)
     {
-        prim_lighting(pVerts, 42, pLitVertices, light, n_lights);
+        MakeLight(pVerts, 42, pLitVertices, light, n_lights);
         pVerts += 42;
         numVerts -= 42;
         pLitVertices = DG_LitVertices_800B7A50;
     }
 
-    prim_lighting(pVerts, numVerts, pLitVertices, light, n_lights);
+    MakeLight(pVerts, numVerts, pLitVertices, light, n_lights);
 }
 
-STATIC CVECTOR *SetUnlitCVector( DG_MDL *mdl, CVECTOR *cvec )
+static CVECTOR *NoShadeRGB( DG_MDL *mdl, CVECTOR *rgbs )
 {
     int color;
     int i;
@@ -107,12 +107,13 @@ STATIC CVECTOR *SetUnlitCVector( DG_MDL *mdl, CVECTOR *cvec )
         color = 0x3E808080;
     }
 
-    for (i = 4 * mdl->n_faces; i > 0; ++cvec, --i)
+    for (i = mdl->n_faces * 4; i > 0; i--)
     {
-        LSTORE(color, cvec);
+        LSTORE(color, rgbs);
+        rgbs++;
     }
 
-    return cvec;
+    return rgbs;
 }
 
 static inline void *GetLightMatrix(void)
@@ -120,7 +121,7 @@ static inline void *GetLightMatrix(void)
     return &DG_LightMatrix;
 }
 
-STATIC CVECTOR *DG_MakePreshade_helper( DG_MDL *mdl, CVECTOR *cvec, DG_OBJS *objs )
+static CVECTOR *ShadeRGB( DG_MDL *mdl, CVECTOR *cvec, DG_OBJS *objs )
 {
     MATRIX light;
     MATRIX color;
@@ -150,7 +151,7 @@ STATIC CVECTOR *DG_MakePreshade_helper( DG_MDL *mdl, CVECTOR *cvec, DG_OBJS *obj
 
     pFio = mdl->vindices;
     pNfo = mdl->nindices;
-    pNio = mdl->normals;
+    pNio = mdl->norms;
 
     for (faces = mdl->n_faces * 4; faces > 0; faces--)
     {
@@ -190,7 +191,7 @@ STATIC CVECTOR *DG_MakePreshade_helper( DG_MDL *mdl, CVECTOR *cvec, DG_OBJS *obj
     return cvec;
 }
 
-STATIC int CalcCVecLen( DG_DEF *def )
+static int CalcCVecLen( DG_DEF *def )
 {
     int     total_faces;
     int     i;
@@ -198,7 +199,7 @@ STATIC int CalcCVecLen( DG_DEF *def )
 
     total_faces = 0;
     model = (DG_MDL *)&def[1];
-    for (i = def->n_models; i > 0; i--)
+    for (i = def->n_x_models; i > 0; i--)
     {
         total_faces += model->n_faces;
         ++model;
@@ -234,7 +235,7 @@ int DG_MakePreshade( DG_OBJS *objs, DG_LIT *light, int n_lights )
 
     obj = objs->objs;
 
-    for (i = def->n_models; i > 0; i--)
+    for (i = def->n_x_models; i > 0; i--)
     {
         obj->rgbs = cvec;
         model = obj->model;
@@ -242,15 +243,15 @@ int DG_MakePreshade( DG_OBJS *objs, DG_LIT *light, int n_lights )
         gte_SetRotMatrix(&objs->world);
         gte_SetTransMatrix(&objs->world);
 
-        prim_80031B00(model, light, n_lights);
+        MakeLights(model, light, n_lights);
 
         if (model->flags & DG_MODEL_UNLIT)
         {
-            cvec = SetUnlitCVector(model, cvec);
+            cvec = NoShadeRGB(model, cvec);
         }
         else
         {
-            cvec = DG_MakePreshade_helper(model, cvec, objs);
+            cvec = ShadeRGB(model, cvec, objs);
         }
 
         obj++;
@@ -280,10 +281,12 @@ int DG_MakePreshade( DG_OBJS *objs, DG_LIT *light, int n_lights )
 
 void DG_FreePreshade( DG_OBJS *objs )
 {
-    CVECTOR *pBuffer = objs->objs[0].rgbs;
-    if (pBuffer)
+    CVECTOR *rgbs;
+
+    rgbs = objs->objs[ 0 ].rgbs;
+    if ( rgbs != NULL )
     {
-        GV_Free(pBuffer);
-        objs->objs[0].rgbs = 0;
+        GV_Free( rgbs );
+        objs->objs[ 0 ].rgbs = NULL;
     }
 }

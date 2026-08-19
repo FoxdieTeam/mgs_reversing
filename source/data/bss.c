@@ -102,8 +102,8 @@ gap                                     gap_800B1DC4[0x4]; // 4 bytes
 unsigned short BSS  gOldRootCnt_800B1DC8[32]; // 0x40 (64) bytes
 
 /* libdg/light.obj */
-DG_FixedLight BSS   gFixedLights_800B1E08[8]; // 0x40 (64) bytes
-DG_TmpLightList BSS LightSystems_800B1E48[2]; // 0x108 (264) bytes
+FIXLIGHT BSS fix_lights[MAX_FIX_LIGHTS]; // 0x40 (64) bytes
+TLIGHT BSS   tlights[2]; // 0x108 (264) bytes
 
 /* libdg/text.obj */
 DG_TEX BSS          TexSets[DG_MAX_TEXTURES]; // 0x1800 (6144) bytes

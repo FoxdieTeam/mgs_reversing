@@ -46,28 +46,28 @@ typedef struct _Work
 #define EXEC_LEVEL GV_ACTOR_AFTER2
 
 DG_DEF litmdl_dg_def = {
-    1,                          // n_visible
-    1,                          // n_models
-    { -32000, -32000, -32000 }, // min
-    {  32000,  32000,  32000 }, // max
-    {                           // model[]
+    1,                      // n_models
+    1,                      // n_x_models
+    -32000, -32000, -32000, // lx, ly, lz
+     32000,  32000,  32000, // ux, uy, uz
+    {                       // model[]
         {
-            1027,               // flags
-            36,                 // n_faces
-            { -32000, -32000, -32000 }, // min
-            {  32000,  32000,  32000 }, // max
-            { 0, 0, 0 },        // pos
-            -1,                 // parent
-            -1,                 // extend
-            49,                 // n_verts
-            NULL,               // vertices
-            NULL,               // vindices
-            6,                  // n_normals
-            NULL,               // normals
-            NULL,               // nindices
-            NULL,               // texcoords
-            NULL,               // materials
-            0                   // padding
+            1027,                   // flags
+            36,                     // n_faces
+            -32000, -32000, -32000, // lx, ly, lz
+             32000,  32000,  32000, // ux, uy, uz
+            0, 0, 0,                // tx, ty, tz
+            -1,                     // parent
+            -1,                     // extend
+            49,                     // n_verts
+            NULL,                   // verts
+            NULL,                   // vindices
+            6,                      // n_norms
+            NULL,                   // norms
+            NULL,                   // nindices
+            NULL,                   // uvs
+            NULL,                   // texids
+            0                       // pad0
         }
     }
 };
@@ -146,12 +146,12 @@ void s01a_lit_mdl_800E26EC(Work *work)
         vertexIndexOffsets++;
     }
     mdl = &work->field_E8;
-    mdl->min.vy = 0;
-    mdl->max.vy = 1;
-    mdl->min.vz = work->field_140_vertexIndexOffsets[0].vz;
-    mdl->max.vz = work->field_140_vertexIndexOffsets[42].vz;
-    mdl->min.vx = work->field_140_vertexIndexOffsets[42].vx;
-    mdl->max.vx = work->field_140_vertexIndexOffsets[48].vx;
+    mdl->ly = 0;
+    mdl->uy = 1;
+    mdl->lz = work->field_140_vertexIndexOffsets[0].vz;
+    mdl->uz = work->field_140_vertexIndexOffsets[42].vz;
+    mdl->lx = work->field_140_vertexIndexOffsets[42].vx;
+    mdl->ux = work->field_140_vertexIndexOffsets[48].vx;
 }
 
 void s01a_lit_mdl_800E2928(Work *work)
@@ -271,12 +271,12 @@ void s01a_lit_mdl_800E2D64(Work *work, SVECTOR *unused)
     short          hash;
 
     mdl = &work->field_E8;
-    mdl->vertices = work->field_140_vertexIndexOffsets;
-    mdl->normals = work->field_358_normalIndexOffsets;
+    mdl->verts = work->field_140_vertexIndexOffsets;
+    mdl->norms = work->field_358_normalIndexOffsets;
     mdl->nindices = work->field_390_normalFaceOffsets;
-    mdl->texcoords = work->field_420_uvOffsets;
+    mdl->uvs = work->field_420_uvOffsets;
     faceIndexOffsetIter = mdl->vindices = work->field_2C8_faceIndexOffsets;
-    mdl->materials = work->field_540_materialOffsets;
+    mdl->texids = work->field_540_materialOffsets;
 
     for (j = 0; j < 6; j++)
     {

@@ -413,9 +413,9 @@ void *NewHindBoss(int name, int where)
     work->target2->damaged &= ~TARGET_POWER;
     work->target3->damaged &= ~TARGET_POWER;
 
-    svec.vx = work->body.objs->objs[0].model->max.vx / 2;
-    svec.vy = -work->body.objs->objs[0].model->min.vy / 4;
-    svec.vz = work->body.objs->objs[0].model->max.vz / 2;
+    svec.vx = work->body.objs->objs[0].model->ux / 2;
+    svec.vy = -work->body.objs->objs[0].model->ly / 4;
+    svec.vz = work->body.objs->objs[0].model->uz / 2;
 
     if (work->field_4AC != 2)
     {
@@ -469,9 +469,9 @@ void *NewHindBoss(int name, int where)
     work->field_4B4 = work->field_41C * 4096 / 1800;
     work->field_4B8 = work->field_420 * 4096 / 1800;
 
-    work->field_514 = MAX(work->body.objs->def->max.vx - work->body.objs->def->min.vx,
-                          work->body.objs->def->max.vy - work->body.objs->def->min.vy);
-    work->field_514 = MAX(work->field_514, work->body.objs->def->max.vz - work->body.objs->def->min.vz);
+    work->field_514 = MAX(work->body.objs->def->ux - work->body.objs->def->lx,
+                          work->body.objs->def->uy - work->body.objs->def->ly);
+    work->field_514 = MAX(work->field_514, work->body.objs->def->uz - work->body.objs->def->lz);
 
     work->field_514 = 33200 - work->field_514 / 3;
 

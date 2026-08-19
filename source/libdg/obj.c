@@ -31,7 +31,7 @@ DG_OBJS *DG_MakeObjs( DG_DEF *def, int flag, int chanl )
 {
     DG_MDL *model = (DG_MDL *)&def[1];
 
-    const int objs_size = sizeof(DG_OBJS) + (sizeof(DG_OBJ) * def->n_models);
+    const int objs_size = sizeof(DG_OBJS) + (sizeof(DG_OBJ) * def->n_x_models);
     DG_OBJS  *objs_buf = (DG_OBJS *)GV_Malloc(objs_size);
 
     if (!objs_buf)
@@ -48,14 +48,14 @@ DG_OBJS *DG_MakeObjs( DG_DEF *def, int flag, int chanl )
 
         objs_buf->def = def;
 
-        objs_buf->n_models = def->n_visible;
+        objs_buf->n_models = def->n_models;
 
         objs_buf->flag = flag;
         objs_buf->chanl = chanl;
         objs_buf->light = &DG_LightMatrix;
 
         obj = &objs_buf->objs[0];
-        for (numMesh = def->n_models; numMesh > 0; numMesh--)
+        for (numMesh = def->n_x_models; numMesh > 0; numMesh--)
         {
             obj->model = model;
             if (model->extend < 0)

@@ -2238,7 +2238,7 @@ static void demothrd_m1e1_8007D404(LPMGSDEMOACT lpAct, DMO_ADJ *adjust, DMO_MDL 
     DG_PutVector(smokeVecs, smokeVecs, 10);
 
     memset(&vec, 0, sizeof(SVECTOR));
-    vec.vx = data->object[1][0].objs->objs[0].model->min.vx + ((data->object[1][0].objs->objs[0].model->max.vx - data->object[1][0].objs->objs[0].model->min.vx) / 2);
+    vec.vx = data->object[1][0].objs->objs[0].model->lx + ((data->object[1][0].objs->objs[0].model->ux - data->object[1][0].objs->objs[0].model->lx) / 2);
     DG_PutVector(&vec, &vec, 1);
 
     vecTmp.vx = vec.vx - data->field_564[0].vx;
@@ -2273,7 +2273,7 @@ static void demothrd_m1e1_8007D404(LPMGSDEMOACT lpAct, DMO_ADJ *adjust, DMO_MDL 
 
 
     memset(&vec, 0, sizeof(SVECTOR));
-    vec.vx = data->object[1][0].objs->objs[0].model->min.vx + ((data->object[1][0].objs->objs[0].model->max.vx - data->object[1][0].objs->objs[0].model->min.vx) / 2);
+    vec.vx = data->object[1][0].objs->objs[0].model->lx + ((data->object[1][0].objs->objs[0].model->ux - data->object[1][0].objs->objs[0].model->lx) / 2);
     DG_SetPos2(&model->control.mov, &model->control.rot);
 
     DG_PutVector(&vec, &vec, 1);

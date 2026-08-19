@@ -48,8 +48,8 @@ void Envmap3_800C9F14(DG_MDL *mdl)
     offy = scratch->y;
     uv = scratch->uv;
 
-    normals = mdl->normals;
-    n_normals = mdl->n_normals;
+    normals = mdl->norms;
+    n_normals = mdl->n_norms;
 
     gte_ldv3c(normals);
     gte_rtv0_b();

@@ -37,7 +37,7 @@ typedef struct _Work
 static SVECTOR panel_pos = {0, 0, 65236};
 
 void     Takabe_FreeObjs(DG_OBJS *objs);
-DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
+DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
 
 void AN_PanelSmoke(SVECTOR *pos);
 
@@ -75,7 +75,7 @@ static void Act(Work *work)
 
             center = &work->center;
             work->body.objs->def = work->kmd;
-            work->body.objs->objs[0].model = work->kmd->model;
+            work->body.objs->objs[0].model = work->kmd->models;
 
             AN_PanelSmoke(center);
             NewSpark2_800CA714(&work->world);
@@ -157,7 +157,7 @@ static int GetResources(Work *work, int name, int where)
     work->def = work->body.objs->def;
     work->kmd = (DG_DEF *)GV_GetCache(GV_CacheID(work->model2, 'k'));
 
-    DG_PutVector(work->body.objs->def->model[0].vertices, vertices, 4);
+    DG_PutVector(work->body.objs->def->models[0].verts, vertices, 4);
 
     sum_vx = sum_vy = sum_vz = 0;
     for (i = 0; i < 4; i++)

@@ -1012,8 +1012,8 @@ void Dog_800D1D24(DG_OBJS *objs, DG_DEF *def)
     obj = objs->objs;
     for (i = 0; i < 18; i++)
     {
-        obj->model = &def->model[i];
-        obj->n_packs = def->model[i].n_faces;
+        obj->model = &def->models[i];
+        obj->n_packs = def->models[i].n_faces;
         obj++;
     }
 }

@@ -145,9 +145,9 @@ STATIC void DG_ApplyRots( DG_OBJS *objs, int n_models )
         RotMatrixZYX_gte( rots, root );
     }
 
-    root->t[0] = model->pos.vx;
-    root->t[1] = model->pos.vy;
-    root->t[2] = model->pos.vz;
+    root->t[0] = model->tx;
+    root->t[1] = model->ty;
+    root->t[2] = model->tz;
 
     if ( !adjust )
     {
@@ -166,9 +166,9 @@ STATIC void DG_ApplyRots( DG_OBJS *objs, int n_models )
 
         RotMatrixZYX_gte( rots, out );
 
-        out->t[0] = model->pos.vx;
-        out->t[1] = model->pos.vy;
-        out->t[2] = model->pos.vz;
+        out->t[0] = model->tx;
+        out->t[1] = model->ty;
+        out->t[2] = model->tz;
 
         if ( i == ( n_models - 1 ) )
         {

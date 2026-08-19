@@ -74,10 +74,10 @@ static int SwitchModel(Work *work)
 
     objs->def = GV_GetCache(GV_CacheID(work->models[1], 'k'));
 
-    count = objs->def->n_models;
-    mdl = objs->def->model;
-    mdl2 = &objs->def->model[0];
-    obj = &objs->objs[0];
+    count = objs->def->n_x_models;
+    mdl = objs->def->models;
+    mdl2 = objs->def->models;
+    obj = objs->objs;
     for (; count > 0; obj++, mdl2++, mdl++, count--)
     {
         obj->model = mdl;

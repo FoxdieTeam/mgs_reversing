@@ -7,7 +7,7 @@
 #include "game/item.h"
 #include "linkvar.h"
 
-extern DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
+extern DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
 
 typedef struct _DynCon
 {

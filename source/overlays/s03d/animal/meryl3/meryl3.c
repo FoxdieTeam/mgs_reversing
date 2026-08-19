@@ -28,8 +28,8 @@ void Meryl3_800CB4B4(DG_OBJS *objs, DG_DEF *def)
     obj = objs->objs;
     for (i = 0; i < 16; i++)
     {
-        obj->model = &def->model[i];
-        obj->n_packs = def->model[i].n_faces;
+        obj->model = &def->models[i];
+        obj->n_packs = def->models[i].n_faces;
         obj++;
     }
 }

@@ -411,13 +411,13 @@ void *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
         DG_UnShadeObjs(objs);
         DG_SetPos(&objs->objs[0].screen);
 
-        minx = def->min.vx;
-        miny = def->min.vy;
-        minz = def->min.vz;
+        minx = def->lx;
+        miny = def->ly;
+        minz = def->lz;
 
-        maxx = def->max.vx;
-        maxy = def->max.vy;
-        maxz = def->max.vz;
+        maxx = def->ux;
+        maxy = def->uy;
+        maxz = def->uz;
 
         vec_iter = vecs;
 

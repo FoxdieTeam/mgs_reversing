@@ -20,7 +20,7 @@ STATIC void GM_UpdateMapGroup( int preshade )
     int       group, hzd_group;
     int       i, j;
     DG_OBJS **objs;
-    LIT      *lit;
+    DG_LITS  *lit;
 
     map = gMapRecs_800B7910;
 
@@ -466,8 +466,8 @@ MAP *GM_FindMapZone(int zone)
 // clang-format off
 void GM_ReshadeObjs( DG_OBJS *obj )
 {
-    MAP *map;
-    LIT *lit;
+    MAP     *map;
+    DG_LITS *lit;
 
     map = GM_GetMap( obj->group_id );
     if( map == NULL ){

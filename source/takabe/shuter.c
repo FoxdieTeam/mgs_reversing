@@ -43,7 +43,7 @@ typedef struct _Work
 
 unsigned short shuter_msgs_800C3738[] = {0x418B, 0x3A02};
 
-DG_OBJS * Takabe_MakePreshade(int model, LIT *lit);
+DG_OBJS * Takabe_MakePreshade(int model, DG_LITS *lit);
 void      Takabe_FreeObjs(DG_OBJS *objs);
 
 void Shuter_800DFBD8(Work *);
@@ -244,32 +244,32 @@ int ShuterGetResources_800DF7F4(Work *work, int name, int map)
 
     Shuter_800DFF34(object, model, 0x57);
 
-    mdl = work->object.objs->def->model;
+    mdl = work->object.objs->def->models;
 
-    work->hzd_height = mdl->max.vy - mdl->min.vy;
+    work->hzd_height = mdl->uy - mdl->ly;
 
-    max.vx = mdl->min.vx;
-    max.vy = mdl->min.vy;
+    max.vx = mdl->lx;
+    max.vy = mdl->ly;
 
-    min.vx = mdl->max.vx;
-    min.vy = mdl->max.vy;
+    min.vx = mdl->ux;
+    min.vy = mdl->uy;
 
     DG_SetPos2(pos, rot);
     ReadRotMatrix(&world);
 
-    max.vz = min.vz = mdl->max.vz;
+    max.vz = min.vz = mdl->uz;
     THING_Hzd_800C45C4(&work->seg[0], &world, &max, &min);
 
-    max.vz = min.vz = mdl->min.vz;
+    max.vz = min.vz = mdl->lz;
     THING_Hzd_800C45C4(&work->seg[1], &world, &max, &min);
 
-    work->center.vx = (mdl->max.vx + mdl->min.vx) / 2;
-    work->center.vy = (mdl->max.vy + mdl->min.vy) / 2;
-    work->center.vz = (mdl->max.vz + mdl->min.vz) / 2;
+    work->center.vx = (mdl->ux + mdl->lx) / 2;
+    work->center.vy = (mdl->uy + mdl->ly) / 2;
+    work->center.vz = (mdl->uz + mdl->lz) / 2;
     DG_PutVector(&work->center, &work->center, 1);
 
-    work->target_size.vx = (mdl->max.vx - mdl->min.vx) / 2;
-    work->target_size.vz = (mdl->max.vz - mdl->min.vz) / 2 - 100;
+    work->target_size.vx = (mdl->ux - mdl->lx) / 2;
+    work->target_size.vz = (mdl->uz - mdl->lz) / 2 - 100;
     work->target_size.vy = 200;
 
     if (work->alert != 0)

@@ -258,9 +258,9 @@ int Snake03c2_800CDBC8()
 
     playerBodyObjs->def = GV_GetCache(GV_CacheID(GV_StrCode("snake"), 'k'));
 
-    count = playerBodyObjs->def->n_models;
-    mdl = playerBodyObjs->def->model;
-    mdl2 = &playerBodyObjs->def->model[0];
+    count = playerBodyObjs->def->n_x_models;
+    mdl = playerBodyObjs->def->models;
+    mdl2 = &playerBodyObjs->def->models[0];
     obj = &playerBodyObjs->objs[0];
     for (; count > 0; obj++, mdl2++, mdl++, count--)
     {

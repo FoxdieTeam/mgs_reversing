@@ -72,10 +72,10 @@ extern CONTROL *tenage_ctrls_800BDD30[16];
 extern int      tenage_ctrls_count_800BDD70;
 
 void Takabe_FreeObjs(DG_OBJS *objs);
-void Takabe_ReshadeModel(DG_OBJS *, LIT *);
+void Takabe_ReshadeModel(DG_OBJS *, DG_LITS *);
 void Takabe_RefreshObjectPacks(DG_OBJS *);
 
-DG_OBJS *Takabe_MakePreshade(int model, LIT *lit);
+DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
 
 void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
 
@@ -387,14 +387,14 @@ static int GetResources(Work *work, int name, int map)
     for (i = 0; i < 2; i++)
     {
         flap = &work->flr_obj[i];
-        mdl = flap->objs->def->model;
+        mdl = flap->objs->def->models;
         bound = flap->bounds;
 
-        xmax = mdl->min.vx;
-        xmin = mdl->max.vx;
+        xmax = mdl->lx;
+        xmin = mdl->ux;
 
-        zmax = mdl->min.vz;
-        zmin = mdl->max.vz;
+        zmax = mdl->lz;
+        zmin = mdl->uz;
 
         for (j = 4; j > 0; j--)
         {
@@ -472,10 +472,10 @@ static void InitPreshadeObject(Work *work, FLOOR_OBJ *flr_obj, int model_name, i
     flr_obj->objs = Takabe_MakePreshade(model_name, NULL);
     flr_obj->objs->flag = ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE );
 
-    mdl = flr_obj->objs->def->model;
-    flr_obj->f34.vx = mdl->max.vx - mdl->min.vx;
-    flr_obj->f34.vy = mdl->max.vy - mdl->min.vy;
-    flr_obj->f34.vz = mdl->max.vz - mdl->min.vz;
+    mdl = flr_obj->objs->def->models;
+    flr_obj->f34.vx = mdl->ux - mdl->lx;
+    flr_obj->f34.vy = mdl->uy - mdl->ly;
+    flr_obj->f34.vz = mdl->uz - mdl->lz;
 
     flr_obj->objs->objs[0].raise = work->raise;
 }

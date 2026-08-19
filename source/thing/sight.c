@@ -43,7 +43,7 @@ typedef struct SightPrimBufInfo_0x14
     char field_2[2];
 } SightPrimBufInfo_0x14;
 
-// TODO: this is describing the same data as SgtFile
+// TODO: this is describing the same data as DG_SGT
 // Contains the information necessary to obtain and animate the primitives for a certain aspect of the HUD.
 typedef struct SightPrimitiveBufferInfo
 {

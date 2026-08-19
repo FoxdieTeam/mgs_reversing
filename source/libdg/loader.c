@@ -26,7 +26,7 @@ static void LinkModelToParent(DG_MDL *mdl, DG_MDL *parent)
     // provides the indexing order for referencing the transformed vertex sections
     static unsigned char kVertexIndexingOrder[] = {0, 1, 3, 2};
 
-    vio = mdl->vertices;
+    vio = mdl->verts;
     flag = 0;
     fio = mdl->vindices;
 
@@ -49,7 +49,7 @@ static void LinkModelToParent(DG_MDL *mdl, DG_MDL *parent)
         return;
     }
 
-    vio2 = mdl->vertices;
+    vio2 = mdl->verts;
 
     for (iter = mdl->n_verts; iter > 0; iter--)
     {
@@ -82,38 +82,38 @@ static void LinkModelToParent(DG_MDL *mdl, DG_MDL *parent)
 int DG_LoadInitKmd(void *buf, int id)
 {
     DG_DEF *def = (DG_DEF *)buf;
-    DG_MDL *mdl = def->model;
-    int     remaining = def->n_models;
+    DG_MDL *mdl = def->models;
+    int     remaining = def->n_x_models;
 
     while (--remaining >= 0)
     {
-        if (mdl->vertices)
+        if (mdl->verts)
         {
-            (char *)mdl->vertices += (unsigned int)def;
+            (char *)mdl->verts += (unsigned int)def;
         }
         if (mdl->vindices)
         {
             (char *)mdl->vindices += (unsigned int)def;
         }
-        if (mdl->normals)
+        if (mdl->norms)
         {
-            (char *)mdl->normals += (unsigned int)def;
+            (char *)mdl->norms += (unsigned int)def;
         }
         if (mdl->nindices)
         {
             (char *)mdl->nindices += (unsigned int)def;
         }
-        if (mdl->texcoords)
+        if (mdl->uvs)
         {
-            (char *)mdl->texcoords += (unsigned int)def;
+            (char *)mdl->uvs += (unsigned int)def;
         }
-        if (mdl->materials)
+        if (mdl->texids)
         {
-            (char *)mdl->materials += (unsigned int)def;
+            (char *)mdl->texids += (unsigned int)def;
         }
         if (mdl->parent >= 0)
         {
-            LinkModelToParent(mdl, &def->model[mdl->parent]);
+            LinkModelToParent(mdl, &def->models[mdl->parent]);
         }
         ++mdl;
     }
@@ -150,7 +150,7 @@ int DG_LoadInitImg(void *buf, int id)
 
 int DG_LoadInitSgt(void *buf, int id)
 {
-    SgtFile *sgt = (SgtFile *)buf;
+    DG_SGT *sgt = (DG_SGT *)buf;
     sgt->unknown1 = (u_char *)sgt + (u_int)sgt->unknown1;
     sgt->unknown2 = (u_char *)sgt + (u_int)sgt->unknown2;
     sgt->unknown3 = (u_char *)sgt + (u_int)sgt->unknown3;
@@ -381,35 +381,35 @@ int DG_LoadInitKmdar(void *buf, int id)
     {
         DG_DEF *def = &kmd->def;
         int     cache_id;
-        int     n_models = def->n_models;
-        DG_MDL *mdl = &def->model[0];
+        int     n_models = def->n_x_models;
+        DG_MDL *mdl = &def->models[0];
 
         while (--n_models >= 0)
         {
-            (char *)mdl->vertices += offset;
+            (char *)mdl->verts += offset;
             if (mdl->vindices)
             {
                 (char *)mdl->vindices += offset;
             }
-            if (mdl->normals)
+            if (mdl->norms)
             {
-                (char *)mdl->normals += offset;
+                (char *)mdl->norms += offset;
             }
             if (mdl->nindices)
             {
                 (char *)mdl->nindices += offset;
             }
-            if (mdl->texcoords)
+            if (mdl->uvs)
             {
-                (char *)mdl->texcoords += offset;
+                (char *)mdl->uvs += offset;
             }
-            if (mdl->materials)
+            if (mdl->texids)
             {
-                (char *)mdl->materials += offset;
+                (char *)mdl->texids += offset;
             }
             if (mdl->parent >= 0)
             {
-                LinkModelToParent(mdl, &def->model[mdl->parent]);
+                LinkModelToParent(mdl, &def->models[mdl->parent]);
             }
             ++mdl;
         }
