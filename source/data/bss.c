@@ -234,7 +234,7 @@ DG_OBJS *BSS        StageObjs[32]; // 0x80 (128) bytes
 MAP BSS      gMapRecs_800B7910[16]; // 0x140 (320) bytes
 
 /* libdg/pshade.obj */
-DG_LitVertex BSS    DG_LitVertices_800B7A50[84]; // 0x7E0 (2016) bytes
+PLIGHT BSS    pshade_buffer[84]; // 0x7E0 (2016) bytes
 
 /* game/homing.obj */
 HOMING BSS   homing_targets[HOMING_MAX];

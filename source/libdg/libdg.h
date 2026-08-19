@@ -166,11 +166,12 @@ typedef struct FIXLIGHT
     DG_LIT *lights;
 } FIXLIGHT;
 
-typedef struct DG_LitVertex
+/* Should be local to pshade.c */
+typedef struct PLIGHT
 {
-    SVECTOR intensity[2];
+    SVECTOR point[2];
     CVECTOR color[2];
-} DG_LitVertex;
+} PLIGHT;
 
 /*---------------------------------------------------------------------------*/
 
