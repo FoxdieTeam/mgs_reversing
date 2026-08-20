@@ -1,0 +1,6 @@
+# Quick reference:
+#   git blame --ignore-revs-file .git-blame-ignore-revs
+#   git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# target.c: trim trailing whitespace
+b8f30f69fdcc2123b24c526f230f780a8dff8a15
