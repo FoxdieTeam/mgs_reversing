@@ -86,7 +86,7 @@ typedef struct _DG_OBJ {
         POLY_GT4        *packs[ 2 ];    // 0x54
 } DG_OBJ;
 
-typedef struct {
+typedef struct _DG_OBJS {
         MATRIX          world;          // 0x00
         MATRIX          *root;          // 0x20
         DG_DEF          *def;           // 0x24
@@ -118,17 +118,7 @@ enum {
 };
 // clang-format on
 
-/* TODO: Remove */
-typedef struct {    // libdg internal
-    DG_VECTOR min;
-    DG_VECTOR max;
-} DG_BOUND;
-
-struct _DG_PRIM;
-typedef POLY_FT4 * ( *TPRIM_FN )( struct _DG_PRIM *prim, POLY_FT4 *packs, int n_packs );
-
-typedef struct _DG_PRIM
-{
+typedef struct _DG_PRIM {
     MATRIX   world;
     MATRIX  *root;
     int      type;
@@ -145,43 +135,38 @@ typedef struct _DG_PRIM
     void    *packs[ 2 ];
     short    n_prims;
     void    *userdata;
-    TPRIM_FN handler;
+    void    *(*callback)(struct _DG_PRIM *, POLY_FT4 *, int);
 } DG_PRIM;
 
 #define MAX_TMPLIGHTS  8
 #define MAX_FIX_LIGHTS 8
 
 /* Should be local to light.c */
-typedef struct TLIGHT
-{
+typedef struct _TLIGHT {
     int    n_lights;
     DG_LIT lights[ MAX_TMPLIGHTS ];
 } TLIGHT;
 
 /* Should be local to light.c */
-typedef struct FIXLIGHT
-{
+typedef struct _FIXLIGHT {
     int     n_lights;
     DG_LIT *lights;
 } FIXLIGHT;
 
 /* Should be local to pshade.c */
-typedef struct PLIGHT
-{
+typedef struct _PLIGHT {
     SVECTOR point[2];
     CVECTOR color[2];
 } PLIGHT;
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct DG_Image
-{
+typedef struct _DG_Image {
     RECT          dim;
     unsigned char data[ 512 ];
 } DG_Image;
 
-typedef struct DG_CHANL
-{
+typedef struct _DG_CHANL {
     u_long   *ot[ 2 ]; // 257 pointers? // One for each active buffer
     short     ot_size;
     short     link;
@@ -204,7 +189,7 @@ typedef struct DG_CHANL
     DR_ENV    new_env[ 2 ];
 } DG_CHANL;
 
-enum DG_PRIM_TYPE {
+enum {
     DG_PRIM_LINE_F2,    // 0
     DG_PRIM_LINE_F3,    // 1
     DG_PRIM_LINE_F4,    // 2
@@ -249,8 +234,7 @@ enum {
 };
 // clang-format on
 
-enum DG_CHANL
-{
+enum {
     DG_SCREEN_CHANL,
     DG_BOUND_CHANL,
     DG_TRANS_CHANL,

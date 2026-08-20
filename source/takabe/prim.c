@@ -13,7 +13,7 @@ extern DG_CHANL DG_Chanls[3];
 
 /*---------------------------------------------------------------------------*/
 
-static POLY_FT4 *MakeIndividualRect3DPrimHandler(DG_PRIM *prim, POLY_FT4 *packs, int n_packs)
+static void *MakeIndividualRect3DPrimHandler(DG_PRIM *prim, POLY_FT4 *packs, int n_packs)
 {
     SVECTOR *verts;
     SVECTOR *in;
@@ -114,7 +114,7 @@ DG_PRIM *Takabe_MakeIndividualRect3DPrim(int n_prims, SVECTOR *pos)
 {
     DG_PRIM *prim = GM_MakePrim(DG_PRIM_FREEPACKS | DG_PRIM_POLY_FT4, n_prims, pos, NULL);
 
-    prim->handler = &MakeIndividualRect3DPrimHandler;
+    prim->callback = MakeIndividualRect3DPrimHandler;
     prim->n_prims = n_prims;
 
     return prim;

@@ -470,23 +470,40 @@ void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx)
     gte_strgb_s0(*(void **)0x1F800018);
 }
 
-static inline void copy_bounding_box_to_spad(DG_BOUND *bounds)
-{
-    DG_BOUND *bounding_box = (DG_BOUND *)SCRPAD_ADDR;
-    bounding_box->min.vx = bounds->min.vx;
-    bounding_box->min.vy = bounds->min.vy;
-    bounding_box->min.vz = bounds->min.vz;
+typedef struct {
+    int vx, vy, vz;
+} VECTOREX;
 
-    bounding_box->max.vx = bounds->max.vx;
-    bounding_box->max.vy = bounds->max.vy;
-    bounding_box->max.vz = bounds->max.vz;
+typedef	struct {
+    /* +0x00 */ VECTOREX bound_min;
+    /* +0x0C */ VECTOREX bound_max;
+    /* +0x18 */ /* TODO */
+} ScrPad;
+
+#define SCRPAD      ((ScrPad *)SCRPAD_ADDR)
+
+#define	BOUND_MIN   (SCRPAD->bound_min)
+#define	BOUND_MAX   (SCRPAD->bound_max)
+
+// #define	CURRENT		(&(SCRPAD->current))
+// #define	N_INSIDE    (&(SCRPAD->n_inside))
+// #define	INSIDE      (SCRPAD->inside)
+
+static inline void CopyBounds( int *input )
+{
+    BOUND_MIN.vx = input[ 0 ];
+    BOUND_MIN.vy = input[ 1 ];
+    BOUND_MIN.vz = input[ 2 ];
+    BOUND_MAX.vx = input[ 3 ];
+    BOUND_MAX.vy = input[ 4 ];
+    BOUND_MAX.vz = input[ 5 ];
 }
 
-static inline void set_svec_from_bounding_box(int i, SVECTOR *svec)
+static inline void GetClipBounds( int flag, SVECTOR *clip )
 {
-    svec->vx = i & 1 ? ((long *)SCRPAD_ADDR)[3] : ((long *)SCRPAD_ADDR)[0];
-    svec->vy = i & 2 ? ((long *)SCRPAD_ADDR)[4] : ((long *)SCRPAD_ADDR)[1];
-    svec->vz = i & 4 ? ((long *)SCRPAD_ADDR)[5] : ((long *)SCRPAD_ADDR)[2];
+    clip->vx = ( flag & 1 ) ? BOUND_MAX.vx : BOUND_MIN.vx;
+    clip->vy = ( flag & 2 ) ? BOUND_MAX.vy : BOUND_MIN.vy;
+    clip->vz = ( flag & 4 ) ? BOUND_MAX.vz : BOUND_MIN.vz;
 }
 
 void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bound_mode)
@@ -500,7 +517,6 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
     SVECTOR   *svec;
     DG_VECTOR *vec3_1;
     DG_VECTOR *vec3_2;
-    DG_BOUND  *mdl_bounds;
 
     n_models = objs->n_models;
     obj = (DG_OBJ *)&objs->objs;
@@ -517,8 +533,7 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
                 gte_SetTransMatrix(&obj->screen);
 
                 svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                mdl_bounds = (DG_BOUND *)&obj->model->lx;
-                copy_bounding_box_to_spad(mdl_bounds);
+                CopyBounds(&obj->model->lx);
                 vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
                 vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
                 i = 9;
@@ -528,7 +543,7 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
                     n_bounding_box_vec = 3;
                     do
                     {
-                        set_svec_from_bounding_box(i, svec);
+                        GetClipBounds(i, svec);
                         ++svec;
                         --i;
                         --n_bounding_box_vec;
@@ -714,7 +729,6 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx)
     SVECTOR     *svec;
     DG_VECTOR   *vec3_1;
     DG_VECTOR   *vec3_2;
-    DG_BOUND    *mdl_bounds;
     int          n_bounding_box_vec;
     unsigned int flag;
     short       *scrpad;
@@ -748,8 +762,7 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx)
                     gte_SetTransMatrix(&current_objs->objs->screen);
 
                     svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
-                    mdl_bounds = (DG_BOUND *)&current_objs->def->lx;
-                    copy_bounding_box_to_spad(mdl_bounds);
+                    CopyBounds(&current_objs->def->lx);
                     vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
                     vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
                     i = 9;
@@ -759,7 +772,7 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx)
                         n_bounding_box_vec = 3;
                         do
                         {
-                            set_svec_from_bounding_box(i, svec);
+                            GetClipBounds(i, svec);
                             ++svec;
                             --i;
                             --n_bounding_box_vec;
