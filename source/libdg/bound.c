@@ -2,7 +2,7 @@
 #include "common.h"
 #include "game/game.h"
 
-STATIC void DG_BoundIrTexture(DG_CHANL *chanl, int idx);
+static void UpdateThermalTexture( DG_CHANL *chanl, int index );
 
 typedef struct {
     int vx, vy, vz;
@@ -29,43 +29,69 @@ void DG_BoundStart( void )
     /* do nothing */
 }
 
-static inline void CopyBounds( int *input )
+static inline void MakeBoundVerts( int *bound )
 {
-    BOUND_MIN->vx = input[ 0 ];
-    BOUND_MIN->vy = input[ 1 ];
-    BOUND_MIN->vz = input[ 2 ];
-    BOUND_MAX->vx = input[ 3 ];
-    BOUND_MAX->vy = input[ 4 ];
-    BOUND_MAX->vz = input[ 5 ];
+    int i, j;
+    SVECTOR *clip;
+    DVECTOR *vxy;
+    long *vzp;
+
+    BOUND_MIN->vx = bound[ 0 ];
+    BOUND_MIN->vy = bound[ 1 ];
+    BOUND_MIN->vz = bound[ 2 ];
+    BOUND_MAX->vx = bound[ 3 ];
+    BOUND_MAX->vy = bound[ 4 ];
+    BOUND_MAX->vz = bound[ 5 ];
+
+    clip = CLIP;
+    vxy = VXY[ 0 ];
+    vzp = VZP[ 0 ];
+
+    for ( i = 9; i > 0; )
+    {
+        for ( j = 3; j > 0; j-- )
+        {
+            clip->vx = ( i & 1 ) ? BOUND_MAX->vx : BOUND_MIN->vx;
+            clip->vy = ( i & 2 ) ? BOUND_MAX->vy : BOUND_MIN->vy;
+            clip->vz = ( i & 4 ) ? BOUND_MAX->vz : BOUND_MIN->vz;
+            clip++;
+            i--;
+        }
+
+        clip = CLIP;
+        gte_stsxy3c( vxy );
+        gte_stsz3c( vzp );
+
+        gte_ldv3c( CLIP );
+        vxy += 3;
+        vzp += 3;
+        gte_rtpt_b();
+    }
+
+    gte_stsxy3c( vxy );
+    gte_stsz3c( vzp );
 }
 
-static inline void GetClipBounds( int flag, SVECTOR *clip )
+static inline int BoundCheckDepth( int xl, int yl, int xh, int yh )
 {
-    clip->vx = ( flag & 1 ) ? BOUND_MAX->vx : BOUND_MIN->vx;
-    clip->vy = ( flag & 2 ) ? BOUND_MAX->vy : BOUND_MIN->vy;
-    clip->vz = ( flag & 4 ) ? BOUND_MAX->vz : BOUND_MIN->vz;
-}
-
-static inline int GetDepthBoundMode( int xl, int yl, int xh, int yh )
-{
-    int i, mode;
+    int i, bound_flag;
     long *depth;
 
     if ( xh > 160 || xl < -160 || yh > 112 || yl < -112 )
     {
         /* prim partially on-screen */
-        mode = 1;
+        bound_flag = 1;
     }
     else
     {
         /* prim entirely on-screen */
-        mode = 2;
+        bound_flag = 2;
     }
 
     depth = VZP[ 1 ];
     for ( i = 8; i > 0; i-- )
     {
-        if ( *depth != 0 ) return mode;
+        if ( *depth != 0 ) return bound_flag;
         depth++;
     }
 
@@ -73,9 +99,9 @@ static inline int GetDepthBoundMode( int xl, int yl, int xh, int yh )
     return 0;
 }
 
-static inline int GetBoundMode( DVECTOR *vert )
+static inline int BoundCheck( DVECTOR *verts )
 {
-    int i, mode;
+    int i, bound_flag;
     int xl, yl, xh, yh;
 
     xh = xl = VXY[ 1 ][ 0 ].vx;
@@ -83,96 +109,66 @@ static inline int GetBoundMode( DVECTOR *vert )
 
     for ( i = 7; i > 0; i-- )
     {
-        vert++;
+        verts++;
 
-        if ( vert->vx < xl )
+        if ( verts->vx < xl )
         {
-            xl = vert->vx;
+            xl = verts->vx;
         }
-        else if ( vert->vx > xh )
+        else if ( verts->vx > xh )
         {
-            xh = vert->vx;
+            xh = verts->vx;
         }
 
-        if ( vert->vy < yl )
+        if ( verts->vy < yl )
         {
-            yl = vert->vy;
+            yl = verts->vy;
         }
-        else if ( vert->vy > yh )
+        else if ( verts->vy > yh )
         {
-            yh = vert->vy;
+            yh = verts->vy;
         }
     }
 
     if ( xl > 160 || xh < -160 || yl > 112 || yh < -112 )
     {
         /* prim completely off-screen */
-        mode = 0;
+        bound_flag = 0;
     }
     else
     {
         /* prim on-screen, check against depth */
-        mode = GetDepthBoundMode( xl, yl, xh, yh );
+        bound_flag = BoundCheckDepth( xl, yl, xh, yh );
     }
 
-    return mode;
+    return bound_flag;
 }
 
-STATIC void DG_BoundObjs( DG_OBJS *objs, int pack, int flag, int check )
+static void BoundObjs( DG_OBJS *objs, int pack, int flag, int arg_flag )
 {
-    int i, j, mode, n_models;
+    int n_models, bound_flag;
     DG_OBJ *obj;
-    SVECTOR *clip;
-    DVECTOR *vxy;
-    long *vzp;
 
     obj = objs->objs;
     for ( n_models = objs->n_models; n_models > 0; n_models-- )
     {
-        mode = 0;
+        bound_flag = 0;
 
-        if ( check )
+        if ( arg_flag != 0 )
         {
-            mode = 2;
+            bound_flag = 2;
 
             if ( flag & DG_FLAG_BOUND )
             {
                 gte_SetRotMatrix( &obj->screen );
                 gte_SetTransMatrix( &obj->screen );
-
-                CopyBounds( &obj->model->lx );
-                clip = CLIP;
-                vxy = VXY[ 0 ];
-                vzp = VZP[ 0 ];
-
-                for ( i = 9; i > 0; )
-                {
-                    for ( j = 3; j > 0; j-- )
-                    {
-                        GetClipBounds( i, clip );
-                        clip++;
-                        i--;
-                    }
-
-                    clip = CLIP;
-                    gte_stsxy3c( vxy );
-                    gte_stsz3c( vzp );
-
-                    gte_ldv3c( CLIP );
-                    vxy += 3;
-                    vzp += 3;
-                    gte_rtpt_b();
-                }
-
-                gte_stsxy3c( vxy );
-                gte_stsz3c( vzp );
-
-                mode = GetBoundMode( VXY[ 1 ] );
+                MakeBoundVerts( &obj->model->lx );
+                bound_flag = BoundCheck( VXY[ 1 ] );
             }
         }
 
-        obj->bound_mode = mode;
-        if ( mode != 0 )
+        obj->bound_mode = bound_flag;
+        if ( bound_flag != 0 )
         {
             obj->free_count = 8;
 
@@ -187,143 +183,51 @@ STATIC void DG_BoundObjs( DG_OBJS *objs, int pack, int flag, int check )
                 }
             }
         }
-        else if ( obj->packs[ pack ] != NULL && --obj->free_count <= 0 )
+        else
         {
-            DG_FreeObjPacket( obj, pack );
+            if ( obj->packs[ pack ] != NULL && --obj->free_count <= 0 )
+            {
+                DG_FreeObjPacket( obj, pack );
+            }
         }
 
         obj++;
     }
 }
 
-void DG_BoundChanl(DG_CHANL *chanl, int idx)
+void DG_BoundChanl( DG_CHANL *chanl, int index )
 {
-    int          i, i2, i3, xl, yl, xh, yh;
-    int          n_objs;
-    int          bound_mode;
-    DG_OBJS    **objs;
-    int          local_group_id;
-    DVECTOR     *dvec;
-    SVECTOR     *clip;
-    DG_VECTOR   *vxy;
-    DG_VECTOR   *vzp;
-    int          j;
-    long        *depth;
-    unsigned int flag;
+    int group_id, n_objs, flag, bound_flag;
+    DG_OBJS **queue, *objs;
 
-    DG_Clip(&chanl->clip_rect, chanl->clip_distance);
+    DG_Clip( &chanl->clip_rect, chanl->clip_distance );
 
-    objs = chanl->queue;
-    n_objs = chanl->objs_index;
-    local_group_id = DG_CurrentGroupID;
-
-    for (; n_objs > 0; --n_objs)
+    queue = chanl->queue;
+    group_id = DG_CurrentGroupID;
+    for ( n_objs = chanl->objs_index; n_objs > 0; n_objs-- )
     {
-        DG_OBJS *current_objs = *objs;
-        objs++;
-        flag = current_objs->flag;
+        objs = *queue++;
+        flag = objs->flag;
+        bound_flag = 0;
 
-        bound_mode = 0;
-        if (!(flag & DG_FLAG_INVISIBLE))
+        if ( !( flag & DG_FLAG_INVISIBLE ) && ( objs->group_id == 0 || ( objs->group_id & group_id ) ) )
         {
-            if (!current_objs->group_id || (current_objs->group_id & local_group_id))
+            bound_flag = 2;
+
+            if ( flag & DG_FLAG_GBOUND )
             {
-                bound_mode = 2;
-                if (flag & DG_FLAG_GBOUND)
-                {
-                    gte_SetRotMatrix(&current_objs->objs->screen);
-                    gte_SetTransMatrix(&current_objs->objs->screen);
-
-                    clip = CLIP;
-                    CopyBounds(&current_objs->def->lx);
-                    vxy = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
-                    vzp = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
-                    i = 9;
-
-                    while (i > 0)
-                    {
-                        j = 3;
-                        do
-                        {
-                            GetClipBounds(i, clip);
-                            ++clip;
-                            --i;
-                            --j;
-                        } while (j > 0);
-
-                        clip = CLIP;
-                        gte_stsxy3c(vxy);
-                        gte_stsz3c(vzp);
-
-                        gte_ldv3c(CLIP);
-                        vxy++;
-                        vzp++;
-                        gte_rtpt_b();
-                    }
-
-                    gte_stsxy3c(vxy);
-                    gte_stsz3c(vzp);
-
-                    // probably start of another inline func
-                    xl = *(short *)(SCRPAD_ADDR + 0x3C);
-                    yl = *(short *)(SCRPAD_ADDR + 0x3E);
-                    xh = xl;
-                    yh = yl;
-                    dvec = (DVECTOR *)(SCRPAD_ADDR + 0x3C);
-
-                    for (i2 = 7; i2 > 0; --i2)
-                    {
-                        dvec++;
-                        if (dvec->vx < xl)
-                        {
-                            xl = dvec->vx;
-                        }
-                        else
-                        {
-                            if (xh < dvec->vx)
-                                xh = dvec->vx;
-                        }
-                        if (dvec->vy < yl)
-                        {
-                            yl = dvec->vy;
-                        }
-                        else
-                        {
-                            if (yh < dvec->vy)
-                                yh = dvec->vy;
-                        }
-                    }
-
-                    if ((xl >= 0xA1) || (xh < -0xA0) || (yl >= 0x71) || (yh < -0x70))
-                    {
-                        bound_mode = 0;
-                    }
-                    else
-                    {
-                        bound_mode = ((xh >= 0xA1) || (xl < -0xA0) || (yh >= 0x71) || (yl < -0x70)) ? 1 : 2;
-                        depth = (long *)(SCRPAD_ADDR + 0x6C);
-                        i3 = 8;
-                        while (i3 > 0)
-                        {
-                            --i3;
-                            if (*depth)
-                            {
-                                goto END;
-                            }
-                            depth++;
-                        }
-                        bound_mode = 0;
-                    }
-                END:
-                }
+                gte_SetRotMatrix( &objs->objs[ 0 ].screen );
+                gte_SetTransMatrix( &objs->objs[ 0 ].screen );
+                MakeBoundVerts( &objs->def->lx );
+                bound_flag = BoundCheck( VXY[ 1 ] );
             }
         }
-        // loc_80018CE0:
-        current_objs->bound_mode = bound_mode;
-        DG_BoundObjs(current_objs, idx, flag, bound_mode);
+
+        objs->bound_mode = bound_flag;
+        BoundObjs( objs, index, flag, bound_flag );
     }
 
-    DG_BoundIrTexture(chanl, idx);
+    UpdateThermalTexture( chanl, index );
 }
 
 void DG_BoundEnd( void )
@@ -331,27 +235,25 @@ void DG_BoundEnd( void )
     /* do nothing */
 }
 
-// Possibly a different file.
+static DG_TEX EmptyTex = { 0 };
 
-STATIC DG_TEX DG_UnknownTexture = {0};
-
-/* Replace the CLUT for this model with a plain white one for thermal goggles */
-STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx)
+static void SetThermalClut( DG_OBJ *obj, int index )
 {
-    int       n_packs;
-    POLY_GT4 *pPack = obj->packs[idx];
-    short     val = 0x3FFF;
-    if (pPack && pPack->clut != val)
-    {
-        while (obj)
-        {
-            n_packs = obj->n_packs;
-            while (n_packs > 0)
-            {
-                pPack->clut = val;
+    int n_packs;
+    u_short clut;
+    POLY_GT4 *packs;
 
-                ++pPack;
-                --n_packs;
+    packs = obj->packs[ index ];
+    clut = getClut( 1008, 255 );
+
+    if ( packs != NULL && packs->clut != clut )
+    {
+        while ( obj != NULL )
+        {
+            for ( n_packs = obj->n_packs; n_packs > 0; n_packs-- )
+            {
+                packs->clut = clut;
+                packs++;
             }
 
             obj = obj->extend;
@@ -359,69 +261,63 @@ STATIC void DG_WriteObjClut(DG_OBJ *obj, int idx)
     }
 }
 
-/* Restore the CLUT for this model */
-STATIC void DG_WriteObjClutUV(DG_OBJ *obj, int idx)
+static void RestoreThermalClut( DG_OBJ *obj, int index )
 {
-    unsigned short id;
-    POLY_GT4      *pack;
-    int            n_packs;
-    short         *tex_ids;
-    DG_TEX        *texture;
-    unsigned short current_id;
+    int n_packs;
+    u_short id, next_id;
+    DG_TEX *tex;
+    POLY_GT4 *packs;
+    short *texids;
 
-    pack = obj->packs[idx];
-
-    if (pack && pack->clut == 0x3FFF)
+    packs = obj->packs[ index ];
+    if ( packs != NULL && packs->clut == getClut( 1008, 255 ) )
     {
-        texture = &DG_UnknownTexture;
+        tex = &EmptyTex;
         id = 0;
-        while (obj)
+
+        while ( obj != NULL )
         {
-            tex_ids = obj->model->texids;
-            for (n_packs = obj->n_packs; n_packs > 0; --n_packs)
+            texids = obj->model->texids;
+
+            for ( n_packs = obj->n_packs; n_packs > 0; n_packs-- )
             {
-                current_id = *tex_ids;
-                tex_ids++;
-                if ((current_id & 0xFFFF) != id)
+                next_id = *texids++;
+
+                if ( next_id != id )
                 {
-                    id = current_id;
-                    texture = DG_GetTexture(id);
+                    id = next_id;
+                    tex = DG_GetTexture( id );
                 }
-                pack->clut = texture->clut;
-                pack++;
+
+                packs->clut = tex->clut;
+                packs++;
             }
+
             obj = obj->extend;
         }
     }
 }
 
-// there must be a way to match this without the repetition
-STATIC void DG_BoundIrTexture(DG_CHANL *chanl, int idx)
+static void UpdateThermalTexture( DG_CHANL *chanl, int index )
 {
-    DG_OBJS **queue;
-    int       n_objects;
-    DG_OBJS  *objs;
-    DG_OBJ   *obj;
-    int       n_models;
+    int n_objs, n_models;
+    DG_OBJS **queue, *objs;
+    DG_OBJ *obj;
 
     queue = chanl->queue;
-    if (GM_GameStatus & STATE_THERMG)
+    if ( GM_GameStatus & STATE_THERMG )
     {
-        for (n_objects = chanl->objs_index; n_objects > 0; n_objects--)
+        for ( n_objs = chanl->objs_index; n_objs > 0; n_objs-- )
         {
             objs = *queue++;
 
-            if (objs->flag & DG_FLAG_IRTEXTURE && objs->bound_mode != 0)
+            if ( ( objs->flag & DG_FLAG_IRTEXTURE ) && objs->bound_mode != 0 )
             {
                 obj = objs->objs;
 
-                for (n_models = objs->n_models; n_models > 0; n_models--)
+                for ( n_models = objs->n_models; n_models > 0; n_models-- )
                 {
-                    if (obj->bound_mode != 0)
-                    {
-                        DG_WriteObjClut(obj, idx);
-                    }
-
+                    if ( obj->bound_mode != 0 ) SetThermalClut( obj, index );
                     obj++;
                 }
             }
@@ -429,17 +325,17 @@ STATIC void DG_BoundIrTexture(DG_CHANL *chanl, int idx)
     }
     else
     {
-        for (n_objects = chanl->objs_index; n_objects > 0; n_objects--)
+        for ( n_objs = chanl->objs_index; n_objs > 0; n_objs-- )
         {
             objs = *queue++;
 
-            if (objs->flag & DG_FLAG_IRTEXTURE && objs->bound_mode != 0)
+            if ( ( objs->flag & DG_FLAG_IRTEXTURE ) && objs->bound_mode != 0 )
             {
                 obj = objs->objs;
 
-                for (n_models = objs->n_models; n_models > 0; n_models--)
+                for ( n_models = objs->n_models; n_models > 0; n_models-- )
                 {
-                    DG_WriteObjClutUV(obj, idx);
+                    RestoreThermalClut( obj, index );
                     obj++;
                 }
             }

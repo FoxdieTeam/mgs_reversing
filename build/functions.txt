@@ -133,12 +133,12 @@
 80018574 36 DG_SetBackGroundTile
 80018598 28 DG_SetChanlSystemUnits
 800185B4 8 DG_BoundStart
-800185BC 1000 DG_BoundObjs
+800185BC 1000 BoundObjs
 800189A4 892 DG_BoundChanl
 80018D20 8 DG_BoundEnd
-80018D28 104 DG_WriteObjClut
-80018D90 204 DG_WriteObjClutUV
-80018E5C 328 DG_BoundIrTexture
+80018D28 104 SetThermalClut
+80018D90 204 RestoreThermalClut
+80018E5C 328 UpdateThermalTexture
 80018FA4 160 DG_SplitMemory
 80019044 84 DG_InitDividePacks
 80019098 8 DG_DivideStart
