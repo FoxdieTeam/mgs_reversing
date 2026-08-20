@@ -545,16 +545,16 @@ static int OnlineTarget(SVECTOR *from, SVECTOR *to, TARGET *def, SVECTOR *hit)
 
     f0 = from->vx;
     if ((df = to->vx - f0) == 0) goto cutx_failed;
-    cx = def->center.vx; sx = def->size.vx;    
-    if (cx < f0)                                                                
-    {                                                                                                          
-        cx += sx;                                                                 
-        if (cx > f0) cx = f0;                                                                                                                                                                         
-    }                                                                                                          
-    else                                                                                                       
-    {                                                                                                          
-        cx -= sx;                                                                 
-        if (cx < f0) cx = f0;                                                                                                                                                              
+    cx = def->center.vx; sx = def->size.vx;
+    if (cx < f0)
+    {
+        cx += sx;
+        if (cx > f0) cx = f0;
+    }
+    else
+    {
+        cx -= sx;
+        if (cx < f0) cx = f0;
     }
     c1 = from->vy + (to->vy - from->vy) * (cx - f0) / df;
     if (c1 < def->center.vy - def->size.vy ||
@@ -569,16 +569,16 @@ static int OnlineTarget(SVECTOR *from, SVECTOR *to, TARGET *def, SVECTOR *hit)
 cutx_failed:
     f0 = from->vy;
     if ((df = to->vy - f0) == 0) goto cuty_failed;
-    cy = def->center.vy; sy = def->size.vy;    
-    if (cy < f0)                                                                
-    {                                                                                                          
-        cy += sy;                                                                 
-        if (cy > f0) cy = f0;                                                                                                                                                                         
-    }                                                                                                          
-    else                                                                                                       
-    {                                                                                                          
-        cy -= sy;                                                                 
-        if (cy < f0) cy = f0;                                                                                                                                                              
+    cy = def->center.vy; sy = def->size.vy;
+    if (cy < f0)
+    {
+        cy += sy;
+        if (cy > f0) cy = f0;
+    }
+    else
+    {
+        cy -= sy;
+        if (cy < f0) cy = f0;
     }
     c1 = from->vz + (to->vz - from->vz) * (cy - f0) / df;
     if (c1 < def->center.vz - def->size.vz ||
@@ -594,15 +594,15 @@ cuty_failed:
     f0 = from->vz;
     if ((df = to->vz - f0) == 0) goto cutz_failed;
     cz = def->center.vz; sz = def->size.vz;
-    if (cz < f0)                                                                
-    {                                                                                                          
-        cz += sz;                                                                 
-        if (cz > f0) cz = f0;                                                                                                                                                                         
-    }                                                                                                          
-    else                                                                                                       
-    {                                                                                                          
-        cz -= sz;                                                                 
-        if (cz < f0) cz = f0;                                                                                                                                                              
+    if (cz < f0)
+    {
+        cz += sz;
+        if (cz > f0) cz = f0;
+    }
+    else
+    {
+        cz -= sz;
+        if (cz < f0) cz = f0;
     }
     c1 = from->vx + (to->vx - from->vx) * (cz - f0) / df;
     if (c1 < def->center.vx - def->size.vx ||
