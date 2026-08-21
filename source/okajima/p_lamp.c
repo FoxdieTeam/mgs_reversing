@@ -60,7 +60,7 @@ void PLampLookAt_800CC9F4(Work *work, SVECTOR *eye, SVECTOR *center)
 
     GM_PadVibration = GV_RandU(2);
     GM_PadVibration2 = work->field_1CC * 255 / 42;
-    DG_LookAt(&DG_Chanls[1], eye, center, 320);
+    DG_MakeCameraMatrix(&DG_Chanls[1], eye, center, 320);
 }
 
 void PLamp_800CCBA8(POLY_FT4 *poly, DG_TEX *tex, int r, int g, int b)

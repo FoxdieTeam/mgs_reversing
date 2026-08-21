@@ -304,7 +304,7 @@ static void Act(Work *work)
 
     if (work->f2C-- > 0)
     {
-        DG_FreeObjectQueue();
+        DG_StopMainChanlSystem();
         return;
     }
 

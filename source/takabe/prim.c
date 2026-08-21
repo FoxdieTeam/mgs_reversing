@@ -17,7 +17,7 @@ static void *MakeIndividualRect3DPrimHandler(DG_PRIM *prim, POLY_FT4 *packs, int
 {
     SVECTOR *verts;
     SVECTOR *in;
-    int      clip_dist;
+    int      screen;
     int      zdiv;
     int      range;
     int      x, y;
@@ -26,7 +26,7 @@ static void *MakeIndividualRect3DPrimHandler(DG_PRIM *prim, POLY_FT4 *packs, int
     verts = prim->pos;
     in = (SVECTOR *)getScratchAddr(0);
 
-    clip_dist = DG_Chanls[1].clip_distance;
+    screen = DG_Chanls[1].screen;
 
     while (--n_packs >= 0)
     {
@@ -34,7 +34,7 @@ static void *MakeIndividualRect3DPrimHandler(DG_PRIM *prim, POLY_FT4 *packs, int
 
         if (zdiv != 0)
         {
-            range = (verts->pad * clip_dist) / zdiv;
+            range = (verts->pad * screen) / zdiv;
 
             SSTOREL(zdiv, &packs->tag);
 

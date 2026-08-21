@@ -91,21 +91,17 @@ static CVECTOR *NoShadeRGB( DG_MDL *mdl, CVECTOR *rgbs )
     int i;
 
     color = 0x3C808080;
-    if (mdl->flags & DG_MODEL_TRANS)
-    {
-        color = 0x3E808080;
-    }
+    if ( mdl->flag & DG_MODEL_TRANS ) color |= 0x2000000;
 
-    for (i = mdl->n_faces * 4; i > 0; i--)
+    for ( i = mdl->n_faces * 4; i > 0; i-- )
     {
-        LSTORE(color, rgbs);
+        LSTORE( color, rgbs );
         rgbs++;
     }
-
     return rgbs;
 }
 
-static inline void *GetLightMatrix(void)
+static inline void *GetLightMatrix( void )
 {
     return &DG_LightMatrix;
 }
@@ -131,7 +127,7 @@ static CVECTOR *ShadeRGB( DG_MDL *mdl, CVECTOR *cvec, DG_OBJS *objs )
 
     pPacketCode = (CVECTOR *)&DG_PacketCode[0];
 
-    if (mdl->flags & DG_MODEL_TRANS)
+    if (mdl->flag & DG_MODEL_TRANS)
     {
         pPacketCode = (CVECTOR *)&DG_PacketCode[1];
     }
@@ -234,7 +230,7 @@ int DG_MakePreshade( DG_OBJS *objs, DG_LIT *light, int n_lights )
 
         MakeLights(model, light, n_lights);
 
-        if (model->flags & DG_MODEL_UNLIT)
+        if (model->flag & DG_MODEL_UNLIT)
         {
             cvec = NoShadeRGB(model, cvec);
         }

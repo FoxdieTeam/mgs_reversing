@@ -222,7 +222,7 @@ static int GM_Command_map(char *top)
     if (GCL_GetOption('b'))
     {
         GCL_StrToSV(GCL_NextStr(), (short *)&colorVec);
-        DG_SetRGB(colorVec.vx, colorVec.vy, colorVec.vz);
+        DG_SetBackGroundColor(colorVec.vx, colorVec.vy, colorVec.vz);
     }
 
     return GCL_OK;

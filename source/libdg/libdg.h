@@ -161,10 +161,10 @@ typedef struct _PLIGHT {
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct _DG_Image {
+typedef struct _DG_IMAGE {
     RECT          dim;
     unsigned char data[ 512 ];
-} DG_Image;
+} DG_IMAGE;
 
 typedef struct _DG_CHANL {
     u_long   *ot[ 2 ]; // 257 pointers? // One for each active buffer
@@ -174,7 +174,7 @@ typedef struct _DG_CHANL {
     short     dirty;
     MATRIX    eye_inv;
     MATRIX    eye;
-    short     clip_distance;
+    short     screen;
     short     queue_size;
     short     prim_index;
     short     objs_index;
@@ -339,8 +339,8 @@ extern int DG_FrameRate;
 extern int DG_HikituriFlag;
 extern int DG_HikituriFlagOld;
 
-void DG_ResetPipeline( void );
-void DG_ResetTextureCache( void );
+void DG_ResetSystem( void );
+void DG_ResetTexture( void );
 void DG_StartDaemon(void);
 
 /* bound.c */
@@ -350,30 +350,29 @@ void DG_BoundEnd( void );
 
 /* chanl.c */
 #ifndef __LIBDG_CHANL_C__
-extern short N_ChanlPerfMax;
-extern short word_800AB982;
+extern short DG_ChanlTimeMax;
+extern short DG_EndTime;
 #endif
 
-void DG_InitChanlSystem( int width );
-void DG_DrawOTag( int which );
+void DG_InitChanlSystem( int shift );
+void DG_DrawChanlSystem( int which );
 void DG_ClearChanlSystem( int which );
-void DG_RenderPipeline( int idx );
-void DG_SetRenderChanlDrawEnv( int idx, DRAWENV *pDrawEnv );
-int  DG_QueueObjs( DG_OBJS *prim );
+void DG_SortChanlSystem( int which );
+void DG_SetDrawEnv( int chanl, DRAWENV *env );
+int  DG_QueueObjs( DG_OBJS *objs );
 void DG_DequeueObjs( DG_OBJS *objs );
 int  DG_QueuePrim( DG_PRIM *prim );
 void DG_DequeuePrim( DG_PRIM *prim );
-void DG_InitDrawEnv( DRAWENV *pDrawEnv, int clipX1, int clipY1, int clipX2, int clipY2 );
-void DG_FreeObjectQueue( void );
+void DG_SetDefDrawEnv( DRAWENV *env, int x, int y, int w, int h );
+void DG_StopMainChanlSystem( void );
 void DG_RestartMainChanlSystem( void );
-void DG_SetBackgroundRGB( int r, int g, int b );
-void DG_SetRGB( int r, int b, int g );
-void DG_BackGroundBlack( void );
-void DG_BackGroundNormal( void );
-void DG_SetBackGroundTile( TILE *tile );
-DG_CHANLFUNC DG_SetChanlSystemUnits( int idx, DG_CHANLFUNC newfunc );
+void DG_SetBackGroundColor( int r, int b, int g );
+void DG_ClearBackGroundColor( void );
+void DG_RestoreBackGroundColor( void );
+void DG_SetBackgroundPrim( void *prim );
+DG_CHANLFUNC DG_SetChanlSystemUnits( int num, DG_CHANLFUNC addr );
 
-/* display.c */
+/* frame.c */
 extern int DG_UnDrawFrameCount;
 #ifndef __LIBDG_DISPLAY_C__
 extern int DG_CurrentGroupID;
@@ -381,12 +380,12 @@ extern short DG_ClipMin[2];
 extern short DG_ClipMax[2];
 #endif
 
-void DG_InitDispEnv( int x, short y, short w, short h, int clipH );
+void DG_InitDisplay( int x, int y, int w, int h, int shift );
 void DG_ChangeReso( int );
-void DG_RenderPipeline_Init( void );
-void DG_SwapFrame( void );
-void DG_RenderFrame( void );
-void DG_LookAt( DG_CHANL *chanl, SVECTOR *eye, SVECTOR *center, int clip_distance );
+void DG_InitFrameSystem( void );
+void DG_StartFrame( void );
+void DG_EndFrame( void );
+void DG_MakeCameraMatrix( DG_CHANL *chanl, SVECTOR *from, SVECTOR *to, int screen );
 void DG_AdjustOverscan( MATRIX *matrix );
 void DG_Clip( RECT *clip_rect, int dist );
 void DG_OffsetDispEnv( int offset );
@@ -442,8 +441,8 @@ void DG_ReflectMatrix( SVECTOR *svec, MATRIX *in, MATRIX *out );
 /* o.c */
 DG_OBJS *DG_MakeObjs( DG_DEF *def, int flag, int chanl );
 void     DG_FreeObjs( DG_OBJS *objs );
-void     DG_SetObjsRots( DG_OBJS *objs, SVECTOR *rot );
-void     DG_SetObjsMovs( DG_OBJS *objs, SVECTOR *mov );
+void     DG_SetJointFrame( DG_OBJS *objs, SVECTOR *rots );
+void     DG_SetSlideFrame( DG_OBJS *objs, SVECTOR *movs );
 
 /* opack.c */
 void DG_WriteObjPacketUV( DG_OBJ* obj, int idx );
@@ -507,8 +506,8 @@ void DG_SetTexture( int id, int tp, int abr, RECT *img, RECT *pal, int col );
 void DG_GetTextureRect( DG_TEX *tex, RECT *rect );
 void DG_GetClutRect( DG_TEX *tex, RECT *rect );
 void DG_ClearResidentTexture( void );
-void DG_SaveResidentTextureCache( void );
-void DG_LoadResidentTextureCache( void );
+void DG_SaveResidentTexture( void );
+void DG_ResetResidentTexture( void );
 
 /* trans.c */
 void DG_TransStart( void );

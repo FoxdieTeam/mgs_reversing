@@ -186,13 +186,13 @@ static void GM_ResetSystem(void)
 {
     menuman_Reset();
     GV_ResetSystem();
-    DG_ResetPipeline();
+    DG_ResetSystem();
     GCL_ResetSystem();
 }
 
 static void GM_ResetMemory(void)
 {
-    DG_ResetTextureCache();
+    DG_ResetTexture();
     GV_ResetMemory();
     GM_ResetChara();
 }
@@ -402,7 +402,7 @@ static void Act(gameWork *work)
         if (FS_ResidentCacheDirty)
         {
             GV_SaveResidentFileCache();
-            DG_SaveResidentTextureCache();
+            DG_SaveResidentTexture();
         }
 
         GM_ResetMap();

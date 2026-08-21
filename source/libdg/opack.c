@@ -1,204 +1,164 @@
 #include "libdg.h"
 #include "common.h"
 
-STATIC DG_TEX dword_8009D3C4 = {0};
-
-STATIC int DG_AllocPacks( DG_OBJ *obj, int idx )
+static int AllocPacks( DG_OBJ *obj, int index )
 {
-    int     total_packs = 0;
-    DG_OBJ *object = obj;
+    int size;
+    DG_OBJ *iter;
 
-    while (object)
+    size = 0;
+    for ( iter = obj; iter != NULL; iter = iter->extend )
     {
-        total_packs += object->n_packs;
-        object = object->extend;
+        size += iter->n_packs;
     }
 
-    if (!GV_AllocMemory2(idx, total_packs * sizeof(POLY_GT4), (void **)&obj->packs[idx]))
-    {
-        return -1;
-    }
+    size *= sizeof( POLY_GT4 );
+    if ( GV_AllocMemory2( index, size, (void **)&obj->packs[ index ] ) == NULL ) return -1;
     return 0;
 }
 
-STATIC void DG_InitPolyGT4Pack( DG_OBJ *obj, int idx )
+static void InitPacks( DG_OBJ *obj, int index )
 {
-    POLY_GT4 *pack;
+    POLY_GT4 *packs;
+    int color, i;
 
-    int rgbCode = 0x3E808080;
+    color = 0x3E808080;
+    if ( !( obj->model->flag & DG_MODEL_TRANS ) ) color &= ~0x2000000;
 
-    if ( !(obj->model->flags & DG_MODEL_TRANS) )
+    packs = obj->packs[ index ];
+    for ( ; obj != NULL; obj = obj->extend )
     {
-        rgbCode = 0x3C808080;
-    }
-
-    pack = obj->packs[idx];
-    while (obj)
-    {
-        int n_packs;
-        for (n_packs = obj->n_packs; n_packs > 0; n_packs--)
+        for ( i = obj->n_packs; i > 0; i-- )
         {
-            setPolyGT4(pack);
-
-            *(int *)&pack->r0 = rgbCode;
-            *(int *)&pack->r1 = rgbCode;
-            *(int *)&pack->r2 = rgbCode;
-            *(int *)&pack->r3 = rgbCode;
-            pack++;
-        }
-        obj = obj->extend;
-    }
-}
-
-static inline void Apply( DG_TEX *tex, unsigned char *texcoords, POLY_GT4 *pack )
-{
-    unsigned int u0 = tex->off_x;
-    unsigned int v0 = tex->off_y;
-    int          u11 = tex->w + 1;
-    int          v11 = tex->h + 1;
-
-    pack->u0 = ((texcoords[0] * u11) / 256) + u0;
-    pack->v0 = ((texcoords[1] * v11) / 256) + v0;
-    pack->u1 = ((texcoords[2] * u11) / 256) + u0;
-    pack->v1 = ((texcoords[3] * v11) / 256) + v0;
-    pack->u2 = ((texcoords[6] * u11) / 256) + u0;
-    pack->v2 = ((texcoords[7] * v11) / 256) + v0;
-    pack->u3 = ((texcoords[4] * u11) / 256) + u0;
-    pack->v3 = ((texcoords[5] * v11) / 256) + v0;
-    pack->tpage = tex->tpage;
-    pack->clut = tex->clut;
-}
-
-void DG_WriteObjPacketUV( DG_OBJ* obj, int idx )
-{
-    unsigned short  id;
-    POLY_GT4       *pack;
-    int             n_packs;
-    short          *tex_ids;
-    DG_TEX         *texture;
-    unsigned short  current_id;
-    unsigned char  *texcoords;
-
-    pack = obj->packs[ idx ];
-
-    if ( pack )
-    {
-        texture = &dword_8009D3C4;
-        id = 0;
-
-        while ( obj )
-        {
-            tex_ids = obj->model->texids;
-            texcoords = obj->model->uvs;
-            for (n_packs = obj->n_packs; n_packs > 0 ; --n_packs )
-            {
-                current_id = *tex_ids;
-                tex_ids++;
-
-                if ( current_id != id )
-                {
-                    id = current_id;
-                    texture = DG_GetTexture( current_id );
-                }
-
-                Apply(texture, texcoords, pack);
-                pack++;
-                texcoords += 8;
-            }
-            obj = obj->extend;
+            setPolyGT4( packs );
+            LSTORE( color, &packs->r0 );
+            LSTORE( color, &packs->r1 );
+            LSTORE( color, &packs->r2 );
+            LSTORE( color, &packs->r3 );
+            packs++;
         }
     }
 }
 
-void DG_WriteObjPacketRGB( DG_OBJ *obj, int idx )
+void DG_WriteObjPacketUV( DG_OBJ *obj, int index )
 {
-    POLY_GT4 *pack = obj->packs[idx];
-    if (pack && obj)
-    {
-        do {
-            CVECTOR *pack_rgbs = obj->rgbs;
-            if (pack_rgbs)
-            {
-                int n_packs;
-                for (n_packs = obj->n_packs; n_packs > 0; --n_packs)
-                {
-                    LCOPY2(&pack_rgbs[0], &pack->r0, &pack_rgbs[1], &pack->r1);
-                    LCOPY2(&pack_rgbs[3], &pack->r2, &pack_rgbs[2], &pack->r3);
+    static DG_TEX EmptyTex = { 0 };
 
-                    ++pack;
-                    pack_rgbs += 4; // to next set of rgb
-                }
+    int x, y, w, h, i;
+    u_short id, next_id;
+    DG_TEX *tex;
+    POLY_GT4 *packs;
+    u_short *texids;
+    u_char *texcoords;
+
+    if ( ( packs = obj->packs[ index ] ) == NULL ) return;
+
+    tex = &EmptyTex;
+    id = 0;
+
+    for ( ; obj != NULL; obj = obj->extend )
+    {
+        texids = obj->model->texids;
+        texcoords = obj->model->uvs;
+
+        for ( i = obj->n_packs; i > 0 ; i-- )
+        {
+            next_id = *texids++;
+
+            if ( next_id != id )
+            {
+                id = next_id;
+                tex = DG_GetTexture( id );
             }
-            obj = obj->extend;
-        } while (obj);
+
+            x = tex->off_x;
+            y = tex->off_y;
+            w = tex->w + 1;
+            h = tex->h + 1;
+            packs->u0 = ( texcoords[ 0 ] * w / 256 ) + x;
+            packs->v0 = ( texcoords[ 1 ] * h / 256 ) + y;
+            packs->u1 = ( texcoords[ 2 ] * w / 256 ) + x;
+            packs->v1 = ( texcoords[ 3 ] * h / 256 ) + y;
+            packs->u2 = ( texcoords[ 6 ] * w / 256 ) + x;
+            packs->v2 = ( texcoords[ 7 ] * h / 256 ) + y;
+            packs->u3 = ( texcoords[ 4 ] * w / 256 ) + x;
+            packs->v3 = ( texcoords[ 5 ] * h / 256 ) + y;
+            packs->tpage = tex->tpage;
+            packs->clut = tex->clut;
+            packs++;
+            texcoords += 8;
+        }
     }
 }
 
-int DG_MakeObjPacket( DG_OBJ *obj, int idx, int flags )
+void DG_WriteObjPacketRGB( DG_OBJ *obj, int index )
 {
-    if (DG_AllocPacks(obj, idx) < 0)
+    POLY_GT4 *packs;
+    CVECTOR *rgbs;
+    int i;
+
+    if ( ( packs = obj->packs[ index ] ) == NULL ) return;
+    for ( ; obj != NULL; obj = obj->extend )
     {
-        return -1;
+        if ( ( rgbs = obj->rgbs ) == NULL ) continue;
+        for ( i = obj->n_packs; i > 0; i-- )
+        {
+            LCOPY2( &rgbs[ 0 ], &packs->r0, &rgbs[ 1 ], &packs->r1 );
+            LCOPY2( &rgbs[ 3 ], &packs->r2, &rgbs[ 2 ], &packs->r3 );
+            packs++;
+            rgbs += 4;
+        }
     }
+}
 
-    DG_InitPolyGT4Pack(obj, idx);
-
-    if ((flags & DG_FLAG_TEXT) != 0)
-    {
-        DG_WriteObjPacketUV(obj, idx);
-    }
-
-    if ((flags & DG_FLAG_PAINT) != 0)
-    {
-        DG_WriteObjPacketRGB(obj, idx);
-    }
-
+int DG_MakeObjPacket( DG_OBJ *obj, int index, int flags )
+{
+    if ( AllocPacks( obj, index ) < 0 ) return -1;
+    InitPacks( obj, index );
+    if ( flags & DG_FLAG_TEXT ) DG_WriteObjPacketUV( obj, index );
+    if ( flags & DG_FLAG_PAINT ) DG_WriteObjPacketRGB( obj, index );
     return 0;
 }
 
-void DG_FreeObjPacket( DG_OBJ *obj, int idx )
+void DG_FreeObjPacket( DG_OBJ *obj, int index )
 {
-    POLY_GT4 **ppPack;
+    void **packs;
 
-    ppPack = &obj->packs[idx];
-    if (*ppPack)
+    packs = (void **)&obj->packs[ index ];
+    if ( *packs != NULL )
     {
-        GV_FreeMemory2(idx, (void **)ppPack);
-        *ppPack = 0;
+        GV_FreeMemory2( index, packs );
+        *packs = NULL;
     }
 }
 
-int DG_MakeObjsPacket( DG_OBJS *objs, int idx )
+int DG_MakeObjsPacket( DG_OBJS *objs, int index )
 {
+    DG_OBJ *obj;
+    int flag, i;
 
-    int flag = objs->flag;
-    int n_models = objs->n_models;
-
-    DG_OBJ *obj = objs->objs;
-    while (n_models > 0)
+    obj = objs->objs;
+    flag = objs->flag;
+    for ( i = objs->n_models; i > 0; i-- )
     {
-        if (!obj->packs[idx])
+        if ( obj->packs[ index ] == NULL )
         {
-            if (DG_MakeObjPacket(obj, idx, flag) < 0)
-            {
-                return -1;
-            }
+            if ( DG_MakeObjPacket( obj, index, flag ) < 0 ) return -1;
         }
         obj++;
-        n_models--;
     }
     return 0;
 }
 
-void DG_FreeObjsPacket( DG_OBJS *objs, int idx )
+void DG_FreeObjsPacket( DG_OBJS *objs, int index )
 {
-    int     n_models;
+    int i;
     DG_OBJ *obj;
 
-    n_models = objs->n_models;
-    for (obj = objs->objs; n_models > 0; ++obj)
+    obj = objs->objs;
+    for ( i = objs->n_models; i > 0; i-- )
     {
-        DG_FreeObjPacket(obj, idx);
-        --n_models;
+        DG_FreeObjPacket( obj, index );
+        obj++;
     }
 }

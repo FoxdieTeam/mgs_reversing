@@ -9,127 +9,104 @@
 
 /*---------------------------------------------------------------------------*/
 
-static void LinkModelToParent(DG_MDL *mdl, DG_MDL *parent)
+static void LinkModelToParent( DG_MDL *mdl, DG_MDL *parent )
 {
-    unsigned int uVar2;
+    static u_char index_order[] = { 0, 1, 3, 2 };
+
+    int flag, i;
+    SVECTOR *verts;
+    u_char *indices;
+
+    int uVar2;
     int faces;
-    unsigned char *fio;
-    unsigned char *fio2;
-    short flag;
-    SVECTOR *vio;
-    SVECTOR *vio2;
+    u_char *indices2;
+    SVECTOR *verts2;
     int index;
-    unsigned short pad;
-    int iter;
+    u_short pad;
     int offset;
 
-    // provides the indexing order for referencing the transformed vertex sections
-    static unsigned char kVertexIndexingOrder[] = {0, 1, 3, 2};
-
-    vio = mdl->verts;
     flag = 0;
-    fio = mdl->vindices;
+    verts = mdl->verts;
+    indices = mdl->vindices;
 
-    for (iter = mdl->n_faces * 4; iter > 0; iter--)
+    for ( i = mdl->n_faces * 4; i > 0; i-- )
     {
-        index = *fio;
-        vio2 = &vio[index];
+        index = *indices;
+        verts2 = &verts[ index ];
 
-        if (vio2->pad != -1)
+        if ( verts2->pad != -1 )
         {
             flag |= index;
-            *fio |= 0x80;
+            *indices |= 0x80;
         }
-
-        fio++;
+        indices++;
     }
+    if ( flag & 0x80 ) return;
 
-    if (flag & 0x80)
+    verts2 = mdl->verts;
+    for ( i = mdl->n_verts; i > 0; i-- )
     {
-        return;
-    }
-
-    vio2 = mdl->verts;
-
-    for (iter = mdl->n_verts; iter > 0; iter--)
-    {
-        pad = vio2->pad;
+        pad = verts2->pad;
 
         if (pad != 0xffff)
         {
-            fio2 = parent->vindices;
+            indices2 = parent->vindices;
 
             for (faces = parent->n_faces * 4; faces > 0; faces--)
             {
-                if ((*fio2 & 0x7f) == pad)
+                if ((*indices2 & 0x7f) == pad)
                 {
                     break;
                 }
 
-                fio2++;
+                indices2++;
             }
 
-            offset = fio2 - parent->vindices;
+            offset = indices2 - parent->vindices;
             uVar2 = (offset / 4) * 52;
 
-            vio2->pad = kVertexIndexingOrder[offset & 3] * 12 + uVar2 + 8;
+            verts2->pad = index_order[offset & 3] * 12 + uVar2 + 8;
         }
 
-        vio2++;
+        verts2++;
     }
 }
 
-int DG_LoadInitKmd(void *buf, int id)
+int DG_LoadInitKmd( void *buf, int id )
 {
-    DG_DEF *def = (DG_DEF *)buf;
-    DG_MDL *mdl = def->models;
-    int     remaining = def->n_x_models;
+    DG_DEF *def;
+    DG_MDL *mdl;
+    int n_models;
 
-    while (--remaining >= 0)
+    def = (DG_DEF *)buf;
+    mdl = def->models;
+    n_models = def->n_x_models;
+    while ( --n_models >= 0 )
     {
-        if (mdl->verts)
-        {
-            (char *)mdl->verts += (unsigned int)def;
-        }
-        if (mdl->vindices)
-        {
-            (char *)mdl->vindices += (unsigned int)def;
-        }
-        if (mdl->norms)
-        {
-            (char *)mdl->norms += (unsigned int)def;
-        }
-        if (mdl->nindices)
-        {
-            (char *)mdl->nindices += (unsigned int)def;
-        }
-        if (mdl->uvs)
-        {
-            (char *)mdl->uvs += (unsigned int)def;
-        }
-        if (mdl->texids)
-        {
-            (char *)mdl->texids += (unsigned int)def;
-        }
-        if (mdl->parent >= 0)
-        {
-            LinkModelToParent(mdl, &def->models[mdl->parent]);
-        }
-        ++mdl;
+        if ( mdl->verts != NULL ) mdl->verts = (SVECTOR *)( (int)mdl->verts + (int)def );
+        if ( mdl->vindices != NULL ) mdl->vindices = (u_char *)( (int)mdl->vindices + (int)def );
+        if ( mdl->norms != NULL ) mdl->norms = (SVECTOR *)( (int)mdl->norms + (int)def );
+        if ( mdl->nindices != NULL ) mdl->nindices = (u_char *)( (int)mdl->nindices + (int)def );
+        if ( mdl->uvs != NULL ) mdl->uvs = (u_char *)( (int)mdl->uvs + (int)def );
+        if ( mdl->texids != NULL ) mdl->texids = (u_short *)( (int)mdl->texids + (int)def );
+        if ( mdl->parent >= 0 ) LinkModelToParent( mdl, &def->models[ mdl->parent ] );
+        mdl++;
     }
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-int DG_LoadInitNar(void *buf, int id)
+int DG_LoadInitNar( void *buf, int id )
 {
-    DG_NARS *nar = (DG_NARS *)buf;
-    nar->unknown1 = (u_char *)nar + (u_int)nar->unknown1;
+    DG_NARS *nar;
+
+    nar = (DG_NARS *)buf;
+    nar->unknown1 = (u_char *)( (int)nar + (int)nar->unknown1 );
     return 1;
 }
 
-int DG_LoadInitOar(void *buf, int id)
+int DG_LoadInitOar( void *buf, int id )
 {
     DG_OAR *oar;
 
@@ -139,158 +116,143 @@ int DG_LoadInitOar(void *buf, int id)
     return 1;
 }
 
-int DG_LoadInitImg(void *buf, int id)
+int DG_LoadInitImg( void *buf, int id )
 {
-    DG_IMG *img = (DG_IMG *)buf;
-    img->textures = (unsigned short *)((char *)img + (unsigned int)img->textures);
-    img->attribs = (DG_IMG_ATTRIB *)((char *)img + (unsigned int)img->attribs);
-    img->tilemap = (char *)img + (unsigned int)img->tilemap;
+    DG_IMG *img;
+
+    img = (DG_IMG *)buf;
+    img->textures = (u_short *)( (int)img + (int)img->textures );
+    img->attribs = (DG_IMG_ATTRIB *)( (int)img + (int)img->attribs );
+    img->tilemap = (u_char *)( (int)img + (int)img->tilemap );
     return 1;
 }
 
-int DG_LoadInitSgt(void *buf, int id)
+int DG_LoadInitSgt( void *buf, int id )
 {
-    DG_SGT *sgt = (DG_SGT *)buf;
-    sgt->unknown1 = (u_char *)sgt + (u_int)sgt->unknown1;
-    sgt->unknown2 = (u_char *)sgt + (u_int)sgt->unknown2;
-    sgt->unknown3 = (u_char *)sgt + (u_int)sgt->unknown3;
-    sgt->unknown4 = (u_char *)sgt + (u_int)sgt->unknown4;
-    sgt->unknown5 = (u_char *)sgt + (u_int)sgt->unknown5;
+    DG_SGT *sgt;
+
+    sgt = (DG_SGT *)buf;
+    sgt->unknown1 = (u_char *)( (int)sgt + (int)sgt->unknown1 );
+    sgt->unknown2 = (u_char *)( (int)sgt + (int)sgt->unknown2 );
+    sgt->unknown3 = (u_char *)( (int)sgt + (int)sgt->unknown3 );
+    sgt->unknown4 = (u_char *)( (int)sgt + (int)sgt->unknown4 );
+    sgt->unknown5 = (u_char *)( (int)sgt + (int)sgt->unknown5 );
     return 1;
 }
 
-int DG_LoadInitLit(void *buf, int id)
+int DG_LoadInitLit( void *buf, int id )
 {
     return 1;
 }
 
 /*---------------------------------------------------------------------------*/
 
-// The size of this buffer is just a guess based on the next address of a
-// variable that IDA knows about.
-extern unsigned char pcxBuffer_800B3798[128];
-
-#define PCX_RLE_THRESHOLD 0xC0
-
-static unsigned char *DG_PcxRead8Bpp(unsigned char *pcxData, unsigned char *imageData, int imageSize)
+static u_char *PcxInflate8( u_char *pcxdata, u_char *buf, int size )
 {
-    unsigned char *palette;
+    int len;
+    u_char code, data;
+    
     do
     {
-        char maybeRunLength = *pcxData++;
-        if (maybeRunLength <= PCX_RLE_THRESHOLD)
+        code = *pcxdata++;
+        if ( code <= PCX_RLE_CODE )
         {
-            --imageSize;
-            *imageData++ = maybeRunLength;
+            size--;
+            *buf++ = code;
         }
         else
         {
-            int  runLength = maybeRunLength - PCX_RLE_THRESHOLD;
-            char color = *pcxData++;
-            imageSize -= runLength;
-            while (--runLength >= 0)
-            {
-                *imageData++ = color;
-            }
+            len = code - PCX_RLE_CODE;
+            data = *pcxdata++;
+            size -= len;
+            while ( --len >= 0 ) *buf++ = data;
         }
-        palette = pcxData;
-    } while (imageSize > 0);
-    return palette;
+    } while ( size > 0 );
+    return pcxdata;
 }
 
-static unsigned char *DG_PcxRead4Bpp(unsigned char *pcxData, unsigned char *imageData,
-                                     int bytes_per_line, int width, int height)
+static u_char *PcxInflate4( u_char *pcxdata, u_char *buf, int stride, int width, int height )
 {
-    int i = height;
-    while (--i >= 0)
-    {
-        unsigned char *rp;
-        unsigned char *gp;
-        unsigned char *bp;
-        unsigned char *ap;
-        int            lineRemaining;
+    extern u_char pcx_temp_buf[ 128 ];
 
-        unsigned char *pos = pcxBuffer_800B3798;
-        lineRemaining = 4 * bytes_per_line;
+    int len, size;
+    u_char *rp, *gp, *bp, *ap;
+    u_char *tmp;
+
+    while ( --height >= 0 )
+    {
+        tmp = pcx_temp_buf;
+        size = stride * 4;
+
         do
         {
-            char maybeRunLength = *pcxData++;
-            if (maybeRunLength <= PCX_RLE_THRESHOLD)
+            u_char code, data;
+
+            code = *pcxdata++;
+            if ( code <= PCX_RLE_CODE )
             {
-                --lineRemaining;
-                *pos++ = maybeRunLength;
+                size--;
+                *tmp++ = code;
             }
             else
             {
-                int           runLength = maybeRunLength - PCX_RLE_THRESHOLD;
-                unsigned char color = *pcxData++;
-                lineRemaining -= runLength;
-                while (--runLength >= 0)
-                {
-                    *pos++ = color;
-                }
+                len = code - PCX_RLE_CODE;
+                data = *pcxdata++;
+                size -= len;
+                while ( --len >= 0 ) *tmp++ = data;
             }
-        } while (lineRemaining > 0);
+        } while ( size > 0 );
 
-        rp = pcxBuffer_800B3798;
-        gp = rp + bytes_per_line;
-        bp = gp + bytes_per_line;
-        ap = bp + bytes_per_line;
-        for (lineRemaining = width; lineRemaining > 0; lineRemaining -= 4)
+        rp = pcx_temp_buf;
+        gp = rp + stride;
+        bp = gp + stride;
+        ap = bp + stride;
+    
+        for ( size = width; size > 0; size -= 4 )
         {
-            int r = *rp++;
-            int g = *gp++;
-            int b = *bp++;
-            int a = *ap++;
-            int shift = 128;
-            int shiftEnd = 8 * (lineRemaining < 4);
+            int bit, end, r, g, b, a;
+            u_char data;
+
+            r = *rp++;
+            g = *gp++;
+            b = *bp++;
+            a = *ap++;
+            bit = 0x80;
+            end = ( size < 4 ) * 8;
+
             do
             {
-                unsigned char color = 0;
-
-                if (shift & r)
-                    color |= 1;
-                if (shift & g)
-                    color |= 2;
-                if (shift & b)
-                    color |= 4;
-                if (shift & a)
-                    color |= 8;
-                shift >>= 1;
-
-                if (shift & r)
-                    color |= 0x10;
-                if (shift & g)
-                    color |= 0x20;
-                if (shift & b)
-                    color |= 0x40;
-                if (shift & a)
-                    color |= 0x80;
-
-                *imageData++ = color;
-                shift >>= 1;
-            } while (shift != shiftEnd);
+                data = 0;
+                if ( bit & r ) data |= 0x01;
+                if ( bit & g ) data |= 0x02;
+                if ( bit & b ) data |= 0x04;
+                if ( bit & a ) data |= 0x08;
+                bit >>= 1;
+                if ( bit & r ) data |= 0x10;
+                if ( bit & g ) data |= 0x20;
+                if ( bit & b ) data |= 0x40;
+                if ( bit & a ) data |= 0x80;
+                *buf++ = data;
+                bit >>= 1;
+            } while ( bit != end );
         }
     }
-    return pcxData;
+    return pcxdata;
 }
 
-static void DG_PcxReadPalette(unsigned char *pcxPalette, unsigned char *imageData, int width)
+static void LoadPalette( u_char *palette, u_short *buf, int width )
 {
-    unsigned short *imagePalette;
-    int             remaining;
-    unsigned char   r, g, b;
-    unsigned short  color;
+    u_char r, g, b, a;
+    u_short color;
 
-    imagePalette = (unsigned short *)imageData;
-    remaining = width;
-    while (--remaining >= 0)
+    while ( --width >= 0 )
     {
-        r = *pcxPalette;
-        g = *(pcxPalette + 1);
-        b = *(pcxPalette + 2);
-        color = !!((r | g | b) & 7) << 5;
-        if (r || g || b)
+        r = palette[ 0 ];
+        g = palette[ 1 ];
+        b = palette[ 2 ];
+        a = ( ( r | g | b ) & 7 ) != 0;
+        color = a << 5;
+        if ( r != 0 || g != 0 || b != 0 )
         {
             color |= b >> 3;
             color <<= 5;
@@ -298,70 +260,58 @@ static void DG_PcxReadPalette(unsigned char *pcxPalette, unsigned char *imageDat
             color <<= 5;
             color |= r >> 3;
         }
-        *imagePalette++ = color;
-        pcxPalette += 3;
+        *buf++ = color;
+        palette += 3;
     }
 }
 
-int DG_LoadInitPcx(void *buf, int id)
+int DG_LoadInitPcx( void *buf, int id )
 {
-    PCXDATA       *pcx;
-    unsigned short flags;
-    int            min_x, min_y;
-    int            width, height;
-    DG_Image      *images;
+    PCXDATA *pcx;
+    DG_IMAGE *im;
+    int flag, x, y, w, h;
 
     pcx = (PCXDATA *)buf;
-    flags = pcx->info.flags;
+    flag = pcx->info.flags;
+    x = pcx->min_x - 1;
+    y = pcx->min_y - 1;
+    w = pcx->max_x - x;
+    h = pcx->max_y - y;
+    if ( !( flag & 1 ) ) w /= 2;
 
-    min_x = pcx->min_x - 1;
-    min_y = pcx->min_y - 1;
-    width = pcx->max_x - min_x;
-    height = pcx->max_y - min_y;
-
-    if (!(flags & 1))
+    if ( GV_AllocMemory2( GV_Clock, w * h + 512 + 16, (void **)&im ) )
     {
-        width /= 2;
-    }
+        DG_IMAGE *clut, *tex;
+        u_char *palette;
 
-    if (GV_AllocMemory2(GV_Clock, width * height + 528, (void **)&images))
-    {
-        DG_Image      *imageA;
-        DG_Image      *imageB;
-        unsigned char *palette;
+        clut = im;
+        clut->dim.x = pcx->info.cx;
+        clut->dim.y = pcx->info.cy;
+        clut->dim.w = pcx->info.n_colors;
+        clut->dim.h = 1;
 
-        imageB = images;
-        imageB->dim.x = pcx->info.cx;
-        imageB->dim.y = pcx->info.cy;
-        imageB->dim.w = pcx->info.n_colors;
-        imageB->dim.h = 1;
+        tex = im + 1;
+        tex->dim.x = pcx->info.px;
+        tex->dim.y = pcx->info.py;
+        tex->dim.w = w / 2;
+        tex->dim.h = h;
 
-        imageA = images + 1;
-        imageA->dim.x = pcx->info.px;
-        imageA->dim.y = pcx->info.py;
-        imageA->dim.w = width / 2;
-        imageA->dim.h = height;
-
-        if (flags & 1)
+        if ( flag & 1 )
         {
-            palette = DG_PcxRead8Bpp(pcx->data, imageA->data, width * height) + 1;
+            palette = PcxInflate8( pcx->data, tex->data, w * h ) + 1;
         }
         else
         {
-            DG_PcxRead4Bpp(pcx->data, imageA->data, pcx->bytes_per_line, width, height);
-            palette = &pcx->header_palette[0];
+            PcxInflate4( pcx->data, tex->data, pcx->bytes_per_line, w, h );
+            palette = pcx->header_palette;
         }
 
-        DG_PcxReadPalette(palette, imageB->data, imageB->dim.w);
-        LoadImage(&imageB->dim, (u_long *)imageB->data);
-        LoadImage(&imageA->dim, (u_long *)imageA->data);
-        GV_FreeMemory2(GV_Clock, (void **)&images);
+        LoadPalette( palette, (u_short *)clut->data, clut->dim.w );
+        LoadImage( &clut->dim, (u_long *)clut->data );
+        LoadImage( &tex->dim, (u_long *)tex->data );
+        GV_FreeMemory2( GV_Clock, (void **)&im );
 
-        if (id)
-        {
-            DG_SetTexture((unsigned short)id, flags & 1, (flags & 0x30) >> 4,
-                          &imageA->dim, &imageB->dim, imageB->dim.w);
-        }
+        if ( id != 0 ) DG_SetTexture( id & 0xffff, flag & 1, ( flag & 0x30 ) >> 4, &tex->dim, &clut->dim, clut->dim.w );
         return 1;
     }
 
@@ -370,52 +320,39 @@ int DG_LoadInitPcx(void *buf, int id)
 
 /*---------------------------------------------------------------------------*/
 
-int DG_LoadInitKmdar(void *buf, int id)
+int DG_LoadInitKmdar( void *buf, int id )
 {
-    DG_ZMD_DEF  *zmd = (DG_ZMD_DEF *)buf;
-    DG_KMDPACK  *kmd = &zmd->kmd[0];
-    unsigned int offset = (unsigned int)kmd + zmd->vert_offset;
-    int          remaining = zmd->n_kmd + 1;
+    DG_ZMD_DEF *zmd;
+    DG_KMDPACK *kmd;
+    int offset, n_kmd;
 
-    while (--remaining > 0)
+    zmd = (DG_ZMD_DEF *)buf;
+    kmd = zmd->kmd;
+    offset = (int)kmd + zmd->vert_offset;
+    n_kmd = zmd->n_kmd + 1;
+    while ( --n_kmd > 0 )
     {
-        DG_DEF *def = &kmd->def;
-        int     cache_id;
-        int     n_models = def->n_x_models;
-        DG_MDL *mdl = &def->models[0];
+        DG_DEF *def;
+        DG_MDL *mdl;
+        int n_models;
 
-        while (--n_models >= 0)
+        def = &kmd->def;
+        mdl = def->models;
+        n_models = def->n_x_models;
+        while ( --n_models >= 0 )
         {
-            (char *)mdl->verts += offset;
-            if (mdl->vindices)
-            {
-                (char *)mdl->vindices += offset;
-            }
-            if (mdl->norms)
-            {
-                (char *)mdl->norms += offset;
-            }
-            if (mdl->nindices)
-            {
-                (char *)mdl->nindices += offset;
-            }
-            if (mdl->uvs)
-            {
-                (char *)mdl->uvs += offset;
-            }
-            if (mdl->texids)
-            {
-                (char *)mdl->texids += offset;
-            }
-            if (mdl->parent >= 0)
-            {
-                LinkModelToParent(mdl, &def->models[mdl->parent]);
-            }
-            ++mdl;
+            mdl->verts = (SVECTOR *)( (int)mdl->verts + offset );
+            if ( mdl->vindices != NULL ) mdl->vindices = (u_char *)( (int)mdl->vindices + offset );
+            if ( mdl->norms != NULL ) mdl->norms = (SVECTOR *)( (int)mdl->norms + offset );
+            if ( mdl->nindices != NULL ) mdl->nindices = (u_char *)( (int)mdl->nindices + offset );
+            if ( mdl->uvs != NULL ) mdl->uvs = (u_char *)( (int)mdl->uvs + offset );
+            if ( mdl->texids != NULL ) mdl->texids = (u_short *)( (int)mdl->texids + offset );
+            if ( mdl->parent >= 0 ) LinkModelToParent( mdl, &def->models[ mdl->parent ] );
+            mdl++;
         }
-        cache_id = GV_CacheID(kmd->id, 'k');
+
+        GV_SetCache( GV_CacheID( kmd->id, 'k' ), def );
         kmd = (DG_KMDPACK *)mdl;
-        GV_SetCache(cache_id, def);
     }
     return 1;
 }

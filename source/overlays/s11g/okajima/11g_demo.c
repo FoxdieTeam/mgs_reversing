@@ -146,7 +146,7 @@ void s11g_11g_demo_800CB67C(SVECTOR *vec, SVECTOR *pos, int len)
 
 void s11g_11g_demo_800CB764(Work *work)
 {    
-    DG_LookAt(DG_Chanl(0), &work->f3B54, &work->f3B5C, 320);
+    DG_MakeCameraMatrix(DG_Chanl(0), &work->f3B54, &work->f3B5C, 320);
     GM_Camera.interp_mode = 0;
     GM_Camera.zoom = 320;
     gUnkCameraStruct2_800B7868.position = work->f3B54;

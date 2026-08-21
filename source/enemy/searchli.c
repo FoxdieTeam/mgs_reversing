@@ -915,7 +915,7 @@ void SearchlightAct_800D86F0(Work *work)
             center = SearchliCenter_800E46D8;
             DG_SetPos2(&work->control.mov, &work->control.turn);
             DG_PutVector(&center, &center, 1);
-            DG_LookAt(DG_Chanl(0), &work->control.mov, &center, 320);
+            DG_MakeCameraMatrix(DG_Chanl(0), &work->control.mov, &center, 320);
         }
         else
         {

@@ -18,7 +18,7 @@ short SECTION(".bss") * s12c_800DAA44;
 short SECTION(".bss") * s12c_800DAA48;
 short SECTION(".bss") * s12c_800DAA4C;
 
-extern unsigned int *ptr_800B1400[256];
+extern unsigned int *DG_DivideBuffer[256];
 
 void s12c_800D497C(int arg0, int arg1)
 {
@@ -425,7 +425,7 @@ void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx)
     int             type;
 
     scratch = get_scratch();
-    scratch->buf = ptr_800B1400;
+    scratch->buf = DG_DivideBuffer;
     scratch->ot = chanl->ot[idx] + 1;
 
     s12c_800D4CF4(scratch->ot);
@@ -733,7 +733,7 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx)
     unsigned int flag;
     short       *scrpad;
 
-    DG_Clip(&chanl->clip_rect, chanl->clip_distance);
+    DG_Clip(&chanl->clip_rect, chanl->screen);
 
     scrpad = (short *)SCRPAD_ADDR;
     memcpy(scrpad + 0x90 / 2, DG_ClipMax, 4);
@@ -1365,7 +1365,7 @@ void s12c_800D6020(DG_OBJ *obj, int idx)
             s12c_800D5C48(verts, mdl->n_verts);
         }
 
-        *(unsigned short *)0x1F8001FC = !(mdl->flags & DG_MODEL_BOTHFACE);
+        *(unsigned short *)0x1F8001FC = !(mdl->flag & DG_MODEL_BOTHFACE);
         do
         {
         } while (0);
@@ -1388,7 +1388,7 @@ void FogTransChanl_800D63B0(DG_CHANL *chanl, int idx)
     DG_OBJ   *pParent;
     short     uVar1;
 
-    DG_Clip(&chanl->clip_rect, chanl->clip_distance);
+    DG_Clip(&chanl->clip_rect, chanl->screen);
 
     ppObjs = (DG_OBJS **)chanl->queue;
 
@@ -1562,7 +1562,7 @@ void s12c_800D6698(DG_MDL *mdl)
     long           v1, v2, v3, v4, v5, v6;
 
     code = DG_PacketCode;
-    if (mdl->flags & DG_MODEL_TRANS)
+    if (mdl->flag & DG_MODEL_TRANS)
     {
         code = &DG_PacketCode[1];
     }
@@ -1760,7 +1760,7 @@ void s12c_800D6958(DG_OBJ *obj, int idx)
         s12c_800D6698(mdl);
         /*
         code = DG_PacketCode;
-        if ( mdl->flags & DG_MODEL_TRANS )
+        if ( mdl->flag & DG_MODEL_TRANS )
         {
             code = &DG_PacketCode[1];
         }
@@ -1790,7 +1790,7 @@ void s12c_800D6958(DG_OBJ *obj, int idx)
         }
         */
 
-        if (!(mdl->flags & 0x10000))
+        if (!(mdl->flag & 0x10000))
         {
             pack = s12c_800D6744((unsigned int *)mdl->nindices, pack, obj->n_packs);
         }

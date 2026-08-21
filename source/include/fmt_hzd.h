@@ -3,7 +3,6 @@
 // clang-format off
 
 #include <sys/types.h>
-#include <libgte.h>
 
 /**
  * Hazard 16-bit vector

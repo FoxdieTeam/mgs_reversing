@@ -2,7 +2,7 @@
 #include "common.h"
 
 extern GV_HEAP       MemorySystems_800AD2F0[MAX_MEMSYS];
-extern unsigned int *ptr_800B1400[256];
+extern unsigned int *DG_DivideBuffer[256];
 
 typedef struct DG_DivideMem
 {
@@ -571,13 +571,13 @@ void DG_DivideChanl( DG_CHANL *chanl, int idx )
 
     if ( !DG_InitDividePacks( idx ) ) return;
 
-    DG_Clip( &chanl->clip_rect, chanl->clip_distance );
+    DG_Clip( &chanl->clip_rect, chanl->screen );
 
     divide_mem = GetDivideMem();
-    divide_mem->ot = (u_long *)ptr_800B1400;
+    divide_mem->ot = (u_long *)DG_DivideBuffer;
     divide_mem->field_14 = 0x800;
 
-    if ( chanl->clip_distance > 1000)
+    if ( chanl->screen > 1000)
     {
         divide_mem->field_18 = 60000;
     }
@@ -606,7 +606,7 @@ void DG_DivideChanl( DG_CHANL *chanl, int idx )
                     gte_SetRotMatrix( &obj->screen );
                     gte_SetTransMatrix( &obj->screen );
 
-                    if ( obj->model->flags & DG_MODEL_TRANS )
+                    if ( obj->model->flag & DG_MODEL_TRANS )
                     {
                         GetDivideMem()->field_10 = 0;
                     }

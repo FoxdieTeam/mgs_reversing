@@ -509,7 +509,7 @@ void EventMouseAct_800C9F14(Work *work)
     {
         work->f68C--;
 
-        DG_LookAt(DG_Chanl(0), &work->eye, &work->center, 320);
+        DG_MakeCameraMatrix(DG_Chanl(0), &work->eye, &work->center, 320);
 
         if (work->f68C == 0)
         {

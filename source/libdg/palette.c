@@ -7,13 +7,12 @@
 STATIC RECT palette1 = { 768, 226, 256, 30 };
 STATIC RECT palette2 = { 768, 196, 256, 30 };
 
-void DG_StorePalette(void)
+void DG_StorePalette( void )
 {
-    MoveImage(&palette1, palette2.x, palette2.y);
+    MoveImage( &palette1, palette2.x, palette2.y );
 }
 
-void DG_ReloadPalette(void)
+void DG_ReloadPalette( void )
 {
-    MoveImage(&palette2, palette1.x, palette1.y);
+    MoveImage( &palette2, palette1.x, palette1.y );
 }
-

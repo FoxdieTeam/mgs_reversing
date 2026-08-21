@@ -23,7 +23,7 @@
     include "{{OBJ_DIR}}\libgv\util.obj"
 
     ; libdg.lib
-    include "{{OBJ_DIR}}\libdg\display.obj"
+    include "{{OBJ_DIR}}\libdg\frame.obj"
     include "{{OBJ_DIR}}\libdg\chanl.obj"
     include "{{OBJ_DIR}}\libdg\bound.obj"
     include "{{OBJ_DIR}}\libdg\divide.obj"

@@ -4,6 +4,8 @@
 
 #include <sys/types.h>
 
+#define PCX_RLE_CODE ( 0x3 << 6 )
+
 typedef struct PCXINFO {
     unsigned short  magic;      /* always 12345 */
     unsigned short  flags;

@@ -164,7 +164,7 @@ STATIC void DG_ShadeObj( DG_OBJ *obj, int idx )
     {
         model = obj->model;
 
-        gte_ldrgb( ( model->flags & DG_MODEL_TRANS ) ?
+        gte_ldrgb( ( model->flag & DG_MODEL_TRANS ) ?
                    &DG_PacketCode[1] :
                    &DG_PacketCode[0] );
 
@@ -191,7 +191,7 @@ STATIC void DG_ShadeObj( DG_OBJ *obj, int idx )
             gte_strgb3( &scratch[-1].d0, &scratch[-1].d1, &scratch[-1].d2 );
         }
 
-        if ( !( model->flags & DG_MODEL_INDIRECT ) )
+        if ( !( model->flag & DG_MODEL_INDIRECT ) )
         {
             packs = DG_ShadePacks( (unsigned int *)model->nindices, packs, obj->n_packs );
         }

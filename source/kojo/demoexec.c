@@ -501,7 +501,7 @@ BOOL FrameRunDemo(LPMGSDEMOACT lpAct, DMO_DAT *data)
     gUnkCameraStruct2_800B7868.target.vy = data->center_y;
     gUnkCameraStruct2_800B7868.target.vz = data->center_z;
 
-    DG_Chanl(0)->clip_distance = data->clip_dist;
+    DG_Chanl(0)->screen = data->clip_dist;
 
     diff.vx = data->center_x - data->eye_x;
     diff.vy = data->center_y - data->eye_y;

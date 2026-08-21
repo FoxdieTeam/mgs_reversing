@@ -16,7 +16,7 @@
 
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F494;
-extern unsigned short   gOldRootCnt_800B1DC8[];
+extern unsigned short   DG_ChanlTime[];
 extern TARGET          *target_800BDF00;
 
 /*---------------------------------------------------------------------------*/
@@ -305,7 +305,7 @@ static void SetMissileRect( Work *work, u_long *ot )
 
         lines = work->lines3[GV_Clock];
 
-        DG_Clip(&DG_Chanl(0)->clip_rect, DG_Chanl(0)->clip_distance);
+        DG_Clip(&DG_Chanl(0)->clip_rect, DG_Chanl(0)->screen);
         SetRotMatrix(&DG_Chanl(0)->eye_inv);
         SetTransMatrix(&DG_Chanl(0)->eye_inv);
         RotTransPers(&svector_8009F494, (long *)&sxy, &p, &flag);
@@ -363,12 +363,12 @@ static void stnsight_act_helper_80068BF4( Work *work, u_long *ot )
     int             s0;
     int             s2 = 24;
     int             v1;
-    unsigned short *s4 = gOldRootCnt_800B1DC8;
+    unsigned short *s4 = DG_ChanlTime;
     int             uVar9 = s4[0];
     POLY_G4        *poly = work->bg_prim[GV_Clock]; // s5
 
     ++s4;
-    for (x = N_ChanlPerfMax - 1; x > 0; --x)
+    for (x = DG_ChanlTimeMax - 1; x > 0; --x)
     {
         s0 = (*s4++ - uVar9) & 0xffff;
 

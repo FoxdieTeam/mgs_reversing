@@ -38,20 +38,15 @@ typedef struct _Work
 unsigned char pipe_vibration1_800C3360[] = {0x7F, 0x02, 0x00, 0x00};
 unsigned char pipe_vibration2_800C3364[] = {0xAF, 0x04, 0x41, 0x04, 0x00, 0x00, 0x00, 0x00};
 
-static int GetRaise(DG_MDL *mdl)
+static int GetRaise( DG_MDL *mdl )
 {
-    unsigned int flags;
-    int          raise;
+    int raise;
 
-    flags = mdl->flags;
     raise = 0;
-    if (flags & 0x300)
+    if ( mdl->flag & 0x300 )
     {
-        raise = (4 - ((flags >> 12) & 3)) * 250;
-        if (!(flags & 0x100))
-        {
-            raise = -raise;
-        }
+        raise = ( 4 - ( ( mdl->flag >> 12 ) & 3 ) ) * 250;
+        if ( !( mdl->flag & 0x100 ) ) raise *= -1;
     }
     return raise;
 }

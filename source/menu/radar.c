@@ -1016,7 +1016,7 @@ void menu_radar_helper_8003ADD8(MenuWork *work, int index)
     radar = &work->field_CC_radar_data;
     if (index == 0)
     {
-        DG_InitDrawEnv(&drawEnv,
+        DG_SetDefDrawEnv(&drawEnv,
                        radar->pos_x + 235,
                        radar->pos_y + 16,
                        69, 52);
@@ -1025,7 +1025,7 @@ void menu_radar_helper_8003ADD8(MenuWork *work, int index)
     }
     else
     {
-        DG_InitDrawEnv(&drawEnv,
+        DG_SetDefDrawEnv(&drawEnv,
                        radar->pos_x + 555,
                        radar->pos_y + 16,
                        69, 52);

@@ -103,7 +103,7 @@ void brf_800CAC7C(Work *work, int id)
 {
     int i;
     int found = 0;
-    DG_Image *result = 0;
+    DG_IMAGE *result = 0;
     for (i = 0; i < work->field_AD14; i++)
     {
         if (work->field_AD18[i] == id)

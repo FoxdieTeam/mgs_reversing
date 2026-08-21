@@ -956,7 +956,7 @@ static void Act(GV_ACT *work)
             camera_act_helper4_8002F78C();
         }
 
-        DG_LookAt(DG_Chanl(0),
+        DG_MakeCameraMatrix(DG_Chanl(0),
             &gUnkCameraStruct2_800B7868.position,
             &gUnkCameraStruct2_800B7868.target,
             gUnkCameraStruct2_800B7868.zoom);

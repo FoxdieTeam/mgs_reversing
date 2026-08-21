@@ -521,7 +521,7 @@ void DG_PrimChanl( DG_CHANL *chanl, int idx )
         return;
     }
 
-    DG_Clip( clip_rect, chanl->clip_distance );
+    DG_Clip( clip_rect, chanl->screen );
 
     group_id = DG_CurrentGroupID;
     eye = &chanl->eye_inv;

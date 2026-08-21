@@ -271,7 +271,7 @@ void brf_800C60FC(Work *work)
     int found;
 
     GV_PauseLevel |= GV_PAUSE_STOP;
-    DG_FreeObjectQueue();
+    DG_StopMainChanlSystem();
     GV_ResetPacketMemory();
     brf_800C5F74(work);
 

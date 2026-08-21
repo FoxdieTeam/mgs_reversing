@@ -26,7 +26,7 @@ static void s08b_bunsin2_800D54CC(DG_OBJS *objs)
 
     for (i = 0; i < 16; i++)
     {
-        objs->objs[i].model->flags |= DG_FLAG_PAINT;
+        objs->objs[i].model->flag |= DG_FLAG_PAINT;
     }
 }
 
@@ -36,7 +36,7 @@ static void s08b_bunsin2_800D54FC(DG_OBJS *objs)
 
     for (i = 0; i < 16; i++)
     {
-        objs->objs[i].model->flags &= ~DG_FLAG_PAINT;
+        objs->objs[i].model->flag &= ~DG_FLAG_PAINT;
     }
 }
 
@@ -148,7 +148,7 @@ static int GetResources(Work *work, OBJECT *root_obj, int arg2, int *arg3)
 
     for (i = 0; i < 16; i++)
     {
-        body->objs->objs[i].model->flags |= DG_MODEL_TRANS;
+        body->objs->objs[i].model->flag |= DG_MODEL_TRANS;
     }
 
     work->root_obj = root_obj;
