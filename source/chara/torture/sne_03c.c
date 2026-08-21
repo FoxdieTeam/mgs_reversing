@@ -222,20 +222,15 @@ void *NewPrisonSnake(int name, int where)
 // Snake03c1 ends here, Snake03c2 starts here
 //
 
-int Snake03c2GetRaise_800CDB78(DG_MDL *mdl)
+static int GetRaise( DG_MDL *mdl )
 {
-    unsigned int flags;
-    int          raise;
+    int raise;
 
-    flags = mdl->flags;
     raise = 0;
-    if (flags & 0x300)
+    if ( mdl->flag & 0x300 )
     {
-        raise = (4 - ((flags >> 12) & 3)) * 250;
-        if (!(flags & 0x100))
-        {
-            raise = -raise;
-        }
+        raise = ( 4 - ( ( mdl->flag >> 12 ) & 3 ) ) * 250;
+        if ( !( mdl->flag & 0x100 ) ) raise *= -1;
     }
     return raise;
 }
@@ -275,7 +270,7 @@ int Snake03c2_800CDBC8()
             obj->extend = &playerBodyObjs->objs[mdl2->extend];
         }
 
-        obj->raise = Snake03c2GetRaise_800CDB78(mdl);
+        obj->raise = GetRaise(mdl);
         obj->n_packs = mdl2->n_faces;
     }
 

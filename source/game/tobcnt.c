@@ -493,7 +493,7 @@ static void Act( Work *work )
                 work->timeout = 300;
 
                 GV_PauseLevel |= GV_PAUSE_STOP;
-                DG_FreeObjectQueue();
+                DG_StopMainChanlSystem();
                 GM_GameStatus |= STATE_ALL_OFF;
             }
         }

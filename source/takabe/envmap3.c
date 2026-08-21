@@ -291,7 +291,7 @@ void *NewEnvmap3_800CA3A4(OBJECT *object, unsigned int name)
                         continue;
                     }
 
-                    if (!(obj->model->flags & DG_MODEL_TRANS))
+                    if (!(obj->model->flag & DG_MODEL_TRANS))
                     {
                         color = 0x3C808080;
                     }

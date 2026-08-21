@@ -257,7 +257,7 @@ void DG_ClearResidentTexture( void )
 /**
  * @brief Saves all texture cache entries to the resident texture cache.
  */
-void DG_SaveResidentTextureCache( void )
+void DG_SaveResidentTexture( void )
 {
     DG_TEX *tex;
     int     size;
@@ -295,7 +295,7 @@ void DG_SaveResidentTextureCache( void )
 /**
  * @brief Loads all resident texture cache entries into the main texture cache.
  */
-void DG_LoadResidentTextureCache( void )
+void DG_ResetResidentTexture( void )
 {
     DG_TEX *tex;
     int     i;

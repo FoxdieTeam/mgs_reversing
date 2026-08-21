@@ -67,7 +67,7 @@ def ninja_run():
     ninja = os.path.join(BIN_DIR, 'ninja')
     ninja_args = [] # TODO: pass through args to ninja?
 
-    # warrnings that were probably in the original code
+    # warnings that were probably in the original code
     # TODO: hide these when building locally
     warning_whitelist = [
         # in mts
@@ -95,6 +95,8 @@ def ninja_run():
         r'sndtst\.c:\d+: warning: `code\' might be used uninitialized in this function',
         r'select\.c:\d+: warning: `proc_id\' might be used uninitialized in this function',
         r'select\.c:\d+: warning: `entry_name\' might be used uninitialized in this function',
+        # in libdg
+        r'chanl\.c:\d+: warning: `unused\' defined but not used',
         # in libfs
         r'select\.c:\d+: warning: control reaches end of non-void function',
         r'select\.c:\d+: warning: unsigned int format, pointer arg \(arg 2\)',
@@ -341,8 +343,8 @@ def get_file_global_size(file):
         "/kojo/m1e1catr.c",
         "/libdg/bound.c",
         "/libdg/chanl.c",
-        "/libdg/display.c",
         "/libdg/divide.c",
+        "/libdg/frame.c",
         "/libdg/light.c",
         "/libdg/loader.c",
         "/libdg/matrix.c",

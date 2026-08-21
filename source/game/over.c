@@ -474,9 +474,9 @@ static void Act( Work *work )
             }
 
             GV_PauseLevel |= GV_PAUSE_STOP;
-            DG_FreeObjectQueue();
+            DG_StopMainChanlSystem();
             DG_ReloadPalette();
-            DG_SetRGB(0, 0, 0);
+            DG_SetBackGroundColor(0, 0, 0);
             DG_FrameRate = 2;
             work->count = 256;
             GM_GameStatus |= STATE_ALL_OFF;

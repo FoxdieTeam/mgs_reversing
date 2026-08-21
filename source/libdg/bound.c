@@ -200,7 +200,7 @@ void DG_BoundChanl( DG_CHANL *chanl, int index )
     int group_id, n_objs, flag, bound_flag;
     DG_OBJS **queue, *objs;
 
-    DG_Clip( &chanl->clip_rect, chanl->clip_distance );
+    DG_Clip( &chanl->clip_rect, chanl->screen );
 
     queue = chanl->queue;
     group_id = DG_CurrentGroupID;
@@ -235,8 +235,6 @@ void DG_BoundEnd( void )
     /* do nothing */
 }
 
-static DG_TEX EmptyTex = { 0 };
-
 static void SetThermalClut( DG_OBJ *obj, int index )
 {
     int n_packs;
@@ -263,11 +261,13 @@ static void SetThermalClut( DG_OBJ *obj, int index )
 
 static void RestoreThermalClut( DG_OBJ *obj, int index )
 {
+    static DG_TEX EmptyTex = { 0 };
+
     int n_packs;
     u_short id, next_id;
     DG_TEX *tex;
     POLY_GT4 *packs;
-    short *texids;
+    u_short *texids;
 
     packs = obj->packs[ index ];
     if ( packs != NULL && packs->clut == getClut( 1008, 255 ) )

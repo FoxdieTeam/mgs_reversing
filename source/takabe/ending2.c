@@ -394,7 +394,7 @@ void Ending2Movie_800C6460(void)
 
     if (moviework_800C326C.field_10-- > 0)
     {
-        DG_FreeObjectQueue();
+        DG_StopMainChanlSystem();
         return;
     }
 
@@ -982,8 +982,8 @@ void Ending2Die_800C76BC(Work *work)
 
     SetDefDrawEnv(&drawenv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 
-    DG_SetRenderChanlDrawEnv(-1, &drawenv);
-    DG_SetRenderChanlDrawEnv(1, &drawenv);
+    DG_SetDrawEnv(-1, &drawenv);
+    DG_SetDrawEnv(1, &drawenv);
 
     DrawSync(0);
 
@@ -1036,10 +1036,10 @@ void Ending2GetResources_800C77F8(Work *work, int field_48)
     drawenv.isbg = 1;
     drawenv.dfe = 1;
 
-    DG_SetRenderChanlDrawEnv(-1, &drawenv);
+    DG_SetDrawEnv(-1, &drawenv);
 
     drawenv.isbg = 0;
-    DG_SetRenderChanlDrawEnv(1, &drawenv);
+    DG_SetDrawEnv(1, &drawenv);
 
     DrawSync(0);
 

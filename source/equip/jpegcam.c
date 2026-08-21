@@ -872,7 +872,7 @@ static void JpegcamTakePhoto(Work *work)
     {
         GV_PauseLevel &= ~GV_PAUSE_MENU;
         GV_PauseLevel |= GV_PAUSE_STOP;
-        DG_FreeObjectQueue();
+        DG_StopMainChanlSystem();
         GV_SetPacketTempMemory();
         DG_UnDrawFrameCount = 1;
     }

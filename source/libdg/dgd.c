@@ -17,9 +17,9 @@ typedef struct {
     GV_ACT actor;
 } Work;
 
-extern Work DG_WorkFirst;
-extern Work DG_WorkLast;
-extern int dword_800B3790;
+extern Work Work1;
+extern Work Work2;
+extern int timeout;
 
 int DG_FrameRate = 2;
 int DG_HikituriFlag = 0;        // 引きつり = twitching
@@ -29,45 +29,41 @@ STATIC int DG_TickCount = -1;
 
 /*---------------------------------------------------------------------------*/
 
-int DG_VSyncCallbackFunc(void)
+static int VsyncCallbackFunc( void )
 {
-    if (DrawSync(1) > 0)
+    if ( DrawSync( 1 ) > 0 )
     {
-        dword_800B3790++;
-        if (dword_800B3790 < 30)
-        {
-            return 0;
-        }
-        printf("@");
-        ResetGraph(1);
-        dword_800B3790 = 0;
+        if ( ++timeout < 30 ) return 0;
+        printf( "@" );
+        ResetGraph( 1 );
+        timeout = 0;
     }
     return 1;
 }
 
-void DG_ActFirst(Work *work)
+static void Act1( Work *work )
 {
     int ticks;
 
-    dword_800B3790 = 0;
+    timeout = 0;
 
     DG_HikituriFlagOld = DG_HikituriFlag;
 
-    if (GM_GameStatus & STATE_NOSLOW)
+    if ( GM_GameStatus & STATE_NOSLOW )
     {
-        if (DG_TickCount == -1)
+        if ( DG_TickCount == -1 )
         {
             DG_TickCount = mts_get_tick_count();
             DG_HikituriFlag = 0;
         }
 
-        if (!DG_HikituriFlag)
+        if ( !DG_HikituriFlag )
         {
-            mts_wait_vbl(DG_FrameRate);
+            mts_wait_vbl( DG_FrameRate );
         }
 
         ticks = mts_get_tick_count();
-        if (DG_TickCount + 2 < ticks)
+        if ( ( DG_TickCount + 2 ) < ticks )
         {
             DG_HikituriFlag = 1;
         }
@@ -80,78 +76,76 @@ void DG_ActFirst(Work *work)
     }
     else
     {
-        mts_wait_vbl(DG_FrameRate);
+        mts_wait_vbl( DG_FrameRate );
         DG_TickCount = -1;
         DG_HikituriFlag = 0;
     }
 
-    DG_SwapFrame();
+    DG_StartFrame();
 
     GV_UpdatePadSystem();
     GM_CurrentPadData = GV_PadData;
 
-    if ((GM_PlayerStatus & PLAYER_SECOND_AVAILABLE) != 0)
+    if ( GM_PlayerStatus & PLAYER_SECOND_AVAILABLE &&
+        ( GV_PadData[ 1 ].status | GV_PadData[ 1 ].release ) )
     {
-        if (GV_PadData[1].status | GV_PadData[1].release)
-        {
-            GM_CurrentPadData = &GV_PadData[1];
-        }
+        GM_CurrentPadData = &GV_PadData[ 1 ];
     }
 }
 
-void DG_ActLast(Work *work)
+static void Act2( Work *work )
 {
-    DG_RenderFrame();
+    DG_EndFrame();
 }
 
-void DG_ResetPipeline(void)
+void DG_ResetSystem( void )
 {
     DG_InitLightSystem();
-    DG_RenderPipeline_Init();
+    DG_InitFrameSystem();
 
-    DG_SetCurrentGroup(0);
+    DG_SetCurrentGroup( 0 );
 
     DG_ReloadPalette();
     DG_ResetPaletteEffect();
-    DG_SetRGB(0, 0, 0);
+    DG_SetBackGroundColor( 0, 0, 0 );
 
-    printf("Object Queue %d\n", DG_Chanl(0)->objs_index);
-    printf("Primitive Queue %d\n", DG_Chanl(0)->queue_size - DG_Chanl(0)->prim_index);
+    printf( "Object Queue %d\n", DG_Chanl( 0 )->objs_index );
+    printf( "Primitive Queue %d\n", DG_Chanl( 0 )->queue_size - DG_Chanl(0)->prim_index );
 
-    DG_Chanl(0)->objs_index = 0;
-    DG_Chanl(0)->prim_index = DG_Chanl(0)->queue_size;
+    DG_Chanl( 0 )->objs_index = 0;
+    DG_Chanl( 0 )->prim_index = DG_Chanl( 0 )->queue_size;
 }
 
-void DG_ResetTextureCache(void)
+void DG_ResetTexture( void )
 {
     DG_InitTextureSystem();
-    DG_LoadResidentTextureCache();
+    DG_ResetResidentTexture();
 }
 
-void DG_StartDaemon(void)
+void DG_StartDaemon( void )
 {
     mts_set_vsync_task();
-    mts_set_vsync_callback_func(DG_VSyncCallbackFunc);
+    mts_set_vsync_callback_func( VsyncCallbackFunc );
 
-    DG_InitDispEnv(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 320);
-    DG_InitChanlSystem(SCREEN_WIDTH);
+    DG_InitDisplay( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 320 );
+    DG_InitChanlSystem( SCREEN_WIDTH );
     DG_ClearResidentTexture();
-    DG_ResetPipeline();
+    DG_ResetSystem();
 
-    GV_SetLoader('p', DG_LoadInitPcx);      // *.pcx format
-    GV_SetLoader('k', DG_LoadInitKmd);      // *.kmd format
-    GV_SetLoader('l', DG_LoadInitLit);      // *.lit format
-    GV_SetLoader('n', DG_LoadInitNar);      // *.nar format
-    GV_SetLoader('o', DG_LoadInitOar);      // *.oar format
-    GV_SetLoader('z', DG_LoadInitKmdar);    // *.zmd format
-    GV_SetLoader('i', DG_LoadInitImg);      // *.img format
-    GV_SetLoader('s', DG_LoadInitSgt);      // *.sgt format
+    GV_SetLoader( 'p', DG_LoadInitPcx );      // *.pcx format
+    GV_SetLoader( 'k', DG_LoadInitKmd );      // *.kmd format
+    GV_SetLoader( 'l', DG_LoadInitLit );      // *.lit format
+    GV_SetLoader( 'n', DG_LoadInitNar );      // *.nar format
+    GV_SetLoader( 'o', DG_LoadInitOar );      // *.oar format
+    GV_SetLoader( 'z', DG_LoadInitKmdar );    // *.zmd format
+    GV_SetLoader( 'i', DG_LoadInitImg );      // *.img format
+    GV_SetLoader( 's', DG_LoadInitSgt );      // *.sgt format
 
     // Wait for vsync, swap frame, fetch input
-    GV_InitActor(GV_ACTOR_DAEMON, &DG_WorkFirst, NULL);
-    GV_SetNamedActor(&DG_WorkFirst, DG_ActFirst, NULL, "dgd.c");
+    GV_InitActor( GV_ACTOR_DAEMON, &Work1, NULL );
+    GV_SetNamedActor( &Work1, Act1, NULL, "dgd.c" );
 
     // Render new frame
-    GV_InitActor(GV_ACTOR_DAEMON2, &DG_WorkLast, NULL);
-    GV_SetNamedActor(&DG_WorkLast, DG_ActLast, NULL, "dgd.c");
+    GV_InitActor( GV_ACTOR_DAEMON2, &Work2, NULL );
+    GV_SetNamedActor( &Work2, Act2, NULL, "dgd.c" );
 }

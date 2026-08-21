@@ -220,7 +220,7 @@ void wolf2_SetCamera(Wolf2Work *work)
     center.vy = (eye.vy * 15 + pos.vy) / 16;
     center.vz = (eye.vz * 15 + pos.vz) / 16;
 
-    DG_LookAt(DG_Chanl(0), &eye, &center, 320);
+    DG_MakeCameraMatrix(DG_Chanl(0), &eye, &center, 320);
 
     GM_Camera.interp_mode = 0;
     GM_Camera.zoom = 320;

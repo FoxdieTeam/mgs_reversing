@@ -116,12 +116,12 @@ void menu_init_subsystems_8003884C(MenuWork *work)
     menu_prim.buf[0] = menu_primbuffers[0];
     menu_prim.buf[1] = menu_primbuffers[1];
 
-    DG_InitDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+    DG_SetDefDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     drawEnv.isbg = 0;
     drawEnv.tpage = 31;
     SetDrawEnv(&work->field_4C_drawEnv[0], &drawEnv);
 
-    DG_InitDrawEnv(&drawEnv, 320, 0, FRAME_WIDTH, FRAME_HEIGHT);
+    DG_SetDefDrawEnv(&drawEnv, 320, 0, FRAME_WIDTH, FRAME_HEIGHT);
     drawEnv.isbg = 0;
     drawEnv.tpage = 31;
     SetDrawEnv(&work->field_4C_drawEnv[1], &drawEnv);

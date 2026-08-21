@@ -2,7 +2,6 @@
 #define __MGS_FMT_IMG_H__
 
 #include <sys/types.h>
-#include <libgte.h>
 
 /*----------------------------------------------------------------*/
 

@@ -6,7 +6,7 @@ typedef struct _SCRATCHPAD_UNK {
     int     len;
 } SCRATCHPAD_UNK;
 
-extern unsigned int *ptr_800B1400[256];
+extern unsigned int *DG_DivideBuffer[256];
 
 static inline SCRATCHPAD_UNK * get_scratch(void)
 {
@@ -50,7 +50,7 @@ void DG_SortChanl( DG_CHANL *chanl, int idx )
 
     SCRATCHPAD_UNK *pad = get_scratch();
 
-    pad->buf = ptr_800B1400;
+    pad->buf = DG_DivideBuffer;
     pad->ot = chanl->ot[idx] + 1;
 
     buf = get_buf();

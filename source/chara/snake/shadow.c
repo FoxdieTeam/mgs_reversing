@@ -203,7 +203,7 @@ static int GetResources(Work *work, CONTROL *control, OBJECT *parent, SVECTOR in
     work->light[0].t[1] = 0;
     work->light[0].t[2] = 0;
 
-    work->object.objs->objs->model->flags |= DG_MODEL_TRANS;
+    work->object.objs->objs->model->flag |= DG_MODEL_TRANS;
     work->object.objs->objs->model->texids[0] = GV_StrCode("shadow");
 
     work->control = control;

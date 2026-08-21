@@ -25,7 +25,7 @@ void s11g_blastoff_800DBF88(HindWork *work);
 
 void Hind_LookAt_800D2C1C(SVECTOR *eye, SVECTOR *center)
 {
-    DG_LookAt(&DG_Chanls[1], eye, center, 320);
+    DG_MakeCameraMatrix(&DG_Chanls[1], eye, center, 320);
     GM_Camera.interp_mode = 0;
     gUnkCameraStruct2_800B7868.position = *eye;
     gUnkCameraStruct2_800B7868.target = *center;

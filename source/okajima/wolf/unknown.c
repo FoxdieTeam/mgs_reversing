@@ -425,7 +425,7 @@ void s12a_wolf2_800CF2C4(Wolf2Work *work)
             ((GM_Weapon == WP_Rifle) || (GM_Item == IT_Scope)))
         {
             chanl = DG_Chanl(0);
-            DG_Clip(&chanl->clip_rect, chanl->clip_distance);
+            DG_Clip(&chanl->clip_rect, chanl->screen);
             gte_SetRotMatrix(&chanl->eye_inv);
             gte_SetTransMatrix(&chanl->eye_inv);
             RotTransPers(&sp20, (long *)sp98, &p, &flag);
@@ -1412,7 +1412,7 @@ void s12a_wolf2_800D1BE8(Wolf2Work *work)
     center.vy = (work->fA18.vy * 31 + pos.vy) / 32;
     center.vz = (work->fA18.vz * 31 + pos.vz) / 32;
 
-    DG_LookAt(DG_Chanl(0), &eye, &center, 3721);
+    DG_MakeCameraMatrix(DG_Chanl(0), &eye, &center, 3721);
 
     GM_Camera.interp_mode = 0;
     GM_Camera.zoom = 3721;

@@ -172,7 +172,7 @@ void NewJimakuStr(char *str, int int_1)
     MENU_JimakuWrite(str, -1);
     GV_PauseLevel |= GV_PAUSE_STOP;
     gUnkJimakuStruct_800BDA70.field_3C = int_1;
-    DG_FreeObjectQueue();
+    DG_StopMainChanlSystem();
 }
 
 void NewJimaku(void)
@@ -194,5 +194,5 @@ void NewJimaku(void)
     }
 
     GV_PauseLevel |= GV_PAUSE_STOP;
-    DG_FreeObjectQueue();
+    DG_StopMainChanlSystem();
 }

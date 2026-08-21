@@ -76,12 +76,12 @@ MESSAGE_LIST BSS    message_list[2]; // 0x288 (648) bytes
 int BSS             dword_800B05A8[6]; // 0x18 (24) bytes
 GV_PAD BSS          GV_PadData[4]; // 0x40 (64) bytes
 
-/* libdg/display.c */
+/* libdg/frame.c */
 DISPENV BSS         g_dispenv; // 0x14 (20) bytes
 
 gap                                     gap_800B0614[0xC]; // 12 bytes
 
-VECTOR BSS          DG_RightVector; // 0x10 (16) bytes
+VECTOR BSS          prev_vx; // 0x10 (16) bytes
 
 /* libdg/chanl.obj */
 u_long BSS ot_background[68]; // 0x110 (272) bytes
@@ -93,13 +93,13 @@ void *BSS obj_queue_primitive[256]; // 0x400 (1024) bytes
 
 DR_ENV BSS bg_drawenv[2]; // 0x80 (128) bytes
 
-unsigned int *BSS ptr_800B1400[256]; // 0x400 (1024) bytes
+unsigned int *BSS DG_DivideBuffer[256]; // 0x400 (1024) bytes
 
 DG_CHANL BSS DG_Chanls[3]; // 0x5C4 (1476) bytes
 
 gap                                     gap_800B1DC4[0x4]; // 4 bytes
 
-unsigned short BSS  gOldRootCnt_800B1DC8[32]; // 0x40 (64) bytes
+unsigned short BSS  DG_ChanlTime[32]; // 0x40 (64) bytes
 
 /* libdg/light.obj */
 FIXLIGHT BSS fix_lights[MAX_FIX_LIGHTS]; // 0x40 (64) bytes
@@ -109,14 +109,14 @@ TLIGHT BSS   tlights[2]; // 0x108 (264) bytes
 DG_TEX BSS          TexSets[DG_MAX_TEXTURES]; // 0x1800 (6144) bytes
 
 /* libdg/dgd.obj */
-GV_ACT BSS          DG_WorkFirst; // 0x20 (32) bytes
-GV_ACT BSS          DG_WorkLast; // 0x20 (32) bytes
-int BSS             dword_800B3790; // 0x4 (4) bytes
+GV_ACT BSS          Work1; // 0x20 (32) bytes
+GV_ACT BSS          Work2; // 0x20 (32) bytes
+int BSS             timeout; // 0x4 (4) bytes
 
 gap                                     gap_800B3794[0x4]; // 4 bytes
 
 /* libdg/loader.obj */
-unsigned char BSS   pcxBuffer_800B3798[128]; // 0x80 (128) bytes
+unsigned char BSS   pcx_temp_buf[128]; // 0x80 (128) bytes
 
 /* libdg/palette.obj (?) */
 u_long BSS          DG_PaletteBuffer[256]; // 0x400 (1024) bytes

@@ -36,7 +36,7 @@ unsigned short cat_in_mes_list[] = { HASH_KILL };
 
 void ZoomCameraAct_800DF740( ZoomCameraWork *cam )
 {
-    DG_LookAt( DG_Chanl( 0 ), &cam->eye, &cam->center, cam->clip_distance );
+    DG_MakeCameraMatrix( DG_Chanl( 0 ), &cam->eye, &cam->center, cam->clip_distance );
 
     GM_GameStatus |= GAME_FLAG_BIT_07;
     GM_PlayerStatus |= PLAYER_NOT_SIGHT;

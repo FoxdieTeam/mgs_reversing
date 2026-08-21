@@ -61,7 +61,7 @@ static void BG_Clear(void)
     setSemiTrans(tile, 1);
     setXY0(tile, -160, -112);
     setWH(tile, FRAME_WIDTH, FRAME_HEIGHT);
-    DG_SetBackGroundTile(tile);
+    DG_SetBackgroundPrim(tile);
     addPrim(&ot[0xFF], tile);
 
     stp = &d01a_dword_800D1448[GV_Clock];
