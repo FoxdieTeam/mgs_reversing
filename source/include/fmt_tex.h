@@ -4,6 +4,8 @@
 
 #include <sys/types.h>
 
+/*----------------------------------------------------------------*/
+
 #define PCX_RLE_CODE ( 0x3 << 6 )
 
 typedef struct PCXINFO {
@@ -43,6 +45,8 @@ typedef struct PCXDATA {
 //
 // There's only ever one PCXINFO, so we changed this to a single member
 // and the padding field was shrunk by the sizeof(PCXINFO).
+
+/*----------------------------------------------------------------*/
 
 typedef struct {
     u_char mode;
