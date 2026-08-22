@@ -625,8 +625,47 @@ int Bunsin2_800C8F04(void)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C8F0C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C8FF8.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C908C.s")
+void NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time);
+void s08b_bunsin2_800C8FF8(Work *a0) {
+    struct SBlock8 { int words[8]; };
+    int stackData[8];
+    int *src; 
+    
+    /* Setup source matrix reference pointer */
+    src = (int *)&DG_ZeroMatrix;
+
+    /* 1. Bulk copy 32 bytes from DG_ZeroMatrix */
+    *(struct SBlock8 *)stackData = *(struct SBlock8 *)src;
+
+    /* 2. Populate positional parameters using CONTROL struct fields from your new Work typedef */
+    stackData[5] = a0->control.mov.vx; /* Offset 0x020 base -> accessing internal vector fields */
+    stackData[6] = 0x14;
+    stackData[7] = a0->control.mov.vz;
+
+    /* 3. Spawn particle / wind effect - Explicitly cast stackData to MATRIX* pointer matching the prototype */
+    NewWindcrcl_800CF784((MATRIX *)stackData, 0xc8, 0x64, 0xc8, 0xa);
+}
+
+void s08b_bunsin2_800C908C(Work *a0) {
+    struct SBlock8 { int words[8]; };
+    int stackData[8];
+    int *src;
+    
+    /* Setup source matrix reference pointer */
+    src = (int *)&DG_ZeroMatrix;
+
+    /* 1. Bulk copy 32 bytes from DG_ZeroMatrix */
+    *(struct SBlock8 *)stackData = *(struct SBlock8 *)src;
+
+    /* 2. Populate positional parameters using CONTROL struct fields from your new Work typedef */
+    stackData[5] = a0->control.mov.vx;
+    stackData[6] = 0x14;
+    stackData[7] = a0->control.mov.vz;
+
+    /* 3. Spawn particle / wind effect (400, 400, 400, 10) */
+    NewWindcrcl_800CF784((MATRIX *)stackData, 0x190, 0x190, 0x190, 0xa);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9120.s")
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C933C.s")
