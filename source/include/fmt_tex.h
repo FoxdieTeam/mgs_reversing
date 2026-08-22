@@ -7,8 +7,8 @@
 #define PCX_RLE_CODE ( 0x3 << 6 )
 
 typedef struct PCXINFO {
-    unsigned short  magic;      /* always 12345 */
-    unsigned short  flags;
+    unsigned short  stamp;      /* always 12345 */
+    unsigned short  flag;
     unsigned short  px, py;     /* pixel X/Y coords */
     unsigned short  cx, cy;     /* CLUT  X/Y coords */
     unsigned short  n_colors;
@@ -32,6 +32,17 @@ typedef struct PCXDATA {
     unsigned char   pad[ 54 - sizeof(PCXINFO) ];
     unsigned char   data[ 0 ];  /* image data */
 } PCXDATA;
+
+// NOTE: PCXDATA originally had a zero-length PCXINFO array clobbering
+// the PCX header's padding section. Zero-length arrays (especially in
+// the middle of structs) are a non-standard GCC extension.
+//
+//    PCXINFO         info[ 0 ] ;
+//    unsigned char   pad[ 54 ] ;
+//} PCXDATA;
+//
+// There's only ever one PCXINFO, so we changed this to a single member
+// and the padding field was shrunk by the sizeof(PCXINFO).
 
 typedef struct {
     u_char mode;

@@ -272,7 +272,7 @@ int DG_LoadInitPcx( void *buf, int id )
     int flag, x, y, w, h;
 
     pcx = (PCXDATA *)buf;
-    flag = pcx->info.flags;
+    flag = pcx->info.flag;
     x = pcx->min_x - 1;
     y = pcx->min_y - 1;
     w = pcx->max_x - x;
