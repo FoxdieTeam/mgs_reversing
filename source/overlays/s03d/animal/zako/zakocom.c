@@ -82,6 +82,8 @@ extern int printf(const char *format, ...);
 extern int s03d_dword_800C3BC0;
 void s03d_800D42DC(void);
 int s03d_800D46F8(int cmd);
+void s03d_800D47BC(ZakoComMgr *command);
+void s03d_800D4B84(ZakoComMgr *command);
 
 int ZakoCom_800D3FF4(ZakoActor *actor)
 {
@@ -427,7 +429,31 @@ void ZakoCom_800D4B20(int targetval, ZakoComMgr *mgr)
     ZakoCom_800D4070(0);
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4B84.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4CE0.s")
+void s03d_800D4CE0(GV_ACT *actor)
+{
+    int i;
+    int alert;
+    ZakoActor *watcher;
+
+    alert = 0;
+    for (i = 0; i < ZAKOCOM_MGR->count; i++)
+    {
+        if (ZAKOCOM_MGR->entries[i].field_4 == 2)
+        {
+            watcher = ZAKOCOM_MGR->entries[i].field_C;
+            alert = ZakoCom_800D4B08(alert, watcher->field_B28);
+        }
+        else if (ZAKOCOM_MGR->entries[i].field_4 == 1)
+        {
+            ZakoCom_800D49F0(&ZAKOCOM_MGR->entries[i], i);
+        }
+    }
+    ZakoCom_800D490C(ZAKOCOM_MGR);
+    ZakoCom_800D4B20(alert, ZAKOCOM_MGR);
+    s03d_800D4B84(ZAKOCOM_MGR);
+    s03d_800D47BC(ZAKOCOM_MGR);
+    ZAKOCOM_MGR->field_10C = 0;
+}
 void ZakoCom_800D4DD4(void)
 {
     int addr = GM_PlayerAddress;
