@@ -350,7 +350,7 @@ void DG_BoundEnd( void );
 
 /* chanl.c */
 #ifndef __LIBDG_CHANL_C__
-extern short DG_ChanlTimeMax;
+extern short N_ChanlPerfMax;
 extern short DG_EndTime;
 #endif
 

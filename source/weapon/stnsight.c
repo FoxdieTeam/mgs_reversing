@@ -368,7 +368,7 @@ static void stnsight_act_helper_80068BF4( Work *work, u_long *ot )
     POLY_G4        *poly = work->bg_prim[GV_Clock]; // s5
 
     ++s4;
-    for (x = DG_ChanlTimeMax - 1; x > 0; --x)
+    for (x = N_ChanlPerfMax - 1; x > 0; --x)
     {
         s0 = (*s4++ - uVar9) & 0xffff;
 

@@ -147,7 +147,7 @@ STATIC int menu_draw_pow_debug(MenuWork *work, u_long *ot)
     left = 0;
     bottom = 136;
 
-    for (idx = DG_ChanlTimeMax - 1; idx > 0; idx--)
+    for (idx = N_ChanlPerfMax - 1; idx > 0; idx--)
     {
         right = (*pCount++ - first_count) & 0xFFFF;
 
@@ -177,14 +177,14 @@ STATIC int menu_draw_pow_debug(MenuWork *work, u_long *ot)
 
     if (GV_PadData[1].press & PAD_L1)
     {
-        dword_800AB668 = (dword_800AB668 + 1) % DG_ChanlTimeMax;
+        dword_800AB668 = (dword_800AB668 + 1) % N_ChanlPerfMax;
         dword_800AB664 = 0;
         word_800AB660 = 0;
     }
 
     if (dword_800AB668 == 0)
     {
-        delta = DG_ChanlTime[DG_ChanlTimeMax - 1] - DG_ChanlTime[1];
+        delta = DG_ChanlTime[N_ChanlPerfMax - 1] - DG_ChanlTime[1];
     }
     else
     {
@@ -201,7 +201,7 @@ STATIC int menu_draw_pow_debug(MenuWork *work, u_long *ot)
     }
 
     menu_number_draw(work, ot, 300, 168, word_800AB662, 1);
-    dword_800AB670 += (unsigned short)(DG_ChanlTime[DG_ChanlTimeMax - 1] - first_count);
+    dword_800AB670 += (unsigned short)(DG_ChanlTime[N_ChanlPerfMax - 1] - first_count);
 
     if (++word_800AB66C >= 128)
     {
@@ -212,7 +212,7 @@ STATIC int menu_draw_pow_debug(MenuWork *work, u_long *ot)
 
     menu_number_draw(work, ot, 240, 168, word_800AB66E, 1);
     menu_number_draw(work, ot, 300, 144,
-                     (unsigned short)(DG_ChanlTime[DG_ChanlTimeMax - 1] - first_count), 1);
+                     (unsigned short)(DG_ChanlTime[N_ChanlPerfMax - 1] - first_count), 1);
 
     right = (unsigned short)(DG_EndTime - first_count);
     if (right > 511)
