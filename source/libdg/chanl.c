@@ -24,7 +24,7 @@ static int SECTION(".sbss") chanl_shift;
 
 static CVECTOR SECTION(".sbss") bg_color;
 
-short SECTION(".sbss") DG_ChanlTimeMax;
+short SECTION(".sbss") N_ChanlPerfMax;
 short SECTION(".sbss") DG_EndTime;
 short SECTION(".sbss") DG_StartTime;
 
@@ -211,7 +211,7 @@ void DG_SortChanlSystem( int which )
     {
         // Store the counter and set as 2 valid items
         *time = GetRCnt( RCntCNT1 );
-        DG_ChanlTimeMax = 2;
+        N_ChanlPerfMax = 2;
     }
     else
     {
@@ -237,7 +237,7 @@ void DG_SortChanlSystem( int which )
         }
 
         *time++ = GetRCnt( RCntCNT1 );
-        DG_ChanlTimeMax = time - DG_ChanlTime;
+        N_ChanlPerfMax = time - DG_ChanlTime;
     }
 }
 
