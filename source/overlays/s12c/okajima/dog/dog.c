@@ -587,7 +587,16 @@ int Dog_800CA3C0(unsigned short name, int nhashes, unsigned short *hashes)
     return found;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA458.s")
+void Dog_800CA458(void *base, int count, int idx)
+{
+    SVECTOR *dst = (SVECTOR *)((char *)base + (idx * 0x90 + 0xF00));
+    int i;
+
+    for (i = 0; i < count; i++)
+    {
+        *dst++ = DG_ZeroVector;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA4B4.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA758.s")
 
