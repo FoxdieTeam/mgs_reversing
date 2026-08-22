@@ -141,7 +141,7 @@ extern void s11d_rope_800C5E74(Work *work);
 extern void s11d_rope_800C6478(Work *work);
 extern void s11d_rope_800C650C(void);
 extern void s11d_rope_800C6834(Work *work);
-extern void s11d_rope_800C6B18(Work *work);
+
 extern void s11d_rope_800C7138(Work *work);
 extern void s11d_rope_800C766C(Work *work);
 extern void s11d_rope_800C8364(Work *work);
@@ -749,7 +749,88 @@ void s11d_rope_800C650C(void)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6544.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6834.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C697C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6B18.s")
+extern void s11d_rope_800C6CD4(Work *work);
+extern void s11d_rope_800C7530(Work *work, int arg1);
+
+void s11d_rope_800C6B18(Work *work, int arg1)
+{
+    Work *w = work;
+    int mode = arg1;
+
+    if (mode == 0)
+    {
+        work->field_F74 |= 0x10000;
+        work->field_F70 = work->field_F70 & ~0xFF | 1;
+
+        if (*(short *)((char *)w + 0xAA) != 7)
+        {
+            GM_ConfigObjectAction((void *)((char *)w + 0x9C), 7, 0, 4);
+        }
+
+        *(int *)((char *)w + 0xEB8) = 0;
+         work->field_EB4  = 0;
+
+        *(unsigned short *)((char *)*(void **)((char *)w + 0x804) + 0x12) = 0xC8;
+        *(short *)((char *)w + 0x6E) = 0x800;
+        *(short *)((char *)w + 0xF44) = 0x1C2;
+    }
+
+    if (mode < 4)
+    {
+        (*(short *)((char *)w + 0xEBC))++;
+        *(short *)((char *)w + 0x66) += 0x50;
+    }
+
+    if (*(short *)((char *)w + 0xB6) != 0)
+    {
+        *(int *)((char *)w + 0xEAC) = (int)s11d_rope_800C6CD4;
+        *(int *)((char *)w + 0xEB0) = 0;
+        *(short *)((char *)w + 0xEBE) = 0;
+        *(short *)((char *)w + 0xEBC) = 0;
+        return;
+    }
+
+    if (!(*(unsigned short *)*(void **)((char *)w + 0xEA8) & 0x20))
+    {
+        *(int *)((char *)w + 0xF68) = -4;
+        if (*(short *)((char *)w + 0xEBC) >= 5)
+        {
+            *(short *)((char *)w + 0xEBC) = 4;
+        }
+        *(short *)((char *)w + 0xEBE) = 1;
+    }
+
+    if (*(short *)((char *)w + 0xEBE) == 1)
+    {
+        int ebc;
+
+        *(short *)((char *)w + 0x66) -= 0x50;
+        ebc = (unsigned short)*(short *)((char *)w + 0xEBC) - 1;
+        *(short *)((char *)w + 0xEBC) = ebc;
+
+        if ((short)ebc == 0)
+        {
+            *(unsigned short *)((char *)*(void **)((char *)w + 0x804) + 0x12) = 0x384;
+
+            if (*(int *)((char *)w + 0xF74) & 0x2000)
+            {
+                GM_SeSetMode(&w->control, 0xB2, 1);
+                s11d_rope_800C650C();
+                *(int *)((char *)w + 0xEAC) = (int)s11d_rope_800C6834;
+            }
+            else
+            {
+                *(int *)((char *)w + 0xEAC) = (int)s11d_rope_800C7530;
+            }
+
+            *(int *)((char *)w + 0xEB0) = 0;
+            *(short *)((char *)w + 0xEBE) = 0;
+            *(short *)((char *)w + 0xEBC) = 0;
+        }
+    }
+
+    *(short *)((char *)w + 0x68) -= 0x6C;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6CD4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6F28.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7138.s")
