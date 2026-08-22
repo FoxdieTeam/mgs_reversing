@@ -252,7 +252,7 @@ static inline void DG_GroupObjs( DG_OBJS *objs, int group_id )
     objs->group_id = group_id;
 }
 
-#ifndef __LIBDG_DISPLAY_C__
+#ifndef __LIBDG_FRAME_C__
 static inline void DG_GroupObjsEx( DG_OBJS *objs )
 {
     extern int DG_CurrentGroupID;
@@ -271,7 +271,7 @@ static inline void DG_InvisibleObjs( DG_OBJS *objs )
     objs->flag |= DG_FLAG_INVISIBLE;
 }
 
-#ifndef __LIBDG_DISPLAY_C__
+#ifndef __LIBDG_FRAME_C__
 static inline void DG_SetCurrentGroup( int group_id )
 {
     extern int DG_CurrentGroupID;
@@ -374,7 +374,7 @@ DG_CHANLFUNC DG_SetChanlSystemUnits( int num, DG_CHANLFUNC addr );
 
 /* frame.c */
 extern int DG_UnDrawFrameCount;
-#ifndef __LIBDG_DISPLAY_C__
+#ifndef __LIBDG_FRAME_C__
 extern int DG_CurrentGroupID;
 extern short DG_ClipMin[2];
 extern short DG_ClipMax[2];

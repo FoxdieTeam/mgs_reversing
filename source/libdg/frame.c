@@ -1,4 +1,4 @@
-#define __LIBDG_DISPLAY_C__
+#define __LIBDG_FRAME_C__
 
 #include <sys/types.h>
 #include <libgte.h>
