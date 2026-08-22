@@ -20,8 +20,19 @@ typedef struct _Work
     int      f7F8[4];
     CVECTOR  f808[5][7];
     CVECTOR  f894[4][7];
-    CVECTOR  f904[4][7];
-    char     pad2[0xFC];
+    CVECTOR  f904[7];
+    int      f920[7];
+    int      f93C[7];
+    int      f958[7];
+    int      f974[7];
+    int      f990[7];
+    int      f9AC[7];
+    int      f9C8[7];
+    int      f9E4[7];
+    int      fA00[7];
+    int      fA1C[7];
+    int      fA38[7];
+    int      fA54[7];
     int      fA70;
     MATRIX  *light;
     MATRIX  *color;
@@ -244,20 +255,20 @@ void s04c_cape_800D7E6C(Work *work)
         work->f894[i][6].b = (work->f808[i][6].b + work->f808[i + 1][6].b) / 2;
     }
 
-    work->f904[0][0].r = work->f808[4][1].r;
-    work->f904[0][0].g = work->f808[4][1].g;
-    work->f904[0][0].b = work->f808[4][1].b;
+    work->f904[0].r = work->f808[4][1].r;
+    work->f904[0].g = work->f808[4][1].g;
+    work->f904[0].b = work->f808[4][1].b;
 
     for (j = 1; j < 6; j++)
     {
-        work->f904[0][j].r = (work->f808[4][j].r + work->f808[4][j + 1].r) / 2;
-        work->f904[0][j].g = (work->f808[4][j].g + work->f808[4][j + 1].g) / 2;
-        work->f904[0][j].b = (work->f808[4][j].b + work->f808[4][j + 1].b) / 2;
+        work->f904[j].r = (work->f808[4][j].r + work->f808[4][j + 1].r) / 2;
+        work->f904[j].g = (work->f808[4][j].g + work->f808[4][j + 1].g) / 2;
+        work->f904[j].b = (work->f808[4][j].b + work->f808[4][j + 1].b) / 2;
     }
 
-    work->f904[0][6].r = work->f808[4][6].r;
-    work->f904[0][6].g = work->f808[4][6].g;
-    work->f904[0][6].b = work->f808[4][6].b;
+    work->f904[6].r = work->f808[4][6].r;
+    work->f904[6].g = work->f808[4][6].g;
+    work->f904[6].b = work->f808[4][6].b;
 }
 
 void s04c_cape_800D83D4(Work *work)
@@ -313,8 +324,169 @@ void s04c_cape_800D83D4(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_cape_800D8724.s")
-void s04c_cape_800D8724(Work *work);
+void s04c_cape_800D8724(Work *work)
+{
+    int i, j;
+    int cos, sin;
+    int cos20, sin20;
+    int b, a;
+    int c, d, e, f, g;
+    int v, w, num, k;
+    int q1, q2;
+    int n;
+    int dx, dy, dz;
+    int ax, ay, az;
+    int len;
+
+    cos = rcos(work->f7E4->vy - 1024);
+    sin = rsin(work->f7E4->vy - 1024);
+
+    sin20 = sin * 20;
+    b = sin20 >> 12;
+    cos20 = cos * 20;
+    a = cos20 >> 12;
+
+    for (i = 0; i < 4; i++)
+    {
+        for (j = 1; j < 7; j++)
+        {
+            work->f920[j] = work->f348[i][j - 1].vx - work->f348[i][j].vx;
+            work->f93C[j] = work->f348[i][j - 1].vy - work->f348[i][j].vy;
+            work->f958[j] = work->f348[i][j - 1].vz - work->f348[i][j].vz;
+
+            work->f974[j] = (work->f920[j] << 12) / 30;
+            work->f990[j] = (work->f93C[j] << 12) / 30;
+            work->f9AC[j] = (work->f958[j] << 12) / 30;
+
+            w = work->f93C[j] * 3;
+            k = 3;
+            work->fA00[j] = (w * k << 12) / 80 - (((ABS(work->f700[i][j]) * work->f700[i][j] >> 12) * 30) / 100);
+            work->fA1C[j] = -(((ABS(work->f770[i][j]) * work->f770[i][j] >> 12) * 30) / 100);
+        }
+
+        work->fA1C[0] = 0;
+        work->fA38[0] = 0;
+        work->fA54[0] = 0;
+        work->fA70 = 0;
+
+        for (j = 1; j < 7; j++)
+        {
+            work->fA38[j] = work->fA00[j] + work->fA00[j + 1] - work->f974[j] * 10;
+            work->fA54[j] = work->fA1C[j] + work->fA1C[j + 1] - work->f9AC[j] * 10;
+        }
+
+        work->f9E4[0] = 0;
+        work->fA00[0] = 0;
+
+        for (j = 0; j < 6; j++)
+        {
+            n = 6 - j;
+            v = ABS(work->f990[n]);
+            c = v * 10;
+            work->f9C8[n] = work->f9C8[n + 1] + c;
+            work->f9E4[n] = work->f9E4[n + 1] + c;
+        }
+
+        for (j = 1; j < 7; j++)
+        {
+            d = work->fA38[j];
+            q1 = 0;
+            num = d << 12;
+            if (work->f9C8[j] != 0)
+            {
+                q1 = num / work->f9C8[j];
+            }
+
+            d = work->fA54[j];
+            q2 = 0;
+            num = d << 12;
+            if (work->f9E4[j] != 0)
+            {
+                q2 = num / work->f9E4[j];
+            }
+
+            work->f700[i][j] += q1;
+            work->f770[i][j] += q2;
+
+            work->f348[i][j].vx -= (work->f700[i][j] * work->f990[j]) >> 24;
+            work->f348[i][j].vy += (work->f700[i][j] * work->f974[j]) >> 24;
+            work->f348[i][j].vz -= (work->f770[i][j] * work->f990[j]) >> 24;
+            work->f348[i][j].vy += (work->f770[i][j] * work->f9AC[j]) >> 24;
+
+            d = ((cos * (work->f348[i][j].vx - work->f7E0->vx) - sin * (work->f348[i][j].vz - work->f7E0->vz)) >> 12) + 300;
+            if (d > 0)
+            {
+                work->f348[i][j].vx -= (d * cos) >> 12;
+                work->f348[i][j].vz += (d * sin) >> 12;
+                work->f700[i][j] = 0;
+                work->f770[i][j] = 0;
+                work->fA70 = 1;
+            }
+
+            dx = work->f348[i][j].vx - work->f348[i][j - 1].vx;
+            dy = work->f348[i][j].vy - work->f348[i][j - 1].vy;
+            dz = work->f348[i][j].vz - work->f348[i][j - 1].vz;
+
+            len = SquareRoot0(dx * dx + dy * dy + dz * dz);
+
+            if (len != 0)
+            {
+                ax = dx * 30 / len;
+                ay = dy * 30 / len;
+                d = dz;
+                az = d * 30 / len;
+            }
+            else
+            {
+                ax = 0;
+                ay = 0;
+                az = 0;
+            }
+
+            work->f348[i][j].vx = work->f348[i][j - 1].vx + ax;
+            work->f348[i][j].vy = work->f348[i][j - 1].vy + ay;
+            work->f348[i][j].vz = work->f348[i][j - 1].vz + az;
+        }
+
+        work->f428[i][0].vx = work->f348[i][0].vx + b;
+        work->f508[i][0].vx = work->f348[i][0].vx - b;
+        work->f428[i][0].vy = work->f348[i][0].vy;
+        work->f508[i][0].vy = work->f348[i][0].vy;
+        work->f428[i][0].vz = work->f348[i][0].vz + a;
+        work->f508[i][0].vz = work->f348[i][0].vz - a;
+
+        for (j = 1; j < 7; j++)
+        {
+            if (work->fA70 != 0)
+            {
+                work->f428[i][j].vx = work->f348[i][j].vx + b;
+                work->f508[i][j].vx = work->f348[i][j].vx - b;
+                work->f428[i][j].vy = work->f348[i][j].vy;
+                work->f508[i][j].vy = work->f348[i][j].vy;
+                work->f428[i][j].vz = work->f348[i][j].vz + a;
+                work->f508[i][j].vz = work->f348[i][j].vz - a;
+                work->f7E8[i] = 0;
+            }
+            else
+            {
+                c = j * 128;
+                c = (c * rsin(work->f7E8[i] + c)) >> 12;
+                f = ((sin20 * rcos(c)) >> 20) >> 4;
+                e = (rsin(c) * 20) >> 12;
+                g = (cos20 * rcos(c)) >> 24;
+
+                work->f428[i][j].vx = work->f348[i][j].vx + f;
+                work->f508[i][j].vx = work->f348[i][j].vx - f;
+                work->f428[i][j].vy = work->f348[i][j].vy + e;
+                work->f508[i][j].vy = work->f348[i][j].vy - e;
+                work->f428[i][j].vz = work->f348[i][j].vz + g;
+                work->f508[i][j].vz = work->f348[i][j].vz - g;
+
+                work->f7E8[i] += 5;
+            }
+        }
+    }
+}
 
 void cape_Act(Work *work)
 {
