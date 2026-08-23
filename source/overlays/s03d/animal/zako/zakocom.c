@@ -488,5 +488,32 @@ int ZakoCom_800D54DC(void)
     fprintf(0, s03d_dword_800DBC50);
     return -1;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D5538.s")
+int s03d_800D5538(void)
+{
+    int   i;
+    int   c;
+    char *opt;
+
+    c = -1;
+    for (i = 7; i >= 0; i--)
+    {
+        ZAKOCOM_MGR->field_124[i] = c;
+    }
+
+    i = 0;
+    opt = GCL_GetOption('a');
+    while (opt)
+    {
+        if (i >= 8)
+        {
+            return -1;
+        }
+
+        ZAKOCOM_MGR->field_124[i] = GCL_StrToInt(opt);
+        opt = GCL_NextStr();
+        i++;
+    }
+
+    return i;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D55C8.s")
