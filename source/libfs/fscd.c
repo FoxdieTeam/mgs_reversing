@@ -16,8 +16,8 @@ int FS_ResetCdFilePosition(void *buffer)
     if (disk_num >= 0)
     {
         printf("DISK %d\n", disk_num);
-        FS_CdStageFileInit(buffer, fs_file_info[FS_FILEID_STAGE].pos);
-        FS_MovieFileInit(buffer, fs_file_info[FS_FILEID_ZMOVIE].pos);
+        FS_CdStageFileInit(buffer, fs_file_info[FS_FILE_STAGE].pos);
+        FS_MovieFileInit(buffer, fs_file_info[FS_FILE_MOVIE].pos);
     }
     else
     {
@@ -26,26 +26,26 @@ int FS_ResetCdFilePosition(void *buffer)
     return disk_num;
 }
 
-void FS_CDInit(void)
+void FS_CdInit( void )
 {
     CDBIOS_Reset();
-    FS_DiskNum = FS_ResetCdFilePosition(MEM_ADDR);
+    FS_DiskNum = FS_ResetCdFilePosition( MEM_ADDR );
     FS_StreamCD();
     FS_StreamTaskInit();
-    mts_wait_vbl(2);
+    mts_wait_vbl( 2 );
 }
 
-void FS_LoadFileRequest(int fileno, int offset, int size, void *buffer)
+void FS_LoadFileRequest( int fileno, int offset, int size, void *buffer )
 {
-    CDBIOS_ReadRequest(buffer, fs_file_info[fileno].pos + offset, size, NULL);
+    CDBIOS_ReadRequest( buffer, fs_file_info[ fileno ].pos + offset, size, NULL );
 }
 
-int FS_LoadFileSync(void)
+int FS_LoadFileSync( void )
 {
     return CDBIOS_ReadSync();
 }
 
-void MakeFullPath(char *name, char *buffer)
+void MakeFullPath( char *name, char *full )
 {
     /* do nothing */
 }
