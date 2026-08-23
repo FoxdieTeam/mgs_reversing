@@ -39,6 +39,9 @@ extern int s03d_dword_800DC310;
 extern int s03d_dword_800C3B88;
 extern int s03d_dword_800C3A5C;
 extern short s03d_word_800C3A10[20];
+extern const SVECTOR s03d_dword_800DB548;
+extern const SVECTOR s03d_dword_800DB550;
+extern const SVECTOR s03d_dword_800DB558;
 
 void AN_Fog(SVECTOR *svec);
 extern void NewBlood(MATRIX *, int);
@@ -454,7 +457,26 @@ void Zako_800CDD94(Work *work)
         work->field_75C = v * 3 / 2;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDE1C.s")
+int s03d_800CDE1C(Work *work)
+{
+    TARGET *target;
+    SVECTOR svec;
+    SVECTOR rp_shift;
+    SVECTOR force;
+    SVECTOR size;
+
+    rp_shift = s03d_dword_800DB548;
+    force    = s03d_dword_800DB550;
+    size     = s03d_dword_800DB558;
+
+    target = (TARGET *)((char *)work + 0x948);
+    GM_SetTarget(target, 4, ENEMY_SIDE, &size);
+    DG_SetPos2(&work->control.mov, &work->control.rot);
+    DG_RotVector(&force, &svec, 1);
+    GM_SetPowerTarget(target, POWER_ONCE, 2, 32, 1, &svec);
+    DG_PutVector(&rp_shift, &target->center, 1);
+    return GM_PowerTarget(target);
+}
 void Zako_800CDF2C(Work *work)
 {
     TARGET *t = &work->field_900;
