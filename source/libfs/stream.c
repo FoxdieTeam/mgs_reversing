@@ -324,10 +324,10 @@ int FS_StreamGetTop( int is_demo )
     switch (is_demo)
     {
     case 0:
-        file_id = FS_FILEID_VOX;
+        file_id = FS_FILE_VOX;
         break;
     case 1:
-        file_id = FS_FILEID_DEMO;
+        file_id = FS_FILE_DEMO;
         break;
     }
 

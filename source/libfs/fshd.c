@@ -3,7 +3,7 @@
 // and the Win32 port by Digital Dialect).
 //
 // I'm assuming conditional compilation in select.c determines whether
-// FS_CDInit or FS_HDInit is called by FS_StartDaemon and thus the linker
+// FS_CdInit or FS_HDInit is called by FS_StartDaemon and thus the linker
 // discards either fshd.obj or fscd.obj, respectively.
 //
 // It's known to contain the following public functions:
@@ -41,4 +41,10 @@ void FS_HDInit( void )
 {
     // todo: implement
 }
+
+void MakeFullPath( char *name, char *full )
+{
+    /* do nothing */
+}
+
 #endif

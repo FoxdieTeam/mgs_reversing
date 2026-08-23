@@ -58,7 +58,6 @@
     include "{{OBJ_DIR}}\libfs\cdbios.obj"
     include "{{OBJ_DIR}}\libfs\srchfile.obj"
     include "{{OBJ_DIR}}\libfs\cdstage.obj"
-    include "{{OBJ_DIR}}\libfs\stageld.obj"
     include "{{OBJ_DIR}}\libfs\movie.obj"
     include "{{OBJ_DIR}}\libfs\stream.obj"
 

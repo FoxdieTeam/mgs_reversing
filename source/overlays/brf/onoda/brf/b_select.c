@@ -101,7 +101,7 @@ void brf_800C5350(Work *work, int idx)
 
     printf((char *)brf_dword_800E1088, e->name);
     work->field_E4 = PACK_ADDR0;
-    FS_LoadFileRequest(FS_FILEID_BRF, e->offset, e->size, PACK_ADDR0);
+    FS_LoadFileRequest(FS_FILE_BRF, e->offset, e->size, PACK_ADDR0);
     while (FS_LoadFileSync() > 0)
     {
         mts_wait_vbl(1);
@@ -116,7 +116,7 @@ void brf_800C53E4(Work *work, int idx)
 
     printf((char *)brf_dword_800E1088, e->name);
     work->field_E4 = PACK_ADDR0;
-    FS_LoadFileRequest(FS_FILEID_BRF, e->offset, e->size, PACK_ADDR0);
+    FS_LoadFileRequest(FS_FILE_BRF, e->offset, e->size, PACK_ADDR0);
     while (FS_LoadFileSync() > 0)
     {
         mts_wait_vbl(1);
