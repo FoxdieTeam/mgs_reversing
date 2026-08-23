@@ -828,7 +828,57 @@ void s03d_800CFA04(Work *work, int arg)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFB04.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFFF0.s")
+void s03d_800CFFF0(Work *work, int arg)
+{
+    CONTROL *ctrl = &work->control;
+
+    work->field_8E4 = 0;
+    ctrl->step = work->field_8FC->force;
+    if (arg == 0 && work->field_8DC != 2)
+    {
+        GM_SeSet(&ctrl->mov, SE_V_ENE_THROWN);
+    }
+    if (arg > 16 && ctrl->grounded)
+    {
+        ctrl->step = DG_ZeroVector;
+    }
+    if (work->field_8E0 < 35)
+    {
+        if (work->field_9C.is_end)
+        {
+            if (work->field_8DC < 3)
+            {
+                if (work->field_8DC == 1)
+                {
+                    work->field_8E0 = 37;
+                    GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[13], 0, 4);
+                }
+                else
+                {
+                    work->field_8E0 = 35;
+                    GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[11], 0, 4);
+                }
+            }
+            else
+            {
+                work->field_8E0 = 36;
+                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[12], 0, 4);
+            }
+        }
+    }
+    else if (ctrl->grounded)
+    {
+        work->field_8E4 = 1;
+        work->field_8FC->force = DG_ZeroVector;
+        GM_SeSet(&ctrl->mov, SE_HIT_FLOOR);
+        Zako_800D0B18(work, 6, 1);
+        work->field_8E8 = s03d_800D01C4;
+        work->field_8F0 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+    }
+}
 void s03d_800D01C4(Work *work, int arg)
 {
     if (arg == 0)
