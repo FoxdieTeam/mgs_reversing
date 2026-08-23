@@ -1218,7 +1218,33 @@ void Zako_800D13E8(Work *work)
     (void)unused;
     work->field_B32 = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D13F8.s")
+void s03d_800D13F8(Work *work)
+{
+    switch (work->field_B26)
+    {
+    case 0:
+        if (work->field_B28 != 255 || !(GM_PlayerStatus & PLAYER_INTRUDE))
+        {
+            work->field_B28 -= 4;
+        }
+        break;
+    case 1:
+        work->field_B28--;
+        break;
+    case 2:
+        work->field_B28++;
+        break;
+    }
+
+    if (work->field_B28 < 0)
+    {
+        work->field_B28 = 0;
+    }
+    else if (work->field_B28 > 255)
+    {
+        work->field_B28 = 255;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D14AC.s")
 void s03d_800D153C(Work *work)
 {
