@@ -60,8 +60,9 @@ static SVECTOR bullet_path[2] = {
 
 static SVECTOR target_size = { 100, 100, 100 };
 
-// TODO: Should belong to revolver.c
-int revolver_used_bul;
+/*---------------------------------------------------------------------------*/
+
+extern int revolver_used_bul; // from revolver.c
 
 /*---------------------------------------------------------------------------*/
 

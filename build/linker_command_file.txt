@@ -1865,14 +1865,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\voicesys.obj", overlay
     include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s04c\overlay2.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s04c\onoda\s04b\revolver.obj", overlay
+    include "{{OBJ_DIR}}\onoda\s04b\revolver.obj", overlay
     include "{{OBJ_DIR}}\takabe\revbullt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s04c\onoda\s04b\wire.obj", overlay
+    include "{{OBJ_DIR}}\onoda\s04b\wire.obj", overlay
     include "{{OBJ_DIR}}\onoda\s04b\at.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s04c\onoda\s04b\cape.obj", overlay
+    include "{{OBJ_DIR}}\onoda\s04b\cape.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
