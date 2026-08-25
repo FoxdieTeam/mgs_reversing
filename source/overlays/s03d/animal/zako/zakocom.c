@@ -1,5 +1,6 @@
 #include "common.h"
 #include "game/game.h"
+#include "enemy/enemy.h"
 #include "mts/mts.h" // for fprintf
 #include "libgcl/libgcl.h" // for GCL_NextStr, GCL_StrToInt
 #include "game/vibrate.h" // for NewPadVibration
@@ -9,6 +10,7 @@ extern int s03d_dword_800DC2E8;
 extern int s03d_dword_800DC2EC;
 extern int s03d_dword_800DC310;
 extern int s03d_dword_800DC31C;
+extern int s03d_dword_800DC378;
 extern const char s03d_dword_800DBB48[];
 extern const char s03d_dword_800DBB54[];
 extern const char s03d_dword_800DBB64[];
@@ -61,13 +63,12 @@ typedef struct _ZakoComMgr
     int             field_28;       /* 0x28 */
     SVECTOR         field_2C;       /* 0x2C */
     short           field_34;       /* 0x34 */
-    char            pad_36[0x38 - 0x36];
-    short           field_38;       /* 0x38 */
-    char            pad_3A[0x40 - 0x3A];
+    short           field_36;       /* 0x36 */
+    short           field_38[4];    /* 0x38 */
     int             field_40;       /* 0x40 */
     char            pad_44[0x60 - 0x44];
     int             field_60;       /* 0x60 */
-    int             field_64;       /* 0x64 */
+    MAP            *field_64;        /* 0x64 */
     char            pad_68[0x8C - 0x68];
     ZakoComEntry    entries[8];     /* 0x8C - 0x10C */
     int             field_10C;      /* 0x10C */
@@ -141,7 +142,26 @@ void ZakoCom_800D40D4(void)
     mgr->field_2C = GM_NoisePosition;
     mgr->field_28 = GM_PlayerMap;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D414C.s")
+int s03d_800D414C(int map_id, int val)
+{
+    int i;
+    A4_STRUCT *unk = (A4_STRUCT *)&s03d_dword_800DC378;
+
+    if (unk->map_id == map_id)
+    {
+        for (i = 0; i < unk->n_entry; i++)
+        {
+            if (unk->field_04[i].field_00 == val)
+            {
+                return unk->field_04[i].field_02;
+            }
+        }
+        goto end;
+    }
+    return 0;
+end:
+    return -1;
+}
 void ZakoCom_800D41C0(void)
 {
     if (s03d_dword_800DC2F4 > 0)
@@ -185,7 +205,33 @@ int ZakoCom_800D4284(int arg0, short *out)
 
     return count;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D42DC.s")
+void s03d_800D42DC(void)
+{
+    int i;
+    int dist2;
+    int dist1;
+    int reset_pos;
+    HZD_ZON *zone;
+    SVECTOR svec;
+
+    i = dist1 = reset_pos = 0;
+
+    for ( ; i < ZAKOCOM_MGR->field_34 ; i++ )
+    {
+        zone = &ZAKOCOM_MGR->field_64->hzd->def->zones[ ZAKOCOM_MGR->field_38[ i ] ];
+        svec.vx = zone->x;
+        svec.vy = GM_PlayerPosition.vy;
+        svec.vz = zone->z;
+        dist2 = GV_DiffVec3( &svec, &GM_PlayerPosition );
+        if ( dist1 < dist2 )
+        {
+            dist1 = dist2;
+            reset_pos = i;
+        }
+    }
+
+    ZAKOCOM_MGR->field_36 = reset_pos;
+}
 int ZakoCom_800D43CC(int arg)
 {
     return s03d_dword_800DC31C % arg;
@@ -488,5 +534,32 @@ int ZakoCom_800D54DC(void)
     fprintf(0, s03d_dword_800DBC50);
     return -1;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D5538.s")
+int s03d_800D5538(void)
+{
+    int   i;
+    int   c;
+    char *opt;
+
+    c = -1;
+    for (i = 7; i >= 0; i--)
+    {
+        ZAKOCOM_MGR->field_124[i] = c;
+    }
+
+    i = 0;
+    opt = GCL_GetOption('a');
+    while (opt)
+    {
+        if (i >= 8)
+        {
+            return -1;
+        }
+
+        ZAKOCOM_MGR->field_124[i] = GCL_StrToInt(opt);
+        opt = GCL_NextStr();
+        i++;
+    }
+
+    return i;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D55C8.s")

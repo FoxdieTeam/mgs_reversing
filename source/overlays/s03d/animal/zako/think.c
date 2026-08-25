@@ -13,11 +13,11 @@ void s03d_800D3ACC(Work *work);
 void s03d_800D0C90(Work *work, int arg);
 int s03d_800D2DBC(Work *work);
 
-extern int s03d_dword_800C3B68;
+extern SVECTOR s03d_dword_800C3B68[];
 extern int s03d_dword_800DC2F8;
 extern int s03d_dword_800DC2FC;
 extern int s03d_dword_800DC300;
-extern int s03d_dword_800DC308;
+extern SVECTOR s03d_dword_800DC308;
 extern int s03d_dword_800DC32C;
 
 const char s03d_dword_800DBAB0[] = {'k', 'i', 'r', 'a'};
@@ -28,11 +28,32 @@ const char s03d_dword_800DBABC[] = {0x0, 0x0, 0x0, 0x0};
 void s03d_800D2C20(Work *work)
 {
     work->field_B5C = s03d_dword_800DC2FC;
-    work->field_B48 = *(SVECTOR *)&s03d_dword_800DC308;
+    work->field_B48 = s03d_dword_800DC308;
     work->field_B60 = s03d_dword_800DC300;
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D2C68.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D2CCC.s")
+
+void s03d_800D2CCC(Work *work)
+{
+    if (work->field_B0C[work->field_B0B] == 0xFF)
+    {
+        work->field_ACA = 1;
+        work->field_AC8 = 0;
+        work->field_ACC = 4;
+    }
+    else
+    {
+        work->field_ACA = 3;
+        work->field_AC8 = 0;
+        work->field_ACC = 13;
+        s03d_800D2C68(work);
+    }
+
+    work->field_AD0 = 0;
+    work->field_ADC = 1;
+}
+
 void s03d_800D2D44(Work *work)
 {
     work->field_ACA = 2;
@@ -57,7 +78,9 @@ int s03d_800D2D84(SVECTOR *a, SVECTOR *b)
     diff.vy = 0;
     return GV_VecDir2(&diff);
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D2DBC.s")
+
 int s03d_800D307C(Work *work)
 {
     if (work->field_AD0 == 0)
@@ -88,7 +111,26 @@ int s03d_800D311C(Work *work)
     work->field_AD0++;
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D3184.s")
+
+int s03d_800D3184(Work *work)
+{
+    if ((work->field_AD0 % 32) == 0)
+    {
+        work->field_B70 = -1;
+        work->field_B58 = -1;
+        s03d_800D2DBC(work);
+    }
+
+    work->field_AE6 = s03d_800D2DBC(work);
+    if (work->field_AE6 < 0)
+    {
+        return 1;
+    }
+
+    work->field_AD0++;
+    return 0;
+}
+
 int s03d_800D31F4(Work *work, int range)
 {
     SVECTOR local;
@@ -168,13 +210,13 @@ int s03d_800D33E8(Work *work)
     if (work->field_AD0 == 30)
     {
         work->field_AD8 |= 0x100000;
-        work->field_B68 = ((SVECTOR *)&s03d_dword_800C3B68)[work->field_B08];
+        work->field_B68 = s03d_dword_800C3B68[work->field_B08];
     }
     else if (work->field_9C.is_end != 0)
     {
         return 1;
     }
-    work->field_AE6 = s03d_800D2D84(&work->control.mov, &((SVECTOR *)&s03d_dword_800C3B68)[work->field_B08]);
+    work->field_AE6 = s03d_800D2D84(&work->control.mov, &s03d_dword_800C3B68[work->field_B08]);
     work->field_AD0++;
     return 0;
 }

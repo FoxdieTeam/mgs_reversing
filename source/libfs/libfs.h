@@ -13,8 +13,8 @@
 #define FS_SECTOR_SIZE     2048    // x1 CD-ROM sector
 #define FS_CDLOAD_BUF_SIZE ( FS_SECTOR_SIZE * 48 )
 
-typedef struct _FS_STAGE_INFO   // private to stageld.c
-{
+// private to cdstage.c
+typedef struct {
     int           mode;
     CDBIOS_TASK  *task;
     void         *buffer;
@@ -31,21 +31,19 @@ typedef struct _FS_STAGE_INFO   // private to stageld.c
     int           remaining;
 } FS_STAGE_INFO;
 
-typedef struct _FS_FILE_INFO
-{
+typedef struct {
     const char *name;
-    u_int       pos;
+    u_int pos;
 } FS_FILE_INFO;
 
-typedef struct _FS_MOVIE_FILE
-{
-    unsigned short id;
-    unsigned short frame;
-    int            pos;
+typedef struct {
+    u_short id;
+    u_short frame;
+    int pos;
 } FS_MOVIE_FILE;
 
-typedef struct _FS_MEMFILE
-{
+// private to memfile.c
+typedef struct {
     int id;
     int *ptr;
     int size;
@@ -61,32 +59,31 @@ void FS_CdStageProgBinFix(void);
 /* fscd.c */
 extern FS_FILE_INFO fs_file_info[]; /* in file.cnf */
 
-// NOTE: fs_file_info actually has FS_MAX_FILEID+1 elements,
+// NOTE: fs_file_info actually has FS_FILE_MAX+1 elements,
 // but the last is a dummy entry to denote the end of the table.
 
-#define FS_FILEID_STAGE         (0)     // STAGE.DIR
-#define FS_FILEID_RADIO         (1)     // RADIO.DAT
-#define FS_FILEID_FACE          (2)     // FACE.DAT
-#define FS_FILEID_ZMOVIE        (3)     // ZMOVIE.STR
-#define FS_FILEID_VOX           (4)     // VOX.DAT
-#define FS_FILEID_DEMO          (5)     // DEMO.DAT
-#define FS_FILEID_BRF           (6)     // BRF.DAT
-#define FS_MAX_FILEID           (7)
+enum {
+    FS_FILE_STAGE,  // STAGE.DIR
+    FS_FILE_RADIO,  // RADIO.DAT
+    FS_FILE_FACE,   // FACE.DAT
+    FS_FILE_MOVIE,  // ZMOVIE.STR
+    FS_FILE_VOX,    // VOX.DAT
+    FS_FILE_DEMO,   // DEMO.DAT
+    FS_FILE_BRF,    // BRF.DAT
+    FS_FILE_MAX,
+};
 
 int  FS_ResetCdFilePosition(void *buffer);
-void FS_CDInit(void);
+void FS_CdInit(void);
 void FS_LoadFileRequest(int fileno, int offset, int size, void *buffer);
 int  FS_LoadFileSync(void);
-void MakeFullPath(char *name, char *buffer);
+void MakeFullPath(char *name, char *full);
 
 /* srchfile.c */
 int  FS_CdMakePositionTable(char *buffer, FS_FILE_INFO *finfo);
 
 /* cdstage.c */
-void FS_CdStageFileInit(void *buffer, int sector);
-int  FS_CdGetStageFileTop(char *filename);
-
-/* stageld.c */
+void FS_CdStageFileInit(void *buffer, int pos);
 void *FS_LoadStageRequest(const char *dirname);
 int  FS_LoadStageSync(void *info);
 void FS_LoadStageComplete(void *info);

@@ -58,7 +58,6 @@
     include "{{OBJ_DIR}}\libfs\cdbios.obj"
     include "{{OBJ_DIR}}\libfs\srchfile.obj"
     include "{{OBJ_DIR}}\libfs\cdstage.obj"
-    include "{{OBJ_DIR}}\libfs\stageld.obj"
     include "{{OBJ_DIR}}\libfs\movie.obj"
     include "{{OBJ_DIR}}\libfs\stream.obj"
 
@@ -1866,14 +1865,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\voicesys.obj", overlay
     include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s04c\overlay2.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s04c\onoda\s04b\revolver.obj", overlay
+    include "{{OBJ_DIR}}\onoda\s04b\revolver.obj", overlay
     include "{{OBJ_DIR}}\takabe\revbullt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s04c\onoda\s04b\wire.obj", overlay
+    include "{{OBJ_DIR}}\onoda\s04b\wire.obj", overlay
     include "{{OBJ_DIR}}\onoda\s04b\at.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s04c\onoda\s04b\cape.obj", overlay
+    include "{{OBJ_DIR}}\onoda\s04b\cape.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
@@ -2203,11 +2199,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\meryl3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\ml3act.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\think.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s03d\overlay2.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\meryl3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\ml3act.obj", overlay
     include "{{OBJ_DIR}}\overlays\s03d\animal\zako\zako.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
@@ -2216,7 +2213,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s03d\overlay3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\ml3think.obj", overlay
+
+    ; zako think.c & command.c
+    include "{{OBJ_DIR}}\overlays\s03d\animal\zako\think.obj", overlay
 
     ; eyeflash.c
     include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3BA4.obj", overlay
