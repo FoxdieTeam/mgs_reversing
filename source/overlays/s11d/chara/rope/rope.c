@@ -762,24 +762,24 @@ void s11d_rope_800C6B18(Work *work, int arg1)
 
     if (work->object.action != 7)
        {
-            GM_ConfigObjectAction((void *)&work->object, 7, 0, 4);
+            GM_ConfigObjectAction(&work->object, 7, 0, 4);
         }
 
         work->field_EB8 = 0;
         work->field_EB4 = 0;
 
-        *(unsigned short *)((char *)*(void **)((char *)work + 0x804) + 0x12) = 0xC8;
-        *(short *)((char *)work + 0x6E) = 0x800;
+        work->target->size.vy = 0xC8;
+        work->control.turn.vy  = 0x800;
         work->field_F44 = 0x1C2;
     }
 
     if (arg1 < 4)
     {
         (work->field_EBC)++;
-        *(short *)((char *)work + 0x66) += 0x50;
+        work->control.step.vy += 0x50;
     }
 
-    if (*(short *)((char *)work + 0xB6) != 0)
+    if (work->object.is_end != 0)
     {
         work->field_EAC = (int)s11d_rope_800C6CD4;
         work->field_EB0 = 0;
@@ -788,7 +788,7 @@ void s11d_rope_800C6B18(Work *work, int arg1)
         return;
     }
 
-    if (!(*(unsigned short *)*(void **)((char *)work + 0xEA8) & 0x20))
+    if (!(work->pad->status & PAD_CIRCLE))
     {
         work->field_F68 = -4;
         if (work->field_EBC >= 5)
@@ -802,17 +802,17 @@ void s11d_rope_800C6B18(Work *work, int arg1)
     {
         int ebc;
 
-        *(short *)((char *)work + 0x66) -= 0x50;
+        work->control.step.vy -= 0x50;
         ebc = (unsigned short)work->field_EBC - 1;
         work->field_EBC = ebc;
 
         if ((short)ebc == 0)
         {
-            *(unsigned short *)((char *)*(void **)((char *)work + 0x804) + 0x12) = 0x384;
+            work->target->size.vy = 0x384;
 
             if ( work->field_F74 & 0x2000)
             {
-                GM_SeSetMode((void *)&work->control, 0xB2, 1);
+                GM_SeSetMode(&work->control.mov, 0xb2, 1);
                 s11d_rope_800C650C();
                 work->field_EAC = (int)s11d_rope_800C6834;
             }
@@ -827,7 +827,7 @@ void s11d_rope_800C6B18(Work *work, int arg1)
         }
     }
 
-    *(short *)((char *)work + 0x68) -= 0x6C;
+*(short *)((char *)&work->control + 0x48) -= 0x6C;
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6CD4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6F28.s")
