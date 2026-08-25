@@ -6,10 +6,6 @@
 #include "linkvar.h"
 #include "zako.h"
 
-
-extern int s03d_dword_800DC2F8;
-extern int s03d_dword_800C3998;
-extern int s03d_dword_800C39A0;
 extern int s03d_dword_800C39B0;
 extern int s03d_dword_800C39B8;
 extern int s03d_dword_800C39C0;
@@ -70,192 +66,6 @@ void s03d_800D14AC(Work *work);
 void s03d_800D13F8(Work *work);
 void s03d_800D3B5C(Work *work);
 
-void Zako_800CCA64(Work *work);
-
-int Zako_800CC4B4(SVECTOR *from, SVECTOR *to)
-{
-    SVECTOR vec;
-
-    GV_SubVec3(to, from, &vec);
-    vec.vy = 0;
-    return GV_VecDir2(&vec);
-}
-int s03d_800CC4EC(Work *work, int arg)
-{
-    CONTROL *ctl = &work->control;
-    int dir = Zako_800CC4B4(&ctl->mov, (SVECTOR *)&s03d_dword_800C3998);
-    GM_GetHomingTarget2(&work->field_9C.objs->objs[6].world, dir,
-                        &work->field_968, &work->field_96C,
-                        ctl->map->index, 0x1770, 0x1000);
-    if (work->field_968 < 0)
-    {
-        work->field_968 = dir + GV_RandS(arg);
-        return 0;
-    }
-    work->field_968 += GV_RandS(arg);
-    return 1;
-}
-void Zako_800CC5B8(Work *work)
-{
-    work->field_974 |= 4;
-    work->field_968 = work->field_9A4;
-    if (s03d_dword_800DC2F8 == 0 || s03d_dword_800DC2F8 == 4)
-    {
-        work->field_984 = 1;
-        work->field_988 = 0;
-    }
-    else
-    {
-        work->field_988++;
-    }
-}
-void Zako_800CC60C(Work *work)
-{
-    if (s03d_dword_800DC2F8 == 2)
-    {
-        work->field_984 = 0;
-        work->field_988 = 0;
-    }
-    else if (s03d_dword_800DC2F8 == 6)
-    {
-        s03d_800CC4EC(work, 2);
-        work->field_970 = 0x5A;
-        work->field_984 = 4;
-        work->field_988 = 0;
-    }
-    else
-    {
-        if (work->field_990 < 0x12C)
-        {
-            if (s03d_800CC4EC(work, 0x100))
-            {
-                work->field_974 |= 1;
-            }
-            else
-            {
-                work->field_974 |= 4;
-            }
-        }
-        work->field_988++;
-    }
-}
-void Zako_800CC6C4(Work *work)
-{
-    if (s03d_dword_800DC2F8 == 0xE)
-    {
-        work->field_984 = 6;
-        work->field_988 = 0;
-    }
-    else
-    {
-        if (s03d_800CC4EC(work, 8))
-        {
-            work->field_974 |= 1;
-            if ((work->field_990 & 0x3F) == 0)
-            {
-                work->field_970 = GV_RandU(8) + 0xE;
-                work->field_984 = 3;
-                work->field_988 = 0;
-                return;
-            }
-        }
-        else
-        {
-            work->field_974 |= 1;
-        }
-        work->field_988++;
-    }
-}
-void Zako_800CC768(Work *work)
-{
-    int flags = work->field_974;
-
-    work->field_974 = flags | 1;
-    if (work->field_970 < work->field_988)
-    {
-        work->field_984 = 2;
-        work->field_988 = 0;
-    }
-    else
-    {
-        if (work->field_988 % 3 == 0)
-        {
-            work->field_974 = flags | 3;
-        }
-        work->field_988++;
-    }
-}
-void Zako_800CC7D4(Work *work)
-{
-    work->field_974 |= 1;
-    if (work->field_970 < work->field_988)
-    {
-        work->field_984 = 5;
-        work->field_988 = 0;
-    }
-    else
-    {
-        if (work->field_988 % 10 == 0)
-        {
-            if (s03d_800CC4EC(work, 8))
-            {
-                GV_DiffDirAbs(work->field_968, work->field_9A4);
-            }
-        }
-        if (work->field_988 % 3 == 0)
-        {
-            work->field_974 |= 2;
-        }
-        work->field_988++;
-    }
-}
-void Zako_800CC8C0(Work *work)
-{
-    if (work->field_988 < 4)
-    {
-        work->field_974 |= 8;
-    }
-    if (s03d_dword_800DC2F8 == 8)
-    {
-        work->field_984 = 2;
-    }
-    work->field_988++;
-}
-void Zako_800CC910(Work *work)
-{
-    SVECTOR vec;
-
-    GV_SubVec3((SVECTOR *)&s03d_dword_800C39A0, &work->control.mov, &vec);
-    vec.vy = 0;
-    work->field_978 = GV_VecDir2(&vec);
-    if (GV_VecLen3(&vec) < 500)
-    {
-        work->field_984 = 7;
-        work->field_988 = 0;
-    }
-    else
-    {
-        work->field_988++;
-    }
-}
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CC984.s")
-void Zako_800CCA34(Work *work)
-{
-    if (work->field_980 == 0)
-    {
-        s03d_800CC984(work);
-    }
-}
-void Zako_800CCA64(Work *work)
-{
-    work->field_978 = -1;
-    work->field_974 = 0;
-    if (work->field_97C == 0)
-    {
-        Zako_800CCA34(work);
-    }
-    work->field_98C++;
-}
 void Zako_800CCAB0(DG_OBJS *objs, DG_DEF *def)
 {
     int i;
@@ -523,7 +333,7 @@ void s03d_800CE5B4(Work *work, int arg)
 }
 void s03d_800CE644(Work *work, int arg)
 {
-    CONTROL *ctl = &work->control;
+    CONTROL *control = &work->control;
     work->field_8FC->class |= 0x9E;
     work->field_B24 = 0xFA0;
     if (arg == 0)
@@ -546,9 +356,9 @@ void s03d_800CE644(Work *work, int arg)
     else
     {
         short vy = work->field_B94;
-        ctl->step.vx = 0;
-        ctl->step.vz = 0;
-        ctl->turn.vy = vy;
+        control->step.vx = 0;
+        control->step.vz = 0;
+        control->turn.vy = vy;
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE720.s")

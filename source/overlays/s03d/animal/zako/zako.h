@@ -88,7 +88,7 @@ typedef struct _Work
     signed char     field_B08;      /* 0xB08 */
     char            pad_B09[0xB0B - 0xB09];
     signed char     field_B0B;      /* 0xB0B */
-    unsigned char   field_B0C[0xB14 - 0xB0C];   /* 0xB0C */
+    unsigned char   field_B0C[8];   /* 0xB0C */
     short           field_B14;      /* 0xB14 */
     short           field_B16;      /* 0xB16 */
     char            pad_B18[0xB20 - 0xB18];
