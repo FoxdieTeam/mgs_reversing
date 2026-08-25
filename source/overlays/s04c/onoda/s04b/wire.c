@@ -2,6 +2,7 @@
 #include "common.h"
 #include "bullet/blast.h"
 #include "game/game.h"
+#include "libgcl/libgcl.h"
 #include "linkvar.h"
 #include "game/vibrate.h"
 #include "takabe/thing.h"
@@ -653,10 +654,914 @@ int wire_CreateTarget2(Work *work)
     return 0;
 }
 
-const char s04c_aWire_800DBBA8[] = "wire";
-const char s04c_aBc_800DBBB0[] = "04b_c4";
 
-#pragma INCLUDE_ASM("asm/overlays/s04c/s04c_wire_800D3FA8.s")
+static inline void SetPacketTexture(POLY_GT4 *pack, DG_TEX *tex)
+{
+    int u0, v0, u1, v1;
+
+    u0 = tex->off_x;
+    u1 = u0 + tex->w;
+    v0 = tex->off_y;
+    v1 = v0 + tex->h;
+    setUV4(pack, u0, v0, u1, v0, u0, v1, u1, v1);
+
+    pack->tpage = tex->tpage;
+    pack->clut = tex->clut;
+}
+
+int s04c_wire_800D3FA8(Work *work, int name, int map)
+{
+    SVECTOR   pos_arg;
+    SVECTOR   dir_arg;
+    SVECTOR   pos;
+    SVECTOR   rot;
+    SVECTOR   points[32];
+    SVECTOR  *vertex;
+    OBJECT   *obj;
+    DG_PRIM  *prim;
+    POLY_GT4 *packs0;
+    POLY_GT4 *packs1;
+    DG_TEX   *tex;
+    char     *opt;
+    int       i, n;
+
+    opt = GCL_GetOption('p');
+    if (opt != NULL)
+    {
+        GCL_StrToSV(opt, (short *)&pos_arg);
+    }
+    else
+    {
+        pos_arg = DG_ZeroVector;
+    }
+
+    opt = GCL_GetOption('d');
+    if (opt != NULL)
+    {
+        GCL_StrToSV(opt, (short *)&dir_arg);
+    }
+    else
+    {
+        dir_arg = DG_ZeroVector;
+    }
+
+    if (GCL_GetOption('w'))
+    {
+        work->f20D0 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->f20D0 = 0;
+    }
+
+    vertex = work->verts;
+    GM_CurrentMap = map;
+    prim = GM_MakePrim(DG_PRIM_LINE_GT2, 56, vertex, NULL);
+    work->f1668 = prim;
+
+    packs0 = (POLY_GT4 *)prim->packs[0];
+    packs1 = (POLY_GT4 *)prim->packs[1];
+
+    tex = DG_GetTexture(GV_StrCode("wire"));
+
+    for (i = 0; i < 8; i++)
+    {
+        setPolyGT4(packs0);
+        setPolyGT4(packs1);
+
+        SetPacketTexture(packs0, tex);
+        SetPacketTexture(packs1, tex);
+
+        SetSemiTrans(packs0, 1);
+        SetSemiTrans(packs1, 1);
+
+        setRGB0(packs0, 128, 175, 128);
+        setRGB1(packs0, 128, 175, 128);
+        setRGB2(packs0, 128, 175, 128);
+        setRGB3(packs0, 128, 175, 128);
+
+        setRGB0(packs1, 128, 175, 128);
+        setRGB1(packs1, 128, 175, 128);
+        setRGB2(packs1, 128, 175, 128);
+        setRGB3(packs1, 128, 175, 128);
+
+        packs0++;
+        packs1++;
+    }
+
+    for (i = 0; i < 4; i++)
+    {
+        setPolyGT4(packs0);
+        setPolyGT4(packs1);
+
+        SetPacketTexture(packs0, tex);
+        SetPacketTexture(packs1, tex);
+
+        SetSemiTrans(packs0, 1);
+        SetSemiTrans(packs1, 1);
+
+        setRGB0(packs0, 32, 40, 32);
+        setRGB1(packs0, 32, 40, 32);
+        setRGB2(packs0, 32, 40, 32);
+        setRGB3(packs0, 32, 40, 32);
+
+        setRGB0(packs1, 32, 40, 32);
+        setRGB1(packs1, 32, 40, 32);
+        setRGB2(packs1, 32, 40, 32);
+        setRGB3(packs1, 32, 40, 32);
+
+        packs0++;
+        packs1++;
+    }
+
+    for (i = 0; i < 16; i++)
+    {
+        setPolyGT4(packs0);
+        setPolyGT4(packs1);
+
+        SetPacketTexture(packs0, tex);
+        SetPacketTexture(packs1, tex);
+
+        SetSemiTrans(packs0, 1);
+        SetSemiTrans(packs1, 1);
+
+        setRGB0(packs0, 128, 175, 128);
+        setRGB1(packs0, 32, 40, 32);
+        setRGB2(packs0, 128, 175, 128);
+        setRGB3(packs0, 32, 40, 32);
+
+        setRGB0(packs1, 128, 175, 128);
+        setRGB1(packs1, 32, 40, 32);
+        setRGB2(packs1, 128, 175, 128);
+        setRGB3(packs1, 32, 40, 32);
+
+        packs0++;
+        packs1++;
+    }
+
+    for (i = 0; i < 8; i++)
+    {
+        setPolyGT4(packs0);
+        setPolyGT4(packs1);
+
+        SetPacketTexture(packs0, tex);
+        SetPacketTexture(packs1, tex);
+
+        SetSemiTrans(packs0, 1);
+        SetSemiTrans(packs1, 1);
+
+        setRGB0(packs0, 128, 175, 128);
+        setRGB1(packs0, 128, 175, 128);
+        setRGB2(packs0, 128, 175, 128);
+        setRGB3(packs0, 128, 175, 128);
+
+        setRGB0(packs1, 128, 175, 128);
+        setRGB1(packs1, 128, 175, 128);
+        setRGB2(packs1, 128, 175, 128);
+        setRGB3(packs1, 128, 175, 128);
+
+        packs0++;
+        packs1++;
+    }
+
+    for (i = 0; i < 4; i++)
+    {
+        setPolyGT4(packs0);
+        setPolyGT4(packs1);
+
+        SetPacketTexture(packs0, tex);
+        SetPacketTexture(packs1, tex);
+
+        SetSemiTrans(packs0, 1);
+        SetSemiTrans(packs1, 1);
+
+        setRGB0(packs0, 32, 40, 32);
+        setRGB1(packs0, 32, 40, 32);
+        setRGB2(packs0, 32, 40, 32);
+        setRGB3(packs0, 32, 40, 32);
+
+        setRGB0(packs1, 32, 40, 32);
+        setRGB1(packs1, 32, 40, 32);
+        setRGB2(packs1, 32, 40, 32);
+        setRGB3(packs1, 32, 40, 32);
+
+        packs0++;
+        packs1++;
+    }
+
+    for (i = 0; i < 16; i++)
+    {
+        setPolyGT4(packs0);
+        setPolyGT4(packs1);
+
+        SetPacketTexture(packs0, tex);
+        SetPacketTexture(packs1, tex);
+
+        SetSemiTrans(packs0, 1);
+        SetSemiTrans(packs1, 1);
+
+        setRGB0(packs0, 128, 175, 128);
+        setRGB1(packs0, 32, 40, 32);
+        setRGB2(packs0, 128, 175, 128);
+        setRGB3(packs0, 32, 40, 32);
+
+        setRGB0(packs1, 128, 175, 128);
+        setRGB1(packs1, 32, 40, 32);
+        setRGB2(packs1, 128, 175, 128);
+        setRGB3(packs1, 32, 40, 32);
+
+        packs0++;
+        packs1++;
+    }
+
+    /* per-point block scope for p is required for the match */
+    {
+        SVECTOR *p = &points[0];
+        setVector(p, pos_arg.vx + 1750, 2500, pos_arg.vz - 2375);
+    }
+    {
+        SVECTOR *p = &points[1];
+        setVector(p, pos_arg.vx + 2375, 2500, pos_arg.vz - 2375);
+    }
+    {
+        SVECTOR *p = &points[2];
+        setVector(p, pos_arg.vx + 2375, 2500, pos_arg.vz - 1750);
+    }
+    {
+        SVECTOR *p = &points[3];
+        setVector(p, pos_arg.vx + 2375, 2500, pos_arg.vz + 1750);
+    }
+    {
+        SVECTOR *p = &points[4];
+        setVector(p, pos_arg.vx + 2375, 2500, pos_arg.vz + 2375);
+    }
+    {
+        SVECTOR *p = &points[5];
+        setVector(p, pos_arg.vx + 1750, 2500, pos_arg.vz + 2375);
+    }
+    {
+        SVECTOR *p = &points[6];
+        setVector(p, pos_arg.vx - 1750, 2500, pos_arg.vz + 2375);
+    }
+    {
+        SVECTOR *p = &points[7];
+        setVector(p, pos_arg.vx - 2375, 2500, pos_arg.vz + 2375);
+    }
+    {
+        SVECTOR *p = &points[8];
+        setVector(p, pos_arg.vx - 2375, 2500, pos_arg.vz + 1750);
+    }
+    {
+        SVECTOR *p = &points[9];
+        setVector(p, pos_arg.vx - 2375, 2500, pos_arg.vz - 1750);
+    }
+    {
+        SVECTOR *p = &points[10];
+        setVector(p, pos_arg.vx - 2375, 2500, pos_arg.vz - 2375);
+    }
+    {
+        SVECTOR *p = &points[11];
+        setVector(p, pos_arg.vx - 1750, 2500, pos_arg.vz - 2375);
+    }
+    {
+        SVECTOR *p = &points[12];
+        setVector(p, pos_arg.vx - 500, 1200, pos_arg.vz - 500);
+    }
+    {
+        SVECTOR *p = &points[13];
+        setVector(p, pos_arg.vx + 500, 1200, pos_arg.vz - 500);
+    }
+    {
+        SVECTOR *p = &points[14];
+        setVector(p, pos_arg.vx + 500, 1200, pos_arg.vz + 500);
+    }
+    {
+        SVECTOR *p = &points[15];
+        setVector(p, pos_arg.vx - 500, 1200, pos_arg.vz + 500);
+    }
+    {
+        SVECTOR *p = &points[16];
+        setVector(p, pos_arg.vx + 1625, 1000, pos_arg.vz - 2500);
+    }
+    {
+        SVECTOR *p = &points[17];
+        setVector(p, pos_arg.vx + 2500, 1000, pos_arg.vz - 2500);
+    }
+    {
+        SVECTOR *p = &points[18];
+        setVector(p, pos_arg.vx + 2500, 1000, pos_arg.vz - 1625);
+    }
+    {
+        SVECTOR *p = &points[19];
+        setVector(p, pos_arg.vx + 2500, 1000, pos_arg.vz + 1625);
+    }
+    {
+        SVECTOR *p = &points[20];
+        setVector(p, pos_arg.vx + 2500, 1000, pos_arg.vz + 2500);
+    }
+    {
+        SVECTOR *p = &points[21];
+        setVector(p, pos_arg.vx + 1625, 1000, pos_arg.vz + 2500);
+    }
+    {
+        SVECTOR *p = &points[22];
+        setVector(p, pos_arg.vx - 1625, 1000, pos_arg.vz + 2500);
+    }
+    {
+        SVECTOR *p = &points[23];
+        setVector(p, pos_arg.vx - 2500, 1000, pos_arg.vz + 2500);
+    }
+    {
+        SVECTOR *p = &points[24];
+        setVector(p, pos_arg.vx - 2500, 1000, pos_arg.vz + 1625);
+    }
+    {
+        SVECTOR *p = &points[25];
+        setVector(p, pos_arg.vx - 2500, 1000, pos_arg.vz - 1625);
+    }
+    {
+        SVECTOR *p = &points[26];
+        setVector(p, pos_arg.vx - 2500, 1000, pos_arg.vz - 2500);
+    }
+    {
+        SVECTOR *p = &points[27];
+        setVector(p, pos_arg.vx - 1625, 1000, pos_arg.vz - 2500);
+    }
+    {
+        SVECTOR *p = &points[28];
+        setVector(p, pos_arg.vx - 500, 600, pos_arg.vz - 500);
+    }
+    {
+        SVECTOR *p = &points[29];
+        setVector(p, pos_arg.vx + 500, 600, pos_arg.vz - 500);
+    }
+    {
+        SVECTOR *p = &points[30];
+        setVector(p, pos_arg.vx + 500, 600, pos_arg.vz + 500);
+    }
+    {
+        SVECTOR *p = &points[31];
+        setVector(p, pos_arg.vx - 500, 600, pos_arg.vz + 500);
+    }
+
+    n = 0;
+    vertex[n] = points[0];
+    n++;
+    vertex[n] = points[1];
+    n++;
+    vertex[n] = points[1];
+    n++;
+    vertex[n] = points[2];
+    n++;
+    vertex[n] = points[3];
+    n++;
+    vertex[n] = points[4];
+    n++;
+    vertex[n] = points[4];
+    n++;
+    vertex[n] = points[5];
+    n++;
+    vertex[n] = points[6];
+    n++;
+    vertex[n] = points[7];
+    n++;
+    vertex[n] = points[7];
+    n++;
+    vertex[n] = points[8];
+    n++;
+    vertex[n] = points[9];
+    n++;
+    vertex[n] = points[10];
+    n++;
+    vertex[n] = points[10];
+    n++;
+    vertex[n] = points[11];
+    n++;
+    vertex[n] = points[12];
+    n++;
+    vertex[n] = points[13];
+    n++;
+    vertex[n] = points[13];
+    n++;
+    vertex[n] = points[14];
+    n++;
+    vertex[n] = points[14];
+    n++;
+    vertex[n] = points[15];
+    n++;
+    vertex[n] = points[15];
+    n++;
+    vertex[n] = points[12];
+    n++;
+    vertex[n] = points[0];
+    n++;
+    vertex[n] = points[12];
+    n++;
+    vertex[n] = points[0];
+    n++;
+    vertex[n] = points[14];
+    n++;
+    vertex[n] = points[2];
+    n++;
+    vertex[n] = points[12];
+    n++;
+    vertex[n] = points[2];
+    n++;
+    vertex[n] = points[14];
+    n++;
+    vertex[n] = points[3];
+    n++;
+    vertex[n] = points[13];
+    n++;
+    vertex[n] = points[3];
+    n++;
+    vertex[n] = points[15];
+    n++;
+    vertex[n] = points[5];
+    n++;
+    vertex[n] = points[13];
+    n++;
+    vertex[n] = points[5];
+    n++;
+    if (work->f20D0)
+    {
+        vertex[n] = points[5];
+    }
+    else
+    {
+        vertex[n] = points[5];
+    }
+    n++;
+    vertex[n] = points[6];
+    n++;
+    if (work->f20D0)
+    {
+        vertex[n] = points[6];
+    }
+    else
+    {
+        vertex[n] = points[14];
+    }
+    n++;
+    vertex[n] = points[6];
+    n++;
+    vertex[n] = points[12];
+    n++;
+    vertex[n] = points[8];
+    n++;
+    vertex[n] = points[14];
+    n++;
+    vertex[n] = points[8];
+    n++;
+    vertex[n] = points[12];
+    n++;
+    vertex[n] = points[9];
+    n++;
+    vertex[n] = points[15];
+    n++;
+    vertex[n] = points[9];
+    n++;
+    vertex[n] = points[13];
+    n++;
+    vertex[n] = points[11];
+    n++;
+    vertex[n] = points[13];
+    n++;
+    vertex[n] = points[11];
+    n++;
+    vertex[n] = points[15];
+    n++;
+    vertex[n] = points[16];
+    n++;
+    vertex[n] = points[17];
+    n++;
+    vertex[n] = points[17];
+    n++;
+    vertex[n] = points[18];
+    n++;
+    vertex[n] = points[19];
+    n++;
+    vertex[n] = points[20];
+    n++;
+    vertex[n] = points[20];
+    n++;
+    vertex[n] = points[21];
+    n++;
+    vertex[n] = points[22];
+    n++;
+    vertex[n] = points[23];
+    n++;
+    vertex[n] = points[23];
+    n++;
+    vertex[n] = points[24];
+    n++;
+    vertex[n] = points[25];
+    n++;
+    vertex[n] = points[26];
+    n++;
+    vertex[n] = points[26];
+    n++;
+    vertex[n] = points[27];
+    n++;
+    vertex[n] = points[28];
+    n++;
+    vertex[n] = points[29];
+    n++;
+    vertex[n] = points[29];
+    n++;
+    vertex[n] = points[30];
+    n++;
+    vertex[n] = points[30];
+    n++;
+    vertex[n] = points[31];
+    n++;
+    vertex[n] = points[31];
+    n++;
+    vertex[n] = points[28];
+    n++;
+    vertex[n] = points[16];
+    n++;
+    vertex[n] = points[28];
+    n++;
+    vertex[n] = points[16];
+    n++;
+    vertex[n] = points[30];
+    n++;
+    vertex[n] = points[18];
+    n++;
+    vertex[n] = points[28];
+    n++;
+    vertex[n] = points[18];
+    n++;
+    vertex[n] = points[30];
+    n++;
+    vertex[n] = points[19];
+    n++;
+    vertex[n] = points[29];
+    n++;
+    vertex[n] = points[19];
+    n++;
+    vertex[n] = points[31];
+    n++;
+    vertex[n] = points[21];
+    n++;
+    vertex[n] = points[29];
+    n++;
+    vertex[n] = points[21];
+    n++;
+    if (work->f20D0)
+    {
+        vertex[n] = points[21];
+    }
+    else
+    {
+        vertex[n] = points[31];
+    }
+    n++;
+    vertex[n] = points[22];
+    n++;
+    if (work->f20D0)
+    {
+        vertex[n] = points[22];
+    }
+    else
+    {
+        vertex[n] = points[30];
+    }
+    n++;
+    vertex[n] = points[22];
+    n++;
+    vertex[n] = points[28];
+    n++;
+    vertex[n] = points[24];
+    n++;
+    vertex[n] = points[30];
+    n++;
+    vertex[n] = points[24];
+    n++;
+    vertex[n] = points[28];
+    n++;
+    vertex[n] = points[25];
+    n++;
+    vertex[n] = points[31];
+    n++;
+    vertex[n] = points[25];
+    n++;
+    vertex[n] = points[29];
+    n++;
+    vertex[n] = points[27];
+    n++;
+    vertex[n] = points[29];
+    n++;
+    vertex[n] = points[27];
+    n++;
+    vertex[n] = points[31];
+    n++;
+
+    obj = &work->objects[0];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 20;
+    pos.vy = pos_arg.vy;
+    pos.vz = pos_arg.vz - 100;
+    rot = dir_arg;
+    rot.vy = 0x800;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[0].objs->world);
+    GM_ConfigObjectLight(obj, work->f19FC);
+
+    obj = &work->objects[1];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx + 530;
+    pos.vy = pos_arg.vy + 100;
+    pos.vz = pos_arg.vz - 50;
+    rot = dir_arg;
+    rot.vy = 0x400;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[1].objs->world);
+    GM_ConfigObjectLight(obj, work->f1ABC);
+
+    obj = &work->objects[2];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx + 530;
+    pos.vy = pos_arg.vy + 1200;
+    pos.vz = pos_arg.vz - 50;
+    rot = dir_arg;
+    rot.vy = 0x400;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[2].objs->world);
+    GM_ConfigObjectLight(obj, work->f1A7C);
+
+    obj = &work->objects[3];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx + 530;
+    pos.vy = pos_arg.vy + 2000;
+    pos.vz = pos_arg.vz - 50;
+    rot = dir_arg;
+    rot.vy = 0x400;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[3].objs->world);
+    GM_ConfigObjectLight(obj, work->f1A3C);
+
+    obj = &work->objects[13];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx + 500;
+    pos.vy = pos_arg.vy + 100;
+    pos.vz = pos_arg.vz + 520;
+    rot = dir_arg;
+    rot.vy = 0x200;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[13].objs->world);
+    GM_ConfigObjectLight(obj, work->f1DBC);
+
+    obj = &work->objects[14];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx + 500;
+    pos.vy = pos_arg.vy + 1200;
+    pos.vz = pos_arg.vz + 520;
+    rot = dir_arg;
+    rot.vy = 0x200;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[14].objs->world);
+    GM_ConfigObjectLight(obj, work->f1D7C);
+
+    obj = &work->objects[15];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx + 500;
+    pos.vy = pos_arg.vy + 2000;
+    pos.vz = pos_arg.vz + 520;
+    rot = dir_arg;
+    rot.vy = 0x200;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[15].objs->world);
+    GM_ConfigObjectLight(obj, work->f1D3C);
+
+    obj = &work->objects[4];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 20;
+    pos.vy = pos_arg.vy + 100;
+    pos.vz = pos_arg.vz + 510;
+    rot = dir_arg;
+    rot.vy = 0;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[4].objs->world);
+    GM_ConfigObjectLight(obj, work->f1B7C);
+
+    obj = &work->objects[5];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 20;
+    pos.vy = pos_arg.vy + 1200;
+    pos.vz = pos_arg.vz + 510;
+    rot = dir_arg;
+    rot.vy = 0;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[5].objs->world);
+    GM_ConfigObjectLight(obj, work->f1B3C);
+
+    obj = &work->objects[6];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 20;
+    pos.vy = pos_arg.vy + 2000;
+    pos.vz = pos_arg.vz + 510;
+    rot = dir_arg;
+    rot.vy = 0;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[6].objs->world);
+    GM_ConfigObjectLight(obj, work->f1AFC);
+
+    obj = &work->objects[19];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 520;
+    pos.vy = pos_arg.vy + 100;
+    pos.vz = pos_arg.vz + 520;
+    rot = dir_arg;
+    rot.vy = 0xE00;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[19].objs->world);
+    GM_ConfigObjectLight(obj, work->f1F3C);
+
+    obj = &work->objects[20];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 520;
+    pos.vy = pos_arg.vy + 1200;
+    pos.vz = pos_arg.vz + 520;
+    rot = dir_arg;
+    rot.vy = 0xE00;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[20].objs->world);
+    GM_ConfigObjectLight(obj, work->f1EFC);
+
+    obj = &work->objects[21];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 520;
+    pos.vy = pos_arg.vy + 2000;
+    pos.vz = pos_arg.vz + 520;
+    rot = dir_arg;
+    rot.vy = 0xE00;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[21].objs->world);
+    GM_ConfigObjectLight(obj, work->f1EBC);
+
+    obj = &work->objects[7];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 540;
+    pos.vy = pos_arg.vy + 100;
+    pos.vz = pos_arg.vz - 100;
+    rot = dir_arg;
+    rot.vy = 0xC00;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[7].objs->world);
+    GM_ConfigObjectLight(obj, work->f1C3C);
+
+    obj = &work->objects[8];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 540;
+    pos.vy = pos_arg.vy + 1200;
+    pos.vz = pos_arg.vz - 100;
+    rot = dir_arg;
+    rot.vy = 0xC00;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[8].objs->world);
+    GM_ConfigObjectLight(obj, work->f1BFC);
+
+    obj = &work->objects[9];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 540;
+    pos.vy = pos_arg.vy + 2000;
+    pos.vz = pos_arg.vz - 100;
+    rot = dir_arg;
+    rot.vy = 0xC00;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[9].objs->world);
+    GM_ConfigObjectLight(obj, work->f1BBC);
+
+    obj = &work->objects[22];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 520;
+    pos.vy = pos_arg.vy + 100;
+    pos.vz = pos_arg.vz - 540;
+    rot = dir_arg;
+    rot.vy = 0xA00;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[22].objs->world);
+    GM_ConfigObjectLight(obj, work->f1FFC);
+
+    obj = &work->objects[23];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 520;
+    pos.vy = pos_arg.vy + 1200;
+    pos.vz = pos_arg.vz - 540;
+    rot = dir_arg;
+    rot.vy = 0xA00;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[23].objs->world);
+    GM_ConfigObjectLight(obj, work->f1FBC);
+
+    obj = &work->objects[24];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 520;
+    pos.vy = pos_arg.vy + 2000;
+    pos.vz = pos_arg.vz - 540;
+    rot = dir_arg;
+    rot.vy = 0xA00;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[24].objs->world);
+    GM_ConfigObjectLight(obj, work->f1F7C);
+
+    obj = &work->objects[10];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 20;
+    pos.vy = pos_arg.vy + 100;
+    pos.vz = pos_arg.vz - 550;
+    rot = dir_arg;
+    rot.vy = 0x800;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[10].objs->world);
+    GM_ConfigObjectLight(obj, work->f1CFC);
+
+    obj = &work->objects[11];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 20;
+    pos.vy = pos_arg.vy + 1200;
+    pos.vz = pos_arg.vz - 550;
+    rot = dir_arg;
+    rot.vy = 0x800;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[11].objs->world);
+    GM_ConfigObjectLight(obj, work->f1CBC);
+
+    obj = &work->objects[12];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx - 20;
+    pos.vy = pos_arg.vy + 2000;
+    pos.vz = pos_arg.vz - 550;
+    rot = dir_arg;
+    rot.vy = 0x800;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[12].objs->world);
+    GM_ConfigObjectLight(obj, work->f1C7C);
+
+    obj = &work->objects[16];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx + 540;
+    pos.vy = pos_arg.vy + 100;
+    pos.vz = pos_arg.vz - 540;
+    rot = dir_arg;
+    rot.vy = 0x600;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[16].objs->world);
+    GM_ConfigObjectLight(obj, work->f1FFC);
+
+    obj = &work->objects[17];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx + 540;
+    pos.vy = pos_arg.vy + 1200;
+    pos.vz = pos_arg.vz - 540;
+    rot = dir_arg;
+    rot.vy = 0x600;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[17].objs->world);
+    GM_ConfigObjectLight(obj, work->f1FBC);
+
+    obj = &work->objects[18];
+    GM_InitObject(obj, GV_StrCode("04b_c4"), 0x6D, 0);
+    pos.vx = pos_arg.vx + 540;
+    pos.vy = pos_arg.vy + 2000;
+    pos.vz = pos_arg.vz - 540;
+    rot = dir_arg;
+    rot.vy = 0x600;
+    DG_SetPos2(&pos, &rot);
+    ReadRotMatrix(&work->objects[18].objs->world);
+    GM_ConfigObjectLight(obj, work->f1F7C);
+
+    work->f166C = 0;
+    work->wire_cut = 0;
+    work->map = map;
+    work->f19F8 = 0;
+
+    work->f20BC = pos_arg;
+    work->f20C4 = pos_arg;
+
+    work->f20D8.vx = -2500;
+    work->f20D8.vy = 10000;
+    work->f20D8.vz = 6000;
+
+    work->f20CC = 0;
+
+    work->f20BC.vy += 3000;
+    work->f20C4.vy += 3000;
+
+    if (wire_CreateTarget(work) < 0)
+    {
+        return -1;
+    }
+
+    if (wire_CreateTarget2(work) < 0)
+    {
+        return -1;
+    }
+
+    return 0;
+}
 int s04c_wire_800D3FA8(Work *work, int name, int map); // GetResources
 
 void *NewWire(int name, int where)
