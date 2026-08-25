@@ -1,10 +1,15 @@
+#include "zako.h"
+
+#include <stdio.h>
 #include "common.h"
+#include "linkvar.h"
 #include "game/game.h"
 #include "game/item.h"
-#include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
-#include "linkvar.h"
-#include "zako.h"
+#include "libgcl/libgcl.h"
+#include "okajima/blood.h"
+
+extern GM_CameraSystemWork GM_Camera;
 
 extern int s03d_dword_800C39B0;
 extern int s03d_dword_800C39B8;
@@ -27,20 +32,19 @@ extern int s03d_dword_800C39E0;
 extern int s03d_dword_800C39FC;
 extern short s03d_word_800C3A38[2];
 extern short s03d_word_800C3A3C[2];
-extern const char s03d_dword_800DB594[];
-extern int printf(const char *format, ...);
 extern short s03d_word_800C39E8[2];
 extern short s03d_word_800C39EC[2];
 extern int s03d_dword_800DC310;
-extern int s03d_dword_800C3B88;
+extern SVECTOR s03d_dword_800C3B88;
 extern int s03d_dword_800C3A5C;
 extern short s03d_word_800C3A10[20];
 extern const SVECTOR s03d_dword_800DB548;
 extern const SVECTOR s03d_dword_800DB550;
 extern const SVECTOR s03d_dword_800DB558;
 
+extern int s03d_dword_800DC2F8;
+
 void AN_Fog(SVECTOR *svec);
-extern void NewBlood(MATRIX *, int);
 
 void s03d_800D01C4(struct _Work *work, int arg);
 void s03d_800D0324(struct _Work *work, int arg);
@@ -65,24 +69,84 @@ void s03d_800D041C(Work *work);
 void s03d_800D14AC(Work *work);
 void s03d_800D13F8(Work *work);
 void s03d_800D3B5C(Work *work);
+void s03d_800D153C(Work *work);
+void ZakoCom_800D4050(int idx);
 
 void Zako_800CCAB0(DG_OBJS *objs, DG_DEF *def)
 {
-    int i;
     DG_OBJ *obj;
+    int i;
 
     DG_FreeObjsPacket(objs, 0);
     DG_FreeObjsPacket(objs, 1);
+
     objs->def = def;
     obj = objs->objs;
     for (i = 0; i < 16; i++)
     {
         obj->model = &def->models[i];
-        obj->n_packs = *(short *)&def->models[i].n_faces;
+        obj->n_packs = def->models[i].n_faces;
         obj++;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCB2C.s")
+
+void s03d_800CCB2C(Work *work)
+{
+    if (work->field_B00 != 0)
+    {
+        if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera.first_person )
+        {
+            if (work->lod != 1)
+            {
+                work->lod = 1;
+                Zako_800CCAB0(work->body.objs, work->models[1]);
+            }
+        }
+        else
+        {
+            if (work->lod != 0)
+            {
+                work->lod = 0;
+                Zako_800CCAB0(work->body.objs, work->models[0]);
+            }
+        }
+
+        DG_VisibleObjs(work->body.objs);
+        DG_VisibleObjs(work->weapon.objs);
+        *work->enable_shadow = 1;
+        *work->enable_glight = 1;
+    }
+    else
+    {
+        DG_InvisibleObjs(work->body.objs);
+        DG_InvisibleObjs(work->weapon.objs);
+        *work->enable_shadow = 0;
+        *work->enable_glight = 0;
+    }
+}
+
+void s03d_800CCC54(Work *work)
+{
+    CONTROL *control;
+
+    control = &work->control;
+
+    GM_ActControl(control);
+    GM_ActObject2(&work->body);
+
+    DG_GetLightMatrix2(&control->mov, work->light);
+
+    s03d_800D153C(work);
+    GM_MoveTarget(work->field_8FC, &control->mov);
+
+    if (s03d_dword_800DC2F8 == 13 && ZAKOCOM_MGR->entries[work->field_B08].field_4 == 1)
+    {
+        GV_DestroyActor(work);
+    }
+
+    s03d_800CCB2C(work);
+}
+
 void Zako_800CCCF4(Work *work)
 {
     TARGET *t = work->field_8FC;
@@ -92,7 +156,7 @@ void Zako_800CCCF4(Work *work)
     GM_SetTarget(t, 0x9E, 2, (SVECTOR *)&s03d_dword_800C39B0);
     GM_SetPowerTarget(t, 1, -1, b14, b16, (SVECTOR *)&s03d_dword_800C39B8);
     GM_SetCaptureTarget(t, -1, b16, NULL, NULL);
-    GM_TargetBody(t, &work->field_9C.objs->objs[1].world);
+    GM_TargetBody(t, &work->body.objs->objs[1].world);
     GM_SetTarget(&work->field_900, 4, 1, (SVECTOR *)&s03d_dword_800C39C0);
     GM_SetPowerTarget(&work->field_900, 7, 5, 0, 3, (SVECTOR *)&s03d_dword_800C39C8);
 }
@@ -109,8 +173,23 @@ void Zako_800CCDE0(Work *work)
     work->field_8F0 = 0;
     work->field_8F4 = 0;
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCE3C.s")
+
+void s03d_800CD054(Work *work)
+{
+    ZakoCom_800D4050(work->field_B08);
+    GM_FreeControl(&work->control);
+    GM_FreeObject(&work->body);
+    GM_FreeObject(&work->weapon);
+    GM_FreeTarget(work->field_8FC);
+    GV_DestroyActor(work->glight);
+    GV_DestroyActor(work->shadow);
+    GM_FreeHomingTarget(work->hom);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD0C8.s")
+
 int Zako_800CD16C(char *opt, char *out)
 {
     int count = 0;
@@ -123,7 +202,9 @@ int Zako_800CD16C(char *opt, char *out)
     }
     return count;
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD1C4.s")
+
 int s03d_800CD61C(Work *work)
 {
     TARGET *t = work->field_8FC;
@@ -136,7 +217,7 @@ int s03d_800CD61C(Work *work)
             work->field_8F0 = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            GM_ConfigMotionAdjust(&work->field_9C, 0);
+            GM_ConfigMotionAdjust(&work->body, 0);
             t->damaged = 0;
         }
         else
@@ -145,7 +226,7 @@ int s03d_800CD61C(Work *work)
             work->field_8F0 = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            GM_ConfigMotionAdjust(&work->field_9C, 0);
+            GM_ConfigMotionAdjust(&work->body, 0);
             t->damaged = 0;
         }
         return 1;
@@ -195,7 +276,7 @@ int s03d_800CD984(Work *work)
     work->field_8F0 = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
-    GM_ConfigMotionAdjust(&work->field_9C, 0);
+    GM_ConfigMotionAdjust(&work->body, 0);
     return 1;
 }
 int Zako_800CDA04(Work *work)
@@ -220,7 +301,7 @@ void Zako_800CDA70(Work *work)
     GM_SetTarget(t, 0x9E, 2, (SVECTOR *)&s03d_dword_800C39B0);
     GM_SetPowerTarget(t, 1, -1, b14, b16, (SVECTOR *)&s03d_dword_800C39B8);
     GM_SetCaptureTarget(t, -1, b16, NULL, NULL);
-    GM_TargetBody(t, &work->field_9C.objs->objs[1].world);
+    GM_TargetBody(t, &work->body.objs->objs[1].world);
     GM_SetTarget(&work->field_900, 4, 1, (SVECTOR *)&s03d_dword_800C39C0);
     GM_SetPowerTarget(&work->field_900, 7, 5, 0, 3, (SVECTOR *)&s03d_dword_800C39C8);
 }
@@ -254,17 +335,17 @@ void Zako_800CDD94(Work *work)
     int v;
 
     diff = GM_PlayerBody->objs->objs[6].world.t[1] -
-           work->field_9C.objs->objs[6].world.t[1];
-    v = GV_NearExp8(work->field_734, (ratan2(work->field_B90, diff) & 0xFFF) - 0x400);
-    work->field_734 = v;
-    work->field_754 = v;
+           work->body.objs->objs[6].world.t[1];
+    v = GV_NearExp8(work->adjust[2].vx, (ratan2(work->field_B90, diff) & 0xFFF) - 0x400);
+    work->adjust[2].vx = v;
+    work->adjust[6].vx = v;
     if (v < 0)
     {
-        work->field_75C = v * 3;
+        work->adjust[7].vx = v * 3;
     }
     else
     {
-        work->field_75C = v * 3 / 2;
+        work->adjust[7].vx = v * 3 / 2;
     }
 }
 int s03d_800CDE1C(Work *work)
@@ -319,16 +400,16 @@ void s03d_800CE5B4(Work *work, int arg)
     {
         work->field_8DC = 3;
         work->field_8E0 = 0x1F;
-        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[7], 0, 4);
+        GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[7], 0, 4);
     }
-    if (Zako_800CDA04(work) == 0 && work->field_9C.is_end)
+    if (Zako_800CDA04(work) == 0 && work->body.is_end)
     {
         work->field_AE0 = 0;
         work->field_8E8 = s03d_800CF68C;
         work->field_8F0 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
 void s03d_800CE644(Work *work, int arg)
@@ -339,19 +420,19 @@ void s03d_800CE644(Work *work, int arg)
     if (arg == 0)
     {
         work->field_8E0 = 0x10;
-        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A00[0], 0, 4);
+        GM_ConfigObjectAction(&work->body, s03d_word_800C3A00[0], 0, 4);
     }
     if (Zako_800CDA04(work))
     {
         return;
     }
-    if (work->field_9C.is_end || !(work->field_AD8 & 0x20))
+    if (work->body.is_end || !(work->field_AD8 & 0x20))
     {
         work->field_8E8 = s03d_800CE12C;
         work->field_8F0 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
     }
     else
     {
@@ -371,15 +452,15 @@ void s03d_800CE8F4(Work *work, int arg)
         if (work->field_AD8 & 0x10000)
         {
             work->field_8E0 = 4;
-            GM_ConfigObjectAction(&work->field_9C, s03d_word_800C39E8[0], 0, 0);
+            GM_ConfigObjectAction(&work->body, s03d_word_800C39E8[0], 0, 0);
         }
         else
         {
             work->field_8E0 = 6;
-            GM_ConfigObjectAction(&work->field_9C, s03d_word_800C39EC[0], 0, 0);
+            GM_ConfigObjectAction(&work->body, s03d_word_800C39EC[0], 0, 0);
         }
         Zako_800D0EF0(work, 3);
-        GM_ConfigMotionAdjust(&work->field_9C, &work->field_724);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
     }
     if (work->field_B08 != 1 || !(GV_Time & 0x100))
     {
@@ -400,7 +481,7 @@ void s03d_800CE9E8(Work *work, int arg)
     work->field_B24 = 0xFA0;
     if (arg == 0)
     {
-        GM_ConfigMotionAdjust(&work->field_9C, &work->field_724);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
     }
     rot = &work->control.rot;
     if (arg == 1 || arg == 7)
@@ -414,19 +495,19 @@ void s03d_800CE9E8(Work *work, int arg)
     if (arg == 2 || arg == 4 || arg == 6)
     {
         work->field_8E0 = 6;
-        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C39EC[0], 0, 0);
+        GM_ConfigObjectAction(&work->body, s03d_word_800C39EC[0], 0, 0);
         Zako_800D0EF0(work, 3);
     }
     Zako_800CDD94(work);
     if (!Zako_800CDA04(work))
     {
-        if (work->field_9C.is_end)
+        if (work->body.is_end)
         {
             work->field_8E8 = s03d_800CE720;
             work->field_8F0 = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            GM_ConfigMotionAdjust(&work->field_9C, NULL);
+            GM_ConfigMotionAdjust(&work->body, NULL);
         }
         work->control.rot.vy = rot->vy;
     }
@@ -439,7 +520,7 @@ void s03d_800CECBC(Work *work, int arg)
     if (arg == 0)
     {
         work->field_8E0 = 8;
-        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C39F0[0], 0, 0);
+        GM_ConfigObjectAction(&work->body, s03d_word_800C39F0[0], 0, 0);
     }
     if (arg == 3 && s03d_800CDE1C(work))
     {
@@ -450,13 +531,13 @@ void s03d_800CECBC(Work *work, int arg)
     {
         return;
     }
-    if (work->field_9C.is_end)
+    if (work->body.is_end)
     {
         work->field_8E8 = s03d_800CE720;
         work->field_8F0 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
 void s03d_800CED94(Work *work, int arg)
@@ -465,21 +546,21 @@ void s03d_800CED94(Work *work, int arg)
     if (arg == 0)
     {
         work->field_8E0 = 0x13;
-        GM_ConfigObjectAction(&work->field_9C, ((short *)&s03d_dword_800C3A04)[1], 0, 4);
+        GM_ConfigObjectAction(&work->body, ((short *)&s03d_dword_800C3A04)[1], 0, 4);
     }
     if (Zako_800CDA04(work))
     {
         return;
     }
     work->field_8FC->class |= 0x9E;
-    if (work->field_9C.is_end)
+    if (work->body.is_end)
     {
         work->field_8F8 = 1;
         work->field_8E8 = s03d_800CE12C;
         work->field_8F0 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CEE3C.s")
@@ -498,15 +579,15 @@ void s03d_800CF4D4(Work *work, int arg)
     if (arg == 0)
     {
         work->field_8E0 = 0x22;
-        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[10], 0, 4);
+        GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[10], 0, 4);
     }
-    if (work->field_9C.is_end)
+    if (work->body.is_end)
     {
         work->field_8E8 = s03d_800D01C4;
         work->field_8F0 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
 void s03d_800CF548(Work *work, int arg)
@@ -518,7 +599,7 @@ void s03d_800CF548(Work *work, int arg)
     if (arg == 0)
     {
         work->field_8E0 = 0x1C;
-        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[4], 0, 4);
+        GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[4], 0, 4);
         work->field_8FC->faint = 0;
     }
     if (Zako_800CDA04(work))
@@ -530,7 +611,7 @@ void s03d_800CF548(Work *work, int arg)
     {
         work->field_8DC = 1;
         work->field_8E0 = 0x21;
-        GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[9], 0, 4);
+        GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[9], 0, 4);
     }
     else
     {
@@ -544,13 +625,13 @@ void s03d_800CF548(Work *work, int arg)
     {
         GM_SeSet(pos, 0x33);
     }
-    if (arg >= phase + 0x32 && work->field_9C.is_end)
+    if (arg >= phase + 0x32 && work->body.is_end)
     {
         work->field_8E8 = s03d_800CF68C;
         work->field_8F0 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CF68C.s")
@@ -561,12 +642,12 @@ void s03d_800CF844(Work *work, int arg)
         if (work->field_8DC < 3)
         {
             work->field_8E0 = 0x2A;
-            GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[18], 0, 4);
+            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[18], 0, 4);
         }
         else
         {
             work->field_8E0 = 0x2B;
-            GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[19], 0, 4);
+            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[19], 0, 4);
         }
         GM_SeSet(&work->control.mov, 0x36);
     }
@@ -574,13 +655,13 @@ void s03d_800CF844(Work *work, int arg)
     {
         Zako_800D0BEC(work, 0);
     }
-    if (work->field_9C.is_end)
+    if (work->body.is_end)
     {
         work->field_8E8 = s03d_800D01C4;
         work->field_8F0 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
 void s03d_800CF90C(Work *work, int arg)
@@ -593,12 +674,12 @@ void s03d_800CF90C(Work *work, int arg)
             if (work->field_AF6 >= 0x96)
             {
                 work->field_8E0 = 0x28;
-                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[16], 0, 4);
+                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[16], 0, 4);
             }
             else
             {
                 work->field_8E0 = 0x26;
-                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[14], 0, 4);
+                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[14], 0, 4);
             }
         }
         else
@@ -606,22 +687,22 @@ void s03d_800CF90C(Work *work, int arg)
             if (work->field_AF6 >= 0x96)
             {
                 work->field_8E0 = 0x29;
-                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[17], 0, 4);
+                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[17], 0, 4);
             }
             else
             {
                 work->field_8E0 = 0x27;
-                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[15], 0, 4);
+                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[15], 0, 4);
             }
         }
     }
-    if (work->field_9C.is_end)
+    if (work->body.is_end)
     {
         work->field_8E8 = s03d_800CE12C;
         work->field_8F0 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
 void s03d_800CFA04(Work *work, int arg)
@@ -638,7 +719,7 @@ void s03d_800CFA04(Work *work, int arg)
     if (arg == 0)
     {
         work->field_8E0 = 0xF;
-        GM_ConfigObjectAction(&work->field_9C, ((short *)&s03d_dword_800C39FC)[1], 0, 4);
+        GM_ConfigObjectAction(&work->body, ((short *)&s03d_dword_800C39FC)[1], 0, 4);
         GM_SeSet(&work->control.mov, 0x8D);
         if (t->a_mode == 3)
         {
@@ -650,13 +731,13 @@ void s03d_800CFA04(Work *work, int arg)
             Zako_800D0B18(work, 5, 0);
         }
     }
-    if (work->field_9C.is_end)
+    if (work->body.is_end)
     {
         work->field_8E8 = s03d_800CE12C;
         work->field_8F0 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFB04.s")
@@ -676,25 +757,25 @@ void s03d_800CFFF0(Work *work, int arg)
     }
     if (work->field_8E0 < 35)
     {
-        if (work->field_9C.is_end)
+        if (work->body.is_end)
         {
             if (work->field_8DC < 3)
             {
                 if (work->field_8DC == 1)
                 {
                     work->field_8E0 = 37;
-                    GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[13], 0, 4);
+                    GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[13], 0, 4);
                 }
                 else
                 {
                     work->field_8E0 = 35;
-                    GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[11], 0, 4);
+                    GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[11], 0, 4);
                 }
             }
             else
             {
                 work->field_8E0 = 36;
-                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A10[12], 0, 4);
+                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[12], 0, 4);
             }
         }
     }
@@ -708,7 +789,7 @@ void s03d_800CFFF0(Work *work, int arg)
         work->field_8F0 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
 void s03d_800D01C4(Work *work, int arg)
@@ -720,18 +801,18 @@ void s03d_800D01C4(Work *work, int arg)
             if (work->field_8DC == 1)
             {
                 work->field_8E0 = 0x2F;
-                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A3C[1], 0, 4);
+                GM_ConfigObjectAction(&work->body, s03d_word_800C3A3C[1], 0, 4);
             }
             else
             {
                 work->field_8E0 = 0x2D;
-                GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A38[1], 0, 4);
+                GM_ConfigObjectAction(&work->body, s03d_word_800C3A38[1], 0, 4);
             }
         }
         else
         {
             work->field_8E0 = 0x2E;
-            GM_ConfigObjectAction(&work->field_9C, s03d_word_800C3A3C[0], 0, 4);
+            GM_ConfigObjectAction(&work->body, s03d_word_800C3A3C[0], 0, 4);
         }
         GM_ConfigControlAttribute(&work->control, 0);
         work->field_B28 = 0;
@@ -740,7 +821,7 @@ void s03d_800D01C4(Work *work, int arg)
     {
         int b04 = work->field_B04;
 
-        printf(s03d_dword_800DB594, b04);
+        printf("n_dead = %d \n", b04);
         if (b04 == 6 || b04 == 0xA || b04 == 0xE)
         {
             Zako_800D0BEC(work, 2);
@@ -764,16 +845,46 @@ void s03d_800D01C4(Work *work, int arg)
         work->field_8F0 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
+
+const char s03d_dword_800DB5A4[] = {'F', 'A', '-', 'M'};
+const char s03d_dword_800DB5A8[] = {'A', 'S', '/', 'B'};
+const char s03d_dword_800DB5AC[] = {'U', 'L', 'L', 'E'};
+const char s03d_dword_800DB5B0[] = {'T', ' ', '*', ' '};
+const char s03d_dword_800DB5B4[] = {'2', '5', 0x0, 0x0};
+
+const char s03d_dword_800DB5B8[] = {'S', 'O', 'C', 'O'};
+const char s03d_dword_800DB5BC[] = {'M', '/', 'B', 'U'};
+const char s03d_dword_800DB5C0[] = {'L', 'L', 'E', 'T'};
+const char s03d_dword_800DB5C4[] = {' ', '*', ' ', '1'};
+const char s03d_dword_800DB5C8[] = {'2', 0x0, 0x0, 0x0};
+
+const char s03d_dword_800DB5CC[] = {'R', 'A', 'T', 'I'};
+const char s03d_dword_800DB5D0[] = {'O', 'N', 0x0, 0x0};
+
+const char s03d_dword_800DB5D4[] = {'n', 'o', 'i', 's'};
+const char s03d_dword_800DB5D8[] = {'e', ' ', 'd', 'i'};
+const char s03d_dword_800DB5DC[] = {'s', ' ', ' ', '='};
+const char s03d_dword_800DB5E0[] = {'%', 'd', ',', '\n'};
+const char s03d_dword_800DB5E4[] = {0x0, 0x0, 0x0, 0x0};
+
+const char s03d_dword_800DB5E8[] = {' ', 'A', 's', 'i'};
+const char s03d_dword_800DB5EC[] = {'a', 't', 'o', ' '};
+const char s03d_dword_800DB5F0[] = {'m', 'i', 'k', 'k'};
+const char s03d_dword_800DB5F4[] = {'e', '!', '!', ' '};
+const char s03d_dword_800DB5F8[] = {'[', '%', 'd', ']'};
+const char s03d_dword_800DB5FC[] = {'\n', 0x0, 0xa9, ','};
+
+
 void s03d_800D0324(Work *work, int arg)
 {
     if (arg == 0)
     {
         int *base = &s03d_dword_800DC310;
         work->field_B00 = 0;
-        work->control.mov = *(SVECTOR *)&s03d_dword_800C3B88;
+        work->control.mov = s03d_dword_800C3B88;
         base[work->field_B08 * 4 + 0x90 / 4] = 1;
         if (work->field_BA0 == 0)
         {
@@ -792,7 +903,7 @@ void s03d_800D0324(Work *work, int arg)
         work->field_8F0 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->field_9C, NULL);
+        GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
 int Zako_800D0408(Work *work)
@@ -804,11 +915,11 @@ void s03d_800D05DC(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->field_9C, s03d_word_800C39F0[1], 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39F0[1], 0, 4, 0x3FE);
     }
     if (!(work->field_AD8 & 1))
     {
-        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
         work->field_8EC = 0;
         work->field_8F4 = 0;
         work->control.turn.vz = 0;
@@ -827,11 +938,11 @@ void s03d_800D0698(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39F4, 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39F4, 0, 4, 0x3FE);
     }
     if (!(work->field_AD8 & 2))
     {
-        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
         work->field_8EC = 0;
         work->field_8F4 = 0;
         work->control.turn.vz = 0;
@@ -851,11 +962,11 @@ void s03d_800D0754(Work *work, int arg1)
     work->field_B24 = 0x7D0;
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->field_9C, ((short *)&s03d_dword_800C39F4)[1], 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, ((short *)&s03d_dword_800C39F4)[1], 0, 4, 0x3FE);
     }
     if (!(work->field_AD8 & 4))
     {
-        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
         work->field_8EC = 0;
         work->field_8F4 = 0;
         work->control.turn.vz = 0;
@@ -867,11 +978,11 @@ void s03d_800D07DC(Work *work, int arg1)
     work->field_B24 = 0;
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C3A0C, 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C3A0C, 0, 4, 0x3FE);
     }
-    if (work->field_9C.time2)
+    if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
         work->field_8EC = 0;
         work->field_8F4 = 0;
         work->control.turn.vz = 0;
@@ -883,11 +994,11 @@ void s03d_800D085C(Work *work, int arg1)
     work->field_B24 = 0;
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C3A08, 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C3A08, 0, 4, 0x3FE);
     }
-    if (work->field_9C.time2)
+    if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
         work->field_8EC = 0;
         work->field_8F4 = 0;
         work->control.turn.vz = 0;
@@ -898,11 +1009,11 @@ void s03d_800D08DC(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->field_9C, ((short *)&s03d_dword_800C3A08)[1], 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, ((short *)&s03d_dword_800C3A08)[1], 0, 4, 0x3FE);
     }
-    if (work->field_9C.time2)
+    if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
         work->field_8EC = 0;
         work->field_8F4 = 0;
         work->control.turn.vz = 0;
@@ -914,11 +1025,11 @@ void s03d_800D0958(Work *work, int arg1)
     work->field_B24 = 0;
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->field_9C, s03d_word_800C3A00[1], 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C3A00[1], 0, 4, 0x3FE);
     }
-    if (work->field_9C.time2)
+    if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->field_9C, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
         work->field_8EC = 0;
         work->field_8F4 = 0;
         work->control.turn.vz = 0;
@@ -930,7 +1041,7 @@ void Zako_800D0B18(Work *work, int index, int count)
 {
     MATRIX m;
 
-    DG_SetPos(&work->field_9C.objs->objs[index].world);
+    DG_SetPos(&work->body.objs->objs[index].world);
     DG_MovePos((SVECTOR *)&s03d_dword_800C3A64);
     DG_RotatePos((SVECTOR *)&s03d_dword_800C3A6C);
     ReadRotMatrix(&m);
@@ -941,7 +1052,7 @@ void Zako_800D0B88(Work *work)
     MATRIX  m;
     SVECTOR sv;
 
-    DG_SetPos(&work->field_9C.objs->objs[1].world);
+    DG_SetPos(&work->body.objs->objs[1].world);
     DG_MovePos((SVECTOR *)&s03d_dword_800C3A74);
     DG_RotatePos((SVECTOR *)&s03d_dword_800C3A7C);
     ReadRotMatrix(&m);
@@ -1077,7 +1188,9 @@ void s03d_800D13F8(Work *work)
         work->field_B28 = 255;
     }
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D14AC.s")
+
 void s03d_800D153C(Work *work)
 {
     if (work->field_8E0 < 0x2D)
@@ -1091,6 +1204,7 @@ void s03d_800D153C(Work *work)
     }
     s03d_800D041C(work);
 }
+
 void s03d_800D15A8(Work *work)
 {
     TARGET  *trg;

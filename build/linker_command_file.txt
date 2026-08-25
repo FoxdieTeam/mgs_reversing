@@ -2216,14 +2216,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     ; zako think.c & command.c
     include "{{OBJ_DIR}}\overlays\s03d\animal\zako\think.obj", overlay
-
-    ; eyeflash.c
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3BA4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3C48.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3E00.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s03d\s03d_800D3F14.obj", overlay
-
-    ; zakocom.c
+    include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\overlays\s03d\animal\zako\zakocom.obj", overlay
     include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
 
