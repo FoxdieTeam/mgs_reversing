@@ -119,27 +119,36 @@ typedef struct _RevolverPrims
     SPRT     sprt[6];
 } RevolverPrims;
 
-extern CAMERA GM_CameraList[8];
+static char revolver_name[] = "OCELOT";
 
-SVECTOR revolver_target_size = {400, 900, 400};
+static short s04c_dword_800C3470[][2] =
+{
+    { -500, 9500},
+    {  750, 8250},
+    { 1000, 4000},
+    { -250, 2750},
+    {-4500, 2500},
+    {-5750, 3750},
+    {-6000, 8000},
+    {-4750, 9250}
+};
 
-extern char    s04c_dword_800C3468[]; // = "OCELOT"
-extern short   s04c_dword_800C3470[][2];
-extern SVECTOR s04c_dword_800C3490;
-extern SVECTOR s04c_dword_800C3498[2];
-extern MATRIX  s04c_dword_800C34A8;
-extern SVECTOR s04c_dword_800C34C8;
-extern SVECTOR s04c_dword_800C34D0;
-extern short   s04c_dword_800C34D8[][2];
-extern short   s04c_dword_800C34F8[];
-extern short   s04c_dword_800C3508[];
-extern short   s04c_dword_800C3518[];
-extern short   s04c_dword_800C3528[];
-extern short   s04c_dword_800C3538[];
-extern short   s04c_dword_800C3548[];
-extern short   s04c_dword_800C3558[];
-extern short   s04c_dword_800C3568[];
-extern short   s04c_dword_800C3578[];
+static SVECTOR s04c_dword_800C3490 = {20, 0, 60};
+static SVECTOR s04c_dword_800C3498[] = {{0, 0, 60}, {0, -15000, 60}};
+static MATRIX s04c_dword_800C34A8 = {{{4094, -13, -23}, {16, -54, 4091}, {-16, -4095, -59}}, {-155, 62, 469}};
+static SVECTOR s04c_dword_800C34C8 = {0, 0, 100};
+static SVECTOR s04c_dword_800C34D0 = {-1024, 0, 0};
+
+static short s04c_dword_800C34D8[][2] = {{0, 3}, {2, 1}, {3, 1}, {0, 2}, {1, 2}, {3, 0}, {2, 0}, {1, 3}};
+static short s04c_dword_800C34F8[] = {3, 1, 1, 2, 2, 0, 0, 3};
+static short s04c_dword_800C3508[] = {5, 4, 7, 6, 1, 0, 3, 2};
+static short s04c_dword_800C3518[] = {5, 4, 7, 6, 1, 0, 3, 2};
+static short s04c_dword_800C3528[] = {5, 4, 7, 6, 1, 0, 3, 2};
+static short s04c_dword_800C3538[] = {5, 4, 7, 6, 1, 0, 3, 2};
+static short s04c_dword_800C3548[] = {5, 4, 7, 6, 1, 0, 3, 2};
+static short s04c_dword_800C3558[] = {4, 5, 6, 7, 0, 1, 2, 3};
+static short s04c_dword_800C3568[] = {4, 5, 6, 7, 0, 1, 2, 3};
+static short s04c_dword_800C3578[] = {96, 24, 129, 96, 6, 129, 24, 6};
 
 typedef struct
 {
@@ -149,13 +158,36 @@ typedef struct
     char pad;
 } SOUNDTBL;
 
-extern SOUNDTBL s04c_dword_800C3588[4];
-extern SOUNDTBL s04c_dword_800C3598[4];
+static SOUNDTBL s04c_dword_800C3588[] =
+{
+    { 3,  0, 186},
+    { 3,  8, 187},
+    {14,  8, 187},
+    {14, 19, 186},
+};
 
-extern short  *s04c_dword_800DBE10;
-extern void   *s04c_dword_800DBE14;
-extern SVECTOR s04c_dword_800DBE18;
-extern int     revolver_used_bul;
+static SOUNDTBL s04c_dword_800C3598[] =
+{
+    { 3,  0, 160},
+    { 3,  8, 161},
+    {14,  8, 161},
+    {14, 19, 160},
+};
+
+static SVECTOR revolver_target_size = {400, 900, 400};
+
+/*---------------------------------------------------------------------------*/
+
+short  *SECTION(".bss") s04c_dword_800DBE10;
+void   *SECTION(".bss") s04c_dword_800DBE14;
+SVECTOR SECTION(".bss") s04c_dword_800DBE18;
+int     SECTION(".bss") revolver_used_bul;
+
+/*---------------------------------------------------------------------------*/
+
+extern CAMERA GM_CameraList[8];
+
+/*---------------------------------------------------------------------------*/
 
 void NewAnime_8005E574(MATRIX *);
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
@@ -1818,7 +1850,7 @@ static int GetResources(Work *work, int name, int where)
     work->field_87C = 0;
 
     lifebar = &work->lifebar;
-    lifebar->name = s04c_dword_800C3468;
+    lifebar->name = revolver_name;
     lifebar->left[0] = 0x10;
     lifebar->left[1] = 0x6F;
     lifebar->left[2] = 0x9F;
