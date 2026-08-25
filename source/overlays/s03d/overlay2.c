@@ -1,20 +1,5 @@
 #include "common.h"
 
-int s03d_dword_800C3960 = 0x05DC012C;
-int s03d_dword_800C3964 = 0x0000012C;
-int s03d_dword_800C3968 = 0x00000000;
-int s03d_dword_800C396C = 0x00000000;
-short s03d_word_800C3970[8] = { 0, 1, 0, 4, 3, 2, 5, 0 };
-int s03d_dword_800C3980 = 0xFE0C0005;
-int s03d_dword_800C3984 = 0x00000050;
-int s03d_dword_800C3988 = 0x00000000;
-int s03d_dword_800C398C = 0x00000064;
-int s03d_dword_800C3990 = 0x0000FC00;
-int s03d_dword_800C3994 = 0x00000000;
-int s03d_dword_800C3998 = 0x00000FA0;
-int s03d_dword_800C399C = 0x000001F4;
-int s03d_dword_800C39A0 = 0x00001388;
-int s03d_dword_800C39A4 = 0x000001F4;
 int s03d_dword_800C39A8 = 0x75307530;
 int s03d_dword_800C39AC = 0x00007530;
 int s03d_dword_800C39B0 = 0x05DC012C;
@@ -79,26 +64,6 @@ int s03d_dword_800C3AAC = 0x00000000;
 int s03d_dword_800C3AB0 = 0x00001F40;
 int s03d_dword_800C3AB4 = 0x0000FC18;
 
-const char s03d_dword_800DB374[] = {'m', 'e', 'l', '_'};
-const char s03d_dword_800DB378[] = {'h', 'e', 'i', 0x0};
-const char s03d_dword_800DB37C[] = {'m', 'e', 'l', 'h'};
-const char s03d_dword_800DB380[] = {'e', 'i', '0', '3'};
-const char s03d_dword_800DB384[] = {0x0, 0x0, 0x0, 0x0};
-const char s03d_dword_800DB388[] = {'l', 'o', 'w', '_'};
-const char s03d_dword_800DB38C[] = {'l', 'i', 't', 0x0};
-const char s03d_dword_800DB390[] = {'f', 'a', 'm', 'a'};
-const char s03d_dword_800DB394[] = {'s', 0x0, 0x0, 0x0};
-const char s03d_dword_800DB398[] = {'m', 'e', 'r', 'y'};
-const char s03d_dword_800DB39C[] = {'l', '3', '.', 'c'};
-const char s03d_dword_800DB3A0[] = {0x0, 0x0, 0x5, '$'};
-const int s03d_dword_800DB3A4 = 0x800CC9BC;
-const int s03d_dword_800DB3A8 = 0x800CC9CC;
-const int s03d_dword_800DB3AC = 0x800CC9DC;
-const int s03d_dword_800DB3B0 = 0x800CC9EC;
-const int s03d_dword_800DB3B4 = 0x800CC9FC;
-const int s03d_dword_800DB3B8 = 0x800CCA0C;
-const int s03d_dword_800DB3BC = 0x800CCA1C;
-const int s03d_dword_800DB3C0 = 0x800CCA24;
 const char s03d_dword_800DB3C4[] = {'i', 'p', 'p', 'a'};
 const char s03d_dword_800DB3C8[] = {'n', 'h', 'e', 'i'};
 const char s03d_dword_800DB3CC[] = {0x0, 0x0, 0x0, 0x0};

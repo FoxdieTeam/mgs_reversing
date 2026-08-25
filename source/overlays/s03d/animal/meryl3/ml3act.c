@@ -1,350 +1,425 @@
 #include "meryl3.h"
+#include "anime/animconv/anime.h"
 #include "okajima/blood.h"
 #include "okajima/bullet.h"
-#include "anime/animconv/anime.h"
 
-extern short s03d_word_800C3970[8];
-extern int s03d_dword_800C3980;
-extern int s03d_dword_800C3988;
-extern int s03d_dword_800C3990;
+/*---------------------------------------------------------------------------*/
 
-int  s03d_800CBA60(Meryl3Work *work);
-void s03d_800CBB2C(Meryl3Work *work);
-void s03d_800CBC10(Meryl3Work *work, int arg);
-void s03d_800CBCDC(Meryl3Work *work, int arg);
-void s03d_800CC168(Meryl3Work *work, int arg);
-void s03d_800CC2E8(Meryl3Work *work, int arg);
-void s03d_800CBE2C(Meryl3Work *work, int arg);
-void s03d_800CBEF4(Meryl3Work *work, int arg);
-void s03d_800CC05C(Meryl3Work *work, int arg);
-void s03d_800CC374(Meryl3Work *work);
-void Zako_800CCA64(Meryl3Work *work);
-int  Zako_800CB9E8(Meryl3Work *work);
+#define ACTINTERP   4
 
-int Zako_800CB9E8(Meryl3Work *work)
+#define STANDSTILL  0
+#define WALK        1
+#define GUNSHOOT    2
+#define SITUP       3
+#define DAMAGE      4
+#define RUN         5
+#define RELOAD      6
+#define UNUSED      7
+
+static short act_table[8] =
 {
-    int flags = work->pad.press;
+    0, 1, 0, 4, 3, 2, 5, 0
+};
 
-    if (flags & 1)
+static SVECTOR bullet_pos = {5, -500, 80};
+static SVECTOR blood_pos = {0, 0, 100};
+static SVECTOR blood_rot = {-1024, 0, 0};
+
+static void ActWalk(Work *work, int time);
+static void ActRun(Work *work, int time);
+static void ActReload(Work *work, int time);
+static void ActAim(Work *work, int time);
+static void ActShoot(Work *work, int time);
+static void ActDamage(Work *work, int time);
+
+/*---------------------------------------------------------------------------*/
+
+static inline void SetAction( Work *work, int n_action, int interp )
+{
+    work->n_action = n_action;
+    GM_ConfigObjectAction( &( work->body ), act_table[ n_action ], 0, interp );
+}
+
+static inline void UnsetMode( Work *work )
+{
+    GM_ConfigObjectOverride( &( work->body ), act_table[ 0 ], 0, 4, 0 );
+    work->action2 = 0;
+    work->time2 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+static int CheckPad(Work *work)
+{
+    if (work->pad.press & PAD_L2)
     {
-        SetMode(work, s03d_800CC05C);
+        SetMode(work, ActAim);
         return 1;
     }
-    if (flags & 4)
+
+    if (work->pad.press & PAD_L1)
     {
-        SetMode(work, s03d_800CBE2C);
+        SetMode(work, ActRun);
         return 1;
     }
-    if (flags & 8)
+
+    if (work->pad.press & PAD_R1)
     {
-        SetMode(work, s03d_800CBEF4);
+        SetMode(work, ActReload);
         return 1;
     }
+
     return 0;
 }
-int s03d_800CBA60(Meryl3Work *work)
-{
-    TARGET *t = work->target;
 
-    if (t->damaged & 4)
+static int CheckTarget(Work *work)
+{
+    TARGET *trg;
+
+    trg = work->target;
+    if (trg->damaged & TARGET_POWER)
     {
-        if (t->a_mode == 1)
+        switch (trg->a_mode)
         {
-            t->force = DG_ZeroVector;
-            SetMode(work, s03d_800CC2E8);
+        case 1:
+            trg->force = DG_ZeroVector;
+            SetMode(work, ActDamage);
+            break;
+        case 2:
+            trg->force = DG_ZeroVector;
+            SetMode(work, ActDamage);
+            break;
         }
-        else if (t->a_mode == 2)
-        {
-            t->force = DG_ZeroVector;
-            SetMode(work, s03d_800CC2E8);
-        }
-        t->damage = 0;
-        t->damaged = 0;
+
+        trg->damage = 0;
+        trg->damaged = 0;
         return 1;
     }
+
     return 0;
 }
-void Zako_800CBAEC(Meryl3Work *work)
-{
-    int v = work->field_96C;
 
-    work->adjust[2].vx = v;
-    work->adjust[6].vx = v;
-    if (v < 0)
+static void AdjustTarget(Work *work)
+{
+    int pitch;
+
+    pitch = work->trg_pitch;
+    work->adjust[2].vx = pitch;
+    work->adjust[6].vx = pitch;
+
+    if (pitch < 0)
     {
-        work->adjust[7].vx = v * 3;
+        work->adjust[7].vx = pitch * 3;
     }
     else
     {
-        work->adjust[7].vx = v * 3 / 2;
+        work->adjust[7].vx = pitch * 3 / 2;
     }
 }
-void s03d_800CBB2C(Meryl3Work *work)
+
+static void FamasShoot(Work *work)
 {
     MATRIX  mat;
     SVECTOR rot;
-    MATRIX *m = &work->body.objs->objs[4].world;
+    MATRIX *world;
 
-    DG_SetPos(m);
-    DG_MovePos((SVECTOR *)&s03d_dword_800C3980);
+    world = &work->body.objs->objs[4].world;
+
+    DG_SetPos(world);
+    DG_MovePos(&bullet_pos);
+
     rot = DG_ZeroVector;
-    rot.vx = 0x400;
+    rot.vx = 1024;
     DG_RotatePos(&rot);
+
     ReadRotMatrix(&mat);
-    NewBulletEx(BULLET_RECOILSPARK, &mat, 1, 1, 0, 0xA, 0x41, 0x2710, 0x2EE);
-    GM_SeSetMode(&work->control.mov, 0x2E, 1);
-    AN_BulletSmoke(m, 0);
+    NewBulletEx(BULLET_RECOILSPARK, &mat, PLAYER_SIDE, 1, 0, 10, 65, 10000, 750);
+    GM_SeSetMode(&work->control.mov, SE_GUNCAM_SHOT, GM_SEMODE_BOMB);
+    AN_BulletSmoke(world, 0);
     AN_FamasFlash(&mat);
 }
-void s03d_800CBC10(Meryl3Work *work, int arg)
+
+static void ActIdle(Work *work, int time)
 {
     work->control.step.vx = 0;
     work->control.step.vz = 0;
-    if (arg == 0)
+
+    if (time == 0)
     {
-        work->field_964 = 0;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3970[0], 0, 4);
+        SetAction(work, STANDSTILL, ACTINTERP);
     }
-    if (s03d_800CBA60(work))
-    {
-        return;
-    }
-    if (Zako_800CB9E8(work))
+
+    if (CheckTarget(work))
     {
         return;
     }
-    if (work->pad.mode >= 0)
+
+    if (CheckPad(work))
     {
-        SetMode(work, s03d_800CBCDC);
+        return;
     }
+
+    if (work->pad.dir >= 0)
+    {
+        SetMode(work, ActWalk);
+    }
+
     work->control.step = DG_ZeroVector;
-    work->target->class |= 0x14;
+    work->target->class |= (TARGET_SEEK | TARGET_POWER);
 }
-void s03d_800CBCDC(Meryl3Work *work, int arg)
-{
-    CONTROL *ctl = &work->control;
-    int      v = work->pad.mode;
 
-    if (arg == 0)
+static void ActWalk(Work *work, int time)
+{
+    CONTROL *control;
+    int      dir, dis;
+
+    control = &work->control;
+    dir = work->pad.dir;
+
+    if (time == 0)
     {
-        work->field_964 = 1;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3970[1], 0, 4);
+        SetAction(work, WALK, ACTINTERP);
     }
-    if (s03d_800CBA60(work))
+
+    if (CheckTarget(work))
     {
         return;
     }
-    if (Zako_800CB9E8(work))
+    if (CheckPad(work))
     {
         return;
     }
-    if (v < 0)
-    {
-        SetMode(work, s03d_800CBC10);
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C3970[0], 0, 4, 0);
-        work->field_958 = 0;
-        work->field_960 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-    }
-    else
-    {
-        int s1;
 
-        ctl->turn.vy = v;
-        s1 = (arg < 0xA) ? arg * 4 : 0x28;
-        ctl->step.vx = s1 * rsin(v) / 4096;
-        ctl->step.vz = s1 * rcos(v) / 4096;
-        work->target->class |= 0x14;
+    if (dir < 0)
+    {
+        SetMode(work, ActIdle);
+        UnsetMode(work);
+        return;
     }
+
+    control->turn.vy = dir;
+    dis = (time < 10) ? time * 4 : 40;
+    control->step.vx = dis * rsin(dir) / 4096;
+    control->step.vz = dis * rcos(dir) / 4096;
+    work->target->class |= (TARGET_SEEK | TARGET_POWER);
 }
-void s03d_800CBE2C(Meryl3Work *work, int arg)
+
+static void ActRun(Work *work, int time)
 {
-    CONTROL *ctl = &work->control;
+    CONTROL *control;
+
+    control = &work->control;
 
     work->control.step.vx = 0;
     work->control.step.vz = 0;
-    if (arg == 0)
+
+    if (time == 0)
     {
-        work->field_964 = 5;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3970[5], 0, 4);
+        SetAction(work, RUN, ACTINTERP);
     }
-    if (s03d_800CBA60(work))
+
+    if (CheckTarget(work))
     {
         return;
     }
-    if (!(work->pad.press & 4))
-    {
-        if (Zako_800CB9E8(work))
-        {
-            return;
-        }
-        SetMode(work, s03d_800CBC10);
-    }
-    else
-    {
-        ctl->turn.vy = work->field_968;
-        work->target->class |= 0x14;
-    }
-}
-void s03d_800CBEF4(Meryl3Work *work, int arg)
-{
-    CONTROL *ctl = &work->control;
 
-    if (arg == 0)
+    if (!(work->pad.press & PAD_L1))
     {
-        work->field_964 = 2;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3970[2], 0, 4);
+        if (!CheckPad(work))
+        {
+            SetMode(work, ActIdle);
+        }
+        return;
     }
-    if (arg < 0x1E && (arg & 7) == 0)
+
+    control->turn.vy = work->trg_yaw;
+    work->target->class |= (TARGET_SEEK | TARGET_POWER);
+}
+
+static void ActReload(Work *work, int time)
+{
+    CONTROL *control;
+
+    control = &work->control;
+
+    if (time == 0)
     {
-        GM_SeSetMode(&work->control.mov, 4, 1);
+        SetAction(work, GUNSHOOT, ACTINTERP);
     }
-    if (arg == 0x1E)
+
+    if (time < 30 && (time % 8) == 0)
     {
-        work->field_964 = 6;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3970[6], 0, 4);
+        GM_SeSetMode(&work->control.mov, SE_KARASHT, GM_SEMODE_BOMB);
+    }
+
+    if (time == 30)
+    {
+        SetAction(work, RELOAD, ACTINTERP);
         NewAnime_8005DDE0(&work->body.objs->objs[4].world);
     }
-    if (arg == 0x2E)
+
+    if (time == 46)
     {
-        GM_SeSetMode(&work->control.mov, 0x2F, 1);
+        GM_SeSetMode(&work->control.mov, SE_RELOAD, GM_SEMODE_BOMB);
     }
-    if (arg >= 0x1F && work->body.is_end)
+
+    if (time >= 31 && work->body.is_end)
     {
-        SetMode(work, s03d_800CBC10);
-        GM_SeSetMode(&work->control.mov, 9, 1);
+        SetMode(work, ActIdle);
+        GM_SeSetMode(&work->control.mov, SE_READY_WEAPON, GM_SEMODE_BOMB);
+        return;
     }
-    else
-    {
-        ctl->turn.vy = work->field_968;
-        ctl->step = DG_ZeroVector;
-        work->target->class |= 0x14;
-    }
+
+    control->turn.vy = work->trg_yaw;
+    control->step = DG_ZeroVector;
+    work->target->class |= (TARGET_SEEK | TARGET_POWER);
 }
-void s03d_800CC05C(Meryl3Work *work, int arg)
+
+static void ActAim(Work *work, int time)
 {
-    int flags = work->pad.press;
+    int press;
+
+    press = work->pad.press;
 
     work->control.step.vx = 0;
     work->control.step.vz = 0;
-    if (s03d_800CBA60(work))
+
+    if (CheckTarget(work))
     {
         return;
     }
-    if (arg == 0)
+
+    if (time == 0)
     {
-        work->field_964 = 2;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3970[2], 0, 4);
-        GM_ConfigMotionAdjust(&work->body, &work->adjust[0]);
+        SetAction(work, GUNSHOOT, ACTINTERP);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
     }
-    Zako_800CBAEC(work);
-    if (!(flags & 1))
+
+    AdjustTarget(work);
+
+    if (!(press & PAD_L2))
     {
-        SetMode(work, s03d_800CBC10);
-    }
-    else
-    {
-        work->control.turn.vy = work->field_968;
-        work->control.step = DG_ZeroVector;
-        if (flags & 2)
-        {
-            SetMode(work, s03d_800CC168);
-        }
-        else
-        {
-            work->target->class |= 0x14;
-        }
-    }
-}
-void s03d_800CC168(Meryl3Work *work, int arg)
-{
-    if (s03d_800CBA60(work))
-    {
+        SetMode(work, ActIdle);
         return;
     }
-    if (arg == 0)
-    {
-        work->field_964 = 2;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3970[2], 0, 0);
-        s03d_800CBB2C(work);
-        GM_ConfigMotionAdjust(&work->body, &work->adjust[0]);
-    }
-    Zako_800CBAEC(work);
-    work->control.turn.vy = work->field_968;
+
+    work->control.turn.vy = work->trg_yaw;
     work->control.step = DG_ZeroVector;
-    SetMode(work, s03d_800CC05C);
-    work->target->class |= 0x14;
+
+    if (press & PAD_R2)
+    {
+        SetMode(work, ActShoot);
+        return;
+    }
+
+    work->target->class |= (TARGET_SEEK | TARGET_POWER);
 }
-void Zako_800CC244(Meryl3Work *work, int index, int count)
+
+static void ActShoot(Work *work, int time)
+{
+    if (CheckTarget(work))
+    {
+        return;
+    }
+
+    if (time == 0)
+    {
+        SetAction(work, GUNSHOOT, 0);
+        FamasShoot(work);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
+    }
+
+    AdjustTarget(work);
+
+    work->control.turn.vy = work->trg_yaw;
+    work->control.step = DG_ZeroVector;
+
+    SetMode(work, ActAim);
+    work->target->class |= (TARGET_SEEK | TARGET_POWER);
+}
+
+static void PutBlood(Work *work, int unit, int count)
 {
     MATRIX m;
 
-    DG_SetPos(&work->body.objs->objs[index].world);
-    DG_MovePos((SVECTOR *)&s03d_dword_800C3988);
-    DG_RotatePos((SVECTOR *)&s03d_dword_800C3990);
+    DG_SetPos(&work->body.objs->objs[unit].world);
+    DG_MovePos(&blood_pos);
+    DG_RotatePos(&blood_rot);
+
     ReadRotMatrix(&m);
     NewBlood(&m, count);
+
     work->control.step = DG_ZeroVector;
 }
 
-void s03d_800CC2E8(Meryl3Work *work, int arg)
+static void ActDamage(Work *work, int time)
 {
     work->control.step.vx = 0;
     work->control.step.vz = 0;
-    if (arg == 0)
+
+    if (time == 0)
     {
-        work->field_964 = 4;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3970[4], 0, 4);
-        GM_SeSet(&work->control.mov, 0xBB);
-        Zako_800CC244(work, 5, 0);
+        SetAction(work, DAMAGE, ACTINTERP);
+        GM_SeSet(&work->control.mov, 187);
+        PutBlood(work, 5, 0);
     }
+
     if (work->body.is_end)
     {
-        SetMode(work, s03d_800CBC10);
+        SetMode(work, ActIdle);
     }
 }
-void s03d_800CC374(Meryl3Work *work)
-{
-    CONTROL *ctl = &work->control;
-    OBJECT  *obj = &work->body;
-    void   (*h)(struct _Meryl3Work *, int);
-    int      n;
 
-    work->target->class = 1;
-    n = work->field_95C;
-    h = work->field_954;
-    work->field_95C = n + 1;
-    if (h == 0)
+static void DoAction(Work *work)
+{
+    CONTROL *control;
+    OBJECT  *body;
+    int      time;
+    void   (*action)(struct _Work *, int);
+
+    control = &work->control;
+    body = &work->body;
+
+    work->target->class = TARGET_AVAIL;
+
+    time = work->time++;
+    action = work->action;
+    if (action == NULL)
     {
-        h = s03d_800CBC10;
-        work->field_954 = h;
+        action = ActIdle;
+        work->action = action;
     }
-    h(work, n);
-    ctl->height = *(unsigned short *)&obj->height;
-    ctl->r_sphere = -1;
-    if (work->field_920 < 0)
+
+    action(work, time);
+
+    control->height = body->height;
+    control->r_sphere = -1;
+
+    if (work->height < 0 && control->grounded)
     {
-        if (ctl->grounded)
-        {
-            work->field_920 = 0;
-        }
+        work->height = 0;
     }
-    work->field_920 -= 0x10;
-    ctl->step.vy = *(unsigned short *)&work->field_920;
+
+    work->height -= 16;
+    control->step.vy = work->height;
 }
-void Zako_800CC430(Meryl3Work *work)
+
+static void CheckPlayer(Work *work)
 {
     SVECTOR vec;
 
     GV_SubVec3(&GM_PlayerPosition, &work->control.mov, &vec);
     vec.vy = 0;
-    work->field_9A4 = GV_VecDir2(&vec);
-    work->field_9A8 = GV_VecLen3(&vec);
+
+    work->player_dir = GV_VecDir2(&vec);
+    work->player_dis = GV_VecLen3(&vec);
 }
-void Zako_800CC480(Meryl3Work *work)
+
+void Meryl3Act(Work *work)
 {
-    Zako_800CC430(work);
-    Zako_800CCA64(work);
-    s03d_800CC374(work);
+    CheckPlayer(work);
+    Meryl3Think(work);
+    DoAction(work);
 }
