@@ -141,7 +141,7 @@ static void FamasShoot(Work *work)
     AN_FamasFlash(&mat);
 }
 
-static void ActIdle(Work *work, int time)
+static void ActStandStill(Work *work, int time)
 {
     work->control.step.vx = 0;
     work->control.step.vz = 0;
@@ -194,7 +194,7 @@ static void ActWalk(Work *work, int time)
 
     if (dir < 0)
     {
-        SetMode(work, ActIdle);
+        SetMode(work, ActStandStill);
         UnsetMode(work);
         return;
     }
@@ -229,7 +229,7 @@ static void ActRun(Work *work, int time)
     {
         if (!CheckPad(work))
         {
-            SetMode(work, ActIdle);
+            SetMode(work, ActStandStill);
         }
         return;
     }
@@ -267,7 +267,7 @@ static void ActReload(Work *work, int time)
 
     if (time >= 31 && work->body.is_end)
     {
-        SetMode(work, ActIdle);
+        SetMode(work, ActStandStill);
         GM_SeSetMode(&work->control.mov, SE_READY_WEAPON, GM_SEMODE_BOMB);
         return;
     }
@@ -301,7 +301,7 @@ static void ActAim(Work *work, int time)
 
     if (!(press & PAD_L2))
     {
-        SetMode(work, ActIdle);
+        SetMode(work, ActStandStill);
         return;
     }
 
@@ -368,7 +368,7 @@ static void ActDamage(Work *work, int time)
 
     if (work->body.is_end)
     {
-        SetMode(work, ActIdle);
+        SetMode(work, ActStandStill);
     }
 }
 
@@ -388,7 +388,7 @@ static void DoAction(Work *work)
     action = work->action;
     if (action == NULL)
     {
-        action = ActIdle;
+        action = ActStandStill;
         work->action = action;
     }
 

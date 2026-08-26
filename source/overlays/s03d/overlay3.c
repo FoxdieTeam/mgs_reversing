@@ -1,29 +1,5 @@
 #include "common.h"
 
-int s03d_dword_800C3B68 = 0x00001A5E;
-int s03d_dword_800C3B6C = 0x0000FC18;
-int s03d_dword_800C3B70 = 0x00001C52;
-int s03d_dword_800C3B74 = 0x000001F4;
-int s03d_dword_800C3B78 = 0x00001A5E;
-int s03d_dword_800C3B7C = 0x000007D0;
-int s03d_dword_800C3B80 = 0x00500000;
-int s03d_dword_800C3B84 = 0x00000032;
-int s03d_dword_800C3B88 = 0x75307530;
-int s03d_dword_800C3B8C = 0x00007530;
-int s03d_dword_800C3B90 = 0x00001F40;
-int s03d_dword_800C3B94 = 0x000003E8;
-unsigned char s03d_dword_800C3B98[4] = { 1, 1, 0, 0 };
-unsigned char s03d_dword_800C3B9C[4] = { 255, 1, 0, 0 };
-int s03d_dword_800C3BA0 = 0x00000BB8;
-int s03d_dword_800C3BA4 = 0x00000FA0;
-int s03d_dword_800C3BA8 = 0x00001B58;
-int s03d_dword_800C3BAC = 0x00001F40;
-int s03d_dword_800C3BB0 = 0x00001F40;
-int s03d_dword_800C3BB4 = 0x00001F40;
-int s03d_dword_800C3BB8 = 0x00001F40;
-int s03d_dword_800C3BBC = 0x00001F40;
-int s03d_dword_800C3BC0 = 0x00000000;
-
 int SECTION(".bss") s03d_dword_800DC2E0;
 int SECTION(".bss") s03d_dword_800DC2E4;
 int SECTION(".bss") s03d_dword_800DC2E8;

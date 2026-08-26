@@ -1,9 +1,68 @@
+#include "zako.h"
+
 #include "common.h"
-#include "game/game.h"
-#include "enemy/enemy.h"
 #include "mts/mts.h" // for fprintf
 #include "libgcl/libgcl.h" // for GCL_NextStr, GCL_StrToInt
+#include "game/game.h"
 #include "game/vibrate.h" // for NewPadVibration
+
+SVECTOR s03d_dword_800C3B88 = {30000, 30000, 30000};
+
+int s03d_dword_800C3B90 = 0x00001F40;
+int s03d_dword_800C3B94 = 0x000003E8;
+unsigned char s03d_dword_800C3B98[4] = { 1, 1, 0, 0 };
+unsigned char s03d_dword_800C3B9C[4] = { 255, 1, 0, 0 };
+int s03d_dword_800C3BA0 = 0x00000BB8;
+int s03d_dword_800C3BA4 = 0x00000FA0;
+int s03d_dword_800C3BA8 = 0x00001B58;
+int s03d_dword_800C3BAC = 0x00001F40;
+int s03d_dword_800C3BB0 = 0x00001F40;
+int s03d_dword_800C3BB4 = 0x00001F40;
+int s03d_dword_800C3BB8 = 0x00001F40;
+int s03d_dword_800C3BBC = 0x00001F40;
+int s03d_dword_800C3BC0 = 0x00000000;
+
+const char s03d_dword_800DBB48[12] = "dareda!!\n";
+const char s03d_dword_800DBB54[16] = "nanno otoda!!\n";
+const char s03d_dword_800DBB64[16] = "tadano hakoka\n";
+const char s03d_dword_800DBB74[20] = "kono asiatoha??\n";
+const char s03d_dword_800DBB88[16] = "kinoseika !!\n";
+const char s03d_dword_800DBB98[8] = "itazo \n";
+const char s03d_dword_800DBBA0[12] = "kottida!!\n";
+const char s03d_dword_800DBBAC[20] = "haitini modoruzo!!\n";
+const char s03d_dword_800DBBC0[16] = "kottida !!\n";
+const int s03d_dword_800DBBD0 = 0x800D4730;
+const int s03d_dword_800DBBD4 = 0x800D4740;
+const int s03d_dword_800DBBD8 = 0x800D4750;
+const int s03d_dword_800DBBDC = 0x800D4760;
+const int s03d_dword_800DBBE0 = 0x800D4770;
+const int s03d_dword_800DBBE4 = 0x800D4780;
+const int s03d_dword_800DBBE8 = 0x800D4790;
+const int s03d_dword_800DBBEC = 0x800D47A0;
+const char s03d_dword_800DBBF0[32] = "%d reset_enemy_num[%d ]\n";
+const int s03d_dword_800DBC10 = 0x800D4F14;
+const int s03d_dword_800DBC14 = 0x800D4F5C;
+const int s03d_dword_800DBC18 = 0x800D5008;
+const int s03d_dword_800DBC1C = 0x800D5090;
+const int s03d_dword_800DBC20 = 0x800D50D0;
+const int s03d_dword_800DBC24 = 0x800D5164;
+const int s03d_dword_800DBC28 = 0x800D51A8;
+const int s03d_dword_800DBC2C = 0x800D53D8;
+const int s03d_dword_800DBC30 = 0x800D5268;
+const int s03d_dword_800DBC34 = 0x800D52A4;
+const int s03d_dword_800DBC38 = 0x800D52B8;
+const int s03d_dword_800DBC3C = 0x800D52F0;
+const int s03d_dword_800DBC40 = 0x800D5324;
+const int s03d_dword_800DBC44 = 0x800D5344;
+const int s03d_dword_800DBC48 = 0x800D53A8;
+const int s03d_dword_800DBC4C = 0x800D53D8;
+const char s03d_dword_800DBC50[32] = "Err Err Err Sound Buff Over !!\n";
+const char s03d_dword_800DBC70[] = {'z', 'o', 'n', 'e'};
+const char s03d_dword_800DBC74[] = {'=', '%', 'd', ' '};
+const char s03d_dword_800DBC78[] = {0x0, 0x0, 0x0, 0x0};
+const char s03d_dword_800DBC7C[] = {'z', 'a', 'k', 'o'};
+const char s03d_dword_800DBC80[] = {'c', 'o', 'm', '.'};
+const char s03d_dword_800DBC84[] = {'c', 0x0, 0x0, 0xf};
 
 extern int s03d_dword_800DC2E0;
 extern int s03d_dword_800DC2E8;
@@ -11,18 +70,6 @@ extern int s03d_dword_800DC2EC;
 extern int s03d_dword_800DC310;
 extern int s03d_dword_800DC31C;
 extern int s03d_dword_800DC378;
-extern const char s03d_dword_800DBB48[];
-extern const char s03d_dword_800DBB54[];
-extern const char s03d_dword_800DBB64[];
-extern const char s03d_dword_800DBB74[];
-extern const char s03d_dword_800DBB88[];
-extern const char s03d_dword_800DBB98[];
-extern const char s03d_dword_800DBBA0[];
-extern const char s03d_dword_800DBBAC[];
-extern const char s03d_dword_800DBBC0[];
-
-extern unsigned char s03d_dword_800C3B98[4];
-extern unsigned char s03d_dword_800C3B9C[4];
 extern int s03d_dword_800DC2F4;
 extern int s03d_dword_800DC2FC;
 extern int s03d_dword_800DC300;
@@ -30,53 +77,6 @@ extern SVECTOR s03d_dword_800DC308;
 extern int s03d_dword_800DC424;
 extern const char s03d_dword_800DBC50[];
 extern CONTROL *GM_WhereList[96];
-
-typedef struct _ZakoActor
-{
-    char            pad_0[0xAE8];
-    short           field_AE8;      /* 0xAE8 */
-    char            pad_AEA[0xB28 - 0xAEA];
-    int             field_B28;      /* 0xB28 */
-    char            pad_B2C[0xB64 - 0xB2C];
-    int             field_B64;      /* 0xB64 */
-    char            pad_B68[0xB90 - 0xB68];
-    int             field_B90;      /* 0xB90 */
-} ZakoActor;
-
-typedef struct _ZakoComEntry
-{
-    int             field_0;        /* 0x00 */
-    int             field_4;        /* 0x04 */
-    int             field_8;        /* 0x08 */
-    ZakoActor      *field_C;        /* 0x0C - zako actor work */
-} ZakoComEntry;                     /* 0x10 */
-
-typedef struct _ZakoComMgr
-{
-    char            pad_0[0x8];
-    int             count;          /* 0x08 */
-    char            pad_C[0x18 - 0xC];
-    int             field_18;       /* 0x18 */
-    int             field_1C;       /* 0x1C */
-    char            pad_20[0x24 - 0x20];
-    int             field_24;       /* 0x24 */
-    int             field_28;       /* 0x28 */
-    SVECTOR         field_2C;       /* 0x2C */
-    short           field_34;       /* 0x34 */
-    short           field_36;       /* 0x36 */
-    short           field_38[4];    /* 0x38 */
-    int             field_40;       /* 0x40 */
-    char            pad_44[0x60 - 0x44];
-    int             field_60;       /* 0x60 */
-    MAP            *field_64;        /* 0x64 */
-    char            pad_68[0x8C - 0x68];
-    ZakoComEntry    entries[8];     /* 0x8C - 0x10C */
-    int             field_10C;      /* 0x10C */
-    char            pad_110[0x124 - 0x110];
-    int             field_124[8];   /* 0x124 */
-} ZakoComMgr;
-
-#define ZAKOCOM_MGR ((ZakoComMgr *)&s03d_dword_800DC310)
 
 extern const char s03d_dword_800DBBF0[];
 extern int printf(const char *format, ...);
