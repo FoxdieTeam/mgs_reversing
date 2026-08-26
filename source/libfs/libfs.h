@@ -74,7 +74,7 @@ enum {
 };
 
 int  FS_ResetCdFilePosition(void *buffer);
-void FS_CdInit(void);
+void FS_CDInit(void);
 void FS_LoadFileRequest(int fileno, int offset, int size, void *buffer);
 int  FS_LoadFileSync(void);
 void MakeFullPath(char *name, char *full);

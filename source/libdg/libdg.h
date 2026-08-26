@@ -367,8 +367,8 @@ void DG_SetDefDrawEnv( DRAWENV *env, int x, int y, int w, int h );
 void DG_StopMainChanlSystem( void );
 void DG_RestartMainChanlSystem( void );
 void DG_SetBackGroundColor( int r, int b, int g );
-void DG_ClearBackGroundColor( void );
-void DG_RestoreBackGroundColor( void );
+void DG_BackGroundBlack( void );
+void DG_BackGroundNormal( void );
 void DG_SetBackgroundPrim( void *prim );
 DG_CHANLFUNC DG_SetChanlSystemUnits( int num, DG_CHANLFUNC addr );
 

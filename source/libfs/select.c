@@ -11,7 +11,7 @@
 void FS_StartDaemon( void )
 {
     SetMem( 2 );    // Set effective memory to 2MB (DTL-H2X00 has 8MB)
-    FS_CdInit();    // Init CD read system
+    FS_CDInit();    // Init CD read system
     sio_output_stop();
 }
 

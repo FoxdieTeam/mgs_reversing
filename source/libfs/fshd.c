@@ -3,7 +3,7 @@
 // and the Win32 port by Digital Dialect).
 //
 // I'm assuming conditional compilation in select.c determines whether
-// FS_CdInit or FS_HDInit is called by FS_StartDaemon and thus the linker
+// FS_CDInit or FS_HDInit is called by FS_StartDaemon and thus the linker
 // discards either fshd.obj or fscd.obj, respectively.
 //
 // It's known to contain the following public functions:

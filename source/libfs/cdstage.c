@@ -12,6 +12,12 @@
 #include "libgv/libgv.h"    // for GV_xxxMemory
 #include "sound/sd_cli.h"
 
+extern FS_STAGE_INFO *fs_stage_info;
+extern int gLoaderStartTime_800B528C;
+extern int gOverlayBinSize_800B5290;
+extern int FS_ResidentCacheDirty;
+extern void *StageCharacterEntries;
+
 /*---------------------------------------------------------------------------*/
 
 #define STAGE_NAME_LEN  8
@@ -31,11 +37,13 @@ typedef struct {
 
 STATIC STAGE_TABLE_HEADER fs_table_header = {};
 
-extern FS_STAGE_INFO *fs_stage_info;
-extern int            gLoaderStartTime_800B528C;
-extern int            gOverlayBinSize_800B5290;
-extern int            FS_ResidentCacheDirty;
-extern void          *StageCharacterEntries;
+// NOTE: This code registers a single DIR-format archive and keeps it for
+// the full duration of the game's runtime. This is only cleared at shutdown,
+// since there are no deinitialization routines for LibFS's position tables.
+//
+// Theoretically, if there were more than one DIR-format archives present on
+// the CD-ROM, the game could dynamically select which to register at startup,
+// however, the program is currently hard-coded to load only "STAGE.DIR".
 
 /*---------------------------------------------------------------------------*/
 
@@ -46,14 +54,6 @@ STATIC unsigned short   dword_8009D500[] = {0, 0};      // *.wvx id
 STATIC unsigned short   word_8009D504 = 0;              // *.wvx index
 STATIC unsigned short   word_8009D506 = 0;              // *.mdx id
 STATIC unsigned short   word_8009D508 = 0;              // *.efx id
-
-// NOTE: This code registers a single DIR-format archive and keeps it for
-// the full duration of the game's runtime. This is only cleared at shutdown,
-// since there are no deinitialization routines for LibFS's position tables.
-//
-// Theoretically, if there were more than one DIR-format archives present on
-// the CD-ROM, the game could dynamically select which to register at startup,
-// however, the program is currently hard-coded to load only "STAGE.DIR".
 
 /*---------------------------------------------------------------------------*/
 

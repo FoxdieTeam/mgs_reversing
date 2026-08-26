@@ -397,12 +397,12 @@ void DG_SetBackGroundColor( int r, int g, int b )
     SetBackgroundColor( r, g, b );
 }
 
-void DG_ClearBackGroundColor( void )
+void DG_BackGroundBlack( void )
 {
     SetBackgroundColor( 0, 0, 0 );
 }
 
-void DG_RestoreBackGroundColor( void )
+void DG_BackGroundNormal( void )
 {
     SetBackgroundColor( bg_color.r, bg_color.g, bg_color.b);
 }
