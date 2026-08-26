@@ -827,7 +827,7 @@ void s11d_rope_800C6B18(Work *work, int arg1)
         }
     }
 
-*(short *)((char *)&work->control + 0x48) -= 0x6C;
+work->control.step.vz -= 0x6C;
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6CD4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6F28.s")
