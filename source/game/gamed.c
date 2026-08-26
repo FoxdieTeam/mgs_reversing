@@ -86,20 +86,34 @@ SVECTOR      SECTION(".sbss") GM_PhotoViewPos;
 PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus;
 int              SECTION(".sbss") GM_PadVibration2;
 
-extern unsigned short   GM_SystemCallbackProc[6];
+enum GAMED_STATE {
+    WAIT_LOAD,
+    WORKING
+};
+
+typedef struct {
+    GV_ACT actor;
+    enum GAMED_STATE status;
+    int killing_count;
+} Work;
+
+static char BSS    exe_name[ 32 ];
+static Work BSS    GameWork;
+char BSS           gap_800B58A8[ 8 ]; // TODO
+static DG_TEX BSS  read_error_tex;
+char BSS           gap_800B58BC[ 4 ]; // TODO
+static u_short BSS GM_SystemCallbackProc[ 6 ];
+char BSS           gap_800B58CC[ 20 ]; // TODO
+
 extern int          str_mute_fg;
 extern unsigned int str_status;
 extern int          dword_800BF1A8;
 extern int          dword_800BF270;
 extern int          str_off_idx;
-extern char         exe_name[32];
 extern char        *MGS_DiskName[3]; /* in main.c */
 extern int          FS_DiskNum;
 extern int          FS_ResidentCacheDirty;
 
-extern DG_TEX gMenuTextureRec_800B58B0;
-
-extern gameWork GameWork;
 
 extern unsigned char *GV_ResidentMemoryBottom;
 
@@ -238,7 +252,7 @@ static void GM_TogglePauseScreen(void)
     }
 }
 
-static void GM_ActInit(gameWork *work)
+static void GM_ActInit(Work *work)
 {
     GM_Reset_helper3_80030760();
     GM_InitWhereSystem();
@@ -258,8 +272,8 @@ void GM_InitReadError(void)
     DG_TEX *tex;
 
     tex = DG_GetTexture(PCC_READ);
-    gMenuTextureRec_800B58B0 = *tex;
-    gMenuTextureRec_800B58B0.id = 0;
+    read_error_tex = *tex;
+    read_error_tex.id = 0;
 }
 
 void DrawReadError(void)
@@ -269,12 +283,12 @@ void DrawReadError(void)
     SPRT     sprt;
     TILE     tile;
 
-    u_off = 16 * gMenuTextureRec_800B58B0.id;
-    gMenuTextureRec_800B58B0.id = (gMenuTextureRec_800B58B0.id + 1) % 6;
+    u_off = 16 * read_error_tex.id;
+    read_error_tex.id = (read_error_tex.id + 1) % 6;
 
     DG_DisableClipping();
 
-    setDrawTPage(&tpage, 1, 1, gMenuTextureRec_800B58B0.tpage);
+    setDrawTPage(&tpage, 1, 1, read_error_tex.tpage);
     DrawPrim(&tpage);
 
     LSTORE(0, &tile.r0);
@@ -291,15 +305,15 @@ void DrawReadError(void)
     sprt.h = 16;
     sprt.x0 = 288;
     sprt.y0 = 16;
-    sprt.u0 = gMenuTextureRec_800B58B0.off_x + u_off;
-    sprt.v0 = gMenuTextureRec_800B58B0.off_y;
-    sprt.clut = gMenuTextureRec_800B58B0.clut;
+    sprt.u0 = read_error_tex.off_x + u_off;
+    sprt.v0 = read_error_tex.off_y;
+    sprt.clut = read_error_tex.clut;
     DrawPrim(&sprt);
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void Act(gameWork *work)
+static void Act(Work *work)
 {
     int load_request;
     int status;

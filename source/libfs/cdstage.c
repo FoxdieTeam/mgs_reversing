@@ -47,6 +47,16 @@ STATIC STAGE_TABLE_HEADER fs_table_header = {};
 
 /*---------------------------------------------------------------------------*/
 
+static FS_STAGE_INFO *BSS fs_stage_info;
+static int BSS            gLoaderStartTime_800B528C;
+
+int BSS gOverlayBinSize_800B5290;
+int BSS FS_ResidentCacheDirty;
+
+extern void *StageCharacterEntries;
+
+/*---------------------------------------------------------------------------*/
+
 STATIC TFsCallback      gFsCallback_8009D4F8 = NULL;
 STATIC TFsSoundCallback gFsSoundCallback_8009D4FC = NULL;
 

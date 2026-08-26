@@ -74,8 +74,8 @@ void GM_InitScript(void);
 
 /* area.c */
 void GM_InitArea(void);
-void GM_GetAreaHistory(AreaHistory *pHistoryCopy);
-void GM_SetAreaHistory(AreaHistory *pNewHistory);
+void GM_GetAreaHistory(short *buf);
+void GM_SetAreaHistory(short *buf);
 int  GM_SetArea(int stage_id, char *stage_name);
 int  GM_AreaHistory(int stage_id);
 char *GM_GetArea(int flag);

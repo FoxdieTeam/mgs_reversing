@@ -13,7 +13,7 @@
 #include "sound/g_sound.h"
 #include "strcode.h"
 
-extern SVECTOR stru_800BDF90;
+static SVECTOR stru_800BDF90;
 
 /*---------------------------------------------------------------------------*/
 

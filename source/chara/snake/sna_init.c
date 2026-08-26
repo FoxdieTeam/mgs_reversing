@@ -41,6 +41,12 @@ short        SECTION(".sbss") dword_800ABBD4;
 void        *SECTION(".sbss") GM_BombSeg;
 short        SECTION(".sbss") dword_800ABBDC;
 
+static u_char BSS gBulNames_800BDC78[ 64 ];
+
+short BSS snake_mag_size_800BDCB8;
+short BSS snake_weapon_idx_800BDCBA;
+short BSS snake_weapon_max_ammo_800BDCBC;
+
 extern GM_CameraSystemWork          GM_Camera;
 extern unsigned short     GM_WeaponTypes[];
 extern unsigned short     GM_ItemTypes[];
@@ -52,8 +58,6 @@ extern GM_SnakeCameraWork    GM_SnakeCamera;
 extern CONTROL        *tenage_ctrls_800BDD30[16];
 extern HITTABLE           GM_C4Datas[C4_COUNT];
 extern HITTABLE           GM_ClayDatas[8];
-extern unsigned char      gBulNames_800BDC78[64];
-unsigned char             gBulNames_800BDC78[64];
 extern int                dword_8009F440;
 extern int                dword_8009F444;
 extern int                dword_8009F46C[];
@@ -75,9 +79,6 @@ extern char               dword_8009EEF0[];
 extern char               dword_8009EEF4[];
 extern char               dword_8009EED4[];
 extern char               dword_8009EED8[];
-extern short              snake_weapon_idx_800BDCBA;
-extern short              snake_mag_size_800BDCB8;
-extern short              snake_weapon_max_ammo_800BDCBC;
 
 #define TARGET_FLAG ( TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )

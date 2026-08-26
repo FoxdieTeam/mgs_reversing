@@ -138,27 +138,6 @@ typedef struct _DG_PRIM {
     void    *(*callback)(struct _DG_PRIM *, POLY_FT4 *, int);
 } DG_PRIM;
 
-#define MAX_TMPLIGHTS  8
-#define MAX_FIX_LIGHTS 8
-
-/* Should be local to light.c */
-typedef struct _TLIGHT {
-    int    n_lights;
-    DG_LIT lights[ MAX_TMPLIGHTS ];
-} TLIGHT;
-
-/* Should be local to light.c */
-typedef struct _FIXLIGHT {
-    int     n_lights;
-    DG_LIT *lights;
-} FIXLIGHT;
-
-/* Should be local to pshade.c */
-typedef struct _PLIGHT {
-    SVECTOR point[2];
-    CVECTOR color[2];
-} PLIGHT;
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct _DG_IMAGE {
@@ -380,7 +359,7 @@ extern short DG_ClipMin[2];
 extern short DG_ClipMax[2];
 #endif
 
-void DG_InitDisplay( int x, int y, int w, int h, int shift );
+void DG_SetDispEnv( int x, int y, int w, int h, int shift );
 void DG_ChangeReso( int );
 void DG_InitFrameSystem( void );
 void DG_StartFrame( void );

@@ -8,7 +8,7 @@
 #include "libgv/libgv.h"
 #include "game.h"
 
-extern HOMING homing_targets[HOMING_MAX];
+static HOMING homing_targets[ HOMING_MAX ];
 
 void GM_ResetHomingTargets(void)
 {

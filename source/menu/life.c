@@ -451,52 +451,54 @@ void menu_life_kill_8003F838(MenuWork *work)
     work->field_28_flags &= ~1u;
 }
 
-//below may be separate to life but draws it in one function
-extern SPRT gMenuSprt_800bd998;
-extern KCB  font_800BD968;
+// possible file split
+
+static KCB BSS  desc_font;
+char BSS        gap_800BD994[ 4 ]; // TODO
+static SPRT BSS desc_sprt;
 
 int sub_8003F84C(int idx)
 {
     void *font_buffer;
 
-    setSprt(&gMenuSprt_800bd998);
+    setSprt(&desc_sprt);
 
-    gMenuSprt_800bd998.u0 = 0;
-    gMenuSprt_800bd998.v0 = rect_800AB600.y;
+    desc_sprt.u0 = 0;
+    desc_sprt.v0 = rect_800AB600.y;
 
-    gMenuSprt_800bd998.r0 = 128;
-    gMenuSprt_800bd998.g0 = 128;
-    gMenuSprt_800bd998.b0 = 128;
+    desc_sprt.r0 = 128;
+    desc_sprt.g0 = 128;
+    desc_sprt.b0 = 128;
 
-    gMenuSprt_800bd998.w = 200;
-    gMenuSprt_800bd998.h = 80;
+    desc_sprt.w = 200;
+    desc_sprt.h = 80;
 
     // Callers to this function call it with idx = 0 or idx = 1
-    gMenuSprt_800bd998.x0 = coords_800AB600[idx][0];
-    gMenuSprt_800bd998.y0 = coords_800AB600[idx][1];
-    gMenuSprt_800bd998.clut = 0x7fbc;
+    desc_sprt.x0 = coords_800AB600[idx][0];
+    desc_sprt.y0 = coords_800AB600[idx][1];
+    desc_sprt.clut = 0x7fbc;
 
     ClearImage(&rect_800AB600, 0, 0, 0);
 
-    font_init_kcb(&font_800BD968, &rect_800AB600, 960, 510);
-    font_set_kcb(&font_800BD968, -1, -1, 0, 6, 2, 0);
+    font_init_kcb(&desc_font, &rect_800AB600, 960, 510);
+    font_set_kcb(&desc_font, -1, -1, 0, 6, 2, 0);
 
-    font_buffer = GV_Malloc(font_get_buffer_size(&font_800BD968));
+    font_buffer = GV_Malloc(font_get_buffer_size(&desc_font));
     if (font_buffer == NULL)
     {
         return 0;
     }
 
-    font_set_buffer(&font_800BD968, font_buffer);
-    font_set_color(&font_800BD968, 0, 0x6739, 0);
-    font_clut_update(&font_800BD968);
+    font_set_buffer(&desc_font, font_buffer);
+    font_set_color(&desc_font, 0, 0x6739, 0);
+    font_clut_update(&desc_font);
     return 1;
 }
 
 void menu_printDescription_8003F97C(char *description)
 {
-    font_print_string(&font_800BD968, description);
-    font_update(&font_800BD968);
+    font_print_string(&desc_font, description);
+    font_update(&desc_font);
 }
 
 // When scrolling items/weapons menu, draws the life bar, the text "EQUIP" or
@@ -517,15 +519,15 @@ void menu_drawDescriptionPanel_8003F9B4(MenuWork *work, u_long *ot, const char *
 
     NEW_PRIM(sprt, work);
 
-    *sprt = gMenuSprt_800bd998;
+    *sprt = desc_sprt;
     addPrim(ot, sprt);
 
-    x0 = gMenuSprt_800bd998.x0;
+    x0 = desc_sprt.x0;
     x3 = x0 - 10;
-    w = gMenuSprt_800bd998.w + 10;
+    w = desc_sprt.w + 10;
     x1 = x0;
 
-    x4 = menu_number_draw_string(work, ot, x1 - 8, gMenuSprt_800bd998.y0 - 7, str, 0);
+    x4 = menu_number_draw_string(work, ot, x1 - 8, desc_sprt.y0 - 7, str, 0);
     draw_player_life_8003F4B8(work->prim, x3, 24);
 
     i = 0;
@@ -539,13 +541,13 @@ void menu_drawDescriptionPanel_8003F9B4(MenuWork *work, u_long *ot, const char *
 
         LSTORE(0, &polyF4->r0);
         polyF4->x0 = x3;
-        polyF4->y0 = gMenuSprt_800bd998.y0 - 9;
+        polyF4->y0 = desc_sprt.y0 - 9;
         polyF4->x1 = x2;
-        polyF4->y1 = gMenuSprt_800bd998.y0 - 9;
+        polyF4->y1 = desc_sprt.y0 - 9;
         polyF4->x2 = x3;
-        polyF4->y2 = gMenuSprt_800bd998.y0;
+        polyF4->y2 = desc_sprt.y0;
         polyF4->x3 = x2;
-        polyF4->y3 = gMenuSprt_800bd998.y0;
+        polyF4->y3 = desc_sprt.y0;
         polyF4->x3 += 10;
 
         setPolyF4(polyF4);
@@ -556,9 +558,9 @@ void menu_drawDescriptionPanel_8003F9B4(MenuWork *work, u_long *ot, const char *
 
         LSTORE(0, &tile->r0);
         tile->x0 = x3;
-        tile->y0 = gMenuSprt_800bd998.y0;
+        tile->y0 = desc_sprt.y0;
         tile->w = w;
-        tile->h = gMenuSprt_800bd998.h;
+        tile->h = desc_sprt.h;
 
         setTile(tile);
         setSemiTrans(tile, 1);
@@ -566,14 +568,14 @@ void menu_drawDescriptionPanel_8003F9B4(MenuWork *work, u_long *ot, const char *
     }
 }
 
-extern MenuWork gMenuWork_800BD360;
+extern MenuWork Work;
 
 void menu_font_kill_8003FC0C(void)
 {
   void *ptr;
 
-  gMenuWork_800BD360.field_2B &= ~2;
+  Work.field_2B &= ~2;
   menu_font_kill_helper_8003F50C();
-  ptr = font_get_buffer_ptr(&font_800BD968);
+  ptr = font_get_buffer_ptr(&desc_font);
   GV_Free(ptr);
 }

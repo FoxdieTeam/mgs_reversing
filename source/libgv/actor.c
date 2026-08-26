@@ -21,7 +21,14 @@
 int SECTION(".sbss") GV_PauseLevel;
 STATIC int SECTION(".sbss") dword_800AB92C; //maybe unused
 
-extern AList ActorList[ GV_ACTOR_LEVEL ];
+typedef struct {
+    GV_ACT start;
+    GV_ACT end;
+    short  pause_level;
+    short  kill_level;
+} AList;
+
+static AList BSS ActorList[ GV_ACTOR_LEVEL ];
 
 // initialization structure for the actor lists
 // the pause and kill levels are set for each list

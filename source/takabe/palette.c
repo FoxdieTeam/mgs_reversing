@@ -3,10 +3,10 @@
 #include <libgpu.h>
 #include "common.h"
 
-extern void (*pfn_800BDFB0)();
-extern unsigned short (*pfn_800BDFB4)(unsigned short);
+static void BSS    (*pfn_800BDFB0)();
+static u_short BSS (*pfn_800BDFB4)(u_short);
 
-extern u_long DG_PaletteBuffer[256];
+extern u_long DG_PaletteBuffer[ 256 ];
 
 /*---------------------------------------------------------------------------*/
 

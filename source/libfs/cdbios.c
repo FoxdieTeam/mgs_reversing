@@ -8,10 +8,11 @@
 #include "mts/taskid.h"
 #include "libfs.h"
 
-extern CDBIOS_TASK cd_bios_task_800B4E58;
-
 #define CDBIOS_STACK_SIZE 1024
-extern char cd_bios_stack_800B4E88[CDBIOS_STACK_SIZE];
+
+static CDBIOS_TASK BSS cdbios_task;
+char BSS               gap_800B4E7C[ 12 ]; // TODO
+static char BSS        cdbios_stack[ CDBIOS_STACK_SIZE ];
 
 STATIC int cdbios_next_state = CDBIOS_STATE_INVALID;
 STATIC int cdbios_start_flag = 0;
@@ -70,9 +71,9 @@ static void CDBIOS_Stop(void)
 
 static void CDBIOS_Error(void)
 {
-    if (cd_bios_task_800B4E58.ticks == 0)
+    if (cdbios_task.ticks == 0)
     {
-        cd_bios_task_800B4E58.ticks = mts_get_tick_count();
+        cdbios_task.ticks = mts_get_tick_count();
     }
 
     cdbios_next_state = CDBIOS_STATE_ERROR;
@@ -102,7 +103,7 @@ static void CDBIOS_ReadyCallback(u_char status, u_char *result)
 
     if (status == 1)
     {
-        task = &cd_bios_task_800B4E58;
+        task = &cdbios_task;
 
         CdGetSector(loc, 3);
 
@@ -136,7 +137,7 @@ static void CDBIOS_ReadyCallback(u_char status, u_char *result)
 
             if (task->callback)
             {
-                callback_status = task->callback(&cd_bios_task_800B4E58);
+                callback_status = task->callback(&cdbios_task);
 
                 if (callback_status == 0)
                 {
@@ -184,7 +185,7 @@ static void CDBIOS_Main(void)
 
     mts_set_vsync_task();
 
-    task = &cd_bios_task_800B4E58;
+    task = &cdbios_task;
 
     last_ticks = 0;
     last_sector = 0;
@@ -326,28 +327,28 @@ static void CDBIOS_Main(void)
 
 void CDBIOS_TaskStart(void)
 {
-    cd_bios_task_800B4E58.state = CDBIOS_STATE_IDLE;
+    cdbios_task.state = CDBIOS_STATE_IDLE;
 
     cdbios_next_state = CDBIOS_STATE_INVALID;
     cdbios_stop_flag = 0;
 
-    mts_start_task(MTSID_CDBIOS, CDBIOS_Main, STACK_BOTTOM(cd_bios_stack_800B4E88), CDBIOS_STACK_SIZE);
+    mts_start_task(MTSID_CDBIOS, CDBIOS_Main, STACK_BOTTOM(cdbios_stack), CDBIOS_STACK_SIZE);
 }
 
 void CDBIOS_ReadRequest(void *buffer, unsigned int sector, unsigned int size, void *callback)
 {
-    cd_bios_task_800B4E58.buffer = buffer;
+    cdbios_task.buffer = buffer;
 
     if (size == 0)
     {
         size = 0x7fff0000;
     }
 
-    cd_bios_task_800B4E58.remaining = (size + 3) >> 2;
-    cd_bios_task_800B4E58.size = (size + 3) >> 2;
-    cd_bios_task_800B4E58.sector = sector;
-    cd_bios_task_800B4E58.callback = callback;
-    cd_bios_task_800B4E58.sectors_delivered = 0;
+    cdbios_task.remaining = (size + 3) >> 2;
+    cdbios_task.size = (size + 3) >> 2;
+    cdbios_task.sector = sector;
+    cdbios_task.callback = callback;
+    cdbios_task.sectors_delivered = 0;
 
     cdbios_stop_flag = 0;
     cdbios_start_flag = 1;
@@ -355,12 +356,12 @@ void CDBIOS_ReadRequest(void *buffer, unsigned int sector, unsigned int size, vo
 
 int CDBIOS_ReadSync(void)
 {
-    return cd_bios_task_800B4E58.remaining * 4;
+    return cdbios_task.remaining * 4;
 }
 
 void CDBIOS_ForceStop(void)
 {
-    if (cd_bios_task_800B4E58.state != CDBIOS_STATE_IDLE)
+    if (cdbios_task.state != CDBIOS_STATE_IDLE)
     {
         cdbios_stop_flag = 1;
     }
@@ -368,5 +369,5 @@ void CDBIOS_ForceStop(void)
 
 int CDBIOS_TaskState(void)
 {
-    return cd_bios_task_800B4E58.state;
+    return cdbios_task.state;
 }

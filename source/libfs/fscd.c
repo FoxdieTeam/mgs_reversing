@@ -5,9 +5,13 @@
 #include "mts/mts.h"        // for mts_wait_vbl
 #include "libgv/libgv.h"    // for GV_xxx_MEMORY_TOP
 
+#include "file.cnf"         // defines fs_file_info
+
+/*---------------------------------------------------------------------------*/
+
 extern int FS_DiskNum;
 
-#include "file.cnf"     // defines fs_file_info
+/*---------------------------------------------------------------------------*/
 
 int FS_ResetCdFilePosition(void *buffer)
 {

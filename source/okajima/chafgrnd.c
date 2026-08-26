@@ -14,10 +14,12 @@
 #include "sound/g_sound.h"
 #include "strcode.h"
 
+static int BSS dword_800BDF98;
+static int BSS dword_800BDF9C;
+
+int BSS okajima_CHAF_LIFE;
+
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern int              dword_800BDF98;
-extern int              dword_800BDF9C;
-extern int              okajima_CHAF_LIFE;
 
 /*---------------------------------------------------------------------------*/
 

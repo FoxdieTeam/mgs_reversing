@@ -31,7 +31,7 @@ int       SECTION(".sbss") dword_800ABACC;
 extern short    image_8009E338[];
 extern char     gDigit7Segment_8009E60C[];
 
-extern MATRIX gRadarScaleMatrix_800BD580;
+static MATRIX gRadarScaleMatrix_800BD580;
 
 // Used for colors of vision cones of soldiers and surveillance cameras in the radar.
 typedef struct visionConeColors

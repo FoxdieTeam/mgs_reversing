@@ -1,115 +1,96 @@
 #include <stdio.h>
-#include "common.h"
-#include "menuman.h"
+#include <stddef.h>     // for NULL
 
-extern radio_table gRadioOverTable_800BDAF8;
-extern radio_table gRadioBaseTable_800BDAB8;
+typedef struct {
+    int freq;
+    int code;
+} RADIO_ENTRY;
 
-void MENU_InitRadioTable(void)
+typedef struct {
+    RADIO_ENTRY entries[ 8 ];
+} RADIO_TABLE;
+
+static RADIO_TABLE base_radio_table;
+static RADIO_TABLE over_radio_table;
+
+void MENU_InitRadioTable( void )
 {
     int i;
-    for (i = 0; i < 8; i++)
+
+    for ( i = 0; i < 8; i++ )
     {
-        gRadioBaseTable_800BDAB8.field_0_entries[i].field_0_contactFrequency = 0;
-        gRadioOverTable_800BDAF8.field_0_entries[i].field_0_contactFrequency = 0;
+        base_radio_table.entries[ i ].freq = 0;
+        over_radio_table.entries[ i ].freq = 0;
     }
 }
 
-void MENU_ClearRadioTable(void)
+void MENU_ClearRadioTable( void )
 {
     MENU_InitRadioTable();
 }
 
-STATIC radio_table_entry *sub_8004969C(radio_table *pRadioTable, int contactFrequency)
+static RADIO_ENTRY *FindEmpty( RADIO_TABLE *table, int freq )
 {
-    radio_table_entry *entriesIter;
-    int                freq;
-    int                i;
-    int                found_idx;
+    int empty, i;
 
-    found_idx = -1;
-    i = 7;
-    entriesIter = &pRadioTable->field_0_entries[7];
-
-    for (i = 7; i >= 0; i--, entriesIter--)
+    empty = -1;
+    for ( i = 7; i >= 0; i-- )
     {
-        freq = entriesIter->field_0_contactFrequency;
-        if (freq == contactFrequency)
+        if ( table->entries[ i ].freq == freq )
         {
-            found_idx = i;
+            empty = i;
             break;
         }
-
-        if (freq == 0)
-        {
-            found_idx = i;
-        }
+        if ( table->entries[ i ].freq == 0 ) empty = i;
     }
 
-    if (found_idx < 0)
+    if ( empty < 0 )
     {
-        printf("RADIO CALL OVER!!\n");
+        printf( "RADIO CALL OVER!!\n" );
         return NULL;
+    }
+
+    return &table->entries[ empty ];
+}
+
+static void SetEntry( RADIO_TABLE *table, int freq, int code )
+{
+    RADIO_ENTRY *entry;
+
+    entry = FindEmpty( table, freq );
+    if ( entry == NULL ) return;
+
+    if ( code >= 0 )
+    {
+        entry->freq = freq;
+        entry->code = code;
     }
     else
     {
-        return &pRadioTable->field_0_entries[found_idx];
+        entry->freq = 0;
+        entry->code = 0;
     }
 }
 
-STATIC radio_table_entry* sub_80049710(radio_table *pData, int contactFrequency, int radioTableCode)
+void MENU_SetRadioBaseCall( int freq, int code )
 {
-    radio_table_entry *pFound; // $v0
-
-    pFound = sub_8004969C(pData, contactFrequency);
-    if ( pFound )
-    {
-        if ( radioTableCode >= 0 )
-        {
-            pFound->field_0_contactFrequency = contactFrequency;
-            pFound->field_4_radioTableCode = radioTableCode;
-
-        }
-        else
-        {
-            pFound->field_0_contactFrequency = 0;
-            pFound->field_4_radioTableCode = 0;
-
-        }
-    }
-    return pFound;
+    SetEntry( &base_radio_table, freq, code );
 }
 
-void MENU_SetRadioBaseCall(int contactFrequency, int radioTableCode)
+void MENU_SetRadioOverCall( int freq, int code )
 {
-    sub_80049710(&gRadioBaseTable_800BDAB8, contactFrequency, radioTableCode);
+    SetEntry( &over_radio_table, freq, code );
 }
 
-void MENU_SetRadioOverCall(int contactFrequency, int radioTableCode)
+int MENU_GetRadioCode( int freq )
 {
-    sub_80049710(&gRadioOverTable_800BDAF8, contactFrequency, radioTableCode);
-}
+    RADIO_ENTRY *entry;
 
-int MENU_GetRadioCode(int contactFrequency)
-{
-    radio_table_entry *pFound; // $v0
+    entry = FindEmpty( &over_radio_table, freq );
+    if ( entry && entry->freq == freq ) return entry->code;
 
-    pFound = sub_8004969C(&gRadioOverTable_800BDAF8, contactFrequency);
-    if ( pFound )
-    {
-        if ( pFound->field_0_contactFrequency == contactFrequency )
-        {
-            return pFound->field_4_radioTableCode;
-        }
-    }
-    
-    pFound = sub_8004969C(&gRadioBaseTable_800BDAB8, contactFrequency);
-    if ( pFound )
-    {
-        if ( pFound->field_0_contactFrequency == contactFrequency )
-        {
-            return pFound->field_4_radioTableCode;
-        }
-    }
+    entry = FindEmpty( &base_radio_table, freq );
+    if ( entry && entry->freq == freq ) return entry->code;
+
     return -1;
 }

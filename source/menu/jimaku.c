@@ -8,9 +8,25 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
 
-void *SECTION(".sbss") MENU_JimakuTextBody;
+// here or jimctl.h?
+typedef struct {
+    char field_0_active; // if true, display on screen and count down timer
+    char field_1_type; // 0, 1, 2? - 1: pause
+    short field_2_timer; // how many frames to be active
+    short field_4_x; // location on screen
+    short field_6_y;
+    short field_8_w;
+    short field_A_h;
+    KCB field_C_font;
+    char *field_38_str; // the string to display
+    int field_3C; // hashed proc name used as first arg to GCL_ExecProc
+    char *field_40; // char * gcl string?
+    // int field_44 // padding?
+} JimakuState;
 
-extern UnkJimakuStruct gUnkJimakuStruct_800BDA70;
+static JimakuState JimState;
+
+void *SECTION(".sbss") MENU_JimakuTextBody;
 
 signed char dword_8009E76C[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
@@ -27,20 +43,20 @@ void menu_jimaku_act( MenuWork *work, u_long *ot )
 
     if ( work->field_2B & 0xFE )
     {
-        gUnkJimakuStruct_800BDA70.field_38_str = NULL;
-        gUnkJimakuStruct_800BDA70.field_0_active = 0;
+        JimState.field_38_str = NULL;
+        JimState.field_0_active = 0;
         return;
     }
 
-    if ( gUnkJimakuStruct_800BDA70.field_0_active == 1 )
+    if ( JimState.field_0_active == 1 )
     {
-        if ( (gUnkJimakuStruct_800BDA70.field_1_type != 0) ||
+        if ( (JimState.field_1_type != 0) ||
             !(GM_Configuration & GM_CONFIG_CAPTION_OFF) )
         {
             NEW_PRIM(pSprt, work);
             LSTORE(0x808080, &pSprt->r0);
-            LCOPY(&gUnkJimakuStruct_800BDA70.field_4_x, &pSprt->x0);
-            LCOPY(&gUnkJimakuStruct_800BDA70.field_8_w, &pSprt->w);
+            LCOPY(&JimState.field_4_x, &pSprt->x0);
+            LCOPY(&JimState.field_8_w, &pSprt->w);
             setClut(pSprt, 960, 510);
             setUV0(pSprt, 0, 0);
             setSprt(pSprt);
@@ -57,7 +73,7 @@ void menu_jimaku_act( MenuWork *work, u_long *ot )
             }
         }
 
-        if ( gUnkJimakuStruct_800BDA70.field_1_type == 1 )
+        if ( JimState.field_1_type == 1 )
         {
             config.color = 0x64C8C8C8;
             config.flags = 0x12;
@@ -73,50 +89,50 @@ void menu_jimaku_act( MenuWork *work, u_long *ot )
         setDrawTPage(pTpage, 1, 0, getTPage(0, 0, 960, 256));
         addPrim(ot, pTpage);
 
-        if ( gUnkJimakuStruct_800BDA70.field_2_timer == -1 )
+        if ( JimState.field_2_timer == -1 )
         {
             if ( GV_PadData[0].press & PAD_CIRCLE )
             {
-                gUnkJimakuStruct_800BDA70.field_0_active = 0;
+                JimState.field_0_active = 0;
 
-                if ( gUnkJimakuStruct_800BDA70.field_40 != 0 )
+                if ( JimState.field_40 != 0 )
                 {
-                    gUnkJimakuStruct_800BDA70.field_38_str = GCL_GetString( gUnkJimakuStruct_800BDA70.field_40 );
-                    gUnkJimakuStruct_800BDA70.field_40 = GCL_NextStr();
+                    JimState.field_38_str = GCL_GetString( JimState.field_40 );
+                    JimState.field_40 = GCL_NextStr();
                     return;
                 }
 
                 GV_PauseLevel &= ~GV_PAUSE_STOP;
                 DG_RestartMainChanlSystem();
-                gUnkJimakuStruct_800BDA70.field_2_timer = 1;
+                JimState.field_2_timer = 1;
 
-                if ( gUnkJimakuStruct_800BDA70.field_3C != -1 )
+                if ( JimState.field_3C != -1 )
                 {
-                    GCL_ExecProc( gUnkJimakuStruct_800BDA70.field_3C, 0 );
+                    GCL_ExecProc( JimState.field_3C, 0 );
                 }
             }
         }
-        else if ((gUnkJimakuStruct_800BDA70.field_2_timer > 0) && (--gUnkJimakuStruct_800BDA70.field_2_timer <= 0))
+        else if ((JimState.field_2_timer > 0) && (--JimState.field_2_timer <= 0))
         {
-            gUnkJimakuStruct_800BDA70.field_0_active = 0;
+            JimState.field_0_active = 0;
         }
     }
 
-    if ( gUnkJimakuStruct_800BDA70.field_38_str != NULL )
+    if ( JimState.field_38_str != NULL )
     {
-        y = (gUnkJimakuStruct_800BDA70.field_1_type == 1 ) ? 112 : 204;
-        pFont = &gUnkJimakuStruct_800BDA70.field_C_font;
+        y = (JimState.field_1_type == 1 ) ? 112 : 204;
+        pFont = &JimState.field_C_font;
 
-        font_print_string( pFont, gUnkJimakuStruct_800BDA70.field_38_str );
+        font_print_string( pFont, JimState.field_38_str );
         font_update( pFont );
         font_clut_update( pFont );
 
-        gUnkJimakuStruct_800BDA70.field_8_w = 256;
-        gUnkJimakuStruct_800BDA70.field_38_str = NULL;
-        gUnkJimakuStruct_800BDA70.field_0_active = 1;
-        gUnkJimakuStruct_800BDA70.field_4_x = (FRAME_WIDTH - pFont->max_width) / 2;
-        gUnkJimakuStruct_800BDA70.field_A_h = pFont->max_height;
-        gUnkJimakuStruct_800BDA70.field_6_y = y - (pFont->max_height / 2);
+        JimState.field_8_w = 256;
+        JimState.field_38_str = NULL;
+        JimState.field_0_active = 1;
+        JimState.field_4_x = (FRAME_WIDTH - pFont->max_width) / 2;
+        JimState.field_A_h = pFont->max_height;
+        JimState.field_6_y = y - (pFont->max_height / 2);
     }
 }
 
@@ -136,42 +152,42 @@ STATIC void menu_jimaku_init_helper(KCB *kcb)
 
 void menu_jimaku_init(MenuWork *work)
 {
-    menu_jimaku_init_helper(&gUnkJimakuStruct_800BDA70.field_C_font);
+    menu_jimaku_init_helper(&JimState.field_C_font);
 }
 
 void MENU_JimakuWrite(char *str, int frames)
 {
-    gUnkJimakuStruct_800BDA70.field_0_active = 0;
-    gUnkJimakuStruct_800BDA70.field_2_timer = frames;
-    gUnkJimakuStruct_800BDA70.field_38_str = str;
+    JimState.field_0_active = 0;
+    JimState.field_2_timer = frames;
+    JimState.field_38_str = str;
 
     if (frames > 10000)
     {
-        gUnkJimakuStruct_800BDA70.field_1_type = 2;
+        JimState.field_1_type = 2;
     }
     else
     {
-        gUnkJimakuStruct_800BDA70.field_1_type = 0;
+        JimState.field_1_type = 0;
     }
 }
 
 void MENU_JimakuClear(void)
 {
-    gUnkJimakuStruct_800BDA70.field_0_active = 0;
-    gUnkJimakuStruct_800BDA70.field_C_font.flag &= ~0x80;
+    JimState.field_0_active = 0;
+    JimState.field_C_font.flag &= ~0x80;
 }
 
 void MENU_AreaNameWrite(char *areaName)
 {
     MENU_JimakuWrite(areaName, 0);
-    gUnkJimakuStruct_800BDA70.field_1_type = 1;
+    JimState.field_1_type = 1;
 }
 
 void NewJimakuStr(char *str, int int_1)
 {
     MENU_JimakuWrite(str, -1);
     GV_PauseLevel |= GV_PAUSE_STOP;
-    gUnkJimakuStruct_800BDA70.field_3C = int_1;
+    JimState.field_3C = int_1;
     DG_StopMainChanlSystem();
 }
 
@@ -180,17 +196,17 @@ void NewJimaku(void)
     char *str;
 
     str = GCL_GetString(GCL_NextStr());
-    gUnkJimakuStruct_800BDA70.field_40 = GCL_NextStr();
+    JimState.field_40 = GCL_NextStr();
     MENU_JimakuWrite(str, -1);
 
     if (GCL_GetOption('e'))
     {
-        gUnkJimakuStruct_800BDA70.field_3C = GCL_StrToInt(GCL_NextStr());
+        JimState.field_3C = GCL_StrToInt(GCL_NextStr());
     }
 
     else
     {
-        gUnkJimakuStruct_800BDA70.field_3C = -1;
+        JimState.field_3C = -1;
     }
 
     GV_PauseLevel |= GV_PAUSE_STOP;

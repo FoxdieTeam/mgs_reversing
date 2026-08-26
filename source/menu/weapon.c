@@ -31,15 +31,16 @@ int        SECTION(".sbss") dword_800ABAE0;
 RPK_ITEM **SECTION(".sbss") gItemFile_table_800ABAE4;
 int        SECTION(".sbss") dword_800ABAE8;
 
-extern PANEL_TEXTURE gMenuRightItems_800BD888[MENU_WEAPON_COUNT];
-
 struct PANEL_CONF SECTION(".data") stru_8009E544[2] = {{16, 184, 1, 24576, 36864, sub_8003D64C, sub_8003D594, NULL},
                                                        {256, 184, 2, 12288, 49152, sub_8003D594, sub_8003D5F0, NULL}};
 
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
 
-extern array_800BD748_child array_800BD828[];
-extern array_800BD748_child array_800BD748[];
+/* menu/weapon.obj */
+static array_800BD748_child BSS array_800BD748[ 9 ];
+char BSS                        gap_800BD820[ 8 ]; // TODO
+static array_800BD748_child BSS array_800BD828[ 4 ];
+static PANEL_TEXTURE BSS        gMenuRightItems_800BD888[ MENU_WEAPON_COUNT ];
 
 void menu_texture_init_8003CC94(MenuWork *work)
 {

@@ -5,38 +5,46 @@
 #include "menu/radio.h"
 #include "sound/g_sound.h"
 
-extern RadioMemory gRadioMemory_800BDB38[ RADIO_MEMORY_COUNT ];
+typedef struct RadioCodecStru_800ABB98
+{
+    short       field_0_idx;
+    short       field_2;
+    short       field_4_count;
+    short       field_6; // Last pressed button in menu_radio_codec_helper_helper2_8004DF68
+    short       field_8;
+    short       field_a;
+    KCB        *field_c_kcb;
+    RadioMemory field_10_array[ RADIO_MEMORY_COUNT ];
+} RadioCodecStru_800ABB98;
+
+RadioMemory radio_memory[ RADIO_MEMORY_COUNT ];
 
 RadioCodecStru_800ABB98 *SECTION(".sbss") stru_800ABB98;
 short                    SECTION(".sbss") word_800ABB9C;
 short                    SECTION(".sbss") gRadioCodecFrequency_800ABB9E;
 
-STATIC int gRadioCodecIdx_800AB770 = 0;
+STATIC int current_call = 0;
 
 Menu_Triangle stru_8009EC44 = {155, 125, 160, 120, 165, 125, 0x80808080};
 Menu_Triangle stru_8009EC54 = {156, 212, 160, 216, 164, 212, 0x80808080};
 
-RadioMemory *menu_radio_table_find_8004D380( int frequency )
+static RadioMemory *FindEntry( int freq )
 {
     RadioMemory *contact;
-    int          i;
+    int i;
 
-    contact = &gRadioMemory_800BDB38[ 0 ];
+    contact = radio_memory;
     for ( i = 0; i < RADIO_MEMORY_COUNT; i++ )
     {
-        if ( contact->frequency == frequency )
-        {
-            return contact;
-        }
+        if ( contact->freq == freq ) return contact;
         contact++;
     }
-    return 0;
+    return NULL;
 }
 
-RadioMemory *menu_radio_table_next_free_8004D3B8( void )
+static RadioMemory *NextEntry( void )
 {
-    // Try to find a free entry
-    return menu_radio_table_find_8004D380( 0 );
+    return FindEntry( 0 ); /* find the next free entry */
 }
 
 void menu_radio_compact_free_vars_8004D3D8( void )
@@ -44,18 +52,18 @@ void menu_radio_compact_free_vars_8004D3D8( void )
     RadioMemory *contact, *next;
     int          i, j;
 
-    contact = &gRadioMemory_800BDB38[ 0 ];
+    contact = &radio_memory[ 0 ];
     for ( i = 0; i < RADIO_MEMORY_COUNT; i++, contact++ )
     {
         j = i + 1;
-        if ( contact->frequency == 0 )
+        if ( contact->freq == 0 )
         {
             for ( next = contact + 1; j < RADIO_MEMORY_COUNT; j++, next++ )
             {
-                if ( next->frequency != 0 )
+                if ( next->freq != 0 )
                 {
                     *contact = *next;
-                    next->frequency = 0;
+                    next->freq = 0;
                     break;
                 }
             }
@@ -200,12 +208,12 @@ void menu_radio_draw_mem(MenuWork *work, u_long *ot)
 
             pMemory = &pCodec->field_10_array[temp_s0 + i];
 
-            sprintf(buffer, "%03d", pMemory->frequency / 100);
+            sprintf(buffer, "%03d", pMemory->freq / 100);
             _menu_number_draw_string(pPrim, &config, buffer);
 
             config.xpos = x + 46;
 
-            sprintf(buffer, "%02d", pMemory->frequency % 100);
+            sprintf(buffer, "%02d", pMemory->freq % 100);
             _menu_number_draw_string(pPrim, &config, buffer);
 
             _NEW_PRIM(pTile, pPrim);
@@ -356,11 +364,11 @@ void menu_radio_codec_helper_helper4_8004DE20(MenuWork *work)
     stru_800ABB98_copy = stru_800ABB98;
     count = 0;
     i = 0;
-    radioMemoryIter = gRadioMemory_800BDB38;
+    radioMemoryIter = radio_memory;
 
     for (; i < RADIO_MEMORY_COUNT; i++, radioMemoryIter++)
     {
-        if (radioMemoryIter->frequency != 0)
+        if (radioMemoryIter->freq != 0)
         {
             stru_800ABB98_copy->field_10_array[count] = *radioMemoryIter;
             count++;
@@ -368,7 +376,7 @@ void menu_radio_codec_helper_helper4_8004DE20(MenuWork *work)
     }
 
     stru_800ABB98_copy->field_4_count = count;
-    stru_800ABB98_copy->field_0_idx = gRadioCodecIdx_800AB770;
+    stru_800ABB98_copy->field_0_idx = current_call;
     stru_800ABB98->field_2 = 0;
     stru_800ABB98_copy->field_6 = 2;
     stru_800ABB98_copy->field_8 = 14;
@@ -384,52 +392,39 @@ void menu_radio_codec_helper__helper3_sub_8004DF44(void)
     GV_FreeMemory(GV_PACKET_MEMORY0, stru_800ABB98);
 }
 
-int menu_radio_codec_helper_helper2_8004DF68(MenuWork *work, GV_PAD *pPad)
+int menu_radio_codec_helper_helper2_8004DF68( MenuWork *work, GV_PAD *pad )
 {
     RadioCodecStru_800ABB98 *pStru;
-    int                      pressed;
+    int status;
 
     pStru = stru_800ABB98;
-    pressed = 0;
-    if (pPad->status & (PAD_UP | PAD_DOWN))
+    status = 0;
+
+    if ( pad->status & ( PAD_UP | PAD_DOWN ) )
     {
-        if (pPad->status & PAD_UP)
-        {
-            pressed = -2;
-        }
-        else
-        {
-            pressed = 2;
-        }
+        status = ( pad->status & PAD_UP ) ? -2 : 2;
     }
-    else if (pPad->status & (PAD_LEFT | PAD_RIGHT))
+    else if ( pad->status & ( PAD_LEFT | PAD_RIGHT ) )
     {
-        if (pPad->status & PAD_LEFT)
-        {
-            pressed = -1;
-        }
-        else
-        {
-            pressed = 1;
-        }
+        status = ( pad->status & PAD_LEFT ) ? -1 : 1;
     }
 
-    if (pressed != 0)
+    if ( status != 0 )
     {
-        if (pStru->field_6 == pressed)
+        if (pStru->field_6 == status)
         {
             pStru->field_8--;
             if (pStru->field_8 < 0)
             {
-                sub_8004D580(pressed);
+                sub_8004D580(status);
                 pStru->field_8 = 2;
             }
         }
         else
         {
-            sub_8004D580(pressed);
+            sub_8004D580(status);
             pStru->field_8 = 10;
-            pStru->field_6 = pressed;
+            pStru->field_6 = status;
         }
     }
     else
@@ -437,72 +432,67 @@ int menu_radio_codec_helper_helper2_8004DF68(MenuWork *work, GV_PAD *pPad)
         pStru->field_6 = 0;
     }
 
-    if (pPad->press & PAD_CIRCLE)
+    if ( pad->press & PAD_CIRCLE )
     {
-        gRadioCodecIdx_800AB770 = pStru->field_0_idx;
-        gRadioCodecFrequency_800ABB9E = pStru->field_10_array[gRadioCodecIdx_800AB770].frequency;
+        current_call = pStru->field_0_idx;
+        gRadioCodecFrequency_800ABB9E = pStru->field_10_array[current_call].freq;
         word_800ABB9C = 1;
         GM_SeSet2(0, 0x3f, SE_RADIO_SELECT);
     }
-    if (pPad->press & PAD_CROSS)
+
+    if ( pad->press & PAD_CROSS )
     {
         gRadioCodecFrequency_800ABB9E = -1;
         word_800ABB9C = 1;
         GM_SeSet2(0, 0x3f, SE_RADIO_CANCEL);
     }
+
     if (word_800ABB9C == 0 && work->field_212 > 4)
     {
         return gRadioCodecFrequency_800ABB9E;
     }
-    else
-    {
-        return 0;
-    }
+
+    return 0;
 }
 
-void MENU_InitRadioMemory(void)
+void MENU_InitRadioMemory( void )
 {
     RadioMemory *contact;
     int          i;
 
-    contact = &gRadioMemory_800BDB38[0];
-    for (i = RADIO_MEMORY_COUNT - 1; i >= 0; i--)
+    contact = radio_memory;
+    for ( i = RADIO_MEMORY_COUNT - 1; i >= 0; i-- )
     {
-        contact->frequency = 0;
+        contact->freq = 0;
         contact++;
     }
 }
 
-void MENU_SetRadioMemory(int frequency, const char *name)
+void MENU_SetRadioMesg( int freq, char *name )
 {
     RadioMemory *contact;
 
-    if (!(contact = menu_radio_table_find_8004D380(frequency)))
-    {
-        contact = menu_radio_table_next_free_8004D3B8();
-    }
+    contact = FindEntry( freq );
+    if ( contact == NULL ) contact = NextEntry();
 
-    if (!strcmp(name, "clear"))
+    if ( strcmp( name, "clear" ) == 0 )
     {
-        gRadioCodecIdx_800AB770 = 0;
-        contact->frequency = 0;
+        current_call = 0;
+        contact->freq = 0;
     }
     else
     {
-        contact->frequency = frequency;
-        strcpy(contact->name, name);
+        contact->freq = freq;
+        strcpy( contact->name, name );
     }
 
     menu_radio_compact_free_vars_8004D3D8();
 }
 
-void menu_radio_codec_helper_helper_8004E198(int toFind)
+void MENU_SetCallFreq( int freq )
 {
     RadioMemory *contact;
 
-    contact = menu_radio_table_find_8004D380(toFind);
-    if (contact)
-    {
-        gRadioCodecIdx_800AB770 = contact - gRadioMemory_800BDB38;
-    }
+    contact = FindEntry( freq );
+    if ( contact != NULL ) current_call = contact - radio_memory;
 }

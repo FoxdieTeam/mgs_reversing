@@ -2,7 +2,7 @@
 #include "common.h"
 
 /*** bss ***/
-extern DG_TEX TexSets[DG_MAX_TEXTURES];
+DG_TEX TexSets[ DG_MAX_TEXTURES ];
 
 /*** data ***/
 STATIC DG_TEX DG_NullTexture = {};

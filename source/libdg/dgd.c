@@ -17,9 +17,9 @@ typedef struct {
     GV_ACT actor;
 } Work;
 
-extern Work Work1;
-extern Work Work2;
-extern int timeout;
+static Work Work1;
+static Work Work2;
+static int  timeout;
 
 int DG_FrameRate = 2;
 int DG_HikituriFlag = 0;        // 引きつり = twitching
@@ -127,7 +127,7 @@ void DG_StartDaemon( void )
     mts_set_vsync_task();
     mts_set_vsync_callback_func( VsyncCallbackFunc );
 
-    DG_InitDisplay( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 320 );
+    DG_SetDispEnv( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 320 );
     DG_InitChanlSystem( SCREEN_WIDTH );
     DG_ClearResidentTexture();
     DG_ResetSystem();

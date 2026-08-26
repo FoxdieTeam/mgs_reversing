@@ -58,10 +58,11 @@
 //   - [Target1, Target2, Target5, FREE, FREE, FREE, FREE...]
 //     GM_TargetCount = 3, GM_StaleTargetCount = 0
 //
-extern TARGET GM_TargetDatas[TARGET_MAX];
 
-STATIC int SECTION(".sbss") GM_TargetCount;
-STATIC int SECTION(".sbss") GM_StaleTargetCount;
+static TARGET GM_TargetDatas[ TARGET_MAX ];
+
+static int SECTION(".sbss") GM_TargetCount;
+static int SECTION(".sbss") GM_StaleTargetCount;
 
 static inline int Conflict(int center1, int size1, int center2, int size2)
 {

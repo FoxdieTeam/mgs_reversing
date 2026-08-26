@@ -10,9 +10,6 @@
     ; libgv.lib
     include "{{OBJ_DIR}}\libgv\gvd.obj"
     include "{{OBJ_DIR}}\libgv\actor.obj"
-
-    include "{{OBJ_DIR}}\data\bss.obj"
-
     include "{{OBJ_DIR}}\libgv\cache.obj"
     include "{{OBJ_DIR}}\libgv\debug.obj"
     include "{{OBJ_DIR}}\libgv\memory.obj"
@@ -223,6 +220,8 @@
     include "{{OBJ_DIR}}\kojo\unknown.obj"
     include "{{OBJ_DIR}}\kojo\demoscrn.obj"
     include "{{OBJ_DIR}}\kojo\m1e1catr.obj"
+
+    include "{{OBJ_DIR}}\data\bss.obj"
 
     ; sound.lib
     include "{{OBJ_DIR}}\sound\sd_main.obj"

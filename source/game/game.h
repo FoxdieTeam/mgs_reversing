@@ -23,18 +23,4 @@
 #include "camera.h"
 #include "strctrl.h"
 
-/*---------------------------------------------------------------------------*/
-
-enum GAMED_STATE {          // private to gamed.c
-    WAIT_LOAD   = 0,
-    WORKING     = 1
-};
-
-typedef struct {            // private to gamed.c
-    GV_ACT actor;
-    enum GAMED_STATE status;
-    int killing_count;
-} gameWork;
-
-/*---------------------------------------------------------------------------*/
 #endif // __MGS_GAME_H__

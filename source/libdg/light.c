@@ -30,8 +30,21 @@ SVECTOR DG_Ambient = { 0, 0, 0, 0 };
 u_long DG_PacketCode[2] = { 0x3C808080, 0x3E808080 };
 
 /*** bss ***/
-extern FIXLIGHT fix_lights[ MAX_FIX_LIGHTS ];
-extern TLIGHT   tlights[ 2 ];
+#define MAX_FIX_LIGHTS 8
+#define MAX_TMPLIGHTS  8
+
+typedef struct {
+    int     n_lights;
+    DG_LIT *lights;
+} FIXLIGHT;
+
+typedef struct {
+    int    n_lights;
+    DG_LIT lights[ MAX_TMPLIGHTS ];
+} TLIGHT;
+
+static FIXLIGHT BSS fix_lights[ MAX_FIX_LIGHTS ];
+static TLIGHT BSS   tlights[ 2 ];
 
 /*---------------------------------------------------------------------------*/
 

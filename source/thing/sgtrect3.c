@@ -10,10 +10,11 @@
 #include "game/game.h"
 #include "sound/g_sound.h"
 
+TARGET *target_800BDF00;
+
 extern int     dword_8009F46C;
 extern int     amissile_alive_8009F490;
 extern SVECTOR svector_8009F478;
-extern TARGET *target_800BDF00;
 
 /*---------------------------------------------------------------------------*/
 

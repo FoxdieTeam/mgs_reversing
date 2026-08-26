@@ -13,9 +13,21 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_MANAGER
+typedef struct {
+    GV_ACT actor;
+    short  field_20_state;
+    short  field_22_sub_state;
+    short  field_24;
+    short  field_26_flags;
+    int    field_28;
+    int    map;
+    int    field_30_voxStream;
+    int   *field_34_pStreamData;
+    int    field_38_proc;
+    int    field_3C;
+} Work;
 
-extern StreamCtrlWork strctrl_work;
+static Work StrctrlWork;
 
 /*---------------------------------------------------------------------------*/
 
@@ -23,7 +35,7 @@ int str_sector_8009E280 = 0;
 int str_gcl_proc_8009E284 = 0;
 int str_8009E288 = 0;
 
-static void Act2( StreamCtrlWork *work )
+static void Act2( Work *work )
 {
     if ( !FS_StreamTaskState() )
     {
@@ -31,7 +43,7 @@ static void Act2( StreamCtrlWork *work )
     }
 }
 
-static void Act( StreamCtrlWork *work )
+static void Act( Work *work )
 {
     int sd_code;
     int stream_data;
@@ -124,7 +136,7 @@ loop_case3:
     }
 }
 
-static void Die( StreamCtrlWork *work )
+static void Die( Work *work )
 {
     int cb_proc;
 
@@ -148,7 +160,7 @@ void *NewStreamControl( int stream_code, int gcl_proc, int flags )
 {
     printf( "NewStream %d\n", stream_code );
 
-    if ( strctrl_work.field_20_state )
+    if ( StrctrlWork.field_20_state )
     {
         printf( "pend!!\n" );
         if ( str_sector_8009E280 )
@@ -162,29 +174,29 @@ void *NewStreamControl( int stream_code, int gcl_proc, int flags )
         str_sector_8009E280 = stream_code;
         str_gcl_proc_8009E284 = gcl_proc;
         str_8009E288 = flags;
-        return (void *)&strctrl_work;
+        return (void *)&StrctrlWork;
     }
 
     FS_StreamInit( ( void * )0x801E7800, FS_CDLOAD_BUF_SIZE );
-    GV_InitActor( EXEC_LEVEL, ( GV_ACT * )&strctrl_work, NULL );
-    GV_SetNamedActor( ( GV_ACT * )&strctrl_work, &Act, &Die, "strctrl.c" );
+    GV_InitActor( GV_ACTOR_MANAGER, ( GV_ACT * )&StrctrlWork, NULL );
+    GV_SetNamedActor( ( GV_ACT * )&StrctrlWork, &Act, &Die, "strctrl.c" );
 
-    strctrl_work.field_20_state = 1;
-    strctrl_work.field_38_proc = ( gcl_proc < 0 ) ? ( gcl_proc & 0xFFFF ) : -1;
+    StrctrlWork.field_20_state = 1;
+    StrctrlWork.field_38_proc = ( gcl_proc < 0 ) ? ( gcl_proc & 0xFFFF ) : -1;
     if ( gcl_proc & 0x40000000 )
     {
-        strctrl_work.field_22_sub_state = 1;
+        StrctrlWork.field_22_sub_state = 1;
     }
     else
     {
-        strctrl_work.field_22_sub_state = 0;
+        StrctrlWork.field_22_sub_state = 0;
     }
-    strctrl_work.field_26_flags = flags;
-    strctrl_work.field_24 = 0;
-    strctrl_work.map = GM_CurrentMap;
+    StrctrlWork.field_26_flags = flags;
+    StrctrlWork.field_24 = 0;
+    StrctrlWork.map = GM_CurrentMap;
 
     FS_StreamTaskStart( stream_code );
-    return (void *)&strctrl_work;
+    return (void *)&StrctrlWork;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -193,8 +205,8 @@ int GM_StreamStatus( void )
 {
     int state;
 
-    state = strctrl_work.field_20_state - 1;
-    if ( !(strctrl_work.field_20_state || !FS_StreamTaskState()) )
+    state = StrctrlWork.field_20_state - 1;
+    if ( !(StrctrlWork.field_20_state || !FS_StreamTaskState()) )
     {
         return 2;
     }
@@ -204,9 +216,9 @@ int GM_StreamStatus( void )
 void GM_StreamPlayStart( void )
 {
     // TODO: Probably a switch
-    if ( (u_int)(u_short)strctrl_work.field_20_state - 1 < 2 )
+    if ( (u_int)(u_short)StrctrlWork.field_20_state - 1 < 2 )
     {
-        strctrl_work.field_22_sub_state = 0;
+        StrctrlWork.field_22_sub_state = 0;
     }
     else
     {
@@ -220,27 +232,27 @@ void GM_StreamPlayStop( void )
     FS_StreamStop();
 
     // TODO: Probably a switch
-    if ( (u_int)(u_short)strctrl_work.field_20_state - 1 < 2 )
+    if ( (u_int)(u_short)StrctrlWork.field_20_state - 1 < 2 )
     {
-        GV_DestroyOtherActor( &strctrl_work.actor );
+        GV_DestroyOtherActor( &StrctrlWork.actor );
     }
 }
 
 void GM_StreamCancelCallback( void )
 {
-    strctrl_work.field_38_proc = -1;
+    StrctrlWork.field_38_proc = -1;
 }
 
 int GM_StreamGetLastCode( void )
 {
-    return strctrl_work.field_30_voxStream;
+    return StrctrlWork.field_30_voxStream;
 }
 
 void *GM_DemoStream( int base_sector, int gcl_proc )
 {
     int total_sector;
 
-    strctrl_work.field_30_voxStream = base_sector;
+    StrctrlWork.field_30_voxStream = base_sector;
     GM_GameStatus |= STATE_VOX_STREAM;
     total_sector = base_sector + FS_StreamGetTop( 1 );
     do {} while (0);
@@ -250,7 +262,7 @@ void *GM_DemoStream( int base_sector, int gcl_proc )
 
 void *GM_VoxStream( int vox_code, int proc )
 {
-    strctrl_work.field_30_voxStream = vox_code;
+    StrctrlWork.field_30_voxStream = vox_code;
     vox_code++; vox_code--;
     if ( GM_GameStatus & STATE_GAME_OVER )
     {
@@ -267,6 +279,6 @@ void *GM_VoxStream( int vox_code, int proc )
 
 void *sub_80037EE0( int vox_stream, int gcl_proc )
 {
-    strctrl_work.field_30_voxStream = vox_stream;
+    StrctrlWork.field_30_voxStream = vox_stream;
     return NewStreamControl( vox_stream + FS_StreamGetTop(0), gcl_proc, 1 );
 }

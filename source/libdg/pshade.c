@@ -4,7 +4,12 @@
 #include <libgpu.h>
 #include "common.h"
 
-extern PLIGHT pshade_buffer[84];
+typedef struct {
+    SVECTOR point[ 2 ];
+    CVECTOR color[ 2 ];
+} PLIGHT;
+
+static PLIGHT pshade_buffer[ 84 ];
 
 static void MakeLight( SVECTOR *verts, int n_verts, PLIGHT *buffer, DG_LIT *lights, int n_lights )
 {

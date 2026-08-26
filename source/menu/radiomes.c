@@ -273,7 +273,7 @@ void radio_add_contact_80047768(menu_chara_struct *unk, unsigned char *pScript)
 
     pScript = menu_gcl_read_word_80047098(&contact_freq, pScript);
     printf("set %d %s\n", contact_freq, pScript);
-    MENU_SetRadioMemory(contact_freq, pScript);
+    MENU_SetRadioMesg(contact_freq, pScript);
 }
 
 void radio_memsave_800477B0(menu_chara_struct *unk, unsigned char *pScript)

@@ -9,26 +9,26 @@
 #include "common.h"
 #include "mts/mts.h"
 
-STATIC int memcard_initialized = FALSE;
+static int memcard_initialized = FALSE;
 
-extern long             gHardware_end_io;
-extern long             gHardware_end_write;
-extern long             gHardware_timeout;
-extern long             gHardware_new_device;
-extern long             gSoftware_end_io;
-extern long             gSoftware_end_write;
-extern long             gSoftware_timeout;
-extern long             gSoftware_new_device;
-extern TMemCardFunc     gHwCard_do_op;
-extern TMemCardFunc     gSwCard_do_op;
-extern volatile int     gSwCardLastOp;
-extern volatile int     gHwCardLastOp;
-extern MEM_CARD         gMemCards[2];
-extern volatile long    gMemCard_io_size;
+static long BSS          gHardware_end_io;
+static long BSS          gHardware_end_write;
+static long BSS          gHardware_timeout;
+static long BSS          gHardware_new_device;
+static long BSS          gSoftware_end_io;
+static long BSS          gSoftware_end_write;
+static long BSS          gSoftware_timeout;
+static long BSS          gSoftware_new_device;
+static TMemCardFunc BSS  gHwCard_do_op;
+static TMemCardFunc BSS  gSwCard_do_op;
+static volatile int BSS  gSwCardLastOp;
+static volatile int BSS  gHwCardLastOp;
+static MEM_CARD BSS      gMemCards[ 2 ];
+static volatile long BSS gMemCard_io_size;
 
 static void memcard_hwcard_do_op(int op);
 static void memcard_swcard_do_op(int op);
-static int memcard_dummy(int state);
+static int  memcard_dummy(int state);
 
 static inline void memcard_access_wait(void)
 {

@@ -50,11 +50,6 @@ typedef struct {
     long *argv;
 } GCL_ARGS;
 
-typedef struct GCL_Vars
-{
-    short var[1024];
-} GCL_Vars;
-
 // Radio codes (radio.dat files)
 #define RDCODE_NULL             0
 #define RDCODE_TALK             1

@@ -8,13 +8,14 @@
 #include "sound/g_sound.h"
 #include "radio.h"
 
-extern PANEL_TEXTURE gMenuLeftItems_800BD5A0[];
-extern short         GM_WeaponTypes[];
-extern short         GM_ItemTypes[];
-extern int           dword_8009F46C;
+static PANEL_TEXTURE gMenuLeftItems_800BD5A0[ MENU_ITEM_COUNT ];
 
 int SECTION(".sbss") dword_800ABAD0;
 int SECTION(".sbss") dword_800ABAD4;
+
+extern short GM_WeaponTypes[];
+extern short GM_ItemTypes[];
+extern int   dword_8009F46C;
 
 // Also see dword_8009E5CC.
 // Those strings are passed to font_draw_string().
