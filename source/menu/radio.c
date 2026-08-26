@@ -1510,7 +1510,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, u_long *ot)
                 MENU_JimakuClear();
                 GV_PauseLevel |= GV_PAUSE_STOP;
                 DG_StopMainChanlSystem();
-                DG_ClearBackGroundColor();
+                DG_BackGroundBlack();
                 GV_SetPacketTempMemory();
                 menu_radio_update_helper5_80042160(work);
                 gCodecFadingStep = -32;
@@ -1623,7 +1623,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, u_long *ot)
             }
             DG_ChangeReso(0);
             DG_UnDrawFrameCount = 3;
-            DG_RestoreBackGroundColor();
+            DG_BackGroundNormal();
             DG_FrameRate = dword_800ABB1C;
             printf("EXIT MUSENKI\n");
             return;
