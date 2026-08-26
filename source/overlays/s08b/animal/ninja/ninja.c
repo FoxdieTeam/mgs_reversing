@@ -625,8 +625,31 @@ int Bunsin2_800C8F04(void)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C8F0C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C8FF8.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C908C.s")
+void NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time);
+void s08b_bunsin2_800C8FF8(Work *work)
+{
+    MATRIX stackData;
+
+    stackData = DG_ZeroMatrix;
+    stackData.t[0] = work->control.mov.vx;
+    stackData.t[1] = 0x14;
+    stackData.t[2] = work->control.mov.vz;
+
+    NewWindcrcl_800CF784(&stackData, 0xc8, 0x64, 0xc8, 0xa);
+}
+
+void s08b_bunsin2_800C908C(Work *work)
+{
+    MATRIX stackData;
+
+    stackData = DG_ZeroMatrix;
+    stackData.t[0] = work->control.mov.vx;
+    stackData.t[1] = 0x14;
+    stackData.t[2] = work->control.mov.vz;
+
+    NewWindcrcl_800CF784(&stackData, 0x190, 0x190, 0x190, 0xa);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9120.s")
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C933C.s")
