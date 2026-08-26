@@ -1741,10 +1741,10 @@
 800793E8 120 Takabe_MakeIndividualRect3DPrim
 80079460 132 DM_ThreadStream
 800794E4 384 DM_ThreadFile
-80079664 360 demothrd_cd_act_80079664
-800797CC 48 demothrd_cd_stream_die_800797CC
-800797FC 356 demothrd_file_stream_act_800797FC
-80079960 72 demothrd_file_stream_kill_80079960
+80079664 360 ActStream
+800797CC 48 DieStream
+800797FC 356 ActFile
+80079960 72 DieFile
 800799A8 116 FS_EnableMemfile
 80079A1C 16 FS_ClearMemfile
 80079A2C 184 FS_WriteMemfile
