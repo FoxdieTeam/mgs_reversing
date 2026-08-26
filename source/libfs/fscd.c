@@ -26,7 +26,7 @@ int FS_ResetCdFilePosition(void *buffer)
     return disk_num;
 }
 
-void FS_CdInit( void )
+void FS_CDInit( void )
 {
     CDBIOS_Reset();
     FS_DiskNum = FS_ResetCdFilePosition( MEM_ADDR );
