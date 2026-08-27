@@ -163,7 +163,8 @@ typedef struct _ZakoComMgr
 {
     char            pad_0[0x8];
     int             count;          /* 0x08 */
-    char            pad_C[0x18 - 0xC];
+    char            pad_C[0x14 - 0xC];
+    int             field_14;       /* 0x14 */
     int             field_18;       /* 0x18 */
     int             field_1C;       /* 0x1C */
     char            pad_20[0x24 - 0x20];

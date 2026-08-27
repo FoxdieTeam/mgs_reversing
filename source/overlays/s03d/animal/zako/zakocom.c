@@ -523,7 +523,61 @@ void ZakoCom_800D4B20(int targetval, ZakoComMgr *mgr)
     }
     ZakoCom_800D4070(0);
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4B84.s")
+void s03d_800D4B84(ZakoComMgr *command)
+{
+    int alert;
+
+    switch (command->field_1C)
+    {
+    case 0:
+        if (command->field_18 >= 255)
+        {
+            command->field_18 = 0xFF;
+            GM_AlertModeSet(3);
+            command->field_1C = 1;
+            GM_SeSet2(NULL, 0x3F, 0x2A);
+            ZAKOCOM_MGR->field_60 = 0;
+        }
+        break;
+    case 1:
+        if (command->field_18 <= 0)
+        {
+            GM_AlertModeSet(2);
+            command->field_1C = 2;
+            command->field_14 = 0;
+        }
+        alert = command->field_18;
+        if (alert >= 0x101)
+        {
+            alert = 0x100;
+        }
+        GM_SetAlertMax(alert);
+        break;
+    case 2:
+        command->field_14--;
+        if (command->field_14 <= 0)
+        {
+            GM_AlertModeSet(0);
+            command->field_1C = 0;
+            command->field_14 = 0;
+        }
+        if (command->field_18 >= 255)
+        {
+            command->field_18 = 0xFF;
+            GM_AlertModeSet(3);
+            command->field_1C = 1;
+            ZAKOCOM_MGR->field_60 = 0;
+        }
+        alert = command->field_14;
+        if (alert >= 0x101)
+        {
+            alert = 0x100;
+        }
+        GM_SetAlertMax(alert);
+        break;
+    }
+    s03d_dword_800DC2E8 = command->field_1C;
+}
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4CE0.s")
 void ZakoCom_800D4DD4(void)
 {
