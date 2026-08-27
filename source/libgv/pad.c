@@ -7,11 +7,14 @@
 #include "game/game.h"
 
 /***bss****************************************************************/
-extern int     dword_800B05A8[6];
+static int BSS dword_800B05A8[ 6 ];
+GV_PAD BSS     GV_PadData[ 4 ];
 /*********************************************************************/
 
+#define ANALOG_MARGIN 64
+
 int GV_PadMask = 0;
-STATIC int GV_PadOrigin = 0;
+STATIC int PadOrg = 0;
 STATIC int GV_800AB37C = 0;
 
 STATIC int SECTION(".sbss") dword_800AB950;
@@ -19,125 +22,79 @@ STATIC int SECTION(".sbss") dword_800AB954;
 u_long SECTION(".sbss") GV_DemoPadStatus;
 u_long SECTION(".sbss") GV_DemoPadAnalog;
 
-STATIC short dir_table[16] = {
-    0x0000, /*  0: (NONE)                               */
-    0x0800, /*  1: UP                                   */
-    0x0400, /*  2: RIGHT                                */
-    0x0600, /*  3: RIGHT + UP                           */
-    0x0000, /*  4: DOWN                                 */
-    0x0000, /*  5: DOWN + UP                (INVALID)   */
-    0x0200, /*  6: DOWN + RIGHT                         */
-    0x0000, /*  7: DOWN + RIGHT + UP        (INVALID)   */
-    0x0C00, /*  8: LEFT                                 */
-    0x0A00, /*  9: LEFT + UP                            */
-    0x0000, /* 10: LEFT + RIGHT             (INVALID)   */
-    0x0000, /* 11: LEFT + RIGHT + UP        (INVALID)   */
-    0x0E00, /* 12: LEFT + DOWN                          */
-    0x0000, /* 13: LEFT + DOWN + UP         (INVALID)   */
-    0x0000, /* 14: LEFT + DOWN + RIGHT      (INVALID)   */
-    0x0000  /* 15: LEFT + DOWN + RIGHT + UP (INVALID)   */
-};
-
 #ifdef VR_EXE
-static void sub_800165B0(MTS_PAD *data)
+static void sub_800165B0( MTS_PAD *pad )
 {
-    unsigned short status = GV_DemoPadStatus;
-    if (status & 0x400)
+    u_short status;
+
+    status = GV_DemoPadStatus;
+    if ( status & PAD_R3 )
     {
-        data->flag = MTS_PAD_ANALOG;
-        data->lx = GV_DemoPadAnalog;
-        data->ly = (GV_DemoPadAnalog & 0xFF00) >> 8;
+        pad->flag = MTS_PAD_ANALOG;
+        pad->lx = GV_DemoPadAnalog;
+        pad->ly = ( GV_DemoPadAnalog & 0xFF00 ) >> 8;
     }
     else
     {
-        data->flag = MTS_PAD_DIGITAL;
+        pad->flag = MTS_PAD_DIGITAL;
     }
 }
 #endif
 
-static int GV_SwapButtons(int button, int a, int b)
+static int SwapButtons( int stat, int a, int b )
 {
-    int swapped;
-    int i;
+    int swap, i;
 
-    swapped = button;
-
-    for (i = 1; i >= 0; --i)
+    swap = stat;
+    for ( i = 1; i >= 0; i-- )
     {
-        swapped &= ~(a | b);
-
-        if (button & a)
-        {
-            swapped |= b;
-        }
-
-        if (button & b)
-        {
-            swapped |= a;
-        }
-
+        swap &= ~( a | b );
+        if ( stat & a ) swap |= b;
+        if ( stat & b ) swap |= a;
         a <<= 16;
         b <<= 16;
     }
-
-    return swapped;
+    return swap;
 }
 
-static int GV_ConvertButtonMode(int button)
+static int ApplyConfig( int stat )
 {
-    switch (GM_Configuration & GM_CONFIG_BUTTON_MASK)
+    switch ( GM_Configuration & GM_CONFIG_BUTTON_MASK )
     {
     case GM_CONFIG_BUTTON_TYPE_B:
-        return GV_SwapButtons(button, PAD_CIRCLE, PAD_CROSS);
-
+        return SwapButtons( stat, PAD_CIRCLE, PAD_CROSS );
     case GM_CONFIG_BUTTON_TYPE_C:
-        return GV_SwapButtons(button, PAD_CIRCLE, PAD_SQUARE);
-
-    default: // Button Mode A
-        return button;
+        return SwapButtons( stat, PAD_CIRCLE, PAD_SQUARE );
+    default: /* GM_CONFIG_BUTTON_TYPE_A */
+        return stat;
     }
 }
 
-static void GV_AnalogToDirection(int *button, MTS_PAD *data)
+static void AnalogStat( int *stat, MTS_PAD *pad )
 {
-    char lx, rx;
-    int  dir;
+    u_char dx, dy;
+    int dir;
 
-    *button &= ~PAD_UDLR;
+    *stat &= ~PAD_UDLR;
 
-    lx = data->lx;
-    rx = data->ly;
+    dx = pad->lx;
+    dy = pad->ly;
+
     dir = 0;
-
-    if (lx < 64)
-    {
-        dir = PAD_LEFT;
-    }
-    else if (lx > 192)
-    {
-        dir = PAD_RIGHT;
-    }
-
-    if (rx < 64)
-    {
-        dir |= PAD_UP;
-    }
-    else if (rx > 192)
-    {
-        dir |= PAD_DOWN;
-    }
-
-    *button |= dir;
+    if ( dx < 128 - ANALOG_MARGIN ) dir = PAD_LEFT;
+    else if ( dx > 128 + ANALOG_MARGIN ) dir = PAD_RIGHT;
+    if ( dy < 128 - ANALOG_MARGIN ) dir |= PAD_UP;
+    else if ( dy > 128 + ANALOG_MARGIN ) dir |= PAD_DOWN;
+    *stat |= dir;
 }
 
-void GV_InitPadSystem(void)
+void GV_InitPadSystem( void )
 {
-    int     i;
     GV_PAD *pad;
+    int i;
 
     pad = GV_PadData;
-
-    for (i = 2; i > 0; --i)
+    for ( i = 2; i > 0; i-- )
     {
         pad->release = 0;
         pad->press = 0;
@@ -147,62 +104,69 @@ void GV_InitPadSystem(void)
     }
 
     dword_800AB950 = 0;
-    GV_PadOrigin = 0;
+    PadOrg = 0;
 
-    for (i = 5; i > -1; --i)
+    for ( i = 0; i < 6; i++ )
     {
-        dword_800B05A8[i] = 0;
+        dword_800B05A8[ i ] = 0;
     }
 }
 
-void GV_UpdatePadSystem(void)
+static inline int GetPadDir( int pad )
 {
+    static short Dirs[] = {
+        0x000, 0x800, 0x400, 0x600,
+        0x000, 0x000, 0x200, 0x000,
+        0xC00, 0xA00, 0x000, 0x000,
+        0xE00, 0x000, 0x000, 0x000 
+    };
+    pad &= PAD_UDLR;
+    if ( pad == 0 ) return -1;
+    return 4095 & ( Dirs[ pad >> 12 ] + PadOrg );
+}
+
+void GV_UpdatePadSystem( void )
+{
+    unsigned long ret, button;
+
     int           chan, prev;
     unsigned int  t0, t1, t2, t3, t4, t5;
-    unsigned long button, ret; // button = var_20, ret = s2
     GV_PAD       *pad;
     MTS_PAD       data;
     SVECTOR       svector;
     int           s3, var;
 
-    // loc_8001682C
     ret = mts_PadRead(0);
-    button = GV_ConvertButtonMode(ret);
+    button = ApplyConfig(ret);
 
-    if (DG_UnDrawFrameCount > 0)
+    if ( DG_UnDrawFrameCount > 0 )
     {
         button = 0;
         ret = 0;
     }
-    else
+    else if ( !( GM_GameStatus & STATE_DEMO ) )
     {
-        // loc_80016870
-        if (GM_GameStatus >= 0)
+        if ( GM_GameStatus & STATE_PADDEMO )
         {
-            if (GM_GameStatus & STATE_PADDEMO)
-            {
-                ret = GV_DemoPadStatus & ~0x06000600;
-                button = ret;
-            }
-            else if (GM_GameStatus & STATE_PADRELEASE)
-            {
-                button = 0;
-                ret = 0;
-            }
-            else if (GM_GameStatus & STATE_PADMASK)
-            {
-                ret &= GV_PadMask;
-                button &= GV_PadMask;
-            }
+            ret = GV_DemoPadStatus & ~0x06000600;
+            button = ret;
+        }
+        else if ( GM_GameStatus & STATE_PADRELEASE )
+        {
+            button = 0;
+            ret = 0;
+        }
+        else if ( GM_GameStatus & STATE_PADMASK )
+        {
+            button &= GV_PadMask;
+            ret &= GV_PadMask;
         }
     }
 
-    // loc_800168E0
     pad = GV_PadData;
     s3 = 0;
     chan = 2;
 
-    // loc_800168FC
     for (; chan > 0; --chan)
     {
         if (mts_get_pad((chan % 2) + 1, &data) || (GM_GameStatus & STATE_PADDEMO && chan == 2))
@@ -225,19 +189,13 @@ void GV_UpdatePadSystem(void)
             #endif
             }
 
-            // loc_80016960
             pad->analog = data.flag - 1;
 
-            // if ( pad->analog > 0 && ( GM_GameStatus & 0x90000000 && local_gamestatus ) )
             if (pad->analog > 0 && (!(GM_GameStatus & (STATE_PADRELEASE | STATE_DEMO)) || GM_GameStatus & STATE_PADDEMO))
             {
-                // loc_8001698C
                 if (button & PAD_UDLR)
                 {
-                    // loc_800169A0
-                    int v0 = dir_table[(button & PAD_UDLR) >> 12];
-                    v0 += GV_PadOrigin;
-                    pad->dir = v0 & 0x0FFF;
+                    pad->dir = GetPadDir( button );
                     pad->analog = 0;
                 }
                 else
@@ -279,11 +237,11 @@ void GV_UpdatePadSystem(void)
                     else
                     {
                         // loc_80016A2C:
-                        dir = (GV_VecDir2(&svector) + GV_PadOrigin);
+                        dir = (GV_VecDir2(&svector) + PadOrg);
                     }
                     // loc_80016A40:
                     pad->dir = dir;
-                    GV_AnalogToDirection((int *)&button, &data);
+                    AnalogStat((int *)&button, &data);
                 }
                 // loc_80016A50:
                 *((unsigned long *)&pad->right_dx) = *((unsigned long *)(&data.rx));
@@ -298,22 +256,10 @@ void GV_UpdatePadSystem(void)
             }
             else
             {
-                // loc_80016A94
-                int val, check;
                 pad->analog = 0;
-                check = button & PAD_UDLR;
-                if (!(check))
-                {
-                    val = -1;
-                }
-                else
-                {
-                    check >>= 12;
-                    val = (dir_table[check] + GV_PadOrigin) & 0x0FFF;
-                }
-                pad->dir = val;
+                pad->dir = GetPadDir( button );
             }
-            // loc_80016AD8
+
             var = 1;
             GV_800AB37C |= var << chan;
         }
@@ -388,25 +334,17 @@ void GV_UpdatePadSystem(void)
     }
 }
 
-void GV_OriginPadSystem(int org)
+void GV_OriginPadSystem( int org )
 {
-    GV_PadOrigin = org;
+    PadOrg = org;
 }
 
-int GV_GetPadOrigin(void)
+int GV_GetPadOrigin( void )
 {
-    return GV_PadOrigin;
+    return PadOrg;
 }
 
-int GV_GetPadDirNoPadOrg(unsigned int button)
+int GV_GetPadDirNoPadOrg( int pad )
 {
-    int value;
-
-    value = -1;
-    if (button & PAD_UDLR)
-    {
-        value = (dir_table[(button & PAD_UDLR) >> 12] + GV_PadOrigin) & ~PAD_UDLR & 0xFFFF;
-    }
-
-    return value - GV_PadOrigin;
+    return GetPadDir( pad ) - PadOrg;
 }

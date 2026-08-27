@@ -9,8 +9,8 @@ char **SECTION(".sbss") commandline_p;
 char  *SECTION(".sbss") next_str_ptr;
 
 /*** bss ***/
-extern int   argbuffer[32];
-extern char *commandlines[8];
+static int   argbuffer[32];
+static char *commandlines[8];
 
 void GCL_SetArgTop( char *top )
 {

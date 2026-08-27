@@ -8,7 +8,7 @@
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
 
-extern GV_HEAP MemorySystems_800AD2F0[ MAX_MEMSYS ];
+extern MEM_SYS mem_sys[ MAX_MEMSYS ];
 extern DG_TEX  TexSets[DG_MAX_TEXTURES];
 extern unsigned short DG_ChanlTime[32];
 
@@ -19,10 +19,10 @@ DG_TEX       *SECTION(".sbss") dword_800ABB24;
 
 STATIC int menu_draw_mem_debug(MenuWork *work, u_long *ot)
 {
-    GV_HEAP             *pHeap;
+    MEM_SYS             *pHeap;
     LINE_F2             *pLine;
     int                  i;
-    GV_ALLOC *pAlloc;
+    MEM_TAG *pAlloc;
     int                  heap_size;
     char                *alloc_start;
     LINE_G4             *pLine2;
@@ -35,7 +35,7 @@ STATIC int menu_draw_mem_debug(MenuWork *work, u_long *ot)
     int                  size;
     int                  x1;
 
-    pHeap = MemorySystems_800AD2F0;
+    pHeap = mem_sys;
 
     NEW_PRIM(pLine, work);
     setXY2(pLine, 272, 120, 272, 168);

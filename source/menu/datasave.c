@@ -101,7 +101,7 @@ int clutsAndIcons_8009E774[6][40] = {
     }
 };
 
-extern MenuWork gMenuWork_800BD360;
+extern MenuWork Work;
 
 extern const int  dword_800120B4[];
 extern const int  dword_800120CC[];
@@ -2357,16 +2357,16 @@ void menu_radio_update_helper4_8004D2D0(int param_1)
 
 void menu_radio_8004D2FC(DATA_INFO *pSaveMode)
 {
-    init_radio_message_board_80040F74(&gMenuWork_800BD360);
+    init_radio_message_board_80040F74(&Work);
     init_file_mode(pSaveMode, 0);
 }
 
 int menu_radio_8004D334(GV_PAD *pPad)
 {
-    return menu_radio_do_file_mode(&gMenuWork_800BD360, pPad);
+    return menu_radio_do_file_mode(&Work, pPad);
 }
 
 void menu_radio_8004D35C(void)
 {
-    sub_8004124C(&gMenuWork_800BD360);
+    sub_8004124C(&Work);
 }

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "common.h"
 
-extern GV_HEAP MemorySystems_800AD2F0[MAX_MEMSYS];
+MEM_SYS BSS mem_sys[ MAX_MEMSYS ];
 
 /* Unused, does it really belong to memory.c ? */
 STATIC short SECTION(".sbss") dword_800AB93C;
@@ -17,11 +17,11 @@ STATIC short SECTION(".sbss") dword_800AB93C;
  *
  * @return  the allocation block that contains the address
  */
-void *GV_FindAllocation(GV_HEAP *heap, void *addr)
+void *GV_FindAllocation(MEM_SYS *heap, void *addr)
 {
     int       i;
-    GV_ALLOC *start;
-    GV_ALLOC *end;
+    MEM_TAG *start;
+    MEM_TAG *end;
 
     // return if the address is not within the heap
     if (addr < heap->start || addr >= heap->end)
@@ -67,9 +67,9 @@ void *GV_FindAllocation(GV_HEAP *heap, void *addr)
  * @return  Pointer to the found memory allocation,
  *          or NULL if no suitable block is found.
  */
-GV_ALLOC *GV_FindFreeMemory(GV_HEAP *heap, int size)
+MEM_TAG *GV_FindFreeMemory(MEM_SYS *heap, int size)
 {
-    GV_ALLOC *alloc;
+    MEM_TAG *alloc;
     void     *start;
     void     *next;
     int       i;
@@ -89,7 +89,7 @@ GV_ALLOC *GV_FindFreeMemory(GV_HEAP *heap, int size)
         bytes = (char *)next - (char *)start;
 
         // Find a large enough free block
-        if (bytes >= size && alloc->state == GV_ALLOC_STATE_FREE)
+        if (bytes >= size && alloc->state == MEM_TAG_STATE_FREE)
         {
             return alloc;
         }
@@ -112,10 +112,10 @@ GV_ALLOC *GV_FindFreeMemory(GV_HEAP *heap, int size)
  * @param   heap    pointer to the heap structure
  * @param   alloc   pointer to the memory allocation to be inserted
  */
-void GV_SplitAllocation(GV_HEAP *heap, GV_ALLOC *alloc)
+void GV_SplitAllocation(MEM_SYS *heap, MEM_TAG *alloc)
 {
     int       used;
-    GV_ALLOC *last;
+    MEM_TAG *last;
     int       size;
     int       i;
 
@@ -147,9 +147,9 @@ void GV_SplitAllocation(GV_HEAP *heap, GV_ALLOC *alloc)
  * @param   alloc   pointer to the memory allocation to start merging from
  * @param   n_unit  number of units to merge
  */
-void GV_MergeMemory(GV_HEAP *heap, GV_ALLOC *alloc, int n_unit)
+void GV_MergeMemory(MEM_SYS *heap, MEM_TAG *alloc, int n_unit)
 {
-    GV_ALLOC *next;
+    MEM_TAG *next;
     int       size;
     int       shift;
     int       i;
@@ -185,10 +185,10 @@ void GV_MergeMemory(GV_HEAP *heap, GV_ALLOC *alloc, int n_unit)
  *
  * @param   heap    pointer to the heap structure
  */
-void GV_ResetVoidedMemorySystem(GV_HEAP *heap)
+void GV_ResetVoidedMemorySystem(MEM_SYS *heap)
 {
-    GV_ALLOC *alloc;
-    GV_ALLOC *new;
+    MEM_TAG *alloc;
+    MEM_TAG *new;
     int       voided;
     int       i;
 
@@ -199,7 +199,7 @@ void GV_ResetVoidedMemorySystem(GV_HEAP *heap)
 
     for (i = heap->used; i > 0; i--)
     {
-        if (alloc->state != GV_ALLOC_STATE_FREE && alloc->state != GV_ALLOC_STATE_VOID)
+        if (alloc->state != MEM_TAG_STATE_FREE && alloc->state != MEM_TAG_STATE_VOID)
         {
             *new++ = *alloc;
             voided = 0;
@@ -208,7 +208,7 @@ void GV_ResetVoidedMemorySystem(GV_HEAP *heap)
         {
             voided = 1;
             new->start = alloc->start;
-            new->state = GV_ALLOC_STATE_FREE;
+            new->state = MEM_TAG_STATE_FREE;
             new++;
         }
 
@@ -217,7 +217,7 @@ void GV_ResetVoidedMemorySystem(GV_HEAP *heap)
 
     // Mark the end of the heap
     new->start = heap->end;
-    new->state = GV_ALLOC_STATE_USED;
+    new->state = MEM_TAG_STATE_USED;
 
     heap->used = new - heap->units;
 }
@@ -233,10 +233,10 @@ void GV_ResetVoidedMemorySystem(GV_HEAP *heap)
  *
  * @param   heap    Pointer to the heap structure.
  */
-void GV_ResetDynamicMemorySystem(GV_HEAP *heap)
+void GV_ResetDynamicMemorySystem(MEM_SYS *heap)
 {
-    GV_ALLOC *alloc;
-    GV_ALLOC *new;
+    MEM_TAG *alloc;
+    MEM_TAG *new;
     char     *addr;
     int       i;
     int       state;
@@ -253,7 +253,7 @@ void GV_ResetDynamicMemorySystem(GV_HEAP *heap)
     {
         state = alloc->state;
 
-        if (state != GV_ALLOC_STATE_FREE && state != GV_ALLOC_STATE_VOID)
+        if (state != MEM_TAG_STATE_FREE && state != MEM_TAG_STATE_VOID)
         {
             start = alloc->start;
             size = alloc[1].start - start;
@@ -279,13 +279,13 @@ void GV_ResetDynamicMemorySystem(GV_HEAP *heap)
     if (addr != heap->end)
     {
         new->start = addr;
-        new->state = GV_ALLOC_STATE_FREE;
+        new->state = MEM_TAG_STATE_FREE;
         new++;
     }
 
     // Add a final allocation to mark the end of the heap
     new->start = heap->end;
-    new->state = GV_ALLOC_STATE_USED;
+    new->state = MEM_TAG_STATE_USED;
 
     heap->used = new - heap->units;
 }
@@ -314,11 +314,11 @@ void GV_InitMemorySystemAll(void)
  */
 void GV_InitMemorySystem(int which, int dynamic, void *memory, int size)
 {
-    GV_HEAP  *heap;
-    GV_ALLOC *alloc;
+    MEM_SYS  *heap;
+    MEM_TAG *alloc;
     unsigned char *end;
 
-    heap = &MemorySystems_800AD2F0[which];
+    heap = &mem_sys[which];
     alloc = heap->units;
 
     // Align the end to 16 bytes
@@ -332,11 +332,11 @@ void GV_InitMemorySystem(int which, int dynamic, void *memory, int size)
 
     // First entry is free
     alloc[0].start = memory;
-    alloc[0].state = GV_ALLOC_STATE_FREE;
+    alloc[0].state = MEM_TAG_STATE_FREE;
 
     // Second is used and is the entire space
     alloc[1].start = end;
-    alloc[1].state = GV_ALLOC_STATE_USED;
+    alloc[1].state = MEM_TAG_STATE_USED;
 }
 
 /**
@@ -350,31 +350,31 @@ void GV_InitMemorySystem(int which, int dynamic, void *memory, int size)
  */
 void GV_ClearMemorySystem(int which)
 {
-    GV_HEAP *heap;
+    MEM_SYS *heap;
     int      flags;
 
-    heap = &MemorySystems_800AD2F0[which];
+    heap = &mem_sys[which];
     flags = heap->flags;
 
-    if (flags & (GV_HEAP_FLAG_FAILED | GV_HEAP_FLAG_VOIDED))
+    if (flags & (MEM_SYS_FLAG_FAILED | MEM_SYS_FLAG_VOIDED))
     {
-        if (flags & GV_HEAP_FLAG_FAILED)
+        if (flags & MEM_SYS_FLAG_FAILED)
         {
-            if (flags & GV_HEAP_FLAG_DYNAMIC)
+            if (flags & MEM_SYS_FLAG_DYNAMIC)
             {
                 GV_ResetDynamicMemorySystem(heap);
-                heap->flags &= ~(GV_HEAP_FLAG_FAILED | GV_HEAP_FLAG_VOIDED);
+                heap->flags &= ~(MEM_SYS_FLAG_FAILED | MEM_SYS_FLAG_VOIDED);
             }
         }
 
-        if (flags & GV_HEAP_FLAG_VOIDED)
+        if (flags & MEM_SYS_FLAG_VOIDED)
         {
             GV_ResetVoidedMemorySystem(heap);
-            heap->flags &= ~GV_HEAP_FLAG_VOIDED;
+            heap->flags &= ~MEM_SYS_FLAG_VOIDED;
         }
     }
 
-    heap->flags &= ~(GV_HEAP_FLAG_FAILED | GV_HEAP_FLAG_VOIDED);
+    heap->flags &= ~(MEM_SYS_FLAG_FAILED | MEM_SYS_FLAG_VOIDED);
 }
 
 /**
@@ -388,33 +388,33 @@ void GV_ClearMemorySystem(int which)
  */
 void GV_CheckMemorySystem(int which)
 {
-    GV_HEAP  *heap;
+    MEM_SYS  *heap;
     int       total;
     int       voided;
     int       max_free;
     int       free;
-    GV_ALLOC *alloc;
+    MEM_TAG *alloc;
     int       i;
     int       state;
     void     *start;
     void     *next;
     int       size;
 
-    heap = &MemorySystems_800AD2F0[which];
+    heap = &mem_sys[which];
 
     printf("system %d ( ", which);
 
-    if (heap->flags & GV_HEAP_FLAG_DYNAMIC)
+    if (heap->flags & MEM_SYS_FLAG_DYNAMIC)
     {
         printf("dynamic ");
     }
 
-    if (heap->flags & GV_HEAP_FLAG_VOIDED)
+    if (heap->flags & MEM_SYS_FLAG_VOIDED)
     {
         printf("voided ");
     }
 
-    if (heap->flags & GV_HEAP_FLAG_FAILED)
+    if (heap->flags & MEM_SYS_FLAG_FAILED)
     {
         printf("failed ");
     }
@@ -439,7 +439,7 @@ void GV_CheckMemorySystem(int which)
         next = alloc[1].start;
         size = next - start;
 
-        if (state == GV_ALLOC_STATE_FREE)
+        if (state == MEM_TAG_STATE_FREE)
         {
             free += size;
 
@@ -448,7 +448,7 @@ void GV_CheckMemorySystem(int which)
                 max_free = size;
             }
         }
-        else if (state == GV_ALLOC_STATE_VOID)
+        else if (state == MEM_TAG_STATE_VOID)
         {
             voided += size;
         }
@@ -470,19 +470,19 @@ void GV_CheckMemorySystem(int which)
  */
 void GV_DumpMemorySystem(int which)
 {
-    GV_HEAP  *heap;
-    GV_ALLOC *alloc;
+    MEM_SYS  *heap;
+    MEM_TAG *alloc;
     int       i;
     int       state;
     void     *start;
     void     *next;
     int       size;
 
-    heap = &MemorySystems_800AD2F0[which];
+    heap = &mem_sys[which];
 
     printf("system %d ( ", which);
 
-    if (!(heap->flags & GV_HEAP_FLAG_DYNAMIC))
+    if (!(heap->flags & MEM_SYS_FLAG_DYNAMIC))
     {
         printf("static ");
     }
@@ -491,12 +491,12 @@ void GV_DumpMemorySystem(int which)
         printf("dynamic ");
     }
 
-    if (heap->flags & GV_HEAP_FLAG_VOIDED)
+    if (heap->flags & MEM_SYS_FLAG_VOIDED)
     {
         printf("voided ");
     }
 
-    if (heap->flags & GV_HEAP_FLAG_FAILED)
+    if (heap->flags & MEM_SYS_FLAG_FAILED)
     {
         printf("failed ");
     }
@@ -513,17 +513,17 @@ void GV_DumpMemorySystem(int which)
         next = alloc[1].start;
         size = next - start;
 
-        if (state == GV_ALLOC_STATE_FREE)
+        if (state == MEM_TAG_STATE_FREE)
         {
             printf("---- %8d bytes ( from %08x free )\n",
                    size, (unsigned int)alloc->start);
         }
-        else if (state == GV_ALLOC_STATE_VOID)
+        else if (state == MEM_TAG_STATE_VOID)
         {
             printf("==== %8d bytes ( from %08x void )\n",
                    size, (unsigned int)alloc->start);
         }
-        else if (state == GV_ALLOC_STATE_USED)
+        else if (state == MEM_TAG_STATE_USED)
         {
             printf("++++ %8d bytes ( from %08x used )\n",
                    size, (unsigned int)alloc->start);
@@ -542,7 +542,7 @@ void GV_DumpMemorySystem(int which)
 
 void *GV_AllocMemory(int which, int size)
 {
-    return GV_AllocMemory2(which, size, (void **)GV_ALLOC_STATE_USED);
+    return GV_AllocMemory2(which, size, (void **)MEM_TAG_STATE_USED);
 }
 
 /**
@@ -557,7 +557,7 @@ void *GV_AllocMemory(int which, int size)
  *
  * @param   which   index of the heap to allocate memory from
  * @param   size    size of the memory block to allocate
- * @param   pstart  GV_ALLOC_STATE_USED for GV_AllocMemory, or a pointer to
+ * @param   pstart  MEM_TAG_STATE_USED for GV_AllocMemory, or a pointer to
  *                  receive the start address otherwise
  *
  * @return  pointer to the start of the allocated memory block,
@@ -565,13 +565,13 @@ void *GV_AllocMemory(int which, int size)
  */
 void *GV_AllocMemory2(int which, int size, void **pstart)
 {
-    GV_HEAP  *heap;
+    MEM_SYS  *heap;
     int       normal;
-    GV_ALLOC *alloc;
+    MEM_TAG *alloc;
     void     *start;
 
-    heap = &MemorySystems_800AD2F0[which];
-    normal = GV_ALLOC_STATE_USED;
+    heap = &mem_sys[which];
+    normal = MEM_TAG_STATE_USED;
 
     // Check if there is space for more allocations
     if (heap->used >= (MAX_ALLOC_UNITS - 1))
@@ -588,7 +588,7 @@ void *GV_AllocMemory2(int which, int size, void **pstart)
     if (!alloc)
     {
         // Set the heap's failed flag if no suitable block is found
-        heap->flags |= GV_HEAP_FLAG_FAILED;
+        heap->flags |= MEM_SYS_FLAG_FAILED;
     }
     else
     {
@@ -599,7 +599,7 @@ void *GV_AllocMemory2(int which, int size, void **pstart)
         {
             GV_SplitAllocation(heap, alloc);
             alloc[1].start = start + size;
-            alloc[1].state = GV_ALLOC_STATE_FREE;
+            alloc[1].state = MEM_TAG_STATE_FREE;
         }
 
         // Mark the allocation as used
@@ -630,25 +630,25 @@ void *GV_AllocMemory2(int which, int size, void **pstart)
  */
 void GV_FreeMemory(int which, void *addr)
 {
-    GV_HEAP  *heap;
-    GV_ALLOC *alloc;
-    GV_ALLOC *merge;
+    MEM_SYS  *heap;
+    MEM_TAG *alloc;
+    MEM_TAG *merge;
     int       units;
 
-    heap = &MemorySystems_800AD2F0[which];
+    heap = &mem_sys[which];
     alloc = GV_FindAllocation(heap, addr);
 
     // Return if the allocation is not found or already free
-    if (!alloc || alloc->state == GV_ALLOC_STATE_FREE)
+    if (!alloc || alloc->state == MEM_TAG_STATE_FREE)
         return;
 
-    alloc->state = GV_ALLOC_STATE_FREE;
+    alloc->state = MEM_TAG_STATE_FREE;
     merge = alloc;
 
     units = 0;
 
     // Check if the previous allocation is also free
-    if (alloc != heap->units && alloc[-1].state == GV_ALLOC_STATE_FREE)
+    if (alloc != heap->units && alloc[-1].state == MEM_TAG_STATE_FREE)
     {
         units++;
     }
@@ -658,7 +658,7 @@ void GV_FreeMemory(int which, void *addr)
     }
 
     // Check if the next allocation is also free
-    if (alloc[1].state == GV_ALLOC_STATE_FREE)
+    if (alloc[1].state == MEM_TAG_STATE_FREE)
     {
         units++;
     }
@@ -682,16 +682,16 @@ void GV_FreeMemory(int which, void *addr)
  */
 void GV_FreeMemory2(int which, void **addr)
 {
-    GV_HEAP  *heap;
-    GV_ALLOC *alloc;
+    MEM_SYS  *heap;
+    MEM_TAG *alloc;
 
-    heap = &MemorySystems_800AD2F0[which];
+    heap = &mem_sys[which];
     alloc = GV_FindAllocation(heap, *addr);
 
     if (alloc)
     {
-        alloc->state = GV_ALLOC_STATE_VOID;
-        heap->flags |= GV_HEAP_FLAG_VOIDED;
+        alloc->state = MEM_TAG_STATE_VOID;
+        heap->flags |= MEM_SYS_FLAG_VOIDED;
     }
 }
 
@@ -812,19 +812,19 @@ void GV_DelayedFree( void *addr )
 void *GV_GetMaxFreeMemory(int which)
 {
     int       max;
-    GV_HEAP  *heap;
-    GV_ALLOC *alloc;
+    MEM_SYS  *heap;
+    MEM_TAG *alloc;
     int       i;
     int       size;
 
     max = 0;
 
-    heap = &MemorySystems_800AD2F0[which];
+    heap = &mem_sys[which];
     alloc = heap->units;
 
     for (i = heap->used; i > 0; i--)
     {
-        if (alloc->state == GV_ALLOC_STATE_FREE)
+        if (alloc->state == MEM_TAG_STATE_FREE)
         {
             size = alloc[1].start - alloc->start;
             if (size > max)
@@ -851,13 +851,13 @@ void *GV_GetMaxFreeMemory(int which)
  */
 void *GV_SplitMemory(int which, void *addr, int size)
 {
-    GV_HEAP  *heap;
-    GV_ALLOC *alloc;
+    MEM_SYS  *heap;
+    MEM_TAG *alloc;
 
-    heap = &MemorySystems_800AD2F0[which];
+    heap = &mem_sys[which];
     alloc = GV_FindAllocation(heap, addr);
 
-    if (!alloc || alloc->state != GV_ALLOC_STATE_USED)
+    if (!alloc || alloc->state != MEM_TAG_STATE_USED)
         return NULL;
 
     if ((alloc[1].start - alloc->start) == size)
@@ -866,7 +866,7 @@ void *GV_SplitMemory(int which, void *addr, int size)
     GV_SplitAllocation(heap, alloc);
 
     alloc[1].start = alloc->start + size;
-    alloc[1].state = GV_ALLOC_STATE_FREE;
+    alloc[1].state = MEM_TAG_STATE_FREE;
 
     return alloc[1].start;
 }

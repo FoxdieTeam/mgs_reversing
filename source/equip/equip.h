@@ -16,11 +16,6 @@ void *NewGoggleManager( int type );
 void *NewGoggleSight( int type );
 void *NewGasmaskSight(); // This has an issue with unused params
 
-/* these should be private to jpegcam.c, but bss.c needs it */
-typedef signed char TMat8x8B[8][8];     //  8 x  8 byte matrix
-typedef signed char TMat16x16B[16][16]; // 16 x 16 byte matrix
-typedef int         TMat8x8I[8][8];     //  8 x  8 integer matrix
-
 void *NewJpegcam( CONTROL *control, OBJECT *parent, int num_parent );
 
 void EQ_ChangeTexture(const char *itemName1, const char *itemName2);

@@ -4,9 +4,9 @@
 #include "common.h"
 #include "game/game.h"
 
-extern GCL_SCRIPT current_script;
+static GCL_SCRIPT current_script;
 
-STATIC GCL_COMMANDDEF *commdef = NULL;
+static GCL_COMMANDDEF *commdef = NULL;
 
 /*---------------------------------------------------------------------------*/
 

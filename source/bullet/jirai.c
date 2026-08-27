@@ -15,7 +15,7 @@
 #include "chara/snake/sna_init.h"
 #include "sound/g_sound.h"
 
-extern HITTABLE GM_ClayDatas[8];
+HITTABLE GM_ClayDatas[ 8 ];
 
 /*---------------------------------------------------------------------------*/
 // Claymore (armed)

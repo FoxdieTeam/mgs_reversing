@@ -1,11 +1,18 @@
+#include "common.h"
 #include "libfs.h"
 #include <stdio.h>
 #include <stddef.h>
 
-extern int         dword_800BDFB8;
-extern int         dword_800BDFBC;
-extern FS_MEMFILE *dword_800BDFC0;
-extern int         dword_800BDFC4;
+typedef struct {
+    int id;
+    int *ptr;
+    int size;
+} FS_MEMFILE;
+
+static int BSS         dword_800BDFB8;
+static int BSS         dword_800BDFBC;
+static FS_MEMFILE *BSS dword_800BDFC0;
+static int BSS         dword_800BDFC4;
 
 #define FS_MEMFILE_BASE ((FS_MEMFILE *)0x80700000)
 

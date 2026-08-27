@@ -10,8 +10,9 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-extern MenuWork      gMenuWork_800BD360;
-extern unsigned char menu_primbuffers[2][8192];
+static u_char BSS menu_primbuffers[2][8192];
+
+MenuWork BSS Work;
 
 extern int MENU_PrimUse;
 
@@ -140,9 +141,9 @@ void menu_init_subsystems_8003884C(MenuWork *work)
 
 void menuman_init_80038954(void)
 {
-    GV_SetNamedActor(&gMenuWork_800BD360.actor, menuman_act_800386A4,
+    GV_SetNamedActor(&Work.actor, menuman_act_800386A4,
                      menuman_kill_800387E8, "menuman.c");
-    menu_init_subsystems_8003884C(&gMenuWork_800BD360);
+    menu_init_subsystems_8003884C(&Work);
     MENU_InitRadioTable();
 }
 
@@ -152,12 +153,12 @@ void menuman_Reset(void)
     MENU_ClearRadioTable();
     MENU_SetRadarScale(4096);
     MENU_SetRadarFunc(NULL);
-    gMenuWork_800BD360.field_CC_radar_data.prev_mode = 0;
-    gMenuWork_800BD360.field_CC_radar_data.counter = 0;
-    gMenuWork_800BD360.field_2B = 0;
-    gMenuWork_800BD360.field_1DC_menu_item.field_12_flashingAnimationFrame = 0;
-    gMenuWork_800BD360.field_1F0_menu_weapon.field_12_flashingAnimationFrame = 0;
-    menu_life_init_8003F7E0(&gMenuWork_800BD360);
+    Work.field_CC_radar_data.prev_mode = 0;
+    Work.field_CC_radar_data.counter = 0;
+    Work.field_2B = 0;
+    Work.field_1DC_menu_item.field_12_flashingAnimationFrame = 0;
+    Work.field_1F0_menu_weapon.field_12_flashingAnimationFrame = 0;
+    menu_life_init_8003F7E0(&Work);
 }
 
 void MENU_ResetTexture(void)
@@ -167,18 +168,18 @@ void MENU_ResetTexture(void)
 
 void MENU_StartDeamon(void)
 {
-    GV_InitActor(GV_ACTOR_MANAGER, &gMenuWork_800BD360.actor, NULL);
-    GV_SetNamedActor(&gMenuWork_800BD360.actor, NULL, NULL, "menuman.c");
+    GV_InitActor(GV_ACTOR_MANAGER, &Work.actor, NULL);
+    GV_SetNamedActor(&Work.actor, NULL, NULL, "menuman.c");
 }
 
 void menu_radio_update_helper_80038A6C(void)
 {
-    gMenuWork_800BD360.field_CC_radar_data.display_flag = 1;
+    Work.field_CC_radar_data.display_flag = 1;
 }
 
 void menu_radio_update_helper2_80038A7C(void)
 {
-    gMenuWork_800BD360.field_CC_radar_data.display_flag = 0;
+    Work.field_CC_radar_data.display_flag = 0;
 }
 
 void MENU_ResetSystem(void)

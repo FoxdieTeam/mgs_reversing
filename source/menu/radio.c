@@ -16,6 +16,16 @@
 #include "linkvar.h"
 #include "sound/g_sound.h"
 
+static SPRT BSS          gRadioNumberSprt_800bd9b0;
+char BSS                 gap_800BD9C4[ 12 ]; // TODO
+static SPRT BSS          gRadioNumberSprt2_800bd9d0;
+char BSS                 gap_800BD9E4[ 12 ]; // TODO
+static SPRT BSS          gRadioStringSprt_800BD9F0;
+char BSS                 gap_800BDA04[ 12 ]; // TODO
+static PANEL_TEXTURE BSS dword_800BDA10;
+char BSS                 gap_800BDA24[ 12 ]; // TODO
+static PANEL_TEXTURE BSS dword_800BDA30;
+
 int                       SECTION(".sbss") dword_800ABAF8;
 int                       SECTION(".sbss") gRadioClut_800ABAFC;
 int                       SECTION(".sbss") gCodecAction;
@@ -27,8 +37,6 @@ short                     SECTION(".sbss") gCodecFadingCount;
 short                     SECTION(".sbss") word_800ABB1A;
 int                       SECTION(".sbss") dword_800ABB1C;
 
-extern PANEL_TEXTURE     dword_800BDA10;
-extern PANEL_TEXTURE     dword_800BDA30;
 extern RadioIncomingCall gRadioIncomingCall_8009E708;
 
 STATIC char dword_800AB610[8] = {2, 4, 3, 1, 4, 3, 1, 0};
@@ -1186,7 +1194,7 @@ skip_fading:
                     break;
                 case 2:
                     printf("set call freq %d\n", codec_freq_800AB638);
-                    menu_radio_codec_helper_helper_8004E198(codec_freq_800AB638);
+                    MENU_SetCallFreq(codec_freq_800AB638);
                     work->field_210_codec_state = 6;
                     break;
                 case 3:
@@ -1713,9 +1721,6 @@ void MENU_SetRadioCallbackProc(int proc_id)
 // us to compile this function (and the entire file) with -G0.
 STATIC RECT SECTION(".sdata") rect_800AB64C[] = {{960, 488, 64, 10}};
 
-extern SPRT gRadioNumberSprt_800bd9b0;
-extern SPRT gRadioNumberSprt2_800bd9d0;
-
 void menu_number_init(MenuWork *work)
 {
     RECT  texture_rect;
@@ -2058,8 +2063,6 @@ int menu_number_draw(MenuWork *work, u_long *ot, int xpos, int ypos, int number,
     return textConfig.xpos;
 }
 
-extern SPRT gRadioNumberSprt_800bd9b0;
-
 int menu_number_draw_number2(MenuWork *work, int xpos, int ypos, int current, int total)
 {
     SPRT      *pPrim;
@@ -2103,8 +2106,6 @@ int menu_number_draw_string(MenuWork *work, u_long *ot, int xpos, int ypos, cons
 }
 
 STATIC RECT gRadioStringRect_800AB658 = {960, 498, 0, 0};
-
-extern SPRT gRadioStringSprt_800BD9F0;
 
 void menu_set_string2(void)
 {

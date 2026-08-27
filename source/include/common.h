@@ -18,6 +18,8 @@
 #define countof(array)  _countof(array)
 #define COUNTOF(array)  _countof(array)
 
+#define BSS SECTION(".bss")
+
 /*---------------------------------------------------------------------------*/
 
 #ifndef MIN

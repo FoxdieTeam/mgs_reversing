@@ -10,23 +10,23 @@
 #include "mts/mts.h"
 #include "sound/sd_cli.h"
 
-extern int   fs_stream_ref_count;
-extern int   fs_stream_read;
-extern int   fs_stream_sector;
-extern void *fs_stream_heap;
-extern char *fs_stream_heap_end;
-extern int   fs_stream_heap_size;
-extern void *fs_stream_unused;
-extern char *fs_stream_top;
-extern int  *fs_stream_write_ptr;
-extern char *fs_stream_bottom;
-extern int   fs_stream_task_state;
+static int BSS   fs_stream_ref_count;
+static int BSS   fs_stream_read;
+static int BSS   fs_stream_sector;
+static void *BSS fs_stream_heap;
+static char *BSS fs_stream_heap_end;
+static int BSS   fs_stream_heap_size;
+static void *BSS fs_stream_unused;
+static char *BSS fs_stream_top;
+static int *BSS  fs_stream_write_ptr;
+static char *BSS fs_stream_bottom;
+static int BSS   fs_stream_task_state;
 
-STATIC int  fs_stream_last_time = -1;
-STATIC int  fs_stream_next_time = 0;
-STATIC int  fs_stream_stop = 0;
-STATIC int  fs_stream_end = 1;
-STATIC int *fs_stream_unread = NULL;
+static int  fs_stream_last_time = -1;
+static int  fs_stream_next_time = 0;
+static int  fs_stream_stop = 0;
+static int  fs_stream_end = 1;
+static int *fs_stream_unread = NULL;
 
 static int StreamReadyCallback( CDBIOS_TASK *task )
 {

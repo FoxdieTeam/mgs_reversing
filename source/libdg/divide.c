@@ -1,7 +1,7 @@
 #include "libdg.h"
 #include "common.h"
 
-extern GV_HEAP       MemorySystems_800AD2F0[MAX_MEMSYS];
+extern MEM_SYS       mem_sys[MAX_MEMSYS];
 extern unsigned int *DG_DivideBuffer[256];
 
 typedef struct DG_DivideMem
@@ -15,8 +15,8 @@ typedef struct DG_DivideMem
     long        field_14;   // 0x14
     long        field_18;   // 0x18
     POLY_GT4   *pack;       // 0x1C
-    GV_HEAP    *pHeap;      // 0x20
-    GV_ALLOC   *pAlloc;     // 0x24
+    MEM_SYS    *pHeap;      // 0x20
+    MEM_TAG   *pAlloc;     // 0x24
     int         n_packs;    // 0x28
     void       *pDataStart; // 0x2C
     int         size;       // 0x30
@@ -30,7 +30,7 @@ static inline DG_DivideMem *GetDivideMem()
 
 STATIC void *DG_SplitMemory( int memIdx, int* n_split, int size );
 STATIC POLY_GT4 *DG_InitDividePacks( int memIdx );
-STATIC void *DG_AllocDividePackMem( GV_HEAP *heap, GV_ALLOC **alloc_list, int *size );
+STATIC void *DG_AllocDividePackMem( MEM_SYS *heap, MEM_TAG **alloc_list, int *size );
 STATIC POLY_GT4 *DG_GetDividePacks( void );
 STATIC int  DG_GetRVectorCode( DG_RVECTOR *rvec );
 STATIC void DG_SetRVectorCode( DG_RVECTOR *rvec );
@@ -44,17 +44,17 @@ STATIC void DG_AddSubdividedPrim( DG_OBJ *obj, int idx );
 STATIC void *DG_SplitMemory( int memIdx, int *n_split, int size )
 {
     int i, split_count;
-    GV_HEAP *heap;
-    GV_ALLOC *alloc;
+    MEM_SYS *heap;
+    MEM_TAG *alloc;
 
     split_count = 0;
-    heap = &MemorySystems_800AD2F0[ memIdx ];
+    heap = &mem_sys[ memIdx ];
 
     alloc = heap->units;
     i = heap->used;
     while ( i > 0 )
     {
-        if (alloc->state == GV_ALLOC_STATE_FREE)
+        if (alloc->state == MEM_TAG_STATE_FREE)
         {
             split_count += (alloc[1].start - alloc[0].start ) / size;
         }
@@ -69,7 +69,7 @@ STATIC void *DG_SplitMemory( int memIdx, int *n_split, int size )
 STATIC POLY_GT4 *DG_InitDividePacks( int memIdx )
 {
     POLY_GT4 *pack;
-    GV_HEAP  *heap;
+    MEM_SYS  *heap;
 
     DG_DivideMem *divide_mem = GetDivideMem();
 
@@ -88,11 +88,11 @@ void DG_DivideStart( void )
     /* do nothing */
 }
 
-STATIC void *DG_AllocDividePackMem( GV_HEAP *heap, GV_ALLOC **alloc_list, int *size )
+STATIC void *DG_AllocDividePackMem( MEM_SYS *heap, MEM_TAG **alloc_list, int *size )
 {
     int i;
     int alloc_idx;
-    GV_ALLOC *allocs;
+    MEM_TAG *allocs;
 
     allocs = *alloc_list;
 
@@ -114,7 +114,7 @@ STATIC void *DG_AllocDividePackMem( GV_HEAP *heap, GV_ALLOC **alloc_list, int *s
 
     for ( ; i > 0 ; --i )
     {
-        if ( allocs->state == GV_ALLOC_STATE_FREE )
+        if ( allocs->state == MEM_TAG_STATE_FREE )
         {
             alloc_list[0] = allocs;
             *size = allocs[1].start - allocs[0].start;

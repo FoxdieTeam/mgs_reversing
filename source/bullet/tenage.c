@@ -14,10 +14,12 @@
 #include "sound/g_sound.h"
 #include "strcode.h"
 
-extern int            dword_800BDD28;
-extern BLAST_DATA     blast_data_8009F4B8[8];
-extern CONTROL       *tenage_ctrls_800BDD30[16];
-extern int            tenage_ctrls_count_800BDD70;
+int BSS      dword_800BDD28;
+char BSS     gap_800BDD2C[ 4 ]; // TODO
+CONTROL *BSS tenage_ctrls_800BDD30[ 16 ];
+int BSS      tenage_ctrls_count_800BDD70;
+
+extern BLAST_DATA blast_data_8009F4B8[ 8 ];
 
 /*---------------------------------------------------------------------------*/
 // 手投げ弾 (en: hand grenade)

@@ -4,8 +4,10 @@
 #include <libgpu.h>
 #include "common.h"
 
-STATIC RECT palette1 = { 768, 226, 256, 30 };
-STATIC RECT palette2 = { 768, 196, 256, 30 };
+u_long BSS DG_PaletteBuffer[ 256 ];
+
+static RECT palette1 = { 768, 226, 256, 30 };
+static RECT palette2 = { 768, 196, 256, 30 };
 
 void DG_StorePalette( void )
 {

@@ -173,7 +173,7 @@ static u_char *PcxInflate8( u_char *pcxdata, u_char *buf, int size )
 
 static u_char *PcxInflate4( u_char *pcxdata, u_char *buf, int stride, int width, int height )
 {
-    extern u_char pcx_temp_buf[ 128 ];
+    static u_char pcx_temp_buf[ 128 ];
 
     int len, size;
     u_char *rp, *gp, *bp, *ap;

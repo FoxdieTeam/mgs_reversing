@@ -7,8 +7,9 @@
 #include "sound/g_sound.h"
 #include "linkvar.h"
 
-extern int              dword_8009F604;
-extern short            word_800BDCC0;
+static short word_800BDCC0;
+
+extern int dword_8009F604;
 
 /*---------------------------------------------------------------------------*/
 // Gas Mask sight

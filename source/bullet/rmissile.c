@@ -18,10 +18,11 @@
 #include "sound/g_sound.h"
 #include "strcode.h"
 
+static int dword_800BDEF8[ 2 ];
+
 extern BLAST_DATA       blast_data_8009F4B8[8];
 extern TARGET          *target_800BDF00;
 extern int              dword_8009F604;
-extern int              dword_800BDEF8[];
 extern int              GM_CameraTrackSave;
 extern SVECTOR          GM_CameraRotateSave;
 extern int              GM_event_camera_flag;

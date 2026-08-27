@@ -51,16 +51,13 @@ const char *MGS_MemoryCardName = {
 
 /*--------------------------------------------------------------------------*/
 
-//static long GameStack[512];
-//static long SdStack[512];
-
 #define GAME_STACK_SIZE (2048)
 #define SD_STACK_SIZE   (2048)
 
-extern char GameStack[GAME_STACK_SIZE];
-extern char SdStack[SD_STACK_SIZE];
+static char BSS GameStack[ GAME_STACK_SIZE ];
+static char BSS SdStack[ SD_STACK_SIZE ];
 
-static void Main(void)
+static void Main( void )
 {
     RECT rect;
 
@@ -69,51 +66,51 @@ static void Main(void)
     CdInit();
     SetDispMask(0);
 
-    setRECT(&rect, 0, 0, 1024, 511);
-    ClearImage(&rect, 0, 0, 0);
+    setRECT( &rect, 0, 0, 1024, 511 );
+    ClearImage( &rect, 0, 0, 0 );
 
-    DrawSync(0);
-    SetDispMask(1);
+    DrawSync( 0 );
+    SetDispMask( 1 );
     InitGeom();
 
     mts_init_vsync();
     mts_set_vsync_task();
 
-    printf("mem:");
+    printf( "mem:" );
     memcard_init();
 
-    printf("pad:");
+    printf( "pad:" );
     mts_init_controller();
 
-    printf("gv:");
+    printf( "gv:" );
     GV_StartDaemon();
 
-    printf("fs:");
+    printf( "fs:" );
     FS_StartDaemon();
 
-    printf("dg:");
+    printf( "dg:" );
     DG_StartDaemon();
 
-    printf("gcl:");
+    printf( "gcl:" );
     GCL_StartDaemon();
 
-    printf("hzd:");
+    printf( "hzd:" );
     HZD_StartDaemon();
 
-    printf("sound:");
-    mts_start_task(MTSID_SOUND_MAIN, SdMain, STACK_BOTTOM(SdStack), SD_STACK_SIZE);
+    printf( "sound:" );
+    mts_start_task( MTSID_SOUND_MAIN, SdMain, STACK_BOTTOM( SdStack ), SD_STACK_SIZE );
 
-    while (!sd_task_active())
+    while ( !sd_task_active() )
     {
-        mts_wait_vbl(1);
+        mts_wait_vbl( 1 );
     }
 
-    printf("gm:");
+    printf( "gm:" );
     GM_StartDaemon();
 
-    printf("start\n");
+    printf( "start\n" );
 
-    for (;;)
+    for ( ;; )
     {
         GV_ExecActorSystem();
     }
@@ -124,7 +121,7 @@ static inline void START_GAME( void (*proc)(void) )
     // the game task stack was originally declared static here
     // ...or at least it is in 5thMix's work.5th/main/bm.c
 
-    mts_boot_task( MTSID_GAME, proc, STACK_BOTTOM(GameStack), GAME_STACK_SIZE );
+    mts_boot_task( MTSID_GAME, proc, STACK_BOTTOM( GameStack ), GAME_STACK_SIZE );
 }
 
 int main()

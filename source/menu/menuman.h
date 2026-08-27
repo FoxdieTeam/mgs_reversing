@@ -19,20 +19,9 @@ typedef struct
 
 typedef struct RadioMemory
 {
-    short frequency;
-    char  name[18];
+    short freq;
+    char  name[ 18 ];
 } RadioMemory;
-
-typedef struct radio_table_entry
-{
-    int field_0_contactFrequency;
-    int field_4_radioTableCode;
-} radio_table_entry;
-
-typedef struct radio_table
-{
-    radio_table_entry field_0_entries[8];
-} radio_table;
 
 #define RADIO_MEMORY_COUNT     16
 
@@ -329,23 +318,6 @@ typedef struct _MenuWork
     int                    field_21C;
 } MenuWork;
 
-// here or jimctl.h?
-typedef struct UnkJimakuStruct // @ 800BDA70
-{
-    char field_0_active; // if true, display on screen and count down timer
-    char field_1_type; // 0, 1, 2? - 1: pause
-    short field_2_timer; // how many frames to be active
-    short field_4_x; // location on screen
-    short field_6_y;
-    short field_8_w;
-    short field_A_h;
-    KCB field_C_font;
-    char *field_38_str; // the string to display
-    int field_3C; // hashed proc name used as first arg to GCL_ExecProc
-    char *field_40; // char * gcl string?
-    // int field_44 // padding?
-} UnkJimakuStruct;
-
 typedef struct MenuCallbackProc_800ABB08
 {
     int procNameHashed;
@@ -603,7 +575,6 @@ void NewJimaku(void);
 /* radiotable.c */
 void MENU_InitRadioTable(void);
 void MENU_ClearRadioTable(void);
-radio_table_entry *sub_8004969C(radio_table *pRadioTable, int contactFrequency);
 void MENU_SetRadioBaseCall(int contactFrequency, int radioTableCode);
 void MENU_SetRadioOverCall(int contactFrequency, int radioTableCode);
 int MENU_GetRadioCode(int param_1);
@@ -619,18 +590,15 @@ int menu_radio_8004D334(GV_PAD *pPad);
 void menu_radio_8004D35C(void);
 
 /* radiomem.c */
-RadioMemory *menu_radio_table_find_8004D380(int toFind);
-RadioMemory *menu_radio_table_next_free_8004D3B8(void);
 void menu_radio_compact_free_vars_8004D3D8(void);
-// void sub_8004D4A0(RadioCodecStru_800ABB98 *pStru);
 void sub_8004D580(int pressed);
 void menu_radio_draw_mem(MenuWork *work, u_long *ot);
 void menu_radio_codec_helper_helper4_8004DE20(MenuWork *work);
 void menu_radio_codec_helper__helper3_sub_8004DF44();
 int menu_radio_codec_helper_helper2_8004DF68(MenuWork *work, GV_PAD *pPad);
 void MENU_InitRadioMemory(void);
-void MENU_SetRadioMemory(int varId, const char *pVarName);
-void menu_radio_codec_helper_helper_8004E198(int toFind);
+void MENU_SetRadioMesg(int varId, char *pVarName);
+void MENU_SetCallFreq(int toFind);
 
 /*---------------------------------------------------------------------------*/
 

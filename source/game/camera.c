@@ -31,11 +31,15 @@ STATIC int      GM_CameraFlagsOrg = 0;
 STATIC HZD_TRP *GM_800AB444 = NULL;
 STATIC int      GM_800AB448 = 0;
 
-extern GM_CameraSystemWork        GM_Camera;
-extern GM_SnakeCameraWork  GM_SnakeCamera;
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern UnkCameraStruct2 gUnkCameraStruct2_800B76F0;
-extern CAMERA           GM_CameraList[8];
+
+static UnkCameraStruct2 BSS gUnkCameraStruct2_800B76F0;
+char BSS                    gap_800B7714[ 4 ]; // TODO
+CAMERA BSS                  GM_CameraList[ 8 ];
+GM_SnakeCameraWork BSS      GM_SnakeCamera;
+GM_CameraSystemWork BSS     GM_Camera;
+char BSS                    gap_800B7864[ 4 ]; // TODO
+UnkCameraStruct2 BSS        gUnkCameraStruct2_800B7868;
+char BSS                    gap_800B788C[ 4 ]; // TODO
 
 static const unsigned int dword_80010C60[] =
 {

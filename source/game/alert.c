@@ -11,8 +11,9 @@ STATIC short   SECTION(".sbss") word_800ABA82;  // padding
 
 char alert_procs[] = {0, 0, 1, 2};
 
-extern char noise_sounds[4][3];
-extern int  GM_GameOverVox;
+static char noise_sounds[4][3];
+
+extern int GM_GameOverVox;
 
 #define STATUS_BIT_0 0x1
 #define STATUS_BIT_1 0x2

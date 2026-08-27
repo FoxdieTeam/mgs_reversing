@@ -81,14 +81,6 @@ typedef struct _GV_ACT
     int             count;
 } GV_ACT;
 
-typedef struct      // private to libgv/actor.c
-{
-    GV_ACT start;
-    GV_ACT end;
-    short  pause_level;
-    short  kill_level;
-} AList;
-
 enum {
     GV_ACTOR_DAEMON,    // 0
     GV_ACTOR_MANAGER,   // 1
@@ -146,16 +138,6 @@ enum GV_CACHE_REGION
     GV_INIT_RESIDENT,
 };
 
-typedef struct CACHE
-{
-    int   id;
-    void *buf;
-} CACHE;
-
-#define MAX_CACHES 128
-
-#define MAX_LOADERS  26  // 'a'～'z'
-
 typedef int ( *GV_LOADFUNC )( void *data, int id );
 
 /* cache.c */
@@ -184,44 +166,44 @@ int   GV_LoadInit( void *data, int name, int cache_mode );
 #define MEM_ADDR        (PACK_ADDR0 - MEM_SIZE)
 #define RESIDENT_BOTTOM (MEM_ADDR)
 
-#define GV_MEMORY_STATIC        0
-#define GV_MEMORY_DYNAMIC       1
-
-#define GV_PACKET_MEMORY0       0
-#define GV_PACKET_MEMORY1       1
-#define GV_NORMAL_MEMORY        2   // known memleak constant
-#define MAX_MEMSYS              3
-
-enum GV_ALLOC_STATE
-{
-    GV_ALLOC_STATE_FREE = 0,
-    GV_ALLOC_STATE_VOID = 1,
-    GV_ALLOC_STATE_USED = 2,
+enum {
+    GV_MEMORY_STATIC,
+    GV_MEMORY_DYNAMIC
 };
 
-typedef struct GV_ALLOC
-{
+enum {
+    GV_PACKET_MEMORY0,
+    GV_PACKET_MEMORY1,
+    GV_NORMAL_MEMORY, 
+    MAX_MEMSYS,       
+};
+
+enum {
+    MEM_TAG_STATE_FREE = 0,
+    MEM_TAG_STATE_VOID = 1,
+    MEM_TAG_STATE_USED = 2
+};
+
+typedef struct {
     void        *start;
     unsigned int state; // pointer to start of memory for dynamic allocations
-} GV_ALLOC;
+} MEM_TAG;
 
-enum GV_HEAP_FLAG
-{
-    GV_HEAP_FLAG_DYNAMIC = 0x1,
-    GV_HEAP_FLAG_VOIDED  = 0x2,
-    GV_HEAP_FLAG_FAILED  = 0x4,
+enum MEM_SYS_FLAG {
+    MEM_SYS_FLAG_DYNAMIC = 1,
+    MEM_SYS_FLAG_VOIDED  = 2,
+    MEM_SYS_FLAG_FAILED  = 4
 };
 
 #define MAX_ALLOC_UNITS 512
 
-typedef struct GV_HEAP
-{
+typedef struct MEM_SYS {
     int      flags;
     void    *start;
     void    *end;
     int      used;
-    GV_ALLOC units[MAX_ALLOC_UNITS];
-} GV_HEAP;
+    MEM_TAG units[ MAX_ALLOC_UNITS ];
+} MEM_SYS;
 
 /* memory.c */
 void  GV_InitMemorySystemAll(void);
@@ -337,9 +319,7 @@ enum
 #ifndef __LIBGV_PAD_C__
 extern u_short  GV_DemoPadStatus[2];
 extern u_long   GV_DemoPadAnalog;
-#endif
-#ifndef __BSSDEFINE__
-extern GV_PAD GV_PadData[4];
+extern GV_PAD   GV_PadData[4];
 #endif
 extern int GV_PadMask;
 
@@ -347,7 +327,7 @@ void GV_InitPadSystem(void);
 void GV_UpdatePadSystem(void);
 void GV_OriginPadSystem(int);
 int  GV_GetPadOrigin(void);
-int  GV_GetPadDirNoPadOrg(unsigned int);
+int  GV_GetPadDirNoPadOrg(int);
 
 /*------ Math Operations ----------------------------------------------------*/
 

@@ -19,12 +19,6 @@ typedef struct MAP {
     int      zone;
 } MAP;
 
-// Local to game/area.c
-#define MAX_HISTORY 8
-typedef struct AreaHistory {
-    short history[MAX_HISTORY];
-} AreaHistory;
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct RADAR_SIGHT_PARAM {

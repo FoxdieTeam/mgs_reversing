@@ -17,8 +17,10 @@
 int SECTION(".sbss") GM_CurrentMap;
 int SECTION(".sbss") GM_N_WhereList;
 
-extern CONTROL *GM_WhereList[96];
-extern CONTROL  DummyPlayer;
+static CONTROL BSS DummyPlayer;
+char BSS           gap_800B56CC[ 4 ]; // TODO
+
+CONTROL *BSS GM_WhereList[ 96 ];
 
 static int QueueWhere(CONTROL *where)
 {

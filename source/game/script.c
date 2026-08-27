@@ -14,11 +14,13 @@
 #include "kojo/demo.h"
 #include "strcode.h"
 
-extern  CAMERA          GM_CameraList[8];
-extern  GM_CameraSystemWork       GM_Camera;
-extern  HZD_BND        gBindsArray_800b58e0[128];
-extern  int             dword_8009F46C;
-extern  SVECTOR         svector_8009F478;
+static HZD_BND gBindsArray_800b58e0[ 128 ];
+
+extern CAMERA              GM_CameraList[ 8 ];
+extern GM_CameraSystemWork GM_Camera;
+
+extern int     dword_8009F46C;
+extern SVECTOR svector_8009F478;
 
 /*---------------------------------------------------------------------------*/
 
@@ -655,7 +657,7 @@ static int RadioCmd(char *top)
     }
     if (GCL_GetOption('m')) // mesg string (example: "clear")
     {
-        MENU_SetRadioMemory(GCL_GetNextInt(), // contactFrequency
+        MENU_SetRadioMesg(GCL_GetNextInt(), // contactFrequency
                             GCL_GetString(GCL_NextStr())); // string
     }
     if (GCL_GetOption('d')) // disable?

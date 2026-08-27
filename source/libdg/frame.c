@@ -22,10 +22,11 @@ short SECTION(".sbss") DG_ClipMin[2];
 short SECTION(".sbss") DG_ClipMax[2];
 
 /*** bss ***/
-extern DISPENV g_dispenv;
-extern VECTOR  prev_vx;
+static DISPENV BSS g_dispenv;
+char BSS           gap_800B0614[12]; // TODO
+static VECTOR BSS  prev_vx;
 
-void DG_InitDisplay( int x, int y, int w, int h, int shift )
+void DG_SetDispEnv( int x, int y, int w, int h, int shift )
 {
     DISPENV *env;
     RECT *disp, *screen;

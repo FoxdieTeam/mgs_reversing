@@ -11,8 +11,9 @@
 #include "chara/snake/sna_init.h"
 #include "linkvar.h"
 
+static DVECTOR dvector_800BDD18[ 3 ];
+
 extern int dword_8009F604;
-extern DVECTOR dvector_800BDD18[3];
 
 /*---------------------------------------------------------------------------*/
 // PSG1 Rifle Sight

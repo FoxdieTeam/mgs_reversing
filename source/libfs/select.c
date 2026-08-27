@@ -8,6 +8,12 @@
 #include "common.h"
 #include "libsio/isio.h"
 
+/*---------------------------------------------------------------------------*/
+
+int BSS FS_DiskNum;
+
+/*---------------------------------------------------------------------------*/
+
 void FS_StartDaemon( void )
 {
     SetMem( 2 );    // Set effective memory to 2MB (DTL-H2X00 has 8MB)

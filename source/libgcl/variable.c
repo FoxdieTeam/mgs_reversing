@@ -2,17 +2,19 @@
 #include "common.h"
 #include "libgcl.h"
 
-#include "game/game.h"      // for AreaHistory
+#include "game/game.h"
 #include "menu/menuman.h"   // for RadioMemory
 #include "linkvar.h"
 
-extern short linkvarbuf[ MAX_LINKVARBUF ];
-extern short sv_linkvarbuf[ MAX_LINKVARBUF ];
+short        linkvarbuf[ MAX_LINKVARBUF ];
+static short var_buf[ 1024 ];
 
-extern GCL_Vars     gGcl_vars_800B3CC8;
-extern GCL_Vars     gGcl_memVars_800b4588;
-extern char         gStageName_800B4D88[16];
-extern RadioMemory  gRadioMemory_800BDB38[RADIO_MEMORY_COUNT];
+static short sv_linkvarbuf[ MAX_LINKVARBUF ];
+static short sv_var_buf[ 1024 ];
+
+static char stage_name[ 16 ];
+
+extern RadioMemory radio_memory[RADIO_MEMORY_COUNT];
 
 #define SAVE_LINKVAR(buf, var)  (buf[((short*)&var - (short*)&linkvarbuf)])
 
@@ -28,9 +30,9 @@ typedef struct SAVE_DATA
     int         totalFrameTime;
     int         padding[3];
     char        stage_name[16];
-    AreaHistory area_history;
-    short       varbuf[0x60];
-    GCL_Vars    gcl_vars;
+    short       area_history[8];
+    short       linkvar[0x60];
+    short       varbuf[1024];
     RadioMemory radio_memory[RADIO_MEMORY_COUNT];
 } SAVE_DATA; // size 0xA38
 
@@ -83,7 +85,7 @@ static unsigned int crc32(int len, unsigned char *ptr)
 
 int GCL_MakeSaveFile(char *save_buf)
 {
-    typedef struct { short f[sizeof(gRadioMemory_800BDB38) / sizeof(short)]; } RdMem;
+    typedef struct { short f[sizeof(radio_memory) / sizeof(short)]; } RdMem;
 
     SAVE_FILE *save_file;
     SAVE_DATA *save_data;
@@ -105,12 +107,13 @@ int GCL_MakeSaveFile(char *save_buf)
     save_data->padding[1] = 0;
     save_data->padding[2] = 0;
 
-    strcpy(save_data->stage_name, gStageName_800B4D88);
-    GM_GetAreaHistory(&save_data->area_history);
+    strcpy(save_data->stage_name, stage_name);
+    GM_GetAreaHistory(save_data->area_history);
 
-    memcpy(save_data->varbuf, sv_linkvarbuf, 0xC0);
-    save_data->gcl_vars = gGcl_memVars_800b4588;
-    *(RdMem *)&save_data->radio_memory = *(RdMem *)&gRadioMemory_800BDB38;
+    memcpy(save_data->linkvar, sv_linkvarbuf, 0xC0);
+    memcpy(save_data->varbuf, sv_var_buf, 1024 * sizeof(short));
+
+    *(RdMem *)&save_data->radio_memory = *(RdMem *)&radio_memory;
 
     save_file->size = (void *)save_data + sizeof(SAVE_DATA) - (void *)save_buf;
     save_file->checksum = crc32(sizeof(SAVE_DATA), (char *)save_data); // size 0xA38
@@ -120,7 +123,7 @@ int GCL_MakeSaveFile(char *save_buf)
 
 int GCL_SetLoadFile(char *save_buf)
 {
-    typedef struct { short f[sizeof(gRadioMemory_800BDB38) / sizeof(short)]; } RdMem;
+    typedef struct { short f[sizeof(radio_memory) / sizeof(short)]; } RdMem;
 
     SAVE_FILE *save_file;
     SAVE_DATA *save_data;
@@ -139,14 +142,15 @@ int GCL_SetLoadFile(char *save_buf)
     }
 
     gTotalFrameTime = save_data->totalFrameTime;
-    strcpy(gStageName_800B4D88, save_data->stage_name);
-    GM_SetAreaHistory(&save_data->area_history);
+    strcpy(stage_name, save_data->stage_name);
+    GM_SetAreaHistory(save_data->area_history);
 
-    memcpy(sv_linkvarbuf, save_data->varbuf, 0xC0);
-    gGcl_memVars_800b4588 = save_data->gcl_vars;
-    memcpy(linkvarbuf, save_data->varbuf, 0xC0);
-    gGcl_vars_800B3CC8 = save_data->gcl_vars;
-    *(RdMem *)&gRadioMemory_800BDB38 = *(RdMem *)&save_data->radio_memory;
+    memcpy(sv_linkvarbuf, save_data->linkvar, 0xC0);
+    memcpy(sv_var_buf, save_data->varbuf, 1024 * sizeof(short));
+    memcpy(linkvarbuf, save_data->linkvar, 0xC0);
+    memcpy(var_buf, save_data->varbuf, 1024 * sizeof(short));
+
+    *(RdMem *)&radio_memory = *(RdMem *)&save_data->radio_memory;
 
     return 1;
 }
@@ -161,7 +165,7 @@ void GCL_InitVar( void )
     option = GM_Configuration;
     level = GM_GameLevel;
 
-    gGcl_vars_800B3CC8 = ( GCL_Vars ){{ 0 }};
+    memset( var_buf, 0, 1024 * sizeof(short) );
     memset( linkvarbuf, 0, MAX_LINKVARBUF * sizeof(short) );
 
     GM_GameLevel = level;
@@ -170,7 +174,7 @@ void GCL_InitVar( void )
 
 void GCL_InitClearVar( void )
 {
-    gGcl_vars_800B3CC8 = ( GCL_Vars ){{ 0 }};
+    memset( var_buf, 0, 1024 * sizeof(short) );
     memset( &GM_SaveArea, 0, 0xb4 );
 
     GCL_SaveVar();
@@ -179,16 +183,16 @@ void GCL_InitClearVar( void )
 void GCL_SaveVar( void )
 {
     memcpy( sv_linkvarbuf, linkvarbuf, MAX_LINKVARBUF * sizeof(short) );
-    gGcl_memVars_800b4588 = gGcl_vars_800B3CC8;
-    strcpy( gStageName_800B4D88, GM_GetArea( 0 ) );
+    memcpy( sv_var_buf, var_buf, 1024 * sizeof(short) );
+    strcpy( stage_name, GM_GetArea( 0 ) );
 }
 
 void GCL_RestoreVar( void )
 {
     memcpy( linkvarbuf, sv_linkvarbuf, 0x9C );
-    gGcl_vars_800B3CC8 = gGcl_memVars_800b4588;
+    memcpy( var_buf, sv_var_buf, 1024 * sizeof(short) );
 
-    GM_SetArea( GV_StrCode( gStageName_800B4D88 ), gStageName_800B4D88 );
+    GM_SetArea( GV_StrCode( stage_name ), stage_name );
 }
 
 // This function takes a GCL variable and return the associated C variable
@@ -215,7 +219,7 @@ char *GCL_GetVar( char *top, int *type_p, int *value_p )
     }
     else
     {
-        ptr = (char *)&gGcl_vars_800B3CC8;
+        ptr = (char *)&var_buf;
     }
     ptr += GCL_GetVarOffset(gcl_var);
     switch (gcl_code)
@@ -262,7 +266,7 @@ char *GCL_SetVar( char *top, int value )
     }
     else
     {
-        ptr = (char *)&gGcl_vars_800B3CC8;
+        ptr = (char *)&var_buf;
     }
     ptr += GCL_GetVarOffset(gcl_var);
     switch (gcl_code)
@@ -311,7 +315,7 @@ char *GCL_VarSaveBuffer( char *top )
     }
     else
     {
-        ptr = (char *)&gGcl_memVars_800b4588;
+        ptr = (char *)&sv_var_buf;
     }
     ptr += GCL_GetVarOffset(gcl_var);
     switch (gcl_code)

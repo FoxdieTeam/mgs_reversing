@@ -28,19 +28,17 @@ short SECTION(".sbss") N_ChanlPerfMax;
 short SECTION(".sbss") DG_EndTime;
 short SECTION(".sbss") DG_StartTime;
 
-extern DG_CHANL DG_Chanls[ 3 ];
+static u_long BSS ot_background[ 68 ];
+static u_long BSS ot_primitive[ 516 ];
+static u_long BSS ot_overlay[ 4 ];
+static void *BSS  obj_queue_background[ 8 ];
+static void *BSS  obj_queue_primitive[ 256 ];
+static DR_ENV BSS bg_drawenv[ 2 ];
 
-extern u_long ot_background[ 68 ];
-extern u_long ot_primitive[ 516 ];
-extern u_long ot_overlay[ 4 ];
-
-extern void *obj_queue_background[ 8 ];
-extern void *obj_queue_primitive[ 256 ];
-
-extern DR_ENV bg_drawenv[ 2 ];
-
-extern u_long *DG_DivideBuffer[ 256 ];
-extern u_short DG_ChanlTime[ 32 ];
+u_long *BSS   DG_DivideBuffer[ 256 ];
+DG_CHANL BSS DG_Chanls[ 3 ];
+char BSS     gap_800B1DC4[ 4 ]; // TODO
+u_short BSS  DG_ChanlTime[ 32 ];
 
 static void EndFrame( void )
 {

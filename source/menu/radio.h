@@ -131,19 +131,6 @@ typedef struct RadioFileModeStru_800ABB7C
     int               field_25c;
 } RadioFileModeStru_800ABB7C;
 
-typedef struct RadioCodecStru_800ABB98
-{
-    short       field_0_idx;
-    short       field_2;
-    short       field_4_count;
-    short       field_6; // Last pressed button in menu_radio_codec_helper_helper2_8004DF68
-    short       field_8;
-    short       field_a;
-    KCB        *field_c_kcb;
-    RadioMemory field_10_array[RADIO_MEMORY_COUNT];
-
-} RadioCodecStru_800ABB98;
-
 typedef struct _RadioUnknown
 {
     char         coords[7][4];

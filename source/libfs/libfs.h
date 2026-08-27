@@ -42,13 +42,6 @@ typedef struct {
     int pos;
 } FS_MOVIE_FILE;
 
-// private to memfile.c
-typedef struct {
-    int id;
-    int *ptr;
-    int size;
-} FS_MEMFILE;
-
 typedef char * (*TFsCallback)(char *);
 typedef void (*TFsSoundCallback)(void);
 

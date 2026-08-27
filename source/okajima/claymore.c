@@ -13,7 +13,7 @@
 #include "linkvar.h"
 #include "spark.h"
 
-extern MAP *claymore_MAP_800bdf08;
+static MAP *claymore_MAP_800bdf08;
 
 /*---------------------------------------------------------------------------*/
 

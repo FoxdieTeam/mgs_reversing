@@ -9,13 +9,21 @@
 
 #define NEVER_USED  (0)
 
-extern GV_LOADFUNC Loaders[ MAX_LOADERS ];
+#define MAX_CACHES  128
+#define MAX_LOADERS 26  /* 'a'～'z' */
 
-extern CACHE Caches[ MAX_CACHES ];
+static GV_LOADFUNC BSS Loaders[ MAX_LOADERS + 2 ]; /* TODO: why + 2? */
+
+typedef struct {
+    int   id;
+    void *buf;
+} CACHE;
+
+static CACHE BSS Caches[ MAX_CACHES ];
 static CACHE *SECTION(".sbss") EmptyCache;
 
-STATIC CACHE *SECTION(".sbss") GV_ResidentCache;
-STATIC int    SECTION(".sbss") GV_ResidentCacheSize;
+static CACHE *SECTION(".sbss") GV_ResidentCache;
+static int    SECTION(".sbss") GV_ResidentCacheSize;
 
 /*---------------------------------------------------------------------------*/
 

@@ -9,8 +9,9 @@
 #include "equip/equip.h"
 #include "scn_mask.h"
 
-extern int dword_800BDFA8;
-extern u_long DG_PaletteBuffer[256];
+static int dword_800BDFA8;
+
+extern u_long DG_PaletteBuffer[ 256 ];
 
 /*---------------------------------------------------------------------------*/
 // thermal goggles (screen effect)
