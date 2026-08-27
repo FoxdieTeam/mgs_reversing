@@ -173,8 +173,7 @@ typedef struct _ZakoComMgr
     short           field_34;       /* 0x34 */
     short           field_36;       /* 0x36 */
     short           field_38[4];    /* 0x38 */
-    int             field_40;       /* 0x40 */
-    char            pad_44[0x60 - 0x44];
+    int             field_40[8];    /* 0x40 */
     int             field_60;       /* 0x60 */
     MAP            *field_64;       /* 0x64 */
     char            pad_68[0x8C - 0x68];

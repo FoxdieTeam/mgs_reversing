@@ -359,7 +359,58 @@ void ZakoCom_800D4694(int *out)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D46F8.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D47BC.s")
+void s03d_800D47BC(ZakoComMgr *mgr)
+{
+    int i;
+    int prev;
+    int t3;
+    int t4;
+    int dists[8];
+    int cur, min;
+    int a, b;
+    ZakoActor *work;
+
+    for (i = 0; i < mgr->count; i++)
+    {
+        work = mgr->entries[ZAKOCOM_MGR->field_40[i]].field_C;
+        dists[i] = work->field_B90;
+    }
+
+    for (t3 = mgr->count - 1; t3 > -1; t3 = t4)
+    {
+        t4 = -1;
+        for (i = 1; t3 >= i; i++)
+        {
+            /* do/while(0) is required to reproduce the match */
+            do
+            {
+                min = dists[i - 1];
+                prev = i - 1;
+            } while (0);
+
+            cur = dists[i];
+
+            if (cur < min)
+            {
+                dists[i - 1] = cur;
+                dists[i] = min;
+
+                b = ZAKOCOM_MGR->field_40[i - 1];
+                a = ZAKOCOM_MGR->field_40[i];
+                t4 = prev;
+
+                ZAKOCOM_MGR->field_40[i - 1] = a;
+                ZAKOCOM_MGR->field_40[i] = b;
+            }
+        }
+    }
+
+    for (i = 0; i < mgr->count; i++)
+    {
+        work = mgr->entries[ZAKOCOM_MGR->field_40[i]].field_C;
+        work->field_B64 = (&s03d_dword_800C3BA0)[ZAKOCOM_MGR->field_40[i]];
+    }
+}
 void ZakoCom_800D490C(ZakoComMgr *mgr)
 {
     int i;
