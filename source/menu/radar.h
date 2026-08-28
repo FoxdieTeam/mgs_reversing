@@ -15,7 +15,7 @@ typedef void (*TRadarFn_800AB48C)(MenuWork *, u_long *);
 
 void menu_radar_update_8003B350(MenuWork *work, u_long *ot);
 void menu_init_radar_helper_8003ADAC(void);
-void menu_radar_helper_8003ADD8(MenuWork *work, int index);
+void set_radar_pos(MenuWork *work, int index);
 void MENU_SetRadarFunc(TRadarFn_800AB48C func);
 
 void draw_radar(MenuWork *work, u_long *ot);
