@@ -39,7 +39,7 @@ struct PANEL_CONF SECTION(".data") stru_8009E544[2] = {{16, 184, 1, 24576, 36864
 /* menu/weapon.obj */
 static array_800BD748_child BSS array_800BD748[ 9 ];
 char BSS                        gap_800BD820[ 8 ]; // TODO
-static array_800BD748_child BSS array_800BD828[ 4 ];
+static array_800BD748_child BSS current_texture[ 4 ];
 static PANEL_TEXTURE BSS        gMenuRightItems_800BD888[ MENU_WEAPON_COUNT ];
 
 void menu_texture_init_8003CC94(MenuWork *work)
@@ -87,7 +87,7 @@ void menu_texture_init_8003CC94(MenuWork *work)
     dword_800ABAD8 = 0;
     dword_800ABADC = 0;
 
-    pArr = array_800BD828;
+    pArr = current_texture;
     v = 384;
     for (i = 0; i < 4; i++)
     {
@@ -197,7 +197,7 @@ void menu_draw_texture_8003CEF8(PANEL_TEXTURE *pPanelTex)
 void sub_8003CFE0(PANEL_TEXTURE *pPanelTex, int index)
 {
     array_800BD748_child *elem;
-    elem = &array_800BD828[index];
+    elem = &current_texture[index];
 
     pPanelTex->field_8_bufid = 31 - index;
     pPanelTex->field_C_uvclut = LLOAD(&elem->field_0_u);
