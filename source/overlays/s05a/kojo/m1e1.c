@@ -130,7 +130,7 @@ struct _M1E1Work
 
 extern void  s05a_800D4A74(M1E1Work *work);
 extern void  s05a_800D5E30(M1E1Work *work);
-extern void *s05a_800D49F8(int code);
+extern void *NewM1Throw(int code);
 extern int s05a_800E00EC();
 extern int s05a_800E066C();
 extern int s05a_800DEDE8();
@@ -417,13 +417,13 @@ void *NewM1E1(int name, int where)
     work->field_F48 = work->field_DB8 >> 1;
 
     work->field_E8C.vx =
-        (u_short)work->caterpillar_l[0].objs->objs[0].model->min.vx +
-        ((work->caterpillar_l[0].objs->objs[0].model->max.vx -
-          work->caterpillar_l[0].objs->objs[0].model->min.vx) / 2);
+        (u_short)work->caterpillar_l[0].objs->objs[0].model->lx +
+        ((work->caterpillar_l[0].objs->objs[0].model->ux -
+          work->caterpillar_l[0].objs->objs[0].model->lx) / 2);
     work->field_E94.vx =
-        (u_short)work->caterpillar_r[0].objs->objs[0].model->min.vx +
-        ((work->caterpillar_r[0].objs->objs[0].model->max.vx -
-          work->caterpillar_r[0].objs->objs[0].model->min.vx) / 2);
+        (u_short)work->caterpillar_r[0].objs->objs[0].model->lx +
+        ((work->caterpillar_r[0].objs->objs[0].model->ux -
+          work->caterpillar_r[0].objs->objs[0].model->lx) / 2);
     DG_SetPos2(&work->control.mov, &work->control.rot);
     DG_PutVector(&work->field_E8C, &work->field_E8C, 1);
     DG_PutVector(&work->field_E94, &work->field_E94, 1);
@@ -432,14 +432,14 @@ void *NewM1E1(int name, int where)
     DG_VisibleObjs(work->caterpillar_r[work->field_E78].objs);
     if (work->field_E08 > 0)
     {
-        work->field_EDC = s05a_800D49F8(GV_StrCode(s05a_dword_800E344C));
+        work->field_EDC = NewM1Throw(GV_StrCode(s05a_dword_800E344C));
         flag = 0x150;
         work->field_D54 = 1;
-        GM_lpfnPlayerActControl = (TPlayerActFunction)s05a_800E00EC;
-        GM_lpfnPlayerActObject2 = (TPlayerActFunction)s05a_800E066C;
-        GM_lpfnBombHoming       = (TBombFunction)s05a_800DEDE8;
-        GM_lpfnBombBound        = (TBombFunction2)s05a_800DF834;
-        GM_lpfnBombExplosion    = (TBombFunction3)s05a_800DF9C8;
+        GM_lpfnPlayerActControl = (int (*)(GV_ACT *))s05a_800E00EC;
+        GM_lpfnPlayerActObject2 = (int (*)(GV_ACT *))s05a_800E066C;
+        GM_lpfnBombHoming       = (int (*)(CONTROL *, int, int *))s05a_800DEDE8;
+        GM_lpfnBombBound        = (int (*)(int, CONTROL *, int *))s05a_800DF834;
+        GM_lpfnBombExplosion    = (int (*)(TARGET *, int))s05a_800DF9C8;
     }
     else
     {
@@ -472,54 +472,54 @@ void *NewM1E1(int name, int where)
         }
         flag = 0x100;
     }
-    work->field_F8C[0] = work->body.objs->objs[0].model->min.vx; /* F8C */
-    work->field_F8C[1] = work->body.objs->objs[0].model->min.vy; /* F8E */
-    work->field_F8C[2] = work->body.objs->objs[0].model->min.vz; /* F90 */
-    work->field_F8C[4] = work->body.objs->objs[0].model->max.vx; /* F94 */
-    work->field_F8C[5] = work->body.objs->objs[0].model->max.vy; /* F96 */
-    work->field_F8C[6] = work->body.objs->objs[0].model->max.vz; /* F98 */
+    work->field_F8C[0] = work->body.objs->objs[0].model->lx; /* F8C */
+    work->field_F8C[1] = work->body.objs->objs[0].model->ly; /* F8E */
+    work->field_F8C[2] = work->body.objs->objs[0].model->lz; /* F90 */
+    work->field_F8C[4] = work->body.objs->objs[0].model->ux; /* F94 */
+    work->field_F8C[5] = work->body.objs->objs[0].model->uy; /* F96 */
+    work->field_F8C[6] = work->body.objs->objs[0].model->uz; /* F98 */
     if (work->field_F8C[1] < 0x258) work->field_F8C[1] = 0x258;
     if (work->field_F8C[5] < work->field_F8C[1]) work->field_F8C[5] = work->field_F8C[1];
 
-    work->field_F8C[8]  = work->body.objs->objs[2].model->min.vx; /* F9C */
-    work->field_F8C[9]  = work->body.objs->objs[2].model->min.vy; /* F9E */
-    work->field_F8C[10] = work->body.objs->objs[2].model->min.vz; /* FA0 */
-    work->field_F8C[12] = work->body.objs->objs[2].model->max.vx; /* FA4 */
-    work->field_F8C[13] = work->body.objs->objs[2].model->max.vy; /* FA6 */
-    work->field_F8C[14] = work->body.objs->objs[2].model->max.vz; /* FA8 */
+    work->field_F8C[8]  = work->body.objs->objs[2].model->lx; /* F9C */
+    work->field_F8C[9]  = work->body.objs->objs[2].model->ly; /* F9E */
+    work->field_F8C[10] = work->body.objs->objs[2].model->lz; /* FA0 */
+    work->field_F8C[12] = work->body.objs->objs[2].model->ux; /* FA4 */
+    work->field_F8C[13] = work->body.objs->objs[2].model->uy; /* FA6 */
+    work->field_F8C[14] = work->body.objs->objs[2].model->uz; /* FA8 */
     if (work->field_F8C[9] < 0x258) work->field_F8C[9] = 0x258;
     if (work->field_F8C[13] < work->field_F8C[9]) work->field_F8C[13] = work->field_F8C[9];
 
-    work->field_F8C[16] = work->caterpillar_l[0].objs->objs[0].model->min.vx; /* FAC */
-    work->field_F8C[17] = work->caterpillar_l[0].objs->objs[0].model->min.vy; /* FAE */
-    work->field_F8C[18] = work->caterpillar_l[0].objs->objs[0].model->min.vz; /* FB0 */
-    work->field_F8C[20] = work->caterpillar_l[0].objs->objs[0].model->max.vx; /* FB4 */
-    work->field_F8C[21] = work->caterpillar_l[0].objs->objs[0].model->max.vy; /* FB6 */
-    work->field_F8C[22] = work->caterpillar_l[0].objs->objs[0].model->max.vz; /* FB8 */
+    work->field_F8C[16] = work->caterpillar_l[0].objs->objs[0].model->lx; /* FAC */
+    work->field_F8C[17] = work->caterpillar_l[0].objs->objs[0].model->ly; /* FAE */
+    work->field_F8C[18] = work->caterpillar_l[0].objs->objs[0].model->lz; /* FB0 */
+    work->field_F8C[20] = work->caterpillar_l[0].objs->objs[0].model->ux; /* FB4 */
+    work->field_F8C[21] = work->caterpillar_l[0].objs->objs[0].model->uy; /* FB6 */
+    work->field_F8C[22] = work->caterpillar_l[0].objs->objs[0].model->uz; /* FB8 */
     if (work->field_F8C[17] < 0x258) work->field_F8C[17] = 0x258;
     if (work->field_F8C[21] < work->field_F8C[17]) work->field_F8C[21] = work->field_F8C[17];
 
-    work->field_F8C[24] = work->caterpillar_r[0].objs->objs[0].model->min.vx; /* FBC */
-    work->field_F8C[25] = work->caterpillar_r[0].objs->objs[0].model->min.vy; /* FBE */
-    work->field_F8C[26] = work->caterpillar_r[0].objs->objs[0].model->min.vz; /* FC0 */
-    work->field_F8C[28] = work->caterpillar_r[0].objs->objs[0].model->max.vx; /* FC4 */
-    work->field_F8C[29] = work->caterpillar_r[0].objs->objs[0].model->max.vy; /* FC6 */
-    work->field_F8C[30] = work->caterpillar_r[0].objs->objs[0].model->max.vz; /* FC8 */
+    work->field_F8C[24] = work->caterpillar_r[0].objs->objs[0].model->lx; /* FBC */
+    work->field_F8C[25] = work->caterpillar_r[0].objs->objs[0].model->ly; /* FBE */
+    work->field_F8C[26] = work->caterpillar_r[0].objs->objs[0].model->lz; /* FC0 */
+    work->field_F8C[28] = work->caterpillar_r[0].objs->objs[0].model->ux; /* FC4 */
+    work->field_F8C[29] = work->caterpillar_r[0].objs->objs[0].model->uy; /* FC6 */
+    work->field_F8C[30] = work->caterpillar_r[0].objs->objs[0].model->uz; /* FC8 */
     if (work->field_F8C[25] < 0x258) work->field_F8C[25] = 0x258;
     if (work->field_F8C[29] < work->field_F8C[25]) work->field_F8C[29] = work->field_F8C[25];
 
-    work->field_F8C[32] = work->body.objs->objs[4].model->min.vx + 0xC8;  /* FCC */
-    work->field_F8C[33] = work->body.objs->objs[4].model->min.vy;          /* FCE */
-    work->field_F8C[34] = work->body.objs->objs[4].model->min.vz;          /* FD0 */
-    work->field_F8C[36] = work->body.objs->objs[4].model->max.vx - 0xC8;  /* FD4 */
-    work->field_F8C[37] = work->body.objs->objs[4].model->max.vy;          /* FD6 */
-    work->field_F8C[38] = work->body.objs->objs[4].model->max.vz - 0x2BC; /* FD8 */
+    work->field_F8C[32] = work->body.objs->objs[4].model->lx + 0xC8;  /* FCC */
+    work->field_F8C[33] = work->body.objs->objs[4].model->ly;          /* FCE */
+    work->field_F8C[34] = work->body.objs->objs[4].model->lz;          /* FD0 */
+    work->field_F8C[36] = work->body.objs->objs[4].model->ux - 0xC8;  /* FD4 */
+    work->field_F8C[37] = work->body.objs->objs[4].model->uy;          /* FD6 */
+    work->field_F8C[38] = work->body.objs->objs[4].model->uz - 0x2BC; /* FD8 */
 
-    work->field_F8C[41] = work->body.objs->objs[5].model->min.vy - 0x1F4; /* FDE */
-    work->field_F8C[42] = work->body.objs->objs[5].model->min.vz;          /* FE0 */
-    work->field_F8C[44] = work->body.objs->objs[5].model->max.vx;          /* FE4 */
-    work->field_F8C[45] = work->body.objs->objs[5].model->max.vy + 0x12C; /* FE6 */
-    work->field_F8C[46] = work->body.objs->objs[5].model->max.vz - 0x12C; /* FE8 */
+    work->field_F8C[41] = work->body.objs->objs[5].model->ly - 0x1F4; /* FDE */
+    work->field_F8C[42] = work->body.objs->objs[5].model->lz;          /* FE0 */
+    work->field_F8C[44] = work->body.objs->objs[5].model->ux;          /* FE4 */
+    work->field_F8C[45] = work->body.objs->objs[5].model->uy + 0x12C; /* FE6 */
+    work->field_F8C[46] = work->body.objs->objs[5].model->uz - 0x12C; /* FE8 */
     work->field_F8C[40] = -work->field_F8C[44];                                /* FDC */
 
     if (work->field_D54 == 6)
@@ -586,8 +586,8 @@ void *NewM1E1(int name, int where)
         work->field_E7C = 0x3E7;
         work->field_E80 = 0x3E7;
         work->field_A80 =
-            (work->caterpillar_l[0].objs->objs[0].model->max.vx -
-             work->caterpillar_l[0].objs->objs[0].model->min.vx) / 3;
+            (work->caterpillar_l[0].objs->objs[0].model->ux -
+             work->caterpillar_l[0].objs->objs[0].model->lx) / 3;
 
         s1 = 0;
         svec.vx = (u_short)work->field_A80;
@@ -616,16 +616,16 @@ void *NewM1E1(int name, int where)
         }
 
         work->field_8C8 =
-            (work->body.objs->objs[0].model->max.vx -
-             work->body.objs->objs[0].model->min.vx) / 3;
+            (work->body.objs->objs[0].model->ux -
+             work->body.objs->objs[0].model->lx) / 3;
         work->field_95C =
-            (work->body.objs->objs[0].model->max.vx -
-             work->body.objs->objs[0].model->min.vx) >> 2;
+            (work->body.objs->objs[0].model->ux -
+             work->body.objs->objs[0].model->lx) >> 2;
         svec.vx = (u_short)work->field_8C8;
         svec.vz = (u_short)work->field_8C8;
         svec.vy =
-            (work->body.objs->objs[0].model->max.vy -
-             work->body.objs->objs[0].model->min.vy) / 6;
+            (work->body.objs->objs[0].model->uy -
+             work->body.objs->objs[0].model->ly) / 6;
         GM_SetTarget((TARGET *)&work->field_8CC, 4, 2, &svec);
         GM_SetTarget((TARGET *)&work->field_914, 4, 2, &svec);
         svec.vx = (u_short)work->field_95C;

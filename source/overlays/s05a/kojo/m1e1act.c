@@ -1,5 +1,4 @@
 #include "game/game.h"
-#include "game/target.h"
 #include "kojo/m1e1.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
@@ -502,7 +501,7 @@ void s05a_800D4A74(Work *work)
     }
 
     /* ======== M. Pad-driven 14-case state machine ======== */
-    if (GM_BonusItemsFlag == 0)
+    if (GM_ClearFlag == 0)
         return;
 
     {
@@ -606,7 +605,7 @@ void s05a_800D4A74(Work *work)
         }
     }
 
-    /* ======== N. D54==7 final pad input + DG_LookAt + AN_Blast tail ======== */
+    /* ======== N. D54==7 final pad input + DG_MakeCameraMatrix + AN_Blast tail ======== */
     if (work->field_D54 == 7)
     {
         u_short pad;
@@ -620,7 +619,7 @@ void s05a_800D4A74(Work *work)
             vb.vx = va.vx + (vb.vx - va.vx) / 3;
             vb.vy = va.vy + (vb.vy - va.vy) / 3;
             vb.vz = va.vz + (vb.vz - va.vz) / 3;
-            DG_LookAt(DG_Chanl(0), &va, &vb, 0x140);
+            DG_MakeCameraMatrix(DG_Chanl(0), &va, &vb, 0x140);
             GM_PlayerBody->objs->flag |= 0x80;
             s05a_dword_800C3638 = 1;
         }
@@ -647,7 +646,7 @@ void s05a_800D4A74(Work *work)
         vb.vy = work->field_F88 + 0x3e8;
         DG_PutVector(&va, &va, 1);
         DG_PutVector(&vb, &vb, 1);
-        DG_LookAt(DG_Chanl(0), &va, &vb, 0x140);
+        DG_MakeCameraMatrix(DG_Chanl(0), &va, &vb, 0x140);
     }
 }
 void s05a_800D5E30(Work *work)
@@ -905,7 +904,7 @@ void s05a_800DA02C(Work *work)
     SVECTOR mid[4];
 
     mov = work->control.mov;
-    mov.vy = mov.vy + *(u_short *)&work->body.objs->def->max.vy;
+    mov.vy = mov.vy + *(u_short *)&work->body.objs->def->uy;
     turn.vx = 0;
     turn.vy = work->control.turn.vy;
     turn.vz = 0;

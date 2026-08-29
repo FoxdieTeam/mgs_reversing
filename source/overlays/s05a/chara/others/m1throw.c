@@ -111,7 +111,7 @@ int s05a_800D4998(Work *work, int name)
 
 extern const char s05a_dword_800E345C[];
 
-void s05a_800D46A4(GV_ACT *actor);
+void s05a_800D46A4(Work *work);
 
 void *NewM1Throw(int name, int where)
 {

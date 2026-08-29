@@ -20,7 +20,7 @@ typedef struct
 
 extern const char s05a_dword_800E34E8[];
 
-void s05a_800DC058(GV_ACT *actor);
+void s05a_800DC058(Work *work);
 void s05a_800DC224(void *work);
 
 Work *s05a_800DBF58(int type, SVECTOR *a1, SVECTOR *a2)
@@ -60,12 +60,12 @@ void s05a_800DC058(Work *work)
     case 0:
         if (work->field_38 == 0x39)
             sub_8007DF10(&work->field_30, &work->field_28);
-        if ((work->field_3C / 4) * 4 == work->field_3C - 1)
+        if ((work->field_3c / 4) * 4 == work->field_3c - 1)
         {
             if (work->field_38 >= 0x24)
                 sub_8007E0AC(work->field_30.vy, &work->field_28);
         }
-        if ((work->field_3C & 3) == 0)
+        if ((work->field_3c & 3) == 0)
         {
             if (work->field_38 >= 0x29)
                 sub_8007DD80(work->field_30.vy, &work->field_28);
@@ -85,14 +85,14 @@ void s05a_800DC058(Work *work)
         }
         if (work->field_38 >= 7)
             NewSplash2_800DB5E4(&work->field_30, &work->field_28);
-        if ((work->field_3C & 3) == 0)
+        if ((work->field_3c & 3) == 0)
             sub_8007DC24(&work->field_28);
         break;
     }
     if (--work->field_38 < 0)
         GV_DestroyActor(work);
     if ((work->field_38 & 1) == 0)
-        work->field_3C++;
+        work->field_3c++;
 }
 
 void s05a_800DC224(void *work)

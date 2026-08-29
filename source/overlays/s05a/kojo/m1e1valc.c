@@ -175,16 +175,16 @@ Work *NewM1E1Vulcan(M1e1 *m1e1)
     {
         work->body.objs->objs[i].world = DG_ZeroMatrix;
     }
-    if (GM_SnakeCurrentHealth != 0 && GM_GameOverTimer == 0 && work->field_1EC->field_EC4 < 2)
+    if (GM_Vitality != 0 && GM_GameOverTimer == 0 && work->field_1EC->field_EC4 < 2)
     {
         work->field_1EC->field_D54 = 3;
         work->field_1EC->field_ED0 = 2;
-        work->last_weapon = GM_CurrentWeaponId;
-        work->last_item = GM_CurrentItemId;
-        GM_CurrentWeaponId = WP_None;
-        if (GM_CurrentItemId != IT_NVG && GM_CurrentItemId != IT_ThermG)
+        work->last_weapon = GM_Weapon;
+        work->last_item = GM_Item;
+        GM_Weapon = WP_None;
+        if (GM_Item != IT_NVG && GM_Item != IT_ThermG)
         {
-            GM_CurrentItemId = IT_None;
+            GM_Item = IT_None;
         }
     }
     work->field_214 = 0x1E;
@@ -206,8 +206,8 @@ void s05a_800DDC14(Work *work)
         }
         work->field_1EC->field_ED0 = 1;
         work->field_1EC->field_F48 = work->field_1EC->field_DB8;
-        GM_CurrentWeaponId = work->last_weapon;
-        GM_CurrentItemId = work->last_item;
+        GM_Weapon = work->last_weapon;
+        GM_Item = work->last_item;
     }
 
     work->field_1EC->field_EBC = 0;

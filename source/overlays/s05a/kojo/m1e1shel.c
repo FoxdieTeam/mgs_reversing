@@ -147,8 +147,8 @@ void *s05a_800DB684(Work *parent)
     s05a_800DBC80((POLY_FT4 *)casing->field_24->packs[1], tex);
     casing->field_24->raise = 0x3E8;
 
-    off1.vx = parent->body.objs->def->min.vx - parent->body.objs->def->max.vx;
-    off1.vy = parent->body.objs->def->min.vy - parent->body.objs->def->max.vy;
+    off1.vx = parent->body.objs->def->lx - parent->body.objs->def->ux;
+    off1.vy = parent->body.objs->def->ly - parent->body.objs->def->uy;
     off1.vz = 0;
     off2.vx = -off1.vx;
     off2.vz = 0;
