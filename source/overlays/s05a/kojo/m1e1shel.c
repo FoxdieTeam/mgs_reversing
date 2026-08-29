@@ -7,10 +7,10 @@ typedef struct _Work
     OBJECT  body;        /* 0x09C */
     MATRIX  light[2];    /* 0x180 */
     TARGET  target;      /* 0x1C0 */
-    char    pad_208[0x228 - 0x208];
+    MATRIX  field_208;   /* 0x208 */
     SVECTOR *field_228;  /* 0x228 */
     SVECTOR field_22C;   /* 0x22C */
-    char    pad_234[0x238 - 0x234];
+    int     field_234;   /* 0x234 */
     int     field_238;   /* 0x238 */
     int     field_23C;   /* 0x23C */
     int    *field_240;   /* 0x240 */
@@ -48,8 +48,92 @@ void s05a_800DBF50(void *work);
 
 void *s05a_800DBD14(SVECTOR *arg0, SVECTOR *arg1);
 void *s05a_800DB684(Work *work);
+void  s05a_800DB278(Work *work);
+void  s05a_800DB654(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DAE58.s")
+void *s05a_800DAE58(int name, MATRIX *mat, int side, SVECTOR *target_pos, int vital, int range, int speed, int *result)
+{
+    Work   *work;
+    SVECTOR vec1;
+    SVECTOR vec2;
+    int     dist;
+    short   h;
+
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
+    if (work == NULL)
+    {
+        return NULL;
+    }
+    work->field_228 = target_pos;
+    work->field_234 = vital;
+    work->field_23C = speed;
+    work->field_240 = result;
+    work->field_238 = range / speed;
+    GV_SetNamedActor(work, s05a_800DB278, s05a_800DB654, s05a_dword_800E34D4);
+
+    if (GM_InitControl(&work->control, 0, 0) < 0)
+    {
+        GV_DestroyActor(work);
+        return NULL;
+    }
+
+    work->field_208 = *mat;
+    DG_SetPos(mat);
+    memset(&vec1, 0, 8);
+    vec2.vx = 0;
+    vec2.vy = 0;
+    vec2.vz = 0x64;
+    DG_PutVector(&vec1, &vec1, 1);
+    DG_PutVector(&vec2, &vec2, 1);
+    vec2.vx -= vec1.vx;
+    vec2.vy -= vec1.vy;
+    vec2.vz -= vec1.vz;
+    dist = SquareRoot0(vec2.vx * vec2.vx + vec2.vz * vec2.vz);
+    work->control.rot.vx = -ratan2(vec2.vy, dist);
+    work->control.rot.vy = ratan2(vec2.vx, vec2.vz);
+    work->control.rot.vz = 0;
+    work->control.turn = work->control.rot;
+    work->control.mov.vx = mat->t[0];
+    work->control.mov.vy = mat->t[1];
+    work->control.mov.vz = mat->t[2];
+
+    GM_InitObject(&work->body, name, 0x36D, 0);
+    GM_ConfigObjectLight(&work->body, work->light);
+
+    vec1.vx = work->body.objs->def->ux - work->body.objs->def->lx;
+    vec1.vy = work->body.objs->def->uy - work->body.objs->def->ly;
+    vec1.vz = work->body.objs->def->uz - work->body.objs->def->lz;
+    GM_ConfigControlHazard(&work->control, vec1.vx, vec1.vy, vec1.vz);
+
+    h = vec1.vy;
+    if (h < vec1.vx) h = vec1.vx;
+    work->field_248 = h;
+    {
+        int r, s;
+        r = vec1.vz;
+        if (r < h) r = h;
+        work->field_248 = r;
+        s = work->field_23C;
+        if (s < r) s = r;
+        work->field_248 = s * 3 / 5;
+    }
+
+    vec1.vx = work->field_248;
+    vec1.vy = work->field_248;
+    vec1.vz = work->field_248;
+    GM_SetTarget(&work->target, 4, side, &vec1);
+
+    vec1.vx = 0;
+    vec1.vy = 0;
+    vec1.vz = 0;
+    DG_SetPos2(&vec1, &work->control.rot);
+    vec1.vx = 0;
+    vec1.vy = 0;
+    vec1.vz = work->field_23C / 10;
+    DG_PutVector(&vec1, &vec1, 1);
+    GM_SetPowerTarget(&work->target, 0, -1, work->field_234, 0, &vec1);
+    return work;
+}
 void s05a_800DB278(Work *work)
 {
     SVECTOR vec;
