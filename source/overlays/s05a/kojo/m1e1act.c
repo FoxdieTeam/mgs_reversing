@@ -99,7 +99,9 @@ typedef struct _Work
     int      field_E60;
     int      field_E64;     /* 0xE64 */
     int      field_E68;
-    char     pad_E6C[0xE88 - 0xE6C];
+    char     pad_E6C[0xE70 - 0xE6C];
+    int      field_E70;     /* 0xE70 */
+    char     pad_E74[0xE88 - 0xE74];
     int      field_E88;
     char     pad_E8C[0xE9C - 0xE8C];
     u_short  field_E9C;     /* 0xE9C */
@@ -1000,7 +1002,108 @@ void s05a_800DA02C(Work *work)
     mov.vz = (mid[0].vz + mid[1].vz) - (mid[2].vz + mid[3].vz);
     work->control.turn.vz = ratan2(mov.vy, SquareRoot0(mov.vx * mov.vx + mov.vz * mov.vz));
 }
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DA62C.s")
+void s05a_800DA62C(Work *work)
+{
+    SVECTOR vec;
+    SVECTOR rot;
+    int     s0;
+    int     d;
+    int     r;
+    int     v;
+
+    if (work->field_E30 == 0)
+    {
+        if (work->field_E68 > 0)
+        {
+            s0 = work->field_F54 - 10;
+            d = 5;
+            if (s0 < 0)
+            {
+                if (s0 >= -5)
+                {
+                    work->field_E70 = s0 * 17 / d;
+                }
+            }
+            else
+            {
+                v = work->field_E70 * s0;
+                work->field_E70 = v / d;
+            }
+        }
+        else
+        {
+            s0 = work->field_F54 - 5;
+            d = 10;
+            if (s0 >= 0)
+            {
+                v = work->field_E70 * s0;
+                work->field_E70 = v / d;
+            }
+        }
+    }
+    else
+    {
+        if (work->field_E68 > 0)
+        {
+            s0 = work->field_F54 - 10;
+            d = 5;
+            if (s0 >= 0)
+            {
+                v = d - s0;
+                work->field_E70 = v * 17 / d;
+            }
+        }
+        else
+        {
+            s0 = work->field_F54 - 5;
+            d = 10;
+            if (s0 >= 0)
+            {
+                v = work->field_E70 * s0;
+                work->field_E70 = v / d;
+            }
+        }
+    }
+
+    memset(&rot, 0, 8);
+    r = ratan2(work->field_E34, work->field_E3C);
+    rot.vy = r - work->control.turn.vy;
+    memset(&vec, 0, 8);
+    vec.vx = work->field_E70;
+    DG_SetPos2(&DG_ZeroVector, &vec);
+    DG_RotatePos(&rot);
+
+    memset(&vec, 0, 8);
+    vec.vz = 0x64;
+    DG_PutVector(&vec, &vec, 1);
+    v = vec.vx * vec.vx;
+    d = SquareRoot0(v + vec.vz * vec.vz);
+    r = ratan2(vec.vy, d);
+    rot.vx = r;
+    r = (short)r;
+    if (r < 0) r = -r;
+    v = work->field_E70;
+    s0 = rot.vy;
+    if (v < 0) v = -v;
+    v -= r;
+    rot.vz = v;
+    while (s0 < 0) s0 += 0x1000;
+    while (s0 >= 0x1001) s0 -= 0x1000;
+    if (s0 >= 0x801) rot.vz = -rot.vz;
+
+    work->field_E9C += rot.vx;
+    work->field_EA0 += rot.vz;
+    DG_SetPos2(&DG_ZeroVector, &rot);
+
+    memset(&vec, 0, 8);
+    vec.vz = *(u_short *)&work->bbox[1].vz;
+    DG_PutVector(&vec, &vec, 1);
+    r = vec.vy;
+    v = *(int *)&work->field_EA4;
+    if (r < 0) r = -r;
+    v -= r >> 1;
+    *(int *)&work->field_EA4 = v;
+}
 #define WMDL(off) (*(u_short *)((char *)work->body.objs->objs[0].model + (off)))
 
 void s05a_800DA940(Work *work)
