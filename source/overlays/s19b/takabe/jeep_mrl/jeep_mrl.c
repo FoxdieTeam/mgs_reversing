@@ -29,7 +29,12 @@ typedef struct _Work
     int      field_3E0;                                /* 0x3E0 */
     char     pad_3F8[0x3F8 - 0x3E0 - sizeof(int)];
     void    *field_3F8;                                /* 0x3F8 */
-    char     pad_7E4[0x7E4 - 0x3F8 - sizeof(void *)];
+    char     pad_750[0x750 - 0x3F8 - sizeof(void *)];
+    SVECTOR  field_750;                                /* 0x750 */
+    char     pad_7A0[0x7A0 - 0x750 - sizeof(SVECTOR)];
+    MATRIX   field_7A0;                                /* 0x7A0 */
+    char     pad_7E0[0x7E0 - 0x7A0 - sizeof(MATRIX)];
+    int      field_7E0;                                /* 0x7E0 */
     int      field_7E4;                                /* 0x7E4 */
     TARGET  *target;                                   /* 0x7E8 */
     void    *field_7EC;                                /* 0x7EC: current state handler */
@@ -55,6 +60,8 @@ typedef struct _JEEP_SYSTEM
     OBJECT  *snake_body;
     char     pad3[0x78 - 0x60 - sizeof(OBJECT *)];
     int      field_78;
+    char     pad4[0x130 - 0x78 - sizeof(int)];
+    SVECTOR  field_130;
 } JEEP_SYSTEM;
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
@@ -100,6 +107,9 @@ extern void s19b_jlamp_800D0FE4(int arg0);
 extern void s19b_jeep_mrl_800D2E78(Work *work);
 extern void s19b_jeep_mrl_800D3928(Work *work);
 extern int  s19b_dword_800C39CC;
+extern int  s19b_dword_800C39E0;
+extern void s19b_jeep_mrl_800D47B8(Work *work);
+extern void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2E78.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D32B4.s")
@@ -242,7 +252,33 @@ void s19b_jeep_mrl_800D3CA8(Work *work, int arg1)
     NewPadVibration((unsigned char *)&s19b_dword_800C399C, 1);
     NewPadVibration((unsigned char *)&s19b_dword_800C3994, 0);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3D30.s")
+void s19b_jeep_mrl_800D3D30(Work *work)
+{
+    CONTROL *ctl = &work->control;
+    OBJECT  *body;
+    DG_OBJS *objs;
+    SVECTOR *jpos = &Takabe_JeepSystem.field_130;
+
+    s19b_jeep_mrl_800D47B8(work);
+    body = &work->body;
+    GM_ActMotion(body);
+    sna_act_helper2_helper2_80033054(work->field_7E0, &work->field_750);
+    work->field_750.vy = GV_NearSpeed(work->field_750.vy, work->field_7E4, 200);
+    ctl->rot = ctl->turn = DG_ZeroVector;
+    ctl->mov = *(SVECTOR *)&s19b_dword_800C39E0;
+    GM_ActControl(ctl);
+    GM_ActObject(body);
+    objs = body->objs;
+    CompMatrix(work->root_mat, &objs->world, &objs->world);
+    ctl->mov.vx = objs->world.t[0];
+    ctl->mov.vy = objs->world.t[1];
+    ctl->mov.vz = objs->world.t[2];
+    DG_GetLightMatrix(&ctl->mov, &work->field_7A0);
+    jpos->vx = body->objs->objs[6].world.t[0];
+    jpos->vy = body->objs->objs[6].world.t[1];
+    jpos->vz = body->objs->objs[6].world.t[2];
+    GM_MoveTarget(work->target, &ctl->mov);
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3E98.s")
 
 void s19b_jeep_mrl_800D4098(Work *work)
