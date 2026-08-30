@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "strcode.h"
 #include "game/game.h"
 #include "libgcl/libgcl.h"
@@ -29,11 +30,23 @@ typedef struct _JeepScrollSeg
 {
     SVECTOR  pos;      /* 0x00 */
     SVECTOR  field_8;  /* 0x08 */
-    char     pad_10[0x18 - 0x10];
+    short    field_10; /* 0x10 */
+    short    field_12; /* 0x12 */
+    char     pad_14[0x18 - 0x14];
     DG_OBJS *field_18; /* 0x18 */
-    char     pad_1C[0x28 - 0x1C];
+    int     *field_1C; /* 0x1C: count, then JeepVtx[] */
+    char     pad_20[0x24 - 0x20];
+    int      field_24; /* 0x24 */
     int      field_28; /* 0x28 */
 } JeepScrollSeg; /* 0x2C */
+
+typedef struct _JeepVtx
+{
+    SVECTOR pos;    /* 0x00 */
+    u_short field_8;
+    u_short field_A;
+    CVECTOR field_C;
+} JeepVtx; /* 0x10 */
 
 typedef struct _JeepHzdFace
 {
@@ -89,6 +102,9 @@ void *s19b_jeep2_800D6F24(int name, int map); // NewJeep2
 void  s19b_jeep_800D2170(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2, short *arg3);
 void  s19b_jeep_800D21DC(int ang, MATRIX *mat, SVECTOR *out);
 void  s19b_jeep_gls_800CE5F8(DG_OBJS *objs);
+void  s19b_jeep_gls_800CE8DC(struct _Work *work, JeepScrollSeg *seg, int flag);
+extern void RotTransSV(SVECTOR *v0, SVECTOR *v1, long *sz);
+extern int  s19b_dword_800C36DC;
 extern int s19b_dword_800C3530;
 
 extern int s19b_dword_800C354C;
@@ -144,7 +160,76 @@ void s19b_jeep_srl_800CD790(Work *work)
     work->field_C50 = p[1];
     work->field_C54 = p[6];
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CD7B4.s")
+void s19b_jeep_srl_800CD7B4(Work *work, int arg1, JeepVtx *out)
+{
+    JeepScrollSeg *seg;
+    JeepVtx       *vtx;
+    DG_OBJS       *objs;
+    SVECTOR        pos;
+    long           flag;
+    int            i;
+    int            k;
+    int            n;
+    int            map;
+
+    for (i = 0; i < 16; i++)
+    {
+        k = (i - work->field_C6C) & 0xF;
+        seg = &work->segs[i];
+        if ((unsigned)(k - 4) < 8)
+        {
+            DG_SetPos2(&seg->pos, &DG_ZeroVector);
+            DG_PutObjs(seg->field_18);
+            ((MATRIX *)&s19b_dword_800C36DC)->m[0][2] = seg->field_10;
+            ((MATRIX *)&s19b_dword_800C36DC)->m[1][2] = seg->field_12;
+            MulMatrix0(&seg->field_18->world, (MATRIX *)&s19b_dword_800C36DC, &seg->field_18->world);
+            SetRotMatrix(&seg->field_18->world);
+            objs = seg->field_18;
+            map = GM_CurrentMap;
+            objs->group_id = map;
+            work->field_474[i]->root = &seg->field_18->world;
+            if (seg->field_18->def == work->lights[0].def && abs(seg->pos.vz) >= 0x1771)
+            {
+                work->field_474[i]->flag &= ~0x80;
+                seg->field_18->flag |= 0x80;
+            }
+            else
+            {
+                seg->field_18->flag &= ~0x80;
+                work->field_474[i]->flag |= 0x80;
+            }
+            n = *seg->field_1C;
+            vtx = (JeepVtx *)(seg->field_1C + 1);
+            while (n > 0)
+            {
+                RotTransSV(&vtx->pos, &pos, &flag);
+                out->pos = pos;
+                out->field_8 = vtx->field_8 >> 1;
+                out->field_A = vtx->field_A >> 1;
+                out->field_C = vtx->field_C;
+                (*work->field_C44)++;
+                vtx++;
+                out++;
+                n--;
+            }
+            if ((unsigned)(k - 5) < 5)
+            {
+                s19b_jeep_gls_800CE8DC(work, seg, 1);
+            }
+            else
+            {
+                s19b_jeep_gls_800CE8DC(work, seg, 0);
+            }
+            seg->field_24 &= ~2;
+        }
+        else
+        {
+            seg->field_18->flag |= 0x80;
+            work->field_474[i]->flag |= 0x80;
+        }
+        seg->field_24 &= ~1;
+    }
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CDAA4.s")
 void s19b_jeep_srl_800CDAA4(Work *work);
