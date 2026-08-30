@@ -44,9 +44,11 @@ typedef struct _Work
     int      field_1574[3];
     int      field_1580[3];
     int      field_158C[3];
-    char     pad1598[0x24];
+    int      field_1598[3];
+    char     pad15A4[0x18];
     int      field_15BC[3];
-    char     pad15C8[0x15FC - 0x15C8];
+    char     pad15C8[0x15F8 - 0x15C8];
+    int      field_15F8;
     int      field_15FC;
     int      field_1600;
     int      field_1604;
@@ -699,44 +701,6 @@ const int  s12c_dword_800DA04C = 0x800D19C0;
 const int  s12c_dword_800DA050 = 0x800D1A28;
 const int  s12c_dword_800DA054 = 0x800D1AA4;
 const int  s12c_dword_800DA058 = 0x800D1AFC;
-const int  s12c_dword_800DA05C = 0x800D1B94;
-const int  s12c_dword_800DA060 = 0x800D1BBC;
-const int  s12c_dword_800DA064 = 0x800D1BD4;
-const int  s12c_dword_800DA068 = 0x800D1BEC;
-const int  s12c_dword_800DA06C = 0x800D1C0C;
-const int  s12c_dword_800DA070 = 0x800D1C2C;
-const int  s12c_dword_800DA074 = 0x800D1C54;
-const int  s12c_dword_800DA078 = 0x800D1D14;
-const int  s12c_dword_800DA07C = 0x800D1C8C;
-const int  s12c_dword_800DA080 = 0x800D1CA4;
-const int  s12c_dword_800DA084 = 0x800D1CDC;
-const int  s12c_dword_800DA088 = 0x800D1CEC;
-const int  s12c_dword_800DA08C = 0x800D1CFC;
-const int  s12c_dword_800DA090 = 0x800D1D0C;
-const int  s12c_dword_800DA094 = 0x800D1C40;
-const char s12c_aHappy_800DA098[] = "happy";
-const char s12c_aUnhappy_800DA0A0[] = "unhappy";
-const char s12c_aTrap_800DA0A8[] = "trap";
-const char s12c_dword_800DA0B0[] = {0x0, 0x0, 0x0, 0x0};
-const int  s12c_dword_800DA0B4 = 0x800D203C;
-const int  s12c_dword_800DA0B8 = 0x800D203C;
-const int  s12c_dword_800DA0BC = 0x800D203C;
-const int  s12c_dword_800DA0C0 = 0x800D203C;
-const int  s12c_dword_800DA0C4 = 0x800D2038;
-const int  s12c_dword_800DA0C8 = 0x800D203C;
-const int  s12c_dword_800DA0CC = 0x800D2038;
-const int  s12c_dword_800DA0D0 = 0x800D203C;
-const int  s12c_dword_800DA0D4 = 0x800D2038;
-const int  s12c_dword_800DA0D8 = 0x800D2038;
-const int  s12c_dword_800DA0DC = 0x800D2038;
-const int  s12c_dword_800DA0E0 = 0x800D2038;
-const int  s12c_dword_800DA0E4 = 0x800D2038;
-const int  s12c_dword_800DA0E8 = 0x800D2038;
-const int  s12c_dword_800DA0EC = 0x800D2038;
-const char s12c_aWolfdog_800DA0F0[] = "wolfdog";
-const char s12c_aWolfdog_800DA0F8[] = "wolfdog2";
-const char s12c_aShadow_800DA104[] = "shadow";
-const char s12c_aDoglow_800DA10C[] = "dog_low";
 
 void s12c_dog_800CAD8C(Work *work, int idx)
 {
@@ -1101,11 +1065,17 @@ void Dog_800CBCF4(Work *work, int arg1)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CBDC4.s")
+extern void s12c_dog_800CBDC4(Work *work, int index);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CC180.s")
+extern void s12c_dog_800CC180(Work *work, int index);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CC53C.s")
+extern void s12c_dog_800CC53C(Work *work, int index);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CC8B4.s")
+extern void s12c_dog_800CC8B4(Work *work, int index);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CCC3C.s")
+extern void s12c_dog_800CCC3C(Work *work, int index);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CDBC4.s")
+extern void s12c_dog_800CDBC4(Work *work, int index);
 /* The int array at 0x1544 runs into the tail of field_152E[2], so it is reached
    by hand the way s12c_dog_800CAD8C reaches its 0x90-strided block. The two
    field_10B0 stores go through a byte offset taken before the switch, which is
@@ -1151,6 +1121,7 @@ void s12c_dog_800CE034(Work *work, int index)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CE194.s")
+extern void s12c_dog_800CE194(Work *work, int index);
 
 void DogExecProc_800CEB2C(Work *work, int param)
 {
@@ -1169,6 +1140,7 @@ void DogExecProc_800CEB2C(Work *work, int param)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CEB74.s")
+extern void s12c_dog_800CEB74(Work *work, int index);
 void s12c_dog_800CF578(Work *work, int idx)
 {
     CONTROL *ctrl = &work->field_28[idx];
@@ -1203,9 +1175,13 @@ void s12c_dog_800CF578(Work *work, int idx)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CF6CC.s")
+extern void s12c_dog_800CF6CC(Work *work, int index);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CFA30.s")
+extern void s12c_dog_800CFA30(Work *work, int index);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0374.s")
+extern void s12c_dog_800D0374(Work *work, int index);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0680.s")
+extern void s12c_dog_800D0680(Work *work, int index);
 
 int Dog_800D0BC4(Work *work)
 {
@@ -1230,6 +1206,7 @@ int Dog_800D0BC4(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0C78.s")
+extern void s12c_dog_800D0C78(Work *work, int index);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0F30.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D11D4.s")
 
@@ -1303,7 +1280,128 @@ void s12c_dog_800D16C0(Work *work, int index)
     target->damaged &= ~4;
 }
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D187C.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D1B54.s")
+void s12c_dog_800D1B54(Work *work, int index)
+{
+    switch (work->field_14F8[index])
+    {
+    case 0:
+        work->field_1598[index] = 0;
+        if (index == 2)
+        {
+            s12c_dog_800CFA30(work, index);
+        }
+        else
+        {
+            s12c_dog_800CDBC4(work, index);
+        }
+        break;
+
+    case 1:
+        work->field_1598[index] = 0;
+        s12c_dog_800CE034(work, index);
+        break;
+
+    case 2:
+        work->field_1598[index] = 0;
+        s12c_dog_800D0374(work, index);
+        break;
+
+    case 3:
+        work->field_1598[index] = 0;
+        work->field_15F8 = 0;
+        work->field_15FC = 0;
+        s12c_dog_800D0680(work, index);
+        break;
+
+    case 4:
+        work->field_15F8 = 0;
+        work->field_15FC = 0;
+        work->field_1598[index] = 0;
+        s12c_dog_800D0C78(work, index);
+        break;
+
+    case 5:
+        work->field_15F8 = 0;
+        work->field_15FC = 0;
+        s12c_dog_800CE194(work, index);
+        break;
+
+    case 14:
+        work->field_15F8 = 0;
+        work->field_15FC = 0;
+        s12c_dog_800CEB74(work, index);
+        break;
+
+    case 6:
+        work->field_1598[index] = 0;
+        if (index == 2)
+        {
+            s12c_dog_800CFA30(work, index);
+        }
+        else
+        {
+            s12c_dog_800CCC3C(work, index);
+        }
+        break;
+
+    case 8:
+        work->field_1598[index] = 0;
+        s12c_dog_800CF578(work, index);
+        break;
+
+    case 9:
+        work->field_1598[index] = 0;
+        if (index == 2)
+        {
+            s12c_dog_800CF578(work, index);
+        }
+        else
+        {
+            s12c_dog_800CF6CC(work, index);
+        }
+        break;
+
+    case 10:
+        s12c_dog_800CC53C(work, index);
+        break;
+
+    case 11:
+        s12c_dog_800CC8B4(work, index);
+        break;
+
+    case 12:
+        s12c_dog_800CBDC4(work, index);
+        break;
+
+    case 13:
+        s12c_dog_800CC180(work, index);
+        break;
+    }
+}
+
+const char s12c_aHappy_800DA098[] = "happy";
+const char s12c_aUnhappy_800DA0A0[] = "unhappy";
+const char s12c_aTrap_800DA0A8[] = "trap";
+const char s12c_dword_800DA0B0[] = {0x0, 0x0, 0x0, 0x0};
+const int  s12c_dword_800DA0B4 = 0x800D203C;
+const int  s12c_dword_800DA0B8 = 0x800D203C;
+const int  s12c_dword_800DA0BC = 0x800D203C;
+const int  s12c_dword_800DA0C0 = 0x800D203C;
+const int  s12c_dword_800DA0C4 = 0x800D2038;
+const int  s12c_dword_800DA0C8 = 0x800D203C;
+const int  s12c_dword_800DA0CC = 0x800D2038;
+const int  s12c_dword_800DA0D0 = 0x800D203C;
+const int  s12c_dword_800DA0D4 = 0x800D2038;
+const int  s12c_dword_800DA0D8 = 0x800D2038;
+const int  s12c_dword_800DA0DC = 0x800D2038;
+const int  s12c_dword_800DA0E0 = 0x800D2038;
+const int  s12c_dword_800DA0E4 = 0x800D2038;
+const int  s12c_dword_800DA0E8 = 0x800D2038;
+const int  s12c_dword_800DA0EC = 0x800D2038;
+const char s12c_aWolfdog_800DA0F0[] = "wolfdog";
+const char s12c_aWolfdog_800DA0F8[] = "wolfdog2";
+const char s12c_aShadow_800DA104[] = "shadow";
+const char s12c_aDoglow_800DA10C[] = "dog_low";
 
 // Modified s00a_watcher_800C4138
 void Dog_800D1D24(DG_OBJS *objs, DG_DEF *def)
