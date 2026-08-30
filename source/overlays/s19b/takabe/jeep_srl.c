@@ -1,7 +1,9 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "strcode.h"
 #include "game/game.h"
 #include "libgcl/libgcl.h"
+#include "takabe/thing.h"
 
 typedef struct _JEEP_SYSTEM
 {
@@ -9,11 +11,16 @@ typedef struct _JEEP_SYSTEM
     CONTROL *control;
     char     pad2[0x10];
     SVECTOR  pos;
-    char     pad3[0x18];
+    SVECTOR  field_20;
+    int      field_28;
+    int      field_2C;
+    int      field_30;
+    char     pad3[0x38 - 0x30 - sizeof(int)];
     SVECTOR  field_38;
     int      field_40;
     int      field_44;
-    char     pad4[0x1C - sizeof(int)];
+    int      field_48;
+    char     pad4[0x60 - 0x48 - sizeof(int)];
     OBJECT  *body;
     char     pad5[0x78 - 0x60 - sizeof(OBJECT *)];
     int      field_78;
@@ -32,13 +39,37 @@ typedef struct _JeepScrollSeg
     SVECTOR  field_8;  /* 0x08 */
     short    field_10; /* 0x10 */
     short    field_12; /* 0x12 */
-    char     pad_14[0x18 - 0x14];
+    short    field_14; /* 0x14 */
+    char     pad_16[0x18 - 0x16];
     DG_OBJS *field_18; /* 0x18 */
     int     *field_1C; /* 0x1C: count, then JeepVtx[] */
-    char     pad_20[0x24 - 0x20];
+    struct _JeepSegDef *field_20; /* 0x20 */
     int      field_24; /* 0x24 */
     int      field_28; /* 0x28 */
 } JeepScrollSeg; /* 0x2C */
+
+typedef struct _JeepSegDef
+{
+    short    field_0;
+    short    n_lines;  /* 0x02 */
+    short    n_faces;  /* 0x04 */
+    short    field_6;
+    void    *lines;    /* 0x08: JeepSegLine[] */
+    void    *faces;    /* 0x0C: JeepSegFace[] */
+    int      field_10;
+    u_char  *flags;    /* 0x14: n_lines bytes, twice */
+} JeepSegDef;
+
+typedef struct _JeepSegLine
+{
+    SVECTOR v[2]; /* pad words hold a radius */
+} JeepSegLine; /* 0x10 */
+
+typedef struct _JeepSegFace
+{
+    char    pad_0[0x10];
+    SVECTOR v[4]; /* 0x10 */
+} JeepSegFace; /* 0x30 */
 
 typedef struct _JeepVtx
 {
@@ -68,25 +99,34 @@ typedef struct _JeepLight
 typedef struct _Work
 {
     GV_ACT        work;
-    char          pad1[0x48 - 0x20];
+    int           map;         /* 0x20 */
+    int           name;        /* 0x24 */
+    MATRIX        mtx_28;      /* 0x28 */
     JeepLight     lights[13];  /* 0x48 */
     JeepScrollSeg segs[16]; /* 0x1B4 */
     DG_OBJS      *field_474[16]; /* 0x474 */
-    void         *field_4B4;     /* 0x4B4 */
+    HZD_HDL      *field_4B4;     /* 0x4B4 */
     JeepHzdFace  *field_4B8;     /* 0x4B8 */
-    char          pad1a[0xC40 - 0x4B8 - sizeof(void *)];
+    char          pad1a[0x93C - 0x4B8 - sizeof(void *)];
+    HZD_SEG      *field_93C;     /* 0x93C */
+    char          pad1c[0xC40 - 0x93C - sizeof(void *)];
     int           field_C40;
     int          *field_C44;
+    char          pad1d[0xC48 - 0xC44 - sizeof(int *)];
     int           field_C48;
     int           field_C4C;
     int           field_C50;
     int           field_C54;
     short        *field_C58;
-    char          pad1b[0xC6C - 0xC58 - sizeof(short *)];
+    char          pad1b[0xC60 - 0xC58 - sizeof(short *)];
+    int           field_C60;
+    int           field_C64;
+    int           field_C68;
     int           field_C6C;
     int           field_C70;
     int           field_C74;
-    char          pad2[0xC];
+    int           field_C78;
+    char          pad2[0xC84 - 0xC78 - sizeof(int)];
 } Work;
 
 extern Work *s19b_dword_800DE5B0;
@@ -102,6 +142,16 @@ void *s19b_jeep2_800D6F24(int name, int map); // NewJeep2
 void  s19b_jeep_800D2170(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2, short *arg3);
 void  s19b_jeep_800D21DC(int ang, MATRIX *mat, SVECTOR *out);
 void  s19b_jeep_gls_800CE5F8(DG_OBJS *objs);
+void  s19b_jeep_gls_800CE628(SVECTOR *pos, SVECTOR *src, JeepHzdFace *face, int flag);
+void  s19b_jeep_gls_800CE83C(SVECTOR *src, SVECTOR *dst);
+void  s19b_jeep_gls_800CE8B8(SVECTOR *src, SVECTOR *dst);
+void  s19b_jeep_gls_800CEFE4(Work *work, int disable, JeepScrollSeg *seg);
+void  s19b_jeep_gls_800CE400(Work *work);
+DG_OBJS *s19b_jeep_gls_800CE52C(int idx, Work *work);
+void  s19b_jeep_gls_800CF088(void);
+void  s19b_jeep_srl_800CD790(Work *work);
+void *NewJeep(int name, int where);
+void  s19b_jlamp_800D0CE0(void);
 void  s19b_jeep_gls_800CE8DC(struct _Work *work, JeepScrollSeg *seg, int flag);
 extern void RotTransSV(SVECTOR *v0, SVECTOR *v1, long *sz);
 extern int  s19b_dword_800C36DC;
@@ -259,7 +309,82 @@ void s19b_jeep_srl_800CDF48(Work *work)
 }
 void s19b_jeep_srl_800CDF48(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CE020.s")
+int s19b_jeep_srl_800CE020(Work *work, int name, int where)
+{
+    JeepScrollSeg *seg;
+    DG_OBJS       *objs;
+    DG_OBJS      **gate;
+    MAP           *map;
+    int            i;
+    int            z;
+    int            n;
+
+    s19b_jeep_gls_800CF088();
+    GM_CurrentMap = where;
+    work->map = where;
+    work->name = name;
+    work->field_C64 = 0;
+    work->mtx_28 = DG_ZeroMatrix;
+    s19b_jeep_gls_800CE400(work);
+    map = GM_GetMap(GM_CurrentMap);
+    work->field_C44 = (int *)map->lit;
+    work->field_C40 = *work->field_C44;
+    printf((char *)s19b_aMaxlightd_800DDCC0, work->field_C40);
+    Takabe_JeepSystem.field_48 = THING_Gcl_GetInt('c');
+    work->field_C60 = 0;
+    work->field_C68 = 0;
+    work->field_C6C = 0;
+    Takabe_JeepSystem.field_20 = DG_ZeroVector;
+    Takabe_JeepSystem.pos = Takabe_JeepSystem.field_20;
+    Takabe_JeepSystem.field_30 = 0;
+    Takabe_JeepSystem.field_2C = 0;
+    Takabe_JeepSystem.field_28 = 0;
+    seg = work->segs;
+    for (i = 0, z = -31500; i < 16; seg++, i++, z += 4000)
+    {
+        seg->field_18 = s19b_jeep_gls_800CE52C(0, work);
+        seg->field_1C = work->lights[0].lit;
+        seg->field_20 = (struct _JeepSegDef *)work->lights[0].field_C;
+        seg->field_8.vz = -2000;
+        seg->field_10 = 0;
+        seg->field_14 = 0;
+        seg->field_8.vx = 0;
+        seg->field_8.vy = 0;
+        seg->pos.vx = 0;
+        seg->pos.vy = 0;
+        seg->pos.vz = z;
+        seg->field_24 = 1;
+        seg->field_28 = 0;
+        Takabe_JeepSystem.field_38 = seg->pos;
+        if (Takabe_JeepSystem.field_38.vz < 16000)
+        {
+            s19b_jeep_gls_800CEFE4(work, 0, seg);
+        }
+    }
+    gate = work->field_474;
+    for (n = 16; n > 0; n--)
+    {
+        objs = s19b_jeep_gls_800CE52C(12, work);
+        *gate++ = objs;
+        objs->flag |= 0x80;
+    }
+    work->field_4B4 = GM_GetMap(work->map)->hzd;
+    s19b_dword_800DE5B0 = work;
+    if (GCL_GetOption('e'))
+    {
+        work->field_C70 = GCL_StrToInt(GCL_NextStr());
+        work->field_C74 = GCL_StrToInt(GCL_NextStr());
+        work->field_C78 = GCL_StrToInt(GCL_NextStr());
+    }
+    Takabe_JeepSystem.field_78 = 0x800;
+    Takabe_JeepSystem.world = DG_ZeroMatrix;
+    NewJeep(GV_StrCode(s19b_aJsnake_800DDCD0), where);
+    s19b_jlamp_800D0CE0();
+    s19b_jeep_srl_800CD790(work);
+    work->field_C58 = (short *)&s19b_dword_800C354C;
+    GM_GameStatus |= STATE_NOSLOW;
+    return 0;
+}
 int s19b_jeep_srl_800CE020(Work *work, int name, int where);
 
 void *NewJeepScroll(int name, int where)
@@ -459,7 +584,7 @@ void s19b_jeep_gls_800CEE7C(Work *work, int arg1, SVECTOR *pos)
     }
 }
 
-void s19b_jeep_gls_800CEFE4(Work *work, int disable)
+void s19b_jeep_gls_800CEFE4(Work *work, int disable, JeepScrollSeg *seg)
 {
     SVECTOR diff;
     SVECTOR pos;
