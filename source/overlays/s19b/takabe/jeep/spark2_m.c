@@ -798,14 +798,27 @@ void s19b_spark2_m_800D9A74(Work *work)
     work->f918 += 1;
 }
 
-/* jump table of s19b_spark2_m_800D9AA8 */
-const int s19b_dword_800DDE94 = 0x800D9AE0;
-const int s19b_dword_800DDE98 = 0x800D9AF0;
-const int s19b_dword_800DDE9C = 0x800D9B00;
-const int s19b_dword_800DDEA0 = 0x800D9B10;
-const int s19b_dword_800DDEA4 = 0x800D9B20;
-
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9AA8.s")
+void s19b_spark2_m_800D9AA8(Work *work)
+{
+    switch (work->f914)
+    {
+    case 0:
+        s19b_spark2_m_800D9704(work);
+        break;
+    case 1:
+        s19b_spark2_m_800D97A8(work);
+        break;
+    case 2:
+        s19b_spark2_m_800D985C(work);
+        break;
+    case 3:
+        s19b_spark2_m_800D9910(work);
+        break;
+    case 4:
+        s19b_spark2_m_800D99C4(work);
+        break;
+    }
+}
 extern void s19b_spark2_m_800D9AA8(Work *work);
 
 void s19b_spark2_m_800D9B38(Work *work)
