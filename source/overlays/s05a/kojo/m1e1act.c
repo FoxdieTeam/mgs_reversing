@@ -68,9 +68,13 @@ typedef struct _Work
     int      field_DB0;
     int      field_DB4;
     int      field_DB8;
-    char     pad_DBC[0xDC4 - 0xDBC];
+    int      field_DBC;
+    int      field_DC0;
     int      field_DC4;
-    char     pad_DC8[0xE08 - 0xDC8];
+    int      field_DC8;
+    char     pad_DCC[0xE00 - 0xDCC];
+    int      field_E00;     /* 0xE00 */
+    int      field_E04;
     int      field_E08;     /* 0xE08 */
     int      field_E0C;     /* 0xE0C */
     int      field_E10;     /* 0xE10 */
@@ -115,12 +119,13 @@ typedef struct _Work
     int      field_EC0;     /* 0xEC0 */
     int      field_EC4;
     int      field_EC8;
-    char     pad_ECC[0xED0 - 0xECC];
+    int      field_ECC;
     int      field_ED0;     /* 0xED0 */
     char     pad_ED4[0xED8 - 0xED4];
     int      field_ED8;
     void    *field_EDC;     /* 0xEDC */
-    char     pad_EE0[0xEF0 - 0xEE0];
+    SVECTOR  field_EE0;     /* 0xEE0 */
+    char     pad_EE8[0xEF0 - 0xEE8];
     SVECTOR  field_EF0[10]; /* 0xEF0 */
     char     pad_F40[0xF40 - 0xF40];
     int      field_F40;     /* 0xF40 */
@@ -138,7 +143,7 @@ typedef struct _Work
     int      field_F70;
     int      field_F74;
     int      field_F78;
-    char     pad_F7C[0xF80 - 0xF7C];
+    int      field_F7C;
     int      field_F80;
     char     pad_F84[0xF88 - 0xF84];
     int      field_F88;
@@ -158,11 +163,16 @@ extern int   s05a_dword_800C3638;
 extern void sub_8007E1C0(HZD_SEG *seg, HZD_FLR *flr, MATRIX *pTransform,
                          SVECTOR *pMin, SVECTOR *pMax);
 extern void AN_Smoke_800CE08C(SVECTOR *pos);
+extern void *s05a_800DAE58(int name, MATRIX *mat, int side, SVECTOR *target_pos, int vital, int range, int speed,
+                           int *result);
+extern const char s05a_dword_800E3484[]; /* "noca" */
+extern const char s05a_dword_800E3490[]; /* "m1e1" */
 
 void  s05a_800D627C(Work *work);
 void  s05a_800D797C(Work *work);
 void  s05a_800D863C(Work *work);
 void  s05a_800D9754(Work *work);
+void  s05a_800D9A14(Work *work);
 void  s05a_800DA02C(Work *work);
 void  s05a_800DA62C(Work *work);
 void  s05a_800DA940(Work *work);
@@ -721,7 +731,304 @@ void s05a_800D5E30(Work *work)
     if (work->field_D54 == 5 && work->field_E20 >= 0) GCL_ExecProc(work->field_E20, 0);
 }
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D627C.s")
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D797C.s")
+void s05a_800D797C(Work *work)
+{
+    MATRIX   mtx;
+    VECTOR   tgt;
+    VECTOR   cur;
+    VECTOR   pos;
+    SVECTOR  v0;
+    SVECTOR  v1;
+    SVECTOR  vec;
+    int      found = 0;
+    int      fire = 0;
+    int      cnt;
+    HZD_TRP *trap;
+
+    if (!(GV_Time & 1))
+    {
+        vec = work->field_EE0;
+    }
+    else
+    {
+        pos = work->field_E44;
+        pos.vy = work->field_E44.vy - 0x190;
+
+        DG_SetPos(&work->body.objs->objs[0].world);
+        v0.vx = work->body.objs->objs[3].model->tx;
+        v0.vy = work->body.objs->objs[3].model->ty;
+        v0.vz = work->body.objs->objs[3].model->tz;
+        DG_MovePos(&v0);
+        ReadRotMatrix(&mtx);
+        memset(&v0, 0, 8);
+        DG_PutVector(&v0, &v0, 1);
+        v1.vx = (v0.vx - pos.vx) >> 2;
+        v1.vy = (v0.vy - pos.vy) >> 2;
+        v1.vz = (v0.vz - pos.vz) >> 2;
+        tgt.vy = ratan2(v1.vx, v1.vz);
+
+        v1.vx = 0;
+        v1.vy = 0;
+        v1.vz = work->body.objs->objs[5].model->uz - work->body.objs->objs[5].model->lz;
+        DG_MovePos(&v1);
+        memset(&v1, 0, 8);
+        DG_PutVector(&v1, &v1, 1);
+        v1.vx = v0.vx - v1.vx;
+        v1.vy = v0.vy - v1.vy;
+        v1.vz = v0.vz - v1.vz;
+        cur.vy = ratan2(v1.vx, v1.vz);
+
+        vec.vx = 0;
+        vec.vz = 0;
+        vec.vy = tgt.vy - cur.vy;
+        if (vec.vy < -0x800) vec.vy += 0x1000;
+        if (vec.vy >= 0x801) vec.vy -= 0x1000;
+        DG_SetPos(&mtx);
+        DG_RotatePos(&vec);
+
+        v0.vx = work->body.objs->objs[5].model->tx;
+        v0.vy = work->body.objs->objs[5].model->ty;
+        v0.vz = work->body.objs->objs[5].model->tz;
+        DG_MovePos(&v0);
+        memset(&v0, 0, 8);
+        DG_PutVector(&v0, &v0, 1);
+        v1.vx = (v0.vx - pos.vx) >> 2;
+        v1.vy = (v0.vy - pos.vy) >> 2;
+        v1.vz = (v0.vz - pos.vz) >> 2;
+        tgt.vx = ratan2(v1.vy, SquareRoot0(v1.vx * v1.vx + v1.vz * v1.vz));
+
+        v1.vx = 0;
+        v1.vy = 0;
+        v1.vz = work->body.objs->objs[5].model->uz - work->body.objs->objs[5].model->lz;
+        DG_MovePos(&v1);
+        memset(&v1, 0, 8);
+        DG_PutVector(&v1, &v1, 1);
+        v1.vx = v0.vx - v1.vx;
+        v1.vy = v0.vy - v1.vy;
+        v1.vz = v0.vz - v1.vz;
+        cur.vx = ratan2(v1.vy, SquareRoot0(v1.vx * v1.vx + v1.vz * v1.vz));
+
+        vec.vx = tgt.vx - cur.vx;
+        DG_SetPos(&mtx);
+
+        if (work->field_D54 == 1 || work->field_D54 == 3 || work->field_D54 == 4 || work->field_D54 == 5 ||
+            work->field_D54 == 6 || (GM_GameStatus & 1))
+        {
+            vec.vy = work->body.rots[3].vy;
+            vec.vx = work->body.rots[5].vx;
+        }
+        else if (work->field_E30 == 0xB)
+        {
+            vec.vy = 0;
+            vec.vx = 0;
+            work->field_E30 = 0;
+            s05a_800D9A14(work);
+        }
+        else if (vec.vx < -0x11C ||
+                 (abs(vec.vy) < 0x239 && vec.vx >= 0x3A) ||
+                 (abs(vec.vy) >= 0x239 && abs(vec.vy) < 0x5C7 && vec.vx >= 0xE4) ||
+                 (abs(vec.vy) >= 0x5C7 && vec.vx > 0))
+        {
+            if (vec.vx <= 0)
+            {
+                vec.vx = (vec.vx < -0x11C) ? -0x11C : vec.vx;
+            }
+            else if (abs(vec.vy) < 0x239)
+            {
+                if (vec.vx >= 2)
+                {
+                    vec.vx = 0x39;
+                    if (work->field_E30 == 0 || work->field_E30 == 5)
+                    {
+                        fire = 1;
+                    }
+                }
+            }
+            else if (abs(vec.vy) >= 0x239 && abs(vec.vy) < 0x5C7)
+            {
+                vec.vx = (vec.vx < 0xE4) ? vec.vx : 0xE3;
+            }
+            else if (abs(vec.vy) >= 0x5C7)
+            {
+                if (vec.vx >= -0x4A)
+                {
+                    vec.vx = 0;
+                    if (work->field_E30 == 0 || work->field_E30 == 5)
+                    {
+                        fire = 1;
+                    }
+                }
+            }
+
+            if (work->field_E30 < 7 || work->field_E30 > 11)
+            {
+                if (fire == 1)
+                {
+                    work->field_E30 = 5;
+                }
+                else if (work->field_E30 == 2 && work->field_F7C >= 0x10)
+                {
+                    work->field_E30 = 5;
+                }
+                else if (work->field_E30 == 2 && work->field_E5C >= work->field_DC4 * 4 / 5)
+                {
+                    work->field_E30 = 2;
+                }
+                else if (work->field_E5C >= work->field_DC4)
+                {
+                    work->field_E30 = 2;
+                }
+                else if (work->field_E30 == 5)
+                {
+                    work->field_E30 = 0;
+                }
+                s05a_800D9A14(work);
+            }
+            fire = 0;
+        }
+        else if (work->field_D54 == 2)
+        {
+            if (abs(work->body.rots[3].vy - vec.vy) < 0xB && abs(work->body.rots[5].vx - vec.vx) < 0xB)
+            {
+                if (work->field_E30 < 7 || work->field_E30 > 11)
+                {
+                    if (work->field_E5C < work->field_DC4 >> 1)
+                    {
+                        work->field_E30 = 3;
+                    }
+                    else if (work->field_E5C >= work->field_DC4)
+                    {
+                        work->field_E30 = 2;
+                    }
+                    else
+                    {
+                        work->field_E30 = 0;
+                    }
+                    s05a_800D9A14(work);
+                }
+
+                {
+                HZD_HDL *hzd = work->control.map->hzd;
+                HZD_GRP *grp = hzd->grp;
+                trap = &grp->triggers->trap;
+                cnt = grp->n_triggers - hzd->n_cameras;
+                }
+                for (; cnt > 0; cnt--, trap++)
+                {
+                    if (trap->name_id == GV_StrCode(s05a_dword_800E3484))
+                    {
+                        if (trap->b1.x <= work->field_E44.vx && work->field_E44.vx <= trap->b2.x &&
+                            trap->b1.y <= work->field_E44.vy && work->field_E44.vy <= trap->b2.y &&
+                            trap->b1.z <= work->field_E44.vz && work->field_E44.vz <= trap->b2.z)
+                        {
+                            found = 1;
+                            break;
+                        }
+                    }
+                }
+
+                if (found == 0 && work->field_F48 <= 0 && work->field_E5C > work->field_DBC &&
+                    work->field_E5C < work->field_DC4)
+                {
+                    fire = 1;
+                    work->field_F58 = 0xF;
+                    work->field_F48 = work->field_DB8;
+                }
+            }
+        }
+
+        work->field_EE0 = vec;
+    }
+
+    if (work->field_D54 == 7 && work->field_F48 <= 0 && (GV_PadData[1].status & 0x20))
+    {
+        fire = 1;
+        work->field_F58 = 0xF;
+        work->field_F48 = work->field_DB8;
+    }
+
+    if (work->field_D54 != 7 || (GV_PadData[1].status & 0x880) == 0x880)
+    {
+        cnt = 0xA;
+        if (work->field_E00 == 1 && work->field_E5C < work->field_DBC)
+        {
+            cnt = 6;
+        }
+        work->body.rots[3].vy = GV_NearSpeed(GV_NearPhase(work->body.rots[3].vy, vec.vy), vec.vy, cnt);
+        work->body.rots[5].vx = GV_NearSpeed(GV_NearPhase(work->body.rots[5].vx, vec.vx), vec.vx, cnt);
+    }
+    else if ((GV_PadData[1].status & 0x880) == 0x80)
+    {
+        if (GV_PadData[1].status & 0x8000) work->body.rots[3].vy += 0xA;
+        if (GV_PadData[1].status & 0x2000) work->body.rots[3].vy -= 0xA;
+        if (GV_PadData[1].status & 0x1000) work->body.rots[5].vx -= 0xA;
+        if (GV_PadData[1].status & 0x4000) work->body.rots[5].vx += 0xA;
+        if (GV_PadData[1].status & 0x100)
+        {
+            work->body.rots[3].vy = 0;
+            work->body.rots[5].vx = 0;
+        }
+    }
+
+    while (work->body.rots[3].vy < -0x800) work->body.rots[3].vy += 0x1000;
+    while (work->body.rots[3].vy >= 0x801) work->body.rots[3].vy -= 0x1000;
+
+    if (work->body.rots[5].vx < -0x11C)
+    {
+        work->body.rots[5].vx = GV_NearSpeed(GV_NearPhase(work->body.rots[5].vx, -0x11C), -0x11C, 0xA);
+    }
+    if (abs(work->body.rots[3].vy) < 0x239)
+    {
+        if (work->body.rots[5].vx >= 0x3A)
+        {
+            work->body.rots[5].vx = GV_NearSpeed(GV_NearPhase(work->body.rots[5].vx, 0x39), 0x39, 0xA);
+        }
+    }
+    else if (abs(work->body.rots[3].vy) >= 0x239 && abs(work->body.rots[3].vy) < 0x5C7)
+    {
+        if (work->body.rots[5].vx >= 0xE4)
+        {
+            work->body.rots[5].vx = GV_NearSpeed(GV_NearPhase(work->body.rots[5].vx, 0xE3), 0xE3, 0xA);
+        }
+    }
+    else if (abs(work->body.rots[3].vy) >= 0x5C7)
+    {
+        if (work->body.rots[5].vx > 0)
+        {
+            work->body.rots[5].vx = GV_NearSpeed(GV_NearPhase(work->body.rots[5].vx, 0), 0, 0xA);
+        }
+    }
+
+    DG_SetPos(&work->body.objs->objs[5].world);
+    v0.vx = 0;
+    v0.vy = 0;
+    v0.vz = work->body.objs->objs[5].model->uz - work->body.objs->objs[5].model->lz;
+    DG_MovePos(&v0);
+    ReadRotMatrix(&mtx);
+
+    if (fire == 1)
+    {
+        work->field_ECC++;
+        GM_SeSetPan(&work->control.mov, 0xB8, work->field_E60);
+        s05a_800DAE58(GV_StrCode(s05a_dword_800E3490), &mtx, 2, NULL, work->field_DC0, work->field_DC4 * 2,
+                      work->field_DC8, &work->field_EC0);
+    }
+    else
+    {
+        if (GM_GameStatus & 2)
+        {
+            work->field_F68 = 0xF0;
+        }
+        if (found == 0 && (work->field_F68 > 0 || (!(GM_GameStatus & 1) && work->field_E5C > work->field_DBC)))
+        {
+            work->field_E64 = 1;
+        }
+        else
+        {
+            work->field_E64 = 0;
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D863C.s")
 void s05a_800D9754(Work *work)
 {
