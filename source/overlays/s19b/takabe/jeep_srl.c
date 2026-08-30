@@ -23,18 +23,33 @@ extern JEEP_SYSTEM Takabe_JeepSystem;
 
 #define EXEC_LEVEL GV_ACTOR_PREV
 
+typedef struct _JeepScrollSeg
+{
+    SVECTOR  pos;      /* 0x00 */
+    SVECTOR  field_8;  /* 0x08 */
+    char     pad_10[0x18 - 0x10];
+    DG_OBJS *field_18; /* 0x18 */
+    char     pad_1C[0x28 - 0x1C];
+    int      field_28; /* 0x28 */
+} JeepScrollSeg; /* 0x2C */
+
 typedef struct _Work
 {
-    GV_ACT work;
-    char   pad1[0xC50 - 0x20];
-    int    field_C50;
-    int    field_C54;
-    short *field_C58;
-    char   pad1b[0xC70 - 0xC58 - sizeof(short *)];
-    int    field_C70;
-    int    field_C74;
-    char   pad2[0xC];
+    GV_ACT        work;
+    char          pad1[0x1B4 - 0x20];
+    JeepScrollSeg segs[16]; /* 0x1B4 */
+    char          pad1a[0xC50 - 0x1B4 - sizeof(JeepScrollSeg[16])];
+    int           field_C50;
+    int           field_C54;
+    short        *field_C58;
+    char          pad1b[0xC6C - 0xC58 - sizeof(short *)];
+    int           field_C6C;
+    int           field_C70;
+    int           field_C74;
+    char          pad2[0xC];
 } Work;
+
+extern Work *s19b_dword_800DE5B0;
 
 const char s19b_aLightoverjeepsrlc_800DDC94[] = "<<<<< light over !!!!!!!(jeep.srl.c) >>>>>\n";
 const char s19b_aMaxlightd_800DDCC0[] = "max light:%d\n";
@@ -44,6 +59,8 @@ void *NewJeepGate(int name, SVECTOR *pos, int side);
 void *NewJeepGlass(int name, SVECTOR *pos, int side);
 void *NewJeepLamp(SVECTOR *root_pos, int tex_id, int unused);
 void *s19b_jeep2_800D6F24(int name, int map); // NewJeep2
+void  s19b_jeep_800D2170(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2, short *arg3);
+void  s19b_jeep_800D21DC(int ang, MATRIX *mat, SVECTOR *out);
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CD638.s")
 extern int s19b_dword_800C354C;
@@ -116,7 +133,19 @@ void s19b_jeep_gls_800CE8B8(SVECTOR *src, SVECTOR *dst)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE8DC.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEB2C.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEC24.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEDFC.s")
+int s19b_jeep_gls_800CEDFC(int arg0, int arg1)
+{
+    Work          *work = s19b_dword_800DE5B0;
+    int            idx = work->field_C6C;
+    int            base;
+    JeepScrollSeg *seg;
+
+    base = work->segs[idx].pos.vz - 0x7D0;
+    idx += (arg0 - base - arg1) / 4000;
+    idx &= 0xF;
+    seg = &work->segs[idx];
+    return seg->field_28;
+}
 
 void s19b_jeep_gls_800CEE7C(Work *work, int arg1, SVECTOR *pos)
 {
