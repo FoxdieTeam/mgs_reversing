@@ -125,9 +125,14 @@ extern CONTROL   s05a_dword_800E3800;
 
 void s05a_800DDF18(Sol *work);
 void s05a_800DEB94(Sol *work);
-extern const char s05a_dword_800E356C[]; /* "m1e1" */
-extern const char s05a_dword_800E3578[]; /* "out_" */
-extern const char s05a_dword_800E3584[]; /* "tank" */
+const char s05a_dword_800E356C[] = "m1e1sold.c";
+const char s05a_dword_800E3578[] = "out_c_m1";
+const char s05a_dword_800E3584[] = "tankman";
+const char s05a_dword_800E358C[] = "out_cold";
+const char s05a_dword_800E3598[] = {0x0, 0x0, 0x0, 0x0}; /* pad: jump tables are 8-aligned */
+const int  s05a_dword_800E359C[] = {0x800DE0EC, 0x800DE0EC, 0x800DE0EC, 0x800DE40C, 0x800DE560, 0x800DE0EC, 0x800DE0EC}; /* s05a_800DDF18 */
+const char s05a_dword_800E35B8[] = {0x0, 0x0, 0x0, 0x0};
+const int  s05a_dword_800E35BC[] = {0x800DE654, 0x800DE654, 0x800DE5E4, 0x800DE610, 0x800DE654, 0x800DE600, 0x800DE654}; /* s05a_800DDF18 */
 extern MATRIX DG_ZeroMatrix;
 
 void *s05a_800DDCBC(CamActor *director)
