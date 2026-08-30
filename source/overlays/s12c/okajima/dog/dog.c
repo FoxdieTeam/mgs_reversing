@@ -58,7 +58,8 @@ typedef struct _Work
     int      field_1608;
     int      field_160C;
     int      field_1610;
-    char     pad1614[0x68];
+    char     pad1614[0x8];
+    SVECTOR  field_161C[3][4];
     DG_PRIM *field_167C[3];
     char     pad1688[0x10];
     int      field_1698[3];
@@ -74,14 +75,8 @@ typedef struct _Work
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-int s12c_dword_800C3430 = 0x000001F4;
-int s12c_dword_800C3434 = 0x000003E8;
-int s12c_dword_800C3438 = 0x0000FE0C;
-int s12c_dword_800C343C = 0x000003E8;
-int s12c_dword_800C3440 = 0x000000FA;
-int s12c_dword_800C3444 = 0x000001F4;
-int s12c_dword_800C3448 = 0x0000FF06;
-int s12c_dword_800C344C = 0x000001F4;
+SVECTOR s12c_dword_800C3430[2] = {{500, 0, 1000}, {-500, 0, 1000}};
+SVECTOR s12c_dword_800C3440[2] = {{250, 0, 500}, {-250, 0, 500}};
 
 SVECTOR s12c_dword_800C3450 = {0, 0, 100};
 SVECTOR s12c_dword_800C3458 = {64512, 0, 0};
@@ -1034,7 +1029,56 @@ void Dog_800CB6DC(Work *work, int arg1, int arg2)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB714.s")
+void s12c_dog_800CB714(Work *work, int index)
+{
+    SVECTOR  pos[2];
+    SVECTOR  head;
+    SVECTOR  tail;
+    MATRIX   unused;
+    CONTROL *control;
+    SVECTOR *quad;
+    OBJECT  *object;
+
+    unused = DG_ZeroMatrix;
+    object = &work->field_19C[index];
+
+    head.vx = object->objs->objs[16].world.t[0];
+    head.vy = 0;
+    head.vz = object->objs->objs[16].world.t[2];
+
+    tail.vx = object->objs->objs[4].world.t[0];
+    tail.vy = 0;
+    tail.vz = object->objs->objs[4].world.t[2];
+
+    control = &work->field_28[index];
+
+    Dog_800CABF4(&head, &tail, &tail);
+    DG_SetPos2(&DG_ZeroVector, &tail);
+    if (index != 2)
+    {
+        DG_PutVector(s12c_dword_800C3430, pos, 2);
+    }
+    else
+    {
+        DG_PutVector(s12c_dword_800C3440, pos, 2);
+    }
+
+    quad = work->field_161C[index];
+
+    quad[0].vx = control->mov.vx + pos[0].vx;
+    quad[3].vx = control->mov.vx - pos[0].vx;
+    quad[0].vz = control->mov.vz + pos[0].vz;
+    quad[3].vz = control->mov.vz - pos[0].vz;
+    quad[1].vx = control->mov.vx + pos[1].vx;
+    quad[2].vx = control->mov.vx - pos[1].vx;
+    quad[1].vz = control->mov.vz + pos[1].vz;
+    quad[2].vz = control->mov.vz - pos[1].vz;
+    quad[0].vy = quad[1].vy = quad[2].vy = quad[3].vy = control->mov.vy - control->height;
+
+    ((POLY_FT4 *)work->field_167C[index]->packs[GV_Clock])->r0 = 0x46;
+    ((POLY_FT4 *)work->field_167C[index]->packs[GV_Clock])->g0 = 0x46;
+    ((POLY_FT4 *)work->field_167C[index]->packs[GV_Clock])->b0 = 0x46;
+}
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB97C.s")
 extern void s12c_dog_800CB97C(SVECTOR *arg0, SVECTOR *arg1, int arg2);
 
