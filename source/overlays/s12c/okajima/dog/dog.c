@@ -31,7 +31,7 @@ typedef struct _Work
     char     pad14E0[0xC];
     int      field_14EC[3];
     int      field_14F8[3];
-    char     pad1504[0xC];
+    int      field_1504[3];
     int      field_1510[3];
     int      field_151C[3];
     int      field_1528;
@@ -42,7 +42,7 @@ typedef struct _Work
     int      field_155C[3];
     char     pad1568[0xC];
     int      field_1574[3];
-    char     pad1580[0xC];
+    int      field_1580[3];
     int      field_158C[3];
     char     pad1598[0x24];
     int      field_15BC[3];
@@ -1206,7 +1206,64 @@ void Dog_800D1638(Work *work, int obj_index, int blood_count, int index)
     NewBlood(&rot, blood_count);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D16C0.s")
+extern int s12c_800DA420;
+
+void s12c_dog_800D16C0(Work *work, int index)
+{
+    TARGET *target;
+
+    target = work->field_1188[index];
+
+    if ((target->damaged & 4) && work->field_1580[index] <= 0 &&
+        work->field_14F8[index] != 9 && work->field_14F8[index] != 8)
+    {
+        work->field_1580[index] = 60;
+
+        if (work->field_14F8[2] == 14 && (s12c_800DA420 & 1))
+        {
+            s12c_800DA420 = (s12c_800DA420 & ~1) | 2;
+        }
+
+        if (index == 2 ||
+            (work->field_14F8[index] != 12 && work->field_14F8[index] != 13 &&
+             work->field_1510[index] != 0x25))
+        {
+            if (target->a_mode == 4)
+            {
+                GM_SeSet(&work->field_28[index].mov, 0x34);
+            }
+            else if (target->a_mode == 3)
+            {
+                GM_SeSet(&work->field_28[index].mov, 0x35);
+            }
+
+            Dog_800D1638(work, GV_RandU(8), 2, index);
+            Dog_800CA458(work, 18, index);
+
+            if (target->vital < 0)
+            {
+                work->field_14F8[index] = 9;
+                work->field_1510[index] = 0;
+            }
+            else
+            {
+                int prev = work->field_14F8[index];
+
+                work->field_14F8[index] = 8;
+                work->field_1510[index] = 0;
+                work->field_1504[index] = prev;
+            }
+            return;
+        }
+
+        /* spelled out twice: cross-jumping merges it back into the tail below,
+           but the extra references are what put target in $s0 */
+        target->damaged &= ~4;
+        return;
+    }
+
+    target->damaged &= ~4;
+}
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D187C.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D1B54.s")
 
