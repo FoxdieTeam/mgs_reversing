@@ -10,7 +10,8 @@ typedef struct _Work
     MATRIX  *root_mat;                                 /* 0x024 */
     CONTROL  control;                                  /* 0x028 */
     OBJECT   body;                                     /* 0x0A4 */
-    char     pad_2B0[0x2B0 - 0xA4 - sizeof(OBJECT)];
+    MOTION_CONTROL m_ctrl;                             /* 0x188 */
+    MOTION_SEGMENT m_segs1[6];                         /* 0x1D8 */
     TARGET   field_2B0;                                /* 0x2B0 */
     char     pad_3A0[0x3A0 - 0x2B0 - sizeof(TARGET)];
     short    field_3A0;                                /* 0x3A0 */
@@ -29,9 +30,10 @@ typedef struct _Work
     int      field_3E0;                                /* 0x3E0 */
     char     pad_3F8[0x3F8 - 0x3E0 - sizeof(int)];
     void    *field_3F8;                                /* 0x3F8 */
-    char     pad_750[0x750 - 0x3F8 - sizeof(void *)];
-    SVECTOR  field_750;                                /* 0x750 */
-    char     pad_7A0[0x7A0 - 0x750 - sizeof(SVECTOR)];
+    char     pad_43C[0x43C - 0x3F8 - sizeof(void *)];
+    MOTION_SEGMENT m_segs2[17];                        /* 0x43C */
+    SVECTOR  svecs1[16];                               /* 0x6A0 */
+    SVECTOR  svecs2[16];                               /* 0x720 */
     MATRIX   field_7A0;                                /* 0x7A0 */
     char     pad_7E0[0x7E0 - 0x7A0 - sizeof(MATRIX)];
     int      field_7E0;                                /* 0x7E0 */
@@ -45,8 +47,9 @@ typedef struct _Work
     int      field_800;                                /* 0x800: flags */
     char     pad_818[0x818 - 0x800 - sizeof(int)];
     short    field_818;                                /* 0x818 */
-    char     pad_81C[0x81C - 0x818 - sizeof(short)];
+    short    field_81A;                                /* 0x81A */
     short    field_81C;                                /* 0x81C */
+    short    field_81E;                                /* 0x81E */
 } Work;
 
 typedef struct _JEEP_SYSTEM
@@ -58,7 +61,8 @@ typedef struct _JEEP_SYSTEM
     int      field_50;
     char     pad2b[0x60 - 0x50 - sizeof(int)];
     OBJECT  *snake_body;
-    char     pad3[0x78 - 0x60 - sizeof(OBJECT *)];
+    OBJECT  *field_64;
+    char     pad3[0x78 - 0x64 - sizeof(OBJECT *)];
     int      field_78;
     char     pad4[0x130 - 0x78 - sizeof(int)];
     SVECTOR  field_130;
@@ -67,6 +71,13 @@ typedef struct _JEEP_SYSTEM
 extern JEEP_SYSTEM Takabe_JeepSystem;
 
 extern Work *s19b_dword_800DE64C;
+
+extern const char s19b_dword_800DDDF8[];
+extern const char s19b_aMeryl_800DDDCC[];
+extern const char s19b_aMelb_800DDDD4[];
+extern const char s19b_dword_800DDDDC[];
+extern const char s19b_aOtacom_800DDDE4[];
+extern const char s19b_dword_800DDDEC[];
 
 void s19b_jeep_mrl_800D2CE8(Work *work)
 {
@@ -262,8 +273,8 @@ void s19b_jeep_mrl_800D3D30(Work *work)
     s19b_jeep_mrl_800D47B8(work);
     body = &work->body;
     GM_ActMotion(body);
-    sna_act_helper2_helper2_80033054(work->field_7E0, &work->field_750);
-    work->field_750.vy = GV_NearSpeed(work->field_750.vy, work->field_7E4, 200);
+    sna_act_helper2_helper2_80033054(work->field_7E0, &work->svecs2[6]);
+    work->svecs2[6].vy = GV_NearSpeed(work->svecs2[6].vy, work->field_7E4, 200);
     ctl->rot = ctl->turn = DG_ZeroVector;
     ctl->mov = *(SVECTOR *)&s19b_dword_800C39E0;
     GM_ActControl(ctl);
@@ -279,7 +290,50 @@ void s19b_jeep_mrl_800D3D30(Work *work)
     jpos->vz = body->objs->objs[6].world.t[2];
     GM_MoveTarget(work->target, &ctl->mov);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3E98.s")
+int s19b_jeep_mrl_800D3E98(Work *work, int name, int arg2)
+{
+    CONTROL *ctl = &work->control;
+    OBJECT  *body;
+
+    if (GM_InitControl(ctl, name, GM_CurrentMap) < 0)
+    {
+        return -1;
+    }
+    ctl->mov = work->root_ctrl->mov;
+    ctl->rot = work->root_ctrl->rot;
+    GM_ConfigControlInterp(ctl, 4);
+
+    body = &work->body;
+    if (arg2 == 0)
+    {
+        GM_InitObject(body, GV_StrCode(s19b_aMeryl_800DDDCC), 0x2D, GV_StrCode(s19b_aMelb_800DDDD4));
+        work->field_7E0 = GV_StrCode(s19b_dword_800DDDDC);
+        work->field_818 = 0x82;
+        work->field_81A = 0x83;
+        work->field_81C = 0x84;
+        work->field_81E = 0x82;
+    }
+    else
+    {
+        GM_InitObject(body, GV_StrCode(s19b_aOtacom_800DDDE4), 0x2D, GV_StrCode(s19b_aMelb_800DDDD4));
+        work->field_7E0 = GV_StrCode(s19b_dword_800DDDEC);
+        work->field_818 = 0x85;
+        work->field_81A = 0x86;
+        work->field_81C = 0x87;
+        work->field_81E = 0x85;
+    }
+    GM_ConfigObjectJoint(body);
+    GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode(s19b_aMelb_800DDDD4), work->m_segs1, work->m_segs2,
+                           ctl, work->svecs1);
+    GM_ConfigObjectLight(body, &work->field_7A0);
+    GM_ConfigObjectAction(body, 0, 0, 0);
+    GM_ActMotion(&work->body);
+    GM_ConfigMotionAdjust(body, work->svecs2);
+    work->target = GM_AllocTarget();
+    Takabe_JeepSystem.field_64 = body;
+    ctl->r_sphere = -2;
+    return 0;
+}
 
 void s19b_jeep_mrl_800D4098(Work *work)
 {
@@ -289,8 +343,6 @@ void s19b_jeep_mrl_800D4098(Work *work)
 }
 extern void s19b_jeep_mrl_800D3D30(Work *work);
 extern int  s19b_jeep_mrl_800D3E98(Work *work, int name, int arg2);
-extern const char s19b_dword_800DDDF8[];
-extern const char s19b_aMeryl_800DDDCC[];
 
 void *s19b_jeep_mrl_800D40D4(int arg0, int arg1, int arg2)
 {
