@@ -1072,8 +1072,35 @@ void s19b_spark2_m_800D964C(Work *work)
     s19b_spark2_m_800D9558(work);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9680.s")
-extern int s19b_spark2_m_800D9680(Work *work);
+int s19b_spark2_m_800D9680(Work *work)
+{
+    int js = Takabe_JeepSystem.field_54;
+
+    if (js & 0x1000)
+    {
+        work->f914 = 4;
+        work->f918 = 0;
+        work->f900 |= 0x10;
+        return 1;
+    }
+    if (js & 0x2)
+    {
+        work->f900 |= 0x02000000;
+    }
+    else if (js & 0x8000)
+    {
+        work->f900 = 0x04000000;
+        return 1;
+    }
+    else if (work->f8FC == 0x14)
+    {
+        work->f914 = 4;
+        work->f918 = 0;
+        work->f900 |= 0x10;
+        return 1;
+    }
+    return 0;
+}
 
 void s19b_spark2_m_800D9704(Work *work)
 {
