@@ -224,7 +224,45 @@ void Dog_800CA93C(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA96C.s")
+void s12c_dog_800CA96C(Work *work, int index, int hp)
+{
+    TARGET  *target;
+    CONTROL *control;
+    int      max;
+
+    if (GM_PlayerStatus & (PLAYER_NOT_PLAYABLE | PLAYER_DAMAGED))
+    {
+        return;
+    }
+
+    target = &work->field_1194[index];
+    control = &work->field_28[index];
+
+    target->vital = hp;
+
+    max = 1;
+    max = (abs(control->step.vx) > max) ? abs(control->step.vx) : max;
+    max = (abs(control->step.vy) > max) ? abs(control->step.vy) : max;
+    max = (abs(control->step.vz) > max) ? abs(control->step.vz) : max;
+
+    if (max > 128)
+    {
+        target->force.vx = control->step.vx * 128 / max;
+        target->force.vy = control->step.vy * 128 / max;
+        target->force.vz = control->step.vz * 128 / max;
+    }
+    else
+    {
+        target->force = control->step;
+    }
+
+    GM_MoveTarget(target, &control->mov);
+
+    if (GM_PowerTarget(target))
+    {
+        GM_SeSet2(0, 0x3F, 0x25);
+    }
+}
 
 int Dog_800CAB34(Work *work, int arg1)
 {
