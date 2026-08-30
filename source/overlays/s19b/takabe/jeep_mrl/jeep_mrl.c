@@ -24,9 +24,12 @@ typedef struct _Work
     int      field_3CC;                                /* 0x3CC */
     int      field_3D0;                                /* 0x3D0 */
     int      field_3D4;                                /* 0x3D4 */
-    char     pad_3E0[0x3E0 - 0x3D4 - sizeof(int)];
+    char     pad_3DC[0x3DC - 0x3D4 - sizeof(int)];
+    int      field_3DC;                                /* 0x3DC */
     int      field_3E0;                                /* 0x3E0 */
-    char     pad_7E4[0x7E4 - 0x3E0 - sizeof(int)];
+    char     pad_3F8[0x3F8 - 0x3E0 - sizeof(int)];
+    void    *field_3F8;                                /* 0x3F8 */
+    char     pad_7E4[0x7E4 - 0x3F8 - sizeof(void *)];
     int      field_7E4;                                /* 0x7E4 */
     TARGET  *target;                                   /* 0x7E8 */
     void    *field_7EC;                                /* 0x7EC: current state handler */
@@ -92,10 +95,51 @@ void s19b_jeep_mrl_800D2D3C(Work *work)
     work->field_3CC++;
     work->field_3D4 = GV_NearSpeed(work->field_3D4, 0x190, 0xa);
 }
+extern int  s19b_jeep_gls_800CEDFC(int arg0, int arg1);
+extern void s19b_jlamp_800D0FE4(int arg0);
+extern void s19b_jeep_mrl_800D2E78(Work *work);
+extern void s19b_jeep_mrl_800D3928(Work *work);
+extern int  s19b_dword_800C39CC;
+
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2E78.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D32B4.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D368C.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D36A4.s")
+void s19b_jeep_mrl_800D36A4(Work *work)
+{
+    CONTROL *ctl = &work->control;
+
+    s19b_jeep_mrl_800D2CE8(work);
+    s19b_jeep_mrl_800D2D3C(work);
+    switch (work->field_3DC)
+    {
+    case 0:
+        work->field_3C8 = GV_NearSpeed(work->field_3C8, 750, 50);
+        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 2000) == 10)
+        {
+            work->field_3DC = 1;
+            s19b_jlamp_800D0FE4(3);
+            GM_SeSet(NULL, 0xC2);
+        }
+        break;
+    case 1:
+        work->field_3C8 = GV_NearSpeed(work->field_3C8, 1500, 50);
+        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 3000) == 12)
+        {
+            work->field_3DC = 2;
+            s19b_jlamp_800D0FE4(1);
+            GM_SeSet(NULL, 0xC2);
+        }
+        break;
+    case 2:
+        work->field_3C8 = GV_NearSpeed(work->field_3C8, 750, 50);
+        if (work->field_3C8 == 750)
+        {
+            work->field_3F8 = (void *)s19b_jeep_mrl_800D2E78;
+            work->field_3DC = 0;
+        }
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D37D0.s")
 
 extern void s19b_jeep_mrl_800D2D3C(Work *work);
