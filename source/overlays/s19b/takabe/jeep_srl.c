@@ -646,7 +646,22 @@ void s19b_jeep_gls_800CE8B8(SVECTOR *src, SVECTOR *dst)
     dst->vz = src->vy;
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE8DC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEB2C.s")
+void s19b_jeep_gls_800CEB2C(int arg0, SVECTOR *rot)
+{
+    Work   *work = s19b_dword_800DE5B0;
+    int     idx = work->field_C6C;
+    int     base;
+    SVECTOR dir;
+
+    base = work->segs[idx].pos.vz - 0x7D0;
+    base = (arg0 - base) / 4000; /* two statements: quotient reuses the dividend reg */
+    idx += base;
+    idx &= 0xF;
+    dir = work->segs[idx].field_8;
+    rot->vy = GV_VecDir2(&dir);
+    rot->vx = ratan2(-dir.vy, SquareRoot0(dir.vx * dir.vx + dir.vz * dir.vz));
+    rot->vz = 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEC24.s")
 int s19b_jeep_gls_800CEDFC(int arg0, int arg1)
 {
