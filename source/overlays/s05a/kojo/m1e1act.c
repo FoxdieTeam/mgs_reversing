@@ -101,20 +101,14 @@ typedef struct _Work
     int      field_E2C;
     int      field_E30;
     char     pad_E34[0xE34 - 0xE34];
-    int      field_E34;
-    char     pad_E38[0xE3C - 0xE38];
-    int      field_E3C;
-    char     pad_E40[0xE44 - 0xE40];
+    VECTOR   field_E34;     /* 0xE34 */
     VECTOR   field_E44;     /* 0xE44 */
-    u_short  field_E54;     /* 0xE54 */
-    u_short  field_E56;     /* 0xE56 */
-    u_short  field_E58;     /* 0xE58 */
-    char     pad_E5A[0xE5C - 0xE5A];
+    SVECTOR  field_E54;     /* 0xE54 */
     int      field_E5C;
     int      field_E60;
     int      field_E64;     /* 0xE64 */
     int      field_E68;
-    char     pad_E6C[0xE70 - 0xE6C];
+    int      field_E6C;
     int      field_E70;     /* 0xE70 */
     char     pad_E74[0xE88 - 0xE74];
     int      field_E88;
@@ -124,7 +118,8 @@ typedef struct _Work
     u_short  field_EA0;     /* 0xEA0 */
     char     pad_EA2[0xEA4 - 0xEA2];
     short    field_EA4;     /* 0xEA4 */
-    char     pad_EA6[0xEB0 - 0xEA6];
+    char     pad_EA6[0xEA8 - 0xEA6];
+    SVECTOR  field_EA8;     /* 0xEA8 */
     Gunner  *field_EB0;     /* 0xEB0 */
     char     pad_EB4[0xEC0 - 0xEB4];
     int      field_EC0;     /* 0xEC0 */
@@ -411,7 +406,7 @@ void s05a_800D4A74(Work *work)
             va.vy += 0x1000;
         while (va.vy >= 0x801)
             va.vy -= 0x1000;
-        r = ratan2(work->field_E34, work->field_E3C);
+        r = ratan2(work->field_E34.vx, work->field_E34.vz);
         d = va.vy;
         d -= r;
         if (d < 0)
@@ -742,7 +737,529 @@ void s05a_800D5E30(Work *work)
     s05a_dword_800C362C = 0;
     if (work->field_D54 == 5 && work->field_E20 >= 0) GCL_ExecProc(work->field_E20, 0);
 }
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D627C.s")
+void s05a_800D627C(Work *work)
+{
+    int      lvl[2];
+    VECTOR   mv;
+    VECTOR   tmp;
+    SVECTOR  vec;
+    SVECTOR  step;
+    VECTOR   dir;
+    VECTOR   acc;
+    int      spd_max = work->field_D68;
+    int      accel = work->field_D64;
+    int      turn = 0;
+    u_int    snd = 0;
+    int      quarter;
+    int      len;
+    int      i;
+    int      hit;
+    HZD_ZON *zone;
+    HZD_ZON *next;
+    MAP     *map;
+    int      rate;
+
+    work->control.step.vx = 0;
+    work->control.step.vz = 0;
+    mv.vy = 0;
+    if (work->field_E30 == 7)
+    {
+        mv.vx = (work->field_EA8.vx - work->control.mov.vx) >> 2;
+        mv.vz = (work->field_EA8.vz - work->control.mov.vz) >> 2;
+    }
+    else if (work->field_E30 >= 8 && work->field_E30 <= 10)
+    {
+        mv.vx = (work->field_E54.vx - work->control.mov.vx) >> 2;
+        mv.vz = (work->field_E54.vz - work->control.mov.vz) >> 2;
+    }
+    else if (work->field_E30 >= 11 && work->field_E30 <= 14)
+    {
+        spd_max = work->field_D60;
+        accel = work->field_D5C;
+        mv.vx = (work->field_E54.vx - work->control.mov.vx) >> 2;
+        mv.vz = (work->field_E54.vz - work->control.mov.vz) >> 2;
+    }
+    else
+    {
+        mv.vx = (work->field_E44.vx - work->control.mov.vx) >> 2;
+        mv.vz = (work->field_E44.vz - work->control.mov.vz) >> 2;
+    }
+
+    len = SquareRoot0((work->field_E34.vx >> 2) * (work->field_E34.vx >> 2) +
+                      (work->field_E34.vy >> 2) * (work->field_E34.vy >> 2) +
+                      (work->field_E34.vz >> 2) * (work->field_E34.vz >> 2));
+    quarter = spd_max >> 2;
+    if (len == 0)
+    {
+        memset(&dir, 0, 0x10);
+    }
+    else
+    {
+        len = (work->field_D6C << 8) / (len << 2);
+        dir.vx = (work->field_E34.vx * len) >> 8;
+        dir.vy = (work->field_E34.vy * len) >> 8;
+        dir.vz = (work->field_E34.vz * len) >> 8;
+    }
+    memset(&acc, 0, 0x10);
+    if (abs(work->field_E34.vx) + abs(work->field_E34.vz) != 0 && abs(dir.vx) + abs(dir.vz) != 0)
+    {
+        tmp = work->field_E34;
+        i = (abs(work->field_E34.vx) + abs(work->field_E34.vz)) / (abs(dir.vx) + abs(dir.vz));
+        while (i > 0)
+        {
+            i--;
+            acc.vx += tmp.vx >> 8;
+            tmp.vx -= dir.vx;
+            acc.vz += tmp.vz >> 8;
+            tmp.vz -= dir.vz;
+        }
+    }
+
+    len = SquareRoot0(mv.vx * mv.vx + mv.vy * mv.vy + mv.vz * mv.vz);
+    if (len != 0)
+    {
+        i = (spd_max << 8) / len;
+        mv.vx = (mv.vx * i) >> 8;
+        mv.vy = (mv.vy * i) >> 8;
+        mv.vz = (mv.vz * i) >> 8;
+    }
+
+    switch (work->field_D54)
+    {
+    case 6:
+        work->field_E30 = 0;
+        return;
+    case 1:
+    case 3:
+    case 4:
+    case 5:
+        work->field_E30 = 0;
+        break;
+    case 2:
+        if (work->field_E30 == 5)
+        {
+            if (work->field_E68 != 0)
+            {
+                work->field_E30 = 0;
+            }
+            else
+            {
+                memset(&mv, 0, 0x10);
+                memset(&work->field_E34, 0, 0x10);
+                vec.vx = (work->field_E44.vx - work->control.mov.vx) >> 2;
+                vec.vy = (work->field_E44.vy - work->control.mov.vy) >> 2;
+                vec.vz = (work->field_E44.vz - work->control.mov.vz) >> 2;
+                tmp.vy = ratan2(vec.vx, vec.vz);
+                vec.vy = work->control.rot.vy + 0x400;
+                step.vy = vec.vy - tmp.vy;
+                if (step.vy < -0x800) step.vy += 0x1000;
+                if (step.vy >= 0x801) step.vy -= 0x1000;
+                vec.vy = (short)(work->control.rot.vy - 0x400) - tmp.vy;
+                if (vec.vy < -0x800) vec.vy += 0x1000;
+                if (vec.vy >= 0x801) vec.vy -= 0x1000;
+                if (abs(vec.vy) < abs(step.vy))
+                {
+                    step.vy = vec.vy;
+                }
+                step.vy = (step.vy > (-spd_max >> 4)) ? step.vy : (-spd_max >> 4);
+                step.vy = (step.vy < (spd_max >> 4)) ? step.vy : (spd_max >> 4);
+                turn = step.vy;
+                work->control.turn.vy -= step.vy;
+                if (work->control.turn.vy < -0x800) work->control.turn.vy += 0x1000;
+                if (work->control.turn.vy >= 0x801) work->control.turn.vy -= 0x1000;
+            }
+        }
+        else if (work->field_E30 == 6)
+        {
+            if (work->field_E68 != 0)
+            {
+                work->field_E30 = 0;
+            }
+            else
+            {
+                memset(&mv, 0, 0x10);
+                memset(&work->field_E34, 0, 0x10);
+                vec.vx = (work->field_E44.vx - work->control.mov.vx) >> 2;
+                vec.vy = (work->field_E44.vy - work->control.mov.vy) >> 2;
+                vec.vz = (work->field_E44.vz - work->control.mov.vz) >> 2;
+                tmp.vy = ratan2(vec.vx, vec.vz);
+                vec.vy = work->control.rot.vy + work->body.rots[3].vy + 0x2AA;
+                step.vy = vec.vy - tmp.vy;
+                if (step.vy < -0x800) step.vy += 0x1000;
+                if (step.vy >= 0x801) step.vy -= 0x1000;
+                step.vy = (step.vy > (-spd_max >> 4)) ? step.vy : (-spd_max >> 4);
+                step.vy = (step.vy < (spd_max >> 4)) ? step.vy : (spd_max >> 4);
+                turn = step.vy;
+                work->control.turn.vy -= step.vy;
+                if (work->control.turn.vy < -0x800) work->control.turn.vy += 0x1000;
+                if (work->control.turn.vy >= 0x801) work->control.turn.vy -= 0x1000;
+            }
+        }
+        else if ((work->field_E30 >= 8 && work->field_E30 <= 10) || work->field_E30 == 12 || work->field_E30 == 13 ||
+                 work->field_E30 == 14)
+        {
+            if (len << 2 < 0x7D0)
+            {
+                work->field_E30 = 0;
+            }
+        }
+        else if (work->field_E30 == 11)
+        {
+            if (len << 2 < 0x7D0)
+            {
+                memset(&mv, 0, 0x10);
+                memset(&work->field_E34, 0, 0x10);
+                vec.vx = (work->field_E44.vx - work->control.mov.vx) >> 2;
+                vec.vy = (work->field_E44.vy - work->control.mov.vy) >> 2;
+                vec.vz = (work->field_E44.vz - work->control.mov.vz) >> 2;
+                tmp.vy = ratan2(vec.vx, vec.vz);
+                vec.vy = work->control.rot.vy;
+                step.vy = (short)(vec.vy + 0x400) - tmp.vy;
+                if (step.vy < -0x800) step.vy += 0x1000;
+                if (step.vy >= 0x801) step.vy -= 0x1000;
+                step.vy = (step.vy > (-spd_max >> 4)) ? step.vy : (-spd_max >> 4);
+                step.vy = (step.vy < (spd_max >> 4)) ? step.vy : (spd_max >> 4);
+                turn = step.vy;
+                work->control.turn.vy -= step.vy;
+                if (work->control.turn.vy < -0x800) work->control.turn.vy += 0x1000;
+                if (work->control.turn.vy >= 0x801) work->control.turn.vy -= 0x1000;
+            }
+        }
+        else if (work->field_E30 == 1)
+        {
+            work->field_E30 = 0;
+        }
+        else if (work->field_E30 == 2)
+        {
+            if (quarter < work->field_E68 &&
+                mv.vx * work->field_E34.vx + mv.vy * work->field_E34.vy + mv.vz * work->field_E34.vz <= 0)
+            {
+                work->field_E30 = 0;
+            }
+        }
+        break;
+    case 7:
+        work->field_E30 = 2;
+        len = 0;
+        if (!(GV_PadData[1].status & 0x90) || (GV_PadData[1].status & 0x800))
+        {
+            if (GV_PadData[1].status & 0x1000)
+            {
+                len = spd_max;
+            }
+            else if (GV_PadData[1].status & 0x4000)
+            {
+                len = -spd_max;
+            }
+            else
+            {
+                work->field_E30 = 0;
+            }
+            if (GV_PadData[1].status & 0x8000)
+            {
+                work->control.turn.vy += spd_max >> 4;
+                turn = spd_max >> 4;
+            }
+            if (GV_PadData[1].status & 0x2000)
+            {
+                turn = -spd_max >> 4;
+                work->control.turn.vy -= spd_max >> 4;
+            }
+            if (work->control.turn.vy < -0x800) work->control.turn.vy += 0x1000;
+            if (work->control.turn.vy >= 0x801) work->control.turn.vy -= 0x1000;
+        }
+        memset(&vec, 0, 8);
+        vec.vy = work->control.turn.vy;
+        DG_SetPos2(&DG_ZeroVector, &vec);
+        memset(&vec, 0, 8);
+        vec.vz = len;
+        DG_PutVector(&vec, &vec, 1);
+        mv.vx = vec.vx;
+        mv.vy = vec.vy;
+        mv.vz = vec.vz;
+        vec.vy = work->control.turn.vy - ratan2(work->field_E34.vx / 10, work->field_E34.vz / 10);
+        while (vec.vy < -0x800) vec.vy += 0x1000;
+        while (vec.vy >= 0x801) vec.vy -= 0x1000;
+        i = -1;
+        if (abs(vec.vy) < 0x400)
+        {
+            i = 1;
+        }
+        if (work->field_E30 != 0)
+        {
+            if (work->field_E68 > 0)
+            {
+                if (len == 0 || (len > 0 && i == -1) || (len < 0 && i == 1))
+                {
+                    work->field_E30 = 0;
+                }
+            }
+            if (work->field_E30 != 0)
+            {
+                memset(&vec, 0, 8);
+                vec.vz = SquareRoot0((work->field_E34.vx >> 3) * (work->field_E34.vx >> 3) +
+                                     (work->field_E34.vy >> 3) * (work->field_E34.vy >> 3) +
+                                     (work->field_E34.vz >> 3) * (work->field_E34.vz >> 3));
+                if (len < 0)
+                {
+                    vec.vz *= -1;
+                }
+                DG_PutVector(&vec, &vec, 1);
+                work->field_E34.vx = vec.vx << 3;
+                work->field_E34.vy = vec.vy << 3;
+                work->field_E34.vz = vec.vz << 3;
+            }
+        }
+        break;
+    }
+
+    if (work->field_E30 == 0)
+    {
+        if (quarter >= work->field_E68)
+        {
+            memset(&mv, 0, 0x10);
+            memset(&work->field_E34, 0, 0x10);
+        }
+        else
+        {
+            mv.vx = -dir.vx;
+            mv.vy = -dir.vy;
+            mv.vz = -dir.vz;
+        }
+    }
+    else
+    {
+        if (work->field_E30 == 3)
+        {
+            mv.vx = -mv.vx;
+            mv.vy = -mv.vy;
+            mv.vz = -mv.vz;
+        }
+
+        vec = work->control.mov;
+        vec.vx += acc.vx;
+        vec.vz += acc.vz;
+        hit = HZD_LevelHazardCheck(work->control.map->hzd, &vec, HZD_CHK_F_FLOOR);
+        HZD_GetLevelHeight(lvl);
+        if (hit & 1)
+        {
+            vec.vy = lvl[0];
+        }
+        else if (hit & 2)
+        {
+            vec.vy = lvl[1];
+        }
+        else
+        {
+            vec.vy = 0;
+        }
+        vec.vy += 0x2EE;
+        zone = &work->control.map->hzd->def->zones[HZD_GetAddress(work->control.map->hzd, &vec, 0xFFFF) & 0xFF];
+        if (work->field_E30 < 7 || work->field_E30 > 14)
+        {
+            memset(&step, 0, 8);
+            if (work->control.mov.vx <= zone->x + zone->w && work->control.mov.vx >= zone->x - zone->w)
+            {
+                if (vec.vx > zone->x + zone->w || vec.vx < zone->x - zone->w)
+                {
+                    step.vx = mv.vx;
+                    mv.vx = -dir.vx;
+                }
+            }
+            if (work->control.mov.vz <= zone->z + zone->h && work->control.mov.vz >= zone->z - zone->h)
+            {
+                if (vec.vz > zone->z + zone->h || vec.vz < zone->z - zone->h)
+                {
+                    step.vz = mv.vz;
+                    mv.vz = -dir.vz;
+                }
+            }
+            mv.vx += step.vz;
+            mv.vz += step.vx;
+        }
+    }
+
+    work->field_E34.vx += mv.vx;
+    work->field_E34.vy += mv.vy;
+    work->field_E34.vz += mv.vz;
+    len = SquareRoot0((work->field_E34.vx >> 2) * (work->field_E34.vx >> 2) +
+                      (work->field_E34.vy >> 2) * (work->field_E34.vy >> 2) +
+                      (work->field_E34.vz >> 2) * (work->field_E34.vz >> 2));
+    if (len == 0)
+    {
+        len = 1;
+    }
+    len = (accel << 8) / (len << 2);
+    if (len < 0x100)
+    {
+        work->field_E34.vx = (work->field_E34.vx * len) >> 8;
+        work->field_E34.vy = (work->field_E34.vy * len) >> 8;
+        work->field_E34.vz = (work->field_E34.vz * len) >> 8;
+    }
+
+    vec = work->control.mov;
+    vec.vx += work->field_E34.vx >> 8;
+    vec.vy += 0x1F4;
+    vec.vz += work->field_E34.vz >> 8;
+    zone = &work->control.map->hzd->def->zones[HZD_GetAddress(work->control.map->hzd, &vec, 0xFFFF) & 0xFF];
+    if (work->field_E30 == 3)
+    {
+        if (work->control.mov.vx <= zone->x + zone->w && work->control.mov.vx >= zone->x - zone->w &&
+            (vec.vx > zone->x + zone->w || vec.vx < zone->x - zone->w) &&
+            work->control.mov.vz <= zone->z + zone->h && work->control.mov.vz >= zone->z - zone->h &&
+            (vec.vz > zone->z + zone->h || vec.vz < zone->z - zone->h))
+        {
+            work->field_E30 = 7;
+            for (i = 0; i < sizeof(zone->nears); i++)
+            {
+                if (zone->nears[i] == 0xFF) break;
+            }
+            map = work->control.map;
+            next = &map->hzd->def->zones[zone->nears[GV_RandU(0x1000) % i]];
+            work->field_EA8.vx = next->x;
+            work->field_EA8.vy = next->y;
+            work->field_EA8.vz = next->z;
+        }
+    }
+    else if (work->field_E30 == 7)
+    {
+        if (work->control.mov.vx >= work->field_EA8.vx - 0x1F4 && work->control.mov.vx <= work->field_EA8.vx + 0x1F4 &&
+            work->control.mov.vz >= work->field_EA8.vz - 0x1F4 && work->control.mov.vz <= work->field_EA8.vz + 0x1F4)
+        {
+            work->field_E30 = 0;
+        }
+    }
+
+    step.vx = (vec.vx < zone->x + zone->w) ? vec.vx : zone->x + zone->w;
+    step.vx = (step.vx > zone->x - zone->w) ? step.vx : zone->x - zone->w;
+    step.vz = (vec.vz < zone->z + zone->h) ? vec.vz : zone->z + zone->h;
+    step.vz = (step.vz > zone->z - zone->h) ? step.vz : zone->z - zone->h;
+    if (step.vx != vec.vx)
+    {
+        work->field_E34.vx = 0;
+    }
+    if (step.vz != vec.vz)
+    {
+        work->field_E34.vz = 0;
+    }
+
+    if (work->field_D54 == 2)
+    {
+        if (step.vx != work->control.mov.vx || step.vz != work->control.mov.vz)
+        {
+            i = ratan2(step.vx - work->control.mov.vx, step.vz - work->control.mov.vz);
+            work->control.turn.vy = GV_NearSpeed(GV_NearPhase(work->control.turn.vy, i), i, spd_max >> 4);
+        }
+    }
+
+    step.vx -= work->control.mov.vx;
+    step.vz -= work->control.mov.vz;
+    work->control.step.vx = step.vx;
+    work->control.step.vz = step.vz;
+    len = SquareRoot0(step.vx * step.vx + step.vz * step.vz);
+    if (work->field_E68 <= 0)
+    {
+        if (len > 0)
+        {
+            work->field_F54 = 0xF;
+        }
+        else if (work->field_E30 == 0 && work->field_E2C != 0)
+        {
+            work->field_F54 = 0xF;
+        }
+    }
+    else
+    {
+        if (len <= 0)
+        {
+            work->field_F54 = 0xF;
+        }
+        else if (work->field_E30 == 0 && work->field_E2C != 0)
+        {
+            work->field_F54 = 0xF;
+        }
+    }
+
+    if (work->field_E6C == 0)
+    {
+        if (turn != 0) snd = 1;
+    }
+    else if (turn == 0)
+    {
+        snd = 2;
+    }
+    work->field_E6C = turn;
+    if (work->field_E68 == 0)
+    {
+        if (len != 0) snd = 1;
+    }
+    else if (len == 0)
+    {
+        snd = 2;
+    }
+    work->field_E68 = len;
+    if (len > 0 || work->field_E30 != work->field_E2C)
+    {
+        work->field_F7C = 0;
+    }
+    else
+    {
+        work->field_F7C++;
+    }
+
+    switch (snd)
+    {
+    case 0:
+        if (work->field_F6C < 2)
+        {
+            if (work->field_E68 == 0 && work->field_E6C == 0)
+            {
+                if (GV_Time % 5 == 0 || work->field_F6C == 1)
+                {
+                    GM_SeSetPan(&work->control.mov, 0xB0, work->field_E60);
+                }
+            }
+            else
+            {
+                rate = spd_max >> 4;
+                if (work->field_E6C != 0)
+                {
+                    len = abs(rate - abs(work->field_E6C)) * 4 / rate + 2;
+                }
+                else
+                {
+                    len = abs((spd_max - SquareRoot0(mv.vx * mv.vx + mv.vz * mv.vz)) * 2) / spd_max + 2;
+                    len += ((accel >> 8) - work->field_E68) * 2 / (accel >> 8);
+                }
+                if (len >= 6)
+                {
+                    len = 5;
+                }
+                if (GV_Time % len == 0 || work->field_F6C == 1)
+                {
+                    GM_SeSetPan(&work->control.mov, 0xB4, work->field_E60);
+                }
+            }
+        }
+        break;
+    case 1:
+    case 2:
+        work->field_F6C = 6;
+        GM_SeSetPan(&work->control.mov, 0xB3, work->field_E60);
+        break;
+    }
+}
+
+/* This TU's strings follow s05a_800D627C's jump table in .rdata. */
+const char s05a_dword_800E3484[] = "nocannon";
+const char s05a_dword_800E3490[] = "m1e1shel";
+const char s05a_dword_800E349C[] = "drive4";
+const char s05a_dword_800E34A4[] = "drive5";
+const char s05a_dword_800E34AC[] = "drive6";
+const char s05a_dword_800E34B4[] = "drive7";
+const char s05a_dword_800E34BC[] = "drive1";
+const char s05a_dword_800E34C4[] = "drive2";
+const char s05a_dword_800E34CC[] = {'d', 'r', 'i', 'v', 'e', '3', 0x0, 'U'}; /* linker pad byte */
 void s05a_800D797C(Work *work)
 {
     MATRIX   mtx;
@@ -1583,9 +2100,9 @@ void s05a_800D9A14(Work *work)
 
     /* phase 6: store chosen point */
     cnt--;
-    work->field_E54 = route->points[cnt].x;
-    work->field_E56 = route->points[cnt].y;
-    work->field_E58 = route->points[cnt].z;
+    work->field_E54.vx = route->points[cnt].x;
+    work->field_E54.vy = route->points[cnt].y;
+    work->field_E54.vz = route->points[cnt].z;
 }
 extern void M1E1GetCaterpillerVertex(OBJECT *obj1, OBJECT *obj2, SVECTOR *pos, int a4);
 
@@ -1769,7 +2286,7 @@ void s05a_800DA62C(Work *work)
     }
 
     memset(&rot, 0, 8);
-    r = ratan2(work->field_E34, work->field_E3C);
+    r = ratan2(work->field_E34.vx, work->field_E34.vz);
     rot.vy = r - work->control.turn.vy;
     memset(&vec, 0, 8);
     vec.vx = work->field_E70;

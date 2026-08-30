@@ -40,7 +40,8 @@ typedef struct _Smoke
     TARGET  target;    /* 0x38 */
 } Smoke;
 
-extern const char s05a_dword_800E34D4[]; /* = "m1e1shel.c" */
+const char s05a_dword_800E34D4[] = "m1e1shel.c";
+const char s05a_dword_800E34E0[] = {'n', 'o', 'n', 'e', 0x0, '7', 'C', ' '}; /* "none" + linker pad bytes */
 
 extern void *s05a_800DBF58(int arg0, SVECTOR *arg1, SVECTOR *arg2);
 void s05a_800DBED0(Smoke *work);
@@ -199,7 +200,6 @@ void s05a_800DB654(Work *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
 }
-extern const char s05a_dword_800E34E0[];
 void s05a_800DBA94(Casing *work);
 void s05a_800DBC44(Casing *work);
 void s05a_800DBC80(POLY_FT4 *poly, DG_TEX *src);
