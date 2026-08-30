@@ -19,29 +19,11 @@ typedef struct _DescentWork
     short   field_238;  /* 0x238 */
 } DescentWork;
 
-typedef struct _CamBbox
+typedef struct
 {
-    char    pad_00[8];
-    u_short field_08;
-    char    pad_0A[0x10 - 0x0A];
-    u_short field_10;
-    char    pad_12[0x14 - 0x12];
-    u_short field_14;
-    char    pad_16[0x1C - 0x16];
-    u_short field_1C;
-} CamBbox;
-
-typedef struct _CamModel
-{
-    char     pad_000[0x420];
-    CamBbox *field_420;
-    char     pad_424[0x4AC - 0x424];
-    u_short  field_4AC;
-    char     pad_4AE[0x4B0 - 0x4AE];
-    u_short  field_4B0;
-    char     pad_4B2[0x4B4 - 0x4B2];
-    u_short  field_4B4;
-} CamModel;
+    HZD_SEG seg[4];
+    HZD_FLR flr[2];
+} HzdBlock; /* 0xA0 */
 
 typedef struct _CamEb0
 {
@@ -58,13 +40,15 @@ typedef struct _CamActor
     int       field_B4;        /* 0x0B4 */
     int       field_B8;        /* 0x0B8 */
     char      pad_BC[0xDC - 0xBC];
-    CamModel *field_DC;        /* 0x0DC */
-    char      pad_E0[0x718 - 0xE0];
+    OBJECT    body;            /* 0x0DC */
+    char      pad_1C0[0x718 - 0x1C0];
     TARGET   *field_718[10];   /* 0x718 */
     char      pad_740[0x744 - 0x740];
     int       field_744;       /* 0x744 */
     int       field_748;       /* 0x748 */
-    char      pad_74C[0xD54 - 0x74C];
+    CONTROL   snap_control;    /* 0x74C */
+    OBJECT    snap_body;       /* 0x7C8 */
+    char      pad_8AC[0xD54 - 0x8AC];
     int       field_D54;       /* 0xD54 */
     char      pad_D58[0xD64 - 0xD58];
     int       field_D64;       /* 0xD64 */
@@ -97,8 +81,11 @@ typedef struct _CamActor
     int       field_F5C;       /* 0xF5C */
     char      pad_F60[0xF78 - 0xF60];
     int       field_F78;       /* 0xF78 */
-    char      pad_F7C[0x102C - 0xF7C];
-    HZD_FLR   trap;            /* 0x102C */
+    char      pad_F7C[0xFEC - 0xF7C];
+    HzdBlock  hzd[5];          /* 0xFEC */
+    HZD_FLR   copy0;           /* 0x130C */
+    HZD_FLR   copy1;           /* 0x133C */
+    HZD_FLR   copy2;           /* 0x136C */
 } CamActor;
 
 typedef struct _Sol
@@ -286,7 +273,236 @@ int s05a_800DEC18(DescentWork *work, SVECTOR *s2, int a2)
     }
     return v;
 }
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DEDE8.s")
+void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
+{
+    int     lvl[2];
+    SVECTOR pos;
+    SVECTOR tgt;
+    SVECTOR mov_d;
+    SVECTOR rot_d;
+    int     hit;
+    int     frames;
+    int     d1;
+    int     d2;
+    int     v;
+    int     spd;
+    int     q;
+    short   h;
+
+    mov_d.vx = s05a_dword_800C362C->control.mov.vx - s05a_dword_800C362C->snap_control.mov.vx;
+    mov_d.vy = s05a_dword_800C362C->control.mov.vy - s05a_dword_800C362C->snap_control.mov.vy;
+    mov_d.vz = s05a_dword_800C362C->control.mov.vz - s05a_dword_800C362C->snap_control.mov.vz;
+    rot_d.vx = s05a_dword_800C362C->control.rot.vx - s05a_dword_800C362C->snap_control.rot.vx;
+    rot_d.vy = s05a_dword_800C362C->control.rot.vy - s05a_dword_800C362C->snap_control.rot.vy;
+    rot_d.vz = s05a_dword_800C362C->control.rot.vz - s05a_dword_800C362C->snap_control.rot.vz;
+
+    pos = control->mov;
+    pos.vy += 0x4B;
+    if (HZD_GetFloorHit(&s05a_dword_800C362C->copy2, &pos) == 1)
+    {
+        HZD_GetLevelHeight(lvl);
+        hit = control->mov.vy - lvl[0];
+        if (hit < 0x96)
+        {
+            DG_SetPos2(&mov_d, &rot_d);
+            memset(&pos, 0, 8);
+            pos.vy = s05a_dword_800C362C->body.rots[3].vy - s05a_dword_800C362C->snap_body.rots[3].vy;
+            DG_RotatePos(&pos);
+            pos = control->mov;
+            pos.vx -= s05a_dword_800C362C->snap_control.mov.vx;
+            pos.vy -= s05a_dword_800C362C->snap_control.mov.vy;
+            pos.vz -= s05a_dword_800C362C->snap_control.mov.vz;
+            DG_PutVector(&pos, &pos, 1);
+            pos.vx += s05a_dword_800C362C->snap_control.mov.vx;
+            pos.vy += s05a_dword_800C362C->snap_control.mov.vy;
+            pos.vz += s05a_dword_800C362C->snap_control.mov.vz;
+            hit = HZD_GetFloorHit(&s05a_dword_800C362C->hzd[4].flr[1], &pos);
+            HZD_GetLevelHeight(lvl);
+            if (hit & 1)
+            {
+                control->mov.vy = lvl[0];
+            }
+            else if (hit & 2)
+            {
+                control->mov.vy = lvl[1];
+            }
+            if (hit & 3)
+            {
+                control->step.vx = pos.vx - control->mov.vx;
+                control->step.vz = pos.vz - control->mov.vz;
+                return;
+            }
+        }
+    }
+
+    pos = control->mov;
+    pos.vy += 0x4B;
+    if (HZD_GetFloorHit(&s05a_dword_800C362C->copy0, &pos) == 1)
+    {
+        HZD_GetLevelHeight(lvl);
+        hit = control->mov.vy - lvl[0];
+        if (hit < 0x96)
+        {
+            DG_SetPos2(&mov_d, &rot_d);
+            pos = control->mov;
+            pos.vx -= s05a_dword_800C362C->snap_control.mov.vx;
+            pos.vy -= s05a_dword_800C362C->snap_control.mov.vy;
+            pos.vz -= s05a_dword_800C362C->snap_control.mov.vz;
+            DG_PutVector(&pos, &pos, 1);
+            pos.vx += s05a_dword_800C362C->snap_control.mov.vx;
+            pos.vy += s05a_dword_800C362C->snap_control.mov.vy;
+            pos.vz += s05a_dword_800C362C->snap_control.mov.vz;
+            hit = HZD_GetFloorHit(&s05a_dword_800C362C->hzd[0].flr[1], &pos);
+            HZD_GetLevelHeight(lvl);
+            if (hit & 1)
+            {
+                control->mov.vy = lvl[0];
+            }
+            else if (hit & 2)
+            {
+                control->mov.vy = lvl[1];
+            }
+            if (hit & 3)
+            {
+                control->step.vx = pos.vx - control->mov.vx;
+                control->step.vz = pos.vz - control->mov.vz;
+                return;
+            }
+        }
+    }
+
+    pos = control->mov;
+    pos.vy += 0x4B;
+    if (HZD_GetFloorHit(&s05a_dword_800C362C->copy1, &pos) == 1)
+    {
+        HZD_GetLevelHeight(lvl);
+        hit = control->mov.vy - lvl[0];
+        if (hit < 0x96)
+        {
+            DG_SetPos2(&mov_d, &rot_d);
+            pos = control->mov;
+            pos.vx -= s05a_dword_800C362C->snap_control.mov.vx;
+            pos.vy -= s05a_dword_800C362C->snap_control.mov.vy;
+            pos.vz -= s05a_dword_800C362C->snap_control.mov.vz;
+            DG_PutVector(&pos, &pos, 1);
+            pos.vx += s05a_dword_800C362C->snap_control.mov.vx;
+            pos.vy += s05a_dword_800C362C->snap_control.mov.vy;
+            pos.vz += s05a_dword_800C362C->snap_control.mov.vz;
+            hit = HZD_GetFloorHit(&s05a_dword_800C362C->hzd[1].flr[1], &pos);
+            HZD_GetLevelHeight(lvl);
+            if (hit & 1)
+            {
+                control->mov.vy = lvl[0];
+            }
+            else if (hit & 2)
+            {
+                control->mov.vy = lvl[1];
+            }
+            if (hit & 3)
+            {
+                control->step.vx = pos.vx - control->mov.vx;
+                control->step.vz = pos.vz - control->mov.vz;
+                return;
+            }
+        }
+    }
+
+    if (*arg3 & 4)
+    {
+        return;
+    }
+
+    tgt.vx = s05a_dword_800C362C->body.objs->objs[12].world.t[0];
+    tgt.vy = s05a_dword_800C362C->body.objs->objs[12].world.t[1];
+    tgt.vz = s05a_dword_800C362C->body.objs->objs[12].world.t[2];
+    pos.vx = (tgt.vx - GM_PlayerControl->mov.vx) >> 2;
+    pos.vy = (tgt.vy - GM_PlayerControl->mov.vy) >> 2;
+    pos.vz = (tgt.vz - GM_PlayerControl->mov.vz) >> 2;
+    memset(&rot_d, 0, 8);
+    rot_d.vy = ratan2(pos.vx, pos.vz);
+    while (rot_d.vy < -0x800) rot_d.vy += 0x1000;
+    while (rot_d.vy >= 0x801) rot_d.vy -= 0x1000;
+    hit = SquareRoot0(pos.vx * pos.vx + pos.vz * pos.vz) * 4;
+
+    if (!(*arg3 & 1))
+    {
+        *arg3 |= 1;
+        if (GM_PlayerStatus & 0x340)
+        {
+            return;
+        }
+        if (s05a_dword_800C362C->field_DF8 < hit)
+        {
+            return;
+        }
+        pos.vy = rot_d.vy - GM_PlayerControl->rot.vy;
+        while (pos.vy < -0x800) pos.vy += 0x1000;
+        while (pos.vy >= 0x801) pos.vy -= 0x1000;
+        if (pos.vy < -s05a_dword_800C362C->field_DF4 || pos.vy > s05a_dword_800C362C->field_DF4)
+        {
+            return;
+        }
+        memset(&control->step, 0, 8);
+        if (hit <= s05a_dword_800C362C->field_DF8 * 2 / 3)
+        {
+            control->step.vz = 0x78;
+        }
+        else
+        {
+            control->step.vz = 0xAA;
+        }
+        frames = hit / control->step.vz * 3 / 4;
+        h = control->mov.vy;
+        if (h < tgt.vy) h = tgt.vy;
+        pos.vy = h + 0x3E8;
+        d1 = pos.vy - control->mov.vy;
+        d2 = pos.vy - tgt.vy;
+        v = d1 + d2;
+        if (v == 0)
+        {
+            d1 = 0;
+        }
+        else
+        {
+            d1 = frames * d1 / v;
+        }
+        v = 0;
+        if (d1 != 0)
+        {
+            v = (pos.vy - control->mov.vy) * 2 / d1 / d1;
+        }
+        control->step.vy = v * d1;
+        *arg3 |= v << 8;
+        *arg3 |= 2;
+    }
+    else
+    {
+        if (!(*arg3 & 2))
+        {
+            return;
+        }
+        if (GM_PlayerStatus & 0x300)
+        {
+            return;
+        }
+        if (control->mov.vy < s05a_dword_800C362C->body.objs->objs[12].world.t[1])
+        {
+            return;
+        }
+    }
+
+    memset(&mov_d, 0, 8);
+    spd = SquareRoot0(control->step.vx * control->step.vx + control->step.vz * control->step.vz);
+    q = hit / fuse_time;
+    mov_d.vz = spd;
+    if (mov_d.vz < q) mov_d.vz = q;
+    DG_SetPos2(&DG_ZeroVector, &rot_d);
+    DG_PutVector(&mov_d, &mov_d, 1);
+    control->step.vx = mov_d.vx;
+    control->step.vz = mov_d.vz;
+    control->step.vy += 0x10;
+    control->step.vy -= (short)*arg3 >> 8;
+}
 int s05a_800DF834(int arg0, SVECTOR *vec, u_short *arg3)
 {
     SVECTOR d;
@@ -302,17 +518,17 @@ int s05a_800DF834(int arg0, SVECTOR *vec, u_short *arg3)
         return 0;
     }
 
-    d.vx = s05a_dword_800C362C->field_DC->field_4AC;
-    d.vy = s05a_dword_800C362C->field_DC->field_4B0;
-    d.vz = s05a_dword_800C362C->field_DC->field_4B4;
+    d.vx = s05a_dword_800C362C->body.objs->objs[12].world.t[0];
+    d.vy = s05a_dword_800C362C->body.objs->objs[12].world.t[1];
+    d.vz = s05a_dword_800C362C->body.objs->objs[12].world.t[2];
     d.vx -= vec->vx;
     d.vy -= vec->vy;
     d.vz -= vec->vz;
 
-    e.vx = s05a_dword_800C362C->field_DC->field_420->field_14 -
-           s05a_dword_800C362C->field_DC->field_420->field_08;
-    e.vz = s05a_dword_800C362C->field_DC->field_420->field_1C -
-           s05a_dword_800C362C->field_DC->field_420->field_10;
+    e.vx = s05a_dword_800C362C->body.objs->objs[10].model->ux -
+           s05a_dword_800C362C->body.objs->objs[10].model->lx;
+    e.vz = s05a_dword_800C362C->body.objs->objs[10].model->uz -
+           s05a_dword_800C362C->body.objs->objs[10].model->lz;
     e.vx = (e.vx + e.vz) >> 2;
 
     dist = SquareRoot0(d.vx * d.vx + d.vy * d.vy + d.vz * d.vz);
@@ -360,10 +576,10 @@ int s05a_800DF9C8(TARGET *t, int flags)
         dz = delta.vz - t->center.vz;
         delta.vz = dz;
 
-        e.vx = s05a_dword_800C362C->field_DC->field_420->field_14 -
-               s05a_dword_800C362C->field_DC->field_420->field_08;
-        e.vz = s05a_dword_800C362C->field_DC->field_420->field_1C -
-               s05a_dword_800C362C->field_DC->field_420->field_10;
+        e.vx = s05a_dword_800C362C->body.objs->objs[10].model->ux -
+               s05a_dword_800C362C->body.objs->objs[10].model->lx;
+        e.vz = s05a_dword_800C362C->body.objs->objs[10].model->uz -
+               s05a_dword_800C362C->body.objs->objs[10].model->lz;
         e.vx = (e.vx + e.vz) >> 2;
 
         if (flags & 4)
@@ -544,7 +760,7 @@ int s05a_800E00EC(GV_ACT *actor)
     int      dist;
 
     GM_uTenageMotion = -1;
-    if (HZD_GetFloorHit(&s05a_dword_800C362C->trap, &work->control.mov) == 0 && !(GM_PlayerStatus & 0x1340))
+    if (HZD_GetFloorHit(&s05a_dword_800C362C->hzd[0].flr[0], &work->control.mov) == 0 && !(GM_PlayerStatus & 0x1340))
     {
         if (s05a_dword_800C362C->field_EB0 != NULL)
         {
@@ -705,7 +921,7 @@ int s05a_800E066C(SnaInitWork *work_)
         return 0;
     }
 
-    if (HZD_GetFloorHit((HZD_FLR *)&s05a_dword_800C362C->trap, &GM_PlayerPosition) != 0)
+    if (HZD_GetFloorHit((HZD_FLR *)&s05a_dword_800C362C->hzd[0].flr[0], &GM_PlayerPosition) != 0)
     {
         if (s05a_dword_800C362C->field_F78 > 0)
         {
