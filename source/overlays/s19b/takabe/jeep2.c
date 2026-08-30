@@ -21,15 +21,16 @@ typedef struct _Jeep2Work
     /* +0x380 */ SVECTOR        field_380;
     /* +0x388 */ SVECTOR        field_388;
     /* +0x390 */ SVECTOR        field_390;
-                 char           pad_398[0x3A0 - 0x390 - sizeof(SVECTOR)];
+    /* +0x398 */ SVECTOR        field_398;
     /* +0x3A0 */ int            field_3A0;
     /* +0x3A4 */ int            field_3A4;
     /* +0x3A8 */ int            field_3A8;
-                 char           pad_3AC[0x3B0 - 0x3A8 - sizeof(int)];
+    /* +0x3AC */ int            field_3AC;
     /* +0x3B0 */ int            field_3B0;
     /* +0x3B4 */ int            field_3B4;
     /* +0x3B8 */ int            field_3B8;
-                 char           pad_3BC[0x3C4 - 0x3B8 - sizeof(int)];
+    /* +0x3BC */ int            field_3BC;
+    /* +0x3C0 */ int            field_3C0;
     /* +0x3C4 */ int            field_3C4;
     /* +0x3C8 */ int            field_3C8;
     /* +0x3CC */ int            field_3CC;
@@ -70,8 +71,139 @@ extern void  s19b_jeep_liq_800D81A8(void *work);
 extern void *s19b_spark2_m_800D8670(CONTROL *arg0, DG_PRIM *arg1, int *arg2);
 extern void *NewJeepLamp2(MATRIX *root);
 extern void  s19b_jeep2_800D6AD8(Jeep2Work *work);
+extern void  s19b_jeep_liq_800D7D68(void *work);
+extern int   s19b_jeep_gls_800CEDFC(int arg0, int arg1);
+extern int   s19b_spark2_m_800D9C90(CONTROL *ctl, int *count, int unused_arg, SVECTOR *out);
+extern int   s19b_spark2_m_800D9EC0(SVECTOR *pos, SVECTOR *rot, SVECTOR *cur, SVECTOR *prev);
+extern void  s19b_spark2_m_800DA0B4(POLY_FT4 *poly, int arg1, SVECTOR *from, SVECTOR *to);
+extern int   s19b_dword_800C3A84;
+extern int   s19b_dword_800C3A7C;
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep2_800D667C.s")
+void s19b_jeep2_800D667C(Jeep2Work *work)
+{
+    CONTROL *control;
+    TARGET  *target;
+    SVECTOR  out;
+    SVECTOR  pos;
+    SVECTOR  rot;
+
+    work->field_368 = work->field_358;
+    work->field_358.vx += work->field_378.vx;
+    work->field_358.vz += work->field_378.vz;
+
+    control = &work->control;
+    control->mov.vx = work->field_358.vx - Takabe_JeepSystem.field_28.vx;
+    control->mov.vz = work->field_358.vz - Takabe_JeepSystem.field_28.vz;
+
+    if (work->field_3C4 != 0)
+    {
+        if (work->field_3C0 == 0)
+        {
+            work->field_3B0 -= work->field_3B0 / 4;
+        }
+        work->field_3B4 |= 1;
+        if (work->field_3B8 == 0)
+        {
+            work->field_3B8 = 20;
+        }
+    }
+    else
+    {
+        work->field_3B4 &= ~1;
+    }
+    work->field_3C4 = 0;
+
+    if (work->field_3B8 != 0)
+    {
+        work->field_3B8--;
+    }
+
+    ((void (*)(Jeep2Work *))work->field_3D0)(work);
+
+    if (s19b_jeep_gls_800CEDFC(control->mov.vz, -8000) == 31)
+    {
+        GV_DestroyActor(work);
+        return;
+    }
+
+    work->field_3B4 &= ~0xC;
+
+    target = work->target;
+    if (target->damaged & 8)
+    {
+        control->mov.vx += target->offset.vx;
+        control->mov.vz += target->offset.vz;
+        work->field_358.vx += target->offset.vx;
+        work->field_358.vy += target->offset.vy;
+
+        if (work->field_3E8 != (void *)s19b_jeep_liq_800D7D68)
+        {
+            work->field_3B4 |= 8;
+            if (work->field_3BC == 0)
+            {
+                work->field_3BC = 15;
+                GM_SeSet((SVECTOR *)control, 0xB0);
+            }
+        }
+        else
+        {
+            work->field_3B4 |= 4;
+            if (work->field_3C0 == 0)
+            {
+                work->field_390.vy = GV_NearExp2(work->field_390.vy, 0x800);
+            }
+            if (work->field_3BC == 0 && target->offset.vx >= 41)
+            {
+                work->field_3BC = 15;
+                GM_SeSet((SVECTOR *)control, 0xB0);
+            }
+        }
+    }
+
+    target->damaged &= ~8;
+    target->offset = DG_ZeroVector;
+
+    if (work->field_3BC != 0)
+    {
+        work->field_3BC--;
+    }
+
+    s19b_spark2_m_800D9C90(control, (int *)&work->field_358, (int)&work->field_3A8, &out);
+    s19b_spark2_m_800D9EC0((SVECTOR *)control, &work->field_390, &work->field_378, &work->field_388);
+    s19b_spark2_m_800DA0B4((POLY_FT4 *)&work->jeep_t.rots[0], work->field_3AC, &work->field_390,
+                           &work->field_398);
+
+    control->turn = work->field_390;
+    control->turn.vx = 0;
+
+    pos = control->mov;
+    pos.vy += 250;
+    DG_GetLightMatrix(&pos, &work->light[0]);
+
+    GM_ActControl(control);
+
+    GM_ActObject2(&work->jeep_b);
+    RotMatrixX(work->field_390.vx, (MATRIX *)work->jeep_b.objs);
+    ScaleMatrix((MATRIX *)work->jeep_b.objs, (VECTOR *)&s19b_dword_800C3A84);
+
+    rot.vx = control->rot.vx;
+    rot.vy = control->rot.vy;
+    rot.vz = 0;
+    DG_SetPos2((SVECTOR *)control, &rot);
+
+    GM_ActObject2(&work->jeep_t);
+    RotMatrixX(work->field_390.vx, (MATRIX *)work->jeep_t.objs);
+    ScaleMatrix((MATRIX *)work->jeep_t.objs, (VECTOR *)&s19b_dword_800C3A84);
+
+    GM_ActObject2((OBJECT *)&work->fhl);
+    GM_ActObject2((OBJECT *)&work->hl);
+
+    DG_SetPos((MATRIX *)work->jeep_b.objs);
+    DG_MovePos((SVECTOR *)&s19b_dword_800C3A7C);
+    GM_ActObject2((OBJECT *)&work->gun);
+
+    GM_MoveTarget(work->target, (SVECTOR *)control);
+}
 
 void s19b_jeep2_800D6A70(Jeep2Work *work)
 {
