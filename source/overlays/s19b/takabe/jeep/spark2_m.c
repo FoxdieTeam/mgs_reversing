@@ -874,7 +874,51 @@ void s19b_spark2_m_800D9C04(Work *work)
     work->f920 += 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9C90.s")
+int s19b_spark2_m_800D9C90(CONTROL *ctl, int *count, int unused_arg, SVECTOR *out)
+{
+    SVECTOR near;
+    int     unused[2];
+    SVECTOR hit;
+    SVECTOR pos;
+    MATRIX  m;
+    int     len;
+
+    pos = ctl->mov;
+    pos.vy += 250;
+    if (HZD_NearHazardCheck(ctl->map->hzd, &pos, 0x1DB, 0xC, 0) > 0)
+    {
+        HZD_GetNearVector(&near);
+        hit = near;
+        len = GV_VecLen3(&near);
+        GV_AddVec3(&near, &pos, &hit);
+        if (len < 0x1E5)
+        {
+            m = DG_ZeroMatrix;
+            m.t[0] = hit.vx;
+            m.t[1] = hit.vy;
+            m.t[2] = hit.vz;
+            NewSpark2M(&m);
+            s19b_dword_800C3AD4 += GV_PassageTime;
+            if (s19b_dword_800C3AD4 >= 7)
+            {
+                s19b_dword_800C3AD4 -= 6;
+                GM_SeSetMode(&hit, 0xC3, 1);
+            }
+        }
+        if (len < 0x1DB)
+        {
+            GV_LenVec3(&near, &near, len, -0x1DB);
+            GV_AddVec3(&near, &hit, &hit);
+            GV_SubVec3(&pos, &hit, out);
+            ctl->mov = hit;
+            *count -= out->vx;
+            *count -= out->vx;
+            *count -= out->vx;
+            return 1;
+        }
+    }
+    return 0;
+}
 const SVECTOR s19b_dword_800DDEA8 = {0, 0, 0x232, 0};
 
 int s19b_spark2_m_800D9EC0(SVECTOR *pos, SVECTOR *rot, SVECTOR *cur, SVECTOR *prev)
