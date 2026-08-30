@@ -1367,4 +1367,24 @@ void s19b_spark2_m_800D9C04(Work *work)
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9C90.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9EC0.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA0B4.s")
+void s19b_spark2_m_800DA0B4(POLY_FT4 *poly, int arg1, SVECTOR *from, SVECTOR *to)
+{
+    int d = (arg1 << 12) / 1178;
+    int dy;
+    int step;
+
+    poly->x0 += d;
+    poly->x1 += d;
+    poly->x2 += d;
+    poly->x3 += d;
+
+    dy = from->vy - to->vy;
+    if (arg1 < 0)
+    {
+        dy = -dy;
+    }
+    step = dy * 4;
+    poly->y2 = GV_NearExp4P(poly->y2, step);
+    poly->y3 = GV_NearExp4P(poly->y3, step);
+    *to = *from;
+}
