@@ -16,6 +16,9 @@ extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
 extern void  s19b_jblood_800C7FB8(MATRIX *world);
 extern void  ReadRotMatrix(MATRIX *m);
 extern int   s19b_jeep_mrl_800D399C(void);
+extern int   s19b_dword_800C3AD4;
+extern void  s19b_jeep_gls_800CEC24(int arg0, SVECTOR *out);
+extern void *NewSpark2M(MATRIX *world);
 
 void s19b_spark2_m_800D8724(Work *work, int arg1, int arg2)
 {
@@ -874,7 +877,48 @@ void s19b_spark2_m_800D9C04(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9C90.s")
 const SVECTOR s19b_dword_800DDEA8 = {0, 0, 0x232, 0};
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9EC0.s")
+int s19b_spark2_m_800D9EC0(SVECTOR *pos, SVECTOR *rot, SVECTOR *cur, SVECTOR *prev)
+{
+    int     vz = pos->vz;
+    SVECTOR ahead;
+    SVECTOR step;
+    SVECTOR dir;
+    SVECTOR yaw;
+    SVECTOR far;
+    int     d;
+    int     abs;
+
+    dir = s19b_dword_800DDEA8;
+    yaw = DG_ZeroVector;
+    yaw.vy = rot->vy;
+    DG_SetPos2(&DG_ZeroVector, &yaw);
+    DG_RotVector(&dir, &dir, 1);
+    s19b_jeep_gls_800CEC24(vz, &ahead);
+    s19b_jeep_gls_800CEC24(vz + dir.vz, &step);
+    pos->vy = ahead.vy;
+    GV_SubVec3(&ahead, &step, &ahead);
+    s19b_jeep_gls_800CEC24(vz + 0x400, &far);
+    rot->vx = -ratan2(far.vy - pos->vy, 0x400);
+
+    d = (-cur->vx * prev->vz + cur->vz * prev->vx) >> 9;
+    *prev = *cur;
+    rot->vz -= d;
+    abs = rot->vz;
+    if (abs < 0)
+    {
+        abs = -abs;
+    }
+    rot->vz = GV_NearSpeed(rot->vz, 0, (200 - abs) / 32 + 1);
+    if (rot->vz < -140)
+    {
+        rot->vz = -140;
+    }
+    if (rot->vz > 140)
+    {
+        rot->vz = 140;
+    }
+    return pos->vy;
+}
 void s19b_spark2_m_800DA0B4(POLY_FT4 *poly, int arg1, SVECTOR *from, SVECTOR *to)
 {
     int d = (arg1 << 12) / 1178;
