@@ -662,7 +662,40 @@ void s19b_jeep_gls_800CEB2C(int arg0, SVECTOR *rot)
     rot->vx = ratan2(-dir.vy, SquareRoot0(dir.vx * dir.vx + dir.vz * dir.vz));
     rot->vz = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEC24.s")
+void s19b_jeep_gls_800CEC24(int arg0, SVECTOR *out)
+{
+    Work          *work = s19b_dword_800DE5B0;
+    int            idx = work->field_C6C;
+    int            base;
+    JeepScrollSeg *seg;
+    JeepScrollSeg *prev;
+    SVECTOR        zero;
+    SVECTOR        dir;
+    SVECTOR        sum;
+    MATRIX         mtx;
+
+    base = work->segs[idx].pos.vz - 0x7D0;
+    base = (arg0 - base) / 4000; /* two statements: quotient reuses the dividend reg */
+    idx += base;
+    seg = &work->segs[idx & 0xF];
+    if (arg0 < seg->pos.vz)
+    {
+        prev = &work->segs[(idx + 15) & 0xF];
+    }
+    else
+    {
+        prev = seg;
+        seg = &work->segs[(idx + 1) & 0xF];
+    }
+    zero = DG_ZeroVector;
+    dir = seg->field_8;
+    sum.vx = dir.vx + prev->field_8.vx;
+    sum.vy = dir.vy + prev->field_8.vy;
+    sum.vz = -4000;
+    s19b_jeep_800D2170(&zero, &dir, &sum, (short *)&mtx);
+    s19b_jeep_800D21DC(((seg->pos.vz - arg0) << 12) / 4000, &mtx, out);
+    GV_AddVec3(out, &seg->pos, out);
+}
 int s19b_jeep_gls_800CEDFC(int arg0, int arg1)
 {
     Work          *work = s19b_dword_800DE5B0;
