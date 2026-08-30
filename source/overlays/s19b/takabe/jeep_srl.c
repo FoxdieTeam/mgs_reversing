@@ -190,7 +190,40 @@ void *NewJeepScroll(int name, int where)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE400.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE52C.s")
+DG_OBJS *s19b_jeep_gls_800CE52C(int idx, Work *work)
+{
+    JeepLight *lights = work->lights;
+    DG_OBJS   *objs;
+    DG_OBJ    *src;
+    DG_OBJ    *dst;
+    DG_OBJ    *next_src;
+    DG_OBJ    *next_dst;
+    int        i;
+    int        map;
+
+    objs = DG_MakeObjs(lights[idx].def, 'W', 0);
+    next_dst = objs->objs;
+    next_src = lights[idx].objs->objs;
+    for (i = objs->n_models; i > 0; i--)
+    {
+        src = next_src;
+        next_src = src + 1;
+        dst = next_dst;
+        next_dst = dst + 1;
+        while (dst != NULL)
+        {
+            dst->rgbs = src->rgbs;
+            dst = dst->extend;
+            src = src->extend;
+        }
+    }
+    DG_SetPos(&DG_ZeroMatrix);
+    DG_PutObjs(objs);
+    DG_QueueObjs(objs);
+    map = GM_CurrentMap;
+    objs->group_id = map;
+    return objs;
+}
 void s19b_jeep_gls_800CE5F8(DG_OBJS *objs)
 {
     DG_DequeueObjs(objs);
