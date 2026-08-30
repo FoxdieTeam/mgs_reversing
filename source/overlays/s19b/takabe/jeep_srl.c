@@ -35,6 +35,13 @@ typedef struct _JeepScrollSeg
     int      field_28; /* 0x28 */
 } JeepScrollSeg; /* 0x2C */
 
+typedef struct _JeepHzdFace
+{
+    SVECTOR min;  /* 0x00 */
+    SVECTOR max;  /* 0x08 */
+    SVECTOR v[4]; /* 0x10 */
+} JeepHzdFace; /* 0x30 */
+
 typedef struct _JeepLight
 {
     DG_DEF  *def;     /* 0x00: 'k' cache */
@@ -53,7 +60,7 @@ typedef struct _Work
     JeepScrollSeg segs[16]; /* 0x1B4 */
     DG_OBJS      *field_474[16]; /* 0x474 */
     void         *field_4B4;     /* 0x4B4 */
-    void         *field_4B8;     /* 0x4B8 */
+    JeepHzdFace  *field_4B8;     /* 0x4B8 */
     char          pad1a[0xC40 - 0x4B8 - sizeof(void *)];
     int           field_C40;
     int          *field_C44;
@@ -230,7 +237,55 @@ void s19b_jeep_gls_800CE5F8(DG_OBJS *objs)
     objs->objs[0].rgbs = NULL;
     DG_FreeObjs(objs);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE628.s")
+void s19b_jeep_gls_800CE628(SVECTOR *pos, SVECTOR *src, JeepHzdFace *face, int flag)
+{
+    VECTOR   d2;
+    VECTOR   d1;
+    VECTOR   cross;
+    SVECTOR  nrm;
+    SVECTOR *p = src;
+
+    face->v[0].vx = p->vx;
+    face->v[0].vz = p->vy;
+    face->v[0].vy = p->vz;
+    p++;
+    face->v[1].vx = p->vx;
+    face->v[1].vz = p->vy;
+    face->v[1].vy = p->vz;
+    p++;
+    face->v[2].vx = p->vx;
+    face->v[2].vz = p->vy;
+    face->v[2].vy = p->vz;
+    p++;
+    face->v[3].vx = p->vx;
+    face->v[3].vz = p->vy;
+    face->v[3].vy = p->vz;
+    if (face->v[3].vy < face->v[0].vy)
+    {
+        face->v[0].vy = face->v[1].vy = face->v[2].vy = face->v[3].vy = pos->vz;
+    }
+    if (flag)
+    {
+        d1.vx = src[1].vx - src[0].vx;
+        d1.vy = src[1].vy - src[0].vy;
+        d1.vz = src[1].vz - src[0].vz;
+        d2.vx = src[2].vx - src[1].vx;
+        d2.vy = src[2].vy - src[1].vy;
+        d2.vz = src[2].vz - src[1].vz;
+        OuterProduct12(&d2, &d1, &cross);
+        VectorNormalS(&cross, &nrm);
+        face->v[0].pad = nrm.vx >> 4;
+        face->v[1].pad = nrm.vz >> 4;
+        face->v[2].pad = nrm.vy >> 4;
+    }
+    face->min.vy = pos->vz - 2000;
+    face->max.vy = pos->vz + 2000;
+    face->min.vx = pos->vx - 8000;
+    face->max.vx = pos->vx + 8000;
+    face->min.vz = pos->vy - 8000;
+    face->max.vz = pos->vy + 8000;
+    face->min.pad = 0;
+}
 void s19b_jeep_gls_800CE83C(SVECTOR *src, SVECTOR *dst)
 {
     dst[0].vx  = src->vx;
