@@ -11,7 +11,8 @@ typedef struct _JEEP_SYSTEM
     char     pad3[0x18];
     SVECTOR  field_38;
     int      field_40;
-    char     pad4[0x1C];
+    int      field_44;
+    char     pad4[0x1C - sizeof(int)];
     OBJECT  *body;
     char     pad5[0x18];
     int      field_7C;
@@ -38,7 +39,9 @@ typedef struct _Work
     GV_ACT        work;
     char          pad1[0x1B4 - 0x20];
     JeepScrollSeg segs[16]; /* 0x1B4 */
-    char          pad1a[0xC50 - 0x1B4 - sizeof(JeepScrollSeg[16])];
+    char          pad1a[0xC48 - 0x1B4 - sizeof(JeepScrollSeg[16])];
+    int           field_C48;
+    int           field_C4C;
     int           field_C50;
     int           field_C54;
     short        *field_C58;
@@ -62,9 +65,52 @@ void *s19b_jeep2_800D6F24(int name, int map); // NewJeep2
 void  s19b_jeep_800D2170(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2, short *arg3);
 void  s19b_jeep_800D21DC(int ang, MATRIX *mat, SVECTOR *out);
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CD638.s")
 extern int s19b_dword_800C354C;
 
+void s19b_jeep_srl_800CD638(Work *work, int *out)
+{
+    short *p = work->field_C58;
+
+    work->field_C48 = GV_NearSpeed(work->field_C48, p[2], p[4]);
+    work->field_C4C = GV_NearSpeed(work->field_C4C, p[3], p[5]);
+    out[0] = p[0];
+    out[1] = work->field_C48;
+    out[2] = work->field_C4C;
+    out[3] = p[7];
+
+    if (work->field_C50 > 0)
+    {
+        if (--work->field_C54 == 0)
+        {
+            Takabe_JeepSystem.field_40 = p[7];
+        }
+        else
+        {
+            Takabe_JeepSystem.field_40 = 0;
+        }
+        if (--work->field_C50 == 0)
+        {
+            work->field_C58 += 8;
+            p = work->field_C58;
+            if (*p == -1)
+            {
+                p = (short *)&s19b_dword_800C354C;
+                work->field_C58 = p;
+            }
+            work->field_C50 = p[1];
+            work->field_C54 = p[6];
+        }
+    }
+    else
+    {
+        Takabe_JeepSystem.field_40 = 0;
+        if (Takabe_JeepSystem.field_44 != 0)
+        {
+            Takabe_JeepSystem.field_44--;
+            work->field_C50 = -work->field_C50;
+        }
+    }
+}
 void s19b_jeep_srl_800CD790(Work *work)
 {
     short *p = (short *)&s19b_dword_800C354C;
