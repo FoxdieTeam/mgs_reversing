@@ -3,21 +3,8 @@
 #include "libhzd/libhzd.h"
 #include "linkvar.h"
 #include "strcode.h"
-
-/* Partial view of the actor passed to s05a_800DEC18. The 0x204/0x208/0x238
-   fields fall inside SnaInitWork's motion arrays, so they are kept separate
-   until they can be reconciled against the original struct. */
-typedef struct _DescentWork
-{
-    GV_ACT  actor;      /* 0x000 */
-    CONTROL control;    /* 0x020 */
-    OBJECT  body;       /* 0x09C */
-    char    pad_180[0x204 - 0x180];
-    int     field_204;  /* 0x204 */
-    int     field_208;  /* 0x208 */
-    char    pad_20C[0x238 - 0x20C];
-    short   field_238;  /* 0x238 */
-} DescentWork;
+#include "bullet/blast.h"
+#include <rand.h>
 
 typedef struct
 {
@@ -50,7 +37,9 @@ typedef struct _CamActor
     OBJECT    snap_body;       /* 0x7C8 */
     char      pad_8AC[0xD54 - 0x8AC];
     int       field_D54;       /* 0xD54 */
-    char      pad_D58[0xD64 - 0xD58];
+    int       field_D58;       /* 0xD58 */
+    int       field_D5C;       /* 0xD5C */
+    int       field_D60;       /* 0xD60 */
     int       field_D64;       /* 0xD64 */
     int       field_D68;       /* 0xD68 */
     char      pad_D6C[0xD74 - 0xD6C];
@@ -66,15 +55,22 @@ typedef struct _CamActor
     int       field_DF4;       /* 0xDF4 */
     int       field_DF8;       /* 0xDF8 */
     int       field_DFC;       /* 0xDFC */
-    char      pad_E00[0xE0C - 0xE00];
+    int       field_E00;       /* 0xE00 */
+    int       field_E04;       /* 0xE04 */
+    int       field_E08;       /* 0xE08 */
     int       field_E0C;       /* 0xE0C */
-    char      pad_E10[0xE60 - 0xE10];
+    int       field_E10;       /* 0xE10 */
+    int       field_E14;       /* 0xE14 */
+    int       field_E18;       /* 0xE18 */
+    char      pad_E1C[0xE60 - 0xE1C];
     int       field_E60;       /* 0xE60 */
     char      pad_E64[0xEB0 - 0xE64];
     CamEb0   *field_EB0;       /* 0xEB0 */
-    char      pad_EB4[0xED0 - 0xEB4];
+    SVECTOR   field_EB4;       /* 0xEB4 */
+    char      pad_EBC[0xED0 - 0xEBC];
     int       field_ED0;       /* 0xED0 */
-    char      pad_ED4[0xF4C - 0xED4];
+    int       field_ED4;       /* 0xED4 */
+    char      pad_ED8[0xF4C - 0xED8];
     int       field_F4C;       /* 0xF4C */
     int       field_F50;       /* 0xF50 */
     char      pad_F54[0xF5C - 0xF54];
@@ -90,38 +86,48 @@ typedef struct _CamActor
 
 typedef struct _Sol
 {
-    GV_ACT    actor;       /* 0x000 */
-    CONTROL   control;     /* 0x020 */
-    MATRIX    field_9C[2]; /* 0x09C light matrices */
-    OBJECT    body;        /* 0x0DC */
-    TARGET   *field_1C0;   /* 0x1C0 */
-    HOMING   *field_1C4;   /* 0x1C4 */
-    MATRIX    field_1C8;   /* 0x1C8 */
-    int       field_1E8;   /* 0x1E8 */
-    CamActor *field_1EC;   /* 0x1EC */
-    char      pad_1F0[0x228 - 0x1F0];
-    void     *field_228;   /* 0x228 */
-    char      pad_22C[0x234 - 0x22C];
-    char      field_234[0x284 - 0x234]; /* MOTION_CONTROL */
-    char      field_284[0x4E8 - 0x284]; /* MOTION_SEGMENT[] */
-    char      field_4E8[0x74C - 0x4E8]; /* MOTION_SEGMENT[] */
-    char      field_74C[0x7C8 - 0x74C]; /* CONTROL (motion) */
-    char      field_7C8[0x848 - 0x7C8]; /* SVECTOR rots[] */
+    GV_ACT         actor;         /* 0x000 */
+    CONTROL        control;       /* 0x020 */
+    MATRIX         light[2];      /* 0x09C */
+    OBJECT         body;          /* 0x0DC */
+    TARGET        *target;        /* 0x1C0 */
+    HOMING        *homing;        /* 0x1C4 */
+    MATRIX         field_1C8;     /* 0x1C8 */
+    int            field_1E8;     /* 0x1E8 */
+    CamActor      *field_1EC;     /* 0x1EC */
+    int            field_1F0;     /* 0x1F0 */
+    int            field_1F4;     /* 0x1F4 */
+    int            last_weapon;   /* 0x1F8 */
+    int            last_item;     /* 0x1FC */
+    int            field_200;     /* 0x200 */
+    int            field_204;     /* 0x204 */
+    int            field_208;     /* 0x208 */
+    int            field_20C;     /* 0x20C */
+    char           pad_210[0x218 - 0x210];
+    int            field_218;     /* 0x218 */
+    int            field_21C;     /* 0x21C */
+    char           pad_220[0x228 - 0x220];
+    void          *field_228;     /* 0x228 */
+    int            field_22C;     /* 0x22C */
+    int            field_230;     /* 0x230 */
+    MOTION_CONTROL m_ctrl;        /* 0x234 */
+    MOTION_SEGMENT m_segs1[17];   /* 0x284 */
+    MOTION_SEGMENT m_segs2[17];   /* 0x4E8 */
+    CONTROL        subcontrol;    /* 0x74C */
+    SVECTOR        rots[16];      /* 0x7C8 */
 } Sol;
 
 extern CamActor *s05a_dword_800C362C;
 extern CONTROL   s05a_dword_800E3800;
 
 void s05a_800DDF18(Sol *work);
+int  s05a_800DEC18(Sol *work, SVECTOR *s2, int a2);
+extern void *NewDemoKage(OBJECT *parent, SVECTOR vec, int *arg2, int *arg3, char r, char g, char b);
 void s05a_800DEB94(Sol *work);
 const char s05a_dword_800E356C[] = "m1e1sold.c";
 const char s05a_dword_800E3578[] = "out_c_m1";
 const char s05a_dword_800E3584[] = "tankman";
 const char s05a_dword_800E358C[] = "out_cold";
-const char s05a_dword_800E3598[] = {0x0, 0x0, 0x0, 0x0}; /* pad: jump tables are 8-aligned */
-const int  s05a_dword_800E359C[] = {0x800DE0EC, 0x800DE0EC, 0x800DE0EC, 0x800DE40C, 0x800DE560, 0x800DE0EC, 0x800DE0EC}; /* s05a_800DDF18 */
-const char s05a_dword_800E35B8[] = {0x0, 0x0, 0x0, 0x0};
-const int  s05a_dword_800E35BC[] = {0x800DE654, 0x800DE654, 0x800DE5E4, 0x800DE610, 0x800DE654, 0x800DE600, 0x800DE654}; /* s05a_800DDF18 */
 extern MATRIX DG_ZeroMatrix;
 
 void *s05a_800DDCBC(CamActor *director)
@@ -156,33 +162,33 @@ void *s05a_800DDCBC(CamActor *director)
     *(char *)((char *)&work->control + 0x54) = 0;   /* sb 0, 0x74(s3) */
     GM_ConfigControlAttribute(&work->control, 5);
 
-    *(int *)&work->field_9C[0].t[0] = *(int *)&work->field_1EC->field_B0;
-    *(int *)&work->field_9C[0].t[1] = *(int *)&work->field_1EC->field_B4;
-    *(int *)&work->field_9C[0].t[2] = *(int *)&work->field_1EC->field_B8;
+    *(int *)&work->light[0].t[0] = *(int *)&work->field_1EC->field_B0;
+    *(int *)&work->light[0].t[1] = *(int *)&work->field_1EC->field_B4;
+    *(int *)&work->light[0].t[2] = *(int *)&work->field_1EC->field_B8;
     name = GV_StrCode(s05a_dword_800E3578);  /* "out_" */
 
     tankstr = s05a_dword_800E3584;
     bodyp = &work->body;
     GM_InitObject(bodyp, name, 0x32d, GV_StrCode(tankstr));
     GM_ConfigObjectJoint(bodyp);
-    GM_ConfigMotionControl(bodyp, (MOTION_CONTROL *)work->field_234,
+    GM_ConfigMotionControl(bodyp, &work->m_ctrl,
                            GV_StrCode(tankstr),
-                           (MOTION_SEGMENT *)work->field_284,
-                           (MOTION_SEGMENT *)work->field_4E8,
-                           (CONTROL *)work->field_74C,
-                           (SVECTOR *)work->field_7C8);
-    GM_ConfigObjectLight(bodyp, &work->field_9C[0]);
+                           work->m_segs1,
+                           work->m_segs2,
+                           &work->subcontrol,
+                           work->rots);
+    GM_ConfigObjectLight(bodyp, &work->light[0]);
 
     objs = bodyp->objs;
     *(int *)&objs->flag |= 0x80;
-    work->field_1C4 = GM_AllocHomingTarget(&work->field_1C8, &work->control);
-    work->field_1C4->flag = one;
-    work->field_1C0 = GM_AllocTarget();
+    work->homing = GM_AllocHomingTarget(&work->field_1C8, &work->control);
+    work->homing->flag = one;
+    work->target = GM_AllocTarget();
     size.vx = 0x12c;
     size.vy = 0x12c;
     size.vz = 0x12c;
-    GM_SetTarget(work->field_1C0, 0x94, 2, &size);
-    GM_SetPowerTarget(work->field_1C0, 1, -1, 0x2710, 0, &DG_ZeroVector);
+    GM_SetTarget(work->target, 0x94, 2, &size);
+    GM_SetPowerTarget(work->target, 1, -1, 0x2710, 0, &DG_ZeroVector);
 
     for (i = 0; i < 0x10; i++)
     {
@@ -190,7 +196,284 @@ void *s05a_800DDCBC(CamActor *director)
     }
     return work;
 }
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800DDF18.s")
+void s05a_800DDF18(Sol *work)
+{
+    int     lvl[2];
+    SVECTOR vec1;
+    SVECTOR vec2;
+
+    memset(&work->subcontrol.step, 0, 8);
+    GM_ActMotion(&work->body);
+    GM_ActControl(&work->control);
+    vec1 = work->subcontrol.step;
+    GM_ActObject(&work->body);
+    work->subcontrol.step = vec1;
+    DG_GetLightMatrix2(&work->control.mov, &work->light[0]);
+
+    if (work->field_1E8 == 0)
+    {
+        work->body.objs->flag &= ~0x80;
+    }
+    if (--work->field_20C < 0) work->field_20C = 0;
+    if (--work->field_218 < 0) work->field_218 = 0;
+    if (--work->field_21C < 0) work->field_21C = 0;
+
+    if (work->field_21C == 0 && work->field_1EC->field_ED0 == 3)
+    {
+        if (work->field_1EC->field_D58 == 0)
+        {
+            work->field_1EC->field_D54 = 2;
+        }
+        else
+        {
+            work->field_1EC->field_D54 = 7;
+        }
+        work->field_1EC->field_ED0 = 1;
+        GM_Weapon = work->last_weapon;
+        GM_Item = work->last_item;
+    }
+
+    work->field_1F0 = 0;
+    if (work->m_ctrl.info1.frame == 1)
+    {
+        work->field_200 = work->body.height;
+    }
+    work->control.step.vx = 0;
+    work->control.step.vz = 0;
+    work->subcontrol.step.vy = work->body.height - work->field_200;
+
+    switch (work->body.action)
+    {
+    case 0:
+    case 1:
+    case 2:
+    case 5:
+    case 6:
+        if (work->body.action == 2 && work->field_1EC->field_E10 == 1)
+        {
+            work->field_1EC->field_E10 = 0;
+            if (GM_Vitality != 0 && GM_GameOverTimer == 0)
+            {
+                work->field_218 = 0x96;
+                work->field_21C = 0x3C;
+                GM_SeSetPan(&GM_PlayerPosition, 0x82, 0x3F);
+                work->field_1EC->field_D54 = 3;
+                work->field_1EC->field_ED0 = 3;
+                work->last_weapon = GM_Weapon;
+                work->last_item = GM_Item;
+                GM_Weapon = WP_None;
+                if (GM_Item != IT_NVG && GM_Item != IT_ThermG)
+                {
+                    GM_Item = IT_None;
+                }
+            }
+        }
+        else if (work->body.action == 1)
+        {
+            if (work->field_1EC->field_E10 == 0 && work->field_218 <= 0 && work->field_1EC->field_ED4 >= 0x1E)
+            {
+                if (rand() % 3 != 0)
+                {
+                    work->field_218 = 0x96;
+                    GM_SeSetPan(&work->control.mov, 0x80, work->field_1EC->field_E60);
+                }
+            }
+        }
+
+        DG_SetPos(&work->field_1EC->body.objs->objs[12].world);
+        vec1.vx = 0;
+        vec1.vy = 0;
+        vec1.vz = 0;
+        vec2.vx = 0;
+        vec2.vy = 0;
+        vec2.vz = 0x64;
+        DG_PutVector(&vec1, &vec1, 1);
+        DG_PutVector(&vec2, &vec2, 1);
+        vec2.vx -= vec1.vx;
+        vec2.vy -= vec1.vy;
+        vec2.vz -= vec1.vz;
+        work->control.turn.vx = -ratan2(vec2.vy, SquareRoot0(vec2.vx * vec2.vx + vec2.vz * vec2.vz));
+        work->control.turn.vy = ratan2(vec2.vx, vec2.vz);
+        work->control.turn.vz = 0;
+        vec1.vx = work->field_1EC->body.objs->objs[12].world.t[0];
+        vec1.vy = work->field_1EC->body.objs->objs[12].world.t[1];
+        vec1.vz = work->field_1EC->body.objs->objs[12].world.t[2];
+        work->control.mov.vy = work->body.height + work->field_1EC->control.mov.vy - 0xC8;
+        work->control.step.vx = vec1.vx - work->control.mov.vx;
+        work->control.step.vz = vec1.vz - work->control.mov.vz;
+        memset(&vec1, 0, 8);
+        vec1.vy = 0x12C;
+        DG_PutVector(&vec1, &vec1, 1);
+        GM_MoveTarget(work->target, &vec1);
+        vec1.vy += 0x96;
+        DG_SetPos2(&vec1, &DG_ZeroVector);
+        ReadRotMatrix(&work->field_1C8);
+        break;
+
+    case 3:
+        DG_SetPos2(&DG_ZeroVector, &work->control.rot);
+        vec1.vx = 0;
+        vec1.vy = work->subcontrol.step.vy;
+        vec1.vz = SquareRoot0(work->subcontrol.step.vx * work->subcontrol.step.vx +
+                              work->subcontrol.step.vz * work->subcontrol.step.vz);
+        DG_PutVector(&vec1, &vec1, 1);
+        work->control.mov.vy = s05a_800DEC18(work, &work->control.mov, work->control.mov.vy + vec1.vy);
+        work->control.step.vx = vec1.vx;
+        work->control.step.vz = vec1.vz;
+        vec1 = work->control.mov;
+        if (HZD_LevelHazardCheck(work->control.map->hzd, &vec1, HZD_CHK_FLOOR) != 1)
+        {
+            vec1.vy = 0;
+        }
+        else
+        {
+            HZD_GetLevelHeight(lvl);
+            vec1.vy = lvl[0];
+        }
+        if (work->field_1F4 == 0 && work->control.mov.vy - vec1.vy < 0x12C)
+        {
+            work->field_1F4 = 1;
+            GM_SeSetPan(&work->control.mov, 0x33, work->field_1EC->field_E60);
+        }
+        work->field_22C = work->control.rot.vy;
+        work->field_230 = vec1.vy + 0x64;
+        break;
+
+    case 4:
+        if (!((GV_Time >> 2) & 1))
+        {
+            work->body.objs->flag |= 0x80;
+        }
+        if (work->field_20C <= 0)
+        {
+            GV_DestroyActor(work);
+            return;
+        }
+        break;
+    }
+
+    if (work->body.is_end != 0)
+    {
+        switch (work->body.action)
+        {
+        case 2:
+            GM_ConfigObjectAction(&work->body, 0, 0, 5);
+            break;
+        case 5:
+            GV_DestroyActor(work);
+            return;
+        case 3:
+            work->field_20C = 0x3C;
+            GM_ConfigObjectAction(&work->body, 4, 0, 5);
+            if (work->field_1F4 == 0)
+            {
+                work->field_1F4 = 1;
+                GM_SeSetPan(&work->control.mov, 0x33, work->field_1EC->field_E60);
+            }
+            break;
+        case 0:
+        case 1:
+        case 4:
+        case 6:
+            break;
+        }
+    }
+
+    if (work->target != NULL)
+    {
+        if (work->field_1EC->field_F5C > 0)
+        {
+            if (work->field_1EC->field_ED0 == 0 && !((GV_Time >> 2) & 1))
+            {
+                work->body.objs->flag |= 0x80;
+            }
+            work->target->vital = 0x2710;
+            work->target->damage = 0;
+            work->target->damaged = 0;
+        }
+        if (work->target != NULL)
+        {
+            if (work->target->damaged < work->field_1EC->field_D74 / work->field_1EC->field_DEC)
+            {
+                if (work->field_1EC->field_D74 / work->field_1EC->field_DF0 >= work->field_1EC->field_E0C)
+                {
+                    work->target->vital = 0x2710;
+                    work->target->damage = 0;
+                    work->target->damaged = 0;
+                }
+            }
+            if (work->target != NULL && work->target->damaged != 0)
+            {
+                if (work->target->damaged >= work->field_1EC->field_D74 / work->field_1EC->field_DEC)
+                {
+                    work->field_1EC->field_F5C = work->field_1EC->field_E14;
+                }
+                else
+                {
+                    work->target->damaged = work->field_1EC->field_D74 / work->field_1EC->field_DF0;
+                    work->field_1EC->field_F5C = work->field_1EC->field_E18;
+                }
+                if ((work->field_1EC->field_E0C -= work->target->damaged) < 0)
+                {
+                    work->field_1EC->field_E0C = 0;
+                }
+                work->target->vital = 0x2710;
+                work->target->damage = 0;
+                work->target->damaged = 0;
+                if (work->field_1EC->field_E0C > 0)
+                {
+                    GM_SeSetPan(&work->control.mov, 0x88, work->field_1EC->field_E60);
+                }
+            }
+        }
+    }
+
+    if (GM_Vitality != 0 && GM_GameOverTimer == 0 && work->target != NULL && work->field_1EC->field_E0C <= 0)
+    {
+        GM_EnemyKillCount++;
+        work->field_1EC->field_E0C = work->field_1EC->field_D74;
+        work->field_1F0 = 1;
+        GM_FreeTarget(work->target);
+        work->target = NULL;
+        AN_Blast_high(&work->control.mov);
+        GM_SeSetPan(&work->control.mov, 0xB1, work->field_1EC->field_E60);
+        GM_FreeObject(&work->body);
+        GM_InitObject(&work->body, GV_StrCode(s05a_dword_800E358C), 0x32D, GV_StrCode(s05a_dword_800E3584));
+        GM_ConfigObjectJoint(&work->body);
+        GM_ConfigMotionControl(&work->body, &work->m_ctrl, GV_StrCode(s05a_dword_800E3584), work->m_segs1,
+                               work->m_segs2, &work->subcontrol, work->rots);
+        GM_ConfigObjectLight(&work->body, &work->light[0]);
+        GM_ActMotion(&work->body);
+        GM_ActControl(&work->control);
+        GM_ActObject(&work->body);
+        if (work->field_1EC->field_E08 >= 2)
+        {
+            GM_SeSetPan(&work->control.mov, 0x81, work->field_1EC->field_E60);
+        }
+        else
+        {
+            GM_SeSetPan(&work->control.mov, 0x84, work->field_1EC->field_E60);
+        }
+        GM_ConfigObjectAction(&work->body, 3, 0, 5);
+        vec1.vx = 0;
+        vec1.vy = 6;
+        vec1.vz = 0xC;
+        vec1.pad = 0xF;
+        work->field_228 = NewDemoKage(&work->body, vec1, &work->field_22C, &work->field_230, 0x80, 0x80, 0x80);
+        memset(&vec1, 0, 8);
+        vec1.vx = -work->control.mov.vx;
+        vec1.vy = -work->control.mov.vy;
+        vec1.vz = -work->control.mov.vz;
+        work->control.turn.vx = 0;
+        work->control.turn.vy = ratan2(vec1.vx, vec1.vz);
+        work->control.turn.vz = 0;
+        work->field_204 = 0;
+    }
+
+    work->field_200 = work->body.height;
+    work->field_1EC->field_EB4 = work->control.mov;
+    work->field_1E8 = 0;
+}
 
 void s05a_800DEB94(Sol *work)
 {
@@ -201,16 +484,16 @@ void s05a_800DEB94(Sol *work)
     }
     GM_FreeObject(&work->body);
     GM_FreeControl(&work->control);
-    if (work->field_1C0)
+    if (work->target)
     {
-        GM_FreeTarget(work->field_1C0);
+        GM_FreeTarget(work->target);
     }
-    if (work->field_1C4)
+    if (work->homing)
     {
-        GM_FreeHomingTarget(work->field_1C4);
+        GM_FreeHomingTarget(work->homing);
     }
 }
-int s05a_800DEC18(DescentWork *work, SVECTOR *s2, int a2)
+int s05a_800DEC18(Sol *work, SVECTOR *s2, int a2)
 {
     int     v;
     int     heights[2];
@@ -233,7 +516,7 @@ int s05a_800DEC18(DescentWork *work, SVECTOR *s2, int a2)
 
     if (work->field_208 == 0)
     {
-        v = work->field_238;
+        v = work->m_ctrl.info1.frames_left;
         if (v <= 0)
         {
             v = 1;
