@@ -9,9 +9,7 @@ typedef struct _Work
     GV_ACT          actor;        /* 0x000 */
     CONTROL        *control;      /* 0x020 */
     DG_PRIM        *prim;         /* 0x024 */
-    MATRIX          world;        /* 0x028 */
-    SVECTOR         vecs[11];     /* 0x048 */
-    char            pad_obj[0x0A4 - 0x048 - sizeof(SVECTOR[11])];
+    CONTROL         ctrl;         /* 0x028 */
     OBJECT          obj;          /* 0x0A4 */
     MOTION_CONTROL  m_ctrl;       /* 0x188 */
     /* m_segs1[17] @ 0x1D8 - poked as scalars below by the setters */
@@ -583,7 +581,7 @@ void s19b_jeep_liq_800D8118(Work *work)
     int     d;
 
     s19b_jeep_mrl_800D39B4(&dst);
-    d = *(short *)&work->world - dst.vz;
+    d = work->ctrl.mov.vx - dst.vz;
     if (d < 0)
     {
         work->field_3EC = 5;
@@ -624,7 +622,7 @@ void s19b_spark2_m_800D8620(Work *work)
     GM_FreeTarget(work->f8E4);
     GM_FreeHomingTarget(work->homing);
     GM_FreeObject(&work->obj2);
-    GM_FreeControl((CONTROL *)&work->world);
+    GM_FreeControl(&work->ctrl);
     GM_FreeObject(&work->obj);
 }
 extern void s19b_jeep_liq_800D8250(Work *work);
@@ -714,40 +712,40 @@ int s19b_spark2_m_800D899C(Work *work)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8BC8;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         return 1;
     }
     if (v & 0x2)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8CEC;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         return 1;
     }
     if (v & 0x4)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8E10;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         return 1;
     }
     if (v & 0x10)
     {
         work->f8EC = (void *)s19b_spark2_m_800D90A8;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         return 1;
     }
     if (v & 0x04000000)
     {
         work->f8EC = (void *)s19b_spark2_m_800D92C8;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         return 1;
     }
     return 0;
@@ -790,7 +788,7 @@ void s19b_spark2_m_800D8AEC(Work *work)
     DG_MovePos((SVECTOR *)&s19b_dword_800C3AC0);
     ReadRotMatrix(&m);
     NewJeepBullet(&m, 2, 1, 0);
-    GM_SeSet((SVECTOR *)&work->world, 0x2E);
+    GM_SeSet(&work->ctrl.mov, 0x2E);
     s19b_jblood_800C7FB8(&m);
 }
 
@@ -827,8 +825,8 @@ void s19b_spark2_m_800D8BC8(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8B54;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         work->sv_7A0 = DG_ZeroVector;
         work->sv_7A8 = DG_ZeroVector;
         return;
@@ -838,8 +836,8 @@ void s19b_spark2_m_800D8BC8(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8F34;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         return;
     }
 
@@ -865,8 +863,8 @@ void s19b_spark2_m_800D8CEC(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8B54;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         work->sv_7A0 = DG_ZeroVector;
         work->sv_7A8 = DG_ZeroVector;
         return;
@@ -876,8 +874,8 @@ void s19b_spark2_m_800D8CEC(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8FB0;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         return;
     }
 
@@ -903,8 +901,8 @@ void s19b_spark2_m_800D8E10(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8B54;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         work->sv_7A0 = DG_ZeroVector;
         work->sv_7A8 = DG_ZeroVector;
         return;
@@ -914,8 +912,8 @@ void s19b_spark2_m_800D8E10(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D902C;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         return;
     }
 
@@ -938,8 +936,8 @@ void s19b_spark2_m_800D8F34(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8BC8;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
     }
     work->f8E4->class |= 0x14;
 }
@@ -958,8 +956,8 @@ void s19b_spark2_m_800D8FB0(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8CEC;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
     }
     work->f8E4->class |= 0x14;
 }
@@ -978,8 +976,8 @@ void s19b_spark2_m_800D902C(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8E10;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
     }
     work->f8E4->class |= 0x14;
 }
@@ -1006,8 +1004,8 @@ void s19b_spark2_m_800D90A8(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D9148;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
     }
 }
 
@@ -1019,8 +1017,8 @@ void s19b_spark2_m_800D9148(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D91DC;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         return;
     }
     if (s19b_spark2_m_800D88D8(work) != 0) return;
@@ -1033,8 +1031,8 @@ void s19b_spark2_m_800D9148(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D91DC;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
     }
 }
 
@@ -1044,8 +1042,8 @@ void s19b_spark2_m_800D91DC(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D9148;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         return;
     }
 
@@ -1063,8 +1061,8 @@ void s19b_spark2_m_800D91DC(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8B54;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         work->f93C = 0;
     }
 
@@ -1081,8 +1079,8 @@ void s19b_spark2_m_800D91DC(Work *work, int mode)
 
     work->f8EC = (void *)s19b_spark2_m_800D8B54;
     work->f8F4 = 0;
-    work->vecs[6].vx = 0;
-    work->vecs[5].vz = 0;
+    work->ctrl.turn.vz = 0;
+    work->ctrl.turn.vx = 0;
 }
 
 void s19b_spark2_m_800D932C(Work *work, int mode);
@@ -1098,8 +1096,8 @@ void s19b_spark2_m_800D92C8(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D932C;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
     }
 }
 
@@ -1114,8 +1112,8 @@ void s19b_spark2_m_800D932C(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D932C;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
     }
 }
 
@@ -1125,7 +1123,7 @@ void s19b_spark2_m_800D9390(Work *work, int mode)
     {
         work->f8FC = 20;
         GM_ConfigObjectAction((OBJECT *)&work->obj, 20, 0, 4);
-        GM_SeSet((SVECTOR *)&work->world, 0x81);
+        GM_SeSet(&work->ctrl.mov, 0x81);
         s19b_spark2_m_800D8724(work, 5, 1);
         *work->f944 |= 1;
     }
@@ -1133,8 +1131,8 @@ void s19b_spark2_m_800D9390(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8B54;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
         work->f940 = 45;
         work->f93C = 0;
     }
@@ -1148,7 +1146,7 @@ void s19b_spark2_m_800D9434(Work *work, int mode)
     }
     if (mode == 0)
     {
-        GM_SeSet((SVECTOR *)&work->world, 0x81);
+        GM_SeSet(&work->ctrl.mov, 0x81);
         s19b_spark2_m_800D8724(work, 5, 1);
         *work->f944 |= 1;
     }
@@ -1158,8 +1156,8 @@ void s19b_spark2_m_800D9434(Work *work, int mode)
     }
     work->f8EC = (void *)s19b_spark2_m_800D8B54;
     work->f8F4 = 0;
-    work->vecs[6].vx = 0;
-    work->vecs[5].vz = 0;
+    work->ctrl.turn.vz = 0;
+    work->ctrl.turn.vx = 0;
 }
 
 void s19b_spark2_m_800D94C8(Work *work, int mode)
@@ -1178,8 +1176,8 @@ void s19b_spark2_m_800D94C8(Work *work, int mode)
     {
         work->f8EC = (void *)s19b_spark2_m_800D8B54;
         work->f8F4 = 0;
-        work->vecs[6].vx = 0;
-        work->vecs[5].vz = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
     }
 }
 
@@ -1214,7 +1212,7 @@ void s19b_spark2_m_800D95FC(Work *work)
 {
     SVECTOR diff;
 
-    GV_SubVec3(&GM_PlayerPosition, (SVECTOR *)&work->world, &diff);
+    GV_SubVec3(&GM_PlayerPosition, &work->ctrl.mov, &diff);
     diff.vy = 0;
     work->f930 = GV_VecDir2(&diff);
     work->f934 = GV_VecLen3(&diff);
