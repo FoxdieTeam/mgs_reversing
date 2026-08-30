@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "strcode.h"
 #include "game/game.h"
+#include "game/camera.h"
 #include "libgcl/libgcl.h"
 #include "takabe/thing.h"
 
@@ -106,10 +107,10 @@ typedef struct _Work
     JeepScrollSeg segs[16]; /* 0x1B4 */
     DG_OBJS      *field_474[16]; /* 0x474 */
     HZD_HDL      *field_4B4;     /* 0x4B4 */
-    JeepHzdFace  *field_4B8;     /* 0x4B8 */
-    char          pad1a[0x93C - 0x4B8 - sizeof(void *)];
-    HZD_SEG      *field_93C;     /* 0x93C */
-    char          pad1c[0xC40 - 0x93C - sizeof(void *)];
+    JeepHzdFace  *field_4B8;     /* 0x4B8: cursor into faces */
+    JeepHzdFace   faces[24];     /* 0x4BC */
+    HZD_SEG      *field_93C;     /* 0x93C: cursor into hzd_segs */
+    HZD_SEG       hzd_segs[48];  /* 0x940 */
     int           field_C40;
     int          *field_C44;
     char          pad1d[0xC48 - 0xC44 - sizeof(int *)];
@@ -126,7 +127,8 @@ typedef struct _Work
     int           field_C70;
     int           field_C74;
     int           field_C78;
-    char          pad2[0xC84 - 0xC78 - sizeof(int)];
+    int           field_C7C;
+    int           field_C80;
 } Work;
 
 extern Work *s19b_dword_800DE5B0;
@@ -152,6 +154,17 @@ void  s19b_jeep_gls_800CF088(void);
 void  s19b_jeep_srl_800CD790(Work *work);
 void *NewJeep(int name, int where);
 void  s19b_jlamp_800D0CE0(void);
+void  s19b_jlamp_800D0D40(void);
+int   s19b_jeep_gls_800CEDFC(int arg0, int arg1);
+void  s19b_jeep_srl_800CD638(Work *work, int *out);
+void  s19b_jeep_srl_800CD7B4(Work *work, int arg1, JeepVtx *out);
+void  s19b_jeep_gls_800CEE7C(Work *work, int arg1, SVECTOR *pos);
+extern void  Takabe_ReshadeModel(DG_OBJS *objs, void *lit);
+extern void *NewPadVibration(unsigned char *, int);
+extern void *NewFadeInOut(int arg0, int arg1);
+extern GM_CameraSystemWork GM_Camera;
+extern int s19b_dword_800C36FC;
+extern int s19b_dword_800C3710;
 void  s19b_jeep_gls_800CE8DC(struct _Work *work, JeepScrollSeg *seg, int flag);
 extern void RotTransSV(SVECTOR *v0, SVECTOR *v1, long *sz);
 extern int  s19b_dword_800C36DC;
@@ -281,7 +294,124 @@ void s19b_jeep_srl_800CD7B4(Work *work, int arg1, JeepVtx *out)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CDAA4.s")
+void s19b_jeep_srl_800CDAA4(Work *work)
+{
+    JeepVtx       *vtx;
+    int           *count;
+    JeepScrollSeg *seg;
+    JeepScrollSeg *next;
+    int            out[4];
+    int            i;
+    int            j;
+    int            k;
+    int            z;
+    int            n;
+    int            v;
+
+    GM_CurrentMap = work->map;
+    if (work->field_C68 == 0)
+    {
+        for (j = 0; j < 13; j++)
+        {
+            Takabe_ReshadeModel(work->lights[j].objs, work->lights[j].lit);
+        }
+        work->field_C68 = 1;
+    }
+    Takabe_JeepSystem.pos = Takabe_JeepSystem.field_20;
+    count = work->field_C44;
+    *count = 0;
+    vtx = (JeepVtx *)(count + 1);
+    work->field_4B8 = work->faces;
+    work->field_93C = work->hzd_segs;
+    work->field_4B4->dynamic_queue_index = 0;
+    work->field_4B4->dynamic_floor_index = 0;
+    for (i = 0; i < 16; i++)
+    {
+        seg = &work->segs[i];
+        z = seg->pos.vz + Takabe_JeepSystem.pos.vz;
+        if (z >= 32000)
+        {
+            s19b_jeep_srl_800CD638(work, out);
+            v = out[1];
+            seg->field_8.vx = v / 2;
+            seg->field_10 = (-v << 11) / 4000;
+            v = out[2];
+            seg->field_8.vy = v / 2;
+            seg->field_12 = (-v << 11) / 4000;
+            seg->field_24 = 3;
+            seg->field_28 = out[3];
+            z -= 64000;
+            k = (i + 1) & 0xF;
+            next = &work->segs[k];
+            seg->pos.vx = next->pos.vx + next->field_8.vx;
+            seg->pos.vy = next->pos.vy + next->field_8.vy;
+            seg->pos.vx += seg->field_8.vx;
+            seg->pos.vy += seg->field_8.vy;
+            if (k < i)
+            {
+                seg->pos.vx -= Takabe_JeepSystem.pos.vx;
+                seg->pos.vy -= Takabe_JeepSystem.pos.vy;
+            }
+            work->field_C6C = i;
+            s19b_jeep_gls_800CE5F8(seg->field_18);
+            seg->field_18 = s19b_jeep_gls_800CE52C(out[0], work);
+            seg->field_1C = work->lights[out[0]].lit;
+            seg->field_20 = (struct _JeepSegDef *)work->lights[out[0]].field_C;
+            seg->pos.vz = z;
+            seg->pos.vx += Takabe_JeepSystem.pos.vx;
+            seg->pos.vy += Takabe_JeepSystem.pos.vy;
+            s19b_jeep_gls_800CEE7C(work, out[3], &seg->pos);
+            s19b_jeep_gls_800CEFE4(work, out[0], seg);
+        }
+        else
+        {
+            seg->pos.vz = z;
+            seg->pos.vx += Takabe_JeepSystem.pos.vx;
+            seg->pos.vy += Takabe_JeepSystem.pos.vy;
+        }
+    }
+    SetSpadStack(SPAD_STACK_ADDR);
+    s19b_jeep_srl_800CD7B4(work, (int)seg, vtx);
+    ResetSpadStack();
+    if ((u_int)*work->field_C44 > (u_int)work->field_C40)
+    {
+        printf((char *)s19b_aLightoverjeepsrlc_800DDC94);
+    }
+    s19b_jlamp_800D0D40();
+    GM_Camera.flag |= 2;
+    GM_Camera.zoom = 0xF0;
+    if (work->field_C80 != 0)
+    {
+        n = work->field_C80 + 1;
+        work->field_C80 = n;
+        if (n >= 0x47)
+        {
+            if (work->field_C78 != 0 && GM_GameOverTimer == 0)
+            {
+                GCL_ExecProc(work->field_C78, NULL);
+            }
+        }
+        else if (n >= 0x1F)
+        {
+            if (n == 0x1F)
+            {
+                NewPadVibration((unsigned char *)&s19b_dword_800C36FC, 1);
+                NewPadVibration((unsigned char *)&s19b_dword_800C3710, 2);
+            }
+        }
+    }
+    else
+    {
+        if (s19b_jeep_gls_800CEDFC(Takabe_JeepSystem.control->mov.vz, 9600) == 14)
+        {
+            NewFadeInOut(2, 0x14);
+            work->field_C80 = 1;
+        }
+    }
+    Takabe_JeepSystem.world.t[0] += Takabe_JeepSystem.pos.vx;
+    Takabe_JeepSystem.world.t[1] += Takabe_JeepSystem.pos.vy;
+    Takabe_JeepSystem.world.t[2] += Takabe_JeepSystem.pos.vz;
+}
 void s19b_jeep_srl_800CDAA4(Work *work);
 
 void s19b_jeep_srl_800CDF48(Work *work)
