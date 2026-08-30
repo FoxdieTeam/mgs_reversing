@@ -1079,8 +1079,62 @@ void s12c_dog_800CB714(Work *work, int index)
     ((POLY_FT4 *)work->field_167C[index]->packs[GV_Clock])->g0 = 0x46;
     ((POLY_FT4 *)work->field_167C[index]->packs[GV_Clock])->b0 = 0x46;
 }
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB97C.s")
-extern void s12c_dog_800CB97C(SVECTOR *arg0, SVECTOR *arg1, int arg2);
+void s12c_dog_800CB97C(SVECTOR *cur, SVECTOR *target, int steps)
+{
+    SVECTOR diff;
+    int     weight;
+
+    if (steps == 0)
+    {
+        return;
+    }
+
+    cur->vx &= 0xFFF;
+    cur->vy &= 0xFFF;
+    cur->vz &= 0xFFF;
+
+    target->vx &= 0xFFF;
+    target->vy &= 0xFFF;
+    target->vz &= 0xFFF;
+
+    diff.vx = target->vx - cur->vx;
+    diff.vy = target->vy - cur->vy;
+    diff.vz = target->vz - cur->vz;
+
+    if (diff.vx > 0x7FF)
+    {
+        cur->vx += 0x1000;
+    }
+    if (diff.vy > 0x7FF)
+    {
+        cur->vy += 0x1000;
+    }
+    if (diff.vz > 0x7FF)
+    {
+        cur->vz += 0x1000;
+    }
+
+    if (diff.vx < -0x7FF)
+    {
+        target->vx += 0x1000;
+    }
+    if (diff.vy < -0x7FF)
+    {
+        target->vy += 0x1000;
+    }
+    if (diff.vz < -0x7FF)
+    {
+        target->vz += 0x1000;
+    }
+
+    weight = steps - 1;
+    cur->vy = (cur->vy * weight + target->vy) / steps;
+
+    steps = 8;
+    weight = steps - 1;
+    cur->vx = (cur->vx * weight + target->vx) / steps;
+    cur->vz = (cur->vz * weight + target->vz) / steps;
+}
 
 void Dog_800CBBE8(Work *work, int index)
 {
