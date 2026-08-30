@@ -17,10 +17,9 @@ typedef struct _Work
     char            pad_360[0x360 - 0x1F4];
     int             field_360;    /* 0x360 */
     char            pad_364[0x378 - 0x360 - sizeof(int)];
-    short           field_378;    /* 0x378 */
-    char            pad_37A[0x37C - 0x378 - sizeof(short)];
-    short           field_37C;    /* 0x37C */
-    char            pad_37E[0x390 - 0x37C - sizeof(short)];
+    SVECTOR         field_378;    /* 0x378 */
+    SVECTOR         field_380;    /* 0x380 */
+    char            pad_388[0x390 - 0x380 - sizeof(SVECTOR)];
     SVECTOR         field_390;    /* 0x390 */
     char            pad_398[0x3A0 - 0x390 - sizeof(SVECTOR)];
     int             field_3A0;    /* 0x3A0 */
@@ -30,7 +29,9 @@ typedef struct _Work
     int             field_3B0;    /* 0x3B0 */
     int             field_3B4;    /* 0x3B4 */
     int             field_3B8;    /* 0x3B8 */
-    char            pad_3BC[0x3C8 - 0x3B8 - sizeof(int)];
+    char            pad_3BC[0x3C0 - 0x3B8 - sizeof(int)];
+    int             field_3C0;    /* 0x3C0 */
+    char            pad_3C4[0x3C8 - 0x3C0 - sizeof(int)];
     int             field_3C8;    /* 0x3C8 */
     int             field_3CC;    /* 0x3CC */
     int             field_3D0;    /* 0x3D0 */

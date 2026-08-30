@@ -33,6 +33,7 @@ extern void  s19b_jeep_liq_800D8044(Work *work);
 extern void  s19b_jeep_liq_800D7A5C(Work *work);
 extern void  s19b_jeep_liq_800D7860(Work *work);
 extern void  s19b_jeep_liq_800D7CBC(Work *work);
+extern void  s19b_jlamp_800D0A20(int arg0);
 extern void  s19b_jeep_liq_800D77F0(Work *work);
 extern void  s19b_jeep_liq_800D797C(Work *work);
 extern void  s19b_jeep_liq_800D7C0C(Work *work);
@@ -53,8 +54,8 @@ void s19b_jeep_liq_800D6FB8(Work *work)
     rot = vec;
     DG_SetPos2(&DG_ZeroVector, &work->field_390);
     DG_RotVector(&rot, &rot, 1);
-    work->field_378 = rot.vx;
-    work->field_37C = rot.vz;
+    work->field_378.vx = rot.vx;
+    work->field_378.vz = rot.vz;
     s19b_jeep_gls_800CEC24(pos->vz - 0x640, &vec);
     GV_SubVec3(&vec, pos, &vec);
     vec.vx += work->field_3A0;
@@ -64,13 +65,6 @@ void s19b_jeep_liq_800D6FB8(Work *work)
     work->field_3C8++;
     work->field_3AC = work->field_3A8;
 }
-/* jump table of s19b_jeep_liq_800D7468 */
-const int s19b_dword_800DDE4C = 0x800D74B0;
-const int s19b_dword_800DDE50 = 0x800D74F8;
-const int s19b_dword_800DDE54 = 0x800D753C;
-const int s19b_dword_800DDE58 = 0x800D75B0;
-const int s19b_dword_800DDE5C = 0x800D768C;
-
 void s19b_jeep_liq_800D7114(Work *work)
 {
     int state;
@@ -179,8 +173,64 @@ void s19b_jeep_liq_800D7330(Work *work)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7468.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D769C.s")
+void s19b_jeep_liq_800D7468(Work *work)
+{
+    SVECTOR *pos = (SVECTOR *)&work->prim;
+    SVECTOR  rot;
+    SVECTOR  vec;
+
+    switch (work->field_3CC)
+    {
+    case 0:
+        work->field_3C8 = 0;
+        work->field_3CC = 1;
+        work->field_3C0 = 1;
+        Takabe_JeepSystem.field_54 |= 0x20000;
+        GM_GameStatus |= 0x104A2000;
+        s19b_jlamp_800D0A20(1);
+        /* fallthrough */
+    case 1:
+        s19b_jeep_liq_800D797C(work);
+        s19b_jeep_liq_800D6FB8(work);
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, 500, 30);
+        if (s19b_jeep_gls_800CEDFC(pos->vz, 22000) == 14)
+        {
+            work->field_3CC = 2;
+        }
+        break;
+    case 2:
+        s19b_jeep_liq_800D6FB8(work);
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, 250, 30);
+        work->field_3A8 = GV_NearSpeed(work->field_3A8, 500, 3);
+        if (s19b_jeep_gls_800CEDFC(pos->vz, 6000) == 14)
+        {
+            work->field_3CC = 3;
+            work->field_380 = work->field_378;
+        }
+        break;
+    case 3:
+        memset(&vec, 0, 8);
+        vec.vz = work->field_3A8;
+        rot = vec;
+        DG_SetPos2(&DG_ZeroVector, &work->field_390);
+        DG_RotVector(&rot, &rot, 1);
+        work->field_380.vx = GV_NearExp8(work->field_380.vx, 0);
+        work->field_380.vz = GV_NearExp8(work->field_380.vz, 0);
+        work->field_378.vx = rot.vx + work->field_380.vx;
+        work->field_378.vz = rot.vz + work->field_380.vz;
+        work->field_390.vy = GV_NearExp8(work->field_390.vy, 0xC00);
+        work->field_3A8 = GV_NearExp4(work->field_3A8, 0);
+        work->field_3AC = 0;
+        if (work->field_378.vx == 0 && work->field_378.vz == 0)
+        {
+            work->field_3CC = 4;
+        }
+        break;
+    case 4:
+        break;
+    }
+    work->field_3C8++;
+}
 void s19b_jeep_liq_800D76B0(Work *work)
 {
     ((void (*)(void))work->field_3DC)();
