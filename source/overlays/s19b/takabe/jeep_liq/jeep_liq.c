@@ -120,6 +120,13 @@ extern int   s19b_jeep_mrl_800D399C(void);
 extern int   s19b_jeep_liq_800D771C(int center, int from, int to);
 extern void  s19b_jeep_liq_800D6FB8(Work *work);
 extern void  s19b_jeep_liq_800D7114(Work *work);
+extern void  s19b_jeep_liq_800D7200(Work *work);
+extern void  s19b_jeep_liq_800D7330(Work *work);
+extern void  s19b_jeep_liq_800D7468(Work *work);
+extern void  s19b_jeep_liq_800D76F8(Work *work, int arg1);
+extern void  s19b_jeep_liq_800D7B3C(Work *work, int arg1);
+extern void  s19b_jeep_liq_800D7BB0(Work *work);
+extern void  s19b_jeep_liq_800D8044(Work *work);
 extern void  s19b_jeep_liq_800D7A5C(Work *work);
 extern void  s19b_jeep_liq_800D7860(Work *work);
 extern void  s19b_jeep_liq_800D7CBC(Work *work);
@@ -156,7 +163,40 @@ void s19b_jeep_liq_800D6FB8(Work *work)
     work->field_3C8++;
     work->field_3AC = work->field_3A8;
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7114.s")
+void s19b_jeep_liq_800D7114(Work *work)
+{
+    int state;
+
+    ((void (*)(void))work->field_3DC)();
+    ((void (*)(Work *))work->field_3E8)(work);
+    ((void (*)(Work *))work->field_3F8)(work);
+    s19b_jeep_liq_800D6FB8(work);
+
+    state = Takabe_JeepSystem.field_40;
+    if (state != 0)
+    {
+        if (state == 6)
+        {
+            work->field_3D0 = (int)s19b_jeep_liq_800D7200;
+        }
+        else if (state == 7)
+        {
+            work->field_3D0 = (int)s19b_jeep_liq_800D7330;
+        }
+        else if (state == 8)
+        {
+            work->field_3D0 = (int)s19b_jeep_liq_800D7468;
+        }
+    }
+    if (work->field_3D0 != (int)s19b_jeep_liq_800D7114)
+    {
+        work->field_3EC = 0;
+        s19b_jeep_liq_800D76F8(work, (int)s19b_jeep_liq_800D77F0);
+        s19b_jeep_liq_800D7B3C(work, (int)s19b_jeep_liq_800D7BB0);
+        s19b_jeep_liq_800D8014(work, (int)s19b_jeep_liq_800D8044);
+        work->field_3CC = 0;
+    }
+}
 void s19b_jeep_liq_800D7200(Work *work)
 {
     SVECTOR *pos = (SVECTOR *)&work->prim;
