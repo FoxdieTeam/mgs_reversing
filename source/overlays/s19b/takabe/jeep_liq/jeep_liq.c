@@ -19,14 +19,22 @@ typedef struct _Work
     int             f1F0;         /* 0x1F0 */
     char            pad_360[0x360 - 0x1F4];
     int             field_360;    /* 0x360 */
-    char            pad_3A0[0x3A0 - 0x360 - sizeof(int)];
+    char            pad_364[0x378 - 0x360 - sizeof(int)];
+    short           field_378;    /* 0x378 */
+    char            pad_37A[0x37C - 0x378 - sizeof(short)];
+    short           field_37C;    /* 0x37C */
+    char            pad_37E[0x390 - 0x37C - sizeof(short)];
+    SVECTOR         field_390;    /* 0x390 */
+    char            pad_398[0x3A0 - 0x390 - sizeof(SVECTOR)];
     int             field_3A0;    /* 0x3A0 */
     int             field_3A4;    /* 0x3A4 */
     int             field_3A8;    /* 0x3A8 */
-    char            pad_3B0[0x3B0 - 0x3A8 - sizeof(int)];
+    int             field_3AC;    /* 0x3AC */
     int             field_3B0;    /* 0x3B0 */
     int             field_3B4;    /* 0x3B4 */
-    char            pad_3B8[0x3CC - 0x3B4 - sizeof(int)];
+    int             field_3B8;    /* 0x3B8 */
+    char            pad_3BC[0x3C8 - 0x3B8 - sizeof(int)];
+    int             field_3C8;    /* 0x3C8 */
     int             field_3CC;    /* 0x3CC */
     int             field_3D0;    /* 0x3D0 */
     int             field_3D4;
@@ -83,7 +91,10 @@ typedef struct _JEEP_SYSTEM_S
     short    field_24;
     char     pad3b[0x30 - 0x24 - sizeof(short)];
     int      field_30;
-    char     pad3c[0x54 - 0x30 - sizeof(int)];
+    char     pad3c[0x40 - 0x30 - sizeof(int)];
+    int      field_40;
+    int      field_44;
+    char     pad3d[0x54 - 0x44 - sizeof(int)];
     int      field_54;
     char     pad5c[0x5C - 0x54 - sizeof(int)];
     int      field_5C;
@@ -112,9 +123,35 @@ extern void  s19b_jeep_liq_800D7A5C(Work *work);
 extern void  s19b_jeep_liq_800D7860(Work *work);
 extern void  s19b_jeep_liq_800D7CBC(Work *work);
 extern void  s19b_jeep_liq_800D77F0(Work *work);
+extern void  s19b_jeep_liq_800D797C(Work *work);
+extern void  s19b_jeep_liq_800D7C0C(Work *work);
+extern void  s19b_jeep_liq_800D8014(Work *work, int arg1);
+extern void  s19b_jeep_liq_800D8118(Work *work);
+extern void  s19b_jeep_gls_800CEC24(int arg0, SVECTOR *out);
 extern int   s19b_jeep_gls_800CEDFC(int arg0, int arg1);
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D6FB8.s")
+void s19b_jeep_liq_800D6FB8(Work *work)
+{
+    SVECTOR *pos = (SVECTOR *)&work->prim;
+    SVECTOR  rot;
+    SVECTOR  vec;
+
+    memset(&vec, 0, 8);
+    vec.vz = work->field_3A8;
+    rot = vec;
+    DG_SetPos2(&DG_ZeroVector, &work->field_390);
+    DG_RotVector(&rot, &rot, 1);
+    work->field_378 = rot.vx;
+    work->field_37C = rot.vz;
+    s19b_jeep_gls_800CEC24(pos->vz - 0x640, &vec);
+    GV_SubVec3(&vec, pos, &vec);
+    vec.vx += work->field_3A0;
+    vec.vx += rsin(work->field_3C8 << 5) * 50 >> 12;
+    vec.vx += (rsin(work->field_3C8 << 7) << 1) * work->field_3B8 >> 12;
+    work->field_390.vy = GV_VecDir2(&vec);
+    work->field_3C8++;
+    work->field_3AC = work->field_3A8;
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7114.s")
 void s19b_jeep_liq_800D7200(Work *work)
 {
@@ -589,6 +626,10 @@ void s19b_spark2_m_800D8724(Work *work, int arg1, int arg2)
     ReadRotMatrix(&m);
     NewJeepBlood(&m, arg2, &obj->world);
 }
+
+extern void s19b_spark2_m_800D9390(Work *work, int mode);
+extern void s19b_spark2_m_800D9434(Work *work, int mode);
+extern void s19b_spark2_m_800D94C8(Work *work, int mode);
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D87A4.s")
 extern int s19b_spark2_m_800D87A4(Work *work);
