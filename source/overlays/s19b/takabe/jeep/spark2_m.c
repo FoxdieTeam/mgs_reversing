@@ -36,7 +36,61 @@ extern void s19b_spark2_m_800D9390(Work *work, int mode);
 extern void s19b_spark2_m_800D9434(Work *work, int mode);
 extern void s19b_spark2_m_800D94C8(Work *work, int mode);
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D87A4.s")
+int s19b_spark2_m_800D87A4(Work *work)
+{
+    TARGET *target = work->f8E4;
+    int     level;
+    int     vital;
+
+    if (target->damaged & 4)
+    {
+        target->force = DG_ZeroVector;
+        GM_SeSet((SVECTOR *)&work->ctrl, 0x81);
+
+        /* both arms spell out the same tail: cross-jumping merges it back */
+        if (!(Takabe_JeepSystem.field_54 & 0x20000))
+        {
+            work->f8EC = (void *)s19b_spark2_m_800D9390;
+            work->f8F4 = 0;
+            work->ctrl.turn.vz = 0;
+            work->ctrl.turn.vx = 0;
+        }
+        else
+        {
+            work->f8EC = (void *)s19b_spark2_m_800D9434;
+            work->f8F4 = 0;
+            work->ctrl.turn.vz = 0;
+            work->ctrl.turn.vx = 0;
+        }
+
+        target->damage  = 0;
+        target->damaged = 0;
+
+        if (target->vital <= 0)
+        {
+            Takabe_JeepSystem.field_44++;
+            vital = target->vital + 0xBF;
+            level = GM_GameLevel;
+            if (level > 0)
+            {
+                vital += level << 6;
+            }
+            target->vital = vital;
+        }
+        return 1;
+    }
+
+    if (work->f900 & 0x2000000)
+    {
+        work->f8EC = (void *)s19b_spark2_m_800D94C8;
+        work->f8F4 = 0;
+        work->ctrl.turn.vz = 0;
+        work->ctrl.turn.vx = 0;
+        return 1;
+    }
+
+    return 0;
+}
 extern int s19b_spark2_m_800D87A4(Work *work);
 
 int s19b_spark2_m_800D88D8(Work *work)
