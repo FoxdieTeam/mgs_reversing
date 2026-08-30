@@ -14,7 +14,8 @@ typedef struct _JEEP_SYSTEM
     int      field_44;
     char     pad4[0x1C - sizeof(int)];
     OBJECT  *body;
-    char     pad5[0x18];
+    char     pad5[0x78 - 0x60 - sizeof(OBJECT *)];
+    int      field_78;
     int      field_7C;
     MATRIX   world;
     char     pad6[0xCC];
@@ -34,12 +35,28 @@ typedef struct _JeepScrollSeg
     int      field_28; /* 0x28 */
 } JeepScrollSeg; /* 0x2C */
 
+typedef struct _JeepLight
+{
+    DG_DEF  *def;     /* 0x00: 'k' cache */
+    int     *lit;     /* 0x04: 'l' cache, count followed by DG_LITs */
+    int     *hzd;     /* 0x08: 'h' cache */
+    int      field_C; /* 0x0C: hzd[4] */
+    DG_OBJS *objs;    /* 0x10 */
+    char     pad_14[0x1C - 0x14];
+} JeepLight; /* 0x1C */
+
 typedef struct _Work
 {
     GV_ACT        work;
-    char          pad1[0x1B4 - 0x20];
+    char          pad1[0x48 - 0x20];
+    JeepLight     lights[13];  /* 0x48 */
     JeepScrollSeg segs[16]; /* 0x1B4 */
-    char          pad1a[0xC48 - 0x1B4 - sizeof(JeepScrollSeg[16])];
+    DG_OBJS      *field_474[16]; /* 0x474 */
+    void         *field_4B4;     /* 0x4B4 */
+    void         *field_4B8;     /* 0x4B8 */
+    char          pad1a[0xC40 - 0x4B8 - sizeof(void *)];
+    int           field_C40;
+    int          *field_C44;
     int           field_C48;
     int           field_C4C;
     int           field_C50;
@@ -64,6 +81,8 @@ void *NewJeepLamp(SVECTOR *root_pos, int tex_id, int unused);
 void *s19b_jeep2_800D6F24(int name, int map); // NewJeep2
 void  s19b_jeep_800D2170(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2, short *arg3);
 void  s19b_jeep_800D21DC(int ang, MATRIX *mat, SVECTOR *out);
+void  s19b_jeep_gls_800CE5F8(DG_OBJS *objs);
+extern int s19b_dword_800C3530;
 
 extern int s19b_dword_800C354C;
 
@@ -123,7 +142,29 @@ void s19b_jeep_srl_800CD790(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CDAA4.s")
 void s19b_jeep_srl_800CDAA4(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CDF48.s")
+void s19b_jeep_srl_800CDF48(Work *work)
+{
+    int i;
+
+    for (i = 0; i < 16; i++)
+    {
+        s19b_jeep_gls_800CE5F8(work->field_474[i]);
+    }
+    for (i = 0; i < 16; i++)
+    {
+        s19b_jeep_gls_800CE5F8(work->segs[i].field_18);
+    }
+    for (i = 0; i < 13; i++)
+    {
+        DG_OBJS *objs = work->lights[i].objs;
+        DG_FreePreshade(objs);
+        DG_FreeObjs(objs);
+    }
+    Takabe_JeepSystem.field_78 = 0;
+    GM_StreamPlayStop();
+    *work->field_C44 = work->field_C40;
+    GM_GameStatus &= ~0x20000000;
+}
 void s19b_jeep_srl_800CDF48(Work *work);
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_srl_800CE020.s")
