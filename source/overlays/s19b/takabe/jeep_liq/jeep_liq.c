@@ -190,7 +190,44 @@ void s19b_jeep_liq_800D7200(Work *work)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7330.s")
+void s19b_jeep_liq_800D7330(Work *work)
+{
+    SVECTOR *pos = (SVECTOR *)&work->prim;
+
+    switch (work->field_3CC)
+    {
+    case 0:
+        s19b_jeep_liq_800D7A5C(work);
+        s19b_jeep_liq_800D6FB8(work);
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, 750, 50);
+        if (s19b_jeep_gls_800CEDFC(pos->vz, 2000) == 11)
+        {
+            work->field_3CC = 1;
+        }
+        break;
+    case 1:
+        s19b_jeep_liq_800D797C(work);
+        s19b_jeep_liq_800D6FB8(work);
+        s19b_jeep_liq_800D7C0C(work);
+        if (s19b_jeep_gls_800CEDFC(pos->vz, 3000) == 13)
+        {
+            work->field_3CC = 2;
+        }
+        break;
+    case 2:
+        s19b_jeep_liq_800D797C(work);
+        s19b_jeep_liq_800D6FB8(work);
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, 750, 50);
+        if (work->field_3A0 == 750)
+        {
+            work->field_3D0 = (int)s19b_jeep_liq_800D7114;
+            s19b_jeep_liq_800D8014(work, (int)s19b_jeep_liq_800D8118);
+            work->field_3CC = 0;
+        }
+        break;
+    }
+}
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7468.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D769C.s")
 void s19b_jeep_liq_800D76B0(Work *work)
 {
