@@ -4,6 +4,7 @@
 #include "libhzd/libhzd.h"
 #include "libdg/libdg.h"
 #include "linkvar.h"
+#include "okajima/bullet.h"
 
 extern int rand(void);
 extern void *NewFadeInOut(int mode, int shade);
@@ -16,6 +17,16 @@ typedef struct
     HZD_SEG seg[4];
     HZD_FLR flr[2];
 } HzdBlock; /* 0xA0 */
+
+/* The gunner actor (m1e1sold.c) as seen from here. */
+typedef struct _Gunner
+{
+    GV_ACT   actor;         /* 0x000 */
+    CONTROL  control;       /* 0x020 */
+    char     pad_9C[0xDC - 0x9C];
+    OBJECT   body;          /* 0x0DC */
+    TARGET  *target;        /* 0x1C0 */
+} Gunner;
 
 typedef struct _Work
 {
@@ -114,18 +125,18 @@ typedef struct _Work
     char     pad_EA2[0xEA4 - 0xEA2];
     short    field_EA4;     /* 0xEA4 */
     char     pad_EA6[0xEB0 - 0xEA6];
-    void    *field_EB0;     /* 0xEB0 */
+    Gunner  *field_EB0;     /* 0xEB0 */
     char     pad_EB4[0xEC0 - 0xEB4];
     int      field_EC0;     /* 0xEC0 */
     int      field_EC4;
     int      field_EC8;
     int      field_ECC;
     int      field_ED0;     /* 0xED0 */
-    char     pad_ED4[0xED8 - 0xED4];
+    int      field_ED4;
     int      field_ED8;
     void    *field_EDC;     /* 0xEDC */
     SVECTOR  field_EE0;     /* 0xEE0 */
-    char     pad_EE8[0xEF0 - 0xEE8];
+    SVECTOR  field_EE8;     /* 0xEE8 */
     SVECTOR  field_EF0[10]; /* 0xEF0 */
     char     pad_F40[0xF40 - 0xF40];
     int      field_F40;     /* 0xF40 */
@@ -145,7 +156,7 @@ typedef struct _Work
     int      field_F78;
     int      field_F7C;
     int      field_F80;
-    char     pad_F84[0xF88 - 0xF84];
+    int      field_F84;
     int      field_F88;
     SVECTOR  bbox[10];      /* 0xF8C */
     char     pad_FDC[0xFEC - 0xFDC];
@@ -165,6 +176,7 @@ extern void sub_8007E1C0(HZD_SEG *seg, HZD_FLR *flr, MATRIX *pTransform,
 extern void AN_Smoke_800CE08C(SVECTOR *pos);
 extern void *s05a_800DAE58(int name, MATRIX *mat, int side, SVECTOR *target_pos, int vital, int range, int speed,
                            int *result);
+extern void *s05a_800DDCBC(Work *director);
 extern const char s05a_dword_800E3484[]; /* "noca" */
 extern const char s05a_dword_800E3490[]; /* "m1e1" */
 
@@ -1029,7 +1041,391 @@ void s05a_800D797C(Work *work)
         }
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800D863C.s")
+void s05a_800D863C(Work *work)
+{
+    MATRIX  mtx;
+    VECTOR  tgt;
+    VECTOR  cur;
+    VECTOR  pos;
+    SVECTOR v0;
+    SVECTOR v1;
+    SVECTOR vec;
+    int     fire = 0;
+    int     k;
+
+    k = 3;
+    if (work->field_E08 < 2)
+    {
+        k = 1;
+    }
+
+    if (GV_Time & 1)
+    {
+        vec = work->field_EE8;
+    }
+    else
+    {
+        pos = work->field_E44;
+
+        DG_SetPos(&work->body.objs->objs[0].world);
+        v0.vx = work->body.objs->objs[3].model->tx;
+        v0.vy = work->body.objs->objs[3].model->ty;
+        v0.vz = work->body.objs->objs[3].model->tz;
+        DG_MovePos(&v0);
+        v0 = work->body.rots[3];
+        DG_RotatePos(&v0);
+        v0.vx = work->body.objs->objs[12].model->tx;
+        v0.vy = work->body.objs->objs[12].model->ty;
+        v0.vz = work->body.objs->objs[12].model->tz;
+        DG_MovePos(&v0);
+        ReadRotMatrix(&mtx);
+        memset(&v0, 0, 8);
+        DG_PutVector(&v0, &v0, 1);
+        v1.vx = (v0.vx - pos.vx) >> 2;
+        v1.vy = (v0.vy - pos.vy) >> 2;
+        v1.vz = (v0.vz - pos.vz) >> 2;
+        tgt.vy = ratan2(v1.vx, v1.vz);
+
+        v1.vx = 0;
+        v1.vy = 0;
+        v1.vz = work->body.objs->objs[13].model->uz - work->body.objs->objs[13].model->lz;
+        DG_MovePos(&v1);
+        memset(&v1, 0, 8);
+        DG_PutVector(&v1, &v1, 1);
+        v1.vx = v0.vx - v1.vx;
+        v1.vy = v0.vy - v1.vy;
+        v1.vz = v0.vz - v1.vz;
+        cur.vy = ratan2(v1.vx, v1.vz);
+
+        vec.vx = 0;
+        vec.vz = 0;
+        vec.vy = tgt.vy - cur.vy;
+        if (vec.vy < -0x800) vec.vy += 0x1000;
+        if (vec.vy >= 0x801) vec.vy -= 0x1000;
+        if (vec.vy < -0x4AB) vec.vy = 0x1000 - vec.vy;
+        DG_SetPos(&mtx);
+        DG_RotatePos(&vec);
+
+        v0.vx = 0;
+        v0.vz = 0;
+        v0.vy = work->body.objs->objs[13].model->ty;
+        DG_MovePos(&v0);
+        memset(&v0, 0, 8);
+        DG_PutVector(&v0, &v0, 1);
+        v1.vx = (v0.vx - pos.vx) >> 2;
+        v1.vy = (v0.vy - pos.vy) >> 2;
+        v1.vz = (v0.vz - pos.vz) >> 2;
+        tgt.vx = ratan2(v1.vy, SquareRoot0(v1.vx * v1.vx + v1.vz * v1.vz));
+
+        v1.vx = 0;
+        v1.vy = 0;
+        v1.vz = work->body.objs->objs[13].model->uz - work->body.objs->objs[13].model->lz;
+        DG_MovePos(&v1);
+        memset(&v1, 0, 8);
+        DG_PutVector(&v1, &v1, 1);
+        v1.vx = v0.vx - v1.vx;
+        v1.vy = v0.vy - v1.vy;
+        v1.vz = v0.vz - v1.vz;
+        cur.vx = ratan2(v1.vy, SquareRoot0(v1.vx * v1.vx + v1.vz * v1.vz));
+
+        vec.vx = tgt.vx - cur.vx;
+
+        if (work->field_D54 == 1 || work->field_D54 == 3 || work->field_D54 == 4 || work->field_D54 == 5 ||
+            work->field_D54 == 6)
+        {
+            work->field_F40 = 0;
+            vec.vy = work->body.rots[12].vy + work->body.rots[13].vy;
+            vec.vx = work->body.rots[13].vx;
+            if (work->field_D54 == 1)
+            {
+                work->field_F84 = work->field_DA4 / k;
+            }
+            else if (work->field_D54 == 4)
+            {
+                work->field_E10 = 1;
+            }
+        }
+        else if (work->field_EB0 != NULL && work->field_EB0->body.action == 6)
+        {
+            vec.vy = work->body.rots[12].vy + work->body.rots[13].vy;
+            vec.vx = work->body.rots[13].vx;
+            if (work->field_EB0->body.is_end)
+            {
+                GM_ConfigObjectAction(&work->field_EB0->body, 0, 0, 5);
+            }
+        }
+        else if (work->field_E64 != 0)
+        {
+            work->field_F40 = 0;
+            vec.vy = work->body.rots[12].vy + work->body.rots[13].vy;
+            vec.vx = work->body.rots[13].vx;
+            work->body.rots[11].vx = GV_NearSpeed(work->body.rots[11].vx, 0, 0x2D);
+            if (work->body.rots[11].vx >= -0xB4 && work->body.rots[11].vx < -0x87)
+            {
+                GM_SeSetPan(&work->control.mov, 0xBB, work->field_E60);
+            }
+            if (work->field_EB0 != NULL)
+            {
+                if (work->body.rots[11].vx == 0)
+                {
+                    GV_DestroyActor(work->field_EB0);
+                }
+                else if (work->field_EB0->target != NULL && work->field_EB0->body.action != 5)
+                {
+                    GM_ConfigObjectAction(&work->field_EB0->body, 5, 0, 5);
+                }
+            }
+            if (work->field_E30 == 6)
+            {
+                work->field_E30 = 0;
+            }
+        }
+        else if (work->body.rots[11].vx != -0x71C || work->field_EB0 == NULL || work->field_EB0->body.action == 2)
+        {
+            if (work->field_E30 < 7 || work->field_E30 > 11)
+            {
+                work->field_E30 = 3;
+            }
+            work->field_F40 = 0;
+            vec.vy = work->body.rots[12].vy + work->body.rots[13].vy;
+            vec.vx = work->body.rots[13].vx;
+            work->body.rots[11].vx = GV_NearSpeed(work->body.rots[11].vx, -0x71C, 0x2D);
+            if (work->body.rots[11].vx >= -0x695 && work->body.rots[11].vx < -0x668)
+            {
+                GM_SeSetPan(&work->control.mov, 0xBC, work->field_E60);
+            }
+            if (work->field_EB0 == NULL && work->field_E08 > 0)
+            {
+                work->field_EB0 = s05a_800DDCBC(work);
+                GM_ConfigObjectAction(&work->field_EB0->body, 2, 0, 5);
+            }
+        }
+        else if (work->field_F84 <= 0 || work->field_DA8 * k < work->field_F44)
+        {
+            if (work->field_E30 < 7 || work->field_E30 > 11)
+            {
+                work->field_E30 = 3;
+                s05a_800D9A14(work);
+            }
+            work->field_F40 = 0;
+            vec.vy = work->body.rots[12].vy + work->body.rots[13].vy;
+            vec.vx = work->body.rots[13].vx;
+            if (work->field_F84 <= 0)
+            {
+                work->field_F84 = work->field_DA4 / k;
+                work->field_F44 = 0;
+                GM_ConfigObjectAction(&work->field_EB0->body, 6, 0, 5);
+            }
+        }
+        else if (vec.vx < -0x1C7 ||
+                 !((vec.vy >= 0x239 && vec.vy <= 0x5C7) ? vec.vx < 0x11D : vec.vx < 0x72) ||
+                 vec.vy < -0x238 || vec.vy >= 0x800)
+        {
+            if (work->field_E30 < 7 || work->field_E30 > 11)
+            {
+                if (work->field_F40 == 0)
+                {
+                    work->field_F40 = 0x3F2;
+                }
+                if (work->field_F78 > 0)
+                {
+                    work->field_E30 = 3;
+                }
+                else if (work->field_F40 >= 0x2C7)
+                {
+                    work->field_E30 = 4;
+                }
+                else if (work->field_F40 < 0xD3)
+                {
+                    work->field_E30 = 1;
+                }
+                else
+                {
+                    work->field_E30 = 3;
+                }
+                if ((GM_GameStatus & 1) && work->field_F84 > 0 && work->field_E30 != 1)
+                {
+                    work->field_E30 = 6;
+                }
+                s05a_800D9A14(work);
+            }
+            vec.vy = (vec.vy < -0x238) ? -0x238 : vec.vy;
+            vec.vy = (vec.vy < 0x800) ? vec.vy : 0x7FF;
+            if (vec.vx <= 0)
+            {
+                vec.vx = (vec.vx < -0x1C7) ? -0x1C7 : vec.vx;
+            }
+            else if (vec.vy >= 0x239 && vec.vy <= 0x5C7)
+            {
+                vec.vx = (vec.vx < 0x11D) ? vec.vx : 0x11C;
+            }
+            else
+            {
+                vec.vx = (vec.vx < 0x72) ? vec.vx : 0x71;
+            }
+            GM_ConfigObjectAction(&work->field_EB0->body, 0, 0, 5);
+        }
+        else if (work->field_E64 == 0 && work->field_D54 == 2)
+        {
+            if (abs(work->body.rots[12].vy + work->body.rots[13].vy - vec.vy) < 0x31C * k &&
+                abs(work->body.rots[13].vx - vec.vx) < 0x155 * k)
+            {
+                if (work->field_E30 < 7 || work->field_E30 > 11)
+                {
+                    if (work->field_F40 <= 0)
+                    {
+                        if (work->field_F78 > 0)
+                        {
+                            work->field_E30 = 3;
+                        }
+                        else if (work->field_E5C < work->field_DC4 >> 1)
+                        {
+                            work->field_E30 = 3;
+                        }
+                        else if (work->field_E5C >= work->field_DB0)
+                        {
+                            work->field_E30 = 2;
+                        }
+                        else
+                        {
+                            work->field_E30 = 1;
+                        }
+                        if (GM_GameStatus & 1)
+                        {
+                            if (work->field_E30 != 1)
+                            {
+                                work->field_E30 = 6;
+                            }
+                            else
+                            {
+                                work->field_F40 = 0xD2;
+                            }
+                        }
+                        else if (work->field_E30 == 1)
+                        {
+                            work->field_F40 = 0xD2;
+                        }
+                        s05a_800D9A14(work);
+                    }
+                }
+                if (work->field_F44 <= 0 && work->field_E5C < work->field_DB0)
+                {
+                    fire = 1;
+                    work->field_F44 = work->field_DA8;
+                    work->field_F84--;
+                    GM_ConfigObjectAction(&work->field_EB0->body, 1, 0, 5);
+                }
+                if (work->field_EB0->body.is_end)
+                {
+                    GM_ConfigObjectAction(&work->field_EB0->body, 0, 0, 5);
+                }
+            }
+        }
+
+        work->field_EE8 = vec;
+    }
+
+    if (work->field_EB0 != NULL && work->field_EB0->body.action == 6 && work->field_EB0->body.is_end)
+    {
+        GM_ConfigObjectAction(&work->field_EB0->body, 0, 0, 5);
+    }
+
+    if (work->field_D54 == 7)
+    {
+        if (work->field_F44 <= 0 && (GV_PadData[1].status & 0x40))
+        {
+            fire = 1;
+            work->field_F44 = work->field_DA8;
+            work->field_F84--;
+            if (work->field_EB0 != NULL)
+            {
+                GM_ConfigObjectAction(&work->field_EB0->body, 1, 0, 5);
+            }
+        }
+        if (work->field_EB0 != NULL && work->field_EB0->body.is_end)
+        {
+            GM_ConfigObjectAction(&work->field_EB0->body, 0, 0, 5);
+        }
+    }
+
+    if (work->field_D54 != 7 || (GV_PadData[1].status & 0x810) == 0x810)
+    {
+        v1.vy = vec.vy;
+        v1.vy = (v1.vy < -0xE3) ? -0xE3 : v1.vy;
+        v1.vy = (v1.vy < 0xE4) ? v1.vy : 0xE3;
+        vec.vy -= v1.vy;
+        vec.vy = (vec.vy < -0x155) ? -0x155 : vec.vy;
+        vec.vy = (vec.vy < 0x71D) ? vec.vy : 0x71C;
+        work->body.rots[12].vy = GV_NearSpeed(work->body.rots[12].vy, vec.vy, 0x17 / k);
+        work->body.rots[13].vy = GV_NearSpeed(GV_NearPhase(work->body.rots[13].vy, v1.vy), v1.vy, 0x2E / k);
+        work->body.rots[13].vx = GV_NearSpeed(GV_NearPhase(work->body.rots[13].vx, vec.vx), vec.vx, 0x2E / k);
+    }
+    else if ((GV_PadData[1].status & 0x810) == 0x10)
+    {
+        if (GV_PadData[1].status & 8) work->body.rots[12].vy += 0x17;
+        if (GV_PadData[1].status & 2) work->body.rots[12].vy -= 0x17;
+        if (GV_PadData[1].status & 0x8000) work->body.rots[13].vy += 0x2E;
+        if (GV_PadData[1].status & 0x2000) work->body.rots[13].vy -= 0x2E;
+        if (GV_PadData[1].status & 0x1000) work->body.rots[13].vx -= 0x2E;
+        if (GV_PadData[1].status & 0x4000) work->body.rots[13].vx += 0x2E;
+        if (GV_PadData[1].status & 0x100)
+        {
+            work->body.rots[12].vy = 0;
+            work->body.rots[13].vy = 0;
+            work->body.rots[13].vx = 0;
+        }
+    }
+
+    if (work->body.rots[12].vy < -0x155)
+    {
+        work->body.rots[12].vy = GV_NearSpeed(GV_NearPhase(work->body.rots[12].vy, -0x155), -0x155, 0x17);
+    }
+    if (work->body.rots[12].vy >= 0x71D)
+    {
+        work->body.rots[12].vy = GV_NearSpeed(GV_NearPhase(work->body.rots[12].vy, 0x71C), 0x71C, 0x17);
+    }
+    if (work->body.rots[13].vy < -0xE3)
+    {
+        work->body.rots[13].vy = GV_NearSpeed(GV_NearPhase(work->body.rots[13].vy, -0xE3), -0xE3, 0x2E);
+    }
+    if (work->body.rots[13].vy >= 0xE4)
+    {
+        work->body.rots[13].vy = GV_NearSpeed(GV_NearPhase(work->body.rots[13].vy, 0xE3), 0xE3, 0x2E);
+    }
+    if (work->body.rots[13].vx < -0x1C7)
+    {
+        work->body.rots[13].vx = GV_NearSpeed(GV_NearPhase(work->body.rots[13].vx, -0x1C7), -0x1C7, 0x2E);
+    }
+    if (work->body.rots[12].vy >= 0x239 && work->body.rots[12].vy <= 0x5C7)
+    {
+        if (work->body.rots[13].vx >= 0x11D)
+        {
+            work->body.rots[13].vx = GV_NearSpeed(GV_NearPhase(work->body.rots[13].vx, 0x11C), 0x11C, 0x2E);
+        }
+    }
+    else if (work->body.rots[13].vx >= 0x72)
+    {
+        work->body.rots[13].vx = GV_NearSpeed(GV_NearPhase(work->body.rots[13].vx, 0x71), 0x71, 0x2E);
+    }
+
+    DG_SetPos(&work->body.objs->objs[13].world);
+    v0.vx = 0;
+    v0.vy = 0;
+    v0.vz = work->body.objs->objs[13].model->uz - work->body.objs->objs[13].model->lz;
+    DG_MovePos(&v0);
+    ReadRotMatrix(&mtx);
+
+    if (fire == 0)
+    {
+        work->field_ED4++;
+    }
+    else
+    {
+        work->field_ED4 = 0;
+        GM_SeSetPan(&work->control.mov, 0xB9, work->field_E60);
+        NewBulletEx(0x620, &mtx, 2, 1, 0, 0x28, work->field_DAC, work->field_DB0, work->field_DB4);
+    }
+}
 void s05a_800D9754(Work *work)
 {
     SVECTOR vec;
