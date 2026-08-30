@@ -73,6 +73,8 @@ extern JEEP_SYSTEM Takabe_JeepSystem;
 extern Work *s19b_dword_800DE64C;
 
 extern const char s19b_dword_800DDDF8[];
+extern const char s19b_dword_800DDDC4[];
+extern void RotTransSV(SVECTOR *v0, SVECTOR *v1, long *sz);
 extern const char s19b_aMeryl_800DDDCC[];
 extern const char s19b_aMelb_800DDDD4[];
 extern const char s19b_dword_800DDDDC[];
@@ -245,7 +247,35 @@ int s19b_jeep_mrl_800D39F0(void)
     return count;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D3A54.s")
+void s19b_jeep_mrl_800D3A54(SVECTOR *pos, short *ang, int scale, short offs)
+{
+    SVECTOR v10;
+    SVECTOR v18;
+    SVECTOR probe;
+    SVECTOR off;
+    MATRIX  m;
+    long    flag;
+
+    probe = *(SVECTOR *)s19b_dword_800DDDC4;
+    off = DG_ZeroVector;
+    off.vz = offs;
+    m = DG_ZeroMatrix;
+    RotMatrixY(*ang, &m);
+    SetRotMatrix(&m);
+    SetTransMatrix(&m);
+    RotTransSV(&probe, &probe, &flag);
+    RotTransSV(&off, &v18, &flag);
+    v18.vx = v18.vx * rcos(scale) / 4096;
+    v18.vz = v18.vz * rcos(scale) / 4096;
+    GV_AddVec3(pos, &v18, pos);
+    m = DG_ZeroMatrix;
+    RotMatrixY(scale, &m);
+    SetRotMatrix(&m);
+    RotTransSV(&off, &v10, &flag);
+    GV_AddVec3(&probe, &v10, &v10);
+    GV_SubVec3(&v10, &v18, &probe);
+    *ang = ratan2(probe.vx, probe.vz);
+}
 extern SVECTOR s19b_dword_800C39D0[];
 extern int s19b_dword_800C399C;
 extern int s19b_dword_800C3994;
