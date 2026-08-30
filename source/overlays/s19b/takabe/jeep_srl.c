@@ -90,7 +90,7 @@ typedef struct _JeepHzdFace
 typedef struct _JeepLight
 {
     DG_DEF  *def;     /* 0x00: 'k' cache */
-    int     *lit;     /* 0x04: 'l' cache, count followed by DG_LITs */
+    DG_LITS *lit;     /* 0x04: 'l' cache */
     int     *hzd;     /* 0x08: 'h' cache */
     int      field_C; /* 0x0C: hzd[4] */
     DG_OBJS *objs;    /* 0x10 */
@@ -168,7 +168,7 @@ extern int s19b_dword_800C3710;
 void  s19b_jeep_gls_800CE8DC(struct _Work *work, JeepScrollSeg *seg, int flag);
 extern void RotTransSV(SVECTOR *v0, SVECTOR *v1, long *sz);
 extern int  s19b_dword_800C36DC;
-extern int s19b_dword_800C3530;
+extern u_short s19b_dword_800C3530[]; /* 13 model-name hashes */
 
 extern int s19b_dword_800C354C;
 
@@ -355,7 +355,7 @@ void s19b_jeep_srl_800CDAA4(Work *work)
             work->field_C6C = i;
             s19b_jeep_gls_800CE5F8(seg->field_18);
             seg->field_18 = s19b_jeep_gls_800CE52C(out[0], work);
-            seg->field_1C = work->lights[out[0]].lit;
+            seg->field_1C = (int *)work->lights[out[0]].lit;
             seg->field_20 = (struct _JeepSegDef *)work->lights[out[0]].field_C;
             seg->pos.vz = z;
             seg->pos.vx += Takabe_JeepSystem.pos.vx;
@@ -473,7 +473,7 @@ int s19b_jeep_srl_800CE020(Work *work, int name, int where)
     for (i = 0, z = -31500; i < 16; seg++, i++, z += 4000)
     {
         seg->field_18 = s19b_jeep_gls_800CE52C(0, work);
-        seg->field_1C = work->lights[0].lit;
+        seg->field_1C = (int *)work->lights[0].lit;
         seg->field_20 = (struct _JeepSegDef *)work->lights[0].field_C;
         seg->field_8.vz = -2000;
         seg->field_10 = 0;
@@ -536,7 +536,42 @@ void *NewJeepScroll(int name, int where)
     return work;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE400.s")
+void s19b_jeep_gls_800CE400(Work *work)
+{
+    JeepLight *light;
+    DG_DEF    *def;
+    DG_LITS   *lit;
+    int       *hzd;
+    DG_OBJS   *objs;
+    int        i;
+
+    light = work->lights;
+
+    for (i = 0; i < 13; light++, i++)
+    {
+        light->def = def = GV_GetCache(GV_CacheID(s19b_dword_800C3530[i], 'k'));
+        light->lit = lit = GV_GetCache(GV_CacheID(s19b_dword_800C3530[i], 'l'));
+        if (lit == NULL)
+        {
+            light->lit = lit = work->lights[0].lit;
+        }
+
+        light->hzd     = hzd = GV_GetCache(GV_CacheID(s19b_dword_800C3530[i], 'h'));
+        light->field_C = hzd[4];
+        light->objs    = objs = DG_MakeObjs(def, 'W', 0);
+
+        if (lit != NULL)
+        {
+            DG_MakePreshade(objs, lit->lights, lit->n_lights);
+        }
+        else
+        {
+            DG_MakePreshade(objs, NULL, NULL);
+        }
+
+        light->objs->flag |= 0x80;
+    }
+}
 DG_OBJS *s19b_jeep_gls_800CE52C(int idx, Work *work)
 {
     JeepLight *lights = work->lights;
