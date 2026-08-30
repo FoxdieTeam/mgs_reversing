@@ -26,7 +26,8 @@ typedef struct _Work
     char            pad_3B0[0x3B0 - 0x3A8 - sizeof(int)];
     int             field_3B0;    /* 0x3B0 */
     int             field_3B4;    /* 0x3B4 */
-    char            pad_3D0[0x3D0 - 0x3B4 - sizeof(int)];
+    char            pad_3B8[0x3CC - 0x3B4 - sizeof(int)];
+    int             field_3CC;    /* 0x3CC */
     int             field_3D0;    /* 0x3D0 */
     int             field_3D4;
     int             field_3D8;
@@ -106,10 +107,52 @@ extern void  ReadRotMatrix(MATRIX *m);
 extern int   s19b_jeep_mrl_800D399C(void);
 extern int   s19b_jeep_liq_800D771C(int center, int from, int to);
 extern void  s19b_jeep_liq_800D6FB8(Work *work);
+extern void  s19b_jeep_liq_800D7114(Work *work);
+extern void  s19b_jeep_liq_800D7A5C(Work *work);
+extern void  s19b_jeep_liq_800D7860(Work *work);
+extern void  s19b_jeep_liq_800D7CBC(Work *work);
+extern void  s19b_jeep_liq_800D77F0(Work *work);
+extern int   s19b_jeep_gls_800CEDFC(int arg0, int arg1);
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D6FB8.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7114.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7200.s")
+void s19b_jeep_liq_800D7200(Work *work)
+{
+    SVECTOR *pos = (SVECTOR *)&work->prim;
+
+    switch (work->field_3CC)
+    {
+    case 0:
+        s19b_jeep_liq_800D7A5C(work);
+        s19b_jeep_liq_800D6FB8(work);
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, 750, 50);
+        if (s19b_jeep_gls_800CEDFC(pos->vz, 2000) == 10)
+        {
+            work->field_3CC = 1;
+        }
+        break;
+    case 1:
+        s19b_jeep_liq_800D7860(work);
+        s19b_jeep_liq_800D6FB8(work);
+        s19b_jeep_liq_800D7CBC(work);
+        if (s19b_jeep_gls_800CEDFC(pos->vz, 3000) == 12)
+        {
+            work->field_3CC = 2;
+        }
+        break;
+    case 2:
+        s19b_jeep_liq_800D77F0(work);
+        s19b_jeep_liq_800D6FB8(work);
+        work->field_3A0 = GV_NearSpeed(work->field_3A0, 650, 50);
+        if (work->field_3A0 == 650)
+        {
+            work->field_3D0 = (int)s19b_jeep_liq_800D7114;
+            work->field_3A4 = 650;
+            work->field_3CC = 0;
+        }
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7330.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D769C.s")
 void s19b_jeep_liq_800D76B0(Work *work)
