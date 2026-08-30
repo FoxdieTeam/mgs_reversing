@@ -3,6 +3,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "linkvar.h"
 #include "okajima/blood.h"
 
 typedef struct _Work
@@ -26,7 +27,8 @@ typedef struct _Work
     char     pad14A6[0xE];
     int      unk14B4;
     int      field_14B8[3];
-    char     pad14C4[0x10];
+    char     pad14C4[0x4];
+    int      field_14C8[3];
     int      field_14D4[3];
     char     pad14E0[0xC];
     int      field_14EC[3];
@@ -45,14 +47,16 @@ typedef struct _Work
     int      field_1580[3];
     int      field_158C[3];
     int      field_1598[3];
-    char     pad15A4[0x18];
+    char     pad15A4[0xC];
+    int      field_15B0[3];
     int      field_15BC[3];
     char     pad15C8[0x15F8 - 0x15C8];
     int      field_15F8;
     int      field_15FC;
     int      field_1600;
     int      field_1604;
-    char     pad1608[0x1610 - 0x1604 - sizeof(int)];
+    int      field_1608;
+    int      field_160C;
     int      field_1610;
     char     pad1614[0x68];
     DG_PRIM *field_167C[3];
@@ -212,7 +216,42 @@ void Dog_800CA458(void *base, int count, int idx)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA4B4.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA758.s")
+void s12c_dog_800CA758(Work *work, int index)
+{
+    if (work->field_160C >= 2 || work->field_1604 != 0)
+    {
+        return;
+    }
+
+    if (((GM_Item == IT_Handkerchief || (GM_Item == IT_Box1 && (work->field_17B4 & 1)) ||
+          (GM_Item == IT_Box2 && (work->field_17B4 & 2)) ||
+          (GM_Item == IT_Box3 && (work->field_17B4 & 4))) &&
+         work->field_14C8[index] <= 0 && work->field_1608 != 1) ||
+        work->field_1608 == 1)
+    {
+        work->field_14C8[index] = GV_RandU(0x40) + 30;
+
+        if (work->field_158C[index] == 0 && work->field_1598[index] == 0 &&
+            work->field_14F8[index] != 5)
+        {
+            work->field_1598[index] = 1;
+            work->field_14F8[index] = 5;
+            work->field_1510[index] = 0;
+            Dog_800CA458(work, 18, index);
+        }
+    }
+    else if (work->field_158C[index] == 0 && work->field_1598[index] == 1 &&
+             work->field_15B0[index] <= 0 && work->field_14C8[index] <= 0 &&
+             work->field_14F8[index] != 3)
+    {
+        work->field_14C8[index] = GV_RandU(0x40) + 30;
+        work->field_1598[index] = 0;
+        work->field_15B0[index] = 0;
+        work->field_14F8[index] = 3;
+        work->field_1510[index] = 0;
+        Dog_800CA458(work, 18, index);
+    }
+}
 
 void Dog_800CA93C(Work *work)
 {
@@ -998,7 +1037,6 @@ void Dog_800CB6DC(Work *work, int arg1, int arg2)
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB714.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CB97C.s")
 extern void s12c_dog_800CB97C(SVECTOR *arg0, SVECTOR *arg1, int arg2);
-extern void s12c_dog_800CA758(Work *work, int idx);
 
 void Dog_800CBBE8(Work *work, int index)
 {
