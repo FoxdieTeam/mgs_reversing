@@ -11,8 +11,8 @@ typedef struct _Work
     CONTROL         ctrl;         /* 0x028 */
     OBJECT          obj;          /* 0x0A4 */
     MOTION_CONTROL  m_ctrl;       /* 0x188 */
-    /* m_segs1[17] @ 0x1D8 - poked as scalars below by the setters */
-    char            pad_seg1[0x1F0 - 0x188 - sizeof(MOTION_CONTROL)];
+    /* MOTION_SEGMENT m_segs1[] @ 0x1D8; the fields below overlap its tail */
+    char            m_segs1[0x1F0 - 0x188 - sizeof(MOTION_CONTROL)];
     int             f1F0;         /* 0x1F0 */
     char            pad_360[0x360 - 0x1F4];
     int             field_360;    /* 0x360 */
@@ -97,7 +97,9 @@ typedef struct _JEEP_SYSTEM_S
     int      field_54;
     char     pad5c[0x5C - 0x54 - sizeof(int)];
     int      field_5C;
-    char     pad60[0x138 - 0x5C - sizeof(int)];
+    char     pad60[0x68 - 0x5C - sizeof(int)];
+    OBJECT  *field_68;
+    char     pad6C[0x138 - 0x68 - sizeof(OBJECT *)];
     SVECTOR  field_138;
 } JEEP_SYSTEM_S;
 

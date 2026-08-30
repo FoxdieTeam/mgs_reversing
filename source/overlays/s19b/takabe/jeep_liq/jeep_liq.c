@@ -656,11 +656,48 @@ void s19b_jeep_liq_800D8250(Work *work)
         body->objs->flag &= ~0x80;
     }
 }
-const char s19b_aLiquid_800DDE68[] = "liquid";
-const char s19b_aLqdb_800DDE70[] = "lqd_19b";
-const char s19b_aFamas_800DDE78[] = "famas";
+int s19b_jeep_liq_800D8420(Work *work, int name)
+{
+    CONTROL *ctl = &work->ctrl;
+    OBJECT  *body;
+    OBJECT  *obj2;
+    HOMING  *homing;
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8420.s")
+    if (GM_InitControl(ctl, name, GM_CurrentMap) < 0)
+    {
+        return -1;
+    }
+    ctl->mov = work->control->mov;
+    ctl->rot = work->control->rot;
+    GM_ConfigControlAttribute(ctl, 5);
+    GM_ConfigControlInterp(ctl, 4);
+
+    body = &work->obj;
+    obj2 = &work->obj2;
+    GM_InitObject(body, GV_StrCode("liquid"), 0x2D, GV_StrCode("lqd_19b"));
+    GM_ConfigObjectJoint(body);
+    GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode("lqd_19b"), (MOTION_SEGMENT *)work->m_segs1, work->m_segs2, ctl,
+                           work->svecs1);
+    GM_ConfigObjectLight(body, &work->mtx[0]);
+    GM_ConfigObjectAction(body, 0, 0, 0);
+    GM_ConfigMotionAdjust(body, work->svecs2);
+    GM_InitObject(obj2, GV_StrCode("famas"), 0x6D, 0);
+    GM_ConfigObjectLight(obj2, &work->mtx[0]);
+    GM_ConfigObjectRoot(obj2, body, 4);
+    work->f8E4 = GM_AllocTarget();
+    homing = GM_AllocHomingTarget(&work->obj.objs->objs[5].world, ctl);
+    work->homing = homing;
+    if (homing != NULL)
+    {
+        homing->flag = 1;
+    }
+    Takabe_JeepSystem.field_68 = body;
+    ctl->r_sphere = -2;
+    work->f90C = 0;
+    work->f910 = 0;
+    work->f914 = 0;
+    return 0;
+}
 void s19b_spark2_m_800D8620(Work *work)
 {
     GM_FreeTarget(work->f8E4);
