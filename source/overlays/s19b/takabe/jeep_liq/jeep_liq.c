@@ -130,7 +130,43 @@ void s19b_jeep_liq_800D76F8(Work *work, int arg1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D771C.s")
+int s19b_jeep_liq_800D771C(int center, int from, int to)
+{
+    int diff = to - from;
+    int base = s19b_jeep_mrl_800D399C();
+
+    if (diff >= 0)
+    {
+        if (diff > 3000)
+        {
+            center = GV_NearSpeed(center, base + 100, 15);
+        }
+        else if (diff > 750)
+        {
+            center = GV_NearSpeed(center, base + 50, 8);
+        }
+        else if (diff > 93)
+        {
+            center = GV_NearSpeed(center, base + 15, 3);
+        }
+    }
+    else
+    {
+        if (diff < -3000)
+        {
+            center = GV_NearSpeed(center, base - 100, 15);
+        }
+        else if (diff < -750)
+        {
+            center = GV_NearSpeed(center, base - 50, 8);
+        }
+        else if (diff < -93)
+        {
+            center = GV_NearSpeed(center, base - 15, 3);
+        }
+    }
+    return center;
+}
 void s19b_jeep_liq_800D77F0(Work *work)
 {
     int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
