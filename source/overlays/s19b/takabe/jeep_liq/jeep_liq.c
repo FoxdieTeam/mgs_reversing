@@ -51,7 +51,8 @@ typedef struct _Work
     SVECTOR         svecs2[16];   /* 0x720 */
     SVECTOR         sv_7A0;       /* 0x7A0 */
     SVECTOR         sv_7A8;       /* 0x7A8 */
-    char            pad_7C0[0x7C0 - 0x7A8 - sizeof(SVECTOR)];
+    char            pad_7B0[0x7B8 - 0x7A8 - sizeof(SVECTOR)];
+    SVECTOR         sv_7B8;       /* 0x7B8 */
     MATRIX          mtx[2];       /* 0x7C0 */
     OBJECT          obj2;         /* 0x800 */
     TARGET         *f8E4;         /* 0x8E4 */
@@ -96,6 +97,8 @@ typedef struct _JEEP_SYSTEM_S
     int      field_54;
     char     pad5c[0x5C - 0x54 - sizeof(int)];
     int      field_5C;
+    char     pad60[0x138 - 0x5C - sizeof(int)];
+    SVECTOR  field_138;
 } JEEP_SYSTEM_S;
 
 extern JEEP_SYSTEM_S Takabe_JeepSystem;
@@ -126,6 +129,9 @@ extern void  s19b_jeep_liq_800D7C0C(Work *work);
 extern void  s19b_jeep_liq_800D8014(Work *work, int arg1);
 extern void  s19b_jeep_liq_800D8118(Work *work);
 extern void  s19b_jeep_gls_800CEC24(int arg0, SVECTOR *out);
+extern void  s19b_spark2_m_800D964C(Work *work);
+extern void  sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
+extern const char s19b_dword_800DDE60[];
 extern int   s19b_jeep_gls_800CEDFC(int arg0, int arg1);
 
 void s19b_jeep_liq_800D6FB8(Work *work)
@@ -615,7 +621,41 @@ void s19b_jeep_liq_800D81A8(Work *work)
         work->field_3D0 = (int)s19b_jeep_liq_800D7114;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8250.s")
+void s19b_jeep_liq_800D8250(Work *work)
+{
+    OBJECT  *body = &work->obj;
+    CONTROL *ctl = &work->ctrl;
+    DG_OBJS *objs;
+    SVECTOR *jpos = &Takabe_JeepSystem.field_138;
+    SVECTOR  pos = *(SVECTOR *)&s19b_dword_800DDE60;
+
+    GM_ActMotion(body);
+    ctl->rot = ctl->turn = DG_ZeroVector;
+    ctl->mov = pos;
+    GM_ActControl(ctl);
+    GM_ActObject(body);
+    objs = body->objs;
+    CompMatrix((MATRIX *)work->prim, &objs->world, &objs->world);
+    DG_GetLightMatrix(&ctl->mov, &work->mtx[0]);
+    ctl->mov.vx = objs->world.t[0];
+    ctl->mov.vy = objs->world.t[1];
+    ctl->mov.vz = objs->world.t[2];
+    jpos->vx = body->objs->objs[6].world.t[0];
+    jpos->vy = body->objs->objs[6].world.t[1];
+    jpos->vz = body->objs->objs[6].world.t[2];
+    GM_MoveTarget(work->f8E4, &ctl->mov);
+    s19b_spark2_m_800D964C(work);
+    sna_act_helper2_helper2_80033054(0x7BF2, &work->sv_7B8);
+    work->svecs2[6].vx = work->sv_7B8.vx;
+    if ((work->f940 & 3) == 1)
+    {
+        body->objs->flag |= 0x80;
+    }
+    else
+    {
+        body->objs->flag &= ~0x80;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8420.s")
 void s19b_spark2_m_800D8620(Work *work)
 {
