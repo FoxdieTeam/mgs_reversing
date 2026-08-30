@@ -78,7 +78,9 @@ typedef struct _CamActor
     int       field_DA0;       /* 0xDA0 */
     char      pad_DA4[0xDEC - 0xDA4];
     int       field_DEC;       /* 0xDEC */
-    char      pad_DF0[0xDFC - 0xDF0];
+    int       field_DF0;       /* 0xDF0 */
+    int       field_DF4;       /* 0xDF4 */
+    int       field_DF8;       /* 0xDF8 */
     int       field_DFC;       /* 0xDFC */
     char      pad_E00[0xE0C - 0xE00];
     int       field_E0C;       /* 0xE0C */
@@ -526,7 +528,145 @@ int s05a_800E00D8(SnaInitWork *snake, SnaFlag1 flags)
 {
     return (snake->field_894_flags1 & flags) != 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s05a/s05a_800E00EC.s")
+void s05a_800E0D38(CONTROL *control, HZD_HDL *hzd);
+void s05a_800E0E28(CONTROL *work, HZD_HDL *hzd);
+void s05a_800E0F64(CONTROL *work, HZD_HDL *hzd);
+void s05a_800E1014(CONTROL *work, HZD_HDL *hzd);
+
+int s05a_800E00EC(GV_ACT *actor)
+{
+    int      vy = 0;
+    SnaInitWork *work = (SnaInitWork *)actor;
+    HZD_HDL *hzd;
+    SVECTOR  pos;
+    SVECTOR  rot;
+    int      time;
+    int      dist;
+
+    GM_uTenageMotion = -1;
+    if (HZD_GetFloorHit(&s05a_dword_800C362C->trap, &work->control.mov) == 0 && !(GM_PlayerStatus & 0x1340))
+    {
+        if (s05a_dword_800C362C->field_EB0 != NULL)
+        {
+            pos = s05a_dword_800C362C->field_EB0->field_1C0->center;
+        }
+        else
+        {
+            pos = s05a_dword_800C362C->control.mov;
+        }
+        pos.vx = (pos.vx - work->control.mov.vx) >> 2;
+        pos.vy = (pos.vy - work->control.mov.vy) >> 2;
+        pos.vz = (pos.vz - work->control.mov.vz) >> 2;
+        memset(&rot, 0, 8);
+        rot.vy = ratan2(pos.vx, pos.vz);
+        while (rot.vy < -0x800) rot.vy += 0x1000;
+        while (rot.vy >= 0x801) rot.vy -= 0x1000;
+        dist = SquareRoot0(pos.vx * pos.vx + pos.vz * pos.vz) * 4;
+        if (s05a_dword_800C362C->field_DF8 >= dist)
+        {
+            pos.vy = rot.vy - GM_PlayerControl->rot.vy;
+            while (pos.vy < -0x800) pos.vy += 0x1000;
+            while (pos.vy >= 0x801) pos.vy -= 0x1000;
+
+            if (pos.vy >= -s05a_dword_800C362C->field_DF4 && pos.vy <= -s05a_dword_800C362C->field_DF4 / 2)
+            {
+                if (dist <= s05a_dword_800C362C->field_DF8 * 2 / 3)
+                {
+                    GM_uTenageMotion = 2;
+                }
+                else
+                {
+                    GM_uTenageMotion = 5;
+                }
+            }
+            else if (pos.vy > -s05a_dword_800C362C->field_DF4 / 2 && pos.vy < s05a_dword_800C362C->field_DF4 / 2)
+            {
+                if (dist <= s05a_dword_800C362C->field_DF8 * 2 / 3)
+                {
+                    GM_uTenageMotion = 0;
+                }
+                else
+                {
+                    GM_uTenageMotion = 3;
+                }
+            }
+            else if (pos.vy >= s05a_dword_800C362C->field_DF4 / 2 && pos.vy <= s05a_dword_800C362C->field_DF4)
+            {
+                if (dist <= s05a_dword_800C362C->field_DF8 * 2 / 3)
+                {
+                    GM_uTenageMotion = 1;
+                }
+                else
+                {
+                    GM_uTenageMotion = 4;
+                }
+            }
+        }
+        return 0;
+    }
+
+    hzd = work->control.map->hzd;
+    s05a_800E0D38(&work->control, hzd);
+    GM_CurrentMap = work->control.map->index;
+
+    if (work->control.r_sphere > 0)
+    {
+        work->control.n_touches = 0;
+        if (work->control.hzd_height != -0x7fff)
+        {
+            vy = work->control.mov.vy;
+            work->control.mov.vy = work->control.hzd_height;
+        }
+        s05a_800E0E28(&work->control, hzd);
+        work->control.mov.vx += work->control.step.vx;
+        work->control.mov.vz += work->control.step.vz;
+        s05a_800E0F64(&work->control, hzd);
+        if (work->control.hzd_height != -0x7fff)
+        {
+            work->control.mov.vy = vy;
+        }
+        time = work->control.interp;
+        if (work->control.interp == 0)
+        {
+            GV_NearExp4PV(&work->control.rot.vx, &work->control.turn.vx, 3);
+        }
+        else
+        {
+            GV_NearTimePV(&work->control.rot.vx, &work->control.turn.vx, work->control.interp, 3);
+            work->control.interp = time - 1;
+        }
+        s05a_800E1014(&work->control, hzd);
+    }
+    else if (work->control.r_sphere < 0)
+    {
+        work->control.n_touches = 0;
+        time = work->control.interp;
+        work->control.mov.vx += work->control.step.vx;
+        work->control.mov.vz += work->control.step.vz;
+        if (time == 0)
+        {
+            GV_NearExp4PV(&work->control.rot.vx, &work->control.turn.vx, 3);
+        }
+        else
+        {
+            GV_NearTimePV(&work->control.rot.vx, &work->control.turn.vx, time, 3);
+            work->control.interp = time - 1;
+        }
+        if (work->control.r_sphere >= -1)
+        {
+            s05a_800E1014(&work->control, hzd);
+        }
+    }
+
+    if (!(work->control.skip_flag & CTRL_SKIP_TRAP))
+    {
+        work->control.evt.mov = work->control.mov;
+        work->control.evt.mov.pad = work->control.rot.vy;
+        HZD_EnterTrap(hzd, &work->control.evt);
+    }
+    DG_SetPos2(&work->control.mov, &work->control.rot);
+    return 1;
+}
 int s05a_800E066C(SnaInitWork *work_)
 {
     SnaInitWork *work = work_;
@@ -681,7 +821,7 @@ int s05a_800E066C(SnaInitWork *work_)
     GM_ActObject(&work->body);
     return 1;
 }
-void s05a_800E0D38(CONTROL *control)
+void s05a_800E0D38(CONTROL *control, HZD_HDL *hzd)
 {
     GV_MSG *msg;
     int     name;
