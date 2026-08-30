@@ -2,6 +2,8 @@
 #include "game/camera.h"
 #include "takabe/cinema.h"
 
+struct _DemoCam;
+
 typedef struct _JEEP_SYSTEM
 {
     char     pad1[0x4];
@@ -32,7 +34,7 @@ typedef struct _JEEP_SYSTEM
     SVECTOR  field_154;
     MATRIX  *field_15C;
     SVECTOR  field_160;
-    void    *field_168;
+    struct _DemoCam *field_168;
 } JEEP_SYSTEM;
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
@@ -155,12 +157,8 @@ void s19b_jlamp_800D09DC(void)
     GM_SetSound(0x01FFFF0B, 0);
     GM_SetSound(0xFF0000FE, 0);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0A20.s")
-
 extern GM_CameraSystemWork GM_Camera;
 extern GM_SnakeCameraWork  GM_SnakeCamera;
-
-struct _DemoCam;
 
 typedef struct _DemoCamCmd
 {
@@ -183,11 +181,48 @@ typedef struct _DemoCam
     DemoCamCmd *field_94;
 } DemoCam;
 
+extern int s19b_dword_800C3778;
+extern int s19b_dword_800C3898;
+extern int s19b_dword_800C38D0;
+extern int s19b_dword_800C3950;
+extern void *NewDemoCamera(void *unk);
+
+void s19b_jlamp_800D0A20(int arg0)
+{
+    JEEP_SYSTEM *js;
+
+    if (GM_GameOverTimer != 0)
+    {
+        return;
+    }
+    js = &Takabe_JeepSystem;
+    if (js->field_168 != NULL)
+    {
+        return;
+    }
+    if (arg0 == 0)
+    {
+        js->field_168 = NewDemoCamera(&s19b_dword_800C3778);
+        js->field_168->field_94 = (DemoCamCmd *)&s19b_dword_800C3898;
+    }
+    else if (arg0 == 1)
+    {
+        js->field_168 = NewDemoCamera(&s19b_dword_800C38D0);
+        js->field_168->field_94 = (DemoCamCmd *)&s19b_dword_800C3950;
+    }
+    else
+    {
+        return;
+    }
+    GV_DemoPadStatus[0] = 0;
+    GM_GameStatus |= 0x40000000;
+}
+
 void s19b_jlamp_800D0ABC(void)
 {
     DemoCam *cam;
 
-    cam = (DemoCam *)Takabe_JeepSystem.field_168;
+    cam = Takabe_JeepSystem.field_168;
     if (cam == 0)
     {
         return;
