@@ -30,7 +30,9 @@ typedef struct _Work
     char     pad14A0[0x14];
     int      unk14B4;
     int      field_14B8[3];
-    char     pad14C4[0x28];
+    char     pad14C4[0x10];
+    int      field_14D4[3];
+    char     pad14E0[0xC];
     int      field_14EC[3];
     int      field_14F8[3];
     char     pad1504[0xC];
@@ -81,35 +83,262 @@ int s12c_dword_800C344C = 0x000001F4;
 SVECTOR s12c_dword_800C3450 = {0, 0, 100};
 SVECTOR s12c_dword_800C3458 = {64512, 0, 0};
 
-const int  s12c_dword_800D9AD4 = 0x800CAD30;
-const int  s12c_dword_800D9AD8 = 0x800CAD44;
-const int  s12c_dword_800D9ADC = 0x800CAD30;
-const int  s12c_dword_800D9AE0 = 0x800CAD30;
-const int  s12c_dword_800D9AE4 = 0x800CAD30;
-const int  s12c_dword_800D9AE8 = 0x800CAD30;
-const int  s12c_dword_800D9AEC = 0x800CAD30;
-const int  s12c_dword_800D9AF0 = 0x800CAD30;
-const int  s12c_dword_800D9AF4 = 0x800CAD30;
-const int  s12c_dword_800D9AF8 = 0x800CAD30;
-const int  s12c_dword_800D9AFC = 0x800CAD44;
-const int  s12c_dword_800D9B00 = 0x800CAD44;
-const int  s12c_dword_800D9B04 = 0x800CAD44;
-const int  s12c_dword_800D9B08 = 0x800CAD44;
-const int  s12c_dword_800D9B0C = 0x800CAD44;
-const int  s12c_dword_800D9B10 = 0x800CAD44;
-const int  s12c_dword_800D9B14 = 0x800CAD44;
-const int  s12c_dword_800D9B18 = 0x800CAD30;
-const int  s12c_dword_800D9B1C = 0x800CAD30;
-const int  s12c_dword_800D9B20 = 0x800CAD30;
-const int  s12c_dword_800D9B24 = 0x800CAD44;
-const int  s12c_dword_800D9B28 = 0x800CAD30;
-const int  s12c_dword_800D9B2C = 0x800CAD30;
-const int  s12c_dword_800D9B30 = 0x800CAD30;
-const int  s12c_dword_800D9B34 = 0x800CAD30;
-const int  s12c_dword_800D9B38 = 0x800CAD30;
-const int  s12c_dword_800D9B3C = 0x800CAD44;
-const int  s12c_dword_800D9B40 = 0x800CAD44;
-const int  s12c_dword_800D9B44 = 0x800CAD30;
+void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
+void *AN_Unknown_800CA320(MATRIX *mat, int mark);
+
+void Dog_800C9E4C(Work *work, int index)
+{
+    int mod;
+
+    mod = work->field_155C[index] % 32;
+    switch (index)
+    {
+    case 0:
+        if (mod == 0)
+        {
+            GM_SeSetMode(&work->field_28[0].mov, 0xA0, GM_SEMODE_NORMAL);
+        }
+        else if (mod == 15)
+        {
+            GM_SeSetMode(&work->field_28[0].mov, 0xA1, GM_SEMODE_NORMAL);
+        }
+        break;
+    case 1:
+        if (mod == 0)
+        {
+            GM_SeSetMode(&work->field_28[1].mov, 0xA2, GM_SEMODE_NORMAL);
+        }
+        else if (mod == 15)
+        {
+            GM_SeSetMode(&work->field_28[1].mov, 0xA3, GM_SEMODE_NORMAL);
+        }
+        break;
+    case 2:
+        if (mod == 0 || mod == 15)
+        {
+            GM_SeSetMode(&work->field_28[2].mov, 0xA6, GM_SEMODE_NORMAL);
+        }
+        else if (mod == 7 || mod == 23)
+        {
+            GM_SeSetMode(&work->field_28[2].mov, 0xA7, GM_SEMODE_NORMAL);
+        }
+        break;
+    }
+}
+
+void Dog_800C9F48(Work *work, int index)
+{
+    if (work->field_155C[index] & 7)
+    {
+        return;
+    }
+
+    switch (index)
+    {
+    case 0:
+        GM_SeSetMode(&work->field_28[0].mov, 0xA4, GM_SEMODE_NORMAL);
+        break;
+    case 1:
+        GM_SeSetMode(&work->field_28[1].mov, 0xA5, GM_SEMODE_NORMAL);
+        break;
+    }
+}
+
+void Dog_800C9FAC(Work *work, int index)
+{
+    work->field_15BC[index] = 0;
+    DG_InvisiblePrim(work->field_167C[index]);
+    DG_InvisibleObjs(work->field_19C[index].objs);
+}
+
+void Dog_800CA000(Work *work, int index)
+{
+    work->field_15BC[index] = 1;
+    DG_VisiblePrim(work->field_167C[index]);
+    DG_VisibleObjs(work->field_19C[index].objs);
+}
+
+void Dog_800CA058(Work *work)
+{
+    if (work->field_1774 > 0)
+    {
+        GM_PadVibration = 1;
+        GM_PadVibration2 = 0xFF;
+        work->field_1774--;
+    }
+    else
+    {
+        work->field_1774 = 0;
+    }
+}
+
+#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA098.s")
+
+// Duplicate of d03a_red_alrt_800C437C
+int Dog_800CA3C0(unsigned short name, int nhashes, unsigned short *hashes)
+{
+    GV_MSG *msg;
+    int     nmsgs;
+    int     found;
+    int     hash;
+    int     i;
+
+    nmsgs = GV_ReceiveMessage(name, &msg);
+    found = -1;
+
+    for (; nmsgs > 0; nmsgs--, msg++)
+    {
+        hash = msg->message[0];
+
+        for (i = 0; i < nhashes; i++)
+        {
+            if (hash == hashes[i])
+            {
+                found = i;
+            }
+        }
+    }
+
+    return found;
+}
+
+void Dog_800CA458(void *base, int count, int idx)
+{
+    SVECTOR *dst = (SVECTOR *)((char *)base + (idx * 0x90 + 0xF00));
+    int i;
+
+    for (i = 0; i < count; i++)
+    {
+        *dst++ = DG_ZeroVector;
+    }
+}
+#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA4B4.s")
+#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA758.s")
+
+void Dog_800CA93C(Work *work)
+{
+    if (GV_PadData->press != 0)
+    {
+        work->field_1600++;
+    }
+    else
+    {
+        work->field_1600 = 0;
+    }
+}
+
+#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA96C.s")
+
+int Dog_800CAB34(Work *work, int arg1)
+{
+    if (arg1 == 0 || (arg1 == 1 && work->field_1528 < 2000))
+    {
+        return 1;
+    }
+    return 0;
+}
+
+void Dog_800CAB68(Work *work, int index, int hp)
+{
+    TARGET *target;
+
+    if (GM_PlayerStatus & (PLAYER_NOT_PLAYABLE | PLAYER_DAMAGED | PLAYER_INVINCIBLE))
+    {
+        return;
+    }
+
+    target = &work->field_1194[index];
+    target->vital = hp;
+    target->force.vx = GV_RandU(32);
+    target->force.vy = GV_RandU(32);
+    target->force.vz = GV_RandU(32);
+    GM_MoveTarget(target, &GM_PlayerPosition);
+    GM_PowerTarget(target);
+}
+
+int Dog_800CABF4(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2)
+{
+    SVECTOR sp10;
+    int     vy;
+    int     len;
+
+    GV_SubVec3(arg1, arg0, &sp10);
+    arg2->vy = ratan2(sp10.vx, sp10.vz) & 0xFFF;
+    vy = sp10.vy;
+    sp10.vy = 0;
+    len = GV_VecLen3(&sp10);
+    arg2->vx = (ratan2(len, vy) & 0xFFF) - 0x400;
+    arg2->vz = 0;
+    return len;
+}
+
+void s12c_dog_800CAC84(Work *work, int index, int state)
+{
+    if (work->field_1510[index] == 0x25 || work->field_14F8[index] == 12 ||
+        work->field_14F8[index] == 13)
+    {
+        work->field_28[index].r_sphere = -2;
+    }
+    else if (index != 2)
+    {
+        if (work->field_1604 == 0)
+        {
+            work->field_28[index].r_sphere = 550;
+        }
+    }
+    else
+    {
+        work->field_28[index].r_sphere = 250;
+    }
+
+    switch (state)
+    {
+    case 0:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 17:
+    case 18:
+    case 19:
+    case 21:
+    case 22:
+    case 23:
+    case 24:
+    case 25:
+    case 28:
+        work->field_15BC[index] = 1;
+        break;
+
+    case 1:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+    case 16:
+    case 20:
+    case 26:
+    case 27:
+        work->field_15BC[index] = 0;
+        break;
+    }
+
+    if (state == 1 || state == 12)
+    {
+        work->field_14D4[index]++;
+    }
+    else
+    {
+        work->field_14D4[index] = 0;
+    }
+}
+
 const char s12c_dword_800D9B48[] = {0x0, 0x0, 0x0, 0x0};
 const int  s12c_dword_800D9B4C = 0x800CBE4C;
 const int  s12c_dword_800D9B50 = 0x800CBE6C;
@@ -473,198 +702,6 @@ const char s12c_aWolfdog_800DA0F0[] = "wolfdog";
 const char s12c_aWolfdog_800DA0F8[] = "wolfdog2";
 const char s12c_aShadow_800DA104[] = "shadow";
 const char s12c_aDoglow_800DA10C[] = "dog_low";
-
-void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
-void *AN_Unknown_800CA320(MATRIX *mat, int mark);
-
-void Dog_800C9E4C(Work *work, int index)
-{
-    int mod;
-
-    mod = work->field_155C[index] % 32;
-    switch (index)
-    {
-    case 0:
-        if (mod == 0)
-        {
-            GM_SeSetMode(&work->field_28[0].mov, 0xA0, GM_SEMODE_NORMAL);
-        }
-        else if (mod == 15)
-        {
-            GM_SeSetMode(&work->field_28[0].mov, 0xA1, GM_SEMODE_NORMAL);
-        }
-        break;
-    case 1:
-        if (mod == 0)
-        {
-            GM_SeSetMode(&work->field_28[1].mov, 0xA2, GM_SEMODE_NORMAL);
-        }
-        else if (mod == 15)
-        {
-            GM_SeSetMode(&work->field_28[1].mov, 0xA3, GM_SEMODE_NORMAL);
-        }
-        break;
-    case 2:
-        if (mod == 0 || mod == 15)
-        {
-            GM_SeSetMode(&work->field_28[2].mov, 0xA6, GM_SEMODE_NORMAL);
-        }
-        else if (mod == 7 || mod == 23)
-        {
-            GM_SeSetMode(&work->field_28[2].mov, 0xA7, GM_SEMODE_NORMAL);
-        }
-        break;
-    }
-}
-
-void Dog_800C9F48(Work *work, int index)
-{
-    if (work->field_155C[index] & 7)
-    {
-        return;
-    }
-
-    switch (index)
-    {
-    case 0:
-        GM_SeSetMode(&work->field_28[0].mov, 0xA4, GM_SEMODE_NORMAL);
-        break;
-    case 1:
-        GM_SeSetMode(&work->field_28[1].mov, 0xA5, GM_SEMODE_NORMAL);
-        break;
-    }
-}
-
-void Dog_800C9FAC(Work *work, int index)
-{
-    work->field_15BC[index] = 0;
-    DG_InvisiblePrim(work->field_167C[index]);
-    DG_InvisibleObjs(work->field_19C[index].objs);
-}
-
-void Dog_800CA000(Work *work, int index)
-{
-    work->field_15BC[index] = 1;
-    DG_VisiblePrim(work->field_167C[index]);
-    DG_VisibleObjs(work->field_19C[index].objs);
-}
-
-void Dog_800CA058(Work *work)
-{
-    if (work->field_1774 > 0)
-    {
-        GM_PadVibration = 1;
-        GM_PadVibration2 = 0xFF;
-        work->field_1774--;
-    }
-    else
-    {
-        work->field_1774 = 0;
-    }
-}
-
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA098.s")
-
-// Duplicate of d03a_red_alrt_800C437C
-int Dog_800CA3C0(unsigned short name, int nhashes, unsigned short *hashes)
-{
-    GV_MSG *msg;
-    int     nmsgs;
-    int     found;
-    int     hash;
-    int     i;
-
-    nmsgs = GV_ReceiveMessage(name, &msg);
-    found = -1;
-
-    for (; nmsgs > 0; nmsgs--, msg++)
-    {
-        hash = msg->message[0];
-
-        for (i = 0; i < nhashes; i++)
-        {
-            if (hash == hashes[i])
-            {
-                found = i;
-            }
-        }
-    }
-
-    return found;
-}
-
-void Dog_800CA458(void *base, int count, int idx)
-{
-    SVECTOR *dst = (SVECTOR *)((char *)base + (idx * 0x90 + 0xF00));
-    int i;
-
-    for (i = 0; i < count; i++)
-    {
-        *dst++ = DG_ZeroVector;
-    }
-}
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA4B4.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA758.s")
-
-void Dog_800CA93C(Work *work)
-{
-    if (GV_PadData->press != 0)
-    {
-        work->field_1600++;
-    }
-    else
-    {
-        work->field_1600 = 0;
-    }
-}
-
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA96C.s")
-
-int Dog_800CAB34(Work *work, int arg1)
-{
-    if (arg1 == 0 || (arg1 == 1 && work->field_1528 < 2000))
-    {
-        return 1;
-    }
-    return 0;
-}
-
-void Dog_800CAB68(Work *work, int index, int hp)
-{
-    TARGET *target;
-
-    if (GM_PlayerStatus & (PLAYER_NOT_PLAYABLE | PLAYER_DAMAGED | PLAYER_INVINCIBLE))
-    {
-        return;
-    }
-
-    target = &work->field_1194[index];
-    target->vital = hp;
-    target->force.vx = GV_RandU(32);
-    target->force.vy = GV_RandU(32);
-    target->force.vz = GV_RandU(32);
-    GM_MoveTarget(target, &GM_PlayerPosition);
-    GM_PowerTarget(target);
-}
-
-int Dog_800CABF4(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2)
-{
-    SVECTOR sp10;
-    int     vy;
-    int     len;
-
-    GV_SubVec3(arg1, arg0, &sp10);
-    arg2->vy = ratan2(sp10.vx, sp10.vz) & 0xFFF;
-    vy = sp10.vy;
-    sp10.vy = 0;
-    len = GV_VecLen3(&sp10);
-    arg2->vx = (ratan2(len, vy) & 0xFFF) - 0x400;
-    arg2->vz = 0;
-    return len;
-}
-
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CAC84.s")
-int s12c_dog_800CAC84(Work *work, int, int);
 
 void s12c_dog_800CAD8C(Work *work, int idx)
 {
