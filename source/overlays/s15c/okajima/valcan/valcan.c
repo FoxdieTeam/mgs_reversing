@@ -1238,44 +1238,6 @@ void s15c_crow_800DA990(Work *work)
     Valcan_800DA8E4(work);
 }
 
-const char s15c_dword_800E2E84[] = {0x0, 0x0, 0x0, 0x0};
-const int s15c_dword_800E2E88 = 0x800DC358;
-const int s15c_dword_800E2E8C = 0x800DC378;
-const int s15c_dword_800E2E90 = 0x800DC38C;
-const int s15c_dword_800E2E94 = 0x800DC3A8;
-const int s15c_dword_800E2E98 = 0x800DC3D8;
-const int s15c_dword_800E2E9C = 0x800DC490;
-const int s15c_dword_800E2EA0 = 0x800DC4A8;
-const int s15c_dword_800E2EA4 = 0x800DC790;
-const int s15c_dword_800E2EA8 = 0x800DC4C0;
-const int s15c_dword_800E2EAC = 0x800DC54C;
-const int s15c_dword_800E2EB0 = 0x800DC790;
-const int s15c_dword_800E2EB4 = 0x800DC790;
-const int s15c_dword_800E2EB8 = 0x800DC564;
-const int s15c_dword_800E2EBC = 0x800DC57C;
-const int s15c_dword_800E2EC0 = 0x800DC5A8;
-const int s15c_dword_800E2EC4 = 0x800DC790;
-const int s15c_dword_800E2EC8 = 0x800DC790;
-const int s15c_dword_800E2ECC = 0x800DC5C8;
-const int s15c_dword_800E2ED0 = 0x800DC5E0;
-const int s15c_dword_800E2ED4 = 0x800DC60C;
-const int s15c_dword_800E2ED8 = 0x800DC62C;
-const int s15c_dword_800E2EDC = 0x800DC6E4;
-const int s15c_dword_800E2EE0 = 0x800DC650;
-const int s15c_dword_800E2EE4 = 0x800DC668;
-const int s15c_dword_800E2EE8 = 0x800DC6A0;
-const int s15c_dword_800E2EEC = 0x800DC6C0;
-const int s15c_dword_800E2EF0 = 0x800DC6E4;
-const int s15c_dword_800E2EF4 = 0x800DC730;
-const int s15c_dword_800E2EF8 = 0x800DC768;
-const int s15c_dword_800E2EFC = 0x800DC740;
-const int s15c_dword_800E2F00 = 0x800DC768;
-const char s15c_dword_800E2F04[] = {0x0, 0x0, 0x0, 0x0};
-const int s15c_dword_800E2F08 = 0x800DC904;
-const int s15c_dword_800E2F0C = 0x800DC904;
-const int s15c_dword_800E2F10 = 0x800DC938;
-const int s15c_dword_800E2F14 = 0x800DC97C;
-const int s15c_dword_800E2F18 = 0x800DC9C0;
 
 void Valcan_800DACCC(Work *work)
 {
@@ -2072,9 +2034,247 @@ void Valcan_800DC2EC(Work *work, int action)
     GM_ConfigObjectAction(&work->field_A0, action, 0, 4);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC318.s")
+void s15c_crow_800DC318(Work *work)
+{
+    int tick;
+
+    switch (work->field_688)
+    {
+    case 0:
+        work->field_91C = 0;
+
+        if (work->field_900 <= 0)
+        {
+            work->field_688 = 0;
+        }
+        else
+        {
+            work->field_688 = 1;
+        }
+        /* fallthrough */
+
+    case 1:
+        Valcan_800DC2EC(work, 0);
+        break;
+
+    case 2:
+        work->field_91C = 0;
+        work->field_688 = 3;
+        work->field_694 = GV_RandU(0x80) + 0x40;
+        /* fallthrough */
+
+    case 3:
+        Valcan_800DC2EC(work, 0);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_688 = 4;
+        }
+        break;
+
+    case 4:
+        if (GM_GameLevel == 3 && GV_Time % 256 < 0xF0)
+        {
+            s15c_crow_800DA990(work);
+        }
+        else
+        {
+            work->field_91C = 0;
+        }
+
+        work->field_688 = 5;
+        Valcan_800DC290(work, 1, 4);
+
+        tick = work->field_920 % 22;
+
+        if (tick == 0)
+        {
+            GM_SeSetMode(&work->field_910, 0xBE, GM_SEMODE_BOMB);
+        }
+        else if (tick == 11)
+        {
+            GM_SeSetMode(&work->field_910, 0xBF, GM_SEMODE_BOMB);
+        }
+
+        work->field_920++;
+        break;
+
+    case 5:
+        Valcan_800DC290(work, 1, 4);
+        break;
+
+    case 6:
+        Valcan_800DC290(work, 1, 0);
+        break;
+
+    case 8:
+        work->field_91C = 0;
+        work->field_688 = 9;
+        Valcan_800DC290(work, 2, 8);
+
+        tick = work->field_920 % 30;
+
+        if (tick == 0)
+        {
+            GM_SeSetMode(&work->field_910, 0xBE, GM_SEMODE_BOMB);
+        }
+        else if (tick == 15)
+        {
+            GM_SeSetMode(&work->field_910, 0xBF, GM_SEMODE_BOMB);
+        }
+
+        work->field_920++;
+        break;
+
+    case 9:
+        Valcan_800DC290(work, 2, 8);
+        break;
+
+    case 12:
+        work->field_6B0 = 1;
+        work->field_694 = 8;
+        work->field_688 = 13;
+        /* fallthrough */
+
+    case 13:
+        Valcan_800DC2EC(work, 3);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_688 = 14;
+            work->field_6B0 = 2;
+        }
+        break;
+
+    case 14:
+        s15c_crow_800DA990(work);
+        Valcan_800DC290(work, 4, 14);
+        break;
+
+    case 17:
+        work->field_6B0 = 1;
+        work->field_694 = 8;
+        work->field_688 = 18;
+        /* fallthrough */
+
+    case 18:
+        Valcan_800DC2EC(work, 3);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_688 = 19;
+            work->field_6B0 = 2;
+        }
+        break;
+
+    case 19:
+        s15c_crow_800DA990(work);
+        Valcan_800DC290(work, 5, 20);
+        break;
+
+    case 20:
+        work->field_694 = 8;
+        work->field_6B0 = 3;
+        s15c_crow_800DA990(work);
+        work->field_688 = 21;
+        break;
+
+    case 21:
+        s15c_crow_800DA990(work);
+        Valcan_800DC2EC(work, 2);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_91C = 0;
+            work->field_6B0 = 0;
+            work->control.turn.vy = work->field_744[work->field_740];
+        }
+        break;
+
+    case 22:
+        work->field_6B0 = 1;
+        work->field_694 = 8;
+        work->field_688 = 23;
+        /* fallthrough */
+
+    case 23:
+        Valcan_800DC2EC(work, 3);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_688 = 24;
+            work->field_6B0 = 2;
+        }
+        break;
+
+    case 24:
+        s15c_crow_800DA990(work);
+        Valcan_800DC290(work, 6, 25);
+        break;
+
+    case 25:
+        work->field_694 = 8;
+        work->field_6B0 = 3;
+        s15c_crow_800DA990(work);
+        work->field_688 = 26;
+        break;
+
+    case 26:
+        s15c_crow_800DA990(work);
+        Valcan_800DC2EC(work, 2);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_91C = 0;
+            work->field_6B0 = 0;
+            work->control.turn.vy = work->field_744[work->field_740];
+        }
+        break;
+
+    case 27:
+        work->field_91C = 0;
+        Valcan_800DC290(work, 7, 28);
+        work->field_694 = 8;
+        work->field_6B0 = 1;
+        break;
+
+    case 28:
+        Valcan_800DC2EC(work, 2);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_6B0 = 0;
+        }
+        break;
+
+    case 29:
+        work->field_91C = 0;
+        Valcan_800DC290(work, 8, 30);
+        work->field_694 = 8;
+        work->field_6B0 = 1;
+        break;
+
+    case 30:
+        Valcan_800DC2EC(work, 2);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_6B0 = 0;
+        }
+        break;
+    }
+}
+
+
 void s15c_crow_800DC318(Work *work);
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC7A0.s")
+
+const char s15c_dword_800E2F04[] = {0x0, 0x0, 0x0, 0x0};
+const int s15c_dword_800E2F08 = 0x800DC904;
+const int s15c_dword_800E2F0C = 0x800DC904;
+const int s15c_dword_800E2F10 = 0x800DC938;
+const int s15c_dword_800E2F14 = 0x800DC97C;
+const int s15c_dword_800E2F18 = 0x800DC9C0;
 void s15c_crow_800DC7A0(Work *work);
 
 #define ABS(x) (((x) >= 0) ? (x) : -(x))
