@@ -39,7 +39,9 @@ typedef struct _DynCon
     HZD_FLR floors[4][2][2]; /* 0x383C - two HZD_FLR per [i][j] */
     char    pad_3B3C[0x3C0C - 0x3B3C];
     SVECTOR field_3C0C[4];   /* 0x3C0C */
-    char    pad_3C2C[0x3F00 - 0x3C2C];
+    char    pad_3C2C[0x3DDC - 0x3C2C];
+    int     field_3DDC;      /* 0x3DDC */
+    char    pad_3DE0[0x3F00 - 0x3DE0];
     int     field_3F00[4];   /* 0x3F00 */
     int     field_3F10[4];   /* 0x3F10 - countdown, reset to 32 (800D6004/603C) */
     int     field_3F20[4];   /* 0x3F20 - cycle counter (800D6004/603C) */
@@ -49,8 +51,15 @@ typedef struct _DynCon
     short   field_3F80[4][4];/* 0x3F80 - bounds [min_x, min_z, max_x, max_z] per row */
     HZD_SEG slots[4][2];     /* 0x3FA0 - two HZD_SEG per row */
     int     field_4020[4];   /* 0x4020 - flag per row */
-    char    pad_4030[0x4050 - 0x4030];
+    char    pad_4030[0x4040 - 0x4030];
+    int     field_4040[4];   /* 0x4040 */
     int     field_4050;      /* 0x4050 - mode/state (1 or 3) */
+    int     field_4054;      /* 0x4054 - GCL proc ids, -1 when unset */
+    int     field_4058;      /* 0x4058 */
+    int     field_405C;      /* 0x405C */
+    int     field_4060[40];  /* 0x4060 - the two bytes of each option word */
+    char    pad_4100[0x4160 - 0x4100];
+    int     field_4160[4];   /* 0x4160 */
 } DynCon;
 
 typedef struct _DynStack
@@ -427,6 +436,7 @@ void s15c_dyncon_800D6128(DynCon *work, SVECTOR *pos, int range)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D61E0.s")
+void s15c_dyncon_800D61E0(DynCon *work);
 extern void *NewItemPut(SVECTOR *pos, SVECTOR *step, Item_Info *info);
 extern const char s15c_aNikitamissile_800E2D80[];
 extern const char s15c_aC_800E2D94[];
@@ -530,6 +540,7 @@ void s15c_dyncon_800D7EF4(DynCon *work, int i, int model)
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7F88.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D82FC.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8510.s")
+int s15c_dyncon_800D8510(DynCon *work);
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D88C8.s")
 extern void s15c_dyncon_800D82FC(void *work);
 extern void s15c_dyncon_800D88C8(void *work);
@@ -558,7 +569,101 @@ void s15c_dyncon_800D8A34(char *opt, short *out, int count)
         out++;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8A9C.s")
+int s15c_dyncon_800D8A9C(DynCon *work, int map)
+{
+    short buf[20];
+    char *opt;
+    int   i;
+
+    if ((opt = GCL_GetOption('s')) != NULL)
+    {
+        work->field_4050 = GCL_StrToInt(opt);
+    }
+    else
+    {
+        work->field_4050 = 1;
+    }
+
+    if ((opt = GCL_GetOption('c')) == NULL || (work->field_3DDC = GCL_StrToInt(opt)) <= 0)
+    {
+        work->field_3DDC = 1;
+    }
+
+    work->map = map;
+    GM_CurrentMap = map;
+
+    if (s15c_dyncon_800D8510(work) < 0)
+    {
+        return -1;
+    }
+
+    if (work->field_4050 == 1)
+    {
+        if ((opt = GCL_GetOption('f')) != NULL)
+        {
+            work->field_4054 = GCL_StrToInt(opt);
+        }
+        else
+        {
+            work->field_4054 = -1;
+        }
+
+        if ((opt = GCL_GetOption('g')) != NULL)
+        {
+            work->field_4058 = GCL_StrToInt(opt);
+        }
+        else
+        {
+            work->field_4058 = -1;
+        }
+
+        if ((opt = GCL_GetOption('h')) != NULL)
+        {
+            work->field_405C = GCL_StrToInt(opt);
+        }
+        else
+        {
+            work->field_405C = -1;
+        }
+
+        s15c_dyncon_800D61E0(work);
+    }
+
+    if ((u_int)(work->field_4050 - 2) < 2)
+    {
+        if ((opt = GCL_GetOption('l')) != NULL)
+        {
+            s15c_dyncon_800D8A34(opt, &buf[0], 8);
+        }
+
+        if ((opt = GCL_GetOption('m')) != NULL)
+        {
+            s15c_dyncon_800D8A34(opt, &buf[8], 8);
+        }
+
+        if ((opt = GCL_GetOption('n')) != NULL)
+        {
+            s15c_dyncon_800D8A34(opt, &buf[16], 4);
+        }
+
+        for (i = 0; i < 20; i++)
+        {
+            work->field_4060[i * 2] = (u_short)buf[i] >> 8;
+            work->field_4060[i * 2 + 1] = *(u_char *)&buf[i];
+        }
+    }
+
+    work->field_4160[0] = 0;
+    work->field_4160[1] = 0;
+    work->field_4160[2] = 0;
+    work->field_4160[3] = 0;
+    work->field_4040[0] = 0;
+    work->field_4040[1] = 0;
+    work->field_4040[2] = 0;
+    work->field_4040[3] = 0;
+
+    return 0;
+}
 extern void s15c_dyncon_800D6528(void *work);
 extern int  s15c_dyncon_800D8A9C(DynCon *work, int arg);
 extern const char s15c_dword_800E2E30[];
@@ -568,7 +673,7 @@ GV_ACT *s15c_dyncon_800D8C9C(int name, int where)
     DynCon *work;
 
 
-    work = (DynCon *)GV_NewActor(GV_ACTOR_USER, 0x4170);
+    work = (DynCon *)GV_NewActor(GV_ACTOR_USER, sizeof(DynCon));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s15c_dyncon_800D6528, s15c_dyncon_800D89F8, s15c_dword_800E2E30);
