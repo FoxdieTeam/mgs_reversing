@@ -89,7 +89,8 @@ typedef struct _Work
     int      field_1778;
     int      field_177C;
     int      field_1780;
-    char     pad1784[0x14];
+    char     pad1784[0x10];
+    int      field_1794;
     int      field_1798;
     char     pad179C[0x4];
     int      field_17A0;
@@ -109,6 +110,8 @@ SVECTOR s12c_dword_800C3440[2] = {{250, 0, 500}, {-250, 0, 500}};
 
 SVECTOR s12c_dword_800C3450 = {0, 0, 100};
 SVECTOR s12c_dword_800C3458 = {64512, 0, 0};
+
+extern SVECTOR s12c_800DA418;
 
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void  AN_Breath(MATRIX *world);
@@ -1744,60 +1747,6 @@ void s12c_dog_800CDBC4(Work *work, int index)
     }
 }
 
-const int  s12c_dword_800D9E74 = 0x800CE2F8;
-const int  s12c_dword_800D9E78 = 0x800CE330;
-const int  s12c_dword_800D9E7C = 0x800CEA2C;
-const int  s12c_dword_800D9E80 = 0x800CEA2C;
-const int  s12c_dword_800D9E84 = 0x800CEA2C;
-const int  s12c_dword_800D9E88 = 0x800CE618;
-const int  s12c_dword_800D9E8C = 0x800CEA2C;
-const int  s12c_dword_800D9E90 = 0x800CEA2C;
-const int  s12c_dword_800D9E94 = 0x800CEA2C;
-const int  s12c_dword_800D9E98 = 0x800CEA2C;
-const int  s12c_dword_800D9E9C = 0x800CEA2C;
-const int  s12c_dword_800D9EA0 = 0x800CEA2C;
-const int  s12c_dword_800D9EA4 = 0x800CEA2C;
-const int  s12c_dword_800D9EA8 = 0x800CEA2C;
-const int  s12c_dword_800D9EAC = 0x800CE658;
-const int  s12c_dword_800D9EB0 = 0x800CE6E8;
-const int  s12c_dword_800D9EB4 = 0x800CEA2C;
-const int  s12c_dword_800D9EB8 = 0x800CE7F8;
-const int  s12c_dword_800D9EBC = 0x800CEA2C;
-const int  s12c_dword_800D9EC0 = 0x800CEA2C;
-const int  s12c_dword_800D9EC4 = 0x800CEA2C;
-const int  s12c_dword_800D9EC8 = 0x800CEA2C;
-const int  s12c_dword_800D9ECC = 0x800CEA2C;
-const int  s12c_dword_800D9ED0 = 0x800CEA2C;
-const int  s12c_dword_800D9ED4 = 0x800CEA2C;
-const int  s12c_dword_800D9ED8 = 0x800CEA2C;
-const int  s12c_dword_800D9EDC = 0x800CEA2C;
-const int  s12c_dword_800D9EE0 = 0x800CE940;
-const int  s12c_dword_800D9EE4 = 0x800CEA2C;
-const int  s12c_dword_800D9EE8 = 0x800CEA2C;
-const int  s12c_dword_800D9EEC = 0x800CEA2C;
-const int  s12c_dword_800D9EF0 = 0x800CEA2C;
-const int  s12c_dword_800D9EF4 = 0x800CEA2C;
-const int  s12c_dword_800D9EF8 = 0x800CEA2C;
-const int  s12c_dword_800D9EFC = 0x800CE950;
-const int  s12c_dword_800D9F00 = 0x800CE9F4;
-const int  s12c_dword_800D9F04 = 0x800CEA14;
-const char s12c_dword_800D9F08[] = {0x0, 0x0, 0x0, 0x0};
-const int  s12c_dword_800D9F0C = 0x800CECB4;
-const int  s12c_dword_800D9F10 = 0x800CED2C;
-const int  s12c_dword_800D9F14 = 0x800CF554;
-const int  s12c_dword_800D9F18 = 0x800CF554;
-const int  s12c_dword_800D9F1C = 0x800CF554;
-const int  s12c_dword_800D9F20 = 0x800CF554;
-const int  s12c_dword_800D9F24 = 0x800CF06C;
-const int  s12c_dword_800D9F28 = 0x800CF0C4;
-const int  s12c_dword_800D9F2C = 0x800CF554;
-const int  s12c_dword_800D9F30 = 0x800CF2AC;
-const int  s12c_dword_800D9F34 = 0x800CF554;
-const int  s12c_dword_800D9F38 = 0x800CF554;
-const int  s12c_dword_800D9F3C = 0x800CF554;
-const int  s12c_dword_800D9F40 = 0x800CF554;
-const int  s12c_dword_800D9F44 = 0x800CF4A0;
-const char s12c_dword_800D9F48[] = {0x0, 0x0, 0x0, 0x0};
 /* The two field_10B0 stores go through a byte offset taken before the switch,
    which is what keeps index * 8 in a saved register across the GV_RandU call. */
 void s12c_dog_800CE034(Work *work, int index)
@@ -1840,8 +1789,297 @@ void s12c_dog_800CE034(Work *work, int index)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CE194.s")
-extern void s12c_dog_800CE194(Work *work, int index);
+void s12c_dog_800CE194(Work *work, int index)
+{
+    SVECTOR  rot;
+    SVECTOR  point;
+    SVECTOR  target;
+    int      dist;
+    CONTROL *control;
+    HZD_HDL *hzd;
+    HZD_ZON *zone;
+    int     *slot;
+    int      i;
+    int      off;
+
+    /* see s12c_dog_800CDBC4: the shared per-dog base has to be taken before the
+       calls below for the 0x151C store to reuse it */
+    dist = -1;
+    off = index * 8;
+    control = &work->field_28[index];
+    slot = (int *)work + index;
+    hzd = control->map->hzd;
+
+    if (work->field_1608 == 1)
+    {
+        work->field_168C = s12c_800DA418;
+        target.vx = 8500;
+        target.vy = 0;
+        target.vz = -9500;
+        slot[0x151C / 4] =
+            Dog_800CABF4(&control->mov, &work->field_168C, (SVECTOR *)((char *)work + (off + 0x152C)));
+        dist = Dog_800CABF4(&control->mov, &target, &rot);
+    }
+    else
+    {
+        work->field_168C = GM_PlayerPosition;
+        target = work->field_168C;
+    }
+
+    if (work->field_15B0[index] > 0)
+    {
+        work->field_15B0[index]--;
+    }
+
+    switch (work->field_1510[index])
+    {
+    case 0:
+        work->field_1510[index] = 1;
+        work->field_1544[index] = GV_RandU(16) + 10;
+        work->field_15B0[index] = 60;
+        s12c_dog_800CAEC8(work, index, 6);
+
+    case 1:
+        if (work->field_1604 == 0 && index != 2 && work->field_151C[index] >= 1501 &&
+            work->field_1608 != 1 && s12c_dog_800CA4B4(work, 5, index) != 0)
+        {
+            break;
+        }
+
+        work->field_14A8[index] = HZD_GetAddress(hzd, &control->mov, work->field_14A8[index]);
+        work->field_1688 = HZD_GetAddress(hzd, &target, -1);
+        zone = &hzd->def->zones[HZD_Navigate(hzd, work->field_14A8[index], work->field_1688,
+                                             &control->mov)];
+
+        if (index == 0 && work->field_1528 < 1000)
+        {
+            if (work->field_28[0].n_touches != 0)
+            {
+                work->field_1510[0] = 5;
+                break;
+            }
+
+            for (i = 0; i < 6; i++)
+            {
+                if (zone->nears[i] == 0xFF)
+                {
+                    break;
+                }
+            }
+
+            work->field_1688 = zone->nears[GV_RandU(0x1000) % i];
+            work->field_1688 = HZD_GetAddress(hzd, &control->mov, work->field_1688);
+            zone = &hzd->def->zones[HZD_Navigate(hzd, work->field_14A8[index],
+                                                 work->field_1688, &control->mov)];
+        }
+
+        point.vx = zone->x;
+        point.vy = zone->y;
+        point.vz = zone->z;
+        Dog_800CABF4(&control->mov, &point, &rot);
+        rot.vx = 0;
+        s12c_dog_800CB97C(&control->turn, &rot, 8);
+        work->field_1544[index]--;
+
+        if (work->field_1608 == 0 && work->field_1544[index] < 0 &&
+            work->field_151C[index] < index * 500 + 1500)
+        {
+            work->field_1510[index] = 5;
+            work->field_15B0[index] = 60;
+            s12c_dog_800CAEC8(work, index, 6);
+            break;
+        }
+
+        if (work->field_1608 == 1)
+        {
+            if (work->field_151C[index] < index * 200 + 1500 || dist < 4000)
+            {
+                work->field_1510[index] = 5;
+                work->field_15B0[index] = 60;
+                s12c_dog_800CAEC8(work, index, 6);
+                break;
+            }
+        }
+
+        Dog_800CB23C(work, 12, 1, index);
+
+        if (index != 2 && work->field_151C[index] < 5000 && work->field_14D4[index] >= 91)
+        {
+            work->field_1510[index] = 5;
+        }
+        break;
+
+    case 5:
+        control->turn = work->field_152C[index];
+        control->turn.vx = 0;
+        Dog_800CB23C(work, 10, 14, index);
+        break;
+
+    case 14:
+        work->field_1510[index] = 15;
+
+        if (work->field_155C[index] % 128 < 20)
+        {
+            work->field_15B0[index] = 60;
+            s12c_dog_800CAEC8(work, index, 6);
+        }
+
+        work->field_1610 = 0;
+
+        if (GM_Item == IT_Handkerchief && work->field_1608 != 1 && work->field_1794 != -1)
+        {
+            GCL_ExecProc(work->field_1794, NULL);
+            work->field_1794 = -1;
+        }
+
+    case 15:
+        control->turn = work->field_152C[index];
+        control->turn.vx = 0;
+
+        if ((GV_Time & 0xF) == 0 && GV_RandU(2) != 0)
+        {
+            switch (GV_RandU(0x1000) % 3)
+            {
+            case 0:
+                GM_SeSetMode(&work->field_28[index].mov, 0xB0, GM_SEMODE_NORMAL);
+                break;
+            case 1:
+                GM_SeSetMode(&work->field_28[index].mov, 0xB1, GM_SEMODE_NORMAL);
+                break;
+            case 2:
+                GM_SeSetMode(&work->field_28[index].mov, 0xB2, GM_SEMODE_NORMAL);
+                break;
+            }
+        }
+
+        s12c_dog_800CB42C(work, 11, 14, 17, index, 4);
+
+        if (work->field_1608 != 1)
+        {
+            work->field_1550[index]--;
+
+            if (work->field_1550[index] < 0 && work->field_151C[index] > index * 500 + 5000)
+            {
+                work->field_1510[index] = 1;
+                work->field_1550[index] = GV_RandU(0x80) + 30;
+            }
+        }
+
+        if (work->field_151C[index] < 1000 && work->field_1778 != GM_PlayerPosition.vy)
+        {
+            work->field_1510[index] = 0;
+        }
+        break;
+
+    case 17:
+        control->turn = work->field_152C[index];
+        control->turn.vx = 0;
+
+        if (index == 2 && (work->field_155C[index] & 0x3F) == 0 && GV_RandU(4) == 0)
+        {
+            work->field_1510[index] = 0;
+        }
+
+        if ((work->field_155C[index] & 0x1FF) == 0 && GV_RandU(8) == 0)
+        {
+            work->field_1510[index] = 27;
+        }
+
+        s12c_dog_800CB42C(work, 20, 14, 17, index, 4);
+
+        if (work->field_1608 != 1)
+        {
+            work->field_1550[index]--;
+
+            if (work->field_1550[index] < 0 && work->field_151C[index] > index * 500 + 5000)
+            {
+                work->field_1510[index] = 1;
+                work->field_1550[index] = GV_RandU(0x80) + 30;
+            }
+        }
+
+        if (work->field_151C[index] < 1000 && work->field_1778 != GM_PlayerPosition.vy)
+        {
+            work->field_1510[index] = 0;
+        }
+        break;
+
+    case 27:
+        Dog_800CB324(work, 14, 13, 34, index);
+        break;
+
+    case 34:
+        Dog_800CB0C8(&work->field_1574[index], 0, 32);
+
+        if (work->field_151C[index] < index * 500 + 4000 && work->field_151C[index] > 1000)
+        {
+            if (GV_RandU(16) == 0)
+            {
+                Dog_800CB324(work, 13, 29, 35, index);
+            }
+            else
+            {
+                Dog_800CB324(work, 13, 13, 34, index);
+            }
+        }
+        else
+        {
+            Dog_800CB324(work, 15, 16, 36, index);
+        }
+        break;
+
+    case 35:
+        Dog_800CB324(work, 29, 13, 34, index);
+        break;
+
+    case 36:
+        Dog_800CB23C(work, 16, 0, index);
+        break;
+    }
+
+    if (index == 2 && (work->field_1510[index] == 15 || work->field_1510[index] == 17))
+    {
+        int timer = work->field_1798;
+
+        work->field_1798 = timer - 1;
+
+        if (timer > 40 && timer < 61)
+        {
+            work->field_F00[index][4].vz += 8;
+            work->field_F00[index][5].vz += 8;
+        }
+
+        if (work->field_1798 < 10)
+        {
+            work->field_F00[index][4].vz -= 16;
+            work->field_F00[index][5].vz -= 16;
+        }
+
+        if (work->field_1798 < 0)
+        {
+            work->field_1798 = GV_RandU(0x200) + 256;
+            Dog_800CA458(work, 18, index);
+        }
+    }
+}
+
+const char s12c_dword_800D9F08[] = {0x0, 0x0, 0x0, 0x0};
+const int  s12c_dword_800D9F0C = 0x800CECB4;
+const int  s12c_dword_800D9F10 = 0x800CED2C;
+const int  s12c_dword_800D9F14 = 0x800CF554;
+const int  s12c_dword_800D9F18 = 0x800CF554;
+const int  s12c_dword_800D9F1C = 0x800CF554;
+const int  s12c_dword_800D9F20 = 0x800CF554;
+const int  s12c_dword_800D9F24 = 0x800CF06C;
+const int  s12c_dword_800D9F28 = 0x800CF0C4;
+const int  s12c_dword_800D9F2C = 0x800CF554;
+const int  s12c_dword_800D9F30 = 0x800CF2AC;
+const int  s12c_dword_800D9F34 = 0x800CF554;
+const int  s12c_dword_800D9F38 = 0x800CF554;
+const int  s12c_dword_800D9F3C = 0x800CF554;
+const int  s12c_dword_800D9F40 = 0x800CF554;
+const int  s12c_dword_800D9F44 = 0x800CF4A0;
+const char s12c_dword_800D9F48[] = {0x0, 0x0, 0x0, 0x0};
 
 void DogExecProc_800CEB2C(Work *work, int param)
 {
