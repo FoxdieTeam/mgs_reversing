@@ -25,10 +25,10 @@ STATIC PANEL_CONF *dword_800AB584 = NULL;
 
 extern int dword_8009E544[];
 
-u_long     SECTION(".sbss") dword_800ABAD8;
-u_long     SECTION(".sbss") dword_800ABADC;
-int        SECTION(".sbss") dword_800ABAE0;
-RPK_ITEM **SECTION(".sbss") gItemFile_table_800ABAE4;
+u_long     SECTION(".sbss") tex_used_flag;
+u_long     SECTION(".sbss") tex_current_flag;
+int        SECTION(".sbss") zoom_rate;
+RPK_ITEM **SECTION(".sbss") tpk_data;
 int        SECTION(".sbss") dword_800ABAE8;
 
 struct PANEL_CONF SECTION(".data") stru_8009E544[2] = {{16, 184, 1, 24576, 36864, sub_8003D64C, sub_8003D594, NULL},
@@ -84,8 +84,8 @@ void menu_texture_init_8003CC94(MenuWork *work)
         }
         v += 24;
     }
-    dword_800ABAD8 = 0;
-    dword_800ABADC = 0;
+    tex_used_flag = 0;
+    tex_current_flag = 0;
 
     pArr = current_texture;
     v = 384;
@@ -121,13 +121,13 @@ void sub_8003CE40(PANEL_TEXTURE *items, int count)
         items++;
     }
 
-    dword_800ABAD8 = 0;
-    dword_800ABADC = 0;
+    tex_used_flag = 0;
+    tex_current_flag = 0;
 }
 
 void sub_8003CE78(void)
 {
-    dword_800ABADC = 0;
+    tex_current_flag = 0;
 }
 
 void sub_8003CE84(void)
@@ -136,7 +136,7 @@ void sub_8003CE84(void)
     int bit;
     int bitmask;
 
-    bitmask = dword_800ABAD8 & ~dword_800ABADC;
+    bitmask = tex_used_flag & ~tex_current_flag;
     for (bit = 1, i = 0; i < 9; bit <<= 1, i++)
     {
         if (bitmask & bit)
@@ -144,7 +144,7 @@ void sub_8003CE84(void)
             array_800BD748[i].field_4_panelTexture->field_C_uvclut = 0;
             array_800BD748[i].field_4_panelTexture->field_8_bufid = -1;
             array_800BD748[i].field_4_panelTexture = NULL;
-            dword_800ABAD8 &= ~bit;
+            tex_used_flag &= ~bit;
         }
     }
 }
@@ -163,7 +163,7 @@ void menu_draw_texture_8003CEF8(PANEL_TEXTURE *pPanelTex)
     if (pPanelTex->field_C_uvclut == 0)
     {
         bit = 1;
-        bitmask = dword_800ABAD8;
+        bitmask = tex_used_flag;
 
         for (i = 0; i < 9; bit <<= 1, i++)
         {
@@ -176,7 +176,7 @@ void menu_draw_texture_8003CEF8(PANEL_TEXTURE *pPanelTex)
                 pPanelTex->field_8_bufid = i;
                 pPanelTex->field_C_uvclut = LLOAD(&iter->field_0_u);
 
-                dword_800ABAD8 |= bit;
+                tex_used_flag |= bit;
 
                 iter->field_8_rect1.w = pPanelTex->field_10_w / 4;
                 iter->field_8_rect1.h = pPanelTex->field_12_h;
@@ -190,7 +190,7 @@ void menu_draw_texture_8003CEF8(PANEL_TEXTURE *pPanelTex)
 
     if (pPanelTex->field_8_bufid >= 0)
     {
-        dword_800ABADC |= 1 << pPanelTex->field_8_bufid;
+        tex_current_flag |= 1 << pPanelTex->field_8_bufid;
     }
 }
 
@@ -433,21 +433,21 @@ int sub_8003D4CC(Menu_Item_Unknown *pMenuItem)
 
 void sub_8003D520(void)
 {
-    dword_800ABAE0 = 0;
+    zoom_rate = 0;
     return;
 }
 
 int sub_8003D52C(void)
 {
-    return dword_800ABAE0;
+    return zoom_rate;
 }
 
 int menu_8003D538(void)
 {
-    dword_800ABAE0 += 0x40;
-    if (dword_800ABAE0 >= 0x100)
+    zoom_rate += 0x40;
+    if (zoom_rate >= 0x100)
     {
-        dword_800ABAE0 = 0x100;
+        zoom_rate = 0x100;
         return 1;
     }
 
@@ -456,11 +456,11 @@ int menu_8003D538(void)
 
 int sub_8003D568(void)
 {
-    dword_800ABAE0 -= 0x40;
+    zoom_rate -= 0x40;
 
-    if (dword_800ABAE0 < 1)
+    if (zoom_rate < 1)
     {
-        dword_800ABAE0 = 0;
+        zoom_rate = 0;
         return 1;
     }
 
@@ -485,7 +485,7 @@ void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
     }
 
     *xoff = x1;
-    temp_v1 = dword_800ABAE0 * 0x28;
+    temp_v1 = zoom_rate * 0x28;
     temp_lo = pos * temp_v1;
     var_v0 = temp_lo / 65536;
 
@@ -509,7 +509,7 @@ void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
         return;
     }
 
-    temp_v1 = dword_800ABAE0 * 0x38;
+    temp_v1 = zoom_rate * 0x38;
     temp_lo = pos * temp_v1;
     var_v0 = temp_lo / 65536;
 
@@ -534,7 +534,7 @@ void sub_8003D64C(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
         return;
     }
 
-    temp_v1 = dword_800ABAE0 * 0x38;
+    temp_v1 = zoom_rate * 0x38;
     temp_lo = pos * temp_v1;
     var_v0 = temp_lo / 65536;
 
@@ -832,7 +832,7 @@ RPK_ITEM **menu_rpk_init_8003DD1C(const char *pFileName)
     count = rpk->palettes + rpk->images;
     data = (RPK_ITEM *)(rpk->items + count);
 
-    gItemFile_table_800ABAE4 = rpk->items;
+    tpk_data = rpk->items;
 
     // Offset the item table pointers by the data section start
     item = rpk->items;
@@ -842,17 +842,17 @@ RPK_ITEM **menu_rpk_init_8003DD1C(const char *pFileName)
         item++;
     }
 
-    return gItemFile_table_800ABAE4;
+    return tpk_data;
 }
 
 RPK_ITEM *menu_rpk_get_pal_8003DD9C(int id)
 {
-    return gItemFile_table_800ABAE4[id];
+    return tpk_data[id];
 }
 
 RPK_ITEM *menu_rpk_get_img_8003DDB4(int id)
 {
-    return gItemFile_table_800ABAE4[id];
+    return tpk_data[id];
 }
 
 void menu_init_rpk_item_8003DDCC(PANEL_TEXTURE *pPanelTex, int imgIdx, int palIdx)
