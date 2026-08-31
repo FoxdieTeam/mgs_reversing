@@ -216,7 +216,81 @@ void Dog_800CA458(void *base, int count, int idx)
         *dst++ = DG_ZeroVector;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA4B4.s")
+int s12c_dog_800CA4B4(Work *work, int state, int index)
+{
+    CONTROL *control;
+
+    control = &work->field_28[index];
+
+    if (control->mov.vx > -14000 && control->mov.vx < -4000 && control->mov.vz > -2000 &&
+        control->mov.vz < 8000)
+    {
+        if (GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_DOWNED))
+        {
+            work->field_1510[index] = state;
+            work->field_10B0[index] = control->mov;
+            control->turn.vy = work->field_152E[index * 4];
+            work->field_1550[index] = index * 60 + 20;
+            return 1;
+        }
+
+        if (control->mov.vz < 3000 && GM_PlayerPosition.vz > 2500 &&
+            work->field_14F8[index] != 3)
+        {
+            work->field_14F8[index] = 10;
+            work->field_1510[index] = 0;
+            return 1;
+        }
+
+        if (control->mov.vz > 2000 && GM_PlayerPosition.vz < 2500)
+        {
+            work->field_14F8[index] = 11;
+            work->field_1510[index] = 0;
+            return 1;
+        }
+    }
+    else if (control->mov.vx > 2000 && control->mov.vx < 10000 && control->mov.vz > -2000 &&
+             control->mov.vz < 1500)
+    {
+        if (GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_DOWNED))
+        {
+            work->field_1510[index] = state;
+            work->field_10B0[index] = control->mov;
+            control->turn.vy = work->field_152E[index * 4];
+            work->field_1550[index] = index * 60 + 20;
+            return 1;
+        }
+
+        if (control->mov.vx < 6500 && GM_PlayerPosition.vx > 6000 &&
+            work->field_14F8[index] != 12 && work->field_14F8[index] != 3)
+        {
+            work->field_14F8[index] = 12;
+            work->field_1510[index] = 0;
+            work->field_1598[index] = 0;
+            return 1;
+        }
+
+        if (control->mov.vx > 5500 && GM_PlayerPosition.vx < 6000 &&
+            work->field_14F8[index] != 13)
+        {
+            work->field_14F8[index] = 13;
+            work->field_1510[index] = 0;
+            work->field_1598[index] = 0;
+            return 1;
+        }
+    }
+    else if (control->mov.vx > -500 && control->mov.vx < 3500 && control->mov.vz > 500 &&
+             control->mov.vz < 2000)
+    {
+        work->field_1510[index] = state;
+        work->field_10B0[index] = control->mov;
+        control->turn.vy = work->field_152E[index * 4];
+        work->field_1550[index] = index * 60 + 20;
+        return 2;
+    }
+
+    return 0;
+}
 void s12c_dog_800CA758(Work *work, int index)
 {
     if (work->field_160C >= 2 || work->field_1604 != 0)
