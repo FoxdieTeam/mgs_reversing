@@ -13,7 +13,9 @@ typedef struct _Work
     int      field_24;
     CONTROL  field_28[3];
     OBJECT   field_19C[3];
-    char     pad448[0xAB8];
+    char           pad448[0x14];
+    MOTION_CONTROL field_45C[3];
+    char           pad54C[0x9B4];
     SVECTOR  field_F00[3][18];   /* 0x90 per dog, the block Dog_800CA458 clears */
     SVECTOR  field_10B0[3];
     MATRIX   field_10C8[3][2];
@@ -76,7 +78,10 @@ typedef struct _Work
     int      field_176C;
     int      field_1770;
     int      field_1774;
-    char     pad1778[0x38];
+    char     pad1778[0x4];
+    int      field_177C;
+    int      field_1780;
+    char     pad1784[0x2C];
     int      field_17B0;
     int      field_17B4;
     char     pad17B8[0x18];
@@ -851,68 +856,6 @@ const int  s12c_dword_800D9F3C = 0x800CF554;
 const int  s12c_dword_800D9F40 = 0x800CF554;
 const int  s12c_dword_800D9F44 = 0x800CF4A0;
 const char s12c_dword_800D9F48[] = {0x0, 0x0, 0x0, 0x0};
-const int  s12c_dword_800D9F4C = 0x800CF750;
-const int  s12c_dword_800D9F50 = 0x800CF7B4;
-const int  s12c_dword_800D9F54 = 0x800CFA10;
-const int  s12c_dword_800D9F58 = 0x800CFA10;
-const int  s12c_dword_800D9F5C = 0x800CFA10;
-const int  s12c_dword_800D9F60 = 0x800CF7D0;
-const int  s12c_dword_800D9F64 = 0x800CF7FC;
-const int  s12c_dword_800D9F68 = 0x800CFA10;
-const int  s12c_dword_800D9F6C = 0x800CFA10;
-const int  s12c_dword_800D9F70 = 0x800CFA10;
-const int  s12c_dword_800D9F74 = 0x800CFA10;
-const int  s12c_dword_800D9F78 = 0x800CFA10;
-const int  s12c_dword_800D9F7C = 0x800CFA10;
-const int  s12c_dword_800D9F80 = 0x800CFA10;
-const int  s12c_dword_800D9F84 = 0x800CF8F8;
-const int  s12c_dword_800D9F88 = 0x800CFA10;
-const int  s12c_dword_800D9F8C = 0x800CFA10;
-const int  s12c_dword_800D9F90 = 0x800CF9A0;
-const int  s12c_dword_800D9F94 = 0x800CFAA8;
-const int  s12c_dword_800D9F98 = 0x800CFAB8;
-const int  s12c_dword_800D9F9C = 0x800D0298;
-const int  s12c_dword_800D9FA0 = 0x800D0298;
-const int  s12c_dword_800D9FA4 = 0x800D0298;
-const int  s12c_dword_800D9FA8 = 0x800CFF50;
-const int  s12c_dword_800D9FAC = 0x800CFF80;
-const int  s12c_dword_800D9FB0 = 0x800CFF90;
-const int  s12c_dword_800D9FB4 = 0x800D0298;
-const int  s12c_dword_800D9FB8 = 0x800D0298;
-const int  s12c_dword_800D9FBC = 0x800D0298;
-const int  s12c_dword_800D9FC0 = 0x800D0298;
-const int  s12c_dword_800D9FC4 = 0x800D0298;
-const int  s12c_dword_800D9FC8 = 0x800D0298;
-const int  s12c_dword_800D9FCC = 0x800D0298;
-const int  s12c_dword_800D9FD0 = 0x800D0298;
-const int  s12c_dword_800D9FD4 = 0x800D0298;
-const int  s12c_dword_800D9FD8 = 0x800D0298;
-const int  s12c_dword_800D9FDC = 0x800D0298;
-const int  s12c_dword_800D9FE0 = 0x800D0298;
-const int  s12c_dword_800D9FE4 = 0x800D0298;
-const int  s12c_dword_800D9FE8 = 0x800D0298;
-const int  s12c_dword_800D9FEC = 0x800D0298;
-const int  s12c_dword_800D9FF0 = 0x800D0298;
-const int  s12c_dword_800D9FF4 = 0x800D0298;
-const int  s12c_dword_800D9FF8 = 0x800D0298;
-const int  s12c_dword_800D9FFC = 0x800D0298;
-const int  s12c_dword_800DA000 = 0x800D0298;
-const int  s12c_dword_800DA004 = 0x800D0298;
-const int  s12c_dword_800DA008 = 0x800D0298;
-const int  s12c_dword_800DA00C = 0x800D0298;
-const int  s12c_dword_800DA010 = 0x800D0298;
-const int  s12c_dword_800DA014 = 0x800D0298;
-const int  s12c_dword_800DA018 = 0x800D0298;
-const int  s12c_dword_800DA01C = 0x800D0298;
-const int  s12c_dword_800DA020 = 0x800D0298;
-const int  s12c_dword_800DA024 = 0x800D0298;
-const int  s12c_dword_800DA028 = 0x800D0298;
-const int  s12c_dword_800DA02C = 0x800CFFBC;
-const int  s12c_dword_800DA030 = 0x800CFFF4;
-const int  s12c_dword_800DA034 = 0x800D00C8;
-const int  s12c_dword_800DA038 = 0x800D011C;
-const int  s12c_dword_800DA03C = 0x800D012C;
-const int  s12c_dword_800DA040 = 0x800D020C;
 
 void s12c_dog_800CAD8C(Work *work, int idx)
 {
@@ -1486,8 +1429,151 @@ void s12c_dog_800CF578(Work *work, int idx)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CF6CC.s")
-extern void s12c_dog_800CF6CC(Work *work, int index);
+void s12c_dog_800CF6CC(Work *work, int index)
+{
+    CONTROL *control;
+    TARGET  *target;
+
+    control = &work->field_28[index];
+    target = work->field_1188[index];
+
+    work->field_1574[index] = 0;
+    GM_ConfigControlAttribute(control, 1);
+
+    switch (work->field_1510[index])
+    {
+    case 0:
+        work->field_1510[index] = 1;
+        target->size = DG_ZeroVector;
+        GM_SeSetMode(&work->field_28[index].mov, 0x91, GM_SEMODE_NORMAL);
+        work->field_126C[index]->flag = 0;
+
+    case 1:
+        Dog_800CB23C(work, 24, 5, index);
+        break;
+
+    case 5:
+        work->field_1510[index] = 6;
+        work->field_155C[index] = 0;
+        GM_UnkFlagA6++;
+
+    case 6:
+        work->field_19C[index].m_ctrl = NULL;
+
+        if (work->field_155C[index] % 4 < 2)
+        {
+            Dog_800C9FAC(work, index);
+        }
+        else
+        {
+            Dog_800CA000(work, index);
+        }
+
+        if (work->field_155C[index] < 61)
+        {
+            break;
+        }
+
+        if (work->field_177C >= work->field_1780 || work->field_1608 == 1)
+        {
+            Dog_800C9FAC(work, index);
+            work->field_1188[index]->class = (work->field_1188[index]->class & 0xFFE2) | 1;
+            work->field_14F8[index] = 15;
+            work->field_1510[index] = 0;
+            work->field_15C8[index] = 1;
+        }
+        else
+        {
+            work->field_177C++;
+            work->field_1510[index] = 14;
+        }
+        break;
+
+    case 14:
+        if (GM_PlayerPosition.vx < -2800)
+        {
+            control->mov.vx = 500;
+            control->mov.vy = 1200;
+            control->mov.vz = -1000;
+        }
+        else
+        {
+            control->mov.vx = -5300;
+            control->mov.vy = 1200;
+            control->mov.vz = 1000;
+        }
+
+        work->field_1510[index] = 17;
+        work->field_19C[index].m_ctrl = &work->field_45C[index];
+        Dog_800CA000(work, index);
+        work->field_1188[index]->class |= 0x1D;
+        break;
+
+    case 17:
+        GM_ConfigControlAttribute(control, 5);
+        Dog_800CA000(work, index);
+        Dog_800CAFB0(work, index);
+
+        if (work->field_15F8 != 1)
+        {
+            work->field_14F8[index] = 3;
+        }
+        else
+        {
+            work->field_14F8[index] = 6;
+        }
+
+        work->field_1510[index] = 0;
+        s12c_dog_800CA758(work, index);
+        work->field_126C[index]->flag = 1;
+        break;
+    }
+}
+
+const int  s12c_dword_800D9F94 = 0x800CFAA8;
+const int  s12c_dword_800D9F98 = 0x800CFAB8;
+const int  s12c_dword_800D9F9C = 0x800D0298;
+const int  s12c_dword_800D9FA0 = 0x800D0298;
+const int  s12c_dword_800D9FA4 = 0x800D0298;
+const int  s12c_dword_800D9FA8 = 0x800CFF50;
+const int  s12c_dword_800D9FAC = 0x800CFF80;
+const int  s12c_dword_800D9FB0 = 0x800CFF90;
+const int  s12c_dword_800D9FB4 = 0x800D0298;
+const int  s12c_dword_800D9FB8 = 0x800D0298;
+const int  s12c_dword_800D9FBC = 0x800D0298;
+const int  s12c_dword_800D9FC0 = 0x800D0298;
+const int  s12c_dword_800D9FC4 = 0x800D0298;
+const int  s12c_dword_800D9FC8 = 0x800D0298;
+const int  s12c_dword_800D9FCC = 0x800D0298;
+const int  s12c_dword_800D9FD0 = 0x800D0298;
+const int  s12c_dword_800D9FD4 = 0x800D0298;
+const int  s12c_dword_800D9FD8 = 0x800D0298;
+const int  s12c_dword_800D9FDC = 0x800D0298;
+const int  s12c_dword_800D9FE0 = 0x800D0298;
+const int  s12c_dword_800D9FE4 = 0x800D0298;
+const int  s12c_dword_800D9FE8 = 0x800D0298;
+const int  s12c_dword_800D9FEC = 0x800D0298;
+const int  s12c_dword_800D9FF0 = 0x800D0298;
+const int  s12c_dword_800D9FF4 = 0x800D0298;
+const int  s12c_dword_800D9FF8 = 0x800D0298;
+const int  s12c_dword_800D9FFC = 0x800D0298;
+const int  s12c_dword_800DA000 = 0x800D0298;
+const int  s12c_dword_800DA004 = 0x800D0298;
+const int  s12c_dword_800DA008 = 0x800D0298;
+const int  s12c_dword_800DA00C = 0x800D0298;
+const int  s12c_dword_800DA010 = 0x800D0298;
+const int  s12c_dword_800DA014 = 0x800D0298;
+const int  s12c_dword_800DA018 = 0x800D0298;
+const int  s12c_dword_800DA01C = 0x800D0298;
+const int  s12c_dword_800DA020 = 0x800D0298;
+const int  s12c_dword_800DA024 = 0x800D0298;
+const int  s12c_dword_800DA028 = 0x800D0298;
+const int  s12c_dword_800DA02C = 0x800CFFBC;
+const int  s12c_dword_800DA030 = 0x800CFFF4;
+const int  s12c_dword_800DA034 = 0x800D00C8;
+const int  s12c_dword_800DA038 = 0x800D011C;
+const int  s12c_dword_800DA03C = 0x800D012C;
+const int  s12c_dword_800DA040 = 0x800D020C;
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CFA30.s")
 extern void s12c_dog_800CFA30(Work *work, int index);
 void s12c_dog_800D0374(Work *work, int index)
