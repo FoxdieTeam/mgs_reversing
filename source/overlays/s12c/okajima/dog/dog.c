@@ -645,28 +645,27 @@ void s12c_dog_800CAD8C(Work *work, int idx)
     SVECTOR vec;
     int     half;
     int     state = work->field_1494[idx];
-    char   *base = (char *)work + idx * 0x90;
 
-    work->field_17D0[idx] = *(short *)(base + 0xF20);
-    work->field_17DC[idx] = *(short *)(base + 0xF28);
+    work->field_17D0[idx] = work->field_F00[idx][4].vx;
+    work->field_17DC[idx] = work->field_F00[idx][5].vx;
 
     if (state == 0xB || state == 0x14)
     {
         if (work->field_151C[idx] >= 0xFA1)
         {
-            *(short *)(base + 0xF20) = 0;
-            *(short *)(base + 0xF28) = 0;
+            work->field_F00[idx][4].vx = 0;
+            work->field_F00[idx][5].vx = 0;
         }
         else
         {
-            vec.vx = *(short *)((char *)work->field_19C[idx].objs + 0x228);
-            vec.vy = *(short *)((char *)work->field_19C[idx].objs + 0x22C);
-            vec.vz = *(short *)((char *)work->field_19C[idx].objs + 0x230);
+            vec.vx = work->field_19C[idx].objs->objs[5].world.t[0];
+            vec.vy = work->field_19C[idx].objs->objs[5].world.t[1];
+            vec.vz = work->field_19C[idx].objs->objs[5].world.t[2];
             Dog_800CABF4(&vec, &GM_PlayerPosition, &vec);
 
             half = vec.vx / 2;
-            *(short *)(base + 0xF20) = (half + work->field_17D0[idx] * 15) / 16;
-            *(short *)(base + 0xF28) = (half + work->field_17DC[idx] * 15) / 16;
+            work->field_F00[idx][4].vx = (half + work->field_17D0[idx] * 15) / 16;
+            work->field_F00[idx][5].vx = (half + work->field_17DC[idx] * 15) / 16;
         }
     }
 }
@@ -867,21 +866,10 @@ int s12c_dog_800CB54C(Work *work, int index)
     CONTROL           *control;
     RADAR_SIGHT_PARAM *radar;
 
-    if (!work->field_1604)
+    if (work->field_1604 == 0 && GM_PlayerPosition.vx > -3500 && GM_PlayerPosition.vx < 7000 &&
+        GM_PlayerPosition.vz > 2000 && GM_PlayerPosition.vz < 7500)
     {
-        if (GM_PlayerPosition.vx > -3500)
-        {
-            if (GM_PlayerPosition.vx < 7000)
-            {
-                if (GM_PlayerPosition.vz > 2000)
-                {
-                    if (GM_PlayerPosition.vz < 7500)
-                    {
-                        return 0;
-                    }
-                }
-            }
-        }
+        return 0;
     }
 
     control = &work->field_28[index];
@@ -1990,7 +1978,8 @@ void s12c_dog_800CDBC4(Work *work, int index)
     int      delta;
 
     /* every per-dog int array sits at work + index * 4, so the state read below
-       shares that base; taking it here is what keeps it live across the call */
+       shares that base; taking it here is what keeps it live across the call.
+       work->field_1510[index] compiles two instructions shorter. */
     slot = (int *)work + index;
     control = &work->field_28[index];
     step = &work->field_127E[index];
@@ -2160,7 +2149,8 @@ void s12c_dog_800CE194(Work *work, int index)
     int      off;
 
     /* see s12c_dog_800CDBC4: the shared per-dog base has to be taken before the
-       calls below for the 0x151C store to reuse it */
+       calls below for the 0x151C store to reuse it. Both work->field_151C[index]
+       and an int *dist_out local re-derive it at the store instead. */
     dist = -1;
     off = index * 8;
     control = &work->field_28[index];
@@ -2450,6 +2440,8 @@ void s12c_dog_800CEB74(Work *work, int index)
     int     *slot;
     int      off8;
 
+    /* as in s12c_dog_800CDBC4: the two per-dog bases are taken up front so the
+       case 0 stores below reuse them; the member forms cost four instructions */
     control = &work->field_28[index];
     slot = (int *)work + index;
     off8 = index * 8;
@@ -2730,7 +2722,7 @@ void s12c_dog_800CF578(Work *work, int idx)
         {
             Dog_800CABF4(&ctrl->mov, &GM_PlayerPosition, &vec);
             vec.vx = 0;
-            s12c_dog_800CB97C((SVECTOR *)((char *)ctrl + 0x4C), &vec, 8);
+            s12c_dog_800CB97C(&ctrl->turn, &vec, 8);
         }
         Dog_800CB23C(work, 0x1C, 0xE, idx);
         break;
