@@ -656,206 +656,6 @@ const int  s12c_dword_800D9C1C = 0x800CC520;
 const int  s12c_dword_800D9C20 = 0x800CC520;
 const int  s12c_dword_800D9C24 = 0x800CC520;
 const int  s12c_dword_800D9C28 = 0x800CC4DC;
-const int  s12c_dword_800D9C2C = 0x800CC5C4;
-const int  s12c_dword_800D9C30 = 0x800CC5E4;
-const int  s12c_dword_800D9C34 = 0x800CC898;
-const int  s12c_dword_800D9C38 = 0x800CC898;
-const int  s12c_dword_800D9C3C = 0x800CC898;
-const int  s12c_dword_800D9C40 = 0x800CC748;
-const int  s12c_dword_800D9C44 = 0x800CC898;
-const int  s12c_dword_800D9C48 = 0x800CC898;
-const int  s12c_dword_800D9C4C = 0x800CC898;
-const int  s12c_dword_800D9C50 = 0x800CC898;
-const int  s12c_dword_800D9C54 = 0x800CC898;
-const int  s12c_dword_800D9C58 = 0x800CC898;
-const int  s12c_dword_800D9C5C = 0x800CC898;
-const int  s12c_dword_800D9C60 = 0x800CC898;
-const int  s12c_dword_800D9C64 = 0x800CC7A4;
-const int  s12c_dword_800D9C68 = 0x800CC898;
-const int  s12c_dword_800D9C6C = 0x800CC898;
-const int  s12c_dword_800D9C70 = 0x800CC834;
-const int  s12c_dword_800D9C74 = 0x800CC898;
-const int  s12c_dword_800D9C78 = 0x800CC898;
-const int  s12c_dword_800D9C7C = 0x800CC898;
-const int  s12c_dword_800D9C80 = 0x800CC898;
-const int  s12c_dword_800D9C84 = 0x800CC898;
-const int  s12c_dword_800D9C88 = 0x800CC898;
-const int  s12c_dword_800D9C8C = 0x800CC898;
-const int  s12c_dword_800D9C90 = 0x800CC898;
-const int  s12c_dword_800D9C94 = 0x800CC898;
-const int  s12c_dword_800D9C98 = 0x800CC898;
-const int  s12c_dword_800D9C9C = 0x800CC898;
-const int  s12c_dword_800D9CA0 = 0x800CC898;
-const int  s12c_dword_800D9CA4 = 0x800CC898;
-const int  s12c_dword_800D9CA8 = 0x800CC898;
-const int  s12c_dword_800D9CAC = 0x800CC898;
-const int  s12c_dword_800D9CB0 = 0x800CC898;
-const int  s12c_dword_800D9CB4 = 0x800CC898;
-const int  s12c_dword_800D9CB8 = 0x800CC898;
-const int  s12c_dword_800D9CBC = 0x800CC898;
-const int  s12c_dword_800D9CC0 = 0x800CC818;
-const int  s12c_dword_800D9CC4 = 0x800CC93C;
-const int  s12c_dword_800D9CC8 = 0x800CC95C;
-const int  s12c_dword_800D9CCC = 0x800CCC20;
-const int  s12c_dword_800D9CD0 = 0x800CCC20;
-const int  s12c_dword_800D9CD4 = 0x800CCC20;
-const int  s12c_dword_800D9CD8 = 0x800CCAAC;
-const int  s12c_dword_800D9CDC = 0x800CCC20;
-const int  s12c_dword_800D9CE0 = 0x800CCC20;
-const int  s12c_dword_800D9CE4 = 0x800CCC20;
-const int  s12c_dword_800D9CE8 = 0x800CCC20;
-const int  s12c_dword_800D9CEC = 0x800CCC20;
-const int  s12c_dword_800D9CF0 = 0x800CCC20;
-const int  s12c_dword_800D9CF4 = 0x800CCC20;
-const int  s12c_dword_800D9CF8 = 0x800CCC20;
-const int  s12c_dword_800D9CFC = 0x800CCB1C;
-const int  s12c_dword_800D9D00 = 0x800CCC20;
-const int  s12c_dword_800D9D04 = 0x800CCC20;
-const int  s12c_dword_800D9D08 = 0x800CCBBC;
-const int  s12c_dword_800D9D0C = 0x800CCC20;
-const int  s12c_dword_800D9D10 = 0x800CCC20;
-const int  s12c_dword_800D9D14 = 0x800CCC20;
-const int  s12c_dword_800D9D18 = 0x800CCC20;
-const int  s12c_dword_800D9D1C = 0x800CCC20;
-const int  s12c_dword_800D9D20 = 0x800CCC20;
-const int  s12c_dword_800D9D24 = 0x800CCC20;
-const int  s12c_dword_800D9D28 = 0x800CCC20;
-const int  s12c_dword_800D9D2C = 0x800CCC20;
-const int  s12c_dword_800D9D30 = 0x800CCC20;
-const int  s12c_dword_800D9D34 = 0x800CCC20;
-const int  s12c_dword_800D9D38 = 0x800CCC20;
-const int  s12c_dword_800D9D3C = 0x800CCC20;
-const int  s12c_dword_800D9D40 = 0x800CCC20;
-const int  s12c_dword_800D9D44 = 0x800CCC20;
-const int  s12c_dword_800D9D48 = 0x800CCC20;
-const int  s12c_dword_800D9D4C = 0x800CCC20;
-const int  s12c_dword_800D9D50 = 0x800CCC20;
-const int  s12c_dword_800D9D54 = 0x800CCC20;
-const int  s12c_dword_800D9D58 = 0x800CCBA0;
-const int  s12c_dword_800D9D5C = 0x800CCCD0;
-const int  s12c_dword_800D9D60 = 0x800CCD34;
-const int  s12c_dword_800D9D64 = 0x800CCE48;
-const int  s12c_dword_800D9D68 = 0x800CDBA0;
-const int  s12c_dword_800D9D6C = 0x800CCEF8;
-const int  s12c_dword_800D9D70 = 0x800CCF40;
-const int  s12c_dword_800D9D74 = 0x800CD258;
-const int  s12c_dword_800D9D78 = 0x800CD454;
-const int  s12c_dword_800D9D7C = 0x800CDBA0;
-const int  s12c_dword_800D9D80 = 0x800CDBA0;
-const int  s12c_dword_800D9D84 = 0x800CDBA0;
-const int  s12c_dword_800D9D88 = 0x800CD480;
-const int  s12c_dword_800D9D8C = 0x800CDBA0;
-const int  s12c_dword_800D9D90 = 0x800CD5D0;
-const int  s12c_dword_800D9D94 = 0x800CDBA0;
-const int  s12c_dword_800D9D98 = 0x800CDBA0;
-const int  s12c_dword_800D9D9C = 0x800CDBA0;
-const int  s12c_dword_800D9DA0 = 0x800CD68C;
-const int  s12c_dword_800D9DA4 = 0x800CDBA0;
-const int  s12c_dword_800D9DA8 = 0x800CDBA0;
-const int  s12c_dword_800D9DAC = 0x800CD808;
-const int  s12c_dword_800D9DB0 = 0x800CDBA0;
-const int  s12c_dword_800D9DB4 = 0x800CDBA0;
-const int  s12c_dword_800D9DB8 = 0x800CDBA0;
-const int  s12c_dword_800D9DBC = 0x800CDBA0;
-const int  s12c_dword_800D9DC0 = 0x800CDBA0;
-const int  s12c_dword_800D9DC4 = 0x800CDBA0;
-const int  s12c_dword_800D9DC8 = 0x800CD8F4;
-const int  s12c_dword_800D9DCC = 0x800CDBA0;
-const int  s12c_dword_800D9DD0 = 0x800CDBA0;
-const int  s12c_dword_800D9DD4 = 0x800CDBA0;
-const int  s12c_dword_800D9DD8 = 0x800CDBA0;
-const int  s12c_dword_800D9DDC = 0x800CDABC;
-const char s12c_dword_800D9DE0[] = {0x0, 0x0, 0x0, 0x0};
-const int  s12c_dword_800D9DE4 = 0x800CDD10;
-const int  s12c_dword_800D9DE8 = 0x800CDD20;
-const int  s12c_dword_800D9DEC = 0x800CE008;
-const int  s12c_dword_800D9DF0 = 0x800CE008;
-const int  s12c_dword_800D9DF4 = 0x800CE008;
-const int  s12c_dword_800D9DF8 = 0x800CDDB4;
-const int  s12c_dword_800D9DFC = 0x800CE008;
-const int  s12c_dword_800D9E00 = 0x800CE008;
-const int  s12c_dword_800D9E04 = 0x800CE008;
-const int  s12c_dword_800D9E08 = 0x800CE008;
-const int  s12c_dword_800D9E0C = 0x800CE008;
-const int  s12c_dword_800D9E10 = 0x800CE008;
-const int  s12c_dword_800D9E14 = 0x800CE008;
-const int  s12c_dword_800D9E18 = 0x800CE008;
-const int  s12c_dword_800D9E1C = 0x800CDDE8;
-const int  s12c_dword_800D9E20 = 0x800CE008;
-const int  s12c_dword_800D9E24 = 0x800CE008;
-const int  s12c_dword_800D9E28 = 0x800CDE04;
-const int  s12c_dword_800D9E2C = 0x800CE008;
-const int  s12c_dword_800D9E30 = 0x800CE008;
-const int  s12c_dword_800D9E34 = 0x800CDECC;
-const int  s12c_dword_800D9E38 = 0x800CE008;
-const int  s12c_dword_800D9E3C = 0x800CE008;
-const int  s12c_dword_800D9E40 = 0x800CE008;
-const int  s12c_dword_800D9E44 = 0x800CE008;
-const int  s12c_dword_800D9E48 = 0x800CE008;
-const int  s12c_dword_800D9E4C = 0x800CE008;
-const int  s12c_dword_800D9E50 = 0x800CDF1C;
-const int  s12c_dword_800D9E54 = 0x800CE008;
-const int  s12c_dword_800D9E58 = 0x800CE008;
-const int  s12c_dword_800D9E5C = 0x800CE008;
-const int  s12c_dword_800D9E60 = 0x800CE008;
-const int  s12c_dword_800D9E64 = 0x800CDF50;
-const int  s12c_dword_800D9E68 = 0x800CDF70;
-const int  s12c_dword_800D9E6C = 0x800CDFAC;
-const int  s12c_dword_800D9E70 = 0x800CDFF0;
-const int  s12c_dword_800D9E74 = 0x800CE2F8;
-const int  s12c_dword_800D9E78 = 0x800CE330;
-const int  s12c_dword_800D9E7C = 0x800CEA2C;
-const int  s12c_dword_800D9E80 = 0x800CEA2C;
-const int  s12c_dword_800D9E84 = 0x800CEA2C;
-const int  s12c_dword_800D9E88 = 0x800CE618;
-const int  s12c_dword_800D9E8C = 0x800CEA2C;
-const int  s12c_dword_800D9E90 = 0x800CEA2C;
-const int  s12c_dword_800D9E94 = 0x800CEA2C;
-const int  s12c_dword_800D9E98 = 0x800CEA2C;
-const int  s12c_dword_800D9E9C = 0x800CEA2C;
-const int  s12c_dword_800D9EA0 = 0x800CEA2C;
-const int  s12c_dword_800D9EA4 = 0x800CEA2C;
-const int  s12c_dword_800D9EA8 = 0x800CEA2C;
-const int  s12c_dword_800D9EAC = 0x800CE658;
-const int  s12c_dword_800D9EB0 = 0x800CE6E8;
-const int  s12c_dword_800D9EB4 = 0x800CEA2C;
-const int  s12c_dword_800D9EB8 = 0x800CE7F8;
-const int  s12c_dword_800D9EBC = 0x800CEA2C;
-const int  s12c_dword_800D9EC0 = 0x800CEA2C;
-const int  s12c_dword_800D9EC4 = 0x800CEA2C;
-const int  s12c_dword_800D9EC8 = 0x800CEA2C;
-const int  s12c_dword_800D9ECC = 0x800CEA2C;
-const int  s12c_dword_800D9ED0 = 0x800CEA2C;
-const int  s12c_dword_800D9ED4 = 0x800CEA2C;
-const int  s12c_dword_800D9ED8 = 0x800CEA2C;
-const int  s12c_dword_800D9EDC = 0x800CEA2C;
-const int  s12c_dword_800D9EE0 = 0x800CE940;
-const int  s12c_dword_800D9EE4 = 0x800CEA2C;
-const int  s12c_dword_800D9EE8 = 0x800CEA2C;
-const int  s12c_dword_800D9EEC = 0x800CEA2C;
-const int  s12c_dword_800D9EF0 = 0x800CEA2C;
-const int  s12c_dword_800D9EF4 = 0x800CEA2C;
-const int  s12c_dword_800D9EF8 = 0x800CEA2C;
-const int  s12c_dword_800D9EFC = 0x800CE950;
-const int  s12c_dword_800D9F00 = 0x800CE9F4;
-const int  s12c_dword_800D9F04 = 0x800CEA14;
-const char s12c_dword_800D9F08[] = {0x0, 0x0, 0x0, 0x0};
-const int  s12c_dword_800D9F0C = 0x800CECB4;
-const int  s12c_dword_800D9F10 = 0x800CED2C;
-const int  s12c_dword_800D9F14 = 0x800CF554;
-const int  s12c_dword_800D9F18 = 0x800CF554;
-const int  s12c_dword_800D9F1C = 0x800CF554;
-const int  s12c_dword_800D9F20 = 0x800CF554;
-const int  s12c_dword_800D9F24 = 0x800CF06C;
-const int  s12c_dword_800D9F28 = 0x800CF0C4;
-const int  s12c_dword_800D9F2C = 0x800CF554;
-const int  s12c_dword_800D9F30 = 0x800CF2AC;
-const int  s12c_dword_800D9F34 = 0x800CF554;
-const int  s12c_dword_800D9F38 = 0x800CF554;
-const int  s12c_dword_800D9F3C = 0x800CF554;
-const int  s12c_dword_800D9F40 = 0x800CF554;
-const int  s12c_dword_800D9F44 = 0x800CF4A0;
-const char s12c_dword_800D9F48[] = {0x0, 0x0, 0x0, 0x0};
 
 void s12c_dog_800CAD8C(Work *work, int idx)
 {
@@ -1325,8 +1125,287 @@ void Dog_800CBCF4(Work *work, int arg1)
 extern void s12c_dog_800CBDC4(Work *work, int index);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CC180.s")
 extern void s12c_dog_800CC180(Work *work, int index);
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CC53C.s")
-extern void s12c_dog_800CC53C(Work *work, int index);
+void s12c_dog_800CC53C(Work *work, int index)
+{
+    SVECTOR  rot;
+    SVECTOR  target;
+    CONTROL *control;
+    OBJECT  *object;
+    int      dist;
+
+    object = &work->field_19C[index];
+    control = &work->field_28[index];
+
+    switch (work->field_1510[index])
+    {
+    case 0:
+        work->field_1510[index] = 1;
+        Dog_800CA458(work, 18, index);
+
+    case 1:
+        target.vx = index * 300 - 10600;
+        target.vy = 0;
+        target.vz = -400;
+        dist = Dog_800CABF4(&control->mov, &target, &rot);
+        rot.vx = 0;
+        s12c_dog_800CB97C(&control->turn, &rot, 2);
+
+        switch (index)
+        {
+        case 0:
+            if (dist < 1000)
+            {
+                if (work->field_1528 < 2000)
+                {
+                    if ((work->field_155C[0] & 0x1F) == 0)
+                    {
+                        GM_SeSet(&work->field_28[0].mov, 0x81);
+                    }
+
+                    Dog_800CB23C(work, 2, 5, 0);
+                }
+                else
+                {
+                    work->field_1510[0] = 5;
+                }
+            }
+            else
+            {
+                if ((work->field_155C[0] & 7) == 0)
+                {
+                    GM_SeSetMode(&work->field_28[0].mov, 0xA4, GM_SEMODE_NORMAL);
+                }
+
+                Dog_800CB23C(work, 0, 1, 0);
+            }
+            break;
+
+        case 1:
+            if (dist < 1000)
+            {
+                work->field_1510[1] = 5;
+                GM_SeSetMode(&work->field_28[1].mov, 0x85, GM_SEMODE_NORMAL);
+            }
+            else
+            {
+                if ((work->field_155C[1] & 7) == 0)
+                {
+                    GM_SeSetMode(&work->field_28[1].mov, 0xA5, GM_SEMODE_NORMAL);
+                }
+
+                Dog_800CB23C(work, 0, 1, 1);
+            }
+            break;
+        }
+        break;
+
+    case 5:
+        target.vx = -7500;
+        target.vy = 0;
+        target.vz = 5600;
+        Dog_800CABF4(&control->mov, &target, &control->turn);
+        Dog_800CB23C(work, 25, 14, index);
+
+        if (GV_RandU(16) == 0)
+        {
+            AN_Breath(&object->objs->objs[6].world);
+        }
+        break;
+
+    case 14:
+        work->field_1510[index] = 0x25;
+        target.vx = -7500;
+        target.vy = 0;
+        target.vz = 5600;
+        Dog_800CABF4(&control->mov, &target, &control->turn);
+        control->rot = control->turn;
+        GM_SeSetMode(&work->field_28[index].mov, 0xB7, GM_SEMODE_NORMAL);
+
+    case 37:
+        Dog_800CB23C(work, 5, 17, index);
+        break;
+
+    case 17:
+        GM_SeSetMode(&work->field_28[index].mov, 0xB5, GM_SEMODE_NORMAL);
+
+        if (work->field_15F8 != 1)
+        {
+            work->field_14F8[index] = 3;
+        }
+        else
+        {
+            work->field_14F8[index] = 6;
+        }
+
+        work->field_1510[index] = 0;
+        work->field_1598[index] = 0;
+        s12c_dog_800CA758(work, index);
+        break;
+    }
+}
+
+const int  s12c_dword_800D9CC4 = 0x800CC93C;
+const int  s12c_dword_800D9CC8 = 0x800CC95C;
+const int  s12c_dword_800D9CCC = 0x800CCC20;
+const int  s12c_dword_800D9CD0 = 0x800CCC20;
+const int  s12c_dword_800D9CD4 = 0x800CCC20;
+const int  s12c_dword_800D9CD8 = 0x800CCAAC;
+const int  s12c_dword_800D9CDC = 0x800CCC20;
+const int  s12c_dword_800D9CE0 = 0x800CCC20;
+const int  s12c_dword_800D9CE4 = 0x800CCC20;
+const int  s12c_dword_800D9CE8 = 0x800CCC20;
+const int  s12c_dword_800D9CEC = 0x800CCC20;
+const int  s12c_dword_800D9CF0 = 0x800CCC20;
+const int  s12c_dword_800D9CF4 = 0x800CCC20;
+const int  s12c_dword_800D9CF8 = 0x800CCC20;
+const int  s12c_dword_800D9CFC = 0x800CCB1C;
+const int  s12c_dword_800D9D00 = 0x800CCC20;
+const int  s12c_dword_800D9D04 = 0x800CCC20;
+const int  s12c_dword_800D9D08 = 0x800CCBBC;
+const int  s12c_dword_800D9D0C = 0x800CCC20;
+const int  s12c_dword_800D9D10 = 0x800CCC20;
+const int  s12c_dword_800D9D14 = 0x800CCC20;
+const int  s12c_dword_800D9D18 = 0x800CCC20;
+const int  s12c_dword_800D9D1C = 0x800CCC20;
+const int  s12c_dword_800D9D20 = 0x800CCC20;
+const int  s12c_dword_800D9D24 = 0x800CCC20;
+const int  s12c_dword_800D9D28 = 0x800CCC20;
+const int  s12c_dword_800D9D2C = 0x800CCC20;
+const int  s12c_dword_800D9D30 = 0x800CCC20;
+const int  s12c_dword_800D9D34 = 0x800CCC20;
+const int  s12c_dword_800D9D38 = 0x800CCC20;
+const int  s12c_dword_800D9D3C = 0x800CCC20;
+const int  s12c_dword_800D9D40 = 0x800CCC20;
+const int  s12c_dword_800D9D44 = 0x800CCC20;
+const int  s12c_dword_800D9D48 = 0x800CCC20;
+const int  s12c_dword_800D9D4C = 0x800CCC20;
+const int  s12c_dword_800D9D50 = 0x800CCC20;
+const int  s12c_dword_800D9D54 = 0x800CCC20;
+const int  s12c_dword_800D9D58 = 0x800CCBA0;
+const int  s12c_dword_800D9D5C = 0x800CCCD0;
+const int  s12c_dword_800D9D60 = 0x800CCD34;
+const int  s12c_dword_800D9D64 = 0x800CCE48;
+const int  s12c_dword_800D9D68 = 0x800CDBA0;
+const int  s12c_dword_800D9D6C = 0x800CCEF8;
+const int  s12c_dword_800D9D70 = 0x800CCF40;
+const int  s12c_dword_800D9D74 = 0x800CD258;
+const int  s12c_dword_800D9D78 = 0x800CD454;
+const int  s12c_dword_800D9D7C = 0x800CDBA0;
+const int  s12c_dword_800D9D80 = 0x800CDBA0;
+const int  s12c_dword_800D9D84 = 0x800CDBA0;
+const int  s12c_dword_800D9D88 = 0x800CD480;
+const int  s12c_dword_800D9D8C = 0x800CDBA0;
+const int  s12c_dword_800D9D90 = 0x800CD5D0;
+const int  s12c_dword_800D9D94 = 0x800CDBA0;
+const int  s12c_dword_800D9D98 = 0x800CDBA0;
+const int  s12c_dword_800D9D9C = 0x800CDBA0;
+const int  s12c_dword_800D9DA0 = 0x800CD68C;
+const int  s12c_dword_800D9DA4 = 0x800CDBA0;
+const int  s12c_dword_800D9DA8 = 0x800CDBA0;
+const int  s12c_dword_800D9DAC = 0x800CD808;
+const int  s12c_dword_800D9DB0 = 0x800CDBA0;
+const int  s12c_dword_800D9DB4 = 0x800CDBA0;
+const int  s12c_dword_800D9DB8 = 0x800CDBA0;
+const int  s12c_dword_800D9DBC = 0x800CDBA0;
+const int  s12c_dword_800D9DC0 = 0x800CDBA0;
+const int  s12c_dword_800D9DC4 = 0x800CDBA0;
+const int  s12c_dword_800D9DC8 = 0x800CD8F4;
+const int  s12c_dword_800D9DCC = 0x800CDBA0;
+const int  s12c_dword_800D9DD0 = 0x800CDBA0;
+const int  s12c_dword_800D9DD4 = 0x800CDBA0;
+const int  s12c_dword_800D9DD8 = 0x800CDBA0;
+const int  s12c_dword_800D9DDC = 0x800CDABC;
+const char s12c_dword_800D9DE0[] = {0x0, 0x0, 0x0, 0x0};
+const int  s12c_dword_800D9DE4 = 0x800CDD10;
+const int  s12c_dword_800D9DE8 = 0x800CDD20;
+const int  s12c_dword_800D9DEC = 0x800CE008;
+const int  s12c_dword_800D9DF0 = 0x800CE008;
+const int  s12c_dword_800D9DF4 = 0x800CE008;
+const int  s12c_dword_800D9DF8 = 0x800CDDB4;
+const int  s12c_dword_800D9DFC = 0x800CE008;
+const int  s12c_dword_800D9E00 = 0x800CE008;
+const int  s12c_dword_800D9E04 = 0x800CE008;
+const int  s12c_dword_800D9E08 = 0x800CE008;
+const int  s12c_dword_800D9E0C = 0x800CE008;
+const int  s12c_dword_800D9E10 = 0x800CE008;
+const int  s12c_dword_800D9E14 = 0x800CE008;
+const int  s12c_dword_800D9E18 = 0x800CE008;
+const int  s12c_dword_800D9E1C = 0x800CDDE8;
+const int  s12c_dword_800D9E20 = 0x800CE008;
+const int  s12c_dword_800D9E24 = 0x800CE008;
+const int  s12c_dword_800D9E28 = 0x800CDE04;
+const int  s12c_dword_800D9E2C = 0x800CE008;
+const int  s12c_dword_800D9E30 = 0x800CE008;
+const int  s12c_dword_800D9E34 = 0x800CDECC;
+const int  s12c_dword_800D9E38 = 0x800CE008;
+const int  s12c_dword_800D9E3C = 0x800CE008;
+const int  s12c_dword_800D9E40 = 0x800CE008;
+const int  s12c_dword_800D9E44 = 0x800CE008;
+const int  s12c_dword_800D9E48 = 0x800CE008;
+const int  s12c_dword_800D9E4C = 0x800CE008;
+const int  s12c_dword_800D9E50 = 0x800CDF1C;
+const int  s12c_dword_800D9E54 = 0x800CE008;
+const int  s12c_dword_800D9E58 = 0x800CE008;
+const int  s12c_dword_800D9E5C = 0x800CE008;
+const int  s12c_dword_800D9E60 = 0x800CE008;
+const int  s12c_dword_800D9E64 = 0x800CDF50;
+const int  s12c_dword_800D9E68 = 0x800CDF70;
+const int  s12c_dword_800D9E6C = 0x800CDFAC;
+const int  s12c_dword_800D9E70 = 0x800CDFF0;
+const int  s12c_dword_800D9E74 = 0x800CE2F8;
+const int  s12c_dword_800D9E78 = 0x800CE330;
+const int  s12c_dword_800D9E7C = 0x800CEA2C;
+const int  s12c_dword_800D9E80 = 0x800CEA2C;
+const int  s12c_dword_800D9E84 = 0x800CEA2C;
+const int  s12c_dword_800D9E88 = 0x800CE618;
+const int  s12c_dword_800D9E8C = 0x800CEA2C;
+const int  s12c_dword_800D9E90 = 0x800CEA2C;
+const int  s12c_dword_800D9E94 = 0x800CEA2C;
+const int  s12c_dword_800D9E98 = 0x800CEA2C;
+const int  s12c_dword_800D9E9C = 0x800CEA2C;
+const int  s12c_dword_800D9EA0 = 0x800CEA2C;
+const int  s12c_dword_800D9EA4 = 0x800CEA2C;
+const int  s12c_dword_800D9EA8 = 0x800CEA2C;
+const int  s12c_dword_800D9EAC = 0x800CE658;
+const int  s12c_dword_800D9EB0 = 0x800CE6E8;
+const int  s12c_dword_800D9EB4 = 0x800CEA2C;
+const int  s12c_dword_800D9EB8 = 0x800CE7F8;
+const int  s12c_dword_800D9EBC = 0x800CEA2C;
+const int  s12c_dword_800D9EC0 = 0x800CEA2C;
+const int  s12c_dword_800D9EC4 = 0x800CEA2C;
+const int  s12c_dword_800D9EC8 = 0x800CEA2C;
+const int  s12c_dword_800D9ECC = 0x800CEA2C;
+const int  s12c_dword_800D9ED0 = 0x800CEA2C;
+const int  s12c_dword_800D9ED4 = 0x800CEA2C;
+const int  s12c_dword_800D9ED8 = 0x800CEA2C;
+const int  s12c_dword_800D9EDC = 0x800CEA2C;
+const int  s12c_dword_800D9EE0 = 0x800CE940;
+const int  s12c_dword_800D9EE4 = 0x800CEA2C;
+const int  s12c_dword_800D9EE8 = 0x800CEA2C;
+const int  s12c_dword_800D9EEC = 0x800CEA2C;
+const int  s12c_dword_800D9EF0 = 0x800CEA2C;
+const int  s12c_dword_800D9EF4 = 0x800CEA2C;
+const int  s12c_dword_800D9EF8 = 0x800CEA2C;
+const int  s12c_dword_800D9EFC = 0x800CE950;
+const int  s12c_dword_800D9F00 = 0x800CE9F4;
+const int  s12c_dword_800D9F04 = 0x800CEA14;
+const char s12c_dword_800D9F08[] = {0x0, 0x0, 0x0, 0x0};
+const int  s12c_dword_800D9F0C = 0x800CECB4;
+const int  s12c_dword_800D9F10 = 0x800CED2C;
+const int  s12c_dword_800D9F14 = 0x800CF554;
+const int  s12c_dword_800D9F18 = 0x800CF554;
+const int  s12c_dword_800D9F1C = 0x800CF554;
+const int  s12c_dword_800D9F20 = 0x800CF554;
+const int  s12c_dword_800D9F24 = 0x800CF06C;
+const int  s12c_dword_800D9F28 = 0x800CF0C4;
+const int  s12c_dword_800D9F2C = 0x800CF554;
+const int  s12c_dword_800D9F30 = 0x800CF2AC;
+const int  s12c_dword_800D9F34 = 0x800CF554;
+const int  s12c_dword_800D9F38 = 0x800CF554;
+const int  s12c_dword_800D9F3C = 0x800CF554;
+const int  s12c_dword_800D9F40 = 0x800CF554;
+const int  s12c_dword_800D9F44 = 0x800CF4A0;
+const char s12c_dword_800D9F48[] = {0x0, 0x0, 0x0, 0x0};
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CC8B4.s")
 extern void s12c_dog_800CC8B4(Work *work, int index);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CCC3C.s")
