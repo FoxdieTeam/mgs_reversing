@@ -60,7 +60,9 @@ typedef struct _Work
     short          field_754;
     short          field_756;
     int            field_758;
-    char           pad75C[12];
+    int            field_75C;
+    char           pad760[4];
+    int            field_764;
     int            field_768;
     int            field_76C;
     int            field_770;
@@ -1651,7 +1653,144 @@ void Valcan_800DB868(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB9F0.s")
+void s15c_crow_800DB9F0(Work *work)
+{
+    int dir = work->field_764;
+
+    if ((work->field_770 == 1 && work->field_774 != 0) || work->field_770 == 2 ||
+        work->field_770 == 3 || work->field_76C == 0 || work->field_774 == 2 ||
+        work->field_774 == 3)
+    {
+        if ((u_int)(work->field_774 - 2) < 2)
+        {
+            work->field_774 = work->field_770;
+        }
+
+        switch (work->field_740)
+        {
+        case 0:
+            work->field_768 = (dir > 0) ? 2 : 3;
+            break;
+
+        case 1:
+            work->field_768 = (dir > 0) ? 3 : 2;
+            break;
+
+        case 2:
+            if (dir > 0)
+            {
+                work->field_768 = 1;
+            }
+            else
+            {
+                work->field_768 = 0;
+            }
+            break;
+
+        case 3:
+            if (dir > 0)
+            {
+                work->field_768 = 0;
+            }
+            else
+            {
+                work->field_768 = 1;
+            }
+            break;
+        }
+
+        work->control.turn.vy = work->field_744[work->field_768];
+        Valcan_800DB500(work);
+        Valcan_800DB868(work);
+        work->field_758 = 0;
+        work->field_75C = 0;
+    }
+    else
+    {
+        work->field_75C--;
+
+        if (work->field_75C >= 8)
+        {
+            work->control.turn.vy -= dir * 14;
+            return;
+        }
+
+        if (work->field_75C >= 0)
+        {
+            switch (work->field_740)
+            {
+            case 0:
+                if (dir > 0)
+                {
+                    work->field_768 = 2;
+                }
+                else
+                {
+                    work->field_768 = 3;
+                }
+
+                work->control.mov.vx =
+                    (work->control.mov.vx +
+                     work->field_6F8[work->field_73C][work->field_73E][0]) / 2;
+                break;
+
+            case 1:
+                if (dir > 0)
+                {
+                    work->field_768 = 3;
+                }
+                else
+                {
+                    work->field_768 = 2;
+                }
+
+                work->control.mov.vx =
+                    (work->control.mov.vx +
+                     work->field_6F8[work->field_73C][work->field_73E][0]) / 2;
+                break;
+
+            case 2:
+                if (dir > 0)
+                {
+                    work->field_768 = 1;
+                }
+                else
+                {
+                    work->field_768 = 0;
+                }
+
+                work->control.mov.vz =
+                    (work->control.mov.vz +
+                     work->field_6F8[work->field_73C][work->field_73E][1]) / 2;
+                break;
+
+            case 3:
+                if (dir > 0)
+                {
+                    work->field_768 = 0;
+                }
+                else
+                {
+                    work->field_768 = 1;
+                }
+
+                work->control.mov.vz =
+                    (work->control.mov.vz +
+                     work->field_6F8[work->field_73C][work->field_73E][1]) / 2;
+                break;
+            }
+
+            work->control.turn.vy = work->field_744[work->field_768];
+            return;
+        }
+
+        Valcan_800DB500(work);
+        Valcan_800DB868(work);
+        work->field_758 = 0;
+        work->field_75C = 0;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DBCB4.s")
 
 void Valcan_800DBF74(Work *work)
