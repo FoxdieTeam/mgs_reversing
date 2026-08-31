@@ -67,7 +67,9 @@ typedef struct _DynCon
     HZD_FLR floors[4][2][2]; /* 0x383C - two HZD_FLR per [i][j] */
     char    pad_3B3C[0x3C0C - 0x3B3C];
     SVECTOR field_3C0C[4];   /* 0x3C0C */
-    char    pad_3C2C[0x3DDC - 0x3C2C];
+    int     field_3C2C[36];  /* 0x3C2C */
+    int     field_3CBC[36];  /* 0x3CBC */
+    int     field_3D4C[36];  /* 0x3D4C - the three run up to field_3DDC */
     int     field_3DDC;      /* 0x3DDC */
     int     field_3DE0[3][12];/* 0x3DE0 - model name codes */
     char    pad_3E70[0x3F00 - 0x3E70];
@@ -276,7 +278,29 @@ void s15c_dyncon_800D567C(DynCon *work, int s1, int s2, int code)
     s15c_dyncon_800D3F24(&work->segs[s1][s2][0], &work->floors[s1][s2][0],
                          &mtx, &a, &b);
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5910.s")
+void s15c_dyncon_800D5910(DynCon *work, int row, int col, int unused)
+{
+    row += col * 3;
+    row <<= 2;
+
+    if (work->field_3CBC[row] >= 6)
+    {
+        work->field_3CBC[row] = 5;
+    }
+    if (work->field_3CBC[row + 1] >= 6)
+    {
+        work->field_3CBC[row + 1] = 5;
+    }
+    if (work->field_3CBC[row + 2] >= 6)
+    {
+        work->field_3CBC[row + 2] = 5;
+    }
+    if (work->field_3CBC[row + 3] >= 6)
+    {
+        work->field_3CBC[row + 3] = 5;
+    }
+}
+
 void s15c_dyncon_800D59C0(SVECTOR *vec, int code)
 {
     switch (code)
