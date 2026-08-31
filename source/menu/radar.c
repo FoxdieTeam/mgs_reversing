@@ -25,13 +25,13 @@ STATIC short inactive7segmentColors_800AB4A8[4] = {0x8023, 0x8023, 0x8023, 0x000
 STATIC int cons_current_y_800AB4B0 = 0;
 STATIC int cons_current_x_800AB4B4 = 0;
 
-RPK_ITEM *SECTION(".sbss") gRadar_rpk_800ABAC8;
+RPK_ITEM *SECTION(".sbss") radar_tpk;
 int       SECTION(".sbss") dword_800ABACC;
 
 extern short    image_8009E338[];
 extern char     gDigit7Segment_8009E60C[];
 
-static MATRIX gRadarScaleMatrix_800BD580;
+static MATRIX radar_matrix;
 
 // Used for colors of vision cones of soldiers and surveillance cameras in the radar.
 typedef struct visionConeColors
@@ -105,11 +105,11 @@ void MENU_SetRadarScale(int scale)
     MENU_RadarRangeH = scale2 / 3;
     MENU_RadarRangeV = scale2 / 4;
 
-    gRadarScaleMatrix_800BD580 = DG_ZeroMatrix;
+    radar_matrix = DG_ZeroMatrix;
     scale_vec.vz = MENU_RadarScale;
     scale_vec.vy = MENU_RadarScale;
     scale_vec.vx = MENU_RadarScale;
-    ScaleMatrix(&gRadarScaleMatrix_800BD580, &scale_vec);
+    ScaleMatrix(&radar_matrix, &scale_vec);
 }
 
 void MENU_SetRadarFunc(TRadarFn_800AB48C func)
@@ -117,7 +117,7 @@ void MENU_SetRadarFunc(TRadarFn_800AB48C func)
     gFn_radar_800AB48C = func;
 }
 
-void draw_radar_vision_cone_80038F3C(MenuWork *work, u_long *ot, RADAR_SIGHT_PARAM *r_param, int x, int y, int color,
+void menu_draw_sight(MenuWork *work, u_long *ot, RADAR_SIGHT_PARAM *r_param, int x, int y, int color,
                                      int fadeColor, int scale)
 {
     SVECTOR  right;
@@ -159,7 +159,7 @@ void draw_radar_vision_cone_80038F3C(MenuWork *work, u_long *ot, RADAR_SIGHT_PAR
 }
 
 // Draws the black border around the radar.
-void drawBorder_800390FC(MenuWork *menuMan, u_long *ot)
+void draw_radar_frame(MenuWork *menuMan, u_long *ot)
 {
     int x1, y1, x2, y2;
 
@@ -194,8 +194,7 @@ void drawBorder_800390FC(MenuWork *menuMan, u_long *ot)
 extern CONTROL         *GM_WhereList[96];
 extern int              GM_N_WhereList;
 
-// Couldn't test it, but it should be the appropriate function name.
-void drawMap_800391D0(MenuWork *work, u_long *ot, int arg2)
+void menu_draw_radar(MenuWork *work, u_long *ot, int arg2)
 {
     RADAR_SIGHT_PARAM cone;
 
@@ -302,7 +301,7 @@ void drawMap_800391D0(MenuWork *work, u_long *ot, int arg2)
             cone.dis = (rcos(control->rot.vx) * 6144) / 4096;
             cone.range = 600;
 
-            draw_radar_vision_cone_80038F3C(work, ot, &cone, 0, 0, MAKE_RGB(0, 160, 72), MAKE_RGB(0, 0, 0), scale);
+            menu_draw_sight(work, ot, &cone, 0, 0, MAKE_RGB(0, 160, 72), MAKE_RGB(0, 0, 0), scale);
         }
 
         for (count = GM_N_WhereList - 1; count > 0; count--)
@@ -379,7 +378,7 @@ void drawMap_800391D0(MenuWork *work, u_long *ot, int arg2)
                         if (radar_atr & RADAR_SIGHT)
                         {
                             int idx = radar_atr >> 12;
-                            draw_radar_vision_cone_80038F3C(work, ot, &control->radar_param, x, z,
+                            menu_draw_sight(work, ot, &control->radar_param, x, z,
                                                             visionConeColors_8009E2F4[idx].mainColor, visionConeColors_8009E2F4[idx].fadeColor,
                                                             scale);
                         }
@@ -418,11 +417,11 @@ void drawMap_800391D0(MenuWork *work, u_long *ot, int arg2)
     pLine = (LINE_F2 *)work->prim->next;
     pLimit = work->prim->end - 1024;
 
-    gRadarScaleMatrix_800BD580.t[0] = -xoff;
-    gRadarScaleMatrix_800BD580.t[1] = -zoff;
+    radar_matrix.t[0] = -xoff;
+    radar_matrix.t[1] = -zoff;
 
-    gte_SetRotMatrix(&gRadarScaleMatrix_800BD580);
-    gte_SetTransMatrix(&gRadarScaleMatrix_800BD580);
+    gte_SetRotMatrix(&radar_matrix);
+    gte_SetTransMatrix(&radar_matrix);
 
     for (i = 0; i < 2; i++)
     {
@@ -595,7 +594,7 @@ end:
     addPrim(ot, pTpage_2);
 }
 
-void initSprt_80039D5C(SPRT *pSprt, int x, int y, radar_uv *pRadarUV, int rgb)
+void set_sprt(SPRT *pSprt, int x, int y, radar_uv *pRadarUV, int rgb)
 {
     short clut;
 
@@ -614,7 +613,7 @@ void initSprt_80039D5C(SPRT *pSprt, int x, int y, radar_uv *pRadarUV, int rgb)
     pSprt->clut = clut;
 }
 
-void drawHeader_helper_helper_80039DB4(MenuPrim *prim, SPRT *pSprt, radar_uv *pRadarUV)
+void set_side_tile(MenuPrim *prim, SPRT *pSprt, radar_uv *pRadarUV)
 {
     int   x0;
     TILE *tile1;
@@ -649,13 +648,13 @@ static inline void drawHeader_helper(MenuPrim *prim, int y, radar_uv *pRadarUV, 
 
     _NEW_PRIM( sprt, prim );
 
-    initSprt_80039D5C(sprt, -pRadarUV->field_2_w / 2, y, pRadarUV, rgbs[0]);
+    set_sprt(sprt, -pRadarUV->field_2_w / 2, y, pRadarUV, rgbs[0]);
     addPrim(prim->ot, sprt);
-    drawHeader_helper_helper_80039DB4(prim, sprt, pRadarUV);
+    set_side_tile(prim, sprt, pRadarUV);
 }
 
 // Draws the radar "header", i.e. "ALERT" / "EVASION" / "JAMMING" text and the dashed line under it.
-void drawHeader_80039EC4(MenuPrim *pGlue, int y, int idx)
+void draw_panel(MenuPrim *pGlue, int y, int idx)
 {
     int       time, time2;
     int       rgbs[2];
@@ -686,7 +685,7 @@ void drawHeader_80039EC4(MenuPrim *pGlue, int y, int idx)
     drawHeader_helper(pGlue, y, pRadarUV, rgbs);
 }
 
-void drawConsole_alertEvasion_8003A0BC(MenuPrim *prim, int code)
+void draw_console(MenuPrim *prim, int code)
 {
     SPRT     *spb;
     radar_uv *uv; // CHARA_TABLE *tp;
@@ -735,7 +734,7 @@ void drawConsole_alertEvasion_8003A0BC(MenuPrim *prim, int code)
     }
 }
 
-void drawConsole_jamming_8003A2D0(MenuPrim *pGlue, int idx)
+void draw_long_console(MenuPrim *pGlue, int idx)
 {
     int       i;
     int       count;
@@ -818,7 +817,7 @@ void drawConsole_jamming_8003A2D0(MenuPrim *pGlue, int idx)
     }
 }
 
-void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
+void draw_seg(MenuPrim *pGlue, int alertLevel, int code)
 {
     int       digit;
     int       i, j;
@@ -894,7 +893,7 @@ void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
         pCounterDigitSprt = (SPRT *)pGlue->next;
         pGlue->next += sizeof(SPRT);
 
-        initSprt_80039D5C(pCounterDigitSprt, counterDigitX, counterDigitY, pCounterDigitsUV, 0x80808080);
+        set_sprt(pCounterDigitSprt, counterDigitX, counterDigitY, pCounterDigitsUV, 0x80808080);
         pCounterDigitSprt->clut = gRadarClut_800AB498[3 - i];
 
         addPrim(pGlue->ot, pCounterDigitSprt);
@@ -906,22 +905,21 @@ void drawCounter_8003A664(MenuPrim *pGlue, int alertLevel, int code)
         }
     }
 
-    drawConsole_alertEvasion_8003A0BC(pGlue, code);
+    draw_console(pGlue, code);
 }
 
-void drawSymbols_8003A978(MenuPrim *prim, int x, int code)
+void draw_mode(MenuPrim *prim, int x, int code)
 {
     SPRT *sprt;
 
     _NEW_PRIM(sprt, prim);
 
     // code can be 0 (alert), 1 (evasion) and 3 (jamming).
-    initSprt_80039D5C(sprt, x - 34, -12, &gRadarUV_8009E30C[code * 2], gRadarRGBTable_8009E3B8[code]);
+    set_sprt(sprt, x - 34, -12, &gRadarUV_8009E30C[code * 2], gRadarRGBTable_8009E3B8[code]);
     addPrim(prim->ot, sprt);
 }
 
-// Slightly misleading name as it also handles the radar in normal mode.
-void drawAlertEvasionJammingPanel_8003AA2C(MenuWork *work, u_long *ot, int radarMode, int alertLevel)
+void menu_radar_draw_state(MenuWork *work, u_long *ot, int radarMode, int alertLevel)
 {
     unsigned int randValue;
     DR_TPAGE    *tpage1;
@@ -934,9 +932,9 @@ void drawAlertEvasionJammingPanel_8003AA2C(MenuWork *work, u_long *ot, int radar
     {
     case ALERT_JAMMING:
         LoadImage(&rect_800AB490, (u_long *)image_8009E338);
-        drawSymbols_8003A978(work->prim, 6, 3);
-        drawConsole_jamming_8003A2D0(work->prim, 3);
-        drawHeader_80039EC4(work->prim, -25, 3);
+        draw_mode(work->prim, 6, 3);
+        draw_long_console(work->prim, 3);
+        draw_panel(work->prim, -25, 3);
         break;
 
     case ALERT_OFF:
@@ -944,9 +942,9 @@ void drawAlertEvasionJammingPanel_8003AA2C(MenuWork *work, u_long *ot, int radar
         break;
 
     default:
-        drawCounter_8003A664(work->prim, alertLevel, 3 - radarMode);
-        drawSymbols_8003A978(work->prim, 9, 3 - radarMode);
-        drawHeader_80039EC4(work->prim, -25, 3 - radarMode);
+        draw_seg(work->prim, alertLevel, 3 - radarMode);
+        draw_mode(work->prim, 9, 3 - radarMode);
+        draw_panel(work->prim, -25, 3 - radarMode);
         break;
     }
 
@@ -997,18 +995,18 @@ void menu_radar_load_rpk_8003AD64(void)
 
     rect.x = 992;
     rect.y = 336;
-    rect.w = gRadar_rpk_800ABAC8->w;
-    rect.h = gRadar_rpk_800ABAC8->h;
-    LoadImage(&rect, (u_long *)&gRadar_rpk_800ABAC8[1]);
+    rect.w = radar_tpk->w;
+    rect.h = radar_tpk->h;
+    LoadImage(&rect, (u_long *)&radar_tpk[1]);
 }
 
 void menu_init_radar_helper_8003ADAC(void)
 {
-    gRadar_rpk_800ABAC8 = menu_rpk_get_img_8003DDB4(41);
+    radar_tpk = menu_rpk_get_img_8003DDB4(41);
     menu_radar_load_rpk_8003AD64();
 }
 
-void menu_radar_helper_8003ADD8(MenuWork *work, int index)
+void set_radar_pos(MenuWork *work, int index)
 {
     DRAWENV drawEnv;
     RADAR_T *radar;
@@ -1067,7 +1065,7 @@ void draw_radar(MenuWork *work, u_long *ot)
         }
     }
 
-    drawBorder_800390FC(work, ot);
+    draw_radar_frame(work, ot);
     addPrim(ot, &work->field_CC_radar_data.org_env[GV_Clock]);
 
     if (gFn_radar_800AB48C)
@@ -1102,7 +1100,7 @@ void draw_radar(MenuWork *work, u_long *ot)
 
                 if (alertLevel >= 0)
                 {
-                    drawAlertEvasionJammingPanel_8003AA2C(work, ot, 0, 0);
+                    menu_radar_draw_state(work, ot, 0, 0);
                     clip.w = alertLevel;
                     clip.x += 69;
                     clip.x -= alertLevel;
@@ -1136,7 +1134,7 @@ void draw_radar(MenuWork *work, u_long *ot)
 
                 addPrim(ot, tpage);
 
-                drawMap_800391D0(work, ot, 0);
+                menu_draw_radar(work, ot, 0);
                 clip = work->field_CC_radar_data.clip_rect;
 
                 if (alertLevel >= 0)
@@ -1152,7 +1150,7 @@ void draw_radar(MenuWork *work, u_long *ot)
             }
             else
             {
-                drawMap_800391D0(work, ot, 0);
+                menu_draw_radar(work, ot, 0);
                 cons_current_y_800AB4B0 = 0;
                 cons_current_x_800AB4B4 = 0;
             }
@@ -1169,7 +1167,7 @@ void draw_radar(MenuWork *work, u_long *ot)
             {
                 GM_SeSet2(0, 0x3F, SE_RADAR_JAMMED);
             }
-            drawAlertEvasionJammingPanel_8003AA2C(work, ot, alertMode, alertLevel);
+            menu_radar_draw_state(work, ot, alertMode, alertLevel);
             break;
         }
 
@@ -1218,7 +1216,7 @@ void menu_radar_update_8003B350(MenuWork *work, u_long *ot)
             else
             {
                 work->field_CC_radar_data.pos_y = clipY;
-                menu_radar_helper_8003ADD8(work, GV_Clock);
+                set_radar_pos(work, GV_Clock);
                 draw_radar(work, ot);
             }
         }
@@ -1235,8 +1233,8 @@ void menu_radar_init_8003B474(MenuWork *work)
     work->field_CC_radar_data.pos_x = 0;
     work->field_CC_radar_data.pos_y = 0;
     work->field_28_flags = field_28_flags | 8;
-    menu_radar_helper_8003ADD8(work, 0);
-    menu_radar_helper_8003ADD8(work, 1);
+    set_radar_pos(work, 0);
+    set_radar_pos(work, 1);
 
     work->field_CC_radar_data.org_env[0] = work->field_4C_drawEnv[0];
     work->field_CC_radar_data.org_env[1] = work->field_4C_drawEnv[1];
