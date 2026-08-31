@@ -50,7 +50,7 @@
 #define CHARA_CAMERAGUN         { 0xa9c5, NewGunCamera }            // GV_StrCode("カメラ付随ガン") okajima/guncame.c
 #define CHARA_CAMERASHAKE       { 0x7bc2, NewCameraShake }          // GV_StrCode("カメラ揺らし") takabe/camshake.c
 #define CHARA_CAPE              { 0xb99f, NewCape }                 // onoda/s04b/cape.c
-#define CHARA_CAT_IN            { 0x51c6, NewZoom_800DFA88 }        // takabe/cat_in.c
+#define CHARA_CAT_IN            { 0x51c6, NewCutInCameraSet }       // GV_StrCode("カットインカメラ") takabe/cat_in.c
 #define CHARA_CDCHANGE          { 0xf722, NewCdChange }             // GV_StrCode("ＣＤ交換") onoda/change/change.c
 #define CHARA_CENSOR            { 0x43a0, NewIrSensor }             // GV_StrCode("赤外線センサー") takabe/ir_cens.c
 #define CHARA_CHAIR             { 0x788d, NewChair }                // GV_StrCode("椅子") takabe/chair.c
@@ -528,7 +528,7 @@ extern NEWCHARA NewOcelotBoss;                  /* onoda/s04b/revolver.c        
 extern NEWCHARA NewWire;                        /* onoda/s04b/wire.c            */
 extern NEWCHARA NewBreakObject;                 /* takabe/breakobj.c            */
 extern NEWCHARA NewCameraShake;                 /* takabe/camshake.c            */
-extern NEWCHARA NewZoom_800DFA88;               /* takabe/cat_in.c              */
+extern NEWCHARA NewCutInCameraSet;              /* takabe/cat_in.c              */
 extern NEWCHARA NewChair;                       /* takabe/chair.c               */
 extern NEWCHARA NewCinemaScreenSet;             /* takabe/cinema.c              */
 extern NEWCHARA NewDoor2;                       /* takabe/door2.c               */

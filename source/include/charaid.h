@@ -33,7 +33,7 @@
 #define CHARAID_CAMERAGUN       0xa9c5  // GV_StrCode("カメラ付随ガン")
 #define CHARAID_CAMERASHAKE     0x7bc2  // GV_StrCode("カメラ揺らし")
 #define CHARAID_CAPE            0xb99f  //
-#define CHARAID_CAT_IN          0x51c6  //
+#define CHARAID_CAT_IN          0x51c6  // GV_StrCode("カットインカメラ")
 #define CHARAID_CDCHANGE        0xf722  // GV_StrCode("ＣＤ交換")
 #define CHARAID_CENSOR          0x43a0  // GV_StrCode("赤外線センサー")
 #define CHARAID_CHAIR           0x788d  // GV_StrCode("椅子")

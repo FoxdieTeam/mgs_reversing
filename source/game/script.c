@@ -142,11 +142,11 @@ static int CameraCmd(char *top)
     {
         if (GCL_GetNextInt() == 0)
         {
-            GM_GameStatus &= ~GAME_FLAG_BIT_07;
+            GM_GameStatus &= ~STATE_CUT_IN;
         }
         else
         {
-            GM_GameStatus |= GAME_FLAG_BIT_07;
+            GM_GameStatus |= STATE_CUT_IN;
         }
     }
 

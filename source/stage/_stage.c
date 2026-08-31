@@ -119,7 +119,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xa9c5, NULL },   //  CHARA_CAMERAGUN,    /* chara カメラ付随ガン */
     { 0x7bc2, NULL },   //  CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     { 0xb99f, NULL },   //  CHARA_CAPE,
-    { 0x51c6, NULL },   //  CHARA_CAT_IN,
+    { 0x51c6, NULL },   //  CHARA_CAT_IN,       /* chara カットインカメラ */
     { 0xf722, NULL },   //  CHARA_CDCHANGE,     /* chara ＣＤ交換 */
     { 0x43a0, NULL },   //  CHARA_CENSOR,       /* chara 赤外線センサー */
     { 0x788d, NULL },   //  CHARA_CHAIR,        /* chara 椅子 */

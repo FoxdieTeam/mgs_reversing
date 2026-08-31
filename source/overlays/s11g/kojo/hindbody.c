@@ -724,7 +724,7 @@ void s11g_hind_800D5E54(int arg0, SVECTOR *arg1, int se_id)
     int     vol;
     int     pan;
 
-    if (!(GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA)) && !GM_Camera.first_person)
+    if (!(GM_GameStatus & (STATE_CUT_IN | STATE_BEHIND_CAMERA)) && !GM_Camera.first_person)
     {
         s11g_hind_800D5CD8(&GM_PlayerPosition, arg1, &sp10);
         ang = sp10.vy + 1024;
