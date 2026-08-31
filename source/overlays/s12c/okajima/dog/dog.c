@@ -23,7 +23,11 @@ typedef struct _Work
     TARGET   field_1194[3];
     HOMING  *field_126C[3];
     short    field_1278;
-    char     pad127A[0x20E];
+    short    field_127A[2];
+    short    field_127E[2];
+    short    field_1282[2];
+    SVECTOR  field_1286[2][32];
+    char     pad1486[0x2];
     int      field_1488[3];
     int      field_1494[3];
     u_short  field_14A0[3];
@@ -1604,42 +1608,133 @@ const int  s12c_dword_800D9DD4 = 0x800CDBA0;
 const int  s12c_dword_800D9DD8 = 0x800CDBA0;
 const int  s12c_dword_800D9DDC = 0x800CDABC;
 const char s12c_dword_800D9DE0[] = {0x0, 0x0, 0x0, 0x0};
-const int  s12c_dword_800D9DE4 = 0x800CDD10;
-const int  s12c_dword_800D9DE8 = 0x800CDD20;
-const int  s12c_dword_800D9DEC = 0x800CE008;
-const int  s12c_dword_800D9DF0 = 0x800CE008;
-const int  s12c_dword_800D9DF4 = 0x800CE008;
-const int  s12c_dword_800D9DF8 = 0x800CDDB4;
-const int  s12c_dword_800D9DFC = 0x800CE008;
-const int  s12c_dword_800D9E00 = 0x800CE008;
-const int  s12c_dword_800D9E04 = 0x800CE008;
-const int  s12c_dword_800D9E08 = 0x800CE008;
-const int  s12c_dword_800D9E0C = 0x800CE008;
-const int  s12c_dword_800D9E10 = 0x800CE008;
-const int  s12c_dword_800D9E14 = 0x800CE008;
-const int  s12c_dword_800D9E18 = 0x800CE008;
-const int  s12c_dword_800D9E1C = 0x800CDDE8;
-const int  s12c_dword_800D9E20 = 0x800CE008;
-const int  s12c_dword_800D9E24 = 0x800CE008;
-const int  s12c_dword_800D9E28 = 0x800CDE04;
-const int  s12c_dword_800D9E2C = 0x800CE008;
-const int  s12c_dword_800D9E30 = 0x800CE008;
-const int  s12c_dword_800D9E34 = 0x800CDECC;
-const int  s12c_dword_800D9E38 = 0x800CE008;
-const int  s12c_dword_800D9E3C = 0x800CE008;
-const int  s12c_dword_800D9E40 = 0x800CE008;
-const int  s12c_dword_800D9E44 = 0x800CE008;
-const int  s12c_dword_800D9E48 = 0x800CE008;
-const int  s12c_dword_800D9E4C = 0x800CE008;
-const int  s12c_dword_800D9E50 = 0x800CDF1C;
-const int  s12c_dword_800D9E54 = 0x800CE008;
-const int  s12c_dword_800D9E58 = 0x800CE008;
-const int  s12c_dword_800D9E5C = 0x800CE008;
-const int  s12c_dword_800D9E60 = 0x800CE008;
-const int  s12c_dword_800D9E64 = 0x800CDF50;
-const int  s12c_dword_800D9E68 = 0x800CDF70;
-const int  s12c_dword_800D9E6C = 0x800CDFAC;
-const int  s12c_dword_800D9E70 = 0x800CDFF0;
+#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CCC3C.s")
+extern void s12c_dog_800CCC3C(Work *work, int index);
+void s12c_dog_800CDBC4(Work *work, int index)
+{
+    SVECTOR  rot;
+    CONTROL *control;
+    SVECTOR *route;
+    short   *step;
+    int     *slot;
+    int      dist;
+    int      delta;
+
+    /* every per-dog int array sits at work + index * 4, so the state read below
+       shares that base; taking it here is what keeps it live across the call */
+    slot = (int *)work + index;
+    control = &work->field_28[index];
+    step = &work->field_127E[index];
+    route = work->field_1286[index];
+    dist = Dog_800CABF4(&control->mov, &route[*step], &rot);
+    rot.vx = work->field_14A0[index];
+
+    if (slot[0x1510 / 4] != 0x11)
+    {
+        s12c_dog_800CB97C(&control->turn, &rot, 32);
+    }
+
+    if (dist < 500)
+    {
+        work->field_1282[index] = *step;
+        (*step)++;
+
+        if (*step >= work->field_127A[index])
+        {
+            *step = 0;
+        }
+
+        dist = Dog_800CABF4(&route[work->field_1282[index]], &route[*step], &rot);
+        work->field_14A0[index] = rot.vx;
+    }
+
+    switch (work->field_1510[index])
+    {
+    case 0:
+        work->field_1510[index] = 1;
+
+    case 1:
+        work->field_F00[index][5].vy = rsin(work->field_1544[index]) / 8;
+        delta = index * 2 + 16;
+        work->field_1544[index] += delta;
+        s12c_dog_800CB42C(work, 1, 1, 5, index, 16);
+        work->field_10B0[index] = control->mov;
+        break;
+
+    case 5:
+        if (dist >= 3001)
+        {
+            work->field_1544[index] = 0;
+            work->field_1550[index] = 0;
+            work->field_1510[index] = 20;
+            break;
+        }
+
+        work->field_1544[index] = 0;
+        work->field_1550[index] = 8;
+
+    case 14:
+        work->field_1510[index] = 17;
+        work->field_1550[index]--;
+
+    case 17:
+        control->mov.vx = work->field_10B0[index].vx;
+        control->mov.vz = work->field_10B0[index].vz;
+        work->field_F00[index][5].vy = work->field_F00[index][5].vy * 7 / 8;
+        work->field_1544[index] = 0;
+        Dog_800CB0C8(&work->field_1574[index], 0x80, 16);
+
+        if (work->field_1550[index] > 0)
+        {
+            Dog_800CB23C(work, 9, 14, index);
+        }
+        else if (GV_RandU(0x40) != 0)
+        {
+            s12c_dog_800CB42C(work, 9, 1, 5, index, 4);
+        }
+        else
+        {
+            s12c_dog_800CB42C(work, 9, 1, 27, index, 2);
+        }
+        break;
+
+    case 20:
+        work->field_F00[index][5].vy = work->field_F00[index][5].vy * 7 / 8;
+        work->field_1544[index] = 0;
+        Dog_800CB23C(work, 8, 1, index);
+        break;
+
+    case 27:
+        work->field_1544[index] = 0;
+        work->field_1550[index] = 60;
+        Dog_800CB324(work, 14, 13, 32, index);
+        break;
+
+    case 32:
+        GM_SeSetMode(&work->field_28[index].mov, 0xB8, GM_SEMODE_NORMAL);
+
+    case 33:
+        work->field_1510[index] = 34;
+        work->field_1550[index]--;
+        GM_SeSetMode(&work->field_28[index].mov, 0xB8, GM_SEMODE_NORMAL);
+
+    case 34:
+        if (work->field_1550[index] > 0 || work->field_151C[index] > 1000)
+        {
+            Dog_800CB23C(work, 13, 33, index);
+        }
+        else
+        {
+            Dog_800CB23C(work, 15, 35, index);
+        }
+        break;
+
+    case 35:
+        Dog_800CB23C(work, 16, 1, index);
+        break;
+    }
+}
+
 const int  s12c_dword_800D9E74 = 0x800CE2F8;
 const int  s12c_dword_800D9E78 = 0x800CE330;
 const int  s12c_dword_800D9E7C = 0x800CEA2C;
@@ -1694,10 +1789,6 @@ const int  s12c_dword_800D9F3C = 0x800CF554;
 const int  s12c_dword_800D9F40 = 0x800CF554;
 const int  s12c_dword_800D9F44 = 0x800CF4A0;
 const char s12c_dword_800D9F48[] = {0x0, 0x0, 0x0, 0x0};
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CCC3C.s")
-extern void s12c_dog_800CCC3C(Work *work, int index);
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CDBC4.s")
-extern void s12c_dog_800CDBC4(Work *work, int index);
 /* The two field_10B0 stores go through a byte offset taken before the switch,
    which is what keeps index * 8 in a saved register across the GV_RandU call. */
 void s12c_dog_800CE034(Work *work, int index)
