@@ -61,12 +61,17 @@ typedef struct _Work
     int      field_1608;
     int      field_160C;
     int      field_1610;
-    char     pad1614[0x8];
+    int      field_1614;
+    char     pad1618[0x4];
     SVECTOR  field_161C[3][4];
     DG_PRIM *field_167C[3];
     char     pad1688[0x10];
     int      field_1698[3];
-    char     pad16A4[0xD0];
+    char     pad16A4[0xB8];
+    SVECTOR  field_175C;
+    SVECTOR  field_1764;
+    int      field_176C;
+    int      field_1770;
     int      field_1774;
     char     pad1778[0x38];
     int      field_17B0;
@@ -809,12 +814,6 @@ const int  s12c_dword_800DA034 = 0x800D00C8;
 const int  s12c_dword_800DA038 = 0x800D011C;
 const int  s12c_dword_800DA03C = 0x800D012C;
 const int  s12c_dword_800DA040 = 0x800D020C;
-const int  s12c_dword_800DA044 = 0x800D1B44;
-const int  s12c_dword_800DA048 = 0x800D18C0;
-const int  s12c_dword_800DA04C = 0x800D19C0;
-const int  s12c_dword_800DA050 = 0x800D1A28;
-const int  s12c_dword_800DA054 = 0x800D1AA4;
-const int  s12c_dword_800DA058 = 0x800D1AFC;
 
 void s12c_dog_800CAD8C(Work *work, int idx)
 {
@@ -1657,7 +1656,88 @@ void s12c_dog_800D16C0(Work *work, int index)
 
     target->damaged &= ~4;
 }
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D187C.s")
+void s12c_dog_800D187C(Work *work)
+{
+    switch (work->field_160C)
+    {
+    case 1:
+        break;
+
+    case 2:
+        work->field_175C = work->field_28[2].mov;
+        work->field_175C.vy = 2500;
+        work->field_1764 = GM_PlayerPosition;
+        work->field_176C = GM_Item;
+        work->field_1770 = GM_Weapon;
+        work->field_160C = 3;
+
+        if (GM_Item == IT_Scope || GM_Item == IT_Camera)
+        {
+            GM_Item = IT_None;
+        }
+
+        if (GM_Weapon == WP_Rifle || GM_Weapon == WP_Stinger)
+        {
+            GM_Weapon = WP_None;
+        }
+
+        if (!(GM_PlayerStatus & PLAYER_INTRUDE) && (GM_Item > IT_Scope && GM_Item < IT_NVG))
+        {
+            DG_MakeCameraMatrix(DG_Chanl(0), &work->field_175C, &work->field_1764, 320);
+        }
+
+    case 3:
+        work->field_1610 = 1;
+
+        if (work->field_151C[2] < 2500)
+        {
+            work->field_160C = 4;
+        }
+
+        if (!(GM_PlayerStatus & PLAYER_INTRUDE) && (GM_Item > IT_Scope && GM_Item < IT_NVG))
+        {
+            DG_MakeCameraMatrix(DG_Chanl(0), &work->field_175C, &work->field_1764, 320);
+        }
+        break;
+
+    case 4:
+        if (!(GM_PlayerStatus & PLAYER_INTRUDE) && (GM_Item > IT_Scope && GM_Item < IT_NVG))
+        {
+            DG_MakeCameraMatrix(DG_Chanl(0), &work->field_175C, &work->field_1764, 320);
+        }
+
+        if (work->field_151C[2] > 2500 || work->field_1610 != 1)
+        {
+            work->field_160C = 5;
+            work->field_1614 = 60;
+        }
+        break;
+
+    case 5:
+        work->field_160C = 6;
+
+        if (work->field_1770 == WP_Rifle || work->field_1770 == WP_Stinger)
+        {
+            GM_Weapon = work->field_1770;
+            work->field_1614 = 0;
+        }
+
+        if (work->field_176C == IT_Scope || work->field_176C == IT_Camera)
+        {
+            GM_Item = work->field_176C;
+            work->field_1614 = 0;
+        }
+
+    case 6:
+        if (--work->field_1614 < 0)
+        {
+            work->field_160C = 1;
+            GM_GameStatus &= ~(STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_RADAR_OFF);
+            s12c_800DA420 &= ~1;
+        }
+        break;
+    }
+}
 void s12c_dog_800D1B54(Work *work, int index)
 {
     switch (work->field_14F8[index])
