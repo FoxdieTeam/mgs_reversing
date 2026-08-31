@@ -8,9 +8,9 @@
 #include "sound/g_sound.h"
 #include "radio.h"
 
-static PANEL_TEXTURE gMenuLeftItems_800BD5A0[ MENU_ITEM_COUNT ];
+static PANEL_TEXTURE panel_tex[ MENU_ITEM_COUNT ];
 
-int SECTION(".sbss") dword_800ABAD0;
+int SECTION(".sbss") prev_current;
 int SECTION(".sbss") dword_800ABAD4;
 
 extern short GM_WeaponTypes[];
@@ -220,7 +220,7 @@ menu_weapon_rpk_info SECTION(".data") gMenuItemRpkInfo_8009E484[] = {
     { "SUPPR.", 13 }
 };
 
-void menu_sub_8003B568(void)
+void load_item_texture(void)
 {
     int    imgIdx;
     u_long palIdx;
@@ -238,13 +238,13 @@ void menu_sub_8003B568(void)
                 palIdx = 0x2f;
             }
         }
-        menu_init_rpk_item_8003DDCC(&gMenuLeftItems_800BD5A0[i], imgIdx, palIdx);
+        menu_init_rpk_item_8003DDCC(&panel_tex[i], imgIdx, palIdx);
     }
 }
 
-PANEL_TEXTURE *menu_rpk_8003B5E0(int index)
+PANEL_TEXTURE *get_panel_tex(int index)
 {
-    return &gMenuLeftItems_800BD5A0[gMenuItemRpkInfo_8009E484[index].field_4_rpk_idx - 12];
+    return &panel_tex[gMenuItemRpkInfo_8009E484[index].field_4_rpk_idx - 12];
 }
 
 void menu_item_printDescription_8003B614(int itemIndex)
@@ -288,7 +288,7 @@ void menu_item_printDescription_8003B614(int itemIndex)
  * @param item The item ID to check.
  * @return 1 if the item is disabled, 0 otherwise.
  */
-int menu_item_IsItemDisabled_8003B6D0(int item)
+int is_disable_item(int item)
 {
     int bit;
 
@@ -321,7 +321,7 @@ int menu_item_IsItemDisabled_8003B6D0(int item)
     return (GM_DisableItem & bit) != 0;
 }
 
-void menu_drawPalKey_8003B794(MenuWork *work, u_long *ot, int id)
+void draw_shape_key(MenuWork *work, u_long *ot, int id)
 {
     RECT      pal_rect;
     RECT      img_rect;
@@ -371,7 +371,7 @@ void menu_drawPalKey_8003B794(MenuWork *work, u_long *ot, int id)
  * @param ypos The y-coordinate where the item should be drawn.
  * @param pMenuSub Pointer to the current item in the inventory.
  */
-void menu_item_helper_8003B8F0(MenuWork *work, u_long *ot, int xpos, int ypos, Menu_Inventory *pMenuSub)
+void draw_item(MenuWork *work, u_long *ot, int xpos, int ypos, Menu_Inventory *pMenuSub)
 {
     PANEL_TEXTURE *pMenuSprt;       // $s6
     SPRT          *pIconSprt;       // $s0
@@ -382,10 +382,10 @@ void menu_item_helper_8003B8F0(MenuWork *work, u_long *ot, int xpos, int ypos, M
     // If the current item is valid
     if (pMenuSub->field_0_current.field_0_id >= 0)
     {
-        pMenuSprt = menu_rpk_8003B5E0(pMenuSub->field_0_current.field_0_id);
+        pMenuSprt = get_panel_tex(pMenuSub->field_0_current.field_0_id);
         menu_draw_texture_8003CEF8(pMenuSprt);
         // Draw "DISABLED" and "FROZEN" depending on the item state
-        if (menu_item_IsItemDisabled_8003B6D0(pMenuSub->field_0_current.field_0_id))
+        if (is_disable_item(pMenuSub->field_0_current.field_0_id))
         {
             menu_draw_nouse(work->prim, xpos, ypos);
         }
@@ -459,7 +459,7 @@ void menu_item_helper_8003B8F0(MenuWork *work, u_long *ot, int xpos, int ypos, M
     Menu_item_render_frame_rects_8003DBAC(work->prim, xpos, ypos, bBlueBackground);
 }
 
-void menu_8003BBEC(MenuWork *work)
+void menu_item_close(MenuWork *work)
 {
     Menu_Item_Unknown *temp_v0 = work->field_1DC_menu_item.field_C_alloc;
     int                index;
@@ -478,17 +478,17 @@ void menu_8003BBEC(MenuWork *work)
     index = work->field_1DC_menu_item.field_0_current.field_0_id;
     pLinkVar = linkvarbuf;
 
-    if ((index >= 0) && !menu_item_IsItemDisabled_8003B6D0(index))
+    if ((index >= 0) && !is_disable_item(index))
     {
         pLinkVar[15] = index;
-        sub_8003CFE0(menu_rpk_8003B5E0(index), 0);
+        sub_8003CFE0(get_panel_tex(index), 0);
         work->field_1DC_menu_item.field_11 = pLinkVar[15];
     }
     else
     {
         if (index != IT_None)
         {
-            dword_800ABAD0 = index;
+            prev_current = index;
         }
 
         GM_Item = IT_None;
@@ -506,7 +506,7 @@ void menu_8003BBEC(MenuWork *work)
 STATIC int dword_800AB574 = 0;
 STATIC int dword_800AB578 = 0;
 
-int menu_item_update_helper_8003BCD4(MenuWork *work)
+int menu_item_open(MenuWork *work)
 {
     int                activeItems;
     int                i;
@@ -536,11 +536,11 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
 
         if ((GM_Item != IT_None) && (GM_Item != IT_Card))
         {
-            dword_800ABAD0 = GM_Item;
+            prev_current = GM_Item;
         }
-        else if (dword_800ABAD0 < 0)
+        else if (prev_current < 0)
         {
-            dword_800ABAD0 = 0;
+            prev_current = 0;
         }
 
         cardVal = -1;
@@ -554,7 +554,7 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
 
         for (i = 0; i < IT_Max; i++)
         {
-            if (i == dword_800ABAD0)
+            if (i == prev_current)
             {
                 AssignXY_8003D1A8(&pPanels->field_20_array[panelIndex], IT_None, 1);
 
@@ -612,13 +612,13 @@ int menu_item_update_helper_8003BCD4(MenuWork *work)
     work->field_1DC_menu_item.field_10_state = 2;
 
     sub_8003D520();
-    sub_8003CE40(gMenuLeftItems_800BD5A0, MENU_ITEM_COUNT);
+    sub_8003CE40(panel_tex, MENU_ITEM_COUNT);
     menu_panel_8003D2BC(work->field_1DC_menu_item.field_C_alloc, work->field_1DC_menu_item.field_0_current.field_0_id);
     GM_SeSet2(0, 63, SE_ITEM_OPENWINDOW);
     return 1;
 }
 
-void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot)
+void menu_item_draw(MenuWork *work, u_long *ot)
 {
     unsigned short     anim_frame;
     int                anim_frame2;
@@ -643,7 +643,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot)
 
                 if (((anim_frame2 & 3) == 3) &&
                     (work->field_1DC_menu_item.field_0_current.field_0_id != GM_Item) &&
-                    menu_item_IsItemDisabled_8003B6D0(work->field_1DC_menu_item.field_0_current.field_0_id) &&
+                    is_disable_item(work->field_1DC_menu_item.field_0_current.field_0_id) &&
                     (DG_UnDrawFrameCount == 0))
                 {
                     GM_SeSet2(0, 63, SE_ITEM_CURSOR);
@@ -654,12 +654,12 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot)
         else
         {
             switched_weapon = 0;
-            if (menu_item_IsItemDisabled_8003B6D0(GM_Item))
+            if (is_disable_item(GM_Item))
             {
                 last_id = GM_Item;
                 GM_Item = IT_None;
                 work->field_1DC_menu_item.field_12_flashingAnimationFrame = 19;
-                dword_800ABAD0 = last_id;
+                prev_current = last_id;
                 break;
             }
 
@@ -670,7 +670,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot)
                 if (work->field_1DC_menu_item.field_0_current.field_0_id != IT_None &&
                     work->field_1DC_menu_item.field_0_current.field_0_id != IT_Card)
                 {
-                    dword_800ABAD0 = work->field_1DC_menu_item.field_0_current.field_0_id;
+                    prev_current = work->field_1DC_menu_item.field_0_current.field_0_id;
                 }
 
                 work->field_1DC_menu_item.field_0_current.field_0_id = GM_Item;
@@ -680,7 +680,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot)
             {
                 if (switched_weapon != 0)
                 {
-                    sub_8003CFE0(menu_rpk_8003B5E0(GM_Item), 0);
+                    sub_8003CFE0(get_panel_tex(GM_Item), 0);
                     work->field_1DC_menu_item.field_11 = GM_Item;
                 }
 
@@ -729,7 +729,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot)
         {
             if (pPanel->field_0_id == IT_PalKey)
             {
-                menu_drawPalKey_8003B794(work, ot, GM_ShapeKeyState);
+                draw_shape_key(work, ot, GM_ShapeKeyState);
             }
 
             menu_drawDescriptionPanel_8003F9B4(work, ot, "EQUIP");
@@ -744,7 +744,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot)
             work->field_2A_state = MENU_CLOSED;
             // Unpause the gameplay
             GV_PauseLevel &= ~GV_PAUSE_MENU;
-            menu_8003BBEC(work);
+            menu_item_close(work);
         }
         else
         {
@@ -761,7 +761,7 @@ void menu_item_update_helper2_8003BF1C(MenuWork *work, u_long *ot)
  * @param work Pointer to the MenuWork actor.
  * @param ot Pointer to the ordering table.
  */
-void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press)
+void item_use_check(Menu_Item_Unknown *pPanels, unsigned short press)
 {
     PANEL *pPanel;
     short  heal_amount;
@@ -854,7 +854,7 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
 
     case IT_TimerBomb:
         if ((GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_SQUAT | PLAYER_GROUND | PLAYER_DAMAGED | PLAYER_DOWNED)) ||
-            dword_8009F46C || menu_item_IsItemDisabled_8003B6D0(IT_TimerBomb))
+            dword_8009F46C || is_disable_item(IT_TimerBomb))
         {
             GM_SeSet2(0, 63, SE_BUZZER);
         }
@@ -885,7 +885,7 @@ void UseConsumableItem_8003C24C(Menu_Item_Unknown *pPanels, unsigned short press
  * This function updates the state of as frozen items, the PAL key temperature,
  * and the timer bomb based on the current game time and environment conditions.
  */
-void UpdateEnvironmentalEffects_8003C4EC(void)
+void item_idle_check(void)
 {
     BLAST_DATA blastData;
     MATRIX     mtx;
@@ -1037,7 +1037,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
             break;
         }
 
-        if (menu_item_IsItemDisabled_8003B6D0(IT_TimerBomb))
+        if (is_disable_item(IT_TimerBomb))
         {
             break;
         }
@@ -1097,7 +1097,7 @@ void UpdateEnvironmentalEffects_8003C4EC(void)
     }
 }
 
-void menu_item_update_8003C95C(MenuWork *work, u_long *ot)
+void menu_item(MenuWork *work, u_long *ot)
 {
     GV_PAD         *pPad = work->field_24_pInput;
     Menu_Inventory *pLeftRight;
@@ -1114,7 +1114,7 @@ void menu_item_update_8003C95C(MenuWork *work, u_long *ot)
                 // Menu button is pressed (L2)
                 if (menu_8003DA9C(&work->field_1DC_menu_item, pPad))
                 {
-                    if (menu_item_update_helper_8003BCD4(work))
+                    if (menu_item_open(work))
                     {
                         work->field_2A_state = MENU_LEFT_OPEN;
                         // Pause the gameplay while the menu is open
@@ -1131,7 +1131,7 @@ void menu_item_update_8003C95C(MenuWork *work, u_long *ot)
                     {
                         GM_Item = IT_None;
                     }
-                    else if (!menu_item_IsItemDisabled_8003B6D0(work->field_1DC_menu_item.field_11))
+                    else if (!is_disable_item(work->field_1DC_menu_item.field_11))
                     {
                         if (GM_Items[work->field_1DC_menu_item.field_11] > 0)
                         {
@@ -1162,7 +1162,7 @@ void menu_item_update_8003C95C(MenuWork *work, u_long *ot)
         else if (sub_8003D52C() > 255)
         {
             menu_navigation_8003D6CC(pLeftRight, pPad);
-            UseConsumableItem_8003C24C(work->field_1DC_menu_item.field_C_alloc, pPad->press);
+            item_use_check(work->field_1DC_menu_item.field_C_alloc, pPad->press);
         }
     }
     else if (work->field_2A_state != MENU_CODEC_OPEN) // ... else if not using Codec (i.e. browsing weapons menu)...
@@ -1187,8 +1187,8 @@ void menu_item_update_8003C95C(MenuWork *work, u_long *ot)
         return;
     }
 
-    menu_item_update_helper2_8003BF1C(work, ot);
-    UpdateEnvironmentalEffects_8003C4EC();
+    menu_item_draw(work, ot);
+    item_idle_check();
 }
 
 void sub_8003CB98(MenuWork *work)
@@ -1201,7 +1201,7 @@ void sub_8003CB98(MenuWork *work)
     if (field_0_item_id_idx != IT_None ||
         (field_0_item_id_idx = work->field_1DC_menu_item.field_11, field_0_item_id_idx != IT_None))
     {
-        pItem = menu_rpk_8003B5E0(field_0_item_id_idx);
+        pItem = get_panel_tex(field_0_item_id_idx);
         sub_8003CFE0(pItem, 0);
     }
 }
@@ -1210,16 +1210,16 @@ void menu_item_init_8003CBF0(MenuWork *work)
 {
     short val = -1;
 
-    work->field_2C_modules[MENU_ITEM] = (TMenuUpdateFn)menu_item_update_8003C95C;
+    work->field_2C_modules[MENU_ITEM] = (TMenuUpdateFn)menu_item;
     work->field_1DC_menu_item.field_0_current.field_0_id = val;
     work->field_1DC_menu_item.field_10_state = 0;
     work->field_1DC_menu_item.field_0_current.field_4_pos = 0;
     work->field_1DC_menu_item.field_0_current.field_6_current = 1;
     work->field_1DC_menu_item.field_11 = val;
     work->field_28_flags |= 4;
-    dword_800ABAD0 = 0;
-    menu_set_panel_config_8003D6A8(&work->field_1DC_menu_item, 0, menu_item_helper_8003B8F0);
-    menu_sub_8003B568();
+    prev_current = 0;
+    menu_set_panel_config_8003D6A8(&work->field_1DC_menu_item, 0, draw_item);
+    load_item_texture();
     sub_8003CB98(work);
     menu_init_nouse();
 }
@@ -1231,5 +1231,5 @@ void menu_item_kill_8003CC74(MenuWork *work)
 
 void MENU_ResetItemPos(void)
 {
-    dword_800ABAD0 = 0;
+    prev_current = 0;
 }
