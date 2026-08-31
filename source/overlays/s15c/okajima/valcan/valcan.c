@@ -75,7 +75,7 @@ typedef struct _Work
     int            field_790;
     int            field_794;
     int            field_798;
-    char           pad79C[4];
+    int            field_79C;
     short          field_7A0;
     short          field_7A2;
     SVECTOR        field_7A4;
@@ -854,6 +854,7 @@ void Valcan_800DA21C(Work *work) // it possibly returns a BulletWork*
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA2A8.s")
+int s15c_crow_800DA2A8(Work *work);
 
 int Valcan_800DA558(Work *work, int arg1)
 {
@@ -1048,8 +1049,76 @@ int Valcan_800DAE38()
     return GV_RandU(4096) % 3 + 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DAE7C.s")
-int s15c_crow_800DAE7C(Work *work);
+int s15c_crow_800DAE7C(Work *work)
+{
+    int ret;
+
+    work->field_828 = 0;
+    ret = s15c_crow_800DA2A8(work);
+    work->field_79C = ret;
+
+    if (ret != -1)
+    {
+        return ret;
+    }
+
+    switch (work->field_740)
+    {
+    case 0:
+        if (work->field_738 == 1)
+        {
+            work->field_828 = 1;
+            return 1;
+        }
+
+        if ((&s15c_dword_800E345C)[2] != 0 && *(int *)&work->field_738 == 0x20002)
+        {
+            return Valcan_800DAE38();
+        }
+        break;
+
+    case 1:
+        if (work->field_738 == 2)
+        {
+            work->field_828 = 1;
+            return 1;
+        }
+
+        if ((&s15c_dword_800E345C)[1] != 0 && *(int *)&work->field_738 == 0x10001)
+        {
+            return Valcan_800DAE38();
+        }
+        break;
+
+    case 2:
+        if (work->field_73A == 1)
+        {
+            work->field_828 = 1;
+            return 1;
+        }
+
+        if (s15c_dword_800E345C != 0 && *(int *)&work->field_738 == 0x20001)
+        {
+            return Valcan_800DAE38();
+        }
+        break;
+
+    case 3:
+        if (work->field_73A == 2)
+        {
+            work->field_828 = 1;
+            return 1;
+        }
+
+        if ((&s15c_dword_800E345C)[3] != 0 && *(int *)&work->field_738 == 0x10002)
+        {
+            return Valcan_800DAE38();
+        }
+        break;
+    }
+
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DAFCC.s")
 int s15c_crow_800DAFCC(Work *work);
 int s15c_crow_800DB200(Work *work)
