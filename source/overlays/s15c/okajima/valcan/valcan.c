@@ -875,8 +875,90 @@ void Valcan_800DA21C(Work *work) // it possibly returns a BulletWork*
     NewBulletEx(BULLET_BLAST, &rotmat, 2, 0, 0, 30, 90, 30000, 100);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA2A8.s")
-int s15c_crow_800DA2A8(Work *work);
+int s15c_crow_800DA2A8(Work *work)
+{
+    SVECTOR val;
+    SVECTOR idx;
+    SVECTOR ref;
+    int     z;
+
+    if (work->field_93C != 1 && GV_RandU(4) > 0)
+    {
+        return -1;
+    }
+
+    if ((u_int)(work->field_770 - 2) < 2)
+    {
+        idx.vx = work->field_738;
+        idx.vy = work->field_73A;
+    }
+    else
+    {
+        idx.vx = work->field_73C;
+        idx.vy = work->field_73E;
+    }
+
+    val.vx = work->field_6F8[idx.vx][idx.vy][0];
+    val.vy = work->field_6F8[idx.vx][idx.vy][1];
+    ref = work->field_51C;
+
+    switch (work->field_740)
+    {
+    case 0:
+    case 1:
+        if (s15c_dword_800E345C != 0 && (u_int)(u_short)idx.vy < 2 && idx.vx == 1)
+        {
+            return -1;
+        }
+
+        if ((&s15c_dword_800E345C)[3] != 0 && (u_int)((u_short)idx.vy - 2) < 2 &&
+            idx.vx == 2)
+        {
+            return -1;
+        }
+
+        z = val.vy;
+
+        if (z < ref.vz && z < 9000)
+        {
+            return Valcan_800DA1AC(work->field_740, 3);
+        }
+
+        if (ref.vz < z && z > -6000)
+        {
+            return Valcan_800DA1AC(work->field_740, 2);
+        }
+        break;
+
+    case 2:
+    case 3:
+        if ((&s15c_dword_800E345C)[1] != 0 && (u_int)((u_short)idx.vx - 2) < 2 &&
+            idx.vy == 1)
+        {
+            return -1;
+        }
+
+        if ((&s15c_dword_800E345C)[2] != 0 && (u_int)(u_short)idx.vx < 2 && idx.vy == 2)
+        {
+            return -1;
+        }
+
+        z = val.vx;
+
+        if (z < ref.vx && z < 9000)
+        {
+            return Valcan_800DA1AC(work->field_740, 1);
+        }
+
+        if (ref.vx < z && z > -9000)
+        {
+            return Valcan_800DA1AC(work->field_740, 0);
+        }
+        break;
+    }
+
+    return -1;
+}
 
 int Valcan_800DA558(Work *work, int arg1)
 {
