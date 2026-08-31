@@ -1925,6 +1925,7 @@ void s15c_crow_800DB9F0(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DBCB4.s")
+void s15c_crow_800DBCB4(Work *work);
 
 void Valcan_800DBF74(Work *work)
 {
@@ -2266,15 +2267,222 @@ void s15c_crow_800DC318(Work *work)
 }
 
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC7A0.s")
+void s15c_crow_800DC7A0(Work *work)
+{
+    short level;
 
-const char s15c_dword_800E2F04[] = {0x0, 0x0, 0x0, 0x0};
-const int s15c_dword_800E2F08 = 0x800DC904;
-const int s15c_dword_800E2F0C = 0x800DC904;
-const int s15c_dword_800E2F10 = 0x800DC938;
-const int s15c_dword_800E2F14 = 0x800DC97C;
-const int s15c_dword_800E2F18 = 0x800DC9C0;
-void s15c_crow_800DC7A0(Work *work);
+    if (work->field_94C < 300)
+    {
+        work->field_94C++;
+    }
+
+    if (work->field_950 >= -9)
+    {
+        work->field_950--;
+    }
+
+    if (work->field_6B0 == 0)
+    {
+        switch (work->field_770)
+        {
+        case 1:
+            if (work->field_774 != 0)
+            {
+                work->field_688 = 4;
+            }
+            else
+            {
+                work->field_688 = 8;
+            }
+            break;
+
+        case 2:
+            work->field_688 = 4;
+            break;
+
+        case 3:
+            work->field_688 = 4;
+            s15c_crow_800DA990(work);
+            break;
+
+        default:
+            work->field_688 = 8;
+            break;
+        }
+    }
+
+    if (work->field_688 != 0x11)
+    {
+        Valcan_800DACCC(work);
+    }
+
+    if (work->field_758 == -1)
+    {
+        if (work->field_770 == 1 && work->field_774 == 0)
+        {
+            work->field_774 = 1;
+        }
+
+        if (work->field_770 == 0)
+        {
+            level = GM_GameLevel + 1;
+
+            switch (level)
+            {
+            case 0:
+            case 1:
+            default:
+                if (work->field_6A8 / 2 + 1 >= work->field_900)
+                {
+                    work->field_6A4 = 0;
+                    work->field_774 = work->field_770;
+                    work->field_770 = 1;
+                }
+                break;
+
+            case 2:
+                if (work->field_6A8 * 4 / 5 + 1 >= work->field_900)
+                {
+                    work->field_6A4 = 0;
+                    work->field_774 = work->field_770;
+                    work->field_770 = 1;
+                }
+                break;
+
+            case 3:
+                if (work->field_6A8 * 5 / 6 + 1 >= work->field_900)
+                {
+                    work->field_6A4 = 0;
+                    work->field_774 = work->field_770;
+                    work->field_770 = 1;
+                }
+                break;
+
+            case 4:
+                work->field_6A4 = 0;
+                work->field_774 = work->field_770;
+                work->field_770 = 3;
+                break;
+            }
+        }
+
+        work->field_758 = Valcan_800DB470(work);
+
+        if (work->field_758 == 0)
+        {
+            Valcan_800DB500(work);
+            Valcan_800DB868(work);
+        }
+
+        work->field_75C = 0x48;
+        work->field_788 = 1;
+    }
+
+    if (work->field_6B0 == 0 || work->field_770 == 3)
+    {
+        switch (work->field_758)
+        {
+        case 1:
+            s15c_crow_800DBCB4(work);
+            break;
+
+        case 2:
+            work->field_764 = 1;
+            s15c_crow_800DB9F0(work);
+            break;
+
+        case 3:
+            work->field_764 = -1;
+            s15c_crow_800DB9F0(work);
+            break;
+        }
+    }
+
+    if (work->field_788 != 0 && work->field_794 == 1)
+    {
+        work->field_788 = 2;
+    }
+
+    if (work->field_770 == 3)
+    {
+        work->field_788 = 0;
+    }
+
+    if (GM_GameStatus & STATE_STUN)
+    {
+        GM_SeSet2(0, 0x3F, 0x88);
+    }
+
+    switch (work->field_788)
+    {
+    case 1:
+        if (work->field_770 == 2 && work->field_69C > 0)
+        {
+            switch (work->field_740)
+            {
+            case 0:
+            case 1:
+                if ((&s15c_dword_800E345C)[0] >= 2 && *(int *)&work->field_738 == 1)
+                {
+                    work->field_828 = 1;
+                }
+                else
+                {
+                    work->control.turn.vy = work->field_744[3];
+                }
+                break;
+
+            case 2:
+            case 3:
+                if ((&s15c_dword_800E345C)[2] >= 2 && *(int *)&work->field_738 == 0x20000)
+                {
+                    work->field_828 = 1;
+                }
+                else
+                {
+                    work->control.turn.vy = work->field_744[1];
+                }
+                break;
+            }
+
+            work->control.mov.vz = work->field_6F8[work->field_738][work->field_73A][1];
+            work->control.mov.vx = work->field_6F8[work->field_738][work->field_73A][0];
+        }
+
+        if (work->field_828 == 0)
+        {
+            if (work->field_8E8++ >= 3)
+            {
+                work->field_8E8 = 0;
+
+                if (GV_RandU(2) != 0)
+                {
+                    GM_SeSetMode(&work->field_910, 0x86, GM_SEMODE_BOMB);
+                }
+                else
+                {
+                    GM_SeSetMode(&work->field_910, 0x82, GM_SEMODE_BOMB);
+                }
+            }
+
+            work->field_688 = 0x11;
+        }
+
+        work->field_788 = 0;
+        break;
+
+    case 2:
+        Valcan_800DC124(work);
+        break;
+
+    default:
+        if (work->field_794 == 1)
+        {
+            Valcan_800DC124(work);
+        }
+        break;
+    }
+}
 
 #define ABS(x) (((x) >= 0) ? (x) : -(x))
 
