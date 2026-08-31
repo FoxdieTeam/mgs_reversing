@@ -11,7 +11,7 @@ extern DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
 
 typedef struct _DynSlot
 {
-    int            field_0;  /* 0x00 */
+    TARGET        *target;   /* 0x00 */
     OBJECT_NO_ROTS objs[2];  /* 0x04, 0x28 */
     SVECTOR        mov;      /* 0x4C */
     SVECTOR        rot;      /* 0x54 */
@@ -24,15 +24,28 @@ typedef struct _DynObj
     char           pad_24[0x64 - 0x24];
 } DynObj;
 
+typedef struct _DynPan
+{
+    OBJECT_NO_ROTS obj;      /* 0x00 */
+    char           pad_24[0x74 - 0x24];
+} DynPan;
+
+typedef struct _DynBlock
+{
+    OBJECT_NO_ROTS obj;      /* 0x00 */
+    char           pad_24[0x80 - 0x24];
+} DynBlock;
+
 typedef struct _DynCon
 {
     GV_ACT  actor;           /* 0x00 */
     int     map;             /* 0x20 */
     DynSlot field_24[72];    /* 0x24 - runs to 0x2C04 exactly */
-    int     field_2C04[72][2];/* 0x2C04 - one flag per slot object */
-    char    pad_2E44[0x3204 - 0x2E44];
-    DynObj  field_3204[9];   /* 0x3204 */
-    char    pad_3588[0x3594 - 0x3588];
+    int     field_2C04[144]; /* 0x2C04 - one flag per slot object */
+    DynPan   field_2E44[8];  /* 0x2E44 */
+    int      field_31E4[8];  /* 0x31E4 - one flag per pan object */
+    DynObj   field_3204[4];  /* 0x3204 */
+    DynBlock field_3394[4];  /* 0x3394 - runs up to field_3594 */
     int     field_3594[5][2];/* 0x3594 */
     HZD_SEG segs[4][2][4];   /* 0x35BC - four HZD_SEG per [i][j] */
     char    pad_37BC[0x383C - 0x37BC];
@@ -533,16 +546,83 @@ void s15c_dyncon_800D7EF4(DynCon *work, int i, int model)
     DG_SetPos2(&slot->mov, &slot->rot);
     s15c_dyncon_800D3EBC(obj, model,
                          DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE);
-    work->field_2C04[i][0] = 1;
+    work->field_2C04[i * 2] = 1;
     GM_ActObject2((OBJECT *)obj);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7F88.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D82FC.s")
+void s15c_dyncon_800D82FC(DynCon *work)
+{
+    int i;
+    int j;
+
+    for (i = 0; i < 72; i++)
+    {
+        if (work->field_2C04[i * 2] == 1)
+        {
+            GM_FreeObject((OBJECT *)&work->field_24[i].objs[0]);
+            work->field_2C04[i * 2] = 0;
+        }
+
+        if (work->field_2C04[i * 2 + 1] == 1)
+        {
+            GM_FreeObject((OBJECT *)&work->field_24[i].objs[1]);
+            work->field_2C04[i * 2 + 1] = 0;
+        }
+    }
+
+    for (i = 0; i < 8; i++)
+    {
+        if (work->field_31E4[i] == 1)
+        {
+            GM_FreeObject((OBJECT *)&work->field_2E44[i].obj);
+            work->field_31E4[i] = 0;
+        }
+    }
+
+    for (i = 0; i < 4; i++)
+    {
+        GM_FreeObject((OBJECT *)&work->field_3204[i].obj);
+    }
+
+    if (work->field_4050 != 0)
+    {
+        for (i = 0; i < 5; i++)
+        {
+            for (j = 0; j < 2; j++)
+            {
+                if (i != 4 && j == 0 && work->field_4040[i] == 0)
+                {
+                    s15c_dyncon_800D5354(work, i, j);
+                }
+            }
+        }
+
+        for (i = 0; i < 4; i++)
+        {
+            if (work->field_4020[i] == 1)
+            {
+                s15c_dyncon_800D5114(work, i);
+            }
+        }
+    }
+
+    if (work->field_4050 == 1)
+    {
+        for (i = 0; i < 36; i++)
+        {
+            GM_FreeTarget(work->field_24[i].target);
+        }
+
+        GM_FreeObject((OBJECT *)&work->field_3394[0].obj);
+        GM_FreeObject((OBJECT *)&work->field_3394[1].obj);
+        GM_FreeObject((OBJECT *)&work->field_3394[2].obj);
+        GM_FreeObject((OBJECT *)&work->field_3394[3].obj);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8510.s")
 int s15c_dyncon_800D8510(DynCon *work);
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D88C8.s")
-extern void s15c_dyncon_800D82FC(void *work);
 extern void s15c_dyncon_800D88C8(void *work);
 
 void s15c_dyncon_800D89F8(DynCon *work)
