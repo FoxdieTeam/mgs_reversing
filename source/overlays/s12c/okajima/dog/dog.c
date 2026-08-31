@@ -831,7 +831,7 @@ void Dog_800CB324(Work *work, int action, int next_action, int next, int index)
     }
 }
 
-void s12c_dog_800CB42C(Work *work, int action, int next, int next_alt, int index, u_int chance)
+void s12c_dog_800CB42C(Work *work, int action, int next, int next_alt, int index, int chance)
 {
     int cur;
 
