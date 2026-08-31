@@ -25,7 +25,8 @@ typedef struct _Work
     int      field_1488[3];
     int      field_1494[3];
     u_short  field_14A0[3];
-    char     pad14A6[0xE];
+    char     pad14A6[0x2];
+    int      field_14A8[3];
     int      unk14B4;
     int      field_14B8[3];
     char     pad14C4[0x4];
@@ -65,7 +66,9 @@ typedef struct _Work
     char     pad1618[0x4];
     SVECTOR  field_161C[3][4];
     DG_PRIM *field_167C[3];
-    char     pad1688[0x10];
+    int      field_1688;
+    SVECTOR  field_168C;
+    char     pad1694[0x4];
     int      field_1698[3];
     char     pad16A4[0xB8];
     SVECTOR  field_175C;
@@ -1391,8 +1394,102 @@ void s12c_dog_800CF578(Work *work, int idx)
 extern void s12c_dog_800CF6CC(Work *work, int index);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CFA30.s")
 extern void s12c_dog_800CFA30(Work *work, int index);
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0374.s")
-extern void s12c_dog_800D0374(Work *work, int index);
+void s12c_dog_800D0374(Work *work, int index)
+{
+    SVECTOR  rot;
+    SVECTOR  target;
+    CONTROL *control;
+    HZD_HDL *hzd;
+    HZD_ZON *zone;
+
+    control = &work->field_28[index];
+    hzd = control->map->hzd;
+
+    work->field_14A8[index] = HZD_GetAddress(hzd, &control->mov, work->field_14A8[index]);
+    zone = &hzd->def->zones[HZD_Navigate(hzd, work->field_14A8[index], work->field_1688,
+                                         &control->mov)];
+
+    target.vx = zone->x;
+    target.vy = zone->y;
+    target.vz = zone->z;
+
+    work->field_F00[index][5].vy = work->field_F00[index][5].vy * 7 / 8;
+    work->field_1544[index] = 0;
+
+    switch (work->field_1510[index])
+    {
+    case 0:
+        work->field_1510[index] = 1;
+
+    case 1:
+        Dog_800CABF4(&control->mov, &target, &rot);
+        rot.vx = 0;
+        s12c_dog_800CB97C(&control->turn, &rot, 8);
+
+        if (work->field_1604 == 0)
+        {
+            if ((work->field_155C[index] & 0x1F) == 0)
+            {
+                GM_SeSetMode(&work->field_28[index].mov, 0xBE, GM_SEMODE_NORMAL);
+            }
+        }
+        else
+        {
+            if ((work->field_155C[index] & 0x1F) == 0)
+            {
+                GM_SeSetMode(&work->field_28[index].mov, 0xBC, GM_SEMODE_NORMAL);
+            }
+        }
+
+        Dog_800CB23C(work, 0, 1, index);
+
+        if (HZD_ReachTo(hzd, work->field_14A8[index], work->field_1688) <= 0)
+        {
+            work->field_1510[index] = 5;
+            work->field_1550[index] = 150;
+        }
+        break;
+
+    case 5:
+        Dog_800CB23C(work, 0, 1, index);
+
+        if (Dog_800CABF4(&control->mov, &GM_NoisePosition, &control->turn) < 500 ||
+            work->field_1550[index] < 0)
+        {
+            work->field_1510[index] = 14;
+        }
+        else
+        {
+            work->field_1550[index]--;
+        }
+        break;
+
+    case 14:
+        if (work->field_1550[index] > 0)
+        {
+            work->field_1550[index]--;
+            Dog_800CABF4(&control->mov, &work->field_168C, &control->turn);
+            control->turn.vx = 0;
+            Dog_800CB0C8(&work->field_1574[index], 0x80, 16);
+            Dog_800CB23C(work, 9, 5, index);
+        }
+        else
+        {
+            work->field_15F4 = 0;
+            if (work->field_15F8 != 1)
+            {
+                work->field_14F8[index] = 3;
+            }
+            else
+            {
+                work->field_14F8[index] = 6;
+            }
+
+            work->field_1510[index] = 0;
+        }
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0680.s")
 extern void s12c_dog_800D0680(Work *work, int index);
 
