@@ -14,8 +14,8 @@
 
 // TODO: Move to correct header
 // Functions of signature TMenuItemUnknownFn:
-void sub_8003D3A4(Menu_Item_Unknown *a1, int a2);
-void sub_8003D34C(Menu_Item_Unknown *a1, int a2);
+void panel_move_minus(Menu_Item_Unknown *a1, int a2);
+void panel_move_plus(Menu_Item_Unknown *a1, int a2);
 
 // menu related?
 
@@ -31,8 +31,8 @@ int        SECTION(".sbss") zoom_rate;
 RPK_ITEM **SECTION(".sbss") tpk_data;
 int        SECTION(".sbss") dword_800ABAE8;
 
-struct PANEL_CONF SECTION(".data") stru_8009E544[2] = {{16, 184, 1, 24576, 36864, sub_8003D64C, sub_8003D594, NULL},
-                                                       {256, 184, 2, 12288, 49152, sub_8003D594, sub_8003D5F0, NULL}};
+struct PANEL_CONF SECTION(".data") stru_8009E544[2] = {{16, 184, 1, 24576, 36864, sub_8003D64C, pos_conv_up, NULL},
+                                                       {256, 184, 2, 12288, 49152, pos_conv_up, pos_conv_left, NULL}};
 
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
 
@@ -130,7 +130,7 @@ void sub_8003CE78(void)
     tex_current_flag = 0;
 }
 
-void sub_8003CE84(void)
+void menu_panel_free_garbage(void)
 {
     int i;
     int bit;
@@ -333,7 +333,7 @@ int menu_panel_8003D2BC(Menu_Item_Unknown *pMenu, int itemId)
     return 1;
 }
 
-void sub_8003D34C(Menu_Item_Unknown *pItem, int a2)
+void panel_move_plus(Menu_Item_Unknown *pItem, int a2)
 {
     int    count;
     int    l_8;
@@ -356,7 +356,7 @@ void sub_8003D34C(Menu_Item_Unknown *pItem, int a2)
     }
 }
 
-void sub_8003D3A4(Menu_Item_Unknown *pItem, int a2)
+void panel_move_minus(Menu_Item_Unknown *pItem, int a2)
 {
     int    count;
     int    l_8;
@@ -379,7 +379,7 @@ void sub_8003D3A4(Menu_Item_Unknown *pItem, int a2)
     }
 }
 
-void sub_8003D3FC(Menu_Item_Unknown *pMenu, int a2)
+void set_current(Menu_Item_Unknown *pMenu, int a2)
 {
     int v3;
     int count;
@@ -405,18 +405,18 @@ void sub_8003D44C(Menu_Item_Unknown *pMenu, int a2, int a3)
     pMenu->field_0_main.field_14_fn_ctx = (a2 << 8) / a3;
     if (a2 > 0)
     {
-        pFn = sub_8003D34C;
+        pFn = panel_move_plus;
     }
     else
     {
-        pFn = sub_8003D3A4;
+        pFn = panel_move_minus;
     }
     pMenu->field_0_main.field_1C_fn = pFn;
-    sub_8003D3FC(pMenu, a2);
+    set_current(pMenu, a2);
     GM_SeSet2(0, 63, SE_ITEM_SELECT);
 }
 
-int sub_8003D4CC(Menu_Item_Unknown *pMenuItem)
+int panel_do_move(Menu_Item_Unknown *pMenuItem)
 {
     if (pMenuItem->field_0_main.field_10 > 0)
     {
@@ -467,7 +467,7 @@ int sub_8003D568(void)
     return 0;
 }
 
-void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
+void pos_conv_up(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
 {
     int y1;
     int x1;
@@ -492,7 +492,7 @@ void sub_8003D594(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
     *yoff = y1 - var_v0;
 }
 
-void sub_8003D5F0(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
+void pos_conv_left(PANEL_CONF *pPanelConf, int pos, int *xoff, int *yoff)
 {
     int y1;
     int x1;
@@ -579,7 +579,7 @@ void menu_navigation_8003D6CC(Menu_Inventory *pLeftRight, GV_PAD *pPad)
 
     pMenuItem = pLeftRight->field_C_alloc;
     pPanelConf = pLeftRight->field_8_panel_conf;
-    bVar1 = sub_8003D4CC(pMenuItem);
+    bVar1 = panel_do_move(pMenuItem);
     if (pPad->press & (pPanelConf->field_8 | pPanelConf->field_C))
     {
         arg2_1 = -1;
@@ -703,7 +703,7 @@ void menu_8003D7DC(MenuWork *work, u_long *ot, Menu_Inventory *pSubMenu)
         pPanelConf->field_14_pFn2(pPanelConf, -pos_2, &xoff_3, &yoff_3);
         pPanelConf->field_18_pFnUpdate(work, ot, xoff_3, yoff_3, pPanel_2);
     }
-    sub_8003CE84();
+    menu_panel_free_garbage();
 }
 
 void menu_sub_menu_update_8003DA0C(MenuWork *work, u_long *ot, Menu_Inventory *pSubMenu)

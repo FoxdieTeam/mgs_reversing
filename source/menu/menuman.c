@@ -10,7 +10,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-static u_char BSS menu_primbuffers[2][8192];
+static u_char BSS PrimBuffer[2][8192];
 
 MenuWork BSS Work;
 
@@ -114,8 +114,8 @@ void menu_init_subsystems_8003884C(MenuWork *work)
 
     work->prim = &menu_prim;
 
-    menu_prim.buf[0] = menu_primbuffers[0];
-    menu_prim.buf[1] = menu_primbuffers[1];
+    menu_prim.buf[0] = PrimBuffer[0];
+    menu_prim.buf[1] = PrimBuffer[1];
 
     DG_SetDefDrawEnv(&drawEnv, 0, 0, FRAME_WIDTH, FRAME_HEIGHT);
     drawEnv.isbg = 0;
@@ -233,7 +233,7 @@ void MENU_ResetText(void)
     config->flags = 0;
 }
 
-void menu_Text_PrimUnknown_80038BB4(void)
+void add_tpage(void)
 {
     DR_TPAGE *pPrim; // $a0
 
@@ -267,7 +267,7 @@ int MENU_Printf(const char *fmt, const char *str, int param_3, int param_4, int 
                 _menu_number_draw_string(&menu_prim, &gMenuTextConfig_8009E2E4,
                                          string_buffer);
             }
-            menu_Text_PrimUnknown_80038BB4();
+            add_tpage();
         }
     }
     return gMenuTextConfig_8009E2E4.xpos;
@@ -281,7 +281,7 @@ int menu_draw_num(int number)
         return gMenuTextConfig_8009E2E4.xpos;
     }
     _menu_number_draw(&menu_prim, &gMenuTextConfig_8009E2E4, number);
-    menu_Text_PrimUnknown_80038BB4();
+    add_tpage();
     return gMenuTextConfig_8009E2E4.xpos;
 }
 
@@ -295,7 +295,7 @@ void MENU_DrawBar(int xpos, int ypos, int rest, int now, MENU_BAR_CONF *bconf)
 {
     GM_GameStatus |= STATE_SHOW_LIFEBAR;
     draw_life_8003F464(&menu_prim, xpos, ypos, rest, now, 1024, bconf);
-    menu_Text_PrimUnknown_80038BB4();
+    add_tpage();
 }
 
 void MENU_DrawBar2(int ypos, int rest, int now, int max, MENU_BAR_CONF *bconf)
