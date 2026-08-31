@@ -3,6 +3,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "game/camera.h"
 #include "linkvar.h"
 #include "okajima/blood.h"
 
@@ -13,9 +14,12 @@ typedef struct _Work
     int      field_24;
     CONTROL  field_28[3];
     OBJECT   field_19C[3];
-    char           pad448[0x14];
+    int            field_448[3];
+    DG_DEF        *field_454;
+    DG_DEF        *field_458;
     MOTION_CONTROL field_45C[3];
-    char           pad54C[0x9B4];
+    MOTION_SEGMENT field_54C[3][19];
+    SVECTOR        field_D50[3][18];
     SVECTOR  field_F00[3][18];   /* 0x90 per dog, the block Dog_800CA458 clears */
     SVECTOR  field_10B0[3];
     MATRIX   field_10C8[3][2];
@@ -35,7 +39,7 @@ typedef struct _Work
     int      field_14A8[3];
     int      unk14B4;
     int      field_14B8[3];
-    char     pad14C4[0x4];
+    int      field_14C4;
     int      field_14C8[3];
     int      field_14D4[3];
     int      field_14E0[3];
@@ -79,8 +83,11 @@ typedef struct _Work
     int      field_1688;
     SVECTOR  field_168C;
     char     pad1694[0x4];
-    int      field_1698[3];
-    char     pad16A4[0xA8];
+    int      field_1698[30];
+    char     pad1710[0x30];
+    int      field_1740;
+    int      field_1744;
+    int      field_1748;
     SVECTOR  field_174C;
     SVECTOR  field_1754;
     SVECTOR  field_175C;
@@ -91,13 +98,16 @@ typedef struct _Work
     int      field_1778;
     int      field_177C;
     int      field_1780;
-    char     pad1784[0x10];
+    int      field_1784;
+    int      field_1788;
+    SVECTOR  field_178C;
     int      field_1794;
     int      field_1798;
     int      field_179C;
     int      field_17A0;
     int      field_17A4;
-    char     pad17A8[0x8];
+    int      field_17A8;
+    int      field_17AC;
     int      field_17B0;
     int      field_17B4;
     char     pad17B8[0x18];
@@ -112,6 +122,8 @@ SVECTOR s12c_dword_800C3440[2] = {{250, 0, 500}, {-250, 0, 500}};
 
 SVECTOR s12c_dword_800C3450 = {0, 0, 100};
 SVECTOR s12c_dword_800C3458 = {64512, 0, 0};
+
+extern GM_CameraSystemWork GM_Camera;
 
 extern SVECTOR s12c_800DA418;
 extern int     s12c_800DA420;
@@ -3857,30 +3869,6 @@ void s12c_dog_800D1B54(Work *work, int index)
     }
 }
 
-const char s12c_aHappy_800DA098[] = "happy";
-const char s12c_aUnhappy_800DA0A0[] = "unhappy";
-const char s12c_aTrap_800DA0A8[] = "trap";
-const char s12c_dword_800DA0B0[] = {0x0, 0x0, 0x0, 0x0};
-const int  s12c_dword_800DA0B4 = 0x800D203C;
-const int  s12c_dword_800DA0B8 = 0x800D203C;
-const int  s12c_dword_800DA0BC = 0x800D203C;
-const int  s12c_dword_800DA0C0 = 0x800D203C;
-const int  s12c_dword_800DA0C4 = 0x800D2038;
-const int  s12c_dword_800DA0C8 = 0x800D203C;
-const int  s12c_dword_800DA0CC = 0x800D2038;
-const int  s12c_dword_800DA0D0 = 0x800D203C;
-const int  s12c_dword_800DA0D4 = 0x800D2038;
-const int  s12c_dword_800DA0D8 = 0x800D2038;
-const int  s12c_dword_800DA0DC = 0x800D2038;
-const int  s12c_dword_800DA0E0 = 0x800D2038;
-const int  s12c_dword_800DA0E4 = 0x800D2038;
-const int  s12c_dword_800DA0E8 = 0x800D2038;
-const int  s12c_dword_800DA0EC = 0x800D2038;
-const char s12c_aWolfdog_800DA0F0[] = "wolfdog";
-const char s12c_aWolfdog_800DA0F8[] = "wolfdog2";
-const char s12c_aShadow_800DA104[] = "shadow";
-const char s12c_aDoglow_800DA10C[] = "dog_low";
-
 // Modified s00a_watcher_800C4138
 void Dog_800D1D24(DG_OBJS *objs, DG_DEF *def)
 {
@@ -3899,9 +3887,353 @@ void Dog_800D1D24(DG_OBJS *objs, DG_DEF *def)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D1DA0.s")
-void s12c_dog_800D1DA0(Work *work);
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D20A0.s")
+void s12c_dog_800D1DA0(Work *work)
+{
+    SVECTOR diff;
+    u_short names[3];
+    int     sel;
+    int     hit;
+    int     count;
+    int     flag;
+    int     state;
+    int     alive;
+    int     i;
+
+    if (work->field_17A8 < 100)
+    {
+        work->field_17A8++;
+    }
+
+    GM_CurrentMap = work->field_20;
+    s12c_dog_800D187C(work);
+    Dog_800CA93C(work);
+
+    if (work->field_1784 == 1)
+    {
+        sel = 2;
+    }
+    else
+    {
+        sel = GV_Time % 3;
+    }
+
+    names[0] = GV_StrCode("happy");
+    names[1] = GV_StrCode("unhappy");
+    names[2] = GV_StrCode("trap");
+
+    switch (Dog_800CA3C0(work->field_24, 3, names))
+    {
+    case 0:
+        work->field_1608 = 1;
+
+        if (work->field_17A8 < 10)
+        {
+            work->field_160C = 1;
+
+            for (i = 0; i < 3; i++)
+            {
+                if (work->field_15C8[i] == 0)
+                {
+                    work->field_14F8[i] = 5;
+                    work->field_1510[i] = 0;
+                    work->field_28[i].mov.vx = GV_RandS(0x400) + 10000;
+                    work->field_28[i].mov.vy = 1000;
+                    work->field_28[i].mov.vz = -GV_RandU(0x400);
+                }
+            }
+        }
+        break;
+
+    case 1:
+        break;
+
+    case 2:
+        work->field_1608 = 1;
+        work->field_160C = 1;
+
+        for (i = 0; i < 3; i++)
+        {
+            if (work->field_15C8[i] == 0)
+            {
+                work->field_14F8[i] = 5;
+                work->field_1510[i] = 0;
+
+                if (work->field_28[i].mov.vx < 6000 || work->field_28[i].mov.vz > -1500)
+                {
+                    work->field_28[i].mov.vx = i * 500 + 8500;
+                    work->field_28[i].mov.vy = 1000;
+                    work->field_28[i].mov.vz = i * 500 - 1500;
+                }
+            }
+        }
+        break;
+    }
+
+    if (work->field_1608 == 1 && work->field_160C == 1 && (s12c_800DA420 & 1) != 0)
+    {
+        flag = 1;
+
+        switch (work->field_14F8[2])
+        {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 5:
+        case 7:
+            break;
+
+        case 4:
+        case 6:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+            flag = 0;
+            break;
+        }
+
+        if (flag != 0)
+        {
+            work->field_160C = 2;
+            work->field_1610 = 0;
+            work->field_14F8[0] = 14;
+            work->field_1510[0] = 0;
+            work->field_14F8[1] = 14;
+            work->field_1510[1] = 0;
+            work->field_14F8[2] = 14;
+            work->field_1510[2] = 0;
+        }
+        else
+        {
+            s12c_800DA420 = (s12c_800DA420 & ~1) | 2;
+        }
+    }
+
+    hit = Dog_800D0BC4(work);
+    GV_SubVec3(&work->field_28[0].mov, &work->field_28[1].mov, &diff);
+    work->field_1528 = GV_VecLen3(&diff);
+    count = 0;
+
+    if (work->field_14C4 > 0)
+    {
+        work->field_14C4--;
+    }
+
+    work->field_17A0 = 0;
+
+    for (i = 0; i < work->field_1278 + 1; i++)
+    {
+        if (work->field_1580[i] > 0)
+        {
+            work->field_1580[i]--;
+        }
+
+        if (work->field_14C8[i] > 0)
+        {
+            work->field_14C8[i]--;
+        }
+
+        state = work->field_14F8[i];
+        alive = 0;
+
+        if (work->field_15C8[i] != 0)
+        {
+            Dog_800C9FAC(work, i);
+            work->field_126C[i]->flag = 0;
+
+            if (work->field_1784 == 0 && work->field_1788 == 0)
+            {
+                if (work->field_1604 != 0)
+                {
+                    if (work->field_17AC > 0)
+                    {
+                        work->field_17AC--;
+                        work->field_28[i].mov = GM_NoisePosition;
+                    }
+                    else if (GV_Time % 256 < 128)
+                    {
+                        work->field_28[i].mov = GM_PlayerPosition;
+                    }
+                    else if (GV_Time % 4096 < 3072)
+                    {
+                        work->field_28[i].mov.vx = 11000;
+                        work->field_28[i].mov.vy = 0;
+                        work->field_28[i].mov.vz = 12000;
+                    }
+                    else
+                    {
+                        work->field_28[i].mov.vx = 9000;
+                        work->field_28[i].mov.vy = 0;
+                        work->field_28[i].mov.vz = -8000;
+                    }
+                }
+                else if (GV_Time % 256 < 128)
+                {
+                    work->field_28[i].mov = GM_PlayerPosition;
+                }
+                else
+                {
+                    work->field_28[i].mov.vx = 9000;
+                    work->field_28[i].mov.vy = 0;
+                    work->field_28[i].mov.vz = -8000;
+                }
+            }
+            else if (GV_Time % 256 < 128)
+            {
+                work->field_28[i].mov = GM_PlayerPosition;
+            }
+            else
+            {
+                work->field_28[i].mov = work->field_178C;
+            }
+        }
+        else
+        {
+            s12c_dog_800CB180(work, i);
+            Dog_800CB0C8(&work->field_1574[i], 0xFF, 8);
+
+            if (state < 8 || state > 13)
+            {
+                alive = 1;
+                s12c_dog_800CA758(work, i);
+            }
+
+            if (work->field_19C[i].objs->bound_mode != 0 || sel == i || alive == 0 ||
+                work->field_160C != 0)
+            {
+                work->field_17A0++;
+                work->field_151C[i] = Dog_800CABF4(&work->field_28[i].mov, &GM_PlayerPosition,
+                                                   &work->field_152C[i]);
+
+                if (alive != 0)
+                {
+                    if (work->field_158C[i] > 0)
+                    {
+                        work->field_158C[i]--;
+                    }
+
+                    if (work->field_158C[i] == 1)
+                    {
+                        work->field_1598[i] = 0;
+                    }
+
+                    if (hit == 0 && work->field_1604 == 0)
+                    {
+                        if (s12c_dog_800CB54C(work, i) == 1)
+                        {
+                            count++;
+
+                            if (work->field_158C[i] == 0 && work->field_1598[i] == 0 &&
+                                state != 6 && work->field_1608 != 1 && work->field_15F8 != 1 &&
+                                work->field_160C == 0)
+                            {
+                                work->field_15F8 = 1;
+                                s12c_dog_800CAEC8(work, i, 0);
+
+                                if (i != 2)
+                                {
+                                    work->field_1740 = 20;
+                                    work->field_1744 = i;
+                                }
+
+                                if (work->field_14C4 <= 0)
+                                {
+                                    GM_SeSet(&work->field_28[i].mov, 0x53);
+                                    work->field_14C4 = 30;
+                                }
+
+                                work->field_14F8[i] = 6;
+                                work->field_1510[i] = 0;
+                                work->field_1774 = 10;
+                            }
+                        }
+                        else if (state != 6 && work->field_15F8 == 1)
+                        {
+                            work->field_14F8[i] = 6;
+                            work->field_1510[i] = 0;
+                        }
+                    }
+                }
+
+                s12c_dog_800D1B54(work, i);
+                s12c_dog_800CAD8C(work, i);
+
+                if ((GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA)) != 0 ||
+                    GM_Camera.first_person != 0)
+                {
+                    if (work->field_448[i] != 1)
+                    {
+                        work->field_448[i] = 1;
+                        Dog_800D1D24(work->field_19C[i].objs, work->field_458);
+                    }
+                }
+                else if (work->field_448[i] != 0)
+                {
+                    work->field_448[i] = 0;
+                    Dog_800D1D24(work->field_19C[i].objs, work->field_454);
+                }
+
+                if (i == 2)
+                {
+                    s12c_dog_800D11D4(work, 2);
+                }
+                else
+                {
+                    s12c_dog_800CA098(work, i);
+                    s12c_dog_800D0F30(work, i);
+                }
+
+                s12c_dog_800D16C0(work, i);
+            }
+        }
+
+        if (work->field_14B8[i] >= -9)
+        {
+            work->field_14B8[i]--;
+        }
+    }
+
+    for (i = 0; i < 3; i++)
+    {
+        work->field_155C[i]++;
+
+        if (work->field_1494[i] == 1 || work->field_1494[i] == 12)
+        {
+            Dog_800C9E4C(work, i);
+        }
+    }
+
+    if (work->field_14F8[0] != 9 && work->field_14F8[1] != 9 && work->field_14F8[2] != 9 &&
+        work->field_15F8 == 1 && count <= 0 && !(GM_PlayerStatus & PLAYER_INTRUDE) &&
+        --work->field_15FC < 0 && work->field_14F8[0] != 10 && work->field_14F8[1] != 10 &&
+        work->field_14F8[0] != 11 && work->field_14F8[1] != 11 && work->field_14F8[0] != 12 &&
+        work->field_14F8[1] != 12 && work->field_14F8[0] != 13 && work->field_14F8[1] != 13)
+    {
+        work->field_15F8 = 0;
+        work->field_15FC = 0;
+        Dog_800CB6DC(work, 3, 0);
+    }
+
+    work->field_1778 = GM_PlayerPosition.vy;
+    Dog_800CA058(work);
+
+    if (work->field_1740 > 0)
+    {
+        if (--work->field_1740 == 0)
+        {
+            GM_SeSetMode(&work->field_28[work->field_1744].mov, 0x82, GM_SEMODE_NORMAL);
+        }
+    }
+}
+
+const char s12c_aWolfdog_800DA0F0[] = "wolfdog";
+const char s12c_aWolfdog_800DA0F8[] = "wolfdog2";
+const char s12c_aShadow_800DA104[] = "shadow";
+const char s12c_aDoglow_800DA10C[] = "dog_low";
 
 void DogDie_800D2798(Work *work)
 {
