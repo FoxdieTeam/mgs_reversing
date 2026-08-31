@@ -45,8 +45,7 @@ typedef struct _Work
     int      field_1510[3];
     int      field_151C[3];
     int      field_1528;
-    char     pad152C[0x152E - 0x152C];
-    short    field_152E[11];     /* 8 bytes per dog: read as [index * 4] */
+    SVECTOR  field_152C[3];
     int      field_1544[3];
     int      field_1550[3];
     int      field_155C[3];
@@ -59,7 +58,12 @@ typedef struct _Work
     int      field_15B0[3];
     int      field_15BC[3];
     int      field_15C8[3];
-    char     pad15D4[0x20];
+    char     pad15D4[0x8];
+    int      field_15DC;
+    int      field_15E0;
+    char     pad15E4[0x4];
+    SVECTOR  field_15E8;
+    char     pad15F0[0x4];
     int      field_15F4;
     int      field_15F8;
     int      field_15FC;
@@ -82,10 +86,15 @@ typedef struct _Work
     int      field_176C;
     int      field_1770;
     int      field_1774;
-    char     pad1778[0x4];
+    int      field_1778;
     int      field_177C;
     int      field_1780;
-    char     pad1784[0x2C];
+    char     pad1784[0x14];
+    int      field_1798;
+    char     pad179C[0x4];
+    int      field_17A0;
+    int      field_17A4;
+    char     pad17A8[0x8];
     int      field_17B0;
     int      field_17B4;
     char     pad17B8[0x18];
@@ -342,7 +351,7 @@ int s12c_dog_800CA4B4(Work *work, int state, int index)
         {
             work->field_1510[index] = state;
             work->field_10B0[index] = control->mov;
-            control->turn.vy = work->field_152E[index * 4];
+            control->turn.vy = work->field_152C[index].vy;
             work->field_1550[index] = index * 60 + 20;
             return 1;
         }
@@ -369,7 +378,7 @@ int s12c_dog_800CA4B4(Work *work, int state, int index)
         {
             work->field_1510[index] = state;
             work->field_10B0[index] = control->mov;
-            control->turn.vy = work->field_152E[index * 4];
+            control->turn.vy = work->field_152C[index].vy;
             work->field_1550[index] = index * 60 + 20;
             return 1;
         }
@@ -397,7 +406,7 @@ int s12c_dog_800CA4B4(Work *work, int state, int index)
     {
         work->field_1510[index] = state;
         work->field_10B0[index] = control->mov;
-        control->turn.vy = work->field_152E[index * 4];
+        control->turn.vy = work->field_152C[index].vy;
         work->field_1550[index] = index * 60 + 20;
         return 2;
     }
@@ -869,7 +878,7 @@ int s12c_dog_800CB54C(Work *work, int index)
         {
             return 0;
         }
-        if (GV_DiffDirAbs(radar->dir, work->field_152E[index * 4]) > radar->range)
+        if (GV_DiffDirAbs(radar->dir, work->field_152C[index].vy) > radar->range)
         {
             return 0;
         }
@@ -1986,52 +1995,238 @@ void s12c_dog_800CF6CC(Work *work, int index)
     }
 }
 
-const int  s12c_dword_800D9F94 = 0x800CFAA8;
-const int  s12c_dword_800D9F98 = 0x800CFAB8;
-const int  s12c_dword_800D9F9C = 0x800D0298;
-const int  s12c_dword_800D9FA0 = 0x800D0298;
-const int  s12c_dword_800D9FA4 = 0x800D0298;
-const int  s12c_dword_800D9FA8 = 0x800CFF50;
-const int  s12c_dword_800D9FAC = 0x800CFF80;
-const int  s12c_dword_800D9FB0 = 0x800CFF90;
-const int  s12c_dword_800D9FB4 = 0x800D0298;
-const int  s12c_dword_800D9FB8 = 0x800D0298;
-const int  s12c_dword_800D9FBC = 0x800D0298;
-const int  s12c_dword_800D9FC0 = 0x800D0298;
-const int  s12c_dword_800D9FC4 = 0x800D0298;
-const int  s12c_dword_800D9FC8 = 0x800D0298;
-const int  s12c_dword_800D9FCC = 0x800D0298;
-const int  s12c_dword_800D9FD0 = 0x800D0298;
-const int  s12c_dword_800D9FD4 = 0x800D0298;
-const int  s12c_dword_800D9FD8 = 0x800D0298;
-const int  s12c_dword_800D9FDC = 0x800D0298;
-const int  s12c_dword_800D9FE0 = 0x800D0298;
-const int  s12c_dword_800D9FE4 = 0x800D0298;
-const int  s12c_dword_800D9FE8 = 0x800D0298;
-const int  s12c_dword_800D9FEC = 0x800D0298;
-const int  s12c_dword_800D9FF0 = 0x800D0298;
-const int  s12c_dword_800D9FF4 = 0x800D0298;
-const int  s12c_dword_800D9FF8 = 0x800D0298;
-const int  s12c_dword_800D9FFC = 0x800D0298;
-const int  s12c_dword_800DA000 = 0x800D0298;
-const int  s12c_dword_800DA004 = 0x800D0298;
-const int  s12c_dword_800DA008 = 0x800D0298;
-const int  s12c_dword_800DA00C = 0x800D0298;
-const int  s12c_dword_800DA010 = 0x800D0298;
-const int  s12c_dword_800DA014 = 0x800D0298;
-const int  s12c_dword_800DA018 = 0x800D0298;
-const int  s12c_dword_800DA01C = 0x800D0298;
-const int  s12c_dword_800DA020 = 0x800D0298;
-const int  s12c_dword_800DA024 = 0x800D0298;
-const int  s12c_dword_800DA028 = 0x800D0298;
-const int  s12c_dword_800DA02C = 0x800CFFBC;
-const int  s12c_dword_800DA030 = 0x800CFFF4;
-const int  s12c_dword_800DA034 = 0x800D00C8;
-const int  s12c_dword_800DA038 = 0x800D011C;
-const int  s12c_dword_800DA03C = 0x800D012C;
-const int  s12c_dword_800DA040 = 0x800D020C;
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CFA30.s")
-extern void s12c_dog_800CFA30(Work *work, int index);
+void s12c_dog_800CFA30(Work *work, int index)
+{
+    SVECTOR  rot;
+    SVECTOR  target;
+    CONTROL *control;
+    HZD_HDL *hzd;
+    HZD_ZON *zone;
+    int      i;
+
+    control = &work->field_28[index];
+    hzd = control->map->hzd;
+
+    switch (work->field_1510[index])
+    {
+    case 0:
+        work->field_1510[index] = 1;
+
+    case 1:
+        if ((work->field_155C[index] & 0x3F) == 0 && GV_RandU(16) == 0)
+        {
+            work->field_14F8[index] = 1;
+            work->field_1510[index] = 0;
+            break;
+        }
+
+        work->field_14A8[index] = HZD_GetAddress(hzd, &control->mov, work->field_14A8[index]);
+
+        if (work->field_1604 == 0 && GM_PlayerPosition.vx > -3500 &&
+            GM_PlayerPosition.vx < 7000 && GM_PlayerPosition.vz > 2000 &&
+            GM_PlayerPosition.vz < 7500)
+        {
+            work->field_15E8 = GM_PlayerPosition;
+        }
+        else
+        {
+            work->field_15E0 = HZD_GetAddress(hzd, &work->field_15E8, work->field_15E0);
+
+            if (work->field_17A4 < 0)
+            {
+                if (work->field_17A0 == 3 && work->field_1604 == 0)
+                {
+                    work->field_17A4 = 300;
+                }
+
+                if ((GV_Time & 0x7F) == 0 && GV_RandU(0x20) == 0)
+                {
+                    work->field_15DC = 1 - work->field_15DC;
+                    work->field_15E8 = work->field_28[work->field_15DC].mov;
+                }
+
+                if (GV_RandU(2) == 0)
+                {
+                    work->field_15E8 = work->field_28[work->field_15DC].mov;
+                    zone = &hzd->def->zones[(u_char)work->field_15E0];
+
+                    for (i = 0; i < 6; i++)
+                    {
+                        if (zone->nears[i] == 0xFF)
+                        {
+                            break;
+                        }
+                    }
+
+                    work->field_15E0 = zone->nears[GV_RandU(0x1000) % i];
+                }
+            }
+            else
+            {
+                work->field_17A4--;
+                work->field_15E8.vx = 10555;
+                work->field_15E8.vy = 0;
+                work->field_15E8.vz = -7000;
+            }
+        }
+
+        work->field_15E0 = HZD_GetAddress(hzd, &work->field_15E8, work->field_15E0);
+        zone = &hzd->def->zones[HZD_Navigate(hzd, work->field_14A8[index], work->field_15E0,
+                                             &control->mov)];
+        target.vx = zone->x;
+        target.vy = zone->y;
+        target.vz = zone->z;
+        Dog_800CABF4(&control->mov, &target, &rot);
+        rot.vx = 0;
+        s12c_dog_800CB97C(&control->turn, &rot, 8);
+
+        if (work->field_1604 != 0)
+        {
+            if ((work->field_155C[index] & 0xF) == 0)
+            {
+                GM_SeSetMode(&work->field_28[index].mov, 0xA6, GM_SEMODE_NORMAL);
+            }
+            else if (work->field_155C[index] % 16 == 8)
+            {
+                GM_SeSetMode(&work->field_28[index].mov, 0xA7, GM_SEMODE_NORMAL);
+            }
+
+            if ((GV_Time & 3) == 0 && GV_RandU(8) == 0)
+            {
+                GM_SeSetMode(&work->field_28[index].mov, 0xBD, GM_SEMODE_NORMAL);
+            }
+
+            Dog_800CB23C(work, 0, 1, index);
+            break;
+        }
+        else
+        {
+            if (GM_PlayerPosition.vx > -3500 && GM_PlayerPosition.vx < 7000 &&
+                GM_PlayerPosition.vz > 2000 && GM_PlayerPosition.vz < 7500)
+            {
+                work->field_1510[index] = 0x26;
+                break;
+            }
+
+            if ((GV_Time & 3) == 0 && GV_RandU(8) == 0)
+            {
+                GM_SeSetMode(&work->field_28[index].mov, 0xBD, GM_SEMODE_NORMAL);
+            }
+
+            if ((work->field_155C[index] & 7) == 0)
+            {
+                GM_SeSetMode(&work->field_28[index].mov, 0xBE, GM_SEMODE_NORMAL);
+            }
+
+            Dog_800CB23C(work, 0, 1, index);
+        }
+        break;
+
+    case 5:
+        work->field_1510[index] = 6;
+        GM_SeSetMode(&work->field_28[index].mov, 0xB7, GM_SEMODE_NORMAL);
+
+    case 6:
+        Dog_800CB23C(work, 5, 7, index);
+        break;
+
+    case 7:
+        work->field_1510[index] = 1;
+        GM_SeSetMode(&work->field_28[index].mov, 0xB5, GM_SEMODE_NORMAL);
+        break;
+
+    case 38:
+        work->field_1510[index] = 0x27;
+        work->field_168C = GM_PlayerPosition;
+
+    case 39:
+        work->field_14A8[index] = HZD_GetAddress(hzd, &control->mov, work->field_14A8[index]);
+        work->field_1688 = HZD_GetAddress(hzd, &GM_PlayerPosition, -1);
+        zone = &hzd->def->zones[HZD_Navigate(hzd, work->field_14A8[index], work->field_1688,
+                                             &control->mov)];
+        target.vx = zone->x;
+        target.vy = zone->y;
+        target.vz = zone->z;
+        Dog_800CABF4(&control->mov, &target, &rot);
+        rot.vx = 0;
+        s12c_dog_800CB97C(&control->turn, &rot, 8);
+
+        if (work->field_151C[index] < 2000)
+        {
+            work->field_1510[index] = 0x28;
+            break;
+        }
+
+        Dog_800CB23C(work, 12, 1, index);
+        break;
+
+    case 40:
+        control->turn = work->field_152C[index];
+        control->turn.vx = 0;
+        Dog_800CB23C(work, 10, 41, index);
+        work->field_1798 = GV_RandU(0x80) + 60;
+        break;
+
+    case 41:
+        work->field_1510[index] = 0x2A;
+
+    case 42:
+        control->turn = work->field_152C[index];
+        control->turn.vx = 0;
+
+        if (work->field_151C[index] > 4000 ||
+            (work->field_151C[index] < 1000 && work->field_1778 != GM_PlayerPosition.vy))
+        {
+            work->field_1510[index] = 1;
+        }
+
+        s12c_dog_800CB42C(work, 11, 41, 43, index, 4);
+
+        if ((work->field_155C[index] & 0x1F) == 0 && GV_RandU(4) == 0)
+        {
+            GM_SeSetMode(&work->field_28[index].mov, 0xBC, GM_SEMODE_NORMAL);
+        }
+        break;
+
+    case 43:
+        control->turn = work->field_152C[index];
+        control->turn.vx = 0;
+
+        if (work->field_151C[index] > 4000 ||
+            (work->field_151C[index] < 1000 && work->field_1778 != GM_PlayerPosition.vy))
+        {
+            work->field_1510[index] = 1;
+        }
+
+        s12c_dog_800CB42C(work, 20, 41, 43, index, 4);
+        break;
+    }
+
+    if (index == 2 && (work->field_1510[index] > 40 && work->field_1510[index] < 44))
+    {
+        int timer = work->field_1798;
+
+        work->field_1798 = timer - 1;
+
+        if (timer > 40 && timer < 61)
+        {
+            work->field_F00[index][4].vz += 8;
+            work->field_F00[index][5].vz += 8;
+        }
+
+        if (work->field_1798 < 10)
+        {
+            work->field_F00[index][4].vz -= 16;
+            work->field_F00[index][5].vz -= 16;
+        }
+
+        if (work->field_1798 < 0)
+        {
+            work->field_1798 = GV_RandU(0x200) + 256;
+            Dog_800CA458(work, 18, index);
+        }
+    }
+}
 void s12c_dog_800D0374(Work *work, int index)
 {
     SVECTOR  rot;
