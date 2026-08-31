@@ -702,8 +702,89 @@ void s15c_dyncon_800D7EF4(DynCon *work, int i, int model)
     GM_ActObject2((OBJECT *)obj);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7F88.s")
-void s15c_dyncon_800D7F88(DynCon *work);
+void s15c_dyncon_800D7F88(DynCon *work)
+{
+    int n;
+    int p;
+    int i;
+    int j;
+    int k;
+    int l;
+    int m;
+
+    n = 0;
+    for (i = 0; i < 3; i++)
+    {
+        for (j = 0; j < 3; j++)
+        {
+            for (k = 0; k < 2; k++)
+            {
+                for (l = 0; l < 2; l++)
+                {
+                    for (m = 0; m < 2; m++)
+                    {
+                        int dx = m * 2000 - 8000;
+
+                        work->field_24[n].mov.vx = j * 7000 + dx;
+                        work->field_24[n].mov.vy = k * 1750;
+                        work->field_24[n].mov.vz = (i * 6000 - 5250) + l * 1500;
+                        work->field_24[n].rot.vx = 0;
+                        work->field_24[n].rot.vy = (1 - l) * 2048;
+                        work->field_24[n].rot.vz = 0;
+                        n++;
+                    }
+                }
+            }
+        }
+    }
+
+    n = 0;
+    p = 0;
+    for (i = 0; i < 3; i++)
+    {
+        for (j = 0; j < 3; j++)
+        {
+            if (j == 1 && i == 2)
+            {
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConuf_800E2DC8));
+                s15c_dyncon_800D7E30(work, p, n, GV_StrCode(s15c_aConten_800E2DD0));
+                p++;
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConub_800E2DD8));
+                s15c_dyncon_800D7E30(work, p, n, GV_StrCode(s15c_aConten_800E2DD0));
+                p++;
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConub_800E2DD8));
+                s15c_dyncon_800D7E30(work, p, n, GV_StrCode(s15c_aConten_800E2DD0));
+                p++;
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConuf_800E2DC8));
+                s15c_dyncon_800D7E30(work, p, n, GV_StrCode(s15c_aConten_800E2DD0));
+                p++;
+                n += 5;
+            }
+            else
+            {
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConuf_800E2DC8));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConub_800E2DD8));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConub_800E2DD8));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConuf_800E2DC8));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aContf_800E2DE0));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aContb_800E2DE8));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aContb_800E2DE8));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aContf_800E2DE0));
+                n++;
+            }
+        }
+    }
+}
 void s15c_dyncon_800D82FC(DynCon *work)
 {
     int i;
