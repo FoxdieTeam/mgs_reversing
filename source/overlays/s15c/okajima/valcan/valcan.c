@@ -148,6 +148,8 @@ extern char s15c_aVala_800E2E44[];
 extern char s15c_aValwep_800E2E3C[];
 extern char s15c_aRaven_800E2E68[];
 
+extern int     s15c_dword_800E345C; /* the map places this one at 0x800E3458 */
+
 extern SVECTOR s15c_dword_800C35F0;
 extern SVECTOR s15c_dword_800C35F8;
 
@@ -1050,7 +1052,48 @@ int Valcan_800DAE38()
 int s15c_crow_800DAE7C(Work *work);
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DAFCC.s")
 int s15c_crow_800DAFCC(Work *work);
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB200.s")
+int s15c_crow_800DB200(Work *work)
+{
+    work->field_828 = 0;
+    work->field_69C++;
+
+    switch (work->field_740)
+    {
+    case 0:
+        if (work->field_738 == 1 && s15c_dword_800E345C != 0 &&
+            (&s15c_dword_800E345C)[2] != 0)
+        {
+            work->field_770 = 3;
+            work->field_6A4 = 0;
+            work->field_69C = 0;
+            return 3;
+        }
+        break;
+
+    case 1:
+        if (work->field_738 == 2)
+        {
+            return 1;
+        }
+        break;
+
+    case 2:
+        if (work->field_73A == 1)
+        {
+            return 2;
+        }
+        break;
+
+    case 3:
+        if (work->field_73A == 2)
+        {
+            return 1;
+        }
+        break;
+    }
+
+    return 0;
+}
 int s15c_crow_800DB200(Work *work);
 
 int Valcan_800DB2E4(Work *work)
