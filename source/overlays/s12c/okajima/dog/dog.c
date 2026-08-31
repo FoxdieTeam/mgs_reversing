@@ -5,12 +5,6 @@
 #include "game/game.h"
 #include "okajima/blood.h"
 
-typedef struct _Unk_Dog0
-{
-    short field_0;       // 0x00
-    char  pad2[0x8E];    // size 0x90 total
-} Unk_Dog0;
-
 typedef struct _Work
 {
     GV_ACT   actor;
@@ -18,16 +12,18 @@ typedef struct _Work
     int      field_24;
     CONTROL  field_28[3];
     OBJECT   field_19C[3];
-    char     pad448[0xAE2];
-    Unk_Dog0 field_F2A[3];
-    char     pad10DA[0xAE];
+    char     pad448[0xAB8];
+    SVECTOR  field_F00[3][18];   /* 0x90 per dog, the block Dog_800CA458 clears */
+    SVECTOR  field_10B0[3];
+    char     pad10C8[0xC0];
     TARGET  *field_1188[3];
     TARGET   field_1194[3];
     HOMING  *field_126C[3];
     short    field_1278;
     char     pad127A[0x21A];
     int      field_1494[3];
-    char     pad14A0[0x14];
+    u_short  field_14A0[3];
+    char     pad14A6[0xE];
     int      unk14B4;
     int      field_14B8[3];
     char     pad14C4[0x10];
@@ -41,7 +37,8 @@ typedef struct _Work
     int      field_1528;
     char     pad152C[0x152E - 0x152C];
     SVECTOR  field_152E[3];
-    char     pad1546[0x155C - 0x152E - sizeof(SVECTOR[3])];
+    char     pad1546[0x1550 - 0x152E - sizeof(SVECTOR[3])];
+    int      field_1550[3];
     int      field_155C[3];
     char     pad1568[0xC];
     int      field_1574[3];
@@ -815,7 +812,7 @@ void s12c_dog_800CB114(Work *work, int index)
     RADAR_SIGHT_PARAM *r_param;
 
     r_param = &work->field_28[index].radar_param;
-    r_param->dir = work->field_28[index].rot.vy + work->field_F2A[index].field_0;
+    r_param->dir = work->field_28[index].rot.vy + work->field_F00[index][5].vy;
 
     if (index != 2)
     {
@@ -836,7 +833,7 @@ void s12c_dog_800CB180(Work *work, int index)
     RADAR_SIGHT_PARAM *r_param;
 
     r_param = &work->field_28[index].radar_param;
-    r_param->dir = work->field_28[index].rot.vy + work->field_F2A[index].field_0;
+    r_param->dir = work->field_28[index].rot.vy + work->field_F00[index][5].vy;
 
     if (index != 2)
     {
@@ -1071,7 +1068,50 @@ void Dog_800CBCF4(Work *work, int arg1)
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CC8B4.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CCC3C.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CDBC4.s")
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CE034.s")
+/* The int array at 0x1544 runs into the tail of field_152E[2], so it is reached
+   by hand the way s12c_dog_800CAD8C reaches its 0x90-strided block. The two
+   field_10B0 stores go through a byte offset taken before the switch, which is
+   what keeps index * 8 in a saved register across the GV_RandU call. */
+void s12c_dog_800CE034(Work *work, int index)
+{
+    CONTROL *control;
+    SVECTOR  unused;
+    int      off;
+
+    unused.vx = work->field_14A0[index];
+    control = &work->field_28[index];
+    off = index * 8;
+
+    switch (work->field_1510[index])
+    {
+    case 0:
+        work->field_1510[index] = 1;
+        *(int *)((char *)work + index * 4 + 0x1544) = 0;
+        work->field_1550[index] = GV_RandU(16) + 32;
+        *(u_short *)((char *)work + off + 0x10B0) = control->mov.vx;
+        *(u_short *)((char *)work + off + 0x10B4) = control->mov.vz;
+
+    case 1:
+        work->field_1510[index] = 5;
+        work->field_1550[index]--;
+
+    case 5:
+        control->mov.vx = work->field_10B0[index].vx;
+        control->mov.vz = work->field_10B0[index].vz;
+
+        if (work->field_1550[index] > 0)
+        {
+            Dog_800CB0C8(&work->field_1574[index], 16, 16);
+            Dog_800CB23C(work, 9, 1, index);
+        }
+        else
+        {
+            work->field_14F8[index] = 0;
+            work->field_1510[index] = 0;
+        }
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CE194.s")
 
 void DogExecProc_800CEB2C(Work *work, int param)
