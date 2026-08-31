@@ -117,6 +117,14 @@ typedef struct _Work
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
+#define BODY_DATA    GV_StrCode("wolfdog")
+#define BODY_FLAG    (DG_FLAG_TEXT | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_IRTEXTURE)
+#define MOTION_DATA  GV_StrCode("wolfdog")
+#define MOTION_DATA2 GV_StrCode("wolfdog2")
+
+/* work->field_1188[] target class while the dog is a live threat */
+#define DOG_TARGET_CLASS (TARGET_AVAIL | TARGET_POWER | TARGET_PUSH | TARGET_SEEK)
+
 SVECTOR s12c_dword_800C3430[2] = {{500, 0, 1000}, {-500, 0, 1000}};
 SVECTOR s12c_dword_800C3440[2] = {{250, 0, 500}, {-250, 0, 500}};
 
@@ -728,7 +736,7 @@ void Dog_800CAFB0(Work *work, int index)
         svec2.vz = 500;
     }
     target1 = work->field_1188[index];
-    GM_SetTarget(target1, ( 0x1D ), ENEMY_SIDE, &svec1);
+    GM_SetTarget(target1, DOG_TARGET_CLASS, ENEMY_SIDE, &svec1);
     GM_SetPowerTarget(target1, POWER_DECREASE, -1, work->unk14B4, 0xFF, &DG_ZeroVector);
 
     target2 = &work->field_1194[index];
@@ -973,9 +981,7 @@ void s12c_dog_800CB714(Work *work, int index)
     quad[2].vz = control->mov.vz - pos[1].vz;
     quad[0].vy = quad[1].vy = quad[2].vy = quad[3].vy = control->mov.vy - control->height;
 
-    ((POLY_FT4 *)work->field_167C[index]->packs[GV_Clock])->r0 = 0x46;
-    ((POLY_FT4 *)work->field_167C[index]->packs[GV_Clock])->g0 = 0x46;
-    ((POLY_FT4 *)work->field_167C[index]->packs[GV_Clock])->b0 = 0x46;
+    setRGB0((POLY_FT4 *)work->field_167C[index]->packs[GV_Clock], 0x46, 0x46, 0x46);
 }
 void s12c_dog_800CB97C(SVECTOR *cur, SVECTOR *target, int steps)
 {
@@ -2786,7 +2792,7 @@ void s12c_dog_800CF6CC(Work *work, int index)
         if (work->field_177C >= work->field_1780 || work->field_1608 == 1)
         {
             Dog_800C9FAC(work, index);
-            work->field_1188[index]->class = (work->field_1188[index]->class & 0xFFE2) | 1;
+            work->field_1188[index]->class = (work->field_1188[index]->class & ~DOG_TARGET_CLASS) | TARGET_AVAIL;
             work->field_14F8[index] = 15;
             work->field_1510[index] = 0;
             work->field_15C8[index] = 1;
@@ -2815,7 +2821,7 @@ void s12c_dog_800CF6CC(Work *work, int index)
         work->field_1510[index] = 17;
         work->field_19C[index].m_ctrl = &work->field_45C[index];
         Dog_800CA000(work, index);
-        work->field_1188[index]->class |= 0x1D;
+        work->field_1188[index]->class |= DOG_TARGET_CLASS;
         break;
 
     case 17:
@@ -3476,7 +3482,7 @@ void s12c_dog_800D0F30(Work *work, int index)
 
     if (GM_Item == IT_ThermG)
     {
-        object->objs->flag |= 0x100;
+        DG_AmbientObjs(object->objs);
     }
 
     DG_GetLightMatrix2(&control->mov, work->field_10C8[index]);
@@ -3589,7 +3595,7 @@ void s12c_dog_800D11D4(Work *work, int index)
 
     if (GM_Item == IT_ThermG)
     {
-        object->objs->flag |= 0x100;
+        DG_AmbientObjs(object->objs);
     }
 
     DG_GetLightMatrix2(&control->mov, work->field_10C8[index]);
@@ -4507,17 +4513,17 @@ int s12c_dog_800D295C(Work *work, int name, int map_name)
         switch (work->field_1604)
         {
         case 0:
-            GM_InitObject(object, GV_StrCode("wolfdog"), 0x229, GV_StrCode("wolfdog"));
+            GM_InitObject(object, BODY_DATA, BODY_FLAG, MOTION_DATA);
             GM_ConfigObjectJoint(object);
-            GM_ConfigMotionControl(object, &work->field_45C[i], GV_StrCode("wolfdog"),
+            GM_ConfigMotionControl(object, &work->field_45C[i], MOTION_DATA,
                                    work->field_54C[i], NULL, control, work->field_D50[i]);
             GM_ConfigObjectLight(object, work->field_10C8[i]);
             break;
 
         case 1:
-            GM_InitObject(object, GV_StrCode("wolfdog"), 0x229, GV_StrCode("wolfdog2"));
+            GM_InitObject(object, BODY_DATA, BODY_FLAG, MOTION_DATA2);
             GM_ConfigObjectJoint(object);
-            GM_ConfigMotionControl(object, &work->field_45C[i], GV_StrCode("wolfdog2"),
+            GM_ConfigMotionControl(object, &work->field_45C[i], MOTION_DATA2,
                                    work->field_54C[i], NULL, control, work->field_D50[i]);
             GM_ConfigObjectLight(object, work->field_10C8[i]);
             break;
@@ -4532,7 +4538,7 @@ int s12c_dog_800D295C(Work *work, int name, int map_name)
 
         work->field_126C[i] = GM_AllocHomingTarget(&object->objs->objs[5].world, control);
         work->field_126C[i]->flag = 1;
-        prim = GM_MakePrim(18, 1, work->field_161C[i], NULL);
+        prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->field_161C[i], NULL);
         work->field_167C[i] = prim;
 
         if (prim == NULL)
@@ -4566,7 +4572,7 @@ int s12c_dog_800D295C(Work *work, int name, int map_name)
         }
         else
         {
-            work->field_1188[i]->class = (work->field_1188[i]->class & 0xFFE2) | 1;
+            work->field_1188[i]->class = (work->field_1188[i]->class & ~DOG_TARGET_CLASS) | TARGET_AVAIL;
             work->field_126C[i]->flag = 0;
         }
 
@@ -4594,7 +4600,7 @@ int s12c_dog_800D295C(Work *work, int name, int map_name)
         }
         else
         {
-            GM_GameStatus |= 0x100;
+            GM_GameStatus |= GAME_FLAG_BIT_09;
         }
 
         work->field_15B0[i] = 0;
