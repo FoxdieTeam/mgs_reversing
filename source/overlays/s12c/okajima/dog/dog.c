@@ -16,12 +16,13 @@ typedef struct _Work
     char     pad448[0xAB8];
     SVECTOR  field_F00[3][18];   /* 0x90 per dog, the block Dog_800CA458 clears */
     SVECTOR  field_10B0[3];
-    char     pad10C8[0xC0];
+    MATRIX   field_10C8[3][2];
     TARGET  *field_1188[3];
     TARGET   field_1194[3];
     HOMING  *field_126C[3];
     short    field_1278;
-    char     pad127A[0x21A];
+    char     pad127A[0x20E];
+    int      field_1488[3];
     int      field_1494[3];
     u_short  field_14A0[3];
     char     pad14A6[0xE];
@@ -30,7 +31,7 @@ typedef struct _Work
     char     pad14C4[0x4];
     int      field_14C8[3];
     int      field_14D4[3];
-    char     pad14E0[0xC];
+    int      field_14E0[3];
     int      field_14EC[3];
     int      field_14F8[3];
     int      field_1504[3];
@@ -84,6 +85,9 @@ SVECTOR s12c_dword_800C3450 = {0, 0, 100};
 SVECTOR s12c_dword_800C3458 = {64512, 0, 0};
 
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
+void  AN_Breath(MATRIX *world);
+void  AN_Breath_2(MATRIX *world);
+void  AN_Sleep(SVECTOR *pos);
 void *AN_Unknown_800CA320(MATRIX *mat, int mark);
 
 void Dog_800C9E4C(Work *work, int index)
@@ -1418,7 +1422,96 @@ void s12c_dog_800D0C78(Work *work, int index)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0F30.s")
+void s12c_dog_800D0F30(Work *work, int index)
+{
+    CONTROL *control;
+    OBJECT  *object;
+    TARGET  *target;
+
+    if (work->field_1604 != 0)
+    {
+        return;
+    }
+
+    control = &work->field_28[index];
+    object = &work->field_19C[index];
+    target = work->field_1188[index];
+
+    if (work->field_14F8[index] == 8)
+    {
+        if (work->field_28[index].n_touches != 0 || work->field_14E0[index] == 1)
+        {
+            work->field_14E0[index] = 1;
+            control->step.vx = 0;
+            control->step.vz = 0;
+            control->mov.vy = control->height;
+        }
+    }
+    else
+    {
+        work->field_14E0[index] = 0;
+    }
+
+    if (work->field_1510[index] == 0x25)
+    {
+        control->height = object->height * 3 / 2;
+        GM_ActControl(control);
+        control->mov.vy = control->height;
+    }
+    else
+    {
+        GM_ActControl(control);
+        control->height = object->height;
+
+        if (control->r_sphere == -2)
+        {
+            control->mov.vy = control->height;
+            work->field_1488[index] = 0;
+        }
+        else if (work->field_1488[index] < 0 && control->grounded != 0)
+        {
+            work->field_1488[index] = 0;
+        }
+
+        work->field_1488[index] -= 32;
+        control->step.vy = work->field_1488[index];
+    }
+
+    GM_ActObject2(object);
+
+    if (GM_Item == IT_ThermG)
+    {
+        object->objs->flag |= 0x100;
+    }
+
+    DG_GetLightMatrix2(&control->mov, work->field_10C8[index]);
+    GM_MoveTarget(target, &control->mov);
+    GM_PushTarget(target);
+
+    if (work->field_14EC[index] == -1)
+    {
+        if ((work->field_155C[index] & 0x3F) == 0 && work->field_14F8[index] != 9)
+        {
+            AN_Breath(&object->objs->objs[6].world);
+        }
+    }
+    else
+    {
+        work->field_14EC[index]++;
+
+        if (work->field_14EC[index] >= 0x1F && (GV_Time & 3) == 0)
+        {
+            AN_Breath_2(&object->objs->objs[6].world);
+        }
+
+        if (work->field_14EC[index] == 0x1E)
+        {
+            AN_Sleep(&control->mov);
+        }
+    }
+
+    s12c_dog_800CB714(work, index);
+}
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D11D4.s")
 
 void Dog_800D1638(Work *work, int obj_index, int blood_count, int index)
