@@ -265,7 +265,60 @@ void s15c_dyncon_800D59C0(SVECTOR *vec, int code)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5A3C.s")
+void s15c_dyncon_800D5A3C(DynCon *work, int code, int i, int mode, int rz, int rx,
+                          int ax, int ay, int az, int bx, int by, int bz)
+{
+    SVECTOR vec;
+
+    if ((code & 1) == 0)
+    {
+        work->field_24[i + 4].rot.vz += rz;
+    }
+    else
+    {
+        work->field_24[i + 4].rot.vz -= rz;
+    }
+
+    work->field_24[i + 4].rot.vx += rx;
+
+    vec.vx = ax;
+    vec.vy = ay;
+    vec.vz = az;
+    s15c_dyncon_800D59C0(&vec, code);
+
+    if (mode == 5)
+    {
+        switch (code)
+        {
+        case 0:
+            vec.vz = 0;
+            break;
+
+        case 1:
+            vec.vx = 0;
+            break;
+
+        case 2:
+            vec.vx = 0;
+            break;
+
+        case 3:
+            vec.vz = 0;
+            break;
+        }
+    }
+
+    work->field_3F40[code] = vec;
+
+    vec.vx = bx;
+    vec.vy = by;
+    vec.vz = bz;
+    s15c_dyncon_800D59C0(&vec, code);
+
+    work->field_24[i + 4].mov.vx += vec.vx;
+    work->field_24[i + 4].mov.vy += vec.vy;
+    work->field_24[i + 4].mov.vz += vec.vz;
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5C38.s")
 void s15c_dyncon_800D5DC0(SVECTOR *vec, SVECTOR *target, int len)
 {
