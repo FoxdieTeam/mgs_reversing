@@ -9,6 +9,21 @@
 
 extern DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
 
+extern int s15c_dword_800E345C;   /* the map places this one at 0x800E3458 */
+
+extern const char s15c_aConuf_800E2DC8[];
+extern const char s15c_aConub_800E2DD8[];
+extern const char s15c_aConuf_800E2DF0[];
+extern const char s15c_aConuf_800E2DF8[];
+extern const char s15c_aConuf_800E2E00[];
+extern const char s15c_aBr_800E2E08[];
+extern const char s15c_aBr_800E2E0C[];
+extern const char s15c_aConub_800E2E10[];
+extern const char s15c_aConub_800E2E18[];
+extern const char s15c_aConub_800E2E20[];
+extern const char s15c_aBr_800E2E28[];
+extern const char s15c_aBr_800E2E2C[];
+
 typedef struct _DynSlot
 {
     TARGET        *target;   /* 0x00 */
@@ -54,7 +69,8 @@ typedef struct _DynCon
     SVECTOR field_3C0C[4];   /* 0x3C0C */
     char    pad_3C2C[0x3DDC - 0x3C2C];
     int     field_3DDC;      /* 0x3DDC */
-    char    pad_3DE0[0x3F00 - 0x3DE0];
+    int     field_3DE0[3][12];/* 0x3DE0 - model name codes */
+    char    pad_3E70[0x3F00 - 0x3E70];
     int     field_3F00[4];   /* 0x3F00 */
     int     field_3F10[4];   /* 0x3F10 - countdown, reset to 32 (800D6004/603C) */
     int     field_3F20[4];   /* 0x3F20 - cycle counter (800D6004/603C) */
@@ -492,6 +508,7 @@ void *s15c_dyncon_800D6434(DynCon *work, SVECTOR *pos, SVECTOR *step, int item_t
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6528.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7A84.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7AB4.s")
+int s15c_dyncon_800D7AB4(DynCon *work);
 int s15c_dyncon_800D7D44(DynCon *work)
 {
     int i, j;
@@ -551,6 +568,7 @@ void s15c_dyncon_800D7EF4(DynCon *work, int i, int model)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7F88.s")
+void s15c_dyncon_800D7F88(DynCon *work);
 void s15c_dyncon_800D82FC(DynCon *work)
 {
     int i;
@@ -620,8 +638,115 @@ void s15c_dyncon_800D82FC(DynCon *work)
         GM_FreeObject((OBJECT *)&work->field_3394[3].obj);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8510.s")
-int s15c_dyncon_800D8510(DynCon *work);
+int s15c_dyncon_800D8510(DynCon *work)
+{
+    int i;
+
+    for (i = 143; i >= 0; i--)
+    {
+        work->field_2C04[i] = 0;
+    }
+
+    for (i = 7; i >= 0; i--)
+    {
+        work->field_31E4[i] = 0;
+    }
+
+    for (i = 0; i < 4; i++)
+    {
+        work->field_4020[i] = 0;
+        (&s15c_dword_800E345C)[i] = 0;
+        work->field_3F20[i] = 0;
+    }
+
+    work->field_3C0C[0].vx = -1000;
+    work->field_3C0C[0].vy = 0;
+    work->field_3C0C[0].vz = -750;
+    work->field_3C0C[1].vx = 1000;
+    work->field_3C0C[1].vy = 1750;
+    work->field_3C0C[1].vz = 750;
+    work->field_3C0C[2].vx = -1000;
+    work->field_3C0C[2].vy = -750;
+    work->field_3C0C[2].vz = 0;
+    work->field_3C0C[3].vx = 1000;
+    work->field_3C0C[3].vy = 750;
+    work->field_3C0C[3].vz = 1750;
+
+    work->field_3F80[0][0] = -5000;
+    work->field_3F80[0][1] = -5500;
+    work->field_3F80[0][2] = -2000;
+    work->field_3F80[0][3] = -3000;
+    work->field_3F80[1][0] = 5000;
+    work->field_3F80[1][1] = -3000;
+    work->field_3F80[1][2] = 9000;
+    work->field_3F80[1][3] = 500;
+    work->field_3F80[2][0] = -9000;
+    work->field_3F80[2][1] = 3000;
+    work->field_3F80[2][2] = -5000;
+    work->field_3F80[2][3] = 6000;
+    work->field_3F80[3][0] = 2000;
+    work->field_3F80[3][1] = 6000;
+    work->field_3F80[3][2] = 5000;
+    work->field_3F80[3][3] = 9000;
+
+    work->field_3DE0[0][0] = GV_StrCode(s15c_aConuf_800E2DC8);
+    work->field_3DE0[0][1] = GV_StrCode(s15c_aConuf_800E2DF0);
+    work->field_3DE0[0][2] = GV_StrCode(s15c_aConuf_800E2DF8);
+    work->field_3DE0[0][3] = GV_StrCode(s15c_aConuf_800E2E00);
+    work->field_3DE0[0][4] = GV_StrCode(s15c_aBr_800E2E08);
+    work->field_3DE0[0][5] = GV_StrCode(s15c_aBr_800E2E0C);
+    work->field_3DE0[0][6] = GV_StrCode(s15c_aConub_800E2DD8);
+    work->field_3DE0[0][7] = GV_StrCode(s15c_aConub_800E2E10);
+    work->field_3DE0[0][8] = GV_StrCode(s15c_aConub_800E2E18);
+    work->field_3DE0[0][9] = GV_StrCode(s15c_aConub_800E2E20);
+    work->field_3DE0[0][10] = GV_StrCode(s15c_aBr_800E2E28);
+    work->field_3DE0[0][11] = GV_StrCode(s15c_aBr_800E2E2C);
+
+    work->field_3DE0[1][0] = GV_StrCode(s15c_aConuf_800E2DC8);
+    work->field_3DE0[1][1] = GV_StrCode(s15c_aConuf_800E2DF0);
+    work->field_3DE0[1][2] = GV_StrCode(s15c_aConuf_800E2DF8);
+    work->field_3DE0[1][3] = GV_StrCode(s15c_aConuf_800E2E00);
+    work->field_3DE0[1][4] = GV_StrCode(s15c_aConuf_800E2E00);
+    work->field_3DE0[1][5] = GV_StrCode(s15c_aConuf_800E2E00);
+    work->field_3DE0[1][6] = GV_StrCode(s15c_aConub_800E2DD8);
+    work->field_3DE0[1][7] = GV_StrCode(s15c_aConub_800E2E10);
+    work->field_3DE0[1][8] = GV_StrCode(s15c_aConub_800E2E18);
+    work->field_3DE0[1][9] = GV_StrCode(s15c_aConub_800E2E20);
+    work->field_3DE0[1][10] = GV_StrCode(s15c_aConub_800E2E20);
+    work->field_3DE0[1][11] = GV_StrCode(s15c_aConub_800E2E20);
+
+    work->field_3DE0[2][0] = GV_StrCode(s15c_aConuf_800E2DC8);
+    work->field_3DE0[2][1] = GV_StrCode(s15c_aConuf_800E2DF0);
+    work->field_3DE0[2][2] = GV_StrCode(s15c_aConuf_800E2DF8);
+    work->field_3DE0[2][3] = GV_StrCode(s15c_aConuf_800E2E00);
+    work->field_3DE0[2][4] = GV_StrCode(s15c_aConuf_800E2E00);
+    work->field_3DE0[2][5] = GV_StrCode(s15c_aConuf_800E2E00);
+    work->field_3DE0[2][6] = GV_StrCode(s15c_aConub_800E2DD8);
+    work->field_3DE0[2][7] = GV_StrCode(s15c_aConub_800E2E10);
+    work->field_3DE0[2][8] = GV_StrCode(s15c_aConub_800E2E18);
+    work->field_3DE0[2][9] = GV_StrCode(s15c_aConub_800E2E20);
+    work->field_3DE0[2][10] = GV_StrCode(s15c_aConub_800E2E20);
+    work->field_3DE0[2][11] = GV_StrCode(s15c_aConub_800E2E20);
+
+    s15c_dyncon_800D7F88(work);
+
+    if (work->field_4050 == 0)
+    {
+        return 1;
+    }
+
+    if (s15c_dyncon_800D7D44(work) >= 0)
+    {
+        if (s15c_dyncon_800D7AB4(work) < 0)
+        {
+            return -1;
+        }
+
+        return 1;
+    }
+
+    return -1;
+}
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D88C8.s")
 extern void s15c_dyncon_800D88C8(void *work);
 
