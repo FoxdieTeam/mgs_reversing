@@ -142,15 +142,19 @@ char    SECTION(".bss") s15c_dword_800E347C[8]; // could be smaller, it only has
 int     SECTION(".bss") s15c_dword_800E3484;
 int     SECTION(".bss") s15c_dword_800E3488;
 
-extern char s15c_dword_800E2E5C[];
-extern char s15c_aBarrel_800E2E4C[];
-extern char s15c_aShadow_800E2E54[];
-extern char s15c_aVala_800E2E44[];
-extern char s15c_aValwep_800E2E3C[];
-extern char s15c_aRaven_800E2E68[];
+const char s15c_dword_800E2E38[] = {0x0, 0xb3, 'B', 0x8c};
+const char s15c_aValwep_800E2E3C[] = "val_wep";
+const char s15c_aVala_800E2E44[] = "val_15a";
+const char s15c_aBarrel_800E2E4C[] = "barrel";
+const char s15c_aShadow_800E2E54[] = "shadow";
+const char s15c_dword_800E2E5C[] = {'v', 'a', 'l', 'c'};
+const char s15c_dword_800E2E60[] = {'a', 'n', '.', 'c'};
+const char s15c_dword_800E2E64[] = {0x0, 0x19, 0x0, 0xae};
+const char s15c_aRaven_800E2E68[] = {'R', 'A', 'V', 'E', 'N', 0x0, 0x0, 0x2};
 
 extern int     s15c_dword_800E345C; /* the map places this one at 0x800E3458 */
 
+extern SVECTOR s15c_dword_800C3600;
 extern SVECTOR s15c_dword_800C35E0[2];
 extern SVECTOR s15c_dword_800C35F0;
 extern SVECTOR s15c_dword_800C35F8;
@@ -1106,7 +1110,172 @@ void Valcan_800DA8E4(Work *work)
     DG_SetTmpLight(svecs, 500, 500);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA990.s")
+void s15c_crow_800DA990(Work *work)
+{
+    MATRIX  mtx;
+    SVECTOR rot;
+    short   level;
+    int     damage;
+
+    if (work->field_830 == 0 && work->field_82C == 1)
+    {
+        work->field_830 = 1;
+        work->field_834 = GV_RandU(work->field_770 != 3 ? 2 : 0x20) + 3;
+    }
+
+    if (work->field_830 == 1)
+    {
+        work->field_834--;
+
+        if (work->field_834 == 0)
+        {
+            dword_8009F480 = 1;
+            work->field_950 = 3;
+            work->field_82C = 0;
+            work->field_830 = 0;
+        }
+    }
+
+    if (work->field_83C == 0 && work->field_838 == 1)
+    {
+        work->field_83C = 1;
+        work->field_840 = GV_RandU(2) + 12;
+    }
+
+    if (work->field_83C == 1)
+    {
+        work->field_840--;
+
+        if (work->field_840 == 0)
+        {
+            dword_8009F49C = 1;
+            work->field_838 = 0;
+            work->field_83C = 0;
+        }
+    }
+
+    if (work->field_6A4 % 5 != 0)
+    {
+        return;
+    }
+
+    if (work->field_8DC++ >= 2)
+    {
+        work->field_8DC = 0;
+
+        if (work->field_8F0 != 0)
+        {
+            if (work->field_6A4 % 100 == 0)
+            {
+                switch (GV_RandU(4))
+                {
+                case 0:
+                    GM_SeSetMode(&work->field_910, 0x83, GM_SEMODE_BOMB);
+                    break;
+
+                case 1:
+                    GM_SeSetMode(&work->field_910, 0x88, GM_SEMODE_BOMB);
+                    break;
+
+                case 2:
+                case 3:
+                    GM_SeSetMode(&work->field_910, 0x85, GM_SEMODE_BOMB);
+                    break;
+                }
+            }
+            else if (work->field_6A4 % 100 == 50)
+            {
+                if (GV_RandU(2) == 0)
+                {
+                    GM_SeSetMode(&work->field_910, 0x84, GM_SEMODE_BOMB);
+                }
+            }
+        }
+    }
+
+    level = GM_GameLevel + 1;
+
+    switch (level)
+    {
+    case 0:
+    case 1:
+    default:
+        damage = 90;
+        break;
+
+    case 2:
+        damage = 135;
+        break;
+
+    case 3:
+        damage = 180;
+        break;
+
+    case 4:
+        damage = 225;
+        break;
+    }
+
+    if (work->field_91C == 0)
+    {
+        work->field_91C = 1;
+        return;
+    }
+
+    if (GM_GameLevel == 3)
+    {
+        work->field_5A4[1].vy += GV_RandS(0x20);
+    }
+
+    DG_SetPos(&work->field_A0.objs->objs[4].world);
+    DG_MovePos(&s15c_dword_800C3600);
+    rot.vx = 0x400;
+    rot.vy = 0;
+    rot.vz = 0;
+    DG_RotatePos(&rot);
+    ReadRotMatrix(&mtx);
+    NewBulletEx(0x920, &mtx, 2, 1, 0, 0x1E, damage, 0x7530, 1000);
+    Valcan_800DA8E4(work);
+}
+
+const char s15c_dword_800E2E84[] = {0x0, 0x0, 0x0, 0x0};
+const int s15c_dword_800E2E88 = 0x800DC358;
+const int s15c_dword_800E2E8C = 0x800DC378;
+const int s15c_dword_800E2E90 = 0x800DC38C;
+const int s15c_dword_800E2E94 = 0x800DC3A8;
+const int s15c_dword_800E2E98 = 0x800DC3D8;
+const int s15c_dword_800E2E9C = 0x800DC490;
+const int s15c_dword_800E2EA0 = 0x800DC4A8;
+const int s15c_dword_800E2EA4 = 0x800DC790;
+const int s15c_dword_800E2EA8 = 0x800DC4C0;
+const int s15c_dword_800E2EAC = 0x800DC54C;
+const int s15c_dword_800E2EB0 = 0x800DC790;
+const int s15c_dword_800E2EB4 = 0x800DC790;
+const int s15c_dword_800E2EB8 = 0x800DC564;
+const int s15c_dword_800E2EBC = 0x800DC57C;
+const int s15c_dword_800E2EC0 = 0x800DC5A8;
+const int s15c_dword_800E2EC4 = 0x800DC790;
+const int s15c_dword_800E2EC8 = 0x800DC790;
+const int s15c_dword_800E2ECC = 0x800DC5C8;
+const int s15c_dword_800E2ED0 = 0x800DC5E0;
+const int s15c_dword_800E2ED4 = 0x800DC60C;
+const int s15c_dword_800E2ED8 = 0x800DC62C;
+const int s15c_dword_800E2EDC = 0x800DC6E4;
+const int s15c_dword_800E2EE0 = 0x800DC650;
+const int s15c_dword_800E2EE4 = 0x800DC668;
+const int s15c_dword_800E2EE8 = 0x800DC6A0;
+const int s15c_dword_800E2EEC = 0x800DC6C0;
+const int s15c_dword_800E2EF0 = 0x800DC6E4;
+const int s15c_dword_800E2EF4 = 0x800DC730;
+const int s15c_dword_800E2EF8 = 0x800DC768;
+const int s15c_dword_800E2EFC = 0x800DC740;
+const int s15c_dword_800E2F00 = 0x800DC768;
+const char s15c_dword_800E2F04[] = {0x0, 0x0, 0x0, 0x0};
+const int s15c_dword_800E2F08 = 0x800DC904;
+const int s15c_dword_800E2F0C = 0x800DC904;
+const int s15c_dword_800E2F10 = 0x800DC938;
+const int s15c_dword_800E2F14 = 0x800DC97C;
+const int s15c_dword_800E2F18 = 0x800DC9C0;
 
 void Valcan_800DACCC(Work *work)
 {
