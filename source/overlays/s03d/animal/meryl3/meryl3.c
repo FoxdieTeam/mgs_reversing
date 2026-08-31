@@ -53,7 +53,7 @@ static void FreeModel(DG_OBJS *objs, DG_DEF *def)
 
 static void SwapModel(Work *work)
 {
-    if ((GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) || GM_Camera.first_person)
+    if ((GM_GameStatus & (STATE_BEHIND_CAMERA | STATE_CUT_IN)) || GM_Camera.first_person)
     {
         if (work->lod != 1)
         {

@@ -94,7 +94,7 @@ void s03d_800CCB2C(Work *work)
 {
     if (work->field_B00 != 0)
     {
-        if ( GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA) || GM_Camera.first_person )
+        if ( GM_GameStatus & (STATE_CUT_IN | STATE_BEHIND_CAMERA) || GM_Camera.first_person )
         {
             if (work->lod != 1)
             {

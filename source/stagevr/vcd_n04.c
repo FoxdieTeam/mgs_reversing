@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xa5dc, (NEWCHARA *)0x800cf9b4 }, //  CHARA_VR_PAUSEMENU, /* chara ＶＲポーズメニュー */
     { 0x5490, (NEWCHARA *)0x800d20b4 }, //  CHARA_VRBOX4,       /* chara ＶＲＢＯＸ４ */
     { 0xfed1, (NEWCHARA *)0x8005c9e8 }, //  CHARA_PADVIBRATE,   /* chara パッド振動 */
-    { 0x51c6, (NEWCHARA *)0x800c768c }, //  CHARA_CAT_IN,
+    { 0x51c6, (NEWCHARA *)0x800c768c }, //  CHARA_CAT_IN,       /* chara カットインカメラ */
 
     CHARA_END
 };

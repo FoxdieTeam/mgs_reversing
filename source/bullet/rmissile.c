@@ -140,7 +140,7 @@ static void rmissile_8006B924(Work *work)
     ctrl->skip_flag |= CTRL_SKIP_TRAP;
 
     ResetCameraState(work);
-    GM_GameStatus &= ~GAME_FLAG_BIT_07;
+    GM_GameStatus &= ~STATE_CUT_IN;
     HZD_ExecLeaveEvent(ctrl->map->hzd, &ctrl->evt);
 
     ctrl = GM_PlayerControl;

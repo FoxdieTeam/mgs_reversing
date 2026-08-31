@@ -1,15 +1,14 @@
 #include "cat_in.h"
 
 #include "common.h"
-#include "libgv/libgv.h"
+#include "strcode.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "libgv/libgv.h"
 #include "game/game.h"
 #include "takabe/thing.h"
-#include "strcode.h"
 
-typedef struct ZoomCameraWork
-{
+typedef struct _Work {
     GV_ACT  actor;
     SVECTOR eye;
     SVECTOR center;
@@ -17,28 +16,24 @@ typedef struct ZoomCameraWork
     int     enable_input;
     int    *timer;
     int    *dead;
-} ZoomCameraWork;
+} Work;
 
-typedef struct _ZoomWork
-{
+typedef struct _Work2 {
     GV_ACT actor;
     int    name;
-    ZoomCameraWork   *cam;
+    Work  *cam;
     int    cam_dead;
     int    timer;
     int    proc;
-} ZoomWork;
+} Work2;
 
-unsigned short cat_in_mes_list[] = { HASH_KILL };
+static u_short mes_list[] = { HASH_KILL };
 
-#define EXEC_LEVEL  GV_ACTOR_ASSIST
-#define EXEC_LEVEL2 GV_ACTOR_USER
-
-void ZoomCameraAct_800DF740( ZoomCameraWork *cam )
+static void Act( Work *cam )
 {
     DG_MakeCameraMatrix( DG_Chanl( 0 ), &cam->eye, &cam->center, cam->clip_distance );
 
-    GM_GameStatus |= GAME_FLAG_BIT_07;
+    GM_GameStatus |= STATE_CUT_IN;
     GM_PlayerStatus |= PLAYER_NOT_SIGHT;
 
     if ( GM_PlayerBody )
@@ -48,26 +43,26 @@ void ZoomCameraAct_800DF740( ZoomCameraWork *cam )
 
     if ( cam->enable_input == 1 )
     {
-        if ( ( GV_PadData[0].press & 0xFF ) != 0 )
+        if ( ( GV_PadData[ 0 ].press & 0xFF ) != 0 )
         {
             *cam->timer = 0;
         }
 
-        GV_PadData[0].status = 0;
-        GV_PadData[0].press = 0;
-        GV_PadData[0].release = 0;
-        GV_PadData[0].quick = 0;
-        GV_PadData[0].dir = -1;
-        GV_PadData[0].analog = 0;
+        GV_PadData[ 0 ].status = 0;
+        GV_PadData[ 0 ].press = 0;
+        GV_PadData[ 0 ].release = 0;
+        GV_PadData[ 0 ].quick = 0;
+        GV_PadData[ 0 ].dir = -1;
+        GV_PadData[ 0 ].analog = 0;
     }
 }
 
-void ZoomCameraDie_800DF80C( ZoomCameraWork *cam )
+static void Die( Work *cam )
 {
     *cam->dead = 1;
 }
 
-int ZoomCameraGetResources_800DF81C( ZoomCameraWork *cam, int name, int where )
+static int GetResources( Work *cam, int name, int where )
 {
     if ( !GCL_GetOption( 'c' ) )
     {
@@ -83,9 +78,9 @@ int ZoomCameraGetResources_800DF81C( ZoomCameraWork *cam, int name, int where )
     return 0;
 }
 
-void ZoomAct_800DF89C( ZoomWork *work )
+static void Act2( Work2 *work )
 {
-    if ( !THING_Msg_CheckMessage( work->name, 1, cat_in_mes_list ) )
+    if ( !THING_Msg_CheckMessage( work->name, 1, mes_list ) )
     {
         work->timer = -1;
     }
@@ -101,14 +96,14 @@ void ZoomAct_800DF89C( ZoomWork *work )
     }
 }
 
-void ZoomDie_800DF910( ZoomWork *work )
+static void Die2( Work2 *work )
 {
     if ( !work->cam_dead )
     {
         GV_DestroyActorQuick( &work->cam->actor );
     }
 
-    GM_GameStatus &= ~GAME_FLAG_BIT_07;
+    GM_GameStatus &= ~STATE_CUT_IN;
     GM_PlayerStatus &= ~PLAYER_NOT_SIGHT;
 
     if ( GM_PlayerBody )
@@ -124,16 +119,16 @@ void ZoomDie_800DF910( ZoomWork *work )
     }
 }
 
-int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
+static int NewCutInCamera( Work2 *work, int name, int where )
 {
-    ZoomCameraWork *cam;
+    Work *cam;
 
     work->name = name;
     work->cam_dead = 1;
     work->timer = THING_Gcl_GetInt( 't' );
     work->proc = THING_Gcl_GetInt( 'e' );
 
-    cam = GV_NewActor( EXEC_LEVEL, sizeof( ZoomCameraWork ) );
+    cam = GV_NewActor( GV_ACTOR_ASSIST, sizeof( Work ) );
     work->cam = cam;
 
     if ( cam == NULL )
@@ -141,9 +136,9 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
         return -1;
     }
 
-    GV_SetNamedActor( &( cam->actor ), ZoomCameraAct_800DF740, ZoomCameraDie_800DF80C, "cat_in.c" );
+    GV_SetNamedActor( &( cam->actor ), Act, Die, "cat_in.c" );
 
-    ZoomCameraGetResources_800DF81C( cam, name, where );
+    GetResources( cam, name, where );
     cam->timer = &work->timer;
     cam->dead = &work->cam_dead;
 
@@ -151,16 +146,16 @@ int NewZoomCamera_800DF9BC( ZoomWork *work, int name, int where )
     return 0;
 }
 
-void *NewZoom_800DFA88(int name, int where, int argc, char **argv)
+void *NewCutInCameraSet( int name, int where, int argc, char **argv )
 {
-    ZoomWork *work;
+    Work2 *work;
 
-    work = GV_NewActor( EXEC_LEVEL2, sizeof( ZoomWork ) );
+    work = GV_NewActor( GV_ACTOR_USER, sizeof( Work2 ) );
     if (work != NULL)
     {
-        GV_SetNamedActor( &work->actor, ZoomAct_800DF89C, ZoomDie_800DF910, "cat_in.c" );
+        GV_SetNamedActor( &work->actor, Act2, Die2, "cat_in.c" );
 
-        if ( NewZoomCamera_800DF9BC( work, name, where ) < 0 )
+        if ( NewCutInCamera( work, name, where ) < 0 )
         {
             GV_DestroyActor( &work->actor );
             return NULL;

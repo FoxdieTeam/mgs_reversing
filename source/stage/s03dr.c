@@ -20,7 +20,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x42e4, (NEWCHARA *)0x800d7994 }, //  CHARA_HIYOKO,       /* chara ヒヨコ星 */
     { 0x5147, (NEWCHARA *)0x800c6b78 }, //  CHARA_RADARPOINT,   /* chara レーダーポイント */
     { 0xdd8b, (NEWCHARA *)0x800c6e0c }, //  CHARA_INTRUDECAM,   /* chara イントルードカメラ */
-    { 0x51c6, (NEWCHARA *)0x800daa58 }, //  CHARA_CAT_IN,
+    { 0x51c6, (NEWCHARA *)0x800daa58 }, //  CHARA_CAT_IN,       /* chara カットインカメラ */
     { 0x0fad, (NEWCHARA *)0x800c7008 }, //  CHARA_MOTIONSE,
 
     { 0x0003, (NEWCHARA *)0x800d87bc }, //  DEMO_FADEIN,

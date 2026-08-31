@@ -259,7 +259,7 @@ STATIC int get_pan_vol_bomb_camera(SVECTOR *pos, int size, SEPARAM *param)
 
 STATIC int get_pan_vol_size(SEPARAM *param, SVECTOR *pos, int size)
 {
-    if (!(GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) && !GM_Camera.first_person)
+    if (!(GM_GameStatus & (STATE_BEHIND_CAMERA | STATE_CUT_IN)) && !GM_Camera.first_person)
     {
         if (get_pan_vol_world(pos, size, param) < 0)
         {
@@ -279,7 +279,7 @@ STATIC int get_pan_vol_size(SEPARAM *param, SVECTOR *pos, int size)
 
 STATIC int get_sound_normal(SEPARAM *param, SVECTOR *pos)
 {
-    if (!(GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) && !GM_Camera.first_person)
+    if (!(GM_GameStatus & (STATE_BEHIND_CAMERA | STATE_CUT_IN)) && !GM_Camera.first_person)
     {
         if (get_pan_vol_world(pos, 0, param) < 0)
         {
@@ -299,7 +299,7 @@ STATIC int get_sound_normal(SEPARAM *param, SVECTOR *pos)
 
 STATIC int get_sound_bomb(SEPARAM *param, SVECTOR *pos)
 {
-    if (!(GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) && !GM_Camera.first_person)
+    if (!(GM_GameStatus & (STATE_BEHIND_CAMERA | STATE_CUT_IN)) && !GM_Camera.first_person)
     {
         if (get_pan_vol_bomb_world(pos, 0, param) < 0)
         {
@@ -320,7 +320,7 @@ STATIC int get_sound_bomb(SEPARAM *param, SVECTOR *pos)
 
 STATIC int get_sound_real(SEPARAM *param, SVECTOR *pos)
 {
-    if (!(GM_GameStatus & (STATE_BEHIND_CAMERA | GAME_FLAG_BIT_07)) && !GM_Camera.first_person)
+    if (!(GM_GameStatus & (STATE_BEHIND_CAMERA | STATE_CUT_IN)) && !GM_Camera.first_person)
     {
         return -1;
     }

@@ -423,7 +423,7 @@ void s07c_meryl72_unk2_800CF568(Meryl72Work* work)
         work->count3 = 0;
         work->fC04 = 0;
 
-        GM_GameStatus &= ~(STATE_PADRELEASE | STATE_PAUSE_ONLY | GAME_FLAG_BIT_07);
+        GM_GameStatus &= ~(STATE_PADRELEASE | STATE_PAUSE_ONLY | STATE_CUT_IN);
         s07c_meryl72_unk2_800CECEC(work, 1);
     }
     else
@@ -750,7 +750,7 @@ void s07c_meryl72_unk2_800CFD80(Meryl72Work *work)
         work->count3 = 0;
         work->fC04 = 0;
 
-        GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY | GAME_FLAG_BIT_07;
+        GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY | STATE_CUT_IN;
         s07c_meryl72_unk2_800CECEC(work, 0);
     }
 }

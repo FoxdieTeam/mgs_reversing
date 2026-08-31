@@ -862,11 +862,11 @@ STATIC int CheckEvents(GV_ACT *work)
     ChangeCamera(i, old_i);
     printf("[%d]change camera %d\n", GV_Time, i);
 
-    GM_GameStatus &= ~GAME_FLAG_BIT_07;
+    GM_GameStatus &= ~STATE_CUT_IN;
 
     if (GM_CameraList[i].trg.pad & 1)
     {
-        GM_GameStatus |= GAME_FLAG_BIT_07;
+        GM_GameStatus |= STATE_CUT_IN;
     }
 
     return 1;
