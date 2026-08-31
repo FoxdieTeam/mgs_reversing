@@ -404,7 +404,33 @@ void s15c_dyncon_800D5A3C(DynCon *work, int code, int i, int mode, int rz, int r
     work->field_24[i + 4].mov.vy += vec.vy;
     work->field_24[i + 4].mov.vz += vec.vz;
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5C38.s")
+void s15c_dyncon_800D5C38(DynCon *work, int i, int j)
+{
+    OBJECT_NO_ROTS *obj;
+    SVECTOR         rot;
+
+    obj = &work->field_2E44[i * 2].obj;
+    rot = work->field_24[j].rot;
+    DG_SetPos2(&work->field_24[j].mov, &rot);
+    s15c_dyncon_800D3EBC(obj, GV_StrCode(s15c_aPan_800E2D70),
+                         DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE);
+    obj->objs->objs[0].raise = -250;
+    work->field_31E4[i * 2] = 1;
+    GM_ActObject2((OBJECT *)obj);
+
+    if (i % 2 == 1)
+    {
+        rot.vy += 0x800;
+    }
+
+    obj = &work->field_2E44[i * 2 + 1].obj;
+    DG_SetPos2(&work->field_24[j].mov, &rot);
+    s15c_dyncon_800D3EBC(obj, GV_StrCode(s15c_aPan_800E2D78),
+                         DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE);
+    obj->objs->objs[0].raise = -250;
+    work->field_31E4[i * 2 + 1] = 1;
+    GM_ActObject2((OBJECT *)obj);
+}
 void s15c_dyncon_800D5DC0(SVECTOR *vec, SVECTOR *target, int len)
 {
     vec->vx = (vec->vx * (len - 1) + target->vx) / len;
