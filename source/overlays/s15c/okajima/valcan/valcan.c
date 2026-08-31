@@ -1924,8 +1924,108 @@ void s15c_crow_800DB9F0(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DBCB4.s")
-void s15c_crow_800DBCB4(Work *work);
+void s15c_crow_800DBCB4(Work *work)
+{
+    if ((work->field_770 == 1 && work->field_774 != 0) || work->field_770 == 2 ||
+        work->field_770 == 3 || work->field_76C == 0 || work->field_774 == 2 ||
+        work->field_774 == 3)
+    {
+        if ((u_int)(work->field_774 - 2) < 2)
+        {
+            work->field_774 = work->field_770;
+        }
+
+        switch (work->field_740)
+        {
+        case 0:
+            work->field_768 = 1;
+            work->control.turn.vy = work->field_744[1];
+            break;
+
+        case 1:
+            work->field_768 = 0;
+            work->control.turn.vy = work->field_744[0];
+            break;
+
+        case 2:
+            work->field_768 = 3;
+            work->control.turn.vy = work->field_744[3];
+            break;
+
+        case 3:
+            work->field_768 = 2;
+            work->control.turn.vy = work->field_744[2];
+            break;
+        }
+
+        work->control.rot.vy = work->control.turn.vy;
+        Valcan_800DB500(work);
+        Valcan_800DB868(work);
+        work->field_758 = 0;
+        work->field_75C = 0;
+    }
+    else
+    {
+        work->field_75C--;
+
+        if (work->field_75C >= 40)
+        {
+            work->control.turn.vy += 0x10;
+            return;
+        }
+
+        if (work->field_75C >= 8)
+        {
+            work->control.turn.vy -= 0x40;
+            return;
+        }
+
+        if (work->field_75C >= 0)
+        {
+            switch (work->field_740)
+            {
+            case 0:
+                work->control.mov.vz =
+                    (work->control.mov.vz +
+                     work->field_6F8[work->field_738][work->field_73A][1]) / 2;
+                work->control.turn.vy = work->field_744[1];
+                work->field_768 = 1;
+                break;
+
+            case 1:
+                work->control.mov.vz =
+                    (work->control.mov.vz +
+                     work->field_6F8[work->field_738][work->field_73A][1]) / 2;
+                work->control.turn.vy = work->field_744[0];
+                work->field_768 = 0;
+                break;
+
+            case 2:
+                work->control.mov.vx =
+                    (work->control.mov.vx +
+                     work->field_6F8[work->field_738][work->field_73A][0]) / 2;
+                work->control.turn.vy = work->field_744[3];
+                work->field_768 = 3;
+                break;
+
+            case 3:
+                work->control.mov.vx =
+                    (work->control.mov.vx +
+                     work->field_6F8[work->field_738][work->field_73A][0]) / 2;
+                work->control.turn.vy = work->field_744[2];
+                work->field_768 = 2;
+                break;
+            }
+
+            return;
+        }
+
+        Valcan_800DB500(work);
+        Valcan_800DB868(work);
+        work->field_758 = 0;
+        work->field_75C = 0;
+    }
+}
 
 void Valcan_800DBF74(Work *work)
 {
