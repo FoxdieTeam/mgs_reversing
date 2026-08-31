@@ -66,7 +66,12 @@ typedef struct _DynPan
 typedef struct _DynBlock
 {
     OBJECT_NO_ROTS obj;      /* 0x00 */
-    char           pad_24[0x80 - 0x24];
+    SVECTOR       *mov;      /* 0x24 - points at a DynSlot's mov */
+    SVECTOR       *rot;      /* 0x28 - points at the same DynSlot's rot */
+    SVECTOR        field_2C; /* 0x2C */
+    SVECTOR        field_34; /* 0x34 */
+    MATRIX         light[2]; /* 0x3C */
+    int            field_7C; /* 0x7C */
 } DynBlock;
 
 typedef struct _DynCon
@@ -506,8 +511,73 @@ void s15c_dyncon_800D6128(DynCon *work, SVECTOR *pos, int range)
         out[i] = work->field_3F30[i];
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D61E0.s")
-void s15c_dyncon_800D61E0(DynCon *work);
+void s15c_dyncon_800D61E0(DynCon *work)
+{
+    OBJECT_NO_ROTS *obj;
+    SVECTOR        *vec;
+    int             i;
+
+    obj = &work->field_3394[0].obj;
+    vec = &work->field_3394[0].field_34;
+    work->field_3394[0].field_2C = DG_ZeroVector;
+    vec->vx = -250;
+    vec->vy = 0x708;
+    vec->vz = -250;
+    GM_InitObjectNoRots(obj, 0x4D62,
+                        DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND |
+                            DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE,
+                        0);
+    GM_ConfigObjectLight((OBJECT *)obj, work->field_3394[0].light);
+    work->field_3394[0].obj.objs->objs[0].raise = 250;
+
+    obj = &work->field_3394[1].obj;
+    vec = &work->field_3394[1].field_34;
+    work->field_3394[1].field_2C = DG_ZeroVector;
+    vec->vx = 250;
+    vec->vy = 0x708;
+    vec->vz = -250;
+    GM_InitObjectNoRots(obj, 0x4D5F,
+                        DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND |
+                            DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE,
+                        0);
+    GM_ConfigObjectLight((OBJECT *)obj, work->field_3394[1].light);
+    work->field_3394[1].obj.objs->objs[0].raise = 250;
+
+    obj = &work->field_3394[2].obj;
+    vec = &work->field_3394[2].field_34;
+    work->field_3394[2].field_2C = DG_ZeroVector;
+    vec->vx = -250;
+    vec->vy = 0x708;
+    vec->vz = -250;
+    GM_InitObjectNoRots(obj, 0x4D5F,
+                        DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND |
+                            DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE,
+                        0);
+    GM_ConfigObjectLight((OBJECT *)obj, work->field_3394[2].light);
+    work->field_3394[2].obj.objs->objs[0].raise = 0;
+
+    obj = &work->field_3394[3].obj;
+    vec = &work->field_3394[3].field_34;
+    work->field_3394[3].field_2C = DG_ZeroVector;
+    vec->vx = 250;
+    vec->vy = 0x708;
+    vec->vz = -250;
+    GM_InitObjectNoRots(obj, 0x4D63,
+                        DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND |
+                            DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE,
+                        0);
+    GM_ConfigObjectLight((OBJECT *)obj, work->field_3394[3].light);
+    work->field_3394[3].obj.objs->objs[0].raise = 250;
+
+    for (i = 0; i < 4; i++)
+    {
+        int n = work->field_3F00[i] / 4 * 8 + work->field_3F00[i] % 4 + 4;
+
+        work->field_3394[i].mov = &work->field_24[n].mov;
+        work->field_3394[i].rot = &work->field_24[n].rot;
+        work->field_3394[i].field_7C = 0;
+    }
+}
 extern void *NewItemPut(SVECTOR *pos, SVECTOR *step, Item_Info *info);
 
 void *s15c_dyncon_800D6434(DynCon *work, SVECTOR *pos, SVECTOR *step, int item_type)

@@ -2266,7 +2266,6 @@ void s15c_crow_800DC318(Work *work)
 }
 
 
-void s15c_crow_800DC318(Work *work);
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC7A0.s")
 
 const char s15c_dword_800E2F04[] = {0x0, 0x0, 0x0, 0x0};
