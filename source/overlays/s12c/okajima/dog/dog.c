@@ -4171,7 +4171,7 @@ void s12c_dog_800D1DA0(Work *work)
                 s12c_dog_800D1B54(work, i);
                 s12c_dog_800CAD8C(work, i);
 
-                if ((GM_GameStatus & (GAME_FLAG_BIT_07 | STATE_BEHIND_CAMERA)) != 0 ||
+                if ((GM_GameStatus & (STATE_CUT_IN | STATE_BEHIND_CAMERA)) != 0 ||
                     GM_Camera.first_person != 0)
                 {
                     if (work->field_448[i] != 1)

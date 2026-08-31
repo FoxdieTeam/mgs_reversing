@@ -58,7 +58,7 @@ TInitKillFn gMenuKillFns_8009E2B4[] = {
 MenuPrim menu_prim = {0, 0, 0, {0, 0}};
 TextConfig gMenuTextConfig_8009E2E4 = {0, 0, 0, 0x64808080};
 
-void menuman_act_800386A4(MenuWork *work)
+static void Act(MenuWork *work)
 {
     u_long *pOtStart;
     int     idx_as_flag;
@@ -89,7 +89,7 @@ void menuman_act_800386A4(MenuWork *work)
     addPrim(pOtStart, &work->field_4C_drawEnv[GV_Clock]);
 }
 
-void menuman_kill_800387E8(MenuWork *work)
+static void Die(MenuWork *work)
 {
     TInitKillFn *pIter;
 
@@ -103,7 +103,7 @@ void menuman_kill_800387E8(MenuWork *work)
     menu_viewer_kill(work);
 }
 
-void menu_init_subsystems_8003884C(MenuWork *work)
+static void InitWork(MenuWork *work)
 {
     TInitKillFn *pIter;
     DRAWENV      drawEnv;
@@ -141,9 +141,8 @@ void menu_init_subsystems_8003884C(MenuWork *work)
 
 void menuman_init_80038954(void)
 {
-    GV_SetNamedActor(&Work.actor, menuman_act_800386A4,
-                     menuman_kill_800387E8, "menuman.c");
-    menu_init_subsystems_8003884C(&Work);
+    GV_SetNamedActor(&Work.actor, Act, Die, "menuman.c");
+    InitWork(&Work);
     MENU_InitRadioTable();
 }
 
