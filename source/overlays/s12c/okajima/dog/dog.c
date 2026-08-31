@@ -6,6 +6,7 @@
 #include "game/camera.h"
 #include "linkvar.h"
 #include "okajima/blood.h"
+#include "wolf_eye.h"
 
 typedef struct _Work
 {
@@ -37,7 +38,7 @@ typedef struct _Work
     u_short  field_14A0[3];
     char     pad14A6[0x2];
     int      field_14A8[3];
-    int      unk14B4;
+    int      field_14B4;
     int      field_14B8[3];
     int      field_14C4;
     int      field_14C8[3];
@@ -133,16 +134,13 @@ SVECTOR s12c_dword_800C3458 = {64512, 0, 0};
 
 extern GM_CameraSystemWork GM_Camera;
 
-extern SVECTOR s12c_800DA418;
-extern int     s12c_800DA420;
-
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void  AN_Breath(MATRIX *world);
 void  AN_Breath_2(MATRIX *world);
 void  AN_Sleep(SVECTOR *pos);
 void  AN_Unknown_800C3B7C(MATRIX *matrix);
-void *NewWolfEye_800D3930(MATRIX *root, int *visible);
 void *AN_Unknown_800CA320(MATRIX *mat, int mark);
+void  s12c_dog_800CEB74(Work *work, int index);
 
 void Dog_800C9E4C(Work *work, int index)
 {
@@ -329,7 +327,7 @@ void s12c_dog_800CA098(Work *work, int index)
 }
 
 // Duplicate of d03a_red_alrt_800C437C
-int Dog_800CA3C0(unsigned short name, int nhashes, unsigned short *hashes)
+int Dog_800CA3C0(u_short name, int nhashes, u_short *hashes)
 {
     GV_MSG *msg;
     int     nmsgs;
@@ -737,16 +735,16 @@ void Dog_800CAFB0(Work *work, int index)
     }
     target1 = work->field_1188[index];
     GM_SetTarget(target1, DOG_TARGET_CLASS, ENEMY_SIDE, &svec1);
-    GM_SetPowerTarget(target1, POWER_DECREASE, -1, work->unk14B4, 0xFF, &DG_ZeroVector);
+    GM_SetPowerTarget(target1, POWER_DECREASE, -1, work->field_14B4, 0xFF, &DG_ZeroVector);
 
     target2 = &work->field_1194[index];
     GM_SetTarget(target2, TARGET_POWER, ENEMY_SIDE, &svec2);
     GM_SetPowerTarget(target2, POWER_ONCE, 2, 0, 0, &DG_ZeroVector);
 }
 
-void Dog_800CB0C8(int *arg0, int arg1, int arg2)
+void Dog_800CB0C8(int *value, int target, int steps)
 {
-    *arg0 = ((*arg0 * (arg2 - 1)) + arg1) / arg2;
+    *value = ((*value * (steps - 1)) + target) / steps;
 }
 
 void s12c_dog_800CB114(Work *work, int index)
@@ -787,13 +785,13 @@ void s12c_dog_800CB180(Work *work, int index)
     }
 }
 
-void Dog_800CB23C(Work *work, int arg1, int field_1510, int index)
+void Dog_800CB23C(Work *work, int action, int next, int index)
 {
-    if (work->field_1494[index] != arg1)
+    if (work->field_1494[index] != action)
     {
-        s12c_dog_800CAC84(work, index, arg1);
-        work->field_1494[index] = arg1;
-        GM_ConfigObjectAction(&work->field_19C[index], work->field_1698[arg1], 0, 4);
+        s12c_dog_800CAC84(work, index, action);
+        work->field_1494[index] = action;
+        GM_ConfigObjectAction(&work->field_19C[index], work->field_1698[action], 0, 4);
     }
     else if (work->field_19C[index].is_end == 1)
     {
@@ -805,16 +803,16 @@ void Dog_800CB23C(Work *work, int arg1, int field_1510, int index)
         {
             work->field_14EC[index] = 0;
         }
-        work->field_1510[index] = field_1510;
+        work->field_1510[index] = next;
     }
 }
 
-void Dog_800CB324(Work *work, int arg1, int arg2, int field_1510, int index)
+void Dog_800CB324(Work *work, int action, int next_action, int next, int index)
 {
-    if (work->field_1494[index] != arg1)
+    if (work->field_1494[index] != action)
     {
-        work->field_1494[index] = arg1;
-        GM_ConfigObjectAction(&work->field_19C[index], work->field_1698[arg1], 0, 4);
+        work->field_1494[index] = action;
+        GM_ConfigObjectAction(&work->field_19C[index], work->field_1698[action], 0, 4);
     }
     else if (work->field_19C[index].is_end == 1)
     {
@@ -826,40 +824,40 @@ void Dog_800CB324(Work *work, int arg1, int arg2, int field_1510, int index)
         {
             work->field_14EC[index] = 0;
         }
-        work->field_1494[index] = arg2;
-        GM_ConfigObjectAction(&work->field_19C[index], work->field_1698[arg2], 0, 4);
-        work->field_1510[index] = field_1510;
+        work->field_1494[index] = next_action;
+        GM_ConfigObjectAction(&work->field_19C[index], work->field_1698[next_action], 0, 4);
+        work->field_1510[index] = next;
     }
 }
 
-void s12c_dog_800CB42C(Work *work, int index1, int arg2, int arg3, int index2, unsigned int arg5)
+void s12c_dog_800CB42C(Work *work, int action, int next, int next_alt, int index, u_int chance)
 {
-    int temp_a0;
+    int cur;
 
-    temp_a0 = work->field_1494[index2];
-    if (temp_a0 != index1)
+    cur = work->field_1494[index];
+    if (cur != action)
     {
-        s12c_dog_800CAC84(work, index2, index1);
-        work->field_1494[index2] = index1;
-        GM_ConfigObjectAction(&work->field_19C[index2], work->field_1698[index1], 0, 4);
+        s12c_dog_800CAC84(work, index, action);
+        work->field_1494[index] = action;
+        GM_ConfigObjectAction(&work->field_19C[index], work->field_1698[action], 0, 4);
     }
-    else if (work->field_19C[index2].is_end == 1)
+    else if (work->field_19C[index].is_end == 1)
     {
-        if (temp_a0 != 13)
+        if (cur != 13)
         {
-            work->field_14EC[index2] = -1;
+            work->field_14EC[index] = -1;
         }
         else
         {
-            work->field_14EC[index2] = 0;
+            work->field_14EC[index] = 0;
         }
-        if (GV_RandU(arg5) != 0)
+        if (GV_RandU(chance) != 0)
         {
-            work->field_1510[index2] = arg2;
+            work->field_1510[index] = next;
         }
         else
         {
-            work->field_1510[index2] = arg3;
+            work->field_1510[index] = next_alt;
         }
     }
 }
@@ -940,12 +938,12 @@ void s12c_dog_800CB714(Work *work, int index)
     SVECTOR  pos[2];
     SVECTOR  head;
     SVECTOR  tail;
-    MATRIX   unused;
+    MATRIX   cleared; /* zeroed on the stack by the original and never read */
     CONTROL *control;
     SVECTOR *quad;
     OBJECT  *object;
 
-    unused = DG_ZeroMatrix;
+    cleared = DG_ZeroMatrix;
     object = &work->field_19C[index];
 
     head.vx = object->objs->objs[16].world.t[0];
@@ -2111,10 +2109,10 @@ void s12c_dog_800CDBC4(Work *work, int index)
 void s12c_dog_800CE034(Work *work, int index)
 {
     CONTROL *control;
-    SVECTOR  unused;
+    SVECTOR  saved_rot; /* written on the stack by the original and never read */
     int      off;
 
-    unused.vx = work->field_14A0[index];
+    saved_rot.vx = work->field_14A0[index];
     control = &work->field_28[index];
     off = index * 8;
 
@@ -2710,7 +2708,7 @@ void s12c_dog_800CEB74(Work *work, int index)
 }
 
 const char s12c_dword_800D9F48[] = {0x0, 0x0, 0x0, 0x0};
-extern void s12c_dog_800CEB74(Work *work, int index);
+
 void s12c_dog_800CF578(Work *work, int idx)
 {
     CONTROL *ctrl = &work->field_28[idx];
@@ -4239,7 +4237,6 @@ void s12c_dog_800D1DA0(Work *work)
 
 void DogDie_800D2798(Work *work)
 {
-    // https://i.kym-cdn.com/photos/images/newsfeed/001/464/596/d38.jpg
     int i;
 
     for (i = 0; i < work->field_1278 + 1; i++)
@@ -4283,7 +4280,7 @@ int DogGetInts_800D2904(char *opt, int *out)
     char *result;
 
     count = 0;
-    out2 = out;
+    out2 = out; /* the walked copy is what keeps out in its own register */
 
     while ((result = GCL_NextStr()) != NULL)
     {
@@ -4376,11 +4373,11 @@ int s12c_dog_800D295C(Work *work, int name, int map_name)
 
     if ((opt = GCL_GetOption('l')) != NULL)
     {
-        work->unk14B4 = GCL_StrToInt(opt);
+        work->field_14B4 = GCL_StrToInt(opt);
     }
     else
     {
-        work->unk14B4 = 256;
+        work->field_14B4 = 256;
     }
 
     if ((opt = GCL_GetOption('d')) != NULL)
@@ -4658,7 +4655,7 @@ int s12c_dog_800D295C(Work *work, int name, int map_name)
 }
 
 
-void *NewDog(int arg0, int arg1)
+void *NewDog(int name, int where)
 {
     Work *work;
 
@@ -4666,11 +4663,11 @@ void *NewDog(int arg0, int arg1)
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s12c_dog_800D1DA0, DogDie_800D2798, "dog.c");
-        if (s12c_dog_800D295C(work, arg0, arg1) < 0)
+        if (s12c_dog_800D295C(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
-    return (void *)work;
+    return work;
 }
