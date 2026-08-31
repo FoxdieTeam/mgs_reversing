@@ -10,110 +10,110 @@
 
 typedef struct _Work
 {
-    GV_ACT   actor;
-    int      field_20;
-    int      field_24;
-    CONTROL  field_28[3];
-    OBJECT   field_19C[3];
+    GV_ACT         actor;
+    int            field_20;
+    int            field_24;
+    CONTROL        field_28[3];
+    OBJECT         field_19C[3];
     int            field_448[3];
     DG_DEF        *field_454;
     DG_DEF        *field_458;
     MOTION_CONTROL field_45C[3];
     MOTION_SEGMENT field_54C[3][19];
     SVECTOR        field_D50[3][18];
-    SVECTOR  field_F00[3][18];   /* 0x90 per dog, the block Dog_800CA458 clears */
-    SVECTOR  field_10B0[3];
-    MATRIX   field_10C8[3][2];
-    TARGET  *field_1188[3];
-    TARGET   field_1194[3];
-    HOMING  *field_126C[3];
-    short    field_1278;
-    short    field_127A[2];
-    short    field_127E[2];
-    short    field_1282[2];
-    SVECTOR  field_1286[2][32];
-    char     pad1486[0x2];
-    int      field_1488[3];
-    int      field_1494[3];
-    u_short  field_14A0[3];
-    char     pad14A6[0x2];
-    int      field_14A8[3];
-    int      field_14B4;
-    int      field_14B8[3];
-    int      field_14C4;
-    int      field_14C8[3];
-    int      field_14D4[3];
-    int      field_14E0[3];
-    int      field_14EC[3];
-    int      field_14F8[3];
-    int      field_1504[3];
-    int      field_1510[3];
-    int      field_151C[3];
-    int      field_1528;
-    SVECTOR  field_152C[3];
-    int      field_1544[3];
-    int      field_1550[3];
-    int      field_155C[3];
-    int      field_1568[3];
-    int      field_1574[3];
-    int      field_1580[3];
-    int      field_158C[3];
-    int      field_1598[3];
-    int      field_15A4[3];
-    int      field_15B0[3];
-    int      field_15BC[3];
-    int      field_15C8[3];
-    char     pad15D4[0x8];
-    int      field_15DC;
-    int      field_15E0;
-    char     pad15E4[0x4];
-    SVECTOR  field_15E8;
-    char     pad15F0[0x4];
-    int      field_15F4;
-    int      field_15F8;
-    int      field_15FC;
-    int      field_1600;
-    int      field_1604;
-    int      field_1608;
-    int      field_160C;
-    int      field_1610;
-    int      field_1614;
-    int      field_1618;
-    SVECTOR  field_161C[3][4];
-    DG_PRIM *field_167C[3];
-    int      field_1688;
-    SVECTOR  field_168C;
-    char     pad1694[0x4];
-    int      field_1698[30];
-    char     pad1710[0x30];
-    int      field_1740;
-    int      field_1744;
-    int      field_1748;
-    SVECTOR  field_174C;
-    SVECTOR  field_1754;
-    SVECTOR  field_175C;
-    SVECTOR  field_1764;
-    int      field_176C;
-    int      field_1770;
-    int      field_1774;
-    int      field_1778;
-    int      field_177C;
-    int      field_1780;
-    int      field_1784;
-    int      field_1788;
-    SVECTOR  field_178C;
-    int      field_1794;
-    int      field_1798;
-    int      field_179C;
-    int      field_17A0;
-    int      field_17A4;
-    int      field_17A8;
-    int      field_17AC;
-    int      field_17B0;
-    int      field_17B4;
-    char     pad17B8[0x18];
-    int      field_17D0[3];
-    int      field_17DC[3];
+    SVECTOR        field_F00[3][18]; /* 0x90 per dog, the block Dog_800CA458 clears */
+    SVECTOR        field_10B0[3];
+    MATRIX         field_10C8[3][2];
+    TARGET        *field_1188[3];
+    TARGET         field_1194[3];
+    HOMING        *field_126C[3];
+    short          field_1278;
+    short          field_127A[2];
+    short          field_127E[2];
+    short          field_1282[2];
+    SVECTOR        field_1286[2][32];
+    char           pad_1486[0x1488 - 0x1486];
+    int            field_1488[3];
+    int            field_1494[3];
+    u_short        field_14A0[3];
+    char           pad_14A6[0x14A8 - 0x14A6];
+    int            field_14A8[3];
+    int            field_14B4;
+    int            field_14B8[3];
+    int            field_14C4;
+    int            field_14C8[3];
+    int            field_14D4[3];
+    int            field_14E0[3];
+    int            field_14EC[3];
+    int            field_14F8[3];
+    int            field_1504[3];
+    int            field_1510[3];
+    int            field_151C[3];
+    int            field_1528;
+    SVECTOR        field_152C[3];
+    int            field_1544[3];
+    int            field_1550[3];
+    int            field_155C[3];
+    int            field_1568[3];
+    int            field_1574[3];
+    int            field_1580[3];
+    int            field_158C[3];
+    int            field_1598[3];
+    int            field_15A4[3];
+    int            field_15B0[3];
+    int            field_15BC[3];
+    int            field_15C8[3];
+    char           pad_15D4[0x15DC - 0x15D4];
+    int            field_15DC;
+    int            field_15E0;
+    char           pad_15E4[0x15E8 - 0x15E4];
+    SVECTOR        field_15E8;
+    char           pad_15F0[0x15F4 - 0x15F0];
+    int            field_15F4;
+    int            field_15F8;
+    int            field_15FC;
+    int            field_1600;
+    int            field_1604;
+    int            field_1608;
+    int            field_160C;
+    int            field_1610;
+    int            field_1614;
+    int            field_1618;
+    SVECTOR        field_161C[3][4];
+    DG_PRIM       *field_167C[3];
+    int            field_1688;
+    SVECTOR        field_168C;
+    char           pad_1694[0x1698 - 0x1694];
+    int            field_1698[30];
+    char           pad_1710[0x1740 - 0x1710];
+    int            field_1740;
+    int            field_1744;
+    int            field_1748;
+    SVECTOR        field_174C;
+    SVECTOR        field_1754;
+    SVECTOR        field_175C;
+    SVECTOR        field_1764;
+    int            field_176C;
+    int            field_1770;
+    int            field_1774;
+    int            field_1778;
+    int            field_177C;
+    int            field_1780;
+    int            field_1784;
+    int            field_1788;
+    SVECTOR        field_178C;
+    int            field_1794;
+    int            field_1798;
+    int            field_179C;
+    int            field_17A0;
+    int            field_17A4;
+    int            field_17A8;
+    int            field_17AC;
+    int            field_17B0;
+    int            field_17B4;
+    char           pad_17B8[0x17D0 - 0x17B8];
+    int            field_17D0[3];
+    int            field_17DC[3];
 } Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
@@ -364,6 +364,7 @@ void Dog_800CA458(void *base, int count, int idx)
         *dst++ = DG_ZeroVector;
     }
 }
+
 int s12c_dog_800CA4B4(Work *work, int state, int index)
 {
     CONTROL *control;
@@ -439,6 +440,7 @@ int s12c_dog_800CA4B4(Work *work, int state, int index)
 
     return 0;
 }
+
 void s12c_dog_800CA758(Work *work, int index)
 {
     if (work->field_160C >= 2 || work->field_1604 != 0)
@@ -573,7 +575,7 @@ int Dog_800CABF4(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2)
 
 void s12c_dog_800CAC84(Work *work, int index, int state)
 {
-    if (work->field_1510[index] == 0x25 || work->field_14F8[index] == 12 ||
+    if (work->field_1510[index] == 37 || work->field_14F8[index] == 12 ||
         work->field_14F8[index] == 13)
     {
         work->field_28[index].r_sphere = -2;
@@ -638,7 +640,7 @@ void s12c_dog_800CAC84(Work *work, int index, int state)
     }
 }
 
-const char s12c_dword_800D9B48[] = {0x0, 0x0, 0x0, 0x0};
+const char s12c_dword_800D9B48[] = {0x0, 0x0, 0x0, 0x0}; /* rodata gap */
 
 void s12c_dog_800CAD8C(Work *work, int idx)
 {
@@ -649,9 +651,9 @@ void s12c_dog_800CAD8C(Work *work, int idx)
     work->field_17D0[idx] = work->field_F00[idx][4].vx;
     work->field_17DC[idx] = work->field_F00[idx][5].vx;
 
-    if (state == 0xB || state == 0x14)
+    if (state == 11 || state == 20)
     {
-        if (work->field_151C[idx] >= 0xFA1)
+        if (work->field_151C[idx] >= 4001)
         {
             work->field_F00[idx][4].vx = 0;
             work->field_F00[idx][5].vx = 0;
@@ -969,6 +971,7 @@ void s12c_dog_800CB714(Work *work, int index)
 
     setRGB0((POLY_FT4 *)work->field_167C[index]->packs[GV_Clock], 0x46, 0x46, 0x46);
 }
+
 void s12c_dog_800CB97C(SVECTOR *cur, SVECTOR *target, int steps)
 {
     SVECTOR diff;
@@ -1357,6 +1360,7 @@ void s12c_dog_800CC180(Work *work, int index)
         break;
     }
 }
+
 void s12c_dog_800CC53C(Work *work, int index)
 {
     SVECTOR  rot;
@@ -1445,7 +1449,7 @@ void s12c_dog_800CC53C(Work *work, int index)
         break;
 
     case 14:
-        work->field_1510[index] = 0x25;
+        work->field_1510[index] = 37;
         target.vx = -7500;
         target.vy = 0;
         target.vz = 5600;
@@ -1564,7 +1568,7 @@ void s12c_dog_800CC8B4(Work *work, int index)
         break;
 
     case 14:
-        work->field_1510[index] = 0x25;
+        work->field_1510[index] = 37;
         target.vx = index * 300 - 10600;
         target.vy = 0;
         target.vz = -400;
@@ -1967,6 +1971,7 @@ void s12c_dog_800CCC3C(Work *work, int index)
         break;
     }
 }
+
 void s12c_dog_800CDBC4(Work *work, int index)
 {
     SVECTOR  rot;
@@ -1987,7 +1992,7 @@ void s12c_dog_800CDBC4(Work *work, int index)
     dist = Dog_800CABF4(&control->mov, &route[*step], &rot);
     rot.vx = work->field_14A0[index];
 
-    if (slot[0x1510 / 4] != 0x11)
+    if (slot[0x1510 / 4] != 17)
     {
         s12c_dog_800CB97C(&control->turn, &rot, 32);
     }
@@ -2135,6 +2140,7 @@ void s12c_dog_800CE034(Work *work, int index)
         break;
     }
 }
+
 void s12c_dog_800CE194(Work *work, int index)
 {
     SVECTOR  rot;
@@ -2410,7 +2416,7 @@ void s12c_dog_800CE194(Work *work, int index)
     }
 }
 
-const char s12c_dword_800D9F08[] = {0x0, 0x0, 0x0, 0x0};
+const char s12c_dword_800D9F08[] = {0x0, 0x0, 0x0, 0x0}; /* rodata gap */
 
 void DogExecProc_800CEB2C(Work *work)
 {
@@ -2699,7 +2705,7 @@ void s12c_dog_800CEB74(Work *work, int index)
     }
 }
 
-const char s12c_dword_800D9F48[] = {0x0, 0x0, 0x0, 0x0};
+const char s12c_dword_800D9F48[] = {0x0, 0x0, 0x0, 0x0}; /* rodata gap */
 
 void s12c_dog_800CF578(Work *work, int idx)
 {
@@ -2715,18 +2721,18 @@ void s12c_dog_800CF578(Work *work, int idx)
         /* fall through */
     case 1:
         work->field_1574[idx] = 0;
-        Dog_800CB23C(work, 0x18, 5, idx);
+        Dog_800CB23C(work, 24, 5, idx);
         break;
     case 5:
-        if (work->field_151C[idx] >= 0xBB9)
+        if (work->field_151C[idx] >= 3001)
         {
             Dog_800CABF4(&ctrl->mov, &GM_PlayerPosition, &vec);
             vec.vx = 0;
             s12c_dog_800CB97C(&ctrl->turn, &vec, 8);
         }
-        Dog_800CB23C(work, 0x1C, 0xE, idx);
+        Dog_800CB23C(work, 28, 14, idx);
         break;
-    case 0xE:
+    case 14:
         work->field_14F8[idx] = 6;
         work->field_1510[idx] = 0;
         s12c_dog_800CA758(work, idx);
@@ -2734,6 +2740,7 @@ void s12c_dog_800CF578(Work *work, int idx)
         break;
     }
 }
+
 void s12c_dog_800CF6CC(Work *work, int index)
 {
     CONTROL *control;
@@ -2944,7 +2951,7 @@ void s12c_dog_800CFA30(Work *work, int index)
             if (GM_PlayerPosition.vx > -3500 && GM_PlayerPosition.vx < 7000 &&
                 GM_PlayerPosition.vz > 2000 && GM_PlayerPosition.vz < 7500)
             {
-                work->field_1510[index] = 0x26;
+                work->field_1510[index] = 38;
                 break;
             }
 
@@ -2976,7 +2983,7 @@ void s12c_dog_800CFA30(Work *work, int index)
         break;
 
     case 38:
-        work->field_1510[index] = 0x27;
+        work->field_1510[index] = 39;
         work->field_168C = GM_PlayerPosition;
 
     case 39:
@@ -2993,7 +3000,7 @@ void s12c_dog_800CFA30(Work *work, int index)
 
         if (work->field_151C[index] < 2000)
         {
-            work->field_1510[index] = 0x28;
+            work->field_1510[index] = 40;
             break;
         }
 
@@ -3008,7 +3015,7 @@ void s12c_dog_800CFA30(Work *work, int index)
         break;
 
     case 41:
-        work->field_1510[index] = 0x2A;
+        work->field_1510[index] = 42;
 
     case 42:
         control->turn = work->field_152C[index];
@@ -3067,6 +3074,7 @@ void s12c_dog_800CFA30(Work *work, int index)
         }
     }
 }
+
 void s12c_dog_800D0374(Work *work, int index)
 {
     SVECTOR  rot;
@@ -3163,6 +3171,7 @@ void s12c_dog_800D0374(Work *work, int index)
         break;
     }
 }
+
 void s12c_dog_800D0680(Work *work, int index)
 {
     SVECTOR  rot;
@@ -3413,6 +3422,7 @@ void s12c_dog_800D0C78(Work *work, int index)
         break;
     }
 }
+
 void s12c_dog_800D0F30(Work *work, int index)
 {
     CONTROL *control;
@@ -3443,7 +3453,7 @@ void s12c_dog_800D0F30(Work *work, int index)
         work->field_14E0[index] = 0;
     }
 
-    if (work->field_1510[index] == 0x25)
+    if (work->field_1510[index] == 37)
     {
         control->height = object->height * 3 / 2;
         GM_ActControl(control);
@@ -3490,12 +3500,12 @@ void s12c_dog_800D0F30(Work *work, int index)
     {
         work->field_14EC[index]++;
 
-        if (work->field_14EC[index] >= 0x1F && (GV_Time & 3) == 0)
+        if (work->field_14EC[index] >= 31 && (GV_Time & 3) == 0)
         {
             AN_Breath_2(&object->objs->objs[6].world);
         }
 
-        if (work->field_14EC[index] == 0x1E)
+        if (work->field_14EC[index] == 30)
         {
             AN_Sleep(&control->mov);
         }
@@ -3503,6 +3513,7 @@ void s12c_dog_800D0F30(Work *work, int index)
 
     s12c_dog_800CB714(work, index);
 }
+
 void s12c_dog_800D11D4(Work *work, int index)
 {
     VECTOR   scale;
@@ -3541,7 +3552,7 @@ void s12c_dog_800D11D4(Work *work, int index)
           control->mov.vz < 5000) ||
          (control->mov.vx > 3000 && control->mov.vx < 10000 && control->mov.vz > -2500 &&
           control->mov.vz < 3500)) &&
-        (work->field_1494[index] == 0x18 || work->field_1494[index] == 0x1C))
+        (work->field_1494[index] == 24 || work->field_1494[index] == 28))
     {
         if (object->height > 200)
         {
@@ -3603,12 +3614,12 @@ void s12c_dog_800D11D4(Work *work, int index)
     {
         work->field_14EC[index]++;
 
-        if (work->field_14EC[index] >= 0x1F && (GV_Time & 3) == 0)
+        if (work->field_14EC[index] >= 31 && (GV_Time & 3) == 0)
         {
             AN_Breath_2(&object->objs->objs[6].world);
         }
 
-        if (work->field_14EC[index] == 0x1E)
+        if (work->field_14EC[index] == 30)
         {
             AN_Sleep(&control->mov);
         }
@@ -3628,7 +3639,6 @@ void Dog_800D1638(Work *work, int obj_index, int blood_count, int index)
     NewBlood(&rot, blood_count);
 }
 
-
 void s12c_dog_800D16C0(Work *work, int index)
 {
     TARGET *target;
@@ -3647,7 +3657,7 @@ void s12c_dog_800D16C0(Work *work, int index)
 
         if (index == 2 ||
             (work->field_14F8[index] != 12 && work->field_14F8[index] != 13 &&
-             work->field_1510[index] != 0x25))
+             work->field_1510[index] != 37))
         {
             if (target->a_mode == 4)
             {
@@ -3685,6 +3695,7 @@ void s12c_dog_800D16C0(Work *work, int index)
 
     target->damaged &= ~4;
 }
+
 void s12c_dog_800D187C(Work *work)
 {
     switch (work->field_160C)
@@ -3767,6 +3778,7 @@ void s12c_dog_800D187C(Work *work)
         break;
     }
 }
+
 void s12c_dog_800D1B54(Work *work, int index)
 {
     switch (work->field_14F8[index])
@@ -4451,43 +4463,43 @@ int s12c_dog_800D295C(Work *work, int name, int map_name)
         {
             if (work->field_1604 != 1 && work->field_1784 == 0)
             {
-            if (map->hzd->def->n_routes < routes[i] + 1)
-            {
-                routes[i] = 0;
-            }
+                if (map->hzd->def->n_routes < routes[i] + 1)
+                {
+                    routes[i] = 0;
+                }
 
-            pat = &map->hzd->def->routes[routes[i]];
-            work->field_127A[i] = pat->n_points;
+                pat = &map->hzd->def->routes[routes[i]];
+                work->field_127A[i] = pat->n_points;
 
-            if (work->field_127A[i] <= 0)
-            {
-                return -1;
-            }
+                if (work->field_127A[i] <= 0)
+                {
+                    return -1;
+                }
 
-            if (work->field_127A[i] >= 32)
-            {
-                return -1;
-            }
+                if (work->field_127A[i] >= 32)
+                {
+                    return -1;
+                }
 
-            pt = pat->points;
+                pt = pat->points;
 
-            for (j = 0; j < work->field_127A[i]; j++)
-            {
-                work->field_1286[i][j].vx = pt->x;
-                work->field_1286[i][j].vy = pt->y;
-                work->field_1286[i][j].vz = pt->z;
-                pt++;
-            }
+                for (j = 0; j < work->field_127A[i]; j++)
+                {
+                    work->field_1286[i][j].vx = pt->x;
+                    work->field_1286[i][j].vy = pt->y;
+                    work->field_1286[i][j].vz = pt->z;
+                    pt++;
+                }
 
-            work->field_1282[i] = GV_RandU(0x1000) % work->field_127A[i];
-            work->field_127E[i] = work->field_1282[i] + 1;
+                work->field_1282[i] = GV_RandU(0x1000) % work->field_127A[i];
+                work->field_127E[i] = work->field_1282[i] + 1;
 
-            if (work->field_127E[i] >= work->field_127A[i])
-            {
-                work->field_127E[i] = 0;
-            }
+                if (work->field_127E[i] >= work->field_127A[i])
+                {
+                    work->field_127E[i] = 0;
+                }
 
-            control->mov = work->field_1286[i][work->field_127E[i]];
+                control->mov = work->field_1286[i][work->field_127E[i]];
             }
         }
         else
@@ -4645,7 +4657,6 @@ int s12c_dog_800D295C(Work *work, int name, int map_name)
 
     return 0;
 }
-
 
 void *NewDog(int name, int where)
 {
