@@ -1119,8 +1119,124 @@ int s15c_crow_800DAE7C(Work *work)
 
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DAFCC.s")
-int s15c_crow_800DAFCC(Work *work);
+int s15c_crow_800DAFCC(Work *work)
+{
+    work->field_828 = 1;
+
+    if (work->field_73A == 0)
+    {
+        if (work->field_738 == 0 && work->field_73C == 0)
+        {
+            if (work->field_73E == 1)
+            {
+                work->field_76C = 0;
+                work->field_774 = work->field_770;
+
+                if (s15c_dword_800E345C != 0 && (&s15c_dword_800E345C)[2] != 0)
+                {
+                    work->field_770 = 3;
+                }
+                else
+                {
+                    work->field_770 = 2;
+                }
+
+                work->field_6A4 = 0;
+                work->field_69C = 0;
+            }
+
+            if ((u_int)work->field_740 < 2)
+            {
+                return Valcan_800DA1AC(work->field_740, 3);
+            }
+
+            if (work->field_740 == 2)
+            {
+                return 1;
+            }
+
+            work->field_828 = 0;
+            return 0;
+        }
+
+        if ((u_int)(work->field_740 - 2) < 2)
+        {
+            return Valcan_800DA1AC(work->field_740, 0);
+        }
+
+        if (work->field_740 == 1)
+        {
+            return 1;
+        }
+
+        if (work->field_738 == 1)
+        {
+            return 3;
+        }
+
+        work->field_828 = 0;
+        return 0;
+    }
+
+    if ((u_int)work->field_740 < 2)
+    {
+        if ((&s15c_dword_800E345C)[3] != 0)
+        {
+            int pair = *(int *)&work->field_738;
+
+            if ((pair == 0x30001 && work->field_740 == 1) ||
+                (pair == 0x30003 && work->field_740 == 0))
+            {
+                return 0;
+            }
+        }
+
+        if (s15c_dword_800E345C != 0)
+        {
+            int pair = *(int *)&work->field_738;
+
+            if (pair == 0x20001)
+            {
+                return Valcan_800DA1AC(work->field_740, 0);
+            }
+
+            if (pair == 0x10000 && work->field_740 == 1)
+            {
+                return 0;
+            }
+
+            if (pair == 0x10002 && work->field_740 == 0)
+            {
+                return 0;
+            }
+        }
+
+        return Valcan_800DA1AC(work->field_740, 2);
+    }
+
+    if (work->field_740 == 3)
+    {
+        return 1;
+    }
+
+    if (work->field_73A == 1)
+    {
+        if (work->field_738 == 0)
+        {
+            return 1;
+        }
+
+        return 3;
+    }
+
+    if (s15c_dword_800E345C != 0 && *(int *)&work->field_738 == 0x20001)
+    {
+        return Valcan_800DA1AC(work->field_740, 0);
+    }
+
+    work->field_828 = 0;
+    return 0;
+}
 int s15c_crow_800DB200(Work *work)
 {
     work->field_828 = 0;
