@@ -1199,36 +1199,139 @@ void s12c_dog_800CBDC4(Work *work, int index)
     }
 }
 
-const int  s12c_dword_800D9BBC = 0x800CC208;
-const int  s12c_dword_800D9BC0 = 0x800CC228;
-const int  s12c_dword_800D9BC4 = 0x800CC288;
-const int  s12c_dword_800D9BC8 = 0x800CC520;
-const int  s12c_dword_800D9BCC = 0x800CC520;
-const int  s12c_dword_800D9BD0 = 0x800CC308;
-const int  s12c_dword_800D9BD4 = 0x800CC520;
-const int  s12c_dword_800D9BD8 = 0x800CC520;
-const int  s12c_dword_800D9BDC = 0x800CC520;
-const int  s12c_dword_800D9BE0 = 0x800CC520;
-const int  s12c_dword_800D9BE4 = 0x800CC520;
-const int  s12c_dword_800D9BE8 = 0x800CC520;
-const int  s12c_dword_800D9BEC = 0x800CC520;
-const int  s12c_dword_800D9BF0 = 0x800CC520;
-const int  s12c_dword_800D9BF4 = 0x800CC360;
-const int  s12c_dword_800D9BF8 = 0x800CC520;
-const int  s12c_dword_800D9BFC = 0x800CC520;
-const int  s12c_dword_800D9C00 = 0x800CC3BC;
-const int  s12c_dword_800D9C04 = 0x800CC520;
-const int  s12c_dword_800D9C08 = 0x800CC520;
-const int  s12c_dword_800D9C0C = 0x800CC4C0;
-const int  s12c_dword_800D9C10 = 0x800CC520;
-const int  s12c_dword_800D9C14 = 0x800CC520;
-const int  s12c_dword_800D9C18 = 0x800CC520;
-const int  s12c_dword_800D9C1C = 0x800CC520;
-const int  s12c_dword_800D9C20 = 0x800CC520;
-const int  s12c_dword_800D9C24 = 0x800CC520;
-const int  s12c_dword_800D9C28 = 0x800CC4DC;
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CC180.s")
-extern void s12c_dog_800CC180(Work *work, int index);
+void s12c_dog_800CC180(Work *work, int index)
+{
+    SVECTOR  rot;
+    SVECTOR  target;
+    CONTROL *control;
+    OBJECT  *object;
+    int      dist;
+    int      mod;
+
+    object = &work->field_19C[index];
+    control = &work->field_28[index];
+
+    switch (work->field_1510[index])
+    {
+    case 0:
+        work->field_1510[index] = 1;
+        Dog_800CA458(work, 18, index);
+
+    case 1:
+        target.vx = 11000;
+        target.vy = 0;
+        target.vz = 0;
+        dist = Dog_800CABF4(&control->mov, &target, &rot);
+        rot.vx = 0;
+        s12c_dog_800CB97C(&control->turn, &rot, 2);
+
+        if (dist < 1000)
+        {
+            work->field_1510[index] = 5;
+            GM_SeSetMode(&work->field_28[index].mov, 0x85, GM_SEMODE_NORMAL);
+        }
+        else
+        {
+            Dog_800C9F48(work, index);
+            Dog_800CB23C(work, 0, 1, index);
+        }
+        break;
+
+    case 2:
+        target.vx = 8500;
+        target.vy = 0;
+        target.vz = 0;
+        dist = Dog_800CABF4(&control->mov, &target, &control->turn);
+        control->turn.vx = 0;
+
+        if (dist < 500)
+        {
+            work->field_1510[index] = 5;
+            GM_SeSetMode(&work->field_28[index].mov, 0x85, GM_SEMODE_NORMAL);
+        }
+        else
+        {
+            Dog_800C9F48(work, index);
+            Dog_800CB23C(work, 0, 1, index);
+        }
+        break;
+
+    case 5:
+        target.vx = 3000;
+        target.vy = 0;
+        target.vz = 0;
+        Dog_800CABF4(&control->mov, &target, &control->turn);
+        Dog_800CB23C(work, 25, 14, index);
+
+        if (GV_RandU(16) == 0)
+        {
+            AN_Breath(&object->objs->objs[6].world);
+        }
+        break;
+
+    case 14:
+        target.vx = 3000;
+        target.vy = 0;
+        target.vz = 0;
+        Dog_800CABF4(&control->mov, &target, &control->turn);
+        control->rot = control->turn;
+        Dog_800CB23C(work, 21, 17, index);
+        break;
+
+    case 17:
+        target.vx = 3000;
+        target.vy = 0;
+        target.vz = 0;
+        dist = Dog_800CABF4(&control->mov, &target, &control->turn);
+        control->rot = control->turn;
+
+        if (dist < 1000)
+        {
+            work->field_1510[index] = 20;
+            break;
+        }
+
+        mod = work->field_155C[index] % 16;
+
+        if (mod == 0)
+        {
+            GM_SeSet(&work->field_28[index].mov, 0xB6);
+        }
+        else if (mod == 8)
+        {
+            if (GV_RandU(2) != 0)
+            {
+                GM_SeSet(&work->field_28[index].mov, 0xB3);
+            }
+            else
+            {
+                GM_SeSet(&work->field_28[index].mov, 0xB4);
+            }
+        }
+
+        Dog_800CB23C(work, 22, 17, index);
+        break;
+
+    case 20:
+        Dog_800CB23C(work, 23, 27, index);
+        break;
+
+    case 27:
+        if (work->field_15F8 != 1)
+        {
+            work->field_14F8[index] = 3;
+        }
+        else
+        {
+            work->field_14F8[index] = 6;
+        }
+
+        work->field_1510[index] = 0;
+        work->field_1598[index] = 0;
+        s12c_dog_800CA758(work, index);
+        break;
+    }
+}
 void s12c_dog_800CC53C(Work *work, int index)
 {
     SVECTOR  rot;
