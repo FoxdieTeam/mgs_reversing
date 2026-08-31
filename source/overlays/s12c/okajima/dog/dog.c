@@ -2229,7 +2229,119 @@ void s12c_dog_800D0F30(Work *work, int index)
 
     s12c_dog_800CB714(work, index);
 }
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D11D4.s")
+void s12c_dog_800D11D4(Work *work, int index)
+{
+    VECTOR   scale;
+    CONTROL *control;
+    OBJECT  *object;
+    TARGET  *target;
+
+    control = &work->field_28[index];
+    target = work->field_1188[index];
+
+    control->step.vx /= 2;
+    control->step.vy /= 2;
+    control->step.vz /= 2;
+
+    object = &work->field_19C[index];
+
+    if (work->field_14F8[2] != 14)
+    {
+        if (work->field_1604 == 0 && (control->mov.vx > 3800 && control->mov.vx < 14200) &&
+            control->mov.vz > -14200 && control->mov.vz < -9800)
+        {
+            control->mov.vz = -9800;
+        }
+
+        if (work->field_1604 == 0 && control->mov.vx > -12200 && control->mov.vx < -1800 &&
+            control->mov.vz > 11800 && control->mov.vz < 16200)
+        {
+            control->mov.vz = 11800;
+        }
+    }
+
+    if (work->field_1604 == 0 &&
+        ((control->mov.vx > -500 && control->mov.vx < 3500 && control->mov.vz > 0 &&
+          control->mov.vz < 3500) ||
+         (control->mov.vx > -11000 && control->mov.vx < -7000 && control->mov.vz > 0 &&
+          control->mov.vz < 5000) ||
+         (control->mov.vx > 3000 && control->mov.vx < 10000 && control->mov.vz > -2500 &&
+          control->mov.vz < 3500)) &&
+        (work->field_1494[index] == 0x18 || work->field_1494[index] == 0x1C))
+    {
+        if (object->height > 200)
+        {
+            control->height = 200;
+        }
+        else
+        {
+            control->height = object->height;
+        }
+    }
+    else if (work->field_1494[index] == 5 || work->field_1494[index] == 0)
+    {
+        control->height = object->height / 3;
+    }
+    else
+    {
+        control->height = object->height / 2;
+    }
+
+    GM_ActControl(control);
+
+    if (control->r_sphere == -2)
+    {
+        control->mov.vy = control->height;
+        work->field_1488[index] = 0;
+    }
+    else if (work->field_1488[index] < 0 && control->grounded == 1)
+    {
+        work->field_1488[index] = 0;
+    }
+
+    work->field_1488[index] -= 32;
+    control->step.vy = work->field_1488[index];
+
+    GM_ActObject2(object);
+
+    scale.vx = 0x800;
+    scale.vy = 0x800;
+    scale.vz = 0x800;
+    ScaleMatrix(&object->objs->world, &scale);
+
+    if (GM_Item == IT_ThermG)
+    {
+        object->objs->flag |= 0x100;
+    }
+
+    DG_GetLightMatrix2(&control->mov, work->field_10C8[index]);
+    GM_MoveTarget(target, &control->mov);
+    GM_PushTarget(target);
+
+    if (work->field_14EC[index] == -1)
+    {
+        if (GV_RandU(16) == 0 && work->field_14F8[index] != 9)
+        {
+            AN_Breath_2(&object->objs->objs[6].world);
+        }
+    }
+    else
+    {
+        work->field_14EC[index]++;
+
+        if (work->field_14EC[index] >= 0x1F && (GV_Time & 3) == 0)
+        {
+            AN_Breath_2(&object->objs->objs[6].world);
+        }
+
+        if (work->field_14EC[index] == 0x1E)
+        {
+            AN_Sleep(&control->mov);
+        }
+    }
+
+    s12c_dog_800CB714(work, index);
+}
 
 void Dog_800D1638(Work *work, int obj_index, int blood_count, int index)
 {
