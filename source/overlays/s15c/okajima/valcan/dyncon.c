@@ -856,8 +856,48 @@ int s15c_dyncon_800D8510(DynCon *work)
 
     return -1;
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D88C8.s")
-extern void s15c_dyncon_800D88C8(void *work);
+void s15c_dyncon_800D88C8(DynCon *work)
+{
+    GCL_ARGS args;
+    long     data[20];
+    long    *p;
+    u_char  *b;
+    int      i;
+
+    p = data;
+
+    for (i = 0; i < 20; i++)
+    {
+        *p++ = ((u_char)work->field_3CBC[i << 1] << 8) | (u_char)work->field_3CBC[(i << 1) + 1];
+    }
+
+    /* Both of these write one word past data[], and read past the end of the
+       overlay's bss: dead code in the original, reproduced literally. */
+    b = (u_char *)&s15c_dword_800E345C;
+    *p = (b[i << 2] << 8) | b[(i + 1) << 2];
+    *p = (b[(i + 2) << 2] << 8) | b[(i + 3) << 2];
+
+    if (work->field_4054 >= 0)
+    {
+        args.argc = 8;
+        args.argv = &data[0];
+        GCL_ForceExecProc(work->field_4054, &args);
+    }
+
+    if (work->field_4058 >= 0)
+    {
+        args.argc = 8;
+        args.argv = &data[8];
+        GCL_ForceExecProc(work->field_4058, &args);
+    }
+
+    if (work->field_405C >= 0)
+    {
+        args.argc = 4;
+        args.argv = &data[16];
+        GCL_ForceExecProc(work->field_405C, &args);
+    }
+}
 
 void s15c_dyncon_800D89F8(DynCon *work)
 {
