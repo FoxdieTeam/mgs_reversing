@@ -18,13 +18,21 @@ typedef struct _DynSlot
     char           pad_5C[0x9C - 0x5C];
 } DynSlot;
 
+typedef struct _DynObj
+{
+    OBJECT_NO_ROTS obj;      /* 0x00 */
+    char           pad_24[0x64 - 0x24];
+} DynObj;
+
 typedef struct _DynCon
 {
     GV_ACT  actor;           /* 0x00 */
     int     map;             /* 0x20 */
     DynSlot field_24[72];    /* 0x24 - runs to 0x2C04 exactly */
     int     field_2C04[72][2];/* 0x2C04 - one flag per slot object */
-    char    pad_2E44[0x3594 - 0x2E44];
+    char    pad_2E44[0x3204 - 0x2E44];
+    DynObj  field_3204[9];   /* 0x3204 */
+    char    pad_3588[0x3594 - 0x3588];
     int     field_3594[5][2];/* 0x3594 */
     HZD_SEG segs[4][2][4];   /* 0x35BC - four HZD_SEG per [i][j] */
     char    pad_37BC[0x383C - 0x37BC];
@@ -439,7 +447,21 @@ int s15c_dyncon_800D7D44(DynCon *work)
 
     return 1;
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7E30.s")
+void s15c_dyncon_800D7E30(DynCon *work, int j, int i, int model)
+{
+    SVECTOR         mov;
+    OBJECT_NO_ROTS *obj;
+
+    mov = work->field_24[i].mov;
+    mov.vy += 0x6D5;
+    obj = &work->field_3204[j].obj;
+
+    DG_SetPos2(&mov, &work->field_24[i].rot);
+    s15c_dyncon_800D3EBC(obj, model,
+                         DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE);
+    obj->objs->objs[0].raise = -250;
+    GM_ActObject2((OBJECT *)obj);
+}
 void s15c_dyncon_800D7EF4(DynCon *work, int i, int model)
 {
     DynSlot        *slot = &work->field_24[i];
