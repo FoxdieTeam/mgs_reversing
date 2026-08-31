@@ -62,7 +62,7 @@ static void Act( Work *work )
 {
     GV_PAD               *pad;
     int                   var_s0;
-    array_800B933C_child *pUnk;
+    JIMCHARA *pUnk;
     char                  symbol;
     int                   i;
 

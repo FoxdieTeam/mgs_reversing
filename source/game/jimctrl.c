@@ -27,7 +27,6 @@ typedef struct {
     int  *field_44_subtitles;
     int   field_48;
     int   field_4C;
-    char  field_50_buffer[4090];
 } Work;
 
 typedef struct
@@ -39,17 +38,18 @@ typedef struct
     int   font_offset;
 } SubtitleHeader;
 
-static Work BSS                 JimCtrlWork;
-static array_800B933C_child BSS array_800B933C[ array_800B933C_SIZE ];
-static int BSS                  dword_800B9358;
+Work BSS jimaku_work;
+char BSS jimaku_buffer[ 4090 ];
+JIMCHARA BSS chara_work[ JIMCHARA_COUNT ];
+int BSS GM_JimakuCounter;
 
 extern int str_status;
 
 char *dword_8009E28C = NULL;
 
-static void jimctrl_act_helper_set_first_80037F2C(int index, int value)
+static void do_paku(int index, int value)
 {
-    array_800B933C_child *helper = &array_800B933C[index];
+    JIMCHARA *helper = &chara_work[index];
     if (value == 4)
     {
         helper->field_2 = 1;
@@ -64,14 +64,14 @@ static void jimctrl_act_helper_set_first_80037F2C(int index, int value)
 unsigned int jimctrl_helper_80037F68(unsigned int header)
 {
     u_short                  field_2_preClear;
-    array_800B933C_child *pIter;
+    JIMCHARA *pIter;
     u_char                 *pField;
     int                   i;
 
-    pIter = &array_800B933C[1];
+    pIter = &chara_work[1];
     i = 0;
     pField = &pIter->field_2;
-    for (; i < array_800B933C_SIZE - 1; i++)
+    for (; i < JIMCHARA_COUNT - 1; i++)
     {
         if (pIter->field_0 == header)
         {
@@ -79,17 +79,17 @@ unsigned int jimctrl_helper_80037F68(unsigned int header)
             *pField = 0;
             return (field_2_preClear << 8 | *++pField);
         }
-        pField += sizeof(array_800B933C_child);
+        pField += sizeof(JIMCHARA);
         pIter++;
     }
 
     return 0;
 }
 
-static void jimctrl_init_helper_clear_80037FB8(void)
+static void init_id(void)
 {
-    int                   i = array_800B933C_SIZE - 2;
-    array_800B933C_child *pIter = &array_800B933C[i] + 1;
+    int i = JIMCHARA_COUNT - 2;
+    JIMCHARA *pIter = &chara_work[i] + 1;
     for (; i >= 0; i--)
     {
         pIter->field_0 = 0;
@@ -97,21 +97,21 @@ static void jimctrl_init_helper_clear_80037FB8(void)
     }
 }
 
-static void jimctrl_act_helper_clear_first_80037FE0(int index, int value)
+static void set_id(int index, int value)
 {
-    array_800B933C_child *pIter = &array_800B933C[1];
+    JIMCHARA *pIter = &chara_work[1];
     pIter[--index].field_0 = value;
 }
 
-static void jimctrl_helper_null_80037FFC(int a, int b)
+static void do_motion(int a, int b)
 {
     /* do nothing */
 }
 
-static void jimctrl_kill_helper_clear_80038004(Work *work)
+static void reset_paku(Work *work)
 {
-    array_800B933C_child *pIter;
-    int                   i;
+    JIMCHARA *pIter;
+    int       i;
 
     if (work->field_44_subtitles)
     {
@@ -121,8 +121,8 @@ static void jimctrl_kill_helper_clear_80038004(Work *work)
     if (work->field_38 != 0)
     {
         i = 0;
-        pIter = &array_800B933C[i] + 1;
-        for (; i < array_800B933C_SIZE - 1; i++)
+        pIter = &chara_work[i] + 1;
+        for (; i < JIMCHARA_COUNT - 1; i++)
         {
             pIter->field_2 = 0;
             pIter->field_3 = 0;
@@ -166,7 +166,7 @@ static inline void jimctrl_act_helper_80038070(Work *work, int str_counter)
         }
 
         dword_8009E28C = pData;
-        dword_800B9358++;
+        GM_JimakuCounter++;
         work->field_48 = pSubtitles[1] + pSubtitles[2];
     }
     else if (f48 <= str_counter)
@@ -215,7 +215,7 @@ static inline void jimctrl_act_helper2_80038070(Work *work, int str_counter)
 
             if (value & 0x80)
             {
-                jimctrl_act_helper_set_first_80037F2C(work->field_3C, (value >> 4) & 0x7);
+                do_paku(work->field_3C, (value >> 4) & 0x7);
                 work->field_40 = value & 0xF;
             }
             else
@@ -224,17 +224,17 @@ static inline void jimctrl_act_helper2_80038070(Work *work, int str_counter)
                 {
                 case 0:
                     printf("KUTIPAKU END\n");
-                    jimctrl_act_helper_set_first_80037F2C(work->field_3C, 0);
+                    do_paku(work->field_3C, 0);
                     work->field_38 = NULL;
                     return;
 
                 case 1:
-                    jimctrl_act_helper_set_first_80037F2C(work->field_3C, value & 0xF);
+                    do_paku(work->field_3C, value & 0xF);
                     work->field_40 = *work->field_38++;
                     break;
 
                 case 2:
-                    jimctrl_act_helper_clear_first_80037FE0(value & 0xF, (work->field_38[0] << 8) | work->field_38[1]);
+                    set_id(value & 0xF, (work->field_38[0] << 8) | work->field_38[1]);
                     work->field_38 += 2;
                     break;
 
@@ -243,14 +243,14 @@ static inline void jimctrl_act_helper2_80038070(Work *work, int str_counter)
                     break;
 
                 case 5:
-                    jimctrl_act_helper_set_first_80037F2C(work->field_3C, value & 0xF);
+                    do_paku(work->field_3C, value & 0xF);
                     work->field_40 = (work->field_38[0] << 8) | work->field_38[1];
                     work->field_38 += 2;
                     break;
 
                 case 6:
                     work->field_40 = *work->field_38++;
-                    jimctrl_helper_null_80037FFC((work->field_38[0] << 8) | work->field_38[1], (work->field_38[2] << 8) | work->field_38[3]);
+                    do_motion((work->field_38[0] << 8) | work->field_38[1], (work->field_38[2] << 8) | work->field_38[3]);
                     break;
                 }
             }
@@ -309,12 +309,12 @@ static void Act(Work *work)
         }
 
         size = FS_StreamGetSize(pStrData);
-        memcpy(JimCtrlWork.field_50_buffer, pStrData, size);
+        memcpy(jimaku_buffer, pStrData, size);
         FS_StreamClear(pStrData);
 
         if (!work->field_34)
         {
-            pHeader = (SubtitleHeader *)JimCtrlWork.field_50_buffer;
+            pHeader = (SubtitleHeader *)jimaku_buffer;
 
             work->field_34 = (int *)pHeader;
             work->field_38 = (char *)pHeader + pHeader->data_offset;
@@ -370,7 +370,7 @@ static void Act(Work *work)
 
 static void Die(Work *work)
 {
-    jimctrl_kill_helper_clear_80038004(work);
+    reset_paku(work);
     dword_8009E28C = NULL;
     FS_StreamClose();
 }
@@ -379,7 +379,7 @@ void *NewJimakuControl(u_long flags)
 {
     int           *seekResult;
     u_long         toSeek = 4;
-    Work *work = &JimCtrlWork;
+    Work *work = &jimaku_work;
 
     if (flags & 0x80)
     {
@@ -389,13 +389,13 @@ void *NewJimakuControl(u_long flags)
 
     if (GM_Configuration & GM_CONFIG_ENGLISH)
     {
-        JimCtrlWork.field_27 = 3;
-        JimCtrlWork.field_26 = 6;
+        jimaku_work.field_27 = 3;
+        jimaku_work.field_26 = 6;
     }
     else
     {
-        JimCtrlWork.field_27 = 6;
-        JimCtrlWork.field_26 = 3;
+        jimaku_work.field_27 = 6;
+        jimaku_work.field_26 = 3;
     }
 
     if (seekResult != 0)
@@ -411,7 +411,7 @@ void *NewJimakuControl(u_long flags)
     {
         flags &= 0xf;
         work->field_28 = 0;
-        jimctrl_init_helper_clear_80037FB8();
+        init_id();
         GV_InitActor(GV_ACTOR_MANAGER, &work->actor, NULL);
 
         GV_SetNamedActor(&work->actor, Act, Die, "jimctrl.c");
@@ -424,9 +424,9 @@ void *NewJimakuControl(u_long flags)
         work->field_2C = 0;
         work->field_34 = 0;
         work->field_20 = 0;
-        dword_800B9358 = 0;
+        GM_JimakuCounter = 0;
 
-        return (void *)&JimCtrlWork;
+        return (void *)&jimaku_work;
     }
 }
 
@@ -440,11 +440,11 @@ char* menu_radio_codec_helper_helper17_80038678(void)
 
 int jimctrl_80038688(void)
 {
-    return dword_800B9358;
+    return GM_JimakuCounter;
 }
 
 
-array_800B933C_child *jimctrl_80038698(void)
+JIMCHARA *jimctrl_80038698(void)
 {
-    return &array_800B933C[1];
+    return &chara_work[1];
 }

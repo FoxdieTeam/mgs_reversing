@@ -359,9 +359,6 @@ typedef struct Menu_Triangle
 /*---------------------------------------------------------------------------*/
 
 /* menuman.c */
-void menuman_act_800386A4(MenuWork *);
-void menuman_kill_800387E8(MenuWork *);
-void menu_init_subsystems_8003884C(MenuWork *work);
 void menuman_init_80038954(void);
 void menuman_Reset(void);
 void MENU_ResetTexture(void);
