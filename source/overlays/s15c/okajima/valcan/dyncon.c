@@ -95,7 +95,7 @@ typedef struct _DynCon
     int     field_3D4C[36];  /* 0x3D4C - the three run up to field_3DDC */
     int     field_3DDC;      /* 0x3DDC */
     int     field_3DE0[3][12];/* 0x3DE0 - model name codes */
-    char    pad_3E70[0x3F00 - 0x3E70];
+    int     field_3E70[36];  /* 0x3E70 */
     int     field_3F00[4];   /* 0x3F00 */
     int     field_3F10[4];   /* 0x3F10 - countdown, reset to 32 (800D6004/603C) */
     int     field_3F20[4];   /* 0x3F20 - cycle counter (800D6004/603C) */
@@ -642,8 +642,86 @@ void *s15c_dyncon_800D6434(DynCon *work, SVECTOR *pos, SVECTOR *step, int item_t
 }
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6528.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7A84.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7AB4.s")
-int s15c_dyncon_800D7AB4(DynCon *work);
+int s15c_dyncon_800D7AB4(DynCon *work)
+{
+    SVECTOR size;
+    SVECTOR pos;
+    TARGET *target;
+    int     n;
+    int     p;
+    int     j;
+    int     i;
+    int     k;
+    int     l;
+    int     m;
+
+    size.vx = 0x3F2;
+    size.vy = 0x375;
+    size.vz = 0x2F8;
+
+    n = 0;
+    p = 0;
+    for (i = 0; i < 3; i++)
+    {
+        for (j = 0; j < 3; j++)
+        {
+            for (k = 0; k < 2; k++)
+            {
+                for (l = 0; l < 2; l++)
+                {
+                    for (m = 0; m < 2; m++)
+                    {
+                        if (k == 0)
+                        {
+                            if (work->field_4050 == 1)
+                            {
+                                target = GM_AllocTarget();
+                                work->field_24[p].target = target;
+                                if (target != NULL)
+                                {
+                                    GM_SetTarget(target, TARGET_POWER | TARGET_SEEK, PLAYER_SIDE, &size);
+                                }
+                                pos = work->field_24[n].mov;
+                                pos.vy += 0x1B5;
+                                GM_MoveTarget(target, &pos);
+                            }
+                            work->field_3C2C[p] = 0;
+                            work->field_3CBC[p] = 0;
+                            work->field_3D4C[p] = 0;
+                            work->field_3E70[p] = (m == l) ? 2 : 3;
+                            p++;
+                        }
+                        n++;
+                    }
+                }
+            }
+        }
+    }
+
+    work->field_3F00[0] = 3;
+    work->field_3F00[1] = 0x15;
+    work->field_3F00[2] = 0x18;
+    work->field_3F00[3] = 0x22;
+
+    for (m = 0; m < 4; m++)
+    {
+        work->field_3F10[m] = 0;
+        work->field_3F20[m] = 0;
+        work->field_3F30[m] = 1;
+    }
+
+    work->field_3E70[work->field_3F00[0]] = 0;
+    work->field_3E70[work->field_3F00[1]] = 1;
+    work->field_3E70[work->field_3F00[2]] = 0;
+    work->field_3E70[work->field_3F00[3]] = 1;
+
+    work->field_3E70[28] = 4;
+    work->field_3E70[29] = 5;
+    work->field_3E70[30] = 5;
+    work->field_3E70[31] = 4;
+
+    return 1;
+}
 int s15c_dyncon_800D7D44(DynCon *work)
 {
     int i, j;
