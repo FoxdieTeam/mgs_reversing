@@ -48,8 +48,7 @@ typedef struct _Work
     int            field_6C0;
     SVECTOR        field_6C4;
     SVECTOR        field_6CC;
-    SVECTOR        field_6D4;
-    char           pad6DC[0x18];
+    SVECTOR        field_6D4[4];
     DG_PRIM       *field_6F4;
     short          field_6F8[4][4][2];
     short          field_738;
@@ -150,6 +149,7 @@ extern char s15c_aRaven_800E2E68[];
 
 extern int     s15c_dword_800E345C; /* the map places this one at 0x800E3458 */
 
+extern SVECTOR s15c_dword_800C35E0[2];
 extern SVECTOR s15c_dword_800C35F0;
 extern SVECTOR s15c_dword_800C35F8;
 
@@ -219,7 +219,29 @@ void ValcanGetInts_800D8E88(unsigned char *opt, int *out)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_valcan_800D8ECC.s")
+void s15c_valcan_800D8ECC(Work *work)
+{
+    SVECTOR  pos[2];
+    MATRIX   world;
+    SVECTOR *quad;
+
+    world = DG_ZeroMatrix;
+    RotMatrixYXZ_gte(&work->field_6CC, &world);
+    DG_SetPos(&world);
+    DG_PutVector(s15c_dword_800C35E0, pos, 2);
+
+    quad = work->field_6D4;
+    quad[0].vx = work->field_6C4.vx + pos[0].vx;
+    quad[3].vx = work->field_6C4.vx - pos[0].vx;
+    quad[0].vz = work->field_6C4.vz + pos[0].vz;
+    quad[3].vz = work->field_6C4.vz - pos[0].vz;
+    quad[1].vx = work->field_6C4.vx + pos[1].vx;
+    quad[2].vx = work->field_6C4.vx - pos[1].vx;
+    quad[1].vz = work->field_6C4.vz + pos[1].vz;
+    quad[2].vz = work->field_6C4.vz - pos[1].vz;
+    quad[0].vy = quad[1].vy = quad[2].vy = quad[3].vy =
+        work->field_6C4.vy - work->control.height;
+}
 void s15c_valcan_800D8ECC(Work *work);
 
 // Identical to item_init_prim_buffer_800336A4
@@ -427,7 +449,7 @@ int ValcanGetResources_800D92A8(Work *work, int name, int where)
         Valcan_800D9B3C(work);
         s15c_valcan_800D8ECC(work);
 
-        work->field_6F4 = prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, &work->field_6D4, NULL);
+        work->field_6F4 = prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->field_6D4, NULL);
         if (work->field_6F4 == NULL)
         {
             return -1;
