@@ -38,8 +38,8 @@ typedef struct _Work
     int      field_151C[3];
     int      field_1528;
     char     pad152C[0x152E - 0x152C];
-    SVECTOR  field_152E[3];
-    char     pad1546[0x1550 - 0x152E - sizeof(SVECTOR[3])];
+    short    field_152E[11];     /* 8 bytes per dog: read as [index * 4] */
+    int      field_1544[3];
     int      field_1550[3];
     int      field_155C[3];
     char     pad1568[0xC];
@@ -50,7 +50,9 @@ typedef struct _Work
     char     pad15A4[0xC];
     int      field_15B0[3];
     int      field_15BC[3];
-    char     pad15C8[0x15F8 - 0x15C8];
+    int      field_15C8[3];
+    char     pad15D4[0x20];
+    int      field_15F4;
     int      field_15F8;
     int      field_15FC;
     int      field_1600;
@@ -1000,7 +1002,7 @@ int s12c_dog_800CB54C(Work *work, int index)
         {
             return 0;
         }
-        if (GV_DiffDirAbs(radar->dir, work->field_152E[index].vx) > radar->range)
+        if (GV_DiffDirAbs(radar->dir, work->field_152E[index * 4]) > radar->range)
         {
             return 0;
         }
@@ -1212,10 +1214,8 @@ extern void s12c_dog_800CC8B4(Work *work, int index);
 extern void s12c_dog_800CCC3C(Work *work, int index);
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CDBC4.s")
 extern void s12c_dog_800CDBC4(Work *work, int index);
-/* The int array at 0x1544 runs into the tail of field_152E[2], so it is reached
-   by hand the way s12c_dog_800CAD8C reaches its 0x90-strided block. The two
-   field_10B0 stores go through a byte offset taken before the switch, which is
-   what keeps index * 8 in a saved register across the GV_RandU call. */
+/* The two field_10B0 stores go through a byte offset taken before the switch,
+   which is what keeps index * 8 in a saved register across the GV_RandU call. */
 void s12c_dog_800CE034(Work *work, int index)
 {
     CONTROL *control;
@@ -1230,7 +1230,7 @@ void s12c_dog_800CE034(Work *work, int index)
     {
     case 0:
         work->field_1510[index] = 1;
-        *(int *)((char *)work + index * 4 + 0x1544) = 0;
+        work->field_1544[index] = 0;
         work->field_1550[index] = GV_RandU(16) + 32;
         *(u_short *)((char *)work + off + 0x10B0) = control->mov.vx;
         *(u_short *)((char *)work + off + 0x10B4) = control->mov.vz;
@@ -1341,8 +1341,83 @@ int Dog_800D0BC4(Work *work)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0C78.s")
-extern void s12c_dog_800D0C78(Work *work, int index);
+void s12c_dog_800D0C78(Work *work, int index)
+{
+    if (work->field_1510[index] != 5 && work->field_1510[index] != 14 &&
+        work->field_158C[index] <= index / 2 * 25 + 60)
+    {
+        work->field_1510[index] = 5;
+        Dog_800CA458(work, 18, index);
+
+        if (work->field_1604 == 0)
+        {
+            GM_SeSetMode(&work->field_28[index].mov, 0x84, GM_SEMODE_NORMAL);
+        }
+        else
+        {
+            GM_SeSetMode(&work->field_28[index].mov, 0x86, GM_SEMODE_NORMAL);
+        }
+    }
+
+    switch (work->field_1510[index])
+    {
+    case 0:
+        work->field_1510[index] = 1;
+        work->field_1544[index] = 0;
+        Dog_800CA458(work, 18, index);
+        work->field_10B0[index].vx = work->field_28[index].mov.vx;
+        work->field_10B0[index].vz = work->field_28[index].mov.vz;
+        GM_SeSetMode(&work->field_28[index].mov, 0x8D, GM_SEMODE_NORMAL);
+
+    case 1:
+        work->field_1574[index] = 0x80;
+
+        if (work->field_1544[index] < 16)
+        {
+            work->field_1544[index]++;
+        }
+
+        work->field_F00[index][4].vx = work->field_1544[index] * 32;
+        work->field_F00[index][5].vx = work->field_1544[index] * 32;
+        work->field_28[index].mov.vx = work->field_10B0[index].vx;
+        work->field_28[index].mov.vz = work->field_10B0[index].vz;
+        Dog_800CB23C(work, 2, 1, index);
+        break;
+
+    case 5:
+        Dog_800CB23C(work, 16, 14, index);
+        break;
+
+    case 14:
+        if (work->field_1608)
+        {
+            /* the loop reuses index: it is dead once the switch has dispatched */
+            for (index = 0; index < 3; index++)
+            {
+                if (work->field_15C8[index] == 0)
+                {
+                    work->field_14F8[index] = 5;
+                    work->field_1510[index] = 0;
+
+                    if (work->field_28[index].mov.vx < 6000 ||
+                        work->field_28[index].mov.vz > -1500)
+                    {
+                        work->field_28[index].mov.vx = index * 500 + 8500;
+                        work->field_28[index].mov.vy = 1000;
+                        work->field_28[index].mov.vz = index * 500 - 1500;
+                    }
+                }
+            }
+        }
+        else
+        {
+            work->field_15F4 = 0;
+            work->field_14F8[index] = 3;
+            work->field_1510[index] = 0;
+        }
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D0F30.s")
 #pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D11D4.s")
 
