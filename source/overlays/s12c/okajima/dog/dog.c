@@ -133,6 +133,7 @@ void  AN_Breath(MATRIX *world);
 void  AN_Breath_2(MATRIX *world);
 void  AN_Sleep(SVECTOR *pos);
 void  AN_Unknown_800C3B7C(MATRIX *matrix);
+void *NewWolfEye_800D3930(MATRIX *root, int *visible);
 void *AN_Unknown_800CA320(MATRIX *mat, int mark);
 
 void Dog_800C9E4C(Work *work, int index)
@@ -4230,11 +4231,6 @@ void s12c_dog_800D1DA0(Work *work)
     }
 }
 
-const char s12c_aWolfdog_800DA0F0[] = "wolfdog";
-const char s12c_aWolfdog_800DA0F8[] = "wolfdog2";
-const char s12c_aShadow_800DA104[] = "shadow";
-const char s12c_aDoglow_800DA10C[] = "dog_low";
-
 void DogDie_800D2798(Work *work)
 {
     // https://i.kym-cdn.com/photos/images/newsfeed/001/464/596/d38.jpg
@@ -4292,8 +4288,369 @@ int DogGetInts_800D2904(char *opt, int *out)
     return count;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800D295C.s")
-int s12c_dog_800D295C(Work *work, int, int);
+int s12c_dog_800D295C(Work *work, int name, int map_name)
+{
+    int   routes[4];
+    MAP  *map;
+    char *opt;
+    int   fill;
+    int   i;
+    int   j;
+
+    CONTROL        *control;
+    OBJECT         *object;
+    DG_PRIM        *prim;
+    DG_TEX         *tex;
+    HZD_PAT        *pat;
+    HZD_PTP        *pt;
+    HZD_HDL        *hzd;
+
+    work->field_20 = map_name;
+    GM_CurrentMap = map_name;
+    work->field_24 = name;
+    map = GM_GetMap(work->field_20);
+
+    if ((opt = GCL_GetOption('h')) != NULL)
+    {
+        work->field_1794 = GCL_StrToInt(opt);
+    }
+    else
+    {
+        work->field_1794 = -1;
+    }
+
+    if ((opt = GCL_GetOption('o')) != NULL)
+    {
+        work->field_17B0 = GCL_StrToInt(opt);
+    }
+    else
+    {
+        work->field_17B0 = -1;
+    }
+
+    if ((opt = GCL_GetOption('b')) != NULL)
+    {
+        work->field_17B4 = GCL_StrToInt(opt);
+    }
+    else
+    {
+        work->field_17B4 = 0;
+    }
+
+    if ((opt = GCL_GetOption('s')) != NULL)
+    {
+        work->field_1604 = GCL_StrToInt(opt);
+    }
+    else
+    {
+        work->field_1604 = 0;
+    }
+
+    if ((opt = GCL_GetOption('c')) == NULL || (work->field_1784 = GCL_StrToInt(opt)) != 1)
+    {
+        work->field_1784 = 0;
+    }
+
+    if (work->field_1604 != 0 || work->field_1784 != 0)
+    {
+        work->field_1278 = 2;
+    }
+    else
+    {
+        if ((opt = GCL_GetOption('r')) != NULL)
+        {
+            work->field_1278 = DogGetInts_800D2904(opt, routes);
+        }
+
+        if (work->field_1278 >= 3)
+        {
+            work->field_1278 = 2;
+        }
+    }
+
+    if ((opt = GCL_GetOption('l')) != NULL)
+    {
+        work->unk14B4 = GCL_StrToInt(opt);
+    }
+    else
+    {
+        work->unk14B4 = 256;
+    }
+
+    if ((opt = GCL_GetOption('d')) != NULL)
+    {
+        work->field_1780 = GCL_StrToInt(opt);
+    }
+    else
+    {
+        work->field_1780 = 2;
+    }
+
+    if (work->field_1780 < 0 || work->field_1604 == 1 || work->field_1784 != 0)
+    {
+        work->field_14F8[0] = 15;
+        work->field_1510[0] = 0;
+        work->field_15C8[0] = 1;
+        work->field_28[0].mov = GM_PlayerPosition;
+        work->field_14F8[1] = 15;
+        work->field_1510[1] = 0;
+        work->field_15C8[1] = 1;
+        work->field_28[1].mov = GM_PlayerPosition;
+    }
+
+    if ((opt = GCL_GetOption('p')) != NULL)
+    {
+        DogGetSvec_800D28C4(opt, &work->field_178C);
+        work->field_1788 = 1;
+    }
+    else
+    {
+        work->field_1788 = 0;
+    }
+
+    object = NULL;
+
+    for (i = 0; i < work->field_1278 + 1; i++)
+    {
+        control = &work->field_28[i];
+
+        if (GM_InitControl(control, name, map_name) < 0)
+        {
+            return -1;
+        }
+
+        if (work->field_1784 == 0 || i == 2)
+        {
+            GM_ConfigControlAttribute(control, 5);
+        }
+        else
+        {
+            GM_ConfigControlAttribute(control, 0);
+        }
+
+        if (work->field_1604 != 1)
+        {
+            GM_ConfigControlHazard(control, -1, -2, 1000);
+        }
+        else if (i == 2)
+        {
+            GM_ConfigControlHazard(control, -1, -2, 1000);
+        }
+        else
+        {
+            GM_ConfigControlHazard(control, -1, -2, -1);
+        }
+
+        if (work->field_1604 != 1 && i == 2)
+        {
+            control->seg_flag = 1;
+        }
+        else
+        {
+            control->seg_flag = 2;
+        }
+
+        GM_ConfigControlInterp(control, 4);
+
+        if (i != 2)
+        {
+            if (work->field_1604 != 1 && work->field_1784 == 0)
+            {
+            if (map->hzd->def->n_routes < routes[i] + 1)
+            {
+                routes[i] = 0;
+            }
+
+            pat = &map->hzd->def->routes[routes[i]];
+            work->field_127A[i] = pat->n_points;
+
+            if (work->field_127A[i] <= 0)
+            {
+                return -1;
+            }
+
+            if (work->field_127A[i] >= 32)
+            {
+                return -1;
+            }
+
+            pt = pat->points;
+
+            for (j = 0; j < work->field_127A[i]; j++)
+            {
+                work->field_1286[i][j].vx = pt->x;
+                work->field_1286[i][j].vy = pt->y;
+                work->field_1286[i][j].vz = pt->z;
+                pt++;
+            }
+
+            work->field_1282[i] = GV_RandU(0x1000) % work->field_127A[i];
+            work->field_127E[i] = work->field_1282[i] + 1;
+
+            if (work->field_127E[i] >= work->field_127A[i])
+            {
+                work->field_127E[i] = 0;
+            }
+
+            control->mov = work->field_1286[i][work->field_127E[i]];
+            }
+        }
+        else
+        {
+            work->field_15DC = GV_RandU(2);
+            control->mov = work->field_28[work->field_15DC].mov;
+        }
+
+        s12c_dog_800CB114(work, i);
+        object = &work->field_19C[i];
+
+        switch (work->field_1604)
+        {
+        case 0:
+            GM_InitObject(object, GV_StrCode("wolfdog"), 0x229, GV_StrCode("wolfdog"));
+            GM_ConfigObjectJoint(object);
+            GM_ConfigMotionControl(object, &work->field_45C[i], GV_StrCode("wolfdog"),
+                                   work->field_54C[i], NULL, control, work->field_D50[i]);
+            GM_ConfigObjectLight(object, work->field_10C8[i]);
+            break;
+
+        case 1:
+            GM_InitObject(object, GV_StrCode("wolfdog"), 0x229, GV_StrCode("wolfdog2"));
+            GM_ConfigObjectJoint(object);
+            GM_ConfigMotionControl(object, &work->field_45C[i], GV_StrCode("wolfdog2"),
+                                   work->field_54C[i], NULL, control, work->field_D50[i]);
+            GM_ConfigObjectLight(object, work->field_10C8[i]);
+            break;
+        }
+
+        work->field_1188[i] = GM_AllocTarget();
+
+        if (work->field_1188[i] != NULL)
+        {
+            Dog_800CAFB0(work, i);
+        }
+
+        work->field_126C[i] = GM_AllocHomingTarget(&object->objs->objs[5].world, control);
+        work->field_126C[i]->flag = 1;
+        prim = GM_MakePrim(18, 1, work->field_161C[i], NULL);
+        work->field_167C[i] = prim;
+
+        if (prim == NULL)
+        {
+            return -1;
+        }
+
+        prim->raise = 100;
+        tex = DG_GetTexture(GV_StrCode("shadow"));
+
+        if (tex == NULL)
+        {
+            return -1;
+        }
+
+        Dog_800D2864(prim->packs[0], tex);
+        Dog_800D2864(prim->packs[1], tex);
+        s12c_dog_800CB714(work, i);
+
+        if (work->field_1784 == 0)
+        {
+            work->field_14F8[i] = 0;
+            work->field_1510[i] = 0;
+            work->field_1598[i] = 0;
+            work->field_15C8[i] = 0;
+        }
+        else if (i == 2)
+        {
+            work->field_14F8[i] = 0;
+            work->field_1510[i] = 0;
+        }
+        else
+        {
+            work->field_1188[i]->class = (work->field_1188[i]->class & 0xFFE2) | 1;
+            work->field_126C[i]->flag = 0;
+        }
+
+        work->field_1544[i] = GV_RandU(0x1000);
+        work->field_1488[i] = 0;
+        work->field_14A0[i] = 0;
+        work->field_1494[i] = 2;
+        work->field_1574[i] = 255;
+        work->field_155C[i] = GV_RandU(0x1000);
+        work->field_158C[i] = 0;
+        work->field_14E0[i] = 0;
+        GM_ConfigMotionAdjust(object, work->field_F00[i]);
+
+        if (i == 2)
+        {
+            hzd = control->map->hzd;
+            work->field_15E8 = work->field_28[work->field_15DC].mov;
+            work->field_15E0 = HZD_GetAddress(hzd, &work->field_15E8, -1);
+            work->field_14A8[2] = HZD_GetAddress(hzd, &control->mov, -1);
+        }
+
+        if (work->field_1604 == 0)
+        {
+            NewWolfEye_800D3930(&work->field_19C[i].objs->objs[5].world, &work->field_15BC[i]);
+        }
+        else
+        {
+            GM_GameStatus |= 0x100;
+        }
+
+        work->field_15B0[i] = 0;
+        work->field_14B8[i] = 0;
+        work->field_14C8[i] = GV_RandU(0x40) + 30;
+        work->field_14EC[i] = -1;
+        work->field_1580[i] = 0;
+        work->field_448[i] = 1;
+    }
+
+    work->field_458 = object->objs->def;
+    work->field_454 = GV_GetCache(GV_CacheID(GV_StrCode("dog_low"), 'k'));
+    work->field_14C4 = 0;
+    work->field_15F4 = 0;
+    work->field_15F8 = 0;
+    work->field_1608 = 0;
+    work->field_1748 = 0;
+    work->field_1774 = 0;
+    work->field_160C = 0;
+    work->field_177C = 0;
+    work->field_1740 = 0;
+    work->field_1744 = 0;
+    work->field_17A4 = 0;
+    work->field_17A8 = 0;
+    work->field_17AC = 0;
+
+    switch (work->field_1604)
+    {
+    case 0:
+        for (i = 29; i >= 0; i--)
+        {
+            work->field_1698[i] = i;
+        }
+        break;
+
+    case 1:
+        fill = -1;
+
+        for (i = 29; i >= 0; i--)
+        {
+            work->field_1698[i] = fill;
+        }
+
+        work->field_1698[1] = 1;
+        work->field_1698[2] = 2;
+        work->field_1698[9] = 3;
+        work->field_1698[16] = 6;
+        work->field_1698[24] = 4;
+        work->field_1698[0] = 0;
+        work->field_1698[28] = 5;
+        break;
+    }
+
+    return 0;
+}
+
 
 void *NewDog(int arg0, int arg1)
 {
