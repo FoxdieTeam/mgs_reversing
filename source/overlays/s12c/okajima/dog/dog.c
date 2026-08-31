@@ -184,7 +184,103 @@ void Dog_800CA058(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s12c/s12c_dog_800CA098.s")
+void s12c_dog_800CA098(Work *work, int index)
+{
+    if (work->field_14F8[index] > 9 && work->field_14F8[index] < 14)
+    {
+        return;
+    }
+
+    if (work->field_1528 > 500)
+    {
+        return;
+    }
+
+    if ((GM_PlayerPosition.vx > -3500 && GM_PlayerPosition.vx < 7000 &&
+         GM_PlayerPosition.vz > 2000 && GM_PlayerPosition.vz < 7500) ||
+        (GM_PlayerPosition.vx > -14000 && GM_PlayerPosition.vx < -4000 &&
+         GM_PlayerPosition.vz > -2000 && GM_PlayerPosition.vz < 8000))
+    {
+        if (work->field_28[0].mov.vx - work->field_28[1].mov.vx >= 0
+                ? work->field_28[0].mov.vx - work->field_28[1].mov.vx < 500
+                : work->field_28[1].mov.vx - work->field_28[0].mov.vx < 500)
+        {
+            if (work->field_28[0].mov.vx < work->field_28[1].mov.vx)
+            {
+                if (work->field_28[0].n_touches == 0)
+                {
+                    work->field_10B0[0].vx -= 20;
+                    work->field_28[0].mov.vx -= 20;
+                    work->field_1550[0] = GV_RandU(128) + 30;
+                }
+
+                if (work->field_28[1].n_touches == 0)
+                {
+                    work->field_10B0[1].vx += 20;
+                    work->field_28[1].mov.vx += 20;
+                    work->field_1550[1] = GV_RandU(128) + 30;
+                }
+            }
+            else
+            {
+                if (work->field_28[0].n_touches == 0)
+                {
+                    work->field_10B0[0].vx += 20;
+                    work->field_28[0].mov.vx += 20;
+                    work->field_1550[0] = GV_RandU(128) + 30;
+                }
+
+                if (work->field_28[1].n_touches == 0)
+                {
+                    work->field_10B0[1].vx -= 20;
+                    work->field_28[1].mov.vx -= 20;
+                    work->field_1550[1] = GV_RandU(128) + 30;
+                }
+            }
+        }
+    }
+    else if (GM_PlayerPosition.vx > 2000 && GM_PlayerPosition.vx < 10000 &&
+             GM_PlayerPosition.vz > -2000 && GM_PlayerPosition.vz < 1500)
+    {
+        if (work->field_28[0].mov.vz - work->field_28[1].mov.vz >= 0
+                ? work->field_28[0].mov.vz - work->field_28[1].mov.vz < 500
+                : work->field_28[1].mov.vz - work->field_28[0].mov.vz < 500)
+        {
+            if (work->field_28[0].mov.vz < work->field_28[1].mov.vz)
+            {
+                if (work->field_28[0].n_touches == 0)
+                {
+                    work->field_10B0[0].vz -= 20;
+                    work->field_28[0].mov.vz -= 20;
+                    work->field_1550[0] = GV_RandU(128) + 30;
+                }
+
+                if (work->field_28[1].n_touches == 0)
+                {
+                    work->field_10B0[1].vz += 20;
+                    work->field_28[1].mov.vz += 20;
+                    work->field_1550[1] = GV_RandU(128) + 30;
+                }
+            }
+            else
+            {
+                if (work->field_28[0].n_touches == 0)
+                {
+                    work->field_10B0[0].vz += 20;
+                    work->field_28[0].mov.vz += 20;
+                    work->field_1550[0] = GV_RandU(128) + 30;
+                }
+
+                if (work->field_28[1].n_touches == 0)
+                {
+                    work->field_10B0[1].vz -= 20;
+                    work->field_28[1].mov.vz -= 20;
+                    work->field_1550[1] = GV_RandU(128) + 30;
+                }
+            }
+        }
+    }
+}
 
 // Duplicate of d03a_red_alrt_800C437C
 int Dog_800CA3C0(unsigned short name, int nhashes, unsigned short *hashes)
