@@ -9,6 +9,8 @@
 #include "common.h"
 #include "mts/mts.h"
 
+typedef void (*TMemCardFunc)(int);
+
 static int memcard_initialized = FALSE;
 
 static long BSS          gHardware_end_io;
@@ -23,12 +25,13 @@ static TMemCardFunc BSS  gHwCard_do_op;
 static TMemCardFunc BSS  gSwCard_do_op;
 static volatile int BSS  gSwCardLastOp;
 static volatile int BSS  gHwCardLastOp;
-static MEM_CARD BSS      gMemCards[ 2 ];
+static MEMCARD BSS       gMemCards[ 2 ];
 static volatile long BSS gMemCard_io_size;
 
 static void memcard_hwcard_do_op(int op);
 static void memcard_swcard_do_op(int op);
 static int  memcard_dummy(int state);
+static void memcard_retry(int port);
 
 static inline void memcard_access_wait(void)
 {
@@ -170,7 +173,7 @@ static int memcard_easy_format_test(int port)
  *
  * For each file in the memory card, this function fills
  * gMemCards[port].files[i] fields by setting the file name
- * and size, and MEM_CARD_FILE::field_14 to 0 (unknown meaning).
+ * and size.
  *
  * @param port The memory card port: 0 for port 1, 1 for port 2.
  * @param pUsedBlocksCount When the function returns, contains the number of
@@ -195,10 +198,11 @@ static int memcard_loaddir(int port, int *pUsedBlocksCount)
         files = 0;
 
         do {
-            memcpy(gMemCards[port].files[files].name, dir.name, sizeof(dir.name));
-            gMemCards[port].files[files].field_14 = 0;
-            gMemCards[port].files[files].field_18_size = dir.size;
-            blocks += (dir.size + 8191) / MC_BLOCK_SIZE;
+            memcpy(gMemCards[port].files[files].name, dir.name, MEMCARD_NAME_MAX);
+            gMemCards[port].files[files].name[MEMCARD_NAME_MAX] = '\0';
+
+            gMemCards[port].files[files].size = dir.size;
+            blocks += (dir.size + MEMCARD_BLOCK_SIZE - 1) / MEMCARD_BLOCK_SIZE;
             files++;
         }
         while (nextfile(&dir));
@@ -214,22 +218,22 @@ static int memcard_loaddir(int port, int *pUsedBlocksCount)
 }
 
 /**
- * Helper function for memcard_get_files().
+ * Helper function for memcard_files().
  *
  * This function fills all gMemCards[port] fields by setting the card
  * index, the number of files contained in the card, the number of free blocks,
- * and MEM_CARD::last_op to 1 (unknown meaning). It then calls
- * memcard_loaddir() to fill the array MEM_CARD::files.
+ * and MEMCARD::last_op to 1 (unknown meaning). It then calls
+ * memcard_loaddir() to fill the array MEMCARD::files.
  *
  * @param port The memory card port: 0 for port 1, 1 for port 2.
  */
 static void memcard_load_files(int port)
 {
     int pUsedBlocksCount;
-    gMemCards[port].card_idx = port;
+    gMemCards[port].port = port;
     gMemCards[port].last_op = 1;
     gMemCards[port].file_count = memcard_loaddir(port, &pUsedBlocksCount);
-    gMemCards[port].free_blocks = 15 - pUsedBlocksCount;
+    gMemCards[port].free_blocks = MEMCARD_BLOCK_MAX - pUsedBlocksCount;
 }
 
 // Pure function whose return value is never used
@@ -251,7 +255,7 @@ static int memcard_dummy(int state)
     }
 }
 
-void memcard_reset_status(void)
+static void memcard_reset_status(void)
 {
     gMemCards[0].last_op = 2;
     gMemCards[1].last_op = 2;
@@ -464,7 +468,7 @@ void memcard_exit(void)
     memcard_initialized = FALSE;
 }
 
-void memcard_retry(int port)
+static void memcard_retry(int port)
 {
     int op;
     int count;
@@ -525,10 +529,10 @@ void memcard_retry(int port)
  * @return A pointer to gMemCards[port] containing the requested
  * information if the operation was performed, otherwise 0.
  */
-MEM_CARD *memcard_get_files(int port)
+MEMCARD *memcard_files(int port)
 {
-    MEM_CARD *pCardBase = gMemCards;
-    MEM_CARD *pCard = &pCardBase[port];
+    MEMCARD *pCardBase = gMemCards;
+    MEMCARD *pCard = &pCardBase[port];
 
     if (pCard->last_op == 1 || pCard->last_op == 4)
     {
@@ -551,8 +555,8 @@ int memcard_delete(int port, const char *filename)
 {
     char tmp[32];
 
-    MEM_CARD *pCardBase = gMemCards;
-    MEM_CARD *pCard = &pCardBase[port];
+    MEMCARD *pCardBase = gMemCards;
+    MEMCARD *pCard = &pCardBase[port];
 
     if (pCard->last_op == 1)
     {
@@ -608,7 +612,7 @@ static void memcard_set_read_write(int fileSize)
 
 void memcard_write(int port, const char *filename, int offset, char *buffer, int size)
 {
-    int blocks = ROUND_UP(size, MC_BLOCK_SIZE) / MC_BLOCK_SIZE;
+    int blocks = ROUND_UP(size, MEMCARD_BLOCK_SIZE) / MEMCARD_BLOCK_SIZE;
     int fd;
     char name[32];
 
@@ -666,7 +670,7 @@ void memcard_read(int port, const char *filename, int offset, char *buffer, int 
     printf("READING FILE %s...\n", filename);
 }
 
-int memcard_get_status(void)
+int memcard_status(void)
 {
     return gMemCard_io_size;
 }

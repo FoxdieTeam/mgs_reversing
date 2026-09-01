@@ -396,14 +396,14 @@
 80024E48 636 memcard_init
 800250C4 180 memcard_exit
 80025178 472 memcard_retry
-80025350 116 memcard_get_files
+80025350 116 memcard_files
 800253C4 168 memcard_delete
 8002546C 104 memcard_hwcard_read_write_handler
 800254D4 72 memcard_swcard_read_write_handler
 8002551C 48 memcard_set_read_write
 8002554C 336 memcard_write
 8002569C 276 memcard_read
-800257B0 16 memcard_get_status
+800257B0 16 memcard_status
 800257C0 240 memcard_format
 800258B0 84 QueueWhere
 80025904 120 DequeueWhere

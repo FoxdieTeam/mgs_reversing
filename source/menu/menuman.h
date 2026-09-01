@@ -131,7 +131,7 @@ typedef struct PANEL_CONF
     PANEL_CONF_update field_18_pFnUpdate;
 } PANEL_CONF;
 
-typedef void (*TMenuSaveModeDataUnknownFn1)(char *, struct MEM_CARD *, int, int);
+typedef void (*TMenuSaveModeDataUnknownFn1)(char *, MEMCARD *, int, int);
 typedef void (*TMenuSaveModeDataUnknownFn2)(char *, char *);
 typedef void (*TMenuSaveModeDataUnknownFn3)(char *);
 
