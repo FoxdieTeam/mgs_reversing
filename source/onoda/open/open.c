@@ -844,7 +844,7 @@ static void title_open_800C5D10(Work *work)
 
 static void title_open_800C5D30(Work *work)
 {
-    MEM_CARD card1, card2;
+    MEMCARD card1, card2;
     int      check1, check2;
     int      max1, max2;
     int      error1, error2;
@@ -875,7 +875,7 @@ static void title_open_800C5D30(Work *work)
     {
         printf("this memcard is OK\n");
 
-        card1 = *memcard_get_files(0);
+        card1 = *memcard_files(0);
         printf("free = %d\n", card1.free_blocks);
 
         if (card1.free_blocks == 0)
@@ -916,7 +916,7 @@ static void title_open_800C5D30(Work *work)
     {
         printf("this memcard is OK\n");
 
-        card2 = *memcard_get_files(1);
+        card2 = *memcard_files(1);
         printf("free = %d\n", card2.free_blocks);
 
         if (card2.free_blocks == 0)
@@ -7503,7 +7503,7 @@ skip:
 
 void title_open_800D1CB4(Work *work)
 {
-    MEM_CARD card1, card2;
+    MEMCARD card1, card2;
     int      check1, check2;
     char    *name;
     int      found;
@@ -7527,7 +7527,7 @@ void title_open_800D1CB4(Work *work)
     {
         printf("this memcard is OK\n");
 
-        card1 = *memcard_get_files(0);
+        card1 = *memcard_files(0);
 
         for (i = 0; i < card1.file_count; i++)
         {
@@ -7616,7 +7616,7 @@ void title_open_800D1CB4(Work *work)
     {
         printf("this memcard is OK\n");
 
-        card2 = *memcard_get_files(1);
+        card2 = *memcard_files(1);
 
         for (i = 0; i < card2.file_count; i++)
         {

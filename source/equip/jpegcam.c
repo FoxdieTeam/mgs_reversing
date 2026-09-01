@@ -75,7 +75,7 @@ typedef struct _Work
 
 /*---------------------------------------------------------------------------*/
 
-static void jpegcam_unk1_80063704(char *buf, MEM_CARD *pMemcard, int arg2, int arg3);
+static void jpegcam_unk1_80063704(char *buf, MEMCARD *pMemcard, int arg2, int arg3);
 static void jpegcam_unk2_80063888(char *param_1, int param_2);
 static void jpegcam_unk3_800638B4(int *arg0);
 
@@ -128,7 +128,7 @@ STATIC SVECTOR dword_8009F3AC[2] = {
  * photo save functions
  */
 
-static void jpegcam_unk1_80063704(char *buf, MEM_CARD *pMemcard, int arg2, int arg3)
+static void jpegcam_unk1_80063704(char *buf, MEMCARD *pMemcard, int arg2, int arg3)
 {
     char photo_id[8];
     unsigned int blocks_avail;

@@ -868,11 +868,11 @@ void updateCurrentEntry_800C6984(SELECT_INFO *info, int dir)
 }
 
 // duplicate of menu_radio_do_file_mode_helper12_8004BA80
-int camera_800C6A40(MenuWork *work, MEM_CARD *pMemcard, const char *param_3,
+int camera_800C6A40(MenuWork *work, MEMCARD *pMemcard, const char *param_3,
                     SELECT_INFO *info)
 {
     MENU_CURPOS *pIter;
-    MEM_CARD_FILE       *pMcFile;
+    MEMCARD_FILE       *pMcFile;
     int                  i;
 
     pIter = info->menu;
@@ -1254,7 +1254,7 @@ extern const char camera_dword_800D012C[];
 extern int        camera_dword_800C38D4;
 extern int        camera_dword_800D0774;
 
-void camera_800C80E4(char *out, MEM_CARD *unused, int hours, int minutes)
+void camera_800C80E4(char *out, MEMCARD *unused, int hours, int minutes)
 {
     char  playTime[11];
     char *discard;
@@ -1305,7 +1305,7 @@ void jpegcam_initSaveBuffer_800C8234(char *arg0)
     {
         chunkSize = GCL_MakeSaveFile(buff);
         totalSavedSize += chunkSize;
-        if (totalSavedSize + chunkSize > MC_BLOCK_SIZE)
+        if (totalSavedSize + chunkSize > MEMCARD_BLOCK_SIZE)
         {
             break;
         }

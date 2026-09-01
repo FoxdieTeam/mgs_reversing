@@ -26,7 +26,7 @@ int                         SECTION(".sbss") dword_800ABB54;
 int                         SECTION(".sbss") dword_800ABB58;
 int                         SECTION(".sbss") dword_800ABB5C;
 int                         SECTION(".sbss") mcd_last_check_800ABB60[2];
-MEM_CARD                   *SECTION(".sbss") mcd_last_file_800ABB68[2];
+MEMCARD                   *SECTION(".sbss") mcd_last_file_800ABB68[2];
 SELECT_INFO                *SECTION(".sbss") dword_800ABB70;
 SELECT_INFO                *SECTION(".sbss") dword_800ABB74;
 SELECT_INFO                *SECTION(".sbss") dword_800ABB78;
@@ -119,7 +119,7 @@ static inline KCB* GET_KCB( MenuWork *work )
     return work->field_214_font;
 }
 
-STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
+STATIC int saveFile_8004983C(MEMCARD *pMemcard)
 {
     int size;
     int hours, minutes;
@@ -134,7 +134,7 @@ STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
 
     GM_PadResetDisable = TRUE;
 
-    size = data_info->blocks_count * MC_BLOCK_SIZE;
+    size = data_info->blocks_count * MEMCARD_BLOCK_SIZE;
     buffer = GV_AllocMemory(GV_PACKET_MEMORY0, size);
     if (!buffer)
     {
@@ -246,13 +246,13 @@ STATIC int saveFile_8004983C(struct MEM_CARD *pMemcard)
     success = 0;
     for (retries = 4; retries > 0; retries--)
     {
-        memcard_write(pMemcard->card_idx, memoryCardFileName, 0, buffer, size);
-        while ((flags2 = memcard_get_status()) > 0)
+        memcard_write(pMemcard->port, memoryCardFileName, 0, buffer, size);
+        while ((flags2 = memcard_status()) > 0)
         {
             mts_wait_vbl(2);
         }
 
-        if (memcard_get_status() == 0)
+        if (memcard_status() == 0)
         {
             // Mark successful write and stop retrying.
             success = 1;
@@ -317,7 +317,7 @@ const char *loadCaptions_8009EB7C[] = {
     "\x82\x35\xc2\x09\xd0\x06\x82\x3e\xc2\x23\x82\x28\x81\x17\x81\x26\x81\x04\x81\x3e\x81\x19\xd0\x03",
 };
 
-STATIC int loadFile_80049CE8(MEM_CARD *pMemcard, int idx)
+STATIC int loadFile_80049CE8(MEMCARD *pMemcard, int idx)
 {
     int   success;
     int   optionFlag;
@@ -326,7 +326,7 @@ STATIC int loadFile_80049CE8(MEM_CARD *pMemcard, int idx)
     void *buf;
 
     GM_PadResetDisable = TRUE;
-    buf = GV_AllocMemory(GV_PACKET_MEMORY0, MC_BLOCK_SIZE);
+    buf = GV_AllocMemory(GV_PACKET_MEMORY0, MEMCARD_BLOCK_SIZE);
     if (buf == NULL)
     {
         printf("NO MEMORY FOR FILE BODY\n");
@@ -335,14 +335,14 @@ STATIC int loadFile_80049CE8(MEM_CARD *pMemcard, int idx)
     success = 0;
     for (retries = 4; retries > 0; retries--)
     {
-        memcard_read(pMemcard->card_idx, pMemcard->files[idx].name, 0, buf, MC_BLOCK_SIZE);
+        memcard_read(pMemcard->port, pMemcard->files[idx].name, 0, buf, MEMCARD_BLOCK_SIZE);
 
-        while (memcard_get_status() > 0)
+        while (memcard_status() > 0)
         {
             mts_wait_vbl(2);
         }
 
-        if (memcard_get_status() == 0)
+        if (memcard_status() == 0)
         {
             optionFlagTmp = GM_Configuration & ~GM_CONFIG_RADAR_OFF;
             optionFlag = optionFlagTmp;
@@ -414,7 +414,7 @@ STATIC void init_file_mode_helper_helper_80049EDC(void)
     int temp_v1_2;
     int port;
     int var_s2;
-    MEM_CARD *pMemcard;
+    MEMCARD *pMemcard;
     int negone;
     int one;
 
@@ -603,7 +603,7 @@ block_40:
                 }
             }
 block_51:
-            pMemcard = memcard_get_files(dword_800AB6FC);
+            pMemcard = memcard_files(dword_800AB6FC);
             mcd_last_file_800ABB68[dword_800AB6FC] = pMemcard;
 
             if (pMemcard == NULL)
@@ -648,7 +648,7 @@ loop_52:
                         goto block_72;
                     }
 
-                    pMemcard = memcard_get_files(dword_800AB6FC);
+                    pMemcard = memcard_files(dword_800AB6FC);
                     mcd_last_file_800ABB68[dword_800AB6FC] = pMemcard;
                 }
 
@@ -1503,11 +1503,11 @@ STATIC void updateCurrentEntry_8004B9C4(SELECT_INFO *info, int dir)
     sub_8004AEA8(info);
 }
 
-STATIC int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, MEM_CARD *pMemcard, const char *param_3,
+STATIC int menu_radio_do_file_mode_helper12_8004BA80(MenuWork *work, MEMCARD *pMemcard, const char *param_3,
                                               SELECT_INFO *info)
 {
     MENU_CURPOS *pIter;
-    MEM_CARD_FILE       *pMcFile;
+    MEMCARD_FILE       *pMcFile;
     int                  i;
 
     pIter = info->menu;
@@ -2229,7 +2229,7 @@ const char *diff_names_8009EC1C[] = {
 };
 
 // Called by data_info->make_title
-STATIC void makeTitle_8004D008(char *title, MEM_CARD *pUnused, int hours, int minutes)
+STATIC void makeTitle_8004D008(char *title, MEMCARD *pUnused, int hours, int minutes)
 {
     char  playTime[11];
     char *discard;
@@ -2305,7 +2305,7 @@ STATIC void writeGameData(char *saveBuf)
         size = GCL_MakeSaveFile(saveBufIter);
         currentOffset += size;
 
-        if (currentOffset + size > MC_BLOCK_SIZE)
+        if (currentOffset + size > MEMCARD_BLOCK_SIZE)
         {
             break;
         }
