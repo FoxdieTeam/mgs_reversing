@@ -158,8 +158,8 @@ void *s05a_800DDCBC(CamActor *director)
         return 0;
     }
 
-    *(short *)((char *)&work->control + 0x36) = -2; /* sh -2, 0x56(s3) */
-    *(char *)((char *)&work->control + 0x54) = 0;   /* sb 0, 0x74(s3) */
+    work->control.r_sphere = -2;
+    work->control.interp = 0;
     GM_ConfigControlAttribute(&work->control, 5);
 
     *(int *)&work->light[0].t[0] = *(int *)&work->field_1EC->field_B0;
