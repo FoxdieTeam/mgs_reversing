@@ -1241,7 +1241,8 @@ void s15c_crow_800DA990(Work *work)
     rot.vz = 0;
     DG_RotatePos(&rot);
     ReadRotMatrix(&mtx);
-    NewBulletEx(0x920, &mtx, 2, 1, 0, 0x1E, damage, 0x7530, 1000);
+    NewBulletEx(BULLET_FLASHHEAVY | BULLET_RECOILSPARK | BULLET_BLAST, &mtx, 2, 1, 0, 0x1E, damage,
+                0x7530, 1000);
     Valcan_800DA8E4(work);
 }
 
