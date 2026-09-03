@@ -12,13 +12,13 @@ typedef struct _Work
     int            map;        /* 0x024 */
     CONTROL        control;    /* 0x028 */
     TARGET        *target;     /* 0x0A4 */
-    OBJECT         field_A8;   /* 0x0A8 */
-    OBJECT         field_18C;  /* 0x18C */
+    OBJECT         body;       /* 0x0A8: "jeep_b" */
+    OBJECT         tyres;      /* 0x18C: "jeep_t" */
     MATRIX         light1;     /* 0x270: body lights */
     char           pad_290[0x2B0 - 0x270 - sizeof(MATRIX)];
     TARGET         target2;    /* 0x2B0 */
-    OBJECT_NO_ROTS field_2F8;  /* 0x2F8 */
-    OBJECT_NO_ROTS field_31C;  /* 0x31C */
+    OBJECT_NO_ROTS front_headlights; /* 0x2F8: "jeep_fhl" */
+    OBJECT_NO_ROTS headlights;       /* 0x31C: "jeep_hl" */
     MATRIX         light2;     /* 0x340: lights for the two no-rot objects */
     char           pad_360[0x380 - 0x340 - sizeof(MATRIX)];
     VECTOR         field_380;  /* 0x380 */
@@ -111,10 +111,10 @@ void s19b_jeep_800D2258(Work *work);
 void s19b_jeep_800D2790(Work *work)
 {
     GM_FreeControl(&work->control);
-    GM_FreeObject(&work->field_A8);
-    GM_FreeObject(&work->field_18C);
-    GM_FreeObject((OBJECT *)&work->field_2F8);
-    GM_FreeObject((OBJECT *)&work->field_31C);
+    GM_FreeObject(&work->body);
+    GM_FreeObject(&work->tyres);
+    GM_FreeObject((OBJECT *)&work->front_headlights);
+    GM_FreeObject((OBJECT *)&work->headlights);
     GM_FreeTarget(work->target);
     GV_DestroyActor(work->field_20);
     GM_SetSound(0xFF0000FE, 0);
@@ -148,28 +148,28 @@ int s19b_jeep_800D2880(Work *work, int name, int where)
     GM_ConfigControlInterp(control, 0);
 
     rot  = &control->rot;
-    obj2 = &work->field_18C;
+    obj2 = &work->tyres;
 
     work->control.mov = work->control.rot = work->control.turn = DG_ZeroVector;
     work->control.step = DG_ZeroVector;
     control->rot.vy  = 0x800;
     control->turn.vy = 0x800;
 
-    GM_InitObject(&work->field_A8, 0x26C7, 0x2D, 0);
-    GM_ConfigObjectJoint(&work->field_A8);
+    GM_InitObject(&work->body, 0x26C7, 0x2D, 0);
+    GM_ConfigObjectJoint(&work->body);
     GM_InitObject(obj2, 0x26D9, 0x2D, 0);
     GM_ConfigObjectJoint(obj2);
-    GM_ConfigObjectLight(&work->field_A8, &work->light1);
+    GM_ConfigObjectLight(&work->body, &work->light1);
     GM_ConfigObjectLight(obj2, &work->light1);
 
-    nr = &work->field_2F8;
+    nr = &work->front_headlights;
     GM_InitObjectNoRots(nr, 0x3A07, 0x16D, 0);
-    nr->objs->root = &work->field_A8.objs->world;
+    nr->objs->root = &work->body.objs->world;
     GM_ConfigObjectLight((OBJECT *)nr, &work->light2);
 
-    nr = &work->field_31C;
+    nr = &work->headlights;
     GM_InitObjectNoRots(nr, 0xDA10, 0x16D, 0);
-    nr->objs->root = &work->field_A8.objs->world;
+    nr->objs->root = &work->body.objs->world;
     GM_ConfigObjectLight((OBJECT *)nr, &work->light2);
 
     work->light2.t[0] = 0x80;
@@ -207,17 +207,17 @@ int s19b_jeep_800D2880(Work *work, int name, int where)
     work->field_3DC = 0;
     work->field_3E0 = 0;
 
-    work->field_20 = s19b_jeep_mrl_800D40D4((int)control, (int)work->field_A8.objs,
+    work->field_20 = s19b_jeep_mrl_800D40D4((int)control, (int)work->body.objs,
                                             Takabe_JeepSystem.field_48);
     s19b_dword_800DE64C = work;
-    NewJeepSnake(control, &work->field_A8.objs->world);
+    NewJeepSnake(control, &work->body.objs->world);
 
     Takabe_JeepSystem.control  = control;
     Takabe_JeepSystem.field_8  = rot;
-    Takabe_JeepSystem.field_6C = &work->field_A8;
+    Takabe_JeepSystem.field_6C = &work->body;
     Takabe_JeepSystem.field_50 |= 0x10000;
 
-    NewJeepLamp2(&work->field_A8.objs->world);
+    NewJeepLamp2(&work->body.objs->world);
     GM_SeSet(0, 0xC0);
     return 0;
 }
