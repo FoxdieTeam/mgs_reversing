@@ -144,8 +144,6 @@ void s00a_command_800CAB04( WatcherWork* work )
     work->target_map  = COM_PlayerMapOne[ work->field_B78 ];
 }
 
-extern CONTROL *GM_WhereList[94];
-
 void s00a_command_800CAB74( WatcherWork* work )
 {
     int addr;

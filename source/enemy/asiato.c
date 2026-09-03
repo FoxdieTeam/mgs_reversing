@@ -11,8 +11,6 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern CONTROL *GM_WhereList[96];
-
 /*---------------------------------------------------------------------------*/
 
 #define EXEC_LEVEL  GV_ACTOR_PREV

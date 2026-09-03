@@ -18,8 +18,6 @@
 #define countof(array)  _countof(array)
 #define COUNTOF(array)  _countof(array)
 
-#define BSS SECTION(".bss")
-
 /*---------------------------------------------------------------------------*/
 
 #ifndef MIN
@@ -145,6 +143,8 @@ typedef int             BOOL;
 #endif
 
 #define SECTION(x)      __attribute__((section(x)))
+#define BSS_SECTION     SECTION(".bss")
+#define SBSS_SECTION    SECTION(".sbss")
 
 /*---------------------------------------------------------------------------*/
 

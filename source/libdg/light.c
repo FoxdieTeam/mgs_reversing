@@ -43,8 +43,8 @@ typedef struct {
     DG_LIT lights[ MAX_TMPLIGHTS ];
 } TLIGHT;
 
-static FIXLIGHT BSS fix_lights[ MAX_FIX_LIGHTS ];
-static TLIGHT BSS   tlights[ 2 ];
+static FIXLIGHT SECTION(".bss") fix_lights[ MAX_FIX_LIGHTS ];
+static TLIGHT   SECTION(".bss") tlights[ 2 ];
 
 /*---------------------------------------------------------------------------*/
 

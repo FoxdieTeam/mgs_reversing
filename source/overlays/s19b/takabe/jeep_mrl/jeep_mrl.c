@@ -120,8 +120,6 @@ int s19b_jeep_mrl_800D39B4(SVECTOR *dst)
     *dst = s19b_dword_800DE64C->control.mov;
     return s19b_dword_800DE64C->field_3C8;
 }
-extern CONTROL *GM_WhereList[96];
-extern int      GM_N_WhereList;
 
 int s19b_jeep_mrl_800D39F0(void)
 {

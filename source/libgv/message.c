@@ -2,7 +2,7 @@
 
 /* ---------------------------------------------------------- */
 
-static MESSAGE_LIST BSS message_list[ 2 ];
+static MESSAGE_LIST SECTION(".bss") message_list[ 2 ];
 STATIC int SECTION(".sbss") which_buffer;
 
 // TODO: remove padding

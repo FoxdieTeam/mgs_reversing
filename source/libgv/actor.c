@@ -28,7 +28,7 @@ typedef struct {
     short  kill_level;
 } AList;
 
-static AList BSS ActorList[ GV_ACTOR_LEVEL ];
+static AList SECTION(".bss") ActorList[ GV_ACTOR_LEVEL ];
 
 // initialization structure for the actor lists
 // the pause and kill levels are set for each list

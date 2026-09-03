@@ -10,9 +10,9 @@
 
 #define CDBIOS_STACK_SIZE 1024
 
-static CDBIOS_TASK BSS cdbios_task;
-char BSS               gap_800B4E7C[ 12 ]; // TODO
-static char BSS        cdbios_stack[ CDBIOS_STACK_SIZE ];
+static CDBIOS_TASK  SECTION(".bss") cdbios_task;
+char                SECTION(".bss") gap_800B4E7C[ 12 ]; // TODO
+static char         SECTION(".bss") cdbios_stack[ CDBIOS_STACK_SIZE ];
 
 STATIC int cdbios_next_state = CDBIOS_STATE_INVALID;
 STATIC int cdbios_start_flag = 0;

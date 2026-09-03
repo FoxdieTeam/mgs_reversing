@@ -10,17 +10,17 @@
 #include "mts/mts.h"
 #include "sound/sd_cli.h"
 
-static int BSS   fs_stream_ref_count;
-static int BSS   fs_stream_read;
-static int BSS   fs_stream_sector;
-static void *BSS fs_stream_heap;
-static char *BSS fs_stream_heap_end;
-static int BSS   fs_stream_heap_size;
-static void *BSS fs_stream_unused;
-static char *BSS fs_stream_top;
-static int *BSS  fs_stream_write_ptr;
-static char *BSS fs_stream_bottom;
-static int BSS   fs_stream_task_state;
+static int SECTION(".bss")   fs_stream_ref_count;
+static int SECTION(".bss")   fs_stream_read;
+static int SECTION(".bss")   fs_stream_sector;
+static void *SECTION(".bss") fs_stream_heap;
+static char *SECTION(".bss") fs_stream_heap_end;
+static int SECTION(".bss")   fs_stream_heap_size;
+static void *SECTION(".bss") fs_stream_unused;
+static char *SECTION(".bss") fs_stream_top;
+static int *SECTION(".bss")  fs_stream_write_ptr;
+static char *SECTION(".bss") fs_stream_bottom;
+static int SECTION(".bss")   fs_stream_task_state;
 
 static int  fs_stream_last_time = -1;
 static int  fs_stream_next_time = 0;

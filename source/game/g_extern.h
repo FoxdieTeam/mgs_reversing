@@ -56,6 +56,13 @@ extern PlayerStatusFlag GM_PlayerStatus;
 extern int      GM_PadVibration2;
 #endif // __GAME_GAMED_C__
 
+/* control.c */
+#ifndef __GAME_CONTROL_C__
+extern CONTROL *GM_WhereList[ 96 ];
+extern int GM_N_WhereList;
+extern int GM_CurrentMap;
+#endif // __GAME_CONTROL_C__
+
 /*---------------------------------------------------------------------------*/
 
 /* gamed.c */

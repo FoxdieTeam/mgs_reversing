@@ -16,15 +16,15 @@
 #include "linkvar.h"
 #include "sound/g_sound.h"
 
-static SPRT BSS          gRadioNumberSprt_800bd9b0;
-char BSS                 gap_800BD9C4[ 12 ]; // TODO
-static SPRT BSS          gRadioNumberSprt2_800bd9d0;
-char BSS                 gap_800BD9E4[ 12 ]; // TODO
-static SPRT BSS          gRadioStringSprt_800BD9F0;
-char BSS                 gap_800BDA04[ 12 ]; // TODO
-static PANEL_TEXTURE BSS dword_800BDA10;
-char BSS                 gap_800BDA24[ 12 ]; // TODO
-static PANEL_TEXTURE BSS dword_800BDA30;
+static SPRT             SECTION(".bss") gRadioNumberSprt_800bd9b0;
+char                    SECTION(".bss") gap_800BD9C4[ 12 ]; // TODO
+static SPRT             SECTION(".bss") gRadioNumberSprt2_800bd9d0;
+char                    SECTION(".bss") gap_800BD9E4[ 12 ]; // TODO
+static SPRT             SECTION(".bss") gRadioStringSprt_800BD9F0;
+char                    SECTION(".bss") gap_800BDA04[ 12 ]; // TODO
+static PANEL_TEXTURE    SECTION(".bss") dword_800BDA10;
+char                    SECTION(".bss") gap_800BDA24[ 12 ]; // TODO
+static PANEL_TEXTURE    SECTION(".bss") dword_800BDA30;
 
 int                       SECTION(".sbss") dword_800ABAF8;
 int                       SECTION(".sbss") gRadioClut_800ABAFC;

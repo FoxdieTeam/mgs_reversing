@@ -3,8 +3,8 @@
 #include <libgpu.h>
 #include "common.h"
 
-static void BSS    (*pfn_800BDFB0)();
-static u_short BSS (*pfn_800BDFB4)(u_short);
+static void     SECTION(".bss") (*pfn_800BDFB0)();
+static u_short  SECTION(".bss") (*pfn_800BDFB4)(u_short);
 
 extern u_long DG_PaletteBuffer[ 256 ];
 

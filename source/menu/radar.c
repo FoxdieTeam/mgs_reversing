@@ -191,9 +191,6 @@ void draw_radar_frame(MenuWork *menuMan, u_long *ot)
         : "r"( r0 ) )
 // clang-format on
 
-extern CONTROL         *GM_WhereList[96];
-extern int              GM_N_WhereList;
-
 void menu_draw_radar(MenuWork *work, u_long *ot, int arg2)
 {
     RADAR_SIGHT_PARAM cone;

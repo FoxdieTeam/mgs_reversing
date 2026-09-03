@@ -37,10 +37,10 @@ struct PANEL_CONF SECTION(".data") stru_8009E544[2] = {{16, 184, 1, 24576, 36864
 #define OffsetToPointer(offset, valueToAdd) *((unsigned int *)offset) = (int)valueToAdd + *((unsigned int *)offset);
 
 /* menu/weapon.obj */
-static array_800BD748_child BSS array_800BD748[ 9 ];
-char BSS                        gap_800BD820[ 8 ]; // TODO
-static array_800BD748_child BSS current_texture[ 4 ];
-static PANEL_TEXTURE BSS        gMenuRightItems_800BD888[ MENU_WEAPON_COUNT ];
+static array_800BD748_child SECTION(".bss") array_800BD748[ 9 ];
+char                        SECTION(".bss") gap_800BD820[ 8 ]; // TODO
+static array_800BD748_child SECTION(".bss") current_texture[ 4 ];
+static PANEL_TEXTURE        SECTION(".bss") gMenuRightItems_800BD888[ MENU_WEAPON_COUNT ];
 
 void menu_texture_init_8003CC94(MenuWork *work)
 {

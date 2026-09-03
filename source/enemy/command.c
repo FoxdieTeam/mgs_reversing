@@ -68,7 +68,6 @@ int SECTION(".bss") s00a_dword_800E0F6C;
 int SECTION(".bss") COM_PlayerMapOne[8];
 
 extern int       GM_event_camera_flag;
-extern CONTROL  *GM_WhereList[94];
 extern GM_CameraSystemWork GM_Camera;
 
 SVECTOR ENEMY_TARGET_SIZE   = { 300, 1000, 300 };

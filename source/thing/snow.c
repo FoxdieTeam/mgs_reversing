@@ -8,7 +8,6 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern CONTROL         *GM_WhereList[96];
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 /*---------------------------------------------------------------------------*/

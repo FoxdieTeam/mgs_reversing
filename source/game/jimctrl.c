@@ -38,10 +38,10 @@ typedef struct
     int   font_offset;
 } SubtitleHeader;
 
-Work BSS jimaku_work;
-char BSS jimaku_buffer[ 4090 ];
-JIMCHARA BSS chara_work[ JIMCHARA_COUNT ];
-int BSS GM_JimakuCounter;
+Work SECTION(".bss") jimaku_work;
+char SECTION(".bss") jimaku_buffer[ 4090 ];
+JIMCHARA SECTION(".bss") chara_work[ JIMCHARA_COUNT ];
+int SECTION(".bss") GM_JimakuCounter;
 
 extern int str_status;
 

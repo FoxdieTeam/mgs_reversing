@@ -8,8 +8,6 @@
 
 #define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 
-extern CONTROL *GM_WhereList[94];
-
 extern int COM_EYE_LENGTH;
 extern int COM_NOISEMODE_DIS;
 extern int COM_ALERT_DECREMENT;

@@ -781,29 +781,29 @@ void s07c_meryl72_unk2_800CFF64(Meryl72Work *work)
 {
     switch (work->think3)
     {
-        case 6:
-            s07c_meryl72_unk2_800CF060(work);
-            break;
+    case 6:
+        s07c_meryl72_unk2_800CF060(work);
+        break;
 
-        case 2:
-            s07c_meryl72_unk2_800CFB14(work);
-            break;
+    case 2:
+        s07c_meryl72_unk2_800CFB14(work);
+        break;
 
-        case 3:
-            s07c_meryl72_unk2_800CFD0C(work);
-            break;
+    case 3:
+        s07c_meryl72_unk2_800CFD0C(work);
+        break;
 
-        case 7:
-            s07c_meryl72_unk2_800CF144(work);
-            break;
+    case 7:
+        s07c_meryl72_unk2_800CF144(work);
+        break;
 
-        case 8:
-            s07c_meryl72_unk2_800CF2A4(work);
-            break;
+    case 8:
+        s07c_meryl72_unk2_800CF2A4(work);
+        break;
 
-        case 9:
-            s07c_meryl72_unk2_800CF3AC(work);
-            break;
+    case 9:
+        s07c_meryl72_unk2_800CF3AC(work);
+        break;
     }
 }
 

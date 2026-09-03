@@ -54,8 +54,8 @@ const char *MGS_MemoryCardName = {
 #define GAME_STACK_SIZE (2048)
 #define SD_STACK_SIZE   (2048)
 
-static char BSS GameStack[ GAME_STACK_SIZE ];
-static char BSS SdStack[ SD_STACK_SIZE ];
+static char SECTION(".bss") GameStack[ GAME_STACK_SIZE ];
+static char SECTION(".bss") SdStack[ SD_STACK_SIZE ];
 
 static void Main( void )
 {

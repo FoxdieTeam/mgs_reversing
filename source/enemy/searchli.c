@@ -66,7 +66,6 @@ typedef struct _Work
     MATRIX         lit_mtx;
 } Work;
 
-extern CONTROL *GM_WhereList[96];
 extern int     COM_VibTime;
 
 extern ENEMY_COMMAND     EnemyCommand;

@@ -22,11 +22,11 @@ typedef signed char TMat8x8B[8][8];     //  8 x  8 byte matrix
 typedef signed char TMat16x16B[16][16]; // 16 x 16 byte matrix
 typedef int         TMat8x8I[8][8];     //  8 x  8 integer matrix
 
-static char *BSS    dword_800BDCC8;
-static int BSS      dword_800BDCCC;
-static int BSS      dword_800BDCD0;
-char BSS            gap_800BDCD4[ 4 ]; // TODO
-static TMat8x8B BSS gJpegcamMatrix2_800BDCD8;
+static char *SECTION(".bss")    dword_800BDCC8;
+static int SECTION(".bss")      dword_800BDCCC;
+static int SECTION(".bss")      dword_800BDCD0;
+char SECTION(".bss")            gap_800BDCD4[ 4 ]; // TODO
+static TMat8x8B SECTION(".bss") gJpegcamMatrix2_800BDCD8;
 
 extern GM_CameraSystemWork GM_Camera;
 extern GM_SnakeCameraWork  GM_SnakeCamera;

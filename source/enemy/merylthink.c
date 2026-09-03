@@ -30,8 +30,6 @@ void MERYL_PutMark( WatcherWork *work, int mark );
 
 #define T_NOISE 0
 
-extern CONTROL      *GM_WhereList[94];
-
 // in enemy/asiato.c
 extern void AsiatoPos( signed char, SVECTOR * );
 extern int NextAsiato( HZD_HDL *, signed char, SVECTOR * );

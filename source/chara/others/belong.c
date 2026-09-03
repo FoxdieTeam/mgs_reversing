@@ -8,9 +8,6 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern CONTROL *GM_WhereList[96];
-extern int      GM_N_WhereList;
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct _Work

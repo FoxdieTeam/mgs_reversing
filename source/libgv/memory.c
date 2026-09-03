@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "common.h"
 
-MEM_SYS BSS mem_sys[ MAX_MEMSYS ];
+MEM_SYS SECTION(".bss") mem_sys[ MAX_MEMSYS ];
 
 /* Unused, does it really belong to memory.c ? */
 STATIC short SECTION(".sbss") dword_800AB93C;

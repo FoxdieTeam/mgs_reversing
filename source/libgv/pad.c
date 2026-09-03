@@ -7,8 +7,8 @@
 #include "game/game.h"
 
 /***bss****************************************************************/
-static int BSS dword_800B05A8[ 6 ];
-GV_PAD BSS     GV_PadData[ 4 ];
+static int SECTION(".bss") dword_800B05A8[ 6 ];
+GV_PAD SECTION(".bss") GV_PadData[ 4 ];
 /*********************************************************************/
 
 #define ANALOG_MARGIN 64

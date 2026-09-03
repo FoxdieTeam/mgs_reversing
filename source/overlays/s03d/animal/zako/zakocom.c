@@ -76,8 +76,6 @@ extern int s03d_dword_800DC300;
 extern SVECTOR s03d_dword_800DC308;
 extern int s03d_dword_800DC424;
 extern const char s03d_dword_800DBC50[];
-extern CONTROL *GM_WhereList[96];
-
 extern const char s03d_dword_800DBBF0[];
 extern int printf(const char *format, ...);
 extern int s03d_dword_800C3BC0;

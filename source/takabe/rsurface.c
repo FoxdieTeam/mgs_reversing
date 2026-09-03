@@ -33,9 +33,6 @@ typedef struct _Work
 
 #define EXEC_LEVEL GV_ACTOR_USER
 
-extern CONTROL *GM_WhereList[96];
-extern int      GM_N_WhereList;
-
 void  s00a_rsurface_800D82E0(Work *work);
 
 void RippleSurfaceAct_800D7FC4(Work *work)

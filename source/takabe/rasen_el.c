@@ -57,8 +57,6 @@ SVECTOR SECTION(".bss") rasen_el_800D2CAC;
 SVECTOR SECTION(".bss") rasen_el_800D2CB4;
 int SECTION(".bss") rasen_el_800D2CBC;
 
-extern int             GM_N_WhereList;
-extern CONTROL        *GM_WhereList[96];
 extern GM_SnakeCameraWork GM_SnakeCamera;
 extern GM_CameraSystemWork       GM_Camera;
 

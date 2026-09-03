@@ -15,9 +15,6 @@ extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;
 extern int     ZAKOCOM_PlayerMap_800DF3BC;
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 
-extern CONTROL *GM_WhereList[94];
-
-
 void s11e_zk11ecom_800D89A0( ZakoWork* work )
 {
     work->target_addr = ZAKOCOM_PlayerAddress_800DF3B8;

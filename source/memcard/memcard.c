@@ -13,20 +13,20 @@ typedef void (*TMemCardFunc)(int);
 
 static int memcard_initialized = FALSE;
 
-static long BSS          gHardware_end_io;
-static long BSS          gHardware_end_write;
-static long BSS          gHardware_timeout;
-static long BSS          gHardware_new_device;
-static long BSS          gSoftware_end_io;
-static long BSS          gSoftware_end_write;
-static long BSS          gSoftware_timeout;
-static long BSS          gSoftware_new_device;
-static TMemCardFunc BSS  gHwCard_do_op;
-static TMemCardFunc BSS  gSwCard_do_op;
-static volatile int BSS  gSwCardLastOp;
-static volatile int BSS  gHwCardLastOp;
-static MEMCARD BSS       gMemCards[ 2 ];
-static volatile long BSS gMemCard_io_size;
+static long SECTION(".bss") gHardware_end_io;
+static long SECTION(".bss") gHardware_end_write;
+static long SECTION(".bss") gHardware_timeout;
+static long SECTION(".bss") gHardware_new_device;
+static long SECTION(".bss") gSoftware_end_io;
+static long SECTION(".bss") gSoftware_end_write;
+static long SECTION(".bss") gSoftware_timeout;
+static long SECTION(".bss") gSoftware_new_device;
+static TMemCardFunc SECTION(".bss") gHwCard_do_op;
+static TMemCardFunc SECTION(".bss") gSwCard_do_op;
+static volatile int SECTION(".bss") gSwCardLastOp;
+static volatile int SECTION(".bss") gHwCardLastOp;
+static MEMCARD SECTION(".bss") gMemCards[ 2 ];
+static volatile long SECTION(".bss") gMemCard_io_size;
 
 static void memcard_hwcard_do_op(int op);
 static void memcard_swcard_do_op(int op);

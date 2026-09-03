@@ -10,7 +10,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-static u_short BSS gSparkRandomTable[ 64 ];
+static u_short SECTION(".bss") gSparkRandomTable[ 64 ];
 
 /*---------------------------------------------------------------------------*/
 

@@ -104,9 +104,6 @@ typedef struct _Work
 #define EXEC_LEVEL  GV_ACTOR_USER
 #define TARGET_FLAG ( TARGET_AVAIL | TARGET_POWER | TARGET_SEEK )
 
-extern CONTROL *GM_WhereList[96];
-extern int GM_N_WhereList;
-
 extern GM_CameraSystemWork GM_Camera;
 extern GM_SnakeCameraWork GM_SnakeCamera;
 

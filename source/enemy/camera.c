@@ -99,8 +99,6 @@ extern char s01a_dword_800E44CC[];
 extern TOPCOMMAND_STRUCT TOPCOMMAND;
 extern int               COM_VibTime;
 
-extern CONTROL         *GM_WhereList[96];
-
 void AN_Unknown_800D6EB0(SVECTOR *pos);
 
 // duplicate of s03e_guncame_800C7118

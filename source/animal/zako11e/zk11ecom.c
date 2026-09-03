@@ -19,8 +19,6 @@ extern int     ZAKOCOM_PlayerAddress_800DF3B8;
 extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;
 extern int     ZAKOCOM_PlayerMap_800DF3BC;
 
-extern CONTROL *GM_WhereList[94];
-
 int s11e_zk11ecom_800D9A20( ZakoWork *work )
 {
     int i;

@@ -23,7 +23,7 @@ typedef struct {
     GV_ACT actor;
 } Work;
 
-static Work BSS GV_Work;
+static Work SECTION(".bss") GV_Work;
 
 /*---------------------------------------------------------------------------*/
 

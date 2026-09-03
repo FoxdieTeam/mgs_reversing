@@ -32,14 +32,14 @@ STATIC HZD_TRP *GM_800AB444 = NULL;
 STATIC int      GM_800AB448 = 0;
 
 
-static UnkCameraStruct2 BSS gUnkCameraStruct2_800B76F0;
-char BSS                    gap_800B7714[ 4 ]; // TODO
-CAMERA BSS                  GM_CameraList[ 8 ];
-GM_SnakeCameraWork BSS      GM_SnakeCamera;
-GM_CameraSystemWork BSS     GM_Camera;
-char BSS                    gap_800B7864[ 4 ]; // TODO
-UnkCameraStruct2 BSS        gUnkCameraStruct2_800B7868;
-char BSS                    gap_800B788C[ 4 ]; // TODO
+static UnkCameraStruct2 SECTION(".bss") gUnkCameraStruct2_800B76F0;
+char                    SECTION(".bss") gap_800B7714[ 4 ]; // TODO
+CAMERA                  SECTION(".bss") GM_CameraList[ 8 ];
+GM_SnakeCameraWork      SECTION(".bss") GM_SnakeCamera;
+GM_CameraSystemWork     SECTION(".bss") GM_Camera;
+char                    SECTION(".bss") gap_800B7864[ 4 ]; // TODO
+UnkCameraStruct2        SECTION(".bss") gUnkCameraStruct2_800B7868;
+char                    SECTION(".bss") gap_800B788C[ 4 ]; // TODO
 
 static const unsigned int dword_80010C60[] =
 {

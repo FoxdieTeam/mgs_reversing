@@ -78,8 +78,6 @@ void Takabe_ReshadeModel(DG_OBJS *objs, DG_LITS *lit);
 void Takabe_FreeDuplicateMemory();
 
 extern GM_CameraSystemWork       GM_Camera;
-extern CONTROL        *GM_WhereList[96];
-extern int             GM_N_WhereList;
 extern int             bakudan_count_8009F42C;
 extern HITTABLE        GM_C4Datas[C4_COUNT];
 extern HITTABLE        GM_ClayDatas[8];
