@@ -164,4 +164,109 @@ void s19b_jdrumfir_800CA4A0(Work *work)
     prim->raise = 500;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jdrumfir_800CA564.s")
+void s19b_jdrumfir_800CA564(Work *work, int arg1)
+{
+    POLY_FT4 *pack;
+    SVECTOR  *vtx;
+    SVECTOR  *spd;
+    int       i;
+    int       col;
+    int       row;
+    int       x, y, w, h;
+    int       bright;
+    int       flash;
+
+    if (arg1 != 0)
+    {
+        if (work->field_5C < 0)
+        {
+            spd = &work->speeds[work->field_60];
+            spd->vx = work->field_58;
+            spd->vy = 255;
+            spd->vz = GV_RandU(16);
+
+            vtx = &work->vertices[work->field_60];
+            vtx->vx = work->world.t[0] + GV_RandS(256) / 2;
+            vtx->vz = work->world.t[2] + GV_RandS(256) / 2;
+            vtx->pad = work->field_58 * 20 - 200;
+            if (vtx->pad < 200)
+            {
+                vtx->pad = 200;
+            }
+            vtx->vy = work->world.t[1] + vtx->pad;
+
+            work->field_5C = 12;
+            work->field_60 = (work->field_60 + 1) & 0xF;
+        }
+        else
+        {
+            work->field_5C--;
+        }
+    }
+
+    spd  = work->speeds;
+    vtx  = work->vertices;
+    pack = work->prim->packs[GV_Clock];
+
+    for (i = 16; i > 0; vtx++, spd++, pack++, i--)
+    {
+        if (spd->vx != 0)
+        {
+            col = spd->vz & 3;
+            row = spd->vz / 4;
+
+            x = work->tex->off_x;
+            w = work->tex->w;
+            pack->u0 = pack->u2 = x + (w + 1) * col / 4;
+            pack->u1 = pack->u3 = x + (w + 1) * (col + 1) / 4 - 1;
+
+            y = work->tex->off_y;
+            h = work->tex->h;
+            pack->v0 = pack->v1 = y + (h + 1) * row / 4;
+            pack->v2 = pack->v3 = y + (h + 1) * (row + 1) / 4 - 1;
+
+            spd->vz++;
+            if (spd->vz >= 16)
+            {
+                spd->vz = 0;
+            }
+
+            bright = spd->vx * 16;
+            if (bright >= 256)
+            {
+                bright = 255;
+            }
+            flash = spd->vy;
+            if (flash > 0)
+            {
+                bright -= flash;
+                if (bright < 0)
+                {
+                    bright = 0;
+                }
+                spd->vy = flash / 2;
+            }
+            pack->r0 = bright;
+            pack->g0 = bright;
+            pack->b0 = bright;
+
+            vtx->pad -= 10;
+            if (vtx->pad < 200)
+            {
+                vtx->pad = 200;
+            }
+            if (vtx->pad != 200)
+            {
+                vtx->vy -= 10;
+            }
+            spd->vx--;
+        }
+        else
+        {
+            vtx->pad = 0;
+            pack->r0 = 0;
+            pack->g0 = 0;
+            pack->b0 = 0;
+        }
+    }
+}

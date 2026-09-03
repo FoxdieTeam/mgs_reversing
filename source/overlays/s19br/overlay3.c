@@ -1,4 +1,5 @@
 #include "common.h"
+#include <libgte.h>
 
 const char s19b_dword_800DDD4C[] = {0xe4, 0xfd, 0xbe, 0x4};
 const char s19b_dword_800DDD50[] = {'=', 0xfc, 0x0, 0x0};
@@ -15,13 +16,16 @@ int SECTION(".bss") s19b_dword_800DE5B8;
 int SECTION(".bss") s19b_dword_800DE5BC;
 int SECTION(".bss") s19b_dword_800DE5C0;
 int SECTION(".bss") s19b_dword_800DE5C4;
-int SECTION(".bss") s19b_dword_800DE5C8;
-int SECTION(".bss") s19b_dword_800DE5CC;
-int SECTION(".bss") s19b_dword_800DE5D0;
-int SECTION(".bss") s19b_dword_800DE5D4;
-int SECTION(".bss") s19b_dword_800DE5D8;
-int SECTION(".bss") s19b_dword_800DE5DC;
-int SECTION(".bss") s19b_dword_800DE5E0;
-int SECTION(".bss") s19b_dword_800DE5E4;
-int SECTION(".bss") s19b_dword_800DE5E8;
+typedef struct _JlampState
+{
+    SVECTOR field_0;
+    int     field_8;
+    int     field_C;
+    int     field_10;
+    int     field_14;
+    int     field_18;
+    SVECTOR field_1C;
+} JlampState; /* 0x24, at 0x800DE5C8 */
+
+JlampState SECTION(".bss") s19b_dword_800DE5C8;
 int SECTION(".bss") s19b_dword_800DE5EC;

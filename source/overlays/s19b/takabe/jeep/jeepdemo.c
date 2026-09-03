@@ -2,6 +2,8 @@
 #include "game/camera.h"
 #include "takabe/cinema.h"
 
+struct _DemoCam;
+
 typedef struct _JEEP_SYSTEM
 {
     char     pad1[0x4];
@@ -15,9 +17,9 @@ typedef struct _JEEP_SYSTEM
     char     pad4[0x8];
     OBJECT  *body;
     char     pad5a[0x6C - 0x64];
-    int      *field_6C;
-    int      *field_70;
-    char     pad5b[0x7C - 0x70 - sizeof(int *)];
+    MATRIX **field_6C;
+    MATRIX **field_70;
+    char     pad5b[0x7C - 0x70 - sizeof(MATRIX **)];
     int      field_7C;
     MATRIX   world;
     char     pad6[0x88];
@@ -28,10 +30,11 @@ typedef struct _JEEP_SYSTEM
     SVECTOR  field_138;
     SVECTOR  field_140;
     SVECTOR  field_148;
-    int      field_150;
+    MATRIX  *field_150;
     SVECTOR  field_154;
-    int      field_15C;
+    MATRIX  *field_15C;
     SVECTOR  field_160;
+    struct _DemoCam *field_168;
 } JEEP_SYSTEM;
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
@@ -54,10 +57,10 @@ typedef struct _JlampState
     int     field_10;
     int     field_14;
     int     field_18;
-} JlampState;
+    SVECTOR field_1C;
+} JlampState; /* 0x24, at 0x800DE5C8 */
 
 extern JlampState s19b_dword_800DE5C8;
-extern int s19b_dword_800DE5D0;
 void s19b_jlamp_800D0C44(void);
 extern SVECTOR s19b_dword_800C3760;
 extern SVECTOR s19b_dword_800C3768;
@@ -154,9 +157,133 @@ void s19b_jlamp_800D09DC(void)
     GM_SetSound(0x01FFFF0B, 0);
     GM_SetSound(0xFF0000FE, 0);
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0A20.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0ABC.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0C44.s")
+extern GM_CameraSystemWork GM_Camera;
+extern GM_SnakeCameraWork  GM_SnakeCamera;
+
+typedef struct _DemoCamCmd
+{
+    int frame;
+    void (*fn)(struct _DemoCam *);
+} DemoCamCmd;
+
+typedef struct _DemoCam
+{
+    GV_ACT      actor;
+    SVECTOR     field_20;
+    SVECTOR     field_28;
+    SVECTOR     field_30;
+    int         field_38;
+    u_short     field_3C;
+    char        pad1[0x88 - 0x3E];
+    int         field_88;
+    int         field_8C;
+    int         field_90;
+    DemoCamCmd *field_94;
+} DemoCam;
+
+extern int s19b_dword_800C3778;
+extern int s19b_dword_800C3898;
+extern int s19b_dword_800C38D0;
+extern int s19b_dword_800C3950;
+extern void *NewDemoCamera(void *unk);
+
+void s19b_jlamp_800D0A20(int arg0)
+{
+    JEEP_SYSTEM *js;
+
+    if (GM_GameOverTimer != 0)
+    {
+        return;
+    }
+    js = &Takabe_JeepSystem;
+    if (js->field_168 != NULL)
+    {
+        return;
+    }
+    if (arg0 == 0)
+    {
+        js->field_168 = NewDemoCamera(&s19b_dword_800C3778);
+        js->field_168->field_94 = (DemoCamCmd *)&s19b_dword_800C3898;
+    }
+    else if (arg0 == 1)
+    {
+        js->field_168 = NewDemoCamera(&s19b_dword_800C38D0);
+        js->field_168->field_94 = (DemoCamCmd *)&s19b_dword_800C3950;
+    }
+    else
+    {
+        return;
+    }
+    GV_DemoPadStatus[0] = 0;
+    GM_GameStatus |= 0x40000000;
+}
+
+void s19b_jlamp_800D0ABC(void)
+{
+    DemoCam *cam;
+
+    cam = Takabe_JeepSystem.field_168;
+    if (cam == 0)
+    {
+        return;
+    }
+
+    {
+        DemoCamCmd *cmd = cam->field_94;
+        if (cmd != 0)
+        {
+            if (cmd->frame != -1 && cam->field_90 >= cmd->frame)
+            {
+                cmd->fn(cam);
+                cam->field_94 = cmd + 1;
+            }
+        }
+    }
+
+    {
+        JEEP_SYSTEM *js = &Takabe_JeepSystem;
+        if (js->field_150 != 0)
+        {
+            DG_SetPos(js->field_150);
+            DG_PutVector(&js->field_154, &js->field_140, 1);
+        }
+        if (js->field_15C != 0)
+        {
+            DG_SetPos(js->field_15C);
+            DG_PutVector(&js->field_160, &js->field_148, 1);
+        }
+        GM_Camera.position = cam->field_20;
+        GM_Camera.target = cam->field_28;
+        GM_Camera.rotate = cam->field_30;
+        GM_Camera.track = cam->field_38;
+        GM_Camera.type = cam->field_3C;
+        if (cam->field_88 != 0)
+        {
+            GV_DestroyActor(&cam->actor);
+            js->field_168 = 0;
+            js->field_4C &= ~0x20000;
+        }
+    }
+}
+
+void s19b_jlamp_800D0C44(void)
+{
+    GM_CameraSystemWork *cam = &GM_Camera;
+    JlampState       *p = &s19b_dword_800DE5C8;
+
+    GV_NearExp4V(cam, p, 3);
+    if (p->field_18 == 0)
+    {
+        cam->target = GM_SnakeCamera.target;
+        GV_NearExp4V(&cam->target, &GM_SnakeCamera, 3);
+    }
+    else
+    {
+        GV_NearExp4V(&cam->target, &p->field_1C, 3);
+    }
+    GM_Camera.type = 0;
+    s19b_jlamp_800D0ABC();
+}
 void s19b_jlamp_800D0CE0(void)
 {
     JlampState *state;
@@ -173,9 +300,70 @@ void s19b_jlamp_800D0CE0(void)
     GM_SetCameraCallbackFunc(1, s19b_jlamp_800D0C44);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0D40.s")
+extern const char s19b_dword_800DDD4C[];
+extern const char s19b_dword_800DDD54[];
+extern const char s19b_dword_800DDD5C[];
+extern const char s19b_dword_800DDD64[];
+void s19b_jeep_gls_800CEC24(int, SVECTOR *);
+int  s19b_jeep_mrl_800D39B4(SVECTOR *dst);
+
+void s19b_jlamp_800D0D40(void)
+{
+    JlampState *p = &s19b_dword_800DE5C8;
+    SVECTOR        sp10;
+    SVECTOR        sp18;
+    SVECTOR        sp20;
+    SVECTOR        sp28;
+
+    switch (p->field_8)
+    {
+    case 1:
+        p->field_C = GV_NearExp4(p->field_C, -2000);
+        break;
+    case 0:
+    case 2:
+        p->field_C = GV_NearExp4(p->field_C, 2000);
+        break;
+    }
+
+    switch (s19b_dword_800DE5C8.field_8)
+    {
+    case 3:
+        sp20 = *(SVECTOR *)s19b_dword_800DDD4C;
+        sp28 = *(SVECTOR *)s19b_dword_800DDD54;
+        s19b_dword_800DE5C8.field_0 = sp20;
+        s19b_dword_800DE5C8.field_1C = sp28;
+        s19b_dword_800DE5C8.field_18 = 1;
+        s19b_jlamp_800D0648(&s19b_dword_800DE5C8.field_0, &s19b_dword_800DE5C8.field_1C,
+                            &GM_SnakeCamera.rotate, &GM_SnakeCamera.track);
+        break;
+    case 4:
+        sp20 = *(SVECTOR *)s19b_dword_800DDD5C;
+        sp28 = *(SVECTOR *)s19b_dword_800DDD64;
+        s19b_dword_800DE5C8.field_0 = sp20;
+        s19b_dword_800DE5C8.field_1C = sp28;
+        s19b_dword_800DE5C8.field_18 = 1;
+        s19b_jlamp_800D0648(&s19b_dword_800DE5C8.field_0, &s19b_dword_800DE5C8.field_1C,
+                            &GM_SnakeCamera.rotate, &GM_SnakeCamera.track);
+        break;
+    default:
+    {
+        int r;
+        s19b_jeep_gls_800CEC24(Takabe_JeepSystem.control->mov.vz + s19b_dword_800DE5C8.field_C, &sp10);
+        s19b_dword_800DE5C8.field_10 = GV_NearSpeed(s19b_dword_800DE5C8.field_10, 1500, 100);
+        sp10.vy += *(short *)&s19b_dword_800DE5C8.field_10;
+        r = s19b_jeep_mrl_800D39B4(&sp18);
+        s19b_dword_800DE5C8.field_18 = 0;
+        sp10.vx += r;
+        s19b_dword_800DE5C8.field_0 = sp10;
+        s19b_jlamp_800D0648(&s19b_dword_800DE5C8.field_0, &GM_SnakeCamera.position,
+                            &GM_SnakeCamera.rotate, &GM_SnakeCamera.track);
+        break;
+    }
+    }
+}
 
 void s19b_jlamp_800D0FE4(int arg0)
 {
-    s19b_dword_800DE5D0 = arg0;
+    s19b_dword_800DE5C8.field_8 = arg0;
 }

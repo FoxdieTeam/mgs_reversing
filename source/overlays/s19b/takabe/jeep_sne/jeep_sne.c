@@ -41,9 +41,9 @@ typedef struct _Work
     TARGET        *target;            /* 0x910 */
 
     char           pad_918[0x918 - 0x910 - sizeof(TARGET *)];
-    void          *field_918;         /* 0x918 */
+    void          *action;           /* 0x918 */
     char           pad_920[0x920 - 0x918 - sizeof(void *)];
-    int            field_920;         /* 0x920 */
+    int            time;             /* 0x920 */
     char           pad3a[0x928 - 0x920 - sizeof(int)];
     int            field_928;         /* 0x928 */
     int            field_92C;         /* 0x92C */
@@ -212,8 +212,8 @@ int s19b_jlamp2_800D50F4(Work *work)
     if (target->damaged & TARGET_POWER)
     {
         target->force = DG_ZeroVector;
-        work->field_918 = (void *)s19b_jlamp2_800D5484;
-        work->field_920 = 0;
+        work->action = (void *)s19b_jlamp2_800D5484;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         target->damage = 0;
@@ -225,7 +225,34 @@ int s19b_jlamp2_800D50F4(Work *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D519C.s")
+void s19b_jlamp2_800D55E8(Work *work, int arg1);
+
+int s19b_jlamp2_800D519C(Work *work)
+{
+    if (s19b_jlamp2_800D50F4(work) != 0)
+    {
+        work->target->class = 1;
+        work->field_944 = 4;
+        work->field_908 += GV_RandS(0x200);
+        return 1;
+    }
+    if (work->field_944 != 0)
+    {
+        return 0;
+    }
+    if (work->field_92C & 8)
+    {
+        work->action = (void *)s19b_jlamp2_800D55E8;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        NewPadVibration((unsigned char *)&s19b_dword_800C3A14, 1);
+        NewPadVibration((unsigned char *)&s19b_dword_800C3A18, 2);
+        work->field_908 += GV_RandS(0x100);
+        return 1;
+    }
+    return 0;
+}
 extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
 extern void AN_FamasFlash(MATRIX *world);
 extern void s19b_jblood_800C8070(MATRIX *world);
@@ -337,8 +364,8 @@ void s19b_jlamp2_800D5484(Work *work, int arg1)
     {
         if (work->field_950 == 0)
         {
-            work->field_918 = (void *)s19b_jlamp2_800D5328;
-            work->field_920 = 0;
+            work->action = (void *)s19b_jlamp2_800D5328;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
             if (work->field_928 != 0)
@@ -352,8 +379,8 @@ void s19b_jlamp2_800D5484(Work *work, int arg1)
         }
         else
         {
-            work->field_918 = (void *)s19b_jlamp2_800D571C;
-            work->field_920 = 0;
+            work->action = (void *)s19b_jlamp2_800D571C;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
         }
@@ -384,8 +411,8 @@ void s19b_jlamp2_800D55E8(Work *work, int arg1)
     }
     if (arg1 >= 0x15)
     {
-        work->field_918 = (void *)s19b_jlamp2_800D5328;
-        work->field_920 = 0;
+        work->action = (void *)s19b_jlamp2_800D5328;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         if (work->field_928 != 0)
@@ -429,8 +456,8 @@ void s19b_jlamp2_800D571C(Work *work, int arg1)
     if (work->body.is_end != 0)
     {
         GM_GameOverTimer = 1;
-        work->field_918 = (void *)s19b_jlamp2_800D5820;
-        work->field_920 = 0;
+        work->action = (void *)s19b_jlamp2_800D5820;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
     }
@@ -458,13 +485,13 @@ void s19b_jlamp2_800D5894(Work *work)
     int   old;
 
     work->target->class = 1;
-    old = work->field_920;
-    fn  = (void (*)(Work *, int))work->field_918;
-    work->field_920 = old + 1;
+    old = work->time;
+    fn  = (void (*)(Work *, int))work->action;
+    work->time = old + 1;
     if (fn == 0)
     {
         fn = s19b_jlamp2_800D5328;
-        work->field_918 = (void *)fn;
+        work->action = (void *)fn;
         if (work->field_928 != 0)
         {
             /* char* launder keeps the store ahead of the call (see 800D5820) */

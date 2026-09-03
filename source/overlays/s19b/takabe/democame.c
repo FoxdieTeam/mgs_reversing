@@ -218,7 +218,173 @@ void s19b_democame_800DB790(Work *work, DemocameUnk *unk)
     work->field_80 = s19b_dword_800C3B00[index];
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_democame_800DB968.s")
+void s19b_democame_800DB968(Work *work)
+{
+    SVECTOR *dst;
+    SVECTOR *vec;
+    SVECTOR *snap;
+    int     *val;
+    int     *isnap;
+    int      interp;
+    int      flags;
+
+    if (work->field_88 != 0)
+    {
+        return;
+    }
+
+    interp = work->field_70 - 1;
+    flags  = work->field_74;
+
+    if (flags & 1)
+    {
+        dst = &work->eye;
+        vec = work->field_40;
+        if (vec == NULL)
+        {
+            vec = &work->field_50;
+        }
+        if (interp == 0)
+        {
+            *dst = *vec;
+        }
+        else
+        {
+            work->field_7C(dst, vec, interp);
+        }
+    }
+
+    if (flags & 2)
+    {
+        dst = &work->center;
+        vec = work->field_44;
+        if (vec == NULL)
+        {
+            vec = &work->field_58;
+        }
+        if (interp == 0)
+        {
+            *dst = *vec;
+        }
+        else
+        {
+            work->field_7C(dst, vec, interp);
+        }
+    }
+
+    if (flags & 4)
+    {
+        dst = &work->rotate;
+        vec = work->field_48;
+        if (vec == NULL)
+        {
+            vec = &work->field_60;
+        }
+        if (interp == 0)
+        {
+            *dst = *vec;
+        }
+        else
+        {
+            work->field_80(dst, vec, interp);
+        }
+    }
+
+    if (flags & 8)
+    {
+        val = work->field_4C;
+        if (val == NULL)
+        {
+            val = &work->field_68;
+        }
+        if (interp == 0)
+        {
+            work->track = *val;
+        }
+        else
+        {
+            work->track = work->field_78(work->track, *val, interp);
+        }
+    }
+
+    if (flags & 0x10)
+    {
+        snap = work->field_40;
+        if (snap == NULL)
+        {
+            snap = &work->field_50;
+        }
+        work->eye = *snap;
+    }
+
+    if (flags & 0x20)
+    {
+        snap = work->field_44;
+        if (snap == NULL)
+        {
+            snap = &work->field_58;
+        }
+        work->center = *snap;
+    }
+
+    if (flags & 0x40)
+    {
+        snap = work->field_48;
+        if (snap == NULL)
+        {
+            snap = &work->field_60;
+        }
+        work->rotate = *snap;
+    }
+
+    if (flags & 0x80)
+    {
+        isnap = work->field_4C;
+        if (isnap == NULL)
+        {
+            isnap = &work->field_68;
+        }
+        work->track = *isnap;
+    }
+
+    if (flags & 0x100)
+    {
+        work->eye = GM_Camera.position;
+    }
+
+    if (flags & 0x200)
+    {
+        work->center = GM_Camera.target;
+    }
+
+    if (flags & 0x400)
+    {
+        work->rotate = GM_Camera.rotate;
+    }
+
+    if (flags & 0x800)
+    {
+        work->track = GM_Camera.track;
+    }
+
+    if (--work->field_70 <= 0)
+    {
+        s19b_democame_800DB470(work);
+        s19b_democame_800DB790(work, work->field_84);
+        work->field_84++;
+        work->field_8C++;
+        if (work->field_6C == -1)
+        {
+            work->field_88 = 1;
+        }
+        else
+        {
+            work->field_70 -= work->field_84[-2].f4;
+        }
+    }
+
+    work->field_90++;
+}
 void s19b_democame_800DB968(Work *);
 
 void s19b_democame_800DBD38(void)
