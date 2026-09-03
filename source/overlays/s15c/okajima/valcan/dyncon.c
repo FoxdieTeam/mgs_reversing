@@ -42,14 +42,14 @@ const char s15c_aBr_800E2E2C[] = "br8";
 const char s15c_dword_800E2E30[] = {'d', 'y', 'n', 'c'};
 const char s15c_dword_800E2E34[] = {'o', 'n', '.', 'c'};
 
-typedef struct _DynSlot
+typedef struct _Container
 {
     TARGET        *target;   /* 0x00 */
     OBJECT_NO_ROTS objs[2];  /* 0x04, 0x28 */
     SVECTOR        mov;      /* 0x4C */
     SVECTOR        rot;      /* 0x54 */
     char           pad_5C[0x9C - 0x5C];
-} DynSlot;
+} Container;
 
 typedef struct _DynObj
 {
@@ -66,8 +66,8 @@ typedef struct _DynPan
 typedef struct _DynBlock
 {
     OBJECT_NO_ROTS obj;      /* 0x00 */
-    SVECTOR       *mov;      /* 0x24 - points at a DynSlot's mov */
-    SVECTOR       *rot;      /* 0x28 - points at the same DynSlot's rot */
+    SVECTOR       *mov;      /* 0x24 - points at a container's mov */
+    SVECTOR       *rot;      /* 0x28 - points at the same container's rot */
     SVECTOR        field_2C; /* 0x2C */
     SVECTOR        field_34; /* 0x34 */
     MATRIX         light[2]; /* 0x3C */
@@ -78,8 +78,8 @@ typedef struct _DynCon
 {
     GV_ACT  actor;           /* 0x00 */
     int     map;             /* 0x20 */
-    DynSlot field_24[72];    /* 0x24 - runs to 0x2C04 exactly */
-    int     field_2C04[144]; /* 0x2C04 - one flag per slot object */
+    Container containers[72]; /* 0x24 - runs to 0x2C04 exactly */
+    int     field_2C04[144]; /* 0x2C04 - one flag per container object */
     DynPan   field_2E44[8];  /* 0x2E44 */
     int      field_31E4[8];  /* 0x31E4 - one flag per pan object */
     DynObj   field_3204[4];  /* 0x3204 */
@@ -357,14 +357,14 @@ void s15c_dyncon_800D5A3C(DynCon *work, int code, int i, int mode, int rz, int r
 
     if ((code & 1) == 0)
     {
-        work->field_24[i + 4].rot.vz += rz;
+        work->containers[i + 4].rot.vz += rz;
     }
     else
     {
-        work->field_24[i + 4].rot.vz -= rz;
+        work->containers[i + 4].rot.vz -= rz;
     }
 
-    work->field_24[i + 4].rot.vx += rx;
+    work->containers[i + 4].rot.vx += rx;
 
     vec.vx = ax;
     vec.vy = ay;
@@ -400,9 +400,9 @@ void s15c_dyncon_800D5A3C(DynCon *work, int code, int i, int mode, int rz, int r
     vec.vz = bz;
     s15c_dyncon_800D59C0(&vec, code);
 
-    work->field_24[i + 4].mov.vx += vec.vx;
-    work->field_24[i + 4].mov.vy += vec.vy;
-    work->field_24[i + 4].mov.vz += vec.vz;
+    work->containers[i + 4].mov.vx += vec.vx;
+    work->containers[i + 4].mov.vy += vec.vy;
+    work->containers[i + 4].mov.vz += vec.vz;
 }
 void s15c_dyncon_800D5C38(DynCon *work, int i, int j)
 {
@@ -410,8 +410,8 @@ void s15c_dyncon_800D5C38(DynCon *work, int i, int j)
     SVECTOR         rot;
 
     obj = &work->field_2E44[i * 2].obj;
-    rot = work->field_24[j].rot;
-    DG_SetPos2(&work->field_24[j].mov, &rot);
+    rot = work->containers[j].rot;
+    DG_SetPos2(&work->containers[j].mov, &rot);
     s15c_dyncon_800D3EBC(obj, GV_StrCode(s15c_aPan_800E2D70),
                          DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE);
     obj->objs->objs[0].raise = -250;
@@ -424,7 +424,7 @@ void s15c_dyncon_800D5C38(DynCon *work, int i, int j)
     }
 
     obj = &work->field_2E44[i * 2 + 1].obj;
-    DG_SetPos2(&work->field_24[j].mov, &rot);
+    DG_SetPos2(&work->containers[j].mov, &rot);
     s15c_dyncon_800D3EBC(obj, GV_StrCode(s15c_aPan_800E2D78),
                          DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE);
     obj->objs->objs[0].raise = -250;
@@ -599,8 +599,8 @@ void s15c_dyncon_800D61E0(DynCon *work)
     {
         int n = work->field_3F00[i] / 4 * 8 + work->field_3F00[i] % 4 + 4;
 
-        work->field_3394[i].mov = &work->field_24[n].mov;
-        work->field_3394[i].rot = &work->field_24[n].rot;
+        work->field_3394[i].mov = &work->containers[n].mov;
+        work->field_3394[i].rot = &work->containers[n].rot;
         work->field_3394[i].field_7C = 0;
     }
 }
@@ -676,12 +676,12 @@ int s15c_dyncon_800D7AB4(DynCon *work)
                             if (work->field_4050 == 1)
                             {
                                 target = GM_AllocTarget();
-                                work->field_24[p].target = target;
+                                work->containers[p].target = target;
                                 if (target != NULL)
                                 {
                                     GM_SetTarget(target, TARGET_POWER | TARGET_SEEK, PLAYER_SIDE, &size);
                                 }
-                                pos = work->field_24[n].mov;
+                                pos = work->containers[n].mov;
                                 pos.vy += 0x1B5;
                                 GM_MoveTarget(target, &pos);
                             }
@@ -758,11 +758,11 @@ void s15c_dyncon_800D7E30(DynCon *work, int j, int i, int model)
     SVECTOR         mov;
     OBJECT_NO_ROTS *obj;
 
-    mov = work->field_24[i].mov;
+    mov = work->containers[i].mov;
     mov.vy += 0x6D5;
     obj = &work->field_3204[j].obj;
 
-    DG_SetPos2(&mov, &work->field_24[i].rot);
+    DG_SetPos2(&mov, &work->containers[i].rot);
     s15c_dyncon_800D3EBC(obj, model,
                          DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE);
     obj->objs->objs[0].raise = -250;
@@ -770,10 +770,10 @@ void s15c_dyncon_800D7E30(DynCon *work, int j, int i, int model)
 }
 void s15c_dyncon_800D7EF4(DynCon *work, int i, int model)
 {
-    DynSlot        *slot = &work->field_24[i];
-    OBJECT_NO_ROTS *obj  = &slot->objs[0];
+    Container      *con = &work->containers[i];
+    OBJECT_NO_ROTS *obj = &con->objs[0];
 
-    DG_SetPos2(&slot->mov, &slot->rot);
+    DG_SetPos2(&con->mov, &con->rot);
     s15c_dyncon_800D3EBC(obj, model,
                          DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE);
     work->field_2C04[i * 2] = 1;
@@ -803,12 +803,12 @@ void s15c_dyncon_800D7F88(DynCon *work)
                     {
                         int dx = m * 2000 - 8000;
 
-                        work->field_24[n].mov.vx = j * 7000 + dx;
-                        work->field_24[n].mov.vy = k * 1750;
-                        work->field_24[n].mov.vz = (i * 6000 - 5250) + l * 1500;
-                        work->field_24[n].rot.vx = 0;
-                        work->field_24[n].rot.vy = (1 - l) * 2048;
-                        work->field_24[n].rot.vz = 0;
+                        work->containers[n].mov.vx = j * 7000 + dx;
+                        work->containers[n].mov.vy = k * 1750;
+                        work->containers[n].mov.vz = (i * 6000 - 5250) + l * 1500;
+                        work->containers[n].rot.vx = 0;
+                        work->containers[n].rot.vy = (1 - l) * 2048;
+                        work->containers[n].rot.vz = 0;
                         n++;
                     }
                 }
@@ -872,13 +872,13 @@ void s15c_dyncon_800D82FC(DynCon *work)
     {
         if (work->field_2C04[i * 2] == 1)
         {
-            GM_FreeObject((OBJECT *)&work->field_24[i].objs[0]);
+            GM_FreeObject((OBJECT *)&work->containers[i].objs[0]);
             work->field_2C04[i * 2] = 0;
         }
 
         if (work->field_2C04[i * 2 + 1] == 1)
         {
-            GM_FreeObject((OBJECT *)&work->field_24[i].objs[1]);
+            GM_FreeObject((OBJECT *)&work->containers[i].objs[1]);
             work->field_2C04[i * 2 + 1] = 0;
         }
     }
@@ -923,7 +923,7 @@ void s15c_dyncon_800D82FC(DynCon *work)
     {
         for (i = 0; i < 36; i++)
         {
-            GM_FreeTarget(work->field_24[i].target);
+            GM_FreeTarget(work->containers[i].target);
         }
 
         GM_FreeObject((OBJECT *)&work->field_3394[0].obj);
