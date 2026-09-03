@@ -38,9 +38,8 @@ typedef struct _Work
     int      field_654[4];
     GV_ACT  *field_664[9];
     GV_ACT  *field_688[26];
-    char     padding3[0x30];
-    void    *f720;
-    char     padding4[0x1FC];
+    char     padding3[0x10];
+    MenuWork field_700;
     void    *field_920;
     u_long  *field_924_mOrderingTable;
     int      field_928;
@@ -55,7 +54,11 @@ typedef struct _Work
     char     padding6b[0x44];
     int      field_49B8;
     int      field_49BC;
-    char     padding6c[0x20];
+    char     padding6c[0x8];
+    int      field_49C8;
+    MEMCARD  *field_49CC;
+    int      field_49D0;
+    char     padding6d[0xC];
     int      f49E0;
     char    *f49E4;
 } Work;
@@ -92,6 +95,12 @@ extern char camera_aResultx_800CFF48[];
 extern char camera_aRequestx_800CFF3C[];
 extern char camera_aNomemoryforstack_800CFF54[];
 extern const char camera_a_800D0144[];
+extern const char camera_aNomemoryforfilebody_800CFCF8[];
+extern const char camera_aCardnodfilenames_800CFD14[];
+extern int camera_dword_800D0700;
+extern int camera_dword_800D0704;
+extern int camera_dword_800D0708;
+extern int camera_dword_800D0710;
 
 void camera_800C3ED8(Work *);
 int camera_800CDF18(Work *);
@@ -344,7 +353,49 @@ void camera_800C4350(Work* work) {
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4394.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4790.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4BAC.s")
+int camera_800C4BAC(MEMCARD *card, int index) {
+
+    char         *buffer;
+    int           result;
+    int           retries;
+    int           i;
+
+    GM_PadResetDisable = 1;
+    buffer = GV_AllocMemory(2, 0x4000);
+
+    if (!buffer) {
+        printf((char *)camera_aNomemoryforfilebody_800CFCF8);
+    }
+
+    result = 0;
+    retries = 4;
+
+    camera_dword_800D0700 = (int)buffer;
+    camera_dword_800D0704 = (int)buffer;
+
+    for (; retries > 0; retries--) {
+        memcard_read(card->port, card->files[index].name, 0, buffer, 0x4000);
+
+        while (memcard_status() > 0) {
+            mts_wait_vbl(2);
+        }
+
+        if (memcard_status() == 0) {
+            *(char *)&camera_dword_800D0708 = card->port;
+            for (i = 0; i < 24; i++) {
+                /* per-iteration scope for p710 is required for the match */
+                char *p710 = (char *)&camera_dword_800D0710;
+                p710[i] = card->files[index].name[i];
+            }
+            printf((char *)camera_aCardnodfilenames_800CFD14, *(unsigned char *)&camera_dword_800D0708, (char *)&camera_dword_800D0710);
+            result = 1;
+            break;
+        }
+    }
+
+    GM_PadResetDisable = 0;
+    return result;
+}
 
 int camera_800C4D20(int arg0) {
 
@@ -1612,7 +1663,98 @@ void camera_800CD0A0(MenuPrim *prim, int x, int y, int w, int h)
 }
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CD198.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CD790.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800CDAB4.s")
+extern const char camera_aResx_800D03E4[];
+extern const char camera_aS_800D03F0[];
+extern const char camera_aFind_800D03F4[];
+extern const char camera_aPhaseischangedbutdatafind_800D03FC[];
+extern const char camera_aPhaseischanged_800D041C[];
+extern const char camera_aPhaseisnotchanged_800D0430[];
+extern char *camera_dword_800C3928;
+extern char *camera_dword_800C3914[];
+
+void camera_800CDAB4(Work *work)
+{
+    int ret;
+    int i;
+    int j;
+    int found;
+    int diff;
+    int status;
+    long st;
+    int phase;
+    char *ref;
+
+    ret = memcard_check(*(unsigned char *)&camera_dword_800D0708);
+    printf((char *)camera_aResx_800D03E4, ret);
+    if (ret & 0x1000000)
+    {
+        i = 0;
+        work->field_49CC = memcard_files(*(unsigned char *)&camera_dword_800D0708);
+        found = i;
+        if (work->field_49CC->file_count != 0)
+        {
+            do
+            {
+                printf((char *)camera_aS_800D03F0, work->field_49CC->files[i].name);
+                diff = 0;
+                for (j = 0; j < 24; j++)
+                {
+                    if (work->field_49CC->files[i].name[j] != (ref = (char *)&camera_dword_800D0710)[j])
+                    {
+                        diff = 1;
+                    }
+                }
+                if (diff == 0)
+                {
+                    printf((char *)camera_aFind_800D03F4);
+                    found = 1;
+                }
+                i++;
+            } while (i < work->field_49CC->file_count);
+        }
+        if (found)
+        {
+            work->field_49C8 = 1;
+            printf((char *)camera_aPhaseischangedbutdatafind_800D03FC);
+        }
+        else if (work->field_49CC) /* branch duplicated to match */
+        {
+            work->field_49C8 = 5;
+            work->field_4938 = 0;
+            printf((char *)camera_aPhaseischanged_800D041C);
+            drawCaption_800C5EB4(&work->field_700, camera_dword_800C3928);
+            work->field_49D0 = 3;
+        }
+        else
+        {
+            work->field_49C8 = 5;
+            work->field_4938 = 0;
+            printf((char *)camera_aPhaseischanged_800D041C);
+            drawCaption_800C5EB4(&work->field_700, camera_dword_800C3928);
+            work->field_49D0 = 3;
+        }
+    }
+    else if (ret != 0)
+    {
+        printf((char *)camera_aPhaseischanged_800D041C);
+        status = ret;
+        status = status & 0xFF;
+        phase = 3;
+        st = status;
+        if (st == phase || st == 0x80000000 || st == 1)
+        {
+            work->field_49C8 = 5;
+            work->field_4938 = 0;
+            drawCaption_800C5EB4(&work->field_700, camera_dword_800C3914[1]);
+            work->field_49D0 = phase;
+        }
+    }
+    else
+    {
+        work->field_49C8 = 1;
+        printf((char *)camera_aPhaseisnotchanged_800D0430);
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CDCA4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CDF18.s")
 
@@ -1958,10 +2100,10 @@ int CameraGetResources_800CE6EC(Work *work, int map)
     work->pad = &GV_PadData[2];
     work->f28 = 0;
 
-    work->f720 = &work->field_920;
-    work->field_92C[0] = work->padding4 + 0x210;
+    work->field_700.prim = (MenuPrim *)&work->field_920;
+    work->field_92C[0] = work->padding5;
     work->field_4938 = 0;
-    work->field_92C[1] = work->padding4 + 0x2210;
+    work->field_92C[1] = work->padding5 + 0x2000;
 
     camera_800C85D8();
     camera_800C82EC();
