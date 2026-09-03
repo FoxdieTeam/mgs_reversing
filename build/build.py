@@ -95,6 +95,8 @@ def ninja_run():
         r'sndtst\.c:\d+: warning: `code\' might be used uninitialized in this function',
         r'select\.c:\d+: warning: `proc_id\' might be used uninitialized in this function',
         r'select\.c:\d+: warning: `entry_name\' might be used uninitialized in this function',
+        # in kojo
+        r'm1e1came\.c:\d+: warning: unused variable `pad\'',
         # in libdg
         r'chanl\.c:\d+: warning: `unused\' defined but not used',
         # in libfs
