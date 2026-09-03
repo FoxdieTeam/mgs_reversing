@@ -5,6 +5,19 @@
 #include "game/game.h"
 #include "libdg/libdg.h"
 
+typedef struct _PARAM
+{
+    signed char fAF8;
+    char        fAF9;
+    char        fAFA;
+    signed char c_root;
+    char        defends[4];
+    signed char roots[4];
+    short       life;
+    short       max_life; /* for the red damage bar */
+    short       faint;
+} PARAM;
+
 typedef struct _Work
 {
     GV_ACT          actor;          /* 0x000 */
@@ -57,15 +70,8 @@ typedef struct _Work
 
     HOMING         *hom;            /* 0x990 */
 
-    int             field_994;      /* 0x994 */
-    short           field_998;      /* 0x998 */
-    short           field_99A;      /* 0x99A */
-    short           field_99C;      /* 0x99C */
-    short           field_99E;      /* 0x99E */
-    int             field_9A0;      /* 0x9A0 */
-    int             field_9A4;      /* 0x9A4 */
-    int             field_9A8;      /* 0x9A8 */
-    char            pad_9AC[0xA98 - 0x9AC];
+    int             n_nodes;        /* 0x994 */
+    SVECTOR         nodes[32];      /* 0x998 */
 
     void           *shadow;         /* 0xA98 */
     int            *enable_shadow;  /* 0xA9C */
@@ -90,13 +96,8 @@ typedef struct _Work
     char            pad_AF8[0xB00 - 0xAF8];
     int             field_B00;      /* 0xB00 */
     int             field_B04;      /* 0xB04 */
-    signed char     field_B08;      /* 0xB08 */
-    char            pad_B09[0xB0B - 0xB09];
-    signed char     field_B0B;      /* 0xB0B */
-    unsigned char   field_B0C[8];   /* 0xB0C */
-    short           field_B14;      /* 0xB14 */
-    short           field_B16;      /* 0xB16 */
-    char            pad_B18[0xB20 - 0xB18];
+    PARAM           param;          /* 0xB08 */
+    char            pad_B1A[0xB20 - 0xB1A];
     unsigned short  field_B20;      /* 0xB20 */
     unsigned short  field_B22;      /* 0xB22 */
     unsigned short  field_B24;      /* 0xB24 */

@@ -139,7 +139,7 @@ void s03d_800CCC54(Work *work)
     s03d_800D153C(work);
     GM_MoveTarget(work->field_8FC, &control->mov);
 
-    if (s03d_dword_800DC2F8 == 13 && ZAKOCOM_MGR->entries[work->field_B08].field_4 == 1)
+    if (s03d_dword_800DC2F8 == 13 && ZAKOCOM_MGR->entries[work->param.fAF8].field_4 == 1)
     {
         GV_DestroyActor(work);
     }
@@ -150,8 +150,8 @@ void s03d_800CCC54(Work *work)
 void Zako_800CCCF4(Work *work)
 {
     TARGET *t = work->field_8FC;
-    int     b14 = work->field_B14;
-    int     b16 = work->field_B16;
+    int     b14 = work->param.life;
+    int     b16 = work->param.max_life;
 
     GM_SetTarget(t, 0x9E, 2, (SVECTOR *)&s03d_dword_800C39B0);
     GM_SetPowerTarget(t, 1, -1, b14, b16, (SVECTOR *)&s03d_dword_800C39B8);
@@ -178,7 +178,7 @@ void Zako_800CCDE0(Work *work)
 
 void s03d_800CD054(Work *work)
 {
-    ZakoCom_800D4050(work->field_B08);
+    ZakoCom_800D4050(work->param.fAF8);
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
     GM_FreeObject(&work->weapon);
@@ -188,7 +188,36 @@ void s03d_800CD054(Work *work)
     GM_FreeHomingTarget(work->hom);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD0C8.s")
+int s03d_800CD0C8(Work *work)
+{
+    PARAM   *param;
+    HZD_PAT *patrol;
+    HZD_PTP *points;
+    int      i;
+
+    param = &work->param;
+
+    patrol = work->control.map->hzd->def->routes;
+    patrol += param->roots[param->c_root];
+
+    work->n_nodes = patrol->n_points;
+
+    if (work->n_nodes <= 0)
+    {
+        return -1;
+    }
+
+    points = patrol->points;
+    for (i = 0; i < work->n_nodes; i++)
+    {
+        work->nodes[i].vx = points->x;
+        work->nodes[i].vy = points->y;
+        work->nodes[i].vz = points->z;
+        work->nodes[i].pad = points->command;
+        points++;
+    }
+    return 0;
+}
 
 int Zako_800CD16C(char *opt, char *out)
 {
@@ -295,8 +324,8 @@ int Zako_800CDA04(Work *work)
 void Zako_800CDA70(Work *work)
 {
     TARGET *t = work->field_8FC;
-    int     b14 = work->field_B14;
-    int     b16 = work->field_B16;
+    int     b14 = work->param.life;
+    int     b16 = work->param.max_life;
 
     GM_SetTarget(t, 0x9E, 2, (SVECTOR *)&s03d_dword_800C39B0);
     GM_SetPowerTarget(t, 1, -1, b14, b16, (SVECTOR *)&s03d_dword_800C39B8);
@@ -462,7 +491,7 @@ void s03d_800CE8F4(Work *work, int arg)
         Zako_800D0EF0(work, 3);
         GM_ConfigMotionAdjust(&work->body, work->adjust);
     }
-    if (work->field_B08 != 1 || !(GV_Time & 0x100))
+    if (work->param.fAF8 != 1 || !(GV_Time & 0x100))
     {
         Zako_800CDD94(work);
     }
@@ -885,7 +914,7 @@ void s03d_800D0324(Work *work, int arg)
         int *base = &s03d_dword_800DC310;
         work->field_B00 = 0;
         work->control.mov = s03d_dword_800C3B88;
-        base[work->field_B08 * 4 + 0x90 / 4] = 1;
+        base[work->param.fAF8 * 4 + 0x90 / 4] = 1;
         if (work->field_BA0 == 0)
         {
             unsigned short *lv = (unsigned short *)linkvarbuf;
@@ -894,7 +923,7 @@ void s03d_800D0324(Work *work, int arg)
     }
     {
         int *base = &s03d_dword_800DC310;
-        if (base[work->field_B08 * 4 + 0x90 / 4] != 2)
+        if (base[work->param.fAF8 * 4 + 0x90 / 4] != 2)
         {
             return;
         }
@@ -1229,7 +1258,7 @@ void s03d_800D15A8(Work *work)
         {
             if (GV_Time & 0x100)
             {
-                if (work->field_B08 & 1)
+                if (work->param.fAF8 & 1)
                 {
                     turn = trg->offset.pad << 10;
                 }
@@ -1240,7 +1269,7 @@ void s03d_800D15A8(Work *work)
             }
             else
             {
-                if (work->field_B08 & 1)
+                if (work->param.fAF8 & 1)
                 {
                     turn = (trg->offset.pad + 2) << 10;
                 }
