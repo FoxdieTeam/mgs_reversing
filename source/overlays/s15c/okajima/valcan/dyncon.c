@@ -9,7 +9,7 @@
 
 extern DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
 
-extern int s15c_dword_800E345C;   /* the map places this one at 0x800E3458 */
+extern int s15c_dword_800E345C[4];
 
 const char s15c_aPan_800E2D70[] = "pan1";
 const char s15c_aPan_800E2D78[] = "pan2";
@@ -949,7 +949,7 @@ int s15c_dyncon_800D8510(DynCon *work)
     for (i = 0; i < 4; i++)
     {
         work->field_4020[i] = 0;
-        (&s15c_dword_800E345C)[i] = 0;
+        s15c_dword_800E345C[i] = 0;
         work->field_3F20[i] = 0;
     }
 
@@ -1058,7 +1058,7 @@ void s15c_dyncon_800D88C8(DynCon *work)
 
     /* Both of these write one word past data[], and read past the end of the
        overlay's bss: dead code in the original, reproduced literally. */
-    b = (u_char *)&s15c_dword_800E345C;
+    b = (u_char *)s15c_dword_800E345C;
     *p = (b[i << 2] << 8) | b[(i + 1) << 2];
     *p = (b[(i + 2) << 2] << 8) | b[(i + 3) << 2];
 

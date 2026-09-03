@@ -152,7 +152,7 @@ const char s15c_dword_800E2E60[] = {'a', 'n', '.', 'c'};
 const char s15c_dword_800E2E64[] = {0x0, 0x19, 0x0, 0xae};
 const char s15c_aRaven_800E2E68[] = {'R', 'A', 'V', 'E', 'N', 0x0, 0x0, 0x2};
 
-extern int     s15c_dword_800E345C; /* the map places this one at 0x800E3458 */
+extern int     s15c_dword_800E345C[4];
 
 extern SVECTOR s15c_dword_800C3600;
 extern SVECTOR s15c_dword_800C35E0[2];
@@ -914,12 +914,12 @@ int s15c_crow_800DA2A8(Work *work)
     {
     case 0:
     case 1:
-        if (s15c_dword_800E345C != 0 && (u_int)(u_short)idx.vy < 2 && idx.vx == 1)
+        if (s15c_dword_800E345C[0] != 0 && (u_int)(u_short)idx.vy < 2 && idx.vx == 1)
         {
             return -1;
         }
 
-        if ((&s15c_dword_800E345C)[3] != 0 && (u_int)((u_short)idx.vy - 2) < 2 &&
+        if (s15c_dword_800E345C[3] != 0 && (u_int)((u_short)idx.vy - 2) < 2 &&
             idx.vx == 2)
         {
             return -1;
@@ -940,13 +940,13 @@ int s15c_crow_800DA2A8(Work *work)
 
     case 2:
     case 3:
-        if ((&s15c_dword_800E345C)[1] != 0 && (u_int)((u_short)idx.vx - 2) < 2 &&
+        if (s15c_dword_800E345C[1] != 0 && (u_int)((u_short)idx.vx - 2) < 2 &&
             idx.vy == 1)
         {
             return -1;
         }
 
-        if ((&s15c_dword_800E345C)[2] != 0 && (u_int)(u_short)idx.vx < 2 && idx.vy == 2)
+        if (s15c_dword_800E345C[2] != 0 && (u_int)(u_short)idx.vx < 2 && idx.vy == 2)
         {
             return -1;
         }
@@ -1310,7 +1310,7 @@ int s15c_crow_800DAE7C(Work *work)
             return 1;
         }
 
-        if ((&s15c_dword_800E345C)[2] != 0 && *(int *)&work->field_738 == 0x20002)
+        if (s15c_dword_800E345C[2] != 0 && *(int *)&work->field_738 == 0x20002)
         {
             return Valcan_800DAE38();
         }
@@ -1323,7 +1323,7 @@ int s15c_crow_800DAE7C(Work *work)
             return 1;
         }
 
-        if ((&s15c_dword_800E345C)[1] != 0 && *(int *)&work->field_738 == 0x10001)
+        if (s15c_dword_800E345C[1] != 0 && *(int *)&work->field_738 == 0x10001)
         {
             return Valcan_800DAE38();
         }
@@ -1336,7 +1336,7 @@ int s15c_crow_800DAE7C(Work *work)
             return 1;
         }
 
-        if (s15c_dword_800E345C != 0 && *(int *)&work->field_738 == 0x20001)
+        if (s15c_dword_800E345C[0] != 0 && *(int *)&work->field_738 == 0x20001)
         {
             return Valcan_800DAE38();
         }
@@ -1349,7 +1349,7 @@ int s15c_crow_800DAE7C(Work *work)
             return 1;
         }
 
-        if ((&s15c_dword_800E345C)[3] != 0 && *(int *)&work->field_738 == 0x10002)
+        if (s15c_dword_800E345C[3] != 0 && *(int *)&work->field_738 == 0x10002)
         {
             return Valcan_800DAE38();
         }
@@ -1371,7 +1371,7 @@ int s15c_crow_800DAFCC(Work *work)
                 work->field_76C = 0;
                 work->field_774 = work->field_770;
 
-                if (s15c_dword_800E345C != 0 && (&s15c_dword_800E345C)[2] != 0)
+                if (s15c_dword_800E345C[0] != 0 && s15c_dword_800E345C[2] != 0)
                 {
                     work->field_770 = 3;
                 }
@@ -1419,7 +1419,7 @@ int s15c_crow_800DAFCC(Work *work)
 
     if ((u_int)work->field_740 < 2)
     {
-        if ((&s15c_dword_800E345C)[3] != 0)
+        if (s15c_dword_800E345C[3] != 0)
         {
             int pair = *(int *)&work->field_738;
 
@@ -1430,7 +1430,7 @@ int s15c_crow_800DAFCC(Work *work)
             }
         }
 
-        if (s15c_dword_800E345C != 0)
+        if (s15c_dword_800E345C[0] != 0)
         {
             int pair = *(int *)&work->field_738;
 
@@ -1468,7 +1468,7 @@ int s15c_crow_800DAFCC(Work *work)
         return 3;
     }
 
-    if (s15c_dword_800E345C != 0 && *(int *)&work->field_738 == 0x20001)
+    if (s15c_dword_800E345C[0] != 0 && *(int *)&work->field_738 == 0x20001)
     {
         return Valcan_800DA1AC(work->field_740, 0);
     }
@@ -1484,8 +1484,8 @@ int s15c_crow_800DB200(Work *work)
     switch (work->field_740)
     {
     case 0:
-        if (work->field_738 == 1 && s15c_dword_800E345C != 0 &&
-            (&s15c_dword_800E345C)[2] != 0)
+        if (work->field_738 == 1 && s15c_dword_800E345C[0] != 0 &&
+            s15c_dword_800E345C[2] != 0)
         {
             work->field_770 = 3;
             work->field_6A4 = 0;
@@ -2522,7 +2522,7 @@ void s15c_crow_800DC7A0(Work *work)
             {
             case 0:
             case 1:
-                if ((&s15c_dword_800E345C)[0] >= 2 && *(int *)&work->field_738 == 1)
+                if (s15c_dword_800E345C[0] >= 2 && *(int *)&work->field_738 == 1)
                 {
                     work->field_828 = 1;
                 }
@@ -2534,7 +2534,7 @@ void s15c_crow_800DC7A0(Work *work)
 
             case 2:
             case 3:
-                if ((&s15c_dword_800E345C)[2] >= 2 && *(int *)&work->field_738 == 0x20000)
+                if (s15c_dword_800E345C[2] >= 2 && *(int *)&work->field_738 == 0x20000)
                 {
                     work->field_828 = 1;
                 }

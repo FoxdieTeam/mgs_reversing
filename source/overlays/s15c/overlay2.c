@@ -18,7 +18,4 @@ int SECTION(".bss") s15c_dword_800E344C;
 int SECTION(".bss") s15c_dword_800E3450;
 int SECTION(".bss") s15c_dword_800E3454;
 int SECTION(".bss") s15c_dword_800E3458;
-int SECTION(".bss") s15c_dword_800E345C;
-int SECTION(".bss") s15c_dword_800E3460;
-int SECTION(".bss") s15c_dword_800E3464;
-int SECTION(".bss") s15c_dword_800E3468;
+int SECTION(".bss") s15c_dword_800E345C[4];
