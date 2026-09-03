@@ -51,8 +51,15 @@ typedef struct _Work
     SVECTOR        field_6D4[4];
     DG_PRIM       *field_6F4;
     short          field_6F8[4][4][2];
-    short          field_738;
-    short          field_73A;
+    union
+    {
+        struct
+        {
+            short  field_738; /* 0x738 */
+            short  field_73A; /* 0x73A */
+        } cell;
+        int packed;
+    } cell_738;
     short          field_73C;
     short          field_73E;
     int            field_740;
@@ -410,12 +417,12 @@ int ValcanGetResources_800D92A8(Work *work, int name, int where)
             ValcanGetInts_800D8E88(option, args);
         }
 
-        work->field_738 = args[0];
-        work->field_73A = args[1];
+        work->cell_738.cell.field_738 = args[0];
+        work->cell_738.cell.field_73A = args[1];
 
-        work->control.mov.vx = work->field_6F8[work->field_738][work->field_73A][0];
+        work->control.mov.vx = work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][0];
         work->control.mov.vy = 0;
-        work->control.mov.vz = work->field_6F8[work->field_738][work->field_73A][1];
+        work->control.mov.vz = work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][1];
 
         option = (unsigned char *)GCL_GetOption('q');
         if (option)
@@ -897,8 +904,8 @@ int s15c_crow_800DA2A8(Work *work)
 
     if ((u_int)(work->field_770 - 2) < 2)
     {
-        idx.vx = work->field_738;
-        idx.vy = work->field_73A;
+        idx.vx = work->cell_738.cell.field_738;
+        idx.vy = work->cell_738.cell.field_73A;
     }
     else
     {
@@ -1304,52 +1311,52 @@ int s15c_crow_800DAE7C(Work *work)
     switch (work->field_740)
     {
     case 0:
-        if (work->field_738 == 1)
+        if (work->cell_738.cell.field_738 == 1)
         {
             work->field_828 = 1;
             return 1;
         }
 
-        if (s15c_dword_800E345C[2] != 0 && *(int *)&work->field_738 == 0x20002)
+        if (s15c_dword_800E345C[2] != 0 && work->cell_738.packed == 0x20002)
         {
             return Valcan_800DAE38();
         }
         break;
 
     case 1:
-        if (work->field_738 == 2)
+        if (work->cell_738.cell.field_738 == 2)
         {
             work->field_828 = 1;
             return 1;
         }
 
-        if (s15c_dword_800E345C[1] != 0 && *(int *)&work->field_738 == 0x10001)
+        if (s15c_dword_800E345C[1] != 0 && work->cell_738.packed == 0x10001)
         {
             return Valcan_800DAE38();
         }
         break;
 
     case 2:
-        if (work->field_73A == 1)
+        if (work->cell_738.cell.field_73A == 1)
         {
             work->field_828 = 1;
             return 1;
         }
 
-        if (s15c_dword_800E345C[0] != 0 && *(int *)&work->field_738 == 0x20001)
+        if (s15c_dword_800E345C[0] != 0 && work->cell_738.packed == 0x20001)
         {
             return Valcan_800DAE38();
         }
         break;
 
     case 3:
-        if (work->field_73A == 2)
+        if (work->cell_738.cell.field_73A == 2)
         {
             work->field_828 = 1;
             return 1;
         }
 
-        if (s15c_dword_800E345C[3] != 0 && *(int *)&work->field_738 == 0x10002)
+        if (s15c_dword_800E345C[3] != 0 && work->cell_738.packed == 0x10002)
         {
             return Valcan_800DAE38();
         }
@@ -1362,9 +1369,9 @@ int s15c_crow_800DAFCC(Work *work)
 {
     work->field_828 = 1;
 
-    if (work->field_73A == 0)
+    if (work->cell_738.cell.field_73A == 0)
     {
-        if (work->field_738 == 0 && work->field_73C == 0)
+        if (work->cell_738.cell.field_738 == 0 && work->field_73C == 0)
         {
             if (work->field_73E == 1)
             {
@@ -1408,7 +1415,7 @@ int s15c_crow_800DAFCC(Work *work)
             return 1;
         }
 
-        if (work->field_738 == 1)
+        if (work->cell_738.cell.field_738 == 1)
         {
             return 3;
         }
@@ -1421,7 +1428,7 @@ int s15c_crow_800DAFCC(Work *work)
     {
         if (s15c_dword_800E345C[3] != 0)
         {
-            int pair = *(int *)&work->field_738;
+            int pair = work->cell_738.packed;
 
             if ((pair == 0x30001 && work->field_740 == 1) ||
                 (pair == 0x30003 && work->field_740 == 0))
@@ -1432,7 +1439,7 @@ int s15c_crow_800DAFCC(Work *work)
 
         if (s15c_dword_800E345C[0] != 0)
         {
-            int pair = *(int *)&work->field_738;
+            int pair = work->cell_738.packed;
 
             if (pair == 0x20001)
             {
@@ -1458,9 +1465,9 @@ int s15c_crow_800DAFCC(Work *work)
         return 1;
     }
 
-    if (work->field_73A == 1)
+    if (work->cell_738.cell.field_73A == 1)
     {
-        if (work->field_738 == 0)
+        if (work->cell_738.cell.field_738 == 0)
         {
             return 1;
         }
@@ -1468,7 +1475,7 @@ int s15c_crow_800DAFCC(Work *work)
         return 3;
     }
 
-    if (s15c_dword_800E345C[0] != 0 && *(int *)&work->field_738 == 0x20001)
+    if (s15c_dword_800E345C[0] != 0 && work->cell_738.packed == 0x20001)
     {
         return Valcan_800DA1AC(work->field_740, 0);
     }
@@ -1484,7 +1491,7 @@ int s15c_crow_800DB200(Work *work)
     switch (work->field_740)
     {
     case 0:
-        if (work->field_738 == 1 && s15c_dword_800E345C[0] != 0 &&
+        if (work->cell_738.cell.field_738 == 1 && s15c_dword_800E345C[0] != 0 &&
             s15c_dword_800E345C[2] != 0)
         {
             work->field_770 = 3;
@@ -1495,21 +1502,21 @@ int s15c_crow_800DB200(Work *work)
         break;
 
     case 1:
-        if (work->field_738 == 2)
+        if (work->cell_738.cell.field_738 == 2)
         {
             return 1;
         }
         break;
 
     case 2:
-        if (work->field_73A == 1)
+        if (work->cell_738.cell.field_73A == 1)
         {
             return 2;
         }
         break;
 
     case 3:
-        if (work->field_73A == 2)
+        if (work->cell_738.cell.field_73A == 2)
         {
             return 1;
         }
@@ -1618,8 +1625,8 @@ int Valcan_800DB470(Work *work)
 
 void Valcan_800DB500(Work *work)
 {
-    work->field_738 = work->field_73C;
-    work->field_73A = work->field_73E;
+    work->cell_738.cell.field_738 = work->field_73C;
+    work->cell_738.cell.field_73A = work->field_73E;
 
     // We love switches!!!
     switch (work->field_770)
@@ -1762,8 +1769,8 @@ void Valcan_800DB868(Work *work)
         work->field_76C = 2800;
     }
 
-    diff1 = work->field_73C - work->field_738;
-    diff2 = work->field_73E - work->field_73A;
+    diff1 = work->field_73C - work->cell_738.cell.field_738;
+    diff2 = work->field_73E - work->cell_738.cell.field_73A;
     if (diff1 < 0)
     {
         work->field_740 = 0;
@@ -1987,7 +1994,7 @@ void s15c_crow_800DBCB4(Work *work)
             case 0:
                 work->control.mov.vz =
                     (work->control.mov.vz +
-                     work->field_6F8[work->field_738][work->field_73A][1]) / 2;
+                     work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][1]) / 2;
                 work->control.turn.vy = work->field_744[1];
                 work->field_768 = 1;
                 break;
@@ -1995,7 +2002,7 @@ void s15c_crow_800DBCB4(Work *work)
             case 1:
                 work->control.mov.vz =
                     (work->control.mov.vz +
-                     work->field_6F8[work->field_738][work->field_73A][1]) / 2;
+                     work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][1]) / 2;
                 work->control.turn.vy = work->field_744[0];
                 work->field_768 = 0;
                 break;
@@ -2003,7 +2010,7 @@ void s15c_crow_800DBCB4(Work *work)
             case 2:
                 work->control.mov.vx =
                     (work->control.mov.vx +
-                     work->field_6F8[work->field_738][work->field_73A][0]) / 2;
+                     work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][0]) / 2;
                 work->control.turn.vy = work->field_744[3];
                 work->field_768 = 3;
                 break;
@@ -2011,7 +2018,7 @@ void s15c_crow_800DBCB4(Work *work)
             case 3:
                 work->control.mov.vx =
                     (work->control.mov.vx +
-                     work->field_6F8[work->field_738][work->field_73A][0]) / 2;
+                     work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][0]) / 2;
                 work->control.turn.vy = work->field_744[2];
                 work->field_768 = 2;
                 break;
@@ -2522,7 +2529,7 @@ void s15c_crow_800DC7A0(Work *work)
             {
             case 0:
             case 1:
-                if (s15c_dword_800E345C[0] >= 2 && *(int *)&work->field_738 == 1)
+                if (s15c_dword_800E345C[0] >= 2 && work->cell_738.packed == 1)
                 {
                     work->field_828 = 1;
                 }
@@ -2534,7 +2541,7 @@ void s15c_crow_800DC7A0(Work *work)
 
             case 2:
             case 3:
-                if (s15c_dword_800E345C[2] >= 2 && *(int *)&work->field_738 == 0x20000)
+                if (s15c_dword_800E345C[2] >= 2 && work->cell_738.packed == 0x20000)
                 {
                     work->field_828 = 1;
                 }
@@ -2545,8 +2552,8 @@ void s15c_crow_800DC7A0(Work *work)
                 break;
             }
 
-            work->control.mov.vz = work->field_6F8[work->field_738][work->field_73A][1];
-            work->control.mov.vx = work->field_6F8[work->field_738][work->field_73A][0];
+            work->control.mov.vz = work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][1];
+            work->control.mov.vx = work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][0];
         }
 
         if (work->field_828 == 0)
