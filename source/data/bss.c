@@ -28,11 +28,6 @@
 #define BSS SECTION(".bss")
 #define gap char BSS
 
-// simply add a new var at any random place below the line then run bss.py and it will automatically put it in then
-// correct place and re-adjust the gaps, sizes, and byte size comments. the only thing allowed below the line are
-// var declarations. put everything else in a header. all comments below the line will also be deleted.
-// you must use "BSS" instead of SECTION, and for EVERY var.
-
 // WARNING:
 // If any headers included by this file have externs to variables defined here,
 // the build won't match!! DO NOT declare any BSS variables in a header without
@@ -41,7 +36,7 @@
 // The __BSSDEFINE__ flag needs to be defined here and nowhere else.
 // This lets us properly declare BSS variables for the rest of the codebase.
 
-// --------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 
 /* sound.lib */
 
