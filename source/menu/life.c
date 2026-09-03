@@ -453,9 +453,9 @@ void menu_life_kill_8003F838(MenuWork *work)
 
 // possible file split
 
-static KCB BSS  desc_font;
-char BSS        gap_800BD994[ 4 ]; // TODO
-static SPRT BSS desc_sprt;
+static KCB  SECTION(".bss") desc_font;
+char        SECTION(".bss") gap_800BD994[ 4 ]; // TODO
+static SPRT SECTION(".bss") desc_sprt;
 
 int sub_8003F84C(int idx)
 {

@@ -41,11 +41,11 @@ short        SECTION(".sbss") dword_800ABBD4;
 void        *SECTION(".sbss") GM_BombSeg;
 short        SECTION(".sbss") dword_800ABBDC;
 
-static u_char BSS gBulNames_800BDC78[ 64 ];
+static u_char SECTION(".bss") gBulNames_800BDC78[ 64 ];
 
-short BSS snake_mag_size_800BDCB8;
-short BSS snake_weapon_idx_800BDCBA;
-short BSS snake_weapon_max_ammo_800BDCBC;
+short SECTION(".bss") snake_mag_size_800BDCB8;
+short SECTION(".bss") snake_weapon_idx_800BDCBA;
+short SECTION(".bss") snake_weapon_max_ammo_800BDCBC;
 
 extern GM_CameraSystemWork          GM_Camera;
 extern unsigned short     GM_WeaponTypes[];

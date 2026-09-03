@@ -7,7 +7,7 @@
 
 #define OFFSET_TO_PTR2(ptr, offset) ((int)(offset) = (int)(ptr) + (int)(offset))
 
-menu_0x14 BSS stru_800BDA48[ 2 ];
+menu_0x14 SECTION(".bss") stru_800BDA48[ 2 ];
 
 int sub_80046C90(menu_chara_struct_sub *pSub, int idx, face_full_anim *pFullAnim, int pFrameNum)
 {

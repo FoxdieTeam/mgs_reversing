@@ -97,13 +97,13 @@ typedef struct {
     int killing_count;
 } Work;
 
-static char BSS    exe_name[ 32 ];
-static Work BSS    GameWork;
-char BSS           gap_800B58A8[ 8 ]; // TODO
-static DG_TEX BSS  read_error_tex;
-char BSS           gap_800B58BC[ 4 ]; // TODO
-static u_short BSS GM_SystemCallbackProc[ 6 ];
-char BSS           gap_800B58CC[ 20 ]; // TODO
+static char     SECTION(".bss") exe_name[ 32 ];
+static Work     SECTION(".bss") GameWork;
+char            SECTION(".bss") gap_800B58A8[ 8 ]; // TODO
+static DG_TEX   SECTION(".bss") read_error_tex;
+char            SECTION(".bss") gap_800B58BC[ 4 ]; // TODO
+static u_short  SECTION(".bss") GM_SystemCallbackProc[ 6 ];
+char            SECTION(".bss") gap_800B58CC[ 20 ]; // TODO
 
 extern int          str_mute_fg;
 extern unsigned int str_status;

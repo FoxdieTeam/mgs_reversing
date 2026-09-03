@@ -10,9 +10,9 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-static u_char BSS PrimBuffer[2][8192];
+static u_char SECTION(".bss") PrimBuffer[2][8192];
 
-MenuWork BSS Work;
+MenuWork SECTION(".bss") Work;
 
 extern int MENU_PrimUse;
 

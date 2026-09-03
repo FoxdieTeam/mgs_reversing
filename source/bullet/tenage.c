@@ -14,10 +14,10 @@
 #include "sound/g_sound.h"
 #include "strcode.h"
 
-int BSS      dword_800BDD28;
-char BSS     gap_800BDD2C[ 4 ]; // TODO
-CONTROL *BSS tenage_ctrls_800BDD30[ 16 ];
-int BSS      tenage_ctrls_count_800BDD70;
+int SECTION(".bss")      dword_800BDD28;
+char SECTION(".bss")     gap_800BDD2C[ 4 ]; // TODO
+CONTROL *SECTION(".bss") tenage_ctrls_800BDD30[ 16 ];
+int SECTION(".bss")      tenage_ctrls_count_800BDD70;
 
 extern BLAST_DATA blast_data_8009F4B8[ 8 ];
 

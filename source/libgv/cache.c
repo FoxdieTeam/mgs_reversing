@@ -12,14 +12,14 @@
 #define MAX_CACHES  128
 #define MAX_LOADERS 26  /* 'a'～'z' */
 
-static GV_LOADFUNC BSS Loaders[ MAX_LOADERS + 2 ]; /* TODO: why + 2? */
+static GV_LOADFUNC SECTION(".bss") Loaders[ MAX_LOADERS + 2 ]; /* TODO: why + 2? */
 
 typedef struct {
     int   id;
     void *buf;
 } CACHE;
 
-static CACHE BSS Caches[ MAX_CACHES ];
+static CACHE SECTION(".bss") Caches[ MAX_CACHES ];
 static CACHE *SECTION(".sbss") EmptyCache;
 
 static CACHE *SECTION(".sbss") GV_ResidentCache;

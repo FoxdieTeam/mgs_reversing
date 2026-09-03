@@ -9,10 +9,10 @@ typedef struct {
     int size;
 } FS_MEMFILE;
 
-static int BSS         dword_800BDFB8;
-static int BSS         dword_800BDFBC;
-static FS_MEMFILE *BSS dword_800BDFC0;
-static int BSS         dword_800BDFC4;
+static int          SECTION(".bss") dword_800BDFB8;
+static int          SECTION(".bss") dword_800BDFBC;
+static FS_MEMFILE*  SECTION(".bss") dword_800BDFC0;
+static int          SECTION(".bss") dword_800BDFC4;
 
 #define FS_MEMFILE_BASE ((FS_MEMFILE *)0x80700000)
 

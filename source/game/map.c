@@ -6,8 +6,8 @@
 #include "libgcl/libgcl.h"
 #include "game.h"
 
-static DG_OBJS *BSS StageObjs[ 32 ];
-static MAP BSS      gMapRecs_800B7910[ 16 ];
+static DG_OBJS* SECTION(".bss") StageObjs[ 32 ];
+static MAP      SECTION(".bss") gMapRecs_800B7910[ 16 ];
 
 STATIC MAP* SECTION(".sbss") pHzdIter_800ABAA0;
 STATIC int  SECTION(".sbss") N_StageObjs;
