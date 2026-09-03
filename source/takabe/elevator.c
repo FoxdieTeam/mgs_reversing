@@ -66,8 +66,6 @@ typedef struct _Work
 
 extern int           bakudan_count_8009F42C;
 extern int           counter_8009F448;
-extern int           GM_N_WhereList;
-extern CONTROL      *GM_WhereList[96];
 extern CONTROL      *tenage_ctrls_800BDD30[16];
 extern int           tenage_ctrls_count_800BDD70;
 extern HITTABLE      GM_C4Datas[C4_COUNT];

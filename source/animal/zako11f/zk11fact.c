@@ -2,8 +2,6 @@
 
 #define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 
-extern CONTROL *GM_WhereList[96];
-
 extern int             ZAKO11F_EYE_LENGTH_800C3694;
 extern ZAKO11F_COMMAND Zako11FCommand_800D5AF8;
 

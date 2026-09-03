@@ -44,9 +44,6 @@ typedef struct _Work
     GV_ACT      *kogaku;
 } Work;
 
-extern int      GM_N_WhereList;
-extern CONTROL *GM_WhereList[96];
-
 void     Mirror_800E08F0(Work *work, int name);
 void     Mirror_800E0A88(MirrorEntry *entry);
 DG_DEF * Mirror_800E0AD8(DG_DEF *def, int arg1);

@@ -15,8 +15,6 @@ typedef struct _Zako11FCommanderWork
 
 extern int GM_GameOverTimer;
 
-extern CONTROL *GM_WhereList[96];
-
 extern int               s11i_dword_800C3698;
 extern SVECTOR           ZAKOCOM_PlayerPosition_800D5AF0;
 extern ZAKO11F_COMMAND   Zako11FCommand_800D5AF8;

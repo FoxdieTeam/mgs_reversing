@@ -11,7 +11,6 @@
 
 // clang-format off
 
-extern int GM_CurrentMap;               // for GM_Set/GetCurrentMap, etc.
 extern int GM_AlertMax;                 // for GM_SetAlert
 extern int GM_NoisePower;               // for GM_SetNoise
 extern int GM_NoiseLength;              //      〃

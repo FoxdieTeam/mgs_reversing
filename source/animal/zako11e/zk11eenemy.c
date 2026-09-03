@@ -11,8 +11,6 @@
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern int          ZAKO11E_EYE_LENGTH_800C3904;
 
-extern CONTROL *GM_WhereList[94];
-
 // in enemy/asiato.c
 extern int AsiatoCheck( HZD_HDL *, SVECTOR * );
 extern int SearchNearAsiato( HZD_HDL *, SVECTOR *, short, short, short );

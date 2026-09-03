@@ -9,8 +9,6 @@
 
 #define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 
-extern CONTROL *GM_WhereList[94];
-
 extern ENEMY_COMMAND EnemyCommand;
 
 extern int       COM_NOISEMODE_DIS;

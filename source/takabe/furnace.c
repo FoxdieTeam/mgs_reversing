@@ -8,8 +8,6 @@
 #include "linkvar.h"
 #include "takabe/thing.h"
 
-extern CONTROL *GM_WhereList[96];
-extern int      GM_N_WhereList;
 extern int      tenage_ctrls_count_800BDD70;
 extern CONTROL *tenage_ctrls_800BDD30[16];
 extern int      dword_8009F49C;
