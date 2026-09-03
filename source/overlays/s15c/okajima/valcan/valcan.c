@@ -257,7 +257,6 @@ void s15c_valcan_800D8ECC(Work *work)
     quad[0].vy = quad[1].vy = quad[2].vy = quad[3].vy =
         work->field_6C4.vy - work->control.height;
 }
-void s15c_valcan_800D8ECC(Work *work);
 
 // Identical to item_init_prim_buffer_800336A4
 void Valcan_800D9028(POLY_FT4 *prims, DG_TEX *tex)
@@ -1526,7 +1525,6 @@ int s15c_crow_800DB200(Work *work)
 
     return 0;
 }
-int s15c_crow_800DB200(Work *work);
 
 int Valcan_800DB2E4(Work *work)
 {
