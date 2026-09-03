@@ -11,31 +11,11 @@ typedef struct _Work
     CONTROL  control;                                  /* 0x028 */
     OBJECT   body;                                     /* 0x0A4 */
     MOTION_CONTROL m_ctrl;                             /* 0x188 */
-    MOTION_SEGMENT m_segs1[6];                         /* 0x1D8 */
-    TARGET   field_2B0;                                /* 0x2B0 */
-    char     pad_3A0[0x3A0 - 0x2B0 - sizeof(TARGET)];
-    short    field_3A0;                                /* 0x3A0 */
-    char     pad_3A4[0x3A4 - 0x3A0 - sizeof(short)];
-    short    field_3A4;                                /* 0x3A4 */
-    char     pad_3B8[0x3B8 - 0x3A4 - sizeof(short)];
-    SVECTOR  field_3B8;                                /* 0x3B8 */
-    char     pad_3C8[0x3C8 - 0x3B8 - sizeof(SVECTOR)];
-    short    field_3C8;                                /* 0x3C8 */
-    short    field_3CA;                                /* 0x3CA */
-    int      field_3CC;                                /* 0x3CC */
-    int      field_3D0;                                /* 0x3D0 */
-    int      field_3D4;                                /* 0x3D4 */
-    char     pad_3DC[0x3DC - 0x3D4 - sizeof(int)];
-    int      field_3DC;                                /* 0x3DC */
-    int      field_3E0;                                /* 0x3E0 */
-    char     pad_3F8[0x3F8 - 0x3E0 - sizeof(int)];
-    void    *field_3F8;                                /* 0x3F8 */
-    char     pad_43C[0x43C - 0x3F8 - sizeof(void *)];
+    MOTION_SEGMENT m_segs1[17];                        /* 0x1D8 */
     MOTION_SEGMENT m_segs2[17];                        /* 0x43C */
-    SVECTOR  svecs1[16];                               /* 0x6A0 */
-    SVECTOR  svecs2[16];                               /* 0x720 */
-    MATRIX   field_7A0;                                /* 0x7A0 */
-    char     pad_7E0[0x7E0 - 0x7A0 - sizeof(MATRIX)];
+    SVECTOR  rots[16];                                 /* 0x6A0 */
+    SVECTOR  adjust[16];                               /* 0x720 */
+    MATRIX   light[2];                                 /* 0x7A0 */
     int      field_7E0;                                /* 0x7E0 */
     int      field_7E4;                                /* 0x7E4 */
     TARGET  *target;                                   /* 0x7E8 */
@@ -70,229 +50,17 @@ typedef struct _JEEP_SYSTEM
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
 
-extern Work *s19b_dword_800DE64C;
-
 extern const char s19b_dword_800DDDF8[];
-extern const char s19b_dword_800DDDC4[];
-extern void RotTransSV(SVECTOR *v0, SVECTOR *v1, long *sz);
 extern const char s19b_aMeryl_800DDDCC[];
 extern const char s19b_aMelb_800DDDD4[];
 extern const char s19b_dword_800DDDDC[];
 extern const char s19b_aOtacom_800DDDE4[];
 extern const char s19b_dword_800DDDEC[];
 
-void s19b_jeep_mrl_800D2CE8(Work *work)
-{
-    if (work->field_3E0 == 0)
-    {
-        work->field_3D0 = GV_NearSpeed(work->field_3D0, work->field_3D4, 5);
-    }
-    else
-    {
-        work->field_3D0 = GV_NearSpeed(work->field_3D0, work->field_3D4, 10);
-    }
-}
-extern void s19b_jeep_gls_800CEC24(int arg0, SVECTOR *out);
-
-void s19b_jeep_mrl_800D2D3C(Work *work)
-{
-    CONTROL *ctl = &work->control;
-    SVECTOR  rot;
-    SVECTOR  vec;
-
-    memset(&vec, 0, 8);
-    vec.vz = work->field_3D0;
-    rot = vec;
-    DG_SetPos2(&DG_ZeroVector, &work->field_3B8);
-    DG_RotVector(&rot, &rot, 1);
-    work->field_3A0 = rot.vx;
-    work->field_3A4 = rot.vz;
-    s19b_jeep_gls_800CEC24(ctl->mov.vz - 0x640, &vec);
-    GV_SubVec3(&vec, &ctl->mov, &vec);
-    vec.vx += work->field_3C8;
-    vec.vx += rsin(work->field_3CC << 5) * 50 >> 12;
-    work->field_3B8.vy = GV_VecDir2(&vec);
-    work->field_3CC++;
-    work->field_3D4 = GV_NearSpeed(work->field_3D4, 0x190, 0xa);
-}
-extern int  s19b_jeep_gls_800CEDFC(int arg0, int arg1);
-extern void s19b_jlamp_800D0FE4(int arg0);
-extern void s19b_jeep_mrl_800D2E78(Work *work);
-extern void s19b_jeep_mrl_800D3928(Work *work);
-extern int  s19b_dword_800C39CC;
 extern int  s19b_dword_800C39E0;
 extern void s19b_jeep_mrl_800D47B8(Work *work);
 extern void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2E78.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D32B4.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D368C.s")
-void s19b_jeep_mrl_800D36A4(Work *work)
-{
-    CONTROL *ctl = &work->control;
-
-    s19b_jeep_mrl_800D2CE8(work);
-    s19b_jeep_mrl_800D2D3C(work);
-    switch (work->field_3DC)
-    {
-    case 0:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, 750, 50);
-        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 2000) == 10)
-        {
-            work->field_3DC = 1;
-            s19b_jlamp_800D0FE4(3);
-            GM_SeSet(NULL, 0xC2);
-        }
-        break;
-    case 1:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, 1500, 50);
-        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 3000) == 12)
-        {
-            work->field_3DC = 2;
-            s19b_jlamp_800D0FE4(1);
-            GM_SeSet(NULL, 0xC2);
-        }
-        break;
-    case 2:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, 750, 50);
-        if (work->field_3C8 == 750)
-        {
-            work->field_3F8 = (void *)s19b_jeep_mrl_800D2E78;
-            work->field_3DC = 0;
-        }
-        break;
-    }
-}
-void s19b_jeep_mrl_800D37D0(Work *work)
-{
-    CONTROL *ctl = &work->control;
-
-    s19b_jeep_mrl_800D2CE8(work);
-    s19b_jeep_mrl_800D2D3C(work);
-    switch (work->field_3DC)
-    {
-    case 0:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, -750, 50);
-        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 2000) == 11)
-        {
-            work->field_3DC = 1;
-            s19b_jlamp_800D0FE4(4);
-        }
-        break;
-    case 1:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, -1350, 50);
-        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 3000) == 13)
-        {
-            work->field_3DC = 2;
-            s19b_jlamp_800D0FE4(1);
-        }
-        if (++s19b_dword_800C39CC >= 10)
-        {
-            s19b_dword_800C39CC = 0;
-            GM_SeSet(NULL, 0xC1);
-        }
-        break;
-    case 2:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, -750, 50);
-        if (work->field_3C8 == -750)
-        {
-            work->field_3F8 = (void *)s19b_jeep_mrl_800D3928;
-            work->field_3DC = 0;
-        }
-        break;
-    }
-}
-
-extern void s19b_jeep_mrl_800D2D3C(Work *work);
-
-void s19b_jeep_mrl_800D3928(Work *work)
-{
-    s19b_jeep_mrl_800D2CE8(work);
-    s19b_jeep_mrl_800D2D3C(work);
-    if ((work->field_3CC & 0x3F) == 0)
-    {
-        work->field_3CA = (rand() * 60 >> 15) - 0x258;
-    }
-    work->field_3C8 = GV_NearSpeed(work->field_3C8, work->field_3CA, 0x1E);
-}
-
-int s19b_jeep_mrl_800D399C(void)
-{
-    return s19b_dword_800DE64C->field_3D0;
-}
-int s19b_jeep_mrl_800D39B4(SVECTOR *dst)
-{
-    *dst = s19b_dword_800DE64C->control.mov;
-    return s19b_dword_800DE64C->field_3C8;
-}
-extern CONTROL *GM_WhereList[96];
-extern int      GM_N_WhereList;
-
-int s19b_jeep_mrl_800D39F0(void)
-{
-    CONTROL **where = GM_WhereList;
-    MAP      *map   = (*where)->map;
-    int       count = 0;
-    int       n;
-
-    for (n = GM_N_WhereList; n > 0; n--)
-    {
-        CONTROL *control = *where;
-        if ((control->radar_atr & 1) && control->map == map)
-        {
-            count++;
-        }
-        where++;
-    }
-    return count;
-}
-
-void s19b_jeep_mrl_800D3A54(SVECTOR *pos, short *ang, int scale, short offs)
-{
-    SVECTOR v10;
-    SVECTOR v18;
-    SVECTOR probe;
-    SVECTOR off;
-    MATRIX  m;
-    long    flag;
-
-    probe = *(SVECTOR *)s19b_dword_800DDDC4;
-    off = DG_ZeroVector;
-    off.vz = offs;
-    m = DG_ZeroMatrix;
-    RotMatrixY(*ang, &m);
-    SetRotMatrix(&m);
-    SetTransMatrix(&m);
-    RotTransSV(&probe, &probe, &flag);
-    RotTransSV(&off, &v18, &flag);
-    v18.vx = v18.vx * rcos(scale) / 4096;
-    v18.vz = v18.vz * rcos(scale) / 4096;
-    GV_AddVec3(pos, &v18, pos);
-    m = DG_ZeroMatrix;
-    RotMatrixY(scale, &m);
-    SetRotMatrix(&m);
-    RotTransSV(&off, &v10, &flag);
-    GV_AddVec3(&probe, &v10, &v10);
-    GV_SubVec3(&v10, &v18, &probe);
-    *ang = ratan2(probe.vx, probe.vz);
-}
-extern SVECTOR s19b_dword_800C39D0[];
-extern int s19b_dword_800C399C;
-extern int s19b_dword_800C3994;
-extern void *NewPadVibration(unsigned char *, int);
-
-void s19b_jeep_mrl_800D3CA8(Work *work, int arg1)
-{
-    DG_SetPos2(&work->control.mov, &work->control.rot);
-    DG_PutVector(&s19b_dword_800C39D0[arg1], &work->field_2B0.center, 1);
-    work->field_2B0.vital = 8;
-    if (GM_PowerTarget(&work->field_2B0) == 0)
-    {
-        return;
-    }
-    NewPadVibration((unsigned char *)&s19b_dword_800C399C, 1);
-    NewPadVibration((unsigned char *)&s19b_dword_800C3994, 0);
-}
 void s19b_jeep_mrl_800D3D30(Work *work)
 {
     CONTROL *ctl = &work->control;
@@ -303,8 +71,8 @@ void s19b_jeep_mrl_800D3D30(Work *work)
     s19b_jeep_mrl_800D47B8(work);
     body = &work->body;
     GM_ActMotion(body);
-    sna_act_helper2_helper2_80033054(work->field_7E0, &work->svecs2[6]);
-    work->svecs2[6].vy = GV_NearSpeed(work->svecs2[6].vy, work->field_7E4, 200);
+    sna_act_helper2_helper2_80033054(work->field_7E0, &work->adjust[6]);
+    work->adjust[6].vy = GV_NearSpeed(work->adjust[6].vy, work->field_7E4, 200);
     ctl->rot = ctl->turn = DG_ZeroVector;
     ctl->mov = *(SVECTOR *)&s19b_dword_800C39E0;
     GM_ActControl(ctl);
@@ -314,7 +82,7 @@ void s19b_jeep_mrl_800D3D30(Work *work)
     ctl->mov.vx = objs->world.t[0];
     ctl->mov.vy = objs->world.t[1];
     ctl->mov.vz = objs->world.t[2];
-    DG_GetLightMatrix(&ctl->mov, &work->field_7A0);
+    DG_GetLightMatrix(&ctl->mov, &work->light[0]);
     jpos->vx = body->objs->objs[6].world.t[0];
     jpos->vy = body->objs->objs[6].world.t[1];
     jpos->vz = body->objs->objs[6].world.t[2];
@@ -354,11 +122,11 @@ int s19b_jeep_mrl_800D3E98(Work *work, int name, int arg2)
     }
     GM_ConfigObjectJoint(body);
     GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode(s19b_aMelb_800DDDD4), work->m_segs1, work->m_segs2,
-                           ctl, work->svecs1);
-    GM_ConfigObjectLight(body, &work->field_7A0);
+                           ctl, work->rots);
+    GM_ConfigObjectLight(body, &work->light[0]);
     GM_ConfigObjectAction(body, 0, 0, 0);
     GM_ActMotion(&work->body);
-    GM_ConfigMotionAdjust(body, work->svecs2);
+    GM_ConfigMotionAdjust(body, work->adjust);
     work->target = GM_AllocTarget();
     Takabe_JeepSystem.field_64 = body;
     ctl->r_sphere = -2;

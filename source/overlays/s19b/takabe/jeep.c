@@ -1,3 +1,6 @@
+#include "common.h"
+#include <libgte.h>
+#include <rand.h>
 #include "game/game.h"
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
@@ -239,4 +242,214 @@ void *NewJeep(int arg0, int arg1)
     }
 
     return work;
+}
+
+extern const char s19b_dword_800DDDC4[];
+extern void RotTransSV(SVECTOR *v0, SVECTOR *v1, long *sz);
+
+void s19b_jeep_mrl_800D2CE8(Work *work)
+{
+    if (work->field_3E0 == 0)
+    {
+        work->field_3D0 = GV_NearSpeed(work->field_3D0, work->field_3D4, 5);
+    }
+    else
+    {
+        work->field_3D0 = GV_NearSpeed(work->field_3D0, work->field_3D4, 10);
+    }
+}
+extern void s19b_jeep_gls_800CEC24(int arg0, SVECTOR *out);
+
+void s19b_jeep_mrl_800D2D3C(Work *work)
+{
+    CONTROL *ctl = &work->control;
+    SVECTOR  rot;
+    SVECTOR  vec;
+
+    memset(&vec, 0, 8);
+    vec.vz = work->field_3D0;
+    rot = vec;
+    DG_SetPos2(&DG_ZeroVector, &work->field_3B8);
+    DG_RotVector(&rot, &rot, 1);
+    work->field_3A0.vx = rot.vx;
+    work->field_3A0.vz = rot.vz;
+    s19b_jeep_gls_800CEC24(ctl->mov.vz - 0x640, &vec);
+    GV_SubVec3(&vec, &ctl->mov, &vec);
+    vec.vx += work->field_3C8;
+    vec.vx += rsin(work->field_3CC << 5) * 50 >> 12;
+    work->field_3B8.vy = GV_VecDir2(&vec);
+    work->field_3CC++;
+    work->field_3D4 = GV_NearSpeed(work->field_3D4, 0x190, 0xa);
+}
+extern int  s19b_jeep_gls_800CEDFC(int arg0, int arg1);
+extern void s19b_jlamp_800D0FE4(int arg0);
+extern void s19b_jeep_mrl_800D3928(Work *work);
+extern int  s19b_dword_800C39CC;
+
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D2E78.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D32B4.s")
+#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_mrl_800D368C.s")
+void s19b_jeep_mrl_800D36A4(Work *work)
+{
+    CONTROL *ctl = &work->control;
+
+    s19b_jeep_mrl_800D2CE8(work);
+    s19b_jeep_mrl_800D2D3C(work);
+    switch (work->field_3DC)
+    {
+    case 0:
+        work->field_3C8 = GV_NearSpeed(work->field_3C8, 750, 50);
+        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 2000) == 10)
+        {
+            work->field_3DC = 1;
+            s19b_jlamp_800D0FE4(3);
+            GM_SeSet(NULL, 0xC2);
+        }
+        break;
+    case 1:
+        work->field_3C8 = GV_NearSpeed(work->field_3C8, 1500, 50);
+        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 3000) == 12)
+        {
+            work->field_3DC = 2;
+            s19b_jlamp_800D0FE4(1);
+            GM_SeSet(NULL, 0xC2);
+        }
+        break;
+    case 2:
+        work->field_3C8 = GV_NearSpeed(work->field_3C8, 750, 50);
+        if (work->field_3C8 == 750)
+        {
+            work->field_3F8 = (void *)s19b_jeep_mrl_800D2E78;
+            work->field_3DC = 0;
+        }
+        break;
+    }
+}
+void s19b_jeep_mrl_800D37D0(Work *work)
+{
+    CONTROL *ctl = &work->control;
+
+    s19b_jeep_mrl_800D2CE8(work);
+    s19b_jeep_mrl_800D2D3C(work);
+    switch (work->field_3DC)
+    {
+    case 0:
+        work->field_3C8 = GV_NearSpeed(work->field_3C8, -750, 50);
+        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 2000) == 11)
+        {
+            work->field_3DC = 1;
+            s19b_jlamp_800D0FE4(4);
+        }
+        break;
+    case 1:
+        work->field_3C8 = GV_NearSpeed(work->field_3C8, -1350, 50);
+        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 3000) == 13)
+        {
+            work->field_3DC = 2;
+            s19b_jlamp_800D0FE4(1);
+        }
+        if (++s19b_dword_800C39CC >= 10)
+        {
+            s19b_dword_800C39CC = 0;
+            GM_SeSet(NULL, 0xC1);
+        }
+        break;
+    case 2:
+        work->field_3C8 = GV_NearSpeed(work->field_3C8, -750, 50);
+        if (work->field_3C8 == -750)
+        {
+            work->field_3F8 = (void *)s19b_jeep_mrl_800D3928;
+            work->field_3DC = 0;
+        }
+        break;
+    }
+}
+
+void s19b_jeep_mrl_800D3928(Work *work)
+{
+    s19b_jeep_mrl_800D2CE8(work);
+    s19b_jeep_mrl_800D2D3C(work);
+    if ((work->field_3CC & 0x3F) == 0)
+    {
+        work->field_3CA = (rand() * 60 >> 15) - 0x258;
+    }
+    work->field_3C8 = GV_NearSpeed(work->field_3C8, work->field_3CA, 0x1E);
+}
+
+int s19b_jeep_mrl_800D399C(void)
+{
+    return s19b_dword_800DE64C->field_3D0;
+}
+int s19b_jeep_mrl_800D39B4(SVECTOR *dst)
+{
+    *dst = s19b_dword_800DE64C->control.mov;
+    return s19b_dword_800DE64C->field_3C8;
+}
+extern CONTROL *GM_WhereList[96];
+extern int      GM_N_WhereList;
+
+int s19b_jeep_mrl_800D39F0(void)
+{
+    CONTROL **where = GM_WhereList;
+    MAP      *map   = (*where)->map;
+    int       count = 0;
+    int       n;
+
+    for (n = GM_N_WhereList; n > 0; n--)
+    {
+        CONTROL *control = *where;
+        if ((control->radar_atr & 1) && control->map == map)
+        {
+            count++;
+        }
+        where++;
+    }
+    return count;
+}
+
+void s19b_jeep_mrl_800D3A54(SVECTOR *pos, short *ang, int scale, short offs)
+{
+    SVECTOR v10;
+    SVECTOR v18;
+    SVECTOR probe;
+    SVECTOR off;
+    MATRIX  m;
+    long    flag;
+
+    probe = *(SVECTOR *)s19b_dword_800DDDC4;
+    off = DG_ZeroVector;
+    off.vz = offs;
+    m = DG_ZeroMatrix;
+    RotMatrixY(*ang, &m);
+    SetRotMatrix(&m);
+    SetTransMatrix(&m);
+    RotTransSV(&probe, &probe, &flag);
+    RotTransSV(&off, &v18, &flag);
+    v18.vx = v18.vx * rcos(scale) / 4096;
+    v18.vz = v18.vz * rcos(scale) / 4096;
+    GV_AddVec3(pos, &v18, pos);
+    m = DG_ZeroMatrix;
+    RotMatrixY(scale, &m);
+    SetRotMatrix(&m);
+    RotTransSV(&off, &v10, &flag);
+    GV_AddVec3(&probe, &v10, &v10);
+    GV_SubVec3(&v10, &v18, &probe);
+    *ang = ratan2(probe.vx, probe.vz);
+}
+extern SVECTOR s19b_dword_800C39D0[];
+extern int s19b_dword_800C399C;
+extern int s19b_dword_800C3994;
+extern void *NewPadVibration(unsigned char *, int);
+
+void s19b_jeep_mrl_800D3CA8(Work *work, int arg1)
+{
+    DG_SetPos2(&work->control.mov, &work->control.rot);
+    DG_PutVector(&s19b_dword_800C39D0[arg1], &work->target2.center, 1);
+    work->target2.vital = 8;
+    if (GM_PowerTarget(&work->target2) == 0)
+    {
+        return;
+    }
+    NewPadVibration((unsigned char *)&s19b_dword_800C399C, 1);
+    NewPadVibration((unsigned char *)&s19b_dword_800C3994, 0);
 }
