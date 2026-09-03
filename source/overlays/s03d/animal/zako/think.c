@@ -36,7 +36,7 @@ void s03d_800D2C68(Work *work)
     HZD_HDL *hzd;
     HZD_ZON *zone;
 
-    addr = work->field_B0C[work->field_B0B];
+    addr = work->param.defends[work->param.c_root];
 
     index = addr << 1;
     index = addr + index;
@@ -54,7 +54,7 @@ void s03d_800D2C68(Work *work)
 
 void s03d_800D2CCC(Work *work)
 {
-    if (work->field_B0C[work->field_B0B] == 0xFF)
+    if (work->param.defends[work->param.c_root] == 0xFF)
     {
         work->field_ACA = 1;
         work->field_AC8 = 0;
@@ -282,7 +282,7 @@ int s03d_800D327C(Work *work)
 
 int s03d_800D3310(Work *work)
 {
-    if (work->field_B08 == 2)
+    if (work->param.fAF8 == 2)
     {
         work->field_AD8 |= 0x20000;
     }
@@ -327,13 +327,13 @@ int s03d_800D33E8(Work *work)
     if (work->field_AD0 == 30)
     {
         work->field_AD8 |= 0x100000;
-        work->field_B68 = s03d_dword_800C3B68[work->field_B08];
+        work->field_B68 = s03d_dword_800C3B68[work->param.fAF8];
     }
     else if (work->body.is_end != 0)
     {
         return 1;
     }
-    work->field_AE6 = s03d_800D2D84(&work->control.mov, &s03d_dword_800C3B68[work->field_B08]);
+    work->field_AE6 = s03d_800D2D84(&work->control.mov, &s03d_dword_800C3B68[work->param.fAF8]);
     work->field_AD0++;
     return 0;
 }
@@ -375,7 +375,7 @@ int s03d_800D3508(Work *work)
 
 int s03d_800D3570(Work *work)
 {
-    if (work->field_B08 == 2)
+    if (work->param.fAF8 == 2)
     {
         work->field_AD8 |= 0x20000;
     }
@@ -543,7 +543,7 @@ void s03d_800D3848(Work *work)
         }
         if (work->field_B26 != 2)
         {
-            if (HZD_InsideZone(work->control.map->hzd, &work->control.mov, work->field_B0C[work->field_B0B]) == 0)
+            if (HZD_InsideZone(work->control.map->hzd, &work->control.mov, work->param.defends[work->param.c_root]) == 0)
             {
                 s03d_800D2CCC(work);
             }
