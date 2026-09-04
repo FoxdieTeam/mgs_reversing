@@ -53,10 +53,10 @@ typedef struct _Work
     int     field_AD80;      /* 0xAD80 */
     int     field_AD84;      /* 0xAD84 */
     int     field_AD88;      /* 0xAD88 */
-    char    pad_AD8C[0x4];   /* 0xAD8C */
+    int     field_AD8C;      /* 0xAD8C */
     int     field_AD90;      /* 0xAD90 */
     int     field_AD94;      /* 0xAD94 */
-    char    pad_AD98[0x4];   /* 0xAD98 */
+    int     field_AD98;      /* 0xAD98 */
     int     field_AD9C;      /* 0xAD9C */
     int     field_ADA0;      /* 0xADA0 */
     int     field_ADA4;      /* 0xADA4 */
@@ -279,6 +279,7 @@ void brf_800CBDC8(Work *work, void *a1)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBE34.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBF48.s")
 extern const char brf_dword_800E1D58[];
+extern const char brf_dword_800E1D64[];
 
 void brf_800CC070(Work *work, int idx)
 {
@@ -455,8 +456,63 @@ int brf_800CC5CC(int a)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC5E4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CCBD4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CD164.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CD734.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CD7DC.s")
+int brf_800CD734(unsigned char c)
+{
+    int idx;
+
+    if ((unsigned char)(c - '0') < 10)
+    {
+        idx = c;
+        idx -= '0';
+    }
+    else if (c == ':')
+    {
+        idx = 10;
+    }
+    else if (c == '.')
+    {
+        idx = 11;
+    }
+    else if (c == ',')
+    {
+        idx = 12;
+    }
+    else if (c == '(')
+    {
+        idx = 13;
+    }
+    else if (c == ')')
+    {
+        idx = 14;
+    }
+    else if (c == '\'')
+    {
+        idx = 15;
+    }
+    else if (c == '-')
+    {
+        idx = 16;
+    }
+    else if (c == ' ')
+    {
+        idx = 26;
+    }
+    else
+    {
+        idx = c - 'A';
+    }
+
+    return idx;
+}
+
+DG_TEX *brf_800CD7DC(Work *work, unsigned char c)
+{
+    if ((unsigned char)(c - '0') < 11 || c == '.' || c == ',' || c == '(' || c == ')' || c == '\'' || c == '-')
+    {
+        return brf_800CABF4(work, GV_StrCode(brf_dword_800E1D64));
+    }
+    return brf_800CABF4(work, GV_StrCode(brf_dword_800E1D58));
+}
 void brf_800CD870(Work *work, int idx)
 {
     POLY_FT4 *base = work->field_28C;
@@ -749,8 +805,85 @@ int delta;
         }
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE8E8.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE9A0.s")
+void brf_800CE8E8(work, which, amount)
+Work *work;
+int which;
+int amount;
+{
+    switch (which)
+    {
+    case 1:
+        if (work->field_AD80 < 391)
+        {
+            work->field_AD80 += amount;
+        }
+        else if (work->field_ADB0)
+        {
+            work->field_ADB0 = 0;
+        }
+        break;
+    case 2:
+        if (work->field_AD8C < 391)
+        {
+            work->field_AD8C += amount;
+        }
+        else if (work->field_ADB0)
+        {
+            work->field_ADB0 = 0;
+        }
+        break;
+    case 3:
+        if (work->field_AD98 < 391)
+        {
+            work->field_AD98 += amount;
+        }
+        else if (work->field_ADB0)
+        {
+            work->field_ADB0 = 0;
+        }
+        break;
+    }
+}
+
+void brf_800CE9A0(work, which, amount)
+Work *work;
+int which;
+int amount;
+{
+    switch (which)
+    {
+    case 1:
+        if (work->field_AD80 >= 202)
+        {
+            work->field_AD80 -= amount;
+        }
+        else if (work->field_ADB0)
+        {
+            work->field_ADB0 = 0;
+        }
+        break;
+    case 2:
+        if (work->field_AD8C >= 202)
+        {
+            work->field_AD8C -= amount;
+        }
+        else if (work->field_ADB0)
+        {
+            work->field_ADB0 = 0;
+        }
+        break;
+    case 3:
+        if (work->field_AD98 >= 202)
+        {
+            work->field_AD98 -= amount;
+        }
+        else if (work->field_ADB0)
+        {
+            work->field_ADB0 = 0;
+        }
+        break;
+    }
+}
 
 void brf_800CE798();
 
@@ -772,9 +905,7 @@ void brf_800CEA58(Work *work, int a1, int a2, int a3)
         break;
     }
 }
-void brf_800CE8E8();
 void brf_800CE2F8(Work *work);
-void brf_800CE9A0(Work *work);
 
 void brf_800CEAF4(work)
 Work *work;
