@@ -647,7 +647,60 @@ void brf_800CDC8C(Work *work, POLY_FT4 *poly)
     poly->y2 = ry2;
     poly->y3 = ry2;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDDD4.s")
+
+void brf_800CDDD4(Work *work, int code, int idx)
+{
+    POLY_FT4 *base = work->field_28C;
+    int       v;
+    int       s;
+
+    v = jimctrl_helper_80037F68(code);
+    work->field_AD6C = v;
+    s = v & 0xFF;
+    if (work->field_AD70 != s)
+    {
+        work->field_AD48 = 1;
+        switch (s)
+        {
+        case 1:
+            base[idx].y0 += 2;
+            base[idx].y1 += 2;
+            base[idx].y2 += 2;
+            base[idx].y3 += 2;
+            break;
+        case 2:
+            base[idx].y0 -= 2;
+            base[idx].y1 -= 2;
+            base[idx].y2 -= 2;
+            base[idx].y3 -= 2;
+            break;
+        case 0:
+            break;
+        }
+    }
+    else if (work->field_AD48 != 0)
+    {
+        work->field_AD48 = 0;
+        switch (s)
+        {
+        case 1:
+            base[idx].y0 += 2;
+            base[idx].y1 += 2;
+            base[idx].y2 += 2;
+            base[idx].y3 += 2;
+            break;
+        case 2:
+            base[idx].y0 -= 2;
+            base[idx].y1 -= 2;
+            base[idx].y2 -= 2;
+            base[idx].y3 -= 2;
+            break;
+        case 0:
+            break;
+        }
+    }
+    work->field_AD70 = s;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDF34.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDFE4.s")
 extern int brf_dword_800C35F4, brf_dword_800C360C, brf_dword_800C3690;
@@ -1838,7 +1891,59 @@ void brf_800DCAA8(Work *work)
     work->field_AD34++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCB44.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCD70.s")
+void brf_800DCD70(Work *work, POLY_FT4 *poly)
+{
+    int c;
+    int k;
+    int x0, x1;
+
+    c = work->field_AD34;
+    if (c < 0x47)
+    {
+        k = -(c * 8);
+        x0 = k + 0x7F;
+        x1 = k + 0x27B;
+    }
+    else if (c < 0x81)
+    {
+        goto skip;
+    }
+    else if (c < 0xA1)
+    {
+        k = -((c - 0x3A) * 8);
+        x0 = k + 0x7F;
+        x1 = k + 0x27B;
+    }
+    else
+    {
+        goto skip;
+    }
+    setXY4(poly, x0, -0x11C, x1, -0x11C, x0, 0x64, x1, 0x64);
+
+skip:
+    switch (work->field_AD34)
+    {
+    case 0x00:
+        GM_SeSet2(0x1F, 0x3F, 0xB4);
+        break;
+    case 0x19:
+        GM_SeSet2(0x0A, 0x3F, 0xB5);
+        break;
+    case 0x32:
+        GM_SeSet2(0xF5, 0x3F, 0xB4);
+        break;
+    case 0x46:
+        GM_SeSet2(0xE6, 0x3F, 0xB5);
+        break;
+    case 0x80:
+        GM_SeSet2(0xE6, 0x3F, 0xB4);
+        break;
+    case 0xA0:
+        GM_SeSet2(0xE0, 0x3F, 0xB5);
+        break;
+    }
+    work->field_AD34++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCED4.s")
 extern int brf_dword_800C4CB0;
 

@@ -45,7 +45,40 @@ typedef struct _Work
     char   pad_FE4[0x4];      /* 0xFE4 */
 } Work;
 
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5230.s")
+typedef struct
+{
+    unsigned char field_0;
+    unsigned char field_1;
+    unsigned char field_2;
+    unsigned char field_3;
+    short         field_4;
+    short         field_6;
+} BrfStage;
+
+extern int brf_dword_800C3470;
+extern int brf_dword_800C33E4;
+void *NewBriefingGraph(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8);
+void *NewBriefingCount(int map, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7);
+
+void brf_800C5230(Work *work)
+{
+    BrfStage stage;
+    int      idx;
+    int      f0, f1, f2, f3, f4, f6;
+
+    idx = work->field_CC;
+    stage = ((BrfStage *)&brf_dword_800C3470)[idx];
+    f0 = stage.field_0;
+    f1 = stage.field_1;
+    f2 = stage.field_2;
+    f3 = stage.field_3;
+    f4 = stage.field_4;
+    f6 = stage.field_6;
+    work->field_77C = (&brf_dword_800C33E4)[idx];
+    work->field_D8 = NewBriefingGraph(work->field_E0, work->field_528, (int)work->field_428, (int)work->field_128, idx,
+                                      work->field_77C, work->field_72C, (int)work->field_62C, (int)work->field_52C);
+    work->field_DC = NewBriefingCount(work->field_E0, f0, f1, f2, work->field_77C - 100, f3, f4, f6);
+}
 
 typedef struct
 {
