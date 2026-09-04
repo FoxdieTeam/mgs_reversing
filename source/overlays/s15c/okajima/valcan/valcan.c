@@ -48,12 +48,18 @@ typedef struct _Work
     int            field_6C0;
     SVECTOR        field_6C4;
     SVECTOR        field_6CC;
-    SVECTOR        field_6D4;
-    char           pad6DC[0x18];
+    SVECTOR        field_6D4[4];
     DG_PRIM       *field_6F4;
     short          field_6F8[4][4][2];
-    short          field_738;
-    short          field_73A;
+    union
+    {
+        struct
+        {
+            short  field_738; /* 0x738 */
+            short  field_73A; /* 0x73A */
+        } cell;
+        int packed;
+    } cell_738;
     short          field_73C;
     short          field_73E;
     int            field_740;
@@ -61,7 +67,9 @@ typedef struct _Work
     short          field_754;
     short          field_756;
     int            field_758;
-    char           pad75C[12];
+    int            field_75C;
+    char           pad760[4];
+    int            field_764;
     int            field_768;
     int            field_76C;
     int            field_770;
@@ -75,7 +83,7 @@ typedef struct _Work
     int            field_790;
     int            field_794;
     int            field_798;
-    char           pad79C[4];
+    int            field_79C;
     short          field_7A0;
     short          field_7A2;
     SVECTOR        field_7A4;
@@ -141,13 +149,20 @@ char    SECTION(".bss") s15c_dword_800E347C[8]; // could be smaller, it only has
 int     SECTION(".bss") s15c_dword_800E3484;
 int     SECTION(".bss") s15c_dword_800E3488;
 
-extern char s15c_dword_800E2E5C[];
-extern char s15c_aBarrel_800E2E4C[];
-extern char s15c_aShadow_800E2E54[];
-extern char s15c_aVala_800E2E44[];
-extern char s15c_aValwep_800E2E3C[];
-extern char s15c_aRaven_800E2E68[];
+const char s15c_dword_800E2E38[] = {0x0, 0xb3, 'B', 0x8c};
+const char s15c_aValwep_800E2E3C[] = "val_wep";
+const char s15c_aVala_800E2E44[] = "val_15a";
+const char s15c_aBarrel_800E2E4C[] = "barrel";
+const char s15c_aShadow_800E2E54[] = "shadow";
+const char s15c_dword_800E2E5C[] = {'v', 'a', 'l', 'c'};
+const char s15c_dword_800E2E60[] = {'a', 'n', '.', 'c'};
+const char s15c_dword_800E2E64[] = {0x0, 0x19, 0x0, 0xae};
+const char s15c_aRaven_800E2E68[] = {'R', 'A', 'V', 'E', 'N', 0x0, 0x0, 0x2};
 
+extern int     s15c_dword_800E345C[4];
+
+extern SVECTOR s15c_dword_800C3600;
+extern SVECTOR s15c_dword_800C35E0[2];
 extern SVECTOR s15c_dword_800C35F0;
 extern SVECTOR s15c_dword_800C35F8;
 
@@ -155,6 +170,8 @@ extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F478;
 extern SVECTOR          svector_8009F494;
 extern int              dword_8009F46C[];
+extern int              dword_8009F480;
+extern int              dword_8009F49C;
 
 void    AN_Breath(MATRIX *matrix);
 void    AN_Unknown_800CA1EC(MATRIX *world, int index);
@@ -217,8 +234,29 @@ void ValcanGetInts_800D8E88(unsigned char *opt, int *out)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_valcan_800D8ECC.s")
-void s15c_valcan_800D8ECC(Work *work);
+void s15c_valcan_800D8ECC(Work *work)
+{
+    SVECTOR  pos[2];
+    MATRIX   world;
+    SVECTOR *quad;
+
+    world = DG_ZeroMatrix;
+    RotMatrixYXZ_gte(&work->field_6CC, &world);
+    DG_SetPos(&world);
+    DG_PutVector(s15c_dword_800C35E0, pos, 2);
+
+    quad = work->field_6D4;
+    quad[0].vx = work->field_6C4.vx + pos[0].vx;
+    quad[3].vx = work->field_6C4.vx - pos[0].vx;
+    quad[0].vz = work->field_6C4.vz + pos[0].vz;
+    quad[3].vz = work->field_6C4.vz - pos[0].vz;
+    quad[1].vx = work->field_6C4.vx + pos[1].vx;
+    quad[2].vx = work->field_6C4.vx - pos[1].vx;
+    quad[1].vz = work->field_6C4.vz + pos[1].vz;
+    quad[2].vz = work->field_6C4.vz - pos[1].vz;
+    quad[0].vy = quad[1].vy = quad[2].vy = quad[3].vy =
+        work->field_6C4.vy - work->control.height;
+}
 
 // Identical to item_init_prim_buffer_800336A4
 void Valcan_800D9028(POLY_FT4 *prims, DG_TEX *tex)
@@ -378,12 +416,12 @@ int ValcanGetResources_800D92A8(Work *work, int name, int where)
             ValcanGetInts_800D8E88(option, args);
         }
 
-        work->field_738 = args[0];
-        work->field_73A = args[1];
+        work->cell_738.cell.field_738 = args[0];
+        work->cell_738.cell.field_73A = args[1];
 
-        work->control.mov.vx = work->field_6F8[work->field_738][work->field_73A][0];
+        work->control.mov.vx = work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][0];
         work->control.mov.vy = 0;
-        work->control.mov.vz = work->field_6F8[work->field_738][work->field_73A][1];
+        work->control.mov.vz = work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][1];
 
         option = (unsigned char *)GCL_GetOption('q');
         if (option)
@@ -425,7 +463,7 @@ int ValcanGetResources_800D92A8(Work *work, int name, int where)
         Valcan_800D9B3C(work);
         s15c_valcan_800D8ECC(work);
 
-        work->field_6F4 = prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, &work->field_6D4, NULL);
+        work->field_6F4 = prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->field_6D4, NULL);
         if (work->field_6F4 == NULL)
         {
             return -1;
@@ -851,7 +889,90 @@ void Valcan_800DA21C(Work *work) // it possibly returns a BulletWork*
     NewBulletEx(BULLET_BLAST, &rotmat, 2, 0, 0, 30, 90, 30000, 100);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA2A8.s")
+int s15c_crow_800DA2A8(Work *work)
+{
+    SVECTOR val;
+    SVECTOR idx;
+    SVECTOR ref;
+    int     z;
+
+    if (work->field_93C != 1 && GV_RandU(4) > 0)
+    {
+        return -1;
+    }
+
+    if ((u_int)(work->field_770 - 2) < 2)
+    {
+        idx.vx = work->cell_738.cell.field_738;
+        idx.vy = work->cell_738.cell.field_73A;
+    }
+    else
+    {
+        idx.vx = work->field_73C;
+        idx.vy = work->field_73E;
+    }
+
+    val.vx = work->field_6F8[idx.vx][idx.vy][0];
+    val.vy = work->field_6F8[idx.vx][idx.vy][1];
+    ref = work->field_51C;
+
+    switch (work->field_740)
+    {
+    case 0:
+    case 1:
+        if (s15c_dword_800E345C[0] != 0 && (u_int)(u_short)idx.vy < 2 && idx.vx == 1)
+        {
+            return -1;
+        }
+
+        if (s15c_dword_800E345C[3] != 0 && (u_int)((u_short)idx.vy - 2) < 2 &&
+            idx.vx == 2)
+        {
+            return -1;
+        }
+
+        z = val.vy;
+
+        if (z < ref.vz && z < 9000)
+        {
+            return Valcan_800DA1AC(work->field_740, 3);
+        }
+
+        if (ref.vz < z && z > -6000)
+        {
+            return Valcan_800DA1AC(work->field_740, 2);
+        }
+        break;
+
+    case 2:
+    case 3:
+        if (s15c_dword_800E345C[1] != 0 && (u_int)((u_short)idx.vx - 2) < 2 &&
+            idx.vy == 1)
+        {
+            return -1;
+        }
+
+        if (s15c_dword_800E345C[2] != 0 && (u_int)(u_short)idx.vx < 2 && idx.vy == 2)
+        {
+            return -1;
+        }
+
+        z = val.vx;
+
+        if (z < ref.vx && z < 9000)
+        {
+            return Valcan_800DA1AC(work->field_740, 1);
+        }
+
+        if (ref.vx < z && z > -9000)
+        {
+            return Valcan_800DA1AC(work->field_740, 0);
+        }
+        break;
+    }
+
+    return -1;
+}
 
 int Valcan_800DA558(Work *work, int arg1)
 {
@@ -995,7 +1116,135 @@ void Valcan_800DA8E4(Work *work)
     DG_SetTmpLight(svecs, 500, 500);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DA990.s")
+void s15c_crow_800DA990(Work *work)
+{
+    MATRIX  mtx;
+    SVECTOR rot;
+    short   level;
+    int     damage;
+
+    if (work->field_830 == 0 && work->field_82C == 1)
+    {
+        work->field_830 = 1;
+        work->field_834 = GV_RandU(work->field_770 != 3 ? 2 : 0x20) + 3;
+    }
+
+    if (work->field_830 == 1)
+    {
+        work->field_834--;
+
+        if (work->field_834 == 0)
+        {
+            dword_8009F480 = 1;
+            work->field_950 = 3;
+            work->field_82C = 0;
+            work->field_830 = 0;
+        }
+    }
+
+    if (work->field_83C == 0 && work->field_838 == 1)
+    {
+        work->field_83C = 1;
+        work->field_840 = GV_RandU(2) + 12;
+    }
+
+    if (work->field_83C == 1)
+    {
+        work->field_840--;
+
+        if (work->field_840 == 0)
+        {
+            dword_8009F49C = 1;
+            work->field_838 = 0;
+            work->field_83C = 0;
+        }
+    }
+
+    if (work->field_6A4 % 5 != 0)
+    {
+        return;
+    }
+
+    if (work->field_8DC++ >= 2)
+    {
+        work->field_8DC = 0;
+
+        if (work->field_8F0 != 0)
+        {
+            if (work->field_6A4 % 100 == 0)
+            {
+                switch (GV_RandU(4))
+                {
+                case 0:
+                    GM_SeSetMode(&work->field_910, 0x83, GM_SEMODE_BOMB);
+                    break;
+
+                case 1:
+                    GM_SeSetMode(&work->field_910, 0x88, GM_SEMODE_BOMB);
+                    break;
+
+                case 2:
+                case 3:
+                    GM_SeSetMode(&work->field_910, 0x85, GM_SEMODE_BOMB);
+                    break;
+                }
+            }
+            else if (work->field_6A4 % 100 == 50)
+            {
+                if (GV_RandU(2) == 0)
+                {
+                    GM_SeSetMode(&work->field_910, 0x84, GM_SEMODE_BOMB);
+                }
+            }
+        }
+    }
+
+    level = GM_GameLevel + 1;
+
+    switch (level)
+    {
+    case 0:
+    case 1:
+    default:
+        damage = 90;
+        break;
+
+    case 2:
+        damage = 135;
+        break;
+
+    case 3:
+        damage = 180;
+        break;
+
+    case 4:
+        damage = 225;
+        break;
+    }
+
+    if (work->field_91C == 0)
+    {
+        work->field_91C = 1;
+        return;
+    }
+
+    if (GM_GameLevel == 3)
+    {
+        work->field_5A4[1].vy += GV_RandS(0x20);
+    }
+
+    DG_SetPos(&work->field_A0.objs->objs[4].world);
+    DG_MovePos(&s15c_dword_800C3600);
+    rot.vx = 0x400;
+    rot.vy = 0;
+    rot.vz = 0;
+    DG_RotatePos(&rot);
+    ReadRotMatrix(&mtx);
+    NewBulletEx(BULLET_FLASHHEAVY | BULLET_RECOILSPARK | BULLET_BLAST, &mtx, 2, 1, 0, 0x1E, damage,
+                0x7530, 1000);
+    Valcan_800DA8E4(work);
+}
+
 
 void Valcan_800DACCC(Work *work)
 {
@@ -1046,12 +1295,236 @@ int Valcan_800DAE38()
     return GV_RandU(4096) % 3 + 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DAE7C.s")
-int s15c_crow_800DAE7C(Work *work);
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DAFCC.s")
-int s15c_crow_800DAFCC(Work *work);
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB200.s")
-int s15c_crow_800DB200(Work *work);
+int s15c_crow_800DAE7C(Work *work)
+{
+    int ret;
+
+    work->field_828 = 0;
+    ret = s15c_crow_800DA2A8(work);
+    work->field_79C = ret;
+
+    if (ret != -1)
+    {
+        return ret;
+    }
+
+    switch (work->field_740)
+    {
+    case 0:
+        if (work->cell_738.cell.field_738 == 1)
+        {
+            work->field_828 = 1;
+            return 1;
+        }
+
+        if (s15c_dword_800E345C[2] != 0 && work->cell_738.packed == 0x20002)
+        {
+            return Valcan_800DAE38();
+        }
+        break;
+
+    case 1:
+        if (work->cell_738.cell.field_738 == 2)
+        {
+            work->field_828 = 1;
+            return 1;
+        }
+
+        if (s15c_dword_800E345C[1] != 0 && work->cell_738.packed == 0x10001)
+        {
+            return Valcan_800DAE38();
+        }
+        break;
+
+    case 2:
+        if (work->cell_738.cell.field_73A == 1)
+        {
+            work->field_828 = 1;
+            return 1;
+        }
+
+        if (s15c_dword_800E345C[0] != 0 && work->cell_738.packed == 0x20001)
+        {
+            return Valcan_800DAE38();
+        }
+        break;
+
+    case 3:
+        if (work->cell_738.cell.field_73A == 2)
+        {
+            work->field_828 = 1;
+            return 1;
+        }
+
+        if (s15c_dword_800E345C[3] != 0 && work->cell_738.packed == 0x10002)
+        {
+            return Valcan_800DAE38();
+        }
+        break;
+    }
+
+    return 0;
+}
+int s15c_crow_800DAFCC(Work *work)
+{
+    work->field_828 = 1;
+
+    if (work->cell_738.cell.field_73A == 0)
+    {
+        if (work->cell_738.cell.field_738 == 0 && work->field_73C == 0)
+        {
+            if (work->field_73E == 1)
+            {
+                work->field_76C = 0;
+                work->field_774 = work->field_770;
+
+                if (s15c_dword_800E345C[0] != 0 && s15c_dword_800E345C[2] != 0)
+                {
+                    work->field_770 = 3;
+                }
+                else
+                {
+                    work->field_770 = 2;
+                }
+
+                work->field_6A4 = 0;
+                work->field_69C = 0;
+            }
+
+            if ((u_int)work->field_740 < 2)
+            {
+                return Valcan_800DA1AC(work->field_740, 3);
+            }
+
+            if (work->field_740 == 2)
+            {
+                return 1;
+            }
+
+            work->field_828 = 0;
+            return 0;
+        }
+
+        if ((u_int)(work->field_740 - 2) < 2)
+        {
+            return Valcan_800DA1AC(work->field_740, 0);
+        }
+
+        if (work->field_740 == 1)
+        {
+            return 1;
+        }
+
+        if (work->cell_738.cell.field_738 == 1)
+        {
+            return 3;
+        }
+
+        work->field_828 = 0;
+        return 0;
+    }
+
+    if ((u_int)work->field_740 < 2)
+    {
+        if (s15c_dword_800E345C[3] != 0)
+        {
+            int pair = work->cell_738.packed;
+
+            if ((pair == 0x30001 && work->field_740 == 1) ||
+                (pair == 0x30003 && work->field_740 == 0))
+            {
+                return 0;
+            }
+        }
+
+        if (s15c_dword_800E345C[0] != 0)
+        {
+            int pair = work->cell_738.packed;
+
+            if (pair == 0x20001)
+            {
+                return Valcan_800DA1AC(work->field_740, 0);
+            }
+
+            if (pair == 0x10000 && work->field_740 == 1)
+            {
+                return 0;
+            }
+
+            if (pair == 0x10002 && work->field_740 == 0)
+            {
+                return 0;
+            }
+        }
+
+        return Valcan_800DA1AC(work->field_740, 2);
+    }
+
+    if (work->field_740 == 3)
+    {
+        return 1;
+    }
+
+    if (work->cell_738.cell.field_73A == 1)
+    {
+        if (work->cell_738.cell.field_738 == 0)
+        {
+            return 1;
+        }
+
+        return 3;
+    }
+
+    if (s15c_dword_800E345C[0] != 0 && work->cell_738.packed == 0x20001)
+    {
+        return Valcan_800DA1AC(work->field_740, 0);
+    }
+
+    work->field_828 = 0;
+    return 0;
+}
+int s15c_crow_800DB200(Work *work)
+{
+    work->field_828 = 0;
+    work->field_69C++;
+
+    switch (work->field_740)
+    {
+    case 0:
+        if (work->cell_738.cell.field_738 == 1 && s15c_dword_800E345C[0] != 0 &&
+            s15c_dword_800E345C[2] != 0)
+        {
+            work->field_770 = 3;
+            work->field_6A4 = 0;
+            work->field_69C = 0;
+            return 3;
+        }
+        break;
+
+    case 1:
+        if (work->cell_738.cell.field_738 == 2)
+        {
+            return 1;
+        }
+        break;
+
+    case 2:
+        if (work->cell_738.cell.field_73A == 1)
+        {
+            return 2;
+        }
+        break;
+
+    case 3:
+        if (work->cell_738.cell.field_73A == 2)
+        {
+            return 1;
+        }
+        break;
+    }
+
+    return 0;
+}
 
 int Valcan_800DB2E4(Work *work)
 {
@@ -1151,8 +1624,8 @@ int Valcan_800DB470(Work *work)
 
 void Valcan_800DB500(Work *work)
 {
-    work->field_738 = work->field_73C;
-    work->field_73A = work->field_73E;
+    work->cell_738.cell.field_738 = work->field_73C;
+    work->cell_738.cell.field_73A = work->field_73E;
 
     // We love switches!!!
     switch (work->field_770)
@@ -1295,8 +1768,8 @@ void Valcan_800DB868(Work *work)
         work->field_76C = 2800;
     }
 
-    diff1 = work->field_73C - work->field_738;
-    diff2 = work->field_73E - work->field_73A;
+    diff1 = work->field_73C - work->cell_738.cell.field_738;
+    diff2 = work->field_73E - work->cell_738.cell.field_73A;
     if (diff1 < 0)
     {
         work->field_740 = 0;
@@ -1319,8 +1792,246 @@ void Valcan_800DB868(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DB9F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DBCB4.s")
+void s15c_crow_800DB9F0(Work *work)
+{
+    int dir = work->field_764;
+
+    if ((work->field_770 == 1 && work->field_774 != 0) || work->field_770 == 2 ||
+        work->field_770 == 3 || work->field_76C == 0 || work->field_774 == 2 ||
+        work->field_774 == 3)
+    {
+        if ((u_int)(work->field_774 - 2) < 2)
+        {
+            work->field_774 = work->field_770;
+        }
+
+        switch (work->field_740)
+        {
+        case 0:
+            work->field_768 = (dir > 0) ? 2 : 3;
+            break;
+
+        case 1:
+            work->field_768 = (dir > 0) ? 3 : 2;
+            break;
+
+        case 2:
+            if (dir > 0)
+            {
+                work->field_768 = 1;
+            }
+            else
+            {
+                work->field_768 = 0;
+            }
+            break;
+
+        case 3:
+            if (dir > 0)
+            {
+                work->field_768 = 0;
+            }
+            else
+            {
+                work->field_768 = 1;
+            }
+            break;
+        }
+
+        work->control.turn.vy = work->field_744[work->field_768];
+        Valcan_800DB500(work);
+        Valcan_800DB868(work);
+        work->field_758 = 0;
+        work->field_75C = 0;
+    }
+    else
+    {
+        work->field_75C--;
+
+        if (work->field_75C >= 8)
+        {
+            work->control.turn.vy -= dir * 14;
+            return;
+        }
+
+        if (work->field_75C >= 0)
+        {
+            switch (work->field_740)
+            {
+            case 0:
+                if (dir > 0)
+                {
+                    work->field_768 = 2;
+                }
+                else
+                {
+                    work->field_768 = 3;
+                }
+
+                work->control.mov.vx =
+                    (work->control.mov.vx +
+                     work->field_6F8[work->field_73C][work->field_73E][0]) / 2;
+                break;
+
+            case 1:
+                if (dir > 0)
+                {
+                    work->field_768 = 3;
+                }
+                else
+                {
+                    work->field_768 = 2;
+                }
+
+                work->control.mov.vx =
+                    (work->control.mov.vx +
+                     work->field_6F8[work->field_73C][work->field_73E][0]) / 2;
+                break;
+
+            case 2:
+                if (dir > 0)
+                {
+                    work->field_768 = 1;
+                }
+                else
+                {
+                    work->field_768 = 0;
+                }
+
+                work->control.mov.vz =
+                    (work->control.mov.vz +
+                     work->field_6F8[work->field_73C][work->field_73E][1]) / 2;
+                break;
+
+            case 3:
+                if (dir > 0)
+                {
+                    work->field_768 = 0;
+                }
+                else
+                {
+                    work->field_768 = 1;
+                }
+
+                work->control.mov.vz =
+                    (work->control.mov.vz +
+                     work->field_6F8[work->field_73C][work->field_73E][1]) / 2;
+                break;
+            }
+
+            work->control.turn.vy = work->field_744[work->field_768];
+            return;
+        }
+
+        Valcan_800DB500(work);
+        Valcan_800DB868(work);
+        work->field_758 = 0;
+        work->field_75C = 0;
+    }
+}
+
+void s15c_crow_800DBCB4(Work *work)
+{
+    if ((work->field_770 == 1 && work->field_774 != 0) || work->field_770 == 2 ||
+        work->field_770 == 3 || work->field_76C == 0 || work->field_774 == 2 ||
+        work->field_774 == 3)
+    {
+        if ((u_int)(work->field_774 - 2) < 2)
+        {
+            work->field_774 = work->field_770;
+        }
+
+        switch (work->field_740)
+        {
+        case 0:
+            work->field_768 = 1;
+            work->control.turn.vy = work->field_744[1];
+            break;
+
+        case 1:
+            work->field_768 = 0;
+            work->control.turn.vy = work->field_744[0];
+            break;
+
+        case 2:
+            work->field_768 = 3;
+            work->control.turn.vy = work->field_744[3];
+            break;
+
+        case 3:
+            work->field_768 = 2;
+            work->control.turn.vy = work->field_744[2];
+            break;
+        }
+
+        work->control.rot.vy = work->control.turn.vy;
+        Valcan_800DB500(work);
+        Valcan_800DB868(work);
+        work->field_758 = 0;
+        work->field_75C = 0;
+    }
+    else
+    {
+        work->field_75C--;
+
+        if (work->field_75C >= 40)
+        {
+            work->control.turn.vy += 0x10;
+            return;
+        }
+
+        if (work->field_75C >= 8)
+        {
+            work->control.turn.vy -= 0x40;
+            return;
+        }
+
+        if (work->field_75C >= 0)
+        {
+            switch (work->field_740)
+            {
+            case 0:
+                work->control.mov.vz =
+                    (work->control.mov.vz +
+                     work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][1]) / 2;
+                work->control.turn.vy = work->field_744[1];
+                work->field_768 = 1;
+                break;
+
+            case 1:
+                work->control.mov.vz =
+                    (work->control.mov.vz +
+                     work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][1]) / 2;
+                work->control.turn.vy = work->field_744[0];
+                work->field_768 = 0;
+                break;
+
+            case 2:
+                work->control.mov.vx =
+                    (work->control.mov.vx +
+                     work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][0]) / 2;
+                work->control.turn.vy = work->field_744[3];
+                work->field_768 = 3;
+                break;
+
+            case 3:
+                work->control.mov.vx =
+                    (work->control.mov.vx +
+                     work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][0]) / 2;
+                work->control.turn.vy = work->field_744[2];
+                work->field_768 = 2;
+                break;
+            }
+
+            return;
+        }
+
+        Valcan_800DB500(work);
+        Valcan_800DB868(work);
+        work->field_758 = 0;
+        work->field_75C = 0;
+    }
+}
 
 void Valcan_800DBF74(Work *work)
 {
@@ -1430,10 +2141,454 @@ void Valcan_800DC2EC(Work *work, int action)
     GM_ConfigObjectAction(&work->field_A0, action, 0, 4);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC318.s")
-void s15c_crow_800DC318(Work *work);
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DC7A0.s")
-void s15c_crow_800DC7A0(Work *work);
+void s15c_crow_800DC318(Work *work)
+{
+    int tick;
+
+    switch (work->field_688)
+    {
+    case 0:
+        work->field_91C = 0;
+
+        if (work->field_900 <= 0)
+        {
+            work->field_688 = 0;
+        }
+        else
+        {
+            work->field_688 = 1;
+        }
+        /* fallthrough */
+
+    case 1:
+        Valcan_800DC2EC(work, 0);
+        break;
+
+    case 2:
+        work->field_91C = 0;
+        work->field_688 = 3;
+        work->field_694 = GV_RandU(0x80) + 0x40;
+        /* fallthrough */
+
+    case 3:
+        Valcan_800DC2EC(work, 0);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_688 = 4;
+        }
+        break;
+
+    case 4:
+        if (GM_GameLevel == 3 && GV_Time % 256 < 0xF0)
+        {
+            s15c_crow_800DA990(work);
+        }
+        else
+        {
+            work->field_91C = 0;
+        }
+
+        work->field_688 = 5;
+        Valcan_800DC290(work, 1, 4);
+
+        tick = work->field_920 % 22;
+
+        if (tick == 0)
+        {
+            GM_SeSetMode(&work->field_910, 0xBE, GM_SEMODE_BOMB);
+        }
+        else if (tick == 11)
+        {
+            GM_SeSetMode(&work->field_910, 0xBF, GM_SEMODE_BOMB);
+        }
+
+        work->field_920++;
+        break;
+
+    case 5:
+        Valcan_800DC290(work, 1, 4);
+        break;
+
+    case 6:
+        Valcan_800DC290(work, 1, 0);
+        break;
+
+    case 8:
+        work->field_91C = 0;
+        work->field_688 = 9;
+        Valcan_800DC290(work, 2, 8);
+
+        tick = work->field_920 % 30;
+
+        if (tick == 0)
+        {
+            GM_SeSetMode(&work->field_910, 0xBE, GM_SEMODE_BOMB);
+        }
+        else if (tick == 15)
+        {
+            GM_SeSetMode(&work->field_910, 0xBF, GM_SEMODE_BOMB);
+        }
+
+        work->field_920++;
+        break;
+
+    case 9:
+        Valcan_800DC290(work, 2, 8);
+        break;
+
+    case 12:
+        work->field_6B0 = 1;
+        work->field_694 = 8;
+        work->field_688 = 13;
+        /* fallthrough */
+
+    case 13:
+        Valcan_800DC2EC(work, 3);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_688 = 14;
+            work->field_6B0 = 2;
+        }
+        break;
+
+    case 14:
+        s15c_crow_800DA990(work);
+        Valcan_800DC290(work, 4, 14);
+        break;
+
+    case 17:
+        work->field_6B0 = 1;
+        work->field_694 = 8;
+        work->field_688 = 18;
+        /* fallthrough */
+
+    case 18:
+        Valcan_800DC2EC(work, 3);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_688 = 19;
+            work->field_6B0 = 2;
+        }
+        break;
+
+    case 19:
+        s15c_crow_800DA990(work);
+        Valcan_800DC290(work, 5, 20);
+        break;
+
+    case 20:
+        work->field_694 = 8;
+        work->field_6B0 = 3;
+        s15c_crow_800DA990(work);
+        work->field_688 = 21;
+        break;
+
+    case 21:
+        s15c_crow_800DA990(work);
+        Valcan_800DC2EC(work, 2);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_91C = 0;
+            work->field_6B0 = 0;
+            work->control.turn.vy = work->field_744[work->field_740];
+        }
+        break;
+
+    case 22:
+        work->field_6B0 = 1;
+        work->field_694 = 8;
+        work->field_688 = 23;
+        /* fallthrough */
+
+    case 23:
+        Valcan_800DC2EC(work, 3);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_688 = 24;
+            work->field_6B0 = 2;
+        }
+        break;
+
+    case 24:
+        s15c_crow_800DA990(work);
+        Valcan_800DC290(work, 6, 25);
+        break;
+
+    case 25:
+        work->field_694 = 8;
+        work->field_6B0 = 3;
+        s15c_crow_800DA990(work);
+        work->field_688 = 26;
+        break;
+
+    case 26:
+        s15c_crow_800DA990(work);
+        Valcan_800DC2EC(work, 2);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_91C = 0;
+            work->field_6B0 = 0;
+            work->control.turn.vy = work->field_744[work->field_740];
+        }
+        break;
+
+    case 27:
+        work->field_91C = 0;
+        Valcan_800DC290(work, 7, 28);
+        work->field_694 = 8;
+        work->field_6B0 = 1;
+        break;
+
+    case 28:
+        Valcan_800DC2EC(work, 2);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_6B0 = 0;
+        }
+        break;
+
+    case 29:
+        work->field_91C = 0;
+        Valcan_800DC290(work, 8, 30);
+        work->field_694 = 8;
+        work->field_6B0 = 1;
+        break;
+
+    case 30:
+        Valcan_800DC2EC(work, 2);
+
+        if (work->field_694-- <= 0)
+        {
+            work->field_6B0 = 0;
+        }
+        break;
+    }
+}
+
+
+void s15c_crow_800DC7A0(Work *work)
+{
+    short level;
+
+    if (work->field_94C < 300)
+    {
+        work->field_94C++;
+    }
+
+    if (work->field_950 >= -9)
+    {
+        work->field_950--;
+    }
+
+    if (work->field_6B0 == 0)
+    {
+        switch (work->field_770)
+        {
+        case 1:
+            if (work->field_774 != 0)
+            {
+                work->field_688 = 4;
+            }
+            else
+            {
+                work->field_688 = 8;
+            }
+            break;
+
+        case 2:
+            work->field_688 = 4;
+            break;
+
+        case 3:
+            work->field_688 = 4;
+            s15c_crow_800DA990(work);
+            break;
+
+        default:
+            work->field_688 = 8;
+            break;
+        }
+    }
+
+    if (work->field_688 != 0x11)
+    {
+        Valcan_800DACCC(work);
+    }
+
+    if (work->field_758 == -1)
+    {
+        if (work->field_770 == 1 && work->field_774 == 0)
+        {
+            work->field_774 = 1;
+        }
+
+        if (work->field_770 == 0)
+        {
+            level = GM_GameLevel + 1;
+
+            switch (level)
+            {
+            case 0:
+            case 1:
+            default:
+                if (work->field_6A8 / 2 + 1 >= work->field_900)
+                {
+                    work->field_6A4 = 0;
+                    work->field_774 = work->field_770;
+                    work->field_770 = 1;
+                }
+                break;
+
+            case 2:
+                if (work->field_6A8 * 4 / 5 + 1 >= work->field_900)
+                {
+                    work->field_6A4 = 0;
+                    work->field_774 = work->field_770;
+                    work->field_770 = 1;
+                }
+                break;
+
+            case 3:
+                if (work->field_6A8 * 5 / 6 + 1 >= work->field_900)
+                {
+                    work->field_6A4 = 0;
+                    work->field_774 = work->field_770;
+                    work->field_770 = 1;
+                }
+                break;
+
+            case 4:
+                work->field_6A4 = 0;
+                work->field_774 = work->field_770;
+                work->field_770 = 3;
+                break;
+            }
+        }
+
+        work->field_758 = Valcan_800DB470(work);
+
+        if (work->field_758 == 0)
+        {
+            Valcan_800DB500(work);
+            Valcan_800DB868(work);
+        }
+
+        work->field_75C = 0x48;
+        work->field_788 = 1;
+    }
+
+    if (work->field_6B0 == 0 || work->field_770 == 3)
+    {
+        switch (work->field_758)
+        {
+        case 1:
+            s15c_crow_800DBCB4(work);
+            break;
+
+        case 2:
+            work->field_764 = 1;
+            s15c_crow_800DB9F0(work);
+            break;
+
+        case 3:
+            work->field_764 = -1;
+            s15c_crow_800DB9F0(work);
+            break;
+        }
+    }
+
+    if (work->field_788 != 0 && work->field_794 == 1)
+    {
+        work->field_788 = 2;
+    }
+
+    if (work->field_770 == 3)
+    {
+        work->field_788 = 0;
+    }
+
+    if (GM_GameStatus & STATE_STUN)
+    {
+        GM_SeSet2(0, 0x3F, 0x88);
+    }
+
+    switch (work->field_788)
+    {
+    case 1:
+        if (work->field_770 == 2 && work->field_69C > 0)
+        {
+            switch (work->field_740)
+            {
+            case 0:
+            case 1:
+                if (s15c_dword_800E345C[0] >= 2 && work->cell_738.packed == 1)
+                {
+                    work->field_828 = 1;
+                }
+                else
+                {
+                    work->control.turn.vy = work->field_744[3];
+                }
+                break;
+
+            case 2:
+            case 3:
+                if (s15c_dword_800E345C[2] >= 2 && work->cell_738.packed == 0x20000)
+                {
+                    work->field_828 = 1;
+                }
+                else
+                {
+                    work->control.turn.vy = work->field_744[1];
+                }
+                break;
+            }
+
+            work->control.mov.vz = work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][1];
+            work->control.mov.vx = work->field_6F8[work->cell_738.cell.field_738][work->cell_738.cell.field_73A][0];
+        }
+
+        if (work->field_828 == 0)
+        {
+            if (work->field_8E8++ >= 3)
+            {
+                work->field_8E8 = 0;
+
+                if (GV_RandU(2) != 0)
+                {
+                    GM_SeSetMode(&work->field_910, 0x86, GM_SEMODE_BOMB);
+                }
+                else
+                {
+                    GM_SeSetMode(&work->field_910, 0x82, GM_SEMODE_BOMB);
+                }
+            }
+
+            work->field_688 = 0x11;
+        }
+
+        work->field_788 = 0;
+        break;
+
+    case 2:
+        Valcan_800DC124(work);
+        break;
+
+    default:
+        if (work->field_794 == 1)
+        {
+            Valcan_800DC124(work);
+        }
+        break;
+    }
+}
 
 #define ABS(x) (((x) >= 0) ? (x) : -(x))
 
@@ -1576,8 +2731,146 @@ void Valcan_800DCF8C(Work *work)
     s15c_crow_800DC318(work);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_crow_800DD03C.s")
-void s15c_crow_800DD03C(Work *work);
+void s15c_crow_800DD03C(Work *work)
+{
+    SVECTOR diff;
+    int     n;
+
+    if (mts_get_tick_count() - work->field_8EC > work->field_8E0)
+    {
+        work->field_8E0 = GV_RandU(0x40) + 0x78;
+        work->field_8EC = mts_get_tick_count();
+
+        if ((u_int)(work->field_770 - 2) < 2 && work->field_924 == -1)
+        {
+            GM_SeSetMode(&work->field_910, 0x87, GM_SEMODE_BOMB);
+        }
+    }
+
+    dword_8009F480 = 0;
+    dword_8009F49C = 0;
+    work->field_6C0++;
+    work->field_68C = Valcan_800D9DC0(work, 0);
+    work->field_6C4 = work->control.mov;
+    work->field_6CC = work->control.rot;
+    Valcan_800D9F8C(work);
+
+    if (dword_8009F46C[0] == 1 && (GV_PadData[2].status & PAD_TRIANGLE))
+    {
+        diff.vx = (work->control.mov.vx - svector_8009F478.vx) / 3;
+        diff.vy = 0;
+        diff.vz = (work->control.mov.vz - svector_8009F478.vz) / 3;
+        work->field_910.vx = svector_8009F478.vx + diff.vx;
+        work->field_910.vy = svector_8009F478.vy;
+        work->field_910.vz = svector_8009F478.vz + diff.vz;
+    }
+    else
+    {
+        diff.vx = (work->control.mov.vx - GM_PlayerPosition.vx) / 4;
+        diff.vy = 0;
+        diff.vz = (work->control.mov.vz - GM_PlayerPosition.vz) / 4;
+        work->field_910.vx = GM_PlayerPosition.vx + diff.vx;
+        work->field_910.vy = GM_PlayerPosition.vy;
+        work->field_910.vz = GM_PlayerPosition.vz + diff.vz;
+    }
+
+    Valcan_800DCF8C(work);
+    work->field_6A4++;
+
+    if (work->field_68C >= 0x2329)
+    {
+        work->field_940++;
+    }
+
+    if (work->field_668->damaged & 8)
+    {
+        work->field_668->damaged &= ~8;
+    }
+
+    if ((u_int)((u_short)work->field_664->a_mode - 3) < 2 && (work->field_664->damaged & 4))
+    {
+        work->field_664->damaged &= ~4;
+        work->field_664->vital = work->field_900;
+    }
+
+    if ((work->field_664->damaged & 4) && work->field_6B8 == 0)
+    {
+        work->field_944 = 0;
+        work->field_948 = 0;
+        work->field_698 = 0;
+
+        if (work->field_664->damage >= 0x101)
+        {
+            work->field_664->damage = 0x100;
+        }
+
+        switch (work->field_664->a_mode)
+        {
+        case 1:
+            work->field_900 -= 8;
+            work->field_664->vital = work->field_900;
+            break;
+
+        case 2:
+            work->field_900 -= work->field_664->damage / 3;
+            work->field_664->vital = work->field_900;
+            break;
+        }
+
+        work->field_780 = work->field_684;
+        work->field_784 = work->field_688;
+        Valcan_800D9F3C(work, 0x10);
+        work->field_6B8 = 1;
+
+        if (GM_GameLevel != 3)
+        {
+            work->field_684 = 3;
+        }
+        else
+        {
+            GM_SeSet2(0, 0x3F, 0x8A);
+        }
+
+        work->field_924 = 0x5A;
+        work->field_6A4 = 0;
+        work->field_69C = 0;
+        work->field_93C = 1;
+    }
+
+    work->field_664->damage = 0;
+    if (work->field_924 > 0)
+    {
+        work->field_924--;
+        n = 0x5A - work->field_924;
+
+        if (GM_GameLevel == 3 && n < 0x1E)
+        {
+            Valcan_800DC06C(work, GV_RandU(8), 2);
+        }
+
+        work->field_944 = n * 15000 / 90;
+        work->field_948 = n * 1024 / 90;
+    }
+
+    if (work->field_924 == 0)
+    {
+        work->field_924 = -1;
+        work->field_664->damaged &= ~4;
+        work->field_944 = 0x3A98;
+        work->field_6B8 = 0;
+        work->field_948 = 0x400;
+    }
+
+    if (work->field_900 <= 0 && work->field_81C == 0)
+    {
+        Valcan_800DC06C(work, GV_RandU(8), 2);
+        work->field_81C = 1;
+    }
+    else
+    {
+        Valcan_800D9D90(work);
+    }
+}
 
 void Valcan_800DD578(Work *work)
 {
