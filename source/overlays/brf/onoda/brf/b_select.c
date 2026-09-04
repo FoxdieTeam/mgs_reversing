@@ -22,7 +22,9 @@ typedef struct _Work
     int    field_CC;          /* 0x0CC */
     int    field_D0;          /* 0x0D0 */
     int    field_D4;          /* 0x0D4 */
-    char   pad_D8[0xC];       /* 0x0D8 */
+    void  *field_D8;          /* 0x0D8 */
+    void  *field_DC;          /* 0x0DC */
+    int    field_E0;          /* 0x0E0 */
     void  *field_E4;          /* 0x0E4 */
     char   field_E8[0x40];    /* 0x0E8 */
     DG_TEX field_128[64];     /* 0x128 */
@@ -31,7 +33,8 @@ typedef struct _Work
     int    field_52C[64];     /* 0x52C */
     int    field_62C[64];     /* 0x62C */
     int    field_72C;         /* 0x72C */
-    int      field_730[20];   /* 0x730 */
+    int      field_730[19];   /* 0x730 */
+    int      field_77C;       /* 0x77C */
     POLY_FT4 field_780[44];   /* 0x780 */
     POLY_FT4 field_E60[9];    /* 0xE60 */
     char     pad_FC8[0xC];    /* 0xFC8 */

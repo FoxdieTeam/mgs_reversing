@@ -46,7 +46,9 @@ typedef struct _Work
     int     field_AD58;      /* 0xAD58 */
     int     field_AD5C;      /* 0xAD5C */
     int     field_AD60;      /* 0xAD60 */
-    char    pad_AD64[0x10];  /* 0xAD64 */
+    char    pad_AD64[0x8];   /* 0xAD64 */
+    int     field_AD6C;      /* 0xAD6C */
+    int     field_AD70;      /* 0xAD70 */
     int     field_AD74;      /* 0xAD74 */
     int     field_AD78;      /* 0xAD78 */
     int     field_AD7C;      /* 0xAD7C */
@@ -277,7 +279,53 @@ void brf_800CBDC8(Work *work, void *a1)
     work->field_AD34++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBE34.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBF48.s")
+extern const char brf_dword_800E1D28[];
+extern const char brf_dword_800E1D34[];
+extern const char brf_dword_800E1D40[];
+extern const char brf_dword_800E1D4C[];
+
+void brf_800CBF48(Work *work, POLY_FT4 *dest)
+{
+    DG_TEX *g;
+
+    switch (work->field_AD30)
+    {
+    case 0:
+        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
+        break;
+    case 4:
+        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D34));
+        break;
+    case 7:
+        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D40));
+        break;
+    case 10:
+        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D4C));
+        break;
+    default:
+        goto skip;
+    }
+
+    {
+        int u = g->off_x;
+        int uw = u + g->w + 1;
+        int v = g->off_y;
+        int vh = v + g->h + 1;
+
+        dest->u0 = u;
+        dest->v0 = v;
+        dest->u1 = uw;
+        dest->v1 = v;
+        dest->u2 = u;
+        dest->v2 = vh;
+        dest->u3 = uw;
+        dest->v3 = vh;
+        dest->tpage = g->tpage;
+        dest->clut = g->clut;
+    }
+skip:
+    work->field_AD30++;
+}
 extern const char brf_dword_800E1D58[];
 extern const char brf_dword_800E1D64[];
 
