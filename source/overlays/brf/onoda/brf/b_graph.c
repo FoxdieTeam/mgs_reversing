@@ -2099,7 +2099,30 @@ void brf_800DDE5C(int prim, int tex_id, POLY_FT4 *poly, int x0, int y0, int x1, 
     poly->tpage = tex->tpage;
     poly->clut = tex->clut;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DE004.s")
+void brf_800DE004(int prim, int tex_id, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int abe, int div)
+{
+    DG_TEX *tex;
+    int     u, v, w, h;
+    int     unused[2];
+
+    (void)unused;
+    brf_800DDD78(prim, poly, x0, y0, x1, y2, abe);
+    tex = DG_GetTexture(tex_id);
+    w = (tex->w + 1) / div;
+    v = u = tex->off_y;
+    h = tex->h + 1;
+    u = tex->off_x;
+    poly->v0 = v;
+    poly->v1 = v;
+    poly->v2 = v + h;
+    poly->v3 = v + h;
+    poly->u0 = u;
+    poly->u2 = u;
+    poly->u1 = u + w;
+    poly->u3 = u + w;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DE0F4.s")
 void brf_800DE270(int a0, POLY_F4 *poly, int x0, int y0, int x1, int y2, int abe, int gray)
 {
