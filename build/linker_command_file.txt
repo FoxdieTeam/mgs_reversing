@@ -344,6 +344,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}.bin")
       OVERLAY == "s03b" or
       OVERLAY == "s03c" or
       OVERLAY == "s03e" or OVERLAY == "s03er" or
+      OVERLAY == "s04b" or OVERLAY == "s04br" or
       OVERLAY == "s04c" or
       OVERLAY == "s07c" or OVERLAY == "s07cr" or
       OVERLAY == "s08a" or
@@ -2291,6 +2292,65 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
+{% elif OVERLAY == "s04b" or OVERLAY == "s04br" %}
+    include "{{OBJ_DIR}}\stage\s04b.obj", overlay
+    include "{{OBJ_DIR}}\game\movie.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\rcm2.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\enemy\katana.obj", overlay
+    include "{{OBJ_DIR}}\okajima\splash.obj", overlay
+    include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\okajima\plasma.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dummy_wl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\life_up.obj", overlay
+    include "{{OBJ_DIR}}\takabe\telop.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\focus.obj", overlay
+    include "{{OBJ_DIR}}\takabe\voicesys.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s04b\kojo\blooddrp.obj", overlay
+    include "{{OBJ_DIR}}\onoda\s04b\revolver.obj", overlay
+    include "{{OBJ_DIR}}\takabe\revbullt.obj", overlay
+    include "{{OBJ_DIR}}\onoda\s04b\wire.obj", overlay
+    include "{{OBJ_DIR}}\onoda\s04b\at.obj", overlay
+    include "{{OBJ_DIR}}\onoda\s04b\cape.obj", overlay
+
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDROM.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\CDREAD2.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_004.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_005.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_007.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_008.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_009.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_010.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libcd\C_011.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P19.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P36.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_11.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\SMP.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\LIBPRESS.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\VLC_C.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libpress\BUILD.OBJ", overlay
 ;------------------------------------------------------------------------------
 {% endif %}
 
