@@ -8,7 +8,7 @@ static short area_history[ MAX_HISTORY ];
 
 STATIC char GM_CurrentStageName[8] = {};
 
-short SECTION(".sbss") area_name;
+short SECTION(".sbss") area_id;
 short SECTION(".sbss") pad3_;
 short SECTION(".sbss") pad3;
 
@@ -33,7 +33,7 @@ int GM_SetArea(int stage_id, char *stage_name)
 {
     int i;
 
-    area_name = stage_id;
+    area_id = stage_id;
     strcpy(GM_CurrentStageName, stage_name);
 
     for (i = MAX_HISTORY - 1; i > 0; i--)

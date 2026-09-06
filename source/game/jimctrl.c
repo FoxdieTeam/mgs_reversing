@@ -40,23 +40,25 @@ typedef struct
 
 Work SECTION(".bss") jimaku_work;
 char SECTION(".bss") jimaku_buffer[ 4090 ];
-JIMCHARA SECTION(".bss") chara_work[ JIMCHARA_COUNT ];
+PAKU SECTION(".bss") chara_work[ PAKU_MAX ];
 int SECTION(".bss") GM_JimakuCounter;
 
 extern int str_status;
 
 char *dword_8009E28C = NULL;
 
-static void do_paku(int index, int value)
+static void do_paku( int index, int value )
 {
-    JIMCHARA *helper = &chara_work[index];
-    if (value == 4)
+    PAKU *chara;
+
+    chara = &chara_work[ index ];
+    if ( value == 4 )
     {
-        helper->field_2 = 1;
+        chara->eye = 1;
     }
-    else if (value < 4)
+    else if ( value < 4 )
     {
-        helper->field_3 = value;
+        chara->mouth = value;
     }
 }
 
@@ -64,69 +66,73 @@ static void do_paku(int index, int value)
 unsigned int jimctrl_helper_80037F68(unsigned int header)
 {
     u_short                  field_2_preClear;
-    JIMCHARA *pIter;
+    PAKU *pIter;
     u_char                 *pField;
     int                   i;
 
     pIter = &chara_work[1];
     i = 0;
-    pField = &pIter->field_2;
-    for (; i < JIMCHARA_COUNT - 1; i++)
+    pField = &pIter->eye;
+    for (; i < PAKU_MAX - 1; i++)
     {
-        if (pIter->field_0 == header)
+        if (pIter->id == header)
         {
             field_2_preClear = *pField;
             *pField = 0;
             return (field_2_preClear << 8 | *++pField);
         }
-        pField += sizeof(JIMCHARA);
+        pField += sizeof(PAKU);
         pIter++;
     }
 
     return 0;
 }
 
-static void init_id(void)
+static void init_id( void )
 {
-    int i = JIMCHARA_COUNT - 2;
-    JIMCHARA *pIter = &chara_work[i] + 1;
-    for (; i >= 0; i--)
+    int i;
+    PAKU *chara;
+
+    i = PAKU_MAX - 2;
+    chara = &chara_work[ i + 1 ];
+    for ( ; i >= 0; i-- )
     {
-        pIter->field_0 = 0;
-        pIter--;
+        chara->id = 0;
+        chara--;
     }
 }
 
-static void set_id(int index, int value)
+static void set_id( int index, int id )
 {
-    JIMCHARA *pIter = &chara_work[1];
-    pIter[--index].field_0 = value;
+    PAKU *chara;
+
+    chara = &chara_work[ 1 ];
+    chara[ --index ].id = id;
 }
 
-static void do_motion(int a, int b)
+static void do_motion( int a, int b )
 {
     /* do nothing */
 }
 
-static void reset_paku(Work *work)
+static void reset_paku( Work *work )
 {
-    JIMCHARA *pIter;
-    int       i;
+    int i;
+    PAKU *chara;
 
-    if (work->field_44_subtitles)
+    if ( work->field_44_subtitles != NULL )
     {
         MENU_JimakuClear();
     }
 
-    if (work->field_38 != 0)
+    if ( work->field_38 != 0 )
     {
-        i = 0;
-        pIter = &chara_work[i] + 1;
-        for (; i < JIMCHARA_COUNT - 1; i++)
+        chara = &chara_work[ 1 ];
+        for ( i = 0; i < PAKU_MAX - 1; i++ )
         {
-            pIter->field_2 = 0;
-            pIter->field_3 = 0;
-            pIter++;
+            chara->eye = 0;
+            chara->mouth = 0;
+            chara++;
         }
     }
 }
@@ -444,7 +450,7 @@ int jimctrl_80038688(void)
 }
 
 
-JIMCHARA *jimctrl_80038698(void)
+PAKU *jimctrl_80038698(void)
 {
     return &chara_work[1];
 }

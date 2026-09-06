@@ -9,19 +9,16 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_PREV2
-
-typedef struct _Work
-{
+typedef struct _Work {
     GV_ACT actor;
-    int    field_20;
-    char  *field_24;
-    char  *field_28_name;
-    int    field_2C_code;
+    int    playing;
+    char  *script;
+    char  *name;
+    int    code;
     int    field_30;
     int    field_34;
     int    field_38;
-    int    field_3C[6];
+    int    field_3C[ PAKU_MAX - 1 ];
 } Work;
 
 /*---------------------------------------------------------------------------*/
@@ -38,11 +35,11 @@ static void RunScripts( Work *work, int param_2 )
         work->field_30 = 0;
     }
 
-    GCL_SetArgTop( work->field_24 );
+    GCL_SetArgTop( work->script );
 
     for ( i = 0; i <= work->field_30; i++ )
     {
-        if ( !GCL_NextStr() )
+        if ( GCL_NextStr() == NULL )
         {
             work->field_30 = i;
             break;
@@ -52,23 +49,23 @@ static void RunScripts( Work *work, int param_2 )
         code = GCL_StrToInt( GCL_NextStr() );
     }
 
-    work->field_28_name = name;
-    work->field_2C_code = code;
+    work->name = name;
+    work->code = code;
 }
 
 /*---------------------------------------------------------------------------*/
 
 static void Act( Work *work )
 {
-    GV_PAD               *pad;
-    int                   var_s0;
-    JIMCHARA *pUnk;
-    char                  symbol;
-    int                   i;
+    GV_PAD *pad;
+    int     var_s0;
+    PAKU   *paku;
+    char    eye;
+    int     i;
 
     pad = &GV_PadData[0];
 
-    if ( work->field_20 == 0 )
+    if ( work->playing == 0 )
     {
         if ( pad->status & (PAD_DOWN | PAD_UP) )
         {
@@ -101,12 +98,12 @@ static void Act( Work *work )
 
         if ( pad->press & PAD_CIRCLE )
         {
-            work->field_20 = 1;
-            GM_VoxStream( work->field_2C_code, 0 );
+            work->playing = 1;
+            GM_VoxStream( work->code, 0 );
         }
 
         MENU_Locate( 160, 120, 0x2 );
-        MENU_Printf( work->field_28_name );
+        MENU_Printf( work->name );
     }
     else
     {
@@ -120,17 +117,17 @@ static void Act( Work *work )
 
         if ( GM_StreamStatus() == -1 )
         {
-            work->field_20 = 0;
-            GM_VoxStream( work->field_2C_code, 0 );
+            work->playing = 0;
+            GM_VoxStream( work->code, 0 );
         }
 
-        pUnk = jimctrl_80038698();
+        paku = jimctrl_80038698();
 
-        for ( i = 0; i < 6; i++ )
+        for ( i = 0; i < PAKU_MAX - 1; i++ )
         {
-            if ( pUnk[i].field_2 != 0 )
+            if ( paku[i].eye != 0 )
             {
-                pUnk[i].field_2 = 0;
+                paku[i].eye = 0;
                 work->field_3C[i] = 1;
             }
 
@@ -138,7 +135,7 @@ static void Act( Work *work )
             {
                 work->field_3C[i]++;
 
-                symbol = "-=O"[(work->field_3C[i] / 2) - 1];
+                eye = "-=O"[(work->field_3C[i] / 2) - 1];
 
                 if ( work->field_3C[i] > 6 )
                 {
@@ -147,11 +144,11 @@ static void Act( Work *work )
             }
             else
             {
-                symbol = '0';
+                eye = '0';
             }
 
             MENU_Locate( 116, 32 + i * 10, 0 );
-            MENU_Printf( "%c  %c  :%d", symbol, "-0=-"[pUnk[i].field_3], pUnk[i].field_0 );
+            MENU_Printf( "%c  %c  :%d", eye, "-0=-"[paku[i].mouth], paku[i].id );
         }
     }
 }
@@ -166,11 +163,11 @@ static int GetResources( Work *work, int where, int name )
         return -1;
     }
 
-    work->field_24 = GCL_NextStr();
+    work->script = GCL_NextStr();
     work->field_30 = 0;
     work->field_38 = 0;
     RunScripts( work, 0 );
-    work->field_20 = 0;
+    work->playing = 0;
 
     return 0;
 }
@@ -183,7 +180,7 @@ void *NewSoundTest( int name, int where, int argc, char **argv )
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( GV_ACTOR_PREV2, sizeof( Work ) );
     if ( work != NULL )
     {
         GV_SetNamedActor( &( work->actor ), Act, NULL, "sndtst.c" );
