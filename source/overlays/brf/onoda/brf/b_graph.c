@@ -46,17 +46,19 @@ typedef struct _Work
     int     field_AD58;      /* 0xAD58 */
     int     field_AD5C;      /* 0xAD5C */
     int     field_AD60;      /* 0xAD60 */
-    char    pad_AD64[0x10];  /* 0xAD64 */
+    char    pad_AD64[0x8];   /* 0xAD64 */
+    int     field_AD6C;      /* 0xAD6C */
+    int     field_AD70;      /* 0xAD70 */
     int     field_AD74;      /* 0xAD74 */
     int     field_AD78;      /* 0xAD78 */
     int     field_AD7C;      /* 0xAD7C */
     int     field_AD80;      /* 0xAD80 */
     int     field_AD84;      /* 0xAD84 */
     int     field_AD88;      /* 0xAD88 */
-    char    pad_AD8C[0x4];   /* 0xAD8C */
+    int     field_AD8C;      /* 0xAD8C */
     int     field_AD90;      /* 0xAD90 */
     int     field_AD94;      /* 0xAD94 */
-    char    pad_AD98[0x4];   /* 0xAD98 */
+    int     field_AD98;      /* 0xAD98 */
     int     field_AD9C;      /* 0xAD9C */
     int     field_ADA0;      /* 0xADA0 */
     int     field_ADA4;      /* 0xADA4 */
@@ -277,8 +279,55 @@ void brf_800CBDC8(Work *work, void *a1)
     work->field_AD34++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBE34.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBF48.s")
+extern const char brf_dword_800E1D28[];
+extern const char brf_dword_800E1D34[];
+extern const char brf_dword_800E1D40[];
+extern const char brf_dword_800E1D4C[];
+
+void brf_800CBF48(Work *work, POLY_FT4 *dest)
+{
+    DG_TEX *g;
+
+    switch (work->field_AD30)
+    {
+    case 0:
+        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
+        break;
+    case 4:
+        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D34));
+        break;
+    case 7:
+        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D40));
+        break;
+    case 10:
+        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D4C));
+        break;
+    default:
+        goto skip;
+    }
+
+    {
+        int u = g->off_x;
+        int uw = u + g->w + 1;
+        int v = g->off_y;
+        int vh = v + g->h + 1;
+
+        dest->u0 = u;
+        dest->v0 = v;
+        dest->u1 = uw;
+        dest->v1 = v;
+        dest->u2 = u;
+        dest->v2 = vh;
+        dest->u3 = uw;
+        dest->v3 = vh;
+        dest->tpage = g->tpage;
+        dest->clut = g->clut;
+    }
+skip:
+    work->field_AD30++;
+}
 extern const char brf_dword_800E1D58[];
+extern const char brf_dword_800E1D64[];
 
 void brf_800CC070(Work *work, int idx)
 {
@@ -455,8 +504,63 @@ int brf_800CC5CC(int a)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CC5E4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CCBD4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CD164.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CD734.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CD7DC.s")
+int brf_800CD734(unsigned char c)
+{
+    int idx;
+
+    if ((unsigned char)(c - '0') < 10)
+    {
+        idx = c;
+        idx -= '0';
+    }
+    else if (c == ':')
+    {
+        idx = 10;
+    }
+    else if (c == '.')
+    {
+        idx = 11;
+    }
+    else if (c == ',')
+    {
+        idx = 12;
+    }
+    else if (c == '(')
+    {
+        idx = 13;
+    }
+    else if (c == ')')
+    {
+        idx = 14;
+    }
+    else if (c == '\'')
+    {
+        idx = 15;
+    }
+    else if (c == '-')
+    {
+        idx = 16;
+    }
+    else if (c == ' ')
+    {
+        idx = 26;
+    }
+    else
+    {
+        idx = c - 'A';
+    }
+
+    return idx;
+}
+
+DG_TEX *brf_800CD7DC(Work *work, unsigned char c)
+{
+    if ((unsigned char)(c - '0') < 11 || c == '.' || c == ',' || c == '(' || c == ')' || c == '\'' || c == '-')
+    {
+        return brf_800CABF4(work, GV_StrCode(brf_dword_800E1D64));
+    }
+    return brf_800CABF4(work, GV_StrCode(brf_dword_800E1D58));
+}
 void brf_800CD870(Work *work, int idx)
 {
     POLY_FT4 *base = work->field_28C;
@@ -543,7 +647,60 @@ void brf_800CDC8C(Work *work, POLY_FT4 *poly)
     poly->y2 = ry2;
     poly->y3 = ry2;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDDD4.s")
+
+void brf_800CDDD4(Work *work, int code, int idx)
+{
+    POLY_FT4 *base = work->field_28C;
+    int       v;
+    int       s;
+
+    v = jimctrl_helper_80037F68(code);
+    work->field_AD6C = v;
+    s = v & 0xFF;
+    if (work->field_AD70 != s)
+    {
+        work->field_AD48 = 1;
+        switch (s)
+        {
+        case 1:
+            base[idx].y0 += 2;
+            base[idx].y1 += 2;
+            base[idx].y2 += 2;
+            base[idx].y3 += 2;
+            break;
+        case 2:
+            base[idx].y0 -= 2;
+            base[idx].y1 -= 2;
+            base[idx].y2 -= 2;
+            base[idx].y3 -= 2;
+            break;
+        case 0:
+            break;
+        }
+    }
+    else if (work->field_AD48 != 0)
+    {
+        work->field_AD48 = 0;
+        switch (s)
+        {
+        case 1:
+            base[idx].y0 += 2;
+            base[idx].y1 += 2;
+            base[idx].y2 += 2;
+            base[idx].y3 += 2;
+            break;
+        case 2:
+            base[idx].y0 -= 2;
+            base[idx].y1 -= 2;
+            base[idx].y2 -= 2;
+            base[idx].y3 -= 2;
+            break;
+        case 0:
+            break;
+        }
+    }
+    work->field_AD70 = s;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDF34.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDFE4.s")
 extern int brf_dword_800C35F4, brf_dword_800C360C, brf_dword_800C3690;
@@ -749,8 +906,85 @@ int delta;
         }
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE8E8.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CE9A0.s")
+void brf_800CE8E8(work, which, amount)
+Work *work;
+int which;
+int amount;
+{
+    switch (which)
+    {
+    case 1:
+        if (work->field_AD80 < 391)
+        {
+            work->field_AD80 += amount;
+        }
+        else if (work->field_ADB0)
+        {
+            work->field_ADB0 = 0;
+        }
+        break;
+    case 2:
+        if (work->field_AD8C < 391)
+        {
+            work->field_AD8C += amount;
+        }
+        else if (work->field_ADB0)
+        {
+            work->field_ADB0 = 0;
+        }
+        break;
+    case 3:
+        if (work->field_AD98 < 391)
+        {
+            work->field_AD98 += amount;
+        }
+        else if (work->field_ADB0)
+        {
+            work->field_ADB0 = 0;
+        }
+        break;
+    }
+}
+
+void brf_800CE9A0(work, which, amount)
+Work *work;
+int which;
+int amount;
+{
+    switch (which)
+    {
+    case 1:
+        if (work->field_AD80 >= 202)
+        {
+            work->field_AD80 -= amount;
+        }
+        else if (work->field_ADB0)
+        {
+            work->field_ADB0 = 0;
+        }
+        break;
+    case 2:
+        if (work->field_AD8C >= 202)
+        {
+            work->field_AD8C -= amount;
+        }
+        else if (work->field_ADB0)
+        {
+            work->field_ADB0 = 0;
+        }
+        break;
+    case 3:
+        if (work->field_AD98 >= 202)
+        {
+            work->field_AD98 -= amount;
+        }
+        else if (work->field_ADB0)
+        {
+            work->field_ADB0 = 0;
+        }
+        break;
+    }
+}
 
 void brf_800CE798();
 
@@ -772,9 +1006,7 @@ void brf_800CEA58(Work *work, int a1, int a2, int a3)
         break;
     }
 }
-void brf_800CE8E8();
 void brf_800CE2F8(Work *work);
-void brf_800CE9A0(Work *work);
 
 void brf_800CEAF4(work)
 Work *work;
@@ -1659,7 +1891,59 @@ void brf_800DCAA8(Work *work)
     work->field_AD34++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCB44.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCD70.s")
+void brf_800DCD70(Work *work, POLY_FT4 *poly)
+{
+    int c;
+    int k;
+    int x0, x1;
+
+    c = work->field_AD34;
+    if (c < 0x47)
+    {
+        k = -(c * 8);
+        x0 = k + 0x7F;
+        x1 = k + 0x27B;
+    }
+    else if (c < 0x81)
+    {
+        goto skip;
+    }
+    else if (c < 0xA1)
+    {
+        k = -((c - 0x3A) * 8);
+        x0 = k + 0x7F;
+        x1 = k + 0x27B;
+    }
+    else
+    {
+        goto skip;
+    }
+    setXY4(poly, x0, -0x11C, x1, -0x11C, x0, 0x64, x1, 0x64);
+
+skip:
+    switch (work->field_AD34)
+    {
+    case 0x00:
+        GM_SeSet2(0x1F, 0x3F, 0xB4);
+        break;
+    case 0x19:
+        GM_SeSet2(0x0A, 0x3F, 0xB5);
+        break;
+    case 0x32:
+        GM_SeSet2(0xF5, 0x3F, 0xB4);
+        break;
+    case 0x46:
+        GM_SeSet2(0xE6, 0x3F, 0xB5);
+        break;
+    case 0x80:
+        GM_SeSet2(0xE6, 0x3F, 0xB4);
+        break;
+    case 0xA0:
+        GM_SeSet2(0xE0, 0x3F, 0xB5);
+        break;
+    }
+    work->field_AD34++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCED4.s")
 extern int brf_dword_800C4CB0;
 
@@ -1815,7 +2099,30 @@ void brf_800DDE5C(int prim, int tex_id, POLY_FT4 *poly, int x0, int y0, int x1, 
     poly->tpage = tex->tpage;
     poly->clut = tex->clut;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DE004.s")
+void brf_800DE004(int prim, int tex_id, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int abe, int div)
+{
+    DG_TEX *tex;
+    int     u, v, w, h;
+    int     unused[2];
+
+    (void)unused;
+    brf_800DDD78(prim, poly, x0, y0, x1, y2, abe);
+    tex = DG_GetTexture(tex_id);
+    w = (tex->w + 1) / div;
+    v = u = tex->off_y;
+    h = tex->h + 1;
+    u = tex->off_x;
+    poly->v0 = v;
+    poly->v1 = v;
+    poly->v2 = v + h;
+    poly->v3 = v + h;
+    poly->u0 = u;
+    poly->u2 = u;
+    poly->u1 = u + w;
+    poly->u3 = u + w;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DE0F4.s")
 void brf_800DE270(int a0, POLY_F4 *poly, int x0, int y0, int x1, int y2, int abe, int gray)
 {

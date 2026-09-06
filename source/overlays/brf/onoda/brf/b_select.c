@@ -10,50 +10,9 @@ typedef struct _Work
     DG_PRIM *field_20;        /* 0x020 */
     DG_PRIM *field_24;        /* 0x024 */
     char   pad_28[0x4];       /* 0x028 */
-    char   field_2C;          /* 0x02C */
-    char   field_2D;          /* 0x02D */
-    char   pad_2E[0x2];       /* 0x02E */
-    char   field_30;          /* 0x030 */
-    char   field_31;          /* 0x031 */
-    char   field_32;          /* 0x032 */
-    char   field_33;          /* 0x033 */
-    char   field_34;          /* 0x034 */
-    char   field_35;          /* 0x035 */
-    char   field_36;          /* 0x036 */
-    char   field_37;          /* 0x037 */
-    char   field_38;          /* 0x038 */
-    char   field_39;          /* 0x039 */
-    char   field_3A;          /* 0x03A */
-    char   field_3B;          /* 0x03B */
-    char   field_3C;          /* 0x03C */
-    char   field_3D;          /* 0x03D */
-    char   field_3E;          /* 0x03E */
-    char   field_3F;          /* 0x03F */
-    char   field_40;          /* 0x040 */
-    char   field_41;          /* 0x041 */
-    char   field_42;          /* 0x042 */
-    char   field_43;          /* 0x043 */
-    char   field_44;          /* 0x044 */
-    char   field_45;          /* 0x045 */
-    char   field_46;          /* 0x046 */
-    char   field_47;          /* 0x047 */
-    char   field_48;          /* 0x048 */
-    char   field_49;          /* 0x049 */
-    char   field_4A;          /* 0x04A */
-    char   field_4B;          /* 0x04B */
-    char   field_4C;          /* 0x04C */
-    char   field_4D;          /* 0x04D */
-    char   field_4E;          /* 0x04E */
-    char   field_4F;          /* 0x04F */
-    char   field_50;          /* 0x050 */
-    char   field_51;          /* 0x051 */
-    char   field_52;          /* 0x052 */
-    char   field_53;          /* 0x053 */
-    char   field_54;          /* 0x054 */
-    char   field_55;          /* 0x055 */
-    char   field_56;          /* 0x056 */
-    char   field_57;          /* 0x057 */
-    char   pad_58[0x18];      /* 0x058 */
+    char   field_2C[44];      /* 0x02C */
+    char   field_58[9];       /* 0x058 */
+    char   pad_61[0xF];       /* 0x061 */
     int    field_70;          /* 0x070 */
     int    field_74;          /* 0x074 */
     char   pad_78[0x4];       /* 0x078 */
@@ -63,18 +22,22 @@ typedef struct _Work
     int    field_CC;          /* 0x0CC */
     int    field_D0;          /* 0x0D0 */
     int    field_D4;          /* 0x0D4 */
-    char   pad_D8[0xC];       /* 0x0D8 */
+    void  *field_D8;          /* 0x0D8 */
+    void  *field_DC;          /* 0x0DC */
+    int    field_E0;          /* 0x0E0 */
     void  *field_E4;          /* 0x0E4 */
     char   field_E8[0x40];    /* 0x0E8 */
-    char   pad_128[0x300];    /* 0x128 */
+    DG_TEX field_128[64];     /* 0x128 */
     int    field_428[64];     /* 0x428 */
     int    field_528;         /* 0x528 */
-    char   pad_52C[0x100];    /* 0x52C */
+    int    field_52C[64];     /* 0x52C */
     int    field_62C[64];     /* 0x62C */
     int    field_72C;         /* 0x72C */
-    int      field_730[20];   /* 0x730 */
+    int      field_730[19];   /* 0x730 */
+    int      field_77C;       /* 0x77C */
     POLY_FT4 field_780[44];   /* 0x780 */
-    char     pad_E60[0x174];  /* 0xE60 */
+    POLY_FT4 field_E60[9];    /* 0xE60 */
+    char     pad_FC8[0xC];    /* 0xFC8 */
     int    field_FD4;         /* 0xFD4 */
     int    field_FD8;         /* 0xFD8 */
     int    field_FDC;         /* 0xFDC */
@@ -82,7 +45,40 @@ typedef struct _Work
     char   pad_FE4[0x4];      /* 0xFE4 */
 } Work;
 
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5230.s")
+typedef struct
+{
+    unsigned char field_0;
+    unsigned char field_1;
+    unsigned char field_2;
+    unsigned char field_3;
+    short         field_4;
+    short         field_6;
+} BrfStage;
+
+extern int brf_dword_800C3470;
+extern int brf_dword_800C33E4;
+void *NewBriefingGraph(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8);
+void *NewBriefingCount(int map, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7);
+
+void brf_800C5230(Work *work)
+{
+    BrfStage stage;
+    int      idx;
+    int      f0, f1, f2, f3, f4, f6;
+
+    idx = work->field_CC;
+    stage = ((BrfStage *)&brf_dword_800C3470)[idx];
+    f0 = stage.field_0;
+    f1 = stage.field_1;
+    f2 = stage.field_2;
+    f3 = stage.field_3;
+    f4 = stage.field_4;
+    f6 = stage.field_6;
+    work->field_77C = (&brf_dword_800C33E4)[idx];
+    work->field_D8 = NewBriefingGraph(work->field_E0, work->field_528, (int)work->field_428, (int)work->field_128, idx,
+                                      work->field_77C, work->field_72C, (int)work->field_62C, (int)work->field_52C);
+    work->field_DC = NewBriefingCount(work->field_E0, f0, f1, f2, work->field_77C - 100, f3, f4, f6);
+}
 
 typedef struct
 {
@@ -122,8 +118,108 @@ void brf_800C53E4(Work *work, int idx)
         mts_wait_vbl(1);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5478.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5584.s")
+void brf_800C5478(Work *work, int id, int tp, int abr, RECT *img, RECT *pal, int col)
+{
+    DG_TEX *tex;
+    int     n;
+    int     x, y, w, h;
+    int     cx, cy;
+    int     tpage;
+
+    work->field_428[work->field_528] = id;
+    n = work->field_528;
+    work->field_528 = n + 1;
+    tex = &work->field_128[n];
+
+    tex->id = id;
+    tex->col = col;
+
+    x = img->x;
+    y = img->y;
+
+    cx = pal->x;
+    cy = pal->y;
+
+    w = x;
+    tpage = ((x / 64) + ((y / 256) << 4)) | ((tp << 7) | (abr << 5));
+
+    tex->tpage = tpage;
+    tex->clut = cy << 6 | cx >> 4;
+
+    x %= 64;
+
+    w = img->w;
+    h = img->h;
+
+    if (tp == 0)
+    {
+        x *= 4;
+        w *= 4;
+    }
+    else
+    {
+        x *= 2;
+        w *= 2;
+    }
+
+    tex->off_x = x;
+    tex->off_y = y % 256;
+    tex->w = w - 1;
+    tex->h = h - 1;
+}
+
+void brf_800C5584(Work *work, int id, int tp, int abr, RECT *img, RECT *pal, int col, int a7)
+{
+    DG_TEX *tex;
+    int     n;
+    int     x, y, w, h;
+    int     cx, cy;
+    int     tpage;
+
+    work->field_62C[work->field_72C] = id;
+    work->field_52C[work->field_72C] = a7;
+    work->field_72C++;
+    work->field_428[work->field_528] = id;
+    n = work->field_528;
+    work->field_528 = n + 1;
+    tex = &work->field_128[n];
+
+    tex->id = id;
+    tex->col = col;
+
+    x = img->x;
+    y = img->y;
+
+    cx = pal->x;
+    cy = pal->y;
+
+    w = x;
+    tpage = ((x / 64) + ((y / 256) << 4)) | ((tp << 7) | (abr << 5));
+
+    tex->tpage = tpage;
+    tex->clut = cy << 6 | cx >> 4;
+
+    x %= 64;
+
+    w = img->w;
+    h = img->h;
+
+    if (tp == 0)
+    {
+        x *= 4;
+        w *= 4;
+    }
+    else
+    {
+        x *= 2;
+        w *= 2;
+    }
+
+    tex->off_x = x;
+    tex->off_y = y % 256;
+    tex->w = w - 1;
+    tex->h = h - 1;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C56C0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5A68.s")
 void brf_800C56C0(Work *work, void *data, int cache_id);
@@ -481,9 +577,9 @@ void brf_800C69FC(Work *work, int lo, int hi)
     if (d < lo) return;
     if (hi < d) return;
 
-    work->field_2C = 3;
-    work->field_2D = 3;
-    work->field_57 = 3;
+    work->field_2C[0] = 3;
+    work->field_2C[1] = 3;
+    work->field_2C[43] = 3;
 
     color = (d - lo) * 8;
 
@@ -583,7 +679,7 @@ void brf_800C6C00(Work *work, int a1, int a2)
     {
         return;
     }
-    work->field_30 = 1;
+    work->field_2C[4] = 1;
     diff = d - a1;
     p[4].x0 = -142;
     p[4].y0 = diff * 13 - 95;
@@ -608,7 +704,7 @@ void brf_800C6C74(Work *work, int a1, int a2)
     {
         return;
     }
-    work->field_31 = 1;
+    work->field_2C[5] = 1;
     q = (d - a1) * 46 / 3;
     p[5].x0 = -142;
     p[5].y0 = q - 95;
@@ -633,7 +729,7 @@ void brf_800C6D04(Work *work, int a1, int a2)
     {
         return;
     }
-    work->field_32 = 1;
+    work->field_2C[6] = 1;
     q = (d - a1) * 66 / 4;
     p[6].x0 = -142;
     p[6].y0 = q - 95;
@@ -658,7 +754,7 @@ void brf_800C6D7C(Work *work, int a1, int a2)
     {
         return;
     }
-    work->field_33 = 1;
+    work->field_2C[7] = 1;
     q = (d - a1) * 86 / 5;
     p[7].x0 = -142;
     p[7].y0 = q - 95;
@@ -683,7 +779,7 @@ void brf_800C6E14(Work *work, int a1, int a2)
     {
         return;
     }
-    work->field_34 = 1;
+    work->field_2C[8] = 1;
     q = (d - a1) * 23;
     p[8].x0 = -142;
     p[8].y0 = q - 95;
@@ -719,107 +815,107 @@ void brf_800C7B28(Work *work, int arg)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7B94.s")
 void brf_800C7F20(Work *work)
 {
-    work->field_35 = 0;
-    work->field_36 = 0;
-    work->field_45 = 0;
-    work->field_46 = 0;
-    work->field_47 = 0;
-    work->field_48 = 0;
+    work->field_2C[9] = 0;
+    work->field_2C[10] = 0;
+    work->field_2C[25] = 0;
+    work->field_2C[26] = 0;
+    work->field_2C[27] = 0;
+    work->field_2C[28] = 0;
 }
 void brf_800C7F3C(Work *work)
 {
-    work->field_35 = 1;
+    work->field_2C[9] = 1;
     if (work->field_80[0] == 1)
     {
-        work->field_36 = 1;
-        work->field_47 = 1;
-        work->field_48 = 1;
+        work->field_2C[10] = 1;
+        work->field_2C[27] = 1;
+        work->field_2C[28] = 1;
     }
-    work->field_45 = 1;
-    work->field_46 = 1;
+    work->field_2C[25] = 1;
+    work->field_2C[26] = 1;
 }
 void brf_800C7F6C(Work *work)
 {
-    work->field_37 = 0;
-    work->field_38 = 0;
-    work->field_39 = 0;
-    work->field_3A = 0;
-    work->field_3B = 0;
-    work->field_49 = 0;
-    work->field_4A = 0;
-    work->field_4B = 0;
-    work->field_4C = 0;
-    work->field_53 = 0;
-    work->field_54 = 0;
+    work->field_2C[11] = 0;
+    work->field_2C[12] = 0;
+    work->field_2C[13] = 0;
+    work->field_2C[14] = 0;
+    work->field_2C[15] = 0;
+    work->field_2C[29] = 0;
+    work->field_2C[30] = 0;
+    work->field_2C[31] = 0;
+    work->field_2C[32] = 0;
+    work->field_2C[39] = 0;
+    work->field_2C[40] = 0;
 }
 void brf_800C7F9C(Work *work)
 {
-    work->field_37 = 1;
-    work->field_39 = 1;
-    work->field_3B = 1;
+    work->field_2C[11] = 1;
+    work->field_2C[13] = 1;
+    work->field_2C[15] = 1;
     if (work->field_80[2] == 1)
     {
-        work->field_38 = 1;
-        work->field_49 = 1;
-        work->field_4A = 1;
+        work->field_2C[12] = 1;
+        work->field_2C[29] = 1;
+        work->field_2C[30] = 1;
     }
     if (work->field_80[4] == 1)
     {
-        work->field_3A = 1;
-        work->field_4B = 1;
-        work->field_4C = 1;
+        work->field_2C[14] = 1;
+        work->field_2C[31] = 1;
+        work->field_2C[32] = 1;
     }
-    work->field_53 = 1;
-    work->field_54 = 1;
+    work->field_2C[39] = 1;
+    work->field_2C[40] = 1;
 }
 void brf_800C7FF0(Work *work)
 {
-    work->field_3C = 0;
-    work->field_3D = 0;
-    work->field_3E = 0;
-    work->field_3F = 0;
-    work->field_40 = 0;
-    work->field_41 = 0;
-    work->field_42 = 0;
-    work->field_43 = 0;
-    work->field_44 = 0;
-    work->field_4D = 0;
-    work->field_4E = 0;
-    work->field_4F = 0;
-    work->field_50 = 0;
-    work->field_51 = 0;
-    work->field_52 = 0;
-    work->field_55 = 0;
-    work->field_56 = 0;
+    work->field_2C[16] = 0;
+    work->field_2C[17] = 0;
+    work->field_2C[18] = 0;
+    work->field_2C[19] = 0;
+    work->field_2C[20] = 0;
+    work->field_2C[21] = 0;
+    work->field_2C[22] = 0;
+    work->field_2C[23] = 0;
+    work->field_2C[24] = 0;
+    work->field_2C[33] = 0;
+    work->field_2C[34] = 0;
+    work->field_2C[35] = 0;
+    work->field_2C[36] = 0;
+    work->field_2C[37] = 0;
+    work->field_2C[38] = 0;
+    work->field_2C[41] = 0;
+    work->field_2C[42] = 0;
 }
 void brf_800C8038(Work *work)
 {
-    work->field_3C = 1;
-    work->field_3D = 1;
-    work->field_3E = 1;
+    work->field_2C[16] = 1;
+    work->field_2C[17] = 1;
+    work->field_2C[18] = 1;
     if (work->field_80[9] == 1)
     {
-        work->field_3F = 1;
-        work->field_4D = 1;
-        work->field_4E = 1;
+        work->field_2C[19] = 1;
+        work->field_2C[33] = 1;
+        work->field_2C[34] = 1;
     }
-    work->field_40 = 1;
-    work->field_41 = 1;
+    work->field_2C[20] = 1;
+    work->field_2C[21] = 1;
     if (work->field_80[12] == 1)
     {
-        work->field_42 = 1;
-        work->field_4F = 1;
-        work->field_50 = 1;
+        work->field_2C[22] = 1;
+        work->field_2C[35] = 1;
+        work->field_2C[36] = 1;
     }
-    work->field_43 = 1;
+    work->field_2C[23] = 1;
     if (work->field_80[14] == 1)
     {
-        work->field_44 = 1;
-        work->field_51 = 1;
-        work->field_52 = 1;
+        work->field_2C[24] = 1;
+        work->field_2C[37] = 1;
+        work->field_2C[38] = 1;
     }
-    work->field_55 = 1;
-    work->field_56 = 1;
+    work->field_2C[41] = 1;
+    work->field_2C[42] = 1;
 }
 void brf_800C80A8(Work *work)
 {
@@ -893,7 +989,32 @@ void brf_800C81D8(Work *work)
     work->field_D0 = 0;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C829C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C95B4.s")
+void brf_800C95B4(Work *work)
+{
+    POLY_FT4 *src;
+    POLY_FT4 *dst;
+    int       i;
+
+    src = work->field_780;
+    dst = work->field_20->packs[GV_Clock];
+    for (i = 0; i < 44; i++)
+    {
+        *dst = *src;
+        *(unsigned short *)dst = work->field_2C[i] << 8;
+        src++;
+        dst++;
+    }
+
+    src = work->field_E60;
+    dst = work->field_24->packs[GV_Clock];
+    for (i = 0; i < 9; i++)
+    {
+        *dst = *src;
+        *(unsigned short *)dst = work->field_58[i] << 8;
+        src++;
+        dst++;
+    }
+}
 
 void brf_800C829C(Work *work);
 void brf_800C95B4(Work *work);
