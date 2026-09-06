@@ -98,6 +98,7 @@ extern const char camera_a_800D0144[];
 extern const char camera_aNomemoryforfilebody_800CFCF8[];
 extern const char camera_aCardnodfilenames_800CFD14[];
 extern int camera_dword_800D0700;
+extern const char camera_aOutx_800CFAB4[];
 extern int camera_dword_800D0704;
 extern int camera_dword_800D0708;
 extern int camera_dword_800D0710;
@@ -144,7 +145,73 @@ void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
     pRect->y = y;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3B9C.s")
+void camera_800C3B9C(int arg0, u_short *out)
+{
+    short  hdr;
+    short  n;
+    int    count;
+    int    rest;
+    int    i;
+    u_char b;
+    int    c;
+    u_char run;
+    int    level;
+
+    n = 1;
+    i = 4;
+    hdr = (((u_char *)camera_dword_800D0700)[0] << 8) | ((u_char *)camera_dword_800D0700)[1];
+    *out++ = hdr;
+    *out++ = 0x3800;
+    count = hdr * 4;
+    *out++ = (((u_char *)camera_dword_800D0700)[2] << 8) | ((u_char *)camera_dword_800D0700)[3];
+
+    while (i < count)
+    {
+        b = ((u_char *)camera_dword_800D0700)[i];
+        if (!(b & 0x80))
+        {
+            if (b == 0xF)
+            {
+                *out++ = 0xFE00;
+                i++;
+                c = ((u_char *)camera_dword_800D0700)[i];
+                if (c == 0xF)
+                {
+                    n++;
+                    break;
+                }
+                i++;
+                n += 2;
+                run = c; /* required for the match */
+                *out = (run << 8) | ((u_char *)camera_dword_800D0700)[i];
+            }
+            else
+            {
+                *out = (((b & 0xF) - 8) & 0x3FF) | ((b >> 4) << 10);
+                n++;
+            }
+        }
+        else
+        {
+            i++;
+            run = (b >> 1) & 0x3F;
+            rest = b & 1; /* borrowed as a temp; a fresh local breaks the match */
+            level = (((u_char *)camera_dword_800D0700)[i] + (rest << 8)) - 0x100;
+            *out = (run << 10) | (level & 0x3FF);
+            n++;
+        }
+        i++;
+        out++;
+    }
+
+    rest = hdr * 2 - n;
+    for (i = 0; i < rest; i++)
+    {
+        *out++ = 0xFE00;
+    }
+
+    printf((char *)camera_aOutx_800CFAB4, out);
+}
 void camera_800C3D3C(Work *work)
 {
     POLY_FT4 *p;
@@ -1390,7 +1457,98 @@ void camera_800C8314(MenuPrim *prim, SELECT_INFO *info)
     pTpage->code[0] = 0xE100061F | ((*(int *)((char *)info + 8) >> 3) & 0x60);
     addPrim(prim->ot, pTpage);
 }
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C838C.s")
+typedef struct CaptionInfo
+{
+    int     x;
+    u_short y;
+    short   field_6;
+    int     field_8;
+    int     color;
+} CaptionInfo;
+
+extern int camera_dword_800C38F4;
+
+void camera_800C838C(MenuPrim *prim, CaptionInfo *info, char *str)
+{
+    SPRT   *sprt;
+    u_long *ot;
+    int     x;
+    int     color;
+    int     c;
+    int     u, v, w;
+    char   *tbl;
+
+    x = info->x;
+    ot = prim->ot;
+    color = info->color;
+
+    for (; *str; str++)
+    {
+        c = *str | 0x20;
+
+        if ((unsigned int)(c - '0') < 10)
+        {
+            u = (c - '0') * 8;
+            v = 0xF8;
+            w = 9;
+        }
+        else if ((unsigned int)(c - 'a') < 26)
+        {
+            if (c == 'i')
+            {
+                x += 3;
+                u = 0x40;
+                v = 0xF2;
+                w = 6;
+            }
+            else
+            {
+                u = (c - 'a') * 8;
+                v = 0xF2;
+                w = 9;
+            }
+        }
+        else if (c == ' ')
+        {
+            x += 9;
+            continue;
+        }
+        else
+        {
+            u = 0;
+            for (tbl = (char *)&camera_dword_800C38F4;; tbl += 2, u += 8)
+            {
+                if (*tbl == c)
+                {
+                    if (c == '!' || c == ':' || c == '[' || c == ']')
+                    {
+                        x += 3;
+                        u += 0x50;
+                        v = 0xF8;
+                        w = 6;
+                    }
+                    else
+                    {
+                        u += 0x50;
+                        v = 0xF8;
+                        w = 9;
+                    }
+                    break;
+                }
+            }
+        }
+
+        _NEW_PRIM(sprt, prim);
+        *sprt = camera_sprt_800D0780;
+        *(int *)&sprt->r0 = color;
+        sprt->x0 = x;
+        sprt->y0 = info->y;
+        sprt->u0 = u;
+        sprt->v0 = v;
+        x += w;
+        addPrim(ot, sprt);
+    }
+}
 
 void camera_800C8554(int *arg0, int arg1, int arg2, int arg3)
 {
@@ -1399,14 +1557,12 @@ void camera_800C8554(int *arg0, int arg1, int arg2, int arg3)
     arg0[2] = arg3;
 }
 
-int camera_800C838C(int, int, char *);
-
 void camera_800C8564(MenuPrim *prim, SELECT_INFO *info, char *arg2)
 {
     char sp10[64];
 
     sprintf(sp10, arg2);
-    camera_800C838C((int)prim, (int)info, sp10);
+    camera_800C838C(prim, (CaptionInfo *)info, sp10);
     camera_800C8314(prim, info);
 }
 
