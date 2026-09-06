@@ -98,6 +98,7 @@ extern const char camera_a_800D0144[];
 extern const char camera_aNomemoryforfilebody_800CFCF8[];
 extern const char camera_aCardnodfilenames_800CFD14[];
 extern int camera_dword_800D0700;
+extern const char camera_aOutx_800CFAB4[];
 extern int camera_dword_800D0704;
 extern int camera_dword_800D0708;
 extern int camera_dword_800D0710;
@@ -144,7 +145,73 @@ void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
     pRect->y = y;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C3B9C.s")
+void camera_800C3B9C(int arg0, u_short *out)
+{
+    short  hdr;
+    short  n;
+    int    count;
+    int    rest;
+    int    i;
+    u_char b;
+    int    c;
+    u_char run;
+    int    level;
+
+    n = 1;
+    i = 4;
+    hdr = (((u_char *)camera_dword_800D0700)[0] << 8) | ((u_char *)camera_dword_800D0700)[1];
+    *out++ = hdr;
+    *out++ = 0x3800;
+    count = hdr * 4;
+    *out++ = (((u_char *)camera_dword_800D0700)[2] << 8) | ((u_char *)camera_dword_800D0700)[3];
+
+    while (i < count)
+    {
+        b = ((u_char *)camera_dword_800D0700)[i];
+        if (!(b & 0x80))
+        {
+            if (b == 0xF)
+            {
+                *out++ = 0xFE00;
+                i++;
+                c = ((u_char *)camera_dword_800D0700)[i];
+                if (c == 0xF)
+                {
+                    n++;
+                    break;
+                }
+                i++;
+                n += 2;
+                run = c; /* required for the match */
+                *out = (run << 8) | ((u_char *)camera_dword_800D0700)[i];
+            }
+            else
+            {
+                *out = (((b & 0xF) - 8) & 0x3FF) | ((b >> 4) << 10);
+                n++;
+            }
+        }
+        else
+        {
+            i++;
+            run = (b >> 1) & 0x3F;
+            rest = b & 1; /* borrowed as a temp; a fresh local breaks the match */
+            level = (((u_char *)camera_dword_800D0700)[i] + (rest << 8)) - 0x100;
+            *out = (run << 10) | (level & 0x3FF);
+            n++;
+        }
+        i++;
+        out++;
+    }
+
+    rest = hdr * 2 - n;
+    for (i = 0; i < rest; i++)
+    {
+        *out++ = 0xFE00;
+    }
+
+    printf((char *)camera_aOutx_800CFAB4, out);
+}
 void camera_800C3D3C(Work *work)
 {
     POLY_FT4 *p;
