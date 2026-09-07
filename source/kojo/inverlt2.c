@@ -62,8 +62,6 @@ void *NewInverseLight2(SVECTOR *arg0, int arg1, int arg2, int arg3, int nR, int 
     LPINVERSLIGHT2 lpAct;
     DG_TEX       *tex;
     int           i;
-    int           x, y, w, h;
-    int           x2, y2, w2, h2;
 
     lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(INVERSLIGHT2));
     if (lpAct == NULL)
@@ -142,33 +140,40 @@ void *NewInverseLight2(SVECTOR *arg0, int arg1, int arg2, int arg3, int nR, int 
 
         lpAct->prim[i]->raise = 320;
 
-#define POLY ((POLY_FT4 *)lpAct->prim[i]->packs[0])
-        setPolyFT4(&POLY[0]);
-        setPolyFT4(&POLY[1]);
-        setRGB0(&POLY[0], lpAct->nR, lpAct->nG, lpAct->nB);
-        setRGB0(&POLY[1], lpAct->nR - 5, lpAct->nG - 5, lpAct->nB - 5);
+#define PACK0   (((POLY_FT4 *)lpAct->prim[i]->packs[0]) + 0)
+#define PACK1   (((POLY_FT4 *)lpAct->prim[i]->packs[0]) + 1)
 
-        x = tex->off_x;
-        w = tex->w;
-        y = tex->off_y;
-        h = tex->h;
-        setUVWH(&POLY[0], x, y, w, h);
-        POLY[0].tpage = tex->tpage;
-        POLY[0].clut = tex->clut;
-        //DG_SetPacketTexture4(&POLY[0], tex);
+        setPolyFT4(PACK0);
+        setPolyFT4(PACK1);
+        setRGB0(PACK0, lpAct->nR, lpAct->nG, lpAct->nB);
+        setRGB0(PACK1, lpAct->nR - 5, lpAct->nG - 5, lpAct->nB - 5);
 
-        x2 = tex->off_x;
-        w2 = tex->w;
-        y2 = tex->off_y;
-        h2 = tex->h;
-        setUVWH(&POLY[1], x2, y2, w2, h2);
-        POLY[1].tpage = tex->tpage;
-        POLY[1].clut = tex->clut;
-        //DG_SetPacketTexture4(&POLY[1], tex);
+        {
+            int x, y, w, h;
+            x = tex->off_x;
+            w = tex->w;
+            y = tex->off_y;
+            h = tex->h;
+            setUVWH(PACK0, x, y, w, h);
+            PACK0->tpage = tex->tpage;
+            PACK0->clut = tex->clut;
+        }
+        {
+            int x, y, w, h;
+            x = tex->off_x;
+            w = tex->w;
+            y = tex->off_y;
+            h = tex->h;
+            setUVWH(PACK1, x, y, w, h);
+            PACK1->tpage = tex->tpage;
+            PACK1->clut = tex->clut;
+        }
 
-        setSemiTrans(&POLY[0], 1);
-        setSemiTrans(&POLY[1], 1);
-#undef POLY
+        setSemiTrans(PACK0, 1);
+        setSemiTrans(PACK1, 1);
+
+#undef PACK0
+#undef PACK1
     }
 
     return (void *)lpAct;
