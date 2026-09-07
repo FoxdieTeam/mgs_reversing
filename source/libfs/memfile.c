@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 #include "libfs.h"
 #include <stdio.h>
 #include <stddef.h>

@@ -9,7 +9,7 @@
 #include <libgpu.h>
 #include <libpress.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"

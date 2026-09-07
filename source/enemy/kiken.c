@@ -1,6 +1,6 @@
 #include "kiken.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "enemy/enemy.h"
 #include "strcode.h"

@@ -6,7 +6,7 @@
 #include <libetc.h>
 #include "psxdefs.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "mts_new.h"
 #include "libsio/isio.h"
 

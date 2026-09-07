@@ -6,7 +6,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 #include <libapi.h>
-#include "common.h"
+#include "mgstype.h"
 
 static DG_CHANLFUNC DG_ChanlUnits[] = {
     DG_ScreenChanl,

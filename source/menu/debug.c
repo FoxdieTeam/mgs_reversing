@@ -1,6 +1,6 @@
 #include "menuman.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "radio.h"
 #include "game/game.h"
 #include "libgv/libgv.h"

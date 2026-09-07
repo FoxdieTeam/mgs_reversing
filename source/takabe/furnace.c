@@ -1,7 +1,7 @@
 #include "furnace.h"
 #include "wt_view.h"    // for NewWaterView2
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"

@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 
 const char s11e_aFamasbullet_800DEBE4[] = "FA-MAS/BULLET * 25";
 const char s11e_aSocombullet_800DEBF8[] = "SOCOM/BULLET * 12";

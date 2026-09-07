@@ -3,7 +3,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "mts/mts.h"

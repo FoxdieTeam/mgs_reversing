@@ -6,7 +6,7 @@
 #include <libapi.h>
 #include "psxdefs.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"
 
 typedef void (*TMemCardFunc)(int);

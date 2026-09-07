@@ -3,7 +3,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "game/game.h"
 #include "menu/menuman.h"
 

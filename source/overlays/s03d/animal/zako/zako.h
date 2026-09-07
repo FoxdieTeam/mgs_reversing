@@ -1,7 +1,7 @@
 #ifndef _S03D_ZAKO_H
 #define _S03D_ZAKO_H
 
-#include "common.h"
+#include "mgstype.h"
 #include "game/game.h"
 #include "libdg/libdg.h"
 

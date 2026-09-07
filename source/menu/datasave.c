@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "game/game.h"
 #include "menu/radio.h"
 #include "linkvar.h"

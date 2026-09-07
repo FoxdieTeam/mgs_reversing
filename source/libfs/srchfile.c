@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"    // for mts_wait_vbl
 
 extern const char *MGS_DiskName[3]; /* in main.c */

@@ -1,6 +1,6 @@
 #include "evntmous.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"

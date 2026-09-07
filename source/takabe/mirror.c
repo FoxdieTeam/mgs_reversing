@@ -1,6 +1,6 @@
 #include "mirror.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "strcode.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

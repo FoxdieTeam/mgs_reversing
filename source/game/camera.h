@@ -4,7 +4,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "common.h"
+#include "mgstype.h"
 #include "libhzd/libhzd.h"  // for HZD_HDL
 #include "game/game.h"      // for CONTROL
 

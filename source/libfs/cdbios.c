@@ -3,7 +3,7 @@
 #include <sys/types.h>
 #include <libcd.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
 #include "libfs.h"

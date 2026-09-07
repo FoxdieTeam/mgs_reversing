@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 #include "game.h"
 #include "libgv/libgv.h"
 

@@ -3,7 +3,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "common.h"
+#include "mgstype.h"
 
 static int GetRaise( DG_MDL *mdl )
 {

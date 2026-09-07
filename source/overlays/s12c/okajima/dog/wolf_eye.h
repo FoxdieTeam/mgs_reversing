@@ -1,7 +1,7 @@
 #ifndef __MGS_S12C_WOLF_EYE_H__
 #define __MGS_S12C_WOLF_EYE_H__
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 
 extern SVECTOR s12c_800DA418;

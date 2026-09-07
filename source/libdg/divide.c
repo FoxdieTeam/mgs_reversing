@@ -1,5 +1,5 @@
 #include "libdg.h"
-#include "common.h"
+#include "mgstype.h"
 
 extern M_Sys MemorySystems[MAX_MEMSYS];
 extern unsigned int *DG_DivideBuffer[256];

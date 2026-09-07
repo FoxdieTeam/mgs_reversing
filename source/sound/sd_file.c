@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <libspu.h>
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"
 #include "libfs/libfs.h"
 

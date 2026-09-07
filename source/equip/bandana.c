@@ -1,6 +1,6 @@
 #include "equip.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "game/game.h"
 #include "linkvar.h"
 

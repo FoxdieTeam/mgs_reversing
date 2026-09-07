@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"

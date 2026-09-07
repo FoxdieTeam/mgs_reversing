@@ -1,6 +1,6 @@
 #include "zako.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h" // for fprintf
 #include "libgcl/libgcl.h" // for GCL_NextStr, GCL_StrToInt
 #include "game/game.h"

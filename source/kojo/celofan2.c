@@ -19,7 +19,7 @@
 #include <libgpu.h>
 #include "game.h"
 
-#include "common.h"
+#include "mgstype.h"
 
 /******************************************************************************
  * functions

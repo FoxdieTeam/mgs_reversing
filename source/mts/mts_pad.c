@@ -4,7 +4,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 #include <libpad.h>
-#include "common.h"
+#include "mgstype.h"
 
 #include "terminal.h"
 #include "mts_pad.h"

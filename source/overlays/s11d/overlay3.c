@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 
 int s11d_dword_800C330C = 0x00000060;
 int s11d_dword_800C3310 = 0xFA600000;

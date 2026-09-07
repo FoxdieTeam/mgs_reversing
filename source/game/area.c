@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 #include "menu/menuman.h"
 #include "game.h"
 

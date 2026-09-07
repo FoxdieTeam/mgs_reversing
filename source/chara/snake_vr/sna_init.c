@@ -7,7 +7,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "chara/snake/afterse.h"
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"

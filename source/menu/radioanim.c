@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "game/game.h"
 #include "menu/menuman.h"
 #include "mts/mts.h"

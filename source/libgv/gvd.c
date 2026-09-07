@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <libsn.h>
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"
 #include "libdg/libdg.h"    // for DG_HikituriFlag
 

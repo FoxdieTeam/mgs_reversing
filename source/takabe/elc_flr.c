@@ -1,6 +1,6 @@
 #include "elc_flr.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"

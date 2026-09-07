@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 #include "linkvar.h"
 #include "game/camera.h"
 #include "game/game.h"

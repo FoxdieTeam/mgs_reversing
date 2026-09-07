@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 #include "libdg/libdg.h"
 #include "anime/animconv/anime.h"
 #include "strcode.h"

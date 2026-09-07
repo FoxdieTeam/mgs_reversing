@@ -1,7 +1,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "common.h"
+#include "mgstype.h"
 
 static void     SECTION(".bss") (*pfn_800BDFB0)();
 static u_short  SECTION(".bss") (*pfn_800BDFB4)(u_short);

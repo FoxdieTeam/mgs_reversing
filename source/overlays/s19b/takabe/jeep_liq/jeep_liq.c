@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 #include "game/game.h"
 #include "linkvar.h"
 #include "psxdefs.h"

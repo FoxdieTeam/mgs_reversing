@@ -1,6 +1,6 @@
 #include "camera.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

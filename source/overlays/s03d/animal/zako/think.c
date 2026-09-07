@@ -1,6 +1,6 @@
 #include "zako.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "enemy/eyeflash.h"     // for NewEyeflash
 #include "game/game.h"
 

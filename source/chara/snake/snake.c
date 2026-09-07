@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 
 #ifdef VR_EXE
 #include "chara/snake_vr/sna_init.h"

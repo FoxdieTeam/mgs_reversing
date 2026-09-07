@@ -5,7 +5,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libdg/libdg.h"
 #include "game/game.h"          // for GM_MakePrim
 

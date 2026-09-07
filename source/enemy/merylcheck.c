@@ -1,6 +1,6 @@
 #include "enemy/enemy.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libdg/libdg.h"
 
 extern TOPCOMMAND_STRUCT TOPCOMMAND;

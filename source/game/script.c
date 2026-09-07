@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "charadef.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

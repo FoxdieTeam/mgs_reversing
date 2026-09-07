@@ -10,7 +10,7 @@
 #ifndef __MGS_LIBGV_H__
 #define __MGS_LIBGV_H__
 
-#include "common.h"
+#include "mgstype.h"
 #include <sys/types.h>
 #include <libgte.h>
 #include <libetc.h>

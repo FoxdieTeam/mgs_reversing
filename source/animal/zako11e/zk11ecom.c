@@ -1,7 +1,7 @@
 #include "enemy/enemy.h"
 
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"

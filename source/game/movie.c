@@ -7,7 +7,7 @@
 #include <libcd.h>
 #include <libpress.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libfs/libfs.h"
 #include "libdg/libdg.h"

@@ -1,6 +1,6 @@
 #include "fadeio.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"

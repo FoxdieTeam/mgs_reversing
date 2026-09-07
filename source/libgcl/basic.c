@@ -1,5 +1,5 @@
 #include "libgcl.h"
-#include "common.h"
+#include "mgstype.h"
 #include "strcode.h"
 
 static int GCL_Command_if( char *top )

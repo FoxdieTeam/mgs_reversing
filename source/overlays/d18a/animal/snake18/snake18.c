@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 #include "linkvar.h"
 #include "chara/snake/shadow.h"
 #include "game/game.h"

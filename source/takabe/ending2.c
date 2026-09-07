@@ -9,7 +9,7 @@
 #include <libpress.h>
 #include <libcd.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"

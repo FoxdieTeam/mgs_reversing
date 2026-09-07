@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 
 
 int d18a_dword_800C353C = 0x16100602;

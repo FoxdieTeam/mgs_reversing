@@ -2,7 +2,7 @@
 #include "sd_ext.h"
 
 #include <libspu.h>
-#include "common.h"
+#include "mgstype.h"
 
 STATIC unsigned long pant[41] = {
     0,   2,   4,   7,   10,  13,  16,  20,  24,  28,  32,  36,  40,  45,

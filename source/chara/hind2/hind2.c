@@ -2,7 +2,7 @@
 #include "hd_bul2.h"    // for NewHdBul2
 
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"

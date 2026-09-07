@@ -1,7 +1,7 @@
 #include "info.h"
 #include "torture.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "chara/snake/sna_init.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"

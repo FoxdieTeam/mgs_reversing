@@ -1,7 +1,7 @@
 #include "d_blood.h"
 #include "d_bloodr.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "linkvar.h"
 #include "strcode.h"
 #include "libgv/libgv.h"

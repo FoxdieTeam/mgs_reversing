@@ -1,7 +1,7 @@
 #define __LIBHZD_EVENT_C__
 #include "libhzd.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"

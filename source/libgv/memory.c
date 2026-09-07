@@ -1,6 +1,6 @@
 #include "libgv.h"
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 
 M_Sys SECTION(".bss") MemorySystems[ MAX_MEMSYS ];
 

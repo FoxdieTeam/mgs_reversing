@@ -1,6 +1,6 @@
 #include "weapon.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "bullet/bakudan.h"

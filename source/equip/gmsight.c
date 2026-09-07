@@ -1,6 +1,6 @@
 // #include "equip.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
 #include "thing/sight.h"

@@ -1,5 +1,5 @@
 #include "libhzd.h"
-#include "common.h"
+#include "mgstype.h"
 
 int HZD_QueueDynamicSegment2(HZD_HDL *hdl, HZD_SEG *seg, int flag)
 {

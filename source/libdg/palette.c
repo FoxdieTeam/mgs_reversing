@@ -2,7 +2,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "common.h"
+#include "mgstype.h"
 
 u_long SECTION(".bss") DG_PaletteBuffer[ 256 ];
 

@@ -1,5 +1,5 @@
 #include "libdg.h"
-#include "common.h"
+#include "mgstype.h"
 
 /*** bss ***/
 DG_TEX TexSets[ DG_MAX_TEXTURES ];

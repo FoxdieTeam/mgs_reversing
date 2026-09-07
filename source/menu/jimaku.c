@@ -1,7 +1,7 @@
 #include "menuman.h"
 
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "linkvar.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"

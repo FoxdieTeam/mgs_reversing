@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <libapi.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
 #include "mts/taskid.h"

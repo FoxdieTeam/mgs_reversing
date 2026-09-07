@@ -1,6 +1,6 @@
 #include "item_dot.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "game/game.h"

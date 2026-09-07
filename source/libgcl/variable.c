@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "libgcl.h"
 
 #include "game/game.h"

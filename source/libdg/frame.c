@@ -5,7 +5,7 @@
 #include <libgpu.h>
 
 #include "libdg.h"
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "menu/menuman.h"
 
