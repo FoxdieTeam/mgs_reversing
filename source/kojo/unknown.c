@@ -1,4 +1,5 @@
 #include "kojo/demo.h"
+#include "kojo/common.h"
 
 /******************************************************************************
  * definitions and typedefs and structures

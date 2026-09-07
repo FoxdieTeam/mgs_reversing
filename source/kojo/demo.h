@@ -649,11 +649,6 @@ typedef struct DMO_DATA_0x36
  * prototypes
  */
 
-/* common.c */
-extern void InitChain(ACTNODE *root);
-extern void NextChain(ACTNODE *root, ACTNODE *node);
-extern void DeleteChain(ACTNODE *root, ACTNODE *node);
-
 /* unknown.c */
 void    sub_8007F06C(DG_VECTOR *param_1, VECTOR *param_2, VECTOR *param_3);
 void    sub_8007F0D0(VECTOR *out, VECTOR *a, VECTOR *b, VECTOR *c);
