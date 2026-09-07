@@ -4,11 +4,10 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "linkvar.h"
 
 extern GV_PAD           *GM_CurrentPadData;
 GV_PAD *SECTION(".sbss") GM_CurrentPadData;

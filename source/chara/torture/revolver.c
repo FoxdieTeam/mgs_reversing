@@ -1,14 +1,13 @@
 #include "revolver.h"
 
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "chara/snake/sna_init.h"
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "strcode.h"
 
 #include "takabe/fadeio.h"      // for NewFadeInOut

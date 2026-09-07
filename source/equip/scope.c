@@ -1,13 +1,12 @@
 #include "equip.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "menu/menuman.h"
 #include "game/game.h"
 #include "thing/sight.h"
 #include "chara/snake/sna_init.h"
-#include "linkvar.h"
 #include "sound/g_sound.h"
 
 extern GM_SnakeCameraWork  GM_SnakeCamera;

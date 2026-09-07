@@ -2,12 +2,11 @@
 #include "hd_bul2.h"    // for NewHdBul2
 
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "strcode.h"
 
 typedef struct _Hind2Work

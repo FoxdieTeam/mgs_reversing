@@ -1,10 +1,9 @@
 #include "elc_damg.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "takabe/thing.h"
-#include "linkvar.h"
 #include "game/game.h"
 #include "chara/snake/sna_init.h"
 #include "strcode.h"

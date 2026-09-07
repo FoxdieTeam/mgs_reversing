@@ -6,7 +6,7 @@
 #include <libetc.h>
 #include <libcd.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"
 #include "sound/sd_cli.h"
 

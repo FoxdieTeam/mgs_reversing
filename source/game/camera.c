@@ -5,13 +5,12 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 
 #include "game.h"
-#include "linkvar.h"
 #include "strcode.h"
 
 STATIC int     SECTION(".sbss") dword_800ABA84;

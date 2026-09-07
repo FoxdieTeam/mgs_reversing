@@ -1,9 +1,9 @@
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "common.h"
+#include "mgstype.h"
 #include "takabe/thing.h"
 
 #include "takabe/spark2.h"      // for NewSpark2_800CA714

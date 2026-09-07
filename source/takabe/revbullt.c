@@ -4,8 +4,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
-#include "linkvar.h"
+#include "mgstype.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "anime/animconv/anime.h"

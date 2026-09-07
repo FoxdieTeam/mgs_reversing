@@ -1,11 +1,10 @@
 #include "weapon.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "bullet/jirai.h"
-#include "linkvar.h"
 #include "sound/g_sound.h"
 
 extern int        counter_8009F448;

@@ -1,10 +1,9 @@
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "libgcl.h"
 
 #include "game/game.h"
 #include "menu/menuman.h"   // for RadioMemory
-#include "linkvar.h"
 
 short        linkvarbuf[ MAX_LINKVARBUF ];
 static short var_buf[ 1024 ];

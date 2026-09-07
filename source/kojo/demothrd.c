@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <libsn.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"

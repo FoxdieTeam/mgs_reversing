@@ -1,15 +1,14 @@
 #include "guncame.h"
 
-#include "common.h"
-#include "linkvar.h"
+#include "mgstype.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "bullet/blast.h"
 #include "game/game.h"
-#include "okajima/bullet.h"
 #include "sound/g_sound.h"
 
+#include "okajima/bullet.h"     // for NewBulletEx
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
 
 // We came, we saw, GunCame

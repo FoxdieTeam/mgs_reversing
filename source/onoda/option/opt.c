@@ -2,7 +2,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
@@ -10,7 +10,6 @@
 #include "mts/mts_pad.h"
 #include "font/font.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "sound/g_sound.h"
 
 // FIXME: it's the same struct as in change.c (in change overlay)

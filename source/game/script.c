@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "charadef.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "game/item.h"
 #include "game/delay.h"
 #include "menu/menuman.h"

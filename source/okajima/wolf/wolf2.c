@@ -3,7 +3,6 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "wolf2.h"
 
 #include "takabe/cinema.h"      // for NewCinemaScreen, NewCinemaScreenClose

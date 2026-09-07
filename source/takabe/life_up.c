@@ -1,10 +1,9 @@
 #include "life_up.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "sound/g_sound.h"
 
 typedef struct _Work

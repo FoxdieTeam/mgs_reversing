@@ -1,10 +1,9 @@
 #include "menuman.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgcl/libgcl.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "font/font.h"
 #include "menu/menuman.h"
 #include "menu/radio.h"

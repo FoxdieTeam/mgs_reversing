@@ -1,12 +1,11 @@
 #include "mirror.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "strcode.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "equip/equip.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "takabe/thing.h"
 
 typedef struct _MirrorEntry

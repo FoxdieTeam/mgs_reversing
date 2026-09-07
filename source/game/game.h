@@ -5,7 +5,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
@@ -14,7 +14,7 @@
 #include "sound/g_sound.h"
 
 #include "charadef.h"
-//#include "linkvar.h"
+#include "linkvar.h"
 #include "g_define.h"
 #include "g_struct.h"
 #include "g_extern.h"

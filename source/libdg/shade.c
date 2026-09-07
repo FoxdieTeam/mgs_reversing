@@ -2,7 +2,7 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-#include "common.h"
+#include "mgstype.h"
 
 void DG_ShadeStart( void )
 {

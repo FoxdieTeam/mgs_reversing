@@ -1,11 +1,10 @@
 #include "goggleir.h"
 #include "goggle.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "equip/equip.h"
 #include "scn_mask.h"
 

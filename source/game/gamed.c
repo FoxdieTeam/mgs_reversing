@@ -10,7 +10,7 @@
 #include <libpad.h>
 #include <libspu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -18,7 +18,6 @@
 #include "libgcl/libgcl.h"
 #include "memcard/memcard.h"
 
-#include "linkvar.h"
 #include "game/loader.h"
 #include "game/over.h"
 #include "menu/menuman.h"

@@ -4,12 +4,12 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "game/game.h"
 #include "thing/sight.h"
 #include "chara/snake/sna_init.h"
-#include "linkvar.h"
 
 static DVECTOR dvector_800BDD18[ 3 ];
 

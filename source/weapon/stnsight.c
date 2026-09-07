@@ -4,7 +4,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
@@ -12,7 +12,6 @@
 #include "chara/snake/sna_init.h"
 #include "thing/sgtrect3.h"
 #include "thing/sight.h"
-#include "linkvar.h"
 
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F494;

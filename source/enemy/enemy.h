@@ -1,7 +1,7 @@
 #ifndef __MGS_ENEMY_H__
 #define __MGS_ENEMY_H__
 
-#include "common.h"
+#include "mgstype.h"
 #include "game/game.h"
 #include "weapon/weapon.h"
 

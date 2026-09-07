@@ -2,11 +2,10 @@
 #include "menuman.h"
 
 #include <stdlib.h>
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "sound/g_sound.h"
 #include "psxdefs.h"    // for getScratchAddr2
 

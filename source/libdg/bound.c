@@ -1,5 +1,5 @@
 #include "libdg.h"
-#include "common.h"
+#include "mgstype.h"
 #include "game/game.h"
 
 static void UpdateThermalTexture( DG_CHANL *chanl, int index );

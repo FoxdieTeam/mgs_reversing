@@ -6,7 +6,7 @@
 #include <libgpu.h>
 #include <libcd.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

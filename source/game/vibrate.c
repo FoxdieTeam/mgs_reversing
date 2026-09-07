@@ -1,6 +1,6 @@
 #include "vibrate.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "game/game.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"

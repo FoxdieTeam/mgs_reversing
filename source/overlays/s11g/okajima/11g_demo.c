@@ -1,4 +1,3 @@
-#include "linkvar.h"
 #include "bullet/blast.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"

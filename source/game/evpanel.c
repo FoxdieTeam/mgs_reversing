@@ -1,12 +1,11 @@
 #include "evpanel.h"
 
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "game/vibrate.h"
 #include "takabe/thing.h"
 #include "sound/g_sound.h"

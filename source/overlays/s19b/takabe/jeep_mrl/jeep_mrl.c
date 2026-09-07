@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 #include <libgte.h>
 #include <rand.h>
 #include "game/game.h"

@@ -1,6 +1,6 @@
 #include "key_item.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"

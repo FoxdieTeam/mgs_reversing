@@ -1,8 +1,7 @@
 #include "zako.h"
 
 #include <stdio.h>
-#include "common.h"
-#include "linkvar.h"
+#include "mgstype.h"
 #include "game/game.h"
 #include "game/item.h"
 #include "libdg/libdg.h"

@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 
 int camera_dword_800C3218 = 0x0000530C;
 int camera_dword_800C321C = 0x00000A1E;

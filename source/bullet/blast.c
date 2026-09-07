@@ -4,13 +4,12 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "anime/animconv/anime.h"
 #include "game/game.h"
 #include "sound/g_sound.h"
-#include "linkvar.h"
 #include "strcode.h"
 
 /*---------------------------------------------------------------------------*/

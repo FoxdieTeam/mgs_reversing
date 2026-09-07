@@ -5,8 +5,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
-#include "linkvar.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
 

@@ -1,5 +1,5 @@
 #include "libgcl.h"
-#include "common.h"
+#include "mgstype.h"
 #include "strcode.h"        // for GCX_* defs
 #include "libgv/libgv.h"    // for GV_SetLoader
 

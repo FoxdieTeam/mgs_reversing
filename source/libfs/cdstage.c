@@ -6,7 +6,7 @@
 #include <sys/types.h>
 #include <libcd.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"        // for mts_wait_vbl
 #include "libdg/libdg.h"    // for DG_FrameRate
 #include "libgv/libgv.h"    // for GV_xxxMemory

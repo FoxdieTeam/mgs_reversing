@@ -1,10 +1,9 @@
 #include "equip.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "linkvar.h"
 
 extern int       dword_8009F46C;
 extern GM_CameraSystemWork GM_Camera;

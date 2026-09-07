@@ -1,11 +1,10 @@
 #include "menuman.h"
 
 #include <stdio.h>
-#include "common.h"
-#include "linkvar.h"
+#include "mgstype.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
 #include "game/game.h"
 
 // here or jimctl.h?

@@ -4,7 +4,7 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "strcode.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"

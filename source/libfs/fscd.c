@@ -1,7 +1,7 @@
 #include "libfs.h"
 
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"        // for mts_wait_vbl
 #include "libgv/libgv.h"    // for GV_xxx_MEMORY_TOP
 

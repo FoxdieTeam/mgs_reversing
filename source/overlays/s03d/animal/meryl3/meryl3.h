@@ -1,7 +1,7 @@
 #ifndef __MGS_ANIMAL_MERYL3_H__
 #define __MGS_ANIMAL_MERYL3_H__
 
-#include "common.h"
+#include "mgstype.h"
 #include "game/game.h"
 #include "libdg/libdg.h"
 

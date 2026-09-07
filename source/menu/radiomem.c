@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "menuman.h"
 #include "game/game.h"
 #include "menu/radio.h"

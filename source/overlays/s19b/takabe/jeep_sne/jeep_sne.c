@@ -1,4 +1,3 @@
-#include "linkvar.h"
 #include "game/game.h"
 
 typedef struct _JEEP_SYSTEM

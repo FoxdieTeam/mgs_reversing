@@ -7,7 +7,6 @@
 
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "linkvar.h"
 #include "sound/g_sound.h"
 
 extern int     ZAKOCOM_PlayerAddress_800DF3B8;

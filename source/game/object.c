@@ -2,7 +2,7 @@
 #include <kernel.h>
 #include <libapi.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 

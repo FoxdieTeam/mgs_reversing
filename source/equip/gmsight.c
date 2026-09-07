@@ -1,11 +1,10 @@
 // #include "equip.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
 #include "thing/sight.h"
 #include "sound/g_sound.h"
-#include "linkvar.h"
 
 static short word_800BDCC0;
 

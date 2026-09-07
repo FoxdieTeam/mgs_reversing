@@ -1,6 +1,6 @@
 #include "sepia.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "takabe/goggle.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"

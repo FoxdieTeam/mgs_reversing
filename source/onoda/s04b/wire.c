@@ -1,10 +1,11 @@
 #include <stdio.h>
-#include "common.h"
-#include "bullet/blast.h"
-#include "game/game.h"
+#include "mgstype.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
-#include "linkvar.h"
+#include "game/game.h"
 #include "game/vibrate.h"
+#include "bullet/blast.h"
 #include "takabe/thing.h"
 #include "strcode.h"
 

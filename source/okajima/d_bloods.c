@@ -1,6 +1,6 @@
 #include "d_bloods.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "game/game.h"

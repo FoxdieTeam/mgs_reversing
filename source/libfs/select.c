@@ -5,7 +5,7 @@
 #include <libapi.h>
 #include <libcd.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libsio/isio.h"
 
 /*---------------------------------------------------------------------------*/

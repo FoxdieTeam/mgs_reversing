@@ -1,10 +1,9 @@
 #include "tracktrp.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "takabe/thing.h"
 #include "strcode.h"
 

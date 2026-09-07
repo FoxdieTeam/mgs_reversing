@@ -1,10 +1,9 @@
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/camera.h"
-#include "linkvar.h"
 #include "okajima/blood.h"
 #include "wolf_eye.h"
 

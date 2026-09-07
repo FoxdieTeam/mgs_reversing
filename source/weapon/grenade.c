@@ -5,13 +5,12 @@
 #include <libgpu.h>
 #include <libpad.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "bullet/blast.h"
 #include "bullet/tenage.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "okajima/chafgrnd.h"
 #include "okajima/stngrnd.h"
 #include "strcode.h"

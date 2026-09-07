@@ -1,11 +1,10 @@
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/item.h"
-#include "linkvar.h"
 
 extern DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
 

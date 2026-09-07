@@ -1,7 +1,7 @@
 #include "libhzd.h"
 #include "private.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "inline_n.h"
 #include "inline_x.h"
 #include "psxdefs.h"            // for getScratchAddr2

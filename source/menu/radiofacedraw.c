@@ -1,7 +1,7 @@
 #include "radio.h"
 
 #include <stdlib.h>
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h"
 #include "game/game.h"
 #include "game/jimctrl.h"

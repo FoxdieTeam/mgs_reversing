@@ -5,11 +5,11 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
-#include "linkvar.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "game/game.h"
 #include "game/item.h"
 #include "okajima/bullet.h"
 #include "sound/g_sound.h"

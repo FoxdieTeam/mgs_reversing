@@ -1,13 +1,12 @@
 #include "enemy/enemy.h"
 
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h" // for fprintf
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
-#include "linkvar.h"
 
 extern ZAKO_COMMAND ZakoCommand_800DF280;
 extern TOPCOMMAND_STRUCT TOPCOMMAND_800DF3A8;

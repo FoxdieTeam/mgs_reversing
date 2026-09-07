@@ -11,7 +11,7 @@
 #include "sound/sd_cli.h"
 #include "sound/sd_incl.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libfs/libfs.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

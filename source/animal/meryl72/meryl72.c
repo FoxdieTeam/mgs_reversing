@@ -1,13 +1,11 @@
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "mts/mts.h" // for fprintf
 #include "chara/snake/shadow.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
-
-#include "linkvar.h"
 #include "strcode.h"
 
 #include "meryl72.h"

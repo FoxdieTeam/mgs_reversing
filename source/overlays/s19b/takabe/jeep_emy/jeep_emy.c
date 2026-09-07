@@ -1,6 +1,5 @@
 #include <rand.h>
 
-#include "linkvar.h"
 #include "strcode.h"
 #include "game/game.h"
 #include "libgcl/libgcl.h"

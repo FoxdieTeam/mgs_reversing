@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 
 int s19b_dword_800C3530 = 0x1B3FCB82;
 int s19b_dword_800C3534 = 0x1F3F1B40;

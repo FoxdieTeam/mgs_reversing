@@ -1,6 +1,6 @@
 #include "libhzd.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "strcode.h"
 #include "game/game.h"
 

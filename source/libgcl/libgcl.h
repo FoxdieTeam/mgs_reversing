@@ -9,7 +9,7 @@
 #include <sys/types.h>
 #include <libgte.h>     // for SVECTOR
 #include <libgpu.h>
-#include "common.h"
+#include "mgstype.h"
 
 /*---------------------------------------------------------------------------*/
 

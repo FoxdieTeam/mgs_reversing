@@ -1,5 +1,5 @@
 #include "game.h"
-#include "common.h"
+#include "mgstype.h"
 #include "libgcl/libgcl.h"
 #include "sound/g_sound.h"
 

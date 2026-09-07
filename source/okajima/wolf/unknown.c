@@ -1,6 +1,6 @@
 #include "wolf2.h"
 
-#include "linkvar.h"
+#include "game/game.h"
 #include "game/camera.h"
 #include "libgcl/libgcl.h"
 #include "okajima/blood.h"

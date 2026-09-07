@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 
 int *SECTION(".bss") s07a_dword_800E3650;
 int *SECTION(".bss") s07a_dword_800E3654;

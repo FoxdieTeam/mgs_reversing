@@ -1,7 +1,7 @@
 #include "wt_area2.h"
 #include "wt_view.h"    // for NewWaterView2
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"

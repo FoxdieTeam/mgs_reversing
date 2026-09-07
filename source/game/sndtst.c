@@ -1,7 +1,7 @@
 #include "sndtst.h"
 
 #include <stdio.h>
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"

@@ -7,13 +7,12 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "radar.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "sound/g_sound.h"
 
 static SPRT             SECTION(".bss") gRadioNumberSprt_800bd9b0;

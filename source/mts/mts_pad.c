@@ -4,7 +4,6 @@
 #include <libgte.h>
 #include <libgpu.h>
 #include <libpad.h>
-#include "common.h"
 
 #include "terminal.h"
 #include "mts_pad.h"
@@ -20,13 +19,13 @@ extern int              pad_state_800C14F0[2];
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int pad_init_flag = 0;
+static int pad_init_flag = 0;
 
 // Amount of frames to vibrate for each pad
-STATIC int vibration_count[] = {0, 0};
+static int vibration_count[] = {0, 0};
 
 // 0 = disabled
-STATIC int vibration_enable = 1;
+static int vibration_enable = 1;
 
 #define GET_ACTIVE_PAD_INDEX() \
     (padbuf_800C1480[0].result == 0 ? 1 : 2) // 0 = successful
@@ -155,8 +154,7 @@ static void do_control( void )
             case TERMINAL_TYPE_ANAJOY:
                 capability++; // MTS_PAD_ANAJOY
 
-                LCOPY(&padbuf_800C1480[i].data.anajoy.rx,
-                      &pad_800C14E0[i].rx);
+                *(u_long *)&pad_800C14E0[i].rx = *(u_long *)&padbuf_800C1480[i].data.anajoy.rx;
 
             case TERMINAL_TYPE_DIGITAL:
                 capability++; // MTS_PAD_DIGITAL
@@ -271,7 +269,7 @@ int mts_get_pad( int channel, MTS_PAD *pad )
         pad->flag = flag;
         if (flag >= MTS_PAD_ANAJOY)
         {
-            LCOPY(&pad_800C14E0[channel - 1].rx, &pad->rx);
+            *(u_long *)&pad->rx = *(u_long *)&pad_800C14E0[channel - 1].rx;
         }
 
         return 1;
@@ -461,7 +459,7 @@ int mts_get_pad_vibration_type( int channel )
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int graph_reset_flag = 0;
+static int graph_reset_flag = 0;
 
 void mts_reset_graph( void )
 {

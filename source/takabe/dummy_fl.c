@@ -1,12 +1,11 @@
 #include "dummy_fl.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "game/vibrate.h"
 #include "takabe/thing.h"
 

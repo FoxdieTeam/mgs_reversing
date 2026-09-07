@@ -22,17 +22,17 @@
 #define DISC1_SONY_CODE "SLUS_009.57"
 #endif
 
-#else // ORIGINAL
+#else // ORIGINAL VER.
 
 #ifdef PAL
 /* European version(s) */
 #if defined(ENGLISH)
 //#define SONY_CODE     "SLES_01370"
 #define SONY_CODE       "SLES-01370"
-#elif defined(GERMAN)
-#define SONY_CODE       "SLES-01507"
 #elif defined(FRENCH)
 #define SONY_CODE       "SLES-01506"
+#elif defined(GERMAN)
+#define SONY_CODE       "SLES-01507"
 #elif defined(ITALIAN)
 #define SONY_CODE       "SLES-01508"
 #elif defined(SPANISH)

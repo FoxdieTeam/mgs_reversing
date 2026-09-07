@@ -3,7 +3,6 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "libdg/libdg.h"
-#include "linkvar.h"
 #include "okajima/bullet.h"
 
 extern int rand(void);

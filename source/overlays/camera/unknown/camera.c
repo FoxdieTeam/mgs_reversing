@@ -9,7 +9,7 @@
 #include <libgpu.h>
 #include <libpress.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
@@ -18,7 +18,6 @@
 #include "menu/radio.h"
 #include "memcard/memcard.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
 #include "sound/g_sound.h"

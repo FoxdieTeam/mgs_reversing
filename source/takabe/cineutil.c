@@ -1,6 +1,6 @@
 #include <stddef.h>
 
-#include "common.h"
+#include "mgstype.h"
 #include "takabe/cinema.h"      // for NewCinemaScreen, NewCinemaScreenClose
 
 static int   cinema_screen_alive = FALSE;

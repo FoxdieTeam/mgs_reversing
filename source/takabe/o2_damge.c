@@ -1,11 +1,10 @@
 #include "o2_damge.h"
 
-#include "common.h"
+#include "mgstype.h"
 #include "chara/snake/sna_init.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "takabe/thing.h"
 #include "sound/g_sound.h"
 

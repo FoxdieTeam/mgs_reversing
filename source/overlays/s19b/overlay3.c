@@ -1,4 +1,4 @@
-#include "common.h"
+#include "mgstype.h"
 
 const char s19b_dword_800DDD4C[] = {0xe4, 0xfd, 0xbe, 0x4};
 const char s19b_dword_800DDD50[] = {'=', 0xfc, 0x0, 0x0};

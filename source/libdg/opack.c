@@ -1,5 +1,5 @@
 #include "libdg.h"
-#include "common.h"
+#include "mgstype.h"
 
 static int AllocPacks( DG_OBJ *obj, int index )
 {
