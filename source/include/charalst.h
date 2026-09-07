@@ -377,7 +377,7 @@
 #define DEMO_FAMASLIGHT         { 0x0045, NewFamasLight }           // kojo/famaslit.c
 #define DEMO_HUMANSHADOW        { 0x0046, ? }                       // takabe/realshdw.c (PC-ONLY)
 #define DEMO_BLOODHAZARD        { 0x0047, ? }                       // kojo/bloodhzd.c
-#define DEMO_BLOODDRIP          { 0x0048, ? }                       // kojo/blooddrp.c
+#define DEMO_BLOODDRIP          { 0x0048, NewBloodDrip }            // kojo/blooddrp.c
 #define DEMO_NINJAGROUND        { 0x0049, ? }                       // takabe/windcrcl.c
 #define DEMO_BOMBLIGHT          { 0x004a, NewBombLed }              // animal/liquid/bombled.c
 #define DEMO_MGCROOMDISPLAY     { 0x004b, NewMGRoom }               // okajima/mg_room.c
@@ -465,6 +465,7 @@ extern NEWCHARA NewSoundTest;                   /* game/sndtst.c                
 extern NEWCHARA NewToBeContinued;               /* game/tobcnt.c                */
 extern NEWCHARA NewPadVibrationGcl;             /* game/vibrate.c               */
 extern NEWCHARA NewVrWindow;                    /* koba/vr/vrwindow.c           */
+extern NEWCHARA NewBloodDrip;                   /* kojo/blooddrp.c              */
 extern NEWCHARA NewFamasLight;                  /* kojo/famaslit.c              */
 extern NEWCHARA NewInverseLight2;               /* kojo/inverlt2.c              */
 extern NEWCHARA NewSnowStorm;                   /* kojo/sstorm.c                */

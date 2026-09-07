@@ -285,13 +285,13 @@ Individual overlay progress:
             <td><b>s04b</b></td>
             <td>116 KB</td>
             <td>Armory South (vs. Ocelot)</td>
-            <td>❌ Work not started</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s04br</b></td>
             <td>116 KB</td>
             <td>Armory South (vs. Ocelot) (RED)</td>
-            <td>❌ Work not started</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s04c</b></td>
