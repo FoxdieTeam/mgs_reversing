@@ -25,6 +25,8 @@
  * definitions and typedefs and structures
  */
 
+#define FAMAS_LIGHT     GV_StrCode("famas_l")
+
 typedef struct tagFAMASLIGHT
 {
     GV_ACT      actor;
@@ -56,10 +58,8 @@ void *NewFamasLight(MATRIX *world)
     DG_TEX          *tex;
     LPFAMASLIGHT    lpAct;
     DG_PRIM         *prim;
-    int             x, y, w, h;
-    int             x2, y2, w2, h2;
 
-    tex = DG_GetTexture(GV_StrCode("famas_l"));
+    tex = DG_GetTexture(FAMAS_LIGHT);
     if (tex == NULL)
     {
         return NULL;
@@ -83,42 +83,47 @@ void *NewFamasLight(MATRIX *world)
 
     lpAct->prim->raise = 400;
 
-#define POLY ((POLY_FT4 *)lpAct->prim->packs[0])
+#define PACK0   (((POLY_FT4 *)lpAct->prim->packs[0]) + 0)
+#define PACK1   (((POLY_FT4 *)lpAct->prim->packs[0]) + 1)
 
-    x = tex->off_x;
-    w = tex->w;
-    y = tex->off_y;
-    h = tex->h;
-    setUVWH(&POLY[0], x, y, w, h);
-    POLY[0].tpage = tex->tpage;
-    POLY[0].clut = tex->clut;
-    //DG_SetPacketTexture4(&POLY[0], tex);
+    {
+        int x, y, w, h;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
+        setUVWH(PACK0, x, y, w, h);
+        PACK0->tpage = tex->tpage;
+        PACK0->clut = tex->clut;
+    }
+    {
+        int x, y, w, h;
+        x = tex->off_x;
+        w = tex->w;
+        y = tex->off_y;
+        h = tex->h;
+        setUVWH(PACK1, x, y, w, h);
+        PACK1->tpage = tex->tpage;
+        PACK1->clut = tex->clut;
+    }
 
-    x2 = tex->off_x;
-    w2 = tex->w;
-    y2 = tex->off_y;
-    h2 = tex->h;
-    setUVWH(&POLY[1], x2, y2, w2, h2);
-    POLY[1].tpage = tex->tpage;
-    POLY[1].clut = tex->clut;
-    //DG_SetPacketTexture4(&POLY[1], tex);
+    PACK0->tpage &= ~0x60;
+    PACK1->tpage &= ~0x60;
 
-    POLY[0].tpage &= ~0x60;
-    POLY[1].tpage &= ~0x60;
+    PACK0->tpage |= 0x20;
+    PACK1->tpage |= 0x20;
 
-    POLY[0].tpage |= 0x20;
-    POLY[1].tpage |= 0x20;
+    setPolyFT4(PACK0);
+    setPolyFT4(PACK1);
 
-    setPolyFT4(&POLY[0]);
-    setPolyFT4(&POLY[1]);
+    setRGB0(PACK0, 250, 250, 250);
+    setRGB0(PACK1, 200, 200, 200);
 
-    setRGB0(&POLY[0], 250, 250, 250);
-    setRGB0(&POLY[1], 200, 200, 200);
+    setSemiTrans(PACK0, 1);
+    setSemiTrans(PACK1, 1);
 
-    setSemiTrans(&POLY[0], 1);
-    setSemiTrans(&POLY[1], 1);
-
-#undef POLY
+#undef PACK0
+#undef PACK1
 
     return (void *)lpAct;
 }
