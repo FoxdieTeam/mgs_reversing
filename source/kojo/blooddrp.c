@@ -1,6 +1,28 @@
+/******************************************************************************
+ * System   : METALGEAR^3 for PlayStation
+ * Computer : PlayStation
+ * OS       : PlayStation
+ * Compiler : psyq
+ * Module   : 
+ */
+
+/******************************************************************************
+ * included
+ */
+
+#include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "game/game.h"
 
-typedef struct _Work {
+extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+
+/******************************************************************************
+ * definitions and typedefs and structures
+ */
+
+typedef struct tagBLOODDRIP {
     GV_ACT   actor;
     int      map;
     DG_PRIM *prim;
@@ -9,42 +31,44 @@ typedef struct _Work {
     int      size;
     int      accel;
     int      speed;
-} Work;
+} BLOODDRIP, *LPBLOODDRIP;
 
 #define TEXTURE GV_StrCode( "ketchap" )
 
-#define PACK0   ( ( (POLY_FT4 *)work->prim->packs[ 0 ] ) + 0 )
-#define PACK1   ( ( (POLY_FT4 *)work->prim->packs[ 0 ] ) + 1 )
+#define PACK0   ( ( (POLY_FT4 *)lpAct->prim->packs[ 0 ] ) + 0 )
+#define PACK1   ( ( (POLY_FT4 *)lpAct->prim->packs[ 0 ] ) + 1 )
 
-/*---------------------------------------------------------------------------*/
+/******************************************************************************
+ * functions
+ */
 
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+static void Act( LPBLOODDRIP lpAct );
+static void Die( LPBLOODDRIP lpAct );
 
-/*---------------------------------------------------------------------------*/
-
-static void Act( Work *work );
-static void Die( Work *work );
+/******************************************************************************
+ * publics
+ */
 
 void *NewBloodDrip( SVECTOR *pos, int size, int speed )
 {
-    Work *work;
+    LPBLOODDRIP lpAct;
     DG_TEX *tex;
 
-    work = GV_NewActor( GV_ACTOR_USER, sizeof(Work) );
-    if ( work == NULL ) return NULL;
+    lpAct = GV_NewActor( GV_ACTOR_USER, sizeof(BLOODDRIP) );
+    if ( lpAct == NULL ) return NULL;
 
-    GV_SetNamedActor( work, Act, Die, "blooddrp.c" );
+    GV_SetNamedActor( lpAct, Act, Die, "blooddrp.c" );
 
-    work->map = GM_CurrentMap;
+    lpAct->map = GM_CurrentMap;
 
-    work->pos = *pos;
-    work->pos.vy += speed;
+    lpAct->pos = *pos;
+    lpAct->pos.vy += speed;
 
-    work->size = size;
-    work->accel = speed;
-    work->speed = speed;
+    lpAct->size = size;
+    lpAct->accel = speed;
+    lpAct->speed = speed;
 
-    work->prim = GM_MakePrim( DG_PRIM_POLY_FT4, 1, work->verts, NULL );
+    lpAct->prim = GM_MakePrim( DG_PRIM_POLY_FT4, 1, lpAct->verts, NULL );
     tex = DG_GetTexture( TEXTURE );
 
     {
@@ -83,20 +107,24 @@ void *NewBloodDrip( SVECTOR *pos, int size, int speed )
     setSemiTrans( PACK0, 1 );
     setSemiTrans( PACK1, 1 );
 
-    return work;
+    return lpAct;
 }
 
-void Act( Work *work )
+/******************************************************************************
+ * statics
+ */
+
+void Act( LPBLOODDRIP lpAct )
 {
     int levels[ 2 ];
     SVECTOR  diff;
     SVECTOR  rot;
     HZD_HDL *hzd;
 
-    GM_CurrentMap = work->map;
+    GM_CurrentMap = lpAct->map;
 
-    hzd = GM_GetMap( work->map )->hzd;
-    if ( HZD_LevelHazardCheck( hzd, &work->pos, HZD_CHK_F_FLOOR ) != 1 )
+    hzd = GM_GetMap( lpAct->map )->hzd;
+    if ( HZD_LevelHazardCheck( hzd, &lpAct->pos, HZD_CHK_F_FLOOR ) != 1 )
     {
         levels[ 0 ] = 0;
     }
@@ -105,40 +133,40 @@ void Act( Work *work )
         HZD_GetLevelHeight( levels );
     }
 
-    work->pos.vy -= work->speed;
-    work->speed += work->accel;
+    lpAct->pos.vy -= lpAct->speed;
+    lpAct->speed += lpAct->accel;
 
-    if ( levels[ 0 ] > work->pos.vy ) GV_DestroyActor( work );
+    if ( levels[ 0 ] > lpAct->pos.vy ) GV_DestroyActor( lpAct );
 
-    work->verts[ 0 ].vx = -( work->size >> 3 );
-    work->verts[ 0 ].vy = -( work->size >> 1 );
-    work->verts[ 0 ].vz = 0;
+    lpAct->verts[ 0 ].vx = -( lpAct->size >> 3 );
+    lpAct->verts[ 0 ].vy = -( lpAct->size >> 1 );
+    lpAct->verts[ 0 ].vz = 0;
     
-    work->verts[ 1 ].vx = -( work->size >> 3 );
-    work->verts[ 1 ].vy = work->size >> 1;
-    work->verts[ 1 ].vz = 0;
+    lpAct->verts[ 1 ].vx = -( lpAct->size >> 3 );
+    lpAct->verts[ 1 ].vy = lpAct->size >> 1;
+    lpAct->verts[ 1 ].vz = 0;
     
-    work->verts[ 2 ].vx = work->size >> 3;
-    work->verts[ 2 ].vy = -( work->size >> 1 );
-    work->verts[ 2 ].vz = 0;
+    lpAct->verts[ 2 ].vx = lpAct->size >> 3;
+    lpAct->verts[ 2 ].vy = -( lpAct->size >> 1 );
+    lpAct->verts[ 2 ].vz = 0;
     
-    work->verts[ 3 ].vx = work->size >> 3;
-    work->verts[ 3 ].vy = work->size >> 1;
-    work->verts[ 3 ].vz = 0;
+    lpAct->verts[ 3 ].vx = lpAct->size >> 3;
+    lpAct->verts[ 3 ].vy = lpAct->size >> 1;
+    lpAct->verts[ 3 ].vz = 0;
     
-    diff.vx = ( work->pos.vx - gUnkCameraStruct2_800B7868.position.vx ) >> 2;
-    diff.vy = ( work->pos.vy - gUnkCameraStruct2_800B7868.position.vy ) >> 2;
-    diff.vz = ( work->pos.vz - gUnkCameraStruct2_800B7868.position.vz ) >> 2;
+    diff.vx = ( lpAct->pos.vx - gUnkCameraStruct2_800B7868.position.vx ) >> 2;
+    diff.vy = ( lpAct->pos.vy - gUnkCameraStruct2_800B7868.position.vy ) >> 2;
+    diff.vz = ( lpAct->pos.vz - gUnkCameraStruct2_800B7868.position.vz ) >> 2;
 
     rot.vx = -ratan2( diff.vy, SquareRoot0( diff.vx * diff.vx + diff.vz * diff.vz ) );
     rot.vy = ratan2( diff.vx, diff.vz );
     rot.vz = 0;
 
-    DG_SetPos2( &work->pos, &rot );
-    DG_PutVector( work->verts, work->verts, 4 );
+    DG_SetPos2( &lpAct->pos, &rot );
+    DG_PutVector( lpAct->verts, lpAct->verts, 4 );
 }
 
-static void Die( Work *work )
+static void Die( LPBLOODDRIP lpAct )
 {
-    GM_FreePrim( work->prim );
+    GM_FreePrim( lpAct->prim );
 }
