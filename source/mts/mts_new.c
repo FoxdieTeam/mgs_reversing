@@ -6,7 +6,6 @@
 #include <libetc.h>
 #include "psxdefs.h"
 
-#include "mgstype.h"
 #include "mts_new.h"
 #include "libsio/isio.h"
 
@@ -31,7 +30,7 @@ extern int          mts_ready_tasks_800C0DB4; // (i-th bit = 1) => i-th task is 
 /*---------------------------------------------------------------------------*/
 
 // Unused debug exception code strings
-STATIC const char *exception_mes[] = {
+static const char *exception_mes[] = {
     /*  0 */ "外部割り込み",            /* External Interrupt       */
     /*  1 */ "Mod",                     /* TLB modified             */
     /*  2 */ "TLBL",                    /* TLB miss on load         */
@@ -50,13 +49,13 @@ STATIC const char *exception_mes[] = {
     /* 15 */ "???",
 };
 
-STATIC void     *mts_exception_func[] = { NULL, NULL };
-STATIC int       mts_cpu_trap_event_descriptor = 0;
-STATIC void    (*mts_controller_callback)(void) = NULL;
-STATIC int       mts_time = -1;
-STATIC MTS_ITASK mts_itask_chain = { NULL, 0, -1, 0, NULL };
-STATIC int       mts_unused_event_descriptor = 0;
-STATIC int       mts_boot_stack_size = 0;
+static void     *mts_exception_func[] = { NULL, NULL };
+static int       mts_cpu_trap_event_descriptor = 0;
+static void    (*mts_controller_callback)(void) = NULL;
+static int       mts_time = -1;
+static MTS_ITASK mts_itask_chain = { NULL, 0, -1, 0, NULL };
+static int       mts_unused_event_descriptor = 0;
+static int       mts_boot_stack_size = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -1238,7 +1237,7 @@ exit:
 }
 
 // See the corresponding TaskState enum
-STATIC const char *task_status[] = {
+static const char *task_status[] = {
     "Sending",      // 1: MTS_TASK_SENDING
     "Receiving",    // 2: MTS_TASK_RECEIVING
     "Ready",        // 3: MTS_TASK_READY
@@ -1344,9 +1343,9 @@ void mts_print_process_status( void )
 
 /*---------------------------------------------------------------------------*/
 
-STATIC int mts_sio_unlocked = 1;
-STATIC int mts_stdout_stream = 0;
-STATIC int mts_output_stream = 0;
+static int mts_sio_unlocked = 1;
+static int mts_stdout_stream = 0;
+static int mts_output_stream = 0;
 
 void mts_lock_sio( void )
 {
