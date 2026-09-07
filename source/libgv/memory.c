@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "common.h"
 
-MEM_SYS SECTION(".bss") mem_sys[ MAX_MEMSYS ];
+M_Sys SECTION(".bss") MemorySystems[ MAX_MEMSYS ];
 
 /* Unused, does it really belong to memory.c ? */
 STATIC short SECTION(".sbss") dword_800AB93C;
@@ -17,28 +17,28 @@ STATIC short SECTION(".sbss") dword_800AB93C;
  *
  * @return  the allocation block that contains the address
  */
-void *GV_FindAllocation(MEM_SYS *heap, void *addr)
+static void *GV_FindAllocation( M_Sys *sys, void *addr )
 {
-    int       i;
-    MEM_TAG *start;
-    MEM_TAG *end;
+    int     i;
+    M_Unit  *start;
+    M_Unit  *end;
 
     // return if the address is not within the heap
-    if (addr < heap->start || addr >= heap->end)
+    if (addr < sys->start || addr >= sys->end)
         return NULL;
 
-    start = heap->units;
+    start = sys->units;
 
     // search for the allocation that contains the address
-    for (i = heap->used; i >= 2; i /= 2)
+    for (i = sys->n_units; i >= 2; i /= 2)
     {
         end = &start[i / 2];
 
         // the address is at the start of the allocation
-        if (addr == end->start)
+        if (addr == end->addr)
             return end;
 
-        if (end->start < addr)
+        if (end->addr < addr)
         {
             i--;
             start = end + 1;
@@ -46,7 +46,7 @@ void *GV_FindAllocation(MEM_SYS *heap, void *addr)
     }
 
     // if the address is not found return NULL
-    if (i <= 0 || start->start != addr)
+    if (i <= 0 || start->addr != addr)
         return NULL;
 
     return start;
@@ -67,35 +67,35 @@ void *GV_FindAllocation(MEM_SYS *heap, void *addr)
  * @return  Pointer to the found memory allocation,
  *          or NULL if no suitable block is found.
  */
-MEM_TAG *GV_FindFreeMemory(MEM_SYS *heap, int size)
+static M_Unit *GV_FindFreeMemory( M_Sys *sys, int size )
 {
-    MEM_TAG *alloc;
-    void     *start;
-    void     *next;
-    int       i;
-    int       bytes;
+    M_Unit  *unit;
+    void    *start;
+    void    *next;
+    int     i;
+    int     bytes;
 
     // Initialize j with the start address of the first allocation
-    alloc = heap->units;
-    start = alloc[0].start;
+    unit = sys->units;
+    start = unit[0].addr;
 
     // Iterate through the heap
-    for (i = heap->used; i > 0; i--)
+    for (i = sys->n_units; i > 0; i--)
     {
        // Get the start address of the next allocation
-        next = alloc[1].start;
+        next = unit[1].addr;
 
         // Calculate the size of the current block
         bytes = (char *)next - (char *)start;
 
         // Find a large enough free block
-        if (bytes >= size && alloc->state == MEM_TAG_STATE_FREE)
+        if (bytes >= size && unit->addr_ptr == FREE_UNIT)
         {
-            return alloc;
+            return unit;
         }
 
         start = next;
-        alloc++;
+        unit++;
     }
 
     // Return NULL if no suitable block is found
@@ -112,20 +112,20 @@ MEM_TAG *GV_FindFreeMemory(MEM_SYS *heap, int size)
  * @param   heap    pointer to the heap structure
  * @param   alloc   pointer to the memory allocation to be inserted
  */
-void GV_SplitAllocation(MEM_SYS *heap, MEM_TAG *alloc)
+static void GV_SplitAllocation( M_Sys *sys, M_Unit *unit )
 {
-    int       used;
-    MEM_TAG *last;
-    int       size;
-    int       i;
+    int     used;
+    M_Unit  *last;
+    int     size;
+    int     i;
 
-    used = heap->used;
+    used = sys->n_units;
 
     // Pointer to the last allocation in the heap
-    last = &heap->units[used];
+    last = &sys->units[used];
 
     // Calculate the size of the new allocation
-    size = alloc - heap->units;
+    size = unit - sys->units;
 
     // Shift existing allocations to make space for the new allocation
     for (i = used - size; i >= 0; i--)
@@ -134,7 +134,7 @@ void GV_SplitAllocation(MEM_SYS *heap, MEM_TAG *alloc)
         last--;
     }
 
-    heap->used++;
+    sys->n_units++;
 }
 
 /**
@@ -147,29 +147,29 @@ void GV_SplitAllocation(MEM_SYS *heap, MEM_TAG *alloc)
  * @param   alloc   pointer to the memory allocation to start merging from
  * @param   n_unit  number of units to merge
  */
-void GV_MergeMemory(MEM_SYS *heap, MEM_TAG *alloc, int n_unit)
+static void GV_MergeMemory( M_Sys *sys, M_Unit *unit, int n_unit )
 {
-    MEM_TAG *next;
-    int       size;
-    int       shift;
-    int       i;
+    M_Unit  *next;
+    int     size;
+    int     shift;
+    int     i;
 
-    next = &alloc[n_unit];
+    next = &unit[n_unit];
 
     // Calculate the number of units to shift
-    size = alloc - heap->units;
-    shift = heap->used - size - n_unit;
+    size = unit - sys->units;
+    shift = sys->n_units - size - n_unit;
 
     // Shift memory allocations to merge free blocks
     for (i = shift; i > -1; i--)
     {
-        *alloc = *next;
-        alloc++;
+        *unit = *next;
+        unit++;
         next++;
     }
 
     // Update the heap's unit count to reflect the merged blocks
-    heap->used -= n_unit;
+    sys->n_units -= n_unit;
 }
 
 /**
@@ -185,41 +185,41 @@ void GV_MergeMemory(MEM_SYS *heap, MEM_TAG *alloc, int n_unit)
  *
  * @param   heap    pointer to the heap structure
  */
-void GV_ResetVoidedMemorySystem(MEM_SYS *heap)
+static void GV_ResetVoidedMemorySystem( M_Sys *sys )
 {
-    MEM_TAG *alloc;
-    MEM_TAG *new;
-    int       voided;
-    int       i;
+    M_Unit  *unit;
+    M_Unit  *new;
+    int     voided;
+    int     i;
 
-    alloc = heap->units;
-    new = alloc;
+    unit = sys->units;
+    new = unit;
 
     voided = 0;
 
-    for (i = heap->used; i > 0; i--)
+    for (i = sys->n_units; i > 0; i--)
     {
-        if (alloc->state != MEM_TAG_STATE_FREE && alloc->state != MEM_TAG_STATE_VOID)
+        if (unit->addr_ptr != FREE_UNIT && unit->addr_ptr != VOID_UNIT)
         {
-            *new++ = *alloc;
+            *new++ = *unit;
             voided = 0;
         }
         else if (!voided)
         {
             voided = 1;
-            new->start = alloc->start;
-            new->state = MEM_TAG_STATE_FREE;
+            new->addr = unit->addr;
+            new->addr_ptr = FREE_UNIT;
             new++;
         }
 
-        alloc++;
+        unit++;
     }
 
     // Mark the end of the heap
-    new->start = heap->end;
-    new->state = MEM_TAG_STATE_USED;
+    new->addr = sys->end;
+    new->addr_ptr = USED_UNIT;
 
-    heap->used = new - heap->units;
+    sys->n_units = new - sys->units;
 }
 
 /**
@@ -233,70 +233,72 @@ void GV_ResetVoidedMemorySystem(MEM_SYS *heap)
  *
  * @param   heap    Pointer to the heap structure.
  */
-void GV_ResetDynamicMemorySystem(MEM_SYS *heap)
+static void GV_ResetDynamicMemorySystem( M_Sys *sys )
 {
-    MEM_TAG *alloc;
-    MEM_TAG *new;
-    char     *addr;
-    int       i;
-    int       state;
-    int       size;
-    void     *start;
+    M_Unit  *unit;
+    M_Unit  *new;
+    char    *addr;
+    int     i;
+    void    **addr_ptr;
+    int     size;
+    void    *start;
 
-    alloc = heap->units;
-    new = alloc;
+    unit = sys->units;
+    new = unit;
 
-    addr = heap->start;
+    addr = sys->start;
 
     // Iterate through all memory allocations in the heap
-    for (i = heap->used; i > 0; i--)
+    for (i = sys->n_units; i > 0; i--)
     {
-        state = alloc->state;
+        addr_ptr = unit->addr_ptr;
 
-        if (state != MEM_TAG_STATE_FREE && state != MEM_TAG_STATE_VOID)
+        if (addr_ptr != FREE_UNIT && addr_ptr != VOID_UNIT)
         {
-            start = alloc->start;
-            size = alloc[1].start - start;
+            start = unit->addr;
+            size = unit[1].addr - start;
 
             if (start != addr)
             {
-                new->start = addr;
-                new->state = state;
+                new->addr = addr;
+                new->addr_ptr = addr_ptr;
 
                 // Write the new start address to the userdata pointer
-                *(void **)state = addr;
-                GV_CopyMemory(start, addr, size);
+                *addr_ptr = addr;
+                GV_CopyMemory( start, addr, size );
             }
 
             addr += size;
             new++;
         }
 
-        alloc++;
+        unit++;
     }
 
     // If the last allocation is not at the end of the heap, add a new one
-    if (addr != heap->end)
+    if (addr != sys->end)
     {
-        new->start = addr;
-        new->state = MEM_TAG_STATE_FREE;
+        new->addr = addr;
+        new->addr_ptr = FREE_UNIT;
         new++;
     }
 
     // Add a final allocation to mark the end of the heap
-    new->start = heap->end;
-    new->state = MEM_TAG_STATE_USED;
+    new->addr = sys->end;
+    new->addr_ptr = USED_UNIT;
 
-    heap->used = new - heap->units;
+    sys->n_units = new - sys->units;
 }
 
-void GV_InitMemorySystemAll(void)
+/*---------------------------------------------------------------------------*/
+
+void GV_InitMemorySystemAll( void )
 {
     int i;
 
     for (i = 0; i < MAX_MEMSYS; i++)
     {
-        GV_InitMemorySystem(i, 0, NULL, 0);
+        GV_InitMemorySystem( i, 0, NULL, 0 );
     }
 }
 
@@ -312,31 +314,31 @@ void GV_InitMemorySystemAll(void)
  * @param   memory      pointer to the start of the memory block
  * @param   size        size of the memory block
  */
-void GV_InitMemorySystem(int which, int dynamic, void *memory, int size)
+void GV_InitMemorySystem( int which, int dynamic, void *memory, int size )
 {
-    MEM_SYS  *heap;
-    MEM_TAG *alloc;
+    M_Sys   *sys;
+    M_Unit  *unit;
     unsigned char *end;
 
-    heap = &mem_sys[which];
-    alloc = heap->units;
+    sys = &MemorySystems[which];
+    unit = sys->units;
 
     // Align the end to 16 bytes
     end = (char *)memory + (size & ~15);
 
-    heap->flags = dynamic != 0;
-    heap->start = memory;
+    sys->stat = dynamic != 0;
+    sys->start = memory;
 
-    heap->end = end;
-    heap->used = 1;
+    sys->end = end;
+    sys->n_units = 1;
 
     // First entry is free
-    alloc[0].start = memory;
-    alloc[0].state = MEM_TAG_STATE_FREE;
+    unit[0].addr = memory;
+    unit[0].addr_ptr = FREE_UNIT;
 
     // Second is used and is the entire space
-    alloc[1].start = end;
-    alloc[1].state = MEM_TAG_STATE_USED;
+    unit[1].addr = end;
+    unit[1].addr_ptr = USED_UNIT;
 }
 
 /**
@@ -348,33 +350,33 @@ void GV_InitMemorySystem(int which, int dynamic, void *memory, int size)
  *
  * @param   which   index of the heap to clear
  */
-void GV_ClearMemorySystem(int which)
+void GV_ClearMemorySystem( int which )
 {
-    MEM_SYS *heap;
-    int      flags;
+    M_Sys   *sys;
+    int      stat;
 
-    heap = &mem_sys[which];
-    flags = heap->flags;
+    sys = &MemorySystems[which];
+    stat = sys->stat;
 
-    if (flags & (MEM_SYS_FLAG_FAILED | MEM_SYS_FLAG_VOIDED))
+    if (stat & (MEMORY_FAILED | MEMORY_VOIDED))
     {
-        if (flags & MEM_SYS_FLAG_FAILED)
+        if (stat & MEMORY_FAILED)
         {
-            if (flags & MEM_SYS_FLAG_DYNAMIC)
+            if (stat & MEMORY_DYNAMIC)
             {
-                GV_ResetDynamicMemorySystem(heap);
-                heap->flags &= ~(MEM_SYS_FLAG_FAILED | MEM_SYS_FLAG_VOIDED);
+                GV_ResetDynamicMemorySystem( sys );
+                sys->stat &= ~(MEMORY_FAILED | MEMORY_VOIDED);
             }
         }
 
-        if (flags & MEM_SYS_FLAG_VOIDED)
+        if (stat & MEMORY_VOIDED)
         {
-            GV_ResetVoidedMemorySystem(heap);
-            heap->flags &= ~MEM_SYS_FLAG_VOIDED;
+            GV_ResetVoidedMemorySystem( sys );
+            sys->stat &= ~MEMORY_VOIDED;
         }
     }
 
-    heap->flags &= ~(MEM_SYS_FLAG_FAILED | MEM_SYS_FLAG_VOIDED);
+    sys->stat &= ~(MEMORY_FAILED | MEMORY_VOIDED);
 }
 
 /**
@@ -386,60 +388,54 @@ void GV_ClearMemorySystem(int which)
  *
  * @param   which   index of the heap to check
  */
-void GV_CheckMemorySystem(int which)
+void GV_CheckMemorySystem( int which )
 {
-    MEM_SYS  *heap;
-    int       total;
-    int       voided;
-    int       max_free;
-    int       free;
-    MEM_TAG *alloc;
-    int       i;
-    int       state;
-    void     *start;
-    void     *next;
-    int       size;
+    M_Sys   *sys;
+    int     total;
+    int     voided;
+    int     max_free;
+    int     free;
+    M_Unit  *unit;
+    int     i;
+    void    **addr_ptr;
+    void    *start;
+    void    *next;
+    int     size;
 
-    heap = &mem_sys[which];
+    sys = &MemorySystems[which];
 
     printf("system %d ( ", which);
 
-    if (heap->flags & MEM_SYS_FLAG_DYNAMIC)
-    {
+    if (sys->stat & MEMORY_DYNAMIC)
         printf("dynamic ");
-    }
 
-    if (heap->flags & MEM_SYS_FLAG_VOIDED)
-    {
+    if (sys->stat & MEMORY_VOIDED)
         printf("voided ");
-    }
 
-    if (heap->flags & MEM_SYS_FLAG_FAILED)
-    {
+    if (sys->stat & MEMORY_FAILED)
         printf("failed ");
-    }
 
     printf(")\n");
 
     printf("  addr = %08x - %08x, units = %d\n",
-           (unsigned int)heap->start, (unsigned int)heap->end, heap->used);
+        (unsigned int)sys->start, (unsigned int)sys->end, sys->n_units);
 
-    total = heap->end - heap->start;
+    total = sys->end - sys->start;
 
     free = 0;
     voided = 0;
     max_free = 0;
 
-    alloc = &heap->units[0];
-    for (i = heap->used; i > 0; i--)
+    unit = &sys->units[0];
+    for (i = sys->n_units; i > 0; i--)
     {
-        state = alloc->state;
+        addr_ptr = unit->addr_ptr;
 
-        start = alloc->start;
-        next = alloc[1].start;
+        start = unit->addr;
+        next = unit[1].addr;
         size = next - start;
 
-        if (state == MEM_TAG_STATE_FREE)
+        if (addr_ptr == FREE_UNIT)
         {
             free += size;
 
@@ -448,12 +444,12 @@ void GV_CheckMemorySystem(int which)
                 max_free = size;
             }
         }
-        else if (state == MEM_TAG_STATE_VOID)
+        else if (addr_ptr == VOID_UNIT)
         {
             voided += size;
         }
 
-        alloc++;
+        unit++;
     }
 
     printf("  free = %d / %d, voided = %d, max_free = %d\n",
@@ -468,81 +464,69 @@ void GV_CheckMemorySystem(int which)
  *
  * @param   which   index of the heap to dump
  */
-void GV_DumpMemorySystem(int which)
+void GV_DumpMemorySystem( int which )
 {
-    MEM_SYS  *heap;
-    MEM_TAG *alloc;
-    int       i;
-    int       state;
-    void     *start;
-    void     *next;
-    int       size;
+    M_Sys   *sys;
+    M_Unit  *unit;
+    int     i;
+    void    **addr_ptr;
+    void    *start;
+    void    *next;
+    int     size;
 
-    heap = &mem_sys[which];
+    sys = &MemorySystems[which];
 
     printf("system %d ( ", which);
 
-    if (!(heap->flags & MEM_SYS_FLAG_DYNAMIC))
-    {
+    if (!(sys->stat & MEMORY_DYNAMIC))
         printf("static ");
-    }
     else
-    {
         printf("dynamic ");
-    }
 
-    if (heap->flags & MEM_SYS_FLAG_VOIDED)
-    {
+    if (sys->stat & MEMORY_VOIDED)
         printf("voided ");
-    }
 
-    if (heap->flags & MEM_SYS_FLAG_FAILED)
-    {
+    if (sys->stat & MEMORY_FAILED)
         printf("failed ");
-    }
 
     printf(")\n");
 
-    alloc = &heap->units[0];
+    unit = &sys->units[0];
 
-    for (i = heap->used; i > 0; i--)
+    for (i = sys->n_units; i > 0; i--)
     {
-        state = alloc->state;
+        addr_ptr = unit->addr_ptr;
 
-        start = alloc->start;
-        next = alloc[1].start;
+        start = unit->addr;
+        next = unit[1].addr;
         size = next - start;
 
-        if (state == MEM_TAG_STATE_FREE)
-        {
+        if (addr_ptr == FREE_UNIT) {
             printf("---- %8d bytes ( from %08x free )\n",
-                   size, (unsigned int)alloc->start);
+                   size, (unsigned int)unit->addr);
         }
-        else if (state == MEM_TAG_STATE_VOID)
-        {
+        else if (addr_ptr == VOID_UNIT) {
             printf("==== %8d bytes ( from %08x void )\n",
-                   size, (unsigned int)alloc->start);
+                   size, (unsigned int)unit->addr);
         }
-        else if (state == MEM_TAG_STATE_USED)
-        {
+        else if (addr_ptr == USED_UNIT) {
             printf("++++ %8d bytes ( from %08x used )\n",
-                   size, (unsigned int)alloc->start);
+                   size, (unsigned int)unit->addr);
         }
-        else
-        {
+        else {
             printf("**** %8d bytes ( from %08x user %08x )\n",
-                   size, (unsigned int)alloc->start, state);
+                   size, (unsigned int)unit->addr, (unsigned int)addr_ptr);
         }
 
-        alloc++;
+        unit++;
     }
 
     printf("\n");
 }
 
-void *GV_AllocMemory(int which, int size)
+void *GV_AllocMemory( int which, int size )
 {
-    return GV_AllocMemory2(which, size, (void **)MEM_TAG_STATE_USED);
+    return GV_AllocMemory2( which, size, USED_UNIT );
 }
 
 /**
@@ -563,18 +547,18 @@ void *GV_AllocMemory(int which, int size)
  * @return  pointer to the start of the allocated memory block,
  *          or NULL if the allocation fails
  */
-void *GV_AllocMemory2(int which, int size, void **pstart)
+void *GV_AllocMemory2( int which, int size, void **pstart )
 {
-    MEM_SYS  *heap;
-    int       normal;
-    MEM_TAG *alloc;
-    void     *start;
+    M_Sys   *sys;
+    void    **normal;
+    M_Unit  *unit;
+    void    *start;
 
-    heap = &mem_sys[which];
-    normal = MEM_TAG_STATE_USED;
+    sys = &MemorySystems[which];
+    normal = USED_UNIT;
 
     // Check if there is space for more allocations
-    if (heap->used >= (MAX_ALLOC_UNITS - 1))
+    if (sys->n_units >= (MAX_MEMUNIT - 1))
     {
         return NULL;
     }
@@ -583,29 +567,29 @@ void *GV_AllocMemory2(int which, int size, void **pstart)
     size = (size + 15) & ~15;
 
     // Find a free block that can accommodate the requested size
-    alloc = GV_FindFreeMemory(heap, size);
+    unit = GV_FindFreeMemory( sys, size );
 
-    if (!alloc)
+    if (!unit)
     {
         // Set the heap's failed flag if no suitable block is found
-        heap->flags |= MEM_SYS_FLAG_FAILED;
+        sys->stat |= MEMORY_FAILED;
     }
     else
     {
-        start = alloc->start;
+        start = unit->addr;
 
         // If the free block is larger than the requested size, split it
-        if ((alloc[1].start - start) > size)
+        if ((unit[1].addr - start) > size)
         {
-            GV_SplitAllocation(heap, alloc);
-            alloc[1].start = start + size;
-            alloc[1].state = MEM_TAG_STATE_FREE;
+            GV_SplitAllocation( sys, unit );
+            unit[1].addr = start + size;
+            unit[1].addr_ptr = FREE_UNIT;
         }
 
         // Mark the allocation as used
-        alloc->state = (int)pstart;
+        unit->addr_ptr = pstart;
 
-        if ((int)pstart != normal)
+        if (pstart != normal)
         {
             *pstart = start;
         }
@@ -628,27 +612,27 @@ void *GV_AllocMemory2(int which, int size, void **pstart)
  * @param   which   index of the heap
  * @param   addr    address of the memory block to be freed
  */
-void GV_FreeMemory(int which, void *addr)
+void GV_FreeMemory( int which, void *addr )
 {
-    MEM_SYS  *heap;
-    MEM_TAG *alloc;
-    MEM_TAG *merge;
-    int       units;
+    M_Sys   *sys;
+    M_Unit  *unit;
+    M_Unit  *merge;
+    int     units;
 
-    heap = &mem_sys[which];
-    alloc = GV_FindAllocation(heap, addr);
+    sys = &MemorySystems[which];
+    unit = GV_FindAllocation( sys, addr );
 
     // Return if the allocation is not found or already free
-    if (!alloc || alloc->state == MEM_TAG_STATE_FREE)
+    if (!unit || unit->addr_ptr == FREE_UNIT)
         return;
 
-    alloc->state = MEM_TAG_STATE_FREE;
-    merge = alloc;
+    unit->addr_ptr = FREE_UNIT;
+    merge = unit;
 
     units = 0;
 
     // Check if the previous allocation is also free
-    if (alloc != heap->units && alloc[-1].state == MEM_TAG_STATE_FREE)
+    if (unit != sys->units && unit[-1].addr_ptr == FREE_UNIT)
     {
         units++;
     }
@@ -658,7 +642,7 @@ void GV_FreeMemory(int which, void *addr)
     }
 
     // Check if the next allocation is also free
-    if (alloc[1].state == MEM_TAG_STATE_FREE)
+    if (unit[1].addr_ptr == FREE_UNIT)
     {
         units++;
     }
@@ -666,7 +650,7 @@ void GV_FreeMemory(int which, void *addr)
     // If there are adjacent free blocks, merge them
     if (units)
     {
-        GV_MergeMemory(heap, merge, units);
+        GV_MergeMemory( sys, merge, units );
     }
 }
 
@@ -680,32 +664,21 @@ void GV_FreeMemory(int which, void *addr)
  * @param   which   index of the heap.
  * @param   addr    pointer to the address of the memory block to be voided
  */
-void GV_FreeMemory2(int which, void **addr)
+void GV_FreeMemory2( int which, void **addr )
 {
-    MEM_SYS  *heap;
-    MEM_TAG *alloc;
+    M_Sys   *sys;
+    M_Unit  *unit;
 
-    heap = &mem_sys[which];
-    alloc = GV_FindAllocation(heap, *addr);
+    sys = &MemorySystems[which];
+    unit = GV_FindAllocation( sys, *addr );
 
-    if (alloc)
+    if (unit)
     {
-        alloc->state = MEM_TAG_STATE_VOID;
-        heap->flags |= MEM_SYS_FLAG_VOIDED;
+        unit->addr_ptr = VOID_UNIT;
+        sys->stat |= MEMORY_VOIDED;
     }
 }
 
-/**
- * @brief Copies a block of memory from one location to another.
- *
- * This function copies a block of memory from the source address to the
- * destination address. It optimizes the copying process by using a
- * structure to copy multiple bytes at a time when possible.
- *
- * @param[in]   from    pointer to the source memory block
- * @param[out]  to      pointer to the destination memory block
- * @param[in]   size    size of the memory block in bytes
- */
 void GV_CopyMemory( void *from, void *to, int size )
 {
     typedef struct { long d0, d1, d2, d3; } Unit;
@@ -748,15 +721,6 @@ void GV_CopyMemory( void *from, void *to, int size )
     }
 }
 
-/**
- * @brief Sets a block of memory to zero.
- *
- * This function sets a block of memory to zero, optimizing the process by
- * using a structure to zero out multiple bytes at a time when possible.
- *
- * @param[out]  to      pointer to the memory block to be zeroed
- * @param[in]   size    size of the memory block in bytes
- */
 // clang-format off
 void GV_ZeroMemory( void *to, int size )
 {
@@ -809,24 +773,24 @@ void GV_DelayedFree( void *addr )
  *
  * @return  pointer to the allocated memory block
  */
-void *GV_GetMaxFreeMemory(int which)
+void *GV_GetMaxFreeMemory( int which )
 {
-    int       max;
-    MEM_SYS  *heap;
-    MEM_TAG *alloc;
-    int       i;
-    int       size;
+    int     max;
+    M_Sys   *sys;
+    M_Unit  *unit;
+    int     i;
+    int     size;
 
     max = 0;
 
-    heap = &mem_sys[which];
-    alloc = heap->units;
+    sys = &MemorySystems[which];
+    unit = sys->units;
 
-    for (i = heap->used; i > 0; i--)
+    for (i = sys->n_units; i > 0; i--)
     {
-        if (alloc->state == MEM_TAG_STATE_FREE)
+        if (unit->addr_ptr == FREE_UNIT)
         {
-            size = alloc[1].start - alloc->start;
+            size = unit[1].addr - unit->addr;
             if (size > max)
             {
                 // keep track of the largest free block
@@ -834,10 +798,10 @@ void *GV_GetMaxFreeMemory(int which)
             }
         }
 
-        alloc++;
+        unit++;
     }
 
-    return GV_AllocMemory(which, max);
+    return GV_AllocMemory( which, max );
 }
 
 /**
@@ -849,24 +813,24 @@ void *GV_GetMaxFreeMemory(int which)
  *
  * @return  pointer to the resized memory block, or NULL if resizing fails
  */
-void *GV_SplitMemory(int which, void *addr, int size)
+void *GV_SplitMemory( int which, void *addr, int size )
 {
-    MEM_SYS  *heap;
-    MEM_TAG *alloc;
+    M_Sys   *sys;
+    M_Unit  *unit;
 
-    heap = &mem_sys[which];
-    alloc = GV_FindAllocation(heap, addr);
+    sys = &MemorySystems[which];
+    unit = GV_FindAllocation( sys, addr );
 
-    if (!alloc || alloc->state != MEM_TAG_STATE_USED)
+    if (!unit || unit->addr_ptr != USED_UNIT)
         return NULL;
 
-    if ((alloc[1].start - alloc->start) == size)
+    if ((unit[1].addr - unit->addr) == size)
         return NULL;
 
-    GV_SplitAllocation(heap, alloc);
+    GV_SplitAllocation( sys, unit );
 
-    alloc[1].start = alloc->start + size;
-    alloc[1].state = MEM_TAG_STATE_FREE;
+    unit[1].addr = unit->addr + size;
+    unit[1].addr_ptr = FREE_UNIT;
 
-    return alloc[1].start;
+    return unit[1].addr;
 }

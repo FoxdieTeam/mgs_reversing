@@ -178,32 +178,27 @@ enum {
     MAX_MEMSYS,       
 };
 
-enum {
-    MEM_TAG_STATE_FREE = 0,
-    MEM_TAG_STATE_VOID = 1,
-    MEM_TAG_STATE_USED = 2
-};
+#define MAX_MEMUNIT 512
+
+#define FREE_UNIT       ((void **)0)
+#define VOID_UNIT       ((void **)1)
+#define USED_UNIT       ((void **)2)
+#define MEMORY_DYNAMIC  (1)
+#define MEMORY_VOIDED   (2)
+#define MEMORY_FAILED   (4)
 
 typedef struct {
+    void        *addr;
+    void        **addr_ptr;
+} M_Unit;
+
+typedef struct {
+    int         stat;
     void        *start;
-    unsigned int state; // pointer to start of memory for dynamic allocations
-} MEM_TAG;
-
-enum MEM_SYS_FLAG {
-    MEM_SYS_FLAG_DYNAMIC = 1,
-    MEM_SYS_FLAG_VOIDED  = 2,
-    MEM_SYS_FLAG_FAILED  = 4
-};
-
-#define MAX_ALLOC_UNITS 512
-
-typedef struct MEM_SYS {
-    int      flags;
-    void    *start;
-    void    *end;
-    int      used;
-    MEM_TAG units[ MAX_ALLOC_UNITS ];
-} MEM_SYS;
+    void        *end;
+    int         n_units;
+    M_Unit      units[ MAX_MEMUNIT ];
+} M_Sys;
 
 /* memory.c */
 void  GV_InitMemorySystemAll(void);

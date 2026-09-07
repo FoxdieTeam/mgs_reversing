@@ -1,7 +1,7 @@
 #include "libdg.h"
 #include "common.h"
 
-extern MEM_SYS       mem_sys[MAX_MEMSYS];
+extern M_Sys MemorySystems[MAX_MEMSYS];
 extern unsigned int *DG_DivideBuffer[256];
 
 typedef struct DG_DivideMem
@@ -15,8 +15,8 @@ typedef struct DG_DivideMem
     long        field_14;   // 0x14
     long        field_18;   // 0x18
     POLY_GT4   *pack;       // 0x1C
-    MEM_SYS    *pHeap;      // 0x20
-    MEM_TAG   *pAlloc;     // 0x24
+    M_Sys      *sys;        // 0x20
+    M_Unit     *unit;       // 0x24
     int         n_packs;    // 0x28
     void       *pDataStart; // 0x2C
     int         size;       // 0x30
@@ -30,7 +30,7 @@ static inline DG_DivideMem *GetDivideMem()
 
 STATIC void *DG_SplitMemory( int memIdx, int* n_split, int size );
 STATIC POLY_GT4 *DG_InitDividePacks( int memIdx );
-STATIC void *DG_AllocDividePackMem( MEM_SYS *heap, MEM_TAG **alloc_list, int *size );
+STATIC void *DG_AllocDividePackMem( M_Sys *sys, M_Unit **alloc_list, int *size );
 STATIC POLY_GT4 *DG_GetDividePacks( void );
 STATIC int  DG_GetRVectorCode( DG_RVECTOR *rvec );
 STATIC void DG_SetRVectorCode( DG_RVECTOR *rvec );
@@ -44,40 +44,40 @@ STATIC void DG_AddSubdividedPrim( DG_OBJ *obj, int idx );
 STATIC void *DG_SplitMemory( int memIdx, int *n_split, int size )
 {
     int i, split_count;
-    MEM_SYS *heap;
-    MEM_TAG *alloc;
+    M_Sys   *sys;
+    M_Unit  *unit;
 
     split_count = 0;
-    heap = &mem_sys[ memIdx ];
+    sys = &MemorySystems[ memIdx ];
 
-    alloc = heap->units;
-    i = heap->used;
+    unit = sys->units;
+    i = sys->n_units;
     while ( i > 0 )
     {
-        if (alloc->state == MEM_TAG_STATE_FREE)
+        if (unit->addr_ptr == FREE_UNIT)
         {
-            split_count += (alloc[1].start - alloc[0].start ) / size;
+            split_count += (unit[1].addr - unit[0].addr ) / size;
         }
         --i;
-        alloc++;
+        unit++;
     }
 
     *n_split = split_count;
-    return heap;
+    return sys;
 }
 
 STATIC POLY_GT4 *DG_InitDividePacks( int memIdx )
 {
     POLY_GT4 *pack;
-    MEM_SYS  *heap;
+    M_Sys    *sys;
 
     DG_DivideMem *divide_mem = GetDivideMem();
 
-    heap = DG_SplitMemory( memIdx, &divide_mem->n_packs, 0x34 );
+    sys = DG_SplitMemory( memIdx, &divide_mem->n_packs, 0x34 );
 
-    divide_mem->pHeap = heap;
-    divide_mem->pAlloc = 0;
-    pack = DG_AllocDividePackMem( heap, &divide_mem->pAlloc, &divide_mem->size );
+    divide_mem->sys = sys;
+    divide_mem->unit = NULL;
+    pack = DG_AllocDividePackMem( sys, &divide_mem->unit, &divide_mem->size );
 
     divide_mem->pDataStart = pack;
     return pack;
@@ -88,43 +88,43 @@ void DG_DivideStart( void )
     /* do nothing */
 }
 
-STATIC void *DG_AllocDividePackMem( MEM_SYS *heap, MEM_TAG **alloc_list, int *size )
+STATIC void *DG_AllocDividePackMem( M_Sys *sys, M_Unit **alloc_list, int *size )
 {
     int i;
     int alloc_idx;
-    MEM_TAG *allocs;
+    M_Unit *unit;
 
-    allocs = *alloc_list;
+    unit = *alloc_list;
 
-    if (!allocs)
+    if (!unit)
     {
-        allocs = heap->units;
+        unit = sys->units;
     }
     else
     {
-        allocs++;
+        unit++;
     }
 
     //gets the number of allocs between the current one and the total
-    alloc_idx  = (int)(allocs - 2);
-    alloc_idx -= (int)heap;
+    alloc_idx  = (int)(unit - 2);
+    alloc_idx -= (int)sys;
     alloc_idx >>= 3;
 
-    i = heap->used - alloc_idx;
+    i = sys->n_units - alloc_idx;
 
     for ( ; i > 0 ; --i )
     {
-        if ( allocs->state == MEM_TAG_STATE_FREE )
+        if ( unit->addr_ptr == FREE_UNIT )
         {
-            alloc_list[0] = allocs;
-            *size = allocs[1].start - allocs[0].start;
-            return allocs->start;
+            alloc_list[0] = unit;
+            *size = unit[1].addr - unit[0].addr;
+            return unit->addr;
         }
-        allocs++;
+        unit++;
     }
 
     *size = 0;
-    return  0;
+    return 0;
 }
 
 STATIC POLY_GT4 *DG_GetDividePacks( void )
@@ -138,7 +138,7 @@ STATIC POLY_GT4 *DG_GetDividePacks( void )
 
     if (divide_mem->size < 0)
     {
-        divide_mem->pDataStart = DG_AllocDividePackMem( divide_mem->pHeap, &divide_mem->pAlloc, &divide_mem->size );
+        divide_mem->pDataStart = DG_AllocDividePackMem( divide_mem->sys, &divide_mem->unit, &divide_mem->size );
     }
     else
     {

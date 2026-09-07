@@ -8,7 +8,7 @@
 #include "mts/mts.h"
 #include "mts/mts_pad.h"
 
-extern MEM_SYS mem_sys[ MAX_MEMSYS ];
+extern M_Sys MemorySystems[ MAX_MEMSYS ];
 extern DG_TEX  TexSets[DG_MAX_TEXTURES];
 extern unsigned short DG_ChanlTime[32];
 
@@ -19,23 +19,23 @@ DG_TEX       *SECTION(".sbss") dword_800ABB24;
 
 STATIC int menu_draw_mem_debug(MenuWork *work, u_long *ot)
 {
-    MEM_SYS             *pHeap;
-    LINE_F2             *pLine;
-    int                  i;
-    MEM_TAG *pAlloc;
-    int                  heap_size;
-    char                *alloc_start;
-    LINE_G4             *pLine2;
-    int                  alloc_len;
-    int                  alloc_len2;
-    int                  used;
-    int                  units;
-    int                  color;
-    int                  allocated;
-    int                  size;
-    int                  x1;
+    M_Sys   *sys;
+    LINE_F2 *pLine;
+    int     i;
+    M_Unit  *unit;
+    int     heap_size;
+    char    *alloc_start;
+    LINE_G4 *pLine2;
+    int     alloc_len;
+    int     alloc_len2;
+    int     used;
+    int     n_units;
+    int     color;
+    int     allocated;
+    int     size;
+    int     x1;
 
-    pHeap = mem_sys;
+    sys = MemorySystems;
 
     NEW_PRIM(pLine, work);
     setXY2(pLine, 272, 120, 272, 168);
@@ -46,10 +46,10 @@ STATIC int menu_draw_mem_debug(MenuWork *work, u_long *ot)
     addPrim(ot, pLine);
 
     used = 1;
-    for (i = 0; i < 3; i++, pHeap++)
+    for (i = 0; i < 3; i++, sys++)
     {
-        size = pHeap->end - pHeap->start;
-        pAlloc = pHeap->units;
+        size = sys->end - sys->start;
+        unit = sys->units;
         heap_size = size;
 
         if (heap_size == 0)
@@ -59,44 +59,44 @@ STATIC int menu_draw_mem_debug(MenuWork *work, u_long *ot)
 
         allocated = 0;
 
-        for (units = pHeap->used; units > 0; units--, pAlloc++)
+        for (n_units = sys->n_units; n_units > 0; n_units--, unit++)
         {
-            alloc_start = pAlloc->start;
+            alloc_start = unit->addr;
 
-            if (pAlloc->state == 0)
+            if (unit->addr_ptr == FREE_UNIT)
             {
                 continue;
             }
 
-            if (pAlloc->state == 1)
+            if (unit->addr_ptr == VOID_UNIT)
             {
                 color = 0xFFFFFF;
 
-                while (pAlloc[1].state == 1 && units > 2)
+                while (unit[1].addr_ptr == VOID_UNIT && n_units > 2)
                 {
-                    pAlloc++;
-                    units--;
+                    unit++;
+                    n_units--;
                 }
             }
             else
             {
                 color = 0xFF00;
 
-                while (pAlloc[1].state >= 2 && units > 2)
+                while (unit[1].addr_ptr >= USED_UNIT && n_units > 2)
                 {
-                    pAlloc++;
-                    units--;
+                    unit++;
+                    n_units--;
                 }
             }
 
-            alloc_len = (alloc_start - (char *)pHeap->start) * 240;
+            alloc_len = (alloc_start - (char *)sys->start) * 240;
             alloc_len = (alloc_len / heap_size) + 32;
 
             x1 = 120 + i * 16;
 
-            size = (char *)pAlloc[1].start - alloc_start;
+            size = (char *)unit[1].addr - alloc_start;
 
-            alloc_len2 = ((char *)pAlloc[1].start - (char *)pHeap->start) * 240;
+            alloc_len2 = ((char *)unit[1].addr - (char *)sys->start) * 240;
             alloc_len2 = (alloc_len2 / heap_size) + 32;
 
             if (used < 256)
