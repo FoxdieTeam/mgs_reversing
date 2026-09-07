@@ -242,12 +242,6 @@ typedef struct          // from memleak
 
 #define MAX_MESSAGES 16
 
-typedef struct          // private to libgv/message.c
-{
-    int     num;
-    GV_MSG  messages[ MAX_MESSAGES ];
-} MESSAGE_LIST;
-
 /* message.c */
 void GV_InitMessageSystem( void );
 void GV_ClearMessageSystem( void );
