@@ -10,7 +10,6 @@
 #include "chara/snake/sna_init.h"
 #include "chara/snake/shadow.h"
 #include "equip/equip.h"
-#include "sound/g_sound.h"
 
 // "It stands for Otaku Comvention."
 typedef struct _Work

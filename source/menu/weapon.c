@@ -9,7 +9,6 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "menu/radio.h"
-#include "sound/g_sound.h"
 
 // TODO: Move to correct header
 // Functions of signature TMenuItemUnknownFn:

@@ -8,7 +8,6 @@
 #include "libdg/libdg.h"
 #include "menu/menuman.h"
 #include "mts/taskid.h"
-#include "sound/g_sound.h"
 
 STATIC RECT rect_800AB6D8 = {1008, 432, 5, 20};
 STATIC int  dword_800AB6E0 = 0;

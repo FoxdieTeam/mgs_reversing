@@ -8,7 +8,6 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "sound/g_sound.h"
 
 extern GM_CameraSystemWork GM_Camera;
 extern GM_SnakeCameraWork  GM_SnakeCamera;

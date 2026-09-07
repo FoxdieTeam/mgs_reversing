@@ -11,7 +11,6 @@
 #include "font/font.h"
 #include "menu/menuman.h"
 #include "game/game.h"
-#include "sound/g_sound.h"
 
 /*---------------------------------------------------------------------------*/
 

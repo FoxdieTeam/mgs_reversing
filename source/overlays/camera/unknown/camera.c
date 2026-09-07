@@ -20,7 +20,6 @@
 #include "game/game.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
-#include "sound/g_sound.h"
 
 typedef struct _Work
 {

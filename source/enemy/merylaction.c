@@ -7,7 +7,6 @@
 #include "game/game.h"
 #include "game/item.h"
 #include "anime/animconv/anime.h"
-#include "sound/g_sound.h"
 
 // from takabe/mosaic.h
 extern void *NewMosaic( MATRIX *, int, int, int );

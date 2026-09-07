@@ -7,7 +7,7 @@
 
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
-#include "sound/g_sound.h"
+#include "game/game.h"
 
 extern int     ZAKOCOM_PlayerAddress_800DF3B8;
 extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;

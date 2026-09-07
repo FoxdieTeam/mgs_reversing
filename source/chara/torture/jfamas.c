@@ -6,7 +6,6 @@
 #include "game/game.h"
 #include "okajima/bullet.h"
 #include "anime/animconv/anime.h"
-#include "sound/g_sound.h"
 
 typedef struct _Work
 {

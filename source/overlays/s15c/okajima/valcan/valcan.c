@@ -3,10 +3,9 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "okajima/bullet.h"
-#include "okajima/blood.h"
-#include "sound/g_sound.h"
 
+#include "okajima/bullet.h"     // for NewBulletEx
+#include "okajima/blood.h"      // for NewBlood
 #include "takabe/fadeio.h"      // for NewFadeInOut
 
 typedef struct _Work

@@ -12,7 +12,6 @@
 #include "game/game.h"
 #include "game/item.h"
 #include "okajima/bullet.h"
-#include "sound/g_sound.h"
 
 // from takabe/mosaic.h
 extern void *NewMosaic( MATRIX *, int, int, int );

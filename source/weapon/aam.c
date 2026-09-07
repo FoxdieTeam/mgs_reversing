@@ -10,7 +10,6 @@
 #include "game/game.h"
 #include "game/vibrate.h"
 #include "bullet/amissile.h"
-#include "sound/g_sound.h"
 
 extern int amissile_alive_8009F490;
 extern GM_SnakeCameraWork GM_SnakeCamera;

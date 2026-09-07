@@ -10,7 +10,6 @@
 #include "anime/animconv/anime.h"
 #include "game/game.h"
 #include "okajima/bullet.h"
-#include "sound/g_sound.h"
 
 /*---------------------------------------------------------------------------*/
 

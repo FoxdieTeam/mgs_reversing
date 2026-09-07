@@ -14,7 +14,6 @@
 #include "menu/menuman.h"
 #include "thing/sgtrect3.h"
 #include "thing/sight.h"
-#include "sound/g_sound.h"
 #include "strcode.h"
 
 static int dword_800BDEF8[ 2 ];

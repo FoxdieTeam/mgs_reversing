@@ -1,7 +1,6 @@
 #include "game.h"
 #include "mgstype.h"
 #include "libgcl/libgcl.h"
-#include "sound/g_sound.h"
 
 STATIC int     SECTION(".sbss") song_status;
 STATIC int     SECTION(".sbss") dword_800ABA74; // padding

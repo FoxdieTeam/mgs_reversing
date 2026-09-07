@@ -8,7 +8,6 @@
 #include "game/game.h"
 #include "game/vibrate.h"
 #include "takabe/thing.h"
-#include "sound/g_sound.h"
 #include "strcode.h"
 
 extern GM_CameraSystemWork    GM_Camera;
