@@ -37,7 +37,7 @@ typedef struct sgtrect3_0x100
     DR_TPAGE field_0[32];
 } sgtrect3_0x100;
 
-// TODO: move this to common.h?
+// TODO: move this to mgstype.h?
 typedef union {
     unsigned int rgbWord;
     char         rgbChars[4]; // 4th is padding.

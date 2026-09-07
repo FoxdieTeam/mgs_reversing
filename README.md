@@ -321,13 +321,13 @@ Individual overlay progress:
             <td><b>s07b</b></td>
             <td>141 KB</td>
             <td>Commander's Room</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s07br</b></td>
             <td>141 KB</td>
             <td>Commander's Room (RED)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s07c</b></td>

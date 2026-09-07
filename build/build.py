@@ -573,6 +573,7 @@ def gen_build_target(targetName):
         "s03d",
         "s05a",
         "s04b", "s04br",
+        "s07b",
     ]
 
     if args.variant == 'vr_exe' or args.variant == 'dev_exe':
