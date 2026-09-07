@@ -12,7 +12,6 @@
 #include "game/game.h"
 #include "okajima/claymore.h"
 #include "chara/snake/sna_init.h"
-#include "sound/g_sound.h"
 
 HITTABLE GM_ClayDatas[ 8 ];
 

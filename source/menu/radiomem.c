@@ -3,7 +3,6 @@
 #include "menuman.h"
 #include "game/game.h"
 #include "menu/radio.h"
-#include "sound/g_sound.h"
 
 typedef struct RadioCodecStru_800ABB98
 {

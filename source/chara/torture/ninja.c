@@ -6,7 +6,6 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "equip/equip.h"
-#include "sound/g_sound.h"
 
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
 #include "takabe/cineutil.h"    // for OpenCinemaScreen, etc.

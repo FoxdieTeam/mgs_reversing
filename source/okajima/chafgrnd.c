@@ -11,7 +11,6 @@
 #include "libdg/libdg.h"
 #include "bullet/blast.h"
 #include "game/game.h"
-#include "sound/g_sound.h"
 #include "strcode.h"
 
 static int SECTION(".bss") dword_800BDF98;

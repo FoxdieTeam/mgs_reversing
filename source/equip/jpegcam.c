@@ -14,7 +14,6 @@
 #include "menu/menuman.h"
 #include "memcard/memcard.h"
 #include "thing/sight.h"
-#include "sound/g_sound.h"
 #include "strcode.h"
 
 typedef signed char TMat8x8B[8][8];     //  8 x  8 byte matrix

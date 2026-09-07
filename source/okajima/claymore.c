@@ -9,8 +9,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "anime/animconv/anime.h"
-#include "sound/g_sound.h"
-#include "spark.h"
+#include "okajima/spark.h"      // for NewSpark
 
 static MAP *claymore_MAP_800bdf08;
 

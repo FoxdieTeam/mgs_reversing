@@ -4,7 +4,6 @@
 #include "libdg/libdg.h"
 #include "bullet/blast.h"
 #include "game/game.h"
-#include "sound/g_sound.h"
 #include "radio.h"
 
 static PANEL_TEXTURE panel_tex[ MENU_ITEM_COUNT ];

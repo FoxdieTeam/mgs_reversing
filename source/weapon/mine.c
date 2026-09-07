@@ -5,7 +5,6 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "bullet/jirai.h"
-#include "sound/g_sound.h"
 
 extern int        counter_8009F448;
 extern void      *GM_BombSeg;

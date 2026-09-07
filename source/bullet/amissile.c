@@ -10,7 +10,6 @@
 #include "libdg/libdg.h"
 #include "anime/animconv/anime.h"
 #include "game/game.h"
-#include "sound/g_sound.h"
 #include "strcode.h"
 
 extern TARGET          *target_800BDF00;

@@ -5,9 +5,8 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "takabe/thing.h"
-#include "sound/g_sound.h"
 
+#include "takabe/thing.h"       // for THING_*
 #include "takabe/gsplash.h"     // for NewGsplash_800D4000
 
 #define SEGMENT_ATR ( HZD_SEG_NO_DISP_RADAR | HZD_SEG_NO_BULLET | HZD_SEG_NO_HARITSUKI | HZD_SEG_NO_PLAYER )

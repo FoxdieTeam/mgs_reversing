@@ -7,7 +7,6 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "takabe/thing.h"
-#include "sound/g_sound.h"
 #include "strcode.h"
 
 typedef struct _Work

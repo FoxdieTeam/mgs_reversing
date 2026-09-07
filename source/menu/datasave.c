@@ -13,7 +13,6 @@
 #include "memcard/memcard.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
-#include "sound/g_sound.h"
 
 //------------------------------------------------------------------------------
 // gp

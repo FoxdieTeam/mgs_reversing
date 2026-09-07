@@ -11,7 +11,6 @@
 #include "okajima/chafgrnd.h"
 #include "okajima/stngrnd.h"
 #include "weapon/weapon.h"
-#include "sound/g_sound.h"
 #include "strcode.h"
 
 int SECTION(".bss")      dword_800BDD28;

@@ -6,7 +6,6 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "okajima/blood.h"
-#include "sound/g_sound.h"
 #include "strcode.h"
 
 typedef struct _MouseEntry

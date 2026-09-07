@@ -13,7 +13,6 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/vibrate.h"
-#include "sound/g_sound.h"
 #include "strcode.h"
 
 int SECTION(".bss") s00a_dword_800E0CA0;

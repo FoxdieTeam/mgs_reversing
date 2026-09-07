@@ -9,7 +9,6 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "bullet/rmissile.h"
-#include "sound/g_sound.h"
 
 /*---------------------------------------------------------------------------*/
 // RC-Missile (Nikita)

@@ -13,7 +13,6 @@
 #include "libgcl/libgcl.h"
 #include "menuman.h"
 #include "game/game.h"
-#include "sound/g_sound.h"
 #include "strcode.h"
 
 #define MakeVoxCode(x)  ((unsigned int)x[0] << 24) | \

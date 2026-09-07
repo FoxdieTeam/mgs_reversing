@@ -6,7 +6,6 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
 #include "takabe/thing.h"
-#include "sound/g_sound.h"
 
 typedef struct _Work
 {

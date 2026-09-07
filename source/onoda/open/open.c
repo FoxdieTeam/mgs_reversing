@@ -1,17 +1,20 @@
+#include <stdio.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include <libcd.h>
+
+#include "mts/mts.h"
+#include "sound/sd_cli.h"
+
 #include "mgstype.h"
-#include "font/font.h"
-#include "game/game.h"
+#include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
+#include "font/font.h"
+#include "game/game.h"
 #include "menu/menuman.h"
-#include "mts/mts.h"
-#include "sound/g_sound.h"
-#include "sound/sd_cli.h"
-
-#include <libcd.h>
-#include <stdio.h>
 
 typedef struct _Unknown
 {

@@ -8,7 +8,6 @@
 #include "mgstype.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
-#include "sound/g_sound.h"
 
 TARGET *target_800BDF00;
 

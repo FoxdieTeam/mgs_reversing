@@ -4,10 +4,10 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "game/game.h"
 #include "game/item.h"
 #include "game/vibrate.h"
 #include "okajima/bullet.h"
-#include "sound/g_sound.h"
 
 /*** Inlines *****************************************************************/
 

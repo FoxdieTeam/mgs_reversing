@@ -7,10 +7,10 @@
 #include "mgstype.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
-#include "anime/animconv/anime.h"
 #include "game/game.h"
-#include "okajima/spark.h"
-#include "sound/g_sound.h"
+
+#include "anime/animconv/anime.h"
+#include "okajima/spark.h"      // for NewSpark
 
 /*---------------------------------------------------------------------------*/
 

@@ -3,9 +3,8 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "takabe/thing.h"
-#include "sound/g_sound.h"
 
+#include "takabe/thing.h"       // for THING_Gcl_*
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
 
 typedef struct _Work

@@ -27,6 +27,7 @@
 #include "bullet/blast.h"
 
 #include "demo.h"
+#include "common.h"
 #include "kojo/m1e1.h"
 
 #define BODY_FLAG ( DG_FLAG_SHADE | DG_FLAG_TRANS | DG_FLAG_TEXT )

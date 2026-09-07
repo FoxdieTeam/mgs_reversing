@@ -10,7 +10,6 @@
 #include "game/navi.h"
 #include "game/vibrate.h"
 #include "chara/snake/sna_init.h"
-#include "sound/g_sound.h"
 #include "strcode.h"
 
 #include "chara/snake/shadow.h" // for NewShadow
