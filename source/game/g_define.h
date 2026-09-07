@@ -5,16 +5,6 @@
 #error "g_define.h must be included via game.h!"
 #endif
 
-// private to target.c
-#define TARGET_MAX 64
-
-// private to homing.c
-#ifdef VR_EXE
-#define HOMING_MAX 64
-#else
-#define HOMING_MAX 8
-#endif
-
 /*---------------------------------------------------------------------------*/
 
 // GM_PlayerStatus

@@ -8,6 +8,12 @@
 #include "libgv/libgv.h"
 #include "game.h"
 
+#ifdef VR_EXE
+#define HOMING_MAX 64
+#else
+#define HOMING_MAX 8
+#endif
+
 static HOMING homing_targets[ HOMING_MAX ];
 
 void GM_ResetHomingTargets(void)

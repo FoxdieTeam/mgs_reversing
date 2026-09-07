@@ -59,6 +59,8 @@
 //     GM_TargetCount = 3, GM_StaleTargetCount = 0
 //
 
+#define TARGET_MAX 64
+
 static TARGET GM_TargetDatas[ TARGET_MAX ];
 
 static int SECTION(".sbss") GM_TargetCount;
