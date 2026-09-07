@@ -4,21 +4,22 @@
 typedef struct _Work
 {
     GV_ACT  actor;           /* 0x000 */
-    void   *field_20;        /* 0x020 */
-    void   *field_24;        /* 0x024 */
-    void   *field_28;        /* 0x028 */
-    void   *field_2C;        /* 0x02C */
-    void   *field_30;        /* 0x030 */
-    char    pad_34[0x84 - 0x34];  /* 0x034 */
-    POLY_FT4 field_84;            /* 0x084 */
-    char    pad_AC[0x28C - 0xAC]; /* 0x0AC */
-    POLY_FT4 field_28C[291];      /* 0x28C */
-    char    pad_3004[0xA588 - 0x3004]; /* 0x3004 */
+    DG_PRIM *field_20;       /* 0x020 */
+    DG_PRIM *field_24;       /* 0x024 */
+    DG_PRIM *field_28;       /* 0x028 */
+    DG_PRIM *field_2C;       /* 0x02C */
+    DG_PRIM *field_30;       /* 0x030 */
+    POLY_FT4 field_34[15];        /* 0x034 */
+    POLY_FT4 field_28C[840];      /* 0x28C */
+    POLY_FT4 field_85CC[200];     /* 0x85CC */
+    POLY_FT4 *field_A50C;         /* 0xA50C */
+    POLY_F4  field_A510[5];       /* 0xA510 */
     int     field_A588;                /* 0xA588 */
-    char    pad_A58C[0xA595 - 0xA58C]; /* 0xA58C */
-    unsigned char field_A595;          /* 0xA595 */
-    char    pad_A596[0xA597 - 0xA596]; /* 0xA596 */
-    unsigned char field_A597[0xA9A7 - 0xA597]; /* 0xA597 */
+    char    pad_A58C[0xA590 - 0xA58C]; /* 0xA58C */
+    unsigned char field_A590[5];       /* 0xA590 */
+    unsigned char field_A595[2];       /* 0xA595 */
+    unsigned char field_A597[0xA8DF - 0xA597]; /* 0xA597 */
+    unsigned char field_A8DF[0xA9A7 - 0xA8DF]; /* 0xA8DF */
     unsigned char field_A9A7[0xA9B6 - 0xA9A7]; /* 0xA9A7 */
     unsigned char field_A9B6[0xAD00 - 0xA9B6]; /* 0xA9B6 */
     GV_PAD *pad;      /* 0xAD00 */
@@ -331,7 +332,7 @@ extern const char brf_dword_800E1D64[];
 
 void brf_800CC070(Work *work, int idx)
 {
-    POLY_FT4 *p = &work->field_84;
+    POLY_FT4 *p = &work->field_34[2];
     DG_TEX *tex = DG_GetTexture(GV_StrCode(brf_dword_800E1D58));
     int w1 = tex->w + 1;
     int ul = tex->off_x + w1 * idx / 3;
@@ -355,7 +356,7 @@ void brf_800CC150(Work *work)
 {
     int i;
 
-    work->field_A595 = 0;
+    work->field_A595[0] = 0;
     work->field_A9A7[0] = 0;
 
     for (i = 1; i < 15; i++)
@@ -1325,7 +1326,76 @@ void brf_800D2E70(Work *work)
     base[3].x3 = x + 0xFE;
     work->field_AD34++;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D2ED0.s")
+extern const char brf_dword_800E1FA0[];
+
+void brf_800D2ED0(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+    int       t = work->field_AD38;
+    DG_TEX   *g;
+
+    if (t < 3)
+    {
+        base[3].x0 -= 3;
+        base[3].x1 -= 3;
+        base[3].x2 -= 3;
+        base[3].x3 -= 3;
+    }
+    else if (t < 6)
+    {
+        base[3].x0 -= 2;
+        base[3].x1 -= 2;
+        base[3].x2 -= 2;
+        base[3].x3 -= 2;
+    }
+    else if (t < 9)
+    {
+        base[3].x0 -= 1;
+        base[3].x1 -= 1;
+        base[3].x2 -= 1;
+        base[3].x3 -= 1;
+    }
+    else if (t >= 12)
+    {
+        base[3].x0 += 3;
+        base[3].x1 += 3;
+        base[3].x2 += 3;
+        base[3].x3 += 3;
+    }
+
+    if (work->field_AD38 == 0x12)
+    {
+        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1FA0));
+    }
+    else if (work->field_AD38 == 0x18)
+    {
+        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
+    }
+    else
+    {
+        goto skip;
+    }
+
+    {
+        int u = g->off_x;
+        int uw = u + g->w + 1;
+        int v = g->off_y;
+        int vh = v + g->h + 1;
+
+        base[1].u0 = u;
+        base[1].v0 = v;
+        base[1].u1 = uw;
+        base[1].v1 = v;
+        base[1].u2 = u;
+        base[1].v2 = vh;
+        base[1].u3 = uw;
+        base[1].v3 = vh;
+        base[1].tpage = g->tpage;
+        base[1].clut = g->clut;
+    }
+skip:
+    work->field_AD38++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D30A0.s")
 void brf_800D39F0(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 {
@@ -1981,7 +2051,80 @@ void brf_800DD7C8(POLY_FT4 *p, int scale)
     p->g0 = p->g0 * scale / 128;
     p->b0 = p->b0 * scale / 128;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DD830.s")
+void brf_800DD830(Work *work)
+{
+    int       i;
+    POLY_FT4 *src;
+    POLY_FT4 *dst;
+    POLY_F4  *src4;
+    POLY_F4  *dst4;
+    int       k;
+    int       v;
+    short    *tbl;
+
+    src = work->field_24->packs[GV_Clock];
+    for (i = 0; i < 2; i++)
+    {
+        *(unsigned short *)src = work->field_A595[i] << 8;
+        src++;
+    }
+
+    src = work->field_85CC;
+    dst = work->field_30->packs[GV_Clock];
+    for (i = 0; i < 200; i++)
+    {
+        *dst = *src;
+        *(unsigned short *)src = work->field_A8DF[i] << 8;
+        work->field_A8DF[i] = 0;
+        src++;
+        dst++;
+    }
+
+    dst = work->field_28->packs[GV_Clock];
+    if (work->field_ADB8 < 5)
+    {
+        work->field_A50C = (POLY_FT4 *)0x8018E800;
+        src = (POLY_FT4 *)0x8018E800;
+    }
+    else
+    {
+        src = work->field_28C;
+    }
+    for (i = 0; i < (tbl = (short *)&brf_dword_800C3508)[work->field_A588]; i++) /* required for the match */
+    {
+        *dst = *src;
+        k = work->field_AD28 % 16;
+        if (k >= 9)
+        {
+            k = 16 - k;
+        }
+        v = k * 2;
+        brf_800DD7C8(dst, 128 - v);
+        *(unsigned short *)dst = work->field_A597[i] << 8;
+        src++;
+        dst++;
+    }
+
+    src4 = work->field_A510;
+    dst4 = work->field_20->packs[GV_Clock];
+    for (i = 0; i < 5; i++)
+    {
+        *dst4 = *src4;
+        *(unsigned short *)dst4 = work->field_A590[i] << 8;
+        src4++;
+        dst4++;
+    }
+
+    src = work->field_34;
+    dst = work->field_2C->packs[GV_Clock];
+    for (i = 0; i < 15; i++)
+    {
+        *dst = *src;
+        *(unsigned short *)dst = work->field_A9A7[i] << 8;
+        src++;
+        dst++;
+    }
+}
 extern const char brf_dword_800E23E4[];
 
 void brf_800DDBC8(Work *work)
@@ -2023,7 +2166,7 @@ void brf_800DDD78(int a0, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int ab
     poly->y3 = y2;
     SetSemiTrans(poly, abe);
 }
-void brf_800DDDE8(int a0, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int abe)
+void brf_800DDDE8(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int abe)
 {
     setPolyFT4(poly);
     setRGB0(poly, 0xFF, 0xD0, 0xD0);
@@ -2123,7 +2266,41 @@ void brf_800DE004(int prim, int tex_id, POLY_FT4 *poly, int x0, int y0, int x1, 
     poly->tpage = tex->tpage;
     poly->clut = tex->clut;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DE0F4.s")
+void brf_800DE0F4(Work *work, unsigned char c, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int abe, int slot)
+{
+    DG_TEX *tex;
+    int     idx;
+    int     u, v, w, h;
+    int     u0, u1;
+
+    idx = brf_800CD734(c);
+    tex = brf_800CD7DC(work, c);
+    if (c == ' ')
+    {
+        work->field_A9B6[slot] = 0;
+    }
+    else
+    {
+        work->field_A9B6[slot] = 1;
+    }
+    brf_800DDDE8(work, poly, x0, y0, x1, y2, abe);
+    w = tex->w + 1;
+    v = tex->off_y;
+    h = tex->h + 1;
+    u = tex->off_x;
+    poly->v0 = v;
+    poly->v1 = v;
+    poly->v2 = v + h;
+    poly->v3 = v + h;
+    u0 = u + w * idx / 27;
+    u1 = u + w * (idx + 1) / 27;
+    poly->u0 = u0;
+    poly->u1 = u1;
+    poly->u2 = u0;
+    poly->u3 = u1;
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
+}
 void brf_800DE270(int a0, POLY_F4 *poly, int x0, int y0, int x1, int y2, int abe, int gray)
 {
     setPolyF4(poly);
