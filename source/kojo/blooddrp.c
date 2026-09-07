@@ -33,7 +33,7 @@ typedef struct tagBLOODDRIP {
     int      speed;
 } BLOODDRIP, *LPBLOODDRIP;
 
-#define TEXTURE GV_StrCode( "ketchap" )
+#define KETCHAP GV_StrCode( "ketchap" )
 
 #define PACK0   ( ( (POLY_FT4 *)lpAct->prim->packs[ 0 ] ) + 0 )
 #define PACK1   ( ( (POLY_FT4 *)lpAct->prim->packs[ 0 ] ) + 1 )
@@ -69,7 +69,7 @@ void *NewBloodDrip( SVECTOR *pos, int size, int speed )
     lpAct->speed = speed;
 
     lpAct->prim = GM_MakePrim( DG_PRIM_POLY_FT4, 1, lpAct->verts, NULL );
-    tex = DG_GetTexture( TEXTURE );
+    tex = DG_GetTexture( KETCHAP );
 
     {
         int x, y, w, h;
@@ -107,7 +107,7 @@ void *NewBloodDrip( SVECTOR *pos, int size, int speed )
     setSemiTrans( PACK0, 1 );
     setSemiTrans( PACK1, 1 );
 
-    return lpAct;
+    return (void *)lpAct;
 }
 
 /******************************************************************************
