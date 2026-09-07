@@ -7,7 +7,7 @@
 #include "psxdefs.h"
 
 #include "mts_new.h"
-#include "libsio/isio.h"
+#include "../libsio/isio.h"
 
 int printf(/* const char *format, ... */);
 int fprintf(/* int stream, const char *format, ... */);

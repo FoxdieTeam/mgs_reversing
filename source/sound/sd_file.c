@@ -4,7 +4,8 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <libspu.h>
-#include "mts/mts.h"
+
+#include "../mts/mts.h"
 #include "libfs/libfs.h"
 
 extern unsigned char *se_header;

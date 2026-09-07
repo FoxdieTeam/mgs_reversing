@@ -5,8 +5,8 @@
 #include <stddef.h>
 #include <libspu.h>
 
-#include "mts/mts.h"
-#include "mts/taskid.h"
+#include "../mts/mts.h"
+#include "../mts/taskid.h"
 #include "libfs/libfs.h"
 
 int str_tick_count = -1;
