@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s07b_800D2A50
+s07b_800D2A50:
+	dw 0x3C02800C ; 800D2A50
+	dw 0xAC443470 ; 800D2A54
+	dw 0x3C02800C ; 800D2A58
+	dw 0x03E00008 ; 800D2A5C
+	dw 0xAC453474 ; 800D2A60
