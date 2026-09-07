@@ -33,8 +33,8 @@ extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 typedef struct tagSNOWSTORM
 {
     GV_ACT      actor;
-    int         field_20;
-    int         field_24;
+    int         nName;
+    int         nMap;
     short       field_28;
     short       field_2A;
     short       field_2C;
@@ -89,7 +89,7 @@ static int CheckMessage(unsigned short name, int nhashes, unsigned short *hashes
  * publics
  */
 
-void *NewSnowStorm(int arg0, int arg1)
+void *NewSnowStorm(int nName, int nMap)
 {
     LPSNOWSTORM lpAct;
     SVECTOR     svec1, svec2;
@@ -107,8 +107,8 @@ void *NewSnowStorm(int arg0, int arg1)
 
     lpAct->bActive = TRUE;
     lpAct->field_38 = 4;
-    lpAct->field_20 = arg0;
-    lpAct->field_24 = arg1;
+    lpAct->nName = nName;
+    lpAct->nMap = nMap;
     lpAct->field_3C = 2000;
 
     if (GCL_GetOption('a'))
@@ -236,13 +236,13 @@ static void Act(LPSNOWSTORM lpAct)
     unsigned int   xw;
     int            lhs, rhs;
 
-    GM_CurrentMap = lpAct->field_24;
+    GM_CurrentMap = lpAct->nMap;
     lpAct->field_44++;
 
     mesg_list[0] = GV_StrCode("run");
     mesg_list[1] = GV_StrCode("stop");
 
-    switch (CheckMessage(lpAct->field_20, COUNTOF(mesg_list), mesg_list))
+    switch (CheckMessage(lpAct->nName, COUNTOF(mesg_list), mesg_list))
     {
     case 0:
         lpAct->bActive = TRUE;
