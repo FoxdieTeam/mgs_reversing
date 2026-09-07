@@ -1,6 +1,5 @@
 #include <rand.h>
 #include "game/game.h"
-#include "linkvar.h"
 
 typedef struct _Work Work;
 

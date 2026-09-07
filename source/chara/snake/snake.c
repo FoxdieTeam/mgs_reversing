@@ -6,7 +6,6 @@
 #include "chara/snake/sna_init.h"
 #endif
 
-#include "linkvar.h"
 #include "game/game.h"
 
 #define SEGMENT_ATR ( HZD_SEG_NO_COLLIDE )

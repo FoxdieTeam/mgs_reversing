@@ -5,12 +5,11 @@
 #include <string.h>
 
 #include "mgstype.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "menu/radio.h"
-#include "linkvar.h"
-#include "libdg/libdg.h"
-#include "libgv/libgv.h"
-#include "libgcl/libgcl.h"
 #include "memcard/memcard.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"

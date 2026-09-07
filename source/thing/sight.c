@@ -9,7 +9,6 @@
 #include "libgv/libgv.h"
 #include "game/game.h"
 #include "menu/menuman.h"
-#include "linkvar.h"
 #include "strcode.h"
 
 /*---------------------------------------------------------------------------*/

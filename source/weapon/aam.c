@@ -9,7 +9,6 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "game/vibrate.h"
-#include "linkvar.h"
 #include "bullet/amissile.h"
 #include "sound/g_sound.h"
 

@@ -10,7 +10,6 @@
 #include "game/game.h"
 #include "anime/animconv/anime.h"
 #include "sound/g_sound.h"
-#include "linkvar.h"
 #include "spark.h"
 
 static MAP *claymore_MAP_800bdf08;

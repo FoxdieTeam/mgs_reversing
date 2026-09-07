@@ -3,7 +3,6 @@
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "okajima/spark.h"
 
 typedef struct _HdBul2Work

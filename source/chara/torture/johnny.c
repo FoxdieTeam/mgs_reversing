@@ -8,7 +8,6 @@
 #include "libhzd/libhzd.h"
 #include "game/game.h"
 #include "game/navi.h"
-#include "linkvar.h"
 #include "game/vibrate.h"
 #include "chara/snake/sna_init.h"
 #include "sound/g_sound.h"

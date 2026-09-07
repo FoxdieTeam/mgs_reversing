@@ -10,7 +10,6 @@
 #include "anime/animconv/anime.h"
 #include "game/game.h"
 #include "sound/g_sound.h"
-#include "linkvar.h"
 #include "strcode.h"
 
 /*---------------------------------------------------------------------------*/

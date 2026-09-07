@@ -4,7 +4,6 @@
 
 #include "game/game.h"
 #include "menu/menuman.h"   // for RadioMemory
-#include "linkvar.h"
 
 short        linkvarbuf[ MAX_LINKVARBUF ];
 static short var_buf[ 1024 ];

@@ -11,7 +11,6 @@
 #include "menu/menuman.h"
 #include "thing/sight.h"
 #include "chara/snake/sna_init.h"
-#include "linkvar.h"
 
 extern int    dword_8009F604;
 

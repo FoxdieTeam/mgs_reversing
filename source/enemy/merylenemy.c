@@ -4,7 +4,6 @@
 #include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
-#include "linkvar.h"
 
 #define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 

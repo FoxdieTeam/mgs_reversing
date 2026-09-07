@@ -1,8 +1,8 @@
+#include <rand.h>
+
+#include "psxdefs.h"
 #include "mgstype.h"
 #include "game/game.h"
-#include "linkvar.h"
-#include "psxdefs.h"
-#include <rand.h>
 
 typedef struct _Work
 {

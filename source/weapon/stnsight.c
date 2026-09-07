@@ -12,7 +12,6 @@
 #include "chara/snake/sna_init.h"
 #include "thing/sgtrect3.h"
 #include "thing/sight.h"
-#include "linkvar.h"
 
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F494;

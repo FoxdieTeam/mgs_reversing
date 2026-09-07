@@ -38,7 +38,6 @@
 
 #include "game/game.h"
 #include "game/delay.h"
-#include "linkvar.h"
 #include "game/item.h"
 #include "game/jimctrl.h"
 #include "game/loader.h"

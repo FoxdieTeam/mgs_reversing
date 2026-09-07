@@ -18,7 +18,6 @@
 #include "libgcl/libgcl.h"
 #include "memcard/memcard.h"
 
-#include "linkvar.h"
 #include "game/loader.h"
 #include "game/over.h"
 #include "menu/menuman.h"

@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include "mgstype.h"
-#include "linkvar.h"
 #include "libfs/libfs.h"
 #include "game/game.h"
 #include "menu/menuman.h"

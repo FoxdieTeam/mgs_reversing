@@ -2,7 +2,6 @@
 
 #include "mgstype.h"
 #include "game/game.h"
-#include "linkvar.h"
 
 extern short snake_weapon_idx_800BDCBA;
 extern short snake_weapon_max_ammo_800BDCBC;

@@ -5,7 +5,6 @@
 #include "libdg/libdg.h"
 #include "bullet/bakudan.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "sound/g_sound.h"
 
 extern void *GM_BombSeg;

@@ -1,7 +1,6 @@
 #include "enemy/enemy.h"
 
 #include "mgstype.h"
-#include "linkvar.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"

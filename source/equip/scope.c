@@ -7,7 +7,6 @@
 #include "game/game.h"
 #include "thing/sight.h"
 #include "chara/snake/sna_init.h"
-#include "linkvar.h"
 #include "sound/g_sound.h"
 
 extern GM_SnakeCameraWork  GM_SnakeCamera;

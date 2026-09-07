@@ -1,5 +1,4 @@
 #include "mgstype.h"
-#include "linkvar.h"
 #include "takabe/cinema.h"
 #include "chara/snake/sna_init.h"
 #include "game/game.h"

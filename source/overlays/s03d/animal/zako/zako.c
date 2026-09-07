@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include "mgstype.h"
-#include "linkvar.h"
 #include "game/game.h"
 #include "game/item.h"
 #include "libdg/libdg.h"

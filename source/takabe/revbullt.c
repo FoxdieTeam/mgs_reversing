@@ -5,7 +5,6 @@
 #include <libgpu.h>
 
 #include "mgstype.h"
-#include "linkvar.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "anime/animconv/anime.h"

@@ -3,7 +3,6 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "okajima/bullet.h"
 #include "okajima/blood.h"
 #include "sound/g_sound.h"

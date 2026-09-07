@@ -7,7 +7,6 @@
 #include "bullet/bakudan.h"
 #include "bullet/jirai.h"
 #include "game/game.h"
-#include "linkvar.h"
 
 // Actor created by NewRasen
 typedef struct _Work

@@ -21,7 +21,6 @@
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "strcode.h"
 #include "charaid.h"
 #include "anime/animconv/anime.h"

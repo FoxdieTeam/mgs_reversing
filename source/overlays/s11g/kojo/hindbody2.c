@@ -1,5 +1,4 @@
 #include "mgstype.h"
-#include "linkvar.h"
 #include "game/game.h"
 #include "hind.h"
 

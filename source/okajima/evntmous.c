@@ -6,10 +6,9 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
-#include "linkvar.h"
-#include "okajima/blood.h"
 #include "sound/g_sound.h"
 
+#include "okajima/blood.h"      // for NewBlood
 #include "takabe/cinema.h"      // for NewCinemaScreen, NewCinemaScreenClose
 #include "takabe/ripple.h"      // for NewRipple
 

@@ -6,7 +6,6 @@
 #include "libgv/libgv.h"
 #include "enemy/enemy.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "takabe/thing.h"
 #include "strcode.h"
 

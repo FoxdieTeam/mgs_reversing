@@ -8,7 +8,6 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "strcode.h"
 
 #include "takabe/fadeio.h"      // for NewFadeInOut

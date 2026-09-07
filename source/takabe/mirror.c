@@ -6,7 +6,6 @@
 #include "libdg/libdg.h"
 #include "equip/equip.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "takabe/thing.h"
 
 typedef struct _MirrorEntry

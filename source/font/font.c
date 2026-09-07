@@ -6,7 +6,6 @@
 #include <libgpu.h>
 
 #include "mgstype.h"
-#include "linkvar.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
 

@@ -10,7 +10,6 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "okajima/claymore.h"
 #include "chara/snake/sna_init.h"
 #include "sound/g_sound.h"

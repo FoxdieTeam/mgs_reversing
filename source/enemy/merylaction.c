@@ -4,8 +4,8 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
+#include "game/game.h"
 #include "game/item.h"
-#include "linkvar.h"
 #include "anime/animconv/anime.h"
 #include "sound/g_sound.h"
 

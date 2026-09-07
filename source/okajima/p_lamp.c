@@ -5,11 +5,10 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "linkvar.h"
-#include "okajima/spark.h"
 #include "anime/animconv/anime.h"
 #include "bullet/blast.h"
 
+#include "okajima/spark.h"      // for NewSpark
 #include "takabe/cinema.h"      // for NewCinemaScreen, NewCinemaScreenClose
 #include "takabe/spark2.h"      // for NewSpark2_800CA714
 

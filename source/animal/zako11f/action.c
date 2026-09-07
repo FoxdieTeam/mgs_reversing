@@ -1,5 +1,5 @@
 #include "enemy/enemy.h"
-#include "linkvar.h"
+#include "game/game.h"
 #include "game/vibrate.h"
 
 short ActTable_800C3330[54] =

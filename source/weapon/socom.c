@@ -9,7 +9,6 @@
 #include "libdg/libdg.h"
 #include "anime/animconv/anime.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "okajima/bullet.h"
 #include "sound/g_sound.h"
 #include "strcode.h"

@@ -4,7 +4,6 @@
 #include "game.h"
 #include "charadef.h"
 #include "libgcl/libgcl.h"
-#include "linkvar.h"
 
 extern CHARA MainCharacterEntries[];    /* in main.c */
 extern CHARA _StageCharacterEntries[];  /* only visible when built-in */

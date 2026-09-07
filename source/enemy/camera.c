@@ -6,7 +6,6 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "bullet/blast.h"
 #include "okajima/spark.h"
 #include "enemy/enemy.h"

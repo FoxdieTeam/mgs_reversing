@@ -13,7 +13,6 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "sound/sd_cli.h"
 #include "mts/mts.h"
 #include "mts/mts_pad.h"

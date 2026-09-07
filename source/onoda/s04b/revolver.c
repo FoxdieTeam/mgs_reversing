@@ -1,5 +1,4 @@
 #include "mgstype.h"
-#include "linkvar.h"
 #include "strcode.h"
 #include "anime/animconv/anime.h"
 #include "chara/snake/sna_init.h"

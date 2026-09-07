@@ -3,7 +3,6 @@
 #include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
-#include "linkvar.h"
 #include "game/game.h"
 #include "thing/sight.h"
 

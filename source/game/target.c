@@ -5,7 +5,6 @@
 #include "mgstype.h"
 #include "libgv/libgv.h"
 #include "game.h"
-#include "linkvar.h"
 
 // Instead of dynamically allocating TARGETs,
 // the game uses the big TARGET array GM_TargetDatas.

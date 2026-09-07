@@ -8,7 +8,6 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 #include "bullet/bakudan.h"
-#include "linkvar.h"
 
 typedef struct _Work
 {

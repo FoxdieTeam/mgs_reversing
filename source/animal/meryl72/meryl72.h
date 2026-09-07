@@ -3,7 +3,6 @@
 
 #include "mgstype.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "game/vibrate.h"
 #include "anime/animconv/anime.h"
 #include "weapon/weapon.h"

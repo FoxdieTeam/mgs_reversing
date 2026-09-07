@@ -9,7 +9,6 @@
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "anime/animconv/anime.h"
 
 #include "okajima/spark.h"      // for NewSpark

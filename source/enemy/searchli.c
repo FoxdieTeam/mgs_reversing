@@ -7,7 +7,6 @@
 #include "libgcl/libgcl.h"
 #include "anime/animconv/anime.h"
 #include "game/game.h"
-#include "linkvar.h"
 #include "strcode.h"
 
 #include "enemy/enemy.h"

@@ -4,7 +4,6 @@
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
 #include "game/game.h"
-#include "linkvar.h"
 
 typedef struct _Work
 {
