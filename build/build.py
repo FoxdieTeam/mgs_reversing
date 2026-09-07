@@ -72,6 +72,7 @@ def ninja_run():
     warning_whitelist = [
         # in mts
         r'mts_new\.c:\d+: warning: control reaches end of non-void function',
+        r'mts_new\.c:\d+: warning: `exception_mes\' defined but not used',
         # in sound
         r'sd_cli\.c:\d+: warning: control reaches end of non-void function',
         r'sd_drv\.c:\d+: warning: unused variable `temp\'',
