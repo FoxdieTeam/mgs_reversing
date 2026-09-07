@@ -2322,7 +2322,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\focus.obj", overlay
     include "{{OBJ_DIR}}\takabe\voicesys.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s04b\kojo\blooddrp.obj", overlay
+    include "{{OBJ_DIR}}\kojo\blooddrp.obj", overlay
     include "{{OBJ_DIR}}\onoda\s04b\revolver.obj", overlay
     include "{{OBJ_DIR}}\takabe\revbullt.obj", overlay
     include "{{OBJ_DIR}}\onoda\s04b\wire.obj", overlay

@@ -2,6 +2,11 @@
 
 /* ---------------------------------------------------------- */
 
+typedef struct {
+    int     num;
+    GV_MSG  messages[ MAX_MESSAGES ];
+} MESSAGE_LIST;
+
 static MESSAGE_LIST SECTION(".bss") message_list[ 2 ];
 STATIC int SECTION(".sbss") which_buffer;
 

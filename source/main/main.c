@@ -32,21 +32,27 @@ CHARA MainCharacterEntries[] = {
     CHARA_END
 };
 
+#include "sonycode.h"
+
 const char *MGS_DiskName[] = {
-#ifdef INTEGRAL
-#ifdef VR_EXE
-    "SLPM_862.49",      // 0: VR-DISC
-#else
-    "SLPM_862.47",      // 0: DISC 1
-    "SLPM_862.48",      // 1: DISC 2
+#ifdef DISC1_SONY_CODE
+    DISC1_SONY_CODE,
 #endif
+#ifdef DISC2_SONY_CODE
+    DISC2_SONY_CODE,
 #endif
-    NULL                // end-of-list
+    NULL
 };
 const char *MGS_MemoryCardName = {
-#ifdef INTEGRAL
-    "BISLPM-86247"
+#ifdef PAL
+    "BE" SONY_CODE  // SCEE
+#else
+#ifdef ENGLISH
+    "BA" SONY_CODE  // SCEA
+#else
+    "BI" SONY_CODE  // SCEI
 #endif
+#endif // PAL
 };
 
 /*--------------------------------------------------------------------------*/
