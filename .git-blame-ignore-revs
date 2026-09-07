@@ -4,3 +4,6 @@
 
 # target.c: trim trailing whitespace
 b8f30f69fdcc2123b24c526f230f780a8dff8a15
+
+# meryl72: un-indent switch cases
+0645c1b355526f1b1cc8519f7f57c8e87af6fbff
