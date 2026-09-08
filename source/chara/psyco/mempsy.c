@@ -292,6 +292,280 @@ static SAVEFILE s07b_dword_800C3788[] = {
     { "SLPM-86229", GENRE_ARCADE },     // beatmania APPEND GottaMix
     { "SLPM-86228", GENRE_ARCADE },     // Konami 80's Arcade Gallery
     { "SLPM-86233", GENRE_MISC },       // Gungage
+#else
+#ifdef JAPANESE
+/* Japanese version */
+    // Gokujou Parodius Da! Deluxe Pack
+    { "BISLPS-00002", GENRE_ARCADE },
+    // TwinBee Taisen Puzzle-dama
+    { "BISLPS-00015", GENRE_MISC },
+    // Jikkyou Powerful Pro Yakyuu '95
+    { "BISLPS-00016", GENRE_SPORTS },
+    // Jikkyou Powerful Pro Yakyuu '95: Kaimakuban
+    { "BISLPS-00067", GENRE_SPORTS },
+    // J.League Jikkyou Winning Eleven
+    { "BISLPS-00068", GENRE_SPORTS },
+    // Eisei Meijin
+    { "BISLPS-00090", GENRE_MISC },
+    // Detana Twinbee Yahoo! Deluxe Pack
+    { "BISLPS-00100", GENRE_MISC },
+    // Tokimeki Memorial: Forever with You
+    { "BISLPS-00065", GENRE_RENAI_SIM | TITLE_TOKIMEMO },
+    // Tokimeki Memorial: Forever with You (Genteiban)
+    { "BISLPS-00064", GENRE_RENAI_SIM | TITLE_TOKIMEMO },
+    // Gensou Suikoden
+    { "BISLPS-00097", GENRE_RPG },
+    // NBA Power Dunkers
+    { "BISLPS-00188", GENRE_SPORTS },
+    // Policenauts
+    { "BISLPS-00215", GENRE_ADV | TITLE_POLICENAUTS | TITLE_HIDEOKOJIMA | TITLE_KCEJAPAN },
+    // Private Collection: Policenauts
+    { "BISLPS-00228", GENRE_ADV | TITLE_POLICENAUTS | TITLE_HIDEOKOJIMA | TITLE_KCEJAPAN },
+    // Snatcher
+    { "BISLPS-00154", GENRE_ADV | TITLE_HIDEOKOJIMA },
+    // Susume! Taisen Puzzle-dama
+    { "BISLPS-00255", GENRE_ARCADE },
+    // World Soccer Winning Eleven
+    { "BISLPS-00272", GENRE_SPORTS },
+    // Ganbare Goemon: Uchuu Kaizoku Akogingu
+    { "BISLPS-00217", GENRE_ACTION },
+    // Gradius Deluxe Pack
+    { "BISLPS-00303", GENRE_ARCADE },
+    // Private Collection: Tokimeki Memorial
+    { "BISLPM-86001", GENRE_RENAI_SIM | TITLE_TOKIMEMO },
+    // Eikou no Fairway: Virtual Golf Simulation
+    { "BISLPM-86003", GENRE_SPORTS },
+    // Hyper Olympic in Atlanta
+    { "BISLPM-86002", GENRE_SPORTS },
+    // Tokimeki Memorial Taisen Puzzledama
+    { "BISLPM-86005", GENRE_ARCADE | TITLE_TOKIMEMO },
+    // Pachinko Dream
+    { "BISLPM-86006", GENRE_MISC },
+    // Bottom of the 9th: Major League Heroes
+    { "BISLPM-86004", GENRE_SPORTS },
+    // Vandal Hearts: Ushinawareta Kodai Bunmei
+    { "BISLPM-86007", GENRE_RPG },
+    // Sexy Parodius
+    { "BISLPM-86009", GENRE_ARCADE },
+    // J.League Jikkyou Winning Eleven '97
+    { "BISLPM-86010", GENRE_SPORTS },
+    // NBA Power Dunkers 2
+    { "BISLPM-86011", GENRE_SPORTS },
+    // Speed King: Neo Kobe 2045
+    { "BISLPM-86013", GENRE_ARCADE },
+    // Jikkyou Oshaberi Parodius: Forever with Me
+    { "BISLPM-86008", GENRE_ARCADE },
+    // Lightning Legend: Daigo no Daibouken
+    { "BISLPM-86015", GENRE_MISC },
+    // Eisei Meijin II
+    { "BISLPM-86014", GENRE_MISC },
+    // Henry Explorers
+    { "BISLPM-86021", GENRE_ARCADE },
+    // Akumajou Dracula X: Gekka no Yasoukyoku
+    { "BISLPM-86023", GENRE_ACTION },
+    // Breeding Stud: Bokujou de Aimashou
+    { "BISLPM-86012", GENRE_MISC },
+    // Tokimeki Memorial Selection: Fujisaki Shiori
+    { "BISLPM-86029", GENRE_MISC | TITLE_TOKIMEMO },
+    // World Soccer Winning Eleven '97
+    { "BISLPM-86035", GENRE_SPORTS },
+    // Poitter's Point
+    { "BISLPM-86034", GENRE_ACTION },
+    // Tokimeki Memorial: Taisen Tokkaedama
+    { "BISLPM-86036", GENRE_MISC | TITLE_TOKIMEMO },
+    // Salamander Deluxe Pack Plus
+    { "BISLPM-86037", GENRE_ARCADE },
+    // Tokimeki Memorial Drama Series Vol.1: Nijiiro no Seishun
+    { "BISLPM-86039", GENRE_ADV | TITLE_TOKIMEMO | TITLE_KCEJAPAN },
+    // Jikkyou Powerful Pro Yakyuu '97: Kaimakuban
+    { "BISLPM-86024", GENRE_SPORTS },
+    // Gradius Gaiden
+    { "BISLPM-86042", GENRE_ARCADE },
+    // Break Point
+    { "BISLPM-86044", GENRE_SPORTS },
+    // Paro Wars
+    { "BISLPM-86016", GENRE_MISC },
+    // Other Life Azure Dreams
+    { "BISLPM-86047", GENRE_ACTIONRPG },
+    // Lethal Enforcers Deluxe Pack
+    { "BISLPM-86025", GENRE_ARCADE },
+    // Konami Antiques: MSX Collection Vol.1
+    { "BISLPM-86052", GENRE_MISC },
+    // Midnight Run: Road Fighter 2
+    { "BISLPM-86022", GENRE_ARCADE },
+    // Aitakute...: Your Smiles in My Heart: Oroshitate no Diary: Introduction Disc
+    { "BISLPM-80162", GENRE_RENAI_SIM },
+    // J.League Jikkyou Winning Eleven 3
+    { "BISLPM-86055", GENRE_SPORTS },
+    // Tokimeki Memorial: Forever with You (PlayStation the Best)
+    { "BISLPM-86053", GENRE_MISC | TITLE_TOKIMEMO },
+    // Hyper Olympic in Nagano
+    { "BISLPM-86056", GENRE_SPORTS },
+    // NBA Power Dunkers 3
+    { "BISLPM-86060", GENRE_SPORTS },
+    // Konami Antiques: MSX Collection Vol.2
+    { "BISLPM-86062", GENRE_MISC },
+    // Mitsumete Knight
+    { "BISLPM-86068", GENRE_RENAI_SIM },
+    // Konami Antiques: MSX Collection Vol.3
+    { "BISLPM-86072", GENRE_MISC },
+    // Broken Helix
+    { "BISLPM-86065", GENRE_ACTIONARCADE },
+    // Tokimeki Memorial Drama Series Vol.2: Irodori no Love Song
+    { "BISLPM-86070", GENRE_ADV | TITLE_TOKIMEMO | TITLE_KCEJAPAN },
+    // Yoshimura Shougi
+    { "BISLPM-86076", GENRE_MISC },
+    // TwinBee RPG
+    { "BISLPM-86077", GENRE_RPG },
+    // Actua Ice Hockey
+    { "BISLPM-86078", GENRE_SPORTS },
+    // World Soccer Jikkyou Winning Eleven 3: World Cup France '98
+    { "BISLPM-86086", GENRE_SPORTS },
+    //
+    { "BISLPM-86026", GENRE_ACTION },
+    // Jikkyou American Baseball
+    { "BISLPM-86046", GENRE_SPORTS },
+    // Jersey Devil no Daibouken
+    { "BISLPM-86075", GENRE_MISC },
+    // Jikkyou American Baseball 2
+    { "BISLPM-86119", GENRE_SPORTS },
+    // Exciting Bass
+    { "BISLPM-86124", GENRE_ARCADE },
+    // Dolphin's Dream
+    { "BISLPM-86122", GENRE_MISC },
+    // Bishi Bashi Special
+    { "BISLPM-86123", GENRE_MISC },
+    // Magical Medical
+    { "BISLPM-86099", GENRE_ACTION },
+    // Dancing Blade Katte ni Momotenshi! (Disc 1)
+    { "BISLPM-86100", GENRE_ADV },
+    // Dancing Blade Katte ni Momotenshi! (Disc 2)
+    { "BISLPM-86101", GENRE_ADV },
+    // Dancing Blade Katte ni Momotenshi! (Disc 3)
+    { "BISLPM-86102", GENRE_ADV },
+    // Jikkyou Powerful Pro Yakyuu '98: Kaimakuban
+    { "BISLPM-86097", GENRE_SPORTS },
+    // Yu-Gi-Oh! Monster Capsule Breed & Battle
+    { "BISLPM-86096", GENRE_MISC },
+    // Poitter's Point 2: Sodom no Inbou
+    { "BISLPM-86061", GENRE_ACTION },
+    // Breeding Stud 2
+    { "BISLPM-86087", GENRE_MISC },
+    // Tokimeki no Houkago: Ne Quiz Shiyo
+    { "BISLPM-86094", GENRE_MISC | TITLE_TOKIMEMO },
+#else
+#ifdef PAL
+/* European version */
+    // Parodius
+    { "SLES-00036", GENRE_ACTION },
+    // Goal Storm
+    { "SLES-00069", GENRE_SPORTS },
+    // NBA in the Zone
+    { "SLES-00171", GENRE_SPORTS },
+    // International Track & Field
+    { "SLES-00333", GENRE_SPORTS },
+    // Konami Open Golf
+    { "SLES-00337", GENRE_SPORTS },
+    // Project Overkill
+    { "SLES-00500", GENRE_ACTION },
+    // NBA in the Zone 2
+    { "SLES-00560", GENRE_SPORTS },
+    // International Superstar Soccer Deluxe
+    { "SLES-00511", GENRE_SPORTS },
+    // Contra: Legacy of War
+    { "SLES-00608", GENRE_ACTION },
+    // Whizz
+    { "SLES-00141", GENRE_MISC },
+    // Suikoden
+    { "SLES-00527", GENRE_RPG | TITLE_SUIKODEN },
+    // Crypt Killer
+    { "SLES-00292", GENRE_ACTION },
+    // Vandal Hearts
+    { "SLES-00204", GENRE_RPG | TITLE_VANDALHEARTS },
+    // Soviet Strike (Germany)
+    { "SLES-00509", GENRE_SPORTS },
+    // International Superstar Soccer Pro
+    { "SLES-00559", GENRE_SPORTS },
+    // Road Rage
+    { "SLES-00543", GENRE_MISC },
+    // Lethal Enforcers
+    { "SLES-00542", GENRE_ACTION },
+    // Poy Poy
+    { "SLES-00785", GENRE_ACTION },
+    // Castlevania: Symphony of the Night
+    { "SLES-00524", GENRE_ACTION | TITLE_CASTLEVANIA },
+    // Midnight Run: Road Fighter 2
+    { "SLES-00590", GENRE_MISC },
+    // Broken Helix (Germany)
+    { "SLES-00962", GENRE_ACTION },
+    // NBA Pro 98
+    { "SLES-00882", GENRE_SPORTS },
+    // Nagano Winter Olympics '98
+    { "SLES-00999", GENRE_SPORTS },
+    // Azure Dreams
+    { "SLES-01219", GENRE_RPG | TITLE_AZUREDREAMS },
+    // International Superstar Soccer Pro '98
+    { "SLES-01218", GENRE_SPORTS },
+    // International Superstar Soccer Pro '98
+    { "SLES-01264", GENRE_SPORTS },
+    // Diver's Dream
+    { "SLES-01535", GENRE_ACTION },
+#else
+/* North American version */
+    // NBA in the Zone
+    { "SLUS-00048", GENRE_SPORTS },
+    // Goal Storm
+    { "SLUS-00055", GENRE_SPORTS },
+    // Bottom of the 9th
+    { "SLUS-00049", GENRE_SPORTS },
+    // International Track & Field
+    { "SLUS-00238", GENRE_SPORTS },
+    // The Final Round
+    { "SLUS-00064", GENRE_SPORTS },
+    // Project Overkill
+    { "SLUS-00045", GENRE_ACTION },
+    // NBA in the Zone 2
+    { "SLUS-00294", GENRE_SPORTS },
+    // Suikoden
+    { "SLUS-00292", GENRE_RPG | TITLE_SUIKODEN },
+    // Iron Man / X-O Manowar in Heavy Metal
+    { "SLUS-00235", GENRE_ACTION },
+    // Vandal Hearts
+#ifdef BUGFIX
+    { "SLUS-00447", GENRE_RPG | TITLE_VANDALHEARTS },
+#else
+    { "SLUS-00447", GENRE_RPG /*| TITLE_VANDALHEARTS*/ },
+#endif
+    // Contra: Legacy of War
+    { "SLUS-00288", GENRE_ACTION },
+    // Goal Storm '97
+    { "SLUS-00295", GENRE_SPORTS },
+    // Broken Helix
+    { "SLUS-00289", GENRE_ACTION },
+    // Lethal Enforcers I & II
+    { "SLUS-00293", GENRE_ACTION },
+    // Poy Poy
+    { "SLUS-00486", GENRE_ACTION },
+    // Bottom of the 9th '97
+    { "SLUS-00296", GENRE_SPORTS },
+    // Castlevania: Symphony of the Night
+    { "SLUS-00067", GENRE_ACTION | TITLE_CASTLEVANIA },
+    // NBA in the Zone '98
+    { "SLUS-00445", GENRE_SPORTS },
+    // Nagano Winter Olympics '98
+    { "SLUS-00591", GENRE_SPORTS },
+    // Azure Dreams
+    { "SLUS-00614", GENRE_RPG | TITLE_AZUREDREAMS },
+    // Bottom of the 9th '99
+    { "SLUS-00678", GENRE_SPORTS },
+    // International Superstar Soccer Pro '98
+    { "SLUS-00674", GENRE_SPORTS },
+    // Kensei: Sacred Fist
+    { "SLUS-00600", GENRE_FIGHTINGACTION },
+    // Silent Hill
+    { "SLUS-00707", GENRE_ADVENTURE },
+#endif // PAL
+#endif // JAPANESE
 #endif // INTEGRAL
 };
 
