@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section rank.text
+
+	xdef rank_800DD168
+rank_800DD168:
+	dw 0x3C021F80 ; 800DD168
+	dw 0x34421120 ; 800DD16C
+	dw 0x94420000 ; 800DD170
+	dw 0x3C01800E ; 800DD174
+	dw 0xAC245A70 ; 800DD178
+	dw 0x3C01800E ; 800DD17C
+	dw 0x03E00008 ; 800DD180
+	dw 0xAC225A6C ; 800DD184
