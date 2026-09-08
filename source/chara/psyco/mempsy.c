@@ -180,118 +180,119 @@ static int s07b_dword_800C3748[] =
 #define TITLE_CASTLEVANIA       (0x0010)
 #define TITLE_VANDALHEARTS      (0x0020)
 
-static SAVEFILE s07b_dword_800C3788[] =
-{
-    { "SLPS-00002", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPS-00015", /* 0x0000 */ GENRE_MISC },
-    { "SLPS-00016", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPS-00067", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPS-00068", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPS-00090", /* 0x0000 */ GENRE_MISC },
-    { "SLPS-00100", /* 0x0000 */ GENRE_MISC },
-    { "SLPS-00065", /* 0x0000 */ GENRE_MISC },
-    { "SLPS-00064", /* 0x0000 */ GENRE_MISC },
-    { "SLPS-00097", /* 0x0401 */ GENRE_RPG | TITLE_SUIKODEN },
-    { "SLPS-00188", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPS-00215", /* 0x0000 */ GENRE_MISC },
-    { "SLPS-00228", /* 0x0000 */ GENRE_MISC },
-    { "SLPS-00154", /* 0x0000 */ GENRE_MISC },
-    { "SLPS-00255", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPS-00272", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPS-00217", /* 0x0800 */ GENRE_ADVENTURE },
-    { "SLPS-00303", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86001", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86003", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86002", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86005", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86006", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86004", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86007", /* 0x0420 */ GENRE_RPG | TITLE_VANDALHEARTS },
-    { "SLPM-86009", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86010", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86011", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86013", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86008", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86015", /* 0x0200 */ GENRE_FIGHTING },
-    { "SLPM-86014", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86021", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86023", /* 0x0910 */ GENRE_ACTIONADVENTURE | TITLE_CASTLEVANIA },
-    { "SLPM-86012", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86029", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86035", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86034", /* 0x0100 */ GENRE_ACTION },
-    { "SLPM-86036", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86037", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86039", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86024", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86042", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86044", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86016", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86047", /* 0x0502 */ GENRE_ACTIONRPG | TITLE_AZUREDREAMS },
-    { "SLPM-86025", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86052", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86022", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86254", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86055", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86053", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86056", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86060", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86062", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86068", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86072", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86065", /* 0x1100 */ GENRE_ACTIONARCADE },
-    { "SLPM-86070", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86076", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86077", /* 0x0400 */ GENRE_RPG },
-    { "SLPM-86078", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86086", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86026", /* 0x0100 */ GENRE_ACTION },
-    { "SLPM-86046", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86075", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86119", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86124", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86122", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86123", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86099", /* 0x0100 */ GENRE_ACTION },
-    { "SLPM-86100", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86101", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86102", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86097", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86096", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86061", /* 0x0100 */ GENRE_ACTION },
-    { "SLPM-86087", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86094", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86111", /* 0x0100 */ GENRE_ACTION },
-    { "SLPM-86124", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86132", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86162", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86133", /* 0x0200 */ GENRE_FIGHTING },
-    { "SLPM-86134", /* 0x0400 */ GENRE_RPG },
-    { "SLPM-86150", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86154", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86155", /* 0x0800 */ GENRE_ADVENTURE },
-    { "SLPM-80349", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86168", /* 0x0401 */ GENRE_RPG | TITLE_SUIKODEN },
-    { "SLPM-86173", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86176", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86184", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86149", /* 0x2000 */ GENRE_SPORTS },
-    { "SLPM-86191", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86192", /* 0x0800 */ GENRE_ADVENTURE },
-    { "SLPM-86190", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86200", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86177", /* 0x0100 */ GENRE_ACTION },
-    { "SLPM-86210", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86211", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86212", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86183", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86222", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86224", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86225", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86199", /* 0x0000 */ GENRE_MISC },
-    { "SLPM-86229", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86228", /* 0x1000 */ GENRE_ARCADE },
-    { "SLPM-86233", /* 0x0000 */ GENRE_MISC },
+static SAVEFILE s07b_dword_800C3788[] = {
+#ifdef INTEGRAL
+    { "SLPS-00002", GENRE_ARCADE },     // Gokujou Parodius Da! Deluxe Pack
+    { "SLPS-00015", GENRE_MISC },       // TwinBee Taisen Puzzle-dama
+    { "SLPS-00016", GENRE_SPORTS },     // Jikkyou Powerful Pro Yakyuu '95
+    { "SLPS-00067", GENRE_SPORTS },     // Jikkyou Powerful Pro Yakyuu '95: Kaimakuban
+    { "SLPS-00068", GENRE_SPORTS },     // J.League Jikkyou Winning Eleven
+    { "SLPS-00090", GENRE_MISC },       // Eisei Meijin
+    { "SLPS-00100", GENRE_MISC },       // Detana Twinbee Yahoo! Deluxe Pack
+    { "SLPS-00065", GENRE_MISC },       // Tokimeki Memorial: Forever with You
+    { "SLPS-00064", GENRE_MISC },       // Tokimeki Memorial: Forever with You (Genteiban)
+    { "SLPS-00097", GENRE_RPG | TITLE_SUIKODEN }, // Gensou Suikoden
+    { "SLPS-00188", GENRE_SPORTS },     // NBA Power Dunkers
+    { "SLPS-00215", GENRE_MISC },       // Policenauts
+    { "SLPS-00228", GENRE_MISC },       // Private Collection: Policenauts
+    { "SLPS-00154", GENRE_MISC },       // Snatcher
+    { "SLPS-00255", GENRE_ARCADE },     // Susume! Taisen Puzzle-dama
+    { "SLPS-00272", GENRE_SPORTS },     // World Soccer Winning Eleven
+    { "SLPS-00217", GENRE_ADVENTURE },  // Ganbare Goemon: Uchuu Kaizoku Akogingu
+    { "SLPS-00303", GENRE_ARCADE },     // Gradius Deluxe Pack
+    { "SLPM-86001", GENRE_MISC },       // Private Collection: Tokimeki Memorial
+    { "SLPM-86003", GENRE_SPORTS },     // Eikou no Fairway: Virtual Golf Simulation
+    { "SLPM-86002", GENRE_SPORTS },     // Hyper Olympic in Atlanta
+    { "SLPM-86005", GENRE_ARCADE },     // Tokimeki Memorial Taisen Puzzledama
+    { "SLPM-86006", GENRE_MISC },       // Pachinko Dream
+    { "SLPM-86004", GENRE_SPORTS },     // Bottom of the 9th: Major League Heroes
+    { "SLPM-86007", GENRE_RPG | TITLE_VANDALHEARTS }, // Vandal Hearts: Ushinawareta Kodai Bunmei
+    { "SLPM-86009", GENRE_ARCADE },     // Sexy Parodius
+    { "SLPM-86010", GENRE_SPORTS },     // J.League Jikkyou Winning Eleven '97
+    { "SLPM-86011", GENRE_SPORTS },     // NBA Power Dunkers 2
+    { "SLPM-86013", GENRE_ARCADE },     // Speed King: Neo Kobe 2045
+    { "SLPM-86008", GENRE_ARCADE },     // Jikkyou Oshaberi Parodius: Forever with Me
+    { "SLPM-86015", GENRE_FIGHTING },   // Lightning Legend: Daigo no Daibouken
+    { "SLPM-86014", GENRE_MISC },       // Eisei Meijin II
+    { "SLPM-86021", GENRE_ARCADE },     // Henry Explorers
+    { "SLPM-86023", GENRE_ACTIONADVENTURE | TITLE_CASTLEVANIA }, // Akumajou Dracula X: Gekka no Yasoukyoku
+    { "SLPM-86012", GENRE_MISC },       // Breeding Stud: Bokujou de Aimashou
+    { "SLPM-86029", GENRE_MISC },       // Tokimeki Memorial Selection: Fujisaki Shiori
+    { "SLPM-86035", GENRE_SPORTS },     // World Soccer Winning Eleven '97
+    { "SLPM-86034", GENRE_ACTION },     // Poitter's Point
+    { "SLPM-86036", GENRE_MISC },       // Tokimeki Memorial: Taisen Tokkaedama
+    { "SLPM-86037", GENRE_ARCADE },     // Salamander Deluxe Pack Plus
+    { "SLPM-86039", GENRE_MISC },       // Tokimeki Memorial Drama Series Vol.1: Nijiiro no Seishun
+    { "SLPM-86024", GENRE_SPORTS },     // Jikkyou Powerful Pro Yakyuu '97: Kaimakuban
+    { "SLPM-86042", GENRE_ARCADE },     // Gradius Gaiden
+    { "SLPM-86044", GENRE_SPORTS },     // Break Point
+    { "SLPM-86016", GENRE_MISC },       // Paro Wars
+    { "SLPM-86047", GENRE_ACTIONRPG | TITLE_AZUREDREAMS }, // Other Life Azure Dreams
+    { "SLPM-86025", GENRE_ARCADE },     // Lethal Enforcers Deluxe Pack
+    { "SLPM-86052", GENRE_MISC },       // Konami Antiques: MSX Collection Vol.1
+    { "SLPM-86022", GENRE_ARCADE },     // Midnight Run: Road Fighter 2
+    { "SLPM-86254", GENRE_MISC },       // Aitakute...: Your Smiles in My Heart
+    { "SLPM-86055", GENRE_SPORTS },     // J.League Jikkyou Winning Eleven 3
+    { "SLPM-86053", GENRE_MISC },       // Tokimeki Memorial: Forever with You (PlayStation the Best)
+    { "SLPM-86056", GENRE_SPORTS },     // Hyper Olympic in Nagano
+    { "SLPM-86060", GENRE_SPORTS },     // NBA Power Dunkers 3
+    { "SLPM-86062", GENRE_MISC },       // Konami Antiques: MSX Collection Vol.2
+    { "SLPM-86068", GENRE_MISC },       // Mitsumete Knight
+    { "SLPM-86072", GENRE_MISC },       // Konami Antiques: MSX Collection Vol.3
+    { "SLPM-86065", GENRE_ACTIONARCADE }, // Broken Helix
+    { "SLPM-86070", GENRE_MISC },       // Tokimeki Memorial Drama Series Vol.2: Irodori no Love Song
+    { "SLPM-86076", GENRE_MISC },       // Yoshimura Shougi
+    { "SLPM-86077", GENRE_RPG },        // TwinBee RPG
+    { "SLPM-86078", GENRE_SPORTS },     // Actua Ice Hockey
+    { "SLPM-86086", GENRE_SPORTS },     // World Soccer Jikkyou Winning Eleven 3: World Cup France '98
+    { "SLPM-86026", GENRE_ACTION },     //
+    { "SLPM-86046", GENRE_SPORTS },     // Jikkyou American Baseball
+    { "SLPM-86075", GENRE_MISC },       // Jersey Devil no Daibouken
+    { "SLPM-86119", GENRE_SPORTS },     // Jikkyou American Baseball 2
+    { "SLPM-86124", GENRE_ARCADE },     // Exciting Bass
+    { "SLPM-86122", GENRE_MISC },       // Dolphin's Dream
+    { "SLPM-86123", GENRE_MISC },       // Bishi Bashi Special
+    { "SLPM-86099", GENRE_ACTION },     // Magical Medical
+    { "SLPM-86100", GENRE_MISC },       // Dancing Blade Katte ni Momotenshi! (Disc 1)
+    { "SLPM-86101", GENRE_MISC },       // Dancing Blade Katte ni Momotenshi! (Disc 2)
+    { "SLPM-86102", GENRE_MISC },       // Dancing Blade Katte ni Momotenshi! (Disc 3)
+    { "SLPM-86097", GENRE_SPORTS },     // Jikkyou Powerful Pro Yakyuu '98: Kaimakuban
+    { "SLPM-86096", GENRE_MISC },       // Yu-Gi-Oh! Monster Capsule Breed & Battle
+    { "SLPM-86061", GENRE_ACTION },     // Poitter's Point 2: Sodom no Inbou
+    { "SLPM-86087", GENRE_MISC },       // Breeding Stud 2
+    { "SLPM-86094", GENRE_MISC },       // Tokimeki no Houkago: Ne Quiz Shiyo
+    { "SLPM-86111", GENRE_ACTION },     // METAL GEAR SOLID
+    { "SLPM-86124", GENRE_MISC },       // Exciting Bass (again!)
+    { "SLPM-86132", GENRE_SPORTS },     // Hyper Olympic in Nagano (PlayStation the Best)
+    { "SLPM-86162", GENRE_SPORTS },     // World Soccer Jikkyou Winning Eleven 3: Final Ver.
+    { "SLPM-86133", GENRE_FIGHTING },   // Bugi
+    { "SLPM-86134", GENRE_RPG },        // Mitsumete Knight R: Daibouken-hen
+    { "SLPM-86150", GENRE_MISC },       // Dance! Dance! Dance!
+    { "SLPM-86154", GENRE_SPORTS },     // J.League Jikkyou Winning Eleven '98-'99
+    { "SLPM-86155", GENRE_ADVENTURE },  // Ganbare Goemon: Kuru nara Koi! Ayashige Ikka no Kuroi Kage
+    { "SLPM-80349", GENRE_ARCADE },     //
+    { "SLPM-86168", GENRE_RPG | TITLE_SUIKODEN }, // Gensou Suikoden II
+    { "SLPM-86173", GENRE_MISC },       // Mahjong Yarou ze!
+    { "SLPM-86176", GENRE_SPORTS },     // NBA Power Dunkers 4
+    { "SLPM-86184", GENRE_ARCADE },     // beatmania APPEND 3rdMIX
+    { "SLPM-86149", GENRE_SPORTS },     // Jikkyou Powerful Pro Yakyuu '98: Ketteiban
+    { "SLPM-86191", GENRE_MISC },       // Seishoujo Kantai Virgin Fleet
+    { "SLPM-86192", GENRE_ADVENTURE },  // Silent Hill
+    { "SLPM-86190", GENRE_MISC },       // Uchi ni Pochi ga Yattekita in my Pocket
+    { "SLPM-86200", GENRE_MISC },       // Glint Glitters
+    { "SLPM-86177", GENRE_ACTION },     // Shin Jidaigeki Action: Rasetsu no Ken
+    { "SLPM-86210", GENRE_MISC },       // Dancing Blade Katte ni Momotenshi II: Tears of Eden (Disc 1)
+    { "SLPM-86211", GENRE_MISC },       // Dancing Blade Katte ni Momotenshi II: Tears of Eden (Disc 2)
+    { "SLPM-86212", GENRE_MISC },       // Dancing Blade Katte ni Momotenshi II: Tears of Eden (Disc 3)
+    { "SLPM-86183", GENRE_ARCADE },     // Pop'n Music
+    { "SLPM-86222", GENRE_ARCADE },     // Dance Dance Revolution
+    { "SLPM-86224", GENRE_MISC },       // Tokimeki Memorial Drama Series Vol.3: Tabidachi no Uta (Disc 1)
+    { "SLPM-86225", GENRE_MISC },       // Tokimeki Memorial Drama Series Vol.3: Tabidachi no Uta (Disc 2)
+    { "SLPM-86199", GENRE_MISC },       // Eisei Meijin III: Game Creator Yoshimura Nobuhiro no Zunou
+    { "SLPM-86229", GENRE_ARCADE },     // beatmania APPEND GottaMix
+    { "SLPM-86228", GENRE_ARCADE },     // Konami 80's Arcade Gallery
+    { "SLPM-86233", GENRE_MISC },       // Gungage
+#endif // INTEGRAL
 };
 
 /*---------------------------------------------------------------------------*/
