@@ -8,6 +8,12 @@
 #include "okajima/blurpure.h"
 #include "takabe/cineutil.h"
 
+#define BODY_DATA   GV_StrCode( "psycho" )
+#define MOTION_DATA GV_StrCode( "psy_07b2" )
+
+#define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | \
+                      DG_FLAG_GBOUND | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
+
 typedef struct _ACTION {
     int time;
     int action;
@@ -30,12 +36,12 @@ typedef struct _Work {
     MATRIX         light[ 2 ];
     void          *shadow;
     void          *blur;
-    short          field_7E0;
-    short          field_7E2;
-    int            field_7E4;
-    int            field_7E8;
+    short          field_7E0; /* unused */
+    short          field_7E2; /* unused */
+    int            field_7E4; /* unused */
+    int            field_7E8; /* unused */
     int            flag;
-    void          *act;
+    void          *action;
     int            time;
     ACTION        *action_list;
     int            time2;
@@ -43,7 +49,7 @@ typedef struct _Work {
     short          field_802;
     short          field_804;
     short          field_806;
-    SVECTOR        field_808;
+    SVECTOR        field_808; /* unused */
     int            field_810;
     int            field_814[ 40 ];
     int            field_8B4[ 7 ];
@@ -263,7 +269,17 @@ void s07b_800D8564( Work *work, int time );
 void s07b_800D88E4( Work *work, int time );
 void s07b_800D8B8C( Work *work, int time );
 
-int s07b_800D7E70( Work *work )
+static inline void SetMode( Work *work, void *action )
+{
+    work->action = action;
+    work->time = 0;
+    work->field_802 = 0;
+    work->field_800 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+}
+
+static int CheckCutsceneSkip( Work *work )
 {
     GV_PAD *pad;
 
@@ -278,7 +294,7 @@ int s07b_800D7E70( Work *work )
     return 0;
 }
 
-void s07b_800D7ED8( Work *work, int index )
+static void s07b_800D7ED8( Work *work, int index )
 {
     ACTION *list;
     int i;
@@ -455,13 +471,7 @@ void s07b_800D80B8( Work *work, int time )
         break;
     case 3:
         if ( !s07b_800D2C4C() ) break;
-
-        work->act = s07b_800D8564;
-        work->time = 0;
-        work->field_802 = 0;
-        work->field_800 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode( work, s07b_800D8564 );
         break;
     }
 }
@@ -565,12 +575,7 @@ void s07b_800D8564( Work *work, int time )
 
         if ( cards[ 0 ] == NULL && cards[ 1 ] == NULL )
         {
-            work->act = s07b_800D88E4;
-            work->time = 0;
-            work->field_802 = 0;
-            work->field_800 = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
+            SetMode( work, s07b_800D88E4 );
             return;
         }
 
@@ -684,12 +689,7 @@ void s07b_800D8564( Work *work, int time )
     }
     else if ( work->field_802 == 18 && ( work->field_804 == 0 || s07b_800D2C4C() ) )
     {
-        work->act = s07b_800D88E4;
-        work->time = 0;
-        work->field_802 = 0;
-        work->field_800 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode( work, s07b_800D88E4 );
     }
 }
 
@@ -699,22 +699,12 @@ void s07b_800D88E4( Work *work, int time )
     {
         if ( mts_get_pad_vibration_type( 1 ) == 0 )
         {
-            work->act = s07b_800D8B8C;
-            work->time = 0;
-            work->field_802 = 0;
-            work->field_800 = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
+            SetMode( work, s07b_800D8B8C );
             return;
         }
         else if ( GM_Configuration & ( GM_CONFIG_UNKNOWN_2000 | GM_CONFIG_VIBRATION_OFF ) )
         {
-            work->act = s07b_800D8B8C;
-            work->time = 0;
-            work->field_802 = 0;
-            work->field_800 = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
+            SetMode( work, s07b_800D8B8C );
             return;
         }
         else
@@ -797,12 +787,7 @@ void s07b_800D88E4( Work *work, int time )
     case 3:
         if ( s07b_800D2CB4( work->field_814[ 34 ] ) )
         {
-            work->act = s07b_800D8B8C;
-            work->time = 0;
-            work->field_802 = 0;
-            work->field_800 = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
+            SetMode( work, s07b_800D8B8C );
         }
         break;
     }
@@ -862,7 +847,7 @@ void s07b_800D8C60( Work *work )
 
 void s07b_800D8D20( Work *work )
 {
-    int ( *act )( Work *, int );
+    int ( *action )( Work *, int );
     int time;
 
     s07b_800D2A64();
@@ -870,13 +855,13 @@ void s07b_800D8D20( Work *work )
 
     sna_act_helper2_helper2_80033054( work->control.name, &work->adjust[ 6 ] );
 
-    act = work->act;
+    action = work->action;
     time = work->time;
     if ( time < 16000 ) work->time++;
 
-    if ( !s07b_800D7E70( work ) )
+    if ( !CheckCutsceneSkip( work ) )
     {
-        act( work, time );
+        action( work, time );
         s07b_800D7F6C( work );
         s07b_800D8C60( work );
     }
@@ -921,11 +906,7 @@ static void s07b_800D8EEC( Work *work )
     work->field_7E0 = 0;
     work->field_7E4 = 0;
 
-    work->act = s07b_800D80B8;
-    work->time = 0;
-
-    work->field_800 = work->field_802 = 0;
-    work->control.turn.vx = work->control.turn.vz = 0;
+    SetMode( work, s07b_800D80B8 );
 }
 
 static void s07b_800D8F60( Work *work )
@@ -995,7 +976,7 @@ static int GetResources( Work *work, int name, int where )
     GM_ConfigControlTrapCheck( control );
 
     body = &work->body;
-    GM_InitObject( body, GV_StrCode( "psycho" ), 0x32D, GV_StrCode( "psycho" ) );
+    GM_InitObject( body, BODY_DATA, BODY_FLAG, BODY_DATA );
     GM_ConfigObjectJoint( body );
 
     if ( GCL_GetOption( 'o' ) )
@@ -1004,7 +985,7 @@ static int GetResources( Work *work, int name, int where )
     }
     else
     {
-        motion = GV_StrCode( "psy_07b2" );
+        motion = MOTION_DATA;
     }
 
     GM_ConfigMotionControl( body, &work->m_ctrl, motion, work->m_segs1, work->m_segs2, &work->control, work->rots );
