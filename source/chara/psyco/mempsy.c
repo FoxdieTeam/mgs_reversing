@@ -182,116 +182,226 @@ static int s07b_dword_800C3748[] =
 
 static SAVEFILE s07b_dword_800C3788[] = {
 #ifdef INTEGRAL
-    { "SLPS-00002", GENRE_ARCADE },     // Gokujou Parodius Da! Deluxe Pack
-    { "SLPS-00015", GENRE_MISC },       // TwinBee Taisen Puzzle-dama
-    { "SLPS-00016", GENRE_SPORTS },     // Jikkyou Powerful Pro Yakyuu '95
-    { "SLPS-00067", GENRE_SPORTS },     // Jikkyou Powerful Pro Yakyuu '95: Kaimakuban
-    { "SLPS-00068", GENRE_SPORTS },     // J.League Jikkyou Winning Eleven
-    { "SLPS-00090", GENRE_MISC },       // Eisei Meijin
-    { "SLPS-00100", GENRE_MISC },       // Detana Twinbee Yahoo! Deluxe Pack
-    { "SLPS-00065", GENRE_MISC },       // Tokimeki Memorial: Forever with You
-    { "SLPS-00064", GENRE_MISC },       // Tokimeki Memorial: Forever with You (Genteiban)
-    { "SLPS-00097", GENRE_RPG | TITLE_SUIKODEN }, // Gensou Suikoden
-    { "SLPS-00188", GENRE_SPORTS },     // NBA Power Dunkers
-    { "SLPS-00215", GENRE_MISC },       // Policenauts
-    { "SLPS-00228", GENRE_MISC },       // Private Collection: Policenauts
-    { "SLPS-00154", GENRE_MISC },       // Snatcher
-    { "SLPS-00255", GENRE_ARCADE },     // Susume! Taisen Puzzle-dama
-    { "SLPS-00272", GENRE_SPORTS },     // World Soccer Winning Eleven
-    { "SLPS-00217", GENRE_ADVENTURE },  // Ganbare Goemon: Uchuu Kaizoku Akogingu
-    { "SLPS-00303", GENRE_ARCADE },     // Gradius Deluxe Pack
-    { "SLPM-86001", GENRE_MISC },       // Private Collection: Tokimeki Memorial
-    { "SLPM-86003", GENRE_SPORTS },     // Eikou no Fairway: Virtual Golf Simulation
-    { "SLPM-86002", GENRE_SPORTS },     // Hyper Olympic in Atlanta
-    { "SLPM-86005", GENRE_ARCADE },     // Tokimeki Memorial Taisen Puzzledama
-    { "SLPM-86006", GENRE_MISC },       // Pachinko Dream
-    { "SLPM-86004", GENRE_SPORTS },     // Bottom of the 9th: Major League Heroes
-    { "SLPM-86007", GENRE_RPG | TITLE_VANDALHEARTS }, // Vandal Hearts: Ushinawareta Kodai Bunmei
-    { "SLPM-86009", GENRE_ARCADE },     // Sexy Parodius
-    { "SLPM-86010", GENRE_SPORTS },     // J.League Jikkyou Winning Eleven '97
-    { "SLPM-86011", GENRE_SPORTS },     // NBA Power Dunkers 2
-    { "SLPM-86013", GENRE_ARCADE },     // Speed King: Neo Kobe 2045
-    { "SLPM-86008", GENRE_ARCADE },     // Jikkyou Oshaberi Parodius: Forever with Me
-    { "SLPM-86015", GENRE_FIGHTING },   // Lightning Legend: Daigo no Daibouken
-    { "SLPM-86014", GENRE_MISC },       // Eisei Meijin II
-    { "SLPM-86021", GENRE_ARCADE },     // Henry Explorers
-    { "SLPM-86023", GENRE_ACTIONADVENTURE | TITLE_CASTLEVANIA }, // Akumajou Dracula X: Gekka no Yasoukyoku
-    { "SLPM-86012", GENRE_MISC },       // Breeding Stud: Bokujou de Aimashou
-    { "SLPM-86029", GENRE_MISC },       // Tokimeki Memorial Selection: Fujisaki Shiori
-    { "SLPM-86035", GENRE_SPORTS },     // World Soccer Winning Eleven '97
-    { "SLPM-86034", GENRE_ACTION },     // Poitter's Point
-    { "SLPM-86036", GENRE_MISC },       // Tokimeki Memorial: Taisen Tokkaedama
-    { "SLPM-86037", GENRE_ARCADE },     // Salamander Deluxe Pack Plus
-    { "SLPM-86039", GENRE_MISC },       // Tokimeki Memorial Drama Series Vol.1: Nijiiro no Seishun
-    { "SLPM-86024", GENRE_SPORTS },     // Jikkyou Powerful Pro Yakyuu '97: Kaimakuban
-    { "SLPM-86042", GENRE_ARCADE },     // Gradius Gaiden
-    { "SLPM-86044", GENRE_SPORTS },     // Break Point
-    { "SLPM-86016", GENRE_MISC },       // Paro Wars
-    { "SLPM-86047", GENRE_ACTIONRPG | TITLE_AZUREDREAMS }, // Other Life Azure Dreams
-    { "SLPM-86025", GENRE_ARCADE },     // Lethal Enforcers Deluxe Pack
-    { "SLPM-86052", GENRE_MISC },       // Konami Antiques: MSX Collection Vol.1
-    { "SLPM-86022", GENRE_ARCADE },     // Midnight Run: Road Fighter 2
-    { "SLPM-86254", GENRE_MISC },       // Aitakute...: Your Smiles in My Heart
-    { "SLPM-86055", GENRE_SPORTS },     // J.League Jikkyou Winning Eleven 3
-    { "SLPM-86053", GENRE_MISC },       // Tokimeki Memorial: Forever with You (PlayStation the Best)
-    { "SLPM-86056", GENRE_SPORTS },     // Hyper Olympic in Nagano
-    { "SLPM-86060", GENRE_SPORTS },     // NBA Power Dunkers 3
-    { "SLPM-86062", GENRE_MISC },       // Konami Antiques: MSX Collection Vol.2
-    { "SLPM-86068", GENRE_MISC },       // Mitsumete Knight
-    { "SLPM-86072", GENRE_MISC },       // Konami Antiques: MSX Collection Vol.3
-    { "SLPM-86065", GENRE_ACTIONARCADE }, // Broken Helix
-    { "SLPM-86070", GENRE_MISC },       // Tokimeki Memorial Drama Series Vol.2: Irodori no Love Song
-    { "SLPM-86076", GENRE_MISC },       // Yoshimura Shougi
-    { "SLPM-86077", GENRE_RPG },        // TwinBee RPG
-    { "SLPM-86078", GENRE_SPORTS },     // Actua Ice Hockey
-    { "SLPM-86086", GENRE_SPORTS },     // World Soccer Jikkyou Winning Eleven 3: World Cup France '98
-    { "SLPM-86026", GENRE_ACTION },     //
-    { "SLPM-86046", GENRE_SPORTS },     // Jikkyou American Baseball
-    { "SLPM-86075", GENRE_MISC },       // Jersey Devil no Daibouken
-    { "SLPM-86119", GENRE_SPORTS },     // Jikkyou American Baseball 2
-    { "SLPM-86124", GENRE_ARCADE },     // Exciting Bass
-    { "SLPM-86122", GENRE_MISC },       // Dolphin's Dream
-    { "SLPM-86123", GENRE_MISC },       // Bishi Bashi Special
-    { "SLPM-86099", GENRE_ACTION },     // Magical Medical
-    { "SLPM-86100", GENRE_MISC },       // Dancing Blade Katte ni Momotenshi! (Disc 1)
-    { "SLPM-86101", GENRE_MISC },       // Dancing Blade Katte ni Momotenshi! (Disc 2)
-    { "SLPM-86102", GENRE_MISC },       // Dancing Blade Katte ni Momotenshi! (Disc 3)
-    { "SLPM-86097", GENRE_SPORTS },     // Jikkyou Powerful Pro Yakyuu '98: Kaimakuban
-    { "SLPM-86096", GENRE_MISC },       // Yu-Gi-Oh! Monster Capsule Breed & Battle
-    { "SLPM-86061", GENRE_ACTION },     // Poitter's Point 2: Sodom no Inbou
-    { "SLPM-86087", GENRE_MISC },       // Breeding Stud 2
-    { "SLPM-86094", GENRE_MISC },       // Tokimeki no Houkago: Ne Quiz Shiyo
-    { "SLPM-86111", GENRE_ACTION },     // METAL GEAR SOLID
-    { "SLPM-86124", GENRE_MISC },       // Exciting Bass (again!)
-    { "SLPM-86132", GENRE_SPORTS },     // Hyper Olympic in Nagano (PlayStation the Best)
-    { "SLPM-86162", GENRE_SPORTS },     // World Soccer Jikkyou Winning Eleven 3: Final Ver.
-    { "SLPM-86133", GENRE_FIGHTING },   // Bugi
-    { "SLPM-86134", GENRE_RPG },        // Mitsumete Knight R: Daibouken-hen
-    { "SLPM-86150", GENRE_MISC },       // Dance! Dance! Dance!
-    { "SLPM-86154", GENRE_SPORTS },     // J.League Jikkyou Winning Eleven '98-'99
-    { "SLPM-86155", GENRE_ADVENTURE },  // Ganbare Goemon: Kuru nara Koi! Ayashige Ikka no Kuroi Kage
-    { "SLPM-80349", GENRE_ARCADE },     //
-    { "SLPM-86168", GENRE_RPG | TITLE_SUIKODEN }, // Gensou Suikoden II
-    { "SLPM-86173", GENRE_MISC },       // Mahjong Yarou ze!
-    { "SLPM-86176", GENRE_SPORTS },     // NBA Power Dunkers 4
-    { "SLPM-86184", GENRE_ARCADE },     // beatmania APPEND 3rdMIX
-    { "SLPM-86149", GENRE_SPORTS },     // Jikkyou Powerful Pro Yakyuu '98: Ketteiban
-    { "SLPM-86191", GENRE_MISC },       // Seishoujo Kantai Virgin Fleet
-    { "SLPM-86192", GENRE_ADVENTURE },  // Silent Hill
-    { "SLPM-86190", GENRE_MISC },       // Uchi ni Pochi ga Yattekita in my Pocket
-    { "SLPM-86200", GENRE_MISC },       // Glint Glitters
-    { "SLPM-86177", GENRE_ACTION },     // Shin Jidaigeki Action: Rasetsu no Ken
-    { "SLPM-86210", GENRE_MISC },       // Dancing Blade Katte ni Momotenshi II: Tears of Eden (Disc 1)
-    { "SLPM-86211", GENRE_MISC },       // Dancing Blade Katte ni Momotenshi II: Tears of Eden (Disc 2)
-    { "SLPM-86212", GENRE_MISC },       // Dancing Blade Katte ni Momotenshi II: Tears of Eden (Disc 3)
-    { "SLPM-86183", GENRE_ARCADE },     // Pop'n Music
-    { "SLPM-86222", GENRE_ARCADE },     // Dance Dance Revolution
-    { "SLPM-86224", GENRE_MISC },       // Tokimeki Memorial Drama Series Vol.3: Tabidachi no Uta (Disc 1)
-    { "SLPM-86225", GENRE_MISC },       // Tokimeki Memorial Drama Series Vol.3: Tabidachi no Uta (Disc 2)
-    { "SLPM-86199", GENRE_MISC },       // Eisei Meijin III: Game Creator Yoshimura Nobuhiro no Zunou
-    { "SLPM-86229", GENRE_ARCADE },     // beatmania APPEND GottaMix
-    { "SLPM-86228", GENRE_ARCADE },     // Konami 80's Arcade Gallery
-    { "SLPM-86233", GENRE_MISC },       // Gungage
+    // Gokujou Parodius Da! Deluxe Pack
+    { "SLPS-00002", GENRE_ARCADE },
+    // TwinBee Taisen Puzzle-dama
+    { "SLPS-00015", GENRE_MISC },
+    // Jikkyou Powerful Pro Yakyuu '95
+    { "SLPS-00016", GENRE_SPORTS },
+    // Jikkyou Powerful Pro Yakyuu '95: Kaimakuban
+    { "SLPS-00067", GENRE_SPORTS },
+    // J.League Jikkyou Winning Eleven
+    { "SLPS-00068", GENRE_SPORTS },
+    // Eisei Meijin
+    { "SLPS-00090", GENRE_MISC },
+    // Detana Twinbee Yahoo! Deluxe Pack
+    { "SLPS-00100", GENRE_MISC },
+    // Tokimeki Memorial: Forever with You
+    { "SLPS-00065", GENRE_MISC },
+    // Tokimeki Memorial: Forever with You (Genteiban)
+    { "SLPS-00064", GENRE_MISC },
+    // Gensou Suikoden
+    { "SLPS-00097", GENRE_RPG | TITLE_SUIKODEN },
+    // NBA Power Dunkers
+    { "SLPS-00188", GENRE_SPORTS },
+    // Policenauts
+    { "SLPS-00215", GENRE_MISC },
+    // Private Collection: Policenauts
+    { "SLPS-00228", GENRE_MISC },
+    // Snatcher
+    { "SLPS-00154", GENRE_MISC },
+    // Susume! Taisen Puzzle-dama
+    { "SLPS-00255", GENRE_ARCADE },
+    // World Soccer Winning Eleven
+    { "SLPS-00272", GENRE_SPORTS },
+    // Ganbare Goemon: Uchuu Kaizoku Akogingu
+    { "SLPS-00217", GENRE_ADVENTURE },
+    // Gradius Deluxe Pack
+    { "SLPS-00303", GENRE_ARCADE },
+    // Private Collection: Tokimeki Memorial
+    { "SLPM-86001", GENRE_MISC },
+    // Eikou no Fairway: Virtual Golf Simulation
+    { "SLPM-86003", GENRE_SPORTS },
+    // Hyper Olympic in Atlanta
+    { "SLPM-86002", GENRE_SPORTS },
+    // Tokimeki Memorial Taisen Puzzledama
+    { "SLPM-86005", GENRE_ARCADE },
+    // Pachinko Dream
+    { "SLPM-86006", GENRE_MISC },
+    // Bottom of the 9th: Major League Heroes
+    { "SLPM-86004", GENRE_SPORTS },
+    // Vandal Hearts: Ushinawareta Kodai Bunmei
+    { "SLPM-86007", GENRE_RPG | TITLE_VANDALHEARTS },
+    // Sexy Parodius
+    { "SLPM-86009", GENRE_ARCADE },
+    // J.League Jikkyou Winning Eleven '97
+    { "SLPM-86010", GENRE_SPORTS },
+    // NBA Power Dunkers 2
+    { "SLPM-86011", GENRE_SPORTS },
+    // Speed King: Neo Kobe 2045
+    { "SLPM-86013", GENRE_ARCADE },
+    // Jikkyou Oshaberi Parodius: Forever with Me
+    { "SLPM-86008", GENRE_ARCADE },
+    // Lightning Legend: Daigo no Daibouken
+    { "SLPM-86015", GENRE_FIGHTING },
+    // Eisei Meijin II
+    { "SLPM-86014", GENRE_MISC },
+    // Henry Explorers
+    { "SLPM-86021", GENRE_ARCADE },
+    // Akumajou Dracula X: Gekka no Yasoukyoku
+    { "SLPM-86023", GENRE_ACTIONADVENTURE | TITLE_CASTLEVANIA },
+    // Breeding Stud: Bokujou de Aimashou
+    { "SLPM-86012", GENRE_MISC },
+    // Tokimeki Memorial Selection: Fujisaki Shiori
+    { "SLPM-86029", GENRE_MISC },
+    // World Soccer Winning Eleven '97
+    { "SLPM-86035", GENRE_SPORTS },
+    // Poitter's Point
+    { "SLPM-86034", GENRE_ACTION },
+    // Tokimeki Memorial: Taisen Tokkaedama
+    { "SLPM-86036", GENRE_MISC },
+    // Salamander Deluxe Pack Plus
+    { "SLPM-86037", GENRE_ARCADE },
+    // Tokimeki Memorial Drama Series Vol.1: Nijiiro no Seishun
+    { "SLPM-86039", GENRE_MISC },
+    // Jikkyou Powerful Pro Yakyuu '97: Kaimakuban
+    { "SLPM-86024", GENRE_SPORTS },
+    // Gradius Gaiden
+    { "SLPM-86042", GENRE_ARCADE },
+    // Break Point
+    { "SLPM-86044", GENRE_SPORTS },
+    // Paro Wars
+    { "SLPM-86016", GENRE_MISC },
+    // Other Life Azure Dreams
+    { "SLPM-86047", GENRE_ACTIONRPG | TITLE_AZUREDREAMS },
+    // Lethal Enforcers Deluxe Pack
+    { "SLPM-86025", GENRE_ARCADE },
+    // Konami Antiques: MSX Collection Vol.1
+    { "SLPM-86052", GENRE_MISC },
+    // Midnight Run: Road Fighter 2
+    { "SLPM-86022", GENRE_ARCADE },
+    // Aitakute...: Your Smiles in My Heart
+    { "SLPM-86254", GENRE_MISC },
+    // J.League Jikkyou Winning Eleven 3
+    { "SLPM-86055", GENRE_SPORTS },
+    // Tokimeki Memorial: Forever with You (PlayStation the Best)
+    { "SLPM-86053", GENRE_MISC },
+    // Hyper Olympic in Nagano
+    { "SLPM-86056", GENRE_SPORTS },
+    // NBA Power Dunkers 3
+    { "SLPM-86060", GENRE_SPORTS },
+    // Konami Antiques: MSX Collection Vol.2
+    { "SLPM-86062", GENRE_MISC },
+    // Mitsumete Knight
+    { "SLPM-86068", GENRE_MISC },
+    // Konami Antiques: MSX Collection Vol.3
+    { "SLPM-86072", GENRE_MISC },
+    // Broken Helix
+    { "SLPM-86065", GENRE_ACTIONARCADE },
+    // Tokimeki Memorial Drama Series Vol.2: Irodori no Love Song
+    { "SLPM-86070", GENRE_MISC },
+    // Yoshimura Shougi
+    { "SLPM-86076", GENRE_MISC },
+    // TwinBee RPG
+    { "SLPM-86077", GENRE_RPG },
+    // Actua Ice Hockey
+    { "SLPM-86078", GENRE_SPORTS },
+    // World Soccer Jikkyou Winning Eleven 3: World Cup France '98
+    { "SLPM-86086", GENRE_SPORTS },
+    // (Unknown)
+    { "SLPM-86026", GENRE_ACTION },
+    // Jikkyou American Baseball
+    { "SLPM-86046", GENRE_SPORTS },
+    // Jersey Devil no Daibouken
+    { "SLPM-86075", GENRE_MISC },
+    // Jikkyou American Baseball 2
+    { "SLPM-86119", GENRE_SPORTS },
+    // Exciting Bass
+    { "SLPM-86124", GENRE_ARCADE },
+    // Dolphin's Dream
+    { "SLPM-86122", GENRE_MISC },
+    // Bishi Bashi Special
+    { "SLPM-86123", GENRE_MISC },
+    // Magical Medical
+    { "SLPM-86099", GENRE_ACTION },
+    // Dancing Blade Katte ni Momotenshi! (Disc 1)
+    { "SLPM-86100", GENRE_MISC },
+    // Dancing Blade Katte ni Momotenshi! (Disc 2)
+    { "SLPM-86101", GENRE_MISC },
+    // Dancing Blade Katte ni Momotenshi! (Disc 3)
+    { "SLPM-86102", GENRE_MISC },
+    // Jikkyou Powerful Pro Yakyuu '98: Kaimakuban
+    { "SLPM-86097", GENRE_SPORTS },
+    // Yu-Gi-Oh! Monster Capsule Breed & Battle
+    { "SLPM-86096", GENRE_MISC },
+    // Poitter's Point 2: Sodom no Inbou
+    { "SLPM-86061", GENRE_ACTION },
+    // Breeding Stud 2
+    { "SLPM-86087", GENRE_MISC },
+    // Tokimeki no Houkago: Ne Quiz Shiyo
+    { "SLPM-86094", GENRE_MISC },
+    // METAL GEAR SOLID
+    { "SLPM-86111", GENRE_ACTION },
+    // Exciting Bass (again!)
+    { "SLPM-86124", GENRE_MISC },
+    // Hyper Olympic in Nagano (PlayStation the Best)
+    { "SLPM-86132", GENRE_SPORTS },
+    // World Soccer Jikkyou Winning Eleven 3: Final Ver.
+    { "SLPM-86162", GENRE_SPORTS },
+    // Bugi
+    { "SLPM-86133", GENRE_FIGHTING },
+    // Mitsumete Knight R: Daibouken-hen
+    { "SLPM-86134", GENRE_RPG },
+    // Dance! Dance! Dance!
+    { "SLPM-86150", GENRE_MISC },
+    // J.League Jikkyou Winning Eleven '98-'99
+    { "SLPM-86154", GENRE_SPORTS },
+    // Ganbare Goemon: Kuru nara Koi! Ayashige Ikka no Kuroi Kage
+    { "SLPM-86155", GENRE_ADVENTURE },
+    // (Unknown)
+    { "SLPM-80349", GENRE_ARCADE },
+    // Gensou Suikoden II
+    { "SLPM-86168", GENRE_RPG | TITLE_SUIKODEN },
+    // Mahjong Yarou ze!
+    { "SLPM-86173", GENRE_MISC },
+    // NBA Power Dunkers 4
+    { "SLPM-86176", GENRE_SPORTS },
+    // beatmania APPEND 3rdMIX
+    { "SLPM-86184", GENRE_ARCADE },
+    // Jikkyou Powerful Pro Yakyuu '98: Ketteiban
+    { "SLPM-86149", GENRE_SPORTS },
+    // Seishoujo Kantai Virgin Fleet
+    { "SLPM-86191", GENRE_MISC },
+    // Silent Hill
+    { "SLPM-86192", GENRE_ADVENTURE },
+    // Uchi ni Pochi ga Yattekita in my Pocket
+    { "SLPM-86190", GENRE_MISC },
+    // Glint Glitters
+    { "SLPM-86200", GENRE_MISC },
+    // Shin Jidaigeki Action: Rasetsu no Ken
+    { "SLPM-86177", GENRE_ACTION },
+    // Dancing Blade Katte ni Momotenshi II: Tears of Eden (Disc 1)
+    { "SLPM-86210", GENRE_MISC },
+    // Dancing Blade Katte ni Momotenshi II: Tears of Eden (Disc 2)
+    { "SLPM-86211", GENRE_MISC },
+    // Dancing Blade Katte ni Momotenshi II: Tears of Eden (Disc 3)
+    { "SLPM-86212", GENRE_MISC },
+    // Pop'n Music
+    { "SLPM-86183", GENRE_ARCADE },
+    // Dance Dance Revolution
+    { "SLPM-86222", GENRE_ARCADE },
+    // Tokimeki Memorial Drama Series Vol.3: Tabidachi no Uta (Disc 1)
+    { "SLPM-86224", GENRE_MISC },
+    // Tokimeki Memorial Drama Series Vol.3: Tabidachi no Uta (Disc 2)
+    { "SLPM-86225", GENRE_MISC },
+    // Eisei Meijin III: Game Creator Yoshimura Nobuhiro no Zunou
+    { "SLPM-86199", GENRE_MISC },
+    // beatmania APPEND GottaMix
+    { "SLPM-86229", GENRE_ARCADE },
+    // Konami 80's Arcade Gallery
+    { "SLPM-86228", GENRE_ARCADE },
+    // Gungage
+    { "SLPM-86233", GENRE_MISC },
 #else
 #ifdef JAPANESE
 /* Japanese version */
@@ -421,7 +531,7 @@ static SAVEFILE s07b_dword_800C3788[] = {
     { "BISLPM-86078", GENRE_SPORTS },
     // World Soccer Jikkyou Winning Eleven 3: World Cup France '98
     { "BISLPM-86086", GENRE_SPORTS },
-    //
+    // (Unknown)
     { "BISLPM-86026", GENRE_ACTION },
     // Jikkyou American Baseball
     { "BISLPM-86046", GENRE_SPORTS },
