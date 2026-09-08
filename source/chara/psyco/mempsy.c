@@ -1,12 +1,20 @@
 #include <stdio.h>
-#include "linkvar.h"
+#include <stddef.h>
+#include "mts/mts.h"    // for cprintf
+
+#include "mgstype.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libhzd/libhzd.h"
 #include "libgcl/libgcl.h"
-#include "mts/mts.h"
-#include "chara/snake/shadow.h"
-#include "chara/snake/sna_init.h"
 #include "game/game.h"
-#include "okajima/blurpure.h"
-#include "takabe/cineutil.h"
+
+#include "chara/snake/sna_init.h"
+#include "chara/snake/shadow.h"         // for NewShadow
+#include "okajima/blurpure.h"           // for NewBlurPure
+#include "takabe/cineutil.h"            // for OpenCinemaScreen, etc.
+
+/*---------------------------------------------------------------------------*/
 
 #define BODY_DATA   GV_StrCode( "psycho" )
 #define MOTION_DATA GV_StrCode( "psy_07b2" )
