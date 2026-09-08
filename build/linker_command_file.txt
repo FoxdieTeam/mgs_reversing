@@ -2359,6 +2359,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\s07b\overlay2.obj", overlay
 
+    ; meryl07b.c
+    ; desert.c
+    ; psyco.c
+    ; sonic.c
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800C46F0.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800C473C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800C47D4.obj", overlay
@@ -2524,6 +2528,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D2584.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D25E4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D26F4.obj", overlay
+
+    ; psyobj.c
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D27A8.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D28EC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D2988.obj", overlay
@@ -2552,6 +2558,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D3C68.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D3DC0.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D4004.obj", overlay
+
+    ; chair.c
+    ; pot.c
+    ; statue.c
+    ; ox.c
+    ; picture.c
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D40AC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D4178.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D4204.obj", overlay
@@ -2606,15 +2618,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D7440.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D7500.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D75B4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D764C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D7654.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D7720.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D77A8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D7880.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D7A18.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D7AD4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D7BB0.obj", overlay
 
+    include "{{OBJ_DIR}}\chara\psyco\book.obj", overlay
     include "{{OBJ_DIR}}\chara\psyco\padmng.obj", overlay
     include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
     include "{{OBJ_DIR}}\chara\psyco\mempsy.obj", overlay
