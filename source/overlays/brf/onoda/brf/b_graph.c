@@ -16,11 +16,11 @@ typedef struct _Work
     POLY_F4  field_A510[5];       /* 0xA510 */
     int     field_A588;                /* 0xA588 */
     char    pad_A58C[0xA590 - 0xA58C]; /* 0xA58C */
-    unsigned char field_A590[5];       /* 0xA590 */
-    unsigned char field_A595[2];       /* 0xA595 */
-    unsigned char field_A597[0xA8DF - 0xA597]; /* 0xA597 */
-    unsigned char field_A8DF[0xA9A7 - 0xA8DF]; /* 0xA8DF */
-    unsigned char field_A9A7[0xA9B6 - 0xA9A7]; /* 0xA9A7 */
+    unsigned char z_A590[5];           /* 0xA590 */
+    unsigned char z_A595[2];           /* 0xA595 */
+    unsigned char z_A597[0xA8DF - 0xA597]; /* 0xA597 */
+    unsigned char z_A8DF[0xA9A7 - 0xA8DF]; /* 0xA8DF */
+    unsigned char z_A9A7[0xA9B6 - 0xA9A7]; /* 0xA9A7 */
     unsigned char field_A9B6[0xAD00 - 0xA9B6]; /* 0xA9B6 */
     GV_PAD *pad;      /* 0xAD00 */
     int     field_AD04;      /* 0xAD04 */
@@ -356,12 +356,12 @@ void brf_800CC150(Work *work)
 {
     int i;
 
-    work->field_A595[0] = 0;
-    work->field_A9A7[0] = 0;
+    work->z_A595[0] = 0;
+    work->z_A9A7[0] = 0;
 
     for (i = 1; i < 15; i++)
     {
-        work->field_A9A7[i] = 2;
+        work->z_A9A7[i] = 2;
     }
 }
 void brf_800CC070();
@@ -380,7 +380,7 @@ void brf_800CC190(Work *work)
 
     for (i = 1; i < 15; i++)
     {
-        work->field_A9A7[i] = 2;
+        work->z_A9A7[i] = 2;
     }
 
     brf_800CC070(work, 0);
@@ -390,7 +390,7 @@ void brf_800CC190(Work *work)
         short *tbl = (short *)&brf_dword_800C3508;
         for (i = 0; i < tbl[work->field_A588]; i++)
         {
-            work->field_A597[i] = 0;
+            work->z_A597[i] = 0;
         }
     }
 
@@ -410,7 +410,7 @@ void brf_800CC28C(Work *work)
 
     for (i = 1; i < 15; i++)
     {
-        work->field_A9A7[i] = 2;
+        work->z_A9A7[i] = 2;
     }
 
     brf_800CC070(work, 1);
@@ -420,7 +420,7 @@ void brf_800CC28C(Work *work)
         short *tbl = (short *)&brf_dword_800C3508;
         for (i = 0; i < tbl[work->field_A588]; i++)
         {
-            work->field_A597[i] = 0;
+            work->z_A597[i] = 0;
         }
     }
 
@@ -439,7 +439,7 @@ void brf_800CC388(Work *work)
 
     for (i = 1; i < 15; i++)
     {
-        work->field_A9A7[i] = 2;
+        work->z_A9A7[i] = 2;
     }
 
     brf_800CC070(work, 2);
@@ -449,7 +449,7 @@ void brf_800CC388(Work *work)
         short *tbl = (short *)&brf_dword_800C3508;
         for (i = 0; i < tbl[work->field_A588]; i++)
         {
-            work->field_A597[i] = 0;
+            work->z_A597[i] = 0;
         }
     }
 
@@ -466,7 +466,7 @@ void brf_800CC480(Work *work)
 
     for (i = 1; i < 15; i++)
     {
-        work->field_A9A7[i] = 0;
+        work->z_A9A7[i] = 0;
     }
 
     GM_SeSet2(0, 0x3F, 0xC1);
@@ -475,7 +475,7 @@ void brf_800CC480(Work *work)
         short *tbl = (short *)&brf_dword_800C3508;
         for (i = 0; i < tbl[work->field_A588]; i++)
         {
-            work->field_A597[i] = 0;
+            work->z_A597[i] = 0;
         }
     }
 
@@ -490,7 +490,7 @@ void brf_800CC560(Work *work)
 
     for (i = 0; i < ((short *)&brf_dword_800C3508)[work->field_A588]; i++)
     {
-        work->field_A597[i] = 0;
+        work->z_A597[i] = 0;
     }
 }
 int brf_800CC5CC(int a)
@@ -1214,7 +1214,7 @@ void brf_800D1838(Work *work)
 
     for (i = 0; i < n; i++)
     {
-        work->field_A597[i + 0xF] = 2;
+        work->z_A597[i + 0xF] = 2;
         if (work->field_A9B6[i + 0xF] != 0)
         {
             GM_SeSet2(0, 0x30, 0xB6);
@@ -1228,22 +1228,22 @@ void brf_800D18D8(Work *work, int a1, int a2, int a3)
 
     for (i = 0; i < 0x334; i++)
     {
-        work->field_A597[i + 0xF] = 0;
+        work->z_A597[i + 0xF] = 0;
     }
 
     for (i = 0; i < 0x11; i++)
     {
-        work->field_A597[i + 0xF] = 2;
+        work->z_A597[i + 0xF] = 2;
     }
 
     for (i = a2; i < a3; i++)
     {
-        work->field_A597[i] = 2;
+        work->z_A597[i] = 2;
     }
 
     for (i = 0; i < diff; i++)
     {
-        work->field_A597[i + a3] = 2;
+        work->z_A597[i + a3] = 2;
         if (work->field_A9B6[i + a3] != 0)
         {
             GM_SeSet2(0, 0x30, 0xB6);
@@ -1256,17 +1256,17 @@ void brf_800D1A04(Work *work, int a1, int a2)
 
     for (i = 0; i < 0x335; i++)
     {
-        work->field_A597[i + 0xF] = 0;
+        work->z_A597[i + 0xF] = 0;
     }
 
     for (i = 0; i < 0x11; i++)
     {
-        work->field_A597[i + 0xF] = 2;
+        work->z_A597[i + 0xF] = 2;
     }
 
     for (i = a1; i < a2; i++)
     {
-        work->field_A597[i] = 2;
+        work->z_A597[i] = 2;
         brf_800CD870(work, i);
     }
 }
@@ -1287,18 +1287,18 @@ void brf_800D1AD8(Work *work)
 
         for (i = 0; i < 0x335; i++)
         {
-            work->field_A597[i + 0xF] = 0;
+            work->z_A597[i + 0xF] = 0;
         }
 
         for (i = 0xD; i < 0x20; i++)
         {
-            work->field_A597[i] = 2;
+            work->z_A597[i] = 2;
             setRGB0(&base[i], c, c, c);
         }
 
         for (i = 0x2E6; i < 0x344; i++)
         {
-            work->field_A597[i] = 2;
+            work->z_A597[i] = 2;
             setRGB0(&base[i], c, c, c);
         }
     }
@@ -1306,7 +1306,7 @@ void brf_800D1AD8(Work *work)
     {
         for (i = 0; i < 0x335; i++)
         {
-            work->field_A597[i + 0xF] = 0;
+            work->z_A597[i + 0xF] = 0;
         }
     }
 }
@@ -1366,34 +1366,46 @@ void brf_800D2ED0(Work *work)
     if (work->field_AD38 == 0x12)
     {
         g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1FA0));
+        {
+            int u = g->off_x;
+            int uw = u + g->w + 1;
+            int v = g->off_y;
+            int vh = v + g->h + 1;
+
+            base[1].u0 = u;
+            base[1].v0 = v;
+            base[1].u1 = uw;
+            base[1].v1 = v;
+            base[1].u2 = u;
+            base[1].v2 = vh;
+            base[1].u3 = uw;
+            base[1].v3 = vh;
+            base[1].tpage = g->tpage;
+            base[1].clut = g->clut;
+        }
     }
     else if (work->field_AD38 == 0x18)
     {
         g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
-    }
-    else
-    {
-        goto skip;
+        {
+            int u = g->off_x;
+            int uw = u + g->w + 1;
+            int v = g->off_y;
+            int vh = v + g->h + 1;
+
+            base[1].u0 = u;
+            base[1].v0 = v;
+            base[1].u1 = uw;
+            base[1].v1 = v;
+            base[1].u2 = u;
+            base[1].v2 = vh;
+            base[1].u3 = uw;
+            base[1].v3 = vh;
+            base[1].tpage = g->tpage;
+            base[1].clut = g->clut;
+        }
     }
 
-    {
-        int u = g->off_x;
-        int uw = u + g->w + 1;
-        int v = g->off_y;
-        int vh = v + g->h + 1;
-
-        base[1].u0 = u;
-        base[1].v0 = v;
-        base[1].u1 = uw;
-        base[1].v1 = v;
-        base[1].u2 = u;
-        base[1].v2 = vh;
-        base[1].u3 = uw;
-        base[1].v3 = vh;
-        base[1].tpage = g->tpage;
-        base[1].clut = g->clut;
-    }
-skip:
     work->field_AD38++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D30A0.s")
@@ -1415,12 +1427,12 @@ void brf_800D3A30(Work *work)
     setRGB0(&base[5], c, c, c);
     for (i = 6; i < 22; i++)
     {
-        work->field_A597[i] = 2;
+        work->z_A597[i] = 2;
         setRGB0(&base[i], c, c, c);
     }
     for (i = 180; i < 291; i++)
     {
-        work->field_A597[i] = 2;
+        work->z_A597[i] = 2;
         setRGB0(&base[i], c, c, c);
     }
     work->field_AD30++;
@@ -1432,7 +1444,7 @@ void brf_800D3AF0(Work *work)
 
     for (i = 0; i < n; i++)
     {
-        work->field_A597[i + 6] = 2;
+        work->z_A597[i + 6] = 2;
         if (work->field_A9B6[i + 6] != 0)
         {
             GM_SeSet2(0, 0x30, 0xB6);
@@ -1446,22 +1458,22 @@ void brf_800D3B8C(Work *work, int a1, int a2, int a3)
 
     for (i = 0; i < 0x11D; i++)
     {
-        work->field_A597[i + 6] = 0;
+        work->z_A597[i + 6] = 0;
     }
 
     for (i = 0; i < 0x10; i++)
     {
-        work->field_A597[i + 6] = 2;
+        work->z_A597[i + 6] = 2;
     }
 
     for (i = a2; i < a3; i++)
     {
-        work->field_A597[i] = 2;
+        work->z_A597[i] = 2;
     }
 
     for (i = 0; i < diff; i++)
     {
-        work->field_A597[i + a3] = 2;
+        work->z_A597[i + a3] = 2;
         if (work->field_A9B6[i + a3] != 0)
         {
             GM_SeSet2(0, 0x30, 0xB6);
@@ -1474,17 +1486,17 @@ void brf_800D3CB8(Work *work, int a1, int a2)
 
     for (i = 0; i < 0x11D; i++)
     {
-        work->field_A597[i + 6] = 0;
+        work->z_A597[i + 6] = 0;
     }
 
     for (i = 0; i < 0x10; i++)
     {
-        work->field_A597[i + 6] = 2;
+        work->z_A597[i + 6] = 2;
     }
 
     for (i = a1; i < a2; i++)
     {
-        work->field_A597[i] = 2;
+        work->z_A597[i] = 2;
         brf_800CD870(work, i);
     }
 }
@@ -1532,7 +1544,7 @@ void brf_800D48AC(Work *work)
 }
 void brf_800D493C(Work *work)
 {
-    work->field_A597[work->field_AD34 + 9] = 2;
+    work->z_A597[work->field_AD34 + 9] = 2;
     if (work->field_A9B6[work->field_AD34 + 9] != 0)
     {
         GM_SeSet2(0, 0x30, 0xB6);
@@ -1709,7 +1721,7 @@ void brf_800D849C(Work *work)
         for (i = 16; i < 28; i++)
         {
             setRGB0(&base[i], c, c, c);
-            work->field_A597[i] = 2;
+            work->z_A597[i] = 2;
         }
     }
     work->field_AD38++;
@@ -1769,7 +1781,7 @@ void brf_800D8690(Work *work)
 
     for (i = 0; i < n; i++)
     {
-        work->field_A597[i + 0x10] = 2;
+        work->z_A597[i + 0x10] = 2;
         if (work->field_A9B6[i + 0x10] != 0)
         {
             GM_SeSet2(0, 0x30, 0xB6);
@@ -1783,22 +1795,22 @@ void brf_800D872C(Work *work, int a1, int a2, int a3)
 
     for (i = 0; i < 0x29C; i++)
     {
-        work->field_A597[i + 0x10] = 0;
+        work->z_A597[i + 0x10] = 0;
     }
 
     for (i = 0; i < 0xC; i++)
     {
-        work->field_A597[i + 0x10] = 2;
+        work->z_A597[i + 0x10] = 2;
     }
 
     for (i = a2; i < a3; i++)
     {
-        work->field_A597[i] = 2;
+        work->z_A597[i] = 2;
     }
 
     for (i = 0; i < diff; i++)
     {
-        work->field_A597[i + a3] = 2;
+        work->z_A597[i + a3] = 2;
         if (work->field_A9B6[i + a3] != 0)
         {
             GM_SeSet2(0, 0x30, 0xB6);
@@ -1811,17 +1823,17 @@ void brf_800D8858(Work *work, int a1, int a2)
 
     for (i = 0; i < 0x29C; i++)
     {
-        work->field_A597[i + 0x10] = 0;
+        work->z_A597[i + 0x10] = 0;
     }
 
     for (i = 0; i < 0xC; i++)
     {
-        work->field_A597[i + 0x10] = 2;
+        work->z_A597[i + 0x10] = 2;
     }
 
     for (i = a1; i < a2; i++)
     {
-        work->field_A597[i] = 2;
+        work->z_A597[i] = 2;
         brf_800CD870(work, i);
     }
 }
@@ -1832,19 +1844,19 @@ void brf_800D892C(Work *work)
 
     for (i = 0; i < 0x29C; i++)
     {
-        work->field_A597[i + 0x10] = 0;
+        work->z_A597[i + 0x10] = 0;
     }
 
     for (i = 0; i < 0xC; i++)
     {
-        work->field_A597[i + 0x10] = 2;
+        work->z_A597[i + 0x10] = 2;
     }
 
     if (work->field_AD38 < 0x385)
     {
         for (i = 0x250; i < 0x2AC; i++)
         {
-            work->field_A597[i] = 2;
+            work->z_A597[i] = 2;
         }
     }
     else if (work->field_AD38 < 0x3A5)
@@ -1854,7 +1866,7 @@ void brf_800D892C(Work *work)
         for (i = 0x250; i < 0x2AC; i++)
         {
             setRGB0(&base[i], c, c, c);
-            work->field_A597[i] = 2;
+            work->z_A597[i] = 2;
         }
     }
 }
@@ -2065,7 +2077,7 @@ void brf_800DD830(Work *work)
     src = work->field_24->packs[GV_Clock];
     for (i = 0; i < 2; i++)
     {
-        *(unsigned short *)src = work->field_A595[i] << 8;
+        *(unsigned short *)src = work->z_A595[i] << 8;
         src++;
     }
 
@@ -2074,8 +2086,8 @@ void brf_800DD830(Work *work)
     for (i = 0; i < 200; i++)
     {
         *dst = *src;
-        *(unsigned short *)src = work->field_A8DF[i] << 8;
-        work->field_A8DF[i] = 0;
+        *(unsigned short *)src = work->z_A8DF[i] << 8;
+        work->z_A8DF[i] = 0;
         src++;
         dst++;
     }
@@ -2083,8 +2095,8 @@ void brf_800DD830(Work *work)
     dst = work->field_28->packs[GV_Clock];
     if (work->field_ADB8 < 5)
     {
-        work->field_A50C = (POLY_FT4 *)0x8018E800;
-        src = (POLY_FT4 *)0x8018E800;
+        work->field_A50C = (POLY_FT4 *)(PACK_ADDR0 + 50 * 1024);
+        src = (POLY_FT4 *)(PACK_ADDR0 + 50 * 1024);
     }
     else
     {
@@ -2100,7 +2112,7 @@ void brf_800DD830(Work *work)
         }
         v = k * 2;
         brf_800DD7C8(dst, 128 - v);
-        *(unsigned short *)dst = work->field_A597[i] << 8;
+        *(unsigned short *)dst = work->z_A597[i] << 8;
         src++;
         dst++;
     }
@@ -2110,7 +2122,7 @@ void brf_800DD830(Work *work)
     for (i = 0; i < 5; i++)
     {
         *dst4 = *src4;
-        *(unsigned short *)dst4 = work->field_A590[i] << 8;
+        *(unsigned short *)dst4 = work->z_A590[i] << 8;
         src4++;
         dst4++;
     }
@@ -2120,7 +2132,7 @@ void brf_800DD830(Work *work)
     for (i = 0; i < 15; i++)
     {
         *dst = *src;
-        *(unsigned short *)dst = work->field_A9A7[i] << 8;
+        *(unsigned short *)dst = work->z_A9A7[i] << 8;
         src++;
         dst++;
     }
