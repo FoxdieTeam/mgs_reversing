@@ -103,7 +103,6 @@ int s07b_dword_800C3484 = 0x00000000;
 int s07b_dword_800C3488 = 0x00000000;
 int s07b_dword_800C348C = 0x00000000;
 int s07b_dword_800C3490 = 0x00000000;
-int s07b_dword_800C3494 = 0x00000000;
 
 const char s07b_dword_800E4B4C[] = {0xa5, 0xb9, 0xa5, 0xcd};
 const char s07b_dword_800E4B50[] = {0xa1, 0xbc, 0xa5, 0xaf};
@@ -551,18 +550,6 @@ const char s07b_dword_800E5230[] = {0x0, 0x0, 0x0, 0x0};
 const char s07b_dword_800E5234[] = {'p', 'i', 'c', 't'};
 const char s07b_dword_800E5238[] = {'u', 'r', 'e', '.'};
 const char s07b_dword_800E523C[] = {'c', 0x0, '4', ' '};
-const char s07b_dword_800E5240[] = {0xcb, 0xdc, 0xa3, 0xb1};
-const char s07b_dword_800E5244[] = {0x0, 0x0, 0x0, 0x0};
-const char s07b_dword_800E5248[] = {0xcb, 0xdc, 0xa3, 0xc1};
-const char s07b_dword_800E524C[] = {0x0, 0x0, 0x0, 0x0};
-const char s07b_dword_800E5250[] = {'p', 's', 'y', 'o'};
-const char s07b_dword_800E5254[] = {'b', 'j', ' ', 0xcb};
-const char s07b_dword_800E5258[] = {0xdc, '%', 'd', ' '};
-const char s07b_dword_800E525C[] = {'n', 'o', 't', ' '};
-const char s07b_dword_800E5260[] = {'f', 'o', 'u', 'n'};
-const char s07b_dword_800E5264[] = {'d', '\n', 0x0, 0x0};
-const char s07b_dword_800E5268[] = {'b', 'o', 'o', 'k'};
-const char s07b_dword_800E526C[] = {'.', 'c', 0x0, '2'};
 
 int SECTION(".bss") s07b_dword_800E5BA0;
 int SECTION(".bss") s07b_dword_800E5BA4;
