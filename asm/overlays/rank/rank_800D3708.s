@@ -1,5 +1,5 @@
 	opt	c+, at+, e+, n-
-	section rank.text
+	section .text
 
 	xdef rank_800D3708
 rank_800D3708:

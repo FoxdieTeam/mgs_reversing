@@ -6714,7 +6714,7 @@ const int rank_dword_800E0F40 = 0x800DFF34;
 const int rank_dword_800E0F44 = 0x800DFF44;
 const int rank_dword_800E0F48 = 0x800DFF54;
 const int rank_dword_800E0F4C = 0x800DFF68;
-/*
+
 const char rank_dword_800E0F50[] = {0x0, 0x0, 0x0, 0x0};
 const char rank_dword_800E0F54[] = {0x0, 0x0, 0x0, 0x0};
 const char rank_dword_800E0F58[] = {0x0, 0x0, 0x0, 0x0};
@@ -11541,4 +11541,3 @@ const char rank_dword_800E5AA8[] = {0x0, 0x0, 0x0, 0x0};
 const char rank_dword_800E5AAC[] = {0x0, 0x0, 0x0, 0x0};
 const char rank_dword_800E5AB0[] = {0x0, 0x0, 0x0, 0x0};
 const char rank_dword_800E5AB4[] = {0x0, 0x0, 0x0, 0x0};
-*/
