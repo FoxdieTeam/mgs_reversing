@@ -8,6 +8,11 @@ static GCL_SCRIPT current_script;
 
 static GCL_COMMANDDEF *commdef = NULL;
 
+typedef struct {
+    unsigned short proc_id;
+    unsigned short offset;
+} GCL_PROC_TABLE;
+
 /*---------------------------------------------------------------------------*/
 
 int GCL_AddCommMulti( GCL_COMMANDDEF *def )

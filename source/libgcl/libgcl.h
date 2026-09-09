@@ -13,14 +13,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct      // private to libgcl/command.c
-{
-    unsigned short proc_id;
-    unsigned short offset;
-} GCL_PROC_TABLE;
-
-typedef struct      // private to libgcl/command.c
-{
+typedef struct {
     char *proc_table;
     char *proc_body;
     char *script_body;
