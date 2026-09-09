@@ -695,6 +695,16 @@ static SAVEFILE s07b_dword_800C3788[] = {
 #endif // INTEGRAL
 };
 
+// NOTE: The following titles checked by the NTSC-U & PAL versions were NOT
+// developed or published by Konami in either region:
+//
+//  SLUS-00235: Iron Man / X-O Manowar in Heavy Metal
+//  SLES-00509: Soviet Strike (Germany)
+//
+// TODO: Check other Konami-published games for similar product codes that
+// somebody could have typo'd to get these. Notice how Soviet Strike is
+// listed as a sports game, for instance.
+
 /*---------------------------------------------------------------------------*/
 
 extern u_short GM_WeaponTypes[];
