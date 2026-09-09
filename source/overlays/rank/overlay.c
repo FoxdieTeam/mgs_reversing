@@ -51,6 +51,8 @@ int rank_dword_800C3324 = 0x800E06F8;
 int rank_dword_800C3328 = 0x800E0770;
 int rank_dword_800C332C = 0x800E076C;
 int rank_dword_800C3330 = 0x00008000;
+
+/*--- PocketStation ROM Start ---*/
 int rank_dword_800C3334 = 0x04114353;
 int rank_dword_800C3338 = 0x66826C82;
 int rank_dword_800C333C = 0xE7817282;
