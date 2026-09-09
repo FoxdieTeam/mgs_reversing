@@ -2655,10 +2655,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "rank" %}
     include "{{OBJ_DIR}}\stage\rank.obj", overlay
+    include "{{OBJ_DIR}}\menu\mload.obj", overlay
+
     include "{{OBJ_DIR}}\overlays\rank\overlay.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800C923C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800C92A8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800CBBAC.obj", overlay
+
     include "{{OBJ_DIR}}\overlays\rank\rank_800CBD14.obj", overlay
     include "{{OBJ_DIR}}\overlays\rank\rank_800CC014.obj", overlay
     include "{{OBJ_DIR}}\overlays\rank\rank_800CC104.obj", overlay
@@ -2833,82 +2833,83 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\rank\rank_800DAD78.obj", overlay
     include "{{OBJ_DIR}}\overlays\rank\rank_800DAEFC.obj", overlay
     include "{{OBJ_DIR}}\overlays\rank\rank_800DB9AC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DBA48.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DBB50.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DBBB4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DBC7C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DC4A8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DC4B4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DC4F8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DC57C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DC598.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DC5EC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DC6C8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DC850.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DCBB4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DCC24.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DCC94.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DCCD4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DCD28.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DCD68.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DCDA8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DCF50.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DD094.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DD168.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DD188.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DD228.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DD3C0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DD514.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DD564.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DD780.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DD82C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DD870.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DD904.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DD9D8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DDA8C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DDAB4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DDB54.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DDB74.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DDC08.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DDDBC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DDEA0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DE078.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DE140.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DE200.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DE2D8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DE4E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DE5A8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DE6AC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DE898.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DE9B8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DEA78.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DECB8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DEF68.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF018.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF098.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF13C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF1F8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF278.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF31C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF358.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF414.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF4E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF514.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF5BC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF5E0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF660.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF700.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF864.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DF92C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DFAD4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DFE08.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DFEB0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DFF94.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800DFFF4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800E00E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800E0174.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800E01B4.obj", overlay
 
+    include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
+
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libc2\STRNCPY.OBJ", overlay
+
+    ; MCX shit below
+    ; Don't bother touching it for now
+    ; include "{{PSYQ_SDK}}\psyq_4.4\lib\libmcx\MCXINIT.OBJ", overlay
+    ; include "{{PSYQ_SDK}}\psyq_4.4\lib\libmcx\MCXMAIN.OBJ", overlay
+    ; include "{{PSYQ_SDK}}\psyq_4.4\lib\libmcx\MCXCMD.OBJ", overlay
+    ; include "{{PSYQ_SDK}}\psyq_4.4\lib\libmcx\MCXDSR.OBJ", overlay
+
+    include "{{OBJ_DIR}}\overlays\rank\mcx\overlay.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DCC24.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DCC94.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DCCD4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DCD28.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DCD68.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DCDA8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DCF50.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DD094.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DD168.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DD188.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DD228.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DD3C0.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DD514.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DD564.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DD780.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DD82C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DD870.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DD904.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DD9D8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DDA8C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DDAB4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DDB54.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DDB74.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DDC08.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DDDBC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DDEA0.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DE078.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DE140.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DE200.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DE2D8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DE4E8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DE5A8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DE6AC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DE898.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DE9B8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DEA78.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DECB8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DEF68.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF018.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF098.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF13C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF1F8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF278.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF31C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF358.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF414.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF4E8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF514.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF5BC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF5E0.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF660.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF700.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF864.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DF92C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DFAD4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DFE08.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DFEB0.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DFF94.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800DFFF4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800E00E8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800E0174.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800E01B4.obj", overlay
+
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libc2\STRINGS.OBJ", overlay
 {% endif %}
 
 {% endif %}
