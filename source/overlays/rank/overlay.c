@@ -1,25 +1,3 @@
-int rank_dword_800C3208 = 0x000004F2;
-int rank_dword_800C320C = 0x800DB9AC;
-int rank_dword_800C3210 = 0x0000D3C0;
-int rank_dword_800C3214 = 0x800D4044;
-int rank_dword_800C3218 = 0x00003AD2;
-int rank_dword_800C321C = 0x800D0DA0;
-int rank_dword_800C3220 = 0x0000A12E;
-int rank_dword_800C3224 = 0x800D4530;
-int rank_dword_800C3228 = 0x0000D44E;
-int rank_dword_800C322C = 0x800DC850;
-int rank_dword_800C3230 = 0x00009302;
-int rank_dword_800C3234 = 0x800CBCA8;
-int rank_dword_800C3238 = 0x0000AA13;
-int rank_dword_800C323C = 0x800CCF10;
-int rank_dword_800C3240 = 0x0000FDB6;
-int rank_dword_800C3244 = 0x800CCFC4;
-int rank_dword_800C3248 = 0x00006414;
-int rank_dword_800C324C = 0x800CEDCC;
-int rank_dword_800C3250 = 0x0000CF00;
-int rank_dword_800C3254 = 0x800CCEC4;
-int rank_dword_800C3258 = 0x00000000;
-int rank_dword_800C325C = 0x00000000;
 int rank_dword_800C3260 = 0x4C534942;
 int rank_dword_800C3264 = 0x392D4D50;
 int rank_dword_800C3268 = 0x39393939;
@@ -73,6 +51,8 @@ int rank_dword_800C3324 = 0x800E06F8;
 int rank_dword_800C3328 = 0x800E0770;
 int rank_dword_800C332C = 0x800E076C;
 int rank_dword_800C3330 = 0x00008000;
+
+/*--- PocketStation ROM Start ---*/
 int rank_dword_800C3334 = 0x04114353;
 int rank_dword_800C3338 = 0x66826C82;
 int rank_dword_800C333C = 0xE7817282;
