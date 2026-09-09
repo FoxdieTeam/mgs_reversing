@@ -12,10 +12,6 @@
 #include "libgv/libgv.h"    // for GV_xxxMemory
 #include "sound/sd_cli.h"
 
-extern FS_STAGE_INFO *fs_stage_info;
-extern int gLoaderStartTime_800B528C;
-extern int gOverlayBinSize_800B5290;
-extern int FS_ResidentCacheDirty;
 extern void *StageCharacterEntries;
 
 /*---------------------------------------------------------------------------*/
@@ -44,26 +40,6 @@ STATIC STAGE_TABLE_HEADER fs_table_header = {};
 // Theoretically, if there were more than one DIR-format archives present on
 // the CD-ROM, the game could dynamically select which to register at startup,
 // however, the program is currently hard-coded to load only "STAGE.DIR".
-
-/*---------------------------------------------------------------------------*/
-
-static FS_STAGE_INFO *SECTION(".bss") fs_stage_info;
-static int SECTION(".bss") gLoaderStartTime_800B528C;
-
-int SECTION(".bss") gOverlayBinSize_800B5290;
-int SECTION(".bss") FS_ResidentCacheDirty;
-
-extern void *StageCharacterEntries;
-
-/*---------------------------------------------------------------------------*/
-
-STATIC TFsCallback      gFsCallback_8009D4F8 = NULL;
-STATIC TFsSoundCallback gFsSoundCallback_8009D4FC = NULL;
-
-STATIC unsigned short   dword_8009D500[] = {0, 0};      // *.wvx id
-STATIC unsigned short   word_8009D504 = 0;              // *.wvx index
-STATIC unsigned short   word_8009D506 = 0;              // *.mdx id
-STATIC unsigned short   word_8009D508 = 0;              // *.efx id
 
 /*---------------------------------------------------------------------------*/
 
@@ -131,6 +107,44 @@ static int get_stage_pos( char *name )
     }
     return -1;
 }
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct {
+    int           mode;
+    CDBIOS_TASK  *task;
+    void         *buffer;
+    DATACNF      *datacnf;
+    void         *tags;
+    DATACNF_TAG  *tag_start1;   // todo: rename this
+    DATACNF_TAG  *tag_end1;     // todo: rename this
+    DATACNF_TAG  *tag_start2;   // todo: rename this
+    DATACNF_TAG  *tag_end2;     // todo: rename this
+    int           size;
+    int           field_28;
+    DATACNF_TAG  *tag;
+    void         *current_ptr;
+    int           remaining;
+} FS_STAGE_INFO;
+
+extern FS_STAGE_INFO *fs_stage_info;
+extern int gLoaderStartTime_800B528C;
+extern int gOverlayBinSize_800B5290;
+extern int FS_ResidentCacheDirty;
+
+static FS_STAGE_INFO *SECTION(".bss") fs_stage_info;
+static int SECTION(".bss") gLoaderStartTime_800B528C;
+
+int SECTION(".bss") gOverlayBinSize_800B5290;
+int SECTION(".bss") FS_ResidentCacheDirty;
+
+STATIC TFsCallback      gFsCallback_8009D4F8 = NULL;
+STATIC TFsSoundCallback gFsSoundCallback_8009D4FC = NULL;
+
+STATIC unsigned short   dword_8009D500[] = {0, 0};      // *.wvx id
+STATIC unsigned short   word_8009D504 = 0;              // *.wvx index
+STATIC unsigned short   word_8009D506 = 0;              // *.mdx id
+STATIC unsigned short   word_8009D508 = 0;              // *.efx id
 
 /*---------------------------------------------------------------------------*/
 
