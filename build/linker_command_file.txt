@@ -2655,10 +2655,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "rank" %}
     include "{{OBJ_DIR}}\stage\rank.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\overlay.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800C923C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800C92A8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\rank\rank_800CBBAC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\overlay2.obj", overlay
+
+    include "{{OBJ_DIR}}\overlays\rank\rank_800CBC2C.obj", overlay
     include "{{OBJ_DIR}}\overlays\rank\rank_800CBD14.obj", overlay
     include "{{OBJ_DIR}}\overlays\rank\rank_800CC014.obj", overlay
     include "{{OBJ_DIR}}\overlays\rank\rank_800CC104.obj", overlay
