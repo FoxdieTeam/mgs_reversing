@@ -97,7 +97,12 @@ def main(path):
             m2c_2 = try_m2c(f2.name)
 
             if m2c_1 is not None and m2c_2 is not None:
-                print(f"{sys.executable} split_s_file.py {path} {hex(addr + split_point)}")
+                split_addr = hex(addr + split_point)
+                split_cmd = f"{sys.executable} split_s_file.py {path} {split_addr}"
+                print(f'Splitting {path} at {split_addr}')
+                os.system(split_cmd)
+                split_file = path[:-10] + f"{hex(addr + split_point)[2:].upper().zfill(8)}.s"
+                os.system(f'{sys.executable} {sys.argv[0]} {split_file}')
                 return
 
     # Code is not splittable. Cache this fact:
