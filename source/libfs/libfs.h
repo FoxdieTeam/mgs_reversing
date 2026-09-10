@@ -13,24 +13,6 @@
 #define FS_SECTOR_SIZE     2048    // x1 CD-ROM sector
 #define FS_CDLOAD_BUF_SIZE ( FS_SECTOR_SIZE * 48 )
 
-// private to cdstage.c
-typedef struct {
-    int           mode;
-    CDBIOS_TASK  *task;
-    void         *buffer;
-    DATACNF      *datacnf;
-    void         *tags;
-    DATACNF_TAG  *tag_start1;   // todo: rename this
-    DATACNF_TAG  *tag_end1;     // todo: rename this
-    DATACNF_TAG  *tag_start2;   // todo: rename this
-    DATACNF_TAG  *tag_end2;     // todo: rename this
-    int           size;
-    int           field_28;
-    DATACNF_TAG  *tag;
-    void         *current_ptr;
-    int           remaining;
-} FS_STAGE_INFO;
-
 typedef struct {
     const char *name;
     u_int pos;
