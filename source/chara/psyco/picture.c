@@ -5,24 +5,26 @@
 
 typedef struct _Work {
     GV_ACT  actor;
-    PSYOBJ *obj[ 11 ];
-    int     think[ 11 ];
-    int     time[ 11 ];
-    char    unused[ 176 ];
+    PSYOBJ *obj[ 3 ];
+    int     think[ 3 ];
+    int     time[ 3 ];
+    char    unused[ 48 ];
     int     count;
     int     side;
 } Work;
 
-static int book_alive = 0;
+int picture_alive = 0;
 
-static int Idle( Work *work, PSYOBJ *obj, int time, int index )
+static int Idle( Work *work, PSYOBJ *obj, int time, int i )
 {
     return 0;
 }
 
-static int Think0( Work *work, PSYOBJ *obj, int time, int index )
+static int Think0( Work *work, PSYOBJ *obj, int time, int i )
 {
     obj->control->mov = obj->pos;
+
+    if ( time == 0 ) GM_SeSetMode( &obj->control->mov, 180, GM_SEMODE_BOMB );
 
     if ( time == 48 )
     {
@@ -30,23 +32,36 @@ static int Think0( Work *work, PSYOBJ *obj, int time, int index )
         return 1;
     }
 
-    if ( time == 0 ) GM_SeSetMode( &obj->control->mov, 177, GM_SEMODE_BOMB );
-
     obj->control->step.vx = GV_RandS( 16 );
     obj->control->step.vy = GV_RandS( 16 );
     obj->control->step.vz = GV_RandS( 16 );
     return 0;
 }
 
-static int Think1( Work *work, PSYOBJ *obj, int time, int index ) 
+int Think1( Work *work, PSYOBJ *obj, int time, int i )
 {
+    SVECTOR pos, diff;
+    int vx;
+
     if ( time == 0 )
     {
-        GM_SeSetMode( &obj->control->mov, 187, GM_SEMODE_BOMB );
-        obj->control->step.vz = 256;
+        pos.vx = obj->pos.vx;
+        pos.vy = 750;
+        pos.vz = 3500;
+        GV_SubVec3( &pos, &obj->pos, &diff );
+        GV_LenVec3( &diff, &obj->control->step, GV_VecLen3( &diff ), 128 );
+        GM_SeSetMode( &obj->control->mov, 181, GM_SEMODE_BOMB );
     }
 
-    if ( time == 32 )
+    vx = obj->control->turn.vx;
+    obj->control->turn.vx += 128 + i * 32;
+    obj->control->turn.vx &= 4095;
+    if ( obj->control->turn.vx < vx )
+    {
+        GM_SeSetMode( &obj->control->mov, 181, GM_SEMODE_BOMB );
+    }
+
+    if ( time == 68 )
     {
         obj->control->step = DG_ZeroVector;
         return 1;
@@ -55,17 +70,31 @@ static int Think1( Work *work, PSYOBJ *obj, int time, int index )
     return 0;
 }
 
-static int Think2( Work *work, PSYOBJ *obj, int time, int index )
+static int Think2( Work *work, PSYOBJ *obj, int time, int i )
 {
-    if ( time == 0 ) obj->control->step.vz = -256;
-    obj->control->turn.vx += 160;
+    SVECTOR diff;
+    int vx;
 
-    if ( time == 32 )
+    if ( time == 0 )
+    {
+        GV_SubVec3( &obj->pos, &obj->control->mov, &diff );
+        GV_LenVec3( &diff, &obj->control->step, GV_VecLen3( &diff ), 128 );
+    }
+
+    vx = obj->control->turn.vx;
+    obj->control->turn.vx += 128 + i * 32;
+    obj->control->turn.vx &= 4095;
+    if ( obj->control->turn.vx < vx )
+    {
+        GM_SeSetMode( &obj->control->mov, 181, GM_SEMODE_BOMB );
+    }
+
+    if ( time == 68 )
     {
         obj->control->mov = obj->pos;
         obj->control->turn = obj->rot;
         obj->control->step = DG_ZeroVector;
-        GM_SeSetMode( &obj->control->mov, 177, GM_SEMODE_BOMB );
+        GM_SeSetMode( &obj->control->mov, 180, GM_SEMODE_BOMB );
         return 1;
     }
 
@@ -78,21 +107,19 @@ static void Act( Work *work )
     PSYOBJ *obj;
     int ( *action )( Work *, PSYOBJ *, int, int );
 
-    if ( book_alive < 0 )
+    if ( picture_alive < 0 )
     {
         GV_DestroyActor( work );
         return;
     }
 
     total = 0;
-    for ( i = 0; i < 11; i++ )
+    for ( i = 0; i < 3; i++ )
     {
         think = work->think[ i ];
         time = work->time[ i ];
         obj = work->obj[ i ];
-
-        if ( ( work->side == 0 && obj->control->mov.vx < -4000 ) ||
-             ( work->side == 2 && obj->control->mov.vx > 4000 ) )
+        if ( work->side == 1 && i == 1 )
         {
             think = 3;
         }
@@ -123,7 +150,7 @@ static void Act( Work *work )
         }
 
         total += think;
-        if ( total == 33 ) GV_DestroyActor( work );
+        if ( total == 9 ) GV_DestroyActor( work );
     }
 
     work->count++;
@@ -134,45 +161,36 @@ static void Die( Work *work )
     int i;
     PSYOBJ *obj;
 
-    for ( i = 0; i < 11; i++ )
+    for ( i = 0; i < 3; i++ )
     {
         obj = work->obj[ i ];
         if ( obj->control == NULL ) continue;
 
-        obj->flag &= ~0x18;
+        obj->flag &= ~0x8038;
         obj->control->step = DG_ZeroVector;
         obj->control->mov = obj->pos;
         obj->control->turn = obj->rot;
     }
 
-    book_alive = 0;
+    picture_alive = 0;
 }
 
 static int GetResources( Work *work )
 {
-    int i, id;
+    int i;
     PSYOBJ *obj;
 
-    for ( i = 0; i < 11; i++ )
+    for ( i = 0; i < 3; i++ )
     {
-        if ( i < 9 )
-        {
-            id = GV_StrCode( "本１" ) + i;
-        }
-        else
-        {
-            id = GV_StrCode( "本Ａ" ) + i - 9;
-        }
-
-        obj = s07b_800D2CFC( id );
+        obj = s07b_800D2CFC( GV_StrCode( "所長１" ) + i );
         if ( obj == NULL )
         {
-            printf( "psyobj 本%d not found\n", i + 1 );
+            printf( "psyobj 所長%d not found\n", i + 1 );
             return -1;
         }
 
         obj->flag &= ~0x800;
-        obj->flag |= 0x18;
+        obj->flag |= 0x8038;
 
         work->obj[ i ] = obj;
         work->think[ i ] = 0;
@@ -180,20 +198,20 @@ static int GetResources( Work *work )
     }
 
     work->count = 0;
-    book_alive = 1;
+    picture_alive = 1;
     return 0;
 }
 
-void *NewPsychoBook( int side )
+void *NewPsychoPicture( int side )
 {
     Work *work;
 
-    if ( book_alive > 0 ) return NULL;
+    if ( picture_alive > 0 ) return NULL;
 
     work = GV_NewActor( GV_ACTOR_AFTER, sizeof(Work) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( work, Act, Die, "book.c" );
+        GV_SetNamedActor( work, Act, Die, "picture.c" );
         if ( GetResources( work ) < 0 )
         {
             GV_DestroyActor( work );

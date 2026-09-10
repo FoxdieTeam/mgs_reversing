@@ -2562,8 +2562,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     ; chair.c
     ; pot.c
     ; statue.c
-    ; ox.c
-    ; picture.c
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D40AC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D4178.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D4204.obj", overlay
@@ -2597,28 +2595,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D6208.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D62C4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D6378.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D6400.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D64CC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D6558.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D6628.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D66B0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D66F4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D67E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D6984.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D6B0C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D6C44.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D6D28.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D6DF0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D6EE8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D6F70.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D6F78.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D7054.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D7188.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D72E0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D7440.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D7500.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D75B4.obj", overlay
 
+    include "{{OBJ_DIR}}\chara\psyco\ox.obj", overlay
+    include "{{OBJ_DIR}}\chara\psyco\picture.obj", overlay
     include "{{OBJ_DIR}}\chara\psyco\book.obj", overlay
     include "{{OBJ_DIR}}\chara\psyco\padmng.obj", overlay
     include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay

@@ -1,4 +1,4 @@
-#include "mgstype.h"
+#include "game/game.h"
 
 int s07b_dword_800C32F8 = 0x000001C0;
 int s07b_dword_800C32FC = 0x000002EE;
@@ -101,8 +101,6 @@ int s07b_dword_800C347C = 0x00000024;
 int s07b_dword_800C3480 = 0x00000000;
 int s07b_dword_800C3484 = 0x00000000;
 int s07b_dword_800C3488 = 0x00000000;
-int s07b_dword_800C348C = 0x00000000;
-int s07b_dword_800C3490 = 0x00000000;
 
 const char s07b_dword_800E4B4C[] = {0xa5, 0xb9, 0xa5, 0xcd};
 const char s07b_dword_800E4B50[] = {0xa1, 0xbc, 0xa5, 0xaf};
@@ -528,28 +526,6 @@ const char s07b_dword_800E51D8[] = {0x0, 0x0, 0x0, 0x0};
 const char s07b_dword_800E51DC[] = {'s', 't', 'a', 't'};
 const char s07b_dword_800E51E0[] = {'u', 'e', '.', 'c'};
 const char s07b_dword_800E51E4[] = {0x0, '2', '0', '0'};
-const char s07b_dword_800E51E8[] = {0xb5, 0xed, 0xa3, 0xb1};
-const char s07b_dword_800E51EC[] = {0x0, 0x0, 0x0, 0x0};
-const char s07b_dword_800E51F0[] = {'p', 's', 'y', 'o'};
-const char s07b_dword_800E51F4[] = {'b', 'j', ' ', 0xb5};
-const char s07b_dword_800E51F8[] = {0xed, '%', 'd', ' '};
-const char s07b_dword_800E51FC[] = {'n', 'o', 't', ' '};
-const char s07b_dword_800E5200[] = {'f', 'o', 'u', 'n'};
-const char s07b_dword_800E5204[] = {'d', '\n', 0x0, 0x0};
-const char s07b_dword_800E5208[] = {'o', 'x', '.', 'c'};
-const char s07b_dword_800E520C[] = {0x0, '2', 0xd, '\n'};
-const char s07b_dword_800E5210[] = {0xbd, 0xea, 0xc4, 0xb9};
-const char s07b_dword_800E5214[] = {0xa3, 0xb1, 0x0, 0x0};
-const char s07b_dword_800E5218[] = {'p', 's', 'y', 'o'};
-const char s07b_dword_800E521C[] = {'b', 'j', ' ', 0xbd};
-const char s07b_dword_800E5220[] = {0xea, 0xc4, 0xb9, '%'};
-const char s07b_dword_800E5224[] = {'d', ' ', 'n', 'o'};
-const char s07b_dword_800E5228[] = {'t', ' ', 'f', 'o'};
-const char s07b_dword_800E522C[] = {'u', 'n', 'd', '\n'};
-const char s07b_dword_800E5230[] = {0x0, 0x0, 0x0, 0x0};
-const char s07b_dword_800E5234[] = {'p', 'i', 'c', 't'};
-const char s07b_dword_800E5238[] = {'u', 'r', 'e', '.'};
-const char s07b_dword_800E523C[] = {'c', 0x0, '4', ' '};
 
 int SECTION(".bss") s07b_dword_800E5BA0;
 int SECTION(".bss") s07b_dword_800E5BA4;
@@ -567,8 +543,9 @@ int SECTION(".bss") s07b_dword_800E5BD0;
 int SECTION(".bss") s07b_dword_800E5BD4;
 int SECTION(".bss") s07b_dword_800E5BD8;
 int SECTION(".bss") s07b_dword_800E5BDC;
-int SECTION(".bss") s07b_dword_800E5BE0;
-int SECTION(".bss") s07b_dword_800E5BE4;
+
+SVECTOR SECTION(".bss") s07b_dword_800E5BE0;
+
 int SECTION(".bss") s07b_dword_800E5BE8;
 int SECTION(".bss") s07b_dword_800E5BEC;
 int SECTION(".bss") s07b_dword_800E5BF0;
