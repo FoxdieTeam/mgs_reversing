@@ -204,23 +204,23 @@ void sd_init(void)
     dword_800BF1A8 = 0;
     SpuSetIRQCallback(UserSpuIRQProc);
     SpuSetIRQ(SPU_ON);
-    sd_blank_attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_PITCH | SPU_VOICE_WDSA |
-                           SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_SMODE | SPU_VOICE_ADSR_RMODE | SPU_VOICE_ADSR_AR |
-                           SPU_VOICE_ADSR_DR | SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_RR | SPU_VOICE_ADSR_SL;
-    sd_blank_attr.voice = SPU_23CH;
-    sd_blank_attr.pitch = 4096;
-    sd_blank_attr.a_mode = SPU_VOICE_LINEARIncN;
-    sd_blank_attr.s_mode = SPU_VOICE_LINEARIncN;
-    sd_blank_attr.volume.left = 0;
-    sd_blank_attr.volume.right = 0;
-    sd_blank_attr.r_mode = SPU_VOICE_LINEARDecN;
-    sd_blank_attr.ar = 0;
-    sd_blank_attr.dr = 0;
-    sd_blank_attr.sr = 0;
-    sd_blank_attr.rr = 0;
-    sd_blank_attr.sl = 15;
-    sd_blank_attr.addr = blank_data_addr;
-    SpuSetVoiceAttr(&sd_blank_attr);
+    s_attr.mask = SPU_VOICE_VOLL | SPU_VOICE_VOLR | SPU_VOICE_PITCH | SPU_VOICE_WDSA |
+                    SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_SMODE | SPU_VOICE_ADSR_RMODE | SPU_VOICE_ADSR_AR |
+                    SPU_VOICE_ADSR_DR | SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_RR | SPU_VOICE_ADSR_SL;
+    s_attr.voice = SPU_23CH;
+    s_attr.pitch = 4096;
+    s_attr.a_mode = SPU_VOICE_LINEARIncN;
+    s_attr.s_mode = SPU_VOICE_LINEARIncN;
+    s_attr.volume.left = 0;
+    s_attr.volume.right = 0;
+    s_attr.r_mode = SPU_VOICE_LINEARDecN;
+    s_attr.ar = 0;
+    s_attr.dr = 0;
+    s_attr.sr = 0;
+    s_attr.rr = 0;
+    s_attr.sl = 15;
+    s_attr.addr = blank_data_addr;
+    SpuSetVoiceAttr(&s_attr);
     keyOn(SPU_23CH);
     c_attr.mask = SPU_COMMON_MVOLL | SPU_COMMON_MVOLR;
     c_attr.mvol.left = 0x3FFF;
