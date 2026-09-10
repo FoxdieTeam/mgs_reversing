@@ -208,7 +208,7 @@ MTS_ITASK *BSS      D_800C0C04;
 
 gap                                     gap_800C0C08[0x8]; // 8 bytes
 
-signed char BSS     mts_semaphore_waiters_800C0C10[MTS_MAX_SEMAPHORE]; bytes
+signed char BSS     mts_semaphore_waiters_800C0C10[MTS_MAX_SEMAPHORE];
 MTS_TASK BSS        mts_tasks_800C0C30[MTS_NR_TASK];
 int BSS             mts_active_task_800C0DB0;
 int BSS             mts_ready_tasks_800C0DB4;
