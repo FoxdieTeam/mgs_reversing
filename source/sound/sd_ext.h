@@ -244,7 +244,7 @@ extern  unsigned long   mtrack;
 extern  int             se_vol[8];
 extern  int             eoffs;
 
-extern  SpuVoiceAttr    sd_blank_attr;
+extern  SpuVoiceAttr    s_attr;
 extern  int             str_fp;
 extern  int             sng_fout_fg;
 extern  unsigned long   keyons;

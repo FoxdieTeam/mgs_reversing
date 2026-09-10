@@ -113,7 +113,7 @@ int BSS             eoffs;
 
 gap                                     gap_800BF214[0x4]; // 4 bytes
 
-SpuVoiceAttr BSS    sd_blank_attr;      // in sd_wk.c (5thMIX)
+SpuVoiceAttr BSS    s_attr;             // in sd_wk.c (5thMIX)
 int BSS             str_fp;             // in sd_str.c (MGS2) Moved?
 int BSS             sng_fout_fg;        // in sd_wk.c (MGS2)
 unsigned long BSS   keyons;             // in sd_wk.c (5thMIX, MGS2)
