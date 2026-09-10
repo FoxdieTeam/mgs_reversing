@@ -2658,7 +2658,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\menu\mload.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\rank\overlay.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\rank\rank_800CBD14.obj", overlay
     include "{{OBJ_DIR}}\overlays\rank\rank_800CC014.obj", overlay
     include "{{OBJ_DIR}}\overlays\rank\rank_800CC104.obj", overlay
