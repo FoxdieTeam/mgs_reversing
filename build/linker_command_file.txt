@@ -896,13 +896,13 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\okajima\dog\dog.obj", overlay
+    include "{{OBJ_DIR}}\okajima\dog\dog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\okajima\dog\wolf_eye.obj", overlay
+    include "{{OBJ_DIR}}\okajima\dog\wolf_eye.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\takabe\fog.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fog.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\takabe\libdg2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\libdg2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\life_up.obj", overlay
@@ -929,13 +929,13 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\okajima\dog\dog.obj", overlay
+    include "{{OBJ_DIR}}\okajima\dog\dog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\okajima\dog\wolf_eye.obj", overlay
+    include "{{OBJ_DIR}}\okajima\dog\wolf_eye.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\takabe\fog.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fog.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\takabe\libdg2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\libdg2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
@@ -1734,8 +1734,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
     include "{{OBJ_DIR}}\takabe\rasen_el.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\takabe\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\takabe\libdg2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fog.obj", overlay
+    include "{{OBJ_DIR}}\takabe\libdg2.obj", overlay
     include "{{OBJ_DIR}}\takabe\pad_demo.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
@@ -1770,9 +1770,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\wolf\action.obj", overlay
     include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\takabe\fog.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fog.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\takabe\libdg2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\libdg2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\life_up.obj", overlay
@@ -2085,8 +2085,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jdrumsmk.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep\jdrumfir.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\takabe\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s12c\takabe\libdg2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fog.obj", overlay
+    include "{{OBJ_DIR}}\takabe\libdg2.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj", overlay
 
