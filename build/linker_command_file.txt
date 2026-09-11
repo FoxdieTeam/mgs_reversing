@@ -883,6 +883,39 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P39.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
 ;------------------------------------------------------------------------------
+{% elif OVERLAY == "s12b" %}
+    include "{{OBJ_DIR}}\stage\s12b.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\thing\snow.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s12c\okajima\dog\dog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s12c\okajima\dog\wolf_eye.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s12c\takabe\fog.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s12c\takabe\libdg2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
+    include "{{OBJ_DIR}}\takabe\life_up.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\tracktrp.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\takabe\put_obj.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_flr.obj", overlay
+
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_002.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% elif OVERLAY == "s12c" %}
     include "{{OBJ_DIR}}\stage\s12c.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
