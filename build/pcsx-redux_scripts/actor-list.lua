@@ -114,8 +114,8 @@ function DrawImguiFrame()
     imgui.End()
 end
 
--- GV_NewActor_800150E4
-local new_actor_bp = PCSX.addBreakpoint(0x80015114, 'Exec', 4, 'GV_NewActor_800150E4', function()
+-- GV_NewActor
+local new_actor_bp = PCSX.addBreakpoint(0x80015114, 'Exec', 4, 'GV_NewActor', function()
     local regs = PCSX.getRegisters()
     local actor = regs.GPR.n.a0
     local size = regs.GPR.n.s1
@@ -124,8 +124,8 @@ local new_actor_bp = PCSX.addBreakpoint(0x80015114, 'Exec', 4, 'GV_NewActor_8001
 end)
 breakpoints[new_actor_bp] = new_actor_bp
 
--- GV_SetNamedActor_8001514C
-local named_actor_bp = PCSX.addBreakpoint(0x8001514c, 'Exec', 4, 'GV_SetNamedActor_8001514C', function()
+-- GV_SetNamedActor
+local named_actor_bp = PCSX.addBreakpoint(0x8001514c, 'Exec', 4, 'GV_SetNamedActor', function()
     local regs = PCSX.getRegisters()
     local actor = regs.GPR.n.a0
     local name_ptr = regs.GPR.n.a3

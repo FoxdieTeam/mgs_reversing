@@ -1,99 +1,99 @@
 jit.off()
 
--- local overlay = 'abst'    -- load save from memcard
--- local overlay = 'brf'     -- briefing
--- local overlay = 'camera'  -- load jpeg from memcard
--- local overlay = 'change'  -- disc change
--- local overlay = 'demosel' -- demo theater
--- local overlay = 'ending'
--- local overlay = 'endingr'
--- local overlay = 'opening' -- intro 'fmv'
--- local overlay = 'option'  -- options
--- local overlay = 'preope'  -- previous operations
--- local overlay = 'rank'    -- end game rank
--- local overlay = 'roll'    -- credits
--- local overlay = 'select'  -- debug menu
--- local overlay = 'select1' -- debug menu stage select
--- local overlay = 'select2' -- debug menu stage select S05A-S09A
--- local overlay = 'select3' -- debug menu stage select S10A-S14E1
--- local overlay = 'select4' -- debug menu stage select S15A-S20A
--- local overlay = 'selectd' -- debug menu demo select
--- local overlay = 'sound'   -- debug menu sound test
--- local overlay = 'title'   -- konami logo and title screen
+-- local overlay = 'abst'      -- Save/Load Menu
+-- local overlay = 'brf'       -- Briefing
+-- local overlay = 'camera'    -- JPEG Photo Menu
+-- local overlay = 'change'    -- Disc Change
+-- local overlay = 'demosel'   -- Demo Theater
+-- local overlay = 'ending'    -- Ending Demo (SCENE 28-1)
+-- local overlay = 'endingr'   -- Ending Demo (SCENE 28-1) (RED)
+-- local overlay = 'opening'   -- Opening Demo (SCENE 01-1)
+-- local overlay = 'option'    -- Options Menu
+-- local overlay = 'preope'    -- Previous Operations
+-- local overlay = 'rank'      -- Ranking Screen
+-- local overlay = 'roll'      -- Staff Roll
+-- local overlay = 'select'    -- Debug Menu
+-- local overlay = 'select1'   -- Debug Menu Stage Select (s00a-s04c)
+-- local overlay = 'select2'   -- Debug Menu Stage Select (s05a-s09a)
+-- local overlay = 'select3'   -- Debug Menu Stage Select (s10a-s14e)
+-- local overlay = 'select4'   -- Debug Menu Stage Select (s15a-s20a)
+-- local overlay = 'selectd'   -- Debug Menu Demo Select
+-- local overlay = 'sound'     -- Debug Menu Sound Test
+-- local overlay = 'title'     -- Title Screen
 
--- local overlay = 'd00a'    -- docks cutscene
--- local overlay = 'd01a'    -- helipad cutscene
--- local overlay = 'd03a'    -- "s003c0.dmo"
--- local overlay = 'd11c'    -- elevator cutscene
--- local overlay = 'd16e'    -- rex cutscene
--- local overlay = 'd18a'    -- end tunnel cutscene?
--- local overlay = 'd18ar'   -- same as above? otacon/meryl versions?
+-- local overlay = 'd00a'      -- Loading Dock (Cutscene)
+-- local overlay = 'd01a'      -- Heliport (Cutscene)
+-- local overlay = 'd03a'      -- Holding Cell (Cutscene)
+-- local overlay = 'd11c'      -- Communication Tower B (Cutscene)
+-- local overlay = 'd16e'      -- Underground Base (Cutscene)
+-- local overlay = 'd18a'      -- Supply Route (Cutscene)
+-- local overlay = 'd18ar'     -- Supply Route (Cutscene) (RED)
 
--- local overlay = 's00a'    -- docks
--- local overlay = 's01a'    -- heliport
--- local overlay = 's02a'
--- local overlay = 's02b'
--- local overlay = 's02c'
--- local overlay = 's02d'
--- local overlay = 's02e'
--- local overlay = 's03a'
--- local overlay = 's03ar'
--- local overlay = 's03b'
--- local overlay = 's03c'
--- local overlay = 's03d'
--- local overlay = 's03dr'
--- local overlay = 's03e'
--- local overlay = 's03er'
--- local overlay = 's04a'
--- local overlay = 's04b'
--- local overlay = 's04br'
--- local overlay = 's04c'
--- local overlay = 's05a'
--- local overlay = 's06a'
--- local overlay = 's07a'
--- local overlay = 's07b'
--- local overlay = 's07br'
--- local overlay = 's07c'
--- local overlay = 's07cr'
--- local overlay = 's08a'
--- local overlay = 's08b'
--- local overlay = 's08br'
--- local overlay = 's08c'
--- local overlay = 's08cr'
--- local overlay = 's09a'
--- local overlay = 's09ar'
--- local overlay = 's10a'
--- local overlay = 's10ar'
--- local overlay = 's11a'
--- local overlay = 's11b'
--- local overlay = 's11c'
--- local overlay = 's11d'
--- local overlay = 's11e'
--- local overlay = 's11g'
--- local overlay = 's11h'
--- local overlay = 's11i'
--- local overlay = 's12a'
--- local overlay = 's12b'
--- local overlay = 's12c'
--- local overlay = 's13a'
--- local overlay = 's14e'
--- local overlay = 's15a'
--- local overlay = 's15b'
--- local overlay = 's15c'
--- local overlay = 's16a'
-local overlay = 's16b'    -- smallest playable stage
--- local overlay = 's16c'
--- local overlay = 's16d'
--- local overlay = 's17a'
--- local overlay = 's17ar'
--- local overlay = 's18a'
--- local overlay = 's18ar'
--- local overlay = 's19a'
--- local overlay = 's19ar'
--- local overlay = 's19b'
--- local overlay = 's19br'
--- local overlay = 's20a'
--- local overlay = 's20ar'
+-- local overlay = 's00a'      -- Loading Dock
+-- local overlay = 's01a'      -- Heliport
+-- local overlay = 's02a'      -- Tank Hangar
+-- local overlay = 's02b'      -- Tank Hangar
+-- local overlay = 's02c'      -- Tank Hangar (Before Contacting Meryl)
+-- local overlay = 's02d'      -- Tank Hangar (After Contacting Meryl)
+-- local overlay = 's02e'      -- Tank Hangar (After Torture)
+-- local overlay = 's03a'      -- Holding Cell
+-- local overlay = 's03ar'     -- Holding Cell (RED)
+-- local overlay = 's03b'      -- Medical Room
+-- local overlay = 's03c'      -- Medical Room
+-- local overlay = 's03d'      -- Holding Cell
+-- local overlay = 's03dr'     -- Holding Cell (RED)
+-- local overlay = 's03e'      -- Holding Cell (vs. Soldiers)
+-- local overlay = 's03er'     -- Holding Cell (vs. Soldiers) (RED)
+-- local overlay = 's04a'      -- Armory
+-- local overlay = 's04b'      -- Armory South (vs. Ocelot)
+-- local overlay = 's04br'     -- Armory South (vs. Ocelot) (RED)
+-- local overlay = 's04c'      -- Armory South
+-- local overlay = 's05a'      -- Canyon
+-- local overlay = 's06a'      -- Warhead Storage Building 1F
+-- local overlay = 's07a'      -- Warhead Storage Building B1
+-- local overlay = 's07b'      -- Commander's Room
+-- local overlay = 's07br'     -- Commander's Room (RED)
+-- local overlay = 's07c'      -- Warhead Storage Building B1
+-- local overlay = 's07cr'     -- Warhead Storage Building B1 (RED)
+-- local overlay = 's08a'      -- Warhead Storage Building B2
+-- local overlay = 's08b'      -- Laboratory
+-- local overlay = 's08br'     -- Laboratory (RED)
+-- local overlay = 's08c'      -- Corridor
+-- local overlay = 's08cr'     -- Corridor (RED)
+-- local overlay = 's09a'      -- Caves
+-- local overlay = 's09ar'     -- Caves (RED)
+-- local overlay = 's10a'      -- Underground Passage
+-- local overlay = 's10ar'     -- Underground Passage (RED)
+-- local overlay = 's11a'      -- Communication Tower A
+-- local overlay = 's11b'      -- Communication Tower Roof
+-- local overlay = 's11c'      -- Communication Tower B
+-- local overlay = 's11d'      -- Communication Tower A Wall
+-- local overlay = 's11e'      -- Communication Tower B Elevator
+-- local overlay = 's11g'      -- Communication Tower B Roof
+-- local overlay = 's11h'      -- Communication Tower B Roof (vs. Hind D)
+-- local overlay = 's11i'      -- Communication Tower Walkway
+-- local overlay = 's12a'      -- Snowfield
+-- local overlay = 's12b'      -- Snowfield (After vs. Sniper Wolf)
+-- local overlay = 's12c'      -- Snowfield (After vs. Sniper Wolf)
+-- local overlay = 's13a'      -- Blast Furnace
+-- local overlay = 's14e'      -- Cargo Elevator
+-- local overlay = 's15a'      -- Warehouse
+-- local overlay = 's15b'      -- Warehouse North
+-- local overlay = 's15c'      -- Warehouse
+-- local overlay = 's16a'      -- Underground Base (1F)
+local overlay = 's16b'      -- Underground Base (2F)
+-- local overlay = 's16c'      -- Underground Base (3F)
+-- local overlay = 's16d'      -- Underground Base (Control Room)
+-- local overlay = 's17a'      -- Supply Route (vs. REX)
+-- local overlay = 's17ar'     -- Supply Route (vs. REX) (RED)
+-- local overlay = 's18a'      -- Supply Route (vs. Liquid)
+-- local overlay = 's18ar'     -- Supply Route (vs. Liquid) (RED)
+-- local overlay = 's19a'      -- Escape Route (Garage)
+-- local overlay = 's19ar'     -- Escape Route (Garage) (RED)
+-- local overlay = 's19b'      -- Escape Route (Tunnel)
+-- local overlay = 's19br'     -- Escape Route (Tunnel) (RED)
+-- local overlay = 's20a'      -- Ending Demo (SCENE 28-1)
+-- local overlay = 's20ar'     -- Ending Demo (SCENE 28-1) (RED)
 
 local mem = PCSX.getMemPtr()
 
@@ -118,10 +118,10 @@ local function c_str(addr)
     return str
 end
 
-if loader_bp == nil then                                                                                                    
+if loader_bp == nil then
     loader_bp = PCSX.addBreakpoint(0x8002E460, 'Exec', 4, 'loader', function()
-       local regs = PCSX.getRegisters()                                                                                    
-       local addr = bit.band(regs.GPR.n.a0, 0x1fffff)     
+       local regs = PCSX.getRegisters()
+       local addr = bit.band(regs.GPR.n.a0, 0x1fffff)
        local mem = PCSX.getMemPtr()
        local name =  c_str(regs.GPR.n.a0)
        if name == 'title' then
@@ -134,5 +134,5 @@ if loader_bp == nil then
             ptr[i] = 0
             print('forcing load of overlay:', overlay)
        end
-    end)                                                                                                                    
-end       
+    end)
+end

@@ -177,7 +177,7 @@ Individual overlay progress:
             <td><b>rank</b></td>
             <td>139 KB</td>
             <td>Ranking Screen</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>roll</b></td>
@@ -453,13 +453,13 @@ Individual overlay progress:
             <td><b>s12b</b></td>
             <td>96 KB</td>
             <td>Snowfield (After vs. Sniper Wolf)</td>
-            <td>❌ Work not started</td>
+            <td>✔️ 100% decompiled!</td>
         </tr>
         <tr>
             <td><b>s12c</b></td>
             <td>95 KB</td>
             <td>Snowfield (After vs. Sniper Wolf)</td>
-            <td>🚧 Work in progress</td>
+            <td>✔️ 100% decompiled!</td>
         </tr>
         <tr>
             <td><b>s13a</b></td>
