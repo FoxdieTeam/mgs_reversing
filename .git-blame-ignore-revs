@@ -7,3 +7,6 @@ b8f30f69fdcc2123b24c526f230f780a8dff8a15
 
 # meryl72: un-indent switch cases
 0645c1b355526f1b1cc8519f7f57c8e87af6fbff
+
+# force-overlay-load-on-boot.lua: trim trailing whitespace
+980632cf7147aba12784bf2c83e12c0ed55c0e85
