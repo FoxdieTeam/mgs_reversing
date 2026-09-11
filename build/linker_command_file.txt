@@ -2552,15 +2552,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D1D70.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D1DE8.obj", overlay
     include "{{OBJ_DIR}}\overlays\s07b\s07b_800D2060.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D20EC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D227C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D235C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D2470.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D2494.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D253C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D2584.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D25E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s07b\s07b_800D26F4.obj", overlay
+
+    include "{{OBJ_DIR}}\chara\psyco\sonic.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke2.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s07b\chara\psyco\psyobj.obj", overlay
 
