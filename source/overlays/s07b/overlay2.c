@@ -1,3 +1,5 @@
+#include "strcode.h"
+#include "anime/animconv/anime.h"
 #include "game/game.h"
 
 int s07b_dword_800C32F8 = 0x000001C0;
@@ -73,34 +75,36 @@ int s07b_dword_800C340C = 0x800D235C;
 int s07b_dword_800C3410 = 0x800D2470;
 int s07b_dword_800C3414 = 0x03E803E8;
 int s07b_dword_800C3418 = 0x000003E8;
-int s07b_dword_800C341C = 0x0008512D;
-int s07b_dword_800C3420 = 0x001E0004;
-int s07b_dword_800C3424 = 0x00000001;
-int s07b_dword_800C3428 = 0x05DC0002;
-int s07b_dword_800C342C = 0x004005DC;
-int s07b_dword_800C3430 = 0x00000000;
-int s07b_dword_800C3434 = 0x800E50B4;
-int s07b_dword_800C3438 = 0x0008512D;
-int s07b_dword_800C343C = 0x001E0004;
-int s07b_dword_800C3440 = 0x00000001;
-int s07b_dword_800C3444 = 0x03200001;
-int s07b_dword_800C3448 = 0x00400320;
-int s07b_dword_800C344C = 0x00000000;
-int s07b_dword_800C3450 = 0x800E50D0;
-int s07b_dword_800C3454 = 0x00000000;
-int s07b_dword_800C3458 = 0x00000000;
-int s07b_dword_800C345C = 0xFFFFFFFF;
-int s07b_dword_800C3460 = 0xFFFFFFFF;
-int s07b_dword_800C3464 = 0x00000000;
-int s07b_dword_800C3468 = 0x00000000;
-int s07b_dword_800C346C = 0x00000000;
-int s07b_dword_800C3470 = 0x00000000;
-int s07b_dword_800C3474 = 0x00000000;
-int s07b_dword_800C3478 = 0x00000000;
-int s07b_dword_800C347C = 0x00000024;
-int s07b_dword_800C3480 = 0x00000000;
-int s07b_dword_800C3484 = 0x00000000;
-int s07b_dword_800C3488 = 0x00000000;
+
+ANIMATION s07b_dword_800C341C = {
+    PCX_SMOKE,            // tex
+    8,                    // texdev_x
+    4,                    // texdev_y
+    30,                   // n_anime
+    1,                    // n_verts
+    0,                    // raise
+    2,                    // amb
+    1500,                 // size_w
+    1500,                 // size_h
+    64,                   // v
+    NULL,                 // pre_script
+    (char *)0x800E50B4    // script
+};
+
+ANIMATION s07b_dword_800C3438 = {
+    PCX_SMOKE,            // tex
+    8,                    // texdev_x
+    4,                    // texdev_y
+    30,                   // n_anime
+    1,                    // n_verts
+    0,                    // raise
+    1,                    // amb
+    800,                  // size_w
+    800,                  // size_h
+    64,                   // v
+    NULL,                 // pre_script
+    (char *)0x800E50D0    // script
+};
 
 const char s07b_dword_800E4B4C[] = {0xa5, 0xb9, 0xa5, 0xcd};
 const char s07b_dword_800E4B50[] = {0xa1, 0xbc, 0xa5, 0xaf};
@@ -449,83 +453,24 @@ const char s07b_dword_800E50A4[] = {'o', 'n', 'i', 'c'};
 const char s07b_dword_800E50A8[] = {0x0, 0x0, 0x0, 0x0};
 const char s07b_dword_800E50AC[] = {'s', 'o', 'n', 'i'};
 const char s07b_dword_800E50B0[] = {'c', '.', 'c', 0x0};
-const char s07b_dword_800E50B4[] = {0x0, 0x15, 0x1, 0x0};
-const char s07b_dword_800E50B8[] = {0x5, 0x1, 0xfe, 0xc};
-const char s07b_dword_800E50BC[] = {0x0, 0x7, '\n', 0x0};
-const char s07b_dword_800E50C0[] = {0xc8, 0x0, 0xc8, 0x1};
-const char s07b_dword_800E50C4[] = {0xff, 0x8, 0xf8, 0xf8};
-const char s07b_dword_800E50C8[] = {0xf8, 0x2, 0x0, 0x1};
-const char s07b_dword_800E50CC[] = {0xd, 0xf, 0x0, 0x0};
-const char s07b_dword_800E50D0[] = {0x0, '6', 0x2, 0x0};
-const char s07b_dword_800E50D4[] = {0x7, 0x0, 0x1c, 0x1};
-const char s07b_dword_800E50D8[] = {0xfe, 0xc, 0x0, 0x7};
-const char s07b_dword_800E50DC[] = {'\n', 0x1, ',', 0x1};
-const char s07b_dword_800E50E0[] = {',', 0x1, 0xff, 0x8};
-const char s07b_dword_800E50E4[] = {0xf8, 0xf8, 0xf8, 0x2};
-const char s07b_dword_800E50E8[] = {0x0, 0x1, 0xd, 0xf};
-const char s07b_dword_800E50EC[] = {0x1, 0xfe, '\n', 0x1};
-const char s07b_dword_800E50F0[] = {0xf4, 0x1, 0xf4, 0x8};
-const char s07b_dword_800E50F4[] = {0xbe, 0xbe, 0xbe, 0x2};
-const char s07b_dword_800E50F8[] = {0x0, 0x1, 0xc, 0x0};
-const char s07b_dword_800E50FC[] = {0xf, '\n', 0x0, 0xc8};
-const char s07b_dword_800E5100[] = {0x0, 0xc8, 0x1, 0xff};
-const char s07b_dword_800E5104[] = {0x8, 0xf0, 0xf0, 0xf0};
-const char s07b_dword_800E5108[] = {0x2, 0x0, 0x1, 0xd};
-const char s07b_dword_800E510C[] = {0xf, '1', 'A', '4'};
-const char s07b_dword_800E5110[] = {'t', 'i', 'm', 'e'};
-const char s07b_dword_800E5114[] = {'o', 'u', 't', ' '};
-const char s07b_dword_800E5118[] = {'%', 'd', '\n', 0x0};
-const char s07b_dword_800E511C[] = {'0', '7', 'b', '_'};
-const char s07b_dword_800E5120[] = {'o', '1', '1', 0x0};
-const char s07b_dword_800E5124[] = {'s', 'h', 'a', 'd'};
-const char s07b_dword_800E5128[] = {'o', 'w', 0x0, 0x0};
-const char s07b_dword_800E512C[] = {'p', 's', 'y', 'o'};
-const char s07b_dword_800E5130[] = {'b', 'j', '.', 'c'};
-const char s07b_dword_800E5134[] = {0x0, '9', '8', 'A'};
-const char s07b_dword_800E5138[] = {0xb0, 0xd8, 0xbb, 0xd2};
-const char s07b_dword_800E513C[] = {0xa3, 0xb1, 0x0, 0x0};
-const char s07b_dword_800E5140[] = {'p', 's', 'y', 'o'};
-const char s07b_dword_800E5144[] = {'b', 'j', ' ', 0xb0};
-const char s07b_dword_800E5148[] = {0xd8, 0xbb, 0xd2, '%'};
-const char s07b_dword_800E514C[] = {'d', ' ', 'n', 'o'};
-const char s07b_dword_800E5150[] = {'t', ' ', 'f', 'o'};
-const char s07b_dword_800E5154[] = {'u', 'n', 'd', '\n'};
-const char s07b_dword_800E5158[] = {0x0, 0x0, 0x0, 0x0};
-const char s07b_dword_800E515C[] = {'c', 'h', 'a', 'i'};
-const char s07b_dword_800E5160[] = {'r', '.', 'c', 0x0};
-const int s07b_dword_800E5164 = 0x800D5434;
-const int s07b_dword_800E5168 = 0x800D5450;
-const int s07b_dword_800E516C = 0x800D54A0;
-const int s07b_dword_800E5170 = 0x800D54DC;
-const int s07b_dword_800E5174 = 0x800D5514;
-const char s07b_dword_800E5178[] = {0xa4, 0xc4, 0xa4, 0xdc};
-const char s07b_dword_800E517C[] = {0xa3, 0xb1, 0x0, 0x0};
-const char s07b_dword_800E5180[] = {'p', 's', 'y', 'o'};
-const char s07b_dword_800E5184[] = {'b', 'j', ' ', 0xa4};
-const char s07b_dword_800E5188[] = {0xc4, 0xa4, 0xdc, '%'};
-const char s07b_dword_800E518C[] = {'d', ' ', 'n', 'o'};
-const char s07b_dword_800E5190[] = {'t', ' ', 'f', 'o'};
-const char s07b_dword_800E5194[] = {'u', 'n', 'd', '\n'};
-const char s07b_dword_800E5198[] = {0x0, 0x0, 0x0, 0x0};
-const char s07b_dword_800E519C[] = {'p', 'o', 't', '.'};
-const char s07b_dword_800E51A0[] = {'c', 0x0, ' ', ' '};
-const char s07b_dword_800E51A4[] = {0xb6, 0xbb, 0xc1, 0xfc};
-const char s07b_dword_800E51A8[] = {0xa3, 0xb1, 0x0, 0x0};
-const int s07b_dword_800E51AC = 0x800D613C;
-const int s07b_dword_800E51B0 = 0x800D6148;
-const int s07b_dword_800E51B4 = 0x800D6154;
-const int s07b_dword_800E51B8 = 0x800D6160;
-const int s07b_dword_800E51BC = 0x800D616C;
-const char s07b_dword_800E51C0[] = {'p', 's', 'y', 'o'};
-const char s07b_dword_800E51C4[] = {'b', 'j', ' ', 0xb6};
-const char s07b_dword_800E51C8[] = {0xbb, 0xc1, 0xfc, '%'};
-const char s07b_dword_800E51CC[] = {'d', ' ', 'n', 'o'};
-const char s07b_dword_800E51D0[] = {'t', ' ', 'f', 'o'};
-const char s07b_dword_800E51D4[] = {'u', 'n', 'd', '\n'};
-const char s07b_dword_800E51D8[] = {0x0, 0x0, 0x0, 0x0};
-const char s07b_dword_800E51DC[] = {'s', 't', 'a', 't'};
-const char s07b_dword_800E51E0[] = {'u', 'e', '.', 'c'};
-const char s07b_dword_800E51E4[] = {0x0, '2', '0', '0'};
+
+const char anim_data_800E50B4[] = {
+    0x00,0x15,0x01,0x00, 0x05,0x01,0xfe,0x0c,
+    0x00,0x07,0x0a,0x00, 0xc8,0x00,0xc8,0x01,
+    0xff,0x08,0xf8,0xf8, 0xf8,0x02,0x00,0x01,
+    0x0d,0x0f,0x00,0x00,
+};
+
+const char anim_data_800E50E0[] = {
+    0x00,0x36,0x02,0x00, 0x07,0x00,0x1c,0x01,
+    0xfe,0x0c,0x00,0x07, 0x0a,0x01,0x2c,0x01,
+    0x2c,0x01,0xff,0x08, 0xf8,0xf8,0xf8,0x02,
+    0x00,0x01,0x0d,0x0f, 0x01,0xfe,0x0a,0x01,
+    0xf4,0x01,0xf4,0x08, 0xbe,0xbe,0xbe,0x02,
+    0x00,0x01,0x0c,0x00, 0x0f,0x0a,0x00,0xc8,
+    0x00,0xc8,0x01,0xff, 0x08,0xf0,0xf0,0xf0,
+    0x02,0x00,0x01,0x0d, 0x0f,0x31,0x41,0x34
+};
 
 int SECTION(".bss") s07b_dword_800E5BA0;
 int SECTION(".bss") s07b_dword_800E5BA4;

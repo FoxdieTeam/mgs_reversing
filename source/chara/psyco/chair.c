@@ -12,11 +12,10 @@ typedef struct _Work {
     short   dir[ 3 ];
     SVECTOR target[ 3 ];
     int     dist;
-    int     turn;
-    int     prev_turn;
+    char    unused[ 4 ];
 } Work;
 
-static int ox_alive = 0;
+static int chair_alive = 0;
 
 static int UpdateStep( PSYOBJ *obj, int time )
 {
@@ -30,7 +29,7 @@ static int UpdateStep( PSYOBJ *obj, int time )
 
     if ( time == 0 )
     {
-        GM_SeSetMode( &obj->control->mov, 185, GM_SEMODE_BOMB );
+        GM_SeSetMode( &obj->control->mov, 178, GM_SEMODE_BOMB );
     }
 
     obj->control->step.vx = GV_RandS( 16 );
@@ -48,6 +47,13 @@ static void UpdateHeight( SVECTOR *pos )
     pos->vy += ( dir * 240 ) / 4096;
 }
 
+static int CheckHeight( PSYOBJ *obj )
+{
+    obj->control->mov.vy = GV_NearExp8( obj->control->mov.vy, 2800 );
+    if ( ABS( obj->control->mov.vy - 2800 ) <= 96 ) return 1;
+    return 0;
+}
+
 static int CheckTarget( PSYOBJ *obj, SVECTOR *target )
 {
     int vy;
@@ -62,19 +68,11 @@ static int CheckTarget( PSYOBJ *obj, SVECTOR *target )
     return 0;
 }
 
-static int CheckHeight( PSYOBJ *obj, int val )
+static int CheckHeight2( PSYOBJ *obj, int val )
 {
     obj->control->mov.vy = GV_NearExp8( obj->control->mov.vy, val );
     if ( ABS( obj->control->mov.vy - val ) <= 60 ) return 1;
     return 0;
-}
-
-static void InitTurn( Work *work )
-{
-    SVECTOR diff;
-
-    GV_SubVec3( &GM_PlayerPosition, &s07b_dword_800E5BE0, &diff );
-    work->turn = GV_VecDir2( &diff );
 }
 
 static void InitTarget( Work *work, int i )
@@ -88,7 +86,7 @@ static void InitTarget( Work *work, int i )
     pos.vy = 0;
 
     rot.vx = rot.vz = 0;
-    rot.vy = work->dir[ i ] + work->turn;
+    rot.vy = work->dir[ i ];
 
     vec.vx = vec.vy = 0;
     vec.vz = work->dist;
@@ -108,11 +106,11 @@ static void Think0( Work *work, PSYOBJ *obj, int time, int i )
         if ( UpdateStep( obj, time ) ) work->think2[ i ]++;
         break;
     case 1:
-        if ( CheckHeight( obj, 2000 ) )
+        if ( CheckHeight( obj ) )
         {
-            obj->control->turn.vy = work->dir[ i ] + work->turn;
-            work->think2[ i ]++;
+            obj->control->turn.vy = work->dir[ i ];
             GM_SeSetMode( &obj->control->mov, 186, GM_SEMODE_BOMB );
+            work->think2[ i ]++;
         }
         break;
     case 2:
@@ -122,26 +120,34 @@ static void Think0( Work *work, PSYOBJ *obj, int time, int i )
     case 3:
         InitTarget( work, i );
 
-        if ( CheckHeight( obj, 1600 ) )
+        if ( CheckHeight2( obj, 1600 ) )
         {
             work->think2[ i ] = 0;
             work->think1[ i ] = 1;
         }
-    
+
         obj->control->mov.vx = GV_NearExp4( obj->control->mov.vx, work->target[ i ].vx );
         obj->control->mov.vz = GV_NearExp4( obj->control->mov.vz, work->target[ i ].vz );
+        UpdateHeight( &obj->control->mov );
         break;
     }
 }
 
 static void Think1( Work *work, PSYOBJ *obj, int time, int i )
 {
-    int diff;
-
-    if ( i == 0 && ox_alive == 3 )
+    if ( i == 0 && chair_alive == 2 )
     {
-        work->dist += 200;
-        if ( work->dist > 5500 ) work->think2[ 0 ] = 1;
+        switch ( work->think2[ 0 ] )
+        {
+        case 0:
+            work->dist += 36;
+            if ( work->dist > 3500 ) work->think2[ 0 ] = 1;
+            break;
+        case 1:
+            work->dist -= 36;
+            if ( work->dist < 960 ) work->think2[ 0 ] = 0;
+            break;
+        }
     }
 
     UpdateHeight( &obj->control->mov );
@@ -150,68 +156,51 @@ static void Think1( Work *work, PSYOBJ *obj, int time, int i )
     obj->control->mov.vx = work->target[ i ].vx;
     obj->control->mov.vz = work->target[ i ].vz;
 
-    if ( ( work->think2[ 1 ] + work->think2[ 2 ] ) != 0 ) return;
+    if ( ( work->think2[ 1 ] + work->think2[ 2 ] ) == 0 )
+    {
+        chair_alive = 2;
+
+        if ( i == 0 && ( GV_Time % 16 ) == 0 )
+        {
+            GM_SeSetMode( &obj->control->mov, 186, GM_SEMODE_BOMB );
+        }
+
+        work->dir[ i ] = ( work->dir[ i ] + 64 ) & 4095;
+        obj->control->turn.vy = work->dir[ i ];
     
-    if ( ox_alive < 2 )
-    {
-        ox_alive = 2;
-        InitTurn( work );
-        work->prev_turn = work->turn;
-        work->turn = 0;
-        GM_SeSetMode( &obj->control->mov, 186, GM_SEMODE_BOMB );
-    }
-        
-    diff = GV_DiffDirS( work->turn, work->prev_turn );
-        
-    if ( diff > 0 )
-    {
-        if ( diff > 48 ) diff = 48;
-    }
-    else
-    {
-        if ( diff < -48 ) diff = -48;
-    }
-
-    work->turn += diff;
-
-    if ( ( work->turn & 4095 ) == ( work->prev_turn & 4095 ) )
-    {
-        ox_alive = 3;
-    }
-
-    if ( work->think2[ 0 ] == 1 )
-    {
-        work->think2[ 0 ] = 0;
-        work->think1[ 0 ] = 2;
-        work->think1[ 1 ] = 2;
-        work->think1[ 2 ] = 2;
+        if ( time == 420 )
+        {
+            work->think2[ 0 ] = 0;
+            work->think1[ 0 ] = 2;
+            work->think1[ 1 ] = 2;
+            work->think1[ 2 ] = 2;
+        }
     }
 }
 
-static void Think2( Work *work, PSYOBJ *obj, int time, int i )
+static void Think2( Work* work, PSYOBJ* obj, int time, int i )
 {
-    ox_alive = 1;
+    chair_alive = 1;
 
     switch ( work->think2[ i ] )
     {
     case 0:
-        if ( CheckHeight( obj, 2200 ) )
+        if ( CheckHeight( obj ) )
         {
+            obj->control->turn.vy = obj->rot.vy;
             work->think2[ i ]++;
             GM_SeSetMode( &obj->control->mov, 186, GM_SEMODE_BOMB );
         }
         break;
     case 1:
-        if ( CheckTarget( obj, &obj->pos ) )
+        if ( CheckTarget( obj, &obj->pos ))
         {
-            obj->control->turn.vy = obj->rot.vy;
             work->think2[ i ]++;
         }
         break;
     case 2:
-        if ( CheckHeight( obj, obj->pos.vy ) )
+        if ( CheckHeight2( obj, 600 ) )
         {
-            GM_SeSetMode( &obj->control->mov, 185, GM_SEMODE_BOMB );
             obj->control->mov.vy = obj->pos.vy;
             if ( i == 2 ) GV_DestroyActor( work );
         }
@@ -221,20 +210,20 @@ static void Think2( Work *work, PSYOBJ *obj, int time, int i )
 
 static void Act( Work *work )
 {
-    int i, think, time;
+    int i, time, think;
     PSYOBJ *obj;
 
-    if ( ox_alive < 0 )
+    if ( chair_alive < 0 )
     {
-        GV_DestroyActor(work);
+        GV_DestroyActor( work );
         return;
     }
 
     for ( i = 0; i < 3; i++ )
     {
-        think = work->think1[ i ];
-        time = work->time[ i ]++;
         obj = work->obj[ i ];
+        time = work->time[ i ]++;
+        think = work->think1[ i ];
 
         switch ( think )
         {
@@ -262,13 +251,12 @@ static void Die( Work *work )
         if ( obj->control == NULL ) continue;
 
         obj->flag &= ~0x18038;
-        obj->flag &= ~0x800;
-        obj->control->step = DG_ZeroVector;
         obj->control->mov = obj->pos;
         obj->control->turn = obj->rot;
+        obj->control->step = DG_ZeroVector;
     }
 
-    ox_alive = 0;
+    chair_alive = 0;
 }
 
 static int GetResources( Work *work )
@@ -278,39 +266,38 @@ static int GetResources( Work *work )
 
     for ( i = 0; i < 3; i++ )
     {
-        obj = s07b_800D2CFC( GV_StrCode( "牛１" ) + i );
+        obj = s07b_800D2CFC( GV_StrCode( "椅子１" ) + i );
         if ( obj == NULL )
         {
-            printf( "psyobj 牛%d not found\n", i + 1 );
+            printf( "psyobj 椅子%d not found\n", i + 1 );
             return -1;
         }
 
         obj->flag &= ~0xC00;
         obj->flag |= 0x18038;
-    
+
         work->obj[ i ] = obj;
         work->think1[ i ] = 0;
         work->think2[ i ] = 0;
-        work->dir[ i ] = i * 256 - 256;
+        work->dir[ i ] = i * 1365;
         work->time[ i ] = i * -16;
     }
 
     work->dist = 960;
-    work->turn = 0;
-    ox_alive = 1;
+    chair_alive = 1;
     return 0;
 }
 
-void *NewPsychoOx( void )
+void *NewPsychoChair( void )
 {
     Work *work;
 
-    if ( ox_alive > 0 ) return NULL;
+    if ( chair_alive > 0 ) return NULL;
 
     work = GV_NewActor( GV_ACTOR_AFTER, sizeof(Work) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( work, Act, Die, "ox.c" );
+        GV_SetNamedActor( work, Act, Die, "chair.c" );
         if ( GetResources( work ) < 0 )
         {
             GV_DestroyActor( work );
