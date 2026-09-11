@@ -177,7 +177,7 @@ Individual overlay progress:
             <td><b>rank</b></td>
             <td>139 KB</td>
             <td>Ranking Screen</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>roll</b></td>
