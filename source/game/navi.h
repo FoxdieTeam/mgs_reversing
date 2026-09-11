@@ -1,5 +1,5 @@
-#ifndef __MGS_CHARA_NAVIGATE_H__
-#define __MGS_CHARA_NAVIGATE_H__
+#ifndef __MGS_GAME_NAVI_H__
+#define __MGS_GAME_NAVI_H__
 
 #include "game/game.h"
 
@@ -20,4 +20,4 @@ int NavigateGetTargetDist(NAVIGATE *nav, SVECTOR *pos);
 int NavigateTargetNear(NAVIGATE *nav, SVECTOR *pos, int dist);
 int GM_ZoneNavi(NAVIGATE *nav, CONTROL *control);
 
-#endif // __MGS_CHARA_NAVIGATE_H__
+#endif // __MGS_GAME_NAVI_H__
