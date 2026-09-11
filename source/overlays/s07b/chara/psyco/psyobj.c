@@ -25,8 +25,6 @@ const char s07b_dword_800E5110[] = "timeout %d\n";
 const char s07b_dword_800E511C[] = "07b_o11";
 const char s07b_dword_800E5124[] = "shadow";
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D27A8.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D28EC.s")
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2988.s")
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2A0C.s")
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D2A50.s")
