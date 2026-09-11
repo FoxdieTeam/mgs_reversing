@@ -118,10 +118,10 @@ local function c_str(addr)
     return str
 end
 
-if loader_bp == nil then                                                                                                    
+if loader_bp == nil then
     loader_bp = PCSX.addBreakpoint(0x8002E460, 'Exec', 4, 'loader', function()
-       local regs = PCSX.getRegisters()                                                                                    
-       local addr = bit.band(regs.GPR.n.a0, 0x1fffff)     
+       local regs = PCSX.getRegisters()
+       local addr = bit.band(regs.GPR.n.a0, 0x1fffff)
        local mem = PCSX.getMemPtr()
        local name =  c_str(regs.GPR.n.a0)
        if name == 'title' then
@@ -134,5 +134,5 @@ if loader_bp == nil then
             ptr[i] = 0
             print('forcing load of overlay:', overlay)
        end
-    end)                                                                                                                    
-end       
+    end)
+end
