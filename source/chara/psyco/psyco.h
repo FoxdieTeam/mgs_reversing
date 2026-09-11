@@ -4,7 +4,7 @@
 #include "game/game.h"
 
 typedef struct _PSYOBJ {
-    char     pad0[ 0x4 ];
+    int      id;
     int      flag;
     SVECTOR  pos;
     SVECTOR  rot;
