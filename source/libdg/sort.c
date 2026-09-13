@@ -48,7 +48,7 @@ void DG_SortChanl( DG_CHANL *chanl, int idx )
 
     SCRATCHPAD_UNK *pad = get_scratch();
 
-    pad->buf = DG_DivideBuffer;
+    pad->buf = (unsigned int)DG_DivideBuffer;
     pad->ot = chanl->ot[idx] + 1;
 
     buf = get_buf();
