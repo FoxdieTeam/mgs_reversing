@@ -23,38 +23,34 @@ typedef struct RadioCoordsStru_8009E6FC
 
 typedef struct MENU_CURPOS
 {
-    char mes[8];
-    int  field_8;
-    int  field_C;
-    int  field_10;
-    int  field_14;
-    int  field_18;
-    int  field_1C;
-    int  field_20;
+    char mes[ 32 ];
+    int  num;
 } MENU_CURPOS;
 
 typedef struct SELECT_INFO
 {
-    short       field_0_xpos;
-    short       field_2_ypos;
-    short       current_index;
+    short       xofs;
+    short       yofs;
+    short       current;
     short       top;
     char        max_num;
-    char        field_9;
-    short       current_dir;
-    // Used to slow down the speed of entry selection while holding pad up/down.
-    // See also struct Work in file select.c
-    short       scroll_delay;
+    short       move_dir;
+    short       move_dir_delay;
+
+    // TODO: investigate, some number value
     short       field_E;
-    short       field_10;
-    short       field_12;
-    short       field_14;
+
+    short       width;
+    short       height;
+    short       enable;
     short       open_count;
+
+    // TODO: investigate, probably upper_n
     short       field_18;
-    short       field_1A;
-    KCB        *field_1C_kcb;
+
+    KCB        *kcb;
     const char *message;
-    MENU_CURPOS menu[0];
+    MENU_CURPOS menu[ 0 ];
 } SELECT_INFO;
 
 struct RadioFileModeUnk1;
