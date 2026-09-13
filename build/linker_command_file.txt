@@ -2439,10 +2439,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "rank" %}
     include "{{OBJ_DIR}}\stage\rank.obj", overlay
     include "{{OBJ_DIR}}\menu\mload.obj", overlay
+    include "{{OBJ_DIR}}\overlays\rank\menu\pocket.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\rank\overlay2.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\rank\menu\pocket.obj", overlay
     include "{{OBJ_DIR}}\overlays\rank\chara\pocket\pkt_back.obj", overlay
     include "{{OBJ_DIR}}\overlays\rank\chara\pocket\entry.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay

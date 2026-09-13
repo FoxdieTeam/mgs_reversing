@@ -48,10 +48,12 @@ int rank_dword_800C3310 = 0x00000000;
 int rank_dword_800C3314 = 0x800E06C4;
 int rank_dword_800C3318 = 0x00000000;
 int rank_dword_800C331C = 0x800E06BC;
+
 int rank_dword_800C3320 = 0x800E0708;
 int rank_dword_800C3324 = 0x800E06F8;
 int rank_dword_800C3328 = 0x800E0770;
 int rank_dword_800C332C = 0x800E076C;
+
 int rank_dword_800C3330 = 0x00008000;
 
 /*--- PocketStation ROM Start ---*/
@@ -4618,13 +4620,6 @@ int rank_dword_800CBA60 = 0x0000002A;
 int rank_dword_800CBA64 = 0x00000026;
 int rank_dword_800CBA68 = 0x0000001A;
 
-const char rank_dword_800E03BC[] = "id::%d\n";
-const char rank_dword_800E03C4[] = "------------\n";
-const char rank_dword_800E03D4[] = "SERIAL:0x%08x=%d(10)\n";
-const char rank_dword_800E03EC[] = "------------CHANGE BIGBOSS\n";
-const char rank_dword_800E0408[] = "------------%08x\n";
-const char rank_dword_800E041C[] = "-----------------------------\n";
-const char rank_dword_800E043C[] = "pocket.c";
 const char rank_dword_800E0448[] = {0x91, 0xb, 0x90, '\''};
 const char rank_dword_800E044C[] = {0x81, 0xd, 0x81, 0x19};
 const char rank_dword_800E0450[] = {0x81, 'K', 0x81, '('};
