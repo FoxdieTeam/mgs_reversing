@@ -11,8 +11,6 @@ typedef struct _Work
     short   time;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
-
 static void Act(Work *work)
 {
     if ( --work->time == 0 )
@@ -34,7 +32,7 @@ void *NewAfterSe(short sound, short time)
 
     if (sound != 0 && time != 0)
     {
-        work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+        work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
         if (work)
         {
             GV_SetNamedActor(&work->actor, Act, NULL, "afterse.c");

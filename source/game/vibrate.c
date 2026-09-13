@@ -93,15 +93,13 @@ static void Act(Work *work)
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void *NewPadVibrationGcl(int pan)
 {
     Work *work;
     char flags;
     unsigned char *data;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, NULL, "vibrate.c");
@@ -123,7 +121,7 @@ void *NewPadVibration(unsigned char *data, int flags)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, NULL, "vibrate.c");

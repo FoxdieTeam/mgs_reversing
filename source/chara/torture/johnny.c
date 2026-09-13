@@ -87,8 +87,6 @@ typedef struct _Work
     int            unkBE4;
 } Work;
 
-#define EXEC_LEVEL  GV_ACTOR_USER
-
 #define SEGMENT_ATR (0)
 
 #define TARGET_FLAG ( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK )
@@ -104,9 +102,6 @@ SVECTOR s03c_dword_800C32DC = {64512, 0, 0};
 SVECTOR s03c_dword_800C32E4 = {0, 0, 3500, 0};
 SVECTOR s03c_dword_800C32EC = {0, 0, 300};
 SVECTOR target_size = {300, 750, 300};
-
-extern GM_SnakeCameraWork  GM_SnakeCamera;
-extern GM_CameraSystemWork        GM_Camera;
 
 extern int s03c_dword_800C33D8;
 
@@ -3830,7 +3825,7 @@ void *NewJohnny(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

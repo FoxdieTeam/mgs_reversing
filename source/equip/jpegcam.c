@@ -26,9 +26,6 @@ static int SECTION(".bss")      dword_800BDCD0;
 char SECTION(".bss")            gap_800BDCD4[ 4 ]; // TODO
 static TMat8x8B SECTION(".bss") gJpegcamMatrix2_800BDCD8;
 
-extern GM_CameraSystemWork GM_Camera;
-extern GM_SnakeCameraWork  GM_SnakeCamera;
-
 extern int   dword_8009F604;
 extern short dword_800ABBD4;
 extern short dword_800ABBDC;
@@ -36,8 +33,6 @@ extern short dword_800ABBDC;
 extern char memoryCardFileName[]; // = "BISLPM-99999        ";
 
 /*---------------------------------------------------------------------------*/
-
-#define EXEC_LEVEL GV_ACTOR_MANAGER
 
 #define CAMERA_SIGHT    0xeee9  // GV_StrCode("camera")
 #define CAMERA_SIGHT2   0xb3cd  // GV_StrCode("camera_2")
@@ -1078,7 +1073,7 @@ void *NewJpegcam(CONTROL *control, OBJECT *parent, int num_parent)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "jpegcam.c");

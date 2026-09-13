@@ -39,8 +39,6 @@ typedef struct _Work
     SVECTOR  fA7C;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void s04c_cape_800D7938(Work *work)
 {
     int i;
@@ -584,7 +582,7 @@ void *NewCape(SVECTOR *arg0, SVECTOR *arg1, MATRIX *light, MATRIX *color)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, cape_Act, Die, "cape.c");

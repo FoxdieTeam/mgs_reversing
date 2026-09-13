@@ -12,8 +12,6 @@ extern void NewSplash2_800DB6F0( int angy, SVECTOR *pos, int noripple );
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 typedef struct _Work
 {
     GV_ACT  actor;
@@ -228,7 +226,7 @@ void *NewWaterArea2( int name, int where, int argc, char **argv )
 {
     Work *work ;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
+    work = GV_NewActor( GV_ACTOR_USER, sizeof( Work ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), Act, Die, "wt_area2.c" );
         if ( GetResources( work, name, where ) < 0 )

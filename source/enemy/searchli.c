@@ -86,8 +86,6 @@ void s01a_object_800D9424(CONTROL *, int);
 void s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);
 void s01a_lit_mdl_800E2D3C(GV_ACT *, int angle);
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 void s01a_searchli_800D7320(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
 {
     POLY_FT4 *poly;
@@ -1122,7 +1120,7 @@ void *NewSearchlight(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SearchlightAct_800D86F0, SearchlightDie_800D9274, "searchli.c");

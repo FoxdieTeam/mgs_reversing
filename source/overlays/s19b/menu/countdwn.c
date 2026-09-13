@@ -28,8 +28,6 @@ int     SECTION(".bss") countdown_proc;
 DG_TEX *SECTION(".bss") warn1_texture;
 DG_TEX *SECTION(".bss") warn2_texture;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 STATIC void draw_image(MenuPrim *prim, int x, int y, char shade, DG_TEX *tex)
 {
     POLY_FT4 *poly;
@@ -96,7 +94,7 @@ void *NewCountdown(int time, int proc)
     warn1_texture = DG_GetTexture(PCX_CD_WARN);
     warn2_texture = DG_GetTexture(PCX_CD_KEIKOKU);
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(GV_ACT));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(GV_ACT));
     if (work)
     {
         GV_SetNamedActor(work, Act, Die, "countdwn.c");

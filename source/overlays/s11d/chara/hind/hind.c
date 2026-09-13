@@ -42,8 +42,6 @@ typedef struct _Work
     short    f97A;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 int s11d_hind_800C976C(short *p, int target, int step)
 {
     short val = *p;
@@ -321,7 +319,7 @@ void *NewHind(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

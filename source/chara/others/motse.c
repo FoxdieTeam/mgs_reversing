@@ -7,8 +7,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
-
 typedef struct MotseElem
 {
     int param1;
@@ -75,7 +73,7 @@ void *NewMotionSoundEffect(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "motse.c");

@@ -18,8 +18,6 @@ typedef struct _Work
 
 void * AN_Unknown_800CA1EC(MATRIX *pos, int mark);
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 static int CheckMessages(u_short name, int n_hashes, u_short *hashes)
 {
     GV_MSG *msg;
@@ -86,7 +84,7 @@ void *NewScreenMark(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "scn_mark.c");

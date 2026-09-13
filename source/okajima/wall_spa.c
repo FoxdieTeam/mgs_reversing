@@ -20,8 +20,6 @@ typedef struct _Work
 void *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 int WallSpaGetSvecs_800CB080(char *opt, SVECTOR *out)
 {
     int   count;
@@ -187,7 +185,7 @@ void *NewWallSpark(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WallSpaAct_800CB300, WallSpaDie_800CB420, "wall_spa.c");

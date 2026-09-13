@@ -12,8 +12,6 @@ extern void s08c_800C42B0(SVECTOR *pos);
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 typedef struct _Work
 {
     GV_ACT  actor;
@@ -125,7 +123,7 @@ void *NewBombLed(SVECTOR *pos)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "bombled.c");

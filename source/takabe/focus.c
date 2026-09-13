@@ -148,13 +148,11 @@ int FocusGetResources_800CEDA4(Work *work, int arg1, int arg2)
     return 0;
 }
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
-
 void *NewFocusView(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, FocusAct_800CEA70, FocusDie_800CED74, "focus.c");

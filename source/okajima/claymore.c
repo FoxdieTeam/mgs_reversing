@@ -56,8 +56,6 @@ typedef struct _Work
     int       field_128;
 } Work;
 
-#define EXEC_LEVEL  GV_ACTOR_AFTER
-
 #define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 
 /*---------------------------------------------------------------------------*/
@@ -397,7 +395,7 @@ void *NewClaymore(SVECTOR *noise_position, SVECTOR *new_field_2C, int pCnt, int 
 
     for (i = 0; i < pCnt; i++)
     {
-        work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+        work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
         if (work != NULL)
         {
             GV_SetNamedActor(&work->actor, claymore_Act, claymore_Die, "claymore.c");

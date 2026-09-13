@@ -13,8 +13,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
-
 typedef struct _Work
 {
     GV_ACT   actor;
@@ -156,7 +154,7 @@ void *NewBlast(MATRIX *world, BLAST_DATA *blast_data)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "blast.c");
@@ -181,7 +179,7 @@ void *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "blast.c");

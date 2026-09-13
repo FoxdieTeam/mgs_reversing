@@ -8,7 +8,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_PREV2
 #define CHARA_NAME      0x7a05  // GV_StrCode("シネマスクリーン")
 
 typedef struct _PRIMS
@@ -267,7 +266,7 @@ void *NewCinemaScreen( int time, int type )
     Work *work ;
 
     OPERATOR() ;
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
+    work = GV_NewActor( GV_ACTOR_PREV2, sizeof( Work ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), Act, Die, "cinema.c" ) ;
         if ( GetResources( work, time, type ) < 0 ) {
@@ -293,7 +292,7 @@ void *NewCinemaScreenSet( int name, int where, int argc, char **argv )
     int time, type ;
 
     OPERATOR() ;
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
+    work = GV_NewActor( GV_ACTOR_PREV2, sizeof( Work ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), Act, Die, "cinema.c" ) ;
         time = THING_Gcl_GetInt( 't' ) ;

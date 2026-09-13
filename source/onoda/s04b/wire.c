@@ -62,8 +62,6 @@ char           s04c_dword_800C35EC[] = {0x7F, 0x03, 0x00, 0x00};
 SVECTOR        s04c_dword_800C35F0 = {2000, 2000, 2000, 0};
 SVECTOR        s04c_dword_800C35F8 = {2500, 10000, 2500, 0};
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 static void CheckWireCut(Work *work)
 {
     int   px, pz;
@@ -1569,7 +1567,7 @@ void *NewWire(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "wire.c");

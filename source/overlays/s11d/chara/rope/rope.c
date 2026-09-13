@@ -100,11 +100,7 @@ typedef struct _Work
     int         field_1088[4];
 } Work;
 
-#define EXEC_LEVEL  GV_ACTOR_USER
 #define TARGET_FLAG ( TARGET_AVAIL | TARGET_POWER | TARGET_SEEK )
-
-extern GM_CameraSystemWork GM_Camera;
-extern GM_SnakeCameraWork GM_SnakeCamera;
 
 static u_char s11d_dword_800C32B4[] = { 0x7F, 0x01, 0x00, 0x00 };
 static u_char s11d_dword_800C32B8[] = { 0xD2, 0x02, 0x00, 0x00 };
@@ -1209,7 +1205,7 @@ void *NewRope(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

@@ -1,7 +1,5 @@
 #include "game/game.h"
 
-#define EXEC_LEVEL  GV_ACTOR_USER
-
 #define PRIM_COUNT  8
 
 typedef struct _Work
@@ -217,7 +215,7 @@ void *NewPaperFall(MATRIX *world)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(work, Act, Die, "pfall.c");

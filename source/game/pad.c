@@ -6,8 +6,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 typedef struct _Work
 {
     GV_ACT  actor;
@@ -77,7 +75,7 @@ void *NewPadControl(int name, int where, int argc, char **argv)
     char *ops;
     Work *work ;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
+    work = GV_NewActor( GV_ACTOR_USER, sizeof( Work ) ) ;
 
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */

@@ -16,8 +16,6 @@ extern char *next_str_ptr;
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 typedef struct _Work
 {
     GV_ACT         actor;
@@ -376,7 +374,7 @@ void *NewTextureLamp(int name, int where, int argc, char **argv)
 
     next_str_ptr = nextStrPtr;
 
-    work = GV_NewActor(EXEC_LEVEL, ((param1 * param2) * sizeof(SVECTOR) * 4) + sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, ((param1 * param2) * sizeof(SVECTOR) * 4) + sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "lamp.c");

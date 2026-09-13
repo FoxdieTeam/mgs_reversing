@@ -24,8 +24,6 @@ extern int               ZAKO11F_GameFlag_800D5C4C;
 extern int               ZAKOCOM_PlayerAddress_800D5C50;
 extern int               ZAKOCOM_PlayerMap_800D5C54;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 int s11i_zk11fcom_800D0BF4( Zako11FWork *watcher ) // SetZako
 {
     int i;
@@ -981,7 +979,7 @@ void *NewZako11FCommander( int name, int where )
 {
     Zako11FCommanderWork *work ;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Zako11FCommanderWork ) ) ;
+    work = GV_NewActor( GV_ACTOR_PREV, sizeof( Zako11FCommanderWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), Act, Die, "zk11fcom.c" );
         GetResources( work, name, where );

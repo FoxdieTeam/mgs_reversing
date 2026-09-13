@@ -9,8 +9,6 @@ typedef struct _Work
     DG_PRIM *prim;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
-
 SVECTOR lamp_falloff = {0, 0, 4096};
 RECT lamp_rect = {200, 200, 400, 400};
 SVECTOR lamp_position[] = {{330, 890, 1436}, {-330, 890, 1436}};
@@ -132,7 +130,7 @@ void *NewJeepLamp2(MATRIX *root)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(work, Act, Die, "jlamp2.c");

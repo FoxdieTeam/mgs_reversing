@@ -18,8 +18,6 @@ typedef struct _Work
     int      field_3C;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 const char aSmoke[] = "smoke";
 const char aSmokeC[] = "smoke.c";
 
@@ -216,7 +214,7 @@ void *NewSmoke(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SmokeAct_800D2A80, SmokeDie_800D2AA0, aSmokeC);

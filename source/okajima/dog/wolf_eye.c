@@ -21,8 +21,6 @@ SVECTOR SECTION(".bss") s12c_800DA418;
 int SECTION(".bss") s12c_800DA420;
 int SECTION(".bss") s12c_dword_800DA424;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void WolfEye_800D3518()
 {
     s12c_800DA418 = DG_ZeroVector;
@@ -153,7 +151,7 @@ void *NewWolfEye_800D3930(MATRIX *root, int *visible)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WolfEyeAct_800D35EC, WolfEyeDie_800D36C0, "wolf_eye.c");

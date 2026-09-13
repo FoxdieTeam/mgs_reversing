@@ -26,8 +26,6 @@ void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
 void *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3);
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 void DeathSp_800CFDBC(SVECTOR *out, int index)
 {
     OBJECT *body;
@@ -200,7 +198,7 @@ void *NewDeathSpark(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, DeathSpAct_800CFE1C, DeathSpDie_800D00EC, "death_sp.c");

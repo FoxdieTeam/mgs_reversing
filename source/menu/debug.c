@@ -10,7 +10,6 @@
 
 extern M_Sys MemorySystems[ MAX_MEMSYS ];
 extern DG_TEX  TexSets[DG_MAX_TEXTURES];
-extern unsigned short DG_ChanlTime[32];
 
 unsigned char SECTION(".sbss") menu_current_debug_screen_800ABB20;
 unsigned char SECTION(".sbss") dword_800ABB21;

@@ -25,8 +25,6 @@ typedef struct _Work
     RECT           prim_rect;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
-
 /*---------------------------------------------------------------------------*/
 
 int tabako_dword_8009F2C0 = 0;
@@ -135,7 +133,7 @@ static int GetResources(Work *work, OBJECT *parent, int num_parent)
 
 void *NewTabako(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    Work *work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
 
     if (work)
     {

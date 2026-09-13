@@ -39,10 +39,6 @@ typedef struct Snake03c2Work
     int    procs[4];
 } Snake03c2Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
-extern GM_SnakeCameraWork  GM_SnakeCamera;
-
 void Snake03c1Act_800CD698(Snake03c1Work *work)
 {
     SVECTOR  svec;
@@ -202,7 +198,7 @@ void *NewPrisonSnake(int name, int where)
 {
     Snake03c1Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Snake03c1Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Snake03c1Work));
     if (work == NULL)
     {
         return NULL;
@@ -367,7 +363,7 @@ void *NewPrisonSnake2()
 {
     Snake03c2Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Snake03c2Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Snake03c2Work));
     if (work == NULL)
     {
         return NULL;

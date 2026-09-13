@@ -9,8 +9,6 @@
 
 /*----------------------------------------------------------------*/
 
-#define EXEC_LEVEL  GV_ACTOR_USER
-
 #define ROT_GROUP   16
 
 // clang-format off
@@ -157,7 +155,7 @@ void *NewShakeModelGCL( int name, int where, int argc, char **argv )
     int     model;
     int     scale;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "shakemdl.c");
@@ -185,7 +183,7 @@ void *NewShakeModel( int model, int axis, int scale )
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "shakemdl.c");

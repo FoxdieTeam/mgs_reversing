@@ -43,8 +43,6 @@ typedef struct _Work
 unsigned short s02c_dword_800C3714[] = {HASH_KILL, 0xDCFC, 0xE102};
 const SVECTOR  s02c_dword_800E3900 = {0, 512, 1024, 0};
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void IrCens_800D97E8(POLY_GT4 *poly, DG_TEX *tex, int arg2)
 {
     int i;
@@ -530,7 +528,7 @@ void *NewIrSensor(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, IrCensAct_800D9EF8, IrCensDie_800DA3DC, "ir_cens.c");

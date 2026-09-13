@@ -57,7 +57,6 @@ SVECTOR eventmous_vecs[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 void   AN_Unknown_800CA320( MATRIX *, int );
 void   NewSplash2_800DB6F0( int, SVECTOR *, int );
 
-#define EXEC_LEVEL      GV_ACTOR_USER
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
 
 void Eventmouse_800C8E88(Work *work, SVECTOR *arg1, int arg2)
@@ -757,7 +756,7 @@ void *NewEventmouse_800CA6F4(HZD_PTP *points, short n_points, int arg2, int arg3
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, EventMouseAct_800C9F14, EventMouseDie_800CA2C4, "evntmous.c");

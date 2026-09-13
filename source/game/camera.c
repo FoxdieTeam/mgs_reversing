@@ -1,3 +1,4 @@
+#define __GAME_CAMERA_C__
 #include "camera.h"
 
 #include <stdio.h>
@@ -13,7 +14,7 @@
 #include "game.h"
 #include "strcode.h"
 
-STATIC int     SECTION(".sbss") dword_800ABA84;
+STATIC int     SECTION(".sbss") dword_800ABA84; // UNUSED
 STATIC SVECTOR SECTION(".sbss") svec_800ABA88;
 STATIC int     SECTION(".sbss") dword_800ABA90;
 STATIC int     SECTION(".sbss") dword_800ABA94;

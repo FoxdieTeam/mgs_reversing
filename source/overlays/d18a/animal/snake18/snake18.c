@@ -128,8 +128,6 @@ typedef struct _PUNCH
     int     faint;
 } PUNCH;
 
-extern GM_CameraSystemWork GM_Camera;
-
 extern short    d18a_dword_800C37E0;
 extern short    d18a_dword_800C37F8;
 extern SVECTOR  d18a_dword_800C3850;
@@ -523,7 +521,6 @@ void d18a_snake18_800CB470(Snake18Work *work)
 }
 void d18a_snake18_800CB514(Snake18Work *work)
 {
-    extern GM_SnakeCameraWork GM_SnakeCamera;
     MATRIX   sp10;
     MATRIX   sp30;
     SVECTOR  sp50;
@@ -1984,7 +1981,6 @@ extern void d18a_snake18_800CB378(Snake18Work *work);
 extern void d18a_snake18_800CF03C(Snake18Work *work);
 extern void d18a_snake18_800CF744(Snake18Work *work);
 extern void d18a_snake18_800CB514(Snake18Work *work);
-extern GM_SnakeCameraWork GM_SnakeCamera;
 
 void d18a_snake18_800D1814(Snake18Work *work)
 {
@@ -2040,7 +2036,6 @@ void d18a_snake18_800D18EC(Snake18Work *work)
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
-extern GM_SnakeCameraWork GM_SnakeCamera;
 
 void d18a_snake18_800D198C(Snake18Work *work, int amount)
 {

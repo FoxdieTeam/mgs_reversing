@@ -9,8 +9,6 @@
 #include "libdg/libdg.h"
 #include "game/game.h"          // for GM_MakePrim
 
-extern DG_CHANL DG_Chanls[3];
-
 /*---------------------------------------------------------------------------*/
 
 static void *MakeIndividualRect3DPrimHandler(DG_PRIM *prim, POLY_FT4 *packs, int n_packs)

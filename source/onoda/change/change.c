@@ -88,8 +88,6 @@ signed char byte_800C3260[] = {
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_MANAGER
-
 static void Change_800C364C( Work *work, int index )
 {
     RECT rect;
@@ -684,7 +682,7 @@ void *NewCdChange( int name, int where, int argc, char **argv )
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( GV_ACTOR_MANAGER, sizeof( Work ) );
     if (work != NULL)
     {
         GV_SetNamedActor( &( work->actor ), Act, Die, "change.c" );

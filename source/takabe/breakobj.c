@@ -30,8 +30,6 @@ typedef struct _Work
     short   unused2;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 /*---------------------------------------------------------------------------*/
 
 static unsigned short breakobj_msgs_800C36E8[2] = {0xC39B, 0x881D};
@@ -175,7 +173,7 @@ void *NewBreakObject(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "breakobj.c");

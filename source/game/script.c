@@ -15,9 +15,6 @@
 
 static HZD_BND gBindsArray_800b58e0[ 128 ];
 
-extern CAMERA              GM_CameraList[ 8 ];
-extern GM_CameraSystemWork GM_Camera;
-
 extern int     dword_8009F46C;
 extern SVECTOR svector_8009F478;
 

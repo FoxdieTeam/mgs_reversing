@@ -23,8 +23,6 @@ typedef struct _Work
     int      time;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 typedef struct WindcrclScratch
 {
     MATRIX  scale;
@@ -198,7 +196,7 @@ void *NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WindcrclAct_800CF414, WindcrclDie_800CF55C, "windcrcl.c");
@@ -221,7 +219,7 @@ void *NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WindcrclAct_800CF414, WindcrclDie_800CF55C, "windcrcl.c");

@@ -39,7 +39,6 @@ typedef struct _Work
     int         f25AC;
 } Work;
 
-#define EXEC_LEVEL      GV_ACTOR_USER
 #define MODEL_FLAG      ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE )
 
 #define ATTACK_DAMAGE   (256)
@@ -580,7 +579,7 @@ void *NewStage11Objects(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         work->name = name;

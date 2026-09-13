@@ -24,8 +24,6 @@ typedef struct _Work
 
 unsigned short env_snd_hashes[] = { 0xBA27, 0x560E };
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void EnvSndAct_800DF1F8(Work *work)
 {
     int time;
@@ -121,7 +119,7 @@ void *NewEnvSound(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, EnvSndAct_800DF1F8, EnvSndDie_800DF39C, "env_snd.c");

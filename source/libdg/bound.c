@@ -4,10 +4,6 @@
 
 static void UpdateThermalTexture( DG_CHANL *chanl, int index );
 
-typedef struct {
-    int vx, vy, vz;
-} VECTOREX;
-
 typedef	struct {
     VECTOREX bound_min;
     VECTOREX bound_max;

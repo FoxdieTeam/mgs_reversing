@@ -14,8 +14,6 @@
 
 /*----------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_PREV
-
 #define UP_SPEED        15
 #define MIN_BUBBLE_SIZE 20
 #define MAX_BUBBLE_SIZE 40
@@ -412,7 +410,7 @@ void *NewBubbleS(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "bubble_s.c");

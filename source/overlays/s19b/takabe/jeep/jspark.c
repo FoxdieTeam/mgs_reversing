@@ -16,8 +16,6 @@ typedef struct _JEEP_SYSTEM
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 typedef struct _Work
 {
     GV_ACT   actor;
@@ -292,7 +290,7 @@ void *NewJeepSpark(MATRIX *world, int count)
 
     for (i = 0; i <= count; i++)
     {
-        work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+        work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
 
         if (work != NULL)
         {

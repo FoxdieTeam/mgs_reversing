@@ -17,8 +17,6 @@ void panel_move_plus(Menu_Item_Unknown *a1, int a2);
 
 // menu related?
 
-extern GM_CameraSystemWork GM_Camera;
-
 STATIC PANEL_CONF *dword_800AB584 = NULL;
 
 extern int dword_8009E544[];

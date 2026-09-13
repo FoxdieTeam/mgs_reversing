@@ -3,8 +3,6 @@
 
 #include "game/game.h"
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 typedef struct HindWork
 {
     GV_ACT        actor;

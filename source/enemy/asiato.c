@@ -13,8 +13,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL  GV_ACTOR_PREV
-
 #define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
 
 typedef struct _Work
@@ -139,7 +137,7 @@ void *NewAsiatoChar(MATRIX *world, int arg1, int arg2, int arg3, int arg4)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, AsiatoChar_Act, AsiatoChar_Die, "asiato.c");
@@ -431,7 +429,7 @@ void *NewAsiato(int name, int where, int argc, char **argv)
 {
     Work2 *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work2));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work2));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "asiato.c");
@@ -446,7 +444,7 @@ void *NewAsiatoKun(int name, int where, int argc, char **argv)
     // Identical to NewAsiato
     Work2 *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work2));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work2));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "asiato.c");

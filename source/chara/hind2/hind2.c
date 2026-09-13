@@ -42,7 +42,6 @@ typedef struct _Hind2Work
 
 SVECTOR s11i_800C32C0 = { 0, -2728, 5587, 0 };
 
-#define EXEC_LEVEL GV_ACTOR_USER
 #define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE )
 
 void Hind2_800C43F0( SVECTOR *a, SVECTOR *b, VECTOR *out )
@@ -723,7 +722,7 @@ void *NewHind2( int name, int where )
 {
     Hind2Work *work;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof(Hind2Work) );
+    work = GV_NewActor( GV_ACTOR_USER, sizeof(Hind2Work) );
     if ( work )
     {
         GV_SetNamedActor( &work->actor, Hind2Act, Hind2Die, "hind2.c" );

@@ -43,8 +43,6 @@ typedef struct _Work
     unsigned short field_540_materialOffsets[36];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
-
 DG_DEF litmdl_dg_def = {
     1,                      // n_models
     1,                      // n_x_models
@@ -71,8 +69,6 @@ DG_DEF litmdl_dg_def = {
         }
     }
 };
-
-extern DG_CHANL DG_Chanls[3];
 
 void s01a_lit_mdl_800E26EC(Work *work)
 {
@@ -236,7 +232,7 @@ void *s01a_lit_mdl_800E2C88(MATRIX *arg0, int arg1, int arg2, int arg3)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s01a_lit_mdl_800E2928, s01a_lit_mdl_800E2ABC, "lit_mdl.c");

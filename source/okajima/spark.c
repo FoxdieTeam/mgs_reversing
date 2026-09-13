@@ -25,8 +25,6 @@ typedef struct _Work
     int      f170_counter;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 /*---------------------------------------------------------------------------*/
 
 STATIC int gSparkRandomTableIndex = -1;
@@ -294,7 +292,7 @@ void *NewSpark(MATRIX *pMatrix, int count)
 
     for (i = 0; i <= count; i++)
     {
-        work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+        work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
         if (work != NULL)
         {
             GV_SetNamedActor(&work->actor, Act, Die, "spark.c");

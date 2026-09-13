@@ -16,7 +16,6 @@ typedef struct _Work
     SVECTOR        pos;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
 
 static inline int CheckMessages(Work *work)
@@ -122,7 +121,7 @@ void *NewTortureBed(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "bed.c");

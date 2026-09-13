@@ -62,7 +62,6 @@ typedef struct _Work
     short          field_9B6;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
 #define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE)
 
 /* TODO: type */
@@ -1517,7 +1516,7 @@ void *NewTortureOcelot(int arg0, int arg1)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

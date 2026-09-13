@@ -955,13 +955,11 @@ static void GetResources( ZakoCommanderWork *work, int name, int where )
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 void *NewZako11ECommander( int name, int where, int argc, char **argv )
 {
     ZakoCommanderWork *work ;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( ZakoCommanderWork ) ) ;
+    work = GV_NewActor( GV_ACTOR_PREV, sizeof( ZakoCommanderWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), Act, Die, "zk11ecom.c" );
         GetResources( work, name, where );

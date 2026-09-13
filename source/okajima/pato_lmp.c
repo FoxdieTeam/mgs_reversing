@@ -58,10 +58,6 @@ const char s00a_aClose_800E0AF4[] = "close";
 const char s00a_aSeon_800E0AFC[] = "se_on";
 const char s00a_aSeoff_800E0B04[] = "se_off";
 
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 int s00a_pato_lmp_800D5E30( unsigned short name, int hash_count, unsigned short* hashes )
 {
     GV_MSG *msg;
@@ -973,7 +969,7 @@ void *NewPatrolLamp(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PatrolLampAct_800D6678,

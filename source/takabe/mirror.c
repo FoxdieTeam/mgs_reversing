@@ -48,8 +48,6 @@ void     Mirror_800E0A88(MirrorEntry *entry);
 DG_DEF * Mirror_800E0AD8(DG_DEF *def, int arg1);
 void     Mirror_800E0BDC(DG_OBJS *objs);
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void MirrorAct_800DFDDC(Work *work)
 {
     SVECTOR       sp10;
@@ -390,7 +388,7 @@ void *NewMirror(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, MirrorAct_800DFDDC, MirrorDie_800E0670, "mirror.c");

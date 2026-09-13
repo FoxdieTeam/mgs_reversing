@@ -66,8 +66,6 @@ OpTxtScnUnk opening_dword_800C33E4[2] =
     {{0, 0, 20, 5},  {0, 128, 32, 70}, opening_dword_800C32C8, opening_dword_800C32C8}
 };
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 #define getTPageX(tp) (((tp) << 6) & 0x3c0)
 #define getTPageY(tp) ((((tp) << 4) & 0x100) + (((tp) >> 2) & 0x200))
 
@@ -289,7 +287,7 @@ void *NewOpTxtScn_800CD29C(void)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, OptxtscnAct_800CCDE8, OpTxtScnDie_800CCFFC, "optxtscn.c");

@@ -4,9 +4,6 @@
 #include "hind.h"
 #include "libgcl/libgcl.h"
 
-extern DG_CHANL         DG_Chanls[3];
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern GM_CameraSystemWork        GM_Camera;
 extern int              MENU_RadarScale;
 extern int              amissile_alive_8009F490;
 
@@ -112,7 +109,7 @@ void s11g_hind_800D2CB4(HindWork *work)
 
 void s11g_hind_800D2F60(HindWork *work)
 {
-    DG_VECTOR sp10[2];
+    VECTOREX  sp10[2];
     VECTOR    sp30;
     VECTOR    sp38;
     VECTOR   *vec;
@@ -291,7 +288,7 @@ void Hind_800D33CC(HindWork *work, int arg)
 
 void HindAct(HindWork *work)
 {
-    DG_VECTOR auStack_78[2];
+    VECTOREX  auStack_78[2];
     VECTOR    scale;
     VECTOR    local_50;
     SVECTOR   eye;

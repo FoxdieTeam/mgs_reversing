@@ -8,8 +8,6 @@
 #include "libgcl/libgcl.h"
 #include "okajima/blood.h"
 
-extern GM_CameraSystemWork GM_Camera;
-
 extern int s03d_dword_800C39B0;
 extern int s03d_dword_800C39B8;
 extern int s03d_dword_800C39C0;

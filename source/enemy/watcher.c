@@ -36,8 +36,6 @@ const char aErrnotenoughwork_800DFCB4[] = "Err not enough work !!\n";
 const char aWatcharcactionpointerr_800DFCCC[] = "watchar.c : action point Err\n";
 const char aWatcherc_800DFCEC[] = "watcher.c";
 
-extern GM_CameraSystemWork      GM_Camera;
-
 /*  ルート変更フラグチェック
     指定フラグが立てば次のルートへ変更
     ここではコマンダーに変更ルートをセットする
@@ -698,13 +696,11 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_C14 = work->start_pos;
 }
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 void *NewSnakeWatcher(int name, int where, int argc, char **argv)
 {
     WatcherWork *work ;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( WatcherWork ) ) ;
+    work = GV_NewActor( GV_ACTOR_PREV, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), WatcherAct_800C430C, WatcherDie_800C487C, aWatcherc_800DFCEC );
         WatcherGetResources_800C4B7C( work, name, where );

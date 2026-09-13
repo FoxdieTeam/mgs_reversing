@@ -20,8 +20,6 @@ extern BLAST_DATA    blast_data_8009F4B8[8];
 /*---------------------------------------------------------------------------*/
 // Grenade (frag/stun/chaff)
 
-#define EXEC_LEVEL      GV_ACTOR_AFTER
-
 #define GRENADE_MODEL   0x3b88  // GV_StrCode("grenade")
 #define CANISTER_MODEL  0x7a64  // GV_StrCode("can_gren")
 #define C4BOMB_MODEL    0xf83d  // GV_StrCode("c4_bomb")
@@ -241,7 +239,7 @@ static void *InitGrenade( CONTROL *root_ctrl, OBJECT *root_obj, int unit,
 {
     Work *work;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( GV_ACTOR_AFTER, sizeof( Work ) );
     if ( work )
     {
         GV_SetNamedActor( &work->actor, &Act, &Die, "grenade.c");

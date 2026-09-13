@@ -55,9 +55,6 @@ SVECTOR SECTION(".bss") rasen_el_800D2CAC;
 SVECTOR SECTION(".bss") rasen_el_800D2CB4;
 int SECTION(".bss") rasen_el_800D2CBC;
 
-extern GM_SnakeCameraWork GM_SnakeCamera;
-extern GM_CameraSystemWork       GM_Camera;
-
 extern int            rasen_800C3404;
 extern int            rasen_800C3408;
 extern unsigned short rasen_el_800C342C[];
@@ -76,8 +73,6 @@ void s11c_800CD120(Work *work);
 void s11c_800CD17C(OBJECT *, int, int);
 
 DG_OBJS * Takabe_MakeElevatorPreshade(int model, DG_LITS *lit);
-
-#define EXEC_LEVEL GV_ACTOR_AFTER
 
 void RasenElAct_800CC454(Work *work)
 {
@@ -518,7 +513,7 @@ void *NewRasenElevator(int arg0, int arg1)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RasenElAct_800CC454, RasenElDie_800CCAC4, "rasen_el.c");

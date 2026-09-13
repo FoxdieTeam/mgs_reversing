@@ -18,8 +18,6 @@ typedef struct _Work
     int    noise[4];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 int asioto_800C38AC(Work *work)
 {
     HZD_EVT *event;
@@ -238,7 +236,7 @@ void *NewAsiotoKun(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, AsiotoAct_800C39E8, AsiotoDie_800C3B8C, "asioto.c");

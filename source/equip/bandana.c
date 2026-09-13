@@ -9,8 +9,6 @@ extern short snake_mag_size_800BDCB8;
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
-
 typedef struct _Work
 {
     GV_ACT  actor;
@@ -76,7 +74,7 @@ static void Die(Work *work)
 
 void *NewBandana(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    Work *work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "bandana.c");

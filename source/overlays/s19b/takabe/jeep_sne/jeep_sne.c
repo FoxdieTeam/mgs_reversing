@@ -68,8 +68,6 @@ extern JEEP_SYSTEM Takabe_JeepSystem;
 
 extern SVECTOR s19b_dword_800C39F8;
 
-#define EXEC_LEVEL  GV_ACTOR_AFTER
-
 #define MOTION_DATA GV_StrCode("sne_19b")
 #define BODY_DATA   GV_StrCode("snake")
 #define WEAPON_DATA GV_StrCode("jeep_gun")
@@ -157,7 +155,7 @@ void *NewJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(work, s19b_jeep_sne_800D47F8, Die, "jeep_sne.c");

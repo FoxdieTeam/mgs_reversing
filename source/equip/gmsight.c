@@ -12,8 +12,6 @@ extern int dword_8009F604;
 /*---------------------------------------------------------------------------*/
 // Gas Mask sight
 
-#define EXEC_LEVEL      GV_ACTOR_AFTER
-
 #define MASK_SIGHT      0x1303  // GV_StrCode("mask")
 #define BREATH_DELAY    45
 
@@ -59,7 +57,7 @@ void *NewGasmaskSight(CONTROL *control, OBJECT *parent, int num_parent)
 
     word_800BDCC0 = 0;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, &Act, &Die, "gmsight.c");

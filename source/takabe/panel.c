@@ -31,8 +31,6 @@ int panel_base_color = 0x3C808080;
 
 void AN_PanelSmoke(SVECTOR *pos);
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void PanelTexPack_800D1BD0(POLY_GT4 *pack, DG_TEX *tex, int size, Work *work)
 {
     int x, y, w, h;
@@ -348,7 +346,7 @@ void *NewPanel(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PanelAct_800D1E58, PanelDie_800D1F98, "panel.c");

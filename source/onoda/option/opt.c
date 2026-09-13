@@ -110,8 +110,6 @@ static Unknown2 dword_800C3218[] =
 signed char byte_800C338C[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 signed char byte_800C3394[] = {-1, 0, 1, 0, 0, 1, 0, -1};
 
-#define EXEC_LEVEL GV_ACTOR_MANAGER
-
 static void option_800C339C(Work *work, int index)
 {
     RECT rect;
@@ -2813,7 +2811,7 @@ void *NewOption(int name, int where)
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "opt.c");

@@ -15,8 +15,6 @@ typedef struct _Work
     int      time;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 RECT rect_800C3420 = {50, 50, 100, 100};
 
 void SplashTransform_800C8808( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, int count )
@@ -166,7 +164,7 @@ void *NewSplash_800C8D6C(MATRIX *mat, int rgb)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SplashAct_800C8BA8, SplashDie_800C8C30, "splash.c");

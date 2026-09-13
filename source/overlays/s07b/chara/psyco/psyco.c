@@ -138,10 +138,6 @@ SVECTOR SECTION(".bss") s07b_dword_800E5BE0;
 
 /*---------------------------------------------------------------------------*/
 
-extern GM_CameraSystemWork GM_Camera;
-extern GM_SnakeCameraWork  GM_SnakeCamera;
-extern UnkCameraStruct2    gUnkCameraStruct2_800B7868;
-
 extern void *NewPadManager( void );
 
 /*---------------------------------------------------------------------------*/

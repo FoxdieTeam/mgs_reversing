@@ -27,8 +27,6 @@ typedef struct _Work
 
 void AN_Smoke_800CE2C4(SVECTOR *pos, SVECTOR *speed, int, int, int, int, int);
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 void SmokeLnAct_800CDB38(Work *work)
 {
     SVECTOR pos;
@@ -136,7 +134,7 @@ void *NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SmokeLnAct_800CDB38, SmokeLnDie_800CDEF0, "smke_ln.c");

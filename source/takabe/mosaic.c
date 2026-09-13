@@ -31,8 +31,6 @@ typedef struct _Work
     int    field_68;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV2
-
 unsigned short mosaic_mes_list[] = {HASH_ON2, HASH_OFF2};
 
 // This actor is probably the naked Johnny censorship (missing in Integral),
@@ -93,7 +91,7 @@ void *NewMosaic(void *arg0, int arg1, int arg2, int arg3)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, MosaicAct_800DC938, MosaicDie_800DC9A0, "mosaic.c");
@@ -114,7 +112,7 @@ void *NewMosaicSet(int name, int where, int argc, char **argv)
     Work *work;
     int         s, d;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, MosaicAct_800DC938, MosaicDie_800DC9A0, "mosaic.c");

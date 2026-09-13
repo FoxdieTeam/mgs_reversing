@@ -18,8 +18,6 @@ extern int dword_8009F604;
 /*---------------------------------------------------------------------------*/
 // PSG1 Rifle Sight
 
-#define EXEC_LEVEL      GV_ACTOR_AFTER
-
 #define RIFLE_SIGHT1    0xa796  // GV_StrCode("rifle1")
 #define RIFLE_SIGHT2    0xa797  // GV_StrCode("rifle2")
 #define RIFLE_SIGHT3    0xa798  // GV_StrCode("rifle3")
@@ -204,7 +202,7 @@ static int GetResources(Work *work)
 
 void *NewRifleSight(void)
 {
-    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    Work *work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
 
     if (work)
     {
@@ -225,7 +223,7 @@ void *NewRifleSight(void)
 
 void *NewRifleSightFast(void)
 {
-    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    Work *work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
 
     if (work)
     {

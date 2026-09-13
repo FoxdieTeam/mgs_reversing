@@ -81,8 +81,6 @@ typedef struct _Work
     int            field_28C;
 } Work;
 
-#define EXEC_LEVEL  GV_ACTOR_PREV
-
 #define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
 
 #define LENS_DX     0
@@ -1101,7 +1099,7 @@ void *NewCamera_800D67F8(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, CameraAct_800D5F64, CameraDie_800D678C, "camera.c");

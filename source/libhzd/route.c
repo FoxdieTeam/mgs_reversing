@@ -1,11 +1,11 @@
 #include "libhzd.h"
+#include "private.h"
 
 #include "libgv/libgv.h"
 
 /*----------------------------------------------------------------*/
 
-typedef struct
-{
+typedef struct {
     int buffer[16];
 } List;
 
@@ -26,7 +26,7 @@ static void MakeRoutes(HZD_ZON *zones, int n_zones, int to, char *routes)
 
     for ( i = 0 ; i < n_zones ; i++ )
     {
-        routes[ i ] = 0xFF;
+        routes[ i ] = MAX_ROUTE;
     }
 
     //loc_80021C8C
@@ -49,7 +49,7 @@ static void MakeRoutes(HZD_ZON *zones, int n_zones, int to, char *routes)
             {
                 near = nears[ 0 ];
                 nears++;
-                if ( near == 0xFF ) break;
+                if ( near == MAX_ROUTE ) break;
                 if ( k < routes[ near ] )
                 {
                     //loc_80021D08

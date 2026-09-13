@@ -21,8 +21,6 @@ typedef struct _Work
     int            field_54;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 /*---------------------------------------------------------------------------*/
 
 static void CheckMessage(Work *work)
@@ -129,7 +127,7 @@ void *NewBelong(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "belong.c");

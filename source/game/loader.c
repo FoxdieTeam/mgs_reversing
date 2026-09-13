@@ -16,8 +16,6 @@ typedef struct _Work
     int     time;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_ASSIST
-
 static void Act(Work *work)
 {
     work->time++;
@@ -63,7 +61,7 @@ void *NewLoader(const char *dir)
     }
 #endif
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_ASSIST, sizeof(Work));
 
     printf("LoadReq\n");
     work->info = FS_LoadStageRequest(dir);

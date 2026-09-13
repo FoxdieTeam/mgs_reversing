@@ -20,8 +20,6 @@ typedef struct _Work
     int      fAB8;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void s08a_gsplash_800D3840(SVECTOR *arg0, SVECTOR *verts, Work *work, int n_prims)
 {
     short *var_s7;
@@ -247,7 +245,7 @@ void *NewGsplash_800D4000(MATRIX *pos, SVECTOR *arg1, short arg2, short n_prims)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         work->n_prims = n_prims;

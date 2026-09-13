@@ -13,8 +13,6 @@
 /*---------------------------------------------------------------------------*/
 // RC-Missile (Nikita)
 
-#define EXEC_LEVEL      GV_ACTOR_AFTER
-
 #define NIKITA_MODEL    GV_StrCode("nikita")
 #define LIGHT_TEXTURE   GV_StrCode("rcm_l")
 
@@ -260,7 +258,7 @@ void *NewRCM(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int 
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "rcm.c");

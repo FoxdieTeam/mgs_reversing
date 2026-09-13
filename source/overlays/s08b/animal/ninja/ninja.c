@@ -136,8 +136,6 @@ extern int     s08b_dword_800C3450;
 extern SVECTOR s08b_dword_800C34F8[];
 extern int     s08b_dword_800C3588;
 
-extern GM_CameraSystemWork GM_Camera;
-
 extern int     s08b_dword_800C3380;
 extern int     s08b_dword_800C338C;
 extern int     s08b_dword_800C3390;

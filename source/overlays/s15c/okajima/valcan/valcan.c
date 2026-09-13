@@ -125,8 +125,6 @@ typedef struct _Work
     int            field_950;
 } Work;
 
-#define EXEC_LEVEL  GV_ACTOR_PREV
-
 #define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
 
 SVECTOR s15c_dword_800C3608 = {0, 0, 100};
@@ -505,7 +503,7 @@ void *NewValcan_800D9864(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ValcanAct_800D9088, ValcanDie_800D96E8, s15c_dword_800E2E5C);

@@ -31,8 +31,6 @@ void s11i_zako11f_800C86F8( DG_OBJS* objs, DG_DEF* def )
     }
 }
 
-extern GM_CameraSystemWork GM_Camera;
-
 void s11i_zako11f_800C8774( Zako11FWork *work )
 {
     if ( work->visible )
@@ -556,13 +554,11 @@ void Zako11FGetResources_800C9070( Zako11FWork *work, int name, int where )
     work->field_C1C = work->start_pos;
 }
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 void *NewZako11F( int name, int where, int argc, char **argv )
 {
     Zako11FWork *work ;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Zako11FWork ) ) ;
+    work = GV_NewActor( GV_ACTOR_PREV, sizeof( Zako11FWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), ZAKO11FAct_800C88AC, ZAKO11FDie_800C8E2C, "zako11f.c" );
         Zako11FGetResources_800C9070( work, name, where );

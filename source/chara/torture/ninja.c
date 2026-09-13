@@ -32,8 +32,6 @@ typedef struct _Work
     int            procs[4];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void AN_Unknown_800CCA40(SVECTOR *pos);
 
 static void SendMessage(int address, int message1, int message2)
@@ -364,7 +362,7 @@ void *NewPrisonNinja(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

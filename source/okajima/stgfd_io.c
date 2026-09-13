@@ -10,8 +10,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_PREV2
-
 typedef struct _PRIM_WORK
 {
     DR_TPAGE    tpage[2];
@@ -151,7 +149,7 @@ void *NewStnFade(void)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, &Act, &Die, "stgfd_io.c");

@@ -10,9 +10,6 @@
 #include "okajima/spark.h"
 #include "takabe/cinema.h"
 
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-extern GM_CameraSystemWork        GM_Camera;
-
 void AN_Smoke_800CE164(SVECTOR *pos, SVECTOR *speed, int index, int script);
 
 void s11g_hind_800D46B8(SVECTOR *pos, int se_id)

@@ -30,8 +30,6 @@ typedef struct _Work
     SVECTOR        svec_7F8;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 extern int s03c_dword_800C33D8;
 
 static void Act(Work *work)
@@ -187,7 +185,7 @@ void *NewJohnny2(void)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

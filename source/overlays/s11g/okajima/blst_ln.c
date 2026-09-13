@@ -15,8 +15,6 @@ typedef struct _Work
     int     field_44;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 static void Act(Work *work)
 {
     SVECTOR pos;
@@ -83,7 +81,7 @@ void *NewBlastLine(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "blst_ln.c");

@@ -34,8 +34,6 @@ typedef struct _Work
     int            procs[3];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 int s03c_dword_800C33D8 = 0;
 
 void OtacomSendMessage_800CB3E0(int address, int message)
@@ -531,7 +529,7 @@ void *NewPrisonOtacon(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

@@ -61,8 +61,6 @@ typedef struct _Work
     char    *f49E4;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_MANAGER
-
 extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
 extern RECT                        camera_dword_800C389C;
 extern char                       *camera_dword_800D0760;
@@ -2271,7 +2269,7 @@ void *NewCamera_800CF388(int name, int where, int argc, char **argv)
     Work *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, CameraAct_800CE404, CameraDie_800CE470, "camera.c");

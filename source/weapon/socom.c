@@ -12,11 +12,7 @@
 #include "okajima/bullet.h"
 #include "strcode.h"
 
-extern GM_CameraSystemWork GM_Camera;
-
 /*---------------------------------------------------------------------------*/
-
-#define EXEC_LEVEL      GV_ACTOR_AFTER
 
 #define SOCOM_MODEL     GV_StrCode("socom")     /* no suppressor */
 #define SOCOM_MODEL2    GV_StrCode("socom2")    /* w/ suppressor */
@@ -436,7 +432,7 @@ void *NewSOCOM( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, i
     int mag_size;
     int ammo;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( GV_ACTOR_AFTER, sizeof( Work ) );
     if ( work )
     {
         GV_SetNamedActor( &work->actor, Act, Die, "socom.c" );

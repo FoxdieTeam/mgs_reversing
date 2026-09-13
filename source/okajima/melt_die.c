@@ -19,8 +19,6 @@ typedef struct _Work
     int svec_vz;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void AN_Unknown_800DC94C(SVECTOR *pos);
 
 void MeltDieAct_800E0DC8(Work *work)
@@ -79,7 +77,7 @@ void *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, MeltDieAct_800E0DC8, MeltDieDie_800E0F54, "melt_die.c");

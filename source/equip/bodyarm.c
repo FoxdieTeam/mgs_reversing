@@ -6,8 +6,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
-
 typedef struct _Work
 {
     GV_ACT  actor;
@@ -57,7 +55,7 @@ static void Die(Work *work)
 
 void *NewBodyArmor(CONTROL *control, OBJECT *parent, int num_parent)
 {
-    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    Work *work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, NULL, Die, "bodyarm.c");

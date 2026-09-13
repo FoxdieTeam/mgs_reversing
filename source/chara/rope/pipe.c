@@ -16,8 +16,6 @@ extern BLAST_DATA blast_data_8009F4B8[8]; // in bullet/blast.c
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL  GV_ACTOR_AFTER
-
 #define MODEL_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
 typedef struct _Work
@@ -269,7 +267,7 @@ void *NewPipe(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

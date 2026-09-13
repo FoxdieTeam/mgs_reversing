@@ -29,8 +29,6 @@ typedef struct _Work
     int             f44;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_MANAGER
-
 /*---------------------------------------------------------------------------*/
 
 static void PadDemo_800DCBB0(Work *work)
@@ -209,7 +207,7 @@ void *NewPadDemo(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "pad_demo.c");

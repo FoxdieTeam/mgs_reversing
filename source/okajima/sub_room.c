@@ -31,8 +31,6 @@ typedef struct _Work
     GV_ACT  *txtscn;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 void SubRoomShadePacks_800C729C(POLY_FT4 *packs, int n_packs, DG_TEX *tex, SVECTOR *color)
 {
     while (--n_packs >= 0)
@@ -514,7 +512,7 @@ void *NewSubRoom_800C815C(void)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SubRoomAct_800C7750, SubRoomDie_800C77D0, "sub_room.c");

@@ -23,8 +23,6 @@ typedef struct _Work
     DG_PRIM *prim;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 extern RECT s19b_dword_800C3988;
 
 static void InitPacks(DG_PRIM *prim, DG_TEX *tex)
@@ -115,7 +113,7 @@ void *NewJeepLamp(SVECTOR *root_pos, int tex_id, int unused)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(work, Act, Die, "jlamp.c");

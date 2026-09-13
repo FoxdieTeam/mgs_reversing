@@ -8,8 +8,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_MANAGER
-
 #define SNAKE_COLOR     MAKE_RGBA(128,160, 96, GPU_CODE_POLY_GT4)
 #define NINJA_COLOR     MAKE_RGBA(128,128,128, GPU_CODE_POLY_GT4)
 
@@ -345,7 +343,7 @@ void *NewKogaku2(CONTROL *control, OBJECT *parent, int num_parent)
     Work *work;
     DG_OBJS *objs;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "kogaku2.c");
@@ -396,7 +394,7 @@ void *NewKogaku3(CONTROL *control, OBJECT *parent, int num_parent)
     long *coord_iter;
     int y;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
 
     if (work)
     {

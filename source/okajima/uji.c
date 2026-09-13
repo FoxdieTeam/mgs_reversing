@@ -33,8 +33,6 @@ typedef struct _Work
 
 RECT uji_rect = {100, 100, 200, 200};
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 static int GetSvectors(char *opt, SVECTOR *out)
 {
     int   count;
@@ -362,7 +360,7 @@ void *NewUji(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "uji.c");

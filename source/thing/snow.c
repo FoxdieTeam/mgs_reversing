@@ -8,11 +8,7 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-
 /*---------------------------------------------------------------------------*/
-
-#define EXEC_LEVEL GV_ACTOR_USER
 
 typedef struct _SnowEntry
 {
@@ -511,7 +507,7 @@ void *NewSnow(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GetOptions(work);

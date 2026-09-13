@@ -10,12 +10,7 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-extern GM_CameraSystemWork    GM_Camera;
-extern int          GM_CameraShakeOffset;
-
 /*---------------------------------------------------------------------------*/
-
-#define EXEC_LEVEL GV_ACTOR_PREV
 
 //  #61808a  97,128,138
 //  #202020  32, 32, 32
@@ -1008,7 +1003,7 @@ void *NewElevatorPanel(int name, int where, int argc, char **argv)
     int          button_count;
 
     button_count = THING_Gcl_GetIntDefault('n', 3);
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work) + sizeof(SVECTOR) * button_count * 4);
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work) + sizeof(SVECTOR) * button_count * 4);
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "evpanel.c");

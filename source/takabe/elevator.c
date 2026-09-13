@@ -90,8 +90,6 @@ void      Takabe_ReshadeModel(DG_OBJS *objs, DG_LITS *lit);
 DG_OBJS * Takabe_MakeElevatorPreshade(int model, DG_LITS *lit);
 void      Takabe_FreeObjs(DG_OBJS *objs);
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void ElevatorAct_800D8EA8(Work *work)
 {
     SVECTOR        sp10;
@@ -728,7 +726,7 @@ void *NewElevator(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ElevatorAct_800D8EA8, ElevatorDie_800D97D8, "elevator.c");

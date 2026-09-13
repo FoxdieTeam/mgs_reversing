@@ -65,8 +65,6 @@ SVECTOR crane_800C3614 = {500, 500, 300, 0};
 void AN_Unknown_800CCA40(SVECTOR *pos);
 void AN_Unknown_800CCB84(SVECTOR *pos);
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 void s13a_crane_800D3994(HZD_SEG *out, MATRIX *world, SVECTOR *min, SVECTOR *max)
 {
     SVECTOR  bbox[8];
@@ -1049,7 +1047,7 @@ void *NewCrane(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, CraneAct_800D4C28, CraneDie_800D5724, "crane.c");

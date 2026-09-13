@@ -82,8 +82,6 @@ void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
 static void InitPreshadeObject(Work *work, FLOOR_OBJ *flr_obj, int model_name, int map);
 static void MakeFloor(SVECTOR *in, HZD_FLR *floor);
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 static void Act(Work *work)
 {
     VECTOR       sp10;
@@ -447,7 +445,7 @@ void *NewDummyFloor(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         work->name = name;
