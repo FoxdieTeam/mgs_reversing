@@ -248,7 +248,7 @@ void menu_draw_radar(MenuWork *work, u_long *ot, int arg2)
 
     short *scratchShort;
 
-    DG_PVECTOR *pvec;
+    PVECTOR    *pvec;
     SVECTOR    *svec;
 
     int *pWallDst;
@@ -397,7 +397,7 @@ void menu_draw_radar(MenuWork *work, u_long *ot, int arg2)
     *prim = 0;
     addPrim(ot, prim);
 
-    pvec = getScratchAddr2(DG_PVECTOR, 0);
+    pvec = getScratchAddr2(PVECTOR, 0);
     svec = getScratchAddr2(SVECTOR, 0);
 
     pvec[1].vxy = svec[0].vx - MENU_RadarRangeH / 2;

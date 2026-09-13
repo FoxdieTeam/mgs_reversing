@@ -19,7 +19,7 @@ typedef struct DG_DivideMem
     int         n_packs;    // 0x28
     void       *pDataStart; // 0x2C
     int         size;       // 0x30
-    DG_RVECTOR *rvec;       // 0x34
+    RVECTOREX  *rvec;       // 0x34
 } DG_DivideMem;
 
 static inline DG_DivideMem *GetDivideMem()
@@ -31,11 +31,11 @@ STATIC void *DG_SplitMemory( int memIdx, int* n_split, int size );
 STATIC POLY_GT4 *DG_InitDividePacks( int memIdx );
 STATIC void *DG_AllocDividePackMem( M_Sys *sys, M_Unit **alloc_list, int *size );
 STATIC POLY_GT4 *DG_GetDividePacks( void );
-STATIC int  DG_GetRVectorCode( DG_RVECTOR *rvec );
-STATIC void DG_SetRVectorCode( DG_RVECTOR *rvec );
-STATIC void DG_SubdivideRVectorPoints( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 );
-STATIC void DG_SetRVectorDelta( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 );
-STATIC int  DG_CopyPackToRVector( DG_RVECTOR *rvec );
+STATIC int  DG_GetRVectorCode( RVECTOREX *rvec );
+STATIC void DG_SetRVectorCode( RVECTOREX *rvec );
+STATIC void DG_SubdivideRVectorPoints( RVECTOREX *rvec1, RVECTOREX *rvec2, RVECTOREX *rvec3 );
+STATIC void DG_SetRVectorDelta( RVECTOREX *rvec1, RVECTOREX *rvec2, RVECTOREX *rvec3 );
+STATIC int  DG_CopyPackToRVector( RVECTOREX *rvec );
 STATIC void DG_SubDivideRVectors( void );
 STATIC void DG_InitRVector( DG_OBJ *obj,  int idx );
 STATIC void DG_AddSubdividedPrim( DG_OBJ *obj, int idx );
@@ -158,7 +158,7 @@ STATIC POLY_GT4 *DG_GetDividePacks( void )
     }
 }
 
-STATIC int DG_GetRVectorCode( DG_RVECTOR *rvec )
+STATIC int DG_GetRVectorCode( RVECTOREX *rvec )
 {
     int code;
 
@@ -169,7 +169,7 @@ STATIC int DG_GetRVectorCode( DG_RVECTOR *rvec )
     return rvec->c.cd & rvec[1].c.cd & code & rvec[4].c.cd;
 }
 
-STATIC void DG_SetRVectorCode( DG_RVECTOR *rvec )
+STATIC void DG_SetRVectorCode( RVECTOREX *rvec )
 {
     char code = 0;
 
@@ -199,7 +199,7 @@ STATIC void DG_SetRVectorCode( DG_RVECTOR *rvec )
     rvec->c.cd = code;
 }
 
-STATIC void DG_SubdivideRVectorPoints( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 )
+STATIC void DG_SubdivideRVectorPoints( RVECTOREX *rvec1, RVECTOREX *rvec2, RVECTOREX *rvec3 )
 {
     rvec3->v.vx = (rvec1->v.vx + rvec2->v.vx) / 2;
     rvec3->v.vy = (rvec1->v.vy + rvec2->v.vy) / 2;
@@ -213,7 +213,7 @@ STATIC void DG_SubdivideRVectorPoints( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_
     rvec3->c.b = (rvec1->c.b + rvec2->c.b) / 2;
 }
 
-STATIC void DG_SetRVectorDelta( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR *rvec3 )
+STATIC void DG_SetRVectorDelta( RVECTOREX *rvec1, RVECTOREX *rvec2, RVECTOREX *rvec3 )
 {
     int vy_diff, vx_diff, delta;
 
@@ -282,7 +282,7 @@ STATIC void DG_SetRVectorDelta( DG_RVECTOR *rvec1, DG_RVECTOR *rvec2, DG_RVECTOR
     }
 }
 
-STATIC int DG_CopyPackToRVector( DG_RVECTOR *rvec )
+STATIC int DG_CopyPackToRVector( RVECTOREX *rvec )
 {
     int v1;
     DG_DivideMem    *divide_mem;
@@ -305,7 +305,7 @@ STATIC int DG_CopyPackToRVector( DG_RVECTOR *rvec )
 
         if ( divide_mem->field_14 < v1 )
         {
-            DG_RVECTOR *rvec_temp = divide_mem->rvec;
+            RVECTOREX *rvec_temp = divide_mem->rvec;
             rvec_temp[0] = rvec[0];
             rvec_temp[2] = rvec[1];
             rvec_temp[6] = rvec[3];
@@ -351,7 +351,7 @@ STATIC int DG_CopyPackToRVector( DG_RVECTOR *rvec )
 
 static inline void divide_setup( void )
 {
-    DG_RVECTOR *rvec;
+    RVECTOREX *rvec;
     rvec = GetDivideMem()->rvec;
 
     DG_SubdivideRVectorPoints( &rvec[0], &rvec[2], &rvec[1] );
@@ -475,10 +475,10 @@ STATIC void DG_InitRVector( DG_OBJ *obj,  int idx )
                 gte_rtps();
                 gte_stsz( 0x1F800048 );
 
-                DG_SetRVectorCode( (DG_RVECTOR*)0x1F800038 );
-                DG_SetRVectorCode( (DG_RVECTOR*)0x1F800060 );
-                DG_SetRVectorCode( (DG_RVECTOR*)0x1F8000B0 );
-                DG_SetRVectorCode( (DG_RVECTOR*)0x1F8000D8 );
+                DG_SetRVectorCode( (RVECTOREX*)0x1F800038 );
+                DG_SetRVectorCode( (RVECTOREX*)0x1F800060 );
+                DG_SetRVectorCode( (RVECTOREX*)0x1F8000B0 );
+                DG_SetRVectorCode( (RVECTOREX*)0x1F8000D8 );
                 DG_SubDivideRVectors();
 
             }

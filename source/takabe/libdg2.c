@@ -468,10 +468,6 @@ void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx)
     gte_strgb_s0(*(void **)0x1F800018);
 }
 
-typedef struct {
-    int vx, vy, vz;
-} VECTOREX;
-
 typedef	struct {
     /* +0x00 */ VECTOREX bound_min;
     /* +0x0C */ VECTOREX bound_max;
@@ -513,8 +509,8 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
     DG_OBJ    *obj;
     DVECTOR   *dvec;
     SVECTOR   *svec;
-    DG_VECTOR *vec3_1;
-    DG_VECTOR *vec3_2;
+    VECTOREX  *vec3_1;
+    VECTOREX  *vec3_2;
 
     n_models = objs->n_models;
     obj = (DG_OBJ *)&objs->objs;
@@ -532,8 +528,8 @@ void DG_BoundObjs_800D5010(DG_OBJS *objs, int idx, unsigned int flag, int in_bou
 
                 svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
                 CopyBounds(&obj->model->lx);
-                vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
-                vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
+                vec3_1 = (VECTOREX *)(SCRPAD_ADDR + 0x30);
+                vec3_2 = (VECTOREX *)(SCRPAD_ADDR + 0x60);
                 i = 9;
 
                 while (i > 0)
@@ -725,8 +721,8 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx)
     int          local_group_id;
     DVECTOR     *dvec;
     SVECTOR     *svec;
-    DG_VECTOR   *vec3_1;
-    DG_VECTOR   *vec3_2;
+    VECTOREX    *vec3_1;
+    VECTOREX    *vec3_2;
     int          n_bounding_box_vec;
     unsigned int flag;
     short       *scrpad;
@@ -761,8 +757,8 @@ void FogBoundChanl_800D5500(DG_CHANL *chanl, int idx)
 
                     svec = (SVECTOR *)(SCRPAD_ADDR + 0x18);
                     CopyBounds(&current_objs->def->lx);
-                    vec3_1 = (DG_VECTOR *)(SCRPAD_ADDR + 0x30);
-                    vec3_2 = (DG_VECTOR *)(SCRPAD_ADDR + 0x60);
+                    vec3_1 = (VECTOREX *)(SCRPAD_ADDR + 0x30);
+                    vec3_2 = (VECTOREX *)(SCRPAD_ADDR + 0x60);
                     i = 9;
 
                     while (i > 0)
@@ -1032,15 +1028,15 @@ void s12c_800D5B00(DG_CHANL *chanl, int idx)
 // clang-format on
 
 // DG_Trans_Chanl_helper_simple_8001DF48
-void s12c_800D5C48(DG_PVECTOR *a0, int count)
+void s12c_800D5C48(PVECTOR *a0, int count)
 {
-    DG_VECTOR    *scrpd_nidx;
-    DG_VECTOR    *scrpd_nidx2;
+    VECTOREX     *scrpd_nidx;
+    VECTOREX     *scrpd_nidx2;
     register long v1 asm("t2"); // FIXME
     long          v2, v3, v4, v5;
 
-    scrpd_nidx = (DG_VECTOR *)getScratchAddr(0);
-    scrpd_nidx2 = (DG_VECTOR *)getScratchAddr(128);
+    scrpd_nidx = (VECTOREX *)getScratchAddr(0);
+    scrpd_nidx2 = (VECTOREX *)getScratchAddr(128);
 
     v1 = a0[0].vxy;
     v2 = a0[0].vz;
@@ -1269,7 +1265,7 @@ POLY_GT4 *s12c_800D5DE0(unsigned int *pFaceIndices, POLY_GT4 *pPoly, int n_packs
         *((char *)((verts) + 128) + 3) = res;                   \
     }
 
-static inline void DG_TransVerticesBound(DG_PVECTOR *verts, int n_verts)
+static inline void DG_TransVerticesBound(PVECTOR *verts, int n_verts)
 {
     int      vert_count;
     DVECTOR *results_xy;
@@ -1345,14 +1341,14 @@ void s12c_800D6020(DG_OBJ *obj, int idx)
 {
     POLY_GT4   *packs;
     DG_MDL     *mdl;
-    DG_PVECTOR *verts;
+    PVECTOR    *verts;
 
     packs = obj->packs[idx];
 
     while (obj)
     {
         mdl = obj->model;
-        verts = (DG_PVECTOR *)mdl->verts;
+        verts = (PVECTOR *)mdl->verts;
 
         if (*(unsigned short *)0x1F8001FE & 1)
         {
@@ -1555,7 +1551,7 @@ void s12c_800D6698(DG_MDL *mdl)
 {
     int            n_normals;
     long          *nidx;
-    DG_VECTOR     *scrpd_nidx2;
+    VECTOREX      *scrpd_nidx2;
     unsigned long *code;
     long           v1, v2, v3, v4, v5, v6;
 
@@ -1576,7 +1572,7 @@ void s12c_800D6698(DG_MDL *mdl)
     v5 = nidx[4];
     v6 = nidx[5];
 
-    scrpd_nidx2 = (DG_VECTOR *)0x1F800020;
+    scrpd_nidx2 = (VECTOREX *)0x1F800020;
     while (n_normals > 0)
     {
         gte_ldVXY0(v1);
@@ -1742,9 +1738,9 @@ POLY_GT4 *s12c_800D67F0(unsigned int *face_normals, POLY_GT4 *packs, int n_packs
 void s12c_800D6958(DG_OBJ *obj, int idx)
 {
     // int n_normals;
-    // DG_VECTOR* nidx;
-    // DG_VECTOR* scrpd_nidx;
-    // DG_VECTOR* scrpd_nidx2;
+    // VECTOREX* nidx;
+    // VECTOREX* scrpd_nidx;
+    // VECTOREX* scrpd_nidx2;
     // unsigned long *code;
     POLY_GT4 *pack;
     DG_MDL   *mdl;
@@ -1764,14 +1760,14 @@ void s12c_800D6958(DG_OBJ *obj, int idx)
         }
 
         gte_ldrgb( code );
-        scrpd_nidx = (DG_VECTOR*)0x1F800020;
-        nidx = (DG_VECTOR*)mdl->norms; //a2
+        scrpd_nidx = (VECTOREX*)0x1F800020;
+        nidx = (VECTOREX*)mdl->norms; //a2
         n_normals = mdl->n_norms;
 
         scrpd_nidx[0] = nidx[0]; //maybe copyvector macro
         scrpd_nidx[1] = nidx[1];
 
-        scrpd_nidx2 = (DG_VECTOR*)0x1F800020;
+        scrpd_nidx2 = (VECTOREX*)0x1F800020;
         while ( n_normals > 0 )
         {
 

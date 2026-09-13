@@ -22,39 +22,30 @@
 #define DG_MAX_JOINTS 24
 
 /*---------------------------------------------------------------------------*/
+/* libgte.h vector types (without padding) */
 
-/* TODO: Remove */
-typedef struct DG_VECTOR
-{
-    int vx;
-    int vy;
+typedef struct {        /* long word type 3D vector */
+    int vx, vy;
     int vz;
-} DG_VECTOR;            /* long word type 3D vector (without padding) */
+} VECTOREX;
 
-/* TODO: Remove */
-typedef struct DG_SVECTOR
-{
-    short vx;
-    short vy;
+typedef struct {        /* short word type 3D vector */
+    short vx, vy;
     short vz;
-} DG_SVECTOR;           /* short word type 3D vector (without padding) */
+} SVECTOREX;
 
-/* TODO: Remove */
-typedef struct DG_RVECTOR
-{
-    DG_SVECTOR  v;
-    u_char      uv[2];
-    CVECTOR     c;
-    DVECTOR     sxy;
-    u_long      sz;
-} DG_RVECTOR;           /* division vertex data (without padding) */
+typedef struct {
+    SVECTOREX v;
+    u_char uv[2];
+    CVECTOR c;
+    DVECTOR sxy;
+    u_long  sz;         /* clip z-data */
+} RVECTOREX;            /* division vertex data vector */
 
-/* TODO: Remove */
-typedef struct DG_PVECTOR
-{
+typedef struct {
     long vxy;
     long vz;
-} DG_PVECTOR;
+} PVECTOR;
 
 /*---------------------------------------------------------------------------*/
 
