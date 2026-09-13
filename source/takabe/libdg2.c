@@ -423,7 +423,7 @@ void FogSortChanl_800D4E98(DG_CHANL *chanl, int idx)
     int             type;
 
     scratch = get_scratch();
-    scratch->buf = DG_DivideBuffer;
+    scratch->buf = (unsigned int **)DG_DivideBuffer;
     scratch->ot = chanl->ot[idx] + 1;
 
     s12c_800D4CF4(scratch->ot);
