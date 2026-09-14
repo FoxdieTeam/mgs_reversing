@@ -161,8 +161,8 @@ void draw_radar_frame(MenuWork *menuMan, u_long *ot)
 {
     int x1, y1, x2, y2;
 
-    x1 = menuMan->field_CC_radar_data.pos_x;
-    y1 = menuMan->field_CC_radar_data.pos_y;
+    x1 = menuMan->radar.pos_x;
+    y1 = menuMan->radar.pos_y;
     x2 = x1 + 234;
     y2 = y1 + 15;
     menu_render_rect_8003DB2C(menuMan->prim, x2, y2, 1, 53, 0); // Left border.
@@ -1006,7 +1006,7 @@ void set_radar_pos(MenuWork *work, int index)
     DRAWENV drawEnv;
     RADAR_T *radar;
 
-    radar = &work->field_CC_radar_data;
+    radar = &work->radar;
     if (index == 0)
     {
         DG_SetDefDrawEnv(&drawEnv,
@@ -1026,9 +1026,9 @@ void set_radar_pos(MenuWork *work, int index)
         drawEnv.ofs[1] = radar->pos_y + 42;
     }
 
-    work->field_CC_radar_data.clip_rect = drawEnv.clip;
+    work->radar.clip_rect = drawEnv.clip;
     drawEnv.isbg = 0;
-    SetDrawEnv(&work->field_CC_radar_data.dr_env[index], &drawEnv);
+    SetDrawEnv(&work->radar.dr_env[index], &drawEnv);
 }
 
 void draw_radar(MenuWork *work, u_long *ot)
@@ -1061,7 +1061,7 @@ void draw_radar(MenuWork *work, u_long *ot)
     }
 
     draw_radar_frame(work, ot);
-    addPrim(ot, &work->field_CC_radar_data.org_env[GV_Clock]);
+    addPrim(ot, &work->radar.org_env[GV_Clock]);
 
     if (gFn_radar_800AB48C)
     {
@@ -1080,7 +1080,7 @@ void draw_radar(MenuWork *work, u_long *ot)
         switch (alertMode)
         {
         case ALERT_OFF:
-            alertLevel = work->field_CC_radar_data.counter;
+            alertLevel = work->radar.counter;
 
             if (alertLevel > 0)
             {
@@ -1091,7 +1091,7 @@ void draw_radar(MenuWork *work, u_long *ot)
                     GM_SeSet2(0, 0x3F, SE_RADAR_CHIME); // Used when evasion or jamming mode ends.
                 }
 
-                clip = work->field_CC_radar_data.clip_rect;
+                clip = work->radar.clip_rect;
 
                 if (alertLevel >= 0)
                 {
@@ -1130,7 +1130,7 @@ void draw_radar(MenuWork *work, u_long *ot)
                 addPrim(ot, tpage);
 
                 menu_draw_radar(work, ot, 0);
-                clip = work->field_CC_radar_data.clip_rect;
+                clip = work->radar.clip_rect;
 
                 if (alertLevel >= 0)
                 {
@@ -1141,7 +1141,7 @@ void draw_radar(MenuWork *work, u_long *ot)
                 twin = twin3;
                 SetDrawArea(twin, &clip);
                 addPrim(ot, twin);
-                work->field_CC_radar_data.counter -= 2;
+                work->radar.counter -= 2;
             }
             else
             {
@@ -1154,11 +1154,11 @@ void draw_radar(MenuWork *work, u_long *ot)
         case ALERT_JAMMING:
         case ALERT_EVASION:
         case ALERT_ACTIVE:
-            work->field_CC_radar_data.counter = 93;
+            work->radar.counter = 93;
 
             // RadarMode enum better clarifies what's going on here.
             // AlertMode and RadarMode kind of interlace.
-            if (alertMode == ALERT_JAMMING && work->field_CC_radar_data.prev_mode == ALERT_OFF)
+            if (alertMode == ALERT_JAMMING && work->radar.prev_mode == ALERT_OFF)
             {
                 GM_SeSet2(0, 0x3F, SE_RADAR_JAMMED);
             }
@@ -1166,51 +1166,52 @@ void draw_radar(MenuWork *work, u_long *ot)
             break;
         }
 
-        work->field_CC_radar_data.prev_mode = alertMode;
+        work->radar.prev_mode = alertMode;
     }
 
-    addPrim(ot, &work->field_CC_radar_data.dr_env[GV_Clock]);
+    addPrim(ot, &work->radar.dr_env[GV_Clock]);
 }
 
 void menu_radar_update_8003B350(MenuWork *work, u_long *ot)
 {
-    int clipY;
+    int pos;
 
-    if (work->field_CC_radar_data.display_flag)
+    if (work->radar.display_flag)
     {
         if (work->field_2A_state == MENU_CLOSED)
         {
-            if ((GM_GameStatus & STATE_HIDE_RADAR) != 0)
+            if ( GM_GameStatus & STATE_RADAR_OFF_REQ )
             {
-                clipY = work->field_CC_radar_data.pos_y - 16;
-                if (clipY < (-63))
+                pos = work->radar.pos_y - 16;
+                if ( pos <= -64 )
                 {
+                    pos = -64;
                     GM_GameStatus |= STATE_RADAR_OFF;
-                    GM_GameStatus &= ~STATE_HIDE_RADAR;
-                    clipY = -64;
+                    GM_GameStatus &= ~STATE_RADAR_OFF_REQ;
                 }
             }
-            else if ((GM_GameStatus & STATE_SHOW_RADAR) != 0)
+            else if ( GM_GameStatus & STATE_RADAR_ON_REQ )
             {
+                pos = work->radar.pos_y + 16;
                 GM_GameStatus &= ~STATE_RADAR_OFF;
-                clipY = work->field_CC_radar_data.pos_y + 16;
-                if (clipY >= 0)
+                if ( pos >= 0 )
                 {
-                    clipY = 0;
-                    GM_GameStatus &= ~STATE_SHOW_RADAR;
+                    pos = 0;
+                    GM_GameStatus &= ~STATE_RADAR_ON_REQ;
                 }
             }
             else
             {
-                clipY = 0;
+                pos = 0;
             }
-            if ((GM_GameStatus & (STATE_JPEGCAM | STATE_RADAR_OFF)) != 0)
+
+            if ( GM_GameStatus & ( STATE_RADAR_OFF | STATE_CAMERA_ACTIVE ) )
             {
-                work->field_CC_radar_data.pos_y = -64;
+                work->radar.pos_y = -64;
             }
             else
             {
-                work->field_CC_radar_data.pos_y = clipY;
+                work->radar.pos_y = pos;
                 set_radar_pos(work, GV_Clock);
                 draw_radar(work, ot);
             }
@@ -1224,15 +1225,15 @@ void menu_radar_init_8003B474(MenuWork *work)
 
     field_28_flags = work->field_28_flags;
     work->field_2C_modules[MENU_RADAR] = menu_radar_update_8003B350;
-    work->field_CC_radar_data.display_flag = 1;
-    work->field_CC_radar_data.pos_x = 0;
-    work->field_CC_radar_data.pos_y = 0;
+    work->radar.display_flag = 1;
+    work->radar.pos_x = 0;
+    work->radar.pos_y = 0;
     work->field_28_flags = field_28_flags | 8;
     set_radar_pos(work, 0);
     set_radar_pos(work, 1);
 
-    work->field_CC_radar_data.org_env[0] = work->field_4C_drawEnv[0];
-    work->field_CC_radar_data.org_env[1] = work->field_4C_drawEnv[1];
+    work->radar.org_env[0] = work->field_4C_drawEnv[0];
+    work->radar.org_env[1] = work->field_4C_drawEnv[1];
 
     menu_init_radar_helper_8003ADAC();
     gFn_radar_800AB48C = 0;

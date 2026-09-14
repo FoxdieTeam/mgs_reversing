@@ -13,7 +13,7 @@
  * publics
  */
 
-void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pMin, SVECTOR *pMax)
+void GetHazard2(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pMin, SVECTOR *pMax)
 {
     VECTOR   cross;
     SVECTOR *va;

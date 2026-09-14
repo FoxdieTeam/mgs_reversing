@@ -149,7 +149,7 @@ void HZD_EnterTrap(HZD_HDL *hzd, HZD_EVT *ev)
     u_short *from, *to;
     int      i;
 
-    mov = &ev->mov;
+    mov = &ev->coord;
 
     *(short *)0x1F800000 = mov->vx;
     do {} while (0);

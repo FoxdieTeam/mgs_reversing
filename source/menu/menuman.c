@@ -152,8 +152,8 @@ void menuman_Reset(void)
     MENU_ClearRadioTable();
     MENU_SetRadarScale(4096);
     MENU_SetRadarFunc(NULL);
-    Work.field_CC_radar_data.prev_mode = 0;
-    Work.field_CC_radar_data.counter = 0;
+    Work.radar.prev_mode = 0;
+    Work.radar.counter = 0;
     Work.field_2B = 0;
     Work.field_1DC_menu_item.field_12_flashingAnimationFrame = 0;
     Work.field_1F0_menu_weapon.field_12_flashingAnimationFrame = 0;
@@ -173,12 +173,12 @@ void MENU_StartDeamon(void)
 
 void menu_radio_update_helper_80038A6C(void)
 {
-    Work.field_CC_radar_data.display_flag = 1;
+    Work.radar.display_flag = 1;
 }
 
 void menu_radio_update_helper2_80038A7C(void)
 {
-    Work.field_CC_radar_data.display_flag = 0;
+    Work.radar.display_flag = 0;
 }
 
 void MENU_ResetSystem(void)

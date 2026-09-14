@@ -37,7 +37,7 @@ typedef struct {
     u_short     object;
     short       n_inside;
     u_short     inside[6];
-    SVECTOR     mov;
+    SVECTOR     coord;
 } HZD_EVT;
 
 typedef struct {
@@ -184,6 +184,6 @@ void HZD_GetNearVector( SVECTOR *vect_ptr );
 
 /* vector.c */
 int HZD_HazardReaction( SVECTOR *vects, int n_vects, int range, SVECTOR *react );
-void HZD_GetNormal( void *hzd, SVECTOR *norm );
+void HZD_NormalVector( void *hzd, SVECTOR *norm );
 
 #endif // __MGS_LIBHZD_H__

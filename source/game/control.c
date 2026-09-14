@@ -409,8 +409,8 @@ void GM_ActControl(CONTROL *ctrl)
 
     if (!(ctrl->skip_flag & CTRL_SKIP_TRAP))
     {
-        ctrl->evt.mov = ctrl->mov;
-        ctrl->evt.mov.pad = ctrl->rot.vy;
+        ctrl->evt.coord = ctrl->mov;
+        ctrl->evt.coord.pad = ctrl->rot.vy;
         HZD_EnterTrap(hzd, &ctrl->evt);
     }
 

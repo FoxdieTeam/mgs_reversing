@@ -195,7 +195,7 @@ STATIC int claymore_loader_helper_800735A0(Work *work, SVECTOR *arg1, SVECTOR *a
 
         if ((int)floor < 0)
         {
-            HZD_GetNormal(floor, &work->field_118);
+            HZD_NormalVector(floor, &work->field_118);
         }
         else
         {

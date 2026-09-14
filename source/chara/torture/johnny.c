@@ -3718,7 +3718,7 @@ static void InitExtra(Work *work)
     work->unkB54 = 0;
     work->unkB74 = 0;
     work->unkB1C |= 0x20000000;
-    work->player_status = GM_PlayerStatus & ~STATE_SHOW_RADAR;
+    work->player_status = GM_PlayerStatus & ~STATE_RADAR_ON_REQ;
     work->unkB30 = DG_ZeroVector;
     NagivateInit(&work->nav, work->control.map->hzd, &work->control.mov);
 }
