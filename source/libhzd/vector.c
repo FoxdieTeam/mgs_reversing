@@ -98,7 +98,7 @@ int HZD_HazardReaction( SVECTOR *vects, int n_vects, int range, SVECTOR *react )
     return 1;
 }
 
-void HZD_GetNormal(void *hzd, SVECTOR *norm)
+void HZD_NormalVector(void *hzd, SVECTOR *norm)
 {
     HZD_SEG *seg;
 

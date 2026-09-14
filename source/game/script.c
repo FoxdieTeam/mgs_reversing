@@ -923,10 +923,10 @@ static int MenuCmd(char *top)
             GM_GameStatus &= ~STATE_RADAR_OFF;
             break;
         case 2:
-            GM_GameStatus |= STATE_HIDE_RADAR;
+            GM_GameStatus |= STATE_RADAR_OFF_REQ;
             break;
         case 3:
-            GM_GameStatus |= STATE_SHOW_RADAR;
+            GM_GameStatus |= STATE_RADAR_ON_REQ;
             break;
         }
     }

@@ -337,7 +337,7 @@ skip_clamp_z:
             if ((unsigned int)work->seg & 0x80000000) // Wall
             {
                 work->seg_flag = 1;
-                HZD_GetNormal(work->seg, &work->normal);
+                HZD_NormalVector(work->seg, &work->normal);
             }
             else // seg
             {

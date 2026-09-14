@@ -1040,7 +1040,7 @@ static void Die(Work *work)
     GM_Camera.zoom = 320;
     GM_SnakeCamera.rotate2 = work->field_54_vec;
 
-    GM_GameStatus &= ~STATE_JPEGCAM;
+    GM_GameStatus &= ~STATE_CAMERA_ACTIVE;
     GM_GameStatus &= ~STATE_TAKING_PHOTO;
 
     if (work->field_94_bMakeVisible != 0)
@@ -1061,7 +1061,7 @@ static int GetResources(Work *work, CONTROL *control, OBJECT *parent)
     work->map = control->map;
     work->field_70 = 0;
     work->field_98 = 0;
-    GM_GameStatus |= STATE_JPEGCAM;
+    GM_GameStatus |= STATE_CAMERA_ACTIVE;
     return 0;
 }
 

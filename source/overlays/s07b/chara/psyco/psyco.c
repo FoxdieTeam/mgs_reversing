@@ -4,6 +4,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/navi.h"
+#include "takabe/cineutil.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -24,7 +25,20 @@ typedef struct _Work {
     /* 0x718 */ SVECTOR        adjust[ 16 ];
     /* 0x798 */ MATRIX         light[ 2 ];
 
-    /* 0x7D8 */ char pad7B8[ 0x96 ];
+    /* 0x7D8 */ char pad7D8[ 0x74 ];
+
+    /* 0x84C */ int field_84C;
+
+    /* 0x850 */ char pad850[ 0x4 ];
+
+    /* 0x854 */ void *field_854;
+    /* 0x858 */ int field_858;
+
+    /* 0x85C */ char pad85C[ 0x8 ];
+
+    /* 0x864 */ int field_864;
+
+    /* 0x868 */ char pad868[ 0x6 ];
 
     /* 0x86E */ short field_86E;
 
@@ -33,19 +47,30 @@ typedef struct _Work {
     /* 0x890 */ SVECTOR pos;
     /* 0x898 */ SVECTOR rot;
 
-    /* 0x8A0 */ char pad8A0[ 0x4C ];
+    /* 0x8A0 */ char pad8A0[ 0x4 ];
+
+    /* 0x8A4 */ int     n_points;
+    /* 0x8A8 */ SVECTOR points[ 8 ];
+
+    /* 0x8E8 */ char pad8E8[ 0x4 ];
 
     /* 0x8EC */ short field_8EC;
     /* 0x8EE */ short field_8EE;
 
-    /* 0x8F0 */ char pad8F0[ 0x1A0 ];
+    /* 0x8F0 */ char pad8F0[ 0x174 ];
+
+    /* 0xA64 */ short field_A64;
+    /* 0xA66 */ short field_A66;
+
+    /* 0xA68 */ char padA68[ 0x28 ];
 
     /* 0xA90 */ int      proc_id;
     /* 0xA94 */ NAVIGATE navi;
     /* 0xAB4 */ int      field_AB4;
     /* 0xAB8 */ int      field_AB8;
-
-    /* 0xABC */ char padABC[ 0x2C ];
+    /* 0xABC */ int      field_ABC[ 4 ];
+    /* 0xACC */ int      field_ACC[ 6 ];
+    /* 0xAE4 */ char     field_AE4[ 4 ];
 } Work;
 
 int s07b_dword_800C3390 = 0x01900388;
@@ -218,7 +243,11 @@ void s07b_800CAF54( Work *work );
 
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CAFC8.s")
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CB068.s")
+void s07b_800CB068( int );
+
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CB0B4.s")
+void s07b_800CB0B4( Work *work, int );
+
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CB130.s")
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CB224.s")
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CB264.s")
@@ -284,7 +313,10 @@ int s07b_800CDA04( Work *work );
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CF130.s")
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CF200.s")
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CF304.s")
+
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CF684.s")
+void s07b_800CF684( void );
+
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CF6F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CF768.s")
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CF9A0.s")
@@ -316,7 +348,27 @@ void s07b_800D0DCC( void )
 
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D0DD4.s")
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D0F94.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D0FC0.s")
+
+void s07b_800D0FC0( Work *work, int arg1 )
+{
+    if ( arg1 == 0 )
+    {
+        CloseCinemaScreen();
+        GM_Camera.first_person = 0;
+        work->field_864 = 1;
+        work->field_84C &= ~0x4;
+        DG_VisibleObjs( GM_PlayerBody->objs );
+        work->field_854 = s07b_800CF684;
+        work->field_858 = 0;
+        work->field_A66 = 0;
+        work->field_A64 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        s07b_800CB0B4( work, 0 );
+        s07b_800CB068( 0 );
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D105C.s")
 
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D1254.s")
@@ -331,22 +383,110 @@ int s07b_800D1484( Work *work );
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D1638.s")
 void s07b_800D1638( Work *work );
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D187C.s")
+int s07b_800D187C( HZD_PAT *patrol, int *count, SVECTOR *data )
+{
+    int n_points;
+    HZD_PTP *point;
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D18E0.s")
-int s07b_800D18E0( Work *work );
+    n_points = *count = patrol->n_points;
+    point = patrol->points;
+    while ( --n_points >= 0 )
+    {
+        data->vx = point->x;
+        data->vy = point->y;
+        data->vz = point->z;
+        data->pad = point->command;
+        point++;
+        data++;
+    }
+
+    return 0;
+}
+
+int s07b_800D18E0( Work *work )
+{
+    int route_no;
+    HZD_HDL *hzd;
+    HZD_PAT *route;
+
+    if ( GCL_GetOption( 'r' ) )
+    {
+        route_no = GCL_StrToInt( GCL_NextStr() );
+    }
+    else
+    {
+        route_no = 0;
+    }
+
+    hzd = work->control.map->hzd;
+    route = hzd->def->routes;
+    route += route_no;
+
+    if ( s07b_800D187C( route, &work->n_points, work->points ) < 0 ) return -1;
+    return 0;
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D195C.s")
 void s07b_800D195C( Work *work );
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D1C80.s")
-void s07b_800D1C80( Work *work );
+void s07b_800D1C80( Work *work )
+{
+    int i;
+    int *data;
+    char *str;
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D1CF8.s")
-void s07b_800D1CF8( Work *work );
+    if ( GCL_GetOption( 't' ) )
+    {
+        i = 0;
+        data = work->field_ABC;
+        while ( ( str = GCL_NextStr() ) != NULL )
+        {
+            if ( i == 4 ) break;
+            *data = GCL_StrToInt( str );
+            data++;
+            i++;
+        }
+    }
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D1D70.s")
-void s07b_800D1D70( Work *work );
+void s07b_800D1CF8( Work *work )
+{
+    int i;
+    int *data;
+    char *str;
+
+    if ( GCL_GetOption( 'c' ) )
+    {
+        i = 0;
+        data = work->field_ACC;
+        while ( ( str = GCL_NextStr() ) != NULL )
+        {
+            if ( i == 6 ) break;
+            *data = GCL_StrToInt( str );
+            data++;
+            i++;
+        }
+    }
+}
+
+void s07b_800D1D70( Work *work )
+{
+    int i;
+    char *data, *str;
+
+    if ( GCL_GetOption( 'f' ) )
+    {
+        i = 0;
+        data = work->field_AE4;
+        while ( ( str = GCL_NextStr() ) != NULL )
+        {
+            if ( i == 4 ) break;
+            *data = GCL_StrToInt( str );
+            data++;
+            i++;
+        }
+    }
+}
 
 int s07b_800D1DE8( Work *work, int name, int where )
 {

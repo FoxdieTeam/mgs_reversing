@@ -177,7 +177,7 @@ static int CalculateHit(Work *work, MATRIX *world)
         floor = HZD_GetOnlineHazard();
         if (((int)floor & 0x80000000) != 0)
         {
-            HZD_GetNormal(floor, &work->normal);
+            HZD_NormalVector(floor, &work->normal);
         }
         else
         {

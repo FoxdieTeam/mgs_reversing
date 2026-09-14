@@ -170,8 +170,8 @@ void s11d_rope_800C3DF0(CONTROL *control, HZD_HDL *hzd)
 {
     if (!(control->skip_flag & CTRL_SKIP_TRAP))
     {
-        control->evt.mov = control->mov;
-        control->evt.mov.pad = control->rot.vy;
+        control->evt.coord = control->mov;
+        control->evt.coord.pad = control->rot.vy;
         HZD_EnterTrap(hzd, &control->evt);
     }
 }

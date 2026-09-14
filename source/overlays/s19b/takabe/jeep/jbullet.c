@@ -222,7 +222,7 @@ static int FindIntersection(Work *work, MATRIX *world, int mode2)
             {
                 /* hit wall */
                 work->hit_type = 1;
-                HZD_GetNormal(work->hit_surface, &work->normal);
+                HZD_NormalVector(work->hit_surface, &work->normal);
             }
             else
             {

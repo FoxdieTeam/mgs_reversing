@@ -117,9 +117,9 @@ void HZD_SetEvent( HZD_EVT *event, int name )
         *tmp++ = 0;
     }
 
-    event->mov.vz = 0;
-    event->mov.vy = 0;
-    event->mov.vx = 0;
+    event->coord.vz = 0;
+    event->coord.vy = 0;
+    event->coord.vx = 0;
 }
 
 void HZD_ExecBind( HZD_BND *bnd, HZD_EVT *ev, int event, int type )
@@ -131,9 +131,9 @@ void HZD_ExecBind( HZD_BND *bnd, HZD_EVT *ev, int event, int type )
     *p++ = ev->object;
     *p++ = ev->name;
     *p++ = event;
-    *p++ = ev->mov.vx;
-    *p++ = ev->mov.vy;
-    *p++ = ev->mov.vz;
+    *p++ = ev->coord.vx;
+    *p++ = ev->coord.vy;
+    *p++ = ev->coord.vz;
     *p++ = type;
 
     args.argc = 7;
@@ -240,7 +240,7 @@ static inline int HZD_helper2_80029D50(HZD_BND *pBind, HZD_EVT *event)
 
     if (pBind->field_B_param_e & 0x1)
     {
-        diff = (-pBind->field_C_param_d + event->mov.pad) & 0xFFF;
+        diff = (-pBind->field_C_param_d + event->coord.pad) & 0xFFF;
 
         if (diff > 2048)
         {
