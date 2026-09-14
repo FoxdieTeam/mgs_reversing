@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s09a_800C8F2C
+s09a_800C8F2C:
+	dw 0x8C820C1C ; 800C8F2C
+	dw 0x00000000 ; 800C8F30
+	dw 0x24420001 ; 800C8F34
+	dw 0x03E00008 ; 800C8F38
+	dw 0xAC820C1C ; 800C8F3C
