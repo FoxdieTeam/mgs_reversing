@@ -338,5 +338,12 @@ void *rank_800CECC0( int arg0 )
     return (void *)work;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CEDCC.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CEDEC.s")
+void *rank_800CEDCC( void )
+{
+    return rank_800CECC0( 0 );
+}
+
+void *rank_800CEDEC( void )
+{
+    return rank_800CECC0( 1 );
+}
