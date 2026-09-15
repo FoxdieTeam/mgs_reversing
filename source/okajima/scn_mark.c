@@ -80,7 +80,7 @@ static void Die(Work *work)
     /* do nothing */
 }
 
-void *NewScreenMark(int name, int where)
+void *NewScnHeadMark(int name, int where)
 {
     Work *work;
 
