@@ -213,7 +213,7 @@
 #define CHARA_HIND2             { 0xb959, NewHind2 }                // chara/hind2/hind2.c
 #define CHARA_SAVE_DATA         { 0x9302, ? }                       // GV_StrCode("セーブデータ") menu/mload.c
 #define CHARA_SCN_BOMB          { 0x600d, ? }                       // okajima/scn_bomb.c (PC-ONLY)
-#define CHARA_SCN_MARK          { 0xee63, NewScreenMark }           // okajima/scn_mark.c
+#define CHARA_SCN_MARK          { 0xee63, NewScnHeadMark }          // okajima/scn_mark.c
 #define CHARA_SEARCHLIGHT       { 0xf50f, NewSearchlight }          // GV_StrCode("サーチライト") enemy/searchli.c
 #define CHARA_SHAKEMODEL        { 0xba52, NewShakeModelGCL }        // takabe/shakemdl.c
 #define CHARA_SHUTTER           { 0x03d9, NewShutter }              // GV_StrCode("シャッター") takabe/shuter.c
@@ -503,7 +503,7 @@ extern NEWCHARA NewRedAlert;                    /* okajima/red_alrt.c           
 extern NEWCHARA NewRedAlert2;                   /* okajima/red_alrt.c           */
 extern NEWCHARA RedAlert_800C4F48;              /* okajima/red_alrt.c           */
 extern NEWCHARA NewStage11Objects;              /* okajima/s11_objs.c           */
-extern NEWCHARA NewScreenMark;                  /* okajima/scn_mark.c           */
+extern NEWCHARA NewScnHeadMark;                 /* okajima/scn_mark.c           */
 extern NEWCHARA NewSmokeLn_800CDFA4;            /* okajima/smke_ln.c            */
 extern NEWCHARA NewSmokeTarget;                 /* okajima/smktrgt.c            */
 extern NEWCHARA NewSpark;                       /* okajima/spark.c              */
