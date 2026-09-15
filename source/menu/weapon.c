@@ -1198,7 +1198,7 @@ int menu_weapon_update_helper_8003E4B8(MenuWork *work)
     int                i;
     int                panelCount, currentPanel;
 
-    if (!(GM_GameStatus & GAME_FLAG_BIT_19))
+    if (!(GM_GameStatus & STATE_EQUIP_OFF))
     {
         panelCount = 0;
 
@@ -1426,7 +1426,7 @@ void menu_weapon_update_8003E990(MenuWork *work, u_long *ot)
                     sub_8003D520();
                 }
             }
-            else if ((!(GM_GameStatus & GAME_FLAG_BIT_19)) && (pPad->press & PAD_R1))
+            else if ((!(GM_GameStatus & STATE_EQUIP_OFF)) && (pPad->press & PAD_R1))
             {
                 weapon_id = GM_Weapon;
 
