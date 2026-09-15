@@ -237,7 +237,7 @@ void *rank_800D523C( KCB *kcb )
     return kcb->cbuffer;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800D5248.s")
+#pragma INCLUDE_ASM("asm/overlays/rank/rank_800D5248.s") // done
 void rank_800D5248( Work *work );
 
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D536C.s")
@@ -424,8 +424,76 @@ void rank_800D9BB8( Work *work )
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800DA1DC.s") // done
 void rank_800DA1DC( Work *work );
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800DA204.s") // scratch
-void rank_800DA204( Work *work );
+void rank_800DA204( Work *work )
+{
+    int time, r, g, b, i;
+    POLY_FT4 *p;
+
+    time = work->time;
+    p = work->pol;
+
+    if ( time <= 32 )
+    {
+        r = 64 - time * 2;
+        g = 64 - time * 2;
+        b = 64 - time * 2;
+        setRGB0( &p[ 0 ], r, g, b );
+        setRGB0( &p[ 1 ], r, g, b );
+
+        r = 46 - time * 46 / 32;
+        g = 72 - time * 72 / 32;
+        b = 61 - time * 61 / 32;
+        setRGB0( &p[ 2 ], r, g, b );
+        setRGB0( &p[ 3 ], r, g, b );
+
+        r = 82 - time * 82 / 32;
+        g = 140 - time * 140 / 32;
+        b = 123 - time * 123 / 32;
+        setRGB0( &p[ 4 ], r, g, b );
+        setRGB0( &p[ 5 ], r, g, b );
+
+        r = 140 - time * 140 / 32;
+        g = 181 - time * 181 / 32;
+        b = 181 - time * 181 / 32;
+        setRGB0( &p[ 6 ], r, g, b );
+        setRGB0( &p[ 7 ], r, g, b );
+        setRGB0( &p[ 8 ], r, g, b );
+        setRGB0( &p[ 9 ], r, g, b );
+        setRGB0( &p[ 10 ], r, g, b );
+        setRGB0( &p[ 11 ], r, g, b );
+
+        r = 165 - time * 165 / 32;
+        g = 74 - time * 74 / 32;
+        b = 74 - time * 74 / 32;
+        setRGB0( &p[ 12 ], r, g, b );
+
+        r = 74 - time * 74 / 32;
+        g = 107 - time * 107 / 32;
+        b = 148 - time * 148 / 32;
+        setRGB0( &p[ 13 ], r, g, b );
+        setRGB0( &p[ 14 ], r, g, b );
+        setRGB0( &p[ 15 ], r, g, b );
+    }
+    else
+    {
+        for ( i = 0; i < 16; i++ )
+        {
+            work->z[ i ] = 0;
+        }
+
+        rank_800D51EC( work, 0, 0 );
+
+        work->state = 3;
+        work->select = 0;
+        work->count = 0;
+
+        if ( GM_GameLevel == GM_LEVEL_VERYEASY )
+        {
+            GCL_ExecProc( work->time_proc, NULL );
+            GV_DestroyActor( work );
+        }
+    }
+}
 
 void rank_800DA504( Work *work )
 {
