@@ -375,13 +375,13 @@ Individual overlay progress:
             <td><b>s09a</b></td>
             <td>121 KB</td>
             <td>Caves</td>
-            <td>❌ Work not started</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s09ar</b></td>
             <td>121 KB</td>
             <td>Caves (RED)</td>
-            <td>❌ Work not started</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s10a</b></td>
