@@ -346,7 +346,6 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}.bin")
       OVERLAY == "s03e" or OVERLAY == "s03er" or
       OVERLAY == "s04b" or OVERLAY == "s04br" or
       OVERLAY == "s04c" or
-      OVERLAY == "s07c" or OVERLAY == "s07cr" or
       OVERLAY == "s08a" or
       OVERLAY == "s08b" or OVERLAY == "s08br" or
       OVERLAY == "s08c" or OVERLAY == "s08cr" or
@@ -898,6 +897,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
     include "{{OBJ_DIR}}\okajima\dog\dog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\okajima\dog\think9.obj", overlay
     include "{{OBJ_DIR}}\okajima\dog\wolf_eye.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fog.obj", overlay
@@ -931,6 +931,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
     include "{{OBJ_DIR}}\okajima\dog\dog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\okajima\dog\think9.obj", overlay
     include "{{OBJ_DIR}}\okajima\dog\wolf_eye.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fog.obj", overlay
@@ -2527,6 +2528,49 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\rank\mcx\rank_800E01B4.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libc2\STRINGS.OBJ", overlay
+;------------------------------------------------------------------------------
+{% elif OVERLAY == "s09a" or OVERLAY == "s09ar" %}
+    include "{{OBJ_DIR}}\stage\s09a.obj", overlay
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
+    include "{{OBJ_DIR}}\enemy\glight.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\meryl72.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\check.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\override.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\put.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\ml72act.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
+    include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\think.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\think9.obj", overlay ; name needed
+    include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
+    include "{{OBJ_DIR}}\okajima\snowarea.obj", overlay
+    include "{{OBJ_DIR}}\okajima\dog\dog.obj", overlay
+    include "{{OBJ_DIR}}\okajima\dog\wolf_eye.obj", overlay
+    include "{{OBJ_DIR}}\takabe\rsurface.obj", overlay
+    include "{{OBJ_DIR}}\takabe\ripple.obj", overlay
+    include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
 {% endif %}
 
 {% endif %}
