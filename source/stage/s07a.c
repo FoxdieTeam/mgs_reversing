@@ -14,7 +14,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_CAT_IN,
+    CHARA_CAT_IN,       /* chara カットインカメラ */
 
     CHARA_END
 };

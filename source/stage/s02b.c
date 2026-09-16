@@ -11,7 +11,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WALL,         /* chara 障害物 */
     CHARA_SHAKEMODEL,
     CHARA_DUCTMOUSE,
-    CHARA_CAT_IN,
+    CHARA_CAT_IN,       /* chara カットインカメラ */
     CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_CINEMA,       /* chara シネマスクリーン */

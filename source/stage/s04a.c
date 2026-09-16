@@ -13,7 +13,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_FADEIO,       /* chara 白黒フェド */
-    CHARA_CAT_IN,
+    CHARA_CAT_IN,       /* chara カットインカメラ */
     CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_DYNWALL,      /* chara 透明壁 */
 

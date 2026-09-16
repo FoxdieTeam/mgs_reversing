@@ -18,7 +18,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_PATOLAMP,     /* chara パトランプ */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_LIFEUP,       /* chara ライフ増加 */
-    CHARA_CAT_IN,
+    CHARA_CAT_IN,       /* chara カットインカメラ */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_CAMERASHAKE,  /* chara カメラ揺らし */

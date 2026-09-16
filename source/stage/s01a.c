@@ -10,7 +10,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_SNEBREATH,    /* chara スネーク息 */
     CHARA_ENV_SOUND,    /* chara 環境音 */
-    CHARA_CAT_IN,
+    CHARA_CAT_IN,       /* chara カットインカメラ */
     CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_TRUCKTRAP,    /* chara トラック移動トラップ */
     CHARA_DYNWALL,      /* chara 透明壁 */
