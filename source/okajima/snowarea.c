@@ -1,342 +1,304 @@
 #include "snowarea.h"
 
-#include <stdlib.h>
-#include "game/game.h"
-#include "libgv/libgv.h"
-#include "libgcl/libgcl.h"
+#include <rand.h>
 #include "strcode.h"
+#include "libgcl/libgcl.h"
+#include "game/game.h"
 
 /*----------------------------------------------------------------------------*/
-
-#define EXEC_LEVEL GV_ACTOR_USER
 
 #define SNOWFLAKE_MAX 32
 
-typedef struct _SnowFlake
-{
-    SVECTOR    pos;
-    SVECTOR    f8;
-    SVECTOR    rot;
-    SVECTOR    f18;
-    DG_PRIM   *prim;
-    SVECTOR    vecs[SNOWFLAKE_MAX];
-} SnowFlake;
+typedef struct _SET {
+    SVECTOR  pos;
+    SVECTOR  step;
+    SVECTOR  rot;
+    SVECTOR  turn;
+    DG_PRIM *prim;
+    SVECTOR  verts[ SNOWFLAKE_MAX ];
+} SET;
 
-typedef struct _Work
-{
-    GV_ACT     actor;
-    SVECTOR    min;
-    SVECTOR    max;
-    SVECTOR    f30;
-    SVECTOR    f38;
-    int        n_entries;
-    int        f44;
-    SnowFlake  entries[SNOWFLAKE_MAX];
-    int        colors[SNOWFLAKE_MAX];
-    BOOL       is_visible;
-    GV_MSG    *msgs;
+typedef struct _Work {
+    GV_ACT  actor;
+    SVECTOR min;
+    SVECTOR max;
+    SVECTOR speed;
+    SVECTOR weight;
+    int     n_sets;
+    int     side;
+    SET     set[ SNOWFLAKE_MAX ];
+    int     color[ SNOWFLAKE_MAX ];
+    BOOL    enable;
+    GV_MSG *msg;
 } Work;
 
-static RECT    snowflake_rect_800C359C = {0, 0, 2, 2};
+static RECT prim_rect = {0, 0, 2, 2};
 
 /*----------------------------------------------------------------------------*/
 
-void ColourEntries(int *colors, int n_colors)
+static void InitColor( int *rgb, int count )
 {
     TILE tile;
     int  color;
     int  shade;
 
-    setTile(&tile);
-    color = LLOAD(&tile.r0) & RGBA_A_MASK;
+    setTile( &tile );
+    color = LLOAD( &tile.r0 ) & RGBA_A_MASK;
 
-    while (--n_colors >= 0)
+    while ( --count >= 0 )
     {
-        shade = GV_RandU(64) + 192;
-        *colors++ = color | shade / 2 | (shade / 2) << 8 | shade << 16;
+        shade = GV_RandU( 64 ) + 192;
+        *rgb++ = color | shade / 2 | ( shade / 2 ) << 8 | shade << 16;
     }
 }
 
-void LightEntries(TILE *packs1, TILE *packs2, int n_packs, int *colors)
+static void InitPacks( TILE *packs0, TILE *packs1, int n_packs, int *rgb )
 {
-    int rnd;
+    int size;
 
-    while (--n_packs >= 0)
+    while ( --n_packs >= 0 )
     {
-        rnd = GV_RandU(2) + 1;
+        size = GV_RandU( 2 ) + 1;
 
-        setTile(packs1);
-        LSTORE(*colors, &packs1->r0);
-        setWH(packs1, rnd, rnd);
+        setTile( packs0 );
+        LSTORE( *rgb, &packs0->r0 );
+        setWH( packs0, size, size );
 
-        setTile(packs2);
-        LSTORE(*colors, &packs2->r0);
-        setWH(packs2, rnd, rnd);
+        setTile( packs1 );
+        LSTORE( *rgb, &packs1->r0 );
+        setWH( packs1, size, size );
 
+        packs0++;
         packs1++;
-        packs2++;
-        colors++;
+        rgb++;
     }
 }
 
-void PositionEntry(SVECTOR *dst, int x0, int x1, int y0, int y1, int z0, int z1)
+static void GetRandom( SVECTOR *dst, int x0, int x1, int y0, int y1, int z0, int z1 )
 {
-    dst->vx = ((rand() & 0xFF) * (x1 - x0)) / 256 + x0;
-    dst->vy = ((rand() & 0xFF) * (y1 - y0)) / 256 + y0;
-    dst->vz = ((rand() & 0xFF) * (z1 - z0)) / 256 + z0;
+    dst->vx = ( rand() & 255 ) * ( x1 - x0 ) / 256 + x0;
+    dst->vy = ( rand() & 255 ) * ( y1 - y0 ) / 256 + y0;
+    dst->vz = ( rand() & 255 ) * ( z1 - z0 ) / 256 + z0;
 }
 
-void ScaleEntry(SVECTOR *dst, SVECTOR *src, SVECTOR *scale)
+static void AddRandom( SVECTOR *dst, SVECTOR *src, SVECTOR *scale )
 {
-    dst->vx = src->vx + ((rand() & 0xFF) * scale->vx) / 256;
-    dst->vy = src->vy + ((rand() & 0xFF) * scale->vy) / 256;
-    dst->vz = src->vz + ((rand() & 0xFF) * scale->vz) / 256;
+    dst->vx = src->vx + ( rand() & 255 ) * scale->vx / 256;
+    dst->vy = src->vy + ( rand() & 255 ) * scale->vy / 256;
+    dst->vz = src->vz + ( rand() & 255 ) * scale->vz / 256;
 }
 
-void MoveEntry(Work* work, SnowFlake* entry, BOOL is_falling) {
-    SVECTOR *vec;
-    int      i;
+static void UpdateSet( Work *work, SET *set, int falling )
+{
+    int i;
+    SVECTOR *vert;
 
-    PositionEntry(&entry->pos, work->min.vx, work->max.vx, work->min.vy,
-                               work->max.vy, work->min.vz, work->max.vz);
+    GetRandom( &set->pos,
+               work->min.vx, work->max.vx,
+               work->min.vy, work->max.vy,
+               work->min.vz, work->max.vz );
+    if ( falling ) set->pos.vy = work->max.vy - GV_RandU( 256 );
 
-    if (is_falling)
+    GetRandom( &set->turn, -8, 8, -8, 8, -8, 8 );
+
+    set->rot = DG_ZeroVector;
+
+    AddRandom( &set->step, &work->speed, &work->weight );
+    GV_AddVec3( &work->speed, &work->weight, &set->step );
+
+    vert = set->verts;
+    for ( i = SNOWFLAKE_MAX; i > 0; i-- )
     {
-        entry->pos.vy = work->max.vy - GV_RandU(256);
-    }
-
-    PositionEntry(&entry->f18, -8, 8, -8, 8, -8, 8);
-
-    entry->rot = DG_ZeroVector;
-
-    ScaleEntry(&entry->f8, &work->f30, &work->f38);
-    GV_AddVec3(&work->f30, &work->f38, &entry->f8);
-
-    vec = entry->vecs;
-    for (i = SNOWFLAKE_MAX; i > 0; i--)
-    {
-        PositionEntry(vec, -1500, 1500, -1500, 1500, -1500, 1500);
-        vec++;
+        GetRandom( vert, -1500, 1500, -1500, 1500, -1500, 1500 );
+        vert++;
     }
 }
 
-void ReceiveMessage(Work *work)
+static void CheckMessage( Work *work )
 {
-    int     n_msgs;
+    int n_msg;
     GV_MSG *msg;
 
-    n_msgs = GV_ReceiveMessage(GV_StrCode("雪"), &work->msgs);
-    if (n_msgs <= 0)
-    {
-        return;
-    }
+    n_msg = GV_ReceiveMessage( GV_StrCode( "雪" ), &work->msg );
+    if ( n_msg <= 0 ) return;
 
-    msg = work->msgs;
-
-    while (--n_msgs >= 0)
+    msg = work->msg;
+    while ( --n_msg >= 0 )
     {
-        switch (msg->message[0])
+        switch ( msg->message[ 0 ] )
         {
         case HASH_ON:
-            work->is_visible = TRUE;
+            work->enable = 1;
             break;
-
         case HASH_OFF:
-            work->is_visible = FALSE;
+            work->enable = 0;
             break; 
-
-        default:
-            break;
         }
-
         msg++;
     }
 }
 
-int CheckEntryBounds(Work* work, SnowFlake* entry)
+static int CheckBound( Work *work, SET *set )
 {
-    if (entry->pos.vy < work->min.vy - 1000 || work->max.vy + 1000 < entry->pos.vy)
+    if (set->pos.vy < ( work->min.vy - 1000 ) || set->pos.vy > ( work->max.vy + 1000 ) )
     {
-        MoveEntry(work, entry, TRUE);
-        return TRUE;
-    }
-    return FALSE;
-}
-
-void Act(Work *work)
-{
-    SnowFlake *entry;
-    int        n_entries;
-
-    entry = work->entries;
-
-    ReceiveMessage(work);
-
-    n_entries = work->n_entries;
-
-    while (n_entries > 0)
-    {
-        if (work->is_visible == FALSE)
-        {
-            DG_InvisiblePrim(entry->prim);
-            entry++;
-        }
-        else
-        {
-            DG_VisiblePrim(entry->prim);
-
-            if (CheckEntryBounds(work, entry) == FALSE)
-            {
-                entry->pos.vy += GV_RandS(2);
-                GV_AddVec3(&entry->pos, &entry->f8, &entry->pos);
-                GV_AddVec3(&entry->rot, &entry->f18, &entry->rot);
-            }
-
-            DG_SetPos2(&entry->pos, &entry->rot);
-            DG_PutPrim(entry->prim);
-
-            entry++;
-        }
-
-        n_entries--;
-    }
-}
-
-void Die(Work *work)
-{
-    int        n_entries;
-    SnowFlake *entry;
-
-    n_entries = work->n_entries;
-    entry = work->entries;
-
-    while (n_entries > 0)
-    {
-        GM_FreePrim(entry->prim);
-
-        n_entries--;
-        entry++;
-    }
-}
-
-void GetOptions(Work *work)
-{
-    char *opt;
-    int  n_entries;
-    int  x, y, z;
-    int  var_a2;
-
-    work->n_entries = SNOWFLAKE_MAX;
-
-    if ((opt = GCL_GetOption('l')))
-    {
-        GCL_StrToSV(opt, (short *)&work->min);
+        UpdateSet( work, set, 1 );
+        return 1;
     }
 
-    if ((opt = GCL_GetOption('h')))
-    {
-        GCL_StrToSV(opt, (short *)&work->max);
-    }
-
-    if ((opt = GCL_GetOption('s')))
-    {
-        GCL_StrToSV(opt, (short *)&work->f30);
-    }
-
-    if ((opt = GCL_GetOption('w')))
-    {
-        GCL_StrToSV(opt, (short *)&work->f38);
-    }
-
-    if ((opt = GCL_GetOption('n')))
-    {
-        n_entries = GCL_StrToInt(opt);
-
-        if (n_entries <= 0)
-        {
-            n_entries = 1;
-        }
-
-        if (n_entries > 1024)
-        {
-            n_entries = 1024;
-        }
-
-        work->n_entries = (n_entries + SNOWFLAKE_MAX - 1) / SNOWFLAKE_MAX;
-    }
-
-    x = work->f30.vx;
-    y = work->f30.vy;
-    z = work->f30.vz;
-
-    if (x < 0)
-    {
-        x = -x;
-    }
-
-    if (y < 0)
-    {
-        y = -y;
-    }
-
-    if (z < 0)
-    {
-        z = -z;
-    }
-
-    var_a2 = 2;
-    if (x >= y)
-    {
-        if (x >= z)
-        {
-            var_a2 = 0;
-            z = x;
-        }
-    }
-    else if (y >= z)
-    {
-        var_a2 = 1;
-        z = y;
-    }
-
-    work->f44 = var_a2 * 2 + (z > 0);
-}
-
-int GetResources(Work *work, int map)
-{
-    SnowFlake *entry;
-    int        n_entries;
-    DG_PRIM   *prim;
-
-    GM_CurrentMap = map;
-    ColourEntries(work->colors, SNOWFLAKE_MAX);
-    entry = work->entries;
-    for (n_entries = work->n_entries; n_entries > 0; n_entries--)
-    {
-        prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_TILE, SNOWFLAKE_MAX, entry->vecs, &snowflake_rect_800C359C);
-        entry->prim = prim;
-        if (prim == NULL)
-        {
-            return -1;
-        }
-        LightEntries(prim->packs[0], prim->packs[1], SNOWFLAKE_MAX, work->colors);
-        MoveEntry(work, entry, FALSE);
-        
-        entry++;
-    }
-    work->is_visible = TRUE;
     return 0;
 }
 
-void *NewSnowArea(int name, int where, int argc, char **argv) {
-    Work* work;
+static void Act( Work *work )
+{
+    SET *set;
+    int i;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
-    if (work != NULL) {
-        GetOptions(work);
-        GV_SetNamedActor(&work->actor, Act, Die, "snowarea.c");
-        if (GetResources(work, where) < 0) {
-            GV_DestroyActor(work);
+    set = work->set;
+
+    CheckMessage( work );
+
+    for ( i = work->n_sets; i > 0; i-- )
+    {
+        if ( !work->enable )
+        {
+            DG_InvisiblePrim( set->prim );
+            set++;
+        }
+        else
+        {
+            DG_VisiblePrim( set->prim );
+
+            if ( !CheckBound( work, set ) )
+            {
+                set->pos.vy += GV_RandS( 2 );
+                GV_AddVec3( &set->pos, &set->step, &set->pos );
+                GV_AddVec3( &set->rot, &set->turn, &set->rot );
+            }
+
+            DG_SetPos2( &set->pos, &set->rot );
+            DG_PutPrim( set->prim );
+            set++;
+        }
+    }
+}
+
+static void Die( Work *work )
+{
+    SET *set;
+    int i;
+
+    set = work->set;
+    for ( i = work->n_sets; i > 0; i-- )
+    {
+        GM_FreePrim( set->prim );
+        set++;
+    }
+}
+
+static void GetOptions( Work *work )
+{
+    char *opt;
+    int num, side;
+    int x, y, z;
+
+    work->n_sets = SNOWFLAKE_MAX;
+
+    opt =  GCL_GetOption( 'l' );
+    if ( opt )
+    {
+        GCL_StrToSV( opt, (short *)&work->min );
+    }
+
+    opt = GCL_GetOption( 'h' );
+    if ( opt )
+    {
+        GCL_StrToSV( opt, (short *)&work->max );
+    }
+
+    opt = GCL_GetOption( 's' );
+    if ( opt )
+    {
+        GCL_StrToSV( opt, (short *)&work->speed );
+    }
+
+    opt = GCL_GetOption( 'w' );
+    if ( opt )
+    {
+        GCL_StrToSV( opt, (short *)&work->weight );
+    }
+
+    opt = GCL_GetOption( 'n' );
+    if ( opt )
+    {
+        num = GCL_StrToInt( opt );
+        if ( num < 1 ) num = 1;
+        if ( num > 1024 ) num = 1024;
+        work->n_sets = ( num + SNOWFLAKE_MAX - 1 ) / SNOWFLAKE_MAX;
+    }
+
+    x = work->speed.vx;
+    y = work->speed.vy;
+    z = work->speed.vz;
+
+    if ( x < 0 ) x = -x;
+    if ( y < 0 ) y = -y;
+    if ( z < 0 ) z = -z;
+
+    side = 2;
+    if ( x >= y )
+    {
+        if ( x >= z )
+        {
+            side = 0;
+            z = x;
+        }
+    }
+    else if ( y >= z )
+    {
+        side = 1;
+        z = y;
+    }
+
+    work->side = side * 2 + ( z > 0 );
+}
+
+static int GetResources( Work *work, int map )
+{
+    SET *set;
+    int i;
+    DG_PRIM *prim;
+
+    GM_SetCurrentMap( map );
+    InitColor( work->color, SNOWFLAKE_MAX );
+
+    set = work->set;
+    for ( i = work->n_sets; i > 0; i-- )
+    {
+        set->prim = prim = GM_MakePrim( DG_PRIM_RECTANGLE | DG_PRIM_TILE, SNOWFLAKE_MAX, set->verts, &prim_rect );
+        if ( prim == NULL ) return -1;
+
+        InitPacks( prim->packs[ 0 ], prim->packs[ 1 ], SNOWFLAKE_MAX, work->color );
+        UpdateSet( work, set, 0 );
+        set++;
+    }
+
+    work->enable = 1;
+    return 0;
+}
+
+void *NewSnowArea( int name, int where, int argc, char **argv )
+{
+    Work *work;
+
+    work = GV_NewActor( GV_ACTOR_USER, sizeof(Work) );
+    if ( work != NULL )
+    {
+        GetOptions( work );
+        GV_SetNamedActor( work, Act, Die, "snowarea.c" );
+        if ( GetResources( work, where ) < 0 )
+        {
+            GV_DestroyActor( work );
             return NULL;
         }
     }
