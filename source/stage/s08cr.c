@@ -13,7 +13,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FEWDAMAGE,
     CHARA_BLOOD_POOL,   /* chara 血溜り */
     CHARA_BLOOD_POOL2,  /* chara 血溜り２ */
-    CHARA_CAT_IN,
+    CHARA_CAT_IN,       /* chara カットインカメラ */
     CHARA_PADCONTROL,   /* chara パッドコントロール */
     CHARA_PADVIBRATE,   /* chara パッド振動 */
 

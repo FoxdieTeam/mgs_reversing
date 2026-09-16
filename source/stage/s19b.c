@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_COUNTDOWN2,   /* chara カウントダウンタイマー */
-    CHARA_CAT_IN,
+    CHARA_CAT_IN,       /* chara カットインカメラ */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_JEEPSCROLL,   /* chara ジープスクロール */
     CHARA_JEEPDRUM,     /* chara ジープ戦ドラム */

@@ -11,7 +11,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CAMERAGUN,    /* chara カメラ付随ガン */
     CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_INTRUDECAM,   /* chara イントルードカメラ */
-    CHARA_CAT_IN,
+    CHARA_CAT_IN,       /* chara カットインカメラ */
     CHARA_MOTIONSE,
 
     CHARA_END

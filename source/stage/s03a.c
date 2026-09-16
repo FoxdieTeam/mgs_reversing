@@ -19,7 +19,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_RADARPOINT,   /* chara レーダーポイント */
     CHARA_PADCONTROL,   /* chara パッドコントロール */
     CHARA_INTRUDECAM,   /* chara イントルードカメラ */
-    CHARA_CAT_IN,
+    CHARA_CAT_IN,       /* chara カットインカメラ */
     CHARA_MOTIONSE,
 
     DEMO_FADEIN,

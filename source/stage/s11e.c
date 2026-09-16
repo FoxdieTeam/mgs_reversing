@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_CAT_IN,
+    CHARA_CAT_IN,       /* chara カットインカメラ */
     CHARA_PADVIBRATE,   /* chara パッド振動 */
     CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
     CHARA_GASEFFECT,    /* chara ガス効果 */

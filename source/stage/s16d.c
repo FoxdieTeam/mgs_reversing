@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_FEWDAMAGE,
     CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_PADDEMO,      /* chara パッドデモ */
-    CHARA_CAT_IN,
+    CHARA_CAT_IN,       /* chara カットインカメラ */
     CHARA_DYNWALL,      /* chara 透明壁 */
 
     DEMO_FADEIN,
