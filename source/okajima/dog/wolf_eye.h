@@ -1,9 +1,9 @@
-#ifndef __MGS_S12C_WOLF_EYE_H__
-#define __MGS_S12C_WOLF_EYE_H__
+#ifndef __MGS_OKAJIMA_DOG_WOLF_EYE_H__
+#define __MGS_OKAJIMA_DOG_WOLF_EYE_H__
 
 #include "mgstype.h"
 #include "libgv/libgv.h"
 
-void *NewWolfEye_800D3930(MATRIX *root, int *visible);
+void *NewWolfEye( MATRIX *root, int *enable );
 
-#endif // __MGS_S12C_WOLF_EYE_H__
+#endif // __MGS_OKAJIMA_DOG_WOLF_EYE_H__

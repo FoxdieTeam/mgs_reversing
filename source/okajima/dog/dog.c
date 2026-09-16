@@ -4595,7 +4595,7 @@ int s12c_dog_800D295C(Work *work, int name, int map_name)
 
         if (work->field_1604 == 0)
         {
-            NewWolfEye_800D3930(&work->field_19C[i].objs->objs[5].world, &work->field_15BC[i]);
+            NewWolfEye(&work->field_19C[i].objs->objs[5].world, &work->field_15BC[i]);
         }
         else
         {
