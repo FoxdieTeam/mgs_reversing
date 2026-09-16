@@ -31,6 +31,7 @@ extern char  rank_dword_800C326C[];
 extern char  rank_dword_800E06E4[];
 
 extern int    rank_dword_800E1870;
+extern int    rank_dword_800E1874;
 extern int    rank_dword_800E1878;
 extern int    rank_dword_800E187C;
 extern RadioFileModeStruElem *rank_dword_800E189C;
@@ -46,7 +47,14 @@ extern int    rank_dword_800E18A0;
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC260.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC3D4.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC658.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC70C.s")
+
+int rank_800CC70C( int arg0 )
+{
+    rank_dword_800E1874 = arg0;
+    mts_slp_tsk();
+    return rank_dword_800E1878;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC738.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC798.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC7C0.s")
@@ -59,7 +67,16 @@ extern int    rank_dword_800E18A0;
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD074.s")
 void rank_800CD074( Work *work );
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD178.s")
+void rank_800CD178( int *arr, int len )
+{
+    int i;
+
+    for ( i = 0; i < len; i++, arr += 2 )
+    {
+        arr[ 0 ] += arr[ 1 ];
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD1A8.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD230.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD32C.s")
@@ -68,7 +85,11 @@ void rank_800CD074( Work *work );
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD4E4.s")
 void rank_800CD4E4( void );
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD540.s")
+void rank_800CD540( void )
+{
+    GV_FreeMemory( GV_PACKET_MEMORY0, rank_dword_800E189C );
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD568.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD688.s")
 

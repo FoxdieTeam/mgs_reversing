@@ -421,8 +421,14 @@ void rank_800D9BB8( Work *work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800DA1DC.s") // done
-void rank_800DA1DC( Work *work );
+void rank_800DA1DC( Work *work )
+{
+    if ( work->pad->press )
+    {
+        work->state = 2;
+        work->time = 0;
+    }
+}
 
 void rank_800DA204( Work *work )
 {
