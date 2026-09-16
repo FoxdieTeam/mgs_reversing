@@ -32,8 +32,6 @@ SVECTOR        door2_800C37B8[2] = {{500, 2500, 0, 0}, {-500, 0, 0, 0}};
 
 const char door2_800E3334[11] = {0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 3};
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void s13a_door2_800DD0FC(SVECTOR *verts, Door2Work *work)
 {
     int i;
@@ -318,7 +316,7 @@ void *NewDoor2(int name, int where)
 {
     Door2Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Door2Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Door2Work));
     if (work != NULL)
     {
         work->name = name;

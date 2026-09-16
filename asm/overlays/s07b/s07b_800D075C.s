@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s07b_800D075C
+s07b_800D075C:
+	dw 0x8FB30074 ; 800D075C
+	dw 0x8FB20070 ; 800D0760
+	dw 0x8FB1006C ; 800D0764
+	dw 0x8FB00068 ; 800D0768
+	dw 0x03E00008 ; 800D076C
+	dw 0x27BD0080 ; 800D0770

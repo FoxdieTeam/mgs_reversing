@@ -12,8 +12,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 typedef struct _Work
 {
     GV_ACT   actor;
@@ -143,7 +141,7 @@ void *NewDemoAsiato(MATRIX *world, int which, int height)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "demoasi.c");
@@ -164,7 +162,7 @@ void *NewDemoAsiato2(MATRIX *world, int which, int height, int arg3)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "demoasi.c");

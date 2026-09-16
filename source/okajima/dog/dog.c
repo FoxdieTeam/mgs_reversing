@@ -115,8 +115,6 @@ typedef struct _Work
     int            field_17DC[3];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 #define BODY_DATA    GV_StrCode("wolfdog")
 #define BODY_FLAG    (DG_FLAG_TEXT | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_IRTEXTURE)
 #define MOTION_DATA  GV_StrCode("wolfdog")
@@ -133,8 +131,6 @@ SVECTOR s12c_dword_800C3458 = {64512, 0, 0};
 
 extern SVECTOR MERYL_position;
 extern int     MERYL_flag;
-
-extern GM_CameraSystemWork GM_Camera;
 
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void  AN_Breath(MATRIX *world);
@@ -4664,7 +4660,7 @@ void *NewDog(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s12c_dog_800D1DA0, DogDie_800D2798, "dog.c");

@@ -1,7 +1,5 @@
 #include "game/game.h"
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 typedef struct _Work
 {
     GV_ACT   actor;
@@ -292,7 +290,7 @@ void *NewJeepBlood(MATRIX *world, int count, MATRIX *root)
     {
         for (i = 0; i < count; i++)
         {
-            work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+            work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
             if (work)
             {
                 GV_SetNamedActor(work, Act, Die, "jblood.c");

@@ -10,11 +10,7 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
-extern int  GM_CameraShakeOffset;
-
 /*----------------------------------------------------------------*/
-
-#define EXEC_LEVEL GV_ACTOR_USER
 
 typedef struct _Work
 {
@@ -98,7 +94,7 @@ void *NewCameraShake(int name, int where, int argc, char **argv)
 {
     Work *work ;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
+    work = GV_NewActor( GV_ACTOR_USER, sizeof( Work ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), Act, Die, "camshake.c" );
         if ( GetResources_S( work, name, where ) < 0 )

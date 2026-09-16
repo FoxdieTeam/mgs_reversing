@@ -31,8 +31,6 @@ typedef struct _Work
     short        field_86;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void  s00a_rsurface_800D82E0(Work *work);
 
 void RippleSurfaceAct_800D7FC4(Work *work)
@@ -109,7 +107,7 @@ void *NewRippleSurface(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RippleSurfaceAct_800D7FC4,

@@ -13,8 +13,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_AFTER
-
 #define FAMAS_MODEL     GV_StrCode("famas")
 #define MP5SD_MODEL     GV_StrCode("mpfive")
 
@@ -188,7 +186,7 @@ static void *InitFAMAS(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *f
 {
     int mag_size;
 
-    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    Work *work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "famas.c");

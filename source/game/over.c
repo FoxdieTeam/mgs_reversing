@@ -16,8 +16,6 @@ int GM_GameOverVox = -1;
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_DAEMON
-
 #define NUM_LINES           120 // ((countof(over_logo_data)-1)/4)
 
 #define OPTION_CONTINUE     0
@@ -607,7 +605,7 @@ void *NewGameOver(int can_continue)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_DAEMON, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, &Act, &Die, "over.c");

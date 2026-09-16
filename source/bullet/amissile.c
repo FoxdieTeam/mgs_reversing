@@ -14,12 +14,9 @@
 
 extern TARGET          *target_800BDF00;
 extern BLAST_DATA       blast_data_8009F4B8[8];
-extern GM_SnakeCameraWork  GM_SnakeCamera;
 
 /*---------------------------------------------------------------------------*/
 // Anti-Air Missile (Stinger)
-
-#define EXEC_LEVEL      GV_ACTOR_AFTER
 
 #define STINGER_MSG     0x57f8  // GV_StrCode("stinger")
 #define STINGER_MODEL   0x76ab  // GV_StrCode("stn_fr")
@@ -456,7 +453,7 @@ static int GetResources(Work *work, MATRIX *world, int side)
 
 void *NewAMissile(MATRIX *world, int side)
 {
-    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    Work *work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
 
     if (work)
     {

@@ -75,9 +75,6 @@ typedef struct _Work
     GV_ACT        *f900;
 } Work;
 
-extern GM_SnakeCameraWork GM_SnakeCamera;
-extern GM_CameraSystemWork       GM_Camera;
-
 // unused
 int s03b_dword_800C3290 = 0x027F0200;
 int s03b_dword_800C3294 = 0x00000000;
@@ -145,18 +142,10 @@ char SECTION(".bss") s03b_dword_800D32F0[16];
 void *NewPlasma_800CD1A4(OBJECT *, int, int, int, int, int);
 void *NewBlurSet(int, int, int); /* in okajima/blur.c */
 
-void s03b_boxall_800C9328(void);
-int s03b_boxall_800C93AC(int arg0);
-void s03b_boxall_800C93F0(int, int);
-void s03b_boxall_800C9404(void);
-int  s03b_boxall_800C95EC(void);
-int  s03b_boxall_800C9654(int);
-
 void s03b_torture_800C4C48(Work *work, int);
 void s03b_torture_800C5AF8(Work *work, int);
 void s03b_torture_800C5E48(Work *work, int);
 
-#define EXEC_LEVEL GV_ACTOR_USER
 #define BODY_FLAG  ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE )
 
 void s03b_torture_800C3E80(Work *work)
@@ -543,7 +532,7 @@ void s03b_torture_800C46B8(Work *work, int arg1)
     if (arg1 == 0)
     {
         NewFadeInOut(FADEIO_MODE_TOBLACK, 28);
-        s03b_boxall_800C9328();
+        GM_VoxInit();
 
         work->f820 = 0;
 
@@ -612,13 +601,13 @@ void s03b_torture_800C4740(Work *work)
         break;
 
     case 1:
-        s03b_boxall_800C93AC(work->f87C[work->f820 + 3]);
+        GM_VoxQueue(work->f87C[work->f820 + 3]);
         work->f818 = 2;
         work->f820++;
         break;
 
     case 2:
-        if (s03b_boxall_800C95EC())
+        if (GM_VoxEnd())
         {
             if (work->f820 == 4)
             {
@@ -679,13 +668,13 @@ void s03b_torture_800C4740(Work *work)
 
         if (vox_stream >= 0)
         {
-            s03b_boxall_800C93AC(vox_stream);
+            GM_VoxQueue(vox_stream);
             work->f818 = 5;
         }
         break;
 
     case 5:
-        if (s03b_boxall_800C95EC())
+        if (GM_VoxEnd())
         {
             work->f81A -= 200;
             if (work->f81A < 1)
@@ -738,8 +727,8 @@ void s03b_torture_800C4AB0(Work *work, int arg1)
 
         GM_GameStatus |= STATE_PADRELEASE;
 
-        s03b_boxall_800C9328();
-        s03b_boxall_800C93F0(work->f87C[2], 4);
+        GM_VoxInit();
+        GM_VoxQueueDelay(work->f87C[2], 4);
         GM_SetSound(0xff0000fe, SD_ASYNC);
         OpenCinemaScreen(0, 10000);
 
@@ -749,7 +738,7 @@ void s03b_torture_800C4AB0(Work *work, int arg1)
         }
     }
 
-    if (s03b_boxall_800C9654(work->f87C[2]))
+    if (GM_VoxCodeEnd(work->f87C[2]))
     {
         work->f808 = s03b_torture_800C4C48;
         work->f81A = 0;
@@ -1386,7 +1375,7 @@ void s03b_torture_800C5AF8(Work *work, int arg1)
             }
         }
 
-        if (s03b_boxall_800C95EC())
+        if (GM_VoxEnd())
         {
             work->f81A++;
         }
@@ -1798,7 +1787,7 @@ void Torture_800C64BC(Work *work)
         work->f7FE++;
     }
 
-    s03b_boxall_800C9404();
+    GM_VoxTick();
 
     sna_act_helper2_helper2_80033054(GV_StrCode("スネーク"), &work->adjust[6]);
 
@@ -1859,7 +1848,7 @@ void TortureDie_800C6774(Work *work)
     GM_PlayerStatus &= ~PLAYER_MENU_DISABLE;
 
     CloseCinemaScreen();
-    s03b_boxall_800C9328();
+    GM_VoxInit();
 
     GM_Vitality = GM_VitalityMax;
 
@@ -2100,7 +2089,7 @@ int TortureGetResources_800C6B3C(Work *work, int name, int map)
     GM_AlertMode = 10;
     GM_PlayerStatus |= PLAYER_MENU_DISABLE;
 
-    s03b_boxall_800C9328();
+    GM_VoxInit();
 
     GM_ActMotion(body);
 
@@ -2122,7 +2111,7 @@ void *NewTorture(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, TortureAct_800C6600, TortureDie_800C6774, "torture.c");

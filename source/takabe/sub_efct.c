@@ -20,8 +20,6 @@ typedef struct _Work
     char     pad[0x4];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_DAEMON
-
 #define gte_pop_color(r0) __asm__ volatile ("mfc2   %0, $9;" : "=r"(r0))
 
 void SubEfct_800CC798(DG_MDL *model)
@@ -189,7 +187,7 @@ void *NewSubEfct_800CCB10(OBJECT *parent, SVECTOR *rotation)
     Work *work;
     DG_OBJS     *objs;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_DAEMON, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SubEfctAct_800CCAC0, SubEfctDie_800CCAF0, "sub_efct.c");

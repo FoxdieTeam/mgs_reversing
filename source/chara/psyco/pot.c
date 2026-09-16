@@ -286,7 +286,7 @@ static int GetResources( Work *work )
 
     for ( i = 0; i < 2; i++ )
     {
-        obj = s07b_800D2CFC( GV_StrCode( "つぼ１" ) + i );
+        obj = PSYOBJ_FindObject( GV_StrCode( "つぼ１" ) + i );
         if ( obj == NULL )
         {
             printf( "psyobj つぼ%d not found\n", i + 1 );

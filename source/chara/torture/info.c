@@ -20,8 +20,6 @@ typedef struct _InfoWork
 
 int info_alive = FALSE;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
-
 static void Act(Work *work)
 {
     int       f24;
@@ -173,7 +171,7 @@ void *NewTortureInfo(u_short name1, u_short name2, int *abe)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "info.c");

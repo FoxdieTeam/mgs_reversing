@@ -49,7 +49,6 @@ typedef enum {
 #define GAME_FLAG_BIT_08 0x80    // cleared when unpausing, never set though
 #define GAME_FLAG_BIT_09 0x100   // set by s12c dog.c, used in bullet.c
 #define GAME_FLAG_BIT_13 0x1000  // enables menu when STATE_VOX_STREAM is set
-#define GAME_FLAG_BIT_19 0x40000 // hides all items/weapons in the menu
 
 /*---------------------------------------------------------------------------*/
 
@@ -64,17 +63,17 @@ enum {
     STATE_CUT_IN = 0x40,
     STATE_ENEMY_OFF = 0x200,
     STATE_TAKING_PHOTO = 0x400,
-    STATE_JPEGCAM = 0x800,
+    STATE_CAMERA_ACTIVE = 0x800,
     // ...
     STATE_RADIO_OFF = 0x2000,
     STATE_PAUSE_OFF = 0x4000,
     STATE_SHOW_LIFEBAR = 0x8000,
     STATE_HIDE_LIFEBAR = 0x10000,
     STATE_LIFEBAR_OFF = 0x20000,
-    // ...
+    STATE_EQUIP_OFF = 0x40000,
     STATE_MENU_OFF = 0x80000,
-    STATE_SHOW_RADAR = 0x100000,
-    STATE_HIDE_RADAR = 0x200000,
+    STATE_RADAR_ON_REQ = 0x100000,
+    STATE_RADAR_OFF_REQ = 0x200000,
     STATE_RADAR_OFF = 0x400000,
     STATE_JAMMING = 0x800000, // "Snake, you can't use the radar in an area with strong harmonic resonance" (Mei Ling)
     STATE_DEMO_VERBOSE = 0x1000000,

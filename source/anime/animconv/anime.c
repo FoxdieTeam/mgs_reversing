@@ -14,8 +14,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_AFTER
-
 #define MAX_LOOP        4
 #define MAX_SCRIPT      4
 #define PRIM_TYPE       (DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4)
@@ -696,7 +694,7 @@ void *NewAnime( MATRIX *world, int map, ANIMATION *animation )
     Work *work;
 
     n_verts = animation->n_verts;
-    work = GV_NewActor( EXEC_LEVEL, sizeof(Work) + ( sizeof(Unit) + sizeof(SVECTOR) ) * n_verts );
+    work = GV_NewActor( GV_ACTOR_AFTER, sizeof(Work) + ( sizeof(Unit) + sizeof(SVECTOR) ) * n_verts );
     if ( work != NULL )
     {
         work->vertices = (SVECTOR *)(work->unit + n_verts);

@@ -19,8 +19,6 @@ typedef struct _Work
     int      field_3C0;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 int s08b_plasma_l_800D98F4(SVECTOR *a, SVECTOR *b, SVECTOR *out)
 {
     int dx = (a->vx - b->vx) / 16;
@@ -220,7 +218,7 @@ void *NewPlasmaL(int arg0, int arg1, int arg2)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(work, s08b_plasma_l_800D9FB4, s08b_plasma_l_800DA28C, "plasma_l.c");

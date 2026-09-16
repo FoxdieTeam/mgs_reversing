@@ -41,15 +41,10 @@ typedef struct _Work
     /* 0x3B98 */ int      f3B98;
 } Work;
 
-#define EXEC_LEVEL  GV_ACTOR_PREV
-
 #define BODY_DATA   GV_StrCode("stn_fr")
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
 VECTOR body_scale = {4096, 4096, 4096};
-
-extern GM_CameraSystemWork        GM_Camera;
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
 void  NewAnime_8005E774(SVECTOR *pos);
 void *NewBlastLine(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4);
@@ -648,7 +643,7 @@ void *NewStage11GDemo(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(work, s11g_11g_demo_800CB994, Die, "11g_demo.c");

@@ -20,8 +20,6 @@ typedef struct _Work
     SVECTOR  vertices[16];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 static void UpdatePrim(Work *work)
 {
     SVECTOR  *vec;
@@ -180,7 +178,7 @@ void *NewBlastoff(SVECTOR *arg0, int arg1, int arg2, int *arg3)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "blastoff.c");

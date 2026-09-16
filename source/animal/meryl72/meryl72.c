@@ -10,9 +10,6 @@
 
 #include "meryl72.h"
 
-extern GM_CameraSystemWork        GM_Camera;
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-
 GM_CameraSystemWork SECTION(".bss") meryl72_camera_800D5278;
 int       SECTION(".bss") meryl72_800D52F4;
 SVECTOR   SECTION(".bss") MERYL_position;
@@ -22,8 +19,6 @@ void s07c_meryl72_unk1_800CBCD8( Meryl72Work * );
 
 void ML9_Reset( void );
 void ML9_Empty( void );
-
-#define EXEC_LEVEL GV_ACTOR_PREV
 
 void s07c_meryl72_800C6AF8( Meryl72Work *work )
 {
@@ -658,7 +653,7 @@ void *NewMeryl72_800C7BC4( int arg0, int arg1 )
 {
     Meryl72Work *work;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof(Meryl72Work) );
+    work = GV_NewActor( GV_ACTOR_PREV, sizeof(Meryl72Work) );
     if (work)
     {
         GV_SetNamedActor( &work->actor, Meryl72Act_800C6D54, Meryl72Die_800C73AC, "meryl72.c" );

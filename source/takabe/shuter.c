@@ -53,8 +53,6 @@ void Shuter_800DFDD0(Work *work);
 void Shuter_800DFE24(Work *work);
 void Shuter_800DFF34(OBJECT *, int, int);
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void ShuterAct_800DF484(Work *work)
 {
     int found;
@@ -312,7 +310,7 @@ void *NewShutter(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ShuterAct_800DF484, ShuterDie_800DF774, "shuter.c");

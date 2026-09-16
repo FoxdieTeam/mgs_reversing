@@ -15,9 +15,6 @@
 
 static HZD_BND gBindsArray_800b58e0[ 128 ];
 
-extern CAMERA              GM_CameraList[ 8 ];
-extern GM_CameraSystemWork GM_Camera;
-
 extern int     dword_8009F46C;
 extern SVECTOR svector_8009F478;
 
@@ -926,10 +923,10 @@ static int MenuCmd(char *top)
             GM_GameStatus &= ~STATE_RADAR_OFF;
             break;
         case 2:
-            GM_GameStatus |= STATE_HIDE_RADAR;
+            GM_GameStatus |= STATE_RADAR_OFF_REQ;
             break;
         case 3:
-            GM_GameStatus |= STATE_SHOW_RADAR;
+            GM_GameStatus |= STATE_RADAR_ON_REQ;
             break;
         }
     }

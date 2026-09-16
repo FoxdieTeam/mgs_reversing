@@ -12,8 +12,6 @@ extern int   bakudan_count_8009F42C;
 /*---------------------------------------------------------------------------*/
 // C4 Bomb
 
-#define EXEC_LEVEL      GV_ACTOR_AFTER
-
 #define C4BOMB_MODEL    GV_StrCode("c4_bomb")
 
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
@@ -109,7 +107,7 @@ static int GetResources(Work *work, OBJECT *root_obj, int unit)
 
 void *NewBomb(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side)
 {
-    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    Work *work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "bomb.c");

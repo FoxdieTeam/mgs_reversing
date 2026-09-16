@@ -21,8 +21,6 @@ extern int    FS_DiskNum;
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_MANAGER
-
 // FIXME: it's the same struct as in change.c (in change overlay)
 typedef struct _Unknown
 {
@@ -1585,7 +1583,7 @@ void *NewDemoSelect(int arg0, int arg1)
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "demosel.c");

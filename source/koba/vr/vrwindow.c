@@ -15,8 +15,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL              GV_ACTOR_ASSIST
-
 #define VRWIN_STATE_0           0
 #define VRWIN_STATE_1           1
 #define VRWIN_STATE_2           2
@@ -443,7 +441,7 @@ void *NewVrWindow(int name, int where)
     int     i;
     int     width;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_ASSIST, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "vrwindow.c");

@@ -128,8 +128,6 @@ extern void  s08b_bunsin2_800D53E8(int a0, int a1);
 extern void  s08b_bunsin2_800D5434(void);
 extern void *s08b_p_sphere_800D9834(void *a, void *b);
 extern int   okajima_CHAF_LIFE;
-extern unsigned short GM_ItemTypes[];
-extern unsigned short GM_WeaponTypes[];
 extern int     s08b_dword_800C3440;
 extern int     s08b_dword_800C3444;
 extern int     s08b_dword_800C3448;
@@ -137,8 +135,6 @@ extern int     s08b_dword_800C344C;
 extern int     s08b_dword_800C3450;
 extern SVECTOR s08b_dword_800C34F8[];
 extern int     s08b_dword_800C3588;
-
-extern GM_CameraSystemWork GM_Camera;
 
 extern int     s08b_dword_800C3380;
 extern int     s08b_dword_800C338C;

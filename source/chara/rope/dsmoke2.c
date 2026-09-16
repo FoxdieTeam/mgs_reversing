@@ -1,8 +1,6 @@
 #include "game/game.h"
 #include "libgcl/libgcl.h"
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
-
 typedef struct _Work
 {
     GV_ACT   actor;
@@ -465,7 +463,7 @@ void *NewDamageSmoke2(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(work, s11d_dsmoke2_800CC648, s11d_dsmoke2_800CC730, "dsmoke2.c");

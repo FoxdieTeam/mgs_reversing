@@ -13,7 +13,7 @@
  * publics
  */
 
-void sub_8007E1C0(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pMin, SVECTOR *pMax)
+void GetHazard2(HZD_VEC *pOut, HZD_VEC *pOut2, MATRIX *pTransform, SVECTOR *pMin, SVECTOR *pMax)
 {
     VECTOR   cross;
     SVECTOR *va;
@@ -290,7 +290,7 @@ void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx)
     DG_SetPos(&rotMtx);
 }
 
-void sub_8007F06C(DG_VECTOR *param_1, VECTOR *param_2, VECTOR *param_3)
+void sub_8007F06C(VECTOREX *param_1, VECTOR *param_2, VECTOR *param_3)
 {
     param_1[0].vx = param_2->vx;
     param_1[0].vy = param_2->vy;
@@ -308,7 +308,7 @@ void sub_8007F0D0(VECTOR *out, VECTOR *a, VECTOR *b, VECTOR *c)
     out->pad = out->vx * -a->vx + out->vy * -a->vy + out->vz * -a->vz;
 }
 
-VECTOR * sub_8007F1DC(VECTOR *out, DG_VECTOR *arg1, VECTOR *arg2)
+VECTOR * sub_8007F1DC(VECTOR *out, VECTOREX *arg1, VECTOR *arg2)
 {
     VECTOR vec;
     int    area;

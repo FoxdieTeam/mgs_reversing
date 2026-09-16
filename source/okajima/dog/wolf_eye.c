@@ -17,8 +17,6 @@ typedef struct _Work
     int     *visible;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void WolfEye_800D355C(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
 {
     while (--n_packs >= 0)
@@ -139,7 +137,7 @@ void *NewWolfEye_800D3930(MATRIX *root, int *visible)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WolfEyeAct_800D35EC, WolfEyeDie_800D36C0, "wolf_eye.c");

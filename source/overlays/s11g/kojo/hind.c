@@ -30,7 +30,7 @@ void *NewHindBoss(int name, int where)
     int       i;
     u_char   *param;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(HindWork));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(HindWork));
     if (work == NULL)
     {
         return NULL;

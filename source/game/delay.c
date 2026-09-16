@@ -21,8 +21,6 @@ typedef struct _Work
     long           argv_buf[8];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
-
 //not sure if this one belongs here
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec)
 {
@@ -136,7 +134,7 @@ void *GM_DelayedExecCommand(int proc, GCL_ARGS *args, int time)
     long          *dst_args;
     long          *src_args;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work)
     {
         if (!args)

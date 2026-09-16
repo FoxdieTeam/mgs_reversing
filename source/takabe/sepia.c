@@ -24,8 +24,6 @@ RECT rect_800C3260 = {768, 196, 256, 2};
 RECT rect_800C3268 = {768, 226, 256, 2};
 RECT rect_800C3270 = {768, 196, 256, 2};
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
-
 u_short s16b_800C4C60(u_short color)
 {
     int r, g, b, a;
@@ -139,7 +137,7 @@ void *NewSepia_800C4F9C(int r, int g, int b)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SepiaAct_800C4DC4, SepiaDie_800C4E70, "sepia.c");
@@ -227,7 +225,7 @@ void *NewSepia_800C5214(void)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SepiaAct_800C51E0, SepiaDie_800C4E70, "sepia.c");

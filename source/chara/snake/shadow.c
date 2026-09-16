@@ -11,8 +11,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_USER
-
 #define SHADOW_FLAG     ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
                         | DG_FLAG_GBOUND  | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT )
 
@@ -221,7 +219,7 @@ void *NewShadow(CONTROL *control, OBJECT *parent, SVECTOR indices)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "shadow.c");

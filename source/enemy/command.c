@@ -65,9 +65,6 @@ int SECTION(".bss") s00a_dword_800E0F6C;
 
 int SECTION(".bss") COM_PlayerMapOne[8];
 
-extern int       GM_event_camera_flag;
-extern GM_CameraSystemWork GM_Camera;
-
 SVECTOR ENEMY_TARGET_SIZE   = { 300, 1000, 300 };
 SVECTOR ENEMY_TARGET_FORCE  = { 0, 0, 0 };
 SVECTOR ENEMY_ATTACK_SIZE   = { 800, 500, 800 };
@@ -92,8 +89,6 @@ int s00a_dword_800C35E4[] = {
 
 const char aCresetposd_800E07FC[] = " c_reset_pos = %d \n";
 const char aKottida_800E0810[] = "kottida !!\n";
-
-#define EXEC_LEVEL GV_ACTOR_PREV
 
 int s00a_command_800CEA2C( WatcherWork *work )
 {
@@ -1313,7 +1308,7 @@ void *NewCommander(int name, int where, int argc, char **argv)
 {
     CommanderWork *work ;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( CommanderWork ) ) ;
+    work = GV_NewActor( GV_ACTOR_PREV, sizeof( CommanderWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), Act, Die, "command.c" );
         GetResources( work, name, where );

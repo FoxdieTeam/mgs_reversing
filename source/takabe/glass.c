@@ -33,8 +33,6 @@ typedef struct _Work
     int      proc;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 static inline void GlassInitPack(POLY_FT4 *poly, DG_TEX *tex, int size, int which)
 {
     int x, y, w, h;
@@ -317,7 +315,7 @@ void *NewGlassSet(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GlassAct_800D302C, GlassDie_800D3270, "glass.c");

@@ -4,8 +4,6 @@
 #include <libgpu.h>
 #include "mgstype.h"
 
-extern DG_CHANL DG_Chanls[3];
-
 /*---------------------------------------------------------------------------*/
 
 void DG_SetPos( MATRIX *world )

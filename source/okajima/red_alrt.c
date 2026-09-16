@@ -10,8 +10,6 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 
-#define EXEC_LEVEL GV_ACTOR_PREV2
-
 typedef struct _RedAlrtPrims
 {
     DR_TPAGE tpage[2];
@@ -396,7 +394,7 @@ void *NewRedAlert(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RedAlertAct_800C45E4, RedAlertDie_800C48D0, "red_alrt.c");
@@ -415,7 +413,7 @@ void *NewRedAlert2(int name, int length, SVECTOR *color1, SVECTOR *color2, int a
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RedAlertAct_800C45E4, RedAlertDie_800C48D0, "red_alrt.c");

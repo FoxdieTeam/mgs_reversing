@@ -24,8 +24,6 @@
 #include "anime/animconv/anime.h"
 #include "game/game.h"
 
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-
 /******************************************************************************
  * definitions and typedefs and structures
  */

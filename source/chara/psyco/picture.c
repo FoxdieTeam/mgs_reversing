@@ -182,7 +182,7 @@ static int GetResources( Work *work )
 
     for ( i = 0; i < 3; i++ )
     {
-        obj = s07b_800D2CFC( GV_StrCode( "所長１" ) + i );
+        obj = PSYOBJ_FindObject( GV_StrCode( "所長１" ) + i );
         if ( obj == NULL )
         {
             printf( "psyobj 所長%d not found\n", i + 1 );

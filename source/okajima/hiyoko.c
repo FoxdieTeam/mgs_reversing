@@ -25,8 +25,6 @@ typedef struct _Work
     int      f74;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 int HiyokoGetSvec_800CFD04(char *opt, SVECTOR *out)
 {
     char *res;
@@ -208,7 +206,7 @@ void *NewHiyokoGcl(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, HiyokoAct_800CFD44, HiyokoDie_800D0150, "hiyoko.c");
@@ -227,7 +225,7 @@ void *NewHiyoko(MATRIX *world, int arg1)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, HiyokoAct_800CFD44, HiyokoDie_800D0150, "hiyoko.c");

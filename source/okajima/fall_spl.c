@@ -14,8 +14,6 @@ typedef struct _Work
     SVECTOR limit[2];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void *NewSplash3_800C83D0(int dir, SVECTOR *pos);
 
 int s15b_fall_spl_800C7B0C(char *opt, SVECTOR *out)
@@ -73,7 +71,7 @@ void *NewFallSplash(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s15b_fall_spl_800C7B60,

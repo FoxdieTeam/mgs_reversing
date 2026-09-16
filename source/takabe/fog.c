@@ -4,8 +4,6 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
-extern GM_CameraSystemWork GM_Camera;
-
 extern void s12c_800D497C(int, int);
 extern void s12c_800D4AB4(int);
 

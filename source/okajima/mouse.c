@@ -55,7 +55,6 @@ typedef struct _Work
     MouseEntry entries[0];
 } Work;
 
-#define EXEC_LEVEL      GV_ACTOR_PREV
 #define STAGE_s00a      0x469b  // GV_StrCode("s00a")
 
 void s00a_mouse_800D3B68(Work *work, OBJECT *object)
@@ -828,7 +827,7 @@ void *NewMouse(int name, int where, int argc, char **argv)
         nentries = 1;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work) + sizeof(MouseEntry) * nentries);
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work) + sizeof(MouseEntry) * nentries);
     if (work != NULL)
     {
         work->nentries = nentries;

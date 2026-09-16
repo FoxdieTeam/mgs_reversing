@@ -32,13 +32,7 @@ typedef struct _Work
     int            procs[4];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void AN_Unknown_800CCA40(SVECTOR *pos);
-
-int  s03b_boxall_800C93AC(int arg0);
-void s03b_boxall_800C9404(void);
-int  s03b_boxall_800C95EC(void);
 
 static void SendMessage(int address, int message1, int message2)
 {
@@ -126,7 +120,7 @@ static void Update(Work *work, int timer)
             GM_PlayerControl->turn.vy = GV_VecDir2(&svec3);
             OpenCinemaScreen(0, 30000);
             GM_GameStatus |= STATE_PADRELEASE;
-            s03b_boxall_800C93AC(work->field_7FC[0]);
+            GM_VoxQueue(work->field_7FC[0]);
             args1.argc = 1;
             args1.argv = argv1;
             argv1[0] = 1;
@@ -136,8 +130,8 @@ static void Update(Work *work, int timer)
         }
         break;
     case 1:
-        s03b_boxall_800C9404();
-        if (s03b_boxall_800C95EC())
+        GM_VoxTick();
+        if (GM_VoxEnd())
         {
             work->timer = 0;
             work->mode++;
@@ -204,13 +198,13 @@ static void Update(Work *work, int timer)
         }
         break;
     case 4:
-        s03b_boxall_800C9404();
+        GM_VoxTick();
         if (timer == 0)
         {
             DG_InvisibleObjs(body->objs);
-            s03b_boxall_800C93AC(work->field_7FC[1]);
+            GM_VoxQueue(work->field_7FC[1]);
         }
-        if (s03b_boxall_800C95EC())
+        if (GM_VoxEnd())
         {
             work->timer = 0;
             work->mode++;
@@ -368,7 +362,7 @@ void *NewPrisonNinja(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

@@ -177,7 +177,7 @@ static void Act(Work *work)
 
     if (control->n_touches > 0 && GM_CheckControlTouches(control, 300))
     {
-        HZD_GetNormal(control->segs[0], &vec);
+        HZD_NormalVector(control->segs[0], &vec);
         DG_ReflectVector(&vec, &work->step, &work->step);
 
         work->step.vx /= 4;

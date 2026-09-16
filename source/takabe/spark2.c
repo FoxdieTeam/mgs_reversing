@@ -29,8 +29,6 @@ typedef struct _Spark2Prim
 
 const SVECTOR spark2_light_pos = {0, 0, 500, 0};
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void s03e_spark2_800CA0E8(int count)
 {
     MATRIX  *rot;
@@ -240,7 +238,7 @@ void *NewSpark2_800CA714(MATRIX *world)
 {
     Spark2Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Spark2Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Spark2Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, s03e_spark2_800CA428, s03e_spark2_800CA520, "spark2.c");

@@ -65,8 +65,6 @@ typedef struct _Work
     DR_TPAGE       field_23B8_prim[2];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
-
 /*---------------------------------------------------------------------------*/
 
 STATIC char byte_8009F5F8[] = {0, 0, 0, 0};
@@ -594,7 +592,7 @@ void *NewSgtRect3(short *param_1, short param_2, unsigned int *rgb2, int param_4
         return NULL;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (!work)
     {
         return NULL;

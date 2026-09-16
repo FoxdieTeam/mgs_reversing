@@ -21,8 +21,6 @@ typedef struct _JEEP_SYSTEM
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 typedef struct _Work
 {
     GV_ACT work;
@@ -70,7 +68,7 @@ void *NewJeepScroll(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(work, s19b_jeep_srl_800CDAA4, s19b_jeep_srl_800CDF48, "jeep_srl.c");

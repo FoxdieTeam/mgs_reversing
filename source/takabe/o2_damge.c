@@ -26,8 +26,6 @@ typedef struct _Work
     int    f54;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void ExecProc_800DE580(int proc, long arg)
 {
     GCL_ARGS args;
@@ -197,7 +195,7 @@ void *NewFewDamageSet(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, O2DamageAct_800DE5B8, O2DamageDie_800DE8F4, "o2_damge.c");

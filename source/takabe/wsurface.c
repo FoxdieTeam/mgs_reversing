@@ -28,8 +28,6 @@ typedef struct _Work
     char     pad2[0x2];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void Wsurface_800DAC14(POLY_GT4 *poly, DG_TEX *tex, Work *work)
 {
     int i, j;
@@ -439,7 +437,7 @@ void *NewWaterSurface(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, WsurfaceAct_800DB564, WsurfaceDie_800DB630, "wsurface.c");

@@ -14,8 +14,6 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern unsigned short GM_ItemTypes[];
-
 /*---------------------------------------------------------------------------*/
 
 typedef struct _Work
@@ -40,8 +38,6 @@ typedef struct _Work
     DG_PRIM       *shadow;
     SVECTOR        shadow_verts[4];
 } Work;
-
-#define EXEC_LEVEL GV_ACTOR_USER
 
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
                         | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE \
@@ -791,7 +787,7 @@ void *NewItem(int name, int where, int argc, char **argv)
     Work *work;
     int       inited;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "item.c");
@@ -875,7 +871,7 @@ void *NewItemPut(SVECTOR *pos, SVECTOR *step, Item_Info *info)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "item.c");

@@ -15,7 +15,6 @@
 
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F494;
-extern unsigned short   DG_ChanlTime[];
 extern TARGET          *target_800BDF00;
 
 /*---------------------------------------------------------------------------*/
@@ -52,8 +51,6 @@ extern TARGET          *target_800BDF00;
 // clang-format on
 /*---------------------------------------------------------------------------*/
 // Stinger Sight
-
-#define EXEC_LEVEL      GV_ACTOR_AFTER2
 
 #define STINGER_SIGHT   GV_StrCode("stinger")
 
@@ -723,7 +720,7 @@ void *NewStnSight( CONTROL *root_ctrl )
         return NULL;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "stnsight.c");

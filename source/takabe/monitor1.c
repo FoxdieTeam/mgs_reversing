@@ -21,8 +21,6 @@ typedef struct _Work
     int     proc_id;
 } Work;
 
-#define EXEC_LEVEL  GV_ACTOR_USER
-
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_BOUND )
 
 void AN_PanelSmoke(SVECTOR *pos);
@@ -204,7 +202,7 @@ void *NewMonitor1(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "monitor1.c");

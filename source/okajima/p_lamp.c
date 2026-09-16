@@ -35,12 +35,8 @@ typedef struct _Work
     GV_ACT  *cinema_screen;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 SVECTOR p_lamp_target_svec_800C353C = {5, 5, 5};
 RECT    p_lamp_prim_rect_800C3544 = {100, 100, 200, 200};
-
-extern DG_CHANL DG_Chanls[3];
 
 void PLampLookAt_800CC9F4(Work *work, SVECTOR *eye, SVECTOR *center)
 {
@@ -499,7 +495,7 @@ void *NewPilotLamp(int name, int where)
     Work *work;
     int        n_verts;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PLampAct_800CD5C0, PLampDie_800CCCE0, "p_lamp.c");

@@ -8,6 +8,8 @@
 #include <libapi.h>
 #include "mgstype.h"
 
+/*---------------------------------------------------------------------------*/
+
 static DG_CHANLFUNC DG_ChanlUnits[] = {
     DG_ScreenChanl,
     DG_BoundChanl,
@@ -39,6 +41,8 @@ u_long *SECTION(".bss")  DG_DivideBuffer[ 256 ];
 DG_CHANL SECTION(".bss") DG_Chanls[ 3 ];
 char SECTION(".bss")     gap_800B1DC4[ 4 ]; // TODO
 u_short SECTION(".bss")  DG_ChanlTime[ 32 ];
+
+/*---------------------------------------------------------------------------*/
 
 static void EndFrame( void )
 {

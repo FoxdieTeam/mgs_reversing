@@ -42,8 +42,6 @@ typedef struct _Work
 
 unsigned short gas_efct_msgs[] = {HASH_ON2, HASH_OFF2};
 
-#define EXEC_LEVEL GV_ACTOR_PREV2
-
 void d11c_800C4FFC(Work *work);
 void d11c_800C5094(Work *work, int arg1);
 
@@ -226,7 +224,7 @@ void *NewGasEffectSet(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GasEffectAct_800C4BBC, GasEffectDie_800C4D64, "gas_efct.c");
@@ -248,7 +246,7 @@ void *NewGasEffect(SVECTOR *arg0, int arg1, int arg2)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, GasEffectAct_800C4BBC, GasEffectDie_800C4D64, "gas_efct.c");

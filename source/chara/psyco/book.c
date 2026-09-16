@@ -150,21 +150,21 @@ static void Die( Work *work )
 
 static int GetResources( Work *work )
 {
-    int i, id;
+    int i, name;
     PSYOBJ *obj;
 
     for ( i = 0; i < 11; i++ )
     {
         if ( i < 9 )
         {
-            id = GV_StrCode( "本１" ) + i;
+            name = GV_StrCode( "本１" ) + i;
         }
         else
         {
-            id = GV_StrCode( "本Ａ" ) + i - 9;
+            name = GV_StrCode( "本Ａ" ) + i - 9;
         }
 
-        obj = s07b_800D2CFC( id );
+        obj = PSYOBJ_FindObject( name );
         if ( obj == NULL )
         {
             printf( "psyobj 本%d not found\n", i + 1 );

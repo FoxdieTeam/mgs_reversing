@@ -100,11 +100,7 @@ typedef struct _Work
     int         field_1088[4];
 } Work;
 
-#define EXEC_LEVEL  GV_ACTOR_USER
 #define TARGET_FLAG ( TARGET_AVAIL | TARGET_POWER | TARGET_SEEK )
-
-extern GM_CameraSystemWork GM_Camera;
-extern GM_SnakeCameraWork GM_SnakeCamera;
 
 static u_char s11d_dword_800C32B4[] = { 0x7F, 0x01, 0x00, 0x00 };
 static u_char s11d_dword_800C32B8[] = { 0xD2, 0x02, 0x00, 0x00 };
@@ -119,7 +115,6 @@ extern int s11d_dword_800D1F84;
 extern const char s11d_aTosi_800D1D5C[]; // "to_s11i"
 
 extern void TortureInfoKill(void);
-extern void s03b_boxall_800C9328(void);
 
 extern void s11d_rope_800C44A4(Work *work);
 extern void s11d_rope_800C44F0(Work *work);
@@ -175,8 +170,8 @@ void s11d_rope_800C3DF0(CONTROL *control, HZD_HDL *hzd)
 {
     if (!(control->skip_flag & CTRL_SKIP_TRAP))
     {
-        control->evt.mov = control->mov;
-        control->evt.mov.pad = control->rot.vy;
+        control->evt.coord = control->mov;
+        control->evt.coord.pad = control->rot.vy;
         HZD_EnterTrap(hzd, &control->evt);
     }
 }
@@ -1013,7 +1008,7 @@ void s11d_rope_800C868C(Work *work)
         GM_PlayerBody = NULL;
     }
 
-    s03b_boxall_800C9328();
+    GM_VoxInit();
 }
 
 int s11d_rope_800C879C(Work *work)
@@ -1210,7 +1205,7 @@ void *NewRope(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

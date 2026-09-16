@@ -180,8 +180,8 @@ static int Think4( Work *work, PSYOBJ *obj, int time, int i )
     work->obj[ 1 ]->pos = work->obj[ 1 ]->control->mov;
     work->obj[ 1 ]->rot = work->obj[ 1 ]->control->turn;
 
-    work->obj[ 0 ]->id = GV_StrCode( "胸像１" );
-    work->obj[ 1 ]->id = GV_StrCode( "胸像１" ) + 1;
+    work->obj[ 0 ]->name = GV_StrCode( "胸像１" );
+    work->obj[ 1 ]->name = GV_StrCode( "胸像１" ) + 1;
 
     work->time[ 0 ] = 0;
     work->think[ 0 ]++;
@@ -265,7 +265,7 @@ static int GetResources( Work *work )
 
     for ( i = 0; i < 2; i++ )
     {
-        obj = s07b_800D2CFC( GV_StrCode( "胸像１" ) + i );
+        obj = PSYOBJ_FindObject( GV_StrCode( "胸像１" ) + i );
         if ( obj == NULL )
         {
             printf( "psyobj 胸像%d not found\n", i + 1 );

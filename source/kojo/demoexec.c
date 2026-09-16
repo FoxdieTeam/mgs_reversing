@@ -32,9 +32,7 @@
 
 #define BODY_FLAG ( DG_FLAG_SHADE | DG_FLAG_TRANS | DG_FLAG_TEXT )
 
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 extern BLAST_DATA       blast_data_8009F4B8[8];
-extern GM_CameraSystemWork        GM_Camera;
 
 /******************************************************************************
  * functions

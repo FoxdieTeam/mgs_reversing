@@ -12,8 +12,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 typedef struct _Work
 {
     GV_ACT   actor;
@@ -118,7 +116,7 @@ void *NewBlinkTexture(int name, int where, int argc, char **argv)
     char    *opt;
     int     n_prims;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, NULL, Die, "blink_tx.c");

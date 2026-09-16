@@ -13,8 +13,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_DAEMON
-
 #define NUM_LINES       166 // ((countof(tobcnt_logo_data)-1)/4)
 
 #define PCX_COMING_SOON 0x0abb  // GV_StrCode("COMING_SOON")
@@ -590,7 +588,7 @@ void *NewToBeContinued(int name, int where, int argc, char **argv)
 
     GM_GameStatus |= STATE_ALL_OFF;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_DAEMON, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "tobcnt.c");

@@ -61,8 +61,6 @@ typedef struct _Work
     char    *f49E4;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_MANAGER
-
 extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
 extern RECT                        camera_dword_800C389C;
 extern char                       *camera_dword_800D0760;
@@ -856,7 +854,7 @@ void camera_800C5F20(SELECT_INFO *info)
     char  mes[32];
     char *name;
 
-    kcb = info->field_1C_kcb;
+    kcb = info->kcb;
     x = 0;
     font_clear(kcb);
 
@@ -953,16 +951,16 @@ void updateCurrentEntry_800C6984(SELECT_INFO *info, int dir)
     short newIndex;
     int   previousIndex;
 
-    previousIndex = info->current_index;
-    newIndex = info->current_index + dir;
-    info->current_index = newIndex;
+    previousIndex = info->current;
+    newIndex = info->current + dir;
+    info->current = newIndex;
     if (newIndex < 0)
     {
-        info->current_index = 0;
+        info->current = 0;
     }
     else if (newIndex >= info->max_num)
     {
-        info->current_index = info->max_num - 1;
+        info->current = info->max_num - 1;
     }
     else
     {
@@ -976,7 +974,7 @@ void updateCurrentEntry_800C6984(SELECT_INFO *info, int dir)
             info->top = newIndex - 5;
         }
     }
-    if (info->current_index != previousIndex)
+    if (info->current != previousIndex)
     {
         GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
     }
@@ -1004,7 +1002,7 @@ int camera_800C6A40(MenuWork *work, MEMCARD *pMemcard, const char *param_3,
         if (strncmp(pMcFile->name, camera_dword_800C37F8, 13) == 0)
         {
             camera_800C68BC(pIter->mes, pMcFile->name);
-            pIter->field_20 = i;
+            pIter->num = i;
             pIter++;
         }
     }
@@ -1012,50 +1010,50 @@ int camera_800C6A40(MenuWork *work, MEMCARD *pMemcard, const char *param_3,
     if (camera_dword_800D0728 == 0 && pMemcard->free_blocks >= camera_dword_800D072C->blocks_count)
     {
         memcpy(pIter->mes, (char *)camera_dword_800CFFC8, 1);
-        pIter->field_20 = 16;
+        pIter->num = 16;
         pIter++;
     }
 
-    info->field_1C_kcb = work->field_214_font;
+    info->kcb = work->field_214_font;
     info->max_num = pIter - info->menu;
 
     if (camera_dword_800D072C->field_0[0] != 71)
     {
-        if (info->max_num && pIter[-1].field_20 == 16)
+        if (info->max_num && pIter[-1].num == 16)
         {
-            info->current_index = info->max_num - 1;
+            info->current = info->max_num - 1;
         }
         else
         {
-            info->current_index = 0;
+            info->current = 0;
         }
     }
     else if (camera_dword_800C342C == -1 || camera_dword_800C342C >= info->max_num)
     {
-        if (camera_dword_800D0728 == 0 && info->max_num && pIter[-1].field_20 == 16)
+        if (camera_dword_800D0728 == 0 && info->max_num && pIter[-1].num == 16)
         {
-            info->current_index = info->max_num - 1;
+            info->current = info->max_num - 1;
         }
         else
         {
-            info->current_index = 0;
+            info->current = 0;
         }
     }
     else
     {
-        info->current_index = camera_dword_800C342C;
+        info->current = camera_dword_800C342C;
     }
 
     info->top = 0;
     info->message = param_3;
     info->field_E = -1;
-    info->field_0_xpos = 40;
-    info->field_2_ypos = 40;
+    info->xofs = 40;
+    info->yofs = 40;
     info->open_count = 8;
-    info->current_dir = 0;
+    info->move_dir = 0;
     info->field_18 = -1;
-    info->field_12 = 240;
-    info->field_14 = 1;
+    info->height = 240;
+    info->enable = 1;
     updateCurrentEntry_800C6984(info, 0);
     return info->max_num != 0;
 }
@@ -1084,24 +1082,24 @@ int camera_800C6CCC(GV_PAD *pPad, int *pOut, SELECT_INFO *info)
                 {
                     newDir = -1;
                 }
-                if (info->current_dir == newDir)
+                if (info->move_dir == newDir)
                 {
-                    if (--info->scroll_delay < 0)
+                    if (--info->move_dir_delay < 0)
                     {
                         updateCurrentEntry_800C6984(info, newDir);
-                        info->scroll_delay = 2;
+                        info->move_dir_delay = 2;
                     }
                 }
                 else
                 {
                     updateCurrentEntry_800C6984(info, newDir);
-                    info->scroll_delay = 10;
-                    info->current_dir = newDir;
+                    info->move_dir_delay = 10;
+                    info->move_dir = newDir;
                 }
             }
             else
             {
-                info->current_dir = 0;
+                info->move_dir = 0;
             }
         }
     }
@@ -1115,13 +1113,13 @@ int camera_800C6CCC(GV_PAD *pPad, int *pOut, SELECT_INFO *info)
             *pOut = -1;
             return 1;
         }
-        field_20 = info->menu[info->current_index].field_20;
+        field_20 = info->menu[info->current].num;
         *pOut = field_20;
         if (camera_dword_800D072C->field_0[0] == 71)
         {
             if (field_20 < 16)
             {
-                camera_dword_800C342C = info->current_index;
+                camera_dword_800C342C = info->current;
             }
             else
             {
@@ -1165,7 +1163,7 @@ void camera_800C6E78(MenuWork *work, char *param_2, SELECT_INFO *info)
         if (*new_var & bit)
         {
             strcpy(infoChild->mes, gMemoryCardNames_800C38C4[memoryCardNo]);
-            infoChild->field_20 = memoryCardNo;
+            infoChild->num = memoryCardNo;
             if (memoryCardNo == camera_dword_800C3430)
             {
                 idx = infoChild - info->menu;
@@ -1178,11 +1176,11 @@ void camera_800C6E78(MenuWork *work, char *param_2, SELECT_INFO *info)
     if (infoChild == info->menu)
     {
         memcpy(&info->menu[0].mes, camera_aNocard_800D003C, 8);
-        infoChild->field_20 = 2;
+        infoChild->num = 2;
         infoChild = &info->menu[1];
     }
 
-    info->field_1C_kcb = work->field_214_font;
+    info->kcb = work->field_214_font;
     info->max_num = infoChild - info->menu;
 
     if (idx_copy < 0)
@@ -1193,18 +1191,18 @@ void camera_800C6E78(MenuWork *work, char *param_2, SELECT_INFO *info)
     minusOne = -1;
     do {} while (0);
 
-    info->field_0_xpos = 160;
-    info->field_2_ypos = 100;
-    info->current_index = idx_copy;
+    info->xofs = 160;
+    info->yofs = 100;
+    info->current = idx_copy;
     info->top = 0;
     info->message = param_2;
     info->field_E = minusOne;
-    info->field_10 = 128;
+    info->width = 128;
     info->field_18 = minusOne;
     info->open_count = 4;
-    info->field_12 = 128;
-    info->field_14 = 1;
-    info->current_dir = 0;
+    info->height = 128;
+    info->enable = 1;
+    info->move_dir = 0;
 }
 
 // duplicate of menu_radio_do_file_mode_helper15_8004C04C, but with one missing line
@@ -1221,24 +1219,24 @@ void camera_800C703C(MenuWork *work, const char **srcs, int cnt, int field_4, co
     {
         src = srcs[i];
         strcpy(dest->mes, src);
-        dest->field_20 = i;
+        dest->num = i;
     }
 
     kcb = work->field_214_font;
 
     info->max_num = dest - info->menu;
-    info->current_index = field_4;
+    info->current = field_4;
     info->top = 0;
     info->message = field_20;
     info->field_E = 1;
-    info->field_0_xpos = 160;
-    info->current_dir = 0;
-    info->field_14 = 1;
-    info->field_2_ypos = 128;
-    info->field_10 = 64;
-    info->field_12 = 32;
+    info->xofs = 160;
+    info->move_dir = 0;
+    info->enable = 1;
+    info->yofs = 128;
+    info->width = 64;
+    info->height = 32;
     // info->field_16 = 4;
-    info->field_1C_kcb = kcb;
+    info->kcb = kcb;
 }
 
 // duplicate of menu_radio_do_file_mode_helper16_8004C164
@@ -1249,7 +1247,7 @@ void camera_800C714C(MenuPrim *prim, SELECT_INFO *info)
     TextConfig textConfig;
 
     textConfig.flags = 0x12;
-    if (info->field_14 != 0)
+    if (info->enable != 0)
     {
         textConfig.color = 0x66748956;
     }
@@ -1257,30 +1255,30 @@ void camera_800C714C(MenuPrim *prim, SELECT_INFO *info)
     {
         textConfig.color = 0x663d482e;
     }
-    textConfig.xpos = info->field_0_xpos;
-    textConfig.ypos = info->field_2_ypos;
+    textConfig.xpos = info->xofs;
+    textConfig.ypos = info->yofs;
     _menu_number_draw_string2(prim, &textConfig, info->message);
     if (info->max_num == 1)
     {
-        xpos = info->field_0_xpos;
+        xpos = info->xofs;
     }
     else
     {
-        xpos = info->field_0_xpos - info->field_10 / 2;
+        xpos = info->xofs - info->width / 2;
     }
-    for (i = 0; i < info->max_num; i++, xpos += info->field_10)
+    for (i = 0; i < info->max_num; i++, xpos += info->width)
     {
         textConfig.xpos = xpos;
-        ypos = info->field_2_ypos;
+        ypos = info->yofs;
         textConfig.ypos = ypos + 12;
 
-        if (i == info->current_index)
+        if (i == info->current)
         {
             textConfig.color = 0x66748956;
-            if (info->field_14 != 0)
+            if (info->enable != 0)
             {
                 ypos += 16;
-                camera_800C5B00(textConfig.xpos, ypos, info->field_12, 12, 2);
+                camera_800C5B00(textConfig.xpos, ypos, info->height, 12, 2);
             }
         }
         else
@@ -1301,23 +1299,23 @@ int camera_800C72CC(GV_PAD *pPad, int *pOut, SELECT_INFO *info)
     {
         if (status & PAD_LEFT)
         {
-            if (info->current_index != 0)
+            if (info->current != 0)
             {
                 GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
-                info->current_index = 0;
+                info->current = 0;
             }
         }
-        else if ((status & PAD_RIGHT) && info->current_index == 0)
+        else if ((status & PAD_RIGHT) && info->current == 0)
         {
             GM_SeSet2(0, 0x3F, SE_MENU_CURSOR);
-            info->current_index = 1;
+            info->current = 1;
         }
     }
 
     press = pPad->press;
     if (press & PAD_CIRCLE)
     {
-        *pOut = info->menu[info->current_index].field_20;
+        *pOut = info->menu[info->current].num;
         GM_SeSet2(0, 0x3F, SE_MENU_SELECT);
         return 1;
     }
@@ -2271,7 +2269,7 @@ void *NewCamera_800CF388(int name, int where, int argc, char **argv)
     Work *work;
 
     GM_GameStatus |= STATE_ALL_OFF;
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, CameraAct_800CE404, CameraDie_800CE470, "camera.c");

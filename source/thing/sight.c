@@ -13,8 +13,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
-
 typedef struct SightPrimOffsetIndices
 {
     char indices[4];
@@ -715,7 +713,7 @@ void *NewSight(int hashedFileName0, int hashedFileName1,
         return (void *)work;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor((GV_ACT *)work, Act, Die, "sight.c");
@@ -743,7 +741,7 @@ void *NewSight_80071DC8(int hashedFileName, short *xyOffsetBuffer)
         return (void *)work;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor((GV_ACT *)work, Act, Die, "sight.c");
@@ -774,7 +772,7 @@ void *NewSightFast(int hashedFileName0, int hashedFileName1,
         return (void *)work;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor((GV_ACT *)work, Act, Die, "sight.c");
@@ -805,7 +803,7 @@ void *NewSight_80071F98(int hashedFileName, short *xyOffsetBuffer)
     dword_8009F600++;
     dword_8009F604 = hashedFileName;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor((GV_ACT *)work, Act, Die, "sight.c");

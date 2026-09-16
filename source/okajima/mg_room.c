@@ -21,8 +21,6 @@ typedef struct _MgRoom
     int      map;
 } MgRoom;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 void MgRoom_800DAC98(POLY_FT4 *packs, int n_packs, DG_TEX *tex, SVECTOR *color)
 {
     while (--n_packs >= 0)
@@ -265,7 +263,7 @@ void *NewMGRoom(void)
 {
     MgRoom *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(MgRoom));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(MgRoom));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, MgRoomAct_800DAFAC, MgRoomDie_800DB024, "mg_room.c");

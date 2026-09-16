@@ -12,14 +12,9 @@
 #include "takabe/thing.h"
 #include "strcode.h"
 
-extern GM_CameraSystemWork       GM_Camera;
-extern GM_SnakeCameraWork GM_SnakeCamera;
 extern int             dword_8009F470;
-extern DG_CHANL        DG_Chanls[3];
 
 /*---------------------------------------------------------------------------*/
-
-#define EXEC_LEVEL      GV_ACTOR_USER
 
 typedef struct _Work
 {
@@ -171,7 +166,7 @@ void *NewFindTrap(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "findtrap.c");

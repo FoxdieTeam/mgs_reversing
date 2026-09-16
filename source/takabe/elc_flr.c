@@ -18,8 +18,6 @@ typedef struct _Work
     int    f150;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 unsigned short elc_flr_800C36DC[] = {HASH_ON2, HASH_OFF2};
 
 void ElcFlrAct_800D47CC(Work *work)
@@ -113,7 +111,7 @@ void *NewElectricFloor(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ElcFlrAct_800D47CC, ElcFlrDie_800D4968, "elc_flr.c");

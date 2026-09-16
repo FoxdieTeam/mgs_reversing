@@ -1,8 +1,6 @@
 #include "game/game.h"
 #include "libgcl/libgcl.h"
 
-extern GM_CameraSystemWork GM_Camera;
-
 typedef struct _CamModel
 {
     char    pad_000[0x15C];
@@ -88,8 +86,6 @@ void s05a_800E1D7C(void);
 void s05a_800E1F0C(void);
 const char s05a_dword_800E35D8[] = "m1e1came.c";
 const char s05a_dword_800E35E4[] = {'n', 'o', 's', 'u', 'b', 'j', 'e', 'c', 't', 0x0, 'E', 'N'};
-
-extern GM_SnakeCameraWork GM_SnakeCamera;
 
 void *NewCinemaScreen(int time, int type);
 void *NewCinemaScreenClose(void *addr);

@@ -165,7 +165,7 @@ extern int   s05a_dword_800C3630;
 extern int   s05a_dword_800C3634;
 extern int   s05a_dword_800C3638;
 
-extern void sub_8007E1C0(HZD_SEG *seg, HZD_FLR *flr, MATRIX *pTransform,
+extern void GetHazard2(HZD_SEG *seg, HZD_FLR *flr, MATRIX *pTransform,
                          SVECTOR *pMin, SVECTOR *pMax);
 extern void AN_Smoke_800CE08C(SVECTOR *pos);
 extern void *s05a_800DAE58(int name, MATRIX *mat, int side, SVECTOR *target_pos, int vital, int range, int speed,
@@ -2378,14 +2378,14 @@ void s05a_800DACF0(Work *work)
     work->copy1 = work->hzd[1].flr[1];
     work->copy2 = work->hzd[4].flr[1];
 
-    sub_8007E1C0(work->hzd[0].seg, work->hzd[0].flr,
+    GetHazard2(work->hzd[0].seg, work->hzd[0].flr,
                  (MATRIX *)((char *)work->body.objs + 0xA4), &work->bbox[0], &work->bbox[1]);
-    sub_8007E1C0(work->hzd[1].seg, work->hzd[1].flr,
+    GetHazard2(work->hzd[1].seg, work->hzd[1].flr,
                  (MATRIX *)((char *)work->body.objs + 0x100), &work->bbox[2], &work->bbox[3]);
-    sub_8007E1C0(work->hzd[2].seg, work->hzd[2].flr,
+    GetHazard2(work->hzd[2].seg, work->hzd[2].flr,
                  (MATRIX *)((char *)work->bodies_a[0].objs + 0x48), &work->bbox[4], &work->bbox[5]);
-    sub_8007E1C0(work->hzd[3].seg, work->hzd[3].flr,
+    GetHazard2(work->hzd[3].seg, work->hzd[3].flr,
                  (MATRIX *)((char *)work->bodies_b[0].objs + 0x48), &work->bbox[6], &work->bbox[7]);
-    sub_8007E1C0(work->hzd[4].seg, work->hzd[4].flr,
+    GetHazard2(work->hzd[4].seg, work->hzd[4].flr,
                  (MATRIX *)((char *)work->body.objs + 0x15C), &work->bbox[8], &work->bbox[9]);
 }

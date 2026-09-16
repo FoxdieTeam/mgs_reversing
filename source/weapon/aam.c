@@ -12,14 +12,11 @@
 #include "bullet/amissile.h"
 
 extern int amissile_alive_8009F490;
-extern GM_SnakeCameraWork GM_SnakeCamera;
 extern TARGET *target_800BDF00;
 extern int dword_800AB8A4;
 
 /*---------------------------------------------------------------------------*/
 // Anti-Air Missile (Stinger)
-
-#define EXEC_LEVEL      GV_ACTOR_AFTER
 
 #define STINGER_MODEL   GV_StrCode("stinger")
 
@@ -165,7 +162,7 @@ void *NewAAM(CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int 
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "aam.c");

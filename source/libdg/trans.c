@@ -211,7 +211,7 @@ static inline void DG_BoundCheck( DVECTOR *vert )
     *((char *)(vert + 128) + 3) = clip;
 }
 
-static inline void DG_TransVerticesBound( DG_PVECTOR *verts, int n_verts )
+static inline void DG_TransVerticesBound( PVECTOR *verts, int n_verts )
 {
     SCRATCH     *scratch;
     DVECTOR     *xy;
@@ -283,7 +283,7 @@ static inline void DG_TransVerticesBound( DG_PVECTOR *verts, int n_verts )
     DG_BoundCheck( xy - 1 );
 }
 
-static inline void DG_TransVertices( DG_PVECTOR *verts, int n_verts )
+static inline void DG_TransVertices( PVECTOR *verts, int n_verts )
 {
     SCRATCH *scratch;
     DVECTOR *xy;
@@ -353,14 +353,14 @@ STATIC void DG_TransObj( DG_OBJ *obj, int idx )
 {
     POLY_GT4   *packs;
     DG_MDL     *model;
-    DG_PVECTOR *vertices;
+    PVECTOR    *vertices;
 
     packs = obj->packs[idx];
 
     while ( obj )
     {
         model = obj->model;
-        vertices = (DG_PVECTOR *)model->verts;
+        vertices = (PVECTOR *)model->verts;
 
         if ( SPAD->flags & 0x1 )
         {

@@ -87,8 +87,6 @@ typedef struct _Work
     int            unkBE4;
 } Work;
 
-#define EXEC_LEVEL  GV_ACTOR_USER
-
 #define SEGMENT_ATR (0)
 
 #define TARGET_FLAG ( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK )
@@ -105,20 +103,12 @@ SVECTOR s03c_dword_800C32E4 = {0, 0, 3500, 0};
 SVECTOR s03c_dword_800C32EC = {0, 0, 300};
 SVECTOR target_size = {300, 750, 300};
 
-extern GM_SnakeCameraWork  GM_SnakeCamera;
-extern GM_CameraSystemWork        GM_Camera;
-
 extern int s03c_dword_800C33D8;
 
 void NavigateSetTargetPlayer(NAVIGATE *pAutoMove);
 
 void  AN_Fog(SVECTOR *svec);
 void  AN_Sleep( SVECTOR *svec );
-void  s03b_boxall_800C9328(void);
-void  s03b_boxall_800C9404(void);
-void  s03b_boxall_800C93F0(int, int);
-int   s03b_boxall_800C93AC(int arg0);
-int   s03b_boxall_800C95EC(void);
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 
 static void Johnny_800C6FC0(Work *work, int arg1);
@@ -353,9 +343,9 @@ static void Johnny_800C45AC(Work* work)
     {
         if (work->unkB1C & 0x40)
         {
-            s03b_boxall_800C9328();
+            GM_VoxInit();
             GM_SeSet2(0, 63, SE_EXCLAMATION);
-            s03b_boxall_800C93F0(work->vox_ids[6], 4);
+            GM_VoxQueueDelay(work->vox_ids[6], 4);
             work->unkB0C = 6;
             work->unkB10 = 0;
         }
@@ -919,7 +909,7 @@ static void Johnny_800C5168(Work *work)
         work->unkB1C &= ~0x800;
         UnsetTargetClass( work->target, TARGET_DOWN );
 
-        s03b_boxall_800C9328();
+        GM_VoxInit();
     }
     else if (target->damaged & 0x2)
     {
@@ -936,7 +926,7 @@ static void Johnny_800C5168(Work *work)
             ClearAdjust(work);
 
             Johnny_800C5124(target);
-            s03b_boxall_800C9328();
+            GM_VoxInit();
         }
         else if (!(work->unkB1C & 0x800))
         {
@@ -953,7 +943,7 @@ static void Johnny_800C5168(Work *work)
             GM_ConfigMotionAdjust(&work->body, NULL);
             ClearAdjust(work);
 
-            s03b_boxall_800C9328();
+            GM_VoxInit();
         }
     }
 }
@@ -983,8 +973,8 @@ static void Johnny_800C5520(Work *work, int action)
     {
         index = (work->unkB1C & 0x4000) ? 10 : 0;
 
-        s03b_boxall_800C9328();
-        s03b_boxall_800C93F0(work->vox_ids[index], 4);
+        GM_VoxInit();
+        GM_VoxQueueDelay(work->vox_ids[index], 4);
 
         work->unkBE0 = work->vox_ids[index];
 
@@ -1086,8 +1076,8 @@ static void Johnny_800C588C(Work *work, int arg1)
 
         SetAction(work, 0);
 
-        s03b_boxall_800C9328();
-        s03b_boxall_800C93F0(work->vox_ids[12], 4);
+        GM_VoxInit();
+        GM_VoxQueueDelay(work->vox_ids[12], 4);
     }
     if (arg1 > 16)
     {
@@ -1110,7 +1100,7 @@ static void Johnny_800C594C(Work *work)
     if (GM_StreamStatus() == -1 && GM_NoisePower != 0)
     {
         index = (GV_Time & 0x1) ? 14 : 16;
-        s03b_boxall_800C93AC(work->vox_ids[index]);
+        GM_VoxQueue(work->vox_ids[index]);
     }
 }
 
@@ -1189,7 +1179,7 @@ static void Johnny_800C5A7C(Work *work, int action)
 
             if (!(work->unkB1C & 0x2000000))
             {
-                s03b_boxall_800C93AC(work->vox_ids[3]);
+                GM_VoxQueue(work->vox_ids[3]);
                 work->unkB4C = 2;
                 work->unkB1C |= 0x2000000;
             }
@@ -1219,7 +1209,7 @@ static void Johnny_800C5A7C(Work *work, int action)
         if ((action >= 512) && (GM_StreamStatus() == -1))
         {
             work->unkB4C = 3;
-            s03b_boxall_800C93AC(work->vox_ids[4]);
+            GM_VoxQueue(work->vox_ids[4]);
             SetAction(work, 11);
         }
         break;
@@ -1340,8 +1330,8 @@ static void Johnny_800C6054(Work *work, int action)
 
         index = !(work->unkB1C & 0x800000) ? 1 : 2;
         work->unkB1C |= 0x800000;
-        s03b_boxall_800C9328();
-        s03b_boxall_800C93F0(work->vox_ids[index], 4);
+        GM_VoxInit();
+        GM_VoxQueueDelay(work->vox_ids[index], 4);
         GM_SeSet2(0, 0x3F, 0xB4);
     }
     if (work->unkB4C == 0)
@@ -1424,7 +1414,7 @@ static void Johnny_800C631C(Work *work, int action)
     {
         work->control.turn.vy = 0;
         SetAction(work, 10);
-        s03b_boxall_800C93AC(work->vox_ids[5]);
+        GM_VoxQueue(work->vox_ids[5]);
     }
     if (work->body.is_end != 0)
     {
@@ -1984,8 +1974,8 @@ static void Johnny_800C7428(Work *work, int action)
     if (action == 0)
     {
         work->unkB1C &= ~0x80000000;
-        s03b_boxall_800C9328();
-        s03b_boxall_800C93F0(work->vox_ids[13], 4);
+        GM_VoxInit();
+        GM_VoxQueueDelay(work->vox_ids[13], 4);
         GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
         NewPadVibration(johnny_vibration1_800C32C0, 2);
         AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
@@ -2026,7 +2016,7 @@ static void Johnny_800C753C(Work *work, int action)
     if (action == 0)
     {
         work->unkB1C |= 0x80000000;
-        s03b_boxall_800C9328();
+        GM_VoxInit();
 
         SetAction(work, 2);
 
@@ -2090,8 +2080,8 @@ static void Johnny_800C753C(Work *work, int action)
             AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
             GM_SeSet2(0, 63, SE_EXCLAMATION);
 
-            s03b_boxall_800C9328();
-            s03b_boxall_800C93F0(work->vox_ids[8], 4);
+            GM_VoxInit();
+            GM_VoxQueueDelay(work->vox_ids[8], 4);
 
             NewPadVibration(johnny_vibration1_800C32C0, 2);
 
@@ -2220,7 +2210,7 @@ static void Johnny_800C7A64(Work *work, int action)
     {
         work->unkB1C |= 0x80000000;
 
-        s03b_boxall_800C9328();
+        GM_VoxInit();
         OpenCinemaScreen(1, 30000);
 
         GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
@@ -2276,14 +2266,14 @@ static void Johnny_800C7BF8(Work *work, int action)
         work->unkB1C |= 0x80000000;
         work->target->class = TARGET_AVAIL;
 
-        s03b_boxall_800C9328();
+        GM_VoxInit();
         SetAction(work, 31);
         GM_SeSet2(0, 63, 180);
     }
 
     if (action == 4)
     {
-        s03b_boxall_800C93AC(work->vox_ids[2]);
+        GM_VoxQueue(work->vox_ids[2]);
     }
 
     switch (work->unkB4C)
@@ -2365,7 +2355,7 @@ static void Johnny_800C7BF8(Work *work, int action)
     case 5:
         if ((GM_StreamStatus() == -1) && Johnny_800C43D0(0xAE93) && (GM_PlayerStatus & PLAYER_CHECK_WALL))
         {
-            s03b_boxall_800C93F0(work->vox_ids[17], 4);
+            GM_VoxQueueDelay(work->vox_ids[17], 4);
         }
         break;
     }
@@ -2467,13 +2457,13 @@ static void Johnny_800C7F78(Work *work, int action)
     {
         if ((work->unkB48 == Johnny_800C6C10) && (action == 0))
         {
-            s03b_boxall_800C9328();
-            s03b_boxall_800C93F0(work->vox_ids[13], 4);
+            GM_VoxInit();
+            GM_VoxQueueDelay(work->vox_ids[13], 4);
         }
 
-        if ((action == 65) || s03b_boxall_800C95EC())
+        if ((action == 65) || GM_VoxEnd())
         {
-            s03b_boxall_800C9328();
+            GM_VoxInit();
 
             GM_Camera.first_person = 0;
             GM_GameStatus &= ~( STATE_PADRELEASE | STATE_PAUSE_ONLY );
@@ -2494,8 +2484,8 @@ static void Johnny_800C7F78(Work *work, int action)
     {
         if (action == 0)
         {
-            s03b_boxall_800C9328();
-            s03b_boxall_800C93F0(work->vox_ids[8], 4);
+            GM_VoxInit();
+            GM_VoxQueueDelay(work->vox_ids[8], 4);
             GCL_ExecProc(work->proc_id[4], NULL);
         }
 
@@ -2521,8 +2511,8 @@ static void Johnny_800C7F78(Work *work, int action)
     {
         if (action == 0)
         {
-            s03b_boxall_800C9328();
-            s03b_boxall_800C93F0(work->vox_ids[7], 4);
+            GM_VoxInit();
+            GM_VoxQueueDelay(work->vox_ids[7], 4);
         }
 
         if (action == 32)
@@ -3101,7 +3091,7 @@ static void Johnny_800C92E0(Work *work, int arg1)
         if (arg1 == 48)
         {
             SetAction(work, 1);
-            s03b_boxall_800C93AC(work->vox_ids[9]);
+            GM_VoxQueue(work->vox_ids[9]);
             GM_ConfigMotionAdjust(&work->body, work->adjust);
         }
         switch (work->unkB4C)
@@ -3417,8 +3407,8 @@ static void Johnny_800C9CA8(Work *work, int field_B10)
         s03c_dword_800C32C8 = 3;
         work->control.radar_atr |= RADAR_UNK4;
         work->unkB1C &= ~0x80000000;
-        s03b_boxall_800C9328();
-        s03b_boxall_800C93F0(work->vox_ids[13], 4);
+        GM_VoxInit();
+        GM_VoxQueueDelay(work->vox_ids[13], 4);
         NewPadVibration(johnny_vibration1_800C32C0, 2);
         GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
         AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
@@ -3445,7 +3435,7 @@ static void Johnny_800C9D64(Work *work)
     Johnny_800C4DCC(work);
     Johnny_800C4E5C(work);
     Johnny_800C50D0(work);
-    s03b_boxall_800C9404();
+    GM_VoxTick();
     if (work->body.objs->adjust)
     {
         sna_act_helper2_helper2_80033054(GV_StrCode("ジョニー"), &work->adjust[6]); // ジョニー = Joni = Johnny
@@ -3556,7 +3546,7 @@ static void Die(Work *work)
     GM_FreeTarget(work->target);
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
-    s03b_boxall_800C9328();
+    GM_VoxInit();
 }
 
 static int InitTarget(Work *work)
@@ -3728,7 +3718,7 @@ static void InitExtra(Work *work)
     work->unkB54 = 0;
     work->unkB74 = 0;
     work->unkB1C |= 0x20000000;
-    work->player_status = GM_PlayerStatus & ~STATE_SHOW_RADAR;
+    work->player_status = GM_PlayerStatus & ~STATE_RADAR_ON_REQ;
     work->unkB30 = DG_ZeroVector;
     NagivateInit(&work->nav, work->control.map->hzd, &work->control.mov);
 }
@@ -3823,7 +3813,7 @@ static int GetResources(Work *work, int name, int where)
             work->shadow = NewShadow(control, object, indices);
             if (work->shadow != NULL)
             {
-                s03b_boxall_800C9328();
+                GM_VoxInit();
                 return 0;
             }
         }
@@ -3835,7 +3825,7 @@ void *NewJohnny(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

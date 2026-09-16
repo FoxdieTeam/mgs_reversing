@@ -163,8 +163,8 @@ typedef struct DMO_DATA_0x36
     int field_0;
     int field_4_type;
 
-    DG_SVECTOR field_8_vec1;
-    DG_SVECTOR field_E_vec2;
+    SVECTOREX field_8_vec1;
+    SVECTOREX field_E_vec2;
 
     // TODO: Is there a cleaner way to model this structure?
     // Some of the variants are very similar. Once all
@@ -650,9 +650,9 @@ typedef struct DMO_DATA_0x36
  */
 
 /* unknown.c */
-void    sub_8007F06C(DG_VECTOR *param_1, VECTOR *param_2, VECTOR *param_3);
+void    sub_8007F06C(VECTOREX *param_1, VECTOR *param_2, VECTOR *param_3);
 void    sub_8007F0D0(VECTOR *out, VECTOR *a, VECTOR *b, VECTOR *c);
-VECTOR *sub_8007F1DC(VECTOR *out, DG_VECTOR *arg1, VECTOR *arg2);
+VECTOR *sub_8007F1DC(VECTOR *out, VECTOREX *arg1, VECTOR *arg2);
 
 /* demothrd.c */
 extern int DM_ThreadStream(int flag, int unused);

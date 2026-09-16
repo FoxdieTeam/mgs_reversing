@@ -9,7 +9,6 @@
 
 extern void AN_Breath( MATRIX *world );
 
-#define EXEC_LEVEL      GV_ACTOR_USER
 #define DEFAULT_TIME    64
 
 typedef struct _Work
@@ -76,7 +75,7 @@ void *NewSnakeBreath( int name, int where, int argc, char **argv )
 {
     Work *work ;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) ) ;
+    work = GV_NewActor( GV_ACTOR_USER, sizeof( Work ) ) ;
     if ( work != NULL ) {
         /* ワークにコールバックを登録する */
         GV_SetNamedActor( &( work->actor ), Act, Die, "breath.c" ) ;

@@ -60,6 +60,20 @@ typedef struct
     int     type;
 } UnkCameraStruct2;
 
+extern int      GM_CameraTrackSave;
+extern SVECTOR  GM_CameraRotateSave;
+extern int      GM_CameraTrackOrg;
+
+#ifndef __GAME_CAMERA_C__
+extern int GM_CameraShakeOffset;
+extern int GM_event_camera_flag;
+
+extern CAMERA GM_CameraList[ 8 ];
+extern GM_SnakeCameraWork GM_SnakeCamera;
+extern GM_CameraSystemWork GM_Camera;
+extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+#endif
+
 /* camera.c */
 void GM_SetCameraCallbackFunc(int index, TGMCameraFunc func);
 void GM_PanCamera(SVECTOR *a1);

@@ -15,8 +15,6 @@ typedef struct _Work
     int     fA8;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 int ItemDotCheckMessage_800CC4C8(unsigned short name, int n_hashes, unsigned short *hashes)
 {
     GV_MSG *msg;
@@ -163,7 +161,7 @@ void *NewItemDot(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ItemDotAct_800CC560, ItemDotDie_800CC7B0, "item_dot.c");

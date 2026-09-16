@@ -23,8 +23,6 @@ typedef struct _Work
     int      count;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void MovePacks(SVECTOR *speeds, SVECTOR *vertices, int count)
 {
     int rx, ry, rz;
@@ -178,7 +176,7 @@ void *NewGlassSplash3(MATRIX *world)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(work, Act, Die, "gsplash3.c");

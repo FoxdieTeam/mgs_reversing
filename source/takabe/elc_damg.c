@@ -21,8 +21,6 @@ typedef struct _Work
     int    proc_id;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 unsigned short s08a_dword_800C36E0[2] = {HASH_ON2, HASH_OFF2};
 
 // Duplicate of RasenElExecProc_800CD1E4
@@ -97,7 +95,7 @@ void *NewElectricDamage(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, ElcDamgAct_800D4AE4, ElcDamgDie_800D4BF4, "elc_damg.c");

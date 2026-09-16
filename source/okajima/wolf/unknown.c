@@ -21,9 +21,6 @@ static SVECTOR s12a_dword_800C34A0 = {-1024, 0, 0};
 static SVECTOR s12a_dword_800C34A8 = {10, -2000, -70};
 static SVECTOR s12a_dword_800C34B0 = {10, -800, -120};
 
-extern GM_CameraSystemWork        GM_Camera;
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-
 extern SVECTOR wolf2_position;
 
 void *AN_Unknown_800CA1EC( MATRIX* mat, int mark );

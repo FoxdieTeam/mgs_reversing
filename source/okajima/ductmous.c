@@ -32,7 +32,6 @@ SVECTOR mouse_offsets[2] = {{48, 0, 96, 0}, {-48, 0, 96, 0}};
 
 void AN_Unknown_800CA458(MATRIX *, int);
 
-#define EXEC_LEVEL      GV_ACTOR_USER
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE | DG_FLAG_ONEPIECE )
 
 int Ductmouse_800DA2EC(SVECTOR *a, SVECTOR *b)
@@ -327,7 +326,7 @@ void *NewDuctMouse(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, DuctmouseAct_800DA978, DuctmouseDie_800DA9D4, "ductmous.c");

@@ -34,13 +34,7 @@ typedef struct _Work
     int            procs[3];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 int s03c_dword_800C33D8 = 0;
-
-void s03b_boxall_800C9404(void);
-int  s03b_boxall_800C93AC(int arg0);
-int  s03b_boxall_800C95EC(void);
 
 void OtacomSendMessage_800CB3E0(int address, int message)
 {
@@ -131,7 +125,7 @@ void Otacom_800CB494(Work *work, int timer)
             }
 
             work->control.turn.vy = -1024;
-            s03b_boxall_800C93AC(work->field_810[0]);
+            GM_VoxQueue(work->field_810[0]);
 
             work->timer = 0;
             work->mode++;
@@ -139,9 +133,9 @@ void Otacom_800CB494(Work *work, int timer)
         break;
 
     case 2:
-        s03b_boxall_800C9404();
+        GM_VoxTick();
 
-        if (s03b_boxall_800C95EC() != 0)
+        if (GM_VoxEnd() != 0)
         {
             GV_SubVec3(&work->control.mov, &GM_PlayerPosition, &svec4);
             GM_PlayerControl->turn.vy = GV_VecDir2(&svec4);
@@ -220,7 +214,7 @@ void Otacom_800CB838(Work *work, int timer)
     switch (work->mode)
     {
     case 0:
-        s03b_boxall_800C9404();
+        GM_VoxTick();
         if (timer == 0)
         {
             GM_ConfigControlAttribute(control, 1);
@@ -238,13 +232,13 @@ void Otacom_800CB838(Work *work, int timer)
                 GM_ConfigObjectAction(object, 1, 0, 0);
             }
 
-            s03b_boxall_800C93AC(work->field_810[1]);
+            GM_VoxQueue(work->field_810[1]);
             NewJohnny2();
         }
 
         GM_GameStatus |= STATE_PADRELEASE | STATE_RADIO_OFF;
 
-        if (s03b_boxall_800C95EC())
+        if (GM_VoxEnd())
         {
             GM_GameStatus &= ~STATE_PADRELEASE;
 
@@ -259,12 +253,12 @@ void Otacom_800CB838(Work *work, int timer)
         break;
 
     case 1:
-        s03b_boxall_800C9404();
+        GM_VoxTick();
 
         if (timer == 32)
         {
             GCL_ExecProc(work->procs[2], NULL);
-            s03b_boxall_800C93AC(work->field_810[2]);
+            GM_VoxQueue(work->field_810[2]);
         }
 
         if (timer == 96)
@@ -535,7 +529,7 @@ void *NewPrisonOtacon(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;

@@ -24,8 +24,6 @@ typedef struct _Work
 
 RECT rect_800C3670 = { 50, 50, 100, 100 };
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void Splash2Transform_800DAD68( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, int count )
 {
     SVECTOR vec[4];
@@ -213,7 +211,7 @@ void *NewSplash2_800DB424( MATRIX *matrix, int noripple, int r, int g, int b )
 {
     Work *work;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( GV_ACTOR_USER, sizeof( Work ) );
 
     if (work != NULL)
     {

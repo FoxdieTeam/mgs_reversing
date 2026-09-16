@@ -22,8 +22,6 @@ typedef struct _Work
     int     reload;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 int FlrSpaGetSvecs_800D09A4(char *opt, SVECTOR *out)
 {
     int   count;
@@ -238,7 +236,7 @@ void *NewFloorSpark(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, FlrSpaAct_800D0E24, FlrSpaDie_800D0EC0, "flr_spa.c");

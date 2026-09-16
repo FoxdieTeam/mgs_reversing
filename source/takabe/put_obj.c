@@ -19,8 +19,6 @@ typedef struct _Work
     DG_OBJS *objs[0];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 static void Act(Work *work)
 {
     if (GM_CheckMessage(&work->actor, work->name, HASH_KILL))
@@ -128,7 +126,7 @@ void *NewPutObject(int name, int where, int argc, char **argv)
     }
     printf("(put_obj.c) total ojbect : %d \n", n_objs);
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work) + n_objs * sizeof(DG_OBJS *));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work) + n_objs * sizeof(DG_OBJS *));
     if (work != NULL)
     {
         work->name = name;

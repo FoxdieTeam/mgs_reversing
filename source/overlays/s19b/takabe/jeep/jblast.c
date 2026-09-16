@@ -16,8 +16,6 @@ SVECTOR s19b_dword_800C349C = {100, 0, 0};
 
 void s19b_jblood_800C8610(SVECTOR *);
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 static void Act(Work *work)
 {
     int time;
@@ -82,7 +80,7 @@ void *NewJeepBlast(MATRIX *world, BLAST_DATA *blast)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(work, Act, Die, "jblast.c");

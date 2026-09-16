@@ -177,12 +177,12 @@ int DG_GetLightMatrix( SVECTOR *pos, MATRIX *light )
     DG_LIT *pLightIter;
     short *pColorOut;
     int lightsAvailable;
-    DG_SVECTOR *lightOut;
+    SVECTOREX *lightOut;
     FIXLIGHT *pFixedLightsIter;
     VECTOR lightDistance;
     TLIGHT *pTmpLightList;
 
-    lightOut = (DG_SVECTOR *)light->m[1];
+    lightOut = (SVECTOREX *)light->m[1];
     pColorOut = &light[1].m[0][1];
     pFixedLightsIter = fix_lights;
     lightsAvailable = 2;

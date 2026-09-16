@@ -11,8 +11,6 @@ static PANEL_TEXTURE panel_tex[ MENU_ITEM_COUNT ];
 int SECTION(".sbss") prev_current;
 int SECTION(".sbss") dword_800ABAD4;
 
-extern short GM_WeaponTypes[];
-extern short GM_ItemTypes[];
 extern int   dword_8009F46C;
 
 // Also see dword_8009E5CC.
@@ -512,7 +510,7 @@ int menu_item_open(MenuWork *work)
     int                cardVal;
     int                panelIndex;
 
-    if (!(GM_GameStatus & GAME_FLAG_BIT_19))
+    if (!(GM_GameStatus & STATE_EQUIP_OFF))
     {
         activeItems = 0;
 
@@ -1120,7 +1118,7 @@ void menu_item(MenuWork *work, u_long *ot)
                     }
                 }
                 // Quick item equip (L1)
-                else if (!(GM_GameStatus & GAME_FLAG_BIT_19) && (pPad->press & PAD_L1))
+                else if (!(GM_GameStatus & STATE_EQUIP_OFF) && (pPad->press & PAD_L1))
                 {
                     int itemid = GM_Item;
 

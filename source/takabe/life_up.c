@@ -17,8 +17,6 @@ typedef struct _Work
     int    time;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_ASSIST
-
 STATIC void LifeUpAct_800DF1A8(Work *work)
 {
     GM_GameStatus |= PLAYER_MENU_DISABLE;
@@ -113,7 +111,7 @@ void *NewLifeUp(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_ASSIST, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, LifeUpAct_800DF1A8, LifeUpDie_800DF318, "life_up.c");

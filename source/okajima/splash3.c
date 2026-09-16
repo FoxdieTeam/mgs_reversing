@@ -18,8 +18,6 @@ typedef struct _Splash3Work
 
 RECT s15b_800C3398 = {100, 100, 200, 200};
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void Splash3InitVecs_800C7D24(MATRIX *world, SVECTOR *vec1, SVECTOR *vec2, int n_vecs, int n_matrices)
 {
     SVECTOR vec[4];
@@ -231,7 +229,7 @@ void *NewSplash3_800C83D0(int dir, SVECTOR *pos)
 {
     Splash3Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Splash3Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Splash3Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Splash3Act_800C7F1C, Splash3Die_800C80D0, "splash3.c");

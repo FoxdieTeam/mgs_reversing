@@ -2,8 +2,6 @@
 #include "game/game.h"
 #include "strcode.h"
 
-extern GM_CameraSystemWork GM_Camera;
-
 SECTION(".bss") int     s03b_dword_800D3318;
 SECTION(".bss") int     s03b_dword_800D331C;
 SECTION(".bss") SVECTOR s03b_dword_800D3320;

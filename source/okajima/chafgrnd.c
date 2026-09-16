@@ -18,11 +18,7 @@ static int SECTION(".bss") dword_800BDF9C;
 
 int SECTION(".bss") okajima_CHAF_LIFE;
 
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
-
 /*---------------------------------------------------------------------------*/
-
-#define EXEC_LEVEL      GV_ACTOR_USER
 
 #define CHAFF_LIFETIME  300
 
@@ -337,7 +333,7 @@ void *NewChaffGrd(MATRIX *world)
         return NULL;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
 
     if (work)
     {

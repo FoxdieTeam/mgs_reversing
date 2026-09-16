@@ -60,8 +60,6 @@ typedef struct _Work
     DISPENV      field_325C;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 // Similar in usage to struct in movie.c
 // (but different order of fields)
 typedef struct _Work2
@@ -1108,7 +1106,7 @@ void *NewEndingRoll(int arg0)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Ending2Act_800C71D8, Ending2Die_800C76BC, "ending2.c");

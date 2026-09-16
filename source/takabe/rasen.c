@@ -38,9 +38,6 @@ typedef struct _Rasen2Work
     GV_ACT        *field_238;
 } Rasen2Work;
 
-#define EXEC_LEVEL      GV_ACTOR_MANAGER
-#define EXEC_LEVEL2     GV_ACTOR_USER
-
 int rasen_800C3404 = 0;
 int rasen_800C3408 = 0;
 int rasen_800C340C = 0;
@@ -76,12 +73,10 @@ void Takabe_RefreshObjectPacks(DG_OBJS *objs);
 void Takabe_ReshadeModel(DG_OBJS *objs, DG_LITS *lit);
 void Takabe_FreeDuplicateMemory();
 
-extern GM_CameraSystemWork       GM_Camera;
 extern int             bakudan_count_8009F42C;
 extern HITTABLE        GM_C4Datas[C4_COUNT];
 extern HITTABLE        GM_ClayDatas[8];
 extern int             counter_8009F448;
-extern GM_SnakeCameraWork GM_SnakeCamera;
 
 void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
 {
@@ -514,7 +509,7 @@ void *NewRasen2(int name, int where)
 {
     Rasen2Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL2, sizeof(Rasen2Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Rasen2Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Rasen2Act_800CA79C, Rasen2Die_800CAB74, "rasen.c");
@@ -795,7 +790,7 @@ void *NewRasen(void)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, RasenAct_800CBA54, RasenDie_800CBA74, "rasen.c");

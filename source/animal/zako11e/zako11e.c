@@ -21,8 +21,6 @@ extern SVECTOR       ENEMY_TOUCH_SIZE;
 extern SVECTOR       ENEMY_TOUCH_FORCE;
 extern SVECTOR       COM_NO_POINT;
 extern int           COM_EYE_LENGTH;
-
-extern GM_CameraSystemWork      GM_Camera;
 */
 
 extern SVECTOR ZAKO_TARGET_SIZE_800C38CC;
@@ -63,8 +61,6 @@ void s11e_zako11e_800D34D0( DG_OBJS* objs, DG_DEF* def )
         obj++;
     }
 }
-
-extern GM_CameraSystemWork GM_Camera;
 
 void s11e_zako11e_800D354C( ZakoWork *work )
 {
@@ -575,13 +571,11 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
 extern void ZakoAct_800D3684();
 extern void ZakoDie_800D3C84();
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 void *NewZako11E( int name, int where, int argc, char **argv )
 {
     ZakoWork *work ;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( ZakoWork ) ) ;
+    work = GV_NewActor( GV_ACTOR_PREV, sizeof( ZakoWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), ZakoAct_800D3684, ZakoDie_800D3C84, "zako11e.c" );
         ZakoGetResources_800D3EC8( work, name, where );

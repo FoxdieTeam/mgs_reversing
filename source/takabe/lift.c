@@ -36,8 +36,6 @@ extern HITTABLE GM_ClayDatas[8];
 
 #define TAG(ptr, tag) ((void *)((unsigned int)ptr | tag))
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void s13a_lift_800DDA90(Work *work)
 {
     work->floor.p1.y = work->floor.p2.y = work->floor.p3.y = work->floor.p4.y = work->control.mov.vy + work->size.vy + 1;
@@ -297,7 +295,7 @@ void *NewLift(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, LiftAct_800DDBFC, LiftDie_800DDF88, "lift.c");

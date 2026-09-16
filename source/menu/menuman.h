@@ -307,7 +307,7 @@ typedef struct _MenuWork
     TMenuUpdateFn          field_2C_modules[ MENU_MODULE_MAX ];
 //    int                    field_48;
     DR_ENV                 field_4C_drawEnv[ 2 ];
-    RADAR_T                field_CC_radar_data;
+    RADAR_T                radar;
     Menu_Inventory         field_1DC_menu_item;
     Menu_Inventory         field_1F0_menu_weapon;
     MenuMan_MenuBars       field_204_bars;

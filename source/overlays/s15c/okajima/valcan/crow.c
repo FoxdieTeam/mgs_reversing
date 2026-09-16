@@ -48,8 +48,6 @@ typedef struct _Work
     CrowEntry entries[0];
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
-
 void Crow_800DD7D8(SVECTOR *from, SVECTOR *to, SVECTOR *out)
 {
     SVECTOR diff;
@@ -731,7 +729,7 @@ void *NewCrow(int name, int where)
         n_entries = 1;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work) + sizeof(CrowEntry) * n_entries);
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work) + sizeof(CrowEntry) * n_entries);
     if (work != NULL)
     {
         work->n_entries = n_entries;

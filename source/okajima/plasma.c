@@ -37,8 +37,6 @@ typedef struct _Work
     int      f3BC;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 // Identical to UjiGetSvecs_800C39E8
 int PlasmaGetSvecs_800CBBEC(char *opt, SVECTOR *svec)
 {
@@ -658,7 +656,7 @@ void *NewPlasmaGcl(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PlasmaAct_800CC67C, PlasmaDie_800CCC64, "plasma.c");
@@ -677,7 +675,7 @@ void *NewPlasma_800CD1A4(OBJECT *parent, int arg1, int arg2, int arg3, int arg4,
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PlasmaAct_800CC67C, PlasmaDie_800CCC64, "plasma.c");
@@ -696,7 +694,7 @@ void *NewPlasma_800CD268(SVECTOR *arg0, SVECTOR *arg1, int arg2)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PlasmaAct_800CC67C, PlasmaDie_800CCC64, "plasma.c");
@@ -715,7 +713,7 @@ void *NewPlasma_800CD30C(SVECTOR *arg0, SVECTOR *arg1, int arg2, int arg3)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, PlasmaAct_800CC67C, PlasmaDie_800CCC64, "plasma.c");

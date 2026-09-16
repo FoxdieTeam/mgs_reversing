@@ -17,8 +17,6 @@ void panel_move_plus(Menu_Item_Unknown *a1, int a2);
 
 // menu related?
 
-extern GM_CameraSystemWork GM_Camera;
-
 STATIC PANEL_CONF *dword_800AB584 = NULL;
 
 extern int dword_8009E544[];
@@ -912,9 +910,6 @@ PANEL_TEXTURE *menu_weapon_get_weapon_rpk_info_8003DED8(int weaponIdx)
     return gMenuRightItems_800BD888 + rpkIdx;
 }
 
-extern unsigned short GM_ItemTypes[];
-extern unsigned short GM_WeaponTypes[];
-
 extern int              dword_8009F46C;
 
 int menu_weapon_isWeaponDisabled_8003DF30(int weaponId)
@@ -1203,7 +1198,7 @@ int menu_weapon_update_helper_8003E4B8(MenuWork *work)
     int                i;
     int                panelCount, currentPanel;
 
-    if (!(GM_GameStatus & GAME_FLAG_BIT_19))
+    if (!(GM_GameStatus & STATE_EQUIP_OFF))
     {
         panelCount = 0;
 
@@ -1431,7 +1426,7 @@ void menu_weapon_update_8003E990(MenuWork *work, u_long *ot)
                     sub_8003D520();
                 }
             }
-            else if ((!(GM_GameStatus & GAME_FLAG_BIT_19)) && (pPad->press & PAD_R1))
+            else if ((!(GM_GameStatus & STATE_EQUIP_OFF)) && (pPad->press & PAD_R1))
             {
                 weapon_id = GM_Weapon;
 

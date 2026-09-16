@@ -5,12 +5,10 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 
-extern unsigned short GM_WeaponTypes[];
-extern unsigned short GM_ItemTypes[];
-
-extern SVECTOR MERYL_position;
 int SECTION(".bss") MERYL_flag;
 int SECTION(".bss") MERYL_padding;
+
+extern SVECTOR MERYL_position;
 
 #define TH1_PHASE0 0
 #define TH1_PHASE1 1

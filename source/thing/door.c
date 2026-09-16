@@ -51,8 +51,6 @@ typedef struct _Work
     DoorLeafData   leaves[1]; // 1 or more leaves
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 /*---------------------------------------------------------------------------*/
 
 int door_where_8009F5F4 = 0;
@@ -778,7 +776,7 @@ void *NewDoor(int name, int where, int argc, char **argv)
         leaf_count = 1;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work) + sizeof(DoorLeafData) * (leaf_count - 1));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work) + sizeof(DoorLeafData) * (leaf_count - 1));
 
     door_where_8009F5F4 = 0;
 

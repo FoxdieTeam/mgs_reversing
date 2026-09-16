@@ -28,8 +28,6 @@ SVECTOR s13a_800C3704 = {300, 300, 300, 0};
 
 void AN_Unknown_800DC5B4(SVECTOR *pos, SVECTOR *speed, int script);
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 int s13a_smktrgt_800DBBC0(Work *work)
 {
     int i;
@@ -312,7 +310,7 @@ void *NewSmokeTarget(int name, int map)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, SmktrgtAct_800DC19C, SmktrgtDie_800DC408, "smktrgt.c");

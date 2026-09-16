@@ -8,8 +8,6 @@
 
 void *NewEventmouse_800CA6F4(HZD_PTP *points, int n_points, int, int, int, int);
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 typedef struct _Work {
     GV_ACT actor;
 } Work;
@@ -251,7 +249,7 @@ void *NewKeyItem(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, KeyItemAct_800C8888, KeyItemDie_800C8890, "key_item.c");

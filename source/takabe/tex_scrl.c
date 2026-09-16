@@ -38,8 +38,6 @@ unsigned short tex_scroll_msgs[] = {0x448B, 0xA8A4};
 #define getTPageX(tp) (((tp) << 6) & 0x3c0)
 #define getTPageY(tp) ((((tp) << 4) & 0x100) + (((tp) >> 2) & 0x200))
 
-#define EXEC_LEVEL GV_ACTOR_ASSIST
-
 /*---------------------------------------------------------------------------*/
 
 static void TexScrollInitRect_800C97D4(DG_TEX *tex, RECT *rect)
@@ -220,7 +218,7 @@ void *NewTexScroll(int name, int where)
     Work   *work;
 
     n_entries = THING_Gcl_GetIntDefault('n', 1);
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work) + sizeof(RECT) * n_entries);
+    work = GV_NewActor(GV_ACTOR_ASSIST, sizeof(Work) + sizeof(RECT) * n_entries);
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "tex_scrl.c");

@@ -14,8 +14,6 @@ typedef struct _JEEP_SYSTEM
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
 
-#define EXEC_LEVEL  GV_ACTOR_USER
-
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 #define BODY_MODEL  GV_StrCode("19b_o2")
 #define BODY_MODEL2 GV_StrCode("19b_o3a")
@@ -260,7 +258,7 @@ void *NewJeepGate(int name, SVECTOR *pos, int side)
     SVECTOR vec;
     Work   *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(work, Act, Die, "jeep_gte.c");

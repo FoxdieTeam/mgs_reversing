@@ -22,39 +22,30 @@
 #define DG_MAX_JOINTS 24
 
 /*---------------------------------------------------------------------------*/
+/* libgte.h vector types (without padding) */
 
-/* TODO: Remove */
-typedef struct DG_VECTOR
-{
-    int vx;
-    int vy;
+typedef struct {        /* long word type 3D vector */
+    int vx, vy;
     int vz;
-} DG_VECTOR;            /* long word type 3D vector (without padding) */
+} VECTOREX;
 
-/* TODO: Remove */
-typedef struct DG_SVECTOR
-{
-    short vx;
-    short vy;
+typedef struct {        /* short word type 3D vector */
+    short vx, vy;
     short vz;
-} DG_SVECTOR;           /* short word type 3D vector (without padding) */
+} SVECTOREX;
 
-/* TODO: Remove */
-typedef struct DG_RVECTOR
-{
-    DG_SVECTOR  v;
-    u_char      uv[2];
-    CVECTOR     c;
-    DVECTOR     sxy;
-    u_long      sz;
-} DG_RVECTOR;           /* division vertex data (without padding) */
+typedef struct {
+    SVECTOREX v;
+    u_char uv[2];
+    CVECTOR c;
+    DVECTOR sxy;
+    u_long  sz;         /* clip z-data */
+} RVECTOREX;            /* division vertex data vector */
 
-/* TODO: Remove */
-typedef struct DG_PVECTOR
-{
+typedef struct {
     long vxy;
     long vz;
-} DG_PVECTOR;
+} PVECTOR;
 
 /*---------------------------------------------------------------------------*/
 
@@ -331,6 +322,11 @@ void DG_BoundEnd( void );
 #ifndef __LIBDG_CHANL_C__
 extern short N_ChanlPerfMax;
 extern short DG_EndTime;
+extern short DG_StartTime;
+
+extern u_long *DG_DivideBuffer[ 256 ];
+extern DG_CHANL DG_Chanls[ 3 ];
+extern u_short DG_ChanlTime[ 32 ];
 #endif
 
 void DG_InitChanlSystem( int shift );
@@ -464,10 +460,6 @@ void DG_PointCheck( SVECTOR *svector, int n_points );
 int  DG_PointCheckOne( DVECTOR *line );
 
 /* screen.c */
-// void DG_ScreenModelsSingle( DG_OBJS *objs, int n_obj );
-// void DG_ScreenModels( DG_OBJS *objs, int n_obj );
-// void DG_ApplyMovs( DG_OBJS *objs, int n_obj );
-// void DG_ApplyRots( DG_OBJS *objs, int n_obj );
 void DG_ScreenChanl( DG_CHANL *chanl, int idx );
 
 /* shade.c */
@@ -535,6 +527,10 @@ static inline void DG_SetPacketTexture4( POLY_FT4 *packs, DG_TEX *tex )
     packs->tpage = tex->tpage ;
     packs->clut = tex->clut ;
 }
+
+/*---------------------------------------------------------------------------*/
+
+#define DG_COPY_VEC( a, b ) ( (a)->vx = (b)->vx, (a)->vy = (b)->vy, (a)->vz = (b)->vz )
 
 /*---------------------------------------------------------------------------*/
 

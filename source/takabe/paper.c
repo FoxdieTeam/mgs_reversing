@@ -120,13 +120,11 @@ static int GetResources(Work *work, int name, int where)
 
 /*----------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void *NewPaper(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(work, Act, Die, "paper.c");

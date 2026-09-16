@@ -8,8 +8,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 typedef struct _Work
 {
     GV_ACT   actor;
@@ -159,7 +157,7 @@ void *NewAsiato2Char(MATRIX *world, int arg1, int arg2, int arg3, int arg4, int 
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Asiato2Char_Act, Asiato2Char_Die, "asiato2.c");
@@ -313,7 +311,7 @@ void *NewAsiato2(CONTROL *control, OBJECT *object, int arg2, int *arg3)
 {
     Work2 *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work2));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work2));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "asiato2.c");

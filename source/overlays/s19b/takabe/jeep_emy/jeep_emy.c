@@ -84,8 +84,6 @@ static SVECTOR s19b_dword_800C32F0 = {200, 500, 200};
 static SVECTOR s19b_dword_800C32F8 = {0, 0, 0};
 static SVECTOR s19b_dword_800C3300 = {5, -500, 80};
 
-extern GM_CameraSystemWork GM_Camera;
-
 void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
 void *NewJeepBlood(MATRIX *world, int count, MATRIX *root);
 void *NewJeepBullet2(MATRIX *world, int side, int mode, int mode2);
@@ -107,8 +105,6 @@ void s19b_jbullet_800C5D18(Work *work, int);
 void s19b_jbullet_800C5E40(Work *work, int);
 void s19b_jbullet_800C5F7C(Work *work);
 void s19b_jbullet_800C66BC(Work *work);
-
-#define EXEC_LEVEL GV_ACTOR_USER
 
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND )
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
@@ -309,7 +305,7 @@ void *NewJeepEnemy(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(work, Act, Die, "jeep_emy.c");

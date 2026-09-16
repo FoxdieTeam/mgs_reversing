@@ -15,8 +15,6 @@ extern u_long DG_PaletteBuffer[ 256 ];
 /*---------------------------------------------------------------------------*/
 // thermal goggles (screen effect)
 
-#define EXEC_LEVEL      GV_ACTOR_AFTER
-
 #define GOGGLES_MODEL   GV_StrCode("goggles")
 #define MODEL_FLAGS     ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
                         | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE \
@@ -213,7 +211,7 @@ static int GetResources(Work *work, OBJECT *parent)
 
 void *NewGoggleIr(CONTROL *control, OBJECT *parent_obj, int num_parent)
 {
-    Work *work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    Work *work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
 
     if (work)
     {

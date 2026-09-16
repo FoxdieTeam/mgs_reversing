@@ -11,8 +11,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_ASSIST
-
 #define SCANLINE_NUM    (FRAME_HEIGHT/2)
 
 typedef struct _PRIM_WORK
@@ -138,7 +136,7 @@ void *NewNightVisionScreen(int mode)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_ASSIST, sizeof(Work));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "scn_mask.c");

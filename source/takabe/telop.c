@@ -37,8 +37,6 @@ typedef struct _Work2
     int       count;
 } Work2;
 
-#define EXEC_LEVEL GV_ACTOR_PREV2
-
 void telop_800DD550(TelopSub *sub, int x, int y, DG_TEX *arg3, DG_TEX *arg4)
 {
     SPRT *sprt;
@@ -231,7 +229,7 @@ void *NewTelopSet(int name, int where, int argc, char **argv)
 {
     Work2 *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work2));
+    work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work2));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, TelopSetAct_800DD92C, TelopSetDie_800DD9E8, "telop.c");
@@ -274,7 +272,7 @@ void *NewTelop2(int x, int y, int timer, int reload, int arg4, int arg5)
     DG_TEX    *tex1;
     DG_TEX    *tex2;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Telop2Act_800DDBC8, telop_800DDC30, "telop.c");

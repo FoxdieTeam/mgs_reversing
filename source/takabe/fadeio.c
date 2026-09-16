@@ -10,8 +10,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_PREV2
-
 #define MODE_FADEOUT    (0 << 0)    // 0x0000
 #define MODE_FADEIN     (1 << 0)    // 0x0001
 #define MODE_BLACK      (0 << 1)    // 0x0000
@@ -167,7 +165,7 @@ void *NewFadeInOut(int mode, int shade)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "fadeio.c");
@@ -186,7 +184,7 @@ void *NewFadeInOutSet(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "fadeio.c");

@@ -17,8 +17,6 @@ extern int    dword_8009F604;
 /*---------------------------------------------------------------------------*/
 // Night Vision/Thermal Goggles sight
 
-#define EXEC_LEVEL GV_ACTOR_AFTER2
-
 #define NV_GOGGLE_ID        0x9c26  // GV_StrCode("nv_ggle")
 #define NV_GOGGLE_SIGHT1    0x8504  // GV_StrCode("nv_ggle1")
 #define NV_GOGGLE_SIGHT2    0x8505  // GV_StrCode("nv_ggle2")
@@ -520,7 +518,7 @@ void *NewGoggleSight(int type)
     short *arr;
     short *arr2;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
 
     if (work)
     {

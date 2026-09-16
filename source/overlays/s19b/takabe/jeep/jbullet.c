@@ -1,7 +1,5 @@
 #include "game/game.h"
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 // TODO: This type of struct is seen in other places that make use of HZD_FLR.
 typedef struct _BULLET_VECS
 {
@@ -224,7 +222,7 @@ static int FindIntersection(Work *work, MATRIX *world, int mode2)
             {
                 /* hit wall */
                 work->hit_type = 1;
-                HZD_GetNormal(work->hit_surface, &work->normal);
+                HZD_NormalVector(work->hit_surface, &work->normal);
             }
             else
             {
@@ -426,7 +424,7 @@ void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2)
     SVECTOR vec;
     Work   *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(work, Act, Die, "jbullet.c");
@@ -477,7 +475,7 @@ void *NewJeepBullet2(MATRIX *world, int side, int mode, int mode2)
     SVECTOR vec;
     Work   *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(work, Act, Die, "jbullet.c");

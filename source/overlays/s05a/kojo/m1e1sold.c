@@ -1158,8 +1158,8 @@ int s05a_800E00EC(GV_ACT *actor)
 
     if (!(work->control.skip_flag & CTRL_SKIP_TRAP))
     {
-        work->control.evt.mov = work->control.mov;
-        work->control.evt.mov.pad = work->control.rot.vy;
+        work->control.evt.coord = work->control.mov;
+        work->control.evt.coord.pad = work->control.rot.vy;
         HZD_EnterTrap(hzd, &work->control.evt);
     }
     DG_SetPos2(&work->control.mov, &work->control.rot);

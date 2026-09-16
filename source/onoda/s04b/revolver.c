@@ -12,8 +12,6 @@
 #include "takabe/revbullt.h"
 #include "takabe/thing.h"
 
-#define EXEC_LEVEL      GV_ACTOR_USER
-
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 #define BODY_MODEL      GV_StrCode("rev_gun")
 #define MOTION_DATA     GV_StrCode("revolver")
@@ -181,10 +179,6 @@ short  *SECTION(".bss") s04c_dword_800DBE10;
 void   *SECTION(".bss") s04c_dword_800DBE14;
 SVECTOR SECTION(".bss") s04c_dword_800DBE18;
 int     SECTION(".bss") revolver_used_bul;
-
-/*---------------------------------------------------------------------------*/
-
-extern CAMERA GM_CameraList[8];
 
 /*---------------------------------------------------------------------------*/
 
@@ -1889,7 +1883,7 @@ void *NewOcelotBoss(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "revolver.c");

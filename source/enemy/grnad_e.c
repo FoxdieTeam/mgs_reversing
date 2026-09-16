@@ -17,8 +17,6 @@ extern void *NewBlast(MATRIX *world /*, BLAST_DATA *blast_data */);
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL      GV_ACTOR_USER
-
 #define GRENADE_MODEL   0x3b88  // GV_StrCode("grenade")
 
 #define BODY_FLAG       ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
@@ -132,7 +130,7 @@ static void *InitGrenadeEnemy(CONTROL *control, OBJECT *parent, int num_parent, 
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "grnad_e.c");

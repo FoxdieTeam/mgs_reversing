@@ -1,7 +1,5 @@
 #include "game/game.h"
 
-#define EXEC_LEVEL GV_ACTOR_AFTER
-
 typedef struct _Work
 {
     GV_ACT         actor;
@@ -92,7 +90,7 @@ void *NewJeep(int arg0, int arg1)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(work, s19b_jeep_800D2258, s19b_jeep_800D2790, s19b_aJeepc_800DDD8C);

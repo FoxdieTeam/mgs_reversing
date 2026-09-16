@@ -14,7 +14,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define EXEC_LEVEL  GV_ACTOR_USER
 #define PAGE_COUNT  9
 
 typedef struct PreMet1Prims
@@ -1007,7 +1006,7 @@ void *NewPreMetal1(int arg0, int *arg1, PreEntries *arg2)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "pre_met1.c");

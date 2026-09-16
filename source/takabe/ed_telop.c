@@ -43,8 +43,6 @@ static u_long       ed_telop_800C9C38[160];
 char * roll_ending2_800C5E54(void *, char *, int);
 void   roll_ending2_800C5EAC(short *, void *, void *, int);
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 int EdTelop_800C4F18(void)
 {
     char *str;
@@ -276,7 +274,7 @@ void *NewEndingTelop(int arg0)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, EdTelopAct_800C525C, EdTelopDie_800C54D4, "ed_telop.c");

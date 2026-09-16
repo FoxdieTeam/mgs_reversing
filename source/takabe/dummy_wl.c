@@ -50,8 +50,6 @@ typedef struct _Work
     HZD_SEG  field_19C;
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 SVECTOR s04a_dword_800C3620 = {100, 100, 100};
 
 void     Takabe_FreeObjs(DG_OBJS *objs);
@@ -232,7 +230,7 @@ void *NewDummyWall(int name, int where, int argc, char **argv)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, DummyWallAct_800D6E64, DummyWallDie_800D70A4, "dummy_wl.c");

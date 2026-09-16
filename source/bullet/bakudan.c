@@ -12,13 +12,10 @@
 
 HITTABLE GM_C4Datas[ C4_COUNT ];
 
-extern unsigned short GM_ItemTypes[];
 extern BLAST_DATA blast_data_8009F4B8[ 8 ];
 
 /*---------------------------------------------------------------------------*/
 // C4 bomb (armed)
-
-#define EXEC_LEVEL      GV_ACTOR_AFTER
 
 #define C4BOMB_MODEL    0xf83d  // GV_StrCode("c4_bomb")
 
@@ -271,7 +268,7 @@ void *NewBakudan(MATRIX *world, SVECTOR *pos, int attached, int unused, void *da
         return NULL;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(BakudanWork));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(BakudanWork));
     if (work)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "bakudan.c");
