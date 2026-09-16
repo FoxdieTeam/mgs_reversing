@@ -13,16 +13,15 @@
 extern GM_CameraSystemWork        GM_Camera;
 extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
 
-int       SECTION(".bss") meryl72_800D5274;
 GM_CameraSystemWork SECTION(".bss") meryl72_camera_800D5278;
 int       SECTION(".bss") meryl72_800D52F4;
-SVECTOR   SECTION(".bss") meryl72_800D52F8;
+SVECTOR   SECTION(".bss") MERYL_position;
 
 void Meryl72ActionMain_800CBC44( Meryl72Work * );
 void s07c_meryl72_unk1_800CBCD8( Meryl72Work * );
 
-void s07c_meryl72_unk2_800D0220( void );
-void s07c_meryl72_unk2_800D025C( void );
+void ML9_Reset( void );
+void ML9_Empty( void );
 
 #define EXEC_LEVEL GV_ACTOR_PREV
 
@@ -150,7 +149,7 @@ void Meryl72Act_800C6D54( Meryl72Work *work )
     s07c_meryl72_800C6C48( work );
     work->fC04++;
 
-    meryl72_800D52F8 = work->control.mov;
+    MERYL_position = work->control.mov;
 }
 
 SVECTOR s07c_dword_800C32F0 = { 300, 1500, 300, 0 };
@@ -649,8 +648,8 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     work->fC04 = 0;
     work->fAF4 = 0;
 
-    s07c_meryl72_unk2_800D025C();
-    s07c_meryl72_unk2_800D0220();
+    ML9_Empty();
+    ML9_Reset();
 
     return 0;
 }

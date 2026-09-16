@@ -17,21 +17,7 @@ typedef struct _Work
     int     *visible;
 } Work;
 
-SVECTOR SECTION(".bss") s12c_800DA418;
-int SECTION(".bss") s12c_800DA420;
-int SECTION(".bss") s12c_dword_800DA424;
-
 #define EXEC_LEVEL GV_ACTOR_USER
-
-void WolfEye_800D3518()
-{
-    s12c_800DA418 = DG_ZeroVector;
-    s12c_800DA420 = 0;
-}
-
-void WolfEye_800D3554()
-{
-}
 
 void WolfEye_800D355C(POLY_FT4 *packs, int n_packs, DG_TEX *tex)
 {

@@ -131,6 +131,9 @@ SVECTOR s12c_dword_800C3440[2] = {{250, 0, 500}, {-250, 0, 500}};
 SVECTOR s12c_dword_800C3450 = {0, 0, 100};
 SVECTOR s12c_dword_800C3458 = {64512, 0, 0};
 
+extern SVECTOR MERYL_position;
+extern int     MERYL_flag;
+
 extern GM_CameraSystemWork GM_Camera;
 
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
@@ -2164,7 +2167,7 @@ void s12c_dog_800CE194(Work *work, int index)
 
     if (work->field_1608 == 1)
     {
-        work->field_168C = s12c_800DA418;
+        work->field_168C = MERYL_position;
         target.vx = 8500;
         target.vy = 0;
         target.vz = -9500;
@@ -2537,7 +2540,7 @@ void s12c_dog_800CEB74(Work *work, int index)
             control->turn.vy = work->field_152C[index].vy;
             Dog_800CBCF4(work, index);
             Dog_800CAB68(work, index, 16);
-            s12c_800DA420 &= ~1;
+            MERYL_flag &= ~1;
             break;
         }
         else if (work->field_151C[index] < 300)
@@ -3649,9 +3652,9 @@ void s12c_dog_800D16C0(Work *work, int index)
     {
         work->field_1580[index] = 60;
 
-        if (work->field_14F8[2] == 14 && (s12c_800DA420 & 1))
+        if (work->field_14F8[2] == 14 && (MERYL_flag & 1))
         {
-            s12c_800DA420 = (s12c_800DA420 & ~1) | 2;
+            MERYL_flag = (MERYL_flag & ~1) | 2;
         }
 
         if (index == 2 ||
@@ -3772,7 +3775,7 @@ void s12c_dog_800D187C(Work *work)
         {
             work->field_160C = 1;
             GM_GameStatus &= ~(STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_RADAR_OFF);
-            s12c_800DA420 &= ~1;
+            MERYL_flag &= ~1;
         }
         break;
     }
@@ -3977,7 +3980,7 @@ void s12c_dog_800D1DA0(Work *work)
         break;
     }
 
-    if (work->field_1608 == 1 && work->field_160C == 1 && (s12c_800DA420 & 1) != 0)
+    if (work->field_1608 == 1 && work->field_160C == 1 && (MERYL_flag & 1) != 0)
     {
         flag = 1;
 
@@ -4017,7 +4020,7 @@ void s12c_dog_800D1DA0(Work *work)
         }
         else
         {
-            s12c_800DA420 = (s12c_800DA420 & ~1) | 2;
+            MERYL_flag = (MERYL_flag & ~1) | 2;
         }
     }
 
