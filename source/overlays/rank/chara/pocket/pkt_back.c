@@ -1,10 +1,15 @@
 #include "game/game.h"
 #include "libgcl/libgcl.h"
 
-extern int rank_dword_800E1974;
+extern int         rank_dword_800E1970;
+extern int         rank_dword_800E1974;
+extern const char  rank_dword_800E07DC[];
 
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CEE0C.s")
+void *rank_800CEE0C( void );
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CEE90.s")
+void rank_800CEE90( char *node );
 
 void *rank_800CEF28( int count, int flag )
 {
@@ -51,8 +56,65 @@ void rank_800CF1D4( char *work )
     *(short *)( work + 0x1E ) = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CF1F4.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CF288.s")
+void *rank_800CF1F4( int id, int count, int flag, int a3 )
+{
+    char *work;
+    void *buf;
+
+    work = rank_800CEE0C();
+    if ( !work )
+    {
+        return 0;
+    }
+
+    *(short *)( work + 0x10 ) = count;
+    work[ 0x12 ] = flag;
+    work[ 0x1C ] = a3;
+
+    if ( count > 0 )
+    {
+        buf = rank_800CEF28( count, flag );
+        if ( !buf )
+        {
+            return 0;
+        }
+
+        *(int *)( work + 0x20 ) = (int)buf;
+    }
+
+    *(short *)( work + 0x24 ) = id;
+    return work;
+}
+
+int rank_800CF288( int max )
+{
+    int pow2;
+    int half;
+    int diff;
+    int result;
+
+    half = max;
+    pow2 = 1;
+
+    if ( max >= 2 )
+    {
+        do
+        {
+            half /= 2;
+            pow2 *= 2;
+        } while ( half >= 2 );
+    }
+
+    pow2 *= 2;
+    diff = pow2 - max;
+
+    do
+    {
+        result = GV_RandU( pow2 ) - diff;
+    } while ( result < 0 );
+
+    return result;
+}
 
 void rank_800CF2F0( unsigned short *work, int a1 )
 {
@@ -108,13 +170,148 @@ void rank_800CF3C8( char *work )
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D04A8.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D0648.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D0820.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800D090C.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800D09AC.s")
+void rank_800CEE90( char *node );
+
+void rank_800D090C( char *work )
+{
+    void *prim;
+
+    if ( rank_dword_800E1970 > 0 )
+    {
+        do
+        {
+            rank_800CEE90( (char *)rank_dword_800E1974 );
+        } while ( rank_dword_800E1970 > 0 );
+    }
+
+    prim = *(void **)( work + 0x2C );
+    if ( prim )
+    {
+        DG_DequeuePrim( prim );
+        DG_FreePrim( prim );
+    }
+
+    prim = *(void **)( work + 0x30 );
+    if ( prim )
+    {
+        DG_DequeuePrim( prim );
+        DG_FreePrim( prim );
+    }
+}
+
+void rank_800D09AC( char *work )
+{
+    int   i;
+    char *str;
+    int  *dst;
+
+    if ( GCL_GetOption( 'p' ) )
+    {
+        i = 0;
+        dst = (int *)( work + 0x64 );
+
+        for ( ;; )
+        {
+            str = GCL_NextStr();
+
+            if ( !str )
+            {
+                break;
+            }
+
+            if ( i == 1 )
+            {
+                break;
+            }
+
+            *dst++ = GCL_StrToInt( str );
+            i++;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D0A24.s")
+int rank_800D0A24( char *work );
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D0A70.s")
+int rank_800D0A70( char *work );
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D0ABC.s")
+int rank_800D0ABC( char *work );
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D0B08.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800D0B54.s")
+int rank_800D0B08( char *work );
+
+int rank_800D0B54( char *work )
+{
+    if ( rank_800D0B08( work ) < 0 )
+    {
+        return -1;
+    }
+
+    if ( rank_800D0ABC( work ) < 0 )
+    {
+        return -1;
+    }
+
+    if ( rank_800D0A70( work ) < 0 )
+    {
+        return -1;
+    }
+
+    if ( rank_800D0A24( work ) < 0 )
+    {
+        return -1;
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D0BC0.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800D0D24.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800D0DA0.s")
+int  rank_800D0BC0( char *work );
+void rank_800D0820( char *work );
+
+int rank_800D0D24( char *work, int map )
+{
+    GM_CurrentMap = map;
+    rank_800D09AC( work );
+
+    if ( rank_800D0B54( work ) < 0 )
+    {
+        return -1;
+    }
+
+    if ( rank_800D0BC0( work ) < 0 )
+    {
+        return -1;
+    }
+
+    *(GV_PAD **)( work + 0x58 ) = &GV_PadData[ 2 ];
+    *(int *)( work + 0x24 ) = 0;
+    *(unsigned int *)( work + 0x5C ) |= 0x100000;
+    rank_800D0820( work );
+    return 0;
+}
+
+void *rank_800D0DA0( int a0, int a1 )
+{
+    void *work;
+
+    rank_dword_800E1970 = 0;
+    GM_GameStatus |= STATE_ALL_OFF;
+    rank_dword_800E1974 = 0;
+
+    work = GV_NewActor( 5, 0x6C );
+    if ( work )
+    {
+        GV_SetNamedActor( work, (void *)rank_800D0820, (void *)rank_800D090C, rank_dword_800E07DC );
+
+        if ( rank_800D0D24( work, a1 ) < 0 )
+        {
+            GV_DestroyActor( work );
+            return 0;
+        }
+    }
+
+    return work;
+}
