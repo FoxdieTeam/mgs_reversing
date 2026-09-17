@@ -562,9 +562,6 @@ void UnsetCameraActCall(void);
 //watcher.c
 #define EN_FASEOUT 0x10000000
 
-// "low-poly heishi" ?
-#define HASH_LOPRYHEI   0xD7E3 // GV_StrCode("lopryhei")
-
 #define TARGET_FLAG ( TARGET_POWER | TARGET_CAPTURE | TARGET_PUSH | TARGET_TOUCH | TARGET_SEEK | TARGET_AVAIL )
 
 //check.c

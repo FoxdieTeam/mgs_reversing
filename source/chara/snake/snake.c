@@ -131,7 +131,7 @@ void CheckSnakeDead_8004E384(SnaInitWork *snake)
         snake->control.skip_flag |= CTRL_SKIP_TRAP;
         GM_SetPlayerStatusFlag(PLAYER_PAD_OFF | PLAYER_MENU_DISABLE);
         sna_set_flags1_8004E2F4(snake, SNA_FLAG1_UNK23);
-        GM_GameStatus |= (STATE_MENU_OFF | STATE_PADRELEASE);
+        GM_GameStatus |= (STATE_MENU_DISABLE | STATE_PADRELEASE);
 
         if (GM_GameOverTimer != -2)
         {

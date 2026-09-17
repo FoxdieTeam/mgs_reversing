@@ -3527,7 +3527,7 @@ static void Die(Work *work)
     GV_ACT *weapon;
     GV_ACT *gunlight;
 
-    GM_FreeHomingTarget(work->homing);
+    GM_ResetHomingTarget(work->homing);
     shadow = work->shadow;
     if (shadow != NULL)
     {
@@ -3561,7 +3561,7 @@ static int InitTarget(Work *work)
 
     GM_SetTarget(target, ( TARGET_AVAIL | TARGET_FLAG ), ENEMY_SIDE, &target_size);
     GM_SetPowerTarget(target, POWER_DECREASE, -1, 192, 10, &DG_ZeroVector);
-    work->homing = GM_AllocHomingTarget(&work->body.objs->objs[6].world, &work->control);
+    work->homing = GM_SetHomingTarget(&work->body.objs->objs[6].world, &work->control);
     work->homing->flag = TRUE;
     return 0;
 }

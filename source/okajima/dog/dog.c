@@ -2481,7 +2481,7 @@ void s12c_dog_800CEB74(Work *work, int index)
     {
     case 0:
         work->field_1510[index] = 1;
-        GM_GameStatus |= STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_RADAR_OFF;
+        GM_GameStatus |= STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_RADAR_OFF;
         work->field_10B0[index] = control->mov;
         Dog_800CA458(work, 18, index);
         control->turn.vy = work->field_152C[index].vy;
@@ -3770,7 +3770,7 @@ void s12c_dog_800D187C(Work *work)
         if (--work->field_1614 < 0)
         {
             work->field_160C = 1;
-            GM_GameStatus &= ~(STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_RADAR_OFF);
+            GM_GameStatus &= ~(STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_RADAR_OFF);
             MERYL_flag &= ~1;
         }
         break;
@@ -4169,7 +4169,7 @@ void s12c_dog_800D1DA0(Work *work)
                 s12c_dog_800D1B54(work, i);
                 s12c_dog_800CAD8C(work, i);
 
-                if ((GM_GameStatus & (STATE_CUT_IN | STATE_BEHIND_CAMERA)) != 0 ||
+                if ((GM_GameStatus & STATE_CAM_CHANGE) != 0 ||
                     GM_Camera.first_person != 0)
                 {
                     if (work->field_448[i] != 1)
@@ -4247,7 +4247,7 @@ void DogDie_800D2798(Work *work)
         GM_FreeObject(&work->field_19C[i]);
         GM_FreePrim(work->field_167C[i]);
         GM_FreeTarget(work->field_1188[i]);
-        GM_FreeHomingTarget(work->field_126C[i]);
+        GM_ResetHomingTarget(work->field_126C[i]);
     }
 }
 
@@ -4535,7 +4535,7 @@ int s12c_dog_800D295C(Work *work, int name, int map_name)
             Dog_800CAFB0(work, i);
         }
 
-        work->field_126C[i] = GM_AllocHomingTarget(&object->objs->objs[5].world, control);
+        work->field_126C[i] = GM_SetHomingTarget(&object->objs->objs[5].world, control);
         work->field_126C[i]->flag = 1;
         prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->field_161C[i], NULL);
         work->field_167C[i] = prim;

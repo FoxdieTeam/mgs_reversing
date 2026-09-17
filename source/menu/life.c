@@ -99,7 +99,7 @@ void menu_draw_bar(MenuPrim *prim, long x, long y, long rest, long now, long max
     int        diff;
     int        width;
 
-    if (GM_GameStatus & (STATE_TAKING_PHOTO | STATE_LIFEBAR_OFF | STATE_DEMO))
+    if (GM_GameStatus & (STATE_TAKING_PHOTO | STATE_LIFE_OFF | STATE_DEMO))
     {
         return;
     }
@@ -376,7 +376,7 @@ void menu_life_update_8003F530(MenuWork *work, u_long *ot)
 
             if (GM_GameStatus & STATE_HIDE_LIFEBAR)
             {
-                GM_GameStatus = (GM_GameStatus & ~STATE_HIDE_LIFEBAR) | STATE_LIFEBAR_OFF;
+                GM_GameStatus = (GM_GameStatus & ~STATE_HIDE_LIFEBAR) | STATE_LIFE_OFF;
             }
             // if oxygen is full then hide the oxygen bar
             if (GM_O2 == 1024)

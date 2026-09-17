@@ -1480,7 +1480,7 @@ void s12a_wolf2_800D1EBC(Wolf2Work *work)
             {
                 work->f9F0 = 1;
                 NewRifleSightFast();
-                GM_GameStatus |= ( STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF );
+                GM_GameStatus |= ( STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF );
             }
 
             s12a_wolf2_800D1BE8(work);

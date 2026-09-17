@@ -198,8 +198,8 @@ void    GM_GetTargets(int *count, TARGET **targets);
 
 /* homing.c */
 void    GM_ResetHomingTargets(void);
-HOMING *GM_AllocHomingTarget(MATRIX *world, CONTROL *control);
-void    GM_FreeHomingTarget(HOMING *hom);
+HOMING *GM_SetHomingTarget(MATRIX *world, CONTROL *control);
+void    GM_ResetHomingTarget(HOMING *hom);
 void    GM_GetHomingTarget(MATRIX *world, int ang, int *yaw, int *pitch, int map);
 void    GM_GetHomingTarget2(MATRIX *world, int ang, int *yaw, int *pitch, int map, int max_dist, int max_ang);
 
