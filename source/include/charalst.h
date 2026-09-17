@@ -228,7 +228,7 @@
 #define CHARA_SNOWSTORM         { 0xa6f5, NewSnowStorm }            // GV_StrCode("雪嵐") kojo/sstorm.c
 #define CHARA_SNOWAREA          { 0x901e, NewSnowArea }             // okajima/snowarea.c
 #define CHARA_SOUNDTEST         { 0x4efc, NewSoundTest }            // GV_StrCode("サウンドテスト") game/sndtst.c
-#define CHARA_SPECIALMOVIE      { 0xfaa8, ? }                       // chara/movie/movie.c
+#define CHARA_SPECIALMOVIE      { 0xfaa8, ? }                       // GV_StrCode("スペシャルムービー") chara/movie/movie.c
 #define CHARA_SPHERE            { 0x73ea, NewSphere }               // GV_StrCode("天球") thing/sphere.c
 #define CHARA_SPHERE2           { 0xbee1, NewSphere2 }              // GV_StrCode("天球２") thing/sphere2.c
 #define CHARA_STAGESELECT       { 0xd2f6, NewSelect }               // GV_StrCode("ステージセレクト") game/select.c
@@ -238,7 +238,7 @@
 #define CHARA_TEXSCROLL         { 0x6865, NewTexScroll }            // GV_StrCode("テクスチャスクロール") takabe/tex_scrl.c
 #define CHARA_TEXTURE           { 0x1ad3, NewTextureLamp }          // GV_StrCode("テクスチャ") game/lamp.c
 #define CHARA_TOBCNT            { 0xaefb, NewToBeContinued }        // game/tobcnt.c
-#define CHARA_TORTURE           { 0xe608, NewTorture }              // chara/torture/torture.c
+#define CHARA_TORTURE           { 0xe608, NewTorture }              // GV_StrCode("拷問スネーク") chara/torture/torture.c
 #define CHARA_TRUCKTRAP         { 0xcb3a, NewTruckTrap }            // GV_StrCode("トラック移動トラップ") takabe/tracktrp.c
 #define CHARA_TR_BED            { 0x2a21, NewTortureBed }           // GV_StrCode("拷問台") chara/torture/bed.c
 #define CHARA_TR_OCELOT         { 0x050c, NewTortureOcelot }        // GV_StrCode("拷問オセロット") chara/torture/revolver.c

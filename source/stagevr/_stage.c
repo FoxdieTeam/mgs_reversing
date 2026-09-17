@@ -297,7 +297,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xa6f5, NULL },   //  CHARA_SNOWSTORM,    /* chara 雪嵐 */
     { 0x901e, NULL },   //  CHARA_SNOWAREA,
     { 0x4efc, NULL },   //  CHARA_SOUNDTEST,    /* chara サウンドテスト */
-    { 0xfaa8, NULL },   //  CHARA_SPECIALMOVIE,
+    { 0xfaa8, NULL },   //  CHARA_SPECIALMOVIE, /* chara スペシャルムービー */
     { 0x73ea, NULL },   //  CHARA_SPHERE,       /* chara 天球 */
     { 0xbee1, NULL },   //  CHARA_SPHERE2,      /* chara 天球２ */
     { 0xd2f6, NULL },   //  CHARA_STAGESELECT,  /* chara ステージセレクト */
@@ -307,7 +307,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x6865, NULL },   //  CHARA_TEXSCROLL,    /* chara テクスチャスクロール */
     { 0x1ad3, NULL },   //  CHARA_TEXTURE,      /* chara テクスチャ */
     { 0xaefb, NULL },   //  CHARA_TOBCNT,
-    { 0xe608, NULL },   //  CHARA_TORTURE,
+    { 0xe608, NULL },   //  CHARA_TORTURE,      /* chara 拷問スネーク */
     { 0xcb3a, NULL },   //  CHARA_TRUCKTRAP,    /* chara トラック移動トラップ */
     { 0x2a21, NULL },   //  CHARA_TR_BED,       /* chara 拷問台 */
     { 0x050c, NULL },   //  CHARA_TR_OCELOT,    /* chara 拷問オセロット */

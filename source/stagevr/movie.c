@@ -2,7 +2,7 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    { 0xfaa8, (NEWCHARA *)0x800d15b8 }, //  CHARA_SPECIALMOVIE,
+    { 0xfaa8, (NEWCHARA *)0x800d15b8 }, //  CHARA_SPECIALMOVIE, /* chara スペシャルムービー */
     { 0x5345, (NEWCHARA *)0x800cb050 }, //  CHARA_5345_MOVIE,
     { 0xd44e, (NEWCHARA *)0x800d8194 }, //  CHARA_VRWINDOW,     /* chara ＶＲウィンドウ */
     { 0xa12e, (NEWCHARA *)0x800d6c04 }, //  CHARA_FADEIO,       /* chara 白黒フェド */
