@@ -121,7 +121,7 @@
 #define CHARAID_MERYL72         0xe271  //
 #define CHARAID_MGREX           0x4754  //
 #define CHARAID_MG_DEMO1        0x954b  //
-#define CHARAID_1787_HIND       0x1787  //
+#define CHARAID_MI24HIND        0x1787  //
 #define CHARAID_MINENE          0xb30a  //
 #define CHARAID_MIRROR          0xc218  //
 #define CHARAID_SAFETY          0xa2b5  //
@@ -151,9 +151,9 @@
 #define CHARAID_PANEL2          0xdd95  // GV_StrCode("パネル２")
 #define CHARAID_PAPER           0x5f02  // GV_StrCode("書類")
 #define CHARAID_PATOLAMP        0x30ce  // GV_StrCode("パトランプ")
-#define CHARAID_FDB6_POCKET     0xfdb6  //
-#define CHARAID_8FDC_POCKET     0x8fdc  //
-#define CHARAID_6414_POCKET     0x6414  //
+#define CHARAID_PDA_FDB6        0xfdb6  //
+#define CHARAID_PDA_8FDC        0x8fdc  //
+#define CHARAID_PDA_6414        0x6414  //
 #define CHARAID_AA13            0xaa13  //
 #define CHARAID_CF00            0xcf00  //
 #define CHARAID_PERAPICT        0x10ff  // GV_StrCode("ぺら絵")
@@ -211,7 +211,7 @@
 #define CHARAID_SNOWSTORM       0xa6f5  // GV_StrCode("雪嵐")
 #define CHARAID_SNOWAREA        0x901e  //
 #define CHARAID_SOUNDTEST       0x4efc  // GV_StrCode("サウンドテスト")
-#define CHARAID_FAA8_MOVIE      0xfaa8  //
+#define CHARAID_SPECIALMOVIE    0xfaa8  //
 #define CHARAID_SPHERE          0x73ea  // GV_StrCode("天球")
 #define CHARAID_SPHERE2         0xbee1  // GV_StrCode("天球２")
 #define CHARAID_STAGESELECT     0xd2f6  // GV_StrCode("ステージセレクト")
