@@ -138,7 +138,7 @@
 #define CHARA_MERYL72           { 0xe271, NewMeryl72_800C7BC4 }     // animal/meryl72/meryl72.c
 #define CHARA_MGREX             { 0x4754, ? }                       // kojo/mgrex.c
 #define CHARA_MG_DEMO1          { 0x954b, ? }                       // takabe/mg_demo1.c
-#define CHARA_1787_HIND         { 0x1787, NewHindBoss }             // kojo/hind.c
+#define CHARA_MI24HIND          { 0x1787, NewHindBoss }             // kojo/hind.c
 #define CHARA_MINENE            { 0xb30a, ? }                       // enemy/minene.c
 #define CHARA_MIRROR            { 0xc218, NewMirror }               // takabe/mirror.c
 #define CHARA_SAFETY            { 0xa2b5, Safety_800C47A0 }         // safety.c
@@ -168,9 +168,9 @@
 #define CHARA_PANEL2            { 0xdd95, NewPanel2 }               // GV_StrCode("パネル２") takabe/panel2.c
 #define CHARA_PAPER             { 0x5f02, NewPaper }                // GV_StrCode("書類") takabe/paper.c
 #define CHARA_PATOLAMP          { 0x30ce, NewPatrolLamp }           // GV_StrCode("パトランプ") okajima/pato_lmp.c
-#define CHARA_FDB6_POCKET       { 0xfdb6, ? }                       // menu/pocket.c
-#define CHARA_8FDC_POCKET       { 0x8fdc, ? }                       // --> menu/pocket.c
-#define CHARA_6414_POCKET       { 0x6414, ? }                       // --> menu/pocket.c
+#define CHARA_PDA_FDB6          { 0xfdb6, ? }                       // menu/pocket.c
+#define CHARA_PDA_8FDC          { 0x8fdc, ? }                       // --> menu/pocket.c
+#define CHARA_PDA_6414          { 0x6414, ? }                       // --> menu/pocket.c
 #define CHARA_AA13              { 0xaa13, ? }                       // ???
 #define CHARA_CF00              { 0xcf00, ? }                       // ???
 #define CHARA_PERAPICT          { 0x10ff, ? }                       // GV_StrCode("ぺら絵") chara/others/perapict.c
@@ -228,7 +228,7 @@
 #define CHARA_SNOWSTORM         { 0xa6f5, NewSnowStorm }            // GV_StrCode("雪嵐") kojo/sstorm.c
 #define CHARA_SNOWAREA          { 0x901e, NewSnowArea }             // okajima/snowarea.c
 #define CHARA_SOUNDTEST         { 0x4efc, NewSoundTest }            // GV_StrCode("サウンドテスト") game/sndtst.c
-#define CHARA_FAA8_MOVIE        { 0xfaa8, ? }                       // chara/movie/movie.c
+#define CHARA_SPECIALMOVIE      { 0xfaa8, ? }                       // chara/movie/movie.c
 #define CHARA_SPHERE            { 0x73ea, NewSphere }               // GV_StrCode("天球") thing/sphere.c
 #define CHARA_SPHERE2           { 0xbee1, NewSphere2 }              // GV_StrCode("天球２") thing/sphere2.c
 #define CHARA_STAGESELECT       { 0xd2f6, NewSelect }               // GV_StrCode("ステージセレクト") game/select.c
@@ -306,8 +306,8 @@
 #define CHARA_3D78              { 0x3d78, ? }                       // (PSX-ONLY)
 
 /*--- Polygon Demo Charas ---*/
-#define DEMO_EXPLOSION          { 0x0001, ? }                       // bullet/blast.c
-#define DEMO_SMOKE              { 0x0002, ? }                       // --> anime/animconv/anime.c
+#define DEMO_EXPLOSION          { 0x0001, NewBlast }                // bullet/blast.c
+#define DEMO_SMOKE              { 0x0002, AN_Smoke_800CE08C }       // --> anime/animconv/anime.c
 #define DEMO_FADEIN             { 0x0003, NewFadeInOut }            // takabe/fadeio.c
 #define DEMO_FADEOUT            { 0x0004, NewFadeInOut }            // takabe/fadeio.c
 #define DEMO_TEXT               { 0x0005, NewTelop }                // takabe/telop.c
@@ -334,7 +334,7 @@
 #define DEMO_OPTICSCAMOUFLAGE   { 0x001a, NewKogaku2 }              // equip/kogaku2.c
 #define DEMO_OPTICSCAMOUFLAGE2  { 0x001b, NewKogaku3 }              // equip/kogaku2.c
 #define DEMO_ENVIRONMENTMAPPING { 0x001c, NewEnvmap3_800CA3A4 }     // takabe/envmap3.c
-#define DEMO_PLASMA             { 0x001d, ? }                       // okajima/plasma.c
+#define DEMO_PLASMA             { 0x001d, NewPlasma_800CD1A4 }      // okajima/plasma.c
 #define DEMO_WINDCIRCLE         { 0x001e, NewWindcrcl_800CF6BC }    // takabe/windcrcl.c
 #define DEMO_SEPIA              { 0x001f, NewSepia_800C4F9C }       // takabe/sepia.c
 #define DEMO_METALGEARLASER     { 0x0020, ? }                       // kojo/mgrexlzr.c
@@ -394,6 +394,7 @@
 // XXX pointer types.
 
 extern NEWCHARA AN_Breath;                      /* --> anime/animconv/anime.c   */
+extern NEWCHARA AN_Smoke_800CE08C;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA AN_Smoke_800CE164;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA NewAnime_8005E574;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA NewAnime_8005E6A4;              /* --> anime/animconv/anime.c   */
@@ -411,6 +412,7 @@ extern NEWCHARA NewZako11E;                     /* animal/zako11e/zako11e.c     
 extern NEWCHARA NewZako11ECommander;            /* animal/zako11e/zk11ecom.c    */
 extern NEWCHARA NewZako11F;                     /* animal/zako11f/zako11f.c     */
 extern NEWCHARA NewZako11FCommander;            /* animal/zako11f/zk11fcom.c    */
+extern NEWCHARA NewBlast;                       /* bullet/blast.c               */
 extern NEWCHARA NewScenarioJirai;               /* bullet/jirai.c               */
 extern NEWCHARA NewHindBoss;                    /* kojo/hind.c                  */
 extern NEWCHARA NewHind;                        /* chara/hind/hind.c            */
@@ -499,6 +501,7 @@ extern NEWCHARA NewMouse;                       /* okajima/mouse.c              
 extern NEWCHARA NewPilotLamp;                   /* okajima/p_lamp.c             */
 extern NEWCHARA NewPatrolLamp;                  /* okajima/pato_lmp.c           */
 extern NEWCHARA NewPlasmaGcl;                   /* okajima/plasma.c             */
+extern NEWCHARA NewPlasma_800CD1A4;             /* okajima/plasma.c             */
 extern NEWCHARA NewRedAlert;                    /* okajima/red_alrt.c           */
 extern NEWCHARA NewRedAlert2;                   /* okajima/red_alrt.c           */
 extern NEWCHARA RedAlert_800C4F48;              /* okajima/red_alrt.c           */

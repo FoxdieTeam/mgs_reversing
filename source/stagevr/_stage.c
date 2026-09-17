@@ -207,7 +207,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xe271, NULL },   //  CHARA_MERYL72,
     { 0x4754, NULL },   //  CHARA_MGREX,
     { 0x954b, NULL },   //  CHARA_MG_DEMO1,
-    { 0x1787, NULL },   //  CHARA_1787_HIND,
+    { 0x1787, NULL },   //  CHARA_MI24HIND,
     { 0xb30a, NULL },   //  CHARA_MINENE,
     { 0xc218, NULL },   //  CHARA_MIRROR,
     { 0xa2b5, NULL },   //  CHARA_SAFETY,
@@ -237,9 +237,9 @@ CHARA _StageCharacterEntries[] = {
     { 0xdd95, NULL },   //  CHARA_PANEL2,       /* chara パネル２ */
     { 0x5f02, NULL },   //  CHARA_PAPER,        /* chara 書類 */
     { 0x30ce, NULL },   //  CHARA_PATOLAMP,     /* chara パトランプ */
-    { 0xfdb6, NULL },   //  CHARA_FDB6_POCKET,
-    { 0x8fdc, NULL },   //  CHARA_8FDC_POCKET,
-    { 0x6414, NULL },   //  CHARA_6414_POCKET,
+    { 0xfdb6, NULL },   //  CHARA_PDA_FDB6,
+    { 0x8fdc, NULL },   //  CHARA_PDA_8FDC,
+    { 0x6414, NULL },   //  CHARA_PDA_6414,
     { 0xaa13, NULL },   //  CHARA_AA13,
     { 0xcf00, NULL },   //  CHARA_CF00,
     { 0x10ff, NULL },   //  CHARA_PERAPICT,     /* chara ぺら絵 */
@@ -297,7 +297,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xa6f5, NULL },   //  CHARA_SNOWSTORM,    /* chara 雪嵐 */
     { 0x901e, NULL },   //  CHARA_SNOWAREA,
     { 0x4efc, NULL },   //  CHARA_SOUNDTEST,    /* chara サウンドテスト */
-    { 0xfaa8, NULL },   //  CHARA_FAA8_MOVIE,
+    { 0xfaa8, NULL },   //  CHARA_SPECIALMOVIE,
     { 0x73ea, NULL },   //  CHARA_SPHERE,       /* chara 天球 */
     { 0xbee1, NULL },   //  CHARA_SPHERE2,      /* chara 天球２ */
     { 0xd2f6, NULL },   //  CHARA_STAGESELECT,  /* chara ステージセレクト */

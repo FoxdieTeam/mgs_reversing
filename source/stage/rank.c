@@ -9,8 +9,8 @@ CHARA _StageCharacterEntries[] = {
     { 0xd44e, (NEWCHARA *)0x800dc850 }, //  CHARA_VRWINDOW,     /* chara ＶＲウィンドウ */
     { 0x9302, (NEWCHARA *)0x800cbca8 }, //  CHARA_SAVE_DATA,    /* chara セーブデータ */
     { 0xaa13, (NEWCHARA *)0x800ccf10 }, //  CHARA_AA13,
-    { 0xfdb6, (NEWCHARA *)0x800ccfc4 }, //  CHARA_FDB6_POCKET,
-    { 0x6414, (NEWCHARA *)0x800cedcc }, //  CHARA_6414_POCKET,
+    { 0xfdb6, (NEWCHARA *)0x800ccfc4 }, //  CHARA_PDA_FDB6,
+    { 0x6414, (NEWCHARA *)0x800cedcc }, //  CHARA_PDA_6414,
     { 0xcf00, (NEWCHARA *)0x800ccec4 }, //  CHARA_CF00,
 
     CHARA_END
