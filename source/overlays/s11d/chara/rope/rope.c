@@ -996,7 +996,7 @@ void s11d_rope_800C868C(Work *work)
     GM_FreePrim(work->field_A14);
     GM_FreePrim(work->field_7DC);
 
-    GM_GameStatus &= ~STATE_MENU_OFF;
+    GM_GameStatus &= ~STATE_MENU_DISABLE;
 
     if (GM_PlayerControl == &work->control)
     {

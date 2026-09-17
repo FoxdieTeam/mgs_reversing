@@ -93,7 +93,7 @@ void PLampDie_800CCCE0(Work *work)
 {
     if (work->cinema_screen)
     {
-        GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
+        GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF);
         NewCinemaScreenClose(work->cinema_screen);
     }
 
@@ -176,7 +176,7 @@ void PLamp_800CCE6C(Work *work)
             break;
         }
 
-        GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
+        GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF;
         work->cinema_screen = NewCinemaScreen(2000000000, 0);
         work->field_1C4 = 0;
         work->field_1C8 = 0;

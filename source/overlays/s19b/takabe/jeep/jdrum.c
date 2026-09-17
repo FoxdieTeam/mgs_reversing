@@ -145,7 +145,7 @@ static void Act(Work *work)
 
 static void Die(Work *work)
 {
-    GM_FreeHomingTarget(work->hom);
+    GM_ResetHomingTarget(work->hom);
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
     GM_FreeTarget(work->target);
@@ -201,7 +201,7 @@ static int GetResources(Work *work, int name, int where)
 
     InitTarget(work);
 
-    work->hom = GM_AllocHomingTarget(&body->objs->world, &work->control);
+    work->hom = GM_SetHomingTarget(&body->objs->world, &work->control);
     if (work->hom)
     {
         work->hom->flag = 1;

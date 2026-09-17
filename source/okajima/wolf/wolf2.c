@@ -321,7 +321,7 @@ void wolf2_Act(Wolf2Work *work)
             if (GM_PlayerPosition.vz < -14000 && work->fA28 == 0)
             {
                 GM_Weapon = WP_None;
-                GM_GameStatus |= (STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
+                GM_GameStatus |= (STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF);
 
                 if (GM_Item != IT_Box1 &&
                     GM_Item != IT_Box2 &&

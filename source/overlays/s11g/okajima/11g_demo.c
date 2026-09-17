@@ -608,7 +608,7 @@ static int GetResources(Work *work, int name, int map)
     GV_DemoPadStatus[0] = 0;
     GV_DemoPadStatus[1] = 0;
 
-    GM_GameStatus |= ( STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF | 0x40 );
+    GM_GameStatus |= ( STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF | 0x40 );
 
     if (s11g_11g_demo_800CB534(work) < 0)
     {

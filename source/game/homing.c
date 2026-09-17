@@ -29,7 +29,7 @@ void GM_ResetHomingTargets(void)
     }
 }
 
-HOMING *GM_AllocHomingTarget(MATRIX *world, CONTROL *control)
+HOMING *GM_SetHomingTarget(MATRIX *world, CONTROL *control)
 {
     HOMING *hom;
     int     i;
@@ -58,7 +58,7 @@ HOMING *GM_AllocHomingTarget(MATRIX *world, CONTROL *control)
     return hom;
 }
 
-void GM_FreeHomingTarget(HOMING *hom)
+void GM_ResetHomingTarget(HOMING *hom)
 {
     if (hom)
     {

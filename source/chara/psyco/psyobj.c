@@ -367,7 +367,7 @@ static void Die( Work *work )
 
     if ( work->flag & 0x4 )
     {
-        if ( work->hom != NULL ) GM_FreeHomingTarget( work->hom );
+        if ( work->hom != NULL ) GM_ResetHomingTarget( work->hom );
     }
 
     GM_FreeControl( &work->control );
@@ -445,7 +445,7 @@ static int InitTarget( Work *work )
 
     if ( work->flag & 0x4 )
     {
-        work->hom = GM_AllocHomingTarget( &work->body.objs->world, &work->control );
+        work->hom = GM_SetHomingTarget( &work->body.objs->world, &work->control );
         work->hom->flag = 0;
     }
     else

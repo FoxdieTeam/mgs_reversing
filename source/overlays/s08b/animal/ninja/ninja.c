@@ -495,7 +495,7 @@ void s08b_ninja_800C8798(Work *work) // Die
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
     GM_FreeObject(&work->weapon);
-    GM_FreeHomingTarget(work->field_910);
+    GM_ResetHomingTarget(work->field_910);
     GV_DestroyActorQuick(work->field_1A20);
     GV_DestroyActorQuick(work->field_1A24);
 
@@ -1162,7 +1162,7 @@ void s08b_bunsin2_800CF704(Work *work)
         s08b_dword_800C3450 = 0;
         GM_AlertModeSet(4);
         s08b_bunsin2_800D53E8(1, 0xEA60);
-        GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40;
+        GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40;
         GM_VoxStream(work->field_1A98[0], 0);
         s08b_ninja_800C79D4(0);
         work->field_19B4 = work->field_1A28;
@@ -1177,7 +1177,7 @@ void s08b_bunsin2_800CF704(Work *work)
             work->field_1964 = 0;
             work->field_1966 = r;
             work->field_19D4 = 0;
-            GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40);
+            GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40);
             s08b_bunsin2_800CEB40(work);
             work->field_19C4 = 3;
             work->field_19C8 = 0;
@@ -1221,7 +1221,7 @@ void s08b_bunsin2_800CF880(Work *work)
             work->field_1964 = 0;
             work->field_1966 = s;
             work->field_19D4 = 0;
-            GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40);
+            GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40);
             s08b_bunsin2_800CEB40(work);
             work->field_19C4 = 1;
             work->field_19C8 = 0;
@@ -2088,7 +2088,7 @@ int s08b_bunsin2_800D1638(Work *work)
     if (s >= 0x83 && GM_StreamStatus() == -1)
     {
         s08b_ninja_800C79D4(2);
-        GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40);
+        GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40);
         s08b_bunsin2_800D5434();
         return 1;
     }
@@ -2146,7 +2146,7 @@ int s08b_bunsin2_800D17F8(Work *work)
         }
         if (GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
-            GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40;
+            GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40;
             s08b_ninja_800C79D4(7);
         }
     }
@@ -2207,7 +2207,7 @@ int s08b_bunsin2_800D1A18(Work *work)
     if (work->field_19D0 >= 0x83 && GM_StreamStatus() == -1)
     {
         s08b_ninja_800C79D4(1);
-        GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40);
+        GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40);
         s08b_bunsin2_800D5434();
         return 1;
     }
@@ -2228,7 +2228,7 @@ int s08b_bunsin2_800D1AF8(Work *work)
         }
         if (GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
-            GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40;
+            GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40;
             s08b_ninja_800C79D4(8);
         }
     }
@@ -2258,7 +2258,7 @@ int s08b_bunsin2_800D1AF8(Work *work)
     if (work->field_19D0 >= 0xE7 && GM_StreamStatus() == -1)
     {
         s08b_ninja_800C79D4(1);
-        GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_PADRELEASE | 0x40);
+        GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40);
         s08b_bunsin2_800D5434();
         return 1;
     }

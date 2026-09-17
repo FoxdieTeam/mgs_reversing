@@ -887,11 +887,11 @@ static int MenuCmd(char *top)
     {
         if (!(GCL_GetNextInt() & 1))
         {
-            GM_GameStatus |= STATE_MENU_OFF;
+            GM_GameStatus |= STATE_MENU_DISABLE;
         }
         else
         {
-            GM_GameStatus &= ~STATE_MENU_OFF;
+            GM_GameStatus &= ~STATE_MENU_DISABLE;
         }
     }
 
@@ -900,11 +900,11 @@ static int MenuCmd(char *top)
         switch (GCL_GetNextInt())
         {
         case 0:
-            GM_GameStatus |= STATE_LIFEBAR_OFF;
+            GM_GameStatus |= STATE_LIFE_OFF;
             break;
         case 1:
         case 3:
-            GM_GameStatus &= ~STATE_LIFEBAR_OFF;
+            GM_GameStatus &= ~STATE_LIFE_OFF;
             break;
         case 2:
             GM_GameStatus |= STATE_HIDE_LIFEBAR;

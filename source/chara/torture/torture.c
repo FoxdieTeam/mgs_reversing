@@ -1395,7 +1395,7 @@ void s03b_torture_800C5AF8(Work *work, int arg1)
         {
             work->f800 |= 0x4;
 
-            GM_GameStatus |= STATE_LIFEBAR_OFF;
+            GM_GameStatus |= STATE_LIFE_OFF;
             TortureInfoKill();
 
             s03b_torture_800C447C(work, HASH_MODE, 2);
@@ -1461,7 +1461,7 @@ void s03b_torture_800C5CC8(Work *work, int arg1)
             GM_GameStatus &= ~STATE_PADRELEASE;
             GM_CallSystemCallbackProc(0, 0);
 
-            GM_GameStatus |= STATE_MENU_OFF | STATE_PAUSE_OFF | STATE_RADIO_OFF;
+            GM_GameStatus |= STATE_MENU_DISABLE | STATE_PAUSE_OFF | STATE_RADIO_OFF;
             NewGameOver(FALSE);
         }
         break;
@@ -1721,7 +1721,7 @@ void Torture_800C6400(Work *work)
         work->f81A = 0;
         work->f818 = 0;
         work->f80C = 0;
-        GM_GameStatus |= STATE_PADRELEASE | STATE_LIFEBAR_OFF;
+        GM_GameStatus |= STATE_PADRELEASE | STATE_LIFE_OFF;
         work->f802 |= 0x8;
     }
 
