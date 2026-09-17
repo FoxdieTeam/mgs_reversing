@@ -129,8 +129,8 @@ SVECTOR s12c_dword_800C3440[2] = {{250, 0, 500}, {-250, 0, 500}};
 SVECTOR s12c_dword_800C3450 = {0, 0, 100};
 SVECTOR s12c_dword_800C3458 = {64512, 0, 0};
 
-extern SVECTOR MERYL_position;
-extern int     MERYL_flag;
+extern SVECTOR KORE_GuestPosition;
+extern int     KORE_GuestFlag;
 
 void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
 void  AN_Breath(MATRIX *world);
@@ -2163,7 +2163,7 @@ void s12c_dog_800CE194(Work *work, int index)
 
     if (work->field_1608 == 1)
     {
-        work->field_168C = MERYL_position;
+        work->field_168C = KORE_GuestPosition;
         target.vx = 8500;
         target.vy = 0;
         target.vz = -9500;
@@ -2536,7 +2536,7 @@ void s12c_dog_800CEB74(Work *work, int index)
             control->turn.vy = work->field_152C[index].vy;
             Dog_800CBCF4(work, index);
             Dog_800CAB68(work, index, 16);
-            MERYL_flag &= ~1;
+            KORE_GuestFlag &= ~1;
             break;
         }
         else if (work->field_151C[index] < 300)
@@ -3648,9 +3648,9 @@ void s12c_dog_800D16C0(Work *work, int index)
     {
         work->field_1580[index] = 60;
 
-        if (work->field_14F8[2] == 14 && (MERYL_flag & 1))
+        if (work->field_14F8[2] == 14 && (KORE_GuestFlag & 1))
         {
-            MERYL_flag = (MERYL_flag & ~1) | 2;
+            KORE_GuestFlag = (KORE_GuestFlag & ~1) | 2;
         }
 
         if (index == 2 ||
@@ -3771,7 +3771,7 @@ void s12c_dog_800D187C(Work *work)
         {
             work->field_160C = 1;
             GM_GameStatus &= ~(STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_RADAR_OFF);
-            MERYL_flag &= ~1;
+            KORE_GuestFlag &= ~1;
         }
         break;
     }
@@ -3976,7 +3976,7 @@ void s12c_dog_800D1DA0(Work *work)
         break;
     }
 
-    if (work->field_1608 == 1 && work->field_160C == 1 && (MERYL_flag & 1) != 0)
+    if (work->field_1608 == 1 && work->field_160C == 1 && (KORE_GuestFlag & 1) != 0)
     {
         flag = 1;
 
@@ -4016,7 +4016,7 @@ void s12c_dog_800D1DA0(Work *work)
         }
         else
         {
-            MERYL_flag = (MERYL_flag & ~1) | 2;
+            KORE_GuestFlag = (KORE_GuestFlag & ~1) | 2;
         }
     }
 

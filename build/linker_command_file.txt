@@ -897,7 +897,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
     include "{{OBJ_DIR}}\okajima\dog\dog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\okajima\dog\think9.obj", overlay
+    include "{{OBJ_DIR}}\kore\guest.obj", overlay
     include "{{OBJ_DIR}}\okajima\dog\wolf_eye.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fog.obj", overlay
@@ -931,7 +931,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
     include "{{OBJ_DIR}}\okajima\dog\dog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\okajima\dog\think9.obj", overlay
+    include "{{OBJ_DIR}}\kore\guest.obj", overlay
     include "{{OBJ_DIR}}\okajima\dog\wolf_eye.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fog.obj", overlay
@@ -1420,6 +1420,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\meryl72\think.obj", overlay
     include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
     include "{{OBJ_DIR}}\animal\meryl72\think9.obj", overlay ; name needed
+    include "{{OBJ_DIR}}\kore\guest.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
@@ -2557,6 +2558,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\meryl72\think.obj", overlay
     include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
     include "{{OBJ_DIR}}\animal\meryl72\think9.obj", overlay ; name needed
+    include "{{OBJ_DIR}}\kore\guest.obj", overlay
     include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
     include "{{OBJ_DIR}}\okajima\snowarea.obj", overlay
     include "{{OBJ_DIR}}\okajima\dog\dog.obj", overlay
