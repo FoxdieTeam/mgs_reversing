@@ -26,14 +26,46 @@ void rank_800D1218( int a0, int a1, int a2 )
 }
 
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D1230.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800D128C.s")
+
+void rank_800D128C( int a0, int a1, int a2, int a3 )
+{
+    int *vars;
+    int  packed;
+    int  code;
+
+    vars = &rank_dword_800E1998;
+
+    if ( a3 != 0 )
+        goto nonzero;
+
+    packed = a0 | ( a1 << 8 ) | ( a2 << 16 );
+    code = 0x64000000;
+    goto combine;
+
+nonzero:
+    packed = a0 | ( a1 << 8 ) | ( a2 << 16 );
+    code = 0x2C000000;
+
+combine:
+    vars[ 3 ] = packed | code;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D12D0.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D1380.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D13B8.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D152C.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D1670.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800D1988.s")
-void rank_800D1988( char *a0, int a1, int a2 );
+
+void rank_800D1988( char *a0, int a1, int a2 )
+{
+    KCB *kcb;
+    int  offset;
+
+    offset = a1 * 44 + 0x10;
+    kcb = (KCB *)( a0 + offset );
+    font_set_color( kcb, 0, a2, 0 );
+    font_clut_update( kcb );
+}
 
 void *rank_800D19D8( KCB *kcb )
 {
@@ -122,7 +154,15 @@ void rank_800D21BC( unsigned char *a0, unsigned int a1 )
     *(unsigned int *)( a0 + 4 ) = a1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800D21DC.s")
+void rank_800D21DC( char *work )
+{
+    long arg;
+
+    arg = 0;
+    rank_800D2078( *(int *)( work + 0x19D8 ), &arg, 1 );
+    GV_DestroyActor( work );
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D2218.s")
 
 void rank_800D23F0( void )

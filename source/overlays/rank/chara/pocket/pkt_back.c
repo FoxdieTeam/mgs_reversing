@@ -20,7 +20,24 @@ void *rank_800CEF28( int count, int flag )
 }
 
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CEF5C.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CF11C.s")
+
+void rank_800CF11C( char *work, int a1, int a2 )
+{
+    int idx;
+    int addr;
+
+    idx = *(int *)( work + 0x34 );
+
+    if ( idx != 8 )
+    {
+        addr = ( int )work + idx * 4;
+        *(short *)( addr + 0x38 ) = a1;
+        addr = *(int *)( work + 0x34 ) * 4;
+        *(short *)( work + addr + 0x3A ) = a2;
+        *(int *)( work + 0x34 ) = *(int *)( work + 0x34 ) + 1;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CF160.s")
 
 void rank_800CF1D4( char *work )
@@ -36,7 +53,15 @@ void rank_800CF1D4( char *work )
 
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CF1F4.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CF288.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CF2F0.s")
+
+void rank_800CF2F0( unsigned short *work, int a1 )
+{
+    int            tpage;
+    unsigned short tpage2;
+
+    tpage = tpage2 = work[ 0xB ];
+    work[ 0xB ] = ( tpage & 0x180 ) | ( ( a1 & 3 ) << 5 ) | ( work[ 0xB ] & 0x10 ) | ( work[ 0xB ] & 0xF ) | ( tpage & 0x800 );
+}
 
 char *rank_800CF328( int id )
 {
