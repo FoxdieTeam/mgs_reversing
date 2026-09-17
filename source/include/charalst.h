@@ -226,7 +226,7 @@
 #define CHARA_SNEBREATH         { 0x4170, NewSnakeBreath }          // GV_StrCode("スネーク息") chara/snake/breath.c
 #define CHARA_SNOW              { 0x18e3, NewSnow }                 // GV_StrCode("雪") thing/snow.c
 #define CHARA_SNOWSTORM         { 0xa6f5, NewSnowStorm }            // GV_StrCode("雪嵐") kojo/sstorm.c
-#define CHARA_SNOWAREA          { 0x901e, NewSnowArea }             // okajima/snowarea.c
+#define CHARA_SNOWAREA          { 0x901e, NewSnowAreaSet }          // okajima/snowarea.c
 #define CHARA_SOUNDTEST         { 0x4efc, NewSoundTest }            // GV_StrCode("サウンドテスト") game/sndtst.c
 #define CHARA_SPECIALMOVIE      { 0xfaa8, ? }                       // GV_StrCode("スペシャルムービー") chara/movie/movie.c
 #define CHARA_SPHERE            { 0x73ea, NewSphere }               // GV_StrCode("天球") thing/sphere.c
@@ -509,7 +509,7 @@ extern NEWCHARA NewStage11Objects;              /* okajima/s11_objs.c           
 extern NEWCHARA NewScnHeadMark;                 /* okajima/scn_mark.c           */
 extern NEWCHARA NewSmokeLn_800CDFA4;            /* okajima/smke_ln.c            */
 extern NEWCHARA NewSmokeTarget;                 /* okajima/smktrgt.c            */
-extern NEWCHARA NewSnowArea;                    /* okajima/snowarea.c           */
+extern NEWCHARA NewSnowAreaSet;                 /* okajima/snowarea.c           */
 extern NEWCHARA NewSpark;                       /* okajima/spark.c              */
 extern NEWCHARA NewSplash_800C8D6C;             /* okajima/splash.c             */
 extern NEWCHARA NewSubRoom_800C815C;            /* okajima/sub_room.c           */

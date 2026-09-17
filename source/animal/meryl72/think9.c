@@ -5,10 +5,7 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 
-int SECTION(".bss") MERYL_flag;
-int SECTION(".bss") MERYL_padding;
-
-extern SVECTOR MERYL_position;
+extern int KORE_GuestFlag;
 
 #define TH1_PHASE0 0
 #define TH1_PHASE1 1
@@ -288,12 +285,12 @@ void s07c_meryl72_unk2_800CF2A4(Meryl72Work *work)
 
     if (work->count3 == 0)
     {
-        MERYL_flag = 1;
+        KORE_GuestFlag = 1;
     }
 
-    if (work->count3 == 2 && MERYL_flag & 0x2)
+    if (work->count3 == 2 && KORE_GuestFlag & 0x2)
     {
-        MERYL_flag &= ~0x2;
+        KORE_GuestFlag &= ~0x2;
         work->think3 = 7;
         work->count3 = 0;
         return;
@@ -309,7 +306,7 @@ void s07c_meryl72_unk2_800CF2A4(Meryl72Work *work)
         }
     }
 
-    if (work->count3 >= 5 && (work->count3 > 1500 || !(MERYL_flag & 0x1)))
+    if (work->count3 >= 5 && (work->count3 > 1500 || !(KORE_GuestFlag & 0x1)))
     {
         work->think3 = 9;
         work->count3 = 0;
@@ -887,15 +884,4 @@ void Meryl9Think_800D0154(Meryl72Work *work)
     }
 
     work->fC38++;
-}
-
-void ML9_Reset( void )
-{
-    MERYL_position = DG_ZeroVector;
-    MERYL_flag = 0;
-}
-
-void ML9_Empty( void )
-{
-    /* do nothing */
 }

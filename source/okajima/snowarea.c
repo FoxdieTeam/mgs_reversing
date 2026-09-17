@@ -287,7 +287,7 @@ static int GetResources( Work *work, int map )
     return 0;
 }
 
-void *NewSnowArea( int name, int where, int argc, char **argv )
+void *NewSnowAreaSet( int name, int where, int argc, char **argv )
 {
     Work *work;
 

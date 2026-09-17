@@ -2,19 +2,18 @@
 
 /*---------------------------------------------------------------------------*/
 
-SVECTOR SECTION(".bss") MERYL_position;
-int     SECTION(".bss") MERYL_flag;
-int     SECTION(".bss") MERYL_padding;
+SVECTOR KORE_GuestPosition;
+int     KORE_GuestFlag;
 
 /*---------------------------------------------------------------------------*/
 
-void ML9_Reset( void )
+void KORE_InitGuest( void )
 {
-    MERYL_position = DG_ZeroVector;
-    MERYL_flag = 0;
+    KORE_GuestPosition = DG_ZeroVector;
+    KORE_GuestFlag = 0;
 }
 
-void ML9_Empty( void )
+void KORE_UseGuest( void )
 {
     /* do nothing */
 }
