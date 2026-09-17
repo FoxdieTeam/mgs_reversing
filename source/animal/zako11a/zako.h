@@ -94,7 +94,7 @@ typedef struct _Work {
     /* 0xB88 */ short          field_B88;
     /* 0xB8A */ short          field_B8A;
     /* 0xB8C */ short          field_B8C;
-    /* 0xB8E */ char           padB8E[ 0x2 ];
+    /* 0xB8E */ short          field_B8E;
     /* 0xB90 */ short          field_B90;
     /* 0xB92 */ char           padB92[ 0x2 ];
     /* 0xB94 */ int            alert_level;
@@ -120,7 +120,8 @@ typedef struct _Work {
     /* 0xC1C */ SVECTOR        field_C1C;
     /* 0xC24 */ char           padC24[ 0x8 ];
     /* 0xC2C */ int            field_C2C;
-    /* 0xC30 */ char           padC30[ 0x8 ];
+    /* 0xC2C */ int            field_C30;
+    /* 0xC34 */ char           padC34[ 0x4 ];
     /* 0xC38 */ int            field_C38;
     /* 0xC3C */ char           padC3C[ 0x8 ];
     /* 0xC44 */ short          field_C44;
@@ -187,7 +188,7 @@ extern SVECTOR   ZAKO11A_ATTACK_FORCE;
 extern SVECTOR   ZAKO11A_TOUCH_SIZE;
 extern SVECTOR   ZAKO11A_TOUCH_FORCE;
 extern SVECTOR   ZAKO11A_NO_POINT;
-extern u_short   ZAKO11A_EYE_LENGTH;
+extern int       ZAKO11A_EYE_LENGTH;
 extern SVECTOR   ZAKO11A_PlayerPosition;
 extern COMMANDER ZAKO11ACommand;
 extern TOP       ZAKO11ATOPCOMMAND;

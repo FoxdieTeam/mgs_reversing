@@ -28,7 +28,7 @@ extern SVECTOR        ENEMY_ATTACK_FORCE;
 extern SVECTOR        ENEMY_TOUCH_SIZE;
 extern SVECTOR        ENEMY_TOUCH_FORCE;
 extern SVECTOR        COM_NO_POINT;
-extern unsigned short COM_EYE_LENGTH;
+extern int            COM_EYE_LENGTH;
 
 const char aErrerrerrsettimeover_800DFC7C[] = "Err Err Err  Set time Over\n";
 const char aErrerrerrsetdirover_800DFC98[] = "Err Err Err  Set Dir Over\n";

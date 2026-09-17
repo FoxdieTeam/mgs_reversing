@@ -148,7 +148,11 @@ void GM_ConfigControlHazard(CONTROL *ctrl, int height, int r_sphere, int s_spher
 void GM_ConfigControlAttribute(CONTROL *control, int atr);
 void GM_ConfigControlInterp(CONTROL *control, int interp);
 int  GM_CheckControlTouches(CONTROL *control, int range);
-void GM_ConfigControlRadarparam(CONTROL *ctrl, u_short dir, u_short dis, int range, u_short r);
+
+#if !defined(__ZAKO_BUGFIX__) // HACK: for broken zako code
+void GM_ConfigControlRadarparam(CONTROL *ctrl, u_short dir, u_short dis, u_short range, u_short r);
+#endif
+
 void GM_ConfigControlTrapCheck(CONTROL *control);
 GV_MSG *GM_CheckMessage(void *work, int name, int msgcode);
 

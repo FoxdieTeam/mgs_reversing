@@ -1,3 +1,5 @@
+#define __ZAKO_BUGFIX__
+
 #include "enemy/enemy.h"
 
 #include <stdio.h>
@@ -10,6 +12,9 @@
 
 #include "chara/snake/shadow.h" // for NewShadow2
 #include "enemy/glight.h"       // for NewGunLight
+
+// BUG
+extern void GM_ConfigControlRadarparam(CONTROL *ctrl, u_short dir, u_short dis, int range, u_short r);
 
 /*
 extern ENEMY_COMMAND EnemyCommand;

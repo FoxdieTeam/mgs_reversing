@@ -29,8 +29,8 @@ extern u_short rasen_800D2CA4[];
 
 // zk11aact.c
 extern void s11a_800CE34C( Work *work, int ); // ZAKO11A_SetPutChar
-extern void s11a_800CEB8C( Work *work );      // Zako11AActionMain
-extern void s11a_800CEBF8( Work *work );      // Zako11APushMove
+extern void Zako11AActionMain( Work *work );
+extern void Zako11APushMove( Work *work );
 
 /*---------------------------------------------------------------------------*/
 
@@ -165,14 +165,14 @@ static void Act( Work *work )
 
     if ( work->field_C38 == 0 )
     {
-        s11a_800CEBF8( work );
+        Zako11APushMove( work );
 
         GM_ActControl( control );
         GM_ActObject2( &work->body );
         GM_ActObject2( &work->weapon );
         DG_GetLightMatrix2( &control->mov, work->light );
 
-         s11a_800CEB8C( work );
+        Zako11AActionMain( work );
 
         trg = work->target;
         GM_MoveTarget( trg, &control->mov );

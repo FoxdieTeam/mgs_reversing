@@ -21,7 +21,7 @@ extern SVECTOR       ENEMY_ATTACK_FORCE;
 extern SVECTOR       ENEMY_TOUCH_SIZE;
 extern SVECTOR       ENEMY_TOUCH_FORCE;
 extern SVECTOR       COM_NO_POINT;
-extern unsigned short COM_EYE_LENGTH;
+extern int           COM_EYE_LENGTH;
 
 /*  Modified version of RootFlagCheck_800C3EE8
     (last two switch cases removed)
