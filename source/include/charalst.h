@@ -306,8 +306,8 @@
 #define CHARA_3D78              { 0x3d78, ? }                       // (PSX-ONLY)
 
 /*--- Polygon Demo Charas ---*/
-#define DEMO_EXPLOSION          { 0x0001, ? }                       // bullet/blast.c
-#define DEMO_SMOKE              { 0x0002, ? }                       // --> anime/animconv/anime.c
+#define DEMO_EXPLOSION          { 0x0001, NewBlast }                // bullet/blast.c
+#define DEMO_SMOKE              { 0x0002, AN_Smoke_800CE08C }       // --> anime/animconv/anime.c
 #define DEMO_FADEIN             { 0x0003, NewFadeInOut }            // takabe/fadeio.c
 #define DEMO_FADEOUT            { 0x0004, NewFadeInOut }            // takabe/fadeio.c
 #define DEMO_TEXT               { 0x0005, NewTelop }                // takabe/telop.c
@@ -334,7 +334,7 @@
 #define DEMO_OPTICSCAMOUFLAGE   { 0x001a, NewKogaku2 }              // equip/kogaku2.c
 #define DEMO_OPTICSCAMOUFLAGE2  { 0x001b, NewKogaku3 }              // equip/kogaku2.c
 #define DEMO_ENVIRONMENTMAPPING { 0x001c, NewEnvmap3_800CA3A4 }     // takabe/envmap3.c
-#define DEMO_PLASMA             { 0x001d, ? }                       // okajima/plasma.c
+#define DEMO_PLASMA             { 0x001d, NewPlasma_800CD1A4 }      // okajima/plasma.c
 #define DEMO_WINDCIRCLE         { 0x001e, NewWindcrcl_800CF6BC }    // takabe/windcrcl.c
 #define DEMO_SEPIA              { 0x001f, NewSepia_800C4F9C }       // takabe/sepia.c
 #define DEMO_METALGEARLASER     { 0x0020, ? }                       // kojo/mgrexlzr.c
@@ -394,6 +394,7 @@
 // XXX pointer types.
 
 extern NEWCHARA AN_Breath;                      /* --> anime/animconv/anime.c   */
+extern NEWCHARA AN_Smoke_800CE08C;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA AN_Smoke_800CE164;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA NewAnime_8005E574;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA NewAnime_8005E6A4;              /* --> anime/animconv/anime.c   */
@@ -411,6 +412,7 @@ extern NEWCHARA NewZako11E;                     /* animal/zako11e/zako11e.c     
 extern NEWCHARA NewZako11ECommander;            /* animal/zako11e/zk11ecom.c    */
 extern NEWCHARA NewZako11F;                     /* animal/zako11f/zako11f.c     */
 extern NEWCHARA NewZako11FCommander;            /* animal/zako11f/zk11fcom.c    */
+extern NEWCHARA NewBlast;                       /* bullet/blast.c               */
 extern NEWCHARA NewScenarioJirai;               /* bullet/jirai.c               */
 extern NEWCHARA NewHindBoss;                    /* kojo/hind.c                  */
 extern NEWCHARA NewHind;                        /* chara/hind/hind.c            */
@@ -499,6 +501,7 @@ extern NEWCHARA NewMouse;                       /* okajima/mouse.c              
 extern NEWCHARA NewPilotLamp;                   /* okajima/p_lamp.c             */
 extern NEWCHARA NewPatrolLamp;                  /* okajima/pato_lmp.c           */
 extern NEWCHARA NewPlasmaGcl;                   /* okajima/plasma.c             */
+extern NEWCHARA NewPlasma_800CD1A4;             /* okajima/plasma.c             */
 extern NEWCHARA NewRedAlert;                    /* okajima/red_alrt.c           */
 extern NEWCHARA NewRedAlert2;                   /* okajima/red_alrt.c           */
 extern NEWCHARA RedAlert_800C4F48;              /* okajima/red_alrt.c           */
