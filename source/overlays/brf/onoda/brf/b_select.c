@@ -1120,7 +1120,7 @@ void *NewBriefingSelect(int name, int where)
 {
     Work *work;
 
-    GM_GameStatus |= (STATE_MENU_OFF | STATE_LIFEBAR_OFF | STATE_PAUSE_OFF | STATE_RADIO_OFF);
+    GM_GameStatus |= (STATE_MENU_DISABLE | STATE_LIFE_OFF | STATE_PAUSE_OFF | STATE_RADIO_OFF);
 
     work = GV_NewActor(GV_ACTOR_MANAGER, sizeof(Work));
     if (work != NULL)

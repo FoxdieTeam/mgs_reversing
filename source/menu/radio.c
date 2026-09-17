@@ -1615,7 +1615,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, u_long *ot)
             sub_8003EBDC(work);
             menu_radar_load_rpk_8003AD64();
             gRadioIncomingCall_8009E708.field_0 = 0;
-            GM_GameStatus &= ~STATE_MENU_OFF;
+            GM_GameStatus &= ~STATE_MENU_DISABLE;
             printf("callback type %d proc %X\n", gMenuCallbackProc_800ABB08.type,
                                 gMenuCallbackProc_800ABB08.procNameHashed);
             if (gMenuCallbackProc_800ABB08.type != 0xF && gMenuCallbackProc_800ABB08.procNameHashed > 0)
@@ -1680,7 +1680,7 @@ void MENU_RadioCall(int param_1, int param_2, int time)
             gRadioIncomingCall_8009E708.field_8 = 0;
         }
 
-        GM_GameStatus |= STATE_MENU_OFF;
+        GM_GameStatus |= STATE_MENU_DISABLE;
     }
 }
 

@@ -64,9 +64,7 @@ typedef struct RasenUnk_800D2C84
 
 RasenUnk_800D2C84 SECTION(".bss") rasen_800D2C84;
 
-unsigned short SECTION(".bss")
-    rasen_el_800D2CA4[4]; // TODO: rename to rasen_* ? or move to rasen_el? - everything will come clear in s11a where
-                          // there's only rasen.c, no rasen_el.c
+unsigned short SECTION(".bss") rasen_800D2CA4[4];
 
 void Takabe_FreeObjs(DG_OBJS *objs);
 void Takabe_RefreshObjectPacks(DG_OBJS *objs);
@@ -293,7 +291,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
 
     if (rasen_800C3408 != 0)
     {
-        mapid = rasen_el_800D2CA4[rasen_800C3404];
+        mapid = rasen_800D2CA4[rasen_800C3404];
         old_map = GM_PlayerControl->map;
         new_map = GM_GetMap(mapid);
 
@@ -409,17 +407,17 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 
     map_index_bit =
         GM_FindMap(GCL_StrToInt(GCL_NextStr()))->index;
-    rasen_el_800D2CA4[0] = map_index_bit;
+    rasen_800D2CA4[0] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     map_index_bit =
         GM_FindMap(GCL_StrToInt(GCL_NextStr()))->index;
-    rasen_el_800D2CA4[1] = map_index_bit;
+    rasen_800D2CA4[1] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     map_index_bit =
         GM_FindMap(GCL_StrToInt(GCL_NextStr()))->index;
-    rasen_el_800D2CA4[2] = map_index_bit;
+    rasen_800D2CA4[2] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     if (GCL_GetOption('m'))
@@ -433,7 +431,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 
     for (i = 0; i < 3; i++)
     {
-        if (map == rasen_el_800D2CA4[i])
+        if (map == rasen_800D2CA4[i])
         {
             rasen_800C3404 = i;
         }
@@ -473,7 +471,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 
             objs->world = DG_ZeroMatrix;
             objs->world.t[1] = 4000 * j - 32250;
-            objs->group_id = rasen_el_800D2CA4[i];
+            objs->group_id = rasen_800D2CA4[i];
         }
     }
 
@@ -756,7 +754,7 @@ void RasenAct_800CB530(Work *work)
         svec5 = GM_SnakeCamera.target;
         svec5.vz += 400;
 
-        if (HZD_LevelHazardCheck(GM_GetMap(rasen_el_800D2CA4[rasen_800C3404])->hzd, &svec5, HZD_CHK_FLOOR) & 2)
+        if (HZD_LevelHazardCheck(GM_GetMap(rasen_800D2CA4[rasen_800C3404])->hzd, &svec5, HZD_CHK_FLOOR) & 2)
         {
             svec5.vy += 6000;
             HZD_GetLevelHeight(levels);

@@ -7,21 +7,17 @@ typedef struct _Work {
     /* 0x020 */ char   pad20[ 0x4 ];
 } Work;
 
-int s11a_dword_800C39C0 = 0x05DC012C;
-int s11a_dword_800C39C4 = 0x0000012C;
-int s11a_dword_800C39C8 = 0x00000000;
-int s11a_dword_800C39CC = 0x00000000;
-int s11a_dword_800C39D0 = 0x01F40320;
-int s11a_dword_800C39D4 = 0x00000320;
-int s11a_dword_800C39D8 = 0x00000064;
-int s11a_dword_800C39DC = 0x00000000;
-int s11a_dword_800C39E0 = 0x0320012C;
-int s11a_dword_800C39E4 = 0x0000012C;
-int s11a_dword_800C39E8 = 0x00000000;
-int s11a_dword_800C39EC = 0x00000000;
-int s11a_dword_800C39F0 = 0x75307530;
-int s11a_dword_800C39F4 = 0x00007530;
-int s11a_dword_800C39F8 = 0x00000FA0;
+/*---------------------------------------------------------------------------*/
+
+SVECTOR ZAKO11A_TARGET_SIZE = {300, 1500, 300};
+SVECTOR ZAKO11A_TARGET_FORCE = {0, 0, 0};
+SVECTOR ZAKO11A_ATTACK_SIZE = {800, 500, 800};
+SVECTOR ZAKO11A_ATTACK_FORCE = {100, 0, 0};
+SVECTOR ZAKO11A_TOUCH_SIZE = {300, 800, 300};
+SVECTOR ZAKO11A_TOUCH_FORCE = {0, 0, 0};
+SVECTOR ZAKO11A_NO_POINT = {30000, 30000, 30000};
+int ZAKO11A_EYE_LENGTH = 4000;
+
 int s11a_dword_800C39FC = 0x00000000;
 int s11a_dword_800C3A00 = 0x00000A01;
 int s11a_dword_800C3A04 = 0x00000AFF;
@@ -81,6 +77,7 @@ const char s11a_dword_800D8564[] = "zone=%d ";
 
 int SECTION(".bss") s11a_dword_800D8A58;
 int SECTION(".bss") s11a_dword_800D8A5C;
+
 int SECTION(".bss") s11a_dword_800D8A60;
 int SECTION(".bss") s11a_dword_800D8A64;
 int SECTION(".bss") s11a_dword_800D8A68;
@@ -156,6 +153,7 @@ int SECTION(".bss") s11a_dword_800D8B7C;
 int SECTION(".bss") s11a_dword_800D8B80;
 int SECTION(".bss") s11a_dword_800D8B84;
 int SECTION(".bss") s11a_dword_800D8B88;
+
 int SECTION(".bss") s11a_dword_800D8B8C;
 int SECTION(".bss") s11a_dword_800D8B90;
 int SECTION(".bss") s11a_dword_800D8B94;

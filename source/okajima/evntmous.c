@@ -123,7 +123,7 @@ void Eventmouse_800C8E88(Work *work, SVECTOR *arg1, int arg2)
         GM_Weapon = WP_None;
     }
 
-    GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF;
+    GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF;
     GM_GameStatus |= STATE_PADRELEASE;
 
     work->f690 = NewCinemaScreen(2000000000, 1);
@@ -526,7 +526,7 @@ void EventMouseAct_800C9F14(Work *work)
                 NewCinemaScreenClose(work->f690);
             }
 
-            GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
+            GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF);
             GM_GameStatus &= ~STATE_PADRELEASE;
 
             GV_DestroyActor(&work->actor);
@@ -629,7 +629,7 @@ void EventMouseDie_800CA2C4(Work *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
     GM_FreeTarget(work->target);
-    GM_FreeHomingTarget(work->hom);
+    GM_ResetHomingTarget(work->hom);
     GM_FreePrim(work->prim);
 
     if (work->f690 != NULL)
@@ -637,7 +637,7 @@ void EventMouseDie_800CA2C4(Work *work)
         NewCinemaScreenClose(work->f690);
     }
 
-    GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
+    GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF);
     GM_GameStatus &= ~STATE_PADRELEASE;
 }
 
@@ -716,7 +716,7 @@ int EventMouseGetResources_800CA370(Work *work, HZD_PTP *points, short n_points,
         control->r_sphere = -2;
     }
 
-    work->hom = GM_AllocHomingTarget(&work->hom_mtx, control);
+    work->hom = GM_SetHomingTarget(&work->hom_mtx, control);
     work->hom->flag = TRUE;
 
     prim = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->prim_vecs, NULL);
