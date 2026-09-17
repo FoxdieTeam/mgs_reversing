@@ -211,7 +211,7 @@
 #define CHARAID_SNOWSTORM       0xa6f5  // GV_StrCode("雪嵐")
 #define CHARAID_SNOWAREA        0x901e  //
 #define CHARAID_SOUNDTEST       0x4efc  // GV_StrCode("サウンドテスト")
-#define CHARAID_SPECIALMOVIE    0xfaa8  //
+#define CHARAID_SPECIALMOVIE    0xfaa8  // GV_StrCode("スペシャルムービー")
 #define CHARAID_SPHERE          0x73ea  // GV_StrCode("天球")
 #define CHARAID_SPHERE2         0xbee1  // GV_StrCode("天球２")
 #define CHARAID_STAGESELECT     0xd2f6  // GV_StrCode("ステージセレクト")
@@ -221,7 +221,7 @@
 #define CHARAID_TEXSCROLL       0x6865  // GV_StrCode("テクスチャスクロール")
 #define CHARAID_TEXTURE         0x1ad3  // GV_StrCode("テクスチャ")
 #define CHARAID_TOBCNT          0xaefb  //
-#define CHARAID_TORTURE         0xe608  //
+#define CHARAID_TORTURE         0xe608  // GV_StrCode("拷問スネーク")
 #define CHARAID_TRUCKTRAP       0xcb3a  // GV_StrCode("トラック移動トラップ")
 #define CHARAID_TR_BED          0x2a21  // GV_StrCode("拷問台")
 #define CHARAID_TR_OCELOT       0x050c  // GV_StrCode("拷問オセロット")

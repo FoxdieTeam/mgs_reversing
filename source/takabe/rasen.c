@@ -38,7 +38,7 @@ typedef struct _Rasen2Work
     GV_ACT        *field_238;
 } Rasen2Work;
 
-int rasen_800C3404 = 0;
+int rasen_800C3404 = 0; // rasen map section
 int rasen_800C3408 = 0;
 int rasen_800C340C = 0;
 
@@ -64,7 +64,7 @@ typedef struct RasenUnk_800D2C84
 
 RasenUnk_800D2C84 SECTION(".bss") rasen_800D2C84;
 
-unsigned short SECTION(".bss") rasen_800D2CA4[4];
+unsigned short SECTION(".bss") rasen_800D2CA4[4]; // rasen map ids
 
 void Takabe_FreeObjs(DG_OBJS *objs);
 void Takabe_RefreshObjectPacks(DG_OBJS *objs);

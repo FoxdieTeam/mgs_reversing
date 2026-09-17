@@ -1,3 +1,5 @@
+#include "zako.h"
+
 #include <stdio.h>
 #include "strcode.h"
 #include "mts/mts.h" // for fprintf
@@ -18,155 +20,17 @@
 #define TARGET_FLAG ( TARGET_AVAIL | TARGET_CAPTURE | TARGET_POWER \
                     | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
 
-// TODO: These structures should be unified with the other zakos, using stage
-//       ifdefs to add or remove fields where necessary.
-
-typedef struct _ACT {
-    /* 0x8C8 */ int            field_00;
-    /* 0x8CC */ short          field_04;
-    /* 0x8CE */ short          field_06;
-    /* 0x8D0 */ int            field_08;
-    /* 0x8D4 */ SVECTOR        field_0C;
-    /* 0x8DC */ int            field_14;
-    /* 0x8E0 */ short          last_set;
-    /* 0x8E2 */ short          last_unset;
-    /* 0x8E4 */ short          field_1C;
-    /* 0x8E6 */ short          field_1E;
-    /* 0x8E8 */ short          field_20;
-    /* 0x8EA */ short          field_22;
-} ACT;
-
-typedef struct _PARAM {
-    /* 0xB74 */ signed char    index;
-    /* 0xB75 */ signed char    blood;
-    /* 0xB76 */ signed char    area;
-    /* 0xB77 */ signed char    low_poly;
-    /* 0xB78 */ char           next;   // guessed from option 'n'
-    /* 0xB79 */ signed char    root;
-    /* 0xB7A */ char           c_root;
-    /* 0xB7B */ char           c_next; // guessed from option 'n'
-    /* 0xB7C */ signed char    item;
-    /* 0xB7D */ char           g_flag;
-    /* 0xB7E */ short          life;
-    /* 0xB80 */ short          faint;
-    /* 0xB82 */ short          z_flag;
-} PARAM;
-
-typedef struct _Work {
-    /* 0x000 */ GV_ACT         actor;
-    /* 0x020 */ CONTROL        control;
-    /* 0x09C */ OBJECT         body;
-    /* 0x180 */ int            lod;
-    /* 0x184 */ DG_DEF        *lod_models[ 2 ];
-    /* 0x18C */ MOTION_CONTROL m_ctrl;
-    /* 0x1DC */ MOTION_SEGMENT m_segs1[ 17 ];
-    /* 0x440 */ MOTION_SEGMENT m_segs2[ 17 ];
-    /* 0x6A4 */ SVECTOR        rots[ 16 ];
-    /* 0x724 */ SVECTOR        adjust[ 16 ];
-    /* 0x7A4 */ OBJECT         weapon;
-    /* 0x888 */ MATRIX         light[ 2 ];
-    /* 0x8C8 */ ACT            act;
-    /* 0x8EC */ int            field_8EC;
-    /* 0x8F0 */ int            field_8F0;
-    /* 0x8F4 */ int            field_8F4;
-    /* 0x8F8 */ int            field_8F8;
-    /* 0x8FC */ char           pad8FC[ 0x4 ];
-    /* 0x900 */ TARGET        *target;
-    /* 0x904 */ TARGET         attack;
-    /* 0x94C */ TARGET         touch;
-    /* 0x994 */ char           pad994[ 0x48 ];
-    /* 0x9DC */ HOMING        *hom;
-    /* 0x9E0 */ int            scale;
-    /* 0x9E4 */ int            field_9E4;
-    /* 0x9E8 */ int            n_nodes;
-    /* 0x9EC */ SVECTOR        nodes[ 32 ];
-    /* 0xAEC */ int            search_flag;
-    /* 0xAF0 */ void          *shadow;
-    /* 0xAF4 */ int           *shadow_enable;
-    /* 0xAF8 */ void          *glight;
-    /* 0xAFC */ int           *glight_enable;
-    /* 0xB00 */ void          *field_B00[ 8 ];
-    /* 0xB20 */ short          think1;
-    /* 0xB22 */ short          think2;
-    /* 0xB24 */ short          think3;
-    /* 0xB26 */ short          think4;
-    /* 0xB28 */ int            count3;
-    /* 0xB2C */ int            t_count;
-    /* 0xB30 */ int            l_count;
-    /* 0xB34 */ int            next_node;
-    /* 0xB38 */ char           padB38[ 0xC ];
-    /* 0xB44 */ int            field_B44;
-    /* 0xB48 */ char           padB48[ 0x2 ];
-    /* 0xB4A */ short          field_B4A;
-    /* 0xB4C */ char           padB4C[ 0x8 ];
-    /* 0xB54 */ int            field_B54;
-    /* 0xB58 */ char           padB58[ 0x10 ];
-    /* 0xB68 */ int            mark_time;
-    /* 0xB6C */ int            act_status; // verify this
-    /* 0xB70 */ char           padB70[ 0x4 ];
-    /* 0xB74 */ PARAM          param;
-    /* 0xB84 */ char           padB84[ 0x4 ];
-    /* 0xB88 */ short          field_B88;
-    /* 0xB8A */ short          field_B8A;
-    /* 0xB8C */ short          field_B8C;
-    /* 0xB8E */ char           padB8E[ 0x2 ];
-    /* 0xB90 */ short          field_B90;
-    /* 0xB92 */ char           padB92[ 0x2 ];
-    /* 0xB94 */ int            alert_level;
-    /* 0xB98 */ signed char    field_B98[ 8 ];
-    /* 0xBA0 */ SVECTOR        field_BA0;
-    /* 0xBA8 */ char           padBA8[ 0x4 ];
-    /* 0xBAC */ int            time[ 8 ];
-    /* 0xBCC */ short          dir[ 4 ];
-    /* 0xBD4 */ int            field_BD4;
-    /* 0xBD8 */ SVECTOR        field_BD8;
-    /* 0xBE0 */ SVECTOR        target_pos;
-    /* 0xBE8 */ int            field_BE8;
-    /* 0xBEC */ int            field_BEC;
-    /* 0xBE8 */ int            field_BF0;
-    /* 0xBF4 */ int            target_addr;
-    /* 0xBF8 */ int            target_map;
-    /* 0xBFC */ int            field_BFC; // some distance flag
-    /* 0xC00 */ int            field_C00; // some distance index
-    /* 0xC04 */ char           padC04[ 0x8 ];
-    /* 0xC0C */ int            field_C0C;
-    /* 0xC10 */ int            field_C10;
-    /* 0xC14 */ char           padC14[ 0x8 ];
-    /* 0xC1C */ SVECTOR        field_C1C;
-    /* 0xC24 */ char           padC24[ 0x14 ];
-    /* 0xC38 */ int            field_C38;
-    /* 0xC3C */ char           padC3C[ 0x8 ];
-    /* 0xC44 */ short          field_C44;
-    /* 0xC46 */ char           padC46[ 0x2 ];
-} Work;
-
 /*---------------------------------------------------------------------------*/
 
 // rasen.c
-extern int rasen_800C3404;
-extern int rasen_800C3408;
+extern int     rasen_800C3404;
+extern int     rasen_800C3408;
 extern u_short rasen_800D2CA4[];
 
 // zk11aact.c
 extern void s11a_800CE34C( Work *work, int ); // ZAKO11A_SetPutChar
-extern void s11a_800CEB8C( Work *work ); // Zako11AActionMain
-extern void s11a_800CEBF8( Work *work ); // Zako11APushMove
-
-// zk11acom.c
-extern SVECTOR ZAKO11A_TARGET_SIZE;
-extern SVECTOR ZAKO11A_TARGET_FORCE;
-extern SVECTOR ZAKO11A_ATTACK_SIZE;
-extern SVECTOR ZAKO11A_ATTACK_FORCE;
-extern SVECTOR ZAKO11A_TOUCH_SIZE;
-extern SVECTOR ZAKO11A_TOUCH_FORCE;
-
-extern SVECTOR ZAKO11A_NO_POINT;
-extern u_short ZAKO11A_EYE_LENGTH;
-
-extern int s11a_dword_800D8B8C;
-
-extern int s11a_800D2010( Work *work );
-extern void s11a_800D2054( int index );
+extern void s11a_800CEB8C( Work *work );      // Zako11AActionMain
+extern void s11a_800CEBF8( Work *work );      // Zako11APushMove
 
 /*---------------------------------------------------------------------------*/
 
@@ -330,7 +194,7 @@ static void Act( Work *work )
     }
 
     CheckModel( work );
-    if ( s11a_dword_800D8B8C == 16 ) GV_DestroyActor( work );
+    if ( ZAKO11A_GameFlag == 16 ) GV_DestroyActor( work );
 }
 
 static void InitTarget( Work *work )
@@ -425,7 +289,7 @@ static int InitState( Work *work, int name, int where )
 
 static void FreeState( Work *work )
 {
-    s11a_800D2054( work->param.index );
+    ZAKO11AResetWorkID( work->param.index );
     GM_FreeControl( &work->control );
     GM_FreeObject( &work->body );
     GM_FreeObject( &work->weapon );
@@ -542,7 +406,7 @@ static void GetResources( Work *work, int name, int where )
 
     InitState( work, name, where );
 
-    work->param.index = s11a_800D2010( work );
+    work->param.index = ZAKO11ASetWorkID( work );
     if ( work->param.index < 0 ) printf( "Err not enough work !!\n" );
 
     InitTables( work );
