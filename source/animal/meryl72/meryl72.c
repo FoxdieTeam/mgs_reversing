@@ -229,7 +229,7 @@ int s07c_meryl72_800C6F8C( Meryl72Work *work, int name, int map )
     GM_ConfigMotionControl( body, &work->m_ctrl, motion, work->m_segs1, work->m_segs2, control, work->rots );
     GM_ConfigObjectLight( body, work->light );
 
-    work->hom = GM_AllocHomingTarget( &work->body.objs->objs[6].world, control );
+    work->hom = GM_SetHomingTarget( &work->body.objs->objs[6].world, control );
 
     GM_InitObject( weapon, WEAPON_DATA, WEAPON_FLAG, 0 );
     GM_ConfigObjectLight( weapon, work->light );
@@ -257,7 +257,7 @@ void s07c_meryl72_800C7194( Meryl72Work *work )
     GCL_ARGS args;
     long     data[4];
 
-    GM_FreeHomingTarget( work->hom );
+    GM_ResetHomingTarget( work->hom );
     GM_FreeControl( &work->control );
     GM_FreeObject( &work->body );
     GM_FreeObject( &work->weapon );

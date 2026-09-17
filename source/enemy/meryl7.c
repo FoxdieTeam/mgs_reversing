@@ -140,7 +140,7 @@ void s07a_meryl7_800D53A4( WatcherWork *work )
     {
         if ( work->field_B7B == 1 )
         {
-            if ( GM_GameStatus & (STATE_CUT_IN | STATE_BEHIND_CAMERA) || GM_Camera.first_person )
+            if ( GM_GameStatus & STATE_CAM_CHANGE || GM_Camera.first_person )
             {
                 if ( work->has_kmd != work->field_B7B )
                 {
@@ -372,11 +372,11 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     if ( has_kmd == 1 )
     {
         work->def = body->objs->def;
-        work->kmd = GV_GetCache( GV_CacheID( HASH_LOPRYHEI, 'k' ) );
+        work->kmd = GV_GetCache( GV_CacheID( KMD_LOPRYHEI, 'k' ) );
         work->has_kmd = has_kmd;
     }
 
-    work->hom = GM_AllocHomingTarget( &body->objs->objs[6].world, ctrl );
+    work->hom = GM_SetHomingTarget( &body->objs->objs[6].world, ctrl );
     GM_InitObject( arm, KMD_FAMAS, 0x6D, 0 );
     GM_ConfigObjectLight( arm, work->light ) ;
     GM_ConfigObjectRoot( arm, body, 4 );
@@ -404,7 +404,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
 //FreeWatcher?
 void s07a_meryl7_800D5B28( WatcherWork* work )
 {
-    GM_FreeHomingTarget( work->hom );
+    GM_ResetHomingTarget( work->hom );
     GM_FreeControl( &( work->control ) );
     GM_FreeObject( &( work->body ) );
     GM_FreeObject( &( work->weapon ) );

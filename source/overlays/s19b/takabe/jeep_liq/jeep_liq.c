@@ -453,12 +453,12 @@ void s19b_jeep_liq_800D81A8(Work *work)
     work->field_3F0 = n + 1;
     if (n == 0)
     {
-        GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_RADAR_OFF | STATE_PADRELEASE;
+        GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_RADAR_OFF | STATE_PADRELEASE;
         s19b_jlamp_800D0A20(0);
     }
     else if (n >= 0x150)
     {
-        GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFEBAR_OFF | STATE_MENU_OFF | STATE_RADAR_OFF | STATE_PADRELEASE);
+        GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_RADAR_OFF | STATE_PADRELEASE);
         s19b_jeep_liq_800D8014(work, (int)s19b_jeep_liq_800D8044);
         s19b_jeep_liq_800D76F8(work, (int)s19b_jeep_liq_800D77F0);
         work->field_3D0 = (int)s19b_jeep_liq_800D7114;
@@ -469,7 +469,7 @@ void s19b_jeep_liq_800D81A8(Work *work)
 void s19b_spark2_m_800D8620(Work *work)
 {
     GM_FreeTarget(work->f8E4);
-    GM_FreeHomingTarget(work->homing);
+    GM_ResetHomingTarget(work->homing);
     GM_FreeObject(&work->obj2);
     GM_FreeControl((CONTROL *)&work->world);
     GM_FreeObject(&work->obj);

@@ -58,7 +58,7 @@ int SECTION(".bss") rasen_el_800D2CBC;
 extern int            rasen_800C3404;
 extern int            rasen_800C3408;
 extern unsigned short rasen_el_800C342C[];
-extern unsigned short rasen_el_800D2CA4[];
+extern unsigned short rasen_800D2CA4[];
 
 void Takabe_ReshadeModel(DG_OBJS *objs, DG_LITS *lit);
 void Takabe_FreeObjs(DG_OBJS *objs);
@@ -93,7 +93,7 @@ void RasenElAct_800CC454(Work *work)
     int       dy;
     int       status;
 
-    GM_CurrentMap = rasen_el_800D2CA4[rasen_800C3404];
+    GM_CurrentMap = rasen_800D2CA4[rasen_800C3404];
 
     check = 0;
 
@@ -255,7 +255,7 @@ void RasenElAct_800CC454(Work *work)
 
     if (work->f248 != 0 && --work->f248 == 0)
     {
-        GM_GameStatus &= ~STATE_MENU_OFF;
+        GM_GameStatus &= ~STATE_MENU_DISABLE;
     }
 
     f230 = work->f230;
@@ -403,8 +403,8 @@ int RasenElGetResources_800CCB9C(Work *work, int name, int map)
     work->name = name;
     work->f234 = 0;
 
-    work->hzd[0] = GM_GetMap(rasen_el_800D2CA4[0])->hzd;
-    work->hzd[1] = GM_GetMap(rasen_el_800D2CA4[1])->hzd;
+    work->hzd[0] = GM_GetMap(rasen_800D2CA4[0])->hzd;
+    work->hzd[1] = GM_GetMap(rasen_800D2CA4[1])->hzd;
 
     object = &work->object;
 
@@ -688,7 +688,7 @@ void s11c_800CD340(Work *work, int arg1)
 
             GM_PlayerStatus |= PLAYER_PAD_OFF;
             DG_InvisibleObjs(GM_PlayerBody->objs);
-            GM_GameStatus |= STATE_MENU_OFF;
+            GM_GameStatus |= STATE_MENU_DISABLE;
             GM_PlayerControl->turn.vy = 0;
 
             GM_SetCameraCallbackFunc(0, s11c_800CD21C);
@@ -890,7 +890,7 @@ void s11c_800CDAB4(Work *work)
 
     s11c_800CD958(work);
 
-    prim->group_id = rasen_el_800D2CA4[0] | rasen_el_800D2CA4[1];
+    prim->group_id = rasen_800D2CA4[0] | rasen_800D2CA4[1];
     prim->raise = 0;
     prim->root = &work->object.objs->world;
 }

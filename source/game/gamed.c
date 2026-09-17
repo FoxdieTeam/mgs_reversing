@@ -691,7 +691,7 @@ void GM_GameOver(void)
     {
         GM_GameOverTimer = 4;
         GM_CallSystemCallbackProc(0, 0);
-        GM_GameStatus |= (STATE_RADIO_OFF | STATE_PAUSE_OFF | STATE_MENU_OFF);
+        GM_GameStatus |= (STATE_RADIO_OFF | STATE_PAUSE_OFF | STATE_MENU_DISABLE);
     }
 }
 

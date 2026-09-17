@@ -119,6 +119,7 @@
 #define KMD_IPPANHEI            0x96b6 // GV_StrCode( "ippanhei" )
 #define KMD_BOX_01              0x4d5f // GV_StrCode( "box_01" )
 #define KMD_LOW_109P            0xff15 // GV_StrCode( "low_109p" )
+#define KMD_LOPRYHEI            0xd7e3 // GV_StrCode( "lopryhei" )
 
 // Stage s00a/d00a (docks)
 #define KMD_SNE_WET2            0x7693 // GV_StrCode( "sne_wet2" )

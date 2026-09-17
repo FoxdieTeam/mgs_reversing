@@ -180,7 +180,7 @@ void *s05a_800DDCBC(CamActor *director)
 
     objs = bodyp->objs;
     *(int *)&objs->flag |= 0x80;
-    work->homing = GM_AllocHomingTarget(&work->field_1C8, &work->control);
+    work->homing = GM_SetHomingTarget(&work->field_1C8, &work->control);
     work->homing->flag = one;
     work->target = GM_AllocTarget();
     size.vx = 0x12c;
@@ -489,7 +489,7 @@ void s05a_800DEB94(Sol *work)
     }
     if (work->homing)
     {
-        GM_FreeHomingTarget(work->homing);
+        GM_ResetHomingTarget(work->homing);
     }
 }
 int s05a_800DEC18(Sol *work, SVECTOR *s2, int a2)

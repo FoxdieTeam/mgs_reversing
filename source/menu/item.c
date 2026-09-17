@@ -1101,7 +1101,7 @@ void menu_item(MenuWork *work, u_long *ot)
     // If not browsing items/weapons menu and not using Codec...
     if (work->field_2A_state == MENU_CLOSED)
     {
-        if (!(GM_GameStatus & (STATE_TAKING_PHOTO | STATE_MENU_OFF)))
+        if (!(GM_GameStatus & (STATE_TAKING_PHOTO | STATE_MENU_DISABLE)))
         {
             // If the player is allowed to use items
             if (!(GM_PlayerStatus &

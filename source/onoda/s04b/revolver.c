@@ -1798,7 +1798,7 @@ static int GetResources(Work *work, int name, int where)
     work->field_958 = s04c_revolver_800CF418;
     work->field_95C = s04c_revolver_800CF418;
 
-    hom = work->hom = GM_AllocHomingTarget(&work->body.objs->objs[0].world, control);
+    hom = work->hom = GM_SetHomingTarget(&work->body.objs->objs[0].world, control);
     hom->flag = 1;
 
     if (InitTarget(work) < 0)

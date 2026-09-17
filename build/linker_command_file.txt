@@ -2643,7 +2643,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE08C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE1D4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE210.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE34C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE34C.obj", overlay ; ZAKO11A_SetPutChar
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE394.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE3C8.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE428.obj", overlay
@@ -2655,8 +2655,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE88C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE8E0.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE9B0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CEB8C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CEBF8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CEB8C.obj", overlay ; Zako11AActionMain
+    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CEBF8.obj", overlay ; Zako11APushMove
 
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay

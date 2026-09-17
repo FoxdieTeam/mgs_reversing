@@ -1410,7 +1410,7 @@ void menu_weapon_update_8003E990(MenuWork *work, u_long *ot)
 
     if (work->field_2A_state == MENU_CLOSED)
     {
-        if (GM_GameStatus & (STATE_TAKING_PHOTO | STATE_MENU_OFF))
+        if (GM_GameStatus & (STATE_TAKING_PHOTO | STATE_MENU_DISABLE))
         {
             return;
         }

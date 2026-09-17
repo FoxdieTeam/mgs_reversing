@@ -273,7 +273,7 @@ static int GetResources(Work *work, int name, int where)
     work->target1 = GM_AllocTarget();
     work->target2 = GM_AllocTarget();
 
-    work->hom = GM_AllocHomingTarget(&body->objs->world, &work->control);
+    work->hom = GM_SetHomingTarget(&body->objs->world, &work->control);
     if (work->hom)
     {
         work->hom->flag = 1;
@@ -295,7 +295,7 @@ static void Die(Work *work)
 {
     GM_FreeTarget(work->target1);
     GM_FreeTarget(work->target2);
-    GM_FreeHomingTarget(work->hom);
+    GM_ResetHomingTarget(work->hom);
     GM_FreeObject(&work->weapon);
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);

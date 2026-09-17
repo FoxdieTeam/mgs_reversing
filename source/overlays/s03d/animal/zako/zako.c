@@ -91,7 +91,7 @@ void s03d_800CCB2C(Work *work)
 {
     if (work->field_B00 != 0)
     {
-        if ( GM_GameStatus & (STATE_CUT_IN | STATE_BEHIND_CAMERA) || GM_Camera.first_person )
+        if ( GM_GameStatus & STATE_CAM_CHANGE || GM_Camera.first_person )
         {
             if (work->lod != 1)
             {
@@ -182,7 +182,7 @@ void s03d_800CD054(Work *work)
     GM_FreeTarget(work->field_8FC);
     GV_DestroyActor(work->glight);
     GV_DestroyActor(work->shadow);
-    GM_FreeHomingTarget(work->hom);
+    GM_ResetHomingTarget(work->hom);
 }
 
 int s03d_800CD0C8(Work *work)

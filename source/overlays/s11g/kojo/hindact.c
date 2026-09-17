@@ -198,7 +198,7 @@ void DrawLifeBar(HindWork *work)
     int life_total;
     int rest;
 
-    if (GM_GameStatus & STATE_LIFEBAR_OFF)
+    if (GM_GameStatus & STATE_LIFE_OFF)
     {
         return;
     }
@@ -791,7 +791,7 @@ void HindAct(HindWork *work)
 void HindDie(HindWork *work)
 {
     GM_GameStatus &= ~STATE_PADDEMO;
-    GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_OFF | STATE_LIFEBAR_OFF);
+    GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF);
 
     if (work->end_proc >= 0 && work->field_94C != 1 && work->field_A74 == 1)
     {
