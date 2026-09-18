@@ -229,8 +229,11 @@ void rank_800D4E2C( Work *work, int );
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D4F70.s")
 void rank_800D4F70( Work *work, u_long *ot );
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800D51EC.s") // done
-void rank_800D51EC( Work *work, int, int );
+void rank_800D51EC( Work *work, int index, int color )
+{
+    font_set_color( &work->kcb[ index ], 0, color, 0 );
+    font_clut_update( &work->kcb[ index ] );
+}
 
 void *rank_800D523C( KCB *kcb )
 {
@@ -732,7 +735,20 @@ static void Die( Work *work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800DAD08.s") // done, Init_Res_NT
+void rank_800DAD08( Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int semiTrans )
+{
+    setPolyFT4( poly );
+    setRGB0( poly, 0x40, 0x40, 0x40 );
+    poly->x0 = x0;
+    poly->y0 = y0;
+    poly->y1 = y0;
+    poly->x2 = x0;
+    poly->x1 = x1;
+    poly->y2 = y1;
+    poly->x3 = x1;
+    poly->y3 = y1;
+    SetSemiTrans( poly, semiTrans );
+}
 
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800DAD78.s") // done, Init_Res
 void rank_800DAD78( Work *work, int, POLY_FT4 *, int, int, int, int, int, int );
