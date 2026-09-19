@@ -567,7 +567,7 @@
 8002DC74 64 GM_SetTarget
 8002DCB4 24 GM_SetCaptureTarget
 8002DCCC 72 GM_SetPowerTarget
-8002DD14 8 GM_TargetBody
+8002DD14 8 GM_SetC4Target
 8002DD1C 196 SetFromToTarget
 8002DDE0 984 OnlineTarget
 8002E1B8 240 GM_OnlineTargetCheck

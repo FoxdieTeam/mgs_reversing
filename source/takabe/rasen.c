@@ -38,8 +38,8 @@ typedef struct _Rasen2Work
     GV_ACT        *field_238;
 } Rasen2Work;
 
-int rasen_800C3404 = 0; // rasen map section
-int rasen_800C3408 = 0;
+int Rasen_MapSection = 0;
+int Rasen_LookSection = 0;
 int rasen_800C340C = 0;
 
 int s11c_dword_800C3410 = 0x00000000;
@@ -64,7 +64,7 @@ typedef struct RasenUnk_800D2C84
 
 RasenUnk_800D2C84 SECTION(".bss") rasen_800D2C84;
 
-unsigned short SECTION(".bss") rasen_800D2CA4[4]; // rasen map ids
+unsigned short SECTION(".bss") Rasen_Maps[4];
 
 void Takabe_FreeObjs(DG_OBJS *objs);
 void Takabe_RefreshObjectPacks(DG_OBJS *objs);
@@ -86,7 +86,7 @@ void Rasen2IterBakudanJirai_800CA3A4(Rasen2Work *work, MAP *oldMap, MAP *newMap)
     int          yoff;
     int          bitmask;
 
-    if (rasen_800C3408 == 1)
+    if (Rasen_LookSection == 1)
     {
         yoff = -32000;
         bitmask = 0;
@@ -152,7 +152,7 @@ void Rasen2SearchWhereList_800CA568(Rasen2Work *work, MAP *toFind, MAP *map)
     int       count;
 
     control = GM_WhereList;
-    if (rasen_800C3408 == 1)
+    if (Rasen_LookSection == 1)
     {
         for (count = GM_N_WhereList; count > 0; count--, control++)
         {
@@ -164,7 +164,7 @@ void Rasen2SearchWhereList_800CA568(Rasen2Work *work, MAP *toFind, MAP *map)
             }
         }
     }
-    else if (rasen_800C3408 == 2)
+    else if (Rasen_LookSection == 2)
     {
         for (count = GM_N_WhereList; count > 0; count--, control++)
         {
@@ -191,7 +191,7 @@ void Rasen2UpdateChnlQueue_800CA678(Rasen2Work *work, int bitmask1, int bitmask2
     // per comment in DG_CHANL: "queue can contain DG_PRIM as
     // well, probably void*"
 
-    if (rasen_800C3408 == 1)
+    if (Rasen_LookSection == 1)
     {
         for (count = chanl->queue_size - chanl->prim_index; count > 0; count--)
         {
@@ -211,7 +211,7 @@ void Rasen2UpdateChnlQueue_800CA678(Rasen2Work *work, int bitmask1, int bitmask2
             }
         }
     }
-    else if (rasen_800C3408 == 2)
+    else if (Rasen_LookSection == 2)
     {
         for (count = chanl->queue_size - chanl->prim_index; count > 0; count--)
         {
@@ -278,20 +278,20 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
             rasen_800D2C84.field_10.vx = msgs->message[1];
             rasen_800D2C84.field_10.vy = msgs->message[2] + s11c_dword_800C3414;
             rasen_800D2C84.field_10.vz = msgs->message[3];
-            if (rasen_800C3408 == 1)
+            if (Rasen_LookSection == 1)
             {
                 rasen_800D2C84.field_10.vy -= 32000;
             }
-            else if (rasen_800C3408 == 2)
+            else if (Rasen_LookSection == 2)
             {
                 rasen_800D2C84.field_10.vy += 32000;
             }
         }
     }
 
-    if (rasen_800C3408 != 0)
+    if (Rasen_LookSection != 0)
     {
-        mapid = rasen_800D2CA4[rasen_800C3404];
+        mapid = Rasen_Maps[Rasen_MapSection];
         old_map = GM_PlayerControl->map;
         new_map = GM_GetMap(mapid);
 
@@ -340,7 +340,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
                 j2 = vy2 % 16;
                 if (vy2 < 16)
                 {
-                    DG_VisibleObjs(work->field_170[rasen_800C3404][j2]);
+                    DG_VisibleObjs(work->field_170[Rasen_MapSection][j2]);
                 }
             }
         }
@@ -353,7 +353,7 @@ void Rasen2Act_800CA79C(Rasen2Work *work)
             j2 = vy2 % 16;
             if (vy2 < 16)
             {
-                DG_VisibleObjs(work->field_170[rasen_800C3404][j2]);
+                DG_VisibleObjs(work->field_170[Rasen_MapSection][j2]);
             }
         }
     }
@@ -407,17 +407,17 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 
     map_index_bit =
         GM_FindMap(GCL_StrToInt(GCL_NextStr()))->index;
-    rasen_800D2CA4[0] = map_index_bit;
+    Rasen_Maps[0] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     map_index_bit =
         GM_FindMap(GCL_StrToInt(GCL_NextStr()))->index;
-    rasen_800D2CA4[1] = map_index_bit;
+    Rasen_Maps[1] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     map_index_bit =
         GM_FindMap(GCL_StrToInt(GCL_NextStr()))->index;
-    rasen_800D2CA4[2] = map_index_bit;
+    Rasen_Maps[2] = map_index_bit;
     work->field_28 |= map_index_bit;
 
     if (GCL_GetOption('m'))
@@ -431,9 +431,9 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 
     for (i = 0; i < 3; i++)
     {
-        if (map == rasen_800D2CA4[i])
+        if (map == Rasen_Maps[i])
         {
-            rasen_800C3404 = i;
+            Rasen_MapSection = i;
         }
     }
 
@@ -471,7 +471,7 @@ int Rasen2GetResources_800CAC64(Rasen2Work *work, int name, int where)
 
             objs->world = DG_ZeroMatrix;
             objs->world.t[1] = 4000 * j - 32250;
-            objs->group_id = rasen_800D2CA4[i];
+            objs->group_id = Rasen_Maps[i];
         }
     }
 
@@ -683,7 +683,7 @@ void RasenAct_800CB530(Work *work)
     {
         return;
     }
-    rasen_800C3408 = 0;
+    Rasen_LookSection = 0;
 
     if (GM_WhereList[0]->name)
     {
@@ -691,26 +691,26 @@ void RasenAct_800CB530(Work *work)
         {
             level = GM_PlayerControl->levels[0] + 1100;
 
-            if (level >= 16000 - s11c_dword_800C3410 && rasen_800C3404 < 2)
+            if (level >= 16000 - s11c_dword_800C3410 && Rasen_MapSection < 2)
             {
                 svec1.vy = -32000;
                 GM_PanCamera(&svec1);
                 GM_Camera.pan.pad = 0;
                 rasen_800D2C84.field_1C = 1;
-                rasen_800C3408 = 1;
+                Rasen_LookSection = 1;
                 GM_PlayerControl->mov.vy -= 32000;
-                rasen_800C3404++;
+                Rasen_MapSection++;
                 GM_PlayerPosition.vy -= 32000;
             }
-            else if (level < -16000 - s11c_dword_800C3410 && rasen_800C3404 > 0)
+            else if (level < -16000 - s11c_dword_800C3410 && Rasen_MapSection > 0)
             {
                 svec1.vy = 32000;
                 GM_PanCamera(&svec1);
                 GM_Camera.pan.pad = 0;
                 rasen_800D2C84.field_1C = 1;
-                rasen_800C3408 = 2;
+                Rasen_LookSection = 2;
                 GM_PlayerControl->mov.vy += 32000;
-                rasen_800C3404--;
+                Rasen_MapSection--;
                 GM_PlayerPosition.vy += 32000;
             }
         }
@@ -719,13 +719,13 @@ void RasenAct_800CB530(Work *work)
     if (rasen_800C340C == 2)
     {
         field_10 = &rasen_800D2C84.field_10; // why???
-        if (rasen_800C3408 == 1)
+        if (Rasen_LookSection == 1)
         {
             field_10->vy -= 32000;
             rasen_800D2C84.field_0.vy -= 32000;
             rasen_800D2C84.field_8.vy -= 32000;
         }
-        else if (rasen_800C3408 == rasen_800C340C)
+        else if (Rasen_LookSection == rasen_800C340C)
         {
             field_10->vy += 32000;
             rasen_800D2C84.field_0.vy += 32000;
@@ -754,7 +754,7 @@ void RasenAct_800CB530(Work *work)
         svec5 = GM_SnakeCamera.target;
         svec5.vz += 400;
 
-        if (HZD_LevelHazardCheck(GM_GetMap(rasen_800D2CA4[rasen_800C3404])->hzd, &svec5, HZD_CHK_FLOOR) & 2)
+        if (HZD_LevelHazardCheck(GM_GetMap(Rasen_Maps[Rasen_MapSection])->hzd, &svec5, HZD_CHK_FLOOR) & 2)
         {
             svec5.vy += 6000;
             HZD_GetLevelHeight(levels);

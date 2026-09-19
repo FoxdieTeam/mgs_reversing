@@ -565,7 +565,7 @@ static int JpegcamGetZoomLimit(Work *work)
     int     retval;
     int     cond;
 
-    if (GM_GameStatus < 0)
+    if (GM_GameStatus & STATE_DEMO)
     {
         retval = 3200;
     }

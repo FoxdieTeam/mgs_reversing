@@ -166,7 +166,7 @@ void s07c_meryl72_800C6E48( Meryl72Work *work )
     GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &s07c_dword_800C32F0 );
     GM_SetPowerTarget( target, POWER_DECREASE, -1, life, faint, &s07c_dword_800C32F8 );
     GM_SetCaptureTarget( target, -1, faint, NULL, NULL );
-    GM_TargetBody( target, &work->body.objs->objs[1].world );
+    GM_SetC4Target( target, &work->body.objs->objs[1].world );
 
     GM_SetTarget( &work->target2, TARGET_POWER | TARGET_TOUCH, PLAYER_SIDE, &s07c_dword_800C3300 );
     GM_SetPowerTarget( &work->target2, POWER_CONST | POWER_EXPLODE, 5, 0, 0, &s07c_dword_800C3308 );

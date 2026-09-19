@@ -23,29 +23,13 @@ void s11e_zk11ecom_800D89A0( ZakoWork* work )
 
 void s11e_zk11ecom_800D89E8( ZakoWork* work )
 {
-    int v0, v1, a2;
-    HZD_HDL *hzd;
-    void *a1;
-    MAP *map;
-    HZD_DEF *hdr;
+    HZD_ZON *zone;
 
-    v0 = work->field_B78;
-    do {} while (0);
-    map = work->control.map;
-    v1 = v0 << 1;
-    v1 = v1 + v0;
-    hzd = map->hzd;
-    a2 = v0 << 8;
-    hdr = hzd->def;
-    v0 = v0 | a2;
-    a1 = hdr->zones;
-    v1 = v1 << 3;
-    work->target_addr = v0;
-    a1 = a1  + v1;
-
-    work->target_pos.vx = ((HZD_ZON*)a1)->x;
-    work->target_pos.vy = ((HZD_ZON*)a1)->y;
-    work->target_pos.vz = ((HZD_ZON*)a1)->z;
+    zone = HZD_GetZone( work->control.map->hzd, work->field_B78 );
+    work->target_addr = work->field_B78 | ( work->field_B78 << 8 );
+    work->target_pos.vx = zone->x;
+    work->target_pos.vy = zone->y;
+    work->target_pos.vz = zone->z;
     work->target_map = work->start_map;
 }
 

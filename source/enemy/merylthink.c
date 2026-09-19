@@ -204,50 +204,21 @@ loop:
 
 void s07a_meryl_unk_800DB768( WatcherWork* work )
 {
-        work->target_addr = EnemyCommand.com_addr;
-        work->target_pos  = EnemyCommand.com_pos;
-        work->target_map  = EnemyCommand.com_map;
+    work->target_addr = EnemyCommand.com_addr;
+    work->target_pos  = EnemyCommand.com_pos;
+    work->target_map  = EnemyCommand.com_map;
 }
 
-// Identical to s00a_command_800CB0E0
 void s07a_meryl_unk_800DB7A8( WatcherWork* work )
 {
-    int v0, v1, a2;
-    HZD_HDL *hzd;
-    void *a1;
-    MAP *map;
-    HZD_DEF *hdr;
+    HZD_ZON *zone;
 
-    v0 = work->field_B7C;
-    do {} while (0);
-    map = work->control.map;
-    v1 = v0 << 1;
-    v1 = v1 + v0;
-    hzd = map->hzd;
-    a2 = v0 << 8;
-    hdr = hzd->def;
-    v0 = v0 | a2;
-    a1 = hdr->zones;
-    v1 = v1 << 3;
-    work->target_addr = v0;
-    a1 = a1  + v1;
-
-    work->target_pos.vx = ((HZD_ZON*)a1)->x;
-    work->target_pos.vy = ((HZD_ZON*)a1)->y;
-    work->target_pos.vz = ((HZD_ZON*)a1)->z;
-    work->target_map = work->start_map;
-
-    //should just be this
-    /*
-    addr = work->field_B7C;
-    work->target_addr = addr | (addr << 8);
-    zone = &work->control.map->hzd->def->zones[ addr ];
-
+    zone = HZD_GetZone( work->control.map->hzd, work->field_B7C );
+    work->target_addr = work->field_B7C | ( work->field_B7C << 8 );
     work->target_pos.vx = zone->x;
     work->target_pos.vy = zone->y;
     work->target_pos.vz = zone->z;
     work->target_map = work->start_map;
-    */
 }
 
 // Identical to s00a_command_800CB13C

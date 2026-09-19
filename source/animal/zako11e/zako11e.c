@@ -177,7 +177,7 @@ void InitTarget_800D3800( ZakoWork *work )
     GM_SetPowerTarget( target, POWER_DECREASE, -1, life, faint, &ZAKO_TARGET_FORCE_800C38D4 );
     GM_SetCaptureTarget( target, -1, faint, NULL, NULL);
 
-    GM_TargetBody( target, &( work->body.objs->objs[1].world ) );
+    GM_SetC4Target( target, &( work->body.objs->objs[1].world ) );
 
     work->local_data = work->param_life;
     target2 = &work->field_904;

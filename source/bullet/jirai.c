@@ -204,7 +204,7 @@ static void Act(JiraiWork *work)
     int      f130;
     GV_ACT  *claymore;
 
-    if (GM_GameStatus < 0)
+    if (GM_GameStatus & STATE_DEMO)
     {
         GV_DestroyActor(&work->actor);
         return;

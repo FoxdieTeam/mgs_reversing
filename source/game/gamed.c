@@ -546,7 +546,7 @@ static void Act(Work *work)
 #undef RESET_COMBO
 #undef RESET_DELAY
 
-        if ((GM_GameStatus < 0) && ((GM_CurrentPadData[2].press & (PAD_START | PAD_CROSS)) != 0))
+        if ((GM_GameStatus & STATE_DEMO) && ((GM_CurrentPadData[2].press & (PAD_START | PAD_CROSS)) != 0))
         {
             GM_StreamPlayStop();
         }

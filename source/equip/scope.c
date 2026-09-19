@@ -79,7 +79,7 @@ static int GetZoomLimit(Work *work)
     MATRIX mtx;
     SVECTOR vecs[2];
 
-    if ( GM_GameStatus < 0 )
+    if ( GM_GameStatus & STATE_DEMO )
     {
         eye = &DG_Chanl(0)->eye;
     }
@@ -637,7 +637,7 @@ static void Act(Work *work)
     GM_CheckShukanReverse(&pad_status);
 
     if ((GV_PauseLevel != 0) || (GM_PlayerStatus & PLAYER_PAD_OFF) ||
-        (GM_GameStatus < 0))
+        (GM_GameStatus & STATE_DEMO))
     {
         pad_status = 0;
     }

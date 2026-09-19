@@ -1399,12 +1399,12 @@ void s07a_meryl_unk_800D952C( WatcherWork *work )
         if ( s07a_meryl_unk_800D66F4( &GM_PlayerPosition ) || s07a_meryl_unk_800D66B0( &ctrl->mov ) )
         {
             work->visible = 0;
-            GM_TargetBody( work->target, NULL );
+            GM_SetC4Target( work->target, NULL );
         }
         else
         {
             work->visible = 1;
-            GM_TargetBody( work->target, &( work->body.objs->objs[1].world ) );
+            GM_SetC4Target( work->target, &( work->body.objs->objs[1].world ) );
         }
     }
 }

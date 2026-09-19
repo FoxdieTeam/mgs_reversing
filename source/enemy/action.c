@@ -1275,7 +1275,7 @@ void s00a_command_800C8054( WatcherWork *work, int time )
         GM_ConfigControlAttribute( &work->control, 0 );
         work->alert_level = 0;
         work->sn_dis = 30000;
-        GM_TargetBody( work->target, NULL );
+        GM_SetC4Target( work->target, NULL );
     }
 
     if ( time == 4 && TOPCOMMAND.mode == 0 )

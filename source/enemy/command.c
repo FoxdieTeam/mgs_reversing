@@ -833,13 +833,13 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
     pos.vy = zone->y;
     pos.vz = zone->z;
 
-    r_zone_shift = HZD_ZoneAddress( r_zone );
+    r_zone_shift = HZD_Address( r_zone, r_zone );
 
     for (;;)
     {
         printf( (char *)aNowzonedrzoned_800E0874, addr, r_zone );
 
-        l_zone_shift = HZD_ZoneAddress( addr );
+        l_zone_shift = HZD_Address( addr, addr );
 
         route_addr = HZD_Navigate( hzd,  l_zone_shift, r_zone_shift, &pos );
 

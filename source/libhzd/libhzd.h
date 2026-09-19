@@ -92,15 +92,14 @@ static inline int HZD_Address( int zone1, int zone2 )
 {
     if ( zone2 < zone1 )
     {
-        SWAP( zone1, zone2 );
+        int tmp;
+
+        tmp = zone1;
+        zone1 = zone2;
+        zone2 = tmp;
     }
 
     return ( 255 & zone1 ) | ( ( 255 & zone2 ) << 8 );
-}
-
-static inline int HZD_ZoneAddress( int address )
-{
-    return ( 255 & address ) | ( ( 255 & address ) << 8 );
 }
 
 static inline int HZD_Zone1( int address )
@@ -111,6 +110,16 @@ static inline int HZD_Zone1( int address )
 static inline int HZD_Zone2( int address )
 {
     return 255 & ( address >> 8 );
+}
+
+/* TODO: why is it like this? */
+static inline HZD_ZON *HZD_GetZone( HZD_HDL *hzd, int zone )
+{
+    int index;
+
+    index = zone << 1;
+    index += zone;
+    return (HZD_ZON *)( (char *)hzd->def->zones + ( index << 3 ) );
 }
 
 /*----------------------------------------------------------------*/

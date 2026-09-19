@@ -255,7 +255,7 @@ void menu_draw_radar(MenuWork *work, u_long *ot, int arg2)
     int *pWallDst2;
     int  j;
 
-    if (GM_GameStatus < 0)
+    if (GM_GameStatus & STATE_DEMO)
     {
         return;
     }
