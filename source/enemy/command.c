@@ -15,7 +15,7 @@
 #include "game/vibrate.h"
 #include "strcode.h"
 
-int SECTION(".bss") s00a_dword_800E0CA0;
+int SECTION(".bss") bikkuri_time;
 int SECTION(".bss") s00a_dword_800E0CA4;
 int SECTION(".bss") s00a_dword_800E0CA8;
 int SECTION(".bss") s00a_dword_800E0CAC;
@@ -23,10 +23,10 @@ int SECTION(".bss") s00a_dword_800E0CAC;
 GM_CameraSystemWork SECTION(".bss") s00a_dword_800E0CB0;
 
 int SECTION(".bss") s00a_dword_800E0D2C;
-int SECTION(".bss") s00a_dword_800E0D30;
+int SECTION(".bss") bikkuri_flag;
 int SECTION(".bss") s00a_dword_800E0D34;
 
-SVECTOR SECTION(".bss") s00a_dword_800E0D38;
+SVECTOR SECTION(".bss") bikkuri_pos;
 
 int SECTION(".bss") COM_PlayerOnZone;
 
@@ -171,17 +171,13 @@ end:
     return -1;
 }
 
-void s00a_command_800CEC40( SVECTOR *mov , int flag )
+void COM_CallBikkuriSe( SVECTOR *pos, int flag )
 {
-    s00a_dword_800E0D38.vx = mov->vx;
-    s00a_dword_800E0D30 |= 1 | flag;
-    s00a_dword_800E0D38.vy = mov->vy;
-    s00a_dword_800E0D38.vz = mov->vz;
-
-    if ( s00a_dword_800E0CA0 == 0 )
-    {
-        s00a_dword_800E0CA0 = 32;
-    }
+    bikkuri_flag |= ( flag | 0x1 );
+    bikkuri_pos.vx = pos->vx;
+    bikkuri_pos.vy = pos->vy;
+    bikkuri_pos.vz = pos->vz;
+    if ( bikkuri_time == 0 ) bikkuri_time = 32;
 }
 
 void s00a_command_800CEC90( void )
@@ -199,16 +195,16 @@ void s00a_command_800CEC90( void )
 
 void s00a_command_800CECF4(void)
 {
-    if ( s00a_dword_800E0CA0 == 32 )
+    if ( bikkuri_time == 32 )
     {
          GM_SeSet2( 0, 0x3F, SE_EXCLAMATION );
     }
 
-    s00a_dword_800E0CA0--;
+    bikkuri_time--;
 
-    if ( s00a_dword_800E0CA0 < 0 )
+    if ( bikkuri_time < 0 )
     {
-        s00a_dword_800E0CA0 = 0;
+        bikkuri_time = 0;
     }
 }
 
@@ -792,7 +788,7 @@ void s00a_command_800CFA94( CommanderWork* work )
 
     if ( EnemyCommand.field_0x98 == 0 )
     {
-        s00a_dword_800E0D30 |= 2;
+        bikkuri_flag |= 2;
         if ( EnemyCommand.field_0x17C >= 0 )
         {
             GCL_ExecProc( EnemyCommand.field_0x17C, NULL );
@@ -1135,8 +1131,8 @@ static void GetResources( CommanderWork *work, int name, int where )
     COM_PlayerPosition = DG_ZeroVector;
     COM_PlayerMap = where;
     COM_VibTime = 0;
-    s00a_dword_800E0CA0 = 0;
-    s00a_dword_800E0D30 = 0;
+    bikkuri_time = 0;
+    bikkuri_flag = 0;
     s00a_dword_800E0D2C = 0;
 
     for ( i = 0 ; i < 8 ; i++ )

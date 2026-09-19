@@ -132,7 +132,7 @@ SVECTOR s12c_dword_800C3458 = {64512, 0, 0};
 extern SVECTOR KORE_GuestPosition;
 extern int     KORE_GuestFlag;
 
-void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
+void *AN_Headmark(MATRIX *mat, int mark);
 void  AN_Breath(MATRIX *world);
 void  AN_Breath_2(MATRIX *world);
 void  AN_Sleep(SVECTOR *pos);
@@ -680,7 +680,7 @@ void s12c_dog_800CAEC8(Work *work, int index, int mark)
         switch (index)
         {
         case 0:
-            AN_Unknown_800CA1EC(&work->field_19C[0].objs->objs[5].world, mark);
+            AN_Headmark(&work->field_19C[0].objs->objs[5].world, mark);
             control = &work->field_28[0];
             if (mark == 6)
             {
@@ -688,7 +688,7 @@ void s12c_dog_800CAEC8(Work *work, int index, int mark)
             }
             break;
         case 1:
-            AN_Unknown_800CA1EC(&work->field_19C[1].objs->objs[5].world, mark);
+            AN_Headmark(&work->field_19C[1].objs->objs[5].world, mark);
             control = &work->field_28[1];
             if (mark == 6)
             {

@@ -1,50 +1,188 @@
 #include "animal/zako11a/zako.h"
 
-extern void s11a_800CD00C( Work *work );
-extern void s11a_800D1B48( Work *work );
+#include "enemy/asiato.h"
 
-#pragma INCLUDE_ASM("asm/overlays/s11a/s11a_800CE3C8.s")
-void s11a_800CE3C8( Work *work );
+/*---------------------------------------------------------------------------*/
 
-#pragma INCLUDE_ASM("asm/overlays/s11a/s11a_800CE428.s")
-void s11a_800CE428( Work *work );
-
-#pragma INCLUDE_ASM("asm/overlays/s11a/s11a_800CE454.s")
-void s11a_800CE454( Work *work );
-
-#pragma INCLUDE_ASM("asm/overlays/s11a/s11a_800CE4D8.s")
-
-#pragma INCLUDE_ASM("asm/overlays/s11a/s11a_800CE538.s")
-void s11a_800CE538( Work *work );
-
-#pragma INCLUDE_ASM("asm/overlays/s11a/s11a_800CE6B8.s")
-void s11a_800CE6B8( Work *work );
-
-#pragma INCLUDE_ASM("asm/overlays/s11a/s11a_800CE7E0.s")
-void s11a_800CE7E0( Work *work );
-
-void s11a_800CE88C( Work *work )
+static void RunCallbacks( Work *work )
 {
-    work->field_B98[ 6 ] = 0;
-    s11a_800CE538( work );
+    int i;
+    void ( *func )( Work * );
 
-    if ( ZAKO11ACommand.alert_mode != 1 )
+    for ( i = 0; i < 8; i++ )
     {
-        s11a_800CE454( work );
-        s11a_800CE6B8( work );
-        s11a_800CE7E0( work );
+        func = work->field_B00[ i ];
+        if ( func != NULL ) func( work );
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11a/s11a_800CE8E0.s")
-void s11a_800CE8E0( Work *work );
+static void SetRadarParam( Work *work )
+{
+    VISION *vision;
+    RADAR_SIGHT_PARAM *r_param;
 
-void s11a_800CE9B0( Work *work )
+    vision = &work->vision;
+    r_param = &work->control.radar_param;
+
+    r_param->dir = vision->facedir;
+    r_param->dis = vision->length;
+    r_param->range = vision->range * 2;
+    r_param->r = 0;
+}
+
+static void CheckTarget( Work *work )
+{
+    if ( work->modetime[ 7 ] & 0x4 )
+    {
+        if ( work->target->damaged & ( TARGET_CAPTURE | TARGET_POWER ) )
+        {
+            work->modetime[ 6 ] |= 0x4;
+        }
+        else if ( ( work->touch.damaged & TARGET_TOUCH ) &&
+                  ( GM_PlayerStatus & ( PLAYER_MOVE | PLAYER_CB_BOX ) ) != PLAYER_CB_BOX )
+        {
+            work->modetime[ 6 ] |= 0xC;
+        }
+    }
+}
+
+static int ZoneDist( HZD_HDL *hzd, SVECTOR *vec1, SVECTOR *vec2 )
+{
+    int from, to;
+
+    from = HZD_GetAddress( hzd, vec1, -1 );
+    to = HZD_GetAddress( hzd, vec2, -1 );
+    from &= 0xFF;
+    to &= 0xFF;
+    return HZD_ZoneDistance( hzd, from, to );
+}
+
+static void CheckNoise( Work *work )
+{
+    CONTROL *control;
+
+    if ( !( work->modetime[ 7 ] & 0x1 ) ) return;
+    if ( work->act_status & 0x68 ) return;
+
+    control = &work->control;
+    if ( !( control->map->index & GM_PlayerMap ) ) return;
+    if ( GM_NoisePower == 0 ) return;
+
+    switch ( GM_NoisePower )
+    {
+    case 5:
+        if ( GV_DiffVec3( &GM_NoisePosition, &control->mov ) < 500 ) work->modetime[ 6 ] |= 0x1;
+        break;
+    case 200:
+        if ( GV_DiffVec3( &GM_NoisePosition, &control->mov ) < 8000 ) work->modetime[ 6 ] |= 0x1;
+        break;
+    case 100:
+        if ( GV_DiffVec3( &GM_NoisePosition, &control->mov ) >= 8000 ) break;
+        if ( ZoneDist( control->map->hzd, &control->mov, &GM_NoisePosition ) >= 300 ) break;
+        work->modetime[ 6 ] |= 0x1;
+        GM_NoiseLength = 0;
+        GM_NoisePower = 0;
+        break;
+    case 255:
+        work->modetime[ 6 ] |= 0x1;
+        break;
+    }
+}
+
+static void CheckBox( Work *work )
+{
+    if ( !( work->modetime[ 7 ] & 0x2 ) ) return;
+    if ( work->vision.pad != 2 ) return;
+    if ( !( GM_PlayerStatus & PLAYER_CB_BOX ) ) return;
+
+    if ( GV_DiffVec3( &work->player_pos, &GM_PlayerPosition ) > 50 ||
+         work->player_turn != GM_WhereList[ 0 ]->rot.vy )
+    {
+        if ( ZAKO11ACommand.alert_mode == 1 ) return;
+        work->player_pos = GM_PlayerPosition;
+        work->player_turn = GM_WhereList[ 0 ]->rot.vy;
+        work->modetime[ 6 ] |= 0x2;
+    }
+    else if ( GV_DiffVec3( &work->control.mov, &GM_PlayerPosition ) < 1500 )
+    {
+        work->modetime[ 6 ] |= 0x40;
+    }
+
+    work->vision.pad = 0;
+    work->modetime[ 6 ] |= 0x80;
+}
+
+static void CheckAsiato( Work *work )
+{
+    HZD_HDL *hzd;
+    SVECTOR *pos;
+    VISION *vis;
+
+    if ( !( work->modetime[ 7 ] & 0x10 ) || work->think2 == 5 ) return;
+
+    hzd = work->control.map->hzd;
+    pos = &work->control.mov;
+    vis = &work->vision;
+
+    if ( AsiatoCheck( hzd, pos ) &&
+         SearchNearAsiato( hzd, pos, vis->facedir, vis->range, vis->length ) >= 0 )
+    {
+        work->modetime[ 6 ] |= 0x10;
+    }
+}
+
+static void CheckAlert( Work *work )
+{
+    work->modetime[ 6 ] = 0;
+    CheckNoise( work );
+
+    if ( ZAKO11ACommand.alert_mode != 1 )
+    {
+        CheckTarget( work );
+        CheckBox( work );
+        CheckAsiato( work );
+    }
+}
+
+static void UpdateAlert( Work *work )
+{
+    switch ( work->vision.pad )
+    {
+    case 0:
+        if ( work->field_B90 != 2 ||
+             !( GM_PlayerStatus & PLAYER_INTRUDE ) ||
+             work->vision.length == 0 )
+        {
+            work->field_B90 = 0;
+            work->alert_level -= 4;
+        }
+        break;
+    case 1:
+        work->field_B90 = 1;
+        work->alert_level--;
+        break;
+    case 2:
+        work->field_B90 = 2;
+        work->alert_level++;
+        break;
+    }
+
+    if ( work->alert_level < 0 )
+    {
+        work->alert_level = 0;
+    }
+    else if ( work->alert_level  > 255 )
+    {
+        work->alert_level = 255;
+    }
+}
+
+static void CheckVision( Work *work )
 {
     SVECTOR tmp;
     CONTROL *control;
     SVECTOR *pos;
-    int dir, len, height;
+    int dir, dis, height;
     MAP *map;
 
     control = &work->control;
@@ -53,22 +191,22 @@ void s11a_800CE9B0( Work *work )
 
     dir = ratan2( pos->vx - work->control.mov.vx,
                   pos->vz - work->control.mov.vz ) & 4095;
-    work->field_C30 = dir;
+    work->player_dir = dir;
 
-    len = GV_VecLen3( &tmp );
-    work->field_C2C = len;
+    dis = GV_VecLen3( &tmp );
+    work->player_dis = dis;
 
     height = ABS( pos->vy - work->control.mov.vy );
 
     if ( !( work->control.map->index & GM_PlayerMap ) )
     {
-        work->field_B8E = 0;
+        work->vision.pad = 0;
         return;
     }
 
     if ( GM_PlayerStatus & PLAYER_INTRUDE )
     {
-        work->field_B8E = 0;
+        work->vision.pad = 0;
         return;
     }
 
@@ -77,21 +215,21 @@ void s11a_800CE9B0( Work *work )
         return;
     }
 
-    if ( ( ZAKO11A_EYE_LENGTH + 2000 ) < len )
+    if ( dis > ( ZAKO11A_EYE_LENGTH + 2000 ) )
     {
-        work->field_B8E = 0;
+        work->vision.pad = 0;
         return;
     }
 
     if ( height > 2000 )
     {
-        work->field_B8E = 0;
+        work->vision.pad = 0;
         return;
     }
 
-    if ( len >= 500 && GV_DiffDirAbs( work->field_B88, dir ) >= work->field_B8A )
+    if ( dis >= 500 && GV_DiffDirAbs( work->vision.facedir, dir ) >= work->vision.range )
     {
-        work->field_B8E = 0;
+        work->vision.pad = 0;
         return;
     }
 
@@ -99,31 +237,33 @@ void s11a_800CE9B0( Work *work )
     if ( !HZD_OnlineHazardCheck( map->hzd, pos, &control->mov, HZD_CHK_ALL, HZD_SEG_NO_PLAYER ) &&
          !GM_OnlineTargetCheckAny( &control->mov, pos, map->index, &tmp ) )
     {
-        if ( work->field_B8C < len )
+        if ( dis > work->vision.length )
         {
-            work->field_B8E = 1;
+            work->vision.pad = 1;
         }
         else
         {
-            work->field_B8E = 2;
+            work->vision.pad = 2;
         }
     }
     else
     {
-        work->field_B8E = 0;
+        work->vision.pad = 0;
     }
 }
+
+/*---------------------------------------------------------------------------*/
 
 void Zako11AActionMain( Work *work )
 {
     if ( work->act.last_set <= 48 )
     {
-        s11a_800CE428( work );
-        s11a_800CE9B0( work );
-        s11a_800CE88C( work );
-        s11a_800CE8E0( work );
-        s11a_800D1B48( work );
-        s11a_800CE3C8( work );
+        SetRadarParam( work );
+        CheckVision( work );
+        CheckAlert( work );
+        UpdateAlert( work );
+        Zako11AThink( work );
+        RunCallbacks( work );
     }
 
     s11a_800CD00C( work );

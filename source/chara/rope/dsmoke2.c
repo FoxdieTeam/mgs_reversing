@@ -6,20 +6,20 @@ typedef struct _Work
     GV_ACT   actor;
     int      name;
     TARGET   target;
-    SVECTOR  start;
+    SVECTOR  mov;
     SVECTOR  end;
-    SVECTOR  size;
-    SVECTOR  field_84;
+    SVECTOR  diff;
+    SVECTOR  speed;
     char     pad1[0x8];
     int      n_vecs;
     SVECTOR  vecs[3];
     u_short  map;
     short    field_B2;
-    short    field_B4;
-    short    field_B6;
-    u_short  field_B8;
-    u_short  field_BA;
-    u_short  field_BC;
+    short    interval;
+    short    interval2;
+    u_short  time;
+    u_short  time2;
+    u_short  delay;
     short    field_BE;
     SVECTOR  field_C0[16];
     SVECTOR  field_140[16];
@@ -40,15 +40,15 @@ int s11d_dsmoke2_800CC08C(Work *work, SVECTOR *pos)
 {
     int yh, yl;
 
-    if (work->start.vy > work->end.vy)
+    if (work->mov.vy > work->end.vy)
     {
-        yh = work->start.vy + 2000;
+        yh = work->mov.vy + 2000;
         yl = work->end.vy - 2000;
     }
     else
     {
         yh = work->end.vy + 2000;
-        yl = work->start.vy - 2000;
+        yl = work->mov.vy - 2000;
     }
 
     if ((pos->vy > yh) || (pos->vy < yl))
@@ -103,20 +103,20 @@ void s11d_dsmoke2_800CC1DC(Work *work)
     u_short temp_s3;
     u_short temp_s2;
 
-    temp_s3 = work->field_B4;
-    temp_s2 = work->field_BA;
+    temp_s3 = work->interval;
+    temp_s2 = work->time2;
 
-    if (++work->field_BA > temp_s3)
+    if (++work->time2 > temp_s3)
     {
-        work->field_BA = 0;
-        work->field_B8 = 0;
+        work->time2 = 0;
+        work->time = 0;
         work->field_B2 = 0;
         return;
     }
 
     if (temp_s2 == 0)
     {
-        GM_SeSet(&work->start, 186);
+        GM_SeSet(&work->mov, 186);
     }
 
     if (temp_s2 < 16)
@@ -134,13 +134,13 @@ void s11d_dsmoke2_800CC1DC(Work *work)
     {
         if (temp_s2 < 16)
         {
-            size.vx = temp_s2 * work->field_84.vx;
-            size.vy = temp_s2 * work->field_84.vy;
-            size.vz = temp_s2 * work->field_84.vz;
+            size.vx = temp_s2 * work->speed.vx;
+            size.vy = temp_s2 * work->speed.vy;
+            size.vz = temp_s2 * work->speed.vz;
         }
         else
         {
-            size = work->size;
+            size = work->diff;
         }
 
         if (temp_s2 >= (temp_s3 - 16))
@@ -148,9 +148,9 @@ void s11d_dsmoke2_800CC1DC(Work *work)
             index = temp_s2 - (temp_s3 - 16);
             DG_InvisiblePrim(work->field_240[index]);
 
-            sp10.vx = index * work->field_84.vx;
-            sp10.vy = index * work->field_84.vy;
-            sp10.vz = index * work->field_84.vz;
+            sp10.vx = index * work->speed.vx;
+            sp10.vy = index * work->speed.vy;
+            sp10.vz = index * work->speed.vz;
         }
         else
         {
@@ -166,7 +166,7 @@ void s11d_dsmoke2_800CC418(Work *work)
 {
     int index;
 
-    index = work->field_B8;
+    index = work->time;
     if (index >= 16)
     {
         work->field_BE = 16;
@@ -177,11 +177,11 @@ void s11d_dsmoke2_800CC418(Work *work)
         DG_VisiblePrim(work->field_240[index]);
     }
 
-    work->field_B8++;
+    work->time++;
 
     if (s11d_dsmoke2_800CC08C(work, &GM_PlayerPosition))
     {
-        s11d_dsmoke2_800CC0E0(work, &DG_ZeroVector, &work->size);
+        s11d_dsmoke2_800CC0E0(work, &DG_ZeroVector, &work->diff);
     }
 }
 
@@ -223,32 +223,32 @@ void s11d_dsmoke2_800CC648(Work *work)
 {
     GM_CurrentMap = work->map;
 
-    if (work->field_BC != 0)
+    if (work->delay != 0)
     {
-        work->field_BC--;
+        work->delay--;
         return;
     }
 
-    if (work->field_B4 >= 0)
+    if (work->interval >= 0)
     {
         if (work->field_B2 == 0)
         {
-            if (work->field_B8 == work->field_B6)
+            if (work->time == work->interval2)
             {
                 work->field_B2 = 1;
             }
 
-            if ((work->field_B8 >= (work->field_B6 - 24)) && (work->field_B8 < (work->field_B6 - 18)))
+            if ((work->time >= (work->interval2 - 24)) && (work->time < (work->interval2 - 18)))
             {
-                if (work->field_B8 == work->field_B6 - 24)
+                if (work->time == work->interval2 - 24)
                 {
-                    GM_SeSet(&work->start, 176);
+                    GM_SeSet(&work->mov, 176);
                 }
 
-                AN_DamageSmoke1(&work->start);
+                AN_DamageSmoke1(&work->mov);
             }
 
-            work->field_B8++;
+            work->time++;
         }
         else
         {
@@ -313,15 +313,15 @@ int s11d_dsmoke2_800CC794(Work *work)
             height = (i - 8) * 120 + 1000;
         }
 
-        rad = GV_VecLen3(&work->field_84) / 2;
+        rad = GV_VecLen3(&work->speed) / 2;
         rect->x = rad * 3;
         rect->w = rect->x * 2;
         rect->y = height / 2;
         rect->h = height;
 
-        vert->vx = work->start.vx + work->field_84.vx * i + GV_RandS(64);
-        vert->vy = work->start.vy + work->field_84.vy * i + GV_RandS(64);
-        vert->vz = work->start.vz + work->field_84.vz * i + GV_RandS(64);
+        vert->vx = work->mov.vx + work->speed.vx * i + GV_RandS(64);
+        vert->vy = work->mov.vy + work->speed.vy * i + GV_RandS(64);
+        vert->vz = work->mov.vz + work->speed.vz * i + GV_RandS(64);
 
         *sp18 = *vert;
 
@@ -366,34 +366,31 @@ int s11d_dsmoke2_800CC794(Work *work)
 int s11d_dsmoke2_800CCAB4(Work *work)
 {
     SVECTOR size;
-    int     level;
+    int     gamelevel;
     int     i;
 
-    GCL_StrToSV(GCL_GetOption('s'), (short *)&work->start);
+    GCL_StrToSV(GCL_GetOption('s'), (short *)&work->mov);
     GCL_StrToSV(GCL_GetOption('e'), (short *)&work->end);
 
     GCL_GetOption('i');
-    work->field_B4 = GCL_StrToInt(GCL_NextStr());
-    work->field_B6 = GCL_StrToInt(GCL_NextStr());
-    work->field_BC = GCL_StrToInt(GCL_GetOption('d'));
-    work->field_B8 = 0;
-    work->field_BA = 0;
+    work->interval = GCL_StrToInt(GCL_NextStr());
+    work->interval2 = GCL_StrToInt(GCL_NextStr());
+    work->delay = GCL_StrToInt(GCL_GetOption('d'));
+    work->time = 0;
+    work->time2 = 0;
 
-    GV_SubVec3(&work->end, &work->start, &work->size);
+    GV_SubVec3(&work->end, &work->mov, &work->diff);
 
-    work->field_84.vx = work->size.vx / 16;
-    work->field_84.vy = work->size.vy / 16;
-    work->field_84.vz = work->size.vz / 16;
+    work->speed.vx = work->diff.vx / 16;
+    work->speed.vy = work->diff.vy / 16;
+    work->speed.vz = work->diff.vz / 16;
 
-    level = GM_GameLevel;
-    if (level < GM_LEVEL_EASY)
-    {
-        level = GM_LEVEL_EASY;
-    }
+    gamelevel = GM_GameLevel;
+    if (gamelevel < GM_LEVEL_EASY) gamelevel = GM_LEVEL_EASY;
 
     if (GCL_GetOption('x'))
     {
-        for (i = 0; i < level; i++)
+        for (i = 0; i < gamelevel; i++)
         {
             GCL_GetNextInt();
         }

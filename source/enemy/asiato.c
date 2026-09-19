@@ -30,7 +30,7 @@ typedef struct _Work
 
 int SECTION(".bss") NearAsiatoDist;
 int SECTION(".bss") s00a_dword_800E0F94;
-SVECTOR SECTION(".bss") AsiatoPositions[49];
+SVECTOR SECTION(".bss") AsiatoPositions[49]; // should be 48
 
 /*---------------------------------------------------------------------------*/
 
@@ -202,7 +202,7 @@ int NearAsiato(void)
     return NearAsiatoDist;
 }
 
-int SearchNearAsiato( HZD_HDL *hzd, SVECTOR *mov, int facedir, int vision_unk, int length )
+int SearchNearAsiato( HZD_HDL *hzd, SVECTOR *pos, int facedir, int range, int length )
 {
     int i;
     int len;
@@ -217,12 +217,12 @@ int SearchNearAsiato( HZD_HDL *hzd, SVECTOR *mov, int facedir, int vision_unk, i
     {
         if (AsiatoPositions[i].pad == 1 )
         {
-            GV_SubVec3( &AsiatoPositions[i], mov, &svec );
+            GV_SubVec3( &AsiatoPositions[i], pos, &svec );
             svec.vy = 0;
             len = GV_VecLen3( &svec );
 
-            if ( len < max_len && len < length && GV_DiffDirAbs( facedir, GV_VecDir2(&svec) ) < vision_unk &&
-                !HZD_OnlineHazardCheck(hzd, mov, &AsiatoPositions[i], HZD_CHK_ALL, SEGMENT_ATR) )
+            if ( len < max_len && len < length && GV_DiffDirAbs( facedir, GV_VecDir2(&svec) ) < range &&
+                !HZD_OnlineHazardCheck(hzd, pos, &AsiatoPositions[i], HZD_CHK_ALL, SEGMENT_ATR) )
             {
                 max_len = len;
                 s4 = i;

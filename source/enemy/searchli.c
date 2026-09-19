@@ -81,7 +81,7 @@ const char aSearchliAngle4D[] = "ANGLE:%4d \n";
 
 const SVECTOR SearchliCenter_800E46D8 = {0, 0, 3000, 0};
 
-void s00a_command_800CEC40(SVECTOR *, int);
+void COM_CallBikkuriSe(SVECTOR *, int);
 void s01a_object_800D9424(CONTROL *, int);
 void s01a_800E2364(MATRIX *, SVECTOR *, VECTOR *);
 void s01a_lit_mdl_800E2D3C(GV_ACT *, int angle);
@@ -197,7 +197,7 @@ int s01a_searchli_800D763C(Work *work)
 
     if (work->f2A0 == 0)
     {
-        s00a_command_800CEC40(pos, 64);
+        COM_CallBikkuriSe(pos, 64);
         COM_VibTime = 10;
     }
 
@@ -449,7 +449,7 @@ void Searchli_800D7C58(Work *work)
     {
         ENE_SetTopCommAL(255);
         ENE_SetGopointLast();
-        s00a_command_800CEC40(&work->control.mov, 64);
+        COM_CallBikkuriSe(&work->control.mov, 64);
         COM_VibTime = 10;
         work->f294 = 1;
         work->f29C = 4;

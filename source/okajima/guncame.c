@@ -98,9 +98,9 @@ extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
 extern int     s03e_dword_800C32BC;
 
-void AN_Unknown_800CA1EC(MATRIX *world, int index);
+void AN_Headmark(MATRIX *world, int index);
 void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
-void AN_Unknown_800D6EB0(SVECTOR *pos);
+void AN_CameraSmoke(SVECTOR *pos);
 
 // Identical to d03a_red_alrt_800C437C
 int GunCame_800C6F60(unsigned short name, int nhashes, unsigned short *hashes)
@@ -500,7 +500,7 @@ void GunCame_800C7994(Work *work)
 
     if ((((GV_Time + work->field_414) & 3) == 0) && GunCame_800C7224(work))
     {
-        AN_Unknown_800CA1EC(&work->field_9C.objs->objs[0].world, 0);
+        AN_Headmark(&work->field_9C.objs->objs[0].world, 0);
 
         if (s03e_dword_800CC6BC <= 0)
         {
@@ -981,7 +981,7 @@ void GunCame_Act_800C80F4(Work *work)
                 work->field_38C[i].vy += work->field_37C[i].vy;
                 work->field_38C[i].vz += work->field_37C[i].vz;
 
-                AN_Unknown_800D6EB0(&work->field_38C[i]);
+                AN_CameraSmoke(&work->field_38C[i]);
             }
         }
     }

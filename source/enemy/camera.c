@@ -95,7 +95,7 @@ extern char s01a_dword_800E44CC[];
 extern TOPCOMMAND_STRUCT TOPCOMMAND;
 extern int               COM_VibTime;
 
-void AN_Unknown_800D6EB0(SVECTOR *pos);
+void AN_CameraSmoke(SVECTOR *pos);
 
 // duplicate of s03e_guncame_800C7118
 void s01a_camera_800D4CFC(DG_PRIM *prim, DG_TEX *tex, int r, int g, int b)
@@ -252,8 +252,8 @@ int s01a_camera_800D515C(Work *work)
     s01a_camera_800D509C(work);
     if (field_1EC == 15)
     {
-        s00a_command_800CEC40(&work->control.mov, 32);
-        AN_Unknown_800CA1EC(&work->body.objs[1].world, 0);
+        COM_CallBikkuriSe(&work->control.mov, 32);
+        AN_Headmark(&work->body.objs[1].world, 0);
         COM_VibTime = 10;
         s01a_camera_800D50EC(work);
     }
@@ -587,8 +587,8 @@ void s01a_camera_800D5A68(Work *work)
         ENE_SetTopCommAL(255);
         ENE_SetGopointLast();
         COM_VibTime = 0xA;
-        s00a_command_800CEC40(&work->control.mov, 0x20);
-        AN_Unknown_800CA1EC(&work->body.objs[1].world, 0);
+        COM_CallBikkuriSe(&work->control.mov, 0x20);
+        AN_Headmark(&work->body.objs[1].world, 0);
         s01a_camera_800D50EC(work);
         work->field_1E0 = 1;
         work->field_1E8 = 4;
@@ -705,7 +705,7 @@ void s01a_camera_800D5D1C(Work *work)
         work->field_23C[i].vx += work->field_1FC[i].vx;
         work->field_23C[i].vy += work->field_1FC[i].vy;
         work->field_23C[i].vz += work->field_1FC[i].vz;
-        AN_Unknown_800D6EB0(&work->field_23C[i]);
+        AN_CameraSmoke(&work->field_23C[i]);
     }
     if (work->field_1F0 >= 40)
     {

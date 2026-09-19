@@ -183,7 +183,7 @@ int     SECTION(".bss") revolver_used_bul;
 /*---------------------------------------------------------------------------*/
 
 void NewAnime_8005E574(MATRIX *);
-void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
+void *AN_Headmark(MATRIX *mat, int mark);
 
 void Voicesys_800CE2D0(void);
 void Voicesys_800CE300(void);
@@ -1212,7 +1212,7 @@ void s04c_revolver_800D0DE0(Work *work, STATE *state)
     }
     else if ((GV_VecLen3(&diff) < work->field_968) && !s04c_revolver_800D0418(work))
     {
-        AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
+        AN_Headmark(&work->body.objs->objs[6].world, 0);
         s04c_revolver_800CF4A0(work);
     }
 

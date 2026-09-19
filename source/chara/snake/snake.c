@@ -64,13 +64,13 @@ void sna_8004E260(SnaInitWork *work, int a2, int interp, int a4)
 }
 
 // extern inline (?)
-int GM_CheckPlayerStatusFlag(PlayerStatusFlag flag) // Status()
+int GM_CheckPlayerStatusFlag(int flag) // Status()
 {
     return (GM_PlayerStatus & flag) != 0;
 }
 
 // extern inline (?)
-int GM_SetPlayerStatusFlag(PlayerStatusFlag flag)
+int GM_SetPlayerStatusFlag(int flag)
 {
     int new;
 
@@ -80,7 +80,7 @@ int GM_SetPlayerStatusFlag(PlayerStatusFlag flag)
 }
 
 // extern inline (?)
-void GM_ClearPlayerStatusFlag(PlayerStatusFlag flag)
+void GM_ClearPlayerStatusFlag(int flag)
 {
     GM_PlayerStatus &= ~flag;
 }

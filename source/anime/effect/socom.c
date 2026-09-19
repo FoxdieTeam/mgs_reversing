@@ -386,7 +386,7 @@ void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot)
     }
 }
 
-void AN_Unknown_800D6EB0(SVECTOR *pos)
+void AN_CameraSmoke(SVECTOR *pos)
 {
     PRESCRIPT  pre;
     ANIMATION *anm;

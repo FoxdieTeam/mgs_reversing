@@ -27,11 +27,6 @@ extern int     rasen_800C3404;
 extern int     rasen_800C3408;
 extern u_short rasen_800D2CA4[];
 
-// zk11aact.c
-extern void s11a_800CE34C( Work *work, int ); // ZAKO11A_SetPutChar
-extern void Zako11AActionMain( Work *work );
-extern void Zako11APushMove( Work *work );
-
 /*---------------------------------------------------------------------------*/
 
 static int dist_data[] = {
@@ -494,13 +489,13 @@ static void GetResources( Work *work, int name, int where )
     work->alert_level = 0;
 
     work->field_9E4 = 1;
-    work->field_B8A = 512;
-    work->field_B88 = 0;
+    work->vision.range = 512;
+    work->vision.facedir = 0;
     work->field_B90 = 0;
-    work->field_B4A = 0;
-    work->field_B44 = 0;
-    work->field_B8C = ZAKO11A_EYE_LENGTH;
-    work->field_BA0 = ZAKO11A_NO_POINT;
+    work->pad.sound = 0;
+    work->pad.field_C = 0;
+    work->vision.length = ZAKO11A_EYE_LENGTH;
+    work->player_pos = ZAKO11A_NO_POINT;
     work->field_B54 = 0;
     work->control.mov = work->nodes[ 0 ];
     work->field_C44 = 0;
@@ -509,11 +504,11 @@ static void GetResources( Work *work, int name, int where )
 
     for ( i = 0; i < 8; i++ )
     {
-        work->field_B98[ i ] = 0;
+        work->modetime[ i ] = 0;
     }
 
-    work->field_B98[ 7 ] = 7;
-    work->field_B98[ 4 ] = -1;
+    work->modetime[ 7 ] = 0x7;
+    work->modetime[ 4 ] = 0xFF;
 
     GM_ConfigControlRadarparam( &work->control, 0, 512, ZAKO11A_EYE_LENGTH, 0 );
 

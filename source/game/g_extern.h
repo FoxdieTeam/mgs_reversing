@@ -52,7 +52,7 @@ extern int      GM_LoadComplete;
 extern int      GM_PadVibration;
 extern int      GM_PlayerAction;
 extern SVECTOR  GM_PhotoViewPos;
-extern PlayerStatusFlag GM_PlayerStatus;
+extern int      GM_PlayerStatus;
 extern int      GM_PadVibration2;
 #endif // __GAME_GAMED_C__
 

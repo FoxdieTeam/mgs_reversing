@@ -46,7 +46,7 @@
 #define CHARA_B_SELECT          { 0x93b6, ? }                       // onoda/brf/b_select.c
 #define CHARA_C4WIRE            { 0x7eca, NewWire }                 // GV_StrCode("ワイヤ") onoda/s04b/wire.c
 #define CHARA_CAMERA            { 0x6e90, NewCamera_800D67F8 }      // GV_StrCode("カメラ") enemy/camera.c
-#define CHARA_CAMERA2           { 0x56cc, ? }                       // GV_StrCode("カメラ２") enemy/camera2.c
+#define CHARA_CAMERA2           { 0x56cc, NewCamera2Set }           // GV_StrCode("カメラ２") enemy/camera2.c
 #define CHARA_CAMERAGUN         { 0xa9c5, NewGunCamera }            // GV_StrCode("カメラ付随ガン") okajima/guncame.c
 #define CHARA_CAMERASHAKE       { 0x7bc2, NewCameraShake }          // GV_StrCode("カメラ揺らし") takabe/camshake.c
 #define CHARA_CAPE              { 0xb99f, NewCape }                 // onoda/s04b/cape.c
@@ -440,6 +440,7 @@ extern NEWCHARA NewWake;                        /* chara/wake/wake.c            
 extern NEWCHARA NewAsiatoKun;                   /* enemy/asiato.c               */
 extern NEWCHARA NewAsiotoKun;                   /* enemy/asioto.c               */
 extern NEWCHARA NewCamera_800D67F8;             /* enemy/camera.c               */
+extern NEWCHARA NewCamera2Set;                  /* enemy/camera.c               */
 extern NEWCHARA NewCommander;                   /* enemy/command.c              */
 extern NEWCHARA NewDemoAsiato;                  /* enemy/demoasi.c              */
 extern NEWCHARA NewDemoKage;                    /* enemy/demokage.c             */

@@ -8,7 +8,7 @@
 /*---------------------------------------------------------------------------*/
 
 // GM_PlayerStatus
-typedef enum {
+enum {
     PLAYER_NORMAL               = 0x0000,
     PLAYER_WATCH                = 0x0001,       /* 1st-person */
     PLAYER_INTRUDE              = 0x0002,       /* Intrusion mode */
@@ -42,7 +42,7 @@ typedef enum {
     PLAYER_PAD_OFF              = 0x20000000,
     PLAYER_NOHIDDEN             = 0x40000000,
     PLAYER_DEBUG                = 0x80000000,   /* Debug mode */
-} PlayerStatusFlag;
+};
 
 /*---------------------------------------------------------------------------*/
 
