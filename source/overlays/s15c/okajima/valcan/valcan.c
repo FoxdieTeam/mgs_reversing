@@ -153,7 +153,7 @@ extern SVECTOR          svector_8009F494;
 extern int              dword_8009F46C[];
 
 void    AN_Breath(MATRIX *matrix);
-void    AN_Unknown_800CA1EC(MATRIX *world, int index);
+void    AN_Headmark(MATRIX *world, int index);
 
 int Valcan_800D8D20(CONTROL *control, SVECTOR *svec1)
 {
@@ -1382,7 +1382,7 @@ void Valcan_800DC124(Work *work)
             work->field_6C0 = 0;
             work->field_940 = 0;
             GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
-            AN_Unknown_800CA1EC(&work->field_A0.objs->objs[6].world, 0);
+            AN_Headmark(&work->field_A0.objs->objs[6].world, 0);
             if (work->field_8E4++ >= 2)
             {
                 work->field_8E4 = 0;

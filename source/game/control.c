@@ -507,8 +507,7 @@ int GM_CheckControlTouches(CONTROL *ctrl, int range)
     return 0;
 }
 
-// TODO: range should be u_short
-void GM_ConfigControlRadarparam(CONTROL *ctrl, u_short dir, u_short dis, int range, u_short r)
+void GM_ConfigControlRadarparam(CONTROL *ctrl, u_short dir, u_short dis, u_short range, u_short r)
 {
     RADAR_SIGHT_PARAM *r_param;
 

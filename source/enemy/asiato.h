@@ -12,7 +12,7 @@ void AsiatoPos(int idx, SVECTOR *out);
 int NextAsiato(HZD_HDL *hdl, int idx, SVECTOR *svec2);
 void CleanAsiato(void);
 int NearAsiato(void);
-int SearchNearAsiato( HZD_HDL *hzd, SVECTOR *mov, int facedir, int vision_unk, int length );
+int SearchNearAsiato( HZD_HDL *hzd, SVECTOR *pos, int facedir, int range, int length );
 int AsiatoCheck( HZD_HDL *hzd, SVECTOR *pos );
 
 void *NewAsiato(int name, int where, int argc, char **argv);

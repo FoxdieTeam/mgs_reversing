@@ -536,7 +536,7 @@ typedef struct _ZAKO11F_COMMAND
 #define TOP_COMM_TRAVEL 0
 #define TOP_COMM_ALERT  1
 
-void  s00a_command_800CEC40( SVECTOR *mov , int n );
+void  COM_CallBikkuriSe( SVECTOR *mov , int n );
 int  s00a_command_800CEA2C( WatcherWork *work );
 void  s00a_command_800CEC90( void ) ;
 void  s00a_command_800CECF4( void ) ;
@@ -550,7 +550,7 @@ void  s00a_command_800D0218( void ) ;
 void  s00a_command_800D0344( void ) ;
 void  EnemyPushMove( WatcherWork* work );
 void  EnemyActionMain( WatcherWork* work );
-void *AN_Unknown_800CA1EC( MATRIX* mat, int mark );
+void *AN_Headmark( MATRIX* mat, int mark );
 
 void  ENE_SetTopCommAL( int alert );
 void  ENE_SetTopCommMD( int mode );

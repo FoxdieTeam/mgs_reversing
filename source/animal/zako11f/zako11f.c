@@ -1,3 +1,5 @@
+#define __ZAKO_BUGFIX__
+
 #include "enemy/enemy.h"
 #include <stdio.h>
 #include "mts/mts.h" // for fprintf
@@ -8,6 +10,9 @@
 
 #include "chara/snake/shadow.h" // for NewShadow2
 #include "enemy/glight.h"       // for NewGunLight
+
+// BUG
+extern void GM_ConfigControlRadarparam(CONTROL *ctrl, u_short dir, u_short dis, int range, u_short r);
 
 void RootFlagCheck_800C86F0( Zako11FWork *work )
 {

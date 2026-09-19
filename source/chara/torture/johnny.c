@@ -109,7 +109,7 @@ void NavigateSetTargetPlayer(NAVIGATE *pAutoMove);
 
 void  AN_Fog(SVECTOR *svec);
 void  AN_Sleep( SVECTOR *svec );
-void *AN_Unknown_800CA1EC(MATRIX *mat, int mark);
+void *AN_Headmark(MATRIX *mat, int mark);
 
 static void Johnny_800C6FC0(Work *work, int arg1);
 static void Johnny_800C7A64(Work *work, int action);
@@ -1175,7 +1175,7 @@ static void Johnny_800C5A7C(Work *work, int action)
             work->unkB1C |= 0x10000;
 
             SetAction(work, 0);
-            AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
+            AN_Headmark(&work->body.objs->objs[6].world, 0);
 
             if (!(work->unkB1C & 0x2000000))
             {
@@ -1510,7 +1510,7 @@ static void Johnny_800C65F8(Work *work, int arg1)
     {
         SetAction(work, 6);
         work->control.turn.vy = (work->unkAD0->pad & 0x1F) * 512;
-        AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 3);
+        AN_Headmark(&work->body.objs->objs[6].world, 3);
     }
     if (Johnny_800C470C(work) != 0)
     {
@@ -1556,7 +1556,7 @@ static void Johnny_800C66A4(Work *work, int action)
         else if (work->body.is_end != 0)
         {
             work->control.mov = *work->unkAD0;
-            AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 3);
+            AN_Headmark(&work->body.objs->objs[6].world, 3);
         }
     }
 }
@@ -1978,7 +1978,7 @@ static void Johnny_800C7428(Work *work, int action)
         GM_VoxQueueDelay(work->vox_ids[13], 4);
         GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
         NewPadVibration(johnny_vibration1_800C32C0, 2);
-        AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
+        AN_Headmark(&work->body.objs->objs[6].world, 0);
         SetAction(work, 5);
         work->unkB1C &= ~0x40000000;
     }
@@ -2077,7 +2077,7 @@ static void Johnny_800C753C(Work *work, int action)
         }
         else
         {
-            AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
+            AN_Headmark(&work->body.objs->objs[6].world, 0);
             GM_SeSet2(0, 63, SE_EXCLAMATION);
 
             GM_VoxInit();
@@ -2131,7 +2131,7 @@ static void Johnny_800C7804(Work *work, int arg1)
         work->unkB1C &= ~0x80000000;
         SetAction(work, 0);
 
-        AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 3);
+        AN_Headmark(&work->body.objs->objs[6].world, 3);
 
         work->unkB60 = GM_PlayerPosition;
         work->unkB60.pad = GM_PlayerControl->turn.vy;
@@ -2180,7 +2180,7 @@ static void Johnny_800C794C(Work *work, int arg1)
         {
             work->unkB50 = 0;
             work->unkB44 = &Johnny_800C6FC0;
-            AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
+            AN_Headmark(&work->body.objs->objs[6].world, 0);
             GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
             NewPadVibration(johnny_vibration1_800C32C0, 2);
             GCL_ExecProc(work->proc_id[4], NULL);
@@ -2379,7 +2379,7 @@ static void Johnny_800C7F78(Work *work, int action)
         GM_ConfigMotionAdjust(&work->body, NULL);
         ClearAdjust(work);
 
-        AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
+        AN_Headmark(&work->body.objs->objs[6].world, 0);
         GM_SeSet2(0, 63, SE_EXCLAMATION);
 
         NewPadVibration(johnny_vibration1_800C32C0, 2);
@@ -2580,7 +2580,7 @@ static void Johnny_800C8400(Work *work, int action)
         {
             GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
             NewPadVibration(johnny_vibration1_800C32C0, 2);
-            AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
+            AN_Headmark(&work->body.objs->objs[6].world, 0);
         }
     }
 }
@@ -2749,7 +2749,7 @@ static void Johnny_800C88C8(Work *work, int action)
         {
             GM_SeSet2(0, 63, SE_EXCLAMATION);
             NewPadVibration(johnny_vibration1_800C32C0, 2);
-            AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
+            AN_Headmark(&work->body.objs->objs[6].world, 0);
         }
 
         work->control.radar_atr |= RADAR_SIGHT;
@@ -3411,7 +3411,7 @@ static void Johnny_800C9CA8(Work *work, int field_B10)
         GM_VoxQueueDelay(work->vox_ids[13], 4);
         NewPadVibration(johnny_vibration1_800C32C0, 2);
         GM_SeSet2(0, 0x3F, SE_EXCLAMATION);
-        AN_Unknown_800CA1EC(&work->body.objs->objs[6].world, 0);
+        AN_Headmark(&work->body.objs->objs[6].world, 0);
         work->unkB38 = Johnny_800C6D84;
         work->unkB4E = 0;
         work->unkB4C = 0;

@@ -2577,7 +2577,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\stage\s11a.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\enemy\camera2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\camera2.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
@@ -2647,67 +2647,15 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE210.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE34C.obj", overlay ; ZAKO11A_SetPutChar
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE394.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE3C8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE428.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE454.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE4D8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE538.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE6B8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE7E0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE88C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE8E0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE9B0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CEB8C.obj", overlay ; Zako11AActionMain
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CEBF8.obj", overlay ; Zako11APushMove
 
+    include "{{OBJ_DIR}}\overlays\s11a\animal\zako11a\zk11aact.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11a\overlay2.obj", overlay
-
-    ; Zako code
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0364.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D03AC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0408.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0474.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0490.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0578.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D05F0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D061C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0648.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D07C4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0818.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0868.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D08A0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0A98.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0B38.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0BA0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0C2C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0CB4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0D48.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0DE8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0EB0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0F74.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D0FDC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D103C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D10A0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D10E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D1230.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D1298.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D1328.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D13DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D142C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D1524.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D1804.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D1904.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D1998.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D1AA8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800D1B48.obj", overlay
-
+    include "{{OBJ_DIR}}\overlays\s11a\animal\zako11a\think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11a\zk11acom.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay

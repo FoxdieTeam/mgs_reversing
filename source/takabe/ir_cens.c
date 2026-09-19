@@ -370,7 +370,7 @@ void IrCensAct_800D9EF8(Work *work)
 
             if (GM_AlertMode != ALERT_ACTIVE)
             {
-                s00a_command_800CEC40(&GM_PlayerPosition, 128);
+                COM_CallBikkuriSe(&GM_PlayerPosition, 128);
             }
 
             GV_SubVec3(&sp18, &sp20, &sp18);

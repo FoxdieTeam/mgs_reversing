@@ -82,8 +82,8 @@ int          SECTION(".sbss") GM_PlayerAction;
 STATIC int   SECTION(".sbss") dword_800ABA44;
 SVECTOR      SECTION(".sbss") GM_PhotoViewPos;
 
-PlayerStatusFlag SECTION(".sbss") GM_PlayerStatus;
-int              SECTION(".sbss") GM_PadVibration2;
+int SECTION(".sbss") GM_PlayerStatus;
+int SECTION(".sbss") GM_PadVibration2;
 
 enum GAMED_STATE {
     WAIT_LOAD,

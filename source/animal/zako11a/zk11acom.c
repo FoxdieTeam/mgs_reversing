@@ -15,7 +15,7 @@ SVECTOR ZAKO11A_ATTACK_FORCE = {100, 0, 0};
 SVECTOR ZAKO11A_TOUCH_SIZE = {300, 800, 300};
 SVECTOR ZAKO11A_TOUCH_FORCE = {0, 0, 0};
 SVECTOR ZAKO11A_NO_POINT = {30000, 30000, 30000};
-u_short ZAKO11A_EYE_LENGTH = 4000;
+int     ZAKO11A_EYE_LENGTH = 4000;
 
 SVECTOR SECTION(".bss") ZAKO11A_PlayerPosition;
 COMMANDER SECTION(".bss") ZAKO11ACommand;
@@ -322,12 +322,12 @@ static void SoundSetCom( COMMANDER *comm )
         if ( comm->watchers[ i ].field_4 == 2 )
         {
             work = comm->watchers[ i ].work;
-            if ( work->field_B4A != 0 && work->field_C2C < dist )
+            if ( work->pad.sound != 0 && work->player_dis < dist )
             {
-                id = work->field_B4A;
-                dist = work->field_C2C;
+                id = work->pad.sound;
+                dist = work->player_dis;
             }
-            work->field_B4A = 0;
+            work->pad.sound = 0;
         }
     }
 

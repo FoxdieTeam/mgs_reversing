@@ -993,12 +993,12 @@ void s05a_800E002C(SnaInitWork *work, int a2, int interp, int a4)
         GM_ConfigObjectOverride(&work->body, a2, 0, interp, a4);
     }
 }
-int s05a_800E0068(PlayerStatusFlag flag)
+int s05a_800E0068(int flag)
 {
     return (GM_PlayerStatus & flag) != 0;
 }
 
-int s05a_800E0080(PlayerStatusFlag flag)
+int s05a_800E0080(int flag)
 {
     int temp_v0;
 
@@ -1007,7 +1007,7 @@ int s05a_800E0080(PlayerStatusFlag flag)
     return temp_v0;
 }
 
-void s05a_800E0098(PlayerStatusFlag flag)
+void s05a_800E0098(int flag)
 {
     GM_PlayerStatus &= ~flag;
 }

@@ -37,6 +37,21 @@ typedef struct _PARAM {
     /* 0xB82 */ short          z_flag;
 } PARAM;
 
+typedef struct _VISION {
+    /* 0xB88 */ short facedir;
+    /* 0xB8A */ short range;
+    /* 0xB8C */ short length;
+    /* 0xB8E */ short pad;
+} VISION;
+
+typedef struct _PAD {
+    /* 0xB38 */ int   press;
+    /* 0xB3C */ char  padB3C[ 0x8 ];
+    /* 0xB44 */ int   field_C;
+    /* 0xB48 */ short dir;
+    /* 0xB4A */ short sound;
+} PAD;
+
 typedef struct _Work {
     /* 0x000 */ GV_ACT         actor;
     /* 0x020 */ CONTROL        control;
@@ -79,10 +94,7 @@ typedef struct _Work {
     /* 0xB2C */ int            t_count;
     /* 0xB30 */ int            l_count;
     /* 0xB34 */ int            next_node;
-    /* 0xB38 */ char           padB38[ 0xC ];
-    /* 0xB44 */ int            field_B44;
-    /* 0xB48 */ char           padB48[ 0x2 ];
-    /* 0xB4A */ short          field_B4A;
+    /* 0xB38 */ PAD            pad;
     /* 0xB4C */ char           padB4C[ 0x8 ];
     /* 0xB54 */ int            field_B54;
     /* 0xB58 */ char           padB58[ 0x10 ];
@@ -91,16 +103,13 @@ typedef struct _Work {
     /* 0xB70 */ char           padB70[ 0x4 ];
     /* 0xB74 */ PARAM          param;
     /* 0xB84 */ char           padB84[ 0x4 ];
-    /* 0xB88 */ short          field_B88;
-    /* 0xB8A */ short          field_B8A;
-    /* 0xB8C */ short          field_B8C;
-    /* 0xB8E */ char           padB8E[ 0x2 ];
+    /* 0xB88 */ VISION         vision;
     /* 0xB90 */ short          field_B90;
     /* 0xB92 */ char           padB92[ 0x2 ];
     /* 0xB94 */ int            alert_level;
-    /* 0xB98 */ signed char    field_B98[ 8 ];
-    /* 0xBA0 */ SVECTOR        field_BA0;
-    /* 0xBA8 */ char           padBA8[ 0x4 ];
+    /* 0xB98 */ signed char    modetime[ 8 ];
+    /* 0xBA0 */ SVECTOR        player_pos;
+    /* 0xBA8 */ int            player_turn;
     /* 0xBAC */ int            time[ 8 ];
     /* 0xBCC */ short          dir[ 4 ];
     /* 0xBD4 */ int            field_BD4;
@@ -119,10 +128,12 @@ typedef struct _Work {
     /* 0xC14 */ char           padC14[ 0x8 ];
     /* 0xC1C */ SVECTOR        field_C1C;
     /* 0xC24 */ char           padC24[ 0x8 ];
-    /* 0xC2C */ int            field_C2C;
-    /* 0xC30 */ char           padC30[ 0x8 ];
+    /* 0xC2C */ int            player_dis;
+    /* 0xC2C */ int            player_dir;
+    /* 0xC34 */ char           padC34[ 0x4 ];
     /* 0xC38 */ int            field_C38;
-    /* 0xC3C */ char           padC3C[ 0x8 ];
+    /* 0xC3C */ char           padC3C[ 0x4 ];
+    /* 0xC40 */ int            gameflag;
     /* 0xC44 */ short          field_C44;
     /* 0xC46 */ char           padC46[ 0x2 ];
 } Work;
@@ -187,7 +198,7 @@ extern SVECTOR   ZAKO11A_ATTACK_FORCE;
 extern SVECTOR   ZAKO11A_TOUCH_SIZE;
 extern SVECTOR   ZAKO11A_TOUCH_FORCE;
 extern SVECTOR   ZAKO11A_NO_POINT;
-extern u_short   ZAKO11A_EYE_LENGTH;
+extern int       ZAKO11A_EYE_LENGTH;
 extern SVECTOR   ZAKO11A_PlayerPosition;
 extern COMMANDER ZAKO11ACommand;
 extern TOP       ZAKO11ATOPCOMMAND;
@@ -206,5 +217,13 @@ void ZAKO11ASetGopointLast( void );
 void ZAKO11ASetGopointNoise( void );
 
 int ZAKO11AFindRoute( int map, int id );
+
+void s11a_800CD00C( Work *work ); // Zako11AActionSomething
+void Zako11AThink( Work *work );
+
+void Zako11AActionMain( Work *work );
+void Zako11APushMove( Work *work );
+
+void s11a_800CE34C( Work *work, int ); // ZAKO11A_SetPutChar
 
 #endif // __MGS_ANIMAL_ZAKO11A_ZAKO_H__

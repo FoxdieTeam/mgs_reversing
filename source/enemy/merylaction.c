@@ -1514,7 +1514,7 @@ void MERYL_PutMark( WatcherWork *work, int mark )
     mat = &work->body.objs->objs[6].world;
     if( mark == 0 )
     {
-        s00a_command_800CEC40( &work->control.mov , 0x10 );
+        COM_CallBikkuriSe( &work->control.mov , 0x10 );
     }
 
     if ( work->mark_time )
@@ -1522,7 +1522,7 @@ void MERYL_PutMark( WatcherWork *work, int mark )
         GV_DestroyOtherActor( work->mark );
     }
 
-    work->mark = AN_Unknown_800CA1EC( mat , mark ) ;
+    work->mark = AN_Headmark( mat , mark ) ;
     work->mark_time = 30;
 }
 
