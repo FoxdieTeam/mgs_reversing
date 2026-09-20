@@ -2587,7 +2587,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\s11a\overlay1.obj", overlay
 
-    ; Zako code
+    ; action.c
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CA4FC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CA588.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CA5A4.obj", overlay
@@ -2625,6 +2625,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CCE1C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CCF18.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CD00C.obj", overlay
+
+    ; override.c
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CD198.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CD264.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CD330.obj", overlay
@@ -2637,18 +2639,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CD920.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CD960.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11a\s11a_800CDAA8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CDC44.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CDCB4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CDD18.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CDE94.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CDF30.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE08C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE1D4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE210.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE34C.obj", overlay ; ZAKO11A_SetPutChar
-    include "{{OBJ_DIR}}\overlays\s11a\s11a_800CE394.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\s11a\animal\zako11a\zk11aact.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11a\put.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11a\zk11aact.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay

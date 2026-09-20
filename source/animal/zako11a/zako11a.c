@@ -267,7 +267,7 @@ static int InitState( Work *work, int name, int where )
 
     for ( i = 0; i < 0; i++ )
     {
-        work->field_B00[ i ] = 0;
+        work->put_chars[ i ] = NULL;
     }
 
     indices.vx = 0;
@@ -277,7 +277,7 @@ static int InitState( Work *work, int name, int where )
     work->shadow = NewShadow2( control, body, indices, &work->shadow_enable );
     work->glight = NewGunLight( &body->objs->objs[ 4 ].world, &work->glight_enable );
 
-    s11a_800CE34C( work, 0 );
+    ZAKO11A_SetPutChar( work, 0 );
     InitAct( work );
     return 0;
 }
@@ -418,9 +418,9 @@ static void GetResources( Work *work, int name, int where )
     opt = GCL_GetOption( 'f' );
     if ( opt ) work->param.faint = GCL_StrToInt( opt );
 
-    work->param.z_flag = 64;
+    work->param.damage = 64;
     opt = GCL_GetOption( 'z' );
-    if ( opt ) work->param.z_flag = GCL_StrToInt( opt );
+    if ( opt ) work->param.damage = GCL_StrToInt( opt );
 
     work->param.blood = 65;
     opt = GCL_GetOption( 'b' );
@@ -456,7 +456,7 @@ static void GetResources( Work *work, int name, int where )
     opt = GCL_GetOption( 'a' );
     if ( opt ) work->param.area = GCL_StrToInt( opt );
 
-    if ( work->param.area == 'S' ) s11a_800CE34C( work, 1 );
+    if ( work->param.area == 'S' ) ZAKO11A_SetPutChar( work, 1 );
 
     work->scale = 4096;
     opt = GCL_GetOption( 's' );

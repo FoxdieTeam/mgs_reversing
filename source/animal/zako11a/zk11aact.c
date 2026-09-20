@@ -1,20 +1,8 @@
-#include "animal/zako11a/zako.h"
+#include "zako.h"
 
 #include "enemy/asiato.h"
 
 /*---------------------------------------------------------------------------*/
-
-static void RunCallbacks( Work *work )
-{
-    int i;
-    void ( *func )( Work * );
-
-    for ( i = 0; i < 8; i++ )
-    {
-        func = work->field_B00[ i ];
-        if ( func != NULL ) func( work );
-    }
-}
 
 static void SetRadarParam( Work *work )
 {
@@ -263,7 +251,7 @@ void Zako11AActionMain( Work *work )
         CheckAlert( work );
         UpdateAlert( work );
         Zako11AThink( work );
-        RunCallbacks( work );
+        ZAKO11A_ExecPutChars( work );
     }
 
     s11a_800CD00C( work );

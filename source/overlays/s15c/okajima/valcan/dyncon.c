@@ -354,14 +354,14 @@ void s15c_dyncon_800D6128(DynCon *work, SVECTOR *pos, int range)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D61E0.s")
-extern void *NewItemPut(SVECTOR *pos, SVECTOR *step, Item_Info *info);
+extern void *NewItemPut(SVECTOR *pos, SVECTOR *step, ITEM_INFO *info);
 extern const char s15c_aNikitamissile_800E2D80[];
 extern const char s15c_aC_800E2D94[];
 extern const char s15c_aRation_800E2D9C[];
 
 void *s15c_dyncon_800D6434(DynCon *work, SVECTOR *pos, SVECTOR *step, int item_type)
 {
-    Item_Info item;
+    ITEM_INFO item;
 
     switch (item_type)
     {

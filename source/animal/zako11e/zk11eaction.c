@@ -1616,7 +1616,7 @@ void ZAKO11E_PutItem_800D7AE8( ZakoWork* work )
     int rand;
     SVECTOR svec;
     CONTROL *ctrl;
-    Item_Info item;
+    ITEM_INFO item;
 
     svec = work->unknown.field_0C;
     rand = 10;

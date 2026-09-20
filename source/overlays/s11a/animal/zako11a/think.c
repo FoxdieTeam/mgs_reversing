@@ -342,7 +342,7 @@ int s11a_800D0A98( Work *work )
 {
     if ( work->count3 == 0 )
     {
-        s11a_800CDE94( work, 0 );
+        ZAKO11A_PutMark( work, 0 );
         GM_SeSet( &work->control.mov, SE_EXCLAMATION );
         NewEyeflash( &work->body.objs->objs[ 6 ].world, &work->control.mov, "kirari01", 0 );
     }
@@ -362,7 +362,7 @@ int s11a_800D0B38( Work *work )
     if ( work->count3 == 0 )
     {
         GM_SeSet( &work->control.mov, 83 );
-        s11a_800CDE94( work, 0 );
+        ZAKO11A_PutMark( work, 0 );
     }
 
     if ( work->count3 < 0 || work->count3 > 20 ) return 1;

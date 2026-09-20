@@ -821,7 +821,7 @@ void *NewItem(int name, int where, int argc, char **argv)
 
 /*---------------------------------------------------------------------------*/
 
-static int GetResourcesPut(Work *work, SVECTOR *pos, SVECTOR *step, Item_Info *info, int where)
+static int GetResourcesPut(Work *work, SVECTOR *pos, SVECTOR *step, ITEM_INFO *info, int where)
 {
     int      type;
     CONTROL *control;
@@ -867,7 +867,7 @@ static int GetResourcesPut(Work *work, SVECTOR *pos, SVECTOR *step, Item_Info *i
     return 0;
 }
 
-void *NewItemPut(SVECTOR *pos, SVECTOR *step, Item_Info *info)
+void *NewItemPut(SVECTOR *pos, SVECTOR *step, ITEM_INFO *info)
 {
     Work *work;
 

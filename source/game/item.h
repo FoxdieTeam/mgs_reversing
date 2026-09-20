@@ -6,17 +6,16 @@
 #include <libgpu.h>
 #include "mgstype.h"
 
-typedef struct Item_Info
-{
+typedef struct ITEM_INFO {
     const char *message;
     short       type;
     short       id;
     short       num;
     short       time;
-} Item_Info;
+} ITEM_INFO;
 
 void *NewItem(int name, int where, int argc, char **argv);
-void *NewItemPut(SVECTOR *pos, SVECTOR *step, Item_Info *info);
+void *NewItemPut(SVECTOR *pos, SVECTOR *step, ITEM_INFO *info);
 
 void disable_equipment(void);
 void enable_equipment(void);
