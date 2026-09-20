@@ -55,10 +55,10 @@ SVECTOR SECTION(".bss") rasen_el_800D2CAC;
 SVECTOR SECTION(".bss") rasen_el_800D2CB4;
 int SECTION(".bss") rasen_el_800D2CBC;
 
-extern int            rasen_800C3404;
-extern int            rasen_800C3408;
+extern int            Rasen_MapSection;
+extern int            Rasen_LookSection;
 extern unsigned short rasen_el_800C342C[];
-extern unsigned short rasen_800D2CA4[];
+extern unsigned short Rasen_Maps[];
 
 void Takabe_ReshadeModel(DG_OBJS *objs, DG_LITS *lit);
 void Takabe_FreeObjs(DG_OBJS *objs);
@@ -93,7 +93,7 @@ void RasenElAct_800CC454(Work *work)
     int       dy;
     int       status;
 
-    GM_CurrentMap = rasen_800D2CA4[rasen_800C3404];
+    GM_CurrentMap = Rasen_Maps[Rasen_MapSection];
 
     check = 0;
 
@@ -291,7 +291,7 @@ void RasenElAct_800CC454(Work *work)
 
     sp10 = work->f21C;
 
-    y -= rasen_800C3404 * 32000;
+    y -= Rasen_MapSection * 32000;
     sp10.vy = y;
 
     DG_SetPos2(&sp10, &DG_ZeroVector);
@@ -403,8 +403,8 @@ int RasenElGetResources_800CCB9C(Work *work, int name, int map)
     work->name = name;
     work->f234 = 0;
 
-    work->hzd[0] = GM_GetMap(rasen_800D2CA4[0])->hzd;
-    work->hzd[1] = GM_GetMap(rasen_800D2CA4[1])->hzd;
+    work->hzd[0] = GM_GetMap(Rasen_Maps[0])->hzd;
+    work->hzd[1] = GM_GetMap(Rasen_Maps[1])->hzd;
 
     object = &work->object;
 
@@ -614,12 +614,12 @@ void RasenElExecProc_800CD1E4(int proc, int value)
 
 void s11c_800CD21C(void)
 {
-    if (rasen_800C3408 == 1)
+    if (Rasen_LookSection == 1)
     {
         rasen_el_800D2CAC.vy -= 32000;
     }
 
-    if (rasen_800C3408 == 2)
+    if (Rasen_LookSection == 2)
     {
         rasen_el_800D2CAC.vy += 32000;
     }
@@ -890,7 +890,7 @@ void s11c_800CDAB4(Work *work)
 
     s11c_800CD958(work);
 
-    prim->group_id = rasen_800D2CA4[0] | rasen_800D2CA4[1];
+    prim->group_id = Rasen_Maps[0] | Rasen_Maps[1];
     prim->raise = 0;
     prim->root = &work->object.objs->world;
 }

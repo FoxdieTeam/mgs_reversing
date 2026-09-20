@@ -26,10 +26,10 @@ typedef struct _PARAM {
     /* 0xB75 */ signed char    blood;
     /* 0xB76 */ signed char    area;
     /* 0xB77 */ signed char    low_poly;
-    /* 0xB78 */ char           next;   // guessed from option 'n'
+    /* 0xB78 */ char           next;
     /* 0xB79 */ signed char    root;
     /* 0xB7A */ char           c_root;
-    /* 0xB7B */ char           c_next; // guessed from option 'n'
+    /* 0xB7B */ char           c_next;
     /* 0xB7C */ signed char    item;
     /* 0xB7D */ char           g_flag;
     /* 0xB7E */ short          life;
@@ -46,7 +46,8 @@ typedef struct _VISION {
 
 typedef struct _PAD {
     /* 0xB38 */ int   press;
-    /* 0xB3C */ char  padB3C[ 0x8 ];
+    /* 0xB3C */ int   field_4;
+    /* 0xB40 */ char  padB40[ 0x4 ];
     /* 0xB44 */ int   field_C;
     /* 0xB48 */ short dir;
     /* 0xB4A */ short sound;
@@ -70,7 +71,7 @@ typedef struct _Work {
     /* 0x8F0 */ int            field_8F0;
     /* 0x8F4 */ int            field_8F4;
     /* 0x8F8 */ int            field_8F8;
-    /* 0x8FC */ char           pad8FC[ 0x4 ];
+    /* 0x8FC */ int            field_8FC;
     /* 0x900 */ TARGET        *target;
     /* 0x904 */ TARGET         attack;
     /* 0x94C */ TARGET         touch;
@@ -105,7 +106,6 @@ typedef struct _Work {
     /* 0xB84 */ char           padB84[ 0x4 ];
     /* 0xB88 */ VISION         vision;
     /* 0xB90 */ short          field_B90;
-    /* 0xB92 */ char           padB92[ 0x2 ];
     /* 0xB94 */ int            alert_level;
     /* 0xB98 */ signed char    modetime[ 8 ];
     /* 0xBA0 */ SVECTOR        player_pos;
@@ -113,29 +113,28 @@ typedef struct _Work {
     /* 0xBAC */ int            time[ 8 ];
     /* 0xBCC */ short          dir[ 4 ];
     /* 0xBD4 */ int            field_BD4;
-    /* 0xBD8 */ SVECTOR        field_BD8;
+    /* 0xBD8 */ SVECTOR        start_pos;
     /* 0xBE0 */ SVECTOR        target_pos;
     /* 0xBE8 */ int            field_BE8;
-    /* 0xBEC */ int            field_BEC;
-    /* 0xBE8 */ int            field_BF0;
+    /* 0xBEC */ int            start_map;
+    /* 0xBF0 */ int            last_addr;
     /* 0xBF4 */ int            target_addr;
     /* 0xBF8 */ int            target_map;
-    /* 0xBFC */ int            field_BFC; // some distance flag
-    /* 0xC00 */ int            field_C00; // some distance index
-    /* 0xC04 */ char           padC04[ 0x8 ];
-    /* 0xC0C */ int            field_C0C;
-    /* 0xC10 */ int            field_C10;
+    /* 0xBFC */ int            chase_dis;
+    /* 0xC00 */ int            chase_index;
+    /* 0xC04 */ SVECTOR        field_C04;
+    /* 0xC0C */ int            current_addr;
+    /* 0xC10 */ int            next_addr;
     /* 0xC14 */ char           padC14[ 0x8 ];
-    /* 0xC1C */ SVECTOR        field_C1C;
+    /* 0xC1C */ SVECTOR        next_pos;
     /* 0xC24 */ char           padC24[ 0x8 ];
     /* 0xC2C */ int            player_dis;
-    /* 0xC2C */ int            player_dir;
-    /* 0xC34 */ char           padC34[ 0x4 ];
+    /* 0xC30 */ int            player_dir;
+    /* 0xC34 */ int            field_C34;
     /* 0xC38 */ int            field_C38;
     /* 0xC3C */ char           padC3C[ 0x4 ];
     /* 0xC40 */ int            gameflag;
     /* 0xC44 */ short          field_C44;
-    /* 0xC46 */ char           padC46[ 0x2 ];
 } Work;
 
 typedef struct _JDATA {
@@ -157,14 +156,14 @@ typedef struct _COMMANDER {
     /* 0x004 */ int     field_4;
     /* 0x008 */ int     n_watchers;
     /* 0x00C */ int     time;
-    /* 0x010 */ int     field_10;
+    /* 0x010 */ int     time2;
     /* 0x014 */ int     alert_time;
     /* 0x018 */ int     alert_level;
     /* 0x01C */ int     alert_mode;
     /* 0x020 */ int     field_20;
-    /* 0x024 */ int     field_24;
-    /* 0x028 */ int     field_28;
-    /* 0x02C */ SVECTOR field_2C;
+    /* 0x024 */ int     target_addr;
+    /* 0x028 */ int     target_map;
+    /* 0x02C */ SVECTOR target_pos;
     /* 0x034 */ short   n_zones;
     /* 0x036 */ short   field_36;
     /* 0x038 */ short   zones[ 4 ];
@@ -175,9 +174,9 @@ typedef struct _COMMANDER {
     /* 0x08C */ WATCHER watchers[ 8 ];
     /* 0x10C */ int     field_10C;
     /* 0x110 */ int     field_110;
-    /* 0x114 */ int     field_114;
-    /* 0x118 */ int     field_118;
-    /* 0x11C */ int     field_11C;
+    /* 0x114 */ int     end_proc;
+    /* 0x118 */ int     start_proc;
+    /* 0x11C */ int     start_proc2;
 } COMMANDER;
 
 // TODO: check name
@@ -224,6 +223,7 @@ void Zako11AThink( Work *work );
 void Zako11AActionMain( Work *work );
 void Zako11APushMove( Work *work );
 
+void s11a_800CDE94( Work *work, int ); // ZAKO11A_SetPutSomething
 void s11a_800CE34C( Work *work, int ); // ZAKO11A_SetPutChar
 
 #endif // __MGS_ANIMAL_ZAKO11A_ZAKO_H__

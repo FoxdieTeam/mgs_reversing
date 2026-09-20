@@ -485,7 +485,7 @@ static void Act(Work *work)
 
         if (work->type == 2)
         {
-            GM_SetNoise(100, work->type, &work->hitpos);
+            GM_SetNoise(100, 2, &work->hitpos);
         }
     }
 

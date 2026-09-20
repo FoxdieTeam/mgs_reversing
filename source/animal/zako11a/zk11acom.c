@@ -25,7 +25,7 @@ int SECTION(".bss") ZAKO11A_GameFlag;
 int SECTION(".bss") ZAKO11A_PlayerAddress;
 int SECTION(".bss") ZAKO11A_PlayerMap;
 
-extern int rasen_800C3404; // rasen map section
+extern int Rasen_MapSection;
 
 /*---------------------------------------------------------------------------*/
 
@@ -70,16 +70,16 @@ void ZAKO11ASetTopCommMD( int mode )
 
 void ZAKO11ASetGopointLast( void )
 {
-    ZAKO11ACommand.field_24 = ZAKO11A_PlayerAddress;
-    ZAKO11ACommand.field_2C = ZAKO11A_PlayerPosition;
-    ZAKO11ACommand.field_28 = ZAKO11A_PlayerMap;
+    ZAKO11ACommand.target_addr = ZAKO11A_PlayerAddress;
+    ZAKO11ACommand.target_pos = ZAKO11A_PlayerPosition;
+    ZAKO11ACommand.target_map = ZAKO11A_PlayerMap;
 }
 
 void ZAKO11ASetGopointNoise( void )
 {
-    ZAKO11ACommand.field_24 = HZD_GetAddress( GM_WhereList[ 0 ]->map->hzd, &GM_NoisePosition, -1 );
-    ZAKO11ACommand.field_2C = GM_NoisePosition;
-    ZAKO11ACommand.field_28 = GM_PlayerMap;
+    ZAKO11ACommand.target_addr = HZD_GetAddress( GM_WhereList[ 0 ]->map->hzd, &GM_NoisePosition, -1 );
+    ZAKO11ACommand.target_pos = GM_NoisePosition;
+    ZAKO11ACommand.target_map = GM_PlayerMap;
 }
 
 int ZAKO11AFindRoute( int map, int id )
@@ -138,10 +138,7 @@ static int ReadZones( char *opt, short *zones )
 
 static void s11a_800D227C( void )
 {
-    int addr;
-
-    addr = GM_PlayerAddress & 0xff;
-    ZAKO11ACommand.zones[ 0 ] = addr;
+    ZAKO11ACommand.zones[ 0 ] = HZD_Zone1( GM_PlayerAddress );
     ZAKO11ACommand.field_36 = 0;
 }
 
@@ -521,7 +518,7 @@ static void UpdateGameFlag( void )
 {
     int level, z1, z2, i;
 
-    level = rasen_800C3404;
+    level = Rasen_MapSection;
     z1 = HZD_Zone1( GM_PlayerAddress );
     z2 = HZD_Zone2( GM_PlayerAddress );
 
@@ -540,10 +537,10 @@ static void UpdateGameFlag( void )
             NewPadVibration( VibL, 2 );
             printf( " FLAG1!!\n" );
 
-            if ( ZAKO11ACommand.field_118 >= 0 )
+            if ( ZAKO11ACommand.start_proc >= 0 )
             {
-                GCL_ExecProc( ZAKO11ACommand.field_118, NULL );
-                ZAKO11ACommand.field_118 = -1;
+                GCL_ExecProc( ZAKO11ACommand.start_proc, NULL );
+                ZAKO11ACommand.start_proc = -1;
             }
         }
 
@@ -555,10 +552,10 @@ static void UpdateGameFlag( void )
             NewPadVibration( VibH, 1 );
             NewPadVibration( VibL, 2 );
       
-            if ( ZAKO11ACommand.field_11C >= 0 )
+            if ( ZAKO11ACommand.start_proc2 >= 0 )
             {
-                GCL_ExecProc( ZAKO11ACommand.field_11C, NULL );
-                ZAKO11ACommand.field_11C = -1;
+                GCL_ExecProc( ZAKO11ACommand.start_proc2, NULL );
+                ZAKO11ACommand.start_proc2 = -1;
             }
     
             printf( " FLAG1!!\n" );
@@ -659,13 +656,16 @@ static void UpdateGameFlag( void )
         if ( ZAKO11ATOPCOMMAND.mode == 0 )
         {
             ZAKO11A_GameFlag = 16;
-            ZAKO11ACommand.field_10 = 0;
+            ZAKO11ACommand.time2 = 0;
         }
 
-        if ( GM_AlertLevel < 180 && ZAKO11ACommand.field_114 >= 0 )
+        if ( GM_AlertLevel < 180 )
         {
-            GCL_ExecProc( ZAKO11ACommand.field_114, NULL );
-            ZAKO11ACommand.field_114 = -1;
+            if ( ZAKO11ACommand.end_proc >= 0 )
+            {
+                GCL_ExecProc( ZAKO11ACommand.end_proc, NULL );
+                ZAKO11ACommand.end_proc = -1;
+            }
         }
         break;
     case 16:
@@ -679,7 +679,7 @@ static void UpdateGameFlag( void )
         break;
     }
 
-    ZAKO11ACommand.field_10++;
+    ZAKO11ACommand.time2++;
 }
 
 static void Act( CommanderWork *work )
@@ -703,7 +703,7 @@ static void GetResources( CommanderWork *work, int name, int where )
     char *opt;
 
     ZAKO11A_GameFlag = 0;
-    ZAKO11ACommand.field_10 = ZAKO11ACommand.alert_level = ZAKO11ACommand.field_20 = 0;
+    ZAKO11ACommand.time2 = ZAKO11ACommand.alert_level = ZAKO11ACommand.field_20 = 0;
 
     for ( i = 0; i < 8; i++ )
     {
@@ -761,29 +761,29 @@ static void GetResources( CommanderWork *work, int name, int where )
 
     if ( GCL_GetOption( 'e' ) )
     {
-        ZAKO11ACommand.field_114 = GCL_StrToInt( GCL_NextStr() );
+        ZAKO11ACommand.end_proc = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {
-        ZAKO11ACommand.field_114 = -1;
+        ZAKO11ACommand.end_proc = -1;
     }
 
     if ( GCL_GetOption( 't' ) )
     {
-        ZAKO11ACommand.field_118 = GCL_StrToInt( GCL_NextStr() );
+        ZAKO11ACommand.start_proc = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {
-        ZAKO11ACommand.field_118 = -1;
+        ZAKO11ACommand.start_proc = -1;
     }
 
     if ( GCL_GetOption( 'u' ) )
     {
-        ZAKO11ACommand.field_11C = GCL_StrToInt( GCL_NextStr() );
+        ZAKO11ACommand.start_proc2 = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {
-        ZAKO11ACommand.field_11C = -1;
+        ZAKO11ACommand.start_proc2 = -1;
     }
 
     ZAKO11ACommand.n_watchers = 0;

@@ -520,7 +520,7 @@ void GM_SetPowerTarget(TARGET *target, int p_mode, int a_mode, int vital, int fa
     target->weapon = WP_None;
 }
 
-void GM_TargetBody(TARGET *target, MATRIX *body)
+void GM_SetC4Target(TARGET *target, MATRIX *body)
 {
     target->body = body;
 }

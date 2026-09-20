@@ -253,7 +253,7 @@ void InitTarget_800C444C( WatcherWork *work )
     GM_SetPowerTarget( target, POWER_DECREASE, -1, life, faint, &ENEMY_TARGET_FORCE );
     GM_SetCaptureTarget( target, -1, faint, NULL, NULL);
 
-    GM_TargetBody( target, &( work->body.objs->objs[1].world ) );
+    GM_SetC4Target( target, &( work->body.objs->objs[1].world ) );
 
     target2 = &work->field_904;
     GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ENEMY_ATTACK_SIZE );

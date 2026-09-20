@@ -153,7 +153,7 @@ void Zako_800CCCF4(Work *work)
     GM_SetTarget(t, 0x9E, 2, (SVECTOR *)&s03d_dword_800C39B0);
     GM_SetPowerTarget(t, 1, -1, b14, b16, (SVECTOR *)&s03d_dword_800C39B8);
     GM_SetCaptureTarget(t, -1, b16, NULL, NULL);
-    GM_TargetBody(t, &work->body.objs->objs[1].world);
+    GM_SetC4Target(t, &work->body.objs->objs[1].world);
     GM_SetTarget(&work->field_900, 4, 1, (SVECTOR *)&s03d_dword_800C39C0);
     GM_SetPowerTarget(&work->field_900, 7, 5, 0, 3, (SVECTOR *)&s03d_dword_800C39C8);
 }
@@ -327,7 +327,7 @@ void Zako_800CDA70(Work *work)
     GM_SetTarget(t, 0x9E, 2, (SVECTOR *)&s03d_dword_800C39B0);
     GM_SetPowerTarget(t, 1, -1, b14, b16, (SVECTOR *)&s03d_dword_800C39B8);
     GM_SetCaptureTarget(t, -1, b16, NULL, NULL);
-    GM_TargetBody(t, &work->body.objs->objs[1].world);
+    GM_SetC4Target(t, &work->body.objs->objs[1].world);
     GM_SetTarget(&work->field_900, 4, 1, (SVECTOR *)&s03d_dword_800C39C0);
     GM_SetPowerTarget(&work->field_900, 7, 5, 0, 3, (SVECTOR *)&s03d_dword_800C39C8);
 }

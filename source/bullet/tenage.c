@@ -64,7 +64,7 @@ static void Act(Work *work)
         GM_lpfnBombHoming(control, work->fuse_time, &work->homing_arg3);
     }
 
-    if ((work->control.mov.pad != 0) || (GM_GameStatus < 0))
+    if ((work->control.mov.pad != 0) || (GM_GameStatus & STATE_DEMO))
     {
         GV_DestroyActor(&work->actor);
         return;

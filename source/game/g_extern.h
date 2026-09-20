@@ -195,7 +195,7 @@ int     GM_PushTarget(TARGET *target);
 void    GM_SetTarget(TARGET *target, int class, int side, SVECTOR *size);
 void    GM_SetCaptureTarget(TARGET *target, int a_mode, int faint, int *a4, SVECTOR *a5);
 void    GM_SetPowerTarget(TARGET *target, int p_mode, int a_mode, int vital, int faint, SVECTOR *force);
-void    GM_TargetBody(TARGET *target, MATRIX *body) ;
+void    GM_SetC4Target(TARGET *target, MATRIX *body) ;
 int     GM_OnlineTargetCheck(SVECTOR *from, SVECTOR *to, int map, SVECTOR *hit, int side);
 int     GM_OnlineTargetCheckAny(SVECTOR *from, SVECTOR *to, int map, SVECTOR *hit);
 void    GM_GetTargets(int *count, TARGET **targets);

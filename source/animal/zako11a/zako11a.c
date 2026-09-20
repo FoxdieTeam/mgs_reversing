@@ -23,9 +23,9 @@
 /*---------------------------------------------------------------------------*/
 
 // rasen.c
-extern int     rasen_800C3404;
-extern int     rasen_800C3408;
-extern u_short rasen_800D2CA4[];
+extern int     Rasen_MapSection;
+extern int     Rasen_LookSection;
+extern u_short Rasen_Maps[];
 
 /*---------------------------------------------------------------------------*/
 
@@ -48,10 +48,10 @@ static void CheckMap( Work *work )
 {
     CONTROL *control;
 
-    if ( rasen_800C3408 == 1 )
+    if ( Rasen_LookSection == 1 )
     {
         control = &work->control;
-        control->map = GM_GetMap( rasen_800D2CA4[ rasen_800C3404 ] );
+        control->map = GM_GetMap( Rasen_Maps[ Rasen_MapSection ] );
 
         if ( control->mov.vy <= 0 )
         {
@@ -62,14 +62,14 @@ static void CheckMap( Work *work )
             control->mov.vy -= 32000;
         }
 
-        work->field_C0C = -1;
-        work->field_BF0 = -1;
+        work->current_addr = -1;
+        work->last_addr = -1;
         printf( "1ID[%d] %d %d %d\n", work->param.index, control->mov.vx, control->mov.vy, control->mov.vz );
     }
-    else if ( rasen_800C3408 == 2 )
+    else if ( Rasen_LookSection == 2 )
     {
         control = &work->control;
-        control->map = GM_GetMap( rasen_800D2CA4[ rasen_800C3404 ] );
+        control->map = GM_GetMap( Rasen_Maps[ Rasen_MapSection ] );
 
         if ( control->mov.vy < 0 )
         {
@@ -80,8 +80,8 @@ static void CheckMap( Work *work )
             control->mov.vy = 32000;
         }
 
-        work->field_C0C = -1;
-        work->field_BF0 = -1;
+        work->current_addr = -1;
+        work->last_addr = -1;
         printf( "2ID[%d] %d %d %d\n", work->param.index, control->mov.vx, control->mov.vy, control->mov.vz );
     }
 }
@@ -203,7 +203,7 @@ static void InitTarget( Work *work )
     GM_SetTarget( trg, TARGET_FLAG, ENEMY_SIDE, &ZAKO11A_TARGET_SIZE );
     GM_SetPowerTarget( trg, POWER_DECREASE, -1, life, faint, &ZAKO11A_TARGET_FORCE );
     GM_SetCaptureTarget( trg, -1, faint, NULL, NULL );
-    GM_TargetBody( trg, &work->body.objs->objs[ 1 ].world );
+    GM_SetC4Target( trg, &work->body.objs->objs[ 1 ].world );
 
     trg2 = &work->attack;
     GM_SetTarget( trg2, TARGET_POWER, PLAYER_SIDE, &ZAKO11A_ATTACK_SIZE );
@@ -434,8 +434,8 @@ static void GetResources( Work *work, int name, int where )
 
     if ( work->param.blood == 90 ) work->param.g_flag = 0;
 
-    work->field_BFC = dist_data[ work->param.index ];
-    work->field_C00 = work->param.index;
+    work->chase_dis = dist_data[ work->param.index ];
+    work->chase_index = work->param.index;
 
     work->param.next = 255;
     opt = GCL_GetOption( 'n' );
@@ -512,14 +512,14 @@ static void GetResources( Work *work, int name, int where )
 
     GM_ConfigControlRadarparam( &work->control, 0, 512, ZAKO11A_EYE_LENGTH, 0 );
 
-    work->field_BD8 = work->nodes[ 0 ];
-    work->field_BEC = GM_CurrentMap;
+    work->start_pos = work->nodes[ 0 ];
+    work->start_map = GM_CurrentMap;
 
     addr = HZD_GetAddress( work->control.map->hzd, &work->control.mov, -1 );
     work->field_BE8 = addr;
-    work->field_C10 = addr;
-    work->field_BF0 = addr;
-    work->field_C1C = work->field_BD8;
+    work->next_addr = addr;
+    work->last_addr = addr;
+    work->next_pos = work->start_pos;
 }
 
 void *NewZako11A( int name, int where )

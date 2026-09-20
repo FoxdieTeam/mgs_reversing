@@ -48,7 +48,7 @@ static void Act(BakudanWork *work)
     int cond;
 #endif
     // if invalid game status, destroy the actor
-    if (GM_GameStatus < 0)
+    if (GM_GameStatus & STATE_DEMO)
     {
         GV_DestroyActor(&work->actor);
         return;
