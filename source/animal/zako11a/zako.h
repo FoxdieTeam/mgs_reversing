@@ -34,7 +34,7 @@ typedef struct _PARAM {
     /* 0xB7D */ char           g_flag;
     /* 0xB7E */ short          life;
     /* 0xB80 */ short          faint;
-    /* 0xB82 */ short          z_flag;
+    /* 0xB82 */ short          damage;
 } PARAM;
 
 typedef struct _VISION {
@@ -86,7 +86,7 @@ typedef struct _Work {
     /* 0xAF4 */ int           *shadow_enable;
     /* 0xAF8 */ void          *glight;
     /* 0xAFC */ int           *glight_enable;
-    /* 0xB00 */ void          *field_B00[ 8 ];
+    /* 0xB00 */ void          *put_chars[ 8 ];
     /* 0xB20 */ short          think1;
     /* 0xB22 */ short          think2;
     /* 0xB24 */ short          think3;
@@ -98,7 +98,9 @@ typedef struct _Work {
     /* 0xB38 */ PAD            pad;
     /* 0xB4C */ char           padB4C[ 0x8 ];
     /* 0xB54 */ int            field_B54;
-    /* 0xB58 */ char           padB58[ 0x10 ];
+    /* 0xB58 */ char           padB58[ 0x8 ];
+    /* 0xB60 */ void          *mark;
+    /* 0xB64 */ char           padB64[ 0x4 ];
     /* 0xB68 */ int            mark_time;
     /* 0xB6C */ int            act_status; // verify this
     /* 0xB70 */ char           padB70[ 0x4 ];
@@ -206,24 +208,35 @@ extern int       ZAKO11A_GameFlag;
 extern int       ZAKO11A_PlayerAddress;
 extern int       ZAKO11A_PlayerMap;
 
-int  ZAKO11ASetWorkID( Work *work );
-void ZAKO11AResetWorkID( int id );
+// zako11a.c
+void *NewZako11A( int name, int where );
 
-void ZAKO11ASetTopCommAL( int alert );
-void ZAKO11ASetTopCommMD( int mode );
+// action.c
+void s11a_800CD00C( Work *work );
 
-void ZAKO11ASetGopointLast( void );
-void ZAKO11ASetGopointNoise( void );
+// put.c
+void ZAKO11A_PutBlood( Work *work, int unit, int count );
+void ZAKO11A_PutFog( Work *work );
+void ZAKO11A_PutItem( Work *work );
+void ZAKO11A_PutMark( Work *work, int mark );
+int  ZAKO11A_SetPutChar( Work *work, int index );
+int  ZAKO11A_ClearPutChar( Work *work, void *func );
+void ZAKO11A_ExecPutChars( Work *work );
 
-int ZAKO11AFindRoute( int map, int id );
-
-void s11a_800CD00C( Work *work ); // Zako11AActionSomething
-void Zako11AThink( Work *work );
-
+// zk11aact.c
 void Zako11AActionMain( Work *work );
 void Zako11APushMove( Work *work );
 
-void s11a_800CDE94( Work *work, int ); // ZAKO11A_SetPutSomething
-void s11a_800CE34C( Work *work, int ); // ZAKO11A_SetPutChar
+// think.c
+void Zako11AThink( Work *work );
+
+// zk11acom.c
+int  ZAKO11ASetWorkID( Work *work );
+void ZAKO11AResetWorkID( int id );
+void ZAKO11ASetTopCommAL( int alert );
+void ZAKO11ASetTopCommMD( int mode );
+void ZAKO11ASetGopointLast( void );
+void ZAKO11ASetGopointNoise( void );
+int  ZAKO11AFindRoute( int map, int id );
 
 #endif // __MGS_ANIMAL_ZAKO11A_ZAKO_H__

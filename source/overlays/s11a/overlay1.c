@@ -1,4 +1,4 @@
-#include "mgstype.h"
+#include "game/game.h"
 
 int s11a_dword_800C342C = 0x00140013;
 int s11a_dword_800C3430 = 0x0016000A;
@@ -26,6 +26,7 @@ int s11a_dword_800C3484 = 0x001D001C;
 int s11a_dword_800C3488 = 0x00010000;
 int s11a_dword_800C348C = 0x0011003B;
 int s11a_dword_800C3490 = 0x002B0012;
+
 int s11a_dword_800C3494 = 0x00000016;
 int s11a_dword_800C3498 = 0x00000401;
 int s11a_dword_800C349C = 0x000004FF;
@@ -33,23 +34,6 @@ int s11a_dword_800C34A0 = 0x0000FF6A;
 int s11a_dword_800C34A4 = 0x0000012C;
 int s11a_dword_800C34A8 = 0xFD440000;
 int s11a_dword_800C34AC = 0x00000384;
-int s11a_dword_800C34B0 = 0x00000000;
-int s11a_dword_800C34B4 = 0x00000064;
-int s11a_dword_800C34B8 = 0x0000FC00;
-int s11a_dword_800C34BC = 0x00000000;
-int s11a_dword_800C34C0 = 0x00000000;
-int s11a_dword_800C34C4 = 0x00000064;
-int s11a_dword_800C34C8 = 0x0000FC00;
-int s11a_dword_800C34CC = 0x00000000;
-int s11a_dword_800C34D0 = 0x800D80AC;
-int s11a_dword_800C34D4 = 0x800D80A0;
-int s11a_dword_800C34D8 = 0x800D8094;
-int s11a_dword_800C34DC = 0x800CDF30;
-int s11a_dword_800C34E0 = 0x800CE08C;
-int s11a_dword_800C34E4 = 0x800CE1D4;
-int s11a_dword_800C34E8 = 0x800CE210;
-int s11a_dword_800C34EC = 0xFE0C0005;
-int s11a_dword_800C34F0 = 0x00000050;
 
 const int s11a_dword_800D8024 = 0x800CA6C4;
 const int s11a_dword_800D8028 = 0x800CA724;
@@ -60,13 +44,13 @@ const int s11a_dword_800D8038 = 0x800CA7B0;
 const int s11a_dword_800D803C = 0x800CA7B0;
 const int s11a_dword_800D8040 = 0x800CA778;
 const int s11a_dword_800D8044 = 0x800CA78C;
-const char s11a_dword_800D8048[] = {'8', 0xff, 'd', 0x0};
-const char s11a_dword_800D804C[] = {'X', 0x2, 0x0, 0x0};
-const char s11a_dword_800D8050[] = {0x5, 0x0, 0x0, 0x0};
-const char s11a_dword_800D8054[] = {'d', 0x0, 0x0, 0x0};
-const char s11a_dword_800D8058[] = {0xe8, 0x3, 0xe8, 0x3};
-const char s11a_dword_800D805C[] = {0xe8, 0x3, 0x0, 0x0};
+
+const SVECTOR s11a_dword_800D8048 = {-200, 100, 600};
+const SVECTOR s11a_dword_800D8050 = {5, 0, 100};
+const SVECTOR s11a_dword_800D8058 = {1000, 1000, 1000};
+
 const char s11a_dword_800D8060[] = {0x0, 0x0, 0x0, 0x0};
+
 const int s11a_dword_800D8064 = 0x800CC79C;
 const int s11a_dword_800D8068 = 0x800CC7EC;
 const int s11a_dword_800D806C = 0x800CC8EC;
@@ -79,15 +63,3 @@ const int s11a_dword_800D8084 = 0x800CCA44;
 const int s11a_dword_800D8088 = 0x800CCA24;
 const int s11a_dword_800D808C = 0x800CCA70;
 const int s11a_dword_800D8090 = 0x800CCA70;
-
-const char s11a_dword_800D8094[] = {'F', 'A', 'M', 'A'};
-const char s11a_dword_800D8098[] = {'S', ' ', 'x', ' '};
-const char s11a_dword_800D809C[] = {'1', '5', 0x0, 0x0};
-
-const char s11a_dword_800D80A0[] = {'S', 'O', 'C', 'O'};
-const char s11a_dword_800D80A4[] = {'M', ' ', 'x', ' '};
-const char s11a_dword_800D80A8[] = {'1', '2', 0x0, 0x0};
-
-const char s11a_dword_800D80AC[] = {'R', 'A', 'T', 'I'};
-const char s11a_dword_800D80B0[] = {'O', 'N', ' ', 'x'};
-const char s11a_dword_800D80B4[] = {' ', '1', 0x0, 0x10};

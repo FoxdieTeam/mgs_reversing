@@ -1091,7 +1091,7 @@ void Zako_800D0BEC(Work *work, int type)
 {
     SVECTOR   step = work->field_8D4;
     SVECTOR  *pos = &work->control.mov;
-    Item_Info info;
+    ITEM_INFO info;
 
     if (type >= 0)
     {
