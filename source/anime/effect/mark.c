@@ -209,7 +209,7 @@ static unsigned short mark_tex_list[] = {
 
 /*---------------------------------------------------------------------------*/
 
-void *AN_Headmark( MATRIX *mat, int mark )
+void *AN_HeadMark( MATRIX *mat, int mark )
 {
     SVECTOR  *pos;
     PRESCRIPT pre;

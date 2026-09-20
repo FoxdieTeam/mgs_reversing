@@ -3,7 +3,7 @@
 extern void  AN_Breath( MATRIX * ) ;
 extern void  AN_Fog( SVECTOR *pos ) ;
 extern void  NewBlood( MATRIX *, int ) ;
-extern void *AN_Headmark( MATRIX* mat, int mark );
+extern void *AN_HeadMark( MATRIX* mat, int mark );
 
 extern void *NewBullet(MATRIX *pMtx, int whichSide, int a3, int noiseLen);
 
@@ -44,7 +44,7 @@ void ML72_PutMark_800CB3C0( Meryl72Work* work, int mark )
 {
     if ( work->control.map->index & GM_PlayerMap )
     {
-        AN_Headmark( &work->body.objs->objs[6].world , mark );
+        AN_HeadMark( &work->body.objs->objs[6].world , mark );
     }
 }
 

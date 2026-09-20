@@ -6,6 +6,7 @@
 // TODO: These structures should be unified with the other zakos, using stage
 //       ifdefs to add or remove fields where necessary.
 
+// TODO: check name
 typedef struct _ACT {
     /* 0x8C8 */ int            field_00;
     /* 0x8CC */ short          field_04;
@@ -13,8 +14,8 @@ typedef struct _ACT {
     /* 0x8D0 */ int            field_08;
     /* 0x8D4 */ SVECTOR        field_0C;
     /* 0x8DC */ int            field_14;
-    /* 0x8E0 */ short          last_set;
-    /* 0x8E2 */ short          last_unset;
+    /* 0x8E0 */ short          motion1;
+    /* 0x8E2 */ short          motion2;
     /* 0x8E4 */ short          field_1C;
     /* 0x8E6 */ short          field_1E;
     /* 0x8E8 */ short          field_20;
@@ -47,11 +48,16 @@ typedef struct _VISION {
 typedef struct _PAD {
     /* 0xB38 */ int   press;
     /* 0xB3C */ int   field_4;
-    /* 0xB40 */ char  padB40[ 0x4 ];
-    /* 0xB44 */ int   field_C;
+    /* 0xB40 */ int   field_8;
+    /* 0xB44 */ int   time;
     /* 0xB48 */ short dir;
     /* 0xB4A */ short sound;
 } PAD;
+
+struct _Work;
+
+typedef void ( *ACTION )( struct _Work *, int ) ;
+typedef void ( *PUTFUNC )( struct _Work * ) ;
 
 typedef struct _Work {
     /* 0x000 */ GV_ACT         actor;
@@ -67,15 +73,15 @@ typedef struct _Work {
     /* 0x7A4 */ OBJECT         weapon;
     /* 0x888 */ MATRIX         light[ 2 ];
     /* 0x8C8 */ ACT            act;
-    /* 0x8EC */ int            field_8EC;
-    /* 0x8F0 */ int            field_8F0;
-    /* 0x8F4 */ int            field_8F4;
-    /* 0x8F8 */ int            field_8F8;
+    /* 0x8EC */ ACTION         action;
+    /* 0x8F0 */ ACTION         action2;
+    /* 0x8F4 */ int            time;
+    /* 0x8F8 */ int            time2;
     /* 0x8FC */ int            field_8FC;
     /* 0x900 */ TARGET        *target;
     /* 0x904 */ TARGET         attack;
     /* 0x94C */ TARGET         touch;
-    /* 0x994 */ char           pad994[ 0x48 ];
+    /* 0x994 */ TARGET         punch;
     /* 0x9DC */ HOMING        *hom;
     /* 0x9E0 */ int            scale;
     /* 0x9E4 */ int            field_9E4;
@@ -86,7 +92,7 @@ typedef struct _Work {
     /* 0xAF4 */ int           *shadow_enable;
     /* 0xAF8 */ void          *glight;
     /* 0xAFC */ int           *glight_enable;
-    /* 0xB00 */ void          *put_chars[ 8 ];
+    /* 0xB00 */ PUTFUNC        putchar[ 8 ];
     /* 0xB20 */ short          think1;
     /* 0xB22 */ short          think2;
     /* 0xB24 */ short          think3;
@@ -96,13 +102,14 @@ typedef struct _Work {
     /* 0xB30 */ int            l_count;
     /* 0xB34 */ int            next_node;
     /* 0xB38 */ PAD            pad;
-    /* 0xB4C */ char           padB4C[ 0x8 ];
+    /* 0xB4C */ char           padB4C[ 0x4 ];
+    /* 0xB50 */ int            field_B50;
     /* 0xB54 */ int            field_B54;
     /* 0xB58 */ char           padB58[ 0x8 ];
     /* 0xB60 */ void          *mark;
     /* 0xB64 */ char           padB64[ 0x4 ];
     /* 0xB68 */ int            mark_time;
-    /* 0xB6C */ int            act_status; // verify this
+    /* 0xB6C */ int            act_status;
     /* 0xB70 */ char           padB70[ 0x4 ];
     /* 0xB74 */ PARAM          param;
     /* 0xB84 */ char           padB84[ 0x4 ];
@@ -111,8 +118,8 @@ typedef struct _Work {
     /* 0xB94 */ int            alert_level;
     /* 0xB98 */ signed char    modetime[ 8 ];
     /* 0xBA0 */ SVECTOR        player_pos;
-    /* 0xBA8 */ int            player_turn;
-    /* 0xBAC */ int            time[ 8 ];
+    /* 0xBA8 */ int            player_dir;
+    /* 0xBAC */ int            acttime[ 8 ];
     /* 0xBCC */ short          dir[ 4 ];
     /* 0xBD4 */ int            field_BD4;
     /* 0xBD8 */ SVECTOR        start_pos;
@@ -130,11 +137,11 @@ typedef struct _Work {
     /* 0xC14 */ char           padC14[ 0x8 ];
     /* 0xC1C */ SVECTOR        next_pos;
     /* 0xC24 */ char           padC24[ 0x8 ];
-    /* 0xC2C */ int            player_dis;
-    /* 0xC30 */ int            player_dir;
+    /* 0xC2C */ int            sn_dis;
+    /* 0xC30 */ int            sn_dir;
     /* 0xC34 */ int            field_C34;
     /* 0xC38 */ int            field_C38;
-    /* 0xC3C */ char           padC3C[ 0x4 ];
+    /* 0xC3C */ int            field_C3C;
     /* 0xC40 */ int            gameflag;
     /* 0xC44 */ short          field_C44;
 } Work;
@@ -192,6 +199,64 @@ typedef struct _CommanderWork {
     /* 0x020 */ char   pad20[ 0x4 ];
 } CommanderWork;
 
+/*---------------------------------------------------------------------------*/
+
+static inline void SetAction( Work *work, int action, int interp )
+{
+    extern short ActionTable[];
+
+    work->act.motion1 = action;
+    GM_ConfigObjectAction( &( work->body ), ActionTable[ action ], 0, interp );
+}
+
+static inline void SetAction2( Work *work, int action, int interp, u_long mask )
+{
+    extern short ActionTable[];
+
+    work->act.motion2 = action;
+    GM_ConfigObjectOverride( &( work->body ), ActionTable[ action ], 0, interp, mask );
+}
+
+static inline void SetMode( Work *work, ACTION action )
+{
+    work->action = action;
+    work->time = 0;
+
+    work->control.turn.vx = work->control.turn.vz = 0;
+    GM_ConfigMotionAdjust( &( work->body ), NULL );
+}
+
+static inline void SetMode2( Work *work, ACTION action )
+{
+    if ( work->action2 == NULL )
+    {
+        work->action2 = action;
+        work->time2 = 0;
+    }
+
+    work->control.turn.vx = work->control.turn.vz = 0;
+    GM_ConfigMotionAdjust( &( work->body ), NULL );
+}
+
+static inline void SetModeNoAdjust( Work *work, ACTION action )
+{
+    work->action = action;
+    work->time = 0;
+
+    work->control.turn.vx = work->control.turn.vz = 0;
+}
+
+static inline void UnsetMode( Work *work )
+{
+    SetAction2( work, 0, 4, 0 );
+    work->action2 = NULL;
+    work->time2 = 0;
+    work->act.motion2 = 0;
+    work->control.turn.vx = work->control.turn.vz = 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
 extern SVECTOR   ZAKO11A_TARGET_SIZE;
 extern SVECTOR   ZAKO11A_TARGET_FORCE;
 extern SVECTOR   ZAKO11A_ATTACK_SIZE;
@@ -212,7 +277,21 @@ extern int       ZAKO11A_PlayerMap;
 void *NewZako11A( int name, int where );
 
 // action.c
-void s11a_800CD00C( Work *work );
+void s11a_800CB964( Work *work, int time );
+void ZAKO11A_ActionUpdate( Work *work );
+
+// override.c
+void s11a_800CD198( Work *work, int time );
+void s11a_800CD264( Work *work, int time );
+void s11a_800CD330( Work *work, int time );
+void s11a_800CD3C8( Work *work, int time );
+void s11a_800CD460( Work *work, int time );
+void s11a_800CD514( Work *work, int time );
+void s11a_800CD5DC( Work *work, int time );
+void s11a_800CD680( Work *work, int time );
+void s11a_800CD748( Work *work, int time );
+void s11a_800CD960( Work *work, int time );
+void s11a_800CDAA8( Work *work, int time );
 
 // put.c
 void ZAKO11A_PutBlood( Work *work, int unit, int count );

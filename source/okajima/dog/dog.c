@@ -132,9 +132,9 @@ SVECTOR s12c_dword_800C3458 = {64512, 0, 0};
 extern SVECTOR KORE_GuestPosition;
 extern int     KORE_GuestFlag;
 
-void *AN_Headmark(MATRIX *mat, int mark);
+void *AN_HeadMark(MATRIX *mat, int mark);
 void  AN_Breath(MATRIX *world);
-void  AN_Breath_2(MATRIX *world);
+void  AN_BreathDog(MATRIX *world);
 void  AN_Sleep(SVECTOR *pos);
 void  AN_Unknown_800C3B7C(MATRIX *matrix);
 void *AN_Unknown_800CA320(MATRIX *mat, int mark);
@@ -680,7 +680,7 @@ void s12c_dog_800CAEC8(Work *work, int index, int mark)
         switch (index)
         {
         case 0:
-            AN_Headmark(&work->field_19C[0].objs->objs[5].world, mark);
+            AN_HeadMark(&work->field_19C[0].objs->objs[5].world, mark);
             control = &work->field_28[0];
             if (mark == 6)
             {
@@ -688,7 +688,7 @@ void s12c_dog_800CAEC8(Work *work, int index, int mark)
             }
             break;
         case 1:
-            AN_Headmark(&work->field_19C[1].objs->objs[5].world, mark);
+            AN_HeadMark(&work->field_19C[1].objs->objs[5].world, mark);
             control = &work->field_28[1];
             if (mark == 6)
             {
@@ -3500,7 +3500,7 @@ void s12c_dog_800D0F30(Work *work, int index)
 
         if (work->field_14EC[index] >= 31 && (GV_Time & 3) == 0)
         {
-            AN_Breath_2(&object->objs->objs[6].world);
+            AN_BreathDog(&object->objs->objs[6].world);
         }
 
         if (work->field_14EC[index] == 30)
@@ -3605,7 +3605,7 @@ void s12c_dog_800D11D4(Work *work, int index)
     {
         if (GV_RandU(16) == 0 && work->field_14F8[index] != 9)
         {
-            AN_Breath_2(&object->objs->objs[6].world);
+            AN_BreathDog(&object->objs->objs[6].world);
         }
     }
     else
@@ -3614,7 +3614,7 @@ void s12c_dog_800D11D4(Work *work, int index)
 
         if (work->field_14EC[index] >= 31 && (GV_Time & 3) == 0)
         {
-            AN_Breath_2(&object->objs->objs[6].world);
+            AN_BreathDog(&object->objs->objs[6].world);
         }
 
         if (work->field_14EC[index] == 30)

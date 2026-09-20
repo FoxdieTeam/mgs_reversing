@@ -23,7 +23,7 @@ static SVECTOR s12a_dword_800C34B0 = {10, -800, -120};
 
 extern SVECTOR wolf2_position;
 
-void *AN_Headmark( MATRIX* mat, int mark );
+void *AN_HeadMark( MATRIX* mat, int mark );
 void NewAnime_8005E1A0( MATRIX* mat );
 void s01a_object_800D952C( SVECTOR *pos, short scr_num );
 
@@ -767,7 +767,7 @@ void s12a_wolf2_800D09D4(Wolf2Work *work, int arg1)
                 if (--work->f708 == 30)
                 {
                     GM_SeSet2(0, 127, 131);
-                    AN_Headmark(&work->body.objs->objs[6].world, 0);
+                    AN_HeadMark(&work->body.objs->objs[6].world, 0);
                 }
 
                 if (work->f708 == 1)

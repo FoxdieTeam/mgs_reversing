@@ -1677,7 +1677,7 @@ void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark )
         GV_DestroyActor( work->mark );
     }
 
-    work->mark = AN_Headmark( mat, mark ) ;
+    work->mark = AN_HeadMark( mat, mark ) ;
     work->mark_time = 30;
 }
 

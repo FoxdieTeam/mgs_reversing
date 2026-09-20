@@ -550,7 +550,7 @@ void  s00a_command_800D0218( void ) ;
 void  s00a_command_800D0344( void ) ;
 void  EnemyPushMove( WatcherWork* work );
 void  EnemyActionMain( WatcherWork* work );
-void *AN_Headmark( MATRIX* mat, int mark );
+void *AN_HeadMark( MATRIX* mat, int mark );
 
 void  ENE_SetTopCommAL( int alert );
 void  ENE_SetTopCommMD( int mode );

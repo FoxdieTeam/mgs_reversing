@@ -10,7 +10,7 @@
 
 extern void *AN_Breath( MATRIX *world );
 extern void *AN_Fog( SVECTOR *pos );
-extern void *AN_Headmark( MATRIX* world, int mark );
+extern void *AN_HeadMark( MATRIX* world, int mark );
 
 /*---------------------------------------------------------------------------*/
 
@@ -136,7 +136,7 @@ void ZAKO11A_PutMark( Work *work, int mark )
     if ( mark == 0 ) GM_SeSet( &work->control.mov, SE_EXCLAMATION );
     if ( work->mark_time != 0 ) GV_DestroyActor( work->mark );
 
-    work->mark = AN_Headmark( world, mark );
+    work->mark = AN_HeadMark( world, mark );
     work->mark_time = 30;
 }
 
@@ -146,7 +146,7 @@ static void PutSound( Work *work )
 {
     int action, frame, l, r;
 
-    action = work->act.last_set;
+    action = work->act.motion1;
     frame = work->m_ctrl.info1.frame;
     l = 160 + ( work->param.index % 4 ) * 2;
     r = 160 + ( work->param.index % 4 ) * 2 + 1;
@@ -218,14 +218,14 @@ static void PutBreath( Work *work )
     if ( ZAKO11ACommand.alert_mode == 1 ) return;
     if ( !( work->control.map->index & GM_PlayerMap ) ) return;
 
-    if ( work->act.last_unset == 20 )
+    if ( work->act.motion2 == 20 )
     {
         if ( work->m_ctrl.info2.frame == 31 )
         {
             AN_Breath( &work->body.objs->objs[ 6 ].world );
         }
     }
-    else if ( work->act.last_unset == 22 )
+    else if ( work->act.motion2 == 22 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( frame == 15 || frame == 35 || frame == 50 || frame == 60 ||
@@ -234,7 +234,7 @@ static void PutBreath( Work *work )
             AN_Breath( &work->body.objs->objs[ 6 ].world );
         }
     }
-    else if ( work->act.last_unset == 19 )
+    else if ( work->act.motion2 == 19 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( frame == 30  || frame == 40 || frame == 50 || frame == 60 ||
@@ -304,9 +304,9 @@ int ZAKO11A_SetPutChar( Work *work, int index )
 
     for ( i = 0; i < 8; i++ )
     {
-        if ( work->put_chars[ i ] == NULL )
+        if ( work->putchar[ i ] == NULL )
         {
-            work->put_chars[ i ] = PutChars[ index ];
+            work->putchar[ i ] = PutChars[ index ];
             return 1;
         }
     }
@@ -320,9 +320,9 @@ int ZAKO11A_ClearPutChar( Work *work, void *func )
     
     for ( i = 0; i < 8; i++ )
     {
-        if ( work->put_chars[ i ] == func )
+        if ( work->putchar[ i ] == func )
         {
-            work->put_chars[ i ] = NULL;
+            work->putchar[ i ] = NULL;
             return 1;
         }
     }
@@ -337,7 +337,7 @@ void ZAKO11A_ExecPutChars( Work *work )
 
     for ( i = 0; i < 8; i++ )
     {
-        func = work->put_chars[ i ];
+        func = work->putchar[ i ];
         if ( func != NULL ) func( work );
     }
 }
