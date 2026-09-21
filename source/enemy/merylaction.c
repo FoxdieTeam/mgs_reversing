@@ -1522,7 +1522,7 @@ void MERYL_PutMark( WatcherWork *work, int mark )
         GV_DestroyOtherActor( work->mark );
     }
 
-    work->mark = AN_Headmark( mat , mark ) ;
+    work->mark = AN_HeadMark( mat , mark ) ;
     work->mark_time = 30;
 }
 

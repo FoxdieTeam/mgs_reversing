@@ -253,7 +253,7 @@ int s01a_camera_800D515C(Work *work)
     if (field_1EC == 15)
     {
         COM_CallBikkuriSe(&work->control.mov, 32);
-        AN_Headmark(&work->body.objs[1].world, 0);
+        AN_HeadMark(&work->body.objs[1].world, 0);
         COM_VibTime = 10;
         s01a_camera_800D50EC(work);
     }
@@ -588,7 +588,7 @@ void s01a_camera_800D5A68(Work *work)
         ENE_SetGopointLast();
         COM_VibTime = 0xA;
         COM_CallBikkuriSe(&work->control.mov, 0x20);
-        AN_Headmark(&work->body.objs[1].world, 0);
+        AN_HeadMark(&work->body.objs[1].world, 0);
         s01a_camera_800D50EC(work);
         work->field_1E0 = 1;
         work->field_1E8 = 4;

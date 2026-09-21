@@ -84,11 +84,11 @@ static void CheckBox( Work *work )
     if ( !( GM_PlayerStatus & PLAYER_CB_BOX ) ) return;
 
     if ( GV_DiffVec3( &work->player_pos, &GM_PlayerPosition ) > 50 ||
-         work->player_turn != GM_WhereList[ 0 ]->rot.vy )
+         work->player_dir != GM_WhereList[ 0 ]->rot.vy )
     {
         if ( ZAKO11ACommand.alert_mode == 1 ) return;
         work->player_pos = GM_PlayerPosition;
-        work->player_turn = GM_WhereList[ 0 ]->rot.vy;
+        work->player_dir = GM_WhereList[ 0 ]->rot.vy;
         work->modetime[ 6 ] |= 0x2;
     }
     else if ( GV_DiffVec3( &work->control.mov, &GM_PlayerPosition ) < 1500 )
@@ -179,10 +179,10 @@ static void CheckVision( Work *work )
 
     dir = ratan2( pos->vx - work->control.mov.vx,
                   pos->vz - work->control.mov.vz ) & 4095;
-    work->player_dir = dir;
+    work->sn_dir = dir;
 
     dis = GV_VecLen3( &tmp );
-    work->player_dis = dis;
+    work->sn_dis = dis;
 
     height = ABS( pos->vy - work->control.mov.vy );
 
@@ -244,7 +244,7 @@ static void CheckVision( Work *work )
 
 void Zako11AActionMain( Work *work )
 {
-    if ( work->act.last_set <= 48 )
+    if ( work->act.motion1 <= 48 )
     {
         SetRadarParam( work );
         CheckVision( work );
@@ -254,13 +254,13 @@ void Zako11AActionMain( Work *work )
         ZAKO11A_ExecPutChars( work );
     }
 
-    s11a_800CD00C( work );
+    ZAKO11A_ActionUpdate( work );
 }
 
 void Zako11APushMove( Work *work )
 {
     TARGET *trg;
-    int turn, last_set;
+    int turn, motion1;
     CONTROL *control;
 
     trg = work->target;
@@ -271,8 +271,8 @@ void Zako11APushMove( Work *work )
     GV_AddVec3( &trg->offset, &work->control.step, &work->control.step );
     trg->damaged &= ~TARGET_PUSH;
 
-    last_set = work->act.last_set;
-    if ( last_set == 1 || last_set == 2 )
+    motion1 = work->act.motion1;
+    if ( motion1 == 1 || motion1 == 2 )
     {
         if ( trg->offset.pad != 0 )
         {

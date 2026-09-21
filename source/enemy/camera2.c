@@ -73,7 +73,7 @@ static SVECTOR Size = {301, 301, 301};
 /*---------------------------------------------------------------------------*/
 
 extern void AN_CameraSmoke( SVECTOR *pos );
-extern void AN_Headmark( MATRIX *world, int mark );
+extern void AN_HeadMark( MATRIX *world, int mark );
 
 extern void COM_CallBikkuriSe( SVECTOR *pos, int flag );
 
@@ -201,7 +201,7 @@ static int ActAlert( Work *work )
     if ( time == 15 )
     {
         COM_CallBikkuriSe( &work->control.mov, 0x20 );
-        AN_Headmark( &work->body.objs->objs[ 0 ].world, 0 );
+        AN_HeadMark( &work->body.objs->objs[ 0 ].world, 0 );
         work->vibtime = 10;
         FollowPlayerQuick( work );
     }

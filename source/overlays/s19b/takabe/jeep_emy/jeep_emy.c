@@ -88,7 +88,7 @@ void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
 void *NewJeepBlood(MATRIX *world, int count, MATRIX *root);
 void *NewJeepBullet2(MATRIX *world, int side, int mode, int mode2);
 void Voicesys_800CE2D0(void);
-void AN_Headmark(MATRIX *, int);
+void AN_HeadMark(MATRIX *, int);
 
 /* BUG: bad declaration, should have int arg1 */
 void s19b_jblood_800C8128(MATRIX *world);
@@ -561,7 +561,7 @@ void s19b_jbullet_800C5560(Work *work, int arg1)
     {
         work->field_930 = 4;
         GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[4], 0, 4);
-        AN_Headmark(&work->body.objs->objs[6].world, 0);
+        AN_HeadMark(&work->body.objs->objs[6].world, 0);
 
         GM_SeSet2(0, 63, SE_ALERT_SIREN);
 

@@ -319,10 +319,10 @@ static void SoundSetCom( COMMANDER *comm )
         if ( comm->watchers[ i ].field_4 == 2 )
         {
             work = comm->watchers[ i ].work;
-            if ( work->pad.sound != 0 && work->player_dis < dist )
+            if ( work->pad.sound != 0 && work->sn_dis < dist )
             {
                 id = work->pad.sound;
-                dist = work->player_dis;
+                dist = work->sn_dis;
             }
             work->pad.sound = 0;
         }

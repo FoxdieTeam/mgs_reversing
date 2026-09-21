@@ -436,7 +436,7 @@ int s11a_800D0D48( Work *work )
     count = work->count3;
 
     work->pad.press |= 0x10000;
-    work->pad.dir = work->player_dir;
+    work->pad.dir = work->sn_dir;
 
     if ( count == 0 ) work->count3 = GV_RandU( 4 ) + 4;
     if ( count <= 8 && ( count % 2 ) == 0 ) work->pad.press |= 0x40000;
@@ -516,14 +516,14 @@ int s11a_800D0F74( Work *work )
         return 1;
     }
 
-    work->pad.dir = work->player_dir;
+    work->pad.dir = work->sn_dir;
     work->count3++;
     return 0;
 }
 
 int s11a_800D0FDC( Work *work )
 {
-    work->pad.dir = work->player_dir;
+    work->pad.dir = work->sn_dir;
     work->pad.press |= 0x10000;
 
     if ( work->count3 < 10 )
@@ -542,16 +542,16 @@ int s11a_800D0FDC( Work *work )
 int s11a_800D103C( Work *work )
 {
     work->pad.press |= 0x10000;
-    work->pad.dir = work->player_dir;
+    work->pad.dir = work->sn_dir;
 
-    if ( work->player_dis < 1300 )
+    if ( work->sn_dis < 1300 )
     {
         work->think3 = 11;
         work->count3 = 0;
         return 0;
     }
 
-    if ( work->player_dis > 4000 ) return 1;
+    if ( work->sn_dis > 4000 ) return 1;
 
     work->count3++;
     return 0;
@@ -559,13 +559,13 @@ int s11a_800D103C( Work *work )
 
 int s11a_800D10A0( Work *work )
 {
-    if ( work->player_dis < 800 )
+    if ( work->sn_dis < 800 )
     {
         work->pad.press |= 0x10000;
         return 1;
     }
 
-    work->pad.dir = work->player_dir;
+    work->pad.dir = work->sn_dir;
     work->count3++;
     return 0;
 }
@@ -583,7 +583,7 @@ const int s11a_dword_800D8300 = 0x800D11D4;
 int s11a_800D1230( Work *work )
 {
     work->pad.press |= 0x10000;
-    work->pad.dir = work->player_dir;
+    work->pad.dir = work->sn_dir;
 
     work->param.next = ActionPattern[ work->gameflag ][ work->param.index ].reset;
     work->scale = 4096;
@@ -733,7 +733,7 @@ void s11a_800D1804( Work *work )
         break;
     }
 
-    if ( work->player_dis < work->chase_dis && GM_PlayerStance == STAND )
+    if ( work->sn_dis < work->chase_dis && GM_PlayerStance == STAND )
     {
         work->think2 = 2;
         work->think3 = 16;
@@ -754,7 +754,7 @@ void s11a_800D1904( Work *work )
         work->count3 = 0;
     }
 
-    if ( work->player_dis < 800 && GM_PlayerStance == STAND )
+    if ( work->sn_dis < 800 && GM_PlayerStance == STAND )
     {
         work->think2 = 2;
         work->think3 = 11;

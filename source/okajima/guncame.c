@@ -98,7 +98,7 @@ extern int     dword_8009F480;
 extern SVECTOR svector_8009F478;
 extern int     s03e_dword_800C32BC;
 
-void AN_Headmark(MATRIX *world, int index);
+void AN_HeadMark(MATRIX *world, int index);
 void AN_Unknown_800D6BCC(SVECTOR *pos, SVECTOR *rot);
 void AN_CameraSmoke(SVECTOR *pos);
 
@@ -500,7 +500,7 @@ void GunCame_800C7994(Work *work)
 
     if ((((GV_Time + work->field_414) & 3) == 0) && GunCame_800C7224(work))
     {
-        AN_Headmark(&work->field_9C.objs->objs[0].world, 0);
+        AN_HeadMark(&work->field_9C.objs->objs[0].world, 0);
 
         if (s03e_dword_800CC6BC <= 0)
         {

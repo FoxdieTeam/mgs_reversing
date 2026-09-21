@@ -86,7 +86,7 @@ void AN_Breath( MATRIX *matrix )
     NewAnime( NULL, 0, anm );
 }
 
-void AN_Breath_2( MATRIX *matrix )
+void AN_BreathDog( MATRIX *matrix )
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -110,6 +110,7 @@ void AN_Breath_2( MATRIX *matrix )
     NewAnime( NULL, 0, anm );
 }
 
+/* Linker map fragment says AN_Hounyou (urination), need to test */
 void AN_Unknown_800C3B7C( MATRIX *matrix )
 {
     ANIMATION *anm;

@@ -224,10 +224,10 @@ static void InitAct( Work *work )
     act->field_1C = 450;
     act->field_1E = 1;
 
-    work->field_8EC = 0;
-    work->field_8F0 = 0;
-    work->field_8F4 = 0;
-    work->field_8F8 = 0;
+    work->action = NULL;
+    work->action2 = NULL;
+    work->time = 0;
+    work->time2 = 0;
 }
 
 static int InitState( Work *work, int name, int where )
@@ -267,7 +267,7 @@ static int InitState( Work *work, int name, int where )
 
     for ( i = 0; i < 0; i++ )
     {
-        work->put_chars[ i ] = NULL;
+        work->putchar[ i ] = NULL;
     }
 
     indices.vx = 0;
@@ -362,13 +362,13 @@ static int InitTables( Work *work )
 
     for ( i = 0; i < 8; i++ )
     {
-        work->time[ i ] = time_data[ i ];
+        work->acttime[ i ] = time_data[ i ];
     }
 
     opt = GCL_GetOption( 't' );
     if ( opt )
     {
-        if ( ReadTime( opt, &work->time[ 1 ] ) > 4 )
+        if ( ReadTime( opt, &work->acttime[ 1 ] ) > 4 )
         {
             printf( "Err Err Err  Set time Over\n" );
             return -1;
@@ -493,7 +493,7 @@ static void GetResources( Work *work, int name, int where )
     work->vision.facedir = 0;
     work->field_B90 = 0;
     work->pad.sound = 0;
-    work->pad.field_C = 0;
+    work->pad.time = 0;
     work->vision.length = ZAKO11A_EYE_LENGTH;
     work->player_pos = ZAKO11A_NO_POINT;
     work->field_B54 = 0;

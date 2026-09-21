@@ -16,7 +16,7 @@ typedef struct _Work
     char pad2[0x4];
 } Work;
 
-void * AN_Headmark(MATRIX *pos, int mark);
+void * AN_HeadMark(MATRIX *pos, int mark);
 
 static int CheckMessages(u_short name, int n_hashes, u_short *hashes)
 {
@@ -63,7 +63,7 @@ static void Act(Work *work)
     found = CheckMessages(work->name, 7, hashes);
     if (found != -1)
     {
-        AN_Headmark(&GM_PlayerBody->objs->objs[6].world, found % 7);
+        AN_HeadMark(&GM_PlayerBody->objs->objs[6].world, found % 7);
     }
 }
 
