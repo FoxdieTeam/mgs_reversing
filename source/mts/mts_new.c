@@ -177,7 +177,7 @@ static inline void mts_TransferExecutionWithinInterrupt( int task )
 
     if ( change )
     {
-        // See PsyQ Run-Time Library Overview 4.4, chapter 2
+        // See Run-Time Library Overview 4.4, chapter 2
         // "System Table Information, Example 1"
         t = (struct ToT *)0x100;            /* get ToT from the fixed kernel address */
         h = (struct TCBH *)((t + 1)->head); /* get current TCB from the ToT */
@@ -191,7 +191,7 @@ static inline struct TCB *mts_GetTcbEntry( char tcb_id )
     struct ToT *t;
     struct TCB *tcb_0;
 
-    // See PsyQ Run-Time Library Overview 4.4, chapter 2
+    // See Run-Time Library Overview 4.4, chapter 2
     // "System Table Information, Example 2"
     t = (struct ToT *)0x100;               /* get ToT from the fixed kernel address */
     tcb_0 = (struct TCB *)((t + 2)->head); /* get TCB array from the ToT */

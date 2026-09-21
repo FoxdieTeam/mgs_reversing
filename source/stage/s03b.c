@@ -4,7 +4,7 @@
 CHARA _StageCharacterEntries[] = {
     CHARA_FADEIO,       /* chara 白黒フェド */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_TORTURE,
+    CHARA_TORTURE,      /* chara 拷問スネーク */
     CHARA_TR_BED,       /* chara 拷問台 */
     CHARA_DEMODOLL,     /* chara デモ人形 */
     CHARA_TR_OCELOT,    /* chara 拷問オセロット */
