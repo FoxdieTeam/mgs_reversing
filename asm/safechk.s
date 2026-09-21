@@ -1,3 +1,15 @@
+; NOTE: safechk.obj was probably written in C originally, but can't be matched
+; using the PSSN compiler toolchain.
+;
+; Originally, SCEI would compile the PlayStation Runtime Libraries to both
+; COFF and PSY-Q formats using gcc 2.X (hosted on Unix) and PSY-Q for MS-DOS.
+; Starting with Release 4.1 (September 1997), they switched to compiling
+; releases using only the Unix gcc 2.X compiler and post-converting the COFF
+; objects to PSY-Q format using some tool.
+;
+; The (very limited) releases of safechk.obj most likely came from the same
+; build environment as the normal SDK libraries.
+
 	opt	c+, at+, e+, n-
 
 	; asmpsx has a conflicting macro named strlen
