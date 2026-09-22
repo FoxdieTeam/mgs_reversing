@@ -16,7 +16,7 @@ extern int              tenage_ctrls_count_800BDD70;
 
 extern void NewSplash2_800DB4E0( int angy, SVECTOR *pos, int noripple );
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 typedef struct _Work
 {
@@ -33,7 +33,7 @@ typedef struct _Work
     int     proc_id;      //0x50
 } Work;
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 static u_short mes_list[] = { OPEN_MES, CLOSE_MES };
 
@@ -48,8 +48,9 @@ static int BoundInCheck( SVECTOR *bound, SVECTOR *check )
     return FALSE;
 }
 
-/*---------------------------------------------------------------------------*/
-
+// clang-format off
+/*----------------------------------------------------------------*/
+/* プロシージャを実行する（引数は１つのみ） */
 static void ExecProc( int proc_id, int mode )
 {
     GCL_ARGS    args ;
@@ -60,15 +61,15 @@ static void ExecProc( int proc_id, int mode )
     GCL_ExecProc( proc_id, &args );
 }
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 static void Act( Work *work )
 {
     static SVECTOR  mouth_offset = {0,0,100};
     //SVECTOR       pos, snake_pos ;
     SVECTOR     snake_pos ;
-    CONTROL   **ctrl;
     int         flag ;
+    CONTROL   **ctrl;
     MATRIX      mtx;
     MATRIX     *eye;
     int         i;
@@ -76,7 +77,7 @@ static void Act( Work *work )
     mtx = DG_ZeroMatrix;
 
     /* メッセージチェック */
-    switch ( THING_Msg_CheckMessage( ( unsigned short )work->name, 2, mes_list ) ){
+    switch ( THING_Msg_CheckMessage( ( u_short )work->name, 2, mes_list ) ){
       case 0:
         /* 水しぶき有効 */
         work->splash_flag = 1 ;
@@ -88,16 +89,14 @@ static void Act( Work *work )
     }
 
     if ( GM_PlayerControl == NULL ) return ;
-
+    /* スネーク中心部の水中バウンドチェック */
     flag = BoundInCheck( work->bound, &GM_PlayerControl->mov );
-
-    if ( work->snake_catch == 0  )
-    {
-        if ( flag )
-        {
-            /* スネーク中心部の水中バウンドチェック */
+    if ( work->snake_catch == 0  ){
+        /* スネークが飛び込んだかどうかをチェック */
+        if ( flag ){
             snake_pos = GM_PlayerControl->mov ;
             snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
+// clang-format on
             if ( work->splash_flag )
             {
                 NewSplash2_800DB4E0( GM_PlayerControl->rot.vy + 2048, &snake_pos, 0 );
@@ -223,14 +222,14 @@ static void Act( Work *work )
     }
 }
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 static void Die( Work *work )
 {
     /* do nothing */
 }
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 static int GetResources( Work *work, int name, int where )
 {
@@ -258,7 +257,7 @@ static int GetResources( Work *work, int name, int where )
     return 0;
 }
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 void *NewWaterArea( int name, int where, int argc, char **argv )
 {
