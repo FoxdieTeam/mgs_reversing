@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s14e_800CE104
+s14e_800CE104:
+	dw 0x3C02800E ; 800CE104
+	dw 0x03E00008 ; 800CE108
+	dw 0xAC44D7A4 ; 800CE10C
+	dw 0x3C02800E ; 800CE110
+	dw 0x03E00008 ; 800CE114
+	dw 0xAC44D7A0 ; 800CE118
