@@ -12,7 +12,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_CAT_IN,       /* chara カットインカメラ */
     CHARA_SNEBREATH,    /* chara スネーク息 */
-    CHARA_FADEIO,       /* chara 白黒フェド */
+    CHARA_FADEIO,       /* chara フェードイン・アウト */
     CHARA_LIFEUP,       /* chara ライフ増加 */
     CHARA_DOG,          /* chara 狼犬 */
     CHARA_FINDTRAP,     /* chara 発見トラップ */

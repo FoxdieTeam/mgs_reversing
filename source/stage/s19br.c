@@ -10,7 +10,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_JEEP_EMY,
     CHARA_VOICESYS,     /* chara 音声制御 */
     CHARA_FOG,          /* chara 黒フォグ */
-    CHARA_FADEIO,       /* chara 白黒フェド */
+    CHARA_FADEIO,       /* chara フェードイン・アウト */
 
     CHARA_END
 };

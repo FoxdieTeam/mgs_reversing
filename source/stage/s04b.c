@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_TEXTURE,      /* chara テクスチャ */
     CHARA_MOVIE,        /* chara ムービー */
     CHARA_LIFEUP,       /* chara ライフ増加 */
-    CHARA_FADEIO,       /* chara 白黒フェド */
+    CHARA_FADEIO,       /* chara フェードイン・アウト */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_CAT_IN,       /* chara カットインカメラ */
 

@@ -17,7 +17,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_WALL,         /* chara 障害物 */
     CHARA_GASEFFECT,    /* chara ガス効果 */
     CHARA_ITEM_DOT,
-    CHARA_FADEIO,       /* chara 白黒フェド */
+    CHARA_FADEIO,       /* chara フェードイン・アウト */
     CHARA_DYNWALL,      /* chara 透明壁 */
 
     DEMO_FADEIN,

@@ -15,7 +15,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_RSURFACE,
     CHARA_WALL,         /* chara 障害物 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_FADEIO,       /* chara 白黒フェド */
+    CHARA_FADEIO,       /* chara フェードイン・アウト */
 
     DEMO_FADEIN,
     DEMO_FADEOUT,

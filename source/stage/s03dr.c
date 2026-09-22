@@ -16,7 +16,7 @@ CHARA _StageCharacterEntries[] = {
     { 0xb103, (NEWCHARA *)0x800d9a38 }, //  CHARA_DYNWALL,      /* chara 透明壁 */
     { 0x1ad3, (NEWCHARA *)0x800c5c98 }, //  CHARA_TEXTURE,      /* chara テクスチャ */
     { 0x0065, (NEWCHARA *)0x800d8320 }, //  CHARA_MOSAIC,       /* chara モザイク */
-    { 0xa12e, (NEWCHARA *)0x800d8854 }, //  CHARA_FADEIO,       /* chara 白黒フェド */
+    { 0xa12e, (NEWCHARA *)0x800d8854 }, //  CHARA_FADEIO,       /* chara フェードイン・アウト */
     { 0x42e4, (NEWCHARA *)0x800d7994 }, //  CHARA_HIYOKO,       /* chara ヒヨコ星 */
     { 0x5147, (NEWCHARA *)0x800c6b78 }, //  CHARA_RADARPOINT,   /* chara レーダーポイント */
     { 0xdd8b, (NEWCHARA *)0x800c6e0c }, //  CHARA_INTRUDECAM,   /* chara イントルードカメラ */

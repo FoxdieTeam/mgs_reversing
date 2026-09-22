@@ -13,7 +13,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_RASEN,        /* chara 螺旋階段 */
     CHARA_RASEN_EL,     /* chara 螺旋階段エレベータ */
     CHARA_CINEMA,       /* chara シネマスクリーン */
-    CHARA_FADEIO,       /* chara 白黒フェド */
+    CHARA_FADEIO,       /* chara フェードイン・アウト */
     CHARA_WALL,         /* chara 障害物 */
     CHARA_DYNWALL,      /* chara 透明壁 */
     CHARA_CAMERASHAKE,  /* chara カメラ揺らし */
