@@ -10,7 +10,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x1ad3, (NEWCHARA *)0x800c41b0 }, //  CHARA_TEXTURE,      /* chara テクスチャ */
     { 0x2abc, (NEWCHARA *)0x800d7274 }, //  CHARA_ELEVATOR,     /* chara エレベータ */
     { 0x6865, (NEWCHARA *)0x800d5a58 }, //  CHARA_TEXSCROLL,    /* chara テクスチャスクロール */
-    { 0xa12e, (NEWCHARA *)0x800daf5c }, //  CHARA_FADEIO,       /* chara 白黒フェド */
+    { 0xa12e, (NEWCHARA *)0x800daf5c }, //  CHARA_FADEIO,       /* chara フェードイン・アウト */
     { 0x8e74, (NEWCHARA *)0x800cf44c }, //  CHARA_ZAKO14COM,    /* chara ざこ１４コマンダー */
     { 0x31e7, (NEWCHARA *)0x800c66cc }, //  CHARA_ZAKO14,       /* chara ざこ１４ */
     { 0x9ab9, (NEWCHARA *)0x800d4d50 }, //  CHARA_ELEVCROW,     /* chara エレベーターのカラス */

@@ -137,4 +137,11 @@
 #define SNAKE_NAME              0x21ca  // GV_StrCode("スネーク")
 #define RCM_NAME                0x50ae  // GV_StrCode("RCM")
 
+//-----------------------------------------------------------------------------
+// Chara Messages
+//-----------------------------------------------------------------------------
+
+#define OPEN_MES                0x43d3
+#define CLOSE_MES               0x4235
+
 #endif // __MGS_STRCODE_H__

@@ -12,7 +12,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_SHAKEMODEL,
     CHARA_DUCTMOUSE,
     CHARA_CAT_IN,       /* chara カットインカメラ */
-    CHARA_FADEIO,       /* chara 白黒フェド */
+    CHARA_FADEIO,       /* chara フェードイン・アウト */
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_CINEMA,       /* chara シネマスクリーン */
     CHARA_WT_AREA,      /* chara 水領域 */

@@ -10,6 +10,8 @@
 
 /*---------------------------------------------------------------------------*/
 
+#define CHARA_NAME      0x62FE      // GV_StrCode("フェードインシーン")
+
 #define MODE_FADEOUT    (0 << 0)    // 0x0000
 #define MODE_FADEIN     (1 << 0)    // 0x0001
 #define MODE_BLACK      (0 << 1)    // 0x0000
@@ -35,7 +37,10 @@ typedef struct _Work
 
 /*---------------------------------------------------------------------------*/
 
-unsigned short fadeio_mes_list[] = { HASH_KILL, 0x71F1 };
+static u_short mes_list[] = {
+    HASH_KILL,      // GV_StrCode("kill")
+    0x71F1          // GV_StrCode("フェードイン移行")
+};
 
 static void Act(Work *work)
 {
@@ -45,7 +50,7 @@ static void Act(Work *work)
 
     if (GV_PauseLevel == 0)
     {
-        status = THING_Msg_CheckMessage(work->name, 2, fadeio_mes_list);
+        status = THING_Msg_CheckMessage(work->name, 2, mes_list);
         if (status == 0)
         {
             GV_DestroyActor(&work->actor);
@@ -175,7 +180,7 @@ void *NewFadeInOut(int mode, int shade)
             return NULL;
         }
 
-        work->name = 0x62FE;
+        work->name = CHARA_NAME;
     }
     return (void *)work;
 }

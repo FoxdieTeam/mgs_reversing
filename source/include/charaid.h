@@ -73,7 +73,7 @@
 #define CHARAID_ENDINGROLL      0xb789  // GV_StrCode("エンディングロール")
 #define CHARAID_ENV_SOUND       0x3f9a  // GV_StrCode("環境音")
 #define CHARAID_ENV_TEST        0x76fe  // GV_StrCode("環境マッピングテスト")
-#define CHARAID_FADEIO          0xa12e  // GV_StrCode("白黒フェド")
+#define CHARAID_FADEIO          0xa12e  // GV_StrCode("フェードイン・アウト")
 #define CHARAID_FALLSPLASH      0xc73e  // GV_StrCode("滝しぶき")
 #define CHARAID_FEWDAMAGE       0x5d64  //
 #define CHARAID_FINDTRAP        0x118c  // GV_StrCode("発見トラップ")

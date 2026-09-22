@@ -6,7 +6,7 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 #define CHARA_NAME      0x7a05  // GV_StrCode("シネマスクリーン")
 
@@ -30,15 +30,18 @@ typedef struct _Work
     GV_ACT actor;
     int    name;
     int    mode;
-    int    time;
+    int    count;
     int    once;
     PRIMS *prims;
     PARAM  params[2];
 } Work;
 
-/*---------------------------------------------------------------------------*/
+static u_short mes_list[] = { 0xD420, 0x745D };
 
-unsigned short mes_list[] = { 0xD420, 0x745D };
+// clang-format off
+/*----------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 static void Act( Work *work )
 {
@@ -47,41 +50,36 @@ static void Act( Work *work )
 
     OPERATOR() ;
 
-    if ( GV_PauseLevel == 0 )
-    {
+    if ( GV_PauseLevel == 0 ){
         mes = THING_Msg_CheckMessage( work->name, 2, mes_list );
-        switch ( mes )
-        {
-        case 0:/* 通常終了 */
+        switch ( mes ){
+          case 0:/* 通常終了 */
             work->mode = 1 ;
-            work->time = 0 ;
+            work->count = 0 ;
             break ;
-        case 1:/* 強制消去 */
+          case 1:/* 強制消去 */
             work->mode = 2 ;
-            work->time = 0 ;
+            work->count = 0 ;
             break ;
         }
     }
 
-    if( work->mode == 2 )
-    {
-        GV_DestroyActor( &work->actor );
+    if( work->mode == 2 ){
+        GV_DestroyActor( work );
         return;
     }
 
     ot = DG_Chanl( 1 )->ot[ GV_Clock ] ;
 
-    for ( i = 0 ; i < 2 ; i++ )
-    {
-        int    col ;
-        PARAM *param = &work->params[i] ;
+    /* 濃度計算 */
+    for ( i = 0 ; i < 2 ; i++ ){
+        int     col ;
+        PARAM   *param = &work->params[i] ;
 
-        if ( work->mode == 0 )
-        {
+        if ( work->mode == 0 ){
             /* 出現時 */
             if ( param->max_count > param->count ) param->count++ ;
-        } else if ( work->mode ==1 )
-        {
+        } else if ( work->mode ==1 ){
             /* 消去時 */
             param->count-- ;
         } else {
@@ -90,8 +88,10 @@ static void Act( Work *work )
             param->offset = 0 ;
         }
 
+        /*  */
         col = param->col * param->count / param->max_count;
         col += param->offset;
+// clang-format on
 
         if ( col >= 256 )
         {
@@ -140,8 +140,8 @@ static void Act( Work *work )
 
     if ( work->mode == 0 )
     {
-        if ( work->time < 30000 ) work->time-- ;
-        if ( work->time < 0 )
+        if ( work->count < 30000 ) work->count-- ;
+        if ( work->count < 0 )
         {
             if ( work->once )
             {
@@ -253,12 +253,12 @@ static int GetResources( Work *work, int time, int type )
         params[1].count = params[1].max_count;
     }
 
-    work->time = time;
+    work->count = time;
 
     return 0;
 }
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 // clang-format off
 
 void *NewCinemaScreen( int time, int type )
@@ -282,7 +282,7 @@ void *NewCinemaScreen( int time, int type )
 void *NewCinemaScreenClose( void *addr )
 {
     Work *work = ( Work * ) addr ;
-    work->time = 0 ;    /* 強制的に終了時間にしてしまう */
+    work->count = 0 ;   /* 強制的に終了時間にしてしまう */
     return ( NULL );
 }
 

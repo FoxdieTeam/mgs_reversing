@@ -4,8 +4,9 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "takabe/thing.h"
 #include "strcode.h"
+
+#include "takabe/thing.h"       // for THING_*
 
 typedef struct _Work
 {
@@ -31,28 +32,28 @@ typedef struct _Work
     int    field_68;
 } Work;
 
-unsigned short mosaic_mes_list[] = {HASH_ON2, HASH_OFF2};
+static u_short mes_list[] = { HASH_ON2, HASH_OFF2 };
 
 // This actor is probably the naked Johnny censorship (missing in Integral),
 // so a lot of functions here are just stubbed-out and the actor
 // doesn't do anything meaningful.
 
-void s00a_mosaic_800DC928()
+void mosaic_800DC928()
 {
 }
 
-void s00a_mosaic_800DC930()
+void mosaic_800DC930()
 {
 }
 
-void MosaicAct_800DC938(Work *work)
+static void Act( Work *work )
 {
     char unused[16];
     int  found;
 
     if (!GV_PauseLevel)
     {
-        found = THING_Msg_CheckMessage(work->field_20, 2, mosaic_mes_list);
+        found = THING_Msg_CheckMessage(work->field_20, 2, mes_list);
         switch (found)
         {
         case 0:
@@ -65,7 +66,7 @@ void MosaicAct_800DC938(Work *work)
     }
 }
 
-void MosaicDie_800DC9A0(Work *work)
+static void Die( Work *work )
 {
     void *allocated;
 
@@ -76,7 +77,7 @@ void MosaicDie_800DC9A0(Work *work)
     }
 }
 
-int MosaicGetResources_800DC9D0(Work *arg0, void *arg1, int arg2, int arg3, int arg4)
+static int GetResources( Work *arg0, void *arg1, int arg2, int arg3, int arg4 )
 {
     arg0->field_58 = 16;
     arg0->field_5C = 16;
@@ -87,15 +88,15 @@ int MosaicGetResources_800DC9D0(Work *arg0, void *arg1, int arg2, int arg3, int 
     return 0;
 }
 
-void *NewMosaic(void *arg0, int arg1, int arg2, int arg3)
+void *NewMosaic( void *arg0, int arg1, int arg2, int arg3 )
 {
     Work *work;
 
     work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, MosaicAct_800DC938, MosaicDie_800DC9A0, "mosaic.c");
-        if (MosaicGetResources_800DC9D0(work, arg0, arg1, arg2, arg3) < 0)
+        GV_SetNamedActor(&work->actor, Act, Die, "mosaic.c");
+        if (GetResources(work, arg0, arg1, arg2, arg3) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
@@ -106,7 +107,7 @@ void *NewMosaic(void *arg0, int arg1, int arg2, int arg3)
     return (void *)work;
 }
 
-void *NewMosaicSet(int name, int where, int argc, char **argv)
+void *NewMosaicSet( int name, int where, int argc, char **argv )
 {
     SVECTOR     vec;
     Work *work;
@@ -115,7 +116,7 @@ void *NewMosaicSet(int name, int where, int argc, char **argv)
     work = GV_NewActor(GV_ACTOR_PREV2, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, MosaicAct_800DC938, MosaicDie_800DC9A0, "mosaic.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "mosaic.c");
         s = THING_Gcl_GetIntDefault('s', 500);
         d = THING_Gcl_GetIntDefault('d', 4);
         work->field_60 = THING_Gcl_GetInt('f');
@@ -123,7 +124,7 @@ void *NewMosaicSet(int name, int where, int argc, char **argv)
         work->field_3C = vec.vx;
         work->field_40 = vec.vy;
         work->field_44 = vec.vz;
-        if (MosaicGetResources_800DC9D0(work, &work->field_28, s, d, 0) < 0)
+        if (GetResources(work, &work->field_28, s, d, 0) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

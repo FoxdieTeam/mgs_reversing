@@ -90,7 +90,7 @@
 #define CHARA_ENDINGROLL        { 0xb789, NewEndingRoll }           // GV_StrCode("エンディングロール") takabe/ending2.c
 #define CHARA_ENV_SOUND         { 0x3f9a, NewEnvSound }             // GV_StrCode("環境音") takabe/env_snd.c
 #define CHARA_ENV_TEST          { 0x76fe, ? }                       // GV_StrCode("環境マッピングテスト") takabe/env_test.c (PC-ONLY)
-#define CHARA_FADEIO            { 0xa12e, NewFadeInOutSet }         // GV_StrCode("白黒フェド") takabe/fadeio.c
+#define CHARA_FADEIO            { 0xa12e, NewFadeInOutSet }         // GV_StrCode("フェードイン・アウト") takabe/fadeio.c
 #define CHARA_FALLSPLASH        { 0xc73e, NewFallSplash }           // GV_StrCode("滝しぶき") okajima/fall_spl.c
 #define CHARA_FEWDAMAGE         { 0x5d64, NewFewDamageSet }         // takabe/o2_damge.c
 #define CHARA_FINDTRAP          { 0x118c, NewFindTrap }             // GV_StrCode("発見トラップ") takabe/findtrap.c
