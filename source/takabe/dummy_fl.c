@@ -9,6 +9,28 @@
 #include "game/vibrate.h"
 #include "takabe/thing.h"
 
+extern CONTROL *tenage_ctrls_800BDD30[16];
+extern int      tenage_ctrls_count_800BDD70;
+
+/* in takabe/object.c */
+extern DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
+extern void Takabe_FreeObjs(DG_OBJS *objs);
+extern void Takabe_ReshadeModel(DG_OBJS *, DG_LITS *);
+extern void Takabe_RefreshObjectPacks(DG_OBJS *);
+
+extern void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
+
+/*----------------------------------------------------------------*/
+
+typedef struct
+{
+    MATRIX  mat;
+    SVECTOR vec;
+} SCRPAD_DATA;
+
+char dummy_floor_800C3610[] = {0x7F, 0x01, 0x00, 0x00};
+char dummy_floor_800C3614[] = {0x50, 0x04, 0x00, 0x00};
+
 typedef struct _FLOOR_OBJ
 {
     SVECTOR  pos;
@@ -20,67 +42,52 @@ typedef struct _FLOOR_OBJ
     SVECTOR  bounds[5];
 } FLOOR_OBJ;
 
-typedef struct _Work
-{
-    GV_ACT    actor;
-    int       name;
-    int       map;
-    char      pad[0x4];
-    FLOOR_OBJ flr_obj[2];
-    MATRIX    world;
-    MATRIX    light[2];
-    SVECTOR   f15C;
-    MATRIX    f164;
-    int       f184;
-    int       f188;
-    int       raise;
-    int       f190;
-    int       f194;
-    int       f198;
-    int       f19C;
-    int       f1A0;
-    int       f1A4;
-    int       add_speed; /* 落下加速度 */
-    int       rot_z; /* 蝶番角度 */
-    int       close_wait; /* 落し穴が閉じるまでの最低時間 */
-	//int       wepon_fall_flag ; /* C4&クレイモア落下フラグ */
+typedef struct _Work {
+    GV_ACT      actor;
+    int         name;
+    int         map;
+    char        pad[0x4];
+    FLOOR_OBJ   flr_obj[2];
+    MATRIX      world;
+    MATRIX      light[2];
+    SVECTOR     f15C;
+    MATRIX      f164;
+    int         f184;
+    int         f188;
+    int         raise;
+    int         f190;
+    int         f194;
+    int         f198;
+    int         f19C;
+    int         f1A0;
+    int         f1A4;
+// clang-format off
+    int         add_speed ; /* 落下加速度 */
+    int         rot_z ;     /* 蝶番角度 */
+    int         close_wait ;/* 落し穴が閉じるまでの最低時間 */
+    //int         wepon_fall_flag ;   /* C4&クレイモア落下フラグ */
 
-    int       proc_id;
+    int         proc_id ;   /* 猶予時......時呼び出し用 */
 
-	/* shading関連 */
-    int       shade_flag;
+    /* shading関連 */
+    int         shade_flag;
 
-	/* 扉当たり判定用可動壁データ */
-    int       hzd_flag;
-    HZD_HDL  *hzd;
-    HZD_FLR   floors[2];
-} Work;
+    /* 扉当たり判定用可動壁データ */
+    int         hzd_flag;
+    HZD_HDL     *hzd;
+    HZD_FLR     flr[2];
+} Work ;
 
-typedef struct
-{
-    MATRIX  mat;
-    SVECTOR vec;
-} SCRPAD_DATA;
+//static u_short mes_list[2] = { OPEN_MES, CLOSE_MES };
+static SVECTOR  normal = {0, 4096, 0};
 
-char dummy_floor_800C3610[] = {0x7F, 0x01, 0x00, 0x00};
-char dummy_floor_800C3614[] = {0x50, 0x04, 0x00, 0x00};
-
-SVECTOR normal = {0, 4096, 0};
-
-extern CONTROL *tenage_ctrls_800BDD30[16];
-extern int      tenage_ctrls_count_800BDD70;
-
-void Takabe_FreeObjs(DG_OBJS *objs);
-void Takabe_ReshadeModel(DG_OBJS *, DG_LITS *);
-void Takabe_RefreshObjectPacks(DG_OBJS *);
-
-DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
-
-void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
-
+/*----------------------------------------------------------------*/
 /* モデル初期化 */
-static void InitPreshadeObject(Work *work, FLOOR_OBJ *flr_obj, int model_name, int map);
-static void MakeFloor(SVECTOR *in, HZD_FLR *floor);
+static void InitPreshadeObject( Work *work, FLOOR_OBJ *flr_obj, int model_name, int map );
+static void MakeFloor( SVECTOR *in, HZD_FLR *floor );
+
+/*----------------------------------------------------------------*/
+// clang-format on
 
 static void Act(Work *work)
 {
@@ -167,7 +174,7 @@ static void Act(Work *work)
                 work->close_wait = 40;
             }
 
-            THING_Hzd_800C4874(0, NULL, 2, work->floors);
+            THING_Hzd_800C4874(0, NULL, 2, work->flr);
 
             scratch = (SCRPAD_DATA *)SCRPAD_ADDR;
 
@@ -307,8 +314,8 @@ static void Die(Work *work)
 {
     if (work->hzd_flag != 0)
     {
-        HZD_DequeueDynamicFloor(work->hzd, &work->floors[0]);
-        HZD_DequeueDynamicFloor(work->hzd, &work->floors[1]);
+        HZD_DequeueDynamicFloor(work->hzd, &work->flr[0]);
+        HZD_DequeueDynamicFloor(work->hzd, &work->flr[1]);
     }
 
     work->flr_obj[0].objs->flag = ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_IRTEXTURE );
@@ -427,8 +434,8 @@ static int GetResources(Work *work, int name, int map)
         DG_RotVector(&normal, &bounds[4], 1);
 
         work->hzd = GM_GetMap(map)->hzd;
-        MakeFloor(bounds, &work->floors[i]);
-        HZD_QueueDynamicFloor(work->hzd, &work->floors[i]);
+        MakeFloor(bounds, &work->flr[i]);
+        HZD_QueueDynamicFloor(work->hzd, &work->flr[i]);
 
         flap++;
     }
