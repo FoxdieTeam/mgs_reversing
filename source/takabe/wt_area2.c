@@ -1,12 +1,14 @@
 #include "wt_area2.h"
-#include "wt_view.h"    // for NewWaterView2
 
 #include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
-#include "takabe/thing.h"
+#include "strcode.h"
+
+#include "takabe/thing.h"       // for THING_*
+#include "takabe/wt_view.h"     // for NewWaterView2
 
 extern void NewSplash2_800DB6F0( int angy, SVECTOR *pos, int noripple );
 
@@ -29,8 +31,7 @@ typedef struct _Work
 
 /*---------------------------------------------------------------------------*/
 
-//OPEN_MES, CLOSE_MES
-static unsigned short mes_list[] = { 0x43D3, 0x4235 };
+static u_short mes_list[] = { OPEN_MES, CLOSE_MES };
 
 static int BoundInCheck( SVECTOR *bound, SVECTOR *check )
 {
