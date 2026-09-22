@@ -3,6 +3,9 @@
 
 #include "game/game.h"
 
+#define TARGET_FLAG ( TARGET_AVAIL | TARGET_CAPTURE | TARGET_POWER \
+                    | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
+
 // TODO: These structures should be unified with the other zakos, using stage
 //       ifdefs to add or remove fields where necessary.
 
@@ -103,9 +106,12 @@ typedef struct _Work {
     /* 0xB34 */ int            next_node;
     /* 0xB38 */ PAD            pad;
     /* 0xB4C */ char           padB4C[ 0x4 ];
-    /* 0xB50 */ int            field_B50;
-    /* 0xB54 */ int            field_B54;
-    /* 0xB58 */ char           padB58[ 0x8 ];
+    /* 0xB50 */ u_long         trigger;
+    /* 0xB54 */ void          *subweapon;
+    /* 0xB58 */ short          field_B58;
+    /* 0xB5A */ short          field_B5A;
+    /* 0xB5C */ short          field_B5C;
+    /* 0xB5E */ char           padB5E[ 0x2 ];
     /* 0xB60 */ void          *mark;
     /* 0xB64 */ char           padB64[ 0x4 ];
     /* 0xB68 */ int            mark_time;
@@ -198,6 +204,13 @@ typedef struct _CommanderWork {
     /* 0x000 */ GV_ACT actor;
     /* 0x020 */ char   pad20[ 0x4 ];
 } CommanderWork;
+
+typedef struct _PATTERN {
+    short field_0;
+    short set;
+    short field_4;
+    short reset;
+} PATTERN;
 
 /*---------------------------------------------------------------------------*/
 

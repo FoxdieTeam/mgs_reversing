@@ -1,19 +1,7 @@
-#include "animal/zako11a/zako.h"
+#include "zako.h"
 
 #include <stdio.h>
 #include "enemy/eyeflash.h"
-
-/*---------------------------------------------------------------------------*/
-
-#define TARGET_FLAG ( TARGET_AVAIL | TARGET_CAPTURE | TARGET_POWER \
-                    | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
-
-typedef struct _PATTERN {
-    short field_0;
-    short set;
-    short field_4;
-    short reset;
-} PATTERN;
 
 /*---------------------------------------------------------------------------*/
 
@@ -570,15 +558,55 @@ int s11a_800D10A0( Work *work )
     return 0;
 }
 
-const char s11a_dword_800D82EC[] = {0x0, 0x0, 0x0, 0x0};
+int s11a_800D10E8( Work *work )
+{
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
 
-const int s11a_dword_800D82F0 = 0x800D1194;
-const int s11a_dword_800D82F4 = 0x800D1208;
-const int s11a_dword_800D82F8 = 0x800D11CC;
-const int s11a_dword_800D82FC = 0x800D11DC;
-const int s11a_dword_800D8300 = 0x800D11D4;
+    if ( work->count3 == 16 )
+    {
+        work->count3 += GV_RandU( 14 );
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s11a/s11a_800D10E8.s")
+    if ( work->count3 < 0 || work->count3 > 32 )
+    {
+        switch( ActionPattern[ work->gameflag ][ work->param.index ].field_0 )
+        {
+        case 0:
+            if ( work->sn_dis < 8000 )
+            {
+                if ( work->sn_dis < 800 && ( GM_PlayerStatus & PLAYER_MOVE ) )
+                {
+                    return 11;
+                }
+                else
+                {
+                    return 7;
+                }
+            }
+            return 15;
+        case 2:
+            return 8;
+        case 4:
+            return 14;
+        case 3:
+            if ( work->sn_dis >= 3900 && work->sn_dis < 8000 )
+            {
+                return 12;
+            }
+            else if ( work->sn_dis < 3900 )
+            {
+                return 13;
+            }
+            break;
+        case 1:
+            return 15;
+        }
+    }
+
+    work->count3++;
+    return 0;
+}
 
 int s11a_800D1230( Work *work )
 {
@@ -682,26 +710,150 @@ void s11a_800D142C( Work *work )
     }
 }
 
-const char s11a_dword_800D8304[] = "N [%d] work->gameflag = %d\n";
-const char s11a_dword_800D8320[] = "N GO GRAVEYARD !! \n";
-const char s11a_dword_800D8334[] = " [%d] work->gameflag = %d\n";
-const char s11a_dword_800D8350[] = " GO GRAVEYARD !! \n";
+void s11a_800D1524( Work *work )
+{
+    int think, nextset;
 
-const char s11a_dword_800D8364[] = {0x0, 0x0, 0x0, 0x0};
+    switch ( work->think3 )
+    {
+    case 7:
+        if ( s11a_800D0D48( work ) )
+        {
+            work->think3 = 15;
+            work->count3 = 0;
+        }
+        break;
+    case 8:
+        if ( s11a_800D0DE8( work ) )
+        {
+            work->think3 = 15;
+            work->count3 = 0;
+        }
+        break;
+    case 10:
+        if ( s11a_800D0EB0( work ) )
+        {
+            s11a_800D0474( work );
+            work->count3 = 0;
+        }
+        break;
+    case 11:
+        if ( s11a_800D0F74( work ) )
+        {
+            work->think3 = 15;
+            work->count3 = 0;
+        }
+        break;
+    case 12:
+        if ( s11a_800D0FDC( work ) )
+        {
+            work->think3 = 15;
+            work->count3 = 0;
+        }
+        break;
+    case 13:
+        if ( s11a_800D103C( work ) )
+        {
+            work->think3 = 15;
+            work->count3 = 0;
+        }
+        break;
+    case 14:
+        if ( s11a_800D10A0( work ) )
+        {
+            work->think3 = 11;
+            work->count3 = 0;
+        }
+        break;
+    case 16:
+        think = s11a_800D10E8( work );
+        if ( think != 0 )
+        {
+            work->think3 = think;
+            work->count3 = 0;
+        }
 
-const int s11a_dword_800D8368 = 0x800D1574;
-const int s11a_dword_800D836C = 0x800D158C;
-const int s11a_dword_800D8370 = 0x800D17D0;
-const int s11a_dword_800D8374 = 0x800D15A4;
-const int s11a_dword_800D8378 = 0x800D15C4;
-const int s11a_dword_800D837C = 0x800D15DC;
-const int s11a_dword_800D8380 = 0x800D15F4;
-const int s11a_dword_800D8384 = 0x800D160C;
-const int s11a_dword_800D8388 = 0x800D16BC;
-const int s11a_dword_800D838C = 0x800D1624;
+        if ( work->gameflag == ZAKO11A_GameFlag ) break;
 
-#pragma INCLUDE_ASM("asm/overlays/s11a/s11a_800D1524.s")
-void s11a_800D1524( Work *work );
+        nextset = ActionPattern[ ZAKO11A_GameFlag ][ work->param.index ].set;
+        work->gameflag = ZAKO11A_GameFlag;
+        printf( "N [%d] work->gameflag = %d\n", work->param.index, work->gameflag );
+
+        if ( nextset != 0 )
+        {
+            if ( nextset == 1 )
+            {
+                ResetZone( work, 2 );
+            }
+
+            work->think2 = 2;
+            work->think3 = 15;
+            work->count3 = 0;
+        }
+        else
+        {
+            printf( "N GO GRAVEYARD !! \n" );
+            work->think2 = 5;
+            work->think3 = 19;
+            work->count3 = 0;
+        }
+        break;
+    case 15:
+        think = s11a_800D1230( work );
+        if ( think != 0 )
+        {
+            work->think3 = think;
+            work->count3 = 0;
+        }
+
+        if ( work->param.next == 255 )
+        {
+            if ( work->sn_dis > work->chase_dis || work->vision.pad != 2 )
+            {
+                s11a_800D0408( work );
+            }
+        }
+        else
+        {
+            if ( !HZD_InsideZone( work->control.map->hzd, &work->control.mov, work->param.next ) )
+            {
+                s11a_800D0408( work );
+            }
+        }
+
+        if ( work->gameflag == ZAKO11A_GameFlag ) break;
+
+        nextset = ActionPattern[ ZAKO11A_GameFlag ][ work->param.index ].set;
+        work->gameflag = ZAKO11A_GameFlag;
+        printf( " [%d] work->gameflag = %d\n", work->param.index, work->gameflag );
+
+        if ( nextset != 0 )
+        {
+            if ( nextset == 1 )
+            {
+                ResetZone( work, 2 );
+            }
+
+            work->think2 = 2;
+            work->think3 = 15;
+            work->count3 = 0;
+        }
+        else
+        {
+            printf( " GO GRAVEYARD !! \n" );
+            work->think2 = 5;
+            work->think3 = 19;
+            work->count3 = 0;
+        }
+        break;
+    }
+
+    if ( work->vision.pad == 2 )
+    {
+        ZAKO11ASetGopointLast();
+        work->alert_level = 255;
+    }
+}
 
 void s11a_800D1804( Work *work )
 {

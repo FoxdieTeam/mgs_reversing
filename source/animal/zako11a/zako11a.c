@@ -17,9 +17,6 @@
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
                     | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
-#define TARGET_FLAG ( TARGET_AVAIL | TARGET_CAPTURE | TARGET_POWER \
-                    | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
-
 /*---------------------------------------------------------------------------*/
 
 // rasen.c
@@ -496,7 +493,7 @@ static void GetResources( Work *work, int name, int where )
     work->pad.time = 0;
     work->vision.length = ZAKO11A_EYE_LENGTH;
     work->player_pos = ZAKO11A_NO_POINT;
-    work->field_B54 = 0;
+    work->subweapon = NULL;
     work->control.mov = work->nodes[ 0 ];
     work->field_C44 = 0;
     work->param.c_root = work->param.root;
