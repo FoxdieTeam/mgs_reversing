@@ -399,7 +399,7 @@ Individual overlay progress:
             <td><b>s11a</b></td>
             <td>87 KB</td>
             <td>Communication Tower A</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s11b</b></td>
