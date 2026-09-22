@@ -12,7 +12,7 @@
 
 extern void NewSplash2_800DB6F0( int angy, SVECTOR *pos, int noripple );
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 typedef struct _Work
 {
@@ -29,7 +29,7 @@ typedef struct _Work
     int     proc_id;      //0x50
 } Work;
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 static u_short mes_list[] = { OPEN_MES, CLOSE_MES };
 
@@ -44,8 +44,9 @@ static int BoundInCheck( SVECTOR *bound, SVECTOR *check )
     return FALSE;
 }
 
-/*---------------------------------------------------------------------------*/
-
+// clang-format off
+/*----------------------------------------------------------------*/
+/* プロシージャを実行する（引数は１つのみ） */
 static void ExecProc( int proc_id, int mode )
 {
     GCL_ARGS    args ;
@@ -56,20 +57,19 @@ static void ExecProc( int proc_id, int mode )
     GCL_ExecProc( proc_id, &args );
 }
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 static void Act( Work *work )
 {
-    static SVECTOR mouth_offset = { 0, 0, 100, 0 };
-
-    SVECTOR snake_pos;
-    SVECTOR snake_floor;
-    int     flag;
+    static SVECTOR  mouth_offset = {0,0,100};
+    SVECTOR     pos, snake_pos;
+    int         flag;
     MATRIX *eye;
     MATRIX *world;
+    OPERATOR() ;
 
     /* メッセージチェック */
-    switch ( THING_Msg_CheckMessage( ( unsigned short )work->name, 2, mes_list ) ){
+    switch ( THING_Msg_CheckMessage( ( u_short )work->name, 2, mes_list ) ){
       case 0:
         /* 水しぶき有効 */
         work->splash_flag = 1 ;
@@ -82,30 +82,26 @@ static void Act( Work *work )
 
     if ( GM_PlayerControl == NULL ) return ;
     /* スネーク中心部の水中バウンドチェック */
-    snake_floor = GM_PlayerControl->mov ;
-    snake_floor.vy -= GM_PlayerControl->height / 2;
-
-    flag = BoundInCheck( work->bound, &snake_floor );
-
-    if (work->snake_catch == 0)
-    {
+    snake_pos = GM_PlayerControl->mov ;
+    snake_pos.vy -= GM_PlayerControl->height / 2 ;
+    flag = BoundInCheck( work->bound, &snake_pos );
+    if ( work->snake_catch == 0 ){
         /* スネークが飛び込んだかどうかをチェック */
-        if (flag)
-        {
-            snake_pos = snake_floor;
-            snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
-
+        if ( flag ){
+            pos = snake_pos;
+            pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
+// clang-format on
             if (work->splash_flag)
             {
-                NewSplash2_800DB6F0( GM_PlayerControl->rot.vy + 2048, &snake_pos, 0 );
+                NewSplash2_800DB6F0( GM_PlayerControl->rot.vy + 2048, &pos, 0 );
                 work->splash_flag = 0;
             }
 
-            GM_SeSet(&snake_pos, 176);
+            GM_SeSet(&pos, 176);
 
             if (work->field_44 == 0)
             {
-                GM_SetNoise(0x64, 2, &snake_pos);
+                GM_SetNoise(0x64, 2, &pos);
             }
 
             work->snake_catch = 1;
@@ -113,12 +109,12 @@ static void Act( Work *work )
     }
     else if (!flag)
     {
-        snake_pos = snake_floor;
-        snake_pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
+        pos = snake_pos;
+        pos.vy = work->bound[1].vy; /* 水面に座標を合わせる */
 
         if (work->field_44 == 0)
         {
-            GM_SetNoise(0x64, 2, &snake_pos);
+            GM_SetNoise(0x64, 2, &pos);
         }
 
         work->snake_catch = 0;
@@ -133,11 +129,11 @@ static void Act( Work *work )
         world = &GM_PlayerBody->objs->objs[6].world;
     }
 
-    snake_pos.vx = world->t[0];
-    snake_pos.vy = world->t[1];
-    snake_pos.vz = world->t[2];
+    pos.vx = world->t[0];
+    pos.vy = world->t[1];
+    pos.vz = world->t[2];
 
-    flag = BoundInCheck( work->bound, &snake_pos );
+    flag = BoundInCheck( work->bound, &pos );
 
     if (!work->field_48)
     {
@@ -149,19 +145,19 @@ static void Act( Work *work )
     }
     else if ( !flag && !GM_GameOverTimer )
     {
-        DG_SetPos2( &snake_pos, &GM_PlayerControl->rot );
-        DG_PutVector( &mouth_offset, &snake_pos, 1 );
-        GM_SeSet( &snake_pos, 0xB3 );
+        DG_SetPos2( &pos, &GM_PlayerControl->rot );
+        DG_PutVector( &mouth_offset, &pos, 1 );
+        GM_SeSet( &pos, 0xB3 );
         ExecProc( work->proc_id, 0xF26E );
         work->field_48 = 0;
     }
 
     eye = &DG_Chanl(0)->eye;
-    snake_pos.vx = eye->t[0];
-    snake_pos.vy = eye->t[1];
-    snake_pos.vz = eye->t[2];
+    pos.vx = eye->t[0];
+    pos.vy = eye->t[1];
+    pos.vz = eye->t[2];
 
-    flag = BoundInCheck( work->bound, &snake_pos );
+    flag = BoundInCheck( work->bound, &pos );
 
     if ( !work->field_4C )
     {
@@ -186,14 +182,14 @@ static void Act( Work *work )
     }
 }
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 static void Die( Work *work )
 {
     /* do nothing */
 }
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 static int GetResources( Work *work, int name, int where )
 {
@@ -221,7 +217,7 @@ static int GetResources( Work *work, int name, int where )
     return 0;
 }
 
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------*/
 
 void *NewWaterArea2( int name, int where, int argc, char **argv )
 {
