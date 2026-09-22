@@ -1,37 +1,32 @@
 #include "dymc_seg.h"
 
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
-
 #include "mgstype.h"
-#include "libgv/libgv.h"
+#include "strcode.h"
 #include "libgcl/libgcl.h"
+#include "libgv/libgv.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
-#include "strcode.h"
 #include "takabe/thing.h"
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct _Work
-{
-    GV_ACT      actor;
-    int         map;
-    int         name;
-    HZD_HDL    *hzd;
-    HZD_SEG     seg;
+typedef struct _Work {
+    GV_ACT   actor;
+    int      map;
+    int      name;
+    HZD_HDL *hzd;
+    HZD_SEG  seg;
 } Work;
 
-/*---------------------------------------------------------------------------*/
+static u_short msg_list[] = { HASH_ON2, HASH_OFF2 };
 
-static unsigned short mesg_list[] = {HASH_ON2, HASH_OFF2};
+/*---------------------------------------------------------------------------*/
 
 static void Act(Work *work)
 {
     GM_CurrentMap = work->map;
 
-    if (THING_Msg_CheckMessage(work->name, 2, mesg_list) == 1)
+    if (THING_Msg_CheckMessage(work->name, 2, msg_list) == 1)
     {
         GV_DestroyActor(&work->actor);
     }
@@ -44,8 +39,8 @@ static void Die(Work *work)
 
 static int GetResources(Work *work, int name, int where)
 {
-    SVECTOR min, max;
-    int     height, flags;
+    SVECTOR pos[ 2 ];
+    int     height, seg_flag;
     HZD_SEG *seg;
     SVECTOR *vec;
 
@@ -56,22 +51,22 @@ static int GetResources(Work *work, int name, int where)
 
     if (GCL_GetOption('p'))
     {
-        GCL_StrToSV(GCL_NextStr(), (short *)&min);
-        GCL_StrToSV(GCL_NextStr(), (short *)&max);
+        GCL_StrToSV(GCL_NextStr(), (short *)&pos[ 0 ]);
+        GCL_StrToSV(GCL_NextStr(), (short *)&pos[ 1 ]);
     }
 
     height = THING_Gcl_GetInt('h');
-    flags = THING_Gcl_GetInt('s');
+    seg_flag = THING_Gcl_GetInt('s');
 
     seg = &work->seg;
 
-    vec = &min;
+    vec = &pos[ 0 ];
     seg->p1.x = vec->vx;
     seg->p1.y = vec->vy;
     seg->p1.z = vec->vz;
     seg->p1.h = height;
 
-    vec = &max;
+    vec = &pos[ 1 ];
     seg->p2.x = vec->vx;
     seg->p2.y = vec->vy;
     seg->p2.z = vec->vz;
@@ -80,7 +75,7 @@ static int GetResources(Work *work, int name, int where)
     HZD_SetDynamicSegment(seg, seg);
 
     work->hzd = GM_GetMap(where)->hzd;
-    HZD_QueueDynamicSegment2(work->hzd, seg, flags);
+    HZD_QueueDynamicSegment2(work->hzd, seg, seg_flag);
     return 0;
 }
 
