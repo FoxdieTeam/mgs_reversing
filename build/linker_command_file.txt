@@ -322,7 +322,9 @@ bss     group bss
     section .sbss,  bss
     section .bss,   bss
 
-;==============================================================================
+;*===========================================================================*/
+;*                      OVERLAY CONFIG SECTION                               */
+;*===========================================================================*/
 {% if OVERLAY %}
 
 ; PSYQ - TODO: how to use inclib effectively in overlays?
@@ -379,7 +381,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
 {% endif %}
 
-;------------------------------------------------------------------------------
+{% if not VR_EXE %}
+;*---------------------------------------------------------------------------*/
+;*                      MAIN GAME OVERLAYS                                   */
+;*---------------------------------------------------------------------------*/
 {% if OVERLAY == "sound" %}
     include "{{OBJ_DIR}}\stage\sound.obj", overlay
     include "{{OBJ_DIR}}\game\sndtst.obj", overlay
@@ -2980,6 +2985,18 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 	include "{{OBJ_DIR}}\overlays\s14e\s14e_800DC6A8.obj", overlay
 	include "{{OBJ_DIR}}\overlays\s14e\s14e_800DC798.obj", overlay
 ;------------------------------------------------------------------------------
+{% endif %}
+
+{% else %}
+;*---------------------------------------------------------------------------*/
+;*                      VR-DISC OVERLAYS                                     */
+;*---------------------------------------------------------------------------*/
+{% if OVERLAY == "sound" %}
+    include "{{OBJ_DIR}}\stagevr\sound.obj", overlay
+    include "{{OBJ_DIR}}\game\sndtst.obj", overlay
+;------------------------------------------------------------------------------
+{% endif %}
+
 {% endif %}
 
 {% endif %}

@@ -471,7 +471,7 @@ Individual overlay progress:
             <td><b>s14e</b></td>
             <td>108 KB</td>
             <td>Cargo Elevator</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s15a</b></td>
