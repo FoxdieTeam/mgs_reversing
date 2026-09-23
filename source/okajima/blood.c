@@ -293,28 +293,28 @@ void *NewBlood(MATRIX *world, int count)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC const int blood_anim_data[] = {
-    0x00012A00, 0x02FE0105, 0x00080100, 0x000CB0B0,
-    0x0AFF0105, 0x64006400, 0x0D010002, 0x0105000C,
-    0x1E000AFF, 0xE8081E00, 0x0002F8F8, 0x000F0D01
+static const char anm_blood_form_script[] = {
+    0x00,0x2A,0x01,0x00, 0x05,0x01,0xFE,0x02, 0x00,0x01,0x08,0x00, 0xB0,0xB0,0x0C,0x00,
+    0x05,0x01,0xFF,0x0A, 0x00,0x64,0x00,0x64, 0x02,0x00,0x01,0x0D, 0x0C,0x00,0x05,0x01,
+    0xFF,0x0A,0x00,0x1E, 0x00,0x1E,0x08,0xE8, 0xF8,0xF8,0x02,0x00, 0x01,0x0D,0x0F
 };
 
-STATIC ANIMATION blood_anim = {
-    PCX_BLOOD_2,                // texture_hash
-    1,                          //
-    1,                          //
+static ANIMATION anm_blood_form = {
+    PCX_BLOOD_2,                // tex
+    1,                          // texdev_x
+    1,                          // texdev_y
     1,                          // n_anime
     1,                          // n_verts
-    500,                        //
-    3,                          //
-    300,                        // xw
-    300,                        // yh
-    200,                        // rgb
+    500,                        // raise
+    3,                          // amb
+    300,                        // size_w
+    300,                        // size_h
+    200,                        // v
     NULL,                       // pre_script
-    (void *)blood_anim_data     // ptr
+    (void *)anm_blood_form_script // script
 };
 
-void AN_Blood_Mist(SVECTOR *pos, SVECTOR *speed)
+void AN_Blood_Mist( SVECTOR *pos, SVECTOR *speed )
 {
     ANIMATION *anm;
     PRESCRIPT  pre;
@@ -333,7 +333,7 @@ void AN_Blood_Mist(SVECTOR *pos, SVECTOR *speed)
     pre.scr_num = 0;
     pre.s_anim = 0;
 
-    anm = &blood_anim;
+    anm = &anm_blood_form;
     anm->pre_script = &pre;
 
     pre.scr_num = 0;

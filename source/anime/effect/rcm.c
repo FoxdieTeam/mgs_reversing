@@ -1,17 +1,14 @@
 #include "mgstype.h"
-#include "libdg/libdg.h"
+#include "game/game.h"
 #include "anime/animconv/anime.h"
 #include "strcode.h"
 
 /*---------------------------------------------------------------------------*/
 
 static const char anim_data_800E46F8[] = {
-    0x00,0x1f,0x04,0x00, 0x0b,0x00,0x0f,0x00,
-    0x18,0x00,0x21,0x02, 0x00,0x01,0x0f,0x0a,
-    0xff,0xce,0xff,0xce, 0x02,0x00,0x01,0x0f,
-    0x0a,0xff,0x9c,0xff, 0x9c,0x02,0x00,0x01,
-    0x0f,0x0a,0xff,0x6a, 0xff,0x6a,0x02,0x00,
-    0x01,0x0f,0x00,0x00
+    0x00,0x1f,0x04,0x00, 0x0b,0x00,0x0f,0x00, 0x18,0x00,0x21,0x02, 0x00,0x01,0x0f,0x0a,
+    0xff,0xce,0xff,0xce, 0x02,0x00,0x01,0x0f, 0x0a,0xff,0x9c,0xff, 0x9c,0x02,0x00,0x01,
+    0x0f,0x0a,0xff,0x6a, 0xff,0x6a,0x02,0x00, 0x01,0x0f
 };
 
 static ANIMATION anm_800C3C04 = {
@@ -32,9 +29,8 @@ static ANIMATION anm_800C3C04 = {
 /*---------------------------------------------------------------------------*/
 
 static const char anim_data_800E4724[] = {
-    0x00,0x10,0x01,0x00, 0x05,0x02,0x00,0x01,
-    0x08,0xf0,0xf0,0xf0, 0x0a,0x03,0xe8,0x03,
-    0xe8,0x02,0x00,0x01, 0x0f,0x00,0x00,0x00
+    0x00,0x10,0x01,0x00, 0x05,0x02,0x00,0x01, 0x08,0xf0,0xf0,0xf0, 0x0a,0x03,0xe8,0x03,
+    0xe8,0x02,0x00,0x01, 0x0f
 };
 
 static ANIMATION anm_800C3C20 = {
@@ -55,8 +51,7 @@ static ANIMATION anm_800C3C20 = {
 /*---------------------------------------------------------------------------*/
 
 static const char anim_data_800E473C[] = {
-    0x00,0x08,0x01,0x00, 0x05,0x0c,0x00,0x3c,
-    0x02,0x00,0x01,0x0d, 0x0f,0x00,0x00,0x00
+    0x00,0x08,0x01,0x00, 0x05,0x0c,0x00,0x3c, 0x02,0x00,0x01,0x0d, 0x0f
 };
 
 static ANIMATION anm_800C3C3C = {
@@ -77,8 +72,7 @@ static ANIMATION anm_800C3C3C = {
 /*---------------------------------------------------------------------------*/
 
 static const char anim_data_800E474C[] = {
-    0x00,0x0d,0x02,0x00, 0x07,0x00,0x0b,0x02,
-    0x00,0x01,0x0f,0x0a, 0xfe,0x70,0xfe,0x70,
+    0x00,0x0d,0x02,0x00, 0x07,0x00,0x0b,0x02, 0x00,0x01,0x0f,0x0a, 0xfe,0x70,0xfe,0x70,
     0x02,0x00,0x01,0x0f
 };
 
@@ -100,8 +94,7 @@ static ANIMATION anm_800C3C58 = {
 /*---------------------------------------------------------------------------*/
 
 static const char anim_data_800E4760[] = {
-    0x00,0x04,0x01,0x00, 0x05,0x02,0x00,0x01,
-    0x0f,0x00,0x00,0x00
+    0x00,0x04,0x01,0x00, 0x05,0x02,0x00,0x01, 0x0f
 };
 
 static ANIMATION anm_800C3C74 = {
@@ -122,8 +115,7 @@ static ANIMATION anm_800C3C74 = {
 /*---------------------------------------------------------------------------*/
 
 static const char anim_data_800E476C[] = {
-    0x00,0x13,0x01,0x00, 0x05,0x08,0xc8,0xc8,
-    0xff,0x02,0x00,0x01, 0x0c,0x00,0x1f,0x08,
+    0x00,0x13,0x01,0x00, 0x05,0x08,0xc8,0xc8, 0xff,0x02,0x00,0x01, 0x0c,0x00,0x1f,0x08,
     0xfa,0xfa,0xf8,0x02, 0x00,0x01,0x0d,0x0f
 };
 
@@ -146,90 +138,90 @@ static ANIMATION anm_800C3C90 = {
 
 void s01a_object_800D93BC(MATRIX *world)
 {
-    PRESCRIPT prescript;
+    PRESCRIPT pre;
     SVECTOR  *pos, *speed;
 
-    pos = &prescript.pos;
+    pos = &pre.pos;
 
     pos->vx = world->t[0];
     pos->vy = world->t[1];
     pos->vz = world->t[2];
 
-    speed = &prescript.speed;
+    speed = &pre.speed;
 
     speed->vx = 0;
     speed->vy = 0;
     speed->vz = 0;
 
-    prescript.scr_num = 1;
-    prescript.s_anim = 0;
+    pre.scr_num = 1;
+    pre.s_anim = 0;
 
-    anm_800C3C04.pre_script = &prescript;
+    anm_800C3C04.pre_script = &pre;
     NewAnime(NULL, NULL, &anm_800C3C04);
 }
 
 void s01a_object_800D9424(SVECTOR *pos, short scr_num)
 {
-    PRESCRIPT prescript;
+    PRESCRIPT pre;
 
-    prescript.pos = *pos;
-    prescript.speed = DG_ZeroVector;
-    prescript.scr_num = scr_num;
-    prescript.s_anim = 0;
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector;
+    pre.scr_num = scr_num;
+    pre.s_anim = 0;
 
-    anm_800C3C04.pre_script = &prescript;
+    anm_800C3C04.pre_script = &pre;
     NewAnime(NULL, NULL, &anm_800C3C04);
 }
 
 void s01a_object_800D94A8(SVECTOR *pos)
 {
-    PRESCRIPT prescript;
+    PRESCRIPT pre;
 
-    prescript.pos = *pos;
-    prescript.speed = DG_ZeroVector;
-    prescript.scr_num = 0;
-    prescript.s_anim = 0;
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector;
+    pre.scr_num = 0;
+    pre.s_anim = 0;
 
-    anm_800C3C3C.pre_script = &prescript;
+    anm_800C3C3C.pre_script = &pre;
     NewAnime(NULL, NULL, &anm_800C3C3C);
 }
 
 void s01a_object_800D952C(SVECTOR *pos, short scr_num)
 {
-    PRESCRIPT prescript;
+    PRESCRIPT pre;
 
-    prescript.pos = *pos;
-    prescript.speed = DG_ZeroVector;
-    prescript.scr_num = scr_num;
-    prescript.s_anim = 0;
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector;
+    pre.scr_num = scr_num;
+    pre.s_anim = 0;
 
-    anm_800C3C58.pre_script = &prescript;
+    anm_800C3C58.pre_script = &pre;
     NewAnime(NULL, NULL, &anm_800C3C58);
 }
 
 void s01a_object_800D95B0(SVECTOR *pos)
 {
-    PRESCRIPT prescript;
+    PRESCRIPT pre;
 
-    prescript.pos = *pos;
-    prescript.speed = DG_ZeroVector;
-    prescript.scr_num = 0;
-    prescript.s_anim = 0;
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector;
+    pre.scr_num = 0;
+    pre.s_anim = 0;
 
-    anm_800C3C74.pre_script = &prescript;
+    anm_800C3C74.pre_script = &pre;
     NewAnime(NULL, NULL, &anm_800C3C74);
 }
 
 void s01a_object_800D9634(SVECTOR *pos)
 {
-    PRESCRIPT prescript;
+    PRESCRIPT pre;
 
-    prescript.pos = *pos;
-    prescript.speed = DG_ZeroVector;
-    prescript.scr_num = 0;
-    prescript.s_anim = 0;
+    pre.pos = *pos;
+    pre.speed = DG_ZeroVector;
+    pre.scr_num = 0;
+    pre.s_anim = 0;
 
-    anm_800C3C20.pre_script = &prescript;
+    anm_800C3C20.pre_script = &pre;
     NewAnime(NULL, NULL, &anm_800C3C20);
 }
 

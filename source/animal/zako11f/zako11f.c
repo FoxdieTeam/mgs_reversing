@@ -11,7 +11,7 @@
 #include "chara/snake/shadow.h" // for NewShadow2
 #include "enemy/glight.h"       // for NewGunLight
 
-// BUG
+// BUG: Should be void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, u_short, u_short);
 extern void GM_ConfigControlRadarparam(CONTROL *ctrl, u_short dir, u_short dis, int range, u_short r);
 
 void RootFlagCheck_800C86F0( Zako11FWork *work )

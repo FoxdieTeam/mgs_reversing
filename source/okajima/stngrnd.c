@@ -228,28 +228,28 @@ void *NewStanBlast(MATRIX *world)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC const int stun_g_sonic_anim_data[] = {
-    0x00011F00, 0x0C000105, 0x010A0400,
-    0x02F401F4, 0x0C0D0100, 0x010A0700,
-    0x08F401F4, 0x02F0F0F0, 0x0F0D0100
+static const char anm_stn_g_sonic_form_script[] = {
+    0x00,0x1F,0x01,0x00, 0x05,0x01,0x00,0x0C, 0x00,0x04,0x0A,0x01, 0xF4,0x01,0xF4,0x02,
+    0x00,0x01,0x0D,0x0C, 0x00,0x07,0x0A,0x01, 0xF4,0x01,0xF4,0x08, 0xF0,0xF0,0xF0,0x02,
+    0x00,0x01,0x0D,0x0F
 };
 
-STATIC ANIMATION stun_g_sonic_anim = {
-    PCX_SONIC,                      // texture_hash
-    1,                              //
-    1,                              //
+static ANIMATION anm_stn_g_sonic_form = {
+    PCX_SONIC,                      // tex
+    1,                              // texdev_x
+    1,                              // texdev_y
     1,                              // n_anime
     1,                              // n_verts
-    500,                            //
-    3,                              //
-    800,                            // xw
-    800,                            // yh
-    128,                            // rgb
+    500,                            // raise
+    3,                              // amb
+    800,                            // size_w
+    800,                            // size_h
+    128,                            // v
     NULL,                           // pre_script
-    (void *)stun_g_sonic_anim_data  // ptr
+    (void *)anm_stn_g_sonic_form_script // script
 };
 
-void AN_Stn_G_Sonic(SVECTOR *pos)
+void AN_Stn_G_Sonic( SVECTOR *pos )
 {
     ANIMATION *anm;
     PRESCRIPT pre;
@@ -259,19 +259,21 @@ void AN_Stn_G_Sonic(SVECTOR *pos)
     pre.s_anim = 0;
     pre.scr_num = 0;
 
-    anm = &stun_g_sonic_anim;
+    anm = &anm_stn_g_sonic_form;
     anm->pre_script = &pre;
 
     NewAnime( NULL, 0, anm );
 }
 
-STATIC const int stun_g_center_anim_data[] = {
-    0x00011F00, 0x0C000105, 0x020A0500,
-    0x02580258, 0x0C0D0100, 0x000A0900,
-    0x081E001E, 0x02EEEEEE, 0x0F0D0100
+/*---------------------------------------------------------------------------*/
+
+static const char anm_stun_g_center_form_script[] = {
+    0x00,0x1F,0x01,0x00, 0x05,0x01,0x00,0x0C, 0x00,0x05,0x0A,0x02, 0x58,0x02,0x58,0x02,
+    0x00,0x01,0x0D,0x0C, 0x00,0x09,0x0A,0x00, 0x1E,0x00,0x1E,0x08, 0xEE,0xEE,0xEE,0x02,
+    0x00,0x01,0x0D,0x0F
 };
 
-STATIC ANIMATION stun_g_center_anim = {
+static ANIMATION anm_stun_g_center_form = {
     PCX_LENSE_FLARE1,               // texture_hash
     1,                              //
     1,                              //
@@ -283,10 +285,10 @@ STATIC ANIMATION stun_g_center_anim = {
     600,                            // yh
     180,                            // rgb
     NULL,                           // pre_script
-    (void *)stun_g_center_anim_data // ptr
+    (void *)anm_stun_g_center_form_script // ptr
 };
 
-void AN_Stn_G_Center(SVECTOR *pos)
+void AN_Stn_G_Center( SVECTOR *pos )
 {
     ANIMATION *anm;
     PRESCRIPT pre;
@@ -296,7 +298,7 @@ void AN_Stn_G_Center(SVECTOR *pos)
     pre.s_anim = 0;
     pre.scr_num = 0;
 
-    anm = &stun_g_center_anim;
+    anm = &anm_stun_g_center_form;
     anm->pre_script = &pre;
 
     NewAnime( NULL, 0, anm );

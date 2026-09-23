@@ -8,26 +8,24 @@
 #include <libgte.h>
 #include <libgpu.h>
 
-typedef struct PRESCRIPT
-{
-    SVECTOR pos;
-    SVECTOR speed;
-    short   scr_num;
-    short   s_anim;
+typedef struct PRESCRIPT {
+    SVECTOR     pos;
+    SVECTOR     speed;
+    short       scr_num;
+    short       s_anim;
 } PRESCRIPT;
 
-typedef struct ANIMATION
-{
-    u_short    tex;
-    short      texdev_x, texdev_y;
-    short      n_anime;
-    short      n_verts;
-    short      raise;
-    short      amb;
-    short      size_w, size_h;
-    short      v;
-    PRESCRIPT *pre_script;
-    char      *script;
+typedef struct ANIMATION {
+    u_short     tex;
+    short       texdev_x, texdev_y;
+    short       n_anime;
+    short       n_verts;
+    short       raise;
+    short       amb;
+    short       size_w, size_h;
+    short       v;
+    PRESCRIPT   *pre_script;
+    char        *script;
 } ANIMATION;
 
 void *NewAnime( MATRIX *world, int map, ANIMATION *animation );
