@@ -202,31 +202,95 @@ void *NewBlast2(MATRIX *world, BLAST_DATA *blast_data, int doSound, int side)
 
 /*---------------------------------------------------------------------------*/
 
-STATIC const unsigned char blast_anim_data_single[64] = {
-   0x00,0x3b,0x01,0x00, 0x05,0x01,0x00,0x02, 0x00,0x01,0x0c,0x00, 0x02,0x01,0xff,0x0a,
-   0x04,0xb0,0x04,0xb0, 0x02,0x00,0x01,0x0d, 0x0c,0x00,0x06,0x01, 0xff,0x02,0x00,0x01,
-   0x0d,0x0c,0x00,0x07, 0x01,0xff,0x0a,0x00, 0x64,0x00,0x64,0x08, 0xf8,0xf8,0xf8,0x02,
-   0x00,0x01,0x0a,0x00, 0x50,0x00,0x50,0x08, 0xf8,0xf8,0xf8,0x02, 0x00,0x01,0x0d,0x0f
+static const char anm_blast_single_form_script[] = {
+    0x00,0x3b,0x01,0x00, 0x05,0x01,0x00,0x02, 0x00,0x01,0x0c,0x00, 0x02,0x01,0xff,0x0a,
+    0x04,0xb0,0x04,0xb0, 0x02,0x00,0x01,0x0d, 0x0c,0x00,0x06,0x01, 0xff,0x02,0x00,0x01,
+    0x0d,0x0c,0x00,0x07, 0x01,0xff,0x0a,0x00, 0x64,0x00,0x64,0x08, 0xf8,0xf8,0xf8,0x02,
+    0x00,0x01,0x0a,0x00, 0x50,0x00,0x50,0x08, 0xf8,0xf8,0xf8,0x02, 0x00,0x01,0x0d,0x0f
 };
-STATIC const unsigned char blast_anim_data_random[64] = {
+
+ANIMATION anm_blast_single_form = {
+    PCX_BOMB1_FL,               // tex
+    4,                          // texdev_x
+    4,                          // texdev_y
+    16,                         // n_anime
+    1,                          // n_verts
+    2000,                       // raise
+    1,                          // amb
+    1000,                       // size_w
+    1000,                       // size_h
+    128,                        // v
+    NULL,                       // pre_script
+    (void *)anm_blast_single_form_script // script
+};
+
+static const char anm_blast_random_form_script[] = {
     0x00,0x3b,0x01,0x00, 0x05,0x01,0x00,0x02, 0x00,0x01,0x0c,0x00, 0x04,0x01,0xff,0x0a,
     0x04,0xb0,0x04,0xb0, 0x02,0x00,0x01,0x0d, 0x0c,0x00,0x0c,0x01, 0xff,0x02,0x00,0x01,
     0x0d,0x0c,0x00,0x08, 0x01,0xff,0x0a,0x00, 0x64,0x00,0x64,0x08, 0xf8,0xf8,0xf8,0x02,
     0x00,0x01,0x0a,0x00, 0x50,0x00,0x50,0x08, 0xf8,0xf8,0xf8,0x02, 0x00,0x01,0x0d,0x0f
 };
-STATIC const unsigned char blast_anim_data_mini[64] = {
+
+ANIMATION anm_blast_random_form = {
+    PCX_BOMB1_FL,               // tex
+    4,                          // texdev_x
+    4,                          // texdev_y
+    16,                         // n_anime
+    1,                          // n_verts
+    2000,                       // raise
+    1,                          // amb
+    1000,                       // size_w
+    1000,                       // size_h
+    128,                        // v
+    NULL,                       // pre_script
+    (void *)anm_blast_random_form_script // script
+};
+
+static const char anm_blast_mini_form_script[] = {
     0x00,0x3b,0x01,0x00, 0x05,0x01,0x00,0x02, 0x00,0x01,0x0c,0x00, 0x02,0x01,0xff,0x0a,
     0x02,0x58,0x02,0x58, 0x02,0x00,0x01,0x0d, 0x0c,0x00,0x06,0x01, 0xff,0x02,0x00,0x01,
     0x0d,0x0c,0x00,0x07, 0x01,0xff,0x0a,0x00, 0x32,0x00,0x32,0x08, 0xf8,0xf8,0xf8,0x02,
     0x00,0x01,0x0a,0x00, 0x28,0x00,0x28,0x08, 0xf8,0xf8,0xf8,0x02, 0x00,0x01,0x0d,0x0f
 };
-STATIC const unsigned char blast_anim_data_minimini[64] = {
+
+ANIMATION anm_blast_mini_form = {
+    PCX_BOMB1_FL,               // tex
+    4,                          // texdev_x
+    4,                          // texdev_y
+    16,                         // n_anime
+    1,                          // n_verts
+    2000,                       // raise
+    1,                          // amb
+    500,                        // size_w
+    500,                        // size_h
+    128,                        // v
+    NULL,                       // pre_script
+    (void *)anm_blast_mini_form_script // script
+};
+
+static const char anm_blast_minimini_form_script[] = {
     0x00,0x3b,0x01,0x00, 0x05,0x01,0x00,0x02, 0x00,0x01,0x0c,0x00, 0x02,0x01,0xff,0x0a,
     0x00,0xc8,0x00,0xc8, 0x02,0x00,0x01,0x0d, 0x0c,0x00,0x06,0x01, 0xff,0x02,0x00,0x01,
     0x0d,0x0c,0x00,0x07, 0x01,0xff,0x0a,0x00, 0x14,0x00,0x14,0x08, 0xf8,0xf8,0xf8,0x02,
     0x00,0x01,0x0a,0x00, 0x14,0x00,0x14,0x08, 0xf8,0xf8,0xf8,0x02, 0x00,0x01,0x0d,0x0f
 };
-STATIC const unsigned char blast_anim_data_high[290] = {
+
+ANIMATION anm_blast_minimini_form = {
+    PCX_BOMB1_FL,               // tex
+    4,                          // texdev_x
+    4,                          // texdev_y
+    16,                         // n_anime
+    1,                          // n_verts
+    2000,                       // raise
+    1,                          // amb
+    200,                        // size_w
+    200,                        // size_h
+    128,                        // v
+    NULL,                       // pre_script
+    (void *)anm_blast_minimini_form_script // script
+};
+
+static const char anm_blast_high_form_script[] = {
     0x01,0x17,0x04,0x00, 0x0b,0x00,0x4b,0x00, 0x90,0x00,0xd9,0x01, 0x00,0x02,0x00,0x01,
     0x0c,0x00,0x02,0x01, 0xff,0x0a,0x04,0xb0, 0x04,0xb0,0x02,0x00, 0x01,0x0d,0x0c,0x00,
     0x06,0x01,0xff,0x0a, 0x00,0xc8,0x00,0xc8, 0x02,0x00,0x01,0x0d, 0x0c,0x00,0x07,0x01,
@@ -248,11 +312,22 @@ STATIC const unsigned char blast_anim_data_high[290] = {
     0x0d,0x0f
 };
 
-ANIMATION blast_anim_single   = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)blast_anim_data_single };
-ANIMATION blast_anim_random   = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)blast_anim_data_random };
-ANIMATION blast_anim_mini     = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1,  500,  500, 128, NULL, (void *)blast_anim_data_mini };
-ANIMATION blast_anim_minimini = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1,  200,  200, 128, NULL, (void *)blast_anim_data_minimini };
-ANIMATION blast_anim_high     = { PCX_BOMB1_FL, 4, 4, 16, 1, 2000, 1, 1000, 1000, 128, NULL, (void *)blast_anim_data_high };
+ANIMATION anm_blast_high_form = {
+    PCX_BOMB1_FL,               // tex
+    4,                          // texdev_x
+    4,                          // texdev_y
+    16,                         // n_anime
+    1,                          // n_verts
+    2000,                       // raise
+    1,                          // amb
+    1000,                       // size_w
+    1000,                       // size_h
+    128,                        // v
+    NULL,                       // pre_script
+    (void *)anm_blast_high_form_script // script
+};
+
+/*---------------------------------------------------------------------------*/
 
 void AN_Blast_Single(SVECTOR *pos)
 {
@@ -264,7 +339,7 @@ void AN_Blast_Single(SVECTOR *pos)
     pre.s_anim = 0;
     pre.scr_num = 0;
 
-    anm = &blast_anim_single;
+    anm = &anm_blast_single_form;
     anm->pre_script = &pre;
 
     NewAnime( NULL, 0, anm );
@@ -280,7 +355,7 @@ void AN_Blast_Mini(SVECTOR *pos)
 
     pre.s_anim = 0;
 
-    anm = &blast_anim_mini;
+    anm = &anm_blast_mini_form;
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
@@ -297,7 +372,7 @@ void AN_Blast_Minimini(SVECTOR *pos)
 
     pre.s_anim = 0;
 
-    anm = &blast_anim_minimini;
+    anm = &anm_blast_minimini_form;
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
@@ -306,34 +381,34 @@ void AN_Blast_Minimini(SVECTOR *pos)
 
 void AN_Blast_Rand(SVECTOR *pos)
 {
-    PRESCRIPT  prescript;
-    PRESCRIPT *prescript_ptr;
+    PRESCRIPT  pre;
+    PRESCRIPT *pre_ptr;
     MATRIX    *m;
     int        map;
     int        randu;
     ANIMATION *anm;
 
-    prescript.pos = *pos;
-    prescript.pos.vx += GV_RandS(128);
-    prescript.pos.vy += GV_RandS(128);
-    prescript.pos.vz += GV_RandS(128);
+    pre.pos = *pos;
+    pre.pos.vx += GV_RandS(128);
+    pre.pos.vy += GV_RandS(128);
+    pre.pos.vz += GV_RandS(128);
 
-    prescript.speed = DG_ZeroVector;
-    prescript.speed.vy += GV_RandS(64);
+    pre.speed = DG_ZeroVector;
+    pre.speed.vy += GV_RandS(64);
 
-    prescript.s_anim = 0;
+    pre.s_anim = 0;
 
     randu = GV_RandU(4);
     if (randu == 0)
     {
-        anm = &blast_anim_single;
+        anm = &anm_blast_single_form;
     }
     else
     {
-        anm = &blast_anim_random;
+        anm = &anm_blast_random_form;
     }
 
-    prescript_ptr = &prescript;
+    pre_ptr = &pre;
     map = 0;
     m = NULL;
     // Silly code just to get the compiler to emit
@@ -341,14 +416,14 @@ void AN_Blast_Rand(SVECTOR *pos)
     if (randu == 0)
     {
         m = NULL;
-        anm->pre_script = prescript_ptr;
+        anm->pre_script = pre_ptr;
     }
     else
     {
-        anm->pre_script = prescript_ptr;
+        anm->pre_script = pre_ptr;
     }
 
-    prescript.scr_num = 0;
+    pre.scr_num = 0;
     NewAnime(m, map, anm);
 }
 
@@ -363,7 +438,7 @@ void AN_Blast_high(SVECTOR *pos)
     pre.speed.vy += 200;
     pre.s_anim = 0;
 
-    anm = &blast_anim_high;
+    anm = &anm_blast_high_form;
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
@@ -375,7 +450,7 @@ void AN_Blast_high(SVECTOR *pos)
     pre.speed.vy += 150;
     pre.s_anim = 0;
 
-    anm = &blast_anim_high;
+    anm = &anm_blast_high_form;
     anm->pre_script = &pre;
 
     pre.scr_num = 1;
@@ -387,7 +462,7 @@ void AN_Blast_high(SVECTOR *pos)
     pre.speed.vy += 100;
     pre.s_anim = 0;
 
-    anm = &blast_anim_high;
+    anm = &anm_blast_high_form;
     anm->pre_script = &pre;
 
     pre.scr_num = 2;
@@ -398,7 +473,7 @@ void AN_Blast_high(SVECTOR *pos)
     pre.speed.vy += 50;
     pre.s_anim = 0;
 
-    anm = &blast_anim_high;
+    anm = &anm_blast_high_form;
     anm->pre_script = &pre;
 
     pre.scr_num = 3;
@@ -420,7 +495,7 @@ void AN_Blast_high2(SVECTOR *pos, SVECTOR *offset)
     pre.speed.vz += offset->vz / 3;
     pre.s_anim = 0;
 
-    anm = &blast_anim_high;
+    anm = &anm_blast_high_form;
     anm->pre_script = &pre;
 
     pre.scr_num = 0;
@@ -436,7 +511,7 @@ void AN_Blast_high2(SVECTOR *pos, SVECTOR *offset)
     pre.speed.vz += ((offset->vz / 3) * 3) >> 2;
     pre.s_anim = 0;
 
-    anm = &blast_anim_high;
+    anm = &anm_blast_high_form;
     anm->pre_script = &pre;
 
     pre.scr_num = 1;
@@ -452,7 +527,7 @@ void AN_Blast_high2(SVECTOR *pos, SVECTOR *offset)
     pre.speed.vz += (offset->vz / 3) >> 1;
     pre.s_anim = 0;
 
-    anm = &blast_anim_high;
+    anm = &anm_blast_high_form;
     anm->pre_script = &pre;
 
     pre.scr_num = 2;
@@ -465,7 +540,7 @@ void AN_Blast_high2(SVECTOR *pos, SVECTOR *offset)
     pre.speed.vz += (offset->vz / 3) >> 2;
     pre.s_anim = 0;
 
-    anm = &blast_anim_high;
+    anm = &anm_blast_high_form;
     anm->pre_script = &pre;
 
     pre.scr_num = 3;
