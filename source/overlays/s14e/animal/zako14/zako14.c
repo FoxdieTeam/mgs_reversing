@@ -29,6 +29,7 @@ void s14e_800C5958(void)
 
 #pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C5960.s")
 #pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C59DC.s")
+#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C5B14.s")
 #pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C5C78.s")
 #pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C5DAC.s")
 #pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C5E08.s")

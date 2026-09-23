@@ -18,7 +18,7 @@ typedef struct _Work {
     int    field_40;
 } Work;
 
-int SECTION(".bss") s02c_dword_800E3F40;
+static int s02c_dword_800E3F40;
 
 void GasDamageAct_800E1348(Work *work)
 {

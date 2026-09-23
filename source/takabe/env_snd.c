@@ -5,131 +5,127 @@
 #include "game/game.h"
 #include "takabe/thing.h"
 
-typedef struct _Work
-{
+/*---------------------------------------------------------------------------*/
+
+typedef struct _Work {
     GV_ACT  actor;
     int     map;
     int     name;
-    int     f28;
+    int     start;
     SVECTOR pos;
-    short   size;   // "radius"?
+    short   radius; 
     short   noise;
     short   type;
-    short   f3A;
-    short   f3C;
-    short   f3E;
-    int     f40;
-    char    pad[0x4];
+    short   interval;
+    short   count;
+    short   remaining;
+    int     time;
+    int     unused;
 } Work;
 
-unsigned short env_snd_hashes[] = { 0xBA27, 0x560E };
+static u_short mes_list[] = { 0xBA27, 0x560E };
 
-void EnvSndAct_800DF1F8(Work *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act( Work *work )
 {
-    int time;
-    int found;
+    int time, mes;
 
-    GM_SetCurrentMap(work->map);
-
+    GM_SetCurrentMap( work->map );
     time = GV_PassageTime;
-    found = THING_Msg_CheckMessage(work->name, 4, env_snd_hashes);
+
+    mes = THING_Msg_CheckMessage( work->name, 4 /* BUG */, mes_list );
     THING_Msg_GetResult();
 
-    switch (found)
+    switch ( mes )
     {
     case 0:
-        work->f28 = 0;
+        work->start = 0;
         break;
-
     case 1:
-        work->f28 = 1;
-        work->f3E = work->f3C;
-        work->f40 = 0;
-        break;
-
-    default:
+        work->start = 1;
+        work->remaining = work->count;
+        work->time = 0;
         break;
     }
 
-    if (work->f28 == 0)
-    {
-        return;
-    }
+    if ( work->start == 0 ) return;
 
-    if (work->f40 <= 0)
+    if ( work->time <= 0 )
     {
-        switch (work->type)
+        switch ( work->type )
         {
         case 1:
-            GM_SeSetMode(&work->pos, work->noise, GM_SEMODE_NORMAL);
+            GM_SeSetMode( &work->pos, work->noise, GM_SEMODE_NORMAL );
             break;
 
         case 2:
-            GM_SeSetMode(&work->pos, work->noise, GM_SEMODE_CAMERA);
+            GM_SeSetMode( &work->pos, work->noise, GM_SEMODE_CAMERA );
             break;
 
         case 3:
-            GM_SeSetMode(&work->pos, work->noise, GM_SEMODE_REAL);
+            GM_SeSetMode( &work->pos, work->noise, GM_SEMODE_REAL );
             break;
 
         case 4:
-            GM_SeSetMode(&work->pos, work->noise, GM_SEMODE_BOMB);
+            GM_SeSetMode( &work->pos, work->noise, GM_SEMODE_BOMB );
             break;
-
         case 0:
         default:
-            GM_SeSetSize(&work->pos, work->noise, work->size);
+            GM_SeSetSize( &work->pos, work->noise, work->radius );
             break;
         }
 
-        if (work->f3C >= 0 && --work->f3E == 0)
+        if ( work->count >= 0 && --work->remaining == 0 )
         {
-            work->f28 = 0;
+            work->start = 0;
             return;
         }
 
-        work->f40 = work->f3A * 2;
+        work->time = work->interval * 2;
     }
 
-    work->f40 -= time;
+    work->time -= time;
 }
 
-void EnvSndDie_800DF39C(Work *work)
+static void Die( Work *work )
 {
+    /* do nothing */
 }
 
-int EnvSndGetResources_800DF3A4(Work *work, int name, int where)
+static int GetResources( Work *work, int name, int where )
 {
     work->name = name;
     work->map = where;
 
-    THING_Gcl_GetSVector('p', &work->pos);
+    THING_Gcl_GetSVector( 'p', &work->pos );
 
-    work->size = THING_Gcl_GetInt('r');
-    work->noise = THING_Gcl_GetInt('n');
-    work->type = THING_Gcl_GetInt('t');
-    work->f3A = THING_Gcl_GetInt('i');
-    work->f3C = THING_Gcl_GetInt('c');
-    work->f28 = THING_Gcl_GetInt('s');
+    work->radius = THING_Gcl_GetInt( 'r' );
+    work->noise = THING_Gcl_GetInt( 'n' );
+    work->type = THING_Gcl_GetInt( 't' );
+    work->interval = THING_Gcl_GetInt( 'i' );
+    work->count = THING_Gcl_GetInt( 'c' );
 
+    work->start = THING_Gcl_GetInt( 's' );
     return 0;
 }
 
-void *NewEnvSound(int name, int where, int argc, char **argv)
+/*---------------------------------------------------------------------------*/
+
+void *NewEnvironmentSoundSet( int name, int where, int argc, char **argv )
 {
     Work *work;
 
-    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
-    if (work != NULL)
+    work = GV_NewActor( GV_ACTOR_USER, sizeof(Work) );
+    if ( work != NULL )
     {
-        GV_SetNamedActor(&work->actor, EnvSndAct_800DF1F8, EnvSndDie_800DF39C, "env_snd.c");
+        GV_SetNamedActor( work, Act, Die, "env_snd.c" );
 
-        if (EnvSndGetResources_800DF3A4(work, name, where) < 0)
+        if ( GetResources( work, name, where ) < 0 )
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor( work );
             return NULL;
         }
     }
-
     return (void *)work;
 }

@@ -17,14 +17,12 @@
 #define MODE_BLACK      (0 << 1)    // 0x0000
 #define MODE_WHITE      (1 << 1)    // 0x0002
 
-typedef struct _FADE_PRIMS
-{
+typedef struct _FADE_PRIMS {
     DR_TPAGE tpage[2];
     TILE     tile[2];
 } FADE_PRIMS;
 
-typedef struct _Work
-{
+typedef struct _Work {
     GV_ACT       actor;
     int          name;
     FADE_PRIMS  *prims;
