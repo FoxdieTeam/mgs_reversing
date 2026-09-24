@@ -2637,7 +2637,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\okajima\valcan\ele_crow.obj", overlay
+    include "{{OBJ_DIR}}\okajima\valcan\ele_crow.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\takabe\tex_scrl.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
