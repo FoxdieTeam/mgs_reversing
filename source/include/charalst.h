@@ -83,7 +83,7 @@
 #define CHARA_ELECDAMAGE        { 0x107c, NewElectricDamage }       // GV_StrCode("電流床ダメージ") takabe/elc_damg.c
 #define CHARA_ELECFLOOR         { 0xaef2, NewElectricFloor }        // GV_StrCode("電廊") takabe/elc_flr.c
 #define CHARA_ELEVATOR          { 0x2abc, NewElevator }             // GV_StrCode("エレベータ") takabe/elevator.c
-#define CHARA_ELEVCROW          { 0x9ab9, ? }                       // GV_StrCode("エレベーターのカラス") okajima/valcan/ele_crow.c
+#define CHARA_ELEVCROW          { 0x9ab9, NewElevatorCrow }         // GV_StrCode("エレベーターのカラス") okajima/valcan/ele_crow.c
 #define CHARA_ELEVPANEL         { 0xe253, NewElevatorPanel }        // GV_StrCode("エレベーターパネル") game/evpanel.c
 #define CHARA_EMITTER           { 0x32e5, NewEmitter }              // GV_StrCode("ジン発光") thing/emitter.c
 #define CHARA_EMITTER2          { 0xa9dd, ? }                       // GV_StrCode("ジン発光２") thing/emitter2.c (PC-ONLY)
@@ -515,6 +515,7 @@ extern NEWCHARA NewSpark;                       /* okajima/spark.c              
 extern NEWCHARA NewSplash_800C8D6C;             /* okajima/splash.c             */
 extern NEWCHARA NewSubRoom_800C815C;            /* okajima/sub_room.c           */
 extern NEWCHARA NewUji;                         /* okajima/uji.c                */
+extern NEWCHARA NewElevatorCrow;                /* okajima/valcan/ele_crow.c    */
 extern NEWCHARA NewCrow;                        /* okajima/valcan/crow.c        */
 extern NEWCHARA s15c_dyncon_800D8C9C;           /* okajima/valcan/dyncon.c      */
 extern NEWCHARA NewWallSpark;                   /* okajima/wall_spa.c           */
