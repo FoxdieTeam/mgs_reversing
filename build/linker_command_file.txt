@@ -2995,6 +2995,16 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\stagevr\sound.obj", overlay
     include "{{OBJ_DIR}}\game\sndtst.obj", overlay
 ;------------------------------------------------------------------------------
+{% elif OVERLAY == "select" %}
+    include "{{OBJ_DIR}}\stagevr\select.obj", overlay
+    include "{{OBJ_DIR}}\game\select.obj", overlay
+    include "{{OBJ_DIR}}\takabe\vib_edit.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+
+    include "{{PSYQ_SDK}}\psyq_4.5\lib\libsn\CREAT.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.5\lib\libsn\WRITE.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.5\lib\libsn\SNWRITE.OBJ", overlay
+;------------------------------------------------------------------------------
 {% endif %}
 
 {% endif %}
