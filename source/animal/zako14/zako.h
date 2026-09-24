@@ -1,5 +1,5 @@
-#ifndef __MGS_ANIMAL_ZAKO11A_ZAKO_H__
-#define __MGS_ANIMAL_ZAKO11A_ZAKO_H__
+#ifndef __MGS_ANIMAL_ZAKO14_ZAKO_H__
+#define __MGS_ANIMAL_ZAKO14_ZAKO_H__
 
 #include "game/game.h"
 
@@ -121,6 +121,9 @@ typedef struct _Work {
     /* 0xB84 */ char           padB84[ 0x4 ];
     /* 0xB88 */ VISION         vision;
     /* 0xB90 */ short          field_B90;
+
+    /* 0xB94 */ int            newpad;
+
     /* 0xB94 */ int            alert_level;
     /* 0xB98 */ signed char    modetime[ 8 ];
     /* 0xBA0 */ SVECTOR        player_pos;
@@ -130,7 +133,7 @@ typedef struct _Work {
     /* 0xBD4 */ int            field_BD4;
     /* 0xBD8 */ SVECTOR        start_pos;
     /* 0xBE0 */ SVECTOR        target_pos;
-    /* 0xBE8 */ int            field_BE8;
+    // /* 0xBE8 */ int            field_BE8;
     /* 0xBEC */ int            start_map;
     /* 0xBF0 */ int            last_addr;
     /* 0xBF4 */ int            target_addr;
@@ -182,7 +185,7 @@ typedef struct _COMMANDER {
     /* 0x034 */ short   n_zones;
     /* 0x036 */ short   far_zone;
     /* 0x038 */ short   zones[ 4 ];
-    /* 0x040 */ int     field_40[ 8 ];
+    /* 0x040 */ int     prio[ 8 ];
     /* 0x060 */ int     field_60;
     /* 0x064 */ MAP    *map;
     /* 0x068 */ JDATA   jdata;
@@ -190,8 +193,6 @@ typedef struct _COMMANDER {
     /* 0x10C */ int     field_10C;
     /* 0x110 */ int     field_110;
     /* 0x114 */ int     end_proc;
-    /* 0x118 */ int     start_proc;
-    /* 0x11C */ int     start_proc2;
 } COMMANDER;
 
 // TODO: check name
@@ -213,6 +214,8 @@ typedef struct _PATTERN {
 } PATTERN;
 
 /*---------------------------------------------------------------------------*/
+
+/*
 
 static inline void SetAction( Work *work, int action, int interp )
 {
@@ -268,30 +271,32 @@ static inline void UnsetMode( Work *work )
     work->control.turn.vx = work->control.turn.vz = 0;
 }
 
+*/
+
 /*---------------------------------------------------------------------------*/
 
-extern SVECTOR   ZAKO11A_TARGET_SIZE;
-extern SVECTOR   ZAKO11A_TARGET_FORCE;
-extern SVECTOR   ZAKO11A_ATTACK_SIZE;
-extern SVECTOR   ZAKO11A_ATTACK_FORCE;
-extern SVECTOR   ZAKO11A_TOUCH_SIZE;
-extern SVECTOR   ZAKO11A_TOUCH_FORCE;
-extern SVECTOR   ZAKO11A_NO_POINT;
-extern int       ZAKO11A_EYE_LENGTH;
-extern SVECTOR   ZAKO11A_PlayerPosition;
-extern COMMANDER ZAKO11ACommand;
-extern TOP       ZAKO11ATOPCOMMAND;
-extern int       ZAKO11A_Unknown;
-extern int       ZAKO11A_GameFlag;
-extern int       ZAKO11A_PlayerAddress;
-extern int       ZAKO11A_PlayerMap;
+extern SVECTOR   ZAKO14_TARGET_SIZE;
+extern SVECTOR   ZAKO14_TARGET_FORCE;
+extern SVECTOR   ZAKO14_ATTACK_SIZE;
+extern SVECTOR   ZAKO14_ATTACK_FORCE;
+extern SVECTOR   ZAKO14_TOUCH_SIZE;
+extern SVECTOR   ZAKO14_TOUCH_FORCE;
+extern SVECTOR   ZAKO14_NO_POINT;
+extern int       ZAKO14_EYE_LENGTH;
+// extern SVECTOR   ZAKO14_PlayerPosition;
+// extern COMMANDER ZAKO14Command;
+// extern TOP       ZAKO14TOPCOMMAND;
+// extern int       ZAKO14_Unknown;
+// extern int       ZAKO14_GameFlag;
+// extern int       ZAKO14_PlayerAddress;
+// extern int       ZAKO14_PlayerMap;
 
-// zako11a.c
-void *NewZako11A( int name, int where );
+// zako14.c
+void *NewZako14( int name, int where );
 
 // action.c
 void s11a_800CB964( Work *work, int time );
-void ZAKO11A_ActionUpdate( Work *work );
+void ZAKO14_ActionUpdate( Work *work );
 
 // override.c
 void s11a_800CD198( Work *work, int time );
@@ -307,28 +312,28 @@ void s11a_800CD960( Work *work, int time );
 void s11a_800CDAA8( Work *work, int time );
 
 // put.c
-void ZAKO11A_PutBlood( Work *work, int unit, int count );
-void ZAKO11A_PutFog( Work *work );
-void ZAKO11A_PutItem( Work *work );
-void ZAKO11A_PutMark( Work *work, int mark );
-int  ZAKO11A_SetPutChar( Work *work, int index );
-int  ZAKO11A_ClearPutChar( Work *work, void *func );
-void ZAKO11A_ExecPutChars( Work *work );
+void ZAKO14_PutBlood( Work *work, int unit, int count );
+void ZAKO14_PutFog( Work *work );
+void ZAKO14_PutItem( Work *work );
+void ZAKO14_PutMark( Work *work, int mark );
+int  ZAKO14_SetPutChar( Work *work, int index );
+int  ZAKO14_ClearPutChar( Work *work, void *func );
+void ZAKO14_ExecPutChars( Work *work );
 
 // zk11aact.c
-void Zako11AActionMain( Work *work );
-void Zako11APushMove( Work *work );
+void Zako14ActionMain( Work *work );
+void Zako14PushMove( Work *work );
 
 // think.c
-void Zako11AThink( Work *work );
+void Zako14Think( Work *work );
 
 // zk11acom.c
-int  ZAKO11ASetWorkID( Work *work );
-void ZAKO11AResetWorkID( int id );
-void ZAKO11ASetTopCommAL( int alert );
-void ZAKO11ASetTopCommMD( int mode );
-void ZAKO11ASetGopointLast( void );
-void ZAKO11ASetGopointNoise( void );
-int  ZAKO11AFindRoute( int map, int id );
+int  ZAKO14SetWorkID( Work *work );
+void ZAKO14ResetWorkID( int id );
+void ZAKO14SetTopCommAL( int alert );
+void ZAKO14SetTopCommMD( int mode );
+void ZAKO14SetGopointLast( void );
+void ZAKO14SetGopointNoise( void );
+int  ZAKO14FindRoute( int map, int id );
 
-#endif // __MGS_ANIMAL_ZAKO11A_ZAKO_H__
+#endif // __MGS_ANIMAL_ZAKO14_ZAKO_H__
