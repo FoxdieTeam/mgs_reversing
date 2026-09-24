@@ -136,10 +136,10 @@ static int ReadZones( char *opt, short *zones )
     return count;
 }
 
-static void s11a_800D227C( void )
+static void ResetPlayerZone( void )
 {
     ZAKO11ACommand.zones[ 0 ] = HZD_Zone1( GM_PlayerAddress );
-    ZAKO11ACommand.field_36 = 0;
+    ZAKO11ACommand.far_zone = 0;
 }
 
 static int GetTime( int mod )
@@ -335,7 +335,7 @@ static void SoundSetCom( COMMANDER *comm )
     }
 }
 
-static void s11a_800D276C( WATCHER *watcher, int index )
+static void UpdateWatcher( WATCHER *watcher, int index )
 {
     switch ( watcher->field_8 )
     {
@@ -360,7 +360,7 @@ static void s11a_800D276C( WATCHER *watcher, int index )
         case 0:
             if ( ZAKO11ACommand.field_10C & 0x1 )
             {
-                s11a_800D227C();
+                ResetPlayerZone();
                 watcher->field_4 = 2;
                 watcher->field_8 = 0;
             }
@@ -368,7 +368,7 @@ static void s11a_800D276C( WATCHER *watcher, int index )
         case 1:
             if ( ZAKO11ACommand.field_60 < 256 )
             {
-                s11a_800D227C();
+                ResetPlayerZone();
                 watcher->field_4 = 2;
                 watcher->field_8 = 0;
             }
@@ -469,7 +469,7 @@ static void UpdateAlert( CommanderWork *work )
         }
         else if ( ZAKO11ACommand.watchers[ i ].field_4 == 1 )
         {
-            s11a_800D276C( &ZAKO11ACommand.watchers[ i ], i );
+            UpdateWatcher( &ZAKO11ACommand.watchers[ i ], i );
         }
     }
 
@@ -487,7 +487,7 @@ static void UpdatePlayerPosition( void )
     ZAKO11A_PlayerMap = GM_PlayerMap;
 }
 
-static int s11a_800D2B90( char *opt )
+static int InitWatchers( char *opt )
 {
     int count, proc;
 
@@ -548,16 +548,16 @@ static void UpdateGameFlag( void )
         {
             GM_EnemyWatchCount++;
             ZAKO11A_GameFlag = 1;
-      
+
             NewPadVibration( VibH, 1 );
             NewPadVibration( VibL, 2 );
-      
+
             if ( ZAKO11ACommand.start_proc2 >= 0 )
             {
                 GCL_ExecProc( ZAKO11ACommand.start_proc2, NULL );
                 ZAKO11ACommand.start_proc2 = -1;
             }
-    
+
             printf( " FLAG1!!\n" );
         }
         break;
@@ -742,7 +742,7 @@ static void GetResources( CommanderWork *work, int name, int where )
         fprintf( 1, "zone=%d ", ZAKO11ACommand.zones[ i ] );
     }
 
-    ZAKO11ACommand.field_36 = 0;
+    ZAKO11ACommand.far_zone = 0;
     ZAKO11A_Unknown = 0;
 
     opt = GCL_GetOption( 'j' );
@@ -788,7 +788,7 @@ static void GetResources( CommanderWork *work, int name, int where )
 
     ZAKO11ACommand.n_watchers = 0;
     opt = GCL_GetOption( 'n' );
-    if ( opt ) ZAKO11ACommand.n_watchers = s11a_800D2B90( opt );
+    if ( opt ) ZAKO11ACommand.n_watchers = InitWatchers( opt );
 
     ZAKO11ACommand.field_0 = 0;
     ZAKO11ACommand.field_4 = 0;
