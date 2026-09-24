@@ -1,6 +1,5 @@
 *.s text eol=lf
 *.c text eol=lf
-*.C text eol=lf
 *.h text eol=lf
 *.txt text eol=lf
 *.py text eol=lf
