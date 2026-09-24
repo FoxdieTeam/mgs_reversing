@@ -1010,7 +1010,7 @@ Individual overlay SHA256:
         </tr>
         <tr>
             <td><b>Status</b></td>
-            <td>❌ Work not yet started.
+            <td>🚧 Work in progress.
 <br><br>
 Individual overlay progress:
 <details>
@@ -1088,7 +1088,7 @@ Individual overlay progress:
             <td><b>sound</b></td>
             <td>2 KB</td>
             <td>Debug Menu Sound Test</td>
-            <td>❌ Work not started</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>vab_cfr</b></td>
