@@ -507,7 +507,7 @@ def main():
                         good_overlay, None)
                     print(colored("... but the only difference is uninitialized memory!", 'yellow'))
                     print(colored("... You can fix it by rerunning extraction with this command:", 'yellow'))
-                    print(colored(f"{sys.executable} uninitializer.py extract ../obj/{overlay}_lhs.bin ../obj/{overlay}_rhs.bin {good_overlay} ../um/{overlay}.bin", 'yellow'))
+                    print(colored(f"{sys.executable} uninitializer.py extract ../obj/{overlay}_lhs.bin ../obj/{overlay}_rhs.bin {good_overlay} ../um/stage/{overlay}.bin", 'yellow'))
                 except:
                     # Extraction failed
                     pass
