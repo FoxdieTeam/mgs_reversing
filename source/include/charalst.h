@@ -41,7 +41,7 @@
 #define CHARA_BLUR              { 0x9093, ? }                       // GV_StrCode("ブラー") ???
 #define CHARA_BOXALL            { 0xf74b, NewAllItemBox }           // GV_StrCode("全部箱") chara/torture/boxall.c
 #define CHARA_BREAK_OBJECT      { 0x32fc, NewBreakObject }          // takabe/breakobj.c
-#define CHARA_BUTTONCHECK       { 0x6471, ? }                       // GV_StrCode("ボタンチェッカー") takabe/btn_chk.c
+#define CHARA_BUTTONCHECK       { 0x6471, NewButtonCheckerSet }     // GV_StrCode("ボタンチェッカー") takabe/btn_chk.c
 #define CHARA_BUBBLE            { 0x1a02, NewBubbleS }              // GV_StrCode("泡") okajima/bubble_s.c
 #define CHARA_B_SELECT          { 0x93b6, ? }                       // onoda/brf/b_select.c
 #define CHARA_C4WIRE            { 0x7eca, NewWire }                 // GV_StrCode("ワイヤ") onoda/s04b/wire.c
@@ -83,12 +83,12 @@
 #define CHARA_ELECDAMAGE        { 0x107c, NewElectricDamage }       // GV_StrCode("電流床ダメージ") takabe/elc_damg.c
 #define CHARA_ELECFLOOR         { 0xaef2, NewElectricFloor }        // GV_StrCode("電廊") takabe/elc_flr.c
 #define CHARA_ELEVATOR          { 0x2abc, NewElevator }             // GV_StrCode("エレベータ") takabe/elevator.c
-#define CHARA_ELEVCROW          { 0x9ab9, ? }                       // GV_StrCode("エレベーターのカラス") okajima/valcan/ele_crow.c
+#define CHARA_ELEVCROW          { 0x9ab9, NewElevatorCrow }         // GV_StrCode("エレベーターのカラス") okajima/valcan/ele_crow.c
 #define CHARA_ELEVPANEL         { 0xe253, NewElevatorPanel }        // GV_StrCode("エレベーターパネル") game/evpanel.c
 #define CHARA_EMITTER           { 0x32e5, NewEmitter }              // GV_StrCode("ジン発光") thing/emitter.c
 #define CHARA_EMITTER2          { 0xa9dd, ? }                       // GV_StrCode("ジン発光２") thing/emitter2.c (PC-ONLY)
 #define CHARA_ENDINGROLL        { 0xb789, NewEndingRoll }           // GV_StrCode("エンディングロール") takabe/ending2.c
-#define CHARA_ENV_SOUND         { 0x3f9a, NewEnvSound }             // GV_StrCode("環境音") takabe/env_snd.c
+#define CHARA_ENV_SOUND         { 0x3f9a, NewEnvironmentSoundSet }  // GV_StrCode("環境音") takabe/env_snd.c
 #define CHARA_ENV_TEST          { 0x76fe, ? }                       // GV_StrCode("環境マッピングテスト") takabe/env_test.c (PC-ONLY)
 #define CHARA_FADEIO            { 0xa12e, NewFadeInOutSet }         // GV_StrCode("フェードイン・アウト") takabe/fadeio.c
 #define CHARA_FALLSPLASH        { 0xc73e, NewFallSplash }           // GV_StrCode("滝しぶき") okajima/fall_spl.c
@@ -515,6 +515,7 @@ extern NEWCHARA NewSpark;                       /* okajima/spark.c              
 extern NEWCHARA NewSplash_800C8D6C;             /* okajima/splash.c             */
 extern NEWCHARA NewSubRoom_800C815C;            /* okajima/sub_room.c           */
 extern NEWCHARA NewUji;                         /* okajima/uji.c                */
+extern NEWCHARA NewElevatorCrow;                /* okajima/valcan/ele_crow.c    */
 extern NEWCHARA NewCrow;                        /* okajima/valcan/crow.c        */
 extern NEWCHARA s15c_dyncon_800D8C9C;           /* okajima/valcan/dyncon.c      */
 extern NEWCHARA NewWallSpark;                   /* okajima/wall_spa.c           */
@@ -534,6 +535,7 @@ extern NEWCHARA NewCape;                        /* onoda/s04b/cape.c            
 extern NEWCHARA NewOcelotBoss;                  /* onoda/s04b/revolver.c        */
 extern NEWCHARA NewWire;                        /* onoda/s04b/wire.c            */
 extern NEWCHARA NewBreakObject;                 /* takabe/breakobj.c            */
+extern NEWCHARA NewButtonCheckerSet;            /* takabe/btn_chk.c             */
 extern NEWCHARA NewCameraShake;                 /* takabe/camshake.c            */
 extern NEWCHARA NewCutInCameraSet;              /* takabe/cat_in.c              */
 extern NEWCHARA NewChair;                       /* takabe/chair.c               */
@@ -549,7 +551,7 @@ extern NEWCHARA NewElectricDamage;              /* takabe/elc_damg.c            
 extern NEWCHARA NewElectricFloor;               /* takabe/elc_flr.c             */
 extern NEWCHARA NewElevator;                    /* takabe/elevator.c            */
 extern NEWCHARA NewEndingRoll;                  /* takabe/ending2.c             */
-extern NEWCHARA NewEnvSound;                    /* takabe/env_snd.c             */
+extern NEWCHARA NewEnvironmentSoundSet;         /* takabe/env_snd.c             */
 extern NEWCHARA NewEnvmap3_800CA3A4;            /* takabe/envmap3.c             */
 extern NEWCHARA NewFadeInOut;                   /* takabe/fadeio.c              */
 extern NEWCHARA NewFadeInOutSet;                /* takabe/fadeio.c              */
