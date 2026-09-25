@@ -498,6 +498,10 @@ def main():
             fail(overlay_path)
             failed = True
 
+            # TODO: select depending on comparison target.
+            stagedir = 'stage'
+            #stagedir = 'stagevr'
+
             # Is it only uninitialized memory?
             good_overlay = cached_good_overlay_path(overlay)
             if os.path.exists(good_overlay):
@@ -507,7 +511,7 @@ def main():
                         good_overlay, None)
                     print(colored("... but the only difference is uninitialized memory!", 'yellow'))
                     print(colored("... You can fix it by rerunning extraction with this command:", 'yellow'))
-                    print(colored(f"{sys.executable} uninitializer.py extract ../obj/{overlay}_lhs.bin ../obj/{overlay}_rhs.bin {good_overlay} ../um/stage/{overlay}.bin", 'yellow'))
+                    print(colored(f"{sys.executable} uninitializer.py extract ../obj/{overlay}_lhs.bin ../obj/{overlay}_rhs.bin {good_overlay} ../um/{stagedir}/{overlay}.bin", 'yellow'))
                 except:
                     # Extraction failed
                     pass
