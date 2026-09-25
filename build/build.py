@@ -601,7 +601,7 @@ def gen_build_target(targetName):
             #"photo_n3",
             #"select",
             #"selectvr",
-            #"sound",
+            "sound",
             #"vab_cfr",
             #"vab_clm",
             #"vab_fms",
