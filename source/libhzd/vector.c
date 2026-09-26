@@ -4,85 +4,66 @@
 #include "mgstype.h"
 #include "inline_n.h"
 #include "inline_x.h"
-#include "psxdefs.h"            // for getScratchAddr2
-#include "libdg/libdg.h"
 #include "libgv/libgv.h"        // for GV_VecLen3
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct {
+    char    unused[ 12 ];
+    DVECTOR vec1;
+    DVECTOR vec2;
+    DVECTOR react1;
+    DVECTOR react2;
+} ScrPad;
+
+#define SCRPAD ((ScrPad *)SCRPAD_ADDR)
+
+#define	VEC1   (&(SCRPAD->vec1))
+#define	VEC2   (&(SCRPAD->vec2))
+#define REACT1 (&(SCRPAD->react1))
+#define REACT2 (&(SCRPAD->react2))
+
+/*---------------------------------------------------------------------------*/
 
 int HZD_HazardReaction( SVECTOR *vects, int n_vects, int range, SVECTOR *react )
 {
-    int area;
-    int area2;
-    int area4;
-    int area3;
-    int area5;
-    int area6;
-    int len;
-
-    SVECTOR *pVec1;
-    SVECTOR *pVec2;
-
-    int temp;
+    int len0, len1, rlen;
+    int aoa, bob, aob, axb;
 
     react->vz = 0;
     react->vy = 0;
     react->vx = 0;
-
-    if ( n_vects == 0 )
-    {
-        return 1;
-    }
-
-    CopyToHzdVec(0x1F80000C, vects);
-    area = Len2D((SVECTOR *)0x1F80000C);
-
-    if ( area >= range )
-    {
-        return 1;
-    }
-
-    if ( area == 0 )
-    {
-        return 0;
-    }
-
+    if ( n_vects == 0 ) return 1;
+    VEC1->vx = vects[ 0 ].vx;
+    VEC1->vy = vects[ 0 ].vz;
+    len0 = Length2D( VEC1 );
+    if ( len0 >= range ) return 1;
+    if ( len0 == 0 ) return 0;
     if ( n_vects == 2 )
     {
-        CopyToHzdVec(0x1F800010, &vects[1]);
-        area2 = Len2D((SVECTOR *)0x1F800010);
-
-        if ( area2 < range )
+        VEC2->vx = vects[ 1 ].vx;
+        VEC2->vy = vects[ 1 ].vz;
+        len1 = Length2D( VEC2 );
+        if ( len1 < range )
         {
-            Mul2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, range, area);
-            Mul2D((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800010, range, area2);
-
-            Sub2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C);
-            Sub2D((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800018, (SVECTOR *)0x1F800010);
-
-            area3 = Dot2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800014);
-            area4 = Dot2D((SVECTOR *)0x1F800018, (SVECTOR *)0x1F800018);
-            area5 = Dot2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800018);
-
-            if ((area5 < area3) && (area5 < area4))
+            Scale2D( REACT1, VEC1, range, len0 );
+            Scale2D( REACT2, VEC2, range, len1 );
+            Sub2D( REACT1, REACT1, VEC1 );
+            Sub2D( REACT2, REACT2, VEC2 );
+            aoa = InnerProduct2D( REACT1, REACT1 );
+            bob = InnerProduct2D( REACT2, REACT2 );
+            aob = InnerProduct2D( REACT1, REACT2 );
+            if ( aoa > aob && bob > aob )
             {
-                area6 = Det2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F800018);
-
-                if ( area6 != 0 )
+                axb = OuterProduct2D( REACT1, REACT2 );
+                if ( axb != 0 )
                 {
-                    pVec1 = (SVECTOR *)0x1F800014;
-
-                    temp = pVec1->vy * area4;
-
-                    pVec2 = (SVECTOR *)0x1F800018;
-
-                    react->vx = (temp - pVec2->vy * area3) / area6;
-
-                    react->vz = (pVec2->vx * area3 - pVec1->vx * area4) / area6;
-
-                    len = GV_VecLen3( react );
-
-                    if ( len > (range << 2) )
+                    react->vx = ( REACT1->vy * bob - REACT2->vy * aoa ) / axb;
+                    react->vz = ( REACT2->vx * aoa - REACT1->vx * bob ) / axb;
+                    rlen = GV_VecLen3( react );
+                    if ( rlen > ( range * 4 ) )
                     {
-                        GV_LenVec3( react, react, len, range << 2 );
+                        GV_LenVec3( react, react, rlen, range * 4 );
                     }
                 }
 
@@ -91,24 +72,24 @@ int HZD_HazardReaction( SVECTOR *vects, int n_vects, int range, SVECTOR *react )
         }
     }
 
-    Mul2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, range, area);
-    Sub2D((SVECTOR *)0x1F800014, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800014);
-
-    CopyFromHzdVec(react, (SVECTOR *)0x1F800014);
+    Scale2D( REACT1, VEC1, range, len0 );
+    Sub2D( REACT1, VEC1, REACT1 );
+    react->vx = REACT1->vx;
+    react->vz = REACT1->vy;
     return 1;
 }
 
-void HZD_NormalVector(void *hzd, SVECTOR *norm)
+void HZD_NormalVector( void *hzd, SVECTOR *norm )
 {
-    HZD_SEG *seg;
-
-    seg = hzd;
-    if (seg->p1.h >= 0) // Wall
+    if ( ( (HZD_VEC *)hzd )->h >= 0 ) // Wall
     {
+        HZD_SEG *seg;
+
+        seg = hzd;
         norm->vx = seg->p2.z - seg->p1.z;
         norm->vy = 0;
         norm->vz = seg->p1.x - seg->p2.x;
-        GV_LenVec3(norm, norm, GV_VecLen3(norm), 4096);
+        GV_LenVec3( norm, norm, GV_VecLen3( norm ), 4096 );
     }
     else // Floor
     {

@@ -337,7 +337,7 @@ void ElevatorAct_800D8EA8(Work *work)
                     floor = work->floors;
                     for (n_floors = work->n_floors; n_floors > 0; n_floors--)
                     {
-                        if (HZD_GetFloorHit(floor, &(*tenage)->mov) & 0x1)
+                        if (HZD_LevelHazardCheckOne(floor, &(*tenage)->mov) & 0x1)
                         {
                             HZD_GetLevelHeight((int *)&sp20);
                             mov = &(*tenage)->mov;

@@ -5,59 +5,71 @@
 #include <libgte.h>
 #include "inline_n.h"
 #include <gtemac.h>
-#include "fmt_hzd.h"    // for HZD_VEC
 
 #define	ZONE_HEIGHT (2000)
 
 #define	MAX_ROUTE	(255)
 
-#define CopyToHzdVec(dst, src)                  \
-{                                               \
-    ((HZD_VEC *)dst)->x = ((SVECTOR *)src)->vx; \
-    ((HZD_VEC *)dst)->z = ((SVECTOR *)src)->vz; \
-}
+#define SCRPAD ((ScrPad *)SCRPAD_ADDR)
 
-#define CopyFromHzdVec(dst, src)                \
-{                                               \
-    ((SVECTOR *)dst)->vx = ((HZD_VEC *)src)->x; \
-    ((SVECTOR *)dst)->vz = ((HZD_VEC *)src)->z; \
-}
+#define	VECTOR (&(SCRPAD->vector))
+#define	RESULT (&(SCRPAD->result))
 
-static inline void Add2D(SVECTOR *out, SVECTOR *v1, SVECTOR *v2)
+static inline void Add2D( DVECTOR *v0, DVECTOR *v1, DVECTOR *v2 )
 {
-    out->vx = v1->vx + v2->vx;
-    out->vy = v1->vy + v2->vy;
+    v0->vx = v1->vx + v2->vx;
+    v0->vy = v1->vy + v2->vy;
 }
 
-static inline void Sub2D(SVECTOR *out, SVECTOR *v1, SVECTOR *v2)
+static inline void Sub2D( DVECTOR *v0, DVECTOR *v1, DVECTOR *v2 )
 {
-    out->vx = v1->vx - v2->vx;
-    out->vy = v1->vy - v2->vy;
+    v0->vx = v1->vx - v2->vx;
+    v0->vy = v1->vy - v2->vy;
 }
 
-static inline void Mul2D(SVECTOR *out, SVECTOR *in, int num, int denom)
+static inline void Scale2D( DVECTOR *v0, DVECTOR *v1, int num, int denom )
 {
-    out->vx = (in->vx * num) / denom;
-    out->vy = (in->vy * num) / denom;
+    v0->vx = v1->vx * num / denom;
+    v0->vy = v1->vy * num / denom;
 }
 
-static inline long Dot2D(SVECTOR *v1, SVECTOR *v2)
+static inline long InnerProduct2D( DVECTOR *v1, DVECTOR *v2 )
 {
-    *(short *)0x1F800004 = -v2->vy;
-    *(short *)0x1F800006 = v2->vx;
-    gte_NormalClip(0, *(long *)v1, *(long *)0x1F800004, 0x1F800008);
-    return *(long *)0x1F800008;
+    typedef struct {
+        char    unused[ 4 ];
+        DVECTOR vector;
+        long    result;
+    } ScrPad;
+
+    VECTOR->vx = -v2->vy;
+    VECTOR->vy = v2->vx;
+	gte_ldsxy3( 0, *(long *)v1, *(long *)VECTOR );
+	gte_nclip();
+	gte_stopz( RESULT );
+    return *(long *)RESULT;
 }
 
-static inline long Det2D(SVECTOR *v1, SVECTOR *v2)
+static inline long OuterProduct2D( DVECTOR *v1, DVECTOR *v2 )
 {
-    gte_NormalClip(0, *(long *)v1, *(long *)v2, 0x1F800008);
-    return *(long *)0x1F800008;
+    typedef struct {
+        char    unused[ 4 ];
+        DVECTOR vector;
+        long    result;
+    } ScrPad;
+
+	gte_ldsxy3( 0, *(long *)v1, *(long *)v2 );
+	gte_nclip();
+	gte_stopz( RESULT );
+    return *(long *)RESULT;
 }
 
-static inline long Len2D(SVECTOR *vec)
+static inline long Length2D( DVECTOR *v1 )
 {
-    return SquareRoot0(Dot2D(vec, vec));
+    return SquareRoot0( InnerProduct2D( v1, v1 ) );
 }
+
+#undef SCRPAD
+#undef VECTOR
+#undef RESULT
 
 #endif // __MGS_LIBHZD_PRIVATE_H__

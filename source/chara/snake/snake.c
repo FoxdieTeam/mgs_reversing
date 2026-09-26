@@ -263,7 +263,7 @@ int sub_8004E5E8(SnaInitWork *work, int flag)
 
     i = -1;
 
-    if ((HZD_GetFloorLevel() & flag) == 0)
+    if ((HZD_GetLevelAtr() & flag) == 0)
     {
         HZD_GetLevelHazard(flr);
 

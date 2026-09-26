@@ -1,181 +1,40 @@
 #include "libhzd.h"
+#include "private.h"
 
 #include "mgstype.h"
 #include "libdg/libdg.h"
 #include "libgv/libgv.h"
 #include "inline_n.h"
 
-/*possible funcs
- HZD_GetLevelHazard
- HZD_GetLevelHeight
- HZD_LevelHazardCheckOne
- HZD_GetLevelAtr
-*/
-
-static void CopyVector(SVECTOR *src, HZD_VEC *dst)
-{
-    dst->x = src->vx;
-    dst->y = src->vy;
-    dst->z = src->vz;
-}
+/*---------------------------------------------------------------------------*/
 
 typedef struct {
-    char     unused1[0x8];  // 00
-    int      side;          // 08
-    HZD_VEC  point;         // 0C
-    char     unused2[0x20]; // 14
-    HZD_VEC  f34;           // 34
-    HZD_FLR *max_floor;     // 3C
-    HZD_FLR *min_floor;     // 40
-    int      max_level;     // 44
-    int      min_level;     // 48
-} SCRPAD_DATA;
+    char     unused1[ 8 ];
+    int      side;
+    HZD_VEC  from;
+    char     unused2[ 32 ];
+    DVECTOR  p1_from;
+    DVECTOR  normal;
+    HZD_FLR *flrs[ 2 ];
+    int      lvls[ 2 ];
+} ScrPad;
 
-#define SCRPAD ((SCRPAD_DATA *)SCRPAD_ADDR)
+#define SCRPAD      ((ScrPad *)SCRPAD_ADDR)
 
-#define SIDE      (*(int *)(SCRPAD_ADDR + 0x8))
-#define POINT     (*(HZD_VEC *)(SCRPAD_ADDR + 0xC))
-#define MAX_FLOOR (*(HZD_FLR **)(SCRPAD_ADDR + 0x3C))
-#define MIN_FLOOR (*(HZD_FLR **)(SCRPAD_ADDR + 0x40))
+#define	TEMP		(&(SCRPAD->temp))
+#define	SIDE		(&(SCRPAD->side))
+#define	FROM		(&(SCRPAD->from))
+#define	P1_FROM		(&(SCRPAD->p1_from))
+#define	NORMAL		(&(SCRPAD->normal))
+#define	FLOOR_PTR   (SCRPAD->flrs[ 0 ])
+#define	CEIL_PTR    (SCRPAD->flrs[ 1 ])
+#define	FLOOR_LVL   (SCRPAD->lvls[ 0 ])
+#define	CEIL_LVL    (SCRPAD->lvls[ 1 ])
 
-STATIC int HZD_LevelCheckInPoint(HZD_FLR *floor)
+static inline int CheckFloorBound( HZD_FLR *flr, HZD_VEC *from )
 {
-    int p0, p1, p2, p3, p4;
-
-    p0 = POINT.long_access[0];
-    p1 = floor->p1.long_access[0];
-    p2 = floor->p2.long_access[0];
-
-    gte_ldsxy3( p1, p2, p0 );
-    gte_nclip();
-    p3 = floor->p3.long_access[0];
-    gte_stopz( &SIDE );
-
-    if ( SIDE >= 0 )
-    {
-        gte_ldsxy3( p2, p3, p0 );
-        gte_nclip();
-        p4 = floor->p4.long_access[0];
-        gte_stopz( &SIDE );
-
-        if ( SIDE < 0 ) return 0;
-
-        gte_ldsxy3( p3, p4, p0 );
-        gte_nclip();
-        gte_stopz( &SIDE );
-
-        if ( SIDE < 0 ) return 0;
-
-        gte_ldsxy3( p4, p1, p0 );
-        gte_nclip();
-        gte_stopz( &SIDE );
-
-        return SIDE >= 0;
-    }
-    else
-    {
-        gte_ldsxy3( p2, p3, p0 );
-        gte_nclip();
-        p4 = floor->p4.long_access[0];
-        gte_stopz( &SIDE );
-
-        if ( SIDE > 0 ) return 0;
-
-        gte_ldsxy3( p3, p4, p0 );
-        gte_nclip();
-        gte_stopz( &SIDE );
-
-        if ( SIDE > 0 ) return 0;
-
-        gte_ldsxy3( p4, p1, p0 );
-        gte_nclip();
-        gte_stopz( &SIDE );
-
-        return SIDE <= 0;
-    }
-
-}
-
-static inline void HZD_LevelPointHeight_helper(void)
-{
-    // what were the original parameters for this crap? trying to make
-    // the source and destination two arguments swaps the registers
-    short *scratch2 = ( short * )SCRPAD_ADDR;
-
-    scratch2[3] = *(short *)0x1f800038;
-    scratch2[2] = -*(short *)0x1f80003a;
-}
-
-static inline void assign_subtract( int idx, short idx2, short idx3, short *val )
-{
-    ((short*)SCRPAD_ADDR)[idx] = ((short*)SCRPAD_ADDR)[idx2] - val[idx3];
-}
-
-STATIC int SlopeFloorLevel(HZD_FLR *floor)
-{
-    short *test;
-    int x, y;
-
-    assign_subtract( 26, 6, 0, ( short * )&floor->p1 );
-    assign_subtract( 27, 7, 1, ( short * )&floor->p1 );
-
-    //todo: fix below, probably some inline
-    test = ( short * )0x1F800038;
-    test[0] = floor->p1.h;
-    do {} while(0);
-    test[y = 1] = floor->p2.h;
-
-    HZD_LevelPointHeight_helper();
-
-    gte_ldsxy3(0, *( int * )0x1F800034, *( int* )0x1F800004);
-    gte_nclip();
-    gte_stopz( 0x1F800008 );
-
-    x = *(int * )0x1F800008;
-    return floor->p1.y - x / floor->p3.h;
-}
-
-STATIC void HZD_LevelTest(HZD_FLR *floor)
-{
-    int          y, h;
-    SCRPAD_DATA *scrpad;
-
-    h = floor->b1.h; // TODO: What's "h"?
-    if ((h & 1) || HZD_LevelCheckInPoint(floor))
-    {
-        if (h & 2)
-        {
-            y = floor->b1.y;
-        }
-        else
-        {
-            y = SlopeFloorLevel(floor);
-        }
-
-        scrpad = (SCRPAD_DATA *)SCRPAD_ADDR;
-        if (POINT.y >= y)
-        {
-            if (y > scrpad->max_level)
-            {
-                scrpad->max_level = y;
-                scrpad->max_floor = floor;
-            }
-        }
-        else
-        {
-            if (y < scrpad->min_level)
-            {
-                scrpad->min_level = y;
-                scrpad->min_floor = floor;
-            }
-        }
-    }
-}
-
-static inline int HZD_PointInBounds(HZD_FLR *floor, HZD_VEC *point)
-{
-    if (floor->b1.z > point->z || floor->b2.z < point->z ||
-        floor->b1.x > point->x || floor->b2.x < point->x)
+    if (flr->b1.z > from->z || flr->b2.z < from->z ||
+        flr->b1.x > from->x || flr->b2.x < from->x)
     {
         return 0;
     }
@@ -183,116 +42,206 @@ static inline int HZD_PointInBounds(HZD_FLR *floor, HZD_VEC *point)
     return 1;
 }
 
+/*---------------------------------------------------------------------------*/
+
+static void FV_to_HV( SVECTOR *sv, HZD_VEC *hv )
+{
+    hv->x = sv->vx;
+    hv->y = sv->vy;
+    hv->z = sv->vz;
+}
+
+static int CheckInsideFloor( HZD_FLR *flr )
+{
+    int p0, p1, p2, p3, p4;
+
+    p0 = FROM->long_access[ 0 ];
+    p1 = flr->p1.long_access[ 0 ];
+    p2 = flr->p2.long_access[ 0 ];
+
+    gte_ldsxy3( p1, p2, p0 );
+    gte_nclip();
+    p3 = flr->p3.long_access[ 0 ];
+    gte_stopz( SIDE );
+
+    if ( *SIDE >= 0 )
+    {
+        gte_ldsxy3( p2, p3, p0 );
+        gte_nclip();
+        p4 = flr->p4.long_access[ 0 ];
+        gte_stopz( SIDE );
+        if ( *SIDE < 0 ) return 0;
+
+        gte_ldsxy3( p3, p4, p0 );
+        gte_nclip();
+        gte_stopz( SIDE );
+        if ( *SIDE < 0 ) return 0;
+
+        gte_ldsxy3( p4, p1, p0 );
+        gte_nclip();
+        gte_stopz( SIDE );
+        return *SIDE >= 0;
+    }
+    else
+    {
+        gte_ldsxy3( p2, p3, p0 );
+        gte_nclip();
+        p4 = flr->p4.long_access[ 0 ];
+        gte_stopz( SIDE );
+        if ( *SIDE > 0 ) return 0;
+
+        gte_ldsxy3( p3, p4, p0 );
+        gte_nclip();
+        gte_stopz( SIDE );
+        if ( *SIDE > 0 ) return 0;
+
+        gte_ldsxy3( p4, p1, p0 );
+        gte_nclip();
+        gte_stopz( SIDE );
+        return *SIDE <= 0;
+    }
+}
+
+static int SlopeFloorLevel( HZD_FLR *flr )
+{
+    int pf_n;
+
+    Sub2D( P1_FROM, (DVECTOR *)FROM, (DVECTOR *)&flr->p1 );
+    NORMAL->vx = flr->p1.h;
+    NORMAL->vy = flr->p2.h;
+    pf_n = InnerProduct2D( P1_FROM, NORMAL );
+    return flr->p1.y - pf_n / flr->p3.h;
+}
+
+static void CheckFloor( HZD_FLR *flr )
+{
+    int flag, level;
+
+    flag = flr->b1.h;
+
+    if ( ( flag & 1 ) || CheckInsideFloor( flr ) )
+    {
+        if ( flag & 2 )
+        {
+            level = flr->b1.y;
+        }
+        else
+        {
+            level = SlopeFloorLevel( flr );
+        }
+
+        if ( FROM->y >= level )
+        {
+            if ( level > FLOOR_LVL )
+            {
+                FLOOR_LVL = level;
+                FLOOR_PTR = flr;
+            }
+        }
+        else
+        {
+            if ( level < CEIL_LVL )
+            {
+                CEIL_LVL = level;
+                CEIL_PTR = flr;
+            }
+        }
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
 int HZD_LevelHazardCheck( HZD_HDL *hzd, SVECTOR *from, int chk_flag )
 {
-    HZD_GRP *pArea;
-    int      *pScr;
-    HZD_FLR  *floor;
-    int       count;
-    HZD_FLR **ppFloors;
-    int      *pScr2;
+    HZD_GRP *grp;
+    HZD_FLR *flr, **dynflr;
+    int i;
 
-    pArea = hzd->grp;
+    grp = hzd->grp;
 
-    CopyVector(from, &POINT);
+    FV_to_HV( from, FROM );
 
-    pScr = (int *)getScratchAddr(0);
-    pScr[16] = 0;
-    pScr[15] = 0;
-    pScr[17] = -1000000;
-    pScr[18] = 1000000;
+    FLOOR_PTR = CEIL_PTR = NULL;
+    FLOOR_LVL = -1000000;
+    CEIL_LVL = 1000000;
 
     if ( chk_flag & HZD_CHK_F_FLOOR )
     {
-        floor = pArea->floors;
-
-        for (count = pArea->n_floors; count > 0; count--, floor++)
+        flr = grp->floors;
+        for ( i = grp->n_floors; i > 0; i--, flr++ )
         {
-            if (HZD_PointInBounds(floor, (HZD_VEC *)getScratchAddr(3)))
+            if ( CheckFloorBound( flr, FROM ) )
             {
-                HZD_LevelTest(floor);
+                CheckFloor( flr );
             }
         }
     }
 
     if ( chk_flag & HZD_CHK_D_FLOOR )
     {
-        ppFloors = hzd->dynamic_floors;
-
-        for (count = hzd->dynamic_floor_index; count > 0; count--, ppFloors++)
+        dynflr = hzd->dynamic_floors;
+        for ( i = hzd->dynamic_floor_index; i > 0; i--, dynflr++ )
         {
-            if (HZD_PointInBounds(*ppFloors, (HZD_VEC *)getScratchAddr(3)))
+            if ( CheckFloorBound( *dynflr, FROM ) )
             {
-                HZD_LevelTest(*ppFloors);
+                CheckFloor( *dynflr );
             }
         }
     }
 
-    pScr2 = (int *)getScratchAddr(0);
-    if (pScr2[16] == 0)
+    if ( CEIL_PTR == NULL )
     {
-        return pScr2[15] != 0;
+        return ( FLOOR_PTR == NULL ) ? 0 : 1;
     }
-
-    return (pScr2[15] == 0) ? 2 : 3;
+    else
+    {
+        return ( FLOOR_PTR == NULL ) ? 2 : 3;
+    }
 }
 
 void HZD_GetLevelHazard( HZD_FLR **flr )
 {
-    SCRPAD_DATA *scrpad = (SCRPAD_DATA *)SCRPAD_ADDR;
-
-    flr[0] = scrpad->max_floor;
-    flr[1] = scrpad->min_floor;
+    flr[ 0 ] = FLOOR_PTR;
+    flr[ 1 ] = CEIL_PTR;
 }
 
 void HZD_GetLevelHeight( int *lvl_ptr )
 {
-    SCRPAD_DATA *scrpad = (SCRPAD_DATA *)SCRPAD_ADDR;
-
-    lvl_ptr[0] = scrpad->max_level;
-    lvl_ptr[1] = scrpad->min_level;
+    lvl_ptr[ 0 ] = FLOOR_LVL;
+    lvl_ptr[ 1 ] = CEIL_LVL;
 }
 
-int HZD_SlopeFloorLevel( SVECTOR *mov, HZD_FLR *flr )
+int HZD_SlopeFloorLevel( SVECTOR *from, HZD_FLR *flr )
 {
-    CopyVector(mov, &POINT);
-    return SlopeFloorLevel(flr);
+    FV_to_HV( from, FROM );
+    return SlopeFloorLevel( flr );
 }
 
-int HZD_GetFloorHit( HZD_FLR *flr, SVECTOR *mov )
+int HZD_LevelHazardCheckOne( HZD_FLR *flr, SVECTOR *from )
 {
-    SCRPAD_DATA *scrpad;
-    SCRPAD_DATA *scrpad2;
+    FV_to_HV( from, FROM );
 
-    CopyVector(mov, &POINT);
+    FLOOR_PTR = CEIL_PTR = NULL;
+    FLOOR_LVL = -1000000;
+    CEIL_LVL = 1000000;
 
-    scrpad = (SCRPAD_DATA *)SCRPAD_ADDR;
-    scrpad->min_floor = NULL;
-    scrpad->max_floor = NULL;
-    scrpad->max_level = -1000000;
-    scrpad->min_level = 1000000;
-
-    if (HZD_PointInBounds(flr, &POINT))
+    if ( CheckFloorBound( flr, FROM ) )
     {
-        HZD_LevelTest(flr);
+        CheckFloor( flr );
     }
 
-    scrpad2 = (SCRPAD_DATA *)SCRPAD_ADDR;
-
-    if (!scrpad2->min_floor)
+    if ( CEIL_PTR == NULL )
     {
-        return scrpad2->max_floor != NULL;
+        return ( FLOOR_PTR == NULL ) ? 0 : 1;
     }
-
-    return (!scrpad2->max_floor) ? 2 : 3;
+    else
+    {
+        return ( FLOOR_PTR == NULL ) ? 2 : 3;
+    }
 }
 
-int HZD_GetFloorLevel( void )
+int HZD_GetLevelAtr( void )
 {
-    if (!MAX_FLOOR)
-    {
-        return 0;
-    }
-
-    return MAX_FLOOR->b1.h >> 8;
+    if ( FLOOR_PTR == NULL ) return 0;
+    return FLOOR_PTR->b1.h >> 8;
 }

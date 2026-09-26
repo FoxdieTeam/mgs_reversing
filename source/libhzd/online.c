@@ -30,7 +30,7 @@ STATIC int ComputeDirection(void)
     pVec1->y = pVec2->y - pVec3->y;
     pVec1->z = pVec2->z - pVec3->z;
 
-    area = Len2D((SVECTOR *)0x1F80001C);
+    area = Length2D((DVECTOR *)0x1F80001C);
     if (area == 0)
     {
         return 0;
@@ -140,14 +140,14 @@ STATIC int CalculateHitTime(void)
     int opz_b;
     int opz_a;
 
-    SVECTOR *ptr;
-    SVECTOR *pa;
-    SVECTOR *pb;
+    DVECTOR *ptr;
+    DVECTOR *pa;
+    DVECTOR *pb;
 
     // Can't get the code to generate a useless absolute load without this
     register long *t0 asm("t0");
 
-    Sub2D((SVECTOR *)0x1F800048, (SVECTOR *)0x1F80003C, (SVECTOR *)0x1F800034);
+    Sub2D((DVECTOR *)0x1F800048, (DVECTOR *)0x1F80003C, (DVECTOR *)0x1F800034);
 
     a = *(long *)0x1F800048;
 
@@ -155,9 +155,9 @@ STATIC int CalculateHitTime(void)
     gte_ldsxy3(t0, a, *(long *)0x1F80001C);
     gte_nclip();
 
-    ptr = (SVECTOR *)0x1F800044;
-    pa = (SVECTOR *)0x1F80000C;
-    pb = (SVECTOR *)0x1F800034;
+    ptr = (DVECTOR *)0x1F800044;
+    pa = (DVECTOR *)0x1F80000C;
+    pb = (DVECTOR *)0x1F800034;
 
     Sub2D(ptr, pa, pb);
     ptr = 0;

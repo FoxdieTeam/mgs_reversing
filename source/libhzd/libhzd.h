@@ -161,9 +161,9 @@ HZD_TRP *HZD_CheckBehindTrap( HZD_HDL *hzd, SVECTOR *pos );
 int HZD_LevelHazardCheck( HZD_HDL *hzd, SVECTOR *from, int chk_flag );
 void HZD_GetLevelHazard( HZD_FLR **flr );
 void HZD_GetLevelHeight( int *lvl_ptr );
-int HZD_SlopeFloorLevel( SVECTOR *mov, HZD_FLR *flr );
-int HZD_GetFloorHit( HZD_FLR *flr, SVECTOR *mov );
-int HZD_GetFloorLevel( void );
+int HZD_SlopeFloorLevel( SVECTOR *from, HZD_FLR *flr );
+int HZD_LevelHazardCheckOne( HZD_FLR *flr, SVECTOR *from );
+int HZD_GetLevelAtr( void );
 
 /* navigate.c */
 int HZD_GetAddress( HZD_HDL *hzd, SVECTOR *pos, int address );

@@ -580,7 +580,7 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
 
     pos = control->mov;
     pos.vy += 0x4B;
-    if (HZD_GetFloorHit(&s05a_dword_800C362C->copy2, &pos) == 1)
+    if (HZD_LevelHazardCheckOne(&s05a_dword_800C362C->copy2, &pos) == 1)
     {
         HZD_GetLevelHeight(lvl);
         hit = control->mov.vy - lvl[0];
@@ -598,7 +598,7 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
             pos.vx += s05a_dword_800C362C->snap_control.mov.vx;
             pos.vy += s05a_dword_800C362C->snap_control.mov.vy;
             pos.vz += s05a_dword_800C362C->snap_control.mov.vz;
-            hit = HZD_GetFloorHit(&s05a_dword_800C362C->hzd[4].flr[1], &pos);
+            hit = HZD_LevelHazardCheckOne(&s05a_dword_800C362C->hzd[4].flr[1], &pos);
             HZD_GetLevelHeight(lvl);
             if (hit & 1)
             {
@@ -619,7 +619,7 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
 
     pos = control->mov;
     pos.vy += 0x4B;
-    if (HZD_GetFloorHit(&s05a_dword_800C362C->copy0, &pos) == 1)
+    if (HZD_LevelHazardCheckOne(&s05a_dword_800C362C->copy0, &pos) == 1)
     {
         HZD_GetLevelHeight(lvl);
         hit = control->mov.vy - lvl[0];
@@ -634,7 +634,7 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
             pos.vx += s05a_dword_800C362C->snap_control.mov.vx;
             pos.vy += s05a_dword_800C362C->snap_control.mov.vy;
             pos.vz += s05a_dword_800C362C->snap_control.mov.vz;
-            hit = HZD_GetFloorHit(&s05a_dword_800C362C->hzd[0].flr[1], &pos);
+            hit = HZD_LevelHazardCheckOne(&s05a_dword_800C362C->hzd[0].flr[1], &pos);
             HZD_GetLevelHeight(lvl);
             if (hit & 1)
             {
@@ -655,7 +655,7 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
 
     pos = control->mov;
     pos.vy += 0x4B;
-    if (HZD_GetFloorHit(&s05a_dword_800C362C->copy1, &pos) == 1)
+    if (HZD_LevelHazardCheckOne(&s05a_dword_800C362C->copy1, &pos) == 1)
     {
         HZD_GetLevelHeight(lvl);
         hit = control->mov.vy - lvl[0];
@@ -670,7 +670,7 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
             pos.vx += s05a_dword_800C362C->snap_control.mov.vx;
             pos.vy += s05a_dword_800C362C->snap_control.mov.vy;
             pos.vz += s05a_dword_800C362C->snap_control.mov.vz;
-            hit = HZD_GetFloorHit(&s05a_dword_800C362C->hzd[1].flr[1], &pos);
+            hit = HZD_LevelHazardCheckOne(&s05a_dword_800C362C->hzd[1].flr[1], &pos);
             HZD_GetLevelHeight(lvl);
             if (hit & 1)
             {
@@ -912,9 +912,9 @@ int s05a_800DF9C8(TARGET *t, int flags)
 
     if (s05a_dword_800C362C->field_F4C > 0 ||
         s05a_dword_800C362C->field_F50 > 0 ||
-        HZD_GetFloorHit((HZD_FLR *)((char *)s05a_dword_800C362C + 0x12AC), &t->center) == 1 ||
-        HZD_GetFloorHit((HZD_FLR *)((char *)s05a_dword_800C362C + 0x102C), &t->center) == 1 ||
-        HZD_GetFloorHit((HZD_FLR *)((char *)s05a_dword_800C362C + 0x10CC), &t->center) == 1)
+        HZD_LevelHazardCheckOne((HZD_FLR *)((char *)s05a_dword_800C362C + 0x12AC), &t->center) == 1 ||
+        HZD_LevelHazardCheckOne((HZD_FLR *)((char *)s05a_dword_800C362C + 0x102C), &t->center) == 1 ||
+        HZD_LevelHazardCheckOne((HZD_FLR *)((char *)s05a_dword_800C362C + 0x10CC), &t->center) == 1)
     {
         for (i = 0; i < 10; i++)
         {
@@ -1042,7 +1042,7 @@ int s05a_800E00EC(GV_ACT *actor)
     int      dist;
 
     GM_uTenageMotion = -1;
-    if (HZD_GetFloorHit(&s05a_dword_800C362C->hzd[0].flr[0], &work->control.mov) == 0 && !(GM_PlayerStatus & 0x1340))
+    if (HZD_LevelHazardCheckOne(&s05a_dword_800C362C->hzd[0].flr[0], &work->control.mov) == 0 && !(GM_PlayerStatus & 0x1340))
     {
         if (s05a_dword_800C362C->field_EB0 != NULL)
         {
@@ -1203,7 +1203,7 @@ int s05a_800E066C(SnaInitWork *work_)
         return 0;
     }
 
-    if (HZD_GetFloorHit((HZD_FLR *)&s05a_dword_800C362C->hzd[0].flr[0], &GM_PlayerPosition) != 0)
+    if (HZD_LevelHazardCheckOne((HZD_FLR *)&s05a_dword_800C362C->hzd[0].flr[0], &GM_PlayerPosition) != 0)
     {
         if (s05a_dword_800C362C->field_F78 > 0)
         {
