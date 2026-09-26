@@ -38,6 +38,7 @@ typedef struct _PARAM {
     /* 0xB7D */ char           g_flag;
     /* 0xB7E */ short          life;
     /* 0xB80 */ short          faint;
+    /* 0xB82 */ short          unknown; // TODO: new in zako14
     /* 0xB82 */ short          damage;
 } PARAM;
 
@@ -62,6 +63,7 @@ struct _Work;
 typedef void ( *ACTION )( struct _Work *, int ) ;
 typedef void ( *PUTFUNC )( struct _Work * ) ;
 
+// TODO: struct layout changed from zako11a, re-address all members
 typedef struct _Work {
     /* 0x000 */ GV_ACT         actor;
     /* 0x020 */ CONTROL        control;
@@ -118,22 +120,19 @@ typedef struct _Work {
     /* 0xB6C */ int            act_status;
     /* 0xB70 */ char           padB70[ 0x4 ];
     /* 0xB74 */ PARAM          param;
-    /* 0xB84 */ char           padB84[ 0x4 ];
-    /* 0xB88 */ VISION         vision;
-    /* 0xB90 */ short          field_B90;
-
-    /* 0xB94 */ int            newpad;
-
-    /* 0xB94 */ int            alert_level;
-    /* 0xB98 */ signed char    modetime[ 8 ];
-    /* 0xBA0 */ SVECTOR        player_pos;
-    /* 0xBA8 */ int            player_dir;
-    /* 0xBAC */ int            acttime[ 8 ];
-    /* 0xBCC */ short          dir[ 4 ];
-    /* 0xBD4 */ int            field_BD4;
+    /* 0xB84 */ char           padB84[ 0x6 ];
+    /* 0xB94 */ VISION         vision;
+    /* 0xB9C */ short          field_B9C;
+    /* 0xB84 */ char           padBA0[ 0x2 ];
+    /* 0xBA0 */ int            alert_level;
+    /* 0xBA4 */ signed char    modetime[ 8 ];
+    /* 0xBAC */ SVECTOR        player_pos;
+    /* 0xBB4 */ int            player_dir;
+    /* 0xBB0 */ int            acttime[ 8 ];
+    /* 0xBD0 */ short          dir[ 4 ];
     /* 0xBD8 */ SVECTOR        start_pos;
     /* 0xBE0 */ SVECTOR        target_pos;
-    // /* 0xBE8 */ int            field_BE8;
+    /* 0xBE8 */ int            field_BE8;
     /* 0xBEC */ int            start_map;
     /* 0xBF0 */ int            last_addr;
     /* 0xBF4 */ int            target_addr;
@@ -151,7 +150,6 @@ typedef struct _Work {
     /* 0xC34 */ int            field_C34;
     /* 0xC38 */ int            field_C38;
     /* 0xC3C */ int            field_C3C;
-    /* 0xC40 */ int            gameflag;
     /* 0xC44 */ short          field_C44;
 } Work;
 
@@ -319,6 +317,8 @@ void ZAKO14_PutMark( Work *work, int mark );
 int  ZAKO14_SetPutChar( Work *work, int index );
 int  ZAKO14_ClearPutChar( Work *work, void *func );
 void ZAKO14_ExecPutChars( Work *work );
+
+void s14e_800CA890( Work *work, int ); // ZAKO14_SetPutChar
 
 // zk11aact.c
 void Zako14ActionMain( Work *work );
