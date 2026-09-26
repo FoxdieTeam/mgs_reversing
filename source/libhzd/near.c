@@ -45,10 +45,10 @@ STATIC int HZD_80028930(void)
     short *ptr1;
     short *ptr2;
 
-    Sub2D((SVECTOR *)0x1F800038, (SVECTOR *)0x1F80002C, (SVECTOR *)0x1F800024);
-    Sub2D((SVECTOR *)0x1F800034, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800024);
+    Sub2D((DVECTOR *)0x1F800038, (DVECTOR *)0x1F80002C, (DVECTOR *)0x1F800024);
+    Sub2D((DVECTOR *)0x1F800034, (DVECTOR *)0x1F80000C, (DVECTOR *)0x1F800024);
 
-    opz = Dot2D((SVECTOR *)0x1F800038, (SVECTOR *)0x1F800034);
+    opz = InnerProduct2D((DVECTOR *)0x1F800038, (DVECTOR *)0x1F800034);
 
     *(int *)0x1F80004C = 1;
     *(int *)0x1F8000AC = 1;
@@ -56,20 +56,20 @@ STATIC int HZD_80028930(void)
     if (opz < 0)
     {
         *(int *)0x1F8000A8 = 0;
-        Sub2D((SVECTOR *)0x1F80005C, (SVECTOR *)0x1F800024, (SVECTOR *)0x1F80000C);
+        Sub2D((DVECTOR *)0x1F80005C, (DVECTOR *)0x1F800024, (DVECTOR *)0x1F80000C);
     }
     else
     {
-        opz2 = Dot2D((SVECTOR *)0x1F800038, (SVECTOR *)0x1F800038);
+        opz2 = InnerProduct2D((DVECTOR *)0x1F800038, (DVECTOR *)0x1F800038);
 
         if (opz2 < opz)
         {
             *(int *)0x1F8000A8 = 1;
-            Sub2D((SVECTOR *)0x1F80005C, (SVECTOR *)0x1F80002C, (SVECTOR *)0x1F80000C);
+            Sub2D((DVECTOR *)0x1F80005C, (DVECTOR *)0x1F80002C, (DVECTOR *)0x1F80000C);
         }
         else
         {
-            opz3 = Det2D((SVECTOR *)0x1F800038, (SVECTOR *)0x1F800034);
+            opz3 = OuterProduct2D((DVECTOR *)0x1F800038, (DVECTOR *)0x1F800034);
 
             gte_ldlzc(opz2);
             gte_stlzc(0x1F8000A4);
@@ -112,7 +112,7 @@ STATIC int HZD_80028930(void)
         }
     }
 
-    *(int *)0x1F800050 = Dot2D((SVECTOR *)0x1F80005C, (SVECTOR *)0x1F80005C);
+    *(int *)0x1F800050 = InnerProduct2D((DVECTOR *)0x1F80005C, (DVECTOR *)0x1F80005C);
     return *(int *)0x1F800050;
 }
 
@@ -251,7 +251,7 @@ static inline void sub_helper_80029098(void)
     }
     else
     {
-        Add2D((SVECTOR *)0x1F8000A0, (SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800094);
+        Add2D((DVECTOR *)0x1F8000A0, (DVECTOR *)0x1F80000C, (DVECTOR *)0x1F800094);
 
         if (*(int *)0x1F8000A0 != *(int *)0x1F80007C && *(int *)0x1F8000A0 != *(int *)0x1F800080)
         {

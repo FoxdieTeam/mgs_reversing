@@ -134,7 +134,7 @@ int HZD_QueueDynamicFloor(HZD_HDL *hdl, HZD_FLR *floor)
     count = hdl->dynamic_floor_index;
     hdl->dynamic_floors[count] = floor;
     hdl->dynamic_floor_index = count + 1;
-    floor->p4.h |= 0x01;
+    floor->p4.h |= HZX_FLOOR_DYNAMIC;
 
     return 0;
 }

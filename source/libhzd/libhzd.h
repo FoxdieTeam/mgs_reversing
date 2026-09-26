@@ -66,6 +66,11 @@ typedef struct {
 #define HZD_SEG_NO_BEHIND     (0x40) /* player lean */
 #define HZD_SEG_NO_DISP_RADAR (0x80) /* radar draw */
 
+#define HZX_FLOOR_DYNAMIC (0x1)
+
+#define HZD_FLOOR_RECT (0x1)
+#define HZD_FLOOR_FLAT (0x2)
+
 #define HZD_CHK_F_FLOOR   (0x1)
 #define HZD_CHK_D_FLOOR   (0x2)
 #define HZD_CHK_F_SEGMENT (0x4)
@@ -161,9 +166,9 @@ HZD_TRP *HZD_CheckBehindTrap( HZD_HDL *hzd, SVECTOR *pos );
 int HZD_LevelHazardCheck( HZD_HDL *hzd, SVECTOR *from, int chk_flag );
 void HZD_GetLevelHazard( HZD_FLR **flr );
 void HZD_GetLevelHeight( int *lvl_ptr );
-int HZD_SlopeFloorLevel( SVECTOR *mov, HZD_FLR *flr );
-int HZD_GetFloorHit( HZD_FLR *flr, SVECTOR *mov );
-int HZD_GetFloorLevel( void );
+int HZD_SlopeFloorLevel( SVECTOR *from, HZD_FLR *flr );
+int HZD_LevelHazardCheckOne( HZD_FLR *flr, SVECTOR *from );
+int HZD_GetLevelAtr( void );
 
 /* navigate.c */
 int HZD_GetAddress( HZD_HDL *hzd, SVECTOR *pos, int address );
