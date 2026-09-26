@@ -601,7 +601,7 @@ def gen_build_target(targetName):
             #"photo_n3",
             #"select",
             #"selectvr",
-            #"sound",
+            "sound",
             #"vab_cfr",
             #"vab_clm",
             #"vab_fms",
@@ -751,7 +751,7 @@ def gen_build_target(targetName):
         ninja.newline()
 
         overlayFile = f"../{args.obj_directory}/{overlay}.bin"
-        ninja.build(overlayFile, "uninitializer", inputs=[lhsOverlayFile, rhsOverlayFile, f"../um/{overlay}.bin"], variables={"overlay": f"{overlay}"})
+        ninja.build(overlayFile, "uninitializer", inputs=[lhsOverlayFile, rhsOverlayFile, f"../um/stage/{overlay}.bin"], variables={"overlay": f"{overlay}"})
         ninja.newline()
 
 #init_psyq_ini_files(args.psyq_path)

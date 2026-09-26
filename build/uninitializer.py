@@ -64,9 +64,9 @@
 # in variables you modified (as described in sections above),
 # the build will fail - the uninitialized memory files don't
 # have the new uninitialized memory. You have to generate it again!
-# You can do it by executing the following command (replacing s03er):
+# You can do it by executing the following command (replacing "foo"):
 #
-#   python3 uninitializer.py extract ../obj/s03er_lhs.bin ../obj/s03er_rhs.bin ~/stage/s03er/00e05a.bin ../um/s03er.bin
+#   python3 uninitializer.py extract ../obj/foo_lhs.bin ../obj/foo_rhs.bin ~/path_to_og/foo.bin ../um/stage/foo.bin
 #
 # If the command succeeds, after rebuilding the project the overlay
 # should match. If the command fails at any of assertions,

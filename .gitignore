@@ -1,22 +1,25 @@
+# Vim/Emacs/etc.
+*~
+\#*\#
+.\#*
+*.bak
+*.swp
+*.swo
+
+# PSY-Q Output
 *.obj
 *.lib
 *.cpe
 *.exe
 *.map
 *.sym
-*.matching.bin
-*.pyc
-.ninja*
-build.ninja
-PAPX_???.??
-SLED_???.??
-SLES_???.??
-SLPM_???.??
-SLPS_???.??
-SLUS_???.??
-obj
-obj_vr
-obj_dev
+
+# Output dirs
+obj/
+obj_vr/
+obj_dev/
+
+# Build
 build/dump.asm
 build/m2c
 build/contrib
@@ -27,18 +30,32 @@ build/share
 build/bin
 build/*.zip
 build/statcov.txt
-.vscode/c_cpp_properties.json
-.vscode/tasks.json
-.vscode/settings.json
 build/obj_tool/Release
-.vs
 build/include_asm_tmp
-source/.vscode/settings.json
-*.log
-*.swp
-*.swo
-research/
+build/env/
 .cache/
 .sentry-native
-obj_psx_dev/
-build/env/
+*.matching.bin
+.ninja*
+build.ninja
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Visual Studio
+.vs/
+
+# Visual Studio Code
+**/.vscode/*
+*.code-workspace
+
+# SCE Product Codes
+PAPX_???.??
+SLED_???.??
+SLES_???.??
+SLPM_???.??
+SLPS_???.??
+SLUS_???.??
