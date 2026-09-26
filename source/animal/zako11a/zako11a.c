@@ -17,15 +17,6 @@
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
                     | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
-/*---------------------------------------------------------------------------*/
-
-// rasen.c
-extern int     Rasen_MapSection;
-extern int     Rasen_LookSection;
-extern u_short Rasen_Maps[];
-
-/*---------------------------------------------------------------------------*/
-
 static int dist_data[] = {
     1000, 2000, 1000, 2000, 8000, 8000, 8000, 8000,
 };
@@ -33,6 +24,13 @@ static int dist_data[] = {
 static u_short time_data[] = {
     300, 15, 30, 60, 90, 0, 32001, 30000,
 };
+
+/*---------------------------------------------------------------------------*/
+
+// rasen.c
+extern int     Rasen_MapSection;
+extern int     Rasen_LookSection;
+extern u_short Rasen_Maps[];
 
 /*---------------------------------------------------------------------------*/
 
