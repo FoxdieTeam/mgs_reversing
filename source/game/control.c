@@ -283,7 +283,7 @@ static inline void CheckHeight(CONTROL *ctrl, HZD_HDL *hzd)
     ctrl->grounded = 0;
     uVar14 = HZD_LevelHazardCheck(hzd, &ctrl->mov, HZD_CHK_FLOOR);
     HZD_GetLevelHeight(levels);
-    ctrl->vecs[0].pad = HZD_GetFloorLevel();
+    ctrl->vecs[0].pad = HZD_GetLevelAtr();
     uVar15 = uVar14 & 1;
 
     if (((uVar14 & 2) != 0) && ((levels[1] - ctrl->levels[0]) + 199U < 399))
