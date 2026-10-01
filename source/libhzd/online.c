@@ -266,7 +266,7 @@ STATIC void CalculateSegmentHeight(int a0)
 
     gte_lddp(v1);
     gte_ld_intpol_sv0((SVECTOR *)0x1F800040);
-    gte_ldopv2SV((SVECTOR *)0x1F800038);
+    gte_ld_intpol_sv1((SVECTOR *)0x1F800038);
     gte_intpl();
     gte_stsv((SVECTOR *)0x1F800038);
 }
@@ -377,7 +377,7 @@ STATIC int HZD_80027C64(void)
     dividend = (val - *(short *)getScratchAddr(0x4)) * 4096;
     gte_lddp(dividend / (*(short *)getScratchAddr(0x6) - *(short *)getScratchAddr(0x4)));
     gte_ld_intpol_sv0((SVECTOR *)getScratchAddr(0x5));
-    gte_ldopv2SV((SVECTOR *)getScratchAddr(0x3));
+    gte_ld_intpol_sv1((SVECTOR *)getScratchAddr(0x3));
     gte_intpl();
     gte_stsv((SVECTOR *)getScratchAddr(0x13));
     *getScratchAddr(0x1D) = val;

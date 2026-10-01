@@ -1390,7 +1390,7 @@ void s05a_800E0E28(CONTROL *work, HZD_HDL *hzd)
         {
             work->n_touches = 1;
             work->segs[0] = HZD_GetOnlineHazard();
-            work->is_edge[0] = HZD_GetOnlineHazardAtr();
+            work->atrs[0] = HZD_GetOnlineHazardAtr();
             HZD_GetOnlineVector(&work->vecs[0]);
             len = GV_VecLen3(&work->vecs[0]);
             diff = len - half;
@@ -1417,7 +1417,7 @@ void s05a_800E0F64(CONTROL *work, HZD_HDL *hzd)
     {
         work->n_touches = hazard;
         HZD_GetNearHazard(&work->segs[0]);
-        HZD_GetIsEdge(&work->is_edge[0]);
+        HZX_GetNearHazardAtr(&work->atrs[0]);
         HZD_GetNearVector(&work->vecs[0]);
         HZD_HazardReaction(&work->vecs[0], hazard, work->r_sphere, &react);
         work->mov.vx += react.vx;

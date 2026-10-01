@@ -48,7 +48,7 @@ typedef struct CONTROL {
     signed char grounded;   // 1 = below floor, 2 = above ceiling
     signed char n_touches;   // > 0 if collision detected
     char        seg_flag; // exclude all surfaces where (flag & seg_flag) != 0
-    char        is_edge[2];
+    char        atrs[2];
     GV_MSG     *msg;
     SVECTOR     vecs[2];
     HZD_SEG    *segs[2];  // HZD_SEG when tagged, HZD_FLR when untagged

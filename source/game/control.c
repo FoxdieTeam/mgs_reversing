@@ -202,7 +202,7 @@ static inline void CheckCollide(CONTROL *ctrl, HZD_HDL *hzd)
         {
             ctrl->n_touches = 0x1;
             ctrl->segs[0] = HZD_GetOnlineHazard();
-            ctrl->is_edge[0] = HZD_GetOnlineHazardAtr();
+            ctrl->atrs[0] = HZD_GetOnlineHazardAtr();
 
             HZD_GetOnlineVector(ctrl->vecs);
 
@@ -250,7 +250,7 @@ retry:
     ctrl->n_touches = i;
 
     HZD_GetNearHazard(ctrl->segs);
-    HZD_GetIsEdge(ctrl->is_edge);
+    HZX_GetNearHazardAtr(ctrl->atrs);
     HZD_GetNearVector(ctrl->vecs);
 
     if (!HZD_HazardReaction(ctrl->vecs, i, ctrl->r_sphere, &vec) && !bVar7)

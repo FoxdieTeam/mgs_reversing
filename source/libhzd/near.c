@@ -4,368 +4,329 @@
 #include "mgstype.h"
 #include "inline_n.h"
 #include "inline_x.h"
-#include "psxdefs.h"    // for getScratchAddr2
-#include "libdg/libdg.h"
 
-static void CopyVector(SVECTOR *src, HZD_VEC *dst)
+/*---------------------------------------------------------------------------*/
+
+typedef struct {
+    int      is_edge;
+    int      length;
+    HZD_SEG *seg;
+    int      atr;
+    DVECTOR  nearest;
+    DVECTOR  edge1;
+    DVECTOR  edge2;
+} Nearest;
+
+typedef struct {
+    char    reserved[ 12 ];
+    HZD_VEC from;
+    SVECTOR bound1;
+    SVECTOR bound2;
+    HZD_SEG p;
+    DVECTOR p1_from;
+    DVECTOR p1_p2;
+    char    pad[ 8 ];
+    int     flat;
+    int     n_nears;
+    Nearest this;
+    Nearest first;
+    Nearest second;
+    DVECTOR tmp;
+    int     lzc;
+    int     doh;
+    int     hoh;
+    char   *flag[ 2 ];
+} ScrPad;
+
+#define SCRPAD  ((ScrPad *)SCRPAD_ADDR)
+
+#define	FROM    (&(SCRPAD->from))
+#define	BOUND1  (&(SCRPAD->bound1))
+#define	BOUND2  (&(SCRPAD->bound2))
+#define	P	    (&(SCRPAD->p))
+#define	P1_FROM (&(SCRPAD->p1_from))
+#define	P1_P2	(&(SCRPAD->p1_p2))
+#define	FLAT	(&(SCRPAD->flat))
+#define	N_NEARS	(&(SCRPAD->n_nears))
+#define	THIS	(&(SCRPAD->this))
+#define	FIRST	(&(SCRPAD->first))
+#define	SECOND	(&(SCRPAD->second))
+#define	TMP     (&(SCRPAD->tmp))
+#define	LZC     (&(SCRPAD->lzc))
+#define	DOH     (&(SCRPAD->doh))
+#define	HOH     (&(SCRPAD->hoh))
+#define	FLAG    (SCRPAD->flag)
+
+static inline int CheckSegmentConflict( HZD_SEG *seg )
 {
-    dst->x = src->vx;
-    dst->y = src->vy;
-    dst->z = src->vz;
-}
+    int d1, d2, tmp;
+    int y, y1, y2;
 
-static void CreateBoundingBox(HZD_VEC *vec, int range)
-{
-    SVECTOR *min;
-    SVECTOR *max;
-    int      comp;
+    if ( seg->p1.x > BOUND2->vx || seg->p2.x < BOUND1->vx ) return 0;
 
-    min = (SVECTOR *)(SCRPAD_ADDR + 0x14);
-    max = (SVECTOR *)(SCRPAD_ADDR + 0x1C);
+    d1 = seg->p1.z;
+    d2 = seg->p2.z;
 
-    comp = vec->x;
-    min->vx = comp - range;
-    max->vx = comp + range;
-
-    comp = vec->z;
-    min->vz = comp - range;
-    max->vz = comp + range;
-
-    comp = vec->y;
-    max->vy = comp;
-    min->vy = comp;
-}
-
-STATIC int HZD_80028930(void)
-{
-    int   lzcnt;
-    int   num;
-    int   opz, opz2, opz3;
-
-    short *ptr1;
-    short *ptr2;
-
-    Sub2D((DVECTOR *)0x1F800038, (DVECTOR *)0x1F80002C, (DVECTOR *)0x1F800024);
-    Sub2D((DVECTOR *)0x1F800034, (DVECTOR *)0x1F80000C, (DVECTOR *)0x1F800024);
-
-    opz = InnerProduct2D((DVECTOR *)0x1F800038, (DVECTOR *)0x1F800034);
-
-    *(int *)0x1F80004C = 1;
-    *(int *)0x1F8000AC = 1;
-
-    if (opz < 0)
+    if ( d2 < d1 )
     {
-        *(int *)0x1F8000A8 = 0;
-        Sub2D((DVECTOR *)0x1F80005C, (DVECTOR *)0x1F800024, (DVECTOR *)0x1F80000C);
-    }
-    else
-    {
-        opz2 = InnerProduct2D((DVECTOR *)0x1F800038, (DVECTOR *)0x1F800038);
-
-        if (opz2 < opz)
-        {
-            *(int *)0x1F8000A8 = 1;
-            Sub2D((DVECTOR *)0x1F80005C, (DVECTOR *)0x1F80002C, (DVECTOR *)0x1F80000C);
-        }
-        else
-        {
-            opz3 = OuterProduct2D((DVECTOR *)0x1F800038, (DVECTOR *)0x1F800034);
-
-            gte_ldlzc(opz2);
-            gte_stlzc(0x1F8000A4);
-
-            lzcnt = 16 - *(int *)0x1F8000A4;
-
-            if (lzcnt > 0)
-            {
-                opz >>= lzcnt;
-                opz3 >>= lzcnt;
-                opz2 >>= lzcnt;
-            }
-
-            *(int *)0x1F8000A8 = opz;
-            *(int *)0x1F8000AC = opz2;
-
-            num = *(short *)0x1F80003A * opz3;
-
-            ptr1 = (short *)0x1F80004C;
-            ptr1[8] = num / opz2;
-
-            if ((ptr1[8] == 0) && (num != 0))
-            {
-                ptr1[8] = (num > 0) ? 1 : -1;
-            }
-
-            num = -*(short *)0x1F800038 * opz3;
-
-            ptr2 = (short*)0x1F80004C;
-            ptr2[9] = num / opz2;
-
-            if ((ptr2[9] == 0) && (num != 0))
-            {
-                ptr2[9] = (num > 0) ? 1 : -1;
-            }
-
-            *(int *)0x1F80004C = 0;
-            *(int *)0x1F800060 = *(int *)0x1F800024;
-            *(int *)0x1F800064 = *(int *)0x1F80002C;
-        }
+        tmp = d1;
+        d1 = d2;
+        d2 = tmp;
     }
 
-    *(int *)0x1F800050 = InnerProduct2D((DVECTOR *)0x1F80005C, (DVECTOR *)0x1F80005C);
-    return *(int *)0x1F800050;
-}
+    if ( d1 > BOUND2->vz || d2 < BOUND1->vz ) return 0;
 
-STATIC void HZD_80028CF8(void)
-{
-    gte_lddp((*(int *)0x1F8000A8 * 4096) / *(int *)0x1F8000AC);
-    gte_ld_intpol_sv0((SVECTOR *)0x1F800030);
-    gte_ldopv2SV((SVECTOR *)0x1F800028);
-    gte_intpl();
-    gte_stsv((SVECTOR *)0x1F800028);
+    y = BOUND1->vy;
+    y1 = seg->p1.y;
+    y2 = seg->p2.y;
+    if ( y1 > y && y2 > y ) return 0;
 
-    return;
-}
-
-static inline int PointTestSegment_inline(HZD_SEG *wall)
-{
-    int z1, z2;
-    int tmp;
-    int height;
-    int y1, y2;
-
-    if ((wall->p1.x > *(short *)0x1F80001C) || (wall->p2.x < *(short *)0x1F800014))
-    {
-        return 0;
-    }
-
-    z1 = wall->p1.z;
-    z2 = wall->p2.z;
-
-    if (z2 < z1)
-    {
-        tmp = z1;
-        z1 = z2;
-        z2 = tmp;
-    }
-
-    if ((z1 > *(short *)0x1F800020) || (z2 < *(short *)0x1F800018))
-    {
-        return 0;
-    }
-
-    height = *(short *)0x1F800016;
-
-    y1 = wall->p1.y;
-    y2 = wall->p2.y;
-
-    if (height < y1 && height < y2)
-    {
-        return 0;
-    }
-
-    height = *(short *)0x1F80001E;
-
-    y1 += wall->p1.h;
-    y2 += wall->p2.h;
-
-    if (height > y1 && height > y2)
-    {
-        return 0;
-    }
+    y = BOUND2->vy;
+    y1 += seg->p1.h;
+    y2 += seg->p2.h;
+    if ( y1 < y && y2 < y ) return 0;
 
     return 1;
 }
 
-STATIC void PointTestSegment(HZD_SEG *wall, int index, int flags)
+/*---------------------------------------------------------------------------*/
+
+static void SV_to_HV( SVECTOR *sv, HZD_VEC *hv )
 {
-    int *ptr;
-    int  opz;
-    int  height;
-    int *ptr1, *ptr2, *ptr3;
+    hv->x = sv->vx;
+    hv->y = sv->vy;
+    hv->z = sv->vz;
+}
 
-    if (!PointTestSegment_inline(wall))
+static void CreateBoundingBox( HZD_VEC *from, int sphere )
+{
+    int d;
+
+    d = from->x;
+    BOUND1->vx = d - sphere;
+    BOUND2->vx = d + sphere;
+
+    d = from->z;
+    BOUND1->vz = d - sphere;
+    BOUND2->vz = d + sphere;
+
+    d = from->y;
+    BOUND1->vy = BOUND2->vy = d;
+}
+
+static int SegmentNearest( void )
+{
+    int doh, hoh, dxh, num;
+
+    Sub2D( P1_P2, (DVECTOR *)&P->p2, (DVECTOR *)&P->p1 );
+    Sub2D( P1_FROM, (DVECTOR *)FROM, (DVECTOR *)&P->p1 );
+
+    doh = InnerProduct2D( P1_P2, P1_FROM );
+
+    THIS->is_edge = 1;
+    *HOH = 1;
+
+    if ( doh < 0 )
     {
-        return;
+        *DOH = 0;
+        Sub2D( &THIS->nearest, (DVECTOR *)&P->p1, (DVECTOR *)FROM );
     }
-
-    *(HZD_SEG *)0x1F800024 = *wall;
-
-    ptr = (int *)0x1F800084;
-    opz = HZD_80028930();
-
-    if (opz >= ptr[1])
+    else
     {
-        return;
-    }
+        hoh = InnerProduct2D( P1_P2, P1_P2 );
 
-    if (index > *(int *)0x1F800044)
-    {
-        HZD_80028CF8();
-
-        height = *(short *)0x1F800010 - ((HZD_SEG *)0x1F800024)->p1.y;
-
-        if (height < 0 || height > ((HZD_SEG *)0x1F800024)->p1.h)
+        if ( hoh < doh )
         {
-            return;
+            *DOH = 1;
+            Sub2D( &THIS->nearest, (DVECTOR *)&P->p2, (DVECTOR *)FROM );
+        }
+        else
+        {
+            dxh = OuterProduct2D( P1_P2, P1_FROM );
+
+            gte_ldlzc( hoh );
+            gte_stlzc( LZC );
+
+            if ( 16 - *LZC > 0 )
+            {
+                doh >>= 16 - *LZC;
+                dxh >>= 16 - *LZC;
+                hoh >>= 16 - *LZC;
+            }
+
+            *DOH = doh;
+            *HOH = hoh;
+
+            num = P1_P2->vy * dxh;
+            THIS->nearest.vx = num / hoh;
+            if ( THIS->nearest.vx == 0 && num != 0 )
+            {
+                THIS->nearest.vx = ( num > 0 ) ? 1 : -1;
+            }
+
+            num = -P1_P2->vx * dxh;
+            THIS->nearest.vy = num / hoh;
+            if ( THIS->nearest.vy == 0 && num != 0 )
+            {
+                THIS->nearest.vy = ( num > 0 ) ? 1 : -1;
+            }
+
+            THIS->is_edge = 0;
+            *(int *)&THIS->edge1 = *(int *)&P->p1;
+            *(int *)&THIS->edge2 = *(int *)&P->p2;
         }
     }
 
-    ptr1 = (int *)0x1F80004C;
-    ptr2 = (int *)0x1F800068;
-    ptr3 = (int *)0x1F800000;
+    THIS->length = InnerProduct2D( &THIS->nearest, &THIS->nearest );
+    return THIS->length;
+}
 
-    ptr1[2] = (int)wall;
-    ptr1[3] = (flags & 0x7F) | (*(int *)(ptr3 + 0x2C)) | (*(*(char **)(ptr3 + 0x2D) - index) << 8);
+static void DiagonalSegmentHeight( void )
+{
+    gte_lddp( *DOH * 4096 / *HOH );
+    gte_ld_intpol_sv0( &P->p2.y );
+    gte_ld_intpol_sv1( &P->p1.y );
+    gte_intpl();
+    gte_stsv( &P->p1.y );
+}
 
-    if (opz < ptr2[1])
+static void CheckOneSegment( HZD_SEG *seg, int index, int flags )
+{
+    int len, cross;
+
+    if ( !CheckSegmentConflict( seg ) ) return;
+
+    *P = *seg;
+
+    len = SegmentNearest();
+    if ( len >= SECOND->length ) return;
+
+    if ( index > *FLAT )
     {
-        memcpy(ptr, ptr2, 28);
-        memcpy(ptr2, ptr1, 28);
+        DiagonalSegmentHeight();
+        cross = FROM->y - P->p1.y;
+        if ( cross < 0 || cross > P->p1.h ) return;
     }
-    else if (*(int *)0x1F80005C != *(int *)0x1F800078)
+
+    THIS->seg = seg;
+    THIS->atr = ( flags & 0x7F ) | (int)FLAG[ 0 ] | ( *( FLAG[ 1 ] - index ) << 8 );
+
+    if ( len < FIRST->length )
     {
-        memcpy(ptr, ptr1, 28);
+        *SECOND = *FIRST;
+        *FIRST = *THIS;
+    }
+    else if ( *(int *)&THIS->nearest != *(int *)&FIRST->nearest )
+    {
+        *SECOND = *THIS;
     }
     else
     {
         return;
     }
 
-    *(int *)0x1F800048 += 1;
+    *N_NEARS += 1;
 }
 
-static inline void sub_helper_80029098(void)
+/*---------------------------------------------------------------------------*/
+
+int HZD_NearHazardCheck( HZD_HDL *hzd, SVECTOR *from, int sphere, int chk_flag, int seg_flag )
 {
-    if (*(int *)0x1F800084 == 0)
+    HZD_GRP *grp;
+    int n_flat, n_seg, n_dynseg, max_seg, i;
+    HZD_SEG *seg, **dynseg;
+    char *flag;
+
+    grp = hzd->grp;
+
+    SV_to_HV( from, FROM );
+    CreateBoundingBox( FROM, sphere );
+
+    *N_NEARS = 0;
+
+    if ( chk_flag & HZD_CHK_F_SEGMENT )
     {
-        return;
+        n_flat = grp->n_flat_walls;
+        FIRST->length = SECOND->length = sphere * sphere;
+
+        seg = grp->walls;
+        flag = grp->wallsFlags;
+        n_seg = grp->n_walls;
+
+        FLAG[ 0 ] = NULL;
+        FLAG[ 1 ] = flag + n_seg * 2;
+        *FLAT = n_flat;
+
+        for ( i = grp->n_walls; i > 0; i--, seg++, flag++ )
+        {
+            if ( !( *flag & seg_flag ) )
+            {
+                CheckOneSegment( seg, i, *flag );
+            }
+        }
     }
 
-    if (*(int *)0x1F800068 != 0)
+    if ( chk_flag & HZD_CHK_D_SEGMENT )
     {
-        if (*(int *)0x1F800078 != *(int *)0x1F800094)
+        dynseg = hzd->dynamic_segments;
+        flag = hzd->dynamic_flags;
+        max_seg = hzd->max_dynamic_segments;
+        n_dynseg = hzd->dynamic_queue_index;
+
+        FLAG[ 0 ] = (char *)0x80;
+        FLAG[ 1 ] = flag + max_seg + n_dynseg;
+        *FLAT = 0;
+
+        for ( i = hzd->dynamic_queue_index; i > 0; i--, dynseg++, flag++ )
         {
-            return;
+            if ( !( *flag & seg_flag ) )
+            {
+                CheckOneSegment( *dynseg, i, *flag );
+            }
         }
+    }
+
+    if ( *N_NEARS <= 1 ) goto check_end;
+
+    *N_NEARS = 2;
+    if ( !SECOND->is_edge ) goto check_end;
+
+    if ( FIRST->is_edge )
+    {
+        if ( *(int *)&FIRST->nearest != *(int *)&SECOND->nearest ) goto check_end;
     }
     else
     {
-        Add2D((DVECTOR *)0x1F8000A0, (DVECTOR *)0x1F80000C, (DVECTOR *)0x1F800094);
-
-        if (*(int *)0x1F8000A0 != *(int *)0x1F80007C && *(int *)0x1F8000A0 != *(int *)0x1F800080)
-        {
-            return;
-        }
+        Add2D( TMP, (DVECTOR *)FROM, &SECOND->nearest );
+        if ( *(int *)TMP != *(int *)&FIRST->edge1 &&
+             *(int *)TMP != *(int *)&FIRST->edge2 ) goto check_end;
     }
 
-    *(int *)0x1F800048 = 1;
+    *N_NEARS = 1;
+
+check_end:
+    return *N_NEARS;
 }
 
-int HZD_NearHazardCheck(HZD_HDL *hzd, SVECTOR *from, int range, int chk_flag, int seg_flag)
+void HZD_GetNearHazard( HZD_SEG **segs )
 {
-    HZD_GRP *pArea;
-    int       n_unknown;
-    HZD_SEG  *pWalls;
-    char     *pFlags;
-    int       wall_count;
-    char    **ptr;
-    char    **ptr2;
-    int       i;
-    HZD_SEG **ppWalls;
-    int       idx;
-    int       queue_size;
-
-    pArea = hzd->grp;
-
-    CopyVector(from, (HZD_VEC *)0x1F80000C);
-    CreateBoundingBox((HZD_VEC *)0x1F80000C, range);
-
-    *(int *)0x1F800048 = 0;
-
-    if (chk_flag & HZD_CHK_F_SEGMENT)
-    {
-        n_unknown = pArea->n_flat_walls;
-
-        *(int *)0x1F800088 = range * range;
-        *(int *)0x1F80006C = range * range;
-
-        do {} while (0);
-
-        pWalls = pArea->walls;
-        pFlags = pArea->wallsFlags;
-        wall_count = pArea->n_walls;
-
-        ptr = (char **)SCRPAD_ADDR;
-        ptr[0x2C] = (char *)0;
-        ptr[0x2D] = pFlags + wall_count * 2;
-
-        *(int *)0x1F800044 = n_unknown;
-
-        for (i = pArea->n_walls; i > 0; i--, pWalls++, pFlags++)
-        {
-            if ((*pFlags & seg_flag) == 0)
-            {
-                PointTestSegment(pWalls, i, *pFlags);
-            }
-        }
-    }
-
-    if (chk_flag & HZD_CHK_D_SEGMENT)
-    {
-        ppWalls = hzd->dynamic_segments;
-        pFlags = hzd->dynamic_flags;
-        queue_size = hzd->max_dynamic_segments;
-        idx = hzd->dynamic_queue_index;
-
-        ptr2 = (char **)SCRPAD_ADDR;
-        ptr2[0x2C] = (char *)0x80;
-        ptr2[0x2D] = pFlags + queue_size + idx;
-
-        *(int *)0x1F800044 = 0;
-
-        for (i = hzd->dynamic_queue_index; i > 0; i--, ppWalls++, pFlags++)
-        {
-            if ((*pFlags & seg_flag) == 0)
-            {
-                PointTestSegment(*ppWalls, i, *pFlags);
-            }
-        }
-    }
-
-    if (*(int *)0x1F800048 > 1)
-    {
-        *(int *)0x1F800048 = 2;
-        sub_helper_80029098();
-    }
-
-    return *(int *)0x1F800048;
+    segs[ 0 ] = FIRST->seg;
+    segs[ 1 ] = SECOND->seg;
 }
 
-void HZD_GetNearHazard(HZD_SEG **segs)
+void HZX_GetNearHazardAtr( char *atrs )
 {
-    segs[0] = *(HZD_SEG **)(SCRPAD_ADDR + 0x70);
-    segs[1] = *(HZD_SEG **)(SCRPAD_ADDR + 0x8c);
+    atrs[ 0 ] = FIRST->atr;
+    atrs[ 1 ] = SECOND->atr;
 }
 
-void HZD_GetIsEdge(signed char *ie)
+void HZD_GetNearVector( SVECTOR *vect_ptr )
 {
-    ie[0] = *getScratchAddr2(char, 0x74);
-    ie[1] = *getScratchAddr2(char, 0x90);
-}
+    vect_ptr[ 0 ].vx = FIRST->nearest.vx;
+    vect_ptr[ 0 ].vy = 0;
+    vect_ptr[ 0 ].vz = FIRST->nearest.vy;
 
-void HZD_GetNearVector(SVECTOR *vect_ptr)
-{
-    HZD_SEG *wall1;
-    HZD_SEG *wall2;
-
-    wall1 = getScratchAddr2(HZD_SEG, 0x68);
-    vect_ptr[0].vx = wall1[1].p1.x;
-    vect_ptr[0].vy = 0;
-    vect_ptr[0].vz = wall1[1].p1.z;
-
-    wall2 = getScratchAddr2(HZD_SEG, 0x84);
-    vect_ptr[1].vx = wall2[1].p1.x;
-    vect_ptr[1].vy = 0;
-    vect_ptr[1].vz = wall2[1].p1.z;
+    vect_ptr[ 1 ].vx = SECOND->nearest.vx;
+    vect_ptr[ 1 ].vy = 0;
+    vect_ptr[ 1 ].vz = SECOND->nearest.vy;
 }

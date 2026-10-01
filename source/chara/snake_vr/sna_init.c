@@ -6665,7 +6665,7 @@ static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
 
     if (pCtrl->n_touches == 1)
     {
-        if (!(pCtrl->is_edge[0] & 0x40))
+        if (!(pCtrl->atrs[0] & 0x40))
         {
             seg = pCtrl->segs[0];
 
@@ -6683,7 +6683,7 @@ static inline int sna_init_main_logic_helper_helper_800596FC(SnaInitWork *work)
     }
     else
     {
-        pChk = work->control.is_edge;
+        pChk = work->control.atrs;
         iVar9 = 0;
 
         for (i = 0; i < 2; i++, pChk++)
@@ -6760,7 +6760,7 @@ static inline void sna_init_main_logic_helper_800596FC(SnaInitWork *work)
     }
 
     dword_800ABBAC = &work->control.vecs[0];
-    dword_800ABBB4 = &work->control.is_edge[0];
+    dword_800ABBB4 = &work->control.atrs[0];
     dword_800ABBA8 = GV_VecDir2(&work->control.vecs[0]);
 
     if ((*dword_800ABBB4 & 0x40) == 0)
@@ -6783,7 +6783,7 @@ static inline void sna_init_main_logic_helper_800596FC(SnaInitWork *work)
         if (GV_DiffDirAbs(dir, iVar9) < iVar10)
         {
             dword_800ABBAC = &work->control.vecs[1];
-            dword_800ABBB4 = &work->control.is_edge[1];
+            dword_800ABBB4 = &work->control.atrs[1];
             dword_800ABBA8 = GV_VecDir2(&work->control.vecs[1]);
 
             if ((*dword_800ABBB4 & 0x40) == 0)

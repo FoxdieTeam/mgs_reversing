@@ -21,7 +21,6 @@ typedef struct {
 
 #define SCRPAD      ((ScrPad *)SCRPAD_ADDR)
 
-#define	TEMP		(&(SCRPAD->temp))
 #define	SIDE		(&(SCRPAD->side))
 #define	FROM		(&(SCRPAD->from))
 #define	P1_FROM		(&(SCRPAD->p1_from))
