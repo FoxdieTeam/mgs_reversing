@@ -452,7 +452,7 @@
 8002751C 140 ComputeBounds
 800275A8 268 CheckWallBounds
 800276B4 412 CalculateHitTime
-80027850 332 CalculateHitPoint
+80027850 332 CheckSegmentCross
 8002799C 248 CalculateSegmentHeight
 80027A94 356 TestSegment
 80027BF8 108 HZD_80027BF8

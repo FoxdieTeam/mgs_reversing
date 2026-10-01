@@ -8,10 +8,6 @@
 // we now have to cast them to avoid warnings.
 typedef long (*openevent_cb_t)();
 
-// getScratchAddr() but cast as a pointer to the specified type.
-// Unlike the original, offset is NOT multiplied by the sizeof(type).
-#define getScratchAddr2(type, offset)   ((type *)(0x1f800000+(offset)))
-
 /*---------------------------------------------------------------------------*/
 // clang-format off
 

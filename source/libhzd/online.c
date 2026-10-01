@@ -2,130 +2,71 @@
 #include "private.h"
 
 #include "mgstype.h"
-#include "libdg/libdg.h"
-#include "libgv/libgv.h"
 #include "inline_n.h"
 #include "inline_x.h"
-#include "psxdefs.h"    // for getScratchAddr2
+#include "libdg/libdg.h"
+
+/*---------------------------------------------------------------------------*/
 
 /* in game/map.c */
-extern HZD_HDL *GM_IterHazard(HZD_HDL *cur);
+extern HZD_HDL *GM_IterHazard( HZD_HDL *cur );
 
-typedef struct SPAD_DATA
+typedef struct {
+    /* 0x00 */ char    reserved[ 8 ];
+    /* 0x08 */ int     side;
+    /* 0x0C */ HZD_VEC from;
+    /* 0x14 */ HZD_VEC to;
+    /* 0x1C */ HZD_VEC step;
+    /* 0x24 */ SVECTOR bmin;
+    /* 0x2C */ SVECTOR bmax;
+    /* 0x34 */ HZD_SEG p;
+    /* 0x44 */ DVECTOR p1_from;
+    /* 0x48 */ DVECTOR p1_p2;
+    /* 0x4C */ HZD_VEC cross;
+    /* 0x54 */ HZD_VEC mincross;
+    /* 0x5C */ int     minlen;
+    /* 0x60 */ int     flat;
+    /* 0x64 */ void   *hzd;
+    /* 0x68 */ short   atr;
+    /* 0x6C */ int     hit;
+    /* 0x70 */ char    pad1[ 0x4 ];
+    /* 0x74 */ int     field_74;
+    /* 0x78 */ int     field_78;
+    /* 0x7C */ char    pad2[ 0x10 ];
+    /* 0x8C */ int     field_8C;
+    /* 0x90 */ MATRIX  field_90;
+    /* 0xB0 */ MATRIX  field_B0;
+} ScrPad;
+
+#define SCRPAD   ((ScrPad *)SCRPAD_ADDR)
+
+#define	SIDE     (&(SCRPAD->side))
+#define	FROM     (&(SCRPAD->from))
+#define	TO       (&(SCRPAD->to))
+#define	STEP     (&(SCRPAD->step))
+#define	BMIN     (&(SCRPAD->bmin))
+#define	BMAX     (&(SCRPAD->bmax))
+#define	P        (&(SCRPAD->p))
+#define	P1_FROM  (&(SCRPAD->p1_from))
+#define	P1_P2    (&(SCRPAD->p1_p2))
+#define	CROSS    (&(SCRPAD->cross))
+#define	MINCROSS (&(SCRPAD->mincross))
+#define	MINLEN   (&(SCRPAD->minlen))
+#define	FLAT     (&(SCRPAD->flat))
+#define	HZD      (&(SCRPAD->hzd))
+#define	ATR      (&(SCRPAD->atr))
+#define	HIT      (&(SCRPAD->hit))
+#define	FIELD_74 (&(SCRPAD->field_74))
+#define	FIELD_78 (&(SCRPAD->field_78))
+#define	FIELD_8C (&(SCRPAD->field_8C))
+#define	FIELD_90 (&(SCRPAD->field_90))
+#define	FIELD_B0 (&(SCRPAD->field_B0))
+
+static inline int CheckFloorBound( void )
 {
-    char    pad[4];
-    HZD_VEC vec[4];
-} SPAD_DATA;
-
-#define SPAD ((SPAD_DATA *)getScratchAddr(0))
-
-STATIC int ComputeDirection(void)
-{
-    HZD_VEC *pVec1 = &SPAD->vec[3];
-    HZD_VEC *pVec2 = &SPAD->vec[2];
-    HZD_VEC *pVec3 = &SPAD->vec[1];
-    int      area;
-
-    pVec1->x = pVec2->x - pVec3->x;
-    pVec1->y = pVec2->y - pVec3->y;
-    pVec1->z = pVec2->z - pVec3->z;
-
-    area = Length2D((DVECTOR *)0x1F80001C);
-    if (area == 0)
-    {
-        return 0;
-    }
-
-    pVec1->x = (pVec1->x * 256) / area;
-    pVec1->y = (pVec1->y * 256) / area;
-    pVec1->z = (pVec1->z * 256) / area;
-
-    return area;
-}
-
-STATIC void ComputeBounds(SVECTOR *svec1, SVECTOR *svec2)
-{
-    SVECTOR *scratchvec1, *scratchvec2;
-    int      coord1, coord2, coord1_copy;
-
-    coord1 = svec1->vx;
-    coord2 = svec2->vx;
-    if (coord2 < coord1)
-    {
-        coord1_copy = coord1;
-        coord1 = coord2;
-        coord2 = coord1_copy;
-    }
-    scratchvec1 = (SVECTOR *)getScratchAddr(0x9);
-    scratchvec2 = (SVECTOR *)getScratchAddr(0xB);
-
-    scratchvec1->vx = coord1;
-    scratchvec2->vx = coord2;
-
-    coord1 = svec1->vz;
-    coord2 = svec2->vz;
-    if (coord2 < coord1)
-    {
-        coord1_copy = coord1;
-        coord1 = coord2;
-        coord2 = coord1_copy;
-    }
-
-    scratchvec1->vy = coord1;
-    scratchvec2->vy = coord2;
-
-    coord1 = svec1->vy;
-    coord2 = svec2->vy;
-    if (coord2 < coord1)
-    {
-        coord1_copy = coord1;
-        coord1 = coord2;
-        coord2 = coord1_copy;
-    }
-
-    scratchvec1->vz = coord1;
-    scratchvec2->vz = coord2;
-}
-
-STATIC int CheckWallBounds(void)
-{
-    int z1, z2;
-    int y1, y2;
-    int cmp;
-
-    if (getScratchAddr2(HZD_SEG, 0x34)->p1.x > getScratchAddr2(SVECTOR, 0x2C)->vx ||
-        getScratchAddr2(HZD_SEG, 0x34)->p2.x < getScratchAddr2(SVECTOR, 0x24)->vx)
-    {
-        return 0;
-    }
-
-    z1 = getScratchAddr2(HZD_SEG, 0x34)->p1.z;
-    z2 = getScratchAddr2(HZD_SEG, 0x34)->p2.z;
-
-    if (z1 > z2)
-    {
-        SWAP( z1, z2 );
-    }
-
-    if (z1 > getScratchAddr2(SVECTOR, 0x2C)->vz || z2 < getScratchAddr2(SVECTOR, 0x24)->vz)
-    {
-        return 0;
-    }
-
-    y1 = getScratchAddr2(HZD_SEG, 0x34)->p1.y;
-    y2 = getScratchAddr2(HZD_SEG, 0x34)->p2.y;
-
-    cmp = getScratchAddr2(SVECTOR, 0x2C)->vy;
-    if (y1 > cmp && y2 > cmp)
-    {
-        return 0;
-    }
-
-    y1 += getScratchAddr2(HZD_SEG, 0x34)->p1.h;
-    y2 += getScratchAddr2(HZD_SEG, 0x34)->p2.h;
-
-    cmp = getScratchAddr2(SVECTOR, 0x24)->vy;
-    if (y1 < cmp && y2 < cmp)
+    if ( P->p1.z > BMAX->vz || P->p2.z < BMIN->vz ||
+         P->p1.x > BMAX->vx || P->p2.x < BMIN->vx ||
+         P->p1.y > BMAX->vy || P->p2.y < BMIN->vy )
     {
         return 0;
     }
@@ -133,319 +74,320 @@ STATIC int CheckWallBounds(void)
     return 1;
 }
 
-STATIC int CalculateHitTime(void)
+static inline int CheckCross( void )
 {
-    long a;
-
-    int opz_b;
-    int opz_a;
-
-    DVECTOR *ptr;
-    DVECTOR *pa;
-    DVECTOR *pb;
-
-    // Can't get the code to generate a useless absolute load without this
-    register long *t0 asm("t0");
-
-    Sub2D((DVECTOR *)0x1F800048, (DVECTOR *)0x1F80003C, (DVECTOR *)0x1F800034);
-
-    a = *(long *)0x1F800048;
-
-    t0 = 0;
-    gte_ldsxy3(t0, a, *(long *)0x1F80001C);
-    gte_nclip();
-
-    ptr = (DVECTOR *)0x1F800044;
-    pa = (DVECTOR *)0x1F80000C;
-    pb = (DVECTOR *)0x1F800034;
-
-    Sub2D(ptr, pa, pb);
-    ptr = 0;
-
-    gte_read_opz(opz_a);
-
-    t0 = (long *)0x1F800044;
-    opz_b = *t0;
-    opz_a /= 16;
-
-    asm("" :: "r"(t0));
-
-    if (opz_a == 0)
+    if ( CROSS->x < P->p1.x || CROSS->x > P->p2.x ||
+         CROSS->z < P->p1.z || CROSS->z > P->p2.z )
     {
-        return 0xF4240;
+        return 0;
     }
 
-    gte_ldsxy3(0 , opz_b, a);
-    gte_nclip();
-    gte_read_opz(opz_b);
-
-    if (opz_b < 0)
-    {
-        opz_b = -opz_b;
-        opz_a = -opz_a;
-    }
-
-    if (opz_b >= 0x9000000)
-    {
-        opz_a = opz_b / (opz_a / 16);
-    }
-    else
-    {
-        opz_a = (opz_b * 16) / opz_a;
-    }
-
-    if (opz_a < 0)
-    {
-        return 0xF4240;
-    }
-
-    return opz_a;
+    return 1;
 }
 
-STATIC int CalculateHitPoint(int mult)
+static inline void SV_to_HV( SVECTOR *sv, HZD_VEC *hv )
 {
-    short  x, y, z;
-    short *scratch1, *scratch2, *scratch3, *scratch4;
+    hv->x = sv->vx;
+    hv->y = sv->vy;
+    hv->z = sv->vz;
+}
 
-    scratch1 = (short *)0x1F80001C;
-    scratch2 = (short *)0x1F80004C;
-    scratch3 = (short *)0x1F80000C;
+/*---------------------------------------------------------------------------*/
 
-    x = scratch2[0] = scratch3[0] + (scratch1[0] * mult) / 256;
-    z = scratch2[2] = scratch3[2] + (scratch1[2] * mult) / 256;
-    y = scratch2[1] = scratch3[1] + (scratch1[1] * mult) / 256;
+static int MakeStepXZ( void )
+{
+    int len;
 
-    if (*(short *)0x1F800048 != 0)
+    STEP->x = TO->x - FROM->x;
+    STEP->y = TO->y - FROM->y;
+    STEP->z = TO->z - FROM->z;
+
+    len = Length2D( (DVECTOR *)STEP );
+    if ( len == 0 ) return 0;
+
+    STEP->x = STEP->x * 256 / len;
+    STEP->y = STEP->y * 256 / len;
+    STEP->z = STEP->z * 256 / len;
+    return len;
+}
+
+static void MakeBound( HZD_VEC *from, HZD_VEC *to )
+{
+    int d1, d2, temp;
+
+    d1 = from->x; d2 = to->x;
+    if (d2 < d1)
     {
-        scratch4 = (short *)0x1F800034;
-        if (x < scratch4[0] - 32 || scratch4[4] + 32 < x)
-        {
-            return 0;
-        }
-        else
-        {
-            return 1;
-        }
+        temp = d1;
+        d1 = d2;
+        d2 = temp;
+    }
+    BMIN->vx = d1;
+    BMAX->vx = d2;
+
+    d1 = from->y; d2 = to->y;
+    if (d2 < d1)
+    {
+        temp = d1;
+        d1 = d2;
+        d2 = temp;
+    }
+    BMIN->vy = d1;
+    BMAX->vy = d2;
+
+    d1 = from->z; d2 = to->z;
+    if (d2 < d1)
+    {
+        temp = d1;
+        d1 = d2;
+        d2 = temp;
+    }
+    BMIN->vz = d1;
+    BMAX->vz = d2;
+}
+
+static int CheckSegmentConflict( void )
+{
+    int d1, d2, tmp;
+    int y, y1, y2;
+
+    if ( P->p1.x > BMAX->vx || P->p2.x < BMIN->vx ) return 0;
+
+    d1 = P->p1.z;
+    d2 = P->p2.z;
+
+    if ( d1 > d2 )
+    {
+        tmp = d1;
+        d1 = d2;
+        d2 = tmp;
+    }
+
+    if (d1 > BMAX->vz || d2 < BMIN->vz ) return 0;
+
+    y = BMAX->vy;
+    y1 = P->p1.y;
+    y2 = P->p2.y;
+    if ( y1 > y && y2 > y ) return 0;
+
+    y = BMIN->vy;
+    y1 += P->p1.h;
+    y2 += P->p2.h;
+    if ( y1 < y && y2 < y ) return 0;
+
+    return 1;
+}
+
+static int SegmentDistance( void )
+{
+    int hxv, dxh, len;
+    long p1_p2, p1_from;
+
+    Sub2D( P1_P2, (DVECTOR *)&P->p2, (DVECTOR *)&P->p1 );
+    p1_p2 = *(long *)P1_P2;
+
+    gte_ldsxy3( 0, p1_p2, *(long *)STEP );
+    gte_nclip();
+
+    P1_FROM->vx = FROM->x - P->p1.x;
+    P1_FROM->vy = FROM->z - P->p1.z;
+
+    gte_read_opz( hxv );
+
+    // Can't get an absolute load of P1_FROM without this.
+    asm volatile (" lw %0, 0(%1) " : "=r"( p1_from ) : "r"( P1_FROM ) );
+
+    hxv /= 16;
+    if ( hxv == 0 ) return 1000000;
+
+    gte_ldsxy3( 0, p1_from, p1_p2 );
+    gte_nclip();
+    gte_read_opz( dxh );
+
+    if ( dxh < 0 )
+    {
+        dxh = -dxh;
+        hxv = -hxv;
+    }
+
+    if ( dxh >= 150994944 )
+    {
+        len = dxh / ( hxv / 16 );
     }
     else
     {
-        scratch4 = (short *)0x1F800034;
-        if (y < scratch4[1] - 32 || scratch4[5] + 32 < y)
-        {
-            return 0;
-        }
-        else
-        {
-            return 2;
-        }
+        len = ( dxh * 16 ) / hxv;
+    }
+
+    if ( len < 0 ) return 1000000;
+    return len;
+}
+
+static int CheckSegmentCross( int len )
+{
+    int cross;
+
+    CROSS->x = FROM->x + STEP->x * len / 256;
+    CROSS->y = FROM->y + STEP->y * len / 256;
+    CROSS->z = FROM->z + STEP->z * len / 256;
+
+    if ( P1_P2->vx != 0 )
+    {
+        cross = CROSS->x;
+        if ( cross < ( P->p1.x - 32 ) || cross > ( P->p2.x + 32 ) ) return 0;
+        return 1;
+    }
+    else
+    {
+        cross = CROSS->z;
+        if ( cross < ( P->p1.z - 32 ) || cross > ( P->p2.z + 32 ) ) return 0;
+        return 2;
     }
 }
 
-STATIC void CalculateSegmentHeight(int a0)
+static void CalculateSegmentHeight( int axis )
 {
-    int v1;
-    int v0;
+    int depth;
 
-    if (a0 == 1)
+    if ( axis == 1 )
     {
-        v0 = *(short *)0x1F80004C;
-        v1 = *(short *)0x1F800034;
-        v0 -= v1;
-        v1 = *(short *)0x1F800048;
+        depth = ( CROSS->x - P->p1.x ) * 4096 / P1_P2->vx;
     }
     else
     {
-        v0 = *(short *)0x1F80004E;
-        v1 = *(short *)0x1F800036;
-        v0 -= v1;
-        v1 = *(short *)0x1F80004A;
+        depth = ( CROSS->z - P->p1.z ) * 4096 / P1_P2->vy;
     }
 
-    v0 *= 4096;
-    v1 = v0 / v1;
-
-    gte_lddp(v1);
-    gte_ld_intpol_sv0((SVECTOR *)0x1F800040);
-    gte_ld_intpol_sv1((SVECTOR *)0x1F800038);
+    gte_lddp( depth );
+    gte_ld_intpol_sv0( &P->p2.y );
+    gte_ld_intpol_sv1( &P->p1.y );
     gte_intpl();
-    gte_stsv((SVECTOR *)0x1F800038);
+    gte_stsv( &P->p1.y );
 }
 
-STATIC void TestSegment(HZD_SEG *seg, int a2, int a3)
+static void CheckOneSegment( HZD_SEG *seg, int index, int flag )
 {
-    struct copier
-    {
-        int a, b;
-    };
+    int len, axis, cross;
 
-    short   *scratch1;
-    HZD_SEG *scratch2;
     char    *scratch3;
-
-    int      tmp1;
-    int      tmp2;
     int      tmp3;
-    int      tmp4;
     char    *tmp5;
     short    tmp6;
 
-    *((HZD_SEG *)0x1F800034) = *seg;
-    if (CheckWallBounds())
+    *P = *seg;
+
+    if ( !CheckSegmentConflict() ) return;
+
+    len = SegmentDistance();
+    axis = CheckSegmentCross( len );
+    if ( axis == 0 ) return;
+
+    if ( index > *FLAT )
     {
-        tmp1 = CalculateHitTime();
-        tmp4 = CalculateHitPoint(tmp1);
-        if (tmp4)
-        {
-            if (*(int *)0x1F800060 < a2)
-            {
-                CalculateSegmentHeight(tmp4);
-            }
-            scratch1 = (short *)0x1F80004C;
-            scratch2 = (HZD_SEG *)0x1F800034;
-            tmp2 = scratch1[2] - scratch2->p1.y;
-            if (tmp2 >= 0 && scratch2->p1.h >= tmp2)
-            {
-                *(int *)0x1F80006C += 1;
-                if (*(int *)0x1F80005C >= tmp1)
-                {
-                    scratch3 = (char *)SCRPAD_ADDR;
-
-                    *(struct copier *)0x1F800054 = *(struct copier *)scratch1;
-                    do {} while (0);
-
-                    *(int *)0x1F80005C = tmp1;
-                    tmp5 = *(char **)(scratch3 + 0x70);
-                    tmp6 = *(short *)(scratch3 + 0x6A);
-                    tmp4 = a3 & 127;
-                    do
-                    {
-                    } while (0);
-
-                    *(HZD_SEG **)0x1F800064 = seg;
-                    tmp3 = *(tmp5 - a2);
-                    tmp3 <<= 8;
-                    *(short *)0x1F800068 = tmp6 | tmp4 | tmp3;
-                }
-            }
-        }
+        CalculateSegmentHeight( axis );
     }
+
+    cross = CROSS->y - P->p1.y;
+    if ( cross < 0 || cross > P->p1.h ) return;
+
+    *HIT += 1;
+
+    if ( len > *MINLEN ) return;
+
+    *MINCROSS = *CROSS;
+    *MINLEN = len;
+
+    scratch3 = (char *)SCRPAD_ADDR;
+    do {} while ( 0 );
+
+    tmp5 = *(char **)(scratch3 + 0x70);
+    tmp6 = *(short *)(scratch3 + 0x6A);
+    axis = flag & 0x7F;
+
+    do {} while ( 0 );
+
+    *HZD = seg;
+    tmp3 = *(tmp5 - index);
+    tmp3 <<= 8;
+    *ATR = tmp6 | axis | tmp3;
 }
 
-STATIC int HZD_80027BF8(SVECTOR *svec)
+static int DistanceTo( HZD_VEC *to )
 {
-    int z;
+    int d, len;
+
+    len = to->x - FROM->x;
+    if ( len < 0 ) len = -len;
+
+    d = to->y - FROM->y;
+    if ( d < 0 ) d = -d;
+    len += d;
+
+    d = to->z - FROM->z;
+    if ( d < 0 ) d = -d;
+    len += d;
+
+    return len;
+}
+
+static int FloorDistance( void )
+{
     int y;
-    int x;
 
-    SVECTOR * scr = getScratchAddr2(SVECTOR, 0xC);
+    y = P->p1.y;
+    if ( y == *FIELD_74 ) return *FIELD_78;
 
-    x = svec->vx - scr->vx;
-    if (x < 0)
-    {
-        x = -x;
-    }
-
-    z = svec->vz - scr->vz;
-    if (z < 0)
-    {
-        z = -z;
-    }
-
-    x += z;
-
-    y = svec->vy - scr->vy;
-    if (y < 0)
-    {
-        y = -y;
-    }
-
-    return x + y;
-}
-
-STATIC int HZD_80027C64(void)
-{
-    int dividend;
-    int val;
-
-    val = *(short *)getScratchAddr(0x0E);
-
-    if (val == *getScratchAddr(0x1D))
-    {
-        return *getScratchAddr(0x1E);
-    }
-
-    dividend = (val - *(short *)getScratchAddr(0x4)) * 4096;
-    gte_lddp(dividend / (*(short *)getScratchAddr(0x6) - *(short *)getScratchAddr(0x4)));
-    gte_ld_intpol_sv0((SVECTOR *)getScratchAddr(0x5));
-    gte_ld_intpol_sv1((SVECTOR *)getScratchAddr(0x3));
+    gte_lddp( ( y - FROM->y ) * 4096 / ( TO->y - FROM->y ) );
+    gte_ld_intpol_sv0( TO );
+    gte_ld_intpol_sv1( FROM );
     gte_intpl();
-    gte_stsv((SVECTOR *)getScratchAddr(0x13));
-    *getScratchAddr(0x1D) = val;
-    *getScratchAddr(0x1E) = HZD_80027BF8((SVECTOR *)getScratchAddr(0x13));
-    return *getScratchAddr(0x1E);
+    gte_stsv( CROSS );
+
+    *FIELD_74 = y;
+    *FIELD_78 = DistanceTo( CROSS );
+    return *FIELD_78;
 }
 
-STATIC int HZD_80027D80(HZD_FLR *floor)
+static int CheckInsideFloor( HZD_FLR *flr )
 {
-    long  sxy_0;
-    long  sxy_1;
-    long  sxy_2;
-    long  sxy_3;
-    long  sxy_4;
-    long *pZ;
+    long p0, p1, p2, p3, p4;
 
-    sxy_1 = *(long *)getScratchAddr(19);
-    sxy_3 = floor->p1.long_access[0];
-    sxy_0 = floor->p2.long_access[0];
+    p0 = CROSS->long_access[ 0 ];
+    p1 = flr->p1.long_access[ 0 ];
+    p2 = flr->p2.long_access[ 0 ];
 
-    gte_ldsxy3(sxy_3, sxy_0, sxy_1);
+    gte_ldsxy3( p1, p2, p0 );
     gte_nclip();
-    sxy_2 = floor->p3.long_access[0];
-    gte_stopz(getScratchAddr(2));
+    p3 = flr->p3.long_access[ 0 ];
+    gte_stopz( SIDE );
 
-    pZ = (long *)getScratchAddr(2);
-
-    if (*pZ >= 0)
+    if ( *SIDE >= 0 )
     {
-        gte_ldsxy3(sxy_0, sxy_2, sxy_1);
+        gte_ldsxy3( p2, p3, p0 );
         gte_nclip();
-        sxy_4 = floor->p4.long_access[0];
-        gte_stopz(getScratchAddr(2));
+        p4 = flr->p4.long_access[ 0 ];
+        gte_stopz( SIDE );
+        if ( *SIDE < 0 ) return 0;
 
-        if (*pZ < 0)
-        {
-            return 0;
-        }
+        gte_NormalClip(p3, p4, p0, SIDE );
+        if( *SIDE < 0 ) return 0;
 
-        gte_NormalClip(sxy_2, sxy_4, sxy_1, getScratchAddr(2));
-        if(*pZ < 0)
-        {
-            return 0;
-        }
-
-        gte_NormalClip(sxy_4, sxy_3, sxy_1, getScratchAddr(2));
-        return *pZ >= 0;
+        gte_NormalClip(p4, p1, p0, SIDE );
+        return *SIDE >= 0;
     }
     else
     {
-        gte_ldsxy3(sxy_0, sxy_2, sxy_1);
+        gte_ldsxy3( p2, p3, p0 );
         gte_nclip();
-        sxy_4 = floor->p4.long_access[0];
-        gte_stopz(getScratchAddr(2));
+        p4 = flr->p4.long_access[ 0 ];
+        gte_stopz( SIDE );
+        if ( *SIDE > 0 ) return 0;
 
-        if (*pZ > 0)
-        {
-            return 0;
-        }
+        gte_NormalClip(p3, p4, p0, SIDE );
+        if ( *SIDE > 0 ) return 0;
 
-        gte_NormalClip(sxy_2, sxy_4, sxy_1, getScratchAddr(2));
-        if (*pZ > 0)
-        {
-            return 0;
-        }
-
-        gte_NormalClip(sxy_4, sxy_3, sxy_1, getScratchAddr(2));
-        return *pZ <= 0;
+        gte_NormalClip(p4, p1, p0, SIDE );
+        return *SIDE <= 0;
     }
 }
 
@@ -468,323 +410,241 @@ static inline void SetScratch(int offset, int value)
     ptr[offset] = value;
 }
 
-static inline int sub_helper_80027F10(void)
+static void CheckOneFloor( HZD_FLR *flr )
 {
-    if ((*(short *)0x1F800036 > *(short *)0x1F800030) ||
-        (*(short *)0x1F80003E < *(short *)0x1F800028) ||
-        (*(short *)0x1F800034 > *(short *)0x1F80002C) ||
-        (*(short *)0x1F80003C < *(short *)0x1F800024) ||
-        (*(short *)0x1F800038 > *(short *)0x1F80002E) ||
-        (*(short *)0x1F800040 < *(short *)0x1F800026))
-    {
-        return 0;
-    }
+    int flag;
 
-    return 1;
-}
-
-static inline int sub_helper2_80027F10(void)
-{
-    if ((*(short *)0x1F80004C < *(short *)0x1F800034) ||
-        (*(short *)0x1F80003C < *(short *)0x1F80004C) ||
-        (*(short *)0x1F80004E < *(short *)0x1F800036) ||
-        (*(short *)0x1F80003E < *(short *)0x1F80004E))
-    {
-        return 0;
-    }
-
-    return 1;
-}
-
-//todo: include proper
-#define UNTAG_PTR(_type, _ptr) (_type *)((unsigned int)_ptr & 0x7fffffff)
-
-STATIC void TestFloor(HZD_FLR *floor)
-{
-    int flags;
     int length;
     int n, d;
 
-    *(HZD_SEG *)0x1F800034 = *(HZD_SEG *)floor;
-    do {} while (0);
+    *P = *(HZD_SEG *)flr;
 
-    if (!sub_helper_80027F10())
+    if ( !CheckFloorBound() ) return;
+
+    flag = P->p1.h;
+
+    if ( flag & HZD_FLOOR_FLAT )
     {
-        return;
-    }
-
-    flags = *(short *)0x1F80003A;
-
-    if ((flags & 2) != 0)
-    {
-        if (*(short *)0x1F800010 == *(short *)0x1F800018)
-        {
-            return;
-        }
-
-        length = HZD_80027C64();
+        if ( FROM->y == TO->y ) return;
+        length = FloorDistance();
     }
     else
     {
-        if (GetScratch(0x23) == 0)
+        if ( GetScratch(0x23) == 0)
         {
-            gte_ReadRotMatrix(0x1F800090);
+            gte_ReadRotMatrix( FIELD_90 );
             SetScratch(0x23, 1);
         }
 
-        SetScratch(0x1F, floor->p1.h);
-        SetScratch(0x20, floor->p3.h);
-        SetScratch(0x21, floor->p2.h);
+        SetScratch(0x1F, flr->p1.h);
+        SetScratch(0x20, flr->p3.h);
+        SetScratch(0x21, flr->p2.h);
+
         gte_ldlvl(0x1F80007C);
 
         GetFloorHeight((SVECTOR *)0x1F8000B0, (HZD_FLR *)0x1F800004, (HZD_VEC *)0x1F80000C);
-        GetFloorHeight((SVECTOR *)0x1F8000B6, floor, (HZD_VEC *)0x1F80000C);
+        GetFloorHeight((SVECTOR *)0x1F8000B6, flr, (HZD_VEC *)0x1F80000C);
 
-        gte_SetRotMatrix(0x1F8000B0);
+        gte_SetRotMatrix( FIELD_B0 );
         gte_rtir();
         gte_stlvnl(0x1F80007C);
 
         n = *(int *)0x1F800080;
         d = *(int *)0x1F80007C;
 
-        if (((d < 0) && (n < 0)) || ((d > 0) && (n > 0)))
+        if ( ( d < 0 && n < 0 ) || ( d > 0 && n > 0 ) )
         {
-            *(int *)0x1F800074 = 0xF4240;
-            *(short *)0x1F80004C = *(short *)0x1F80000C + (*(short *)0x1F8000B0 * n) / d;
-            *(short *)0x1F800050 = *(short *)0x1F800010 + (*(short *)0x1F8000B2 * n) / d;
-            *(short *)0x1F80004E = *(short *)0x1F80000E + (*(short *)0x1F8000B4 * n) / d;
-
-            length = HZD_80027BF8((SVECTOR *)0x1F80004C);
+            *FIELD_74 = 1000000;
+            *(short *)0x1F80004C = *(short *)0x1F80000C + ( *(short *)0x1F8000B0 * n ) / d;
+            *(short *)0x1F800050 = *(short *)0x1F800010 + ( *(short *)0x1F8000B2 * n ) / d;
+            *(short *)0x1F80004E = *(short *)0x1F80000E + ( *(short *)0x1F8000B4 * n ) / d;
+            length = DistanceTo( CROSS );
         }
         else
         {
-            length = 0xF4240;
+            length = 1000000;
         }
     }
 
-    if (length >= *(int *)0x1F80005C)
-    {
-        return;
-    }
+    if ( length >= *MINLEN ) return;
+    if ( !CheckCross() ) return;
 
-    if (!sub_helper2_80027F10())
+    if ( ( flag & HZD_FLOOR_RECT ) || CheckInsideFloor( flr ) )
     {
-        return;
-    }
-
-    if ((flags & 1) || HZD_80027D80(floor))
-    {
-        *(int *)0x1F80006C += 1;
-        *(HZD_VEC *)0x1F800054 = *(HZD_VEC *)0x1F80004C;
-        *(int *)0x1F80005C = length;
-        *(HZD_FLR **)0x1F800064 = UNTAG_PTR(HZD_FLR, floor);
+        *HIT += 1;
+        *MINCROSS = *CROSS;
+        *MINLEN = length;
+        *HZD = (void *)( (u_int)flr & ~0x80000000 );
     }
 }
 
-static inline void CopySvector(SVECTOR *dst, SVECTOR *src)
+/*---------------------------------------------------------------------------*/
+
+int HZD_OnlineHazardCheck( HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int chk_flag, int seg_flag )
 {
-    struct copy_struct
-    {
-        int a, b;
-    };
-    *(struct copy_struct *)dst = *(struct copy_struct *)src;
-}
+    int group, i, j, n_flat, queue_size, idx;
+    HZD_GRP *grp;
+    HZD_SEG *seg, **dynseg;
+    char *flag, *flag2, *flag3;
+    HZD_HDL *next;
+    HZD_FLR  *flr, **dynflr;
 
-static inline void CopySvectorToSpad(int offset, SVECTOR *svec)
-{
-    short *spad_top;
-    spad_top = (short *)SCRPAD_ADDR;
+    int bit1, bit2;
+    int n_areas;
 
-    spad_top[offset + 0] = svec->vx;
-    spad_top[offset + 2] = svec->vy;
-    spad_top[offset + 1] = svec->vz;
-}
+    group = HZD_CurrentGroup;
 
-int HZD_OnlineHazardCheck(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int chk_flag, int seg_flag)
-{
-    int       count;
-    int       n_areas, n_areas2;
-    int       bit1, bit2;
-    HZD_GRP  *pArea;
-    int       current_group;
-    HZD_FLR  *pFloor;
-    HZD_SEG  *pWall;
-    HZD_FLR **ppFloor;
-    HZD_SEG **ppWall;
-    char     *pFlags;
-    int       n_unknown;
-    char     *pFlagsEnd;
-    int       queue_size, idx;
-    char     *pFlagsEnd2;
-    HZD_HDL  *pNextMap;
+    SV_to_HV( from, FROM );
+    *HIT = 0;
+    *HZD = NULL;
+    SV_to_HV( to, TO );
+    *MINCROSS = *TO;
+    *FIELD_8C = 0;
 
-    current_group = HZD_CurrentGroup;
+    MakeBound( FROM, MINCROSS );
 
-    CopySvectorToSpad(6, from);
+    *MINLEN = MakeStepXZ();
+    if ( *MINLEN == 0 ) return 0;
 
-    *((int *)0x1F800064) = (*((int *)0x1F80006C) = 0);
-
-    CopySvectorToSpad(10, to);
-    CopySvector((SVECTOR *)0x1F800054, (SVECTOR *)0x1F800014);
-
-    *((int *)0x1F80008C) = 0;
-
-    ComputeBounds((SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800054);
-
-    *((int *)0x1F80005C) = ComputeDirection();
-
-    if (!(*(int *)0x1F80005C))
-    {
-        return 0;
-    }
-
-    if (chk_flag & HZD_CHK_F_SEGMENT)
+    if ( chk_flag & HZD_CHK_F_SEGMENT )
     {
         char *scratchpad;
 
         bit2 = 1;
-        pArea = hzd->def->groups;
-        for (n_areas2 = hzd->def->n_groups; n_areas2 > 0; n_areas2--, bit2 <<= 1, pArea++)
+        grp = hzd->def->groups;
+
+        for ( i = hzd->def->n_groups; i > 0; i--, bit2 <<= 1, grp++ )
         {
-            if (current_group & bit2)
+            if ( !( group & bit2 ) ) continue;
+
+            do
             {
-                do
-                {
-                    pWall = pArea->walls;
-                    pFlags = pArea->wallsFlags;
-                    do {} while (0);
-                    n_unknown = pArea->n_flat_walls;
-                    pFlagsEnd = pFlags + 2 * pArea->n_walls;
-                    scratchpad = (char *)SCRPAD_ADDR;
-                    *((short *)(scratchpad + 0x6A)) = 0;
-                } while (0);
+                seg = grp->walls;
+                flag = grp->wallsFlags;
+                do {} while (0);
+                n_flat = grp->n_flat_walls;
+                flag2 = flag + 2 * grp->n_walls;
+                scratchpad = (char *)SCRPAD_ADDR;
+                *((short *)(scratchpad + 0x6A)) = 0;
+            } while (0);
 
-                *((char **)(scratchpad + 0x70)) = pFlagsEnd;
-                *((int *)0x1F800060) = n_unknown;
+            *((char **)(scratchpad + 0x70)) = flag2;
+            *FLAT = n_flat;
 
-                for (count = pArea->n_walls; count > 0; count--, pWall++, pFlags++)
+            for ( j = grp->n_walls; j > 0; j--, seg++, flag++ )
+            {
+                if ( !( *flag & seg_flag ) )
                 {
-                    if (!((*pFlags) & seg_flag))
-                    {
-                        TestSegment(pWall, count, *pFlags);
-                    }
+                    CheckOneSegment( seg, j, *flag );
                 }
             }
         }
     }
 
-    if (chk_flag & HZD_CHK_D_SEGMENT)
+    if ( chk_flag & HZD_CHK_D_SEGMENT )
     {
         char *scratchpad;
 
-        pNextMap = NULL;
-        while ((pNextMap = GM_IterHazard(pNextMap)))
+        next = NULL;
+        while ( ( next = GM_IterHazard( next ) ) != NULL )
         {
             scratchpad = (char *)SCRPAD_ADDR;
             do
             {
-                ppWall = pNextMap->dynamic_segments;
-                pFlags = pNextMap->dynamic_flags;
-                queue_size = pNextMap->max_dynamic_segments;
-                idx = pNextMap->dynamic_queue_index;
+                dynseg = next->dynamic_segments;
+                flag = next->dynamic_flags;
+                queue_size = next->max_dynamic_segments;
+                idx = next->dynamic_queue_index;
                 *((short *)(scratchpad + 0x6A)) = 0x80;
                 do
                 {
                 } while (0);
 
-                pFlagsEnd2 = (pFlags + queue_size) + idx;
-                *((char **)(scratchpad + 0x70)) = pFlagsEnd2;
+                flag3 = (flag + queue_size) + idx;
+                *((char **)(scratchpad + 0x70)) = flag3;
             } while (0); // TODO: Is it the same macro as above in "if (chk_flag & HZD_CHK_F_SEGMENT)" case?
 
-            count = pNextMap->dynamic_queue_index;
-            *((int *)0x1F800060) = 0;
+            j = next->dynamic_queue_index;
+            *FLAT = 0;
 
-            for (; count > 0; count--, ppWall++, pFlags++)
+            for ( ; j > 0; j--, dynseg++, flag++ )
             {
-                if (!((*pFlags) & seg_flag))
+                if ( !( *flag & seg_flag ) )
                 {
-                    TestSegment(*ppWall, count, *pFlags);
+                    CheckOneSegment( *dynseg, j, *flag );
                 }
             }
         }
     }
-    ComputeBounds((SVECTOR *)0x1F80000C, (SVECTOR *)0x1F800054);
-    *((int *)0x1F80005C) = HZD_80027BF8((SVECTOR *)0x1F800054);
-    *((int *)0x1F800074) = 0xF4240;
 
-    if (chk_flag & HZD_CHK_F_FLOOR)
+    MakeBound( FROM, MINCROSS );
+    *MINLEN = DistanceTo( MINCROSS );
+    *FIELD_74 = 1000000;
+
+    if ( chk_flag & HZD_CHK_F_FLOOR )
     {
         bit1 = 1;
-        pArea = hzd->def->groups;
-        for (n_areas = hzd->def->n_groups; n_areas > 0; n_areas--, bit1 <<= 1, pArea++)
+        grp = hzd->def->groups;
+        for ( n_areas = hzd->def->n_groups; n_areas > 0; n_areas--, bit1 <<= 1, grp++ )
         {
-            if (current_group & bit1)
+            if ( group & bit1 )
             {
-                pFloor = pArea->floors;
-                for (count = pArea->n_floors; count > 0; count--)
+                flr = grp->floors;
+                for ( j = grp->n_floors; j > 0; j-- )
                 {
-                    TestFloor(pFloor);
-                    pFloor++;
+                    CheckOneFloor( flr );
+                    flr++;
                 }
             }
         }
     }
 
-    if (chk_flag & HZD_CHK_D_FLOOR)
+    if ( chk_flag & HZD_CHK_D_FLOOR )
     {
-        pNextMap = NULL;
-        while ((pNextMap = GM_IterHazard(pNextMap)))
+        next = NULL;
+        while ( ( next = GM_IterHazard( next ) ) != NULL )
         {
-            ppFloor = pNextMap->dynamic_floors;
-            for (count = pNextMap->dynamic_floor_index; count > 0; count--, ppFloor++)
+            dynflr = next->dynamic_floors;
+            for ( j = next->dynamic_floor_index; j > 0; j--, dynflr++ )
             {
-                TestFloor(*ppFloor);
+                CheckOneFloor( *dynflr );
             }
         }
     }
 
-    if (*(int *)0x1F80008C != 0)
+    if ( *FIELD_8C != 0 )
     {
-        gte_SetRotMatrix(0x1f800090);
+        gte_SetRotMatrix( FIELD_90 );
     }
 
-    if (*(int *)0x1F800064 != 0)
+    if ( *HZD != NULL )
     {
-        return *(int *)0x1F80006C;
+        return *HIT;
     }
+
     return 0;
 }
 
-void *HZD_GetOnlineHazard(void)
+void *HZD_GetOnlineHazard( void )
 {
-    return *getScratchAddr2(void **, 0x64);
+    return *HZD;
 }
 
-int HZD_GetOnlineHazardAtr(void)
+int HZD_GetOnlineHazardAtr( void )
 {
-    return *getScratchAddr2(short, 0x68);
+    return *ATR;
 }
 
-void HZD_GetOnlineVector(SVECTOR *vect_ptr)
+void HZD_GetOnlineVector( SVECTOR *vect_ptr )
 {
-    HZD_VEC *cross;
-    HZD_VEC *from;
-
-    cross = getScratchAddr2(HZD_VEC, 0x54);
-    from = getScratchAddr2(HZD_VEC, 0x0c);
-
-    vect_ptr->vx = cross->x - from->x;
-    vect_ptr->vy = cross->y - from->y;
-    vect_ptr->vz = cross->z - from->z;
+    vect_ptr->vx = MINCROSS->x - FROM->x;
+    vect_ptr->vy = MINCROSS->y - FROM->y;
+    vect_ptr->vz = MINCROSS->z - FROM->z;
 }
 
-void HZD_GetOnlinePoint(SVECTOR *ptp_ptr)
+void HZD_GetOnlinePoint( SVECTOR *ptp_ptr )
 {
-    HZD_VEC *cross;
-
-    cross = getScratchAddr2(HZD_VEC, 0x54);
-
-    ptp_ptr->vx = cross->x;
-    ptp_ptr->vy = cross->y;
-    ptp_ptr->vz = cross->z;
+    ptp_ptr->vx = MINCROSS->x;
+    ptp_ptr->vy = MINCROSS->y;
+    ptp_ptr->vz = MINCROSS->z;
 }
