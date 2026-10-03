@@ -92,7 +92,7 @@ int HZD_LoadInitHzd(void *buf, int id)
     return 1;
 }
 
-HZD_HDL *HZD_MakeHandler(HZD_DEF *hzd, int areaIndex, int dynamic_segments, int dynamic_floors)
+HZD_HDL *HZD_MakeHandler(HZD_DEF *hzd, int areaIndex, int d_segs, int d_flrs)
 {
     short    n_zones;
     void    *zones;
@@ -111,19 +111,19 @@ HZD_HDL *HZD_MakeHandler(HZD_DEF *hzd, int areaIndex, int dynamic_segments, int 
         }
     }
 
-    hzdMap = (HZD_HDL *)GV_Malloc((4 * dynamic_floors) + sizeof(HZD_HDL) + (4 * dynamic_segments) + (2 * dynamic_segments));
+    hzdMap = (HZD_HDL *)GV_Malloc((4 * d_flrs) + sizeof(HZD_HDL) + (4 * d_segs) + (2 * d_segs));
     if (hzdMap)
     {
-        hzdMap->dynamic_floors = (void *)&hzdMap[1];
-        hzdMap->dynamic_segments = (void *)&hzdMap->dynamic_floors[dynamic_floors];
-        hzdMap->dynamic_flags = (char*)&hzdMap->dynamic_segments[dynamic_segments];
+        hzdMap->d_flrs = (void *)&hzdMap[1];
+        hzdMap->d_segs = (void *)&hzdMap->d_flrs[d_flrs];
+        hzdMap->d_seg_flag = (char*)&hzdMap->d_segs[d_segs];
 
-        hzdMap->max_dynamic_segments = dynamic_segments;
-        hzdMap->max_dynamic_floors = dynamic_floors;
+        hzdMap->max_d_segs = d_segs;
+        hzdMap->max_d_flrs = d_flrs;
         hzdMap->def = hzd;
         hzdMap->grp = &hzd->groups[areaIndex];
-        hzdMap->dynamic_queue_index = 0;
-        hzdMap->dynamic_floor_index = 0;
+        hzdMap->n_d_segs = 0;
+        hzdMap->n_d_flrs = 0;
         hzdMap->route = *(u_char **)hzd;
 
         trig = hzdMap->grp->triggers;

@@ -19,16 +19,16 @@ typedef struct {
     HZD_DEF     *def;
     HZD_GRP     *grp;
     short        map;
-    short        dynamic_queue_index;
-    short        dynamic_floor_index;
+    short        n_d_segs;
+    short        n_d_flrs;
     short        n_cameras;
-    short        max_dynamic_floors;
-    short        max_dynamic_segments;
+    short        max_d_flrs;
+    short        max_d_segs;
     u_char      *route;
     HZD_TRP     *traps;
-    HZD_FLR    **dynamic_floors;
-    HZD_SEG    **dynamic_segments;
-    char        *dynamic_flags;
+    HZD_FLR    **d_flrs;
+    HZD_SEG    **d_segs;
+    char        *d_seg_flag;
 } HZD_HDL;
 
 typedef struct {

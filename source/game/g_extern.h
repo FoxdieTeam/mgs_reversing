@@ -201,7 +201,7 @@ int     GM_OnlineTargetCheckAny(SVECTOR *from, SVECTOR *to, int map, SVECTOR *hi
 void    GM_GetTargets(int *count, TARGET **targets);
 
 /* homing.c */
-void    GM_ResetHomingTargets(void);
+void    GM_InitHomingSystem(void);
 HOMING *GM_SetHomingTarget(MATRIX *world, CONTROL *control);
 void    GM_ResetHomingTarget(HOMING *hom);
 void    GM_GetHomingTarget(MATRIX *world, int ang, int *yaw, int *pitch, int map);

@@ -178,8 +178,8 @@ int HZD_LevelHazardCheck( HZD_HDL *hzd, SVECTOR *from, int chk_flag )
 
     if ( chk_flag & HZD_CHK_D_FLOOR )
     {
-        dynflr = hzd->dynamic_floors;
-        for ( i = hzd->dynamic_floor_index; i > 0; i--, dynflr++ )
+        dynflr = hzd->d_flrs;
+        for ( i = hzd->n_d_flrs; i > 0; i--, dynflr++ )
         {
             if ( CheckFloorBound( *dynflr, FROM ) )
             {

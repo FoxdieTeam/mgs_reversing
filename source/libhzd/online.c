@@ -4,7 +4,6 @@
 #include "mgstype.h"
 #include "inline_n.h"
 #include "inline_x.h"
-#include "libdg/libdg.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -28,8 +27,9 @@ typedef struct {
     /* 0x60 */ int     flat;
     /* 0x64 */ void   *hzd;
     /* 0x68 */ short   atr;
+    /* 0x6A */ short   dynamic;
     /* 0x6C */ int     hit;
-    /* 0x70 */ char    pad1[ 0x4 ];
+    /* 0x70 */ char   *flag;
     /* 0x74 */ int     lasty;
     /* 0x78 */ int     lastlen;
     /* 0x7C */ VECTOR  normal;
@@ -54,8 +54,10 @@ typedef struct {
 #define	MINLEN   (&(SCRPAD->minlen))
 #define	FLAT     (&(SCRPAD->flat))
 #define	HZD      (&(SCRPAD->hzd))
-#define	ATR      (&(SCRPAD->atr))
+#define	ATR      (&SCRPAD->atr)
+#define	DYNAMIC  (SCRPAD->dynamic)
 #define	HIT      (&(SCRPAD->hit))
+#define	FLAG     (SCRPAD->flag)
 #define	LASTY    (&(SCRPAD->lasty))
 #define	LASTLEN  (&(SCRPAD->lastlen))
 #define	NORMAL   (&(SCRPAD->normal))
@@ -281,11 +283,6 @@ static void CheckOneSegment( HZD_SEG *seg, int index, int flag )
 {
     int len, axis, cross;
 
-    char    *scratch3;
-    int      tmp3;
-    char    *tmp5;
-    short    tmp6;
-
     *P = *seg;
 
     if ( !CheckSegmentConflict() ) return;
@@ -308,20 +305,8 @@ static void CheckOneSegment( HZD_SEG *seg, int index, int flag )
 
     *MINCROSS = *CROSS;
     *MINLEN = len;
-
-    scratch3 = (char *)SCRPAD_ADDR;
-    do {} while ( 0 );
-
-    tmp5 = *(char **)(scratch3 + 0x70);
-    tmp6 = *(short *)(scratch3 + 0x6A);
-    axis = flag & 0x7F;
-
-    do {} while ( 0 );
-
     *HZD = seg;
-    tmp3 = *(tmp5 - index);
-    tmp3 <<= 8;
-    *ATR = tmp6 | axis | tmp3;
+    *ATR = DYNAMIC | ( flag & 0x7F ) | *( FLAG - index ) << 8;
 }
 
 static int DistanceTo( HZD_VEC *to )
@@ -426,7 +411,7 @@ static inline void SetNormal( HZD_FLR *flr )
     gte_stlvnl( NORMAL );
 }
 
-void CheckOneFloor( HZD_FLR *flr )
+static void CheckOneFloor( HZD_FLR *flr )
 {
     int flag, length, fa_n, ft_n;
 
@@ -475,15 +460,12 @@ void CheckOneFloor( HZD_FLR *flr )
 
 int HZD_OnlineHazardCheck( HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int chk_flag, int seg_flag )
 {
-    int group, i, j, n_flat, queue_size, idx;
+    int group;
     HZD_GRP *grp;
     HZD_SEG *seg, **dynseg;
-    char *flag, *flag2, *flag3;
+    char *flag;
     HZD_HDL *next;
-    HZD_FLR  *flr, **dynflr;
-
-    int bit1, bit2;
-    int n_areas;
+    HZD_FLR *flr, **dynflr;
 
     group = HZD_CurrentGroup;
 
@@ -501,71 +483,44 @@ int HZD_OnlineHazardCheck( HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int chk_fla
 
     if ( chk_flag & HZD_CHK_F_SEGMENT )
     {
-        char *scratchpad;
+        int bit, i, j;
 
-        bit2 = 1;
         grp = hzd->def->groups;
-
-        for ( i = hzd->def->n_groups; i > 0; i--, bit2 <<= 1, grp++ )
+        bit = 1;
+        for ( i = hzd->def->n_groups; i > 0; i--, bit <<= 1, grp++ )
         {
-            if ( !( group & bit2 ) ) continue;
-
-            do
-            {
-                seg = grp->walls;
-                flag = grp->wallsFlags;
-                do {} while (0);
-                n_flat = grp->n_flat_walls;
-                flag2 = flag + 2 * grp->n_walls;
-                scratchpad = (char *)SCRPAD_ADDR;
-                *((short *)(scratchpad + 0x6A)) = 0;
-            } while (0);
-
-            *((char **)(scratchpad + 0x70)) = flag2;
-            *FLAT = n_flat;
+            if ( !( group & bit ) ) continue;
+            seg = grp->walls;
+            flag = grp->wallsFlags;
+            *FLAT = grp->n_flat_walls;
+            FLAG = flag + 2 * grp->n_walls;
+            DYNAMIC = 0;
 
             for ( j = grp->n_walls; j > 0; j--, seg++, flag++ )
             {
-                if ( !( *flag & seg_flag ) )
-                {
-                    CheckOneSegment( seg, j, *flag );
-                }
+                if ( *flag & seg_flag ) continue;
+                CheckOneSegment( seg, j, *flag );
             }
         }
     }
 
     if ( chk_flag & HZD_CHK_D_SEGMENT )
     {
-        char *scratchpad;
+        int i;
 
         next = NULL;
         while ( ( next = GM_IterHazard( next ) ) != NULL )
         {
-            scratchpad = (char *)SCRPAD_ADDR;
-            do
-            {
-                dynseg = next->dynamic_segments;
-                flag = next->dynamic_flags;
-                queue_size = next->max_dynamic_segments;
-                idx = next->dynamic_queue_index;
-                *((short *)(scratchpad + 0x6A)) = 0x80;
-                do
-                {
-                } while (0);
-
-                flag3 = (flag + queue_size) + idx;
-                *((char **)(scratchpad + 0x70)) = flag3;
-            } while (0); // TODO: Is it the same macro as above in "if (chk_flag & HZD_CHK_F_SEGMENT)" case?
-
-            j = next->dynamic_queue_index;
+            dynseg = next->d_segs;
+            flag = next->d_seg_flag;
             *FLAT = 0;
+            FLAG = flag + next->max_d_segs + next->n_d_segs;
+            DYNAMIC = 0x80;
 
-            for ( ; j > 0; j--, dynseg++, flag++ )
+            for ( i = next->n_d_segs; i > 0; i--, dynseg++, flag++ )
             {
-                if ( !( *flag & seg_flag ) )
-                {
-                    CheckOneSegment( *dynseg, j, *flag );
-                }
+                if ( *flag & seg_flag ) continue;
+                CheckOneSegment( *dynseg, i, *flag );
             }
         }
     }
@@ -576,29 +531,32 @@ int HZD_OnlineHazardCheck( HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int chk_fla
 
     if ( chk_flag & HZD_CHK_F_FLOOR )
     {
-        bit1 = 1;
+        int bit, i, j;
+
         grp = hzd->def->groups;
-        for ( n_areas = hzd->def->n_groups; n_areas > 0; n_areas--, bit1 <<= 1, grp++ )
+        bit = 1;
+        for ( i = hzd->def->n_groups; i > 0; i--, bit <<= 1, grp++ )
         {
-            if ( group & bit1 )
+            if ( !( group & bit ) ) continue;
+            flr = grp->floors;
+
+            for ( j = grp->n_floors; j > 0; j-- )
             {
-                flr = grp->floors;
-                for ( j = grp->n_floors; j > 0; j-- )
-                {
-                    CheckOneFloor( flr );
-                    flr++;
-                }
+                CheckOneFloor( flr );
+                flr++;
             }
         }
     }
 
     if ( chk_flag & HZD_CHK_D_FLOOR )
     {
+        int i;
+
         next = NULL;
         while ( ( next = GM_IterHazard( next ) ) != NULL )
         {
-            dynflr = next->dynamic_floors;
-            for ( j = next->dynamic_floor_index; j > 0; j--, dynflr++ )
+            dynflr = next->d_flrs;
+            for ( i = next->n_d_flrs; i > 0; i--, dynflr++ )
             {
                 CheckOneFloor( *dynflr );
             }
@@ -610,11 +568,7 @@ int HZD_OnlineHazardCheck( HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int chk_fla
         gte_SetRotMatrix( ROT );
     }
 
-    if ( *HZD != NULL )
-    {
-        return *HIT;
-    }
-
+    if ( *HZD != NULL ) return *HIT;
     return 0;
 }
 

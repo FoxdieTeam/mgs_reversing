@@ -3,7 +3,6 @@
 
 #include "mgstype.h"
 #include "inline_n.h"
-#include "inline_x.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,7 +34,8 @@ typedef struct {
     int     lzc;
     int     doh;
     int     hoh;
-    char   *flag[ 2 ];
+    int     dynamic;
+    char   *flag;
 } ScrPad;
 
 #define SCRPAD  ((ScrPad *)SCRPAD_ADDR)
@@ -55,6 +55,7 @@ typedef struct {
 #define	LZC     (&(SCRPAD->lzc))
 #define	DOH     (&(SCRPAD->doh))
 #define	HOH     (&(SCRPAD->hoh))
+#define	DYNAMIC (SCRPAD->dynamic)
 #define	FLAG    (SCRPAD->flag)
 
 static inline int CheckSegmentConflict( HZD_SEG *seg )
@@ -209,7 +210,7 @@ static void CheckOneSegment( HZD_SEG *seg, int index, int flags )
     }
 
     THIS->seg = seg;
-    THIS->atr = ( flags & 0x7F ) | (int)FLAG[ 0 ] | ( *( FLAG[ 1 ] - index ) << 8 );
+    THIS->atr = ( flags & 0x7F ) | DYNAMIC | ( *( FLAG - index ) << 8 );
 
     if ( len < FIRST->length )
     {
@@ -233,7 +234,7 @@ static void CheckOneSegment( HZD_SEG *seg, int index, int flags )
 int HZD_NearHazardCheck( HZD_HDL *hzd, SVECTOR *from, int sphere, int chk_flag, int seg_flag )
 {
     HZD_GRP *grp;
-    int n_flat, n_seg, n_dynseg, max_seg, i;
+    int n_flat, i;
     HZD_SEG *seg, **dynseg;
     char *flag;
 
@@ -251,38 +252,31 @@ int HZD_NearHazardCheck( HZD_HDL *hzd, SVECTOR *from, int sphere, int chk_flag, 
 
         seg = grp->walls;
         flag = grp->wallsFlags;
-        n_seg = grp->n_walls;
 
-        FLAG[ 0 ] = NULL;
-        FLAG[ 1 ] = flag + n_seg * 2;
         *FLAT = n_flat;
+        FLAG = flag + grp->n_walls * 2;
+        DYNAMIC = 0;
 
         for ( i = grp->n_walls; i > 0; i--, seg++, flag++ )
         {
-            if ( !( *flag & seg_flag ) )
-            {
-                CheckOneSegment( seg, i, *flag );
-            }
+            if ( *flag & seg_flag ) continue;
+            CheckOneSegment( seg, i, *flag );
         }
     }
 
     if ( chk_flag & HZD_CHK_D_SEGMENT )
     {
-        dynseg = hzd->dynamic_segments;
-        flag = hzd->dynamic_flags;
-        max_seg = hzd->max_dynamic_segments;
-        n_dynseg = hzd->dynamic_queue_index;
+        dynseg = hzd->d_segs;
+        flag = hzd->d_seg_flag;
 
-        FLAG[ 0 ] = (char *)0x80;
-        FLAG[ 1 ] = flag + max_seg + n_dynseg;
         *FLAT = 0;
+        FLAG = flag + hzd->max_d_segs + hzd->n_d_segs;
+        DYNAMIC = 0x80;
 
-        for ( i = hzd->dynamic_queue_index; i > 0; i--, dynseg++, flag++ )
+        for ( i = hzd->n_d_segs; i > 0; i--, dynseg++, flag++ )
         {
-            if ( !( *flag & seg_flag ) )
-            {
-                CheckOneSegment( *dynseg, i, *flag );
-            }
+            if ( *flag & seg_flag ) continue;
+            CheckOneSegment( *dynseg, i, *flag );
         }
     }
 
