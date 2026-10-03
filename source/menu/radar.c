@@ -6,7 +6,11 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
-#include "psxdefs.h"    // for getScratchAddr2
+
+// getScratchAddr() but cast as a pointer to the specified type.
+// Unlike the original, offset is NOT multiplied by the sizeof(type).
+// TODO: remove
+#define getScratchAddr2(type, offset)   ((type *)(0x1f800000+(offset)))
 
 int MENU_RadarScale = 13;
 int MENU_RadarRangeH = 21845;

@@ -452,7 +452,7 @@
 8002751C 140 ComputeBounds
 800275A8 268 CheckWallBounds
 800276B4 412 CalculateHitTime
-80027850 332 CalculateHitPoint
+80027850 332 CheckSegmentCross
 8002799C 248 CalculateSegmentHeight
 80027A94 356 TestSegment
 80027BF8 108 HZD_80027BF8
@@ -471,7 +471,7 @@
 80028DAC 748 PointTestSegment
 80029098 588 HZD_NearHazardCheck
 800292E4 32 HZD_GetNearHazard
-80029304 32 HZD_GetIsEdge
+80029304 32 HZX_GetNearHazardAtr
 80029324 60 HZD_GetNearVector
 80029360 36 HZD_CopyVector2
 80029384 400 HZD_LevelCheckInPoint

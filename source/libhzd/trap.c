@@ -4,12 +4,11 @@
 #include "strcode.h"
 #include "game/game.h"
 
-typedef	struct
-{
+typedef	struct {
     HZD_VEC from;
     HZD_SEG current;
     u_int   n_inside;
-    u_short inside[6];
+    u_short inside[ 6 ];
 } ScrPad;
 
 #define SCRPAD      ((ScrPad *)SCRPAD_ADDR)
@@ -21,7 +20,7 @@ typedef	struct
 
 /*----------------------------------------------------------------*/
 
-static inline void CopyInsideList(HZD_EVT *ev)
+static inline void CopyInsideList( HZD_EVT *ev )
 {
     u_short *from, *to;
     int      i;
@@ -29,181 +28,148 @@ static inline void CopyInsideList(HZD_EVT *ev)
     from = ev->inside;
     to = INSIDE;
     *N_INSIDE = ev->n_inside;
-    for (i = ev->n_inside; i > 0; i--)
+    for ( i = ev->n_inside; i > 0; i-- )
     {
         *to++ = *from++;
     }
 }
 
-// TODO: remove in argument
-static inline int DeleteInsideList(u_short *in, int name)
+static inline int DeleteInsideList( int name )
 {
     u_short *inside;
-    int      i;
+    int i;
 
     inside = INSIDE;
-    for (i = *N_INSIDE; i > 0; i--)
+    for ( i = *N_INSIDE; i > 0; i-- )
     {
-        if (*inside++ == name)
+        if ( *inside++ == name )
         {
-            (*N_INSIDE)--;
-            inside[-1] = (in + 0x0E)[*N_INSIDE];
+            ( *N_INSIDE )--;
+            inside[ -1 ] = INSIDE[ *N_INSIDE ];
             return 1;
         }
     }
+
     return 0;
 }
 
-static inline int AppendInsideList(u_short *inside, int n_inside, int name)
+static inline int AppendInsideList( u_short *inside, int n_inside, int name )
 {
     int i;
 
-    for (i = n_inside; i > 0; i--)
+    for ( i = n_inside; i > 0; i-- )
     {
-        if (*inside++ == name)
-        {
-            return n_inside;
-        }
+        if ( *inside++ == name ) return n_inside;
     }
 
     *inside = name;
     return n_inside + 1;
 }
 
-/*----------------------------------------------------------------*/
+static inline void SV_to_HV( SVECTOR *sv, HZD_VEC *hv )
+{
+    hv->x = sv->vx;
+    hv->y = sv->vy;
+    hv->z = sv->vz;
+}
 
-static inline int InsideTrap(void)
+static inline int InsideTrap( void )
 {
     int d;
 
     d = FROM->x;
-    if (d < CURRENT->p1.x || d >= CURRENT->p2.x) return 0;
+    if ( d < CURRENT->p1.x || d >= CURRENT->p2.x ) return 0;
     d = FROM->z;
-    if (d < CURRENT->p1.z || d >= CURRENT->p2.z) return 0;
+    if ( d < CURRENT->p1.z || d >= CURRENT->p2.z ) return 0;
     d = FROM->y;
-    if (d < CURRENT->p1.y || d >= CURRENT->p2.y) return 0;
+    if ( d < CURRENT->p1.y || d >= CURRENT->p2.y ) return 0;
     return 1;
 }
 
-static void ExecEnterEvent(HZD_HDL *hzd, HZD_EVT *ev)
+/*----------------------------------------------------------------*/
+
+static void ExecEnterEvent( HZD_HDL *hzd, HZD_EVT *ev )
 {
     HZD_GRP *grp;
-    HZD_TRP *trp;
-    void    *scr;
-    int      i, n_inside;
-    int      name;
+    HZD_TRP *trap;
+    int n_inside, i, name;
 
     grp = hzd->grp;
-    trp = (HZD_TRP *)grp->triggers;
+    trap = (HZD_TRP *)grp->triggers;
 
     ev->type = HASH_ENTER;
 
     n_inside = 0;
-    for (i = grp->n_triggers - hzd->n_cameras; i > 0; i--, trp++)
+    for ( i = grp->n_triggers - hzd->n_cameras; i > 0; i--, trap++ )
     {
-        scr = SCRPAD;
-        *CURRENT = *(HZD_SEG *)trp;
+        *CURRENT = *(HZD_SEG *)trap;
+        if ( !InsideTrap() ) continue;
 
-        if (!InsideTrap())
-        {
-            continue;
-        }
-
-        name = trp->name_id;
+        name = trap->name_id;
         ev->object = name;
-
-        if (!DeleteInsideList(scr, name))
+        if ( !DeleteInsideList( name ) )
         {
-            HZD_ExecEvent(hzd, ev, 1);
+            HZD_ExecEvent( hzd, ev, 1 );
         }
         else
         {
-            HZD_ExecEvent(hzd, ev, 2);
+            HZD_ExecEvent( hzd, ev, 2 );
         }
 
-        n_inside = AppendInsideList(ev->inside, n_inside, name);
+        n_inside = AppendInsideList( ev->inside, n_inside, name );
     }
 
     ev->n_inside = n_inside;
 }
 
-static void ExecLeaveEvent(HZD_HDL *hzd, HZD_EVT *ev)
+static void ExecLeaveEvent( HZD_HDL *hzd, HZD_EVT *ev )
 {
     u_short *inside;
-    int      i;
+    int i;
 
     ev->type = HASH_LEAVE;
 
     inside = INSIDE;
-    for (i = *N_INSIDE; i > 0; i--)
+    for ( i = *N_INSIDE; i > 0; i-- )
     {
         ev->object = *inside++;
-        HZD_ExecEvent(hzd, ev, 0);
+        HZD_ExecEvent( hzd, ev, 0 );
     }
 }
 
-void HZD_EnterTrap(HZD_HDL *hzd, HZD_EVT *ev)
+void HZD_EnterTrap( HZD_HDL *hzd, HZD_EVT *ev )
 {
-    SVECTOR *mov;
-    short    tmp;
     u_short *from, *to;
-    int      i;
+    int i;
 
-    mov = &ev->coord;
+    SV_to_HV( &ev->coord, FROM );
 
-    *(short *)0x1F800000 = mov->vx;
-    do {} while (0);
-
-    *(short *)0x1F800004 = mov->vy;
     from = ev->inside;
-    do {} while (0);
-
-    tmp = mov->vz;
     to = INSIDE;
-
-    do {} while (0);
-
-    *(short *)0x1F800002 = tmp;
     *N_INSIDE = ev->n_inside;
 
-    for (i = ev->n_inside; i > 0; i--)
+    for ( i = ev->n_inside; i > 0; i-- )
     {
         *to++ = *from++;
     }
 
-    ExecEnterEvent(hzd, ev);
-    ExecLeaveEvent(hzd, ev);
+    ExecEnterEvent( hzd, ev );
+    ExecLeaveEvent( hzd, ev );
 }
 
-// TODO: move
-
-#define HZD_COPY_ELEM(dst, src) \
-do {                            \
-    *(dst) = (src);             \
-} while (0)
-
-#define HZD_COPY_VEC(dst, src)                        \
-do {                                                  \
-    HZD_COPY_ELEM(&((HZD_VEC *)(dst))->x, (src)->vx); \
-    HZD_COPY_ELEM(&((HZD_VEC *)(dst))->y, (src)->vy); \
-    HZD_COPY_ELEM(&((HZD_VEC *)(dst))->z, (src)->vz); \
-} while (0)
-
-HZD_TRP *HZD_CheckBehindTrap(HZD_HDL *hzd, SVECTOR *pos)
+HZD_TRP *HZD_CheckBehindTrap( HZD_HDL *hzd, SVECTOR *pos )
 {
-    int      i;
     HZD_TRP *trap;
+    int i;
 
-    HZD_COPY_VEC(FROM, pos);
+    SV_to_HV( pos, FROM );
 
-    for (i = hzd->n_cameras, trap = hzd->traps; i > 0; i--, trap++)
+    trap = hzd->traps;
+    for ( i = hzd->n_cameras; i > 0; i-- )
     {
         *CURRENT = *(HZD_SEG *)trap;
-
-        if (InsideTrap())
-        {
-            return trap;
-        }
+        if ( InsideTrap() ) return trap;
+        trap++;
     }
 
     return NULL;

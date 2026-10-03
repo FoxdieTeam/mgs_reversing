@@ -191,9 +191,9 @@ void HZD_GetOnlineVector( SVECTOR *vect_ptr );
 void HZD_GetOnlinePoint( SVECTOR *ptp_ptr );
 
 /* near.c */
-int HZD_NearHazardCheck( HZD_HDL *hzd, SVECTOR *from, int range, int chk_flag, int seg_flag );
+int HZD_NearHazardCheck( HZD_HDL *hzd, SVECTOR *from, int sphere, int chk_flag, int seg_flag );
 void HZD_GetNearHazard( HZD_SEG **segs );
-void HZD_GetIsEdge( signed char *ie );
+void HZX_GetNearHazardAtr( char *atrs );
 void HZD_GetNearVector( SVECTOR *vect_ptr );
 
 /* vector.c */
