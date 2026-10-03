@@ -800,7 +800,7 @@
 #define gte_gpl0() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x01a0003e" )
+        "cop2 0x01a0003e;" )
 
 #define gte_mvmva_core( r0 ) __asm__ volatile (                 \
         "nop;"                                                  \
@@ -809,7 +809,7 @@
         :                                                       \
         : "g"( r0 ) )
 
-#define gte_mvmva(sf,mx,v,cv,lm) gte_mvmva_core( 0x0400012 |    \
+#define gte_mvmva(sf,mx,v,cv,lm) gte_mvmva_core( 0x00400012 |   \
         ((sf)<<19) | ((mx)<<17) | ((v)<<15) | ((cv)<<13) | ((lm)<<10))
 
 /*
@@ -885,7 +885,7 @@
         "cop2 %0"                                               \
         :                                                       \
         : "g"( r0 ) )
-#define gte_mvmva_b(sf,mx,v,cv,lm) gte_mvmva_core_b( 0x0400012 |\
+#define gte_mvmva_b(sf,mx,v,cv,lm) gte_mvmva_core_b( 0x00400012 |\
         ((sf)<<19) | ((mx)<<17) | ((v)<<15) | ((cv)<<13) | ((lm)<<10))
 
 /*
