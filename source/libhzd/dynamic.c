@@ -1,165 +1,120 @@
 #include "libhzd.h"
 #include "mgstype.h"
 
-int HZD_QueueDynamicSegment2(HZD_HDL *hdl, HZD_SEG *seg, int flag)
+int HZD_QueueDynamicSegment2( HZD_HDL *hzd, HZD_SEG *seg, int flag )
 {
-    int idx = hdl->dynamic_queue_index;
-    if ( idx >= hdl->max_dynamic_segments )
-    {
-        return -1;
-    }
-    hdl->dynamic_segments[idx] = seg;
-    hdl->dynamic_flags[idx] = flag;
-    hdl->dynamic_flags[hdl->max_dynamic_segments + idx] = flag >> 8;
-    hdl->dynamic_queue_index = idx + 1;
+    int index;
+
+    index = hzd->n_d_segs;
+    if ( index >= hzd->max_d_segs ) return -1;
+
+    hzd->d_segs[ index ] = seg;
+    hzd->d_seg_flag[ index ] = flag;
+    hzd->d_seg_flag[ hzd->max_d_segs + index ] = flag >> 8;
+    hzd->n_d_segs = index + 1;
     return 0;
 }
 
-void HZD_DequeueDynamicSegment(HZD_HDL *hdl, HZD_SEG *seg)
+void HZD_DequeueDynamicSegment( HZD_HDL *hzd, HZD_SEG *seg )
 {
-    HZD_SEG **var_a2;
-    char *var_t0;
-    int temp_a3;
-    char *var_t1;
-    int var_v1;
+    HZD_SEG **list;
+    char *flag1, *flag2;
+    int index, i;
 
-    var_a2 = hdl->dynamic_segments;
-    var_t0 = hdl->dynamic_flags;
-    temp_a3 = hdl->dynamic_queue_index;
-    var_t1 = var_t0 + hdl->max_dynamic_segments;
-    var_v1 = temp_a3;
+    list = hzd->d_segs;
+    flag1 = hzd->d_seg_flag;
+    flag2 = hzd->d_seg_flag + hzd->max_d_segs;
+    index = hzd->n_d_segs;
 
-    while (var_v1 > 0)
+    for ( i = index; i > 0; i-- )
     {
-        var_v1--;
-
-        if (*var_a2 == seg)
-        {
-            goto found;
-        }
-
-        var_a2++;
-        var_t0++;
-        var_t1++;
+        if ( *list == seg ) goto found;
+        list++;
+        flag1++;
+        flag2++;
     }
-
     return;
 
 found:
-    temp_a3--;
-    *var_a2 = hdl->dynamic_segments[temp_a3];
-    *var_t0 = hdl->dynamic_flags[temp_a3];
-    *var_t1 = hdl->dynamic_flags[temp_a3 + hdl->max_dynamic_segments];
-    hdl->dynamic_queue_index = temp_a3;
+    index--;
+    *list = hzd->d_segs[ index ];
+    *flag1 = hzd->d_seg_flag[ index ];
+    *flag2 = hzd->d_seg_flag[ index + hzd->max_d_segs ];
+    hzd->n_d_segs = index;
 }
 
-void HZD_SetDynamicSegment(HZD_SEG *a1, HZD_SEG *a2)
+void HZD_SetDynamicSegment( HZD_SEG *seg1, HZD_SEG *seg2 )
 {
-    int sVar1;
-    int sVar2;
+    int p1, p2;
 
-    sVar2 = a1->p1.x;
-    sVar1 = a1->p2.x;
-
-    if (sVar2 >= sVar1)
+    p1 = seg1->p1.x;
+    p2 = seg1->p2.x;
+    if ( p1 >= p2 )
     {
-        if (sVar2 <= sVar1)
+        if ( p2 < p1 ) goto end;
+        p1 = seg1->p1.z;
+        p2 = seg1->p2.z;
+        if ( p1 >= p2 )
         {
-            sVar2 = a1->p1.z;
-            sVar1 = a1->p2.z;
-
-            if (sVar2 >= sVar1)
-            {
-                if (sVar2 <= sVar1)
-                {
-                    a1->p2.x++;
-
-                    if (a1 != a2)
-                    {
-                        *a2 = *a1;
-                    }
-
-                    return;
-                }
-            }
-            else
-            {
-                if (a1 != a2)
-                {
-                    *a2 = *a1;
-                }
-
-                return;
-            }
+            if ( p2 < p1 ) goto end;
+            seg1->p2.x++;
         }
     }
-    else
-    {
-        if (a1 != a2)
-        {
-            *a2 = *a1;
-        }
+    if ( seg1 != seg2 ) *seg2 = *seg1;
+    return;
 
-        return;
-    }
+end:
+    p1 = seg1->p1.x;
+    p2 = seg1->p2.x;
+    seg2->p2.x = p1;
+    seg2->p1.x = p2;
 
-    // Are those SCOPYL2 (or similar) inlines?
-    sVar2 = a1->p1.x;
-    sVar1 = a1->p2.x;
-    a2->p2.x = sVar2;
-    a2->p1.x = sVar1;
-    sVar2 = a1->p1.y;
-    sVar1 = a1->p2.y;
-    a2->p2.y = sVar2;
-    a2->p1.y = sVar1;
-    sVar2 = a1->p1.z;
-    sVar1 = a1->p2.z;
-    a2->p2.z = sVar2;
-    a2->p1.z = sVar1;
-    sVar2 = a1->p1.h;
-    sVar1 = a1->p2.h;
-    a2->p2.h = sVar2;
-    a2->p1.h = sVar1;
+    p1 = seg1->p1.y;
+    p2 = seg1->p2.y;
+    seg2->p2.y = p1;
+    seg2->p1.y = p2;
+
+    p1 = seg1->p1.z;
+    p2 = seg1->p2.z;
+    seg2->p2.z = p1;
+    seg2->p1.z = p2;
+
+    p1 = seg1->p1.h;
+    p2 = seg1->p2.h;
+    seg2->p2.h = p1;
+    seg2->p1.h = p2;
 }
 
-int HZD_QueueDynamicFloor(HZD_HDL *hdl, HZD_FLR *floor)
+int HZD_QueueDynamicFloor( HZD_HDL *hzd, HZD_FLR *flr )
 {
-    int count;
+    int index;
 
-    if (hdl->dynamic_floor_index >= hdl->max_dynamic_floors)
-    {
-        return -1;
-    }
+    index = hzd->n_d_flrs;
+    if ( hzd->n_d_flrs >= hzd->max_d_flrs ) return -1;
 
-    count = hdl->dynamic_floor_index;
-    hdl->dynamic_floors[count] = floor;
-    hdl->dynamic_floor_index = count + 1;
-    floor->p4.h |= HZX_FLOOR_DYNAMIC;
-
+    hzd->d_flrs[ index ] = flr;
+    hzd->n_d_flrs = index + 1;
+    flr->p4.h |= HZX_FLOOR_DYNAMIC;
     return 0;
 }
 
-void HZD_DequeueDynamicFloor(HZD_HDL *hdl, HZD_FLR *floor)
+void HZD_DequeueDynamicFloor( HZD_HDL *hzd, HZD_FLR *flr )
 {
-    HZD_FLR **ptr;
-    int       count;
-    int       i;
+    HZD_FLR **list;
+    int index, i;
 
-    ptr = hdl->dynamic_floors;
-    count = hdl->dynamic_floor_index;
+    list = hzd->d_flrs;
+    index = hzd->n_d_flrs;
 
-    for (i = count; i > 0; i--, ptr++)
+    for ( i = index; i > 0; i-- )
     {
-        if (*ptr == floor)
-        {
-            goto found;
-        }
+        if ( *list == flr ) goto found;
+        list++;
     }
-
     return;
 
 found:
-    count--;
-    *ptr = hdl->dynamic_floors[count];
-    hdl->dynamic_floor_index = count;
+    index--;
+    *list = hzd->d_flrs[ index ];
+    hzd->n_d_flrs = index;
 }

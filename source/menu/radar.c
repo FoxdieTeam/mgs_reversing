@@ -465,10 +465,10 @@ void menu_draw_radar(MenuWork *work, u_long *ot, int arg2)
                     break;
                 }
 
-                ppWalls = pHzdMap->dynamic_segments;
-                pWallFlags = pHzdMap->dynamic_flags;
-                pWallFlags2 = pWallFlags + pHzdMap->max_dynamic_segments;
-                count2 = pHzdMap->dynamic_queue_index;
+                ppWalls = pHzdMap->d_segs;
+                pWallFlags = pHzdMap->d_seg_flag;
+                pWallFlags2 = pWallFlags + pHzdMap->max_d_segs;
+                count2 = pHzdMap->n_d_segs;
             }
 
             for (count3 = count2; count3 > 0; count3--, pWallFlags++, pWallFlags2++)

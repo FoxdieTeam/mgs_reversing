@@ -16,7 +16,7 @@
 
 static HOMING homing_targets[ HOMING_MAX ];
 
-void GM_ResetHomingTargets(void)
+void GM_InitHomingSystem(void)
 {
     HOMING *hom;
     int     i;

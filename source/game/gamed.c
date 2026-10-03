@@ -256,7 +256,7 @@ static void GM_ActInit(Work *work)
     GM_Reset_helper3_80030760();
     GM_InitWhereSystem();
     GM_InitTargetSystem();
-    GM_ResetHomingTargets();
+    GM_InitHomingSystem();
     GM_ResetScript();
     GM_InitGameSystem();
     GM_AlertModeInit();
