@@ -451,6 +451,28 @@
         : "r"( r0 )                                             \
         : "$12", "$13", "$14" )
 
+#define gte_ldopv2SV( r0 ) __asm__ volatile (                   \
+        "lh     $12, 0( %0 );"                                  \
+        "lh     $13, 2( %0 );"                                  \
+        "lh     $14, 4( %0 );"                                  \
+        "mtc2   $12, $9;"                                       \
+        "mtc2   $13, $10;"                                      \
+        "mtc2   $14, $11"                                       \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "$12", "$13", "$14" )
+
+#define gte_ldopv1SV( r0 ) __asm__ volatile (                   \
+        "lh     $12, 0( %0 );"                                  \
+        "lh     $13, 2( %0 );"                                  \
+        "ctc2   $12, $0;"                                       \
+        "lh     $14, 4( %0 );"                                  \
+        "ctc2   $13, $2;"                                       \
+        "ctc2   $14, $4"                                        \
+        :                                                       \
+        : "r"( r0 )                                             \
+        : "$12", "$13", "$14" )
+
 /*
  * Type 2 functions
  */
@@ -778,7 +800,7 @@
 #define gte_gpl0() __asm__ volatile (                           \
         "nop;"                                                  \
         "nop;"                                                  \
-        "cop2 0x01a0003e" )
+        "cop2 0x01a0003e;" )
 
 #define gte_mvmva_core( r0 ) __asm__ volatile (                 \
         "nop;"                                                  \
@@ -787,7 +809,7 @@
         :                                                       \
         : "g"( r0 ) )
 
-#define gte_mvmva(sf,mx,v,cv,lm) gte_mvmva_core( 0x0400012 |    \
+#define gte_mvmva(sf,mx,v,cv,lm) gte_mvmva_core( 0x00400012 |   \
         ((sf)<<19) | ((mx)<<17) | ((v)<<15) | ((cv)<<13) | ((lm)<<10))
 
 /*
@@ -863,7 +885,7 @@
         "cop2 %0"                                               \
         :                                                       \
         : "g"( r0 ) )
-#define gte_mvmva_b(sf,mx,v,cv,lm) gte_mvmva_core_b( 0x0400012 |\
+#define gte_mvmva_b(sf,mx,v,cv,lm) gte_mvmva_core_b( 0x00400012 |\
         ((sf)<<19) | ((mx)<<17) | ((v)<<15) | ((cv)<<13) | ((lm)<<10))
 
 /*
