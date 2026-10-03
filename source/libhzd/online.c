@@ -30,12 +30,12 @@ typedef struct {
     /* 0x68 */ short   atr;
     /* 0x6C */ int     hit;
     /* 0x70 */ char    pad1[ 0x4 ];
-    /* 0x74 */ int     field_74;
-    /* 0x78 */ int     field_78;
-    /* 0x7C */ char    pad2[ 0x10 ];
-    /* 0x8C */ int     field_8C;
-    /* 0x90 */ MATRIX  field_90;
-    /* 0xB0 */ MATRIX  field_B0;
+    /* 0x74 */ int     lasty;
+    /* 0x78 */ int     lastlen;
+    /* 0x7C */ VECTOR  normal;
+    /* 0x8C */ int     has_rot;
+    /* 0x90 */ MATRIX  rot;
+    /* 0xB0 */ MATRIX  diff;
 } ScrPad;
 
 #define SCRPAD   ((ScrPad *)SCRPAD_ADDR)
@@ -56,11 +56,16 @@ typedef struct {
 #define	HZD      (&(SCRPAD->hzd))
 #define	ATR      (&(SCRPAD->atr))
 #define	HIT      (&(SCRPAD->hit))
-#define	FIELD_74 (&(SCRPAD->field_74))
-#define	FIELD_78 (&(SCRPAD->field_78))
-#define	FIELD_8C (&(SCRPAD->field_8C))
-#define	FIELD_90 (&(SCRPAD->field_90))
-#define	FIELD_B0 (&(SCRPAD->field_B0))
+#define	LASTY    (&(SCRPAD->lasty))
+#define	LASTLEN  (&(SCRPAD->lastlen))
+#define	NORMAL   (&(SCRPAD->normal))
+#define	NX       (&(SCRPAD->normal.vx))
+#define	NY       (&(SCRPAD->normal.vy))
+#define	HAS_ROT  (&(SCRPAD->has_rot))
+#define	ROT      (&(SCRPAD->rot))
+#define	DIFF     (&(SCRPAD->diff))
+
+#define MAX_DISTANCE 1000000
 
 static inline int CheckFloorBound( void )
 {
@@ -83,6 +88,13 @@ static inline int CheckCross( void )
     }
 
     return 1;
+}
+
+static inline void Interp3D( HZD_VEC *out, HZD_VEC *a, SVECTOR *diff, int n, int d )
+{
+    out->x = a->x + diff->vx * n / d;
+    out->y = a->y + diff->vy * n / d;
+    out->z = a->z + diff->vz * n / d;
 }
 
 static inline void SV_to_HV( SVECTOR *sv, HZD_VEC *hv )
@@ -198,7 +210,7 @@ static int SegmentDistance( void )
     asm volatile (" lw %0, 0(%1) " : "=r"( p1_from ) : "r"( P1_FROM ) );
 
     hxv /= 16;
-    if ( hxv == 0 ) return 1000000;
+    if ( hxv == 0 ) return MAX_DISTANCE;
 
     gte_ldsxy3( 0, p1_from, p1_p2 );
     gte_nclip();
@@ -219,7 +231,7 @@ static int SegmentDistance( void )
         len = ( dxh * 16 ) / hxv;
     }
 
-    if ( len < 0 ) return 1000000;
+    if ( len < 0 ) return MAX_DISTANCE;
     return len;
 }
 
@@ -335,7 +347,7 @@ static int FloorDistance( void )
     int y;
 
     y = P->p1.y;
-    if ( y == *FIELD_74 ) return *FIELD_78;
+    if ( y == *LASTY ) return *LASTLEN;
 
     gte_lddp( ( y - FROM->y ) * 4096 / ( TO->y - FROM->y ) );
     gte_ld_intpol_sv0( TO );
@@ -343,9 +355,9 @@ static int FloorDistance( void )
     gte_intpl();
     gte_stsv( CROSS );
 
-    *FIELD_74 = y;
-    *FIELD_78 = DistanceTo( CROSS );
-    return *FIELD_78;
+    *LASTY = y;
+    *LASTLEN = DistanceTo( CROSS );
+    return *LASTLEN;
 }
 
 static int CheckInsideFloor( HZD_FLR *flr )
@@ -391,31 +403,32 @@ static int CheckInsideFloor( HZD_FLR *flr )
     }
 }
 
-static inline void GetFloorHeight(SVECTOR *dst, HZD_FLR *a, HZD_VEC *b)
+static inline void SetNormal( HZD_FLR *flr )
 {
-    dst->vx = a->p1.x - b->x;
-    dst->vy = a->p1.y - b->y;
-    dst->vz = a->p1.z - b->z;
+    if ( !*HAS_ROT )
+    {
+        gte_ReadRotMatrix( ROT );
+        *HAS_ROT = 1;
+    }
+
+    NORMAL->vx = flr->p1.h;
+    NORMAL->vy = flr->p3.h;
+    NORMAL->vz = flr->p2.h;
+    gte_ldlvl( NORMAL );
+    DIFF->m[ 0 ][ 0 ] = TO->x - FROM->x;
+    DIFF->m[ 0 ][ 1 ] = TO->y - FROM->y;
+    DIFF->m[ 0 ][ 2 ] = TO->z - FROM->z;
+    DIFF->m[ 1 ][ 0 ] = flr->p1.x - FROM->x;
+    DIFF->m[ 1 ][ 1 ] = flr->p1.y - FROM->y;
+    DIFF->m[ 1 ][ 2 ] = flr->p1.z - FROM->z;
+    gte_SetRotMatrix( DIFF );
+    gte_rtir();
+    gte_stlvnl( NORMAL );
 }
 
-static inline int GetScratch(int offset)
+void CheckOneFloor( HZD_FLR *flr )
 {
-    int *ptr = (int *)SCRPAD_ADDR;
-    return ptr[offset];
-}
-
-static inline void SetScratch(int offset, int value)
-{
-    int *ptr = (int *)SCRPAD_ADDR;
-    ptr[offset] = value;
-}
-
-static void CheckOneFloor( HZD_FLR *flr )
-{
-    int flag;
-
-    int length;
-    int n, d;
+    int flag, length, fa_n, ft_n;
 
     *P = *(HZD_SEG *)flr;
 
@@ -430,39 +443,19 @@ static void CheckOneFloor( HZD_FLR *flr )
     }
     else
     {
-        if ( GetScratch(0x23) == 0)
+        SetNormal( flr );
+        ft_n = *NX;
+        fa_n = *NY;
+
+        if ( ( ft_n < 0 && fa_n < 0 ) || ( ft_n > 0 && fa_n > 0 ) )
         {
-            gte_ReadRotMatrix( FIELD_90 );
-            SetScratch(0x23, 1);
-        }
-
-        SetScratch(0x1F, flr->p1.h);
-        SetScratch(0x20, flr->p3.h);
-        SetScratch(0x21, flr->p2.h);
-
-        gte_ldlvl(0x1F80007C);
-
-        GetFloorHeight((SVECTOR *)0x1F8000B0, (HZD_FLR *)0x1F800004, (HZD_VEC *)0x1F80000C);
-        GetFloorHeight((SVECTOR *)0x1F8000B6, flr, (HZD_VEC *)0x1F80000C);
-
-        gte_SetRotMatrix( FIELD_B0 );
-        gte_rtir();
-        gte_stlvnl(0x1F80007C);
-
-        n = *(int *)0x1F800080;
-        d = *(int *)0x1F80007C;
-
-        if ( ( d < 0 && n < 0 ) || ( d > 0 && n > 0 ) )
-        {
-            *FIELD_74 = 1000000;
-            *(short *)0x1F80004C = *(short *)0x1F80000C + ( *(short *)0x1F8000B0 * n ) / d;
-            *(short *)0x1F800050 = *(short *)0x1F800010 + ( *(short *)0x1F8000B2 * n ) / d;
-            *(short *)0x1F80004E = *(short *)0x1F80000E + ( *(short *)0x1F8000B4 * n ) / d;
+            *LASTY = MAX_DISTANCE;
+            Interp3D( CROSS, FROM, (SVECTOR *)DIFF, fa_n, ft_n );
             length = DistanceTo( CROSS );
         }
         else
         {
-            length = 1000000;
+            length = MAX_DISTANCE;
         }
     }
 
@@ -499,7 +492,7 @@ int HZD_OnlineHazardCheck( HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int chk_fla
     *HZD = NULL;
     SV_to_HV( to, TO );
     *MINCROSS = *TO;
-    *FIELD_8C = 0;
+    *HAS_ROT = 0;
 
     MakeBound( FROM, MINCROSS );
 
@@ -579,7 +572,7 @@ int HZD_OnlineHazardCheck( HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int chk_fla
 
     MakeBound( FROM, MINCROSS );
     *MINLEN = DistanceTo( MINCROSS );
-    *FIELD_74 = 1000000;
+    *LASTY = MAX_DISTANCE;
 
     if ( chk_flag & HZD_CHK_F_FLOOR )
     {
@@ -612,9 +605,9 @@ int HZD_OnlineHazardCheck( HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int chk_fla
         }
     }
 
-    if ( *FIELD_8C != 0 )
+    if ( *HAS_ROT )
     {
-        gte_SetRotMatrix( FIELD_90 );
+        gte_SetRotMatrix( ROT );
     }
 
     if ( *HZD != NULL )
