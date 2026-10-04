@@ -36,13 +36,24 @@ extern int    rank_dword_800E1878;
 extern int    rank_dword_800E187C;
 extern RadioFileModeStruElem *rank_dword_800E189C;
 extern int    rank_dword_800E18A0;
+extern int    rank_dword_800C3304;
 
 /*---------------------------------------------------------------------------*/
 
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CBD14.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC014.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC104.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC19C.s")
+
+extern char *MGS_MemoryCardName;
+
+void rank_800CC19C( char *dst )
+{
+    strcpy( dst, MGS_MemoryCardName );
+    dst[ 6 ] = 0x50;
+    dst[ 0xC ] = 0x51;
+    dst[ 0xD ] = 0x30;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC1E0.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC260.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC3D4.s")
@@ -55,17 +66,79 @@ int rank_800CC70C( int arg0 )
     return rank_dword_800E1878;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC738.s")
+int rank_800CC104( int arg );
+
+void rank_800CC738( void )
+{
+    int mask;
+    int i;
+
+    mask = 0;
+    for ( i = 0; i < 2; i++ )
+    {
+        if ( rank_800CC104( i ) )
+        {
+            mask |= 1 << i;
+        }
+    }
+
+    rank_dword_800E1878 = mask;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC798.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC7C0.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CCDC4.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CCEC4.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CCF10.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CCF64.s")
+
+void rank_800CCDC4( void );
+
+int rank_800CCF10( void )
+{
+    rank_dword_800E187C = 0;
+    mts_set_stack_check( 8, (void *)&rank_dword_800E1870, 0x800 );
+    mts_sta_tsk( 8, rank_800CCDC4, (void *)&rank_dword_800E1870 );
+    return 1;
+}
+
+void rank_800CCF64( char *work )
+{
+    GCL_ARGS args;
+    long     argv[ 1 ];
+
+    if ( rank_dword_800E1878 >= 0 )
+    {
+        if ( *(int *)( work + 0x20 ) >= 0 )
+        {
+            args.argc = 1;
+            argv[ 0 ] = rank_dword_800E1878;
+            args.argv = argv;
+            GCL_ExecProc( *(int *)( work + 0x20 ), &args );
+        }
+
+        GV_DestroyActor( work );
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CCFC4.s")
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD074.s")
-void rank_800CD074( Work *work );
+void rank_800CD074( Work *work )
+{
+    KCB  *kcb;
+    void *buffer;
+
+    kcb = &work->kcb;
+    GV_ZeroMemory( kcb, sizeof( KCB ) );
+    ClearImage( (RECT *)&rank_dword_800C3304, 0, 0, 0 );
+    font_init_kcb( kcb, (RECT *)&rank_dword_800C3304, 960, 510 );
+    font_set_kcb( kcb, -1, -1, 0, 6, 2, 0 );
+    buffer = GV_AllocMemory( 0, font_get_buffer_size( kcb ) );
+    font_set_buffer( kcb, buffer );
+    font_set_color( kcb, 0, 0x6739, 0 );
+    font_set_color( kcb, 1, 0x3BEF, 0 );
+    font_set_color( kcb, 2, 0x3A4B, 0 );
+    font_set_color( kcb, 3, 0x1094, 0 );
+    font_clut_update( kcb );
+}
 
 void rank_800CD178( int *arr, int len )
 {
@@ -77,13 +150,102 @@ void rank_800CD178( int *arr, int len )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD1A8.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD230.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD32C.s")
+void rank_800CD1A8( MenuPrim *pGlue, RadioFileModeStruElem *pElem )
+{
+    RadioFileModeUnk1 *pUnk;
+    TextConfig         textConfig;
+
+    pUnk = pElem->field_C_unk1;
+    if ( pElem->field_0 == 1 )
+    {
+        rank_800CD178( &pUnk->field_8, 2 );
+        pUnk->field_18 = 0x3d482e;
+    }
+    textConfig.xpos = pUnk->field_8 >> 16;
+    textConfig.ypos = pUnk->field_10 >> 16;
+    textConfig.flags = 0x12;
+    textConfig.color = pUnk->field_18 | 0x66000000;
+
+    _menu_number_draw_string2( pGlue, &textConfig, (char *)pUnk->field_4 );
+}
+
+void rank_800CD230( MenuPrim *pGlue, RadioFileModeStruElem *pElem )
+{
+    LINE_F2           *pPrim;
+    RadioFileModeUnk1 *pUnk;
+
+    pUnk = pElem->field_C_unk1;
+    if ( pElem->field_0 == 1 )
+    {
+        rank_800CD178( &pUnk->field_4, 4 );
+    }
+
+    if ( pUnk->field_4 != pUnk->field_14 || pUnk->field_C != pUnk->field_1C )
+    {
+        _NEW_PRIM( pPrim, pGlue );
+
+        LSTORE( pUnk->field_24, &pPrim->r0 );
+        pPrim->x0 = pUnk->field_4 >> 16;
+        pPrim->y0 = pUnk->field_C >> 16;
+        pPrim->x1 = pUnk->field_14 >> 16;
+        pPrim->y1 = pUnk->field_1C >> 16;
+        setLineF2( pPrim );
+        addPrim( pGlue->ot, pPrim );
+    }
+}
+
+void rank_800CD32C( MenuPrim *pGlue, RadioFileModeStruElem *pElem )
+{
+    RadioFileModeUnk1 *pUnk;
+    int                x, y, w, h;
+    TILE              *pTile;
+
+    pUnk = pElem->field_C_unk1;
+    if ( pElem->field_0 == 1 )
+    {
+        rank_800CD178( &pUnk->field_4, 4 );
+    }
+    x = ( pUnk->field_4 >> 16 );
+    y = ( pUnk->field_C >> 16 );
+    w = pUnk->field_14 >> 16;
+    h = pUnk->field_1C >> 16;
+    x -= w / 2;
+    y -= h / 2;
+
+    _NEW_PRIM( pTile, pGlue );
+
+    LSTORE( 0x72A452, &pTile->r0 );
+    setTile( pTile );
+    pTile->x0 = x;
+    pTile->y0 = y;
+    pTile->w = w;
+    pTile->h = h;
+    setSemiTrans( pTile, 0 );
+    addPrim( pGlue->ot, pTile );
+
+    radio_draw_face_frame( pGlue, x, y, w, h );
+    radio_draw_face_frame( pGlue, x, y, w, h );
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD474.s")
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD4E4.s")
-void rank_800CD4E4( void );
+extern const char rank_dword_800E06D0[];
+
+void rank_800CD4E4( void )
+{
+    int i;
+
+    rank_dword_800E189C = GV_AllocMemory( 0, 0x260 );
+    if ( !rank_dword_800E189C )
+    {
+        printf( rank_dword_800E06D0 );
+    }
+
+    for ( i = 11; i >= 0; i-- )
+    {
+        rank_dword_800E189C[ i ].field_0 = 0;
+    }
+}
 
 void rank_800CD540( void )
 {
