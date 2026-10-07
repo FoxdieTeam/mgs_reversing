@@ -3,6 +3,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "menu/radio.h"
+#include "menu/menuman.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -36,6 +37,12 @@ extern int    rank_dword_800E1878;
 extern int    rank_dword_800E187C;
 extern RadioFileModeStruElem *rank_dword_800E189C;
 extern int    rank_dword_800E18A0;
+extern int    rank_dword_800C330C[];
+
+void rank_800CD1A8( MenuPrim *prim, RadioFileModeStruElem *elem );
+void rank_800CD230( MenuPrim *prim, RadioFileModeStruElem *elem );
+void rank_800CD32C( MenuPrim *prim, RadioFileModeStruElem *elem );
+void rank_800CDFC8( MenuPrim *prim, SELECT_INFO *info );
 
 /*---------------------------------------------------------------------------*/
 
@@ -80,7 +87,20 @@ void rank_800CD178( int *arr, int len )
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD1A8.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD230.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD32C.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD474.s")
+void rank_800CD474( MenuPrim *prim, RadioFileModeStruElem *elem )
+{
+    RadioFileModeUnk1 *unk;
+
+    unk = elem->field_C_unk1;
+    if ( elem->field_0 == 1 )
+    {
+        rank_800CD178( &unk->field_4, 2 );
+    }
+
+    *(short *)unk->field_14 = unk->field_4 >> 16;
+    *(short *)( unk->field_14 + 2 ) = unk->field_C >> 16;
+    rank_800CDFC8( prim, (SELECT_INFO *)unk->field_14 );
+}
 
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD4E4.s")
 void rank_800CD4E4( void );
@@ -90,10 +110,105 @@ void rank_800CD540( void )
     GV_FreeMemory( GV_PACKET_MEMORY0, rank_dword_800E189C );
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD568.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD688.s")
+void rank_800CD568( int idx, int x, int y, int divisor, int idx2 )
+{
+    RadioFileModeStru_800ABB7C *rfm;
+    RadioFileModeUnk2          *unk;
+    RadioFileModeStruElem      *elem;
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD760.s")
+    rfm = (RadioFileModeStru_800ABB7C *)rank_dword_800E189C;
+    unk = &rfm->field_c0_array[ idx ];
+    elem = &rfm->field_0_array[ idx ];
+
+    unk->field_4 = (const char *)rank_dword_800C330C[ idx2 ];
+
+    elem->field_8_pFn = rank_800CD1A8;
+    elem->field_C_unk1 = (RadioFileModeUnk1 *)unk;
+
+    if ( idx2 < 0 )
+    {
+        elem->field_0 = 0;
+        return;
+    }
+
+    if ( divisor <= 0 )
+    {
+        unk->field_8 = x * 65536;
+        unk->field_10 = y * 65536;
+        elem->field_0 = 2;
+    }
+    else
+    {
+        unk->field_C = ( x * 65536 - unk->field_8 ) / divisor;
+        unk->field_14 = ( y * 65536 - unk->field_10 ) / divisor;
+        elem->field_0 = 1;
+    }
+
+    unk->field_18 = 0x748956;
+    elem->field_4 = divisor;
+}
+void rank_800CD688( int idx, int x, int y, int divisor, SELECT_INFO *info )
+{
+    RadioFileModeStru_800ABB7C *rfm;
+    RadioFileModeUnk1          *unk;
+    RadioFileModeStruElem      *elem;
+
+    rfm = (RadioFileModeStru_800ABB7C *)rank_dword_800E189C;
+    elem = &rfm->field_0_array[ idx ];
+    unk = &rfm->field_220_unk1;
+
+    elem->field_8_pFn = rank_800CD474;
+    elem->field_C_unk1 = unk;
+
+    if ( divisor <= 0 )
+    {
+        unk->field_4 = x * 65536;
+        unk->field_C = y * 65536;
+        elem->field_0 = 2;
+    }
+    else
+    {
+        unk->field_8 = ( x * 65536 - unk->field_4 ) / divisor;
+        unk->field_10 = ( y * 65536 - unk->field_C ) / divisor;
+        elem->field_0 = 1;
+    }
+
+    unk->field_14 = (int)info;
+    elem->field_4 = divisor;
+}
+
+void rank_800CD760( int idx, int x0, int y0, int x1, int y1, int divisor )
+{
+    RadioFileModeStru_800ABB7C *rfm;
+    RadioFileModeUnk1          *unk;
+    RadioFileModeStruElem      *elem;
+
+    rfm = (RadioFileModeStru_800ABB7C *)rank_dword_800E189C;
+    elem = &rfm->field_0_array[ idx ];
+    unk = &rfm->field_130_array[ idx - 5 ];
+
+    elem->field_8_pFn = rank_800CD230;
+    elem->field_C_unk1 = unk;
+    if ( divisor <= 0 )
+    {
+        unk->field_4 = x0 * 65536;
+        unk->field_C = y0 * 65536;
+        unk->field_14 = x1 * 65536;
+        unk->field_1C = y1 * 65536;
+        elem->field_0 = 2;
+    }
+    else
+    {
+        unk->field_8 = ( x0 * 65536 - unk->field_4 ) / divisor;
+        unk->field_10 = ( y0 * 65536 - unk->field_C ) / divisor;
+        unk->field_18 = ( x1 * 65536 - unk->field_14 ) / divisor;
+        unk->field_20 = ( y1 * 65536 - unk->field_1C ) / divisor;
+        elem->field_0 = 1;
+    }
+
+    unk->field_24 = 0x3d482e;
+    elem->field_4 = divisor;
+}
 
 void rank_800CD8D8( int index )
 {
@@ -103,7 +218,38 @@ void rank_800CD8D8( int index )
     entry->field_0 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD8F0.s")
+void rank_800CD8F0( int x0, int y0, int x1, int y1, int divisor )
+{
+    RadioFileModeStru_800ABB7C *rfm;
+    RadioFileModeStruElem      *elem;
+    RadioFileModeUnk1          *unk;
+
+    rfm = (RadioFileModeStru_800ABB7C *)rank_dword_800E189C;
+    elem = &rfm->field_0_array[ 11 ];
+    unk = (RadioFileModeUnk1 *)&rfm->field_220_unk1.field_18;
+
+    elem->field_8_pFn = rank_800CD32C;
+    elem->field_C_unk1 = unk;
+
+    if ( divisor <= 0 )
+    {
+        unk->field_4 = x0 * 65536;
+        unk->field_C = y0 * 65536;
+        unk->field_14 = x1 * 65536;
+        unk->field_1C = y1 * 65536;
+        elem->field_0 = 2;
+    }
+    else
+    {
+        unk->field_8 = ( x0 * 65536 - unk->field_4 ) / divisor;
+        unk->field_10 = ( y0 * 65536 - unk->field_C ) / divisor;
+        unk->field_18 = ( x1 * 65536 - unk->field_14 ) / divisor;
+        unk->field_20 = ( y1 * 65536 - unk->field_1C ) / divisor;
+        elem->field_0 = 1;
+    }
+
+    elem->field_4 = divisor;
+}
 
 void rank_800CDA44( void *prim )
 {
@@ -205,7 +351,56 @@ void rank_800CDEB8( Work *work, char **menu_text, int menu_num, int initial, cha
     info->enable = 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CDFC8.s")
+void rank_800CDFC8( MenuPrim *prim, SELECT_INFO *info )
+{
+    int        i;
+    int        xpos, ypos;
+    TextConfig config;
+
+    config.flags = 0x12;
+    if ( info->enable != 0 )
+    {
+        config.color = 0x66748956;
+    }
+    else
+    {
+        config.color = 0x663d482e;
+    }
+    config.xpos = info->xofs;
+    config.ypos = info->yofs;
+    _menu_number_draw_string2( prim, &config, info->message );
+
+    if ( info->max_num == 1 )
+    {
+        xpos = info->xofs;
+    }
+    else
+    {
+        xpos = info->xofs - info->width / 2;
+    }
+
+    for ( i = 0; i < info->max_num; i++, xpos += info->width )
+    {
+        config.xpos = xpos;
+        ypos = info->yofs;
+        config.ypos = ypos + 12;
+
+        if ( i == info->current )
+        {
+            config.color = 0x66748956;
+            if ( info->enable != 0 )
+            {
+                ypos += 16;
+                rank_800CD8F0( config.xpos, ypos, info->height, 12, 2 );
+            }
+        }
+        else
+        {
+            config.color = 0x663d482e;
+        }
+        _menu_number_draw_string2( prim, &config, info->menu[ i ].mes );
+    }
+}
 
 int rank_800CE148( GV_PAD *pad, int *res, SELECT_INFO *info )
 {

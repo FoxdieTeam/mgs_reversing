@@ -237,8 +237,32 @@ void *rank_800D523C( KCB *kcb )
     return kcb->cbuffer;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800D5248.s") // done
-void rank_800D5248( Work *work );
+void rank_800D5248( Work *work )
+{
+    POLY_FT4 *src;
+    POLY_FT4 *dst;
+    int       i;
+
+    src = work->pol;
+    dst = (POLY_FT4 *)work->prim->packs[ GV_Clock ];
+    for ( i = 0; i < 16; i++ )
+    {
+        *dst = *src;
+        SSTOREL( work->z[ i ], dst );
+        src++;
+        dst++;
+    }
+
+    src = work->pol_cur;
+    dst = (POLY_FT4 *)work->prim_cur->packs[ GV_Clock ];
+    for ( i = 0; i < 9; i++ )
+    {
+        *dst = *src;
+        SSTOREL( work->z_cur[ i ], dst );
+        src++;
+        dst++;
+    }
+}
 
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800D536C.s")
 void rank_800D536C( Work *work );
@@ -734,8 +758,46 @@ static void Die( Work *work )
 
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800DAD08.s") // done, Init_Res_NT
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800DAD78.s") // done, Init_Res
-void rank_800DAD78( Work *work, int, POLY_FT4 *, int, int, int, int, int, int );
+void rank_800DAD08( Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe );
+
+static inline void InitTex( POLY_FT4 *poly, DG_TEX *tex, int x, int y )
+{
+    int x0, x1, y0, y1;
+
+    x0 = tex->off_x;
+    x1 = x0 + tex->w + x;
+    y0 = tex->off_y;
+    y1 = y0 + tex->h + y;
+
+    setUV4( poly, x0, y0, x1, y0, x0, y1, x1, y1 );
+    poly->tpage = tex->tpage;
+    poly->clut = tex->clut;
+}
+
+void rank_800DAD78( Work *work, int name, POLY_FT4 *poly, int x0, int y0, int x1, int y1, int abe, int mode )
+{
+    DG_TEX *tex;
+
+    rank_800DAD08( work, poly, x0, y0, x1, y1, abe );
+    tex = DG_GetTexture( name );
+
+    if ( mode == 0 )
+    {
+        InitTex( poly, tex, 1, 1 );
+    }
+    else if ( mode == 1 )
+    {
+        InitTex( poly, tex, 1, 0 );
+    }
+    else if ( mode == 2 )
+    {
+        InitTex( poly, tex, 0, 1 );
+    }
+    else if ( mode == 3 )
+    {
+        InitTex( poly, tex, 0, 0 );
+    }
+}
 
 int rank_800DAEFC( Work *work, int map )
 {

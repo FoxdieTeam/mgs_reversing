@@ -21,7 +21,31 @@ void *rank_800CEF28( int count, int flag )
 
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CEF5C.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CF11C.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CF160.s")
+void rank_800CF160( char *work )
+{
+    unsigned short *update;
+    char           *iter;
+    int             i;
+
+    update = (unsigned short *)( work + 0x38 );
+    i = 0;
+    if ( *(int *)( work + 0x34 ) > 0 )
+    {
+        do
+        {
+            for ( iter = (char *)rank_dword_800E1974; iter; iter = *(char **)( iter + 4 ) )
+            {
+                if ( *(unsigned short *)( iter + 0x24 ) == update[ 0 ] )
+                {
+                    *(short *)( iter + 0x26 ) = update[ 1 ];
+                    break;
+                }
+            }
+            update += 2;
+        } while ( *(int *)( work + 0x34 ) > ++i );
+    }
+    *(int *)( work + 0x34 ) = 0;
+}
 
 void rank_800CF1D4( char *work )
 {
