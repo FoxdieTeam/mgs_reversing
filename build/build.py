@@ -558,7 +558,7 @@ def gen_build_target(targetName):
         "s09a", "s09ar",
         #"s10a", #"s10ar",
         "s11a",
-        #"s11b",
+        "s11b",
         "s11c",
         "s11d",
         "s11e",

@@ -340,6 +340,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}.bin")
     section overlay.sdata, overlay
 
 {% if OVERLAY == "d11c" or
+      OVERLAY == "s11b" or
       OVERLAY == "d18a" or OVERLAY == "d18ar" or
       OVERLAY == "roll" or
       OVERLAY == "s03a" or OVERLAY == "s03ar" or
@@ -2826,6 +2827,78 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_10.OBJ", overlay
+;------------------------------------------------------------------------------
+{% elif OVERLAY == "s11b" %}
+    include "{{OBJ_DIR}}\stage\s11b.obj", overlay
+
+    include "{{OBJ_DIR}}\game\lamp.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
+    include "{{OBJ_DIR}}\chara\snake\breath.obj", overlay
+    include "{{OBJ_DIR}}\thing\snow.obj", overlay
+    include "{{OBJ_DIR}}\thing\sphere.obj", overlay
+    include "{{OBJ_DIR}}\enemy\wall.obj", overlay
+    include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
+    include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
+    include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11g\okajima\blst_ln.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\overlay.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800C7D60.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800C7F18.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800C7F20.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800C8168.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blur.obj", overlay
+    include "{{OBJ_DIR}}\okajima\smke_ln.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAAEC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAB84.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAC10.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CACDC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAD58.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAE40.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAED8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAF34.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAF54.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CB080.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CBB18.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CBBAC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CC144.obj", overlay
+    include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
+    include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
+    include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
+    include "{{OBJ_DIR}}\takabe\windcrcl.obj", overlay
+    include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CE9EC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CEF1C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CF01C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CF080.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CF0F8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CF13C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D0B34.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D0BCC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D0E78.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D112C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D11E4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D124C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D12E4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D131C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D3008.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D3338.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D3738.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D844C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D852C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D86DC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D89E0.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D9EA0.obj", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
+    include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 ;------------------------------------------------------------------------------
 {% endif %}
 
