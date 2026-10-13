@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s15a_800D00D8
+s15a_800D00D8:
+	dw 0x84820004 ; 800D00D8
+	dw 0x00000000 ; 800D00DC
+	dw 0x00021023 ; 800D00E0
+	dw 0x03E00008 ; 800D00E4
+	dw 0xA4820004 ; 800D00E8
