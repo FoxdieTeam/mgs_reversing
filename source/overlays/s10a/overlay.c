@@ -1,5 +1,10 @@
 #include "mgstype.h"
 
+extern void s10a_800CB044(void);
+extern void s10a_800CB0DC(void);
+extern void s10a_800CB224(void);
+extern void s10a_800CB260(void);
+
 int s10a_dword_800C3448 = 0x00000FA0;
 int s10a_dword_800C344C = 0x00000FA0;
 int s10a_dword_800C3450 = 0x00001B58;
@@ -39,10 +44,10 @@ int s10a_dword_800C34D4 = 0x00000000;
 int s10a_dword_800C34D8 = 0x00000000;
 int s10a_dword_800C34DC = 0x00000000;
 int s10a_dword_800C34E0 = 0x00000002;
-int s10a_dword_800C34E4 = 0x800CB044;
-int s10a_dword_800C34E8 = 0x800CB0DC;
-int s10a_dword_800C34EC = 0x800CB224;
-int s10a_dword_800C34F0 = 0x800CB260;
+void *s10a_dword_800C34E4 = (void *)s10a_800CB044;
+void *s10a_dword_800C34E8 = (void *)s10a_800CB0DC;
+void *s10a_dword_800C34EC = (void *)s10a_800CB224;
+void *s10a_dword_800C34F0 = (void *)s10a_800CB260;
 int s10a_dword_800C34F4 = 0xFE0C0005;
 int s10a_dword_800C34F8 = 0x00000050;
 

@@ -1,6 +1,11 @@
 #include "mgstype.h"
 
-int s18a_dword_800C3290 = 0x800E2C48;
+extern void s18a_800CC4F0(void);
+extern void s18a_800CC56C(void);
+extern void s18a_800CC574(void);
+extern const char s18a_dword_800E2C48[];
+
+void *s18a_dword_800C3290 = (void *)s18a_dword_800E2C48;
 int s18a_dword_800C3294 = 0x1F9F6F10;
 int s18a_dword_800C3298 = 0x00007FDF;
 int s18a_dword_800C329C = 0x000000FF;
@@ -61,9 +66,9 @@ int s18a_dword_800C3378 = 0x00000000;
 int s18a_dword_800C337C = 0x00000064;
 int s18a_dword_800C3380 = 0x0000FC00;
 int s18a_dword_800C3384 = 0x00000000;
-int s18a_dword_800C3388 = 0x800CC4F0;
-int s18a_dword_800C338C = 0x800CC56C;
-int s18a_dword_800C3390 = 0x800CC574;
+void *s18a_dword_800C3388 = (void *)s18a_800CC4F0;
+void *s18a_dword_800C338C = (void *)s18a_800CC56C;
+void *s18a_dword_800C3390 = (void *)s18a_800CC574;
 int s18a_dword_800C3394 = 0xFE0C0005;
 int s18a_dword_800C3398 = 0x00000050;
 int s18a_dword_800C339C = 0x2EE00C35;

@@ -1,5 +1,7 @@
 #include "mgstype.h"
 
+extern const int s19a_dword_800E03AC;
+
 int s19a_dword_800C36C4 = 0x00320064;
 int s19a_dword_800C36C8 = 0x000A0019;
 int s19a_dword_800C36CC = 0x000F012C;
@@ -152,7 +154,7 @@ int s19a_dword_800C3918 = 0x012C0001;
 int s19a_dword_800C391C = 0x03200001;
 int s19a_dword_800C3920 = 0x00800320;
 int s19a_dword_800C3924 = 0x00000000;
-int s19a_dword_800C3928 = 0x800E03AC;
+void *s19a_dword_800C3928 = (void *)&s19a_dword_800E03AC;
 int s19a_dword_800C392C = 0x07D009C4;
 int s19a_dword_800C3930 = 0x000001F4;
 int s19a_dword_800C3934 = 0x07D0FE0C;

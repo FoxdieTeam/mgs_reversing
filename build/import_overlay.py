@@ -338,15 +338,18 @@ def cstr(bs):
         out += '\\\\' if c == '\\' else '\\"' if c == '"' else c
     return out
 
-def emit_region(name, addr, bs, const):
-    """Emits C for a region and returns (lines, boundaries) where boundaries is the list of
-    addresses at which uninitialized padding proves a file boundary"""
+def emit_region(name, addr, bs, const, syms=None, externs=None):
+    """Emits C for a region and returns (lines, boundaries). lines is a list of
+    (address, text, kind, symbol) where boundaries is the list of addresses at which
+    uninitialized padding proves a file boundary. When syms ({address: (symbol, kind)})
+    is given, words that hold the address of a known symbol are emitted as pointers."""
     out = []
     q = 'const ' if const else ''
     pos = 0
     bounds = []
     while pos < len(bs):
         a = addr + pos
+        sym = '%s_dword_%08X' % (name, a)
         n = 0
         while pos + n < len(bs) and 0x20 <= bs[pos + n] < 0x7f:
             n += 1
@@ -355,15 +358,28 @@ def emit_region(name, addr, bs, const):
             pad = bs[pos + n + 1:pos + total]
             if any(pad):
                 bounds.append(addr + pos + total)
-            out.append((a, '%schar %s_dword_%08X[] = "%s";' % (q, name, a, cstr(bs[pos:pos + n]))))
+            out.append((a, '%schar %s[] = "%s";' % (q, sym, cstr(bs[pos:pos + n])), 'arr', sym))
             pos += total
             continue
         if len(bs) - pos >= 4:
             v = struct.unpack('<I', bs[pos:pos + 4])[0]
-            out.append((a, '%sint %s_dword_%08X = 0x%08X;' % (q, name, a, v)))
+            target = syms.get(v) if syms and a % 4 == 0 else None
+            if target is not None:
+                tname, tkind = target
+                if tkind == 'func':
+                    expr = '(void *)%s' % tname
+                elif tkind == 'arr':
+                    expr = '(void *)%s' % tname
+                else:
+                    expr = '(void *)&%s' % tname
+                if externs is not None:
+                    externs[tname] = tkind
+                out.append((a, '%s%s = %s;' % ('void *const ' if const else 'void *', sym, expr), 'ptr', sym))
+            else:
+                out.append((a, '%sint %s = 0x%08X;' % (q, sym, v), 'int', sym))
             pos += 4
             continue
-        out.append((a, '%schar %s_dword_%08X[] = {%s};' % (q, name, a, ', '.join(hex(x) for x in bs[pos:]))))
+        out.append((a, '%schar %s[] = {%s};' % (q, sym, ', '.join(hex(x) for x in bs[pos:])), 'arr', sym))
         pos = len(bs)
     return out, bounds
 
@@ -602,21 +618,60 @@ def run(args, exclude):
         os.makedirs(asm_dir, exist_ok=True)
         os.makedirs(src_dir, exist_ok=True)
 
+    # asm functions of every chunk
+    chunk_funcs = {}
+    for k, it in enumerate(items):
+        if it['kind'] != 'chunk':
+            continue
+        c_tables = [t for t in tables if it['lo'] <= min(t) < it['hi']]
+        chunk_funcs[k] = split_functions(ow, it['lo'], it['hi'], c_tables, [])
+
+    # known symbols, so data holding addresses can refer to them like in the main executable
+    syms = {}
+    for line in open(os.path.join(ROOT, 'obj', 'asm.map'), errors='replace'):
+        t = line.split()
+        if len(t) == 2 and re.match(r'^[0-9A-Fa-f]{8}$', t[0]) and not t[1].startswith('_'):
+            a_ = int(t[0], 16)
+            syms.setdefault(a_, (t[1], 'func' if 0x800148B8 <= a_ < 0x8009D2DC else 'arr'))
+    for s_, e_, c_ in chain:
+        text_ = c_.sections['.text']
+        for sym_, (sec_, off_) in c_.sections['__xdefs__'].items():
+            if sec_ == text_.id:
+                syms[BASE + s_ * 4 + off_] = (sym_, 'func')
+    for k, fl in chunk_funcs.items():
+        for s_, e_ in fl:
+            syms[BASE + s_ * 4] = ('%s_%08X' % (name, BASE + s_ * 4), 'func')
+    # variables of the overlay's own data files
+    const_syms = set()
+    for blobs_, const_ in ((dblobs, False), (rblobs, True)):
+        for k, bl in blobs_.items():
+            for a, n in bl:
+                for a_, _, kind_, sym_ in emit_region(name, a, d[a - BASE:a - BASE + n], const_)[0]:
+                    syms[a_] = (sym_, 'arr' if kind_ == 'arr' else 'int')
+                    if const_:
+                        const_syms.add(sym_)
+    for k, bl in bss_blobs.items():
+        for a, n in bl:
+            for x in range(a, a + n, 4):
+                syms[x] = ('%s_dword_%08X' % (name, x), 'int')
+
     def emit_blobs(k):
         nonlocal file_no
+
+        externs = {}
 
         def split(blobs, const):
             lines = []
             bounds = set()
             for a, n in blobs:
-                l, b = emit_region(name, a, d[a - BASE:a - BASE + n], const)
+                l, b = emit_region(name, a, d[a - BASE:a - BASE + n], const, syms, externs)
                 lines += l
                 bounds |= set(b)
             groups = [[]]
-            for a, line in lines:
+            for a, line, kind, sym in lines:
                 if a in bounds:
                     groups.append([])
-                groups[-1].append(line)
+                groups[-1].append((sym, line))
             return groups
 
         dgroups = split(dblobs.get(k, []), False)
@@ -632,9 +687,25 @@ def run(args, exclude):
             suffix = '' if file_no == 0 else str(file_no + 1)
             file_no += 1
             lines = ['#include "mgstype.h"', '']
-            lines += dg
+            defined = set(sym for sym, _ in dg + rg)
+            if bg:
+                for a, n in bg:
+                    defined |= set('%s_dword_%08X' % (name, x) for x in range(a, a + n, 4))
+            ext = []
+            for tname, tkind in sorted(externs.items()):
+                q_ = 'const ' if tname in const_syms else ''
+                if tkind == 'func':
+                    ext.append('extern void %s(void);' % tname)
+                elif tkind == 'arr':
+                    ext.append('extern %schar %s[];' % (q_, tname))
+                else:
+                    ext.append('extern %sint %s;' % (q_, tname))
+            if ext:
+                lines += ext
+                lines.append('')
+            lines += [line for _, line in dg]
             lines.append('')
-            lines += rg
+            lines += [line for _, line in rg]
             if bg:
                 lines.append('')
                 for a, n in bg:
@@ -654,9 +725,7 @@ def run(args, exclude):
             continue
 
         # asm functions
-        c_tables = [t for t in tables if items[k]['lo'] <= min(t) < items[k]['hi']]
-        extra = []
-        for s, e in split_functions(ow, it['lo'], it['hi'], c_tables, extra):
+        for s, e in chunk_funcs[k]:
             fname = '%s_%08X' % (name, BASE + s * 4)
             funcs_total += 1
             if not args.dry:
