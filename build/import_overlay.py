@@ -231,8 +231,19 @@ def split_functions(ow, lo, hi, tables, extra_starts):
             prev = p
         res.append((prev, e))
 
-    # do not split inside jump tables
-    spans = [(min(t), max(t)) for t in tables]
+    # do not split inside jump tables (tables of function pointers are not jump tables)
+    def is_func_ptr(t):
+        for i in t:
+            if i in starts:
+                return True
+            x = ow[i] if 0 <= i < len(ow) else 0
+            if x >> 16 == 0x27BD and x & 0x8000:
+                return True
+            # directly after a return: start of a function
+            if 2 <= i < len(ow) and ow[i - 2] == 0x03E00008:
+                return True
+        return False
+    spans = [(min(t), max(t)) for t in tables if not is_func_ptr(t)]
     merged = []
     for s, e in res:
         if merged and any(a < s <= b for a, b in spans if merged[-1][0] <= a):
