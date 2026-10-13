@@ -393,7 +393,7 @@ Individual overlay progress:
             <td><b>s10ar</b></td>
             <td>135 KB</td>
             <td>Underground Passage (RED)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s11a</b></td>
@@ -525,7 +525,7 @@ Individual overlay progress:
             <td><b>s17ar</b></td>
             <td>140 KB</td>
             <td>Supply Route (vs. REX) (RED)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s18a</b></td>
@@ -537,7 +537,7 @@ Individual overlay progress:
             <td><b>s18ar</b></td>
             <td>133 KB</td>
             <td>Supply Route (vs. Liquid) (RED)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s19a</b></td>

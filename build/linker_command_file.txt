@@ -340,7 +340,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}.bin")
     section overlay.sdata, overlay
 
 {% if OVERLAY == "d11c" or
-      OVERLAY == "s18a" or
+      OVERLAY == "s18a" or OVERLAY == "s18ar" or
       OVERLAY == "s11h" or
       OVERLAY == "s11b" or
       OVERLAY == "d18a" or OVERLAY == "d18ar" or
@@ -2902,7 +2902,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 ;------------------------------------------------------------------------------
-{% elif OVERLAY == "s10a" %}
+{% elif OVERLAY == "s10a" or OVERLAY == "s10ar" %}
     include "{{OBJ_DIR}}\stage\s10a.obj", overlay
 
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
@@ -3245,7 +3245,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 ;------------------------------------------------------------------------------
-{% elif OVERLAY == "s18a" %}
+{% elif OVERLAY == "s18a" or OVERLAY == "s18ar" %}
     include "{{OBJ_DIR}}\stage\s18a.obj", overlay
 
     include "{{OBJ_DIR}}\game\cancel.obj", overlay
@@ -3764,7 +3764,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 ;------------------------------------------------------------------------------
-{% elif OVERLAY == "s17a" %}
+{% elif OVERLAY == "s17a" or OVERLAY == "s17ar" %}
     include "{{OBJ_DIR}}\stage\s17a.obj", overlay
 
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
