@@ -427,7 +427,26 @@ def run(args, exclude):
         print('not sharable yet: %s needs %s' % (name_, ', '.join(missing[:6]) + (' ...' if len(missing) > 6 else '')))
 
     # text end: the last matched object ending, or the last jr ra
-    last_jr = max(k for k, x in enumerate(ow) if x == 0x03E00008)
+    # The text ends before the first rdata of any shared object. Look for the earliest
+    # place where such rdata can be found; the last `jr ra` before it ends the text.
+    # (Searching for the last `jr ra` in the file is not safe, bss contains leftover code.)
+    first_chain_end = BASE + chain[0][1] * 4 if chain else text_start
+    rdata_floor = None
+    for s_, e_, c_ in chain:
+        rsec = c_.sections.get('.rdata')
+        if rsec is None or len(rsec.code) < 8:
+            continue
+        data_, mask_ = sec_words_masked(rsec, len(rsec.code))
+        if not any(b for b, m in zip(data_, mask_) if m):
+            continue
+        for off in range(first_chain_end, end_addr - len(data_) + 1, 4):
+            act = d[off - BASE:off - BASE + len(data_)]
+            if all(m == 0 or a == b for a, b, m in zip(act, data_, mask_)):
+                if rdata_floor is None or off < rdata_floor:
+                    rdata_floor = off
+                break
+    limit = (rdata_floor - BASE) // 4 if rdata_floor else len(ow)
+    last_jr = max(k for k, x in enumerate(ow[:limit]) if x == 0x03E00008)
     text_end = BASE + (last_jr + 2) * 4
     if chain and BASE + chain[-1][1] * 4 > text_end:
         text_end = BASE + chain[-1][1] * 4
@@ -647,14 +666,15 @@ def run(args, exclude):
     lp = os.path.join(ROOT, 'build', 'linker_command_file.txt')
     s = open(lp, encoding='utf8').read()
     sep = ';------------------------------------------------------------------------------\n'
-    marker = '{% elif OVERLAY == "' + name + '" %}'
-    if marker in s:
-        i = s.index(marker)
+    m = re.search(r'\{% elif OVERLAY == "' + name + r'"( or OVERLAY == "[a-z0-9_]+")* %\}', s)
+    if m:
+        # keep variants (e.g. "s10a" or "s10ar") sharing the block
+        block = m.group(0) + block[block.index('\n'):]
+        i = m.start()
         j = s.index(sep, i)
         s = s[:i] + block + s[j:]
     else:
-        # append right before the closing endif of the main game overlays
-        # end of the main (non VR) game overlay chain
+        # append right before the closing endif of the main (non VR) game overlay chain
         i = s.index('{% if not VR_EXE %}')
         i = s.index(sep + '{% endif %}', i) + len(sep)
         s = s[:i] + block + sep + s[i:]
