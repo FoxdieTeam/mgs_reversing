@@ -102,7 +102,7 @@ static void Act( Work *work )
          ( work->root_obj->objs->flag & DG_FLAG_INVISIBLE ) )
     {
         work->sight = (void *)NewRifleSight( 1 );
-        sd_set_cli( 0x01ffff20, SD_ASYNC );
+        sd_set_cli( SNG_SYUKAN_ON, SD_ASYNC );
     }
 
     if ( flag & 1 )
@@ -160,7 +160,7 @@ static void Die( Work *work )
 {
     GM_FreeObject( (OBJECT *)&work->body );
     if ( GM_Weapon != WP_Rifle ) GM_Camera.zoom = 320;
-    sd_set_cli( 0x01ffff21, SD_ASYNC );
+    sd_set_cli( SNG_SYUKAN_OFF, SD_ASYNC );
     if ( work->sight != NULL ) GV_DestroyOtherActor( work->sight );
 }
 

@@ -1381,7 +1381,7 @@ skip_fading:
             work->field_210_codec_state = 0x11;
             dword_800ABB14 = -1;
         }
-        GM_SetSound(0x01ffff21, SD_ASYNC);
+        GM_SetSound(SNG_SYUKAN_OFF, SD_ASYNC);
         gCodecFadingStep = 0x10;
         work->field_212 = 0;
         work->field_210_codec_state = 0x13;
@@ -1430,7 +1430,7 @@ skip_fading:
         {
             sub_8004124C(work);
             work->field_210_codec_state = 15;
-            GM_SetSound(0x01ffff21, SD_ASYNC);
+            GM_SetSound(SNG_SYUKAN_OFF, SD_ASYNC);
             gMenuCallbackProc_800ABB08.param2 = 0;
             if (ret2 == 2)
             {
@@ -1550,7 +1550,7 @@ STATIC void menu_radio_update_80042198(MenuWork *work, u_long *ot)
                 GM_StreamPlayStop();
                 DG_UnDrawFrameCount = 2;
                 dword_800AB648 = 3;
-                GM_SetSound(0x01ffff20, SD_ASYNC);
+                GM_SetSound(SNG_SYUKAN_ON, SD_ASYNC);
                 if (gRadioIncomingCall_8009E708.field_0 >= 1 && gRadioIncomingCall_8009E708.field_0 <= 2)
                 {
                     init_radio_message_board_80040F74(work);

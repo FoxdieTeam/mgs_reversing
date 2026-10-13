@@ -215,7 +215,7 @@ static void GM_CreateLoader(void)
 static void GM_HidePauseScreen(void)
 {
     GV_PauseLevel &= ~GV_PAUSE_PAUSE;
-    GM_SetSound(0x01ffff02, SD_ASYNC);
+    GM_SetSound(SNG_PAUSEOFF, SD_ASYNC);
     MENU_JimakuClear();
     GM_GameStatus &= ~GAME_FLAG_BIT_08;
 }
@@ -226,7 +226,7 @@ static void GM_ShowPauseScreen(void)
 
     areaName = "";
     GV_PauseLevel |= GV_PAUSE_PAUSE;
-    GM_SetSound(0x01ffff01, SD_ASYNC);
+    GM_SetSound(SNG_PAUSEON, SD_ASYNC);
     if (GM_StageName)
     {
         areaName = GM_StageName;

@@ -66,7 +66,7 @@ void s19b_jeep_800D2790(Work *work)
     GM_FreeObject((OBJECT *)&work->field_31C);
     GM_FreeTarget(work->target);
     GV_DestroyActor(work->field_20);
-    GM_SetSound(0xFF0000FE, 0);
+    GM_SetSound(SE_JOUCHUU_OFF, 0);
 }
 
 void s19b_jeep_800D2800(Work *work)

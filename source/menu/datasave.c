@@ -362,11 +362,11 @@ STATIC int loadFile_80049CE8(MEMCARD *pMemcard, int idx)
                 GCL_SaveLinkVar(&GM_Configuration);
                 if (GM_Configuration & GM_CONFIG_SOUND_MONAURAL)
                 {
-                    GM_SetSound(0xff000005, SD_ASYNC);
+                    GM_SetSound(SD_MONORAL, SD_ASYNC);
                 }
                 else
                 {
-                    GM_SetSound(0xff000006, SD_ASYNC);
+                    GM_SetSound(SD_STEREO, SD_ASYNC);
                 }
             }
             break;
