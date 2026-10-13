@@ -435,7 +435,7 @@ Individual overlay progress:
             <td><b>s11h</b></td>
             <td>97 KB</td>
             <td>Communication Tower B Roof (vs. Hind D)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s11i</b></td>
