@@ -10,9 +10,16 @@
 #include "mts/mts.h"        // for mts_wait_vbl
 #include "libdg/libdg.h"    // for DG_FrameRate
 #include "libgv/libgv.h"    // for GV_xxxMemory
-#include "sound/sd_cli.h"
 
 extern void *StageCharacterEntries;
+
+/* in sound.lib (sd_file.c) */
+extern unsigned char *SD_SngDataLoadInit(unsigned short id);
+extern void SD_80083ED4(void);
+extern unsigned char *SD_SeDataLoadInit(unsigned short id);
+extern char *SD_WavDataLoadInit(unsigned short id);
+extern char *SD_WavLoadBuf(char *arg0);
+extern void SD_WavUnload(void);
 
 /*---------------------------------------------------------------------------*/
 

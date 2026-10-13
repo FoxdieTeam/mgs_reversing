@@ -1,38 +1,29 @@
+#include <libspu.h>
+
 #include "sd_incl.h"
 #include "sd_ext.h"
 
-#include <libspu.h>
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
 
-static unsigned long pant[41] = {
-    0,   2,   4,   7,   10,  13,  16,  20,  24,  28,  32,  36,  40,  45,
-    50,  55,  60,  65,  70,  75,  80,  84,  88,  92,  96,  100, 104, 107,
-    110, 112, 114, 116, 118, 120, 122, 123, 124, 125, 126, 127, 127
-};
+void spuwr(void);
+void sound_off(void);
+void sng_off(void);
+void se_off(int i);
+void sng_pause(void);
+void sng_pause_off(void);
+void keyon(void);
+void keyoff(void);
+void tone_set(unsigned char n);
+void pan_set2(unsigned char x);
+void vol_set(unsigned int vol_data);
+void freq_set(unsigned int note_tune);
+void drum_set(unsigned char n);
 
-static unsigned long se_pant[65] = {
-    0,   2,   4,   6,   8,   10,  14,  18,  22,  28,  34,  40,  46,
-    52,  58,  64,  70,  76,  82,  88,  94,  100, 106, 112, 118, 124,
-    130, 136, 142, 148, 154, 160, 166, 172, 178, 183, 188, 193, 198,
-    203, 208, 213, 217, 221, 224, 227, 230, 233, 236, 238, 240, 242,
-    244, 246, 248, 249, 250, 251, 252, 253, 254, 254, 255, 255, 255
-};
-
-unsigned int freq_tbl[108] = {
-    0x010B, 0x011B, 0x012C, 0x013E, 0x0151, 0x0165, 0x017A, 0x0191,
-    0x01A9, 0x01C2, 0x01DD, 0x01F9, 0x0217, 0x0237, 0x0259, 0x027D,
-    0x02A3, 0x02CB, 0x02F5, 0x0322, 0x0352, 0x0385, 0x03BA, 0x03F3,
-    0x042F, 0x046F, 0x04B2, 0x04FA, 0x0546, 0x0596, 0x05EB, 0x0645,
-    0x06A5, 0x070A, 0x0775, 0x07E6, 0x085F, 0x08DE, 0x0965, 0x09F4,
-    0x0A8C, 0x0B2C, 0x0BD6, 0x0C8B, 0x0D4A, 0x0E14, 0x0EEA, 0x0FCD,
-    0x10BE, 0x11BD, 0x12CB, 0x13E9, 0x1518, 0x1659, 0x17AD, 0x1916,
-    0x1A94, 0x1C28, 0x1DD5, 0x1F9B, 0x217C, 0x237A, 0x2596, 0x27D2,
-    0x2A30, 0x2CB2, 0x2F5A, 0x322C, 0x3528, 0x3850, 0x3BAC, 0x3F36,
-    0x0021, 0x0023, 0x0026, 0x0028, 0x002A, 0x002D, 0x002F, 0x0032,
-    0x0035, 0x0038, 0x003C, 0x003F, 0x0042, 0x0046, 0x004B, 0x004F,
-    0x0054, 0x0059, 0x005E, 0x0064, 0x006A, 0x0070, 0x0077, 0x007E,
-    0x0085, 0x008D, 0x0096, 0x009F, 0x00A8, 0x00B2, 0x00BD, 0x00C8,
-    0x00D4, 0x00E1, 0x00EE, 0x00FC
-};
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
 
 void spuwr(void)
 {
@@ -45,10 +36,10 @@ void spuwr(void)
         keyoffs = 0;
     }
 
-    if (eoffs)
+    if (rev_off_bit)
     {
-        SpuSetReverbVoice(SPU_OFF, eoffs);
-        eoffs = 0;
+        SpuSetReverbVoice(SPU_OFF, rev_off_bit);
+        rev_off_bit = 0;
     }
 
     for (i = 0; i < 21; i++)
@@ -109,10 +100,10 @@ void spuwr(void)
         }
     }
 
-    if (eons)
+    if (rev_on_bit)
     {
-        SpuSetReverbVoice(SPU_ON, eons);
-        eons = 0;
+        SpuSetReverbVoice(SPU_ON, rev_on_bit);
+        rev_on_bit = 0;
     }
 
     if (keyons)
@@ -122,6 +113,10 @@ void spuwr(void)
     }
 }
 
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
+
 void sound_off(void)
 {
     int          i;
@@ -129,7 +124,7 @@ void sound_off(void)
 
     for (i = 0; i < 23; i++)
     {
-        spu_tr_wk[i].rr = 7;
+        spu_tr_wk[i].rr = ENV_CUT_OFF;
         spu_tr_wk[i].env3_fg = 1;
 
         key_no = spu_ch_tbl[mtrack + 1];
@@ -144,7 +139,7 @@ void sng_off(void)
 
     for (i = 0; i < 13; i++)
     {
-        spu_tr_wk[i].rr = 7;
+        spu_tr_wk[i].rr = ENV_CUT_OFF;
         spu_tr_wk[i].env3_fg = 1;
     }
     song_end |= 0x1FFFu;
@@ -154,7 +149,7 @@ void sng_off(void)
 void se_off(int i)
 {
     spu_tr_wk[i + 13].env3_fg = 1;
-    spu_tr_wk[i + 13].rr = 0;
+    spu_tr_wk[i + 13].rr = 0; /*ENV_CUT_OFF*/
     song_end |= 1 << (i + 13);
     keyoffs |= 1 << (i + 13);
 }
@@ -179,15 +174,27 @@ void sng_pause_off(void)
     SpuSetCommonAttr(&c_attr);
 }
 
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
+
 void keyon(void)
 {
     keyons |= keyd;
 }
 
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
+
 void keyoff(void)
 {
     keyoffs |= keyd;
 }
+
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
 
 void tone_set(unsigned char n)
 {
@@ -250,6 +257,10 @@ void tone_set(unsigned char n)
     sptr->dec_vol = (unsigned char)voice_tbl[n].decl_vol;
 }
 
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
+
 void pan_set2(unsigned char x)
 {
     if (!sptr->panoff)
@@ -258,6 +269,41 @@ void pan_set2(unsigned char x)
         sptr->pand = x << 9;
     }
 }
+
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
+
+static unsigned long pant[41] = {
+      0,  2,  4,  7, 10, 13, 16, 20, 24, 28,
+     32, 36, 40, 45, 50, 55, 60, 65, 70, 75,
+     80, 84, 88, 92, 96,100,104,107,110,112,
+    114,116,118,120,122,123,124,125,126,127,127
+};
+
+static unsigned long se_pant[65] = {
+      0,   2,   4,      /*0*/
+      6,   8,  10,      /*10*/
+     14,  18,  22,      /*24*/
+     28,  34,  40,      /*40*/
+     46,  52,  58,  64, /*60*/
+     70,  76,  82,      /*80*/
+     88,  94, 100,      /*100*/
+    106, 112, 118,      /*120*/
+    124, 130, 136,      /*140*/
+    142, 148, 154, 160, /*160*/
+    166, 172, 178,      /*172*/
+    183, 188, 193,      /*196*/
+    198, 203, 208,      /*210*/
+    213, 217, 221,      /*222*/
+    224, 227, 230, 233, /*232*/
+    236, 238, 240,      /*240*/
+    242, 244, 246,      /*246*/
+    248, 249, 250,      /*250*/
+    251, 252, 253,      /*253*/
+    254, 254, 255, 255, /*255*/
+    255
+};
 
 void vol_set(unsigned int vol_data)
 {
@@ -325,32 +371,61 @@ void vol_set(unsigned int vol_data)
     }
 }
 
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
+
+unsigned int freq_tbl[108] = {
+    0x010B, 0x011B, 0x012C, 0x013E, 0x0151, 0x0165, 0x017A, 0x0191,
+    0x01A9, 0x01C2, 0x01DD, 0x01F9, 0x0217, 0x0237, 0x0259, 0x027D,
+    0x02A3, 0x02CB, 0x02F5, 0x0322, 0x0352, 0x0385, 0x03BA, 0x03F3,
+    0x042F, 0x046F, 0x04B2, 0x04FA, 0x0546, 0x0596, 0x05EB, 0x0645,
+    0x06A5, 0x070A, 0x0775, 0x07E6, 0x085F, 0x08DE, 0x0965, 0x09F4,
+    0x0A8C, 0x0B2C, 0x0BD6, 0x0C8B, 0x0D4A, 0x0E14, 0x0EEA, 0x0FCD,
+    0x10BE, 0x11BD, 0x12CB, 0x13E9, 0x1518, 0x1659, 0x17AD, 0x1916,
+    0x1A94, 0x1C28, 0x1DD5, 0x1F9B, 0x217C, 0x237A, 0x2596, 0x27D2,
+    0x2A30, 0x2CB2, 0x2F5A, 0x322C, 0x3528, 0x3850, 0x3BAC, 0x3F36,
+    0x0021, 0x0023, 0x0026, 0x0028, 0x002A, 0x002D, 0x002F, 0x0032,
+    0x0035, 0x0038, 0x003C, 0x003F, 0x0042, 0x0046, 0x004B, 0x004F,
+    0x0054, 0x0059, 0x005E, 0x0064, 0x006A, 0x0070, 0x0077, 0x007E,
+    0x0085, 0x008D, 0x0096, 0x009F, 0x00A8, 0x00B2, 0x00BD, 0x00C8,
+    0x00D4, 0x00E1, 0x00EE, 0x00FC
+};
+
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
+
 void freq_set(unsigned int note_tune)
 {
-    unsigned char temp, temp2, temp3, temp4;
+    unsigned char pl, ph, note, tune;
     int           freq;
     int          *ptr;
 
     note_tune += (signed char)sptr->micro;
-    temp4 = note_tune;
-    temp3 = (note_tune >> 8) + sptr->macro;
-    temp3 &= 0x7F;
+    tune = note_tune;
+    note = (note_tune >> 8) + sptr->macro;
+    note &= 0x7F;
     ptr = freq_tbl;
-    freq = ptr[temp3 + 1] - ptr[temp3];
+    freq = ptr[note + 1] - ptr[note];
 
     if (freq & 0x8000)
     {
-        freq = 0xC9;
+        freq = 201;
     }
 
-    temp = freq;
-    temp2 = freq >> 8;
-    freq = ((temp * temp4) >> 8) + (temp2 * temp4);
-    freq += ptr[temp3];
+    pl = freq;
+    ph = freq >> 8;
+    freq = ((pl * tune) >> 8) + (ph * tune);
+    freq += ptr[note];
 
     spu_tr_wk[mtrack].pitch = freq;
     spu_tr_wk[mtrack].pitch_fg = 1;
 }
+
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
 
 void drum_set(unsigned char n)
 {

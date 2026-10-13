@@ -1,143 +1,98 @@
 #include "sd_incl.h"
 #include "sd_ext.h"
 
-/* local inlines */
-inline int  vib_compute(void);
-inline void por_compute(void);
-inline void swpadset(int xfreq);
+#define ENDOFMEASURE    0xFE
+#define ENDOFBLOCK      0xFE
+#define ENDOFSONG       0xFF
+
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+
+/* in sd_ioset.c */
+extern void keyon(void);
+extern void keyoff(void);
+extern void vol_set(unsigned int vol_data);
+extern void freq_set(unsigned int note_tune);
+extern void drum_set(unsigned char n);
+
+/* in sd_sub2.c */
+extern void rest_set(void);
+extern void tie_set(void);
+extern void sno_set(void);
+extern void svl_set(void);
+extern void svp_set(void);
+extern void use_set(void);
+extern void pan_set(void);
+extern void pan_move(void);
+extern void vib_set(void);
+extern void vib_change(void);
+extern void rdm_set(void);
+extern void lp1_start(void);
+extern void lp1_end(void);
+extern void lp2_start(void);
+extern void lp2_end(void);
+extern void l3s_set(void);
+extern void l3e_set(void);
+extern void tempo_set(void);
+extern void tempo_move(void);
+extern void trans_set(void);
+extern void tre_set(void);
+extern void vol_chg(void);
+extern void vol_move(void);
+extern void por_set(void);
+extern void sws_set(void);
+extern void detune_set(void);
+extern void swp_set(void);
+extern void echo_set1(void);
+extern void echo_set2(void);
+extern void eon_set(void);
+extern void eof_set(void);
+extern void kakko_start(void);
+extern void kakko_end(void);
+extern void env_set(void);
+extern void ads_set(void);
+extern void srs_set(void);
+extern void rrs_set(void);
+extern void pm_set(void);
+extern void jump_set(void);
+extern void block_end(void);
+extern void no_cmd(void);
+
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 
 void (*cntl_tbl[128])(void) = {
-    /* 0x00 */ no_cmd,
-    /* 0x01 */ no_cmd,
-    /* 0x02 */ no_cmd,
-    /* 0x03 */ no_cmd,
-    /* 0x04 */ no_cmd,
-    /* 0x05 */ no_cmd,
-    /* 0x06 */ no_cmd,
-    /* 0x07 */ no_cmd,
-    /* 0x08 */ no_cmd,
-    /* 0x09 */ no_cmd,
-    /* 0x0a */ no_cmd,
-    /* 0x0b */ no_cmd,
-    /* 0x0c */ no_cmd,
-    /* 0x0d */ no_cmd,
-    /* 0x0e */ no_cmd,
-    /* 0x0f */ no_cmd,
-    /* 0x10 */ no_cmd,
-    /* 0x11 */ no_cmd,
-    /* 0x12 */ no_cmd,
-    /* 0x13 */ no_cmd,
-    /* 0x14 */ no_cmd,
-    /* 0x15 */ no_cmd,
-    /* 0x16 */ no_cmd,
-    /* 0x17 */ no_cmd,
-    /* 0x18 */ no_cmd,
-    /* 0x19 */ no_cmd,
-    /* 0x1a */ no_cmd,
-    /* 0x1b */ no_cmd,
-    /* 0x1c */ no_cmd,
-    /* 0x1d */ no_cmd,
-    /* 0x1e */ no_cmd,
-    /* 0x1f */ no_cmd,
-    /* 0x20 */ no_cmd,
-    /* 0x21 */ no_cmd,
-    /* 0x22 */ no_cmd,
-    /* 0x23 */ no_cmd,
-    /* 0x24 */ no_cmd,
-    /* 0x25 */ no_cmd,
-    /* 0x26 */ no_cmd,
-    /* 0x27 */ no_cmd,
-    /* 0x28 */ no_cmd,
-    /* 0x29 */ no_cmd,
-    /* 0x2a */ no_cmd,
-    /* 0x2b */ no_cmd,
-    /* 0x2c */ no_cmd,
-    /* 0x2d */ no_cmd,
-    /* 0x2e */ no_cmd,
-    /* 0x2f */ no_cmd,
-    /* 0x30 */ no_cmd,
-    /* 0x31 */ no_cmd,
-    /* 0x32 */ no_cmd,
-    /* 0x33 */ no_cmd,
-    /* 0x34 */ no_cmd,
-    /* 0x35 */ no_cmd,
-    /* 0x36 */ no_cmd,
-    /* 0x37 */ no_cmd,
-    /* 0x38 */ no_cmd,
-    /* 0x39 */ no_cmd,
-    /* 0x3a */ no_cmd,
-    /* 0x3b */ no_cmd,
-    /* 0x3c */ no_cmd,
-    /* 0x3d */ no_cmd,
-    /* 0x3e */ no_cmd,
-    /* 0x3f */ no_cmd,
-    /* 0x40 */ no_cmd,
-    /* 0x41 */ no_cmd,
-    /* 0x42 */ no_cmd,
-    /* 0x43 */ no_cmd,
-    /* 0x44 */ no_cmd,
-    /* 0x45 */ no_cmd,
-    /* 0x46 */ no_cmd,
-    /* 0x47 */ no_cmd,
-    /* 0x48 */ no_cmd,
-    /* 0x49 */ no_cmd,
-    /* 0x4a */ no_cmd,
-    /* 0x4b */ no_cmd,
-    /* 0x4c */ no_cmd,
-    /* 0x4d */ no_cmd,
-    /* 0x4e */ no_cmd,
-    /* 0x4f */ no_cmd,
-    /* 0x50 */ tempo_set,
-    /* 0x51 */ tempo_move,
-    /* 0x52 */ sno_set,
-    /* 0x53 */ svl_set,
-    /* 0x54 */ svp_set,
-    /* 0x55 */ vol_chg,
-    /* 0x56 */ vol_move,
-    /* 0x57 */ ads_set,
-    /* 0x58 */ srs_set,
-    /* 0x59 */ rrs_set,
-    /* 0x5a */ no_cmd,
-    /* 0x5b */ no_cmd,
-    /* 0x5c */ no_cmd,
-    /* 0x5d */ pan_set,
-    /* 0x5e */ pan_move,
-    /* 0x5f */ trans_set,
-    /* 0x60 */ detune_set,
-    /* 0x61 */ vib_set,
-    /* 0x62 */ vib_change,
-    /* 0x63 */ rdm_set,
-    /* 0x64 */ swp_set,
-    /* 0x65 */ sws_set,
-    /* 0x66 */ por_set,
-    /* 0x67 */ lp1_start,
-    /* 0x68 */ lp1_end,
-    /* 0x69 */ lp2_start,
-    /* 0x6a */ lp2_end,
-    /* 0x6b */ l3s_set,
-    /* 0x6c */ l3e_set,
-    /* 0x6d */ kakko_start,
-    /* 0x6e */ kakko_end,
-    /* 0x6f */ no_cmd,
-    /* 0x70 */ no_cmd,
-    /* 0x71 */ use_set,
-    /* 0x72 */ rest_set,
-    /* 0x73 */ tie_set,
-    /* 0x74 */ echo_set1,
-    /* 0x75 */ echo_set2,
-    /* 0x76 */ eon_set,
-    /* 0x77 */ eof_set,
-    /* 0x78 */ no_cmd,
-    /* 0x79 */ no_cmd,
-    /* 0x7a */ no_cmd,
-    /* 0x7b */ no_cmd,
-    /* 0x7c */ no_cmd,
-    /* 0x7d */ no_cmd,
-    /* 0x7e */ no_cmd,
-    /* 0x7f */ block_end
+/* 0x80 */
+    no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,
+    no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,
+/* 0x90 */
+    no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,
+    no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,
+/* 0xA0 */
+    no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,
+    no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,
+/* 0xB0 */
+    no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,
+    no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,
+/* 0xC0 */
+    no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,
+    no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,
+/* 0xD0 */
+    tempo_set,tempo_move,sno_set,svl_set,svp_set,vol_chg,vol_move,ads_set,
+    srs_set,rrs_set,no_cmd,no_cmd,no_cmd,pan_set,pan_move,trans_set,
+/* 0xE0 */
+    detune_set,vib_set,vib_change,rdm_set,swp_set,sws_set,por_set,lp1_start,
+/* 0xE8 */
+    lp1_end,lp2_start,lp2_end,l3s_set,l3e_set,kakko_start,kakko_end,no_cmd,
+/* 0xF0 */
+    no_cmd,use_set,rest_set,tie_set,echo_set1,echo_set2,eon_set,eof_set,
+/* 0xF8 */
+    no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,no_cmd,block_end
 };
 
-unsigned char rdm_tbl[129] = {
+unsigned char rdm_tbl[129] = { /* char[] */
     159,  60, 178,  82, 175,  69, 199, 137,
      16, 127, 224, 157, 220,  31,  97,  22,
      57, 201, 156, 235,  87,   8, 102, 248,
@@ -164,6 +119,43 @@ unsigned char VIBX_TBL[32] = {
     176, 160, 144, 128, 104,  80,  56,  32
 };
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+
+/* local inlines */
+inline int  vib_compute(void);
+inline void por_compute(void);
+inline void swpadset(int xfreq);
+
+int sound_sub(void);
+int tx_read(void);
+void note_set(void);
+void adsr_reset(void);
+void note_compute(void);
+void vol_compute(void);
+void pan_generate(void);
+void key_cut_off(void);
+void keych(void);
+int vib_generate(int cnt);
+void bendch(void);
+void note_cntl(void);
+unsigned int random(void);
+void tempo_ch(void);
+void volxset(unsigned char depth);
+
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+
+#define GET_VEL     *(mptr)
+#define GET_GATE    *(mptr+1)
+#define GET_STEP    *(mptr+2)
+#define GET_NOTE    *(mptr+3)
+
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 int sound_sub(void)
 {
     int          fade2_shifted;
@@ -173,9 +165,9 @@ int sound_sub(void)
     sptr->tmpd += sptr->tmp;
     if ((unsigned int)mtrack < 0xD)
     {
-        if (sng_kaihi_time)
+        if (sng_tempo_move)
         {
-            fade2_shifted = sng_kaihi_time >> 5;
+            fade2_shifted = sng_tempo_move >> 5;
             if (fade2_shifted < (unsigned char)sptr->tmp)
             {
                 sptr->tmpd -= fade2_shifted;
@@ -215,6 +207,9 @@ int sound_sub(void)
     return 0;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 int tx_read(void)
 {
     int read_fg;
@@ -238,17 +233,17 @@ int tx_read(void)
         mdata2 = mptr[2];
         mdata3 = mptr[1];
         mdata4 = mptr[0];
-        mptr += 4;
+        mptr += SNG_NOTE_SIZE;
 
         if ((char)mdata1 >= 128)
         {
             cntl_tbl[mdata1 - 128]();
-            if (mdata1 == 0xF2 || mdata1 == 0xF3 || mdata1 == 0xFF)
+            if (mdata1 == REST_SET || mdata1 == TIE_SET || mdata1 == 0xFF)
             {
                 read_fg = 0;
             }
 
-            if (mdata1 == 0xFF)
+            if (mdata1 == ENDOFSONG)
             {
                 return 1;
             }
@@ -267,6 +262,9 @@ int tx_read(void)
     return 0;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 void note_set(void)
 {
     unsigned int x;
@@ -285,19 +283,25 @@ void note_set(void)
     sptr->ngo = x;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 void adsr_reset(void)
 {
     spu_tr_wk[mtrack].rr = sptr->rrd;
     spu_tr_wk[mtrack].env3_fg = 1;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 void note_compute(void)
 {
     int      x;
     int      swp_ex;
     SOUND_W *pSound;
 
-    if (mdata1 >= 0x48)
+    if (mdata1 >= SEQ_DRC)
     {
         drum_set(mdata1);
         x = 0x24;
@@ -365,6 +369,9 @@ void note_compute(void)
     freq_set(sptr->swpd);
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 inline void swpadset(int xfreq)
 {
     unsigned int flame_dat;
@@ -398,6 +405,9 @@ inline void swpadset(int xfreq)
     }
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 void vol_compute(void)
 {
     int          mult;
@@ -451,6 +461,9 @@ void vol_compute(void)
     pan_generate();
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 void pan_generate(void)
 {
     if (sptr->panc)
@@ -467,11 +480,14 @@ void pan_generate(void)
     }
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 void key_cut_off(void)
 {
-    if (sptr->rrd > 7)
+    if (sptr->rrd > ENV_CUT_OFF)
     {
-        spu_tr_wk[mtrack].rr = 7;
+        spu_tr_wk[mtrack].rr = ENV_CUT_OFF;
         spu_tr_wk[mtrack].env3_fg = 1;
     }
 }
@@ -587,6 +603,9 @@ void keych(void)
     }
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 inline void por_compute(void)
 {
     int          por_freq;
@@ -630,6 +649,9 @@ inline void por_compute(void)
     sptr->swpd += por_freq;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 inline int vib_compute(void)
 {
     unsigned int tmp;
@@ -660,6 +682,9 @@ inline int vib_compute(void)
     return vib_data;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 int vib_generate(int cnt)
 {
     unsigned char vib_char;
@@ -691,6 +716,9 @@ int vib_generate(int cnt)
     return vib_data;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 void bendch(void)
 {
     int bend_frq;
@@ -698,12 +726,12 @@ void bendch(void)
     if (!sptr->swpc)
     {
         mdata1 = mptr[3];
-        if (mdata1 == 0xe4)
+        if (mdata1 == SWP_SET)
         {
             sptr->swphc = mptr[2];
             sptr->swpc = mptr[1];
             bend_frq = mptr[0];
-            mptr += 4;
+            mptr += SNG_NOTE_SIZE;
 
             bend_frq = (bend_frq + sptr->ptps) << 8;
             bend_frq += sptr->tund;
@@ -713,6 +741,9 @@ void bendch(void)
     }
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 void note_cntl(void)
 {
     int            rdm_data;
@@ -786,6 +817,9 @@ void note_cntl(void)
     }
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 unsigned int random(void)
 {
     unsigned int  frq_dt = 0;
@@ -808,6 +842,9 @@ unsigned int random(void)
     return frq_dt;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 void tempo_ch(void)
 {
     if (sptr->tmpc)
@@ -824,6 +861,9 @@ void tempo_ch(void)
     }
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
 void volxset(unsigned char depth)
 {
     int vol_data;

@@ -22,6 +22,26 @@
 #include "game/over.h"
 #include "menu/menuman.h"
 
+/* in sound.lib */
+extern int str_mute_fg;
+extern unsigned int str_status;
+extern int spu_irq_counter;
+extern int irq_addr;
+extern int str_off_idx;
+
+extern char *MGS_DiskName[3]; /* in main.c */
+
+/* in libfs.lib */
+extern int FS_DiskNum;
+extern int FS_ResidentCacheDirty;
+extern int gOverlayBinSize_800B5290;
+
+/* in libgv/resident.c */
+extern unsigned char *GV_ResidentMemoryBottom;
+
+/* in game/chara.c */
+extern void *StageCharacterEntries;
+
 /*---------------------------------------------------------------------------*/
 
 //both below are defined in gvd.c
@@ -103,21 +123,6 @@ static DG_TEX   SECTION(".bss") read_error_tex;
 char            SECTION(".bss") gap_800B58BC[ 4 ]; // TODO
 static u_short  SECTION(".bss") GM_SystemCallbackProc[ 6 ];
 char            SECTION(".bss") gap_800B58CC[ 20 ]; // TODO
-
-extern int          str_mute_fg;
-extern unsigned int str_status;
-extern int          dword_800BF1A8;
-extern int          dword_800BF270;
-extern int          str_off_idx;
-extern char        *MGS_DiskName[3]; /* in main.c */
-extern int          FS_DiskNum;
-extern int          FS_ResidentCacheDirty;
-
-
-extern unsigned char *GV_ResidentMemoryBottom;
-
-extern void *StageCharacterEntries;
-extern int gOverlayBinSize_800B5290;
 
 /*---------------------------------------------------------------------------*/
 
@@ -567,8 +572,8 @@ static void Act(Work *work)
                 spu_key |= spu_stat & 1;
             }
 
-            printf("str_status %d irq %x %X %X\n", str_status, dword_800BF1A8, dword_800BF270,
-                   str_off_idx);
+            printf("str_status %d irq %x %X %X\n", str_status,
+                spu_irq_counter, irq_addr, str_off_idx);
             printf("key %08X\n", spu_key);
         }
 

@@ -4,7 +4,7 @@
 
 #include "se_data/blob.h"
 
-unsigned char se_dummy[] = { 0x00,0x00,0xfe,0xff };
+unsigned char se_dummy[] = { 0x00,0x00,0xFE,0xFF };
 
 /*---------------------- Sound Effect Table ----------------------------*/
 

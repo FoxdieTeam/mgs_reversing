@@ -1,9 +1,86 @@
 #ifndef __G_SOUND_H__
 #define __G_SOUND_H__
+/*----------------------------------------------------------------------*/
 
-/*---------------------------------------------------------------------------*/
-/*  Resident Sound Effects                                                   */
-/*---------------------------------------------------------------------------*/
+/*--------------------*/
+/*--- Song Control ---*/
+/*--------------------*/
+/*SONG PAUSE*/
+#define SNG_PAUSEON     0x01FFFF01
+#define SNG_PAUSEOFF    0x01FFFF02
+/*SONG FADE IN*/
+#define SNG_FIN_S       0x01FFFF03  /* (1sec) */
+#define SNG_FIN_M       0x01FFFF04  /* (3sec) */
+#define SNG_FIN_L       0x01FFFF05  /* (5sec) */
+/*SONG FADE OUT & PAUSE*/
+#define SNG_FOUTP_SS    0x01FFFF06  /* (0.5sec) */
+#define SNG_FOUTP_S     0x01FFFF07  /* (1sec) */
+#define SNG_FOUTP_M     0x01FFFF08  /* (3sec) */
+#define SNG_FOUTP_L     0x01FFFF09  /* (5sec) */
+/*SONG FADE OUT & STOP*/
+#define SNG_FOUTS_SS    0x01FFFF0A  /* (0.5sec) */
+#define SNG_FOUTS_S     0x01FFFF0B  /* (1sec) */
+#define SNG_FOUTS_M     0x01FFFF0C  /* (3sec) */
+#define SNG_FOUTS_L     0x01FFFF0D  /* (5sec) */
+/*Kaihi MODE*/
+#define SNG_KAIHI_01    0x01FFFF10
+/*Syukan MODE*/
+#define SNG_SYUKAN_ON   0x01FFFF20
+#define SNG_SYUKAN_OFF  0x01FFFF21
+
+/*SONG STOP*/
+#define SNG_STOP        0x01FFFFFF
+
+/*--------------------*/
+/*---- SE CONTROL ----*/
+/*--------------------*/
+#define SE_JOUCHUU_OFF  0xFF0000FE
+
+/*--------------------*/
+/*---- STR CONTROL ---*/
+/*--------------------*/
+#define STR_STOP        0xFFFFFFFD  /* (0.5sec) */
+/*STR FADE IN*/
+#define STR_FIN_M       0xFF0000F8  /* (2sec) */
+#define STR_FIN_L       0xFF0000F9  /* (5sec) */
+/*STR FADE OUT & PAUSE*/
+#define STR_FOUTP_SS    0xFF0000F4  /* (1sec) */
+#define STR_FOUTP_S     0xFF0000F5  /* (2sec) */
+#define STR_FOUTP_M     0xFF0000F6  /* (5sec) */
+#define STR_FOUTP_L     0xFF0000F7  /* (10sec) */
+/*STR FADE OUT & STOP*/
+#define STR_FOUTS_SS    0xFF0000FA  /* (1sec) */
+#define STR_FOUTS_S     0xFF0000FB  /* (2sec) */
+#define STR_FOUTS_M     0xFF0000FC  /* (5sec) */
+#define STR_FOUTS_L     0xFF0000FD  /* (10sec) */
+
+/*--------------------*/
+/*-- REVERB CONTROL --*/
+/*--------------------*/
+/*SE REVERB ON/OFF*/
+#define SE_REVERB_ON    0xFF000007
+#define SE_REVERB_OFF   0xFF000008
+#define STR_REVERB_ON   0xFF000009
+
+/*--------------------*/
+/*-- SYSTEM CONTROL --*/
+/*--------------------*/
+#define SD_MONORAL      0xFF000005
+#define SD_STEREO       0xFF000006
+
+/*---------------------- BGM -------------------------------------------*/
+
+/*SONG PLAY CODE*/
+#define SNG_PLAY_01     0x01000001
+#define SNG_PLAY_02     0x01000002
+#define SNG_PLAY_03     0x01000003
+#define SNG_PLAY_04     0x01000004
+#define SNG_PLAY_05     0x01000005
+#define SNG_PLAY_06     0x01000006
+#define SNG_PLAY_07     0x01000007
+#define SNG_PLAY_08     0x01000008
+
+/*---------------------- SE --------------------------------------------*/
 
 #define SE_DUMMY                (  0)
 #define SE_SHOT_01              (  1)
@@ -250,9 +327,9 @@
 #define SE_IDEC04               (127)
 #define SE_MENU_TOGGLE          SE_IDEC04
 
-/*---------------------------------------------------------------------------*/
-/*  Non-Resident Sound Effects                                               */
-/*---------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------*/
+/*  Non-Resident Sound Effects                                          */
+/*----------------------------------------------------------------------*/
 // NOTE: The original filenames of the efx sequences are unknown,
 // so we're just going to define our "friendly" names directly here.
 
@@ -304,4 +381,5 @@
 #define SE_V_ENE_WHATSTHAT      (0x96)  // 敵兵「何だ？」
                                         // Soldier: What's that?
 
+/*----------------------------------------------------------------------*/
 #endif // __G_SOUND_H__
