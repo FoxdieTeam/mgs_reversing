@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s19a_800D3CCC
+s19a_800D3CCC:
+	dw 0xA4800B20 ; 800D3CCC
+	dw 0xA4800B22 ; 800D3CD0
+	dw 0xA4800B24 ; 800D3CD4
+	dw 0xAC800B28 ; 800D3CD8
+	dw 0x03E00008 ; 800D3CDC
+	dw 0xA4800B4C ; 800D3CE0

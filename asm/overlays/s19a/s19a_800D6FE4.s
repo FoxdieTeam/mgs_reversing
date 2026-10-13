@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s19a_800D6FE4
+s19a_800D6FE4:
+	dw 0x0085102A ; 800D6FE4
+	dw 0x10400002 ; 800D6FE8
+	dw 0x00000000 ; 800D6FEC
+	dw 0x00A02021 ; 800D6FF0
+	dw 0x03E00008 ; 800D6FF4
+	dw 0x00801021 ; 800D6FF8

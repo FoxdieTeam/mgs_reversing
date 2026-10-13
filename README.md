@@ -543,7 +543,7 @@ Individual overlay progress:
             <td><b>s19a</b></td>
             <td>120 KB</td>
             <td>Escape Route (Garage)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s19ar</b></td>

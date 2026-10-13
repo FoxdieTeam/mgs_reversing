@@ -1,0 +1,54 @@
+#include "mgstype.h"
+
+
+
+int SECTION(".bss") s19a_dword_800E0E10;
+int SECTION(".bss") s19a_dword_800E0E14;
+int SECTION(".bss") s19a_dword_800E0E18;
+int SECTION(".bss") s19a_dword_800E0E1C;
+int SECTION(".bss") s19a_dword_800E0E20;
+int SECTION(".bss") s19a_dword_800E0E24;
+int SECTION(".bss") s19a_dword_800E0E28;
+int SECTION(".bss") s19a_dword_800E0E2C;
+int SECTION(".bss") s19a_dword_800E0E30;
+int SECTION(".bss") s19a_dword_800E0E34;
+int SECTION(".bss") s19a_dword_800E0E38;
+int SECTION(".bss") s19a_dword_800E0E3C;
+int SECTION(".bss") s19a_dword_800E0E40;
+int SECTION(".bss") s19a_dword_800E0E44;
+int SECTION(".bss") s19a_dword_800E0E48;
+int SECTION(".bss") s19a_dword_800E0E4C;
+int SECTION(".bss") s19a_dword_800E0E50;
+int SECTION(".bss") s19a_dword_800E0E54;
+int SECTION(".bss") s19a_dword_800E0E58;
+int SECTION(".bss") s19a_dword_800E0E5C;
+int SECTION(".bss") s19a_dword_800E0E60;
+int SECTION(".bss") s19a_dword_800E0E64;
+int SECTION(".bss") s19a_dword_800E0E68;
+int SECTION(".bss") s19a_dword_800E0E6C;
+int SECTION(".bss") s19a_dword_800E0E70;
+int SECTION(".bss") s19a_dword_800E0E74;
+int SECTION(".bss") s19a_dword_800E0E78;
+int SECTION(".bss") s19a_dword_800E0E7C;
+int SECTION(".bss") s19a_dword_800E0E80;
+int SECTION(".bss") s19a_dword_800E0E84;
+int SECTION(".bss") s19a_dword_800E0E88;
+int SECTION(".bss") s19a_dword_800E0E8C;
+int SECTION(".bss") s19a_dword_800E0E90;
+int SECTION(".bss") s19a_dword_800E0E94;
+int SECTION(".bss") s19a_dword_800E0E98;
+int SECTION(".bss") s19a_dword_800E0E9C;
+int SECTION(".bss") s19a_dword_800E0EA0;
+int SECTION(".bss") s19a_dword_800E0EA4;
+int SECTION(".bss") s19a_dword_800E0EA8;
+int SECTION(".bss") s19a_dword_800E0EAC;
+int SECTION(".bss") s19a_dword_800E0EB0;
+int SECTION(".bss") s19a_dword_800E0EB4;
+int SECTION(".bss") s19a_dword_800E0EB8;
+int SECTION(".bss") s19a_dword_800E0EBC;
+int SECTION(".bss") s19a_dword_800E0EC0;
+int SECTION(".bss") s19a_dword_800E0EC4;
+int SECTION(".bss") s19a_dword_800E0EC8;
+int SECTION(".bss") s19a_dword_800E0ECC;
+int SECTION(".bss") s19a_dword_800E0ED0;
+int SECTION(".bss") s19a_dword_800E0ED4;

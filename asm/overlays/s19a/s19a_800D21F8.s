@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s19a_800D21F8
+s19a_800D21F8:
+	dw 0x14400002 ; 800D21F8
+	dw 0x240200FF ; 800D21FC
+	dw 0xAC820B94 ; 800D2200
+	dw 0x03E00008 ; 800D2204
+	dw 0x00000000 ; 800D2208
