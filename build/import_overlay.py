@@ -253,16 +253,39 @@ def sec_words_masked(sec, size):
                 mask[off + k] = 0
     return code, bytes(mask)
 
-def find_blobs(items, d, start, end, secname, align):
+
+def anchor_base(it, secname, ow, lo_addr, hi_addr):
+    """Finds where the overlay placed a section of a shared object by looking at the
+    low 16 bit immediates in its (relocated) code"""
+    sec = it['cand'].sections
+    target = sec.get(secname)
+    if target is None:
+        return None
+    votes = defaultdict(int)
+    text = sec['.text']
+    for ptype, off, expr in text.patches:
+        if expr[0] == 'op' and expr[1] == 44 and expr[2] == ('sec', target.id) and expr[3][0] == 'const':
+            add = expr[3][1]
+            w = ow[it['lo'] + off // 4]
+            op = w >> 26
+            if op in (9, 13) or 32 <= op <= 46:
+                votes[(sx16(w & 0xFFFF) - add) & 0xFFFF] += 1
+    if not votes:
+        return None
+    low = max(votes, key=votes.get)
+    for hi in range(lo_addr & ~0xFFFF, hi_addr + 0x10000, 0x10000):
+        if lo_addr <= (hi | low) < hi_addr:
+            return hi | low
+    return None
+
+def find_blobs(items, d, start, end, secname, align, ow=None):
     """Walks the link order placing every object's section (secname) at the first
     place it matches. Gaps are returned as blobs {item index of preceding chunk: [(addr, size)]}"""
     cursor = start
     blobs = defaultdict(list)
-    last_chunk = None
     placed = {}
     for idx, it in enumerate(items):
         if it['kind'] == 'chunk':
-            last_chunk = idx
             continue
         sec = it['cand'].sections.get(secname)
         if sec is None or not sec.code:
@@ -270,8 +293,11 @@ def find_blobs(items, d, start, end, secname, align):
         data, mask = sec_words_masked(sec, len(sec.code))
         cursor = align(cursor)
         found = None
+        anchor = anchor_base(it, secname, ow, cursor, end) if ow is not None else None
         informative = any(m for m in mask) and any(b for b, m in zip(data, mask) if m)
-        if informative:
+        if anchor is not None and anchor >= cursor and anchor + len(data) <= end:
+            found = anchor
+        elif informative:
             for off in range(cursor, end - len(data) + 1, 4):
                 act = d[off - BASE:off - BASE + len(data)]
                 if all(m == 0 or a == b for a, b, m in zip(act, data, mask)):
@@ -279,12 +305,14 @@ def find_blobs(items, d, start, end, secname, align):
                     break
         else:
             found = cursor
+        if found is not None and informative:
+            act = d[found - BASE:found - BASE + len(data)]
+            if not all(m == 0 or a == b for a, b, m in zip(act, data, mask)):
+                found = None
         if found is None:
             raise PlaceError(it['cand'].name, 'could not place %s of %s after %X' % (secname, it['cand'].name, cursor))
         if found > cursor:
-            if last_chunk is None:
-                raise Exception('data gap before first chunk at %X for %s' % (cursor, it['cand'].name))
-            blobs[last_chunk].append((cursor, found - cursor))
+            blobs[idx].append((cursor, found - cursor))
         placed[idx] = found
         cursor = found + len(data)
     return blobs, cursor, placed
@@ -336,6 +364,7 @@ def main():
     ap.add_argument('overlay')
     ap.add_argument('--psyq_path', default='../../psyq_sdk')
     ap.add_argument('--dry', action='store_true', help='do not write any file, only report')
+    ap.add_argument('--overwrite', action='store_true', help='replace previously imported files of the overlay')
     args = ap.parse_args()
     exclude = set()
     while True:
@@ -432,12 +461,14 @@ def run(args, exclude):
         print('overlay is fully made of existing objects!')
 
     # data / rdata blobs
-    dblobs, dend, _ = find_blobs(items, d, table_end, text_start, '.data', a4)
+    dblobs, dend, dplaced = find_blobs(items, d, table_end, text_start, '.data', a4, ow)
     if dend < text_start:
-        if not chunk_idx:
-            raise Exception('unexplained data at %X' % dend)
-        dblobs[chunk_idx[-1]].append((a4(dend), text_start - a4(dend)))
-    rblobs, rend, _ = find_blobs(items, d, text_end, end_addr, '.rdata', a4)
+        dblobs[max(dplaced) + 1 if dplaced else 0].append((a4(dend), text_start - a4(dend)))
+    rblobs, rend, rplaced = find_blobs(items, d, text_end, end_addr, '.rdata', a4, ow)
+    if os.environ.get('IMPORT_DEBUG'):
+        for k_, a_ in sorted(rplaced.items()):
+            print('rdata %X %s %d' % (a_, items[k_]['cand'].name, len(items[k_]['cand'].sections['.rdata'].code)))
+        print('rdata blobs', {k_: [(hex(a_), n_) for a_, n_ in v_] for k_, v_ in rblobs.items()})
 
     # jump tables (for function splitting)
     def in_chunk(a):
@@ -484,7 +515,7 @@ def run(args, exclude):
             return True
         bs = struct.pack('<I', w)
         return sum(1 for b in bs if 0x20 <= b < 0x7f) >= 2 or (w == 0 and False)
-    if chunk_idx:
+    if True:
         tail_cap = min(bss_bases.values()) if bss_bases else end_addr
         tail_end = a4(rend)
         k = (a4(rend) - BASE) // 4
@@ -496,7 +527,7 @@ def run(args, exclude):
             k += 1
         # a string may continue into the following word(s)
         if tail_end > a4(rend):
-            rblobs[chunk_idx[-1]].append((a4(rend), tail_end - a4(rend)))
+            rblobs[max(rplaced) + 1 if rplaced else 0].append((a4(rend), tail_end - a4(rend)))
             rend = tail_end
 
 
@@ -505,10 +536,9 @@ def run(args, exclude):
     bss_start = balign(rend)
     bss_blobs = defaultdict(list)
     cursor = bss_start
-    last_chunk = None
+    last_bss = -1
     for k, it in enumerate(items):
         if it['kind'] == 'chunk':
-            last_chunk = k
             continue
         bss = it['cand'].sections.get('.bss')
         if not bss or not bss.bss:
@@ -518,21 +548,13 @@ def run(args, exclude):
         if os.environ.get('IMPORT_DEBUG'):
             print('bss', it['cand'].name, hex(cursor), hex(base), bss.bss, k in bss_bases)
         if base > cursor:
-            if last_chunk is None:
-                # belongs to the first chunk that follows
-                nxt = [c for c in chunk_idx if c > k]
-                if not nxt:
-                    raise Exception('bss gap without a chunk')
-                bss_blobs[nxt[0]].append((cursor, base - cursor))
-            else:
-                bss_blobs[last_chunk].append((cursor, base - cursor))
+            bss_blobs[k].append((cursor, base - cursor))
         elif base < cursor:
             print('warning: bss base of %s (%X) below expected %X' % (it['cand'].name, base, cursor))
         cursor = base + bss.bss
+        last_bss = k
     if cursor < end_addr:
-        if not chunk_idx:
-            raise Exception('unexplained bss at %X' % cursor)
-        bss_blobs[chunk_idx[-1]].append((cursor, end_addr - cursor))
+        bss_blobs[last_bss + 1].append((cursor, end_addr - cursor))
 
     # emit
     asm_dir = os.path.join(ROOT, 'asm', 'overlays', name)
@@ -541,21 +563,17 @@ def run(args, exclude):
     file_no = 0
     funcs_total = 0
     if not args.dry:
+        if (os.path.exists(asm_dir) or os.path.exists(src_dir)) and not args.overwrite:
+            print('error: %s was already imported, use --overwrite to replace it' % name)
+            sys.exit(1)
+        for dd, pat in ((asm_dir, '*.s'), (src_dir, 'overlay*.c')):
+            for f in glob(os.path.join(dd, pat)):
+                os.remove(f)
         os.makedirs(asm_dir, exist_ok=True)
         os.makedirs(src_dir, exist_ok=True)
 
-    prev_kind = None
-    for k, it in enumerate(items):
-        if it['kind'] == 'obj':
-            if prev_kind == 'chunk':
-                pass
-            linker.append('    include "%s", overlay' % it['cand'].name)
-            prev_kind = 'obj'
-            continue
-        prev_kind = 'chunk'
-
-        # C files holding this chunk's data
-        parts = []  # list of dict(data=[(a,bytes)], rdata=[...], bss=[...])
+    def emit_blobs(k):
+        nonlocal file_no
         cur_part = {'data': [], 'rdata': [], 'bss': []}
         for a, n in dblobs.get(k, []):
             cur_part['data'].append((a, d[a - BASE:a - BASE + n]))
@@ -596,6 +614,14 @@ def run(args, exclude):
                     f.write('\n'.join(lines) + '\n')
             linker.append('    include "{{OBJ_DIR}}\\overlays\\%s\\overlay%s.obj", overlay' % (name, suffix))
 
+    for k, it in enumerate(items + [None]):
+        emit_blobs(k)
+        if it is None:
+            break
+        if it['kind'] == 'obj':
+            linker.append('    include "%s", overlay' % it['cand'].name)
+            continue
+
         # asm functions
         c_tables = [t for t in tables if items[k]['lo'] <= min(t) < items[k]['hi']]
         extra = []
@@ -631,8 +657,11 @@ def run(args, exclude):
         i = s.index('{% if not VR_EXE %}')
         i = s.index(sep + '{% endif %}', i) + len(sep)
         s = s[:i] + block + sep + s[i:]
-    if plain_bss and ('OVERLAY == "%s"' % name) not in s.split('{% else %}')[0]:
-        s = s.replace('{% if OVERLAY == "d11c" or\n', '{% if OVERLAY == "d11c" or\n      OVERLAY == "' + name + '" or\n', 1)
+    if plain_bss:
+        hdr_start = s.index('{% if OVERLAY == "d11c" or')
+        hdr_end = s.index('%}', hdr_start)
+        if 'OVERLAY == "%s"' % name not in s[hdr_start:hdr_end]:
+            s = s[:hdr_start] + '{% if OVERLAY == "d11c" or\n      OVERLAY == "' + name + '" or' + s[hdr_start + len('{% if OVERLAY == "d11c" or'):]
     open(lp, 'w', encoding='utf8').write(s)
 
     um = os.path.join(ROOT, 'um', 'stage', name + '.bin')

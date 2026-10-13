@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s18a_800CC694
+s18a_800CC694:
+	dw 0x28C20008 ; 800CC694
+	dw 0x1440FFF6 ; 800CC698
+	dw 0x24840004 ; 800CC69C
+	dw 0x03E00008 ; 800CC6A0
+	dw 0x00001021 ; 800CC6A4

@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s18a_800CF0D8
+s18a_800CF0D8:
+	dw 0x8CA20968 ; 800CF0D8
+	dw 0x00000000 ; 800CF0DC
+	dw 0x24420001 ; 800CF0E0
+	dw 0x03E00008 ; 800CF0E4
+	dw 0xACA20968 ; 800CF0E8

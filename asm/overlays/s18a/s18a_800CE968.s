@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s18a_800CE968
+s18a_800CE968:
+	dw 0x8C820968 ; 800CE968
+	dw 0x00000000 ; 800CE96C
+	dw 0x24420001 ; 800CE970
+	dw 0x03E00008 ; 800CE974
+	dw 0xAC820968 ; 800CE978

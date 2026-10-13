@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s18a_800C736C
+s18a_800C736C:
+	dw 0x8C820950 ; 800C736C
+	dw 0x00000000 ; 800C7370
+	dw 0x14400003 ; 800C7374
+	dw 0x2443FFFF ; 800C7378
+	dw 0x03E00008 ; 800C737C
+	dw 0x00001021 ; 800C7380

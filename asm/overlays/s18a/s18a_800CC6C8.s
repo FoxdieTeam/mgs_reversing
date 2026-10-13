@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s18a_800CC6C8
+s18a_800CC6C8:
+	dw 0x28620008 ; 800CC6C8
+	dw 0x1440FFF7 ; 800CC6CC
+	dw 0x24840004 ; 800CC6D0
+	dw 0x03E00008 ; 800CC6D4
+	dw 0x00001021 ; 800CC6D8

@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s18a_800D6034
+s18a_800D6034:
+	dw 0xAC850854 ; 800D6034
+	dw 0xAC800858 ; 800D6038
+	dw 0xA480086E ; 800D603C
+	dw 0x03E00008 ; 800D6040
+	dw 0xA480086C ; 800D6044

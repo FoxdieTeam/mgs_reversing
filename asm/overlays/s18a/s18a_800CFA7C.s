@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s18a_800CFA7C
+s18a_800CFA7C:
+	dw 0x8C820968 ; 800CFA7C
+	dw 0xAC830950 ; 800CFA80
+	dw 0x24420001 ; 800CFA84
+	dw 0x03E00008 ; 800CFA88
+	dw 0xAC820968 ; 800CFA8C
