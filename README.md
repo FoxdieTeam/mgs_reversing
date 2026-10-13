@@ -387,7 +387,7 @@ Individual overlay progress:
             <td><b>s10a</b></td>
             <td>135 KB</td>
             <td>Underground Passage</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s10ar</b></td>

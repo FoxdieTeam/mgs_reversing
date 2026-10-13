@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s10a_800CE180
+s10a_800CE180:
+	dw 0x24A50001 ; 800CE180
+	dw 0x28A20008 ; 800CE184
+	dw 0x1440FFF6 ; 800CE188
+	dw 0x24630010 ; 800CE18C
+	dw 0x03E00008 ; 800CE190
+	dw 0x2402FFFF ; 800CE194

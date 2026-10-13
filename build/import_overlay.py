@@ -46,6 +46,11 @@ def a8(x):
 def words(b):
     return list(struct.unpack('<%dI' % (len(b) // 4), b[:len(b) // 4 * 4]))
 
+class PlaceError(Exception):
+    def __init__(self, cand, msg):
+        super().__init__(msg)
+        self.cand = cand
+
 class Cand:
     def __init__(self, path, name, text_words, relocs, sections, is_lib):
         self.path = path
@@ -275,7 +280,7 @@ def find_blobs(items, d, start, end, secname, align):
         else:
             found = cursor
         if found is None:
-            raise Exception('could not place %s of %s after %X' % (secname, it['cand'].name, cursor))
+            raise PlaceError(it['cand'].name, 'could not place %s of %s after %X' % (secname, it['cand'].name, cursor))
         if found > cursor:
             if last_chunk is None:
                 raise Exception('data gap before first chunk at %X for %s' % (cursor, it['cand'].name))
@@ -332,6 +337,16 @@ def main():
     ap.add_argument('--psyq_path', default='../../psyq_sdk')
     ap.add_argument('--dry', action='store_true', help='do not write any file, only report')
     args = ap.parse_args()
+    exclude = set()
+    while True:
+        try:
+            run(args, exclude)
+            return
+        except PlaceError as e:
+            print('not sharable yet (data differs): %s' % e.cand)
+            exclude.add(e.cand)
+
+def run(args, exclude):
     name = args.name
 
     d = open(args.overlay, 'rb').read()
@@ -344,7 +359,7 @@ def main():
         i += 2
     table_end = BASE + (i + 2) * 4
 
-    cands = load_candidates(args.psyq_path, name)
+    cands = [c for c in load_candidates(args.psyq_path, name) if c.name not in exclude]
     print('%d candidate objects' % len(cands))
 
     # text start: first function prologue after the table
@@ -424,25 +439,6 @@ def main():
         dblobs[chunk_idx[-1]].append((a4(dend), text_start - a4(dend)))
     rblobs, rend, _ = find_blobs(items, d, text_end, end_addr, '.rdata', a4)
 
-    # whatever rdata remains after the last known object belongs to the last chunk,
-    # it ends where things stop looking like strings/pointers (bss follows)
-    def rdata_like(w):
-        if BASE <= w < end_addr:
-            return True
-        bs = struct.pack('<I', w)
-        return sum(1 for b in bs if 0x20 <= b < 0x7f) >= 2 or (w == 0 and False)
-    if chunk_idx:
-        tail_end = a4(rend)
-        k = (a4(rend) - BASE) // 4
-        while k < len(ow):
-            if rdata_like(ow[k]):
-                tail_end = BASE + (k + 1) * 4
-            k += 1
-        # a string may continue into the following word(s)
-        if tail_end > a4(rend):
-            rblobs[chunk_idx[-1]].append((a4(rend), tail_end - a4(rend)))
-            rend = tail_end
-
     # jump tables (for function splitting)
     def in_chunk(a):
         return any(BASE + items[k]['lo'] * 4 <= a < BASE + items[k]['hi'] * 4 for k in chunk_idx)
@@ -481,6 +477,29 @@ def main():
                     bss_bases[k] = hi | low
                     break
     # some overlays use plain 4 byte aligned bss sections (see the list at the top of the linker command file)
+    # whatever rdata remains after the last known object belongs to the last chunk,
+    # it ends where things stop looking like strings/pointers (bss follows)
+    def rdata_like(w):
+        if BASE <= w < end_addr:
+            return True
+        bs = struct.pack('<I', w)
+        return sum(1 for b in bs if 0x20 <= b < 0x7f) >= 2 or (w == 0 and False)
+    if chunk_idx:
+        tail_cap = min(bss_bases.values()) if bss_bases else end_addr
+        tail_end = a4(rend)
+        k = (a4(rend) - BASE) // 4
+        while k < len(ow):
+            if BASE + (k + 1) * 4 > tail_cap:
+                break
+            if rdata_like(ow[k]):
+                tail_end = BASE + (k + 1) * 4
+            k += 1
+        # a string may continue into the following word(s)
+        if tail_end > a4(rend):
+            rblobs[chunk_idx[-1]].append((a4(rend), tail_end - a4(rend)))
+            rend = tail_end
+
+
     plain_bss = any(b % 8 for b in bss_bases.values())
     balign = a4 if plain_bss else a8
     bss_start = balign(rend)
@@ -500,8 +519,13 @@ def main():
             print('bss', it['cand'].name, hex(cursor), hex(base), bss.bss, k in bss_bases)
         if base > cursor:
             if last_chunk is None:
-                raise Exception('bss gap before first chunk')
-            bss_blobs[last_chunk].append((cursor, base - cursor))
+                # belongs to the first chunk that follows
+                nxt = [c for c in chunk_idx if c > k]
+                if not nxt:
+                    raise Exception('bss gap without a chunk')
+                bss_blobs[nxt[0]].append((cursor, base - cursor))
+            else:
+                bss_blobs[last_chunk].append((cursor, base - cursor))
         elif base < cursor:
             print('warning: bss base of %s (%X) below expected %X' % (it['cand'].name, base, cursor))
         cursor = base + bss.bss

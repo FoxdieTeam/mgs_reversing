@@ -1,0 +1,10 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s10a_800CB3D8
+s10a_800CB3D8:
+	dw 0x28620008 ; 800CB3D8
+	dw 0x1440FFF7 ; 800CB3DC
+	dw 0x24840004 ; 800CB3E0
+	dw 0x03E00008 ; 800CB3E4
+	dw 0x00001021 ; 800CB3E8

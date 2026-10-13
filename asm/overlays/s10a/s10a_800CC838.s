@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s10a_800CC838
+s10a_800CC838:
+	dw 0x24020004 ; 800CC838
+	dw 0xA4820B22 ; 800CC83C
+	dw 0xA4820B24 ; 800CC840
+	dw 0xAC800B28 ; 800CC844
+	dw 0x03E00008 ; 800CC848
+	dw 0xA0800B9A ; 800CC84C

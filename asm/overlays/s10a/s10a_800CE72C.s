@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef s10a_800CE72C
+s10a_800CE72C:
+	dw 0x0085102A ; 800CE72C
+	dw 0x10400002 ; 800CE730
+	dw 0x00000000 ; 800CE734
+	dw 0x00A02021 ; 800CE738
+	dw 0x03E00008 ; 800CE73C
+	dw 0x00801021 ; 800CE740
