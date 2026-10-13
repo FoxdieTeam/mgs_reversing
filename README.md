@@ -519,7 +519,7 @@ Individual overlay progress:
             <td><b>s17a</b></td>
             <td>140 KB</td>
             <td>Supply Route (vs. REX)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s17ar</b></td>

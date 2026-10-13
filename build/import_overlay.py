@@ -574,39 +574,40 @@ def run(args, exclude):
 
     def emit_blobs(k):
         nonlocal file_no
-        cur_part = {'data': [], 'rdata': [], 'bss': []}
-        for a, n in dblobs.get(k, []):
-            cur_part['data'].append((a, d[a - BASE:a - BASE + n]))
-        rbounds = set()
-        rlines = []
-        for a, n in rblobs.get(k, []):
-            lines, bounds = emit_region(name, a, d[a - BASE:a - BASE + n], True)
-            rlines += lines
-            rbounds |= set(bounds)
-        for a, n in bss_blobs.get(k, []):
-            cur_part['bss'].append((a, n))
 
-        # split rdata lines at proven boundaries
-        groups = [[]]
-        for a, line in rlines:
-            if a in rbounds:
-                groups.append([])
-            groups[-1].append(line)
-        for gi, g in enumerate(groups):
-            part = {'data': cur_part['data'] if gi == 0 else [], 'rdata': g,
-                    'bss': cur_part['bss'] if gi == 0 else []}
-            if not (part['data'] or part['rdata'] or part['bss']):
+        def split(blobs, const):
+            lines = []
+            bounds = set()
+            for a, n in blobs:
+                l, b = emit_region(name, a, d[a - BASE:a - BASE + n], const)
+                lines += l
+                bounds |= set(b)
+            groups = [[]]
+            for a, line in lines:
+                if a in bounds:
+                    groups.append([])
+                groups[-1].append(line)
+            return groups
+
+        dgroups = split(dblobs.get(k, []), False)
+        rgroups = split(rblobs.get(k, []), True)
+        bss = bss_blobs.get(k, [])
+        count = max(len(dgroups), len(rgroups))
+        for gi in range(count):
+            dg = dgroups[gi] if gi < len(dgroups) else []
+            rg = rgroups[gi] if gi < len(rgroups) else []
+            bg = bss if gi == count - 1 else []
+            if not (dg or rg or bg):
                 continue
             suffix = '' if file_no == 0 else str(file_no + 1)
             file_no += 1
             lines = ['#include "mgstype.h"', '']
-            for a, bs in part['data']:
-                lines += [l for _, l in emit_region(name, a, bs, False)[0]]
+            lines += dg
             lines.append('')
-            lines += part['rdata']
-            if part['bss']:
+            lines += rg
+            if bg:
                 lines.append('')
-                for a, n in part['bss']:
+                for a, n in bg:
                     for x in range(a, a + n, 4):
                         lines.append('int SECTION(".bss") %s_dword_%08X;' % (name, x))
             if not args.dry:
