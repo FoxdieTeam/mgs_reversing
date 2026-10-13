@@ -66,14 +66,14 @@ char* BSS           str_header;
 int BSS             sng_fadein_time;    // in sd_wk.c (MGS2)
 int BSS             spu_bgm_start_ptr_l;
 int BSS             rev_on_bit;
-SEPLAYTBL BSS       se_playing[8];      // in sd_wk.c (5thMIX, MGS2)
+struct SEPLAYTBL BSS se_playing[8];     // in sd_wk.c (5thMIX, MGS2)
 int BSS             spu_bgm_start_ptr_r;
 int BSS             str_fadein_time;
 unsigned long BSS   mdata1;             // in sd_wk.c (5thMIX, MGS2)
 unsigned long BSS   mdata2;             // in sd_wk.c (5thMIX, MGS2)
 unsigned long BSS   mdata3;             // in sd_wk.c (5thMIX, MGS2)
 unsigned long BSS   mdata4;             // in sd_wk.c (5thMIX, MGS2)
-SEPLAYTBL BSS       se_request[8];      // in sd_wk.c (5thMIX, MGS2)
+struct SEPLAYTBL BSS se_request[8];     // in sd_wk.c (5thMIX, MGS2)
 unsigned int BSS    spu_load_offset;    // in sd_wk.c (5thMIX, MGS2)
 int BSS             vox_rev_on;         // in sd_wk.c (MGS2)
 
@@ -102,7 +102,7 @@ gap                                     gap_800BF1B4[0x4]; // 4 bytes
 int BSS             se_pan[8];          // in sd_wk.c (5thMIX, MGS2)
 int BSS             sng_fp;             // in sd_wk.c (MGS2)
 int BSS             str_mute_status;
-WAVE_W* BSS         wave_header;        // in sd_wk.c (5thMIX, MGS2)
+unsigned char *BSS  wave_header;        // in sd_wk.c (5thMIX, MGS2)
 
 gap                                     gap_800BF1E4[0x4]; // 4 bytes
 
@@ -120,7 +120,7 @@ unsigned long BSS   keyons;             // in sd_wk.c (5thMIX, MGS2)
 int BSS             str_off_idx;
 int BSS             str_mono_fg;        // in sd_str.c (MGS2) Moved?
 int BSS             str_fout_fg;
-int BSS             irq_addr;
+int BSS             irq_addr;           // in sd_wk.c (5thMIX, MGS2)
 unsigned int BSS    wave_unload_size;   // in sd_wk.c (5thMIX, MGS2)
 int BSS             str_mute_off_idx;
 unsigned int BSS    wave_load_status;   // in sd_wk.c (5thMIX, MGS2)
@@ -136,7 +136,7 @@ int BSS             str_read_idx;       // in sd_str.c (MGS2) Moved?
 
 gap                                     gap_800BF2A4[0x4]; // 8 bytes
 
-SOUND_W BSS         sound_w[21];        // in sd_wk.c (5thMIX, MGS2)
+struct SOUND_W BSS  sound_w[21];        // in sd_wk.c (5thMIX, MGS2)
 int BSS             str_play_idx;       // in sd_str.c (MGS2) Moved?
 int BSS             se_save_code2;      // in sd_wk.c (5thMIX, MGS2)
 int BSS             str_next_idx;       // in sd_str.c (MGS2) Moved?
@@ -151,7 +151,7 @@ int BSS             sng_load_code;      // in sd_wk.c (MGS2)
 gap                                     gap_800C042C[0x4]; // 4 bytes
 
 int BSS             sng_fade_time[14];  // in sd_wk.c (MGS2)
-char BSS            sd_path[128];       // in sd_wk.c (MGS2) "pcm_path"?
+char BSS            pcm_path[128];      // in sd_wk.c (MGS2)
 unsigned int BSS    song_end;           // in sd_wk.c (5thMIX, MGS2)
 int BSS             str_fadein_fg;
 int BSS             str_load_code;      // in sd_str.c (MGS2) Moved?
@@ -172,7 +172,7 @@ struct SETBL *BSS   se_header;          // in sd_wk.c (5thMIX, MGS2)
 unsigned long BSS   keyd;               // in sd_wk.c (5thMIX, MGS2)
 unsigned int BSS    wave_load_code;     // in sd_wk.c (5thMIX, MGS2)
 unsigned int BSS    spu_wave_start_ptr; // in sd_wk.c (5thMIX, MGS2)
-WAVE_W *BSS         voice_tbl;          // in sd_wk.c (5thMIX, MGS2)
+struct WAVE_W *BSS  voice_tbl;          // in sd_wk.c (5thMIX, MGS2)
 
 gap                                     gap_800C0534[0x4]; // 4 bytes
 
@@ -184,13 +184,13 @@ gap                                     gap_800C0570[0x0]; // 0 bytes
 unsigned char *BSS  mptr;               // in sd_wk.c (5thMIX, MGS2)
 int BSS             se_rev_on;          // in sd_wk.c (5thMIX, MGS2)
 unsigned long BSS   wave_save_code;     // in sd_wk.c (5thMIX, MGS2)
-SOUND_W *BSS        sptr;               // in sd_wk.c (5thMIX, MGS2)
+struct SOUND_W *BSS sptr;               // in sd_wk.c (5thMIX, MGS2)
 int BSS             dword_800C0580;
 unsigned int BSS    str_fade_value;
 char BSS spu_malloc_rec[SPU_MALLOC_RECSIZ * (24 + 1)]; // in sd_wk.c (5thMIX)
 unsigned int BSS    wave_load_size;     // in sd_wk.c (5thMIX, MGS2)
 int BSS             dword_800C0654;
-SPU_TRACK_REG BSS   spu_tr_wk[23];      // in sd_wk.c (5thMIX, MGS2)
+struct SPU_TRACK_REG BSS spu_tr_wk[23]; // in sd_wk.c (5thMIX, MGS2)
 
 gap                                     gap_800C0BBC[0x4]; // 4 bytes
 

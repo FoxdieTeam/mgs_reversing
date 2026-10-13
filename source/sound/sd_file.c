@@ -103,7 +103,7 @@ int LoadWaveHeader(void)
     printf("SUP OFFSET=%x:SIZE=%x\n", offset, size);
 
     wave_load_ptr = cdload_buf + 16;
-    dst_ptr = (char *)wave_header + offset;
+    dst_ptr = wave_header + offset;
     memcpy(dst_ptr, wave_load_ptr, size);
 
     printf("    SRC=%x:DST=%x\n", (unsigned int)wave_load_ptr, (unsigned int)dst_ptr);
@@ -195,21 +195,21 @@ int PcmClose(int fd, int kind)
 
 void StrFadeWkSet(void)
 {
-    unsigned int amount;
+    unsigned int fade_time;
 
     if (str_fadein_fg == 0xFF0000F8)
     {
-        amount = 100;
+        fade_time = INT1SEC;
     }
     else
     {
-        amount = 400;
+        fade_time = (INT1SEC*4);
         if (str_fadein_fg != 0xFF0000F9)
         {
             return;
         }
     }
-    StrFadeIn(amount);
+    StrFadeIn(fade_time);
     str_fadein_fg = 0;
     str_fade_value = str_volume;
 }
@@ -438,7 +438,7 @@ int SD_80083F54(char *end)
     offset |= cdload_buf[2] << 8;
     offset |= cdload_buf[3];
 
-    dst_ptr = (char *)wave_header + offset;
+    dst_ptr = wave_header + offset;
 
     size =  cdload_buf[4] << 24;
     size |= cdload_buf[5] << 16;

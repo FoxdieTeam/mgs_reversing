@@ -66,7 +66,7 @@
 /*----------------------------------------------------------------------*/
 /*                                                                      */
 /*----------------------------------------------------------------------*/
-typedef struct WAVE_W {
+struct WAVE_W {
     unsigned long   addr;
     char            sample_note;
     char            sample_tune;
@@ -80,12 +80,12 @@ typedef struct WAVE_W {
     unsigned char   rr;
     unsigned char   pan;
     unsigned char   decl_vol;
-} WAVE_W;
+};
 
 /*----------------------------------------------------------------------*/
 /*                                                                      */
 /*----------------------------------------------------------------------*/
-typedef struct SPU_TRACK_REG {
+struct SPU_TRACK_REG {
     unsigned short  vol_l;
     unsigned short  vol_r;
     int             vol_fg;
@@ -104,31 +104,31 @@ typedef struct SPU_TRACK_REG {
     long            r_mode;
     unsigned short  rr;
     int             env3_fg;
-} SPU_TRACK_REG;
+};
 
 /*----------------------------------------------------------------------*/
 /*                                                                      */
 /*----------------------------------------------------------------------*/
-typedef struct SETBL {
+struct SETBL {
     unsigned char   pri;
     unsigned char   tracks;
     unsigned char   kind;       /**/
     unsigned char   character;  /**/
     unsigned char   *addr[3];
-} SETBL;
+};
 
-typedef struct SEPLAYTBL {
+struct SEPLAYTBL {
     unsigned char   pri;
     unsigned char   kind;       /**/
     unsigned char   character;  /**/
     unsigned char   *addr;
     unsigned long   code;
-} SEPLAYTBL;
+};
 
 /*----------------------------------------------------------------------*/
 /*                                                                      */
 /*----------------------------------------------------------------------*/
-typedef struct SOUND_W {
+struct SOUND_W {
     unsigned char   *mpointer;  /* music data pointer */
     unsigned char   ngc;        /* sweep counter */
     unsigned char   ngo;        /* keyoff counter */
@@ -201,6 +201,6 @@ typedef struct SOUND_W {
     char            macro;      /* tuning data (pitch) */
     char            micro;      /* tuning data (tune) */
     unsigned short  rrd;        /* release depth */
-} SOUND_W;
+};
 
 #endif // __SD_INCL_H__

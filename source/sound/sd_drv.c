@@ -77,7 +77,7 @@ int LoadSngData(void);
 void init_sng_work(void);
 void sng_adrs_set(int idx);
 void se_adrs_set(int idx);
-void sng_track_init(SOUND_W *ptr);
+void sng_track_init(struct SOUND_W *ptr);
 
 /*----------------------------------------------------------------------*/
 /*                                                                      */
@@ -90,7 +90,7 @@ void IntSdMain(void)
     int i;
     unsigned char *track_ptr;
     int new_sng_status;
-    SOUND_W* wTmp;
+    struct SOUND_W *wTmp;
 
     if (sd_sng_code_buf[sd_code_read])
     {
@@ -820,7 +820,7 @@ int LoadSngData(void)
 
 void init_sng_work(void)
 {
-    SOUND_W *ptr;
+    struct SOUND_W *ptr;
 
     for (mtrack = 0; mtrack < 21; mtrack++)
     {
@@ -918,7 +918,7 @@ void se_adrs_set(int idx)
 /*                                                                      */
 /*----------------------------------------------------------------------*/
 
-void sng_track_init(SOUND_W *ptr)
+void sng_track_init(struct SOUND_W *ptr)
 {
     ptr->ngc = 1;       /* sweep counter */
     ptr->pvod = 0x7F;   /* volume move data */

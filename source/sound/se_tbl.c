@@ -8,7 +8,7 @@ unsigned char se_dummy[] = { 0x00,0x00,0xFE,0xFF };
 
 /*---------------------- Sound Effect Table ----------------------------*/
 
-SETBL se_tbl[128] = {
+struct SETBL se_tbl[128] = {
     /* pri,tracks,kind,character */
     { 0x01, 0x01, 0x01, 0x00, { se_dummy,   se_dummy,   se_dummy   }}, /* 0 */
     { 0x40, 0x01, 0x01, 0x00, { shot_0100,  se_dummy,   se_dummy   }}, /* 1 */

@@ -299,7 +299,7 @@ void note_compute(void)
 {
     int      x;
     int      swp_ex;
-    SOUND_W *pSound;
+    struct SOUND_W *pSound;
 
     if (mdata1 >= SEQ_DRC)
     {

@@ -382,13 +382,13 @@ int sd_mem_alloc(void)
     sng_data = (unsigned char *)0x801E0000;
     printf("sng_data %X\n", (unsigned int)sng_data);
 
-    wave_header = (WAVE_W *)(sng_data + SNG_DATA_SIZE);
+    wave_header = (sng_data + SNG_DATA_SIZE);
     printf("wave_header %X\n", (unsigned int)wave_header);
 
-    voice_tbl = wave_header;
+    voice_tbl = (struct WAVE_W *)wave_header;
     printf("voice_tbl %X\n", (unsigned int)voice_tbl);
 
-    se_header = (struct SETBL *)&wave_header[256];
+    se_header = (struct SETBL *)(wave_header + WAVEHEADERSIZE);
     printf("se_header %X\n", (unsigned int)se_header);
 
     se_data = (unsigned char *)se_header + SEHEADERSIZE;

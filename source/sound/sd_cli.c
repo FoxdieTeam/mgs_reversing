@@ -15,7 +15,7 @@ extern int StrFadeOut(unsigned int fade_speed);
 extern int StrFadeOutStop(unsigned int fade_speed);
 
 /* in se_tbl.c */
-extern SETBL se_tbl[128];
+extern struct SETBL se_tbl[128];
 
 void sd_set(int sound_code);
 
@@ -84,7 +84,7 @@ int sd_set_cli(int sound_code, int sync_mode)
 
 void sd_set_path(const char *str)
 {
-    strcpy(sd_path, str);
+    strcpy(pcm_path, str);
 }
 
 int get_sng_code(void)
@@ -132,7 +132,7 @@ void stop_xa_sd(void)
 
 int SePlay(int sound_code)
 {
-    SEPLAYTBL     se_tmp;
+    struct SEPLAYTBL se_tmp;
     int           i;
     unsigned int  idx;
     int           j;
