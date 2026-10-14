@@ -550,7 +550,7 @@ def gen_build_target(targetName):
         "s05a",
         "s06a",
         "s07a",
-        "s07b", #"s07br",
+        "s07b", "s07br",
         "s07c", "s07cr",
         "s08a",
         "s08b", "s08br",
