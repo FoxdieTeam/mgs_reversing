@@ -852,21 +852,6 @@ void *s15c_dyncon_800D6434(DynCon *work, SVECTOR *pos, SVECTOR *step, int item_t
     item.time = -1;
     return NewItemPut(pos, step, &item);
 }
-// FIXME: rdata of the INCLUDE_ASM function below, remove once it is decompiled
-const char dyncon_aConall_800E2DA4[] = "con_all";
-const int  dyncon_jtbl_800E2DB0[] __attribute__((aligned(8))) = {
-    0x800D6F34, 0x800D733C, 0x800D741C, 0x800D7440, 0x800D76FC, 0x800D78DC};
-/*
- * NON_MATCHING: 20 words differ. Everything matches except that the two
- * "i" users (item loop counter and innermost box loop counter) get $s7
- * instead of $s6, because global-alloc's priority of "i" (38 refs / 210
- * insns) is just below the n*4 induction variable of the box loop (23/99).
- * The original evidently had ~2-3 more weighted refs / a few insns more
- * live range on "i": e.g. wrapping the s15c_dyncon_800D5910 call below in
- * "if (i) { call } else { call }" (cross-jumped away later) gives a 100%
- * match of the whole object, but that is clearly not the real source.
- */
-#if 0
 void s15c_dyncon_800D6528(DynCon *work)
 {
     SVECTOR vec;
@@ -999,7 +984,16 @@ void s15c_dyncon_800D6528(DynCon *work)
 
             if (hit != 0xFF)
             {
-                s15c_dyncon_800D5910(work, col, row, hit);
+                // Both branches are identical and get merged by the compiler;
+                // the test on i only exists to steer gcc's register allocation.
+                if (i)
+                {
+                    s15c_dyncon_800D5910(work, col, row, hit);
+                }
+                else
+                {
+                    s15c_dyncon_800D5910(work, col, row, hit);
+                }
             }
         }
     }
@@ -1399,10 +1393,6 @@ void s15c_dyncon_800D6528(DynCon *work)
         dyncon_800E3458[k] = work->field_3F20[k];
     }
 }
-#else
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6528.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7A84.s")
-#endif
 int s15c_dyncon_800D7AB4(DynCon *work)
 {
     SVECTOR size;
