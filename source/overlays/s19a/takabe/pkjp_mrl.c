@@ -2,39 +2,12 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
+#include "takabe/meryl_jeep.h"
 
 /* Meryl (or Otacon) sitting in the parked jeep (created by pjeep.c) */
 
-typedef struct _Work
-{
-    GV_ACT         actor;
-    CONTROL       *root_ctrl;           // 0x20
-    MATRIX        *root_mat;            // 0x24
-    CONTROL        control;             // 0x28
-    OBJECT         body;                // 0xA4
-    MOTION_CONTROL m_ctrl;              // 0x188
-    MOTION_SEGMENT m_segs1[17];         // 0x1D8
-    MOTION_SEGMENT m_segs2[17];         // 0x43C
-    SVECTOR        rots[16];            // 0x6A0
-    SVECTOR        adjust[16];          // 0x720
-    MATRIX         light[2];            // 0x7A0
-    int            face;                // 0x7E0
-    int            head_rot;            // 0x7E4
-    TARGET        *target;              // 0x7E8
-    void          *action;              // 0x7EC
-    char           pad_7F0[0x4];
-    int            time;                // 0x7F4
-    char           pad_7F8[0x4];
-    int            action_id;           // 0x7FC
-    int            flags;               // 0x800
-    char           pad_804[0x14];
-    short          voice1;              // 0x818
-    short          voice2;              // 0x81A
-    short          voice3;              // 0x81C
-    short          voice4;              // 0x81E
-} Work;
 
-typedef void (*ACTION)(Work *, int);
+typedef void (*ACTION)(MerylJeepWork *, int);
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
 
@@ -50,7 +23,7 @@ void sna_act_helper2_helper2_80033054(int face, SVECTOR *rot);
 /* position in the jeep */
 SVECTOR pkjp_mrl_offset = {345, 915, -440};
 
-static void ActionMain(Work *work);
+static void ActionMain(MerylJeepWork *work);
 
 #define SetState(work, func)                    \
 {                                               \
@@ -60,7 +33,7 @@ static void ActionMain(Work *work);
     (work)->control.turn.vx = 0;                \
 }
 
-static void Act(Work *work)
+static void Act(MerylJeepWork *work)
 {
     CONTROL *control;
     OBJECT  *body;
@@ -94,7 +67,7 @@ static void Act(Work *work)
     GM_MoveTarget(work->target, &control->mov);
 }
 
-static int GetResources(Work *work, int name, int which)
+static int GetResources(MerylJeepWork *work, int name, int which)
 {
     CONTROL *control;
     OBJECT  *body;
@@ -142,7 +115,7 @@ static int GetResources(Work *work, int name, int which)
 }
 
 
-void PkJeepMerylDie(Work *work)
+void PkJeepMerylDie(MerylJeepWork *work)
 {
     GM_FreeTarget(work->target);
     GM_FreeControl(&work->control);
@@ -151,9 +124,9 @@ void PkJeepMerylDie(Work *work)
 
 void *NewPkJeepMeryl(CONTROL *root_ctrl, MATRIX *root_mat, int which)
 {
-    Work *work;
+    MerylJeepWork *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(MerylJeepWork));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, PkJeepMerylDie, "pkjp_mrl.c");
@@ -171,19 +144,19 @@ void *NewPkJeepMeryl(CONTROL *root_ctrl, MATRIX *root_mat, int which)
     return (void *)work;
 }
 
-static void StateIdle(Work *work, int time);
-static void StateLook(Work *work, int time);
-static void StateDuck1(Work *work, int time);
-static void StateDuck2(Work *work, int time);
-static void StateDuck3(Work *work, int time);
-static void StateShout1(Work *work, int time);
-static void StateShout2(Work *work, int time);
-static void StateShout3(Work *work, int time);
-static void StateDamage(Work *work, int time);
-static void StateShoot1(Work *work, int time);
-static void StateShoot2(Work *work, int time);
+static void StateIdle(MerylJeepWork *work, int time);
+static void StateLook(MerylJeepWork *work, int time);
+static void StateDuck1(MerylJeepWork *work, int time);
+static void StateDuck2(MerylJeepWork *work, int time);
+static void StateDuck3(MerylJeepWork *work, int time);
+static void StateShout1(MerylJeepWork *work, int time);
+static void StateShout2(MerylJeepWork *work, int time);
+static void StateShout3(MerylJeepWork *work, int time);
+static void StateDamage(MerylJeepWork *work, int time);
+static void StateShoot1(MerylJeepWork *work, int time);
+static void StateShoot2(MerylJeepWork *work, int time);
 
-static int CheckFlags(Work *work)
+static int CheckFlags(MerylJeepWork *work)
 {
     int flags = work->flags;
 
@@ -226,7 +199,7 @@ static int CheckFlags(Work *work)
     return 0;
 }
 
-static void StateIdle(Work *work, int time)
+static void StateIdle(MerylJeepWork *work, int time)
 {
     if (time == 0)
     {
@@ -237,7 +210,7 @@ static void StateIdle(Work *work, int time)
     CheckFlags(work);
 }
 
-static void StateShoot1(Work *work, int time)
+static void StateShoot1(MerylJeepWork *work, int time)
 {
     SVECTOR pos;
 
@@ -273,7 +246,7 @@ static void StateShoot1(Work *work, int time)
     }
 }
 
-static void StateShoot2(Work *work, int time)
+static void StateShoot2(MerylJeepWork *work, int time)
 {
     SVECTOR pos;
 
@@ -303,7 +276,7 @@ static void StateShoot2(Work *work, int time)
     }
 }
 
-static void StateLook(Work *work, int time)
+static void StateLook(MerylJeepWork *work, int time)
 {
     SVECTOR diff;
     int     dir;
@@ -342,7 +315,7 @@ static void StateLook(Work *work, int time)
     }
 }
 
-static void StateDuck1(Work *work, int time)
+static void StateDuck1(MerylJeepWork *work, int time)
 {
     if (time == 0)
     {
@@ -356,7 +329,7 @@ static void StateDuck1(Work *work, int time)
     }
 }
 
-static void StateDuck2(Work *work, int time)
+static void StateDuck2(MerylJeepWork *work, int time)
 {
     if (time == 0)
     {
@@ -370,7 +343,7 @@ static void StateDuck2(Work *work, int time)
     }
 }
 
-static void StateDuck3(Work *work, int time)
+static void StateDuck3(MerylJeepWork *work, int time)
 {
     if (time == 0)
     {
@@ -384,7 +357,7 @@ static void StateDuck3(Work *work, int time)
     }
 }
 
-static void StateShout1(Work *work, int time)
+static void StateShout1(MerylJeepWork *work, int time)
 {
     if (time == 0)
     {
@@ -398,7 +371,7 @@ static void StateShout1(Work *work, int time)
     }
 }
 
-static void StateShout2(Work *work, int time)
+static void StateShout2(MerylJeepWork *work, int time)
 {
     if (time == 0)
     {
@@ -412,7 +385,7 @@ static void StateShout2(Work *work, int time)
     }
 }
 
-static void StateShout3(Work *work, int time)
+static void StateShout3(MerylJeepWork *work, int time)
 {
     if (time == 0)
     {
@@ -426,7 +399,7 @@ static void StateShout3(Work *work, int time)
     }
 }
 
-static void StateDamage(Work *work, int time)
+static void StateDamage(MerylJeepWork *work, int time)
 {
     if (time == 0)
     {
@@ -441,7 +414,7 @@ static void StateDamage(Work *work, int time)
     }
 }
 
-static void ActionMain2(Work *work)
+static void ActionMain2(MerylJeepWork *work)
 {
     ACTION action;
     int    time;
@@ -461,7 +434,7 @@ static void ActionMain2(Work *work)
     action(work, time);
 }
 
-static void ActionMain(Work *work)
+static void ActionMain(MerylJeepWork *work)
 {
     work->flags = PkJeep_Flags;
     PkJeep_Flags &= 0xFFFF0000;
