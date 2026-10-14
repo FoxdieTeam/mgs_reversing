@@ -3,7 +3,7 @@
 
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
-    { 0x4754, (NEWCHARA *)0x800d7b38 }, //  CHARA_MGREX,
+    CHARA_MGREX,
     CHARA_MG_DEMO1,
     CHARA_VOICESYS,     /* chara 音声制御 */
     CHARA_WALL,         /* chara 障害物 */
