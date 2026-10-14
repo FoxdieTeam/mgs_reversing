@@ -1269,7 +1269,108 @@ void s11d_rope_800C6CD4(Work *work, int arg1)
 
     work->control.step.vz -= 0x6C;
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6F28.s")
+void s11d_rope_800C6F28(Work *work, int arg1)
+{
+    SVECTOR pos;
+    int     dir;
+    int     action;
+    int     outside;
+    int     pad;
+    int     dx;
+
+    dir = work->field_EB4;
+
+    if (arg1 == 0)
+    {
+        work->field_F74 |= 0x10000;
+        work->field_F70 = (work->field_F70 & ~0xFF) | 0x10;
+        action = 3;
+        if (dir == 1)
+        {
+            action = 2;
+        }
+        if (work->object.action != action)
+        {
+            GM_ConfigObjectAction(&work->object, action, 0, 4);
+        }
+        work->field_F44 = 0x1C2;
+    }
+
+    if (s11d_rope_800C4DE0(work))
+    {
+        work->field_EAC = (int)s11d_rope_800C766C;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (!s11d_rope_800C52F0(work))
+    {
+        if (work->field_F74 & 0x2000)
+        {
+            GM_SeSetMode(&work->control.mov, 0xb2, 1);
+            s11d_rope_800C650C();
+            work->field_EAC = (int)s11d_rope_800C6834;
+        }
+        else
+        {
+            work->field_EAC = (int)s11d_rope_800C6CD4;
+        }
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    dir = work->field_EB4;
+    action = 3;
+    if (dir == 1)
+    {
+        action = 2;
+    }
+    if (work->object.action != action)
+    {
+        GM_ConfigObjectAction(&work->object, action, 0, 4);
+    }
+
+    if (!(work->pad->status & PAD_CIRCLE))
+    {
+        work->field_EAC = (int)s11d_rope_800C7530;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (!(work->field_F74 & 0x1000))
+    {
+        dx = dir * 64;
+        pos.vx = work->control.mov.vx + dx;
+        if (pos.vx < work->field_F84 || work->field_F8C < pos.vx)
+        {
+            outside = 1;
+        }
+        else
+        {
+            outside = 0;
+        }
+        if (!outside)
+        {
+            work->control.step.vx += dx;
+            work->control.step.vz -= 0x6C;
+            pad = work->pad->status;
+            if (pad & PAD_UP)
+            {
+                work->control.step.vy += 12;
+            }
+            else if (pad & PAD_DOWN)
+            {
+                work->control.step.vy -= 12;
+            }
+        }
+    }
+}
 void s11d_rope_800C7138(Work *work, int arg1)
 {
     int up;
