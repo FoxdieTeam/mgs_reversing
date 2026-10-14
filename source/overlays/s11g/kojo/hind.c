@@ -4,8 +4,8 @@
 #include "hind.h"
 #include "libgcl/libgcl.h"
 
-SVECTOR s11g_dword_800C3598 = {5000, 3000, 5000, 0};
-SVECTOR s11g_dword_800C35A0 = {100, 0, 0, 0};
+SVECTOR hind_target_size = {5000, 3000, 5000, 0};
+SVECTOR hind_power_force = {100, 0, 0, 0};
 
 void HindAct(HindWork *work);
 void HindDie(HindWork *work);
@@ -648,23 +648,23 @@ void *NewHindBoss(int name, int where)
     GM_InitObject(&work->move_missile_body, GV_StrCode("hindmsil"), 0x25D, 0);
     GM_ConfigObjectJoint(&work->move_missile_body);
     GM_ConfigObjectLight(&work->move_missile_body, work->move_missile_light);
-    GM_SetTarget(&work->field_57C, TARGET_POWER, ENEMY_SIDE, &s11g_dword_800C3598);
+    GM_SetTarget(&work->field_57C, TARGET_POWER, ENEMY_SIDE, &hind_target_size);
 
     switch (GM_GameLevel)
     {
     default:
     case -1:
     case 0:
-        GM_SetPowerTarget(&work->field_57C, POWER_CONST | POWER_EXPLODE, 2, 0x100, 0, &s11g_dword_800C35A0);
+        GM_SetPowerTarget(&work->field_57C, POWER_CONST | POWER_EXPLODE, 2, 0x100, 0, &hind_power_force);
         break;
     case 1:
-        GM_SetPowerTarget(&work->field_57C, POWER_CONST | POWER_EXPLODE, 2, 0x200, 0, &s11g_dword_800C35A0);
+        GM_SetPowerTarget(&work->field_57C, POWER_CONST | POWER_EXPLODE, 2, 0x200, 0, &hind_power_force);
         break;
     case 2:
-        GM_SetPowerTarget(&work->field_57C, POWER_CONST | POWER_EXPLODE, 2, 0x400, 0, &s11g_dword_800C35A0);
+        GM_SetPowerTarget(&work->field_57C, POWER_CONST | POWER_EXPLODE, 2, 0x400, 0, &hind_power_force);
         break;
     case 3:
-        GM_SetPowerTarget(&work->field_57C, POWER_CONST | POWER_EXPLODE, 2, 0x800, 0, &s11g_dword_800C35A0);
+        GM_SetPowerTarget(&work->field_57C, POWER_CONST | POWER_EXPLODE, 2, 0x800, 0, &hind_power_force);
         break;
     }
 

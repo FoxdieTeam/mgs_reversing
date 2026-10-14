@@ -7,7 +7,7 @@
 extern int              MENU_RadarScale;
 extern int              amissile_alive_8009F490;
 
-TILE SECTION(".bss") s11g_dword_800DD34C[2];
+TILE SECTION(".bss") hind_radar_tile[2];
 char SECTION(".bss") hind_life_conf_name[8];
 int SECTION(".bss")  s11g_dword_800DD374;
 int SECTION(".bss")  s11g_dword_800DD378;
@@ -52,7 +52,7 @@ void s11g_hind_800D2CB4(HindWork *work)
     }
 
     ot = DG_Chanl(1)->ot[GV_Clock];
-    tile = &s11g_dword_800DD34C[GV_Clock];
+    tile = &hind_radar_tile[GV_Clock];
 
     SetTile(tile);
 
