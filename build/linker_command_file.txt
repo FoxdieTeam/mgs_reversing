@@ -3989,11 +3989,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800C40AC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\overlay.obj", overlay
     include "{{OBJ_DIR}}\chara\others\motse.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800C4320.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800C43E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800C463C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800C4678.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800C5330.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s19a\enemy\timer.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\overlay2.obj", overlay
     include "{{OBJ_DIR}}\enemy\camera2.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
