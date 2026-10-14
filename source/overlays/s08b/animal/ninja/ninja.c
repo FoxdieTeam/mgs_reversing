@@ -743,12 +743,12 @@ void s08b_ninja_800C8848(Work *work)
     work->field_19EC = 1;
 }
 
-int s08b_ninja_800C8930(char *unused, int *out)
+int s08b_ninja_800C8930(char *opt, int *out)
 {
     int   count = 0;
     char *s;
 
-    (void)unused;
+    (void)opt;
     while ((s = GCL_NextStr()) != NULL)
     {
         *out = GCL_StrToInt(s);
@@ -774,12 +774,12 @@ int s08b_ninja_800C8988(Work *work)
     return -1;
 }
 
-int s08b_ninja_800C89E8(char *unused, char *out)
+int s08b_ninja_800C89E8(char *opt, char *out)
 {
     int   count = 0;
     char *s;
 
-    (void)unused;
+    (void)opt;
     while ((s = GCL_NextStr()) != NULL)
     {
         *out = GCL_StrToInt(s);
