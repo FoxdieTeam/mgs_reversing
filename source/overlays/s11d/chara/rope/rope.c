@@ -1158,7 +1158,89 @@ work->control.step.vz -= 0x6C;
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6CD4.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6F28.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7138.s")
+void s11d_rope_800C7138(Work *work, int arg1)
+{
+    int up;
+    int mask = PAD_UP;
+    int dir;
+    int angle;
+    int scale;
+
+    if (arg1 == 0)
+    {
+        work->field_F74 |= 0x10000;
+        work->field_F70 = (work->field_F70 & ~0xFF) | 0x20;
+        if (work->object.action != 0x10)
+        {
+            GM_ConfigObjectAction(&work->object, 0x10, 0, 4);
+        }
+        work->field_F44 = 0;
+    }
+
+    if (s11d_rope_800C4DE0(work))
+    {
+        work->field_EAC = (int)s11d_rope_800C766C;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C52F0(work))
+    {
+        work->field_EAC = (int)s11d_rope_800C6F28;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    up = work->field_F74;
+    if (up & 0x1000)
+    {
+        up = 0;
+    }
+    else
+    {
+        up = (work->pad->status & mask) != 0;
+    }
+    if (!up)
+    {
+        work->field_EAC = (int)s11d_rope_800C6CD4;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (!(work->pad->status & PAD_CIRCLE))
+    {
+        if (work->field_F74 & 0x2000)
+        {
+            GM_SeSetMode(&work->control.mov, 0xb2, 1);
+            s11d_rope_800C650C();
+            work->field_EAC = (int)s11d_rope_800C6834;
+        }
+        else
+        {
+            work->field_EAC = (int)s11d_rope_800C7530;
+        }
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    dir = work->axis[0].dir;
+    angle = work->axis[0].angle;
+    scale = 12;
+    if (work->field_F40 > 0x2710)
+    {
+        work->control.step.vx += dir * scale * rsin(angle) / 4096;
+        work->control.step.vy += rcos(angle) * scale / 4096;
+    }
+    work->control.step.vz -= 0x6C;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7320.s")
 
 void s11d_rope_800C7530(Work *work, int arg1)
