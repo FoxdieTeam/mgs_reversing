@@ -1312,48 +1312,6 @@ const char brf_dword_800E1E50[8] = "a_back";
 const char brf_dword_800E1E58[12] = "a_up_close";
 const char brf_dword_800E1E64[12] = "a_up_half";
 const char brf_dword_800E1E70[12] = "a_up_open";
-const int brf_dword_800E1E7C = 0x800D00A0;
-const int brf_dword_800E1E80 = 0x800D00A8;
-const int brf_dword_800E1E84 = 0x800CF9E0;
-const int brf_dword_800E1E88 = 0x800CFA44;
-const int brf_dword_800E1E8C = 0x800CFA6C;
-const int brf_dword_800E1E90 = 0x800CFB38;
-const int brf_dword_800E1E94 = 0x800CFC14;
-const int brf_dword_800E1E98 = 0x800CFCF8;
-const int brf_dword_800E1E9C = 0x800CFDDC;
-const int brf_dword_800E1EA0 = 0x800CFEC0;
-const int brf_dword_800E1EA4 = 0x800CFFB8;
-const int brf_dword_800E1EA8 = 0x800D0030;
-const int brf_dword_800E1EAC = 0x800D00A0;
-const char brf_dword_800E1EB0[16] = "a_smoke_haku";
-const char brf_dword_800E1EC0[12] = "a_smoke_up";
-const char brf_dword_800E1ECC[16] = "a_smoke_half";
-const char brf_dword_800E1EDC[20] = "a_smoke_down_close";
-const char brf_dword_800E1EF0[12] = "a_smoke_suu";
-const int brf_dword_800E1EFC = 0x800D1744;
-const int brf_dword_800E1F00 = 0x800D174C;
-const int brf_dword_800E1F04 = 0x800D034C;
-const int brf_dword_800E1F08 = 0x800D042C;
-const int brf_dword_800E1F0C = 0x800D04A4;
-const int brf_dword_800E1F10 = 0x800D0500;
-const int brf_dword_800E1F14 = 0x800D0604;
-const int brf_dword_800E1F18 = 0x800D067C;
-const int brf_dword_800E1F1C = 0x800D0780;
-const int brf_dword_800E1F20 = 0x800D07DC;
-const int brf_dword_800E1F24 = 0x800D08D8;
-const int brf_dword_800E1F28 = 0x800D0AA4;
-const int brf_dword_800E1F2C = 0x800D0B2C;
-const int brf_dword_800E1F30 = 0x800D0C28;
-const int brf_dword_800E1F34 = 0x800D0DE8;
-const int brf_dword_800E1F38 = 0x800D0FB4;
-const int brf_dword_800E1F3C = 0x800D1010;
-const int brf_dword_800E1F40 = 0x800D10FC;
-const int brf_dword_800E1F44 = 0x800D1158;
-const int brf_dword_800E1F48 = 0x800D125C;
-const int brf_dword_800E1F4C = 0x800D13B4;
-const int brf_dword_800E1F50 = 0x800D14B0;
-const int brf_dword_800E1F54 = 0x800D167C;
-const int brf_dword_800E1F58 = 0x800D1744;
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CECE4.s")
 void brf_800CE1C4(Work *work);
 
@@ -1479,7 +1437,180 @@ void brf_800CF4A0(Work *work, int a, int b, int c, int d, int e, void *f)
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF4E0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF5A8.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF984.s")
+extern int brf_dword_800C3744;
+
+void brf_800CF984(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+    DG_TEX *g;
+
+    switch (work->field_AD20)
+    {
+    case 1:
+        if (work->field_AD5C != 0)
+        {
+            GM_StreamPlayStart();
+            brf_800CC150(work);
+            brf_800CC388(work);
+            work->z_A597[0] = 10;
+            work->z_A597[1] = 8;
+        }
+        brf_800CCBD4(work, &base[0]);
+        brf_800CADD4(work, &base[1], 10);
+        break;
+    case 2:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC28C(work);
+            work->z_A597[2] = 10;
+            work->z_A597[3] = 8;
+            work->z_A597[4] = 8;
+        }
+        brf_800CCBD4(work, &base[2]);
+        brf_800CADD4(work, &base[4], 7);
+        brf_800CBB68(work, &base[3], 2);
+        break;
+    case 3:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E2C));
+            BRF_SET_UV(&base[3], g);
+            work->z_A597[2] = 10;
+            work->z_A597[3] = 8;
+            work->z_A597[4] = 8;
+        }
+        brf_800CCBD4(work, &base[2]);
+        brf_800CADD4(work, &base[4], 7);
+        break;
+    case 4:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
+            BRF_SET_UV(&base[3], g);
+            work->z_A597[2] = 10;
+            work->z_A597[3] = 8;
+            work->z_A597[4] = 8;
+        }
+        brf_800CCBD4(work, &base[2]);
+        brf_800CADD4(work, &base[4], 7);
+        brf_800CBB68(work, &base[3], 2);
+        break;
+    case 5:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E38));
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E38));
+            BRF_SET_UV(&base[7], g);
+            work->field_AD30 = 0;
+            work->z_A597[2] = 10;
+            work->z_A597[5] = 10;
+        }
+        brf_800CCBD4(work, &base[2]);
+        brf_800CD8B8(work, 4, 2, 5);
+        break;
+    case 6:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E44));
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E44));
+            BRF_SET_UV(&base[8], g);
+            work->field_AD30 = 0;
+            work->z_A597[5] = 10;
+            work->z_A597[6] = 10;
+        }
+        brf_800CCBD4(work, &base[5]);
+        brf_800CD8B8(work, 8, 5, 6);
+        break;
+    case 7:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E50));
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E50));
+            BRF_SET_UV(&base[10], g);
+            work->field_AD30 = 0;
+            work->z_A597[6] = 10;
+            work->z_A597[7] = 10;
+        }
+        brf_800CCBD4(work, &base[6]);
+        brf_800CD8B8(work, 4, 6, 7);
+        break;
+    case 8:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC190(work);
+            brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E58));
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E58));
+            BRF_SET_UV(&base[9], g);
+            brf_800CF4A0(work, 0, 0x5F, 0x64, 0xC8, 3, &brf_dword_800C3744);
+            work->z_A597[8] = 10;
+            work->z_A597[10] = 12;
+        }
+        brf_800CCBD4(work, &base[8]);
+        break;
+    case 9:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->field_AD30 = 0;
+            brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E64));
+            work->z_A597[8] = 10;
+            work->z_A597[9] = 10;
+            work->z_A597[10] = 12;
+        }
+        brf_800CCBD4(work, &base[8]);
+        brf_800CD8B8(work, 16, 8, 9);
+        break;
+    case 10:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E70));
+            work->z_A597[9] = 10;
+            work->z_A597[10] = 12;
+        }
+        brf_800CCBD4(work, &base[9]);
+        brf_800CADD4(work, &base[9], 0);
+        break;
+    case -1:
+    case 11:
+        brf_800CF5A8(work);
+        break;
+    }
+}
+const char brf_dword_800E1EB0[16] = "a_smoke_haku";
+const char brf_dword_800E1EC0[12] = "a_smoke_up";
+const char brf_dword_800E1ECC[16] = "a_smoke_half";
+const char brf_dword_800E1EDC[20] = "a_smoke_down_close";
+const char brf_dword_800E1EF0[12] = "a_smoke_suu";
+const int brf_dword_800E1EFC = 0x800D1744;
+const int brf_dword_800E1F00 = 0x800D174C;
+const int brf_dword_800E1F04 = 0x800D034C;
+const int brf_dword_800E1F08 = 0x800D042C;
+const int brf_dword_800E1F0C = 0x800D04A4;
+const int brf_dword_800E1F10 = 0x800D0500;
+const int brf_dword_800E1F14 = 0x800D0604;
+const int brf_dword_800E1F18 = 0x800D067C;
+const int brf_dword_800E1F1C = 0x800D0780;
+const int brf_dword_800E1F20 = 0x800D07DC;
+const int brf_dword_800E1F24 = 0x800D08D8;
+const int brf_dword_800E1F28 = 0x800D0AA4;
+const int brf_dword_800E1F2C = 0x800D0B2C;
+const int brf_dword_800E1F30 = 0x800D0C28;
+const int brf_dword_800E1F34 = 0x800D0DE8;
+const int brf_dword_800E1F38 = 0x800D0FB4;
+const int brf_dword_800E1F3C = 0x800D1010;
+const int brf_dword_800E1F40 = 0x800D10FC;
+const int brf_dword_800E1F44 = 0x800D1158;
+const int brf_dword_800E1F48 = 0x800D125C;
+const int brf_dword_800E1F4C = 0x800D13B4;
+const int brf_dword_800E1F50 = 0x800D14B0;
+const int brf_dword_800E1F54 = 0x800D167C;
+const int brf_dword_800E1F58 = 0x800D1744;
 extern int brf_dword_800C3768, brf_dword_800C3798;
 
 void brf_800D00C4(Work *work)
