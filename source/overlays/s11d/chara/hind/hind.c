@@ -51,7 +51,9 @@ typedef struct _Work
     u_short  field_1CE;
     SVECTOR  field_1D0;
     SVECTOR  field_1D8;
-    char     pad_1e0[0x1E8 - 0x1E0];
+    u_short  field_1E0;
+    u_short  field_1E2;
+    char     pad_1e4[0x1E8 - 0x1E4];
     short    field_1E8;
     short    field_1EA;
     short    field_1EC;
@@ -61,7 +63,7 @@ typedef struct _Work
     short    field_1F4;
     short    field_1F6;
     SVECTOR  field_1F8;
-    short    field_200;
+    u_short  field_200;
     u_short  field_202[7];
     HindPoint events[7][32];
     u_short *field_910;
@@ -218,8 +220,72 @@ void s11d_hind_800C99A8(Work *work)
     s11d_hind_800C9908(work, a1);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C99F4.s")
-void s11d_hind_800C99F4(Work *work);
+void s11d_hind_800C99F4(Work *work)
+{
+    SVECTOR diff;
+    SVECTOR cur;
+    SVECTOR target;
+    SVECTOR dir_step;
+    int     speed;
+    int     dist;
+    int     turn;
+
+    work->field_918 = 0;
+
+    cur = work->control.mov;
+    target = *(SVECTOR *)work->field_910;
+
+    if (*(int *)&work->field_1C8 & 1)
+    {
+        target.vy = 0;
+        cur.vy = 0;
+    }
+
+    GV_SubVec3(&target, &cur, &diff);
+    dist = GV_VecLen3(&diff);
+
+    if (dist < work->field_1F0)
+    {
+        work->field_918 = 1;
+    }
+
+    turn = GV_DiffDirS(work->control.turn.vy, GV_VecDir2(&diff));
+    if (turn < -24)
+    {
+        turn = -24;
+    }
+    else if (turn > 24)
+    {
+        turn = 24;
+    }
+
+    work->control.interp = 15;
+    work->control.turn.vy += turn;
+
+    GV_LenVec3(&diff, &dir_step, dist, work->field_1F0);
+
+    speed = work->field_1F0 / 8;
+    s11d_hind_800C976C(&work->control.step.vx, dir_step.vx, speed);
+    s11d_hind_800C976C(&work->control.step.vz, dir_step.vz, speed);
+
+    if (*(int *)&work->field_1C8 & 1)
+    {
+        dist = GM_PlayerPosition.vy - (work->control.mov.vy + work->field_1D8.vy);
+        if (dist < -128)
+        {
+            dist = -128;
+        }
+        if (dist > 128)
+        {
+            dist = 128;
+        }
+        work->control.step.vy = dist;
+    }
+    else
+    {
+        work->control.step.vy = 0;
+    }
+}
 
 void s11d_hind_800C9B94(Work *work)
 {
@@ -317,6 +383,7 @@ void s11d_hind_800CA49C(Work *work)
 void s11d_hind_800CA504(Work *work);
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CA6D8.s")
+void s11d_hind_800CA6D8(Work *work, int arg1);
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CABA8.s")
 void s11d_hind_800CABA8(Work *work, int arg1);
 
@@ -528,7 +595,6 @@ int s11d_hind_800CB178(Work *work)
     prim->type |= DG_FLAG_AMBIENT;
     return 0;
 }
-
 
 void s11d_hind_800CB310(Work *work)
 {
