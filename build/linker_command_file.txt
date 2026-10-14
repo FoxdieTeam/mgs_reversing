@@ -3814,30 +3814,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\kojo\blooddrp.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\kojo\mgrex.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\kojo\mgrexact.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay11.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\takabe\spark2l.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\takabe\mg_smke1.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\takabe\mg_smke2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay18.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DD910.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DDFC4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DE43C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DE7B4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DE8CC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DE900.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DEBB4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DEBE4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DEBEC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DEC6C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DECA8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DECE4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DF3E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DF720.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DFAE8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DFF74.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E0328.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E0710.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E085C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s17a\kojo\mgrexai.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\kojo\hmissile.obj", overlay
     include "{{OBJ_DIR}}\takabe\unknown4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\kojo\mg_laser.obj", overlay

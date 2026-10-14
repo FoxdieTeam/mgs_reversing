@@ -1,5 +1,7 @@
-#include "mgstype.h"
+#include "mgrex.h"
 
+/* Metal Gear REX: movement decisions, motion state machine and weapons
+ * (the original file name is unknown) */
 
 int s17a_dword_800C5248 = 0x0000FEC0;
 int s17a_dword_800C524C = 0x0071FCF4;
@@ -70,3 +72,57 @@ int s17a_dword_800C534C = 0x00000000;
 int s17a_dword_800C5350 = 0xFFFFF000;
 int s17a_dword_800C5354 = 0x00000000;
 int s17a_dword_800C5358 = 0x00000000;
+
+const int s17a_dword_800E5C84 = 0x00000000;
+const int s17a_dword_800E5C88 = 0x00004E20;
+const int s17a_dword_800E5C8C = 0x00004E20;
+const int s17a_dword_800E5C90 = 0x00000000;
+const int s17a_dword_800E5C94 = 0x0000B1E0;
+const int s17a_dword_800E5C98 = 0x00000000;
+const int s17a_dword_800E5C9C = 0x800DEDA8;
+const int s17a_dword_800E5CA0 = 0x800DEDE8;
+const int s17a_dword_800E5CA4 = 0x800DEE80;
+const int s17a_dword_800E5CA8 = 0x800DEF24;
+const int s17a_dword_800E5CAC = 0x800DF000;
+const int s17a_dword_800E5CB0 = 0x800DF058;
+const int s17a_dword_800E5CB4 = 0x800DF09C;
+const int s17a_dword_800E5CB8 = 0x800DF0DC;
+const int s17a_dword_800E5CBC = 0x800DF124;
+const int s17a_dword_800E5CC0 = 0x800DF178;
+const int s17a_dword_800E5CC4 = 0x800DF1B8;
+const int s17a_dword_800E5CC8 = 0x800DF268;
+const int s17a_dword_800E5CCC = 0x800DF328;
+const int s17a_dword_800E5CD0 = 0x800DF360;
+const char s17a_dword_800E5CD4[] = "l_hatch2";
+
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DD910.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DDFC4.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DE43C.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DE7B4.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DE8CC.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DE900.s")
+
+int s17a_800DEBB4(MGREX_WORK *work, int action, int arg2)
+{
+    if (work->f1960 == 1 && work->f1954 != action)
+    {
+        work->f1954 = action;
+        work->f1958 = arg2;
+        work->f1960 = 0;
+        return 1;
+    }
+
+    return 0;
+}
+
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DEBEC.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DEC6C.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DECA8.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DECE4.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DF3E8.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DF720.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DFAE8.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DFF74.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800E0328.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800E0710.s")
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800E085C.s")
