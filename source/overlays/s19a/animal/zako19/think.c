@@ -11,6 +11,7 @@
 extern void AsiatoPos( int index, SVECTOR *pos );
 extern char NearAsiato( void );
 extern int  NextAsiato();
+extern void CleanAsiato( void );
 
 /*---------------------------------------------------------------------------*/
 
@@ -30,7 +31,7 @@ int ZAKO19ThinkAction[32] =
     0x00000000, 0x00000000, 0x00000000, 0x00000000
 };
 
-/*== protos ==*/
+/* prototypes */
 void s19a_800D3A4C( Work* work );
 void s19a_800D3A84( Work* work );
 void s19a_800D3ACC( Work* work );
@@ -84,22 +85,21 @@ void s19a_800D5030( Work *work );
 int s19a_800D50B0( Work *work );
 int s19a_800D51A4( Work* work );
 void s19a_800D5210( Work* work );
-int s19a_800D53C0( Work *work );
-int s19a_800D5484( Work *work );
-int s19a_800D555C( Work *work );
-int s19a_800D5624( Work *work );
-int s19a_800D57F4( Work *work );
+void s19a_800D53C0( Work *work );
+void s19a_800D5484( Work *work );
+void s19a_800D5624( Work *work );
+void s19a_800D57F4( Work *work );
 void s19a_800D59B8( Work *work );
 void s19a_800D5AB0( Work *work );
 void s19a_800D5CB4( Work *work );
 void s19a_800D5DAC( Work *work );
-int s19a_800D5E58( Work *work );
-int s19a_800D5F50( Work *work );
-int s19a_800D607C( Work *work );
+void s19a_800D5E58( Work *work );
+void s19a_800D5F50( Work *work );
+void s19a_800D607C( Work *work );
 void s19a_800D61A4( Work *work );
 void s19a_800D649C( Work *work );
 
-/*== functions ==*/
+/*---------------------------------------------------------------------------*/
 
 void s19a_800D3A4C( Work* work )
 {
@@ -1177,20 +1177,245 @@ void s19a_800D53B8( Work *work )
 {
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D53C0.s")
-int s19a_800D53C0( Work *work );
+void s19a_800D53C0( Work *work )
+{
+    switch ( work->think3 )
+    {
+    case 4:
+        if ( s19a_800D479C( work ) )
+        {
+            work->think3 = 5;
+            work->count3 = 0;
+        }
+        break;
+    case 5:
+        if ( s19a_800D480C( work ) )
+        {
+            if ( ZAKO19Command.alert_mode == 0 )
+            {
+                work->next_node--;
+                s19a_800D3BE4( work );
+                s19a_800D3CCC( work );
+            }
+            else
+            {
+                s19a_800D3DD8( work );
+            }
+        }
+        break;
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D5484.s")
-int s19a_800D5484( Work *work );
+    if ( work->alert_level > 1 )
+    {
+        s19a_800D3CE4( work );
+    }
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D555C.s")
-int s19a_800D555C( Work *work );
+void s19a_800D5484( Work *work )
+{
+    switch ( work->think3 )
+    {
+    case 5:
+        if ( s19a_800D4728( work ) )
+        {
+            s19a_800D3A84( work );
+            work->think3 = 8;
+            work->count3 = 0;
+        }
+        break;
+    case 8:
+        if ( s19a_800D48F0( work ) )
+        {
+            work->think3 = 9;
+            work->count3 = 0;
+        }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D5624.s")
-int s19a_800D5624( Work *work );
+        if ( s19a_800D49E8( &work->target_pos, &work->control.mov, 1500 ) )
+        {
+            work->think3 = 10;
+            work->count3 = 0;
+        }
+        break;
+    case 9:
+        if ( s19a_800D4960( work, 1500 ) )
+        {
+            work->think3 = 10;
+            work->count3 = 0;
+        }
+        break;
+    case 10:
+        if ( s19a_800D4A88( work ) )
+        {
+            work->next_node--;
+            s19a_800D3BE4( work );
+            s19a_800D3CCC( work );
+        }
+        break;
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D57F4.s")
-int s19a_800D57F4( Work *work );
+    /* modetime[6] & 0x12, read as a word */
+    if ( work->alert_level >= 2 || ( *(int *)&work->modetime[ 4 ] & 0x120000 ) )
+    {
+        s19a_800D3CE4( work );
+    }
+    else if ( work->modetime[ 6 ] & 1 )
+    {
+        switch ( GM_NoisePower )
+        {
+        case 255:
+            s19a_800D3ACC( work );
+            ZAKO19SetGopointNoise();
+            work->think2 = 7;
+            work->think3 = 12;
+            break;
+        default:
+        case 100:
+            s19a_800D3CE4( work );
+            break;
+        }
+
+        work->count3 = 0;
+    }
+}
+
+void s19a_800D5624( Work *work )
+{
+    switch ( work->think3 )
+    {
+    case 5:
+        if ( s19a_800D4580( work ) )
+        {
+            work->think3 = 8;
+            work->count3 = 0;
+            work->modetime[ T_NOISE ]++;
+        }
+        break;
+    case 8:
+        if ( s19a_800D48F0( work ) )
+        {
+            work->think3 = 10;
+            work->count3 = 0;
+        }
+
+        if ( work->count3 > 32 && ( work->modetime[ 6 ] & 1 ) )
+        {
+            s19a_800D3ACC( work );
+            work->think3 = 5;
+            work->count3 = 0;
+        }
+        break;
+    case 10:
+        if ( s19a_800D4A3C( work ) )
+        {
+            work->next_node--;
+            s19a_800D3BE4( work );
+            s19a_800D3CCC( work );
+        }
+        break;
+    case 7:
+        if ( s19a_800D46B8( work ) )
+        {
+            work->think2 = 0;
+            work->think3 = 1;
+            work->count3 = 0;
+        }
+        break;
+    }
+
+    if ( work->alert_level > 2 )
+    {
+        s19a_800D3CE4( work );
+    }
+    else if ( work->modetime[ 6 ] & 2 )
+    {
+        s19a_800D3F70( work );
+    }
+    else if ( work->modetime[ 6 ] & 16 )
+    {
+        s19a_800D3F88( work );
+    }
+    else if ( work->modetime[ 6 ] & 1 )
+    {
+        if ( GM_NoisePower == 200 || GM_NoisePower == 255 )
+        {
+            s19a_800D3ACC( work );
+            ZAKO19SetGopointNoise();
+            work->think2 = 7;
+            work->think3 = 12;
+            work->count3 = 0;
+        }
+    }
+}
+
+void s19a_800D57F4( Work *work )
+{
+    switch ( work->think3 )
+    {
+    case 5:
+        if ( s19a_800D4854( work ) )
+        {
+            s19a_800D3C6C( work );
+            work->think3 = 9;
+            work->count3 = 0;
+        }
+        break;
+    case 9:
+        work->pad.press |= 0x4;
+        if ( s19a_800D4960( work, 500 ) )
+        {
+            if ( s19a_800D4AF8( work ) )
+            {
+                s19a_800D3C6C( work );
+                work->count3 = 0;
+            }
+            else
+            {
+                work->think3 = 10;
+                CleanAsiato();
+                work->count3 = 0;
+            }
+        }
+        break;
+    case 10:
+        if ( s19a_800D4A3C( work ) )
+        {
+            if ( ZAKO19Command.alert_mode == 0 )
+            {
+                work->next_node--;
+                s19a_800D3BE4( work );
+                s19a_800D3CCC( work );
+            }
+            else
+            {
+                s19a_800D3DD8( work );
+            }
+        }
+        break;
+    }
+
+    if ( work->alert_level >= 2 || ( work->modetime[ 6 ] & 2 ) )
+    {
+        s19a_800D3CE4( work );
+        work->pad.sound = 240;
+    }
+    else if ( work->modetime[ 6 ] & 1 )
+    {
+        if ( ZAKO19Command.alert_mode == 0 )
+        {
+            s19a_800D3EB4( work );
+        }
+        else if ( GM_NoisePower != 5 )
+        {
+            s19a_800D3ACC( work );
+            ZAKO19SetGopointNoise();
+            work->think2 = 7;
+            work->think3 = 12;
+            work->count3 = 0;
+        }
+
+        CleanAsiato();
+    }
+}
 
 void s19a_800D59B8( Work *work )
 {
@@ -1388,27 +1613,258 @@ void s19a_800D5DAC( Work *work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D5E58.s")
-int s19a_800D5E58( Work *work );
+void s19a_800D5E58( Work *work )
+{
+    if ( s19a_800D48F0( work ) )
+    {
+        work->think2 = 13;
+        work->think3 = 24;
+        work->think4 = 2;
+        work->pad.field_4 = 0;
+        work->count3 = 0;
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D5F50.s")
-int s19a_800D5F50( Work *work );
+    if ( work->alert_level >= 2 || ( work->modetime[ 6 ] & 2 ) )
+    {
+        s19a_800D3CE4( work );
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D607C.s")
-int s19a_800D607C( Work *work );
+    if ( ( work->modetime[ 6 ] & 1 ) && GM_NoisePower != 5 )
+    {
+        s19a_800D3ACC( work );
+        ZAKO19SetGopointNoise();
+        work->think2 = 7;
+        work->think3 = 12;
+        work->count3 = 0;
+    }
 
-/* the compiler aligns jump tables to 8 bytes */
-const int s19a_pad_800E020C = 0;
-const int s19a_jt_800E0210[] = {
-    0x800D61F4, 0x800D6204, 0x800D6220, 0x800D623C, 0x800D6258, 0x800D6274, 0x800D61E4, 0x800D6290,
-};
-const int s19a_jt_800E0230[] = {
-    0x800D6418, 0x800D6408, 0x800D6430, 0x800D6428, 0x800D6430, 0x800D6430, 0x800D6430, 0x800D63D8,
-    0x800D63E8, 0x800D63F8,
-};
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D61A4.s")
-void s19a_800D61A4( Work *work );
+    if ( work->modetime[ 6 ] & 16 )
+    {
+        s19a_800D3F88( work );
+        work->pad.field_4 = 0;
+    }
+    else if ( work->modetime[ 6 ] & 4 )
+    {
+        s19a_800D3E9C( work );
+        work->pad.field_4 = 0;
+    }
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D649C.s")
-void s19a_800D649C( Work *work );
+void s19a_800D5F50( Work *work )
+{
+    s19a_800D3A84( work );
+
+    if ( s19a_800D48F0( work ) || work->sn_dis < work->chase_dis || GM_AlertLevel == 100 )
+    {
+        work->think2 = 13;
+        work->think3 = 24;
+        work->think4 = 2;
+        work->pad.field_4 = 0;
+        work->count3 = 0;
+    }
+
+    if ( work->alert_level >= 2 || ( work->modetime[ 6 ] & 2 ) )
+    {
+        s19a_800D3CE4( work );
+    }
+
+    if ( ( work->modetime[ 6 ] & 1 ) && GM_NoisePower != 5 )
+    {
+        s19a_800D3ACC( work );
+        ZAKO19SetGopointNoise();
+        work->think2 = 7;
+        work->think3 = 12;
+        work->count3 = 0;
+    }
+
+    if ( work->modetime[ 6 ] & 16 )
+    {
+        s19a_800D3F88( work );
+        work->pad.field_4 = 0;
+    }
+    else if ( work->modetime[ 6 ] & 4 )
+    {
+        s19a_800D3E9C( work );
+        work->pad.field_4 = 0;
+    }
+}
+
+void s19a_800D607C( Work *work )
+{
+    switch ( work->think3 )
+    {
+    case 24:
+        s19a_800D4F38( work );
+        break;
+    case 25:
+        s19a_800D40CC( work );
+        break;
+    case 26:
+        s19a_800D4FB4( work );
+        break;
+    }
+
+    if ( work->alert_level >= 2 || ( work->modetime[ 6 ] & 2 ) )
+    {
+        s19a_800D3CE4( work );
+    }
+    else if ( work->modetime[ 6 ] & 1 )
+    {
+        if ( GM_NoisePower != 5 )
+        {
+            s19a_800D3ACC( work );
+            ZAKO19SetGopointNoise();
+            work->think2 = 7;
+            work->think3 = 12;
+            work->count3 = 0;
+        }
+    }
+    else if ( work->modetime[ 6 ] & 16 )
+    {
+        s19a_800D3F88( work );
+    }
+    else if ( work->modetime[ 6 ] & 4 )
+    {
+        s19a_800D3E9C( work );
+    }
+}
+
+void s19a_800D61A4( Work *work )
+{
+    switch ( work->think2 )
+    {
+    case 6:
+        s19a_800D5030( work );
+        break;
+    case 0:
+        s19a_800D5210( work );
+        break;
+    case 1:
+        work->control.radar_atr |= RADAR_UNK4;
+        s19a_800D5624( work );
+        break;
+    case 2:
+        work->control.radar_atr |= RADAR_UNK4;
+        s19a_800D5484( work );
+        break;
+    case 3:
+        work->control.radar_atr |= RADAR_UNK4;
+        s19a_800D53B8( work );
+        break;
+    case 4:
+        work->control.radar_atr |= RADAR_UNK4;
+        s19a_800D53C0( work );
+        break;
+    case 5:
+        work->control.radar_atr |= RADAR_UNK4;
+        s19a_800D57F4( work );
+        break;
+    case 7:
+        work->control.radar_atr |= RADAR_UNK4;
+        s19a_800D59B8( work );
+        break;
+    }
+
+    if ( ZAKO19Command.alert_mode != 0 )
+    {
+        s19a_800D3D6C( work );
+    }
+}
+
+void s19a_800D62D0( Work *work )
+{
+    switch ( work->think2 )
+    {
+    case 8:
+        s19a_800D5CB4( work );
+        break;
+    case 9:
+        s19a_800D5AB0( work );
+        break;
+    case 10:
+        s19a_800D5DAC( work );
+        break;
+    case 7:
+        s19a_800D59B8( work );
+        break;
+    }
+
+    if ( ZAKO19Command.alert_mode != 1 )
+    {
+        s19a_800D3DD8( work );
+    }
+}
+
+void s19a_800D6388( Work *work )
+{
+    short think2;
+
+    think2 = work->think2 - 4;
+    switch ( think2 )
+    {
+    case 7:
+        s19a_800D5E58( work );
+        break;
+    case 8:
+        s19a_800D5F50( work );
+        break;
+    case 9:
+        s19a_800D607C( work );
+        break;
+    case 1:
+        s19a_800D57F4( work );
+        break;
+    case 0:
+        s19a_800D53C0( work );
+        break;
+    case 3:
+        s19a_800D59B8( work );
+        break;
+    }
+
+    if ( ZAKO19Command.alert_mode == 1 )
+    {
+        s19a_800D3D6C( work );
+    }
+
+    if ( ZAKO19Command.alert_mode == 0 )
+    {
+        ZAKO19Command.field_110 |= 1;
+        work->think2 = 6;
+        work->think1 = 0;
+        work->think3 = 3;
+        work->count3 = 0;
+    }
+}
+
+void s19a_800D649C( Work *work )
+{
+    work->pad.dir = -1;
+    work->pad.press = 0;
+
+    switch ( work->think1 )
+    {
+    case 0:
+        work->act.field_1E = 1;
+        s19a_800D61A4( work );
+        break;
+    case 1:
+        work->act.field_1E = 1;
+        s19a_800D62D0( work );
+        break;
+    case 2:
+        work->act.field_1E = 0;
+        s19a_800D6388( work );
+        break;
+    }
+
+    if ( ZAKO19_GameFlag > 0 )
+    {
+        work->alert_level = 255;
+        return;
+    }
+
+    work->alert_level = 0;
+    work->control.radar_atr = RADAR_OFF;
+}
 
