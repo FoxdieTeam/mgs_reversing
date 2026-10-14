@@ -3023,7 +3023,18 @@ void s08b_bunsin2_800D4E3C(Work *work)
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4ED0.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4FBC.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D53E8.s")
+void s08b_bunsin2_800D53E8(int type, int time)
+{
+    void *screen;
+
+    if (s08b_dword_800C3610 == 0)
+    {
+        s08b_dword_800C3610 = 1;
+        s08b_dword_800C3614 = time;
+        screen = NewCinemaScreen(time, type);
+        s08b_dword_800C3618 = (int)screen;
+    }
+}
 void s08b_bunsin2_800D5434(void)
 {
     if (s08b_dword_800C3614 == 0)
