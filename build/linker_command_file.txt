@@ -4022,17 +4022,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\takabe\drum.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\overlay8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D8E54.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D8E8C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D974C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D981C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D9878.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D9B28.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D9BBC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D9DBC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D9E98.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D9FA8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s19a\takabe\pjeep.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\takabe\pkjp_sne.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\takabe\pkjp_mrl.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\anime\effect\pkflash.obj", overlay
@@ -4040,7 +4030,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\overlay9.obj", overlay
     include "{{OBJ_DIR}}\takabe\voicesys.obj", overlay
     include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
