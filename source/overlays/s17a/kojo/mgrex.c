@@ -17,8 +17,8 @@
 MGREX_WORK mgrex_saved = {{0}};
 char       mgrex_name[] = "MG-REX";
 
-void s17a_800DA29C(MGREX_WORK *work);
-void s17a_800DA894(MGREX_WORK *work);
+void MgRex_Act(MGREX_WORK *work);
+void MgRex_Die(MGREX_WORK *work);
 void s17a_800DEBB4(MGREX_WORK *work, int action, int arg2);
 void s17a_800E37D4(MGREX_WORK *work, HZD_SEG *segs);
 void s17a_800E3B00(MGREX_WORK *work, HZD_SEG *segs);
@@ -31,7 +31,7 @@ void *NewMetalGearRex(int name, int where)
     MGREX_WORK *work;
     char       *opt;
     SVECTOR     size;
-    MGREX_NAME *radar_name;
+    MENU_BAR_CONF *life_bar;
     int         mode;
     int         i;
 
@@ -48,7 +48,7 @@ void *NewMetalGearRex(int name, int where)
         return NULL;
     }
 
-    GV_SetNamedActor(&work->actor, s17a_800DA29C, s17a_800DA894, "mgrex.c");
+    GV_SetNamedActor(&work->actor, MgRex_Act, MgRex_Die, "mgrex.c");
 
     work->name = name;
     work->where = where;
@@ -342,9 +342,9 @@ void *NewMetalGearRex(int name, int where)
     work->control.rot.vy = work->control.turn.vy;
     work->control.rot.vz = work->control.turn.vz;
 
-    work->f75C = work->f5F8 / 2;
-    work->f760 = work->f5F8 / 2;
-    work->f768 = work->f668 / 2;
+    work->timers[1] = work->f5F8 / 2;
+    work->timers[2] = work->f5F8 / 2;
+    work->timers[4] = work->f668 / 2;
     work->f778 = work->f5F0;
     work->f77C = work->f5F0;
 
@@ -458,14 +458,14 @@ void *NewMetalGearRex(int name, int where)
         work->body.objs->objs[3].model->ty -= 500;
     }
 
-    radar_name = &work->radar_name;
-    radar_name->name = mgrex_name;
-    radar_name->color[0] = 0x10;
-    radar_name->color[1] = 0x6F;
-    radar_name->color[2] = 0x9F;
-    radar_name->color[3] = 0x1A;
-    radar_name->color[4] = 0xBB;
-    radar_name->color[5] = 0x8A;
+    life_bar = &work->life_bar;
+    life_bar->name = mgrex_name;
+    life_bar->left[0] = 0x10;
+    life_bar->left[1] = 0x6F;
+    life_bar->left[2] = 0x9F;
+    life_bar->right[0] = 0x1A;
+    life_bar->right[1] = 0xBB;
+    life_bar->right[2] = 0x8A;
 
     GM_InitObjectNoRots(&work->pit_t, GV_StrCode("pit_t"), PART_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)&work->pit_t, work->light);
@@ -549,7 +549,7 @@ void *NewMetalGearRex(int name, int where)
     work->f6FC = 2;
     work->f1ACC = 3;
     s17a_dword_800E5E30 = 0;
-    work->f1964 = 0;
+    work->frame = 0;
     s17a_dword_800E5E34 = 0;
     work->f176C = work->body_rots[0].vy;
     GM_GameStatus &= ~STATE_DEMO;

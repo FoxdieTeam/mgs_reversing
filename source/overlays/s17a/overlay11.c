@@ -1,35 +1,6 @@
 #include "mgstype.h"
 
 
-int s17a_dword_800C51D4 = 0x00001770;
-int s17a_dword_800C51D8 = 0x00001770;
-int s17a_dword_800C51DC = 0x0000E890;
-int s17a_dword_800C51E0 = 0x00001770;
-int s17a_dword_800C51E4 = 0x0000EC78;
-int s17a_dword_800C51E8 = 0x00000000;
-int s17a_dword_800C51EC = 0x00000000;
-int s17a_dword_800C51F0 = 0x0000EC78;
-int s17a_dword_800C51F4 = 0x0000F830;
-int s17a_dword_800C51F8 = 0x0000EC78;
-int s17a_dword_800C51FC = 0x000007D0;
-int s17a_dword_800C5200 = 0x0000EC78;
-int s17a_dword_800C5204 = 0x05DC05DC;
-int s17a_dword_800C5208 = 0x000005DC;
-int s17a_dword_800C520C = 0x02580190;
-int s17a_dword_800C5210 = 0x00000190;
-int s17a_dword_800C5214 = 0x004602EE;
-int s17a_dword_800C5218 = 0x00000B74;
-int s17a_dword_800C521C = 0x004602EE;
-int s17a_dword_800C5220 = 0x00000D68;
-int s17a_dword_800C5224 = 0xFE0C0000;
-int s17a_dword_800C5228 = 0x000003E8;
-int s17a_dword_800C522C = 0x00000000;
-int s17a_dword_800C5230 = 0xF4520000;
-int s17a_dword_800C5234 = 0x000001F4;
-int s17a_dword_800C5238 = 0xFDA80000;
-int s17a_dword_800C523C = 0x0000012C;
-int s17a_dword_800C5240 = 0xF6650000;
-int s17a_dword_800C5244 = 0x0000038B;
 int s17a_dword_800C5248 = 0x0000FEC0;
 int s17a_dword_800C524C = 0x0071FCF4;
 int s17a_dword_800C5250 = 0x0000FCF4;

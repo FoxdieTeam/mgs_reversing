@@ -9,14 +9,9 @@
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
 #include "game/game.h"
+#include "menu/menuman.h"
 
 /* Metal Gear REX (boss) */
-
-typedef struct _MGREX_NAME
-{
-    char   *name;
-    u_char  color[6];
-} MGREX_NAME;
 
 typedef struct _MGREX_WORK
 {
@@ -33,7 +28,12 @@ typedef struct _MGREX_WORK
     int             target_size;        // 0x398
     TARGET          target1;            // 0x39C
     TARGET          target2;            // 0x3E4
-    char            pad_42C[0x180];
+    CONTROL         ctrl_a;             // 0x42C
+    TARGET         *target_a;           // 0x4A8
+    CONTROL         ctrl_b;             // 0x4AC
+    TARGET         *target_b;           // 0x528
+    CONTROL         ctrl_c;             // 0x52C
+    TARGET         *target_c;           // 0x5A8
 
     /* GCL options (also saved in mgrex_saved) */
     int             f5AC;               // 'e'
@@ -128,12 +128,11 @@ typedef struct _MGREX_WORK
     int             f6FC;
     char            pad_700[0x10];
     int             f710;
-    char            pad_714[0x48];
-    int             f75C;
-    int             f760;
-    int             f764;
-    int             f768;
-    char            pad_76C[0xC];
+    char            pad_714[0xC];
+    int             f720;
+    int             f724;
+    char            pad_728[0x30];
+    int             timers[8];          // 0x758
     int             f778;
     int             f77C;
     char            pad_780[0x2C];
@@ -183,7 +182,7 @@ typedef struct _MGREX_WORK
     int             f1958;
     int             f195C;
     int             f1960;
-    int             f1964;
+    int             frame;              // 0x1964
     int             f1968;
     int             mode;               // 0x196C
     int             hatch_l_model;      // 0x1970
@@ -192,23 +191,32 @@ typedef struct _MGREX_WORK
     int             f197C;
     int             f1980;
     int             f1984;
-    char            pad_1988[0x24];
+    int             f1988;
+    short           f198C;
+    short           f198E;
+    char            pad_1990[0x14];
+    SVECTOR         f19A4;
     CONTROL         control2;           // 0x19AC
     DG_OBJ         *radar_parent;       // 0x1A28
     SVECTOR         player_pos;         // 0x1A2C
-    char            pad_1A34[0x68];
+    char            pad_1A34[0x8];
+    int             f1A3C;
+    char            pad_1A40[0x24];
+    int             f1A64;
+    char            pad_1A68[0x34];
     int             f1A9C;
     HZD_SEG        *segs;               // 0x1AA0
     HZD_SEG        *segs2;              // 0x1AA4
     int             f1AA8;
     int             f1AAC;
-    MGREX_NAME      radar_name;         // 0x1AB0
+    MENU_BAR_CONF   life_bar;           // 0x1AB0
     int             f1ABC;
     int             f1AC0;
     int             f1AC4;
     int             f1AC8;
     int             f1ACC;
-    char            pad_1AD0[0x28];
+    int             f1AD0;
+    char            pad_1AD4[0x24];
 } MGREX_WORK;
 
 extern MGREX_WORK mgrex_saved;
