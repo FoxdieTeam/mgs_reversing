@@ -101,7 +101,7 @@ typedef struct _Work
     int            sphere_state;         /* 0x1A04 */
     int            field_1A08;           /* 0x1A08 */
     int            field_1A0C;           /* 0x1A0C */
-    int            field_1A10;           /* 0x1A10 */
+    int            sphere_mode;          /* 0x1A10: 1 = in the special zone (r_sphere -1), 2 = above y 3800 (r_sphere -2), else eases to 450 */
     int            field_1A14;           /* 0x1A14 */
     GV_ACT        *clone1;               /* 0x1A18 */
     GV_ACT        *clone2;               /* 0x1A1C */
@@ -2796,7 +2796,7 @@ void s08b_bunsin2_800CD000(Work *work)
     work->actend = 0;
     work->bunsin_state = 0;
     work->field_1A00 = 0;
-    work->field_1A10 = 0;
+    work->sphere_mode = 0;
 
     if (work->field_8C0 == 1)
     {
@@ -2873,10 +2873,10 @@ invisible_off:
 
     if (control->mov.vy >= 3801)
     {
-        work->field_1A10 = 2;
+        work->sphere_mode = 2;
     }
 
-    switch (work->field_1A10)
+    switch (work->sphere_mode)
     {
     case 1:
         height = -1;
