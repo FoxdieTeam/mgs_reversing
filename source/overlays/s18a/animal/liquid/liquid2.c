@@ -354,6 +354,79 @@ const int s18a_dword_800E2EA0 = 0x25736F70;
 const int s18a_dword_800E2EA4 = 0x64252064;
 const int s18a_dword_800E2EA8 = 0x20642520;
 const int s18a_dword_800E2EAC = 0x0000000A;
+#if 0 /* NON_MATCHING */
+// the return value "li $v0, 1" is scheduled first (orig: last, after the last_pos copy)
+int s18a_800C7684(LiquidWork *work)
+{
+    SVECTOR near;
+    int     pad;
+
+    if (work->control.mov.vy < 5000 || work->control.levels[0] < 5000)
+    {
+        work->control.mov.vx = 2000;
+        work->control.mov.vy = 12100;
+        work->control.mov.vz = 500;
+        work->f90C = 0;
+        return 0;
+    }
+
+    pad = work->control.vecs[0].pad;
+    if (pad == 1)
+    {
+        printf("pos%d %d %d \n", work->control.mov.vx, work->control.mov.vy, work->control.mov.vz);
+
+        if (work->life >= 3)
+        {
+            s18a_liquid_SetAct(work, s18a_800CBB50);
+        }
+        else
+        {
+            s18a_liquid_SetAct(work, s18a_800CBF38);
+            GM_ConfigMotionAdjust(&work->body, NULL);
+        }
+
+        work->f9A8 = pad;
+    }
+    else
+    {
+        if (!HZD_OnlineHazardCheck(work->control.map->hzd, &s18a_dword_800C3368, &work->control.mov, HZD_CHK_F_SEGMENT, 4))
+        {
+            return 0;
+        }
+
+        HZD_GetOnlineVector(&near);
+
+        if (near.vx == 0 && near.vz == 0)
+        {
+            return 0;
+        }
+
+        if (work->life >= 3)
+        {
+            s18a_liquid_SetAct(work, s18a_800CBB50);
+            work->f9A8 = 1;
+        }
+        else
+        {
+            s18a_liquid_SetAct(work, s18a_800CBF38);
+            GM_ConfigMotionAdjust(&work->body, NULL);
+            work->f9A8 = 1;
+        }
+    }
+
+    if (work->target->damaged & TARGET_POWER)
+    {
+        work->target->damage = 0;
+        work->target->damaged = 0;
+    }
+
+    work->control.step.vx = 0;
+    work->control.step.vy = 0;
+    work->control.step.vz = 0;
+    work->last_pos = work->control.mov;
+    return 1;
+}
+#endif
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7684.s")
 int s18a_800C7878(LiquidWork *work)
 {
@@ -3254,6 +3327,16 @@ const int s18a_dword_800E304C = 0x7A206425;
 const int s18a_dword_800E3050 = 0x2064253A;
 const int s18a_dword_800E3054 = 0x0000000A;
 const int s18a_dword_800E3058 = 0x00000000;
+#if 0 /* NON_MATCHING */
+// orig reloads work->f990 after each store to f970, we keep it in a register
+void s18a_800CC830(LiquidWork *work)
+{
+    work->f970.vx = work->f990[work->f994].vx;
+    work->f970.vy = work->f990[work->f994].vy;
+    work->f970.vz = work->f990[work->f994].vz;
+    printf(",x:%d y:%d z:%d \n", work->f970.vx, work->f970.vy, work->f970.vz);
+}
+#endif
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC830.s")
 void s18a_800CC8B0(LiquidWork *work, int index, int which)
 {

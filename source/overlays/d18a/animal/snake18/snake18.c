@@ -2847,7 +2847,8 @@ void d18a_snake18_800CE4E4(Snake18Work *work)
     }
 }
 #if 0 /* NON_MATCHING */
-// sched1 places the lui/ori of ~PLAYER_CAUTION before "li $v0, 0x1c2" (orig has li first, in the bnez delay slot)
+// only the bnez delay slot differs: reorg fills it with "lui $a1" (the ~PLAYER_CAUTION mask),
+// the original skipped that and took "li $v0, 0x1c2" (same source pattern as 800CE38C, which matches)
 void d18a_snake18_800CE6B0(Snake18Work *work)
 {
     if (work->f910 != 0)
