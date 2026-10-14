@@ -2109,20 +2109,284 @@ void brf_800D4664(Work *work)
     }
 }
 const char brf_dword_800E2068[4] = "";
-const int brf_dword_800E206C = 0x800D52D0;
-const int brf_dword_800E2070 = 0x800D52D8;
-const int brf_dword_800E2074 = 0x800D4A8C;
-const int brf_dword_800E2078 = 0x800D4B34;
-const int brf_dword_800E207C = 0x800D4BC8;
-const int brf_dword_800E2080 = 0x800D4C90;
-const int brf_dword_800E2084 = 0x800D4D6C;
-const int brf_dword_800E2088 = 0x800D4E58;
-const int brf_dword_800E208C = 0x800D4F40;
-const int brf_dword_800E2090 = 0x800D5020;
-const int brf_dword_800E2094 = 0x800D5108;
-const int brf_dword_800E2098 = 0x800D519C;
-const int brf_dword_800E209C = 0x800D523C;
-const int brf_dword_800E20A0 = 0x800D52D0;
+void brf_800D486C(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
+{
+    int v = work->field_AD30 << 2;
+
+    setRGB0(a1, v, v, v);
+    setRGB0(a2, v, v, v);
+    work->field_AD30++;
+}
+void brf_800D48AC(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+    int c = 0x80 - (work->field_AD30 << 2);
+    int i;
+
+    setRGB0(&base[2], c, c, c);
+    setRGB0(&base[3], c, c, c);
+    setRGB0(&base[7], c, c, c);
+    setRGB0(&base[8], c, c, c);
+    for (i = 9; i < 38; i++)
+    {
+        setRGB0(&base[i], c, c, c);
+    }
+    work->field_AD30++;
+}
+void brf_800D493C(Work *work)
+{
+    work->z_A597[work->field_AD34 + 9] = 2;
+    if (work->field_A9B6[work->field_AD34 + 9] != 0)
+    {
+        GM_SeSet2(0, 0x30, 0xB6);
+    }
+    work->field_AD34++;
+}
+void brf_800D49B8(Work *work)
+{
+    work->z_A597[work->field_AD34 + 0x1A] = 2;
+    if (work->field_A9B6[work->field_AD34 + 0x1A] != 0)
+    {
+        GM_SeSet2(0, 0x30, 0xB6);
+    }
+    work->field_AD34++;
+}
+extern int brf_dword_800C381C;
+
+void brf_800D4A34(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+    int i;
+
+    switch (work->field_AD20)
+    {
+    case 1:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC150(work);
+            brf_800CC190(work);
+            GM_StreamPlayStart();
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[5] = 7;
+            work->z_A597[6] = 7;
+            work->field_AD38 = 0;
+            work->z_A597[38] = 14;
+            work->z_A597[39] = 14;
+        }
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CADD4(work, &base[0], 4);
+        brf_800CC5E4(work, &base[38], &base[39]);
+        break;
+    case 2:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[5] = 7;
+            work->z_A597[6] = 7;
+            work->z_A597[38] = 14;
+            work->z_A597[39] = 14;
+        }
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CADD4(work, &base[0], 4);
+        brf_800CC5E4(work, &base[38], &base[39]);
+        break;
+    case 3:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[3] = 8;
+            work->z_A597[5] = 7;
+            work->z_A597[6] = 7;
+            work->z_A597[8] = 10;
+            work->field_AD30 = 0;
+            work->z_A597[38] = 14;
+            work->z_A597[39] = 14;
+            GM_SeSet2(0, 0x3F, 0xBC);
+        }
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800D486C(work, &base[3], &base[8]);
+        brf_800CADD4(work, &base[0], 4);
+        brf_800CC5E4(work, &base[38], &base[39]);
+        break;
+    case 4:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[2] = 8;
+            work->z_A597[3] = 8;
+            work->z_A597[5] = 7;
+            work->z_A597[6] = 7;
+            work->z_A597[7] = 10;
+            work->z_A597[8] = 10;
+            work->field_AD30 = 0;
+            work->field_AD34 = 0;
+            work->z_A597[38] = 14;
+            work->z_A597[39] = 14;
+            GM_SeSet2(0, 0x3F, 0xBC);
+        }
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800D486C(work, &base[2], &base[7]);
+        brf_800D493C(work);
+        brf_800CADD4(work, &base[0], 4);
+        brf_800CC5E4(work, &base[38], &base[39]);
+        break;
+    case 5:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[2] = 8;
+            work->z_A597[3] = 8;
+            work->z_A597[5] = 7;
+            work->z_A597[6] = 7;
+            work->z_A597[7] = 10;
+            work->z_A597[8] = 10;
+            for (i = 9; i < 26; i++)
+            {
+                work->z_A597[i] = 2;
+            }
+            work->z_A597[38] = 14;
+            work->z_A597[39] = 14;
+        }
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800D486C(work, &base[2], &base[7]);
+        brf_800CADD4(work, &base[0], 4);
+        brf_800CC5E4(work, &base[38], &base[39]);
+        break;
+    case 6:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[2] = 8;
+            work->z_A597[3] = 8;
+            work->z_A597[5] = 7;
+            work->z_A597[6] = 7;
+            work->field_AD34 = 0;
+            work->z_A597[7] = 10;
+            work->z_A597[8] = 10;
+            for (i = 9; i < 26; i++)
+            {
+                work->z_A597[i] = 2;
+            }
+            work->z_A597[38] = 14;
+            work->z_A597[39] = 14;
+        }
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800D49B8(work);
+        brf_800CADD4(work, &base[0], 4);
+        brf_800CC5E4(work, &base[38], &base[39]);
+        break;
+    case 7:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[2] = 8;
+            work->z_A597[3] = 8;
+            work->z_A597[5] = 7;
+            work->z_A597[6] = 7;
+            work->field_AD34 = 0;
+            work->z_A597[7] = 10;
+            work->z_A597[8] = 10;
+            for (i = 9; i < 38; i++)
+            {
+                work->z_A597[i] = 2;
+            }
+            work->z_A597[38] = 14;
+            work->z_A597[39] = 14;
+        }
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CADD4(work, &base[0], 4);
+        brf_800CC5E4(work, &base[38], &base[39]);
+        break;
+    case 8:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[2] = 8;
+            work->z_A597[3] = 8;
+            work->z_A597[5] = 7;
+            work->z_A597[6] = 7;
+            work->field_AD30 = 0;
+            work->z_A597[7] = 10;
+            work->z_A597[8] = 10;
+            for (i = 9; i < 38; i++)
+            {
+                work->z_A597[i] = 2;
+            }
+            work->z_A597[38] = 14;
+            work->z_A597[39] = 14;
+        }
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800D48AC(work);
+        brf_800CADD4(work, &base[0], 4);
+        brf_800CC5E4(work, &base[38], &base[39]);
+        break;
+    case 9:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[5] = 7;
+            work->z_A597[6] = 7;
+            work->z_A597[38] = 14;
+            work->z_A597[39] = 14;
+        }
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CADD4(work, &base[0], 4);
+        brf_800CC5E4(work, &base[38], &base[39]);
+        break;
+    case 10:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 10;
+            work->z_A597[1] = 10;
+            work->z_A597[4] = 10;
+            work->z_A597[5] = 7;
+            work->z_A597[6] = 7;
+            work->field_AD30 = 0;
+            work->z_A597[38] = 14;
+            work->z_A597[39] = 14;
+        }
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CD8B8(work, 16, 0, 4);
+        brf_800CC5E4(work, &base[38], &base[39]);
+        break;
+    case 11:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[1] = 10;
+            work->z_A597[4] = 10;
+            work->z_A597[5] = 7;
+            work->z_A597[6] = 7;
+            work->z_A597[38] = 14;
+            work->z_A597[39] = 14;
+        }
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CC5E4(work, &base[38], &base[39]);
+        break;
+    case -1:
+    case 12:
+        brf_800CF5A8(work);
+        break;
+    }
+}
 const int brf_dword_800E20A4 = 0x800D575C;
 const int brf_dword_800E20A8 = 0x800D5764;
 const int brf_dword_800E20AC = 0x800D534C;
@@ -2202,49 +2466,6 @@ const int brf_dword_800E2204 = 0x800D7500;
 const int brf_dword_800E2208 = 0x800D7564;
 const int brf_dword_800E220C = 0x800D75CC;
 const char brf_dword_800E2210[4] = "";
-void brf_800D486C(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
-{
-    int v = work->field_AD30 << 2;
-
-    setRGB0(a1, v, v, v);
-    setRGB0(a2, v, v, v);
-    work->field_AD30++;
-}
-void brf_800D48AC(Work *work)
-{
-    POLY_FT4 *base = work->field_28C;
-    int c = 0x80 - (work->field_AD30 << 2);
-    int i;
-
-    setRGB0(&base[2], c, c, c);
-    setRGB0(&base[3], c, c, c);
-    setRGB0(&base[7], c, c, c);
-    setRGB0(&base[8], c, c, c);
-    for (i = 9; i < 38; i++)
-    {
-        setRGB0(&base[i], c, c, c);
-    }
-    work->field_AD30++;
-}
-void brf_800D493C(Work *work)
-{
-    work->z_A597[work->field_AD34 + 9] = 2;
-    if (work->field_A9B6[work->field_AD34 + 9] != 0)
-    {
-        GM_SeSet2(0, 0x30, 0xB6);
-    }
-    work->field_AD34++;
-}
-void brf_800D49B8(Work *work)
-{
-    work->z_A597[work->field_AD34 + 0x1A] = 2;
-    if (work->field_A9B6[work->field_AD34 + 0x1A] != 0)
-    {
-        GM_SeSet2(0, 0x30, 0xB6);
-    }
-    work->field_AD34++;
-}
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D4A34.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D52F0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D5780.s")
 void brf_800D5CC4(Work *work)
