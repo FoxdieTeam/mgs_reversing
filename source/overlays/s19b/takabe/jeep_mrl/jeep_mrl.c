@@ -50,12 +50,6 @@ typedef struct _JEEP_SYSTEM
 
 extern JEEP_SYSTEM Takabe_JeepSystem;
 
-extern const char s19b_dword_800DDDF8[];
-extern const char s19b_aMeryl_800DDDCC[];
-extern const char s19b_aMelb_800DDDD4[];
-extern const char s19b_dword_800DDDDC[];
-extern const char s19b_aOtacom_800DDDE4[];
-extern const char s19b_dword_800DDDEC[];
 
 extern int  s19b_dword_800C39E0;
 extern void s19b_jeep_mrl_800D47B8(Work *work);
@@ -104,8 +98,8 @@ int s19b_jeep_mrl_800D3E98(Work *work, int name, int arg2)
     body = &work->body;
     if (arg2 == 0)
     {
-        GM_InitObject(body, GV_StrCode(s19b_aMeryl_800DDDCC), 0x2D, GV_StrCode(s19b_aMelb_800DDDD4));
-        work->field_7E0 = GV_StrCode(s19b_dword_800DDDDC);
+        GM_InitObject(body, GV_StrCode("meryl"), 0x2D, GV_StrCode("mel_19b"));
+        work->field_7E0 = GV_StrCode("メリル");
         work->field_818 = 0x82;
         work->field_81A = 0x83;
         work->field_81C = 0x84;
@@ -113,15 +107,15 @@ int s19b_jeep_mrl_800D3E98(Work *work, int name, int arg2)
     }
     else
     {
-        GM_InitObject(body, GV_StrCode(s19b_aOtacom_800DDDE4), 0x2D, GV_StrCode(s19b_aMelb_800DDDD4));
-        work->field_7E0 = GV_StrCode(s19b_dword_800DDDEC);
+        GM_InitObject(body, GV_StrCode("otacom"), 0x2D, GV_StrCode("mel_19b"));
+        work->field_7E0 = GV_StrCode("オタコン");
         work->field_818 = 0x85;
         work->field_81A = 0x86;
         work->field_81C = 0x87;
         work->field_81E = 0x85;
     }
     GM_ConfigObjectJoint(body);
-    GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode(s19b_aMelb_800DDDD4), work->m_segs1, work->m_segs2,
+    GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode("mel_19b"), work->m_segs1, work->m_segs2,
                            ctl, work->rots);
     GM_ConfigObjectLight(body, &work->light[0]);
     GM_ConfigObjectAction(body, 0, 0, 0);
@@ -149,10 +143,10 @@ void *s19b_jeep_mrl_800D40D4(int arg0, int arg1, int arg2)
     if (work != NULL)
     {
         GV_SetNamedActor(work, s19b_jeep_mrl_800D3D30, s19b_jeep_mrl_800D4098,
-                         s19b_dword_800DDDF8);
+                         "jeep_mrl.c");
         work->root_ctrl = (CONTROL *)arg0;
         work->root_mat = (MATRIX *)arg1;
-        if (s19b_jeep_mrl_800D3E98(work, GV_StrCode(s19b_aMeryl_800DDDCC), arg2) < 0)
+        if (s19b_jeep_mrl_800D3E98(work, GV_StrCode("meryl"), arg2) < 0)
         {
             GV_DestroyActor(work);
             return NULL;

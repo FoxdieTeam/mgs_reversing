@@ -305,7 +305,7 @@ extern const char s19b_dword_800DDD54[];
 extern const char s19b_dword_800DDD5C[];
 extern const char s19b_dword_800DDD64[];
 void s19b_jeep_gls_800CEC24(int, SVECTOR *);
-int  s19b_jeep_mrl_800D39B4(SVECTOR *dst);
+int  s19b_jeep_800D39B4(SVECTOR *dst);
 
 void s19b_jlamp_800D0D40(void)
 {
@@ -352,7 +352,7 @@ void s19b_jlamp_800D0D40(void)
         s19b_jeep_gls_800CEC24(Takabe_JeepSystem.control->mov.vz + s19b_dword_800DE5C8.field_C, &sp10);
         s19b_dword_800DE5C8.field_10 = GV_NearSpeed(s19b_dword_800DE5C8.field_10, 1500, 100);
         sp10.vy += *(short *)&s19b_dword_800DE5C8.field_10;
-        r = s19b_jeep_mrl_800D39B4(&sp18);
+        r = s19b_jeep_800D39B4(&sp18);
         s19b_dword_800DE5C8.field_18 = 0;
         sp10.vx += r;
         s19b_dword_800DE5C8.field_0 = sp10;
