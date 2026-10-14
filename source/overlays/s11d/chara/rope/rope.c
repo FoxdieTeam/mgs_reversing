@@ -470,7 +470,109 @@ void s11d_rope_800C48C0(Work *work)
     target->class |= (TARGET_POWER | TARGET_SEEK);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C48EC.s")
+void s11d_rope_800C48EC(Work *work)
+{
+    TARGET *target;
+    int     damaged;
+
+    if (work->field_F70 & 0x2100)
+    {
+        return;
+    }
+
+    target = work->target;
+    damaged = target->damaged;
+
+    if (work->field_F70 & 0x8000)
+    {
+        if (work->field_F7C > 0)
+        {
+            work->field_F7C--;
+            if (work->field_F7C > 0)
+            {
+                if (!(work->field_F70 & 0x1000))
+                {
+                    if (work->field_F7C & 3)
+                    {
+                        work->object.objs->flag &= ~DG_FLAG_INVISIBLE;
+                    }
+                    else
+                    {
+                        work->object.objs->flag |= DG_FLAG_INVISIBLE;
+                    }
+                }
+                else
+                {
+                    GM_SnakeCamera.position.vy += GV_RandU(16) * work->field_F7C;
+                }
+                return;
+            }
+
+            if (!(work->field_F70 & 0x1000))
+            {
+                work->object.objs->flag &= ~DG_FLAG_INVISIBLE;
+            }
+            s11d_rope_800C48C0(work);
+        }
+    }
+
+    if (!(damaged & 4))
+    {
+        return;
+    }
+
+    if (target->a_mode == 2)
+    {
+        AN_DamageSmoke1(&work->control.mov);
+        NewPadVibration(s11d_dword_800C3260, 1);
+        NewPadVibration(s11d_dword_800C3264, 2);
+    }
+    else
+    {
+        NewPadVibration(s11d_dword_800C326C, 1);
+        NewPadVibration(s11d_dword_800C3270, 2);
+        s11d_rope_800C61D8(work, GV_RandU(16));
+    }
+    work->field_F44 = 0;
+
+    target->damage = 0;
+    target->faint = 0;
+    target->damaged &= ~4;
+    target->force = DG_ZeroVector;
+
+    if (target->vital <= 0)
+    {
+        work->field_EAC = (int)s11d_rope_800C7F8C;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        GM_GameStatus |= 0x2000;
+        return;
+    }
+
+    if (work->field_F70 & 0x1000)
+    {
+        s11d_rope_800C486C(work);
+        GM_SeSet(&work->control.mov, 25);
+        return;
+    }
+
+    if (work->field_F74 & 0x2000)
+    {
+        work->field_EAC = (int)s11d_rope_800C7A4C;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+    }
+    else
+    {
+        work->field_EAC = (int)s11d_rope_800C7B2C;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+    }
+    work->target->size.vy = 0x384;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4B78.s")
 
 int s11d_rope_800C4DE0(Work *work)
