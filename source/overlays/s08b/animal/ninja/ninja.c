@@ -4856,7 +4856,141 @@ void s08b_bunsin2_800D2510(Work *work)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D2600.s")
+void s08b_bunsin2_800D2600(Work *work)
+{
+    int time;
+    int divisor;
+    int dist;
+    int command;
+
+    switch (work->field_19CC)
+    {
+    case 0x17:
+        if (s08b_bunsin2_800D06A0(work) != 0)
+        {
+            time = work->field_19E4;
+            if (time < 6)
+            {
+                work->field_19C4 = 7;
+                work->field_19C8 = 0;
+                work->field_19CC = 0;
+            }
+            else
+            {
+                if (GM_GameStatus & STATE_CHAFF)
+                {
+                    work->field_19C8 = 9;
+                    work->field_19CC = 0x1C;
+                }
+                else if (work->field_1A38 == 3)
+                {
+                    if (s08b_dword_800C3448 == 0)
+                    {
+                        s08b_dword_800C3448 = 2;
+                        s08b_bunsin2_800CE2E8(work);
+                        work->field_19C8 = 8;
+                        work->field_19CC = 5;
+                    }
+                    else if (time < 0x79)
+                    {
+                        s08b_bunsin2_800CE2E8(work);
+                        work->field_19C4 = 2;
+                        work->field_19C8 = 8;
+                        work->field_19CC = 5;
+                    }
+                    else
+                    {
+                        work->field_19DC++;
+
+                        divisor = 3;
+                        if (GM_GameLevel != GM_LEVEL_NORMAL)
+                        {
+                            divisor = 4;
+                            if (GM_GameLevel > GM_LEVEL_EASY)
+                            {
+                                if (GM_GameLevel < GM_LEVEL_EXTREME + 1)
+                                {
+                                    divisor = 2;
+                                }
+                            }
+                        }
+
+                        if (work->field_19DC % divisor == 0)
+                        {
+                            work->field_19C8 = 6;
+                            work->field_19CC = 0x13;
+                        }
+                        else
+                        {
+                            work->field_19CC = 7;
+                        }
+                    }
+                }
+                else
+                {
+                    goto reload;
+                }
+
+            }
+
+            work->field_19D4 = 0;
+            work->field_19D0 = 0;
+        }
+        break;
+
+    case 0x22:
+        if (s08b_bunsin2_800D06A0(work) != 0)
+        {
+            work->field_19CC = 7;
+            work->field_19D4 = 0;
+            work->field_19D0 = 0;
+        }
+        break;
+
+    case 7:
+        if (s08b_bunsin2_800CFCF8(work) != 0)
+        {
+            dist = work->field_1A2C;
+            if (dist < 1000)
+            {
+                work->field_19C8 = 6;
+                work->field_19CC = 0xF;
+            }
+            else if (dist < 5000)
+            {
+                work->field_19C8 = 6;
+                work->field_19CC = 0x10;
+            }
+            else
+            {
+                command = 0x18;
+                if (work->field_1A0C != 0)
+                {
+                    goto reload;
+                }
+
+                work->field_19C8 = 0;
+                work->field_19CC = command;
+            }
+
+            work->field_19D4 = 0;
+            work->field_19D0 = 0;
+        }
+        break;
+
+    case 5:
+        if (s08b_bunsin2_800CFDE0(work) != 0)
+        {
+reload:
+            s08b_bunsin2_800CDE74(work);
+            work->field_19C8 = 1;
+            work->field_19CC = 0x1A;
+            work->field_19D4 = 0;
+            work->field_19D0 = 0;
+        }
+        break;
+    }
+}
 void s08b_bunsin2_800D2860(Work *work)
 {
     switch (work->field_19CC)
