@@ -55,7 +55,7 @@ typedef struct _Work
 
     char      pad_910[0x910 - 0x8C4 - sizeof(TARGET *)];
     HOMING   *field_910;   /* 0x910 */
-    char       pad_914[4];
+    int        field_914;   /* 0x914 */
     SVECTOR    field_918;   /* 0x918 */
     NinjaClone clones[16];  /* 0x920 */
     short      field_1960;  /* 0x1960 */
@@ -71,7 +71,7 @@ typedef struct _Work
     int       field_1988;  // 0x1988
     SVECTOR   field_198C;  // 0x198C
     NinjaAction field_1994; /* 0x1994 */
-    int       field_1998;  /* 0x1998 */
+    NinjaAction field_1998; /* 0x1998 */
     int       field_199C;  /* 0x199C */
     int       field_19A0;  /* 0x19A0 */
     int       field_19A4;  /* 0x19A4 */
@@ -101,7 +101,7 @@ typedef struct _Work
     int       field_1A04;  /* 0x1A04 */
     int       field_1A08;  /* 0x1A08 */
     int       field_1A0C;  /* 0x1A0C */
-    char      pad_1A14[0x1A14 - 0x1A0C - sizeof(int)];
+    int       field_1A10;  /* 0x1A10 */
     int       field_1A14;  /* 0x1A14 */
     GV_ACT   *field_1A18;  /* 0x1A18 */
     GV_ACT   *field_1A1C;  /* 0x1A1C */
@@ -207,6 +207,7 @@ extern int   s08b_dword_800E4340;
 
 extern char s08b_aErrerrerrsoundbuffover_800E3764[];
 extern char s08b_aNinjac_800E37F8[];
+extern char s08b_aWeaponxxamodexx_800E3878[];
 extern char s08b_aJumpfctrlturnvyd_800E3920[];
 extern char s08b_aDcountd_800E39B8[];
 extern char s08b_aPunchdamagelifedcombod_800E393C[];
@@ -221,6 +222,11 @@ int  s08b_bunsin2_800C9548(Work *work);
 int  s08b_bunsin2_800C9588(Work *work, int arg);
 void s08b_bunsin2_800C9B38(Work *work, int first);
 void s08b_bunsin2_800C9C74(Work *work, int first);
+void s08b_bunsin2_800CC578(Work *work, int time);
+void s08b_bunsin2_800CC71C(Work *work, int time);
+void s08b_bunsin2_800CC7EC(Work *work, int time);
+void s08b_bunsin2_800CC90C(Work *work, int time);
+void s08b_bunsin2_800CCAF0(Work *work, int time);
 void s08b_bunsin2_800CD544(Work *work, int index);
 GV_ACT *Bunsin2_800C8F04(int name, int map, CONTROL *control, int type);
 int  s08b_bunsin2_800CD914(Work *work, int index);
@@ -2790,7 +2796,132 @@ void s08b_bunsin2_800CCF8C(Work *work)
         work->field_1A00 = 1;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD000.s")
+void s08b_bunsin2_800CD000(Work *work)
+{
+    CONTROL     *control;
+    OBJECT      *body;
+    NinjaAction  action;
+    int          time;
+    int          height;
+
+    work->target->class = TARGET_AVAIL;
+    work->field_19A8 = 0;
+    work->field_19FC = 0;
+    work->field_1A00 = 0;
+    work->field_1A10 = 0;
+
+    if (work->field_8C0 == 1)
+    {
+        work->field_19F8 = 0;
+    }
+    else
+    {
+        work->field_19F8 = 1;
+    }
+
+    control = &work->control;
+    action = work->field_1994;
+    control->seg_flag = 2;
+
+    time = work->field_199C;
+    body = &work->body;
+    work->field_199C = time + 1;
+
+    if (action == NULL)
+    {
+        action = s08b_bunsin2_800C9B38;
+        work->field_1994 = action;
+    }
+
+    action(work, time);
+
+    action = work->field_1998;
+    if (action != NULL)
+    {
+        time = work->field_19A0;
+        work->field_19A0 = time + 1;
+        action(work, time);
+    }
+
+    work->target->damaged = 0;
+
+    if (work->field_1A14 != 0)
+    {
+        work->target->class &= ~TARGET_CAPTURE;
+        work->field_19FC = 0;
+    }
+
+    s08b_bunsin2_800CCD18(work);
+    s08b_bunsin2_800CCD40(work);
+    s08b_bunsin2_800CCD74(work);
+    s08b_bunsin2_800CCDBC(work);
+    s08b_bunsin2_800CCE34(work);
+    s08b_bunsin2_800CCF8C(work);
+
+    if (GM_GameStatus & STATE_THERMG)
+    {
+        work->field_19FC = 0;
+    }
+
+    if (work->field_19C0 & 4)
+    {
+        if (work->field_7D8 == 0 && work->field_1A18 == NULL && work->field_1A1C == NULL)
+        {
+            goto invisible_off;
+        }
+
+        if (work->field_7D8 == GV_Time % 3)
+        {
+invisible_off:
+            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        }
+        else
+        {
+            work->body.objs->flag |= DG_FLAG_INVISIBLE;
+        }
+    }
+
+    control->height = body->height;
+
+    if (control->mov.vy >= 3801)
+    {
+        work->field_1A10 = 2;
+    }
+
+    switch (work->field_1A10)
+    {
+    case 1:
+        height = -1;
+        break;
+
+    case 2:
+        height = -2;
+        break;
+
+    default:
+        height = GV_NearExp2(control->r_sphere, 450);
+        break;
+    }
+
+    control->r_sphere = height;
+
+    if (work->field_914 < 0)
+    {
+        if (control->grounded != 0)
+        {
+            work->field_914 = 0;
+        }
+
+        work->field_914 = work->field_914 - 16;
+    }
+    else
+    {
+        work->field_914 = work->field_914 - 16;
+    }
+
+    control->step.vy = work->field_914;
+    work->target->captured = 0;
+}
 void s08b_bunsin2_800CD000(Work *work);
 
 int s08b_bunsin2_800CD298(int a, int b, int c)
