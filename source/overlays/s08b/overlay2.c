@@ -1,139 +1,93 @@
 #include "mgstype.h"
+#include "libgv/libgv.h"
+#include "menu/menuman.h"
 
-int s08b_dword_800C3380 = 0x800E3714;
-int s08b_dword_800C3384 = 0x1F9F6F10;
-int s08b_dword_800C3388 = 0x00007FDF;
-int s08b_dword_800C338C = 0x000000FF;
-int s08b_dword_800C3390 = 0x05DC012C;
-int s08b_dword_800C3394 = 0x0000012C;
-int s08b_dword_800C3398 = 0x00000000;
-int s08b_dword_800C339C = 0x0000FC18;
-int s08b_dword_800C33A0 = 0x00020000;
-int s08b_dword_800C33A4 = 0x000A0012;
-int s08b_dword_800C33A8 = 0x00030028;
-int s08b_dword_800C33AC = 0x00050004;
-int s08b_dword_800C33B0 = 0x00000001;
-int s08b_dword_800C33B4 = 0x000C000B;
-int s08b_dword_800C33B8 = 0x00140013;
-int s08b_dword_800C33BC = 0x00160015;
-int s08b_dword_800C33C0 = 0x001E0022;
-int s08b_dword_800C33C4 = 0x00180017;
-int s08b_dword_800C33C8 = 0x001C001B;
-int s08b_dword_800C33CC = 0x000D002B;
-int s08b_dword_800C33D0 = 0x000F000E;
-int s08b_dword_800C33D4 = 0x001A0019;
-int s08b_dword_800C33D8 = 0x00240023;
-int s08b_dword_800C33DC = 0x00260025;
-int s08b_dword_800C33E0 = 0x00210020;
-int s08b_dword_800C33E4 = 0x00190027;
-int s08b_dword_800C33E8 = 0x002A0029;
-int s08b_dword_800C33EC = 0x002D002C;
-int s08b_dword_800C33F0 = 0x00000000;
-int s08b_dword_800C33F4 = 0x00000000;
-int s08b_dword_800C33F8 = 0x00000000;
-int s08b_dword_800C33FC = 0x00000064;
-int s08b_dword_800C3400 = 0x0000FC00;
-int s08b_dword_800C3404 = 0x00000000;
-int s08b_dword_800C3408 = 0x00000000;
-int s08b_dword_800C340C = 0x00000064;
-int s08b_dword_800C3410 = 0x0000FC00;
-int s08b_dword_800C3414 = 0x00000000;
-int s08b_dword_800C3418 = 0x800CD614;
-int s08b_dword_800C341C = 0x800CD690;
-int s08b_dword_800C3420 = 0x800CD770;
-int s08b_dword_800C3424 = 0x800CD808;
-int s08b_dword_800C3428 = 0x800CD87C;
-int s08b_dword_800C342C = 0x800CD8D8;
-int s08b_dword_800C3430 = 0xFE0C0005;
-int s08b_dword_800C3434 = 0x00000050;
-int s08b_dword_800C3438 = 0x00000000;
-int s08b_dword_800C343C = 0x00000000;
-int s08b_dword_800C3440 = 0x00000000;
-int s08b_dword_800C3444 = 0x00000000;
-int s08b_dword_800C3448 = 0x00000000;
-int s08b_dword_800C344C = 0x00000000;
-int s08b_dword_800C3450 = 0x00000000;
-int s08b_dword_800C3454 = 0x00000012;
-int s08b_dword_800C3458 = 0x03E807D0;
-int s08b_dword_800C345C = 0x00000000;
-int s08b_dword_800C3460 = 0x03E80FA0;
-int s08b_dword_800C3464 = 0x00001770;
-int s08b_dword_800C3468 = 0x03E8E0C0;
-int s08b_dword_800C346C = 0x0000F060;
-int s08b_dword_800C3470 = 0x03E81838;
-int s08b_dword_800C3474 = 0x00000000;
-int s08b_dword_800C3478 = 0x03E807D0;
-int s08b_dword_800C347C = 0x00000000;
-int s08b_dword_800C3480 = 0x03E8F63C;
-int s08b_dword_800C3484 = 0x00000000;
-int s08b_dword_800C3488 = 0x03E8D508;
-int s08b_dword_800C348C = 0x0000F736;
-int s08b_dword_800C3490 = 0x03E8E4A8;
-int s08b_dword_800C3494 = 0x000001F4;
-int s08b_dword_800C3498 = 0x03E80DAC;
-int s08b_dword_800C349C = 0x0000FE0C;
-int s08b_dword_800C34A0 = 0x03E80DAC;
-int s08b_dword_800C34A4 = 0x00001770;
-int s08b_dword_800C34A8 = 0x03E8E4A8;
-int s08b_dword_800C34AC = 0x00001770;
-int s08b_dword_800C34B0 = 0x03E8FC18;
-int s08b_dword_800C34B4 = 0x000007D0;
-int s08b_dword_800C34B8 = 0x03E80FA0;
-int s08b_dword_800C34BC = 0x00001964;
-int s08b_dword_800C34C0 = 0x03E8EA84;
-int s08b_dword_800C34C4 = 0x0000FA24;
-int s08b_dword_800C34C8 = 0x03E80BB8;
-int s08b_dword_800C34CC = 0x0000F63C;
-int s08b_dword_800C34D0 = 0x03E8E890;
-int s08b_dword_800C34D4 = 0x0000FA24;
-int s08b_dword_800C34D8 = 0x03E807D0;
-int s08b_dword_800C34DC = 0x0000FA24;
-int s08b_dword_800C34E0 = 0x03E8FA24;
-int s08b_dword_800C34E4 = 0x00000BB8;
-int s08b_dword_800C34E8 = 0x03E8E4A8;
-int s08b_dword_800C34EC = 0x0000157C;
-int s08b_dword_800C34F0 = 0x03E80FA0;
-int s08b_dword_800C34F4 = 0x00001194;
-int s08b_dword_800C34F8 = 0x03E8EE6C;
-int s08b_dword_800C34FC = 0x0000F830;
-int s08b_dword_800C3500 = 0x03E80000;
-int s08b_dword_800C3504 = 0x000007D0;
-int s08b_dword_800C3508 = 0x03E803E8;
-int s08b_dword_800C350C = 0x0000F830;
-int s08b_dword_800C3510 = 0x0010000A;
-int s08b_dword_800C3514 = 0x002D000D;
-int s08b_dword_800C3518 = 0x1E170A00;
-int s08b_dword_800C351C = 0xFF220502;
-int s08b_dword_800C3520 = 0xFF0E0604;
-int s08b_dword_800C3524 = 0xFF220205;
-int s08b_dword_800C3528 = 0xFF0E0406;
-int s08b_dword_800C352C = 0x23210C08;
-int s08b_dword_800C3530 = 0x1E17000A;
-int s08b_dword_800C3534 = 0x2321080C;
-int s08b_dword_800C3538 = 0xFF06040E;
-int s08b_dword_800C353C = 0xFF1C1210;
-int s08b_dword_800C3540 = 0xFF1C1012;
-int s08b_dword_800C3544 = 0x1E0A0017;
-int s08b_dword_800C3548 = 0xFF12101C;
-int s08b_dword_800C354C = 0xFF201F1D;
-int s08b_dword_800C3550 = 0x170A001E;
-int s08b_dword_800C3554 = 0xFF201D1F;
-int s08b_dword_800C3558 = 0xFF1F1D20;
-int s08b_dword_800C355C = 0x230C0821;
-int s08b_dword_800C3560 = 0xFF050222;
-int s08b_dword_800C3564 = 0x210C0823;
-int s08b_dword_800C3568 = 0x03E80FA0;
-int s08b_dword_800C356C = 0x00001770;
-int s08b_dword_800C3570 = 0x03E80BB8;
-int s08b_dword_800C3574 = 0x0000FC18;
-int s08b_dword_800C3578 = 0x03E8E2B4;
-int s08b_dword_800C357C = 0x00001964;
-int s08b_dword_800C3580 = 0x03E8E2B4;
-int s08b_dword_800C3584 = 0x0000FA24;
-int s08b_dword_800C3588 = 0x00000000;
-int s08b_dword_800C358C = 0x07D0F830;
-int s08b_dword_800C3590 = 0x0000FB1E;
-int s08b_dword_800C3594 = 0x0000004A;
+extern const char s08b_aNinja_800E3714[];
+
+void s08b_bunsin2_800CD614();
+void s08b_bunsin2_800CD690();
+void s08b_bunsin2_800CD770();
+void s08b_bunsin2_800CD808();
+void s08b_bunsin2_800CD87C();
+void s08b_bunsin2_800CD8D8();
+
+MENU_BAR_CONF s08b_dword_800C3380 = {s08b_aNinja_800E3714, {0x10, 0x6F, 0x9F}, {0x1F, 0xDF, 0x7F}, 0};
+int s08b_dword_800C338C = 255; /* life shown by the life bar */
+
+SVECTOR s08b_dword_800C3390 = {300, 1500, 300, 0};  /* target size */
+SVECTOR s08b_dword_800C3398 = {0, 0, -1000, 0};    /* power target offset */
+
+/* motion indices */
+short s08b_dword_800C33A0[40] = {
+     0,  2, 18, 10, 40,  3,  4,  5,  1,  0, 11, 12, 19, 20, 21, 22, 34, 30, 23, 24,
+    27, 28, 43, 13, 14, 15, 25, 26, 35, 36, 37, 38, 32, 33, 39, 25, 41, 42, 44, 45
+};
+
+SVECTOR s08b_dword_800C33F0 = {0, 0, 0, 0};
+SVECTOR s08b_dword_800C33F8 = {0, 0, 100, 0};
+SVECTOR s08b_dword_800C3400 = {-1024, 0, 0, 0};
+SVECTOR s08b_dword_800C3408 = {0, 0, 100, 0};
+SVECTOR s08b_dword_800C3410 = {-1024, 0, 0, 0};
+
+void (*s08b_dword_800C3418[])() = {
+    s08b_bunsin2_800CD614,
+    s08b_bunsin2_800CD690,
+    s08b_bunsin2_800CD770,
+    s08b_bunsin2_800CD808,
+    s08b_bunsin2_800CD87C,
+    s08b_bunsin2_800CD8D8
+};
+
+SVECTOR s08b_dword_800C3430 = {5, -500, 80, 0};
+
+int s08b_dword_800C3438 = 0;
+int s08b_dword_800C343C = 0;
+int s08b_dword_800C3440 = 0;
+int s08b_dword_800C3444 = 0;
+int s08b_dword_800C3448 = 0;
+int s08b_dword_800C344C = 0;
+int s08b_dword_800C3450 = 0;
+int s08b_dword_800C3454 = 18;
+
+SVECTOR s08b_dword_800C3458 = {2000, 1000, 0, 0};
+
+SVECTOR s08b_dword_800C3460[6] = {
+    {4000, 1000, 6000, 0}, {-8000, 1000, -4000, 0}, {6200, 1000, 0, 0},
+    {2000, 1000, 0, 0}, {-2500, 1000, 0, 0}, {-11000, 1000, -2250, 0}
+};
+
+SVECTOR s08b_dword_800C3490[4] = {
+    {-7000, 1000, 500, 0}, {3500, 1000, -500, 0}, {3500, 1000, 6000, 0}, {-7000, 1000, 6000, 0}
+};
+
+SVECTOR s08b_dword_800C34B0[9] = {
+    {-1000, 1000, 2000, 0}, {4000, 1000, 6500, 0}, {-5500, 1000, -1500, 0},
+    {3000, 1000, -2500, 0}, {-6000, 1000, -1500, 0}, {2000, 1000, -1500, 0},
+    {-1500, 1000, 3000, 0}, {-7000, 1000, 5500, 0}, {4000, 1000, 4500, 0}
+};
+
+SVECTOR s08b_dword_800C34F8[3] = {
+    {-4500, 1000, -2000, 0}, {0, 1000, 2000, 0}, {1000, 1000, -2000, 0}
+};
+
+short s08b_dword_800C3510[2][2] = {{10, 16}, {13, 45}};
+
+/* route graph: node followed by up to three neighbours (0xFF: none) */
+u_char s08b_dword_800C3518[20][4] = {
+    { 0, 10, 23,   30}, { 2,  5, 34, 0xFF}, { 4,  6, 14, 0xFF}, { 5,  2, 34, 0xFF},
+    { 6,  4, 14, 0xFF}, { 8, 12, 33,   35}, {10,  0, 23,   30}, {12,  8, 33,   35},
+    {14,  4,  6, 0xFF}, {16, 18, 28, 0xFF}, {18, 16, 28, 0xFF}, {23,  0, 10,   30},
+    {28, 16, 18, 0xFF}, {29, 31, 32, 0xFF}, {30,  0, 10,   23}, {31, 29, 32, 0xFF},
+    {32, 29, 31, 0xFF}, {33,  8, 12,   35}, {34,  2,  5, 0xFF}, {35,  8, 12,   33}
+};
+
+SVECTOR s08b_dword_800C3568[4] = {
+    {4000, 1000, 6000, 0}, {3000, 1000, -1000, 0}, {-7500, 1000, 6500, 0}, {-7500, 1000, -1500, 0}
+};
+
+int     s08b_dword_800C3588 = 0;
+SVECTOR s08b_dword_800C358C = {-2000, 2000, -1250, 0};
+int     s08b_dword_800C3594 = 74;
 
 const char s08b_aNinja_800E3714[] = "NINJA";
 const int s08b_dword_800E371C = 0x800C8054;

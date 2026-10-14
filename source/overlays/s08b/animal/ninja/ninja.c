@@ -171,15 +171,15 @@ extern SVECTOR s08b_dword_800C3410;
 extern SVECTOR s08b_dword_800C3430;
 extern int     s08b_dword_800C3438;
 extern short   s08b_dword_800C33A0[];
-extern int     s08b_dword_800C3380;
+extern MENU_BAR_CONF s08b_dword_800C3380;
 extern int     s08b_dword_800C338C;
-extern int     s08b_dword_800C3390;
-extern int     s08b_dword_800C3398;
-extern void   *s08b_dword_800C3418[];
+extern SVECTOR s08b_dword_800C3390;
+extern SVECTOR s08b_dword_800C3398;
+extern NinjaFunc s08b_dword_800C3418[];
 extern int     s08b_dword_800C343C;
 extern int     s08b_dword_800C3454;
 extern SVECTOR s08b_dword_800C3458;
-extern short   s08b_dword_800C3510[];
+extern short   s08b_dword_800C3510[][2];
 extern SVECTOR s08b_dword_800C358C;
 extern int     s08b_dword_800C3594;
 extern int     s08b_dword_800C3614;
@@ -243,11 +243,11 @@ void s08b_ninja_800C7914(short *a, short *b, short *out)
     }
 }
 
-void s08b_ninja_800C796C(short *a, short *b)
+void s08b_ninja_800C796C(SVECTOR *a, SVECTOR *b)
 {
-    a[0] = GV_NearRange(a[0], b[0], 0xFA);
-    a[1] = GV_NearRange(a[1], b[1], 0x64);
-    a[2] = GV_NearRange(a[2], b[2], 0xFA);
+    a->vx = GV_NearRange(a->vx, b->vx, 0xFA);
+    a->vy = GV_NearRange(a->vy, b->vy, 0x64);
+    a->vz = GV_NearRange(a->vz, b->vz, 0xFA);
 }
 
 void s08b_ninja_800C79D4(int a0)
@@ -416,7 +416,7 @@ void s08b_ninja_800C7E14(void)
     SVECTOR vec;
 
     vec = GM_Camera.target;
-    s08b_ninja_800C796C((short *)&vec, (short *)&GM_PlayerPosition);
+    s08b_ninja_800C796C(&vec, &GM_PlayerPosition);
     GV_NearExp4V(&GM_Camera.target, &vec, 3);
     GM_Camera.rotate.vx = 0x280;
     GM_Camera.rotate.vy = GV_NearExp2(GM_Camera.rotate.vy, 0x800);
@@ -437,7 +437,7 @@ void s08b_ninja_800C7ED8(void)
     SVECTOR vec;
 
     vec = GM_Camera.target;
-    s08b_ninja_800C796C((short *)&vec, (short *)&GM_PlayerPosition);
+    s08b_ninja_800C796C(&vec, &GM_PlayerPosition);
     GV_NearExp4V(&GM_Camera.target, &vec, 3);
     GM_Camera.track = 0x1F40;
     GM_Camera.rotate.vx = 0x280;
@@ -503,7 +503,7 @@ void s08b_ninja_800C81C8(Work *work)
     }
     else if (work->field_1B24 == 0x4B)
     {
-        GM_SeSet((SVECTOR *)&work->control, 0x8F);
+        GM_SeSet(&work->control.mov, 0x8F);
     }
 
     work->field_1B24--;
@@ -522,13 +522,13 @@ void s08b_ninja_800C8264(Work *work) // Act
     GM_ActControl(c);
     GM_ActObject2(&work->body);
 
-    DG_GetLightMatrix2((SVECTOR *)c, work->light);
+    DG_GetLightMatrix2(&c->mov, work->light);
 
     s08b_bunsin2_800CDB10(work);
 
     if (work->field_7D8 == 0)
     {
-        GM_MoveTarget(work->target, (SVECTOR *)&work->control);
+        GM_MoveTarget(work->target, &work->control.mov);
         GM_PushTarget(work->target);
     }
 
@@ -546,7 +546,7 @@ void s08b_ninja_800C8264(Work *work) // Act
             s08b_dword_800C338C--;
         }
 
-        MENU_DrawBar(16, 28, s08b_dword_800C338C << 2, work->field_19E4 << 2, (MENU_BAR_CONF *)&s08b_dword_800C3380);
+        MENU_DrawBar(16, 28, s08b_dword_800C338C << 2, work->field_19E4 << 2, &s08b_dword_800C3380);
     }
 
     s08b_ninja_800C81C8(work);
@@ -556,9 +556,9 @@ void s08b_ninja_800C8354(Work *work)
 {
     TARGET *t = work->target;
 
-    GM_SetTarget(t, 0x1F, 2, (SVECTOR *)&s08b_dword_800C3390);
-    GM_SetPowerTarget(t, 1, -1, 0xFF, 0xFF, (SVECTOR *)&s08b_dword_800C3398);
-    GM_SetCaptureTarget(t, -1, 0xFF, (int *)0, (SVECTOR *)0);
+    GM_SetTarget(t, 0x1F, 2, &s08b_dword_800C3390);
+    GM_SetPowerTarget(t, 1, -1, 0xFF, 0xFF, &s08b_dword_800C3398);
+    GM_SetCaptureTarget(t, -1, 0xFF, NULL, NULL);
 }
 
 int s08b_ninja_800C83CC(Work *work, int name, int where)
@@ -1063,7 +1063,7 @@ void s08b_bunsin2_800C9B38(Work *work, int first)
 
         if (work->field_19B4 >= 0)
         {
-            work->field_1994 = (NinjaAction)s08b_bunsin2_800C9C74;
+            work->field_1994 = s08b_bunsin2_800C9C74;
             work->field_199C = 0;
 reset:
             work->control.turn.vz = 0;
@@ -2954,7 +2954,7 @@ void s08b_bunsin2_800CD614(Work *work)
     DG_SetPos(world);
     DG_MovePos(&s08b_dword_800C3430);
     ReadRotMatrix(&mat);
-    GM_SeSet((SVECTOR *)&work->control, 0x49);
+    GM_SeSet(&work->control.mov, 0x49);
     AN_SocomFlash(world, &mat, 0);
     s08b_bunsin2_800CD95C(work, s08b_bunsin2_800CD614);
 }
@@ -3426,7 +3426,7 @@ int s08b_bunsin2_800CEF34(int a, int b)
     {
         SWAP(a, b);
     }
-    p = s08b_dword_800C3510;
+    p = s08b_dword_800C3510[0];
     for (i = 0; i < 2; i++, p += 2)
     {
         if (a == p[0] && b == p[1])
