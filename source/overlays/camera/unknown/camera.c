@@ -52,7 +52,8 @@ typedef struct _Work
     int      field_4980;
     int      field_4984;
     int      field_4988;
-    char     padding6e[0x2C];
+    int      field_498C;
+    char     padding6e[0x28];
     int      field_49B8;
     int      field_49BC;
     char     padding6c[0x8];
@@ -104,6 +105,7 @@ extern int camera_dword_800D0708;
 extern int camera_dword_800D0710;
 
 void camera_800C3ED8(Work *);
+void camera_800C6054(MenuWork *work, u_long *ot, SELECT_INFO *info);
 void camera_800CD790(Work *);
 void camera_800CDAB4(Work *);
 extern const char camera_aOverwriteok_800CFF2C[];
@@ -2049,7 +2051,171 @@ void camera_800CD0A0(MenuPrim *prim, int x, int y, int w, int h)
     radio_draw_face_frame(prim, x, y, w, h);
     radio_draw_face_frame(prim, x, y, w, h);
 }
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800CD198.s")
+static inline void camera_AddTpage(Work *work)
+{
+    DR_TPAGE *pTpage;
+
+    pTpage = (DR_TPAGE *)work->field_700.prim->next;
+    work->field_700.prim->next += sizeof(DR_TPAGE);
+    pTpage->code[0] = 0xE100023F;
+    setlen(pTpage, 1);
+    addPrim(work->field_924_mOrderingTable, pTpage);
+}
+
+void camera_800CD198(Work *work)
+{
+    u_short press;
+    int     dt;
+
+    press = work->pad->press;
+
+    switch (work->field_498C)
+    {
+    case 0:
+        if (work->field_4938 < 5)
+        {
+            MENU_Locate(100, 90, 16);
+            MENU_Color(86, 137, 116);
+            MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+            camera_800CD0A0((MenuPrim *)&work->field_920, 92, 85, 130, 15);
+            return;
+        }
+
+        if (work->field_4938 < 10)
+        {
+            MENU_Locate(100, 90 - (work->field_4938 - 4) * 8, 16);
+            MENU_Color(86, 137, 116);
+            MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+            camera_800CD0A0((MenuPrim *)&work->field_920, 92, 85, 130, 15);
+            return;
+        }
+
+        if (work->field_4938 == 10)
+        {
+            MENU_Locate(100, 50, 16);
+            MENU_Color(86, 137, 116);
+            MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+            MENU_Locate(100, 105, 16);
+            MENU_Color(46, 72, 61);
+            MENU_Printf((char *)camera_aYes_800D0094);
+            MENU_Locate(200, 105, 16);
+            MENU_Color(192, 192, 192);
+            MENU_Printf((char *)camera_aNo_800D0090);
+            camera_800CD0A0((MenuPrim *)&work->field_920, 92, 85, 130, 15);
+            return;
+        }
+
+        if (work->field_4938 < 14)
+        {
+            MENU_Locate(100, 50, 16);
+            MENU_Color(86, 137, 116);
+            MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+            MENU_Locate(100, 105, 16);
+            MENU_Color(46, 72, 61);
+            MENU_Printf((char *)camera_aYes_800D0094);
+            MENU_Locate(200, 105, 16);
+            MENU_Color(192, 192, 192);
+            MENU_Printf((char *)camera_aNo_800D0090);
+            dt = work->field_4938 - 10;
+            camera_800CD0A0((MenuPrim *)&work->field_920, (dt << 5) + 92, dt * 5 + 85, 130 - dt * 30, 15);
+            return;
+        }
+
+        work->field_498C = 2;
+        MENU_Locate(100, 50, 16);
+        MENU_Color(86, 137, 116);
+        MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+        MENU_Locate(100, 105, 16);
+        MENU_Color(46, 72, 61);
+        MENU_Printf((char *)camera_aYes_800D0094);
+        MENU_Locate(200, 105, 16);
+        MENU_Color(192, 192, 192);
+        MENU_Printf((char *)camera_aNo_800D0090);
+        camera_800CD0A0((MenuPrim *)&work->field_920, 188, 100, 40, 15);
+        drawCaption_800C5EB4(&work->field_700, work->f49E4);
+        work->field_49D0 = 3;
+        return;
+
+    case 1:
+        MENU_Locate(100, 50, 16);
+        MENU_Color(86, 137, 116);
+        MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+        MENU_Locate(100, 105, 16);
+        MENU_Color(192, 192, 192);
+        MENU_Printf((char *)camera_aYes_800D0094);
+        MENU_Locate(200, 105, 16);
+        MENU_Color(46, 72, 61);
+        MENU_Printf((char *)camera_aNo_800D0090);
+        camera_800CD0A0((MenuPrim *)&work->field_920, 92, 100, 40, 15);
+        camera_800C6054(&work->field_700, work->field_924_mOrderingTable, 0);
+
+        camera_AddTpage(work);
+
+        if (press & PAD_RIGHT)
+        {
+            work->field_498C = 2;
+            GM_SeSet2(0, 63, 31);
+            return;
+        }
+
+        if (press & PAD_CIRCLE)
+        {
+            work->f28 = 8;
+            work->field_49C8 = 0;
+            GM_SeSet2(0, 63, 32);
+            return;
+        }
+
+        if (press & PAD_CROSS)
+        {
+            GM_SeSet2(0, 63, 33);
+            work->f28 = 0;
+            GV_FreeMemory(2, (void *)camera_dword_800D0704);
+            camera_800C82EC();
+        }
+        return;
+
+    case 2:
+        MENU_Locate(100, 50, 16);
+        MENU_Color(86, 137, 116);
+        MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+        MENU_Locate(100, 105, 16);
+        MENU_Color(46, 72, 61);
+        MENU_Printf((char *)camera_aYes_800D0094);
+        MENU_Locate(200, 105, 16);
+        MENU_Color(192, 192, 192);
+        MENU_Printf((char *)camera_aNo_800D0090);
+        camera_800CD0A0((MenuPrim *)&work->field_920, 188, 100, 40, 15);
+        camera_800C6054(&work->field_700, work->field_924_mOrderingTable, 0);
+
+        camera_AddTpage(work);
+
+        if (press & PAD_LEFT)
+        {
+            work->field_498C = 1;
+            GM_SeSet2(0, 63, 31);
+            return;
+        }
+
+        if (press & PAD_CIRCLE)
+        {
+            GM_SeSet2(0, 63, 33);
+            work->f28 = 0;
+            GV_FreeMemory(2, (void *)camera_dword_800D0704);
+            camera_800C82EC();
+            return;
+        }
+
+        if (press & PAD_CROSS)
+        {
+            GM_SeSet2(0, 63, 33);
+            work->f28 = 0;
+            GV_FreeMemory(2, (void *)camera_dword_800D0704);
+            camera_800C82EC();
+        }
+        return;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CD790.s")
 extern const char camera_aResx_800D03E4[];
 extern const char camera_aS_800D03F0[];
