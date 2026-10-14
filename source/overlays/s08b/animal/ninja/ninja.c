@@ -241,9 +241,9 @@ void s08b_ninja_800C7914(short *a, short *b, short *out)
 
 void s08b_ninja_800C796C(SVECTOR *a, SVECTOR *b)
 {
-    a->vx = GV_NearRange(a->vx, b->vx, 0xFA);
-    a->vy = GV_NearRange(a->vy, b->vy, 0x64);
-    a->vz = GV_NearRange(a->vz, b->vz, 0xFA);
+    a->vx = GV_NearRange(a->vx, b->vx, 250);
+    a->vy = GV_NearRange(a->vy, b->vy, 100);
+    a->vz = GV_NearRange(a->vz, b->vz, 250);
 }
 
 void s08b_ninja_800C79D4(int a0)
@@ -255,12 +255,12 @@ void s08b_ninja_800C79D4(int a0)
 void s08b_ninja_800C79F0(void)
 {
     GM_Camera.type = 0;
-    GM_Camera.position.vx = -0x1ABB;
-    GM_Camera.position.vy = 0x4A9;
-    GM_Camera.position.vz = -0x2A3;
-    GM_Camera.target.vx = -0x1EFF;
-    GM_Camera.target.vy = 0x4A9;
-    GM_Camera.target.vz = -0xAED;
+    GM_Camera.position.vx = -6843;
+    GM_Camera.position.vy = 1193;
+    GM_Camera.position.vz = -675;
+    GM_Camera.target.vx = -7935;
+    GM_Camera.target.vy = 1193;
+    GM_Camera.target.vz = -2797;
     s08b_dword_800E4320++;
 }
 
@@ -268,14 +268,14 @@ int s08b_ninja_800C7A3C(void)
 {
     int ret = 1;
 
-    if (s08b_dword_800E4320 < 0x1F)
+    if (s08b_dword_800E4320 < 31)
     {
         GM_Camera.rotate.vx = 0x280;
         GM_Camera.rotate.vy = 0x800;
         GM_Camera.rotate.vz = 0;
-        GM_Camera.track = 0x1F40;
+        GM_Camera.track = 8000;
         GM_Camera.target = s08b_dword_800E431C->target_pos;
-        if (s08b_dword_800E431C->target_pos.vx >= -0x7CF)
+        if (s08b_dword_800E431C->target_pos.vx >= -1999)
         {
             s08b_dword_800E4324 = 0;
         }
@@ -289,21 +289,21 @@ int s08b_ninja_800C7A3C(void)
         GM_Camera.type = 0;
         if (s08b_dword_800E4324 == 0)
         {
-            GM_Camera.position.vx = 0x960;
-            GM_Camera.position.vy = 0x25F;
-            GM_Camera.position.vz = -0x23F;
-            GM_Camera.target.vx = 0x10C9;
-            GM_Camera.target.vy = 0x8FB;
-            GM_Camera.target.vz = -0x1FDC;
+            GM_Camera.position.vx = 2400;
+            GM_Camera.position.vy = 607;
+            GM_Camera.position.vz = -575;
+            GM_Camera.target.vx = 4297;
+            GM_Camera.target.vy = 2299;
+            GM_Camera.target.vz = -8156;
         }
         else
         {
-            GM_Camera.position.vx = -0x10DB;
-            GM_Camera.position.vy = 0x2A8;
-            GM_Camera.position.vz = 0x4D;
-            GM_Camera.target.vx = -0x20DF;
-            GM_Camera.target.vy = 0x950;
-            GM_Camera.target.vz = -0x19AE;
+            GM_Camera.position.vx = -4315;
+            GM_Camera.position.vy = 680;
+            GM_Camera.position.vz = 77;
+            GM_Camera.target.vx = -8415;
+            GM_Camera.target.vy = 2384;
+            GM_Camera.target.vz = -6574;
         }
         ret = 0;
     }
@@ -313,7 +313,7 @@ int s08b_ninja_800C7A3C(void)
 
 void s08b_ninja_800C7B68(void)
 {
-    GM_Camera.track = 0x1F40;
+    GM_Camera.track = 8000;
     GM_Camera.target = s08b_dword_800E431C->target_pos;
     GM_Camera.rotate.vx = 0x280;
     GM_Camera.rotate.vy = 0x800;
@@ -325,14 +325,14 @@ int s08b_ninja_800C7BC8(void)
 {
     int ret = 1;
 
-    if (s08b_dword_800E4320 < 0x1F)
+    if (s08b_dword_800E4320 < 31)
     {
         GM_Camera.rotate.vx = 0x280;
         GM_Camera.rotate.vy = 0x800;
         GM_Camera.rotate.vz = 0;
-        GM_Camera.track = 0x1F40;
+        GM_Camera.track = 8000;
         GM_Camera.target = s08b_dword_800E431C->target_pos;
-        if (s08b_dword_800E431C->target_pos.vx >= -0x7CF)
+        if (s08b_dword_800E431C->target_pos.vx >= -1999)
         {
             s08b_dword_800E4324 = 0;
         }
@@ -346,21 +346,21 @@ int s08b_ninja_800C7BC8(void)
         GM_Camera.type = 0;
         if (s08b_dword_800E4324 == 0)
         {
-            GM_Camera.position.vx = 0x71F;
-            GM_Camera.position.vy = 0x340;
-            GM_Camera.position.vz = -0x43B;
-            GM_Camera.target.vx = 0x9BF;
-            GM_Camera.target.vy = 0x3F7;
-            GM_Camera.target.vz = -0x784;
+            GM_Camera.position.vx = 1823;
+            GM_Camera.position.vy = 832;
+            GM_Camera.position.vz = -1083;
+            GM_Camera.target.vx = 2495;
+            GM_Camera.target.vy = 1015;
+            GM_Camera.target.vz = -1924;
         }
         else
         {
-            GM_Camera.position.vx = -0x12F8;
-            GM_Camera.position.vy = 0x22F;
-            GM_Camera.position.vz = 0xE5;
-            GM_Camera.target.vx = -0x18A0;
-            GM_Camera.target.vy = 0x8AE;
-            GM_Camera.target.vz = -0x130E;
+            GM_Camera.position.vx = -4856;
+            GM_Camera.position.vy = 559;
+            GM_Camera.position.vz = 229;
+            GM_Camera.target.vx = -6304;
+            GM_Camera.target.vy = 2222;
+            GM_Camera.target.vz = -4878;
         }
         ret = 0;
     }
@@ -372,34 +372,34 @@ int s08b_ninja_800C7CF4(void)
 {
     int ret = 1;
 
-    if (s08b_dword_800E4320 < 0x3D)
+    if (s08b_dword_800E4320 < 61)
     {
         GM_Camera.rotate.vx = 0x280;
         GM_Camera.rotate.vy = 0x800;
         GM_Camera.rotate.vz = 0;
-        GM_Camera.track = 0x1F40;
+        GM_Camera.track = 8000;
         GM_Camera.target = s08b_dword_800E431C->target_pos;
     }
-    if (s08b_dword_800E4320 >= 0x2E)
+    if (s08b_dword_800E4320 >= 46)
     {
         GM_Camera.type = 0;
-        if (s08b_dword_800E431C->target_pos.vx >= -0x7CF)
+        if (s08b_dword_800E431C->target_pos.vx >= -1999)
         {
-            GM_Camera.position.vx = 0x8EC;
-            GM_Camera.position.vy = 0x96;
-            GM_Camera.position.vz = -0x3D0;
-            GM_Camera.target.vx = 0x920;
-            GM_Camera.target.vy = 0xAD;
-            GM_Camera.target.vz = -0x41F;
+            GM_Camera.position.vx = 2284;
+            GM_Camera.position.vy = 150;
+            GM_Camera.position.vz = -976;
+            GM_Camera.target.vx = 2336;
+            GM_Camera.target.vy = 173;
+            GM_Camera.target.vz = -1055;
         }
         else
         {
-            GM_Camera.position.vx = -0x1857;
-            GM_Camera.position.vy = 0x75;
-            GM_Camera.position.vz = -0x83;
-            GM_Camera.target.vx = 0x73;
-            GM_Camera.target.vy = 0xB39;
-            GM_Camera.target.vz = -0x2066;
+            GM_Camera.position.vx = -6231;
+            GM_Camera.position.vy = 117;
+            GM_Camera.position.vz = -131;
+            GM_Camera.target.vx = 115;
+            GM_Camera.target.vy = 2873;
+            GM_Camera.target.vz = -8294;
         }
         ret = 0;
     }
@@ -417,8 +417,8 @@ void s08b_ninja_800C7E14(void)
     GM_Camera.rotate.vx = 0x280;
     GM_Camera.rotate.vy = GV_NearExp2(GM_Camera.rotate.vy, 0x800);
     GM_Camera.rotate.vz = 0;
-    GM_Camera.track = GV_NearExp2(GM_Camera.track, 0xFA0);
-    if (s08b_dword_800E4320 >= 0x40)
+    GM_Camera.track = GV_NearExp2(GM_Camera.track, 4000);
+    if (s08b_dword_800E4320 >= 64)
     {
         s08b_ninja_800C79D4(2);
     }
@@ -435,7 +435,7 @@ void s08b_ninja_800C7ED8(void)
     vec = GM_Camera.target;
     s08b_ninja_800C796C(&vec, &GM_PlayerPosition);
     GV_NearExp4V(&GM_Camera.target, &vec, 3);
-    GM_Camera.track = 0x1F40;
+    GM_Camera.track = 8000;
     GM_Camera.rotate.vx = 0x280;
     GM_Camera.rotate.vy = 0x800;
     GM_Camera.rotate.vz = 0;
@@ -448,8 +448,8 @@ void s08b_ninja_800C7F74(void)
     GM_Camera.rotate.vx = GV_NearExp4(GM_Camera.rotate.vx, 0x280);
     GM_Camera.rotate.vy = GV_NearExp4(GM_Camera.rotate.vy, 0x800);
     GM_Camera.rotate.vz = 0;
-    GM_Camera.track = GV_NearExp2(GM_Camera.track, 0x1F40);
-    if (s08b_dword_800E4320 >= 0x20)
+    GM_Camera.track = GV_NearExp2(GM_Camera.track, 8000);
+    if (s08b_dword_800E4320 >= 32)
     {
         s08b_ninja_800C79D4(1);
     }
@@ -478,7 +478,7 @@ int s08b_ninja_800C8170(void)
 
     for (i = 0; i < evt->n_inside; i++)
     {
-        if (evt->inside[i] == 0xFFC0)
+        if (evt->inside[i] == 65472)
         {
             return 1;
         }
@@ -492,12 +492,12 @@ void s08b_ninja_800C81C8(Work *work)
     if (work->knock_timer == 0)
     {
         if (s08b_ninja_800C8170() && (GM_PlayerStatus & PLAYER_CHECK_WALL) &&
-            GM_NoisePower == 0x64)
+            GM_NoisePower == 100)
         {
-            work->knock_timer = 0x5A;
+            work->knock_timer = 90;
         }
     }
-    else if (work->knock_timer == 0x4B)
+    else if (work->knock_timer == 75)
     {
         GM_SeSet(&work->control.mov, 0x8F);
     }
@@ -576,7 +576,7 @@ int s08b_ninja_800C83CC(Work *work, int name, int where)
     GM_ConfigControlInterp(control, 4);
 
     body = &work->body;
-    GM_InitObject(body, GV_StrCode(s08b_aNjafist_800E3740), 0x32D, GV_StrCode(s08b_aNjab_800E374C));
+    GM_InitObject(body, GV_StrCode(s08b_aNjafist_800E3740), 813, GV_StrCode(s08b_aNjab_800E374C));
     GM_ConfigObjectJoint(body);
     GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode(s08b_aNjab_800E374C), work->m_segs1, work->m_segs2,
                            control, work->rots);
@@ -584,7 +584,7 @@ int s08b_ninja_800C83CC(Work *work, int name, int where)
     GM_ConfigObjectLight(body, light);
 
     weapon = &work->weapon;
-    GM_InitObject(weapon, GV_StrCode(s08b_aKatana_800E3754), 0x6D, 0);
+    GM_InitObject(weapon, GV_StrCode(s08b_aKatana_800E3754), 109, 0);
     GM_ConfigObjectLight(weapon, light);
     GM_ConfigObjectRoot(weapon, body, 4);
 
@@ -664,7 +664,7 @@ int s08b_ninja_800C8624(Work *work)
     v3->vy = 0;
     v3->vz = 500;
 
-    prim = GM_MakePrim(0x12, 1, v0, NULL);
+    prim = GM_MakePrim(18, 1, v0, NULL);
     work->shadow_prim = prim;
     if (prim == NULL)
     {
@@ -682,7 +682,7 @@ int s08b_ninja_800C8624(Work *work)
         poly = prim->packs[i];
         setPolyFT4(poly);
         setSemiTrans(poly, 1);
-        setRGB0(poly, 0x34, 0x34, 0x34);
+        setRGB0(poly, 52, 52, 52);
         DG_SetPacketTexture4(poly, tex);
     }
 
@@ -726,20 +726,20 @@ void s08b_ninja_800C8848(Work *work)
     GM_Camera.rotate.vz = 0;
     GM_Camera.rotate.vy = 0x800;
     GM_Camera.type = 0;
-    GM_Camera.track = 0xFA0;
-    GM_Camera.bound[1][0].vx = -0x227E;
+    GM_Camera.track = 4000;
+    GM_Camera.bound[1][0].vx = -8830;
     GM_Camera.flag |= 2;
-    GM_Camera.bound[1][0].vy = -0x7530;
-    GM_Camera.bound[1][0].vz = -0x7530;
-    GM_Camera.bound[0][0].vx = 0x1013;
-    GM_Camera.limit[1][0].vx = -0x227E;
-    GM_Camera.limit[1][0].vy = -0x227E;
-    GM_Camera.bound[0][0].vy = 0x7530;
-    GM_Camera.bound[0][0].vz = 0x18AB;
-    GM_Camera.limit[0][0].vx = 0x1013;
-    GM_Camera.limit[0][0].vy = 0x7530;
-    GM_Camera.limit[1][0].vz = -0x227E;
-    GM_Camera.limit[0][0].vz = 0x1527;
+    GM_Camera.bound[1][0].vy = -30000;
+    GM_Camera.bound[1][0].vz = -30000;
+    GM_Camera.bound[0][0].vx = 4115;
+    GM_Camera.limit[1][0].vx = -8830;
+    GM_Camera.limit[1][0].vy = -8830;
+    GM_Camera.bound[0][0].vy = 30000;
+    GM_Camera.bound[0][0].vz = 6315;
+    GM_Camera.limit[0][0].vx = 4115;
+    GM_Camera.limit[0][0].vy = 30000;
+    GM_Camera.limit[1][0].vz = -8830;
+    GM_Camera.limit[0][0].vz = 5415;
     work->field_19EC = 1;
 }
 
@@ -766,7 +766,7 @@ int s08b_ninja_800C8988(Work *work)
     {
         return 0;
     }
-    if (s08b_ninja_800C8930(opt, work->vox) < 0x23)
+    if (s08b_ninja_800C8930(opt, work->vox) < 35)
     {
         return 0;
     }
@@ -834,18 +834,18 @@ int s08b_ninja_800C8BE8(Work *work, int name, int where) // GetResources
     GM_ConfigMotionAdjust(&work->body, work->adjust);
 
     svec1.vx = 0;
-    svec1.vy = -0x41;
-    svec1.vz = -0x373;
+    svec1.vy = -65;
+    svec1.vz = -883;
     svec2.vx = 0;
-    svec2.vy = -0x41;
-    svec2.vz = -0x2D;
+    svec2.vy = -65;
+    svec2.vz = -45;
     NewKatana(&work->body.objs->objs[4].world, &svec1, &svec2, &work->katana_state);
     NewTenmetu(&work->body.objs->objs[6].world, &work->tenmetu_force);
     s08b_bunsin2_800CD914(work, 1);
 
     work->control.mov = work->routes[0].points[0];
-    work->control.mov.vx = -0x1D65;
-    work->control.mov.vz = -0x80F;
+    work->control.mov.vx = -7525;
+    work->control.mov.vz = -2063;
 
     work->route = 0;
     work->route_point = 0;
@@ -944,7 +944,7 @@ void s08b_bunsin2_800C8F0C(Work *work)
 
     world = DG_ZeroMatrix;
     world.t[0] = work->control.mov.vx;
-    world.t[1] = 0x14;
+    world.t[1] = 20;
     world.t[2] = work->control.mov.vz;
 
     if (GM_GameLevel == GM_LEVEL_NORMAL)
@@ -974,10 +974,10 @@ void s08b_bunsin2_800C8FF8(Work *work)
 
     stackData = DG_ZeroMatrix;
     stackData.t[0] = work->control.mov.vx;
-    stackData.t[1] = 0x14;
+    stackData.t[1] = 20;
     stackData.t[2] = work->control.mov.vz;
 
-    NewWindcrcl_800CF784(&stackData, 0xc8, 0x64, 0xc8, 0xa);
+    NewWindcrcl_800CF784(&stackData, 200, 100, 200, 10);
 }
 
 void s08b_bunsin2_800C908C(Work *work)
@@ -986,10 +986,10 @@ void s08b_bunsin2_800C908C(Work *work)
 
     stackData = DG_ZeroMatrix;
     stackData.t[0] = work->control.mov.vx;
-    stackData.t[1] = 0x14;
+    stackData.t[1] = 20;
     stackData.t[2] = work->control.mov.vz;
 
-    NewWindcrcl_800CF784(&stackData, 0x190, 0x190, 0x190, 0xa);
+    NewWindcrcl_800CF784(&stackData, 400, 400, 400, 10);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9120.s")
@@ -1069,16 +1069,16 @@ reset:
 }
 int s08b_bunsin2_800C9BF8(SVECTOR *pos)
 {
-    if ((unsigned int)((unsigned short)pos->vx - 0x1389) < 0x2ED && pos->vz >= -0x1F3 && pos->vz < 0x1770)
+    if ((unsigned int)((unsigned short)pos->vx - 5001) < 749 && pos->vz >= -499 && pos->vz < 6000)
     {
         return 1;
     }
 
-    if ((unsigned short)(pos->vx + 0xCB1) < 0x1675)
+    if ((unsigned short)(pos->vx + 3249) < 5749)
     {
-        if (pos->vz >= -0xF9)
+        if (pos->vz >= -249)
         {
-            if (pos->vz < 0xFA)
+            if (pos->vz < 250)
             {
                 return 1;
             }
@@ -1491,7 +1491,7 @@ void s08b_bunsin2_800CAD28(Work *work, int time)
 
     if (time == 22 || time == 30 || time == 100)
     {
-        GM_SeSet2(0, 0x3F, 0xB4);
+        GM_SeSet2(0, 63, 180);
     }
 
     if (s08b_bunsin2_800C9120(work) == 0 && work->body.is_end != 0)
@@ -1512,7 +1512,7 @@ void s08b_bunsin2_800CAE14(Work *work, int time)
     {
         work->motion = 30;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[30], 0, 4);
-        GM_SeSet2(0, 0x3F, 0xB4);
+        GM_SeSet2(0, 63, 180);
     }
 
     if (time == 90)
@@ -1533,12 +1533,12 @@ void s08b_bunsin2_800CAE14(Work *work, int time)
 
     if (time == 20)
     {
-        GM_SeSet2(0, 0x3F, 0xB4);
+        GM_SeSet2(0, 63, 180);
     }
 
     if (time == 33)
     {
-        GM_SeSet2(0, 0x3F, 0xB3);
+        GM_SeSet2(0, 63, 179);
         work->field_8C0 = 1;
     }
 
@@ -1867,7 +1867,7 @@ void s08b_bunsin2_800CB52C(Work *work, int time)
         {
             if (work->field_8C0 == 1)
             {
-                GM_SeSet2(0, 0x3F, 0xB3);
+                GM_SeSet2(0, 63, 179);
             }
 
             work->action = s08b_bunsin2_800C9B38;
@@ -1943,7 +1943,7 @@ void s08b_bunsin2_800CB7A0(Work *work, int time)
         {
             if (work->field_8C0 == 1)
             {
-                GM_SeSet2(0, 0x3F, 0xB3);
+                GM_SeSet2(0, 63, 179);
             }
 
             work->action = s08b_bunsin2_800C9B38;
@@ -2398,7 +2398,7 @@ void s08b_bunsin2_800CC434(Work *work, int time)
         control->step.vx = 0;
         control->step.vz = 0;
         control->rot.vy += 0x80;
-        control->turn.vy += 0x80;
+        control->turn.vy += 128;
     }
 }
 void s08b_bunsin2_800CC578(Work *work, int time)
@@ -2774,7 +2774,7 @@ void s08b_bunsin2_800CCF8C(Work *work)
             GM_SeSetMode(&work->control.mov, 0xB2, 1);
         }
     }
-    else if (work->field_1A00 != 2 && work->life < 0x5A)
+    else if (work->field_1A00 != 2 && work->life < 90)
     {
         work->field_1A00 = 1;
     }
@@ -3065,7 +3065,7 @@ void s08b_bunsin2_800CD9F0(Work *work)
     }
     if (flag & TARGET_CAPTURE)
     {
-        if (target->a_mode == 0x24)
+        if (target->a_mode == 36)
         {
             work->damage_mode = 6;
         }
@@ -3518,14 +3518,14 @@ int s08b_bunsin2_800CF254(Work *work)
 
         case 1:
             work->think2 = 7;
-            work->think3 = 0x17;
+            work->think3 = 23;
             work->last_damage_mode = state;
             break;
 
         case 3:
         case 4:
             work->think2 = 7;
-            work->think3 = 0x17;
+            work->think3 = 23;
             work->last_damage_mode = 3;
             break;
         }
@@ -3536,7 +3536,7 @@ int s08b_bunsin2_800CF254(Work *work)
     if ((unsigned int)(work->think3 - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
     {
         work->think2 = 9;
-        work->think3 = 0x1D;
+        work->think3 = 29;
         return 1;
     }
 
@@ -3560,20 +3560,20 @@ int s08b_bunsin2_800CF354(Work *work)
 
         case 1:
             work->think2 = 7;
-            work->think3 = 0x17;
+            work->think3 = 23;
             work->last_damage_mode = 1;
             break;
 
         case 3:
         case 4:
             work->think2 = 7;
-            work->think3 = 0x17;
+            work->think3 = 23;
             work->last_damage_mode = 3;
             break;
 
         case 6:
             work->think2 = 7;
-            work->think3 = 0x22;
+            work->think3 = 34;
             work->last_damage_mode = 6;
             break;
         }
@@ -3584,7 +3584,7 @@ int s08b_bunsin2_800CF354(Work *work)
     if ((unsigned int)(work->think3 - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
     {
         work->think2 = 9;
-        work->think3 = 0x1D;
+        work->think3 = 29;
         return 1;
     }
 
@@ -3607,20 +3607,20 @@ int s08b_bunsin2_800CF464(Work *work)
 
         case 1:
             work->think2 = 7;
-            work->think3 = 0x17;
+            work->think3 = 23;
             work->last_damage_mode = 1;
             break;
 
         case 3:
         case 4:
             work->think2 = 7;
-            work->think3 = 0x17;
+            work->think3 = 23;
             work->last_damage_mode = 3;
             break;
 
         case 6:
             work->think2 = 7;
-            work->think3 = 0x22;
+            work->think3 = 34;
             work->last_damage_mode = 6;
             break;
         }
@@ -3631,7 +3631,7 @@ int s08b_bunsin2_800CF464(Work *work)
     if ((unsigned int)(work->think3 - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
     {
         work->think2 = 9;
-        work->think3 = 0x1D;
+        work->think3 = 29;
         return 1;
     }
 
@@ -3656,19 +3656,19 @@ int s08b_bunsin2_800CF54C(Work *work)
         case 1:
             s08b_dword_800C3448 = 0;
             work->think2 = 7;
-            work->think3 = 0x17;
+            work->think3 = 23;
             break;
 
         case 3:
         case 4:
             work->think2 = 7;
-            work->think3 = 0x17;
+            work->think3 = 23;
             s08b_dword_800C3448++;
             break;
 
         case 6:
             work->think2 = 7;
-            work->think3 = 0x22;
+            work->think3 = 34;
             break;
         }
 
@@ -3678,7 +3678,7 @@ int s08b_bunsin2_800CF54C(Work *work)
     if ((unsigned int)(work->think3 - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
     {
         work->think2 = 9;
-        work->think3 = 0x1D;
+        work->think3 = 29;
         return 1;
     }
 
@@ -3693,19 +3693,19 @@ void s08b_bunsin2_800CF660(Work *work)
         s08b_dword_800C3448 = 0;
         s08b_bunsin2_800CE2E8(work);
         work->think2 = 7;
-        work->think3 = 0x17;
+        work->think3 = 23;
         break;
 
     case 1:
         s08b_dword_800C3448 = 0;
         work->think2 = 7;
-        work->think3 = 0x17;
+        work->think3 = 23;
         break;
 
     case 3:
     case 4:
         work->think2 = 7;
-        work->think3 = 0x17;
+        work->think3 = 23;
         s08b_dword_800C3448++;
         break;
     }
@@ -3724,13 +3724,13 @@ void s08b_bunsin2_800CF704(Work *work)
         s08b_dword_800C344C = 0;
         s08b_dword_800C3450 = 0;
         GM_AlertModeSet(4);
-        s08b_bunsin2_800D53E8(1, 0xEA60);
+        s08b_bunsin2_800D53E8(1, 60000);
         GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40;
         GM_VoxStream(work->vox[0], 0);
         s08b_ninja_800C79D4(0);
         work->dir = work->player_dir;
     }
-    if (s >= 0xB)
+    if (s >= 11)
     {
         r = GM_StreamStatus();
         if (r == -1)
@@ -3744,22 +3744,22 @@ void s08b_bunsin2_800CF704(Work *work)
             s08b_bunsin2_800CEB40(work);
             work->think1 = 3;
             work->think2 = 0;
-            work->think3 = 0x18;
+            work->think3 = 24;
             work->think_time = 0;
             work->count3 = 0;
             return;
         }
     }
-    if (s < 0x50)
+    if (s < 80)
     {
         work->command = 9;
         work->dir = work->player_dir;
     }
-    else if (s == 0x50)
+    else if (s == 80)
     {
-        work->command = 0x15;
+        work->command = 21;
     }
-    else if (s >= 0xCF)
+    else if (s >= 207)
     {
         work->command = 9;
     }
@@ -3776,7 +3776,7 @@ void s08b_bunsin2_800CF880(Work *work)
         GM_VoxStream(work->vox[1], 0);
         work->dir = work->player_dir;
     }
-    if (work->count3 >= 0xB)
+    if (work->count3 >= 11)
     {
         s = GM_StreamStatus();
         if (s == -1)
@@ -3788,7 +3788,7 @@ void s08b_bunsin2_800CF880(Work *work)
             s08b_bunsin2_800CEB40(work);
             work->think1 = 1;
             work->think2 = 0;
-            work->think3 = 0x17;
+            work->think3 = 23;
             work->think_time = 0;
             work->count3 = 0;
             return;
@@ -3864,14 +3864,14 @@ int s08b_bunsin2_800CFA80(Work *work)
     if (n == 1)
     {
         work->field_1A14 = 1;
-        work->command = 0x19;
+        work->command = 25;
         if (work->proc_b >= 0)
         {
             GCL_ExecProc(work->proc_b, 0);
         }
         return 0;
     }
-    if (n == 0x3C)
+    if (n == 60)
     {
         if (GM_StreamStatus() == -1 &&
             GM_GameOverTimer == 0 &&
@@ -3880,16 +3880,16 @@ int s08b_bunsin2_800CFA80(Work *work)
             GM_VoxStream(work->vox[18], 0);
         }
     }
-    if (work->count3 == 0x46)
+    if (work->count3 == 70)
     {
         work->sphere_state = 1;
         s08b_p_sphere_800D9834(&work->body.objs, &work->sphere_state);
     }
-    if (work->count3 >= 0x47)
+    if (work->count3 >= 71)
     {
-        work->command = 0x1C;
+        work->command = 28;
     }
-    if (work->count3 >= 0xA1 && GM_StreamStatus() == -1)
+    if (work->count3 >= 161 && GM_StreamStatus() == -1)
     {
         work->sphere_state = 3;
         return 1;
@@ -3938,14 +3938,14 @@ int s08b_bunsin2_800CFC64(Work *work)
 
 int s08b_bunsin2_800CFC90(Work *work)
 {
-    s08b_bunsin2_800CEEB8(work, 0x64);
+    s08b_bunsin2_800CEEB8(work, 100);
     if (work->count3 == 0)
     {
         work->command = 1;
         work->count3++;
         return 0;
     }
-    if (++work->count3 >= 0x12D)
+    if (++work->count3 >= 301)
     {
         return 1;
     }
@@ -3966,7 +3966,7 @@ int s08b_bunsin2_800CFCF8(Work *work)
         work->dir = work->field_1B28;
     }
     work->count3 = work->count3 + 1;
-    if (work->count3 >= 0x12D)
+    if (work->count3 >= 301)
     {
         return 1;
     }
@@ -3978,7 +3978,7 @@ int s08b_bunsin2_800CFD88(Work *work)
     {
         work->command = 5;
     }
-    if (work->count3 >= 0x3D && work->body.is_end != 0)
+    if (work->count3 >= 61 && work->body.is_end != 0)
     {
         return 1;
     }
@@ -3991,7 +3991,7 @@ int s08b_bunsin2_800CFDE0(Work *work)
     {
         work->command = 6;
     }
-    if (work->count3 >= 0x3D)
+    if (work->count3 >= 61)
     {
         printf(" korekorekor\n");
         return 1;
@@ -4014,7 +4014,7 @@ int s08b_bunsin2_800D0004(Work *work)
         s08b_bunsin2_800CE398(work);
         work->command = 6;
     }
-    if (work->count3 >= 0x1F && work->body.is_end != 0)
+    if (work->count3 >= 31 && work->body.is_end != 0)
     {
         return 1;
     }
@@ -4047,7 +4047,7 @@ int s08b_bunsin2_800D0078(Work *work)
             s08b_ninja_800C79D4(5);
         }
 
-        s08b_bunsin2_800D53E8(0, 0xEA60);
+        s08b_bunsin2_800D53E8(0, 60000);
     }
 
     if (work->body.is_end != 0)
@@ -4066,7 +4066,7 @@ int s08b_bunsin2_800D018C(Work *work)
         s08b_bunsin2_800CE21C(work);
         work->command = 5;
     }
-    if (work->count3 >= 0x3D && work->body.is_end != 0)
+    if (work->count3 >= 61 && work->body.is_end != 0)
     {
         return 1;
     }
@@ -4082,7 +4082,7 @@ int s08b_bunsin2_800D0200(Work *work)
     {
         s08b_bunsin2_800CDE74(work);
     }
-    s08b_bunsin2_800CEEB8(work, 0x64);
+    s08b_bunsin2_800CEEB8(work, 100);
 
     v = work->count3;
     if (v == 0)
@@ -4099,7 +4099,7 @@ int s08b_bunsin2_800D0200(Work *work)
 }
 int s08b_bunsin2_800D0278(Work *work)
 {
-    if (work->count3 >= 0x79)
+    if (work->count3 >= 121)
     {
         return 1;
     }
@@ -4141,13 +4141,13 @@ int s08b_bunsin2_800D0330(Work *work)
     if (work->damage_mode != 0)
     {
         GM_StreamPlayStop();
-        work->think3 = 0x17;
+        work->think3 = 23;
         return 1;
     }
-    if (okajima_CHAF_LIFE < 0x5A)
+    if (okajima_CHAF_LIFE < 90)
     {
         GM_StreamPlayStop();
-        work->think3 = 0x1C;
+        work->think3 = 28;
         return 1;
     }
     if (work->count3 == 0 &&
@@ -4157,7 +4157,7 @@ int s08b_bunsin2_800D0330(Work *work)
     {
         GM_VoxStream(work->vox[17], 0);
     }
-    work->command = 0x1A;
+    work->command = 26;
     work->count3 = work->count3 + 1;
     return 0;
 }
@@ -4221,7 +4221,7 @@ int s08b_bunsin2_800D0530(Work *work)
     work->command = 22;
     v++;
     work->count3 = v;
-    return v >= 0x1F;
+    return v >= 31;
 }
 
 const char s08b_aDcountd_800E39B8[] = " d_count = %d \n";
@@ -4302,11 +4302,11 @@ int s08b_bunsin2_800D06A0(Work *work)
     }
     n = count + 1;
     work->count3 = n;
-    if (n >= 0x12D)
+    if (n >= 301)
     {
         return 1;
     }
-    if (n >= 0x79 && work->motion == 0)
+    if (n >= 121 && work->motion == 0)
     {
         return 1;
     }
@@ -4422,11 +4422,11 @@ int s08b_bunsin2_800D093C(Work *work)
         s08b_bunsin2_800CE0A4(work);
         work->command = 5;
     }
-    if (work->count3 >= 0xB)
+    if (work->count3 >= 11)
     {
         work->flags |= 2;
     }
-    if (work->count3 >= 0x3D)
+    if (work->count3 >= 61)
     {
         return 1;
     }
@@ -4448,19 +4448,19 @@ int s08b_bunsin2_800D09C4(Work *work)
     g = GM_GameLevel;
     if (g == 1)
     {
-        threshold = 0x96;
+        threshold = 150;
     }
     else if (g <= 0)
     {
-        threshold = 0x1C2;
+        threshold = 450;
     }
     else if (g < 4)
     {
-        threshold = 0x5A;
+        threshold = 90;
     }
     else
     {
-        threshold = 0x1C2;
+        threshold = 450;
     }
 
     if (threshold < work->count3)
@@ -4498,11 +4498,11 @@ void s08b_bunsin2_800D0A90(Work *work)
     g = GM_GameLevel;
     if (g == 1)
     {
-        threshold = 0xF;
+        threshold = 15;
     }
     else if (g <= 0)
     {
-        threshold = 0x3C;
+        threshold = 60;
     }
     else if (g < 4)
     {
@@ -4510,7 +4510,7 @@ void s08b_bunsin2_800D0A90(Work *work)
     }
     else
     {
-        threshold = 0x3C;
+        threshold = 60;
     }
 
     if (threshold < work->count3)
@@ -4553,11 +4553,11 @@ void s08b_bunsin2_800D0CD8(Work *work)
     {
         s08b_bunsin2_800D4FBC(&work->body.objs->objs[6].world, 0);
     }
-    if (work->count3 >= 0x1F)
+    if (work->count3 >= 31)
     {
         s08b_bunsin2_800CDE74(work);
         work->think2 = 1;
-        work->think3 = 0x1A;
+        work->think3 = 26;
         work->count3 = 0;
     }
     else
@@ -4736,7 +4736,7 @@ int s08b_bunsin2_800D1014(Work *work)
     }
     else if (g <= 0)
     {
-        threshold = 0xA;
+        threshold = 10;
     }
     else if (g < 4)
     {
@@ -4744,22 +4744,22 @@ int s08b_bunsin2_800D1014(Work *work)
     }
     else
     {
-        threshold = 0xA;
+        threshold = 10;
     }
 
     if (threshold < work->count3)
     {
         if (GM_PlayerStatus & 0x1060)
         {
-            work->command = 0x12;
+            work->command = 18;
         }
         else if (GM_Weapon == -1)
         {
-            work->command = 0x11;
+            work->command = 17;
         }
         else
         {
-            work->command = 0xC;
+            work->command = 12;
         }
     }
     else
@@ -4769,7 +4769,7 @@ int s08b_bunsin2_800D1014(Work *work)
 
     n = work->count3 + 1;
     work->count3 = n;
-    if (n >= 0x12D)
+    if (n >= 301)
     {
         return 1;
     }
@@ -4783,21 +4783,21 @@ int s08b_bunsin2_800D10C4(Work *work)
 {
     if (GM_PlayerStatus & (PLAYER_SQUAT | PLAYER_GROUND | PLAYER_CB_BOX))
     {
-        work->command = 0x12;
+        work->command = 18;
     }
     else if (GM_Weapon == WP_None)
     {
-        work->command = 0x10;
+        work->command = 16;
     }
     else
     {
-        work->command = 0xD;
+        work->command = 13;
     }
     if (++work->count3 == 1)
     {
         return 0;
     }
-    if (work->count3 >= 0x12D)
+    if (work->count3 >= 301)
     {
         return 1;
     }
@@ -4810,18 +4810,18 @@ int s08b_bunsin2_800D1138(Work *work)
     {
         if (GM_PlayerStatus & (PLAYER_SQUAT | PLAYER_GROUND | PLAYER_CB_BOX))
         {
-            work->command = 0x12;
+            work->command = 18;
         }
         else
         {
-            work->command = 0xE;
+            work->command = 14;
         }
     }
     if (++work->count3 == 1)
     {
         return 0;
     }
-    if (work->count3 >= 0x12D)
+    if (work->count3 >= 301)
     {
         return 1;
     }
@@ -4834,18 +4834,18 @@ int s08b_bunsin2_800D11A8(Work *work)
     {
         if (GM_PlayerStatus & (PLAYER_SQUAT | PLAYER_GROUND | PLAYER_CB_BOX))
         {
-            work->command = 0x12;
+            work->command = 18;
         }
         else
         {
-            work->command = 0xF;
+            work->command = 15;
         }
     }
     if (++work->count3 == 1)
     {
         return 0;
     }
-    if (work->count3 >= 0x12D)
+    if (work->count3 >= 301)
     {
         return 1;
     }
@@ -4889,7 +4889,7 @@ int s08b_bunsin2_800D12A0(Work *work);
 
 int s08b_bunsin2_800D12EC(Work *work)
 {
-    work->command = 0x13;
+    work->command = 19;
     if (work->count3 == 0)
     {
         work->dir = work->player_dir;
@@ -4897,7 +4897,7 @@ int s08b_bunsin2_800D12EC(Work *work)
         s08b_bunsin2_800CDF68(work);
         return 0;
     }
-    if (++work->count3 >= 0x12D)
+    if (++work->count3 >= 301)
     {
         return 1;
     }
@@ -4927,11 +4927,11 @@ int s08b_bunsin2_800D138C(Work *work)
         work->sphere_state = 1;
         s08b_p_sphere_800D9834(&work->body.objs, &work->sphere_state);
     }
-    if (work->count3 >= 0x1F)
+    if (work->count3 >= 31)
     {
         return 1;
     }
-    work->command = 0x1C;
+    work->command = 28;
     work->count3 = work->count3 + 1;
     return 0;
 }
@@ -4942,13 +4942,13 @@ int s08b_bunsin2_800D1400(Work *work)
     switch (work->field_19E0)
     {
     case 1:
-        cond = work->count3 < 0x1F;
+        cond = work->count3 < 31;
         break;
     case 2:
-        cond = work->count3 < 0x10;
+        cond = work->count3 < 16;
         break;
     default:
-        cond = work->count3 < 0xB;
+        cond = work->count3 < 11;
         break;
     }
 
@@ -4965,7 +4965,7 @@ int s08b_bunsin2_800D1400(Work *work)
     {
         GM_VoxStream(work->vox[7], 0);
     }
-    work->command = 0x1D;
+    work->command = 29;
     work->count3 = work->count3 + 1;
     return 0;
 }
@@ -4976,18 +4976,18 @@ int s08b_bunsin2_800D1514(Work *work)
     switch (work->field_19E0)
     {
     case 1:
-        below = work->count3 < 0x3D;
+        below = work->count3 < 61;
         break;
     case 2:
-        below = work->count3 < 0x2E;
+        below = work->count3 < 46;
         break;
     default:
-        below = work->count3 < 0x1F;
+        below = work->count3 < 31;
         break;
     }
     if (below)
     {
-        work->command = 0x1E;
+        work->command = 30;
         work->count3++;
         return 0;
     }
@@ -5020,14 +5020,14 @@ int s08b_bunsin2_800D1638(Work *work)
 {
     int s = work->count3;
 
-    if (s == 0xA)
+    if (s == 10)
     {
         if (GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
             GM_VoxStream(work->vox[3], 0);
         }
     }
-    if (s >= 0x83 && GM_StreamStatus() == -1)
+    if (s >= 131 && GM_StreamStatus() == -1)
     {
         s08b_ninja_800C79D4(2);
         GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40);
@@ -5035,15 +5035,15 @@ int s08b_bunsin2_800D1638(Work *work)
         return 1;
     }
     work->dir = work->player_dir;
-    if (s < 0x64)
+    if (s < 100)
     {
         work->command = 8;
     }
-    else if (s == 0x64)
+    else if (s == 100)
     {
-        work->command = 0xA;
+        work->command = 10;
     }
-    else if (s >= 0xCD)
+    else if (s >= 205)
     {
         work->command = 8;
     }
@@ -5092,7 +5092,7 @@ int s08b_bunsin2_800D17F8(Work *work)
             s08b_ninja_800C79D4(7);
         }
     }
-    if (work->count3 == 0x1E)
+    if (work->count3 == 30)
     {
         if (GM_StreamStatus() == -1 &&
             GM_GameOverTimer == 0 &&
@@ -5103,7 +5103,7 @@ int s08b_bunsin2_800D17F8(Work *work)
     }
     work->command = 8;
     work->dir = work->player_dir;
-    if (work->count3 >= 0x1F && GM_StreamStatus() == -1)
+    if (work->count3 >= 31 && GM_StreamStatus() == -1)
     {
         return 1;
     }
@@ -5124,7 +5124,7 @@ int s08b_bunsin2_800D195C(Work *work)
     work->command = 9;
     work->dir = work->player_dir;
     work->flags |= 2;
-    if (work->count3 >= 0x1F && GM_StreamStatus() == -1)
+    if (work->count3 >= 31 && GM_StreamStatus() == -1)
     {
         return 1;
     }
@@ -5139,14 +5139,14 @@ int s08b_bunsin2_800D1A18(Work *work)
         s08b_bunsin2_800CE0A4(work);
         work->command = 5;
     }
-    if (work->count3 == 0x1E)
+    if (work->count3 == 30)
     {
         if (GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
             s08b_ninja_800C79D4(6);
         }
     }
-    if (work->count3 >= 0x83 && GM_StreamStatus() == -1)
+    if (work->count3 >= 131 && GM_StreamStatus() == -1)
     {
         s08b_ninja_800C79D4(1);
         GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40);
@@ -5174,14 +5174,14 @@ int s08b_bunsin2_800D1AF8(Work *work)
             s08b_ninja_800C79D4(8);
         }
     }
-    if (work->count3 == 0x1E)
+    if (work->count3 == 30)
     {
         if (GM_StreamStatus() == -1 && GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
             GM_VoxStream(work->vox[5], 0);
         }
     }
-    if (work->count3 == 0x82)
+    if (work->count3 == 130)
     {
         if (GM_StreamStatus() == -1 && GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
@@ -5189,15 +5189,15 @@ int s08b_bunsin2_800D1AF8(Work *work)
         }
     }
     work->dir = work->player_dir;
-    if (work->count3 >= 0x83)
+    if (work->count3 >= 131)
     {
-        work->command = 0x17;
+        work->command = 23;
     }
     else
     {
-        work->command = 0x18;
+        work->command = 24;
     }
-    if (work->count3 >= 0xE7 && GM_StreamStatus() == -1)
+    if (work->count3 >= 231 && GM_StreamStatus() == -1)
     {
         s08b_ninja_800C79D4(1);
         GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40);
@@ -5224,18 +5224,18 @@ void s08b_bunsin2_800D1D44(Work *work)
 {
     switch (work->think3)
     {
-    case 0x18:
+    case 24:
         s08b_bunsin2_800D0B4C(work);
         break;
     case 7:
         if (s08b_bunsin2_800CFCF8(work) != 0)
         {
-            work->think3 = 0x18;
+            work->think3 = 24;
             work->think_time = 0;
             work->count3 = 0;
         }
         break;
-    case 0x20:
+    case 32:
         s08b_bunsin2_800D0CD8(work);
         break;
     }
@@ -5261,7 +5261,7 @@ void s08b_bunsin2_800D1DE0(Work *work)
     case 36:
         if (s08b_bunsin2_800D1588(work) != 0)
         {
-            work->think3 = 0x18;
+            work->think3 = 24;
             work->count3 = 0;
         }
 
@@ -5276,7 +5276,7 @@ void s08b_bunsin2_800D1DE0(Work *work)
     case 5:
         if (s08b_bunsin2_800D0004(work) != 0)
         {
-            work->think3 = 0x18;
+            work->think3 = 24;
             goto reset;
         }
         break;
@@ -5285,7 +5285,7 @@ void s08b_bunsin2_800D1DE0(Work *work)
         if (s08b_bunsin2_800CFCF8(work) != 0)
         {
 stop:
-            work->think3 = 0x18;
+            work->think3 = 24;
             work->think_time = 0;
 reset:
             work->count3 = 0;
@@ -5309,22 +5309,22 @@ void s08b_bunsin2_800D1EC8(Work *work)
     case 5:
         if (s08b_bunsin2_800CFDE0(work) != 0)
         {
-            work->think3 = 0x17;
+            work->think3 = 23;
             work->think_time = 0;
             work->count3 = 0;
         }
         break;
-    case 0x17:
-        if (s08b_bunsin2_800D0688(work) >= 0x97)
+    case 23:
+        if (s08b_bunsin2_800D0688(work) >= 151)
         {
             work->think2 = 4;
-            work->think3 = 0xA;
+            work->think3 = 10;
             work->think_time = 0;
             work->count3 = 0;
         }
         else
         {
-            work->command = 0x16;
+            work->command = 22;
         }
         break;
     }
@@ -5336,20 +5336,20 @@ void s08b_bunsin2_800D1F9C(Work *work)
     case 5:
         if (s08b_bunsin2_800D018C(work) != 0)
         {
-            work->think3 = 0x17;
+            work->think3 = 23;
             work->count3 = 0;
         }
         break;
 
-    case 0x17:
-        if (s08b_bunsin2_800D0688(work) >= 0x97 || work->player_dist < 3000)
+    case 23:
+        if (s08b_bunsin2_800D0688(work) >= 151 || work->player_dist < 3000)
         {
             work->think3 = 0;
             work->count3 = 0;
             return;
         }
 
-        work->command = 0x16;
+        work->command = 22;
         break;
 
     case 0:
@@ -5377,7 +5377,7 @@ void s08b_bunsin2_800D1F9C(Work *work)
     if (work->damage_mode != 0)
     {
         work->think2 = 7;
-        work->think3 = 0x1F;
+        work->think3 = 31;
 
         if (work->clone1 != NULL)
         {
@@ -5424,12 +5424,12 @@ void s08b_bunsin2_800D21B8(Work *work)
 {
     switch (work->think3)
     {
-    case 0x17:
+    case 23:
         if (s08b_bunsin2_800D06A0(work))
         {
             if (work->last_damage_mode == 1)
             {
-                if (work->player_dist < 0x4B0)
+                if (work->player_dist < 1200)
                 {
                     work->think2 = 5;
                     work->think3 = 5;
@@ -5450,23 +5450,23 @@ void s08b_bunsin2_800D21B8(Work *work)
                 }
                 else
                 {
-                    work->think3 = 0x23;
+                    work->think3 = 35;
                 }
             }
             work->count3 = 0;
         }
         break;
-    case 0x1C:
+    case 28:
         if (s08b_bunsin2_800D02E8(work))
         {
-            work->think3 = 0x23;
+            work->think3 = 35;
             work->count3 = 0;
         }
         break;
-    case 0x23:
+    case 35:
         if (s08b_bunsin2_800D0550(work))
         {
-            if (work->player_dist < 0x4B0)
+            if (work->player_dist < 1200)
             {
                 work->think2 = 5;
                 work->think3 = 5;
@@ -5480,7 +5480,7 @@ void s08b_bunsin2_800D21B8(Work *work)
         }
         else
         {
-            work->command = 0x16;
+            work->command = 22;
         }
         break;
     case 5:
@@ -5498,7 +5498,7 @@ void s08b_bunsin2_800D231C(Work *work)
 {
     switch (work->think3)
     {
-    case 0x17:
+    case 23:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D06A0(work))
         {
@@ -5510,22 +5510,22 @@ void s08b_bunsin2_800D231C(Work *work)
             }
             else
             {
-                work->think3 = 0x1C;
+                work->think3 = 28;
             }
             work->count3 = 0;
         }
         break;
-    case 0x1D:
+    case 29:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D0330(work))
         {
             work->count3 = 0;
         }
         break;
-    case 0x1C:
+    case 28:
         if (s08b_bunsin2_800D0410(work))
         {
-            if (work->player_dist < 0x4B0)
+            if (work->player_dist < 1200)
             {
                 work->think2 = 5;
                 work->think3 = 5;
@@ -5545,7 +5545,7 @@ void s08b_bunsin2_800D2420(Work *work)
 {
     switch (work->think3)
     {
-    case 0x17:
+    case 23:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
@@ -5557,14 +5557,14 @@ void s08b_bunsin2_800D2420(Work *work)
             }
             else
             {
-                work->think3 = 0x1C;
+                work->think3 = 28;
             }
 
             work->count3 = 0;
         }
         break;
 
-    case 0x1D:
+    case 29:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D0330(work) != 0)
         {
@@ -5572,12 +5572,12 @@ void s08b_bunsin2_800D2420(Work *work)
         }
         break;
 
-    case 0x1C:
+    case 28:
         if (s08b_bunsin2_800D0410(work) != 0)
         {
             s08b_bunsin2_800CDE74(work);
             work->think2 = 1;
-            work->think3 = 0x1A;
+            work->think3 = 26;
             work->think_time = 0;
             work->count3 = 0;
         }
@@ -5588,7 +5588,7 @@ void s08b_bunsin2_800D2510(Work *work)
 {
     switch (work->think3)
     {
-    case 0x17:
+    case 23:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
@@ -5600,14 +5600,14 @@ void s08b_bunsin2_800D2510(Work *work)
             }
             else
             {
-                work->think3 = 0x1C;
+                work->think3 = 28;
             }
 
             work->count3 = 0;
         }
         break;
 
-    case 0x1D:
+    case 29:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D0330(work) == 0)
         {
@@ -5619,11 +5619,11 @@ void s08b_bunsin2_800D2510(Work *work)
         }
         break;
 
-    case 0x1C:
+    case 28:
         if (s08b_bunsin2_800D0410(work) != 0)
         {
             work->think2 = 4;
-            work->think3 = 0xA;
+            work->think3 = 10;
             work->think_time = 0;
             work->count3 = 0;
         }
@@ -5639,7 +5639,7 @@ void s08b_bunsin2_800D2600(Work *work)
 
     switch (work->think3)
     {
-    case 0x17:
+    case 23:
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
             time = work->life;
@@ -5654,7 +5654,7 @@ void s08b_bunsin2_800D2600(Work *work)
                 if (GM_GameStatus & STATE_CHAFF)
                 {
                     work->think2 = 9;
-                    work->think3 = 0x1C;
+                    work->think3 = 28;
                 }
                 else if (work->last_damage_mode == 3)
                 {
@@ -5665,7 +5665,7 @@ void s08b_bunsin2_800D2600(Work *work)
                         work->think2 = 8;
                         work->think3 = 5;
                     }
-                    else if (time < 0x79)
+                    else if (time < 121)
                     {
                         s08b_bunsin2_800CE2E8(work);
                         work->think1 = 2;
@@ -5692,7 +5692,7 @@ void s08b_bunsin2_800D2600(Work *work)
                         if (work->field_19DC % divisor == 0)
                         {
                             work->think2 = 6;
-                            work->think3 = 0x13;
+                            work->think3 = 19;
                         }
                         else
                         {
@@ -5712,7 +5712,7 @@ void s08b_bunsin2_800D2600(Work *work)
         }
         break;
 
-    case 0x22:
+    case 34:
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
             work->think3 = 7;
@@ -5728,16 +5728,16 @@ void s08b_bunsin2_800D2600(Work *work)
             if (dist < 1000)
             {
                 work->think2 = 6;
-                work->think3 = 0xF;
+                work->think3 = 15;
             }
             else if (dist < 5000)
             {
                 work->think2 = 6;
-                work->think3 = 0x10;
+                work->think3 = 16;
             }
             else
             {
-                command = 0x18;
+                command = 24;
                 if (work->field_1A0C != 0)
                 {
                     goto reload;
@@ -5758,7 +5758,7 @@ void s08b_bunsin2_800D2600(Work *work)
 reload:
             s08b_bunsin2_800CDE74(work);
             work->think2 = 1;
-            work->think3 = 0x1A;
+            work->think3 = 26;
             work->think_time = 0;
             work->count3 = 0;
         }
@@ -5769,7 +5769,7 @@ void s08b_bunsin2_800D2860(Work *work)
 {
     switch (work->think3)
     {
-    case 0x17:
+    case 23:
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
             if (work->last_damage_mode == 3)
@@ -5801,7 +5801,7 @@ void s08b_bunsin2_800D2860(Work *work)
         }
         break;
 
-    case 0x22:
+    case 34:
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
             work->think2 = 4;
@@ -5811,7 +5811,7 @@ void s08b_bunsin2_800D2860(Work *work)
         }
         break;
 
-    case 0x1C:
+    case 28:
         if (s08b_bunsin2_800D02A0(work) != 0)
         {
             work->think2 = 3;
@@ -5821,10 +5821,10 @@ void s08b_bunsin2_800D2860(Work *work)
         }
         break;
 
-    case 0x19:
+    case 25:
         if (s08b_bunsin2_800D0200(work) != 0)
         {
-            if (work->life < 0x5B)
+            if (work->life < 91)
             {
                 work->think1 = 4;
                 work->think2 = 0;
@@ -5845,18 +5845,18 @@ void s08b_bunsin2_800D29DC(Work *work)
 {
     switch (work->think3)
     {
-    case 0x17:
+    case 23:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
-            work->think3 = 0x1C;
+            work->think3 = 28;
             goto reset;
         }
 
         work->field_1A08 = 1;
         break;
 
-    case 0x1D:
+    case 29:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D0330(work) != 0)
         {
@@ -5865,11 +5865,11 @@ void s08b_bunsin2_800D29DC(Work *work)
         }
         break;
 
-    case 0x1C:
+    case 28:
         if (s08b_bunsin2_800D0410(work) != 0)
         {
             work->think2 = 8;
-            work->think3 = 0x26;
+            work->think3 = 38;
             s08b_dword_800C3448 = 0;
 reset:
             work->think_time = 0;
@@ -5882,13 +5882,13 @@ void s08b_bunsin2_800D2AB4(Work *work)
 {
     switch (work->think3)
     {
-    case 0x17:
+    case 23:
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
             if (GM_GameStatus & STATE_CHAFF)
             {
                 work->think2 = 9;
-                work->think3 = 0x1C;
+                work->think3 = 28;
             }
             else if (s08b_dword_800C3448 < 2)
             {
@@ -5906,11 +5906,11 @@ void s08b_bunsin2_800D2AB4(Work *work)
         }
         break;
 
-    case 0x22:
+    case 34:
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
             work->think2 = 0;
-            work->think3 = 0x18;
+            work->think3 = 24;
             work->think_time = 0;
             work->count3 = 0;
         }
@@ -5920,7 +5920,7 @@ void s08b_bunsin2_800D2AB4(Work *work)
         if (s08b_bunsin2_800CFDE0(work) != 0)
         {
             work->think2 = 8;
-            work->think3 = 0x26;
+            work->think3 = 38;
             work->think_time = 0;
             work->count3 = 0;
         }
@@ -5932,12 +5932,12 @@ void s08b_bunsin2_800D2AB4(Work *work)
             if (s08b_dword_800C3448 == 0)
             {
                 work->think2 = 8;
-                work->think3 = 0x26;
+                work->think3 = 38;
             }
             else
             {
                 work->think2 = 0;
-                work->think3 = 0x24;
+                work->think3 = 36;
             }
 
             work->think_time = 0;
@@ -5950,8 +5950,8 @@ void s08b_bunsin2_800D2BFC(Work *work)
 {
     switch (work->think3)
     {
-    case 0x17:
-        if (s08b_bunsin2_800D0688(work) >= 0x1F)
+    case 23:
+        if (s08b_bunsin2_800D0688(work) >= 31)
         {
             work->think2 = 0;
             work->think3 = 5;
@@ -5959,21 +5959,21 @@ void s08b_bunsin2_800D2BFC(Work *work)
         }
         else
         {
-            work->command = 0x17;
+            work->command = 23;
             if (work->damage_mode != 0)
             {
                 work->think2 = 7;
-                work->think3 = 0x19;
+                work->think3 = 25;
                 work->count3 = 0;
                 work->think_time = 0;
             }
         }
         break;
 
-    case 0x19:
+    case 25:
         if (s08b_bunsin2_800D0200(work) != 0)
         {
-            if (work->life < 0x3D)
+            if (work->life < 61)
             {
                 work->think2 = 3;
                 work->think1 = 0;
@@ -5990,18 +5990,18 @@ void s08b_bunsin2_800D2BFC(Work *work)
         }
         break;
 
-    case 0x1D:
+    case 29:
         if (s08b_bunsin2_800D044C(work) != 0)
         {
             GV_DestroyActor(&work->actor);
         }
         break;
 
-    case 0x1F:
+    case 31:
         if (s08b_bunsin2_800D0F54(work) != 0)
         {
             work->think2 = 6;
-            work->think3 = 0xE;
+            work->think3 = 14;
             work->count3 = 0;
         }
         break;
@@ -6012,14 +6012,14 @@ void s08b_bunsin2_800D2D3C(Work *work)
 {
     switch (work->think3)
     {
-    case 0x17:
+    case 23:
         if (s08b_bunsin2_800D0278(work))
         {
-            work->think3 = 0x1D;
+            work->think3 = 29;
             work->count3 = 0;
         }
         break;
-    case 0x1D:
+    case 29:
         if (s08b_bunsin2_800D044C(work))
         {
             GV_DestroyActor(&work->actor);
@@ -6034,7 +6034,7 @@ void s08b_bunsin2_800D2DB0(Work *work)
 
     switch (work->think3)
     {
-    case 0x17:
+    case 23:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D06A0(work) == 0)
         {
@@ -6044,7 +6044,7 @@ void s08b_bunsin2_800D2DB0(Work *work)
         {
             s08b_bunsin2_800CE064(work);
             x = work->param_e;
-            work->think3 = 0x1B;
+            work->think3 = 27;
             work->think2 = 1;
             work->field_19B8 = 3;
             if (x >= 0 && GM_GameOverTimer == 0 && GM_Vitality > 0)
@@ -6060,7 +6060,7 @@ void s08b_bunsin2_800D2DB0(Work *work)
         }
         work->count3 = 0;
         break;
-    case 0x1D:
+    case 29:
         s08b_bunsin2_800D0530(work);
         break;
     }
@@ -6072,13 +6072,13 @@ void s08b_bunsin2_800D2EA0(Work *work)
     case 5:
         if (s08b_bunsin2_800D0078(work) != 0)
         {
-            work->think3 = 0x24;
+            work->think3 = 36;
             work->think_time = 0;
             work->count3 = 0;
         }
         break;
 
-    case 0x24:
+    case 36:
         if (s08b_bunsin2_800D1638(work) != 0)
         {
             work->think1 = 1;
@@ -6090,13 +6090,13 @@ void s08b_bunsin2_800D2EA0(Work *work)
         }
         break;
 
-    case 0x26:
+    case 38:
         if (s08b_bunsin2_800D1738(work) != 0)
         {
             s08b_bunsin2_800CDE74(work);
             work->think1 = 1;
             work->think2 = 1;
-            work->think3 = 0x1A;
+            work->think3 = 26;
             work->field_1A0C = 1;
             work->field_19DC = 0;
             work->think_time = 0;
@@ -6112,36 +6112,36 @@ void s08b_bunsin2_800D2F80(Work *work)
     case 5:
         if (s08b_bunsin2_800D0078(work) != 0)
         {
-            work->think3 = 0x24;
+            work->think3 = 36;
             work->think_time = 0;
             work->count3 = 0;
             work->field_19DC = 0;
         }
         break;
 
-    case 0x24:
+    case 36:
         if (s08b_bunsin2_800D17F8(work) != 0)
         {
-            work->think3 = 0x25;
+            work->think3 = 37;
             work->think_time = 0;
             work->count3 = 0;
         }
         break;
 
-    case 0x25:
+    case 37:
         if (s08b_bunsin2_800D195C(work) != 0)
         {
-            work->think3 = 0x26;
+            work->think3 = 38;
             work->think_time = 0;
             work->count3 = 0;
         }
         break;
 
-    case 0x26:
+    case 38:
         if (s08b_bunsin2_800D1A18(work) != 0)
         {
             work->think2 = 4;
-            work->think3 = 0xB;
+            work->think3 = 11;
             work->think_time = 0;
             work->count3 = 0;
         }
@@ -6157,9 +6157,9 @@ void s08b_bunsin2_800D3064(Work *work)
         {
             return;
         }
-        work->think3 = 0x24;
+        work->think3 = 36;
         break;
-    case 0x24:
+    case 36:
         if (s08b_bunsin2_800D1638(work) == 0)
         {
             return;
@@ -6182,9 +6182,9 @@ void s08b_bunsin2_800D30E0(Work *work)
         {
             return;
         }
-        work->think3 = 0x24;
+        work->think3 = 36;
         break;
-    case 0x24:
+    case 36:
         if (s08b_bunsin2_800D1AF8(work) == 0)
         {
             return;
@@ -6236,7 +6236,7 @@ void s08b_bunsin2_800D31EC(Work *work)
         switch (s08b_bunsin2_800D0814(work))
         {
         case 1:
-            command = 0x1B;
+            command = 27;
             goto set;
 
         case 2:
@@ -6260,7 +6260,7 @@ void s08b_bunsin2_800D31EC(Work *work)
             }
             else
             {
-                command = 0x19;
+                command = 25;
             }
 
             work->think3 = command;
@@ -6286,7 +6286,7 @@ void s08b_bunsin2_800D31EC(Work *work)
         if (s08b_bunsin2_800CFC90(work) != 0)
         {
             s08b_bunsin2_800CDFF8(work);
-            command = 0x1A;
+            command = 26;
             goto set;
         }
         break;
@@ -6301,7 +6301,7 @@ check:
         if (result != 0)
         {
 stop:
-            command = 0x18;
+            command = 24;
 set:
             work->think3 = command;
 reset:
@@ -6320,7 +6320,7 @@ reset:
     else if ((unsigned int)(work->damage_mode - 3) < 2)
     {
         work->think2 = 7;
-        work->think3 = 0x17;
+        work->think3 = 23;
         work->count3 = 0;
     }
 }
@@ -6328,7 +6328,7 @@ void s08b_bunsin2_800D3394(Work *work)
 {
     int weapon;
 
-    if (work->think_time >= 0x97 && (weapon = GM_Weapon) == -1)
+    if (work->think_time >= 151 && (weapon = GM_Weapon) == -1)
     {
         work->think2 = 2;
         work->think3 = 8;
@@ -6367,7 +6367,7 @@ void s08b_bunsin2_800D3468(Work *work)
 
     switch (work->think3)
     {
-    case 0x1A:
+    case 26:
         switch (s08b_bunsin2_800D0814(work))
         {
         case 1:
@@ -6387,7 +6387,7 @@ void s08b_bunsin2_800D3468(Work *work)
         if (s08b_bunsin2_800CFC90(work) != 0)
         {
             s08b_bunsin2_800CDFF8(work);
-            work->think3 = 0x1A;
+            work->think3 = 26;
             work->count3 = 0;
         }
         break;
@@ -6399,18 +6399,18 @@ void s08b_bunsin2_800D3468(Work *work)
 
             count = s08b_dword_800C3444 + 1;
             s08b_dword_800C3444 = count;
-            if (count == 0x14)
+            if (count == 20)
             {
                 s08b_bunsin2_800CDB54(work->vox[2]);
             }
-            else if (count == 0x28)
+            else if (count == 40)
             {
                 s08b_bunsin2_800CDB54(work->vox[1]);
                 s08b_dword_800C3444 = 0;
             }
         }
 
-        if (work->think_time >= 0x1C3)
+        if (work->think_time >= 451)
         {
             work->think2 = 5;
             work->think3 = 8;
@@ -6418,7 +6418,7 @@ void s08b_bunsin2_800D3468(Work *work)
             break;
         }
 
-        if (work->think_time >= 0x97 && work->player_dist < 3000 && work->player_visible == 1 && GM_Weapon != -1)
+        if (work->think_time >= 151 && work->player_dist < 3000 && work->player_visible == 1 && GM_Weapon != -1)
         {
             work->think2 = 6;
             if (work->player_dist < 1500)
@@ -6523,37 +6523,37 @@ void s08b_bunsin2_800D367C(Work *work)
     if ((unsigned int)(work->damage_mode - 3) < 2)
     {
         work->think2 = 7;
-        work->think3 = 0x19;
+        work->think3 = 25;
         work->count3 = 0;
         work->think_time = 0;
     }
 }
 void s08b_bunsin2_800D37F0(Work *work)
 {
-    if (GM_PlayerPosition.vx >= -0x7CF)
+    if (GM_PlayerPosition.vx >= -1999)
     {
-        if (GM_PlayerPosition.vz >= 0x9C5)
+        if (GM_PlayerPosition.vz >= 2501)
         {
             work->target_pos = s08b_dword_800C3568[0];
-            work->target_addr = 0x2828;
+            work->target_addr = 10280;
         }
         else
         {
             work->target_pos = s08b_dword_800C3568[1];
-            work->target_addr = 0x1F1F;
+            work->target_addr = 7967;
         }
     }
     else
     {
-        if (GM_PlayerPosition.vz >= 0x9C5)
+        if (GM_PlayerPosition.vz >= 2501)
         {
             work->target_pos = s08b_dword_800C3568[2];
-            work->target_addr = 0x202;
+            work->target_addr = 514;
         }
         else
         {
             work->target_pos = s08b_dword_800C3568[3];
-            work->target_addr = 0x4040;
+            work->target_addr = 16448;
         }
     }
 }
@@ -6563,11 +6563,11 @@ void s08b_bunsin2_800D38F0(Work *work)
 
     switch (work->think3)
     {
-    case 0x1A:
+    case 26:
         switch (s08b_bunsin2_800D0814(work))
         {
         case 1:
-            work->think3 = 0x1B;
+            work->think3 = 27;
             work->count3 = 0;
             break;
 
@@ -6579,18 +6579,18 @@ void s08b_bunsin2_800D38F0(Work *work)
         }
         break;
 
-    case 0x1B:
+    case 27:
         if (s08b_bunsin2_800D0864(work) != 0)
         {
-            work->think3 = 0x18;
+            work->think3 = 24;
             work->count3 = 0;
         }
         break;
 
-    case 0x18:
+    case 24:
         if (work->player_dist < 3000)
         {
-            work->think3 = 0x1A;
+            work->think3 = 26;
             work->count3 = 0;
         }
         break;
@@ -6599,7 +6599,7 @@ void s08b_bunsin2_800D38F0(Work *work)
         if (s08b_bunsin2_800CFC90(work) != 0)
         {
             s08b_bunsin2_800CDFF8(work);
-            work->think3 = 0x1A;
+            work->think3 = 26;
             work->count3 = 0;
         }
         break;
@@ -6621,7 +6621,7 @@ void s08b_bunsin2_800D39F8(Work *work)
         if (s08b_bunsin2_800CE8A0(work) != 0)
         {
             work->think2 = state;
-            work->think3 = 0x15;
+            work->think3 = 21;
         }
         else
         {
@@ -6645,13 +6645,13 @@ void s08b_bunsin2_800D3A84(Work *work)
         work->think2 = 6;
         work->think3 = 0;
         break;
-    case 0x1B:
+    case 27:
         if (s08b_bunsin2_800D0864(work) == 0)
         {
             return;
         }
         work->think2 = 7;
-        work->think3 = 0x1D;
+        work->think3 = 29;
         break;
     default:
         return;
@@ -6709,7 +6709,7 @@ void s08b_bunsin2_800D3BD4(Work *work)
         s08b_bunsin2_800D3B00(work);
         work->field_19B8 = 0;
 
-        if (work->player_dist < 0x4B0)
+        if (work->player_dist < 1200)
         {
             work->think2 = 5;
             work->think3 = 5;
@@ -6729,10 +6729,10 @@ void s08b_bunsin2_800D3C44(Work *work)
         return;
     }
     s08b_bunsin2_800D3B00(work);
-    if (work->player_dist < 0xBB8 && work->think3 != 3 && work->player_visible == 1)
+    if (work->player_dist < 3000 && work->think3 != 3 && work->player_visible == 1)
     {
         work->think2 = 0;
-        work->think3 = 0x18;
+        work->think3 = 24;
         work->count3 = 0;
         work->think_time = 0;
     }
@@ -6771,7 +6771,7 @@ void s08b_bunsin2_800D3CCC(Work *work)
         else
         {
             work->think2 = 0;
-            work->think3 = 0x18;
+            work->think3 = 24;
         }
 
         work->count3 = 0;
@@ -6849,7 +6849,7 @@ void s08b_bunsin2_800D3EA4(Work *work)
     if ((unsigned int)(state - 3) < 2)
     {
         work->think2 = 7;
-        work->think3 = 0x17;
+        work->think3 = 23;
         work->count3 = 0;
         work->field_19B8 = 1;
     }
@@ -6865,15 +6865,15 @@ void s08b_bunsin2_800D3F5C(Work *work)
     }
     s08b_bunsin2_800D3B00(work);
     work->field_19B8 = 0;
-    if (work->player_dist < 0x7D0 && work->player_visible == 1 && work->think3 != 3)
+    if (work->player_dist < 2000 && work->player_visible == 1 && work->think3 != 3)
     {
         work->think2 = 0;
-        work->think3 = 0x18;
+        work->think3 = 24;
         work->count3 = 0;
         work->field_19B8 = 1;
         return;
     }
-    if (work->player_dist >= 0x1771 && work->think3 != 3)
+    if (work->player_dist >= 6001 && work->think3 != 3)
     {
         work->think3 = 5;
         work->think2 = 0;
@@ -6927,7 +6927,7 @@ void s08b_bunsin2_800D401C(Work *work)
     if (work->damage_mode != 0)
     {
         work->think2 = 7;
-        work->think3 = 0x19;
+        work->think3 = 25;
 
         if (work->clone1 != NULL)
         {
@@ -6962,20 +6962,20 @@ void s08b_bunsin2_800D4128(Work *work)
     work->think2 = 6;
     switch (r)
     {
-    case 0xC:
-        work->think3 = 0xD;
+    case 12:
+        work->think3 = 13;
         break;
-    case 0xD:
-        work->think3 = 0xE;
+    case 13:
+        work->think3 = 14;
         break;
-    case 0x10:
-        work->think3 = 0x11;
+    case 16:
+        work->think3 = 17;
         break;
-    case 0x11:
-        work->think3 = 0x12;
+    case 17:
+        work->think3 = 18;
         break;
     default:
-        work->think3 = 0x13;
+        work->think3 = 19;
         break;
     }
     work->count3 = 0;
@@ -7066,7 +7066,7 @@ check:
         if (result != 0)
         {
             work->command = -1;
-            work->think3 = 0x17;
+            work->think3 = 23;
             work->count3 = 0;
         }
         break;
@@ -7102,7 +7102,7 @@ void s08b_bunsin2_800D43D8(Work *work)
     {
         s08b_bunsin2_800CDE74(work);
         work->think2 = 1;
-        work->think3 = 0x1A;
+        work->think3 = 26;
     }
     else
     {
@@ -7153,7 +7153,7 @@ void s08b_bunsin2_800D452C(Work *work)
     {
         s08b_dword_800E4340 = 0;
         work->think2 = 7;
-        work->think3 = 0x17;
+        work->think3 = 23;
 
         if (work->clone1 != NULL)
         {
@@ -7175,7 +7175,7 @@ void s08b_bunsin2_800D452C(Work *work)
     if (work->damage_mode != 0)
     {
         work->think2 = 7;
-        work->think3 = 0x19;
+        work->think3 = 25;
 
         if (work->clone1 != NULL)
         {
@@ -7252,7 +7252,7 @@ check:
         if (result != 0)
         {
             work->command = -1;
-            work->think3 = 0x17;
+            work->think3 = 23;
             work->count3 = 0;
         }
         break;
@@ -7280,9 +7280,9 @@ check:
 }
 void s08b_bunsin2_800D47E0(Work *work)
 {
-    if (work->think3 == 0x15 && s08b_bunsin2_800D1348(work) != 0)
+    if (work->think3 == 21 && s08b_bunsin2_800D1348(work) != 0)
     {
-        if (work->field_19E0 < 0xF)
+        if (work->field_19E0 < 15)
         {
             work->think2 = 1;
             work->think3 = 6;
@@ -7290,7 +7290,7 @@ void s08b_bunsin2_800D47E0(Work *work)
         else
         {
             work->think2 = 7;
-            work->think3 = 0x1D;
+            work->think3 = 29;
         }
         work->command = -1;
         work->count3 = 0;
@@ -7298,7 +7298,7 @@ void s08b_bunsin2_800D47E0(Work *work)
     if (work->damage_mode > 2 && work->damage_mode < 5)
     {
         work->think2 = 7;
-        work->think3 = 0x17;
+        work->think3 = 23;
         work->count3 = 0;
     }
 }
@@ -7310,15 +7310,15 @@ void s08b_bunsin2_800D4884(Work *work)
         if (s08b_bunsin2_800D138C(work))
         {
             work->sphere_state = 2;
-            work->think3 = 0x17;
+            work->think3 = 23;
             work->count3 = 0;
         }
         break;
-    case 0x16:
+    case 22:
         if (s08b_bunsin2_800D1400(work))
         {
             work->sphere_state = 2;
-            work->think3 = 0x17;
+            work->think3 = 23;
             work->count3 = 0;
             work->field_19DC = work->field_19DC + 1;
         }
@@ -7327,10 +7327,10 @@ void s08b_bunsin2_800D4884(Work *work)
             work->sphere_state = 1;
         }
         break;
-    case 0x17:
+    case 23:
         if (s08b_bunsin2_800D1514(work))
         {
-            work->think3 = 0x16;
+            work->think3 = 22;
             work->count3 = 0;
         }
         break;
@@ -7695,11 +7695,11 @@ static const char s08b_anim_script_3[] = {
     0x00, 0x04, 0x01, 0x00, 0x05, 0x02, 0x00, 0x01, 0x0F, 0x00, 0x00, 0x00,
 };
 
-static ANIMATION s08b_anim_0 = {0xDCD3, 1, 1, 1, 1, 0x1F4, 1, 0x50, 0x50, 0, NULL, (char *)s08b_anim_script_0};
-static ANIMATION s08b_anim_1 = {0xFAD3, 1, 1, 1, 1, 0x1F4, 1, 0x50, 0x50, 0, NULL, (char *)s08b_anim_script_1};
-static ANIMATION s08b_anim_2 = {0xFAD3, 1, 1, 1, 1, 0x1F4, 1, 0x50, 0x50, 0, NULL, (char *)s08b_anim_script_2};
-static ANIMATION s08b_anim_3 = {0x1968, 1, 1, 1, 1, 0, 1, 0x46, 0x46, 0xFF, NULL, (char *)s08b_anim_script_3};
-static unsigned short s08b_anim_tex[3] = {0xDCD3, 0xFAD3, 0x1968};
+static ANIMATION s08b_anim_0 = {56531, 1, 1, 1, 1, 500, 1, 80, 80, 0, NULL, (char *)s08b_anim_script_0};
+static ANIMATION s08b_anim_1 = {64211, 1, 1, 1, 1, 500, 1, 80, 80, 0, NULL, (char *)s08b_anim_script_1};
+static ANIMATION s08b_anim_2 = {64211, 1, 1, 1, 1, 500, 1, 80, 80, 0, NULL, (char *)s08b_anim_script_2};
+static ANIMATION s08b_anim_3 = {6504, 1, 1, 1, 1, 0, 1, 70, 70, 0xFF, NULL, (char *)s08b_anim_script_3};
+static unsigned short s08b_anim_tex[3] = {56531, 64211, 6504};
 
 int   s08b_cinema_active_800C3610 = 0;
 int   s08b_cinema_time_800C3614 = 0;
