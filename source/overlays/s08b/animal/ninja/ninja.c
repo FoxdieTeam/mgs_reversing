@@ -1,6 +1,7 @@
 #include "mgstype.h"
 #include "anime/animconv/anime.h"
 #include "okajima/blood.h"
+#include "okajima/plasma.h"
 #include "okajima/spark.h"
 #include "enemy/katana.h"
 #include "takabe/cinema.h"
@@ -19,6 +20,7 @@
 
 struct _Work;
 typedef void (*NinjaFunc)(struct _Work *);
+typedef void (*NinjaAction)(struct _Work *, int);
 
 typedef struct _NinjaClone
 {
@@ -58,7 +60,7 @@ typedef struct _Work
     SVECTOR   field_1980;  // 0x1980
     int       field_1988;  // 0x1988
     SVECTOR   field_198C;  // 0x198C
-    int       field_1994;  /* 0x1994 */
+    NinjaAction field_1994; /* 0x1994 */
     int       field_1998;  /* 0x1998 */
     int       field_199C;  /* 0x199C */
     int       field_19A0;  /* 0x19A0 */
@@ -156,6 +158,7 @@ extern SVECTOR s08b_dword_800C3408;
 extern SVECTOR s08b_dword_800C3410;
 extern SVECTOR s08b_dword_800C3430;
 extern int     s08b_dword_800C3438;
+extern short   s08b_dword_800C33A0[];
 extern int     s08b_dword_800C3380;
 extern int     s08b_dword_800C338C;
 extern int     s08b_dword_800C3390;
@@ -189,6 +192,10 @@ extern char s08b_aKatana_800E3754[];
 extern char s08b_aShadow_800E375C[];
 extern char s08b_aKorekorekor_800E39A8[];
 
+int  s08b_bunsin2_800C9120(Work *work);
+int  s08b_bunsin2_800C9548(Work *work);
+void s08b_bunsin2_800C9B38(Work *work, int first);
+void s08b_bunsin2_800C9C74(Work *work, int first);
 int  s08b_bunsin2_800CD914(Work *work, int index);
 int  s08b_bunsin2_800CD95C(Work *work, void *func);
 void *NewBunsin2(OBJECT *root_obj, int arg1, int *arg2);
@@ -997,9 +1004,70 @@ int s08b_bunsin2_800C9548(Work *work)
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9588.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9978.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9A58.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9B38.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9BF8.s")
+int s08b_bunsin2_800C9A58(OBJECT *parent)
+{
+    if ((GV_Time & 3) == 0)
+    {
+        NewPlasma_800CD1A4(parent, 6, 0, 4, 4, 1000);
+        NewPlasma_800CD1A4(parent, 1, 9, 4, 4, 1000);
+        NewPlasma_800CD1A4(parent, 5, 4, 4, 4, 1000);
+        NewPlasma_800CD1A4(parent, 0, 15, 4, 4, 1000);
+        NewPlasma_800CD1A4(parent, 10, 12, 4, 4, 1000);
+        return 1;
+    }
+
+    return 0;
+}
+void s08b_bunsin2_800C9B38(Work *work, int first)
+{
+    work->target->class |= 0x1F;
+
+    if (first == 0)
+    {
+        work->field_19A4 = 0;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[0], 0, 4);
+    }
+
+    if (s08b_bunsin2_800C9548(work) == 0)
+    {
+        if (s08b_bunsin2_800C9120(work) != 0)
+        {
+            GM_ConfigObjectOverride(&work->body, s08b_dword_800C33A0[0], 0, 4, 0);
+            work->field_1998 = 0;
+            work->field_19A0 = 0;
+            goto reset;
+        }
+
+        if (work->field_19B4 >= 0)
+        {
+            work->field_1994 = (NinjaAction)s08b_bunsin2_800C9C74;
+            work->field_199C = 0;
+reset:
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+        }
+    }
+}
+int s08b_bunsin2_800C9BF8(SVECTOR *pos)
+{
+    if ((unsigned int)((unsigned short)pos->vx - 0x1389) < 0x2ED && pos->vz >= -0x1F3 && pos->vz < 0x1770)
+    {
+        return 1;
+    }
+
+    if ((unsigned short)(pos->vx + 0xCB1) < 0x1675)
+    {
+        if (pos->vz >= -0xF9)
+        {
+            if (pos->vz < 0xFA)
+            {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9C74.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9F74.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CA11C.s")
@@ -1008,10 +1076,148 @@ int s08b_bunsin2_800C9548(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CA5D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CA858.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CA8F8.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CAA78.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CAB50.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CAC3C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CAD28.s")
+void s08b_bunsin2_800CAA78(Work *work, int first)
+{
+    CONTROL *control = &work->control;
+    int      damage;
+
+    if (first == 0)
+    {
+        work->field_19A4 = 8;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[8], 0, 4);
+    }
+
+    if (work->field_19B4 >= 0)
+    {
+        control->turn.vy = work->field_19B4;
+    }
+
+    damage = s08b_bunsin2_800C9514(work);
+    if (damage > 0)
+    {
+        if (damage < 5)
+        {
+            if (damage >= 3)
+            {
+                GM_SeSetMode(&control->mov, 0xBD, 1);
+            }
+        }
+    }
+
+    if (work->field_19B0 != 7)
+    {
+        work->field_1994 = s08b_bunsin2_800C9B38;
+        work->field_199C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+
+    work->target->class |= 0x1F;
+}
+void s08b_bunsin2_800CAB50(Work *work, int first)
+{
+    CONTROL *control = &work->control;
+
+    work->target->class |= 0x1F;
+
+    if (first == 0)
+    {
+        work->field_19A4 = 9;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[9], 0, 4);
+    }
+
+    if (s08b_bunsin2_800C9548(work) == 0)
+    {
+        if (work->field_19B4 >= 0)
+        {
+            control->turn.vy = work->field_19B4;
+        }
+
+        if (work->field_19B0 != 8)
+        {
+            if (s08b_bunsin2_800C9120(work) != 0)
+            {
+                GM_ConfigObjectOverride(&work->body, s08b_dword_800C33A0[0], 0, 4, 0);
+                work->field_1998 = 0;
+                work->field_19A0 = 0;
+            }
+            else
+            {
+                work->field_1994 = s08b_bunsin2_800C9B38;
+                work->field_199C = 0;
+            }
+
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+        }
+    }
+}
+void s08b_bunsin2_800CAC3C(Work *work, int first)
+{
+    CONTROL *control = &work->control;
+
+    work->target->class |= 0x1F;
+
+    if (first == 0)
+    {
+        work->field_19A4 = 8;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[8], 0, 4);
+    }
+
+    if (s08b_bunsin2_800C9548(work) == 0)
+    {
+        if (work->field_19B4 >= 0)
+        {
+            control->turn.vy = work->field_19B4;
+        }
+
+        if (work->field_19B0 != 9)
+        {
+            if (s08b_bunsin2_800C9120(work) != 0)
+            {
+                GM_ConfigObjectOverride(&work->body, s08b_dword_800C33A0[0], 0, 4, 0);
+                work->field_1998 = 0;
+                work->field_19A0 = 0;
+            }
+            else
+            {
+                work->field_1994 = s08b_bunsin2_800C9B38;
+                work->field_199C = 0;
+            }
+
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+        }
+    }
+}
+void s08b_bunsin2_800CAD28(Work *work, int time)
+{
+    if (time == 0)
+    {
+        work->field_19A4 = 31;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[31], 0, 4);
+    }
+
+    work->field_19F8 = 2;
+
+    if ((unsigned int)(time - 1) < 6 || (unsigned int)(time - 20) < 16 || (unsigned int)(time - 101) < 5)
+    {
+        work->field_19FC = 1;
+    }
+
+    if (time == 22 || time == 30 || time == 100)
+    {
+        GM_SeSet2(0, 0x3F, 0xB4);
+    }
+
+    if (s08b_bunsin2_800C9120(work) == 0 && work->body.is_end != 0)
+    {
+        work->field_1994 = s08b_bunsin2_800C9B38;
+        work->field_199C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CAE14.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CAF6C.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CAFF8.s")
