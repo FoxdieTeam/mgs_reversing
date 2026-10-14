@@ -3,18 +3,17 @@
 #include <rand.h>
 #include "game/game.h"
 
-extern int  s19b_dword_800C3AA0;
-extern int  s19b_dword_800C3AA8;
-extern int  s19b_dword_800C3AB0;
-extern int  s19b_dword_800C3AB8;
-extern int  s19b_dword_800C3AC0;
-extern int  s19b_dword_800C3AC8;
+extern SVECTOR s19b_dword_800C3AA0;
+extern SVECTOR s19b_dword_800C3AA8;
+extern SVECTOR s19b_dword_800C3AB0;
+extern SVECTOR s19b_dword_800C3AB8;
+extern SVECTOR s19b_dword_800C3AC0;
+extern short   s19b_dword_800C3AC8[];
 extern int  s19b_dword_800DE650;
 extern void *NewJeepBlood(MATRIX *world, int count, MATRIX *root);
 extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
 extern void  s19b_jblood_800C7FB8(MATRIX *world);
 extern void  ReadRotMatrix(MATRIX *m);
-extern int   s19b_jeep_800D399C(void);
 extern int   s19b_dword_800C3AD4;
 extern void  s19b_jeep_gls_800CEC24(int arg0, SVECTOR *out);
 extern void *NewSpark2M(MATRIX *world);
@@ -22,11 +21,11 @@ extern void *NewSpark2M(MATRIX *world);
 void s19b_spark2_m_800D8724(Work *work, int arg1, int arg2)
 {
     MATRIX  m;
-    DG_OBJ *obj = &work->obj.objs->objs[arg1];
+    DG_OBJ *obj = &work->body.objs->objs[arg1];
 
     DG_SetPos(&obj->world);
-    DG_MovePos((SVECTOR *)&s19b_dword_800C3AA0);
-    DG_RotatePos((SVECTOR *)&s19b_dword_800C3AA8);
+    DG_MovePos(&s19b_dword_800C3AA0);
+    DG_RotatePos(&s19b_dword_800C3AA8);
     ReadRotMatrix(&m);
     NewJeepBlood(&m, arg2, &obj->world);
 }
@@ -37,29 +36,29 @@ extern void s19b_spark2_m_800D94C8(Work *work, int mode);
 
 int s19b_spark2_m_800D87A4(Work *work)
 {
-    TARGET *target = work->f8E4;
+    TARGET *target = work->target;
     int     level;
     int     vital;
 
     if (target->damaged & 4)
     {
         target->force = DG_ZeroVector;
-        GM_SeSet((SVECTOR *)&work->ctrl, 0x81);
+        GM_SeSet(&work->control.mov, 0x81);
 
         /* both arms spell out the same tail: cross-jumping merges it back */
         if (!(Takabe_JeepSystem.liq_flags & 0x20000))
         {
-            work->f8EC = (void *)s19b_spark2_m_800D9390;
-            work->f8F4 = 0;
-            work->ctrl.turn.vz = 0;
-            work->ctrl.turn.vx = 0;
+            work->state = s19b_spark2_m_800D9390;
+            work->time = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
         }
         else
         {
-            work->f8EC = (void *)s19b_spark2_m_800D9434;
-            work->f8F4 = 0;
-            work->ctrl.turn.vz = 0;
-            work->ctrl.turn.vx = 0;
+            work->state = s19b_spark2_m_800D9434;
+            work->time = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
         }
 
         target->damage  = 0;
@@ -79,12 +78,12 @@ int s19b_spark2_m_800D87A4(Work *work)
         return 1;
     }
 
-    if (work->f900 & 0x2000000)
+    if (work->flags & 0x2000000)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D94C8;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D94C8;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         return 1;
     }
 
@@ -96,7 +95,7 @@ int s19b_spark2_m_800D88D8(Work *work)
 {
     if (s19b_spark2_m_800D87A4(work) != 0)
     {
-        work->f8E4->class = 1;
+        work->target->class = 1;
         return 1;
     }
     return 0;
@@ -104,7 +103,7 @@ int s19b_spark2_m_800D88D8(Work *work)
 
 void s19b_spark2_m_800D8918(Work *work)
 {
-    TARGET *target = work->f8E4;
+    TARGET *target = work->target;
     int     level  = GM_GameLevel;
     int     vital;
 
@@ -117,58 +116,58 @@ void s19b_spark2_m_800D8918(Work *work)
         vital = 0xBF;
     }
 
-    GM_SetTarget(target, 20, 2, (SVECTOR *)&s19b_dword_800C3AB0);
-    GM_SetPowerTarget(target, 1, -1, vital, 7, (SVECTOR *)&s19b_dword_800C3AB8);
+    GM_SetTarget(target, 20, 2, &s19b_dword_800C3AB0);
+    GM_SetPowerTarget(target, 1, -1, vital, 7, &s19b_dword_800C3AB8);
 }
 
-extern void s19b_spark2_m_800D8BC8();
-extern void s19b_spark2_m_800D8CEC();
-extern void s19b_spark2_m_800D8E10();
-extern void s19b_spark2_m_800D90A8();
-extern void s19b_spark2_m_800D92C8();
+extern void s19b_spark2_m_800D8BC8(Work *work, int mode);
+extern void s19b_spark2_m_800D8CEC(Work *work, int mode);
+extern void s19b_spark2_m_800D8E10(Work *work, int mode);
+extern void s19b_spark2_m_800D90A8(Work *work, int mode);
+extern void s19b_spark2_m_800D92C8(Work *work, int mode);
 
 int s19b_spark2_m_800D899C(Work *work)
 {
-    int v = work->f900;
+    int v = work->flags;
 
     if (v & 0x1)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8BC8;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D8BC8;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         return 1;
     }
     if (v & 0x2)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8CEC;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D8CEC;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         return 1;
     }
     if (v & 0x4)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8E10;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D8E10;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         return 1;
     }
     if (v & 0x10)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D90A8;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D90A8;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         return 1;
     }
     if (v & 0x04000000)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D92C8;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D92C8;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         return 1;
     }
     return 0;
@@ -176,42 +175,42 @@ int s19b_spark2_m_800D899C(Work *work)
 
 void s19b_spark2_m_800D8A48(Work *work)
 {
-    GV_NearExp4PV(&work->svecs2[2], &work->sv_7A0, 3);
-    GV_NearExp4PV(&work->svecs2[6], &work->sv_7A8, 3);
+    GV_NearExp4PV(&work->adjust[2], &work->adjust2_target, 3);
+    GV_NearExp4PV(&work->adjust[6], &work->adjust6_target, 3);
 }
 
 void s19b_spark2_m_800D8A88(Work *work)
 {
-    int v = work->f930 - work->control->rot.vy;
-    work->sv_7A0.vy = v;
-    work->sv_7A8.vy = v;
+    int v = work->player_dir - work->root_ctrl->rot.vy;
+    work->adjust2_target.vy = v;
+    work->adjust6_target.vy = v;
 }
 
 void s19b_spark2_m_800D8AAC(Work *work)
 {
-    int base = work->f930 + 0xCC0;
-    int v    = base - work->control->rot.vy;
-    work->sv_7A0.vy = v;
-    work->sv_7A8.vy = v;
+    int base = work->player_dir + 0xCC0;
+    int v    = base - work->root_ctrl->rot.vy;
+    work->adjust2_target.vy = v;
+    work->adjust6_target.vy = v;
 }
 
 void s19b_spark2_m_800D8ACC(Work *work)
 {
-    int base = work->f930 + 0x340;
-    int v    = base - work->control->rot.vy;
-    work->sv_7A0.vy = v;
-    work->sv_7A8.vy = v;
+    int base = work->player_dir + 0x340;
+    int v    = base - work->root_ctrl->rot.vy;
+    work->adjust2_target.vy = v;
+    work->adjust6_target.vy = v;
 }
 
 void s19b_spark2_m_800D8AEC(Work *work)
 {
     MATRIX m;
 
-    DG_SetPos(&work->obj.objs->objs[4].world);
-    DG_MovePos((SVECTOR *)&s19b_dword_800C3AC0);
+    DG_SetPos(&work->body.objs->objs[4].world);
+    DG_MovePos(&s19b_dword_800C3AC0);
     ReadRotMatrix(&m);
     NewJeepBullet(&m, 2, 1, 0);
-    GM_SeSet(&work->ctrl.mov, 0x2E);
+    GM_SeSet(&work->control.mov, 0x2E);
     s19b_jblood_800C7FB8(&m);
 }
 
@@ -219,14 +218,14 @@ void s19b_spark2_m_800D8B54(Work *work, int mode)
 {
     if (mode == 0)
     {
-        work->f8FC = 0;
-        GM_ConfigObjectAction((OBJECT *)&work->obj, 0, 0, 4);
+        work->action = 0;
+        GM_ConfigObjectAction(&work->body, 0, 0, 4);
     }
     if (s19b_spark2_m_800D88D8(work) == 0)
     {
         if (s19b_spark2_m_800D899C(work) == 0)
         {
-            work->f8E4->class |= 0x14;
+            work->target->class |= 0x14;
         }
     }
 }
@@ -235,114 +234,114 @@ extern void s19b_spark2_m_800D8F34(Work *work, int mode);
 
 void s19b_spark2_m_800D8BC8(Work *work, int mode)
 {
-    int f900 = work->f900;
+    int f900 = work->flags;
 
     if (mode == 0)
     {
-        work->f8FC = 1;
-        GM_ConfigObjectAction((OBJECT *)&work->obj, 1, 0, 4);
+        work->action = 1;
+        GM_ConfigObjectAction(&work->body, 1, 0, 4);
     }
     s19b_spark2_m_800D8A88(work);
 
     if (!(f900 & 1))
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8B54;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
-        work->sv_7A0 = DG_ZeroVector;
-        work->sv_7A8 = DG_ZeroVector;
+        work->state = s19b_spark2_m_800D8B54;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        work->adjust2_target = DG_ZeroVector;
+        work->adjust6_target = DG_ZeroVector;
         return;
     }
 
     if (f900 & 8)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8F34;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D8F34;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         return;
     }
 
     if (s19b_spark2_m_800D88D8(work) != 0) return;
     if (s19b_spark2_m_800D899C(work) != 0) return;
-    work->f8E4->class |= 0x14;
+    work->target->class |= 0x14;
 }
 
 extern void s19b_spark2_m_800D8FB0(Work *work, int mode);
 
 void s19b_spark2_m_800D8CEC(Work *work, int mode)
 {
-    int f900 = work->f900;
+    int f900 = work->flags;
 
     if (mode == 0)
     {
-        work->f8FC = 3;
-        GM_ConfigObjectAction((OBJECT *)&work->obj, 3, 0, 4);
+        work->action = 3;
+        GM_ConfigObjectAction(&work->body, 3, 0, 4);
     }
     s19b_spark2_m_800D8AAC(work);
 
     if (!(f900 & 2))
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8B54;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
-        work->sv_7A0 = DG_ZeroVector;
-        work->sv_7A8 = DG_ZeroVector;
+        work->state = s19b_spark2_m_800D8B54;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        work->adjust2_target = DG_ZeroVector;
+        work->adjust6_target = DG_ZeroVector;
         return;
     }
 
     if (f900 & 8)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8FB0;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D8FB0;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         return;
     }
 
     if (s19b_spark2_m_800D88D8(work) != 0) return;
     if (s19b_spark2_m_800D899C(work) != 0) return;
-    work->f8E4->class |= 0x14;
+    work->target->class |= 0x14;
 }
 
 extern void s19b_spark2_m_800D902C(Work *work, int mode);
 
 void s19b_spark2_m_800D8E10(Work *work, int mode)
 {
-    int f900 = work->f900;
+    int f900 = work->flags;
 
     if (mode == 0)
     {
-        work->f8FC = 2;
-        GM_ConfigObjectAction((OBJECT *)&work->obj, 2, 0, 4);
+        work->action = 2;
+        GM_ConfigObjectAction(&work->body, 2, 0, 4);
     }
     s19b_spark2_m_800D8ACC(work);
 
     if (!(f900 & 4))
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8B54;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
-        work->sv_7A0 = DG_ZeroVector;
-        work->sv_7A8 = DG_ZeroVector;
+        work->state = s19b_spark2_m_800D8B54;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        work->adjust2_target = DG_ZeroVector;
+        work->adjust6_target = DG_ZeroVector;
         return;
     }
 
     if (f900 & 8)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D902C;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D902C;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         return;
     }
 
     if (s19b_spark2_m_800D88D8(work) != 0) return;
     if (s19b_spark2_m_800D899C(work) != 0) return;
-    work->f8E4->class |= 0x14;
+    work->target->class |= 0x14;
 }
 
 void s19b_spark2_m_800D8F34(Work *work, int mode)
@@ -357,12 +356,12 @@ void s19b_spark2_m_800D8F34(Work *work, int mode)
     }
     if (mode == 1)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8BC8;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D8BC8;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
-    work->f8E4->class |= 0x14;
+    work->target->class |= 0x14;
 }
 
 void s19b_spark2_m_800D8FB0(Work *work, int mode)
@@ -377,12 +376,12 @@ void s19b_spark2_m_800D8FB0(Work *work, int mode)
     }
     if (mode == 1)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8CEC;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D8CEC;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
-    work->f8E4->class |= 0x14;
+    work->target->class |= 0x14;
 }
 
 void s19b_spark2_m_800D902C(Work *work, int mode)
@@ -397,12 +396,12 @@ void s19b_spark2_m_800D902C(Work *work, int mode)
     }
     if (mode == 1)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8E10;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D8E10;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
-    work->f8E4->class |= 0x14;
+    work->target->class |= 0x14;
 }
 
 extern void s19b_spark2_m_800D9148(Work *work, int mode);
@@ -412,7 +411,7 @@ void s19b_spark2_m_800D90A8(Work *work, int mode)
 {
     if (mode < 8)
     {
-        work->f8E4->class |= 0x14;
+        work->target->class |= 0x14;
     }
     if (s19b_spark2_m_800D88D8(work) != 0)
     {
@@ -420,59 +419,59 @@ void s19b_spark2_m_800D90A8(Work *work, int mode)
     }
     if (mode == 0)
     {
-        work->f8FC = 0x10;
-        GM_ConfigObjectAction((OBJECT *)&work->obj, 0x10, 0, 4);
+        work->action = 0x10;
+        GM_ConfigObjectAction(&work->body, 0x10, 0, 4);
     }
-    if (work->obj.is_end != 0)
+    if (work->body.is_end != 0)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D9148;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D9148;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
 }
 
 void s19b_spark2_m_800D9148(Work *work, int mode)
 {
-    int f900 = work->f900;
+    int f900 = work->flags;
 
     if (!(f900 & 0x10))
     {
-        work->f8EC = (void *)s19b_spark2_m_800D91DC;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D91DC;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         return;
     }
     if (s19b_spark2_m_800D88D8(work) != 0) return;
     if (mode == 0)
     {
-        work->f8FC = 0x11;
-        GM_ConfigObjectAction((OBJECT *)&work->obj, 0x11, 0, 4);
+        work->action = 0x11;
+        GM_ConfigObjectAction(&work->body, 0x11, 0, 4);
     }
     if (mode >= 0x5B)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D91DC;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D91DC;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
 }
 
 void s19b_spark2_m_800D91DC(Work *work, int mode)
 {
-    if (mode < 8 && (work->f900 & 0x10))
+    if (mode < 8 && (work->flags & 0x10))
     {
-        work->f8EC = (void *)s19b_spark2_m_800D9148;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D9148;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         return;
     }
 
     if (mode >= 8)
     {
-        work->f8E4->class |= 0x14;
+        work->target->class |= 0x14;
     }
 
     if (s19b_spark2_m_800D88D8(work) != 0)
@@ -480,30 +479,30 @@ void s19b_spark2_m_800D91DC(Work *work, int mode)
         return;
     }
 
-    if (work->f93C != 0 && mode >= 0xB)
+    if (work->field_93C != 0 && mode >= 0xB)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8B54;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
-        work->f93C = 0;
+        work->state = s19b_spark2_m_800D8B54;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        work->field_93C = 0;
     }
 
     if (mode == 0)
     {
-        work->f8FC = 0x12;
-        GM_ConfigObjectAction((OBJECT *)&work->obj, 0x12, 0, 4);
+        work->action = 0x12;
+        GM_ConfigObjectAction(&work->body, 0x12, 0, 4);
     }
 
-    if (work->obj.is_end == 0)
+    if (work->body.is_end == 0)
     {
         return;
     }
 
-    work->f8EC = (void *)s19b_spark2_m_800D8B54;
-    work->f8F4 = 0;
-    work->ctrl.turn.vz = 0;
-    work->ctrl.turn.vx = 0;
+    work->state = s19b_spark2_m_800D8B54;
+    work->time = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 void s19b_spark2_m_800D932C(Work *work, int mode);
@@ -512,15 +511,15 @@ void s19b_spark2_m_800D92C8(Work *work, int mode)
 {
     if (mode == 0)
     {
-        work->f8FC = 10;
-        GM_ConfigObjectAction((OBJECT *)&work->obj, 10, 0, 4);
+        work->action = 10;
+        GM_ConfigObjectAction(&work->body, 10, 0, 4);
     }
-    if (work->obj.is_end != 0)
+    if (work->body.is_end != 0)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D932C;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D932C;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
 }
 
@@ -528,15 +527,15 @@ void s19b_spark2_m_800D932C(Work *work, int mode)
 {
     if (mode == 0)
     {
-        work->f8FC = 10;
-        GM_ConfigObjectAction((OBJECT *)&work->obj, 10, 0, 4);
+        work->action = 10;
+        GM_ConfigObjectAction(&work->body, 10, 0, 4);
     }
-    if (work->obj.is_end != 0)
+    if (work->body.is_end != 0)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D932C;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D932C;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
 }
 
@@ -544,20 +543,20 @@ void s19b_spark2_m_800D9390(Work *work, int mode)
 {
     if (mode == 0)
     {
-        work->f8FC = 20;
-        GM_ConfigObjectAction((OBJECT *)&work->obj, 20, 0, 4);
-        GM_SeSet(&work->ctrl.mov, 0x81);
+        work->action = 20;
+        GM_ConfigObjectAction(&work->body, 20, 0, 4);
+        GM_SeSet(&work->control.mov, 0x81);
         s19b_spark2_m_800D8724(work, 5, 1);
-        *work->f944 |= 1;
+        *work->hit |= 1;
     }
-    if (work->obj.is_end != 0)
+    if (work->body.is_end != 0)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8B54;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
-        work->f940 = 45;
-        work->f93C = 0;
+        work->state = s19b_spark2_m_800D8B54;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        work->field_940 = 45;
+        work->field_93C = 0;
     }
 }
 
@@ -569,65 +568,65 @@ void s19b_spark2_m_800D9434(Work *work, int mode)
     }
     if (mode == 0)
     {
-        GM_SeSet(&work->ctrl.mov, 0x81);
+        GM_SeSet(&work->control.mov, 0x81);
         s19b_spark2_m_800D8724(work, 5, 1);
-        *work->f944 |= 1;
+        *work->hit |= 1;
     }
     if (mode < 0x11)
     {
         return;
     }
-    work->f8EC = (void *)s19b_spark2_m_800D8B54;
-    work->f8F4 = 0;
-    work->ctrl.turn.vz = 0;
-    work->ctrl.turn.vx = 0;
+    work->state = s19b_spark2_m_800D8B54;
+    work->time = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 void s19b_spark2_m_800D94C8(Work *work, int mode)
 {
-    work->f8E4->class |= 0x14;
+    work->target->class |= 0x14;
     if (s19b_spark2_m_800D88D8(work) != 0)
     {
         return;
     }
     if (mode == 0)
     {
-        work->f8FC = 0x13;
-        GM_ConfigObjectAction((OBJECT *)&work->obj, 0x13, 0, 4);
+        work->action = 0x13;
+        GM_ConfigObjectAction(&work->body, 0x13, 0, 4);
     }
-    if (work->obj.is_end != 0)
+    if (work->body.is_end != 0)
     {
-        work->f8EC = (void *)s19b_spark2_m_800D8B54;
-        work->f8F4 = 0;
-        work->ctrl.turn.vz = 0;
-        work->ctrl.turn.vx = 0;
+        work->state = s19b_spark2_m_800D8B54;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
 }
 
 void s19b_spark2_m_800D9558(Work *work)
 {
-    int   old;
-    void *handler;
+    int          old;
+    LiqStateFunc handler;
 
-    work->f8E4->class = 1;
-    old     = work->f8F4;
-    handler = work->f8EC;
-    work->f8F4 = old + 1;
+    work->target->class = 1;
+    old     = work->time;
+    handler = work->state;
+    work->time = old + 1;
 
     if (handler == NULL)
     {
         s19b_spark2_m_800D8918(work);
-        handler       = (void *)s19b_spark2_m_800D8B54;
-        work->f8EC    = handler;
+        handler     = s19b_spark2_m_800D8B54;
+        work->state = handler;
     }
-    ((void (*)(Work *, int))handler)(work, old);
+    handler(work, old);
 
     s19b_spark2_m_800D8A48(work);
 
-    if (work->f940 != 0)
+    if (work->field_940 != 0)
     {
-        work->f8E4->class = 1;
-        work->f940 -= 1;
+        work->target->class = 1;
+        work->field_940 -= 1;
     }
 }
 
@@ -635,10 +634,10 @@ void s19b_spark2_m_800D95FC(Work *work)
 {
     SVECTOR diff;
 
-    GV_SubVec3(&GM_PlayerPosition, &work->ctrl.mov, &diff);
+    GV_SubVec3(&GM_PlayerPosition, &work->control.mov, &diff);
     diff.vy = 0;
-    work->f930 = GV_VecDir2(&diff);
-    work->f934 = GV_VecLen3(&diff);
+    work->player_dir = GV_VecDir2(&diff);
+    work->player_dist = GV_VecLen3(&diff);
 }
 
 extern void s19b_spark2_m_800D9C04(Work *work);
@@ -656,25 +655,25 @@ int s19b_spark2_m_800D9680(Work *work)
 
     if (js & 0x1000)
     {
-        work->f914 = 4;
-        work->f918 = 0;
-        work->f900 |= 0x10;
+        work->ai_state = 4;
+        work->ai_time = 0;
+        work->flags |= 0x10;
         return 1;
     }
     if (js & 0x2)
     {
-        work->f900 |= 0x02000000;
+        work->flags |= 0x02000000;
     }
     else if (js & 0x8000)
     {
-        work->f900 = 0x04000000;
+        work->flags = 0x04000000;
         return 1;
     }
-    else if (work->f8FC == 0x14)
+    else if (work->action == 0x14)
     {
-        work->f914 = 4;
-        work->f918 = 0;
-        work->f900 |= 0x10;
+        work->ai_state = 4;
+        work->ai_time = 0;
+        work->flags |= 0x10;
         return 1;
     }
     return 0;
@@ -687,9 +686,9 @@ void s19b_spark2_m_800D9704(Work *work)
         return;
     }
 
-    if (work->f934 < 0xFA0 || work->f93C != 0)
+    if (work->player_dist < 0xFA0 || work->field_93C != 0)
     {
-        int f930 = work->f930;
+        int f930 = work->player_dir;
         int new_f914;
 
         if ((unsigned)(f930 - 0x601) < 0x3FF)
@@ -706,16 +705,16 @@ void s19b_spark2_m_800D9704(Work *work)
         }
         else
         {
-            work->f918 += 1;
+            work->ai_time += 1;
             return;
         }
 
-        work->f914 = new_f914;
-        work->f918 = 0;
+        work->ai_state = new_f914;
+        work->ai_time = 0;
         return;
     }
 
-    work->f918 += 1;
+    work->ai_time += 1;
 }
 
 void s19b_spark2_m_800D97A8(Work *work)
@@ -727,26 +726,26 @@ void s19b_spark2_m_800D97A8(Work *work)
         return;
     }
 
-    if (work->f8FC != 1)
+    if (work->action != 1)
     {
-        work->f918 = 0;
+        work->ai_time = 0;
     }
 
-    if (work->f918 >= 0x4C)
+    if (work->ai_time >= 0x4C)
     {
-        work->f914 = 0;
-        work->f918 = 0;
+        work->ai_state = 0;
+        work->ai_time = 0;
         return;
     }
 
     v = s19b_dword_800DE650;
-    if (work->f918 == v + 6 || work->f918 == v + 9 || work->f918 == v + 0xC)
+    if (work->ai_time == v + 6 || work->ai_time == v + 9 || work->ai_time == v + 0xC)
     {
-        work->f900 |= 8;
+        work->flags |= 8;
     }
-    work->f900 |= 1;
-    work->f904 = work->f930;
-    work->f918 += 1;
+    work->flags |= 1;
+    work->aim_dir = work->player_dir;
+    work->ai_time += 1;
 }
 
 void s19b_spark2_m_800D985C(Work *work)
@@ -758,26 +757,26 @@ void s19b_spark2_m_800D985C(Work *work)
         return;
     }
 
-    if (work->f8FC != 3)
+    if (work->action != 3)
     {
-        work->f918 = 0;
+        work->ai_time = 0;
     }
 
-    if (work->f918 >= 0x4C)
+    if (work->ai_time >= 0x4C)
     {
-        work->f914 = 0;
-        work->f918 = 0;
+        work->ai_state = 0;
+        work->ai_time = 0;
         return;
     }
 
     v = s19b_dword_800DE650;
-    if (work->f918 == v + 6 || work->f918 == v + 9 || work->f918 == v + 0xC)
+    if (work->ai_time == v + 6 || work->ai_time == v + 9 || work->ai_time == v + 0xC)
     {
-        work->f900 |= 8;
+        work->flags |= 8;
     }
-    work->f900 |= 2;
-    work->f904 = work->f930;
-    work->f918 += 1;
+    work->flags |= 2;
+    work->aim_dir = work->player_dir;
+    work->ai_time += 1;
 }
 
 void s19b_spark2_m_800D9910(Work *work)
@@ -789,74 +788,74 @@ void s19b_spark2_m_800D9910(Work *work)
         return;
     }
 
-    if (work->f8FC != 2)
+    if (work->action != 2)
     {
-        work->f918 = 0;
+        work->ai_time = 0;
     }
 
-    if (work->f918 >= 0x4C)
+    if (work->ai_time >= 0x4C)
     {
-        work->f914 = 0;
-        work->f918 = 0;
+        work->ai_state = 0;
+        work->ai_time = 0;
         return;
     }
 
     v = s19b_dword_800DE650;
-    if (work->f918 == v + 6 || work->f918 == v + 9 || work->f918 == v + 0xC)
+    if (work->ai_time == v + 6 || work->ai_time == v + 9 || work->ai_time == v + 0xC)
     {
-        work->f900 |= 8;
+        work->flags |= 8;
     }
-    work->f900 |= 4;
-    work->f904 = work->f930;
-    work->f918 += 1;
+    work->flags |= 4;
+    work->aim_dir = work->player_dir;
+    work->ai_time += 1;
 }
 
 void s19b_spark2_m_800D99C4(Work *work)
 {
     int js = Takabe_JeepSystem.liq_flags;
-    work->f900 |= 0x10;
-    if (work->f918 >= 61 || (js & 0x2000))
+    work->flags |= 0x10;
+    if (work->ai_time >= 61 || (js & 0x2000))
     {
-        work->f93C = 1;
-        work->f914 = 0;
+        work->field_93C = 1;
+        work->ai_state = 0;
     }
     if (js & 0x2)
     {
-        work->f914 = 1;
-        work->f900 |= 0x02000000;
+        work->ai_state = 1;
+        work->flags |= 0x02000000;
     }
-    work->f918 += 1;
+    work->ai_time += 1;
 }
 
 void s19b_spark2_m_800D9A30(Work *work)
 {
     if (Takabe_JeepSystem.liq_flags & 0x1000)
     {
-        work->f914 = 4;
-        work->f918 = 0;
-        work->f900 |= 0x10;
+        work->ai_state = 4;
+        work->ai_time = 0;
+        work->flags |= 0x10;
     }
     else
     {
-        work->f918 += 1;
+        work->ai_time += 1;
     }
 }
 
 void s19b_spark2_m_800D9A74(Work *work)
 {
-    int new_f900 = work->f900 | 0x10;
+    int new_f900 = work->flags | 0x10;
     int js = Takabe_JeepSystem.liq_flags;
-    work->f900 = new_f900;
+    work->flags = new_f900;
     if (js & 0x2000)
     {
-        work->f914 = 0;
+        work->ai_state = 0;
     }
-    work->f918 += 1;
+    work->ai_time += 1;
 }
 
 void s19b_spark2_m_800D9AA8(Work *work)
 {
-    switch (work->f914)
+    switch (work->ai_state)
     {
     case 0:
         s19b_spark2_m_800D9704(work);
@@ -879,7 +878,7 @@ extern void s19b_spark2_m_800D9AA8(Work *work);
 
 void s19b_spark2_m_800D9B38(Work *work)
 {
-    switch (work->f914)
+    switch (work->ai_state)
     {
     case 0:
         s19b_spark2_m_800D9A30(work);
@@ -892,7 +891,7 @@ void s19b_spark2_m_800D9B38(Work *work)
 
 void s19b_spark2_m_800D9B88(Work *work)
 {
-    switch (work->f910)
+    switch (work->ai_mode)
     {
     case 0: s19b_spark2_m_800D9AA8(work); break;
     case 1: s19b_spark2_m_800D9B38(work); break;
@@ -900,34 +899,34 @@ void s19b_spark2_m_800D9B88(Work *work)
 
     if (Takabe_JeepSystem.liq_flags & 0x10000000)
     {
-        work->f910 = 1;
+        work->ai_mode = 1;
     }
     else
     {
-        work->f910 = 0;
+        work->ai_mode = 0;
     }
 }
 
 void s19b_spark2_m_800D9C04(Work *work)
 {
-    short *table = (short *)&s19b_dword_800C3AC8;
+    short *table = s19b_dword_800C3AC8;
     int    idx;
 
-    work->f904 = -1;
-    work->f900 = 0;
+    work->aim_dir = -1;
+    work->flags = 0;
     idx = GM_GameLevel + 1;
     s19b_dword_800DE650 = table[idx];
 
-    if (work->f90C == 0)
+    if (work->ai_off == 0)
     {
         s19b_spark2_m_800D9B88(work);
     }
 
     Takabe_JeepSystem.liq_flags &= 0xFFFF0000;
-    work->f920 += 1;
+    work->field_920 += 1;
 }
 
-int s19b_spark2_m_800D9C90(CONTROL *ctl, int *count, int unused_arg, SVECTOR *out)
+int s19b_spark2_m_800D9C90(CONTROL *ctl, VECTOR *world_pos, int *unused_arg, SVECTOR *out)
 {
     SVECTOR near;
     int     unused[2];
@@ -964,9 +963,10 @@ int s19b_spark2_m_800D9C90(CONTROL *ctl, int *count, int unused_arg, SVECTOR *ou
             GV_AddVec3(&near, &hit, &hit);
             GV_SubVec3(&pos, &hit, out);
             ctl->mov = hit;
-            *count -= out->vx;
-            *count -= out->vx;
-            *count -= out->vx;
+            /* sic: the original subtracts out->vx three times from world_pos->vx */
+            world_pos->vx -= out->vx;
+            world_pos->vx -= out->vx;
+            world_pos->vx -= out->vx;
             return 1;
         }
     }

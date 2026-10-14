@@ -48,7 +48,7 @@ extern VECTOR s19b_dword_800DDD7C;
 extern u_char s19b_dword_800C3990[];
 extern u_char s19b_dword_800C3994[];
 
-extern int  s19b_spark2_m_800D9C90(SVECTOR *mov, VECTOR *pos, int *param, SVECTOR *out);
+extern int  s19b_spark2_m_800D9C90(CONTROL *control, VECTOR *pos, int *unused, SVECTOR *out);
 extern int  s19b_spark2_m_800D9EC0(SVECTOR *mov, SVECTOR *rot, SVECTOR *speed, SVECTOR *out);
 extern void s19b_spark2_m_800DA0B4(SVECTOR *rots, int param, SVECTOR *rot, SVECTOR *out);
 extern void s19b_jeep_800D3928(JeepWork *work);
@@ -114,7 +114,7 @@ void s19b_jeep_800D2258(JeepWork *work)
 
     target->damaged &= ~TARGET_PUSH;
 
-    flags |= s19b_spark2_m_800D9C90(&control->mov, &work->pos, &work->field_3D0, &Takabe_JeepSystem.offset);
+    flags |= s19b_spark2_m_800D9C90(control, &work->pos, &work->field_3D0, &Takabe_JeepSystem.offset);
 
     if (flags & 1)
     {
