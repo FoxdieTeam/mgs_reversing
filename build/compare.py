@@ -811,12 +811,75 @@ def check_uninitialized_memory(binary, ref_path):
         sys.executable, rel(lhs), rel(rhs), rel(ref_path), binary.variant.um_dir, binary.name), 'yellow'))
 
 
+# Uninitialized memory (see uninitializer.py) is injected into the overlays from um/stage. That is
+# only legitimate for the padding the linker leaves between objects in data (alignment, so a few
+# bytes that end on a 4 byte boundary) and for bss; code has none. Anything else would mean original bytes that we do not
+# reproduce are hidden in um, e.g. data that was declared as bss, or a gap inside a variable.
+UM_MAX_PADDING = 7
+UM_ALIGNMENT = 4
+
+
+def uninitialized_violations(binary, final):
+    """Runs of non-zero injected bytes that are not alignment padding or bss: [(Section, addr, size, symbol)].
+    Also returns the number of injected non-zero bytes in bss."""
+    obj = os.path.dirname(binary.path)
+    lhs = read_file(os.path.join(obj, binary.name + '_lhs.bin'))
+    rhs = read_file(os.path.join(obj, binary.name + '_rhs.bin'))
+    layout = load_layout(binary.map_path, final, False, None)
+    if layout is None:
+        return None, 0
+    n = min(len(lhs), len(final))
+    # lhs has 0 and rhs has 0x9e wherever the linker left memory uninitialized
+    runs = diff_ranges(lhs[:n], rhs[:n])
+    bss_bytes = 0
+    bad = []
+    for sec in layout.sections:
+        sec_end = sec.off + sec.size
+        for start, end in runs:
+            start, end = max(start, sec.off), min(end, sec_end)
+            if start >= end or not any(final[start:end]):
+                continue
+            if sec.kind in ('bss', 'sbss'):
+                bss_bytes += sum(1 for b in final[start:end] if b)
+                continue
+            aligned_end = layout.addr(end) % UM_ALIGNMENT == 0 or end == sec_end
+            # code is never padded with anything but zeros
+            if sec.kind == 'text' or end - start > UM_MAX_PADDING or not aligned_end:
+                bad.append((sec, layout.addr(start), end - start, layout.symbol_at(layout.addr(start))))
+    return bad, bss_bytes
+
+
+def check_uninitialized(binary, opts):
+    """Returns True if the uninitialized memory injected into an overlay is only padding and bss."""
+    obj = os.path.dirname(binary.path)
+    if not (os.path.exists(os.path.join(obj, binary.name + '_lhs.bin')) and
+            os.path.exists(os.path.join(obj, binary.name + '_rhs.bin'))):
+        return True
+    bad, bss_bytes = uninitialized_violations(binary, read_file(binary.path))
+    if bad is None:
+        return True
+    if opts.verbose:
+        print('  uninitialized memory: {} non-zero bytes in bss, {} runs elsewhere'.format(bss_bytes, len(bad)))
+    if not bad:
+        return True
+    print(paint('FAIL: {} gets uninitialized memory injected outside of padding and bss:'.format(rel(binary.path)), 'red'))
+    for sec, addr, size, sym in bad[:opts.max_rows]:
+        print('  {:<14} 0x{:X} {} bytes{}'.format(sec.name, addr, size, ' after <{}>'.format(sym) if sym else ''))
+    if len(bad) > opts.max_rows:
+        print('  ... {} more (see --max-rows)'.format(len(bad) - opts.max_rows))
+    print('  The matching hash only holds because um/{}/{}.bin supplies these bytes; reproduce them in the source.'
+          .format(binary.variant.um_dir, binary.name))
+    return False
+
+
 def check_binary(binary, opts, detail):
     """Returns True if the binary matches."""
     shown = rel(binary.path)
     if sha256(binary.path) == binary.target_hash:
         ok(shown)
         cache_good(binary)
+        if not binary.is_exe and not opts.no_um_check and not check_uninitialized(binary, opts):
+            return False
         if opts.verbose:
             print('  ' + binary.name)
             layout = load_layout(binary.map_path, read_file(binary.path), binary.is_exe,
@@ -877,6 +940,8 @@ def parse_args(argv):
     p.add_argument('--reference', metavar='DIR',
                    help='directory with known good copies of the original binaries (_mgsi.exe, <overlay>.bin, vr/...)')
     p.add_argument('--no-diff', action='store_true', help='only compare hashes')
+    p.add_argument('--no-um-check', action='store_true',
+                   help='do not check that the uninitialized memory injected into overlays is only padding and bss')
     p.add_argument('--max-detail-bins', type=int, default=3, metavar='N',
                    help='show the function/data diff for the first N failing binaries (default 3)')
     p.add_argument('--max-funcs', type=int, default=8, metavar='N',
@@ -911,7 +976,7 @@ def main(argv=None):
                 detailed += 1
 
     if failed:
-        (red if COLORS else print)("FAIL: some files do not match target hash")
+        (red if COLORS else print)("FAIL: some files do not match target hash or failed a check")
         sys.exit(1)
 
 
