@@ -3,6 +3,8 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 #include "linkvar.h"
+#include "game/camera.h"
+#include "sound/g_sound.h"
 
 /* Snake standing in the parked jeep (created by pjeep.c), shooting with the jeep's gun */
 
@@ -98,8 +100,122 @@ static inline void SetMotion(Work *work, int motion)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800DA004.s")
-void s19a_800DA004(Work *work); /* Act */
+static void Act(Work *work)
+{
+    SVECTOR  rot;
+    SVECTOR  pos;
+    OBJECT  *body;
+    CONTROL *control;
+    TARGET  *target;
+    int      vitality;
+
+    body = &work->body;
+
+    rot = work->control.rot;
+    work->control.rot = DG_ZeroVector;
+    control = &work->control;
+    GM_ActMotion(body);
+    work->control.rot = rot;
+
+    work->rot.vx += work->control.step.vx;
+    work->rot.vz += work->control.step.vz;
+    work->rot.vy = work->body.height - 503;
+
+    GM_ActControl(control);
+    GM_ActObject(body);
+    ScaleMatrix(&work->body.objs->world, &pkjp_sne_scale);
+    DG_GetLightMatrix(&control->mov, work->light);
+
+    s19a_800DB510(work);
+
+    GM_PlayerPosition = work->control.mov;
+
+    pos = work->control.mov;
+    pos.vy = 0;
+    GM_PlayerAddress = pkjp_sne_address = HZD_GetAddress(work->control.map->hzd, &pos, pkjp_sne_address);
+
+    GM_SnakeCamera.position.vx = work->body.objs->objs[6].world.t[0];
+    GM_SnakeCamera.position.vy = work->body.objs->objs[6].world.t[1];
+    GM_SnakeCamera.position.vz = work->body.objs->objs[6].world.t[2];
+
+    if (GM_GameOverTimer == 0)
+    {
+        if (GM_PlayerStatus & PLAYER_INVINCIBLE)
+        {
+            work->target->vital = work->vitality;
+        }
+
+        target = work->target;
+        vitality = target->vital;
+        vitality += GM_Vitality - work->vitality;
+        if (vitality > GM_VitalityMax)
+        {
+            vitality = GM_VitalityMax;
+        }
+
+        target->vital = vitality;
+        GM_Vitality = work->vitality = (short)vitality;
+
+        if ((short)vitality <= 0)
+        {
+            if (GM_Item == IT_Ration && GM_Items[IT_Ration] != 0)
+            {
+                if (--GM_Items[IT_Ration] == 0)
+                {
+                    GM_Item = IT_None;
+                }
+
+                GM_Vitality = work->vitality = work->target->vital = (GM_GameLevel <= GM_LEVEL_EASY) ? 384 : 256;
+
+                if (GM_GameLevel < GM_LEVEL_EASY)
+                {
+                    GM_Vitality = work->vitality = work->target->vital = GM_VitalityMax;
+                }
+
+                GM_SeSet2(0, 63, SE_RECOVER_LIFE);
+                GM_RationUseCount++;
+            }
+            else
+            {
+                GM_Vitality = 0;
+                GM_GameOver();
+                GM_GameOverTimer = -1;
+                work->dead = 1;
+                GM_SeSet(NULL, 0x1A);
+                work->control.skip_flag |= CTRL_SKIP_TRAP;
+                GM_GameStatus |= STATE_PADRELEASE;
+            }
+        }
+    }
+
+    GM_MoveTarget(work->target, &work->control.mov);
+
+    if (work->blink == 0)
+    {
+        work->target->class = TARGET_SEEK | TARGET_POWER;
+        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+    }
+    else
+    {
+        work->target->class = TARGET_AVAIL;
+
+        if (work->blink & 2)
+        {
+            work->body.objs->flag |= DG_FLAG_INVISIBLE;
+        }
+        else
+        {
+            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        }
+
+        work->blink--;
+    }
+
+    if (work->hide)
+    {
+        work->body.objs->flag |= DG_FLAG_INVISIBLE;
+    }
+}
 
 void PkJeepSnakeInitTarget(Work *work)
 {
@@ -169,7 +285,7 @@ void *NewPkJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, s19a_800DA004, Die, "pkjp_sne.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "pkjp_sne.c");
 
         work->root_ctrl = root_ctrl;
         work->root_mat = root_mat;
