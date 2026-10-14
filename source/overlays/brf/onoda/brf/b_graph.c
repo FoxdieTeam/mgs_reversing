@@ -1972,7 +1972,114 @@ void brf_800DCAA8(Work *work)
     }
     work->field_AD34++;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCB44.s")
+void brf_800DCB44(Work *work, POLY_FT4 *poly)
+{
+    int xl, xr;
+    int t;
+
+    if (work->field_AD34 < 0xB)
+    {
+        t = -(work->field_AD34 * 8);
+        xl = t + 0x7f;
+        xr = t + 0x27b;
+        poly->y0 = -0x11c;
+        poly->y1 = -0x11c;
+        poly->x0 = xl;
+        poly->x1 = xr;
+        poly->x2 = xl;
+        poly->y2 = 0x64;
+        poly->x3 = xr;
+        poly->y3 = 0x64;
+    }
+    else if (work->field_AD34 >= 0x3B)
+    {
+        if (work->field_AD34 < 0x91)
+        {
+            t = -((work->field_AD34 - 0x30) * 8);
+            xl = t + 0x7f;
+            xr = t + 0x27b;
+            poly->y0 = -0x11c;
+            poly->y1 = -0x11c;
+            poly->x0 = xl;
+            poly->x1 = xr;
+            poly->x2 = xl;
+            poly->y2 = 0x64;
+            poly->x3 = xr;
+            poly->y3 = 0x64;
+        }
+        else if (work->field_AD34 >= 0xF1)
+        {
+            if (work->field_AD34 < 0x121)
+            {
+                t = (work->field_AD34 - 0xF0) * 8;
+                xr = t - 0x7f;
+                xl = t - 0x27b;
+                poly->y0 = -0x11c;
+                poly->y1 = -0x11c;
+                poly->x0 = xl;
+                poly->x1 = xr;
+                poly->x2 = xl;
+                poly->y2 = 0x64;
+                poly->x3 = xr;
+                poly->y3 = 0x64;
+            }
+            else if (work->field_AD34 >= 0x151)
+            {
+                if (work->field_AD34 < 0x181)
+                {
+                    t = (work->field_AD34 - 0x120) * 8;
+                    xr = t - 0x7f;
+                    xl = t - 0x27b;
+                    poly->y0 = -0x11c;
+                    poly->y1 = -0x11c;
+                    poly->x0 = xl;
+                    poly->x1 = xr;
+                    poly->x2 = xl;
+                    poly->y2 = 0x64;
+                    poly->x3 = xr;
+                    poly->y3 = 0x64;
+                }
+            }
+        }
+    }
+    switch (work->field_AD34)
+    {
+    case 0xA:
+        GM_SeSet2(0x1f, 0x3f, 0xb4);
+        break;
+    case 0x3A:
+        GM_SeSet2(0x1f, 0x3f, 0xb5);
+        break;
+    case 0x58:
+        GM_SeSet2(0xa, 0x3f, 0xb4);
+        break;
+    case 0x76:
+        GM_SeSet2(0xf5, 0x3f, 0xb5);
+        break;
+    case 0x90:
+        GM_SeSet2(0xe0, 0x3f, 0xb4);
+        break;
+    case 0xF0:
+        GM_SeSet2(0xe0, 0x3f, 0xbf);
+        break;
+    case 0x108:
+        GM_SeSet2(0xf5, 0x3f, 0xb4);
+        break;
+    case 0x120:
+        GM_SeSet2(0, 0x3f, 0xb5);
+        break;
+    case 0x150:
+        GM_SeSet2(0, 0x3f, 0xbf);
+        break;
+    case 0x168:
+        GM_SeSet2(0xa, 0x3f, 0xb5);
+        break;
+    case 0x180:
+        GM_SeSet2(0x1f, 0x3f, 0xb4);
+        break;
+    }
+    work->field_AD34++;
+}
 void brf_800DCD70(Work *work, POLY_FT4 *poly)
 {
     int c;
