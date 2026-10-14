@@ -216,6 +216,7 @@ void s08b_bunsin2_800C9C74(Work *work, int first);
 void s08b_bunsin2_800CD544(Work *work, int index);
 GV_ACT *Bunsin2_800C8F04(int name, int map, CONTROL *control, int type);
 int  s08b_bunsin2_800CD914(Work *work, int index);
+void s08b_bunsin2_800CD2E8(Work *work);
 int  s08b_bunsin2_800CD298(int a, int b, int c);
 int  s08b_bunsin2_800CD2C0(int a, int b, int c);
 int  s08b_bunsin2_800CD95C(Work *work, void *func);
@@ -2833,7 +2834,22 @@ void s08b_bunsin2_800CD614(Work *work)
     s08b_bunsin2_800CD95C(work, s08b_bunsin2_800CD614);
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD690.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD770.s")
+void s08b_bunsin2_800CD770(Work *work)
+{
+    SVECTOR rot;
+    MATRIX *world;
+
+    s08b_bunsin2_800CD2E8(work);
+
+    rot = DG_ZeroVector;
+    rot.vy = work->control.rot.vy;
+    RotMatrixYXZ(&rot, &work->field_1A80->world);
+
+    world = &work->field_1A80->world;
+    world->t[0] = work->body.objs->world.t[0];
+    world->t[1] = work->control.levels[0];
+    world->t[2] = work->body.objs->world.t[2];
+}
 void s08b_bunsin2_800CD808(Work *work)
 {
     if (!(s08b_dword_800C3438 & 1))
@@ -3377,7 +3393,31 @@ int s08b_bunsin2_800CF464(Work *work);
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF54C.s")
 int s08b_bunsin2_800CF54C(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF660.s")
+void s08b_bunsin2_800CF660(Work *work)
+{
+    switch (work->field_1A34)
+    {
+    case 2:
+        s08b_dword_800C3448 = 0;
+        s08b_bunsin2_800CE2E8(work);
+        work->field_19C8 = 7;
+        work->field_19CC = 0x17;
+        break;
+
+    case 1:
+        s08b_dword_800C3448 = 0;
+        work->field_19C8 = 7;
+        work->field_19CC = 0x17;
+        break;
+
+    case 3:
+    case 4:
+        work->field_19C8 = 7;
+        work->field_19CC = 0x17;
+        s08b_dword_800C3448++;
+        break;
+    }
+}
 
 void s08b_bunsin2_800CF704(Work *work)
 {
