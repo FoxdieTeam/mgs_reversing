@@ -64,7 +64,18 @@ typedef struct _ACTDAMAGE18
 
 typedef struct _ACTATTACK18
 {
-    u_char field_0[12];
+    u_char aim;
+    u_char reload;
+    u_char punch;
+    u_char setup;
+    u_char shoot;
+    u_char field_5;
+    u_char field_6;
+    u_char field_7;
+    u_char field_8;
+    u_char field_9;
+    u_char field_A;
+    u_char field_B;
 } ACTATTACK18;
 
 typedef struct _ACTSPECIAL18
@@ -439,15 +450,15 @@ ACTDAMAGE18 snake18_none_damage = {{78, 80, 82, 83, 84, 85, 86, 87, 81, 153, 154
 ACTDAMAGE18 snake18_socom_damage = {{76, 79, 82, 83, 84, 85, 86, 87, 81, 153, 0, 0, 0, 0, 0, 0}};
 ACTDAMAGE18 snake18_famas_damage = {{77, 105, 82, 83, 84, 85, 86, 87, 81, 153, 0, 0, 0, 0, 0, 0}};
 
-ACTATTACK18 snake18_none_attack = {{158, 158, 48, 158, 49, 50, 51, 52, 0, 0, 0, 0}};
-ACTATTACK18 snake18_socom_attack = {{57, 66, 48, 60, 62, 0, 0, 0, 0, 0, 0, 0}};
-ACTATTACK18 snake18_famas_attack = {{5, 67, 47, 61, 63, 0, 0, 0, 0, 0, 0, 0}};
-ACTATTACK18 snake18_stinger_attack = {{89, 158, 158, 158, 131, 0, 0, 0, 0, 0, 0, 0}};
-ACTATTACK18 snake18_nikita_attack = {{89, 158, 47, 61, 96, 0, 0, 0, 0, 0, 0, 0}};
-ACTATTACK18 snake18_c4_attack = {{58, 158, 158, 158, 68, 70, 64, 69, 71, 0, 0, 0}};
-ACTATTACK18 snake18_claymore_attack = {{72, 158, 158, 158, 73, 74, 0, 0, 0, 0, 0, 0}};
-ACTATTACK18 snake18_grenade_attack = {{75, 158, 48, 158, 65, 0, 0, 0, 0, 0, 0, 0}};
-ACTATTACK18 snake18_psg1_attack = {{59, 158, 158, 158, 158, 0, 0, 0, 0, 0, 0, 0}};
+ACTATTACK18 snake18_none_attack = {158, 158, 48, 158, 49, 50, 51, 52, 0, 0, 0, 0};
+ACTATTACK18 snake18_socom_attack = {57, 66, 48, 60, 62, 0, 0, 0, 0, 0, 0, 0};
+ACTATTACK18 snake18_famas_attack = {5, 67, 47, 61, 63, 0, 0, 0, 0, 0, 0, 0};
+ACTATTACK18 snake18_stinger_attack = {89, 158, 158, 158, 131, 0, 0, 0, 0, 0, 0, 0};
+ACTATTACK18 snake18_nikita_attack = {89, 158, 47, 61, 96, 0, 0, 0, 0, 0, 0, 0};
+ACTATTACK18 snake18_c4_attack = {58, 158, 158, 158, 68, 70, 64, 69, 71, 0, 0, 0};
+ACTATTACK18 snake18_claymore_attack = {72, 158, 158, 158, 73, 74, 0, 0, 0, 0, 0, 0};
+ACTATTACK18 snake18_grenade_attack = {75, 158, 48, 158, 65, 0, 0, 0, 0, 0, 0, 0};
+ACTATTACK18 snake18_psg1_attack = {59, 158, 158, 158, 158, 0, 0, 0, 0, 0, 0, 0};
 
 u_char snake18_special1[8][4] = {
     {141, 0, 0, 0},
@@ -1244,7 +1255,7 @@ int d18a_snake18_800CBBC8(Snake18Work *work)
 
     if (press & PAD_CIRCLE)
     {
-        if ((work->actpack->attack->field_0[2] ^ 0x9E) != 0)
+        if ((work->actpack->attack->punch ^ 0x9E) != 0)
         {
             d18a_snake18_StartAnim(work, d18a_snake18_800D3774);
             work->flags |= 4;
@@ -3012,7 +3023,7 @@ void d18a_snake18_800CEA84(Snake18Work *work, int arg1)
     {
         work->update_3p = d18a_snake18_800CE7BC;
         work->update_1p = d18a_snake18_800CE7BC;
-        new_action = work->actpack->attack->field_0[3];
+        new_action = work->actpack->attack->setup;
         if (work->body.action != new_action)
         {
             GM_ConfigObjectAction(&work->body, new_action, 0, 2);
@@ -3051,7 +3062,7 @@ void d18a_snake18_800CEB78(Snake18Work *work, int arg1)
     if (arg1 == 0)
     {
         mask = (GM_PlayerStatus & 0x10) ? 0x3FE : 0xFFFF;
-        new_action = work->actpack->attack->field_0[0];
+        new_action = work->actpack->attack->aim;
         if (work->body.action2 != new_action)
         {
             GM_ConfigObjectOverride(&work->body, new_action, 0, 4, mask);
@@ -4866,7 +4877,7 @@ void d18a_snake18_800D1BAC(Snake18Work *work, int time)
     {
         work->update_3p = d18a_snake18_800CE7BC;
         work->update_1p = d18a_snake18_800CE7BC;
-        d18a_snake18_SetAction(work, work->actpack->attack->field_0[4], 4);
+        d18a_snake18_SetAction(work, work->actpack->attack->shoot, 4);
 
         if (work->body.action2 != 0)
         {
@@ -4876,7 +4887,7 @@ void d18a_snake18_800D1BAC(Snake18Work *work, int time)
 
     if (work->body.is_end)
     {
-        d18a_snake18_SetAction(work, work->actpack->attack->field_0[0], 4);
+        d18a_snake18_SetAction(work, work->actpack->attack->aim, 4);
     }
 
     if (time >= 8)
@@ -4955,7 +4966,7 @@ void d18a_snake18_800D1CE8(Snake18Work *work, int time)
         work->stance = 2;
         work->control.turn.vx = work->f902;
         GM_PlayerStatus &= ~(PLAYER_SQUAT | PLAYER_MENU_DISABLE);
-        d18a_snake18_SetAction(work, work->actpack->attack->field_0[0], 4);
+        d18a_snake18_SetAction(work, work->actpack->attack->aim, 4);
         work->local_data2 = 4;
         break;
 
@@ -4981,7 +4992,7 @@ void d18a_snake18_800D1F90(Snake18Work *work, int time)
     {
         work->update_3p = d18a_snake18_800D2F70;
         work->update_1p = d18a_snake18_800D2F70;
-        d18a_snake18_SetAction(work, work->actpack->attack->field_0[0], 4);
+        d18a_snake18_SetAction(work, work->actpack->attack->aim, 4);
         work->stance = 0;
         GM_PlayerStatus &= ~(PLAYER_SQUAT | PLAYER_GROUND | PLAYER_MENU_DISABLE);
     }
@@ -5002,7 +5013,7 @@ void d18a_snake18_800D200C(Snake18Work *work, int time)
         work->stance = 1;
         work->flags |= 4;
         GM_PlayerStatus |= PLAYER_SQUAT;
-        d18a_snake18_SetAction(work, work->actpack->attack->field_0[5], 4);
+        d18a_snake18_SetAction(work, work->actpack->attack->field_5, 4);
         GM_PlayerStatus &= ~PLAYER_MOVE;
     }
 }
@@ -5025,7 +5036,7 @@ void d18a_snake18_800D20EC(Snake18Work *work, int time)
         work->update_3p = d18a_snake18_800CE7BC;
         work->update_1p = d18a_snake18_800CE7BC;
         work->flags |= 4;
-        d18a_snake18_SetAction(work, work->actpack->attack->field_0[6], 4);
+        d18a_snake18_SetAction(work, work->actpack->attack->field_6, 4);
 
         target = work->victim;
         DG_PutVector(&d18a_dword_800C3940, vec, 1);
@@ -5067,9 +5078,9 @@ void d18a_snake18_800D22C8(Snake18Work *work, int a1)
         int act;
 
         if (s1 == 0)
-            act = work->actpack->attack->field_0[6];
+            act = work->actpack->attack->field_6;
         else
-            act = work->actpack->attack->field_0[7];
+            act = work->actpack->attack->field_7;
 
         if (work->body.action2 != act)
         {
@@ -5107,14 +5118,14 @@ void d18a_snake18_800D23F0(Snake18Work *work, int time)
         work->stance = 1;
         work->flags |= 4;
         GM_PlayerStatus |= PLAYER_SQUAT;
-        d18a_snake18_SetAction(work, work->actpack->attack->field_0[0], 4);
+        d18a_snake18_SetAction(work, work->actpack->attack->aim, 4);
         GM_PlayerStatus &= ~PLAYER_MOVE;
     }
 }
 
 static inline int d18a_snake18_CanTurnShoot(Snake18Work *work)
 {
-    if (work->actpack->attack->field_0[3] == 0x9E || work->weapon_state == d18a_snake18_800D28CC)
+    if (work->actpack->attack->setup == 0x9E || work->weapon_state == d18a_snake18_800D28CC)
     {
         return 0;
     }
@@ -5270,7 +5281,7 @@ void d18a_snake18_800D28CC(Snake18Work *work, int time)
     {
         GM_ConfigMotionAdjust(&work->body, NULL);
         NewAnime_8005DDE0(&work->body.objs->objs[4].world);
-        d18a_snake18_SetOverride(work, work->actpack->attack->field_0[1], 4, mask);
+        d18a_snake18_SetOverride(work, work->actpack->attack->reload, 4, mask);
     }
 
     d18a_snake18_800CB760(work, mask);
@@ -5324,7 +5335,7 @@ void d18a_snake18_800D2A80(Snake18Work *work, int time)
 
     if (time == 0)
     {
-        d18a_snake18_SetOverride(work, work->actpack->attack->field_0[0], 4, mask);
+        d18a_snake18_SetOverride(work, work->actpack->attack->aim, 4, mask);
         fire = work->local_data;
         work->f86C = 0;
 
@@ -5369,7 +5380,7 @@ void d18a_snake18_800D2A80(Snake18Work *work, int time)
         if (trg & 2)
         {
             work->f86C = 1;
-            d18a_snake18_SetOverride(work, work->actpack->attack->field_0[4], 2, mask);
+            d18a_snake18_SetOverride(work, work->actpack->attack->shoot, 2, mask);
 
             if (tbl & 0x80)
             {
@@ -5385,7 +5396,7 @@ void d18a_snake18_800D2A80(Snake18Work *work, int time)
         if (work->body.time2 != 0 && !(tbl & 1))
         {
             work->f86C = 0;
-            d18a_snake18_SetOverride(work, work->actpack->attack->field_0[0], 2, mask);
+            d18a_snake18_SetOverride(work, work->actpack->attack->aim, 2, mask);
         }
         break;
     }
@@ -5455,7 +5466,7 @@ void d18a_snake18_800D2D88(Snake18Work *work, int time)
         GM_TranquilizerTimer--;
     }
 
-    if (work->body.action == work->actpack->attack->field_0[0])
+    if (work->body.action == work->actpack->attack->aim)
     {
         if (++work->local_data == 90)
         {
@@ -5470,7 +5481,7 @@ void d18a_snake18_800D2D88(Snake18Work *work, int time)
     }
     else if (work->body.is_end || (GM_StatusEvent & EV_Tranquilizer))
     {
-        d18a_snake18_SetAction(work, work->actpack->attack->field_0[0], 4);
+        d18a_snake18_SetAction(work, work->actpack->attack->aim, 4);
     }
 }
 
@@ -5513,7 +5524,7 @@ void d18a_snake18_800D3024(Snake18Work *work, int time)
 
     if (time == 0)
     {
-        d18a_snake18_SetOverride(work, work->actpack->attack->field_0[0], 4, mask);
+        d18a_snake18_SetOverride(work, work->actpack->attack->aim, 4, mask);
         work->f86C = 0;
         GM_SeSet(&work->control.mov, 0x2C);
     }
@@ -5536,7 +5547,7 @@ void d18a_snake18_800D3024(Snake18Work *work, int time)
     case 1:
         if (!(work->pad->status & PAD_SQUARE))
         {
-            d18a_snake18_SetOverride(work, work->actpack->attack->field_0[4], 1, mask);
+            d18a_snake18_SetOverride(work, work->actpack->attack->shoot, 1, mask);
             work->f86C = 2;
         }
         break;
@@ -5586,7 +5597,7 @@ void d18a_snake18_800D3218(Snake18Work *work, int time)
 
     if (!(work->pad->status & PAD_SQUARE) && done == 0)
     {
-        d18a_snake18_SetAction(work, work->actpack->attack->field_0[8], 1);
+        d18a_snake18_SetAction(work, work->actpack->attack->field_8, 1);
         done = 1;
         work->local_data = done;
         work->trigger |= 2;
@@ -5629,7 +5640,7 @@ void d18a_snake18_800D3330(Snake18Work *work, int time)
 
         if (!(work->pad->status & PAD_SQUARE))
         {
-            d18a_snake18_SetAction(work, work->actpack->attack->field_0[4], 1);
+            d18a_snake18_SetAction(work, work->actpack->attack->shoot, 1);
             done = 1;
             work->local_data = done;
             work->trigger |= 2;
@@ -5677,12 +5688,12 @@ void d18a_snake18_800D3508(Snake18Work *work, int time)
         work->update_3p = d18a_snake18_800CE7BC;
         work->update_1p = d18a_snake18_800CE7BC;
         GM_PlayerStatus &= ~PLAYER_MOVE;
-        action = work->actpack->attack->field_0[4];
+        action = work->actpack->attack->shoot;
 
         if (!d18a_snake18_800CB9CC(work, punch))
         {
             punch++;
-            action = work->actpack->attack->field_0[5];
+            action = work->actpack->attack->field_5;
 
             if (!d18a_snake18_800CB9CC(work, punch))
             {
@@ -5748,7 +5759,7 @@ void d18a_snake18_800D3774(Snake18Work *work, int time)
         work->update_3p = d18a_snake18_800D3D0C;
         work->update_1p = d18a_snake18_800CE7BC;
         GM_PlayerStatus &= ~PLAYER_MOVE;
-        d18a_snake18_SetAction(work, work->actpack->attack->field_0[2], 1);
+        d18a_snake18_SetAction(work, work->actpack->attack->punch, 1);
         work->local_data = 0;
         work->flags |= 4;
     }
@@ -5828,7 +5839,7 @@ void d18a_snake18_800D3A9C(Snake18Work *work, int time)
     {
         work->update_3p = d18a_snake18_800D3FE8;
         work->update_1p = d18a_snake18_800CE7BC;
-        action = work->actpack->attack->field_0[6];
+        action = work->actpack->attack->field_6;
         d18a_snake18_SetAction(work, action, 4);
         work->victim->a_mode = action;
     }
@@ -5841,7 +5852,7 @@ void d18a_snake18_800D3B1C(Snake18Work *work, int time)
 
     if (time == 0)
     {
-        action = work->actpack->attack->field_0[7];
+        action = work->actpack->attack->field_7;
         work->update_3p = d18a_snake18_800CE7BC;
         work->update_1p = d18a_snake18_800CE7BC;
         target = work->victim;
