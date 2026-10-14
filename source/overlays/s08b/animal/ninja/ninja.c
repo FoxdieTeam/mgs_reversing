@@ -2,6 +2,7 @@
 #include "anime/animconv/anime.h"
 #include "okajima/blood.h"
 #include "okajima/spark.h"
+#include "enemy/katana.h"
 #include "takabe/cinema.h"
 #include "chara/snake/sna_init.h"
 #include "game/game.h"
@@ -57,7 +58,10 @@ typedef struct _Work
     SVECTOR   field_1980;  // 0x1980
     int       field_1988;  // 0x1988
     SVECTOR   field_198C;  // 0x198C
-    char      pad_19A4[0x19A4 - 0x198C - sizeof(SVECTOR)];
+    int       field_1994;  /* 0x1994 */
+    int       field_1998;  /* 0x1998 */
+    int       field_199C;  /* 0x199C */
+    int       field_19A0;  /* 0x19A0 */
     int       field_19A4;  /* 0x19A4 */
     int       field_19A8;  /* 0x19A8 */
     int       field_19AC;  /* 0x19AC */
@@ -95,11 +99,11 @@ typedef struct _Work
     char      pad_1A30[0x4]; /* 0x1A28 */
     int       field_1A34;     /* 0x1A34 */
     int       field_1A38;     /* 0x1A38 */
-    char      pad_1A40[0x4]; /* 0x1A3C */
+    int       field_1A3C;  /* 0x1A3C */
     NinjaFunc field_1A40[8];  /* 0x1A40 */
     SVECTOR   shadow_verts[4]; /* 0x1A60 */
     DG_PRIM  *field_1A80;  /* 0x1A80 */
-    char      pad_1A8C[0x1A8C - 0x1A84];
+    SVECTOR   field_1A84;  /* 0x1A84 */
     int       field_1A8C;  /* 0x1A8C */
     int       field_1A90;  /* 0x1A90 */
     int       field_1A94;  /* 0x1A94 */
@@ -179,12 +183,6 @@ extern int   s08b_dword_800E4340;
 
 extern char s08b_aErrerrerrsoundbuffover_800E3764[];
 extern char s08b_aNinjac_800E37F8[];
-extern char s08b_aNumd_800E3784[];
-extern char s08b_aPunchdamaged_800E3794[];
-extern char s08b_aKickdamaged_800E37A8[];
-extern char s08b_aSlashdamaged_800E37BC[];
-extern char s08b_aJumpdamaged_800E37D0[];
-extern char s08b_aEledamaged_800E37E4[];
 extern char s08b_aNjafist_800E3740[];
 extern char s08b_aNjab_800E374C[];
 extern char s08b_aKatana_800E3754[];
@@ -194,6 +192,8 @@ extern char s08b_aKorekorekor_800E39A8[];
 int  s08b_bunsin2_800CD914(Work *work, int index);
 int  s08b_bunsin2_800CD95C(Work *work, void *func);
 void *NewBunsin2(OBJECT *root_obj, int arg1, int *arg2);
+void *NewTenmetu(MATRIX *world, int *force);
+void NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time);
 void s08b_bunsin2_800CDB10(Work *work);
 void s08b_bunsin2_800D4ED0(Work *work);
 
@@ -764,8 +764,97 @@ int s08b_ninja_800C89E8(char *unused, char *out)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8A40.s")
+int s08b_ninja_800C8A40(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8BE8.s")
+int s08b_ninja_800C8BE8(Work *work, int name, int where) // GetResources
+{
+    SVECTOR svec1;
+    SVECTOR svec2;
+
+    if (s08b_ninja_800C83CC(work, name, where) < 0)
+    {
+        return -1;
+    }
+
+    if (s08b_ninja_800C8558(work) < 0)
+    {
+        return -1;
+    }
+
+    if (s08b_ninja_800C8988(work) < 0)
+    {
+        return -1;
+    }
+
+    if (s08b_ninja_800C8A40(work) < 0)
+    {
+        return -1;
+    }
+
+    if (work->field_7D8 == 0)
+    {
+        work->target = GM_AllocTarget();
+        if (work->target == NULL)
+        {
+            return -1;
+        }
+
+        s08b_ninja_800C8354(work);
+        s08b_ninja_800C8624(work);
+        s08b_ninja_800C8848(work);
+    }
+
+    work->field_910 = GM_SetHomingTarget(&work->body.objs->objs[6].world, &work->control);
+    GM_ConfigMotionAdjust(&work->body, work->adjust);
+
+    svec1.vx = 0;
+    svec1.vy = -0x41;
+    svec1.vz = -0x373;
+    svec2.vx = 0;
+    svec2.vy = -0x41;
+    svec2.vz = -0x2D;
+    NewKatana(&work->body.objs->objs[4].world, &svec1, &svec2, &work->field_19F8);
+    NewTenmetu(&work->body.objs->objs[6].world, &work->field_19F4);
+    s08b_bunsin2_800CD914(work, 1);
+
+    work->control.mov = work->clones[0].field_4[0];
+    work->control.mov.vx = -0x1D65;
+    work->control.mov.vz = -0x80F;
+
+    work->field_1964 = 0;
+    work->field_1966 = 0;
+    work->field_199C = 0;
+    work->field_19A0 = 0;
+    work->field_1994 = 0;
+    work->field_1998 = 0;
+    work->field_19BC = NULL;
+    work->field_19C0 = 0;
+
+    if (work->field_7D8 == 0)
+    {
+        work->field_19C4 = 0;
+    }
+    else
+    {
+        work->field_19C4 = 5;
+    }
+
+    work->field_19E4 = 0xFF;
+    work->field_19C8 = 0;
+    work->field_19CC = 0;
+    work->field_19D0 = 0;
+    work->field_19D8 = 0;
+    work->field_19DC = 0;
+    work->field_19B8 = 1;
+    work->field_1A3C = 0;
+    work->field_8C0 = 0;
+    work->field_19F0 = 0;
+    work->field_1A84 = DG_ZeroVector;
+    work->field_19F8 = 1;
+    work->field_1B24 = 0;
+    work->field_1A14 = 0;
+    return 0;
+}
 int s08b_ninja_800C8BE8(Work *work, int name, int where); // GetResources
 
 void *NewNinjaBoss(int name, int where)
@@ -823,8 +912,36 @@ int Bunsin2_800C8F04(void)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C8F0C.s")
-void NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time);
+void s08b_bunsin2_800C8F0C(Work *work)
+{
+    MATRIX world;
+
+    world = DG_ZeroMatrix;
+    world.t[0] = work->control.mov.vx;
+    world.t[1] = 0x14;
+    world.t[2] = work->control.mov.vz;
+
+    if (GM_GameLevel == GM_LEVEL_NORMAL)
+    {
+        NewWindcrcl_800CF784(&world, 200, 100, 300, 10);
+    }
+    else if (GM_GameLevel > GM_LEVEL_EASY)
+    {
+        if (GM_GameLevel < GM_LEVEL_EXTREME + 1)
+        {
+            NewWindcrcl_800CF784(&world, 200, 100, 400, 10);
+        }
+        else
+        {
+            goto level_easy;
+        }
+    }
+    else
+    {
+level_easy:
+        NewWindcrcl_800CF784(&world, 200, 100, 200, 10);
+    }
+}
 void s08b_bunsin2_800C8FF8(Work *work)
 {
     MATRIX stackData;
