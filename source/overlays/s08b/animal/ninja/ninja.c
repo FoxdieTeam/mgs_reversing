@@ -47,7 +47,7 @@ typedef struct _Work
     OBJECT         weapon;               /* 0x7DC */
     int            field_8C0;            /* 0x8C0 */
     TARGET        *target;               /* 0x8C4 */
-    char           pad_8C8[0x48];
+    TARGET         field_8C8;            /* 0x8C8 */
     HOMING        *hom;                  /* 0x910 */
     int            step_vy;              /* 0x914 */
     SVECTOR        origin;               /* 0x918 */
