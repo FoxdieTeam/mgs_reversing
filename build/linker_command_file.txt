@@ -1722,8 +1722,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindact.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody5.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\unknown.obj", overlay
@@ -2812,9 +2810,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindact.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D844C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\overlay2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11b\s11b_800D89E0.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\unknown.obj", overlay
@@ -2912,9 +2907,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindact.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11h\s11h_800D78C0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11h\overlay.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11h\s11h_800D7E54.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay

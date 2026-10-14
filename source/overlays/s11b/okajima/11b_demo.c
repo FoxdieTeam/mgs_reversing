@@ -156,7 +156,7 @@ static void PlaySound(SVECTOR *pos, int se_id)
 {
     GM_SeSetMode(pos, se_id, GM_SEMODE_BOMB);
 }
-#if 0 /* NON_MATCHING: register allocation/scheduling in the counter block (see s11g 11g_demo.c) */
+
 static void AddTrail(Work *work, SVECTOR *pos, int index)
 {
     SVECTOR *verts;
@@ -188,17 +188,14 @@ static void AddTrail(Work *work, SVECTOR *pos, int index)
     }
 
     *verts++ = *pos;
-    *verts++ = prev[0];
+    *verts++ = *prev;
     *verts = *pos;
     verts->vy -= 100;
-    verts[1] = prev[2];
+    prev += 2;
+    verts[1] = *prev;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s11b/s11b_800CAF54.s")
-void s11b_800CAF54(Work *work, SVECTOR *pos, int index);
-#define AddTrail s11b_800CAF54
 
-void Stage11BDemoAct(Work *work) /* not static: follows an INCLUDE_ASM */
+static void Act(Work *work)
 {
     SVECTOR  vec;
     SVECTOR  rot;
@@ -660,7 +657,7 @@ void *NewStage11BDemo(int name, int where)
     work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work)
     {
-        GV_SetNamedActor(work, Stage11BDemoAct, Die, "11b_demo.c");
+        GV_SetNamedActor(work, Act, Die, "11b_demo.c");
 
         if (GetResources(work, name, where) < 0)
         {
