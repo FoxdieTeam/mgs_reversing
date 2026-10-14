@@ -1166,24 +1166,6 @@ void s11g_hind_800D7644(HindWork *work)
     work->field_60C.vz += rsin(GV_Time * 292) / 4;
 }
 
-const int s11g_dword_800DD240 = 0x800D96F0;
-const int s11g_dword_800DD244 = 0x800D9B70;
-const int s11g_dword_800DD248 = 0x800D9B70;
-const int s11g_dword_800DD24C = 0x800D9B70;
-const int s11g_dword_800DD250 = 0x800D974C;
-const int s11g_dword_800DD254 = 0x800D9858;
-const int s11g_dword_800DD258 = 0x800D9A74;
-const int s11g_dword_800DD25C = 0x800D9B40;
-const int s11g_dword_800DD260 = 0x800D9BC4;
-const int s11g_dword_800DD264 = 0x800DA520;
-const int s11g_dword_800DD268 = 0x800DA520;
-const int s11g_dword_800DD26C = 0x800DA520;
-const int s11g_dword_800DD270 = 0x800D9C08;
-const int s11g_dword_800DD274 = 0x800D9D74;
-const int s11g_dword_800DD278 = 0x800D9FD8;
-const int s11g_dword_800DD27C = 0x800DA0E0;
-const int s11g_dword_800DD280 = 0x800DA2B4;
-
 void s11g_hind_800D9344(HindWork *work)
 {
     VECTOR  sp10;
@@ -1271,7 +1253,147 @@ void s11g_hind_800D9344(HindWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D96B0.s")
+void s11g_hind_800D96B0(HindWork *work)
+{
+    int diff;
+
+    switch (work->field_5C8)
+    {
+    case 0:
+        work->field_5C8 = 4;
+        work->field_5E4 = GV_RandU(16) + 30;
+
+        if (work->field_60C.vz < 4000 || work->control.mov.vz < 4000)
+        {
+            work->field_60C.vy = 10000;
+        }
+        else
+        {
+            work->field_60C.vy = (work->field_60C.vy + 13000) / 2;
+        }
+        /* fallthrough */
+    case 4:
+        work->field_5D4 = 1;
+
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 16);
+            break;
+        }
+
+        work->field_5C8 = 5;
+        work->field_5E4 = GV_RandU(16) + 20;
+        work->field_5E8 = GV_RandU(2);
+
+        work->field_60C.vx = (rcos(work->field_5F4) * 25000) / 4096 + 9000;
+        work->field_60C.vz = (rsin(work->field_5F4) * 25000) / 4096 + 9000;
+
+        if (work->field_60C.vz < 4000 || work->control.mov.vz < 4000)
+        {
+            work->field_60C.vy = (work->field_60C.vy + 5000) / 2;
+        }
+        else
+        {
+            work->field_60C.vy = (work->field_60C.vy + 13000) / 2;
+        }
+
+        s11g_hind_800D61F8(work);
+        break;
+
+    case 5:
+        if (work->field_5E4 < 10)
+        {
+            work->field_5D4 = 1;
+        }
+
+        work->field_62C.vx = GM_PlayerPosition.vx + work->field_664.vx + work->field_65C.vx * work->field_5E4;
+        work->field_62C.vy = GM_PlayerPosition.vy + work->field_664.vy + work->field_65C.vy * work->field_5E4;
+        work->field_62C.vz = GM_PlayerPosition.vz + work->field_664.vz + work->field_65C.vz * work->field_5E4;
+
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 40);
+        }
+        else if (work->field_5E8 > 0)
+        {
+            work->field_5E8--;
+            work->field_5C8 = 5;
+            work->field_5E4 = GV_RandU(16) + 40;
+
+            if (GV_RandU(2))
+            {
+                diff = GV_RandU(64) + 256;
+                work->field_5F4 += diff;
+            }
+            else
+            {
+                diff = GV_RandU(64) + 256;
+                work->field_5F4 -= diff;
+            }
+
+            work->field_60C.vx = (rcos(work->field_5F4) * 25000) / 4096;
+            work->field_60C.vz = (rsin(work->field_5F4) * 25000) / 4096;
+
+            if (work->field_60C.vz < 4000 || work->control.mov.vz < 4000)
+            {
+                work->field_60C.vy = (work->field_60C.vy + 8000) / 2;
+            }
+            else
+            {
+                work->field_60C.vy = (work->field_60C.vy + 15000) / 2;
+            }
+
+            s11g_hind_800D61F8(work);
+        }
+        else
+        {
+            work->field_5C8 = 6;
+            work->field_5E4 = GV_RandU(16) + 16;
+        }
+        break;
+
+    case 6:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 32);
+        }
+        else
+        {
+            work->field_8CC = 1;
+            work->field_5C8 = 7;
+            work->field_5E4 = GV_RandU(32) + 70;
+            work->field_5F4 += 2048;
+            work->field_60C.vx = (rcos(work->field_5F4) * 25000) / 4096 + 9000;
+            work->field_60C.vy = 13000;
+            work->field_60C.vz = (rsin(work->field_5F4) * 25000) / 4096 + 9000;
+        }
+        break;
+
+    case 7:
+        work->field_5D4 = 1;
+
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 32);
+        }
+        else
+        {
+            work->field_5C4 = 1;
+            work->field_5C8 = 0;
+        }
+        break;
+    }
+}
+
+const int s11g_dword_800DD260 = 0x800D9BC4;
+const int s11g_dword_800DD264 = 0x800DA520;
+const int s11g_dword_800DD268 = 0x800DA520;
+const int s11g_dword_800DD26C = 0x800DA520;
+const int s11g_dword_800DD270 = 0x800D9C08;
+const int s11g_dword_800DD274 = 0x800D9D74;
+const int s11g_dword_800DD278 = 0x800D9FD8;
+const int s11g_dword_800DD27C = 0x800DA0E0;
+const int s11g_dword_800DD280 = 0x800DA2B4;
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D9B80.s")
 
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800DA534.s")
