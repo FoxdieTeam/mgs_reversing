@@ -320,7 +320,7 @@ void Zako19ActionMain( Work *work );
 void Zako19PushMove( Work *work );
 
 // think.c
-void Zako19Think( Work *work );
+void s19a_800D649C( Work *work ); /* Zako19Think */
 
 // zk19com.c
 int  ZAKO19SetWorkID( Work *work );

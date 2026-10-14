@@ -255,7 +255,7 @@ void Zako19ActionMain( Work *work )
         CheckVision( work );
         CheckAlert( work );
         UpdateAlert( work );
-        Zako19Think( work );
+        s19a_800D649C( work ); /* Zako19Think */
         ZAKO19_ExecPutChars( work );
     }
 
