@@ -3809,13 +3809,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D1C4C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D1C88.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D1EC4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D1F60.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D1FCC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2014.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D214C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D21E0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D229C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2324.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s17a\overlay9.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s17a\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\takabe\puthzd.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2500.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D25DC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2618.obj", overlay
@@ -3835,8 +3831,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D38FC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D39FC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D3A60.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay5.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay6.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay7.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay8.obj", overlay
@@ -3848,7 +3842,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D5984.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D5D3C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D5F50.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay9.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s17a\overlay25.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\rcm.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\kojo\mgrexlzr.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay24.obj", overlay
