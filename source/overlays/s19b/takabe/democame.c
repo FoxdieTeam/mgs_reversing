@@ -1,51 +1,12 @@
 #include "game/game.h"
 
-typedef struct _DemocameUnk
-{
-    int     f0;
-    int     f4;
-    int     f8;
-    SVECTOR fC;
-    SVECTOR f14;
-    int     f1C;
-} DemocameUnk;
+#include "democame.h"
 
-typedef int  (*DemocameFn1)(int, int, int);
-typedef void (*DemocameFn2)(SVECTOR *, SVECTOR *, int);
-
-typedef struct _Work
-{
-    GV_ACT       actor;
-    SVECTOR      eye;
-    SVECTOR      center;
-    SVECTOR      rotate;
-    int          track;
-    int          type;
-    SVECTOR     *field_40;
-    SVECTOR     *field_44;
-    SVECTOR     *field_48;
-    int         *field_4C;
-    SVECTOR      field_50;
-    SVECTOR      field_58;
-    SVECTOR      field_60;
-    int          field_68;
-    int          field_6C;
-    int          field_70;
-    int          field_74;
-    DemocameFn1  field_78;
-    DemocameFn2  field_7C;
-    DemocameFn2  field_80;
-    DemocameUnk *field_84;
-    int          field_88;
-    int          field_8C;
-    int          field_90;
-    char         pad1[0x18];
-} Work;
 
 void s19b_democame_800DB578(SVECTOR *in, SVECTOR *out, SVECTOR *angle, int *length);
 void s19b_democame_800DB5C4(SVECTOR *out, SVECTOR *in, SVECTOR *angle, int *length);
 
-void s19b_democame_800DB470(Work *work)
+void s19b_democame_800DB470(DemoCamera *work)
 {
     switch (work->type)
     {
@@ -169,51 +130,51 @@ DemocameFn2 s19b_dword_800C3B00[4] = {
     s19b_democame_800DB770
 };
 
-void s19b_democame_800DB790(Work *work, DemocameUnk *unk)
+void s19b_democame_800DB790(DemoCamera *work, DEMOCAM_KEY *key)
 {
     int index;
 
-    switch (unk->f8)
+    switch (key->mode)
     {
     case 0:
-        work->field_50 = unk->fC;
-        work->field_58 = unk->f14;
-        s19b_democame_800DB4E0(&work->field_50, &work->field_58, &work->field_60, &work->field_68);
+        work->eye_key = key->pos;
+        work->center_key = key->param;
+        s19b_democame_800DB4E0(&work->eye_key, &work->center_key, &work->rotate_key, &work->track_key);
         work->type = 0;
         break;
 
     case 1:
-        work->field_50 = unk->fC;
-        work->field_60.vx = unk->f14.vx;
-        work->field_60.vy = unk->f14.vy;
-        work->field_60.vz = 0;
-        work->field_68 = unk->f14.vz;
-        s19b_democame_800DB578(&work->field_50, &work->field_58, &work->field_60, &work->field_68);
+        work->eye_key = key->pos;
+        work->rotate_key.vx = key->param.vx;
+        work->rotate_key.vy = key->param.vy;
+        work->rotate_key.vz = 0;
+        work->track_key = key->param.vz;
+        s19b_democame_800DB578(&work->eye_key, &work->center_key, &work->rotate_key, &work->track_key);
         work->type = 1;
         break;
 
     case 2:
-        work->field_58 = unk->fC;
-        work->field_60.vx = unk->f14.vx;
-        work->field_60.vy = unk->f14.vy;
-        work->field_60.vz = 0;
-        work->field_68 = unk->f14.vz;
-        s19b_democame_800DB5C4(&work->field_50, &work->field_58, &work->field_60, &work->field_68);
+        work->center_key = key->pos;
+        work->rotate_key.vx = key->param.vx;
+        work->rotate_key.vy = key->param.vy;
+        work->rotate_key.vz = 0;
+        work->track_key = key->param.vz;
+        s19b_democame_800DB5C4(&work->eye_key, &work->center_key, &work->rotate_key, &work->track_key);
         work->type = 2;
         break;
     }
 
-    work->field_6C = unk->f0;
-    work->field_70 = unk->f4;
-    work->field_74 = unk->f1C;
+    work->interp = key->interp;
+    work->time = key->time;
+    work->flags = key->flags;
 
-    index = work->field_6C;
-    work->field_78 = s19b_dword_800C3AE0[index];
-    work->field_7C = s19b_dword_800C3AF0[index];
-    work->field_80 = s19b_dword_800C3B00[index];
+    index = work->interp;
+    work->near_fn = s19b_dword_800C3AE0[index];
+    work->near_vec_fn = s19b_dword_800C3AF0[index];
+    work->near_rot_fn = s19b_dword_800C3B00[index];
 }
 
-void s19b_democame_800DB968(Work *work)
+void s19b_democame_800DB968(DemoCamera *work)
 {
     SVECTOR *dst;
     SVECTOR *vec;
@@ -223,21 +184,21 @@ void s19b_democame_800DB968(Work *work)
     int      interp;
     int      flags;
 
-    if (work->field_88 != 0)
+    if (work->done != 0)
     {
         return;
     }
 
-    interp = work->field_70 - 1;
-    flags  = work->field_74;
+    interp = work->time - 1;
+    flags  = work->flags;
 
     if (flags & 1)
     {
         dst = &work->eye;
-        vec = work->field_40;
+        vec = work->eye_src;
         if (vec == NULL)
         {
-            vec = &work->field_50;
+            vec = &work->eye_key;
         }
         if (interp == 0)
         {
@@ -245,17 +206,17 @@ void s19b_democame_800DB968(Work *work)
         }
         else
         {
-            work->field_7C(dst, vec, interp);
+            work->near_vec_fn(dst, vec, interp);
         }
     }
 
     if (flags & 2)
     {
         dst = &work->center;
-        vec = work->field_44;
+        vec = work->center_src;
         if (vec == NULL)
         {
-            vec = &work->field_58;
+            vec = &work->center_key;
         }
         if (interp == 0)
         {
@@ -263,17 +224,17 @@ void s19b_democame_800DB968(Work *work)
         }
         else
         {
-            work->field_7C(dst, vec, interp);
+            work->near_vec_fn(dst, vec, interp);
         }
     }
 
     if (flags & 4)
     {
         dst = &work->rotate;
-        vec = work->field_48;
+        vec = work->rotate_src;
         if (vec == NULL)
         {
-            vec = &work->field_60;
+            vec = &work->rotate_key;
         }
         if (interp == 0)
         {
@@ -281,16 +242,16 @@ void s19b_democame_800DB968(Work *work)
         }
         else
         {
-            work->field_80(dst, vec, interp);
+            work->near_rot_fn(dst, vec, interp);
         }
     }
 
     if (flags & 8)
     {
-        val = work->field_4C;
+        val = work->track_src;
         if (val == NULL)
         {
-            val = &work->field_68;
+            val = &work->track_key;
         }
         if (interp == 0)
         {
@@ -298,46 +259,46 @@ void s19b_democame_800DB968(Work *work)
         }
         else
         {
-            work->track = work->field_78(work->track, *val, interp);
+            work->track = work->near_fn(work->track, *val, interp);
         }
     }
 
     if (flags & 0x10)
     {
-        snap = work->field_40;
+        snap = work->eye_src;
         if (snap == NULL)
         {
-            snap = &work->field_50;
+            snap = &work->eye_key;
         }
         work->eye = *snap;
     }
 
     if (flags & 0x20)
     {
-        snap = work->field_44;
+        snap = work->center_src;
         if (snap == NULL)
         {
-            snap = &work->field_58;
+            snap = &work->center_key;
         }
         work->center = *snap;
     }
 
     if (flags & 0x40)
     {
-        snap = work->field_48;
+        snap = work->rotate_src;
         if (snap == NULL)
         {
-            snap = &work->field_60;
+            snap = &work->rotate_key;
         }
         work->rotate = *snap;
     }
 
     if (flags & 0x80)
     {
-        isnap = work->field_4C;
+        isnap = work->track_src;
         if (isnap == NULL)
         {
-            isnap = &work->field_68;
+            isnap = &work->track_key;
         }
         work->track = *isnap;
     }
@@ -362,36 +323,36 @@ void s19b_democame_800DB968(Work *work)
         work->track = GM_Camera.track;
     }
 
-    if (--work->field_70 <= 0)
+    if (--work->time <= 0)
     {
         s19b_democame_800DB470(work);
-        s19b_democame_800DB790(work, work->field_84);
-        work->field_84++;
-        work->field_8C++;
-        if (work->field_6C == -1)
+        s19b_democame_800DB790(work, work->key);
+        work->key++;
+        work->n_keys++;
+        if (work->interp == -1)
         {
-            work->field_88 = 1;
+            work->done = 1;
         }
         else
         {
-            work->field_70 -= work->field_84[-2].f4;
+            work->time -= work->key[-2].time;
         }
     }
 
-    work->field_90++;
+    work->frame++;
 }
-void s19b_democame_800DB968(Work *);
+void s19b_democame_800DB968(DemoCamera *);
 
 void s19b_democame_800DBD38(void)
 {
     /* do nothing */
 }
 
-void *NewDemoCamera(DemocameUnk *unk)
+void *NewDemoCamera(DEMOCAM_KEY *keys)
 {
-    Work *work;
+    DemoCamera *work;
 
-    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(DemoCamera));
     if (work)
     {
         GV_SetNamedActor(work, s19b_democame_800DB968, s19b_democame_800DBD38, "democame.c");
@@ -403,10 +364,10 @@ void *NewDemoCamera(DemocameUnk *unk)
         work->type = gUnkCameraStruct2_800B7868.type;
 
         s19b_democame_800DB470(work);
-        s19b_democame_800DB790(work, unk);
+        s19b_democame_800DB790(work, keys);
 
-        work->field_84 = unk + 1;
-        work->field_8C = 1;
+        work->key = keys + 1;
+        work->n_keys = 1;
     }
 
     return work;
