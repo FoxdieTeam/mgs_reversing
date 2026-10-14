@@ -24,18 +24,18 @@ extern JEEP_SYSTEM Takabe_JeepSystem;
 typedef struct _Work
 {
     GV_ACT   actor;
-    int      map;
-    DG_PRIM *prim;
-    DG_TEX  *tex;
-    MATRIX   world;
-    MATRIX  *root;
-    int      field_50;
-    int      field_54;
-    int      field_58;
-    int      field_5C;
-    int      field_60;
-    SVECTOR  vertices[16];
-    SVECTOR  speeds[16];
+    int      map;           // 0x20
+    DG_PRIM *prim;          // 0x24
+    DG_TEX  *tex;           // 0x28
+    MATRIX   world;         // 0x2C
+    MATRIX  *root;          // 0x4C
+    int      flag;          // 0x50
+    int      time;          // 0x54
+    int      count;         // 0x58
+    int      interval;      // 0x5C
+    int      index;         // 0x60
+    SVECTOR  vertices[16];  // 0x64
+    SVECTOR  params[16];    // 0xE4: vx = life, vy = fade, vz = anim frame
 } Work;
 
 void s19b_jdrumfir_800CA4A0(Work *work);
@@ -55,12 +55,12 @@ void s19b_jdrumfir_800CA13C(Work *work)
         return;
     }
 
-    if (work->field_50 & 1)
+    if (work->flag & 1)
     {
         work->world = *work->root;
     }
 
-    if (work->field_54 > 0)
+    if (work->time > 0)
     {
         s19b_jdrumfir_800CA564(work, 1);
     }
@@ -68,16 +68,16 @@ void s19b_jdrumfir_800CA13C(Work *work)
     {
         s19b_jdrumfir_800CA564(work, 1);
 
-        if (work->field_58 == 0)
+        if (work->count == 0)
         {
             GV_DestroyActor(work);
             return;
         }
 
-        work->field_58--;
+        work->count--;
     }
 
-    work->field_54--;
+    work->time--;
 }
 
 void s19b_jdrumfir_800CA280(Work *work)
@@ -91,11 +91,11 @@ int s19b_jdrumfir_800CA2BC(Work *work, MATRIX *world, int arg2, int arg3)
     work->map = GM_CurrentMap;
     work->world = *world;
 
-    work->field_50 = arg2;
-    work->field_54 = arg3;
+    work->flag = arg2;
+    work->time = arg3;
 
     s19b_jdrumfir_800CA4A0(work);
-    work->field_58 = 40;
+    work->count = 40;
     return 0;
 }
 
@@ -162,4 +162,112 @@ void s19b_jdrumfir_800CA4A0(Work *work)
     prim->raise = 500;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jdrumfir_800CA564.s")
+void s19b_jdrumfir_800CA564(Work *work, int spawn)
+{
+    SVECTOR  *param;
+    SVECTOR  *vert;
+    POLY_FT4 *packs;
+    int       i;
+    int       xs, ys;
+    int       x, y, w, h;
+    int       shade;
+
+    if (spawn != 0)
+    {
+        if (work->interval < 0)
+        {
+            param = &work->params[work->index];
+            param->vx = work->count;
+            param->vy = 255;
+            param->vz = GV_RandU(16);
+
+            vert = &work->vertices[work->index];
+            vert->vx = work->world.t[0] + GV_RandS(256) / 2;
+            vert->vz = work->world.t[2] + GV_RandS(256) / 2;
+
+            vert->pad = work->count * 20 - 200;
+            if (vert->pad < 200)
+            {
+                vert->pad = 200;
+            }
+
+            vert->vy = work->world.t[1] + vert->pad;
+
+            work->interval = 12;
+            work->index = (work->index + 1) & 15;
+        }
+        else
+        {
+            work->interval--;
+        }
+    }
+
+    param = work->params;
+    vert = work->vertices;
+    packs = work->prim->packs[GV_Clock];
+
+    for (i = 16; i > 0; i--)
+    {
+        if (param->vx != 0)
+        {
+            xs = param->vz & 3;
+            ys = param->vz / 4;
+
+            x = work->tex->off_x;
+            w = work->tex->w + 1;
+            packs->u0 = packs->u2 = x + (w * xs) / 4;
+            packs->u1 = packs->u3 = x + (w * (xs + 1)) / 4 - 1;
+
+            y = work->tex->off_y;
+            h = work->tex->h + 1;
+            packs->v0 = packs->v1 = y + (h * ys) / 4;
+            packs->v2 = packs->v3 = y + (h * (ys + 1)) / 4 - 1;
+
+            if (++param->vz >= 16)
+            {
+                param->vz = 0;
+            }
+
+            shade = param->vx * 16;
+            if (shade > 255)
+            {
+                shade = 255;
+            }
+
+            if (param->vy > 0)
+            {
+                shade -= param->vy;
+                if (shade < 0)
+                {
+                    shade = 0;
+                }
+
+                param->vy /= 2;
+            }
+
+            setRGB0(packs, shade, shade, shade);
+
+            vert->pad -= 10;
+            if (vert->pad < 200)
+            {
+                vert->pad = 200;
+            }
+
+            if (vert->pad != 200)
+            {
+                vert->vy -= 10;
+            }
+
+            param->vx--;
+        }
+        else
+        {
+            vert->pad = 0;
+            setRGB0(packs, 0, 0, 0);
+        }
+
+        vert++;
+        param++;
+        packs++;
+    }
+}
