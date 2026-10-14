@@ -51,7 +51,7 @@ typedef struct _LiquidWork
     char           pad_96C[0x970 - 0x96C];
     SVECTOR        f970;          /* 0x970 */
     int            f978;          /* 0x978 */
-    char           pad_97C[0x980 - 0x97C];
+    int            f97C;          /* 0x97C */
     int            f980;          /* 0x980 */
     int            f984;          /* 0x984 */
     int            life;          /* 0x988 */

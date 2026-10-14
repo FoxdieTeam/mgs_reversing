@@ -8,6 +8,7 @@
 #include "mts/mts.h" // for fprintf
 #include "okajima/blood.h"
 #include "anime/animconv/anime.h"
+#include "takabe/cineutil.h"
 
 /* Liquid's brain and moves (a cut-down copy of the snake code), original file name unknown */
 
@@ -146,12 +147,10 @@ int s18a_800CCAE0(int area, int dir);
 int s18a_800CCB38(int area, int dir);
 int s18a_800CCB90(int area, int dir);
 int s18a_800CCBE8(int area, int dir);
-extern int s18a_dword_800C3480;
-extern int s18a_dword_800C3484;
-extern int s18a_dword_800C3488;
-extern int s18a_dword_800C348C;
-extern int s18a_dword_800C3490;
-extern SVECTOR s18a_dword_800C33DC[4][2];
+void  s18a_800CCDA8(void);
+void  s18a_liquid_800C5200(int mode);
+void *NewCountdown(int time, int proc);
+void  SetCountdownTime(int time);
 /*--FUNCS--*/
 
 int s18a_800C722C(SVECTOR *pos, short *out)
@@ -3633,13 +3632,331 @@ void s18a_800CCE24(LiquidWork *work, int type)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCF48.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD2D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD4AC.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD504.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD544.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD59C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD62C.s")
+void s18a_800CCF48(LiquidWork *work)
+{
+    int r;
+
+    if (s18a_dword_800C3480 == 0)
+    {
+        s18a_dword_800C3484 = 0;
+        s18a_dword_800C3488 = 0;
+        s18a_dword_800C348C = 0;
+        s18a_dword_800C3490 = 0;
+    }
+
+    if (s18a_dword_800C3484 == 0 && s18a_dword_800C3480 > 30)
+    {
+        if (GM_StreamStatus() == -1)
+        {
+            if (work->dead_timer == 0)
+            {
+                GM_VoxStream(work->voices[13], 0);
+            }
+            s18a_dword_800C3484++;
+        }
+    }
+
+    switch (s18a_dword_800C3488)
+    {
+    case 0:
+        if (GM_PlayerStatus & PLAYER_ACT_ONLY)
+        {
+            s18a_dword_800C3488 = 1;
+        }
+        break;
+
+    case 1:
+        if (GM_StreamStatus() == -1)
+        {
+            switch (work->control.mov.vy % 2)
+            {
+            case 0:
+                if (work->dead_timer == 0)
+                {
+                    GM_VoxStream(work->voices[1], 0);
+                }
+                break;
+            }
+
+            s18a_dword_800C3488 = 2;
+        }
+        else
+        {
+            s18a_dword_800C3488 = 2;
+        }
+        break;
+
+    case 2:
+        if (!(GM_PlayerStatus & PLAYER_ACT_ONLY))
+        {
+            s18a_dword_800C3488 = 0;
+        }
+        break;
+    }
+
+    switch (s18a_dword_800C348C)
+    {
+    case 0:
+        if (GM_PlayerStatus & (PLAYER_DAMAGED | PLAYER_DOWNED))
+        {
+            s18a_dword_800C348C = 1;
+        }
+        break;
+
+    case 1:
+        if (GM_StreamStatus() == -1)
+        {
+            r = work->control.mov.vy % 4;
+            if (work->dead_timer == 0)
+            {
+                switch (r)
+                {
+                case 0:
+                    GM_VoxStream(work->voices[6], 0);
+                    break;
+
+                case 1:
+                    GM_VoxStream(work->voices[2], 0);
+                    break;
+                }
+            }
+
+            s18a_dword_800C348C = 2;
+        }
+        else
+        {
+            s18a_dword_800C348C = 2;
+        }
+        break;
+
+    case 2:
+        if (!(GM_PlayerStatus & (PLAYER_DAMAGED | PLAYER_DOWNED)))
+        {
+            s18a_dword_800C348C = 0;
+        }
+        break;
+    }
+
+    if (GM_StreamStatus() == -1)
+    {
+        r = s18a_dword_800C3490 % 12;
+        if (work->dead_timer == 0)
+        {
+            switch (r)
+            {
+            case 1:
+                GM_VoxStream(work->voices[5], 0);
+                s18a_dword_800C3490++;
+                break;
+
+            case 4:
+                GM_VoxStream(work->voices[15], 0);
+                s18a_dword_800C3490++;
+                break;
+
+            case 7:
+                GM_VoxStream(work->voices[14], 0);
+                s18a_dword_800C3490++;
+                break;
+
+            case 10:
+                GM_VoxStream(work->voices[2], 0);
+                s18a_dword_800C3490++;
+                break;
+            }
+        }
+    }
+
+    s18a_dword_800C3480++;
+}
+
+void s18a_800CD2D8(LiquidWork *work)
+{
+    int r;
+
+    if (s18a_dword_800C3480 == 0)
+    {
+        s18a_dword_800C3484 = 0;
+        s18a_dword_800C3488 = 0;
+        s18a_dword_800C348C = 0;
+        s18a_dword_800C3490 = 0;
+    }
+
+    if (s18a_dword_800C3484 == 0 && s18a_dword_800C3480 > 30)
+    {
+        if (GM_StreamStatus() == -1)
+        {
+            if (work->dead_timer == 0)
+            {
+                GM_VoxStream(work->voices[13], 0);
+            }
+            s18a_dword_800C3484++;
+        }
+    }
+
+    switch (s18a_dword_800C3488)
+    {
+    case 0:
+        if (GM_PlayerStatus & (PLAYER_DOWNED | PLAYER_ACT_ONLY))
+        {
+            s18a_dword_800C3488 = 1;
+        }
+        break;
+
+    case 1:
+        if (GM_StreamStatus() == -1)
+        {
+            r = work->control.mov.vy % 2;
+            if (work->dead_timer == 0)
+            {
+                switch (r)
+                {
+                case 0:
+                    GM_VoxStream(work->voices[4], 0);
+                    break;
+
+                case 1:
+                    GM_VoxStream(work->voices[7], 0);
+                    break;
+                }
+            }
+
+            s18a_dword_800C3488 = 2;
+        }
+        else
+        {
+            s18a_dword_800C3488 = 2;
+        }
+        break;
+
+    case 2:
+        if (!(GM_PlayerStatus & (PLAYER_DOWNED | PLAYER_ACT_ONLY)))
+        {
+            s18a_dword_800C3488 = 0;
+        }
+        break;
+    }
+
+    s18a_dword_800C3480++;
+}
+
+int s18a_800CD4AC(LiquidWork *work)
+{
+    int mode;
+
+    mode = work->f9B8;
+    if (mode == 3 || mode == 4 || mode == 36)
+    {
+        if (mode == 4)
+        {
+            work->f99C = 0;
+        }
+        else
+        {
+            work->f99C = 1;
+        }
+
+        work->f960 = 4;
+        work->f964 = 29;
+        return 1;
+    }
+
+    return 0;
+}
+
+int s18a_800CD504(LiquidWork *work)
+{
+    int mode;
+
+    mode = work->f9B8;
+    if (mode == 3 || mode == 4 || mode == 36)
+    {
+        work->f960 = 4;
+        work->f964 = 29;
+        return 1;
+    }
+
+    return 0;
+}
+
+int s18a_800CD544(LiquidWork *work)
+{
+    int mode;
+
+    mode = work->f9B8;
+    if (mode == 3 || mode == 4 || mode == 36)
+    {
+        if (mode == 4)
+        {
+            work->f99C = 0;
+        }
+        else
+        {
+            work->f99C = 1;
+        }
+
+        work->f960 = 4;
+        work->f964 = 29;
+        return 1;
+    }
+
+    return 0;
+}
+
+void s18a_800CD59C(LiquidWork *work)
+{
+    s18a_800CCDA8();
+
+    if (work->f9BE)
+    {
+        NewCountdown(5400, -1);
+        GM_AlertModeSet(4);
+        s18a_liquid_800C5200(4);
+        work->f964 = 18;
+
+        if (work->proc_s >= 0)
+        {
+            GCL_ExecProc(work->proc_s, NULL);
+        }
+
+        DG_InvisibleObjs(work->weapon.objs);
+    }
+    else
+    {
+        work->f964 = 1;
+    }
+
+    work->f97C = 0;
+    work->f968 = 0;
+}
+
+void s18a_800CD62C(LiquidWork *work)
+{
+    work->cmd = 6;
+    GM_GameStatus |= STATE_PADRELEASE;
+    work->f954 = work->f9AC;
+
+    if (work->f968 == 0)
+    {
+        OpenCinemaScreen(1, 60000);
+        GM_VoxStream(work->voices[16], 0x40000000);
+        NewCountdown(5400, -1);
+    }
+
+    SetCountdownTime(5400);
+
+    if (work->f968 > 30)
+    {
+        work->f964 = 2;
+        work->f97C = 0;
+        work->f968 = 0;
+    }
+    else
+    {
+        work->f968++;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD6D0.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD758.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD7F4.s")
