@@ -22,7 +22,7 @@ typedef struct _Work
     GV_ACT      actor;
     int         map;                    // 0x20
     DG_PRIM    *prims[N_BEAMS];         // 0x24
-    SVECTOR     verts[N_BEAMS][4];      // 0x40
+    SVECTOR     verts[N_BEAMS * 4];     // 0x40
     SVECTOR     offsets[N_BEAMS];       // 0x120
     int         timers[N_BEAMS];        // 0x158
     int         time_max;               // 0x174
@@ -55,7 +55,7 @@ RECT ninjalzr_bubble_rect = {50, 50, 100, 100};
 
 void s17a_800D4DC0(Work *work);
 void NinjaLaser_Die(Work *work);
-void NinjaLaser_AddLight(Work *work, MATRIX *world, int size, char r, char g, char b, char life, char arg7, char arg8, char arg9);
+void NinjaLaser_AddLight(Work *work, MATRIX *world, int size, u_char r, u_char g, u_char b, u_char life, u_char arg7, u_char arg8, u_char arg9);
 void       *NewNinjaLaserBubble(MATRIX *world);
 
 void *NewNinjaLaser(MATRIX *root, int size, int time)
@@ -80,7 +80,7 @@ void *NewNinjaLaser(MATRIX *root, int size, int time)
 
     for (i = 0; i < N_BEAMS; i++)
     {
-        work->prims[i] = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->verts[i], NULL);
+        work->prims[i] = GM_MakePrim(DG_PRIM_POLY_FT4, 1, &work->verts[i * 4], NULL);
 
 #define PACK0   (((POLY_FT4 *)work->prims[i]->packs[0]) + 0)
 #define PACK1   (((POLY_FT4 *)work->prims[i]->packs[0]) + 1)
@@ -123,24 +123,19 @@ void *NewNinjaLaser(MATRIX *root, int size, int time)
     return (void *)work;
 }
 
-/* NON_MATCHING: functionally equivalent draft, register allocation differs.
- * (Die is not static because a static function following an INCLUDE_ASM
- * function would be merged into it by include_asm_fixup.py) */
-#if 0
 void s17a_800D4DC0(Work *work)
 {
+    VECTOR   scale;
     SVECTOR  vec;
     SVECTOR  rot;
     MATRIX   world;
     MATRIX   mtx;
-    VECTOR   scale;
     SVECTOR *verts;
     int      i;
-    int      range, half;
+    int      half;
     int      n_beams;
     int      mask, base;
     int      t;
-    int      div;
 
     if (work->time <= 0)
     {
@@ -179,17 +174,17 @@ void s17a_800D4DC0(Work *work)
     ReadRotMatrix(&world);
     ReadRotMatrix(&work->world);
 
-    range = work->size / 10;
-    half = range >> 1;
-    work->world.t[0] += rand() % range - half;
-    work->world.t[1] += rand() % range - half;
-    work->world.t[2] += rand() % range - half;
+    i = work->size / 10;
+    half = i >> 1;
+    work->world.t[0] += rand() % i - half;
+    work->world.t[1] += rand() % i - half;
+    work->world.t[2] += rand() % i - half;
 
     t = work->time;
     if (t > 30)
     {
-        div = t - 30;
-        NinjaLaser_AddLight(work, &world, work->size >> 1, 127 / div, 127 / div, 255 / div, 6, 0, 0, 0);
+        i = t - 30;
+        NinjaLaser_AddLight(work, &world, work->size >> 1, 127 / i, 127 / i, 255 / i, 6, 0, 0, 0);
 
         n_beams = ((work->time_max - work->time) * 7) / (work->time_max - 30);
         mask = ((work->time - 30) * 8) / (work->time_max - 30);
@@ -219,17 +214,17 @@ void s17a_800D4DC0(Work *work)
                 work->timers[i]--;
             }
 
-            verts = work->verts[i];
-            memset(verts, 0, sizeof(work->verts[i]));
+            verts = &work->verts[i * 4];
+            memset(verts, 0, sizeof(SVECTOR) * 4);
 
-            verts[0].vx = -(work->size >> 5);
-            verts[0].vy = -(work->size >> 5);
-            verts[1].vx = -(work->size >> 5);
-            verts[1].vy = work->size >> 5;
-            verts[2].vx = work->size >> 5;
-            verts[2].vy = -(work->size >> 5);
-            verts[3].vx = work->size >> 5;
-            verts[3].vy = work->size >> 5;
+            work->verts[i * 4 + 0].vx = -(work->size >> 5);
+            work->verts[i * 4 + 0].vy = -(work->size >> 5);
+            work->verts[i * 4 + 1].vx = -(work->size >> 5);
+            work->verts[i * 4 + 1].vy = work->size >> 5;
+            work->verts[i * 4 + 2].vx = work->size >> 5;
+            work->verts[i * 4 + 2].vy = -(work->size >> 5);
+            work->verts[i * 4 + 3].vx = work->size >> 5;
+            work->verts[i * 4 + 3].vy = work->size >> 5;
 
             vec.vx = (world.t[0] - gUnkCameraStruct2_800B7868.position.vx) >> 2;
             vec.vy = (world.t[1] - gUnkCameraStruct2_800B7868.position.vy) >> 2;
@@ -278,8 +273,8 @@ void s17a_800D4DC0(Work *work)
 
         if (work->time >= 7)
         {
-            div = 30 - work->time;
-            NinjaLaser_AddLight(work, &world, work->size, 127 / div, 127 / div, 255 / div, 6, 0, 0, 0);
+            i = 30 - work->time;
+            NinjaLaser_AddLight(work, &world, work->size, 127 / i, 127 / i, 255 / i, 6, 0, 0, 0);
         }
 
         if (work->time >= 11)
@@ -289,8 +284,8 @@ void s17a_800D4DC0(Work *work)
             DG_SetPos(&world);
             DG_MovePos(&vec);
             ReadRotMatrix(&mtx);
-            div = 30 - work->time;
-            NinjaLaser_AddLight(work, &mtx, work->size >> 1, 95 / div, 95 / div, 255 / div, 6, 0, 0, 0);
+            i = 30 - work->time;
+            NinjaLaser_AddLight(work, &mtx, work->size >> 1, 95 / i, 95 / i, 255 / i, 6, 0, 0, 0);
         }
 
         if (work->time >= 16)
@@ -300,15 +295,13 @@ void s17a_800D4DC0(Work *work)
             DG_SetPos(&world);
             DG_MovePos(&vec);
             ReadRotMatrix(&mtx);
-            div = 30 - work->time;
-            NinjaLaser_AddLight(work, &mtx, work->size >> 1, 63 / div, 63 / div, 255 / div, 6, 0, 0, 0);
+            i = 30 - work->time;
+            NinjaLaser_AddLight(work, &mtx, work->size >> 1, 63 / i, 63 / i, 255 / i, 6, 0, 0, 0);
         }
     }
 
     work->time--;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800D4DC0.s")
 
 void NinjaLaser_Die(Work *work)
 {
@@ -318,7 +311,7 @@ void NinjaLaser_Die(Work *work)
     }
 }
 
-void NinjaLaser_AddLight(Work *work, MATRIX *world, int size, char r, char g, char b, char life, char arg7, char arg8, char arg9)
+void NinjaLaser_AddLight(Work *work, MATRIX *world, int size, u_char r, u_char g, u_char b, u_char life, u_char arg7, u_char arg8, u_char arg9)
 {
     int i;
 
