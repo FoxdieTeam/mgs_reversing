@@ -3,7 +3,7 @@
 
 #include "game/game.h"
 
-/* Data tables shared by b_select.c and b_graph.c (defined in overlay2.c) */
+/* Data table types of b_select.c and b_graph.c */
 
 typedef struct
 {
@@ -56,11 +56,7 @@ typedef struct
     const char *text;
 } BrfText;
 
-extern BrfResource    brf_vram_files[19];
-extern BrfResource    brf_main_files[19];
-extern int            brf_800C33E4[19];
-extern BrfLoad        brf_load_table[16];
-extern BrfCountParam  brf_count_params[19];
+/* b_graph.c data (overlay2.c) */
 extern short          brf_poly_counts[20];
 extern BrfKeyframe   *brf_timelines[19];
 extern u_short       *brf_mouth_textures[12];

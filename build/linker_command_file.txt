@@ -2201,9 +2201,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "brf" %}
     include "{{OBJ_DIR}}\stage\brf.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\brf\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\brf\onoda\brf\b_select.obj", overlay
+
+    include "{{OBJ_DIR}}\overlays\brf\overlay2.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\brf\onoda\brf\b_graph.obj", overlay
 

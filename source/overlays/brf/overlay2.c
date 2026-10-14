@@ -1,33 +1,5 @@
 #include "overlays/brf/onoda/brf/brf.h"
 
-extern const char brf_dword_800E0F3C[];
-extern const char brf_dword_800E0F48[];
-extern const char brf_dword_800E0F54[];
-extern const char brf_dword_800E0F60[];
-extern const char brf_dword_800E0F6C[];
-extern const char brf_dword_800E0F78[];
-extern const char brf_dword_800E0F84[];
-extern const char brf_dword_800E0F90[];
-extern const char brf_dword_800E0F9C[];
-extern const char brf_dword_800E0FA8[];
-extern const char brf_dword_800E0FB4[];
-extern const char brf_dword_800E0FC0[];
-extern const char brf_dword_800E0FCC[];
-extern const char brf_dword_800E0FD8[];
-extern const char brf_dword_800E0FE4[];
-extern const char brf_dword_800E0FF0[];
-extern const char brf_dword_800E0FFC[];
-extern const char brf_dword_800E1008[];
-extern const char brf_dword_800E1014[];
-extern const char brf_dword_800E1020[];
-extern const char brf_dword_800E102C[];
-extern const char brf_dword_800E1038[];
-extern const char brf_dword_800E1044[];
-extern const char brf_dword_800E1050[];
-extern const char brf_dword_800E105C[];
-extern const char brf_dword_800E1068[];
-extern const char brf_dword_800E1074[];
-extern const char brf_dword_800E107C[];
 extern const char brf_dword_800E13BC[];
 extern const char brf_dword_800E13D8[];
 extern const char brf_dword_800E13F4[];
@@ -150,104 +122,12 @@ void brf_800DBA7C();
 void brf_800DCFB4();
 void brf_800DD648();
 
-/* .data of the briefing overlay (b_select.c and b_graph.c) */
-
-/* used by brf_800C56C0 */
-char *brf_800C3218 = (char *)0x801CD000;
-
-/* "sNNv.dbl": textures loaded into VRAM (brf_800C5350) */
-BrfResource brf_vram_files[19] = {
-    {brf_dword_800E1014, 0x4B, 0x33215},
-    {brf_dword_800E1008, 0xB2, 0x165E5},
-    {brf_dword_800E0FFC, 0xDF, 0x1F785},
-    {brf_dword_800E0FF0, 0x11E, 0x217FD},
-    {brf_dword_800E0FE4, 0x161, 0x1D801},
-    {brf_dword_800E0FD8, 0x19D, 0x2D185},
-    {brf_dword_800E0FCC, 0x1F8, 0x2D505},
-    {brf_dword_800E0FC0, 0x253, 0x16725},
-    {brf_dword_800E0FB4, 0x294, 0x3BF55},
-    {brf_dword_800E0FA8, 0x30C, 0x2B4A5},
-    {brf_dword_800E0F9C, 0x37F, 0x424A9},
-    {brf_dword_800E0F90, 0x418, 0x3BF55},
-    {brf_dword_800E0F84, 0x490, 0x455C9},
-    {brf_dword_800E0F78, 0x529, 0x334F5},
-    {brf_dword_800E0F6C, 0x590, 0x3CAFD},
-    {brf_dword_800E0F60, 0x65E, 0x3BB61},
-    {brf_dword_800E0F54, 0x743, 0x2D715},
-    {brf_dword_800E0F48, 0x7C0, 0x398D5},
-    {brf_dword_800E0F3C, 0x834, 0x14C5},
-};
-
-/* "sNNc.dbl": textures kept in main memory (brf_800C53E4) */
-BrfResource brf_main_files[19] = {
-    {brf_dword_800E107C, 0x0, 0x254D9},
-    {brf_dword_800E1074, 0x0, 0x0},
-    {brf_dword_800E1074, 0x0, 0x0},
-    {brf_dword_800E1074, 0x0, 0x0},
-    {brf_dword_800E1074, 0x0, 0x0},
-    {brf_dword_800E1074, 0x0, 0x0},
-    {brf_dword_800E1074, 0x0, 0x0},
-    {brf_dword_800E1074, 0x0, 0x0},
-    {brf_dword_800E1068, 0x280, 0x9811},
-    {brf_dword_800E1074, 0x0, 0x0},
-    {brf_dword_800E105C, 0x363, 0xDFC9},
-    {brf_dword_800E1050, 0x404, 0x9811},
-    {brf_dword_800E1074, 0x0, 0x0},
-    {brf_dword_800E1044, 0x51B, 0x6CB5},
-    {brf_dword_800E1074, 0x0, 0x0},
-    {brf_dword_800E1038, 0x60A, 0x29D59},
-    {brf_dword_800E102C, 0x6D6, 0x3632D},
-    {brf_dword_800E1020, 0x79E, 0x10AB1},
-    {brf_dword_800E1074, 0x0, 0x0},
-};
-
-/* per briefing index, passed to NewBriefingGraph/NewBriefingCount */
-int brf_800C33E4[19] = {
-    0xA16, 0x2C7, 0x933, 0x59C, 0x505, 0x9F1, 0x913, 0x4E1, 0x819, 0xBF3, 0x975, 0x3C0, 0xB60, 0x93E, 0x7D5, 0xC6E, 0x12FF, 0xD5A, 0x267,
-};
-
-/* files to load for the menu states 9.. (brf_800C600C) */
-BrfLoad brf_load_table[16] = {
-    {1, 0x0},
-    {0, 0x1},
-    {0, 0x2},
-    {0, 0x3},
-    {0, 0x4},
-    {0, 0x5},
-    {0, 0x6},
-    {0, 0x7},
-    {1, 0x8},
-    {0, 0x9},
-    {1, 0xA},
-    {1, 0xB},
-    {0, 0xC},
-    {1, 0xD},
-    {0, 0xE},
-    {1, 0xF},
-};
-
-/* NewBriefingCount() parameters per briefing index */
-BrfCountParam brf_count_params[19] = {
-    {0x0, 0x2, 0x31, 0x1, 0, 0},
-    {0x0, 0x9, 0x11, 0x1, 0, 0},
-    {0x0, 0x9, 0x29, 0x1, 1, 0},
-    {0x0, 0xB, 0x1, 0x1, 1, 0},
-    {0x0, 0x14, 0x16, 0x1, 0, 0},
-    {0x0, 0x15, 0x5, 0x1, 0, 0},
-    {0x0, 0x16, 0x20, 0x1, 0, 0},
-    {0x0, 0x4, 0x12, 0x1, 0, 0},
-    {0x0, 0x4, 0x3B, 0x1, 1, 1},
-    {0x0, 0x6, 0x9, 0x1, 0, 0},
-    {0x0, 0x7, 0x36, 0x1, 0, 0},
-    {0x0, 0xB, 0x31, 0x1, 1, 1},
-    {0x0, 0xC, 0x15, 0x1, 0, 0},
-    {0x0, 0xE, 0x1, 0x1, 0, 0},
-    {0x0, 0xF, 0x16, 0x1, 0, 0},
-    {0x0, 0x10, 0x22, 0x1, 0, 0},
-    {0x0, 0x0, 0x0, 0x1, 0, 0},
-    {0x0, 0x12, 0x18, 0x1, 0, 0},
-    {0x0, 0x17, 0x27, 0x0, 0, 0},
-};
+/*
+ * .data of b_graph.c. It belongs to b_graph.c (which links right after this
+ * file), but defining it there changes how the assembler splits b_graph's code
+ * records, which trips build/include_asm_fixup.py (objlib) on the INCLUDE_ASM
+ * functions, so it is kept in this data-only file for now.
+ */
 
 /* number of b_graph polys in use per briefing index */
 short brf_poly_counts[20] = {
