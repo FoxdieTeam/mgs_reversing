@@ -842,7 +842,7 @@ void s11g_hind_800D61F8(HindWork *work)
     work->field_664.vz = GV_RandS(512);
 }
 
-void s11g_hind_800D6260(int *vec, int *pos, int *old, int len)
+void s11g_hind_800D6260(long *vec, long *pos, long *old, int len)
 {
     int interp;
 
@@ -953,71 +953,3 @@ void s11g_hind_800D66F0(HindWork *work)
         AN_Smoke_800CE164(&pos, &speed, 1, 3);
     }
 }
-
-const int s11g_dword_800DD190 = 0x800D68E0;
-const int s11g_dword_800DD194 = 0x800D68F0;
-const int s11g_dword_800DD198 = 0x800D69E4;
-const int s11g_dword_800DD19C = 0x800D7628;
-const int s11g_dword_800DD1A0 = 0x800D7628;
-const int s11g_dword_800DD1A4 = 0x800D7020;
-const int s11g_dword_800DD1A8 = 0x800D70A8;
-const int s11g_dword_800DD1AC = 0x800D724C;
-const int s11g_dword_800DD1B0 = 0x800D743C;
-const int s11g_dword_800DD1B4 = 0x800D7628;
-const int s11g_dword_800DD1B8 = 0x800D7628;
-const int s11g_dword_800DD1BC = 0x800D7628;
-const int s11g_dword_800DD1C0 = 0x800D7628;
-const int s11g_dword_800DD1C4 = 0x800D7628;
-const int s11g_dword_800DD1C8 = 0x800D7628;
-const int s11g_dword_800DD1CC = 0x800D7628;
-const int s11g_dword_800DD1D0 = 0x800D7628;
-const int s11g_dword_800DD1D4 = 0x800D6A54;
-const int s11g_dword_800DD1D8 = 0x800D6BE0;
-const int s11g_dword_800DD1DC = 0x800D7628;
-const int s11g_dword_800DD1E0 = 0x800D7628;
-const int s11g_dword_800DD1E4 = 0x800D6D40;
-
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D6848.s")
-
-const int s11g_dword_800DD1E8 = 0x800D7700;
-const int s11g_dword_800DD1EC = 0x800D776C;
-const int s11g_dword_800DD1F0 = 0x800D7868;
-const int s11g_dword_800DD1F4 = 0x800D9260;
-const int s11g_dword_800DD1F8 = 0x800D9260;
-const int s11g_dword_800DD1FC = 0x800D7FB4;
-const int s11g_dword_800DD200 = 0x800D80D8;
-const int s11g_dword_800DD204 = 0x800D827C;
-const int s11g_dword_800DD208 = 0x800D8458;
-const int s11g_dword_800DD20C = 0x800D8D58;
-const int s11g_dword_800DD210 = 0x800D90B4;
-const int s11g_dword_800DD214 = 0x800D9260;
-const int s11g_dword_800DD218 = 0x800D9260;
-const int s11g_dword_800DD21C = 0x800D9260;
-const int s11g_dword_800DD220 = 0x800D9260;
-const int s11g_dword_800DD224 = 0x800D9260;
-const int s11g_dword_800DD228 = 0x800D9260;
-const int s11g_dword_800DD22C = 0x800D78D8;
-const int s11g_dword_800DD230 = 0x800D7A68;
-const int s11g_dword_800DD234 = 0x800D9260;
-const int s11g_dword_800DD238 = 0x800D9260;
-const int s11g_dword_800DD23C = 0x800D7C3C;
-const int s11g_dword_800DD240 = 0x800D96F0;
-const int s11g_dword_800DD244 = 0x800D9B70;
-const int s11g_dword_800DD248 = 0x800D9B70;
-const int s11g_dword_800DD24C = 0x800D9B70;
-const int s11g_dword_800DD250 = 0x800D974C;
-const int s11g_dword_800DD254 = 0x800D9858;
-const int s11g_dword_800DD258 = 0x800D9A74;
-const int s11g_dword_800DD25C = 0x800D9B40;
-const int s11g_dword_800DD260 = 0x800D9BC4;
-const int s11g_dword_800DD264 = 0x800DA520;
-const int s11g_dword_800DD268 = 0x800DA520;
-const int s11g_dword_800DD26C = 0x800DA520;
-const int s11g_dword_800DD270 = 0x800D9C08;
-const int s11g_dword_800DD274 = 0x800D9D74;
-const int s11g_dword_800DD278 = 0x800D9FD8;
-const int s11g_dword_800DD27C = 0x800DA0E0;
-const int s11g_dword_800DD280 = 0x800DA2B4;
-const int s11g_dword_800DD284 = 0x00000000;
-
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D7644.s")

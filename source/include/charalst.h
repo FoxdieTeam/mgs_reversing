@@ -20,7 +20,7 @@
 
 #define CHARA_10A_DEMO          { 0x40e9, NewStage10ADemo }         // okajima/10a_demo.c
 #define CHARA_S11_OBJS          { 0xe068, NewStage11Objects }       // GV_StrCode("コントロールＳ１１物") okajima/s11_objs.c
-#define CHARA_11B_DEMO          { 0xd53c, ? }                       // okajima/11b_demo.c
+#define CHARA_11B_DEMO          { 0xd53c, NewStage11BDemo }         // okajima/11b_demo.c
 #define CHARA_11G_DEMO          { 0x153e, NewStage11GDemo }         // okajima/11g_demo.c
 #define CHARA_9FFD_2ND          { 0x9ffd, GM_SetSecondAvailable }   // game/second.c
 #define CHARA_2D0A_2ND          { 0x2d0a, ? }                       // game/second.c
@@ -317,7 +317,7 @@
 #define DEMO_BLOOD              { 0x0009, NewBlood }                // okajima/blood.c
 #define DEMO_BLOOD2             { 0x000a, NewSplash_800C8D6C }      // okajima/splash.c
 #define DEMO_BULLET             { 0x000b, NewBulletEx }             // okajima/bullet.c
-#define DEMO_MISSILESMOKE       { 0x000c, ? }                       // --> anime/animconv/anime.c
+#define DEMO_MISSILESMOKE       { 0x000c, NewAnime_8005E258 }       // --> anime/animconv/anime.c
 #define DEMO_BLOODCIRCLE        { 0x000d, NewKetchap_s }            // okajima/d_bloods.c
 #define DEMO_BREATH             { 0x000e, AN_Breath }               // --> anime/animconv/anime.c
 #define DEMO_SHADOW             { 0x000f, NewDemoKage }             // enemy/demokage.c
@@ -353,7 +353,7 @@
 #define DEMO_NINJASWORD         { 0x002d, NewDemoKatana }           // enemy/katana.c
 #define DEMO_SUBMARINEROOM      { 0x002e, NewSubRoom_800C815C }     // okajima/sub_room.c
 #define DEMO_BLACKSMOKE2        { 0x002f, AN_Smoke_800CE164 }       // ???
-#define DEMO_BLASTLINE          { 0x0030, ? }                       // okajima/blst_ln.c
+#define DEMO_BLASTLINE          { 0x0030, NewBlastLine }            // okajima/blst_ln.c
 #define DEMO_SMOKELINE          { 0x0031, NewSmokeLn_800CDFA4 }     // okajima/smke_ln.c
 #define DEMO_SHELLSMOKE         { 0x0032, ? }                       // kojo/m1e1smke.c
 #define DEMO_CATERPILLERSMOKE   { 0x0033, demothrd_2_8007DA94 }     // --> anime/animconv/anime.c
@@ -396,6 +396,7 @@
 extern NEWCHARA AN_Breath;                      /* --> anime/animconv/anime.c   */
 extern NEWCHARA AN_Smoke_800CE08C;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA AN_Smoke_800CE164;              /* --> anime/animconv/anime.c   */
+extern NEWCHARA NewAnime_8005E258;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA NewAnime_8005E574;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA NewAnime_8005E6A4;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA demothrd_2_8007DA94;            /* --> anime/animconv/anime.c   */
@@ -479,11 +480,13 @@ extern NEWCHARA NewInverseLight2;               /* kojo/inverlt2.c              
 extern NEWCHARA NewSnowStorm;                   /* kojo/sstorm.c                */
 extern NEWCHARA NewLoadData;                    /* menu/mload.c                 */
 extern NEWCHARA NewStage10ADemo;                /* okajima/10a_demo.c           */
+extern NEWCHARA NewStage11BDemo;                /* okajima/11b_demo.c           */
 extern NEWCHARA NewStage11GDemo;                /* okajima/11g_demo.c           */
 extern NEWCHARA NewBlinkTexture;                /* okajima/blink_tx.c           */
 extern NEWCHARA NewBlood;                       /* okajima/blood.c              */
 extern NEWCHARA NewBloodBl;                     /* okajima/blood_bl.c           */
 extern NEWCHARA NewBloodCl;                     /* okajima/blood_cl.c           */
+extern NEWCHARA NewBlastLine;                   /* okajima/blst_ln.c            */
 extern NEWCHARA NewBlurSet;                     /* okajima/blur.c               */
 extern NEWCHARA NewBlurPure;                    /* okajima/blurpure.c           */
 extern NEWCHARA NewBubbleDSn;                   /* okajima/bub_d_sn.c           */
