@@ -3922,7 +3922,6 @@ void brf_800D52F0(Work *work)
         }
         else
         {
-call_cece4:
             brf_800CECE4(work);
         }
         break;

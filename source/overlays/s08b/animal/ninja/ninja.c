@@ -1653,7 +1653,7 @@ void s08b_bunsin2_800CB158(Work *work, int time)
         {
             control->step.vx = 0;
             control->step.vz = 0;
-            work->target->class |= 0x1F;
+            work->target->class |= TARGET_FLAG;
         }
         else if (s08b_bunsin2_800C9120(work) == 0)
         {
@@ -1750,7 +1750,7 @@ void s08b_bunsin2_800CB38C(Work *work, int time)
         {
             control->step.vx = 0;
             control->step.vz = 0;
-            work->target->class |= 0x1F;
+            work->target->class |= TARGET_FLAG;
         }
         else if (s08b_bunsin2_800C9120(work) == 0)
         {
