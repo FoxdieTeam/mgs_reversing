@@ -541,7 +541,7 @@ void s03d_800D3848(Work *work)
             work->field_ACC = r;
             work->field_AD0 = 0;
         }
-        if (work->field_B26 != 2)
+        if (work->vision.pad != 2)
         {
             if (HZD_InsideZone(work->control.map->hzd, &work->control.mov, work->param.defends[work->param.c_root]) == 0)
             {
@@ -551,7 +551,7 @@ void s03d_800D3848(Work *work)
         break;
     }
     }
-    if (work->field_B26 == 2)
+    if (work->vision.pad == 2)
     {
         ZakoCom_800D4088();
         work->field_B28 = 0xFF;
@@ -590,14 +590,14 @@ void s03d_800D3984(Work *work)
     }
     if (work->field_B90 < work->field_B64)
     {
-        if (work->field_B64 >= 0x1B58 || work->field_B26 == 2)
+        if (work->field_B64 >= 0x1B58 || work->vision.pad == 2)
         {
             work->field_ACA = 2;
             work->field_ACC = 0xC;
             work->field_AD0 = 0;
         }
     }
-    if (work->field_B26 == 2)
+    if (work->vision.pad == 2)
     {
         work->field_B28 = 0xFF;
     }

@@ -9,6 +9,7 @@
 #include "anime/animconv/anime.h"
 #include "enemy/l_sight.h"
 #include "okajima/blood.h"
+#include "bullet/tenage.h"
 #include "okajima/bullet.h"
 
 extern int s03d_dword_800C39B0;
@@ -28,7 +29,10 @@ extern short s03d_word_800C3A00[2];
 extern int s03d_dword_800C3A04;
 extern int s03d_dword_800C3A08;
 extern int s03d_dword_800C3A0C;
-extern int s03d_dword_800C39E0;
+extern short s03d_word_800C39E0[4];
+extern SVECTOR s03d_dword_800C3A44;
+extern SVECTOR s03d_dword_800C3A4C;
+extern SVECTOR s03d_dword_800C3A54;
 extern int s03d_dword_800C39FC;
 extern short s03d_word_800C3A38[2];
 extern short s03d_word_800C3A3C[2];
@@ -51,6 +55,23 @@ void AN_Sleep(SVECTOR *svec);
 void *AN_Breath(MATRIX *world);
 void *AN_HeadMark(MATRIX *world, int mark);
 
+void s03d_800D05DC(Work *work, int arg);
+void s03d_800D0698(Work *work, int arg);
+void s03d_800D0754(Work *work, int arg);
+void s03d_800D07DC(Work *work, int arg);
+void s03d_800D085C(Work *work, int arg);
+void s03d_800D08DC(Work *work, int arg);
+void s03d_800D0958(Work *work, int arg);
+void s03d_800D09D8(Work *work, int arg);
+void s03d_800CE5B4(Work *work, int arg);
+void s03d_800CE644(Work *work, int arg);
+int s03d_800CDF94(Work *work);
+void s03d_800CE318(Work *work, int arg);
+void s03d_800CE8F4(Work *work, int arg);
+void s03d_800CE9E8(Work *work, int arg);
+void s03d_800CEB38(Work *work, int arg);
+void s03d_800CECBC(Work *work, int arg);
+void s03d_800CE2C0(Work *work, int arg1);
 void s03d_800D01C4(struct _Work *work, int arg);
 void s03d_800D0324(struct _Work *work, int arg);
 void s03d_800CF68C(struct _Work *work, int arg);
@@ -412,7 +433,57 @@ void Zako_800CDF2C(Work *work)
     GM_PowerTarget(t);
 }
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDF94.s")
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE12C.s")
+void s03d_800CE12C(Work *work, int arg)
+{
+    work->target->class |= 0x9E;
+    if (ZAKOCOM_MGR->field_1C == 0)
+    {
+        work->target->class |= 0x40;
+    }
+    work->vision.length = 0xFA0;
+    if (arg == 0)
+    {
+        work->act.motion1 = 0;
+        GM_ConfigObjectAction(&work->body, s03d_word_800C39E0[0], 0, 4);
+    }
+    if (Zako_800CDA04(work) || s03d_800CDF94(work))
+    {
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        work->action2 = NULL;
+        work->time2 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+    else
+    {
+        if (work->field_AE6 >= 0)
+        {
+            if (GV_DiffDirAbs(work->control.rot.vy, work->field_AE6) < 0x100)
+            {
+                if (work->field_ADC & 1)
+                {
+                    work->act.motion1 = 2;
+                    GM_ConfigObjectAction(&work->body, s03d_word_800C39E0[2], 0, 4);
+                }
+                else
+                {
+                    work->act.motion1 = 1;
+                    GM_ConfigObjectAction(&work->body, s03d_word_800C39E0[1], 0, 4);
+                }
+                work->action = s03d_800CE318;
+                work->time = 0;
+                work->control.turn.vz = 0;
+                work->control.turn.vx = 0;
+                GM_ConfigMotionAdjust(&work->body, NULL);
+            }
+            else
+            {
+                work->control.turn.vy = work->field_AE6;
+            }
+        }
+        work->vision.facedir = GV_NearExp4P(work->vision.facedir, work->control.rot.vy);
+    }
+}
 void s03d_800CE2C0(Work *work, int arg1)
 {
     int dir = GV_DiffDirS(arg1, work->control.rot.vy);
@@ -428,7 +499,126 @@ void s03d_800CE2C0(Work *work, int arg1)
 
     work->control.turn.vz = dir;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE318.s")
+void s03d_800CE318(Work *work, int arg)
+{
+    CONTROL *ctrl;
+    SVECTOR *vecs;
+    int      dir, motion, touches, touch, touch2, size;
+
+    work->target->class |= 0x9E;
+    if (ZAKOCOM_MGR->field_1C == 0)
+    {
+        work->target->class |= 0x40;
+    }
+    work->vision.length = 0xFA0;
+
+    if (Zako_800CDA04(work))
+    {
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        work->action2 = NULL;
+        work->time2 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return;
+    }
+
+    if (s03d_800CDF94(work))
+    {
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        work->action2 = NULL;
+        work->time2 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return;
+    }
+
+    touch = -1;
+    ctrl = &work->control;
+    vecs = ctrl->vecs;
+    dir = work->field_AE6;
+    motion = work->act.motion1;
+
+    if ((work->field_ADC & 1) && motion != 2)
+    {
+        work->act.motion1 = 2;
+        GM_ConfigObjectAction(&work->body, s03d_word_800C39E0[2], 0, 4);
+    }
+
+    if (dir < 0)
+    {
+        work->action = s03d_800CE12C;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_ConfigMotionAdjust(&work->body, NULL);
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        work->action2 = NULL;
+        work->time2 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return;
+    }
+
+    touches = ctrl->n_touches;
+    if (touches > 0)
+    {
+        touch = GV_VecDir2(vecs);
+        if (touches > 1)
+        {
+            touch2 = GV_VecDir2(&ctrl->vecs[1]);
+            if (GV_DiffDirAbs(dir, touch2) < GV_DiffDirAbs(dir, touch))
+            {
+                touch = touch2;
+            }
+        }
+    }
+
+    if (dir < 0)
+    {
+        work->action = s03d_800CE12C;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_ConfigMotionAdjust(&work->body, NULL);
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        work->action2 = NULL;
+        work->time2 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return;
+    }
+
+    switch (Zako_800CDD40(dir, touch))
+    {
+    case 1:
+        dir = (touch - 1024) & 4095;
+        break;
+    case 2:
+        dir = (touch + 1024) & 4095;
+        break;
+    }
+
+    if (work->body.objs->bound_mode == 0)
+    {
+        ctrl->rot.vy = dir;
+    }
+    ctrl->turn.vy = dir;
+
+    size = 0;
+    if (motion == 1)
+    {
+        size = 50;
+    }
+    else if (motion == 2)
+    {
+        size = 100;
+    }
+
+    ctrl->step.vx = size * rsin(dir) / 4096;
+    ctrl->step.vz = size * rcos(dir) / 4096;
+    s03d_800CE2C0(work, dir);
+    work->vision.facedir = GV_NearExp4P(work->vision.facedir, work->control.rot.vy);
+}
 void s03d_800CE5B4(Work *work, int arg)
 {
     if (arg == 0)
@@ -451,7 +641,7 @@ void s03d_800CE644(Work *work, int arg)
 {
     CONTROL *control = &work->control;
     work->target->class |= 0x9E;
-    work->field_B24 = 0xFA0;
+    work->vision.length = 0xFA0;
     if (arg == 0)
     {
         work->act.motion1 = 0x10;
@@ -477,11 +667,93 @@ void s03d_800CE644(Work *work, int arg)
         control->turn.vy = vy;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE720.s")
+void s03d_800CE720(Work *work, int arg)
+{
+    int status;
+
+    work->target->class |= 0x9E;
+    status = work->field_AD8;
+    work->vision.length = 0xFA0;
+    if (arg == 0)
+    {
+        if (status & 0x10000)
+        {
+            work->act.motion1 = 3;
+            GM_ConfigObjectAction(&work->body, s03d_word_800C39E0[3], 0, 4);
+        }
+        else
+        {
+            work->act.motion1 = 5;
+            GM_ConfigObjectAction(&work->body, s03d_word_800C39E8[1], 0, 4);
+        }
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
+    }
+    if (work->param.fAF8 != 1 || !(GV_Time & 0x100))
+    {
+        Zako_800CDD94(work);
+    }
+    if (Zako_800CDA04(work))
+    {
+        return;
+    }
+    if (!(status & 0x30000))
+    {
+        work->action = s03d_800CE12C;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_ConfigMotionAdjust(&work->body, NULL);
+        return;
+    }
+    if (status & 0x40000)
+    {
+        work->action = s03d_800CE8F4;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return;
+    }
+    if (status & 0x80000)
+    {
+        work->action = s03d_800CE9E8;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return;
+    }
+    if (status & 0x100000)
+    {
+        work->action = s03d_800CEB38;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return;
+    }
+    if (status & 0x200000)
+    {
+        work->action = s03d_800CECBC;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return;
+    }
+    if (work->param.fAF8 != 1 || !(GV_Time & 0x100))
+    {
+        if (work->field_AE6 >= 0)
+        {
+            work->control.turn.vy = work->field_AE6;
+        }
+    }
+    else
+    {
+        work->control.turn.vy = work->field_B98;
+    }
+    work->vision.facedir = work->control.rot.vy;
+}
 void s03d_800CE8F4(Work *work, int arg)
 {
     work->target->class |= 0x9E;
-    work->field_B24 = 0xFA0;
+    work->vision.length = 0xFA0;
     if (arg == 0)
     {
         if (work->field_AD8 & 0x10000)
@@ -513,7 +785,7 @@ void s03d_800CE9E8(Work *work, int arg)
 {
     SVECTOR *rot;
     work->target->class |= 0x9E;
-    work->field_B24 = 0xFA0;
+    work->vision.length = 0xFA0;
     if (arg == 0)
     {
         GM_ConfigMotionAdjust(&work->body, work->adjust);
@@ -547,11 +819,64 @@ void s03d_800CE9E8(Work *work, int arg)
         work->control.rot.vy = rot->vy;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CEB38.s")
+void s03d_800CEB38(Work *work, int arg)
+{
+    SVECTOR *pos;
+    SVECTOR *step;
+    SVECTOR *target;
+    SVECTOR  out;
+    SVECTOR  rot;
+    SVECTOR  svec;
+    int      dist;
+
+    if (arg == 0)
+    {
+        work->act.motion1 = 7;
+        GM_ConfigObjectAction(&work->body, s03d_word_800C39EC[1], 0, 4);
+    }
+    if (arg == 17)
+    {
+        GM_SeSet(&work->control.mov, 0x2C);
+    }
+    if (arg == 45)
+    {
+        if (work->param.fAF8 == 2)
+        {
+            pos = &s03d_dword_800C3A44;
+        }
+        else
+        {
+            pos = &s03d_dword_800C3A4C;
+        }
+        target = &work->field_B68;
+        dist = GV_DiffVec3(pos, target);
+        step = &s03d_dword_800C3A54;
+        step->vz = dist / 8;
+        GV_SubVec3(target, pos, &svec);
+        rot.vx = 0;
+        rot.vy = GV_VecDir2(&svec);
+        rot.vz = 0;
+        DG_SetPos2(pos, &rot);
+        DG_RotVector(step, &out, 1);
+        NewTenage3(pos, &out, 60, 0, 0x3b88, 0, 0);
+    }
+    if (!Zako_800CDA04(work))
+    {
+        if (work->body.is_end)
+        {
+            work->action = s03d_800CE720;
+            work->time = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            GM_ConfigMotionAdjust(&work->body, NULL);
+        }
+        work->control.turn.vy = work->field_AE6;
+    }
+}
 void s03d_800CECBC(Work *work, int arg)
 {
     work->target->class |= 0x9E;
-    work->field_B24 = 0xFA0;
+    work->vision.length = 0xFA0;
     if (arg == 0)
     {
         work->act.motion1 = 8;
@@ -577,7 +902,7 @@ void s03d_800CECBC(Work *work, int arg)
 }
 void s03d_800CED94(Work *work, int arg)
 {
-    work->field_B24 = 0;
+    work->vision.length = 0;
     if (arg == 0)
     {
         work->act.motion1 = 0x13;
@@ -630,7 +955,7 @@ void s03d_800CF548(Work *work, int arg)
     SVECTOR *pos = &work->control.mov;
     int phase;
     work->act.field_1C = 0;
-    work->field_B24 = 0;
+    work->vision.length = 0;
     if (arg == 0)
     {
         work->act.motion1 = 0x1C;
@@ -745,7 +1070,7 @@ void s03d_800CFA04(Work *work, int arg)
     TARGET *t;
     work->act.field_1C = 0;
     work->target->class |= 0x9E;
-    work->field_B24 = 0xFA0;
+    work->vision.length = 0xFA0;
     if (Zako_800CDA04(work))
     {
         return;
@@ -956,7 +1281,7 @@ void s03d_800D041C(Work *work)
     control = &work->control;
 
     work->field_AEC = 0;
-    work->field_B24 = 0;
+    work->vision.length = 0;
     work->target->class = TARGET_AVAIL;
 
     action = work->action;
@@ -1030,7 +1355,7 @@ void s03d_800D05DC(Work *work, int arg1)
     }
     if (!(work->field_AD8 & 1))
     {
-        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1038,11 +1363,11 @@ void s03d_800D05DC(Work *work, int arg1)
     }
     else if (arg1 < 4)
     {
-        work->field_B20 = (*(unsigned short *)&work->control.rot.vy - (arg1 << 8)) & 0xFFF;
+        work->vision.facedir = (*(unsigned short *)&work->control.rot.vy - (arg1 << 8)) & 0xFFF;
     }
     else
     {
-        work->field_B20 = (*(unsigned short *)&work->control.rot.vy - 0x400) & 0xFFF;
+        work->vision.facedir = (*(unsigned short *)&work->control.rot.vy - 0x400) & 0xFFF;
     }
 }
 void s03d_800D0698(Work *work, int arg1)
@@ -1053,7 +1378,7 @@ void s03d_800D0698(Work *work, int arg1)
     }
     if (!(work->field_AD8 & 2))
     {
-        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1061,23 +1386,23 @@ void s03d_800D0698(Work *work, int arg1)
     }
     else if (arg1 < 4)
     {
-        work->field_B20 = (*(unsigned short *)&work->control.rot.vy + (arg1 << 8)) & 0xFFF;
+        work->vision.facedir = (*(unsigned short *)&work->control.rot.vy + (arg1 << 8)) & 0xFFF;
     }
     else
     {
-        work->field_B20 = (*(unsigned short *)&work->control.rot.vy + 0x400) & 0xFFF;
+        work->vision.facedir = (*(unsigned short *)&work->control.rot.vy + 0x400) & 0xFFF;
     }
 }
 void s03d_800D0754(Work *work, int arg1)
 {
-    work->field_B24 = 0x7D0;
+    work->vision.length = 0x7D0;
     if (arg1 == 0)
     {
         GM_ConfigObjectOverride(&work->body, ((short *)&s03d_dword_800C39F4)[1], 0, 4, 0x3FE);
     }
     if (!(work->field_AD8 & 4))
     {
-        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1086,14 +1411,14 @@ void s03d_800D0754(Work *work, int arg1)
 }
 void s03d_800D07DC(Work *work, int arg1)
 {
-    work->field_B24 = 0;
+    work->vision.length = 0;
     if (arg1 == 0)
     {
         GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C3A0C, 0, 4, 0x3FE);
     }
     if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1102,14 +1427,14 @@ void s03d_800D07DC(Work *work, int arg1)
 }
 void s03d_800D085C(Work *work, int arg1)
 {
-    work->field_B24 = 0;
+    work->vision.length = 0;
     if (arg1 == 0)
     {
         GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C3A08, 0, 4, 0x3FE);
     }
     if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1124,7 +1449,7 @@ void s03d_800D08DC(Work *work, int arg1)
     }
     if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1133,14 +1458,14 @@ void s03d_800D08DC(Work *work, int arg1)
 }
 void s03d_800D0958(Work *work, int arg1)
 {
-    work->field_B24 = 0;
+    work->vision.length = 0;
     if (arg1 == 0)
     {
         GM_ConfigObjectOverride(&work->body, s03d_word_800C3A00[1], 0, 4, 0x3FE);
     }
     if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1151,7 +1476,7 @@ void s03d_800D09D8(Work *work, int arg1)
 {
     SVECTOR pos;
 
-    work->field_B24 = 0;
+    work->vision.length = 0;
     if (arg1 == 0)
     {
         GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C3A04, 0, 4, 0x3FE);
@@ -1173,7 +1498,7 @@ void s03d_800D09D8(Work *work, int arg1)
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         GM_ConfigMotionAdjust(&work->body, NULL);
-        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1181,7 +1506,7 @@ void s03d_800D09D8(Work *work, int arg1)
     }
     else if (arg1 == 0x82)
     {
-        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39E0, 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1295,7 +1620,7 @@ void s03d_800D0D6C(Work *work)
 
 void s03d_800D0DF0(Work *work)
 {
-    if (work->field_B26 == 2)
+    if (work->vision.pad == 2)
     {
         NewLSight(&GM_PlayerPosition, &work->control.mov, 0x8F);
     }
@@ -1359,12 +1684,12 @@ void Zako_800D0F6C(Work *work)
 }
 void Zako_800D0FCC(Work *work)
 {
-    unsigned short    *src = &work->field_B20;
+    VISION            *vision = &work->vision;
     RADAR_SIGHT_PARAM *rp = &work->control.radar_param;
 
-    rp->dir = src[0];
-    rp->dis = src[2];
-    rp->range = src[1];
+    rp->dir = vision->facedir;
+    rp->dis = vision->length;
+    rp->range = vision->range;
     rp->r = 0;
 }
 
@@ -1378,7 +1703,7 @@ void Zako_800D0FF4(Work *work)
         }
         if (work->attack.damaged & 0x80)
         {
-            work->field_B26 = 2;
+            work->vision.pad = 2;
         }
     }
 }
@@ -1392,7 +1717,7 @@ void Zako_800D13E8(Work *work)
 }
 void s03d_800D13F8(Work *work)
 {
-    switch (work->field_B26)
+    switch (work->vision.pad)
     {
     case 0:
         if (work->field_B28 != 255 || !(GM_PlayerStatus & PLAYER_INTRUDE))

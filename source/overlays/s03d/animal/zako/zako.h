@@ -18,6 +18,14 @@ typedef struct _PARAM
     short       damage;
 } PARAM;
 
+typedef struct _VISION
+{
+    short facedir; /* 0x0 */
+    short range;   /* 0x2 */
+    short length;  /* 0x4 */
+    short pad;     /* 0x6 */
+} VISION;
+
 typedef struct _ACT
 {
     int             field_00;       /* 0x00 */
@@ -109,10 +117,7 @@ typedef struct _Work
     int             field_B04;      /* 0xB04 */
     PARAM           param;          /* 0xB08 */
     char            pad_B1A[0xB20 - 0xB1A];
-    unsigned short  field_B20;      /* 0xB20 */
-    unsigned short  field_B22;      /* 0xB22 */
-    unsigned short  field_B24;      /* 0xB24 */
-    short           field_B26;      /* 0xB26 */
+    VISION          vision;         /* 0xB20 */
     int             field_B28;      /* 0xB28 */
     char            pad_B2C[0xB32 - 0xB2C];
     unsigned char   field_B32;      /* 0xB32 */
@@ -132,8 +137,8 @@ typedef struct _Work
     SVECTOR         field_B80;      /* 0xB80 */
     char            pad_B88[0xB90 - 0xB88];
     int             field_B90;      /* 0xB90 */
-    unsigned short  field_B94;      /* 0xB94 */
-    char            pad_B96[0xB9C - 0xB96];
+    int             field_B94;      /* 0xB94 */
+    int             field_B98;      /* 0xB98 */
     int             field_B9C;      /* 0xB9C */
     short           field_BA0;      /* 0xBA0 */
     short           field_BA2;      /* 0xBA2 */
