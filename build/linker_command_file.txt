@@ -3502,7 +3502,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\SMP_04.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\RMAT_01.OBJ", overlay
 ;------------------------------------------------------------------------------
-{% elif OVERLAY == "s19a" %}
+{% elif OVERLAY == "s19a" or OVERLAY == "s19ar" %}
     include "{{OBJ_DIR}}\stage\s19a.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s19a\menu\countdwn.obj", overlay
