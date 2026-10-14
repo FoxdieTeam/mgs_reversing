@@ -44,7 +44,9 @@ typedef struct _Work
     char     padding5[0x4000];
     int      field_4934;
     int      field_4938;
-    char     padding6[0x2C];
+    char     padding6[0x10];
+    char     field_494C_name[24];
+    int      field_4964_name_len;
     int      field_4968;
     int      field_496C;
     int      field_4970;
@@ -53,14 +55,17 @@ typedef struct _Work
     int      field_4984;
     int      field_4988;
     int      field_498C;
-    char     padding6e[0x28];
+    int      field_4990;
+    char     field_4994_str[0x14];
+    int      field_49A8[4];
     int      field_49B8;
     int      field_49BC;
     char     padding6c[0x8];
     int      field_49C8;
     MEMCARD  *field_49CC;
     int      field_49D0;
-    char     padding6d[0xC];
+    char     field_49D4[9];
+    char     field_49DD[3];
     int      f49E0;
     char    *f49E4;
 } Work;
@@ -112,7 +117,14 @@ extern const char camera_aOverwriteok_800CFF2C[];
 extern const char camera_aYes_800D0094[];
 extern const char camera_aSavedatadelete_800D0448[];
 extern const char camera_aNo_800D0090[];
-int camera_800CDF18(Work *);
+void camera_800CDF18(Work *);
+void camera_800C4394(Work *);
+void camera_800CA918(Work *);
+void camera_800CC3C8(Work *);
+void camera_800CCBB0(Work *);
+void camera_800CBDE4(Work *);
+int camera_800C73E4(MenuWork *work, GV_PAD *pad);
+void camera_800C86BC(Work *work, int x, int y, int w, int h, int color, int unused);
 
 void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 {
@@ -2385,18 +2397,145 @@ void camera_800CDCA4(Work *work)
     }
 }
 
-/* jump table of camera_800CDF18 */
-const int camera_dword_800D04E4 = 0x800CDF60;
-const int camera_dword_800D04E8 = 0x800CDFC8;
-const int camera_dword_800D04EC = 0x800CE3F0;
-const int camera_dword_800D04F0 = 0x800CE148;
-const int camera_dword_800D04F4 = 0x800CE1E4;
-const int camera_dword_800D04F8 = 0x800CE280;
-const int camera_dword_800D04FC = 0x800CE31C;
-const int camera_dword_800D0500 = 0x800CE32C;
-const int camera_dword_800D0504 = 0x800CE33C;
-const int camera_dword_800D0508 = 0x800CE3DC;
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800CDF18.s")
+void camera_800CDF18(Work *work)
+{
+    POLY_FT4 *poly;
+    int       result;
+    int       i;
+
+    poly = work->polys2;
+
+    switch (work->f28)
+    {
+    case 0:
+        result = camera_800C73E4(&work->field_700, &GV_PadData[2]);
+        if (result == 1)
+        {
+            work->f28 = 9;
+        }
+
+        if (result == 2)
+        {
+            work->f28 = 1;
+            work->f49E0 = 0;
+
+            for (i = 0; i < 16; i++)
+            {
+                work->field_494C_name[i] = ' ';
+                work->field_4994_str[i] = ' ';
+            }
+
+            work->field_494C_name[16] = '\0';
+            work->field_4994_str[16] = '\0';
+        }
+        break;
+
+    case 1:
+        camera_800C4394(work);
+        work->f28 = 3;
+
+        if (work->field_4934 == 0)
+        {
+            work->f2C = 0;
+            work->field_4938 = 0;
+            work->field_688[0] = (GV_ACT *)0x600;
+            work->field_688[1] = (GV_ACT *)0x600;
+            work->field_688[2] = (GV_ACT *)0x200;
+            work->field_688[3] = (GV_ACT *)0x200;
+            work->field_688[4] = (GV_ACT *)0x200;
+            work->field_688[5] = (GV_ACT *)0x600;
+            work->field_688[6] = (GV_ACT *)0x600;
+            work->field_688[7] = (GV_ACT *)0x600;
+            camera_800C86BC(work, -0x90, 0x5A, 0x70, 0xC, 0xFF, 0);
+        }
+        else
+        {
+            work->f2C = 3;
+            work->field_4938 = 0;
+            work->field_688[0] = (GV_ACT *)0x600;
+            work->field_688[1] = (GV_ACT *)0x600;
+            work->field_688[16] = (GV_ACT *)0x200;
+            work->field_688[17] = (GV_ACT *)0x200;
+            work->field_688[18] = (GV_ACT *)0x200;
+            work->field_688[19] = (GV_ACT *)0x200;
+            work->field_688[5] = (GV_ACT *)0x600;
+            work->field_688[6] = (GV_ACT *)0x600;
+            work->field_688[7] = (GV_ACT *)0x600;
+            camera_800C86BC(work, -0x90, 0x5A, 0x68, 0xC, 0xFF, 0);
+
+            setXY4(&poly[16], -0x90, 0x5A, -0x28, 0x5A, -0x90, 0x66, -0x28, 0x66);
+            setXY4(&poly[17], -0x2A, 0x5A, 0x12, 0x5A, -0x2A, 0x66, 0x12, 0x66);
+            setXY4(&poly[18], 0x11, 0x5A, 0x65, 0x5A, 0x11, 0x66, 0x65, 0x66);
+            setXY4(&poly[19], 0x64, 0x5A, 0x90, 0x5A, 0x64, 0x66, 0x90, 0x66);
+        }
+        break;
+
+    case 3:
+        MENU_Locate(26, 14, 0);
+        MENU_Color(58, 92, 78);
+        MENU_Printf(work->field_49D4);
+        MENU_Locate(75, 14, 0);
+        MENU_Color(58, 92, 78);
+        MENU_Printf(work->field_49DD);
+        camera_800C8554(work->field_49A8, 83, 13, 16);
+        camera_800C85B8(work->field_49A8, 86, 137, 116);
+        camera_800C8564((MenuPrim *)&work->field_920, (SELECT_INFO *)work->field_49A8, work->field_494C_name);
+        camera_800CCBB0(work);
+        break;
+
+    case 4:
+        MENU_Locate(26, 14, 0);
+        MENU_Color(58, 92, 78);
+        MENU_Printf(work->field_49D4);
+        MENU_Locate(75, 14, 0);
+        MENU_Color(58, 92, 78);
+        MENU_Printf(work->field_49DD);
+        camera_800C8554(work->field_49A8, 83, 13, 16);
+        camera_800C85B8(work->field_49A8, 86, 137, 116);
+        camera_800C8564((MenuPrim *)&work->field_920, (SELECT_INFO *)work->field_49A8, work->field_494C_name);
+        camera_800CA918(work);
+        break;
+
+    case 5:
+        MENU_Locate(26, 14, 0);
+        MENU_Color(58, 92, 78);
+        MENU_Printf(work->field_49D4);
+        MENU_Locate(75, 14, 0);
+        MENU_Color(58, 92, 78);
+        MENU_Printf(work->field_49DD);
+        camera_800C8554(work->field_49A8, 83, 13, 16);
+        camera_800C85B8(work->field_49A8, 86, 137, 116);
+        camera_800C8564((MenuPrim *)&work->field_920, (SELECT_INFO *)work->field_49A8, work->field_494C_name);
+        camera_800CC3C8(work);
+        break;
+
+    case 6:
+        camera_800CBDE4(work);
+        break;
+
+    case 7:
+        camera_800CD198(work);
+        break;
+
+    case 8:
+        camera_800CDCA4(work);
+        if (work->field_49D0 >= 2)
+        {
+            work->field_49D0--;
+        }
+        else
+        {
+            camera_800C6054(&work->field_700, work->field_924_mOrderingTable, 0);
+            camera_AddTpage(work);
+        }
+        break;
+
+    case 9:
+        GCL_ExecProc(work->f20, NULL);
+        GV_DestroyActor(&work->actor);
+        break;
+    }
+}
 
 void CameraAct_800CE404(Work *work)
 {
