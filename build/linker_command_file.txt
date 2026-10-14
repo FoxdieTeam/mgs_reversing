@@ -3293,15 +3293,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800C67A0.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800C6808.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800C6948.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800C6A60.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800C6B60.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800C6BDC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800C70D8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800C70E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800C70F4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800C711C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800C7124.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800C71B4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s18a\overlay.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s19b\menu\countdwn.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800C722C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800C736C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800C7384.obj", overlay
@@ -3557,21 +3550,16 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800D07F0.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800D09F8.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800D0A8C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\overlay.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s18a\overlay2.obj", overlay
     include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800D0F24.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800D0FC4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800D0FCC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800D102C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800D10E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\overlay2.obj", overlay
-    include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D181C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D18E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D1918.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D1920.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D1AB4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
+    include "{{OBJ_DIR}}\animal\liquid\bombled.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\rcm2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800D1CCC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800D1D3C.obj", overlay
