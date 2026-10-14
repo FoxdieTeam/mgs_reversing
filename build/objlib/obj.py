@@ -167,6 +167,7 @@ def get_obj_funcs(path, symbols_out=None):
             raise Exception('unknown opcode')
 
     if symbols_out is not None:
+        symbols_out['text_size'] = sum(len(x[1]) for x in code_blocks)
         return None
 
     ret = []
@@ -221,8 +222,8 @@ def get_obj_funcs(path, symbols_out=None):
 
 def get_obj_symbols(path):
     """Sections and symbols of an obj: {'sections': {id: name}, 'xdefs': [(section id, offset, name)],
-    'locals': [(section id, offset, name)]}. xdefs are the exported symbols (the ones psylink puts in
+    'locals': [(section id, offset, name)], 'text_size': bytes of code}. xdefs are the exported symbols (the ones psylink puts in
     its map), locals are e.g. static functions and variables, which the linker drops."""
-    symbols = {'sections': {}, 'xdefs': [], 'locals': []}
+    symbols = {'sections': {}, 'xdefs': [], 'locals': [], 'text_size': 0}
     get_obj_funcs(path, symbols)
     return symbols
