@@ -2868,16 +2868,15 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11b\s11b_800CEF1C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11b\s11b_800CF01C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11b\s11b_800CF080.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\overlay2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hind.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindact.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D4760.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11b\s11b_800D844C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D852C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D86DC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11b\s11b_800D89E0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\overlay5.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\unknown.obj", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
@@ -3199,12 +3198,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hind.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindact.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11h\s11h_800D3BD4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11h\s11h_800D78C0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11h\s11h_800D79A0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11h\s11h_800D7B50.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11h\s11h_800D7E54.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11h\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11h\s11h_800D7E54.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay

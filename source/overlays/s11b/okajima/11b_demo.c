@@ -45,7 +45,7 @@ typedef struct _Work
 #define BODY_DATA   GV_StrCode("stn_fr")
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
-VECTOR body_scale = {4096, 4096, 4096};
+VECTOR body_scale = {4096, 4096, 4096, 0};
 
 void  NewAnime_8005E774(SVECTOR *pos);
 void *NewBlastLine(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4);

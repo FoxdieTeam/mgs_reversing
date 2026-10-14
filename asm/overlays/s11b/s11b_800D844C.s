@@ -1,8 +1,10 @@
 	opt	c+, at+, e+, n-
 	section .text
 
+	xdef s11g_hind_800DA534
 	xdef s11b_800D844C
 s11b_800D844C:
+s11g_hind_800DA534:
 	dw 0x27BDFFE8 ; 800D844C
 	dw 0xAFB00010 ; 800D8450
 	dw 0xAFBF0014 ; 800D8454
