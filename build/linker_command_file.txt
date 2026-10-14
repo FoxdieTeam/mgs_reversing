@@ -2942,22 +2942,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\wolf\wolf2.obj", overlay
     include "{{OBJ_DIR}}\okajima\wolf\unknown.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\rcm.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DC488.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DC4DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DC520.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DC6AC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DC70C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DC7D4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DC844.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DCA7C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DCE18.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DCE94.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DCFAC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DCFDC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD0FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD18C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD1AC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s10a\okajima\mel10.obj", overlay
     include "{{OBJ_DIR}}\okajima\wolf\action.obj", overlay
     include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
