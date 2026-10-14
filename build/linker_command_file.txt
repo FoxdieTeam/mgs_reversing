@@ -2717,44 +2717,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\val_life.obj", overlay
     include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\val_ai.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\overlay2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800CE56C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800CE5D4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800CF740.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800CF7C4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800CF83C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800CF920.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800CFA04.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800CFAD8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800CFD2C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800CFFC0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D0070.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D00D8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D00EC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D02E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D0470.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D0558.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D058C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D0618.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D06B4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D06EC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D0720.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D07D8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D0890.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D0AE4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D0BD8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D2164.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D23F4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D24E0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D25A4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D2638.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D29AC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D2BC0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D2F78.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D30A8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D30E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D314C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15a\s15a_800D334C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\dyncon.obj", overlay
     include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\crow.obj", overlay
     include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
