@@ -1,6 +1,7 @@
 #include "mgstype.h"
 #include "anime/animconv/anime.h"
 #include "okajima/blood.h"
+#include "bullet/blast.h"
 #include "okajima/bullet.h"
 #include "okajima/plasma.h"
 #include "okajima/spark.h"
@@ -96,7 +97,8 @@ typedef struct _Work
     int       field_1A0C;  /* 0x1A0C */
     char      pad_1A14[0x1A14 - 0x1A0C - sizeof(int)];
     int       field_1A14;  /* 0x1A14 */
-    char      pad_1A20[0x1A20 - 0x1A14 - sizeof(int)];
+    int       field_1A18;  /* 0x1A18 */
+    int       field_1A1C;  /* 0x1A1C */
     void     *field_1A20;  /* 0x1A20 */
     void     *field_1A24;  /* 0x1A24 */
     int       field_1A28;     // 0x1A28
@@ -181,6 +183,7 @@ extern int     s08b_dword_800C3610;
 extern int     s08b_dword_800C3614;
 extern int     s08b_dword_800C3618;
 
+extern BLAST_DATA blast_data_8009F4B8[8]; // in bullet/blast.c
 extern CONTROL *s08b_dword_800E4314;
 extern int     *s08b_dword_800E4318;
 extern Work    *s08b_dword_800E431C;
@@ -206,6 +209,7 @@ int  s08b_bunsin2_800C9588(Work *work, int arg);
 void s08b_bunsin2_800C9B38(Work *work, int first);
 void s08b_bunsin2_800C9C74(Work *work, int first);
 void s08b_bunsin2_800CD544(Work *work, int index);
+int  Bunsin2_800C8F04(int name, int map, CONTROL *control, int type);
 int  s08b_bunsin2_800CD914(Work *work, int index);
 int  s08b_bunsin2_800CD298(int a, int b, int c);
 int  s08b_bunsin2_800CD2C0(int a, int b, int c);
@@ -926,7 +930,7 @@ void *NewNinjaBoss(int name, int where)
     return (void *)work;
 }
 
-int Bunsin2_800C8F04(void)
+int Bunsin2_800C8F04(int name, int map, CONTROL *control, int type)
 {
     return 0;
 }
@@ -3053,7 +3057,44 @@ void s08b_bunsin2_800CEFC0(NinjaClone *clones, int val, short *out_count, short 
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEFF4.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF150.s")
+int s08b_bunsin2_800CF150(Work *work)
+{
+    CONTROL *control = &work->control;
+    int      hit;
+
+    if (work->field_1A2C < 1000 && GV_DiffDirAbs(control->rot.vy, work->field_1A28) < 0x400)
+    {
+        if (HZD_OnlineHazardCheck(control->map->hzd, &GM_PlayerPosition, &control->mov, 0xF, 2) == 0)
+        {
+            if (GV_Time & 1)
+            {
+                return 13;
+            }
+
+            return 16;
+        }
+
+        return 0;
+    }
+
+    if (work->field_1A2C < 2000)
+    {
+        if (GV_DiffDirAbs(control->rot.vy, work->field_1A28) < 0x200)
+        {
+            hit = HZD_OnlineHazardCheck(control->map->hzd, &GM_PlayerPosition, &control->mov, 0xF, 2);
+            if (hit != 0)
+            {
+                return 18;
+            }
+
+            return 12;
+        }
+
+        return 0;
+    }
+
+    return 0;
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF254.s")
 int s08b_bunsin2_800CF254(Work *work);
@@ -3166,7 +3207,37 @@ int s08b_bunsin2_800CF958(void)
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF960.s")
+int s08b_bunsin2_800CF960(Work *work)
+{
+    CONTROL *control = &work->control;
+
+    if (work->field_19D0 == 5)
+    {
+        work->field_1A1C = Bunsin2_800C8F04(control->name, GM_CurrentMap, control, 2);
+    }
+    else if (work->field_19D0 == 4)
+    {
+        work->field_1A18 = Bunsin2_800C8F04(control->name, GM_CurrentMap, control, 1);
+    }
+
+    if (work->field_19D0 >= 6)
+    {
+        work->field_19C0 |= 4;
+    }
+    else
+    {
+        work->field_19B4 = work->field_1A28;
+    }
+
+    if (work->field_19D0 >= 21)
+    {
+        return 1;
+    }
+
+    work->field_19B0 = 7;
+    work->field_19D0++;
+    return 0;
+}
 
 int s08b_bunsin2_800CFA30(Work *work)
 {
@@ -3225,7 +3296,37 @@ int s08b_bunsin2_800CFA80(Work *work)
 }
 int s08b_bunsin2_800CFA80(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFB98.s")
+int s08b_bunsin2_800CFB98(Work *work)
+{
+    CONTROL *control = &work->control;
+    SVECTOR  vec;
+    int      dir;
+
+    if (work->field_19D0 < 10)
+    {
+        if (work->field_7D8 == 1)
+        {
+            dir = control->rot.vy + 0x400;
+        }
+        else
+        {
+            dir = control->rot.vy - 0x400;
+        }
+
+        GV_DirVec2(dir & 0xFFF, 100, &vec);
+        control->mov.vx += vec.vx;
+        control->mov.vz += vec.vz;
+    }
+
+    if (s08b_dword_800E4340 == 1)
+    {
+        return 1;
+    }
+
+    work->field_19B0 = 7;
+    work->field_19D0++;
+    return 0;
+}
 
 void s08b_bunsin2_800CFC64(Work *work)
 {
@@ -3433,8 +3534,46 @@ int s08b_bunsin2_800D0410(Work *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D044C.s")
-int s08b_bunsin2_800D044C(Work *work);
+int s08b_bunsin2_800D044C(Work *work)
+{
+    int time;
+
+    time = work->field_19D0 + 1;
+    work->field_19D0 = time;
+
+    if (time == 1)
+    {
+        work->field_19B0 = 25;
+        return 0;
+    }
+
+    if (time == 50)
+    {
+        NewBlast(&work->body.objs->objs[4].world, blast_data_8009F4B8);
+    }
+
+    if (time == 60)
+    {
+        NewBlast(&work->body.objs->objs[7].world, blast_data_8009F4B8);
+    }
+
+    if (time == 65)
+    {
+        NewBlast(&work->body.objs->objs[12].world, blast_data_8009F4B8);
+    }
+
+    if (time == 69)
+    {
+        NewBlast(&work->body.objs->objs[1].world, blast_data_8009F4B8);
+    }
+
+    if (work->field_19D0 >= 301)
+    {
+        return 1;
+    }
+
+    return work->field_19A8;
+}
 
 int s08b_bunsin2_800D0530(Work *work)
 {
