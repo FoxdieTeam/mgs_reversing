@@ -3019,7 +3019,66 @@ void d18a_snake18_800CF39C(Snake18Work *work, int time)
     }
 }
 const char d18a_aWorkglobaldatad_800DA6AC[] = " work->global_data = %d \n ";
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF574.s")
+void d18a_snake18_800CF574(Snake18Work *work, int time)
+{
+    int action;
+
+    if (time == 0)
+    {
+        d18a_snake18_800CC8B0(work, 0);
+        GM_GameStatus |= STATE_PADRELEASE;
+        work->f7E4 |= 0x12;
+
+        if (work->f924 != 1 && work->f924 != 2)
+        {
+            work->f924 = 1;
+        }
+
+        if (work->f924 == 1)
+        {
+            action = work->f8A8->damage->field_0[11];
+        }
+        else
+        {
+            action = work->f8A8->damage->field_0[12];
+        }
+
+        if (work->body.action != action)
+        {
+            GM_ConfigObjectAction(&work->body, action, 0, 4);
+        }
+
+        if (GM_GameOverTimer == 0)
+        {
+            GM_GameOver();
+            GM_GameOverTimer = -3;
+        }
+    }
+
+    if (time == 45 && GM_GameOverTimer == -3)
+    {
+        GM_GameOverTimer = 1;
+    }
+
+    if (work->body.is_end)
+    {
+        if (work->f924 == 1)
+        {
+            action = work->f8A8->damage->field_0[4];
+        }
+        else
+        {
+            action = work->f8A8->damage->field_0[5];
+        }
+
+        if (work->body.action != action)
+        {
+            GM_ConfigObjectAction(&work->body, action, 0, 4);
+        }
+
+        d18a_snake18_StartAnim(work, d18a_snake18_800CF718);
+    }
+}
 
 void d18a_snake18_800CF718(int arg0, int arg1)
 {
@@ -3030,11 +3089,229 @@ void d18a_snake18_800CF718(int arg0, int arg1)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF744.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF850.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF990.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CFB04.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CFD18.s")
+void d18a_snake18_800CF744(Snake18Work *work, int time)
+{
+    int action;
+
+    if (time == 0)
+    {
+        work->f8FE = 2;
+        work->f7E4 |= 0x12;
+        GM_PlayerStatus |= PLAYER_GROUND | PLAYER_DOWNED;
+
+        if (work->f924 != 1 && work->f924 != 2)
+        {
+            work->f924 = 1;
+        }
+
+        if (work->f924 == 1)
+        {
+            action = work->f8A8->damage->field_0[4];
+        }
+        else
+        {
+            action = work->f8A8->damage->field_0[5];
+        }
+
+        if (work->body.action != action)
+        {
+            GM_ConfigObjectAction(&work->body, action, 0, 4);
+        }
+
+        if (((TARGET *)work->f7E8)->vital <= 0)
+        {
+            d18a_snake18_StartAnim(work, d18a_snake18_800CF574);
+            return;
+        }
+
+        work->f8BC = d18a_snake18_800D0AF8;
+        work->f8C0 = d18a_snake18_800D1814;
+    }
+}
+
+void d18a_snake18_800CF850(Snake18Work *work, int time)
+{
+    int action;
+
+    if (time == 0)
+    {
+        work->f8BC = d18a_snake18_800CE7BC;
+        work->f8C0 = d18a_snake18_800D1814;
+        GM_PlayerStatus &= ~PLAYER_GROUND;
+        d18a_snake18_800CC8B0(work, 0);
+
+        if (work->f924 == 1)
+        {
+            action = work->f8A8->damage->field_0[6];
+        }
+        else
+        {
+            action = work->f8A8->damage->field_0[7];
+        }
+
+        if (work->body.action != action)
+        {
+            GM_ConfigObjectAction(&work->body, action, 0, 4);
+        }
+
+        work->f924 = 0;
+    }
+
+    if (time == 2)
+    {
+        work->control.turn.vx = 0;
+        work->f8FE = 0;
+    }
+
+    if (work->body.is_end)
+    {
+        work->f7E4 &= ~0x16;
+        d18a_snake18_800CC8B0(work, 0x18);
+        d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
+        work->f7E4 |= 1;
+        GM_PlayerStatus &= ~PLAYER_DOWNED;
+    }
+}
+void d18a_snake18_800CF990(Snake18Work *work, int time)
+{
+    int action;
+
+    if (time == 0)
+    {
+        GM_PlayerStatus |= PLAYER_CHECK_WALL;
+
+        if (d18a_dword_800DAF0C == 4)
+        {
+            action = work->f8A8->still->tap_wall_l;
+        }
+        else
+        {
+            action = work->f8A8->still->tap_wall_r;
+        }
+
+        GM_ConfigObjectOverride(&work->body, action, 0, 4, 0x3FE);
+        GM_SeSet(&work->control.mov, 0x37);
+        GM_SetNoise(100, 16, &work->control.mov);
+    }
+
+    if (work->body.time2 != 0 || work->body.action2 == 0)
+    {
+        if (work->body.action2 != 0)
+        {
+            GM_ConfigObjectOverride(&work->body, 0, 0, 4, 0);
+        }
+
+        GM_PlayerStatus &= ~PLAYER_CHECK_WALL;
+        work->f8B4 = 0;
+        work->f7E4 &= ~0x100;
+    }
+}
+
+void d18a_snake18_800CFB04(Snake18Work *work, int time)
+{
+    int action;
+
+    if (time == 0)
+    {
+        work->f8BC = d18a_snake18_800CE7BC;
+        work->f8C0 = d18a_snake18_800D198C;
+
+        if (GM_PlayerStatus & PLAYER_CB_BOX)
+        {
+            action = work->f8A8->special2->field_0[7];
+        }
+        else
+        {
+            action = work->f8A8->special1[0];
+        }
+
+        if (action == 0x9E || work->f8FE == 2)
+        {
+            work->f910 = 32;
+        }
+        else if (work->body.action != action)
+        {
+            GM_ConfigObjectAction(&work->body, action, 0, 4);
+        }
+
+        GM_SeSet(&work->control.mov, 0x37);
+        GM_SetNoise(100, 16, &work->control.mov);
+    }
+
+    if (work->f910 != 0)
+    {
+        if (--work->f910 == 0)
+        {
+            if (GM_PlayerStatus & PLAYER_INTRUDE)
+            {
+                d18a_snake18_StartAnim(work, d18a_snake18_800CEEAC);
+            }
+            else
+            {
+                d18a_snake18_StartAnim(work, d18a_dword_800C37E4[work->f8FE]);
+            }
+        }
+        else
+        {
+            GM_SnakeCamera.position.vy += GV_RandU(16) * work->f910;
+        }
+    }
+    else if (work->body.is_end)
+    {
+        if (GM_PlayerStatus & PLAYER_CB_BOX)
+        {
+            d18a_snake18_StartAnim(work, d18a_snake18_800CFF5C);
+        }
+        else
+        {
+            d18a_snake18_StartAnim(work, d18a_dword_800C37E4[work->f8FE]);
+        }
+    }
+}
+
+void d18a_snake18_800CFD18(Snake18Work *work, int time)
+{
+    int action;
+    int ground;
+
+    if (time == 0)
+    {
+        ground = work->f8FE == 2;
+
+        if (GM_PlayerStatus & PLAYER_CB_BOX)
+        {
+            action = work->f8A8->special2->field_0[7];
+        }
+        else
+        {
+            action = work->f8A8->special1[0];
+        }
+
+        if (action == 0x9E || ground == 1)
+        {
+            GM_SeSet(&work->control.mov, 0x37);
+            GM_SetNoise(100, 16, &work->control.mov);
+            work->f8B4 = 0;
+            work->f7E4 &= ~0x100;
+            return;
+        }
+
+        GM_ConfigObjectOverride(&work->body, action, 0, 4, 0x3FE);
+        GM_SeSet(&work->control.mov, 0x37);
+        GM_SetNoise(100, 16, &work->control.mov);
+    }
+
+    if (work->body.time2 != 0)
+    {
+        if (work->body.action2 != 0)
+        {
+            GM_ConfigObjectOverride(&work->body, 0, 0, 4, 0);
+        }
+
+        work->f8B4 = 0;
+        work->f7E4 &= ~0x100;
+    }
+}
 
 void d18a_snake18_800CFEE8(Snake18Work *work, int arg1)
 {
