@@ -3267,7 +3267,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s18a\okajima\lens_fl.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\overlay5.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay

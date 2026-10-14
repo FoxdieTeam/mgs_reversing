@@ -58,6 +58,8 @@ int s18a_dword_800C3494 = 0x00000000;
 int s18a_dword_800C3498 = 0x00000000;
 int s18a_dword_800C349C = 0x00000000;
 
+int SECTION(".bss") liquid_height;
+
 static inline void s18a_liquid_SetAct(LiquidWork *work, void *act)
 {
     work->act = act;
@@ -133,7 +135,6 @@ static inline int s18a_liquid_After(int time, int start)
 void s18a_800CC488(LiquidWork *work, int arg1);
 void s18a_800CB780(LiquidWork *work, int time);
 void s18a_800CB8AC(LiquidWork *work, int time);
-extern int s18a_dword_800E3EF0;
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 int s18a_800CC6A8(LiquidWork *work, void *func);
 void s18a_800CC1F0(LiquidWork *work);
@@ -2921,7 +2922,7 @@ void s18a_800CBF38(LiquidWork *work, int time)
         printf(" Err Err Err Liquid Err !! \n");
     }
 
-    s18a_dword_800E3EF0 = control->mov.vy;
+    liquid_height = control->mov.vy;
 }
 
 void s18a_800CC0F0(LiquidWork *work, int time)
