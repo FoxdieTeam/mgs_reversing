@@ -25,11 +25,13 @@ SVECTOR s18a_dword_800C3378 = {0, 0, 100, 0};
 SVECTOR s18a_dword_800C3380 = {-1024, 0, 0, 0};
 void *s18a_dword_800C3388[] = {s18a_800CC4F0, s18a_800CC56C, s18a_800CC574};
 SVECTOR s18a_dword_800C3394 = {5, -500, 80, 0};
-SVECTOR s18a_dword_800C339C[8][2] = {
+SVECTOR s18a_dword_800C339C[4][2] = {
     {{3125, 12000, 750, 0}, {-125, 12000, 500, 0}},
     {{3125, 12000, -750, 0}, {-125, 12000, -500, 0}},
     {{1875, 12000, 750, 0}, {5125, 12000, 500, 0}},
     {{1875, 12000, -750, 0}, {5125, 12000, -500, 0}},
+};
+SVECTOR s18a_dword_800C33DC[4][2] = {
     {{5125, 12000, 250, 0}, {3125, 12000, -1000, 0}},
     {{5125, 12000, -250, 0}, {3125, 12000, 1000, 0}},
     {{-125, 12000, 250, 0}, {1875, 12000, -1000, 0}},
@@ -44,12 +46,8 @@ SVECTOR s18a_dword_800C341C[4][2] = {
 int s18a_dword_800C345C = 0x00000000;
 int s18a_dword_800C3460 = 0x00000000;
 int s18a_dword_800C3464 = 0x00000000;
-int s18a_dword_800C3468 = 0x0000000E;
-int s18a_dword_800C346C = 0x0000000F;
-int s18a_dword_800C3470 = 0x00000006;
-int s18a_dword_800C3474 = 0x00000005;
-int s18a_dword_800C3478 = 0x00000006;
-int s18a_dword_800C347C = 0x00000002;
+int s18a_dword_800C3468[4] = {14, 15, 6, 5};
+int s18a_dword_800C3478[2] = {6, 2};
 int s18a_dword_800C3480 = 0x00000000;
 int s18a_dword_800C3484 = 0x00000000;
 int s18a_dword_800C3488 = 0x00000000;
@@ -141,6 +139,19 @@ void s18a_800CC1F0(LiquidWork *work);
 void s18a_800CC278(LiquidWork *work);
 void s18a_800D0D28(LiquidWork *work);
 void s18a_800CC2A0(LiquidWork *work);
+int s18a_800CC9E4(SVECTOR *pos);
+int s18a_800CCA20(int area, int dir);
+int s18a_800CCA88(int area, int dir);
+int s18a_800CCAE0(int area, int dir);
+int s18a_800CCB38(int area, int dir);
+int s18a_800CCB90(int area, int dir);
+int s18a_800CCBE8(int area, int dir);
+extern int s18a_dword_800C3480;
+extern int s18a_dword_800C3484;
+extern int s18a_dword_800C3488;
+extern int s18a_dword_800C348C;
+extern int s18a_dword_800C3490;
+extern SVECTOR s18a_dword_800C33DC[4][2];
 /*--FUNCS--*/
 
 int s18a_800C722C(SVECTOR *pos, short *out)
@@ -3378,49 +3389,250 @@ int s18a_800CCA88(int area, int dir)
 
 const int s18a_dword_800E3088 = 0; /* padding */
 
-const int s18a_dword_800E308C = 0x800CCB0C;
-const int s18a_dword_800E3090 = 0x800CCB14;
-const int s18a_dword_800E3094 = 0x800CCB2C;
-const int s18a_dword_800E3098 = 0x800CCB24;
-const int s18a_dword_800E309C = 0x800CCB2C;
+int s18a_800CCAE0(int area, int dir)
+{
+    int ret;
+
+    ret = 3;
+
+    switch (area)
+    {
+    case 0:
+        ret = 3;
+        break;
+
+    case 1:
+        ret = 3;
+        if (dir > 1536 && dir < 3584)
+        {
+            ret = 0;
+        }
+        break;
+
+    case 3:
+        ret = 0;
+        break;
+
+    case 2:
+    case 4:
+        ret = 1;
+        break;
+    }
+
+    return ret;
+}
+
 const int s18a_dword_800E30A0 = 0x00000000;
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCAE0.s")
-const int s18a_dword_800E30A4 = 0x800CCB84;
-const int s18a_dword_800E30A8 = 0x800CCB64;
-const int s18a_dword_800E30AC = 0x800CCB6C;
-const int s18a_dword_800E30B0 = 0x800CCB7C;
-const int s18a_dword_800E30B4 = 0x800CCB84;
+
+int s18a_800CCB38(int area, int dir)
+{
+    int ret;
+
+    ret = 3;
+
+    switch (area)
+    {
+    case 1:
+        ret = 2;
+        break;
+
+    case 2:
+        ret = 3;
+        if (dir > 1536 && dir < 3584)
+        {
+            ret = 0;
+        }
+        break;
+
+    case 3:
+        ret = 0;
+        break;
+
+    case 0:
+    case 4:
+        ret = 3;
+        break;
+    }
+
+    return ret;
+}
+
 const int s18a_dword_800E30B8 = 0x00000000;
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCB38.s")
-const int s18a_dword_800E30BC = 0x800CCBDC;
-const int s18a_dword_800E30C0 = 0x800CCBD4;
-const int s18a_dword_800E30C4 = 0x800CCBBC;
-const int s18a_dword_800E30C8 = 0x800CCBC4;
-const int s18a_dword_800E30CC = 0x800CCBDC;
+
+int s18a_800CCB90(int area, int dir)
+{
+    int ret;
+
+    ret = 3;
+
+    switch (area)
+    {
+    case 1:
+        ret = 2;
+        break;
+
+    case 2:
+        ret = 1;
+        break;
+
+    case 3:
+        ret = 1;
+        if (dir > 512 && dir < 2560)
+        {
+            ret = 2;
+        }
+        break;
+
+    case 0:
+    case 4:
+        ret = 3;
+        break;
+    }
+
+    return ret;
+}
+
 const int s18a_dword_800E30D0 = 0x00000000;
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCB90.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCBE8.s")
-const int s18a_dword_800E30D4 = 0x800CCC68;
-const int s18a_dword_800E30D8 = 0x800CCC7C;
-const int s18a_dword_800E30DC = 0x800CCC90;
-const int s18a_dword_800E30E0 = 0x800CCCA4;
-const int s18a_dword_800E30E4 = 0x800CCCB8;
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCC0C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCCE0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCD5C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCDA8.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCDEC.s")
-const int s18a_dword_800E30E8 = 0x786F7620;
-const int s18a_dword_800E30EC = 0x6F686320;
-const int s18a_dword_800E30F0 = 0x74616875;
-const int s18a_dword_800E30F4 = 0x253D2075;
-const int s18a_dword_800E30F8 = 0x000A2064;
-const int s18a_dword_800E30FC = 0x786F7620;
-const int s18a_dword_800E3100 = 0x69617320;
-const int s18a_dword_800E3104 = 0x20756B73;
-const int s18a_dword_800E3108 = 0x64253D20;
-const int s18a_dword_800E310C = 0x00000A20;
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCE24.s")
+
+int s18a_800CCBE8(int area, int dir)
+{
+    int ret;
+
+    ret = 3;
+    if (GV_Time & 1)
+    {
+        ret = 1;
+    }
+
+    return ret;
+}
+
+int s18a_800CCC0C(LiquidWork *work)
+{
+    int area;
+    int player;
+    int ret;
+
+    area = s18a_800CC9E4(&work->control.mov);
+    ret = player = s18a_800CC9E4(&GM_PlayerPosition);
+
+    switch (area)
+    {
+    case 0:
+        ret = s18a_800CCA88(player, work->f9AC);
+        break;
+
+    case 1:
+        ret = s18a_800CCAE0(player, work->f9AC);
+        break;
+
+    case 2:
+        ret = s18a_800CCB38(player, work->f9AC);
+        break;
+
+    case 3:
+        ret = s18a_800CCB90(player, work->f9AC);
+        break;
+
+    case 4:
+        ret = s18a_800CCBE8(player, work->f9AC);
+        break;
+    }
+
+    return ret;
+}
+
+SVECTOR *s18a_800CCCE0(int idx, SVECTOR *pos)
+{
+    SVECTOR *a;
+    SVECTOR *b;
+    int      dist;
+
+    a = s18a_dword_800C339C[idx];
+    dist = GV_DiffVec3(a, pos);
+    b = s18a_dword_800C33DC[idx];
+
+    if (dist < GV_DiffVec3(b, pos))
+    {
+        return a;
+    }
+
+    return b;
+}
+
+int s18a_800CCD5C(SVECTOR *pos)
+{
+    if (pos->vx < -500)
+    {
+        return 1;
+    }
+
+    if (s18a_liquid_After(pos->vx, 5000))
+    {
+        return 1;
+    }
+
+    if (pos->vz < -750)
+    {
+        return 1;
+    }
+
+    return s18a_liquid_After(pos->vz, 1250);
+}
+
+void s18a_800CCDA8(void)
+{
+    s18a_dword_800C345C = 0;
+    s18a_dword_800C3460 = 0;
+    s18a_dword_800C3464 = 0;
+    s18a_dword_800C3480 = 0;
+    s18a_dword_800C3484 = 0;
+    s18a_dword_800C3488 = 0;
+    s18a_dword_800C348C = 0;
+    s18a_dword_800C3490 = 0;
+}
+
+void s18a_800CCDEC(int vox)
+{
+    if (GM_StreamStatus() == -1)
+    {
+        GM_VoxStream(vox, 0);
+    }
+}
+
+void s18a_800CCE24(LiquidWork *work, int type)
+{
+    switch (type)
+    {
+    case 0:
+        printf(" vox chouhatu =%d \n", s18a_dword_800C345C);
+        if (work->dead_timer == 0)
+        {
+            s18a_800CCDEC(work->voices[s18a_dword_800C3468[s18a_dword_800C345C]]);
+        }
+        if (++s18a_dword_800C345C >= 4)
+        {
+            s18a_dword_800C345C = 0;
+        }
+        break;
+
+    case 1:
+        printf(" vox saisku  =%d \n", s18a_dword_800C3460);
+        if (work->dead_timer == 0)
+        {
+            s18a_800CCDEC(work->voices[s18a_dword_800C3478[s18a_dword_800C3460]]);
+        }
+        if (++s18a_dword_800C3460 >= 2)
+        {
+            s18a_dword_800C3460 = 0;
+        }
+        break;
+
+    case 2:
+        break;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCF48.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD2D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD4AC.s")
