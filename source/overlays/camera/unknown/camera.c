@@ -70,53 +70,161 @@ typedef struct _Work
     char    *f49E4;
 } Work;
 
-extern RadioFileModeStru_800ABB7C *camera_dword_800D075C;
-extern RECT                        camera_dword_800C389C;
-extern char                       *camera_dword_800D0760;
-extern char                       *MGS_MemoryCardName; /* in main.c */
-extern DATA_INFO                  *camera_dword_800D072C;
-extern int                         camera_dword_800C3438[6][40];
-extern int                         camera_dword_800C342C;
-extern int                         camera_dword_800C3434;
-extern int                         camera_dword_800D0764;
-extern DATA_INFO                   camera_dword_800C38E0;
-extern SPRT                        camera_sprt_800D0780;
-extern int                         camera_dword_800D0728;
+extern char *MGS_MemoryCardName; /* in main.c */
 
-extern char camera_dword_800C37F8[];
-extern int camera_dword_800D0728;
-extern void* camera_dword_800D0730;
-extern int camera_dword_800D0738;
-extern int camera_dword_800D073C;
+/* bss */
+u_char                     *SECTION(".bss") camera_photo_buf_800D0700;  /* read pointer into the loaded photo file */
+char                       *SECTION(".bss") camera_file_buf_800D0704;   /* photo file buffer (0x4000 bytes) */
+u_char                      SECTION(".bss") camera_card_port_800D0708;
+int                         SECTION(".bss") camera_dword_800D070C;
+char                        SECTION(".bss") camera_file_name_800D0710[24];
+int                         SECTION(".bss") camera_dword_800D0728;
+DATA_INFO                  *SECTION(".bss") camera_data_info_800D072C;
+char                       *SECTION(".bss") camera_stack_800D0730;
+int                         SECTION(".bss") camera_dword_800D0734;
+int                         SECTION(".bss") camera_request_800D0738;
+int                         SECTION(".bss") camera_result_800D073C;
+int                         SECTION(".bss") camera_dword_800D0740;
+int                         SECTION(".bss") camera_dword_800D0744;
+int                         SECTION(".bss") camera_dword_800D0748;
+int                         SECTION(".bss") camera_dword_800D074C;
+int                         SECTION(".bss") camera_dword_800D0750;
+int                         SECTION(".bss") camera_dword_800D0754;
+int                         SECTION(".bss") camera_dword_800D0758;
+RadioFileModeStru_800ABB7C *SECTION(".bss") camera_dword_800D075C;
+char                       *SECTION(".bss") camera_dword_800D0760;
+int                         SECTION(".bss") camera_dword_800D0764;
+int                         SECTION(".bss") camera_dword_800D0768;
+int                         SECTION(".bss") camera_dword_800D076C;
+u_char                     *SECTION(".bss") camera_gcl_args_800D0770;
+int                         SECTION(".bss") camera_dword_800D0774;
+int                         SECTION(".bss") camera_dword_800D0778;
+int                         SECTION(".bss") camera_dword_800D077C;
+SPRT                        SECTION(".bss") camera_sprt_800D0780;
 
-extern const char camera_aNomemoryforobj_800CFF80[]; // = "NO MEMORY FOR OBJ\n";
-extern const char camera_aCloseinfo_800CFFE0[];
-extern const char camera_aNomemoryforinfo_800CFFEC[];
-extern const char camera_aAllocinfox_800D0000[];
-extern const char camera_dword_800CFFC8[];
-extern const char camera_aFiles_800D0010[];
-extern const char camera_aThisissinreiphoto_800CFB40[];
-extern const char camera_aSinreinod_800CFB58[];
-extern char camera_aResultx_800CFF48[];
-extern char camera_aRequestx_800CFF3C[];
-extern char camera_aNomemoryforstack_800CFF54[];
-extern const char camera_a_800D0144[];
-extern const char camera_aNomemoryforfilebody_800CFCF8[];
-extern const char camera_aCardnodfilenames_800CFD14[];
-extern int camera_dword_800D0700;
-extern const char camera_aOutx_800CFAB4[];
-extern int camera_dword_800D0704;
-extern int camera_dword_800D0708;
-extern int camera_dword_800D0710;
+typedef struct SINREI_PHOTO
+{
+    int id;     /* texture id */
+    int sector; /* BRF file sector */
+    int size;
+} SINREI_PHOTO;
+
+/* Spirit ("sinrei") photos, indexed by sinrei number - 1 */
+SINREI_PHOTO camera_sinrei_photos_800C3218[] = {
+    {0x530C, 0x0A1E, 0x2AEB},
+    {0xEFCC, 0x0A24, 0x10FF},
+    {0x65B7, 0x0A27, 0x1D6A},
+    {0x8272, 0x0A2B, 0x2245},
+    {0xF00A, 0x0A30, 0x1C05},
+    {0x8327, 0x0A34, 0x177A},
+    {0xAA2B, 0x0A37, 0x1BF8},
+    {0xD137, 0x0A3B, 0x3122},
+    {0xBEEA, 0x0A42, 0x20D6},
+    {0xFE14, 0x0A47, 0x31BA},
+    {0xB8E3, 0x0A4E, 0x23EF},
+    {0x3810, 0x0A53, 0x2445},
+    {0xCF7C, 0x0A58, 0x2E9D},
+    {0xCA9A, 0x0A5E, 0x1FDC},
+    {0x7D2A, 0x0A62, 0x1B3A},
+    {0xCD2A, 0x0A66, 0x16B0},
+    {0xFEEC, 0x0A69, 0x180E},
+    {0x6A76, 0x0A6D, 0x2603},
+    {0xA8E5, 0x0A72, 0x39F5},
+    {0x7299, 0x0A7A, 0x2494},
+    {0x11BD, 0x0A7F, 0x1660},
+    {0x18D0, 0x0A82, 0x20A3},
+    {0x6ACF, 0x0A87, 0x1846},
+    {0x61E3, 0x0A8B, 0x1F94},
+    {0xD009, 0x0A8F, 0x166B},
+    {0x6375, 0x0A92, 0x1E99},
+    {0x75FF, 0x0A96, 0x180C},
+    {0x68FA, 0x0A9A, 0x1891},
+    {0x7B2F, 0x0A9E, 0x1611},
+    {0xAC34, 0x0AA1, 0x2603},
+    {0xB2F0, 0x0AA6, 0x1593},
+    {0x7CA4, 0x0AA9, 0x23A9},
+    {0xFA5B, 0x0AAE, 0x21B1},
+    {0x69B2, 0x0AB3, 0x25FF},
+    {0x2BCF, 0x0AB8, 0x2F26},
+    {0x68C8, 0x0ABE, 0x2606},
+    {0x82EA, 0x0AC3, 0x20E0},
+    {0xA791, 0x0AC8, 0x2965},
+    {0x800A, 0x0ACE, 0x2DB5},
+    {0xB911, 0x0AD4, 0x4043},
+    {0x386B, 0x0ADD, 0x1E0C},
+    {0x12E1, 0x0AE1, 0x12BA},
+    {0x4B59, 0x0AE4, 0x3601},
+};
+
+Menu_Triangle camera_triangle_800C341C = {295, 209, 303, 209, 299, 213, 0x80808080};
+
+int camera_dword_800C342C = 0;
+int camera_dword_800C3430 = -1;
+int camera_dword_800C3434 = 0;
+
+int camera_clutsAndIcons_800C3438[6][40] = {
+    {
+        // CLUT for icon 1 (8 * 4 bytes = 32 bytes)
+        0x24A51421, 0x45AD3529, 0x88A5631, 0x217414EF, 0x363929D6, 0x10750C13, 0x195A14D8, 0xEEB19BC,
+        // Icon 1 (32 * 4 bytes = 128 bytes): Snake
+        0x12211,    0xEA00310, 0x20000000, 0xEC00331, 0x23210012, 0xEB20243, 0x33332213, 0xEA10134,
+        0x44422233, 0xEA10123, 0x34322343, 0xED11212, 0x24444443, 0xEE02221, 0x24444343, 0xEE30132,
+        0x23444233, 0xEE00133, 0x22334301, 0xEB00123, 0x21224420, 0xD000113, 0x22100100, 0xA100202,
+        0x32112344, 0x1100201, 0x23233200, 0x1000200, 0x2212222,  0x1000220, 0,          0,
+    },
+    {
+        // CLUT for icon 2
+        0x24A51421, 0x45AD3529, 0x88A5631, 0x217414EF, 0x363929D6, 0x10750C13, 0x195A14D8, 0xEEB19BC,
+        // Icon 2: Meryl
+        0x11124444, 0x2221131, 0x21000134, 0x2210222, 0x1114,     0x1230,    0x10000124, 0x241,
+        0x11123234, 0x20234,   0x43334444, 0x10234,   0x44444444, 0x221233,  0x44444444, 0x1011133,
+        0x34444444, 0x2100123, 0x34444334, 0x1110023, 0x33444421, 0x1000012, 0x33433443, 0x100002,
+        0x23320211, 0xB001001, 0x13333233, 0xAC10000, 0x1333322,  0xCB10100, 0,          0,
+    },
+    {
+        // CLUT for icon 3
+        0x24A51421, 0x45AD3529, 0x88A5631, 0x217414EF, 0x363929D6, 0x10750C13, 0x195A14D8, 0xEEB19BC,
+        // Icon 3: Otacon
+        0x1343023,  0x1102021, 0x13444312, 0x1001020, 0x3444301,  0x120,     0x22343113, 0x10021,
+        0x32211213, 0x10012,   0x33334433, 0x21002,   0x24444433, 0x1002002, 0x24444334, 0x2210001,
+        0x23444314, 0xB100010, 0x12444302, 0xDA10011, 0x22344421, 0xEBA0002, 0x22212333, 0xEEC1001,
+        0x21310100, 0xEC10100, 0x12132344, 0xC312200, 0x2112222,  0x4233101, 0,          0,
+    },
+    {
+        // CLUT for icon 4
+        0x2CA51C21, 0x456B3908, 0x5E3151CE, 0x217414EF, 0x363929D6, 0x10550C13, 0x151814B7, 0x19BC195A,
+        // Icon 4: Ninja
+        0x34455555, 0xFA12022, 0x255300,   0xFA12300, 0x241CD,    0xFA12240, 0x21000BDA, 0xFA11234,
+        0x445521CD, 0xFB11223, 0x34455300, 0xFDA1123, 0x33445552, 0xFFA1122, 0x33445551, 0xFFA1112,
+        0x12344551, 0xFFB1221, 0x31344551, 0xFFDA122, 0x31334451, 0xFFFA112, 0x22014451, 0xFFFB012,
+        0x24213451, 0xFFFB111, 0x22313441, 0xFFFB201, 0x22312341, 0xFFFA310, 0,          0,
+    },
+    {
+        // CLUT for icon 5
+        0x14A90425, 0x35B1252D, 0x88A4635, 0x217414EF, 0x363929D6, 0x49035844, 0x2A4139A2, 0x1E8316E0,
+        // Icon 5: Mei Ling
+        0x10013444, 0xE021020, 0x12221234, 0xA010031, 0x12224,    0x32,      0x10001224, 0x200030,
+        0x10022324, 0x410332,  0x32233434, 0x210333,  0x44444444, 0x110233,  0x44444444, 0xA010133,
+        0x44444434, 0xCA10133, 0x34444432, 0xECBA023, 0x34433443, 0xEEDD013, 0x33421211, 0xEEED102,
+        0x23333222, 0xEEEC101, 0x12334310, 0xEED0100, 0x1233444,  0xEEA1002, 0,          0,
+    },
+    {
+        // CLUT for icon 6
+        0x14A90425, 0x35B1252D, 0x88A4635, 0x217414EF, 0x363929D6, 0x44693427, 0x60CD508B, 0x64896CEF,
+        // Icon 6: Campbell
+        0x11001123, 0xED00210, 0x10000003, 0xEB01100, 0x11201013, 0xB200210, 0x12212124, 0xB020221,
+        0x22322234, 0xC211123, 0x44322144, 0xDB10123, 0x33321234, 0xEC01012, 0x23211023, 0xEEB0112,
+        0x22122102, 0xEED1121, 0x21222332, 0xEED2122, 0x10121100, 0xEEC0122, 0x10123433, 0xEEA0021,
+        0x12222100, 0xEC00021, 0x1221111,  0xEA00102, 0x22222333, 0xB000301, 0,          0
+    }
+};
+
+char camera_memoryCardFileName_800C37F8[] = "BISLPM-99999        ";
 
 void camera_800C3ED8(Work *);
 void camera_800C6054(MenuWork *work, u_long *ot, SELECT_INFO *info);
 void camera_800CD790(Work *);
 void camera_800CDAB4(Work *);
-extern const char camera_aOverwriteok_800CFF2C[];
-extern const char camera_aYes_800D0094[];
-extern const char camera_aSavedatadelete_800D0448[];
-extern const char camera_aNo_800D0090[];
 void camera_800CDF18(Work *);
 void camera_800C4394(Work *);
 void camera_800CA918(Work *);
@@ -179,22 +287,22 @@ void camera_800C3B9C(int arg0, u_short *out)
 
     n = 1;
     i = 4;
-    hdr = (((u_char *)camera_dword_800D0700)[0] << 8) | ((u_char *)camera_dword_800D0700)[1];
+    hdr = (camera_photo_buf_800D0700[0] << 8) | camera_photo_buf_800D0700[1];
     *out++ = hdr;
     *out++ = 0x3800;
     count = hdr * 4;
-    *out++ = (((u_char *)camera_dword_800D0700)[2] << 8) | ((u_char *)camera_dword_800D0700)[3];
+    *out++ = (camera_photo_buf_800D0700[2] << 8) | camera_photo_buf_800D0700[3];
 
     while (i < count)
     {
-        b = ((u_char *)camera_dword_800D0700)[i];
+        b = camera_photo_buf_800D0700[i];
         if (!(b & 0x80))
         {
             if (b == 0xF)
             {
                 *out++ = 0xFE00;
                 i++;
-                c = ((u_char *)camera_dword_800D0700)[i];
+                c = camera_photo_buf_800D0700[i];
                 if (c == 0xF)
                 {
                     n++;
@@ -203,7 +311,7 @@ void camera_800C3B9C(int arg0, u_short *out)
                 i++;
                 n += 2;
                 run = c; /* required for the match */
-                *out = (run << 8) | ((u_char *)camera_dword_800D0700)[i];
+                *out = (run << 8) | camera_photo_buf_800D0700[i];
             }
             else
             {
@@ -216,7 +324,7 @@ void camera_800C3B9C(int arg0, u_short *out)
             i++;
             run = (b >> 1) & 0x3F;
             rest = b & 1; /* borrowed as a temp; a fresh local breaks the match */
-            level = (((u_char *)camera_dword_800D0700)[i] + (rest << 8)) - 0x100;
+            level = (camera_photo_buf_800D0700[i] + (rest << 8)) - 0x100;
             *out = (run << 10) | (level & 0x3FF);
             n++;
         }
@@ -230,7 +338,7 @@ void camera_800C3B9C(int arg0, u_short *out)
         *out++ = 0xFE00;
     }
 
-    printf((char *)camera_aOutx_800CFAB4, out);
+    printf("out = %x\n", (u_int)out);
 }
 void camera_800C3D3C(Work *work)
 {
@@ -316,51 +424,43 @@ void camera_800C3ED8(Work *work)
         dst++;
     }
 }
-extern int camera_dword_800C3218[];
-extern const char camera_aChecktextureid_800CFAC0[];
-extern const char camera_aThisidisexistsoiclearthisid_800CFAD4[];
-extern const char camera_aThisidisnotexist_800CFAFC[];
-extern const char camera_aTextureloadimagefinish_800CFB14[];
-
 int camera_800C408C(Work *unused, int idx)
 {
-    int   *base;
-    int   *entry;
-    int    id;
-    int    sector;
-    int    size;
-    void  *buf;
-    DG_TEX *tex;
+    SINREI_PHOTO *photos;
+    SINREI_PHOTO *photo;
+    int           id;
+    int           sector;
+    int           size;
+    void         *buf;
+    DG_TEX       *tex;
 
-    base   = camera_dword_800C3218;
-    entry  = base + idx * 3;
-    size   = entry[2];
-    id     = entry[0];
-    sector = entry[1];
+    photos = camera_sinrei_photos_800C3218;
+    photo  = &photos[idx];
+    size   = photo->size;
+    id     = photo->id;
+    sector = photo->sector;
     buf    = GV_Malloc(size);
     FS_LoadFileRequest(FS_FILE_BRF, sector, size, buf);
     while (FS_LoadFileSync() > 0)
     {
         mts_wait_vbl(1);
     }
-    printf((char *)camera_aChecktextureid_800CFAC0);
+    printf("Check Texture Id\n");
     tex = DG_GetTexture(id);
     if (tex->id != 0)
     {
         tex->id = 0;
-        printf((char *)camera_aThisidisexistsoiclearthisid_800CFAD4);
+        printf("This Id is Exist. So I clear This ID!\n");
     }
     else
     {
-        printf((char *)camera_aThisidisnotexist_800CFAFC);
+        printf("This Id is not Exist!\n");
     }
     DG_LoadInitPcx(buf, id);
-    printf((char *)camera_aTextureloadimagefinish_800CFB14);
+    printf("Texture LoadImage Finish!\n");
     GV_Free(buf);
     return id;
 }
-
-extern const char camera_aCamexflush_800CFB30[];
 
 void camera_800C4184(Work *work)
 {
@@ -407,7 +507,7 @@ void camera_800C4184(Work *work)
     p->x1 = 0xA0;  p->y1 = -0x70;
     p->x2 = -0xA0; p->y2 = 0x70;
     p->x3 = 0xA0;  p->y3 = 0x70;
-    tex = DG_GetTexture(GV_StrCode(camera_aCamexflush_800CFB30));
+    tex = DG_GetTexture(GV_StrCode("cam_ex_flush"));
     {
         int off_x = tex->off_x;
         int w     = tex->w;
@@ -432,11 +532,37 @@ void camera_800C4184(Work *work)
 
 void camera_800C4350(Work* work) {
 
-    printf((char *)camera_aThisissinreiphoto_800CFB40);
-    printf((char *)camera_aSinreinod_800CFB58, work->field_4934);
+    printf("This is Sinrei Photo!\n");
+    printf("Sinrei No = %d\n", work->field_4934);
 
     camera_800C4184(work);
 }
+
+/*
+ * rdata (strings, switch jump tables) of the functions that are still asm.
+ * The jump tables hold code addresses inside those functions.
+ */
+/* rdata of camera_800C4394 */
+const char camera_aThisphotodataisfirst_800CFB68[] = "This Photo Data is First\n";
+const char camera_aThisphotodataischanged_800CFB84[] = "This Photo Data is Changed\n";
+const char camera_aPhotonamenod_800CFBA0[] = "photo name no = %d\n";
+const char camera_aPhotonames_800CFBB4[] = "photo name = %s\n";
+const char camera_aPhotonod_800CFBC8[] = "photo_no = %d\n";
+const char camera_aHeaderx_800CFBD8[] = "header = %x\n";
+const char camera_aSinreid_800CFBE8[] = "sinrei = %d\n";
+const char camera_aRdgdbd_800CFBF8[] = "r = %d g = %d b = %d\n";
+const char camera_aPrdpgdpbd_800CFC10[] = "pr = %d pg = %d pb = %d\n";
+const char camera_aCompresx_800CFC2C[] = "comp_res = %x\n";
+const int camera_jt_800CFC3C[] __attribute__((aligned(8))) = {
+    0x800C44DC, 0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524,
+    0x800C44E4, 0x800C4524, 0x800C44EC, 0x800C44F4, 0x800C4524, 0x800C4524,
+    0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524,
+    0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524,
+    0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524,
+    0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524,
+    0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524, 0x800C4524,
+    0x800C4524, 0x800C4524, 0x800C4524, 0x800C44FC, 0x800C4504,
+};
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4394.s")
 int camera_800C4790(MEMCARD *pMemcard)
@@ -452,11 +578,11 @@ int camera_800C4790(MEMCARD *pMemcard)
 
     GM_PadResetDisable = TRUE;
 
-    size = camera_dword_800D072C->blocks_count * MEMCARD_BLOCK_SIZE;
+    size = camera_data_info_800D072C->blocks_count * MEMCARD_BLOCK_SIZE;
     buffer = GV_AllocMemory(2, size);
     if (!buffer)
     {
-        printf((char *)camera_aNomemoryforfilebody_800CFCF8);
+        printf("NO MEMORY FOR FILE BODY\n");
     }
 
     GV_ZeroMemory(buffer, size);
@@ -464,9 +590,9 @@ int camera_800C4790(MEMCARD *pMemcard)
     buffer[0] = 'S';
     buffer[1] = 'C';
     buffer[2] = 0x11;
-    buffer[3] = camera_dword_800D072C->blocks_count;
+    buffer[3] = camera_data_info_800D072C->blocks_count;
 
-    idx = camera_dword_800D072C->field_0[1];
+    idx = camera_data_info_800D072C->field_0[1];
     buffer_copy = buffer;
 
     if (idx == 0)
@@ -490,30 +616,30 @@ int camera_800C4790(MEMCARD *pMemcard)
         flags2 = idx;
     }
 
-    memcpy(buffer_copy + 96, camera_dword_800C3438[idx], 160);
+    memcpy(buffer_copy + 96, camera_clutsAndIcons_800C3438[idx], 160);
 
     hours = (unsigned short)GM_PlayTimeHours;
     seconds = (unsigned short)GM_PlayTimeSeconds;
     minutes = seconds / 60;
 
-    camera_dword_800D072C->make_title(buffer_copy + 4, pMemcard, hours, minutes);
-    strcpy(camera_dword_800C37F8, MGS_MemoryCardName);
+    camera_data_info_800D072C->make_title(buffer_copy + 4, pMemcard, hours, minutes);
+    strcpy(camera_memoryCardFileName_800C37F8, MGS_MemoryCardName);
 
-    camera_dword_800C37F8[12] = camera_dword_800D072C->field_0[0];
-    camera_dword_800C37F8[13] = (hours / 10) + '0';
-    camera_dword_800C37F8[14] = (hours % 10) + '0';
-    camera_dword_800C37F8[15] = (minutes / 10) + '0';
-    camera_dword_800C37F8[16] = (minutes % 10) + '0';
-    camera_dword_800C37F8[17] = flags2 + '@';
-    camera_dword_800C37F8[18] = camera_dword_800D072C->field_2 + '@';
+    camera_memoryCardFileName_800C37F8[12] = camera_data_info_800D072C->field_0[0];
+    camera_memoryCardFileName_800C37F8[13] = (hours / 10) + '0';
+    camera_memoryCardFileName_800C37F8[14] = (hours % 10) + '0';
+    camera_memoryCardFileName_800C37F8[15] = (minutes / 10) + '0';
+    camera_memoryCardFileName_800C37F8[16] = (minutes % 10) + '0';
+    camera_memoryCardFileName_800C37F8[17] = flags2 + '@';
+    camera_memoryCardFileName_800C37F8[18] = camera_data_info_800D072C->field_2 + '@';
 
     for (i = 0; i < 16; i++)
     {
-        camera_dword_800C37F8[19] = 'A' + i;
+        camera_memoryCardFileName_800C37F8[19] = 'A' + i;
         flags1 = 0;
         for (file = 0; file < pMemcard->file_count; file++)
         {
-            if (!strcmp(pMemcard->files[file].name, camera_dword_800C37F8))
+            if (!strcmp(pMemcard->files[file].name, camera_memoryCardFileName_800C37F8))
             {
                 flags1 = 1;
             }
@@ -526,11 +652,11 @@ int camera_800C4790(MEMCARD *pMemcard)
     }
 
     success = 0;
-    camera_dword_800D072C->make_game_data(buffer_copy + 256);
+    camera_data_info_800D072C->make_game_data(buffer_copy + 256);
 
     for (retries = 4; retries > 0; retries--)
     {
-        memcard_write(pMemcard->port, camera_dword_800C37F8, 0, buffer, size);
+        memcard_write(pMemcard->port, camera_memoryCardFileName_800C37F8, 0, buffer, size);
         while ((i = memcard_status()) > 0)
         {
             mts_wait_vbl(2);
@@ -558,14 +684,14 @@ int camera_800C4BAC(MEMCARD *card, int index) {
     buffer = GV_AllocMemory(2, 0x4000);
 
     if (!buffer) {
-        printf((char *)camera_aNomemoryforfilebody_800CFCF8);
+        printf("NO MEMORY FOR FILE BODY\n");
     }
 
     result = 0;
     retries = 4;
 
-    camera_dword_800D0700 = (int)buffer;
-    camera_dword_800D0704 = (int)buffer;
+    camera_photo_buf_800D0700 = buffer;
+    camera_file_buf_800D0704 = buffer;
 
     for (; retries > 0; retries--) {
         memcard_read(card->port, card->files[index].name, 0, buffer, 0x4000);
@@ -575,13 +701,13 @@ int camera_800C4BAC(MEMCARD *card, int index) {
         }
 
         if (memcard_status() == 0) {
-            *(char *)&camera_dword_800D0708 = card->port;
+            camera_card_port_800D0708 = card->port;
             for (i = 0; i < 24; i++) {
                 /* per-iteration scope for p710 is required for the match */
-                char *p710 = (char *)&camera_dword_800D0710;
+                char *p710 = camera_file_name_800D0710;
                 p710[i] = card->files[index].name[i];
             }
-            printf((char *)camera_aCardnodfilenames_800CFD14, *(unsigned char *)&camera_dword_800D0708, (char *)&camera_dword_800D0710);
+            printf("card_no = %d file_name = %s\n", camera_card_port_800D0708, camera_file_name_800D0710);
             result = 1;
             break;
         }
@@ -591,35 +717,113 @@ int camera_800C4BAC(MEMCARD *card, int index) {
     return result;
 }
 
+const char *camera_saveCaptions_800C3810[] = {
+    "\x00", // Different from the other empty strings used below for some reason
+    // セーブが完了しました。 (Save completed.)
+    "\x82\x1b\xd0\x06\x82\x36\x81\x0c\x91\x07\x91\x08\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
+    // セーブできませんでした。 (Could not save.)
+    "\x82\x1b\xd0\x06\x82\x36\x81\x27\x81\x0d\x81\x3e\x81\x1b\x81\x53\x81\x27\x81\x17\x81\x1f\xd0\x03",
+    // エラーが発生しました。 (An error occurred.)
+    "\x82\x08\x82\x49\xd0\x06\x81\x0c\x90\x7e\x90\xca\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
+    // 空きブロックがたりません。 (Not enough empty blocks.)
+    "\x90\x92\x81\x0d\x82\x36\x82\x4d\xc2\x23\x82\x0f\x81\x0c\x81\x1f\x81\x4a\x81\x3e\x81\x1b\x81\x53\xd0\x03",
+    // メモリーカードが初期化されていません。 (Memory card is not initialized.)
+    "\x82\x41\x82\x42\x82\x4a\xd0\x06\x82\x0b\xd0\x06\x82\x29\x81\x0c\x91\x10\x91\x11\x90\x64\x81\x15\x81\x4c\x81\x26\x81\x04\x81\x3e\x81\x1b\x81\x53\xd0\x03",
+    // セーブしました。 (Saved.)
+    "\x82\x1b\xd0\x06\x82\x36\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
+    // フォーマットに失敗しました。 (Failed to format.)
+    "\x82\x35\xc2\x09\xd0\x06\x82\x3e\xc2\x23\x82\x28\x81\x2b\x91\x09\x91\x0a\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
+    // メモリーカードがさされていません。 (Memory card is not inserted.)
+    "\x82\x41\x82\x42\x82\x4a\xd0\x06\x82\x0b\xd0\x06\x82\x29\x81\x0c\x81\x15\x81\x15\x81\x4c\x81\x26\x81\x04\x81\x3e\x81\x1b\x81\x53\xd0\x03",
+    // セーブ中です。 (Saving.)
+    "\x82\x1b\xd0\x06\x82\x36\x90\xcd\x81\x27\x81\x19\xd0\x03",
+    // メモリーカードをチェックしています。 (Checking memory card.)
+    "\x82\x41\x82\x42\x82\x4a\xd0\x06\x82\x0b\xd0\x06\x82\x29\x81\x52\x82\x21\xc2\x07\xc2\x23\x82\x0f\x81\x17\x81\x26\x81\x04\x81\x3e\x81\x19\xd0\x03",
+    // フォーマットしています。 (Formatting.)
+    "\x82\x35\xc2\x09\xd0\x06\x82\x3e\xc2\x23\x82\x28\x81\x17\x81\x26\x81\x04\x81\x3e\x81\x19\xd0\x03",
+};
+
+const char *camera_loadCaptions_800C3840[] = {
+    "\x00", // Different from the other empty strings used below for some reason
+    // ロードが完了しました。 (Load completed.)
+    "\x82\x4d\xd0\x06\x82\x29\x81\x0c\x91\x07\x91\x08\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
+    // ロードできませんでした。 (Could not load.)
+    "\x82\x4d\xd0\x06\x82\x29\x81\x27\x81\x0d\x81\x3e\x81\x1b\x81\x53\x81\x27\x81\x17\x81\x1f\xd0\x03",
+    // エラーが発生しました。 (An error occurred.)
+    "\x82\x08\x82\x49\xd0\x06\x81\x0c\x90\x7e\x90\xca\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
+    // セーブファイルがありません。 (There is no save file.)
+    "\x82\x1b\xd0\x06\x82\x36\x82\x35\xc2\x01\x82\x04\x82\x4b\x81\x0c\x81\x02\x81\x4a\x81\x3e\x81\x1b\x81\x53\xd0\x03",
+    // メモリーカードが初期化されていません。 (Memory card is not initialized.)
+    "\x82\x41\x82\x42\x82\x4a\xd0\x06\x82\x0b\xd0\x06\x82\x29\x81\x0c\x91\x10\x91\x11\x90\x64\x81\x15\x81\x4c\x81\x26\x81\x04\x81\x3e\x81\x1b\x81\x53\xd0\x03",
+    // ロードしました。 (Loaded.)
+    "\x82\x4d\xd0\x06\x82\x29\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
+    // フォーマットに失敗しました。 (Failed to format.)
+    "\x82\x35\xc2\x09\xd0\x06\x82\x3e\xc2\x23\x82\x28\x81\x2b\x91\x09\x91\x0a\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
+    // メモリーカードがさされていません。 (Memory card is not inserted.)
+    "\x82\x41\x82\x42\x82\x4a\xd0\x06\x82\x0b\xd0\x06\x82\x29\x81\x0c\x81\x15\x81\x15\x81\x4c\x81\x26\x81\x04\x81\x3e\x81\x1b\x81\x53\xd0\x03",
+    // ロード中です。 (Loading.)
+    "\x82\x4d\xd0\x06\x82\x29\x90\xcd\x81\x27\x81\x19\xd0\x03",
+    // メモリーカードをチェックしています。 (Checking memory card.)
+    "\x82\x41\x82\x42\x82\x4a\xd0\x06\x82\x0b\xd0\x06\x82\x29\x81\x52\x82\x21\xc2\x07\xc2\x23\x82\x0f\x81\x17\x81\x26\x81\x04\x81\x3e\x81\x19\xd0\x03",
+    // フォーマットしています。 (Formatting.)
+    "\x82\x35\xc2\x09\xd0\x06\x82\x3e\xc2\x23\x82\x28\x81\x17\x81\x26\x81\x04\x81\x3e\x81\x19\xd0\x03",
+};
+
+const char *camera_save_prompt_msg_jp_800C3870[] = {
+    // 上書きしてよろしいですか？
+    "\x91\x0b\x90\x27\x81\x0d\x81\x17\x81\x26\x81\x48\x81\x4d\x81\x17\x81\x04\x81\x27\x81\x19\x81\x0b\xc0\x3f",
+    // フォーマットしますか？
+    "\x82\x35\xc2\x09\xd0\x06\x82\x3e\xc2\x23\x82\x28\x81\x17\x81\x3e\x81\x19\x81\x0b\xc0\x3f",
+};
+
+const char *camera_save_prompt_msg_en_800C3878[] = {"OVERWRITE OK?", "FORMAT OK?"};
+
+int camera_dword_800C3880 = -1;
+int camera_dword_800C3884 = 0;
+
 int camera_800C4D20(int arg0) {
 
-    camera_dword_800D0738 = arg0;
-    printf(camera_aRequestx_800CFF3C, arg0);
+    camera_request_800D0738 = arg0;
+    printf("REQUEST %X\n", arg0);
 
     mts_slp_tsk();
-    printf(camera_aResultx_800CFF48, camera_dword_800D073C);
+    printf("RESULT %X\n", camera_result_800D073C);
 
-    return camera_dword_800D073C;
+    return camera_result_800D073C;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4D70.s")
 void camera_800C4D70(void);
 void camera_800C5308(int arg0) {
 
-    void* temp_v0;
+    char *temp_v0;
 
     temp_v0 = GV_AllocMemory(GV_NORMAL_MEMORY, 2048);
-    camera_dword_800D0730 = temp_v0;
+    camera_stack_800D0730 = temp_v0;
 
     if (temp_v0 == NULL) {
 
-        printf(camera_aNomemoryforstack_800CFF54);
+        printf("NO MEMORY FOR STACK\n");
     }
 
     camera_dword_800D0728 = arg0;
-    mts_start_task(MTSID_MEMORY_CARD, camera_800C4D70, camera_dword_800D0730 + 2048, 2048);
+    mts_start_task(MTSID_MEMORY_CARD, camera_800C4D70, camera_stack_800D0730 + 2048, 2048);
 }
 
+const char *camera_dword_800C3888[] = {
+    NULL,
+    NULL,
+    "COMPLETE",
+    NULL,
+    "ERROR"
+};
+
+RECT camera_rect_800C389C = {960, 260, 63, 76};
+
+// The small triangle above the files list suggesting that there are more entries.
+Menu_Triangle camera_upperTriangle_800C38A4 = {155, 79, 160, 74, 165, 79, 0x80808080};
+// The small triangle below the files list suggesting that there are more entries.
+Menu_Triangle camera_lowerTriangle_800C38B4 = {156, 184, 160, 188, 164, 184, 0x80808080};
 
 void move_coord_800C5388(int *arr, int len)
 {
@@ -740,7 +944,7 @@ void camera_800C56F4()
         (RadioFileModeStru_800ABB7C *)GV_AllocMemory(GV_NORMAL_MEMORY, sizeof(RadioFileModeStru_800ABB7C));
     if (camera_dword_800D075C == NULL)
     {
-        printf((char *)camera_aNomemoryforobj_800CFF80);
+        printf("NO MEMORY FOR OBJ\n");
     }
 
     for (i = 0; i < 12; i++)
@@ -754,8 +958,6 @@ void camera_800C5750(void)
     GV_FreeMemory(GV_NORMAL_MEMORY, camera_dword_800D075C);
 }
 
-extern int camera_dword_800C3888;
-
 void camera_800C5778(int idx, int param_2, int param_3, int divisor, int idx2)
 {
     RadioFileModeUnk2     *pUnk;
@@ -764,7 +966,7 @@ void camera_800C5778(int idx, int param_2, int param_3, int divisor, int idx2)
     pUnk = &camera_dword_800D075C->field_c0_array[idx];
     pElem = &camera_dword_800D075C->field_0_array[idx];
 
-    pUnk->field_4 = (const char *)((int *)&camera_dword_800C3888)[idx2];
+    pUnk->field_4 = camera_dword_800C3888[idx2];
 
     pElem->field_8_pFn = camera_800C53B8;
     pElem->field_C_unk1 = (RadioFileModeUnk1 *)pUnk;
@@ -937,9 +1139,9 @@ void camera_800C5D54(MenuWork *work)
         KCB *ptr_local_kcb = &local_kcb;
 
         GV_ZeroMemory(ptr_local_kcb, sizeof(KCB));
-        ClearImage(&camera_dword_800C389C, 0, 0, 0);
+        ClearImage(&camera_rect_800C389C, 0, 0, 0);
 
-        font_init_kcb(ptr_local_kcb, &camera_dword_800C389C, 960, 510);
+        font_init_kcb(ptr_local_kcb, &camera_rect_800C389C, 960, 510);
         font_set_kcb(ptr_local_kcb, -1, -1, 0, 6, 2, 0);
 
         allocated_kcb = (KCB *)GV_AllocMemory(GV_NORMAL_MEMORY, font_get_buffer_size(ptr_local_kcb) + sizeof(KCB));
@@ -1009,7 +1211,7 @@ void camera_800C5F20(SELECT_INFO *info)
         name = info->menu[i + top].mes;
         if (name[0] != '\0')
         {
-            camera_dword_800D072C->make_menu(mes, name);
+            camera_data_info_800D072C->make_menu(mes, name);
             font_draw_string(kcb, x, y, mes, 2);
         }
     }
@@ -1043,6 +1245,14 @@ void camera_800C6054(MenuWork *work, u_long *ot, SELECT_INFO *info)
     addPrim(ot, pPrim);
 }
 
+/* rdata of camera_800C6110 */
+const char camera_aDiscd_800CFF94[] = "DISC %d";
+const char camera_aTime_800CFF9C[] = "TIME";
+const char camera_aNewfileneeddblocks_800CFFA4[] = "NEW FILE [ NEED %d BLOCK%s ]";
+const char camera_aS_800CFFC4[] = "S";
+const char camera_dword_800CFFC8[] = "";
+const char camera_aFreedblocks_800CFFCC[] = "FREE: %d BLOCK%s";
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C6110.s")
 
 void camera_800C68BC(char *arg0, char *arg1)
@@ -1052,7 +1262,7 @@ void camera_800C68BC(char *arg0, char *arg1)
 
 void camera_800C68DC(void *ptr)
 {
-    printf((char *)camera_aCloseinfo_800CFFE0);
+    printf("close info\n");
     if (ptr)
     {
         GV_FreeMemory(GV_NORMAL_MEMORY, ptr);
@@ -1069,9 +1279,9 @@ void camera_800C6918(void **arg0, int arg1)
         *arg0 = temp_v0;
         if (temp_v0 == NULL)
         {
-            printf((char *)camera_aNomemoryforinfo_800CFFEC);
+            printf("NO MEMORY FOR INFO\n");
         }
-        printf((char *)camera_aAllocinfox_800D0000, *arg0);
+        printf("alloc info %X\n", (u_int)*arg0);
     }
 }
 
@@ -1122,15 +1332,15 @@ int camera_800C6A40(MenuWork *work, MEMCARD *pMemcard, const char *param_3,
 
     pIter = info->menu;
 
-    strcpy(camera_dword_800C37F8, MGS_MemoryCardName);
-    camera_dword_800C37F8[12] = camera_dword_800D072C->field_0[0];
+    strcpy(camera_memoryCardFileName_800C37F8, MGS_MemoryCardName);
+    camera_memoryCardFileName_800C37F8[12] = camera_data_info_800D072C->field_0[0];
 
     for (i = 0; i < pMemcard->file_count; i++)
     {
         pMcFile = &pMemcard->files[i];
-        printf((char *)camera_aFiles_800D0010, pMcFile->name);
+        printf("FILE %s\n", pMcFile->name);
 
-        if (strncmp(pMcFile->name, camera_dword_800C37F8, 13) == 0)
+        if (strncmp(pMcFile->name, camera_memoryCardFileName_800C37F8, 13) == 0)
         {
             camera_800C68BC(pIter->mes, pMcFile->name);
             pIter->num = i;
@@ -1138,9 +1348,9 @@ int camera_800C6A40(MenuWork *work, MEMCARD *pMemcard, const char *param_3,
         }
     }
 
-    if (camera_dword_800D0728 == 0 && pMemcard->free_blocks >= camera_dword_800D072C->blocks_count)
+    if (camera_dword_800D0728 == 0 && pMemcard->free_blocks >= camera_data_info_800D072C->blocks_count)
     {
-        memcpy(pIter->mes, (char *)camera_dword_800CFFC8, 1);
+        memcpy(pIter->mes, camera_dword_800CFFC8, 1);
         pIter->num = 16;
         pIter++;
     }
@@ -1148,7 +1358,7 @@ int camera_800C6A40(MenuWork *work, MEMCARD *pMemcard, const char *param_3,
     info->kcb = work->field_214_font;
     info->max_num = pIter - info->menu;
 
-    if (camera_dword_800D072C->field_0[0] != 71)
+    if (camera_data_info_800D072C->field_0[0] != 71)
     {
         if (info->max_num && pIter[-1].num == 16)
         {
@@ -1246,7 +1456,7 @@ int camera_800C6CCC(GV_PAD *pPad, int *pOut, SELECT_INFO *info)
         }
         field_20 = info->menu[info->current].num;
         *pOut = field_20;
-        if (camera_dword_800D072C->field_0[0] == 71)
+        if (camera_data_info_800D072C->field_0[0] == 71)
         {
             if (field_20 < 16)
             {
@@ -1268,10 +1478,10 @@ int camera_800C6CCC(GV_PAD *pPad, int *pOut, SELECT_INFO *info)
     return 0;
 }
 
-extern int camera_dword_800C3884;
-extern const char *gMemoryCardNames_800C38C4[];
-extern int camera_dword_800C3430;
-extern const int camera_aNocard_800D003C[];
+const char *gMemoryCardNames_800C38C4[] = {
+    "MEMORY CARD 1",    // 0
+    "MEMORY CARD 2"     // 1
+};
 
 // duplicate of menu_radio_do_file_mode_helper14_8004BE98
 void camera_800C6E78(MenuWork *work, char *param_2, SELECT_INFO *info)
@@ -1306,7 +1516,7 @@ void camera_800C6E78(MenuWork *work, char *param_2, SELECT_INFO *info)
     idx_copy = idx;
     if (infoChild == info->menu)
     {
-        memcpy(&info->menu[0].mes, camera_aNocard_800D003C, 8);
+        memcpy(&info->menu[0].mes, "NO CARD", 8);
         infoChild->num = 2;
         infoChild = &info->menu[1];
     }
@@ -1460,12 +1670,25 @@ int camera_800C72CC(GV_PAD *pPad, int *pOut, SELECT_INFO *info)
 
     return 0;
 }
+/* rdata of camera_800C73E4 */
+const char camera_aSaving_800D0044[] = "SAVING...";
+const char camera_aNospace_800D0050[] = "NO SPACE";
+const char camera_aPhotodata_800D005C[] = "PHOTO DATA";
+const char camera_aLoading_800D0068[] = "LOADING...";
+const char camera_aNofile_800D0074[] = "NO FILE";
+const char camera_aSelectmemorycard_800D007C[] = "SELECT MEMORY CARD";
+const char *camera_yes_no_800C38CC[] = {"YES", "NO"};
+const char camera_aPresstoexit_800D0098[] = "PRESS * TO EXIT";
+const char camera_aResd_800D00A8[] = "Res %d\n";
+const char camera_aPresstoselectmemorycard_800D00B0[] = "PRESS * TO SELECT MEMORY CARD";
+const char camera_aEndsavemode_800D00D0[] = "END SAVE MODE\n";
+const char camera_aEndstated_800D00E0[] = "END STATE %d\n";
+const int camera_jt_800D00F4[] __attribute__((aligned(8))) = {
+    0x800C74C4, 0x800C7580, 0x800C7B4C, 0x800C7BE8, 0x800C7D7C, 0x800C7CB8,
+    0x800C7E64,
+};
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C73E4.s")
-extern int        camera_dword_800D0770;
-extern int        camera_dword_800D0728;
-extern int        camera_dword_800D0774;
-extern const char camera_aNoplace_800D0110[];
-extern const char camera_dword_800D011C[];
 
 void camera_800C7FF4(int code, char **pAreaNameForMenu, char **pAreaNameForSaveData)
 {
@@ -1473,11 +1696,11 @@ void camera_800C7FF4(int code, char **pAreaNameForMenu, char **pAreaNameForSaveD
 
     if (code == 0)
     {
-        *pAreaNameForMenu = (char *)camera_aNoplace_800D0110;
-        *pAreaNameForSaveData = (char *)camera_dword_800D011C;
+        *pAreaNameForMenu = "NO PLACE";
+        *pAreaNameForSaveData = "\x81\x40";
     }
 
-    GCL_SetArgTop((unsigned char *)camera_dword_800D0770);
+    GCL_SetArgTop(camera_gcl_args_800D0770);
 
     for (i = 0; i < code; i++)
     {
@@ -1493,11 +1716,7 @@ void camera_800C7FF4(int code, char **pAreaNameForMenu, char **pAreaNameForSaveD
     }
 }
 
-extern const char camera_aSssss_800D0120[];
-extern const char camera_dword_800D011C[];
-extern const char camera_dword_800D012C[];
-extern int        camera_dword_800C38D4;
-extern int        camera_dword_800D0774;
+char camera_dockAreaName_800C38D4[] = { "\x82\x63\x82\x8F\x82\x83\x82\x8B" }; // Ｄｏｃｋ
 
 void camera_800C80E4(char *out, MEMCARD *unused, int hours, int minutes)
 {
@@ -1520,22 +1739,20 @@ void camera_800C80E4(char *out, MEMCARD *unused, int hours, int minutes)
     if (camera_dword_800D0774 == 0)
     {
         camera_800C7FF4(1, &discard, &areaName);
-        areaName = (char *)&camera_dword_800C38D4;
+        areaName = camera_dockAreaName_800C38D4;
     }
     else
     {
         camera_800C7FF4(camera_dword_800D0774, &discard, &areaName);
     }
 
-    sprintf(out, (char *)camera_aSssss_800D0120,
-            camera_dword_800D012C, camera_dword_800D011C, playTime, camera_dword_800D011C, areaName);
+    /* ＭＧＳ∫ */
+    sprintf(out, "%s%s%s%s%s", "\x82\x6C\x82\x66\x82\x72\x81\xE7", "\x81\x40", playTime, "\x81\x40", areaName);
 }
-
-extern const char camera_aPhotod_800D0138[];
 
 void camera_800C8208(char *out, char *in)
 {
-    sprintf(out, (char *)camera_aPhotod_800D0138, in[6] - 0x40);
+    sprintf(out, "PHOTO %02d\n", in[6] - 0x40);
 }
 
 void jpegcam_initSaveBuffer_800C8234(char *arg0)
@@ -1555,23 +1772,33 @@ void jpegcam_initSaveBuffer_800C8234(char *arg0)
             break;
         }
         buff += chunkSize;
-        printf((char *)camera_a_800D0144);
+        printf("*");
     }
 }
 
-void        camera_800C5308(int);
+void camera_800C5308(int);
+
+DATA_INFO camera_dataInfo_800C38E0 = {
+    {0x43, 0},                          // field_0
+    0,                                  // field_2
+    1,                                  // blocks_count
+    "SAVE DATA",                        // field_4_name
+    camera_800C80E4,                    // make_title
+    camera_800C8208,                    // make_menu
+    jpegcam_initSaveBuffer_800C8234     // make_game_data
+};
 
 void camera_800C82B0(DATA_INFO *arg0, int arg1)
 {
     camera_dword_800D0764 = 0;
-    camera_dword_800D072C = arg0;
+    camera_data_info_800D072C = arg0;
     camera_800C56F4();
     camera_800C5308(arg1);
 }
 
 void camera_800C82EC(void)
 {
-    camera_800C82B0(&camera_dword_800C38E0, 1);
+    camera_800C82B0(&camera_dataInfo_800C38E0, 1);
 }
 
 void camera_800C8314(MenuPrim *prim, SELECT_INFO *info)
@@ -1593,7 +1820,11 @@ typedef struct CaptionInfo
     int     color;
 } CaptionInfo;
 
-extern int camera_dword_800C38F4;
+/* Punctuation glyphs of the caption font: character, unknown */
+char camera_dword_800C38F4[][2] = {
+    {'.', 2}, {'@', 2}, {':', 2}, {'_', 4}, {'!', 2}, {'?', 6}, {'+', 6},
+    {'-', 6}, {'/', 6}, {'*', 6}, {'{', 3}, {'}', 3}, {0, 0}
+};
 
 void camera_800C838C(MenuPrim *prim, CaptionInfo *info, char *str)
 {
@@ -1643,7 +1874,7 @@ void camera_800C838C(MenuPrim *prim, CaptionInfo *info, char *str)
         else
         {
             u = 0;
-            for (tbl = (char *)&camera_dword_800C38F4;; tbl += 2, u += 8)
+            for (tbl = camera_dword_800C38F4[0];; tbl += 2, u += 8)
             {
                 if (*tbl == c)
                 {
@@ -1860,12 +2091,43 @@ void camera_800C89DC(Work *work)
     work->field_4938 = 0;
     camera_800C86BC(work, -0x90, 0x5A, 0x70, 0xC, 0xFF, 0);
 }
+/* rdata of camera_800C8AD4 */
+const int camera_jt_800D0154[] __attribute__((aligned(8))) = {
+    0x800C8C24, 0x800C8C4C, 0x800C8C80, 0x800C8C9C, 0x800C8BCC, 0x800C8C04,
+    0x800C8D90, 0x800C8DF4, 0x800C8E7C, 0x800C8F00, 0x800C8F84, 0x800C9008,
+    0x800C9088, 0x800C9108, 0x800C918C, 0x800C920C, 0x800C9290, 0x800C9310,
+    0x800C9390, 0x800C9410, 0x800C947C, 0x800C94F8, 0x800C957C, 0x800C95F4,
+    0x800C9674, 0x800C96F4, 0x800C9774, 0x800C97F4, 0x800C9878, 0x800C98F8,
+    0x800C9978, 0x800C99F8, 0x800C9A78, 0x800C9AFC, 0x800C9B6C, 0x800C9BF0,
+    0x800C9C74, 0x800C9CF4, 0x800C9D70, 0x800C9DF0, 0x800C9E70, 0x800C9EF4,
+    0x800C9F74, 0x800CA074, 0x800C9FF4, 0x800CA174, 0x800CA0F4, 0x800CA1F4,
+    0x800CA2F4, 0x800CA274, 0x800CA378, 0x800CA3F8, 0x800CA59C, 0x800CA59C,
+    0x800CA59C, 0x800CA59C, 0x800CA59C, 0x800CA59C, 0x800CA59C, 0x800CA59C,
+    0x800CA59C, 0x800CA59C, 0x800CA59C, 0x800CA59C, 0x800CA59C, 0x800CA59C,
+    0x800CA59C, 0x800CA59C, 0x800CA59C, 0x800CA59C, 0x800CA59C, 0x800CA59C,
+    0x800CA59C, 0x800CA59C, 0x800CA59C, 0x800CA59C, 0x800CA59C, 0x800CA59C,
+    0x800CA608, 0x800CA608, 0x800CA608, 0x800CA608, 0x800CA608, 0x800CA608,
+    0x800CA608, 0x800CA608, 0x800CA608, 0x800CA608, 0x800CA674, 0x800CA6D4,
+    0x800CA734, 0x800CA794, 0x800CA7F4, 0x800CA854, 0x800CA564, 0x800CA584,
+    0x800CA4D4, 0x800CA528,
+};
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8AD4.s")
+
+/* rdata of camera_800CA918 */
+const char camera_a_800D02DC[] = "-";
+const int camera_jt_800D02E4[] __attribute__((aligned(8))) = {
+    0x800CA960, 0x800CAC34, 0x800CACB8, 0x800CAA94, 0x800CAE1C,
+};
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CA918.s")
+
+/* rdata of camera_800CB024 */
+const int camera_jt_800D02FC[] __attribute__((aligned(8))) = {
+    0x800CB070, 0x800CB1E4, 0x800CB384, 0x800CB528, 0x800CB564, 0x800CB5FC,
+};
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CB024.s")
-extern const char camera_a_800D02DC[];
-extern const char camera_a_800D0314[];
-extern const char camera_aD_800D0318[];
 
 /* Colour adjustment screen: draws the +/- values and positions the slider bars */
 void camera_800CB8AC(Work *work)
@@ -1889,11 +2151,11 @@ void camera_800CB8AC(Work *work)
     {
         if (work->field_4980 > 0)
         {
-            MENU_Printf((char *)camera_a_800D0314);
+            MENU_Printf("+");
         }
         else
         {
-            MENU_Printf((char *)camera_a_800D02DC);
+            MENU_Printf(camera_a_800D02DC);
         }
     }
 
@@ -1903,11 +2165,11 @@ void camera_800CB8AC(Work *work)
     {
         if (work->field_4984 > 0)
         {
-            MENU_Printf((char *)camera_a_800D0314);
+            MENU_Printf("+");
         }
         else
         {
-            MENU_Printf((char *)camera_a_800D02DC);
+            MENU_Printf(camera_a_800D02DC);
         }
     }
 
@@ -1917,11 +2179,11 @@ void camera_800CB8AC(Work *work)
     {
         if (work->field_4988 > 0)
         {
-            MENU_Printf((char *)camera_a_800D0314);
+            MENU_Printf("+");
         }
         else
         {
-            MENU_Printf((char *)camera_a_800D02DC);
+            MENU_Printf(camera_a_800D02DC);
         }
     }
 
@@ -1930,11 +2192,11 @@ void camera_800CB8AC(Work *work)
     value = work->field_4980;
     if (value >= 0)
     {
-        MENU_Printf((char *)camera_aD_800D0318, value);
+        MENU_Printf("%3d", value);
     }
     else
     {
-        MENU_Printf((char *)camera_aD_800D0318, -value);
+        MENU_Printf("%3d", -value);
     }
 
     MENU_Locate(46, 178, 0);
@@ -1942,11 +2204,11 @@ void camera_800CB8AC(Work *work)
     value = work->field_4984;
     if (value >= 0)
     {
-        MENU_Printf((char *)camera_aD_800D0318, value);
+        MENU_Printf("%3d", value);
     }
     else
     {
-        MENU_Printf((char *)camera_aD_800D0318, -value);
+        MENU_Printf("%3d", -value);
     }
 
     MENU_Locate(46, 190, 0);
@@ -1954,11 +2216,11 @@ void camera_800CB8AC(Work *work)
     value = work->field_4988;
     if (value >= 0)
     {
-        MENU_Printf((char *)camera_aD_800D0318, value);
+        MENU_Printf("%3d", value);
     }
     else
     {
-        MENU_Printf((char *)camera_aD_800D0318, -value);
+        MENU_Printf("%3d", -value);
     }
 
     p[0].r0 = work->field_4968;
@@ -1983,7 +2245,6 @@ void camera_800CB8AC(Work *work)
     x1 = (work->field_4988 + 100) * 88 / 200 - 68;
     setXY4(&p2[15], x0, 76, x1, 76, x0, 86, x1, 86);
 }
-extern void camera_800C884C(Work *work, int x, int y, int w, int h, int color, int unused);
 
 void camera_800CBCC8(Work *work)
 {
@@ -2044,8 +2305,41 @@ void camera_800CBCC8(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CBDE4.s")
+/* rdata of camera_800CC3C8 */
+const int camera_jt_800D031C[] __attribute__((aligned(8))) = {
+    0x800CC40C, 0x800CC830, 0x800CC848, 0x800CC578, 0x800CC9D8,
+};
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CC3C8.s")
+
+/* rdata of camera_800CCBB0 */
+const int camera_jt_800D0334[] __attribute__((aligned(8))) = {
+    0x800CCC2C, 0x800CCC78, 0x800CCBDC, 0x800CCC9C, 0x800CCCEC, 0x800CCDC0,
+    0x800CCDF8,
+};
+const int camera_jt_800D0354[] __attribute__((aligned(8))) = {
+    0x800CCED4, 0x800CCEAC, 0x800CD090, 0x800CCF00, 0x800CCF28, 0x800CCF50,
+    0x800CCFB0, 0x800CCFD8, 0x800CD090, 0x800CD000, 0x800CD028, 0x800CD050,
+};
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CCBB0.s")
+
+const char *camera_captions_800C3910[] = {
+    // 上書きしてよろしいですか？
+    "\x91\x0b\x90\x27\x81\x0d\x81\x17\x81\x26\x81\x48\x81\x4d\x81\x17\x81\x04\x81\x27\x81\x19\x81\x0b\xc0\x3f",
+    // セーブ中です。 (Saving.)
+    "\x82\x1b\xd0\x06\x82\x36\x90\xcd\x81\x27\x81\x19\xd0\x03",
+    // セーブ中にエラーが発生しました。 (An error occurred while saving.)
+    "\x82\x1b\xd0\x06\x82\x36\x90\xcd\x81\x2b\x82\x08\x82\x49\xd0\x06\x81\x0c\x90\x7e\x90\xca\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
+    // セーブが完了しました。 (Save completed.)
+    "\x82\x1b\xd0\x06\x82\x36\x81\x0c\x91\x07\x91\x08\x81\x17\x81\x3e\x81\x17\x81\x1f\xd0\x03",
+    // カードが見つかりません。 (Card not found.)
+    "\x82\x0b\xd0\x06\x82\x29\x81\x0c\x90\x34\x81\x24\x81\x0b\x81\x4a\x81\x3e\x81\x1b\x81\x53\xd0\x03",
+    // セーブできませんでした。 (Could not save.)
+    "\x82\x1b\xd0\x06\x82\x36\x81\x27\x81\x0d\x81\x3e\x81\x1b\x81\x53\x81\x27\x81\x17\x81\x1f\xd0\x03",
+    // セーブできませんでした。 (Could not save.)
+    "\x82\x1b\xd0\x06\x82\x36\x81\x27\x81\x0d\x81\x3e\x81\x1b\x81\x53\x81\x27\x81\x17\x81\x1f\xd0\x03",
+};
 void camera_800CD0A0(MenuPrim *prim, int x, int y, int w, int h)
 {
     TILE *pTile;
@@ -2088,7 +2382,7 @@ void camera_800CD198(Work *work)
         {
             MENU_Locate(100, 90, 16);
             MENU_Color(86, 137, 116);
-            MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+            MENU_Printf("OVERWRITE OK?");
             camera_800CD0A0((MenuPrim *)&work->field_920, 92, 85, 130, 15);
             return;
         }
@@ -2097,7 +2391,7 @@ void camera_800CD198(Work *work)
         {
             MENU_Locate(100, 90 - (work->field_4938 - 4) * 8, 16);
             MENU_Color(86, 137, 116);
-            MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+            MENU_Printf("OVERWRITE OK?");
             camera_800CD0A0((MenuPrim *)&work->field_920, 92, 85, 130, 15);
             return;
         }
@@ -2106,13 +2400,13 @@ void camera_800CD198(Work *work)
         {
             MENU_Locate(100, 50, 16);
             MENU_Color(86, 137, 116);
-            MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+            MENU_Printf("OVERWRITE OK?");
             MENU_Locate(100, 105, 16);
             MENU_Color(46, 72, 61);
-            MENU_Printf((char *)camera_aYes_800D0094);
+            MENU_Printf("YES");
             MENU_Locate(200, 105, 16);
             MENU_Color(192, 192, 192);
-            MENU_Printf((char *)camera_aNo_800D0090);
+            MENU_Printf("NO");
             camera_800CD0A0((MenuPrim *)&work->field_920, 92, 85, 130, 15);
             return;
         }
@@ -2121,13 +2415,13 @@ void camera_800CD198(Work *work)
         {
             MENU_Locate(100, 50, 16);
             MENU_Color(86, 137, 116);
-            MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+            MENU_Printf("OVERWRITE OK?");
             MENU_Locate(100, 105, 16);
             MENU_Color(46, 72, 61);
-            MENU_Printf((char *)camera_aYes_800D0094);
+            MENU_Printf("YES");
             MENU_Locate(200, 105, 16);
             MENU_Color(192, 192, 192);
-            MENU_Printf((char *)camera_aNo_800D0090);
+            MENU_Printf("NO");
             dt = work->field_4938 - 10;
             camera_800CD0A0((MenuPrim *)&work->field_920, (dt << 5) + 92, dt * 5 + 85, 130 - dt * 30, 15);
             return;
@@ -2136,13 +2430,13 @@ void camera_800CD198(Work *work)
         work->field_498C = 2;
         MENU_Locate(100, 50, 16);
         MENU_Color(86, 137, 116);
-        MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+        MENU_Printf("OVERWRITE OK?");
         MENU_Locate(100, 105, 16);
         MENU_Color(46, 72, 61);
-        MENU_Printf((char *)camera_aYes_800D0094);
+        MENU_Printf("YES");
         MENU_Locate(200, 105, 16);
         MENU_Color(192, 192, 192);
-        MENU_Printf((char *)camera_aNo_800D0090);
+        MENU_Printf("NO");
         camera_800CD0A0((MenuPrim *)&work->field_920, 188, 100, 40, 15);
         drawCaption_800C5EB4(&work->field_700, work->f49E4);
         work->field_49D0 = 3;
@@ -2151,13 +2445,13 @@ void camera_800CD198(Work *work)
     case 1:
         MENU_Locate(100, 50, 16);
         MENU_Color(86, 137, 116);
-        MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+        MENU_Printf("OVERWRITE OK?");
         MENU_Locate(100, 105, 16);
         MENU_Color(192, 192, 192);
-        MENU_Printf((char *)camera_aYes_800D0094);
+        MENU_Printf("YES");
         MENU_Locate(200, 105, 16);
         MENU_Color(46, 72, 61);
-        MENU_Printf((char *)camera_aNo_800D0090);
+        MENU_Printf("NO");
         camera_800CD0A0((MenuPrim *)&work->field_920, 92, 100, 40, 15);
         camera_800C6054(&work->field_700, work->field_924_mOrderingTable, 0);
 
@@ -2182,7 +2476,7 @@ void camera_800CD198(Work *work)
         {
             GM_SeSet2(0, 63, 33);
             work->f28 = 0;
-            GV_FreeMemory(2, (void *)camera_dword_800D0704);
+            GV_FreeMemory(2, camera_file_buf_800D0704);
             camera_800C82EC();
         }
         return;
@@ -2190,13 +2484,13 @@ void camera_800CD198(Work *work)
     case 2:
         MENU_Locate(100, 50, 16);
         MENU_Color(86, 137, 116);
-        MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+        MENU_Printf("OVERWRITE OK?");
         MENU_Locate(100, 105, 16);
         MENU_Color(46, 72, 61);
-        MENU_Printf((char *)camera_aYes_800D0094);
+        MENU_Printf("YES");
         MENU_Locate(200, 105, 16);
         MENU_Color(192, 192, 192);
-        MENU_Printf((char *)camera_aNo_800D0090);
+        MENU_Printf("NO");
         camera_800CD0A0((MenuPrim *)&work->field_920, 188, 100, 40, 15);
         camera_800C6054(&work->field_700, work->field_924_mOrderingTable, 0);
 
@@ -2213,7 +2507,7 @@ void camera_800CD198(Work *work)
         {
             GM_SeSet2(0, 63, 33);
             work->f28 = 0;
-            GV_FreeMemory(2, (void *)camera_dword_800D0704);
+            GV_FreeMemory(2, camera_file_buf_800D0704);
             camera_800C82EC();
             return;
         }
@@ -2222,21 +2516,18 @@ void camera_800CD198(Work *work)
         {
             GM_SeSet2(0, 63, 33);
             work->f28 = 0;
-            GV_FreeMemory(2, (void *)camera_dword_800D0704);
+            GV_FreeMemory(2, camera_file_buf_800D0704);
             camera_800C82EC();
         }
         return;
     }
 }
+/* rdata of camera_800CD790 */
+const char camera_aSsss_800D03C4[] = "%s%s%s%s";
+const char camera_dword_800D03D0[] = "\x82\x6c\x82\x66\x82\x72";
+const char camera_dword_800D03D8[] = "\x8e\xca\x90\x5e\x82\x6d\x82\x8f\x81\x44";
+
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CD790.s")
-extern const char camera_aResx_800D03E4[];
-extern const char camera_aS_800D03F0[];
-extern const char camera_aFind_800D03F4[];
-extern const char camera_aPhaseischangedbutdatafind_800D03FC[];
-extern const char camera_aPhaseischanged_800D041C[];
-extern const char camera_aPhaseisnotchanged_800D0430[];
-extern char *camera_dword_800C3928;
-extern char *camera_dword_800C3914[];
 
 void camera_800CDAB4(Work *work)
 {
@@ -2250,29 +2541,29 @@ void camera_800CDAB4(Work *work)
     int phase;
     char *ref;
 
-    ret = memcard_check(*(unsigned char *)&camera_dword_800D0708);
-    printf((char *)camera_aResx_800D03E4, ret);
+    ret = memcard_check(camera_card_port_800D0708);
+    printf("res = %x\n", ret);
     if (ret & 0x1000000)
     {
         i = 0;
-        work->field_49CC = memcard_files(*(unsigned char *)&camera_dword_800D0708);
+        work->field_49CC = memcard_files(camera_card_port_800D0708);
         found = i;
         if (work->field_49CC->file_count != 0)
         {
             do
             {
-                printf((char *)camera_aS_800D03F0, work->field_49CC->files[i].name);
+                printf("%s\n", work->field_49CC->files[i].name);
                 diff = 0;
                 for (j = 0; j < 24; j++)
                 {
-                    if (work->field_49CC->files[i].name[j] != (ref = (char *)&camera_dword_800D0710)[j])
+                    if (work->field_49CC->files[i].name[j] != (ref = camera_file_name_800D0710)[j])
                     {
                         diff = 1;
                     }
                 }
                 if (diff == 0)
                 {
-                    printf((char *)camera_aFind_800D03F4);
+                    printf("find!\n");
                     found = 1;
                 }
                 i++;
@@ -2281,28 +2572,28 @@ void camera_800CDAB4(Work *work)
         if (found)
         {
             work->field_49C8 = 1;
-            printf((char *)camera_aPhaseischangedbutdatafind_800D03FC);
+            printf("phase is changed but data find\n");
         }
         else if (work->field_49CC) /* branch duplicated to match */
         {
             work->field_49C8 = 5;
             work->field_4938 = 0;
-            printf((char *)camera_aPhaseischanged_800D041C);
-            drawCaption_800C5EB4(&work->field_700, camera_dword_800C3928);
+            printf("phase is changed\n");
+            drawCaption_800C5EB4(&work->field_700, camera_captions_800C3910[6]);
             work->field_49D0 = 3;
         }
         else
         {
             work->field_49C8 = 5;
             work->field_4938 = 0;
-            printf((char *)camera_aPhaseischanged_800D041C);
-            drawCaption_800C5EB4(&work->field_700, camera_dword_800C3928);
+            printf("phase is changed\n");
+            drawCaption_800C5EB4(&work->field_700, camera_captions_800C3910[6]);
             work->field_49D0 = 3;
         }
     }
     else if (ret != 0)
     {
-        printf((char *)camera_aPhaseischanged_800D041C);
+        printf("phase is changed\n");
         status = ret;
         status = status & 0xFF;
         phase = 3;
@@ -2311,53 +2602,53 @@ void camera_800CDAB4(Work *work)
         {
             work->field_49C8 = 5;
             work->field_4938 = 0;
-            drawCaption_800C5EB4(&work->field_700, camera_dword_800C3914[1]);
+            drawCaption_800C5EB4(&work->field_700, camera_captions_800C3910[2]);
             work->field_49D0 = phase;
         }
     }
     else
     {
         work->field_49C8 = 1;
-        printf((char *)camera_aPhaseisnotchanged_800D0430);
+        printf("phase is not changed\n");
     }
 }
 void camera_800CDCA4(Work *work)
 {
     MENU_Locate(100, 50, 16);
     MENU_Color(86, 137, 116);
-    MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+    MENU_Printf("OVERWRITE OK?");
 
     MENU_Locate(100, 105, 16);
     MENU_Color(192, 192, 192);
-    MENU_Printf((char *)camera_aYes_800D0094);
+    MENU_Printf("YES");
 
     MENU_Locate(200, 105, 16);
     MENU_Color(46, 72, 61);
-    MENU_Printf((char *)camera_aNo_800D0090);
+    MENU_Printf("NO");
 
     camera_800CD0A0((MenuPrim *)&work->field_920, 92, 100, 40, 15);
 
     switch (work->field_49C8)
     {
     case 0:
-        drawCaption_800C5EB4(&work->field_700, camera_dword_800C3914[0]);
+        drawCaption_800C5EB4(&work->field_700, camera_captions_800C3910[1]);
         work->field_49D0 = 1;
         camera_800CDAB4(work);
         break;
 
     case 1:
-        printf((char *)camera_aSavedatadelete_800D0448);
-        if (memcard_delete(*(unsigned char *)&camera_dword_800D0708, (char *)&camera_dword_800D0710))
+        printf("save data delete\n");
+        if (memcard_delete(camera_card_port_800D0708, camera_file_name_800D0710))
         {
             printf("delete success\n");
             printf("new memdata get\n");
-            work->field_49CC = memcard_files(*(unsigned char *)&camera_dword_800D0708);
+            work->field_49CC = memcard_files(camera_card_port_800D0708);
             work->field_49C8 = 2;
         }
         else
         {
             printf("delete fail\n");
-            drawCaption_800C5EB4(&work->field_700, camera_dword_800C3914[1]);
+            drawCaption_800C5EB4(&work->field_700, camera_captions_800C3910[2]);
             work->field_49D0 = 3;
         }
         break;
@@ -2370,7 +2661,7 @@ void camera_800CDCA4(Work *work)
 
     case 3:
         printf("new data write\n");
-        memcard_write(work->field_49CC->port, (char *)&camera_dword_800D0710, 0, (char *)camera_dword_800D0704, 0x4000);
+        memcard_write(work->field_49CC->port, camera_file_name_800D0710, 0, camera_file_buf_800D0704, 0x4000);
         while (memcard_status() > 0)
         {
             mts_wait_vbl(2);
@@ -2380,7 +2671,7 @@ void camera_800CDCA4(Work *work)
             printf("new data write ok\n");
             work->field_49C8 = 4;
             work->field_4938 = 0;
-            drawCaption_800C5EB4(&work->field_700, camera_dword_800C3914[2]);
+            drawCaption_800C5EB4(&work->field_700, camera_captions_800C3910[3]);
             work->field_49D0 = 3;
         }
         break;
@@ -2390,7 +2681,7 @@ void camera_800CDCA4(Work *work)
         if (work->field_4938 >= 30)
         {
             work->f28 = 0;
-            GV_FreeMemory(2, (void *)camera_dword_800D0704);
+            GV_FreeMemory(2, camera_file_buf_800D0704);
             camera_800C82EC();
         }
         break;
