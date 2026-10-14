@@ -112,7 +112,265 @@ void s15c_dyncon_800D3EBC(OBJECT_NO_ROTS *obj, int model, int flag)
     obj->map_name = GM_CurrentMap;
     obj->objs = Takabe_MakePreshade(model, GM_GetMap(GM_CurrentMap)->lit);
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D3F24.s")
+// Builds the 4 walls and the bottom/top floors of a rotated box
+void s15c_dyncon_800D3F24(HZD_SEG *segs, HZD_FLR *floors, MATRIX *mtx, SVECTOR *min, SVECTOR *max)
+{
+    VECTOR   normal;
+    SVECTOR  corners[8];
+    SVECTOR  lo[4];
+    SVECTOR  hi[4];
+    int      i, idx;
+    int      len;
+
+    corners[0].vx = min->vx;
+    corners[0].vy = min->vy;
+    corners[0].vz = min->vz;
+    corners[1].vx = min->vx;
+    corners[1].vy = min->vy;
+    corners[1].vz = max->vz;
+    corners[2].vx = max->vx;
+    corners[2].vy = min->vy;
+    corners[2].vz = max->vz;
+    corners[3].vx = max->vx;
+    corners[3].vy = min->vy;
+    corners[3].vz = min->vz;
+    corners[4].vx = min->vx;
+    corners[4].vy = max->vy;
+    corners[4].vz = min->vz;
+    corners[5].vx = min->vx;
+    corners[5].vy = max->vy;
+    corners[5].vz = max->vz;
+    corners[6].vx = max->vx;
+    corners[6].vy = max->vy;
+    corners[6].vz = max->vz;
+    corners[7].vx = max->vx;
+    corners[7].vy = max->vy;
+    corners[7].vz = min->vz;
+
+    DG_SetPos(mtx);
+    DG_PutVector(corners, corners, 8);
+
+    // min x
+    idx = 0;
+    lo[0] = corners[0];
+    for (i = 0; i < 8; i++)
+    {
+        if (corners[i].vx < lo[0].vx || (corners[i].vx == lo[0].vx && corners[i].vz < lo[0].vz))
+        {
+            idx = i;
+            lo[0] = corners[i];
+        }
+    }
+
+    if (idx >= 4)
+    {
+        idx -= 4;
+    }
+
+    hi[0] = lo[0];
+    lo[0].vy = (corners[idx].vy < corners[idx + 4].vy) ? corners[idx].vy : corners[idx + 4].vy;
+    hi[0].vy = (corners[idx + 4].vy < corners[idx].vy) ? corners[idx].vy : corners[idx + 4].vy;
+
+    // max z
+    idx = 0;
+    lo[1] = corners[0];
+    for (i = 0; i < 8; i++)
+    {
+        if (corners[i].vz > lo[1].vz || (corners[i].vz == lo[1].vz && corners[i].vx < lo[1].vx))
+        {
+            idx = i;
+            lo[1] = corners[i];
+        }
+    }
+
+    if (idx >= 4)
+    {
+        idx -= 4;
+    }
+
+    hi[1] = lo[1];
+    lo[1].vy = (corners[idx].vy < corners[idx + 4].vy) ? corners[idx].vy : corners[idx + 4].vy;
+    hi[1].vy = (corners[idx + 4].vy < corners[idx].vy) ? corners[idx].vy : corners[idx + 4].vy;
+
+    // max x
+    idx = 0;
+    lo[2] = corners[0];
+    for (i = 0; i < 8; i++)
+    {
+        if (corners[i].vx > lo[2].vx || (corners[i].vx == lo[2].vx && corners[i].vz > lo[2].vz))
+        {
+            idx = i;
+            lo[2] = corners[i];
+        }
+    }
+
+    if (idx >= 4)
+    {
+        idx -= 4;
+    }
+
+    hi[2] = lo[2];
+    lo[2].vy = (corners[idx].vy < corners[idx + 4].vy) ? corners[idx].vy : corners[idx + 4].vy;
+    hi[2].vy = (corners[idx + 4].vy < corners[idx].vy) ? corners[idx].vy : corners[idx + 4].vy;
+
+    // min z
+    idx = 0;
+    lo[3] = corners[0];
+    for (i = 0; i < 8; i++)
+    {
+        if (corners[i].vz < lo[3].vz || (corners[i].vz == lo[3].vz && corners[i].vx > lo[3].vx))
+        {
+            idx = i;
+            lo[3] = corners[i];
+        }
+    }
+
+    if (idx >= 4)
+    {
+        idx -= 4;
+    }
+
+    hi[3] = lo[3];
+    lo[3].vy = (corners[idx].vy < corners[idx + 4].vy) ? corners[idx].vy : corners[idx + 4].vy;
+    hi[3].vy = (corners[idx + 4].vy < corners[idx].vy) ? corners[idx].vy : corners[idx + 4].vy;
+
+    segs[0].p1.x = lo[0].vx;
+    segs[0].p1.z = lo[0].vz;
+    segs[0].p1.y = lo[0].vy;
+    segs[0].p1.h = hi[0].vy - lo[0].vy;
+    segs[0].p2.x = lo[1].vx;
+    segs[0].p2.z = lo[1].vz;
+    segs[0].p2.y = lo[1].vy;
+    segs[0].p2.h = hi[1].vy - lo[1].vy;
+    segs[1].p1.x = lo[1].vx;
+    segs[1].p1.z = lo[1].vz;
+    segs[1].p1.y = lo[1].vy;
+    segs[1].p1.h = hi[1].vy - lo[1].vy;
+    segs[1].p2.x = lo[2].vx;
+    segs[1].p2.z = lo[2].vz;
+    segs[1].p2.y = lo[2].vy;
+    segs[1].p2.h = hi[2].vy - lo[2].vy;
+    segs[2].p1.x = lo[3].vx;
+    segs[2].p1.z = lo[3].vz;
+    segs[2].p1.y = lo[3].vy;
+    segs[2].p1.h = hi[3].vy - lo[3].vy;
+    segs[2].p2.x = lo[2].vx;
+    segs[2].p2.z = lo[2].vz;
+    segs[2].p2.y = lo[2].vy;
+    segs[2].p2.h = hi[2].vy - lo[2].vy;
+    segs[3].p1.x = lo[0].vx;
+    segs[3].p1.z = lo[0].vz;
+    segs[3].p1.y = lo[0].vy;
+    segs[3].p1.h = hi[0].vy - lo[0].vy;
+    segs[3].p2.x = lo[3].vx;
+    segs[3].p2.z = lo[3].vz;
+    segs[3].p2.y = lo[3].vy;
+    segs[3].p2.h = hi[3].vy - lo[3].vy;
+
+    floors[0].p1.x = lo[0].vx;
+    floors[0].p1.z = lo[0].vz;
+    floors[0].p1.y = lo[0].vy;
+    floors[0].p2.x = lo[3].vx;
+    floors[0].p2.z = lo[3].vz;
+    floors[0].p2.y = lo[3].vy;
+    floors[0].p3.x = lo[2].vx;
+    floors[0].p3.z = lo[2].vz;
+    floors[0].p3.y = lo[2].vy;
+    floors[0].p4.x = lo[1].vx;
+    floors[0].p4.z = lo[1].vz;
+    floors[0].p4.y = lo[1].vy;
+    floors[0].p4.h = 0;
+
+    floors[0].b1 = floors[0].p1;
+    floors[0].b1.h = 0;
+    floors[0].b1.x = MIN(floors[0].b1.x, floors[0].p2.x);
+    floors[0].b1.x = MIN(floors[0].b1.x, floors[0].p3.x);
+    floors[0].b1.x = MIN(floors[0].b1.x, floors[0].p4.x);
+    floors[0].b1.z = MIN(floors[0].b1.z, floors[0].p2.z);
+    floors[0].b1.z = MIN(floors[0].b1.z, floors[0].p3.z);
+    floors[0].b1.z = MIN(floors[0].b1.z, floors[0].p4.z);
+    floors[0].b1.y = MIN(floors[0].b1.y, floors[0].p2.y);
+    floors[0].b1.y = MIN(floors[0].b1.y, floors[0].p3.y);
+    floors[0].b1.y = MIN(floors[0].b1.y, floors[0].p4.y);
+
+    floors[0].b2 = floors[0].p1;
+    floors[0].b2.h = 0;
+    floors[0].b2.x = MAX(floors[0].b2.x, floors[0].p2.x);
+    floors[0].b2.x = MAX(floors[0].b2.x, floors[0].p3.x);
+    floors[0].b2.x = MAX(floors[0].b2.x, floors[0].p4.x);
+    floors[0].b2.z = MAX(floors[0].b2.z, floors[0].p2.z);
+    floors[0].b2.z = MAX(floors[0].b2.z, floors[0].p3.z);
+    floors[0].b2.z = MAX(floors[0].b2.z, floors[0].p4.z);
+    floors[0].b2.y = MAX(floors[0].b2.y, floors[0].p2.y);
+    floors[0].b2.y = MAX(floors[0].b2.y, floors[0].p3.y);
+    floors[0].b2.y = MAX(floors[0].b2.y, floors[0].p4.y);
+
+    normal.vx = ((floors[0].p2.y - floors[0].p1.y) * (floors[0].p3.z - floors[0].p2.z) - (floors[0].p2.z - floors[0].p1.z) * (floors[0].p3.y - floors[0].p2.y)) >> 16;
+    normal.vy = ((floors[0].p2.z - floors[0].p1.z) * (floors[0].p3.x - floors[0].p2.x) - (floors[0].p2.x - floors[0].p1.x) * (floors[0].p3.z - floors[0].p2.z)) >> 16;
+    normal.vz = ((floors[0].p2.x - floors[0].p1.x) * (floors[0].p3.y - floors[0].p2.y) - (floors[0].p2.y - floors[0].p1.y) * (floors[0].p3.x - floors[0].p2.x)) >> 16;
+
+    len = SquareRoot0(normal.vx * normal.vx + normal.vy * normal.vy + normal.vz * normal.vz);
+    if (len == 0)
+    {
+        len = 1;
+    }
+
+    floors[0].p1.h = normal.vx * 255 / len;
+    floors[0].p2.h = normal.vz * 255 / len;
+    floors[0].p3.h = normal.vy * 255 / len;
+
+    floors[1].p1.x = hi[0].vx;
+    floors[1].p1.z = hi[0].vz;
+    floors[1].p1.y = hi[0].vy;
+    floors[1].p2.x = hi[3].vx;
+    floors[1].p2.z = hi[3].vz;
+    floors[1].p2.y = hi[3].vy;
+    floors[1].p3.x = hi[2].vx;
+    floors[1].p3.z = hi[2].vz;
+    floors[1].p3.y = hi[2].vy;
+    floors[1].p4.x = hi[1].vx;
+    floors[1].p4.z = hi[1].vz;
+    floors[1].p4.y = hi[1].vy;
+    floors[1].p4.h = 0;
+
+    floors[1].b1 = floors[1].p1;
+    floors[1].b1.h = 0;
+    floors[1].b1.x = MIN(floors[1].b1.x, floors[1].p2.x);
+    floors[1].b1.x = MIN(floors[1].b1.x, floors[1].p3.x);
+    floors[1].b1.x = MIN(floors[1].b1.x, floors[1].p4.x);
+    floors[1].b1.z = MIN(floors[1].b1.z, floors[1].p2.z);
+    floors[1].b1.z = MIN(floors[1].b1.z, floors[1].p3.z);
+    floors[1].b1.z = MIN(floors[1].b1.z, floors[1].p4.z);
+    floors[1].b1.y = MIN(floors[1].b1.y, floors[1].p2.y);
+    floors[1].b1.y = MIN(floors[1].b1.y, floors[1].p3.y);
+    floors[1].b1.y = MIN(floors[1].b1.y, floors[1].p4.y);
+
+    floors[1].b2 = floors[1].p1;
+    floors[1].b2.h = 0;
+    floors[1].b2.x = MAX(floors[1].b2.x, floors[1].p2.x);
+    floors[1].b2.x = MAX(floors[1].b2.x, floors[1].p3.x);
+    floors[1].b2.x = MAX(floors[1].b2.x, floors[1].p4.x);
+    floors[1].b2.z = MAX(floors[1].b2.z, floors[1].p2.z);
+    floors[1].b2.z = MAX(floors[1].b2.z, floors[1].p3.z);
+    floors[1].b2.z = MAX(floors[1].b2.z, floors[1].p4.z);
+    floors[1].b2.y = MAX(floors[1].b2.y, floors[1].p2.y);
+    floors[1].b2.y = MAX(floors[1].b2.y, floors[1].p3.y);
+    floors[1].b2.y = MAX(floors[1].b2.y, floors[1].p4.y);
+
+    normal.vx = ((floors[1].p2.y - floors[1].p1.y) * (floors[1].p3.z - floors[1].p2.z) - (floors[1].p2.z - floors[1].p1.z) * (floors[1].p3.y - floors[1].p2.y)) >> 16;
+    normal.vy = ((floors[1].p2.z - floors[1].p1.z) * (floors[1].p3.x - floors[1].p2.x) - (floors[1].p2.x - floors[1].p1.x) * (floors[1].p3.z - floors[1].p2.z)) >> 16;
+    normal.vz = ((floors[1].p2.x - floors[1].p1.x) * (floors[1].p3.y - floors[1].p2.y) - (floors[1].p2.y - floors[1].p1.y) * (floors[1].p3.x - floors[1].p2.x)) >> 16;
+
+    len = SquareRoot0(normal.vx * normal.vx + normal.vy * normal.vy + normal.vz * normal.vz);
+    if (len == 0)
+    {
+        len = 1;
+    }
+
+    floors[1].p1.h = normal.vx * 255 / len;
+    floors[1].p2.h = normal.vz * 255 / len;
+    floors[1].p3.h = normal.vy * 255 / len;
+}
 void s15c_dyncon_800D5090(DynCon *work, int i)
 {
     HZD_HDL *hzd = GM_GetMap(work->map)->hzd;
@@ -234,8 +492,6 @@ void s15c_dyncon_800D5428(DynCon *work, int i, int depth)
         work->slots[i][1].p2.z = a.vz + 0x9C4;
     }
 }
-extern void s15c_dyncon_800D3F24(HZD_SEG *segs, HZD_FLR *floors, MATRIX *mtx,
-                                 SVECTOR *a, SVECTOR *b);
 
 void s15c_dyncon_800D567C(DynCon *work, int s1, int s2, int code)
 {
