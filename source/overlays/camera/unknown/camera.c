@@ -58,7 +58,7 @@ typedef struct _Work
     int         color_r;                /* 0x4968 */
     int         color_g;                /* 0x496C */
     int         color_b;                /* 0x4970 */
-    int         saved_adjust_r;         /* 0x4974: adjust_* when the colour screen was entered */
+    int         saved_adjust_r;         /* 0x4974: copy of adjust_r/g/b */
     int         saved_adjust_g;         /* 0x4978 */
     int         saved_adjust_b;         /* 0x497C */
     int         adjust_r;               /* 0x4980: colour adjustment, -100..100 */
