@@ -19,6 +19,9 @@
 #include "mts/mts.h" // for fprintf
 #include "charadef.h"
 
+#define NINJA_FLAG_CLOAK  0x02  /* cloaked; checked with STATE_THERMG */
+#define NINJA_FLAG_CLONES 0x04  /* clone phase; drives the visibility flicker */
+
 #define TARGET_FLAG (TARGET_AVAIL | TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH | TARGET_SEEK)
 
 #include <stdio.h>
@@ -1239,7 +1242,7 @@ void s08b_bunsin2_800CA5D8(Work *work, int time)
         if ((unsigned int)(time - 7) < 62)
         {
             work->katana_state = 0;
-            work->flags |= 2;
+            work->flags |= NINJA_FLAG_CLOAK;
 
             if (time == 9)
             {
@@ -1329,7 +1332,7 @@ void s08b_bunsin2_800CA858(Work *work, int time)
 
     if ((unsigned int)(time - 7) < 22)
     {
-        work->flags |= 2;
+        work->flags |= NINJA_FLAG_CLOAK;
 
         if (time == 9)
         {
@@ -2613,7 +2616,7 @@ void s08b_bunsin2_800CCAF0(Work *work, int time)
     work->katana_state = 2;
 
     target = work->target;
-    work->flags &= ~2;
+    work->flags &= ~NINJA_FLAG_CLOAK;
 
     if (time == 0)
     {
@@ -2733,7 +2736,7 @@ void s08b_bunsin2_800CCDBC(Work *work)
 }
 void s08b_bunsin2_800CCE34(Work *work)
 {
-    if (work->flags & 2)
+    if (work->flags & NINJA_FLAG_CLOAK)
     {
         if (GM_GameStatus & STATE_THERMG)
         {
@@ -2848,7 +2851,7 @@ void s08b_bunsin2_800CD000(Work *work)
         work->bunsin_state = 0;
     }
 
-    if (work->flags & 4)
+    if (work->flags & NINJA_FLAG_CLONES)
     {
         if (work->field_7D8 == 0 && work->clone1 == NULL && work->clone2 == NULL)
         {
@@ -3826,7 +3829,7 @@ int s08b_bunsin2_800CF960(Work *work)
 
     if (work->count3 >= 6)
     {
-        work->flags |= 4;
+        work->flags |= NINJA_FLAG_CLONES;
     }
     else
     {
@@ -4426,7 +4429,7 @@ int s08b_bunsin2_800D093C(Work *work)
     }
     if (work->count3 >= 11)
     {
-        work->flags |= 2;
+        work->flags |= NINJA_FLAG_CLOAK;
     }
     if (work->count3 >= 61)
     {
@@ -4445,7 +4448,7 @@ int s08b_bunsin2_800D09C4(Work *work)
         work->dir = work->player_dir;
         s08b_dword_800C3450 = s08b_dword_800C3450 + 1;
     }
-    work->flags |= 2;
+    work->flags |= NINJA_FLAG_CLOAK;
 
     g = GM_GameLevel;
     if (g == 1)
@@ -4698,14 +4701,14 @@ int s08b_bunsin2_800D0F88(Work *work)
     limit = 5;
     if (level == GM_LEVEL_NORMAL)
     {
-        work->flags |= 2;
+        work->flags |= NINJA_FLAG_CLOAK;
     }
     else if (level > GM_LEVEL_EASY)
     {
         if (level < GM_LEVEL_EXTREME + 1)
         {
             limit = 1;
-            work->flags |= 2;
+            work->flags |= NINJA_FLAG_CLOAK;
         }
         else
         {
@@ -5125,7 +5128,7 @@ int s08b_bunsin2_800D195C(Work *work)
     }
     work->command = 9;
     work->dir = work->player_dir;
-    work->flags |= 2;
+    work->flags |= NINJA_FLAG_CLOAK;
     if (work->count3 >= 31 && GM_StreamStatus() == -1)
     {
         return 1;
@@ -5135,7 +5138,7 @@ int s08b_bunsin2_800D195C(Work *work)
 }
 int s08b_bunsin2_800D1A18(Work *work)
 {
-    work->flags |= 2;
+    work->flags |= NINJA_FLAG_CLOAK;
     if (work->count3 == 0)
     {
         s08b_bunsin2_800CE0A4(work);
@@ -5366,7 +5369,7 @@ void s08b_bunsin2_800D1F9C(Work *work)
         break;
 
     case 3:
-        work->flags |= 4;
+        work->flags |= NINJA_FLAG_CLONES;
         if (s08b_bunsin2_800CFD88(work) != 0)
         {
             work->think2 = 2;
@@ -5613,7 +5616,7 @@ void s08b_bunsin2_800D2510(Work *work)
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D0330(work) == 0)
         {
-            work->flags |= 2;
+            work->flags |= NINJA_FLAG_CLOAK;
         }
         else
         {
@@ -6214,7 +6217,7 @@ void s08b_bunsin2_800D3160(Work *work)
         work->think3 = 5;
         break;
     case 5:
-        work->flags |= 4;
+        work->flags |= NINJA_FLAG_CLONES;
         if (s08b_bunsin2_800CFD88(work) == 0)
         {
             return;
@@ -6789,12 +6792,12 @@ void s08b_bunsin2_800D3DBC(Work *work)
         work->field_19B8 = 1;
         work->count3 = 0;
         work->think_time = 0;
-        work->flags &= ~2;
+        work->flags &= ~NINJA_FLAG_CLOAK;
         return;
     }
 
     s08b_bunsin2_800D3B00(work);
-    work->flags |= 2;
+    work->flags |= NINJA_FLAG_CLOAK;
 
     limit = 3000;
     if (GM_GameLevel < 4)
@@ -6925,7 +6928,7 @@ void s08b_bunsin2_800D401C(Work *work)
         }
     }
 
-    work->flags |= 4;
+    work->flags |= NINJA_FLAG_CLONES;
     if (work->damage_mode != 0)
     {
         work->think2 = 7;
@@ -7028,7 +7031,7 @@ void s08b_bunsin2_800D41DC(Work *work)
         work->field_19B8 = 1;
         work->count3 = 0;
         work->think_time = 0;
-        work->flags &= ~2;
+        work->flags &= ~NINJA_FLAG_CLOAK;
     }
 }
 
@@ -7121,7 +7124,7 @@ void s08b_bunsin2_800D4460(Work *work)
         work->field_19B8 = 1;
         work->count3 = 0;
         work->think_time = 0;
-        work->flags &= ~2;
+        work->flags &= ~NINJA_FLAG_CLOAK;
     }
     else if (s08b_bunsin2_800D42D8(work))
     {
@@ -7197,7 +7200,7 @@ void s08b_bunsin2_800D452C(Work *work)
         return;
     }
 
-    work->flags |= 4;
+    work->flags |= NINJA_FLAG_CLONES;
 }
 
 void s08b_bunsin2_800D4638(Work *work)
@@ -7277,7 +7280,7 @@ check:
 
     if (GM_GameLevel == GM_LEVEL_EXTREME)
     {
-        work->flags |= 2;
+        work->flags |= NINJA_FLAG_CLOAK;
     }
 }
 void s08b_bunsin2_800D47E0(Work *work)
@@ -7524,7 +7527,7 @@ void s08b_bunsin2_800D4D18(Work *work)
         s08b_bunsin2_800D4638(work);
         break;
     }
-    work->flags |= 4;
+    work->flags |= NINJA_FLAG_CLONES;
 }
 void s08b_bunsin2_800D4DA8(Work *work)
 {
