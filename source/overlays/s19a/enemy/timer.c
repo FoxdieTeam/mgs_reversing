@@ -107,13 +107,10 @@ void Timer_800C4320(Work *work, POLY_FT4 *poly, int digit, int n_digits)
     poly->u3 = u + u1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800C43E4.s")
-void s19a_800C43E4(Work *work); /* Act */
-
-#if 0 /* NON_MATCHING: register allocation (time, work and the final loop pointer) */
 static void Act(Work *work)
 {
     POLY_FT4 *poly0, *poly1;
+    POLY_FT4 *poly;
     int       time;
     int       sec, min;
     int       sec1, sec10, min10;
@@ -127,11 +124,11 @@ static void Act(Work *work)
     if (time == sec * 30 && work->proc_sec >= 0)
     {
         GCL_ARGS args;
-        long     data;
+        long     data[1];
 
         args.argc = 1;
-        data = time;
-        args.argv = &data;
+        data[0] = time;
+        args.argv = data;
         GCL_ExecProc(work->proc_sec, &args);
     }
 
@@ -148,8 +145,9 @@ static void Act(Work *work)
     min10 = min / 10;
     min = min % 10;
 
-    Timer_800C4320(work, poly0++, sec1, 10);
+    Timer_800C4320(work, poly0, sec1, 10);
     Timer_800C4320(work, poly1, sec1, 10);
+    poly0++;
     poly1++;
     Timer_800C4320(work, poly0, sec10, 10);
     Timer_800C4320(work, poly1, sec10, 10);
@@ -157,22 +155,22 @@ static void Act(Work *work)
     poly1 += 2;
     Timer_800C4320(work, poly0, min, 10);
     Timer_800C4320(work, poly1, min, 10);
+    poly0++;
     poly1++;
-    Timer_800C4320(work, poly0 + 1, min10, 10);
+    Timer_800C4320(work, poly0, min10, 10);
     Timer_800C4320(work, poly1, min10, 10);
 
     work->time--;
 
-    poly0 = work->prim->packs[GV_Clock];
+    poly = work->prim->packs[GV_Clock];
     for (i = 0; i < 5; i++)
     {
-        *(short *)poly0 = work->visible;
-        poly0++;
+        *(short *)poly = work->visible;
+        poly++;
     }
 }
-#endif
 
-void TimerDie(Work *work)
+static void Die(Work *work)
 {
     DG_PRIM *prim;
 
@@ -278,7 +276,7 @@ void *NewTimer(int name, int where)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, s19a_800C43E4, TimerDie, "timer.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "timer.c");
         if (GetResources(work) < 0)
         {
             GV_DestroyActor(&work->actor);
