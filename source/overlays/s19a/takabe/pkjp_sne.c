@@ -23,13 +23,13 @@ typedef struct _Work
     MATRIX         light[2];            // 0x7A0
     SVECTOR        rot;                 // 0x7E0
     OBJECT         weapon;              // 0x7E8
-    char           pad_8CC[0x8];
+    SVECTOR        world_rot;           // 0x8CC: gun_rot + the jeep's rotation
     SVECTOR        gun_rot;             // 0x8D4
     char           pad_8DC[0x8];
     MATRIX         gun_world;           // 0x8E4
-    int            field_904;           // 0x904
+    int            shoot_wait;          // 0x904
     int            aim_dir;             // 0x908
-    int            field_90C;           // 0x90C
+    int            aim_pitch;           // 0x90C
     TARGET        *target;              // 0x910
     char           pad_914[0x4];
     void          *action;              // 0x918
@@ -62,6 +62,10 @@ extern void *AN_PkFlash(MATRIX *world);
 extern void Voicesys_800CE310(void);
 extern void Voicesys_800CE5F8(int, int);
 extern void Voicesys_800CE734(void);
+extern void GM_CheckShukanReverse(unsigned short *pInput);
+extern void GM_CheckShukanReverseAnalog(unsigned char *pInput);
+
+extern DG_OBJS *PkJeep_800E0E10;
 
 VECTOR  pkjp_sne_scale = {2048, 2048, 2048};
 int     pkjp_sne_address = -1;
@@ -502,8 +506,270 @@ static void ActionMain(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800DAE40.s")
-void s19a_800DAE40(Work *work); /* pad input, aiming */
+/* pad input: aims and shoots the jeep's gun */
+void s19a_800DAE40(Work *work)
+{
+    SVECTOR  gun_pos;
+    MATRIX   rotm;
+    SVECTOR  vec;
+    SVECTOR  ofs;
+    MATRIX   world;
+    SVECTOR  rot;
+    SVECTOR  sv;
+    VECTOR   sq;
+    int      status;
+    int      dy;
+    int      yaw;
+    int      pitch;
+    int      dx;
+    int      first;
+    int      limit;
+    int      flags;
+    DG_OBJS *objs;
+    MATRIX  *mtx;
+    int      ang;
+    int      ang2;
+
+    dx = 0;
+    dy = 0;
+    work->pad_flags = 0;
+
+    if (work->dead == 0)
+    {
+        status = GV_PadData[0].status;
+
+        if (GV_PadData[0].analog == 2)
+        {
+            dy = GV_PadData[0].left_dy;
+            dx = GV_PadData[0].left_dx;
+
+            if (dx >= 128)
+            {
+                dx -= 192;
+                if (dx < 0)
+                {
+                    dx = 0;
+                }
+            }
+            else
+            {
+                dx -= 64;
+                if (dx > 0)
+                {
+                    dx = 0;
+                }
+            }
+
+            if (dy >= 128)
+            {
+                dy -= 192;
+                if (dy < 0)
+                {
+                    dy = 0;
+                }
+            }
+            else
+            {
+                dy -= 64;
+                if (dy > 0)
+                {
+                    dy = 0;
+                }
+            }
+
+            dx *= 2;
+            dy *= 2;
+        }
+
+        if (dx == 0 && dy == 0)
+        {
+            if (status & PAD_LEFT)
+            {
+                dx = -128;
+            }
+
+            if (status & PAD_RIGHT)
+            {
+                dx = 127;
+            }
+
+            if (status & PAD_UP)
+            {
+                dy = -128;
+            }
+
+            if (status & PAD_DOWN)
+            {
+                dy = 127;
+            }
+        }
+
+        if (GM_PlayerStatus & PLAYER_WATCH)
+        {
+            GM_CheckShukanReverse((unsigned short *)&status);
+            dy += 128;
+            GM_CheckShukanReverseAnalog((unsigned char *)&dy);
+            dy -= 128;
+        }
+    }
+    else
+    {
+        status = 0;
+        dy = 0;
+    }
+
+    first = GM_Camera.first_person;
+    if (first == 0)
+    {
+        if (pkjp_sne_counter > 0)
+        {
+            pkjp_sne_counter--;
+        }
+
+        limit = 18;
+    }
+    else
+    {
+        if (pkjp_sne_counter < 15)
+        {
+            pkjp_sne_counter++;
+        }
+
+        limit = 13;
+    }
+
+    if (pkjp_sne_counter < limit)
+    {
+        work->hide = 0;
+    }
+    else
+    {
+        work->hide = 1;
+    }
+
+    gun_pos = pkjp_sne_gun_pos;
+    work->world_rot.vy = (work->gun_rot.vy + work->root_ctrl->rot.vy) & 0xFFF;
+    DG_SetPos2(&gun_pos, &work->gun_rot);
+    RotMatrixZYX(&work->gun_rot, &rotm);
+    rotm.t[0] = gun_pos.vx;
+    rotm.t[1] = gun_pos.vy;
+    rotm.t[2] = gun_pos.vz;
+    CompMatrix(work->root_mat, &rotm, &work->gun_world);
+    PkJeep_800E0E10->world = work->gun_world;
+
+    flags = status;
+    if (work->damaged && !work->dead)
+    {
+        flags &= 0xFFFF0FFF;
+        dx = 0;
+        dy = 0;
+
+        if (GM_Camera.first_person)
+        {
+            flags |= 0x10;
+        }
+        else
+        {
+            flags &= ~0x10;
+        }
+    }
+
+    work->aim_dir -= dx / 4;
+
+    if (dx < 0)
+    {
+        work->pad_flags |= 2;
+    }
+    else if (dx > 0)
+    {
+        work->pad_flags |= 4;
+    }
+
+    work->gun_rot.vy = GV_NearExp4P(work->gun_rot.vy, work->aim_dir);
+
+    if (first == 1)
+    {
+        work->aim_pitch = GV_NearExp4P(work->aim_pitch, (dy * 300) / 128);
+    }
+    else
+    {
+        work->aim_pitch = GV_NearExp4P(work->aim_pitch, 0);
+    }
+
+    if (work->shoot_wait)
+    {
+        work->shoot_wait--;
+    }
+
+    if ((status & PAD_SQUARE) && work->shoot_wait == 0)
+    {
+        work->shoot_wait = 3;
+        work->pad_flags |= 1;
+    }
+
+    if (flags & 0x10)
+    {
+        GM_Camera.first_person = 1;
+        GM_PlayerStatus |= PLAYER_WATCH;
+    }
+    else
+    {
+        GM_Camera.first_person = 0;
+        GM_PlayerStatus &= ~PLAYER_WATCH;
+    }
+
+    ofs = pkjp_sne_gun_pos;
+
+    if (first == 0)
+    {
+        GM_PlayerControl->rot = work->world_rot;
+        GM_SnakeCamera.rotate2.vy = work->world_rot.vy;
+    }
+    else
+    {
+        GM_PlayerControl->rot.vy = work->world_rot.vy;
+
+        mtx = &GM_PlayerBody->objs->objs[6].world;
+        sv.vx = mtx->m[0][2];
+        sv.vy = 0;
+        sv.vz = mtx->m[2][2];
+        ang = mtx->m[1][2];
+        GM_SnakeCamera.rotate2.vx = work->aim_pitch - ratan2(ang, GV_VecLen3(&sv));
+        GM_SnakeCamera.rotate2.vy = work->world_rot.vy;
+    }
+
+    rot = GM_PlayerControl->rot;
+    rot.vy -= work->root_ctrl->rot.vy;
+    DG_SetPos2(&DG_ZeroVector, &rot);
+    GV_AddVec3(&pkjp_sne_gun_ofs, &work->rot, &vec);
+    DG_RotVector(&vec, &vec, 1);
+    GV_AddVec3(&vec, &ofs, &vec);
+    DG_SetPos2(&vec, &rot);
+    ReadRotMatrix(&world);
+    CompMatrix(work->root_mat, &world, &GM_PlayerBody->objs->world);
+
+    GM_PlayerControl->mov.vx = work->body.objs->world.t[0];
+    GM_PlayerControl->mov.vy = work->body.objs->world.t[1];
+    GM_PlayerControl->mov.vz = work->body.objs->world.t[2];
+
+    GM_GetHomingTarget2(&PkJeep_800E0E10->world, work->world_rot.vy, &yaw, &pitch, GM_CurrentMap, 6000, 128);
+
+    objs = GM_PlayerBody->objs;
+    sq.vx = objs->world.m[0][2];
+    sq.vy = 0;
+    sq.vz = objs->world.m[2][2];
+    Square0(&sq, &sq);
+    ang2 = -ratan2(objs->world.m[1][2], SquareRoot0(sq.vx + sq.vz));
+
+    if (yaw == -1)
+    {
+        work->gun_rot.vx = GV_NearExp4(work->gun_rot.vx, 0);
+    }
+    else
+    {
+        work->gun_rot.vx = GV_NearExp4(work->gun_rot.vx, pitch - ang2);
+    }
+}
 
 void s19a_800DB510(Work *work)
 {
