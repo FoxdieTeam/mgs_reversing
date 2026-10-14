@@ -49,7 +49,6 @@ int s19a_800D3FC0( Work *work );
 int s19a_800D4060( Work *work );
 int s19a_800D40CC( Work *work );
 int s19a_800D40E8( Work *work );
-int s19a_800D4110( Work *work );
 int s19a_800D4124( Work *work );
 int s19a_800D43E4( Work* work );
 int s19a_800D4438( Work *work );
@@ -316,7 +315,6 @@ int s19a_800D4060( Work *work );
 #pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D40CC.s")
 int s19a_800D40CC( Work *work );
 
-#if 0 /* NON_MATCHING */
 int s19a_800D40E8( Work *work )
 {
     int count = work->count3;
@@ -335,12 +333,6 @@ int s19a_800D40E8( Work *work )
     work->count3++;
     return 0;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D40E8.s")
-int s19a_800D40E8( Work *work );
-
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4110.s")
-int s19a_800D4110( Work *work );
 
 int s19a_800D4124( Work *work )
 {
@@ -627,64 +619,59 @@ int s19a_800D4B4C( Work *work )
     return s19a_800D4960( work, 1500 );
 }
 
-#if 0 /* NON_MATCHING */
 int s19a_800D4BE0( Work *work )
 {
-    work->pad.press |= 0x10000;
+    int count;
 
-    if ( work->count3 == 0 )
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
+
+    count = work->count3;
+    if ( count == 0 )
+    {
+        work->count3 = GV_RandU( 8 );
+    }
+
+    if ( count < 9 && !( count & 1 ) )
     {
         work->pad.press |= 0x40000;
     }
-    else
+
+    if ( count >= 12 )
     {
-        if ( work->count3 == 4 )
-        {
-            return 1;
-        }
+        return 1;
     }
 
-    work->pad.dir = work->sn_dir;
     work->count3++;
     return 0;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4BE0.s")
-int s19a_800D4BE0( Work *work );
 
-#if 0 /* NON_MATCHING */
 int s19a_800D4C7C( Work *work )
 {
     work->pad.press |= 0x20000;
+    work->pad.dir = work->sn_dir;
 
     if ( work->count3 == 0 )
     {
         work->pad.press |= 0x80000;
     }
-    else
+    else if ( work->count3 == 8 )
     {
-        if ( work->count3 == 8 )
-        {
-            return 1;
-        }
+        return 1;
     }
 
-    work->pad.dir = work->sn_dir;
     work->count3++;
     return 0;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4C7C.s")
-int s19a_800D4C7C( Work *work );
 
-#if 0 /* NON_MATCHING */
 int s19a_800D4CD8( Work *work )
 {
     work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
 
-    if ( work->count3 != 30)
+    if ( work->count3 != 30 )
     {
-        if (work->body.is_end != 0)
+        if ( work->body.is_end )
         {
             return 1;
         }
@@ -694,13 +681,9 @@ int s19a_800D4CD8( Work *work )
         work->pad.press |= 0x100000;
     }
 
-    work->pad.dir = work->sn_dir;
     work->count3++;
     return 0;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4CD8.s")
-int s19a_800D4CD8( Work *work );
 
 int s19a_800D4D3C( Work *work )
 {
@@ -724,16 +707,17 @@ int s19a_800D4D3C( Work *work )
 }
 
 
-#if 0 /* NON_MATCHING */
 int s19a_800D4D98( Work *work )
 {
     int count;
-    work->pad.press |= 0x10000;
 
     count = work->count3;
+    work->pad.press |= 0x10000;
+    work->pad.dir = work->sn_dir;
+
     if ( count < 10 )
     {
-        if ( !( work->count3 & 1 ) )
+        if ( !( count & 1 ) )
         {
             work->pad.press |= 0x40000;
         }
@@ -743,25 +727,45 @@ int s19a_800D4D98( Work *work )
         return 1;
     }
 
-    work->pad.dir = work->sn_dir;
     work->count3++;
     return 0;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4D98.s")
-int s19a_800D4D98( Work *work );
 
-#if 0 /* NON_MATCHING */
 int s19a_800D4E04( Work *work )
 {
     work->pad.press |= 0x10000;
     work->pad.dir = work->sn_dir;
+
+    if ( work->param.next == 0xFF )
+    {
+        if ( work->count3 == 16 )
+        {
+            work->count3 += GV_RandU( 14 );
+        }
+
+        if ( work->count3 > 32 && work->sn_dis < 6500 && work->vision.pad == 2 )
+        {
+            if ( work->sn_dis < 1000 && !( GM_PlayerStatus & ( PLAYER_CB_BOX | PLAYER_GROUND | PLAYER_SQUAT ) ) )
+            {
+                return 20;
+            }
+
+            return 16;
+        }
+    }
+    else if ( work->sn_dis < 6500 && work->vision.pad == 2 && ( work->count3 & 1 ) )
+    {
+        if ( work->sn_dis < 1000 && !( GM_PlayerStatus & ( PLAYER_CB_BOX | PLAYER_GROUND | PLAYER_SQUAT ) ) )
+        {
+            return 20;
+        }
+
+        return 21;
+    }
+
     work->count3++;
     return 0;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4E04.s")
-int s19a_800D4E04( Work *work );
 
 #pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4F38.s")
 int s19a_800D4F38( Work *work );

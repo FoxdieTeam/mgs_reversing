@@ -104,7 +104,7 @@ typedef struct _Work {
     /* 0xB22 */ short          think2;
     /* 0xB24 */ short          think3;
     /* 0xB26 */ short          think4;
-    /* 0xB28 */ int            count3;
+    /* 0xB28 */ unsigned int   count3;
     /* 0xB2C */ int            t_count;
     /* 0xB30 */ int            l_count;
     /* 0xB34 */ int            next_node;
