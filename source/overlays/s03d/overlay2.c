@@ -181,16 +181,3 @@ const char s03d_dword_800DB554[] = {'d', 0x0, 0x0, 0x0};
 const char s03d_dword_800DB558[] = {0x90, 0x1, 0xe8, 0x3};
 const char s03d_dword_800DB55C[] = {0x90, 0x1, 0x0, 0x0};
 const char s03d_dword_800DB560[] = {0x0, 0x0, 0x0, 0x0};
-
-const int s03d_dword_800DB564 = 0x800CFB9C;
-const int s03d_dword_800DB568 = 0x800CFBEC;
-const int s03d_dword_800DB56C = 0x800CFCB4;
-const int s03d_dword_800DB570 = 0x800CFC70;
-const int s03d_dword_800DB574 = 0x800CFCF8;
-const int s03d_dword_800DB578 = 0x800CFD2C;
-const int s03d_dword_800DB57C = 0x800CFD84;
-const int s03d_dword_800DB580 = 0x800CFDCC;
-const int s03d_dword_800DB584 = 0x800CFE0C;
-const int s03d_dword_800DB588 = 0x800CFDEC;
-const int s03d_dword_800DB58C = 0x800CFE34;
-const int s03d_dword_800DB590 = 0x800CFE34;

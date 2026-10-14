@@ -72,6 +72,7 @@ int s03d_800CDF94(Work *work);
 void s03d_800CE318(Work *work, int arg);
 void s03d_800CFB04(Work *work, int arg);
 void s03d_800CF844(Work *work, int arg);
+void s03d_800CFFF0(Work *work, int arg);
 void s03d_800CF90C(Work *work, int arg);
 void s03d_800CF114(Work *work);
 void s03d_800CE8F4(Work *work, int arg);
@@ -1364,7 +1365,164 @@ void s03d_800CFA04(Work *work, int arg)
         GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFB04.s")
+void s03d_800CFB04(Work *work, int time)
+{
+    ACT     *act;
+    CONTROL *control;
+
+    act = &work->act;
+    control = &work->control;
+    control->step = work->target->force;
+
+    if (act->field_14 != 1)
+    {
+        work->act.field_1C = 0;
+    }
+
+    if (time == 0)
+    {
+        switch (act->field_14)
+        {
+        case 0:
+            GM_SeSet(&control->mov, SE_PUNCHIT1);
+            work->act.motion1 = 30;
+            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[6], 0, 4);
+            GM_SeSet(&control->mov, SE_V_ENE_PUNCHED);
+            Zako_800D0B18(work, 5, 0);
+            work->field_AF6 = 17;
+            break;
+        case 1:
+            work->act.motion1 = 33;
+            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[9], 0, 4);
+            if (work->target->vital <= 0)
+            {
+                if (GM_Weapon == WP_Rifle)
+                {
+                    Zako_800D0B18(work, 6, 2);
+                }
+                else
+                {
+                    Zako_800D0B18(work, 6, 1);
+                }
+            }
+            else
+            {
+                Zako_800D0B18(work, 5, 0);
+            }
+            GM_SeSet(&control->mov, SE_V_ENE_PUNCHED);
+            work->field_AF6 = 46;
+            break;
+        case 3:
+            GM_SeSet(&control->mov, SE_EDMG01);
+            work->act.motion1 = 31;
+            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[7], 0, 4);
+            Zako_800D0B18(work, 5, 0);
+            work->field_AF6 = 17;
+            break;
+        case 2:
+            GM_SeSet(&control->mov, SE_V_ENE_THROWN);
+            work->act.motion1 = 32;
+            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[8], 0, 4);
+            Zako_800D0B18(work, 5, 0);
+            work->field_AF6 = 22;
+            break;
+        case 4:
+            GM_SeSet(&control->mov, SE_V_ENE_SNAPPED);
+            work->act.motion1 = 25;
+            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[1], 0, 4);
+            work->field_AF6 = 67;
+            break;
+        case 5:
+            work->act.motion1 = 26;
+            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[2], 0, 4);
+            work->field_AF6 = 15;
+            break;
+        }
+    }
+
+    switch (act->field_14)
+    {
+    case 0:
+        if (time < 12)
+        {
+            control->turn.vy += 170;
+        }
+        if (time > 0 && time < 6)
+        {
+            Zako_800CDF2C(work);
+        }
+        if (time < 20)
+        {
+            work->control.hzd_height = -32767;
+        }
+        break;
+    case 1:
+        if (time == 24)
+        {
+            GM_SeSet(&control->mov, SE_ENEMY_COLLAPSE);
+        }
+        break;
+    case 3:
+        if (time > 0 && time < 15)
+        {
+            Zako_800CDF2C(work);
+        }
+        if (time < 15)
+        {
+            control->hzd_height = -32767;
+        }
+        break;
+    case 2:
+        if (time > 0 && time < 30)
+        {
+            Zako_800CDF2C(work);
+        }
+        if (time < 20)
+        {
+            control->hzd_height = -32767;
+        }
+        break;
+    case 4:
+    case 5:
+        break;
+    }
+
+    if (time > 16 && control->grounded != 0)
+    {
+        control->step = DG_ZeroVector;
+    }
+
+    if (time == work->field_AF6)
+    {
+        if ((control->mov.vy - control->levels[0]) < 2000)
+        {
+            GM_SeSet(&control->mov, SE_HIT_FLOOR);
+            GM_SetNoise(100, 4, &control->mov);
+            Zako_800D0B18(work, 6, 0);
+        }
+        else if ((control->mov.vy - control->levels[0]) > 4000)
+        {
+            work->target->vital = 0;
+            SetMode(work, s03d_800CFFF0);
+            return;
+        }
+    }
+
+    if (work->body.is_end)
+    {
+        work->act.field_1C = 1;
+        work->target->force = DG_ZeroVector;
+
+        if (work->target->vital <= 0)
+        {
+            SetMode(work, s03d_800D01C4);
+        }
+        else
+        {
+            SetMode(work, s03d_800CF68C);
+        }
+    }
+}
 void s03d_800CFFF0(Work *work, int arg)
 {
     CONTROL *ctrl = &work->control;
