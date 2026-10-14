@@ -710,38 +710,34 @@ void s19b_jeep_gls_800CE8B8(HZD_VEC *src, SVECTOR *dst)
     dst->vz = src->z;
 }
 
-/* verts[] pointers are kept in callee saved registers in the original, the rest is identical */
+/* queue the road hazard: same code, but the original keeps &hzd->n_d_segs in s6 and the sys address in s7 (swapped here) and orders the seg setup loads differently */
 #if 0 /* NON_MATCHING */
 static void QueueRoadHazard(Work *work, JEEP_ROAD *road, int do_segs)
 {
-    SVECTOR  verts[4];
-    SVECTOR *vec;
-    HZD_GRP *grp;
-    HZD_HDL *hzd;
-    HZD_FLR *flr;
     HZD_SEG *seg;
-    char    *flags1;
-    char    *flags2;
+    HZD_GRP *grp;
+    u_char  *flags1;
+    u_char  *flags2;
+    SVECTOR *vec;
+    HZD_FLR *flr;
+    short   *cnt;
     int      i;
+    SVECTOR  verts[4];
 
     SetRotMatrix(&road->objs->world);
-
     grp = road->grp;
-    hzd = work->hzd;
+    cnt = &work->hzd->n_d_segs;
     flr = grp->floors;
 
     for (i = grp->n_floors; i > 0; i--)
     {
-        if (hzd->n_d_segs < JEEP_FLR_COUNT)
+        if (*cnt < JEEP_FLR_COUNT)
         {
             vec = verts;
-            s19b_jeep_gls_800CE8B8(&flr->p1, vec);
-            vec = &verts[1];
-            s19b_jeep_gls_800CE8B8(&flr->p2, vec);
-            vec = &verts[2];
-            s19b_jeep_gls_800CE8B8(&flr->p3, vec);
-            vec = &verts[3];
-            s19b_jeep_gls_800CE8B8(&flr->p4, vec);
+            s19b_jeep_gls_800CE8B8(&flr->p1, vec++);
+            s19b_jeep_gls_800CE8B8(&flr->p2, vec++);
+            s19b_jeep_gls_800CE8B8(&flr->p3, vec++);
+            s19b_jeep_gls_800CE8B8(&flr->p4, vec++);
             DG_PutVector(verts, verts, 4);
 
             if (Takabe_JeepSystem.pos.vz != 0)
@@ -757,44 +753,46 @@ static void QueueRoadHazard(Work *work, JEEP_ROAD *road, int do_segs)
     if (do_segs)
     {
         grp = road->grp;
+        cnt = &work->hzd->n_d_segs;
         flags1 = grp->wallsFlags;
         seg = grp->walls;
         flags2 = flags1 + grp->n_walls;
-        hzd = work->hzd;
 
         for (i = grp->n_walls; i > 0; i--)
         {
-            if (hzd->n_d_segs < JEEP_SEG_COUNT)
+            if (*cnt < JEEP_SEG_COUNT)
             {
-                s19b_jeep_gls_800CE8B8(&seg->p1, &verts[0]);
+                vec = verts;
+                s19b_jeep_gls_800CE8B8(&seg->p1, vec);
                 s19b_jeep_gls_800CE8B8(&seg->p2, &verts[1]);
-                DG_PutVector(verts, verts, 2);
+                DG_PutVector(vec, vec, 2);
 
                 verts[0].pad = seg->p1.h / 2;
                 verts[1].pad = seg->p2.h / 2;
 
                 if (Takabe_JeepSystem.pos.vz != 0)
                 {
-                    s19b_jeep_gls_800CE83C(verts, work->seg_cur);
+                    s19b_jeep_gls_800CE83C(vec, work->seg_cur);
                 }
 
                 seg++;
-                HZD_QueueDynamicSegment2(work->hzd, work->seg_cur++, *flags1++ | (*flags2++ << 8));
+                HZD_QueueDynamicSegment2(work->hzd, work->seg_cur++, (*flags2++ << 8) | *flags1++);
             }
         }
     }
 }
+
 #endif
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE8DC.s")
 
-/* register allocation differs (head/constant swapped) */
+/* register allocation differs (road head index and division constant registers swapped) */
 #if 0 /* NON_MATCHING */
 void s19b_jeep_gls_800CEB2C(int z, SVECTOR *rot)
 {
-    Work    *work;
-    SVECTOR  vec;
-    int      base;
-    int      i;
+    Work *work;
+    SVECTOR vec;
+    int base;
+    int i;
 
     work = s19b_dword_800DE5B0;
     base = work->road[work->head].pos.vz - 2000;
@@ -808,37 +806,33 @@ void s19b_jeep_gls_800CEB2C(int z, SVECTOR *rot)
 #endif
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEB2C.s")
 
-/* register allocation differs */
+/* only differs in the destination register of the quotient (subu v0 instead of v1) */
 #if 0 /* NON_MATCHING */
 void s19b_jeep_gls_800CEC24(int z, SVECTOR *out)
 {
-    Work      *work;
-    JEEP_ROAD *cur;
+    Work *work;
     JEEP_ROAD *near;
     JEEP_ROAD *far;
-    SVECTOR    zero;
-    SVECTOR    step;
-    SVECTOR    tmp;
-    MATRIX     mat;
-    int        base;
-    int        i;
+    SVECTOR zero;
+    SVECTOR step;
+    SVECTOR tmp;
+    MATRIX mat;
+    int base;
+    int i;
 
     work = s19b_dword_800DE5B0;
     base = work->road[work->head].pos.vz - 2000;
-    i = ((z - base) / 4000 + work->head) & 0xF;
-    cur = &work->road[i];
-
-    if (z < cur->pos.vz)
+    i = work->head + (z - base) / 4000;
+    far = &work->road[i & 0xF];
+    if (far->pos.vz > z)
     {
-        far = cur;
         near = &work->road[(i + 15) & 0xF];
     }
     else
     {
-        near = cur;
+        near = far;
         far = &work->road[(i + 1) & 0xF];
     }
-
     zero = DG_ZeroVector;
     step = far->step;
     tmp.vx = step.vx + near->step.vx;
@@ -851,8 +845,6 @@ void s19b_jeep_gls_800CEC24(int z, SVECTOR *out)
 #endif
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEC24.s")
 
-/* register allocation differs */
-#if 0 /* NON_MATCHING */
 int s19b_jeep_gls_800CEDFC(int z, int offset)
 {
     Work *work;
@@ -861,11 +853,9 @@ int s19b_jeep_gls_800CEDFC(int z, int offset)
 
     work = s19b_dword_800DE5B0;
     base = work->road[work->head].pos.vz - 2000;
-    i = ((z - base - offset) / 4000 + work->head) & 0xF;
-    return work->road[i].attr;
+    i = (work->head + (z - base - offset) / 4000) & 0xF;
+    return (&work->road[i])->attr;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEDFC.s")
 
 void s19b_jeep_gls_800CEE7C(Work *work, int attr, SVECTOR *pos)
 {
