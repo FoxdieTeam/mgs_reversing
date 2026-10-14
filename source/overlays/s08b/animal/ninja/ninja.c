@@ -5958,6 +5958,7 @@ void s08b_bunsin2_800D3160(Work *work)
     work->field_19D0 = 0;
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D31EC.s")
+void s08b_bunsin2_800D31EC(Work *work);
 void s08b_bunsin2_800D3394(Work *work)
 {
     int weapon;
@@ -6795,6 +6796,7 @@ void s08b_bunsin2_800D4638(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D468C.s")
+void s08b_bunsin2_800D468C(Work *work);
 void s08b_bunsin2_800D47E0(Work *work)
 {
     if (work->field_19CC == 0x15 && s08b_bunsin2_800D1348(work) != 0)
@@ -6861,9 +6863,77 @@ void s08b_bunsin2_800D4884(Work *work)
         work->field_19D0 = 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4984.s")
+void s08b_bunsin2_800D4984(Work *work)
+{
+    switch (work->field_19C8)
+    {
+    case 0:
+        s08b_bunsin2_800D1CF4(work);
+        break;
+
+    case 1:
+        s08b_bunsin2_800D31EC(work);
+        break;
+
+    case 5:
+        s08b_bunsin2_800D468C(work);
+        break;
+
+    case 3:
+        s08b_bunsin2_800D3BD4(work);
+        break;
+
+    case 7:
+        s08b_bunsin2_800D21B8(work);
+        break;
+
+    case 9:
+        s08b_bunsin2_800D231C(work);
+        break;
+
+    case 8:
+        s08b_bunsin2_800D30E0(work);
+        break;
+    }
+}
 void s08b_bunsin2_800D4984(Work *work);
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4A34.s")
+void s08b_bunsin2_800D4A34(Work *work)
+{
+    switch (work->field_19C8)
+    {
+    case 0:
+        s08b_bunsin2_800D1D44(work);
+        break;
+
+    case 1:
+        s08b_bunsin2_800D3468(work);
+        break;
+
+    case 2:
+        s08b_bunsin2_800D3C44(work);
+        break;
+
+    case 5:
+        s08b_bunsin2_800D3CCC(work);
+        break;
+
+    case 6:
+        s08b_bunsin2_800D43D8(work);
+        break;
+
+    case 7:
+        s08b_bunsin2_800D2600(work);
+        break;
+
+    case 9:
+        s08b_bunsin2_800D2420(work);
+        break;
+
+    case 8:
+        s08b_bunsin2_800D3064(work);
+        break;
+    }
+}
 void s08b_bunsin2_800D4A34(Work *work);
 void s08b_bunsin2_800D4AF4(Work *work)
 {
