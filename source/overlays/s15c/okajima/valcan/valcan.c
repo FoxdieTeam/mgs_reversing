@@ -135,6 +135,10 @@ typedef struct _Work
 
 #define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
 
+SVECTOR s15c_dword_800C35E0[2] = {{500, 0, 1000}, {-500, 0, 1000}};
+SVECTOR s15c_dword_800C35F0 = {500, 1000, 500};
+SVECTOR s15c_dword_800C35F8 = {800, 2000, 800};
+SVECTOR s15c_dword_800C3600 = {10, -2500, -70};
 SVECTOR s15c_dword_800C3608 = {0, 0, 100};
 SVECTOR s15c_dword_800C3610 = {64512, 0, 0};
 
@@ -157,10 +161,6 @@ const char s15c_aRaven_800E2E68[] = {'R', 'A', 'V', 'E', 'N', 0x0, 0x0, 0x2};
 
 extern int     s15c_dword_800E345C[4];
 
-extern SVECTOR s15c_dword_800C3600;
-extern SVECTOR s15c_dword_800C35E0[2];
-extern SVECTOR s15c_dword_800C35F0;
-extern SVECTOR s15c_dword_800C35F8;
 
 extern int              amissile_alive_8009F490;
 extern SVECTOR          svector_8009F478;

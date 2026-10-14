@@ -9,19 +9,16 @@
 
 extern DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
 
-extern int s15c_dword_800E345C[4];
 extern int s15c_dword_800E346C;
 extern SVECTOR s15c_dword_800E3474;
-extern int s15c_dword_800C35CC;
-extern int s15c_dword_800C35D4;
 extern const char s15c_dword_800E2E30[8];
 
-const char s15c_aPan_800E2D70[] = "pan1";
-const char s15c_aPan_800E2D78[] = "pan2";
-const char s15c_aNikitamissile_800E2D80[] = "NIKITA MISSILE * 4";
-const char s15c_aC_800E2D94[] = "C4 * 2";
-const char s15c_aRation_800E2D9C[] = "RATION";
-const char s15c_aConall_800E2DA4[] = "con_all";
+u_char s15c_dword_800C35CC[] = {0, 4, 127, 4, 0, 0};
+u_char s15c_dword_800C35D4[] = {85, 4, 135, 8, 100, 10, 65, 12, 0, 0};
+
+int SECTION(".bss") s15c_dword_800E344C[4];
+int SECTION(".bss") s15c_dword_800E345C[4];
+
 
 typedef struct _Container
 {
@@ -66,10 +63,9 @@ typedef struct _Work
     ContainerTop tops[4];    /* 0x3204 */
     Item     items[4];       /* 0x3394 - runs up to field_3594 */
     int     field_3594[5][2];/* 0x3594 */
-    HZD_SEG segs[4][2][4];   /* 0x35BC - four HZD_SEG per [i][j] */
-    char    pad_37BC[0x383C - 0x37BC];
-    HZD_FLR floors[4][2][2]; /* 0x383C - two HZD_FLR per [i][j] */
-    char    pad_3B3C[0x3C0C - 0x3B3C];
+    HZD_SEG segs[5][2][4];   /* 0x35BC - four HZD_SEG per [i][j] (row 4 is never built) */
+    HZD_FLR floors[5][2][2]; /* 0x383C - two HZD_FLR per [i][j] (row 4 is never built) */
+    char    pad_3BFC[0x3C0C - 0x3BFC];
     SVECTOR field_3C0C[4];   /* 0x3C0C */
     int     field_3C2C[36];  /* 0x3C2C */
     int     field_3CBC[36];  /* 0x3CBC */
@@ -96,19 +92,6 @@ typedef struct _Work
     char    pad_4100[0x4160 - 0x4100];
     int     field_4160[4];   /* 0x4160 */
 } Work;
-
-typedef struct _DynStack
-{
-    char  pad[0x70];
-    short val_70;
-    short val_72;
-    short val_74;
-    short pad2;
-    short val_78;
-    short val_7A;
-    short val_7C;
-    char  pad3[156 - 0x7E];
-} DynStack;
 
 void s15c_dyncon_800D3EBC(OBJECT_NO_ROTS *obj, int model, int flag)
 {
@@ -502,15 +485,13 @@ extern void s15c_dyncon_800D3F24(HZD_SEG *segs, HZD_FLR *floors, MATRIX *mtx,
 
 void s15c_dyncon_800D567C(Work *work, int s1, int s2, int code)
 {
-    MATRIX    mtx;
-    SVECTOR   pos;
-    SVECTOR   rot;
-    SVECTOR   a;
-    SVECTOR   b;
-    DynStack *ds;
+    MATRIX  mtx;
+    SVECTOR pos;
+    SVECTOR rot;
+    SVECTOR a;
+    SVECTOR b;
 
-    ds  = (DynStack *)work + work->field_3594[s1][s2];
-    pos = *(SVECTOR *)&ds->val_70;
+    pos = work->containers[work->field_3594[s1][s2]].mov;
     rot = DG_ZeroVector;
 
     switch (code)
@@ -518,20 +499,17 @@ void s15c_dyncon_800D567C(Work *work, int s1, int s2, int code)
     case 1:
         a = work->field_3C0C[0];
         b = work->field_3C0C[1];
-        ds = (DynStack *)work + work->field_3594[s1][s2];
-        rot.vy = ds->val_7A;
+        rot.vy = work->containers[work->field_3594[s1][s2]].rot.vy;
         break;
     case 2:
         a = work->field_3C0C[2];
         b = work->field_3C0C[3];
-        ds = (DynStack *)work + work->field_3594[s1][s2];
-        rot.vy = ds->val_7C + 0x800;
+        rot.vy = work->containers[work->field_3594[s1][s2]].rot.vz + 0x800;
         break;
     case 3:
         a = work->field_3C0C[2];
         b = work->field_3C0C[3];
-        ds = (DynStack *)work + work->field_3594[s1][s2];
-        rot.vy = ds->val_7C - 0x400;
+        rot.vy = work->containers[work->field_3594[s1][s2]].rot.vz - 0x400;
         break;
     }
 
@@ -651,7 +629,7 @@ void s15c_dyncon_800D5C38(Work *work, int i, int j)
     obj = &work->field_2E44[i * 2].obj;
     rot = work->containers[j].rot;
     DG_SetPos2(&work->containers[j].mov, &rot);
-    s15c_dyncon_800D3EBC(obj, GV_StrCode(s15c_aPan_800E2D70),
+    s15c_dyncon_800D3EBC(obj, GV_StrCode("pan1"),
                          DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE);
     obj->objs->objs[0].raise = -250;
     work->field_31E4[i * 2] = 1;
@@ -664,7 +642,7 @@ void s15c_dyncon_800D5C38(Work *work, int i, int j)
 
     obj = &work->field_2E44[i * 2 + 1].obj;
     DG_SetPos2(&work->containers[j].mov, &rot);
-    s15c_dyncon_800D3EBC(obj, GV_StrCode(s15c_aPan_800E2D78),
+    s15c_dyncon_800D3EBC(obj, GV_StrCode("pan2"),
                          DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_ONEPIECE);
     obj->objs->objs[0].raise = -250;
     work->field_31E4[i * 2 + 1] = 1;
@@ -711,16 +689,14 @@ void s15c_dyncon_800D5F68(Work *work, int index, int arg2, int a3_val,
                           int sp28, int sp2c, int sp30, int sp34,
                           int sp38, int sp3c)
 {
-    DynStack *item = (DynStack *)work + index;
+    work->containers[index].rot.vx += (short)a3_val;
+    work->containers[index].rot.vy += (short)sp28;
 
-    item->val_78 += (short)a3_val;
-    item->val_7A += (short)sp28;
+    work->containers[index].rot.vz += (short)sp2c;
+    work->containers[index].mov.vx += (short)sp30;
 
-    item->val_7C += (short)sp2c;
-    item->val_70 += (short)sp30;
-
-    item->val_72 += (short)sp34;
-    item->val_74 += (short)sp38;
+    work->containers[index].mov.vy += (short)sp34;
+    work->containers[index].mov.vz += (short)sp38;
 
     s15c_dyncon_800D5EDC(work, arg2, sp3c);
 }
@@ -743,20 +719,17 @@ void s15c_dyncon_800D603C(Work *work, int i)
 }
 void s15c_dyncon_800D6070(Work *work, int row, int idx)
 {
-    DynStack *item = (DynStack *)work + row;
-
-    item->val_70 += (work->field_3F40[idx].vx * work->field_3F10[idx]) / 128;
-    item->val_72 += (work->field_3F40[idx].vy * work->field_3F10[idx]) / 128;
-    item->val_74 += (work->field_3F40[idx].vz * work->field_3F10[idx]) / 128;
+    work->containers[row].mov.vx += (work->field_3F40[idx].vx * work->field_3F10[idx]) / 128;
+    work->containers[row].mov.vy += (work->field_3F40[idx].vy * work->field_3F10[idx]) / 128;
+    work->containers[row].mov.vz += (work->field_3F40[idx].vz * work->field_3F10[idx]) / 128;
 }
-extern int s15c_dword_800E344C;
 
 void s15c_dyncon_800D6128(Work *work, SVECTOR *pos, int range)
 {
     int  i;
     int *out;
 
-    out = &s15c_dword_800E344C;
+    out = s15c_dword_800E344C;
     for (i = 0; i < 4; i++)
     {
         if (work->field_3F20[i] > 0)
@@ -852,25 +825,25 @@ void *s15c_dyncon_800D6434(Work *work, SVECTOR *pos, SVECTOR *step, int item_typ
     switch (item_type)
     {
     case 0:
-        item.message = s15c_aNikitamissile_800E2D80;
+        item.message = "NIKITA MISSILE * 4";
         item.type    = 3;
         item.id      = WP_Nikita;
         item.num     = 4;
         break;
     case 1:
-        item.message = s15c_aC_800E2D94;
+        item.message = "C4 * 2";
         item.id      = WP_C4;
         item.type    = 0;
         item.num     = 2;
         break;
     case 2:
-        item.message = s15c_aC_800E2D94;
+        item.message = "C4 * 2";
         item.type    = 0;
         item.id      = WP_C4;
         item.num     = 2;
         break;
     case 3:
-        item.message = s15c_aRation_800E2D9C;
+        item.message = "RATION";
         item.type    = 4;
         item.id      = IT_Ration;
         item.num     = 1;
@@ -1087,7 +1060,7 @@ void s15c_dyncon_800D6528(Work *work)
                 obj = &upper->objs[1];
                 work->field_2C04[(index + 4) * 2] = 0;
                 DG_SetPos2(&upper->mov, &upper->rot);
-                s15c_dyncon_800D3EBC(obj, GV_StrCode(s15c_aConall_800E2DA4), 0x47);
+                s15c_dyncon_800D3EBC(obj, GV_StrCode("con_all"), 0x47);
                 work->field_2C04[(index + 4) * 2 + 1] = 1;
             }
 
@@ -1380,8 +1353,8 @@ void s15c_dyncon_800D6528(Work *work)
                 }
 
                 GM_SetNoise(255, 32, &work->containers[index + 4].mov);
-                NewPadVibration((u_char *)&s15c_dword_800C35CC, 1);
-                NewPadVibration((u_char *)&s15c_dword_800C35D4, 2);
+                NewPadVibration(s15c_dword_800C35CC, 1);
+                NewPadVibration(s15c_dword_800C35D4, 2);
             }
             break;
 

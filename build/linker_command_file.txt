@@ -1543,8 +1543,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\s15c\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\dyncon.obj", overlay
     include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\valcan.obj", overlay
     include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\crow.obj", overlay
