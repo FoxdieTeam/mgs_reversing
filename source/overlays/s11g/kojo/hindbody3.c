@@ -12,23 +12,27 @@
 
 void s11g_hind_800D61F8(HindWork *work);
 
-#if 0 /* NON_MATCHING: only matches when field_5F4 is accessed as volatile */
 void s11g_hind_800DA534(HindWork *work)
 {
-    int f5F4;
-
     s11g_hind_800D61F8(work);
 
     work->field_5C8 = 5;
     work->field_5E4 = 100;
     work->field_5F8 = GV_RandU(2);
-    do {} while (0);
-    work->field_5F4 = (work->field_5F4 + 2048) & 0xFFF;
 
-    f5F4 = work->field_5F4;
-    if (f5F4 > 256 && f5F4 < 1792)
+    /* turn around: both directions end up at the same angle */
+    if (work->field_5F8 != 0)
     {
-        if (f5F4 < 1024)
+        work->field_5F4 = (work->field_5F4 + 2048) & 0xFFF;
+    }
+    else
+    {
+        work->field_5F4 = (work->field_5F4 - 2048 + 4096) & 0xFFF;
+    }
+
+    if (work->field_5F4 > 256 && work->field_5F4 < 1792)
+    {
+        if (work->field_5F4 < 1024)
         {
             work->field_5F4 = 256;
         }
@@ -42,8 +46,6 @@ void s11g_hind_800DA534(HindWork *work)
     work->field_60C.vy = (work->field_60C.vy + 10000) / 2;
     work->field_60C.vz = rsin(work->field_5F4) * 43;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800DA534.s")
 
 /* padding: in the original single object the next jump table was 8 byte aligned */
 const int s11g_dword_800DD284 = 0;
