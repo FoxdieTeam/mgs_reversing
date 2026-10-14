@@ -2,6 +2,31 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "libhzd/libhzd.h"
+
+typedef struct _HindPoint
+{
+    u_short x;
+    u_short y;
+    u_short z;
+    u_short command;
+} HindPoint;
+
+// same layout as HZD_PTP
+typedef struct _HindRoutePoint
+{
+    u_short x;
+    u_short z;
+    u_short y;
+    u_short command;
+} HindRoutePoint;
+
+typedef struct _HindEventSrc
+{
+    u_short         count;
+    u_short         pad;
+    HindRoutePoint *data;
+} HindEventSrc;
 
 typedef struct _Work
 {
@@ -22,12 +47,13 @@ typedef struct _Work
     short    field_1EC;
     char     pad_1ee[0x1F0 - 0x1EC - sizeof(short)];
     short    field_1F0;
-    char     pad_1f2[0x1F4 - 0x1F0 - sizeof(short)];
+    short    field_1F2;
     short    field_1F4;
     short    field_1F6;
-    char     pad_1f8[0x202 - 0x1F8];
-    u_short  field_202[8];
-    char     pad_212[0x910 - 0x212];
+    char     pad_1f8[0x200 - 0x1F8];
+    short    field_200;
+    u_short  field_202[7];
+    HindPoint events[7][32];
     u_short *field_910;
     u_short  field_914;
     u_short  field_916;
@@ -37,7 +63,10 @@ typedef struct _Work
     char     pad_928[0x93C - 0x924 - sizeof(DG_PRIM *)];
     int      field_93C[7];
     int      field_958;
-    char     pad_95c[0x978 - 0x958 - sizeof(int)];
+    int      field_95C;
+    char     pad_960[0x964 - 0x960];
+    int      field_964;
+    char     pad_968[0x978 - 0x968];
     short    f978;
     short    f97A;
 } Work;
@@ -179,7 +208,66 @@ void s11d_hind_800C99A8(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C99F4.s")
 void s11d_hind_800C99F4(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9B94.s")
+void s11d_hind_800C9B94(Work *work)
+{
+    CONTROL *ctrl;
+    int      dir;
+    int      diff;
+
+    ctrl = &work->control;
+    dir = GV_DiffDirS(ctrl->turn.vy, ctrl->rot.vy);
+
+    if (dir == 0)
+    {
+        if (work->field_964 < -4)
+        {
+            work->field_964 = work->field_964 + 4;
+        }
+        else if (work->field_964 < 5)
+        {
+            work->field_964 = 0;
+        }
+        else
+        {
+            work->field_964 = work->field_964 - 4;
+        }
+    }
+    else if (dir > 0)
+    {
+        diff = work->field_1F2 - work->field_964;
+        if (diff < -16)
+        {
+            work->field_964 = work->field_964 - 16;
+        }
+        else if (diff > 16)
+        {
+            work->field_964 = work->field_964 + 16;
+        }
+        else
+        {
+            work->field_964 = work->field_964 + diff;
+        }
+    }
+    else
+    {
+        diff = -work->field_1F2 - work->field_964;
+        if (diff < -16)
+        {
+            work->field_964 = work->field_964 - 16;
+        }
+        else if (diff > 16)
+        {
+            work->field_964 = work->field_964 + 16;
+        }
+        else
+        {
+            work->field_964 = work->field_964 + diff;
+        }
+    }
+
+    ctrl->turn.vz += work->field_964;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9C7C.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9D60.s")
 
@@ -281,8 +369,72 @@ void s11d_hind_800CAF9C(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAFEC.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB054.s")
+int s11d_hind_800CAFEC(HindEventSrc *src, u_short *out_count, HindPoint *out)
+{
+    HindRoutePoint *in;
+    u_short    n;
+    int        i;
+
+    n = src->count;
+    *out_count = n;
+    i = (u_short)n;
+    i--;
+    in = src->data;
+    for (; i >= 0; i--)
+    {
+        out->x = in->x;
+        out->y = in->y;
+        out->z = in->z;
+        out->command = in->command;
+        in++;
+        out++;
+    }
+    return 0;
+}
+
+int s11d_hind_800CB054(Work *work)
+{
+    HZD_DEF      *def;
+    HindEventSrc *route;
+    int           n_routes;
+    int           i;
+    u_short      *counts;
+    int           vy;
+
+    def = work->control.map->hzd->def;
+    route = (HindEventSrc *)def->routes;
+    n_routes = def->n_routes;
+    counts = work->field_202;
+    work->field_200 = n_routes;
+
+    i = 0;
+    while (i < n_routes)
+    {
+        if (s11d_hind_800CAFEC(route, counts, work->events[i]) < 0)
+        {
+            return -1;
+        }
+        i++;
+        route++;
+        counts++;
+    }
+
+    work->field_1F0 = 0x20;
+
+    if (!GCL_GetOption('r'))
+    {
+        return -1;
+    }
+
+    s11d_hind_800C9908(work, GCL_StrToInt(GCL_NextStr()));
+    vy = work->control.mov.vy;
+    work->control.mov = *(SVECTOR *)work->field_910;
+    work->control.mov.vy = vy;
+    work->field_918 = 0;
+    *(int *)&work->field_1C8 &= ~0x20;
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB178.s")
 
 void s11d_hind_800CB310(Work *work)
