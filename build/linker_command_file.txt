@@ -3811,9 +3811,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s17a\kojo\mgrexlzr.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay24.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay11.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D6A4C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D74C4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D74D4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s17a\kojo\bloodhzd.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay13.obj", overlay
     include "{{OBJ_DIR}}\kojo\blooddrp.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay14.obj", overlay

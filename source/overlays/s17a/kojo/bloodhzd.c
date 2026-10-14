@@ -1,0 +1,199 @@
+#include <stdlib.h>
+#include <memory.h>
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libhzd/libhzd.h"
+#include "game/game.h"
+
+/* Blood splatters on the walls/floors around a position (demo effect) */
+
+#define N_BLOODS 5
+
+typedef struct _Work
+{
+    GV_ACT   actor;
+    int      map;                   // 0x20
+    DG_PRIM *prims[N_BLOODS];       // 0x24
+    SVECTOR  verts[N_BLOODS][4];    // 0x38
+} Work;
+
+#define EXEC_LEVEL GV_ACTOR_USER
+
+void BloodHazard_Act(Work *work);
+void BloodHazard_Die(Work *work);
+
+/* NON_MATCHING: draft of NewBloodHazard, not compiled yet.
+ * (Act/Die are not static: a static function following an INCLUDE_ASM
+ * function would be merged into it by include_asm_fixup.py) */
+#if 0
+void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx);
+
+void *NewBloodHazard(MATRIX *world, int width, int height, int size, short dist)
+{
+    Work    *work;
+    DG_TEX  *tex;
+    HZD_SEG *seg;
+    HZD_FLR *flr;
+    void    *hzd;
+    SVECTOR  eye;
+    SVECTOR  dir;
+    SVECTOR  ang;
+    SVECTOR  pos;
+    SVECTOR  normal;
+    int      half_w, half_h;
+    int      third_w, third_h;
+    int      s;
+    int      i;
+
+    tex = NULL;
+
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    if (work == NULL)
+    {
+        return NULL;
+    }
+
+    GV_SetNamedActor(&work->actor, BloodHazard_Act, BloodHazard_Die, "bloodhzd.c");
+
+    work->map = GM_CurrentMap;
+    sub_8007EF34(&eye, &dir, world);
+
+    half_w = width >> 1;
+    half_h = height >> 1;
+    third_w = width / 3;
+    third_h = height / 3;
+
+    for (i = 0; i < N_BLOODS; i++)
+    {
+        ang.vx = rand() % width;
+        ang.vy = rand() % height;
+
+        work->prims[i] = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->verts[i], NULL);
+
+        if (ang.vx / third_w == 1 && ang.vy / third_h == 1)
+        {
+            tex = DG_GetTexture(GV_StrCode("chi_01"));
+        }
+        else if (ang.vx / half_w == 0 && ang.vy / half_h == 0)
+        {
+            tex = DG_GetTexture(GV_StrCode("chi_02"));
+        }
+        else if (ang.vx / half_w == 1 && ang.vy / half_h == 0)
+        {
+            tex = DG_GetTexture(GV_StrCode("chi_03"));
+        }
+        else if (ang.vx / half_w == 0 && ang.vy / half_h == 1)
+        {
+            tex = DG_GetTexture(GV_StrCode("chi_04"));
+        }
+        else if (ang.vx / half_w == 1 && ang.vy / half_h == 1)
+        {
+            tex = DG_GetTexture(GV_StrCode("chi_05"));
+        }
+
+#define PACK0   (((POLY_FT4 *)work->prims[i]->packs[0]) + 0)
+#define PACK1   (((POLY_FT4 *)work->prims[i]->packs[0]) + 1)
+
+        {
+            int x, y, w, h;
+            x = tex->off_x;
+            w = tex->w;
+            y = tex->off_y;
+            h = tex->h;
+            setUVWH(PACK0, x, y, w, h);
+            PACK0->tpage = tex->tpage;
+            PACK0->clut = tex->clut;
+        }
+        {
+            int x, y, w, h;
+            x = tex->off_x;
+            w = tex->w;
+            y = tex->off_y;
+            h = tex->h;
+            setUVWH(PACK1, x, y, w, h);
+            PACK1->tpage = tex->tpage;
+            PACK1->clut = tex->clut;
+        }
+
+        PACK0->tpage |= 0x40;
+        PACK1->tpage |= 0x40;
+
+        setPolyFT4(PACK0);
+        setPolyFT4(PACK1);
+        setRGB0(PACK0, 0, 255, 255);
+        setRGB0(PACK1, 0, 255, 255);
+        setSemiTrans(PACK0, 1);
+        setSemiTrans(PACK1, 1);
+
+#undef PACK0
+#undef PACK1
+
+        ang.vx = dir.vx + (ang.vx - half_w);
+        ang.vy = dir.vy + (ang.vy - half_h);
+        ang.vz = dir.vz;
+
+        memset(&pos, 0, sizeof(SVECTOR));
+        pos.vz = dist;
+        DG_SetPos2(&DG_ZeroVector, &ang);
+        DG_PutVector(&pos, &pos, 1);
+
+        pos.vx += eye.vx;
+        pos.vy += eye.vy;
+        pos.vz += eye.vz;
+
+        if (HZD_OnlineHazardCheck(GM_GetMap(work->map)->hzd, &eye, &pos, 15, 0))
+        {
+            if ((int)HZD_GetOnlineHazard() < 0)
+            {
+                seg = HZD_GetOnlineHazard();
+                normal.vy = 0;
+                normal.vx = (seg->p1.z - seg->p2.z) * seg->p1.h;
+                normal.vz = (seg->p1.x - seg->p2.x) * -seg->p1.h;
+            }
+            else
+            {
+                flr = HZD_GetOnlineHazard();
+                normal.vx = (flr->p2.y - flr->p3.y) * (flr->p1.z - flr->p2.z) - (flr->p2.z - flr->p3.z) * (flr->p1.y - flr->p2.y);
+                normal.vy = (flr->p2.z - flr->p3.z) * (flr->p1.x - flr->p2.x) - (flr->p2.x - flr->p3.x) * (flr->p1.z - flr->p2.z);
+                normal.vz = (flr->p2.x - flr->p3.x) * (flr->p1.y - flr->p2.y) - (flr->p2.y - flr->p3.y) * (flr->p1.x - flr->p2.x);
+            }
+
+            ang.vx = -ratan2(normal.vy, SquareRoot0(normal.vx * normal.vx + normal.vz * normal.vz));
+            ang.vy = ratan2(normal.vx, normal.vz);
+            ang.vz = 0;
+
+            s = size >> 1;
+            work->verts[i][0].vx = -s;
+            work->verts[i][0].vy = -s;
+            work->verts[i][1].vx = -s;
+            work->verts[i][1].vy = s;
+            work->verts[i][2].vx = s;
+            work->verts[i][2].vy = -s;
+            work->verts[i][3].vx = s;
+            work->verts[i][3].vy = s;
+
+            HZD_GetOnlinePoint(&pos);
+            DG_SetPos2(&pos, &ang);
+            DG_PutVector(work->verts[i], work->verts[i], 4);
+        }
+    }
+
+    return (void *)work;
+}
+#endif
+#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800D6A4C.s")
+
+void BloodHazard_Act(Work *work)
+{
+    GM_CurrentMap = work->map;
+}
+
+void BloodHazard_Die(Work *work)
+{
+    int i;
+
+    for (i = 0; i < N_BLOODS; i++)
+    {
+        GM_FreePrim(work->prims[i]);
+    }
+}
