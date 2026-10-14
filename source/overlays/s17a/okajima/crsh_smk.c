@@ -99,8 +99,14 @@ static void Die(Work *work)
 
 int s17a_800CB5B0(Work *work, SVECTOR *pos, SVECTOR *rot, int speed, int num, int type, int mode, u_char r, u_char g, u_char b);
 
-/* NON_MATCHING: register allocation (time/i swapped: s4/s3 instead of s3/s4) and the
- * delay slot filling of the switch differ, everything else matches. */
+/* NON_MATCHING: with the work->time store last (as below) the register
+ * allocation matches; what still differs: the original sets time = 15 in the
+ * entry block (in the delay slot of the first switch branch, so $s3 is saved
+ * early in the prologue) while case 0 has no code of its own, and sched2 keeps
+ * the original store order (num, r, g, b, time, frame, type). Adding "time = 15;"
+ * before the switch (with "default:" on case 2) reproduces the prologue and
+ * the switch, but then time is not live at the function entry anymore and
+ * gets a higher allocation priority ($s1 instead of $s3). */
 #if 0
 int s17a_800CB5B0(Work *work, SVECTOR *pos, SVECTOR *rot, int speed, int num, int type, int mode, u_char r, u_char g, u_char b)
 {
@@ -153,9 +159,9 @@ int s17a_800CB5B0(Work *work, SVECTOR *pos, SVECTOR *rot, int speed, int num, in
     work->r = r;
     work->g = g;
     work->b = b;
-    work->time = time;
     work->frame = 0;
     work->type = type;
+    work->time = time;
     return 0;
 }
 #endif
