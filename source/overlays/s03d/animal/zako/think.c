@@ -647,7 +647,7 @@ void s03d_800D3B5C(Work *work)
     work->field_B28 = 0xFF;
     if (work->field_AC8 == 0)
     {
-        work->field_8E4 = 1;
+        work->act.field_1C = 1;
         s03d_800D3ACC(work);
     }
 }

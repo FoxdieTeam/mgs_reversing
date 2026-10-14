@@ -14,9 +14,26 @@ typedef struct _PARAM
     char        defends[4];
     signed char roots[4];
     short       life;
-    short       max_life; /* for the red damage bar */
     short       faint;
+    short       damage;
 } PARAM;
+
+typedef struct _ACT
+{
+    int             field_00;       /* 0x00 */
+    short           field_04;       /* 0x04 */
+    short           field_06;       /* 0x06 */
+    int             field_08;       /* 0x08 */
+    SVECTOR         field_0C;       /* 0x0C */
+    int             field_14;       /* 0x14 */
+    short           motion1;        /* 0x18 */
+    short           motion2;        /* 0x1A */
+    short           field_1C;       /* 0x1C */
+    short           field_1E;       /* 0x1E */
+} ACT;
+
+struct _Work;
+typedef void (*ACTION)(struct _Work *, int);
 
 typedef struct _Work
 {
@@ -33,23 +50,15 @@ typedef struct _Work
     OBJECT          weapon;         /* 0x7A4 */
     MATRIX          light[2];       /* 0x888 */
 
-    int             field_8C8;      /* 0x8C8 */
-    int             field_8CC;      /* 0x8CC */
-    char            pad_8D0[0x8D4 - 0x8D0];
-    SVECTOR         field_8D4;      /* 0x8D4 */
-    int             field_8DC;      /* 0x8DC */
-    short           field_8E0;      /* 0x8E0 */
-    short           field_8E2;      /* 0x8E2 */
-    short           field_8E4;      /* 0x8E4 */
-    short           field_8E6;      /* 0x8E6 */
+    ACT             act;            /* 0x8C8 */
 
-    void          (*field_8E8)(struct _Work *, int);  /* 0x8E8 */
-    int             field_8EC;      /* 0x8EC */
-    int             field_8F0;      /* 0x8F0 */
-    int             field_8F4;      /* 0x8F4 */
+    ACTION          action;         /* 0x8E8 */
+    ACTION          action2;        /* 0x8EC */
+    int             time;           /* 0x8F0 */
+    int             time2;          /* 0x8F4 */
     int             field_8F8;      /* 0x8F8 */
-    TARGET         *field_8FC;      /* 0x8FC */
-    TARGET          field_900;      /* 0x900 */
+    TARGET         *target;         /* 0x8FC */
+    TARGET          attack;         /* 0x900 */
     char            pad_948[0x954 - 0x948];
     void          (*field_954)(struct _Work *);  /* 0x954 */
     int             field_958;      /* 0x958 */
@@ -91,7 +100,9 @@ typedef struct _Work
     char            pad_AE4[0xAE6 - 0xAE4];
     short           field_AE6;      /* 0xAE6 */
     short           field_AE8;      /* 0xAE8 */
-    char            pad_AEA[0xAF6 - 0xAEA];
+    char            pad_AEA[0xAEC - 0xAEA];
+    int             field_AEC;      /* 0xAEC */
+    char            pad_AF0[0xAF6 - 0xAF0];
     short           field_AF6;      /* 0xAF6 */
     char            pad_AF8[0xB00 - 0xAF8];
     int             field_B00;      /* 0xB00 */
@@ -122,9 +133,11 @@ typedef struct _Work
     char            pad_B88[0xB90 - 0xB88];
     int             field_B90;      /* 0xB90 */
     unsigned short  field_B94;      /* 0xB94 */
-    char            pad_B96[0xBA0 - 0xB96];
+    char            pad_B96[0xB9C - 0xB96];
+    int             field_B9C;      /* 0xB9C */
     short           field_BA0;      /* 0xBA0 */
-    char            pad_BA2[0xC00 - 0xBA2];
+    short           field_BA2;      /* 0xBA2 */
+    char            pad_BA4[0xC00 - 0xBA4];
 } Work;
 
 typedef struct _ZakoActor
