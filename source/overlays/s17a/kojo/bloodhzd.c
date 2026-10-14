@@ -14,7 +14,7 @@ typedef struct _Work
     GV_ACT   actor;
     int      map;                   // 0x20
     DG_PRIM *prims[N_BLOODS];       // 0x24
-    SVECTOR  verts[N_BLOODS][4];    // 0x38
+    SVECTOR  verts[N_BLOODS * 4];   // 0x38
 } Work;
 
 #define EXEC_LEVEL GV_ACTOR_USER
@@ -22,8 +22,11 @@ typedef struct _Work
 void BloodHazard_Act(Work *work);
 void BloodHazard_Die(Work *work);
 
-/* NON_MATCHING: draft of NewBloodHazard, close: the frame is 8 bytes
- * smaller, saved registers are assigned differently and the wall normal differs.
+/* NON_MATCHING: the code of this draft is identical to the original, only the
+ * stack frame differs: the original frame is 8 bytes bigger (one more 4-byte
+ * spill slot after the three used ones at 0x38..0x40, never referenced; probably
+ * a pseudo that reload put "on stack" and whose loads/stores were all inherited
+ * away). The source construct that causes it has not been found.
  * (Act/Die are not static: a static function following an INCLUDE_ASM
  * function would be merged into it by include_asm_fixup.py) */
 #if 0
@@ -35,7 +38,6 @@ void *NewBloodHazard(MATRIX *world, int width, int height, int size, int dist)
     DG_TEX  *tex;
     HZD_SEG *seg;
     HZD_FLR *flr;
-    void    *hzd;
     SVECTOR  eye;
     SVECTOR  dir;
     SVECTOR  ang;
@@ -65,7 +67,7 @@ void *NewBloodHazard(MATRIX *world, int width, int height, int size, int dist)
         ang.vx = rand() % width;
         ang.vy = rand() % height;
 
-        work->prims[i] = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->verts[i], NULL);
+        work->prims[i] = GM_MakePrim(DG_PRIM_POLY_FT4, 1, &work->verts[i * 4], NULL);
 
         if (ang.vx / (width / 3) == 1 && ang.vy / (height / 3) == 1)
         {
@@ -143,8 +145,8 @@ void *NewBloodHazard(MATRIX *world, int width, int height, int size, int dist)
             if ((int)HZD_GetOnlineHazard() < 0)
             {
                 seg = HZD_GetOnlineHazard();
+                pos.vx = -((seg->p1.z - seg->p2.z) * -seg->p1.h);
                 pos.vy = 0;
-                pos.vx = (seg->p1.z - seg->p2.z) * seg->p1.h;
                 pos.vz = (seg->p1.x - seg->p2.x) * -seg->p1.h;
             }
             else
@@ -160,18 +162,18 @@ void *NewBloodHazard(MATRIX *world, int width, int height, int size, int dist)
             ang.vz = 0;
 
             s = size >> 1;
-            work->verts[i][0].vx = -s;
-            work->verts[i][0].vy = -s;
-            work->verts[i][1].vx = -s;
-            work->verts[i][1].vy = s;
-            work->verts[i][2].vx = s;
-            work->verts[i][2].vy = -s;
-            work->verts[i][3].vx = s;
-            work->verts[i][3].vy = s;
+            work->verts[i * 4 + 0].vx = -s;
+            work->verts[i * 4 + 0].vy = -s;
+            work->verts[i * 4 + 1].vx = -s;
+            work->verts[i * 4 + 1].vy = s;
+            work->verts[i * 4 + 2].vx = s;
+            work->verts[i * 4 + 2].vy = -s;
+            work->verts[i * 4 + 3].vx = s;
+            work->verts[i * 4 + 3].vy = s;
 
             HZD_GetOnlinePoint(&pos);
             DG_SetPos2(&pos, &ang);
-            DG_PutVector(work->verts[i], work->verts[i], 4);
+            DG_PutVector(&work->verts[i * 4], &work->verts[i * 4], 4);
         }
     }
 

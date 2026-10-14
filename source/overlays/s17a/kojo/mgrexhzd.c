@@ -216,20 +216,17 @@ int s17a_800E3248(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to, int chk_flag, int se
 }
 
 /* Nikita missile against REX hit boxes */
-/* NON_MATCHING: only the scratchpad address of the hit position is kept in a register (and $s regs shift in the final loop) */
-#if 0
-#define HITPOS   ((VECTOR *)0x1F800000)
-#define HITBOXES (((MGREX_HITSCRATCH *)getScratchAddr(0))->boxes)
-
 void s17a_800E32B4(MGREX_WORK *work)
 {
-    MGREX_HITWORK *hit;
-    MGREX_HITBOX  *box;
-    DG_OBJS       *objs;
-    MATRIX        *world;
-    int            sx, sy, sz;
-    int            i, n;
+    MGREX_HITSCRATCH *scratch;
+    MGREX_HITWORK    *hit;
+    MGREX_HITBOX     *box;
+    DG_OBJS          *objs;
+    MATRIX           *world;
+    int               sx, sy, sz;
+    int               i, n;
 
+    scratch = (MGREX_HITSCRATCH *)getScratchAddr(0);
     dword_8009F49C = 0;
     if (!amissile_alive_8009F490)
     {
@@ -238,12 +235,11 @@ void s17a_800E32B4(MGREX_WORK *work)
 
     n = 0;
 
+    hit = scratch->boxes;
     box = mgrex_hitbox_leg_l;
-    hit = HITBOXES;
     objs = work->leg_l.objs;
     for (i = 0; i < 2; i++, hit++, box++)
     {
-        n++;
         world = &objs->objs[box->joint].world;
         RotMatrix_gte(&box->rot, &hit->mat);
         hit->mat.t[0] = hit->mat.t[1] = hit->mat.t[2] = 0;
@@ -252,13 +248,13 @@ void s17a_800E32B4(MGREX_WORK *work)
         DG_MovePos(&box->pos);
         ReadRotMatrix(&hit->mat);
         hit->size = &box->size;
+        n++;
     }
 
     box = mgrex_hitbox_leg_r;
     objs = work->leg_r.objs;
     for (i = 0; i < 2; i++, hit++, box++)
     {
-        n++;
         world = &objs->objs[box->joint].world;
         RotMatrix_gte(&box->rot, &hit->mat);
         hit->mat.t[0] = hit->mat.t[1] = hit->mat.t[2] = 0;
@@ -267,13 +263,13 @@ void s17a_800E32B4(MGREX_WORK *work)
         DG_MovePos(&box->pos);
         ReadRotMatrix(&hit->mat);
         hit->size = &box->size;
+        n++;
     }
 
     box = mgrex_hitbox_body;
     objs = work->body.objs;
     for (i = 0; i < 7; i++, hit++, box++)
     {
-        n++;
         world = &objs->objs[box->joint].world;
         RotMatrix_gte(&box->rot, &hit->mat);
         hit->mat.t[0] = hit->mat.t[1] = hit->mat.t[2] = 0;
@@ -282,23 +278,24 @@ void s17a_800E32B4(MGREX_WORK *work)
         DG_MovePos(&box->pos);
         ReadRotMatrix(&hit->mat);
         hit->size = &box->size;
+        n++;
     }
 
-    hit = (MGREX_HITWORK *)getScratchAddr(4);
-    for (i = n; i > 0; i--, hit++)
+    hit = scratch->boxes;
+    for (i = n; i > 0; hit++, i--)
     {
         DG_TransposeMatrix(&hit->mat, &hit->mat);
-        HITPOS->vx = svector_8009F494.vx - hit->mat.t[0];
-        HITPOS->vy = svector_8009F494.vy - hit->mat.t[1];
-        HITPOS->vz = svector_8009F494.vz - hit->mat.t[2];
-        ApplyMatrixLV(&hit->mat, HITPOS, HITPOS);
+        scratch->pos.vx = svector_8009F494.vx - hit->mat.t[0];
+        scratch->pos.vy = svector_8009F494.vy - hit->mat.t[1];
+        scratch->pos.vz = svector_8009F494.vz - hit->mat.t[2];
+        ApplyMatrixLV(&hit->mat, &scratch->pos, &scratch->pos);
 
         sx = hit->size->vx;
         sy = hit->size->vy;
         sz = hit->size->vz;
-        if (HITPOS->vx < sx && -sx < HITPOS->vx &&
-            HITPOS->vy < sy && -sy < HITPOS->vy &&
-            HITPOS->vz < sz && -sz < HITPOS->vz)
+        if (scratch->pos.vx < sx && -sx < scratch->pos.vx &&
+            scratch->pos.vy < sy && -sy < scratch->pos.vy &&
+            scratch->pos.vz < sz && -sz < scratch->pos.vz)
         {
             dword_8009F49C = 1;
             if (GM_GameLevel > 0)
@@ -309,8 +306,6 @@ void s17a_800E32B4(MGREX_WORK *work)
         }
     }
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800E32B4.s")
 
 void s17a_800E3678(HZD_SEG *seg, SVECTOR *buf, SVECTOR *src, int n)
 {
@@ -450,8 +445,6 @@ void s17a_800E3B00(MGREX_WORK *work, HZD_SEG *segs)
     s17a_800E377C((HZD_SEG *)getScratchAddr(0x10), segs, 4);
 }
 
-/* NON_MATCHING: register allocation of the last if differs ($v0/$v1/$a0) */
-#if 0
 void s17a_800E3BA8(MGREX_WORK *work, int arg1)
 {
     SVECTOR pos;
@@ -480,13 +473,10 @@ void s17a_800E3BA8(MGREX_WORK *work, int arg1)
     if (work->f1988 != 0 && work->f1980 == 2)
     {
         work->f1980 = 1;
+        work->f1984 = 255;
     }
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800E3BA8.s")
 
-/* NON_MATCHING: radar search: %hi(GM_PlayerControl) is CSEd into $s6 across the switch, and the angle temp uses $s0 instead of $v1 */
-#if 0
 /* Radar search */
 void s17a_800E3C7C(MGREX_WORK *work)
 {
@@ -509,7 +499,6 @@ void s17a_800E3C7C(MGREX_WORK *work)
     int      dx, dy, dz;
     int      yaw, pitch, dist, dir;
     int      ang, target;
-    int      state;
 
     found = 0;
 
@@ -604,16 +593,17 @@ void s17a_800E3C7C(MGREX_WORK *work)
         control = &work->control2;
         GM_ConfigControlAttribute(control, 5);
         GM_ConfigControlRadarparam(control, radar.vy, radar.pad, work->f5B0, 0);
+        work->control2.mov = pos;
+        work->control2.mov.vy = GM_PlayerControl->mov.vy;
     }
     else
     {
         control = &work->control2;
         GM_ConfigControlAttribute(control, 1);
         GM_ConfigControlRadarparam(control, radar.vy, 1000, work->f5B0, 0);
+        work->control2.mov = pos;
+        work->control2.mov.vy = GM_PlayerControl->mov.vy;
     }
-
-    work->control2.mov = pos;
-    work->control2.mov.vy = GM_PlayerControl->mov.vy;
 
     world = &work->body.objs->objs[4].world;
     dir = work->f1A3C;
@@ -623,8 +613,8 @@ void s17a_800E3C7C(MGREX_WORK *work)
     Square0(&d, &sq2);
 
     dist = SquareRoot0(sq2.vx + sq2.vz) * 4;
-    dir = (ratan2(d.vx, d.vz) & 0xFFF) - dir;
-    ang = dir & 0xFFF;
+    ang = ratan2(d.vx, d.vz) & 0xFFF;
+    ang = (ang - dir) & 0xFFF;
     if (ang >= 2048)
     {
         ang -= 4096;
@@ -750,8 +740,6 @@ void s17a_800E3C7C(MGREX_WORK *work)
 
     s17a_800E46F8(work);
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800E3C7C.s")
 
 void s17a_800E44C0(MGREX_WORK *work)
 {

@@ -882,9 +882,6 @@ void s17a_800DECA8(MGREX_WORK *work)
     }
 }
 
-/* NON_MATCHING: gcc merges the s17a_800DEBEC calls of the if/else arms that end with
- * "goto next" (cross jumping), the original keeps one call per arm */
-#if 0
 int s17a_800DECE4(MGREX_WORK *work)
 {
     int action;
@@ -893,357 +890,411 @@ int s17a_800DECE4(MGREX_WORK *work)
     time = 2;
     action = work->body.action;
 
-    if (action == 0 || action == 0x2F || action == 0x31 ||
-        (action == 0xD && work->body.m_ctrl->info1.frame == 24) ||
-        (action == 0xE && work->body.m_ctrl->info1.frame == 23) ||
-        work->body.is_end)
+    if (action != 0 && action != 0x2F && action != 0x31)
     {
-        switch (work->f1950)
+        if (action == 0xD)
         {
-        case 0:
-            s17a_800DEBEC(work, 0, time);
+            if (work->body.m_ctrl->info1.frame != 24 && !work->body.is_end)
+            {
+                return 0;
+            }
+        }
+        else if (action == 0xE)
+        {
+            if (work->body.m_ctrl->info1.frame != 23 && !work->body.is_end)
+            {
+                return 0;
+            }
+        }
+        else if (!work->body.is_end)
+        {
+            return 0;
+        }
+    }
+
+    switch (work->f1950)
+    {
+    case 0:
+        s17a_800DEBEC(work, 0, time);
+        if (work->f1954 != 0)
+        {
             work->f1950 = work->f1954;
-            if (work->f1954 != 0)
-            {
-                work->f195C = 0;
-                work->f1960 = 0;
-            }
-            else
-            {
-                work->f195C = 1;
-                work->f1960 = 1;
-            }
-            break;
+            work->f195C = 0;
+            work->f1960 = 0;
+        }
+        else
+        {
+            work->f195C = 1;
+            work->f1960 = 1;
+        }
+        break;
 
-        case 1:
-            if (work->f1954 != 1)
-            {
-                if (work->body.action == 1 || work->body.action == 2)
-                {
-                    s17a_800DEBEC(work, 5, time);
-                }
-                else
-                {
-                    s17a_800DEBEC(work, 4, time);
-                }
-                goto next;
-            }
-
-            if (work->f195C != 1)
-            {
-                s17a_800DEBEC(work, 1, time);
-                work->f195C = 1;
-                work->f1960 = 1;
-                break;
-            }
-
+    case 1:
+        if (work->f1954 != 1)
+        {
             if (work->body.action == 1 || work->body.action == 2)
             {
-                s17a_800DEBEC(work, 3, time);
+                s17a_800DEBEC(work, 5, time);
+                work->f195C = 0;
+                work->f1960 = 0;
+                work->f1950 = work->f1954;
+                break;
             }
             else
             {
-                s17a_800DEBEC(work, 2, time);
-            }
-            break;
-
-        case 2:
-            if (work->f1954 != 2)
-            {
-                if (work->body.action == 0xF || work->body.action == 0x11)
-                {
-                    s17a_800DEBEC(work, 0x12, time);
-                }
-                else
-                {
-                    s17a_800DEBEC(work, 0x13, time);
-                }
-                goto next;
-            }
-
-            if (work->f195C != 1)
-            {
-                s17a_800DEBEC(work, 0xF, time);
-                work->f195C = 1;
-                work->f1960 = 1;
+                s17a_800DEBEC(work, 4, time);
+                work->f195C = 0;
+                work->f1960 = 0;
+                work->f1950 = work->f1954;
                 break;
             }
+        }
 
+        if (work->f195C != 1)
+        {
+            s17a_800DEBEC(work, 1, time);
+            work->f195C = 1;
+            work->f1960 = 1;
+            break;
+        }
+
+        if (work->body.action == 1 || work->body.action == 2)
+        {
+            s17a_800DEBEC(work, 3, time);
+        }
+        else
+        {
+            s17a_800DEBEC(work, 2, time);
+        }
+        break;
+
+    case 2:
+        if (work->f1954 != 2)
+        {
             if (work->body.action == 0xF || work->body.action == 0x11)
             {
-                s17a_800DEBEC(work, 0x10, 0);
-            }
-            else
-            {
-                s17a_800DEBEC(work, 0x11, 0);
-            }
-            break;
-
-        case 3:
-            if (work->f195C != 1)
-            {
-                s17a_800DEBEC(work, work->f1958, time);
-                GM_SeSetMode(&work->control.mov, 0xBC, 1);
-                work->f195C = 1;
+                s17a_800DEBEC(work, 0x12, time);
+                work->f195C = 0;
                 work->f1960 = 0;
+                work->f1950 = work->f1954;
                 break;
             }
-
-            work->control.rot.vy += work->body_rots[0].vy;
-            work->control.turn.vy += work->body_rots[0].vy;
-
-            if (work->control.rot.vy < -2048)
+            else
             {
-                work->control.rot.vy += 4096;
-            }
-
-            if (work->control.rot.vy > 2048)
-            {
-                work->control.rot.vy -= 4096;
-            }
-
-            if (work->control.turn.vy < -2048)
-            {
-                work->control.turn.vy += 4096;
-            }
-
-            if (work->control.turn.vy > 2048)
-            {
-                work->control.turn.vy -= 4096;
-            }
-
-            s17a_800DEBEC(work, 0, 0);
-            work->f1954 = 0;
-            work->f1950 = 0;
-            work->f195C = 0;
-            break;
-
-        case 4:
-            if (work->f1954 != 4)
-            {
-                s17a_800DEBEC(work, 9, time);
-                GM_SeSetMode(&work->control.mov, 0xBF, 1);
-                goto next;
-            }
-
-            if (work->f195C != 1)
-            {
-                s17a_800DEBEC(work, 6, time);
-                GM_SeSetMode(&work->control.mov, 0xBD, 1);
-                work->f195C = 1;
-                break;
-            }
-
-            s17a_800DEBEC(work, 8, time);
-            work->f1960 = 1;
-            break;
-
-        case 5:
-            if (work->f1954 != 5)
-            {
-                s17a_800DEBEC(work, 0xC, time);
-                goto next;
-            }
-
-            if (work->f195C != 1)
-            {
-                s17a_800DEBEC(work, 0xA, time);
-                work->f195C = 1;
-                break;
-            }
-
-            s17a_800DEBEC(work, 0xB, time);
-            work->f1960 = 1;
-            break;
-
-        case 6:
-            if (work->f1954 != 6)
-            {
-                s17a_800DEBEC(work, 0, time);
-                goto next;
-            }
-
-            if (work->f195C != 1)
-            {
-                s17a_800DEBEC(work, 0, time);
-                work->f195C = 1;
-                break;
-            }
-
-            s17a_800DEBEC(work, 0, time);
-            work->f1960 = 1;
-            break;
-
-        case 7:
-            if (work->f1954 != 7)
-            {
-                s17a_800DECA8(work);
-                goto next;
-            }
-
-            if (work->f195C != 1)
-            {
-                s17a_800DEBEC(work, 0xD, time);
-                work->f195C = 1;
-                break;
-            }
-
-            s17a_800DEC6C(work);
-            work->f1960 = 1;
-            break;
-
-        case 8:
-            if (work->f1954 != 8)
-            {
-                s17a_800DECA8(work);
-                goto next;
-            }
-
-            if (work->f195C != 1)
-            {
-                s17a_800DEBEC(work, 0xE, time);
-                work->f195C = 1;
-                break;
-            }
-
-            s17a_800DEC6C(work);
-            work->f1960 = 1;
-            break;
-
-        case 9:
-            if (work->f195C != 1)
-            {
-                s17a_800DEBEC(work, 0x2C, time);
-                work->f195C = 1;
+                s17a_800DEBEC(work, 0x13, time);
+                work->f195C = 0;
                 work->f1960 = 0;
-                work->f1954 = 0;
+                work->f1950 = work->f1954;
                 break;
             }
+        }
 
-            s17a_800DEBEC(work, 0, time);
-            goto next;
-
-        case 10:
-            if (work->f1954 != 10)
-            {
-                if (work->body.action == 0x20 || work->body.action == 0x21)
-                {
-                    s17a_800DEBEC(work, 0x24, time);
-                }
-                else
-                {
-                    s17a_800DEBEC(work, 0x23, time);
-                }
-                goto next;
-            }
-
-            GM_SeSetMode(&work->control.mov, 0xB4, 1);
-
-            if (work->f195C != 1)
-            {
-                s17a_800DEBEC(work, 0x20, time);
-                work->f195C = 1;
-                work->f1960 = 1;
-                break;
-            }
-
-            if (work->body.action == 0x20 || work->body.action == 0x21)
-            {
-                s17a_800DEBEC(work, 0x22, time);
-            }
-            else
-            {
-                s17a_800DEBEC(work, 0x21, time);
-            }
-            break;
-
-        case 11:
-            if (work->f1954 != 11)
-            {
-                if (work->body.action == 0x25 || work->body.action == 0x27)
-                {
-                    s17a_800DEBEC(work, 0x28, time);
-                }
-                else
-                {
-                    s17a_800DEBEC(work, 0x29, time);
-                }
-                goto next;
-            }
-
-            GM_SeSetMode(&work->control.mov, 0xB4, 1);
-
-            if (work->f195C != 1)
-            {
-                s17a_800DEBEC(work, 0x25, time);
-                work->f195C = 1;
-                work->f1960 = 1;
-                break;
-            }
-
-            if (work->body.action == 0x25 || work->body.action == 0x27)
-            {
-                s17a_800DEBEC(work, 0x26, 0);
-            }
-            else
-            {
-                s17a_800DEBEC(work, 0x27, 0);
-            }
-            break;
-
-        case 12:
-            if (work->f1954 != 12)
-            {
-                s17a_800DEBEC(work, 0x30, time);
-                GM_SeSetMode(&work->control.mov, 0xBF, 1);
-                goto next;
-            }
-
-            if (work->f195C != 1)
-            {
-                work->f195C = 1;
-            }
-
-            s17a_800DEBEC(work, 0x2F, 0);
+        if (work->f195C != 1)
+        {
+            s17a_800DEBEC(work, 0xF, time);
+            work->f195C = 1;
             work->f1960 = 1;
             break;
+        }
 
-        case 13:
-            if (work->f1954 != 13)
-            {
-                s17a_800DEBEC(work, 0, time);
-                GM_SeSetMode(&work->control.mov, 0xBF, 1);
-                goto next;
-            }
+        if (work->body.action == 0xF || work->body.action == 0x11)
+        {
+            s17a_800DEBEC(work, 0x10, 0);
+        }
+        else
+        {
+            s17a_800DEBEC(work, 0x11, 0);
+        }
+        break;
 
-            if (work->f195C != 1)
-            {
-                work->f195C = 1;
-            }
-
-            s17a_800DEBEC(work, 0x31, 0);
-            work->f1960 = 1;
+    case 3:
+        if (work->f195C != 1)
+        {
+            s17a_800DEBEC(work, work->f1958, time);
+            GM_SeSetMode(&work->control.mov, 0xBC, 1);
+            work->f195C = 1;
+            work->f1960 = 0;
             break;
+        }
 
-        next:
+        work->control.rot.vy += work->body_rots[0].vy;
+        work->control.turn.vy += work->body_rots[0].vy;
+
+        if (work->control.rot.vy < -2048)
+        {
+            work->control.rot.vy += 4096;
+        }
+
+        if (work->control.rot.vy > 2048)
+        {
+            work->control.rot.vy -= 4096;
+        }
+
+        if (work->control.turn.vy < -2048)
+        {
+            work->control.turn.vy += 4096;
+        }
+
+        if (work->control.turn.vy > 2048)
+        {
+            work->control.turn.vy -= 4096;
+        }
+
+        s17a_800DEBEC(work, 0, 0);
+        work->f1954 = 0;
+        work->f1950 = 0;
+        work->f195C = 0;
+        break;
+
+    case 4:
+        if (work->f1954 != 4)
+        {
+            s17a_800DEBEC(work, 9, time);
+            GM_SeSetMode(&work->control.mov, 0xBF, 1);
             work->f195C = 0;
             work->f1960 = 0;
             work->f1950 = work->f1954;
             break;
         }
+
+        if (work->f195C != 1)
+        {
+            s17a_800DEBEC(work, 6, time);
+            GM_SeSetMode(&work->control.mov, 0xBD, 1);
+            work->f195C = 1;
+            break;
+        }
+
+        s17a_800DEBEC(work, 8, time);
+        work->f1960 = 1;
+        break;
+
+    case 5:
+        if (work->f1954 != 5)
+        {
+            s17a_800DEBEC(work, 0xC, time);
+            work->f195C = 0;
+            work->f1960 = 0;
+            work->f1950 = work->f1954;
+            break;
+        }
+
+        if (work->f195C != 1)
+        {
+            s17a_800DEBEC(work, 0xA, time);
+            work->f195C = 1;
+            break;
+        }
+
+        s17a_800DEBEC(work, 0xB, time);
+        work->f1960 = 1;
+        break;
+
+    case 6:
+        if (work->f1954 != 6)
+        {
+            s17a_800DEBEC(work, 0, time);
+            work->f195C = 0;
+            work->f1960 = 0;
+            work->f1950 = work->f1954;
+            break;
+        }
+
+        if (work->f195C != 1)
+        {
+            s17a_800DEBEC(work, 0, time);
+            work->f195C = 1;
+            break;
+        }
+
+        s17a_800DEBEC(work, 0, time);
+        work->f1960 = 1;
+        break;
+
+    case 7:
+        if (work->f1954 != 7)
+        {
+            s17a_800DECA8(work);
+            work->f195C = 0;
+            work->f1960 = 0;
+            work->f1950 = work->f1954;
+            break;
+        }
+
+        if (work->f195C != 1)
+        {
+            s17a_800DEBEC(work, 0xD, time);
+            work->f195C = 1;
+            break;
+        }
+
+        s17a_800DEC6C(work);
+        work->f1960 = 1;
+        break;
+
+    case 8:
+        if (work->f1954 != 8)
+        {
+            s17a_800DECA8(work);
+            work->f195C = 0;
+            work->f1960 = 0;
+            work->f1950 = work->f1954;
+            break;
+        }
+
+        if (work->f195C != 1)
+        {
+            s17a_800DEBEC(work, 0xE, time);
+            work->f195C = 1;
+            break;
+        }
+
+        s17a_800DEC6C(work);
+        work->f1960 = 1;
+        break;
+
+    case 9:
+        if (work->f195C != 1)
+        {
+            s17a_800DEBEC(work, 0x2C, time);
+            work->f195C = 1;
+            work->f1960 = 0;
+            work->f1954 = 0;
+            break;
+        }
+
+        s17a_800DEBEC(work, 0, time);
+        work->f195C = 0;
+        work->f1960 = 0;
+        work->f1950 = work->f1954;
+        break;
+
+    case 10:
+        if (work->f1954 != 10)
+        {
+            if (work->body.action == 0x20 || work->body.action == 0x21)
+            {
+                s17a_800DEBEC(work, 0x24, time);
+                work->f195C = 0;
+                work->f1960 = 0;
+                work->f1950 = work->f1954;
+                break;
+            }
+            else
+            {
+                s17a_800DEBEC(work, 0x23, time);
+                work->f195C = 0;
+                work->f1960 = 0;
+                work->f1950 = work->f1954;
+                break;
+            }
+        }
+
+        GM_SeSetMode(&work->control.mov, 0xB4, 1);
+
+        if (work->f195C != 1)
+        {
+            s17a_800DEBEC(work, 0x20, time);
+            work->f195C = 1;
+            work->f1960 = 1;
+            break;
+        }
+
+        if (work->body.action == 0x20 || work->body.action == 0x21)
+        {
+            s17a_800DEBEC(work, 0x22, time);
+        }
+        else
+        {
+            s17a_800DEBEC(work, 0x21, time);
+        }
+        break;
+
+    case 11:
+        if (work->f1954 != 11)
+        {
+            if (work->body.action == 0x25 || work->body.action == 0x27)
+            {
+                s17a_800DEBEC(work, 0x28, time);
+                work->f195C = 0;
+                work->f1960 = 0;
+                work->f1950 = work->f1954;
+                break;
+            }
+            else
+            {
+                s17a_800DEBEC(work, 0x29, time);
+                work->f195C = 0;
+                work->f1960 = 0;
+                work->f1950 = work->f1954;
+                break;
+            }
+        }
+
+        GM_SeSetMode(&work->control.mov, 0xB4, 1);
+
+        if (work->f195C != 1)
+        {
+            s17a_800DEBEC(work, 0x25, time);
+            work->f195C = 1;
+            work->f1960 = 1;
+            break;
+        }
+
+        if (work->body.action == 0x25 || work->body.action == 0x27)
+        {
+            s17a_800DEBEC(work, 0x26, 0);
+        }
+        else
+        {
+            s17a_800DEBEC(work, 0x27, 0);
+        }
+        break;
+
+    case 12:
+        if (work->f1954 != 12)
+        {
+            s17a_800DEBEC(work, 0x30, time);
+            GM_SeSetMode(&work->control.mov, 0xBF, 1);
+            work->f195C = 0;
+            work->f1960 = 0;
+            work->f1950 = work->f1954;
+            break;
+        }
+
+        if (work->f195C != 1)
+        {
+            work->f195C = 1;
+        }
+
+        s17a_800DEBEC(work, 0x2F, 0);
+        work->f1960 = 1;
+        break;
+
+    case 13:
+        if (work->f1954 != 13)
+        {
+            s17a_800DEBEC(work, 0, time);
+            GM_SeSetMode(&work->control.mov, 0xBF, 1);
+            work->f195C = 0;
+            work->f1960 = 0;
+            work->f1950 = work->f1954;
+            break;
+        }
+
+        if (work->f195C != 1)
+        {
+            work->f195C = 1;
+        }
+
+        s17a_800DEBEC(work, 0x31, 0);
+        work->f1960 = 1;
+        break;
+
     }
 
     return 0;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DECE4.s")
-
-/* jump table of s17a_800DECE4 (still INCLUDE_ASM) */
-const int s17a_dword_800E5C9C[] = {
-    0x800DEDA8, 0x800DEDE8, 0x800DEE80, 0x800DEF24, 0x800DF000, 0x800DF058, 0x800DF09C,
-    0x800DF0DC, 0x800DF124, 0x800DF178, 0x800DF1B8, 0x800DF268, 0x800DF328, 0x800DF360
-};
-
 
 int s17a_800DF3E8(MGREX_WORK *work)
 {
