@@ -163,8 +163,43 @@ void s11g_11g_demo_800CB858(SVECTOR *pos, int se_id)
     GM_SeSetMode(pos, se_id, GM_SEMODE_BOMB);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_11g_demo_800CB878.s")
-void s11g_11g_demo_800CB878(Work *, SVECTOR *, int);
+void s11g_11g_demo_800CB878(Work *work, SVECTOR *pos, int index)
+{
+    SVECTOR *verts;
+    SVECTOR *prev;
+    int      count;
+    int      i;
+    int      j;
+
+    count = work->f242C[index];
+    i = index * 16 + count;
+    work->f36B4[i] = 16;
+    j = i * 4;
+    verts = &work->vertices[j];
+
+    if (count == 0)
+    {
+        j = (index * 64) | 60;
+    }
+    else
+    {
+        j -= 4;
+    }
+
+    prev = &work->vertices[j];
+
+    if (++work->f242C[index] >= 16)
+    {
+        work->f242C[index] = 0;
+    }
+
+    *verts++ = *pos;
+    *verts++ = *prev;
+    *verts = *pos;
+    verts->vy -= 100;
+    prev += 2;
+    verts[1] = *prev;
+}
 
 void s11g_11g_demo_800CB994(Work *work)
 {
