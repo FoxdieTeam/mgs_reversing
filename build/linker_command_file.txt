@@ -3812,14 +3812,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s17a\overlay9.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay4.obj", overlay
     include "{{OBJ_DIR}}\takabe\puthzd.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2500.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D25DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2618.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D26A0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2744.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2814.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D28D0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2994.obj", overlay
+    include "{{OBJ_DIR}}\takabe\drumsmke.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2CC8.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2DA4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2DE0.obj", overlay
@@ -3831,7 +3824,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D38FC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D39FC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D3A60.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay6.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay7.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay8.obj", overlay
     include "{{OBJ_DIR}}\kojo\inverlt2.obj", overlay
