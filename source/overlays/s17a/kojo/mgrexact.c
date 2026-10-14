@@ -3,6 +3,7 @@
 #include "libgcl/libgcl.h"
 #include "takabe/thing.h"
 #include "takabe/fadeio.h"
+#include "linkvar.h"
 #include "mgrex.h"
 
 /* Metal Gear REX: main actor functions (the original file name is unknown) */
@@ -291,7 +292,249 @@ void MgRex_Die(MGREX_WORK *work)
     mgrex_saved = *work;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DA9DC.s")
+void s17a_800DA9DC(MGREX_WORK *work)
+{
+    SVECTOR pos;
+
+    if (--work->timers[0] < 0) work->timers[0] = 0;
+    if (--work->timers[1] < 0) work->timers[1] = 0;
+    if (--work->timers[2] < 0) work->timers[2] = 0;
+    if (--work->timers[3] < 0) work->timers[3] = 0;
+    if (--work->timers[4] < 0) work->timers[4] = 0;
+    if (--work->timers[5] < 0) work->timers[5] = 0;
+    if (--work->timers[6] < 0) work->timers[6] = 0;
+    if (--work->timers[7] < 0) work->timers[7] = 0;
+
+    s17a_800E3C7C(work);
+
+    switch (work->f1980)
+    {
+    case 0:
+        work->f6FC = 1;
+        s17a_800DD910(work);
+        break;
+
+    case 1:
+        if (work->f1988 == 0 || GM_GameLevel <= 0)
+        {
+            work->f6FC = 1;
+            s17a_800DD910(work);
+            break;
+        }
+
+        s17a_800DF3E8(work);
+
+        switch (work->f6FC)
+        {
+        case 2:
+            s17a_800DD910(work);
+            break;
+
+        case 3:
+            s17a_800E0328(work);
+            break;
+
+        case 4:
+            s17a_800DFAE8(work);
+            break;
+
+        case 5:
+            s17a_800DFF74(work);
+            break;
+
+        case 6:
+            s17a_800DF720(work);
+            break;
+
+        case 7:
+            break;
+
+        default:
+            work->f6FC = 2;
+            break;
+        }
+        break;
+
+    case 2:
+        s17a_800DF3E8(work);
+
+        switch (work->f6FC)
+        {
+        case 2:
+            s17a_800DD910(work);
+            break;
+
+        case 3:
+            s17a_800E0328(work);
+            break;
+
+        case 4:
+            s17a_800DFAE8(work);
+            break;
+
+        case 5:
+            s17a_800DFF74(work);
+            break;
+
+        case 6:
+            s17a_800DF720(work);
+            break;
+
+        case 7:
+            break;
+
+        default:
+            work->f6FC = 2;
+            break;
+        }
+        break;
+    }
+
+    if (work->f720 == 0 && work->f5BC > 0 && work->target_a == NULL)
+    {
+        work->target_a = GM_AllocTarget();
+        GM_SetTarget(work->target_a, TARGET_POWER | TARGET_SEEK | TARGET_TOUCH, ENEMY_SIDE, &mgrex_radar_target_size);
+        GM_SetPowerTarget(work->target_a, POWER_DECREASE, -1, work->f5BC, 0, &DG_ZeroVector);
+        GM_InitControl(&work->ctrl_a, work->name, work->where);
+        GM_ConfigControlAttribute(&work->ctrl_a, 1);
+    }
+
+    if (work->f720 == 0 && work->f5BC <= 0 && work->target_a == NULL && work->f5C4 > 0 && work->target_b == NULL)
+    {
+        work->target_b = GM_AllocTarget();
+        GM_SetTarget(work->target_b, TARGET_POWER | TARGET_SEEK | TARGET_TOUCH, ENEMY_SIDE, &mgrex_pit_target_size);
+        GM_SetPowerTarget(work->target_b, POWER_DECREASE, -1, work->f5C4, 0, &DG_ZeroVector);
+        GM_InitControl(&work->ctrl_b, work->name, work->where);
+        GM_ConfigControlAttribute(&work->ctrl_b, 1);
+    }
+
+    if (work->target_a)
+    {
+        DG_SetPos(&work->body.objs->objs[6].world);
+        DG_PutVector(&mgrex_radar_offset, &pos, 1);
+        GM_MoveTarget(work->target_a, &pos);
+        work->ctrl_a.mov = pos;
+
+        if (work->target_a->damaged)
+        {
+            work->target_a->damaged = 0;
+            work->timers[5] = work->f5C0;
+            s17a_800E3BA8(work, 2);
+            work->player_pos = GM_PlayerControl->mov;
+            GM_SeSetPan(&pos, 176, 63);
+            work->f1968 = 60;
+            NewMgSmoke1Offset(&work->body.objs->objs[6].world, &mgrex_radar_smoke_offset, 1, 90);
+
+        }
+
+        work->f1AC4 = work->f5BC = work->target_a->vital;
+        if (work->f1AC4 < 0)
+        {
+            work->f1AC4 = 0;
+        }
+
+        if (work->f5BC <= 0)
+        {
+                GM_FreeControl(&work->ctrl_a);
+                GM_FreeTarget(work->target_a);
+                work->target_a = NULL;
+
+                GM_FreeObject((OBJECT *)&work->radar);
+                GM_InitObjectNoRots(&work->radar, GV_StrCode("radar_f2"), 0x15D, 0);
+                GM_ConfigObjectLight((OBJECT *)&work->radar, work->light);
+                GM_ConfigObjectRoot((OBJECT *)&work->radar, &work->body, 6);
+
+                if (work->target_c)
+                {
+                    GM_FreeControl(&work->ctrl_c);
+                    GM_FreeTarget(work->target_c);
+                    work->target_c = NULL;
+                }
+
+                work->f720 = 2;
+                goto skip_a;
+        }
+
+        if (work->f1968)
+        {
+            work->target_a->class = TARGET_AVAIL;
+            work->f1968--;
+        }
+        else
+        {
+            work->target_a->class = TARGET_POWER | TARGET_SEEK;
+        }
+    }
+skip_a:
+
+    if (work->target_b)
+    {
+        pos.vx = work->pit_liq.objs->objs[1].world.t[0];
+        pos.vy = work->pit_liq.objs->objs[1].world.t[1];
+        pos.vz = work->pit_liq.objs->objs[1].world.t[2];
+        GM_MoveTarget(work->target_b, &pos);
+        work->ctrl_b.mov = pos;
+
+        if (work->target_b->damaged)
+        {
+            work->target_b->damaged = 0;
+            work->timers[6] = work->f5C8;
+            s17a_800E3BA8(work, 2);
+            work->player_pos = GM_PlayerControl->mov;
+            GM_SeSetMode(&pos, 190, GM_SEMODE_BOMB);
+            GM_SeSetMode(&pos, 130, GM_SEMODE_BOMB);
+            work->f1968 = 60;
+            NewMgSmoke1Offset(&work->pit_liq.objs->objs[1].world, &mgrex_pit_smoke_offset, 1, 90);
+
+        }
+
+        work->f1AC4 = work->f5C4 = work->target_b->vital;
+        if (work->f1AC4 < 0)
+        {
+            work->f1AC4 = 0;
+        }
+
+        if (work->f5C4 <= 0)
+        {
+                GM_FreeControl(&work->ctrl_b);
+                GM_FreeTarget(work->target_b);
+                work->target_b = NULL;
+
+                if (work->target_c)
+                {
+                    GM_FreeControl(&work->ctrl_c);
+                    GM_FreeTarget(work->target_c);
+                    work->target_c = NULL;
+                }
+
+                work->f720 = 1;
+                goto skip_b;
+        }
+
+        if (work->f1968)
+        {
+            work->target_b->class = TARGET_AVAIL;
+            work->f1968--;
+        }
+        else
+        {
+            work->target_b->class = TARGET_POWER | TARGET_SEEK;
+        }
+    }
+skip_b:
+
+    MENU_DrawBar2(28, (work->f1AC0 * 1500) / work->f1ABC, (work->f1AC4 * 1500) / work->f1ABC, 1500, &work->life_bar);
+
+    if (work->f720 == 1 || work->f720 == 2)
+    {
+        work->f724 = 0;
+        work->f1AA8 = 0;
+        work->mode++;
+        GM_ConfigControlAttribute(&work->control2, 1);
+        THING_Msg_SendMessage(0x3B49, 0x5E8B);
+        NewFadeInOut(FADEIO_MODE_TOWHITE, 30);
+    }
+}
 
 void MgRex_800DB210(MGREX_WORK *work)
 {

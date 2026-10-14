@@ -3815,7 +3815,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s17a\kojo\mgrex.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\kojo\mgrexact.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay11.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay15.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\takabe\spark2l.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\takabe\mg_smke1.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\takabe\mg_smke2.obj", overlay
