@@ -221,6 +221,9 @@ extern int      d18a_dword_800DAEF4;
 extern char    *d18a_dword_800DAEFC;
 extern HZD_FLR *d18a_dword_800DAF00[2];
 extern GV_MSG   d18a_dword_800DAEA0[3];
+extern const char d18a_aWorkheightdlevelsd_800DA684[];
+extern const char d18a_aSnakeposddd_800DA66C[];
+extern const char d18a_aErrerrerrliquidnearerr_800DA648[];
 extern const char d18a_aLsight_800DA7C8[];
 extern const char d18a_aSecond_800DA7C0[];
 extern const char d18a_aFirst_800DA7B8[];
@@ -297,7 +300,7 @@ void d18a_snake18_800CC174(Snake18Work *work, GV_MSG *msg);
 int d18a_snake18_800CC288(SVECTOR *pos, short *out);
 int d18a_snake18_800CC3C8(int area);
 int d18a_snake18_800CC410(Snake18Work *work);
-int d18a_snake18_800CC490(); /* asm */
+int d18a_snake18_800CC490(Snake18Work *work);
 void d18a_snake18_800CC6CC(Snake18Work *work);
 void d18a_snake18_800CC7F4(Snake18Work *work);
 void d18a_snake18_800CC8B0(Snake18Work *work, char arg1);
@@ -1519,7 +1522,97 @@ int d18a_snake18_800CC410(Snake18Work *work)
 const char d18a_aErrerrerrliquidnearerr_800DA648[] = " Err Err Err Liquid Near Err !! \n";
 const char d18a_aSnakeposddd_800DA66C[] = "snake pos1 %d %d %d \n";
 const char d18a_aWorkheightdlevelsd_800DA684[] = "work->height %d levels%d \n";
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC490.s")
+int d18a_snake18_800CC490(Snake18Work *work)
+{
+    SVECTOR  near;
+    SVECTOR  unused;
+    short    dir;
+    GV_MSG  *msg;
+    CONTROL *control;
+    int      area;
+    int      seg_flag;
+    TARGET  *target;
+
+    if (GM_PlayerStatus & PLAYER_ACT_ONLY)
+    {
+        return 0;
+    }
+
+    /* FIXME: empty loop forces a label that keeps the redundant "move $a0, $s3" */
+    while (1)
+    {
+        break;
+    }
+    control = &work->control;
+    msg = d18a_dword_800DAEA0;
+    work->control.msg = msg;
+    {
+        if (d18a_snake18_800CC410(work))
+        {
+            area = d18a_snake18_800CC288(&control->mov, &dir);
+            work->f8F0 = d18a_snake18_800CC3C8(area);
+
+            seg_flag = (area & 1) ? 0x20 : 0x10;
+            if (!HZD_NearHazardCheck(control->map->hzd, &control->mov, 5000, 4, seg_flag))
+            {
+                printf(d18a_aErrerrerrliquidnearerr_800DA648);
+            }
+            else
+            {
+                HZD_GetNearVector(&near);
+            }
+
+            control->mov.vx += near.vx;
+            control->mov.vy += near.vy;
+            control->mov.vz += near.vz;
+            work->f938 = control->mov;
+
+            control->step.vx = 0;
+            control->step.vz = 0;
+            printf(d18a_aSnakeposddd_800DA66C, control->mov.vx, control->mov.vy, control->mov.vz);
+            printf(d18a_aWorkheightdlevelsd_800DA684, work->control.height, control->levels[0]);
+
+            if (control->levels[0] < 5000)
+            {
+                control->mov.vx = 2500;
+                control->mov.vy = 12000;
+                control->mov.vz = -1500;
+                control->levels[0] = 9600;
+            }
+
+            target = (TARGET *)work->f7E8;
+            work->f8F4 = 0;
+            target->class &= ~TARGET_PUSH;
+
+            msg->message_len = 5;
+            msg->message[0] = HASH_MOTION;
+            msg->message[1] = work->f8F0 * 3 + 2;
+            msg->message[2] = dir;
+            msg->message[3] = dir;
+            msg->message[4] = 0;
+            msg++;
+
+            msg->message_len = 5;
+            msg->message[0] = HASH_MOTION;
+            msg->message[1] = work->f8F0 * 3 + 1;
+            msg->message[2] = dir;
+            msg->message[3] = dir;
+            msg->message[4] = 0;
+            msg++;
+
+            msg->message_len = 5;
+            msg->message[0] = HASH_MOTION;
+            msg->message[1] = work->f8F0 * 3;
+            msg->message[2] = dir;
+            msg->message[3] = dir;
+            msg->message[4] = 0;
+
+            return control->n_msg = 3;
+        }
+    }
+
+    return 0;
+}
 #define HASH_DESTROY 0xA7DE /* GV_StrCode("destroy") */
 #define HASH_TURN_SPEED    0xC77A
 
