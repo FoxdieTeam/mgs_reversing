@@ -3877,18 +3877,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800DBC24.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\takabe\spark2l.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\takabe\mg_smke1.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay17.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s17a\takabe\mg_smke2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay18.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay19.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay20.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay21.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DD06C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DD138.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DD174.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DD1F8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DD2E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DD39C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800DD460.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800DD910.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800DDFC4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800DE43C.obj", overlay
