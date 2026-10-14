@@ -3901,7 +3901,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s17a\kojo\hmissile.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay22.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay20.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay21.obj", overlay
     include "{{OBJ_DIR}}\takabe\unknown4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800E1C48.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800E1D2C.obj", overlay
@@ -3915,10 +3914,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800E27F0.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800E28A4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800E2AF8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E2B54.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E2DEC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E2E0C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E2EE4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s17a\kojo\mg_hatch.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s17a\overlay23.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800E2F68.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800E3248.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800E32B4.obj", overlay
