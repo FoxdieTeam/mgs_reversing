@@ -29,8 +29,7 @@ typedef struct _Work
     int      f28;
     int      f2C;
     DG_PRIM *prim1, *prim2, *prim3;
-    POLY_FT4 polys_lr[2];
-    char     padding2[0x50];
+    POLY_FT4 polys_lr[4];
     POLY_FT4 polys[9];
     POLY_FT4 polys2[26];
     int      field_654[4];
@@ -49,7 +48,11 @@ typedef struct _Work
     int      field_4968;
     int      field_496C;
     int      field_4970;
-    char     padding6b[0x44];
+    char     padding6b[0xC];
+    int      field_4980;
+    int      field_4984;
+    int      field_4988;
+    char     padding6e[0x2C];
     int      field_49B8;
     int      field_49BC;
     char     padding6c[0x8];
@@ -1846,7 +1849,126 @@ void camera_800C89DC(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8AD4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CA918.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CB024.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800CB8AC.s")
+extern const char camera_a_800D02DC[];
+extern const char camera_a_800D0314[];
+extern const char camera_aD_800D0318[];
+
+/* Colour adjustment screen: draws the +/- values and positions the slider bars */
+void camera_800CB8AC(Work *work)
+{
+    POLY_FT4 *p;
+    POLY_FT4 *p2;
+    int       value;
+    int       x0;
+    short     x1;
+
+    p = work->polys_lr;
+    p2 = work->polys2;
+
+    work->field_4968 = (work->field_4980 + 100) * 255 / 200;
+    work->field_496C = (work->field_4984 + 100) * 255 / 200;
+    work->field_4970 = (work->field_4988 + 100) * 255 / 200;
+
+    MENU_Locate(41, 166, 0);
+    MENU_Color(86, 137, 116);
+    if (work->field_4980 != 0)
+    {
+        if (work->field_4980 > 0)
+        {
+            MENU_Printf((char *)camera_a_800D0314);
+        }
+        else
+        {
+            MENU_Printf((char *)camera_a_800D02DC);
+        }
+    }
+
+    MENU_Locate(41, 178, 0);
+    MENU_Color(86, 137, 116);
+    if (work->field_4984 != 0)
+    {
+        if (work->field_4984 > 0)
+        {
+            MENU_Printf((char *)camera_a_800D0314);
+        }
+        else
+        {
+            MENU_Printf((char *)camera_a_800D02DC);
+        }
+    }
+
+    MENU_Locate(41, 190, 0);
+    MENU_Color(86, 137, 116);
+    if (work->field_4988 != 0)
+    {
+        if (work->field_4988 > 0)
+        {
+            MENU_Printf((char *)camera_a_800D0314);
+        }
+        else
+        {
+            MENU_Printf((char *)camera_a_800D02DC);
+        }
+    }
+
+    MENU_Locate(46, 166, 0);
+    MENU_Color(86, 137, 116);
+    value = work->field_4980;
+    if (value >= 0)
+    {
+        MENU_Printf((char *)camera_aD_800D0318, value);
+    }
+    else
+    {
+        MENU_Printf((char *)camera_aD_800D0318, -value);
+    }
+
+    MENU_Locate(46, 178, 0);
+    MENU_Color(86, 137, 116);
+    value = work->field_4984;
+    if (value >= 0)
+    {
+        MENU_Printf((char *)camera_aD_800D0318, value);
+    }
+    else
+    {
+        MENU_Printf((char *)camera_aD_800D0318, -value);
+    }
+
+    MENU_Locate(46, 190, 0);
+    MENU_Color(86, 137, 116);
+    value = work->field_4988;
+    if (value >= 0)
+    {
+        MENU_Printf((char *)camera_aD_800D0318, value);
+    }
+    else
+    {
+        MENU_Printf((char *)camera_aD_800D0318, -value);
+    }
+
+    p[0].r0 = work->field_4968;
+    p[0].g0 = work->field_496C;
+    p[0].b0 = work->field_4970;
+    p[1].r0 = work->field_4968;
+    p[1].g0 = work->field_496C;
+    p[1].b0 = work->field_4970;
+    p[2].r0 = work->field_4968;
+    p[2].g0 = work->field_496C;
+    p[2].b0 = work->field_4970;
+
+    x0 = (work->field_4980 + 100) * 88 / 200 - 72;
+    x1 = (work->field_4980 + 100) * 88 / 200 - 68;
+    setXY4(&p2[13], x0, 52, x1, 52, x0, 62, x1, 62);
+
+    x0 = (work->field_4984 + 100) * 88 / 200 - 72;
+    x1 = (work->field_4984 + 100) * 88 / 200 - 68;
+    setXY4(&p2[14], x0, 64, x1, 64, x0, 74, x1, 74);
+
+    x0 = (work->field_4988 + 100) * 88 / 200 - 72;
+    x1 = (work->field_4988 + 100) * 88 / 200 - 68;
+    setXY4(&p2[15], x0, 76, x1, 76, x0, 86, x1, 86);
+}
 extern void camera_800C884C(Work *work, int x, int y, int w, int h, int color, int unused);
 
 void camera_800CBCC8(Work *work)
