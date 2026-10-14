@@ -99,6 +99,36 @@ void s03d_800D3B5C(Work *work);
 void s03d_800D153C(Work *work);
 void ZakoCom_800D4050(int idx);
 
+static inline void SetMode(Work *work, ACTION action)
+{
+    work->action = action;
+    work->time = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    GM_ConfigMotionAdjust(&work->body, NULL);
+}
+
+static inline void SetMode2(Work *work, ACTION action)
+{
+    if (work->action2 == NULL)
+    {
+        work->action2 = action;
+        work->time2 = 0;
+    }
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    GM_ConfigMotionAdjust(&work->body, NULL);
+}
+
+static inline void UnsetMode(Work *work)
+{
+    GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+    work->action2 = NULL;
+    work->time2 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+}
+
 void Zako_800CCAB0(DG_OBJS *objs, DG_DEF *def)
 {
     DG_OBJ *obj;
@@ -923,7 +953,80 @@ void s03d_800CED94(Work *work, int arg)
         GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CEE3C.s")
+void s03d_800CEE3C(Work *work, int arg)
+{
+    TARGET  *target;
+    CONTROL *ctrl;
+    int      diff;
+
+    target = work->target;
+    ctrl = &work->control;
+    work->act.field_1C = 0;
+    if (arg == 0)
+    {
+        work->act.field_14 = 6;
+        work->act.motion1 = 0x1B;
+        GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[3], 0, 4);
+    }
+    if (arg >= 8 && arg <= 17)
+    {
+        Zako_800CDF2C(work);
+    }
+    if (work->act.motion1 == 0x1B)
+    {
+        if (arg == 22)
+        {
+            diff = ctrl->mov.vy - ctrl->levels[0];
+            if (diff < 2000)
+            {
+                GM_SeSet(&ctrl->mov, 0x8D);
+                GM_SeSet(&ctrl->mov, 0x33);
+                Zako_800D0B18(work, 6, 0);
+                GM_SetNoise(100, 4, &ctrl->mov);
+            }
+            else if (diff > 4000)
+            {
+                work->target->vital = 0;
+                GM_SeSet(&ctrl->mov, 0x8E);
+            }
+        }
+        if (work->body.is_end)
+        {
+            if (ctrl->grounded == 0)
+            {
+                work->act.motion1 = 0x24;
+                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[12], 0, 4);
+            }
+            else
+            {
+                SetMode(work, s03d_800CF68C);
+            }
+        }
+    }
+    else if (ctrl->grounded)
+    {
+        GM_SeSet(&ctrl->mov, 0x8D);
+        GM_SeSet(&ctrl->mov, 0x33);
+        GM_SetNoise(100, 4, &ctrl->mov);
+        Zako_800D0B18(work, 6, 1);
+        if (work->target->vital <= 0)
+        {
+            SetMode(work, s03d_800D01C4);
+        }
+        else
+        {
+            SetMode(work, s03d_800CF68C);
+        }
+    }
+    if (arg < 24)
+    {
+        ctrl->turn = *target->field_1C;
+    }
+    if (arg < 22)
+    {
+        work->control.hzd_height = -32767;
+    }
+}
 void s03d_800CF114(Work *work)
 {
     SVECTOR vec;
