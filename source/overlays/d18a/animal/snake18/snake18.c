@@ -4,6 +4,7 @@
 #include "game/vibrate.h"
 #include "libgcl/libgcl.h"
 #include "okajima/blood.h"
+#include "strcode.h"
 
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 #define BODY_DATA   GV_StrCode( "sne_nude" )
@@ -138,7 +139,9 @@ typedef struct _Snake18Work
     short   f86E;        // 0x86E
     char    pad_870[0x874 - 0x86E - sizeof(short)];
     DG_PRIM *f874;       // 0x874
-    char    pad_878[0x8A4 - 0x874 - sizeof(DG_PRIM *)];
+    char    pad_878[0x89C - 0x878];
+    int     f89C;        // 0x89C
+    int     f8A0;        // 0x8A0
     GV_PAD *pad;         // 0x8A4
     ACTPACK18 *f8A8;   // 0x8A8
     void   *f8AC;        // 0x8AC (callback pointer)
@@ -155,8 +158,8 @@ typedef struct _Snake18Work
     int     f8F4;        // 0x8F4
     short   f8F8;        // 0x8F8
     char    pad_8FC[0x8FC - 0x8F8 - sizeof(short)];
-    char    f8FC;        // 0x8FC
-    char    pad_8FE[0x8FE - 0x8FC - sizeof(char)];
+    u_char  f8FC;        // 0x8FC (invincibility frames)
+    u_char  f8FD;        // 0x8FD
     short   f8FE;        // 0x8FE
     short   f900;        // 0x900
     short   f902;        // 0x902
@@ -179,6 +182,8 @@ typedef struct _Snake18Work
     unsigned short f92C; // 0x92C
     short   f92E;        // 0x92E
     int     f930;        // 0x930
+    int     f934;        // 0x934
+    SVECTOR f938;        // 0x938
 } Snake18Work;
 
 typedef struct _PUNCH
@@ -196,7 +201,7 @@ typedef struct WeaponCreateEntry
     void *mStateFn;
 } WeaponCreateEntry;
 
-extern short    d18a_dword_800C37E0;
+extern int      d18a_dword_800C37E0;
 extern short    d18a_dword_800C37F8;
 extern SVECTOR  d18a_dword_800C3850;
 extern SVECTOR  d18a_dword_800C3858;
@@ -206,6 +211,7 @@ extern int      d18a_dword_800DAEF0;
 extern int      d18a_dword_800DAEF4;
 extern char    *d18a_dword_800DAEFC;
 extern HZD_FLR *d18a_dword_800DAF00[2];
+extern GV_MSG   d18a_dword_800DAEA0[3];
 extern void    *d18a_dword_800DAF10;
 extern SVECTOR *d18a_dword_800DAEF8;
 extern int      d18a_dword_800DAF08;
@@ -240,6 +246,7 @@ void d18a_snake18_800D26E4(Snake18Work *work);
 
 extern int dword_8009F46C[];
 void d18a_snake18_800CB34C(Snake18Work *work);
+int  d18a_snake18_800CC490(Snake18Work *work);
 void d18a_snake18_800D3774(Snake18Work *work, int time);
 void d18a_snake18_800D1A6C(Snake18Work *work, int time);
 void d18a_snake18_800D1B3C(Snake18Work *work, int time);
@@ -1351,7 +1358,51 @@ const char d18a_aErrerrerrliquidnearerr_800DA648[] = " Err Err Err Liquid Near E
 const char d18a_aSnakeposddd_800DA66C[] = "snake pos1 %d %d %d \n";
 const char d18a_aWorkheightdlevelsd_800DA684[] = "work->height %d levels%d \n";
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC490.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC6CC.s")
+#define HASH_DESTROY 0xA7DE /* GV_StrCode("destroy") */
+#define HASH_TURN_SPEED    0xC77A
+
+void d18a_snake18_800CC6CC(Snake18Work *work)
+{
+    GV_MSG *msg;
+    int     n;
+    int     i;
+    int     len;
+
+    n = work->control.n_msg;
+    if (!n)
+    {
+        n = d18a_snake18_800CC490(work);
+        if (!n)
+        {
+            return;
+        }
+    }
+
+    msg = (work->control.msg + n) - 1;
+    for (i = n; i > 0; i--, msg--)
+    {
+        len = msg->message_len;
+        switch (msg->message[0])
+        {
+        case HASH_TURN_SPEED:
+            if (len >= 2 && (GM_PlayerStatus & PLAYER_INTRUDE))
+            {
+                d18a_dword_800C37E0 = msg->message[1];
+                work->f8C4.f8 = d18a_dword_800C37E0;
+                work->f8C4.fC = d18a_dword_800C37E0;
+            }
+            break;
+
+        case HASH_DESTROY:
+            GV_DestroyActor(&work->actor);
+            break;
+
+        case HASH_MOTION:
+            d18a_snake18_800CC174(work, msg);
+            break;
+        }
+    }
+}
 void d18a_snake18_800CC7F4(Snake18Work *work)
 {
     if (GM_PlayerStatus & 4)
@@ -1398,7 +1449,82 @@ void d18a_snake18_800CC8E0(Snake18Work *arg0)
     *p = v | 0x9E;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC90C.s")
+static inline int d18a_snake18_CanBlink(Snake18Work *work)
+{
+    if ((work->f7E4 & 1) || (GM_PlayerStatus & (PLAYER_WATCH | PLAYER_INTRUDE)))
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+static inline int d18a_snake18_NoShake(Snake18Work *work)
+{
+    if ((work->f7E4 & 2) || (GM_PlayerStatus & (PLAYER_CB_BOX | PLAYER_INTRUDE)) || (work->f868 & 0x200) ||
+        (work->f89C == 1))
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
+void d18a_snake18_800CC90C(Snake18Work *work)
+{
+    int iframes;
+
+    iframes = work->f8FC;
+    if (iframes != 0)
+    {
+        if (--iframes > 0)
+        {
+            if (d18a_snake18_CanBlink(work))
+            {
+                if (iframes & 3)
+                {
+                    DG_VisibleObjs(work->body.objs);
+                }
+                else
+                {
+                    DG_InvisibleObjs(work->body.objs);
+                }
+            }
+
+            if (GM_Camera.first_person != 0 && !d18a_snake18_NoShake(work))
+            {
+                GM_SnakeCamera.position.vy += GV_RandU(16) * iframes;
+            }
+        }
+        else if (!(work->f7E4 & 0x10000))
+        {
+            d18a_snake18_800CC8E0(work);
+            work->f7E4 &= ~1;
+        }
+
+        work->f8FC = iframes;
+    }
+    else if (GM_Camera.first_person != 0)
+    {
+        DG_InvisibleObjs(work->body.objs);
+    }
+    else
+    {
+        DG_VisibleObjs(work->body.objs);
+    }
+
+    iframes = work->f8FD;
+    if (iframes != 0)
+    {
+        if (--iframes == 0)
+        {
+            d18a_snake18_800CC8E0(work);
+            work->f7E4 &= ~0x10000;
+        }
+
+        work->f8FD = iframes;
+    }
+}
 
 void d18a_snake18_800CCB0C(TARGET *target)
 {
