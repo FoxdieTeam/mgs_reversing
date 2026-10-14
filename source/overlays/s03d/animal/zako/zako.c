@@ -16,13 +16,13 @@
 #include "bullet/tenage.h"
 #include "okajima/bullet.h"
 
-extern int s03d_dword_800C39B0;
-extern int s03d_dword_800C39B8;
-extern int s03d_dword_800C39C0;
-extern int s03d_dword_800C39C8;
-
-extern int s03d_dword_800DC2F8;
-extern SVECTOR s03d_dword_800C39A8;
+SVECTOR ZAKO_NO_POINT = {30000, 30000, 30000};
+SVECTOR ZAKO_TARGET_SIZE = {300, 1500, 300};
+SVECTOR ZAKO_TARGET_FORCE = {0, 0, 0};
+SVECTOR ZAKO_ATTACK_SIZE = {400, 500, 400};
+SVECTOR ZAKO_ATTACK_FORCE = {100, 0, 0};
+SVECTOR ZAKO_TOUCH_SIZE = {300, 800, 300};
+SVECTOR ZAKO_TOUCH_FORCE = {0, 0, 0};
 
 void s03d_800D153C(Work *work);
 void ZakoCom_800D4050(int idx);
@@ -52,7 +52,7 @@ void Zako_800CCAB0(DG_OBJS *objs, DG_DEF *def)
 
 void s03d_800CCB2C(Work *work)
 {
-    if (work->field_B00 != 0)
+    if (work->visible != 0)
     {
         if ( GM_GameStatus & STATE_CAM_CHANGE || GM_Camera.first_person )
         {
@@ -99,7 +99,7 @@ void s03d_800CCC54(Work *work)
     s03d_800D153C(work);
     GM_MoveTarget(work->target, &control->mov);
 
-    if (s03d_dword_800DC2F8 == 13 && ZAKOCOM_MGR->entries[work->param.index].field_4 == 1)
+    if (ZakoGameFlag == 13 && ZakoCommand.watchers[work->param.index].field_4 == 1)
     {
         GV_DestroyActor(work);
     }
@@ -113,21 +113,22 @@ void Zako_800CCCF4(Work *work)
     int     b14 = work->param.life;
     int     b16 = work->param.faint;
 
-    GM_SetTarget(t, 0x9E, 2, (SVECTOR *)&s03d_dword_800C39B0);
-    GM_SetPowerTarget(t, 1, -1, b14, b16, (SVECTOR *)&s03d_dword_800C39B8);
+    GM_SetTarget(t, TARGET_FLAG, ENEMY_SIDE, &ZAKO_TARGET_SIZE);
+    GM_SetPowerTarget(t, POWER_DECREASE, -1, b14, b16, &ZAKO_TARGET_FORCE);
     GM_SetCaptureTarget(t, -1, b16, NULL, NULL);
     GM_SetC4Target(t, &work->body.objs->objs[1].world);
-    GM_SetTarget(&work->attack, 4, 1, (SVECTOR *)&s03d_dword_800C39C0);
-    GM_SetPowerTarget(&work->attack, 7, 5, 0, 3, (SVECTOR *)&s03d_dword_800C39C8);
+    GM_SetTarget(&work->attack, TARGET_POWER, PLAYER_SIDE, &ZAKO_ATTACK_SIZE);
+    GM_SetPowerTarget(&work->attack, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO_ATTACK_FORCE);
 }
 void Zako_800CCDE0(Work *work)
 {
-    short *p = (short *)&work->act.field_00;
+    ACT *act;
 
-    GV_ZeroMemory(p, 0x20);
-    work->act.field_00 = 0;
-    p[0x0D] = 0x1C2;
-    p[0x0E] = 1;
+    act = &work->act;
+    GV_ZeroMemory(act, sizeof(ACT));
+    act->field_00 = 0;
+    act->r_sphere = 450;
+    act->field_1C = 1;
     work->action = 0;
     work->action2 = 0;
     work->time = 0;
@@ -172,7 +173,7 @@ int s03d_800CCE3C(Work *work, int name, int where)
 
     for (i = 0; i < 0; i++)
     {
-        work->field_AA8[i] = 0;
+        work->putchar[i] = NULL;
     }
 
     indices.vx = 0;
@@ -255,7 +256,7 @@ void s03d_800CD1C4(Work *work, int name, int where)
         fprintf(0, "Err not enough work !!\n");
     }
 
-    work->field_B04 = ZakoCom_800D4038();
+    work->n_dead = ZakoCom_800D4038();
     work->param.roots[0] = 0;
     work->param.c_root = 0;
     opt = GCL_GetOption('r');
@@ -270,20 +271,20 @@ void s03d_800CD1C4(Work *work, int name, int where)
     switch (work->param.index)
     {
     case 0:
-        work->field_B64 = 3000;
+        work->chase_dis = 3000;
         break;
     case 1:
-        work->field_B64 = 4000;
+        work->chase_dis = 4000;
         break;
     case 2:
-        work->field_B64 = 7000;
+        work->chase_dis = 7000;
         break;
     case 3:
     case 4:
     case 5:
     case 6:
     case 7:
-        work->field_B64 = 8000;
+        work->chase_dis = 8000;
         break;
     }
 
@@ -350,29 +351,29 @@ void s03d_800CD1C4(Work *work, int name, int where)
         Zako_800CCCF4(work);
     }
 
-    work->field_AC8 = 0;
-    work->field_ACA = 0;
-    work->field_ACC = 0;
-    work->field_ACE = 0;
-    work->field_AD0 = 0;
+    work->think1 = 0;
+    work->think2 = 0;
+    work->think3 = 0;
+    work->think4 = 0;
+    work->count3 = 0;
     work->field_AD4 = 0;
 
-    work->field_B48 = work->nodes[0];
-    work->field_B5C = HZD_GetAddress(work->control.map->hzd, &work->field_B48, -1);
+    work->target_pos = work->nodes[0];
+    work->target_addr = HZD_GetAddress(work->control.map->hzd, &work->target_pos, -1);
 
     work->vision.range = 512;
     work->vision.length = 4000;
-    work->field_B28 = 0;
+    work->alert_level = 0;
     work->vision.facedir = 0;
-    work->field_AE8 = 0;
-    work->field_AE4 = 0;
-    work->field_B60 = GM_CurrentMap;
-    work->field_B34 = s03d_dword_800C39A8;
-    work->field_AF0 = 0;
+    work->pad.sound = 0;
+    work->pad.time = 0;
+    work->target_map = GM_CurrentMap;
+    work->player_pos = ZAKO_NO_POINT;
+    work->subweapon = 0;
     work->control.mov = work->nodes[0];
     work->field_AF6 = 0;
     work->field_AF8 = 0;
-    work->field_B00 = 1;
+    work->visible = 1;
     work->field_BA0 = 0;
 
     for (i = 0; i < 8; i++)
@@ -385,11 +386,11 @@ void s03d_800CD1C4(Work *work, int name, int where)
 
     GM_ConfigControlRadarparam(&work->control, 0, 512, 4000, 0);
 
-    work->field_B40 = work->nodes[0];
-    work->field_B54 = GM_CurrentMap;
-    work->field_B50 = HZD_GetAddress(work->control.map->hzd, &work->control.mov, -1);
-    work->field_B58 = work->field_B74 = work->field_B50;
-    work->field_B80 = work->field_B40;
+    work->start_pos = work->nodes[0];
+    work->start_map = GM_CurrentMap;
+    work->start_addr = HZD_GetAddress(work->control.map->hzd, &work->control.mov, -1);
+    work->last_addr = work->next_addr = work->start_addr;
+    work->next_pos = work->start_pos;
 }
 
 void *s03d_800CD5A0(int name, int where)

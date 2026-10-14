@@ -5,6 +5,9 @@
 #include "game/game.h"
 #include "libdg/libdg.h"
 
+#define TARGET_FLAG ( TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH \
+                    | TARGET_SEEK | TARGET_TOUCH )
+
 typedef struct _PARAM
 {
     signed char index;
@@ -29,19 +32,30 @@ typedef struct _VISION
 typedef struct _ACT
 {
     int             field_00;       /* 0x00 */
-    short           field_04;       /* 0x04 */
+    short           field_04;       /* 0x04 vertical speed */
     short           field_06;       /* 0x06 */
     int             field_08;       /* 0x08 */
-    SVECTOR         field_0C;       /* 0x0C */
-    int             field_14;       /* 0x14 */
+    SVECTOR         field_0C;       /* 0x0C item drop step */
+    int             field_14;       /* 0x14 kind of damage */
     short           motion1;        /* 0x18 */
-    short           motion2;        /* 0x1A */
+    short           r_sphere;       /* 0x1A target for control.r_sphere */
     short           field_1C;       /* 0x1C */
     short           field_1E;       /* 0x1E */
 } ACT;
 
+typedef struct _PAD
+{
+    int             press;          /* 0x00 */
+    int             field_4;        /* 0x04 */
+    int             field_8;        /* 0x08 */
+    short           time;           /* 0x0C */
+    short           dir;            /* 0x0E */
+    short           sound;          /* 0x10 */
+} PAD;
+
 struct _Work;
 typedef void (*ACTION)(struct _Work *, int);
+typedef void (*PUTFUNC)(struct _Work *);
 
 typedef struct _Work
 {
@@ -57,9 +71,7 @@ typedef struct _Work
     SVECTOR         adjust[16];     /* 0x724 */
     OBJECT          weapon;         /* 0x7A4 */
     MATRIX          light[2];       /* 0x888 */
-
     ACT             act;            /* 0x8C8 */
-
     ACTION          action;         /* 0x8E8 */
     ACTION          action2;        /* 0x8EC */
     int             time;           /* 0x8F0 */
@@ -67,149 +79,103 @@ typedef struct _Work
     int             field_8F8;      /* 0x8F8 */
     TARGET         *target;         /* 0x8FC */
     TARGET          attack;         /* 0x900 */
-    char            pad_948[0x954 - 0x948];
-    void          (*field_954)(struct _Work *);  /* 0x954 */
-    int             field_958;      /* 0x958 */
-    int             field_95C;      /* 0x95C */
-    int             field_960;      /* 0x960 */
-    int             field_964;      /* 0x964 */
-    int             field_968;      /* 0x968 */
-    int             field_96C;      /* 0x96C */
-    short           field_970;      /* 0x970 */
-    short           field_972;      /* 0x972 */
-    int             field_974;      /* 0x974 */
-    int             field_978;      /* 0x978 */
-    int             field_97C;      /* 0x97C */
-    int             field_980;      /* 0x980 */
-    int             field_984;      /* 0x984 */
-    int             field_988;      /* 0x988 */
-    int             field_98C;      /* 0x98C */
-
+    TARGET          punch;          /* 0x948 */
     HOMING         *hom;            /* 0x990 */
-
     int             n_nodes;        /* 0x994 */
     SVECTOR         nodes[32];      /* 0x998 */
-
     void           *shadow;         /* 0xA98 */
     int            *enable_shadow;  /* 0xA9C */
     void           *glight;         /* 0xAA0 */
     int            *enable_glight;  /* 0xAA4 */
-
-    int             field_AA8[8];   /* 0xAA8 */
-    short           field_AC8;      /* 0xAC8 */
-    short           field_ACA;      /* 0xACA */
-    short           field_ACC;      /* 0xACC */
-    short           field_ACE;      /* 0xACE */
-    int             field_AD0;      /* 0xAD0 */
+    PUTFUNC         putchar[8];     /* 0xAA8 */
+    short           think1;         /* 0xAC8 */
+    short           think2;         /* 0xACA */
+    short           think3;         /* 0xACC */
+    short           think4;         /* 0xACE */
+    int             count3;         /* 0xAD0 */
     int             field_AD4;      /* 0xAD4 */
-    int             field_AD8;      /* 0xAD8 */
-    int             field_ADC;      /* 0xADC */
-    int             field_AE0;      /* 0xAE0 */
-    short           field_AE4;      /* 0xAE4 */
-    short           field_AE6;      /* 0xAE6 */
-    short           field_AE8;      /* 0xAE8 */
-    char            pad_AEA[0xAEC - 0xAEA];
-    int             field_AEC;      /* 0xAEC */
-    int             field_AF0;      /* 0xAF0 */
+    PAD             pad;            /* 0xAD8 */
+    int             trigger;        /* 0xAEC */
+    void           *subweapon;      /* 0xAF0 */
     char            pad_AF4[0xAF6 - 0xAF4];
     short           field_AF6;      /* 0xAF6 */
     short           field_AF8;      /* 0xAF8 */
     char            pad_AFA[0xB00 - 0xAFA];
-    int             field_B00;      /* 0xB00 */
-    int             field_B04;      /* 0xB04 */
+    int             visible;        /* 0xB00 */
+    int             n_dead;         /* 0xB04 */
     PARAM           param;          /* 0xB08 */
     char            pad_B1A[0xB20 - 0xB1A];
     VISION          vision;         /* 0xB20 */
-    int             field_B28;      /* 0xB28 */
+    int             alert_level;    /* 0xB28 */
     signed char     modetime[8];    /* 0xB2C */
-    SVECTOR         field_B34;      /* 0xB34 */
-    int             field_B3C;      /* 0xB3C */
-    SVECTOR         field_B40;      /* 0xB40 */
-    SVECTOR         field_B48;      /* 0xB48 */
-    int             field_B50;      /* 0xB50 */
-    int             field_B54;      /* 0xB54*/
-    int             field_B58;      /* 0xB58 */
-    int             field_B5C;      /* 0xB5C */
-    int             field_B60;      /* 0xB60 */
-    int             field_B64;      /* 0xB64 */
-    SVECTOR         field_B68;      /* 0xB68 */
-    int             field_B70;      /* 0xB70 */
-    int             field_B74;      /* 0xB74 */
-    char            pad_B74[0xB80 - 0xB78];
-    SVECTOR         field_B80;      /* 0xB80 */
+    SVECTOR         player_pos;     /* 0xB34 */
+    int             player_dir;     /* 0xB3C */
+    SVECTOR         start_pos;      /* 0xB40 */
+    SVECTOR         target_pos;     /* 0xB48 */
+    int             start_addr;     /* 0xB50 */
+    int             start_map;      /* 0xB54 */
+    int             last_addr;      /* 0xB58 */
+    int             target_addr;    /* 0xB5C */
+    int             target_map;     /* 0xB60 */
+    int             chase_dis;      /* 0xB64 */
+    SVECTOR         throw_pos;      /* 0xB68 */
+    int             current_addr;   /* 0xB70 */
+    int             next_addr;      /* 0xB74 */
+    char            pad_B78[0xB80 - 0xB78];
+    SVECTOR         next_pos;       /* 0xB80 */
     char            pad_B88[0xB90 - 0xB88];
-    int             field_B90;      /* 0xB90 */
-    int             field_B94;      /* 0xB94 */
+    int             sn_dis;         /* 0xB90 */
+    int             sn_dir;         /* 0xB94 */
     int             field_B98;      /* 0xB98 */
     int             field_B9C;      /* 0xB9C */
     short           field_BA0;      /* 0xBA0 */
-    short           field_BA2;      /* 0xBA2 */
+    short           last_vital;     /* 0xBA2 */
 } Work;
 
-typedef struct _ZakoActor
+typedef struct _JDATA
 {
-    char            pad_0[0xAE8];
-    short           field_AE8;      /* 0xAE8 */
-    char            pad_AEA[0xB28 - 0xAEA];
-    int             field_B28;      /* 0xB28 */
-    char            pad_B2C[0xB64 - 0xB2C];
-    int             field_B64;      /* 0xB64 */
-    char            pad_B68[0xB90 - 0xB68];
-    int             field_B90;      /* 0xB90 */
-} ZakoActor;
+    u_short         map;            /* 0x00 */
+    u_short         count;          /* 0x02 */
+    u_short         data[8][2];     /* 0x04 */
+} JDATA;
 
-typedef struct _ZakoComEntry
+typedef struct _WATCHER
 {
     int             field_0;        /* 0x00 */
     int             field_4;        /* 0x04 */
     int             field_8;        /* 0x08 */
-    ZakoActor      *field_C;        /* 0x0C - zako actor work */
-} ZakoComEntry;                     /* 0x10 */
+    Work           *work;           /* 0x0C */
+} WATCHER;
 
-typedef struct _A4_INNER_STRUCT
+typedef struct _COMMANDER
 {
-    unsigned short field_00;    //0x00
-    unsigned short field_02;    //0x02
-} A4_INNER_STRUCT;
-
-typedef struct _A4_STRUCT
-{
-    unsigned short  map_id;      //0x00
-    unsigned short  n_entry;     //0x02
-    A4_INNER_STRUCT field_04[8]; //0x04
-} A4_STRUCT;
-
-typedef struct _ZakoComMgr
-{
-    int             field_0;        /* 0x00 */
-    int             field_4;        /* 0x04 */
-    int             count;          /* 0x08 */
-    int             field_C;        /* 0x0C */
-    int             field_10;       /* 0x10 */
-    int             field_14;       /* 0x14 */
-    int             field_18;       /* 0x18 */
-    int             field_1C;       /* 0x1C */
-    int             field_20;       /* 0x20 */
-    int             field_24;       /* 0x24 */
-    int             field_28;       /* 0x28 */
-    SVECTOR         field_2C;       /* 0x2C */
-    short           field_34;       /* 0x34 */
-    short           field_36;       /* 0x36 */
-    short           field_38[4];    /* 0x38 */
-    int             field_40[8];    /* 0x40 */
-    int             field_60;       /* 0x60 */
-    MAP            *field_64;       /* 0x64 */
-    A4_STRUCT       field_68;       /* 0x68 */
-    ZakoComEntry    entries[8];     /* 0x8C - 0x10C */
+    int             field_0;        /* 0x000 */
+    int             field_4;        /* 0x004 */
+    int             n_watchers;     /* 0x008 */
+    int             time;           /* 0x00C */
+    int             time2;          /* 0x010 */
+    int             alert_time;     /* 0x014 */
+    int             alert_level;    /* 0x018 */
+    int             alert_mode;     /* 0x01C */
+    int             field_20;       /* 0x020 */
+    int             target_addr;    /* 0x024 */
+    int             target_map;     /* 0x028 */
+    SVECTOR         target_pos;     /* 0x02C */
+    short           n_zones;        /* 0x034 */
+    short           far_zone;       /* 0x036 */
+    short           zones[4];       /* 0x038 */
+    int             order[8];       /* 0x040 */
+    int             n_reset;        /* 0x060 */
+    MAP            *map;            /* 0x064 */
+    JDATA           jdata;          /* 0x068 */
+    WATCHER         watchers[8];    /* 0x08C */
     int             field_10C;      /* 0x10C */
     int             field_110;      /* 0x110 */
-    int             field_114;      /* 0x114 */
-    int             field_118;      /* 0x118 */
-    int             field_11C;      /* 0x11C */
-    int             field_120;      /* 0x120 */
-    int             field_124[8];   /* 0x124 */
+    int             vox[3];         /* 0x114 */
+    int             end_proc;       /* 0x120 */
+    int             procs[8];       /* 0x124 */
     int             field_144;      /* 0x144 */
-} ZakoComMgr;
+} COMMANDER;
 
 typedef struct _TOP
 {
@@ -217,11 +183,26 @@ typedef struct _TOP
     int alert;
 } TOP;
 
-extern TOP s03d_dword_800DC2E8;
-extern short s03d_word_800C39E0[4];
-extern int s03d_dword_800DC310;
-#define ZAKOCOM_MGR ((ZakoComMgr *)&s03d_dword_800DC310)
+extern SVECTOR   ZAKO_NO_POINT;
+extern SVECTOR   ZAKO_TARGET_SIZE;
+extern SVECTOR   ZAKO_TARGET_FORCE;
+extern SVECTOR   ZAKO_ATTACK_SIZE;
+extern SVECTOR   ZAKO_ATTACK_FORCE;
+extern short     ZakoActionTable[];
+#ifndef __S03D_OVERLAY3_C__ // the bss definitions must not follow an extern declaration
+extern TOP       ZakoTopCommand;
+extern COMMANDER ZakoCommand;
+extern int       ZakoGameFlag;
+extern int       ZakoPlayerAddress;
+extern int       ZakoPlayerMap;
+extern SVECTOR   ZakoPlayerPosition;
+#endif
 
+static inline void SetAction(Work *work, int action, int interp)
+{
+    work->act.motion1 = action;
+    GM_ConfigObjectAction(&work->body, ZakoActionTable[action], 0, interp);
+}
 
 static inline void SetMode(Work *work, ACTION action)
 {
@@ -244,9 +225,17 @@ static inline void SetMode2(Work *work, ACTION action)
     GM_ConfigMotionAdjust(&work->body, NULL);
 }
 
+static inline void SetModeNoAdjust(Work *work, ACTION action)
+{
+    work->action = action;
+    work->time = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+}
+
 static inline void UnsetMode(Work *work)
 {
-    GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+    GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
     work->action2 = NULL;
     work->time2 = 0;
     work->control.turn.vz = 0;
