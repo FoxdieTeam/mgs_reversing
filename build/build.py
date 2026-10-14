@@ -150,6 +150,7 @@ def ninja_run():
         r'jspark\.c:\d+: warning: unused variable `unused\'',
         # in d18a
         r'snake18\.c:\d+: warning: unused variable `unused\'',
+        r'snake18\.c:\d+: warning: unused variable `r\'',
     ]
 
     if os.environ.get('APPVEYOR'):
