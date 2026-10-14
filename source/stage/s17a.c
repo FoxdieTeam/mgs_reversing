@@ -1,6 +1,15 @@
 #define DECLARE_NEWCHARA_PROTOS
 #include "charalst.h"
 
+/* not listed in charalst.h yet */
+extern NEWCHARA NewPlasma_800CD268;     /* okajima/plasma.c */
+extern NEWCHARA AN_Smoke_800CE0F8;      /* (black smoke) */
+extern NEWCHARA NewBlastLine;           /* okajima/blst_ln.c */
+extern NEWCHARA AN_Blast_high2;         /* bullet/blast.c */
+extern NEWCHARA NewNinjaLaser;          /* kojo/ninjalzr.c */
+extern NEWCHARA s17a_800D6A4C;          /* kojo/bloodhzd.c: NewBloodHazard (INCLUDE_ASM) */
+extern NEWCHARA NewWindcrcl_800CF784;   /* takabe/windcrcl.c */
+
 CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_MGREX,
@@ -24,11 +33,11 @@ CHARA _StageCharacterEntries[] = {
     DEMO_SHADOW,
     DEMO_PLASMA,
     DEMO_METALGEARLASER,
-    { 0x0024, (NEWCHARA *)0x800ca330 }, //  DEMO_PLASMA2,
+    { 0x0024, NewPlasma_800CD268 }, //  DEMO_PLASMA2,
     DEMO_BLUR,
     DEMO_MONOTONE,
-    { 0x002a, (NEWCHARA *)0x800c617c }, //  DEMO_BLACKSMOKE,
-    { 0x0030, (NEWCHARA *)0x800cb34c }, //  DEMO_BLASTLINE,
+    { 0x002a, AN_Smoke_800CE0F8 }, //  DEMO_BLACKSMOKE,
+    { 0x0030, NewBlastLine }, //  DEMO_BLASTLINE,
     DEMO_SMOKELINE,
     DEMO_ENVIRONMENTLIGHT,
     DEMO_ENVIRONMENTLIGHT2,
@@ -36,13 +45,13 @@ CHARA _StageCharacterEntries[] = {
     DEMO_INVERSLIGHT,
     DEMO_SPACK,
     DEMO_SPACK2,
-    { 0x003e, (NEWCHARA *)0x8006e6cc }, //  DEMO_STEAMEXPLOSION,
+    { 0x003e, AN_Blast_high2 }, //  DEMO_STEAMEXPLOSION,
     DEMO_INVERSLIGHT2,
-    { 0x0041, (NEWCHARA *)0x800d4994 }, //  DEMO_NINJALASER,
+    { 0x0041, NewNinjaLaser }, //  DEMO_NINJALASER,
     DEMO_GHOST,
-    { 0x0047, (NEWCHARA *)0x800d6a4c }, //  DEMO_BLOODHAZARD,
+    { 0x0047, s17a_800D6A4C }, //  DEMO_BLOODHAZARD,
     DEMO_BLOODDRIP,
-    { 0x0049, (NEWCHARA *)0x800d15fc }, //  DEMO_NINJAGROUND,
+    { 0x0049, NewWindcrcl_800CF784 }, //  DEMO_NINJAGROUND,
 
     CHARA_END
 };
