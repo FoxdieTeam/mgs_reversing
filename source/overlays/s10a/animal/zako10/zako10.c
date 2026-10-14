@@ -1,5 +1,3 @@
-#define __ZAKO_BUGFIX__
-
 #include "zako10.h"
 
 #include <stdio.h>
@@ -12,11 +10,8 @@
 #include "chara/snake/shadow.h" // for NewShadow2
 #include "enemy/glight.h"       // for NewGunLight
 
-// BUG: Should be void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, u_short, u_short);
-extern void GM_ConfigControlRadarparam(CONTROL *ctrl, u_short dir, u_short dis, int range, u_short r);
-
 extern int     ZAKO10_GameFlag;          // s10a_dword_800E4A9C
-extern unsigned short ZAKO10_EYE_LENGTH; // 800C364C
+extern int     ZAKO10_EYE_LENGTH;        // 800C364C
 extern SVECTOR ZAKO10_NO_POINT;          // 800C3644
 extern SVECTOR ZAKO10_TARGET_SIZE;       // 800C3614
 extern SVECTOR ZAKO10_TARGET_FORCE;      // 800C361C

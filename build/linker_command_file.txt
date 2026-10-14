@@ -2923,18 +2923,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s10a\animal\zako10\zako10.obj", overlay
     include "{{OBJ_DIR}}\overlays\s10a\animal\zako10\zk10check.obj", overlay
     include "{{OBJ_DIR}}\overlays\s10a\animal\zako10\zk10action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CB44C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CB478.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CB4FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CB55C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CB6DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CB804.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CB8B0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CB904.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CB9C0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CB9D4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CBB9C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CBC08.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s10a\animal\zako10\zk10enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC448.obj", overlay

@@ -2,7 +2,9 @@
 	section .text
 
 	xdef s10a_800CDC74
+	xdef Zako10Think
 s10a_800CDC74:
+Zako10Think:
 	dw 0x27BDFFE8 ; 800CDC74
 	dw 0xAFB00010 ; 800CDC78
 	dw 0x00808021 ; 800CDC7C

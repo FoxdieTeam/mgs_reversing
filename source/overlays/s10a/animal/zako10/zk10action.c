@@ -1,5 +1,7 @@
 #include "zako10.h"
 
+extern ZAKO10_COMMAND Zako10Command;
+
 #include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
@@ -7,8 +9,7 @@
 #include "game/game.h"
 #include "okajima/bullet.h"
 
-extern ZAKO_COMMAND   Zako10Command;
-extern unsigned short ZAKO10_EYE_LENGTH;
+extern int ZAKO10_EYE_LENGTH;
 
 extern void  NewLSight( SVECTOR *from, SVECTOR *to, int color );
 extern void  AN_Breath( MATRIX * );
