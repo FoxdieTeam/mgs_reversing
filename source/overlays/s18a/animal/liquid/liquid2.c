@@ -1728,8 +1728,132 @@ void s18a_800C9C2C(LiquidWork *work, int time)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA1A4.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA3B4.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA440.s")
+void s18a_800CA3B4(LiquidWork *work, int time)
+{
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 32);
+        s18a_800C80B8(work, 0);
+    }
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (work->body.is_end)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+    }
+}
+
+void s18a_800CA440(LiquidWork *work, int time)
+{
+    int      speed;
+    CONTROL *control;
+    int      frame;
+
+    speed = 0;
+    control = &work->control;
+
+    if (time == 0)
+    {
+        work->pose = 15;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[15], 0, 0);
+        control->turn.vy = work->f9AC;
+    }
+
+    if (time == 7)
+    {
+        s18a_800C7A68(work, 1);
+        GM_SeSet(&control->mov, 56);
+    }
+
+    if (time == 12)
+    {
+        work->pose = 14;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[14], 0, 0);
+        control->turn.vy = work->f9AC;
+    }
+
+    if (time == 17)
+    {
+        s18a_800C7A68(work, 0);
+        GM_SeSet(&control->mov, 56);
+    }
+
+    if (time == 21)
+    {
+        s18a_liquid_SetPose(work, 16);
+        control->turn.vy = work->f9AC;
+    }
+
+    if (time == 25)
+    {
+        s18a_800C7A68(work, 2);
+        GM_SeSet(&control->mov, 57);
+    }
+
+    frame = work->m_ctrl.info1.frame;
+
+    switch (work->pose)
+    {
+    case 14:
+        speed = 4;
+        if (frame < 4)
+        {
+            speed = 128;
+        }
+        break;
+
+    case 15:
+        speed = 4;
+        if (frame < 8)
+        {
+            speed = 24;
+        }
+        break;
+
+    case 16:
+        speed = 4;
+        if (frame <= 0)
+        {
+            speed = 128;
+        }
+        break;
+
+    case 17:
+        speed = 4;
+        if (frame < 4)
+        {
+            speed = 48;
+        }
+        break;
+    }
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (time == 40)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+        return;
+    }
+
+    control->step.vx = speed * rsin(work->f9AC) / 4096;
+    control->step.vz = speed * rcos(work->f9AC) / 4096;
+    work->target->class |= 0x17;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA6E0.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA9FC.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CAD88.s")
