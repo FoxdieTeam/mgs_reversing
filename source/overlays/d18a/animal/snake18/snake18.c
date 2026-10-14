@@ -10,16 +10,70 @@
 #define BODY_DATA2  GV_StrCode( "ippanhei" )
 #define MOTION_DATA GV_StrCode( d18a_aSnevs_800DA744 )
 
-typedef struct _Snake18Type
+
+/* motion number tables (indices into the oar motion file), see sna_init.c */
+typedef struct _ACTSTILL18
 {
-    char *str;
-    char *str2;
-    char *field_08;
-    char *field_0C;
-    char *field_10;
-    char  pad_18[0x18 - 0x10 - sizeof(char *)];
-    char *field_18;
-} Snake18Type;
+    u_char stand;
+    u_char setup;
+    u_char squat;
+    u_char crouch;
+    u_char against_wall;
+    u_char squat_against_wall;
+    u_char tap_wall_r;
+    u_char tap_wall_l;
+} ACTSTILL18;
+
+typedef struct _ACTMOVE18
+{
+    u_char stand;
+    u_char setup;
+    u_char squat;
+    u_char crouch;
+    u_char crouch_backwards;
+    u_char against_wall_r;
+    u_char against_wall_l;
+    u_char field_7;
+    u_char field_8;
+    u_char aim;
+    u_char turn_l;
+    u_char turn_r;
+    u_char pad[4];
+} ACTMOVE18;
+
+typedef struct _ACTTRANS18
+{
+    u_char crouch;
+    u_char squat;
+    u_char stand;
+    u_char pad;
+} ACTTRANS18;
+
+typedef struct _ACTDAMAGE18
+{
+    u_char field_0[16];
+} ACTDAMAGE18;
+
+typedef struct _ACTATTACK18
+{
+    u_char field_0[12];
+} ACTATTACK18;
+
+typedef struct _ACTSPECIAL18
+{
+    u_char field_0[8];
+} ACTSPECIAL18;
+
+typedef struct _ACTPACK18
+{
+    ACTSTILL18   *still;
+    ACTMOVE18    *move;
+    ACTTRANS18   *trans;
+    ACTDAMAGE18  *damage;
+    ACTATTACK18  *attack;
+    u_char       *special1;
+    ACTSPECIAL18 *special2;
+} ACTPACK18;
 
 typedef struct _Snake18Init
 {
@@ -33,6 +87,15 @@ typedef struct _Snake18Init
     short   f10;         // 0x8D4
     char    pad_12[2];
 } Snake18Init;
+
+typedef struct _Snake18Queue
+{
+    u_short count;      // 0x8D8
+    short   field_2[4]; // 0x8DA
+    short   field_A[4]; // 0x8E2
+    short   field_12;   // 0x8EA
+    short   field_14;   // 0x8EC
+} Snake18Queue;
 
 typedef struct _Snake18Work
 {
@@ -77,7 +140,7 @@ typedef struct _Snake18Work
     DG_PRIM *f874;       // 0x874
     char    pad_878[0x8A4 - 0x874 - sizeof(DG_PRIM *)];
     GV_PAD *pad;         // 0x8A4
-    Snake18Type *f8A8;   // 0x8A8
+    ACTPACK18 *f8A8;   // 0x8A8
     void   *f8AC;        // 0x8AC (callback pointer)
     int     f8B0;        // 0x8B0
     void   *f8B4;        // 0x8B4 (callback pointer)
@@ -85,8 +148,7 @@ typedef struct _Snake18Work
     void   *f8BC;        // 0x8BC (callback pointer)
     void   *f8C0;        // 0x8C0 (callback pointer)
     Snake18Init f8C4;    // 0x8C4 (20-byte init block; .f4=0x8C8 .f8=0x8CC .fC=0x8D0)
-    unsigned short f8D8; // 0x8D8
-    char    pad_8DA[0x8EE - 0x8D8 - sizeof(short)];
+    Snake18Queue f8D8;   // 0x8D8
     short   f8EE;        // 0x8EE
     char    pad_8F0[0x8F0 - 0x8EE - sizeof(short)];
     int     f8F0;        // 0x8F0
@@ -149,7 +211,6 @@ extern SVECTOR *d18a_dword_800DAEF8;
 extern int      d18a_dword_800DAF08;
 extern int      d18a_dword_800DAF0C;
 
-extern const char d18a_aSnevs_800DA744[]; // = "sne_18vs"
 
 int  d18a_snake18_800CAEC0(Snake18Work *work, int state);
 void d18a_snake18_800CB2EC(Snake18Work *work);
@@ -197,16 +258,8 @@ extern Snake18Init d18a_dword_800C383C;
 extern int bakudan_count_8009F42C;
 extern void d18a_snake18_800D22C8(Snake18Work *work, int a1);
 extern int printf(/* const char *format, ... */);
-extern const char d18a_aClimbarea_800DA5A8[];
-extern const char d18a_aClimbarea_800DA5B8[];
-extern const char d18a_aClimbarea_800DA5C8[];
-extern const char d18a_aClimbarea_800DA5D8[];
-extern const char d18a_aClimbarea_800DA5E8[];
-extern const char d18a_aClimbarea_800DA5F8[];
-extern const char d18a_aClimbarea_800DA608[];
-extern const char d18a_aClimbarea_800DA618[];
 extern SVECTOR d18a_dword_800C3868;
-extern Snake18Type    d18a_dword_800C36C8[];
+extern ACTPACK18    d18a_dword_800C36C8[];
 extern WeaponCreateEntry d18a_dword_800C3878[];
 extern void d18a_snake18_800CDD4C(Snake18Work *work);
 extern void d18a_snake18_800CDE8C(Snake18Work *work);
@@ -214,7 +267,6 @@ extern void d18a_snake18_800CE09C(Snake18Work *work);
 extern void d18a_snake18_800CD64C(Snake18Work *work, int arg1);
 extern void d18a_snake18_800CEDB0(Snake18Work *work);
 extern void d18a_snake18_800CEF0C(Snake18Work *work, int arg1);
-extern const char d18a_aKore_800DA6A0[];
 extern void d18a_snake18_800D2A80(void);
 extern void d18a_snake18_800CE8E0(Snake18Work *work, int arg1);
 extern void d18a_snake18_800CF744(Snake18Work *work);
@@ -565,15 +617,15 @@ int d18a_snake18_800CB280(Snake18Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        return work->f8A8->str[0];
+        return work->f8A8->still->stand;
     }
     else if (arg1 == 1)
     {
-        return work->f8A8->str[2];
+        return work->f8A8->still->squat;
     }
     else if (arg1 == 2)
     {
-        return work->f8A8->str[3];
+        return work->f8A8->still->crouch;
     }
 
     return -1;
@@ -708,7 +760,7 @@ void d18a_snake18_800CB60C(Snake18Work *work)
     if (diff == 0)
     {
         GM_PlayerStatus &= ~0x10;
-        action = work->f8A8->str[1];
+        action = work->f8A8->still->setup;
         if (work->body.action != action)
         {
             GM_ConfigObjectAction(&work->body, action, 0, 4);
@@ -717,11 +769,11 @@ void d18a_snake18_800CB60C(Snake18Work *work)
     }
     else if (diff < 0)
     {
-        action = work->f8A8->str2[0xA];
+        action = work->f8A8->move->turn_l;
     }
     else
     {
-        action = work->f8A8->str2[0xB];
+        action = work->f8A8->move->turn_r;
     }
 
     if (work->body.action != action)
@@ -903,7 +955,7 @@ int d18a_snake18_800CBBC8(Snake18Work *work)
 
     if (press & PAD_CIRCLE)
     {
-        if ((((unsigned char *)work->f8A8->field_10)[2] ^ 0x9E) != 0)
+        if ((work->f8A8->attack->field_0[2] ^ 0x9E) != 0)
         {
             d18a_snake18_StartAnim(work, d18a_snake18_800D3774);
             work->f7E4 |= 4;
@@ -1064,8 +1116,134 @@ void d18a_snake18_800CC008(void)
     /* do nothing */
 }
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC010.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC174.s")
+static inline int d18a_snake18_IsCrouching(Snake18Work *work)
+{
+    int action;
+
+    if (work->f7E4 & 0x200)
+    {
+        return 0;
+    }
+
+    action = work->body.action;
+    if (action == work->f8A8->move->crouch || action == work->f8A8->move->crouch_backwards ||
+        action == work->f8A8->trans->crouch)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+void d18a_snake18_800CC010(Snake18Work *work)
+{
+    unsigned short *names;
+    int             i;
+    int             status;
+    int             action;
+
+    if (!d18a_snake18_IsCrouching(work))
+    {
+        return;
+    }
+
+    status = GM_PlayerStatus;
+    status &= ~PLAYER_INTRUDE;
+    names = work->control.evt.inside;
+    for (i = work->control.evt.n_inside; i > 0; i--, names++)
+    {
+        if (*names == 0x73D2)
+        {
+            status |= PLAYER_INTRUDE;
+        }
+    }
+
+    if (status == GM_PlayerStatus)
+    {
+        return;
+    }
+
+    if (GM_PlayerStatus & PLAYER_INTRUDE)
+    {
+        GM_PlayerStatus &= ~PLAYER_INTRUDE;
+        return;
+    }
+
+    if (work->body.action == work->f8A8->trans->crouch)
+    {
+        action = work->f8A8->move->crouch;
+        if (work->body.action != action)
+        {
+            GM_ConfigObjectAction(&work->body, action, 0, 4);
+        }
+    }
+
+    GM_PlayerStatus |= PLAYER_INTRUDE;
+    d18a_snake18_StartAnim(work, d18a_snake18_800CE998);
+}
+void d18a_snake18_800CC174(Snake18Work *work, GV_MSG *msg)
+{
+    Snake18Queue *queue;
+    int           len;
+    int           n;
+    int           a;
+    int           b;
+    short        *p;
+
+    if (GM_PlayerStatus & PLAYER_ACT_ONLY)
+    {
+        return;
+    }
+
+    if (work->f92A == 0)
+    {
+        return;
+    }
+
+    len = msg->message_len;
+    if (len < 2)
+    {
+        return;
+    }
+
+    queue = &work->f8D8;
+    n = queue->count;
+    if (n == 4)
+    {
+        return;
+    }
+
+    a = -1;
+    b = -1;
+    *(queue->field_2 + n) = msg->message[1];
+    p = &queue->field_A[n];
+    if (len < 3)
+    {
+        *p = -1;
+    }
+    else
+    {
+        *p = msg->message[2];
+    }
+
+    if (len >= 4)
+    {
+        a = msg->message[3];
+        if (len >= 5)
+        {
+            b = msg->message[4];
+        }
+        if (len >= 6 && msg->message[5] == 1)
+        {
+            GM_PlayerStatus &= ~PLAYER_INTRUDE;
+            d18a_snake18_800CB42C(work);
+        }
+    }
+
+    queue->count = ++n;
+    queue->field_12 = a;
+    queue->field_14 = b;
+}
 
 int d18a_snake18_800CC288(SVECTOR *pos, short *out)
 {
@@ -1074,54 +1252,74 @@ int d18a_snake18_800CC288(SVECTOR *pos, short *out)
 
     if (vz >= 0x128F)
     {
-        printf(d18a_aClimbarea_800DA5A8);
+        printf("climb area  0 \n");
         *out = 0x800;
         return 0;
     }
     if (vz < -0x4E2)
     {
-        printf(d18a_aClimbarea_800DA5B8);
+        printf("climb area  4 \n");
         *out = 0xFE8;
         return 4;
     }
     if (vx < -0x2EE)
     {
-        printf(d18a_aClimbarea_800DA5C8);
+        printf("climb area  3 \n");
         *out = 0x400;
         return 3;
     }
     if (vx < 0x4E2)
     {
-        printf(d18a_aClimbarea_800DA5D8);
+        printf("climb area  2 \n");
         *out = 0x6D2;
         return 2;
     }
     if (vx < 0x9C4)
     {
-        printf(d18a_aClimbarea_800DA5E8);
+        printf("climb area  1 \n");
         *out = 0x480;
         return 1;
     }
     if (vx < 0xCB2)
     {
-        printf(d18a_aClimbarea_800DA5F8);
+        printf("climb area  7 \n");
         *out = 0xB42;
         return 7;
     }
     else if (vx < 0x157C)
     {
-        printf(d18a_aClimbarea_800DA608);
+        printf("climb area  6 \n");
         *out = 0x911;
         return 6;
     }
     else
     {
-        printf(d18a_aClimbarea_800DA618);
+        printf("climb area  5 \n");
         *out = 0xBE8;
         return 5;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC3C8.s")
+int d18a_snake18_800CC3C8(int area)
+{
+    switch (area)
+    {
+    case 2:
+    case 5:
+    case 6:
+    case 7:
+        return 0;
+
+    case 0:
+    case 1:
+    case 3:
+        return 1;
+
+    case 4:
+        return 2;
+    }
+
+    return 0;
+}
 
 int d18a_snake18_800CC410(Snake18Work *work)
 {
@@ -1149,6 +1347,9 @@ int d18a_snake18_800CC410(Snake18Work *work)
     }
     return 1;
 }
+const char d18a_aErrerrerrliquidnearerr_800DA648[] = " Err Err Err Liquid Near Err !! \n";
+const char d18a_aSnakeposddd_800DA66C[] = "snake pos1 %d %d %d \n";
+const char d18a_aWorkheightdlevelsd_800DA684[] = "work->height %d levels%d \n";
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC490.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CC6CC.s")
 void d18a_snake18_800CC7F4(Snake18Work *work)
@@ -1161,7 +1362,7 @@ void d18a_snake18_800CC7F4(Snake18Work *work)
     {
         return;
     }
-    if (work->f8D8 == 0)
+    if (work->f8D8.count == 0)
     {
         return;
     }
@@ -1249,7 +1450,7 @@ void d18a_snake18_800CCF30(Snake18Work *work)
 void d18a_snake18_800CD64C(Snake18Work *work, int arg1)
 {
     int   new_action;
-    char *str;
+    ACTSTILL18 *still;
 
     if (arg1 == 0)
     {
@@ -1259,11 +1460,11 @@ void d18a_snake18_800CD64C(Snake18Work *work, int arg1)
 
         if (GM_AlertMode == 3 || GM_AlertMode == 4)
         {
-            new_action = ((unsigned char *)work->f8A8->str)[1];
+            new_action = work->f8A8->still->setup;
         }
         else
         {
-            new_action = ((unsigned char *)work->f8A8->str)[0];
+            new_action = work->f8A8->still->stand;
         }
         if (work->body.action != new_action)
         {
@@ -1271,12 +1472,12 @@ void d18a_snake18_800CD64C(Snake18Work *work, int arg1)
         }
     }
 
-    str = work->f8A8->str;
-    if (work->body.action == (unsigned char)str[0])
+    still = work->f8A8->still;
+    if (work->body.action == still->stand)
     {
         if (GM_AlertMode == 3 || GM_AlertMode == 4)
         {
-            new_action = (unsigned char)str[1];
+            new_action = still->setup;
             if (work->body.action != new_action)
             {
                 GM_ConfigObjectAction(&work->body, new_action, 0, 4);
@@ -1311,7 +1512,7 @@ void d18a_snake18_800CD768(Snake18Work *work, int arg1)
     work->f8C0 = d18a_snake18_800D1424;
     GM_PlayerStatus |= 0x20;
 
-    new_action = ((unsigned char *)work->f8A8->str)[2];
+    new_action = work->f8A8->still->squat;
     if (work->body.action != new_action)
     {
         GM_ConfigObjectAction(&work->body, new_action, 0, 4);
@@ -1332,7 +1533,7 @@ void d18a_snake18_800CD808(Snake18Work *work, int arg1)
     work->f8BC = d18a_snake18_800CDFC8;
     work->f8C0 = d18a_snake18_800D1424;
     GM_PlayerStatus |= PLAYER_GROUND;
-    new_action = ((unsigned char *)work->f8A8->str)[3];
+    new_action = work->f8A8->still->crouch;
     if (work->body.action != new_action)
     {
         GM_ConfigObjectAction(&work->body, new_action, 0, 4);
@@ -1354,11 +1555,11 @@ void d18a_snake18_800CD888(Snake18Work *work, int arg1)
 
     if (GM_AlertMode == 3)
     {
-        new_action = ((unsigned char *)work->f8A8->str2)[9];
+        new_action = work->f8A8->move->aim;
     }
     else
     {
-        new_action = ((unsigned char *)work->f8A8->str2)[0];
+        new_action = work->f8A8->move->stand;
     }
 
     if (work->body.action != new_action)
@@ -1378,7 +1579,7 @@ void d18a_snake18_800CD930(Snake18Work *work, int arg1)
     work->f8BC = d18a_snake18_800CE210;
     work->f8C0 = d18a_snake18_800D1424;
     GM_PlayerStatus |= PLAYER_MOVE;
-    new_action = ((unsigned char *)work->f8A8->str2)[3];
+    new_action = work->f8A8->move->crouch;
     if (work->body.action != new_action)
     {
         GM_ConfigObjectAction(&work->body, new_action, 0, 4);
@@ -1412,7 +1613,7 @@ void d18a_snake18_800CE7C4(Snake18Work *work, int arg1)
     work->f8BC = d18a_snake18_800CED2C;
     work->f8C0 = d18a_snake18_800D1424;
     GM_PlayerStatus |= PLAYER_MOVE;
-    new_action = ((unsigned char *)work->f8A8->str2)[1];
+    new_action = work->f8A8->move->setup;
     if (work->body.action != new_action)
     {
         GM_ConfigObjectAction(&work->body, new_action, 0, 4);
@@ -1428,7 +1629,7 @@ void d18a_snake18_800CE834(Snake18Work *work, int arg1)
         work->f8BC = d18a_snake18_800CE7BC;
         work->f8C0 = d18a_snake18_800CE7BC;
         GM_PlayerStatus |= 0x40;
-        new_action = ((unsigned char *)work->f8A8->field_08)[0];
+        new_action = work->f8A8->trans->crouch;
         if (work->body.action != new_action)
         {
             GM_ConfigObjectAction(&work->body, new_action, 0, 4);
@@ -1457,7 +1658,7 @@ void d18a_snake18_800CE8E0(Snake18Work *work, int arg1)
         work->f8FE = 0;
         work->f8BC = d18a_snake18_800CE7BC;
         work->f8C0 = d18a_snake18_800CE7BC;
-        new_action = ((unsigned char *)work->f8A8->field_08)[2];
+        new_action = work->f8A8->trans->stand;
         if (work->body.action != new_action)
         {
             GM_ConfigObjectAction(&work->body, new_action, 0, 4);
@@ -1503,7 +1704,7 @@ void d18a_snake18_800CE998(Snake18Work *work, int arg1)
         return;
     }
 
-    printf(d18a_aKore_800DA6A0);
+    printf(" kore5 \n ");
     d18a_snake18_800CC8E0(work);
     work->f7E4 &= ~0x232;
 
@@ -1531,7 +1732,7 @@ void d18a_snake18_800CEA84(Snake18Work *work, int arg1)
     {
         work->f8BC = d18a_snake18_800CE7BC;
         work->f8C0 = d18a_snake18_800CE7BC;
-        new_action = ((unsigned char *)work->f8A8->field_10)[3];
+        new_action = work->f8A8->attack->field_0[3];
         if (work->body.action != new_action)
         {
             GM_ConfigObjectAction(&work->body, new_action, 0, 2);
@@ -1570,7 +1771,7 @@ void d18a_snake18_800CEB78(Snake18Work *work, int arg1)
     if (arg1 == 0)
     {
         mask = (GM_PlayerStatus & 0x10) ? 0x3FE : 0xFFFF;
-        new_action = ((unsigned char *)work->f8A8->field_10)[0];
+        new_action = work->f8A8->attack->field_0[0];
         if (work->body.action2 != new_action)
         {
             GM_ConfigObjectOverride(&work->body, new_action, 0, 4, mask);
@@ -1671,11 +1872,11 @@ void d18a_snake18_800CEEAC(Snake18Work *work, int arg1)
     }
 
     {
-        Snake18Type *t = work->f8A8;
+        ACTPACK18 *t = work->f8A8;
         int new_act;
         work->f8BC = d18a_snake18_800D09B4;
         work->f8C0 = d18a_snake18_800D1750;
-        new_act = (unsigned char)t->str[3];
+        new_act = t->still->crouch;
         if (work->body.action != new_act)
         {
             GM_ConfigObjectAction(&work->body, new_act, 0, 4);
@@ -1707,7 +1908,7 @@ void d18a_snake18_800CEF44(Snake18Work *work, int arg1)
         work->f8BC = d18a_snake18_800CE7BC;
         work->f8C0 = d18a_snake18_800CE7BC;
         d18a_snake18_800CC8B0(work, 0);
-        new_action = ((unsigned char *)work->f8A8->field_0C)[9];
+        new_action = work->f8A8->damage->field_0[9];
         if (work->body.action != new_action)
         {
             GM_ConfigObjectAction(&work->body, new_action, 0, 4);
@@ -1736,6 +1937,7 @@ void d18a_snake18_800CEF44(Snake18Work *work, int arg1)
 }
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF03C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF198.s")
+const char d18a_aWorkglobaldatad_800DA6AC[] = " work->global_data = %d \n ";
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF39C.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CF574.s")
 
@@ -1773,20 +1975,18 @@ void d18a_snake18_800CFEE8(Snake18Work *work, int arg1)
 
 void d18a_snake18_800CFF5C(Snake18Work *work, int arg1)
 {
-    char *p_a8;
-    char *p;
-    int   new_action;
+    ACTPACK18 *actpack;
+    int        new_action;
     if (arg1 != 0)
     {
         return;
     }
     work->f8BC = d18a_snake18_800D0B4C;
-    p_a8 = (char *)work->f8A8;
+    actpack = work->f8A8;
     work->f8C0 = d18a_snake18_800D18EC;
     work->f8FE = 0;
-    p = *(char **)(p_a8 + 0x18);
     GM_PlayerStatus &= ~(PLAYER_GROUND | PLAYER_SQUAT);
-    new_action = ((unsigned char *)p)[2];
+    new_action = actpack->special2->field_0[2];
     if (work->body.action != new_action)
     {
         GM_ConfigObjectAction(&work->body, new_action, 0, 4);
@@ -1795,19 +1995,17 @@ void d18a_snake18_800CFF5C(Snake18Work *work, int arg1)
 
 void d18a_snake18_800CFFD4(Snake18Work *work, int arg1)
 {
-    char *p_a8;
-    char *p;
-    int   new_action;
+    ACTPACK18 *actpack;
+    int        new_action;
     if (arg1 != 0)
     {
         return;
     }
     work->f8BC = d18a_snake18_800D0B84;
-    p_a8 = (char *)work->f8A8;
+    actpack = work->f8A8;
     work->f8C0 = d18a_snake18_800D18EC;
-    p = *(char **)(p_a8 + 0x18);
     GM_PlayerStatus |= PLAYER_MOVE;
-    new_action = ((unsigned char *)p)[3];
+    new_action = actpack->special2->field_0[3];
     if (work->body.action != new_action)
     {
         GM_ConfigObjectAction(&work->body, new_action, 0, 4);
@@ -1823,7 +2021,7 @@ void d18a_snake18_800D0054(Snake18Work *work, int arg1)
         work->f8BC = d18a_snake18_800CE7BC;
         work->f8C0 = d18a_snake18_800CE7BC;
 
-        new_action = ((unsigned char *)work->f8A8->field_18)[4];
+        new_action = work->f8A8->special2->field_0[4];
         if (work->body.action != new_action)
         {
             GM_ConfigObjectAction(&work->body, new_action, 0, 4);
@@ -1874,6 +2072,11 @@ void d18a_snake18_800D00E0(Snake18Work *work, int arg1)
         GM_PlayerStatus &= ~0x100;
     }
 }
+const char d18a_aForceactdirdactiondnactsd_800DA6C8[] = "force act dir=%d action=%d n_acts=%d\n";
+const char d18a_aSnakeposddd_800DA6F0[] = "snake pos2 %d %d %d \n";
+const char d18a_aSnakesetactiond_800DA708[] = " snake set action = %d \n";
+const char d18a_aNextmotiondlocaldatad_800DA724[] = "next motion=%d  local_data=%d\n";
+const char d18a_aSnevs_800DA744[] = "sne_18vs";
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D01D8.s")
 
 void d18a_snake18_800D0974( Snake18Work *work )
@@ -1952,11 +2155,11 @@ void d18a_snake18_800D0A10(Snake18Work *work)
 
     if (flag & PAD_U)
     {
-        new_action = ((unsigned char *)work->f8A8->str2)[3];
+        new_action = work->f8A8->move->crouch;
     }
     else
     {
-        new_action = ((unsigned char *)work->f8A8->str2)[4];
+        new_action = work->f8A8->move->crouch_backwards;
     }
     if (work->body.action != new_action)
     {
@@ -2120,7 +2323,7 @@ void d18a_snake18_800D1750(Snake18Work *work)
     int new_action;
 
     GM_PlayerStatus &= ~0x10;
-    new_action = ((unsigned char *)work->f8A8->str)[3];
+    new_action = work->f8A8->still->crouch;
     if (work->body.action != new_action)
     {
         GM_ConfigObjectAction(&work->body, new_action, 0, 4);
@@ -2176,7 +2379,7 @@ void d18a_snake18_800D18EC(Snake18Work *work)
     int new_action;
 
     GM_PlayerStatus &= ~0x10;
-    new_action = ((unsigned char *)work->f8A8->field_18)[2];
+    new_action = work->f8A8->special2->field_0[2];
     if (work->body.action != new_action)
     {
         GM_ConfigObjectAction(&work->body, new_action, 0, 4);
@@ -2241,11 +2444,11 @@ void d18a_snake18_800D1A6C(Snake18Work *work, int arg1)
     }
 
     {
-        Snake18Type *t = work->f8A8;
+        ACTPACK18 *t = work->f8A8;
         int new_act;
         work->f8BC = d18a_snake18_800D24CC;
         work->f8C0 = d18a_snake18_800CE7BC;
-        new_act = (unsigned char)t->str[1];
+        new_act = t->still->setup;
         if (work->body.action != new_act)
         {
             GM_ConfigObjectAction(&work->body, new_act, 0, 4);
@@ -2261,13 +2464,13 @@ void d18a_snake18_800D1ACC(Snake18Work *work, int arg1)
     }
 
     {
-        Snake18Type *t;
+        ACTPACK18 *t;
         int new_act;
         work->f8BC = d18a_snake18_800D2660;
         t = work->f8A8;
         work->f8C0 = d18a_snake18_800CE7BC;
         GM_PlayerStatus |= PLAYER_MOVE;
-        new_act = (unsigned char)t->str2[1];
+        new_act = t->move->setup;
         if (work->body.action != new_act)
         {
             GM_ConfigObjectAction(&work->body, new_act, 0, 4);
@@ -2283,13 +2486,13 @@ void d18a_snake18_800D1B3C(Snake18Work *work, int arg1)
     }
 
     {
-        Snake18Type *t;
+        ACTPACK18 *t;
         int new_act;
         work->f8BC = d18a_snake18_800D26E4;
         t = work->f8A8;
         work->f8C0 = d18a_snake18_800CE7BC;
         GM_PlayerStatus |= PLAYER_MOVE;
-        new_act = (unsigned char)t->str2[0];
+        new_act = t->move->stand;
         if (work->body.action != new_act)
         {
             GM_ConfigObjectAction(&work->body, new_act, 0, 4);
@@ -2313,9 +2516,9 @@ void d18a_snake18_800D22C8(Snake18Work *work, int a1)
         int act;
 
         if (s1 == 0)
-            act = ((unsigned char *)work->f8A8->field_10)[6];
+            act = work->f8A8->attack->field_0[6];
         else
-            act = ((unsigned char *)work->f8A8->field_10)[7];
+            act = work->f8A8->attack->field_0[7];
 
         if (work->body.action2 != act)
         {
@@ -2425,7 +2628,17 @@ void d18a_snake18_800D4084(void)
         GM_SeSet(&GM_PlayerPosition, 0xA8);
     }
 }
+const char d18a_aPosddd_800DA750[] = "pos %d %d %d\n";
+const char d18a_aCeilfloordd_800DA760[] = "ceil floor %d %d\n";
+const char d18a_aStatusx_800DA774[] = "status %4x\n";
+const char d18a_aWeapond_800DA780[] = "weapon %d\n";
+const char d18a_aItemd_800DA78C[] = "item %d\n";
+const char d18a_aFlagx_800DA798[] = "flag %4x\n";
+const char d18a_aStanced_800DA7A4[] = "stance %d\n";
+const char d18a_aKaze_800DA7B0[] = "kaze \n";
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D40F0.s")
+const char d18a_aFirst_800DA7B8[] = "first\n";
+const char d18a_aSecond_800DA7C0[] = "second\n";
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4388.s")
 void d18a_snake18_800D46CC(Snake18Work *work)
 {
@@ -2448,6 +2661,7 @@ void d18a_snake18_800D46CC(Snake18Work *work)
         GM_PlayerBody = 0;
     }
 }
+const char d18a_aLsight_800DA7C8[] = "lsight";
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4784.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D48FC.s")
 
