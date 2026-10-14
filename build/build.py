@@ -542,7 +542,7 @@ def gen_build_target(targetName):
         "s03a", "s03ar",
         "s03b",
         "s03c",
-        "s03d", #"s03dr",
+        "s03d", "s03dr",
         "s03e", "s03er",
         "s04a",
         "s04b", "s04br",

@@ -62,7 +62,7 @@ const char s03d_dword_800DBC74[] = {'=', '%', 'd', ' '};
 const char s03d_dword_800DBC78[] = {0x0, 0x0, 0x0, 0x0};
 const char s03d_dword_800DBC7C[] = {'z', 'a', 'k', 'o'};
 const char s03d_dword_800DBC80[] = {'c', 'o', 'm', '.'};
-const char s03d_dword_800DBC84[] = {'c', 0x0, 0x0, 0xf};
+const char s03d_dword_800DBC84[] = {'c', 0x0};
 
 extern int s03d_dword_800DC2E0;
 extern int s03d_dword_800DC2E8;

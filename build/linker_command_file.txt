@@ -2228,7 +2228,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\onoda\abst\ab_demo2.obj", overlay
     include "{{OBJ_DIR}}\onoda\change\met_logo.obj", overlay
 ;------------------------------------------------------------------------------
-{% elif OVERLAY == "s03d" %}
+{% elif OVERLAY == "s03d" or OVERLAY == "s03dr" %}
     include "{{OBJ_DIR}}\stage\s03d.obj", overlay
     include "{{OBJ_DIR}}\game\evpanel.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay

@@ -35,9 +35,65 @@ extern int s03d_dword_800DC310;
 extern SVECTOR s03d_dword_800C3B88;
 extern int s03d_dword_800C3A5C;
 extern short s03d_word_800C3A10[20];
-extern const SVECTOR s03d_dword_800DB548;
-extern const SVECTOR s03d_dword_800DB550;
-extern const SVECTOR s03d_dword_800DB558;
+
+// rdata of zako.c (moved from overlay2.c: the "zako.c" string ending
+// at 0x800DB4B2 is followed by object padding, so zako.c starts here)
+const char s03d_dword_800DB4B4[] = {' ', 'm', 'e', 'r'};
+const char s03d_dword_800DB4B8[] = {'y', 'l', ' ', 'K'};
+const char s03d_dword_800DB4BC[] = {'I', 'L', 'L', 'E'};
+const char s03d_dword_800DB4C0[] = {'D', ' ', '!', '!'};
+const char s03d_dword_800DB4C4[] = {'!', ' ', '\n', 0x0};
+const char s03d_dword_800DB4C8[] = {' ', 'S', 'N', 'A'};
+const char s03d_dword_800DB4CC[] = {'K', 'E', ' ', 'K'};
+const char s03d_dword_800DB4D0[] = {'I', 'L', 'L', 'E'};
+const char s03d_dword_800DB4D4[] = {'D', ' ', '!', '!'};
+const char s03d_dword_800DB4D8[] = {'!', ' ', '\n', 0x0};
+
+const int s03d_dword_800DB4DC = 0x800CD840;
+const int s03d_dword_800DB4E0 = 0x800CD8D8;
+const int s03d_dword_800DB4E4 = 0x800CD7C8;
+const int s03d_dword_800DB4E8 = 0x800CD828;
+const int s03d_dword_800DB4EC = 0x800CD910;
+const int s03d_dword_800DB4F0 = 0x800CD964;
+const int s03d_dword_800DB4F4 = 0x800CD964;
+const int s03d_dword_800DB4F8 = 0x800CD92C;
+const int s03d_dword_800DB4FC = 0x800CD940;
+
+const char s03d_dword_800DB500[] = {'a', 'a', 'a', ' '};
+const char s03d_dword_800DB504[] = {'r', 'e', 's', 'e'};
+const char s03d_dword_800DB508[] = {'t', ' ', 'w', 'a'};
+const char s03d_dword_800DB50C[] = {'i', 't', ' ', 'z'};
+const char s03d_dword_800DB510[] = {'o', 'n', 'e', ' '};
+const char s03d_dword_800DB514[] = {'i', 'd', ' ', '='};
+const char s03d_dword_800DB518[] = {' ', '%', 'd', ' '};
+const char s03d_dword_800DB51C[] = {'z', '=', '%', 'd'};
+const char s03d_dword_800DB520[] = {'\n', 0x0, 0x0, 0x0};
+const char s03d_dword_800DB524[] = {'b', 'b', 'b', ' '};
+const char s03d_dword_800DB528[] = {'r', 'e', 's', 'e'};
+const char s03d_dword_800DB52C[] = {'t', ' ', 'f', 'i'};
+const char s03d_dword_800DB530[] = {'g', 'h', 't', ' '};
+const char s03d_dword_800DB534[] = {'z', 'o', 'n', 'e'};
+const char s03d_dword_800DB538[] = {' ', 'i', 'd', ' '};
+const char s03d_dword_800DB53C[] = {'=', ' ', '%', 'd'};
+const char s03d_dword_800DB540[] = {' ', 'z', '=', '%'};
+const char s03d_dword_800DB544[] = {'d', '\n', 0x0, 0x0};
+const SVECTOR s03d_dword_800DB548 = {-200, 1000, 600, 0};
+const SVECTOR s03d_dword_800DB550 = {5, 0, 100, 0};
+const SVECTOR s03d_dword_800DB558 = {400, 1000, 400, 0};
+const char s03d_dword_800DB560[] = {0x0, 0x0, 0x0, 0x0};
+
+const int s03d_dword_800DB564 = 0x800CFB9C;
+const int s03d_dword_800DB568 = 0x800CFBEC;
+const int s03d_dword_800DB56C = 0x800CFCB4;
+const int s03d_dword_800DB570 = 0x800CFC70;
+const int s03d_dword_800DB574 = 0x800CFCF8;
+const int s03d_dword_800DB578 = 0x800CFD2C;
+const int s03d_dword_800DB57C = 0x800CFD84;
+const int s03d_dword_800DB580 = 0x800CFDCC;
+const int s03d_dword_800DB584 = 0x800CFE0C;
+const int s03d_dword_800DB588 = 0x800CFDEC;
+const int s03d_dword_800DB58C = 0x800CFE34;
+const int s03d_dword_800DB590 = 0x800CFE34;
 
 extern int s03d_dword_800DC2F8;
 
@@ -901,7 +957,7 @@ const char s03d_dword_800DB5EC[] = {'a', 't', 'o', ' '};
 const char s03d_dword_800DB5F0[] = {'m', 'i', 'k', 'k'};
 const char s03d_dword_800DB5F4[] = {'e', '!', '!', ' '};
 const char s03d_dword_800DB5F8[] = {'[', '%', 'd', ']'};
-const char s03d_dword_800DB5FC[] = {'\n', 0x0, 0xa9, ','};
+const char s03d_dword_800DB5FC[] = {'\n', 0x0};
 
 
 void s03d_800D0324(Work *work, int arg)
