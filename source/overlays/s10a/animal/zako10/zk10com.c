@@ -44,8 +44,7 @@ SVECTOR           SECTION(".bss") ZAKO10COM_PlayerPosition;
 
 extern void NewAsiato( void );
 
-/* used by GetResources (still asm) */
-const char aZoneD[] = "zone=%d ";
+
 
 void ZAKO10_SetTopCommAL( int alert );
 void s10a_zk10com_800CE3C0( void );
@@ -496,9 +495,6 @@ void s10a_zk10com_800CEC44( SVECTOR *pos )
     GM_Camera.interp = 4;
 }
 
-#if 0 /* NON_MATCHING: register allocation/CSE differs after the zones loop
-          (the original does not keep &Zako10Command and the constant 1 in
-          saved registers), otherwise identical */
 static void GetResources( Zako10CommanderWork *work, int name, int where )
 {
     int i;
@@ -544,7 +540,7 @@ static void GetResources( Zako10CommanderWork *work, int name, int where )
 
     for ( i = 0 ; i < Zako10Command.n_zones ; i++ )
     {
-        fprintf( 1, aZoneD, Zako10Command.zones[i] );
+        fprintf( 1, "zone=%d ", Zako10Command.zones[i] );
     }
 
     Zako10Command.reset_zone = 0;
@@ -552,9 +548,13 @@ static void GetResources( Zako10CommanderWork *work, int name, int where )
     ops = GCL_GetOption( 'f' );
     if ( ops )
     {
-        GCL_StrToInt( ops );
+        GCL_StrToInt( ops );    /* value not used */
+        Zako10Flag = 1;
     }
-    Zako10Flag = 1;
+    else
+    {
+        Zako10Flag = 1;
+    }
 
     NewAsiato();
 
@@ -605,9 +605,7 @@ static void GetResources( Zako10CommanderWork *work, int name, int where )
 
     Zako10Command.field_114 = 0;
 }
-#endif
-void s10a_800CEC88( Zako10CommanderWork *work, int name, int where );
-#pragma INCLUDE_ASM("asm/overlays/s10a/s10a_800CEC88.s")
+
 
 void *NewZako10Commander( int name, int where, int argc, char **argv )
 {
@@ -616,7 +614,7 @@ void *NewZako10Commander( int name, int where, int argc, char **argv )
     work = GV_NewActor( GV_ACTOR_PREV, sizeof( Zako10CommanderWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), Act, Die, "zk10com.c" );
-        s10a_800CEC88( work, name, where );
+        GetResources( work, name, where );
     }
     return (void *)work;
 }

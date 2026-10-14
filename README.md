@@ -387,13 +387,13 @@ Individual overlay progress:
             <td><b>s10a</b></td>
             <td>135 KB</td>
             <td>Underground Passage</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s10ar</b></td>
             <td>135 KB</td>
             <td>Underground Passage (RED)</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s11a</b></td>
