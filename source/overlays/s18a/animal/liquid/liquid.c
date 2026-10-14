@@ -806,8 +806,6 @@ void s18a_liquid_800C67A0(LiquidWork *work)
     GV_DestroyActor(work->shadow);
 }
 
-#if 0 /* NON_MATCHING */
-// CSE addresses control->mov.vx as 0x20(work) instead of 0(control), 1 instruction differs
 int s18a_liquid_800C6808(LiquidWork *work, int name, int where)
 {
     CONTROL *control;
@@ -851,7 +849,16 @@ fail:
     opt = GCL_GetOption('m');
     if (opt)
     {
-        work->f9BE = GCL_StrToInt(opt);
+        /* both arms are the same: the redundant test only leaves a join label
+           that keeps CSE from rewriting control->mov.vx below as 0x20(work) */
+        if (work)
+        {
+            work->f9BE = GCL_StrToInt(opt);
+        }
+        else
+        {
+            work->f9BE = GCL_StrToInt(opt);
+        }
     }
 
     control->mov.vx = 1000;
@@ -859,9 +866,9 @@ fail:
     control->mov.vz = 0;
 
     work->life = 255;
-    work->f934 = 0;
+    work->time = 0;
     work->time2 = 0;
-    work->f92C = 0;
+    work->act = 0;
     work->act2 = 0;
     work->f95C = 0;
     work->f960 = 0;
@@ -880,9 +887,6 @@ fail:
     work->f9A4 = 0;
     return 0;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C6808.s")
-int s18a_800C6808(LiquidWork *work, int name, int where);
 
 void *NewLiquid(int name, int where)
 {
@@ -920,7 +924,7 @@ void *NewLiquid(int name, int where)
             work->proc_s = -1;
         }
 
-        if (s18a_800C6808(work, name, where) < 0)
+        if (s18a_liquid_800C6808(work, name, where) < 0)
         {
             GV_DestroyActor(work);
             return NULL;
