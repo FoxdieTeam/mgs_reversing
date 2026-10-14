@@ -10,7 +10,7 @@ void s19a_800CE8F8( Work *work, int time );
 void s19a_800CEB90( Work *work, int time );
 void s19a_800CEC20( Work *work, int time );
 void s19a_800CED08( Work *work, int time );
-void s19a_800CED10( Work *work, int time );
+void ActReadyGun( Work *work, int time );
 void s19a_800CEE84( Work *work, int time );
 void s19a_800CEF34( Work *work, int time );
 void ActGrenade( Work *work, int time );
@@ -430,7 +430,7 @@ int s19a_800CE54C( Work *work )
 
     if ( press & 0x30000 )
     {
-        SetMode( work, s19a_800CED10 );
+        SetMode( work, ActReadyGun );
         work->adjust[ 2 ].vx = 0;
         return 1;
     }
@@ -477,8 +477,112 @@ void s19a_800CE750( Work *work, int time )
     work->vision.facedir = work->control.rot.vy;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800CE8F8.s")
-void s19a_800CE8F8( Work *work, int time );
+void s19a_800CE8F8( Work *work, int time )
+{
+    int      x, z;
+    int      n_touches;
+    int      step;
+    int      tmp;
+    int      touch;
+    CONTROL *ctrl;
+    int      motion;
+    int      dir;
+    SVECTOR *vecs;
+
+    work->target->class |= TARGET_FLAG;
+
+    if ( ZAKO19Command.alert_mode == 0 )
+    {
+        work->target->class |= TARGET_C4;
+    }
+
+    work->vision.length = ZAKO19_EYE_LENGTH;
+
+    if ( CheckDamage( work ) || s19a_800CE54C( work ) )
+    {
+        UnsetMode( work );
+        return;
+    }
+
+    touch = -1;
+    ctrl = &work->control;
+    dir = work->pad.dir;
+    motion = work->act.motion1;
+    vecs = work->control.vecs;
+
+    if ( ( work->pad.field_4 & 0x1 ) && ( work->act.motion1 != 2 ) )
+    {
+        SetAction( work, 2, 4 );
+    }
+
+    if ( dir >= 0 )
+    {
+        n_touches = ctrl->n_touches;
+        if ( n_touches > 0 )
+        {
+            touch = GV_VecDir2( vecs );
+
+            if ( n_touches >= 2 )
+            {
+                tmp = GV_VecDir2( &ctrl->vecs[ 1 ] );
+                if ( GV_DiffDirAbs( dir, tmp ) < GV_DiffDirAbs( dir, touch ) )
+                {
+                    touch = tmp;
+                }
+            }
+        }
+    }
+
+    if ( dir < 0 )
+    {
+        SetMode( work, s19a_800CE750 );
+        UnsetMode( work );
+        return;
+    }
+
+    switch ( s19a_800CE2F8( dir, touch ) )
+    {
+    case 1:
+        dir = ( touch - 1024 ) & 0xFFF;
+        break;
+    case 2:
+        dir = ( touch + 1024 ) & 0xFFF;
+        break;
+    }
+
+    if ( !work->body.objs->bound_mode )
+    {
+        do { ctrl->rot.vy = dir; } while ( 0 );
+    }
+    ctrl->turn.vy = dir;
+    step = 0;
+
+    if ( motion == 1 )
+    {
+        step = 50;
+    }
+    else if ( motion == 2 )
+    {
+        step = 100;
+    }
+
+    x = step * rsin( dir );
+    if ( x < 0 )
+    {
+        x += 0xFFF;
+    }
+    ctrl->step.vx = x >> 12;
+
+    z = step * rcos( dir );
+    if ( z < 0 )
+    {
+        z += 0xFFF;
+    }
+    ctrl->step.vz = z >> 12;
+
+    work->vision.facedir = work->control.rot.vy;
+}
+
 
 void s19a_800CEB90( Work *work, int time )
 {
@@ -527,8 +631,66 @@ void s19a_800CED08( Work *work, int time )
     /* do nothing */
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800CED10.s")
-void s19a_800CED10( Work *work, int time );
+void ActReadyGun( Work *work, int time )
+{
+    int press;
+
+    work->target->class |= TARGET_FLAG;
+    work->vision.length = ZAKO19_EYE_LENGTH;
+
+    press = work->pad.press;
+
+    if ( time == 0 )
+    {
+        if ( press & 0x10000 )
+        {
+            SetAction( work, 3, 4 );
+        }
+        else
+        {
+            SetAction( work, 5, 4 );
+        }
+
+        GM_ConfigMotionAdjust( &work->body, work->adjust );
+    }
+
+    ReviseReadyGun( work );
+    if ( CheckDamage( work ) ) return;
+
+    if ( !( press & 0x30000 ) )
+    {
+        SetMode( work, s19a_800CE750 );
+        return;
+    }
+
+    if ( press & 0x40000 )
+    {
+        SetModeNoAdjust( work, s19a_800CEE84 );
+        return;
+    }
+
+    if ( press & 0x80000 )
+    {
+        SetMode( work, s19a_800CEF34 );
+        return;
+    }
+
+    if ( press & 0x100000 )
+    {
+        SetModeNoAdjust( work, ActGrenade );
+        return;
+    }
+
+    if ( press & 0x200000 )
+    {
+        SetModeNoAdjust( work, s19a_800CF1C0 );
+        return;
+    }
+
+    work->control.turn.vy = work->pad.dir;
+    work->vision.facedir = work->control.rot.vy;
+}
+
 
 void s19a_800CEE84( Work *work, int time )
 {
@@ -543,7 +705,7 @@ void s19a_800CEE84( Work *work, int time )
     }
 
     ReviseReadyGun( work );
-    if ( !CheckDamage( work ) ) SetModeNoAdjust( work, s19a_800CED10 );
+    if ( !CheckDamage( work ) ) SetModeNoAdjust( work, ActReadyGun );
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800CEF34.s")
@@ -573,7 +735,7 @@ void ActGrenade( Work *work, int time )
     if ( work->body.is_end )
     {
         GV_DestroyActor( work->subweapon );
-        SetMode( work, s19a_800CED10 );
+        SetMode( work, ActReadyGun );
     }
 }
 
@@ -596,7 +758,7 @@ void s19a_800CF1C0( Work *work, int time )
 
     if ( !CheckDamage( work ) && work->body.is_end )
     {
-        SetMode( work, s19a_800CED10 );
+        SetMode( work, ActReadyGun );
     }
 }
 
