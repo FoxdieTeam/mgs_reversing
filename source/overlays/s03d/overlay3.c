@@ -2,8 +2,7 @@
 
 int SECTION(".bss") s03d_dword_800DC2E0;
 int SECTION(".bss") s03d_dword_800DC2E4;
-int SECTION(".bss") s03d_dword_800DC2E8;
-int SECTION(".bss") s03d_dword_800DC2EC;
+int SECTION(".bss") s03d_dword_800DC2E8[2]; /* TOP: mode, alert */
 int SECTION(".bss") s03d_dword_800DC2F0;
 int SECTION(".bss") s03d_dword_800DC2F4;
 int SECTION(".bss") s03d_dword_800DC2F8;

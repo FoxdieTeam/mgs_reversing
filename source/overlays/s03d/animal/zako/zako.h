@@ -162,13 +162,15 @@ typedef struct _A4_STRUCT
 
 typedef struct _ZakoComMgr
 {
-    char            pad_0[0x8];
+    int             field_0;        /* 0x00 */
+    int             field_4;        /* 0x04 */
     int             count;          /* 0x08 */
-    char            pad_C[0x14 - 0xC];
+    int             field_C;        /* 0x0C */
+    int             field_10;       /* 0x10 */
     int             field_14;       /* 0x14 */
     int             field_18;       /* 0x18 */
     int             field_1C;       /* 0x1C */
-    char            pad_20[0x24 - 0x20];
+    int             field_20;       /* 0x20 */
     int             field_24;       /* 0x24 */
     int             field_28;       /* 0x28 */
     SVECTOR         field_2C;       /* 0x2C */
@@ -178,13 +180,25 @@ typedef struct _ZakoComMgr
     int             field_40[8];    /* 0x40 */
     int             field_60;       /* 0x60 */
     MAP            *field_64;       /* 0x64 */
-    char            pad_68[0x8C - 0x68];
+    A4_STRUCT       field_68;       /* 0x68 */
     ZakoComEntry    entries[8];     /* 0x8C - 0x10C */
     int             field_10C;      /* 0x10C */
-    char            pad_110[0x124 - 0x110];
+    int             field_110;      /* 0x110 */
+    int             field_114;      /* 0x114 */
+    int             field_118;      /* 0x118 */
+    int             field_11C;      /* 0x11C */
+    int             field_120;      /* 0x120 */
     int             field_124[8];   /* 0x124 */
+    int             field_144;      /* 0x144 */
 } ZakoComMgr;
 
+typedef struct _TOP
+{
+    int mode;
+    int alert;
+} TOP;
+
+extern TOP s03d_dword_800DC2E8;
 extern int s03d_dword_800DC310;
 #define ZAKOCOM_MGR ((ZakoComMgr *)&s03d_dword_800DC310)
 
