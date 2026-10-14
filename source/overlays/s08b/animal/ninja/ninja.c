@@ -5,6 +5,7 @@
 #include "okajima/plasma.h"
 #include "okajima/spark.h"
 #include "enemy/katana.h"
+#include "equip/equip.h"
 #include "takabe/cinema.h"
 #include "chara/snake/sna_init.h"
 #include "game/game.h"
@@ -72,7 +73,7 @@ typedef struct _Work
     int       field_19B0;  /* 0x19B0 */
     int       field_19B4;  /* 0x19B4 */
     int       field_19B8;  /* 0x19B8 */
-    void     *field_19BC;  /* 0x19BC */
+    GV_ACT   *field_19BC;  /* 0x19BC */
     int       field_19C0;  /* 0x19C0 */
     int       field_19C4;  /* 0x19C4 */
     int       field_19C8;  /* 0x19C8 */
@@ -123,7 +124,7 @@ typedef struct _Work
 /* forward declarations for helpers called by the migrated functions */
 extern int   s08b_bunsin2_800C9978(OBJECT *body);
 extern void  s08b_bunsin2_800CDE74(Work *work);
-extern void  s08b_bunsin2_800CE0A4(void);
+extern void  s08b_bunsin2_800CE0A4(Work *work);
 extern void  s08b_bunsin2_800CE180(Work *work);
 extern int   s08b_bunsin2_800CE584(Work *work);
 extern void  s08b_bunsin2_800CE800(Work *work, int arg);
@@ -150,6 +151,9 @@ extern int     s08b_dword_800C3444;
 extern int     s08b_dword_800C3448;
 extern int     s08b_dword_800C344C;
 extern int     s08b_dword_800C3450;
+extern SVECTOR s08b_dword_800C3460[];
+extern SVECTOR s08b_dword_800C3490[];
+extern SVECTOR s08b_dword_800C34B0[];
 extern SVECTOR s08b_dword_800C34F8[];
 extern int     s08b_dword_800C3588;
 
@@ -201,7 +205,10 @@ int  s08b_bunsin2_800C9548(Work *work);
 int  s08b_bunsin2_800C9588(Work *work, int arg);
 void s08b_bunsin2_800C9B38(Work *work, int first);
 void s08b_bunsin2_800C9C74(Work *work, int first);
+void s08b_bunsin2_800CD544(Work *work, int index);
 int  s08b_bunsin2_800CD914(Work *work, int index);
+int  s08b_bunsin2_800CD298(int a, int b, int c);
+int  s08b_bunsin2_800CD2C0(int a, int b, int c);
 int  s08b_bunsin2_800CD95C(Work *work, void *func);
 void *NewBunsin2(OBJECT *root_obj, int arg1, int *arg2);
 void *NewTenmetu(MATRIX *world, int *force);
@@ -2255,9 +2262,157 @@ void s08b_bunsin2_800CC7EC(Work *work, int time)
         work->control.turn = *target->field_1C;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CC90C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCA4C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCAF0.s")
+void s08b_bunsin2_800CC90C(Work *work, int time)
+{
+    TARGET *target = work->target;
+
+    if (time == 0)
+    {
+        work->field_19A4 = 22;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[22], 0, 4);
+    }
+
+    if (time == 24)
+    {
+        GM_SeSetMode(&work->control.mov, 0x33, 1);
+    }
+
+    if (time == 30)
+    {
+        work->field_19A4 = 38;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[38], 0, 4);
+    }
+
+    if (time == 60)
+    {
+        work->field_19A4 = 39;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[39], 0, 4);
+    }
+
+    if (time >= 61)
+    {
+        if (work->body.is_end != 0)
+        {
+            work->field_1994 = s08b_bunsin2_800C9B38;
+            work->field_199C = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            work->field_19A8 = 1;
+        }
+    }
+
+    if (time < 24)
+    {
+        work->control.turn = *target->field_1C;
+    }
+}
+void s08b_bunsin2_800CCA4C(Work *work, int time)
+{
+    if (time == 0)
+    {
+        work->field_19A4 = 26;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[26], 0, 4);
+    }
+
+    if (time == 60)
+    {
+        GM_SeSetMode(&work->control.mov, 0x33, 1);
+    }
+
+    if (s08b_bunsin2_800C9120(work) == 0 && work->body.is_end != 0)
+    {
+        work->field_19A8 = 1;
+        work->field_1994 = s08b_bunsin2_800C9B38;
+        work->field_199C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+}
+void s08b_bunsin2_800CCAF0(Work *work, int time)
+{
+    CONTROL *control = &work->control;
+    TARGET  *target;
+    int      state;
+
+    work->target->class |= 0x1F;
+    work->field_19FC = 1;
+    work->field_19F8 = 2;
+
+    target = work->target;
+    work->field_19C0 &= ~2;
+
+    if (time == 0)
+    {
+        GM_SeSetMode(&control->mov, 0xBD, 1);
+        s08b_bunsin2_800CD544(work, 4);
+
+        target->damage = 0;
+        target->damaged = 0;
+        target->vital = 30;
+
+        if (GV_Time & 1)
+        {
+            work->field_19A4 = 23;
+            GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[23], 0, 0);
+        }
+        else
+        {
+            work->field_19A4 = 24;
+            GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[24], 0, 0);
+        }
+    }
+
+    state = work->field_19A4;
+
+    if (target->damaged & 4)
+    {
+        target->force = DG_ZeroVector;
+        target->vital = 30;
+        target->damage = 0;
+        target->damaged = 0;
+
+        if (target->a_mode == 1)
+        {
+            GM_SeSetMode(&work->control.mov, 0xBD, 1);
+        }
+        else
+        {
+            GM_SeSetMode(&work->control.mov, 0xB4, 1);
+        }
+
+        s08b_bunsin2_800CD544(work, 4);
+
+        if (state == 23)
+        {
+            work->field_19A4 = 24;
+            GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[24], 0, 0);
+        }
+        else if (state == 24)
+        {
+            work->field_19A4 = 25;
+            GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[25], 0, 0);
+        }
+        else
+        {
+            work->field_19A4 = 23;
+            GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[23], 0, 0);
+        }
+    }
+
+    if (work->body.is_end != 0)
+    {
+        work->field_19A8 = 1;
+        s08b_bunsin2_800CD914(work, 3);
+        work->field_1994 = s08b_bunsin2_800C9B38;
+        work->field_199C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        GM_SeSetMode(&work->control.mov, 0x50, 1);
+    }
+
+    control->rot.vy = work->field_1A28;
+    control->turn.vy = work->field_1A28;
+}
 
 void s08b_bunsin2_800CCD18(Work *work)
 {
@@ -2302,7 +2457,42 @@ void s08b_bunsin2_800CCDBC(Work *work)
         work->field_19F0 = 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CCE34.s")
+void s08b_bunsin2_800CCE34(Work *work)
+{
+    if (work->field_19C0 & 2)
+    {
+        if (GM_GameStatus & STATE_THERMG)
+        {
+            if (work->field_19BC != NULL)
+            {
+                GM_SeSetMode(&work->control.mov, 0x4E, 1);
+                GV_DestroyActorQuick(work->field_19BC);
+                work->field_19BC = NULL;
+                work->field_910->flag = 1;
+                work->field_1A80->type &= ~DG_PRIM_INVISIBLE;
+            }
+        }
+        else if (work->field_19BC == NULL)
+        {
+            GM_SeSetMode(&work->control.mov, 0x4E, 1);
+            work->field_19BC = NewKogaku2(&work->control, &work->body, 0);
+            work->field_910->flag = 0;
+            work->field_1A80->type |= DG_PRIM_INVISIBLE;
+        }
+
+        work->field_19F4 = -1;
+        return;
+    }
+
+    if (work->field_19BC != NULL)
+    {
+        GM_SeSetMode(&work->control.mov, 0x4E, 1);
+        GV_DestroyActorQuick(work->field_19BC);
+        work->field_19BC = NULL;
+        work->field_910->flag = 1;
+        work->field_1A80->type &= ~DG_PRIM_INVISIBLE;
+    }
+}
 void s08b_bunsin2_800CCF8C(Work *work)
 {
     if (work->field_1A00 == 1)
@@ -2471,7 +2661,32 @@ void s08b_bunsin2_800CD9F0(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDA40.s")
+void s08b_bunsin2_800CDA40(Work *work)
+{
+    SVECTOR  diff;
+    SVECTOR *pos;
+    MAP     *map;
+
+    pos = &work->control.mov;
+    GV_SubVec3(&GM_PlayerPosition, pos, &diff);
+    diff.vy = 0;
+    work->field_1A28 = GV_VecDir2(&diff);
+    work->field_1A2C = GV_VecLen3(&diff);
+    work->field_19AC = 0;
+
+    if ((GV_Time & 3) == 0)
+    {
+        map = work->control.map;
+        if (HZD_OnlineHazardCheck(map->hzd, &GM_PlayerPosition, pos, 0xF, 2) != 0 ||
+            GM_OnlineTargetCheckAny(pos, &GM_PlayerPosition, map->index, &diff) != 0)
+        {
+            work->field_19AC = 0;
+            return;
+        }
+
+        work->field_19AC = 1;
+    }
+}
 void s08b_bunsin2_800CDA40(Work *work);
 
 void s08b_bunsin2_800CDB10(Work *work)
@@ -2566,7 +2781,22 @@ void s08b_bunsin2_800CDDD8(Work *work)
     map = work->control.map;
     work->field_1970 = HZD_GetAddress(map->hzd, &work->field_1968, -1);
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CDE74.s")
+void s08b_bunsin2_800CDE74(Work *work)
+{
+    NinjaClone *clone;
+    int         route;
+    int         point;
+
+    route = GV_Time % work->field_1960;
+    clone = &work->clones[route];
+    work->field_1964 = route;
+
+    point = GV_Time % clone->field_0;
+    work->field_1966 = point;
+
+    work->field_1968 = clone->field_4[point];
+    work->field_1970 = HZD_GetAddress(work->control.map->hzd, &work->field_1968, -1);
+}
 
 void s08b_bunsin2_800CDF68(Work *work)
 {
@@ -2600,13 +2830,80 @@ void s08b_bunsin2_800CE064(Work *work)
     work->field_1970 = s08b_dword_800C3454 | (s08b_dword_800C3454 << 8);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE0A4.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE180.s")
+void s08b_bunsin2_800CE0A4(Work *work)
+{
+    int index;
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE21C.s")
+    index = GV_Time % 6;
+    if (GV_DiffVec3(&s08b_dword_800C3460[index], &GM_PlayerPosition) < 3000)
+    {
+        index++;
+        if (index >= 6)
+        {
+            index = 0;
+        }
+    }
+
+    work->field_1968 = s08b_dword_800C3460[index];
+    work->field_1970 = HZD_GetAddress(work->control.map->hzd, &work->field_1968, -1);
+}
+void s08b_bunsin2_800CE180(Work *work)
+{
+    int time;
+    int index;
+
+    time = GV_Time;
+    index = time % 4;
+    index += work->field_7D8;
+    if (index >= 4)
+    {
+        index -= 4;
+    }
+
+    work->field_1968 = s08b_dword_800C3490[index];
+    work->field_1970 = HZD_GetAddress(work->control.map->hzd, &work->field_1968, -1);
+}
+
+void s08b_bunsin2_800CE21C(Work *work)
+{
+    int index;
+
+    index = GV_Time % 4;
+    if (GV_DiffVec3(&s08b_dword_800C34B0[index], &GM_PlayerPosition) < 3000)
+    {
+        index++;
+        if (index >= 6)
+        {
+            index = 0;
+        }
+    }
+
+    work->field_1968 = s08b_dword_800C34B0[index];
+    work->field_1970 = HZD_GetAddress(work->control.map->hzd, &work->field_1968, -1);
+}
 void s08b_bunsin2_800CE21C(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE2E8.s")
+void s08b_bunsin2_800CE2E8(Work *work)
+{
+    int dist1;
+    int dist2;
+    int index;
+
+    dist1 = GV_DiffVec3(&s08b_dword_800C34B0[2], &GM_PlayerPosition);
+    dist2 = GV_DiffVec3(&s08b_dword_800C34B0[3], &GM_PlayerPosition);
+
+    if (dist1 < dist2)
+    {
+        index = 3;
+    }
+    else
+    {
+        index = 2;
+    }
+
+    work->field_1968 = s08b_dword_800C34B0[index];
+    work->field_1970 = HZD_GetAddress(work->control.map->hzd, &work->field_1968, -1);
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE398.s")
 void s08b_bunsin2_800CE398(Work *work);
@@ -3215,7 +3512,7 @@ int s08b_bunsin2_800D093C(Work *work)
 {
     if (work->field_19D0 == 0)
     {
-        s08b_bunsin2_800CE0A4();
+        s08b_bunsin2_800CE0A4(work);
         work->field_19B0 = 5;
     }
     if (work->field_19D0 >= 0xB)
@@ -3789,7 +4086,7 @@ int s08b_bunsin2_800D1A18(Work *work)
     work->field_19C0 |= 2;
     if (work->field_19D0 == 0)
     {
-        s08b_bunsin2_800CE0A4();
+        s08b_bunsin2_800CE0A4(work);
         work->field_19B0 = 5;
     }
     if (work->field_19D0 == 0x1E)
