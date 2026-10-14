@@ -29,8 +29,7 @@ typedef struct _Work
     int      f28;
     int      f2C;
     DG_PRIM *prim1, *prim2, *prim3;
-    POLY_FT4 polys_lr[2];
-    char     padding2[0x50];
+    POLY_FT4 polys_lr[4];
     POLY_FT4 polys[9];
     POLY_FT4 polys2[26];
     int      field_654[4];
@@ -45,18 +44,28 @@ typedef struct _Work
     char     padding5[0x4000];
     int      field_4934;
     int      field_4938;
-    char     padding6[0x2C];
+    char     padding6[0x10];
+    char     field_494C_name[24];
+    int      field_4964_name_len;
     int      field_4968;
     int      field_496C;
     int      field_4970;
-    char     padding6b[0x44];
+    char     padding6b[0xC];
+    int      field_4980;
+    int      field_4984;
+    int      field_4988;
+    int      field_498C;
+    int      field_4990;
+    char     field_4994_str[0x14];
+    int      field_49A8[4];
     int      field_49B8;
     int      field_49BC;
     char     padding6c[0x8];
     int      field_49C8;
     MEMCARD  *field_49CC;
     int      field_49D0;
-    char     padding6d[0xC];
+    char     field_49D4[9];
+    char     field_49DD[3];
     int      f49E0;
     char    *f49E4;
 } Work;
@@ -66,6 +75,7 @@ extern RECT                        camera_dword_800C389C;
 extern char                       *camera_dword_800D0760;
 extern char                       *MGS_MemoryCardName; /* in main.c */
 extern DATA_INFO                  *camera_dword_800D072C;
+extern int                         camera_dword_800C3438[6][40];
 extern int                         camera_dword_800C342C;
 extern int                         camera_dword_800C3434;
 extern int                         camera_dword_800D0764;
@@ -100,7 +110,21 @@ extern int camera_dword_800D0708;
 extern int camera_dword_800D0710;
 
 void camera_800C3ED8(Work *);
-int camera_800CDF18(Work *);
+void camera_800C6054(MenuWork *work, u_long *ot, SELECT_INFO *info);
+void camera_800CD790(Work *);
+void camera_800CDAB4(Work *);
+extern const char camera_aOverwriteok_800CFF2C[];
+extern const char camera_aYes_800D0094[];
+extern const char camera_aSavedatadelete_800D0448[];
+extern const char camera_aNo_800D0090[];
+void camera_800CDF18(Work *);
+void camera_800C4394(Work *);
+void camera_800CA918(Work *);
+void camera_800CC3C8(Work *);
+void camera_800CCBB0(Work *);
+void camera_800CBDE4(Work *);
+int camera_800C73E4(MenuWork *work, GV_PAD *pad);
+void camera_800C86BC(Work *work, int x, int y, int w, int h, int color, int unused);
 
 void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
 {
@@ -415,7 +439,114 @@ void camera_800C4350(Work* work) {
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4394.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4790.s")
+int camera_800C4790(MEMCARD *pMemcard)
+{
+    char *buffer, *buffer_copy;
+    int   size;
+    short hours, minutes, seconds;
+    int   file;
+    int   success;
+    int   retries;
+    int   flags1, flags2;
+    int   i, idx;
+
+    GM_PadResetDisable = TRUE;
+
+    size = camera_dword_800D072C->blocks_count * MEMCARD_BLOCK_SIZE;
+    buffer = GV_AllocMemory(2, size);
+    if (!buffer)
+    {
+        printf((char *)camera_aNomemoryforfilebody_800CFCF8);
+    }
+
+    GV_ZeroMemory(buffer, size);
+
+    buffer[0] = 'S';
+    buffer[1] = 'C';
+    buffer[2] = 0x11;
+    buffer[3] = camera_dword_800D072C->blocks_count;
+
+    idx = camera_dword_800D072C->field_0[1];
+    buffer_copy = buffer;
+
+    if (idx == 0)
+    {
+        flags2 = GM_ClearFlag;
+        idx = flags2;
+
+        if (flags2 >= 4)
+        {
+            idx = 3;
+            if (flags2 == 6)
+            {
+                idx = 0;
+            }
+        }
+
+        flags2 |= (GM_Disk - 1) * 8;
+    }
+    else
+    {
+        flags2 = idx;
+    }
+
+    memcpy(buffer_copy + 96, camera_dword_800C3438[idx], 160);
+
+    hours = (unsigned short)GM_PlayTimeHours;
+    seconds = (unsigned short)GM_PlayTimeSeconds;
+    minutes = seconds / 60;
+
+    camera_dword_800D072C->make_title(buffer_copy + 4, pMemcard, hours, minutes);
+    strcpy(camera_dword_800C37F8, MGS_MemoryCardName);
+
+    camera_dword_800C37F8[12] = camera_dword_800D072C->field_0[0];
+    camera_dword_800C37F8[13] = (hours / 10) + '0';
+    camera_dword_800C37F8[14] = (hours % 10) + '0';
+    camera_dword_800C37F8[15] = (minutes / 10) + '0';
+    camera_dword_800C37F8[16] = (minutes % 10) + '0';
+    camera_dword_800C37F8[17] = flags2 + '@';
+    camera_dword_800C37F8[18] = camera_dword_800D072C->field_2 + '@';
+
+    for (i = 0; i < 16; i++)
+    {
+        camera_dword_800C37F8[19] = 'A' + i;
+        flags1 = 0;
+        for (file = 0; file < pMemcard->file_count; file++)
+        {
+            if (!strcmp(pMemcard->files[file].name, camera_dword_800C37F8))
+            {
+                flags1 = 1;
+            }
+        }
+
+        if (!flags1)
+        {
+            break;
+        }
+    }
+
+    success = 0;
+    camera_dword_800D072C->make_game_data(buffer_copy + 256);
+
+    for (retries = 4; retries > 0; retries--)
+    {
+        memcard_write(pMemcard->port, camera_dword_800C37F8, 0, buffer, size);
+        while ((i = memcard_status()) > 0)
+        {
+            mts_wait_vbl(2);
+        }
+
+        if (memcard_status() == 0)
+        {
+            success = 1;
+            break;
+        }
+    }
+
+    GV_FreeMemory(2, buffer);
+    GM_PadResetDisable = FALSE;
+    return success;
+}
 int camera_800C4BAC(MEMCARD *card, int index) {
 
     char         *buffer;
@@ -1732,7 +1863,126 @@ void camera_800C89DC(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C8AD4.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CA918.s")
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CB024.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800CB8AC.s")
+extern const char camera_a_800D02DC[];
+extern const char camera_a_800D0314[];
+extern const char camera_aD_800D0318[];
+
+/* Colour adjustment screen: draws the +/- values and positions the slider bars */
+void camera_800CB8AC(Work *work)
+{
+    POLY_FT4 *p;
+    POLY_FT4 *p2;
+    int       value;
+    int       x0;
+    short     x1;
+
+    p = work->polys_lr;
+    p2 = work->polys2;
+
+    work->field_4968 = (work->field_4980 + 100) * 255 / 200;
+    work->field_496C = (work->field_4984 + 100) * 255 / 200;
+    work->field_4970 = (work->field_4988 + 100) * 255 / 200;
+
+    MENU_Locate(41, 166, 0);
+    MENU_Color(86, 137, 116);
+    if (work->field_4980 != 0)
+    {
+        if (work->field_4980 > 0)
+        {
+            MENU_Printf((char *)camera_a_800D0314);
+        }
+        else
+        {
+            MENU_Printf((char *)camera_a_800D02DC);
+        }
+    }
+
+    MENU_Locate(41, 178, 0);
+    MENU_Color(86, 137, 116);
+    if (work->field_4984 != 0)
+    {
+        if (work->field_4984 > 0)
+        {
+            MENU_Printf((char *)camera_a_800D0314);
+        }
+        else
+        {
+            MENU_Printf((char *)camera_a_800D02DC);
+        }
+    }
+
+    MENU_Locate(41, 190, 0);
+    MENU_Color(86, 137, 116);
+    if (work->field_4988 != 0)
+    {
+        if (work->field_4988 > 0)
+        {
+            MENU_Printf((char *)camera_a_800D0314);
+        }
+        else
+        {
+            MENU_Printf((char *)camera_a_800D02DC);
+        }
+    }
+
+    MENU_Locate(46, 166, 0);
+    MENU_Color(86, 137, 116);
+    value = work->field_4980;
+    if (value >= 0)
+    {
+        MENU_Printf((char *)camera_aD_800D0318, value);
+    }
+    else
+    {
+        MENU_Printf((char *)camera_aD_800D0318, -value);
+    }
+
+    MENU_Locate(46, 178, 0);
+    MENU_Color(86, 137, 116);
+    value = work->field_4984;
+    if (value >= 0)
+    {
+        MENU_Printf((char *)camera_aD_800D0318, value);
+    }
+    else
+    {
+        MENU_Printf((char *)camera_aD_800D0318, -value);
+    }
+
+    MENU_Locate(46, 190, 0);
+    MENU_Color(86, 137, 116);
+    value = work->field_4988;
+    if (value >= 0)
+    {
+        MENU_Printf((char *)camera_aD_800D0318, value);
+    }
+    else
+    {
+        MENU_Printf((char *)camera_aD_800D0318, -value);
+    }
+
+    p[0].r0 = work->field_4968;
+    p[0].g0 = work->field_496C;
+    p[0].b0 = work->field_4970;
+    p[1].r0 = work->field_4968;
+    p[1].g0 = work->field_496C;
+    p[1].b0 = work->field_4970;
+    p[2].r0 = work->field_4968;
+    p[2].g0 = work->field_496C;
+    p[2].b0 = work->field_4970;
+
+    x0 = (work->field_4980 + 100) * 88 / 200 - 72;
+    x1 = (work->field_4980 + 100) * 88 / 200 - 68;
+    setXY4(&p2[13], x0, 52, x1, 52, x0, 62, x1, 62);
+
+    x0 = (work->field_4984 + 100) * 88 / 200 - 72;
+    x1 = (work->field_4984 + 100) * 88 / 200 - 68;
+    setXY4(&p2[14], x0, 64, x1, 64, x0, 74, x1, 74);
+
+    x0 = (work->field_4988 + 100) * 88 / 200 - 72;
+    x1 = (work->field_4988 + 100) * 88 / 200 - 68;
+    setXY4(&p2[15], x0, 76, x1, 76, x0, 86, x1, 86);
+}
 extern void camera_800C884C(Work *work, int x, int y, int w, int h, int color, int unused);
 
 void camera_800CBCC8(Work *work)
@@ -1813,7 +2063,171 @@ void camera_800CD0A0(MenuPrim *prim, int x, int y, int w, int h)
     radio_draw_face_frame(prim, x, y, w, h);
     radio_draw_face_frame(prim, x, y, w, h);
 }
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800CD198.s")
+static inline void camera_AddTpage(Work *work)
+{
+    DR_TPAGE *pTpage;
+
+    pTpage = (DR_TPAGE *)work->field_700.prim->next;
+    work->field_700.prim->next += sizeof(DR_TPAGE);
+    pTpage->code[0] = 0xE100023F;
+    setlen(pTpage, 1);
+    addPrim(work->field_924_mOrderingTable, pTpage);
+}
+
+void camera_800CD198(Work *work)
+{
+    u_short press;
+    int     dt;
+
+    press = work->pad->press;
+
+    switch (work->field_498C)
+    {
+    case 0:
+        if (work->field_4938 < 5)
+        {
+            MENU_Locate(100, 90, 16);
+            MENU_Color(86, 137, 116);
+            MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+            camera_800CD0A0((MenuPrim *)&work->field_920, 92, 85, 130, 15);
+            return;
+        }
+
+        if (work->field_4938 < 10)
+        {
+            MENU_Locate(100, 90 - (work->field_4938 - 4) * 8, 16);
+            MENU_Color(86, 137, 116);
+            MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+            camera_800CD0A0((MenuPrim *)&work->field_920, 92, 85, 130, 15);
+            return;
+        }
+
+        if (work->field_4938 == 10)
+        {
+            MENU_Locate(100, 50, 16);
+            MENU_Color(86, 137, 116);
+            MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+            MENU_Locate(100, 105, 16);
+            MENU_Color(46, 72, 61);
+            MENU_Printf((char *)camera_aYes_800D0094);
+            MENU_Locate(200, 105, 16);
+            MENU_Color(192, 192, 192);
+            MENU_Printf((char *)camera_aNo_800D0090);
+            camera_800CD0A0((MenuPrim *)&work->field_920, 92, 85, 130, 15);
+            return;
+        }
+
+        if (work->field_4938 < 14)
+        {
+            MENU_Locate(100, 50, 16);
+            MENU_Color(86, 137, 116);
+            MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+            MENU_Locate(100, 105, 16);
+            MENU_Color(46, 72, 61);
+            MENU_Printf((char *)camera_aYes_800D0094);
+            MENU_Locate(200, 105, 16);
+            MENU_Color(192, 192, 192);
+            MENU_Printf((char *)camera_aNo_800D0090);
+            dt = work->field_4938 - 10;
+            camera_800CD0A0((MenuPrim *)&work->field_920, (dt << 5) + 92, dt * 5 + 85, 130 - dt * 30, 15);
+            return;
+        }
+
+        work->field_498C = 2;
+        MENU_Locate(100, 50, 16);
+        MENU_Color(86, 137, 116);
+        MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+        MENU_Locate(100, 105, 16);
+        MENU_Color(46, 72, 61);
+        MENU_Printf((char *)camera_aYes_800D0094);
+        MENU_Locate(200, 105, 16);
+        MENU_Color(192, 192, 192);
+        MENU_Printf((char *)camera_aNo_800D0090);
+        camera_800CD0A0((MenuPrim *)&work->field_920, 188, 100, 40, 15);
+        drawCaption_800C5EB4(&work->field_700, work->f49E4);
+        work->field_49D0 = 3;
+        return;
+
+    case 1:
+        MENU_Locate(100, 50, 16);
+        MENU_Color(86, 137, 116);
+        MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+        MENU_Locate(100, 105, 16);
+        MENU_Color(192, 192, 192);
+        MENU_Printf((char *)camera_aYes_800D0094);
+        MENU_Locate(200, 105, 16);
+        MENU_Color(46, 72, 61);
+        MENU_Printf((char *)camera_aNo_800D0090);
+        camera_800CD0A0((MenuPrim *)&work->field_920, 92, 100, 40, 15);
+        camera_800C6054(&work->field_700, work->field_924_mOrderingTable, 0);
+
+        camera_AddTpage(work);
+
+        if (press & PAD_RIGHT)
+        {
+            work->field_498C = 2;
+            GM_SeSet2(0, 63, 31);
+            return;
+        }
+
+        if (press & PAD_CIRCLE)
+        {
+            work->f28 = 8;
+            work->field_49C8 = 0;
+            GM_SeSet2(0, 63, 32);
+            return;
+        }
+
+        if (press & PAD_CROSS)
+        {
+            GM_SeSet2(0, 63, 33);
+            work->f28 = 0;
+            GV_FreeMemory(2, (void *)camera_dword_800D0704);
+            camera_800C82EC();
+        }
+        return;
+
+    case 2:
+        MENU_Locate(100, 50, 16);
+        MENU_Color(86, 137, 116);
+        MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+        MENU_Locate(100, 105, 16);
+        MENU_Color(46, 72, 61);
+        MENU_Printf((char *)camera_aYes_800D0094);
+        MENU_Locate(200, 105, 16);
+        MENU_Color(192, 192, 192);
+        MENU_Printf((char *)camera_aNo_800D0090);
+        camera_800CD0A0((MenuPrim *)&work->field_920, 188, 100, 40, 15);
+        camera_800C6054(&work->field_700, work->field_924_mOrderingTable, 0);
+
+        camera_AddTpage(work);
+
+        if (press & PAD_LEFT)
+        {
+            work->field_498C = 1;
+            GM_SeSet2(0, 63, 31);
+            return;
+        }
+
+        if (press & PAD_CIRCLE)
+        {
+            GM_SeSet2(0, 63, 33);
+            work->f28 = 0;
+            GV_FreeMemory(2, (void *)camera_dword_800D0704);
+            camera_800C82EC();
+            return;
+        }
+
+        if (press & PAD_CROSS)
+        {
+            GM_SeSet2(0, 63, 33);
+            work->f28 = 0;
+            GV_FreeMemory(2, (void *)camera_dword_800D0704);
+            camera_800C82EC();
+        }
+        return;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CD790.s")
 extern const char camera_aResx_800D03E4[];
 extern const char camera_aS_800D03F0[];
@@ -1907,8 +2321,221 @@ void camera_800CDAB4(Work *work)
         printf((char *)camera_aPhaseisnotchanged_800D0430);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800CDCA4.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800CDF18.s")
+void camera_800CDCA4(Work *work)
+{
+    MENU_Locate(100, 50, 16);
+    MENU_Color(86, 137, 116);
+    MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+
+    MENU_Locate(100, 105, 16);
+    MENU_Color(192, 192, 192);
+    MENU_Printf((char *)camera_aYes_800D0094);
+
+    MENU_Locate(200, 105, 16);
+    MENU_Color(46, 72, 61);
+    MENU_Printf((char *)camera_aNo_800D0090);
+
+    camera_800CD0A0((MenuPrim *)&work->field_920, 92, 100, 40, 15);
+
+    switch (work->field_49C8)
+    {
+    case 0:
+        drawCaption_800C5EB4(&work->field_700, camera_dword_800C3914[0]);
+        work->field_49D0 = 1;
+        camera_800CDAB4(work);
+        break;
+
+    case 1:
+        printf((char *)camera_aSavedatadelete_800D0448);
+        if (memcard_delete(*(unsigned char *)&camera_dword_800D0708, (char *)&camera_dword_800D0710))
+        {
+            printf("delete success\n");
+            printf("new memdata get\n");
+            work->field_49CC = memcard_files(*(unsigned char *)&camera_dword_800D0708);
+            work->field_49C8 = 2;
+        }
+        else
+        {
+            printf("delete fail\n");
+            drawCaption_800C5EB4(&work->field_700, camera_dword_800C3914[1]);
+            work->field_49D0 = 3;
+        }
+        break;
+
+    case 2:
+        printf("new data create\n");
+        camera_800CD790(work);
+        work->field_49C8 = 3;
+        break;
+
+    case 3:
+        printf("new data write\n");
+        memcard_write(work->field_49CC->port, (char *)&camera_dword_800D0710, 0, (char *)camera_dword_800D0704, 0x4000);
+        while (memcard_status() > 0)
+        {
+            mts_wait_vbl(2);
+        }
+        if (memcard_status() == 0)
+        {
+            printf("new data write ok\n");
+            work->field_49C8 = 4;
+            work->field_4938 = 0;
+            drawCaption_800C5EB4(&work->field_700, camera_dword_800C3914[2]);
+            work->field_49D0 = 3;
+        }
+        break;
+
+    case 4:
+    case 5:
+        if (work->field_4938 >= 30)
+        {
+            work->f28 = 0;
+            GV_FreeMemory(2, (void *)camera_dword_800D0704);
+            camera_800C82EC();
+        }
+        break;
+    }
+}
+
+void camera_800CDF18(Work *work)
+{
+    POLY_FT4 *poly;
+    int       result;
+    int       i;
+
+    poly = work->polys2;
+
+    switch (work->f28)
+    {
+    case 0:
+        result = camera_800C73E4(&work->field_700, &GV_PadData[2]);
+        if (result == 1)
+        {
+            work->f28 = 9;
+        }
+
+        if (result == 2)
+        {
+            work->f28 = 1;
+            work->f49E0 = 0;
+
+            for (i = 0; i < 16; i++)
+            {
+                work->field_494C_name[i] = ' ';
+                work->field_4994_str[i] = ' ';
+            }
+
+            work->field_494C_name[16] = '\0';
+            work->field_4994_str[16] = '\0';
+        }
+        break;
+
+    case 1:
+        camera_800C4394(work);
+        work->f28 = 3;
+
+        if (work->field_4934 == 0)
+        {
+            work->f2C = 0;
+            work->field_4938 = 0;
+            work->field_688[0] = (GV_ACT *)0x600;
+            work->field_688[1] = (GV_ACT *)0x600;
+            work->field_688[2] = (GV_ACT *)0x200;
+            work->field_688[3] = (GV_ACT *)0x200;
+            work->field_688[4] = (GV_ACT *)0x200;
+            work->field_688[5] = (GV_ACT *)0x600;
+            work->field_688[6] = (GV_ACT *)0x600;
+            work->field_688[7] = (GV_ACT *)0x600;
+            camera_800C86BC(work, -0x90, 0x5A, 0x70, 0xC, 0xFF, 0);
+        }
+        else
+        {
+            work->f2C = 3;
+            work->field_4938 = 0;
+            work->field_688[0] = (GV_ACT *)0x600;
+            work->field_688[1] = (GV_ACT *)0x600;
+            work->field_688[16] = (GV_ACT *)0x200;
+            work->field_688[17] = (GV_ACT *)0x200;
+            work->field_688[18] = (GV_ACT *)0x200;
+            work->field_688[19] = (GV_ACT *)0x200;
+            work->field_688[5] = (GV_ACT *)0x600;
+            work->field_688[6] = (GV_ACT *)0x600;
+            work->field_688[7] = (GV_ACT *)0x600;
+            camera_800C86BC(work, -0x90, 0x5A, 0x68, 0xC, 0xFF, 0);
+
+            setXY4(&poly[16], -0x90, 0x5A, -0x28, 0x5A, -0x90, 0x66, -0x28, 0x66);
+            setXY4(&poly[17], -0x2A, 0x5A, 0x12, 0x5A, -0x2A, 0x66, 0x12, 0x66);
+            setXY4(&poly[18], 0x11, 0x5A, 0x65, 0x5A, 0x11, 0x66, 0x65, 0x66);
+            setXY4(&poly[19], 0x64, 0x5A, 0x90, 0x5A, 0x64, 0x66, 0x90, 0x66);
+        }
+        break;
+
+    case 3:
+        MENU_Locate(26, 14, 0);
+        MENU_Color(58, 92, 78);
+        MENU_Printf(work->field_49D4);
+        MENU_Locate(75, 14, 0);
+        MENU_Color(58, 92, 78);
+        MENU_Printf(work->field_49DD);
+        camera_800C8554(work->field_49A8, 83, 13, 16);
+        camera_800C85B8(work->field_49A8, 86, 137, 116);
+        camera_800C8564((MenuPrim *)&work->field_920, (SELECT_INFO *)work->field_49A8, work->field_494C_name);
+        camera_800CCBB0(work);
+        break;
+
+    case 4:
+        MENU_Locate(26, 14, 0);
+        MENU_Color(58, 92, 78);
+        MENU_Printf(work->field_49D4);
+        MENU_Locate(75, 14, 0);
+        MENU_Color(58, 92, 78);
+        MENU_Printf(work->field_49DD);
+        camera_800C8554(work->field_49A8, 83, 13, 16);
+        camera_800C85B8(work->field_49A8, 86, 137, 116);
+        camera_800C8564((MenuPrim *)&work->field_920, (SELECT_INFO *)work->field_49A8, work->field_494C_name);
+        camera_800CA918(work);
+        break;
+
+    case 5:
+        MENU_Locate(26, 14, 0);
+        MENU_Color(58, 92, 78);
+        MENU_Printf(work->field_49D4);
+        MENU_Locate(75, 14, 0);
+        MENU_Color(58, 92, 78);
+        MENU_Printf(work->field_49DD);
+        camera_800C8554(work->field_49A8, 83, 13, 16);
+        camera_800C85B8(work->field_49A8, 86, 137, 116);
+        camera_800C8564((MenuPrim *)&work->field_920, (SELECT_INFO *)work->field_49A8, work->field_494C_name);
+        camera_800CC3C8(work);
+        break;
+
+    case 6:
+        camera_800CBDE4(work);
+        break;
+
+    case 7:
+        camera_800CD198(work);
+        break;
+
+    case 8:
+        camera_800CDCA4(work);
+        if (work->field_49D0 >= 2)
+        {
+            work->field_49D0--;
+        }
+        else
+        {
+            camera_800C6054(&work->field_700, work->field_924_mOrderingTable, 0);
+            camera_AddTpage(work);
+        }
+        break;
+
+    case 9:
+        GCL_ExecProc(work->f20, NULL);
+        GV_DestroyActor(&work->actor);
+        break;
+    }
+}
 
 void CameraAct_800CE404(Work *work)
 {
