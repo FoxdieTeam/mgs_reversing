@@ -23,18 +23,6 @@ extern int s03d_dword_800C39C8;
 
 extern int s03d_dword_800DC2F8;
 extern SVECTOR s03d_dword_800C39A8;
-int  s03d_800CCE3C(Work *work, int name, int where);
-
-// rdata of zako.c: 3 strings of s03d_800CCE3C
-const char s03d_dword_800DB3C4[] = {'i', 'p', 'p', 'a'};
-const char s03d_dword_800DB3C8[] = {'n', 'h', 'e', 'i'};
-const char s03d_dword_800DB3CC[] = {0x0, 0x0, 0x0, 0x0};
-
-const char s03d_dword_800DB3D0[] = {'e', 'n', 'e', 'm'};
-const char s03d_dword_800DB3D4[] = {'y', 0x0, 0x0, 0x0};
-
-const char s03d_dword_800DB3D8[] = {'f', 'a', 'm', 'a'};
-const char s03d_dword_800DB3DC[] = {'s', 0x0, 0x0, 0x0};
 
 void s03d_800D153C(Work *work);
 void ZakoCom_800D4050(int idx);
@@ -146,7 +134,58 @@ void Zako_800CCDE0(Work *work)
     work->time2 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CCE3C.s")
+int s03d_800CCE3C(Work *work, int name, int where)
+{
+    SVECTOR  indices;
+    CONTROL *control;
+    OBJECT  *body;
+    OBJECT  *weapon;
+    int      i;
+
+    control = &work->control;
+    if (GM_InitControl(control, name, where) < 0)
+    {
+        return -1;
+    }
+
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlAttribute(control, RADAR_VISIBLE | RADAR_SIGHT);
+    GM_ConfigControlInterp(control, 4);
+
+    body = &work->body;
+    weapon = &work->weapon;
+
+    GM_InitObject(body, GV_StrCode("ippanhei"), 0x32D, GV_StrCode("enemy"));
+    GM_ConfigObjectJoint(body);
+    GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode("enemy"), work->m_segs1, work->m_segs2, control, work->rots);
+    GM_ConfigObjectLight(body, work->light);
+
+    work->models[1] = work->body.objs->def;
+    work->models[0] = GV_GetCache(GV_CacheID(0xC37, 'k'));
+    work->lod = 1;
+
+    work->hom = GM_SetHomingTarget(&work->body.objs->objs[6].world, control);
+
+    GM_InitObject(weapon, GV_StrCode("famas"), 0x6D, 0);
+    GM_ConfigObjectLight(weapon, work->light);
+    GM_ConfigObjectRoot(weapon, body, 4);
+
+    for (i = 0; i < 0; i++)
+    {
+        work->field_AA8[i] = 0;
+    }
+
+    indices.vx = 0;
+    indices.vy = 6;
+    indices.vz = 12;
+    indices.pad = 15;
+    work->shadow = NewShadow2(control, body, indices, &work->enable_shadow);
+    work->glight = NewGunLight(&body->objs->objs[4].world, &work->enable_glight);
+
+    Zako_800D0EF0(work, 0);
+    Zako_800CCDE0(work);
+    return 0;
+}
 
 void s03d_800CD054(Work *work)
 {
