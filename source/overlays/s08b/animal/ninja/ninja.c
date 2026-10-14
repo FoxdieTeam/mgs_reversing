@@ -4176,7 +4176,8 @@ int s08b_bunsin2_800D0864(Work *work)
     return 0;
 }
 
-int s08b_bunsin2_800D08C8(Work *work)
+int s08b_bunsin2_800D08C8(work)
+Work *work;
 {
     int r1;
     int a0, a1;
@@ -4256,7 +4257,8 @@ int s08b_bunsin2_800D09C4(Work *work)
     work->field_19D0 = work->field_19D0 + 1;
     return 0;
 }
-int s08b_bunsin2_800D0A54(Work *work)
+int s08b_bunsin2_800D0A54(work)
+Work *work;
 {
     work->field_19B0 = 8;
     work->field_19B4 = work->field_1A28;
@@ -5959,8 +5961,105 @@ void s08b_bunsin2_800D3160(Work *work)
     }
     work->field_19D0 = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D31EC.s")
-void s08b_bunsin2_800D31EC(Work *work);
+void s08b_bunsin2_800D31EC(Work *work)
+{
+    int command;
+    int result;
+
+    switch (work->field_19CC)
+    {
+    case 26:
+        switch (s08b_bunsin2_800D0814(work))
+        {
+        case 1:
+            command = 0x1B;
+            goto set;
+
+        case 2:
+            s08b_bunsin2_800CDFA0(work);
+            command = 3;
+            goto set;
+        }
+        break;
+
+    case 27:
+        result = s08b_bunsin2_800D0864(work);
+        goto check;
+
+    case 24:
+        if (s08b_bunsin2_800D0A54() != 0)
+        {
+            if (s08b_bunsin2_800CEA34(work, GM_PlayerAddress) < 0)
+            {
+                s08b_bunsin2_800CE21C(work);
+                command = 5;
+            }
+            else
+            {
+                command = 0x19;
+            }
+
+            work->field_19CC = command;
+            work->field_19B0 = -1;
+            goto reset;
+        }
+        break;
+
+    case 25:
+        switch (s08b_bunsin2_800D08C8())
+        {
+        case 1:
+            goto stop;
+
+        case 2:
+            s08b_bunsin2_800CDFA0(work);
+            command = 4;
+            goto set;
+        }
+        break;
+
+    case 3:
+        if (s08b_bunsin2_800CFC90(work) != 0)
+        {
+            s08b_bunsin2_800CDFF8(work);
+            command = 0x1A;
+            goto set;
+        }
+        break;
+
+    case 4:
+        result = s08b_bunsin2_800CFC90(work);
+        goto check;
+
+    case 5:
+        result = s08b_bunsin2_800CFD88(work);
+check:
+        if (result != 0)
+        {
+stop:
+            command = 0x18;
+set:
+            work->field_19CC = command;
+reset:
+            work->field_19D0 = 0;
+        }
+        break;
+    }
+
+    if (work->field_1A34 == 2)
+    {
+        s08b_bunsin2_800CE21C(work);
+        work->field_19CC = 5;
+        work->field_19B0 = -1;
+        work->field_19D0 = 0;
+    }
+    else if ((unsigned int)(work->field_1A34 - 3) < 2)
+    {
+        work->field_19C8 = 7;
+        work->field_19CC = 0x17;
+        work->field_19D0 = 0;
+    }
+}
 void s08b_bunsin2_800D3394(Work *work)
 {
     int weapon;
