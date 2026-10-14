@@ -5283,40 +5283,549 @@ void s18a_800CF184(LiquidWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF1CC.s")
-const int s18a_dword_800E3138 = 0x73616870;
-const int s18a_dword_800E313C = 0x6C203265;
-const int s18a_dword_800E3140 = 0x20656669;
-const int s18a_dword_800E3144 = 0x6425203D;
-const int s18a_dword_800E3148 = 0x00000A20;
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF214.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF338.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF3B0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF470.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF4BC.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF508.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF554.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF5DC.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF628.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF684.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF6E0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF72C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF778.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF7E4.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF838.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF884.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF8F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF94C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF998.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF9E4.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFA50.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFA90.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFAEC.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFB48.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFB94.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFBE0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFC24.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFC70.s")
+void s18a_800CF1CC(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 1;
+        work->f964 = 3;
+        work->f968 = 0;
+    }
+    else
+    {
+        work->cmd = 13;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF214(LiquidWork *work)
+{
+    int hard;
+
+    if (work->f940 || work->f968 > 60)
+    {
+        printf("phase2 life = %d \n", work->life);
+
+        if (work->life < 64)
+        {
+            work->f95C = 4;
+            work->f960 = 1;
+            work->f964 = 3;
+        }
+        else
+        {
+            hard = 0;
+            if (GM_GameLevel < 4)
+            {
+                hard = GM_GameLevel >= 2;
+            }
+
+            if (work->f99C == 1 || hard)
+            {
+                work->f960 = 5;
+                work->f964 = 28;
+            }
+            else if (s18a_800CCD5C(&work->control.mov))
+            {
+                work->f960 = 3;
+                work->f964 = 14;
+            }
+            else
+            {
+                work->f960 = 2;
+                work->f964 = 9;
+            }
+        }
+
+        work->f99C = 0;
+        work->f97C = 0;
+        work->f968 = 0;
+    }
+    else
+    {
+        if (work->f9B8 == 4)
+        {
+            work->f99C = 0;
+        }
+
+        work->f968++;
+    }
+}
+
+void s18a_800CF338(LiquidWork *work)
+{
+    if (work->f940 || work->f968 > 60)
+    {
+        s18a_dword_800C3490++;
+
+        if (work->life < 180)
+        {
+            s18a_dword_800C3480 = 0;
+            work->f95C = 2;
+        }
+
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->f968++;
+    }
+}
+
+void s18a_800CF3B0(LiquidWork *work)
+{
+    if (work->f940 || work->f968 > 60)
+    {
+        if (work->f99C == 1)
+        {
+            work->f960 = 5;
+            work->f964 = 22;
+        }
+        else if (s18a_800CCD5C(&work->control.mov))
+        {
+            work->f960 = 3;
+            work->f964 = 14;
+        }
+        else
+        {
+            work->f960 = 2;
+            work->f964 = 9;
+        }
+
+        work->f99C = 0;
+        work->f97C = 0;
+        work->f968 = 0;
+    }
+    else
+    {
+        if (work->f9B8 == 4)
+        {
+            work->f99C = 0;
+        }
+
+        work->f968++;
+    }
+}
+
+void s18a_800CF470(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 13);
+    }
+    else
+    {
+        work->cmd = 22;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF4BC(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 23;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF508(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 23;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF554(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        if ((GM_PlayerStatus & PLAYER_ACT_ONLY) && GM_Vitality > 40)
+        {
+            work->f960 = 3;
+            work->f964 = 17;
+        }
+        else
+        {
+            work->f960 = 3;
+            work->f964 = 14;
+        }
+
+        work->f97C = 0;
+        work->f968 = 0;
+        work->f958 = 0;
+    }
+    else
+    {
+        work->cmd = 23;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF5DC(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 23;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF628(LiquidWork *work)
+{
+    if (work->f968 > 0 && work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 26;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF684(LiquidWork *work)
+{
+    if (work->f968 > 0 && work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 26;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF6E0(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 26;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF72C(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 15);
+    }
+    else
+    {
+        work->cmd = 24;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF778(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        if (work->f9B0 < 1000)
+        {
+            work->f960 = 2;
+            work->f964 = 9;
+        }
+        else
+        {
+            work->f960 = 3;
+            work->f964 = 15;
+        }
+
+        work->f97C = 0;
+        work->f968 = 0;
+    }
+    else
+    {
+        work->cmd = 20;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF7E4(LiquidWork *work)
+{
+    if (work->f968 > 0 && work->f940)
+    {
+        s18a_liquid_SetPhase(work, 29);
+    }
+    else
+    {
+        work->cmd = 20;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF838(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 1;
+        s18a_liquid_SetPhase(work, 3);
+    }
+    else
+    {
+        work->cmd = 20;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF884(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        if (work->f9B0 < 1000)
+        {
+            work->f960 = 2;
+            work->f964 = 9;
+        }
+        else
+        {
+            work->f960 = 3;
+            work->f964 = 15;
+        }
+
+        work->f97C = 0;
+        work->f968 = 0;
+    }
+    else
+    {
+        work->cmd = 19;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF8F0(LiquidWork *work)
+{
+    if (work->f968 > 0 && work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 19;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF94C(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 1;
+        s18a_liquid_SetPhase(work, 3);
+    }
+    else
+    {
+        work->cmd = 19;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF998(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 18;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CF9E4(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        if (work->f9B0 < 1000)
+        {
+            work->f960 = 2;
+            work->f964 = 9;
+        }
+        else
+        {
+            work->f960 = 3;
+            work->f964 = 15;
+        }
+
+        work->f97C = 0;
+        work->f968 = 0;
+    }
+    else
+    {
+        work->cmd = 18;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CFA50(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 20;
+        work->f968++;
+    }
+}
+
+void s18a_800CFA90(LiquidWork *work)
+{
+    if (work->f968 > 0 && work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 27;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CFAEC(LiquidWork *work)
+{
+    if (work->f968 > 0 && work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 27;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CFB48(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 27;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CFB94(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 21;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CFBE0(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        s18a_liquid_SetPhase(work, 29);
+    }
+    else
+    {
+        work->cmd = 21;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CFC24(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f960 = 1;
+        s18a_liquid_SetPhase(work, 2);
+    }
+    else
+    {
+        work->cmd = 21;
+        work->f954 = work->f9AC;
+        work->f968++;
+    }
+}
+
+void s18a_800CFC70(LiquidWork *work)
+{
+    if (work->f940)
+    {
+        work->f95C = 3;
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 14);
+    }
+    else
+    {
+        work->cmd = 30;
+        work->f968++;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFCB4.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFD54.s")
 const int s18a_dword_800E314C = 0x800CFE14;
