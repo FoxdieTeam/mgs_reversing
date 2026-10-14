@@ -34,6 +34,13 @@ void BloodHazard_Die(Work *work);
  * normal / sqrt mult results. With this source the pseudo's GR cost (48) is
  * below its memory cost (56), so it gets GR as alternate class; a C construct
  * that changes this without changing the code has not been found.
+ * Measured with the native cc1 (regclass.c, loop weight 4, $hi<->GR move cost 6,
+ * memory cost 4): a pseudo with one set and one use is always 2 * weight (8)
+ * short of flipping (48 against 56), so plain rewrites of width / 3 cannot do it;
+ * it would need two sets per use, or the set in a deeper loop than the use. The
+ * ten mult/mflo pseudos of the normal and sqrt code have the same shape. 14000
+ * permuter variants and user-variable forms of width / 3 and height / 3 found
+ * nothing.
  * Tried without success: a dead SVECTOR or long long local (or array) gives the
  * right frame size, but it is a pre-reload local so it sits below the spill slots
  * and shifts them by 8 (8 of 670 words differ); hoisting/rewriting width / 3,
