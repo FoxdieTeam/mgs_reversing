@@ -2924,7 +2924,35 @@ void s08b_bunsin2_800CE9BC(Work *work)
 }
 void s08b_bunsin2_800CE9BC(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEA34.s")
+int s08b_bunsin2_800CEA34(Work *work, int address)
+{
+    HZD_HDL *hzd;
+    HZD_ZON *zone;
+    int      from;
+    int      to;
+    int      dist;
+    int      zone_index;
+
+    hzd = work->control.map->hzd;
+    from = HZD_GetAddress(hzd, &work->field_1968, -1) & 0xFF;
+    to = address & 0xFF;
+
+    zone_index = HZD_FarZoneNavigate(hzd, from, to, &dist);
+    if (dist < HZD_GetRoute(hzd, from, to))
+    {
+        return -1;
+    }
+
+    zone = HZD_GetZone(hzd, zone_index);
+    work->field_1968.vx = zone->x;
+    work->field_1968.vy = zone->y;
+    work->field_1968.vz = zone->z;
+    work->field_1970 = (zone_index << 8) | zone_index;
+
+    work->field_198C = work->field_1968;
+    work->field_1988 = work->field_1970;
+    return dist;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEB40.s")
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CECB4.s")
@@ -3474,7 +3502,26 @@ int s08b_bunsin2_800D072C(Work *work)
     return r1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0784.s")
+int s08b_bunsin2_800D0784(Work *work)
+{
+    int address;
+
+    s08b_bunsin2_800CDF68(work);
+
+    if (work->field_19D0 & 0x10)
+    {
+        address = HZD_GetAddress(work->control.map->hzd, &work->control.mov, -1);
+        work->field_1978 = address;
+        if (HZD_ReachTo(work->control.map->hzd, address, work->field_1970) >= 2)
+        {
+            return 1;
+        }
+    }
+
+    work->field_19B4 = work->field_1A28;
+    work->field_19D0++;
+    return 0;
+}
 
 int s08b_bunsin2_800D0814(Work *work)
 {
@@ -3507,7 +3554,31 @@ int s08b_bunsin2_800D0864(Work *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D08C8.s")
+int s08b_bunsin2_800D08C8(Work *work)
+{
+    int r1;
+    int a0, a1;
+
+    r1 = s08b_bunsin2_800CEE68(work);
+    a0 = *(unsigned char *)&work->field_1978;
+    a1 = *(unsigned char *)&work->field_197C;
+    work->field_19D0++;
+
+    if (s08b_bunsin2_800CEF34(a0, a1))
+    {
+        return 2;
+    }
+
+    if (r1 != 0)
+    {
+        if ((unsigned int)s08b_bunsin2_800CEA34(work, GM_PlayerAddress) >= 3)
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
 int s08b_bunsin2_800D093C(Work *work)
 {
     if (work->field_19D0 == 0)
@@ -3659,7 +3730,46 @@ void s08b_bunsin2_800D0CD8(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0D80.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0EB8.s")
+void s08b_bunsin2_800D0EB8(Work *work)
+{
+    int limit;
+
+    work->field_19B0 = 8;
+    work->field_19B4 = work->field_1A28;
+
+    if (GM_GameLevel == GM_LEVEL_NORMAL)
+    {
+        limit = 15;
+    }
+    else
+    {
+        limit = 30;
+        if (GM_GameLevel > GM_LEVEL_EASY)
+        {
+            if (GM_GameLevel < GM_LEVEL_EXTREME + 1)
+            {
+                limit = 5;
+            }
+        }
+    }
+
+    if (limit < work->field_19D0 && !(GM_PlayerStatus & PLAYER_DOWNED))
+    {
+        work->field_19C8 = 5;
+        work->field_19CC = 24;
+        work->field_19D0 = 0;
+        return;
+    }
+
+    if (work->field_19D0 >= 61)
+    {
+        work->field_19CC = 19;
+        work->field_19D0 = 0;
+        return;
+    }
+
+    work->field_19D0++;
+}
 
 int s08b_bunsin2_800D0F54(Work *work)
 {
@@ -3673,7 +3783,47 @@ int s08b_bunsin2_800D0F54(Work *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0F88.s")
+int s08b_bunsin2_800D0F88(Work *work)
+{
+    int limit;
+    int level;
+
+    if (work->field_19D0 == 0)
+    {
+        work->field_19B4 = work->field_1A28;
+    }
+
+    level = GM_GameLevel;
+    limit = 5;
+    if (level == GM_LEVEL_NORMAL)
+    {
+        work->field_19C0 |= 2;
+    }
+    else if (level > GM_LEVEL_EASY)
+    {
+        if (level < GM_LEVEL_EXTREME + 1)
+        {
+            limit = 1;
+            work->field_19C0 |= 2;
+        }
+        else
+        {
+            limit = 10;
+        }
+    }
+    else
+    {
+        limit = 10;
+    }
+
+    if (limit < work->field_19D0)
+    {
+        return 1;
+    }
+
+    work->field_19D0++;
+    return 0;
+}
 int s08b_bunsin2_800D1014(Work *work)
 {
     int g;
