@@ -23,10 +23,17 @@ void BloodHazard_Act(Work *work);
 void BloodHazard_Die(Work *work);
 
 /* NON_MATCHING: the code of this draft is identical to the original, only the
- * stack frame differs: the original frame is 8 bytes bigger (one more 4-byte
- * spill slot after the three used ones at 0x38..0x40, never referenced; probably
- * a pseudo that reload put "on stack" and whose loads/stores were all inherited
- * away). The source construct that causes it has not been found.
+ * stack frame differs: the original frame is 8 bytes bigger (0x44..0x4f unused,
+ * after the three spill slots at 0x38..0x40). Verified with the native cc1 in
+ * gdb: if the pseudo holding the high part of width * 0x55555556 (width / 3 in
+ * the loop) goes "on stack" when reload spills $hi, the output is exactly the
+ * original (reload redirects the mult output into its reload register, so the
+ * 8-aligned spill slot stays unreferenced). That happens if regclass gives the
+ * pseudo alternate class NO_REGS (it then is local-allocated to $hi and not
+ * retried), or if retry_global_alloc fails for it or for one of the floor
+ * normal / sqrt mult results. With this source the pseudo's GR cost (48) is
+ * below its memory cost (56), so it gets GR as alternate class; a C construct
+ * that changes this without changing the code has not been found.
  * (Act/Die are not static: a static function following an INCLUDE_ASM
  * function would be merged into it by include_asm_fixup.py) */
 #if 0
