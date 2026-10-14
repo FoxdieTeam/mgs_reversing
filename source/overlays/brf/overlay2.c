@@ -1,2054 +1,1027 @@
-int brf_dword_800C3218 = 0x801CD000;
-int brf_dword_800C321C = 0x800E1014;
-int brf_dword_800C3220 = 0x0000004B;
-int brf_dword_800C3224 = 0x00033215;
-int brf_dword_800C3228 = 0x800E1008;
-int brf_dword_800C322C = 0x000000B2;
-int brf_dword_800C3230 = 0x000165E5;
-int brf_dword_800C3234 = 0x800E0FFC;
-int brf_dword_800C3238 = 0x000000DF;
-int brf_dword_800C323C = 0x0001F785;
-int brf_dword_800C3240 = 0x800E0FF0;
-int brf_dword_800C3244 = 0x0000011E;
-int brf_dword_800C3248 = 0x000217FD;
-int brf_dword_800C324C = 0x800E0FE4;
-int brf_dword_800C3250 = 0x00000161;
-int brf_dword_800C3254 = 0x0001D801;
-int brf_dword_800C3258 = 0x800E0FD8;
-int brf_dword_800C325C = 0x0000019D;
-int brf_dword_800C3260 = 0x0002D185;
-int brf_dword_800C3264 = 0x800E0FCC;
-int brf_dword_800C3268 = 0x000001F8;
-int brf_dword_800C326C = 0x0002D505;
-int brf_dword_800C3270 = 0x800E0FC0;
-int brf_dword_800C3274 = 0x00000253;
-int brf_dword_800C3278 = 0x00016725;
-int brf_dword_800C327C = 0x800E0FB4;
-int brf_dword_800C3280 = 0x00000294;
-int brf_dword_800C3284 = 0x0003BF55;
-int brf_dword_800C3288 = 0x800E0FA8;
-int brf_dword_800C328C = 0x0000030C;
-int brf_dword_800C3290 = 0x0002B4A5;
-int brf_dword_800C3294 = 0x800E0F9C;
-int brf_dword_800C3298 = 0x0000037F;
-int brf_dword_800C329C = 0x000424A9;
-int brf_dword_800C32A0 = 0x800E0F90;
-int brf_dword_800C32A4 = 0x00000418;
-int brf_dword_800C32A8 = 0x0003BF55;
-int brf_dword_800C32AC = 0x800E0F84;
-int brf_dword_800C32B0 = 0x00000490;
-int brf_dword_800C32B4 = 0x000455C9;
-int brf_dword_800C32B8 = 0x800E0F78;
-int brf_dword_800C32BC = 0x00000529;
-int brf_dword_800C32C0 = 0x000334F5;
-int brf_dword_800C32C4 = 0x800E0F6C;
-int brf_dword_800C32C8 = 0x00000590;
-int brf_dword_800C32CC = 0x0003CAFD;
-int brf_dword_800C32D0 = 0x800E0F60;
-int brf_dword_800C32D4 = 0x0000065E;
-int brf_dword_800C32D8 = 0x0003BB61;
-int brf_dword_800C32DC = 0x800E0F54;
-int brf_dword_800C32E0 = 0x00000743;
-int brf_dword_800C32E4 = 0x0002D715;
-int brf_dword_800C32E8 = 0x800E0F48;
-int brf_dword_800C32EC = 0x000007C0;
-int brf_dword_800C32F0 = 0x000398D5;
-int brf_dword_800C32F4 = 0x800E0F3C;
-int brf_dword_800C32F8 = 0x00000834;
-int brf_dword_800C32FC = 0x000014C5;
-int brf_dword_800C3300 = 0x800E107C;
-int brf_dword_800C3304 = 0x00000000;
-int brf_dword_800C3308 = 0x000254D9;
-int brf_dword_800C330C = 0x800E1074;
-int brf_dword_800C3310 = 0x00000000;
-int brf_dword_800C3314 = 0x00000000;
-int brf_dword_800C3318 = 0x800E1074;
-int brf_dword_800C331C = 0x00000000;
-int brf_dword_800C3320 = 0x00000000;
-int brf_dword_800C3324 = 0x800E1074;
-int brf_dword_800C3328 = 0x00000000;
-int brf_dword_800C332C = 0x00000000;
-int brf_dword_800C3330 = 0x800E1074;
-int brf_dword_800C3334 = 0x00000000;
-int brf_dword_800C3338 = 0x00000000;
-int brf_dword_800C333C = 0x800E1074;
-int brf_dword_800C3340 = 0x00000000;
-int brf_dword_800C3344 = 0x00000000;
-int brf_dword_800C3348 = 0x800E1074;
-int brf_dword_800C334C = 0x00000000;
-int brf_dword_800C3350 = 0x00000000;
-int brf_dword_800C3354 = 0x800E1074;
-int brf_dword_800C3358 = 0x00000000;
-int brf_dword_800C335C = 0x00000000;
-int brf_dword_800C3360 = 0x800E1068;
-int brf_dword_800C3364 = 0x00000280;
-int brf_dword_800C3368 = 0x00009811;
-int brf_dword_800C336C = 0x800E1074;
-int brf_dword_800C3370 = 0x00000000;
-int brf_dword_800C3374 = 0x00000000;
-int brf_dword_800C3378 = 0x800E105C;
-int brf_dword_800C337C = 0x00000363;
-int brf_dword_800C3380 = 0x0000DFC9;
-int brf_dword_800C3384 = 0x800E1050;
-int brf_dword_800C3388 = 0x00000404;
-int brf_dword_800C338C = 0x00009811;
-int brf_dword_800C3390 = 0x800E1074;
-int brf_dword_800C3394 = 0x00000000;
-int brf_dword_800C3398 = 0x00000000;
-int brf_dword_800C339C = 0x800E1044;
-int brf_dword_800C33A0 = 0x0000051B;
-int brf_dword_800C33A4 = 0x00006CB5;
-int brf_dword_800C33A8 = 0x800E1074;
-int brf_dword_800C33AC = 0x00000000;
-int brf_dword_800C33B0 = 0x00000000;
-int brf_dword_800C33B4 = 0x800E1038;
-int brf_dword_800C33B8 = 0x0000060A;
-int brf_dword_800C33BC = 0x00029D59;
-int brf_dword_800C33C0 = 0x800E102C;
-int brf_dword_800C33C4 = 0x000006D6;
-int brf_dword_800C33C8 = 0x0003632D;
-int brf_dword_800C33CC = 0x800E1020;
-int brf_dword_800C33D0 = 0x0000079E;
-int brf_dword_800C33D4 = 0x00010AB1;
-int brf_dword_800C33D8 = 0x800E1074;
-int brf_dword_800C33DC = 0x00000000;
-int brf_dword_800C33E0 = 0x00000000;
-int brf_dword_800C33E4 = 0x00000A16;
-int brf_dword_800C33E8 = 0x000002C7;
-int brf_dword_800C33EC = 0x00000933;
-int brf_dword_800C33F0 = 0x0000059C;
-int brf_dword_800C33F4 = 0x00000505;
-int brf_dword_800C33F8 = 0x000009F1;
-int brf_dword_800C33FC = 0x00000913;
-int brf_dword_800C3400 = 0x000004E1;
-int brf_dword_800C3404 = 0x00000819;
-int brf_dword_800C3408 = 0x00000BF3;
-int brf_dword_800C340C = 0x00000975;
-int brf_dword_800C3410 = 0x000003C0;
-int brf_dword_800C3414 = 0x00000B60;
-int brf_dword_800C3418 = 0x0000093E;
-int brf_dword_800C341C = 0x000007D5;
-int brf_dword_800C3420 = 0x00000C6E;
-int brf_dword_800C3424 = 0x000012FF;
-int brf_dword_800C3428 = 0x00000D5A;
-int brf_dword_800C342C = 0x00000267;
-int brf_dword_800C3430 = 0x00000001;
-int brf_dword_800C3434 = 0x00010000;
-int brf_dword_800C3438 = 0x00020000;
-int brf_dword_800C343C = 0x00030000;
-int brf_dword_800C3440 = 0x00040000;
-int brf_dword_800C3444 = 0x00050000;
-int brf_dword_800C3448 = 0x00060000;
-int brf_dword_800C344C = 0x00070000;
-int brf_dword_800C3450 = 0x00080001;
-int brf_dword_800C3454 = 0x00090000;
-int brf_dword_800C3458 = 0x000A0001;
-int brf_dword_800C345C = 0x000B0001;
-int brf_dword_800C3460 = 0x000C0000;
-int brf_dword_800C3464 = 0x000D0001;
-int brf_dword_800C3468 = 0x000E0000;
-int brf_dword_800C346C = 0x000F0001;
-int brf_dword_800C3470 = 0x01310200;
-int brf_dword_800C3474 = 0x00000000;
-int brf_dword_800C3478 = 0x01110900;
-int brf_dword_800C347C = 0x00000000;
-int brf_dword_800C3480 = 0x01290900;
-int brf_dword_800C3484 = 0x00000001;
-int brf_dword_800C3488 = 0x01010B00;
-int brf_dword_800C348C = 0x00000001;
-int brf_dword_800C3490 = 0x01161400;
-int brf_dword_800C3494 = 0x00000000;
-int brf_dword_800C3498 = 0x01051500;
-int brf_dword_800C349C = 0x00000000;
-int brf_dword_800C34A0 = 0x01201600;
-int brf_dword_800C34A4 = 0x00000000;
-int brf_dword_800C34A8 = 0x01120400;
-int brf_dword_800C34AC = 0x00000000;
-int brf_dword_800C34B0 = 0x013B0400;
-int brf_dword_800C34B4 = 0x00010001;
-int brf_dword_800C34B8 = 0x01090600;
-int brf_dword_800C34BC = 0x00000000;
-int brf_dword_800C34C0 = 0x01360700;
-int brf_dword_800C34C4 = 0x00000000;
-int brf_dword_800C34C8 = 0x01310B00;
-int brf_dword_800C34CC = 0x00010001;
-int brf_dword_800C34D0 = 0x01150C00;
-int brf_dword_800C34D4 = 0x00000000;
-int brf_dword_800C34D8 = 0x01010E00;
-int brf_dword_800C34DC = 0x00000000;
-int brf_dword_800C34E0 = 0x01160F00;
-int brf_dword_800C34E4 = 0x00000000;
-int brf_dword_800C34E8 = 0x01221000;
-int brf_dword_800C34EC = 0x00000000;
-int brf_dword_800C34F0 = 0x01000000;
-int brf_dword_800C34F4 = 0x00000000;
-int brf_dword_800C34F8 = 0x01181200;
-int brf_dword_800C34FC = 0x00000000;
-int brf_dword_800C3500 = 0x00271700;
-int brf_dword_800C3504 = 0x00000000;
-int brf_dword_800C3508 = 0x0005000B;
-int brf_dword_800C350C = 0x0343000F;
-int brf_dword_800C3510 = 0x01230004;
-int brf_dword_800C3514 = 0x00280009;
-int brf_dword_800C3518 = 0x0009000A;
-int brf_dword_800C351C = 0x000A0014;
-int brf_dword_800C3520 = 0x0009000A;
-int brf_dword_800C3524 = 0x02AC004A;
-int brf_dword_800C3528 = 0x000C0025;
-int brf_dword_800C352C = 0x00000001;
-int brf_dword_800C3530 = 0x800CF984;
-int brf_dword_800C3534 = 0x800D00C4;
-int brf_dword_800C3538 = 0x800D02F4;
-int brf_dword_800C353C = 0x800D26E4;
-int brf_dword_800C3540 = 0x800D3220;
-int brf_dword_800C3544 = 0x800D41A4;
-int brf_dword_800C3548 = 0x800D4664;
-int brf_dword_800C354C = 0x800D4A34;
-int brf_dword_800C3550 = 0x800D52F0;
-int brf_dword_800C3554 = 0x800D5780;
-int brf_dword_800C3558 = 0x800D5ED0;
-int brf_dword_800C355C = 0x800D674C;
-int brf_dword_800C3560 = 0x800D69A8;
-int brf_dword_800C3564 = 0x800D70A4;
-int brf_dword_800C3568 = 0x800D8060;
-int brf_dword_800C356C = 0x800D93F4;
-int brf_dword_800C3570 = 0x800DBA7C;
-int brf_dword_800C3574 = 0x800DCFB4;
-int brf_dword_800C3578 = 0x800DD648;
-int brf_dword_800C357C = 0x00000000;
-int brf_dword_800C3580 = 0xFF98FF81;
-int brf_dword_800C3584 = 0x0000007F;
-int brf_dword_800C3588 = 0x00000001;
-int brf_dword_800C358C = 0x0000FF81;
-int brf_dword_800C3590 = 0x0058007F;
-int brf_dword_800C3594 = 0x00000004;
-int brf_dword_800C3598 = 0xFF98FF81;
-int brf_dword_800C359C = 0x0000007F;
-int brf_dword_800C35A0 = 0x00000005;
-int brf_dword_800C35A4 = 0x0000FF81;
-int brf_dword_800C35A8 = 0x0058007F;
-int brf_dword_800C35AC = 0x00000002;
-int brf_dword_800C35B0 = 0x0015FF59;
-int brf_dword_800C35B4 = 0x0058FFC9;
-int brf_dword_800C35B8 = 0x00000003;
-int brf_dword_800C35BC = 0xFF980053;
-int brf_dword_800C35C0 = 0x0058008F;
-int brf_dword_800C35C4 = 0x00000006;
-int brf_dword_800C35C8 = 0xFF98FF81;
-int brf_dword_800C35CC = 0x0000007F;
-int brf_dword_800C35D0 = 0x00000007;
-int brf_dword_800C35D4 = 0x0000FF81;
-int brf_dword_800C35D8 = 0x0058007F;
-int brf_dword_800C35DC = 0x00000008;
-int brf_dword_800C35E0 = 0xFF98FF81;
-int brf_dword_800C35E4 = 0x0000007F;
-int brf_dword_800C35E8 = 0x00000009;
-int brf_dword_800C35EC = 0x0000FF81;
-int brf_dword_800C35F0 = 0x0058007F;
-int brf_dword_800C35F4 = 0x00000000;
-int brf_dword_800C35F8 = 0xFF98FF81;
-int brf_dword_800C35FC = 0x0000007F;
-int brf_dword_800C3600 = 0x00000001;
-int brf_dword_800C3604 = 0x0000FF81;
-int brf_dword_800C3608 = 0x0058007F;
-int brf_dword_800C360C = 0x00000002;
-int brf_dword_800C3610 = 0xFF98FFD3;
-int brf_dword_800C3614 = 0x00580037;
-int brf_dword_800C3618 = 0x00000003;
-int brf_dword_800C361C = 0xFF98FFD3;
-int brf_dword_800C3620 = 0x00580037;
-int brf_dword_800C3624 = 0x00000004;
-int brf_dword_800C3628 = 0xFF6CFFB7;
-int brf_dword_800C362C = 0xFFC8000D;
-int brf_dword_800C3630 = 0x00000005;
-int brf_dword_800C3634 = 0xFF6CFFB7;
-int brf_dword_800C3638 = 0xFFC8000D;
-int brf_dword_800C363C = 0x00000006;
-int brf_dword_800C3640 = 0xFF98FFCD;
-int brf_dword_800C3644 = 0xFFCD0017;
-int brf_dword_800C3648 = 0x00000007;
-int brf_dword_800C364C = 0xFF98FFCD;
-int brf_dword_800C3650 = 0xFFCD0017;
-int brf_dword_800C3654 = 0x00000008;
-int brf_dword_800C3658 = 0xFF98FF81;
-int brf_dword_800C365C = 0xFFEDFFD3;
-int brf_dword_800C3660 = 0x00000009;
-int brf_dword_800C3664 = 0xFF96FF7F;
-int brf_dword_800C3668 = 0xFFF3FFBD;
-int brf_dword_800C366C = 0x0000000A;
-int brf_dword_800C3670 = 0xFFF8FF81;
-int brf_dword_800C3674 = 0x0058007F;
-int brf_dword_800C3678 = 0x0000000D;
-int brf_dword_800C367C = 0xFFAEFF90;
-int brf_dword_800C3680 = 0x000AFFE6;
-int brf_dword_800C3684 = 0x0000000E;
-int brf_dword_800C3688 = 0xFFAEFF90;
-int brf_dword_800C368C = 0x000AFFE6;
-int brf_dword_800C3690 = 0x0000000B;
-int brf_dword_800C3694 = 0x0015FF59;
-int brf_dword_800C3698 = 0x0058FFC9;
-int brf_dword_800C369C = 0x0000000C;
-int brf_dword_800C36A0 = 0xFF980053;
-int brf_dword_800C36A4 = 0x0058008F;
-int brf_dword_800C36A8 = 0x00000000;
-int brf_dword_800C36AC = 0xFF98FF81;
-int brf_dword_800C36B0 = 0x0000007F;
-int brf_dword_800C36B4 = 0x00000001;
-int brf_dword_800C36B8 = 0x0000FF81;
-int brf_dword_800C36BC = 0x0058007F;
-int brf_dword_800C36C0 = 0x00000002;
-int brf_dword_800C36C4 = 0xFF98FFD3;
-int brf_dword_800C36C8 = 0x00580037;
-int brf_dword_800C36CC = 0x00000003;
-int brf_dword_800C36D0 = 0xFF98FFD3;
-int brf_dword_800C36D4 = 0x00580037;
-int brf_dword_800C36D8 = 0x00000004;
-int brf_dword_800C36DC = 0xFF6CFFB7;
-int brf_dword_800C36E0 = 0xFFC8000D;
-int brf_dword_800C36E4 = 0x00000005;
-int brf_dword_800C36E8 = 0xFF6CFFB7;
-int brf_dword_800C36EC = 0xFFC8000D;
-int brf_dword_800C36F0 = 0x00000006;
-int brf_dword_800C36F4 = 0xFFAEFF90;
-int brf_dword_800C36F8 = 0x000AFFE6;
-int brf_dword_800C36FC = 0x00000007;
-int brf_dword_800C3700 = 0xFFAEFF90;
-int brf_dword_800C3704 = 0x000AFFE6;
-int brf_dword_800C3708 = 0x00000008;
-int brf_dword_800C370C = 0xFF98FFCD;
-int brf_dword_800C3710 = 0xFFCD0017;
-int brf_dword_800C3714 = 0x00000009;
-int brf_dword_800C3718 = 0xFF98FFCD;
-int brf_dword_800C371C = 0xFFCD0017;
-int brf_dword_800C3720 = 0x0000000C;
-int brf_dword_800C3724 = 0xFFF8FF81;
-int brf_dword_800C3728 = 0x0058007F;
-int brf_dword_800C372C = 0x0000000A;
-int brf_dword_800C3730 = 0x0015FF59;
-int brf_dword_800C3734 = 0x0058FFC9;
-int brf_dword_800C3738 = 0x0000000B;
-int brf_dword_800C373C = 0xFF980053;
-int brf_dword_800C3740 = 0x0058008F;
-int brf_dword_800C3744 = 0x00000008;
-int brf_dword_800C3748 = 0xFF98FF81;
-int brf_dword_800C374C = 0x0058007F;
-int brf_dword_800C3750 = 0x00000009;
-int brf_dword_800C3754 = 0xFF98FF81;
-int brf_dword_800C3758 = 0x0058007F;
-int brf_dword_800C375C = 0x0000000A;
-int brf_dword_800C3760 = 0xFF98FF81;
-int brf_dword_800C3764 = 0x0058007F;
-int brf_dword_800C3768 = 0x00000000;
-int brf_dword_800C376C = 0xFF98FF81;
-int brf_dword_800C3770 = 0x0058007F;
-int brf_dword_800C3774 = 0x00000002;
-int brf_dword_800C3778 = 0x0015FF59;
-int brf_dword_800C377C = 0x0058FFC9;
-int brf_dword_800C3780 = 0x00000003;
-int brf_dword_800C3784 = 0xFF980053;
-int brf_dword_800C3788 = 0x0058008F;
-int brf_dword_800C378C = 0x00000004;
-int brf_dword_800C3790 = 0xFF98FF81;
-int brf_dword_800C3794 = 0x0058007F;
-int brf_dword_800C3798 = 0x00000001;
-int brf_dword_800C379C = 0xFF98FF81;
-int brf_dword_800C37A0 = 0x0058007F;
-int brf_dword_800C37A4 = 0x00000000;
-int brf_dword_800C37A8 = 0xFF98FF81;
-int brf_dword_800C37AC = 0x0000007F;
-int brf_dword_800C37B0 = 0x00000001;
-int brf_dword_800C37B4 = 0x0000FF81;
-int brf_dword_800C37B8 = 0x0058007F;
-int brf_dword_800C37BC = 0x00000002;
-int brf_dword_800C37C0 = 0xFF98FF81;
-int brf_dword_800C37C4 = 0x0000007F;
-int brf_dword_800C37C8 = 0x00000003;
-int brf_dword_800C37CC = 0x0000FF81;
-int brf_dword_800C37D0 = 0x0058007F;
-int brf_dword_800C37D4 = 0x00000000;
-int brf_dword_800C37D8 = 0x0015FF59;
-int brf_dword_800C37DC = 0x0058FFC9;
-int brf_dword_800C37E0 = 0x00000001;
-int brf_dword_800C37E4 = 0xFF980053;
-int brf_dword_800C37E8 = 0x0058008F;
-int brf_dword_800C37EC = 0x00000002;
-int brf_dword_800C37F0 = 0xFF98FF81;
-int brf_dword_800C37F4 = 0x0000007F;
-int brf_dword_800C37F8 = 0x00000003;
-int brf_dword_800C37FC = 0xFF98FF81;
-int brf_dword_800C3800 = 0x0000007F;
-int brf_dword_800C3804 = 0x00000004;
-int brf_dword_800C3808 = 0x0000FF81;
-int brf_dword_800C380C = 0x0058007F;
-int brf_dword_800C3810 = 0x00000008;
-int brf_dword_800C3814 = 0x0000FF81;
-int brf_dword_800C3818 = 0x0058007F;
-int brf_dword_800C381C = 0x00000000;
-int brf_dword_800C3820 = 0xFF98FF81;
-int brf_dword_800C3824 = 0x0000007F;
-int brf_dword_800C3828 = 0x00000001;
-int brf_dword_800C382C = 0x0000FF81;
-int brf_dword_800C3830 = 0x0058007F;
-int brf_dword_800C3834 = 0x00000004;
-int brf_dword_800C3838 = 0xFF98FF81;
-int brf_dword_800C383C = 0x0000007F;
-int brf_dword_800C3840 = 0x00000005;
-int brf_dword_800C3844 = 0x0015FF59;
-int brf_dword_800C3848 = 0x0058FFC9;
-int brf_dword_800C384C = 0x00000006;
-int brf_dword_800C3850 = 0xFF980053;
-int brf_dword_800C3854 = 0x0058008F;
-int brf_dword_800C3858 = 0x00000026;
-int brf_dword_800C385C = 0xFF98FF81;
-int brf_dword_800C3860 = 0x0000007F;
-int brf_dword_800C3864 = 0x00000027;
-int brf_dword_800C3868 = 0x0000FF81;
-int brf_dword_800C386C = 0x0058007F;
-int brf_dword_800C3870 = 0x00000006;
-int brf_dword_800C3874 = 0xFF98FF81;
-int brf_dword_800C3878 = 0x0000007F;
-int brf_dword_800C387C = 0x00000007;
-int brf_dword_800C3880 = 0x0000FF81;
-int brf_dword_800C3884 = 0x0058007F;
-int brf_dword_800C3888 = 0x00000008;
-int brf_dword_800C388C = 0xFF98FF81;
-int brf_dword_800C3890 = 0x0000007F;
-int brf_dword_800C3894 = 0x00000009;
-int brf_dword_800C3898 = 0x0000FF81;
-int brf_dword_800C389C = 0x0058007F;
-int brf_dword_800C38A0 = 0x00000003;
-int brf_dword_800C38A4 = 0xFF98FF81;
-int brf_dword_800C38A8 = 0x0000007F;
-int brf_dword_800C38AC = 0x00000004;
-int brf_dword_800C38B0 = 0xFF98FF81;
-int brf_dword_800C38B4 = 0x0000007F;
-int brf_dword_800C38B8 = 0x00000005;
-int brf_dword_800C38BC = 0x0000FF81;
-int brf_dword_800C38C0 = 0x0058007F;
-int brf_dword_800C38C4 = 0x00000006;
-int brf_dword_800C38C8 = 0x0015FF59;
-int brf_dword_800C38CC = 0x0058FFC9;
-int brf_dword_800C38D0 = 0x00000007;
-int brf_dword_800C38D4 = 0xFF980053;
-int brf_dword_800C38D8 = 0x0058008F;
-int brf_dword_800C38DC = 0x00000008;
-int brf_dword_800C38E0 = 0xFF98FF81;
-int brf_dword_800C38E4 = 0x0058007F;
-int brf_dword_800C38E8 = 0x00000007;
-int brf_dword_800C38EC = 0xFF98FF81;
-int brf_dword_800C38F0 = 0x0000007F;
-int brf_dword_800C38F4 = 0x00000008;
-int brf_dword_800C38F8 = 0xFF98FF81;
-int brf_dword_800C38FC = 0x0000007F;
-int brf_dword_800C3900 = 0x00000009;
-int brf_dword_800C3904 = 0x0000FF81;
-int brf_dword_800C3908 = 0x0058007F;
-int brf_dword_800C390C = 0x00000000;
-int brf_dword_800C3910 = 0xFF98FF81;
-int brf_dword_800C3914 = 0x0000007F;
-int brf_dword_800C3918 = 0x00000001;
-int brf_dword_800C391C = 0x0000FF81;
-int brf_dword_800C3920 = 0x0058007F;
-int brf_dword_800C3924 = 0x00000002;
-int brf_dword_800C3928 = 0x0015FF59;
-int brf_dword_800C392C = 0x0058FFC9;
-int brf_dword_800C3930 = 0x00000003;
-int brf_dword_800C3934 = 0xFF980053;
-int brf_dword_800C3938 = 0x0058008F;
-int brf_dword_800C393C = 0x00000004;
-int brf_dword_800C3940 = 0xFF98FF81;
-int brf_dword_800C3944 = 0x0000007F;
-int brf_dword_800C3948 = 0x00000005;
-int brf_dword_800C394C = 0x0000FF81;
-int brf_dword_800C3950 = 0x0058007F;
-int brf_dword_800C3954 = 0x00000000;
-int brf_dword_800C3958 = 0xFF98FF81;
-int brf_dword_800C395C = 0x0000007F;
-int brf_dword_800C3960 = 0x00000001;
-int brf_dword_800C3964 = 0x0000FF81;
-int brf_dword_800C3968 = 0x0058007F;
-int brf_dword_800C396C = 0x00000002;
-int brf_dword_800C3970 = 0xFF98FF81;
-int brf_dword_800C3974 = 0x0000007F;
-int brf_dword_800C3978 = 0x00000003;
-int brf_dword_800C397C = 0xFF98FF81;
-int brf_dword_800C3980 = 0x0000007F;
-int brf_dword_800C3984 = 0x00000004;
-int brf_dword_800C3988 = 0x0000FF81;
-int brf_dword_800C398C = 0x0058007F;
-int brf_dword_800C3990 = 0x00000005;
-int brf_dword_800C3994 = 0xFF98FF81;
-int brf_dword_800C3998 = 0x0000007F;
-int brf_dword_800C399C = 0x00000006;
-int brf_dword_800C39A0 = 0xFF98FF81;
-int brf_dword_800C39A4 = 0x0000007F;
-int brf_dword_800C39A8 = 0x00000007;
-int brf_dword_800C39AC = 0x0000FF81;
-int brf_dword_800C39B0 = 0x0058007F;
-int brf_dword_800C39B4 = 0x00000000;
-int brf_dword_800C39B8 = 0xFF98FF81;
-int brf_dword_800C39BC = 0x0000007F;
-int brf_dword_800C39C0 = 0x00000001;
-int brf_dword_800C39C4 = 0x0000FF81;
-int brf_dword_800C39C8 = 0x0058007F;
-int brf_dword_800C39CC = 0x00000004;
-int brf_dword_800C39D0 = 0xFF98FF81;
-int brf_dword_800C39D4 = 0x0000007F;
-int brf_dword_800C39D8 = 0x00000005;
-int brf_dword_800C39DC = 0xFF98FF81;
-int brf_dword_800C39E0 = 0x0000007F;
-int brf_dword_800C39E4 = 0x00000000;
-int brf_dword_800C39E8 = 0x0015FF59;
-int brf_dword_800C39EC = 0x0058FFC9;
-int brf_dword_800C39F0 = 0x00000001;
-int brf_dword_800C39F4 = 0xFF980053;
-int brf_dword_800C39F8 = 0x00580053;
-int brf_dword_800C39FC = 0x00000002;
-int brf_dword_800C3A00 = 0xFF98FF81;
-int brf_dword_800C3A04 = 0x0000007F;
-int brf_dword_800C3A08 = 0x00000003;
-int brf_dword_800C3A0C = 0xFF98FF81;
-int brf_dword_800C3A10 = 0x0000007F;
-int brf_dword_800C3A14 = 0x00000004;
-int brf_dword_800C3A18 = 0xFF98FF81;
-int brf_dword_800C3A1C = 0x0000007F;
-int brf_dword_800C3A20 = 0x00000005;
-int brf_dword_800C3A24 = 0xFF98FF81;
-int brf_dword_800C3A28 = 0x0000007F;
-int brf_dword_800C3A2C = 0x00000006;
-int brf_dword_800C3A30 = 0xFF98FF81;
-int brf_dword_800C3A34 = 0x0000007F;
-int brf_dword_800C3A38 = 0x0000001E;
-int brf_dword_800C3A3C = 0x0000FF81;
-int brf_dword_800C3A40 = 0x0058007F;
-int brf_dword_800C3A44 = 0x0000001F;
-int brf_dword_800C3A48 = 0x0000FF81;
-int brf_dword_800C3A4C = 0x0058007F;
-int brf_dword_800C3A50 = 0x00000020;
-int brf_dword_800C3A54 = 0x0000FF81;
-int brf_dword_800C3A58 = 0x0058007F;
-int brf_dword_800C3A5C = 0x0000000C;
-int brf_dword_800C3A60 = 0xFF98FF81;
-int brf_dword_800C3A64 = 0x0000007F;
-int brf_dword_800C3A68 = 0x0000000D;
-int brf_dword_800C3A6C = 0xFF98FF81;
-int brf_dword_800C3A70 = 0x0000007F;
-int brf_dword_800C3A74 = 0x0000000E;
-int brf_dword_800C3A78 = 0xFF98FF81;
-int brf_dword_800C3A7C = 0x0000007F;
-int brf_dword_800C3A80 = 0x0000000F;
-int brf_dword_800C3A84 = 0x0000FF81;
-int brf_dword_800C3A88 = 0x0058007F;
-int brf_dword_800C3A8C = 0x0000001D;
-int brf_dword_800C3A90 = 0xFF98FF81;
-int brf_dword_800C3A94 = 0x0000007F;
-int brf_dword_800C3A98 = 0x00000000;
-int brf_dword_800C3A9C = 0x0015FF59;
-int brf_dword_800C3AA0 = 0x0058FFC9;
-int brf_dword_800C3AA4 = 0x00000001;
-int brf_dword_800C3AA8 = 0xFF980053;
-int brf_dword_800C3AAC = 0x0058008F;
-int brf_dword_800C3AB0 = 0x00000002;
-int brf_dword_800C3AB4 = 0xFF98FF81;
-int brf_dword_800C3AB8 = 0x0000007F;
-int brf_dword_800C3ABC = 0x00000003;
-int brf_dword_800C3AC0 = 0x0000FF81;
-int brf_dword_800C3AC4 = 0x0058007F;
-int brf_dword_800C3AC8 = 0x00000004;
-int brf_dword_800C3ACC = 0xFF98FF81;
-int brf_dword_800C3AD0 = 0x0000007F;
-int brf_dword_800C3AD4 = 0x00000005;
-int brf_dword_800C3AD8 = 0xFF98FF81;
-int brf_dword_800C3ADC = 0x0000007F;
-int brf_dword_800C3AE0 = 0x00000006;
-int brf_dword_800C3AE4 = 0xFF98FF81;
-int brf_dword_800C3AE8 = 0x0000007F;
-int brf_dword_800C3AEC = 0x00000007;
-int brf_dword_800C3AF0 = 0x0000FF81;
-int brf_dword_800C3AF4 = 0x0058007F;
-int brf_dword_800C3AF8 = 0x00000008;
-int brf_dword_800C3AFC = 0xFF98FF81;
-int brf_dword_800C3B00 = 0x0000007F;
-int brf_dword_800C3B04 = 0x00000009;
-int brf_dword_800C3B08 = 0x0000FF81;
-int brf_dword_800C3B0C = 0x0058007F;
-int brf_dword_800C3B10 = 0x00000000;
-int brf_dword_800C3B14 = 0x0015FF59;
-int brf_dword_800C3B18 = 0x0058FFC9;
-int brf_dword_800C3B1C = 0x00000001;
-int brf_dword_800C3B20 = 0xFF980053;
-int brf_dword_800C3B24 = 0x0058008F;
-int brf_dword_800C3B28 = 0x00000002;
-int brf_dword_800C3B2C = 0xFF98FF81;
-int brf_dword_800C3B30 = 0x0000007F;
-int brf_dword_800C3B34 = 0x00000003;
-int brf_dword_800C3B38 = 0x0000FF81;
-int brf_dword_800C3B3C = 0x0058007F;
-int brf_dword_800C3B40 = 0x00000004;
-int brf_dword_800C3B44 = 0xFF98FF81;
-int brf_dword_800C3B48 = 0x0000007F;
-int brf_dword_800C3B4C = 0x00000006;
-int brf_dword_800C3B50 = 0xFF98FF81;
-int brf_dword_800C3B54 = 0x0000007F;
-int brf_dword_800C3B58 = 0x00000007;
-int brf_dword_800C3B5C = 0x0000FF81;
-int brf_dword_800C3B60 = 0x0058007F;
-int brf_dword_800C3B64 = 0x0000000B;
-int brf_dword_800C3B68 = 0xFF98FF81;
-int brf_dword_800C3B6C = 0x0000007F;
-int brf_dword_800C3B70 = 0x00000001;
-int brf_dword_800C3B74 = 0xFF98FF81;
-int brf_dword_800C3B78 = 0x0058007F;
-int brf_dword_800C3B7C = 0x00005CEA;
-int brf_dword_800C3B80 = 0x00000001;
-int brf_dword_800C3B84 = 0xFFD3FFEC;
-int brf_dword_800C3B88 = 0xFFE5000A;
-int brf_dword_800C3B8C = 0x00008927;
-int brf_dword_800C3B90 = 0x00010001;
-int brf_dword_800C3B94 = 0xFF98FF81;
-int brf_dword_800C3B98 = 0x0058007F;
-int brf_dword_800C3B9C = 0x00005AEA;
-int brf_dword_800C3BA0 = 0x00000001;
-int brf_dword_800C3BA4 = 0xFFCAFFDD;
-int brf_dword_800C3BA8 = 0xFFF80035;
-int brf_dword_800C3BAC = 0x0000FF8A;
-int brf_dword_800C3BB0 = 0x00000001;
-int brf_dword_800C3BB4 = 0x0001FFB4;
-int brf_dword_800C3BB8 = 0x0058001C;
-int brf_dword_800C3BBC = 0x00007927;
-int brf_dword_800C3BC0 = 0x00010001;
-int brf_dword_800C3BC4 = 0xFF98FF81;
-int brf_dword_800C3BC8 = 0x0058007F;
-int brf_dword_800C3BCC = 0x0000EE31;
-int brf_dword_800C3BD0 = 0x00010001;
-int brf_dword_800C3BD4 = 0xFF98FF81;
-int brf_dword_800C3BD8 = 0x0058007F;
-int brf_dword_800C3BDC = 0x0000BB03;
-int brf_dword_800C3BE0 = 0x00010002;
-int brf_dword_800C3BE4 = 0xFF98FF81;
-int brf_dword_800C3BE8 = 0x0058007F;
-int brf_dword_800C3BEC = 0x00000000;
-int brf_dword_800C3BF0 = 0x00010002;
-int brf_dword_800C3BF4 = 0xFF98FF81;
-int brf_dword_800C3BF8 = 0x0058007F;
-int brf_dword_800C3BFC = 0x00000000;
-int brf_dword_800C3C00 = 0x00010002;
-int brf_dword_800C3C04 = 0xFF98FF81;
-int brf_dword_800C3C08 = 0x0058007F;
-int brf_dword_800C3C0C = 0x00000000;
-int brf_dword_800C3C10 = 0x00000002;
-int brf_dword_800C3C14 = 0xFF98FF81;
-int brf_dword_800C3C18 = 0x0058007F;
-int brf_dword_800C3C1C = 0x00000000;
-int brf_dword_800C3C20 = 0x00010001;
-int brf_dword_800C3C24 = 0xFF98FF81;
-int brf_dword_800C3C28 = 0x0058007F;
-int brf_dword_800C3C2C = 0x000011FE;
-int brf_dword_800C3C30 = 0x00010001;
-int brf_dword_800C3C34 = 0xFF98FF81;
-int brf_dword_800C3C38 = 0x0058007F;
-int brf_dword_800C3C3C = 0x000058EE;
-int brf_dword_800C3C40 = 0x00010001;
-int brf_dword_800C3C44 = 0x0015FF59;
-int brf_dword_800C3C48 = 0x0058FFC9;
-int brf_dword_800C3C4C = 0x00001C99;
-int brf_dword_800C3C50 = 0x00010003;
-int brf_dword_800C3C54 = 0xFF980053;
-int brf_dword_800C3C58 = 0x0058008F;
-int brf_dword_800C3C5C = 0x0000667A;
-int brf_dword_800C3C60 = 0x00010001;
-int brf_dword_800C3C64 = 0xFF98FF81;
-int brf_dword_800C3C68 = 0x0058007F;
-int brf_dword_800C3C6C = 0x000011FE;
-int brf_dword_800C3C70 = 0x00010001;
-int brf_dword_800C3C74 = 0xFF98FF81;
-int brf_dword_800C3C78 = 0x0000007F;
-int brf_dword_800C3C7C = 0x0000C5B8;
-int brf_dword_800C3C80 = 0x00010001;
-int brf_dword_800C3C84 = 0x0000FF81;
-int brf_dword_800C3C88 = 0x0058007F;
-int brf_dword_800C3C8C = 0x0000C5A7;
-int brf_dword_800C3C90 = 0x00010001;
-int brf_dword_800C3C94 = 0xFF98FFD3;
-int brf_dword_800C3C98 = 0x00580037;
-int brf_dword_800C3C9C = 0x0000B2B4;
-int brf_dword_800C3CA0 = 0x00010001;
-int brf_dword_800C3CA4 = 0xFF98FFD3;
-int brf_dword_800C3CA8 = 0x00580037;
-int brf_dword_800C3CAC = 0x00004FAB;
-int brf_dword_800C3CB0 = 0x00010001;
-int brf_dword_800C3CB4 = 0xFF6CFFB7;
-int brf_dword_800C3CB8 = 0xFFC8000D;
-int brf_dword_800C3CBC = 0x00004F31;
-int brf_dword_800C3CC0 = 0x00010001;
-int brf_dword_800C3CC4 = 0xFF6CFFB7;
-int brf_dword_800C3CC8 = 0xFFC8000D;
-int brf_dword_800C3CCC = 0x00004F32;
-int brf_dword_800C3CD0 = 0x00010001;
-int brf_dword_800C3CD4 = 0xFF98FFCD;
-int brf_dword_800C3CD8 = 0xFFCD0017;
-int brf_dword_800C3CDC = 0x00005AB2;
-int brf_dword_800C3CE0 = 0x00010001;
-int brf_dword_800C3CE4 = 0xFF98FFCD;
-int brf_dword_800C3CE8 = 0xFFCD0017;
-int brf_dword_800C3CEC = 0x00005AB3;
-int brf_dword_800C3CF0 = 0x00010001;
-int brf_dword_800C3CF4 = 0xFF98FF81;
-int brf_dword_800C3CF8 = 0xFFEDFFD3;
-int brf_dword_800C3CFC = 0x0000A155;
-int brf_dword_800C3D00 = 0x00010001;
-int brf_dword_800C3D04 = 0xFF96FF7F;
-int brf_dword_800C3D08 = 0xFFF3FFBD;
-int brf_dword_800C3D0C = 0x0000E1CA;
-int brf_dword_800C3D10 = 0x00010001;
-int brf_dword_800C3D14 = 0xFFF8FF81;
-int brf_dword_800C3D18 = 0x0058007F;
-int brf_dword_800C3D1C = 0x0000E9C9;
-int brf_dword_800C3D20 = 0x00010001;
-int brf_dword_800C3D24 = 0x0015FF59;
-int brf_dword_800C3D28 = 0x0058FFC9;
-int brf_dword_800C3D2C = 0x00001C99;
-int brf_dword_800C3D30 = 0x00010003;
-int brf_dword_800C3D34 = 0xFF980053;
-int brf_dword_800C3D38 = 0x0058008F;
-int brf_dword_800C3D3C = 0x0000667A;
-int brf_dword_800C3D40 = 0x00010001;
-int brf_dword_800C3D44 = 0xFFAEFF90;
-int brf_dword_800C3D48 = 0x000AFFE6;
-int brf_dword_800C3D4C = 0x00004F31;
-int brf_dword_800C3D50 = 0x00010001;
-int brf_dword_800C3D54 = 0xFFAEFF90;
-int brf_dword_800C3D58 = 0x000AFFE6;
-int brf_dword_800C3D5C = 0x00004F32;
-int brf_dword_800C3D60 = 0x00010001;
-int brf_dword_800C3D64 = 0xFF98FF81;
-int brf_dword_800C3D68 = 0x0000007F;
-int brf_dword_800C3D6C = 0x0000C5B8;
-int brf_dword_800C3D70 = 0x00010001;
-int brf_dword_800C3D74 = 0x0000FF81;
-int brf_dword_800C3D78 = 0x0058007F;
-int brf_dword_800C3D7C = 0x0000C5A7;
-int brf_dword_800C3D80 = 0x00010001;
-int brf_dword_800C3D84 = 0xFF98FFD3;
-int brf_dword_800C3D88 = 0x00580037;
-int brf_dword_800C3D8C = 0x0000A6B1;
-int brf_dword_800C3D90 = 0x00010001;
-int brf_dword_800C3D94 = 0xFF98FFD3;
-int brf_dword_800C3D98 = 0x00580037;
-int brf_dword_800C3D9C = 0x000024AA;
-int brf_dword_800C3DA0 = 0x00010001;
-int brf_dword_800C3DA4 = 0xFF6CFFB7;
-int brf_dword_800C3DA8 = 0xFFC8000D;
-int brf_dword_800C3DAC = 0x00004F31;
-int brf_dword_800C3DB0 = 0x00010001;
-int brf_dword_800C3DB4 = 0xFF6CFFB7;
-int brf_dword_800C3DB8 = 0xFFC8000D;
-int brf_dword_800C3DBC = 0x00004F32;
-int brf_dword_800C3DC0 = 0x00010001;
-int brf_dword_800C3DC4 = 0xFFAEFF90;
-int brf_dword_800C3DC8 = 0x000AFFE6;
-int brf_dword_800C3DCC = 0x00004F31;
-int brf_dword_800C3DD0 = 0x00010001;
-int brf_dword_800C3DD4 = 0xFFAEFF90;
-int brf_dword_800C3DD8 = 0x000AFFE6;
-int brf_dword_800C3DDC = 0x00004F32;
-int brf_dword_800C3DE0 = 0x00010001;
-int brf_dword_800C3DE4 = 0xFF98FFCD;
-int brf_dword_800C3DE8 = 0xFFCD0017;
-int brf_dword_800C3DEC = 0x00005AB2;
-int brf_dword_800C3DF0 = 0x00010001;
-int brf_dword_800C3DF4 = 0xFF98FFCD;
-int brf_dword_800C3DF8 = 0xFFCD0017;
-int brf_dword_800C3DFC = 0x00005AB3;
-int brf_dword_800C3E00 = 0x00010001;
-int brf_dword_800C3E04 = 0x0015FF59;
-int brf_dword_800C3E08 = 0x0058FFC9;
-int brf_dword_800C3E0C = 0x00001C99;
-int brf_dword_800C3E10 = 0x00010003;
-int brf_dword_800C3E14 = 0xFF980053;
-int brf_dword_800C3E18 = 0x0058008F;
-int brf_dword_800C3E1C = 0x0000667A;
-int brf_dword_800C3E20 = 0x00010001;
-int brf_dword_800C3E24 = 0xFFF8FF81;
-int brf_dword_800C3E28 = 0x0058007F;
-int brf_dword_800C3E2C = 0x0000E9C9;
-int brf_dword_800C3E30 = 0x00010001;
-int brf_dword_800C3E34 = 0xFF9D0012;
-int brf_dword_800C3E38 = 0x00460070;
-int brf_dword_800C3E3C = 0x00006711;
-int brf_dword_800C3E40 = 0x00010001;
-int brf_dword_800C3E44 = 0xFF9D0012;
-int brf_dword_800C3E48 = 0x00460070;
-int brf_dword_800C3E4C = 0x000061A6;
-int brf_dword_800C3E50 = 0x00000004;
-int brf_dword_800C3E54 = 0x00000000;
-int brf_dword_800C3E58 = 0x00000000;
-int brf_dword_800C3E5C = 0x00000000;
-int brf_dword_800C3E60 = 0x00010001;
-int brf_dword_800C3E64 = 0xFF98FF81;
-int brf_dword_800C3E68 = 0x0058007F;
-int brf_dword_800C3E6C = 0x0000C9EA;
-int brf_dword_800C3E70 = 0x00000001;
-int brf_dword_800C3E74 = 0xFFCAFFDD;
-int brf_dword_800C3E78 = 0xFFF80035;
-int brf_dword_800C3E7C = 0x0000FF8A;
-int brf_dword_800C3E80 = 0x00000001;
-int brf_dword_800C3E84 = 0x0001FFB4;
-int brf_dword_800C3E88 = 0x0058001C;
-int brf_dword_800C3E8C = 0x00007927;
-int brf_dword_800C3E90 = 0x00010001;
-int brf_dword_800C3E94 = 0xFF88FF81;
-int brf_dword_800C3E98 = 0x0069007F;
-int brf_dword_800C3E9C = 0x00004F34;
-int brf_dword_800C3EA0 = 0x00010001;
-int brf_dword_800C3EA4 = 0xFF98FF81;
-int brf_dword_800C3EA8 = 0x0000007F;
-int brf_dword_800C3EAC = 0x0000C0F4;
-int brf_dword_800C3EB0 = 0x00010001;
-int brf_dword_800C3EB4 = 0x0000FF81;
-int brf_dword_800C3EB8 = 0x0058007F;
-int brf_dword_800C3EBC = 0x0000ACDB;
-int brf_dword_800C3EC0 = 0x00010001;
-int brf_dword_800C3EC4 = 0xFF98FF81;
-int brf_dword_800C3EC8 = 0x0000007F;
-int brf_dword_800C3ECC = 0x00002E8D;
-int brf_dword_800C3ED0 = 0x00010001;
-int brf_dword_800C3ED4 = 0x0000FF81;
-int brf_dword_800C3ED8 = 0x0058007F;
-int brf_dword_800C3EDC = 0x00002E7C;
-int brf_dword_800C3EE0 = 0x00010001;
-int brf_dword_800C3EE4 = 0xFF9DFF90;
-int brf_dword_800C3EE8 = 0x0046FFEE;
-int brf_dword_800C3EEC = 0x00004F1A;
-int brf_dword_800C3EF0 = 0x00010001;
-int brf_dword_800C3EF4 = 0xFF9DFF90;
-int brf_dword_800C3EF8 = 0x0046FFEE;
-int brf_dword_800C3EFC = 0x000061A6;
-int brf_dword_800C3F00 = 0x00000005;
-int brf_dword_800C3F04 = 0x00000000;
-int brf_dword_800C3F08 = 0x00000000;
-int brf_dword_800C3F0C = 0x00000000;
-int brf_dword_800C3F10 = 0x00010001;
-int brf_dword_800C3F14 = 0x0015FF59;
-int brf_dword_800C3F18 = 0x0058FFC9;
-int brf_dword_800C3F1C = 0x00001C99;
-int brf_dword_800C3F20 = 0x00010003;
-int brf_dword_800C3F24 = 0xFF980053;
-int brf_dword_800C3F28 = 0x0058008F;
-int brf_dword_800C3F2C = 0x0000667A;
-int brf_dword_800C3F30 = 0x00010001;
-int brf_dword_800C3F34 = 0xFF98FF81;
-int brf_dword_800C3F38 = 0x0000007F;
-int brf_dword_800C3F3C = 0x0000C5B8;
-int brf_dword_800C3F40 = 0x00010001;
-int brf_dword_800C3F44 = 0xFF98FF81;
-int brf_dword_800C3F48 = 0x0000007F;
-int brf_dword_800C3F4C = 0x0000A5C0;
-int brf_dword_800C3F50 = 0x00010001;
-int brf_dword_800C3F54 = 0x0000FF81;
-int brf_dword_800C3F58 = 0x0058007F;
-int brf_dword_800C3F5C = 0x000098FF;
-int brf_dword_800C3F60 = 0x00010001;
-int brf_dword_800C3F64 = 0xFF98FF81;
-int brf_dword_800C3F68 = 0x0000007F;
-int brf_dword_800C3F6C = 0x0000ACEE;
-int brf_dword_800C3F70 = 0x00010001;
-int brf_dword_800C3F74 = 0x0000FF81;
-int brf_dword_800C3F78 = 0x0058007F;
-int brf_dword_800C3F7C = 0x0000B5B7;
-int brf_dword_800C3F80 = 0x00010001;
-int brf_dword_800C3F84 = 0xFF98FF81;
-int brf_dword_800C3F88 = 0x0000007F;
-int brf_dword_800C3F8C = 0x0000F760;
-int brf_dword_800C3F90 = 0x00010001;
-int brf_dword_800C3F94 = 0x0000FF81;
-int brf_dword_800C3F98 = 0x0058007F;
-int brf_dword_800C3F9C = 0x0000C5A7;
-int brf_dword_800C3FA0 = 0x00010001;
-int brf_dword_800C3FA4 = 0xFF98FF81;
-int brf_dword_800C3FA8 = 0x0000007F;
-int brf_dword_800C3FAC = 0x0000049D;
-int brf_dword_800C3FB0 = 0x00010001;
-int brf_dword_800C3FB4 = 0x0000FF81;
-int brf_dword_800C3FB8 = 0x0058007F;
-int brf_dword_800C3FBC = 0x00001471;
-int brf_dword_800C3FC0 = 0x00010001;
-int brf_dword_800C3FC4 = 0xFF9DFF90;
-int brf_dword_800C3FC8 = 0x0046FFEE;
-int brf_dword_800C3FCC = 0x0000F1A7;
-int brf_dword_800C3FD0 = 0x00010001;
-int brf_dword_800C3FD4 = 0xFF9D0012;
-int brf_dword_800C3FD8 = 0x00460070;
-int brf_dword_800C3FDC = 0x00004F5D;
-int brf_dword_800C3FE0 = 0x00010001;
-int brf_dword_800C3FE4 = 0xFF98FF81;
-int brf_dword_800C3FE8 = 0x0000007F;
-int brf_dword_800C3FEC = 0x00007A1B;
-int brf_dword_800C3FF0 = 0x00010001;
-int brf_dword_800C3FF4 = 0x0015FF59;
-int brf_dword_800C3FF8 = 0x0058FFC9;
-int brf_dword_800C3FFC = 0x00001C99;
-int brf_dword_800C4000 = 0x00010003;
-int brf_dword_800C4004 = 0xFF980053;
-int brf_dword_800C4008 = 0x0058008F;
-int brf_dword_800C400C = 0x0000667A;
-int brf_dword_800C4010 = 0x00010001;
-int brf_dword_800C4014 = 0xFF9DFF90;
-int brf_dword_800C4018 = 0x0046FFEE;
-int brf_dword_800C401C = 0x000061A6;
-int brf_dword_800C4020 = 0x00010001;
-int brf_dword_800C4024 = 0xFF9D0012;
-int brf_dword_800C4028 = 0x00460070;
-int brf_dword_800C402C = 0x000061A6;
-int brf_dword_800C4030 = 0x00000006;
-int brf_dword_800C4034 = 0x00000000;
-int brf_dword_800C4038 = 0x00000000;
-int brf_dword_800C403C = 0x00000000;
-int brf_dword_800C4040 = 0x00010001;
-int brf_dword_800C4044 = 0xFF98FF81;
-int brf_dword_800C4048 = 0x0000007F;
-int brf_dword_800C404C = 0x0000C5B8;
-int brf_dword_800C4050 = 0x00010001;
-int brf_dword_800C4054 = 0x0000FF81;
-int brf_dword_800C4058 = 0x0058007F;
-int brf_dword_800C405C = 0x0000C5A7;
-int brf_dword_800C4060 = 0x00010001;
-int brf_dword_800C4064 = 0x0015FF59;
-int brf_dword_800C4068 = 0x0058FFC9;
-int brf_dword_800C406C = 0x00001C99;
-int brf_dword_800C4070 = 0x00010003;
-int brf_dword_800C4074 = 0xFF980053;
-int brf_dword_800C4078 = 0x0058008F;
-int brf_dword_800C407C = 0x0000667A;
-int brf_dword_800C4080 = 0x00010001;
-int brf_dword_800C4084 = 0xFF98FF81;
-int brf_dword_800C4088 = 0x0000007F;
-int brf_dword_800C408C = 0x0000049D;
-int brf_dword_800C4090 = 0x00010001;
-int brf_dword_800C4094 = 0x0000FF81;
-int brf_dword_800C4098 = 0x0058007F;
-int brf_dword_800C409C = 0x00001471;
-int brf_dword_800C40A0 = 0x00010001;
-int brf_dword_800C40A4 = 0xFF98FF81;
-int brf_dword_800C40A8 = 0x0000007F;
-int brf_dword_800C40AC = 0x0000C0F4;
-int brf_dword_800C40B0 = 0x00010001;
-int brf_dword_800C40B4 = 0x0000FF81;
-int brf_dword_800C40B8 = 0x0058007F;
-int brf_dword_800C40BC = 0x0000ACDB;
-int brf_dword_800C40C0 = 0x00010001;
-int brf_dword_800C40C4 = 0xFF98FF81;
-int brf_dword_800C40C8 = 0x0000007F;
-int brf_dword_800C40CC = 0x0000ACEE;
-int brf_dword_800C40D0 = 0x00010001;
-int brf_dword_800C40D4 = 0x0000FF81;
-int brf_dword_800C40D8 = 0x0058007F;
-int brf_dword_800C40DC = 0x0000B5B7;
-int brf_dword_800C40E0 = 0x00000001;
-int brf_dword_800C40E4 = 0xFF98FF81;
-int brf_dword_800C40E8 = 0x0058007F;
-int brf_dword_800C40EC = 0x00005AEA;
-int brf_dword_800C40F0 = 0x00000001;
-int brf_dword_800C40F4 = 0xFFCAFFDD;
-int brf_dword_800C40F8 = 0xFFF80035;
-int brf_dword_800C40FC = 0x0000FF8A;
-int brf_dword_800C4100 = 0x00000001;
-int brf_dword_800C4104 = 0x0001FFB4;
-int brf_dword_800C4108 = 0x0058001C;
-int brf_dword_800C410C = 0x00007927;
-int brf_dword_800C4110 = 0x00010001;
-int brf_dword_800C4114 = 0xFF98FF81;
-int brf_dword_800C4118 = 0x0000007F;
-int brf_dword_800C411C = 0x0000049D;
-int brf_dword_800C4120 = 0x00010001;
-int brf_dword_800C4124 = 0xFF98FF81;
-int brf_dword_800C4128 = 0x0000007F;
-int brf_dword_800C412C = 0x00007A1B;
-int brf_dword_800C4130 = 0x00010001;
-int brf_dword_800C4134 = 0x0000FF81;
-int brf_dword_800C4138 = 0x0058007F;
-int brf_dword_800C413C = 0x00001471;
-int brf_dword_800C4140 = 0x00010001;
-int brf_dword_800C4144 = 0x0015FF59;
-int brf_dword_800C4148 = 0x0058FFC9;
-int brf_dword_800C414C = 0x00001C99;
-int brf_dword_800C4150 = 0x00010003;
-int brf_dword_800C4154 = 0xFF980053;
-int brf_dword_800C4158 = 0x0058008F;
-int brf_dword_800C415C = 0x0000667A;
-int brf_dword_800C4160 = 0x00000001;
-int brf_dword_800C4164 = 0xFF98FF81;
-int brf_dword_800C4168 = 0x0058007F;
-int brf_dword_800C416C = 0x000058EE;
-int brf_dword_800C4170 = 0x00010001;
-int brf_dword_800C4174 = 0xFF98FF81;
-int brf_dword_800C4178 = 0x0058007F;
-int brf_dword_800C417C = 0x0000C9EA;
-int brf_dword_800C4180 = 0x00010001;
-int brf_dword_800C4184 = 0xFFCAFFDD;
-int brf_dword_800C4188 = 0xFFF80035;
-int brf_dword_800C418C = 0x00004601;
-int brf_dword_800C4190 = 0x00010001;
-int brf_dword_800C4194 = 0x0001FFB4;
-int brf_dword_800C4198 = 0x0058001C;
-int brf_dword_800C419C = 0x00007927;
-int brf_dword_800C41A0 = 0x00010001;
-int brf_dword_800C41A4 = 0xFF98FF81;
-int brf_dword_800C41A8 = 0x0058007F;
-int brf_dword_800C41AC = 0x00005E99;
-int brf_dword_800C41B0 = 0x00010001;
-int brf_dword_800C41B4 = 0xFF98FF81;
-int brf_dword_800C41B8 = 0x0058007F;
-int brf_dword_800C41BC = 0x0000F2BA;
-int brf_dword_800C41C0 = 0x00010001;
-int brf_dword_800C41C4 = 0xFFCDFFD5;
-int brf_dword_800C41C8 = 0xFFFD002F;
-int brf_dword_800C41CC = 0x0000D445;
-int brf_dword_800C41D0 = 0x00010001;
-int brf_dword_800C41D4 = 0x0001FFAE;
-int brf_dword_800C41D8 = 0x0058001C;
-int brf_dword_800C41DC = 0x00008D8F;
-int brf_dword_800C41E0 = 0x00010001;
-int brf_dword_800C41E4 = 0xFF98FF81;
-int brf_dword_800C41E8 = 0x0000007F;
-int brf_dword_800C41EC = 0x0000F760;
-int brf_dword_800C41F0 = 0x00010002;
-int brf_dword_800C41F4 = 0xFF98FF81;
-int brf_dword_800C41F8 = 0x0000007F;
-int brf_dword_800C41FC = 0x00000000;
-int brf_dword_800C4200 = 0x00010001;
-int brf_dword_800C4204 = 0x0000FF81;
-int brf_dword_800C4208 = 0x0058007F;
-int brf_dword_800C420C = 0x0000B5B7;
-int brf_dword_800C4210 = 0x00010001;
-int brf_dword_800C4214 = 0xFF9D0012;
-int brf_dword_800C4218 = 0x00460070;
-int brf_dword_800C421C = 0x00001A9A;
-int brf_dword_800C4220 = 0x00010001;
-int brf_dword_800C4224 = 0xFF9D0012;
-int brf_dword_800C4228 = 0x00460070;
-int brf_dword_800C422C = 0x000061A6;
-int brf_dword_800C4230 = 0x00000007;
-int brf_dword_800C4234 = 0x00000000;
-int brf_dword_800C4238 = 0x00000000;
-int brf_dword_800C423C = 0x00000000;
-int brf_dword_800C4240 = 0x00010001;
-int brf_dword_800C4244 = 0xFF98FF81;
-int brf_dword_800C4248 = 0x0000007F;
-int brf_dword_800C424C = 0x0000C5B8;
-int brf_dword_800C4250 = 0x00010001;
-int brf_dword_800C4254 = 0x0000FF81;
-int brf_dword_800C4258 = 0x0058007F;
-int brf_dword_800C425C = 0x0000C5A7;
-int brf_dword_800C4260 = 0x00010001;
-int brf_dword_800C4264 = 0x0015FF59;
-int brf_dword_800C4268 = 0x0058FFC9;
-int brf_dword_800C426C = 0x00001C99;
-int brf_dword_800C4270 = 0x00010003;
-int brf_dword_800C4274 = 0xFF980053;
-int brf_dword_800C4278 = 0x0058008F;
-int brf_dword_800C427C = 0x0000667A;
-int brf_dword_800C4280 = 0x00010001;
-int brf_dword_800C4284 = 0xFF98FF81;
-int brf_dword_800C4288 = 0x0000007F;
-int brf_dword_800C428C = 0x0000049D;
-int brf_dword_800C4290 = 0x00010001;
-int brf_dword_800C4294 = 0x0000FF81;
-int brf_dword_800C4298 = 0x0058007F;
-int brf_dword_800C429C = 0x00001471;
-int brf_dword_800C42A0 = 0x00010001;
-int brf_dword_800C42A4 = 0xFF98FF81;
-int brf_dword_800C42A8 = 0x0000007F;
-int brf_dword_800C42AC = 0x0000C0F4;
-int brf_dword_800C42B0 = 0x00010001;
-int brf_dword_800C42B4 = 0x0000FF81;
-int brf_dword_800C42B8 = 0x0058007F;
-int brf_dword_800C42BC = 0x0000ACDB;
-int brf_dword_800C42C0 = 0x00010001;
-int brf_dword_800C42C4 = 0xFF98FF81;
-int brf_dword_800C42C8 = 0x0000007F;
-int brf_dword_800C42CC = 0x0000ACEE;
-int brf_dword_800C42D0 = 0x00010001;
-int brf_dword_800C42D4 = 0x0000FF81;
-int brf_dword_800C42D8 = 0x0058007F;
-int brf_dword_800C42DC = 0x0000B5B7;
-int brf_dword_800C42E0 = 0x00010001;
-int brf_dword_800C42E4 = 0xFF98FF81;
-int brf_dword_800C42E8 = 0x0058007F;
-int brf_dword_800C42EC = 0x0000C9EA;
-int brf_dword_800C42F0 = 0x00010001;
-int brf_dword_800C42F4 = 0xFFCAFFDD;
-int brf_dword_800C42F8 = 0xFFF80035;
-int brf_dword_800C42FC = 0x0000FF8A;
-int brf_dword_800C4300 = 0x00010001;
-int brf_dword_800C4304 = 0x0001FFB4;
-int brf_dword_800C4308 = 0x0058001C;
-int brf_dword_800C430C = 0x00007927;
-int brf_dword_800C4310 = 0x00010001;
-int brf_dword_800C4314 = 0xFF98FF81;
-int brf_dword_800C4318 = 0x0058007F;
-int brf_dword_800C431C = 0x00005E99;
-int brf_dword_800C4320 = 0x00010001;
-int brf_dword_800C4324 = 0xFF98FF81;
-int brf_dword_800C4328 = 0x0058007F;
-int brf_dword_800C432C = 0x0000F2BA;
-int brf_dword_800C4330 = 0x00010001;
-int brf_dword_800C4334 = 0xFFCDFFD5;
-int brf_dword_800C4338 = 0xFFFD002F;
-int brf_dword_800C433C = 0x0000285B;
-int brf_dword_800C4340 = 0x00010001;
-int brf_dword_800C4344 = 0x0001FFAE;
-int brf_dword_800C4348 = 0x0058001C;
-int brf_dword_800C434C = 0x00008D8F;
-int brf_dword_800C4350 = 0x00010001;
-int brf_dword_800C4354 = 0xFF98FF81;
-int brf_dword_800C4358 = 0x0000007F;
-int brf_dword_800C435C = 0x0000ACEE;
-int brf_dword_800C4360 = 0x00010001;
-int brf_dword_800C4364 = 0x0000FF81;
-int brf_dword_800C4368 = 0x0058007F;
-int brf_dword_800C436C = 0x0000B5B7;
-int brf_dword_800C4370 = 0x00010001;
-int brf_dword_800C4374 = 0xFF98FF81;
-int brf_dword_800C4378 = 0x0000007F;
-int brf_dword_800C437C = 0x0000F760;
-int brf_dword_800C4380 = 0x00010001;
-int brf_dword_800C4384 = 0xFF98FF81;
-int brf_dword_800C4388 = 0x0000007F;
-int brf_dword_800C438C = 0x0000ACEE;
-int brf_dword_800C4390 = 0x00010001;
-int brf_dword_800C4394 = 0x0000FF81;
-int brf_dword_800C4398 = 0x0058007F;
-int brf_dword_800C439C = 0x0000B5B7;
-int brf_dword_800C43A0 = 0x00010001;
-int brf_dword_800C43A4 = 0xFF98FF81;
-int brf_dword_800C43A8 = 0x0000007F;
-int brf_dword_800C43AC = 0x0000F760;
-int brf_dword_800C43B0 = 0x00010001;
-int brf_dword_800C43B4 = 0xFF98FF81;
-int brf_dword_800C43B8 = 0x0000007F;
-int brf_dword_800C43BC = 0x0000049D;
-int brf_dword_800C43C0 = 0x00010001;
-int brf_dword_800C43C4 = 0x0000FF81;
-int brf_dword_800C43C8 = 0x0058007F;
-int brf_dword_800C43CC = 0x00001471;
-int brf_dword_800C43D0 = 0x00010001;
-int brf_dword_800C43D4 = 0xFF98FF81;
-int brf_dword_800C43D8 = 0x0000007F;
-int brf_dword_800C43DC = 0x00005E03;
-int brf_dword_800C43E0 = 0x00010002;
-int brf_dword_800C43E4 = 0xFF98FF81;
-int brf_dword_800C43E8 = 0x0000007F;
-int brf_dword_800C43EC = 0x00000000;
-int brf_dword_800C43F0 = 0x00010001;
-int brf_dword_800C43F4 = 0x0000FF81;
-int brf_dword_800C43F8 = 0x0058007F;
-int brf_dword_800C43FC = 0x0000C5A7;
-int brf_dword_800C4400 = 0x00010001;
-int brf_dword_800C4404 = 0xFED4FF81;
-int brf_dword_800C4408 = 0x00C8007F;
-int brf_dword_800C440C = 0x00004F34;
-int brf_dword_800C4410 = 0x00010001;
-int brf_dword_800C4414 = 0xFF98FF81;
-int brf_dword_800C4418 = 0x0000007F;
-int brf_dword_800C441C = 0x0000C0F4;
-int brf_dword_800C4420 = 0x00010001;
-int brf_dword_800C4424 = 0x0000FF81;
-int brf_dword_800C4428 = 0x0058007F;
-int brf_dword_800C442C = 0x0000ACDB;
-int brf_dword_800C4430 = 0x00000001;
-int brf_dword_800C4434 = 0xFF98FF81;
-int brf_dword_800C4438 = 0x0058007F;
-int brf_dword_800C443C = 0x000048D6;
-int brf_dword_800C4440 = 0x00010001;
-int brf_dword_800C4444 = 0x00000000;
-int brf_dword_800C4448 = 0x00000000;
-int brf_dword_800C444C = 0x0000630C;
-int brf_dword_800C4450 = 0x00010001;
-int brf_dword_800C4454 = 0x00000000;
-int brf_dword_800C4458 = 0x00000000;
-int brf_dword_800C445C = 0x000061A6;
-int brf_dword_800C4460 = 0x00010001;
-int brf_dword_800C4464 = 0x00000000;
-int brf_dword_800C4468 = 0x00000000;
-int brf_dword_800C446C = 0x000099B7;
-int brf_dword_800C4470 = 0x00010001;
-int brf_dword_800C4474 = 0x00000000;
-int brf_dword_800C4478 = 0x00000000;
-int brf_dword_800C447C = 0x000061A6;
-int brf_dword_800C4480 = 0x00010001;
-int brf_dword_800C4484 = 0x00000000;
-int brf_dword_800C4488 = 0x00000000;
-int brf_dword_800C448C = 0x0000F096;
-int brf_dword_800C4490 = 0x00010001;
-int brf_dword_800C4494 = 0x00000000;
-int brf_dword_800C4498 = 0x00000000;
-int brf_dword_800C449C = 0x000061A6;
-int brf_dword_800C44A0 = 0x00010001;
-int brf_dword_800C44A4 = 0x00000000;
-int brf_dword_800C44A8 = 0x00000000;
-int brf_dword_800C44AC = 0x00007787;
-int brf_dword_800C44B0 = 0x00010001;
-int brf_dword_800C44B4 = 0x00000000;
-int brf_dword_800C44B8 = 0x00000000;
-int brf_dword_800C44BC = 0x000061A6;
-int brf_dword_800C44C0 = 0x00010001;
-int brf_dword_800C44C4 = 0x00000000;
-int brf_dword_800C44C8 = 0x00000000;
-int brf_dword_800C44CC = 0x00006B43;
-int brf_dword_800C44D0 = 0x00010001;
-int brf_dword_800C44D4 = 0x00000000;
-int brf_dword_800C44D8 = 0x00000000;
-int brf_dword_800C44DC = 0x000061A6;
-int brf_dword_800C44E0 = 0x00000008;
-int brf_dword_800C44E4 = 0x00000000;
-int brf_dword_800C44E8 = 0x00000000;
-int brf_dword_800C44EC = 0x00000000;
-int brf_dword_800C44F0 = 0x00010001;
-int brf_dword_800C44F4 = 0xFF98FF81;
-int brf_dword_800C44F8 = 0x0058007F;
-int brf_dword_800C44FC = 0x0000C9EA;
-int brf_dword_800C4500 = 0x00010001;
-int brf_dword_800C4504 = 0xFFCAFFDD;
-int brf_dword_800C4508 = 0xFFF80035;
-int brf_dword_800C450C = 0x0000FF8A;
-int brf_dword_800C4510 = 0x00010001;
-int brf_dword_800C4514 = 0x0001FFB4;
-int brf_dword_800C4518 = 0x0058001C;
-int brf_dword_800C451C = 0x00007927;
-int brf_dword_800C4520 = 0x00010002;
-int brf_dword_800C4524 = 0xFF98FF81;
-int brf_dword_800C4528 = 0x0058007F;
-int brf_dword_800C452C = 0x00000000;
-int brf_dword_800C4530 = 0x00010001;
-int brf_dword_800C4534 = 0xFF98FF81;
-int brf_dword_800C4538 = 0x0000007F;
-int brf_dword_800C453C = 0x0000C5B8;
-int brf_dword_800C4540 = 0x00010001;
-int brf_dword_800C4544 = 0xFF98FF81;
-int brf_dword_800C4548 = 0x0000007F;
-int brf_dword_800C454C = 0x0000049D;
-int brf_dword_800C4550 = 0x00010001;
-int brf_dword_800C4554 = 0xFF98FF81;
-int brf_dword_800C4558 = 0x0058007F;
-int brf_dword_800C455C = 0x00000554;
-int brf_dword_800C4560 = 0x00010001;
-int brf_dword_800C4564 = 0xFF98FF81;
-int brf_dword_800C4568 = 0x0058007F;
-int brf_dword_800C456C = 0x00000553;
-int brf_dword_800C4570 = 0x00010001;
-int brf_dword_800C4574 = 0xFF9DFF90;
-int brf_dword_800C4578 = 0x0046FFEE;
-int brf_dword_800C457C = 0x0000918D;
-int brf_dword_800C4580 = 0x00010001;
-int brf_dword_800C4584 = 0xFF9DFF90;
-int brf_dword_800C4588 = 0x0046FFEE;
-int brf_dword_800C458C = 0x000061A6;
-int brf_dword_800C4590 = 0x00010001;
-int brf_dword_800C4594 = 0x001B0012;
-int brf_dword_800C4598 = 0x00460036;
-int brf_dword_800C459C = 0x00002FA0;
-int brf_dword_800C45A0 = 0x00010001;
-int brf_dword_800C45A4 = 0x001B004C;
-int brf_dword_800C45A8 = 0x00460070;
-int brf_dword_800C45AC = 0x00002FA1;
-int brf_dword_800C45B0 = 0x00000009;
-int brf_dword_800C45B4 = 0x00000000;
-int brf_dword_800C45B8 = 0x00000000;
-int brf_dword_800C45BC = 0x00000000;
-int brf_dword_800C45C0 = 0x00010001;
-int brf_dword_800C45C4 = 0x0015FF59;
-int brf_dword_800C45C8 = 0x0058FFC9;
-int brf_dword_800C45CC = 0x00001C99;
-int brf_dword_800C45D0 = 0x00010003;
-int brf_dword_800C45D4 = 0xFF980053;
-int brf_dword_800C45D8 = 0x0058008F;
-int brf_dword_800C45DC = 0x0000667A;
-int brf_dword_800C45E0 = 0x00010001;
-int brf_dword_800C45E4 = 0xFF98FF81;
-int brf_dword_800C45E8 = 0x0000007F;
-int brf_dword_800C45EC = 0x0000C5B8;
-int brf_dword_800C45F0 = 0x00010001;
-int brf_dword_800C45F4 = 0xFF98FF81;
-int brf_dword_800C45F8 = 0x0000007F;
-int brf_dword_800C45FC = 0x000065DA;
-int brf_dword_800C4600 = 0x00010001;
-int brf_dword_800C4604 = 0xFF98FF81;
-int brf_dword_800C4608 = 0x0000007F;
-int brf_dword_800C460C = 0x0000F9BC;
-int brf_dword_800C4610 = 0x00010001;
-int brf_dword_800C4614 = 0xFF98FF81;
-int brf_dword_800C4618 = 0x0000007F;
-int brf_dword_800C461C = 0x00003DBD;
-int brf_dword_800C4620 = 0x00010001;
-int brf_dword_800C4624 = 0xFF98FF81;
-int brf_dword_800C4628 = 0x0000007F;
-int brf_dword_800C462C = 0x0000049D;
-int brf_dword_800C4630 = 0x00010002;
-int brf_dword_800C4634 = 0xFF98FF81;
-int brf_dword_800C4638 = 0x0058007F;
-int brf_dword_800C463C = 0x00000000;
-int brf_dword_800C4640 = 0x00010001;
-int brf_dword_800C4644 = 0xFF98FF81;
-int brf_dword_800C4648 = 0x0000007F;
-int brf_dword_800C464C = 0x000043B2;
-int brf_dword_800C4650 = 0x00000002;
-int brf_dword_800C4654 = 0xFF98FF81;
-int brf_dword_800C4658 = 0x0058007F;
-int brf_dword_800C465C = 0x00000000;
-int brf_dword_800C4660 = 0x00000001;
-int brf_dword_800C4664 = 0x0001FFB4;
-int brf_dword_800C4668 = 0x0058001C;
-int brf_dword_800C466C = 0x00007927;
-int brf_dword_800C4670 = 0x00000001;
-int brf_dword_800C4674 = 0xFFCAFFDD;
-int brf_dword_800C4678 = 0xFFF80035;
-int brf_dword_800C467C = 0x0000FF8A;
-int brf_dword_800C4680 = 0x00010002;
-int brf_dword_800C4684 = 0xFF98FF81;
-int brf_dword_800C4688 = 0x0000007F;
-int brf_dword_800C468C = 0x00000000;
-int brf_dword_800C4690 = 0x00010002;
-int brf_dword_800C4694 = 0xFF98FF81;
-int brf_dword_800C4698 = 0x0000007F;
-int brf_dword_800C469C = 0x00000000;
-int brf_dword_800C46A0 = 0x00010002;
-int brf_dword_800C46A4 = 0xFF98FF81;
-int brf_dword_800C46A8 = 0x0000007F;
-int brf_dword_800C46AC = 0x00000000;
-int brf_dword_800C46B0 = 0x00010002;
-int brf_dword_800C46B4 = 0x0000FF81;
-int brf_dword_800C46B8 = 0x0058007F;
-int brf_dword_800C46BC = 0x00000000;
-int brf_dword_800C46C0 = 0x00000002;
-int brf_dword_800C46C4 = 0xFF98FF81;
-int brf_dword_800C46C8 = 0x0058007F;
-int brf_dword_800C46CC = 0x00000000;
-int brf_dword_800C46D0 = 0x00010001;
-int brf_dword_800C46D4 = 0xFFADFF8B;
-int brf_dword_800C46D8 = 0xFFE1FFB3;
-int brf_dword_800C46DC = 0x00004BDE;
-int brf_dword_800C46E0 = 0x00010001;
-int brf_dword_800C46E4 = 0xFFFC0000;
-int brf_dword_800C46E8 = 0x00040008;
-int brf_dword_800C46EC = 0x0000245F;
-int brf_dword_800C46F0 = 0x00010001;
-int brf_dword_800C46F4 = 0xFFB70010;
-int brf_dword_800C46F8 = 0xFFBE0058;
-int brf_dword_800C46FC = 0x0000DAFE;
-int brf_dword_800C4700 = 0x00000001;
-int brf_dword_800C4704 = 0xFFD1FFF2;
-int brf_dword_800C4708 = 0xFFD8003A;
-int brf_dword_800C470C = 0x00008A1D;
-int brf_dword_800C4710 = 0x00000001;
-int brf_dword_800C4714 = 0xFFA5002A;
-int brf_dword_800C4718 = 0xFFB5003A;
-int brf_dword_800C471C = 0x00004B5F;
-int brf_dword_800C4720 = 0x00010001;
-int brf_dword_800C4724 = 0xFFBBFFB5;
-int brf_dword_800C4728 = 0xFFC4FFE1;
-int brf_dword_800C472C = 0x00004B5E;
-int brf_dword_800C4730 = 0x00010001;
-int brf_dword_800C4734 = 0xFFADFF8B;
-int brf_dword_800C4738 = 0xFFB6FFB3;
-int brf_dword_800C473C = 0x00004B5D;
-int brf_dword_800C4740 = 0x00010001;
-int brf_dword_800C4744 = 0xFFF30058;
-int brf_dword_800C4748 = 0xFFFB0060;
-int brf_dword_800C474C = 0x00006792;
-int brf_dword_800C4750 = 0x00000001;
-int brf_dword_800C4754 = 0xFF9CFF87;
-int brf_dword_800C4758 = 0xFFBEFFEB;
-int brf_dword_800C475C = 0x0000500E;
-int brf_dword_800C4760 = 0x00000001;
-int brf_dword_800C4764 = 0xFF9CFF87;
-int brf_dword_800C4768 = 0xFFBEFFEB;
-int brf_dword_800C476C = 0x0000500D;
-int brf_dword_800C4770 = 0x00000001;
-int brf_dword_800C4774 = 0xFF9CFF87;
-int brf_dword_800C4778 = 0xFFBEFFEB;
-int brf_dword_800C477C = 0x0000500C;
-int brf_dword_800C4780 = 0x00000002;
-int brf_dword_800C4784 = 0xFF98FF81;
-int brf_dword_800C4788 = 0x0058007F;
-int brf_dword_800C478C = 0x00000000;
-int brf_dword_800C4790 = 0x00010002;
-int brf_dword_800C4794 = 0xFF98FF81;
-int brf_dword_800C4798 = 0x0058007F;
-int brf_dword_800C479C = 0x00000000;
-int brf_dword_800C47A0 = 0x00010001;
-int brf_dword_800C47A4 = 0x0000FF81;
-int brf_dword_800C47A8 = 0x0058007F;
-int brf_dword_800C47AC = 0x0000C5A7;
-int brf_dword_800C47B0 = 0x00010001;
-int brf_dword_800C47B4 = 0x0000FF81;
-int brf_dword_800C47B8 = 0x0058007F;
-int brf_dword_800C47BC = 0x000065C9;
-int brf_dword_800C47C0 = 0x00010001;
-int brf_dword_800C47C4 = 0x0000FF81;
-int brf_dword_800C47C8 = 0x0058007F;
-int brf_dword_800C47CC = 0x0000F9AB;
-int brf_dword_800C47D0 = 0x00010001;
-int brf_dword_800C47D4 = 0x00000000;
-int brf_dword_800C47D8 = 0x00000000;
-int brf_dword_800C47DC = 0x00004BC7;
-int brf_dword_800C47E0 = 0x00010001;
-int brf_dword_800C47E4 = 0x00000000;
-int brf_dword_800C47E8 = 0x00000000;
-int brf_dword_800C47EC = 0x00004BC8;
-int brf_dword_800C47F0 = 0x00010001;
-int brf_dword_800C47F4 = 0x00000000;
-int brf_dword_800C47F8 = 0x00000000;
-int brf_dword_800C47FC = 0x00004BC9;
-int brf_dword_800C4800 = 0x00010001;
-int brf_dword_800C4804 = 0x00000000;
-int brf_dword_800C4808 = 0x00000000;
-int brf_dword_800C480C = 0x00004BCA;
-int brf_dword_800C4810 = 0x00010001;
-int brf_dword_800C4814 = 0x0015FF59;
-int brf_dword_800C4818 = 0x0058FFC9;
-int brf_dword_800C481C = 0x00001C99;
-int brf_dword_800C4820 = 0x00010003;
-int brf_dword_800C4824 = 0xFF980053;
-int brf_dword_800C4828 = 0x0058008F;
-int brf_dword_800C482C = 0x0000667A;
-int brf_dword_800C4830 = 0x00010001;
-int brf_dword_800C4834 = 0xFF98FF81;
-int brf_dword_800C4838 = 0x0000007F;
-int brf_dword_800C483C = 0x0000C5B8;
-int brf_dword_800C4840 = 0x00010001;
-int brf_dword_800C4844 = 0x0000FF81;
-int brf_dword_800C4848 = 0x0058007F;
-int brf_dword_800C484C = 0x0000C5A7;
-int brf_dword_800C4850 = 0x00010001;
-int brf_dword_800C4854 = 0xFF98FF81;
-int brf_dword_800C4858 = 0x0000007F;
-int brf_dword_800C485C = 0x0000F9BC;
-int brf_dword_800C4860 = 0x00010001;
-int brf_dword_800C4864 = 0xFF98FF81;
-int brf_dword_800C4868 = 0x0000007F;
-int brf_dword_800C486C = 0x00003DBD;
-int brf_dword_800C4870 = 0x00010001;
-int brf_dword_800C4874 = 0xFF98FF81;
-int brf_dword_800C4878 = 0x0000007F;
-int brf_dword_800C487C = 0x0000049D;
-int brf_dword_800C4880 = 0x00010001;
-int brf_dword_800C4884 = 0x0000FF81;
-int brf_dword_800C4888 = 0x0058007F;
-int brf_dword_800C488C = 0x00001471;
-int brf_dword_800C4890 = 0x00010001;
-int brf_dword_800C4894 = 0xFF98FF81;
-int brf_dword_800C4898 = 0x0000007F;
-int brf_dword_800C489C = 0x0000C0F4;
-int brf_dword_800C48A0 = 0x00010001;
-int brf_dword_800C48A4 = 0x0000FF81;
-int brf_dword_800C48A8 = 0x0058007F;
-int brf_dword_800C48AC = 0x0000ACDB;
-int brf_dword_800C48B0 = 0x00010002;
-int brf_dword_800C48B4 = 0xFF98FF81;
-int brf_dword_800C48B8 = 0x0058007F;
-int brf_dword_800C48BC = 0x00000000;
-int brf_dword_800C48C0 = 0x00010001;
-int brf_dword_800C48C4 = 0xFF98FF81;
-int brf_dword_800C48C8 = 0x0000007F;
-int brf_dword_800C48CC = 0x0000D502;
-int brf_dword_800C48D0 = 0x00010001;
-int brf_dword_800C48D4 = 0x00000000;
-int brf_dword_800C48D8 = 0x00000000;
-int brf_dword_800C48DC = 0x0000630C;
-int brf_dword_800C48E0 = 0x800C3B70;
-int brf_dword_800C48E4 = 0x800C3C20;
-int brf_dword_800C48E8 = 0x800C3C70;
-int brf_dword_800C48EC = 0x800C3D60;
-int brf_dword_800C48F0 = 0x800C3E60;
-int brf_dword_800C48F4 = 0x800C3EA0;
-int brf_dword_800C48F8 = 0x800C3F10;
-int brf_dword_800C48FC = 0x800C3FA0;
-int brf_dword_800C4900 = 0x800C4040;
-int brf_dword_800C4904 = 0x800C40E0;
-int brf_dword_800C4908 = 0x800C4170;
-int brf_dword_800C490C = 0x800C4240;
-int brf_dword_800C4910 = 0x800C42E0;
-int brf_dword_800C4914 = 0x800C4380;
-int brf_dword_800C4918 = 0x800C4410;
-int brf_dword_800C491C = 0x800C44F0;
-int brf_dword_800C4920 = 0x800C45C0;
-int brf_dword_800C4924 = 0x800C4810;
-int brf_dword_800C4928 = 0x800C48D0;
-int brf_dword_800C492C = 0x00000000;
-int brf_dword_800C4930 = 0x00010032;
-int brf_dword_800C4934 = 0x0002038A;
-int brf_dword_800C4938 = 0x000304F6;
-int brf_dword_800C493C = 0x0004050F;
-int brf_dword_800C4940 = 0x000506BF;
-int brf_dword_800C4944 = 0x000606C4;
-int brf_dword_800C4948 = 0x000706CE;
-int brf_dword_800C494C = 0x00080746;
-int brf_dword_800C4950 = 0x00090765;
-int brf_dword_800C4954 = 0x000A0776;
-int brf_dword_800C4958 = 0x000B09B2;
-int brf_dword_800C495C = 0x00000000;
-int brf_dword_800C4960 = 0x00010032;
-int brf_dword_800C4964 = 0x00020263;
-int brf_dword_800C4968 = 0x00000000;
-int brf_dword_800C496C = 0x00010032;
-int brf_dword_800C4970 = 0x000200A4;
-int brf_dword_800C4974 = 0x000300BE;
-int brf_dword_800C4978 = 0x000400F4;
-int brf_dword_800C497C = 0x00050104;
-int brf_dword_800C4980 = 0x000601EA;
-int brf_dword_800C4984 = 0x00070201;
-int brf_dword_800C4988 = 0x0008020A;
-int brf_dword_800C498C = 0x0009021A;
-int brf_dword_800C4990 = 0x000A022A;
-int brf_dword_800C4994 = 0x000B0472;
-int brf_dword_800C4998 = 0x000C0482;
-int brf_dword_800C499C = 0x000D0492;
-int brf_dword_800C49A0 = 0x000E04A2;
-int brf_dword_800C49A4 = 0x000F04E2;
-int brf_dword_800C49A8 = 0x001004F2;
-int brf_dword_800C49AC = 0x00110532;
-int brf_dword_800C49B0 = 0x00120542;
-int brf_dword_800C49B4 = 0x00130644;
-int brf_dword_800C49B8 = 0x00140654;
-int brf_dword_800C49BC = 0x00150664;
-int brf_dword_800C49C0 = 0x001608CF;
-int brf_dword_800C49C4 = 0x00000000;
-int brf_dword_800C49C8 = 0x00010032;
-int brf_dword_800C49CC = 0x000200E6;
-int brf_dword_800C49D0 = 0x000300F6;
-int brf_dword_800C49D4 = 0x00040106;
-int brf_dword_800C49D8 = 0x00050116;
-int brf_dword_800C49DC = 0x00060138;
-int brf_dword_800C49E0 = 0x00070148;
-int brf_dword_800C49E4 = 0x00080188;
-int brf_dword_800C49E8 = 0x00090198;
-int brf_dword_800C49EC = 0x000F0538;
-int brf_dword_800C49F0 = 0x00000000;
-int brf_dword_800C49F4 = 0x00010032;
-int brf_dword_800C49F8 = 0x0002005A;
-int brf_dword_800C49FC = 0x00030082;
-int brf_dword_800C4A00 = 0x000400AA;
-int brf_dword_800C4A04 = 0x000500B5;
-int brf_dword_800C4A08 = 0x00060117;
-int brf_dword_800C4A0C = 0x00070140;
-int brf_dword_800C4A10 = 0x00080258;
-int brf_dword_800C4A14 = 0x000902DA;
-int brf_dword_800C4A18 = 0x000A03FA;
-int brf_dword_800C4A1C = 0x000B0422;
-int brf_dword_800C4A20 = 0x000C04A1;
-int brf_dword_800C4A24 = 0x00000000;
-int brf_dword_800C4A28 = 0x00010032;
-int brf_dword_800C4A2C = 0x0002019A;
-int brf_dword_800C4A30 = 0x000301BA;
-int brf_dword_800C4A34 = 0x0004049C;
-int brf_dword_800C4A38 = 0x000504BC;
-int brf_dword_800C4A3C = 0x00060938;
-int brf_dword_800C4A40 = 0x0007098D;
-int brf_dword_800C4A44 = 0x00000000;
-int brf_dword_800C4A48 = 0x00010032;
-int brf_dword_800C4A4C = 0x00020126;
-int brf_dword_800C4A50 = 0x00030136;
-int brf_dword_800C4A54 = 0x0004035C;
-int brf_dword_800C4A58 = 0x000508AF;
-int brf_dword_800C4A5C = 0x00000000;
-int brf_dword_800C4A60 = 0x00010032;
-int brf_dword_800C4A64 = 0x0002006E;
-int brf_dword_800C4A68 = 0x00030073;
-int brf_dword_800C4A6C = 0x00040093;
-int brf_dword_800C4A70 = 0x000500A4;
-int brf_dword_800C4A74 = 0x000600B3;
-int brf_dword_800C4A78 = 0x000700BF;
-int brf_dword_800C4A7C = 0x000801FC;
-int brf_dword_800C4A80 = 0x0009021C;
-int brf_dword_800C4A84 = 0x000A035C;
-int brf_dword_800C4A88 = 0x000B036C;
-int brf_dword_800C4A8C = 0x000C047D;
-int brf_dword_800C4A90 = 0x00000000;
-int brf_dword_800C4A94 = 0x00010032;
-int brf_dword_800C4A98 = 0x00020442;
-int brf_dword_800C4A9C = 0x000307B5;
-int brf_dword_800C4AA0 = 0x00000000;
-int brf_dword_800C4AA4 = 0x00010032;
-int brf_dword_800C4AA8 = 0x000200C9;
-int brf_dword_800C4AAC = 0x000300EC;
-int brf_dword_800C4AB0 = 0x000403F9;
-int brf_dword_800C4AB4 = 0x0005065C;
-int brf_dword_800C4AB8 = 0x000607EA;
-int brf_dword_800C4ABC = 0x000708EA;
-int brf_dword_800C4AC0 = 0x000809F9;
-int brf_dword_800C4AC4 = 0x00090A08;
-int brf_dword_800C4AC8 = 0x000A0A7C;
-int brf_dword_800C4ACC = 0x000B0A8B;
-int brf_dword_800C4AD0 = 0x000C0B8F;
-int brf_dword_800C4AD4 = 0x00000000;
-int brf_dword_800C4AD8 = 0x00010032;
-int brf_dword_800C4ADC = 0x000200AF;
-int brf_dword_800C4AE0 = 0x000300C3;
-int brf_dword_800C4AE4 = 0x000400D7;
-int brf_dword_800C4AE8 = 0x000500F0;
-int brf_dword_800C4AEC = 0x00060127;
-int brf_dword_800C4AF0 = 0x00070147;
-int brf_dword_800C4AF4 = 0x0008014F;
-int brf_dword_800C4AF8 = 0x000902A8;
-int brf_dword_800C4AFC = 0x000A02B8;
-int brf_dword_800C4B00 = 0x000B03DA;
-int brf_dword_800C4B04 = 0x000C03FA;
-int brf_dword_800C4B08 = 0x000D0528;
-int brf_dword_800C4B0C = 0x000E06F4;
-int brf_dword_800C4B10 = 0x000F0704;
-int brf_dword_800C4B14 = 0x0010080C;
-int brf_dword_800C4B18 = 0x00110911;
-int brf_dword_800C4B1C = 0x00000000;
-int brf_dword_800C4B20 = 0x00010032;
-int brf_dword_800C4B24 = 0x0002035C;
-int brf_dword_800C4B28 = 0x00000000;
-int brf_dword_800C4B2C = 0x00010032;
-int brf_dword_800C4B30 = 0x00020283;
-int brf_dword_800C4B34 = 0x00030292;
-int brf_dword_800C4B38 = 0x000402B8;
-int brf_dword_800C4B3C = 0x000502CD;
-int brf_dword_800C4B40 = 0x000602DD;
-int brf_dword_800C4B44 = 0x0007030A;
-int brf_dword_800C4B48 = 0x00080314;
-int brf_dword_800C4B4C = 0x00090324;
-int brf_dword_800C4B50 = 0x000A0787;
-int brf_dword_800C4B54 = 0x000B0796;
-int brf_dword_800C4B58 = 0x000C07A6;
-int brf_dword_800C4B5C = 0x000D08B4;
-int brf_dword_800C4B60 = 0x000E08C4;
-int brf_dword_800C4B64 = 0x000F08D4;
-int brf_dword_800C4B68 = 0x001009F1;
-int brf_dword_800C4B6C = 0x00110A0F;
-int brf_dword_800C4B70 = 0x00120A1F;
-int brf_dword_800C4B74 = 0x00130AFC;
-int brf_dword_800C4B78 = 0x00000000;
-int brf_dword_800C4B7C = 0x00010032;
-int brf_dword_800C4B80 = 0x000200D7;
-int brf_dword_800C4B84 = 0x000300E7;
-int brf_dword_800C4B88 = 0x00040488;
-int brf_dword_800C4B8C = 0x00050555;
-int brf_dword_800C4B90 = 0x00060565;
-int brf_dword_800C4B94 = 0x00070749;
-int brf_dword_800C4B98 = 0x00080759;
-int brf_dword_800C4B9C = 0x000908DA;
-int brf_dword_800C4BA0 = 0x00000000;
-int brf_dword_800C4BA4 = 0x00010032;
-int brf_dword_800C4BA8 = 0x0002024E;
-int brf_dword_800C4BAC = 0x000305B9;
-int brf_dword_800C4BB0 = 0x000406A5;
-int brf_dword_800C4BB4 = 0x00050771;
-int brf_dword_800C4BB8 = 0x00000000;
-int brf_dword_800C4BBC = 0x00010032;
-int brf_dword_800C4BC0 = 0x000200EB;
-int brf_dword_800C4BC4 = 0x0003012C;
-int brf_dword_800C4BC8 = 0x00040151;
-int brf_dword_800C4BCC = 0x00050629;
-int brf_dword_800C4BD0 = 0x0006065B;
-int brf_dword_800C4BD4 = 0x0007079F;
-int brf_dword_800C4BD8 = 0x000807AB;
-int brf_dword_800C4BDC = 0x000907BF;
-int brf_dword_800C4BE0 = 0x000A07D5;
-int brf_dword_800C4BE4 = 0x000B07DF;
-int brf_dword_800C4BE8 = 0x000C07F9;
-int brf_dword_800C4BEC = 0x000D0802;
-int brf_dword_800C4BF0 = 0x000E0812;
-int brf_dword_800C4BF4 = 0x000F0859;
-int brf_dword_800C4BF8 = 0x00100869;
-int brf_dword_800C4BFC = 0x00110937;
-int brf_dword_800C4C00 = 0x00120A40;
-int brf_dword_800C4C04 = 0x00130A50;
-int brf_dword_800C4C08 = 0x00140C0A;
-int brf_dword_800C4C0C = 0x00000000;
-int brf_dword_800C4C10 = 0x00010032;
-int brf_dword_800C4C14 = 0x00020118;
-int brf_dword_800C4C18 = 0x00030129;
-int brf_dword_800C4C1C = 0x0004013A;
-int brf_dword_800C4C20 = 0x000501AE;
-int brf_dword_800C4C24 = 0x0006038E;
-int brf_dword_800C4C28 = 0x000703ED;
-int brf_dword_800C4C2C = 0x0008042F;
-int brf_dword_800C4C30 = 0x00090514;
-int brf_dword_800C4C34 = 0x000A0556;
-int brf_dword_800C4C38 = 0x000B0566;
-int brf_dword_800C4C3C = 0x000C056E;
-int brf_dword_800C4C40 = 0x000D05AD;
-int brf_dword_800C4C44 = 0x000E05BD;
-int brf_dword_800C4C48 = 0x000F077C;
-int brf_dword_800C4C4C = 0x0010079A;
-int brf_dword_800C4C50 = 0x001107D7;
-int brf_dword_800C4C54 = 0x001207F5;
-int brf_dword_800C4C58 = 0x00130873;
-int brf_dword_800C4C5C = 0x001408AC;
-int brf_dword_800C4C60 = 0x001508E3;
-int brf_dword_800C4C64 = 0x00160D05;
-int brf_dword_800C4C68 = 0x00170D6E;
-int brf_dword_800C4C6C = 0x0018129B;
-int brf_dword_800C4C70 = 0x00000000;
-int brf_dword_800C4C74 = 0x00010032;
-int brf_dword_800C4C78 = 0x0002011E;
-int brf_dword_800C4C7C = 0x0003012E;
-int brf_dword_800C4C80 = 0x0004013E;
-int brf_dword_800C4C84 = 0x00050477;
-int brf_dword_800C4C88 = 0x0006089D;
-int brf_dword_800C4C8C = 0x000708EC;
-int brf_dword_800C4C90 = 0x00080AC3;
-int brf_dword_800C4C94 = 0x00090B63;
-int brf_dword_800C4C98 = 0x000A0BA9;
-int brf_dword_800C4C9C = 0x000B0BD1;
-int brf_dword_800C4CA0 = 0x000C0CF6;
-int brf_dword_800C4CA4 = 0x00000000;
-int brf_dword_800C4CA8 = 0x00010032;
-int brf_dword_800C4CAC = 0x00020203;
-int brf_dword_800C4CB0 = 0x800C492C;
-int brf_dword_800C4CB4 = 0x800C495C;
-int brf_dword_800C4CB8 = 0x800C4968;
-int brf_dword_800C4CBC = 0x800C49C4;
-int brf_dword_800C4CC0 = 0x800C49F0;
-int brf_dword_800C4CC4 = 0x800C4A24;
-int brf_dword_800C4CC8 = 0x800C4A44;
-int brf_dword_800C4CCC = 0x800C4A5C;
-int brf_dword_800C4CD0 = 0x800C4A90;
-int brf_dword_800C4CD4 = 0x800C4AA0;
-int brf_dword_800C4CD8 = 0x800C4AD4;
-int brf_dword_800C4CDC = 0x800C4B1C;
-int brf_dword_800C4CE0 = 0x800C4B28;
-int brf_dword_800C4CE4 = 0x800C4B78;
-int brf_dword_800C4CE8 = 0x800C4BA0;
-int brf_dword_800C4CEC = 0x800C4BB8;
-int brf_dword_800C4CF0 = 0x800C4C0C;
-int brf_dword_800C4CF4 = 0x800C4C70;
-int brf_dword_800C4CF8 = 0x800C4CA4;
-int brf_dword_800C4CFC = 0x00000008;
-int brf_dword_800C4D00 = 0x800E173C;
-int brf_dword_800C4D04 = 0x00000009;
-int brf_dword_800C4D08 = 0x800E1730;
-int brf_dword_800C4D0C = 0x00000018;
-int brf_dword_800C4D10 = 0x800E1714;
-int brf_dword_800C4D14 = 0x0000000B;
-int brf_dword_800C4D18 = 0x800E1708;
-int brf_dword_800C4D1C = 0x00000007;
-int brf_dword_800C4D20 = 0x800E1700;
-int brf_dword_800C4D24 = 0x00000016;
-int brf_dword_800C4D28 = 0x800E16E8;
-int brf_dword_800C4D2C = 0x0000000E;
-int brf_dword_800C4D30 = 0x800E16D8;
-int brf_dword_800C4D34 = 0x00000007;
-int brf_dword_800C4D38 = 0x800E16D0;
-int brf_dword_800C4D3C = 0x00000016;
-int brf_dword_800C4D40 = 0x800E16B8;
-int brf_dword_800C4D44 = 0x00000018;
-int brf_dword_800C4D48 = 0x800E169C;
-int brf_dword_800C4D4C = 0x0000001A;
-int brf_dword_800C4D50 = 0x800E1680;
-int brf_dword_800C4D54 = 0x00000018;
-int brf_dword_800C4D58 = 0x800E1664;
-int brf_dword_800C4D5C = 0x00000017;
-int brf_dword_800C4D60 = 0x800E164C;
-int brf_dword_800C4D64 = 0x0000001A;
-int brf_dword_800C4D68 = 0x800E1630;
-int brf_dword_800C4D6C = 0x0000001A;
-int brf_dword_800C4D70 = 0x800E1614;
-int brf_dword_800C4D74 = 0x0000001B;
-int brf_dword_800C4D78 = 0x800E15F8;
-int brf_dword_800C4D7C = 0x00000011;
-int brf_dword_800C4D80 = 0x800E15E4;
-int brf_dword_800C4D84 = 0x00000016;
-int brf_dword_800C4D88 = 0x800E15CC;
-int brf_dword_800C4D8C = 0x00000011;
-int brf_dword_800C4D90 = 0x800E15B8;
-int brf_dword_800C4D94 = 0x00000019;
-int brf_dword_800C4D98 = 0x800E159C;
-int brf_dword_800C4D9C = 0x0000001B;
-int brf_dword_800C4DA0 = 0x800E1580;
-int brf_dword_800C4DA4 = 0x0000001A;
-int brf_dword_800C4DA8 = 0x800E1564;
-int brf_dword_800C4DAC = 0x00000013;
-int brf_dword_800C4DB0 = 0x800E1550;
-int brf_dword_800C4DB4 = 0x0000001B;
-int brf_dword_800C4DB8 = 0x800E1534;
-int brf_dword_800C4DBC = 0x0000000E;
-int brf_dword_800C4DC0 = 0x800E1524;
-int brf_dword_800C4DC4 = 0x00000017;
-int brf_dword_800C4DC8 = 0x800E150C;
-int brf_dword_800C4DCC = 0x0000001B;
-int brf_dword_800C4DD0 = 0x800E14F0;
-int brf_dword_800C4DD4 = 0x0000000E;
-int brf_dword_800C4DD8 = 0x800E14E0;
-int brf_dword_800C4DDC = 0x00000019;
-int brf_dword_800C4DE0 = 0x800E14C4;
-int brf_dword_800C4DE4 = 0x0000001B;
-int brf_dword_800C4DE8 = 0x800E14A8;
-int brf_dword_800C4DEC = 0x00000012;
-int brf_dword_800C4DF0 = 0x800E1494;
-int brf_dword_800C4DF4 = 0x00000011;
-int brf_dword_800C4DF8 = 0x800E1480;
-int brf_dword_800C4DFC = 0x00000010;
-int brf_dword_800C4E00 = 0x800E146C;
-int brf_dword_800C4E04 = 0x0000001A;
-int brf_dword_800C4E08 = 0x800E1450;
-int brf_dword_800C4E0C = 0x00000014;
-int brf_dword_800C4E10 = 0x800E1438;
-int brf_dword_800C4E14 = 0x00000013;
-int brf_dword_800C4E18 = 0x800E1424;
-int brf_dword_800C4E1C = 0x00000017;
-int brf_dword_800C4E20 = 0x800E140C;
-int brf_dword_800C4E24 = 0x00000014;
-int brf_dword_800C4E28 = 0x800E13F4;
-int brf_dword_800C4E2C = 0x00000018;
-int brf_dword_800C4E30 = 0x800E13D8;
-int brf_dword_800C4E34 = 0x0000001B;
-int brf_dword_800C4E38 = 0x800E13BC;
-int brf_dword_800C4E3C = 0x00000005;
-int brf_dword_800C4E40 = 0x800E1878;
-int brf_dword_800C4E44 = 0x0000000B;
-int brf_dword_800C4E48 = 0x800E186C;
-int brf_dword_800C4E4C = 0x00000017;
-int brf_dword_800C4E50 = 0x800E1854;
-int brf_dword_800C4E54 = 0x0000000B;
-int brf_dword_800C4E58 = 0x800E1708;
-int brf_dword_800C4E5C = 0x00000007;
-int brf_dword_800C4E60 = 0x800E184C;
-int brf_dword_800C4E64 = 0x00000010;
-int brf_dword_800C4E68 = 0x800E1838;
-int brf_dword_800C4E6C = 0x0000000E;
-int brf_dword_800C4E70 = 0x800E1828;
-int brf_dword_800C4E74 = 0x00000018;
-int brf_dword_800C4E78 = 0x800E180C;
-int brf_dword_800C4E7C = 0x00000011;
-int brf_dword_800C4E80 = 0x800E17F8;
-int brf_dword_800C4E84 = 0x00000016;
-int brf_dword_800C4E88 = 0x800E17E0;
-int brf_dword_800C4E8C = 0x00000018;
-int brf_dword_800C4E90 = 0x800E17C4;
-int brf_dword_800C4E94 = 0x00000015;
-int brf_dword_800C4E98 = 0x800E17AC;
-int brf_dword_800C4E9C = 0x00000010;
-int brf_dword_800C4EA0 = 0x800E1798;
-int brf_dword_800C4EA4 = 0x0000001A;
-int brf_dword_800C4EA8 = 0x800E177C;
-int brf_dword_800C4EAC = 0x00000016;
-int brf_dword_800C4EB0 = 0x800E1764;
-int brf_dword_800C4EB4 = 0x0000001A;
-int brf_dword_800C4EB8 = 0x800E1748;
-int brf_dword_800C4EBC = 0x0000000C;
-int brf_dword_800C4EC0 = 0x800E1898;
-int brf_dword_800C4EC4 = 0x00000005;
-int brf_dword_800C4EC8 = 0x800E1890;
-int brf_dword_800C4ECC = 0x0000000C;
-int brf_dword_800C4ED0 = 0x800E1880;
-int brf_dword_800C4ED4 = 0x00000008;
-int brf_dword_800C4ED8 = 0x800E18A8;
-int brf_dword_800C4EDC = 0x00000006;
-int brf_dword_800C4EE0 = 0x800E18FC;
-int brf_dword_800C4EE4 = 0x00000006;
-int brf_dword_800C4EE8 = 0x800E18F4;
-int brf_dword_800C4EEC = 0x0000000B;
-int brf_dword_800C4EF0 = 0x800E18E8;
-int brf_dword_800C4EF4 = 0x00000005;
-int brf_dword_800C4EF8 = 0x800E18E0;
-int brf_dword_800C4EFC = 0x00000007;
-int brf_dword_800C4F00 = 0x800E18D8;
-int brf_dword_800C4F04 = 0x0000000C;
-int brf_dword_800C4F08 = 0x800E18C8;
-int brf_dword_800C4F0C = 0x00000008;
-int brf_dword_800C4F10 = 0x800E18BC;
-int brf_dword_800C4F14 = 0x00000006;
-int brf_dword_800C4F18 = 0x800E18B4;
-int brf_dword_800C4F1C = 0x0000000C;
-int brf_dword_800C4F20 = 0x800E1BE0;
-int brf_dword_800C4F24 = 0x00000017;
-int brf_dword_800C4F28 = 0x800E1BC8;
-int brf_dword_800C4F2C = 0x0000000D;
-int brf_dword_800C4F30 = 0x800E1BB8;
-int brf_dword_800C4F34 = 0x00000009;
-int brf_dword_800C4F38 = 0x800E1BAC;
-int brf_dword_800C4F3C = 0x00000008;
-int brf_dword_800C4F40 = 0x800E1BA0;
-int brf_dword_800C4F44 = 0x00000019;
-int brf_dword_800C4F48 = 0x800E1B84;
-int brf_dword_800C4F4C = 0x0000000E;
-int brf_dword_800C4F50 = 0x800E1B74;
-int brf_dword_800C4F54 = 0x00000007;
-int brf_dword_800C4F58 = 0x800E16D0;
-int brf_dword_800C4F5C = 0x00000015;
-int brf_dword_800C4F60 = 0x800E1B5C;
-int brf_dword_800C4F64 = 0x00000016;
-int brf_dword_800C4F68 = 0x800E1B44;
-int brf_dword_800C4F6C = 0x00000011;
-int brf_dword_800C4F70 = 0x800E1B30;
-int brf_dword_800C4F74 = 0x00000013;
-int brf_dword_800C4F78 = 0x800E1B1C;
-int brf_dword_800C4F7C = 0x00000015;
-int brf_dword_800C4F80 = 0x800E1B04;
-int brf_dword_800C4F84 = 0x0000001A;
-int brf_dword_800C4F88 = 0x800E1AE8;
-int brf_dword_800C4F8C = 0x0000001A;
-int brf_dword_800C4F90 = 0x800E1ACC;
-int brf_dword_800C4F94 = 0x00000019;
-int brf_dword_800C4F98 = 0x800E1AB0;
-int brf_dword_800C4F9C = 0x00000013;
-int brf_dword_800C4FA0 = 0x800E1A9C;
-int brf_dword_800C4FA4 = 0x00000018;
-int brf_dword_800C4FA8 = 0x800E1A80;
-int brf_dword_800C4FAC = 0x00000019;
-int brf_dword_800C4FB0 = 0x800E1A64;
-int brf_dword_800C4FB4 = 0x0000001B;
-int brf_dword_800C4FB8 = 0x800E1A48;
-int brf_dword_800C4FBC = 0x0000000F;
-int brf_dword_800C4FC0 = 0x800E1A38;
-int brf_dword_800C4FC4 = 0x00000017;
-int brf_dword_800C4FC8 = 0x800E1A20;
-int brf_dword_800C4FCC = 0x00000014;
-int brf_dword_800C4FD0 = 0x800E1A08;
-int brf_dword_800C4FD4 = 0x00000014;
-int brf_dword_800C4FD8 = 0x800E19F0;
-int brf_dword_800C4FDC = 0x0000000E;
-int brf_dword_800C4FE0 = 0x800E19E0;
-int brf_dword_800C4FE4 = 0x00000019;
-int brf_dword_800C4FE8 = 0x800E19C4;
-int brf_dword_800C4FEC = 0x00000014;
-int brf_dword_800C4FF0 = 0x800E19AC;
-int brf_dword_800C4FF4 = 0x00000017;
-int brf_dword_800C4FF8 = 0x800E1994;
-int brf_dword_800C4FFC = 0x00000010;
-int brf_dword_800C5000 = 0x800E1980;
-int brf_dword_800C5004 = 0x00000011;
-int brf_dword_800C5008 = 0x800E196C;
-int brf_dword_800C500C = 0x00000015;
-int brf_dword_800C5010 = 0x800E1954;
-int brf_dword_800C5014 = 0x00000019;
-int brf_dword_800C5018 = 0x800E1938;
-int brf_dword_800C501C = 0x00000013;
-int brf_dword_800C5020 = 0x800E1924;
-int brf_dword_800C5024 = 0x00000012;
-int brf_dword_800C5028 = 0x800E1910;
-int brf_dword_800C502C = 0x00000009;
-int brf_dword_800C5030 = 0x800E1904;
-int brf_dword_800C5034 = 0xD74D11FE;
-int brf_dword_800C5038 = 0x11FE1C22;
-int brf_dword_800C503C = 0x73F3A6B1;
-int brf_dword_800C5040 = 0xA6B1B8C7;
-int brf_dword_800C5044 = 0x60BBA5C0;
-int brf_dword_800C5048 = 0xA5C0B1CE;
-int brf_dword_800C504C = 0x767D5E03;
-int brf_dword_800C5050 = 0x5E03C790;
-int brf_dword_800C5054 = 0x43B2049D;
-int brf_dword_800C5058 = 0x049D94C5;
-int brf_dword_800C505C = 0xC0E3ACDB;
-int brf_dword_800C5060 = 0xACDB11F7;
-int brf_dword_800C5064 = 0x632A8D8F;
-int brf_dword_800C5068 = 0x8D8FA7FE;
-int brf_dword_800C506C = 0x22877927;
-int brf_dword_800C5070 = 0x7927675B;
-int brf_dword_800C5074 = 0xD0F4ACEE;
-int brf_dword_800C5078 = 0xACEE2208;
-int brf_dword_800C507C = 0x6348F760;
-int brf_dword_800C5080 = 0xF760B45B;
-int brf_dword_800C5084 = 0x23078927;
-int brf_dword_800C5088 = 0x892767DB;
-int brf_dword_800C508C = 0xD398016F;
-int brf_dword_800C5090 = 0x016F24AC;
-int brf_dword_800C5094 = 0x800C5034;
-int brf_dword_800C5098 = 0x800C503C;
-int brf_dword_800C509C = 0x800C5044;
-int brf_dword_800C50A0 = 0x800C504C;
-int brf_dword_800C50A4 = 0x800C5054;
-int brf_dword_800C50A8 = 0x800C505C;
-int brf_dword_800C50AC = 0x800C5064;
-int brf_dword_800C50B0 = 0x800C506C;
-int brf_dword_800C50B4 = 0x800C5074;
-int brf_dword_800C50B8 = 0x800C507C;
-int brf_dword_800C50BC = 0x800C5084;
-int brf_dword_800C50C0 = 0x800C508C;
-int brf_dword_800C50C4 = 0x1208ACEC;
-int brf_dword_800C50C8 = 0x0000C0F4;
-int brf_dword_800C50CC = 0x8AD519A3;
-int brf_dword_800C50D0 = 0x00004601;
-int brf_dword_800C50D4 = 0x445F19A3;
-int brf_dword_800C50D8 = 0x0000FF8A;
-int brf_dword_800C50DC = 0x800C50C4;
-int brf_dword_800C50E0 = 0x800C50CC;
-int brf_dword_800C50E4 = 0x800C50D4;
-int brf_dword_800C50E8 = 0x19A3445F;
-int brf_dword_800C50EC = 0xC43B19A3;
-int brf_dword_800C50F0 = 0x00004601;
-int brf_dword_800C50F4 = 0x19A38AD5;
-int brf_dword_800C50F8 = 0x445F19A3;
-int brf_dword_800C50FC = 0x0000FF8A;
-int brf_dword_800C5100 = 0xFFFC004F;
-int brf_dword_800C5104 = 0xFFFD004B;
-int brf_dword_800C5108 = 0xFFFD004B;
-int brf_dword_800C510C = 0xFFFC004B;
-int brf_dword_800C5110 = 0xFFFC004A;
-int brf_dword_800C5114 = 0xFFFC0048;
-int brf_dword_800C5118 = 0xFFFB003F;
-int brf_dword_800C511C = 0xFFF70033;
-int brf_dword_800C5120 = 0xFFF40028;
-int brf_dword_800C5124 = 0xFFF30026;
-int brf_dword_800C5128 = 0xFFF00022;
-int brf_dword_800C512C = 0xFFEE0020;
-int brf_dword_800C5130 = 0xFFEB001F;
-int brf_dword_800C5134 = 0xFFEA001E;
-int brf_dword_800C5138 = 0xFFE7001E;
-int brf_dword_800C513C = 0xFFE6001E;
-int brf_dword_800C5140 = 0xFFE5001E;
-int brf_dword_800C5144 = 0xFFE5001E;
-int brf_dword_800C5148 = 0xFFE2001F;
-int brf_dword_800C514C = 0xFFE20020;
-int brf_dword_800C5150 = 0xFFE00022;
-int brf_dword_800C5154 = 0xFFDE0027;
-int brf_dword_800C5158 = 0xFFDD002A;
-int brf_dword_800C515C = 0xFFDC002E;
-int brf_dword_800C5160 = 0xFFD80037;
-int brf_dword_800C5164 = 0xFFD5003B;
-int brf_dword_800C5168 = 0xFFD1003F;
-int brf_dword_800C516C = 0xFFCD0040;
-int brf_dword_800C5170 = 0xFFCB0041;
-int brf_dword_800C5174 = 0xFFC90042;
-int brf_dword_800C5178 = 0xFFC70042;
-int brf_dword_800C517C = 0xFFC60042;
-int brf_dword_800C5180 = 0xFFC40041;
-int brf_dword_800C5184 = 0xFFC40041;
-int brf_dword_800C5188 = 0xFFC40041;
-int brf_dword_800C518C = 0xFFC40040;
-int brf_dword_800C5190 = 0xFFC4003F;
-int brf_dword_800C5194 = 0xFFC3003F;
-int brf_dword_800C5198 = 0xFFC3003F;
-int brf_dword_800C519C = 0xFFC3003F;
-int brf_dword_800C51A0 = 0xFFC3003F;
-int brf_dword_800C51A4 = 0xFFC3003F;
-int brf_dword_800C51A8 = 0xFFC3003F;
-int brf_dword_800C51AC = 0xFFC3003F;
-int brf_dword_800C51B0 = 0xFFC3003F;
-int brf_dword_800C51B4 = 0xFFC3003F;
-int brf_dword_800C51B8 = 0xFFC3003F;
-int brf_dword_800C51BC = 0xFFC3003F;
-int brf_dword_800C51C0 = 0x0017FFF6;
-int brf_dword_800C51C4 = 0x0017FFF6;
-int brf_dword_800C51C8 = 0x0017FFF6;
-int brf_dword_800C51CC = 0x0018FFF1;
-int brf_dword_800C51D0 = 0x0018FFE9;
-int brf_dword_800C51D4 = 0x0019FFDD;
-int brf_dword_800C51D8 = 0x0019FFDA;
-int brf_dword_800C51DC = 0x0019FFDA;
-int brf_dword_800C51E0 = 0x0019FFD8;
-int brf_dword_800C51E4 = 0x0019FFD6;
-int brf_dword_800C51E8 = 0x0018FFD3;
-int brf_dword_800C51EC = 0x0018FFD2;
-int brf_dword_800C51F0 = 0x0018FFD1;
-int brf_dword_800C51F4 = 0x0018FFD0;
-int brf_dword_800C51F8 = 0x0015FFCE;
-int brf_dword_800C51FC = 0x0012FFCA;
-int brf_dword_800C5200 = 0x0009FFC7;
-int brf_dword_800C5204 = 0x0006FFC6;
-int brf_dword_800C5208 = 0x0002FFC9;
-int brf_dword_800C520C = 0xFFFDFFCB;
-int brf_dword_800C5210 = 0xFFF4FFD0;
-int brf_dword_800C5214 = 0xFFEFFFD3;
-int brf_dword_800C5218 = 0xFFE4FFE0;
-int brf_dword_800C521C = 0xFFDDFFE6;
-int brf_dword_800C5220 = 0xFFDAFFEA;
-int brf_dword_800C5224 = 0xFFD8FFEC;
-int brf_dword_800C5228 = 0xFFD8FFEC;
-int brf_dword_800C522C = 0xFFD8FFED;
+#include "overlays/brf/onoda/brf/brf.h"
+
+extern const char brf_dword_800E0F3C[];
+extern const char brf_dword_800E0F48[];
+extern const char brf_dword_800E0F54[];
+extern const char brf_dword_800E0F60[];
+extern const char brf_dword_800E0F6C[];
+extern const char brf_dword_800E0F78[];
+extern const char brf_dword_800E0F84[];
+extern const char brf_dword_800E0F90[];
+extern const char brf_dword_800E0F9C[];
+extern const char brf_dword_800E0FA8[];
+extern const char brf_dword_800E0FB4[];
+extern const char brf_dword_800E0FC0[];
+extern const char brf_dword_800E0FCC[];
+extern const char brf_dword_800E0FD8[];
+extern const char brf_dword_800E0FE4[];
+extern const char brf_dword_800E0FF0[];
+extern const char brf_dword_800E0FFC[];
+extern const char brf_dword_800E1008[];
+extern const char brf_dword_800E1014[];
+extern const char brf_dword_800E1020[];
+extern const char brf_dword_800E102C[];
+extern const char brf_dword_800E1038[];
+extern const char brf_dword_800E1044[];
+extern const char brf_dword_800E1050[];
+extern const char brf_dword_800E105C[];
+extern const char brf_dword_800E1068[];
+extern const char brf_dword_800E1074[];
+extern const char brf_dword_800E107C[];
+extern const char brf_dword_800E13BC[];
+extern const char brf_dword_800E13D8[];
+extern const char brf_dword_800E13F4[];
+extern const char brf_dword_800E140C[];
+extern const char brf_dword_800E1424[];
+extern const char brf_dword_800E1438[];
+extern const char brf_dword_800E1450[];
+extern const char brf_dword_800E146C[];
+extern const char brf_dword_800E1480[];
+extern const char brf_dword_800E1494[];
+extern const char brf_dword_800E14A8[];
+extern const char brf_dword_800E14C4[];
+extern const char brf_dword_800E14E0[];
+extern const char brf_dword_800E14F0[];
+extern const char brf_dword_800E150C[];
+extern const char brf_dword_800E1524[];
+extern const char brf_dword_800E1534[];
+extern const char brf_dword_800E1550[];
+extern const char brf_dword_800E1564[];
+extern const char brf_dword_800E1580[];
+extern const char brf_dword_800E159C[];
+extern const char brf_dword_800E15B8[];
+extern const char brf_dword_800E15CC[];
+extern const char brf_dword_800E15E4[];
+extern const char brf_dword_800E15F8[];
+extern const char brf_dword_800E1614[];
+extern const char brf_dword_800E1630[];
+extern const char brf_dword_800E164C[];
+extern const char brf_dword_800E1664[];
+extern const char brf_dword_800E1680[];
+extern const char brf_dword_800E169C[];
+extern const char brf_dword_800E16B8[];
+extern const char brf_dword_800E16D0[];
+extern const char brf_dword_800E16D8[];
+extern const char brf_dword_800E16E8[];
+extern const char brf_dword_800E1700[];
+extern const char brf_dword_800E1708[];
+extern const char brf_dword_800E1714[];
+extern const char brf_dword_800E1730[];
+extern const char brf_dword_800E173C[];
+extern const char brf_dword_800E1748[];
+extern const char brf_dword_800E1764[];
+extern const char brf_dword_800E177C[];
+extern const char brf_dword_800E1798[];
+extern const char brf_dword_800E17AC[];
+extern const char brf_dword_800E17C4[];
+extern const char brf_dword_800E17E0[];
+extern const char brf_dword_800E17F8[];
+extern const char brf_dword_800E180C[];
+extern const char brf_dword_800E1828[];
+extern const char brf_dword_800E1838[];
+extern const char brf_dword_800E184C[];
+extern const char brf_dword_800E1854[];
+extern const char brf_dword_800E186C[];
+extern const char brf_dword_800E1878[];
+extern const char brf_dword_800E1880[];
+extern const char brf_dword_800E1890[];
+extern const char brf_dword_800E1898[];
+extern const char brf_dword_800E18A8[];
+extern const char brf_dword_800E18B4[];
+extern const char brf_dword_800E18BC[];
+extern const char brf_dword_800E18C8[];
+extern const char brf_dword_800E18D8[];
+extern const char brf_dword_800E18E0[];
+extern const char brf_dword_800E18E8[];
+extern const char brf_dword_800E18F4[];
+extern const char brf_dword_800E18FC[];
+extern const char brf_dword_800E1904[];
+extern const char brf_dword_800E1910[];
+extern const char brf_dword_800E1924[];
+extern const char brf_dword_800E1938[];
+extern const char brf_dword_800E1954[];
+extern const char brf_dword_800E196C[];
+extern const char brf_dword_800E1980[];
+extern const char brf_dword_800E1994[];
+extern const char brf_dword_800E19AC[];
+extern const char brf_dword_800E19C4[];
+extern const char brf_dword_800E19E0[];
+extern const char brf_dword_800E19F0[];
+extern const char brf_dword_800E1A08[];
+extern const char brf_dword_800E1A20[];
+extern const char brf_dword_800E1A38[];
+extern const char brf_dword_800E1A48[];
+extern const char brf_dword_800E1A64[];
+extern const char brf_dword_800E1A80[];
+extern const char brf_dword_800E1A9C[];
+extern const char brf_dword_800E1AB0[];
+extern const char brf_dword_800E1ACC[];
+extern const char brf_dword_800E1AE8[];
+extern const char brf_dword_800E1B04[];
+extern const char brf_dword_800E1B1C[];
+extern const char brf_dword_800E1B30[];
+extern const char brf_dword_800E1B44[];
+extern const char brf_dword_800E1B5C[];
+extern const char brf_dword_800E1B74[];
+extern const char brf_dword_800E1B84[];
+extern const char brf_dword_800E1BA0[];
+extern const char brf_dword_800E1BAC[];
+extern const char brf_dword_800E1BB8[];
+extern const char brf_dword_800E1BC8[];
+extern const char brf_dword_800E1BE0[];
+
+void brf_800CF984();
+void brf_800D00C4();
+void brf_800D02F4();
+void brf_800D26E4();
+void brf_800D3220();
+void brf_800D41A4();
+void brf_800D4664();
+void brf_800D4A34();
+void brf_800D52F0();
+void brf_800D5780();
+void brf_800D5ED0();
+void brf_800D674C();
+void brf_800D69A8();
+void brf_800D70A4();
+void brf_800D8060();
+void brf_800D93F4();
+void brf_800DBA7C();
+void brf_800DCFB4();
+void brf_800DD648();
+
+/* .data of the briefing overlay (b_select.c and b_graph.c) */
+
+/* used by brf_800C56C0 */
+char *brf_800C3218 = (char *)0x801CD000;
+
+/* "sNNv.dbl": textures loaded into VRAM (brf_800C5350) */
+BrfResource brf_vram_files[19] = {
+    {brf_dword_800E1014, 0x4B, 0x33215},
+    {brf_dword_800E1008, 0xB2, 0x165E5},
+    {brf_dword_800E0FFC, 0xDF, 0x1F785},
+    {brf_dword_800E0FF0, 0x11E, 0x217FD},
+    {brf_dword_800E0FE4, 0x161, 0x1D801},
+    {brf_dword_800E0FD8, 0x19D, 0x2D185},
+    {brf_dword_800E0FCC, 0x1F8, 0x2D505},
+    {brf_dword_800E0FC0, 0x253, 0x16725},
+    {brf_dword_800E0FB4, 0x294, 0x3BF55},
+    {brf_dword_800E0FA8, 0x30C, 0x2B4A5},
+    {brf_dword_800E0F9C, 0x37F, 0x424A9},
+    {brf_dword_800E0F90, 0x418, 0x3BF55},
+    {brf_dword_800E0F84, 0x490, 0x455C9},
+    {brf_dword_800E0F78, 0x529, 0x334F5},
+    {brf_dword_800E0F6C, 0x590, 0x3CAFD},
+    {brf_dword_800E0F60, 0x65E, 0x3BB61},
+    {brf_dword_800E0F54, 0x743, 0x2D715},
+    {brf_dword_800E0F48, 0x7C0, 0x398D5},
+    {brf_dword_800E0F3C, 0x834, 0x14C5},
+};
+
+/* "sNNc.dbl": textures kept in main memory (brf_800C53E4) */
+BrfResource brf_main_files[19] = {
+    {brf_dword_800E107C, 0x0, 0x254D9},
+    {brf_dword_800E1074, 0x0, 0x0},
+    {brf_dword_800E1074, 0x0, 0x0},
+    {brf_dword_800E1074, 0x0, 0x0},
+    {brf_dword_800E1074, 0x0, 0x0},
+    {brf_dword_800E1074, 0x0, 0x0},
+    {brf_dword_800E1074, 0x0, 0x0},
+    {brf_dword_800E1074, 0x0, 0x0},
+    {brf_dword_800E1068, 0x280, 0x9811},
+    {brf_dword_800E1074, 0x0, 0x0},
+    {brf_dword_800E105C, 0x363, 0xDFC9},
+    {brf_dword_800E1050, 0x404, 0x9811},
+    {brf_dword_800E1074, 0x0, 0x0},
+    {brf_dword_800E1044, 0x51B, 0x6CB5},
+    {brf_dword_800E1074, 0x0, 0x0},
+    {brf_dword_800E1038, 0x60A, 0x29D59},
+    {brf_dword_800E102C, 0x6D6, 0x3632D},
+    {brf_dword_800E1020, 0x79E, 0x10AB1},
+    {brf_dword_800E1074, 0x0, 0x0},
+};
+
+/* per briefing index, passed to NewBriefingGraph/NewBriefingCount */
+int brf_800C33E4[19] = {
+    0xA16, 0x2C7, 0x933, 0x59C, 0x505, 0x9F1, 0x913, 0x4E1, 0x819, 0xBF3, 0x975, 0x3C0, 0xB60, 0x93E, 0x7D5, 0xC6E, 0x12FF, 0xD5A, 0x267,
+};
+
+/* files to load for the menu states 9.. (brf_800C600C) */
+BrfLoad brf_load_table[16] = {
+    {1, 0x0},
+    {0, 0x1},
+    {0, 0x2},
+    {0, 0x3},
+    {0, 0x4},
+    {0, 0x5},
+    {0, 0x6},
+    {0, 0x7},
+    {1, 0x8},
+    {0, 0x9},
+    {1, 0xA},
+    {1, 0xB},
+    {0, 0xC},
+    {1, 0xD},
+    {0, 0xE},
+    {1, 0xF},
+};
+
+/* NewBriefingCount() parameters per briefing index */
+BrfCountParam brf_count_params[19] = {
+    {0x0, 0x2, 0x31, 0x1, 0, 0},
+    {0x0, 0x9, 0x11, 0x1, 0, 0},
+    {0x0, 0x9, 0x29, 0x1, 1, 0},
+    {0x0, 0xB, 0x1, 0x1, 1, 0},
+    {0x0, 0x14, 0x16, 0x1, 0, 0},
+    {0x0, 0x15, 0x5, 0x1, 0, 0},
+    {0x0, 0x16, 0x20, 0x1, 0, 0},
+    {0x0, 0x4, 0x12, 0x1, 0, 0},
+    {0x0, 0x4, 0x3B, 0x1, 1, 1},
+    {0x0, 0x6, 0x9, 0x1, 0, 0},
+    {0x0, 0x7, 0x36, 0x1, 0, 0},
+    {0x0, 0xB, 0x31, 0x1, 1, 1},
+    {0x0, 0xC, 0x15, 0x1, 0, 0},
+    {0x0, 0xE, 0x1, 0x1, 0, 0},
+    {0x0, 0xF, 0x16, 0x1, 0, 0},
+    {0x0, 0x10, 0x22, 0x1, 0, 0},
+    {0x0, 0x0, 0x0, 0x1, 0, 0},
+    {0x0, 0x12, 0x18, 0x1, 0, 0},
+    {0x0, 0x17, 0x27, 0x0, 0, 0},
+};
+
+/* number of b_graph polys in use per briefing index */
+short brf_poly_counts[20] = {
+    11, 5, 15, 835, 4, 291, 9, 40, 10, 9, 20, 10, 10, 9, 74, 684, 37, 12, 1, 0,
+};
+
+/* per-scene update function of each briefing (called from brf_800DDC40) */
+void (*brf_scene_funcs[19])() = {
+    brf_800CF984,
+    brf_800D00C4,
+    brf_800D02F4,
+    brf_800D26E4,
+    brf_800D3220,
+    brf_800D41A4,
+    brf_800D4664,
+    brf_800D4A34,
+    brf_800D52F0,
+    brf_800D5780,
+    brf_800D5ED0,
+    brf_800D674C,
+    brf_800D69A8,
+    brf_800D70A4,
+    brf_800D8060,
+    brf_800D93F4,
+    brf_800DBA7C,
+    brf_800DCFB4,
+    brf_800DD648,
+};
+
+/* polygon rectangles {poly index, x0, y0, x1, y1} scaled by brf_800CDAEC */
+BrfPolyRect brf_800C357C[2] = {
+    {0, -127, -104, 127, 0},
+    {1, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C3594[2] = {
+    {4, -127, -104, 127, 0},
+    {5, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C35AC[2] = {
+    {2, -167, 21, -55, 88},
+    {3, 83, -104, 143, 88},
+};
+BrfPolyRect brf_800C35C4[2] = {
+    {6, -127, -104, 127, 0},
+    {7, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C35DC[2] = {
+    {8, -127, -104, 127, 0},
+    {9, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C35F4[2] = {
+    {0, -127, -104, 127, 0},
+    {1, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C360C[11] = {
+    {2, -45, -104, 55, 88},
+    {3, -45, -104, 55, 88},
+    {4, -73, -148, 13, -56},
+    {5, -73, -148, 13, -56},
+    {6, -51, -104, 23, -51},
+    {7, -51, -104, 23, -51},
+    {8, -127, -104, -45, -19},
+    {9, -129, -106, -67, -13},
+    {10, -127, -8, 127, 88},
+    {13, -112, -82, -26, 10},
+    {14, -112, -82, -26, 10},
+};
+BrfPolyRect brf_800C3690[2] = {
+    {11, -167, 21, -55, 88},
+    {12, 83, -104, 143, 88},
+};
+BrfPolyRect brf_800C36A8[2] = {
+    {0, -127, -104, 127, 0},
+    {1, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C36C0[9] = {
+    {2, -45, -104, 55, 88},
+    {3, -45, -104, 55, 88},
+    {4, -73, -148, 13, -56},
+    {5, -73, -148, 13, -56},
+    {6, -112, -82, -26, 10},
+    {7, -112, -82, -26, 10},
+    {8, -51, -104, 23, -51},
+    {9, -51, -104, 23, -51},
+    {12, -127, -8, 127, 88},
+};
+BrfPolyRect brf_800C372C[2] = {
+    {10, -167, 21, -55, 88},
+    {11, 83, -104, 143, 88},
+};
+BrfPolyRect brf_800C3744[3] = {
+    {8, -127, -104, 127, 88},
+    {9, -127, -104, 127, 88},
+    {10, -127, -104, 127, 88},
+};
+BrfPolyRect brf_800C3768[4] = {
+    {0, -127, -104, 127, 88},
+    {2, -167, 21, -55, 88},
+    {3, 83, -104, 143, 88},
+    {4, -127, -104, 127, 88},
+};
+BrfPolyRect brf_800C3798[1] = {
+    {1, -127, -104, 127, 88},
+};
+BrfPolyRect brf_800C37A4[4] = {
+    {0, -127, -104, 127, 0},
+    {1, -127, 0, 127, 88},
+    {2, -127, -104, 127, 0},
+    {3, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C37D4[6] = {
+    {0, -167, 21, -55, 88},
+    {1, 83, -104, 143, 88},
+    {2, -127, -104, 127, 0},
+    {3, -127, -104, 127, 0},
+    {4, -127, 0, 127, 88},
+    {8, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C381C[7] = {
+    {0, -127, -104, 127, 0},
+    {1, -127, 0, 127, 88},
+    {4, -127, -104, 127, 0},
+    {5, -167, 21, -55, 88},
+    {6, 83, -104, 143, 88},
+    {38, -127, -104, 127, 0},
+    {39, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C3870[2] = {
+    {6, -127, -104, 127, 0},
+    {7, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C3888[2] = {
+    {8, -127, -104, 127, 0},
+    {9, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C38A0[6] = {
+    {3, -127, -104, 127, 0},
+    {4, -127, -104, 127, 0},
+    {5, -127, 0, 127, 88},
+    {6, -167, 21, -55, 88},
+    {7, 83, -104, 143, 88},
+    {8, -127, -104, 127, 88},
+};
+BrfPolyRect brf_800C38E8[3] = {
+    {7, -127, -104, 127, 0},
+    {8, -127, -104, 127, 0},
+    {9, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C390C[6] = {
+    {0, -127, -104, 127, 0},
+    {1, -127, 0, 127, 88},
+    {2, -167, 21, -55, 88},
+    {3, 83, -104, 143, 88},
+    {4, -127, -104, 127, 0},
+    {5, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C3954[3] = {
+    {0, -127, -104, 127, 0},
+    {1, -127, 0, 127, 88},
+    {2, -127, -104, 127, 0},
+};
+BrfPolyRect brf_800C3978[5] = {
+    {3, -127, -104, 127, 0},
+    {4, -127, 0, 127, 88},
+    {5, -127, -104, 127, 0},
+    {6, -127, -104, 127, 0},
+    {7, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C39B4[2] = {
+    {0, -127, -104, 127, 0},
+    {1, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C39CC[2] = {
+    {4, -127, -104, 127, 0},
+    {5, -127, -104, 127, 0},
+};
+BrfPolyRect brf_800C39E4[10] = {
+    {0, -167, 21, -55, 88},
+    {1, 83, -104, 83, 88},
+    {2, -127, -104, 127, 0},
+    {3, -127, -104, 127, 0},
+    {4, -127, -104, 127, 0},
+    {5, -127, -104, 127, 0},
+    {6, -127, -104, 127, 0},
+    {30, -127, 0, 127, 88},
+    {31, -127, 0, 127, 88},
+    {32, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C3A5C[5] = {
+    {12, -127, -104, 127, 0},
+    {13, -127, -104, 127, 0},
+    {14, -127, -104, 127, 0},
+    {15, -127, 0, 127, 88},
+    {29, -127, -104, 127, 0},
+};
+BrfPolyRect brf_800C3A98[8] = {
+    {0, -167, 21, -55, 88},
+    {1, 83, -104, 143, 88},
+    {2, -127, -104, 127, 0},
+    {3, -127, 0, 127, 88},
+    {4, -127, -104, 127, 0},
+    {5, -127, -104, 127, 0},
+    {6, -127, -104, 127, 0},
+    {7, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C3AF8[2] = {
+    {8, -127, -104, 127, 0},
+    {9, -127, 0, 127, 88},
+};
+BrfPolyRect brf_800C3B10[8] = {
+    {0, -167, 21, -55, 88},
+    {1, 83, -104, 143, 88},
+    {2, -127, -104, 127, 0},
+    {3, -127, 0, 127, 88},
+    {4, -127, -104, 127, 0},
+    {6, -127, -104, 127, 0},
+    {7, -127, 0, 127, 88},
+    {11, -127, -104, 127, 0},
+};
+
+/* poly layouts {type, flag, x0, y0, x1, y1, texture id} per briefing index (brf_800DECF8) */
+BrfLayout brf_800C3B70[11] = {
+    {1, 0, -127, -104, 127, 88, 0x5CEA},
+    {1, 0, -20, -45, 10, -27, 0x8927},
+    {1, 1, -127, -104, 127, 88, 0x5AEA},
+    {1, 0, -35, -54, 53, -8, 0xFF8A},
+    {1, 0, -76, 1, 28, 88, 0x7927},
+    {1, 1, -127, -104, 127, 88, 0xEE31},
+    {1, 1, -127, -104, 127, 88, 0xBB03},
+    {2, 1, -127, -104, 127, 88, 0x0000},
+    {2, 1, -127, -104, 127, 88, 0x0000},
+    {2, 1, -127, -104, 127, 88, 0x0000},
+    {2, 0, -127, -104, 127, 88, 0x0000},
+};
+BrfLayout brf_800C3C20[5] = {
+    {1, 1, -127, -104, 127, 88, 0x11FE},
+    {1, 1, -127, -104, 127, 88, 0x58EE},
+    {1, 1, -167, 21, -55, 88, 0x1C99},
+    {3, 1, 83, -104, 143, 88, 0x667A},
+    {1, 1, -127, -104, 127, 88, 0x11FE},
+};
+BrfLayout brf_800C3C70[15] = {
+    {1, 1, -127, -104, 127, 0, 0xC5B8},
+    {1, 1, -127, 0, 127, 88, 0xC5A7},
+    {1, 1, -45, -104, 55, 88, 0xB2B4},
+    {1, 1, -45, -104, 55, 88, 0x4FAB},
+    {1, 1, -73, -148, 13, -56, 0x4F31},
+    {1, 1, -73, -148, 13, -56, 0x4F32},
+    {1, 1, -51, -104, 23, -51, 0x5AB2},
+    {1, 1, -51, -104, 23, -51, 0x5AB3},
+    {1, 1, -127, -104, -45, -19, 0xA155},
+    {1, 1, -129, -106, -67, -13, 0xE1CA},
+    {1, 1, -127, -8, 127, 88, 0xE9C9},
+    {1, 1, -167, 21, -55, 88, 0x1C99},
+    {3, 1, 83, -104, 143, 88, 0x667A},
+    {1, 1, -112, -82, -26, 10, 0x4F31},
+    {1, 1, -112, -82, -26, 10, 0x4F32},
+};
+BrfLayout brf_800C3D60[16] = {
+    {1, 1, -127, -104, 127, 0, 0xC5B8},
+    {1, 1, -127, 0, 127, 88, 0xC5A7},
+    {1, 1, -45, -104, 55, 88, 0xA6B1},
+    {1, 1, -45, -104, 55, 88, 0x24AA},
+    {1, 1, -73, -148, 13, -56, 0x4F31},
+    {1, 1, -73, -148, 13, -56, 0x4F32},
+    {1, 1, -112, -82, -26, 10, 0x4F31},
+    {1, 1, -112, -82, -26, 10, 0x4F32},
+    {1, 1, -51, -104, 23, -51, 0x5AB2},
+    {1, 1, -51, -104, 23, -51, 0x5AB3},
+    {1, 1, -167, 21, -55, 88, 0x1C99},
+    {3, 1, 83, -104, 143, 88, 0x667A},
+    {1, 1, -127, -8, 127, 88, 0xE9C9},
+    {1, 1, 18, -99, 112, 70, 0x6711},
+    {1, 1, 18, -99, 112, 70, 0x61A6},
+    {4, 0, 0, 0, 0, 0, 0x0000},
+};
+BrfLayout brf_800C3E60[4] = {
+    {1, 1, -127, -104, 127, 88, 0xC9EA},
+    {1, 0, -35, -54, 53, -8, 0xFF8A},
+    {1, 0, -76, 1, 28, 88, 0x7927},
+    {1, 1, -127, -120, 127, 105, 0x4F34},
+};
+BrfLayout brf_800C3EA0[7] = {
+    {1, 1, -127, -104, 127, 0, 0xC0F4},
+    {1, 1, -127, 0, 127, 88, 0xACDB},
+    {1, 1, -127, -104, 127, 0, 0x2E8D},
+    {1, 1, -127, 0, 127, 88, 0x2E7C},
+    {1, 1, -112, -99, -18, 70, 0x4F1A},
+    {1, 1, -112, -99, -18, 70, 0x61A6},
+    {5, 0, 0, 0, 0, 0, 0x0000},
+};
+BrfLayout brf_800C3F10[9] = {
+    {1, 1, -167, 21, -55, 88, 0x1C99},
+    {3, 1, 83, -104, 143, 88, 0x667A},
+    {1, 1, -127, -104, 127, 0, 0xC5B8},
+    {1, 1, -127, -104, 127, 0, 0xA5C0},
+    {1, 1, -127, 0, 127, 88, 0x98FF},
+    {1, 1, -127, -104, 127, 0, 0xACEE},
+    {1, 1, -127, 0, 127, 88, 0xB5B7},
+    {1, 1, -127, -104, 127, 0, 0xF760},
+    {1, 1, -127, 0, 127, 88, 0xC5A7},
+};
+BrfLayout brf_800C3FA0[10] = {
+    {1, 1, -127, -104, 127, 0, 0x049D},
+    {1, 1, -127, 0, 127, 88, 0x1471},
+    {1, 1, -112, -99, -18, 70, 0xF1A7},
+    {1, 1, 18, -99, 112, 70, 0x4F5D},
+    {1, 1, -127, -104, 127, 0, 0x7A1B},
+    {1, 1, -167, 21, -55, 88, 0x1C99},
+    {3, 1, 83, -104, 143, 88, 0x667A},
+    {1, 1, -112, -99, -18, 70, 0x61A6},
+    {1, 1, 18, -99, 112, 70, 0x61A6},
+    {6, 0, 0, 0, 0, 0, 0x0000},
+};
+BrfLayout brf_800C4040[10] = {
+    {1, 1, -127, -104, 127, 0, 0xC5B8},
+    {1, 1, -127, 0, 127, 88, 0xC5A7},
+    {1, 1, -167, 21, -55, 88, 0x1C99},
+    {3, 1, 83, -104, 143, 88, 0x667A},
+    {1, 1, -127, -104, 127, 0, 0x049D},
+    {1, 1, -127, 0, 127, 88, 0x1471},
+    {1, 1, -127, -104, 127, 0, 0xC0F4},
+    {1, 1, -127, 0, 127, 88, 0xACDB},
+    {1, 1, -127, -104, 127, 0, 0xACEE},
+    {1, 1, -127, 0, 127, 88, 0xB5B7},
+};
+BrfLayout brf_800C40E0[9] = {
+    {1, 0, -127, -104, 127, 88, 0x5AEA},
+    {1, 0, -35, -54, 53, -8, 0xFF8A},
+    {1, 0, -76, 1, 28, 88, 0x7927},
+    {1, 1, -127, -104, 127, 0, 0x049D},
+    {1, 1, -127, -104, 127, 0, 0x7A1B},
+    {1, 1, -127, 0, 127, 88, 0x1471},
+    {1, 1, -167, 21, -55, 88, 0x1C99},
+    {3, 1, 83, -104, 143, 88, 0x667A},
+    {1, 0, -127, -104, 127, 88, 0x58EE},
+};
+BrfLayout brf_800C4170[13] = {
+    {1, 1, -127, -104, 127, 88, 0xC9EA},
+    {1, 1, -35, -54, 53, -8, 0x4601},
+    {1, 1, -76, 1, 28, 88, 0x7927},
+    {1, 1, -127, -104, 127, 88, 0x5E99},
+    {1, 1, -127, -104, 127, 88, 0xF2BA},
+    {1, 1, -43, -51, 47, -3, 0xD445},
+    {1, 1, -82, 1, 28, 88, 0x8D8F},
+    {1, 1, -127, -104, 127, 0, 0xF760},
+    {2, 1, -127, -104, 127, 0, 0x0000},
+    {1, 1, -127, 0, 127, 88, 0xB5B7},
+    {1, 1, 18, -99, 112, 70, 0x1A9A},
+    {1, 1, 18, -99, 112, 70, 0x61A6},
+    {7, 0, 0, 0, 0, 0, 0x0000},
+};
+BrfLayout brf_800C4240[10] = {
+    {1, 1, -127, -104, 127, 0, 0xC5B8},
+    {1, 1, -127, 0, 127, 88, 0xC5A7},
+    {1, 1, -167, 21, -55, 88, 0x1C99},
+    {3, 1, 83, -104, 143, 88, 0x667A},
+    {1, 1, -127, -104, 127, 0, 0x049D},
+    {1, 1, -127, 0, 127, 88, 0x1471},
+    {1, 1, -127, -104, 127, 0, 0xC0F4},
+    {1, 1, -127, 0, 127, 88, 0xACDB},
+    {1, 1, -127, -104, 127, 0, 0xACEE},
+    {1, 1, -127, 0, 127, 88, 0xB5B7},
+};
+BrfLayout brf_800C42E0[10] = {
+    {1, 1, -127, -104, 127, 88, 0xC9EA},
+    {1, 1, -35, -54, 53, -8, 0xFF8A},
+    {1, 1, -76, 1, 28, 88, 0x7927},
+    {1, 1, -127, -104, 127, 88, 0x5E99},
+    {1, 1, -127, -104, 127, 88, 0xF2BA},
+    {1, 1, -43, -51, 47, -3, 0x285B},
+    {1, 1, -82, 1, 28, 88, 0x8D8F},
+    {1, 1, -127, -104, 127, 0, 0xACEE},
+    {1, 1, -127, 0, 127, 88, 0xB5B7},
+    {1, 1, -127, -104, 127, 0, 0xF760},
+};
+BrfLayout brf_800C4380[9] = {
+    {1, 1, -127, -104, 127, 0, 0xACEE},
+    {1, 1, -127, 0, 127, 88, 0xB5B7},
+    {1, 1, -127, -104, 127, 0, 0xF760},
+    {1, 1, -127, -104, 127, 0, 0x049D},
+    {1, 1, -127, 0, 127, 88, 0x1471},
+    {1, 1, -127, -104, 127, 0, 0x5E03},
+    {2, 1, -127, -104, 127, 0, 0x0000},
+    {1, 1, -127, 0, 127, 88, 0xC5A7},
+    {1, 1, -127, -300, 127, 200, 0x4F34},
+};
+BrfLayout brf_800C4410[14] = {
+    {1, 1, -127, -104, 127, 0, 0xC0F4},
+    {1, 1, -127, 0, 127, 88, 0xACDB},
+    {1, 0, -127, -104, 127, 88, 0x48D6},
+    {1, 1, 0, 0, 0, 0, 0x630C},
+    {1, 1, 0, 0, 0, 0, 0x61A6},
+    {1, 1, 0, 0, 0, 0, 0x99B7},
+    {1, 1, 0, 0, 0, 0, 0x61A6},
+    {1, 1, 0, 0, 0, 0, 0xF096},
+    {1, 1, 0, 0, 0, 0, 0x61A6},
+    {1, 1, 0, 0, 0, 0, 0x7787},
+    {1, 1, 0, 0, 0, 0, 0x61A6},
+    {1, 1, 0, 0, 0, 0, 0x6B43},
+    {1, 1, 0, 0, 0, 0, 0x61A6},
+    {8, 0, 0, 0, 0, 0, 0x0000},
+};
+BrfLayout brf_800C44F0[13] = {
+    {1, 1, -127, -104, 127, 88, 0xC9EA},
+    {1, 1, -35, -54, 53, -8, 0xFF8A},
+    {1, 1, -76, 1, 28, 88, 0x7927},
+    {2, 1, -127, -104, 127, 88, 0x0000},
+    {1, 1, -127, -104, 127, 0, 0xC5B8},
+    {1, 1, -127, -104, 127, 0, 0x049D},
+    {1, 1, -127, -104, 127, 88, 0x0554},
+    {1, 1, -127, -104, 127, 88, 0x0553},
+    {1, 1, -112, -99, -18, 70, 0x918D},
+    {1, 1, -112, -99, -18, 70, 0x61A6},
+    {1, 1, 18, 27, 54, 70, 0x2FA0},
+    {1, 1, 76, 27, 112, 70, 0x2FA1},
+    {9, 0, 0, 0, 0, 0, 0x0000},
+};
+BrfLayout brf_800C45C0[37] = {
+    {1, 1, -167, 21, -55, 88, 0x1C99},
+    {3, 1, 83, -104, 143, 88, 0x667A},
+    {1, 1, -127, -104, 127, 0, 0xC5B8},
+    {1, 1, -127, -104, 127, 0, 0x65DA},
+    {1, 1, -127, -104, 127, 0, 0xF9BC},
+    {1, 1, -127, -104, 127, 0, 0x3DBD},
+    {1, 1, -127, -104, 127, 0, 0x049D},
+    {2, 1, -127, -104, 127, 88, 0x0000},
+    {1, 1, -127, -104, 127, 0, 0x43B2},
+    {2, 0, -127, -104, 127, 88, 0x0000},
+    {1, 0, -76, 1, 28, 88, 0x7927},
+    {1, 0, -35, -54, 53, -8, 0xFF8A},
+    {2, 1, -127, -104, 127, 0, 0x0000},
+    {2, 1, -127, -104, 127, 0, 0x0000},
+    {2, 1, -127, -104, 127, 0, 0x0000},
+    {2, 1, -127, 0, 127, 88, 0x0000},
+    {2, 0, -127, -104, 127, 88, 0x0000},
+    {1, 1, -117, -83, -77, -31, 0x4BDE},
+    {1, 1, 0, -4, 8, 4, 0x245F},
+    {1, 1, 16, -73, 88, -66, 0xDAFE},
+    {1, 0, -14, -47, 58, -40, 0x8A1D},
+    {1, 0, 42, -91, 58, -75, 0x4B5F},
+    {1, 1, -75, -69, -31, -60, 0x4B5E},
+    {1, 1, -117, -83, -77, -74, 0x4B5D},
+    {1, 1, 88, -13, 96, -5, 0x6792},
+    {1, 0, -121, -100, -21, -66, 0x500E},
+    {1, 0, -121, -100, -21, -66, 0x500D},
+    {1, 0, -121, -100, -21, -66, 0x500C},
+    {2, 0, -127, -104, 127, 88, 0x0000},
+    {2, 1, -127, -104, 127, 88, 0x0000},
+    {1, 1, -127, 0, 127, 88, 0xC5A7},
+    {1, 1, -127, 0, 127, 88, 0x65C9},
+    {1, 1, -127, 0, 127, 88, 0xF9AB},
+    {1, 1, 0, 0, 0, 0, 0x4BC7},
+    {1, 1, 0, 0, 0, 0, 0x4BC8},
+    {1, 1, 0, 0, 0, 0, 0x4BC9},
+    {1, 1, 0, 0, 0, 0, 0x4BCA},
+};
+BrfLayout brf_800C4810[12] = {
+    {1, 1, -167, 21, -55, 88, 0x1C99},
+    {3, 1, 83, -104, 143, 88, 0x667A},
+    {1, 1, -127, -104, 127, 0, 0xC5B8},
+    {1, 1, -127, 0, 127, 88, 0xC5A7},
+    {1, 1, -127, -104, 127, 0, 0xF9BC},
+    {1, 1, -127, -104, 127, 0, 0x3DBD},
+    {1, 1, -127, -104, 127, 0, 0x049D},
+    {1, 1, -127, 0, 127, 88, 0x1471},
+    {1, 1, -127, -104, 127, 0, 0xC0F4},
+    {1, 1, -127, 0, 127, 88, 0xACDB},
+    {2, 1, -127, -104, 127, 88, 0x0000},
+    {1, 1, -127, -104, 127, 0, 0xD502},
+};
+BrfLayout brf_800C48D0[1] = {
+    {1, 1, 0, 0, 0, 0, 0x630C},
+};
+
+BrfLayout *brf_layouts[19] = {
+    brf_800C3B70,
+    brf_800C3C20,
+    brf_800C3C70,
+    brf_800C3D60,
+    brf_800C3E60,
+    brf_800C3EA0,
+    brf_800C3F10,
+    brf_800C3FA0,
+    brf_800C4040,
+    brf_800C40E0,
+    brf_800C4170,
+    brf_800C4240,
+    brf_800C42E0,
+    brf_800C4380,
+    brf_800C4410,
+    brf_800C44F0,
+    brf_800C45C0,
+    brf_800C4810,
+    brf_800C48D0,
+};
+
+/* scene timeline {time, scene} per briefing index (brf_800DD6DC) */
+BrfKeyframe brf_800C492C[12] = {
+    {0, 0}, {50, 1}, {906, 2}, {1270, 3}, {1295, 4}, {1727, 5},
+    {1732, 6}, {1742, 7}, {1862, 8}, {1893, 9}, {1910, 10}, {2482, 11},
+};
+BrfKeyframe brf_800C495C[3] = {
+    {0, 0}, {50, 1}, {611, 2},
+};
+BrfKeyframe brf_800C4968[23] = {
+    {0, 0}, {50, 1}, {164, 2}, {190, 3}, {244, 4}, {260, 5},
+    {490, 6}, {513, 7}, {522, 8}, {538, 9}, {554, 10}, {1138, 11},
+    {1154, 12}, {1170, 13}, {1186, 14}, {1250, 15}, {1266, 16}, {1330, 17},
+    {1346, 18}, {1604, 19}, {1620, 20}, {1636, 21}, {2255, 22},
+};
+BrfKeyframe brf_800C49C4[11] = {
+    {0, 0}, {50, 1}, {230, 2}, {246, 3}, {262, 4}, {278, 5},
+    {312, 6}, {328, 7}, {392, 8}, {408, 9}, {1336, 15},
+};
+BrfKeyframe brf_800C49F0[13] = {
+    {0, 0}, {50, 1}, {90, 2}, {130, 3}, {170, 4}, {181, 5},
+    {279, 6}, {320, 7}, {600, 8}, {730, 9}, {1018, 10}, {1058, 11},
+    {1185, 12},
+};
+BrfKeyframe brf_800C4A24[8] = {
+    {0, 0}, {50, 1}, {410, 2}, {442, 3}, {1180, 4}, {1212, 5},
+    {2360, 6}, {2445, 7},
+};
+BrfKeyframe brf_800C4A44[6] = {
+    {0, 0}, {50, 1}, {294, 2}, {310, 3}, {860, 4}, {2223, 5},
+};
+BrfKeyframe brf_800C4A5C[13] = {
+    {0, 0}, {50, 1}, {110, 2}, {115, 3}, {147, 4}, {164, 5},
+    {179, 6}, {191, 7}, {508, 8}, {540, 9}, {860, 10}, {876, 11},
+    {1149, 12},
+};
+BrfKeyframe brf_800C4A90[4] = {
+    {0, 0}, {50, 1}, {1090, 2}, {1973, 3},
+};
+BrfKeyframe brf_800C4AA0[13] = {
+    {0, 0}, {50, 1}, {201, 2}, {236, 3}, {1017, 4}, {1628, 5},
+    {2026, 6}, {2282, 7}, {2553, 8}, {2568, 9}, {2684, 10}, {2699, 11},
+    {2959, 12},
+};
+BrfKeyframe brf_800C4AD4[18] = {
+    {0, 0}, {50, 1}, {175, 2}, {195, 3}, {215, 4}, {240, 5},
+    {295, 6}, {327, 7}, {335, 8}, {680, 9}, {696, 10}, {986, 11},
+    {1018, 12}, {1320, 13}, {1780, 14}, {1796, 15}, {2060, 16}, {2321, 17},
+};
+BrfKeyframe brf_800C4B1C[3] = {
+    {0, 0}, {50, 1}, {860, 2},
+};
+BrfKeyframe brf_800C4B28[20] = {
+    {0, 0}, {50, 1}, {643, 2}, {658, 3}, {696, 4}, {717, 5},
+    {733, 6}, {778, 7}, {788, 8}, {804, 9}, {1927, 10}, {1942, 11},
+    {1958, 12}, {2228, 13}, {2244, 14}, {2260, 15}, {2545, 16}, {2575, 17},
+    {2591, 18}, {2812, 19},
+};
+BrfKeyframe brf_800C4B78[10] = {
+    {0, 0}, {50, 1}, {215, 2}, {231, 3}, {1160, 4}, {1365, 5},
+    {1381, 6}, {1865, 7}, {1881, 8}, {2266, 9},
+};
+BrfKeyframe brf_800C4BA0[6] = {
+    {0, 0}, {50, 1}, {590, 2}, {1465, 3}, {1701, 4}, {1905, 5},
+};
+BrfKeyframe brf_800C4BB8[21] = {
+    {0, 0}, {50, 1}, {235, 2}, {300, 3}, {337, 4}, {1577, 5},
+    {1627, 6}, {1951, 7}, {1963, 8}, {1983, 9}, {2005, 10}, {2015, 11},
+    {2041, 12}, {2050, 13}, {2066, 14}, {2137, 15}, {2153, 16}, {2359, 17},
+    {2624, 18}, {2640, 19}, {3082, 20},
+};
+BrfKeyframe brf_800C4C0C[25] = {
+    {0, 0}, {50, 1}, {280, 2}, {297, 3}, {314, 4}, {430, 5},
+    {910, 6}, {1005, 7}, {1071, 8}, {1300, 9}, {1366, 10}, {1382, 11},
+    {1390, 12}, {1453, 13}, {1469, 14}, {1916, 15}, {1946, 16}, {2007, 17},
+    {2037, 18}, {2163, 19}, {2220, 20}, {2275, 21}, {3333, 22}, {3438, 23},
+    {4763, 24},
+};
+BrfKeyframe brf_800C4C70[13] = {
+    {0, 0}, {50, 1}, {286, 2}, {302, 3}, {318, 4}, {1143, 5},
+    {2205, 6}, {2284, 7}, {2755, 8}, {2915, 9}, {2985, 10}, {3025, 11},
+    {3318, 12},
+};
+BrfKeyframe brf_800C4CA4[3] = {
+    {0, 0}, {50, 1}, {515, 2},
+};
+
+BrfKeyframe *brf_timelines[19] = {
+    brf_800C492C,
+    brf_800C495C,
+    brf_800C4968,
+    brf_800C49C4,
+    brf_800C49F0,
+    brf_800C4A24,
+    brf_800C4A44,
+    brf_800C4A5C,
+    brf_800C4A90,
+    brf_800C4AA0,
+    brf_800C4AD4,
+    brf_800C4B1C,
+    brf_800C4B28,
+    brf_800C4B78,
+    brf_800C4BA0,
+    brf_800C4BB8,
+    brf_800C4C0C,
+    brf_800C4C70,
+    brf_800C4CA4,
+};
+
+/* profile text lines {length, text} (brf_800DECF8) */
+BrfText brf_800C4CFC[40] = {
+    {8, brf_dword_800E173C},
+    {9, brf_dword_800E1730},
+    {24, brf_dword_800E1714},
+    {11, brf_dword_800E1708},
+    {7, brf_dword_800E1700},
+    {22, brf_dword_800E16E8},
+    {14, brf_dword_800E16D8},
+    {7, brf_dword_800E16D0},
+    {22, brf_dword_800E16B8},
+    {24, brf_dword_800E169C},
+    {26, brf_dword_800E1680},
+    {24, brf_dword_800E1664},
+    {23, brf_dword_800E164C},
+    {26, brf_dword_800E1630},
+    {26, brf_dword_800E1614},
+    {27, brf_dword_800E15F8},
+    {17, brf_dword_800E15E4},
+    {22, brf_dword_800E15CC},
+    {17, brf_dword_800E15B8},
+    {25, brf_dword_800E159C},
+    {27, brf_dword_800E1580},
+    {26, brf_dword_800E1564},
+    {19, brf_dword_800E1550},
+    {27, brf_dword_800E1534},
+    {14, brf_dword_800E1524},
+    {23, brf_dword_800E150C},
+    {27, brf_dword_800E14F0},
+    {14, brf_dword_800E14E0},
+    {25, brf_dword_800E14C4},
+    {27, brf_dword_800E14A8},
+    {18, brf_dword_800E1494},
+    {17, brf_dword_800E1480},
+    {16, brf_dword_800E146C},
+    {26, brf_dword_800E1450},
+    {20, brf_dword_800E1438},
+    {19, brf_dword_800E1424},
+    {23, brf_dword_800E140C},
+    {20, brf_dword_800E13F4},
+    {24, brf_dword_800E13D8},
+    {27, brf_dword_800E13BC},
+};
+BrfText brf_800C4E3C[16] = {
+    {5, brf_dword_800E1878},
+    {11, brf_dword_800E186C},
+    {23, brf_dword_800E1854},
+    {11, brf_dword_800E1708},
+    {7, brf_dword_800E184C},
+    {16, brf_dword_800E1838},
+    {14, brf_dword_800E1828},
+    {24, brf_dword_800E180C},
+    {17, brf_dword_800E17F8},
+    {22, brf_dword_800E17E0},
+    {24, brf_dword_800E17C4},
+    {21, brf_dword_800E17AC},
+    {16, brf_dword_800E1798},
+    {26, brf_dword_800E177C},
+    {22, brf_dword_800E1764},
+    {26, brf_dword_800E1748},
+};
+BrfText brf_800C4EBC[3] = {
+    {12, brf_dword_800E1898},
+    {5, brf_dword_800E1890},
+    {12, brf_dword_800E1880},
+};
+BrfText brf_800C4ED4[1] = {
+    {8, brf_dword_800E18A8},
+};
+BrfText brf_800C4EDC[8] = {
+    {6, brf_dword_800E18FC},
+    {6, brf_dword_800E18F4},
+    {11, brf_dword_800E18E8},
+    {5, brf_dword_800E18E0},
+    {7, brf_dword_800E18D8},
+    {12, brf_dword_800E18C8},
+    {8, brf_dword_800E18BC},
+    {6, brf_dword_800E18B4},
+};
+BrfText brf_800C4F1C[35] = {
+    {12, brf_dword_800E1BE0},
+    {23, brf_dword_800E1BC8},
+    {13, brf_dword_800E1BB8},
+    {9, brf_dword_800E1BAC},
+    {8, brf_dword_800E1BA0},
+    {25, brf_dword_800E1B84},
+    {14, brf_dword_800E1B74},
+    {7, brf_dword_800E16D0},
+    {21, brf_dword_800E1B5C},
+    {22, brf_dword_800E1B44},
+    {17, brf_dword_800E1B30},
+    {19, brf_dword_800E1B1C},
+    {21, brf_dword_800E1B04},
+    {26, brf_dword_800E1AE8},
+    {26, brf_dword_800E1ACC},
+    {25, brf_dword_800E1AB0},
+    {19, brf_dword_800E1A9C},
+    {24, brf_dword_800E1A80},
+    {25, brf_dword_800E1A64},
+    {27, brf_dword_800E1A48},
+    {15, brf_dword_800E1A38},
+    {23, brf_dword_800E1A20},
+    {20, brf_dword_800E1A08},
+    {20, brf_dword_800E19F0},
+    {14, brf_dword_800E19E0},
+    {25, brf_dword_800E19C4},
+    {20, brf_dword_800E19AC},
+    {23, brf_dword_800E1994},
+    {16, brf_dword_800E1980},
+    {17, brf_dword_800E196C},
+    {21, brf_dword_800E1954},
+    {25, brf_dword_800E1938},
+    {19, brf_dword_800E1924},
+    {18, brf_dword_800E1910},
+    {9, brf_dword_800E1904},
+};
+
+/* lip-sync mouth texture ids per mouth state (brf_800CAD24) */
+u_short brf_mouth_tex_ids[12][4] = {
+    {0x11FE, 0xD74D, 0x1C22, 0x11FE},
+    {0xA6B1, 0x73F3, 0xB8C7, 0xA6B1},
+    {0xA5C0, 0x60BB, 0xB1CE, 0xA5C0},
+    {0x5E03, 0x767D, 0xC790, 0x5E03},
+    {0x049D, 0x43B2, 0x94C5, 0x049D},
+    {0xACDB, 0xC0E3, 0x11F7, 0xACDB},
+    {0x8D8F, 0x632A, 0xA7FE, 0x8D8F},
+    {0x7927, 0x2287, 0x675B, 0x7927},
+    {0xACEE, 0xD0F4, 0x2208, 0xACEE},
+    {0xF760, 0x6348, 0xB45B, 0xF760},
+    {0x8927, 0x2307, 0x67DB, 0x8927},
+    {0x016F, 0xD398, 0x24AC, 0x016F},
+};
+
+u_short *brf_mouth_textures[12] = {
+    brf_mouth_tex_ids[0], brf_mouth_tex_ids[1], brf_mouth_tex_ids[2], brf_mouth_tex_ids[3],
+    brf_mouth_tex_ids[4], brf_mouth_tex_ids[5], brf_mouth_tex_ids[6], brf_mouth_tex_ids[7],
+    brf_mouth_tex_ids[8], brf_mouth_tex_ids[9], brf_mouth_tex_ids[10], brf_mouth_tex_ids[11],
+};
+
+/* blink texture ids (brf_800CBA84) */
+u_short brf_blink_tex_ids[3][4] = {
+    {0xACEC, 0x1208, 0xC0F4, 0x0000},
+    {0x19A3, 0x8AD5, 0x4601, 0x0000},
+    {0x19A3, 0x445F, 0xFF8A, 0x0000},
+};
+
+u_short *brf_blink_textures[3] = {brf_blink_tex_ids[0], brf_blink_tex_ids[1], brf_blink_tex_ids[2]};
+
+/* texture ids for brf_800CBC04 / brf_800CBCB0 */
+u_short brf_800C50E8[6] = {0x445F, 0x19A3, 0x19A3, 0xC43B, 0x4601, 0x0000};
+u_short brf_800C50F4[6] = {0x8AD5, 0x19A3, 0x19A3, 0x445F, 0xFF8A, 0x0000};
+
+/* 2D offset paths (used by brf_800DA700) */
+DVECTOR brf_800C5100[48] = {
+    {79, -4}, {75, -3}, {75, -3}, {75, -4}, {74, -4}, {72, -4},
+    {63, -5}, {51, -9}, {40, -12}, {38, -13}, {34, -16}, {32, -18},
+    {31, -21}, {30, -22}, {30, -25}, {30, -26}, {30, -27}, {30, -27},
+    {31, -30}, {32, -30}, {34, -32}, {39, -34}, {42, -35}, {46, -36},
+    {55, -40}, {59, -43}, {63, -47}, {64, -51}, {65, -53}, {66, -55},
+    {66, -57}, {66, -58}, {65, -60}, {65, -60}, {65, -60}, {64, -60},
+    {63, -60}, {63, -61}, {63, -61}, {63, -61}, {63, -61}, {63, -61},
+    {63, -61}, {63, -61}, {63, -61}, {63, -61}, {63, -61}, {63, -61},
+};
+DVECTOR brf_800C51C0[12] = {
+    {-10, 23}, {-10, 23}, {-10, 23}, {-15, 24}, {-23, 24}, {-35, 25},
+    {-38, 25}, {-38, 25}, {-40, 25}, {-42, 25}, {-45, 24}, {-46, 24},
+};
+DVECTOR brf_800C51F0[16] = {
+    {-47, 24}, {-48, 24}, {-50, 21}, {-54, 18}, {-57, 9}, {-58, 6},
+    {-55, 2}, {-53, -3}, {-48, -12}, {-45, -17}, {-32, -28}, {-26, -35},
+    {-22, -38}, {-20, -40}, {-20, -40}, {-19, -40},
+};

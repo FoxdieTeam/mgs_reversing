@@ -1,4 +1,4 @@
-#include "game/game.h"
+#include "brf.h"
 #include <stdio.h>
 
 /* Pan/zoom state of one of the three zoomable views */
@@ -76,12 +76,6 @@ typedef struct _Work
     char       pad_ADC5[0x3];             /* 0xADC5 */
 } Work;
 
-typedef struct
-{
-    short field_0;
-    short field_2;
-} BrfKeyframe;
-
 #define BRF_SET_UV(poly, tex)                                                       \
     {                                                                               \
         int offx, offx2, offx3;                                                     \
@@ -153,7 +147,6 @@ void brf_800CAC7C(Work *work, int id)
 }
 extern const char brf_dword_800E1C14[];
 int jimctrl_helper_80037F68();
-extern int brf_dword_800C5094;
 
 void brf_800CAD24(Work *work, POLY_FT4 *dest, int a2, int a3, int a4)
 {
@@ -161,7 +154,7 @@ void brf_800CAD24(Work *work, POLY_FT4 *dest, int a2, int a3, int a4)
     int u, uw, v, vh;
 
     work->mouth_changed = a2;
-    g = brf_800CABF4(work, ((unsigned short *)((int *)&brf_dword_800C5094)[a4])[a3]);
+    g = brf_800CABF4(work, brf_mouth_textures[a4][a3]);
     u = g->off_x;
     uw = u + g->w + 1;
     v = g->off_y;
@@ -198,11 +191,10 @@ void brf_800CADD4(Work *work, void *a1, int a2)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CAE84.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CB23C.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CB5F4.s")
-extern int brf_dword_800C50DC;
 
 void brf_800CBA84(Work *work, POLY_FT4 *dest, int idx)
 {
-    DG_TEX *g = brf_800CABF4(work, ((unsigned short *)((int *)&brf_dword_800C50DC)[idx])[(work->field_AD40 - 1) / 2]);
+    DG_TEX *g = brf_800CABF4(work, brf_blink_textures[idx][(work->field_AD40 - 1) / 2]);
     int u = g->off_x;
     int uw = u + g->w + 1;
     int v = g->off_y;
@@ -245,12 +237,10 @@ void brf_800CBB68(Work *work, void *a1, int a2)
         brf_800CBA84(work, a1, a2);
     }
 }
-extern int brf_dword_800C50E8;
-extern int brf_dword_800C50F4;
 
 void brf_800CBC04(Work *work, POLY_FT4 *dest, int idx)
 {
-    unsigned short *tbl = (unsigned short *)&brf_dword_800C50E8;
+    u_short *tbl = brf_800C50E8;
     DG_TEX *g = brf_800CABF4(work, tbl[idx / 3]);
     int u = g->off_x;
     int uw = u + g->w + 1;
@@ -270,7 +260,7 @@ void brf_800CBC04(Work *work, POLY_FT4 *dest, int idx)
 }
 void brf_800CBCB0(Work *work, POLY_FT4 *dest, int idx)
 {
-    unsigned short *tbl = (unsigned short *)&brf_dword_800C50F4;
+    u_short *tbl = brf_800C50F4;
     DG_TEX *g = brf_800CABF4(work, tbl[idx / 3]);
     int u = g->off_x;
     int uw = u + g->w + 1;
@@ -554,7 +544,6 @@ void brf_800CC150(Work *work)
     }
 }
 void brf_800CC070();
-extern int brf_dword_800C3508;
 
 void brf_800CC190(Work *work)
 {
@@ -576,7 +565,7 @@ void brf_800CC190(Work *work)
     GM_SeSet2(0, 0x3F, 0xC1);
 
     {
-        short *tbl = (short *)&brf_dword_800C3508;
+        short *tbl = brf_poly_counts;
         for (i = 0; i < tbl[work->index]; i++)
         {
             work->poly_flags[i] = 0;
@@ -606,7 +595,7 @@ void brf_800CC28C(Work *work)
     GM_SeSet2(0, 0x3F, 0xC1);
 
     {
-        short *tbl = (short *)&brf_dword_800C3508;
+        short *tbl = brf_poly_counts;
         for (i = 0; i < tbl[work->index]; i++)
         {
             work->poly_flags[i] = 0;
@@ -635,7 +624,7 @@ void brf_800CC388(Work *work)
     GM_SeSet2(0, 0x3F, 0xC1);
 
     {
-        short *tbl = (short *)&brf_dword_800C3508;
+        short *tbl = brf_poly_counts;
         for (i = 0; i < tbl[work->index]; i++)
         {
             work->poly_flags[i] = 0;
@@ -661,7 +650,7 @@ void brf_800CC480(Work *work)
     GM_SeSet2(0, 0x3F, 0xC1);
 
     {
-        short *tbl = (short *)&brf_dword_800C3508;
+        short *tbl = brf_poly_counts;
         for (i = 0; i < tbl[work->index]; i++)
         {
             work->poly_flags[i] = 0;
@@ -677,7 +666,7 @@ void brf_800CC560(Work *work)
 
     work->scene_changed = 0;
 
-    for (i = 0; i < ((short *)&brf_dword_800C3508)[work->index]; i++)
+    for (i = 0; i < brf_poly_counts[work->index]; i++)
     {
         work->poly_flags[i] = 0;
     }
@@ -922,7 +911,6 @@ const int brf_dword_800E1D90 = 0x800CE04C;
 const int brf_dword_800E1D94 = 0x800CE110;
 const int brf_dword_800E1D98 = 0x800CE13C;
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDFE4.s")
-extern int brf_dword_800C35F4, brf_dword_800C360C, brf_dword_800C3690;
 void brf_800CDAEC();
 
 void brf_800CE1C4(Work *work)
@@ -932,15 +920,14 @@ void brf_800CE1C4(Work *work)
     int y = work->view[0].y;
     int m = work->view[0].scale;
 
-    brf_800CDAEC(base, 2, &brf_dword_800C35F4, x, y, m, 0xc8);
-    brf_800CDAEC(base, 0xb, &brf_dword_800C360C, x * 12 / 10, y, m, 0xc8);
-    brf_800CDAEC(base, 2, &brf_dword_800C3690, x * 15 / 10, y, m, 0xc8);
+    brf_800CDAEC(base, 2, brf_800C35F4, x, y, m, 0xc8);
+    brf_800CDAEC(base, 0xb, brf_800C360C, x * 12 / 10, y, m, 0xc8);
+    brf_800CDAEC(base, 2, brf_800C3690, x * 15 / 10, y, m, 0xc8);
     if (work->zoom_count & 3)
     {
         GM_SeSet2(0, 0x30, 0x24);
     }
 }
-extern int brf_dword_800C36A8, brf_dword_800C36C0, brf_dword_800C372C;
 
 void brf_800CE2F8(Work *work)
 {
@@ -949,9 +936,9 @@ void brf_800CE2F8(Work *work)
     int y = work->view[0].y;
     int m = work->view[0].scale;
 
-    brf_800CDAEC(base, 2, &brf_dword_800C36A8, x, y, m, 0xc8);
-    brf_800CDAEC(base, 9, &brf_dword_800C36C0, x * 12 / 10, y, m, 0xc8);
-    brf_800CDAEC(base, 2, &brf_dword_800C372C, x * 15 / 10, y, m, 0xc8);
+    brf_800CDAEC(base, 2, brf_800C36A8, x, y, m, 0xc8);
+    brf_800CDAEC(base, 9, brf_800C36C0, x * 12 / 10, y, m, 0xc8);
+    brf_800CDAEC(base, 2, brf_800C372C, x * 15 / 10, y, m, 0xc8);
     if (work->zoom_count && (work->zoom_count & 3))
     {
         GM_SeSet2(0, 0x30, 0x24);
@@ -1439,7 +1426,6 @@ void brf_800CF4A0(Work *work, int a, int b, int c, int d, int e, void *f)
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF4E0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF5A8.s")
-extern int brf_dword_800C3744;
 
 void brf_800CF984(Work *work)
 {
@@ -1548,7 +1534,7 @@ void brf_800CF984(Work *work)
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E58));
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E58));
             BRF_SET_UV(&base[9], g);
-            brf_800CF4A0(work, 0, 0x5F, 0x64, 0xC8, 3, &brf_dword_800C3744);
+            brf_800CF4A0(work, 0, 0x5F, 0x64, 0xC8, 3, brf_800C3744);
             work->poly_flags[8] = 10;
             work->poly_flags[10] = 12;
         }
@@ -1613,7 +1599,6 @@ const int brf_dword_800E1F4C = 0x800D13B4;
 const int brf_dword_800E1F50 = 0x800D14B0;
 const int brf_dword_800E1F54 = 0x800D167C;
 const int brf_dword_800E1F58 = 0x800D1744;
-extern int brf_dword_800C3768, brf_dword_800C3798;
 
 void brf_800D00C4(Work *work)
 {
@@ -1627,7 +1612,7 @@ void brf_800D00C4(Work *work)
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC190(work);
-            brf_800CF4A0(work, 0, 0x5A, 0x1C2, 0x44C, 4, &brf_dword_800C3768);
+            brf_800CF4A0(work, 0, 0x5A, 0x1C2, 0x44C, 4, brf_800C3768);
             work->poly_flags[0] = 10;
             work->poly_flags[1] = 12;
             work->field_AD38 = 0;
@@ -1635,7 +1620,7 @@ void brf_800D00C4(Work *work)
             work->poly_flags[2] = 8;
             work->poly_flags[3] = 8;
         }
-        brf_800CF4E0(work, 0, 0, 0, 0x5A, 0x1C2, 1, &brf_dword_800C3798);
+        brf_800CF4E0(work, 0, 0, 0, 0x5A, 0x1C2, 1, brf_800C3798);
         brf_800CCBD4(work, &base[1]);
         brf_800CADD4(work, &base[0], 0);
         brf_800CADD4(work, &base[4], 0);
@@ -2641,7 +2626,6 @@ void brf_800D3D8C(Work *work)
     }
     work->field_AD3C++;
 }
-extern int brf_dword_800C37A4;
 void brf_800D3D8C(Work *work);
 
 void brf_800D41A4(Work *work)
@@ -2714,7 +2698,7 @@ void brf_800D41A4(Work *work)
         brf_800CADD4(work, &base[1], 5);
         brf_800CBB68(work, &base[0], 0);
         brf_800D3A30(work);
-        brf_800CF4E0(work, 1, 0x140, -0x1E, -0x1E, 0x1F4, 4, &brf_dword_800C37A4);
+        brf_800CF4E0(work, 1, 0x140, -0x1E, -0x1E, 0x1F4, 4, brf_800C37A4);
         brf_800CC5E4(work, &base[0], &base[1]);
         break;
     case 5:
@@ -2726,7 +2710,7 @@ void brf_800D41A4(Work *work)
         }
         brf_800CADD4(work, &base[1], 5);
         brf_800CBB68(work, &base[0], 0);
-        brf_800CF4E0(work, 1, 0x140, -0x1E, -0x1E, 0x1F4, 4, &brf_dword_800C37A4);
+        brf_800CF4E0(work, 1, 0x140, -0x1E, -0x1E, 0x1F4, 4, brf_800C37A4);
         brf_800CC5E4(work, &base[0], &base[1]);
         break;
     case 6:
@@ -2741,7 +2725,7 @@ void brf_800D41A4(Work *work)
         }
         brf_800CADD4(work, &base[1], 5);
         brf_800CBB68(work, &base[0], 0);
-        brf_800CF4E0(work, 1, 0x140, -0x1E, -0x1E, 0x1F4, 4, &brf_dword_800C37A4);
+        brf_800CF4E0(work, 1, 0x140, -0x1E, -0x1E, 0x1F4, 4, brf_800C37A4);
         brf_800CD8B8(work, 16, 0, 2);
         brf_800CD8B8(work, 16, 1, 3);
         brf_800CC5E4(work, &base[0], &base[1]);
@@ -2753,14 +2737,13 @@ void brf_800D41A4(Work *work)
     }
 }
 const char brf_dword_800E2048[4] = "";
-extern int brf_dword_800C37D4;
 
 void brf_800D45C4(Work *work)
 {
     if (work->field_AD38 < 0x1f4)
     {
         int mul = 0x2ee - work->field_AD38;
-        brf_800CDAEC(work->polys, 6, &brf_dword_800C37D4, 0, 0x5a, mul, 0xfa);
+        brf_800CDAEC(work->polys, 6, brf_800C37D4, 0, 0x5a, mul, 0xfa);
     }
     else if (work->field_AD38 == 0x1f4)
     {
@@ -2875,7 +2858,6 @@ void brf_800D49B8(Work *work)
     }
     work->field_AD34++;
 }
-extern int brf_dword_800C381C;
 
 void brf_800D4A34(Work *work)
 {
@@ -2898,7 +2880,7 @@ void brf_800D4A34(Work *work)
             work->poly_flags[38] = 14;
             work->poly_flags[39] = 14;
         }
-        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, brf_800C381C);
         brf_800CADD4(work, &base[0], 4);
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
@@ -2913,7 +2895,7 @@ void brf_800D4A34(Work *work)
             work->poly_flags[38] = 14;
             work->poly_flags[39] = 14;
         }
-        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, brf_800C381C);
         brf_800CADD4(work, &base[0], 4);
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
@@ -2932,7 +2914,7 @@ void brf_800D4A34(Work *work)
             work->poly_flags[39] = 14;
             GM_SeSet2(0, 0x3F, 0xBC);
         }
-        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, brf_800C381C);
         brf_800D486C(work, &base[3], &base[8]);
         brf_800CADD4(work, &base[0], 4);
         brf_800CC5E4(work, &base[38], &base[39]);
@@ -2955,7 +2937,7 @@ void brf_800D4A34(Work *work)
             work->poly_flags[39] = 14;
             GM_SeSet2(0, 0x3F, 0xBC);
         }
-        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, brf_800C381C);
         brf_800D486C(work, &base[2], &base[7]);
         brf_800D493C(work);
         brf_800CADD4(work, &base[0], 4);
@@ -2980,7 +2962,7 @@ void brf_800D4A34(Work *work)
             work->poly_flags[38] = 14;
             work->poly_flags[39] = 14;
         }
-        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, brf_800C381C);
         brf_800D486C(work, &base[2], &base[7]);
         brf_800CADD4(work, &base[0], 4);
         brf_800CC5E4(work, &base[38], &base[39]);
@@ -3005,7 +2987,7 @@ void brf_800D4A34(Work *work)
             work->poly_flags[38] = 14;
             work->poly_flags[39] = 14;
         }
-        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, brf_800C381C);
         brf_800D49B8(work);
         brf_800CADD4(work, &base[0], 4);
         brf_800CC5E4(work, &base[38], &base[39]);
@@ -3030,7 +3012,7 @@ void brf_800D4A34(Work *work)
             work->poly_flags[38] = 14;
             work->poly_flags[39] = 14;
         }
-        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, brf_800C381C);
         brf_800CADD4(work, &base[0], 4);
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
@@ -3054,7 +3036,7 @@ void brf_800D4A34(Work *work)
             work->poly_flags[38] = 14;
             work->poly_flags[39] = 14;
         }
-        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, brf_800C381C);
         brf_800D48AC(work);
         brf_800CADD4(work, &base[0], 4);
         brf_800CC5E4(work, &base[38], &base[39]);
@@ -3070,7 +3052,7 @@ void brf_800D4A34(Work *work)
             work->poly_flags[38] = 14;
             work->poly_flags[39] = 14;
         }
-        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, brf_800C381C);
         brf_800CADD4(work, &base[0], 4);
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
@@ -3087,7 +3069,7 @@ void brf_800D4A34(Work *work)
             work->poly_flags[38] = 14;
             work->poly_flags[39] = 14;
         }
-        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, brf_800C381C);
         brf_800CD8B8(work, 16, 0, 4);
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
@@ -3102,7 +3084,7 @@ void brf_800D4A34(Work *work)
             work->poly_flags[38] = 14;
             work->poly_flags[39] = 14;
         }
-        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
+        brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, brf_800C381C);
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
     case -1:
@@ -3111,7 +3093,6 @@ void brf_800D4A34(Work *work)
         break;
     }
 }
-extern int brf_dword_800C3870, brf_dword_800C3888;
 
 void brf_800D52F0(Work *work)
 {
@@ -3138,8 +3119,8 @@ void brf_800D52F0(Work *work)
             work->view[0].x = 0;
             work->view[1].x = 0;
             work->view[2].x = 0;
-            brf_800CF4A0(work, work->view[1].x, work->view[1].y, 0xC8, work->view[1].scale, 2, &brf_dword_800C3870);
-            brf_800CF4A0(work, work->view[2].x, work->view[2].y, 0xC8, work->view[2].scale, 2, &brf_dword_800C3888);
+            brf_800CF4A0(work, work->view[1].x, work->view[1].y, 0xC8, work->view[1].scale, 2, brf_800C3870);
+            brf_800CF4A0(work, work->view[2].x, work->view[2].y, 0xC8, work->view[2].scale, 2, brf_800C3888);
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E1DE4));
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1DF0));
             BRF_SET_UV(&base[8], g);
@@ -3173,8 +3154,8 @@ void brf_800D52F0(Work *work)
                 BRF_SET_UV(&base[6], g);
                 g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1DD4));
                 BRF_SET_UV(&base[7], g);
-                brf_800CF4A0(work, work->view[1].x, work->view[1].y, 0xC8, work->view[1].scale, 2, &brf_dword_800C3870);
-                brf_800CF4A0(work, work->view[2].x, work->view[2].y, 0xC8, work->view[2].scale, 2, &brf_dword_800C3888);
+                brf_800CF4A0(work, work->view[1].x, work->view[1].y, 0xC8, work->view[1].scale, 2, brf_800C3870);
+                brf_800CF4A0(work, work->view[2].x, work->view[2].y, 0xC8, work->view[2].scale, 2, brf_800C3888);
                 work->poly_flags[6] = 10;
                 work->poly_flags[7] = 10;
             }
@@ -3206,7 +3187,6 @@ call_cece4:
 }
 const char brf_dword_800E20B8[4] = "";
 
-extern int brf_dword_800C38A0;
 
 void brf_800D5780(Work *work)
 {
@@ -3260,7 +3240,7 @@ void brf_800D5780(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC190(work);
-            brf_800CF4A0(work, 0, 0x50, 0x64, 0xA0, 6, &brf_dword_800C38A0);
+            brf_800CF4A0(work, 0, 0x50, 0x64, 0xA0, 6, brf_800C38A0);
             work->poly_flags[3] = 10;
             work->poly_flags[5] = 10;
             work->poly_flags[6] = 8;
@@ -3433,7 +3413,6 @@ void brf_800D5E54(Work *work)
     }
     work->field_AD34++;
 }
-extern int brf_dword_800C38E8;
 
 void brf_800D5ED0(Work *work)
 {
@@ -3520,7 +3499,7 @@ void brf_800D5ED0(Work *work)
         }
         brf_800D5D9C(work, &base[10], &base[11]);
         brf_800CADD4(work, &base[7], 9);
-        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, &brf_dword_800C38E8);
+        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, brf_800C38E8);
         brf_800CC5E4(work, &base[7], &base[9]);
         break;
     case 7:
@@ -3539,7 +3518,7 @@ void brf_800D5ED0(Work *work)
         }
         brf_800D5E54(work);
         brf_800CADD4(work, &base[7], 9);
-        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, &brf_dword_800C38E8);
+        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, brf_800C38E8);
         brf_800CC5E4(work, &base[7], &base[9]);
         break;
     case 8:
@@ -3557,7 +3536,7 @@ void brf_800D5ED0(Work *work)
             }
         }
         brf_800CADD4(work, &base[7], 9);
-        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, &brf_dword_800C38E8);
+        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, brf_800C38E8);
         brf_800CC5E4(work, &base[7], &base[9]);
         break;
     case 9:
@@ -3576,7 +3555,7 @@ void brf_800D5ED0(Work *work)
             }
         }
         brf_800CD8B8(work, 16, 7, 8);
-        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, &brf_dword_800C38E8);
+        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, brf_800C38E8);
         brf_800CC5E4(work, &base[7], &base[9]);
         break;
     case 10:
@@ -3593,7 +3572,7 @@ void brf_800D5ED0(Work *work)
             }
         }
         brf_800CADD4(work, &base[8], 8);
-        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, &brf_dword_800C38E8);
+        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, brf_800C38E8);
         brf_800CC5E4(work, &base[8], &base[9]);
         break;
     case 11:
@@ -3612,7 +3591,7 @@ void brf_800D5ED0(Work *work)
         }
         brf_800CADD4(work, &base[8], 8);
         brf_800D5DDC(work);
-        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, &brf_dword_800C38E8);
+        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, brf_800C38E8);
         brf_800CC5E4(work, &base[8], &base[9]);
         break;
     case 12:
@@ -3623,7 +3602,7 @@ void brf_800D5ED0(Work *work)
             work->poly_flags[9] = 12;
         }
         brf_800CADD4(work, &base[8], 8);
-        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, &brf_dword_800C38E8);
+        brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, brf_800C38E8);
         brf_800CC5E4(work, &base[8], &base[9]);
         break;
     case 13:
@@ -3686,7 +3665,6 @@ void brf_800D5ED0(Work *work)
     }
 }
 const char brf_dword_800E2170[4] = "";
-extern int brf_dword_800C390C;
 
 void brf_800D674C(Work *work)
 {
@@ -3712,7 +3690,7 @@ void brf_800D674C(Work *work)
             work->view[2].x = 0;
             work->view[2].y = 0x1E;
             work->view[2].scale = 0xF0;
-            brf_800CF4A0(work, 0, 0x1E, 0xC8, 0xF0, 6, &brf_dword_800C390C);
+            brf_800CF4A0(work, 0, 0x1E, 0xC8, 0xF0, 6, brf_800C390C);
             work->poly_flags[0] = 12;
             work->poly_flags[1] = 12;
             work->poly_flags[2] = 8;
@@ -4012,7 +3990,6 @@ void brf_800D6F98(Work *work)
     }
     work->field_AD34++;
 }
-extern int brf_dword_800C3954, brf_dword_800C3978;
 
 void brf_800D70A4(Work *work)
 {
@@ -4027,7 +4004,7 @@ void brf_800D70A4(Work *work)
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC388(work);
-            brf_800CF4A0(work, 0x32, 0x5A, 0x12C, 0x1C2, 3, &brf_dword_800C3954);
+            brf_800CF4A0(work, 0x32, 0x5A, 0x12C, 0x1C2, 3, brf_800C3954);
             work->poly_flags[1] = 10;
             work->poly_flags[2] = 10;
         }
@@ -4063,7 +4040,7 @@ void brf_800D70A4(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC190(work);
-            brf_800CF4A0(work, 0x28, 0x5A, 0x12C, 0x2EE, 5, &brf_dword_800C3978);
+            brf_800CF4A0(work, 0x28, 0x5A, 0x12C, 0x2EE, 5, brf_800C3978);
             work->field_AD34 = 0;
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E21D4));
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E21D4));
@@ -4144,7 +4121,6 @@ void brf_800D70A4(Work *work)
 }
 const char brf_dword_800E2210[4] = "";
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D75F0.s")
-extern int brf_dword_800C39B4;
 void brf_800D75F0(Work *work);
 
 void brf_800D8060(Work *work)
@@ -4159,7 +4135,7 @@ void brf_800D8060(Work *work)
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC28C(work);
-            brf_800CF4A0(work, 0, 0, 0xFA, 0x190, 2, &brf_dword_800C39B4);
+            brf_800CF4A0(work, 0, 0, 0xFA, 0x190, 2, brf_800C39B4);
             work->poly_flags[0] = 10;
             work->poly_flags[1] = 10;
         }
@@ -4912,7 +4888,6 @@ void brf_800DD648(Work *work)
         break;
     }
 }
-extern int brf_dword_800C4CB0;
 
 void brf_800DD6DC(Work *work)
 {
@@ -4928,8 +4903,8 @@ void brf_800DD6DC(Work *work)
 
     work->scene_changed = 1;
     work->scene = work->key_scene;
-    work->key_time = ((BrfKeyframe **)&brf_dword_800C4CB0)[work->index][work->key_index].field_0;
-    work->key_scene = ((BrfKeyframe **)&brf_dword_800C4CB0)[work->index][work->key_index].field_2;
+    work->key_time = brf_timelines[work->index][work->key_index].time;
+    work->key_scene = brf_timelines[work->index][work->key_index].scene;
     work->key_index++;
 }
 void brf_800DD77C(Work *work)
@@ -4987,7 +4962,7 @@ void brf_800DD830(Work *work)
     {
         src = work->polys;
     }
-    for (i = 0; i < (tbl = (short *)&brf_dword_800C3508)[work->index]; i++) /* required for the match */
+    for (i = 0; i < (tbl = brf_poly_counts)[work->index]; i++) /* required for the match */
     {
         *dst = *src;
         k = work->time % 16;

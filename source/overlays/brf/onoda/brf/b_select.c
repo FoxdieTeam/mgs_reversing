@@ -1,4 +1,4 @@
-#include "game/game.h"
+#include "brf.h"
 #include "libfs/libfs.h"
 #include "mts/mts.h"
 
@@ -45,54 +45,34 @@ typedef struct _Work
     char   pad_FE4[0x4];      /* 0xFE4 */
 } Work;
 
-typedef struct
-{
-    unsigned char field_0;
-    unsigned char field_1;
-    unsigned char field_2;
-    unsigned char field_3;
-    short         field_4;
-    short         field_6;
-} BrfStage;
-
-extern int brf_dword_800C3470;
-extern int brf_dword_800C33E4;
 void *NewBriefingGraph(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8);
 void *NewBriefingCount(int map, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7);
 
 void brf_800C5230(Work *work)
 {
-    BrfStage stage;
-    int      idx;
-    int      f0, f1, f2, f3, f4, f6;
+    BrfCountParam stage;
+    int           idx;
+    int           f0, f1, f2, f3, f4, f6;
 
     idx = work->field_CC;
-    stage = ((BrfStage *)&brf_dword_800C3470)[idx];
-    f0 = stage.field_0;
-    f1 = stage.field_1;
-    f2 = stage.field_2;
-    f3 = stage.field_3;
-    f4 = stage.field_4;
-    f6 = stage.field_6;
-    work->field_77C = (&brf_dword_800C33E4)[idx];
+    stage = brf_count_params[idx];
+    f0 = stage.arg1;
+    f1 = stage.arg2;
+    f2 = stage.arg3;
+    f3 = stage.arg5;
+    f4 = stage.arg6;
+    f6 = stage.arg7;
+    work->field_77C = brf_800C33E4[idx];
     work->field_D8 = NewBriefingGraph(work->field_E0, work->field_528, (int)work->field_428, (int)work->field_128, idx,
                                       work->field_77C, work->field_72C, (int)work->field_62C, (int)work->field_52C);
     work->field_DC = NewBriefingCount(work->field_E0, f0, f1, f2, work->field_77C - 100, f3, f4, f6);
 }
 
-typedef struct
-{
-    char *name;
-    int   offset;
-    int   size;
-} BrfResource;
-
-extern int brf_dword_800C321C;
 extern const char brf_dword_800E1088[];
 
 void brf_800C5350(Work *work, int idx)
 {
-    BrfResource *table = (BrfResource *)&brf_dword_800C321C;
+    BrfResource *table = brf_vram_files;
     BrfResource *e = &table[idx];
 
     printf((char *)brf_dword_800E1088, e->name);
@@ -103,11 +83,10 @@ void brf_800C5350(Work *work, int idx)
         mts_wait_vbl(1);
     }
 }
-extern int brf_dword_800C3300;
 
 void brf_800C53E4(Work *work, int idx)
 {
-    BrfResource *table = (BrfResource *)&brf_dword_800C3300;
+    BrfResource *table = brf_main_files;
     BrfResource *e = &table[idx];
 
     printf((char *)brf_dword_800E1088, e->name);
@@ -325,25 +304,18 @@ void brf_800C5FE0(Work *work, int arg)
     brf_800C53E4(work, arg);
     brf_800C5EAC(work);
 }
-typedef struct
-{
-    short sel;
-    short arg;
-} BrfDispatch;
-
-extern int brf_dword_800C3430;
 
 void brf_800C600C(Work *work)
 {
     int idx = work->field_70 - 9;
-    BrfDispatch e = ((BrfDispatch *)&brf_dword_800C3430)[idx];
-    int arg = e.arg;
+    BrfLoad e = brf_load_table[idx];
+    int arg = e.file;
 
-    if (e.sel == 0)
+    if (e.type == 0)
     {
         brf_800C5FB4(work, arg);
     }
-    else if (e.sel == 1)
+    else if (e.type == 1)
     {
         brf_800C5FB4(work, arg);
         brf_800C5FE0(work, arg);
