@@ -49,13 +49,18 @@ typedef struct _Work
     u_char      menu_prim_buf[2][0x2000]; /* 0x934 */
     int         sinrei_no;              /* 0x4934: spirit photo number (0: none) */
     int         timer;                  /* 0x4938 */
-    char        pad_493C[0x10];
+    int         field_493C;
+    int         field_4940;
+    int         field_4944;
+    int         field_4948;
     char        name[24];               /* 0x494C: photo name */
     int         name_len;               /* 0x4964 */
     int         color_r;                /* 0x4968 */
     int         color_g;                /* 0x496C */
     int         color_b;                /* 0x4970 */
-    char        pad_4974[0xC];
+    int         saved_adjust_r;         /* 0x4974: adjust_* when the colour screen was entered */
+    int         saved_adjust_g;         /* 0x4978 */
+    int         saved_adjust_b;         /* 0x497C */
     int         adjust_r;               /* 0x4980: colour adjustment, -100..100 */
     int         adjust_g;               /* 0x4984 */
     int         adjust_b;               /* 0x4988 */
@@ -65,7 +70,8 @@ typedef struct _Work
     CaptionInfo caption;                /* 0x49A8 */
     int         field_49B8;
     int         field_49BC;
-    char        pad_49C0[0x8];
+    int         field_49C0;
+    int         field_49C4;
     int         save_phase;             /* 0x49C8 */
     MEMCARD    *memcard;                /* 0x49CC */
     int         message_delay;          /* 0x49D0 */
