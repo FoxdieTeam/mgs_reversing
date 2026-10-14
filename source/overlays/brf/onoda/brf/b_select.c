@@ -1,8 +1,31 @@
-#include "brf.h"
+#include "game/game.h"
 #include "libfs/libfs.h"
 #include "mts/mts.h"
 
 #include <stdio.h>
+
+typedef struct
+{
+    const char *name;
+    int         offset;
+    int         size;
+} BrfResource;
+
+typedef struct
+{
+    short type; /* 0: vram files only, 1: vram and main memory files */
+    short file;
+} BrfLoad;
+
+typedef struct
+{
+    u_char arg1;
+    u_char arg2;
+    u_char arg3;
+    u_char arg5;
+    short  arg6;
+    short  arg7;
+} BrfCountParam;
 
 typedef struct _Work
 {
