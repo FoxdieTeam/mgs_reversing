@@ -2205,8 +2205,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 
     include "{{OBJ_DIR}}\overlays\brf\onoda\brf\b_select.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\brf\overlay3.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\brf\onoda\brf\b_graph.obj", overlay
 
     include "{{OBJ_DIR}}\onoda\brf\b_count.obj", overlay
