@@ -3800,13 +3800,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s17a\overlay3.obj", overlay
     include "{{OBJ_DIR}}\takabe\sepia.obj", overlay
     include "{{OBJ_DIR}}\takabe\windcrcl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D16CC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D1848.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D1C4C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D1C88.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D1EC4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay9.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s17a\takabe\mg_demo1.obj", overlay
     include "{{OBJ_DIR}}\takabe\puthzd.obj", overlay
     include "{{OBJ_DIR}}\takabe\drumsmke.obj", overlay
     include "{{OBJ_DIR}}\takabe\drumfire.obj", overlay
