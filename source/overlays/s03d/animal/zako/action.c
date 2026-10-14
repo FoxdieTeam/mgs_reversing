@@ -296,20 +296,20 @@ void s03d_800CDB5C(Work *work)
 
     if (s03d_dword_800DC2F8 < 4)
     {
-        reset = work->param.fAF8 * 2 + 25;
-        printf("aaa reset wait zone id = %d z=%d\n", work->param.fAF8, reset);
+        reset = work->param.index * 2 + 25;
+        printf("aaa reset wait zone id = %d z=%d\n", work->param.index, reset);
     }
     else
     {
-        reset = ZAKOCOM_MGR->field_38[work->param.fAF8 % 2];
-        printf("bbb reset fight zone id = %d z=%d\n", work->param.fAF8, reset);
+        reset = ZAKOCOM_MGR->field_38[work->param.index % 2];
+        printf("bbb reset fight zone id = %d z=%d\n", work->param.index, reset);
     }
 
     zone = HZD_GetZone(ctrl->map->hzd, reset);
     ctrl->mov.vx = zone->x;
     ctrl->mov.vy = zone->y + 1000;
     ctrl->mov.vz = zone->z;
-    if (work->param.fAF8 == 2)
+    if (work->param.index == 2)
     {
         ctrl->mov.vz += 500;
     }
@@ -667,7 +667,7 @@ void s03d_800CE720(Work *work, int arg)
         }
         GM_ConfigMotionAdjust(&work->body, work->adjust);
     }
-    if (work->param.fAF8 != 1 || !(GV_Time & 0x100))
+    if (work->param.index != 1 || !(GV_Time & 0x100))
     {
         Zako_800CDD94(work);
     }
@@ -716,7 +716,7 @@ void s03d_800CE720(Work *work, int arg)
         work->control.turn.vx = 0;
         return;
     }
-    if (work->param.fAF8 != 1 || !(GV_Time & 0x100))
+    if (work->param.index != 1 || !(GV_Time & 0x100))
     {
         if (work->field_AE6 >= 0)
         {
@@ -748,7 +748,7 @@ void s03d_800CE8F4(Work *work, int arg)
         Zako_800D0EF0(work, 3);
         GM_ConfigMotionAdjust(&work->body, work->adjust);
     }
-    if (work->param.fAF8 != 1 || !(GV_Time & 0x100))
+    if (work->param.index != 1 || !(GV_Time & 0x100))
     {
         Zako_800CDD94(work);
     }
@@ -819,7 +819,7 @@ void s03d_800CEB38(Work *work, int arg)
     }
     if (arg == 45)
     {
-        if (work->param.fAF8 == 2)
+        if (work->param.index == 2)
         {
             pos = &s03d_dword_800C3A44;
         }
@@ -1595,7 +1595,7 @@ void s03d_800D0324(Work *work, int arg)
         int *base = &s03d_dword_800DC310;
         work->field_B00 = 0;
         work->control.mov = s03d_dword_800C3B88;
-        base[work->param.fAF8 * 4 + 0x90 / 4] = 1;
+        base[work->param.index * 4 + 0x90 / 4] = 1;
         if (work->field_BA0 == 0)
         {
             unsigned short *lv = (unsigned short *)linkvarbuf;
@@ -1604,7 +1604,7 @@ void s03d_800D0324(Work *work, int arg)
     }
     {
         int *base = &s03d_dword_800DC310;
-        if (base[work->param.fAF8 * 4 + 0x90 / 4] != 2)
+        if (base[work->param.index * 4 + 0x90 / 4] != 2)
         {
             return;
         }
@@ -1676,7 +1676,7 @@ void s03d_800D041C(Work *work)
         work->hom->flag = 0;
     }
 
-    if (ZAKOCOM_MGR->entries[work->param.fAF8].field_4 == 1)
+    if (ZAKOCOM_MGR->entries[work->param.index].field_4 == 1)
     {
         work->hom->flag = 0;
     }
@@ -1925,8 +1925,8 @@ void s03d_800D0CD4(Work *work)
 {
     int action = work->act.motion1;
     int frame = work->m_ctrl.info1.frame;
-    int l = 160 + (work->param.fAF8 % 4) * 2;
-    int r = 160 + (work->param.fAF8 % 4) * 2 + 1;
+    int l = 160 + (work->param.index % 4) * 2;
+    int r = 160 + (work->param.index % 4) * 2 + 1;
 
     if (action == 1)
     {
@@ -1962,7 +1962,7 @@ void s03d_800D0D6C(Work *work)
     {
         return;
     }
-    if (GV_Time % 64 == work->param.fAF8 * 16)
+    if (GV_Time % 64 == work->param.index * 16)
     {
         AN_Breath(&work->body.objs->objs[6].world);
     }
@@ -2045,11 +2045,11 @@ void Zako_800D0FCC(Work *work)
 
 void Zako_800D0FF4(Work *work)
 {
-    if (work->field_B33 & 4)
+    if (work->modetime[7] & 4)
     {
         if (work->target->damaged & 6)
         {
-            work->field_B32 |= 4;
+            work->modetime[6] |= 4;
         }
         if (work->attack.damaged & 0x80)
         {
@@ -2074,7 +2074,7 @@ void s03d_800D10B4(Work *work)
     CONTROL *ctrl;
     int      dist;
 
-    if (!(work->field_B33 & 1))
+    if (!(work->modetime[7] & 1))
     {
         return;
     }
@@ -2114,7 +2114,7 @@ void s03d_800D10B4(Work *work)
             dist = s03d_800D1054(ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition);
             if (dist < 300)
             {
-                work->field_B32 |= 1;
+                work->modetime[6] |= 1;
                 GM_NoiseLength = 0;
                 GM_NoisePower = 0;
             }
@@ -2123,12 +2123,12 @@ void s03d_800D10B4(Work *work)
     default:
         return;
     }
-    work->field_B32 |= 1;
+    work->modetime[6] |= 1;
 }
 
 void s03d_800D123C(Work *work)
 {
-    if ((work->field_B33 & 2) && work->vision.pad == 2 && (GM_PlayerStatus & PLAYER_CB_BOX))
+    if ((work->modetime[7] & 2) && work->vision.pad == 2 && (GM_PlayerStatus & PLAYER_CB_BOX))
     {
         if (GV_DiffVec3(&work->field_B34, &GM_PlayerPosition) > 50 || work->field_B3C != GM_WhereList[0]->rot.vy)
         {
@@ -2138,7 +2138,7 @@ void s03d_800D123C(Work *work)
             }
             work->field_B34 = GM_PlayerPosition;
             work->field_B3C = GM_WhereList[0]->rot.vy;
-            work->field_B32 |= 2;
+            work->modetime[6] |= 2;
         }
         work->vision.pad = 0;
     }
@@ -2150,7 +2150,7 @@ void s03d_800D1324(Work *work)
     HZD_HDL *hzd;
     VISION  *vision;
 
-    if (!(work->field_B33 & 0x10))
+    if (!(work->modetime[7] & 0x10))
     {
         return;
     }
@@ -2173,7 +2173,7 @@ void s03d_800D1324(Work *work)
         return;
     }
 
-    work->field_B32 |= 0x10;
+    work->modetime[6] |= 0x10;
     fprintf(1, " Asiato mikke!! [%d]\n", NearAsiato());
 }
 void Zako_800D13E8(Work *work)
@@ -2181,7 +2181,7 @@ void Zako_800D13E8(Work *work)
     SVECTOR unused[2];
 
     (void)unused;
-    work->field_B32 = 0;
+    work->modetime[6] = 0;
 }
 void s03d_800D13F8(Work *work)
 {
@@ -2251,7 +2251,7 @@ void s03d_800D15A8(Work *work)
         {
             if (GV_Time & 0x100)
             {
-                if (work->param.fAF8 & 1)
+                if (work->param.index & 1)
                 {
                     turn = trg->offset.pad << 10;
                 }
@@ -2262,7 +2262,7 @@ void s03d_800D15A8(Work *work)
             }
             else
             {
-                if (work->param.fAF8 & 1)
+                if (work->param.index & 1)
                 {
                     turn = (trg->offset.pad + 2) << 10;
                 }

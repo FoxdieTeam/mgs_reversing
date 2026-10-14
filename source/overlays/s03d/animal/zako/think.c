@@ -282,7 +282,7 @@ int s03d_800D327C(Work *work)
 
 int s03d_800D3310(Work *work)
 {
-    if (work->param.fAF8 == 2)
+    if (work->param.index == 2)
     {
         work->field_AD8 |= 0x20000;
     }
@@ -327,13 +327,13 @@ int s03d_800D33E8(Work *work)
     if (work->field_AD0 == 30)
     {
         work->field_AD8 |= 0x100000;
-        work->field_B68 = s03d_dword_800C3B68[work->param.fAF8];
+        work->field_B68 = s03d_dword_800C3B68[work->param.index];
     }
     else if (work->body.is_end != 0)
     {
         return 1;
     }
-    work->field_AE6 = s03d_800D2D84(&work->control.mov, &s03d_dword_800C3B68[work->param.fAF8]);
+    work->field_AE6 = s03d_800D2D84(&work->control.mov, &s03d_dword_800C3B68[work->param.index]);
     work->field_AD0++;
     return 0;
 }
@@ -375,7 +375,7 @@ int s03d_800D3508(Work *work)
 
 int s03d_800D3570(Work *work)
 {
-    if (work->param.fAF8 == 2)
+    if (work->param.index == 2)
     {
         work->field_AD8 |= 0x20000;
     }
