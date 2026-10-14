@@ -156,6 +156,11 @@ static inline void s18a_liquid_SetPose(LiquidWork *work, int pose)
 int  s18a_800C7684(LiquidWork *work);
 void s18a_800C82A4(LiquidWork *work, int time);
 void s18a_800C839C(LiquidWork *work, int time);
+static inline int s18a_liquid_Scale(int value, int scale)
+{
+    return value * scale / 4096;
+}
+
 /*--FUNCS--*/
 
 int s18a_800C722C(SVECTOR *pos, short *out)
@@ -432,7 +437,7 @@ int s18a_800C7A18(LiquidWork *work)
     return 1;
 }
 
-void s18a_800C7A68(LiquidWork *work, int type)
+int s18a_800C7A68(LiquidWork *work, int type)
 {
     SVECTOR  force;
     SVECTOR  pos0 = {-200, 1000, 600};
@@ -544,7 +549,7 @@ void s18a_800C7A68(LiquidWork *work, int type)
         break;
     }
 
-    GM_PowerTarget(target);
+    return GM_PowerTarget(target);
 }
 
 int s18a_800C80B8(LiquidWork *work, int type)
@@ -1147,14 +1152,381 @@ void s18a_800C9044(LiquidWork *work, int time)
     work->target->class |= 0x17;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C91D4.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9384.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9534.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C966C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C97AC.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C990C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9A0C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9B20.s")
+void s18a_800C91D4(LiquidWork *work, int time)
+{
+    CONTROL *control;
+    int      dir;
+    int      speed;
+    int      step;
+
+    control = &work->control;
+
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 12);
+    }
+
+    control->rot.vy = control->turn.vy = work->f9AC;
+
+    s18a_800C8210(work);
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (work->cmd != 10)
+    {
+        if (s18a_800C736C(work))
+        {
+            s18a_liquid_ResetOverride(work);
+        }
+        else
+        {
+            s18a_liquid_SetAct(work, s18a_800C82A4);
+        }
+        return;
+    }
+
+    if (work->m_ctrl.info1.frame < 8)
+    {
+        control->step.vx += s18a_liquid_Scale(rsin(work->f9AC), 64);
+        control->step.vz += s18a_liquid_Scale(rcos(work->f9AC), 64);
+
+        dir = work->f9AC - 1024;
+        dir &= 0xFFF;
+        speed = 48;
+        control->step.vx += rsin(dir) * speed / 4096;
+        control->step.vz += rcos(dir) * speed / 4096;
+    }
+}
+
+void s18a_800C9384(LiquidWork *work, int time)
+{
+    CONTROL *control;
+    int      dir;
+    int      speed;
+    int      step;
+
+    control = &work->control;
+
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 13);
+    }
+
+    control->rot.vy = control->turn.vy = work->f9AC;
+
+    s18a_800C8210(work);
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (work->cmd != 11)
+    {
+        if (s18a_800C736C(work))
+        {
+            s18a_liquid_ResetOverride(work);
+        }
+        else
+        {
+            s18a_liquid_SetAct(work, s18a_800C82A4);
+        }
+        return;
+    }
+
+    if (work->m_ctrl.info1.frame < 8)
+    {
+        control->step.vx += s18a_liquid_Scale(rsin(work->f9AC), 64);
+        control->step.vz += s18a_liquid_Scale(rcos(work->f9AC), 64);
+
+        dir = work->f9AC + 1024;
+        dir &= 0xFFF;
+        speed = 48;
+        control->step.vx += rsin(dir) * speed / 4096;
+        control->step.vz += rcos(dir) * speed / 4096;
+    }
+}
+
+void s18a_800C9534(LiquidWork *work, int time)
+{
+    CONTROL *control;
+    int      step;
+
+    control = &work->control;
+
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 14);
+        work->control.turn.vy = work->f954;
+    }
+
+    if (time == 3)
+    {
+        s18a_800C7A68(work, 0);
+    }
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (work->body.is_end)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+        return;
+    }
+
+    if (time < 4)
+    {
+        control->step.vx = s18a_liquid_Scale(rsin(work->f9AC), 128);
+        control->step.vz = s18a_liquid_Scale(rcos(work->f9AC), 128);
+    }
+
+    work->target->class |= 0x17;
+}
+
+void s18a_800C966C(LiquidWork *work, int time)
+{
+    CONTROL *control;
+    int      speed;
+
+    control = &work->control;
+
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 15);
+        work->control.turn.vy = work->f954;
+    }
+
+    if (time == 7)
+    {
+        s18a_800C7A68(work, 1);
+    }
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (work->body.is_end)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+        return;
+    }
+
+    if (time < 8)
+    {
+        speed = 24;
+        control->step.vx = rsin(work->f9AC) * speed / 4096;
+        control->step.vz = rcos(work->f9AC) * speed / 4096;
+    }
+
+    work->target->class |= 0x17;
+}
+
+void s18a_800C97AC(LiquidWork *work, int time)
+{
+    int      hit;
+    CONTROL *control;
+
+    hit = 0;
+    control = &work->control;
+
+    if (time == 0)
+    {
+        control->turn.vy = work->f9AC;
+        work->pose = 15;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[15], 0, 0);
+    }
+
+    if (time == 6)
+    {
+        hit = s18a_800C7A68(work, 1);
+        GM_SeSet(&control->mov, 56);
+    }
+
+    if (time == 11)
+    {
+        work->pose = 14;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[14], 0, 0);
+    }
+
+    if (time == 15)
+    {
+        hit = s18a_800C7A68(work, 0);
+        GM_SeSet(&control->mov, 56);
+    }
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (hit)
+    {
+        GM_SeSet(&control->mov, 52);
+    }
+
+    if (work->body.is_end)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+        return;
+    }
+
+    work->target->class |= 0x17;
+}
+
+void s18a_800C990C(LiquidWork *work, int time)
+{
+    int hit;
+
+    hit = 0;
+
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 16);
+        work->control.turn.vy = work->f9AC;
+    }
+
+    if (time == 4)
+    {
+        hit = s18a_800C7A68(work, 9);
+        GM_SeSet(&work->control.mov, 57);
+    }
+
+    if (hit)
+    {
+        GM_SeSet(&work->control.mov, 52);
+    }
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (work->body.is_end)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+    }
+
+    work->target->class |= 0x17;
+}
+
+void s18a_800C9A0C(LiquidWork *work, int time)
+{
+    CONTROL *control;
+
+    control = &work->control;
+
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 17);
+        control->turn.vy = work->f9AC;
+    }
+
+    if (time == 10)
+    {
+        GM_SeSet(&control->mov, 57);
+    }
+
+    if (time == 12)
+    {
+        if (s18a_800C7A68(work, 3))
+        {
+            GM_SeSet(&control->mov, 53);
+        }
+    }
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (work->body.is_end)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+        return;
+    }
+
+    control->step.vx = 0;
+    control->step.vz = 0;
+    work->target->class |= 0x17;
+}
+
+void s18a_800C9B20(LiquidWork *work, int time)
+{
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 18);
+        work->control.turn.vy = work->f954;
+    }
+
+    if (time == 12)
+    {
+        if (GM_PlayerStatus & PLAYER_ACT_ONLY)
+        {
+            s18a_800C7A68(work, 8);
+        }
+        else
+        {
+            s18a_800C7A68(work, 5);
+        }
+        GM_SeSet(&work->control.mov, 180);
+    }
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (work->body.is_end)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+        return;
+    }
+
+    work->target->class |= 0x17;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9C2C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA1A4.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA3B4.s")
