@@ -2717,11 +2717,11 @@ void s08b_bunsin2_800CCDBC(Work *work)
     {
         if (work->field_19F0 & 2)
         {
-            work->body.objs->flag |= 0x80;
+            work->body.objs->flag |= DG_FLAG_INVISIBLE;
         }
         else
         {
-            work->body.objs->flag &= ~0x80;
+            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
         }
         work->target->class = TARGET_AVAIL;
         work->field_19F0 = work->field_19F0 - 1;
