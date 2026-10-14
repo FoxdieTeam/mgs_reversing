@@ -101,200 +101,7 @@ void brf_800CC5E4();
 void brf_800CF4E0();
 void brf_800CF5A8();
 DG_TEX *brf_800CABF4();
-extern const char brf_dword_800E1BF0[];
 
-DG_TEX *brf_800CABF4(work, id)
-Work *work;
-int id;
-{
-    int i;
-    int found = 0;
-    for (i = 0; i < work->n_textures; i++)
-    {
-        if (work->tex_ids[i] == id)
-        {
-            return &work->textures[i];
-        }
-    }
-    if (!found)
-    {
-        printf((char *)brf_dword_800E1BF0, id);
-    }
-    return 0;
-}
-void brf_800CAC7C(Work *work, int id)
-{
-    int i;
-    int found = 0;
-    DG_IMAGE *result = 0;
-    for (i = 0; i < work->n_images; i++)
-    {
-        if (work->image_ids[i] == id)
-        {
-            result = work->images[i];
-            found = 1;
-        }
-    }
-    if (found)
-    {
-        LoadImage(&result[0].dim, (u_long *)result[0].data);
-        LoadImage(&result[1].dim, (u_long *)result[1].data);
-    }
-    else
-    {
-        printf((char *)brf_dword_800E1BF0, id);
-    }
-}
-extern const char brf_dword_800E1C14[];
-int jimctrl_helper_80037F68();
-
-void brf_800CAD24(Work *work, POLY_FT4 *dest, int a2, int a3, int a4)
-{
-    DG_TEX *g;
-    int u, uw, v, vh;
-
-    work->mouth_changed = a2;
-    g = brf_800CABF4(work, brf_mouth_textures[a4][a3]);
-    u = g->off_x;
-    uw = u + g->w + 1;
-    v = g->off_y;
-    vh = v + g->h + 1;
-
-    dest->u0 = u;
-    dest->v0 = v;
-    dest->u1 = uw;
-    dest->v1 = v;
-    dest->u2 = u;
-    dest->v2 = vh;
-    dest->u3 = uw;
-    dest->v3 = vh;
-    dest->tpage = g->tpage;
-    dest->clut = g->clut;
-}
-
-void brf_800CADD4(Work *work, void *a1, int a2)
-{
-    int v0 = jimctrl_helper_80037F68(GV_StrCode(brf_dword_800E1C14));
-    int s0 = v0 & 0xFF;
-
-    work->lipsync = v0;
-    if (work->mouth != s0)
-    {
-        brf_800CAD24(work, a1, 0, s0, a2);
-    }
-    else if (work->mouth_changed != 0)
-    {
-        brf_800CAD24(work, a1, 1, s0, a2);
-    }
-    work->mouth = s0;
-}
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CAE84.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CB23C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CB5F4.s")
-
-void brf_800CBA84(Work *work, POLY_FT4 *dest, int idx)
-{
-    DG_TEX *g = brf_800CABF4(work, brf_blink_textures[idx][(work->field_AD40 - 1) / 2]);
-    int u = g->off_x;
-    int uw = u + g->w + 1;
-    int v = g->off_y;
-    int vh = v + g->h + 1;
-
-    dest->u0 = u;
-    dest->v0 = v;
-    dest->u1 = uw;
-    dest->v1 = v;
-    dest->u2 = u;
-    dest->v2 = vh;
-    dest->u3 = uw;
-    dest->v3 = vh;
-    dest->tpage = g->tpage;
-    dest->clut = g->clut;
-
-    work->field_AD40++;
-    if (work->field_AD40 >= 7)
-    {
-        work->field_AD40 = 0;
-    }
-}
-extern const char brf_dword_800E1C90[];
-
-void brf_800CBB68(Work *work, void *a1, int a2)
-{
-    if (work->lipsync >> 8)
-    {
-        if (work->field_AD40)
-        {
-            printf((char *)brf_dword_800E1C90);
-        }
-        else
-        {
-            work->field_AD40 = 1;
-        }
-    }
-    if (work->field_AD40)
-    {
-        brf_800CBA84(work, a1, a2);
-    }
-}
-
-void brf_800CBC04(Work *work, POLY_FT4 *dest, int idx)
-{
-    u_short *tbl = brf_800C50E8;
-    DG_TEX *g = brf_800CABF4(work, tbl[idx / 3]);
-    int u = g->off_x;
-    int uw = u + g->w + 1;
-    int v = g->off_y;
-    int vh = v + g->h + 1;
-
-    dest->u0 = u;
-    dest->v0 = v;
-    dest->u1 = uw;
-    dest->v1 = v;
-    dest->u2 = u;
-    dest->v2 = vh;
-    dest->u3 = uw;
-    dest->v3 = vh;
-    dest->tpage = g->tpage;
-    dest->clut = g->clut;
-}
-void brf_800CBCB0(Work *work, POLY_FT4 *dest, int idx)
-{
-    u_short *tbl = brf_800C50F4;
-    DG_TEX *g = brf_800CABF4(work, tbl[idx / 3]);
-    int u = g->off_x;
-    int uw = u + g->w + 1;
-    int v = g->off_y;
-    int vh = v + g->h + 1;
-
-    dest->u0 = u;
-    dest->v0 = v;
-    dest->u1 = uw;
-    dest->v1 = v;
-    dest->u2 = u;
-    dest->v2 = vh;
-    dest->u3 = uw;
-    dest->v3 = vh;
-    dest->tpage = g->tpage;
-    dest->clut = g->clut;
-}
-
-void brf_800CBD5C(Work *work, void *a1)
-{
-    if (work->field_AD34 % 3 == 2)
-    {
-        brf_800CBC04(work, a1, work->field_AD34);
-    }
-    work->field_AD34++;
-}
-void brf_800CBDC8(Work *work, void *a1)
-{
-    if (work->field_AD34 % 3 == 2)
-    {
-        brf_800CBCB0(work, a1, work->field_AD34);
-    }
-    work->field_AD34++;
-}
 const char brf_dword_800E13BC[28] = "      GROUP, AS AN ADVISOR.";
 const char brf_dword_800E13D8[28] = "      ABOLITION PROPOSAL";
 const char brf_dword_800E13F4[24] = "      NUCLEAR WEAPON";
@@ -396,8 +203,129 @@ const char brf_dword_800E1BAC[12] = "SEX: MALE";
 const char brf_dword_800E1BB8[16] = "NAME: UNKNOWN";
 const char brf_dword_800E1BC8[24] = "CODE NAME: LIQUID SNAKE";
 const char brf_dword_800E1BE0[16] = "LIQUID SNAKE";
-const char brf_dword_800E1BF0[36] = "ERROR! Cannot Find Texture id = %d\n";
-const char brf_dword_800E1C14[12] = "\xa5\xb9\xa5\xcd\xa1\xbc\xa5\xaf"; /* "スネーク" (Snake) */
+
+extern const char brf_dword_800E1DC4[];
+extern const char brf_dword_800E1DD4[];
+extern const char brf_dword_800E1DE4[];
+extern const char brf_dword_800E1DF0[];
+extern const char brf_dword_800E1EB0[];
+extern const char brf_dword_800E1EC0[];
+extern const char brf_dword_800E1EF0[];
+
+DG_TEX *brf_800CABF4(work, id)
+Work *work;
+int id;
+{
+    int i;
+    int found = 0;
+    for (i = 0; i < work->n_textures; i++)
+    {
+        if (work->tex_ids[i] == id)
+        {
+            return &work->textures[i];
+        }
+    }
+    if (!found)
+    {
+        printf("ERROR! Cannot Find Texture id = %d\n", id);
+    }
+    return 0;
+}
+void brf_800CAC7C(Work *work, int id)
+{
+    int i;
+    int found = 0;
+    DG_IMAGE *result = 0;
+    for (i = 0; i < work->n_images; i++)
+    {
+        if (work->image_ids[i] == id)
+        {
+            result = work->images[i];
+            found = 1;
+        }
+    }
+    if (found)
+    {
+        LoadImage(&result[0].dim, (u_long *)result[0].data);
+        LoadImage(&result[1].dim, (u_long *)result[1].data);
+    }
+    else
+    {
+        printf("ERROR! Cannot Find Texture id = %d\n", id);
+    }
+}
+int jimctrl_helper_80037F68();
+
+void brf_800CAD24(Work *work, POLY_FT4 *dest, int a2, int a3, int a4)
+{
+    DG_TEX *g;
+    int u, uw, v, vh;
+
+    work->mouth_changed = a2;
+    g = brf_800CABF4(work, brf_mouth_textures[a4][a3]);
+    u = g->off_x;
+    uw = u + g->w + 1;
+    v = g->off_y;
+    vh = v + g->h + 1;
+
+    dest->u0 = u;
+    dest->v0 = v;
+    dest->u1 = uw;
+    dest->v1 = v;
+    dest->u2 = u;
+    dest->v2 = vh;
+    dest->u3 = uw;
+    dest->v3 = vh;
+    dest->tpage = g->tpage;
+    dest->clut = g->clut;
+}
+
+void brf_800CADD4(Work *work, void *a1, int a2)
+{
+    int v0 = jimctrl_helper_80037F68(GV_StrCode("スネーク"));
+    int s0 = v0 & 0xFF;
+
+    work->lipsync = v0;
+    if (work->mouth != s0)
+    {
+        brf_800CAD24(work, a1, 0, s0, a2);
+    }
+    else if (work->mouth_changed != 0)
+    {
+        brf_800CAD24(work, a1, 1, s0, a2);
+    }
+    work->mouth = s0;
+}
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CAE84.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CB23C.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CB5F4.s")
+
+void brf_800CBA84(Work *work, POLY_FT4 *dest, int idx)
+{
+    DG_TEX *g = brf_800CABF4(work, brf_blink_textures[idx][(work->field_AD40 - 1) / 2]);
+    int u = g->off_x;
+    int uw = u + g->w + 1;
+    int v = g->off_y;
+    int vh = v + g->h + 1;
+
+    dest->u0 = u;
+    dest->v0 = v;
+    dest->u1 = uw;
+    dest->v1 = v;
+    dest->u2 = u;
+    dest->v2 = vh;
+    dest->u3 = uw;
+    dest->v3 = vh;
+    dest->tpage = g->tpage;
+    dest->clut = g->clut;
+
+    work->field_AD40++;
+    if (work->field_AD40 >= 7)
+    {
+        work->field_AD40 = 0;
+    }
+}
+
 const char brf_dword_800E1C20[16] = "a_fog_normal_3";
 const char brf_dword_800E1C30[16] = "a_fog_normal_1";
 const char brf_dword_800E1C40[16] = "a_fog_normal_4";
@@ -405,9 +333,83 @@ const char brf_dword_800E1C50[16] = "a_fog_normal_2";
 const char brf_dword_800E1C60[16] = "a_fog_haku_3";
 const char brf_dword_800E1C70[16] = "a_fog_haku_2";
 const char brf_dword_800E1C80[16] = "a_fog_haku_1";
-const char brf_dword_800E1C90[16] = "MePati Renzoku\n";
-const char brf_dword_800E1CA0[16] = "b_face_open_u";
-const char brf_dword_800E1CB0[20] = "b_face_angry_piku";
+
+void brf_800CBB68(Work *work, void *a1, int a2)
+{
+    if (work->lipsync >> 8)
+    {
+        if (work->field_AD40)
+        {
+            printf("MePati Renzoku\n");
+        }
+        else
+        {
+            work->field_AD40 = 1;
+        }
+    }
+    if (work->field_AD40)
+    {
+        brf_800CBA84(work, a1, a2);
+    }
+}
+
+void brf_800CBC04(Work *work, POLY_FT4 *dest, int idx)
+{
+    u_short *tbl = brf_800C50E8;
+    DG_TEX *g = brf_800CABF4(work, tbl[idx / 3]);
+    int u = g->off_x;
+    int uw = u + g->w + 1;
+    int v = g->off_y;
+    int vh = v + g->h + 1;
+
+    dest->u0 = u;
+    dest->v0 = v;
+    dest->u1 = uw;
+    dest->v1 = v;
+    dest->u2 = u;
+    dest->v2 = vh;
+    dest->u3 = uw;
+    dest->v3 = vh;
+    dest->tpage = g->tpage;
+    dest->clut = g->clut;
+}
+void brf_800CBCB0(Work *work, POLY_FT4 *dest, int idx)
+{
+    u_short *tbl = brf_800C50F4;
+    DG_TEX *g = brf_800CABF4(work, tbl[idx / 3]);
+    int u = g->off_x;
+    int uw = u + g->w + 1;
+    int v = g->off_y;
+    int vh = v + g->h + 1;
+
+    dest->u0 = u;
+    dest->v0 = v;
+    dest->u1 = uw;
+    dest->v1 = v;
+    dest->u2 = u;
+    dest->v2 = vh;
+    dest->u3 = uw;
+    dest->v3 = vh;
+    dest->tpage = g->tpage;
+    dest->clut = g->clut;
+}
+
+void brf_800CBD5C(Work *work, void *a1)
+{
+    if (work->field_AD34 % 3 == 2)
+    {
+        brf_800CBC04(work, a1, work->field_AD34);
+    }
+    work->field_AD34++;
+}
+void brf_800CBDC8(Work *work, void *a1)
+{
+    if (work->field_AD34 % 3 == 2)
+    {
+        brf_800CBCB0(work, a1, work->field_AD34);
+    }
+    work->field_AD34++;
+}
 
 void brf_800CBE34(Work *work, POLY_FT4 *dest)
 {
@@ -420,13 +422,13 @@ void brf_800CBE34(Work *work, POLY_FT4 *dest)
     case 12:
     case 18:
     case 24:
-        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1CA0));
+        g = brf_800CABF4(work, GV_StrCode("b_face_open_u"));
         break;
     case 3:
     case 9:
     case 15:
     case 21:
-        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1CB0));
+        g = brf_800CABF4(work, GV_StrCode("b_face_angry_piku"));
         break;
     default:
         goto skip;
@@ -452,17 +454,6 @@ void brf_800CBE34(Work *work, POLY_FT4 *dest)
 skip:
     work->field_AD30++;
 }
-const char brf_dword_800E1D28[12] = "b_eye_open";
-const char brf_dword_800E1D34[12] = "b_eye_half";
-const char brf_dword_800E1D40[12] = "b_eye_close";
-const char brf_dword_800E1D4C[12] = "b_eye_down";
-const char brf_dword_800E1D58[4] = "abc";
-const char brf_dword_800E1D5C[8] = "0123";
-const char brf_dword_800E1D64[8] = "0123s";
-extern const char brf_dword_800E1D28[];
-extern const char brf_dword_800E1D34[];
-extern const char brf_dword_800E1D40[];
-extern const char brf_dword_800E1D4C[];
 
 void brf_800CBF48(Work *work, POLY_FT4 *dest)
 {
@@ -471,16 +462,16 @@ void brf_800CBF48(Work *work, POLY_FT4 *dest)
     switch (work->field_AD30)
     {
     case 0:
-        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
+        g = brf_800CABF4(work, GV_StrCode("b_eye_open"));
         break;
     case 4:
-        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D34));
+        g = brf_800CABF4(work, GV_StrCode("b_eye_half"));
         break;
     case 7:
-        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D40));
+        g = brf_800CABF4(work, GV_StrCode("b_eye_close"));
         break;
     case 10:
-        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D4C));
+        g = brf_800CABF4(work, GV_StrCode("b_eye_down"));
         break;
     default:
         goto skip;
@@ -506,13 +497,11 @@ void brf_800CBF48(Work *work, POLY_FT4 *dest)
 skip:
     work->field_AD30++;
 }
-extern const char brf_dword_800E1D58[];
-extern const char brf_dword_800E1D64[];
 
 void brf_800CC070(Work *work, int idx)
 {
     POLY_FT4 *p = &work->small_polys[2];
-    DG_TEX *tex = DG_GetTexture(GV_StrCode(brf_dword_800E1D58));
+    DG_TEX *tex = DG_GetTexture(GV_StrCode("abc"));
     int w1 = tex->w + 1;
     int ul = tex->off_x + w1 * idx / 3;
     int ur = tex->off_x + w1 * (idx + 1) / 3;
@@ -732,13 +721,15 @@ int brf_800CD734(unsigned char c)
     return idx;
 }
 
+const char brf_dword_800E1D5C[8] = "0123";
+
 DG_TEX *brf_800CD7DC(Work *work, unsigned char c)
 {
     if ((unsigned char)(c - '0') < 11 || c == '.' || c == ',' || c == '(' || c == ')' || c == '\'' || c == '-')
     {
-        return brf_800CABF4(work, GV_StrCode(brf_dword_800E1D64));
+        return brf_800CABF4(work, GV_StrCode("0123s"));
     }
-    return brf_800CABF4(work, GV_StrCode(brf_dword_800E1D58));
+    return brf_800CABF4(work, GV_StrCode("abc"));
 }
 void brf_800CD870(Work *work, int idx)
 {
@@ -904,10 +895,6 @@ void brf_800CDF34(Work *work)
         break;
     }
 }
-/* jump table of brf_800CDFE4 */
-const int brf_jt_800E1D84[6] = {
-    0x800CE04C, 0x800CE110, 0x800CE13C, 0x800CE04C, 0x800CE110, 0x800CE13C,
-};
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDFE4.s")
 void brf_800CDAEC();
 
@@ -1261,6 +1248,11 @@ void brf_800CEB4C(Work *work, int a1, int a2)
         break;
     }
 }
+/* jump table of brf_800CDFE4 */
+const int brf_jt_800E1D84[6] = {
+    0x800CE04C, 0x800CE110, 0x800CE13C, 0x800CE04C, 0x800CE110, 0x800CE13C,
+};
+
 void brf_800CEC68(Work *work)
 {
     switch (work->view_mode)
@@ -1279,24 +1271,6 @@ void brf_800CEC68(Work *work)
         break;
     }
 }
-const char brf_dword_800E1DB4[16] = "a_up_close_u";
-const char brf_dword_800E1DC4[16] = "b_face_close_u";
-const char brf_dword_800E1DD4[16] = "b_face_close_d";
-const char brf_dword_800E1DE4[12] = "c_face_d";
-const char brf_dword_800E1DF0[20] = "c_face_open_u";
-/* jump table of brf_800CECE4 */
-const int brf_jt_800E1E04[6] = {
-    0x800CEE28, 0x800CEEF8, 0x800CF03C, 0x800CF180, 0x800CF1A0, 0x800CF1E4,
-};
-const char brf_dword_800E1E1C[8] = "stop";
-const char brf_dword_800E1E24[8] = "eject";
-const char brf_dword_800E1E2C[12] = "b_eye_angry";
-const char brf_dword_800E1E38[12] = "b_face_left";
-const char brf_dword_800E1E44[12] = "a_up_left";
-const char brf_dword_800E1E50[8] = "a_back";
-const char brf_dword_800E1E58[12] = "a_up_close";
-const char brf_dword_800E1E64[12] = "a_up_half";
-const char brf_dword_800E1E70[12] = "a_up_open";
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CECE4.s")
 void brf_800CE1C4(Work *work);
 
@@ -1423,6 +1397,18 @@ void brf_800CF4A0(Work *work, int a, int b, int c, int d, int e, void *f)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF4E0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF5A8.s")
 
+const char brf_dword_800E1DB4[16] = "a_up_close_u";
+const char brf_dword_800E1DC4[16] = "b_face_close_u";
+const char brf_dword_800E1DD4[16] = "b_face_close_d";
+const char brf_dword_800E1DE4[12] = "c_face_d";
+const char brf_dword_800E1DF0[20] = "c_face_open_u";
+/* jump table of brf_800CECE4 */
+const int brf_jt_800E1E04[6] = {
+    0x800CEE28, 0x800CEEF8, 0x800CF03C, 0x800CF180, 0x800CF1A0, 0x800CF1E4,
+};
+const char brf_dword_800E1E1C[8] = "stop";
+const char brf_dword_800E1E24[8] = "eject";
+
 void brf_800CF984(Work *work)
 {
     POLY_FT4 *base = work->polys;
@@ -1458,7 +1444,7 @@ void brf_800CF984(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E2C));
+            g = brf_800CABF4(work, GV_StrCode("b_eye_angry"));
             BRF_SET_UV(&base[3], g);
             work->poly_flags[2] = 10;
             work->poly_flags[3] = 8;
@@ -1471,7 +1457,7 @@ void brf_800CF984(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
+            g = brf_800CABF4(work, GV_StrCode("b_eye_open"));
             BRF_SET_UV(&base[3], g);
             work->poly_flags[2] = 10;
             work->poly_flags[3] = 8;
@@ -1485,8 +1471,8 @@ void brf_800CF984(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E38));
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E38));
+            brf_800CAC7C(work, GV_StrCode("b_face_left"));
+            g = brf_800CABF4(work, GV_StrCode("b_face_left"));
             BRF_SET_UV(&base[7], g);
             work->field_AD30 = 0;
             work->poly_flags[2] = 10;
@@ -1499,8 +1485,8 @@ void brf_800CF984(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E44));
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E44));
+            brf_800CAC7C(work, GV_StrCode("a_up_left"));
+            g = brf_800CABF4(work, GV_StrCode("a_up_left"));
             BRF_SET_UV(&base[8], g);
             work->field_AD30 = 0;
             work->poly_flags[5] = 10;
@@ -1513,8 +1499,8 @@ void brf_800CF984(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E50));
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E50));
+            brf_800CAC7C(work, GV_StrCode("a_back"));
+            g = brf_800CABF4(work, GV_StrCode("a_back"));
             BRF_SET_UV(&base[10], g);
             work->field_AD30 = 0;
             work->poly_flags[6] = 10;
@@ -1527,8 +1513,8 @@ void brf_800CF984(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC190(work);
-            brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E58));
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E58));
+            brf_800CAC7C(work, GV_StrCode("a_up_close"));
+            g = brf_800CABF4(work, GV_StrCode("a_up_close"));
             BRF_SET_UV(&base[9], g);
             brf_800CF4A0(work, 0, 0x5F, 0x64, 0xC8, 3, brf_800C3744);
             work->poly_flags[8] = 10;
@@ -1541,7 +1527,7 @@ void brf_800CF984(Work *work)
         {
             brf_800CC560(work);
             work->field_AD30 = 0;
-            brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E64));
+            brf_800CAC7C(work, GV_StrCode("a_up_half"));
             work->poly_flags[8] = 10;
             work->poly_flags[9] = 10;
             work->poly_flags[10] = 12;
@@ -1553,7 +1539,7 @@ void brf_800CF984(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E70));
+            brf_800CAC7C(work, GV_StrCode("a_up_open"));
             work->poly_flags[9] = 10;
             work->poly_flags[10] = 12;
         }
@@ -1566,18 +1552,6 @@ void brf_800CF984(Work *work)
         break;
     }
 }
-const char brf_dword_800E1EB0[16] = "a_smoke_haku";
-const char brf_dword_800E1EC0[12] = "a_smoke_up";
-const char brf_dword_800E1ECC[16] = "a_smoke_half";
-const char brf_dword_800E1EDC[20] = "a_smoke_down_close";
-const char brf_dword_800E1EF0[12] = "a_smoke_suu";
-/* jump table of brf_800D02F4 */
-const int brf_jt_800E1EFC[24] = {
-    0x800D1744, 0x800D174C, 0x800D034C, 0x800D042C, 0x800D04A4, 0x800D0500,
-    0x800D0604, 0x800D067C, 0x800D0780, 0x800D07DC, 0x800D08D8, 0x800D0AA4,
-    0x800D0B2C, 0x800D0C28, 0x800D0DE8, 0x800D0FB4, 0x800D1010, 0x800D10FC,
-    0x800D1158, 0x800D125C, 0x800D13B4, 0x800D14B0, 0x800D167C, 0x800D1744,
-};
 
 void brf_800D00C4(Work *work)
 {
@@ -1765,6 +1739,19 @@ void brf_800D1AD8(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D1BDC.s")
+const char brf_dword_800E1EB0[16] = "a_smoke_haku";
+const char brf_dword_800E1EC0[12] = "a_smoke_up";
+const char brf_dword_800E1ECC[16] = "a_smoke_half";
+const char brf_dword_800E1EDC[20] = "a_smoke_down_close";
+const char brf_dword_800E1EF0[12] = "a_smoke_suu";
+/* jump table of brf_800D02F4 */
+const int brf_jt_800E1EFC[24] = {
+    0x800D1744, 0x800D174C, 0x800D034C, 0x800D042C, 0x800D04A4, 0x800D0500,
+    0x800D0604, 0x800D067C, 0x800D0780, 0x800D07DC, 0x800D08D8, 0x800D0AA4,
+    0x800D0B2C, 0x800D0C28, 0x800D0DE8, 0x800D0FB4, 0x800D1010, 0x800D10FC,
+    0x800D1158, 0x800D125C, 0x800D13B4, 0x800D14B0, 0x800D167C, 0x800D1744,
+};
+
 void brf_800D26E4(Work *work)
 {
     POLY_FT4 *base = work->polys;
@@ -2053,11 +2040,6 @@ void brf_800D26E4(Work *work)
         break;
     }
 }
-const char brf_dword_800E1FA0[16] = "b_eye_r_tyoi";
-const char brf_dword_800E1FB0[16] = "b_eye_l_tyou";
-const char brf_dword_800E1FC0[16] = "b_eye_l_tyoi";
-const char brf_dword_800E1FD0[12] = "\xa5\xad\xa5\xe3\xa5\xf3\xa5\xd9\xa5\xeb"; /* "キャンベル" (Campbell) */
-const char brf_dword_800E1FDC[16] = "b_eye_r_tyou";
 void brf_800D2E70(Work *work)
 {
     POLY_FT4 *base = work->polys;
@@ -2073,7 +2055,6 @@ void brf_800D2E70(Work *work)
     base[3].x3 = x + 0xFE;
     work->field_AD34++;
 }
-extern const char brf_dword_800E1FA0[];
 
 void brf_800D2ED0(Work *work)
 {
@@ -2112,7 +2093,7 @@ void brf_800D2ED0(Work *work)
 
     if (work->field_AD38 == 0x12)
     {
-        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1FA0));
+        g = brf_800CABF4(work, GV_StrCode("b_eye_r_tyoi"));
         {
             int u = g->off_x;
             int uw = u + g->w + 1;
@@ -2133,7 +2114,7 @@ void brf_800D2ED0(Work *work)
     }
     else if (work->field_AD38 == 0x18)
     {
-        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
+        g = brf_800CABF4(work, GV_StrCode("b_eye_open"));
         {
             int u = g->off_x;
             int uw = u + g->w + 1;
@@ -2210,7 +2191,7 @@ void brf_800D3220(Work *work)
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC28C(work);
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1FB0));
+            g = brf_800CABF4(work, GV_StrCode("b_eye_l_tyou"));
             BRF_SET_UV(&base[1], g);
             work->poly_flags[0] = 12;
             work->poly_flags[1] = 10;
@@ -2224,7 +2205,7 @@ void brf_800D3220(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1FC0));
+            g = brf_800CABF4(work, GV_StrCode("b_eye_l_tyoi"));
             BRF_SET_UV(&base[1], g);
             work->poly_flags[0] = 12;
             work->poly_flags[1] = 10;
@@ -2238,7 +2219,7 @@ void brf_800D3220(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
+            g = brf_800CABF4(work, GV_StrCode("b_eye_open"));
             BRF_SET_UV(&base[1], g);
             work->poly_flags[0] = 12;
             work->poly_flags[1] = 10;
@@ -2253,7 +2234,7 @@ void brf_800D3220(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1FA0));
+            g = brf_800CABF4(work, GV_StrCode("b_eye_r_tyoi"));
             BRF_SET_UV(&base[1], g);
             setRGB0(&base[3], 0x80, 0xC0, 0xC0);
             work->poly_flags[0] = 12;
@@ -2277,7 +2258,7 @@ void brf_800D3220(Work *work)
             work->poly_flags[3] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
-        brf_800CDDD4(work, GV_StrCode(brf_dword_800E1FD0), 3);
+        brf_800CDDD4(work, GV_StrCode("キャンベル"), 3);
         brf_800CCBD4(work, &base[0]);
         brf_800D30A0(work);
         break;
@@ -2285,7 +2266,7 @@ void brf_800D3220(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1FDC));
+            g = brf_800CABF4(work, GV_StrCode("b_eye_r_tyou"));
             BRF_SET_UV(&base[1], g);
             work->poly_flags[0] = 12;
             work->poly_flags[1] = 10;
@@ -2308,7 +2289,7 @@ void brf_800D3220(Work *work)
             work->poly_flags[3] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
-        brf_800CDDD4(work, GV_StrCode(brf_dword_800E1FD0), 3);
+        brf_800CDDD4(work, GV_StrCode("キャンベル"), 3);
         brf_800CCBD4(work, &base[0]);
         brf_800D30A0(work);
         break;
@@ -2345,7 +2326,7 @@ void brf_800D3220(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E2C));
+            g = brf_800CABF4(work, GV_StrCode("b_eye_angry"));
             BRF_SET_UV(&base[1], g);
             work->poly_flags[0] = 12;
             work->poly_flags[1] = 10;
@@ -2359,7 +2340,7 @@ void brf_800D3220(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
+            g = brf_800CABF4(work, GV_StrCode("b_eye_open"));
             BRF_SET_UV(&base[1], g);
             work->poly_flags[0] = 12;
             work->poly_flags[1] = 10;
@@ -2715,7 +2696,6 @@ void brf_800D41A4(Work *work)
         break;
     }
 }
-const char brf_dword_800E2048[4] = "";
 
 void brf_800D45C4(Work *work)
 {
@@ -2731,6 +2711,8 @@ void brf_800D45C4(Work *work)
     }
     work->field_AD38++;
 }
+const char brf_dword_800E2048[4] = "";
+
 void brf_800D4664(Work *work)
 {
     POLY_FT4 *base = work->polys;
@@ -2794,7 +2776,6 @@ void brf_800D4664(Work *work)
         break;
     }
 }
-const char brf_dword_800E2068[4] = "";
 void brf_800D486C(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 {
     int v = work->field_AD30 << 2;
@@ -2837,6 +2818,8 @@ void brf_800D49B8(Work *work)
     }
     work->field_AD34++;
 }
+
+const char brf_dword_800E2068[4] = "";
 
 void brf_800D4A34(Work *work)
 {
@@ -3129,7 +3112,7 @@ void brf_800D52F0(Work *work)
                 work->view[1].x = 0;
                 work->view[1].scale = 0x118;
                 brf_800CAC7C(work, GV_StrCode(brf_dword_800E1DC4));
-                g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1CA0));
+                g = brf_800CABF4(work, GV_StrCode("b_face_open_u"));
                 BRF_SET_UV(&base[6], g);
                 g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1DD4));
                 BRF_SET_UV(&base[7], g);
@@ -3164,8 +3147,9 @@ call_cece4:
         break;
     }
 }
-const char brf_dword_800E20B8[4] = "";
 
+
+const char brf_dword_800E20B8[4] = "";
 
 void brf_800D5780(Work *work)
 {
@@ -3192,7 +3176,7 @@ void brf_800D5780(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E2C));
+            g = brf_800CABF4(work, GV_StrCode("b_eye_angry"));
             BRF_SET_UV(&base[1], g);
             work->poly_flags[0] = 10;
             work->poly_flags[1] = 8;
@@ -3205,7 +3189,7 @@ void brf_800D5780(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
+            g = brf_800CABF4(work, GV_StrCode("b_eye_open"));
             BRF_SET_UV(&base[1], g);
             work->poly_flags[0] = 10;
             work->poly_flags[1] = 8;
@@ -3324,9 +3308,6 @@ void brf_800D5780(Work *work)
         break;
     }
 }
-const char brf_dword_800E20F4[16] = "b_mar_eye_open";
-const char brf_dword_800E2104[16] = "c_face_half_u";
-const char brf_dword_800E2114[16] = "c_face_close_u";
 void brf_800D5CC4(Work *work)
 {
     POLY_FT4 *base = work->polys;
@@ -3456,7 +3437,7 @@ void brf_800D5ED0(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E20F4));
+            g = brf_800CABF4(work, GV_StrCode("b_mar_eye_open"));
             BRF_SET_UV(&base[5], g);
             work->poly_flags[4] = 10;
             work->poly_flags[5] = 8;
@@ -3485,9 +3466,9 @@ void brf_800D5ED0(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            brf_800CAC7C(work, GV_StrCode(brf_dword_800E2104));
-            brf_800CAC7C(work, GV_StrCode(brf_dword_800E2114));
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E2114));
+            brf_800CAC7C(work, GV_StrCode("c_face_half_u"));
+            brf_800CAC7C(work, GV_StrCode("c_face_close_u"));
+            g = brf_800CABF4(work, GV_StrCode("c_face_close_u"));
             BRF_SET_UV(&base[8], g);
             work->poly_flags[7] = 12;
             work->poly_flags[9] = 12;
@@ -3643,7 +3624,6 @@ void brf_800D5ED0(Work *work)
         break;
     }
 }
-const char brf_dword_800E2170[4] = "";
 
 void brf_800D674C(Work *work)
 {
@@ -3729,6 +3709,8 @@ void brf_800D693C(Work *work)
     }
     work->field_AD30++;
 }
+const char brf_dword_800E2170[4] = "";
+
 void brf_800D69A8(Work *work)
 {
     POLY_FT4 *base = work->polys;
@@ -3812,7 +3794,7 @@ void brf_800D69A8(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC28C(work);
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
+            g = brf_800CABF4(work, GV_StrCode("b_eye_open"));
             BRF_SET_UV(&base[1], g);
             setRGB0(&base[0], 0x80, 0x80, 0x80);
             setRGB0(&base[1], 0x80, 0x80, 0x80);
@@ -3927,9 +3909,6 @@ void brf_800D69A8(Work *work)
         break;
     }
 }
-const char brf_dword_800E21C8[12] = "a_back_u";
-const char brf_dword_800E21D4[8] = "a_naomi";
-const char brf_dword_800E21DC[8] = "\xa5\xca\xa5\xaa\xa5\xdf"; /* "ナオミ" (Naomi) */
 void brf_800D6F98(Work *work)
 {
     POLY_FT4 *base = work->polys;
@@ -4006,8 +3985,8 @@ void brf_800D70A4(Work *work)
         if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            brf_800CAC7C(work, GV_StrCode(brf_dword_800E21C8));
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E21C8));
+            brf_800CAC7C(work, GV_StrCode("a_back_u"));
+            g = brf_800CABF4(work, GV_StrCode("a_back_u"));
             BRF_SET_UV(&base[6], g);
             work->poly_flags[0] = 10;
             work->poly_flags[1] = 10;
@@ -4021,8 +4000,8 @@ void brf_800D70A4(Work *work)
             brf_800CC190(work);
             brf_800CF4A0(work, 0x28, 0x5A, 0x12C, 0x2EE, 5, brf_800C3978);
             work->field_AD34 = 0;
-            brf_800CAC7C(work, GV_StrCode(brf_dword_800E21D4));
-            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E21D4));
+            brf_800CAC7C(work, GV_StrCode("a_naomi"));
+            g = brf_800CABF4(work, GV_StrCode("a_naomi"));
             BRF_SET_UV(&base[8], g);
             setRGB0(&base[8], 0x80, 0xC0, 0xC0);
             work->poly_flags[3] = 10;
@@ -4062,7 +4041,7 @@ void brf_800D70A4(Work *work)
         }
         brf_800CADD4(work, &base[5], 3);
         brf_800CC5E4(work, &base[6], &base[7]);
-        brf_800CDDD4(work, GV_StrCode(brf_dword_800E21DC), 8);
+        brf_800CDDD4(work, GV_StrCode("ナオミ"), 8);
         break;
     case 7:
         if (work->scene_changed != 0)
@@ -4098,9 +4077,10 @@ void brf_800D70A4(Work *work)
         break;
     }
 }
-const char brf_dword_800E2210[4] = "";
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D75F0.s")
 void brf_800D75F0(Work *work);
+
+const char brf_dword_800E2210[4] = "";
 
 void brf_800D8060(Work *work)
 {
@@ -4161,59 +4141,6 @@ void brf_800D8060(Work *work)
         break;
     }
 }
-const char brf_dword_800E2230[12] = "c_photo_4";
-const char brf_dword_800E223C[12] = "c_photo_5";
-const char brf_dword_800E2248[12] = "c_photo_6";
-const char brf_dword_800E2254[16] = "b_face_wo";
-/* jump table of brf_800D93F4 */
-const int brf_jt_800E2264[22] = {
-    0x800DA028, 0x800DA030, 0x800D9450, 0x800D94B4, 0x800D957C, 0x800D963C,
-    0x800D96B8, 0x800D9740, 0x800D983C, 0x800D988C, 0x800D98D0, 0x800D99A0,
-    0x800D9A70, 0x800D9B58, 0x800D9C04, 0x800D9CE0, 0x800D9D1C, 0x800D9DE0,
-    0x800D9E2C, 0x800D9EEC, 0x800D9FBC, 0x800DA028,
-};
-const char brf_dword_800E22BC[8] = "b_face";
-const char brf_dword_800E22C4[8] = "c_inj_u";
-const char brf_dword_800E22CC[8] = "c_inj_d";
-const char brf_dword_800E22D4[20] = "c_inj_naomi_open_u";
-const char brf_dword_800E22E8[20] = "c_inj_naomi_on_u";
-const char brf_dword_800E22FC[20] = "c_inj_naomi_half_u";
-const char brf_dword_800E2310[20] = "c_inj_naomi_close_u";
-const char brf_dword_800E2324[16] = "b_eye_r_down";
-const char brf_dword_800E2334[12] = "c_inj_on_u";
-const char brf_dword_800E2340[4] = "map";
-/* jump table of brf_800DBA7C */
-const int brf_jt_800E2344[26] = {
-    0x800DCA84, 0x800DCA8C, 0x800DBAD8, 0x800DBB70, 0x800DBBEC, 0x800DBC68,
-    0x800DBE28, 0x800DBD3C, 0x800DBE28, 0x800DBE84, 0x800DBF44, 0x800DC134,
-    0x800DC234, 0x800DC338, 0x800DC37C, 0x800DC46C, 0x800DC4FC, 0x800DC5C4,
-    0x800DC62C, 0x800DC680, 0x800DC75C, 0x800DC7B0, 0x800DC89C, 0x800DC8E8,
-    0x800DC9A8, 0x800DCA84,
-};
-/* jump table of brf_800DCFB4 */
-const int brf_jt_800E23AC[14] = {
-    0x800DD620, 0x800DD628, 0x800DD014, 0x800DD0A4, 0x800DD110, 0x800DD170,
-    0x800DD1CC, 0x800DD27C, 0x800DD320, 0x800DD450, 0x800DD4C4, 0x800DD538,
-    0x800DD59C, 0x800DD620,
-};
-const char brf_dword_800E23E4[36] = "Memory for Texture Free Finish!\n";
-const char brf_dword_800E2408[12] = "colorbar";
-const char brf_dword_800E2414[12] = "scanline";
-const char brf_dword_800E2420[8] = "play";
-const char brf_dword_800E2428[8] = "camera";
-const char brf_dword_800E2430[4] = "x";
-const char brf_dword_800E2434[4] = "dot";
-const char brf_dword_800E2438[4] = "y";
-const char brf_dword_800E243C[4] = "z";
-const char brf_dword_800E2440[8] = "b_line1";
-const char brf_dword_800E2448[12] = "a_back_d";
-const char brf_dword_800E2454[16] = "b_face_angry_u";
-const char brf_dword_800E2464[24] = "liquid_simon_waku";
-/* jump table of brf_800DECF8 */
-const int brf_jt_800E247C[9] = {
-    0x800DEDBC, 0x800DEDDC, 0x800DEE04, 0x800DEE34, 0x800DF000, 0x800DF1CC,
-    0x800DF404, 0x800DF490, 0x800DF980,
-};
 void brf_800D8274(Work *work)
 {
     int v = work->field_AD3C;
@@ -4931,7 +4858,42 @@ void brf_800DD830(Work *work)
         dst++;
     }
 }
-extern const char brf_dword_800E23E4[];
+
+const char brf_dword_800E2230[12] = "c_photo_4";
+const char brf_dword_800E223C[12] = "c_photo_5";
+const char brf_dword_800E2248[12] = "c_photo_6";
+const char brf_dword_800E2254[16] = "b_face_wo";
+/* jump table of brf_800D93F4 */
+const int brf_jt_800E2264[22] = {
+    0x800DA028, 0x800DA030, 0x800D9450, 0x800D94B4, 0x800D957C, 0x800D963C,
+    0x800D96B8, 0x800D9740, 0x800D983C, 0x800D988C, 0x800D98D0, 0x800D99A0,
+    0x800D9A70, 0x800D9B58, 0x800D9C04, 0x800D9CE0, 0x800D9D1C, 0x800D9DE0,
+    0x800D9E2C, 0x800D9EEC, 0x800D9FBC, 0x800DA028,
+};
+const char brf_dword_800E22BC[8] = "b_face";
+const char brf_dword_800E22C4[8] = "c_inj_u";
+const char brf_dword_800E22CC[8] = "c_inj_d";
+const char brf_dword_800E22D4[20] = "c_inj_naomi_open_u";
+const char brf_dword_800E22E8[20] = "c_inj_naomi_on_u";
+const char brf_dword_800E22FC[20] = "c_inj_naomi_half_u";
+const char brf_dword_800E2310[20] = "c_inj_naomi_close_u";
+const char brf_dword_800E2324[16] = "b_eye_r_down";
+const char brf_dword_800E2334[12] = "c_inj_on_u";
+const char brf_dword_800E2340[4] = "map";
+/* jump table of brf_800DBA7C */
+const int brf_jt_800E2344[26] = {
+    0x800DCA84, 0x800DCA8C, 0x800DBAD8, 0x800DBB70, 0x800DBBEC, 0x800DBC68,
+    0x800DBE28, 0x800DBD3C, 0x800DBE28, 0x800DBE84, 0x800DBF44, 0x800DC134,
+    0x800DC234, 0x800DC338, 0x800DC37C, 0x800DC46C, 0x800DC4FC, 0x800DC5C4,
+    0x800DC62C, 0x800DC680, 0x800DC75C, 0x800DC7B0, 0x800DC89C, 0x800DC8E8,
+    0x800DC9A8, 0x800DCA84,
+};
+/* jump table of brf_800DCFB4 */
+const int brf_jt_800E23AC[14] = {
+    0x800DD620, 0x800DD628, 0x800DD014, 0x800DD0A4, 0x800DD110, 0x800DD170,
+    0x800DD1CC, 0x800DD27C, 0x800DD320, 0x800DD450, 0x800DD4C4, 0x800DD538,
+    0x800DD59C, 0x800DD620,
+};
 
 void brf_800DDBC8(Work *work)
 {
@@ -4941,7 +4903,7 @@ void brf_800DDBC8(Work *work)
     {
         GV_Free(work->images[i]);
     }
-    printf((char *)brf_dword_800E23E4);
+    printf("Memory for Texture Free Finish!\n");
 }
 
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DDC40.s")
@@ -5149,6 +5111,24 @@ int brf_800DFCF8(Work *work, int map, int n_textures, int *tex_ids, DG_TEX *text
     brf_800DECF8(work, index);
     return 0;
 }
+
+const char brf_dword_800E2408[12] = "colorbar";
+const char brf_dword_800E2414[12] = "scanline";
+const char brf_dword_800E2420[8] = "play";
+const char brf_dword_800E2428[8] = "camera";
+const char brf_dword_800E2430[4] = "x";
+const char brf_dword_800E2434[4] = "dot";
+const char brf_dword_800E2438[4] = "y";
+const char brf_dword_800E243C[4] = "z";
+const char brf_dword_800E2440[8] = "b_line1";
+const char brf_dword_800E2448[12] = "a_back_d";
+const char brf_dword_800E2454[16] = "b_face_angry_u";
+const char brf_dword_800E2464[24] = "liquid_simon_waku";
+/* jump table of brf_800DECF8 */
+const int brf_jt_800E247C[9] = {
+    0x800DEDBC, 0x800DEDDC, 0x800DEE04, 0x800DEE34, 0x800DF000, 0x800DF1CC,
+    0x800DF404, 0x800DF490, 0x800DF980,
+};
 
 void *NewBriefingGraph(int map, int n_textures, int *tex_ids, DG_TEX *textures, int index, int arg5, int n_images,
                        int *image_ids, DG_IMAGE **images)
