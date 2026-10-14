@@ -1,5 +1,6 @@
 #include "zako.h"
 
+#include <stdio.h>
 #include "mgstype.h"
 #include "mts/mts.h" // for fprintf
 #include "libgcl/libgcl.h" // for GCL_NextStr, GCL_StrToInt
@@ -17,7 +18,7 @@ typedef struct _ZakoComWork
 
 SVECTOR s03d_dword_800C3B88 = {30000, 30000, 30000};
 
-SVECTOR s03d_dword_800C3B90 = {0x1F40, 0, 0x3E8, 0};
+SVECTOR s03d_dword_800C3B90 = {8000, 0, 1000, 0};
 static u_char VibH[] = { 1, 1, 0, 0 };
 static u_char VibL[] = { 255, 1, 0, 0 };
 int ZakoChaseDist[8] = {3000, 4000, 7000, 8000, 8000, 8000, 8000, 8000};
@@ -26,7 +27,6 @@ static int SoundPlayTime = 0;
 extern int s03d_dword_800DC2E0;
 extern int s03d_dword_800DC2F0;
 extern int s03d_dword_800DC2F4;
-extern int printf(const char *format, ...);
 void s03d_800D42DC(void);
 int s03d_800D46F8(int cmd);
 void s03d_800D47BC(COMMANDER *command);

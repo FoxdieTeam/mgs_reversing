@@ -113,21 +113,22 @@ void Zako_800CCCF4(Work *work)
     int     b14 = work->param.life;
     int     b16 = work->param.faint;
 
-    GM_SetTarget(t, 0x9E, 2, &ZAKO_TARGET_SIZE);
-    GM_SetPowerTarget(t, 1, -1, b14, b16, &ZAKO_TARGET_FORCE);
+    GM_SetTarget(t, TARGET_FLAG, ENEMY_SIDE, &ZAKO_TARGET_SIZE);
+    GM_SetPowerTarget(t, POWER_DECREASE, -1, b14, b16, &ZAKO_TARGET_FORCE);
     GM_SetCaptureTarget(t, -1, b16, NULL, NULL);
     GM_SetC4Target(t, &work->body.objs->objs[1].world);
-    GM_SetTarget(&work->attack, 4, 1, &ZAKO_ATTACK_SIZE);
-    GM_SetPowerTarget(&work->attack, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE);
+    GM_SetTarget(&work->attack, TARGET_POWER, PLAYER_SIDE, &ZAKO_ATTACK_SIZE);
+    GM_SetPowerTarget(&work->attack, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO_ATTACK_FORCE);
 }
 void Zako_800CCDE0(Work *work)
 {
-    short *p = (short *)&work->act.field_00;
+    ACT *act;
 
-    GV_ZeroMemory(p, 0x20);
-    work->act.field_00 = 0;
-    p[0x0D] = 0x1C2;
-    p[0x0E] = 1;
+    act = &work->act;
+    GV_ZeroMemory(act, sizeof(ACT));
+    act->field_00 = 0;
+    act->r_sphere = 450;
+    act->field_1C = 1;
     work->action = 0;
     work->action2 = 0;
     work->time = 0;

@@ -115,9 +115,6 @@ void s03d_800D13F8(Work *work);
 void s03d_800D3B5C(Work *work);
 void s03d_800D153C(Work *work);
 int  ZakoCom_800D4038(void);
-extern const SVECTOR s03d_dword_800DB548;
-extern const SVECTOR s03d_dword_800DB550;
-extern const SVECTOR s03d_dword_800DB558;
 
 int s03d_800CD61C(Work *work)
 {
@@ -127,20 +124,12 @@ int s03d_800CD61C(Work *work)
     {
         if (t->a_mode == 0x24)
         {
-            work->action = s03d_800CEE3C;
-            work->time = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
-            GM_ConfigMotionAdjust(&work->body, 0);
+            SetMode(work, s03d_800CEE3C);
             t->damaged = 0;
         }
         else
         {
-            work->action = s03d_800CF194;
-            work->time = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
-            GM_ConfigMotionAdjust(&work->body, 0);
+            SetMode(work, s03d_800CF194);
             t->damaged = 0;
         }
         return 1;
@@ -261,11 +250,7 @@ int s03d_800CD984(Work *work)
         return 0;
     }
 
-    work->action = s03d_800CF548;
-    work->time = 0;
-    work->control.turn.vz = 0;
-    work->control.turn.vx = 0;
-    GM_ConfigMotionAdjust(&work->body, 0);
+    SetMode(work, s03d_800CF548);
     return 1;
 }
 int Zako_800CDA04(Work *work)
@@ -276,7 +261,7 @@ int Zako_800CDA04(Work *work)
 
     if (a | b | c)
     {
-        work->target->class = 1;
+        work->target->class = TARGET_AVAIL;
         return 1;
     }
     return 0;
@@ -287,12 +272,12 @@ void Zako_800CDA70(Work *work)
     int     b14 = work->param.life;
     int     b16 = work->param.faint;
 
-    GM_SetTarget(t, 0x9E, 2, &ZAKO_TARGET_SIZE);
-    GM_SetPowerTarget(t, 1, -1, b14, b16, &ZAKO_TARGET_FORCE);
+    GM_SetTarget(t, TARGET_FLAG, ENEMY_SIDE, &ZAKO_TARGET_SIZE);
+    GM_SetPowerTarget(t, POWER_DECREASE, -1, b14, b16, &ZAKO_TARGET_FORCE);
     GM_SetCaptureTarget(t, -1, b16, NULL, NULL);
     GM_SetC4Target(t, &work->body.objs->objs[1].world);
-    GM_SetTarget(&work->attack, 4, 1, &ZAKO_ATTACK_SIZE);
-    GM_SetPowerTarget(&work->attack, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE);
+    GM_SetTarget(&work->attack, TARGET_POWER, PLAYER_SIDE, &ZAKO_ATTACK_SIZE);
+    GM_SetPowerTarget(&work->attack, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO_ATTACK_FORCE);
 }
 void s03d_800CDB5C(Work *work)
 {
@@ -348,10 +333,6 @@ void s03d_800CDB5C(Work *work)
     work->last_addr = work->next_addr = work->start_addr;
 }
 
-const SVECTOR s03d_dword_800DB548 = {-200, 1000, 600, 0};
-const SVECTOR s03d_dword_800DB550 = {5, 0, 100, 0};
-const SVECTOR s03d_dword_800DB558 = {400, 1000, 400, 0};
-const char s03d_dword_800DB560[] = {0x0, 0x0, 0x0, 0x0};
 
 int Zako_800CDD40(int from, int to)
 {
@@ -399,27 +380,27 @@ int s03d_800CDE1C(Work *work)
 {
     TARGET *target;
     SVECTOR svec;
-    SVECTOR rp_shift;
-    SVECTOR force;
-    SVECTOR size;
-
-    rp_shift = s03d_dword_800DB548;
-    force    = s03d_dword_800DB550;
-    size     = s03d_dword_800DB558;
+    SVECTOR rp_shift = {-200, 1000, 600};
+    SVECTOR force = {5, 0, 100};
+    SVECTOR size = {400, 1000, 400};
 
     target = &work->punch;
-    GM_SetTarget(target, 4, ENEMY_SIDE, &size);
+    GM_SetTarget(target, TARGET_POWER, ENEMY_SIDE, &size);
     DG_SetPos2(&work->control.mov, &work->control.rot);
     DG_RotVector(&force, &svec, 1);
     GM_SetPowerTarget(target, POWER_ONCE, 2, 32, 1, &svec);
     DG_PutVector(&rp_shift, &target->center, 1);
     return GM_PowerTarget(target);
 }
+
+/* 4 unreferenced bytes of rdata (unknown origin) */
+const char s03d_dword_800DB560[4] = {0};
+
 void Zako_800CDF2C(Work *work)
 {
     TARGET *t = &work->attack;
 
-    GM_SetPowerTarget(t, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE);
+    GM_SetPowerTarget(t, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO_ATTACK_FORCE);
     GM_MoveTarget(t, &work->control.mov);
     GM_PowerTarget(t);
 }
@@ -500,24 +481,19 @@ int s03d_800CDF94(Work *work)
 }
 void s03d_800CE12C(Work *work, int arg)
 {
-    work->target->class |= 0x9E;
+    work->target->class |= TARGET_FLAG;
     if (ZakoCommand.alert_mode == 0)
     {
-        work->target->class |= 0x40;
+        work->target->class |= TARGET_C4;
     }
     work->vision.length = 0xFA0;
     if (arg == 0)
     {
-        work->act.motion1 = 0;
-        GM_ConfigObjectAction(&work->body, ZakoActionTable[0], 0, 4);
+        SetAction(work, 0, 4);
     }
     if (Zako_800CDA04(work) || s03d_800CDF94(work))
     {
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = NULL;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        UnsetMode(work);
     }
     else
     {
@@ -527,19 +503,13 @@ void s03d_800CE12C(Work *work, int arg)
             {
                 if (work->pad.field_4 & 1)
                 {
-                    work->act.motion1 = 2;
-                    GM_ConfigObjectAction(&work->body, ZakoActionTable[2], 0, 4);
+                    SetAction(work, 2, 4);
                 }
                 else
                 {
-                    work->act.motion1 = 1;
-                    GM_ConfigObjectAction(&work->body, ZakoActionTable[1], 0, 4);
+                    SetAction(work, 1, 4);
                 }
-                work->action = s03d_800CE318;
-                work->time = 0;
-                work->control.turn.vz = 0;
-                work->control.turn.vx = 0;
-                GM_ConfigMotionAdjust(&work->body, NULL);
+                SetMode(work, s03d_800CE318);
             }
             else
             {
@@ -570,30 +540,22 @@ void s03d_800CE318(Work *work, int arg)
     SVECTOR *vecs;
     int      dir, motion, touches, touch, touch2, size;
 
-    work->target->class |= 0x9E;
+    work->target->class |= TARGET_FLAG;
     if (ZakoCommand.alert_mode == 0)
     {
-        work->target->class |= 0x40;
+        work->target->class |= TARGET_C4;
     }
     work->vision.length = 0xFA0;
 
     if (Zako_800CDA04(work))
     {
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = NULL;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        UnsetMode(work);
         return;
     }
 
     if (s03d_800CDF94(work))
     {
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = NULL;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        UnsetMode(work);
         return;
     }
 
@@ -605,22 +567,13 @@ void s03d_800CE318(Work *work, int arg)
 
     if ((work->pad.field_4 & 1) && motion != 2)
     {
-        work->act.motion1 = 2;
-        GM_ConfigObjectAction(&work->body, ZakoActionTable[2], 0, 4);
+        SetAction(work, 2, 4);
     }
 
     if (dir < 0)
     {
-        work->action = s03d_800CE12C;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = NULL;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode(work, s03d_800CE12C);
+        UnsetMode(work);
         return;
     }
 
@@ -640,16 +593,8 @@ void s03d_800CE318(Work *work, int arg)
 
     if (dir < 0)
     {
-        work->action = s03d_800CE12C;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = NULL;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode(work, s03d_800CE12C);
+        UnsetMode(work);
         return;
     }
 
@@ -689,28 +634,22 @@ void s03d_800CE5B4(Work *work, int arg)
     if (arg == 0)
     {
         work->act.field_14 = 3;
-        work->act.motion1 = 0x1F;
-        GM_ConfigObjectAction(&work->body, ZakoActionTable[31], 0, 4);
+        SetAction(work, 31, 4);
     }
     if (Zako_800CDA04(work) == 0 && work->body.is_end)
     {
         work->pad.field_8 = 0;
-        work->action = s03d_800CF68C;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
+        SetMode(work, s03d_800CF68C);
     }
 }
 void s03d_800CE644(Work *work, int arg)
 {
     CONTROL *control = &work->control;
-    work->target->class |= 0x9E;
+    work->target->class |= TARGET_FLAG;
     work->vision.length = 0xFA0;
     if (arg == 0)
     {
-        work->act.motion1 = 0x10;
-        GM_ConfigObjectAction(&work->body, ZakoActionTable[16], 0, 4);
+        SetAction(work, 16, 4);
     }
     if (Zako_800CDA04(work))
     {
@@ -718,11 +657,7 @@ void s03d_800CE644(Work *work, int arg)
     }
     if (work->body.is_end || !(work->pad.press & 0x20))
     {
-        work->action = s03d_800CE12C;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
+        SetMode(work, s03d_800CE12C);
     }
     else
     {
@@ -736,20 +671,18 @@ void s03d_800CE720(Work *work, int arg)
 {
     int status;
 
-    work->target->class |= 0x9E;
+    work->target->class |= TARGET_FLAG;
     status = work->pad.press;
     work->vision.length = 0xFA0;
     if (arg == 0)
     {
         if (status & 0x10000)
         {
-            work->act.motion1 = 3;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[3], 0, 4);
+            SetAction(work, 3, 4);
         }
         else
         {
-            work->act.motion1 = 5;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[5], 0, 4);
+            SetAction(work, 5, 4);
         }
         GM_ConfigMotionAdjust(&work->body, work->adjust);
     }
@@ -763,43 +696,27 @@ void s03d_800CE720(Work *work, int arg)
     }
     if (!(status & 0x30000))
     {
-        work->action = s03d_800CE12C;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
+        SetMode(work, s03d_800CE12C);
         return;
     }
     if (status & 0x40000)
     {
-        work->action = s03d_800CE8F4;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetModeNoAdjust(work, s03d_800CE8F4);
         return;
     }
     if (status & 0x80000)
     {
-        work->action = s03d_800CE9E8;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetModeNoAdjust(work, s03d_800CE9E8);
         return;
     }
     if (status & 0x100000)
     {
-        work->action = s03d_800CEB38;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetModeNoAdjust(work, s03d_800CEB38);
         return;
     }
     if (status & 0x200000)
     {
-        work->action = s03d_800CECBC;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetModeNoAdjust(work, s03d_800CECBC);
         return;
     }
     if (work->param.index != 1 || !(GV_Time & 0x100))
@@ -817,19 +734,17 @@ void s03d_800CE720(Work *work, int arg)
 }
 void s03d_800CE8F4(Work *work, int arg)
 {
-    work->target->class |= 0x9E;
+    work->target->class |= TARGET_FLAG;
     work->vision.length = 0xFA0;
     if (arg == 0)
     {
         if (work->pad.press & 0x10000)
         {
-            work->act.motion1 = 4;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[4], 0, 0);
+            SetAction(work, 4, 0);
         }
         else
         {
-            work->act.motion1 = 6;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[6], 0, 0);
+            SetAction(work, 6, 0);
         }
         Zako_800D0EF0(work, 3);
         GM_ConfigMotionAdjust(&work->body, work->adjust);
@@ -840,16 +755,13 @@ void s03d_800CE8F4(Work *work, int arg)
     }
     if (!Zako_800CDA04(work))
     {
-        work->action = s03d_800CE720;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetModeNoAdjust(work, s03d_800CE720);
     }
 }
 void s03d_800CE9E8(Work *work, int arg)
 {
     SVECTOR *rot;
-    work->target->class |= 0x9E;
+    work->target->class |= TARGET_FLAG;
     work->vision.length = 0xFA0;
     if (arg == 0)
     {
@@ -866,8 +778,7 @@ void s03d_800CE9E8(Work *work, int arg)
     }
     if (arg == 2 || arg == 4 || arg == 6)
     {
-        work->act.motion1 = 6;
-        GM_ConfigObjectAction(&work->body, ZakoActionTable[6], 0, 0);
+        SetAction(work, 6, 0);
         Zako_800D0EF0(work, 3);
     }
     Zako_800CDD94(work);
@@ -875,11 +786,7 @@ void s03d_800CE9E8(Work *work, int arg)
     {
         if (work->body.is_end)
         {
-            work->action = s03d_800CE720;
-            work->time = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
-            GM_ConfigMotionAdjust(&work->body, NULL);
+            SetMode(work, s03d_800CE720);
         }
         work->control.rot.vy = rot->vy;
     }
@@ -896,8 +803,7 @@ void s03d_800CEB38(Work *work, int arg)
 
     if (arg == 0)
     {
-        work->act.motion1 = 7;
-        GM_ConfigObjectAction(&work->body, ZakoActionTable[7], 0, 4);
+        SetAction(work, 7, 4);
     }
     if (arg == 17)
     {
@@ -929,23 +835,18 @@ void s03d_800CEB38(Work *work, int arg)
     {
         if (work->body.is_end)
         {
-            work->action = s03d_800CE720;
-            work->time = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
-            GM_ConfigMotionAdjust(&work->body, NULL);
+            SetMode(work, s03d_800CE720);
         }
         work->control.turn.vy = work->pad.dir;
     }
 }
 void s03d_800CECBC(Work *work, int arg)
 {
-    work->target->class |= 0x9E;
+    work->target->class |= TARGET_FLAG;
     work->vision.length = 0xFA0;
     if (arg == 0)
     {
-        work->act.motion1 = 8;
-        GM_ConfigObjectAction(&work->body, ZakoActionTable[8], 0, 0);
+        SetAction(work, 8, 0);
     }
     if (arg == 3 && s03d_800CDE1C(work))
     {
@@ -958,11 +859,7 @@ void s03d_800CECBC(Work *work, int arg)
     }
     if (work->body.is_end)
     {
-        work->action = s03d_800CE720;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
+        SetMode(work, s03d_800CE720);
     }
 }
 void s03d_800CED94(Work *work, int arg)
@@ -970,22 +867,17 @@ void s03d_800CED94(Work *work, int arg)
     work->vision.length = 0;
     if (arg == 0)
     {
-        work->act.motion1 = 0x13;
-        GM_ConfigObjectAction(&work->body, ZakoActionTable[19], 0, 4);
+        SetAction(work, 19, 4);
     }
     if (Zako_800CDA04(work))
     {
         return;
     }
-    work->target->class |= 0x9E;
+    work->target->class |= TARGET_FLAG;
     if (work->body.is_end)
     {
         work->field_8F8 = 1;
-        work->action = s03d_800CE12C;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
+        SetMode(work, s03d_800CE12C);
     }
 }
 void s03d_800CEE3C(Work *work, int arg)
@@ -1000,8 +892,7 @@ void s03d_800CEE3C(Work *work, int arg)
     if (arg == 0)
     {
         work->act.field_14 = 6;
-        work->act.motion1 = 0x1B;
-        GM_ConfigObjectAction(&work->body, ZakoActionTable[27], 0, 4);
+        SetAction(work, 27, 4);
     }
     if (arg >= 8 && arg <= 17)
     {
@@ -1029,8 +920,7 @@ void s03d_800CEE3C(Work *work, int arg)
         {
             if (ctrl->grounded == 0)
             {
-                work->act.motion1 = 0x24;
-                GM_ConfigObjectAction(&work->body, ZakoActionTable[36], 0, 4);
+                SetAction(work, 36, 4);
             }
             else
             {
@@ -1123,15 +1013,13 @@ void s03d_800CF194(Work *work, int time)
         if (motion != 23 && motion != 44)
         {
             target->side = 0;
-            work->act.motion1 = 23;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[23], 0, 4);
+            SetAction(work, 23, 4);
             work->field_AF8 = 0;
         }
 
         if (work->field_AF8 == 50 && target->faint > 0)
         {
-            work->act.motion1 = 44;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[44], 0, 4);
+            SetAction(work, 44, 4);
         }
 
         if (motion == 44 && !(work->field_AF8 & 7))
@@ -1147,8 +1035,7 @@ void s03d_800CF194(Work *work, int time)
         if (motion != 24)
         {
             target->side = 0;
-            work->act.motion1 = 24;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[24], 0, 4);
+            SetAction(work, 24, 4);
         }
 
         work->control.turn = GM_PlayerControl->rot;
@@ -1178,16 +1065,11 @@ void s03d_800CF4D4(Work *work, int arg)
 {
     if (arg == 0)
     {
-        work->act.motion1 = 0x22;
-        GM_ConfigObjectAction(&work->body, ZakoActionTable[34], 0, 4);
+        SetAction(work, 34, 4);
     }
     if (work->body.is_end)
     {
-        work->action = s03d_800D01C4;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
+        SetMode(work, s03d_800D01C4);
     }
 }
 void s03d_800CF548(Work *work, int arg)
@@ -1198,8 +1080,7 @@ void s03d_800CF548(Work *work, int arg)
     work->vision.length = 0;
     if (arg == 0)
     {
-        work->act.motion1 = 0x1C;
-        GM_ConfigObjectAction(&work->body, ZakoActionTable[28], 0, 4);
+        SetAction(work, 28, 4);
         work->target->faint = 0;
     }
     if (Zako_800CDA04(work))
@@ -1210,12 +1091,11 @@ void s03d_800CF548(Work *work, int arg)
     if (arg == phase)
     {
         work->act.field_14 = 1;
-        work->act.motion1 = 0x21;
-        GM_ConfigObjectAction(&work->body, ZakoActionTable[33], 0, 4);
+        SetAction(work, 33, 4);
     }
     else
     {
-        work->target->class |= 0x9E;
+        work->target->class |= TARGET_FLAG;
     }
     if (arg == phase + 0x18)
     {
@@ -1227,11 +1107,7 @@ void s03d_800CF548(Work *work, int arg)
     }
     if (arg >= phase + 0x32 && work->body.is_end)
     {
-        work->action = s03d_800CF68C;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
+        SetMode(work, s03d_800CF68C);
     }
 }
 void s03d_800CF68C(Work *work, int time)
@@ -1244,19 +1120,16 @@ void s03d_800CF68C(Work *work, int time)
         {
             if (work->act.field_14 == 1)
             {
-                work->act.motion1 = 37;
-                GM_ConfigObjectAction(&work->body, ZakoActionTable[37], 0, 4);
+                SetAction(work, 37, 4);
             }
             else
             {
-                work->act.motion1 = 35;
-                GM_ConfigObjectAction(&work->body, ZakoActionTable[35], 0, 4);
+                SetAction(work, 35, 4);
             }
         }
         else
         {
-            work->act.motion1 = 36;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[36], 0, 4);
+            SetAction(work, 36, 4);
         }
 
         if (work->target->faint <= 0)
@@ -1293,13 +1166,11 @@ void s03d_800CF844(Work *work, int arg)
     {
         if (work->act.field_14 < 3)
         {
-            work->act.motion1 = 0x2A;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[42], 0, 4);
+            SetAction(work, 42, 4);
         }
         else
         {
-            work->act.motion1 = 0x2B;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[43], 0, 4);
+            SetAction(work, 43, 4);
         }
         GM_SeSet(&work->control.mov, 0x36);
     }
@@ -1309,11 +1180,7 @@ void s03d_800CF844(Work *work, int arg)
     }
     if (work->body.is_end)
     {
-        work->action = s03d_800D01C4;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
+        SetMode(work, s03d_800D01C4);
     }
 }
 void s03d_800CF90C(Work *work, int arg)
@@ -1325,43 +1192,35 @@ void s03d_800CF90C(Work *work, int arg)
         {
             if (work->field_AF6 >= 0x96)
             {
-                work->act.motion1 = 0x28;
-                GM_ConfigObjectAction(&work->body, ZakoActionTable[40], 0, 4);
+                SetAction(work, 40, 4);
             }
             else
             {
-                work->act.motion1 = 0x26;
-                GM_ConfigObjectAction(&work->body, ZakoActionTable[38], 0, 4);
+                SetAction(work, 38, 4);
             }
         }
         else
         {
             if (work->field_AF6 >= 0x96)
             {
-                work->act.motion1 = 0x29;
-                GM_ConfigObjectAction(&work->body, ZakoActionTable[41], 0, 4);
+                SetAction(work, 41, 4);
             }
             else
             {
-                work->act.motion1 = 0x27;
-                GM_ConfigObjectAction(&work->body, ZakoActionTable[39], 0, 4);
+                SetAction(work, 39, 4);
             }
         }
     }
     if (work->body.is_end)
     {
-        work->action = s03d_800CE12C;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
+        SetMode(work, s03d_800CE12C);
     }
 }
 void s03d_800CFA04(Work *work, int arg)
 {
     TARGET *t;
     work->act.field_1C = 0;
-    work->target->class |= 0x9E;
+    work->target->class |= TARGET_FLAG;
     work->vision.length = 0xFA0;
     if (Zako_800CDA04(work))
     {
@@ -1370,8 +1229,7 @@ void s03d_800CFA04(Work *work, int arg)
     t = work->target;
     if (arg == 0)
     {
-        work->act.motion1 = 0xF;
-        GM_ConfigObjectAction(&work->body, ZakoActionTable[15], 0, 4);
+        SetAction(work, 15, 4);
         GM_SeSet(&work->control.mov, 0x8D);
         if (t->a_mode == 3)
         {
@@ -1385,11 +1243,7 @@ void s03d_800CFA04(Work *work, int arg)
     }
     if (work->body.is_end)
     {
-        work->action = s03d_800CE12C;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
+        SetMode(work, s03d_800CE12C);
     }
 }
 void s03d_800CFB04(Work *work, int time)
@@ -1412,15 +1266,13 @@ void s03d_800CFB04(Work *work, int time)
         {
         case 0:
             GM_SeSet(&control->mov, SE_PUNCHIT1);
-            work->act.motion1 = 30;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[30], 0, 4);
+            SetAction(work, 30, 4);
             GM_SeSet(&control->mov, SE_V_ENE_PUNCHED);
             Zako_800D0B18(work, 5, 0);
             work->field_AF6 = 17;
             break;
         case 1:
-            work->act.motion1 = 33;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[33], 0, 4);
+            SetAction(work, 33, 4);
             if (work->target->vital <= 0)
             {
                 if (GM_Weapon == WP_Rifle)
@@ -1441,27 +1293,23 @@ void s03d_800CFB04(Work *work, int time)
             break;
         case 3:
             GM_SeSet(&control->mov, SE_EDMG01);
-            work->act.motion1 = 31;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[31], 0, 4);
+            SetAction(work, 31, 4);
             Zako_800D0B18(work, 5, 0);
             work->field_AF6 = 17;
             break;
         case 2:
             GM_SeSet(&control->mov, SE_V_ENE_THROWN);
-            work->act.motion1 = 32;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[32], 0, 4);
+            SetAction(work, 32, 4);
             Zako_800D0B18(work, 5, 0);
             work->field_AF6 = 22;
             break;
         case 4:
             GM_SeSet(&control->mov, SE_V_ENE_SNAPPED);
-            work->act.motion1 = 25;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[25], 0, 4);
+            SetAction(work, 25, 4);
             work->field_AF6 = 67;
             break;
         case 5:
-            work->act.motion1 = 26;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[26], 0, 4);
+            SetAction(work, 26, 4);
             work->field_AF6 = 15;
             break;
         }
@@ -1572,19 +1420,16 @@ void s03d_800CFFF0(Work *work, int arg)
             {
                 if (work->act.field_14 == 1)
                 {
-                    work->act.motion1 = 37;
-                    GM_ConfigObjectAction(&work->body, ZakoActionTable[37], 0, 4);
+                    SetAction(work, 37, 4);
                 }
                 else
                 {
-                    work->act.motion1 = 35;
-                    GM_ConfigObjectAction(&work->body, ZakoActionTable[35], 0, 4);
+                    SetAction(work, 35, 4);
                 }
             }
             else
             {
-                work->act.motion1 = 36;
-                GM_ConfigObjectAction(&work->body, ZakoActionTable[36], 0, 4);
+                SetAction(work, 36, 4);
             }
         }
     }
@@ -1594,11 +1439,7 @@ void s03d_800CFFF0(Work *work, int arg)
         work->target->force = DG_ZeroVector;
         GM_SeSet(&ctrl->mov, SE_HIT_FLOOR);
         Zako_800D0B18(work, 6, 1);
-        work->action = s03d_800D01C4;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
+        SetMode(work, s03d_800D01C4);
     }
 }
 void s03d_800D01C4(Work *work, int arg)
@@ -1609,19 +1450,16 @@ void s03d_800D01C4(Work *work, int arg)
         {
             if (work->act.field_14 == 1)
             {
-                work->act.motion1 = 0x2F;
-                GM_ConfigObjectAction(&work->body, ZakoActionTable[47], 0, 4);
+                SetAction(work, 47, 4);
             }
             else
             {
-                work->act.motion1 = 0x2D;
-                GM_ConfigObjectAction(&work->body, ZakoActionTable[45], 0, 4);
+                SetAction(work, 45, 4);
             }
         }
         else
         {
-            work->act.motion1 = 0x2E;
-            GM_ConfigObjectAction(&work->body, ZakoActionTable[46], 0, 4);
+            SetAction(work, 46, 4);
         }
         GM_ConfigControlAttribute(&work->control, 0);
         work->alert_level = 0;
@@ -1650,11 +1488,7 @@ void s03d_800D01C4(Work *work, int arg)
     }
     if (arg >= 9)
     {
-        work->action = s03d_800D0324;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
+        SetMode(work, s03d_800D0324);
     }
 }
 
@@ -1772,11 +1606,7 @@ void s03d_800D05DC(Work *work, int arg1)
     }
     if (!(work->pad.press & 1))
     {
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = 0;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        UnsetMode(work);
     }
     else if (arg1 < 4)
     {
@@ -1795,11 +1625,7 @@ void s03d_800D0698(Work *work, int arg1)
     }
     if (!(work->pad.press & 2))
     {
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = 0;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        UnsetMode(work);
     }
     else if (arg1 < 4)
     {
@@ -1819,11 +1645,7 @@ void s03d_800D0754(Work *work, int arg1)
     }
     if (!(work->pad.press & 4))
     {
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = 0;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        UnsetMode(work);
     }
 }
 void s03d_800D07DC(Work *work, int arg1)
@@ -1835,11 +1657,7 @@ void s03d_800D07DC(Work *work, int arg1)
     }
     if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = 0;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        UnsetMode(work);
     }
 }
 void s03d_800D085C(Work *work, int arg1)
@@ -1851,11 +1669,7 @@ void s03d_800D085C(Work *work, int arg1)
     }
     if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = 0;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        UnsetMode(work);
     }
 }
 void s03d_800D08DC(Work *work, int arg1)
@@ -1866,11 +1680,7 @@ void s03d_800D08DC(Work *work, int arg1)
     }
     if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = 0;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        UnsetMode(work);
     }
 }
 void s03d_800D0958(Work *work, int arg1)
@@ -1882,11 +1692,7 @@ void s03d_800D0958(Work *work, int arg1)
     }
     if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = 0;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        UnsetMode(work);
     }
 }
 void s03d_800D09D8(Work *work, int arg1)
@@ -1910,24 +1716,12 @@ void s03d_800D09D8(Work *work, int arg1)
     }
     if (work->pad.press & 0x1000)
     {
-        work->action = s03d_800CED94;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = 0;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        SetMode(work, s03d_800CED94);
+        UnsetMode(work);
     }
     else if (arg1 == 0x82)
     {
-        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
-        work->action2 = 0;
-        work->time2 = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+        UnsetMode(work);
     }
 }
 void Zako_800D0B18(Work *work, int index, int count)
@@ -1949,9 +1743,9 @@ void Zako_800D0B88(Work *work)
     DG_MovePos(&FogPos);
     DG_RotatePos(&FogRot);
     ReadRotMatrix(&m);
-    sv.vx = *(short *)&m.t[0];
-    sv.vy = *(short *)&m.t[1];
-    sv.vz = *(short *)&m.t[2];
+    sv.vx = m.t[0];
+    sv.vy = m.t[1];
+    sv.vz = m.t[2];
     AN_Fog(&sv);
 }
 void Zako_800D0BEC(Work *work, int type)

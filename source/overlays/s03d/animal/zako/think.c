@@ -33,6 +33,7 @@ void s03d_800D2C68(Work *work)
 
     addr = work->param.defends[work->param.c_root];
 
+    /* &zones[addr], spelled out to match (addr * 3 * 8 == addr * sizeof(HZD_ZON)) */
     index = addr << 1;
     index = addr + index;
 

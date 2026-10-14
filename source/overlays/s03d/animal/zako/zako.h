@@ -5,6 +5,9 @@
 #include "game/game.h"
 #include "libdg/libdg.h"
 
+#define TARGET_FLAG ( TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH \
+                    | TARGET_SEEK | TARGET_TOUCH )
+
 typedef struct _PARAM
 {
     signed char index;
@@ -195,6 +198,12 @@ extern int       ZakoPlayerMap;
 extern SVECTOR   ZakoPlayerPosition;
 #endif
 
+static inline void SetAction(Work *work, int action, int interp)
+{
+    work->act.motion1 = action;
+    GM_ConfigObjectAction(&work->body, ZakoActionTable[action], 0, interp);
+}
+
 static inline void SetMode(Work *work, ACTION action)
 {
     work->action = action;
@@ -214,6 +223,14 @@ static inline void SetMode2(Work *work, ACTION action)
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
     GM_ConfigMotionAdjust(&work->body, NULL);
+}
+
+static inline void SetModeNoAdjust(Work *work, ACTION action)
+{
+    work->action = action;
+    work->time = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 static inline void UnsetMode(Work *work)
