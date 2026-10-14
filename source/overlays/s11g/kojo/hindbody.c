@@ -842,7 +842,7 @@ void s11g_hind_800D61F8(HindWork *work)
     work->field_664.vz = GV_RandS(512);
 }
 
-void s11g_hind_800D6260(int *vec, int *pos, int *old, int len)
+void s11g_hind_800D6260(long *vec, long *pos, long *old, int len)
 {
     int interp;
 
