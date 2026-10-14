@@ -59,7 +59,7 @@ void s19b_jlamp_800D07EC(DemoCamera *work)
     s19b_jlamp_800D0FE4(1);
 }
 
-void s19b_jlamp_800D087C(void)
+void s19b_jlamp_800D087C(DemoCamera *work)
 {
     GV_DestroyActorQuick(s19b_dword_800DE5B8);
     Takabe_JeepSystem.flags = (Takabe_JeepSystem.flags & ~0x10000) | 0x20000;
@@ -69,7 +69,7 @@ void s19b_jlamp_800D08C8(DemoCamera *work)
     work->center_src = &Takabe_JeepSystem.camera_pos;
     Voicesys_800CE2D0();
 }
-void s19b_jlamp_800D08F0(void)
+void s19b_jlamp_800D08F0(DemoCamera *work)
 {
     GM_GameStatus &= ~0x40000000;
     Takabe_JeepSystem.liq_flags &= ~0x10000000;
@@ -79,12 +79,12 @@ void s19b_jlamp_800D0928(DemoCamera *work)
     work->center_src = &Takabe_JeepSystem.meryl_head;
     Takabe_JeepSystem.flags |= 0x40000;
 }
-void s19b_jlamp_800D094C(void)
+void s19b_jlamp_800D094C(DemoCamera *work)
 {
     NewCinemaScreen(270, 0);
 }
 
-void s19b_jlamp_800D0970(void)
+void s19b_jlamp_800D0970(DemoCamera *work)
 {
     Voicesys_800CE2D0();
 }
@@ -98,7 +98,7 @@ void s19b_jlamp_800D09B8(DemoCamera *work)
     work->center_src = NULL;
     Takabe_JeepSystem.flags &= ~0x40000;
 }
-void s19b_jlamp_800D09DC(void)
+void s19b_jlamp_800D09DC(DemoCamera *work)
 {
     GM_SeSet(NULL, 0xB5);
     GM_SetSound(0x01FFFF0B, 0);
