@@ -18,7 +18,7 @@
 // with decompiled functions (listing it next to the extern declaration
 // is enough). Please don't remove the GV_StrCode("...") part, though.
 
-#define CHARA_10A_DEMO          { 0x40e9, ? }                       // okajima/10a_demo.c
+#define CHARA_10A_DEMO          { 0x40e9, NewStage10ADemo }         // okajima/10a_demo.c
 #define CHARA_S11_OBJS          { 0xe068, NewStage11Objects }       // GV_StrCode("コントロールＳ１１物") okajima/s11_objs.c
 #define CHARA_11B_DEMO          { 0xd53c, ? }                       // okajima/11b_demo.c
 #define CHARA_11G_DEMO          { 0x153e, NewStage11GDemo }         // okajima/11g_demo.c
@@ -35,7 +35,7 @@
 #define CHARA_BELONG            { 0xf59e, NewBelong }               // GV_StrCode("付随物") chara/others/belong.c
 #define CHARA_BLACKSMOKE        { 0x6b6c, ? }                       // GV_StrCode("黒煙") animal/liquid/b_smoke.c
 #define CHARA_BLINKTEX          { 0x8185, NewBlinkTexture }         // GV_StrCode("点滅テクスチャ") okajima/blink_tx.c
-#define CHARA_BLOODY_MERYL      { 0x1158, ? }                       // GV_StrCode("血まみれメリル") okajima/meryl10/mel10.c
+#define CHARA_BLOODY_MERYL      { 0x1158, NewBloodyMeryl }          // GV_StrCode("血まみれメリル") okajima/mel10.c
 #define CHARA_BLOOD_POOL        { 0x4e95, NewBloodCl }              // GV_StrCode("血溜り") okajima/blood_cl.c
 #define CHARA_BLOOD_POOL2       { 0x6a4c, NewBloodBl }              // GV_StrCode("血溜り２") okajima/blood_bl.c
 #define CHARA_BLUR              { 0x9093, ? }                       // GV_StrCode("ブラー") ???
@@ -282,8 +282,8 @@
 #define CHARA_WT_OBJ            { 0x69ad, ? }                       // takabe/wt_obj.c (PC-ONLY)
 #define CHARA_WT_VIEW           { 0x8e45, NewWaterView }            // GV_StrCode("水中主観") takabe/wt_view.c
 #define CHARA_ZAKO              { 0xed87, ? }                       // GV_StrCode("ざこ") animal/zako/zako.c
-#define CHARA_ZAKO10            { 0x31e3, ? }                       // GV_StrCode("ざこ１０") animal/zako10/zako10.c
-#define CHARA_ZAKO10COM         { 0x8e64, ? }                       // GV_StrCode("ざこ１０コマンダー") animal/zako10/zk10com.c
+#define CHARA_ZAKO10            { 0x31e3, NewZako10 }               // GV_StrCode("ざこ１０") animal/zako10/zako10.c
+#define CHARA_ZAKO10COM         { 0x8e64, NewZako10Commander }      // GV_StrCode("ざこ１０コマンダー") animal/zako10/zk10com.c
 #define CHARA_ZAKO11A           { 0xa608, ? }                       // GV_StrCode("ざこ１１ａ") animal/zako11a/zako11a.c
 #define CHARA_ZAKO11ACOM        { 0x5efa, ? }                       // GV_StrCode("ざこ１１ａコマンダー") animal/zako11a/zk11acom.c
 #define CHARA_ZAKO11E           { 0xa60c, NewZako11E }              // GV_StrCode("ざこ１１ｅ") animal/zako11e/zako11e.c
@@ -408,6 +408,8 @@ extern NEWCHARA NewBombLed;                     /* animal/liquid/bombled.c      
 extern NEWCHARA NewMeryl72_800C7BC4;            /* animal/meryl72/meryl72.c     */
 extern NEWCHARA NewNinjaBoss;                   /* animal/ninja/ninja.c         */
 extern NEWCHARA d18a_snake18_800D4E94;          /* animal/snake18/snake18.c     */
+extern NEWCHARA NewZako10;                      /* animal/zako10/zako10.c       */
+extern NEWCHARA NewZako10Commander;             /* animal/zako10/zk10com.c      */
 extern NEWCHARA NewZako11E;                     /* animal/zako11e/zako11e.c     */
 extern NEWCHARA NewZako11ECommander;            /* animal/zako11e/zk11ecom.c    */
 extern NEWCHARA NewZako11F;                     /* animal/zako11f/zako11f.c     */
@@ -476,6 +478,7 @@ extern NEWCHARA NewFamasLight;                  /* kojo/famaslit.c              
 extern NEWCHARA NewInverseLight2;               /* kojo/inverlt2.c              */
 extern NEWCHARA NewSnowStorm;                   /* kojo/sstorm.c                */
 extern NEWCHARA NewLoadData;                    /* menu/mload.c                 */
+extern NEWCHARA NewStage10ADemo;                /* okajima/10a_demo.c           */
 extern NEWCHARA NewStage11GDemo;                /* okajima/11g_demo.c           */
 extern NEWCHARA NewBlinkTexture;                /* okajima/blink_tx.c           */
 extern NEWCHARA NewBlood;                       /* okajima/blood.c              */
@@ -500,6 +503,7 @@ extern NEWCHARA NewHiyokoGcl;                   /* okajima/hiyoko.c             
 extern NEWCHARA NewItemDot;                     /* okajima/item_dot.c           */
 extern NEWCHARA NewKeyItem;                     /* okajima/key_item.c           */
 extern NEWCHARA NewMGRoom;                      /* okajima/mg_room.c            */
+extern NEWCHARA NewBloodyMeryl;                 /* okajima/mel10.c              */
 extern NEWCHARA NewMouse;                       /* okajima/mouse.c              */
 extern NEWCHARA NewPilotLamp;                   /* okajima/p_lamp.c             */
 extern NEWCHARA NewPatrolLamp;                  /* okajima/pato_lmp.c           */
