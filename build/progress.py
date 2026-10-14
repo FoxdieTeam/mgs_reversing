@@ -115,7 +115,7 @@ def delta(old, key, value):
 
 
 def line(label, key, value, total, old):
-    return '{}: {:,}{} / {:,} | {:.2f}%'.format(label, value, delta(old, key, value), total, value / total * 100 if total else 0)
+    return '{}: [{:,}/{:,}]{} | ({:.2f}%)'.format(label, value, total, delta(old, key, value), value / total * 100 if total else 0)
 
 
 def main():
@@ -145,6 +145,7 @@ def main():
             json.dump(dict(
                 main_overlays=m['count'], main_overlay_bytes=m['bytes'],
                 vr_overlays=v['count'], vr_overlay_bytes=v['bytes'],
+                total_overlay_bytes=m['bytes'] + v['bytes'],
                 overlay_funcs=c_funcs, overlay_func_bytes=c_bytes), f)
 
         msg = os.environ.get('APPVEYOR_REPO_COMMIT_MESSAGE')
@@ -162,7 +163,7 @@ def main():
 
     all_bytes = m['bytes'] + v['bytes']
     all_total = m['total_bytes'] + v['total_bytes']
-    print('Total overlay bytes imported: {:,} / {:,} | {:.2f}%'.format(all_bytes, all_total, all_bytes / all_total * 100))
+    print(line('Total overlay bytes imported', 'total_overlay_bytes', all_bytes, all_total, old))
 
     print(line('Overlay functions reversed', 'overlay_funcs', c_funcs, total_funcs, old))
     print(line('Overlay function bytes reversed', 'overlay_func_bytes', c_bytes, total_bytes, old))
