@@ -7,8 +7,10 @@
 #include "game/game.h"
 #include "enemy/eyeflash.h"     // for NewEyeflash
 
-// in enemy/asiato.c
+// enemy/asiato.c
+extern void AsiatoPos( int index, SVECTOR *pos );
 extern char NearAsiato( void );
+extern int  NextAsiato();
 
 /*---------------------------------------------------------------------------*/
 
@@ -35,7 +37,7 @@ void s19a_800D3ACC( Work* work );
 void s19a_800D3B48( Work* work );
 void s19a_800D3B88( Work* work );
 void s19a_800D3BE4( Work* work );
-int s19a_800D3C6C( Work *work );
+void s19a_800D3C6C( Work *work );
 void s19a_800D3CCC( Work* work );
 void s19a_800D3CE4( Work* work );
 void s19a_800D3CFC( Work *work );
@@ -45,6 +47,7 @@ void s19a_800D3E9C( Work* work );
 void s19a_800D3EB4( Work* work );
 void s19a_800D3F70( Work* work );
 void s19a_800D3F88( Work *work );
+/* look around: turn left and right in turn */
 int s19a_800D3FC0( Work *work );
 int s19a_800D4060( Work *work );
 int s19a_800D40CC( Work *work );
@@ -56,7 +59,6 @@ int s19a_800D4530( Work *work );
 int s19a_800D4580( Work *work );
 int s19a_800D46B8( Work *work );
 int s19a_800D4728( Work *work );
-int s19a_800D4760( Work *work );
 int s19a_800D479C( Work *work );
 int s19a_800D480C( Work *work );
 int s19a_800D4854( Work *work );
@@ -64,7 +66,8 @@ int s19a_800D48D0( Work *work );
 int s19a_800D48E0( Work *work );
 int s19a_800D48F0( Work  *work);
 int s19a_800D4960( Work* work, int a1 );
-int s19a_800D49E8( Work *work );
+/* BUG: the comparisons are the wrong way round, this always returns 0 for r > 0 */
+int s19a_800D49E8( SVECTOR *pos1, SVECTOR *pos2, int r );
 int s19a_800D4A3C( Work *work );
 int s19a_800D4A88( Work *work );
 int s19a_800D4AF8( Work *work );
@@ -153,8 +156,12 @@ void s19a_800D3BE4( Work* work )
     work->target_map = work->start_map;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D3C6C.s")
-int s19a_800D3C6C( Work *work );
+void s19a_800D3C6C( Work *work )
+{
+    AsiatoPos( work->modetime[ 4 ], &work->target_pos );
+    work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
+    work->target_map = work->control.map->index;
+}
 
 void s19a_800D3CCC( Work* work )
 {
@@ -301,19 +308,59 @@ void s19a_800D3F88( Work *work )
     work->count3 = 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D3FC0.s")
-int s19a_800D3FC0( Work *work );
-
-int s19a_800D4058( Work *work )
+/* look around: turn left and right in turn */
+int s19a_800D3FC0( Work *work )
 {
-    return 1;
+    int count;
+    int phase;
+
+    count = work->count3;
+    phase = count / 30;
+    phase += work->param.index;
+
+    if ( phase == 1 || phase == 4 )
+    {
+        work->pad.press |= 0x2;
+    }
+    else if ( phase == 2 || phase == 5 )
+    {
+        work->pad.press |= 0x1;
+    }
+
+    if ( count > 90 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4060.s")
-int s19a_800D4060( Work *work );
+int s19a_800D4060( Work *work )
+{
+    int count;
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D40CC.s")
-int s19a_800D40CC( Work *work );
+    count = work->count3;
+    if ( !( count & 0x1F ) )
+    {
+        work->field_B58 = GV_RandU( 8 ) << 9;
+    }
+    else if ( count > 64 )
+    {
+        return 1;
+    }
+
+    work->pad.dir = work->field_B58;
+    work->count3++;
+    return 0;
+}
+
+int s19a_800D40CC( Work *work )
+{
+    work->count3++;
+    work->pad.dir = work->sn_dir;
+    return 0;
+}
 
 int s19a_800D40E8( Work *work )
 {
@@ -498,28 +545,155 @@ int s19a_800D4530( Work *work )
     return 0;
 }
 
-const char aWatchActTimeD_800E01B8[] = " watch act time = %d \n ";
-const char aKirari01_800E01D0[] = "kirari01";
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4580.s")
-int s19a_800D4580( Work *work );
+int s19a_800D4580( Work *work )
+{
+    if ( work->count3 == 0 )
+    {
+        fprintf( 1, " watch act time = %d \n ", work->modetime[ T_NOISE ] );
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D46B8.s")
-int s19a_800D46B8( Work *work );
+        if ( work->modetime[ T_NOISE ] <= 1 )
+        {
+            work->pad.sound = SE_V_ENE_HUH;
+        }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4728.s")
-int s19a_800D4728( Work *work );
+        if ( work->modetime[ T_NOISE ] == 0 )
+        {
+            ZAKO19_PutMark( work, 5 );
+        }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4760.s")
-int s19a_800D4760( Work *work );
+        work->pad.dir = work->sn_dir;
+    }
+    else
+    {
+        work->pad.dir = -1;
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D479C.s")
-int s19a_800D479C( Work *work );
+    switch ( work->modetime[ T_NOISE ] )
+    {
+    case 0:
+        if ( work->count3 >= 16 )
+        {
+            work->pad.sound = 241;
+            return 1;
+        }
+        break;
+    case 1:
+        if ( work->count3 >= 48 )
+        {
+            return 1;
+        }
+        break;
+    case 2:
+        if ( work->count3 >= 48 )
+        {
+            work->pad.field_4 = 1;
+            return 1;
+        }
+        break;
+    case 3:
+        work->alert_level = 255;
+        return 1;
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D480C.s")
-int s19a_800D480C( Work *work );
+    work->count3++;
+    return 0;
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4854.s")
-int s19a_800D4854( Work *work );
+int s19a_800D46B8( Work *work )
+{
+    SVECTOR svec;
+
+    GV_SubVec3( &GM_NoisePosition, &work->control.mov, &svec );
+    work->pad.dir = GV_VecDir2( &svec );
+    work->pad.press |= 0x20;
+
+    if ( !( work->modetime[ 6 ] & 1 ) )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s19a_800D4728( Work *work )
+{
+    if ( work->count3 == 0 )
+    {
+        work->pad.sound = SE_V_ENE_HUH;
+        ZAKO19_PutMark( work, 5 );
+        work->pad.dir = work->sn_dir;
+    }
+    else
+    {
+        work->pad.dir = -1;
+    }
+
+    if ( work->count3 > 15 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s19a_800D479C( Work *work )
+{
+    if ( work->act.motion1 == 0 )
+    {
+        if ( work->modetime[ 2 ] == 0 )
+        {
+            work->pad.dir = work->sn_dir;
+        }
+
+        if ( ++work->modetime[ 2 ] > 30 )
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        work->modetime[ 2 ] = 0;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s19a_800D480C( Work *work )
+{
+    if ( work->count3 == 0 )
+    {
+        work->pad.sound = SE_V_ENE_HUH;
+        ZAKO19_PutMark( work, 5 );
+    }
+
+    return s19a_800D3FC0( work ) != 0;
+}
+
+int s19a_800D4854( Work *work )
+{
+    if ( work->count3 == 0 )
+    {
+        work->pad.sound = SE_V_ENE_HUH;
+        ZAKO19_PutMark( work, 4 );
+        work->pad.dir = work->sn_dir;
+    }
+    else
+    {
+        work->pad.dir = -1;
+    }
+
+    if ( work->count3 > 15 )
+    {
+        work->pad.sound = 243;
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
 
 int s19a_800D48D0( Work *work )
 {
@@ -578,22 +752,67 @@ int s19a_800D4960( Work* work, int a1 )
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D49E8.s")
-int s19a_800D49E8( Work *work );
-
-int s19a_800D4A34( Work *work )
+/* BUG: the comparisons are the wrong way round, this always returns 0 for r > 0 */
+int s19a_800D49E8( SVECTOR *pos1, SVECTOR *pos2, int r )
 {
+    int dx, dz;
+
+    dx = pos1->vx - pos2->vx;
+    dz = pos1->vz - pos2->vz;
+
+    if ( -r < dx || dx < r || -r < dz || dz < r )
+    {
+        return 0;
+    }
+
     return 1;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4A3C.s")
-int s19a_800D4A3C( Work *work );
+int s19a_800D4A3C( Work *work )
+{
+    if ( work->count3 == 20 )
+    {
+        ZAKO19_PutMark( work, 5 );
+        work->pad.sound = 244;
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4A88.s")
-int s19a_800D4A88( Work *work );
+    return s19a_800D3FC0( work ) != 0;
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4AF8.s")
-int s19a_800D4AF8( Work *work );
+int s19a_800D4A88( Work *work )
+{
+    work->pad.press |= 0x4;
+
+    if ( work->count3 == 20 )
+    {
+        ZAKO19_PutMark( work, 5 );
+        work->pad.sound = 242;
+    }
+
+    if ( work->count3 > 120 )
+    {
+        return 1;
+    }
+
+    work->count3++;
+    return 0;
+}
+
+int s19a_800D4AF8( Work *work )
+{
+    int next;
+
+    next = NextAsiato( work->control.map->hzd, work->modetime[ 4 ] );
+
+    if ( next >= 0 )
+    {
+        work->modetime[ 4 ] = next;
+        return 1;
+    }
+
+    work->modetime[ 4 ] = -1;
+    return 0;
+}
 
 int s19a_800D4B4C( Work *work )
 {
@@ -767,11 +986,52 @@ int s19a_800D4E04( Work *work )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4F38.s")
-int s19a_800D4F38( Work *work );
+int s19a_800D4F38( Work *work )
+{
+    switch ( work->think4 )
+    {
+    case 2:
+        if ( s19a_800D3FC0( work ) )
+        {
+            work->think4 = 3;
+            work->count3 = 0;
+        }
+        break;
+    case 3:
+        if ( s19a_800D4060( work ) )
+        {
+            work->think4 = 2;
+            work->count3 = 0;
+        }
+        break;
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D4FB4.s")
-int s19a_800D4FB4( Work *work );
+    return 0;
+}
+
+int s19a_800D4FB4( Work *work )
+{
+    switch ( work->think4 )
+    {
+    case 2:
+        if ( s19a_800D3FC0( work ) )
+        {
+            work->think4 = 0;
+            work->count3 = 0;
+            s19a_800D3A84( work );
+        }
+        break;
+    case 0:
+        if ( s19a_800D48F0( work ) )
+        {
+            work->think4 = 2;
+            work->count3 = 0;
+        }
+        break;
+    }
+
+    return 0;
+}
 
 void s19a_800D5030( Work *work )
 {
@@ -789,12 +1049,11 @@ void s19a_800D5030( Work *work )
     }
 }
 
-#if 0 /* NON_MATCHING */
 int s19a_800D50B0( Work *work )
 {
-    int i;
-    MAP *map;
-    PARAM *param;
+    int      i;
+    MAP     *map;
+    PARAM   *param;
     HZD_PAT *patrol;
     HZD_PTP *points;
 
@@ -803,8 +1062,6 @@ int s19a_800D50B0( Work *work )
     patrol = map->hzd->def->routes;
     patrol = &patrol[ param->root ];
 
-    fprintf( 1, "c_root= %d root %d pat %d n_points = %d \n", param->c_root, param->root, (int)patrol, patrol->n_points );
-
     work->n_nodes = patrol->n_points;
 
     if ( work->n_nodes <= 0 ) return -1;
@@ -812,21 +1069,17 @@ int s19a_800D50B0( Work *work )
     points = patrol->points;
     for ( i = 0 ; i < work->n_nodes ; i++ )
     {
-        work->nodes[i].vx  = points->x;
-        work->nodes[i].vy  = points->y;
-        work->nodes[i].vz  = points->z;
-        work->nodes[i].pad = points->command;
+        work->nodes[ i ].vx  = points->x;
+        work->nodes[ i ].vy  = points->y;
+        work->nodes[ i ].vz  = points->z;
+        work->nodes[ i ].pad = points->command;
         points++;
-        fprintf( 1, "action = 0x%x \n", work->nodes[i].pad );
     }
 
-    work->start_pos = work->nodes[0];
+    work->start_pos = work->nodes[ 0 ];
     work->field_BE4 = HZD_GetAddress( map->hzd, &work->start_pos, -1 );
     return 0;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D50B0.s")
-int s19a_800D50B0( Work *work );
 
 int s19a_800D51A4( Work* work )
 {
