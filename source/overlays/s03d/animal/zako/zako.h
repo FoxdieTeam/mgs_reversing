@@ -220,7 +220,39 @@ typedef struct _TOP
 } TOP;
 
 extern TOP s03d_dword_800DC2E8;
+extern short s03d_word_800C39E0[4];
 extern int s03d_dword_800DC310;
 #define ZAKOCOM_MGR ((ZakoComMgr *)&s03d_dword_800DC310)
+
+
+static inline void SetMode(Work *work, ACTION action)
+{
+    work->action = action;
+    work->time = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    GM_ConfigMotionAdjust(&work->body, NULL);
+}
+
+static inline void SetMode2(Work *work, ACTION action)
+{
+    if (work->action2 == NULL)
+    {
+        work->action2 = action;
+        work->time2 = 0;
+    }
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    GM_ConfigMotionAdjust(&work->body, NULL);
+}
+
+static inline void UnsetMode(Work *work)
+{
+    GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+    work->action2 = NULL;
+    work->time2 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+}
 
 #endif // _S03D_ZAKO_H
