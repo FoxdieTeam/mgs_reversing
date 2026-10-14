@@ -2501,7 +2501,144 @@ void brf_800D3CB8(Work *work, int a1, int a2)
         brf_800CD870(work, i);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D3D8C.s")
+void brf_800D3D8C(Work *work)
+{
+    int i;
+    int n = work->field_AD3C;
+
+    if (n < 0x11)
+    {
+        brf_800D3AF0(work);
+    }
+    else if (n < 0x14)
+    {
+        for (i = 0; i < 16; i++)
+        {
+            work->z_A597[i + 6] = 2;
+        }
+    }
+    else if (n < 0x2B)
+    {
+        brf_800D3B8C(work, 0x13, 0x16, 0x16);
+    }
+    else if (n == 0x2D)
+    {
+        brf_800D3CB8(work, 0x16, 0x2D);
+    }
+    else if (n < 0x39)
+    {
+        brf_800D3B8C(work, 0x2D, 0x16, 0x2D);
+    }
+    else if (n == 0x3B)
+    {
+        brf_800D3CB8(work, 0x16, 0x38);
+    }
+    else if (n < 0x43)
+    {
+        brf_800D3B8C(work, 0x3B, 0x16, 0x38);
+    }
+    else if (n == 0x45)
+    {
+        brf_800D3CB8(work, 0x16, 0x3F);
+    }
+    else if (n < 0x56)
+    {
+        brf_800D3B8C(work, 0x45, 0x16, 0x3F);
+    }
+    else if (n == 0x58)
+    {
+        brf_800D3CB8(work, 0x16, 0x4F);
+    }
+    else if (n < 0x67)
+    {
+        brf_800D3B8C(work, 0x58, 0x16, 0x4F);
+    }
+    else if (n == 0x69)
+    {
+        brf_800D3CB8(work, 0x16, 0x5D);
+    }
+    else if (n == 0x6C)
+    {
+        brf_800D3CB8(work, 0x2D, 0x5D);
+    }
+    else if (n < 0x85)
+    {
+        brf_800D3B8C(work, 0x6C, 0x2D, 0x5D);
+    }
+    else if (n == 0x87)
+    {
+        brf_800D3CB8(work, 0x38, 0x75);
+    }
+    else if (n < 0x99)
+    {
+        brf_800D3B8C(work, 0x87, 0x38, 0x75);
+    }
+    else if (n == 0x9B)
+    {
+        brf_800D3CB8(work, 0x3F, 0x86);
+    }
+    else if (n == 0x9E)
+    {
+        brf_800D3CB8(work, 0x4F, 0x86);
+    }
+    else if (n < 0xB5)
+    {
+        brf_800D3B8C(work, 0x9E, 0x4F, 0x86);
+    }
+    else if (n == 0xB7)
+    {
+        brf_800D3CB8(work, 0x5D, 0x9C);
+    }
+    else if (n < 0xD0)
+    {
+        brf_800D3B8C(work, 0xB7, 0x5D, 0x9C);
+    }
+    else if (n == 0xD2)
+    {
+        brf_800D3CB8(work, 0x5D, 0xB4);
+    }
+    else if (n < 0xE8)
+    {
+        brf_800D3B8C(work, 0xD2, 0x5D, 0xB4);
+    }
+    else if (n == 0xEA)
+    {
+        brf_800D3CB8(work, 0x75, 0xC9);
+    }
+    else if (n < 0xFB)
+    {
+        brf_800D3B8C(work, 0xEA, 0x75, 0xC9);
+    }
+    else if (n == 0xFD)
+    {
+        brf_800D3CB8(work, 0x86, 0xD9);
+    }
+    else if (n < 0x118)
+    {
+        brf_800D3B8C(work, 0xFD, 0x86, 0xD9);
+    }
+    else if (n == 0x11A)
+    {
+        brf_800D3CB8(work, 0x86, 0xF3);
+    }
+    else if (n < 0x131)
+    {
+        brf_800D3B8C(work, 0x11A, 0x86, 0xF3);
+    }
+    else if (n == 0x133)
+    {
+        brf_800D3CB8(work, 0x9C, 0x109);
+    }
+    else if (n < 0x14E)
+    {
+        brf_800D3B8C(work, 0x133, 0x9C, 0x109);
+    }
+    else if (n == 0x150)
+    {
+        brf_800D3CB8(work, 0xB4, 0x123);
+    }
+    work->field_AD3C++;
+}
 extern int brf_dword_800C37A4;
 void brf_800D3D8C(Work *work);
 
