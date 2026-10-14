@@ -135,7 +135,9 @@ typedef struct _MGREX_WORK
     int             timers[8];          // 0x758
     int             f778;
     int             f77C;
-    char            pad_780[0x2C];
+    char            pad_780[0x14];
+    SVECTOR         f794;
+    char            pad_79C[0x10];
     int             f7AC;
     int             f7B0;
     int             f7B4;
@@ -192,16 +194,24 @@ typedef struct _MGREX_WORK
     int             f1980;
     int             f1984;
     int             f1988;
-    short           f198C;
-    short           f198E;
-    char            pad_1990[0x14];
+    SVECTOR         f198C;
+    SVECTOR         f1994;
+    SVECTOR         f199C;
     SVECTOR         f19A4;
     CONTROL         control2;           // 0x19AC
     DG_OBJ         *radar_parent;       // 0x1A28
     SVECTOR         player_pos;         // 0x1A2C
-    char            pad_1A34[0x8];
+    int             f1A34;
+    int             f1A38;
     int             f1A3C;
-    char            pad_1A40[0x24];
+    int             f1A40;
+    SVECTOR         f1A44;
+    int             f1A4C;
+    int             f1A50;
+    int             f1A54;
+    int             f1A58;
+    int             f1A5C;
+    int             f1A60;
     int             f1A64;
     char            pad_1A68[0x34];
     int             f1A9C;

@@ -3842,21 +3842,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\unknown4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\kojo\mg_laser.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\kojo\mg_hatch.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay23.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E2F68.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E3248.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E32B4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E3678.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E377C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E37D4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E39FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E3B00.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E3BA8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E3C7C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E44C0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E46F8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E4A58.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800E4B0C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s17a\kojo\mgrexhzd.obj", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_002.OBJ", overlay

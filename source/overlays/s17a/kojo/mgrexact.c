@@ -555,8 +555,8 @@ void MgRex_800DB268(MGREX_WORK *work)
         s17a_800DEBB4(work, 2, 0);
     }
 
-    work->f198C = GV_NearExp8(work->f198C, GV_RandS(128));
-    work->f198E = GV_NearExp8(work->f198E, GV_RandS(128));
+    work->f198C.vx = GV_NearExp8(work->f198C.vx, GV_RandS(128));
+    work->f198C.vy = GV_NearExp8(work->f198C.vy, GV_RandS(128));
 
     MENU_DrawBar2(28, (work->f1AC0 * 1500) / work->f1ABC, (work->f1AC4 * 1500) / work->f1ABC, 1500, &work->life_bar);
 
