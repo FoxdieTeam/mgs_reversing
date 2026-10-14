@@ -4069,14 +4069,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC028.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC0A0.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC0D4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC18C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC2A0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC2E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC364.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC414.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC4A8.obj", overlay
-    include "{{OBJ_DIR}}\takabe\object.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s19a\takabe\pk_gate.obj", overlay
+    include "{{OBJ_DIR}}\takabe\object.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\overlay9.obj", overlay
