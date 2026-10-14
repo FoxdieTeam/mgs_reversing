@@ -1546,11 +1546,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\dyncon.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\valcan.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\val_life.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\val_ai.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\crow.obj", overlay
+    include "{{OBJ_DIR}}\okajima\valcan\dyncon.obj", overlay
+    include "{{OBJ_DIR}}\okajima\valcan\valcan.obj", overlay
+    include "{{OBJ_DIR}}\okajima\valcan\val_life.obj", overlay
+    include "{{OBJ_DIR}}\okajima\valcan\val_ai.obj", overlay
+    include "{{OBJ_DIR}}\okajima\valcan\crow.obj", overlay
     include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
@@ -1704,10 +1704,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
     include "{{OBJ_DIR}}\okajima\wall_spa.obj", overlay
     include "{{OBJ_DIR}}\okajima\plasma.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\okajima\s11_objs.obj", overlay
+    include "{{OBJ_DIR}}\okajima\s11_objs.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\11g_demo.obj", overlay
     include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\okajima\blst_ln.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blst_ln.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
@@ -1718,12 +1718,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\focus.obj", overlay
     include "{{OBJ_DIR}}\takabe\windcrcl.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hind.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindact.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\okajima\unknown.obj", overlay
+    include "{{OBJ_DIR}}\kojo\hind.obj", overlay
+    include "{{OBJ_DIR}}\kojo\hindact.obj", overlay
+    include "{{OBJ_DIR}}\kojo\hindbody.obj", overlay
+    include "{{OBJ_DIR}}\kojo\hindbody2.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blastoff.obj", overlay
+    include "{{OBJ_DIR}}\okajima\unknown.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
@@ -2051,7 +2051,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\d18a\animal\snake18\snake18.obj", overlay
+    include "{{OBJ_DIR}}\animal\snake18\snake18.obj", overlay
     include "{{OBJ_DIR}}\okajima\smktrgt.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke3.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
@@ -2295,7 +2295,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\okajima\blst_ln.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blst_ln.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
     include "{{OBJ_DIR}}\okajima\smke_ln.obj", overlay
@@ -2711,12 +2711,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
     include "{{OBJ_DIR}}\okajima\smke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\valcan.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\val_life.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\val_ai.obj", overlay
+    include "{{OBJ_DIR}}\okajima\valcan\valcan.obj", overlay
+    include "{{OBJ_DIR}}\okajima\valcan\val_life.obj", overlay
+    include "{{OBJ_DIR}}\okajima\valcan\val_ai.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\dyncon.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\crow.obj", overlay
+    include "{{OBJ_DIR}}\okajima\valcan\dyncon.obj", overlay
+    include "{{OBJ_DIR}}\okajima\valcan\crow.obj", overlay
     include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
@@ -2746,8 +2746,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
     include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\okajima\blst_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\okajima\crsh_smk.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blst_ln.obj", overlay
+    include "{{OBJ_DIR}}\okajima\crsh_smk.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
@@ -2762,12 +2762,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\windcrcl.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
     include "{{OBJ_DIR}}\kojo\inverlt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hind.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindact.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\okajima\unknown.obj", overlay
+    include "{{OBJ_DIR}}\kojo\hind.obj", overlay
+    include "{{OBJ_DIR}}\kojo\hindact.obj", overlay
+    include "{{OBJ_DIR}}\kojo\hindbody.obj", overlay
+    include "{{OBJ_DIR}}\kojo\hindbody2.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blastoff.obj", overlay
+    include "{{OBJ_DIR}}\okajima\unknown.obj", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 ;------------------------------------------------------------------------------
@@ -2842,11 +2842,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
     include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\okajima\blst_ln.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blst_ln.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
     include "{{OBJ_DIR}}\okajima\smke_ln.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\okajima\s11_objs.obj", overlay
+    include "{{OBJ_DIR}}\okajima\s11_objs.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
@@ -2858,14 +2858,14 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\puthzd.obj", overlay
     include "{{OBJ_DIR}}\kojo\inverlt.obj", overlay
     include "{{OBJ_DIR}}\kojo\inverlt2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hind.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindact.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody2.obj", overlay
+    include "{{OBJ_DIR}}\kojo\hind.obj", overlay
+    include "{{OBJ_DIR}}\kojo\hindact.obj", overlay
+    include "{{OBJ_DIR}}\kojo\hindbody.obj", overlay
+    include "{{OBJ_DIR}}\kojo\hindbody2.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blastoff.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\okajima\unknown.obj", overlay
+    include "{{OBJ_DIR}}\okajima\unknown.obj", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P26.OBJ", overlay
 ;------------------------------------------------------------------------------
@@ -2891,7 +2891,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
-    include "{{OBJ_DIR}}\overlays\d18a\animal\snake18\snake18.obj", overlay
+    include "{{OBJ_DIR}}\animal\snake18\snake18.obj", overlay
     include "{{OBJ_DIR}}\okajima\smktrgt.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke3.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
@@ -2913,8 +2913,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay
     include "{{OBJ_DIR}}\okajima\plasma.obj", overlay
     include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\okajima\blst_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\okajima\crsh_smk.obj", overlay
+    include "{{OBJ_DIR}}\okajima\blst_ln.obj", overlay
+    include "{{OBJ_DIR}}\okajima\crsh_smk.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
