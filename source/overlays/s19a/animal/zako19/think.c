@@ -697,14 +697,23 @@ int s19a_800D4854( Work *work )
 
 int s19a_800D48D0( Work *work )
 {
-    SVECTOR unused[2];
+    if ( 0 )
+    {
+        ZAKO19_PutMark( work, 0 );
+        GM_SeSet( &work->control.mov, SE_EXCLAMATION );
+        NewEyeflash( &work->body.objs->objs[ 6 ].world, &work->control.mov, "kirari01", 0 );
+    }
 
     return 1;
 }
 
 int s19a_800D48E0( Work *work )
 {
-    SVECTOR unused[2];
+    if ( 0 )
+    {
+        GM_SeSet( &work->control.mov, SE_EXCLAMATION );
+        ZAKO19_PutMark( work, 0 );
+    }
 
     return 1;
 }
