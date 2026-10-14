@@ -75,7 +75,7 @@
 #define CHARA_DOOR              { 0xb997, NewDoor }                 // GV_StrCode("ドア") thing/door.c
 #define CHARA_DOOR2             { 0x73f8, NewDoor2 }                // GV_StrCode("ドア２") takabe/door2.c
 #define CHARA_DRUMCAN           { 0xb58d, NewDrumCan }              // GV_StrCode("ドラム缶") takabe/drum.c
-#define CHARA_DRUMCAN2          { 0x4be8, ? }                       // GV_StrCode("ドラム缶２") takabe/drum2.c
+#define CHARA_DRUMCAN2          { 0x4be8, NewDrumCan2 }             // GV_StrCode("ドラム缶２") takabe/drum2.c
 #define CHARA_DUCTMOUSE         { 0x3303, NewDuctMouse }            // okajima/ductmous.c
 #define CHARA_DYNFLOOR          { 0xaf6c, NewDynamicFloorSet }      // GV_StrCode("透明床") takabe/dymc_flr.c
 #define CHARA_DYNWALL           { 0xb103, NewDynamicWallSet }       // GV_StrCode("透明壁") takabe/dymc_seg.c
@@ -136,8 +136,8 @@
 #define CHARA_MERYL3            { 0xc755, ? }                       // animal/meryl3/meryl3.c
 #define CHARA_MERYL7            { 0x5078, NewEnemyMeryl_800D63A4 }  // enemy/meryl7.c
 #define CHARA_MERYL72           { 0xe271, NewMeryl72_800C7BC4 }     // animal/meryl72/meryl72.c
-#define CHARA_MGREX             { 0x4754, ? }                       // kojo/mgrex.c
-#define CHARA_MG_DEMO1          { 0x954b, ? }                       // takabe/mg_demo1.c
+#define CHARA_MGREX             { 0x4754, NewMetalGearRex }         // kojo/mgrex.c
+#define CHARA_MG_DEMO1          { 0x954b, NewMgDemo1 }              // takabe/mg_demo1.c
 #define CHARA_MI24HIND          { 0x1787, NewHindBoss }             // kojo/hind.c
 #define CHARA_MINENE            { 0xb30a, ? }                       // enemy/minene.c
 #define CHARA_MIRROR            { 0xc218, NewMirror }               // takabe/mirror.c
@@ -196,7 +196,7 @@
 #define CHARA_PSYCHOMANTIS      { 0xa76f, ? }                       // GV_StrCode("サイコマンティス") chara/psyco/psyco.c
 #define CHARA_PSYCHOMERYL       { 0xf4b0, ? }                       // GV_StrCode("サイコメリル") chara/meryl07b/meryl07b.c
 #define CHARA_PSYOBJ            { 0x710d, NewPsychoObject }         // GV_StrCode("サイコ物体") chara/psyco/psyobj.c
-#define CHARA_PUTHZD            { 0x91aa, ? }                       // takabe/puthzd.c
+#define CHARA_PUTHZD            { 0x91aa, NewPutHazard }            // takabe/puthzd.c
 #define CHARA_PILOTLAMP         { 0x169c, NewPilotLamp }            // GV_StrCode("パイロットランプ") okajima/p_lamp.c
 #define CHARA_RADARPOINT        { 0x5147, NewPoint }                // GV_StrCode("レーダーポイント") game/point.c
 #define CHARA_ITEM_DOT          { 0x917b, NewItemDot }              // okajima/item_dot.c
@@ -337,7 +337,7 @@
 #define DEMO_PLASMA             { 0x001d, NewPlasma_800CD1A4 }      // okajima/plasma.c
 #define DEMO_WINDCIRCLE         { 0x001e, NewWindcrcl_800CF6BC }    // takabe/windcrcl.c
 #define DEMO_SEPIA              { 0x001f, NewSepia_800C4F9C }       // takabe/sepia.c
-#define DEMO_METALGEARLASER     { 0x0020, ? }                       // kojo/mgrexlzr.c
+#define DEMO_METALGEARLASER     { 0x0020, NewMetalGearLaser }       // kojo/mgrexlzr.c
 #define DEMO_UNSHAPEVIEW        { 0x0021, NewFocusView }            // takabe/focus.c
 #define DEMO_GUSMASK            { 0x0022, ? }                       // equip/gmsight.c
 #define DEMO_URINATIONCIRCLE    { 0x0023, ? }                       // okajima/d_bloods.c
@@ -362,9 +362,9 @@
 #define DEMO_OCEROTTEBULLETSMOKE { 0x0036, NewAnime_8005E6A4 }      // --> anime/animconv/anime.c
 #define DEMO_ENVIRONMENTLIGHT   { 0x0037, NewRedAlert2 }            // okajima/red_alrt.c
 #define DEMO_ENVIRONMENTLIGHT2  { 0x0038, RedAlert_800C4F48 }       // okajima/red_alrt.c
-#define DEMO_CRASHSMOKE         { 0x0039, ? }                       // okajima/crsh_smk.c
+#define DEMO_CRASHSMOKE         { 0x0039, NewCrashSmoke }           // okajima/crsh_smk.c
 #define DEMO_CELOFAN            { 0x003a, ? }                       // kojo/celofan.c (PC-ONLY)
-#define DEMO_INVERSLIGHT        { 0x003b, ? }                       // kojo/inverlt.c
+#define DEMO_INVERSLIGHT        { 0x003b, NewInverseLight }         // kojo/inverlt.c
 #define DEMO_SPACK              { 0x003c, NewSpark2_800CA714 }      // takabe/spark2.c
 #define DEMO_SPACK2             { 0x003d, NewSpark }                // okajima/spark.c
 #define DEMO_STEAMEXPLOSION     { 0x003e, ? }                       // --> anime/animconv/anime.c
@@ -479,7 +479,10 @@ extern NEWCHARA NewPadVibrationGcl;             /* game/vibrate.c               
 extern NEWCHARA NewVrWindow;                    /* koba/vr/vrwindow.c           */
 extern NEWCHARA NewBloodDrip;                   /* kojo/blooddrp.c              */
 extern NEWCHARA NewFamasLight;                  /* kojo/famaslit.c              */
+extern NEWCHARA NewInverseLight;                /* kojo/inverlt.c               */
 extern NEWCHARA NewInverseLight2;               /* kojo/inverlt2.c              */
+extern NEWCHARA NewMetalGearLaser;              /* kojo/mgrexlzr.c              */
+extern NEWCHARA NewMetalGearRex;                /* kojo/mgrex.c                 */
 extern NEWCHARA NewSnowStorm;                   /* kojo/sstorm.c                */
 extern NEWCHARA NewLoadData;                    /* menu/mload.c                 */
 extern NEWCHARA NewStage10ADemo;                /* okajima/10a_demo.c           */
@@ -498,6 +501,7 @@ extern NEWCHARA NewBubbleS;                     /* okajima/bubble_s.c           
 extern NEWCHARA NewBubbleT;                     /* okajima/bubble_t.c           */
 extern NEWCHARA NewBulletEx;                    /* okajima/bullet.c             */
 extern NEWCHARA NewCrane;                       /* okajima/crane.c              */
+extern NEWCHARA NewCrashSmoke;                  /* okajima/crsh_smk.c           */
 extern NEWCHARA NewKetchap_s;                   /* okajima/d_bloods.c           */
 extern NEWCHARA NewDeathSpark;                  /* okajima/death_sp.c           */
 extern NEWCHARA NewDog;                         /* okajima/dog/dog.c            */
@@ -554,6 +558,7 @@ extern NEWCHARA NewChair;                       /* takabe/chair.c               
 extern NEWCHARA NewCinemaScreenSet;             /* takabe/cinema.c              */
 extern NEWCHARA NewDoor2;                       /* takabe/door2.c               */
 extern NEWCHARA NewDrumCan;                     /* takabe/drum.c                */
+extern NEWCHARA NewDrumCan2;                    /* takabe/drum2.c               */
 extern NEWCHARA NewDummyFloor;                  /* takabe/dummy_fl.c            */
 extern NEWCHARA NewDummyWall;                   /* takabe/dummy_wl.c            */
 extern NEWCHARA NewDynamicFloorSet;             /* takabe/dymc_flr.c            */
@@ -584,6 +589,7 @@ extern NEWCHARA NewJeepEnemy;                   /* takabe/jeep_emy/jeep_emy.c   
 extern NEWCHARA NewJeepScroll;                  /* takabe/jeep_srl.c            */
 extern NEWCHARA NewLifeUp;                      /* takabe/life_up.c             */
 extern NEWCHARA NewLift;                        /* takabe/lift.c                */
+extern NEWCHARA NewMgDemo1;                     /* takabe/mg_demo1.c            */
 extern NEWCHARA NewMirror;                      /* takabe/mirror.c              */
 extern NEWCHARA NewMonitor1;                    /* takabe/monitor1.c            */
 extern NEWCHARA NewMosaicSet;                   /* takabe/mosaic.c              */
@@ -594,6 +600,7 @@ extern NEWCHARA NewPanel2;                      /* takabe/panel2.c              
 extern NEWCHARA NewPkJeep;                      /* takabe/pjeep.c               */
 extern NEWCHARA NewParkingGate;                 /* takabe/pk_gate.c             */
 extern NEWCHARA NewPaper;                       /* takabe/paper.c               */
+extern NEWCHARA NewPutHazard;                   /* takabe/puthzd.c              */
 extern NEWCHARA NewPutObject;                   /* takabe/put_obj.c             */
 extern NEWCHARA NewRasen2;                      /* takabe/rasen.c               */
 extern NEWCHARA NewRasenElevator;               /* takabe/rasen_el.c            */
