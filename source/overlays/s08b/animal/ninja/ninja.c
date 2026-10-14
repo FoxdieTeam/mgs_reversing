@@ -23,6 +23,12 @@
 
 struct _Work;
 typedef void (*NinjaFunc)(struct _Work *);
+
+typedef struct _NinjaRoute
+{
+    u_char      key;
+    signed char opts[3];
+} NinjaRoute;
 typedef void (*NinjaAction)(struct _Work *, int);
 
 typedef struct _NinjaClone
@@ -156,8 +162,10 @@ extern int     s08b_dword_800C344C;
 extern int     s08b_dword_800C3450;
 extern SVECTOR s08b_dword_800C3460[];
 extern SVECTOR s08b_dword_800C3568[];
+extern NinjaRoute s08b_dword_800C3518[20];
 extern SVECTOR s08b_dword_800C3490[];
 extern SVECTOR s08b_dword_800C34B0[];
+extern SVECTOR s08b_dword_800C34D0[];
 extern SVECTOR s08b_dword_800C34F8[];
 extern int     s08b_dword_800C3588;
 
