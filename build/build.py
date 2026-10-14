@@ -151,6 +151,9 @@ def ninja_run():
         # in d18a
         r'snake18\.c:\d+: warning: unused variable `unused\'',
         r'snake18\.c:\d+: warning: unused variable `r\'',
+        # in s18a
+        r'liquid2\.c:\d+: warning: unused variable `step\'',
+        r'liquid2\.c:\d+: warning: unused variable `unused\'',
     ]
 
     if os.environ.get('APPVEYOR'):
