@@ -679,7 +679,83 @@ void s19b_jeep_gls_800CE8B8(SVECTOR *src, SVECTOR *dst)
     dst->vy = src->vz;
     dst->vz = src->vy;
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE8DC.s")
+/* Queues the dynamic floors and (if do_segs) walls of a road piece in the hazard.
+ * The wall loop has its own def and cnt: with variables shared by both loops they are
+ * live in several basic blocks and get allocated after the single-block temporaries,
+ * which changes the registers. */
+void s19b_jeep_gls_800CE8DC(struct _Work *work, JeepScrollSeg *road, int do_segs)
+{
+    JeepSegLine *line;
+    JeepSegDef  *def;
+    JeepSegDef  *def2;
+    u_char      *flags1;
+    u_char      *flags2;
+    SVECTOR     *vec;
+    JeepSegFace *face;
+    short       *cnt;
+    short       *cnt2;
+    int          i;
+    SVECTOR      verts[4];
+
+    SetRotMatrix(&road->field_18->world);
+    def = road->field_20;
+    cnt = &work->field_4B4->n_d_segs;
+    face = def->faces;
+
+    for (i = def->n_faces; i > 0; i--)
+    {
+        if (*cnt < 24)
+        {
+            vec = verts;
+            s19b_jeep_gls_800CE8B8(&face->v[0], vec++);
+            s19b_jeep_gls_800CE8B8(&face->v[1], vec++);
+            s19b_jeep_gls_800CE8B8(&face->v[2], vec++);
+            s19b_jeep_gls_800CE8B8(&face->v[3], vec++);
+            DG_PutVector(verts, verts, 4);
+
+            if (Takabe_JeepSystem.pos.vz != 0)
+            {
+                s19b_jeep_gls_800CE628(&road->pos, verts, work->field_4B8, road->field_24 & 2);
+            }
+
+            face++;
+            HZD_QueueDynamicFloor(work->field_4B4, (HZD_FLR *)work->field_4B8++);
+        }
+    }
+
+    if (do_segs)
+    {
+        def2 = road->field_20;
+        cnt2 = &work->field_4B4->n_d_segs;
+        flags1 = def2->flags;
+        line = def2->lines;
+        flags2 = flags1 + def2->n_lines;
+
+        for (i = def2->n_lines; i > 0; i--)
+        {
+            if (*cnt2 < 48)
+            {
+                vec = verts;
+                s19b_jeep_gls_800CE8B8(&line->v[0], vec);
+                s19b_jeep_gls_800CE8B8(&line->v[1], &verts[1]);
+                DG_PutVector(vec, vec, 2);
+
+                verts[0].pad = line->v[0].pad / 2;
+                verts[1].pad = line->v[1].pad / 2;
+
+                if (Takabe_JeepSystem.pos.vz != 0)
+                {
+                    s19b_jeep_gls_800CE83C(vec, (SVECTOR *)work->field_93C);
+                }
+
+                line++;
+                HZD_QueueDynamicSegment2(work->field_4B4, work->field_93C++, *flags1 | (*flags2 << 8));
+                flags1++;
+                flags2++;
+            }
+        }
+    }
+}
 void s19b_jeep_gls_800CEB2C(int arg0, SVECTOR *rot)
 {
     Work   *work = s19b_dword_800DE5B0;

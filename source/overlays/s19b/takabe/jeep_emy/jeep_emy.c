@@ -70,9 +70,6 @@ typedef struct _Work
     char           pad5[0x28];
 } Work;
 
-/* unused */
-u_short s19b_dword_800C32BC[] = {0x3201, 0x0143};
-
 static short s19b_dword_800C32C0[] =
 {
     19, 10, 22, 9, 8, 27, 3, 7, 38, 24, 23, 17, 18, 43, 22

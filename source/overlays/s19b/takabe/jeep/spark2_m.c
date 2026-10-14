@@ -14,7 +14,7 @@ extern void *NewJeepBlood(MATRIX *world, int count, MATRIX *root);
 extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
 extern void  s19b_jblood_800C7FB8(MATRIX *world);
 extern void  ReadRotMatrix(MATRIX *m);
-extern int   s19b_jeep_mrl_800D399C(void);
+extern int   s19b_jeep_800D399C(void);
 extern int   s19b_dword_800C3AD4;
 extern void  s19b_jeep_gls_800CEC24(int arg0, SVECTOR *out);
 extern void *NewSpark2M(MATRIX *world);
