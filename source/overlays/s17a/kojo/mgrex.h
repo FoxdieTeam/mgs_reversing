@@ -98,14 +98,8 @@ typedef struct _MGREX_WORK
     SVECTOR         f6A8;
     SVECTOR         f6B0;
 
-    short           f6B8;
-    short           f6BA;
-    short           f6BC;
-    short           f6BE;
-    short           f6C0;
-    short           f6C2;
-    short           f6C4;
-    short           f6C6;
+    SVECTOR         f6B8;               // gun muzzle (right)
+    SVECTOR         f6C0;               // gun muzzle (left)
     int             f6C8;
     int             f6CC;
     int             f6D0;

@@ -390,10 +390,10 @@ void *NewMetalGearRex(int name, int where)
     GM_SetTarget(work->target4, TARGET_AVAIL | TARGET_PUSH, NO_SIDE, &size);
     GM_SetPowerTarget(work->target4, POWER_CONST, -1, 0, 0, &DG_ZeroVector);
 
-    work->f6B8 = ((work->body.objs->objs[2].model->ux - work->body.objs->objs[2].model->lx) * 5) / 16;
-    work->f6BA = (work->body.objs->objs[2].model->uy - work->body.objs->objs[2].model->ly) / 5;
-    work->f6C0 = -(((work->body.objs->objs[2].model->ux - work->body.objs->objs[2].model->lx) * 5) / 16);
-    work->f6C2 = (work->body.objs->objs[2].model->uy - work->body.objs->objs[2].model->ly) / 5;
+    work->f6B8.vx = ((work->body.objs->objs[2].model->ux - work->body.objs->objs[2].model->lx) * 5) / 16;
+    work->f6B8.vy = (work->body.objs->objs[2].model->uy - work->body.objs->objs[2].model->ly) / 5;
+    work->f6C0.vx = -(((work->body.objs->objs[2].model->ux - work->body.objs->objs[2].model->lx) * 5) / 16);
+    work->f6C0.vy = (work->body.objs->objs[2].model->uy - work->body.objs->objs[2].model->ly) / 5;
     work->f6C8 = work->f5FC + work->f60C;
     work->f6CC = work->f600 + work->f60C;
     work->f6D0 = work->f604;

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "linkvar.h"
 #include "takabe/windcrcl.h"
+#include "okajima/bullet.h"
 #include "mgrex.h"
 
 extern int     GM_GameOverTimer;
@@ -1665,7 +1666,102 @@ fire:
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DFF74.s")
+int s17a_800DFF74(MGREX_WORK *work)
+{
+    SVECTOR ofs;
+    SVECTOR rot;
+    SVECTOR from;
+    SVECTOR to;
+    MATRIX  mat;
+    int     dir, speed;
+    int     dx, dz;
+
+    if (work->f1A64 == 0)
+    {
+        goto fail;
+    }
+
+    if (work->f1950 != 6 || work->f1960 != 1)
+    {
+        if (work->f1A60 == 0)
+        {
+            return 0;
+        }
+
+fail:
+        work->f6FC = 2;
+        work->timers[1] = work->f5F4;
+        return -1;
+    }
+
+    if (work->f1A60 == 0)
+    {
+        rot = DG_ZeroVector;
+        rot.vy = work->f1A38 + work->f1A3C;
+        DG_SetPos2(&work->control.mov, &rot);
+
+        ofs = DG_ZeroVector;
+        ofs.vz = work->f1A34 - 5000;
+        DG_PutVector(&ofs, &work->f1A68, 1);
+
+        work->f1A70 = (GM_GameLevel <= 0) ? 200 : 400;
+        work->f1A74 = rot.vy;
+        work->f1A60 = 1;
+        work->f1A68.vy = work->player_pos.vy;
+        work->f604 = work->body_adjust[2].vy;
+    }
+
+    if (work->f1A60 == 1)
+    {
+        DG_SetPos(&work->body.objs->objs[2].world);
+
+        if (work->f1A64 & 1)
+        {
+            DG_PutVector(&work->f6B8, &from, 1);
+            to = DG_ZeroVector;
+            to.vx = (GM_GameLevel > 0) ? 0 : 800;
+        }
+        else
+        {
+            DG_PutVector(&work->f6C0, &from, 1);
+            to = DG_ZeroVector;
+            to.vx = (GM_GameLevel > 0) ? 0 : -800;
+        }
+
+        DG_SetPos2(&work->f1A68, &work->control.rot);
+        DG_PutVector(&to, &to, 1);
+        s17a_800E085C(&from, &to, &mat);
+        RotMatrixY(work->body_adjust[2].vy - work->f604, &mat);
+        GM_SeSetMode(&from, 0xC4, 1);
+        NewBulletEx(0x520, &mat, 2, 1, 0, work->f614, work->f618, work->f61C, work->f620);
+
+        work->f1A64--;
+
+        if (work->f1A60 == 1)
+        {
+            dir = work->f1A74;
+            speed = work->f1A70;
+            work->f1A68.vx += (rsin(dir) * speed) / 4096;
+            work->f1A68.vz += (rcos(dir) * speed) / 4096;
+
+            dx = GM_PlayerPosition.vx - work->f1A68.vx;
+            dz = GM_PlayerPosition.vz - work->f1A68.vz;
+            if (abs(dx) < 5000 && abs(dz) < 5000)
+            {
+                s17a_dword_800E5E30 = 45;
+            }
+        }
+    }
+
+    work->f1A60++;
+    if (work->f1A60 >= (work->f5F8 + 1) / 2)
+    {
+        work->f1A60 = 1;
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800E0328.s")
 int s17a_800E0710(MGREX_WORK *work)
 {
