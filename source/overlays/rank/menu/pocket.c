@@ -258,7 +258,7 @@ void rank_800CD4E4( void )
     rank_dword_800E189C = GV_AllocMemory( 0, 0x260 );
     if ( !rank_dword_800E189C )
     {
-        printf( rank_dword_800E06D0 );
+        printf( (char *)rank_dword_800E06D0 );
     }
 
     for ( i = 11; i >= 0; i-- )
