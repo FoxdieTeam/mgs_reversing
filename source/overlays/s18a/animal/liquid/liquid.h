@@ -37,7 +37,7 @@ typedef struct _LiquidWork
     int            f938;          /* 0x938 */
     int            pose;          /* 0x93C */
     int            f940;          /* 0x940 */
-    char           pad_944[0x948 - 0x944];
+    int            f944;          /* 0x944 */
     int            f948;          /* 0x948 */
     HOMING        *hom;           /* 0x94C */
     int            cmd;           /* 0x950 */

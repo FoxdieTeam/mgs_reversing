@@ -167,6 +167,8 @@ static inline int s18a_liquid_After(int time, int start)
 }
 
 void s18a_800CC488(LiquidWork *work, int arg1);
+void s18a_800CB780(LiquidWork *work, int time);
+void s18a_800CB8AC(LiquidWork *work, int time);
 /*--FUNCS--*/
 
 int s18a_800C722C(SVECTOR *pos, short *out)
@@ -2481,10 +2483,194 @@ void s18a_800CB418(LiquidWork *work, int time)
     work->target->class |= 0x17;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB56C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB640.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB780.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB8AC.s")
+void s18a_800CB56C(LiquidWork *work, int time)
+{
+    CONTROL *control;
+
+    control = &work->control;
+
+    if (time == 0)
+    {
+        work->pose = 31;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[31], 0, 1);
+        GM_SeSet(&control->mov, 57);
+    }
+
+    work->f90C = -1000;
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (work->cmd == 9)
+    {
+        return;
+    }
+
+    work->f940 = 1;
+
+    if (s18a_800C736C(work))
+    {
+        s18a_liquid_ResetOverride(work);
+    }
+    else
+    {
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+    }
+}
+
+void s18a_800CB640(LiquidWork *work, int time)
+{
+    CONTROL *control;
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    control = &work->control;
+
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 21);
+
+        work->life -= work->damage1[1];
+        if (work->life < 0)
+        {
+            work->life = 0;
+        }
+
+        GM_SeSet(&control->mov, 53);
+        GM_SeSetMode(&control->mov, 134, 1);
+        control->rot.vy = control->turn.vy = work->f9AC;
+    }
+
+    work->f944 = 1;
+    work->target2->class = 1;
+
+    if (time == 10)
+    {
+        GM_SeSet(&work->control.mov, 177);
+    }
+
+    if (work->body.is_end)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800CB780);
+        return;
+    }
+
+    control->step.vx /= 2;
+    control->step.vz /= 2;
+}
+
+void s18a_800CB780(LiquidWork *work, int time)
+{
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 22);
+
+        if (work->life >= 31)
+        {
+            work->time = 30;
+        }
+    }
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (work->life < 30)
+    {
+        if (GM_GameLevel < 4)
+        {
+            if (GM_GameLevel < 2)
+            {
+                goto easy;
+            }
+
+            if ((time & 7) == 0)
+            {
+                work->life++;
+            }
+        }
+        else
+        {
+easy:
+            if ((time & 1) == 0)
+            {
+                work->life++;
+            }
+        }
+    }
+
+    work->f944 = 1;
+
+    if ((255 - work->life) / 25 < time)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800CB8AC);
+    }
+}
+
+void s18a_800CB8AC(LiquidWork *work, int time)
+{
+    int      hit;
+    CONTROL *control;
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    hit = 0;
+    control = &work->control;
+
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 23);
+    }
+
+    if (time == 12)
+    {
+        GM_SeSet(&control->mov, 182);
+    }
+
+    if (time == 32)
+    {
+        hit = s18a_800C7A68(work, 4);
+    }
+
+    if (hit)
+    {
+        GM_SeSet(&control->mov, 53);
+    }
+
+    if (time == 41)
+    {
+        GM_SeSetMode(&control->mov, 161, 0);
+    }
+
+    if (time == 43)
+    {
+        GM_SeSetMode(&control->mov, 160, 0);
+    }
+
+    if (work->body.is_end)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+        return;
+    }
+
+    if (time < 32)
+    {
+        work->f944 = 1;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB9D0.s")
 const int s18a_dword_800E2F64 = 0x30736F70;
 const int s18a_dword_800E2F68 = 0x20642520;
