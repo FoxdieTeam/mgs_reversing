@@ -414,46 +414,121 @@ int s18a_800C7A18(LiquidWork *work)
     return 1;
 }
 
-const int s18a_dword_800E2EB0 = 0x03E8FF38;
-const int s18a_dword_800E2EB4 = 0x00000258;
-const int s18a_dword_800E2EB8 = 0x03E800C8;
-const int s18a_dword_800E2EBC = 0x00000258;
-const int s18a_dword_800E2EC0 = 0x03E80000;
-const int s18a_dword_800E2EC4 = 0x00000384;
-const int s18a_dword_800E2EC8 = 0x00000000;
-const int s18a_dword_800E2ECC = 0x00000384;
-const int s18a_dword_800E2ED0 = 0xFC180000;
-const int s18a_dword_800E2ED4 = 0x000001F4;
-const int s18a_dword_800E2ED8 = 0xF4480000;
-const int s18a_dword_800E2EDC = 0x000003E8;
-const int s18a_dword_800E2EE0 = 0x03E80000;
-const int s18a_dword_800E2EE4 = 0x000001F4;
-const int s18a_dword_800E2EE8 = 0x03E80000;
-const int s18a_dword_800E2EEC = 0x00000000;
-const int s18a_dword_800E2EF0 = 0x019000C8;
-const int s18a_dword_800E2EF4 = 0x000001F4;
-const int s18a_dword_800E2EF8 = 0x019000C8;
-const int s18a_dword_800E2EFC = 0x0000012C;
-const int s18a_dword_800E2F00 = 0x01F400C8;
-const int s18a_dword_800E2F04 = 0x000002BC;
-const int s18a_dword_800E2F08 = 0x01F40190;
-const int s18a_dword_800E2F0C = 0x000002BC;
-const int s18a_dword_800E2F10 = 0x00000000;
-const int s18a_dword_800E2F14 = 0x00000032;
-const int s18a_dword_800E2F18 = 0x00C80005;
-const int s18a_dword_800E2F1C = 0x00000064;
-const int s18a_dword_800E2F20 = 0x00000000;
-const int s18a_dword_800E2F24 = 0x800C7D44;
-const int s18a_dword_800E2F28 = 0x800C7D94;
-const int s18a_dword_800E2F2C = 0x800C7DE4;
-const int s18a_dword_800E2F30 = 0x800C7E34;
-const int s18a_dword_800E2F34 = 0x800C7E84;
-const int s18a_dword_800E2F38 = 0x800C7ED4;
-const int s18a_dword_800E2F3C = 0x800C7F24;
-const int s18a_dword_800E2F40 = 0x800C7FA0;
-const int s18a_dword_800E2F44 = 0x800C7FF0;
-const int s18a_dword_800E2F48 = 0x800C8040;
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7A68.s")
+void s18a_800C7A68(LiquidWork *work, int type)
+{
+    SVECTOR  force;
+    SVECTOR  pos0 = {-200, 1000, 600};
+    SVECTOR  pos1 = {200, 1000, 600};
+    SVECTOR  pos2 = {0, 1000, 900};
+    SVECTOR  pos3 = {0, 0, 900};
+    SVECTOR  pos4 = {0, 1000, 900};
+    SVECTOR  pos5 = {0, 1000, 900};
+    SVECTOR  pos6 = {0, -1000, 500};
+    SVECTOR  pos7 = {0, -3000, 1000};
+    SVECTOR  pos8 = {0, 1000, 500};
+    SVECTOR  pos9 = {0, 1000, 0};
+    SVECTOR  size0 = {200, 400, 500};
+    SVECTOR  size1 = {200, 400, 300};
+    SVECTOR  size2 = {200, 500, 700};
+    SVECTOR  size3 = {400, 500, 700};
+    SVECTOR  force0 = {0, 0, 50};
+    SVECTOR  force1 = {0, 0, 0};
+    SVECTOR  force2 = {5, 200, 100};
+    TARGET  *target;
+
+    target = &work->attack;
+    DG_SetPos2(&work->control.mov, &work->control.rot);
+
+    switch (type)
+    {
+    case 0:
+        GM_SetTarget(target, 4, ENEMY_SIDE, &size0);
+        DG_RotVector(&force0, &force, 1);
+        GM_SetPowerTarget(target, 0, 3, work->damage2[0], 1, &force);
+        DG_PutVector(&pos0, &target->center, 1);
+        break;
+
+    case 1:
+        GM_SetTarget(target, 4, ENEMY_SIDE, &size0);
+        DG_RotVector(&force0, &force, 1);
+        GM_SetPowerTarget(target, 0, 3, work->damage2[0], 1, &force);
+        DG_PutVector(&pos1, &target->center, 1);
+        break;
+
+    case 2:
+        GM_SetTarget(target, 4, ENEMY_SIDE, &size2);
+        DG_RotVector(&force0, &force, 1);
+        GM_SetPowerTarget(target, 0, 2, work->damage2[1], 1, &force);
+        DG_PutVector(&pos2, &target->center, 1);
+        break;
+
+    case 3:
+        GM_SetTarget(target, 4, ENEMY_SIDE, &size2);
+        DG_RotVector(&force0, &force, 1);
+        GM_SetPowerTarget(target, 0, 2, work->damage2[1], 1, &force);
+        DG_PutVector(&pos4, &target->center, 1);
+        break;
+
+    case 4:
+        GM_SetTarget(target, 4, ENEMY_SIDE, &size0);
+        DG_RotVector(&force2, &force, 1);
+        GM_SetPowerTarget(target, 0, 2, work->damage2[2], 1, &force);
+        DG_PutVector(&pos5, &target->center, 1);
+        break;
+
+    case 5:
+        GM_SetTarget(target, 4, ENEMY_SIDE, &size3);
+        DG_RotVector(&force1, &force, 1);
+        GM_SetPowerTarget(target, 0, 3, work->damage2[3], 1, &force);
+        DG_PutVector(&pos6, &target->center, 1);
+        break;
+
+    case 6:
+        if (GM_GameLevel < 4)
+        {
+            if (GM_GameLevel > 0)
+            {
+                GM_SetTarget(target, 4, ENEMY_SIDE, &size1);
+            }
+            else
+            {
+                GM_SetTarget(target, 4, ENEMY_SIDE, &size0);
+            }
+        }
+        else
+        {
+            GM_SetTarget(target, 4, ENEMY_SIDE, &size0);
+        }
+        DG_RotVector(&force0, &force, 1);
+        GM_SetPowerTarget(target, 0, 2, work->damage2[4], 1, &force);
+        DG_PutVector(&pos8, &target->center, 1);
+        break;
+
+    case 7:
+        GM_SetTarget(target, 4, ENEMY_SIDE, &size0);
+        DG_RotVector(&force0, &force, 1);
+        GM_SetPowerTarget(target, 0, 2, 100, 1, &force);
+        DG_PutVector(&pos9, &target->center, 1);
+        break;
+
+    case 8:
+        GM_SetTarget(target, 4, ENEMY_SIDE, &size3);
+        DG_RotVector(&force1, &force, 1);
+        GM_SetPowerTarget(target, 0, 3, work->damage2[3], 1, &force);
+        DG_PutVector(&pos7, &target->center, 1);
+        break;
+
+    case 9:
+        GM_SetTarget(target, 4, ENEMY_SIDE, &size2);
+        DG_RotVector(&force0, &force, 1);
+        GM_SetPowerTarget(target, 0, 2, work->damage2[1], 1, &force);
+        DG_PutVector(&pos3, &target->center, 1);
+        break;
+    }
+
+    GM_PowerTarget(target);
+}
+
 const int s18a_dword_800E2F4C = 0x00C80190;
 const int s18a_dword_800E2F50 = 0x00000190;
 const int s18a_dword_800E2F54 = 0x00C803E8;

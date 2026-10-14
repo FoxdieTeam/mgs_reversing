@@ -24,7 +24,7 @@ typedef struct _LiquidWork
     MATRIX         light[2];      /* 0x87C */
     TARGET        *target;        /* 0x8BC */
     TARGET        *target2;       /* 0x8C0 */
-    char           pad_8C4[0x90C - 0x8C4];
+    TARGET         attack;        /* 0x8C4 */
     int            f90C;          /* 0x90C */
     char           pad_910[0x92C - 0x910];
     void          *act;           /* 0x92C */
