@@ -17,11 +17,11 @@ typedef struct _Work
     int     z;
     HOMING *hom;
     int     depth;
-    int     field_1EC;
-    int     field_1F0;
-    int     field_1F4;
+    int     destroyed;
+    int     destroy_time;  /* the model is swapped on frame 7 */
+    int     no_collide;    /* never set: hazard config of the control */
     int     height;
-    int     field_1FC;
+    int     on_road;       /* placed relative to the road segment being built */
 } Work;
 
 #define BODY_MODEL  GV_StrCode("19b_o4a")
@@ -46,7 +46,7 @@ static void Act(Work *work)
     TARGET  *target;
     OBJECT  *body;
 
-    work->field_1F4 = FALSE;
+    work->no_collide = FALSE;
 
     control = &work->control;
     DG_GetLightMatrix(&control->mov, work->light);
@@ -58,10 +58,10 @@ static void Act(Work *work)
     {
         target->damaged &= ~TARGET_POWER;
 
-        if (target->vital < 0 && work->field_1F0 == 0)
+        if (target->vital < 0 && work->destroy_time == 0)
         {
-            work->field_1EC = 1;
-            work->field_1F0 = 1;
+            work->destroyed = 1;
+            work->destroy_time = 1;
             target->vital = 255;
             work->hom->flag = FALSE;
             work->target->side = BOTH_SIDE;
@@ -69,15 +69,15 @@ static void Act(Work *work)
         }
     }
 
-    if (work->field_1F0 != 0)
+    if (work->destroy_time != 0)
     {
-        if (work->field_1F0 < 10)
+        if (work->destroy_time < 10)
         {
-            work->field_1F0++;
+            work->destroy_time++;
         }
 
         body = &work->body;
-        if (work->field_1F0 == 7)
+        if (work->destroy_time == 7)
         {
             GM_FreeObject(body);
             GM_InitObject(body, BODY_MODEL2, BODY_FLAG, 0);
@@ -88,7 +88,7 @@ static void Act(Work *work)
         }
     }
 
-    if (!work->field_1F4)
+    if (!work->no_collide)
     {
         GM_ConfigControlHazard(control, -1, 0, -1);
     }
@@ -152,7 +152,7 @@ static int GetResources(Work *work, int name, int where)
     CONTROL *control;
     OBJECT  *body;
 
-    work->field_1FC = TRUE;
+    work->on_road = TRUE;
 
     control = &work->control;
     if (GM_InitControl(control, name, where) < 0)
@@ -164,7 +164,7 @@ static int GetResources(Work *work, int name, int where)
     GM_ConfigControlInterp(control, 0);
     GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
 
-    if (work->field_1FC)
+    if (work->on_road)
     {
         control->mov.vx /= 2;
         control->mov.vy = 0;
@@ -191,9 +191,9 @@ static int GetResources(Work *work, int name, int where)
         work->hom->flag = 1;
     }
 
-    work->field_1F0 = 0;
-    work->field_1EC = 0;
-    work->field_1F4 = FALSE;
+    work->destroy_time = 0;
+    work->destroyed = 0;
+    work->no_collide = FALSE;
     work->height = -body->objs->def->models[0].ly / 2;
     control->mov.vy += work->height;
     return 0;
