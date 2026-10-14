@@ -94,13 +94,10 @@ static void Act(Work *work)
     GM_MoveTarget(work->target, &control->mov);
 }
 
-#if 0 /* NON_MATCHING: the voice1/voice3 stores at the end of the if are scheduled differently */
 static int GetResources(Work *work, int name, int which)
 {
     CONTROL *control;
     OBJECT  *body;
-    int      voice;
-    int      voice3;
 
     control = &work->control;
     if (GM_InitControl(control, name, GM_CurrentMap) < 0)
@@ -117,22 +114,20 @@ static int GetResources(Work *work, int name, int which)
     {
         GM_InitObject(body, GV_StrCode("meryl"), BODY_FLAG, GV_StrCode("mel_19a"));
         work->face = GV_StrCode("メリル");
+        work->voice1 = 0x82;
         work->voice2 = 0x83;
-        voice = 0x82;
-        voice3 = 0x84;
+        work->voice3 = 0x84;
+        work->voice4 = 0x82;
     }
     else
     {
         GM_InitObject(body, GV_StrCode("otacom"), BODY_FLAG, GV_StrCode("mel_19a"));
         work->face = GV_StrCode("メリル");
+        work->voice1 = 0x85;
         work->voice2 = 0x86;
-        voice = 0x85;
-        voice3 = 0x87;
+        work->voice3 = 0x87;
+        work->voice4 = 0x85;
     }
-
-    work->voice1 = voice;
-    work->voice3 = voice3;
-    work->voice4 = voice;
 
     GM_ConfigObjectJoint(body);
     GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode("mel_19a"), work->m_segs1, work->m_segs2, control, work->rots);
@@ -146,15 +141,7 @@ static int GetResources(Work *work, int name, int which)
     return 0;
 }
 
-#endif
-const char aMeryl_800E0380[] = "meryl";
-const char aMel19a_800E0388[] = "mel_19a";
-const char aMeryl_800E0390[] = "メリル";
-const char aOtacom_800E0398[] = "otacom";
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800DB668.s")
-int s19a_800DB668(Work *work, int name, int which); /* GetResources */
 
-/* not static: the function after an INCLUDE_ASM needs a symbol */
 void PkJeepMerylDie(Work *work)
 {
     GM_FreeTarget(work->target);
@@ -174,7 +161,7 @@ void *NewPkJeepMeryl(CONTROL *root_ctrl, MATRIX *root_mat, int which)
         work->root_ctrl = root_ctrl;
         work->root_mat = root_mat;
 
-        if (s19a_800DB668(work, GV_StrCode(aMeryl_800E0380), which) < 0)
+        if (GetResources(work, GV_StrCode("meryl"), which) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
