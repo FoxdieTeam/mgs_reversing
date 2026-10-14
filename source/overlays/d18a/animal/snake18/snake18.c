@@ -109,13 +109,14 @@ typedef struct _Snake18Init
     short field_12;  // 0x12
 } Snake18Init;
 
+/* queue of forced actions (message from the script) */
 typedef struct _Snake18Queue
 {
-    u_short count;      // 0x8D8
-    u_short field_2[4]; // 0x8DA (motion numbers)
-    short   field_A[4]; // 0x8E2
-    short   field_12;   // 0x8EA
-    short   field_14;   // 0x8EC
+    u_short n_acts;     // 0x8D8
+    u_short action[4];  // 0x8DA: motion numbers
+    short   dir[4];     // 0x8E2
+    short   end_dir;    // 0x8EA
+    short   end_stance; // 0x8EC
 } Snake18Queue;
 
 typedef struct _Snake18Work Snake18Work;
@@ -168,7 +169,7 @@ struct _Snake18Work
     Snake18Func    update_3p;        // 0x8BC
     Snake18Func    update_1p;        // 0x8C0: first person
     Snake18Init    f8C4;             // 0x8C4
-    Snake18Queue   f8D8;             // 0x8D8
+    Snake18Queue   force_act;        // 0x8D8
     short          f8EE;             // 0x8EE
     int            f8F0;             // 0x8F0
     int            f8F4;             // 0x8F4
@@ -1491,8 +1492,8 @@ void d18a_snake18_800CC174(Snake18Work *work, GV_MSG *msg)
         return;
     }
 
-    queue = &work->f8D8;
-    n = queue->count;
+    queue = &work->force_act;
+    n = queue->n_acts;
     if (n == 4)
     {
         return;
@@ -1500,8 +1501,8 @@ void d18a_snake18_800CC174(Snake18Work *work, GV_MSG *msg)
 
     a = -1;
     b = -1;
-    *(queue->field_2 + n) = msg->message[1];
-    p = &queue->field_A[n];
+    *(queue->action + n) = msg->message[1]; /* not action[n]: that changes the code */
+    p = &queue->dir[n];
     if (len < 3)
     {
         *p = -1;
@@ -1525,9 +1526,9 @@ void d18a_snake18_800CC174(Snake18Work *work, GV_MSG *msg)
         }
     }
 
-    queue->count = ++n;
-    queue->field_12 = a;
-    queue->field_14 = b;
+    queue->n_acts = ++n;
+    queue->end_dir = a;
+    queue->end_stance = b;
 }
 
 int d18a_snake18_800CC288(SVECTOR *pos, short *out)
@@ -1778,7 +1779,7 @@ void d18a_snake18_800CC7F4(Snake18Work *work)
     {
         return;
     }
-    if (work->f8D8.count == 0)
+    if (work->force_act.n_acts == 0)
     {
         return;
     }
@@ -3885,25 +3886,25 @@ void d18a_snake18_800D01D8(Snake18Work *work, int time)
 
         if (work->f8F4)
         {
-            d18a_snake18_SetAction(work, work->f8D8.field_2[1], 4);
+            d18a_snake18_SetAction(work, work->force_act.action[1], 4);
 
             work->anim_time = 120;
             work->local_data = 1;
-            work->f8D8.count = 2;
+            work->force_act.n_acts = 2;
         }
         else
         {
-            d18a_snake18_SetAction(work, work->f8D8.field_2[0], 4);
+            d18a_snake18_SetAction(work, work->force_act.action[0], 4);
         }
 
-        dir = work->f8D8.field_A[0];
+        dir = work->force_act.dir[0];
         if (dir >= 0)
         {
             work->control.turn.vy = dir;
             work->control.rot.vy = dir;
         }
 
-        printf(d18a_aForceactdirdactiondnactsd_800DA6C8, dir, work->body.action, work->f8D8.count);
+        printf(d18a_aForceactdirdactiondnactsd_800DA6C8, dir, work->body.action, work->force_act.n_acts);
 
         work->update_3p = d18a_snake18_800CE7BC;
         work->update_1p = d18a_snake18_800CE7BC;
@@ -4017,20 +4018,20 @@ next:
         return;
     }
 
-    if (--work->f8D8.count != 0)
+    if (--work->force_act.n_acts != 0)
     {
         work->local_data++;
 
-        dir = work->f8D8.field_A[work->local_data];
+        dir = work->force_act.dir[work->local_data];
         if (dir >= 0)
         {
             work->control.rot.vy = dir;
             work->control.turn.vy = dir;
         }
 
-        d18a_snake18_SetAction(work, work->f8D8.field_2[work->local_data], 4);
+        d18a_snake18_SetAction(work, work->force_act.action[work->local_data], 4);
 
-        if (work->f8D8.field_2[work->local_data] == base * 3 + 1)
+        if (work->force_act.action[work->local_data] == base * 3 + 1)
         {
             d18a_snake18_800CC8E0(work);
             work->target->class &= ~TARGET_PUSH;
@@ -4040,7 +4041,7 @@ next:
             d18a_snake18_800CC8B0(work, 0);
         }
 
-        printf(d18a_aNextmotiondlocaldatad_800DA724, work->f8D8.field_2[work->local_data], work->local_data);
+        printf(d18a_aNextmotiondlocaldatad_800DA724, work->force_act.action[work->local_data], work->local_data);
         return;
     }
 
@@ -4056,14 +4057,14 @@ next:
     GM_ConfigMotionControl(&work->body, &work->m_ctrl, MOTION_DATA, work->m_segs1, work->m_segs2,
                            control, work->rots);
 
-    dir = work->f8D8.field_12;
+    dir = work->force_act.end_dir;
     if (dir >= 0)
     {
         work->control.rot.vy = dir;
         work->control.turn.vy = dir;
     }
 
-    stance = work->f8D8.field_14;
+    stance = work->force_act.end_stance;
     work->body.action = -1;
 
     if (stance < 0)
