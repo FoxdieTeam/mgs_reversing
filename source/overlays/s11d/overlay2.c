@@ -22,6 +22,6 @@ const char s11d_aWire_800D1DA4[] = "wire";
 const char s11d_aShadow_800D1DAC[] = "shadow";
 
 int SECTION(".bss") s11d_dword_800D1F78;
-int SECTION(".bss") s11d_dword_800D1F7C;
-int SECTION(".bss") s11d_dword_800D1F80;
+short SECTION(".bss") s11d_dword_800D1F7C[2];
+short SECTION(".bss") s11d_dword_800D1F80[2];
 int SECTION(".bss") s11d_dword_800D1F84;

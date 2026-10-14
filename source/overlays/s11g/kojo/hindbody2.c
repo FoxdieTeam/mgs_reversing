@@ -131,7 +131,7 @@ void s11g_hind_800D6848(HindWork *work)
             s11g_hind_800D619C(work, 18);
             work->field_8E4 = NewBlurPure();
             GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF;
-            work->field_8E0 = (int)NewCinemaScreen(2000000000, 1);
+            work->cinema_screen = NewCinemaScreen(2000000000, 1);
             work->nMissileDemoMode2 = 11;
             work->field_5C8 = 18;
             work->field_5E4 = 90;
@@ -218,10 +218,10 @@ void s11g_hind_800D6848(HindWork *work)
         {
             GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF);
 
-            if (work->field_8E0)
+            if (work->cinema_screen)
             {
-                NewCinemaScreenClose((void *)work->field_8E0);
-                work->field_8E0 = 0;
+                NewCinemaScreenClose(work->cinema_screen);
+                work->cinema_screen = NULL;
             }
 
             if (work->field_8E4)
@@ -558,7 +558,7 @@ void s11g_hind_800D7644(HindWork *work)
             s11g_hind_800D619C(work, 18);
             work->field_8E4 = NewBlurPure();
             GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF;
-            work->field_8E0 = (int)NewCinemaScreen(2000000000, 1);
+            work->cinema_screen = NewCinemaScreen(2000000000, 1);
             work->nMissileDemoMode2 = 12;
             work->field_5C8 = 18;
             work->field_5E4 = 90;
@@ -668,10 +668,10 @@ void s11g_hind_800D7644(HindWork *work)
         {
             GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF);
 
-            if (work->field_8E0)
+            if (work->cinema_screen)
             {
-                NewCinemaScreenClose((void *)work->field_8E0);
-                work->field_8E0 = 0;
+                NewCinemaScreenClose(work->cinema_screen);
+                work->cinema_screen = NULL;
             }
 
             if (work->field_8E4)
@@ -916,7 +916,7 @@ void s11g_hind_800D7644(HindWork *work)
             if (GM_Vitality != 0 && GM_GameOverTimer == 0 && work->field_5E4 == 80)
             {
                 work->move_missile_pos_help2 = work->move_missile_target_pos;
-                work->field_8E0 = (int)NewCinemaScreen(2000000000, 1);
+                work->cinema_screen = NewCinemaScreen(2000000000, 1);
                 work->nMissileDemoMode2 = 999;
                 GM_GameStatus |= STATE_PADRELEASE;
                 GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF | STATE_CUT_IN;
@@ -1145,8 +1145,8 @@ void s11g_hind_800D7644(HindWork *work)
         else
         {
             GM_GameStatus &= ~STATE_PADRELEASE;
-            NewCinemaScreenClose((void *)work->field_8E0);
-            work->field_8E0 = 0;
+            NewCinemaScreenClose(work->cinema_screen);
+            work->cinema_screen = NULL;
 
             work->target1->damaged &= ~TARGET_POWER;
             work->target2->damaged &= ~TARGET_POWER;
@@ -1177,7 +1177,7 @@ void s11g_hind_800D9344(HindWork *work)
     switch (work->field_5C8)
     {
     case 0:
-        if ((work->field_430 * 7) / 8 < work->field_434)
+        if ((work->hits_max * 7) / 8 < work->hits)
         {
             s11g_hind_800D5E44(work, (GV_RandU(4096) % 2) + 130);
         }
@@ -1682,7 +1682,7 @@ void s11g_hind_800D9B80(HindWork *work)
                 work->field_60C.vy = (work->field_60C.vy + 10000) / 2;
             }
         }
-        else if (work->field_434 < work->field_430 / 5 && GV_RandU(4) < 3)
+        else if (work->hits < work->hits_max / 5 && GV_RandU(4) < 3)
         {
             work->field_5C8 = 5;
             work->field_5E4 = GV_RandU(32) + 30;
@@ -1826,7 +1826,7 @@ void s11g_hind_800DA7C4(HindWork *work)
             s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 128);
             work->field_5D4 = 1;
         }
-        else if (((work->field_430 * 2) / 3) < work->field_434)
+        else if (((work->hits_max * 2) / 3) < work->hits)
         {
             if (GV_DiffDirS(work->field_5F4, work->control.turn.vy) > 0)
             {
@@ -1930,7 +1930,7 @@ void s11g_hind_800DAAC8(HindWork *work)
         work->field_8FC--;
     }
 
-    if (work->field_434 < work->field_430 / 3 && !(GV_Time & 3))
+    if (work->hits < work->hits_max / 3 && !(GV_Time & 3))
     {
         s11g_hind_800D66F0(work);
     }
@@ -1944,7 +1944,7 @@ void s11g_hind_800DAAC8(HindWork *work)
             work->field_5C4 = 0;
             work->field_5C8 = 0;
         }
-        else if (work->field_434 < (work->field_430 * 2) / 3 && work->field_8FC > 0)
+        else if (work->hits < (work->hits_max * 2) / 3 && work->field_8FC > 0)
         {
             s11g_hind_800D5E54(0, &work->field_964, 129);
             work->field_8FC = -1;
@@ -2305,6 +2305,6 @@ void s11g_hind_800DAAC8(HindWork *work)
         s11g_hind_800D60D8(0, &pos, 180);
     }
 
-    work->body.rots[1].vy -= work->field_4B4;
-    work->body.rots[2].vx -= work->field_4B8;
+    work->body.rots[1].vy -= work->rotor_speed;
+    work->body.rots[2].vx -= work->tail_rotor_speed;
 }

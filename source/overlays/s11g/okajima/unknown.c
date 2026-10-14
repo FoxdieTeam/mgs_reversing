@@ -97,7 +97,7 @@ int s11g_blastoff_800DBF88(HindWork *work)
 
     rot.vx = angle.vx - angle2.vx;
 
-    if (ABS(rot.vx) > work->field_44C + work->field_454 || ABS(rot.vy) > work->field_450 + work->field_458)
+    if (ABS(rot.vx) > work->gun_max_pitch + work->gun_pitch_margin || ABS(rot.vy) > work->gun_max_yaw + work->gun_yaw_margin)
     {
         ret = 0;
         rot.vx = 0;
@@ -106,10 +106,10 @@ int s11g_blastoff_800DBF88(HindWork *work)
     else
     {
         ret = 1;
-        rot.vx = MIN(rot.vx, work->field_44C);
-        rot.vx = MAX(rot.vx, -work->field_44C);
-        rot.vy = MIN(rot.vy, work->field_450);
-        rot.vy = MAX(rot.vy, -work->field_450);
+        rot.vx = MIN(rot.vx, work->gun_max_pitch);
+        rot.vx = MAX(rot.vx, -work->gun_max_pitch);
+        rot.vy = MIN(rot.vy, work->gun_max_yaw);
+        rot.vy = MAX(rot.vy, -work->gun_max_yaw);
     }
 
     len = SquareRoot0(mat.m[0][0] * mat.m[0][0] + mat.m[1][0] * mat.m[1][0] + mat.m[2][0] * mat.m[2][0]);
@@ -148,11 +148,11 @@ int s11g_blastoff_800DBF88(HindWork *work)
     DG_MovePos(&pos);
     ReadRotMatrix(&mat);
 
-    if (work->field_930 == 0 && (work->field_4AC == 2 || work->field_4AC == 3))
+    if (work->field_930 == 0 && (work->mode == 2 || work->mode == 3))
     {
-        if (work->field_5D4 == 1 && (GV_Time % work->field_448) == 0)
+        if (work->field_5D4 == 1 && (GV_Time % work->gun_interval) == 0)
         {
-            if (work->field_4AC == 2)
+            if (work->mode == 2)
             {
                 if (--work->field_954 < 0)
                 {
@@ -166,7 +166,7 @@ int s11g_blastoff_800DBF88(HindWork *work)
                 }
             }
 
-            work->field_504 = work->field_448;
+            work->gun_timer = work->gun_interval;
 
             target.vx = GM_PlayerPosition.vx + (work->field_63C.vx - GM_PlayerPosition.vx) / 4;
             target.vy = GM_PlayerPosition.vy + (work->field_63C.vy - GM_PlayerPosition.vy) / 4;
@@ -188,7 +188,7 @@ int s11g_blastoff_800DBF88(HindWork *work)
                 break;
             }
 
-            NewBulletEx(0x220, &mat, 2, 1, 0, work->field_45C, damage, work->field_464, work->field_468);
+            NewBulletEx(0x220, &mat, 2, 1, 0, work->gun_size, damage, work->gun_length, work->gun_speed);
             return ret;
         }
 
