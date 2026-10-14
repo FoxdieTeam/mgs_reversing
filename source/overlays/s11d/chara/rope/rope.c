@@ -160,7 +160,7 @@ extern void s11d_rope_800C6B18(Work *work, int arg1);
 
 extern void s11d_rope_800C6F28(Work *work, int arg1);
 extern void s11d_rope_800C7138(Work *work, int arg1);
-extern void s11d_rope_800C7320(Work *work);
+extern void s11d_rope_800C7320(Work *work, int arg1);
 extern void s11d_rope_800C766C(Work *work);
 extern void s11d_rope_800C8364(Work *work);
 extern void s11d_rope_800C868C(Work *work);
@@ -1353,7 +1353,95 @@ void s11d_rope_800C7138(Work *work, int arg1)
     }
     work->control.step.vz -= 0x6C;
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7320.s")
+void s11d_rope_800C7320(Work *work, int arg1)
+{
+    int down;
+    int mask = PAD_DOWN;
+    int dir;
+    int angle;
+    int scale;
+
+    if (arg1 == 0)
+    {
+        work->field_F74 |= 0x10000;
+        work->field_F70 = (work->field_F70 & ~0xFF) | 0x20;
+        if (work->object.action != 0x11)
+        {
+            GM_ConfigObjectAction(&work->object, 0x11, 0, 4);
+        }
+        work->field_F44 = 0;
+    }
+
+    if (s11d_rope_800C4DE0(work))
+    {
+        work->field_EAC = (int)s11d_rope_800C766C;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C52F0(work))
+    {
+        work->field_EAC = (int)s11d_rope_800C6F28;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    down = work->field_F74;
+    if (down & 0x2000)
+    {
+        down = 0;
+    }
+    else
+    {
+        down = (work->pad->status & mask) != 0;
+    }
+
+    if (!down)
+    {
+        if (work->field_F74 & 0x2000)
+        {
+            GM_SeSetMode(&work->control.mov, 0xb2, 1);
+            s11d_rope_800C650C();
+            work->field_EAC = (int)s11d_rope_800C6834;
+        }
+        else
+        {
+            work->field_EAC = (int)s11d_rope_800C6CD4;
+        }
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (!(work->pad->status & PAD_CIRCLE))
+    {
+        if (s11d_rope_800C4DE0(work))
+        {
+            work->target->size.vy = 0x384;
+            work->field_EAC = (int)s11d_rope_800C766C;
+        }
+        else
+        {
+            work->field_EAC = (int)s11d_rope_800C7530;
+        }
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    angle = work->axis[0].angle / 2;
+    dir = work->axis[0].dir;
+    scale = 12;
+    work->control.step.vx += dir * scale * rsin(angle) / 4096;
+    work->control.step.vy -= rcos(angle) * scale / 4096;
+    work->control.step.vz -= 0x6C;
+}
 
 void s11d_rope_800C7530(Work *work, int arg1)
 {
