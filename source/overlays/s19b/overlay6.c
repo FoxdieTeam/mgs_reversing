@@ -22,6 +22,7 @@ int SECTION(".bss") s19b_dword_800DE654;
 JEEP_SYSTEM SECTION(".bss") Takabe_JeepSystem;
 
 SVECTOR SECTION(".bss") s19b_dword_800DE788;
-char SECTION(".bss") s19b_pad_800DE790[0x34];
+SVECTOR SECTION(".bss") Takabe_JeepLiqPos;
+char SECTION(".bss") s19b_pad_800DE798[0x2C];
 
 int SECTION(".bss") s19b_dword_800DE7C4;
