@@ -1,27 +1,5 @@
 #include "mgstype.h"
 
-int s11d_dword_800C3260 = 0x0000047F;
-int s11d_dword_800C3264 = 0x02FF01E1;
-int s11d_dword_800C3268 = 0x00000000;
-int s11d_dword_800C326C = 0x0000067F;
-int s11d_dword_800C3270 = 0x04FF01E1;
-int s11d_dword_800C3274 = 0x084B02E1;
-int s11d_dword_800C3278 = 0x00000000;
-int s11d_dword_800C327C = 0x0000017F;
-int s11d_dword_800C3280 = 0x032804AF;
-int s11d_dword_800C3284 = 0x0C1E0323;
-int s11d_dword_800C3288 = 0x00000000;
-int s11d_dword_800C328C = 0x0000067F;
-int s11d_dword_800C3290 = 0x020006FF;
-int s11d_dword_800C3294 = 0x083706A5;
-int s11d_dword_800C3298 = 0x00000273;
-int s11d_dword_800C329C = 0x017F0100;
-int s11d_dword_800C32A0 = 0x00000000;
-int s11d_dword_800C32A4 = 0x04460296;
-int s11d_dword_800C32A8 = 0x021E0332;
-int s11d_dword_800C32AC = 0x00000000;
-int s11d_dword_800C32B0 = 0x000003AA;
-
 const char s11d_aTosi_800D1D5C[] = "to_s11i";
 
 const int s11d_dword_800D1D64 = 0x800C5458;

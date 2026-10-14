@@ -103,6 +103,13 @@ typedef struct _Work
 
 #define TARGET_FLAG ( TARGET_AVAIL | TARGET_POWER | TARGET_SEEK )
 
+u_char s11d_dword_800C3260[] = { 0x7F, 0x04, 0x00, 0x00, 0xE1, 0x01, 0xFF, 0x02, 0x00, 0x00, 0x00, 0x00 };
+u_char s11d_dword_800C326C[] = { 0x7F, 0x06, 0x00, 0x00, 0xE1, 0x01, 0xFF, 0x04, 0xE1, 0x02, 0x4B, 0x08, 0x00, 0x00, 0x00, 0x00 };
+u_char s11d_dword_800C327C[] = { 0x7F, 0x01, 0x00, 0x00, 0xAF, 0x04, 0x28, 0x03, 0x23, 0x03, 0x1E, 0x0C, 0x00, 0x00, 0x00, 0x00 };
+static u_char s11d_dword_800C328C[] = { 0x7F, 0x06, 0x00, 0x00 };
+static u_char s11d_dword_800C3290[] = { 0xFF, 0x06, 0x00, 0x02, 0xA5, 0x06, 0x37, 0x08, 0x73, 0x02, 0x00, 0x00, 0x00, 0x01, 0x7F, 0x01, 0x00, 0x00, 0x00, 0x00 };
+u_char s11d_dword_800C32A4[] = { 0x96, 0x02, 0x46, 0x04, 0x32, 0x03, 0x1E, 0x02, 0x00, 0x00, 0x00, 0x00 };
+u_char s11d_dword_800C32B0[] = { 0xAA, 0x03, 0x00, 0x00 };
 static u_char s11d_dword_800C32B4[] = { 0x7F, 0x01, 0x00, 0x00 };
 static u_char s11d_dword_800C32B8[] = { 0xD2, 0x02, 0x00, 0x00 };
 static SVECTOR s11d_dword_800C32BC = { 0, 0, 100 };
@@ -134,6 +141,8 @@ extern void s11d_rope_800C5E74(Work *work);
 extern void s11d_rope_800C6478(Work *work);
 extern void s11d_rope_800C650C(void);
 extern void s11d_rope_800C6834(Work *work, int arg1);
+extern void s11d_rope_800C7EC4(Work *work, int arg1);
+extern void s11d_rope_800C7F8C(Work *work, int arg1);
 extern void s11d_rope_800C697C(Work *work, int arg1);
 extern void s11d_rope_800C6B18(Work *work, int arg1);
 
@@ -966,7 +975,77 @@ void s11d_rope_800C7A4C(Work *work, int arg1)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7B2C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7D20.s")
+void s11d_rope_800C7D20(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        if (work->object.action != 0xD)
+        {
+            GM_ConfigObjectAction(&work->object, 0xD, 0, 4);
+        }
+        work->field_F44 = 0x1C2;
+        if (work->control.mov.vy < -0x1770)
+        {
+            GM_SeSetMode(&work->control.mov, 0xB3, 1);
+        }
+        else
+        {
+            GM_SeSetMode(&work->control.mov, 0xB1, 1);
+        }
+        NewPadVibration(s11d_dword_800C328C, 1);
+        NewPadVibration(s11d_dword_800C3290, 2);
+        work->field_F74 |= 0x02000000;
+    }
+
+    if (work->control.mov.vy >= -0x36AF)
+    {
+        work->control.step.vz = 0x30;
+    }
+    else
+    {
+        work->control.step.vz = 0;
+    }
+
+    if (arg1 >= 10)
+    {
+        work->control.step.vy = -0x80;
+    }
+    else
+    {
+        work->control.step.vy = -0x20;
+    }
+
+    if (!(work->control.grounded & 1))
+    {
+        work->control.turn.vx = -0x400;
+    }
+
+    if (work->object.height < -work->control.step.vy)
+    {
+        work->control.step.vy = 8 - work->object.height;
+    }
+
+    if (arg1 == 0x10)
+    {
+        if (work->control.mov.vy < -0x3E80)
+        {
+            work->field_EAC = (int)s11d_rope_800C7EC4;
+            work->field_EB0 = 0;
+            work->field_EBE = 0;
+            work->field_EBC = 0;
+        }
+        else
+        {
+            work->field_EAC = (int)s11d_rope_800C7F8C;
+            work->field_EB0 = 0;
+            work->field_EBE = 0;
+            work->field_EBC = 0;
+            work->field_F74 &= ~0x02000000;
+        }
+    }
+
+    work->control.step.vy /= 2;
+}
 
 void s11d_rope_800C7EC4(Work *work, int arg1)
 {
