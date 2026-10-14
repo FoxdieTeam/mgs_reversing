@@ -56,51 +56,43 @@ void MovePacks(SVECTOR *speeds, SVECTOR *vertices, int count)
     }
 }
 
-/* NON_MATCHING: only register allocation / instruction order differ (17 words: speeds/vertices base
-   registers swapped, z and the sign-extended vertices[0].vz kept in different registers) */
-#if 0
 void s19b_gsplash3_800D00F4(SVECTOR *speeds, SVECTOR *vertices, int count)
 {
     int x, y, z;
     int rnd;
-    int vz;
 
     while (--count >= 0)
     {
         speeds->vy -= 8;
         speeds->vx -= speeds->vx / 4;
         speeds->vz -= speeds->vz / 4;
-
         rnd = GV_RandS(64);
 
         x = speeds->vx;
         y = speeds->vy;
         z = speeds->vz;
-        speeds++;
 
         vertices[0].vx += x;
         vertices[0].vy += y;
-        vz = vertices[0].vz += z;
+        vertices[0].vz += z;
+        z = vertices[0].vz;
 
         vertices[1].vx += x;
         vertices[1].vy += y;
-        vertices[1].vz = vz + rnd;
+        vertices[1].vz = z + rnd;
 
         vertices[2].vx += x;
         vertices[2].vy += y;
-        vertices[2].vz = vz - rnd;
+        vertices[2].vz = z - rnd;
 
         vertices[3].vx += x;
         vertices[3].vy += y;
-        vertices[3].vz = vz;
+        vertices[3].vz = z;
 
         vertices += 4;
+        speeds++;
     }
 }
-#else
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_gsplash3_800D00F4.s")
-#endif
-void s19b_gsplash3_800D00F4(SVECTOR *, SVECTOR *, int);
 
 void InitPacks(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *tex)
 {

@@ -159,42 +159,36 @@ void s19b_jlamp_800D09DC(void)
     GM_SetSound(0x01FFFF0B, 0);
     GM_SetSound(0xFF0000FE, 0);
 }
-/* NON_MATCHING: camera/script end up in swapped registers (extra move v1,v0), epilogue 3 insns longer */
-#if 0
 void s19b_jlamp_800D0A20(int arg0)
 {
     JEEP_SYSTEM *jeep;
-    DemoScript  *script;
-    DemoCamera  *camera;
-    if (GM_GameOverTimer == 0)
+
+    if (GM_GameOverTimer != 0)
     {
-        jeep = &Takabe_JeepSystem;
-        if (jeep->demo_camera == NULL)
-        {
-            if (arg0 == 0)
-            {
-                camera = NewDemoCamera(s19b_dword_800C3778);
-                script = s19b_dword_800C3898;
-            }
-            else if (arg0 == 1)
-            {
-                camera = NewDemoCamera(s19b_dword_800C38D0);
-                script = s19b_dword_800C3950;
-            }
-            else
-            {
-                return;
-            }
-            jeep->demo_camera = camera;
-            camera->script = script;
-            GV_DemoPadStatus[0] = 0;
-            GM_GameStatus |= 0x40000000;
-        }
+        return;
     }
+    jeep = &Takabe_JeepSystem;
+    if (jeep->demo_camera != NULL)
+    {
+        return;
+    }
+    if (arg0 == 0)
+    {
+        jeep->demo_camera = NewDemoCamera(s19b_dword_800C3778);
+        jeep->demo_camera->script = s19b_dword_800C3898;
+    }
+    else if (arg0 == 1)
+    {
+        jeep->demo_camera = NewDemoCamera(s19b_dword_800C38D0);
+        jeep->demo_camera->script = s19b_dword_800C3950;
+    }
+    else
+    {
+        return;
+    }
+    GV_DemoPadStatus[0] = 0;
+    GM_GameStatus |= 0x40000000;
 }
-#else
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0A20.s")
-#endif
 
 void s19b_jlamp_800D0ABC(void)
 {
