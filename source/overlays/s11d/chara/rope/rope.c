@@ -39,7 +39,8 @@ typedef struct _Work
     short       field_EBC;
     short       field_EBE;
     short       field_EC0;
-    char        pad3c[0xEC8 - 0xEC0 - sizeof(short)];
+    short       field_EC2;
+    char        pad3c[0xEC8 - 0xEC2 - sizeof(short)];
     int         field_EC8;
     int         field_ECC;
     int         field_ED0;
@@ -144,9 +145,12 @@ extern void s11d_rope_800C4ECC(Work *work);
 extern void s11d_rope_800C502C(Work *work);
 extern void s11d_rope_800C5348(Work *work);
 extern void s11d_rope_800C5410(void);
+extern void s11d_rope_800C5584(Work *work, int *cluster, int index);
 extern void s11d_rope_800C5B10(Work *work);
 extern void s11d_rope_800C5E74(Work *work);
 extern void s11d_rope_800C6478(Work *work);
+extern void s11d_rope_800C6264(Work *work);
+extern void s11d_rope_800C62E0(Work *work);
 extern void s11d_rope_800C650C(void);
 extern void s11d_rope_800C6544(Work *work, int arg1);
 extern void s11d_rope_800C6834(Work *work, int arg1);
@@ -584,7 +588,104 @@ int s11d_rope_800C4FC8(Work *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C502C.s")
+void s11d_rope_800C502C(Work *work)
+{
+    int *cluster1 = &work->field_EC8;
+    int *cluster2 = &work->field_F04;
+    int  action;
+    int  pad;
+
+    if (work->field_F74 & 0x10000)
+    {
+        work->field_F74 &= ~0x800000;
+        work->field_EC2 = 0;
+    }
+
+    if (work->field_F74 & 0x800000)
+    {
+        if (work->object.action != 0xF)
+        {
+            GM_ConfigObjectAction(&work->object, 0xF, 0, 0);
+        }
+
+        work->field_EC2--;
+        if (work->field_EC2 == 0)
+        {
+            work->field_F74 = (work->field_F74 & ~0x800000) | 0x100;
+            if (cluster1[2] != 0)
+            {
+                work->control.turn.vy = -(cluster1[2] * 0x600);
+            }
+        }
+    }
+
+    if (work->field_F74 & 0x810000)
+    {
+        if (work->field_F74 & 0x10000)
+        {
+            work->field_F74 &= ~0xF00;
+            cluster1[0] = 0;
+            cluster1[2] = 0;
+        }
+        else
+        {
+            work->field_F74 &= ~0x500;
+            cluster2[0] = 0;
+            cluster2[2] = 0;
+        }
+    }
+    else
+    {
+        if (!(work->field_F74 & 0x100))
+        {
+            s11d_rope_800C6264(work);
+        }
+        if (!(work->field_F74 & 0x200))
+        {
+            s11d_rope_800C62E0(work);
+        }
+    }
+
+    if (work->field_F74 & 0x300)
+    {
+        action = work->object.action;
+        if (action != 5 && action != 7 && action != 9)
+        {
+            if (action != 1)
+            {
+                GM_ConfigObjectAction(&work->object, 1, 0, 4);
+            }
+
+            pad = work->pad->status;
+            if (pad & (PAD_LEFT | PAD_RIGHT))
+            {
+                work->control.turn.vy = (pad & PAD_LEFT) ? 0x600 : -0x600;
+            }
+        }
+    }
+
+    if (work->field_F74 & 0x100)
+    {
+        s11d_rope_800C5584(work, &work->field_EC8, 0);
+    }
+    if (work->field_F74 & 0x200)
+    {
+        s11d_rope_800C5584(work, &work->field_F04, 1);
+    }
+
+    if (work->field_F74 & 0x400)
+    {
+        cluster1[2] = 0;
+        cluster1[0] = 0;
+        work->field_F74 &= ~0x400;
+    }
+    if (work->field_F74 & 0x800)
+    {
+        cluster2[2] = 0;
+        cluster2[0] = 0;
+        work->field_F74 &= ~0x800;
+    }
+}
 
 int s11d_rope_800C5298(Work *work)
 {
