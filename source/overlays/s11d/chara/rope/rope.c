@@ -29,76 +29,68 @@ typedef struct _RopeAxis
 
 typedef struct _Work
 {
-    GV_ACT      actor;
-    CONTROL     control;
-    OBJECT      object;
-    char        pad_obj[0x180 - 0x9C - sizeof(OBJECT)];
+    GV_ACT         actor;
+    CONTROL        control;
+    OBJECT         object;
     MOTION_CONTROL m_ctrl;
     MOTION_SEGMENT m_segs1[17];
     MOTION_SEGMENT m_segs2[17];
-    SVECTOR     rots[16];
-    char        pad_718[0x79C - 0x718];
-    MATRIX      light[2];
-    DG_PRIM    *field_7DC;
-    char        pad2c[0x800 - 0x7DC - sizeof(DG_PRIM *)];
-    void       *field_800;
-    TARGET     *target;
-    SVECTOR     field_808;
-    DG_PRIM    *field_810;
-    char        pad3a1[0xA14 - 0x810 - sizeof(DG_PRIM *)];
-    DG_PRIM    *field_A14;
-    char        pad3a2[0xEA0 - 0xA14 - sizeof(DG_PRIM *)];
-    int         field_EA0;
-    CONTROL    *field_EA4;
-    GV_PAD     *pad;
-    int         field_EAC;
-    int         field_EB0;
-    int         field_EB4;
-    int         field_EB8;
-    char        pad3c0[0xEBC - 0xEB8 - sizeof(int)];
-    short       field_EBC;
-    short       field_EBE;
-    short       field_EC0;
-    short       field_EC2;
-    char        pad3c[0xEC8 - 0xEC2 - sizeof(short)];
-    RopeAxis    axis[2];
-    int         field_F40;
-    short       field_F44;
-    char        pad_f46[2];
-    int         field_F48;
-    int         field_F4C;
-    SVECTOR     field_F50;
-    SVECTOR     field_F58;
-    char        pad3d01[0xF60 - 0xF58 - sizeof(SVECTOR)];
-    int         field_F60;
-    int         field_F64;
-    int         field_F68;
-    char        pad3d1[0xF6C - 0xF68 - sizeof(int)];
-    int         field_F6C;
-    int         field_F70;
-    int         field_F74;
-    int         field_F78;
-    int         field_F7C;
-    char        pad5[0xF84 - 0xF7C - sizeof(int)];
-    short       field_F84;
-    short       field_F86;
-    short       field_F88;
-    char        pad6a0[0xF8C - 0xF88 - sizeof(short)];
-    short       field_F8C;
-    short       field_F8E;
-    char        pad6a1[0xF94 - 0xF8E - sizeof(short)];
-    short       field_F94;
-    short       field_F96;
-    short       field_F98;
-    char        pad6a3[0xF9C - 0xF98 - sizeof(short)];
-    int         field_F9C;
-    int         field_FA0;
-    int         field_FA4[16];
-    SVECTOR     field_FE4[16];
-    char        pad6a4[0x1078 - 0xFE4 - sizeof(SVECTOR) * 16];
-    int         field_1078;
-    int         field_107C[3];
-    int         field_1088[4];
+    SVECTOR        rots[16];
+    char           pad_718[0x79C - 0x718];
+    MATRIX         light[2];
+    DG_PRIM       *field_7DC;           /* 1 quad */
+    SVECTOR        field_7E0[4];
+    void          *shadow;
+    TARGET        *target;
+    SVECTOR        field_808;
+    DG_PRIM       *field_810;           /* 16 quads */
+    SVECTOR        field_814[16 * 4];
+    DG_PRIM       *field_A14;           /* 32 quads (the rope) */
+    SVECTOR        field_A18[32 * 4];
+    int            field_E18[32];
+    int            field_E98;
+    int            field_E9C;
+    int            ref_name;            /* 'n': name of the CONTROL found by s11d_rope_800C54CC */
+    CONTROL       *ref_control;
+    GV_PAD        *pad;
+    void         (*state)(struct _Work *, int);
+    int            state_time;
+    int            field_EB4;
+    int            field_EB8;
+    short          field_EBC;
+    short          field_EBE;
+    short          field_EC0;
+    short          field_EC2;
+    short          field_EC4;
+    short          field_EC6;
+    RopeAxis       axis[2];
+    int            field_F40;
+    short          field_F44;
+    short          field_F46;
+    int            field_F48;
+    int            field_F4C;
+    SVECTOR        field_F50;
+    SVECTOR        field_F58;
+    int            field_F60;
+    int            field_F64;
+    int            field_F68;
+    int            field_F6C;
+    int            field_F70;
+    int            field_F74;
+    int            field_F78;
+    int            field_F7C;
+    int            field_F80;
+    SVECTOR        field_F84[3];        /* 'i', 'a', 'r' */
+    int            n_cams;
+    int            cam_idx;
+    int            cam_heights[16];     /* 'h' */
+    SVECTOR        cam_rots[16];        /* 'c' */
+    char           pad_1064[0x1074 - 0x1064];
+    short          field_1074;
+    short          field_1076;
+    int            field_1078;          /* 'e' */
+    int            procs[3];            /* 'w' */
+    int            voxes[4];            /* 'v' */
 } Work;
 
 #define TARGET_FLAG ( TARGET_AVAIL | TARGET_POWER | TARGET_SEEK )
@@ -120,8 +112,8 @@ static SVECTOR s11d_dword_800C32BC = { 0, 0, 100 };
 static SVECTOR s11d_dword_800C32C4 = { -1024, 0, 0 };
 static SVECTOR target_size = { 300, 900, 300 };
 
-extern int s11d_dword_800D1F7C;
-extern int s11d_dword_800D1F80;
+extern short s11d_dword_800D1F7C[2];
+extern short s11d_dword_800D1F80[2];
 extern int s11d_dword_800D1F84;
 
 extern const char s11d_aTosi_800D1D5C[]; // "to_s11i"
@@ -161,7 +153,7 @@ extern void s11d_rope_800C6B18(Work *work, int arg1);
 extern void s11d_rope_800C6F28(Work *work, int arg1);
 extern void s11d_rope_800C7138(Work *work, int arg1);
 extern void s11d_rope_800C7320(Work *work, int arg1);
-extern void s11d_rope_800C766C(Work *work);
+extern void s11d_rope_800C766C(Work *work, int arg1);
 extern void s11d_rope_800C8364(Work *work);
 extern void s11d_rope_800C868C(Work *work);
 extern int  s11d_rope_800C91AC(Work *work, int arg1, int arg2);
@@ -258,7 +250,7 @@ void s11d_rope_800C4404(Work *work)
     {
         return;
     }
-    if (work->field_EAC == (int)s11d_rope_800C7138)
+    if (work->state == s11d_rope_800C7138)
     {
         return;
     }
@@ -301,7 +293,7 @@ void s11d_rope_800C44A4(Work *work)
     {
         return;
     }
-    if (work->field_EA4->mov.vz > work->field_F88)
+    if (work->ref_control->mov.vz > work->field_F84[0].vz)
     {
         work->field_F74 = flag | 2;
     }
@@ -382,7 +374,7 @@ void s11d_rope_800C4648(Work *work)
     int     idx;
     int     next;
 
-    if (work->field_EAC == (int)s11d_rope_800C6544)
+    if (work->state == s11d_rope_800C6544)
     {
         return;
     }
@@ -392,13 +384,13 @@ void s11d_rope_800C4648(Work *work)
     }
 
     next = -1;
-    idx = work->field_FA0;
-    if (idx != work->field_F9C - 1)
+    idx = work->cam_idx;
+    if (idx != work->n_cams - 1)
     {
         next = idx + 1;
     }
 
-    if (work->field_FA4[idx] < work->control.mov.vy)
+    if (work->cam_heights[idx] < work->control.mov.vy)
     {
         if (idx > 0)
         {
@@ -408,17 +400,17 @@ void s11d_rope_800C4648(Work *work)
     else if (next != -1)
     {
         next = idx + 1;
-        if (work->control.mov.vy < work->field_FA4[next])
+        if (work->control.mov.vy < work->cam_heights[next])
         {
             idx = next;
         }
     }
 
-    work->field_FA0 = idx;
+    work->cam_idx = idx;
 
     cam = GM_SnakeCamera.rotate;
     cam.vz = GM_SnakeCamera.track;
-    GV_SubVec3(&work->field_FE4[idx], &cam, &diff);
+    GV_SubVec3(&work->cam_rots[idx], &cam, &diff);
 
     if (abs(diff.vz) > 64)
     {
@@ -542,8 +534,8 @@ void s11d_rope_800C48EC(Work *work)
 
     if (target->vital <= 0)
     {
-        work->field_EAC = (int)s11d_rope_800C7F8C;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C7F8C;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         GM_GameStatus |= 0x2000;
@@ -559,15 +551,15 @@ void s11d_rope_800C48EC(Work *work)
 
     if (work->field_F74 & 0x2000)
     {
-        work->field_EAC = (int)s11d_rope_800C7A4C;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C7A4C;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
     }
     else
     {
-        work->field_EAC = (int)s11d_rope_800C7B2C;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C7B2C;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
     }
@@ -875,18 +867,18 @@ void s11d_rope_800C54CC(Work *work)
     u_short  target_name;
     CONTROL *ctrl;
 
-    if (work->field_EA4)
+    if (work->ref_control)
     {
         return;
     }
-    if (!work->field_EA0)
+    if (!work->ref_name)
     {
         return;
     }
 
     wherelist = GM_WhereList;
     i = GM_N_WhereList;
-    target_name = (u_short)work->field_EA0;
+    target_name = (u_short)work->ref_name;
     if (i <= 0)
     {
         return;
@@ -896,7 +888,7 @@ void s11d_rope_800C54CC(Work *work)
         ctrl = *wherelist++;
         if (ctrl->name == target_name)
         {
-            work->field_EA4 = ctrl;
+            work->ref_control = ctrl;
             return;
         }
     } while (--i > 0);
@@ -1052,7 +1044,7 @@ void s11d_rope_800C6544(Work *work, int arg1)
         work->field_EBE = 0x8FC;
         s11d_rope_800C4898(work, 0);
         GM_VoxInit();
-        GM_VoxQueueDelay(work->field_1088[1], 4);
+        GM_VoxQueueDelay(work->voxes[1], 4);
         work->field_810->raise = 500;
         work->field_A14->raise = 500;
     }
@@ -1087,12 +1079,12 @@ void s11d_rope_800C6544(Work *work, int arg1)
         break;
 
     case 1:
-        vz = work->field_F98;
+        vz = work->field_F84[2].vz;
         GV_NearExp4V(&work->control.mov.vz, &vz, 1);
         work->field_EBE++;
         if (work->field_EBE == 0x3C)
         {
-            GCL_ExecProc(work->field_107C[0], NULL);
+            GCL_ExecProc(work->procs[0], NULL);
             work->field_EBC++;
         }
         break;
@@ -1101,22 +1093,22 @@ void s11d_rope_800C6544(Work *work, int arg1)
         work->field_EBE++;
         if (work->field_EBE == 0xBE)
         {
-            GCL_ExecProc(work->field_107C[1], NULL);
+            GCL_ExecProc(work->procs[1], NULL);
         }
         if (work->field_EBE == 0xC4)
         {
-            GM_SeSetMode(&work->field_EA4->mov, 0xBC, 1);
+            GM_SeSetMode(&work->ref_control->mov, 0xBC, 1);
         }
         if (work->field_EBE == 0x64)
         {
-            GM_VoxQueue(work->field_1088[3]);
+            GM_VoxQueue(work->voxes[3]);
         }
         if (work->field_EBE == 0x118)
         {
-            GCL_ExecProc(work->field_107C[2], NULL);
+            GCL_ExecProc(work->procs[2], NULL);
             GM_GameStatus = (GM_GameStatus & 0xEFFDFFFF) | 0x8000;
-            work->field_EAC = (int)s11d_rope_800C6834;
-            work->field_EB0 = 0;
+            work->state = s11d_rope_800C6834;
+            work->state_time = 0;
             work->field_EBE = 0;
             work->field_EBC = 0;
             CloseCinemaScreen();
@@ -1143,15 +1135,15 @@ void s11d_rope_800C6834(Work *work, int arg1)
         work->field_F44 = 0;
     }
 
-    vz = work->field_F98;
+    vz = work->field_F84[2].vz;
     GV_NearExp4V(&work->control.mov.vz, &vz, 1);
 
     if (s11d_rope_800C5298(work))
     {
         s11d_rope_800C6240(work);
         GM_SeSetMode(&work->control.mov, 0xb7, 1);
-        work->field_EAC = (int)s11d_rope_800C6B18;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C6B18;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1160,8 +1152,8 @@ void s11d_rope_800C6834(Work *work, int arg1)
     if (s11d_rope_800C4DE0(work))
     {
         s11d_rope_800C6240(work);
-        work->field_EAC = (int)s11d_rope_800C766C;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1169,8 +1161,8 @@ void s11d_rope_800C6834(Work *work, int arg1)
 
     if (s11d_rope_800C4F84(work))
     {
-        work->field_EAC = (int)s11d_rope_800C697C;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C697C;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1203,14 +1195,14 @@ void s11d_rope_800C697C(Work *work, int arg1)
         work->field_F44 = 0;
     }
 
-    vz.vx = work->field_F98;
+    vz.vx = work->field_F84[2].vz;
     GV_NearExp4V(&work->control.mov.vz, &vz, 1);
 
     if (s11d_rope_800C4DE0(work))
     {
         s11d_rope_800C6240(work);
-        work->field_EAC = (int)s11d_rope_800C766C;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1218,8 +1210,8 @@ void s11d_rope_800C697C(Work *work, int arg1)
 
     if (s11d_rope_800C4FC8(work))
     {
-        work->field_EAC = (int)s11d_rope_800C6834;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C6834;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1229,8 +1221,8 @@ void s11d_rope_800C697C(Work *work, int arg1)
     {
         s11d_rope_800C6240(work);
         GM_SeSetMode(&work->control.mov, 0xb7, 1);
-        work->field_EAC = (int)s11d_rope_800C6B18;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C6B18;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1239,7 +1231,7 @@ void s11d_rope_800C697C(Work *work, int arg1)
     work->control.step.vy -= 0x80;
 
     pos.vx = work->control.mov.vx + work->field_EB4 * 0x50;
-    if (pos.vx < work->field_F84 || work->field_F8C < pos.vx)
+    if (pos.vx < work->field_F84[0].vx || work->field_F84[1].vx < pos.vx)
     {
         outside = 1;
     }
@@ -1283,8 +1275,8 @@ void s11d_rope_800C6B18(Work *work, int arg1)
 
     if (work->object.is_end != 0)
     {
-        work->field_EAC = (int)s11d_rope_800C6CD4;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C6CD4;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1316,14 +1308,14 @@ void s11d_rope_800C6B18(Work *work, int arg1)
             {
                 GM_SeSetMode(&work->control.mov, 0xb2, 1);
                 s11d_rope_800C650C();
-                work->field_EAC = (int)s11d_rope_800C6834;
+                work->state = s11d_rope_800C6834;
             }
             else
             {
-                work->field_EAC = (int)s11d_rope_800C7530;
+                work->state = s11d_rope_800C7530;
             }
 
-            work->field_EB0 = 0;
+            work->state_time = 0;
             work->field_EBE = 0;
             work->field_EBC = 0;
         }
@@ -1356,8 +1348,8 @@ void s11d_rope_800C6CD4(Work *work, int arg1)
     if (s11d_rope_800C4DE0(work))
     {
         work->target->size.vy = 0x384;
-        work->field_EAC = (int)s11d_rope_800C766C;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         work->field_F74 &= 0xFFBFFFFF;
@@ -1376,8 +1368,8 @@ void s11d_rope_800C6CD4(Work *work, int arg1)
     if (up)
     {
         work->target->size.vy = 0x384;
-        work->field_EAC = (int)s11d_rope_800C7138;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C7138;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1395,8 +1387,8 @@ void s11d_rope_800C6CD4(Work *work, int arg1)
     if (down)
     {
         work->target->size.vy = 0x384;
-        work->field_EAC = (int)s11d_rope_800C7320;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C7320;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1405,8 +1397,8 @@ void s11d_rope_800C6CD4(Work *work, int arg1)
     if (s11d_rope_800C52F0(work))
     {
         work->target->size.vy = 0x384;
-        work->field_EAC = (int)s11d_rope_800C6F28;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C6F28;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1429,14 +1421,14 @@ void s11d_rope_800C6CD4(Work *work, int arg1)
             {
                 GM_SeSetMode(&work->control.mov, 0xb2, 1);
                 s11d_rope_800C650C();
-                work->field_EAC = (int)s11d_rope_800C6834;
+                work->state = s11d_rope_800C6834;
             }
             else
             {
-                work->field_EAC = (int)s11d_rope_800C7530;
+                work->state = s11d_rope_800C7530;
             }
 
-            work->field_EB0 = 0;
+            work->state_time = 0;
             work->field_EBE = 0;
             work->field_EBC = 0;
         }
@@ -1473,8 +1465,8 @@ void s11d_rope_800C6F28(Work *work, int arg1)
 
     if (s11d_rope_800C4DE0(work))
     {
-        work->field_EAC = (int)s11d_rope_800C766C;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1486,13 +1478,13 @@ void s11d_rope_800C6F28(Work *work, int arg1)
         {
             GM_SeSetMode(&work->control.mov, 0xb2, 1);
             s11d_rope_800C650C();
-            work->field_EAC = (int)s11d_rope_800C6834;
+            work->state = s11d_rope_800C6834;
         }
         else
         {
-            work->field_EAC = (int)s11d_rope_800C6CD4;
+            work->state = s11d_rope_800C6CD4;
         }
-        work->field_EB0 = 0;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1511,8 +1503,8 @@ void s11d_rope_800C6F28(Work *work, int arg1)
 
     if (!(work->pad->status & PAD_CIRCLE))
     {
-        work->field_EAC = (int)s11d_rope_800C7530;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C7530;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1522,7 +1514,7 @@ void s11d_rope_800C6F28(Work *work, int arg1)
     {
         dx = dir * 64;
         pos.vx = work->control.mov.vx + dx;
-        if (pos.vx < work->field_F84 || work->field_F8C < pos.vx)
+        if (pos.vx < work->field_F84[0].vx || work->field_F84[1].vx < pos.vx)
         {
             outside = 1;
         }
@@ -1567,8 +1559,8 @@ void s11d_rope_800C7138(Work *work, int arg1)
 
     if (s11d_rope_800C4DE0(work))
     {
-        work->field_EAC = (int)s11d_rope_800C766C;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1576,8 +1568,8 @@ void s11d_rope_800C7138(Work *work, int arg1)
 
     if (s11d_rope_800C52F0(work))
     {
-        work->field_EAC = (int)s11d_rope_800C6F28;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C6F28;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1594,8 +1586,8 @@ void s11d_rope_800C7138(Work *work, int arg1)
     }
     if (!up)
     {
-        work->field_EAC = (int)s11d_rope_800C6CD4;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C6CD4;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1607,13 +1599,13 @@ void s11d_rope_800C7138(Work *work, int arg1)
         {
             GM_SeSetMode(&work->control.mov, 0xb2, 1);
             s11d_rope_800C650C();
-            work->field_EAC = (int)s11d_rope_800C6834;
+            work->state = s11d_rope_800C6834;
         }
         else
         {
-            work->field_EAC = (int)s11d_rope_800C7530;
+            work->state = s11d_rope_800C7530;
         }
-        work->field_EB0 = 0;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1650,8 +1642,8 @@ void s11d_rope_800C7320(Work *work, int arg1)
 
     if (s11d_rope_800C4DE0(work))
     {
-        work->field_EAC = (int)s11d_rope_800C766C;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1659,8 +1651,8 @@ void s11d_rope_800C7320(Work *work, int arg1)
 
     if (s11d_rope_800C52F0(work))
     {
-        work->field_EAC = (int)s11d_rope_800C6F28;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C6F28;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1682,13 +1674,13 @@ void s11d_rope_800C7320(Work *work, int arg1)
         {
             GM_SeSetMode(&work->control.mov, 0xb2, 1);
             s11d_rope_800C650C();
-            work->field_EAC = (int)s11d_rope_800C6834;
+            work->state = s11d_rope_800C6834;
         }
         else
         {
-            work->field_EAC = (int)s11d_rope_800C6CD4;
+            work->state = s11d_rope_800C6CD4;
         }
-        work->field_EB0 = 0;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1699,13 +1691,13 @@ void s11d_rope_800C7320(Work *work, int arg1)
         if (s11d_rope_800C4DE0(work))
         {
             work->target->size.vy = 0x384;
-            work->field_EAC = (int)s11d_rope_800C766C;
+            work->state = s11d_rope_800C766C;
         }
         else
         {
-            work->field_EAC = (int)s11d_rope_800C7530;
+            work->state = s11d_rope_800C7530;
         }
-        work->field_EB0 = 0;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1721,7 +1713,7 @@ void s11d_rope_800C7320(Work *work, int arg1)
 
 void s11d_rope_800C7530(Work *work, int arg1)
 {
-    void *state_fn;
+    void (*state)(Work *, int);
 
     if (arg1 == 0)
     {
@@ -1755,23 +1747,23 @@ void s11d_rope_800C7530(Work *work, int arg1)
     {
         GM_SeSetMode(&work->control.mov, 0xb2, 1);
         s11d_rope_800C650C();
-        state_fn = s11d_rope_800C6834;
+        state = s11d_rope_800C6834;
     }
     else if (s11d_rope_800C5298(work))
     {
-        state_fn = s11d_rope_800C6B18;
+        state = s11d_rope_800C6B18;
     }
     else if (s11d_rope_800C4DE0(work))
     {
-        state_fn = s11d_rope_800C766C;
+        state = s11d_rope_800C766C;
     }
     else
     {
         return;
     }
 
-    work->field_EAC = (int)state_fn;
-    work->field_EB0 = 0;
+    work->state = state;
+    work->state_time = 0;
     work->field_EBE = 0;
     work->field_EBC = 0;
 }
@@ -1795,8 +1787,8 @@ void s11d_rope_800C7A4C(Work *work, int arg1)
     if (work->object.is_end != 0)
     {
         s11d_rope_800C486C(work);
-        work->field_EAC = (int)s11d_rope_800C6834;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C6834;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         work->field_F70 &= ~0x100;
@@ -1841,8 +1833,8 @@ void s11d_rope_800C7B2C(Work *work, int arg1)
         work->field_F70 &= ~0x100;
         GM_SeSetMode(&work->control.mov, 0xb2, 1);
         s11d_rope_800C650C();
-        work->field_EAC = (int)s11d_rope_800C6834;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C6834;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1853,8 +1845,8 @@ void s11d_rope_800C7B2C(Work *work, int arg1)
         s11d_rope_800C486C(work);
         work->field_F70 &= ~0x100;
         GM_SeSetMode(&work->control.mov, 0xb7, 1);
-        work->field_EAC = (int)s11d_rope_800C6B18;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C6B18;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -1863,8 +1855,8 @@ void s11d_rope_800C7B2C(Work *work, int arg1)
     if (s11d_rope_800C4DE0(work))
     {
         s11d_rope_800C486C(work);
-        work->field_EAC = (int)s11d_rope_800C766C;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         work->field_F70 &= ~0x100;
@@ -1874,8 +1866,8 @@ void s11d_rope_800C7B2C(Work *work, int arg1)
     if (work->object.is_end)
     {
         s11d_rope_800C486C(work);
-        work->field_EAC = (int)s11d_rope_800C7530;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C7530;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         work->field_F70 &= ~0x100;
@@ -1935,15 +1927,15 @@ void s11d_rope_800C7D20(Work *work, int arg1)
     {
         if (work->control.mov.vy < -0x3E80)
         {
-            work->field_EAC = (int)s11d_rope_800C7EC4;
-            work->field_EB0 = 0;
+            work->state = s11d_rope_800C7EC4;
+            work->state_time = 0;
             work->field_EBE = 0;
             work->field_EBC = 0;
         }
         else
         {
-            work->field_EAC = (int)s11d_rope_800C7F8C;
-            work->field_EB0 = 0;
+            work->state = s11d_rope_800C7F8C;
+            work->state_time = 0;
             work->field_EBE = 0;
             work->field_EBC = 0;
             work->field_F74 &= ~0x02000000;
@@ -1991,8 +1983,6 @@ void s11d_rope_800C8200(Work *work, int arg1)
 
 void s11d_rope_800C8250(Work *work)
 {
-    void (*state_fn)(Work *, int);
-
     work->control.step = DG_ZeroVector;
 
     s11d_rope_800C54CC(work);
@@ -2009,8 +1999,7 @@ void s11d_rope_800C8250(Work *work)
     s11d_rope_800C6478(work);
     s11d_rope_800C5B10(work);
 
-    state_fn = (void (*)(Work *, int))work->field_EAC;
-    state_fn(work, work->field_EB0++);
+    work->state(work, work->state_time++);
 
     s11d_rope_800C5E74(work);
     s11d_rope_800C502C(work);
@@ -2027,7 +2016,7 @@ void s11d_rope_800C868C(Work *work)
 {
     TortureInfoKill();
 
-    GV_DestroyActor(work->field_800);
+    GV_DestroyActor(work->shadow);
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->object);
     GM_FreeTarget(work->target);
@@ -2089,8 +2078,8 @@ void s11d_rope_800C8C04(Work *work)
     axis2->dx = 0;
     axis1->step = 0x18;
     axis2->step = 0x40;
-    axis1->target = work->field_F94;
-    axis2->target = work->field_F98;
+    axis1->target = work->field_F84[2].vx;
+    axis2->target = work->field_F84[2].vz;
     axis1->pos = &work->control.mov.vx;
     axis2->pos = &work->control.mov.vz;
     axis1->rot = &work->control.turn.vz;
@@ -2102,46 +2091,46 @@ int s11d_rope_800C8C88(Work *work);
 
 void s11d_rope_800C8EE4(Work *work)
 {
-    short  *base = (short *)&work->field_F84;
-    u_char *param;
+    SVECTOR *vec = work->field_F84;
+    u_char  *param;
 
     param = GCL_GetOption('a');
     if (param)
     {
-        GCL_StrToSV(param, &base[4]);
+        GCL_StrToSV(param, (short *)&vec[1]);
     }
     else
     {
-        base[4] = 0x1770;
-        base[5] = 0x6590;
+        vec[1].vx = 0x1770;
+        vec[1].vy = 0x6590;
     }
-    ((short *)&s11d_dword_800D1F7C)[0] = base[5];
-    ((short *)&s11d_dword_800D1F80)[0] = base[4];
+    s11d_dword_800D1F7C[0] = vec[1].vy;
+    s11d_dword_800D1F80[0] = vec[1].vx;
 
     param = GCL_GetOption('i');
     if (param)
     {
-        GCL_StrToSV(param, base);
+        GCL_StrToSV(param, (short *)vec);
     }
     else
     {
-        base[0] = -0x1B58;
-        base[1] = -0x30D4;
-        base[2] = 0;
+        vec[0].vx = -0x1B58;
+        vec[0].vy = -0x30D4;
+        vec[0].vz = 0;
     }
-    ((short *)&s11d_dword_800D1F7C)[1] = base[1];
-    ((short *)&s11d_dword_800D1F80)[1] = base[0];
+    s11d_dword_800D1F7C[1] = vec[0].vy;
+    s11d_dword_800D1F80[1] = vec[0].vx;
 
     param = GCL_GetOption('r');
     if (param)
     {
-        GCL_StrToSV(param, (short *)&base[8]);
+        GCL_StrToSV(param, (short *)&vec[2]);
     }
     else
     {
-        base[8] = -0xBB8;
-        base[9] = 0x7530;
-        base[10] = 0x258;
+        vec[2].vx = -0xBB8;
+        vec[2].vy = 0x7530;
+        vec[2].vz = 0x258;
     }
 }
 
@@ -2157,7 +2146,7 @@ int s11d_rope_800C8FDC(Work *work)
 
     if (GCL_GetOption('c'))
     {
-        p1 = work->field_FE4;
+        p1 = work->cam_rots;
         while (GCL_NextStr())
         {
             if (j == 16)
@@ -2173,7 +2162,7 @@ int s11d_rope_800C8FDC(Work *work)
     if (GCL_GetOption('h'))
     {
         u_char *param;
-        p2 = work->field_FA4;
+        p2 = work->cam_heights;
         while ((param = GCL_NextStr()))
         {
             if (i == 16)
@@ -2186,8 +2175,8 @@ int s11d_rope_800C8FDC(Work *work)
         }
     }
 
-    work->field_F9C = j;
-    work->field_FA0 = 0;
+    work->n_cams = j;
+    work->cam_idx = 0;
     return 0;
 }
 
@@ -2203,7 +2192,7 @@ void s11d_rope_800C90BC(Work *work)
     }
 
     i = 0;
-    p = work->field_107C;
+    p = work->procs;
     while ((param = GCL_NextStr()))
     {
         if (i == 3)
@@ -2228,7 +2217,7 @@ void s11d_rope_800C9134(Work *work)
     }
 
     i = 0;
-    p = work->field_1088;
+    p = work->voxes;
     while ((param = GCL_NextStr()))
     {
         if (i == 4)
@@ -2299,11 +2288,11 @@ int s11d_rope_800C91AC(Work *work, int name, int where)
 
     if (GCL_GetOption('n'))
     {
-        work->field_EA0 = GCL_StrToInt(GCL_NextStr());
+        work->ref_name = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
-        work->field_EA0 = 0;
+        work->ref_name = 0;
     }
 
     if (GCL_GetOption('e'))
@@ -2316,8 +2305,8 @@ int s11d_rope_800C91AC(Work *work, int name, int where)
     }
 
     GM_PlayerBody = object;
-    work->field_EAC = (int)s11d_rope_800C6544;
-    work->field_EB0 = 0;
+    work->state = s11d_rope_800C6544;
+    work->state_time = 0;
     work->field_EB8 = 0;
     work->field_EB4 = 0;
     work->field_EBE = 0;
@@ -2343,7 +2332,7 @@ int s11d_rope_800C91AC(Work *work, int name, int where)
     indices.vz = 12;
     indices.pad = 15;
     shadow = NewShadow(control, object, indices);
-    work->field_800 = shadow;
+    work->shadow = shadow;
     if (shadow == NULL)
     {
         return -1;
