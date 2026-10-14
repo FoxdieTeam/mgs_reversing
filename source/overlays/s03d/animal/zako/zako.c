@@ -1,6 +1,7 @@
 #include "zako.h"
 
 #include <stdio.h>
+#include "mts/mts.h" // for fprintf
 #include "mgstype.h"
 #include "game/game.h"
 #include "game/item.h"
@@ -8,6 +9,7 @@
 #include "libgcl/libgcl.h"
 #include "anime/animconv/anime.h"
 #include "enemy/l_sight.h"
+#include "enemy/asiato.h"
 #include "okajima/blood.h"
 #include "bullet/tenage.h"
 #include "okajima/bullet.h"
@@ -35,6 +37,7 @@ extern SVECTOR s03d_dword_800C3A4C;
 extern SVECTOR s03d_dword_800C3A54;
 extern int s03d_dword_800C39FC;
 extern short s03d_word_800C3A38[2];
+extern int s03d_dword_800DC2F4;
 extern short s03d_word_800C3A3C[2];
 extern short s03d_word_800C39E8[2];
 extern short s03d_word_800C39EC[2];
@@ -67,6 +70,10 @@ void s03d_800CE5B4(Work *work, int arg);
 void s03d_800CE644(Work *work, int arg);
 int s03d_800CDF94(Work *work);
 void s03d_800CE318(Work *work, int arg);
+void s03d_800CFB04(Work *work, int arg);
+void s03d_800CF844(Work *work, int arg);
+void s03d_800CF90C(Work *work, int arg);
+void s03d_800CF114(Work *work);
 void s03d_800CE8F4(Work *work, int arg);
 void s03d_800CE9E8(Work *work, int arg);
 void s03d_800CEB38(Work *work, int arg);
@@ -1036,7 +1043,109 @@ void s03d_800CF114(Work *work)
     DG_PutVector((SVECTOR *)&s03d_dword_800C3A5C, &vec, 1);
     GV_SubVec3(&vec, &work->control.mov, &work->control.step);
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CF194.s")
+void s03d_800CF194(Work *work, int time)
+{
+    TARGET *target;
+    int     motion;
+
+    target = work->target;
+    motion = work->act.motion1;
+
+    work->act.field_1C = 0;
+
+    if (time == 0)
+    {
+        work->field_AF6 = target->faint;
+        GM_SeSet(&work->control.mov, 0x8F);
+    }
+
+    if (work->field_AF6 != target->faint)
+    {
+        GM_SeSet(&work->control.mov, 0x8F);
+        work->field_AF6 = target->faint;
+    }
+
+    if (target->damaged & TARGET_POWER)
+    {
+        Zako_800D0B18(work, 5, 0);
+        GM_SeSet(&work->control.mov, 0x8F);
+
+        target->force = DG_ZeroVector;
+        target->damage = 0;
+        target->damaged = 0;
+
+        if (target->vital <= 0)
+        {
+            if (target->a_mode == 1)
+            {
+                work->field_BA0 = 1;
+            }
+
+            work->act.field_14 = 5;
+            target->side = ENEMY_SIDE;
+            SetMode(work, s03d_800CFB04);
+            target->captured = 0;
+        }
+    }
+
+    switch (GM_PlayerAction)
+    {
+    case 7:
+    case 13:
+        if (motion != 23 && motion != 44)
+        {
+            target->side = 0;
+            work->act.motion1 = 23;
+            GM_ConfigObjectAction(&work->body, ((short *)&s03d_dword_800C3A0C)[1], 0, 4);
+            work->field_AF8 = 0;
+        }
+
+        if (work->field_AF8 == 50 && target->faint > 0)
+        {
+            work->act.motion1 = 44;
+            GM_ConfigObjectAction(&work->body, s03d_word_800C3A38[0], 0, 4);
+        }
+
+        if (motion == 44 && !(work->field_AF8 & 7))
+        {
+            s03d_dword_800DC2F4 = 4;
+        }
+
+        work->control.turn = GM_PlayerControl->rot;
+        s03d_800CF114(work);
+        work->field_AF8++;
+        break;
+    case 38:
+        if (motion != 24)
+        {
+            target->side = 0;
+            work->act.motion1 = 24;
+            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[0], 0, 4);
+        }
+
+        work->control.turn = GM_PlayerControl->rot;
+        s03d_800CF114(work);
+        break;
+    case 39:
+        work->act.field_14 = 4;
+        target->side = ENEMY_SIDE;
+        target->vital = 0;
+        SetMode(work, s03d_800CFB04);
+        return;
+    default:
+        work->act.field_14 = 5;
+        target->side = ENEMY_SIDE;
+        SetMode(work, s03d_800CFB04);
+        return;
+    }
+
+    if (work->field_B90 > 800)
+    {
+        target->captured = 0;
+    }
+
+    work->target->class |= TARGET_POWER | TARGET_SEEK;
+}
 void s03d_800CF4D4(Work *work, int arg)
 {
     if (arg == 0)
@@ -1097,7 +1206,59 @@ void s03d_800CF548(Work *work, int arg)
         GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CF68C.s")
+void s03d_800CF68C(Work *work, int time)
+{
+    int x;
+
+    if (time == 0)
+    {
+        if (work->act.field_14 < 3)
+        {
+            if (work->act.field_14 == 1)
+            {
+                work->act.motion1 = 37;
+                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[13], 0, 4);
+            }
+            else
+            {
+                work->act.motion1 = 35;
+                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[11], 0, 4);
+            }
+        }
+        else
+        {
+            work->act.motion1 = 36;
+            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[12], 0, 4);
+        }
+
+        if (work->target->faint <= 0)
+        {
+            x = work->control.mov.vx % 90;
+        }
+        else
+        {
+            x = work->control.mov.vx % 30;
+        }
+        if (x < 0)
+        {
+            x = -x;
+        }
+        work->field_AF6 = x + 10;
+    }
+
+    if (Zako_800CD6A8(work))
+    {
+        SetMode(work, s03d_800CF844);
+    }
+    else if (work->field_AF6 < time)
+    {
+        if (work->target->faint <= 0)
+        {
+            work->target->faint = work->param.faint;
+        }
+        SetMode(work, s03d_800CF90C);
+    }
+}
 void s03d_800CF844(Work *work, int arg)
 {
     if (arg == 0)
@@ -1326,19 +1487,6 @@ const char s03d_dword_800DB5C8[] = {'2', 0x0, 0x0, 0x0};
 
 const char s03d_dword_800DB5CC[] = {'R', 'A', 'T', 'I'};
 const char s03d_dword_800DB5D0[] = {'O', 'N', 0x0, 0x0};
-
-const char s03d_dword_800DB5D4[] = {'n', 'o', 'i', 's'};
-const char s03d_dword_800DB5D8[] = {'e', ' ', 'd', 'i'};
-const char s03d_dword_800DB5DC[] = {'s', ' ', ' ', '='};
-const char s03d_dword_800DB5E0[] = {'%', 'd', ',', '\n'};
-const char s03d_dword_800DB5E4[] = {0x0, 0x0, 0x0, 0x0};
-
-const char s03d_dword_800DB5E8[] = {' ', 'A', 's', 'i'};
-const char s03d_dword_800DB5EC[] = {'a', 't', 'o', ' '};
-const char s03d_dword_800DB5F0[] = {'m', 'i', 'k', 'k'};
-const char s03d_dword_800DB5F4[] = {'e', '!', '!', ' '};
-const char s03d_dword_800DB5F8[] = {'[', '%', 'd', ']'};
-const char s03d_dword_800DB5FC[] = {'\n', 0x0, 0xa9, ','};
 
 
 void s03d_800D0324(Work *work, int arg)
@@ -1810,7 +1958,125 @@ void Zako_800D0FF4(Work *work)
         }
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D1054.s")
+int s03d_800D1054(HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2)
+{
+    int from;
+    int to;
+
+    from = HZD_GetAddress(hzd, pos, -1);
+    to = HZD_GetAddress(hzd, pos2, -1);
+    from &= 0xFF;
+    to &= 0xFF;
+    return HZD_ZoneDistance(hzd, from, to);
+}
+
+void s03d_800D10B4(Work *work)
+{
+    CONTROL *ctrl;
+    int      dist;
+
+    if (!(work->field_B33 & 1))
+    {
+        return;
+    }
+
+    ctrl = &work->control;
+    if (ctrl->map->index != GM_PlayerMap)
+    {
+        return;
+    }
+
+    if (!GM_NoisePower)
+    {
+        return;
+    }
+
+    switch (GM_NoisePower)
+    {
+    case 5:
+        if (GV_DiffVec3(&GM_NoisePosition, &ctrl->mov) < 500)
+        {
+            break;
+        }
+        return;
+    case 200:
+        if (GV_DiffVec3(&GM_NoisePosition, &ctrl->mov) < 4000)
+        {
+            break;
+        }
+        return;
+    case 255:
+        break;
+    case 100:
+        dist = GV_DiffVec3(&GM_NoisePosition, &ctrl->mov);
+        fprintf(1, "noise dis  =%d,\n", dist);
+        if (dist < 4000)
+        {
+            dist = s03d_800D1054(ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition);
+            if (dist < 300)
+            {
+                work->field_B32 |= 1;
+                GM_NoiseLength = 0;
+                GM_NoisePower = 0;
+            }
+        }
+        return;
+    default:
+        return;
+    }
+    work->field_B32 |= 1;
+}
+
+void s03d_800D123C(Work *work)
+{
+    if ((work->field_B33 & 2) && work->vision.pad == 2 && (GM_PlayerStatus & PLAYER_CB_BOX))
+    {
+        if (GV_DiffVec3(&work->field_B34, &GM_PlayerPosition) > 50 || work->field_B3C != GM_WhereList[0]->rot.vy)
+        {
+            if (ZAKOCOM_MGR->field_1C == 1)
+            {
+                return;
+            }
+            work->field_B34 = GM_PlayerPosition;
+            work->field_B3C = GM_WhereList[0]->rot.vy;
+            work->field_B32 |= 2;
+        }
+        work->vision.pad = 0;
+    }
+}
+
+void s03d_800D1324(Work *work)
+{
+    CONTROL *ctrl;
+    HZD_HDL *hzd;
+    VISION  *vision;
+
+    if (!(work->field_B33 & 0x10))
+    {
+        return;
+    }
+
+    if (work->field_ACA == 5)
+    {
+        return;
+    }
+
+    ctrl = &work->control;
+    hzd = work->control.map->hzd;
+    vision = &work->vision;
+    if (!AsiatoCheck(hzd, &ctrl->mov))
+    {
+        return;
+    }
+
+    if (SearchNearAsiato(hzd, &ctrl->mov, vision->facedir, vision->range, vision->length) < 0)
+    {
+        return;
+    }
+
+    work->field_B32 |= 0x10;
+    fprintf(1, " Asiato mikke!! [%d]\n", NearAsiato());
+}
 void Zako_800D13E8(Work *work)
 {
     SVECTOR unused[2];
