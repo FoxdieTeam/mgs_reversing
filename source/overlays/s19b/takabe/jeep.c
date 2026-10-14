@@ -109,8 +109,8 @@ void s19b_jeep_800D2258(Work *work)
     Takabe_JeepSystem.offset = DG_ZeroVector;
 
     control = &work->control;
-    control->mov.vx = work->pos.vx - Takabe_JeepSystem.pos.vx;
-    control->mov.vz = work->pos.vz - Takabe_JeepSystem.pos.vz;
+    control->mov.vx = work->pos.vx - Takabe_JeepSystem.world_pos.vx;
+    control->mov.vz = work->pos.vz - Takabe_JeepSystem.world_pos.vz;
 
     target = work->target;
 
@@ -204,7 +204,7 @@ void s19b_jeep_800D2258(Work *work)
     work->old_pos.vx = work->pos.vx;
     work->pos.vx += work->speed.vx;
     Takabe_JeepSystem.offset.vx -= work->pos.vx - work->old_pos.vx;
-    Takabe_JeepSystem.pos.vx = work->old_pos.vx;
+    Takabe_JeepSystem.world_pos.vx = work->old_pos.vx;
 
     next_z = work->pos.vz + work->speed.vz;
     if (next_z < work->old_pos.vz)
@@ -216,7 +216,7 @@ void s19b_jeep_800D2258(Work *work)
 
         work->pos.vz = next_z;
         Takabe_JeepSystem.offset.vz -= work->pos.vz - work->old_pos.vz;
-        Takabe_JeepSystem.pos.vz = work->old_pos.vz;
+        Takabe_JeepSystem.world_pos.vz = work->old_pos.vz;
     }
     else
     {
@@ -230,7 +230,7 @@ void s19b_jeep_800D2258(Work *work)
     {
         work->vibrate_timer--;
         Takabe_JeepSystem.flags_50 |= 2;
-        Takabe_JeepSystem.flags_4C |= 2;
+        Takabe_JeepSystem.flags |= 2;
     }
 
     if (work->field_3E4 != 0)
@@ -334,7 +334,7 @@ int s19b_jeep_800D2880(Work *work, int name, int map)
     work->pos.vy = 0;
     work->pos.vz = 0;
     work->old_pos = work->pos;
-    Takabe_JeepSystem.pos = work->old_pos;
+    Takabe_JeepSystem.world_pos = work->old_pos;
 
     work->field_3B0 = work->speed = work->field_3A8 = DG_ZeroVector;
     work->speed.vz = -400;
@@ -345,7 +345,7 @@ int s19b_jeep_800D2880(Work *work, int name, int map)
     Takabe_JeepSystem.offset.vx = -work->speed.vx;
     Takabe_JeepSystem.offset.vy = -work->speed.vy;
     Takabe_JeepSystem.offset.vz = -work->speed.vz;
-    Takabe_JeepSystem.field_18 = Takabe_JeepSystem.offset;
+    Takabe_JeepSystem.pos = Takabe_JeepSystem.offset;
 
     work->field_3E8 = work->field_3D0 = work->field_3D4 = 400;
     work->field_3CC = 0;

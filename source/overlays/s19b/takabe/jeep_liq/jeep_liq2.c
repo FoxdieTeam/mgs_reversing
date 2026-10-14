@@ -44,7 +44,7 @@ int s19b_spark2_m_800D87A4(LiqWork *work)
     {
         target->force = DG_ZeroVector;
         GM_SeSet(&work->control.mov, 0x81);
-        if (!(Takabe_JeepSystem.field_54 & 0x20000))
+        if (!(Takabe_JeepSystem.flags_54 & 0x20000))
         {
             work->state = s19b_spark2_m_800D9390;
         }
@@ -644,7 +644,7 @@ void s19b_spark2_m_800D964C(LiqWork *work)
 
 int s19b_spark2_m_800D9680(LiqWork *work)
 {
-    int js = Takabe_JeepSystem.field_54;
+    int js = Takabe_JeepSystem.flags_54;
 
     if (js & 0x1000)
     {
@@ -805,7 +805,7 @@ void s19b_spark2_m_800D9910(LiqWork *work)
 
 void s19b_spark2_m_800D99C4(LiqWork *work)
 {
-    int js = Takabe_JeepSystem.field_54;
+    int js = Takabe_JeepSystem.flags_54;
     work->cmd |= 0x10;
     if (work->f918 >= 61 || (js & 0x2000))
     {
@@ -822,7 +822,7 @@ void s19b_spark2_m_800D99C4(LiqWork *work)
 
 void s19b_spark2_m_800D9A30(LiqWork *work)
 {
-    if (Takabe_JeepSystem.field_54 & 0x1000)
+    if (Takabe_JeepSystem.flags_54 & 0x1000)
     {
         work->f914 = 4;
         work->f918 = 0;
@@ -837,7 +837,7 @@ void s19b_spark2_m_800D9A30(LiqWork *work)
 void s19b_spark2_m_800D9A74(LiqWork *work)
 {
     int new_f900 = work->cmd | 0x10;
-    int js = Takabe_JeepSystem.field_54;
+    int js = Takabe_JeepSystem.flags_54;
     work->cmd = new_f900;
     if (js & 0x2000)
     {
@@ -889,7 +889,7 @@ void s19b_spark2_m_800D9B88(LiqWork *work)
     case 1: s19b_spark2_m_800D9B38(work); break;
     }
 
-    if (Takabe_JeepSystem.field_54 & 0x10000000)
+    if (Takabe_JeepSystem.flags_54 & 0x10000000)
     {
         work->f910 = 1;
     }
@@ -914,7 +914,7 @@ void s19b_spark2_m_800D9C04(LiqWork *work)
         s19b_spark2_m_800D9B88(work);
     }
 
-    Takabe_JeepSystem.field_54 &= 0xFFFF0000;
+    Takabe_JeepSystem.flags_54 &= 0xFFFF0000;
     work->f920 += 1;
 }
 

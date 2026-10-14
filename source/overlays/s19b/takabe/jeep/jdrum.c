@@ -1,24 +1,9 @@
 #include "bullet/blast.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "../jeep_system.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x18];
-    SVECTOR  field_38;
-    char     pad4[0x20];
-    OBJECT  *body;
-    char     pad5[0x18];
-    int      field_7C;
-    MATRIX   world;
-    char     pad6[0xCC];
-} JEEP_SYSTEM;
 
-extern JEEP_SYSTEM Takabe_JeepSystem;
 
 typedef struct _Work
 {

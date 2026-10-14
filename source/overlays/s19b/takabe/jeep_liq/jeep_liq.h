@@ -3,6 +3,7 @@
 
 #include "mgstype.h"
 #include "game/game.h"
+#include "../jeep_system.h"
 
 typedef void (*LiqFn)();
 
@@ -52,28 +53,6 @@ typedef struct _LiqWork
     int            *jeep_flags;   /* 0x944 */
 } LiqWork;
 
-typedef struct _JEEP_SYSTEM_S
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3a[0x24 - 0x18 - sizeof(SVECTOR)];
-    short    field_24;
-    char     pad3b[0x30 - 0x24 - sizeof(short)];
-    int      field_30;
-    char     pad3c[0x40 - 0x30 - sizeof(int)];
-    int      field_40;
-    int      field_44;
-    char     pad3d[0x54 - 0x44 - sizeof(int)];
-    int      field_54;
-    char     pad5c[0x5C - 0x54 - sizeof(int)];
-    int      field_5C;
-    char     pad60[0x68 - 0x5C - sizeof(int)];
-    OBJECT  *liq_obj;
-} JEEP_SYSTEM_S;
 
-extern JEEP_SYSTEM_S Takabe_JeepSystem;
-extern SVECTOR       Takabe_JeepLiqPos;
 
 #endif // __S19B_JEEP_LIQ_H__

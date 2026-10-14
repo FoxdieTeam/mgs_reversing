@@ -5,26 +5,12 @@
 #include "linkvar.h"
 #include "game/camera.h"
 #include "sound/g_sound.h"
+#include "../jeep_system.h"
 
 /* Snake standing in the jeep (created by jeep.c), shooting with the jeep's gun.
    Same actor as s19a pkjp_sne.c, plus the gun object, the camera follow and
    the scripted aim flags of Takabe_JeepSystem. */
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad_00[0x4];
-    CONTROL *control;               // 0x04
-    char     pad_08[0x4C - 0x8];
-    int      flags;                 // 0x4C
-    int      field_50;              // 0x50
-    char     pad_54[0x5C - 0x54];
-    int      has_homing_target;     // 0x5C
-    OBJECT  *snake_body;            // 0x60
-    char     pad_64[0x78 - 0x64];
-    int      field_78;              // 0x78
-    char     pad_7C[0x128 - 0x7C];
-    SVECTOR  camera_pos;            // 0x128
-} JEEP_SYSTEM;
 
 typedef struct _Work
 {
@@ -69,7 +55,6 @@ typedef struct _Work
 
 typedef void (*ACTION)(Work *, int);
 
-extern JEEP_SYSTEM Takabe_JeepSystem;
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
 

@@ -3,6 +3,7 @@
 #include <rand.h>
 #include "game/game.h"
 #include "game/vibrate.h"
+#include "../jeep_system.h"
 
 /* the jeep driven in the Meryl/Otacon scenes (same actor as jeep.c, only the part used here is described) */
 typedef struct _JeepWork
@@ -39,25 +40,8 @@ typedef struct _JeepWork
     void         (*field_3F8)(struct _JeepWork *);     /* 0x3F8: current state handler */
 } JeepWork;
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2a[0x40 - 0x8];
-    int      field_40;
-    char     pad2b[0x4C - 0x44];
-    int      field_4C;
-    int      field_50;
-    char     pad2c[0x60 - 0x54];
-    OBJECT  *snake_body;
-    OBJECT  *meryl_body;
-    char     pad3[0x78 - 0x68];
-    int      field_78;
-} JEEP_SYSTEM;
 
-extern JEEP_SYSTEM Takabe_JeepSystem;
 
-extern SVECTOR   s19b_dword_800DE788; /* world position of Meryl's head */
 extern JeepWork *s19b_dword_800DE64C;
 extern int       s19b_dword_800DE648;
 extern int       s19b_dword_800C39CC;
@@ -173,7 +157,7 @@ void s19b_jeep_mrl_800D2F54(JeepWork *work)
         {
             work->field_3DC = 2;
             work->field_3A8 = work->field_3A0;
-            Takabe_JeepSystem.field_50 |= 0x20020;
+            Takabe_JeepSystem.flags_50 |= 0x20020;
             GM_SeSet(&ctl->mov, 0xB6);
             NewPadVibration(s19b_dword_800C39B0, 2);
             GM_SetSound(0xFF0000FE, 0);
@@ -202,8 +186,8 @@ void s19b_jeep_mrl_800D2F54(JeepWork *work)
         if (work->field_3A0.vx == 0 && work->field_3A0.vz == 0)
         {
             work->field_3DC = 3;
-            Takabe_JeepSystem.field_50 &= 0xFFFDFFDF;
-            Takabe_JeepSystem.field_50 &= 0xFFFEFFFF;
+            Takabe_JeepSystem.flags_50 &= 0xFFFDFFDF;
+            Takabe_JeepSystem.flags_50 &= 0xFFFEFFFF;
             work->field_3CC = 0;
         }
         break;
@@ -255,8 +239,8 @@ void s19b_jeep_mrl_800D32C4(JeepWork *work)
         work->field_3DC = 1;
         work->field_3CC = 0;
         work->field_3EC = -300;
-        Takabe_JeepSystem.field_50 |= 0x20020;
-        Takabe_JeepSystem.field_50 |= 0x10000;
+        Takabe_JeepSystem.flags_50 |= 0x20020;
+        Takabe_JeepSystem.flags_50 |= 0x10000;
         GM_SeSet(&ctl->mov, 0xBB);
         NewPadVibration(s19b_dword_800C39A0, 2);
         /* fallthrough */
@@ -287,7 +271,7 @@ void s19b_jeep_mrl_800D32C4(JeepWork *work)
             work->field_3DC = 5;
             GM_SeSet(&ctl->mov, 0xB4);
             NewPadVibration(s19b_dword_800C39A0, 2);
-            Takabe_JeepSystem.field_50 = (Takabe_JeepSystem.field_50 & 0xFFFDFFDF) | 0x200;
+            Takabe_JeepSystem.flags_50 = (Takabe_JeepSystem.flags_50 & 0xFFFDFFDF) | 0x200;
         }
         break;
     case 3:
@@ -584,9 +568,9 @@ static void Act(Work *work)
 
     DG_GetLightMatrix(&control->mov, work->light);
 
-    s19b_dword_800DE788.vx = work->body.objs->objs[6].world.t[0];
-    s19b_dword_800DE788.vy = work->body.objs->objs[6].world.t[1];
-    s19b_dword_800DE788.vz = work->body.objs->objs[6].world.t[2];
+    Takabe_MerylHeadPos.vx = work->body.objs->objs[6].world.t[0];
+    Takabe_MerylHeadPos.vy = work->body.objs->objs[6].world.t[1];
+    Takabe_MerylHeadPos.vz = work->body.objs->objs[6].world.t[2];
 
     GM_MoveTarget(work->target, &control->mov);
 }
@@ -744,7 +728,7 @@ static void StateLook(Work *work, int time)
         GM_ConfigObjectAction(&work->body, 0, 0, 4);
     }
 
-    if ((Takabe_JeepSystem.field_4C & 1) && GV_RandU(0x100) < 0x14)
+    if ((Takabe_JeepSystem.flags & 1) && GV_RandU(0x100) < 0x14)
     {
         GM_SeSet(&work->control.mov, work->voice3);
     }
@@ -904,7 +888,7 @@ static void ActionMain2(Work *work)
 
 static void ActionMain(Work *work)
 {
-    work->flags = Takabe_JeepSystem.field_50;
-    Takabe_JeepSystem.field_50 &= 0xFFFF0000;
+    work->flags = Takabe_JeepSystem.flags_50;
+    Takabe_JeepSystem.flags_50 &= 0xFFFF0000;
     ActionMain2(work);
 }

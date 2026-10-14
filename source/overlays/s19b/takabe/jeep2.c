@@ -82,8 +82,8 @@ void s19b_jeep2_800D667C(Jeep2Work *work)
     work->pos.vx += work->speed.vx;
     work->pos.vz += work->speed.vz;
 
-    control->mov.vx = work->pos.vx - Takabe_JeepSystem.pos.vx;
-    control->mov.vz = work->pos.vz - Takabe_JeepSystem.pos.vz;
+    control->mov.vx = work->pos.vx - Takabe_JeepSystem.world_pos.vx;
+    control->mov.vz = work->pos.vz - Takabe_JeepSystem.world_pos.vz;
 
     if (work->hit != 0)
     {
@@ -280,7 +280,7 @@ int s19b_jeep2_800D6B18(Jeep2Work *work, int name, int where)
 
     work->rot = *rot;
 
-    work->pos = Takabe_JeepSystem.pos;
+    work->pos = Takabe_JeepSystem.world_pos;
     work->pos.vz += 20000;
     work->old_pos = work->pos;
     work->old_pos.vz += 400;
@@ -296,11 +296,11 @@ int s19b_jeep2_800D6B18(Jeep2Work *work, int name, int where)
     work->flags = 0;
     work->timer = 0;
 
-    z = work->pos.vz - Takabe_JeepSystem.pos.vz;
+    z = work->pos.vz - Takabe_JeepSystem.world_pos.vz;
     control->mov.vz = z;
     s19b_jeep_gls_800CEC24(z, &vec);
     control->mov.vx = vec.vx;
-    work->pos.vx = vec.vx + Takabe_JeepSystem.pos.vx;
+    work->pos.vx = vec.vx + Takabe_JeepSystem.world_pos.vx;
     control->mov.vy = vec.vy;
 
     work->func_3D0 = s19b_jeep_liq_800D76B0;

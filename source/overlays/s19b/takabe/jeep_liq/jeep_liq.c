@@ -240,7 +240,7 @@ void s19b_jeep_liq_800D7468(JeepWork *work)
         work->frame = 0;
         work->phase = 1;
         work->f3C0 = 1;
-        Takabe_JeepSystem.field_54 |= 0x20000;
+        Takabe_JeepSystem.flags_54 |= 0x20000;
         GM_GameStatus |= STATE_PAUSE_ONLY | STATE_PADRELEASE;
         s19b_jlamp_800D0A20(1);
         /* fall through */
@@ -344,14 +344,14 @@ int s19b_jeep_liq_800D771C(int cur, int center, int pos)
 }
 void s19b_jeep_liq_800D77F0(JeepWork *work)
 {
-    int v = work->road[2] - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    int v = work->road[2] - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_mrl_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, 0x753, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
 void s19b_jeep_liq_800D7860(JeepWork *work)
 {
-    int s1 = work->road[2] - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    int s1 = work->road[2] - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     int a1 = s19b_jeep_mrl_800D399C();
 
     if (work->speed_timer == 0)
@@ -365,12 +365,12 @@ void s19b_jeep_liq_800D7860(JeepWork *work)
             work->speed = v0;
             work->speed_target = v0;
             work->speed_timer = 0x3c;
-            Takabe_JeepSystem.field_54 |= 2;
+            Takabe_JeepSystem.flags_54 |= 2;
         }
         else if (s1 >= 0x5dd)
         {
             work->speed_target = GV_NearSpeed(work->speed_target, a1 + 0x32, 7);
-            Takabe_JeepSystem.field_54 |= 0x1000;
+            Takabe_JeepSystem.flags_54 |= 0x1000;
         }
     }
     else
@@ -382,28 +382,28 @@ void s19b_jeep_liq_800D7860(JeepWork *work)
 }
 void s19b_jeep_liq_800D797C(JeepWork *work)
 {
-    int v = work->road[2] - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    int v = work->road[2] - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_mrl_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, 0, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
 void s19b_jeep_liq_800D79EC(JeepWork *work)
 {
-    int v = work->road[2] - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    int v = work->road[2] - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_mrl_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, -0x177, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
 void s19b_jeep_liq_800D7A5C(JeepWork *work)
 {
-    int v = work->road[2] - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    int v = work->road[2] - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_mrl_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, 0xbb8, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
 void s19b_jeep_liq_800D7ACC(JeepWork *work)
 {
-    int v = work->road[2] - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    int v = work->road[2] - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_mrl_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, 0x1194, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
@@ -539,7 +539,7 @@ void s19b_jeep_liq_800D7E2C(JeepWork *work)
             work->side = r;
             if (r == work->side_target)
             {
-                Takabe_JeepSystem.field_54 |= 0x2000;
+                Takabe_JeepSystem.flags_54 |= 0x2000;
             }
         }
         break;
@@ -580,7 +580,7 @@ void s19b_jeep_liq_800D7F20(JeepWork *work)
             work->side = r;
             if (r == work->side_target)
             {
-                Takabe_JeepSystem.field_54 |= 0x2000;
+                Takabe_JeepSystem.flags_54 |= 0x2000;
             }
         }
         break;
@@ -616,7 +616,7 @@ void s19b_jeep_liq_800D8044(JeepWork *work)
     SVECTOR sp10;
 
     s19b_jeep_mrl_800D39B4(&sp10);
-    if (Takabe_JeepSystem.field_5C != 0 && work->shoot_count >= 0x15)
+    if (Takabe_JeepSystem.has_homing_target != 0 && work->shoot_count >= 0x15)
     {
         work->shoot_count = 0;
         if (work->side > 0)
@@ -627,7 +627,7 @@ void s19b_jeep_liq_800D8044(JeepWork *work)
         {
             s19b_jeep_liq_800D7B3C(work, s19b_jeep_liq_800D7F20);
         }
-        Takabe_JeepSystem.field_54 |= 0x1000;
+        Takabe_JeepSystem.flags_54 |= 0x1000;
         GM_SeSet(&work->control.mov, s19b_dword_800C3A9C[GV_RandU(4)]);
     }
     else

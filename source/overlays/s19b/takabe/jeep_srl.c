@@ -6,32 +6,9 @@
 #include "game/vibrate.h"
 #include "takabe/fadeio.h"
 #include "takabe/thing.h"
+#include "jeep_system.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;       // 0x04
-    char     pad2[0x10];
-    SVECTOR  pos;           // 0x18
-    SVECTOR  next_pos;      // 0x20
-    int      field_28;      // 0x28
-    int      field_2C;      // 0x2C
-    int      field_30;      // 0x30
-    char     pad3[0x4];
-    SVECTOR  field_38;      // 0x38
-    int      field_40;      // 0x40
-    int      field_44;      // 0x44
-    int      field_48;      // 0x48
-    char     pad4[0x14];
-    OBJECT  *body;          // 0x60
-    char     pad5[0x14];
-    int      field_78;      // 0x78
-    int      field_7C;      // 0x7C
-    MATRIX   world;         // 0x80
-    char     pad6[0xCC];
-} JEEP_SYSTEM;
 
-extern JEEP_SYSTEM Takabe_JeepSystem;
 
 // One step of the scripted scroll speed table
 typedef struct _JEEP_KEY
@@ -304,7 +281,7 @@ static void Act(Work *work)
         work->reshaded = 1;
     }
 
-    Takabe_JeepSystem.pos = Takabe_JeepSystem.next_pos;
+    Takabe_JeepSystem.pos = Takabe_JeepSystem.offset;
 
     lit = work->lit;
     lit->n_lights = 0;
@@ -475,11 +452,11 @@ static int GetResources(Work *work, int name, int where)
     work->reshaded = 0;
     work->head = 0;
 
-    Takabe_JeepSystem.next_pos = DG_ZeroVector;
-    Takabe_JeepSystem.pos = Takabe_JeepSystem.next_pos;
-    Takabe_JeepSystem.field_30 = 0;
-    Takabe_JeepSystem.field_2C = 0;
-    Takabe_JeepSystem.field_28 = 0;
+    Takabe_JeepSystem.offset = DG_ZeroVector;
+    Takabe_JeepSystem.pos = Takabe_JeepSystem.offset;
+    Takabe_JeepSystem.world_pos.vz = 0;
+    Takabe_JeepSystem.world_pos.vy = 0;
+    Takabe_JeepSystem.world_pos.vx = 0;
 
     for (i = 0; i < JEEP_ROAD_COUNT; i++)
     {
