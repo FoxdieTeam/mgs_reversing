@@ -161,6 +161,11 @@ static inline int s18a_liquid_Scale(int value, int scale)
     return value * scale / 4096;
 }
 
+static inline int s18a_liquid_After(int time, int start)
+{
+    return time > start;
+}
+
 /*--FUNCS--*/
 
 int s18a_800C722C(SVECTOR *pos, short *out)
@@ -1727,7 +1732,89 @@ void s18a_800C9C2C(LiquidWork *work, int time)
     work->target->class |= 0x17;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA1A4.s")
+void s18a_800CA1A4(LiquidWork *work, int time)
+{
+    int      hit;
+    CONTROL *control;
+    int      base;
+    int      i;
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    hit = 0;
+    control = &work->control;
+
+    if (time == 0)
+    {
+        work->pose = 29;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[29], 0, 8);
+        GM_SeSetMode(&control->mov, 132, 1);
+    }
+
+    if (time < 15)
+    {
+        work->control.turn.vy = work->f9AC;
+    }
+
+    base = 15;
+
+    if (time == base)
+    {
+        s18a_liquid_SetPose(work, 30);
+    }
+
+    if (time == base + 2)
+    {
+        GM_SeSet(&control->mov, 57);
+    }
+
+    if (time == base + 16)
+    {
+        work->pose = 0;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[0], 0, 15);
+    }
+
+    if (time > base + 2 && time < 43)
+    {
+        hit = s18a_800C7A68(work, 6);
+    }
+
+    if (hit > 0)
+    {
+        GM_SeSet(&work->control.mov, 181);
+        work->time = base + 15;
+    }
+
+    if (time > base + 4 && time < base + 15)
+    {
+        for (i = 0; i < control->n_touches; i++)
+        {
+            if (GV_DiffDirAbs(control->rot.vy, GV_VecDir2(&control->vecs[i])) < 512)
+            {
+                work->time = base + 15;
+                break;
+            }
+        }
+    }
+
+    if (time > base + 61)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+        return;
+    }
+
+    work->target->class |= 0x17;
+}
+
 void s18a_800CA3B4(LiquidWork *work, int time)
 {
     if (time == 0)
@@ -1854,9 +1941,393 @@ void s18a_800CA440(LiquidWork *work, int time)
     work->target->class |= 0x17;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA6E0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA9FC.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CAD88.s")
+void s18a_800CA6E0(LiquidWork *work, int time)
+{
+    int      speed;
+    int      hit;
+    CONTROL *control;
+    int      frame;
+
+    speed = 0;
+    hit = 0;
+    control = &work->control;
+
+    if (time == 0)
+    {
+        control->turn.vy = work->f9AC;
+        work->pose = 15;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[15], 0, 0);
+    }
+
+    if (time == 6)
+    {
+        hit = s18a_800C7A68(work, 1);
+        GM_SeSet(&control->mov, 56);
+    }
+
+    if (time == 11)
+    {
+        work->pose = 14;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[14], 0, 0);
+    }
+
+    if (time == 15)
+    {
+        hit = s18a_800C7A68(work, 0);
+        GM_SeSet(&control->mov, 56);
+    }
+
+    if (time == 19)
+    {
+        s18a_liquid_SetPose(work, 16);
+    }
+
+    if (time == 23)
+    {
+        hit = s18a_800C7A68(work, 2);
+        GM_SeSet(&control->mov, 57);
+    }
+
+    if (time == 35)
+    {
+        work->pose = 0;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[0], 0, 10);
+    }
+
+    if (hit)
+    {
+        control->rot.vy = work->f9AC;
+        control->turn.vy = work->f9AC;
+
+        if (!s18a_liquid_After(time, 15))
+        {
+            GM_SeSet(&control->mov, 52);
+        }
+        else
+        {
+            GM_SeSet(&control->mov, 53);
+        }
+    }
+
+    frame = work->m_ctrl.info1.frame;
+
+    switch (work->pose)
+    {
+    case 14:
+        speed = 4;
+        if (frame < 4)
+        {
+            speed = 128;
+        }
+        break;
+
+    case 15:
+        speed = 4;
+        if (frame < 8)
+        {
+            speed = 24;
+        }
+        break;
+
+    case 16:
+        speed = 4;
+        if (frame <= 0)
+        {
+            speed = 128;
+        }
+        break;
+
+    case 17:
+        speed = 4;
+        if (frame < 4)
+        {
+            speed = 48;
+        }
+        break;
+    }
+
+    speed /= 2;
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (time == 36)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+        return;
+    }
+
+    if (work->pose != 10)
+    {
+        control->step.vx = speed * rsin(control->rot.vy) / 4096;
+        control->step.vz = speed * rcos(control->rot.vy) / 4096;
+    }
+
+    work->target->class |= 0x17;
+}
+
+void s18a_800CA9FC(LiquidWork *work, int time)
+{
+    int      speed;
+    int      hit;
+    CONTROL *control;
+    int      frame;
+    int      dir;
+
+    speed = 0;
+    control = &work->control;
+    hit = 0;
+
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 12);
+    }
+
+    if (time == 14)
+    {
+        s18a_liquid_SetPose(work, 12);
+    }
+
+    if (time < 28)
+    {
+        control->rot.vy = control->turn.vy = work->f9AC;
+        speed = 24;
+    }
+
+    if (time == 28)
+    {
+        work->pose = 15;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[15], 0, 0);
+        control->turn.vy = work->f9AC;
+    }
+
+    if (time == 46)
+    {
+        work->pose = 14;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[14], 0, 0);
+        control->turn.vy = work->f9AC;
+    }
+
+    if (time == 57)
+    {
+        s18a_liquid_SetPose(work, 16);
+        control->turn.vy = work->f9AC;
+    }
+
+    frame = work->m_ctrl.info1.frame;
+
+    switch (work->pose)
+    {
+    case 14:
+        speed = 4;
+        if (frame < 4)
+        {
+            speed = 128;
+        }
+        break;
+
+    case 15:
+        speed = 4;
+        if (frame < 8)
+        {
+            speed = 24;
+        }
+        break;
+
+    case 16:
+        speed = 4;
+        if (frame <= 0)
+        {
+            speed = 128;
+        }
+        break;
+
+    case 17:
+        speed = 4;
+        if (frame < 4)
+        {
+            speed = 48;
+        }
+        break;
+    }
+
+    if (hit)
+    {
+        work->time = 70;
+    }
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (time == 75)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+        return;
+    }
+
+    if (time < 28)
+    {
+        control->step.vx += speed * rsin(work->f9AC) / 4096;
+        control->step.vz += speed * rcos(work->f9AC) / 4096;
+
+        dir = work->f9AC - 1024;
+        dir &= 0xFFF;
+        speed = 48;
+        control->step.vx += rsin(dir) * speed / 4096;
+        control->step.vz += rcos(dir) * speed / 4096;
+    }
+    else
+    {
+        control->step.vx = speed * rsin(work->f9AC) / 4096;
+        control->step.vz = speed * rcos(work->f9AC) / 4096;
+    }
+
+    work->target->class |= 0x17;
+}
+
+void s18a_800CAD88(LiquidWork *work, int time)
+{
+    int      speed;
+    int      hit;
+    CONTROL *control;
+    int      frame;
+    int      dir;
+
+    speed = 0;
+    control = &work->control;
+    hit = 0;
+
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 13);
+    }
+
+    if (time == 14)
+    {
+        s18a_liquid_SetPose(work, 13);
+    }
+
+    if (time < 28)
+    {
+        control->rot.vy = control->turn.vy = work->f9AC;
+        speed = 24;
+    }
+
+    if (time == 28)
+    {
+        work->pose = 15;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[15], 0, 0);
+        control->turn.vy = work->f9AC;
+    }
+
+    if (time == 46)
+    {
+        work->pose = 14;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[14], 0, 0);
+        control->turn.vy = work->f9AC;
+    }
+
+    if (time == 57)
+    {
+        s18a_liquid_SetPose(work, 16);
+        control->turn.vy = work->f9AC;
+    }
+
+    frame = work->m_ctrl.info1.frame;
+
+    switch (work->pose)
+    {
+    case 14:
+        speed = 4;
+        if (frame < 4)
+        {
+            speed = 128;
+        }
+        break;
+
+    case 15:
+        speed = 4;
+        if (frame < 8)
+        {
+            speed = 24;
+        }
+        break;
+
+    case 16:
+        speed = 4;
+        if (frame <= 0)
+        {
+            speed = 128;
+        }
+        break;
+
+    case 17:
+        speed = 4;
+        if (frame < 4)
+        {
+            speed = 48;
+        }
+        break;
+    }
+
+    if (hit)
+    {
+        work->time = 70;
+    }
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (time == 75)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+        return;
+    }
+
+    if (time < 28)
+    {
+        control->step.vx += speed * rsin(work->f9AC) / 4096;
+        control->step.vz += speed * rcos(work->f9AC) / 4096;
+
+        dir = work->f9AC + 1024;
+        dir &= 0xFFF;
+        speed = 48;
+        control->step.vx += rsin(dir) * speed / 4096;
+        control->step.vz += rcos(dir) * speed / 4096;
+    }
+    else
+    {
+        control->step.vx = speed * rsin(work->f9AC) / 4096;
+        control->step.vz = speed * rcos(work->f9AC) / 4096;
+    }
+
+    work->target->class |= 0x17;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB114.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB310.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB418.s")
