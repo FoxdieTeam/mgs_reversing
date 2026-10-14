@@ -450,8 +450,6 @@ void s17a_800E3B00(MGREX_WORK *work, HZD_SEG *segs)
     s17a_800E377C((HZD_SEG *)getScratchAddr(0x10), segs, 4);
 }
 
-/* NON_MATCHING: register allocation of the last if differs ($v0/$v1/$a0) */
-#if 0
 void s17a_800E3BA8(MGREX_WORK *work, int arg1)
 {
     SVECTOR pos;
@@ -480,10 +478,9 @@ void s17a_800E3BA8(MGREX_WORK *work, int arg1)
     if (work->f1988 != 0 && work->f1980 == 2)
     {
         work->f1980 = 1;
+        work->f1984 = 255;
     }
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800E3BA8.s")
 
 /* Radar search */
 void s17a_800E3C7C(MGREX_WORK *work)
