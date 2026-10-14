@@ -97,6 +97,10 @@ typedef struct
     }
 
 void brf_800CCBD4();
+void brf_800CB23C();
+void brf_800CAE84();
+void brf_800CB5F4();
+void brf_800D1BDC();
 void brf_800CC5E4();
 void brf_800CF4E0();
 void brf_800CF5A8();
@@ -1350,42 +1354,6 @@ const int brf_dword_800E1F4C = 0x800D13B4;
 const int brf_dword_800E1F50 = 0x800D14B0;
 const int brf_dword_800E1F54 = 0x800D167C;
 const int brf_dword_800E1F58 = 0x800D1744;
-const int brf_dword_800E1F5C = 0x800D2E50;
-const int brf_dword_800E1F60 = 0x800D2E58;
-const int brf_dword_800E1F64 = 0x800D273C;
-const int brf_dword_800E1F68 = 0x800D281C;
-const int brf_dword_800E1F6C = 0x800D28A4;
-const int brf_dword_800E1F70 = 0x800D2984;
-const int brf_dword_800E1F74 = 0x800D2A78;
-const int brf_dword_800E1F78 = 0x800D2AFC;
-const int brf_dword_800E1F7C = 0x800D2C04;
-const int brf_dword_800E1F80 = 0x800D2C80;
-const int brf_dword_800E1F84 = 0x800D2D90;
-const int brf_dword_800E1F88 = 0x800D2E58;
-const int brf_dword_800E1F8C = 0x800D2E58;
-const int brf_dword_800E1F90 = 0x800D2E58;
-const int brf_dword_800E1F94 = 0x800D2E58;
-const int brf_dword_800E1F98 = 0x800D2E58;
-const int brf_dword_800E1F9C = 0x800D2E50;
-const char brf_dword_800E1FA0[16] = "b_eye_r_tyoi";
-const char brf_dword_800E1FB0[16] = "b_eye_l_tyou";
-const char brf_dword_800E1FC0[16] = "b_eye_l_tyoi";
-const char brf_dword_800E1FD0[12] = "\xa5\xad\xa5\xe3\xa5\xf3\xa5\xd9\xa5\xeb"; /* "キャンベル" (Campbell) */
-const char brf_dword_800E1FDC[16] = "b_eye_r_tyou";
-const int brf_dword_800E1FEC = 0x800D39D0;
-const int brf_dword_800E1FF0 = 0x800D39D8;
-const int brf_dword_800E1FF4 = 0x800D3278;
-const int brf_dword_800E1FF8 = 0x800D3348;
-const int brf_dword_800E1FFC = 0x800D3408;
-const int brf_dword_800E2000 = 0x800D34B4;
-const int brf_dword_800E2004 = 0x800D3598;
-const int brf_dword_800E2008 = 0x800D3608;
-const int brf_dword_800E200C = 0x800D36D8;
-const int brf_dword_800E2010 = 0x800D374C;
-const int brf_dword_800E2014 = 0x800D37AC;
-const int brf_dword_800E2018 = 0x800D3824;
-const int brf_dword_800E201C = 0x800D38EC;
-const int brf_dword_800E2020 = 0x800D39D0;
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CECE4.s")
 void brf_800CE1C4(Work *work);
 
@@ -1700,7 +1668,313 @@ void brf_800D1AD8(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D1BDC.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D26E4.s")
+void brf_800D26E4(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+    DG_TEX *g;
+
+    switch (work->field_AD20)
+    {
+    case 1:
+        if (work->field_AD5C != 0)
+        {
+            GM_StreamPlayStart();
+            brf_800CC150(work);
+            brf_800CC190(work);
+            work->field_AD78 = -0x50;
+            work->field_AD7C = 0x64;
+            work->field_AD38 = 0;
+            work->field_AD34 = 0;
+            work->field_ADA4 = 0;
+            work->field_AD9C = 0;
+            work->field_ADA0 = 0;
+            work->field_AD80 = 0xC8;
+            brf_800CE2F8(work);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[2] = 10;
+            work->z_A597[6] = 9;
+            work->z_A597[7] = 9;
+            work->z_A597[10] = 8;
+            work->z_A597[11] = 8;
+            work->z_A597[12] = 11;
+        }
+        brf_800CADD4(work, &base[2], 1);
+        brf_800CB23C(work, 6, 7);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        if (work->field_ADA4 == 0)
+        {
+            brf_800CF354(work, 3);
+            brf_800D1764(work);
+        }
+        else
+        {
+            brf_800CF22C(work, 3);
+        }
+        break;
+    case 2:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[2] = 10;
+            work->z_A597[3] = 10;
+            work->z_A597[6] = 9;
+            work->z_A597[7] = 9;
+            work->z_A597[10] = 8;
+            work->z_A597[11] = 8;
+            work->field_AD30 = 0;
+            work->z_A597[12] = 11;
+        }
+        brf_800CD8B8(work, 16, 2, 3);
+        brf_800CDA10(work, 6, 7);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        if (work->field_ADA4 == 0)
+        {
+            brf_800CF354(work, 3);
+            brf_800D1764(work);
+        }
+        else
+        {
+            brf_800CF22C(work, 3);
+        }
+        break;
+    case 3:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->field_AD30 = 0;
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1EB0));
+            BRF_SET_UV(&base[2], g);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[2] = 10;
+            work->z_A597[3] = 10;
+            work->z_A597[10] = 8;
+            work->z_A597[11] = 8;
+            work->z_A597[12] = 11;
+        }
+        brf_800CD8B8(work, 16, 3, 2);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        if (work->field_ADA4 == 0)
+        {
+            brf_800CF354(work, 3);
+            brf_800D1764(work);
+        }
+        else
+        {
+            brf_800CF22C(work, 3);
+        }
+        break;
+    case 4:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->field_AD30 = 0;
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1EC0));
+            BRF_SET_UV(&base[3], g);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[2] = 10;
+            work->z_A597[3] = 10;
+            work->z_A597[4] = 9;
+            work->z_A597[10] = 8;
+            work->z_A597[11] = 8;
+            work->z_A597[12] = 11;
+        }
+        brf_800CD8B8(work, 16, 2, 3);
+        brf_800CDAA8(work, 4);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        if (work->field_ADA4 == 0)
+        {
+            brf_800CF354(work, 3);
+            brf_800D1764(work);
+        }
+        else
+        {
+            brf_800CF22C(work, 3);
+        }
+        break;
+    case 5:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[3] = 10;
+            work->z_A597[4] = 9;
+            work->z_A597[5] = 9;
+            work->field_AD3C = 0;
+            work->field_AD38 = 0;
+            work->z_A597[10] = 8;
+            work->z_A597[11] = 8;
+            work->z_A597[12] = 11;
+            work->z_A597[13] = 8;
+            work->z_A597[14] = 8;
+        }
+        brf_800CAE84(work, 4, 5);
+        brf_800D1BDC(work);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        if (work->field_ADA4 == 0)
+        {
+            brf_800CF354(work, 3);
+            brf_800D1764(work);
+        }
+        else
+        {
+            brf_800CF22C(work, 3);
+        }
+        break;
+    case 6:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->field_AD30 = 0;
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1EF0));
+            BRF_SET_UV(&base[2], g);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[2] = 10;
+            work->z_A597[3] = 10;
+            work->z_A597[4] = 9;
+            work->z_A597[5] = 9;
+            work->z_A597[10] = 8;
+            work->z_A597[11] = 8;
+            work->z_A597[12] = 11;
+            work->z_A597[13] = 8;
+            work->z_A597[14] = 8;
+        }
+        brf_800CD8B8(work, 16, 3, 2);
+        brf_800CAE84(work, 4, 5);
+        brf_800D1BDC(work);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        if (work->field_ADA4 == 0)
+        {
+            brf_800CF354(work, 3);
+            brf_800D1764(work);
+        }
+        else
+        {
+            brf_800CF22C(work, 3);
+        }
+        break;
+    case 7:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[2] = 10;
+            work->z_A597[4] = 9;
+            work->z_A597[5] = 9;
+            work->z_A597[10] = 8;
+            work->z_A597[11] = 8;
+            work->z_A597[12] = 11;
+            work->z_A597[13] = 8;
+            work->z_A597[14] = 8;
+        }
+        brf_800CAE84(work, 4, 5);
+        brf_800D1BDC(work);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        if (work->field_ADA4 == 0)
+        {
+            brf_800CF354(work, 3);
+            brf_800D1764(work);
+        }
+        else
+        {
+            brf_800CF22C(work, 3);
+        }
+        break;
+    case 8:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->field_AD30 = 0;
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1EB0));
+            BRF_SET_UV(&base[3], g);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[2] = 10;
+            work->z_A597[3] = 10;
+            work->z_A597[4] = 9;
+            work->z_A597[5] = 9;
+            work->z_A597[8] = 9;
+            work->z_A597[10] = 8;
+            work->z_A597[11] = 8;
+            work->z_A597[12] = 11;
+            work->z_A597[13] = 8;
+            work->z_A597[14] = 8;
+        }
+        brf_800CD8B8(work, 16, 2, 3);
+        brf_800CD958(work, 4, 5, 8);
+        brf_800D1BDC(work);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        if (work->field_ADA4 == 0)
+        {
+            brf_800CF354(work, 3);
+            brf_800D1764(work);
+        }
+        else
+        {
+            brf_800CF22C(work, 3);
+        }
+        break;
+    case 9:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[3] = 10;
+            work->z_A597[8] = 9;
+            work->z_A597[9] = 9;
+            work->field_AD38 = 0;
+            work->z_A597[10] = 8;
+            work->z_A597[11] = 8;
+            work->z_A597[12] = 11;
+            work->z_A597[13] = 8;
+            work->z_A597[14] = 8;
+        }
+        brf_800CB5F4(work, 8, 9);
+        brf_800D1BDC(work);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        if (work->field_ADA4 == 0)
+        {
+            brf_800CF354(work, 3);
+            brf_800D1764(work);
+        }
+        else
+        {
+            brf_800CF22C(work, 3);
+        }
+        break;
+    case -1:
+    case 15:
+        brf_800CF5A8(work);
+        break;
+    }
+}
+const char brf_dword_800E1FA0[16] = "b_eye_r_tyoi";
+const char brf_dword_800E1FB0[16] = "b_eye_l_tyou";
+const char brf_dword_800E1FC0[16] = "b_eye_l_tyoi";
+const char brf_dword_800E1FD0[12] = "\xa5\xad\xa5\xe3\xa5\xf3\xa5\xd9\xa5\xeb"; /* "キャンベル" (Campbell) */
+const char brf_dword_800E1FDC[16] = "b_eye_r_tyou";
+const int brf_dword_800E1FEC = 0x800D39D0;
+const int brf_dword_800E1FF0 = 0x800D39D8;
+const int brf_dword_800E1FF4 = 0x800D3278;
+const int brf_dword_800E1FF8 = 0x800D3348;
+const int brf_dword_800E1FFC = 0x800D3408;
+const int brf_dword_800E2000 = 0x800D34B4;
+const int brf_dword_800E2004 = 0x800D3598;
+const int brf_dword_800E2008 = 0x800D3608;
+const int brf_dword_800E200C = 0x800D36D8;
+const int brf_dword_800E2010 = 0x800D374C;
+const int brf_dword_800E2014 = 0x800D37AC;
+const int brf_dword_800E2018 = 0x800D3824;
+const int brf_dword_800E201C = 0x800D38EC;
+const int brf_dword_800E2020 = 0x800D39D0;
 void brf_800D2E70(Work *work)
 {
     POLY_FT4 *base = work->field_28C;
