@@ -83,7 +83,7 @@ typedef struct _Work
 }
 
 /* shows digit (0-9) in poly */
-void Timer_800C4320(Work *work, POLY_FT4 *poly, int digit, int n_digits)
+static void SetDigit(Work *work, POLY_FT4 *poly, int digit, int n_digits)
 {
     int u0, u1;
     int u, v, h;
@@ -145,20 +145,20 @@ static void Act(Work *work)
     min10 = min / 10;
     min = min % 10;
 
-    Timer_800C4320(work, poly0, sec1, 10);
-    Timer_800C4320(work, poly1, sec1, 10);
+    SetDigit(work, poly0, sec1, 10);
+    SetDigit(work, poly1, sec1, 10);
     poly0++;
     poly1++;
-    Timer_800C4320(work, poly0, sec10, 10);
-    Timer_800C4320(work, poly1, sec10, 10);
+    SetDigit(work, poly0, sec10, 10);
+    SetDigit(work, poly1, sec10, 10);
     poly0 += 2;
     poly1 += 2;
-    Timer_800C4320(work, poly0, min, 10);
-    Timer_800C4320(work, poly1, min, 10);
+    SetDigit(work, poly0, min, 10);
+    SetDigit(work, poly1, min, 10);
     poly0++;
     poly1++;
-    Timer_800C4320(work, poly0, min10, 10);
-    Timer_800C4320(work, poly1, min10, 10);
+    SetDigit(work, poly0, min10, 10);
+    SetDigit(work, poly1, min10, 10);
 
     work->time--;
 
