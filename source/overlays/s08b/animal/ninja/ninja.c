@@ -952,25 +952,18 @@ void s08b_bunsin2_800C8F0C(Work *work)
     world.t[1] = 20;
     world.t[2] = work->control.mov.vz;
 
-    if (GM_GameLevel == GM_LEVEL_NORMAL)
+    switch (GM_GameLevel)
     {
+    case GM_LEVEL_NORMAL:
         NewWindcrcl_800CF784(&world, 200, 100, 300, 10);
-    }
-    else if (GM_GameLevel > GM_LEVEL_EASY)
-    {
-        if (GM_GameLevel < GM_LEVEL_EXTREME + 1)
-        {
-            NewWindcrcl_800CF784(&world, 200, 100, 400, 10);
-        }
-        else
-        {
-            goto level_easy;
-        }
-    }
-    else
-    {
-level_easy:
+        break;
+    case GM_LEVEL_HARD:
+    case GM_LEVEL_EXTREME:
+        NewWindcrcl_800CF784(&world, 200, 100, 400, 10);
+        break;
+    default:
         NewWindcrcl_800CF784(&world, 200, 100, 200, 10);
+        break;
     }
 }
 void s08b_bunsin2_800C8FF8(Work *work)
@@ -1059,14 +1052,13 @@ void s08b_bunsin2_800C9B38(Work *work, int first)
             GM_ConfigObjectOverride(&work->body, s08b_dword_800C33A0[0], 0, 4, 0);
             work->action2 = 0;
             work->time2 = 0;
-            goto reset;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
         }
-
-        if (work->dir >= 0)
+        else if (work->dir >= 0)
         {
             work->action = s08b_bunsin2_800C9C74;
             work->time = 0;
-reset:
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
         }
@@ -1570,20 +1562,17 @@ void s08b_bunsin2_800CAF6C(Work *work, int time)
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[27], 0, 4);
     }
 
-    if (work->command != 22)
+    if (work->command == 22)
     {
-        if (s08b_bunsin2_800C9120(work) == 0)
-        {
-            work->action = s08b_bunsin2_800C9B38;
-            work->time = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
-            goto stop;
-        }
+        control->step.vx = 0;
+        control->step.vz = 0;
     }
-    else
+    else if (s08b_bunsin2_800C9120(work) == 0)
     {
-stop:
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         control->step.vx = 0;
         control->step.vz = 0;
     }
@@ -1660,20 +1649,18 @@ void s08b_bunsin2_800CB158(Work *work, int time)
     {
         work->field_1A00 = 1;
 
-        if (work->command != 26)
+        if (work->command == 26)
         {
-            if (s08b_bunsin2_800C9120(work) == 0)
-            {
-                work->action = s08b_bunsin2_800C9B38;
-                work->time = 0;
-                work->control.turn.vz = 0;
-                work->control.turn.vx = 0;
-                goto stop;
-            }
+            control->step.vx = 0;
+            control->step.vz = 0;
+            work->target->class |= 0x1F;
         }
-        else
+        else if (s08b_bunsin2_800C9120(work) == 0)
         {
-stop:
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
             control->step.vx = 0;
             control->step.vz = 0;
             work->target->class |= TARGET_FLAG;
@@ -1692,21 +1679,18 @@ void s08b_bunsin2_800CB210(Work *work, int time)
 
     work->field_1A00 = 1;
 
-    if (work->command != 27)
+    if (work->command == 27)
     {
-        if (s08b_bunsin2_800C9120(work) == 0)
-        {
-            work->field_19F0 = 30;
-            work->action = s08b_bunsin2_800C9B38;
-            work->time = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
-            goto stop;
-        }
+        control->step.vx = 0;
+        control->step.vz = 0;
     }
-    else
+    else if (s08b_bunsin2_800C9120(work) == 0)
     {
-stop:
+        work->field_19F0 = 30;
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         control->step.vx = 0;
         control->step.vz = 0;
     }
@@ -1733,22 +1717,20 @@ void s08b_bunsin2_800CB2AC(Work *work, int time)
 
     if (work->command != 28)
     {
-        if (s08b_bunsin2_800C9120(work) == 0)
+        if (s08b_bunsin2_800C9120(work) != 0)
         {
-            work->action = s08b_bunsin2_800C9B38;
-            work->time = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
-            goto stop;
+            return;
         }
+
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
-    else
-    {
-stop:
-        s08b_bunsin2_800C9588(work, 6);
-        control->step.vx = 0;
-        control->step.vz = 0;
-    }
+
+    s08b_bunsin2_800C9588(work, 6);
+    control->step.vx = 0;
+    control->step.vz = 0;
 }
 void s08b_bunsin2_800CB38C(Work *work, int time)
 {
@@ -1764,20 +1746,18 @@ void s08b_bunsin2_800CB38C(Work *work, int time)
     {
         work->field_1A00 = 1;
 
-        if (work->command != 30)
+        if (work->command == 30)
         {
-            if (s08b_bunsin2_800C9120(work) == 0)
-            {
-                work->action = s08b_bunsin2_800C9B38;
-                work->time = 0;
-                work->control.turn.vz = 0;
-                work->control.turn.vx = 0;
-                goto stop;
-            }
+            control->step.vx = 0;
+            control->step.vz = 0;
+            work->target->class |= 0x1F;
         }
-        else
+        else if (s08b_bunsin2_800C9120(work) == 0)
         {
-stop:
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
             control->step.vx = 0;
             control->step.vz = 0;
             work->target->class |= TARGET_FLAG;
@@ -1804,23 +1784,21 @@ void s08b_bunsin2_800CB444(Work *work, int time)
 
         if (work->command != 29)
         {
-            if (s08b_bunsin2_800C9120(work) == 0)
+            if (s08b_bunsin2_800C9120(work) != 0)
             {
-                work->action = s08b_bunsin2_800C9B38;
-                work->time = 0;
-                work->control.turn.vz = 0;
-                work->control.turn.vx = 0;
-                goto stop;
+                return;
             }
+
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
         }
-        else
-        {
-stop:
-            s08b_bunsin2_800C9588(work, 6);
-            control->step.vx = 0;
-            control->step.vz = 0;
-            work->target->class |= TARGET_FLAG;
-        }
+
+        s08b_bunsin2_800C9588(work, 6);
+        control->step.vx = 0;
+        control->step.vz = 0;
+        work->target->class |= TARGET_FLAG;
     }
 }
 void s08b_bunsin2_800CB52C(Work *work, int time)
@@ -2853,14 +2831,9 @@ void s08b_bunsin2_800CD000(Work *work)
 
     if (work->flags & NINJA_FLAG_CLONES)
     {
-        if (work->field_7D8 == 0 && work->clone1 == NULL && work->clone2 == NULL)
+        if ((work->field_7D8 == 0 && work->clone1 == NULL && work->clone2 == NULL) ||
+            work->field_7D8 == GV_Time % 3)
         {
-            goto invisible_off;
-        }
-
-        if (work->field_7D8 == GV_Time % 3)
-        {
-invisible_off:
             work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
         }
         else
@@ -4275,7 +4248,8 @@ int s08b_bunsin2_800D0550(Work *work)
                 s08b_dword_800C344C = 4;
             }
 
-            goto advance;
+            work->count3++;
+            return 0;
         }
     }
 
@@ -4284,7 +4258,6 @@ int s08b_bunsin2_800D0550(Work *work)
         return 1;
     }
 
-advance:
     work->count3++;
     return 0;
 }
@@ -5255,7 +5228,9 @@ void s08b_bunsin2_800D1DE0(Work *work)
         if (s08b_bunsin2_800CF958(work) != 0)
         {
             work->think2 = 7;
-            goto stop;
+            work->think3 = 24;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
@@ -5282,17 +5257,15 @@ void s08b_bunsin2_800D1DE0(Work *work)
         if (s08b_bunsin2_800D0004(work) != 0)
         {
             work->think3 = 24;
-            goto reset;
+            work->count3 = 0;
         }
         break;
 
     case 7:
         if (s08b_bunsin2_800CFCF8(work) != 0)
         {
-stop:
             work->think3 = 24;
             work->think_time = 0;
-reset:
             work->count3 = 0;
         }
         break;
@@ -5707,9 +5680,10 @@ void s08b_bunsin2_800D2600(Work *work)
                 }
                 else
                 {
-                    goto reload;
+                    s08b_bunsin2_800CDE74(work);
+                    work->think2 = 1;
+                    work->think3 = 26;
                 }
-
             }
 
             work->think_time = 0;
@@ -5745,11 +5719,15 @@ void s08b_bunsin2_800D2600(Work *work)
                 command = 24;
                 if (work->field_1A0C != 0)
                 {
-                    goto reload;
+                    s08b_bunsin2_800CDE74(work);
+                    work->think2 = 1;
+                    work->think3 = 26;
                 }
-
-                work->think2 = 0;
-                work->think3 = command;
+                else
+                {
+                    work->think2 = 0;
+                    work->think3 = command;
+                }
             }
 
             work->think_time = 0;
@@ -5760,7 +5738,6 @@ void s08b_bunsin2_800D2600(Work *work)
     case 5:
         if (s08b_bunsin2_800CFDE0(work) != 0)
         {
-reload:
             s08b_bunsin2_800CDE74(work);
             work->think2 = 1;
             work->think3 = 26;
@@ -5855,10 +5832,13 @@ void s08b_bunsin2_800D29DC(Work *work)
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
             work->think3 = 28;
-            goto reset;
+            work->think_time = 0;
+            work->count3 = 0;
         }
-
-        work->field_1A08 = 1;
+        else
+        {
+            work->field_1A08 = 1;
+        }
         break;
 
     case 29:
@@ -5866,7 +5846,8 @@ void s08b_bunsin2_800D29DC(Work *work)
         if (s08b_bunsin2_800D0330(work) != 0)
         {
             s08b_dword_800C3448 = 0;
-            goto reset;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
@@ -5876,7 +5857,6 @@ void s08b_bunsin2_800D29DC(Work *work)
             work->think2 = 8;
             work->think3 = 38;
             s08b_dword_800C3448 = 0;
-reset:
             work->think_time = 0;
             work->count3 = 0;
         }
@@ -6233,7 +6213,6 @@ void s08b_bunsin2_800D3160(Work *work)
 void s08b_bunsin2_800D31EC(Work *work)
 {
     int command;
-    int result;
 
     switch (work->think3)
     {
@@ -6241,19 +6220,25 @@ void s08b_bunsin2_800D31EC(Work *work)
         switch (s08b_bunsin2_800D0814(work))
         {
         case 1:
-            command = 27;
-            goto set;
+            work->think3 = 27;
+            work->count3 = 0;
+            break;
 
         case 2:
             s08b_bunsin2_800CDFA0(work);
-            command = 3;
-            goto set;
+            work->think3 = 3;
+            work->count3 = 0;
+            break;
         }
         break;
 
     case 27:
-        result = s08b_bunsin2_800D0864(work);
-        goto check;
+        if (s08b_bunsin2_800D0864(work) != 0)
+        {
+            work->think3 = 24;
+            work->count3 = 0;
+        }
+        break;
 
     case 24:
         if (s08b_bunsin2_800D0A54() != 0)
@@ -6270,7 +6255,7 @@ void s08b_bunsin2_800D31EC(Work *work)
 
             work->think3 = command;
             work->command = -1;
-            goto reset;
+            work->count3 = 0;
         }
         break;
 
@@ -6278,12 +6263,15 @@ void s08b_bunsin2_800D31EC(Work *work)
         switch (s08b_bunsin2_800D08C8())
         {
         case 1:
-            goto stop;
+            work->think3 = 24;
+            work->count3 = 0;
+            break;
 
         case 2:
             s08b_bunsin2_800CDFA0(work);
-            command = 4;
-            goto set;
+            work->think3 = 4;
+            work->count3 = 0;
+            break;
         }
         break;
 
@@ -6291,25 +6279,23 @@ void s08b_bunsin2_800D31EC(Work *work)
         if (s08b_bunsin2_800CFC90(work) != 0)
         {
             s08b_bunsin2_800CDFF8(work);
-            command = 26;
-            goto set;
+            work->think3 = 26;
+            work->count3 = 0;
         }
         break;
 
     case 4:
-        result = s08b_bunsin2_800CFC90(work);
-        goto check;
+        if (s08b_bunsin2_800CFC90(work) != 0)
+        {
+            work->think3 = 24;
+            work->count3 = 0;
+        }
+        break;
 
     case 5:
-        result = s08b_bunsin2_800CFD88(work);
-check:
-        if (result != 0)
+        if (s08b_bunsin2_800CFD88(work) != 0)
         {
-stop:
-            command = 24;
-set:
-            work->think3 = command;
-reset:
+            work->think3 = 24;
             work->count3 = 0;
         }
         break;
@@ -7037,38 +7023,64 @@ void s08b_bunsin2_800D41DC(Work *work)
 
 int s08b_bunsin2_800D42D8(Work *work)
 {
-    int result;
-
     switch (work->think3)
     {
     case 13:
-        result = s08b_bunsin2_800D1014(work);
-        goto check;
+        if (s08b_bunsin2_800D1014(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 14:
-        result = s08b_bunsin2_800D10C4(work);
-        goto check;
+        if (s08b_bunsin2_800D10C4(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 15:
-        result = s08b_bunsin2_800D1138(work);
-        goto check;
+        if (s08b_bunsin2_800D1138(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 16:
-        result = s08b_bunsin2_800D11A8(work);
-        goto check;
+        if (s08b_bunsin2_800D11A8(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 17:
-        result = s08b_bunsin2_800D1218(work);
-        goto check;
+        if (s08b_bunsin2_800D1218(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 18:
-        result = s08b_bunsin2_800D125C(work);
-        goto check;
+        if (s08b_bunsin2_800D125C(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 19:
-        result = s08b_bunsin2_800D12A0(work);
-check:
-        if (result != 0)
+        if (s08b_bunsin2_800D12A0(work) != 0)
         {
             work->command = -1;
             work->think3 = 23;
@@ -7219,8 +7231,6 @@ void s08b_bunsin2_800D4638(Work *work)
 
 void s08b_bunsin2_800D468C(Work *work)
 {
-    int result;
-
     switch (work->think3)
     {
     case 24:
@@ -7236,25 +7246,43 @@ void s08b_bunsin2_800D468C(Work *work)
         break;
 
     case 20:
-        result = s08b_bunsin2_800D12EC(work);
-        goto check;
+        if (s08b_bunsin2_800D12EC(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 13:
-        result = s08b_bunsin2_800D1014(work);
-        goto check;
+        if (s08b_bunsin2_800D1014(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 17:
-        result = s08b_bunsin2_800D1218(work);
-        goto check;
+        if (s08b_bunsin2_800D1218(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 16:
-        result = s08b_bunsin2_800D11A8(work);
-        goto check;
+        if (s08b_bunsin2_800D11A8(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 19:
-        result = s08b_bunsin2_800D12A0(work);
-check:
-        if (result != 0)
+        if (s08b_bunsin2_800D12A0(work) != 0)
         {
             work->command = -1;
             work->think3 = 23;

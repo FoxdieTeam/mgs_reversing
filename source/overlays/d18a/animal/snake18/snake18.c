@@ -2071,6 +2071,7 @@ fail:
     }
     else if ((GM_Weapon == WP_Stinger || GM_Weapon == WP_Rifle) && work->item == 1)
     {
+        // goto kept: a second "ok = 0" (or one merged condition) changes the branch/delay slot code
         goto fail;
     }
     else
@@ -2224,6 +2225,7 @@ fail:
 
     if ((GM_Item == IT_Scope || GM_Item == IT_Box1 || GM_Item == IT_Box2 || GM_Item == IT_Box3) && ((work->weapon_flags & 0x200) || dword_8009F46C[0]))
     {
+        // goto kept: a second "return 0" gets cross-jumped to the end, moving the shared fail block
         goto fail;
     }
 
@@ -3938,7 +3940,8 @@ void d18a_snake18_800D01D8(Snake18Work *work, int time)
     action = work->body.action;
     base = work->f8F0;
 
-    // a switch (action % 3) with the case value 2 held in a register
+    // a switch (action % 3) with the case value 2 held in a register; gotos kept: a real switch
+    // compares against an immediate 2 (slti) and nested ifs place the case bodies inline
     if (action % 3 != 1)
     {
         if (action % 3 < two)
@@ -5903,7 +5906,10 @@ void d18a_snake18_800D3D0C(Snake18Work *work, int time)
     {
         if (!(work->local_data & PAD_CIRCLE))
         {
-            goto end;
+            d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
+            GM_PlayerStatus &= ~PLAYER_ATTACK;
+            work->flags &= ~4;
+            return;
         }
 
         work->local_data &= ~PAD_CIRCLE;
@@ -5918,7 +5924,10 @@ void d18a_snake18_800D3D0C(Snake18Work *work, int time)
     {
         if (!(work->local_data & PAD_CIRCLE))
         {
-            goto end;
+            d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
+            GM_PlayerStatus &= ~PLAYER_ATTACK;
+            work->flags &= ~4;
+            return;
         }
 
         work->local_data = 0;
@@ -5931,7 +5940,6 @@ void d18a_snake18_800D3D0C(Snake18Work *work, int time)
 
     if (work->body.is_end)
     {
-end:
         d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
         GM_PlayerStatus &= ~PLAYER_ATTACK;
         work->flags &= ~4;

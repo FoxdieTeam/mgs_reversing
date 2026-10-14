@@ -307,6 +307,8 @@ int s19b_jbullet_800C5010(Work *work)
             trg->force = DG_ZeroVector;
             trg->damage = 0;
             trg->damaged = 0;
+            // goto kept: the original places this block before the shared tail below; moving the
+            // tail into the a_mode == 1 branch (or using do/while + break) changes the code
             goto check_next;
         }
 

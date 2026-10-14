@@ -1248,35 +1248,17 @@ void brf_800CBE34(Work *work, POLY_FT4 *dest)
     case 18:
     case 24:
         g = brf_800CABF4(work, GV_StrCode("b_face_open_u"));
+        BRF_SET_UV(dest, g);
         break;
     case 3:
     case 9:
     case 15:
     case 21:
         g = brf_800CABF4(work, GV_StrCode("b_face_angry_piku"));
+        BRF_SET_UV(dest, g);
         break;
-    default:
-        goto skip;
     }
 
-    {
-        int u = g->off_x;
-        int uw = u + g->w + 1;
-        int v = g->off_y;
-        int vh = v + g->h + 1;
-
-        dest->u0 = u;
-        dest->v0 = v;
-        dest->u1 = uw;
-        dest->v1 = v;
-        dest->u2 = u;
-        dest->v2 = vh;
-        dest->u3 = uw;
-        dest->v3 = vh;
-        dest->tpage = g->tpage;
-        dest->clut = g->clut;
-    }
-skip:
     work->field_AD30++;
 }
 
@@ -1288,38 +1270,22 @@ void brf_800CBF48(Work *work, POLY_FT4 *dest)
     {
     case 0:
         g = brf_800CABF4(work, GV_StrCode("b_eye_open"));
+        BRF_SET_UV(dest, g);
         break;
     case 4:
         g = brf_800CABF4(work, GV_StrCode("b_eye_half"));
+        BRF_SET_UV(dest, g);
         break;
     case 7:
         g = brf_800CABF4(work, GV_StrCode("b_eye_close"));
+        BRF_SET_UV(dest, g);
         break;
     case 10:
         g = brf_800CABF4(work, GV_StrCode("b_eye_down"));
+        BRF_SET_UV(dest, g);
         break;
-    default:
-        goto skip;
     }
 
-    {
-        int u = g->off_x;
-        int uw = u + g->w + 1;
-        int v = g->off_y;
-        int vh = v + g->h + 1;
-
-        dest->u0 = u;
-        dest->v0 = v;
-        dest->u1 = uw;
-        dest->v1 = v;
-        dest->u2 = u;
-        dest->v2 = vh;
-        dest->u3 = uw;
-        dest->v3 = vh;
-        dest->tpage = g->tpage;
-        dest->clut = g->clut;
-    }
-skip:
     work->field_AD30++;
 }
 
@@ -3946,10 +3912,6 @@ void brf_800D52F0(Work *work)
                 work->poly_flags[6] = 10;
                 work->poly_flags[7] = 10;
             }
-            else
-            {
-                goto call_cece4;
-            }
         }
         if (work->view_mode == 0)
         {
@@ -5486,24 +5448,19 @@ void brf_800DCD70(Work *work, POLY_FT4 *poly)
         k = -(c * 8);
         x0 = k + 0x7F;
         x1 = k + 0x27B;
+        setXY4(poly, x0, -0x11C, x1, -0x11C, x0, 0x64, x1, 0x64);
     }
-    else if (c < 0x81)
+    else if (c >= 0x81)
     {
-        goto skip;
+        if (c < 0xA1)
+        {
+            k = -((c - 0x3A) * 8);
+            x0 = k + 0x7F;
+            x1 = k + 0x27B;
+            setXY4(poly, x0, -0x11C, x1, -0x11C, x0, 0x64, x1, 0x64);
+        }
     }
-    else if (c < 0xA1)
-    {
-        k = -((c - 0x3A) * 8);
-        x0 = k + 0x7F;
-        x1 = k + 0x27B;
-    }
-    else
-    {
-        goto skip;
-    }
-    setXY4(poly, x0, -0x11C, x1, -0x11C, x0, 0x64, x1, 0x64);
 
-skip:
     switch (work->field_AD34)
     {
     case 0x00:

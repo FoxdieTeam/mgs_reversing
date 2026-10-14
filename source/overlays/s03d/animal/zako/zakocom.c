@@ -104,10 +104,12 @@ int s03d_800D414C(int map_id, int val)
                 return list->data[i][1];
             }
         }
-        goto end;
     }
-    return 0;
-end:
+    else
+    {
+        return 0;
+    }
+
     return -1;
 }
 void ZakoCom_800D41C0(void)

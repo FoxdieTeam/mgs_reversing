@@ -92,18 +92,17 @@ void rank_800D128C( int r, int g, int b, int a3 )
 
     config = &rank_dword_800E1998;
 
-    if ( a3 != 0 )
-        goto nonzero;
+    if ( a3 == 0 )
+    {
+        packed = r | ( g << 8 ) | ( b << 16 );
+        code = 0x64000000;
+    }
+    else
+    {
+        packed = r | ( g << 8 ) | ( b << 16 );
+        code = 0x2C000000;
+    }
 
-    packed = r | ( g << 8 ) | ( b << 16 );
-    code = 0x64000000;
-    goto combine;
-
-nonzero:
-    packed = r | ( g << 8 ) | ( b << 16 );
-    code = 0x2C000000;
-
-combine:
     config->color = packed | code;
 }
 
