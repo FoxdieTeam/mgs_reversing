@@ -50,29 +50,6 @@ extern short s03d_word_800C3A10[20];
 
 extern int s03d_dword_800DC2F8;
 
-// rdata of zako.c: starts at 0x800DB4B4 (the "zako.c" string before it belongs to the
-// object linked in front, its padding byte is object padding)
-const char s03d_dword_800DB4B4[] = {' ', 'm', 'e', 'r'};
-const char s03d_dword_800DB4B8[] = {'y', 'l', ' ', 'K'};
-const char s03d_dword_800DB4BC[] = {'I', 'L', 'L', 'E'};
-const char s03d_dword_800DB4C0[] = {'D', ' ', '!', '!'};
-const char s03d_dword_800DB4C4[] = {'!', ' ', '\n', 0x0};
-const char s03d_dword_800DB4C8[] = {' ', 'S', 'N', 'A'};
-const char s03d_dword_800DB4CC[] = {'K', 'E', ' ', 'K'};
-const char s03d_dword_800DB4D0[] = {'I', 'L', 'L', 'E'};
-const char s03d_dword_800DB4D4[] = {'D', ' ', '!', '!'};
-const char s03d_dword_800DB4D8[] = {'!', ' ', '\n', 0x0};
-
-const int s03d_dword_800DB4DC = 0x800CD840;
-const int s03d_dword_800DB4E0 = 0x800CD8D8;
-const int s03d_dword_800DB4E4 = 0x800CD7C8;
-const int s03d_dword_800DB4E8 = 0x800CD828;
-const int s03d_dword_800DB4EC = 0x800CD910;
-const int s03d_dword_800DB4F0 = 0x800CD964;
-const int s03d_dword_800DB4F4 = 0x800CD964;
-const int s03d_dword_800DB4F8 = 0x800CD92C;
-const int s03d_dword_800DB4FC = 0x800CD940;
-
 void AN_Fog(SVECTOR *svec);
 void AN_Sleep(SVECTOR *svec);
 void *AN_Breath(MATRIX *world);
@@ -92,6 +69,8 @@ int s03d_800CDF94(Work *work);
 void s03d_800CE318(Work *work, int arg);
 void s03d_800CFB04(Work *work, int arg);
 void s03d_800CF844(Work *work, int arg);
+void s03d_800CFA04(Work *work, int arg);
+void s03d_800CF4D4(Work *work, int arg);
 void s03d_800CFFF0(Work *work, int arg);
 void s03d_800CF90C(Work *work, int arg);
 void s03d_800CF114(Work *work);
@@ -378,7 +357,82 @@ int Zako_800CD720(SVECTOR *vec)
 
     return ABS(x) + ABS(y) + ABS(z);
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD75C.s")
+int s03d_800CD75C(Work *work)
+{
+    TARGET *target;
+
+    target = work->target;
+    if (!(target->damaged & TARGET_POWER))
+    {
+        return 0;
+    }
+
+    switch (target->a_mode)
+    {
+    case 3:
+        target->force = DG_ZeroVector;
+        if (target->faint <= 0)
+        {
+            work->act.field_14 = 1;
+            SetMode(work, s03d_800CFB04);
+        }
+        else
+        {
+            SetMode(work, s03d_800CFA04);
+        }
+        break;
+    case 4:
+        work->act.field_14 = 0;
+        SetMode(work, s03d_800CFB04);
+        break;
+    case 1:
+        target->force = DG_ZeroVector;
+        if (target->vital <= 0)
+        {
+            if (target->vital != work->field_BA2 - 0x40)
+            {
+                work->field_BA0 = 1;
+                printf(" meryl KILLED !!! \n");
+            }
+            else
+            {
+                printf(" SNAKE KILLED !!! \n");
+            }
+            work->act.field_14 = 1;
+            SetMode(work, s03d_800CFB04);
+        }
+        else
+        {
+            SetMode(work, s03d_800CFA04);
+        }
+        break;
+    case 2:
+        if (Zako_800CD720(&target->force) < 100)
+        {
+            work->act.field_14 = 3;
+        }
+        else
+        {
+            work->act.field_14 = 2;
+        }
+        SetMode(work, s03d_800CFB04);
+        break;
+    case 5:
+        work->act.field_14 = 3;
+        SetMode(work, s03d_800CFB04);
+        break;
+    case 8:
+        SetMode(work, s03d_800CF4D4);
+        break;
+    case 9:
+        SetMode(work, s03d_800CF548);
+        break;
+    }
+
+    target->damage = 0;
+    target->damaged = 0;
+    return 1;
+}
 int s03d_800CD984(Work *work)
 {
     if (work->control.mov.vx < 0x1194)
