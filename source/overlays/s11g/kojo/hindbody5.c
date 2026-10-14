@@ -36,16 +36,17 @@ void s11g_hind_800D9B80(HindWork *work);
 void s11g_hind_800DA7C4(HindWork *work);
 
 /*
- * The hind's movement code is one source file in the original (hindbody2.c ..
- * hindbody5.c). It is split here only because s11g_hind_800DA534 and
- * s11g_hind_800DAAC8 do not match yet: this way the matching parts are plain C
- * and can be shared by s11b, s11h and s11g. Merge the files back into
- * hindbody2.c once those two functions match.
+ * The hind's movement code is one source file in the original (hindbody2.c +
+ * hindbody5.c). s11g_hind_800DAAC8 is kept in its own file only because it
+ * does not match yet; merge it back into hindbody2.c once it does.
  */
 
-#if 0 /* NON_MATCHING: 2 instructions differ (scheduling of the "dist / 8" shift
-         in the blast block: the original does not treat the quotient as a
-         register birth, i.e. it is probably a reused variable) */
+#if 0 /* NON_MATCHING: only the "range = dist / 8" shift is scheduled differently
+         (2 instructions swapped). sched treats that sra as a register birth
+         (REG_N_SETS == 1) and moves it next to the GV_RandU call; in the
+         original the quotient register must be set more than once (it is
+         s0, while its dist + 7 temporary is v0). Reusing range for another
+         value fixes the schedule but then the temporary is allocated s0. */
 void s11g_hind_800DAAC8(HindWork *work)
 {
     SVECTOR  rot;
