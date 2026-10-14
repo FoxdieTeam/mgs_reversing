@@ -48,7 +48,7 @@ typedef struct _Work
     void      *graph;           /* 0x0D8: NewBriefingGraph() actor */
     void      *count;           /* 0x0DC: NewBriefingCount() actor */
     int        map;             /* 0x0E0 */
-    void      *buf;             /* 0x0E4: loaded file (PACK_ADDR0) */
+    char      *buf;             /* 0x0E4: loaded file (PACK_ADDR0) */
     char       name[0x40];      /* 0x0E8: name of the texture being set up */
     DG_TEX     textures[64];    /* 0x128 */
     int        tex_ids[64];     /* 0x428 */
@@ -327,7 +327,7 @@ void brf_800C56C0(Work *work, void *data, int cache_id);
 
 void brf_800C5DE4(Work *work)
 {
-    char *p = (char *)work->buf;
+    char *p = work->buf;
     int count = *(int *)p;
     char *dst;
     char c;
@@ -361,7 +361,7 @@ void brf_800C5A68(Work *work, void *data, int cache_id);
 
 void brf_800C5EAC(Work *work)
 {
-    char *p = (char *)work->buf;
+    char *p = work->buf;
     int count = *(int *)p;
     char *dst;
     char c;
@@ -1243,7 +1243,7 @@ void brf_800C95B4(Work *work)
     for (i = 0; i < 44; i++)
     {
         *dst = *src;
-        *(unsigned short *)dst = work->flags[i] << 8;
+        SSTOREL(work->flags[i] << 8, dst);
         src++;
         dst++;
     }
@@ -1253,7 +1253,7 @@ void brf_800C95B4(Work *work)
     for (i = 0; i < 9; i++)
     {
         *dst = *src;
-        *(unsigned short *)dst = work->flags2[i] << 8;
+        SSTOREL(work->flags2[i] << 8, dst);
         src++;
         dst++;
     }

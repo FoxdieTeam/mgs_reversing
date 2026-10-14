@@ -5623,7 +5623,7 @@ void brf_800DD830(Work *work)
     src = work->prim_24->packs[GV_Clock];
     for (i = 0; i < 2; i++)
     {
-        *(unsigned short *)src = work->prim_24_flags[i] << 8;
+        SSTOREL(work->prim_24_flags[i] << 8, src);
         src++;
     }
 
@@ -5632,7 +5632,7 @@ void brf_800DD830(Work *work)
     for (i = 0; i < 200; i++)
     {
         *dst = *src;
-        *(unsigned short *)src = work->sub_flags[i] << 8;
+        SSTOREL(work->sub_flags[i] << 8, src);
         work->sub_flags[i] = 0;
         src++;
         dst++;
@@ -5658,7 +5658,7 @@ void brf_800DD830(Work *work)
         }
         v = k * 2;
         brf_800DD7C8(dst, 128 - v);
-        *(unsigned short *)dst = work->poly_flags[i] << 8;
+        SSTOREL(work->poly_flags[i] << 8, dst);
         src++;
         dst++;
     }
@@ -5668,7 +5668,7 @@ void brf_800DD830(Work *work)
     for (i = 0; i < 5; i++)
     {
         *dst4 = *src4;
-        *(unsigned short *)dst4 = work->f4_flags[i] << 8;
+        SSTOREL(work->f4_flags[i] << 8, dst4);
         src4++;
         dst4++;
     }
@@ -5678,7 +5678,7 @@ void brf_800DD830(Work *work)
     for (i = 0; i < 15; i++)
     {
         *dst = *src;
-        *(unsigned short *)dst = work->small_flags[i] << 8;
+        SSTOREL(work->small_flags[i] << 8, dst);
         src++;
         dst++;
     }
@@ -5745,7 +5745,7 @@ void brf_800DDCA8(Work *work)
 }
 void brf_800DDCA8(Work *work); // Die
 
-void brf_800DDD78(int a0, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int abe)
+void brf_800DDD78(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int abe)
 {
     setPolyFT4(poly);
     setRGB0(poly, 0x80, 0x80, 0x80);
@@ -5773,14 +5773,14 @@ void brf_800DDDE8(Work *work, POLY_FT4 *poly, int x0, int y0, int x1, int y2, in
     poly->y3 = y2;
     SetSemiTrans(poly, abe);
 }
-void brf_800DDE5C(int prim, int tex_id, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int abe, int orient, int use_dg)
+void brf_800DDE5C(Work *work, int tex_id, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int abe, int orient, int use_dg)
 {
     DG_TEX *tex;
 
-    brf_800DDD78(prim, poly, x0, y0, x1, y2, abe);
+    brf_800DDD78(work, poly, x0, y0, x1, y2, abe);
     if (!use_dg)
     {
-        tex = (DG_TEX *)brf_800CABF4(prim, tex_id);
+        tex = brf_800CABF4(work, tex_id);
     }
     else
     {
@@ -5835,14 +5835,14 @@ void brf_800DDE5C(int prim, int tex_id, POLY_FT4 *poly, int x0, int y0, int x1, 
     poly->tpage = tex->tpage;
     poly->clut = tex->clut;
 }
-void brf_800DE004(int prim, int tex_id, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int abe, int div)
+void brf_800DE004(Work *work, int tex_id, POLY_FT4 *poly, int x0, int y0, int x1, int y2, int abe, int div)
 {
     DG_TEX *tex;
     int     u, v, w, h;
     int     unused[2];
 
     (void)unused;
-    brf_800DDD78(prim, poly, x0, y0, x1, y2, abe);
+    brf_800DDD78(work, poly, x0, y0, x1, y2, abe);
     tex = DG_GetTexture(tex_id);
     w = (tex->w + 1) / div;
     v = u = tex->off_y;
@@ -5894,7 +5894,7 @@ void brf_800DE0F4(Work *work, unsigned char c, POLY_FT4 *poly, int x0, int y0, i
     poly->tpage = tex->tpage;
     poly->clut = tex->clut;
 }
-void brf_800DE270(int a0, POLY_F4 *poly, int x0, int y0, int x1, int y2, int abe, int gray)
+void brf_800DE270(Work *work, POLY_F4 *poly, int x0, int y0, int x1, int y2, int abe, int gray)
 {
     setPolyF4(poly);
     poly->x0 = x0;
