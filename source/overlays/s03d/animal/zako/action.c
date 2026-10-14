@@ -49,6 +49,7 @@ extern SVECTOR s03d_dword_800C3AA8;
 extern short s03d_word_800C3A10[20];
 
 extern int s03d_dword_800DC2F8;
+extern SVECTOR s03d_dword_800C3AB0;
 
 void AN_Fog(SVECTOR *svec);
 void AN_Sleep(SVECTOR *svec);
@@ -411,7 +412,81 @@ void Zako_800CDF2C(Work *work)
     GM_MoveTarget(t, &work->control.mov);
     GM_PowerTarget(t);
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDF94.s")
+int s03d_800CDF94(Work *work)
+{
+    int status;
+
+    status = work->field_AD8;
+
+    if (status & 1)
+    {
+        SetMode2(work, s03d_800D05DC);
+        return 0;
+    }
+
+    if (status & 2)
+    {
+        SetMode2(work, s03d_800D0698);
+        return 0;
+    }
+
+    if (status & 4)
+    {
+        SetMode2(work, s03d_800D0754);
+        return 0;
+    }
+
+    if (status & 0x40)
+    {
+        SetMode2(work, s03d_800D07DC);
+        return 0;
+    }
+
+    if (status & 0x80)
+    {
+        SetMode2(work, s03d_800D085C);
+        return 0;
+    }
+
+    if (status & 0x400)
+    {
+        SetMode2(work, s03d_800D08DC);
+        return 0;
+    }
+
+    if (status & 0x800)
+    {
+        SetMode2(work, s03d_800D0958);
+        return 0;
+    }
+
+    if (status & 0x200)
+    {
+        SetMode2(work, s03d_800D09D8);
+        return 0;
+    }
+
+    if (status & 0x100)
+    {
+        SetMode(work, s03d_800CE5B4);
+        return 1;
+    }
+
+    if (status & 0x20)
+    {
+        SetMode(work, s03d_800CE644);
+        return 1;
+    }
+
+    if (status & 0x30000)
+    {
+        SetMode(work, s03d_800CE720);
+        work->adjust[2].vx = 0;
+        return 1;
+    }
+
+    return 0;
+}
 void s03d_800CE12C(Work *work, int arg)
 {
     work->target->class |= 0x9E;
@@ -2211,7 +2286,26 @@ void s03d_800D13F8(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D14AC.s")
+void s03d_800D14AC(Work *work)
+{
+    SVECTOR  diff;
+    SVECTOR *pos;
+    CONTROL *control;
+    int      height;
+
+    control = &work->control;
+    GV_SubVec3(&s03d_dword_800C3AB0, &control->mov, &diff);
+    work->field_B98 = GV_VecDir2(&diff);
+    pos = &GM_PlayerPosition;
+    GV_SubVec3(pos, &control->mov, &diff);
+    diff.vy = 0;
+    work->field_B94 = GV_VecDir2(&diff);
+    work->field_B90 = GV_VecLen3(&diff);
+
+    /* unused result, but it keeps pos live across the calls */
+    height = ABS(pos->vy - work->control.mov.vy);
+    work->vision.pad = 2;
+}
 
 void s03d_800D153C(Work *work)
 {
