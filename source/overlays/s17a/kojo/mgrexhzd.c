@@ -485,8 +485,6 @@ void s17a_800E3BA8(MGREX_WORK *work, int arg1)
 #endif
 #pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800E3BA8.s")
 
-/* NON_MATCHING: radar search: %hi(GM_PlayerControl) is CSEd into $s6 across the switch, and the angle temp uses $s0 instead of $v1 */
-#if 0
 /* Radar search */
 void s17a_800E3C7C(MGREX_WORK *work)
 {
@@ -509,7 +507,6 @@ void s17a_800E3C7C(MGREX_WORK *work)
     int      dx, dy, dz;
     int      yaw, pitch, dist, dir;
     int      ang, target;
-    int      state;
 
     found = 0;
 
@@ -604,16 +601,17 @@ void s17a_800E3C7C(MGREX_WORK *work)
         control = &work->control2;
         GM_ConfigControlAttribute(control, 5);
         GM_ConfigControlRadarparam(control, radar.vy, radar.pad, work->f5B0, 0);
+        work->control2.mov = pos;
+        work->control2.mov.vy = GM_PlayerControl->mov.vy;
     }
     else
     {
         control = &work->control2;
         GM_ConfigControlAttribute(control, 1);
         GM_ConfigControlRadarparam(control, radar.vy, 1000, work->f5B0, 0);
+        work->control2.mov = pos;
+        work->control2.mov.vy = GM_PlayerControl->mov.vy;
     }
-
-    work->control2.mov = pos;
-    work->control2.mov.vy = GM_PlayerControl->mov.vy;
 
     world = &work->body.objs->objs[4].world;
     dir = work->f1A3C;
@@ -623,8 +621,8 @@ void s17a_800E3C7C(MGREX_WORK *work)
     Square0(&d, &sq2);
 
     dist = SquareRoot0(sq2.vx + sq2.vz) * 4;
-    dir = (ratan2(d.vx, d.vz) & 0xFFF) - dir;
-    ang = dir & 0xFFF;
+    ang = ratan2(d.vx, d.vz) & 0xFFF;
+    ang = (ang - dir) & 0xFFF;
     if (ang >= 2048)
     {
         ang -= 4096;
@@ -750,8 +748,6 @@ void s17a_800E3C7C(MGREX_WORK *work)
 
     s17a_800E46F8(work);
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800E3C7C.s")
 
 void s17a_800E44C0(MGREX_WORK *work)
 {
