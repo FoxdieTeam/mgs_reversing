@@ -35,7 +35,7 @@
 #define CHARA_BELONG            { 0xf59e, NewBelong }               // GV_StrCode("付随物") chara/others/belong.c
 #define CHARA_BLACKSMOKE        { 0x6b6c, NewBlackSmoke }           // GV_StrCode("黒煙") animal/liquid/b_smoke.c
 #define CHARA_BLINKTEX          { 0x8185, NewBlinkTexture }         // GV_StrCode("点滅テクスチャ") okajima/blink_tx.c
-#define CHARA_BLOODY_MERYL      { 0x1158, NewBloodyMeryl }          // GV_StrCode("血まみれメリル") okajima/mel10.c
+#define CHARA_BLOODY_MERYL      { 0x1158, NewBloodyMeryl }          // GV_StrCode("血まみれメリル") okajima/meryl10/mel10.c
 #define CHARA_BLOOD_POOL        { 0x4e95, NewBloodCl }              // GV_StrCode("血溜り") okajima/blood_cl.c
 #define CHARA_BLOOD_POOL2       { 0x6a4c, NewBloodBl }              // GV_StrCode("血溜り２") okajima/blood_bl.c
 #define CHARA_BLUR              { 0x9093, NewBlur }                 // GV_StrCode("ブラー") okajima/blur.c
@@ -516,7 +516,7 @@ extern NEWCHARA NewHiyokoGcl;                   /* okajima/hiyoko.c             
 extern NEWCHARA NewItemDot;                     /* okajima/item_dot.c           */
 extern NEWCHARA NewKeyItem;                     /* okajima/key_item.c           */
 extern NEWCHARA NewMGRoom;                      /* okajima/mg_room.c            */
-extern NEWCHARA NewBloodyMeryl;                 /* okajima/mel10.c              */
+extern NEWCHARA NewBloodyMeryl;                 /* okajima/meryl10/mel10.c      */
 extern NEWCHARA NewMouse;                       /* okajima/mouse.c              */
 extern NEWCHARA NewPilotLamp;                   /* okajima/p_lamp.c             */
 extern NEWCHARA NewPatrolLamp;                  /* okajima/pato_lmp.c           */

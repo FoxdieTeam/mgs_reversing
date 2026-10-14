@@ -23,8 +23,6 @@ typedef struct _Work
     SVECTOR  params[16];    // 0xE4: vx = life, vy = fade, vz = anim frame
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 static void InitPrim(Work *work);
 static void UpdatePrim(Work *work, int spawn);
 
@@ -81,7 +79,7 @@ void *NewDrumFire(MATRIX *world, int flag, int time)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "drumfire.c");
