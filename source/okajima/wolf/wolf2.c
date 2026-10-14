@@ -13,7 +13,6 @@ extern SVECTOR          svector_8009F478;
 static RECT wolf2_prim_rect = {0, 0, 2, 2};
 
 static char SECTION(".bss") wolf2_name[16];
-SVECTOR SECTION(".bss") wolf2_position;
 
 void  AN_Breath(MATRIX *world);
 

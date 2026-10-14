@@ -3077,61 +3077,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s10a\s10a_800D6534.obj", overlay
     include "{{OBJ_DIR}}\overlays\s10a\s10a_800D65CC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s10a\s10a_800D6654.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D66E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D674C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D67B8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D67D8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D6824.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D6878.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D68C8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D691C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D6950.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D6A34.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D6ABC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D6C50.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D712C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D78D4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D79E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7A98.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7B54.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7BFC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7C60.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7C80.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7CAC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7D08.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7D64.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7DC0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7E1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7E98.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7F38.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7F84.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D7FCC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D81DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D820C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D90B0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D9120.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D91E0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D92A0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D967C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D96D4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D9720.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D9790.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D97E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D9820.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D984C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D98C8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D991C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D9A4C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D9B64.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D9BF4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D9E1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DAAAC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DAADC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DAB30.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DAE04.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DBD54.obj", overlay
     include "{{OBJ_DIR}}\overlays\s10a\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\okajima\wolf\wolf2.obj", overlay
+    include "{{OBJ_DIR}}\okajima\wolf\unknown.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\rcm.obj", overlay
     include "{{OBJ_DIR}}\overlays\s10a\s10a_800DC488.obj", overlay
     include "{{OBJ_DIR}}\overlays\s10a\s10a_800DC4DC.obj", overlay
@@ -3148,20 +3096,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD0FC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD18C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD1AC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD1D8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD238.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD284.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD370.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD39C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD3F4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD440.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800DD9EC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s10a\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\okajima\wolf\action.obj", overlay
     include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\takabe\rsurface.obj", overlay
     include "{{OBJ_DIR}}\takabe\ripple.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\overlay8.obj", overlay
     include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay

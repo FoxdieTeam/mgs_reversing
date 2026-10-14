@@ -76,7 +76,13 @@ def parse_obj_sections(path):
         elif cmd == 6:
             current = u16()
         elif cmd == 8:
-            sections[current].bss += u32()
+            n = u32()
+            sec = sections[current]
+            if sec.name in ('.bss', '.sbss'):
+                sec.bss += n
+            else:
+                # .space inside an initialized section (e.g. SVECTOR padding in .data)
+                sec.code += bytes(n)
         elif cmd == 10:
             ptype = u8()
             off = u16()
