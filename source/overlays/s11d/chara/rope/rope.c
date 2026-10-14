@@ -147,7 +147,9 @@ extern void s11d_rope_800C7F8C(Work *work, int arg1);
 extern void s11d_rope_800C697C(Work *work, int arg1);
 extern void s11d_rope_800C6B18(Work *work, int arg1);
 
+extern void s11d_rope_800C6F28(Work *work, int arg1);
 extern void s11d_rope_800C7138(Work *work);
+extern void s11d_rope_800C7320(Work *work);
 extern void s11d_rope_800C766C(Work *work);
 extern void s11d_rope_800C8364(Work *work);
 extern void s11d_rope_800C868C(Work *work);
@@ -870,7 +872,7 @@ void s11d_rope_800C6834(Work *work, int arg1)
 }
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C697C.s")
 
-extern void s11d_rope_800C6CD4(Work *work);
+extern void s11d_rope_800C6CD4(Work *work, int arg1);
 extern void s11d_rope_800C7530(Work *work, int arg1);
 void s11d_rope_800C6B18(Work *work, int arg1)
 {
