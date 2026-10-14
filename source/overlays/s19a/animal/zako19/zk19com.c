@@ -639,7 +639,6 @@ int ZAKO19GetMessage( void )
     return -1;
 }
 
-#if 0 /* NON_MATCHING: gcc folds the empty case 1 into the default label, the original tests it (and keeps 1 in $s0) */
 static void UpdateGameFlag( void )
 {
     int message;
@@ -651,23 +650,22 @@ static void UpdateGameFlag( void )
         if ( message == 1 )
         {
             ZAKO19_GameFlag = message;
-            GM_EnemyWatchCount += message;
+            GM_EnemyWatchCount++;
         }
         break;
     case 1:
+        message = 0; /* optimized out, but keeps the case 1 test */
+        break;
+    case 2:
         break;
     }
 
     ZAKO19Command.time2++;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D73D8.s")
-void s19a_800D73D8( void );
 
-/* not static: functions following an INCLUDE_ASM must have a symbol */
 void Zako19CommanderAct( CommanderWork *work )
 {
-    s19a_800D73D8();
+    UpdateGameFlag();
     UpdatePlayerPosition();
     UpdateAlert( work );
     ZAKO19Command.time++;
