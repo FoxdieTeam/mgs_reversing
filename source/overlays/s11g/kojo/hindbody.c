@@ -608,13 +608,13 @@ void s11g_hind_800D5820(HindWork *work)
     work->control.turn.vx = turn.vz;
     work->control.turn.vz = turn.vx;
 
-    work->body.rots[1].vy -= work->field_4B4;
+    work->body.rots[1].vy -= work->rotor_speed;
     if (work->body.rots[1].vy < 0)
     {
         work->body.rots[1].vy += 4096;
     }
 
-    work->body.rots[2].vx -= work->field_4B8;
+    work->body.rots[2].vx -= work->tail_rotor_speed;
     if (work->body.rots[2].vx < 0)
     {
         work->body.rots[2].vx += 4096;

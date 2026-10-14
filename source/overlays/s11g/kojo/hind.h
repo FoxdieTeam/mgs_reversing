@@ -16,38 +16,44 @@ typedef struct HindWork
     TARGET       *target1;
     TARGET       *target2;
     TARGET       *target3;
-    int           field_414;
+    int           first_frame;      /* set by NewHindBoss, cleared after the first HindAct */
     int           field_418;
-    int           field_41C;
-    int           field_420;
+    /* 'r' */
+    int           rotor_rpm;
+    int           tail_rotor_rpm;
+    /* 'e' (km/h, per second, degrees) */
     int           field_424;
     int           field_428;
     int           field_42C;
-    int           field_430;
-    int           field_434;
-    int           field_438;
+    /* 'd' */
+    int           hits_max;         /* stinger hits to kill */
+    int           hits;
+    int           invuln_time;      /* frames of invulnerability after a hit */
     int           field_43C;
     int           field_440;
     int           field_444;
-    int           field_448;
-    int           field_44C;
-    int           field_450;
-    int           field_454;
-    int           field_458;
-    int           field_45C;
-    int           field_460;
-    int           field_464;
-    int           field_468;
+    /* 'g' : machine gun */
+    int           gun_interval;
+    int           gun_max_pitch;
+    int           gun_max_yaw;
+    int           gun_pitch_margin;
+    int           gun_yaw_margin;
+    int           gun_size;         /* NewBulletEx size/length/speed */
+    int           gun_damage;
+    int           gun_length;
+    int           gun_speed;
+    /* 'm' : missiles */
     int           field_46C;
     int           field_470;
-    int           field_474;
+    int           missile_interval;
     int           field_478;
     int           field_47C;
     int           field_480;
     int           field_484;
     int           field_488;
     int           field_48C;
-    SVECTOR      *field_490;
+    SVECTOR      *missile_target;
+    /* 'p' */
     int           field_494;
     int           field_498;
     int           field_49C;
@@ -56,42 +62,26 @@ typedef struct HindWork
     short         field_4A6;
     short         field_4A8;
     short         field_4AA;
-    int           field_4AC;
-    int           field_4B0;
-    int           field_4B4;
-    int           field_4B8;
+    int           mode;             /* 'b' */
+    int           field_4B0;        /* 'w' */
+    int           rotor_speed;
+    int           tail_rotor_speed;
     VECTOR        field_4BC;
-    int           field_4CC;
-    int           field_4D0;
-    int           field_4D4;
-    int           field_4D8;
-    int           field_4DC;
-    int           field_4E0;
-    int           field_4E4;
-    int           field_4E8;
-    int           field_4EC;
-    int           field_4F0;
-    int           field_4F4;
-    int           field_4F8;
-    int           field_4FC;
+    char          pad_4CC[0x4DC - 0x4CC];
+    VECTOR        field_4DC;        /* 'p' speed rotated by the initial turn */
+    char          pad_4EC[0x500 - 0x4EC];
     int           field_500;
-    int           field_504;
-    int           field_508;
-    int           field_50C;
+    int           gun_timer;
+    int           missile_timer;
+    int           invuln_timer;
     int           field_510;
     int           field_514;
     VECTOR        field_518;
     VECTOR        field_528;
     VECTOR        field_538;
     VECTOR        field_548;
-    int           field_558;
-    int           field_55C;
-    int           field_560;
-    int           field_564;
-    int           field_568;
-    int           field_56C;
-    int           field_570;
-    int           field_574;
+    VECTOR        area_min;         /* bounding box of the map's walls and floors */
+    VECTOR        area_max;
     int           end_proc;
     TARGET        field_57C;
     int           field_5C4;

@@ -71,21 +71,21 @@ void *NewHindBoss(int name, int where)
         }
     }
 
-    work->field_41C = 233;
-    work->field_420 = 205;
+    work->rotor_rpm = 233;
+    work->tail_rotor_rpm = 205;
 
     if (GCL_GetOption('r'))
     {
         param = GCL_NextStr();
         if (param)
         {
-            work->field_41C = GCL_StrToInt(param);
+            work->rotor_rpm = GCL_StrToInt(param);
         }
 
         param = GCL_NextStr();
         if (param)
         {
-            work->field_420 = GCL_StrToInt(param);
+            work->tail_rotor_rpm = GCL_StrToInt(param);
         }
     }
 
@@ -115,15 +115,15 @@ void *NewHindBoss(int name, int where)
         param = GCL_NextStr();
         if (param)
         {
-            work->field_430 = work->field_434 = GCL_StrToInt(param);
+            work->hits_max = work->hits = GCL_StrToInt(param);
         }
 
-        work->damage = 1024 / work->field_430 + 1;
+        work->damage = 1024 / work->hits_max + 1;
 
         param = GCL_NextStr();
         if (param)
         {
-            work->field_438 = (GCL_StrToInt(param) + 1);
+            work->invuln_time = (GCL_StrToInt(param) + 1);
         }
         param = GCL_NextStr();
         if (param)
@@ -152,47 +152,47 @@ void *NewHindBoss(int name, int where)
         param = GCL_NextStr();
         if (param)
         {
-            work->field_448 = GCL_StrToInt(param) + 1;
+            work->gun_interval = GCL_StrToInt(param) + 1;
         }
         param = GCL_NextStr();
         if (param)
         {
-            work->field_44C = GCL_StrToInt(param) * 4096 / 360;
+            work->gun_max_pitch = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_NextStr();
         if (param)
         {
-            work->field_450 = GCL_StrToInt(param) * 4096 / 360;
+            work->gun_max_yaw = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_NextStr();
         if (param)
         {
-            work->field_454 = GCL_StrToInt(param) * 4096 / 360;
+            work->gun_pitch_margin = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_NextStr();
         if (param)
         {
-            work->field_458 = GCL_StrToInt(param) * 4096 / 360;
+            work->gun_yaw_margin = GCL_StrToInt(param) * 4096 / 360;
         }
         param = GCL_NextStr();
         if (param)
         {
-            work->field_45C = GCL_StrToInt(param);
+            work->gun_size = GCL_StrToInt(param);
         }
         param = GCL_NextStr();
         if (param)
         {
-            work->field_460 = GCL_StrToInt(param);
+            work->gun_damage = GCL_StrToInt(param);
         }
         param = GCL_NextStr();
         if (param)
         {
-            work->field_464 = GCL_StrToInt(param) * 1000;
+            work->gun_length = GCL_StrToInt(param) * 1000;
         }
         param = GCL_NextStr();
         if (param)
         {
-            work->field_468 = GCL_StrToInt(param) * 1000000 / 108000;
+            work->gun_speed = GCL_StrToInt(param) * 1000000 / 108000;
         }
     }
 
@@ -211,7 +211,7 @@ void *NewHindBoss(int name, int where)
         param = GCL_NextStr();
         if (param)
         {
-            work->field_474 = GCL_StrToInt(param) + 1;
+            work->missile_interval = GCL_StrToInt(param) + 1;
         }
         param = GCL_NextStr();
         if (param)
@@ -248,7 +248,7 @@ void *NewHindBoss(int name, int where)
         {
             if (GCL_StrToInt(param) == 1)
             {
-                work->field_490 = &GM_PlayerPosition;
+                work->missile_target = &GM_PlayerPosition;
             }
         }
     }
@@ -303,9 +303,9 @@ void *NewHindBoss(int name, int where)
             DG_SetPos2(&svec, &work->control.turn);
             svec.vz = GCL_StrToInt(param) * 1000000 / 108000 * 16;
             DG_PutVector(&svec, &svec, 1);
-            work->field_4DC = svec.vx;
-            work->field_4E0 = svec.vy;
-            work->field_4E4 = svec.vz;
+            work->field_4DC.vx = svec.vx;
+            work->field_4DC.vy = svec.vy;
+            work->field_4DC.vz = svec.vz;
         }
         param = GCL_NextStr();
         if (param)
@@ -354,7 +354,7 @@ void *NewHindBoss(int name, int where)
         param = GCL_NextStr();
         if (param)
         {
-            work->field_4AC = GCL_StrToInt(param);
+            work->mode = GCL_StrToInt(param);
         }
     }
 
@@ -395,14 +395,14 @@ void *NewHindBoss(int name, int where)
     GM_ConfigObjectLight(&work->missile2, work->missile2_light);
     GM_ConfigObjectJoint(&work->missile2);
 
-    work->field_414 = 1;
+    work->first_frame = 1;
 
     work->control.rot.vx = work->control.turn.vx;
     work->control.rot.vy = work->control.turn.vy;
     work->control.rot.vz = work->control.turn.vz;
 
-    work->field_504 = work->field_448 / 2;
-    work->field_508 = (work->field_474 / 2);
+    work->gun_timer = work->gun_interval / 2;
+    work->missile_timer = (work->missile_interval / 2);
 
     work->target1 = GM_AllocTarget();
     work->target2 = GM_AllocTarget();
@@ -416,7 +416,7 @@ void *NewHindBoss(int name, int where)
     svec.vy = -work->body.objs->objs[0].model->ly / 4;
     svec.vz = work->body.objs->objs[0].model->uz / 2;
 
-    if (work->field_4AC != 2)
+    if (work->mode != 2)
     {
         switch (GM_GameLevel)
         {
@@ -465,8 +465,8 @@ void *NewHindBoss(int name, int where)
     work->life = 1024;
     work->life_total = 1024;
 
-    work->field_4B4 = work->field_41C * 4096 / 1800;
-    work->field_4B8 = work->field_420 * 4096 / 1800;
+    work->rotor_speed = work->rotor_rpm * 4096 / 1800;
+    work->tail_rotor_speed = work->tail_rotor_rpm * 4096 / 1800;
 
     work->field_514 = MAX(work->body.objs->def->ux - work->body.objs->def->lx,
                           work->body.objs->def->uy - work->body.objs->def->ly);
@@ -518,51 +518,51 @@ void *NewHindBoss(int name, int where)
     vec3.vz = work->field_514;
     sub_8007F0D0(&work->field_548, &vec1, &vec2, &vec3);
 
-    work->field_558 = 26200;
-    work->field_55C = 26200;
-    work->field_560 = 26200;
-    work->field_568 = -26200;
-    work->field_56C = -26200;
-    work->field_570 = -26200;
+    work->area_min.vx = 26200;
+    work->area_min.vy = 26200;
+    work->area_min.vz = 26200;
+    work->area_max.vx = -26200;
+    work->area_max.vy = -26200;
+    work->area_max.vz = -26200;
 
     walls = work->control.map->hzd->grp->walls;
     for (i = 0; i < work->control.map->hzd->grp->n_walls; i++, walls++)
     {
-        work->field_558 = MIN(work->field_558, walls->p1.x);
-        work->field_55C = MIN(work->field_55C, walls->p1.y);
-        work->field_560 = MIN(work->field_560, walls->p1.z);
+        work->area_min.vx = MIN(work->area_min.vx, walls->p1.x);
+        work->area_min.vy = MIN(work->area_min.vy, walls->p1.y);
+        work->area_min.vz = MIN(work->area_min.vz, walls->p1.z);
 
-        work->field_558 = MIN(work->field_558, walls->p2.x);
-        work->field_55C = MIN(work->field_55C, walls->p2.y);
-        work->field_560 = MIN(work->field_560, walls->p2.z);
+        work->area_min.vx = MIN(work->area_min.vx, walls->p2.x);
+        work->area_min.vy = MIN(work->area_min.vy, walls->p2.y);
+        work->area_min.vz = MIN(work->area_min.vz, walls->p2.z);
 
-        work->field_568 = MAX(work->field_568, walls->p1.x);
-        work->field_56C = MAX(work->field_56C, walls->p1.y);
-        work->field_570 = MAX(work->field_570, walls->p1.z + walls->p1.h);
+        work->area_max.vx = MAX(work->area_max.vx, walls->p1.x);
+        work->area_max.vy = MAX(work->area_max.vy, walls->p1.y);
+        work->area_max.vz = MAX(work->area_max.vz, walls->p1.z + walls->p1.h);
 
-        work->field_568 = MAX(work->field_568, walls->p2.x);
-        work->field_56C = MAX(work->field_56C, walls->p2.y);
-        work->field_570 = MAX(work->field_570, walls->p2.z + walls->p2.h);
+        work->area_max.vx = MAX(work->area_max.vx, walls->p2.x);
+        work->area_max.vy = MAX(work->area_max.vy, walls->p2.y);
+        work->area_max.vz = MAX(work->area_max.vz, walls->p2.z + walls->p2.h);
     }
 
     floors = work->control.map->hzd->grp->floors;
     for (i = 0; i < work->control.map->hzd->grp->n_floors; i++, floors++)
     {
-        work->field_558 = MIN(work->field_558, floors->b1.x);
-        work->field_55C = MIN(work->field_55C, floors->b1.y);
-        work->field_560 = MIN(work->field_560, floors->b1.z);
+        work->area_min.vx = MIN(work->area_min.vx, floors->b1.x);
+        work->area_min.vy = MIN(work->area_min.vy, floors->b1.y);
+        work->area_min.vz = MIN(work->area_min.vz, floors->b1.z);
 
-        work->field_558 = MIN(work->field_558, floors->b2.x);
-        work->field_55C = MIN(work->field_55C, floors->b2.y);
-        work->field_560 = MIN(work->field_560, floors->b2.z);
+        work->area_min.vx = MIN(work->area_min.vx, floors->b2.x);
+        work->area_min.vy = MIN(work->area_min.vy, floors->b2.y);
+        work->area_min.vz = MIN(work->area_min.vz, floors->b2.z);
 
-        work->field_568 = MAX(work->field_568, floors->b1.x);
-        work->field_56C = MAX(work->field_56C, floors->b1.y);
-        work->field_570 = MAX(work->field_570, floors->b1.z);
+        work->area_max.vx = MAX(work->area_max.vx, floors->b1.x);
+        work->area_max.vy = MAX(work->area_max.vy, floors->b1.y);
+        work->area_max.vz = MAX(work->area_max.vz, floors->b1.z);
 
-        work->field_568 = MAX(work->field_568, floors->b2.x);
-        work->field_56C = MAX(work->field_56C, floors->b2.y);
-        work->field_570 = MAX(work->field_570, floors->b2.z);
+        work->area_max.vx = MAX(work->area_max.vx, floors->b2.x);
+        work->area_max.vy = MAX(work->area_max.vy, floors->b2.y);
+        work->area_max.vz = MAX(work->area_max.vz, floors->b2.z);
     }
 
     for (i = 0; i < 11; i++)
@@ -614,7 +614,7 @@ void *NewHindBoss(int name, int where)
     work->field_658 = 0;
     work->field_644 = DG_ZeroVector;
     work->field_8FC = 5400;
-    work->field_50C = 0;
+    work->invuln_timer = 0;
     work->nMissileDemoMode = 0;
     work->nMissileDemoMode2 = 0;
     work->field_8E0 = 0;
@@ -623,7 +623,7 @@ void *NewHindBoss(int name, int where)
     work->field_8D4 = 0;
     work->field_900 = 0;
 
-    if (work->field_4AC == 2)
+    if (work->mode == 2)
     {
         work->field_930 = 1;
     }
