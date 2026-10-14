@@ -1090,12 +1090,185 @@ int s08b_bunsin2_800C9BF8(SVECTOR *pos)
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9C74.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800C9F74.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CA11C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CA298.s")
+void s08b_bunsin2_800CA11C(Work *work, int time)
+{
+    CONTROL *control = &work->control;
+    int      frame = work->m_ctrl.info1.frame;
+
+    work->field_19FC = 1;
+
+    if (time == 0)
+    {
+        work->field_19A4 = 7;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[7], 0, 4);
+        work->field_918 = control->mov;
+    }
+
+    if (time == 18)
+    {
+        GM_SeSetMode(&control->mov, 0xBC, 1);
+        s08b_bunsin2_800C8FF8(work);
+    }
+
+    if (time == 8)
+    {
+        GM_SeSetMode(&control->mov, 0x38, 1);
+    }
+
+    if (work->body.is_end != 0)
+    {
+        work->field_1994 = s08b_bunsin2_800C9B38;
+        work->field_199C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        work->field_19A8 = 1;
+        return;
+    }
+
+    if ((unsigned int)(frame - 7) < 19)
+    {
+        control->step.vx = (work->field_1968.vx - work->field_918.vx) / 18;
+        control->step.vz = (work->field_1968.vz - work->field_918.vz) / 18;
+    }
+    else
+    {
+        control->step.vx = 0;
+        control->step.vz = 0;
+    }
+
+    control->mov.vy = work->body.height;
+    control->seg_flag = 4;
+}
+void s08b_bunsin2_800CA298(Work *work, int time)
+{
+    CONTROL *control = &work->control;
+    int      frame = work->m_ctrl.info1.frame;
+
+    work->field_19FC = 1;
+
+    if (time == 0)
+    {
+        work->field_19A4 = 6;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[6], 0, 4);
+        work->field_918 = control->mov;
+    }
+
+    if (time == 18)
+    {
+        GM_SeSetMode(&control->mov, 0xBC, 1);
+        s08b_bunsin2_800C8FF8(work);
+    }
+
+    if (time == 8)
+    {
+        GM_SeSetMode(&control->mov, 0x38, 1);
+    }
+
+    if (work->body.is_end != 0)
+    {
+        work->field_1994 = s08b_bunsin2_800C9B38;
+        work->field_199C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        work->field_19A8 = 1;
+        return;
+    }
+
+    if ((unsigned int)(frame - 7) < 19)
+    {
+        control->step.vx = (work->field_1968.vx - work->field_918.vx) / 18;
+        control->step.vz = (work->field_1968.vz - work->field_918.vz) / 18;
+    }
+    else
+    {
+        control->step.vx = 0;
+        control->step.vz = 0;
+    }
+
+    control->mov.vy = work->body.height;
+    control->seg_flag = 4;
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CA414.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CA5D8.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CA858.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CA8F8.s")
+void s08b_bunsin2_800CA858(Work *work, int time)
+{
+    CONTROL *control = &work->control;
+
+    work->field_19FC = 1;
+
+    if (time == 0)
+    {
+        work->field_19A4 = 5;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[5], 0, 4);
+        work->field_918 = work->control.mov;
+    }
+
+    if (time == 7)
+    {
+        GM_SeSetMode(&control->mov, 0xBC, 1);
+    }
+
+    if (time == 26)
+    {
+        GM_SeSetMode(&control->mov, 0xBC, 1);
+        s08b_bunsin2_800C8FF8(work);
+    }
+
+    if (time == 13)
+    {
+        GM_SeSetMode(&control->mov, 0xBB, 1);
+    }
+
+    if (time == 39)
+    {
+        work->field_19A8 = 1;
+        work->field_1994 = s08b_bunsin2_800C9B38;
+        work->field_199C = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return;
+    }
+
+    if (work->body.is_end != 0)
+    {
+        work->body.is_end = 0;
+    }
+
+    if ((unsigned int)(time - 7) < 22)
+    {
+        work->field_19C0 |= 2;
+
+        if (time == 9)
+        {
+            work->body.objs->flag |= DG_FLAG_INVISIBLE;
+            work->field_1A80->type |= DG_PRIM_INVISIBLE;
+        }
+
+        if (time == 25)
+        {
+            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+            work->field_1A80->type &= ~DG_PRIM_INVISIBLE;
+        }
+    }
+
+    if (time == 15)
+    {
+        control->mov.vx = work->field_1968.vx;
+        control->mov.vz = work->field_1968.vz;
+    }
+
+    if ((unsigned int)(time - 9) < 17)
+    {
+        control->mov.vy = control->levels[0] + work->body.height * 2;
+    }
+    else
+    {
+        control->mov.vy = work->body.height + control->levels[0];
+    }
+
+    control->step.vx = 0;
+    control->step.vz = 0;
+}
 void s08b_bunsin2_800CAA78(Work *work, int first)
 {
     CONTROL *control = &work->control;
