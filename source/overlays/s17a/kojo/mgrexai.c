@@ -17,6 +17,10 @@ void s17a_800DEC6C(MGREX_WORK *work);
 void s17a_800DECA8(MGREX_WORK *work);
 void s17a_800E085C(SVECTOR *from, SVECTOR *to, MATRIX *mat);
 
+void *NewMgLaser(MATRIX *root, int side, int power, int time);
+void *NewHomingMissile(MATRIX *world, SVECTOR *aim, int side);
+void *NewMgHatch(MATRIX *world);
+
 /* Metal Gear REX: movement decisions, motion state machine and weapons
  * (the original file name is unknown) */
 
@@ -49,10 +53,7 @@ SVECTOR mgrex_feet[2] = {
     {-4000, 0, 6500, 0}
 };
 SVECTOR mgrex_stomp_size = {4000, 1000, 4000, 0};
-int s17a_dword_800C52FC = 0x00000000;
-int s17a_dword_800C5300 = 0xFFFFF000;
-int s17a_dword_800C5304 = 0x00000000;
-int s17a_dword_800C5308 = 0x00000000;
+VECTOR mgrex_laser_up = {0, -4096, 0, 0};
 int s17a_dword_800C530C = 0x00C8FE00;
 int s17a_dword_800C5310 = 0x00000000;
 int s17a_dword_800C5314 = 0xFF38FE00;
@@ -1519,7 +1520,151 @@ int s17a_800DF720(MGREX_WORK *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DFAE8.s")
+typedef struct _MGREX_LASER_SCRATCH
+{
+    MATRIX rot;
+    VECTOR dir;
+    VECTOR up;
+    VECTOR side;
+    MATRIX world;
+    MATRIX local;
+} MGREX_LASER_SCRATCH;
+
+int s17a_800DFAE8(MGREX_WORK *work)
+{
+    SVECTOR              target;
+    SVECTOR              ofs;
+    MGREX_LASER_SCRATCH *scratch;
+    MATRIX              *world;
+    int                  x, y, z;
+    int                  yaw, pitch;
+    int                  dir, speed;
+
+    target = work->player_pos;
+    target.vy = 0;
+
+    if (work->f1A60 == 0)
+    {
+        ofs = DG_ZeroVector;
+        DG_SetPos2(&target, &work->control.rot);
+
+        if (work->f1A38 > 0)
+        {
+            ofs.vx = -6000;
+            ofs.vz = 0;
+            work->f1A70 = 200;
+            work->f1A74 = work->f1A3C + 1024;
+        }
+        else
+        {
+            ofs.vx = 6000;
+            ofs.vz = 0;
+            work->f1A70 = 200;
+            work->f1A74 = work->f1A3C - 1024;
+        }
+
+        DG_PutVector(&ofs, &work->f1A68, 1);
+        work->f1A78 = NULL;
+        work->f1A60 = 1;
+    }
+
+    scratch = (MGREX_LASER_SCRATCH *)getScratchAddr(0);
+
+    world = &work->body.objs->objs[9].world;
+    scratch->dir.vx = (work->f1A68.vx - world->t[0]) >> 2;
+    scratch->dir.vy = (work->f1A68.vy - world->t[1]) >> 2;
+    scratch->dir.vz = (work->f1A68.vz - world->t[2]) >> 2;
+
+    OuterProduct12(&mgrex_laser_up, &scratch->dir, &scratch->side);
+    VectorNormal(&scratch->side, &scratch->side);
+    VectorNormal(&scratch->dir, &scratch->dir);
+    OuterProduct12(&scratch->dir, &scratch->side, &scratch->up);
+
+    scratch->rot.m[0][0] = scratch->side.vx;
+    scratch->rot.m[0][1] = scratch->up.vx;
+    scratch->rot.m[0][2] = scratch->dir.vx;
+    scratch->rot.m[1][0] = scratch->side.vy;
+    scratch->rot.m[1][1] = scratch->up.vy;
+    scratch->rot.m[1][2] = scratch->dir.vy;
+    scratch->rot.m[2][0] = scratch->side.vz;
+    scratch->rot.m[2][1] = scratch->up.vz;
+    scratch->rot.m[2][2] = scratch->dir.vz;
+    scratch->rot.t[0] = world->t[0];
+    scratch->rot.t[1] = world->t[1];
+    scratch->rot.t[2] = world->t[2];
+
+    scratch->world = work->body.objs->objs[0].world;
+    DG_TransposeMatrix(&scratch->world, &scratch->world);
+    MulMatrix0(&scratch->world, &scratch->rot, &scratch->local);
+
+    x = scratch->local.m[0][2];
+    z = scratch->local.m[2][2];
+    y = scratch->local.m[1][2];
+
+    yaw = ratan2(x, z) & 0xFFF;
+    pitch = ratan2(-y, SquareRoot0(x * x + z * z)) & 0xFFF;
+
+    if (pitch > 2048)
+    {
+        pitch -= 4096;
+    }
+
+    if (yaw > 2048)
+    {
+        yaw -= 4096;
+    }
+
+    work->f794.vx = pitch;
+    work->f794.vy = yaw;
+    work->f794.vz = 0;
+
+    if (work->f1A64 != 0)
+    {
+        if (work->f1950 == 5 && work->f1960 == 1)
+        {
+            goto fire;
+        }
+
+        if (work->f1A60 == 1)
+        {
+            work->f1A74 = ratan2(work->player_pos.vx - work->f1A68.vx, work->player_pos.vz - work->f1A68.vz);
+            return 0;
+        }
+    }
+
+    work->f6FC = 2;
+    work->f794 = DG_ZeroVector;
+    work->f794.pad = 0;
+    work->timers[3] = work->f628;
+    return -1;
+
+fire:
+    dir = work->f1A74;
+    speed = work->f1A70;
+    work->f1A60 = 2;
+
+    work->f1A68.vx += (rsin(dir) * speed) / 4096;
+    work->f1A68.vz += (rcos(dir) * speed) / 4096;
+    work->f794.pad = 1;
+
+    if (GM_GameLevel <= 0)
+    {
+        work->f1A70 = GV_NearSpeed(work->f1A70, 300, 20);
+    }
+    else
+    {
+        work->f1A70 = GV_NearSpeed(work->f1A70, 600, 40);
+    }
+
+    if (work->f1A78 == NULL)
+    {
+        work->f1A78 = NewMgLaser(&work->body.objs->objs[9].world, 2, work->f644, work->f1A64 - 1);
+    }
+
+    work->f1A64--;
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DFF74.s")
 #pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800E0328.s")
 int s17a_800E0710(MGREX_WORK *work)

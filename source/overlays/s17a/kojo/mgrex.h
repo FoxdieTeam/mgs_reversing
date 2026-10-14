@@ -215,7 +215,11 @@ typedef struct _MGREX_WORK
     int             f1A5C;
     int             f1A60;
     int             f1A64;
-    char            pad_1A68[0x34];
+    SVECTOR         f1A68;              // laser aim point
+    int             f1A70;              // laser aim speed
+    int             f1A74;              // laser aim direction
+    void           *f1A78;              // laser actor
+    char            pad_1A7C[0x20];
     int             f1A9C;
     HZD_SEG        *segs;               // 0x1AA0
     HZD_SEG        *segs2;              // 0x1AA4
