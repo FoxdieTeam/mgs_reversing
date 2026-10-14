@@ -1129,7 +1129,6 @@ void s15c_dyncon_800D6528(DynCon *work)
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6528.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7A84.s")
 #endif
-#if 0 /* NON_MATCHING */
 int s15c_dyncon_800D7AB4(DynCon *work)
 {
     SVECTOR size;
@@ -1200,11 +1199,11 @@ int s15c_dyncon_800D7AB4(DynCon *work)
     work->field_3F00[2] = 24;
     work->field_3F00[3] = 34;
 
-    for (i = 0; i < 4; i++)
+    for (b = 0; b < 4; b++)
     {
-        work->field_3F10[i] = 0;
-        work->field_3F20[i] = 0;
-        work->field_3F30[i] = 1;
+        work->field_3F10[b] = 0;
+        work->field_3F20[b] = 0;
+        work->field_3F30[b] = 1;
     }
 
     work->field_3E70[work->field_3F00[0]] = 0;
@@ -1219,9 +1218,6 @@ int s15c_dyncon_800D7AB4(DynCon *work)
 
     return 1;
 }
-#else
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7AB4.s")
-#endif
 int s15c_dyncon_800D7D44(DynCon *work)
 {
     int i, j;
