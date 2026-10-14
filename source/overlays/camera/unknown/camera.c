@@ -1255,7 +1255,7 @@ const char camera_aDiscd_800CFF94[] = "DISC %d";
 const char camera_aTime_800CFF9C[] = "TIME";
 const char camera_aNewfileneeddblocks_800CFFA4[] = "NEW FILE [ NEED %d BLOCK%s ]";
 const char camera_aS_800CFFC4[] = "S";
-const char camera_dword_800CFFC8[] = "";
+const char camera_aEmpty_800CFFC8[] = "";
 const char camera_aFreedblocks_800CFFCC[] = "FREE: %d BLOCK%s";
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C6110.s")
@@ -1355,7 +1355,7 @@ int camera_800C6A40(MenuWork *work, MEMCARD *pMemcard, const char *param_3,
 
     if (camera_dword_800D0728 == 0 && pMemcard->free_blocks >= camera_data_info_800D072C->blocks_count)
     {
-        memcpy(pIter->mes, camera_dword_800CFFC8, 1);
+        memcpy(pIter->mes, camera_aEmpty_800CFFC8, 1);
         pIter->num = 16;
         pIter++;
     }
@@ -1818,7 +1818,7 @@ void camera_800C8314(MenuPrim *prim, CaptionInfo *info)
 }
 
 /* Punctuation glyphs of the caption font: character, unknown */
-char camera_dword_800C38F4[][2] = {
+char camera_caption_punct_800C38F4[][2] = {
     {'.', 2}, {'@', 2}, {':', 2}, {'_', 4}, {'!', 2}, {'?', 6}, {'+', 6},
     {'-', 6}, {'/', 6}, {'*', 6}, {'{', 3}, {'}', 3}, {0, 0}
 };
@@ -1871,7 +1871,7 @@ void camera_800C838C(MenuPrim *prim, CaptionInfo *info, char *str)
         else
         {
             u = 0;
-            for (tbl = camera_dword_800C38F4[0];; tbl += 2, u += 8)
+            for (tbl = camera_caption_punct_800C38F4[0];; tbl += 2, u += 8)
             {
                 if (*tbl == c)
                 {
@@ -2521,8 +2521,8 @@ void camera_800CD198(Work *work)
 }
 /* rdata of camera_800CD790 */
 const char camera_aSsss_800D03C4[] = "%s%s%s%s";
-const char camera_dword_800D03D0[] = "\x82\x6c\x82\x66\x82\x72";
-const char camera_dword_800D03D8[] = "\x8e\xca\x90\x5e\x82\x6d\x82\x8f\x81\x44";
+const char camera_aMgs_800D03D0[] = "\x82\x6c\x82\x66\x82\x72"; /* ＭＧＳ */
+const char camera_aPhotoNo_800D03D8[] = "\x8e\xca\x90\x5e\x82\x6d\x82\x8f\x81\x44"; /* 写真Ｎｏ． (Shift-JIS) */
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CD790.s")
 
