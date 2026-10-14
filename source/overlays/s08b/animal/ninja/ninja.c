@@ -501,7 +501,7 @@ void s08b_ninja_800C81C8(Work *work)
     }
     else if (work->knock_timer == 75)
     {
-        GM_SeSet(&work->control.mov, 0x8F);
+        GM_SeSet(&work->control.mov, SE_V_ENE_GRABBED);
     }
 
     work->knock_timer--;
@@ -1107,13 +1107,13 @@ void s08b_bunsin2_800CA11C(Work *work, int time)
 
     if (time == 18)
     {
-        GM_SeSetMode(&control->mov, 0xBC, 1);
+        GM_SeSetMode(&control->mov, 188, GM_SEMODE_BOMB);
         s08b_bunsin2_800C8FF8(work);
     }
 
     if (time == 8)
     {
-        GM_SeSetMode(&control->mov, 0x38, 1);
+        GM_SeSetMode(&control->mov, SE_P_SWING1, GM_SEMODE_BOMB);
     }
 
     if (work->body.is_end != 0)
@@ -1156,13 +1156,13 @@ void s08b_bunsin2_800CA298(Work *work, int time)
 
     if (time == 18)
     {
-        GM_SeSetMode(&control->mov, 0xBC, 1);
+        GM_SeSetMode(&control->mov, 188, GM_SEMODE_BOMB);
         s08b_bunsin2_800C8FF8(work);
     }
 
     if (time == 8)
     {
-        GM_SeSetMode(&control->mov, 0x38, 1);
+        GM_SeSetMode(&control->mov, SE_P_SWING1, GM_SEMODE_BOMB);
     }
 
     if (work->body.is_end != 0)
@@ -1207,18 +1207,18 @@ void s08b_bunsin2_800CA5D8(Work *work, int time)
     {
         if (time == 7)
         {
-            GM_SeSetMode(&control->mov, 0xBC, 1);
+            GM_SeSetMode(&control->mov, 188, GM_SEMODE_BOMB);
         }
 
         if (time == 70)
         {
-            GM_SeSetMode(&control->mov, 0xBC, 1);
+            GM_SeSetMode(&control->mov, 188, GM_SEMODE_BOMB);
             s08b_bunsin2_800C8FF8(work);
         }
 
         if (time == 13 || time == 60)
         {
-            GM_SeSetMode(&control->mov, 0xBB, 1);
+            GM_SeSetMode(&control->mov, 187, GM_SEMODE_BOMB);
         }
 
         if (time == 79)
@@ -1298,18 +1298,18 @@ void s08b_bunsin2_800CA858(Work *work, int time)
 
     if (time == 7)
     {
-        GM_SeSetMode(&control->mov, 0xBC, 1);
+        GM_SeSetMode(&control->mov, 188, GM_SEMODE_BOMB);
     }
 
     if (time == 26)
     {
-        GM_SeSetMode(&control->mov, 0xBC, 1);
+        GM_SeSetMode(&control->mov, 188, GM_SEMODE_BOMB);
         s08b_bunsin2_800C8FF8(work);
     }
 
     if (time == 13)
     {
-        GM_SeSetMode(&control->mov, 0xBB, 1);
+        GM_SeSetMode(&control->mov, 187, GM_SEMODE_BOMB);
     }
 
     if (time == 39)
@@ -1385,7 +1385,7 @@ void s08b_bunsin2_800CAA78(Work *work, int first)
         {
             if (damage >= 3)
             {
-                GM_SeSetMode(&control->mov, 0xBD, 1);
+                GM_SeSetMode(&control->mov, 189, GM_SEMODE_BOMB);
             }
         }
     }
@@ -1722,7 +1722,7 @@ void s08b_bunsin2_800CB2AC(Work *work, int time)
 
     if ((time & 3) == 0)
     {
-        GM_SeSetMode(&control->mov, 0xB7, 1);
+        GM_SeSetMode(&control->mov, 183, GM_SEMODE_BOMB);
         s08b_bunsin2_800C8F0C(work);
     }
 
@@ -1795,7 +1795,7 @@ void s08b_bunsin2_800CB444(Work *work, int time)
     {
         if ((time & 3) == 0)
         {
-            GM_SeSetMode(&control->mov, 0xB7, 1);
+            GM_SeSetMode(&control->mov, 183, GM_SEMODE_BOMB);
             s08b_bunsin2_800C8F0C(work);
         }
 
@@ -1840,17 +1840,17 @@ void s08b_bunsin2_800CB52C(Work *work, int time)
     {
         if (time == 3)
         {
-            GM_SeSetMode(&control->mov, 0x51, 1);
+            GM_SeSetMode(&control->mov, SE_HIZA01, GM_SEMODE_BOMB);
         }
 
         if (time == 5)
         {
-            GM_SeSetMode(&control->mov, 0xB4, 1);
+            GM_SeSetMode(&control->mov, 180, GM_SEMODE_BOMB);
         }
 
         if (time == 16)
         {
-            GM_SeSetMode(&control->mov, 0x51, 1);
+            GM_SeSetMode(&control->mov, SE_HIZA01, GM_SEMODE_BOMB);
         }
 
         if ((unsigned int)(time - 5) < 15)
@@ -1861,7 +1861,7 @@ void s08b_bunsin2_800CB52C(Work *work, int time)
 
         if (result != 0 && work->field_1B26 != 0)
         {
-            GM_SeSetMode(&control->mov, 0xB1, 1);
+            GM_SeSetMode(&control->mov, 177, GM_SEMODE_BOMB);
             work->field_1B26 = 0;
         }
 
@@ -1926,7 +1926,7 @@ void s08b_bunsin2_800CB7A0(Work *work, int time)
     {
         if (time == 6 || time == 17)
         {
-            GM_SeSetMode(&control->mov, 0xB4, 1);
+            GM_SeSetMode(&control->mov, 180, GM_SEMODE_BOMB);
         }
 
         if ((unsigned int)(time - 7) < 23)
@@ -1937,7 +1937,7 @@ void s08b_bunsin2_800CB7A0(Work *work, int time)
 
         if (result != 0 && work->field_1B26 != 0)
         {
-            GM_SeSetMode(&work->control.mov, 0xB1, 1);
+            GM_SeSetMode(&work->control.mov, 177, GM_SEMODE_BOMB);
             work->field_1B26 = 0;
         }
 
@@ -1980,7 +1980,7 @@ void s08b_bunsin2_800CB914(Work *work, int time)
     {
         if (time == 12 || time == 38 || time == 56)
         {
-            GM_SeSetMode(&work->control.mov, 0x38, 1);
+            GM_SeSetMode(&work->control.mov, SE_P_SWING1, GM_SEMODE_BOMB);
         }
 
         if ((unsigned int)(time - 13) < 5)
@@ -2003,7 +2003,7 @@ void s08b_bunsin2_800CB914(Work *work, int time)
 
         if (result != 0 && work->field_1B26 != 0)
         {
-            GM_SeSetMode(&work->control.mov, 0x34, 1);
+            GM_SeSetMode(&work->control.mov, SE_PUNCHIT1, GM_SEMODE_BOMB);
             work->field_1B26 = 0;
         }
 
@@ -2035,7 +2035,7 @@ void s08b_bunsin2_800CBAA4(Work *work, int time)
     {
         if (time == 13 || time == 21 || time == 34)
         {
-            GM_SeSetMode(&work->control.mov, 0x38, 1);
+            GM_SeSetMode(&work->control.mov, SE_P_SWING1, GM_SEMODE_BOMB);
         }
 
         if ((unsigned int)(time - 14) < 5)
@@ -2052,7 +2052,7 @@ void s08b_bunsin2_800CBAA4(Work *work, int time)
 
         if (result != 0 && work->field_1B26 != 0)
         {
-            GM_SeSetMode(&work->control.mov, 0x34, 1);
+            GM_SeSetMode(&work->control.mov, SE_PUNCHIT1, GM_SEMODE_BOMB);
             work->field_1B26 = 0;
         }
 
@@ -2110,7 +2110,7 @@ void s08b_bunsin2_800CBCEC(Work *work, int time)
     {
         if (time == 13)
         {
-            GM_SeSetMode(&control->mov, 0x38, 1);
+            GM_SeSetMode(&control->mov, SE_P_SWING1, GM_SEMODE_BOMB);
         }
 
         if ((unsigned int)(time - 14) < 7)
@@ -2121,7 +2121,7 @@ void s08b_bunsin2_800CBCEC(Work *work, int time)
 
         if (result != 0 && work->field_1B26 != 0)
         {
-            GM_SeSetMode(&control->mov, 0x34, 1);
+            GM_SeSetMode(&control->mov, SE_PUNCHIT1, GM_SEMODE_BOMB);
             work->field_1B26 = 0;
         }
 
@@ -2154,17 +2154,17 @@ void s08b_bunsin2_800CBE30(Work *work, int time)
 
     if (time == 6)
     {
-        GM_SeSetMode(&control->mov, 0xB6, 1);
+        GM_SeSetMode(&control->mov, 182, GM_SEMODE_BOMB);
     }
 
     if (time == 10)
     {
-        GM_SeSetMode(&control->mov, 0x39, 1);
+        GM_SeSetMode(&control->mov, SE_K_SWING1, GM_SEMODE_BOMB);
     }
 
     if (time == 24)
     {
-        GM_SeSetMode(&control->mov, 0xBC, 1);
+        GM_SeSetMode(&control->mov, 188, GM_SEMODE_BOMB);
     }
 
     if ((unsigned int)(time - 11) < 17)
@@ -2175,7 +2175,7 @@ void s08b_bunsin2_800CBE30(Work *work, int time)
 
     if (result != 0 && work->field_1B26 != 0)
     {
-        GM_SeSetMode(&control->mov, 0x34, 1);
+        GM_SeSetMode(&control->mov, SE_PUNCHIT1, GM_SEMODE_BOMB);
         work->field_1B26 = 0;
     }
 
@@ -2263,17 +2263,17 @@ void s08b_bunsin2_800CC080(Work *work, int time)
 
         if (time == 10)
         {
-            GM_SeSetMode(&work->control.mov, 0xBB, 1);
+            GM_SeSetMode(&work->control.mov, 187, GM_SEMODE_BOMB);
         }
 
         if (time == 39)
         {
-            GM_SeSetMode(&work->control.mov, 0x39, 1);
+            GM_SeSetMode(&work->control.mov, SE_K_SWING1, GM_SEMODE_BOMB);
         }
 
         if (time == 41)
         {
-            GM_SeSetMode(&work->control.mov, 0xBC, 1);
+            GM_SeSetMode(&work->control.mov, 188, GM_SEMODE_BOMB);
             s08b_bunsin2_800C908C(work);
         }
 
@@ -2291,7 +2291,7 @@ void s08b_bunsin2_800CC080(Work *work, int time)
         {
             if (work->field_1B26 != 0)
             {
-                GM_SeSetMode(&work->control.mov, 0x35, 1);
+                GM_SeSetMode(&work->control.mov, SE_KICKHIT1, GM_SEMODE_BOMB);
                 work->field_1B26 = 0;
             }
         }
@@ -2333,7 +2333,7 @@ void s08b_bunsin2_800CC2F8(Work *work, int time)
     {
         if (time == 16)
         {
-            GM_SeSetMode(&control->mov, 0x38, 1);
+            GM_SeSetMode(&control->mov, SE_P_SWING1, GM_SEMODE_BOMB);
         }
 
         result = 0;
@@ -2345,7 +2345,7 @@ void s08b_bunsin2_800CC2F8(Work *work, int time)
 
         if (result != 0 && work->field_1B26 != 0)
         {
-            GM_SeSetMode(&control->mov, 0x34, 1);
+            GM_SeSetMode(&control->mov, SE_PUNCHIT1, GM_SEMODE_BOMB);
             work->field_1B26 = 0;
         }
 
@@ -2381,7 +2381,7 @@ void s08b_bunsin2_800CC434(Work *work, int time)
         DG_RotatePos(&s08b_dword_800C33F0);
         ReadRotMatrix(&mat);
         NewBullet2(&mat, 2, 1, 0, 50, 3, 10000, 750);
-        GM_SeSetMode(&control->mov, 0x49, 1);
+        GM_SeSetMode(&control->mov, SE_SHOT_M02, GM_SEMODE_BOMB);
     }
 
     if (s08b_bunsin2_800C9548(work) == 0)
@@ -2429,11 +2429,11 @@ void s08b_bunsin2_800CC578(Work *work, int time)
         body = &work->body;
         work->motion = 18;
         GM_ConfigObjectAction(body, s08b_dword_800C33A0[18], 0, 4);
-        GM_SeSetMode(&control->mov, 0x89, 1);
+        GM_SeSetMode(&control->mov, SE_V_ENE_UNUSED10, GM_SEMODE_BOMB);
 
         if (target->a_mode != 1)
         {
-            GM_SeSetMode(&control->mov, 0x34, 1);
+            GM_SeSetMode(&control->mov, SE_PUNCHIT1, GM_SEMODE_BOMB);
         }
 
         control->rot.vy = work->player_dir;
@@ -2477,8 +2477,8 @@ void s08b_bunsin2_800CC71C(Work *work, int time)
         work->motion = 19;
         work->life -= work->damage[1];
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[19], 0, 4);
-        GM_SeSetMode(&control->mov, 0x8A, 1);
-        GM_SeSetMode(&control->mov, 0x34, 1);
+        GM_SeSetMode(&control->mov, SE_V_ENE_FOOTPRINTS, GM_SEMODE_BOMB);
+        GM_SeSetMode(&control->mov, SE_PUNCHIT1, GM_SEMODE_BOMB);
         control->rot.vy = work->player_dir;
         control->turn.vy = work->player_dir;
     }
@@ -2508,17 +2508,17 @@ void s08b_bunsin2_800CC7EC(Work *work, int time)
 
     if (time == 30)
     {
-        GM_SeSetMode(&work->control.mov, 0xB5, 1);
+        GM_SeSetMode(&work->control.mov, 181, GM_SEMODE_BOMB);
     }
 
     if (time == 36)
     {
-        GM_SeSetMode(&work->control.mov, 0xB6, 1);
+        GM_SeSetMode(&work->control.mov, 182, GM_SEMODE_BOMB);
     }
 
     if (time == 60)
     {
-        GM_SeSetMode(&work->control.mov, 0xBC, 1);
+        GM_SeSetMode(&work->control.mov, 188, GM_SEMODE_BOMB);
         s08b_bunsin2_800C8FF8(work);
     }
 
@@ -2548,7 +2548,7 @@ void s08b_bunsin2_800CC90C(Work *work, int time)
 
     if (time == 24)
     {
-        GM_SeSetMode(&work->control.mov, 0x33, 1);
+        GM_SeSetMode(&work->control.mov, SE_DOWN0002, GM_SEMODE_BOMB);
     }
 
     if (time == 30)
@@ -2590,7 +2590,7 @@ void s08b_bunsin2_800CCA4C(Work *work, int time)
 
     if (time == 60)
     {
-        GM_SeSetMode(&work->control.mov, 0x33, 1);
+        GM_SeSetMode(&work->control.mov, SE_DOWN0002, GM_SEMODE_BOMB);
     }
 
     if (s08b_bunsin2_800C9120(work) == 0 && work->body.is_end != 0)
@@ -2617,7 +2617,7 @@ void s08b_bunsin2_800CCAF0(Work *work, int time)
 
     if (time == 0)
     {
-        GM_SeSetMode(&control->mov, 0xBD, 1);
+        GM_SeSetMode(&control->mov, 189, GM_SEMODE_BOMB);
         s08b_bunsin2_800CD544(work, 4);
 
         target->damage = 0;
@@ -2647,11 +2647,11 @@ void s08b_bunsin2_800CCAF0(Work *work, int time)
 
         if (target->a_mode == 1)
         {
-            GM_SeSetMode(&work->control.mov, 0xBD, 1);
+            GM_SeSetMode(&work->control.mov, 189, GM_SEMODE_BOMB);
         }
         else
         {
-            GM_SeSetMode(&work->control.mov, 0xB4, 1);
+            GM_SeSetMode(&work->control.mov, 180, GM_SEMODE_BOMB);
         }
 
         s08b_bunsin2_800CD544(work, 4);
@@ -2681,7 +2681,7 @@ void s08b_bunsin2_800CCAF0(Work *work, int time)
         work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        GM_SeSetMode(&work->control.mov, 0x50, 1);
+        GM_SeSetMode(&work->control.mov, SE_NINJA02, GM_SEMODE_BOMB);
     }
 
     control->rot.vy = work->player_dir;
@@ -2739,7 +2739,7 @@ void s08b_bunsin2_800CCE34(Work *work)
         {
             if (work->kogaku != NULL)
             {
-                GM_SeSetMode(&work->control.mov, 0x4E, 1);
+                GM_SeSetMode(&work->control.mov, SE_NINJA01, GM_SEMODE_BOMB);
                 GV_DestroyActorQuick(work->kogaku);
                 work->kogaku = NULL;
                 work->hom->flag = 1;
@@ -2748,7 +2748,7 @@ void s08b_bunsin2_800CCE34(Work *work)
         }
         else if (work->kogaku == NULL)
         {
-            GM_SeSetMode(&work->control.mov, 0x4E, 1);
+            GM_SeSetMode(&work->control.mov, SE_NINJA01, GM_SEMODE_BOMB);
             work->kogaku = NewKogaku2(&work->control, &work->body, 0);
             work->hom->flag = 0;
             work->shadow_prim->type |= DG_PRIM_INVISIBLE;
@@ -2760,7 +2760,7 @@ void s08b_bunsin2_800CCE34(Work *work)
 
     if (work->kogaku != NULL)
     {
-        GM_SeSetMode(&work->control.mov, 0x4E, 1);
+        GM_SeSetMode(&work->control.mov, SE_NINJA01, GM_SEMODE_BOMB);
         GV_DestroyActorQuick(work->kogaku);
         work->kogaku = NULL;
         work->hom->flag = 1;
@@ -2773,7 +2773,7 @@ void s08b_bunsin2_800CCF8C(Work *work)
     {
         if (s08b_bunsin2_800C9978(&work->body))
         {
-            GM_SeSetMode(&work->control.mov, 0xB2, 1);
+            GM_SeSetMode(&work->control.mov, 178, GM_SEMODE_BOMB);
         }
     }
     else if (work->field_1A00 != 2 && work->life < 90)
@@ -2952,7 +2952,7 @@ void s08b_bunsin2_800CD614(Work *work)
     DG_SetPos(world);
     DG_MovePos(&s08b_dword_800C3430);
     ReadRotMatrix(&mat);
-    GM_SeSet(&work->control.mov, 0x49);
+    GM_SeSet(&work->control.mov, SE_SHOT_M02);
     AN_SocomFlash(world, &mat, 0);
     s08b_bunsin2_800CD95C(work, s08b_bunsin2_800CD614);
 }
