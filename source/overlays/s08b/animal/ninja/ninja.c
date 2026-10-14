@@ -207,13 +207,11 @@ extern char s08b_aErrerrerrsoundbuffover_800E3764[];
 extern char s08b_aNinjac_800E37F8[];
 extern char s08b_aWeaponxxamodexx_800E3878[];
 extern char s08b_aJumpfctrlturnvyd_800E3920[];
-extern char s08b_aDcountd_800E39B8[];
 extern char s08b_aPunchdamagelifedcombod_800E393C[];
 extern char s08b_aNjafist_800E3740[];
 extern char s08b_aNjab_800E374C[];
 extern char s08b_aKatana_800E3754[];
 extern char s08b_aShadow_800E375C[];
-extern char s08b_aKorekorekor_800E39A8[];
 
 int  s08b_bunsin2_800C9120(Work *work);
 int  s08b_bunsin2_800C9548(Work *work);
@@ -3522,13 +3520,147 @@ int s08b_bunsin2_800CF150(Work *work)
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF254.s")
 int s08b_bunsin2_800CF254(Work *work);
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF354.s")
+int s08b_bunsin2_800CF354(Work *work)
+{
+    int state = work->field_1A34;
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF464.s")
-int s08b_bunsin2_800CF464(Work *work);
+    if (state != 0)
+    {
+        switch (state)
+        {
+        case 2:
+            s08b_bunsin2_800CDE74(work);
+            work->field_19C8 = 7;
+            work->field_19CC = 5;
+            work->field_1A38 = 2;
+            break;
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF54C.s")
-int s08b_bunsin2_800CF54C(Work *work);
+        case 1:
+            work->field_19C8 = 7;
+            work->field_19CC = 0x17;
+            work->field_1A38 = 1;
+            break;
+
+        case 3:
+        case 4:
+            work->field_19C8 = 7;
+            work->field_19CC = 0x17;
+            work->field_1A38 = 3;
+            break;
+
+        case 6:
+            work->field_19C8 = 7;
+            work->field_19CC = 0x22;
+            work->field_1A38 = 6;
+            break;
+        }
+
+        return 1;
+    }
+
+    if ((unsigned int)(work->field_19CC - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
+    {
+        work->field_19C8 = 9;
+        work->field_19CC = 0x1D;
+        return 1;
+    }
+
+    return 0;
+}
+
+int s08b_bunsin2_800CF464(Work *work)
+{
+    int state = work->field_1A34;
+
+    if (state != 0)
+    {
+        switch (state)
+        {
+        case 2:
+            work->field_19C8 = 4;
+            work->field_19CC = 10;
+            work->field_1A38 = 2;
+            break;
+
+        case 1:
+            work->field_19C8 = 7;
+            work->field_19CC = 0x17;
+            work->field_1A38 = 1;
+            break;
+
+        case 3:
+        case 4:
+            work->field_19C8 = 7;
+            work->field_19CC = 0x17;
+            work->field_1A38 = 3;
+            break;
+
+        case 6:
+            work->field_19C8 = 7;
+            work->field_19CC = 0x22;
+            work->field_1A38 = 6;
+            break;
+        }
+
+        return 1;
+    }
+
+    if ((unsigned int)(work->field_19CC - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
+    {
+        work->field_19C8 = 9;
+        work->field_19CC = 0x1D;
+        return 1;
+    }
+
+    return 0;
+}
+
+int s08b_bunsin2_800CF54C(Work *work)
+{
+    int state = work->field_1A34;
+
+    if (state != 0)
+    {
+        switch (state)
+        {
+        case 2:
+            s08b_dword_800C3448 = 0;
+            s08b_bunsin2_800CE2E8(work);
+            work->field_19C8 = 7;
+            work->field_19CC = 5;
+            break;
+
+        case 1:
+            s08b_dword_800C3448 = 0;
+            work->field_19C8 = 7;
+            work->field_19CC = 0x17;
+            break;
+
+        case 3:
+        case 4:
+            work->field_19C8 = 7;
+            work->field_19CC = 0x17;
+            s08b_dword_800C3448++;
+            break;
+
+        case 6:
+            work->field_19C8 = 7;
+            work->field_19CC = 0x22;
+            break;
+        }
+
+        return 1;
+    }
+
+    if ((unsigned int)(work->field_19CC - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
+    {
+        work->field_19C8 = 9;
+        work->field_19CC = 0x1D;
+        return 1;
+    }
+
+    return 0;
+}
 
 void s08b_bunsin2_800CF660(Work *work)
 {
@@ -3838,7 +3970,7 @@ int s08b_bunsin2_800CFDE0(Work *work)
     }
     if (work->field_19D0 >= 0x3D)
     {
-        printf(s08b_aKorekorekor_800E39A8);
+        printf(" korekorekor\n");
         return 1;
     }
     if (work->body.is_end != 0)
@@ -4069,7 +4201,65 @@ int s08b_bunsin2_800D0530(Work *work)
     return v >= 0x1F;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0550.s")
+const char s08b_aDcountd_800E39B8[] = " d_count = %d \n";
+
+int s08b_bunsin2_800D0550(Work *work)
+{
+    int slot = 7;
+
+    if (work->field_19D0 == 0)
+    {
+        if (GM_StreamStatus() == -1)
+        {
+            switch (s08b_dword_800C344C)
+            {
+            case 2:
+                slot = 9;
+                break;
+
+            case 3:
+                slot = 4;
+                break;
+
+            case 4:
+                slot = 12;
+                break;
+
+            case 0:
+            case 5:
+                slot = 7;
+                break;
+
+            case 1:
+            case 6:
+                slot = 8;
+                break;
+            }
+
+            if (GM_GameOverTimer == 0 && GM_Vitality > 0)
+            {
+                GM_VoxStream(work->field_1A98[slot], 0);
+            }
+
+            s08b_dword_800C344C++;
+            if (s08b_dword_800C344C >= 6)
+            {
+                s08b_dword_800C344C = 4;
+            }
+
+            goto advance;
+        }
+    }
+
+    if (work->field_19D0 >= 61 && GM_StreamStatus() == -1)
+    {
+        return 1;
+    }
+
+advance:
+    work->field_19D0++;
+    return 0;
+}
 
 int s08b_bunsin2_800D0688(Work *work)
 {
@@ -5027,8 +5217,59 @@ void s08b_bunsin2_800D1D44(Work *work)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D1DE0.s")
-void s08b_bunsin2_800D1DE0(Work *work);
+void s08b_bunsin2_800D1DE0(Work *work)
+{
+    extern int s08b_bunsin2_800CF958();
+
+    switch (work->field_19CC)
+    {
+    case 0:
+        if (s08b_bunsin2_800CF958(work) != 0)
+        {
+            work->field_19C8 = 7;
+            goto stop;
+        }
+        break;
+
+    case 24:
+        s08b_bunsin2_800D0D80(work);
+        break;
+
+    case 36:
+        if (s08b_bunsin2_800D1588(work) != 0)
+        {
+            work->field_19CC = 0x18;
+            work->field_19D0 = 0;
+        }
+
+        if (s08b_bunsin2_800CF54C(work) != 0)
+        {
+            work->field_19D0 = 0;
+            work->field_19D4 = 0;
+            work->field_19B8 = 1;
+        }
+        break;
+
+    case 5:
+        if (s08b_bunsin2_800D0004(work) != 0)
+        {
+            work->field_19CC = 0x18;
+            goto reset;
+        }
+        break;
+
+    case 7:
+        if (s08b_bunsin2_800CFCF8(work) != 0)
+        {
+stop:
+            work->field_19CC = 0x18;
+            work->field_19D4 = 0;
+reset:
+            work->field_19D0 = 0;
+        }
+        break;
+    }
+}
 void s08b_bunsin2_800D1EC8(Work *work)
 {
     extern int s08b_bunsin2_800CF950();
