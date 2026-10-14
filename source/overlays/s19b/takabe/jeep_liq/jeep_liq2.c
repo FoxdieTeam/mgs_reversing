@@ -35,42 +35,50 @@ extern void s19b_spark2_m_800D9390(LiqWork *work, int mode);
 extern void s19b_spark2_m_800D9434(LiqWork *work, int mode);
 extern void s19b_spark2_m_800D94C8(LiqWork *work, int mode);
 
-#if 0 /* NON_MATCHING: same code but gcc puts work in $s1 and target in $s0 (original: work $s0, target $s1) */
 int s19b_spark2_m_800D87A4(LiqWork *work)
 {
     TARGET *target = work->target;
+    int     level;
+    int     vital;
 
     if (target->damaged & 4)
     {
         target->force = DG_ZeroVector;
         GM_SeSet(&work->control.mov, 0x81);
+
+        /* both arms spell out the same tail: cross-jumping merges it back */
         if (!(Takabe_JeepSystem.flags_54 & 0x20000))
         {
             work->state = s19b_spark2_m_800D9390;
+            work->state_time = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
         }
         else
         {
             work->state = s19b_spark2_m_800D9434;
+            work->state_time = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
         }
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
+
         target->damage = 0;
         target->damaged = 0;
+
         if (target->vital <= 0)
         {
-            int vital;
-
             Takabe_JeepSystem.field_44++;
             vital = target->vital + 0xBF;
-            if (GM_GameLevel > 0)
+            level = GM_GameLevel;
+            if (level > 0)
             {
-                vital += GM_GameLevel << 6;
+                vital += level << 6;
             }
             target->vital = vital;
         }
         return 1;
     }
+
     if (work->cmd & 0x2000000)
     {
         work->state = s19b_spark2_m_800D94C8;
@@ -79,11 +87,9 @@ int s19b_spark2_m_800D87A4(LiqWork *work)
         work->control.turn.vx = 0;
         return 1;
     }
+
     return 0;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D87A4.s")
-extern int s19b_spark2_m_800D87A4(LiqWork *work);
 
 int s19b_spark2_m_800D88D8(LiqWork *work)
 {
