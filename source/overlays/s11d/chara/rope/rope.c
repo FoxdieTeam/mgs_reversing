@@ -7,6 +7,25 @@
 #include "okajima/blood.h"
 #include "chara/snake/shadow.h"
 
+typedef struct _RopeAxis
+{
+    int    speed;       // 0x00
+    int    saved_angle; // 0x04
+    int    dir;         // 0x08
+    int    step;        // 0x0C
+    int    f10;         // 0x10
+    int    dx;          // 0x14
+    int    dz;          // 0x18
+    int    angle;       // 0x1C
+    int    f20;         // 0x20
+    int    f24;         // 0x24
+    int    f28;         // 0x28
+    int    f2C;         // 0x2C
+    int    target;      // 0x30
+    short *pos;         // 0x34
+    short *rot;         // 0x38
+} RopeAxis;
+
 typedef struct _Work
 {
     GV_ACT      actor;
@@ -41,36 +60,7 @@ typedef struct _Work
     short       field_EC0;
     short       field_EC2;
     char        pad3c[0xEC8 - 0xEC2 - sizeof(short)];
-    int         field_EC8;
-    int         field_ECC;
-    int         field_ED0;
-    int         field_ED4;
-    int         field_ED8;
-    int         field_EDC;
-    int         field_EE0;
-    int         field_EE4;
-    int         field_EE8;
-    int         field_EEC;
-    int         field_EF0;
-    int         field_EF4;
-    int         field_EF8;
-    int         field_EFC;
-    int         field_F00;
-    int         field_F04;
-    int         field_F08;
-    int         field_F0C;
-    int         field_F10;
-    int         field_F14;
-    int         field_F18;
-    int         field_F1C;
-    int         field_F20;
-    int         field_F24;
-    int         field_F28;
-    int         field_F2C;
-    int         field_F30;
-    int         field_F34;
-    int         field_F38;
-    int         field_F3C;
+    RopeAxis    axis[2];
     int         field_F40;
     short       field_F44;
     char        pad_f46[2];
@@ -145,7 +135,7 @@ extern void s11d_rope_800C4ECC(Work *work);
 extern void s11d_rope_800C502C(Work *work);
 extern void s11d_rope_800C5348(Work *work);
 extern void s11d_rope_800C5410(void);
-extern void s11d_rope_800C5584(Work *work, int *cluster, int index);
+extern void s11d_rope_800C5584(Work *work, RopeAxis *axis, int index);
 extern void s11d_rope_800C5B10(Work *work);
 extern void s11d_rope_800C5E74(Work *work);
 extern void s11d_rope_800C6478(Work *work);
@@ -443,7 +433,7 @@ void s11d_rope_800C4648(Work *work)
 
 void s11d_rope_800C481C(Work *work)
 {
-    GM_SnakeCamera.rotate.vy = work->field_EDC / 48 + 2048;
+    GM_SnakeCamera.rotate.vy = work->axis[0].dx / 48 + 2048;
     GM_CameraSetRotation(&GM_SnakeCamera.rotate);
 }
 
@@ -590,8 +580,8 @@ int s11d_rope_800C4FC8(Work *work)
 
 void s11d_rope_800C502C(Work *work)
 {
-    int *cluster1 = &work->field_EC8;
-    int *cluster2 = &work->field_F04;
+    RopeAxis *axis1 = &work->axis[0];
+    RopeAxis *axis2 = &work->axis[1];
     int  action;
     int  pad;
 
@@ -612,9 +602,9 @@ void s11d_rope_800C502C(Work *work)
         if (work->field_EC2 == 0)
         {
             work->field_F74 = (work->field_F74 & ~0x800000) | 0x100;
-            if (cluster1[2] != 0)
+            if (axis1->dir != 0)
             {
-                work->control.turn.vy = -(cluster1[2] * 0x600);
+                work->control.turn.vy = -(axis1->dir * 0x600);
             }
         }
     }
@@ -624,14 +614,14 @@ void s11d_rope_800C502C(Work *work)
         if (work->field_F74 & 0x10000)
         {
             work->field_F74 &= ~0xF00;
-            cluster1[0] = 0;
-            cluster1[2] = 0;
+            axis1->speed = 0;
+            axis1->dir = 0;
         }
         else
         {
             work->field_F74 &= ~0x500;
-            cluster2[0] = 0;
-            cluster2[2] = 0;
+            axis2->speed = 0;
+            axis2->dir = 0;
         }
     }
     else
@@ -666,23 +656,23 @@ void s11d_rope_800C502C(Work *work)
 
     if (work->field_F74 & 0x100)
     {
-        s11d_rope_800C5584(work, &work->field_EC8, 0);
+        s11d_rope_800C5584(work, &work->axis[0], 0);
     }
     if (work->field_F74 & 0x200)
     {
-        s11d_rope_800C5584(work, &work->field_F04, 1);
+        s11d_rope_800C5584(work, &work->axis[1], 1);
     }
 
     if (work->field_F74 & 0x400)
     {
-        cluster1[2] = 0;
-        cluster1[0] = 0;
+        axis1->dir = 0;
+        axis1->speed = 0;
         work->field_F74 &= ~0x400;
     }
     if (work->field_F74 & 0x800)
     {
-        cluster2[2] = 0;
-        cluster2[0] = 0;
+        axis2->dir = 0;
+        axis2->speed = 0;
         work->field_F74 &= ~0x800;
     }
 }
@@ -803,25 +793,25 @@ void s11d_rope_800C54CC(Work *work)
 
 void s11d_rope_800C5538(Work *work)
 {
-    int *cluster1 = &work->field_EC8;  /* offsets EC8..EF4 */
-    int *cluster2 = &work->field_F04;  /* offsets F04..F30 */
+    RopeAxis *axis1 = &work->axis[0];
+    RopeAxis *axis2 = &work->axis[1];
 
-    cluster2[1]  = 0;  /* field_F08 */
-    cluster1[1]  = 0;  /* field_ECC */
-    cluster1[8]  = 0;  /* field_EE8 */
-    cluster1[4]  = 0;  /* field_ED8 */
-    cluster1[2]  = 0;  /* field_ED0 */
-    cluster1[0]  = 0;  /* field_EC8 */
-    cluster2[8]  = 0;  /* field_F24 */
-    cluster2[4]  = 0;  /* field_F14 */
-    cluster2[2]  = 0;  /* field_F0C */
-    cluster2[0]  = 0;  /* field_F04 */
-    cluster1[11] = 0;  /* field_EF4 */
-    cluster1[10] = 0;  /* field_EF0 */
-    cluster1[9]  = 0;  /* field_EEC */
-    cluster2[11] = 0;  /* field_F30 */
-    cluster2[10] = 0;  /* field_F2C */
-    cluster2[9]  = 0;  /* field_F28 */
+    axis2->saved_angle = 0;
+    axis1->saved_angle = 0;
+    axis1->f20 = 0;
+    axis1->f10 = 0;
+    axis1->dir = 0;
+    axis1->speed = 0;
+    axis2->f20 = 0;
+    axis2->f10 = 0;
+    axis2->dir = 0;
+    axis2->speed = 0;
+    axis1->f2C = 0;
+    axis1->f28 = 0;
+    axis1->f24 = 0;
+    axis2->f2C = 0;
+    axis2->f28 = 0;
+    axis2->f24 = 0;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5584.s")
@@ -852,19 +842,19 @@ void s11d_rope_800C6240(Work *work)
 
 void s11d_rope_800C6264(Work *work)
 {
-    int *cluster = &work->field_EC8;   /* [0]=EC8 [1]=ECC [2]=ED0 [5]=EDC [7]=EE4 */
-    int  val = cluster[7];
-    int  abs_val = (val < 0) ? -val : val;
-    int  flag;
+    RopeAxis *axis = &work->axis[0];
+    int       val = axis->angle;
+    int       abs_val = (val < 0) ? -val : val;
+    int       flag;
 
     if (abs_val < 0x21)
     {
         return;
     }
 
-    cluster[2] = (cluster[5] > 0) ? -1 : 1;
-    cluster[0] = 0x18;
-    cluster[1] = cluster[7];
+    axis->dir = (axis->dx > 0) ? -1 : 1;
+    axis->speed = 0x18;
+    axis->saved_angle = axis->angle;
     work->field_F60 = -8;
     flag = work->field_F74 | 0x100;
     work->field_F74 = flag;
@@ -876,16 +866,16 @@ void s11d_rope_800C6264(Work *work)
 
 void s11d_rope_800C62E0(Work *work)
 {
-    int *p_F04 = &work->field_F04;
+    RopeAxis *axis = &work->axis[1];
 
     if (work->field_F74 & 0x4000)
     {
         return;
     }
-    p_F04[2] = (work->field_F74 & 0x10) ? 1 : -1;
-    p_F04[0] = 0x30;
+    axis->dir = (work->field_F74 & 0x10) ? 1 : -1;
+    axis->speed = 0x30;
     work->field_F74 |= 0x200;
-    p_F04[1] = p_F04[7];
+    axis->saved_angle = axis->angle;
     work->field_F60 = -8;
     work->field_F68 = -8;
     if (work->field_F74 & 0x1000)
@@ -1420,26 +1410,26 @@ int s11d_rope_800C882C(Work *work);
 
 void s11d_rope_800C8C04(Work *work)
 {
-    int *cluster1;
-    int *cluster2;
+    RopeAxis *axis1;
+    RopeAxis *axis2;
 
     s11d_rope_800C5538(work);
 
-    cluster1 = &work->field_EC8;
-    cluster2 = &work->field_F04;
+    axis1 = &work->axis[0];
+    axis2 = &work->axis[1];
 
-    cluster1[6]  = 0;                           /* field_EE0 */
-    cluster1[5]  = 0;                           /* field_EDC */
-    cluster2[6]  = 0;                           /* field_F1C */
-    cluster2[5]  = 0;                           /* field_F18 */
-    cluster1[3]  = 0x18;                        /* field_ED4 */
-    cluster2[3]  = 0x40;                        /* field_F10 */
-    cluster1[12] = work->field_F94;             /* field_EF8 */
-    cluster2[12] = work->field_F98;             /* field_F34 */
-    cluster1[13] = (int)&work->control.mov;     /* field_EFC */
-    cluster2[13] = (int)&work->control.mov.vz;  /* field_F38 */
-    cluster1[14] = (int)&work->control.turn.vz; /* field_F00 */
-    cluster2[14] = (int)&work->control.turn.vx; /* field_F3C */
+    axis1->dz = 0;
+    axis1->dx = 0;
+    axis2->dz = 0;
+    axis2->dx = 0;
+    axis1->step = 0x18;
+    axis2->step = 0x40;
+    axis1->target = work->field_F94;
+    axis2->target = work->field_F98;
+    axis1->pos = &work->control.mov.vx;
+    axis2->pos = &work->control.mov.vz;
+    axis1->rot = &work->control.turn.vz;
+    axis2->rot = &work->control.turn.vx;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8C88.s")
