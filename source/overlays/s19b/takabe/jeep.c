@@ -10,17 +10,18 @@
 extern SVECTOR s19b_dword_800C39BC;
 extern SVECTOR s19b_dword_800C39C4;
 
-void s19b_jeep_800D2170(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2, short *arg3)
+/* Makes a rotation matrix of three column vectors */
+void s19b_jeep_800D2170(SVECTOR *col0, SVECTOR *col1, SVECTOR *col2, MATRIX *mtx)
 {
-    arg3[0] = arg0->vx;
-    arg3[1] = arg1->vx;
-    arg3[2] = arg2->vx;
-    arg3[3] = arg0->vy;
-    arg3[4] = arg1->vy;
-    arg3[5] = arg2->vy;
-    arg3[6] = arg0->vz;
-    arg3[7] = arg1->vz;
-    arg3[8] = arg2->vz;
+    mtx->m[0][0] = col0->vx;
+    mtx->m[0][1] = col1->vx;
+    mtx->m[0][2] = col2->vx;
+    mtx->m[1][0] = col0->vy;
+    mtx->m[1][1] = col1->vy;
+    mtx->m[1][2] = col2->vy;
+    mtx->m[2][0] = col0->vz;
+    mtx->m[2][1] = col1->vz;
+    mtx->m[2][2] = col2->vz;
 }
 
 void s19b_jeep_800D21DC(int ang, MATRIX *mat, SVECTOR *out)
