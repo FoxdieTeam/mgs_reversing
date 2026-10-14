@@ -3946,10 +3946,6 @@ void brf_800D52F0(Work *work)
                 work->poly_flags[6] = 10;
                 work->poly_flags[7] = 10;
             }
-            else
-            {
-                goto call_cece4;
-            }
         }
         if (work->view_mode == 0)
         {
