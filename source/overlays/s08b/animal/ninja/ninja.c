@@ -5827,10 +5827,13 @@ void s08b_bunsin2_800D29DC(Work *work)
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
             work->think3 = 28;
-            goto reset;
+            work->think_time = 0;
+            work->count3 = 0;
         }
-
-        work->field_1A08 = 1;
+        else
+        {
+            work->field_1A08 = 1;
+        }
         break;
 
     case 29:
@@ -5838,7 +5841,8 @@ void s08b_bunsin2_800D29DC(Work *work)
         if (s08b_bunsin2_800D0330(work) != 0)
         {
             s08b_dword_800C3448 = 0;
-            goto reset;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
@@ -5848,7 +5852,6 @@ void s08b_bunsin2_800D29DC(Work *work)
             work->think2 = 8;
             work->think3 = 38;
             s08b_dword_800C3448 = 0;
-reset:
             work->think_time = 0;
             work->count3 = 0;
         }
