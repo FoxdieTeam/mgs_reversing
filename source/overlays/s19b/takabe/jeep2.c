@@ -1,56 +1,8 @@
 #include "mgstype.h"
 #include "game/game.h"
 #include "jeep_system.h"
+#include "jeep2.h"
 
-typedef struct _Jeep2Work Jeep2Work;
-
-typedef void (*Jeep2Func)(Jeep2Work *);
-
-struct _Jeep2Work
-{
-    /* +0x000 */ GV_ACT         actor;
-    /* +0x020 */ GV_ACT        *liq;
-    /* +0x024 */ CONTROL        control;
-    /* +0x0A0 */ TARGET        *target;
-    /* +0x0A4 */ OBJECT         jeep_b;
-    /* +0x188 */ OBJECT         jeep_t;
-    /* +0x26C */ OBJECT_NO_ROTS gun;
-    /* +0x290 */ MATRIX         light[2];
-    /* +0x2D0 */ OBJECT_NO_ROTS fhl;
-    /* +0x2F4 */ OBJECT_NO_ROTS hl;
-    /* +0x318 */ MATRIX         light2;
-    /* +0x338 */ char           pad_338[0x20];
-    /* +0x358 */ VECTOR         pos;
-    /* +0x368 */ VECTOR         old_pos;
-    /* +0x378 */ SVECTOR        speed;
-    /* +0x380 */ SVECTOR        field_380;
-    /* +0x388 */ SVECTOR        field_388;
-    /* +0x390 */ SVECTOR        rot;
-    /* +0x398 */ SVECTOR        field_398;
-    /* +0x3A0 */ int            field_3A0;
-    /* +0x3A4 */ int            field_3A4;
-    /* +0x3A8 */ int            field_3A8;
-    /* +0x3AC */ int            field_3AC;
-    /* +0x3B0 */ int            field_3B0;
-    /* +0x3B4 */ int            flags;
-    /* +0x3B8 */ int            timer;
-    /* +0x3BC */ int            se_timer;
-    /* +0x3C0 */ int            field_3C0;
-    /* +0x3C4 */ int            hit;
-    /* +0x3C8 */ int            field_3C8;
-    /* +0x3CC */ int            field_3CC;
-    /* +0x3D0 */ Jeep2Func      func_3D0;
-    /* +0x3D4 */ int            field_3D4;
-    /* +0x3D8 */ int            field_3D8;
-    /* +0x3DC */ Jeep2Func      func_3DC;
-    /* +0x3E0 */ int            field_3E0;
-    /* +0x3E4 */ int            field_3E4;
-    /* +0x3E8 */ Jeep2Func      func_3E8;
-    /* +0x3EC */ int            field_3EC;
-    /* +0x3F0 */ int            field_3F0;
-    /* +0x3F4 */ int            field_3F4;
-    /* +0x3F8 */ Jeep2Func      func_3F8;
-};
 
 extern VECTOR  s19b_dword_800C3A84;
 extern SVECTOR s19b_dword_800C3A7C;
@@ -79,8 +31,8 @@ void s19b_jeep2_800D667C(Jeep2Work *work)
     control = &work->control;
 
     work->old_pos = work->pos;
-    work->pos.vx += work->speed.vx;
-    work->pos.vz += work->speed.vz;
+    work->pos.vx += work->move.vx;
+    work->pos.vz += work->move.vz;
 
     control->mov.vx = work->pos.vx - Takabe_JeepSystem.world_pos.vx;
     control->mov.vz = work->pos.vz - Takabe_JeepSystem.world_pos.vz;
@@ -89,14 +41,14 @@ void s19b_jeep2_800D667C(Jeep2Work *work)
     {
         if (work->field_3C0 == 0)
         {
-            work->field_3B0 -= work->field_3B0 / 4;
+            work->speed_target -= work->speed_target / 4;
         }
 
         work->flags |= 1;
 
-        if (work->timer == 0)
+        if (work->wobble == 0)
         {
-            work->timer = 20;
+            work->wobble = 20;
         }
     }
     else
@@ -106,12 +58,12 @@ void s19b_jeep2_800D667C(Jeep2Work *work)
 
     work->hit = 0;
 
-    if (work->timer != 0)
+    if (work->wobble != 0)
     {
-        work->timer--;
+        work->wobble--;
     }
 
-    work->func_3D0(work);
+    work->act_fn(work);
 
     if (s19b_jeep_gls_800CEDFC(control->mov.vz, -8000) == 31)
     {
@@ -129,7 +81,7 @@ void s19b_jeep2_800D667C(Jeep2Work *work)
         work->pos.vx += target->offset.vx;
         work->pos.vy += target->offset.vy;
 
-        if (work->func_3E8 != s19b_jeep_liq_800D7D68)
+        if (work->side_fn != s19b_jeep_liq_800D7D68)
         {
             work->flags |= 8;
             if (work->se_timer == 0)
@@ -162,9 +114,9 @@ void s19b_jeep2_800D667C(Jeep2Work *work)
         work->se_timer--;
     }
 
-    s19b_spark2_m_800D9C90(&control->mov, &work->pos, &work->field_3A8, &out);
-    s19b_spark2_m_800D9EC0(&control->mov, &work->rot, &work->speed, &work->field_388);
-    s19b_spark2_m_800DA0B4(work->jeep_t.rots, work->field_3AC, &work->rot, &work->field_398);
+    s19b_spark2_m_800D9C90(&control->mov, &work->pos, &work->speed, &out);
+    s19b_spark2_m_800D9EC0(&control->mov, &work->rot, &work->move, &work->field_388);
+    s19b_spark2_m_800DA0B4(work->jeep_t.rots, work->speed_prev, &work->rot, &work->field_398);
 
     control->turn = work->rot;
     control->turn.vx = 0;
@@ -285,16 +237,16 @@ int s19b_jeep2_800D6B18(Jeep2Work *work, int name, int where)
     work->old_pos = work->pos;
     work->old_pos.vz += 400;
 
-    work->speed = work->field_380 = DG_ZeroVector;
-    work->field_388 = work->speed;
-    work->speed.vz = -400;
+    work->move = work->field_380 = DG_ZeroVector;
+    work->field_388 = work->move;
+    work->move.vz = -400;
     work->field_388.vz = -0x800;
 
-    work->field_3A8 = work->field_3B0 = 0x1A9;
-    work->field_3A0 = 0;
-    work->field_3A4 = 0;
+    work->speed = work->speed_target = 0x1A9;
+    work->side = 0;
+    work->side_target = 0;
     work->flags = 0;
-    work->timer = 0;
+    work->wobble = 0;
 
     z = work->pos.vz - Takabe_JeepSystem.world_pos.vz;
     control->mov.vz = z;
@@ -303,19 +255,19 @@ int s19b_jeep2_800D6B18(Jeep2Work *work, int name, int where)
     work->pos.vx = vec.vx + Takabe_JeepSystem.world_pos.vx;
     control->mov.vy = vec.vy;
 
-    work->func_3D0 = s19b_jeep_liq_800D76B0;
-    work->func_3DC = s19b_jeep_liq_800D7ACC;
-    work->func_3E8 = s19b_jeep_liq_800D7BB0;
-    work->field_3C8 = 0;
-    work->field_3CC = 0;
-    work->field_3D4 = 0;
-    work->field_3D8 = 0;
-    work->field_3E0 = 0;
-    work->field_3E4 = 0;
-    work->field_3EC = 0;
-    work->field_3F0 = 0;
+    work->act_fn = s19b_jeep_liq_800D76B0;
+    work->speed_fn = s19b_jeep_liq_800D7ACC;
+    work->side_fn = s19b_jeep_liq_800D7BB0;
+    work->frame = 0;
+    work->phase = 0;
+    work->speed_timer = 0;
+    work->speed_fn_time = 0;
+    work->side_count = 0;
+    work->side_step = 0;
+    work->mode = 0;
+    work->shoot_count = 0;
     work->field_3F4 = 0;
-    work->func_3F8 = s19b_jeep_liq_800D81A8;
+    work->mode_fn = s19b_jeep_liq_800D81A8;
 
     work->liq = s19b_spark2_m_800D8670(control, &body->objs->world, &work->hit);
     NewJeepLamp2(&body->objs->world);

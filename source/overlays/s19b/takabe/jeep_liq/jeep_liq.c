@@ -4,57 +4,8 @@
 #include "mgstype.h"
 #include "game/game.h"
 #include "jeep_liq.h"
+#include "../jeep2.h"
 
-typedef struct _JeepWork JeepWork;
-
-typedef void (*JeepFn)();
-
-/* The jeep the Liquid chases/drives: same actor as jeep2.c (s19b_jeep2_800D6B18 builds it). The functions
-   here are its movement state machines; the Liquid actor itself (LiqWork) is in jeep_liq.h. */
-struct _JeepWork
-{
-    GV_ACT          actor;        /* 0x000 */
-    void           *liq_actor;    /* 0x020 */
-    CONTROL         control;      /* 0x024 */
-    TARGET         *target;       /* 0x0A0 */
-    OBJECT          jeep_b;       /* 0x0A4 */
-    OBJECT          jeep_t;       /* 0x188 */
-    OBJECT_NO_ROTS  gun;          /* 0x26C */
-    MATRIX          light[2];     /* 0x290 */
-    OBJECT_NO_ROTS  fhl;          /* 0x2D0 */
-    OBJECT_NO_ROTS  hl;           /* 0x2F4 */
-    char            pad_318[0x358 - 0x318];
-    int             road[4];      /* 0x358 */
-    int             road2[4];     /* 0x368 */
-    SVECTOR         sv_378;       /* 0x378 */
-    SVECTOR         sv_380;       /* 0x380 */
-    SVECTOR         sv_388;       /* 0x388 */
-    SVECTOR         rot;          /* 0x390 */
-    char            pad_398[0x3A0 - 0x398];
-    int             side;         /* 0x3A0 */
-    int             side_target;  /* 0x3A4 */
-    int             speed;        /* 0x3A8 */
-    int             speed_prev;   /* 0x3AC */
-    int             speed_target; /* 0x3B0 */
-    int             flags;        /* 0x3B4 */
-    int             wobble;       /* 0x3B8 */
-    char            pad_3BC[0x3C0 - 0x3BC];
-    int             f3C0;         /* 0x3C0 */
-    int             liq_flags;    /* 0x3C4 */
-    int             frame;        /* 0x3C8 */
-    int             phase;        /* 0x3CC */
-    JeepFn          act_fn;       /* 0x3D0 */
-    int             speed_timer;  /* 0x3D4 */
-    int             speed_fn_time;/* 0x3D8 */
-    JeepFn          speed_fn;     /* 0x3DC */
-    int             side_count;   /* 0x3E0 */
-    int             side_step;    /* 0x3E4 */
-    JeepFn          side_fn;      /* 0x3E8 */
-    int             mode;         /* 0x3EC */
-    int             shoot_count;  /* 0x3F0 */
-    int             f3F4;         /* 0x3F4 */
-    JeepFn          mode_fn;      /* 0x3F8 */
-};
 
 
 
@@ -77,24 +28,24 @@ extern int   s19b_jeep_gls_800CEDFC(int z, int arg1);
 extern void  s19b_jlamp_800D0A20(int arg0);
 
 extern int   s19b_jeep_liq_800D771C(int cur, int center, int pos);
-extern void  s19b_jeep_liq_800D76F8(JeepWork *work, JeepFn fn);
-extern void  s19b_jeep_liq_800D7B3C(JeepWork *work, JeepFn fn);
-extern void  s19b_jeep_liq_800D8014(JeepWork *work, JeepFn fn);
-extern void  s19b_jeep_liq_800D77F0(JeepWork *work);
-extern void  s19b_jeep_liq_800D7860(JeepWork *work);
-extern void  s19b_jeep_liq_800D797C(JeepWork *work);
-extern void  s19b_jeep_liq_800D7A5C(JeepWork *work);
-extern void  s19b_jeep_liq_800D7BB0(JeepWork *work);
-extern void  s19b_jeep_liq_800D7C0C(JeepWork *work);
-extern void  s19b_jeep_liq_800D7CBC(JeepWork *work);
-extern void  s19b_jeep_liq_800D8044(JeepWork *work);
-extern void  s19b_jeep_liq_800D8118(JeepWork *work);
-extern void  s19b_jeep_liq_800D7114(JeepWork *work);
-extern void  s19b_jeep_liq_800D7200(JeepWork *work);
-extern void  s19b_jeep_liq_800D7330(JeepWork *work);
-extern void  s19b_jeep_liq_800D7468(JeepWork *work);
+extern void  s19b_jeep_liq_800D76F8(Jeep2Work *work, Jeep2Func fn);
+extern void  s19b_jeep_liq_800D7B3C(Jeep2Work *work, Jeep2Func fn);
+extern void  s19b_jeep_liq_800D8014(Jeep2Work *work, Jeep2Func fn);
+extern void  s19b_jeep_liq_800D77F0(Jeep2Work *work);
+extern void  s19b_jeep_liq_800D7860(Jeep2Work *work);
+extern void  s19b_jeep_liq_800D797C(Jeep2Work *work);
+extern void  s19b_jeep_liq_800D7A5C(Jeep2Work *work);
+extern void  s19b_jeep_liq_800D7BB0(Jeep2Work *work);
+extern void  s19b_jeep_liq_800D7C0C(Jeep2Work *work);
+extern void  s19b_jeep_liq_800D7CBC(Jeep2Work *work);
+extern void  s19b_jeep_liq_800D8044(Jeep2Work *work);
+extern void  s19b_jeep_liq_800D8118(Jeep2Work *work);
+extern void  s19b_jeep_liq_800D7114(Jeep2Work *work);
+extern void  s19b_jeep_liq_800D7200(Jeep2Work *work);
+extern void  s19b_jeep_liq_800D7330(Jeep2Work *work);
+extern void  s19b_jeep_liq_800D7468(Jeep2Work *work);
 
-void s19b_jeep_liq_800D6FB8(JeepWork *work)
+void s19b_jeep_liq_800D6FB8(Jeep2Work *work)
 {
     CONTROL *ctl = &work->control;
     SVECTOR  rot;
@@ -105,8 +56,8 @@ void s19b_jeep_liq_800D6FB8(JeepWork *work)
     rot = vec;
     DG_SetPos2(&DG_ZeroVector, &work->rot);
     DG_RotVector(&rot, &rot, 1);
-    work->sv_378.vx = rot.vx;
-    work->sv_378.vz = rot.vz;
+    work->move.vx = rot.vx;
+    work->move.vz = rot.vz;
     s19b_jeep_gls_800CEC24(ctl->mov.vz - 0x640, &vec);
     GV_SubVec3(&vec, &ctl->mov, &vec);
     vec.vx += work->side;
@@ -117,7 +68,7 @@ void s19b_jeep_liq_800D6FB8(JeepWork *work)
     work->speed_prev = work->speed;
 }
 
-void s19b_jeep_liq_800D7114(JeepWork *work)
+void s19b_jeep_liq_800D7114(Jeep2Work *work)
 {
     work->speed_fn();
     work->side_fn(work);
@@ -150,7 +101,7 @@ void s19b_jeep_liq_800D7114(JeepWork *work)
     }
 }
 
-void s19b_jeep_liq_800D7200(JeepWork *work)
+void s19b_jeep_liq_800D7200(Jeep2Work *work)
 {
     CONTROL *ctl = &work->control;
     int      side;
@@ -190,7 +141,7 @@ void s19b_jeep_liq_800D7200(JeepWork *work)
     }
 }
 
-void s19b_jeep_liq_800D7330(JeepWork *work)
+void s19b_jeep_liq_800D7330(Jeep2Work *work)
 {
     CONTROL *ctl = &work->control;
 
@@ -228,7 +179,7 @@ void s19b_jeep_liq_800D7330(JeepWork *work)
     }
 }
 
-void s19b_jeep_liq_800D7468(JeepWork *work)
+void s19b_jeep_liq_800D7468(Jeep2Work *work)
 {
     CONTROL *ctl = &work->control;
     SVECTOR rot;
@@ -239,7 +190,7 @@ void s19b_jeep_liq_800D7468(JeepWork *work)
     case 0:
         work->frame = 0;
         work->phase = 1;
-        work->f3C0 = 1;
+        work->field_3C0 = 1;
         Takabe_JeepSystem.flags_54 |= 0x20000;
         GM_GameStatus |= STATE_PAUSE_ONLY | STATE_PADRELEASE;
         s19b_jlamp_800D0A20(1);
@@ -260,7 +211,7 @@ void s19b_jeep_liq_800D7468(JeepWork *work)
         if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 0x1770) == 14)
         {
             work->phase = 3;
-            work->sv_380 = work->sv_378;
+            work->field_380 = work->move;
         }
         break;
     case 3:
@@ -269,14 +220,14 @@ void s19b_jeep_liq_800D7468(JeepWork *work)
         rot = vec;
         DG_SetPos2(&DG_ZeroVector, &work->rot);
         DG_RotVector(&rot, &rot, 1);
-        work->sv_380.vx = GV_NearExp8(work->sv_380.vx, 0);
-        work->sv_380.vz = GV_NearExp8(work->sv_380.vz, 0);
-        work->sv_378.vx = rot.vx + work->sv_380.vx;
-        work->sv_378.vz = rot.vz + work->sv_380.vz;
+        work->field_380.vx = GV_NearExp8(work->field_380.vx, 0);
+        work->field_380.vz = GV_NearExp8(work->field_380.vz, 0);
+        work->move.vx = rot.vx + work->field_380.vx;
+        work->move.vz = rot.vz + work->field_380.vz;
         work->rot.vy = GV_NearExp8(work->rot.vy, 0xC00);
         work->speed = GV_NearExp4(work->speed, 0);
         work->speed_prev = 0;
-        if (work->sv_378.vx == 0 && work->sv_378.vz == 0)
+        if (work->move.vx == 0 && work->move.vz == 0)
         {
             work->phase = 4;
         }
@@ -287,7 +238,7 @@ void s19b_jeep_liq_800D7468(JeepWork *work)
     work->frame++;
 }
 
-void s19b_jeep_liq_800D76B0(JeepWork *work)
+void s19b_jeep_liq_800D76B0(Jeep2Work *work)
 {
     work->speed_fn();
     work->side = 0;
@@ -295,7 +246,7 @@ void s19b_jeep_liq_800D76B0(JeepWork *work)
     s19b_jeep_liq_800D6FB8(work);
 }
 
-void s19b_jeep_liq_800D76F8(JeepWork *work, JeepFn arg1)
+void s19b_jeep_liq_800D76F8(Jeep2Work *work, Jeep2Func arg1)
 {
     if (work->speed_fn != arg1)
     {
@@ -342,16 +293,16 @@ int s19b_jeep_liq_800D771C(int cur, int center, int pos)
     }
     return cur;
 }
-void s19b_jeep_liq_800D77F0(JeepWork *work)
+void s19b_jeep_liq_800D77F0(Jeep2Work *work)
 {
-    int v = work->road[2] - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
+    int v = work->pos.vz - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_mrl_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, 0x753, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
-void s19b_jeep_liq_800D7860(JeepWork *work)
+void s19b_jeep_liq_800D7860(Jeep2Work *work)
 {
-    int s1 = work->road[2] - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
+    int s1 = work->pos.vz - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     int a1 = s19b_jeep_mrl_800D399C();
 
     if (work->speed_timer == 0)
@@ -380,36 +331,36 @@ void s19b_jeep_liq_800D7860(JeepWork *work)
     }
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
-void s19b_jeep_liq_800D797C(JeepWork *work)
+void s19b_jeep_liq_800D797C(Jeep2Work *work)
 {
-    int v = work->road[2] - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
+    int v = work->pos.vz - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_mrl_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, 0, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
-void s19b_jeep_liq_800D79EC(JeepWork *work)
+void s19b_jeep_liq_800D79EC(Jeep2Work *work)
 {
-    int v = work->road[2] - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
+    int v = work->pos.vz - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_mrl_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, -0x177, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
-void s19b_jeep_liq_800D7A5C(JeepWork *work)
+void s19b_jeep_liq_800D7A5C(Jeep2Work *work)
 {
-    int v = work->road[2] - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
+    int v = work->pos.vz - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_mrl_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, 0xbb8, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
-void s19b_jeep_liq_800D7ACC(JeepWork *work)
+void s19b_jeep_liq_800D7ACC(Jeep2Work *work)
 {
-    int v = work->road[2] - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
+    int v = work->pos.vz - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_mrl_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, 0x1194, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
 
-void s19b_jeep_liq_800D7B3C(JeepWork *work, JeepFn arg1)
+void s19b_jeep_liq_800D7B3C(Jeep2Work *work, Jeep2Func arg1)
 {
     if (work->side_fn != arg1)
     {
@@ -423,7 +374,7 @@ int s19b_jeep_liq_800D7B60(int center, int range)
 {
     return (rand() * range >> 15) - range / 2 + center;
 }
-void s19b_jeep_liq_800D7BB0(JeepWork *work)
+void s19b_jeep_liq_800D7BB0(Jeep2Work *work)
 {
     if (++work->side_count == 0x1e)
     {
@@ -432,7 +383,7 @@ void s19b_jeep_liq_800D7BB0(JeepWork *work)
     }
     work->side = GV_NearSpeed(work->side, work->side_target, 0x1e);
 }
-void s19b_jeep_liq_800D7C0C(JeepWork *work)
+void s19b_jeep_liq_800D7C0C(Jeep2Work *work)
 {
     int n = work->side_count + 1;
     work->side_count = n;
@@ -458,7 +409,7 @@ void s19b_jeep_liq_800D7C0C(JeepWork *work)
         break;
     }
 }
-void s19b_jeep_liq_800D7CBC(JeepWork *work)
+void s19b_jeep_liq_800D7CBC(Jeep2Work *work)
 {
     int n = work->side_count + 1;
     work->side_count = n;
@@ -484,7 +435,7 @@ void s19b_jeep_liq_800D7CBC(JeepWork *work)
         break;
     }
 }
-void s19b_jeep_liq_800D7D68(JeepWork *work)
+void s19b_jeep_liq_800D7D68(Jeep2Work *work)
 {
     int n = work->side_count + 1;
     work->side_count = n;
@@ -517,7 +468,7 @@ void s19b_jeep_liq_800D7D68(JeepWork *work)
         break;
     }
 }
-void s19b_jeep_liq_800D7E2C(JeepWork *work)
+void s19b_jeep_liq_800D7E2C(Jeep2Work *work)
 {
     int n = work->side_count + 1;
     work->side_count = n;
@@ -557,7 +508,7 @@ void s19b_jeep_liq_800D7E2C(JeepWork *work)
         break;
     }
 }
-void s19b_jeep_liq_800D7F20(JeepWork *work)
+void s19b_jeep_liq_800D7F20(Jeep2Work *work)
 {
     int n = work->side_count + 1;
     work->side_count = n;
@@ -598,7 +549,7 @@ void s19b_jeep_liq_800D7F20(JeepWork *work)
         break;
     }
 }
-void s19b_jeep_liq_800D8014(JeepWork *work, JeepFn arg1)
+void s19b_jeep_liq_800D8014(Jeep2Work *work, Jeep2Func arg1)
 {
     if (work->mode_fn != arg1)
     {
@@ -611,7 +562,7 @@ void s19b_jeep_liq_800D8014(JeepWork *work, JeepFn arg1)
 extern unsigned char s19b_dword_800C3A9C[];
 extern int s19b_jeep_mrl_800D39B4(SVECTOR *dst);
 
-void s19b_jeep_liq_800D8044(JeepWork *work)
+void s19b_jeep_liq_800D8044(Jeep2Work *work)
 {
     SVECTOR sp10;
 
@@ -635,7 +586,7 @@ void s19b_jeep_liq_800D8044(JeepWork *work)
         work->shoot_count++;
     }
 }
-void s19b_jeep_liq_800D8118(JeepWork *work)
+void s19b_jeep_liq_800D8118(Jeep2Work *work)
 {
     SVECTOR dst;
     int     d;
@@ -656,7 +607,7 @@ void s19b_jeep_liq_800D8118(JeepWork *work)
     }
 }
 
-void s19b_jeep_liq_800D81A8(JeepWork *work)
+void s19b_jeep_liq_800D81A8(Jeep2Work *work)
 {
     int n = work->shoot_count;
     work->shoot_count = n + 1;
