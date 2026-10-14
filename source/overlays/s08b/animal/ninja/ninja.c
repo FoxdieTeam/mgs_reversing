@@ -24,11 +24,6 @@
 struct _Work;
 typedef void (*NinjaFunc)(struct _Work *);
 
-typedef struct _NinjaRoute
-{
-    u_char      key;
-    signed char opts[3];
-} NinjaRoute;
 typedef void (*NinjaAction)(struct _Work *, int);
 
 typedef struct _NinjaClone
@@ -162,10 +157,8 @@ extern int     s08b_dword_800C344C;
 extern int     s08b_dword_800C3450;
 extern SVECTOR s08b_dword_800C3460[];
 extern SVECTOR s08b_dword_800C3568[];
-extern NinjaRoute s08b_dword_800C3518[20];
 extern SVECTOR s08b_dword_800C3490[];
 extern SVECTOR s08b_dword_800C34B0[];
-extern SVECTOR s08b_dword_800C34D0[];
 extern SVECTOR s08b_dword_800C34F8[];
 extern int     s08b_dword_800C3588;
 
@@ -205,8 +198,6 @@ extern int   s08b_dword_800E4340;
 
 extern char s08b_aErrerrerrsoundbuffover_800E3764[];
 extern char s08b_aNinjac_800E37F8[];
-extern char s08b_aWeaponxxamodexx_800E3878[];
-extern char s08b_aJumpfctrlturnvyd_800E3920[];
 extern char s08b_aPunchdamagelifedcombod_800E393C[];
 extern char s08b_aNjafist_800E3740[];
 extern char s08b_aNjab_800E374C[];
@@ -2918,7 +2909,6 @@ invisible_off:
     control->step.vy = work->field_914;
     work->target->captured = 0;
 }
-void s08b_bunsin2_800CD000(Work *work);
 
 int s08b_bunsin2_800CD298(int a, int b, int c)
 {
@@ -3112,7 +3102,6 @@ void s08b_bunsin2_800CDA40(Work *work)
         work->field_19AC = 1;
     }
 }
-void s08b_bunsin2_800CDA40(Work *work);
 
 void s08b_bunsin2_800CDB10(Work *work)
 {
@@ -3306,7 +3295,6 @@ void s08b_bunsin2_800CE21C(Work *work)
     work->field_1968 = s08b_dword_800C34B0[index];
     work->field_1970 = HZD_GetAddress(work->control.map->hzd, &work->field_1968, -1);
 }
-void s08b_bunsin2_800CE21C(Work *work);
 
 void s08b_bunsin2_800CE2E8(Work *work)
 {
@@ -3558,7 +3546,6 @@ int s08b_bunsin2_800CF254(Work *work)
 
     return 0;
 }
-int s08b_bunsin2_800CF254(Work *work);
 
 int s08b_bunsin2_800CF354(Work *work)
 {
@@ -7101,7 +7088,6 @@ check:
 
     return 0;
 }
-int s08b_bunsin2_800D42D8(Work *work);
 
 void s08b_bunsin2_800D43D8(Work *work)
 {
@@ -7395,7 +7381,6 @@ void s08b_bunsin2_800D4984(Work *work)
         break;
     }
 }
-void s08b_bunsin2_800D4984(Work *work);
 void s08b_bunsin2_800D4A34(Work *work)
 {
     switch (work->field_19C8)
@@ -7433,7 +7418,6 @@ void s08b_bunsin2_800D4A34(Work *work)
         break;
     }
 }
-void s08b_bunsin2_800D4A34(Work *work);
 void s08b_bunsin2_800D4AF4(Work *work)
 {
     switch (work->field_19C8)
@@ -7477,7 +7461,6 @@ void s08b_bunsin2_800D4AF4(Work *work)
 
     s08b_bunsin2_800CDBAC(work);
 }
-void s08b_bunsin2_800D4AF4(Work *work);
 void s08b_bunsin2_800D4BD4(Work *work)
 {
     switch (work->field_19C8)
@@ -7511,7 +7494,6 @@ void s08b_bunsin2_800D4BD4(Work *work)
         break;
     }
 }
-void s08b_bunsin2_800D4BD4(Work *work);
 void s08b_bunsin2_800D4C84(Work *work)
 {
     switch (work->field_19C8)
