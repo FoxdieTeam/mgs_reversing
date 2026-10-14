@@ -2138,7 +2138,15 @@ void brf_800D493C(Work *work)
     }
     work->field_AD34++;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D49B8.s")
+void brf_800D49B8(Work *work)
+{
+    work->z_A597[work->field_AD34 + 0x1A] = 2;
+    if (work->field_A9B6[work->field_AD34 + 0x1A] != 0)
+    {
+        GM_SeSet2(0, 0x30, 0xB6);
+    }
+    work->field_AD34++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D4A34.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D52F0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D5780.s")
@@ -2198,7 +2206,15 @@ void brf_800D5DDC(Work *work)
     }
     work->field_AD30++;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D5E54.s")
+void brf_800D5E54(Work *work)
+{
+    work->z_A597[work->field_AD34 + 0xC] = 2;
+    if (work->field_A9B6[work->field_AD34 + 0xC] != 0)
+    {
+        GM_SeSet2(0, 0x30, 0xB6);
+    }
+    work->field_AD34++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D5ED0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D674C.s")
 void brf_800D68D0(Work *work)
@@ -2218,7 +2234,22 @@ void brf_800D68D0(Work *work)
     }
     work->field_AD30++;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D693C.s")
+void brf_800D693C(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+    int v, w;
+
+    if (work->field_AD30 < 0x11)
+    {
+        v = work->field_AD30 * 8;
+        w = 0x80 - v;
+        setRGB0(&base[3], w, w, w);
+        setRGB0(&base[4], v, v, v);
+        setRGB0(&base[5], v, v, v);
+        setRGB0(&base[6], v, v, v);
+    }
+    work->field_AD30++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D69A8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D6F98.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D70A4.s")
@@ -2787,7 +2818,26 @@ skip:
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCED4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCFB4.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DD648.s")
+void brf_800DD648(Work *work)
+{
+    switch (work->field_AD20)
+    {
+    case 0:
+        break;
+    case 1:
+        if (work->field_AD5C != 0)
+        {
+            GM_StreamPlayStart();
+            work->field_AD5C = 0;
+        }
+        break;
+    case 2:
+    case -1:
+        work->z_A595[0] = 0;
+        brf_800CF5A8(work);
+        break;
+    }
+}
 extern int brf_dword_800C4CB0;
 
 void brf_800DD6DC(Work *work)
