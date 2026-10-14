@@ -3515,12 +3515,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s18a\s18a_800D0A8C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\overlay2.obj", overlay
     include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D0F24.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D0FC4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D0FCC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D102C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D10E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s18a\animal\liquid\b_smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
     include "{{OBJ_DIR}}\animal\liquid\bombled.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\rcm2.obj", overlay
