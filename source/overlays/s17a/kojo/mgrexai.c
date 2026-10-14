@@ -1,7 +1,11 @@
 #include <stdlib.h>
+#include "linkvar.h"
+#include "takabe/windcrcl.h"
 #include "mgrex.h"
 
-extern int GM_GameOverTimer;
+extern int     GM_GameOverTimer;
+extern SVECTOR GM_PlayerPosition;
+extern TARGET  s17a_dword_800E5E60;
 int sna_ration_available_8004FB4C(void);
 
 int  s17a_800DE7B4(SVECTOR *pos, int dir, SVECTOR *ofs, int rot);
@@ -40,12 +44,11 @@ SVECTOR mgrex_bound_points[5] = {
     {2000, 0, -5000, 0},
     {-2000, 0, -5000, 0}
 };
-int s17a_dword_800C52E4 = 0x00000FA0;
-int s17a_dword_800C52E8 = 0x00001964;
-int s17a_dword_800C52EC = 0x0000F060;
-int s17a_dword_800C52F0 = 0x00001964;
-int s17a_dword_800C52F4 = 0x03E80FA0;
-int s17a_dword_800C52F8 = 0x00000FA0;
+SVECTOR mgrex_feet[2] = {
+    {4000, 0, 6500, 0},
+    {-4000, 0, 6500, 0}
+};
+SVECTOR mgrex_stomp_size = {4000, 1000, 4000, 0};
 int s17a_dword_800C52FC = 0x00000000;
 int s17a_dword_800C5300 = 0xFFFFF000;
 int s17a_dword_800C5304 = 0x00000000;
@@ -1245,8 +1248,277 @@ const int s17a_dword_800E5C9C[] = {
 
 const char s17a_dword_800E5CD4[] = "l_hatch2";
 
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DF3E8.s")
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DF720.s")
+int s17a_800DF3E8(MGREX_WORK *work)
+{
+    SVECTOR target;
+    SVECTOR feet[2];
+    SVECTOR d;
+    int     d0, d1;
+    int     dist, dir;
+
+    if (work->f1988 == 0)
+    {
+        target = GM_PlayerPosition;
+    }
+    else
+    {
+        target = work->player_pos;
+    }
+
+    if (work->f1960 != 1)
+    {
+        return -1;
+    }
+
+    if (work->f6FC >= 3 && work->f6FC <= 6)
+    {
+        return -1;
+    }
+
+    DG_SetPos2(&work->control.mov, &work->control.rot);
+    DG_PutVector(mgrex_feet, feet, 2);
+
+    d.vx = (target.vx - feet[0].vx) >> 2;
+    d.vy = 0;
+    d.vz = (target.vz - feet[0].vz) >> 2;
+    d0 = GV_VecLen3(&d) * 4;
+
+    d.vx = (target.vx - feet[1].vx) >> 2;
+    d.vy = 0;
+    d.vz = (target.vz - feet[1].vz) >> 2;
+    d1 = GV_VecLen3(&d) * 4;
+
+    if (d0 < 2500 || d1 < 2500)
+    {
+        if (d0 < d1)
+        {
+            s17a_800DEBB4(work, 7, 0);
+        }
+        else
+        {
+            s17a_800DEBB4(work, 8, 0);
+        }
+
+        work->f1A64 = 26;
+        work->f700 = 4;
+        work->f1A60 = 0;
+        work->f6FC = 6;
+        return 0;
+    }
+
+    if (work->timers[3] == 0 && work->f1A5C == 0)
+    {
+        dist = work->f1A34;
+        dir = work->f1A38;
+        if ((dist > 3000 && dist < 15000) && abs(dir) < 113)
+        {
+            s17a_800DEBB4(work, 5, 0);
+            work->f1A60 = 0;
+
+            work->f1A64 = (GM_GameLevel <= 0) ? 40 : 25;
+
+            work->f700 = 2;
+            work->f6FC = 4;
+            return 0;
+        }
+    }
+
+    if (work->timers[1] == 0 && work->f1A5C == 0)
+    {
+        dist = work->f1A34;
+        dir = work->f1A38;
+        if ((dist > 13000 && dist < 20000) && abs(dir) < 113)
+        {
+            s17a_800DEBB4(work, 6, 0);
+            work->f700 = 1;
+            work->f1A60 = 0;
+            work->f6FC = 5;
+            work->f1A64 = work->f5F0 * 2;
+            return 0;
+        }
+    }
+
+    if (work->timers[4] == 0 || work->f1A5C != 0)
+    {
+        dist = work->f1A34;
+        dir = work->f1A38;
+        if ((dist > 15000 && dist < 25000) && abs(dir) < 227)
+        {
+            s17a_800DEBB4(work, 4, 0);
+            work->f1A64 = 120;
+            work->f1A60 = 0;
+            work->f700 = 3;
+            work->f6FC = 3;
+            return 0;
+        }
+    }
+
+    work->f6FC = 2;
+    return 0;
+}
+
+int s17a_800DF720(MGREX_WORK *work)
+{
+    SVECTOR pos;
+    MATRIX  mat;
+    TARGET *target;
+    MATRIX *world;
+    int     vital;
+    int     power;
+
+    if (work->f1A64 == 0)
+    {
+        work->f6FC = 2;
+        s17a_800DEBB4(work, 0, 0);
+        return -1;
+    }
+
+    if ((work->f1950 != 7 && work->f1950 != 8) || work->f1960 != 1)
+    {
+        if (work->f1A60 == 0)
+        {
+            if (work->body.action == 0xD)
+            {
+                work->target3->class &= ~8;
+            }
+            else if (work->body.action == 0xE)
+            {
+                work->target4->class &= ~8;
+            }
+
+            return 0;
+        }
+
+        work->f6FC = 2;
+        s17a_800DEBB4(work, 0, 0);
+        return -1;
+    }
+
+    if (work->f1950 == 7)
+    {
+        target = &work->target1;
+        world = &work->leg_l.objs->objs[8].world;
+    }
+    else
+    {
+        target = &work->target2;
+        world = &work->leg_r.objs->objs[8].world;
+    }
+
+    if (work->f1A60 == 0)
+    {
+        work->f1A60 = 1;
+    }
+
+    if (--work->f1A64 >= 25)
+    {
+        pos.vx = world->t[0];
+        pos.vy = world->t[1];
+        pos.vz = world->t[2];
+        GM_MoveTarget(target, &pos);
+
+        vital = target->vital;
+        power = GM_PowerTarget(target);
+        target->vital = vital;
+    }
+    else
+    {
+        power = 0;
+    }
+
+    if (power && GM_GameOverTimer == 0)
+    {
+        work->f1A60 = 2;
+    }
+
+    if (work->f1A64 == 25)
+    {
+        SetRotMatrix(&DG_ZeroMatrix);
+
+        if (work->f1950 == 7)
+        {
+            SetTransMatrix(&work->leg_l.objs->objs[8].world);
+        }
+        else
+        {
+            SetTransMatrix(&work->leg_r.objs->objs[8].world);
+        }
+
+        ReadRotMatrix(&mat);
+        mat.t[1] = 0;
+        NewWindcrcl_800CF6BC(&mat, 4000);
+        return 0;
+    }
+
+    if (work->f1A64 == 24)
+    {
+        work->target3->class |= 8;
+        work->target4->class |= 8;
+
+        if (work->f1A60 == 2)
+        {
+            work->f1A64 = -1;
+        }
+
+        if (GM_GameLevel > 0)
+        {
+            GM_SetTarget(&s17a_dword_800E5E60, 4, 0, &mgrex_stomp_size);
+            GM_SetPowerTarget(&s17a_dword_800E5E60, 1, -1, 0, 0, &DG_ZeroVector);
+            s17a_dword_800E5E60.center.vx = world->t[0];
+            s17a_dword_800E5E60.center.vy = world->t[1];
+            s17a_dword_800E5E60.center.vz = world->t[2];
+            GM_PowerTarget(&s17a_dword_800E5E60);
+        }
+
+        return 0;
+    }
+
+    if (work->f1A64 == -20 || work->f1A64 == -60 || work->f1A64 == -70)
+    {
+        if (work->f1950 == 7)
+        {
+            if (work->leg_l.action2 != 0x2D)
+            {
+                GM_ConfigObjectOverride(&work->leg_l, 0x2D, 0, 4, 0xF00);
+            }
+        }
+        else if (work->leg_r.action2 != 0x2E)
+        {
+            GM_ConfigObjectOverride(&work->leg_r, 0x2E, 0, 4, 0xF00);
+        }
+
+        return 0;
+    }
+
+    if (work->f1A64 == -100)
+    {
+        if (GM_GameOverTimer == 0)
+        {
+            work->f1A64 = 3;
+        }
+
+        return 0;
+    }
+
+    if (work->f1950 == 7)
+    {
+        if (work->leg_l.time2 != 0)
+        {
+            work->leg_l.action2 = 0;
+            work->leg_l.m_ctrl->info1.mask = 0;
+            work->leg_l.m_ctrl->info2.mask = 0xFFFF;
+        }
+    }
+    else if (work->leg_r.time2 != 0)
+    {
+        work->leg_r.action2 = 0;
+        work->leg_r.m_ctrl->info1.mask = 0;
+        work->leg_r.m_ctrl->info2.mask = 0xFFFF;
+    }
+
+    return 0;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DFAE8.s")
 #pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800DFF74.s")
 #pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800E0328.s")

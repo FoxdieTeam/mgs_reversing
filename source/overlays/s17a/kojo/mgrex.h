@@ -126,7 +126,8 @@ typedef struct _MGREX_WORK
     short           f6F8;
     short           f6FA;
     int             f6FC;
-    char            pad_700[0xC];
+    int             f700;
+    char            pad_704[0x8];
     int             f70C;
     int             f710;
     char            pad_714[0xC];
