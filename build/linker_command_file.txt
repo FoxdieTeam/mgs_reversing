@@ -2084,7 +2084,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "s19b" or OVERLAY == "s19br" %}
     include "{{OBJ_DIR}}\stage\s19b.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19b\menu\countdwn.obj", overlay
+    include "{{OBJ_DIR}}\menu\countdwn.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19b\takabe\jeep_emy\jeep_emy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
@@ -3505,7 +3505,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "s19a" or OVERLAY == "s19ar" %}
     include "{{OBJ_DIR}}\stage\s19a.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\s19a\menu\countdwn.obj", overlay
+    include "{{OBJ_DIR}}\menu\countdwn.obj", overlay
     include "{{OBJ_DIR}}\chara\others\motse.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\enemy\timer.obj", overlay
     include "{{OBJ_DIR}}\enemy\camera2.obj", overlay
