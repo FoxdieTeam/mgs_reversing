@@ -9,6 +9,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "libgv/libgv.h"
+#include "linkvar.h"
 #include "menu/menuman.h"
 #include "mts/mts.h" // for fprintf
 #include "charadef.h"
@@ -43,8 +44,9 @@ typedef struct _Work
     char      pad_910[0x910 - 0x8C4 - sizeof(TARGET *)];
     HOMING   *field_910;   /* 0x910 */
     char       pad_920[0x920 - 0x910 - sizeof(HOMING *)];
-    NinjaClone clones[11];  /* 0x920 */
-    char       pad_1964[0x1964 - 0x920 - 11 * sizeof(NinjaClone)];
+    NinjaClone clones[16];  /* 0x920 */
+    short      field_1960;  /* 0x1960 */
+    char       pad_1962[2];
     short      field_1964;  /* 0x1964 */
     short      field_1966;  /* 0x1966 */
     SVECTOR   field_1968;  /* 0x1968 */
@@ -73,11 +75,12 @@ typedef struct _Work
     int       field_19DC;  /* 0x19DC */
     int       field_19E0;  /* 0x19E0 */
     int       field_19E4;  /* 0x19E4 */
-    char      pad_19F0[0x19F0 - 0x19E4 - 4];
+    char      pad_19E8[4];
+    int       field_19EC;  /* 0x19EC */
     int       field_19F0;  /* 0x19F0 */
     int       field_19F4;  /* 0x19F4 */
     int       field_19F8;  /* 0x19F8 */
-    char      pad_1A00[0x1A00 - 0x19F8 - 4];
+    int       field_19FC;  /* 0x19FC */
     int       field_1A00;  /* 0x1A00 */
     int       field_1A04;  /* 0x1A04 */
     int       field_1A08;  /* 0x1A08 */
@@ -94,7 +97,7 @@ typedef struct _Work
     int       field_1A38;     /* 0x1A38 */
     char      pad_1A40[0x4]; /* 0x1A3C */
     NinjaFunc field_1A40[8];  /* 0x1A40 */
-    char      pad_1A80[0x1A80 - 0x1A60];
+    SVECTOR   shadow_verts[4]; /* 0x1A60 */
     DG_PRIM  *field_1A80;  /* 0x1A80 */
     char      pad_1A8C[0x1A8C - 0x1A84];
     int       field_1A8C;  /* 0x1A8C */
@@ -104,7 +107,9 @@ typedef struct _Work
     short     field_1B24;  /* 0x1B24 */
     char      pad_1B28[0x1B28 - 0x1B24 - sizeof(short)];
     short     field_1B28;  /* 0x1B28 */
-    char      pad_1B34[0x1B34 - 0x1B28 - sizeof(short)];
+    char      pad_1B2A[2];
+    u_char    damage[6];   /* 0x1B2C */
+    char      pad_1B32[2];
 } Work;
 
 /* forward declarations for helpers called by the migrated functions */
@@ -162,8 +167,9 @@ extern int     s08b_dword_800C3610;
 extern int     s08b_dword_800C3614;
 extern int     s08b_dword_800C3618;
 
-extern int   s08b_dword_800E4318;
-extern char *s08b_dword_800E431C;
+extern CONTROL *s08b_dword_800E4314;
+extern int     *s08b_dword_800E4318;
+extern Work    *s08b_dword_800E431C;
 extern int   s08b_dword_800E4320;
 extern int   s08b_dword_800E4324;
 extern int   s08b_dword_800E4334[];
@@ -173,12 +179,25 @@ extern int   s08b_dword_800E4340;
 
 extern char s08b_aErrerrerrsoundbuffover_800E3764[];
 extern char s08b_aNinjac_800E37F8[];
+extern char s08b_aNumd_800E3784[];
+extern char s08b_aPunchdamaged_800E3794[];
+extern char s08b_aKickdamaged_800E37A8[];
+extern char s08b_aSlashdamaged_800E37BC[];
+extern char s08b_aJumpdamaged_800E37D0[];
+extern char s08b_aEledamaged_800E37E4[];
+extern char s08b_aNjafist_800E3740[];
+extern char s08b_aNjab_800E374C[];
+extern char s08b_aKatana_800E3754[];
+extern char s08b_aShadow_800E375C[];
 extern char s08b_aKorekorekor_800E39A8[];
 
+int  s08b_bunsin2_800CD914(Work *work, int index);
 int  s08b_bunsin2_800CD95C(Work *work, void *func);
+void *NewBunsin2(OBJECT *root_obj, int arg1, int *arg2);
 void s08b_bunsin2_800CDB10(Work *work);
 void s08b_bunsin2_800D4ED0(Work *work);
 
+void s08b_ninja_800C800C(void);
 void s08b_ninja_800C7914(short *a, short *b, short *out)
 {
     int i;
@@ -203,7 +222,7 @@ void s08b_ninja_800C796C(short *a, short *b)
 
 void s08b_ninja_800C79D4(int a0)
 {
-    *(int *)s08b_dword_800E4318 = a0;
+    *s08b_dword_800E4318 = a0;
     s08b_dword_800E4320 = 0;
 }
 
@@ -229,8 +248,8 @@ int s08b_ninja_800C7A3C(void)
         GM_Camera.rotate.vy = 0x800;
         GM_Camera.rotate.vz = 0;
         GM_Camera.track = 0x1F40;
-        GM_Camera.target = *(SVECTOR *)(s08b_dword_800E431C + 0x1968);
-        if (*(short *)(s08b_dword_800E431C + 0x1968) >= -0x7CF)
+        GM_Camera.target = s08b_dword_800E431C->field_1968;
+        if (s08b_dword_800E431C->field_1968.vx >= -0x7CF)
         {
             s08b_dword_800E4324 = 0;
         }
@@ -269,7 +288,7 @@ int s08b_ninja_800C7A3C(void)
 void s08b_ninja_800C7B68(void)
 {
     GM_Camera.track = 0x1F40;
-    GM_Camera.target = *(SVECTOR *)(s08b_dword_800E431C + 0x1968);
+    GM_Camera.target = s08b_dword_800E431C->field_1968;
     GM_Camera.rotate.vx = 0x280;
     GM_Camera.rotate.vy = 0x800;
     GM_Camera.rotate.vz = 0;
@@ -286,8 +305,8 @@ int s08b_ninja_800C7BC8(void)
         GM_Camera.rotate.vy = 0x800;
         GM_Camera.rotate.vz = 0;
         GM_Camera.track = 0x1F40;
-        GM_Camera.target = *(SVECTOR *)(s08b_dword_800E431C + 0x1968);
-        if (*(short *)(s08b_dword_800E431C + 0x1968) >= -0x7CF)
+        GM_Camera.target = s08b_dword_800E431C->field_1968;
+        if (s08b_dword_800E431C->field_1968.vx >= -0x7CF)
         {
             s08b_dword_800E4324 = 0;
         }
@@ -333,12 +352,12 @@ int s08b_ninja_800C7CF4(void)
         GM_Camera.rotate.vy = 0x800;
         GM_Camera.rotate.vz = 0;
         GM_Camera.track = 0x1F40;
-        GM_Camera.target = *(SVECTOR *)(s08b_dword_800E431C + 0x1968);
+        GM_Camera.target = s08b_dword_800E431C->field_1968;
     }
     if (s08b_dword_800E4320 >= 0x2E)
     {
         GM_Camera.type = 0;
-        if (*(short *)(s08b_dword_800E431C + 0x1968) >= -0x7CF)
+        if (s08b_dword_800E431C->field_1968.vx >= -0x7CF)
         {
             GM_Camera.position.vx = 0x8EC;
             GM_Camera.position.vy = 0x96;
@@ -512,10 +531,138 @@ void s08b_ninja_800C8354(Work *work)
     GM_SetCaptureTarget(t, -1, 0xFF, (int *)0, (SVECTOR *)0);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C83CC.s")
+int s08b_ninja_800C83CC(Work *work, int name, int where)
+{
+    CONTROL *control;
+    OBJECT  *body;
+    OBJECT  *weapon;
+    MATRIX  *light;
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8558.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8624.s")
+    control = &work->control;
+    if (GM_InitControl(control, name, where) < 0)
+    {
+        return -1;
+    }
+
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlAttribute(control, 5);
+    control->seg_flag = 2;
+    GM_ConfigControlInterp(control, 4);
+
+    body = &work->body;
+    GM_InitObject(body, GV_StrCode(s08b_aNjafist_800E3740), 0x32D, GV_StrCode(s08b_aNjab_800E374C));
+    GM_ConfigObjectJoint(body);
+    GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode(s08b_aNjab_800E374C), work->m_segs1, work->m_segs2,
+                           control, work->rots);
+    light = work->light;
+    GM_ConfigObjectLight(body, light);
+
+    weapon = &work->weapon;
+    GM_InitObject(weapon, GV_StrCode(s08b_aKatana_800E3754), 0x6D, 0);
+    GM_ConfigObjectLight(weapon, light);
+    GM_ConfigObjectRoot(weapon, body, 4);
+
+    work->field_1A20 = NewBunsin2(body, 4, &work->field_19FC);
+    work->field_1A24 = NewBunsin2(body, 8, &work->field_19FC);
+    work->field_19FC = 0;
+    return 0;
+}
+
+int s08b_ninja_800C8558(Work *work)
+{
+    HZD_DEF    *def;
+    HZD_PAT    *route;
+    NinjaClone *clone;
+    HZD_PTP    *points;
+    int         n_routes;
+    int         i, j;
+
+    def = work->control.map->hzd->def;
+    n_routes = def->n_routes;
+    route = def->routes;
+    clone = work->clones;
+
+    if (n_routes >= 17)
+    {
+        return -1;
+    }
+
+    work->field_1960 = n_routes;
+
+    for (i = 0; i < n_routes; i++)
+    {
+        clone->field_0 = route->n_points;
+        if ((unsigned int)(clone->field_0 - 1) >= 32)
+        {
+            return -1;
+        }
+
+        points = route->points;
+        for (j = 0; j < clone->field_0; j++)
+        {
+            clone->field_4[j].vx = points->x;
+            clone->field_4[j].vy = points->y;
+            clone->field_4[j].vz = points->z;
+            clone->field_4[j].pad = points->command;
+            points++;
+        }
+
+        clone++;
+        route++;
+    }
+
+    return 0;
+}
+int s08b_ninja_800C8624(Work *work)
+{
+    DG_PRIM  *prim;
+    DG_TEX   *tex;
+    POLY_FT4 *poly;
+    SVECTOR  *v0, *v1, *v2, *v3;
+    int       i;
+
+    v0 = &work->shadow_verts[0];
+    v1 = &work->shadow_verts[1];
+    v2 = &work->shadow_verts[2];
+    v3 = &work->shadow_verts[3];
+    v0->vx = -500;
+    v0->vy = 0;
+    v0->vz = -500;
+    v1->vx = 500;
+    v1->vy = 0;
+    v1->vz = -500;
+    v2->vx = -500;
+    v2->vy = 0;
+    v2->vz = 500;
+    v3->vx = 500;
+    v3->vy = 0;
+    v3->vz = 500;
+
+    prim = GM_MakePrim(0x12, 1, v0, NULL);
+    work->field_1A80 = prim;
+    if (prim == NULL)
+    {
+        return -1;
+    }
+
+    tex = DG_GetTexture(GV_StrCode(s08b_aShadow_800E375C));
+    if (tex == NULL)
+    {
+        return -1;
+    }
+
+    for (i = 0; i < 2; i++)
+    {
+        poly = prim->packs[i];
+        setPolyFT4(poly);
+        setSemiTrans(poly, 1);
+        setRGB0(poly, 0x34, 0x34, 0x34);
+        DG_SetPacketTexture4(poly, tex);
+    }
+
+    s08b_bunsin2_800CD914(work, 2);
+    return 0;
+}
 
 void s08b_ninja_800C8798(Work *work) // Die
 {
@@ -538,7 +685,37 @@ void s08b_ninja_800C8798(Work *work) // Die
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C8848.s")
+void s08b_ninja_800C8848(Work *work)
+{
+    s08b_dword_800E4314 = &work->control;
+    s08b_dword_800E4318 = &work->field_19EC;
+    s08b_dword_800E431C = work;
+    s08b_dword_800E4320 = 0;
+
+    GM_SetCameraCallbackFunc(1, s08b_ninja_800C800C);
+
+    GM_Camera.interp_mode = 2;
+    GM_Camera.interp = 0;
+    GM_Camera.rotate.vx = 0x280;
+    GM_Camera.rotate.vz = 0;
+    GM_Camera.rotate.vy = 0x800;
+    GM_Camera.type = 0;
+    GM_Camera.track = 0xFA0;
+    GM_Camera.bound[1][0].vx = -0x227E;
+    GM_Camera.flag |= 2;
+    GM_Camera.bound[1][0].vy = -0x7530;
+    GM_Camera.bound[1][0].vz = -0x7530;
+    GM_Camera.bound[0][0].vx = 0x1013;
+    GM_Camera.limit[1][0].vx = -0x227E;
+    GM_Camera.limit[1][0].vy = -0x227E;
+    GM_Camera.bound[0][0].vy = 0x7530;
+    GM_Camera.bound[0][0].vz = 0x18AB;
+    GM_Camera.limit[0][0].vx = 0x1013;
+    GM_Camera.limit[0][0].vy = 0x7530;
+    GM_Camera.limit[1][0].vz = -0x227E;
+    GM_Camera.limit[0][0].vz = 0x1527;
+    work->field_19EC = 1;
+}
 
 int s08b_ninja_800C8930(char *unused, int *out)
 {
