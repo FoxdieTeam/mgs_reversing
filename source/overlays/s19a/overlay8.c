@@ -4,30 +4,6 @@
 
 extern const int s19a_dword_800E03AC;
 
-int s19a_dword_800C37BC = 0x0000FE0C;
-int s19a_dword_800C37C0 = 0x0000FF06;
-int s19a_dword_800C37C4 = 0x03E8FF06;
-int s19a_dword_800C37C8 = 0x0000FE0C;
-int s19a_dword_800C37CC = 0x000000FA;
-int s19a_dword_800C37D0 = 0x0000FE0C;
-int s19a_dword_800C37D4 = 0x03E801F4;
-int s19a_dword_800C37D8 = 0x0000FF06;
-int s19a_dword_800C37DC = 0x000001F4;
-int s19a_dword_800C37E0 = 0x000000FA;
-int s19a_dword_800C37E4 = 0x03E800FA;
-int s19a_dword_800C37E8 = 0x000001F4;
-int s19a_dword_800C37EC = 0x0000FF06;
-int s19a_dword_800C37F0 = 0x000001F4;
-int s19a_dword_800C37F4 = 0x03E8FE0C;
-int s19a_dword_800C37F8 = 0x000000FA;
-int s19a_dword_800C37FC = 0xFE0CFF06;
-int s19a_dword_800C3800 = 0x0000FF06;
-int s19a_dword_800C3804 = 0x01F400FA;
-int s19a_dword_800C3808 = 0x0000FF06;
-int s19a_dword_800C380C = 0xFE0CFF06;
-int s19a_dword_800C3810 = 0x000000FA;
-int s19a_dword_800C3814 = 0x01F400FA;
-int s19a_dword_800C3818 = 0x000000FA;
 int s19a_dword_800C381C = 0xDE32EA14;
 int s19a_dword_800C3820 = 0x89CEB4AC;
 int s19a_dword_800C3824 = 0x054902DE;
@@ -105,7 +81,6 @@ int s19a_dword_800C3940 = 0x0000EC78;
 int s19a_dword_800C3944 = 0x0FA005DC;
 int s19a_dword_800C3948 = 0x0000EC78;
 
-const char s19a_dword_800E032C[] = "drum.c";
 const int s19a_dword_800E0334 = 0x800D8F7C;
 const int s19a_dword_800E0338 = 0x800D8FB8;
 const int s19a_dword_800E033C = 0x800D9068;

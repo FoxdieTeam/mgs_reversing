@@ -3,6 +3,8 @@
 
 	xdef s19a_800DEB04
 s19a_800DEB04:
+	xdef NewDrumFire
+NewDrumFire:
 	dw 0x27BDFFD8 ; 800DEB04
 	dw 0xAFB10014 ; 800DEB08
 	dw 0x00808821 ; 800DEB0C

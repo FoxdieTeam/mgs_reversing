@@ -4020,11 +4020,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s19a\animal\zako19\think.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\animal\zako19\zk19com.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D7E50.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D833C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D83CC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D8504.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D86E0.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s19a\takabe\drum.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800D8E54.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800D8E8C.obj", overlay

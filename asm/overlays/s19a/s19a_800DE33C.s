@@ -3,6 +3,8 @@
 
 	xdef s19a_800DE33C
 s19a_800DE33C:
+	xdef NewDrumSmoke
+NewDrumSmoke:
 	dw 0x27BDFFD8 ; 800DE33C
 	dw 0xAFB10014 ; 800DE340
 	dw 0x00808821 ; 800DE344
