@@ -904,12 +904,10 @@ void brf_800CDF34(Work *work)
         break;
     }
 }
-const int brf_dword_800E1D84 = 0x800CE04C;
-const int brf_dword_800E1D88 = 0x800CE110;
-const int brf_dword_800E1D8C = 0x800CE13C;
-const int brf_dword_800E1D90 = 0x800CE04C;
-const int brf_dword_800E1D94 = 0x800CE110;
-const int brf_dword_800E1D98 = 0x800CE13C;
+/* jump table of brf_800CDFE4 */
+const int brf_jt_800E1D84[6] = {
+    0x800CE04C, 0x800CE110, 0x800CE13C, 0x800CE04C, 0x800CE110, 0x800CE13C,
+};
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDFE4.s")
 void brf_800CDAEC();
 
@@ -1286,12 +1284,10 @@ const char brf_dword_800E1DC4[16] = "b_face_close_u";
 const char brf_dword_800E1DD4[16] = "b_face_close_d";
 const char brf_dword_800E1DE4[12] = "c_face_d";
 const char brf_dword_800E1DF0[20] = "c_face_open_u";
-const int brf_dword_800E1E04 = 0x800CEE28;
-const int brf_dword_800E1E08 = 0x800CEEF8;
-const int brf_dword_800E1E0C = 0x800CF03C;
-const int brf_dword_800E1E10 = 0x800CF180;
-const int brf_dword_800E1E14 = 0x800CF1A0;
-const int brf_dword_800E1E18 = 0x800CF1E4;
+/* jump table of brf_800CECE4 */
+const int brf_jt_800E1E04[6] = {
+    0x800CEE28, 0x800CEEF8, 0x800CF03C, 0x800CF180, 0x800CF1A0, 0x800CF1E4,
+};
 const char brf_dword_800E1E1C[8] = "stop";
 const char brf_dword_800E1E24[8] = "eject";
 const char brf_dword_800E1E2C[12] = "b_eye_angry";
@@ -1575,30 +1571,13 @@ const char brf_dword_800E1EC0[12] = "a_smoke_up";
 const char brf_dword_800E1ECC[16] = "a_smoke_half";
 const char brf_dword_800E1EDC[20] = "a_smoke_down_close";
 const char brf_dword_800E1EF0[12] = "a_smoke_suu";
-const int brf_dword_800E1EFC = 0x800D1744;
-const int brf_dword_800E1F00 = 0x800D174C;
-const int brf_dword_800E1F04 = 0x800D034C;
-const int brf_dword_800E1F08 = 0x800D042C;
-const int brf_dword_800E1F0C = 0x800D04A4;
-const int brf_dword_800E1F10 = 0x800D0500;
-const int brf_dword_800E1F14 = 0x800D0604;
-const int brf_dword_800E1F18 = 0x800D067C;
-const int brf_dword_800E1F1C = 0x800D0780;
-const int brf_dword_800E1F20 = 0x800D07DC;
-const int brf_dword_800E1F24 = 0x800D08D8;
-const int brf_dword_800E1F28 = 0x800D0AA4;
-const int brf_dword_800E1F2C = 0x800D0B2C;
-const int brf_dword_800E1F30 = 0x800D0C28;
-const int brf_dword_800E1F34 = 0x800D0DE8;
-const int brf_dword_800E1F38 = 0x800D0FB4;
-const int brf_dword_800E1F3C = 0x800D1010;
-const int brf_dword_800E1F40 = 0x800D10FC;
-const int brf_dword_800E1F44 = 0x800D1158;
-const int brf_dword_800E1F48 = 0x800D125C;
-const int brf_dword_800E1F4C = 0x800D13B4;
-const int brf_dword_800E1F50 = 0x800D14B0;
-const int brf_dword_800E1F54 = 0x800D167C;
-const int brf_dword_800E1F58 = 0x800D1744;
+/* jump table of brf_800D02F4 */
+const int brf_jt_800E1EFC[24] = {
+    0x800D1744, 0x800D174C, 0x800D034C, 0x800D042C, 0x800D04A4, 0x800D0500,
+    0x800D0604, 0x800D067C, 0x800D0780, 0x800D07DC, 0x800D08D8, 0x800D0AA4,
+    0x800D0B2C, 0x800D0C28, 0x800D0DE8, 0x800D0FB4, 0x800D1010, 0x800D10FC,
+    0x800D1158, 0x800D125C, 0x800D13B4, 0x800D14B0, 0x800D167C, 0x800D1744,
+};
 
 void brf_800D00C4(Work *work)
 {
@@ -4186,28 +4165,13 @@ const char brf_dword_800E2230[12] = "c_photo_4";
 const char brf_dword_800E223C[12] = "c_photo_5";
 const char brf_dword_800E2248[12] = "c_photo_6";
 const char brf_dword_800E2254[16] = "b_face_wo";
-const int brf_dword_800E2264 = 0x800DA028;
-const int brf_dword_800E2268 = 0x800DA030;
-const int brf_dword_800E226C = 0x800D9450;
-const int brf_dword_800E2270 = 0x800D94B4;
-const int brf_dword_800E2274 = 0x800D957C;
-const int brf_dword_800E2278 = 0x800D963C;
-const int brf_dword_800E227C = 0x800D96B8;
-const int brf_dword_800E2280 = 0x800D9740;
-const int brf_dword_800E2284 = 0x800D983C;
-const int brf_dword_800E2288 = 0x800D988C;
-const int brf_dword_800E228C = 0x800D98D0;
-const int brf_dword_800E2290 = 0x800D99A0;
-const int brf_dword_800E2294 = 0x800D9A70;
-const int brf_dword_800E2298 = 0x800D9B58;
-const int brf_dword_800E229C = 0x800D9C04;
-const int brf_dword_800E22A0 = 0x800D9CE0;
-const int brf_dword_800E22A4 = 0x800D9D1C;
-const int brf_dword_800E22A8 = 0x800D9DE0;
-const int brf_dword_800E22AC = 0x800D9E2C;
-const int brf_dword_800E22B0 = 0x800D9EEC;
-const int brf_dword_800E22B4 = 0x800D9FBC;
-const int brf_dword_800E22B8 = 0x800DA028;
+/* jump table of brf_800D93F4 */
+const int brf_jt_800E2264[22] = {
+    0x800DA028, 0x800DA030, 0x800D9450, 0x800D94B4, 0x800D957C, 0x800D963C,
+    0x800D96B8, 0x800D9740, 0x800D983C, 0x800D988C, 0x800D98D0, 0x800D99A0,
+    0x800D9A70, 0x800D9B58, 0x800D9C04, 0x800D9CE0, 0x800D9D1C, 0x800D9DE0,
+    0x800D9E2C, 0x800D9EEC, 0x800D9FBC, 0x800DA028,
+};
 const char brf_dword_800E22BC[8] = "b_face";
 const char brf_dword_800E22C4[8] = "c_inj_u";
 const char brf_dword_800E22CC[8] = "c_inj_d";
@@ -4218,46 +4182,20 @@ const char brf_dword_800E2310[20] = "c_inj_naomi_close_u";
 const char brf_dword_800E2324[16] = "b_eye_r_down";
 const char brf_dword_800E2334[12] = "c_inj_on_u";
 const char brf_dword_800E2340[4] = "map";
-const int brf_dword_800E2344 = 0x800DCA84;
-const int brf_dword_800E2348 = 0x800DCA8C;
-const int brf_dword_800E234C = 0x800DBAD8;
-const int brf_dword_800E2350 = 0x800DBB70;
-const int brf_dword_800E2354 = 0x800DBBEC;
-const int brf_dword_800E2358 = 0x800DBC68;
-const int brf_dword_800E235C = 0x800DBE28;
-const int brf_dword_800E2360 = 0x800DBD3C;
-const int brf_dword_800E2364 = 0x800DBE28;
-const int brf_dword_800E2368 = 0x800DBE84;
-const int brf_dword_800E236C = 0x800DBF44;
-const int brf_dword_800E2370 = 0x800DC134;
-const int brf_dword_800E2374 = 0x800DC234;
-const int brf_dword_800E2378 = 0x800DC338;
-const int brf_dword_800E237C = 0x800DC37C;
-const int brf_dword_800E2380 = 0x800DC46C;
-const int brf_dword_800E2384 = 0x800DC4FC;
-const int brf_dword_800E2388 = 0x800DC5C4;
-const int brf_dword_800E238C = 0x800DC62C;
-const int brf_dword_800E2390 = 0x800DC680;
-const int brf_dword_800E2394 = 0x800DC75C;
-const int brf_dword_800E2398 = 0x800DC7B0;
-const int brf_dword_800E239C = 0x800DC89C;
-const int brf_dword_800E23A0 = 0x800DC8E8;
-const int brf_dword_800E23A4 = 0x800DC9A8;
-const int brf_dword_800E23A8 = 0x800DCA84;
-const int brf_dword_800E23AC = 0x800DD620;
-const int brf_dword_800E23B0 = 0x800DD628;
-const int brf_dword_800E23B4 = 0x800DD014;
-const int brf_dword_800E23B8 = 0x800DD0A4;
-const int brf_dword_800E23BC = 0x800DD110;
-const int brf_dword_800E23C0 = 0x800DD170;
-const int brf_dword_800E23C4 = 0x800DD1CC;
-const int brf_dword_800E23C8 = 0x800DD27C;
-const int brf_dword_800E23CC = 0x800DD320;
-const int brf_dword_800E23D0 = 0x800DD450;
-const int brf_dword_800E23D4 = 0x800DD4C4;
-const int brf_dword_800E23D8 = 0x800DD538;
-const int brf_dword_800E23DC = 0x800DD59C;
-const int brf_dword_800E23E0 = 0x800DD620;
+/* jump table of brf_800DBA7C */
+const int brf_jt_800E2344[26] = {
+    0x800DCA84, 0x800DCA8C, 0x800DBAD8, 0x800DBB70, 0x800DBBEC, 0x800DBC68,
+    0x800DBE28, 0x800DBD3C, 0x800DBE28, 0x800DBE84, 0x800DBF44, 0x800DC134,
+    0x800DC234, 0x800DC338, 0x800DC37C, 0x800DC46C, 0x800DC4FC, 0x800DC5C4,
+    0x800DC62C, 0x800DC680, 0x800DC75C, 0x800DC7B0, 0x800DC89C, 0x800DC8E8,
+    0x800DC9A8, 0x800DCA84,
+};
+/* jump table of brf_800DCFB4 */
+const int brf_jt_800E23AC[14] = {
+    0x800DD620, 0x800DD628, 0x800DD014, 0x800DD0A4, 0x800DD110, 0x800DD170,
+    0x800DD1CC, 0x800DD27C, 0x800DD320, 0x800DD450, 0x800DD4C4, 0x800DD538,
+    0x800DD59C, 0x800DD620,
+};
 const char brf_dword_800E23E4[36] = "Memory for Texture Free Finish!\n";
 const char brf_dword_800E2408[12] = "colorbar";
 const char brf_dword_800E2414[12] = "scanline";
@@ -4271,15 +4209,11 @@ const char brf_dword_800E2440[8] = "b_line1";
 const char brf_dword_800E2448[12] = "a_back_d";
 const char brf_dword_800E2454[16] = "b_face_angry_u";
 const char brf_dword_800E2464[24] = "liquid_simon_waku";
-const int brf_dword_800E247C = 0x800DEDBC;
-const int brf_dword_800E2480 = 0x800DEDDC;
-const int brf_dword_800E2484 = 0x800DEE04;
-const int brf_dword_800E2488 = 0x800DEE34;
-const int brf_dword_800E248C = 0x800DF000;
-const int brf_dword_800E2490 = 0x800DF1CC;
-const int brf_dword_800E2494 = 0x800DF404;
-const int brf_dword_800E2498 = 0x800DF490;
-const int brf_dword_800E249C = 0x800DF980;
+/* jump table of brf_800DECF8 */
+const int brf_jt_800E247C[9] = {
+    0x800DEDBC, 0x800DEDDC, 0x800DEE04, 0x800DEE34, 0x800DF000, 0x800DF1CC,
+    0x800DF404, 0x800DF490, 0x800DF980,
+};
 void brf_800D8274(Work *work)
 {
     int v = work->field_AD3C;

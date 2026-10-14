@@ -48,6 +48,36 @@ typedef struct _Work
 void *NewBriefingGraph(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8);
 void *NewBriefingCount(int map, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7);
 
+/* file names of brf_vram_files / brf_main_files (overlay2.c) */
+const char brf_dword_800E0F3C[12] = "s18v.dbl";
+const char brf_dword_800E0F48[12] = "s17v.dbl";
+const char brf_dword_800E0F54[12] = "s16v.dbl";
+const char brf_dword_800E0F60[12] = "s15v.dbl";
+const char brf_dword_800E0F6C[12] = "s14v.dbl";
+const char brf_dword_800E0F78[12] = "s13v.dbl";
+const char brf_dword_800E0F84[12] = "s12v.dbl";
+const char brf_dword_800E0F90[12] = "s11v.dbl";
+const char brf_dword_800E0F9C[12] = "s10v.dbl";
+const char brf_dword_800E0FA8[12] = "s09v.dbl";
+const char brf_dword_800E0FB4[12] = "s08v.dbl";
+const char brf_dword_800E0FC0[12] = "s07v.dbl";
+const char brf_dword_800E0FCC[12] = "s06v.dbl";
+const char brf_dword_800E0FD8[12] = "s05v.dbl";
+const char brf_dword_800E0FE4[12] = "s04v.dbl";
+const char brf_dword_800E0FF0[12] = "s03v.dbl";
+const char brf_dword_800E0FFC[12] = "s02v.dbl";
+const char brf_dword_800E1008[12] = "s01v.dbl";
+const char brf_dword_800E1014[12] = "s00v.dbl";
+const char brf_dword_800E1020[12] = "s17c.dbl";
+const char brf_dword_800E102C[12] = "s16c.dbl";
+const char brf_dword_800E1038[12] = "s15c.dbl";
+const char brf_dword_800E1044[12] = "s13c.dbl";
+const char brf_dword_800E1050[12] = "s11c.dbl";
+const char brf_dword_800E105C[12] = "s10c.dbl";
+const char brf_dword_800E1068[12] = "s08c.dbl";
+const char brf_dword_800E1074[8] = "tmp.dbl";
+const char brf_dword_800E107C[12] = "s00c.dbl";
+
 void brf_800C5230(Work *work)
 {
     BrfCountParam stage;
@@ -68,14 +98,12 @@ void brf_800C5230(Work *work)
     work->field_DC = NewBriefingCount(work->field_E0, f0, f1, f2, work->field_77C - 100, f3, f4, f6);
 }
 
-extern const char brf_dword_800E1088[];
-
 void brf_800C5350(Work *work, int idx)
 {
     BrfResource *table = brf_vram_files;
     BrfResource *e = &table[idx];
 
-    printf((char *)brf_dword_800E1088, e->name);
+    printf("Briefing Texture Load_Start %s\n", e->name);
     work->field_E4 = PACK_ADDR0;
     FS_LoadFileRequest(FS_FILE_BRF, e->offset, e->size, PACK_ADDR0);
     while (FS_LoadFileSync() > 0)
@@ -89,7 +117,7 @@ void brf_800C53E4(Work *work, int idx)
     BrfResource *table = brf_main_files;
     BrfResource *e = &table[idx];
 
-    printf((char *)brf_dword_800E1088, e->name);
+    printf("Briefing Texture Load_Start %s\n", e->name);
     work->field_E4 = PACK_ADDR0;
     FS_LoadFileRequest(FS_FILE_BRF, e->offset, e->size, PACK_ADDR0);
     while (FS_LoadFileSync() > 0)
@@ -199,10 +227,12 @@ void brf_800C5584(Work *work, int id, int tp, int abr, RECT *img, RECT *pal, int
     tex->w = w - 1;
     tex->h = h - 1;
 }
+/* used by brf_800C5A68 */
+const char brf_dword_800E10A8[44] = "Cannot Alloc Expansion Memory! size = %d\n";
+
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C56C0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C5A68.s")
 void brf_800C56C0(Work *work, void *data, int cache_id);
-extern const char brf_dword_800E10D4[];
 
 void brf_800C5DE4(Work *work)
 {
@@ -234,10 +264,9 @@ void brf_800C5DE4(Work *work)
         n++;
         p += n;
     } while (count > 0);
-    printf((char *)brf_dword_800E10D4);
+    printf("Briefing Texture VRAM Set_Finish!\n");
 }
 void brf_800C5A68(Work *work, void *data, int cache_id);
-extern const char brf_dword_800E10F8[];
 
 void brf_800C5EAC(Work *work)
 {
@@ -269,7 +298,7 @@ void brf_800C5EAC(Work *work)
         n++;
         p += n;
     } while (count > 0);
-    printf((char *)brf_dword_800E10F8);
+    printf("Briefing Texture MainMemory Load_Finish!\n");
 }
 void brf_800C5F74(Work *work)
 {
@@ -763,128 +792,6 @@ void brf_800C6E14(Work *work, int a1, int a2)
     p[8].y3 = q - 83;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C6E88.s")
-const char brf_dword_800E0F3C[] = {'s', '1', '8', 'v'};
-const char brf_dword_800E0F40[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0F44[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0F48[] = {'s', '1', '7', 'v'};
-const char brf_dword_800E0F4C[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0F50[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0F54[] = {'s', '1', '6', 'v'};
-const char brf_dword_800E0F58[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0F5C[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0F60[] = {'s', '1', '5', 'v'};
-const char brf_dword_800E0F64[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0F68[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0F6C[] = {'s', '1', '4', 'v'};
-const char brf_dword_800E0F70[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0F74[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0F78[] = {'s', '1', '3', 'v'};
-const char brf_dword_800E0F7C[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0F80[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0F84[] = {'s', '1', '2', 'v'};
-const char brf_dword_800E0F88[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0F8C[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0F90[] = {'s', '1', '1', 'v'};
-const char brf_dword_800E0F94[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0F98[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0F9C[] = {'s', '1', '0', 'v'};
-const char brf_dword_800E0FA0[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0FA4[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0FA8[] = {'s', '0', '9', 'v'};
-const char brf_dword_800E0FAC[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0FB0[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0FB4[] = {'s', '0', '8', 'v'};
-const char brf_dword_800E0FB8[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0FBC[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0FC0[] = {'s', '0', '7', 'v'};
-const char brf_dword_800E0FC4[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0FC8[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0FCC[] = {'s', '0', '6', 'v'};
-const char brf_dword_800E0FD0[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0FD4[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0FD8[] = {'s', '0', '5', 'v'};
-const char brf_dword_800E0FDC[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0FE0[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0FE4[] = {'s', '0', '4', 'v'};
-const char brf_dword_800E0FE8[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0FEC[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0FF0[] = {'s', '0', '3', 'v'};
-const char brf_dword_800E0FF4[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E0FF8[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E0FFC[] = {'s', '0', '2', 'v'};
-const char brf_dword_800E1000[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E1004[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E1008[] = {'s', '0', '1', 'v'};
-const char brf_dword_800E100C[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E1010[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E1014[] = {'s', '0', '0', 'v'};
-const char brf_dword_800E1018[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E101C[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E1020[] = {'s', '1', '7', 'c'};
-const char brf_dword_800E1024[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E1028[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E102C[] = {'s', '1', '6', 'c'};
-const char brf_dword_800E1030[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E1034[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E1038[] = {'s', '1', '5', 'c'};
-const char brf_dword_800E103C[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E1040[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E1044[] = {'s', '1', '3', 'c'};
-const char brf_dword_800E1048[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E104C[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E1050[] = {'s', '1', '1', 'c'};
-const char brf_dword_800E1054[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E1058[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E105C[] = {'s', '1', '0', 'c'};
-const char brf_dword_800E1060[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E1064[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E1068[] = {'s', '0', '8', 'c'};
-const char brf_dword_800E106C[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E1070[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E1074[] = {'t', 'm', 'p', '.'};
-const char brf_dword_800E1078[] = {'d', 'b', 'l', 0x0};
-const char brf_dword_800E107C[] = {'s', '0', '0', 'c'};
-const char brf_dword_800E1080[] = {'.', 'd', 'b', 'l'};
-const char brf_dword_800E1084[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E1088[] = {'B', 'r', 'i', 'e'};
-const char brf_dword_800E108C[] = {'f', 'i', 'n', 'g'};
-const char brf_dword_800E1090[] = {' ', 'T', 'e', 'x'};
-const char brf_dword_800E1094[] = {'t', 'u', 'r', 'e'};
-const char brf_dword_800E1098[] = {' ', 'L', 'o', 'a'};
-const char brf_dword_800E109C[] = {'d', '_', 'S', 't'};
-const char brf_dword_800E10A0[] = {'a', 'r', 't', ' '};
-const char brf_dword_800E10A4[] = {'%', 's', '\n', 0x0};
-const char brf_dword_800E10A8[] = {'C', 'a', 'n', 'n'};
-const char brf_dword_800E10AC[] = {'o', 't', ' ', 'A'};
-const char brf_dword_800E10B0[] = {'l', 'l', 'o', 'c'};
-const char brf_dword_800E10B4[] = {' ', 'E', 'x', 'p'};
-const char brf_dword_800E10B8[] = {'a', 'n', 's', 'i'};
-const char brf_dword_800E10BC[] = {'o', 'n', ' ', 'M'};
-const char brf_dword_800E10C0[] = {'e', 'm', 'o', 'r'};
-const char brf_dword_800E10C4[] = {'y', '!', ' ', 's'};
-const char brf_dword_800E10C8[] = {'i', 'z', 'e', ' '};
-const char brf_dword_800E10CC[] = {'=', ' ', '%', 'd'};
-const char brf_dword_800E10D0[] = {'\n', 0x0, 0x0, 0x0};
-const char brf_dword_800E10D4[] = {'B', 'r', 'i', 'e'};
-const char brf_dword_800E10D8[] = {'f', 'i', 'n', 'g'};
-const char brf_dword_800E10DC[] = {' ', 'T', 'e', 'x'};
-const char brf_dword_800E10E0[] = {'t', 'u', 'r', 'e'};
-const char brf_dword_800E10E4[] = {' ', 'V', 'R', 'A'};
-const char brf_dword_800E10E8[] = {'M', ' ', 'S', 'e'};
-const char brf_dword_800E10EC[] = {'t', '_', 'F', 'i'};
-const char brf_dword_800E10F0[] = {'n', 'i', 's', 'h'};
-const char brf_dword_800E10F4[] = {'!', '\n', 0x0, 0x0};
-const char brf_dword_800E10F8[] = {'B', 'r', 'i', 'e'};
-const char brf_dword_800E10FC[] = {'f', 'i', 'n', 'g'};
-const char brf_dword_800E1100[] = {' ', 'T', 'e', 'x'};
-const char brf_dword_800E1104[] = {'t', 'u', 'r', 'e'};
-const char brf_dword_800E1108[] = {' ', 'M', 'a', 'i'};
-const char brf_dword_800E110C[] = {'n', 'M', 'e', 'm'};
-const char brf_dword_800E1110[] = {'o', 'r', 'y', ' '};
-const char brf_dword_800E1114[] = {'L', 'o', 'a', 'd'};
-const char brf_dword_800E1118[] = {'_', 'F', 'i', 'n'};
-const char brf_dword_800E111C[] = {'i', 's', 'h', '!'};
-const char brf_dword_800E1120[] = {'\n', 0x0, 0x0, 0x0};
 
 void brf_800C731C(Work *work, int a1, int a2)
 {
@@ -1020,145 +927,28 @@ void brf_800C7488(Work *work, int a1, int a2)
     }
 }
 const char brf_dword_800E1180[] = {0x0, 0x0, 0x0, 0x0};
-const int brf_dword_800E1184 = 0x800C7648;
-const int brf_dword_800E1188 = 0x800C7878;
-const int brf_dword_800E118C = 0x800C7878;
-const int brf_dword_800E1190 = 0x800C7878;
-const int brf_dword_800E1194 = 0x800C7648;
-const int brf_dword_800E1198 = 0x800C7648;
-const int brf_dword_800E119C = 0x800C7708;
-const int brf_dword_800E11A0 = 0x800C7708;
-const int brf_dword_800E11A4 = 0x800C7708;
-const int brf_dword_800E11A8 = 0x800C7708;
-const int brf_dword_800E11AC = 0x800C7708;
+/* jump table of brf_800C75F0 */
+const int brf_jt_800E1184[11] = {
+    0x800C7648, 0x800C7878, 0x800C7878, 0x800C7878, 0x800C7648, 0x800C7648,
+    0x800C7708, 0x800C7708, 0x800C7708, 0x800C7708, 0x800C7708,
+};
 const char brf_dword_800E11B0[] = {0x0, 0x0, 0x0, 0x0};
-const int brf_dword_800E11B4 = 0x800C7D58;
-const int brf_dword_800E11B8 = 0x800C7D64;
-const int brf_dword_800E11BC = 0x800C7EC4;
-const int brf_dword_800E11C0 = 0x800C7DA4;
-const int brf_dword_800E11C4 = 0x800C7DF0;
-const int brf_dword_800E11C8 = 0x800C7E0C;
-const int brf_dword_800E11CC = 0x800C7E5C;
-const int brf_dword_800E11D0 = 0x800C7E78;
-const int brf_dword_800E11D4 = 0x800C7EC4;
+/* jump table of brf_800C7B94 */
+const int brf_jt_800E11B4[9] = {
+    0x800C7D58, 0x800C7D64, 0x800C7EC4, 0x800C7DA4, 0x800C7DF0, 0x800C7E0C,
+    0x800C7E5C, 0x800C7E78, 0x800C7EC4,
+};
 const char brf_dword_800E11D8[] = {0x0, 0x0, 0x0, 0x0};
-const int brf_dword_800E11DC = 0x800C8314;
-const int brf_dword_800E11E0 = 0x800C8338;
-const int brf_dword_800E11E4 = 0x800C8358;
-const int brf_dword_800E11E8 = 0x800C83E8;
-const int brf_dword_800E11EC = 0x800C8748;
-const int brf_dword_800E11F0 = 0x800C8794;
-const int brf_dword_800E11F4 = 0x800C8810;
-const int brf_dword_800E11F8 = 0x800C888C;
-const int brf_dword_800E11FC = 0x800C8910;
-const int brf_dword_800E1200 = 0x800C895C;
-const int brf_dword_800E1204 = 0x800C89CC;
-const int brf_dword_800E1208 = 0x800C8A2C;
-const int brf_dword_800E120C = 0x800C8AA8;
-const int brf_dword_800E1210 = 0x800C8B20;
-const int brf_dword_800E1214 = 0x800C8BD0;
-const int brf_dword_800E1218 = 0x800C8C48;
-const int brf_dword_800E121C = 0x800C8CC4;
-const int brf_dword_800E1220 = 0x800C8D24;
-const int brf_dword_800E1224 = 0x800C8D9C;
-const int brf_dword_800E1228 = 0x800C8E30;
-const int brf_dword_800E122C = 0x800C8EA8;
-const int brf_dword_800E1230 = 0x800C8F20;
-const int brf_dword_800E1234 = 0x800C8FD0;
-const int brf_dword_800E1238 = 0x800C9038;
-const int brf_dword_800E123C = 0x800C90E8;
-const int brf_dword_800E1240 = 0x800C847C;
-const int brf_dword_800E1244 = 0x800C918C;
-const int brf_dword_800E1248 = 0x800C91B4;
-const int brf_dword_800E124C = 0x800C924C;
-const int brf_dword_800E1250 = 0x800C9404;
-const int brf_dword_800E1254 = 0x800C9278;
-const int brf_dword_800E1258 = 0x800C92A4;
-const int brf_dword_800E125C = 0x800C92CC;
-const int brf_dword_800E1260 = 0x800C93F0;
-const int brf_dword_800E1264 = 0x800C9340;
-const int brf_dword_800E1268 = 0x800C9374;
-const int brf_dword_800E126C = 0x800C93F0;
-const int brf_dword_800E1270 = 0x800C9314;
-const char brf_dword_800E1274[] = {'i', 'n', 'i', 't'};
-const char brf_dword_800E1278[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E127C[] = {'b', 'r', '_', 'b'};
-const char brf_dword_800E1280[] = {'a', 'c', 'k', '_'};
-const char brf_dword_800E1284[] = {'l', 0x0, 0x0, 0x0};
-const char brf_dword_800E1288[] = {'b', 'r', '_', 'b'};
-const char brf_dword_800E128C[] = {'a', 'c', 'k', '_'};
-const char brf_dword_800E1290[] = {'r', 'u', 0x0, 0x0};
-const char brf_dword_800E1294[] = {'b', 'r', '_', 'b'};
-const char brf_dword_800E1298[] = {'r', 'f', 0x0, 0x0};
-const char brf_dword_800E129C[] = {'b', 'r', '_', 'f'};
-const char brf_dword_800E12A0[] = {'0', '0', 0x0, 0x0};
-const char brf_dword_800E12A4[] = {'b', 'r', '_', 'f'};
-const char brf_dword_800E12A8[] = {'0', '1', 0x0, 0x0};
-const char brf_dword_800E12AC[] = {'b', 'r', '_', 'f'};
-const char brf_dword_800E12B0[] = {'0', '2', 0x0, 0x0};
-const char brf_dword_800E12B4[] = {'b', 'r', '_', 'f'};
-const char brf_dword_800E12B8[] = {'0', '3', 0x0, 0x0};
-const char brf_dword_800E12BC[] = {'b', 'r', '_', 'e'};
-const char brf_dword_800E12C0[] = {'x', 'i', 't', 0x0};
-const char brf_dword_800E12C4[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E12C8[] = {'0', '0', 0x0, 0x0};
-const char brf_dword_800E12CC[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E12D0[] = {'0', '1', 0x0, 0x0};
-const char brf_dword_800E12D4[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E12D8[] = {'0', '2', 0x0, 0x0};
-const char brf_dword_800E12DC[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E12E0[] = {'0', '3', 0x0, 0x0};
-const char brf_dword_800E12E4[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E12E8[] = {'0', '4', 0x0, 0x0};
-const char brf_dword_800E12EC[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E12F0[] = {'0', '5', 0x0, 0x0};
-const char brf_dword_800E12F4[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E12F8[] = {'0', '6', 0x0, 0x0};
-const char brf_dword_800E12FC[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E1300[] = {'0', '7', 0x0, 0x0};
-const char brf_dword_800E1304[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E1308[] = {'0', '8', 0x0, 0x0};
-const char brf_dword_800E130C[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E1310[] = {'0', '9', 0x0, 0x0};
-const char brf_dword_800E1314[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E1318[] = {'1', '0', 0x0, 0x0};
-const char brf_dword_800E131C[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E1320[] = {'1', '1', 0x0, 0x0};
-const char brf_dword_800E1324[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E1328[] = {'1', '2', 0x0, 0x0};
-const char brf_dword_800E132C[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E1330[] = {'1', '3', 0x0, 0x0};
-const char brf_dword_800E1334[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E1338[] = {'1', '4', 0x0, 0x0};
-const char brf_dword_800E133C[] = {'b', 'r', '_', 's'};
-const char brf_dword_800E1340[] = {'1', '5', 0x0, 0x0};
-const char brf_dword_800E1344[] = {'b', 'r', '_', 'l'};
-const char brf_dword_800E1348[] = {'i', 'n', 'e', '1'};
-const char brf_dword_800E134C[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E1350[] = {'b', 'r', '_', 'l'};
-const char brf_dword_800E1354[] = {'i', 'n', 'e', '2'};
-const char brf_dword_800E1358[] = {0x0, 0x0, 0x0, 0x0};
-const char brf_dword_800E135C[] = {'b', 'r', '_', 'b'};
-const char brf_dword_800E1360[] = {'a', 'c', 'k', '_'};
-const char brf_dword_800E1364[] = {'r', 'd', 0x0, 0x0};
-const char brf_dword_800E1368[] = {'c', 'u', 'r', '_'};
-const char brf_dword_800E136C[] = {'l', 'u', 0x0, 0x0};
-const char brf_dword_800E1370[] = {'c', 'u', 'r', '_'};
-const char brf_dword_800E1374[] = {'r', 'u', 0x0, 0x0};
-const char brf_dword_800E1378[] = {'c', 'u', 'r', '_'};
-const char brf_dword_800E137C[] = {'l', 'd', 0x0, 0x0};
-const char brf_dword_800E1380[] = {'c', 'u', 'r', '_'};
-const char brf_dword_800E1384[] = {'r', 'd', 0x0, 0x0};
-const char brf_dword_800E1388[] = {'c', 'u', 'r', '_'};
-const char brf_dword_800E138C[] = {'u', 0x0, 0x0, 0x0};
-const char brf_dword_800E1390[] = {'c', 'u', 'r', '_'};
-const char brf_dword_800E1394[] = {'d', 0x0, 0x0, 0x0};
-const char brf_dword_800E1398[] = {'c', 'u', 'r', '_'};
-const char brf_dword_800E139C[] = {'l', 0x0, 0x0, 0x0};
-const char brf_dword_800E13A0[] = {'c', 'u', 'r', '_'};
-const char brf_dword_800E13A4[] = {'r', 0x0, 0x0, 0x0};
-const char brf_dword_800E13A8[] = {'c', 'u', 'r', '_'};
-const char brf_dword_800E13AC[] = {'c', 0x0, 0x0, 0x0};
+/* jump table of brf_800C829C */
+const int brf_jt_800E11DC[38] = {
+    0x800C8314, 0x800C8338, 0x800C8358, 0x800C83E8, 0x800C8748, 0x800C8794,
+    0x800C8810, 0x800C888C, 0x800C8910, 0x800C895C, 0x800C89CC, 0x800C8A2C,
+    0x800C8AA8, 0x800C8B20, 0x800C8BD0, 0x800C8C48, 0x800C8CC4, 0x800C8D24,
+    0x800C8D9C, 0x800C8E30, 0x800C8EA8, 0x800C8F20, 0x800C8FD0, 0x800C9038,
+    0x800C90E8, 0x800C847C, 0x800C918C, 0x800C91B4, 0x800C924C, 0x800C9404,
+    0x800C9278, 0x800C92A4, 0x800C92CC, 0x800C93F0, 0x800C9340, 0x800C9374,
+    0x800C93F0, 0x800C9314,
+};
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C75F0.s")
 void brf_800C62B0(Work *work, int x, int y, int w, int h, int a5, int a6);
 
@@ -1395,8 +1185,6 @@ void brf_800C96DC(Work *work) // Act
     }
 }
 
-extern const char brf_dword_800E1274[];
-
 void brf_800C972C(Work *work) // Die
 {
     GM_FreePrim(work->field_20);
@@ -1404,9 +1192,47 @@ void brf_800C972C(Work *work) // Die
     GV_InitResidentMemory();
     GV_InitCacheSystem();
     DG_ClearResidentTexture();
-    GM_SetArea(GV_StrCode(brf_dword_800E1274), (char *)brf_dword_800E1274);
+    GM_SetArea(GV_StrCode("init"), "init");
     GM_LoadRequest = 1;
 }
+
+/* texture names used by brf_800C99C0 */
+const char brf_dword_800E127C[12] = "br_back_l";
+const char brf_dword_800E1288[12] = "br_back_ru";
+const char brf_dword_800E1294[8] = "br_brf";
+const char brf_dword_800E129C[8] = "br_f00";
+const char brf_dword_800E12A4[8] = "br_f01";
+const char brf_dword_800E12AC[8] = "br_f02";
+const char brf_dword_800E12B4[8] = "br_f03";
+const char brf_dword_800E12BC[8] = "br_exit";
+const char brf_dword_800E12C4[8] = "br_s00";
+const char brf_dword_800E12CC[8] = "br_s01";
+const char brf_dword_800E12D4[8] = "br_s02";
+const char brf_dword_800E12DC[8] = "br_s03";
+const char brf_dword_800E12E4[8] = "br_s04";
+const char brf_dword_800E12EC[8] = "br_s05";
+const char brf_dword_800E12F4[8] = "br_s06";
+const char brf_dword_800E12FC[8] = "br_s07";
+const char brf_dword_800E1304[8] = "br_s08";
+const char brf_dword_800E130C[8] = "br_s09";
+const char brf_dword_800E1314[8] = "br_s10";
+const char brf_dword_800E131C[8] = "br_s11";
+const char brf_dword_800E1324[8] = "br_s12";
+const char brf_dword_800E132C[8] = "br_s13";
+const char brf_dword_800E1334[8] = "br_s14";
+const char brf_dword_800E133C[8] = "br_s15";
+const char brf_dword_800E1344[12] = "br_line1";
+const char brf_dword_800E1350[12] = "br_line2";
+const char brf_dword_800E135C[12] = "br_back_rd";
+const char brf_dword_800E1368[8] = "cur_lu";
+const char brf_dword_800E1370[8] = "cur_ru";
+const char brf_dword_800E1378[8] = "cur_ld";
+const char brf_dword_800E1380[8] = "cur_rd";
+const char brf_dword_800E1388[8] = "cur_u";
+const char brf_dword_800E1390[8] = "cur_d";
+const char brf_dword_800E1398[8] = "cur_l";
+const char brf_dword_800E13A0[8] = "cur_r";
+const char brf_dword_800E13A8[8] = "cur_c";
 
 void brf_800C97CC(int prim, POLY_FT4 *poly, int xl, int yt, int xr, int yb, int abe)
 {
