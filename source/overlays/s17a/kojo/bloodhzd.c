@@ -22,13 +22,14 @@ typedef struct _Work
 void BloodHazard_Act(Work *work);
 void BloodHazard_Die(Work *work);
 
-/* NON_MATCHING: draft of NewBloodHazard, not compiled yet.
+/* NON_MATCHING: draft of NewBloodHazard, close: the frame is 8 bytes
+ * smaller, saved registers are assigned differently and the wall normal differs.
  * (Act/Die are not static: a static function following an INCLUDE_ASM
  * function would be merged into it by include_asm_fixup.py) */
 #if 0
 void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx);
 
-void *NewBloodHazard(MATRIX *world, int width, int height, int size, short dist)
+void *NewBloodHazard(MATRIX *world, int width, int height, int size, int dist)
 {
     Work    *work;
     DG_TEX  *tex;
@@ -39,9 +40,7 @@ void *NewBloodHazard(MATRIX *world, int width, int height, int size, short dist)
     SVECTOR  dir;
     SVECTOR  ang;
     SVECTOR  pos;
-    SVECTOR  normal;
     int      half_w, half_h;
-    int      third_w, third_h;
     int      s;
     int      i;
 
@@ -60,8 +59,6 @@ void *NewBloodHazard(MATRIX *world, int width, int height, int size, short dist)
 
     half_w = width >> 1;
     half_h = height >> 1;
-    third_w = width / 3;
-    third_h = height / 3;
 
     for (i = 0; i < N_BLOODS; i++)
     {
@@ -70,7 +67,7 @@ void *NewBloodHazard(MATRIX *world, int width, int height, int size, short dist)
 
         work->prims[i] = GM_MakePrim(DG_PRIM_POLY_FT4, 1, work->verts[i], NULL);
 
-        if (ang.vx / third_w == 1 && ang.vy / third_h == 1)
+        if (ang.vx / (width / 3) == 1 && ang.vy / (height / 3) == 1)
         {
             tex = DG_GetTexture(GV_StrCode("chi_01"));
         }
@@ -146,20 +143,20 @@ void *NewBloodHazard(MATRIX *world, int width, int height, int size, short dist)
             if ((int)HZD_GetOnlineHazard() < 0)
             {
                 seg = HZD_GetOnlineHazard();
-                normal.vy = 0;
-                normal.vx = (seg->p1.z - seg->p2.z) * seg->p1.h;
-                normal.vz = (seg->p1.x - seg->p2.x) * -seg->p1.h;
+                pos.vy = 0;
+                pos.vx = (seg->p1.z - seg->p2.z) * seg->p1.h;
+                pos.vz = (seg->p1.x - seg->p2.x) * -seg->p1.h;
             }
             else
             {
                 flr = HZD_GetOnlineHazard();
-                normal.vx = (flr->p2.y - flr->p3.y) * (flr->p1.z - flr->p2.z) - (flr->p2.z - flr->p3.z) * (flr->p1.y - flr->p2.y);
-                normal.vy = (flr->p2.z - flr->p3.z) * (flr->p1.x - flr->p2.x) - (flr->p2.x - flr->p3.x) * (flr->p1.z - flr->p2.z);
-                normal.vz = (flr->p2.x - flr->p3.x) * (flr->p1.y - flr->p2.y) - (flr->p2.y - flr->p3.y) * (flr->p1.x - flr->p2.x);
+                pos.vx = (flr->p2.y - flr->p3.y) * (flr->p1.z - flr->p2.z) - (flr->p2.z - flr->p3.z) * (flr->p1.y - flr->p2.y);
+                pos.vy = (flr->p2.z - flr->p3.z) * (flr->p1.x - flr->p2.x) - (flr->p2.x - flr->p3.x) * (flr->p1.z - flr->p2.z);
+                pos.vz = (flr->p2.x - flr->p3.x) * (flr->p1.y - flr->p2.y) - (flr->p2.y - flr->p3.y) * (flr->p1.x - flr->p2.x);
             }
 
-            ang.vx = -ratan2(normal.vy, SquareRoot0(normal.vx * normal.vx + normal.vz * normal.vz));
-            ang.vy = ratan2(normal.vx, normal.vz);
+            ang.vx = -ratan2(pos.vy, SquareRoot0(pos.vx * pos.vx + pos.vz * pos.vz));
+            ang.vy = ratan2(pos.vx, pos.vz);
             ang.vz = 0;
 
             s = size >> 1;
