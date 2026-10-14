@@ -4,6 +4,13 @@
 #include "game/game.h"
 #include "libhzd/libhzd.h"
 
+extern const char s11d_aSocomf_800D1E40[];
+
+int     s11d_dword_800C330C = 0x60;
+SVECTOR s11d_dword_800C3310 = { 0, -1440, 2980 };
+
+#define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE )
+
 typedef struct _HindPoint
 {
     u_short x;
@@ -35,22 +42,25 @@ typedef struct _Work
     OBJECT   body;
     char     pad_object[0x180 - 0x9C - sizeof(OBJECT)];
     MATRIX   field_180;
-    char     pad_1a0[0x1C4 - 0x180 - sizeof(MATRIX)];
+    char     pad_1a0[0x1C0 - 0x180 - sizeof(MATRIX)];
+    int      field_1C0;
     int      field_1C4;
     u_char   field_1C8;
     char     pad_1c9[0x1CC - 0x1C8 - sizeof(u_char)];
     u_short  field_1CC;
     u_short  field_1CE;
-    char     pad_1d0[0x1E8 - 0x1CC - sizeof(u_short) * 2];
+    SVECTOR  field_1D0;
+    SVECTOR  field_1D8;
+    char     pad_1e0[0x1E8 - 0x1E0];
     short    field_1E8;
     short    field_1EA;
     short    field_1EC;
-    char     pad_1ee[0x1F0 - 0x1EC - sizeof(short)];
+    short    field_1EE;
     short    field_1F0;
     short    field_1F2;
     short    field_1F4;
     short    field_1F6;
-    char     pad_1f8[0x200 - 0x1F8];
+    SVECTOR  field_1F8;
     short    field_200;
     u_short  field_202[7];
     HindPoint events[7][32];
@@ -58,9 +68,12 @@ typedef struct _Work
     u_short  field_914;
     u_short  field_916;
     int      field_918;
-    char     pad_91c[0x924 - 0x918 - sizeof(int)];
+    int      field_91C;
+    int      field_920;
     DG_PRIM *field_924;
-    char     pad_928[0x93C - 0x924 - sizeof(DG_PRIM *)];
+    SVECTOR  field_928;
+    RECT     field_930;
+    DG_TEX  *field_938;
     int      field_93C[7];
     int      field_958;
     int      field_95C;
@@ -269,7 +282,10 @@ void s11d_hind_800C9B94(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9C7C.s")
+void s11d_hind_800C9C7C(Work *work);
+
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800C9D60.s")
+void s11d_hind_800C9D60(Work *work);
 
 void s11d_hind_800CA424(Work *work)
 {
@@ -298,8 +314,11 @@ void s11d_hind_800CA49C(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CA504.s")
+void s11d_hind_800CA504(Work *work);
+
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CA6D8.s")
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CABA8.s")
+void s11d_hind_800CABA8(Work *work, int arg1);
 
 void s11d_hind_800CAD9C(Work *work)
 {
@@ -338,8 +357,34 @@ void s11d_hind_800CAD9C(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CAE6C.s")
-void s11d_hind_800CAE6C(Work *work);
+void s11d_hind_800CAE6C(Work *work)
+{
+    s11d_hind_800CA49C(work);
+    s11d_hind_800CA504(work);
+
+    if (*(int *)&work->field_1C8 & 0x20)
+    {
+        s11d_hind_800C9D60(work);
+    }
+    else
+    {
+        s11d_hind_800CAD9C(work);
+        s11d_hind_800C9C7C(work);
+        s11d_hind_800C9B94(work);
+    }
+
+    s11d_hind_800CA424(work);
+    work->field_924->type |= DG_FLAG_AMBIENT;
+
+    if (work->field_1CC == 1)
+    {
+        int n = work->field_1C4;
+        work->field_1C4 = n + 1;
+        s11d_hind_800CABA8(work, n);
+    }
+
+    s11d_hind_800C97F0(work);
+}
 
 void s11d_hind_800CAF20(Work *work)
 {
@@ -435,7 +480,55 @@ int s11d_hind_800CB054(Work *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB178.s")
+int s11d_hind_800CB178(Work *work)
+{
+    DG_PRIM  *prim;
+    RECT     *rect;
+    DG_TEX   *tex;
+    POLY_FT4 *pack;
+    int       i;
+    int       x, y, w, h;
+
+    rect = &work->field_930;
+    work->field_930.x = rect->y = 400;
+    rect->w = rect->h = 800;
+    work->field_928 = DG_ZeroVector;
+
+    work->field_924 = prim = GM_MakePrim(0x412, 1, &work->field_928, rect);
+    if (prim == NULL)
+    {
+        return -1;
+    }
+
+    work->field_938 = DG_GetTexture(GV_StrCode(s11d_aSocomf_800D1E40));
+    tex = work->field_938;
+
+    for (i = 0; i < 2; i++)
+    {
+        pack = prim->packs[i];
+        setPolyFT4(pack);
+        setRGB0(pack, 128, 128, 128);
+        setSemiTrans(pack, 1);
+
+        x = tex->off_x;
+        w = tex->w;
+        pack->u0 = pack->u2 = x;
+        pack->u1 = pack->u3 = x + (w + 1) / 2 - 1;
+
+        y = tex->off_y;
+        h = tex->h;
+        pack->v0 = pack->v1 = y;
+        pack->v2 = pack->v3 = y + (h + 1) / 2 - 1;
+
+        pack->tpage = tex->tpage;
+        pack->clut = tex->clut;
+        pack->tpage = (pack->tpage & ~0x60) | (1 << 5);
+    }
+
+    prim->type |= DG_FLAG_AMBIENT;
+    return 0;
+}
+
 
 void s11d_hind_800CB310(Work *work)
 {
@@ -464,8 +557,154 @@ void s11d_hind_800CB310(Work *work)
     *(int *)&work->field_1C8 |= 0x10;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CB3A0.s")
-int s11d_hind_800CB3A0(Work *work, int name, int where);
+int s11d_hind_800CB3A0(Work *work, int name, int where)
+{
+    CONTROL *control;
+    OBJECT  *body;
+    char    *pos;
+    char    *dir;
+    char    *model;
+    char    *opt;
+    int      count;
+    int      i;
+
+    control = &work->control;
+
+    if (GM_InitControl(control, name, where) < 0)
+    {
+        return -1;
+    }
+
+    pos = GCL_GetOption('p');
+    dir = GCL_GetOption('d');
+    GM_ConfigControlString(control, pos, dir);
+
+    GM_ConfigControlAttribute(control, 1);
+    GM_ConfigControlTrapCheck(control);
+    GM_ConfigControlHazard(control, 0, -2, -2);
+
+    control->seg_flag = 2;
+
+    model = GCL_GetOption('m');
+    if (!model)
+    {
+        return -1;
+    }
+
+    body = &work->body;
+    GM_InitObject(body, GCL_StrToInt(model), BODY_FLAG, 0);
+    GM_ConfigObjectJoint(body);
+    GM_ConfigObjectLight(body, &work->field_180);
+
+    work->field_1CE = 1;
+    work->field_1CC = 0;
+    work->field_1D0 = DG_ZeroVector;
+    *(int *)&work->field_1C8 = 0;
+    work->field_1C0 = 0;
+    work->field_1C4 = 0;
+    work->field_1EA = 0;
+    work->field_1E8 = 0;
+    work->field_1EE = 0;
+    work->field_1EC = 0;
+
+    if (GCL_GetOption('w'))
+    {
+        work->field_1F4 = GCL_StrToInt(GCL_NextStr());
+        work->field_1F6 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->field_1F4 = 0;
+        work->field_1F6 = 0;
+    }
+
+    if (GCL_GetOption('s'))
+    {
+        if (GCL_StrToInt(GCL_NextStr()))
+        {
+            *(int *)&work->field_1C8 |= 1;
+        }
+    }
+
+    if (GCL_GetOption('x'))
+    {
+        work->field_95C = control->turn.vx = GCL_StrToInt(GCL_NextStr());
+    }
+
+    if (GCL_GetOption('z'))
+    {
+        work->field_1F2 = GCL_StrToInt(GCL_NextStr());
+    }
+
+    opt = GCL_GetOption('b');
+    if (opt)
+    {
+        GCL_StrToSV(opt, (short *)&work->field_1F8);
+    }
+    else
+    {
+        work->field_1F8 = DG_ZeroVector;
+    }
+
+    opt = GCL_GetOption('e');
+    if (opt)
+    {
+        work->field_920 = GCL_StrToInt(opt);
+    }
+    else
+    {
+        work->field_920 = -1;
+    }
+
+    if (GCL_GetOption('g'))
+    {
+        GCL_StrToSV(GCL_NextStr(), (short *)&work->field_1D8);
+    }
+    else
+    {
+        work->field_1D8 = s11d_dword_800C3310;
+    }
+
+    if (GCL_GetOption('a'))
+    {
+        work->field_91C = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->field_91C = 0;
+    }
+
+    if (s11d_hind_800CB054(work) < 0)
+    {
+        return -1;
+    }
+
+    if (s11d_hind_800CB178(work) < 0)
+    {
+        return -1;
+    }
+
+    s11d_hind_800CB310(work);
+
+    count = GM_GameLevel;
+    if (count < 0)
+    {
+        count = 0;
+    }
+
+    if (GCL_GetOption('y'))
+    {
+        i = 0;
+        while (i < count)
+        {
+            i++;
+            GCL_GetNextInt();
+        }
+        s11d_dword_800C330C = GCL_GetNextInt();
+    }
+
+    return 0;
+}
 
 void *NewHind(int name, int where)
 {
