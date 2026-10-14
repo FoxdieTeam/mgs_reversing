@@ -3,14 +3,14 @@
 #include "psxdefs.h"
 #include "mgstype.h"
 #include "game/game.h"
+#include "jeep_liq.h"
 
 typedef struct _JeepWork JeepWork;
 
 typedef void (*JeepFn)();
-typedef void (*LiqFn)();
 
 /* The jeep the Liquid chases/drives: same actor as jeep2.c (s19b_jeep2_800D6B18 builds it). The functions
-   here are its movement state machines; the Liquid actor itself is LiqWork below. */
+   here are its movement state machines; the Liquid actor itself (LiqWork) is in jeep_liq.h. */
 struct _JeepWork
 {
     GV_ACT          actor;        /* 0x000 */
@@ -56,73 +56,7 @@ struct _JeepWork
     JeepFn          mode_fn;      /* 0x3F8 */
 };
 
-/* The Liquid actor riding the jeep (named "jeep_liq.c"). */
-typedef struct _LiqWork
-{
-    GV_ACT          actor;        /* 0x000 */
-    CONTROL        *jeep_control; /* 0x020 */
-    DG_OBJS        *jeep_objs;    /* 0x024 */
-    CONTROL         control;      /* 0x028 */
-    OBJECT          obj;          /* 0x0A4 */
-    MOTION_CONTROL  m_ctrl;       /* 0x188 */
-    MOTION_SEGMENT  m_segs1[17];  /* 0x1D8 */
-    MOTION_SEGMENT  m_segs2[17];  /* 0x43C */
-    SVECTOR         rots[16];     /* 0x6A0 */
-    SVECTOR         adjust[16];   /* 0x720 */
-    SVECTOR         sv_7A0;       /* 0x7A0 */
-    SVECTOR         sv_7A8;       /* 0x7A8 */
-    SVECTOR         sv_7B0;       /* 0x7B0 */
-    SVECTOR         sv_7B8;       /* 0x7B8 */
-    MATRIX          light[2];     /* 0x7C0 */
-    OBJECT          obj2;         /* 0x800 */
-    TARGET         *target;       /* 0x8E4 */
-    HOMING         *homing;       /* 0x8E8 */
-    LiqFn           state;       /* 0x8EC */
-    int             f8F0;         /* 0x8F0 */
-    int             state_time;   /* 0x8F4 */
-    int             f8F8;         /* 0x8F8 */
-    int             action;       /* 0x8FC */
-    int             cmd;          /* 0x900 */
-    int             cmd_dir;      /* 0x904 */
-    int             f908;         /* 0x908 */
-    int             f90C;         /* 0x90C */
-    int             f910;         /* 0x910 */
-    int             f914;         /* 0x914 */
-    int             f918;         /* 0x918 */
-    int             f91C;         /* 0x91C */
-    int             f920;         /* 0x920 */
-    int             f924;         /* 0x924 */
-    int             f928;         /* 0x928 */
-    int             f92C;         /* 0x92C */
-    int             player_dir;   /* 0x930 */
-    int             player_dist;  /* 0x934 */
-    int             f938;         /* 0x938 */
-    int             f93C;         /* 0x93C */
-    int             f940;         /* 0x940 */
-    int            *jeep_flags;   /* 0x944 */
-} LiqWork;
 
-typedef struct _JEEP_SYSTEM_S
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3a[0x24 - 0x18 - sizeof(SVECTOR)];
-    short    field_24;
-    char     pad3b[0x30 - 0x24 - sizeof(short)];
-    int      field_30;
-    char     pad3c[0x40 - 0x30 - sizeof(int)];
-    int      field_40;
-    char     pad3d[0x54 - 0x40 - sizeof(int)];
-    int      field_54;
-    char     pad5c[0x5C - 0x54 - sizeof(int)];
-    int      field_5C;
-    char     pad60[0x68 - 0x5C - sizeof(int)];
-    OBJECT  *liq_obj;
-} JEEP_SYSTEM_S;
-
-extern JEEP_SYSTEM_S Takabe_JeepSystem;
 
 extern int  s19b_dword_800C3AA0;
 extern int  s19b_dword_800C3AA8;
@@ -256,8 +190,103 @@ void s19b_jeep_liq_800D7200(JeepWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7330.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D7468.s")
+void s19b_jeep_liq_800D7330(JeepWork *work)
+{
+    CONTROL *ctl = &work->control;
+
+    switch (work->phase)
+    {
+    case 0:
+        s19b_jeep_liq_800D7A5C(work);
+        s19b_jeep_liq_800D6FB8(work);
+        work->side = GV_NearSpeed(work->side, 0x2EE, 0x32);
+        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 0x7D0) == 11)
+        {
+            work->phase = 1;
+        }
+        break;
+    case 1:
+        s19b_jeep_liq_800D797C(work);
+        s19b_jeep_liq_800D6FB8(work);
+        s19b_jeep_liq_800D7C0C(work);
+        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 0xBB8) == 13)
+        {
+            work->phase = 2;
+        }
+        break;
+    case 2:
+        s19b_jeep_liq_800D797C(work);
+        s19b_jeep_liq_800D6FB8(work);
+        work->side = GV_NearSpeed(work->side, 0x2EE, 0x32);
+        if (work->side == 0x2EE)
+        {
+            work->act_fn = s19b_jeep_liq_800D7114;
+            s19b_jeep_liq_800D8014(work, s19b_jeep_liq_800D8118);
+            work->phase = 0;
+        }
+        break;
+    }
+}
+
+void s19b_jeep_liq_800D7468(JeepWork *work)
+{
+    CONTROL *ctl = &work->control;
+    SVECTOR rot;
+    SVECTOR vec;
+
+    switch (work->phase)
+    {
+    case 0:
+        work->frame = 0;
+        work->phase = 1;
+        work->f3C0 = 1;
+        Takabe_JeepSystem.field_54 |= 0x20000;
+        GM_GameStatus |= STATE_PAUSE_ONLY | STATE_PADRELEASE;
+        s19b_jlamp_800D0A20(1);
+        /* fall through */
+    case 1:
+        s19b_jeep_liq_800D797C(work);
+        s19b_jeep_liq_800D6FB8(work);
+        work->side = GV_NearSpeed(work->side, 0x1F4, 0x1E);
+        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 0x55F0) == 14)
+        {
+            work->phase = 2;
+        }
+        break;
+    case 2:
+        s19b_jeep_liq_800D6FB8(work);
+        work->side = GV_NearSpeed(work->side, 0xFA, 0x1E);
+        work->speed = GV_NearSpeed(work->speed, 0x1F4, 3);
+        if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 0x1770) == 14)
+        {
+            work->phase = 3;
+            work->sv_380 = work->sv_378;
+        }
+        break;
+    case 3:
+        memset(&vec, 0, 8);
+        vec.vz = work->speed;
+        rot = vec;
+        DG_SetPos2(&DG_ZeroVector, &work->rot);
+        DG_RotVector(&rot, &rot, 1);
+        work->sv_380.vx = GV_NearExp8(work->sv_380.vx, 0);
+        work->sv_380.vz = GV_NearExp8(work->sv_380.vz, 0);
+        work->sv_378.vx = rot.vx + work->sv_380.vx;
+        work->sv_378.vz = rot.vz + work->sv_380.vz;
+        work->rot.vy = GV_NearExp8(work->rot.vy, 0xC00);
+        work->speed = GV_NearExp4(work->speed, 0);
+        work->speed_prev = 0;
+        if (work->sv_378.vx == 0 && work->sv_378.vz == 0)
+        {
+            work->phase = 4;
+        }
+        break;
+    case 4:
+        break;
+    }
+    work->frame++;
+}
+
 void s19b_jeep_liq_800D76B0(JeepWork *work)
 {
     work->speed_fn();
@@ -644,8 +673,91 @@ void s19b_jeep_liq_800D81A8(JeepWork *work)
         work->act_fn = s19b_jeep_liq_800D7114;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8250.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_liq_800D8420.s")
+extern void s19b_spark2_m_800D964C(LiqWork *work);
+extern void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
+
+void s19b_jeep_liq_800D8250(LiqWork *work)
+{
+    SVECTOR  mov     = {350, 975, -350};
+    OBJECT  *obj     = &work->obj;
+    CONTROL *control = &work->control;
+    DG_OBJS *objs;
+
+    GM_ActMotion(obj);
+    control->turn = DG_ZeroVector;
+    control->rot  = control->turn;
+    control->mov  = mov;
+    GM_ActControl(control);
+    GM_ActObject(obj);
+    objs = work->obj.objs;
+    CompMatrix(&work->jeep_objs->world, &objs->world, &objs->world);
+    DG_GetLightMatrix(&control->mov, work->light);
+    control->mov.vx = objs->world.t[0];
+    control->mov.vy = objs->world.t[1];
+    control->mov.vz = objs->world.t[2];
+    Takabe_JeepLiqPos.vx = work->obj.objs->objs[6].world.t[0];
+    Takabe_JeepLiqPos.vy = work->obj.objs->objs[6].world.t[1];
+    Takabe_JeepLiqPos.vz = work->obj.objs->objs[6].world.t[2];
+    GM_MoveTarget(work->target, &control->mov);
+    s19b_spark2_m_800D964C(work);
+    sna_act_helper2_helper2_80033054(0x7BF2, &work->sv_7B8);
+    work->adjust[6].vx = work->sv_7B8.vx;
+    if ((work->f940 & 3) == 1)
+    {
+        work->obj.objs->flag |= DG_FLAG_INVISIBLE;
+    }
+    else
+    {
+        work->obj.objs->flag &= ~DG_FLAG_INVISIBLE;
+    }
+}
+#define LIQ_BODY_FLAG   (DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND)
+#define LIQ_WEAPON_FLAG (LIQ_BODY_FLAG | DG_FLAG_ONEPIECE)
+
+int s19b_jeep_liq_800D8420(LiqWork *work, int name)
+{
+    CONTROL *control = &work->control;
+    OBJECT  *obj;
+    OBJECT  *obj2;
+    int      model;
+
+    if (GM_InitControl(control, name, GM_CurrentMap) < 0)
+    {
+        return -1;
+    }
+    control->mov = work->jeep_control->mov;
+    control->rot = work->jeep_control->rot;
+    GM_ConfigControlAttribute(control, 5);
+    GM_ConfigControlInterp(control, 4);
+
+    obj  = &work->obj;
+    obj2 = &work->obj2;
+    model = GV_StrCode("liquid");
+    GM_InitObject(obj, model, LIQ_BODY_FLAG, GV_StrCode("lqd_19b"));
+    GM_ConfigObjectJoint(obj);
+    GM_ConfigMotionControl(obj, &work->m_ctrl, GV_StrCode("lqd_19b"), work->m_segs1, work->m_segs2, control, work->rots);
+    GM_ConfigObjectLight(obj, work->light);
+    GM_ConfigObjectAction(obj, 0, 0, 0);
+    GM_ConfigMotionAdjust(obj, work->adjust);
+
+    GM_InitObject(obj2, GV_StrCode("famas"), LIQ_WEAPON_FLAG, 0);
+    GM_ConfigObjectLight(obj2, work->light);
+    GM_ConfigObjectRoot(obj2, obj, 4);
+
+    work->target = GM_AllocTarget();
+    work->homing = GM_SetHomingTarget(&work->obj.objs->objs[5].world, control);
+    if (work->homing != NULL)
+    {
+        work->homing->flag = 1;
+    }
+    Takabe_JeepSystem.liq_obj = obj;
+    control->r_sphere = -2;
+    work->f90C = 0;
+    work->f910 = 0;
+    work->f914 = 0;
+    return 0;
+}
+
 void s19b_spark2_m_800D8620(LiqWork *work)
 {
     GM_FreeTarget(work->target);
@@ -654,10 +766,6 @@ void s19b_spark2_m_800D8620(LiqWork *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->obj);
 }
-extern void s19b_jeep_liq_800D8250(LiqWork *work);
-extern int  s19b_jeep_liq_800D8420(LiqWork *work, int name);
-extern const char s19b_aJeepliqc_800DDE80[];
-extern const char s19b_dword_800DDE8C[];
 
 void *s19b_spark2_m_800D8670(CONTROL *arg0, DG_OBJS *arg1, int *arg2)
 {
@@ -666,11 +774,11 @@ void *s19b_spark2_m_800D8670(CONTROL *arg0, DG_OBJS *arg1, int *arg2)
     if (work != NULL)
     {
         GV_SetNamedActor(work, s19b_jeep_liq_800D8250, s19b_spark2_m_800D8620,
-                         s19b_aJeepliqc_800DDE80);
+                         "jeep_liq.c");
         work->jeep_control = arg0;
         work->jeep_objs = arg1;
         work->jeep_flags = arg2;
-        if (s19b_jeep_liq_800D8420(work, GV_StrCode(s19b_dword_800DDE8C)) < 0)
+        if (s19b_jeep_liq_800D8420(work, GV_StrCode("liqiud")) < 0)
         {
             GV_DestroyActor(work);
             return NULL;
@@ -678,784 +786,3 @@ void *s19b_spark2_m_800D8670(CONTROL *arg0, DG_OBJS *arg1, int *arg2)
     }
     return work;
 }
-
-void s19b_spark2_m_800D8724(LiqWork *work, int arg1, int arg2)
-{
-    MATRIX  m;
-    DG_OBJ *obj = &work->obj.objs->objs[arg1];
-
-    DG_SetPos(&obj->world);
-    DG_MovePos((SVECTOR *)&s19b_dword_800C3AA0);
-    DG_RotatePos((SVECTOR *)&s19b_dword_800C3AA8);
-    ReadRotMatrix(&m);
-    NewJeepBlood(&m, arg2, &obj->world);
-}
-
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D87A4.s")
-extern int s19b_spark2_m_800D87A4(LiqWork *work);
-
-int s19b_spark2_m_800D88D8(LiqWork *work)
-{
-    if (s19b_spark2_m_800D87A4(work) != 0)
-    {
-        work->target->class = 1;
-        return 1;
-    }
-    return 0;
-}
-
-void s19b_spark2_m_800D8918(LiqWork *work)
-{
-    TARGET *target = work->target;
-    int     level  = GM_GameLevel;
-    int     vital;
-
-    if (level > 0)
-    {
-        vital = (level << 6) + 0xBF;
-    }
-    else
-    {
-        vital = 0xBF;
-    }
-
-    GM_SetTarget(target, 20, 2, (SVECTOR *)&s19b_dword_800C3AB0);
-    GM_SetPowerTarget(target, 1, -1, vital, 7, (SVECTOR *)&s19b_dword_800C3AB8);
-}
-
-extern void s19b_spark2_m_800D8BC8();
-extern void s19b_spark2_m_800D8CEC();
-extern void s19b_spark2_m_800D8E10();
-extern void s19b_spark2_m_800D90A8();
-extern void s19b_spark2_m_800D92C8();
-
-int s19b_spark2_m_800D899C(LiqWork *work)
-{
-    int v = work->cmd;
-
-    if (v & 0x1)
-    {
-        work->state = s19b_spark2_m_800D8BC8;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        return 1;
-    }
-    if (v & 0x2)
-    {
-        work->state = s19b_spark2_m_800D8CEC;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        return 1;
-    }
-    if (v & 0x4)
-    {
-        work->state = s19b_spark2_m_800D8E10;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        return 1;
-    }
-    if (v & 0x10)
-    {
-        work->state = s19b_spark2_m_800D90A8;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        return 1;
-    }
-    if (v & 0x04000000)
-    {
-        work->state = s19b_spark2_m_800D92C8;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        return 1;
-    }
-    return 0;
-}
-
-void s19b_spark2_m_800D8A48(LiqWork *work)
-{
-    GV_NearExp4PV(&work->adjust[2], &work->sv_7A0, 3);
-    GV_NearExp4PV(&work->adjust[6], &work->sv_7A8, 3);
-}
-
-void s19b_spark2_m_800D8A88(LiqWork *work)
-{
-    int v = work->player_dir - work->jeep_control->rot.vy;
-    work->sv_7A0.vy = v;
-    work->sv_7A8.vy = v;
-}
-
-void s19b_spark2_m_800D8AAC(LiqWork *work)
-{
-    int base = work->player_dir + 0xCC0;
-    int v    = base - work->jeep_control->rot.vy;
-    work->sv_7A0.vy = v;
-    work->sv_7A8.vy = v;
-}
-
-void s19b_spark2_m_800D8ACC(LiqWork *work)
-{
-    int base = work->player_dir + 0x340;
-    int v    = base - work->jeep_control->rot.vy;
-    work->sv_7A0.vy = v;
-    work->sv_7A8.vy = v;
-}
-
-void s19b_spark2_m_800D8AEC(LiqWork *work)
-{
-    MATRIX m;
-
-    DG_SetPos(&work->obj.objs->objs[4].world);
-    DG_MovePos((SVECTOR *)&s19b_dword_800C3AC0);
-    ReadRotMatrix(&m);
-    NewJeepBullet(&m, 2, 1, 0);
-    GM_SeSet(&work->control.mov, 0x2E);
-    s19b_jblood_800C7FB8(&m);
-}
-
-void s19b_spark2_m_800D8B54(LiqWork *work, int mode)
-{
-    if (mode == 0)
-    {
-        work->action = 0;
-        GM_ConfigObjectAction(&work->obj, 0, 0, 4);
-    }
-    if (s19b_spark2_m_800D88D8(work) == 0)
-    {
-        if (s19b_spark2_m_800D899C(work) == 0)
-        {
-            work->target->class |= 0x14;
-        }
-    }
-}
-
-extern void s19b_spark2_m_800D8F34(LiqWork *work, int mode);
-
-void s19b_spark2_m_800D8BC8(LiqWork *work, int mode)
-{
-    int cmd = work->cmd;
-
-    if (mode == 0)
-    {
-        work->action = 1;
-        GM_ConfigObjectAction(&work->obj, 1, 0, 4);
-    }
-    s19b_spark2_m_800D8A88(work);
-
-    if (!(cmd & 1))
-    {
-        work->state = s19b_spark2_m_800D8B54;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        work->sv_7A0 = DG_ZeroVector;
-        work->sv_7A8 = DG_ZeroVector;
-        return;
-    }
-
-    if (cmd & 8)
-    {
-        work->state = s19b_spark2_m_800D8F34;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        return;
-    }
-
-    if (s19b_spark2_m_800D88D8(work) != 0) return;
-    if (s19b_spark2_m_800D899C(work) != 0) return;
-    work->target->class |= 0x14;
-}
-
-extern void s19b_spark2_m_800D8FB0(LiqWork *work, int mode);
-
-void s19b_spark2_m_800D8CEC(LiqWork *work, int mode)
-{
-    int cmd = work->cmd;
-
-    if (mode == 0)
-    {
-        work->action = 3;
-        GM_ConfigObjectAction(&work->obj, 3, 0, 4);
-    }
-    s19b_spark2_m_800D8AAC(work);
-
-    if (!(cmd & 2))
-    {
-        work->state = s19b_spark2_m_800D8B54;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        work->sv_7A0 = DG_ZeroVector;
-        work->sv_7A8 = DG_ZeroVector;
-        return;
-    }
-
-    if (cmd & 8)
-    {
-        work->state = s19b_spark2_m_800D8FB0;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        return;
-    }
-
-    if (s19b_spark2_m_800D88D8(work) != 0) return;
-    if (s19b_spark2_m_800D899C(work) != 0) return;
-    work->target->class |= 0x14;
-}
-
-extern void s19b_spark2_m_800D902C(LiqWork *work, int mode);
-
-void s19b_spark2_m_800D8E10(LiqWork *work, int mode)
-{
-    int cmd = work->cmd;
-
-    if (mode == 0)
-    {
-        work->action = 2;
-        GM_ConfigObjectAction(&work->obj, 2, 0, 4);
-    }
-    s19b_spark2_m_800D8ACC(work);
-
-    if (!(cmd & 4))
-    {
-        work->state = s19b_spark2_m_800D8B54;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        work->sv_7A0 = DG_ZeroVector;
-        work->sv_7A8 = DG_ZeroVector;
-        return;
-    }
-
-    if (cmd & 8)
-    {
-        work->state = s19b_spark2_m_800D902C;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        return;
-    }
-
-    if (s19b_spark2_m_800D88D8(work) != 0) return;
-    if (s19b_spark2_m_800D899C(work) != 0) return;
-    work->target->class |= 0x14;
-}
-
-void s19b_spark2_m_800D8F34(LiqWork *work, int mode)
-{
-    if (mode == 0)
-    {
-        s19b_spark2_m_800D8AEC(work);
-    }
-    if (s19b_spark2_m_800D88D8(work) != 0)
-    {
-        return;
-    }
-    if (mode == 1)
-    {
-        work->state = s19b_spark2_m_800D8BC8;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-    }
-    work->target->class |= 0x14;
-}
-
-void s19b_spark2_m_800D8FB0(LiqWork *work, int mode)
-{
-    if (mode == 0)
-    {
-        s19b_spark2_m_800D8AEC(work);
-    }
-    if (s19b_spark2_m_800D88D8(work) != 0)
-    {
-        return;
-    }
-    if (mode == 1)
-    {
-        work->state = s19b_spark2_m_800D8CEC;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-    }
-    work->target->class |= 0x14;
-}
-
-void s19b_spark2_m_800D902C(LiqWork *work, int mode)
-{
-    if (mode == 0)
-    {
-        s19b_spark2_m_800D8AEC(work);
-    }
-    if (s19b_spark2_m_800D88D8(work) != 0)
-    {
-        return;
-    }
-    if (mode == 1)
-    {
-        work->state = s19b_spark2_m_800D8E10;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-    }
-    work->target->class |= 0x14;
-}
-
-extern void s19b_spark2_m_800D9148(LiqWork *work);
-
-void s19b_spark2_m_800D90A8(LiqWork *work, int mode)
-{
-    if (mode < 8)
-    {
-        work->target->class |= 0x14;
-    }
-    if (s19b_spark2_m_800D88D8(work) != 0)
-    {
-        return;
-    }
-    if (mode == 0)
-    {
-        work->action = 0x10;
-        GM_ConfigObjectAction(&work->obj, 0x10, 0, 4);
-    }
-    if (work->obj.is_end != 0)
-    {
-        work->state = s19b_spark2_m_800D9148;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-    }
-}
-
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9148.s")
-
-void s19b_spark2_m_800D91DC(LiqWork *work, int mode)
-{
-    if (mode < 8 && (work->cmd & 0x10))
-    {
-        work->state = s19b_spark2_m_800D9148;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        return;
-    }
-
-    if (mode >= 8)
-    {
-        work->target->class |= 0x14;
-    }
-
-    if (s19b_spark2_m_800D88D8(work) != 0)
-    {
-        return;
-    }
-
-    if (work->f93C != 0 && mode >= 0xB)
-    {
-        work->state = s19b_spark2_m_800D8B54;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        work->f93C = 0;
-    }
-
-    if (mode == 0)
-    {
-        work->action = 0x12;
-        GM_ConfigObjectAction(&work->obj, 0x12, 0, 4);
-    }
-
-    if (work->obj.is_end == 0)
-    {
-        return;
-    }
-
-    work->state = s19b_spark2_m_800D8B54;
-    work->state_time = 0;
-    work->control.turn.vz = 0;
-    work->control.turn.vx = 0;
-}
-
-void s19b_spark2_m_800D932C(LiqWork *work, int mode);
-
-void s19b_spark2_m_800D92C8(LiqWork *work, int mode)
-{
-    if (mode == 0)
-    {
-        work->action = 10;
-        GM_ConfigObjectAction(&work->obj, 10, 0, 4);
-    }
-    if (work->obj.is_end != 0)
-    {
-        work->state = s19b_spark2_m_800D932C;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-    }
-}
-
-void s19b_spark2_m_800D932C(LiqWork *work, int mode)
-{
-    if (mode == 0)
-    {
-        work->action = 10;
-        GM_ConfigObjectAction(&work->obj, 10, 0, 4);
-    }
-    if (work->obj.is_end != 0)
-    {
-        work->state = s19b_spark2_m_800D932C;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-    }
-}
-
-void s19b_spark2_m_800D9390(LiqWork *work, int mode)
-{
-    if (mode == 0)
-    {
-        work->action = 20;
-        GM_ConfigObjectAction(&work->obj, 20, 0, 4);
-        GM_SeSet(&work->control.mov, 0x81);
-        s19b_spark2_m_800D8724(work, 5, 1);
-        *work->jeep_flags |= 1;
-    }
-    if (work->obj.is_end != 0)
-    {
-        work->state = s19b_spark2_m_800D8B54;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        work->f940 = 45;
-        work->f93C = 0;
-    }
-}
-
-void s19b_spark2_m_800D9434(LiqWork *work, int mode)
-{
-    if (s19b_spark2_m_800D899C(work) != 0)
-    {
-        return;
-    }
-    if (mode == 0)
-    {
-        GM_SeSet(&work->control.mov, 0x81);
-        s19b_spark2_m_800D8724(work, 5, 1);
-        *work->jeep_flags |= 1;
-    }
-    if (mode < 0x11)
-    {
-        return;
-    }
-    work->state = s19b_spark2_m_800D8B54;
-    work->state_time = 0;
-    work->control.turn.vz = 0;
-    work->control.turn.vx = 0;
-}
-
-void s19b_spark2_m_800D94C8(LiqWork *work, int mode)
-{
-    work->target->class |= 0x14;
-    if (s19b_spark2_m_800D88D8(work) != 0)
-    {
-        return;
-    }
-    if (mode == 0)
-    {
-        work->action = 0x13;
-        GM_ConfigObjectAction(&work->obj, 0x13, 0, 4);
-    }
-    if (work->obj.is_end != 0)
-    {
-        work->state = s19b_spark2_m_800D8B54;
-        work->state_time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-    }
-}
-
-void s19b_spark2_m_800D9558(LiqWork *work)
-{
-    int   old;
-    LiqFn handler;
-
-    work->target->class = 1;
-    old     = work->state_time;
-    handler = work->state;
-    work->state_time = old + 1;
-
-    if (handler == NULL)
-    {
-        s19b_spark2_m_800D8918(work);
-        handler       = s19b_spark2_m_800D8B54;
-        work->state    = handler;
-    }
-    handler(work, old);
-
-    s19b_spark2_m_800D8A48(work);
-
-    if (work->f940 != 0)
-    {
-        work->target->class = 1;
-        work->f940 -= 1;
-    }
-}
-
-void s19b_spark2_m_800D95FC(LiqWork *work)
-{
-    SVECTOR diff;
-
-    GV_SubVec3(&GM_PlayerPosition, &work->control.mov, &diff);
-    diff.vy = 0;
-    work->player_dir = GV_VecDir2(&diff);
-    work->player_dist = GV_VecLen3(&diff);
-}
-
-extern void s19b_spark2_m_800D9C04(LiqWork *work);
-
-void s19b_spark2_m_800D964C(LiqWork *work)
-{
-    s19b_spark2_m_800D95FC(work);
-    s19b_spark2_m_800D9C04(work);
-    s19b_spark2_m_800D9558(work);
-}
-
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9680.s")
-extern int s19b_spark2_m_800D9680(LiqWork *work);
-
-void s19b_spark2_m_800D9704(LiqWork *work)
-{
-    if (s19b_spark2_m_800D9680(work) != 0)
-    {
-        return;
-    }
-
-    if (work->player_dist < 0xFA0 || work->f93C != 0)
-    {
-        int player_dir = work->player_dir;
-        int new_f914;
-
-        if ((unsigned)(player_dir - 0x601) < 0x3FF)
-        {
-            new_f914 = 1;
-        }
-        else if ((unsigned)(player_dir - 0x201) < 0x3FF)
-        {
-            new_f914 = 3;
-        }
-        else if ((unsigned)(player_dir - 0xA01) < 0x3FF)
-        {
-            new_f914 = 2;
-        }
-        else
-        {
-            work->f918 += 1;
-            return;
-        }
-
-        work->f914 = new_f914;
-        work->f918 = 0;
-        return;
-    }
-
-    work->f918 += 1;
-}
-
-void s19b_spark2_m_800D97A8(LiqWork *work)
-{
-    int v;
-
-    if (s19b_spark2_m_800D9680(work) != 0)
-    {
-        return;
-    }
-
-    if (work->action != 1)
-    {
-        work->f918 = 0;
-    }
-
-    if (work->f918 >= 0x4C)
-    {
-        work->f914 = 0;
-        work->f918 = 0;
-        return;
-    }
-
-    v = s19b_dword_800DE650;
-    if (work->f918 == v + 6 || work->f918 == v + 9 || work->f918 == v + 0xC)
-    {
-        work->cmd |= 8;
-    }
-    work->cmd |= 1;
-    work->cmd_dir = work->player_dir;
-    work->f918 += 1;
-}
-
-void s19b_spark2_m_800D985C(LiqWork *work)
-{
-    int v;
-
-    if (s19b_spark2_m_800D9680(work) != 0)
-    {
-        return;
-    }
-
-    if (work->action != 3)
-    {
-        work->f918 = 0;
-    }
-
-    if (work->f918 >= 0x4C)
-    {
-        work->f914 = 0;
-        work->f918 = 0;
-        return;
-    }
-
-    v = s19b_dword_800DE650;
-    if (work->f918 == v + 6 || work->f918 == v + 9 || work->f918 == v + 0xC)
-    {
-        work->cmd |= 8;
-    }
-    work->cmd |= 2;
-    work->cmd_dir = work->player_dir;
-    work->f918 += 1;
-}
-
-void s19b_spark2_m_800D9910(LiqWork *work)
-{
-    int v;
-
-    if (s19b_spark2_m_800D9680(work) != 0)
-    {
-        return;
-    }
-
-    if (work->action != 2)
-    {
-        work->f918 = 0;
-    }
-
-    if (work->f918 >= 0x4C)
-    {
-        work->f914 = 0;
-        work->f918 = 0;
-        return;
-    }
-
-    v = s19b_dword_800DE650;
-    if (work->f918 == v + 6 || work->f918 == v + 9 || work->f918 == v + 0xC)
-    {
-        work->cmd |= 8;
-    }
-    work->cmd |= 4;
-    work->cmd_dir = work->player_dir;
-    work->f918 += 1;
-}
-
-void s19b_spark2_m_800D99C4(LiqWork *work)
-{
-    int js = Takabe_JeepSystem.field_54;
-    work->cmd |= 0x10;
-    if (work->f918 >= 61 || (js & 0x2000))
-    {
-        work->f93C = 1;
-        work->f914 = 0;
-    }
-    if (js & 0x2)
-    {
-        work->f914 = 1;
-        work->cmd |= 0x02000000;
-    }
-    work->f918 += 1;
-}
-
-void s19b_spark2_m_800D9A30(LiqWork *work)
-{
-    if (Takabe_JeepSystem.field_54 & 0x1000)
-    {
-        work->f914 = 4;
-        work->f918 = 0;
-        work->cmd |= 0x10;
-    }
-    else
-    {
-        work->f918 += 1;
-    }
-}
-
-void s19b_spark2_m_800D9A74(LiqWork *work)
-{
-    int new_f900 = work->cmd | 0x10;
-    int js = Takabe_JeepSystem.field_54;
-    work->cmd = new_f900;
-    if (js & 0x2000)
-    {
-        work->f914 = 0;
-    }
-    work->f918 += 1;
-}
-
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9AA8.s")
-extern void s19b_spark2_m_800D9AA8(LiqWork *work);
-
-void s19b_spark2_m_800D9B38(LiqWork *work)
-{
-    switch (work->f914)
-    {
-    case 0:
-        s19b_spark2_m_800D9A30(work);
-        break;
-    case 4:
-        s19b_spark2_m_800D9A74(work);
-        break;
-    }
-}
-
-void s19b_spark2_m_800D9B88(LiqWork *work)
-{
-    switch (work->f910)
-    {
-    case 0: s19b_spark2_m_800D9AA8(work); break;
-    case 1: s19b_spark2_m_800D9B38(work); break;
-    }
-
-    if (Takabe_JeepSystem.field_54 & 0x10000000)
-    {
-        work->f910 = 1;
-    }
-    else
-    {
-        work->f910 = 0;
-    }
-}
-
-void s19b_spark2_m_800D9C04(LiqWork *work)
-{
-    short *table = (short *)&s19b_dword_800C3AC8;
-    int    idx;
-
-    work->cmd_dir = -1;
-    work->cmd = 0;
-    idx = GM_GameLevel + 1;
-    s19b_dword_800DE650 = table[idx];
-
-    if (work->f90C == 0)
-    {
-        s19b_spark2_m_800D9B88(work);
-    }
-
-    Takabe_JeepSystem.field_54 &= 0xFFFF0000;
-    work->f920 += 1;
-}
-
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9C90.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800D9EC0.s")
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_spark2_m_800DA0B4.s")
