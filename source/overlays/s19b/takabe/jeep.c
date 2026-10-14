@@ -40,10 +40,6 @@ void s19b_jeep_800D21DC(int ang, MATRIX *mat, SVECTOR *out)
     ApplyMatrixSV(mat, &vec, out);
 }
 
-/* NON_MATCHING: the draft below is instruction-identical except that gcc folds
- * "flags |= 2" (flags is 0 there) into a constant load, which changes the
- * register allocation (flags/target swap s0/s1). The original keeps the ori. */
-#if 0
 extern VECTOR s19b_dword_800DDD7C;
 extern u_char s19b_dword_800C3990[];
 extern u_char s19b_dword_800C3994[];
@@ -59,6 +55,7 @@ void s19b_jeep_800D2258(JeepWork *work)
     CONTROL *control;
     TARGET  *target;
     SVECTOR  light_pos;
+    /* the scale vector and the rotation passed to DG_SetPos2 are one object in the original stack frame */
     union { VECTOR scale; SVECTOR rot; } u;
     VECTOR   scale2;
     int      flags;
@@ -90,7 +87,6 @@ void s19b_jeep_800D2258(JeepWork *work)
             work->vibrate_timer = 5;
             NewPadVibration(s19b_dword_800C3990, 1);
             NewPadVibration(s19b_dword_800C3994, 0);
-            flags |= 2;
         }
         else
         {
@@ -107,8 +103,9 @@ void s19b_jeep_800D2258(JeepWork *work)
             }
 
             work->field_3E4 = 5;
-            flags |= 2;
         }
+
+        flags |= 2;
     }
 
     target->damaged &= ~TARGET_PUSH;
@@ -201,10 +198,6 @@ void s19b_jeep_800D2258(JeepWork *work)
         }
     }
 }
-#endif
-
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_800D2258.s")
-void s19b_jeep_800D2258(JeepWork *work);
 
 void s19b_jeep_800D2790(JeepWork *work)
 {
