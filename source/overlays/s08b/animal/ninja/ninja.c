@@ -111,7 +111,7 @@ typedef struct _Work
     int       field_1A94;  /* 0x1A94 */
     int       field_1A98[0x23]; /* 0x1A98 */
     short     field_1B24;  /* 0x1B24 */
-    char      pad_1B28[0x1B28 - 0x1B24 - sizeof(short)];
+    short     field_1B26;  /* 0x1B26 */
     short     field_1B28;  /* 0x1B28 */
     char      pad_1B2A[2];
     u_char    damage[6];   /* 0x1B2C */
@@ -194,7 +194,7 @@ extern char s08b_aKorekorekor_800E39A8[];
 
 int  s08b_bunsin2_800C9120(Work *work);
 int  s08b_bunsin2_800C9548(Work *work);
-void s08b_bunsin2_800C9588(Work *work, int arg);
+int  s08b_bunsin2_800C9588(Work *work, int arg);
 void s08b_bunsin2_800C9B38(Work *work, int first);
 void s08b_bunsin2_800C9C74(Work *work, int first);
 int  s08b_bunsin2_800CD914(Work *work, int index);
@@ -1535,12 +1535,403 @@ stop:
         }
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CB52C.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CB7A0.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CB914.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CBAA4.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CBCEC.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CBE30.s")
+void s08b_bunsin2_800CB52C(Work *work, int time)
+{
+    CONTROL *control = &work->control;
+    int      result = 0;
+
+    work->field_19F8 = 2;
+
+    if (time == 0)
+    {
+        work->field_19A4 = 10;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[10], 0, 4);
+        control->rot.vy = work->field_1A28;
+        control->turn.vy = work->field_1A28;
+        work->field_1B26 = 1;
+    }
+
+    if (s08b_bunsin2_800C9548(work) == 0)
+    {
+        if (time == 3)
+        {
+            GM_SeSetMode(&control->mov, 0x51, 1);
+        }
+
+        if (time == 5)
+        {
+            GM_SeSetMode(&control->mov, 0xB4, 1);
+        }
+
+        if (time == 16)
+        {
+            GM_SeSetMode(&control->mov, 0x51, 1);
+        }
+
+        if ((unsigned int)(time - 5) < 15)
+        {
+            work->field_19FC = 1;
+            result = s08b_bunsin2_800C9588(work, 0);
+        }
+
+        if (result != 0 && work->field_1B26 != 0)
+        {
+            GM_SeSetMode(&control->mov, 0xB1, 1);
+            work->field_1B26 = 0;
+        }
+
+        if (work->body.is_end != 0)
+        {
+            if (work->field_8C0 == 1)
+            {
+                GM_SeSet2(0, 0x3F, 0xB3);
+            }
+
+            work->field_1994 = s08b_bunsin2_800C9B38;
+            work->field_199C = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            work->field_19A8 = 1;
+            return;
+        }
+
+        work->target->class |= 0x1F;
+
+        switch (GM_GameLevel)
+        {
+        case GM_LEVEL_NORMAL:
+            control->step.vx *= 2;
+            control->step.vz *= 2;
+            break;
+
+        case GM_LEVEL_HARD:
+            control->step.vx = control->step.vx * 3 / 2;
+            control->step.vz = control->step.vz * 3 / 2;
+            if ((time & 3) == 0)
+            {
+                control->turn.vy = work->field_1A28;
+            }
+            break;
+
+        case GM_LEVEL_EXTREME:
+            control->step.vx *= 2;
+            control->step.vz *= 2;
+            control->turn.vy = work->field_1A28;
+            break;
+        }
+    }
+}
+void s08b_bunsin2_800CB7A0(Work *work, int time)
+{
+    CONTROL *control = &work->control;
+    int      result = 0;
+
+    work->field_19F8 = 2;
+
+    if (time == 0)
+    {
+        work->field_19A4 = 11;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[11], 0, 4);
+        control->rot.vy = work->field_1A28;
+        control->turn.vy = work->field_1A28;
+        work->field_1B26 = 1;
+    }
+
+    if (s08b_bunsin2_800C9548(work) == 0)
+    {
+        if (time == 6 || time == 17)
+        {
+            GM_SeSetMode(&control->mov, 0xB4, 1);
+        }
+
+        if ((unsigned int)(time - 7) < 23)
+        {
+            work->field_19FC = 1;
+            result = s08b_bunsin2_800C9588(work, 0);
+        }
+
+        if (result != 0 && work->field_1B26 != 0)
+        {
+            GM_SeSetMode(&work->control.mov, 0xB1, 1);
+            work->field_1B26 = 0;
+        }
+
+        if (work->body.is_end != 0)
+        {
+            if (work->field_8C0 == 1)
+            {
+                GM_SeSet2(0, 0x3F, 0xB3);
+            }
+
+            work->field_1994 = s08b_bunsin2_800C9B38;
+            work->field_199C = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            work->field_19A8 = 1;
+        }
+        else
+        {
+            work->target->class |= 0x1F;
+        }
+    }
+}
+void s08b_bunsin2_800CB914(Work *work, int time)
+{
+    CONTROL *control = &work->control;
+    int      result = 0;
+
+    work->target->class |= 0x1F;
+
+    if (time == 0)
+    {
+        work->field_19A4 = 12;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[12], 0, 4);
+        control->rot.vy = work->field_1A28;
+        control->turn.vy = work->field_1A28;
+        work->field_1B26 = 1;
+    }
+
+    if (s08b_bunsin2_800C9548(work) == 0)
+    {
+        if (time == 12 || time == 38 || time == 56)
+        {
+            GM_SeSetMode(&work->control.mov, 0x38, 1);
+        }
+
+        if ((unsigned int)(time - 13) < 5)
+        {
+            work->field_19FC = 1;
+            result = s08b_bunsin2_800C9588(work, 3);
+        }
+
+        if ((unsigned int)(time - 39) < 3)
+        {
+            work->field_19FC = 1;
+            result = s08b_bunsin2_800C9588(work, 3);
+        }
+
+        if ((unsigned int)(time - 57) < 3)
+        {
+            work->field_19FC = 1;
+            result = s08b_bunsin2_800C9588(work, 4);
+        }
+
+        if (result != 0 && work->field_1B26 != 0)
+        {
+            GM_SeSetMode(&work->control.mov, 0x34, 1);
+            work->field_1B26 = 0;
+        }
+
+        if (work->body.is_end != 0)
+        {
+            work->field_1994 = s08b_bunsin2_800C9B38;
+            work->field_199C = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            work->field_19A8 = 1;
+        }
+    }
+}
+void s08b_bunsin2_800CBAA4(Work *work, int time)
+{
+    CONTROL *control = &work->control;
+    int      result = 0;
+
+    if (time == 0)
+    {
+        work->field_19A4 = 13;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[13], 0, 4);
+        control->rot.vy = work->field_1A28;
+        control->turn.vy = work->field_1A28;
+        work->field_1B26 = 1;
+    }
+
+    if (s08b_bunsin2_800C9548(work) == 0)
+    {
+        if (time == 13 || time == 21 || time == 34)
+        {
+            GM_SeSetMode(&work->control.mov, 0x38, 1);
+        }
+
+        if ((unsigned int)(time - 14) < 5)
+        {
+            work->field_19FC = 1;
+            result = s08b_bunsin2_800C9588(work, 3);
+        }
+
+        if ((unsigned int)(time - 22) < 18)
+        {
+            work->field_19FC = 1;
+            result = s08b_bunsin2_800C9588(work, 3);
+        }
+
+        if (result != 0 && work->field_1B26 != 0)
+        {
+            GM_SeSetMode(&work->control.mov, 0x34, 1);
+            work->field_1B26 = 0;
+        }
+
+        if (work->body.is_end != 0)
+        {
+            work->field_1994 = s08b_bunsin2_800C9B38;
+            work->field_199C = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            work->field_19A8 = 1;
+            return;
+        }
+
+        work->target->class |= 0x1F;
+
+        switch (GM_GameLevel)
+        {
+        case GM_LEVEL_NORMAL:
+            control->step.vx *= 2;
+            control->step.vz *= 2;
+            break;
+
+        case GM_LEVEL_HARD:
+            control->step.vx = control->step.vx * 3 / 2;
+            control->step.vz = control->step.vz * 3 / 2;
+            if ((time & 3) == 0)
+            {
+                control->turn.vy = work->field_1A28;
+            }
+            break;
+
+        case GM_LEVEL_EXTREME:
+            control->step.vx *= 2;
+            control->step.vz *= 2;
+            control->turn.vy = work->field_1A28;
+            break;
+        }
+    }
+}
+void s08b_bunsin2_800CBCEC(Work *work, int time)
+{
+    CONTROL *control = &work->control;
+    int      result = 0;
+
+    if (time == 0)
+    {
+        work->field_19A4 = 14;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[14], 0, 4);
+        control->rot.vy = work->field_1A28;
+        control->turn.vy = work->field_1A28;
+        work->field_1B26 = 1;
+    }
+
+    if (s08b_bunsin2_800C9548(work) == 0)
+    {
+        if (time == 13)
+        {
+            GM_SeSetMode(&control->mov, 0x38, 1);
+        }
+
+        if ((unsigned int)(time - 14) < 7)
+        {
+            work->field_19FC = 1;
+            result = s08b_bunsin2_800C9588(work, 0);
+        }
+
+        if (result != 0 && work->field_1B26 != 0)
+        {
+            GM_SeSetMode(&control->mov, 0x34, 1);
+            work->field_1B26 = 0;
+        }
+
+        if (work->body.is_end != 0)
+        {
+            work->field_1994 = s08b_bunsin2_800C9B38;
+            work->field_199C = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            work->field_19A8 = 1;
+            return;
+        }
+
+        work->target->class |= 0x1F;
+    }
+}
+void s08b_bunsin2_800CBE30(Work *work, int time)
+{
+    CONTROL *control = &work->control;
+    int      result = 0;
+
+    if (time == 0)
+    {
+        work->field_19A4 = 15;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[15], 0, 4);
+        control->rot.vy = work->field_1A28;
+        control->turn.vy = work->field_1A28;
+        work->field_1B26 = 1;
+    }
+
+    if (time == 6)
+    {
+        GM_SeSetMode(&control->mov, 0xB6, 1);
+    }
+
+    if (time == 10)
+    {
+        GM_SeSetMode(&control->mov, 0x39, 1);
+    }
+
+    if (time == 24)
+    {
+        GM_SeSetMode(&control->mov, 0xBC, 1);
+    }
+
+    if ((unsigned int)(time - 11) < 17)
+    {
+        result = s08b_bunsin2_800C9588(work, 0);
+        work->field_19FC = 1;
+    }
+
+    if (result != 0 && work->field_1B26 != 0)
+    {
+        GM_SeSetMode(&control->mov, 0x34, 1);
+        work->field_1B26 = 0;
+    }
+
+    if (s08b_bunsin2_800C9548(work) == 0)
+    {
+        if (work->body.is_end != 0)
+        {
+            work->field_1994 = s08b_bunsin2_800C9B38;
+            work->field_199C = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            work->field_19A8 = 1;
+            return;
+        }
+
+        work->target->class |= 0x1F;
+
+        switch (GM_GameLevel)
+        {
+        case GM_LEVEL_NORMAL:
+            control->step.vx *= 2;
+            control->step.vz *= 2;
+            break;
+
+        case GM_LEVEL_HARD:
+            control->step.vx = control->step.vx * 3 / 2;
+            control->step.vz = control->step.vz * 3 / 2;
+            if ((time & 3) == 0)
+            {
+                control->turn.vy = work->field_1A28;
+            }
+            break;
+
+        case GM_LEVEL_EXTREME:
+            control->step.vx *= 2;
+            control->step.vz *= 2;
+            control->turn.vy = work->field_1A28;
+            break;
+        }
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CC080.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CC2F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CC434.s")
