@@ -186,8 +186,7 @@ typedef struct HindWork
     int      field_958;
     int      field_95C;
     int      field_960;
-    int      field_964;
-    int      field_968;
+    SVECTOR  field_964;
     int      field_96C;
     SVECTOR  field_970[32];
     SVECTOR *field_A70;

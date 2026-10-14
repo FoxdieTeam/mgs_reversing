@@ -1001,23 +1001,5 @@ const int s11g_dword_800DD230 = 0x800D7A68;
 const int s11g_dword_800DD234 = 0x800D9260;
 const int s11g_dword_800DD238 = 0x800D9260;
 const int s11g_dword_800DD23C = 0x800D7C3C;
-const int s11g_dword_800DD240 = 0x800D96F0;
-const int s11g_dword_800DD244 = 0x800D9B70;
-const int s11g_dword_800DD248 = 0x800D9B70;
-const int s11g_dword_800DD24C = 0x800D9B70;
-const int s11g_dword_800DD250 = 0x800D974C;
-const int s11g_dword_800DD254 = 0x800D9858;
-const int s11g_dword_800DD258 = 0x800D9A74;
-const int s11g_dword_800DD25C = 0x800D9B40;
-const int s11g_dword_800DD260 = 0x800D9BC4;
-const int s11g_dword_800DD264 = 0x800DA520;
-const int s11g_dword_800DD268 = 0x800DA520;
-const int s11g_dword_800DD26C = 0x800DA520;
-const int s11g_dword_800DD270 = 0x800D9C08;
-const int s11g_dword_800DD274 = 0x800D9D74;
-const int s11g_dword_800DD278 = 0x800D9FD8;
-const int s11g_dword_800DD27C = 0x800DA0E0;
-const int s11g_dword_800DD280 = 0x800DA2B4;
-const int s11g_dword_800DD284 = 0x00000000;
 
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D7644.s")
