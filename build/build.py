@@ -148,6 +148,8 @@ def ninja_run():
         r'smoke\.c:\d+: warning: `s00a_dword_800C34C8\' defined but not used',
         r'smoke3\.c:\d+: warning: unused variable `unused\'',
         r'jspark\.c:\d+: warning: unused variable `unused\'',
+        # in d18a
+        r'snake18\.c:\d+: warning: unused variable `unused\'',
     ]
 
     if os.environ.get('APPVEYOR'):
