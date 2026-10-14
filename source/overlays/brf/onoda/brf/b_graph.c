@@ -5448,24 +5448,19 @@ void brf_800DCD70(Work *work, POLY_FT4 *poly)
         k = -(c * 8);
         x0 = k + 0x7F;
         x1 = k + 0x27B;
+        setXY4(poly, x0, -0x11C, x1, -0x11C, x0, 0x64, x1, 0x64);
     }
-    else if (c < 0x81)
+    else if (c >= 0x81)
     {
-        goto skip;
+        if (c < 0xA1)
+        {
+            k = -((c - 0x3A) * 8);
+            x0 = k + 0x7F;
+            x1 = k + 0x27B;
+            setXY4(poly, x0, -0x11C, x1, -0x11C, x0, 0x64, x1, 0x64);
+        }
     }
-    else if (c < 0xA1)
-    {
-        k = -((c - 0x3A) * 8);
-        x0 = k + 0x7F;
-        x1 = k + 0x27B;
-    }
-    else
-    {
-        goto skip;
-    }
-    setXY4(poly, x0, -0x11C, x1, -0x11C, x0, 0x64, x1, 0x64);
 
-skip:
     switch (work->field_AD34)
     {
     case 0x00:
