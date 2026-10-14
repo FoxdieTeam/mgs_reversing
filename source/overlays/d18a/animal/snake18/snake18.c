@@ -4,6 +4,7 @@
 #include "game/vibrate.h"
 #include "libgcl/libgcl.h"
 #include "okajima/blood.h"
+#include "anime/animconv/anime.h"
 #include "strcode.h"
 
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
@@ -109,13 +110,8 @@ typedef struct _Snake18Work
     MOTION_SEGMENT m_segs1[17];   // 0x1D0
     MOTION_SEGMENT m_segs2[17];   // 0x434
     SVECTOR        rots[16];      // 0x698
-    char           pad_718[0x728 - 0x718];
-    short          f728;          // 0x728
-    char           pad_72A[0x748 - 0x728 - sizeof(short)];
-    short          f748;          // 0x748
-    char           pad_74A[0x750 - 0x748 - sizeof(short)];
-    short          f750;          // 0x750
-    char           pad_752[0x79C - 0x750 - sizeof(short)];
+    SVECTOR        adjust[16];    // 0x718
+    int            f798;          // 0x798
     MATRIX         light[2];      // 0x79C
     void          *shadow;        // 0x7DC
     int           *enable_shadow; // 0x7E0
@@ -375,8 +371,8 @@ void d18a_snake18_800D24CC(Snake18Work *work);
 void d18a_snake18_800D2660(Snake18Work *work, int arg1);
 void d18a_snake18_800D26E4(Snake18Work *work);
 void d18a_snake18_800D281C(Snake18Work *work);
-void d18a_snake18_800D28CC(); /* asm */
-void d18a_snake18_800D2A80(); /* asm */
+void d18a_snake18_800D28CC(Snake18Work *work, int time);
+void d18a_snake18_800D2A80(Snake18Work *work, int time);
 void d18a_snake18_800D2D88(); /* asm */
 void d18a_snake18_800D2F70(); /* asm */
 void d18a_snake18_800D3024(); /* asm */
@@ -410,6 +406,14 @@ static inline void d18a_snake18_SetAction(Snake18Work *work, int action, int int
     if (work->body.action != action)
     {
         GM_ConfigObjectAction(&work->body, action, 0, interp);
+    }
+}
+
+static inline void d18a_snake18_SetOverride(Snake18Work *work, int action, int interp, int mask)
+{
+    if (work->body.action2 != action)
+    {
+        GM_ConfigObjectOverride(&work->body, action, 0, interp, mask);
     }
 }
 
@@ -4573,23 +4577,174 @@ void d18a_snake18_800D281C(Snake18Work *work)
     GM_GetHomingTarget(&work->body.objs->objs[6].world, work->control.rot.vy,
                        &yaw, &pitch, work->control.map->index);
 
-    diff = work->f728 - pitch;
+    diff = work->adjust[2].vx - pitch;
     if (diff >= 0x41)
-        pitch = work->f728 - 0x40;
+        pitch = work->adjust[2].vx - 0x40;
     else if (diff < -0x40)
-        pitch = work->f728 + 0x40;
+        pitch = work->adjust[2].vx + 0x40;
 
-    work->f728 = pitch;
-    work->f748 = pitch;
-    work->f750 = pitch * 3 / 2;
+    work->adjust[2].vx = pitch;
+    work->adjust[6].vx = pitch;
+    work->adjust[7].vx = pitch * 3 / 2;
 
     if (yaw >= 0)
     {
         work->control.turn.vy = yaw;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D28CC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D2A80.s")
+void d18a_snake18_800D28CC(Snake18Work *work, int time)
+{
+    int mask;
+    int ammo;
+    int mag_size;
+
+    if (GM_PlayerStatus & PLAYER_MOVE)
+    {
+        mask = 0x3FE;
+    }
+    else
+    {
+        mask = 0xFFFF;
+    }
+
+    if (time == 0)
+    {
+        GM_ConfigMotionAdjust(&work->body, NULL);
+        NewAnime_8005DDE0(&work->body.objs->objs[4].world);
+        d18a_snake18_SetOverride(work, work->f8A8->attack->field_0[1], 4, mask);
+    }
+
+    d18a_snake18_800CB760(work, mask);
+
+    if (time == 16)
+    {
+        ammo = GM_MagazineMax;
+        mag_size = GM_Weapons[work->f864];
+
+        if (ammo > 0 && ammo < mag_size)
+        {
+            mag_size = ammo;
+        }
+
+        GM_MagazineMax = ammo;
+        GM_Magazine = mag_size;
+        GM_SeSet(&work->control.mov, 0x2F);
+    }
+
+    if (work->body.time2 != 0)
+    {
+        d18a_snake18_800CB7BC(work, (int)d18a_snake18_800D2A80);
+
+        if (!(work->pad->status & PAD_SQUARE))
+        {
+            GM_PlayerStatus &= ~PLAYER_ATTACK;
+
+            if (work->body.action2 != 0)
+            {
+                GM_ConfigObjectOverride(&work->body, 0, 0, 4, 0);
+            }
+
+            d18a_snake18_800CB7BC(work, (int)d18a_snake18_800CEB78);
+            d18a_snake18_StartAnim(work, d18a_dword_800C37E4[work->f8FE]);
+        }
+    }
+}
+
+void d18a_snake18_800D2A80(Snake18Work *work, int time)
+{
+    int            mask;
+    int            tbl;
+    int            fire;
+    unsigned short status;
+    unsigned short release;
+    int            trg;
+
+    mask = (GM_PlayerStatus & PLAYER_MOVE) ? 0x3FE : 0xFFFF;
+    tbl = work->f868;
+    fire = 0;
+
+    if (time == 0)
+    {
+        d18a_snake18_SetOverride(work, work->f8A8->attack->field_0[0], 4, mask);
+        fire = work->f910;
+        work->f86C = 0;
+
+        if (tbl & 2)
+        {
+            GM_ConfigMotionAdjust(&work->body, work->adjust);
+        }
+    }
+
+    d18a_snake18_800CB760(work, mask);
+
+    if (GM_Magazine == 0 && GM_MagazineMax != 0 && GM_Weapons[work->f864] > 0)
+    {
+        d18a_snake18_800CB7BC(work, (int)d18a_snake18_800D28CC);
+        return;
+    }
+
+    if (d18a_dword_800DAEF0 < 0 && (tbl & 2))
+    {
+        d18a_snake18_800D281C(work);
+    }
+
+    status = work->pad->status;
+    release = work->pad->release;
+    trg = 1;
+
+    if (((tbl & 1) && (status & PAD_SQUARE)) || (release & PAD_SQUARE))
+    {
+        fire = 1;
+    }
+
+    if (fire)
+    {
+        trg |= 2;
+    }
+
+    work->f85C = trg;
+
+    switch (work->f86C)
+    {
+    case 0:
+        if (trg & 2)
+        {
+            work->f86C = 1;
+            d18a_snake18_SetOverride(work, work->f8A8->attack->field_0[4], 2, mask);
+
+            if (tbl & 0x80)
+            {
+                d18a_snake18_StartAnim(work, d18a_snake18_800D1BAC);
+                GM_PlayerStatus &= ~(PLAYER_MOVE | PLAYER_ATTACK);
+                work->f7E4 |= 4;
+                return;
+            }
+        }
+        break;
+
+    case 1:
+        if (work->body.time2 != 0 && !(tbl & 1))
+        {
+            work->f86C = 0;
+            d18a_snake18_SetOverride(work, work->f8A8->attack->field_0[0], 2, mask);
+        }
+        break;
+    }
+
+    if (!(status & PAD_SQUARE) || *work->f860 == 0)
+    {
+        if (++work->f86E >= 5 || (tbl & 1))
+        {
+            d18a_snake18_800CB7BC(work, (int)d18a_snake18_800CEB78);
+            GM_ConfigMotionAdjust(&work->body, NULL);
+            GM_PlayerStatus &= ~PLAYER_ATTACK;
+        }
+    }
+    else
+    {
+        work->f86E = 0;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D2D88.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D2F70.s")
 #pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D3024.s")
