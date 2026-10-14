@@ -100,6 +100,12 @@ extern int camera_dword_800D0708;
 extern int camera_dword_800D0710;
 
 void camera_800C3ED8(Work *);
+void camera_800CD790(Work *);
+void camera_800CDAB4(Work *);
+extern const char camera_aOverwriteok_800CFF2C[];
+extern const char camera_aYes_800D0094[];
+extern const char camera_aSavedatadelete_800D0448[];
+extern const char camera_aNo_800D0090[];
 int camera_800CDF18(Work *);
 
 void camera_800C3A7C(unsigned long *runlevel, RECT *pRect)
@@ -1907,7 +1913,93 @@ void camera_800CDAB4(Work *work)
         printf((char *)camera_aPhaseisnotchanged_800D0430);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800CDCA4.s")
+void camera_800CDCA4(Work *work)
+{
+    MENU_Locate(100, 50, 16);
+    MENU_Color(86, 137, 116);
+    MENU_Printf((char *)camera_aOverwriteok_800CFF2C);
+
+    MENU_Locate(100, 105, 16);
+    MENU_Color(192, 192, 192);
+    MENU_Printf((char *)camera_aYes_800D0094);
+
+    MENU_Locate(200, 105, 16);
+    MENU_Color(46, 72, 61);
+    MENU_Printf((char *)camera_aNo_800D0090);
+
+    camera_800CD0A0((MenuPrim *)&work->field_920, 92, 100, 40, 15);
+
+    switch (work->field_49C8)
+    {
+    case 0:
+        drawCaption_800C5EB4(&work->field_700, camera_dword_800C3914[0]);
+        work->field_49D0 = 1;
+        camera_800CDAB4(work);
+        break;
+
+    case 1:
+        printf((char *)camera_aSavedatadelete_800D0448);
+        if (memcard_delete(*(unsigned char *)&camera_dword_800D0708, (char *)&camera_dword_800D0710))
+        {
+            printf("delete success\n");
+            printf("new memdata get\n");
+            work->field_49CC = memcard_files(*(unsigned char *)&camera_dword_800D0708);
+            work->field_49C8 = 2;
+        }
+        else
+        {
+            printf("delete fail\n");
+            drawCaption_800C5EB4(&work->field_700, camera_dword_800C3914[1]);
+            work->field_49D0 = 3;
+        }
+        break;
+
+    case 2:
+        printf("new data create\n");
+        camera_800CD790(work);
+        work->field_49C8 = 3;
+        break;
+
+    case 3:
+        printf("new data write\n");
+        memcard_write(work->field_49CC->port, (char *)&camera_dword_800D0710, 0, (char *)camera_dword_800D0704, 0x4000);
+        while (memcard_status() > 0)
+        {
+            mts_wait_vbl(2);
+        }
+        if (memcard_status() == 0)
+        {
+            printf("new data write ok\n");
+            work->field_49C8 = 4;
+            work->field_4938 = 0;
+            drawCaption_800C5EB4(&work->field_700, camera_dword_800C3914[2]);
+            work->field_49D0 = 3;
+        }
+        break;
+
+    case 4:
+    case 5:
+        if (work->field_4938 >= 30)
+        {
+            work->f28 = 0;
+            GV_FreeMemory(2, (void *)camera_dword_800D0704);
+            camera_800C82EC();
+        }
+        break;
+    }
+}
+
+/* jump table of camera_800CDF18 */
+const int camera_dword_800D04E4 = 0x800CDF60;
+const int camera_dword_800D04E8 = 0x800CDFC8;
+const int camera_dword_800D04EC = 0x800CE3F0;
+const int camera_dword_800D04F0 = 0x800CE148;
+const int camera_dword_800D04F4 = 0x800CE1E4;
+const int camera_dword_800D04F8 = 0x800CE280;
+const int camera_dword_800D04FC = 0x800CE31C;
+const int camera_dword_800D0500 = 0x800CE32C;
+const int camera_dword_800D0504 = 0x800CE33C;
+const int camera_dword_800D0508 = 0x800CE3DC;
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800CDF18.s")
 
 void CameraAct_800CE404(Work *work)
