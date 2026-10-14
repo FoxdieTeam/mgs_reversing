@@ -2074,7 +2074,7 @@ void brf_800CEB4C(Work *work, int a1, int a2)
     }
 }
 /* jump table of brf_800CDFE4 */
-const int brf_jt_800E1D84[6] = {
+const int brf_jt_800E1D84[6] __attribute__((aligned(8))) = {
     0x800CE04C, 0x800CE110, 0x800CE13C, 0x800CE04C, 0x800CE110, 0x800CE13C,
 };
 
@@ -2228,7 +2228,7 @@ const char brf_dword_800E1DD4[16] = "b_face_close_d";
 const char brf_dword_800E1DE4[12] = "c_face_d";
 const char brf_dword_800E1DF0[20] = "c_face_open_u";
 /* jump table of brf_800CECE4 */
-const int brf_jt_800E1E04[6] = {
+const int brf_jt_800E1E04[6] __attribute__((aligned(8))) = {
     0x800CEE28, 0x800CEEF8, 0x800CF03C, 0x800CF180, 0x800CF1A0, 0x800CF1E4,
 };
 const char brf_dword_800E1E1C[8] = "stop";
@@ -2570,7 +2570,7 @@ const char brf_dword_800E1ECC[16] = "a_smoke_half";
 const char brf_dword_800E1EDC[20] = "a_smoke_down_close";
 const char brf_dword_800E1EF0[12] = "a_smoke_suu";
 /* jump table of brf_800D02F4 */
-const int brf_jt_800E1EFC[24] = {
+const int brf_jt_800E1EFC[24] __attribute__((aligned(8))) = {
     0x800D1744, 0x800D174C, 0x800D034C, 0x800D042C, 0x800D04A4, 0x800D0500,
     0x800D0604, 0x800D067C, 0x800D0780, 0x800D07DC, 0x800D08D8, 0x800D0AA4,
     0x800D0B2C, 0x800D0C28, 0x800D0DE8, 0x800D0FB4, 0x800D1010, 0x800D10FC,
@@ -5689,7 +5689,7 @@ const char brf_dword_800E223C[12] = "c_photo_5";
 const char brf_dword_800E2248[12] = "c_photo_6";
 const char brf_dword_800E2254[16] = "b_face_wo";
 /* jump table of brf_800D93F4 */
-const int brf_jt_800E2264[22] = {
+const int brf_jt_800E2264[22] __attribute__((aligned(8))) = {
     0x800DA028, 0x800DA030, 0x800D9450, 0x800D94B4, 0x800D957C, 0x800D963C,
     0x800D96B8, 0x800D9740, 0x800D983C, 0x800D988C, 0x800D98D0, 0x800D99A0,
     0x800D9A70, 0x800D9B58, 0x800D9C04, 0x800D9CE0, 0x800D9D1C, 0x800D9DE0,
@@ -5706,7 +5706,7 @@ const char brf_dword_800E2324[16] = "b_eye_r_down";
 const char brf_dword_800E2334[12] = "c_inj_on_u";
 const char brf_dword_800E2340[4] = "map";
 /* jump table of brf_800DBA7C */
-const int brf_jt_800E2344[26] = {
+const int brf_jt_800E2344[26] __attribute__((aligned(8))) = {
     0x800DCA84, 0x800DCA8C, 0x800DBAD8, 0x800DBB70, 0x800DBBEC, 0x800DBC68,
     0x800DBE28, 0x800DBD3C, 0x800DBE28, 0x800DBE84, 0x800DBF44, 0x800DC134,
     0x800DC234, 0x800DC338, 0x800DC37C, 0x800DC46C, 0x800DC4FC, 0x800DC5C4,
@@ -5714,7 +5714,7 @@ const int brf_jt_800E2344[26] = {
     0x800DC9A8, 0x800DCA84,
 };
 /* jump table of brf_800DCFB4 */
-const int brf_jt_800E23AC[14] = {
+const int brf_jt_800E23AC[14] __attribute__((aligned(8))) = {
     0x800DD620, 0x800DD628, 0x800DD014, 0x800DD0A4, 0x800DD110, 0x800DD170,
     0x800DD1CC, 0x800DD27C, 0x800DD320, 0x800DD450, 0x800DD4C4, 0x800DD538,
     0x800DD59C, 0x800DD620,
@@ -5950,7 +5950,7 @@ const char brf_dword_800E2448[12] = "a_back_d";
 const char brf_dword_800E2454[16] = "b_face_angry_u";
 const char brf_dword_800E2464[24] = "liquid_simon_waku";
 /* jump table of brf_800DECF8 */
-const int brf_jt_800E247C[9] = {
+const int brf_jt_800E247C[9] __attribute__((aligned(8))) = {
     0x800DEDBC, 0x800DEDDC, 0x800DEE04, 0x800DEE34, 0x800DF000, 0x800DF1CC,
     0x800DF404, 0x800DF490, 0x800DF980,
 };

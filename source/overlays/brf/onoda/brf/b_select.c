@@ -951,7 +951,6 @@ void brf_800C731C(Work *work, int a1, int a2)
         break;
     }
 }
-const char brf_dword_800E1150[] = {0x0, 0x0, 0x0, 0x0};
 void brf_800C7488(Work *work, int a1, int a2)
 {
     POLY_FT4 *p = work->polys;
@@ -1017,21 +1016,18 @@ void brf_800C7488(Work *work, int a1, int a2)
         break;
     }
 }
-const char brf_dword_800E1180[] = {0x0, 0x0, 0x0, 0x0};
 /* jump table of brf_800C75F0 */
-const int brf_jt_800E1184[11] = {
+const int brf_jt_800E1184[11] __attribute__((aligned(8))) = {
     0x800C7648, 0x800C7878, 0x800C7878, 0x800C7878, 0x800C7648, 0x800C7648,
     0x800C7708, 0x800C7708, 0x800C7708, 0x800C7708, 0x800C7708,
 };
-const char brf_dword_800E11B0[] = {0x0, 0x0, 0x0, 0x0};
 /* jump table of brf_800C7B94 */
-const int brf_jt_800E11B4[9] = {
+const int brf_jt_800E11B4[9] __attribute__((aligned(8))) = {
     0x800C7D58, 0x800C7D64, 0x800C7EC4, 0x800C7DA4, 0x800C7DF0, 0x800C7E0C,
     0x800C7E5C, 0x800C7E78, 0x800C7EC4,
 };
-const char brf_dword_800E11D8[] = {0x0, 0x0, 0x0, 0x0};
 /* jump table of brf_800C829C */
-const int brf_jt_800E11DC[38] = {
+const int brf_jt_800E11DC[38] __attribute__((aligned(8))) = {
     0x800C8314, 0x800C8338, 0x800C8358, 0x800C83E8, 0x800C8748, 0x800C8794,
     0x800C8810, 0x800C888C, 0x800C8910, 0x800C895C, 0x800C89CC, 0x800C8A2C,
     0x800C8AA8, 0x800C8B20, 0x800C8BD0, 0x800C8C48, 0x800C8CC4, 0x800C8D24,
