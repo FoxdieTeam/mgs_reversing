@@ -379,8 +379,84 @@ void s11d_hind_800CA49C(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CA504.s")
-void s11d_hind_800CA504(Work *work);
+void s11d_hind_800CA504(Work *work)
+{
+    GV_MSG *msg;
+    int     n_msgs;
+    int     idx;
+    int     code_5A47;
+    int     code_983F;
+    int     code_6A3E;
+
+    if (*(int *)&work->field_1C8 & 4)
+    {
+        return;
+    }
+
+    code_5A47 = 0x5A47;
+    if (GM_Weapon == WP_Stinger)
+    {
+        work->field_1CC = 0;
+        s11d_hind_800C9908(work, work->field_91C);
+        *(int *)&work->field_1C8 |= 4;
+        return;
+    }
+
+    code_983F = 0x983F;
+    code_6A3E = 0x6A3E;
+    if (work->control.n_msg == 0)
+    {
+        return;
+    }
+
+    n_msgs = work->control.n_msg;
+
+    msg = &work->control.msg[n_msgs] - 1;
+
+    for (; n_msgs > 0; n_msgs--, msg--)
+    {
+        int mask_2 = ~2;
+        int mask_11 = ~0x11;
+
+        if (msg->message[0] == code_5A47)
+        {
+            if (msg->message[1] == 0)
+            {
+                *(int *)&work->field_1C8 &= mask_2;
+            }
+            else
+            {
+                *(int *)&work->field_1C8 |= 2;
+            }
+        }
+        else if (msg->message[0] == code_983F)
+        {
+            if (msg->message[1] == 0)
+            {
+                *(int *)&work->field_1C8 &= mask_11;
+            }
+            else
+            {
+                *(int *)&work->field_1C8 |= 1;
+            }
+        }
+        else if (msg->message[0] == code_6A3E)
+        {
+            idx = msg->message[1];
+            if (idx >= 0 || idx < work->field_200)
+            {
+                work->field_1CC = 0;
+                s11d_hind_800C9908(work, idx);
+            }
+        }
+        else if (msg->message[0] == 0xFFFA)
+        {
+            work->field_1E0 = msg->message[1];
+            work->field_1E2 = msg->message[2];
+            *(int *)&work->field_1C8 |= 0x100;
+        }
+    }
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_hind_800CA6D8.s")
 void s11d_hind_800CA6D8(Work *work, int arg1);
