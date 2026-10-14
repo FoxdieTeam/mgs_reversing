@@ -2846,11 +2846,13 @@ void d18a_snake18_800CE4E4(Snake18Work *work)
         GM_ConfigObjectAction(&work->body, action, 0, 4);
     }
 }
-#if 0 /* NON_MATCHING */
-// only the bnez delay slot differs: reorg fills it with "lui $a1" (the ~PLAYER_CAUTION mask),
-// the original skipped that and took "li $v0, 0x1c2" (same source pattern as 800CE38C, which matches)
 void d18a_snake18_800CE6B0(Snake18Work *work)
 {
+    /* one temporary for both values: being set twice, the 0x1C2 register is
+       no "birth" for the scheduler, which keeps "li $v0,0x1c2" in the bnez
+       delay slot (800CE38C writes the constant directly) */
+    int tmp;
+
     if (work->f910 != 0)
     {
         work->f910--;
@@ -2858,14 +2860,16 @@ void d18a_snake18_800CE6B0(Snake18Work *work)
 
     if (d18a_dword_800DAF0C == 0 && work->f910 == 0)
     {
-        work->f900 = 0x1C2;
+        tmp = 0x1C2;
+        work->f900 = tmp;
         GM_PlayerStatus &= ~PLAYER_CAUTION;
         d18a_snake18_StartAnim(work, d18a_snake18_800CD768);
         GM_ExitBehindCamera();
         return;
     }
 
-    if (work->pad->press & PAD_CROSS)
+    tmp = work->pad->press;
+    if (tmp & PAD_CROSS)
     {
         d18a_snake18_StartAnim(work, d18a_snake18_800CD9A8);
         GM_PlayerStatus &= ~PLAYER_SQUAT;
@@ -2875,8 +2879,6 @@ void d18a_snake18_800CE6B0(Snake18Work *work)
     d18a_snake18_800CBD34(work);
     d18a_snake18_800CBD80(work);
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CE6B0.s")
 
 void d18a_snake18_800CE7BC(void)
 {
