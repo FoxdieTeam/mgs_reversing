@@ -350,12 +350,6 @@ int s18a_800C7584(LiquidWork *work)
     return 0;
 }
 
-const int s18a_dword_800E2EA0 = 0x25736F70;
-const int s18a_dword_800E2EA4 = 0x64252064;
-const int s18a_dword_800E2EA8 = 0x20642520;
-const int s18a_dword_800E2EAC = 0x0000000A;
-#if 0 /* NON_MATCHING */
-// the return value "li $v0, 1" is scheduled first (orig: last, after the last_pos copy)
 int s18a_800C7684(LiquidWork *work)
 {
     SVECTOR near;
@@ -423,11 +417,16 @@ int s18a_800C7684(LiquidWork *work)
     work->control.step.vx = 0;
     work->control.step.vy = 0;
     work->control.step.vz = 0;
-    work->last_pos = work->control.mov;
+
+    /* the do/while (0) only adds loop notes that end the scheduling block,
+       which keeps the return value "li $v0,1" after the last_pos copy */
+    do
+    {
+        work->last_pos = work->control.mov;
+    } while (0);
+
     return 1;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7684.s")
 int s18a_800C7878(LiquidWork *work)
 {
     TARGET *target;
@@ -3321,23 +3320,20 @@ void s18a_800CC800(LiquidWork *work)
     work->f970 = GM_PlayerPosition;
 }
 
-const int s18a_dword_800E3044 = 0x253A782C;
-const int s18a_dword_800E3048 = 0x3A792064;
-const int s18a_dword_800E304C = 0x7A206425;
-const int s18a_dword_800E3050 = 0x2064253A;
-const int s18a_dword_800E3054 = 0x0000000A;
-const int s18a_dword_800E3058 = 0x00000000;
-#if 0 /* NON_MATCHING */
-// orig reloads work->f990 after each store to f970, we keep it in a register
+/* each inlined use gets its own pointer register, which lets work->f990 be
+   reloaded for every component like in the original */
+static inline SVECTOR *s18a_liquid_RoutePoint(LiquidWork *work)
+{
+    return &work->f990[work->f994];
+}
+
 void s18a_800CC830(LiquidWork *work)
 {
-    work->f970.vx = work->f990[work->f994].vx;
-    work->f970.vy = work->f990[work->f994].vy;
-    work->f970.vz = work->f990[work->f994].vz;
+    work->f970.vx = s18a_liquid_RoutePoint(work)->vx;
+    work->f970.vy = s18a_liquid_RoutePoint(work)->vy;
+    work->f970.vz = s18a_liquid_RoutePoint(work)->vz;
     printf(",x:%d y:%d z:%d \n", work->f970.vx, work->f970.vy, work->f970.vz);
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC830.s")
 void s18a_800CC8B0(LiquidWork *work, int index, int which)
 {
     work->f970 = s18a_dword_800C341C[index][which];
