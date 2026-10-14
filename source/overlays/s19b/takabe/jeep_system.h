@@ -28,7 +28,7 @@ typedef struct _JEEP_SYSTEM
     /* 0x38 */ SVECTOR     seg_pos;         // position of the last road segment created (jeep_srl.c)
     /* 0x40 */ int         seg_event;       // event of the road segment being entered (jeep_srl.c)
     /* 0x44 */ int         field_44;        // decremented by jeep_srl.c, incremented by spark2_m.c
-    /* 0x48 */ int         field_48;        // 'c' option of the scroll, passed to jeep_mrl.c
+    /* 0x48 */ int         otacon;          // 'c' option of the scroll: jeep_mrl.c loads Otacon instead of Meryl
     /* 0x4C */ int         flags;
     /* 0x50 */ int         mrl_flags;       // set by jeep.c, consumed by jeep_mrl.c
     /* 0x54 */ int         liq_flags;       // set by jeep2.c / jeep_liq.c / jeepdemo.c, consumed by spark2_m.c

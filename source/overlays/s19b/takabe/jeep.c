@@ -230,7 +230,7 @@ void s19b_jeep_800D2800(JeepWork *work)
 extern JeepWork *s19b_dword_800DE64C;
 
 extern void s19b_jeep_800D2E78(JeepWork *work);
-extern GV_ACT *s19b_jeep_mrl_800D40D4(CONTROL *control, MATRIX *root, int param);
+extern GV_ACT *s19b_jeep_mrl_800D40D4(CONTROL *root_ctrl, MATRIX *root_mat, int otacon);
 extern void *NewJeepSnake(CONTROL *control, MATRIX *root);
 extern void NewJeepLamp2(MATRIX *root);
 
@@ -311,7 +311,7 @@ int s19b_jeep_800D2880(JeepWork *work, int name, int map)
     work->field_3DC = 0;
     work->vibrate_timer = 0;
 
-    work->mrl = s19b_jeep_mrl_800D40D4(control, &body->objs->world, Takabe_JeepSystem.field_48);
+    work->mrl = s19b_jeep_mrl_800D40D4(control, &body->objs->world, Takabe_JeepSystem.otacon);
     s19b_dword_800DE64C = work;
     NewJeepSnake(control, &body->objs->world);
 

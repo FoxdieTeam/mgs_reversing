@@ -435,7 +435,7 @@ int s19b_jeep_srl_800CE020(Work *work, int name, int where)
     work->field_C44 = (int *)map->lit;
     work->field_C40 = *work->field_C44;
     printf((char *)s19b_aMaxlightd_800DDCC0, work->field_C40);
-    Takabe_JeepSystem.field_48 = THING_Gcl_GetInt('c');
+    Takabe_JeepSystem.otacon = THING_Gcl_GetInt('c');
     work->field_C60 = 0;
     work->field_C68 = 0;
     work->field_C6C = 0;
