@@ -708,8 +708,51 @@ void s19a_800CEE84( Work *work, int time )
     if ( !CheckDamage( work ) ) SetModeNoAdjust( work, ActReadyGun );
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800CEF34.s")
-void s19a_800CEF34( Work *work, int time );
+/* 威嚇射撃？ 銃を左右に振りながら撃つ */
+void s19a_800CEF34( Work *work, int time )
+{
+    SVECTOR *rot;
+
+    work->target->class |= TARGET_FLAG;
+    work->vision.length = ZAKO19_EYE_LENGTH;
+
+    if ( time == 0 )
+    {
+        SetAction( work, 5, 4 );
+        work->control.turn.vy = work->pad.dir;
+    }
+
+    if ( CheckDamage( work ) ) return;
+    if ( time < 16 ) return;
+
+    rot = &work->control.rot;
+
+    if ( time < 31 )
+    {
+        rot->vy = ( rot->vy - 32 ) & 0xFFF;
+    }
+    else if ( time < 61 )
+    {
+        rot->vy = ( rot->vy + 32 ) & 0xFFF;
+    }
+    else if ( time < 76 )
+    {
+        rot->vy = ( rot->vy - 32 ) & 0xFFF;
+    }
+
+    if ( !( time & 1 ) )
+    {
+        GM_SeSet( &work->control.mov, SE_SHOT_E02 );
+        ZAKO19_SetPutChar( work, 3 );
+    }
+
+    if ( time > 76 )
+    {
+        SetMode( work, ActReadyGun );
+    }
+
+    work->control.turn.vy = rot->vy;
+}
 
 void ActGrenade( Work *work, int time )
 {
@@ -782,8 +825,88 @@ void s19a_800CF298( Work *work, int time )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800CF340.s")
-void s19a_800CF340( Work *work, int time );
+void s19a_800CF340( Work *work, int time )
+{
+    TARGET *target;
+    CONTROL *control;
+
+    target = work->target;
+    control = &work->control;
+
+    work->act.field_1E = 0;
+    work->act_status |= 0x8;
+
+    if ( time == 0 )
+    {
+        work->act.field_14 = 6;
+        SetAction( work, 31, 4 );
+    }
+
+    if ( time > 7 && time < 20 )
+    {
+        s19a_800CE4E4( work );
+    }
+
+    if ( work->act.motion1 == 31 )
+    {
+        if ( time == 22 )
+        {
+            if ( ( control->mov.vy - control->levels[ 0 ] ) < 2000 )
+            {
+                GM_SeSetMode( &control->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
+                GM_SeSetMode( &control->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
+                ZAKO19_PutBlood( work, 6, 0 );
+                GM_SetNoise( 100, 4, &control->mov );
+            }
+            else if ( ( control->mov.vy - control->levels[ 0 ] ) > 3000 )
+            {
+                work->target->vital = 0;
+                GM_SeSetMode( &control->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
+            }
+        }
+
+        if ( work->body.is_end )
+        {
+            if ( control->grounded == 0 )
+            {
+                SetAction( work, 40, 4 );
+            }
+            else
+            {
+                SetMode( work, s19a_800CFBF0 );
+            }
+        }
+    }
+    else if ( control->grounded != 0 )
+    {
+        GM_SeSetMode( &control->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
+        GM_SeSetMode( &control->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
+        GM_SetNoise( 100, 4, &control->mov );
+        ZAKO19_PutBlood( work, 6, 1 );
+
+        if ( work->target->vital <= 0 )
+        {
+            SetMode( work, s19a_800D073C );
+        }
+        else
+        {
+            SetMode( work, s19a_800CFBF0 );
+        }
+    }
+
+    if ( time < 24 )
+    {
+        control->turn = *target->field_1C;
+    }
+
+    if ( time < 22 )
+    {
+        work->control.hzd_height = -32767;
+    }
+}
+
+
+
 
 void s19a_800CF638( Work *work )
 {
@@ -1068,15 +1191,202 @@ void s19a_800CFE30( Work *work, int time )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800CFF34.s")
-void s19a_800CFF34( Work *work, int time );
+void s19a_800CFF34( Work *work, int time )
+{
+    TARGET *target;
 
-const int s19a_dword_800E0058[] = {
-    0x00000000, 0x800D00D8, 0x800D012C, 0x800D0208, 0x800D01C0, 0x800D0250, 0x800D0284,
-    0x800D02DC, 0x800D0324, 0x800D0364, 0x800D0344, 0x800D0390, 0x800D0390,
-};
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D0048.s")
-void s19a_800D0048( Work *work, int time );
+    work->act.field_1E = 0;
+    work->target->class |= TARGET_FLAG;
+    work->vision.length = ZAKO19_EYE_LENGTH;
+    work->act_status |= 0x8;
+
+    if ( CheckDamage( work ) ) return;
+
+    target = work->target;
+
+    if ( time == 0 )
+    {
+        SetAction( work, 15, 4 );
+        GM_SeSetMode( &work->control.mov, SE_V_ENE_PUNCHED, GM_SEMODE_BOMB );
+
+        if ( target->a_mode == 3 )
+        {
+            GM_SeSet( &work->control.mov, SE_PUNCH_HIT );
+            ZAKO19_PutFog( work );
+        }
+        else
+        {
+            ZAKO19_PutBlood( work, 5, 0 );
+        }
+    }
+
+    if ( work->body.is_end )
+    {
+        SetMode( work, s19a_800CE750 );
+    }
+}
+
+
+void s19a_800D0048( Work *work, int time )
+{
+    ACT *act;
+    CONTROL *control;
+
+    work->act.field_1E = 0;
+    work->act_status |= 0x8;
+
+    act = &work->act;
+    control = &work->control;
+    control->step = work->target->force;
+
+    if ( time == 0 )
+    {
+        switch( act->field_14 )
+        {
+        case 0:
+            GM_SeSet( &control->mov, SE_PUNCH_HIT );
+            SetAction( work, 34, 4 );
+            GM_SeSetMode( &control->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
+            ZAKO19_PutBlood( work, 5, 0 );
+            work->field_B5A = 17;
+            break;
+        case 1:
+            SetAction( work, 37, 4 );
+
+            if ( work->target->vital <= 0 )
+            {
+                if ( GM_Weapon == WP_Rifle )
+                {
+                    ZAKO19_PutBlood( work, 6, 2 );
+                }
+                else
+                {
+                    ZAKO19_PutBlood( work, 6, 1 );
+                }
+
+                GM_SeSetMode( &control->mov, SE_V_ENE_KILLED, GM_SEMODE_BOMB );
+            }
+            else
+            {
+                ZAKO19_PutBlood( work, 5, 0 );
+                GM_SeSetMode( &control->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
+            }
+            work->field_B5A = 46;
+            break;
+        case 3:
+            GM_SeSetMode( &control->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
+            SetAction( work, 35, 4 );
+            ZAKO19_PutBlood( work, 5, 0 );
+            work->field_B5A = 17;
+            break;
+        case 2:
+            GM_SeSetMode( &control->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
+            SetAction( work, 36, 4 );
+            ZAKO19_PutBlood( work, 5, 0 );
+            work->field_B5A = 37;
+            break;
+        case 4:
+            GM_SeSet( &control->mov, SE_V_ENE_SNAPPED );
+            SetAction( work, 29, 4 );
+            work->field_B5A = 67;
+            break;
+        case 5:
+            SetAction( work, 30, 4 );
+            work->field_B5A = 15;
+            break;
+        }
+    }
+
+    switch( act->field_14 )
+    {
+    case 0:
+        if ( time < 12 )
+        {
+            control->turn.vy += 170;
+        }
+
+        if ( time > 6 && time < 30 )
+        {
+            s19a_800CE4E4( work );
+        }
+
+        if ( time < 20 )
+        {
+            work->control.hzd_height = -32767;
+        }
+        break;
+    case 1:
+        if ( time == 24 )
+        {
+            GM_SeSet( &control->mov, SE_ENEMY_COLLAPSE );
+        }
+        break;
+    case 3:
+        if ( time > 6 && time < 30 )
+        {
+            s19a_800CE4E4( work );
+        }
+
+        if ( time < 15 )
+        {
+            control->hzd_height = -32767;
+        }
+        break;
+    case 2:
+        if ( time > 6 && time < 30 )
+        {
+            s19a_800CE4E4( work );
+        }
+
+        if ( time < 20 )
+        {
+            control->hzd_height = -32767;
+        }
+        break;
+    case 4:
+    case 5:
+        work->act_status |= 0x4;
+        break;
+    }
+
+    if ( time > 16 && control->grounded != 0 )
+    {
+        control->step = DG_ZeroVector;
+    }
+
+    if ( time == work->field_B5A )
+    {
+        if ( ( control->mov.vy - control->levels[ 0 ] ) < 2000 )
+        {
+            GM_SeSet( &control->mov, SE_HIT_FLOOR );
+            GM_SetNoise( 100, 4, &control->mov );
+            ZAKO19_PutBlood( work, 6, 0 );
+        }
+        else if ( ( control->mov.vy - control->levels[ 0 ] ) > 3000 )
+        {
+            work->target->vital = 0;
+            SetMode( work, s19a_800D055C );
+            return;
+        }
+    }
+
+    if ( work->body.is_end )
+    {
+        work->act.field_1E = 1;
+        work->target->force = DG_ZeroVector;
+
+        if ( work->target->vital <= 0 )
+        {
+            SetMode( work, s19a_800D073C );
+        }
+        else
+        {
+            SetMode( work, s19a_800CFBF0 );
+        }
+    }
+}
+
+
 
 void s19a_800D055C( Work *work, int time )
 {
