@@ -6861,9 +6861,13 @@ void s08b_bunsin2_800D4884(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4984.s")
+void s08b_bunsin2_800D4984(Work *work);
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4A34.s")
+void s08b_bunsin2_800D4A34(Work *work);
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4AF4.s")
+void s08b_bunsin2_800D4AF4(Work *work);
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4BD4.s")
+void s08b_bunsin2_800D4BD4(Work *work);
 void s08b_bunsin2_800D4C84(Work *work)
 {
     switch (work->field_19C8)
@@ -6934,7 +6938,53 @@ void s08b_bunsin2_800D4E3C(Work *work)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D4ED0.s")
+void s08b_bunsin2_800D4ED0(Work *work)
+{
+    int mode = work->field_19C4;
+
+    work->field_19B4 = -1;
+    work->field_19B0 = -1;
+    work->field_19C0 = 0;
+    work->field_1A08 = 0;
+    work->field_1A98[34] = -1;
+
+    switch (mode)
+    {
+    case 0:
+        s08b_bunsin2_800D4984(work);
+        break;
+
+    case 1:
+        s08b_bunsin2_800D4A34(work);
+        break;
+
+    case 2:
+        s08b_bunsin2_800D4AF4(work);
+        break;
+
+    case 3:
+        s08b_bunsin2_800D4BD4(work);
+        break;
+
+    case 4:
+        s08b_bunsin2_800D4C84(work);
+        break;
+
+    case 5:
+        s08b_bunsin2_800D4D18(work);
+        break;
+
+    case 6:
+        s08b_bunsin2_800D4DA8(work);
+        break;
+
+    case 7:
+        s08b_bunsin2_800D4E3C(work);
+        break;
+    }
+
+    work->field_19D4++;
+}
 /* sprite animation scripts */
 static const char s08b_anim_script_0[] = {
     0x01, 0x56, 0x04, 0x00, 0x0B, 0x00, 0x5E, 0x00, 0xB1, 0x01, 0x09, 0x01,
