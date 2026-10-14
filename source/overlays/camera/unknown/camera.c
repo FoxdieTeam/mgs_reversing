@@ -66,6 +66,7 @@ extern RECT                        camera_dword_800C389C;
 extern char                       *camera_dword_800D0760;
 extern char                       *MGS_MemoryCardName; /* in main.c */
 extern DATA_INFO                  *camera_dword_800D072C;
+extern int                         camera_dword_800C3438[6][40];
 extern int                         camera_dword_800C342C;
 extern int                         camera_dword_800C3434;
 extern int                         camera_dword_800D0764;
@@ -421,7 +422,114 @@ void camera_800C4350(Work* work) {
 }
 
 #pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4394.s")
-#pragma INCLUDE_ASM("asm/overlays/camera/camera_800C4790.s")
+int camera_800C4790(MEMCARD *pMemcard)
+{
+    char *buffer, *buffer_copy;
+    int   size;
+    short hours, minutes, seconds;
+    int   file;
+    int   success;
+    int   retries;
+    int   flags1, flags2;
+    int   i, idx;
+
+    GM_PadResetDisable = TRUE;
+
+    size = camera_dword_800D072C->blocks_count * MEMCARD_BLOCK_SIZE;
+    buffer = GV_AllocMemory(2, size);
+    if (!buffer)
+    {
+        printf((char *)camera_aNomemoryforfilebody_800CFCF8);
+    }
+
+    GV_ZeroMemory(buffer, size);
+
+    buffer[0] = 'S';
+    buffer[1] = 'C';
+    buffer[2] = 0x11;
+    buffer[3] = camera_dword_800D072C->blocks_count;
+
+    idx = camera_dword_800D072C->field_0[1];
+    buffer_copy = buffer;
+
+    if (idx == 0)
+    {
+        flags2 = GM_ClearFlag;
+        idx = flags2;
+
+        if (flags2 >= 4)
+        {
+            idx = 3;
+            if (flags2 == 6)
+            {
+                idx = 0;
+            }
+        }
+
+        flags2 |= (GM_Disk - 1) * 8;
+    }
+    else
+    {
+        flags2 = idx;
+    }
+
+    memcpy(buffer_copy + 96, camera_dword_800C3438[idx], 160);
+
+    hours = (unsigned short)GM_PlayTimeHours;
+    seconds = (unsigned short)GM_PlayTimeSeconds;
+    minutes = seconds / 60;
+
+    camera_dword_800D072C->make_title(buffer_copy + 4, pMemcard, hours, minutes);
+    strcpy(camera_dword_800C37F8, MGS_MemoryCardName);
+
+    camera_dword_800C37F8[12] = camera_dword_800D072C->field_0[0];
+    camera_dword_800C37F8[13] = (hours / 10) + '0';
+    camera_dword_800C37F8[14] = (hours % 10) + '0';
+    camera_dword_800C37F8[15] = (minutes / 10) + '0';
+    camera_dword_800C37F8[16] = (minutes % 10) + '0';
+    camera_dword_800C37F8[17] = flags2 + '@';
+    camera_dword_800C37F8[18] = camera_dword_800D072C->field_2 + '@';
+
+    for (i = 0; i < 16; i++)
+    {
+        camera_dword_800C37F8[19] = 'A' + i;
+        flags1 = 0;
+        for (file = 0; file < pMemcard->file_count; file++)
+        {
+            if (!strcmp(pMemcard->files[file].name, camera_dword_800C37F8))
+            {
+                flags1 = 1;
+            }
+        }
+
+        if (!flags1)
+        {
+            break;
+        }
+    }
+
+    success = 0;
+    camera_dword_800D072C->make_game_data(buffer_copy + 256);
+
+    for (retries = 4; retries > 0; retries--)
+    {
+        memcard_write(pMemcard->port, camera_dword_800C37F8, 0, buffer, size);
+        while ((i = memcard_status()) > 0)
+        {
+            mts_wait_vbl(2);
+        }
+
+        if (memcard_status() == 0)
+        {
+            success = 1;
+            break;
+        }
+    }
+
+    GV_FreeMemory(2, buffer);
+    GM_PadResetDisable = FALSE;
+    return success;
+}
 int camera_800C4BAC(MEMCARD *card, int index) {
 
     char         *buffer;
