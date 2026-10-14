@@ -982,17 +982,71 @@ void brf_800C731C(Work *work, int a1, int a2)
     }
 }
 const char brf_dword_800E1150[] = {0x0, 0x0, 0x0, 0x0};
-const int brf_dword_800E1154 = 0x800C74E0;
-const int brf_dword_800E1158 = 0x800C759C;
-const int brf_dword_800E115C = 0x800C759C;
-const int brf_dword_800E1160 = 0x800C759C;
-const int brf_dword_800E1164 = 0x800C74E0;
-const int brf_dword_800E1168 = 0x800C74E0;
-const int brf_dword_800E116C = 0x800C7530;
-const int brf_dword_800E1170 = 0x800C7530;
-const int brf_dword_800E1174 = 0x800C7530;
-const int brf_dword_800E1178 = 0x800C7530;
-const int brf_dword_800E117C = 0x800C7530;
+void brf_800C7488(Work *work, int a1, int a2)
+{
+    POLY_FT4 *p = work->field_780;
+    int d = work->field_D0;
+    int q;
+    int y0, y3;
+
+    if (d < a1)
+    {
+        return;
+    }
+    if (a2 < d)
+    {
+        return;
+    }
+    switch (work->field_74)
+    {
+    case 5:
+    case 9:
+    case 10:
+        work->field_2C[26] = 1;
+        y0 = p[26].y0;
+        y3 = p[26].y3;
+        p[26].x0 = (d - a1) * 11 - 47;
+        p[26].x1 = (d - a1) * 11 - 43;
+        p[26].x2 = (d - a1) * 11 - 47;
+        p[26].x3 = (d - a1) * 11 - 43;
+        p[26].y0 = y0;
+        p[26].y1 = y0;
+        p[26].y2 = y3;
+        p[26].y3 = y3;
+        break;
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 15:
+        work->field_2C[40] = 1;
+        y0 = p[40].y0;
+        y3 = p[40].y3;
+        p[40].y0 = y0;
+        p[40].y1 = y0;
+        p[40].y2 = y3;
+        p[40].y3 = y3;
+        q = (d - a1) * 44 / 6;
+        p[40].x0 = q - 25;
+        p[40].x1 = q - 21;
+        p[40].x2 = q - 25;
+        p[40].x3 = q - 21;
+        break;
+    default:
+        work->field_2C[42] = 1;
+        y0 = p[42].y0;
+        y3 = p[42].y3;
+        p[42].x0 = (d - a1) * 11 - 47;
+        p[42].x1 = (d - a1) * 11 - 43;
+        p[42].x2 = (d - a1) * 11 - 47;
+        p[42].x3 = (d - a1) * 11 - 43;
+        p[42].y0 = y0;
+        p[42].y1 = y0;
+        p[42].y2 = y3;
+        p[42].y3 = y3;
+        break;
+    }
+}
 const char brf_dword_800E1180[] = {0x0, 0x0, 0x0, 0x0};
 const int brf_dword_800E1184 = 0x800C7648;
 const int brf_dword_800E1188 = 0x800C7878;
@@ -1133,7 +1187,6 @@ const char brf_dword_800E13A0[] = {'c', 'u', 'r', '_'};
 const char brf_dword_800E13A4[] = {'r', 0x0, 0x0, 0x0};
 const char brf_dword_800E13A8[] = {'c', 'u', 'r', '_'};
 const char brf_dword_800E13AC[] = {'c', 0x0, 0x0, 0x0};
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800C7488.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C75F0.s")
 void brf_800C62B0(Work *work, int x, int y, int w, int h, int a5, int a6);
 
