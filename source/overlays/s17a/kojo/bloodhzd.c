@@ -34,6 +34,10 @@ void BloodHazard_Die(Work *work);
  * normal / sqrt mult results. With this source the pseudo's GR cost (48) is
  * below its memory cost (56), so it gets GR as alternate class; a C construct
  * that changes this without changing the code has not been found.
+ * Tried without success: a dead SVECTOR or long long local (or array) gives the
+ * right frame size, but it is a pre-reload local so it sits below the spill slots
+ * and shifts them by 8 (8 of 670 words differ); hoisting/rewriting width / 3,
+ * reordering the locals and 64-bit expressions of the divide change nothing useful.
  * (Act/Die are not static: a static function following an INCLUDE_ASM
  * function would be merged into it by include_asm_fixup.py) */
 #if 0
