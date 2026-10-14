@@ -60,7 +60,9 @@ typedef struct _Work
     short          field_754;
     short          field_756;
     int            field_758;
-    char           pad75C[12];
+    int            field_75C;
+    int            field_760;
+    int            field_764;
     int            field_768;
     int            field_76C;
     int            field_770;
@@ -174,21 +176,20 @@ int Valcan_800DB2E4(Work *work);
 int Valcan_800DB470(Work *work);
 void Valcan_800DB500(Work *work);
 void Valcan_800DB868(Work *work);
+void Valcan_800DB9F0(Work *work);
+void Valcan_800DBCB4(Work *work);
 void Valcan_800DBF74(Work *work);
 void Valcan_800DC06C(Work *work, int index, int blood_count);
 void Valcan_800DC124(Work *work);
 void Valcan_800DC290(Work *work, int arg1, int arg2);
 void Valcan_800DC2EC(Work *work, int action);
+void Valcan_800DC318(Work *work);
+void Valcan_800DC7A0(Work *work);
 void Valcan_800DCC84(Work *work);
 void Valcan_800DCE60(Work *work);
 void Valcan_800DCF8C(Work *work);
+void Valcan_800DD03C(Work *work);
 void Valcan_800DD578(Work *work);
 
-// FIXME: still INCLUDE_ASM
-void s15c_crow_800DB9F0(Work *work);
-void s15c_crow_800DBCB4(Work *work);
-void s15c_crow_800DC318(Work *work);
-void s15c_crow_800DC7A0(Work *work);
-void s15c_crow_800DD03C(Work *work);
 
 #endif // _VALCAN_H_
