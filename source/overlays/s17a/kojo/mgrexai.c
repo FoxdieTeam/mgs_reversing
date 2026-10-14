@@ -55,22 +55,18 @@ SVECTOR mgrex_feet[2] = {
 };
 SVECTOR mgrex_stomp_size = {4000, 1000, 4000, 0};
 VECTOR mgrex_laser_up = {0, -4096, 0, 0};
-int s17a_dword_800C530C = 0x00C8FE00;
-int s17a_dword_800C5310 = 0x00000000;
-int s17a_dword_800C5314 = 0xFF38FE00;
-int s17a_dword_800C5318 = 0x00000000;
-int s17a_dword_800C531C = 0xFE4E0190;
-int s17a_dword_800C5320 = 0x000013EA;
-int s17a_dword_800C5324 = 0xFC92FE70;
-int s17a_dword_800C5328 = 0x0000154A;
-int s17a_dword_800C532C = 0xFAD60190;
-int s17a_dword_800C5330 = 0x000016AA;
-int s17a_dword_800C5334 = 0xFE4EFE70;
-int s17a_dword_800C5338 = 0x000013EA;
-int s17a_dword_800C533C = 0xFC920190;
-int s17a_dword_800C5340 = 0x0000154A;
-int s17a_dword_800C5344 = 0xFAD6FE70;
-int s17a_dword_800C5348 = 0x000016AA;
+SVECTOR mgrex_missile_rot_l = {-512, 200, 0, 0};
+SVECTOR mgrex_missile_rot_r = {-512, -200, 0, 0};
+SVECTOR mgrex_missile_ofs_l[3] = {
+    {400, -434, 5098, 0},
+    {-400, -878, 5450, 0},
+    {400, -1322, 5802, 0}
+};
+SVECTOR mgrex_missile_ofs_r[3] = {
+    {-400, -434, 5098, 0},
+    {400, -878, 5450, 0},
+    {-400, -1322, 5802, 0}
+};
 VECTOR mgrex_up = {0, -4096, 0, 0};
 
 const SVECTOR mgrex_front = {0, 0, 20000, 0};
@@ -1248,7 +1244,6 @@ const int s17a_dword_800E5C9C[] = {
     0x800DF0DC, 0x800DF124, 0x800DF178, 0x800DF1B8, 0x800DF268, 0x800DF328, 0x800DF360
 };
 
-const char s17a_dword_800E5CD4[] = "l_hatch2";
 
 int s17a_800DF3E8(MGREX_WORK *work)
 {
@@ -1762,7 +1757,148 @@ fail:
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800E0328.s")
+#define MGREX_HATCH_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT )
+
+int s17a_800E0328(MGREX_WORK *work)
+{
+    MATRIX   world;
+    MATRIX   rot;
+    SVECTOR  ang;
+    SVECTOR *rotv;
+    SVECTOR *ofs;
+    MATRIX  *root;
+
+    if (work->f1A64 == 0)
+    {
+        goto fail;
+    }
+
+    if (work->f1950 != 4 || work->f1960 != 1)
+    {
+        if (work->f1A60 == 0)
+        {
+            return 0;
+        }
+
+fail:
+        work->f6FC = 2;
+        work->timers[4] = 60;
+        return -1;
+    }
+
+    if (work->f1A60 == 0)
+    {
+        work->f1A68 = work->player_pos;
+
+        if (work->f1A38 > 0)
+        {
+            work->f1A60 = 1;
+            if (++work->f1978 >= 3)
+            {
+                work->f1978 = 0;
+            }
+        }
+        else
+        {
+            work->f1A60 = 2;
+            if (++work->f197C >= 3)
+            {
+                work->f197C = 0;
+            }
+        }
+    }
+
+    if (work->f1A64 == 110 || work->f1A64 == 100 || work->f1A64 == 80 || work->f1A64 == 60)
+    {
+        if (work->f1A60 == 1)
+        {
+            rotv = &mgrex_missile_rot_l;
+            root = &work->leg_l.objs->objs[1].world;
+            ofs = &mgrex_missile_ofs_l[work->f1978];
+        }
+        else
+        {
+            rotv = &mgrex_missile_rot_r;
+            root = &work->leg_r.objs->objs[1].world;
+            ofs = &mgrex_missile_ofs_r[work->f197C];
+        }
+
+        if (work->f1A64 == 110)
+        {
+            if (work->f1A60 == 1)
+            {
+                if (work->hatch_l_model < 3)
+                {
+                    GM_FreeObject((OBJECT *)&work->hatch_l);
+                    GM_InitObjectNoRots(&work->hatch_l, GV_StrCode("l_hatch2") + work->hatch_l_model, MGREX_HATCH_FLAG, 0);
+                    GM_ConfigObjectLight((OBJECT *)&work->hatch_l, work->light);
+                    GM_ConfigObjectRoot((OBJECT *)&work->hatch_l, &work->leg_l, 1);
+
+                    ang = *rotv;
+                    if (work->hatch_l_model != 0)
+                    {
+                        ang.vy = 400;
+                    }
+                    else
+                    {
+                        ang.vy = -400;
+                    }
+
+                    RotMatrix_gte(&ang, &rot);
+
+                    DG_SetPos(root);
+                    DG_MovePos(ofs);
+                    ReadRotMatrix(&world);
+                    MulMatrix0(&world, &rot, &world);
+                    NewMgHatch(&world);
+
+                    work->hatch_l_model++;
+                }
+            }
+            else if (work->hatch_r_model < 3)
+            {
+                GM_FreeObject((OBJECT *)&work->hatch_r);
+                GM_InitObjectNoRots(&work->hatch_r, GV_StrCode("l_hatch2") + work->hatch_r_model, MGREX_HATCH_FLAG, 0);
+                GM_ConfigObjectLight((OBJECT *)&work->hatch_r, work->light);
+                GM_ConfigObjectRoot((OBJECT *)&work->hatch_r, &work->leg_r, 1);
+
+                ang = *rotv;
+                if (work->hatch_r_model != 0)
+                {
+                    ang.vy = -400;
+                }
+                else
+                {
+                    ang.vy = 400;
+                }
+
+                RotMatrix_gte(&ang, &rot);
+
+                DG_SetPos(root);
+                DG_MovePos(ofs);
+                ReadRotMatrix(&world);
+                MulMatrix0(&world, &rot, &world);
+                NewMgHatch(&world);
+
+                work->hatch_r_model++;
+            }
+        }
+        else
+        {
+            RotMatrix_gte(rotv, &rot);
+
+            DG_SetPos(root);
+            DG_MovePos(ofs);
+            ReadRotMatrix(&world);
+            MulMatrix0(&world, &rot, &world);
+            NewHomingMissile(&world, &work->player_pos, 2);
+        }
+    }
+
+    work->f1A64--;
+    return 0;
+}
+
 int s17a_800E0710(MGREX_WORK *work)
 {
     SVECTOR pos;
