@@ -389,9 +389,6 @@ static int CheckDamage(Work *work)
     return 0;
 }
 
-/* NON_MATCHING: same behaviour, but gcc lays the shared `return 0` block out
-   after the end of the function instead of between the two tests */
-#if 0
 static int CheckDamage2(Work *work)
 {
     if (CheckDamage(work))
@@ -402,24 +399,26 @@ static int CheckDamage2(Work *work)
         return 1;
     }
 
-    if (work->blink != 0 || !(work->pad_flags & 8))
+    if (work->blink != 0)
     {
         return 0;
     }
 
-    work->action = StateHit;
-    work->time = 0;
-    work->control.turn.vz = 0;
-    work->control.turn.vx = 0;
+    if (work->pad_flags & 8)
+    {
+        work->action = StateHit;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
 
-    NewPadVibration(jeep_sne_vib_damage1, 1);
-    NewPadVibration(jeep_sne_vib_damage2, 2);
-    work->aim_dir += GV_RandS(256);
-    return 1;
+        NewPadVibration(jeep_sne_vib_damage1, 1);
+        NewPadVibration(jeep_sne_vib_damage2, 2);
+        work->aim_dir += GV_RandS(256);
+        return 1;
+    }
+
+    return 0;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D519C.s")
-int s19b_jlamp2_800D519C(Work *work); // CheckDamage2
 
 void Shoot(Work *work)
 {
@@ -454,7 +453,7 @@ static void StateNormal(Work *work, int time)
 
     flags = work->pad_flags;
 
-    if (s19b_jlamp2_800D519C(work))
+    if (CheckDamage2(work))
     {
         return;
     }
