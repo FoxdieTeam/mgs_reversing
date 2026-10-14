@@ -7,6 +7,11 @@
 #include "menu/menuman.h"
 #include "anime/animconv/anime.h"
 #include "strcode.h"
+#include "equip/equip.h"
+#include "okajima/d_blood.h"
+#include "takabe/goggle.h"
+#include "takabe/goggleir.h"
+#include "weapon/weapon.h"
 
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 #define BODY_DATA   GV_StrCode( "sne_nude" )
@@ -198,29 +203,6 @@ typedef struct WeaponCreateEntry
     void *mStateFn;
 } WeaponCreateEntry;
 
-extern int      d18a_dword_800C37E0;
-extern short    d18a_dword_800C37F8[];
-extern short    d18a_dword_800C3920[];
-extern char     d18a_dword_800C381C[];
-extern char     d18a_dword_800C3824[];
-extern char     d18a_dword_800C382C[];
-extern char     d18a_dword_800C3834[];
-extern SVECTOR  d18a_dword_800C3850;
-extern SVECTOR  d18a_dword_800C3858;
-extern GV_PAD   d18a_dword_800C3A18;
-extern PUNCH    d18a_dword_800C3950[2];
-extern SVECTOR  d18a_dword_800C3928[2];
-extern char     d18a_dword_800C3800[];
-extern char     d18a_dword_800C3804[];
-extern char     d18a_dword_800C380C[];
-extern char     d18a_dword_800C3810[];
-extern char     d18a_dword_800C3860[];
-extern char     d18a_dword_800C3864[];
-extern int      d18a_dword_800DAEF0;
-extern int      d18a_dword_800DAEF4;
-extern char    *d18a_dword_800DAEFC;
-extern HZD_FLR *d18a_dword_800DAF00[2];
-extern GV_MSG   d18a_dword_800DAEA0[3];
 extern const char d18a_aWorkheightdlevelsd_800DA684[];
 extern const char d18a_aSnakeposddd_800DA66C[];
 extern const char d18a_aErrerrerrliquidnearerr_800DA648[];
@@ -235,26 +217,12 @@ extern const char d18a_aWeapond_800DA780[];
 extern const char d18a_aStatusx_800DA774[];
 extern const char d18a_aCeilfloordd_800DA760[];
 extern const char d18a_aPosddd_800DA750[];
-extern PUNCH d18a_dword_800C39B8[3];
-extern SVECTOR d18a_dword_800C39B0;
-extern PUNCH d18a_dword_800C3990;
 extern int counter_8009F448;
 extern void *NewBakudan(); /* called with 4 arguments here */
-extern SVECTOR d18a_dword_800C3948;
-extern SVECTOR d18a_dword_800C3940;
-extern SVECTOR d18a_dword_800C3938;
 extern SVECTOR svector_8009F478;
 extern const char d18a_aWorkglobaldatad_800DA6AC[];
-extern int d18a_dword_800C3900[];
-extern void    *d18a_dword_800DAF10;
-extern SVECTOR *d18a_dword_800DAEF8;
-extern int      d18a_dword_800DAF08;
-extern int      d18a_dword_800DAF0C;
 
 
-extern void *d18a_dword_800C37E4[];
-extern void *d18a_dword_800C37F0[];
-extern void *d18a_dword_800C38C8[];
 
 extern int dword_8009F46C[];
 
@@ -446,13 +414,164 @@ static inline void d18a_snake18_StartAnim(Snake18Work *work, void *func)
     work->control.turn.vx = 0;
 }
 
-extern Snake18Init d18a_dword_800C383C;
 extern int bakudan_count_8009F42C;
 extern int printf(/* const char *format, ... */);
-extern SVECTOR d18a_dword_800C3868;
-extern ACTPACK18    d18a_dword_800C36C8[];
-extern WeaponCreateEntry d18a_dword_800C3878[];
-extern SVECTOR d18a_dword_800C3A28;
+
+ACTSTILL18 snake18_none_still = {2, 6, 16, 22, 26, 32, 112, 113};
+ACTSTILL18 snake18_socom_still = {0, 0, 15, 22, 25, 31, 55, 56};
+ACTSTILL18 snake18_famas_still = {1, 5, 15, 22, 25, 31, 55, 56};
+ACTSTILL18 snake18_grenade_still = {3, 3, 16, 22, 26, 32, 55, 56};
+ACTSTILL18 snake18_c4_still = {114, 114, 16, 22, 58, 32, 55, 56};
+ACTSTILL18 snake18_nikita_still = {91, 91, 93, 107, 25, 109, 55, 56};
+ACTSTILL18 snake18_claymore_still = {119, 119, 123, 124, 26, 126, 112, 113};
+
+ACTMOVE18 snake18_none_move = {12, 104, 19, 23, 24, 29, 30, 35, 36, 12, 0, 0, {0, 0, 0, 0}};
+ACTMOVE18 snake18_socom_move = {10, 8, 17, 23, 24, 27, 28, 33, 34, 95, 132, 133, {0, 0, 0, 0}};
+ACTMOVE18 snake18_famas_move = {11, 9, 18, 23, 24, 27, 28, 33, 34, 88, 136, 137, {0, 0, 0, 0}};
+ACTMOVE18 snake18_nikita_move = {90, 92, 94, 23, 24, 27, 28, 33, 34, 90, 0, 0, {0, 0, 0, 0}};
+ACTMOVE18 snake18_c4_move = {116, 115, 117, 23, 24, 29, 30, 110, 111, 116, 0, 0, {0, 0, 0, 0}};
+ACTMOVE18 snake18_claymore_move = {121, 120, 122, 125, 24, 29, 30, 127, 128, 121, 0, 0, {0, 0, 0, 0}};
+ACTMOVE18 snake18_grenade_move = {130, 129, 19, 23, 24, 29, 30, 35, 36, 130, 0, 0, {0, 0, 0, 0}};
+
+ACTTRANS18 snake18_all_trans = {20, 21, 106, 0};
+
+ACTDAMAGE18 snake18_none_damage = {{78, 80, 82, 83, 84, 85, 86, 87, 81, 153, 154, 155, 156, 157, 0, 0}};
+ACTDAMAGE18 snake18_socom_damage = {{76, 79, 82, 83, 84, 85, 86, 87, 81, 153, 0, 0, 0, 0, 0, 0}};
+ACTDAMAGE18 snake18_famas_damage = {{77, 105, 82, 83, 84, 85, 86, 87, 81, 153, 0, 0, 0, 0, 0, 0}};
+
+ACTATTACK18 snake18_none_attack = {{158, 158, 48, 158, 49, 50, 51, 52, 0, 0, 0, 0}};
+ACTATTACK18 snake18_socom_attack = {{57, 66, 48, 60, 62, 0, 0, 0, 0, 0, 0, 0}};
+ACTATTACK18 snake18_famas_attack = {{5, 67, 47, 61, 63, 0, 0, 0, 0, 0, 0, 0}};
+ACTATTACK18 snake18_stinger_attack = {{89, 158, 158, 158, 131, 0, 0, 0, 0, 0, 0, 0}};
+ACTATTACK18 snake18_nikita_attack = {{89, 158, 47, 61, 96, 0, 0, 0, 0, 0, 0, 0}};
+ACTATTACK18 snake18_c4_attack = {{58, 158, 158, 158, 68, 70, 64, 69, 71, 0, 0, 0}};
+ACTATTACK18 snake18_claymore_attack = {{72, 158, 158, 158, 73, 74, 0, 0, 0, 0, 0, 0}};
+ACTATTACK18 snake18_grenade_attack = {{75, 158, 48, 158, 65, 0, 0, 0, 0, 0, 0, 0}};
+ACTATTACK18 snake18_psg1_attack = {{59, 158, 158, 158, 158, 0, 0, 0, 0, 0, 0, 0}};
+
+u_char snake18_special1[8][4] = {
+    {141, 0, 0, 0},
+    {138, 0, 0, 0},
+    {139, 0, 0, 0},
+    {158, 0, 0, 0},
+    {140, 0, 0, 0},
+    {142, 0, 0, 0},
+    {143, 0, 0, 0},
+    {144, 0, 0, 0},
+};
+
+ACTSPECIAL18 snake18_special2 = {{7, 13, 4, 14, 37, 53, 54, 145}};
+
+ACTPACK18 snake18_actions_no_weapon = {&snake18_none_still, &snake18_none_move, &snake18_all_trans, &snake18_none_damage, &snake18_none_attack, snake18_special1[0], &snake18_special2};
+
+ACTPACK18 snake18_weapon_actions[10] = {
+    {&snake18_socom_still, &snake18_socom_move, &snake18_all_trans, &snake18_socom_damage, &snake18_socom_attack, snake18_special1[1], &snake18_special2},
+    {&snake18_famas_still, &snake18_famas_move, &snake18_all_trans, &snake18_famas_damage, &snake18_famas_attack, snake18_special1[2], &snake18_special2},
+    {&snake18_grenade_still, &snake18_grenade_move, &snake18_all_trans, &snake18_none_damage, &snake18_grenade_attack, snake18_special1[7], &snake18_special2},
+    {&snake18_nikita_still, &snake18_nikita_move, &snake18_all_trans, &snake18_famas_damage, &snake18_nikita_attack, snake18_special1[4], &snake18_special2},
+    {&snake18_famas_still, &snake18_famas_move, &snake18_all_trans, &snake18_famas_damage, &snake18_stinger_attack, snake18_special1[3], &snake18_special2},
+    {&snake18_claymore_still, &snake18_claymore_move, &snake18_all_trans, &snake18_none_damage, &snake18_claymore_attack, snake18_special1[6], &snake18_special2},
+    {&snake18_c4_still, &snake18_c4_move, &snake18_all_trans, &snake18_none_damage, &snake18_c4_attack, snake18_special1[5], &snake18_special2},
+    {&snake18_grenade_still, &snake18_grenade_move, &snake18_all_trans, &snake18_none_damage, &snake18_grenade_attack, snake18_special1[7], &snake18_special2},
+    {&snake18_grenade_still, &snake18_grenade_move, &snake18_all_trans, &snake18_none_damage, &snake18_grenade_attack, snake18_special1[7], &snake18_special2},
+    {&snake18_none_still, NULL, &snake18_all_trans, &snake18_none_damage, &snake18_psg1_attack, snake18_special1[3], &snake18_special2},
+};
+
+int d18a_dword_800C37E0 = 980;
+
+void *d18a_dword_800C37E4[] = {d18a_snake18_800CD64C, d18a_snake18_800CD768, d18a_snake18_800CD808};
+void *d18a_dword_800C37F0[] = {d18a_snake18_800CD9A8, d18a_snake18_800CDC3C};
+
+short d18a_dword_800C37F8[] = {750, 250, 250, 0};
+
+char d18a_dword_800C3800[] = {127, 4, 0, 0};
+char d18a_dword_800C3804[] = {225, 1, 255, 2, 0, 0, 0, 0};
+char d18a_dword_800C380C[] = {127, 6, 0, 0};
+char d18a_dword_800C3810[] = {225, 1, 255, 4, 225, 2, 75, 8, 0, 0, 0, 0};
+char d18a_dword_800C381C[] = {0, 11, 127, 1, 0, 0, 0, 0};
+char d18a_dword_800C3824[] = {85, 4, 45, 6, 165, 1, 0, 0};
+char d18a_dword_800C382C[] = {0, 25, 127, 2, 0, 0, 0, 0};
+char d18a_dword_800C3834[] = {120, 6, 0, 19, 120, 4, 0, 0};
+
+Snake18Init d18a_dword_800C383C = {0, 500, 0, 320, 400, 320, 400, 32, 32, 0};
+
+SVECTOR d18a_dword_800C3850 = {0, 0, 100, 0};
+SVECTOR d18a_dword_800C3858 = {-1024, 0, 0, 0};
+
+char d18a_dword_800C3860[] = {1, 1, 0, 0};
+char d18a_dword_800C3864[] = {255, 1, 0, 0};
+
+SVECTOR d18a_dword_800C3868 = {2500, 10000, 500, 0};
+
+WeaponCreateEntry d18a_dword_800C3870[] = {
+    {NULL, d18a_snake18_800CECE0},
+    {NewSOCOM, d18a_snake18_800CEB78},
+    {NewFAMAS, d18a_snake18_800CEB78},
+    {NewGrenade, d18a_snake18_800D3024},
+    {NewRCM, d18a_snake18_800CEB78},
+    {NewAAM, d18a_snake18_800D1F90},
+    {NewMine, d18a_snake18_800D23F0},
+    {NewBomb, d18a_snake18_800CEC68},
+    {NewStanGrenade, d18a_snake18_800D3024},
+    {NewChaffGrenade, d18a_snake18_800D3024},
+    {NewRifle, d18a_snake18_800D1CE8},
+};
+
+void *d18a_dword_800C38C8[] = {
+    NewTabako,
+    NewScope,
+    NewBox,
+    NewBox,
+    NewBox,
+    NewBox,
+    NewGoggle,
+    NewGoggleIr,
+    NewGasMask,
+    NewBodyArmor,
+    NewKetchap,
+    NewKogaku2,
+    NULL,
+    NULL,
+};
+
+PUNCH d18a_dword_800C3900 = {{0, 0, 300, 0}, {400, 600, 400, 0}, {0, 0, 0, 0}, 64, 0};
+
+short d18a_dword_800C3920[] = {1104, 469, 139, 0};
+
+SVECTOR d18a_dword_800C3928[2] = {{1024, 0, 0, 0}, {-1024, 0, 0, 0}};
+SVECTOR d18a_dword_800C3938 = {5, -500, 80, 0};
+SVECTOR d18a_dword_800C3940 = {0, 0, 300, 0};
+SVECTOR d18a_dword_800C3948 = {0, 100, -300, 0};
+
+PUNCH d18a_dword_800C3950[2] = {
+    {{-400, 0, 600, 0}, {400, 600, 400, 0}, {0, 0, 0, 0}, 36, 5},
+    {{400, 0, 600, 0}, {400, 600, 400, 0}, {0, 0, 0, 0}, 36, 5},
+};
+
+PUNCH d18a_dword_800C3990 = {{0, 0, 0, 0}, {400, 600, 400, 0}, {0, 0, 0, 0}, 7, 0};
+
+SVECTOR d18a_dword_800C39B0 = {0, 0, 0, 0};
+
+PUNCH d18a_dword_800C39B8[3] = {
+    {{-200, 200, 500, 0}, {300, 400, 400, 0}, {5, 0, 50, 0}, 0, 1},
+    {{200, 200, 500, 0}, {300, 400, 400, 0}, {-5, 0, 50, 0}, 0, 1},
+    {{0, 200, 600, 0}, {500, 400, 500, 0}, {0, 0, 100, 0}, 0, 3},
+};
+
+GV_PAD d18a_dword_800C3A18 = {0, 0, 0, 0, -1, 0, 0, 0, 0, 0};
+
+SVECTOR d18a_dword_800C3A28 = {300, 750, 300, 0};
+
+GV_MSG   SECTION(".bss") d18a_dword_800DAEA0[4];
+int      SECTION(".bss") d18a_dword_800DAEF0;
+int      SECTION(".bss") d18a_dword_800DAEF4;
+SVECTOR *SECTION(".bss") d18a_dword_800DAEF8;
+char    *SECTION(".bss") d18a_dword_800DAEFC;
+HZD_FLR *SECTION(".bss") d18a_dword_800DAF00[2];
+int      SECTION(".bss") d18a_dword_800DAF08;
+int      SECTION(".bss") d18a_dword_800DAF0C;
+void    *SECTION(".bss") d18a_dword_800DAF10;
+
 
 void d18a_snake18_800CABEC( Snake18Work *work )
 {
@@ -1925,7 +2044,7 @@ void d18a_snake18_800CCF30(Snake18Work *work)
     wid = GM_Weapon;
     work->f868 = GM_WeaponTypes[wid + 1];
 
-    e = &d18a_dword_800C3878[wid];
+    e = &d18a_dword_800C3870[wid + 1];
     if (GM_Weapon >= 0)
     {
         work->f860 = &GM_Weapons[ GM_Weapon ];
@@ -1939,7 +2058,7 @@ void d18a_snake18_800CCF30(Snake18Work *work)
     }
     work->f850 = actor;
 
-    work->f8A8 = &d18a_dword_800C36C8[GM_Weapon];
+    work->f8A8 = &snake18_weapon_actions[GM_Weapon];
 }
 void d18a_snake18_800CD040(Snake18Work *work)
 {
@@ -2964,7 +3083,7 @@ void d18a_snake18_800CEC68(Snake18Work *work, int time)
     work->f8BC = d18a_snake18_800CE7BC;
     work->f8C0 = d18a_snake18_800CE7BC;
 
-    if (d18a_snake18_800CBA64(work, (PUNCH *)d18a_dword_800C3900))
+    if (d18a_snake18_800CBA64(work, &d18a_dword_800C3900))
     {
         d18a_snake18_StartAnim(work, d18a_snake18_800D20EC);
     }
@@ -6257,7 +6376,7 @@ int d18a_snake18_800D49FC(Snake18Work *work)
         return -1;
     }
 
-    work->f8A8 = &d18a_dword_800C36C8[GM_Weapon];
+    work->f8A8 = &snake18_weapon_actions[GM_Weapon];
     work->f8B0 = 0;
     work->f8B8 = 0;
     work->f8B4 = NULL;

@@ -2051,9 +2051,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\d18a\animal\snake18\snake18.obj", overlay
     include "{{OBJ_DIR}}\okajima\smktrgt.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke3.obj", overlay
