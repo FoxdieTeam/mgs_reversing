@@ -2,24 +2,7 @@
 #include "game/game.h"
 #include "takabe/prim.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x18];
-    SVECTOR  field_38;
-    int      field_40;
-    char     pad4[0x1C];
-    OBJECT  *body;
-    char     pad5[0x18];
-    int      field_7C;
-    MATRIX   world;
-    char     pad6[0xCC];
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "../jeep_system.h"
 
 typedef struct _Work
 {
@@ -29,11 +12,11 @@ typedef struct _Work
     DG_TEX  *tex;
     MATRIX   world;
     MATRIX  *root;
-    int      field_50;
-    int      field_54;
-    int      field_58;
-    int      field_5C;
-    int      field_60;
+    int      follow;      /* bit 0: the fire follows root */
+    int      delay;       /* frames before the fire starts to die out */
+    int      life;
+    int      emit_timer;
+    int      next;        /* next flame to emit */
     SVECTOR  vertices[16];
     SVECTOR  speeds[16];
 } Work;
@@ -45,9 +28,9 @@ void s19b_jdrumfir_800CA13C(Work *work)
 {
     GM_CurrentMap = work->map;
 
-    work->prim->world.t[0] += Takabe_JeepSystem.pos.vx;
-    work->prim->world.t[1] += Takabe_JeepSystem.pos.vy;
-    work->prim->world.t[2] += Takabe_JeepSystem.pos.vz;
+    work->prim->world.t[0] += Takabe_JeepSystem.scroll.vx;
+    work->prim->world.t[1] += Takabe_JeepSystem.scroll.vy;
+    work->prim->world.t[2] += Takabe_JeepSystem.scroll.vz;
 
     if (work->prim->world.t[2] > 32000)
     {
@@ -55,12 +38,12 @@ void s19b_jdrumfir_800CA13C(Work *work)
         return;
     }
 
-    if (work->field_50 & 1)
+    if (work->follow & 1)
     {
         work->world = *work->root;
     }
 
-    if (work->field_54 > 0)
+    if (work->delay > 0)
     {
         s19b_jdrumfir_800CA564(work, 1);
     }
@@ -68,16 +51,16 @@ void s19b_jdrumfir_800CA13C(Work *work)
     {
         s19b_jdrumfir_800CA564(work, 1);
 
-        if (work->field_58 == 0)
+        if (work->life == 0)
         {
             GV_DestroyActor(work);
             return;
         }
 
-        work->field_58--;
+        work->life--;
     }
 
-    work->field_54--;
+    work->delay--;
 }
 
 void s19b_jdrumfir_800CA280(Work *work)
@@ -85,21 +68,21 @@ void s19b_jdrumfir_800CA280(Work *work)
     GM_FreePrim(work->prim);
 }
 
-int s19b_jdrumfir_800CA2BC(Work *work, MATRIX *world, int arg2, int arg3)
+int s19b_jdrumfir_800CA2BC(Work *work, MATRIX *world, int follow, int delay)
 {
     work->root = world;
     work->map = GM_CurrentMap;
     work->world = *world;
 
-    work->field_50 = arg2;
-    work->field_54 = arg3;
+    work->follow = follow;
+    work->delay = delay;
 
     s19b_jdrumfir_800CA4A0(work);
-    work->field_58 = 40;
+    work->life = 40;
     return 0;
 }
 
-void *NewJeepDrumFire(MATRIX *world, int arg1, int arg2)
+void *NewJeepDrumFire(MATRIX *world, int follow, int delay)
 {
     Work* work;
 
@@ -108,7 +91,7 @@ void *NewJeepDrumFire(MATRIX *world, int arg1, int arg2)
     {
         GV_SetNamedActor(work, s19b_jdrumfir_800CA13C, s19b_jdrumfir_800CA280, "jdrumfir.c");
 
-        if (s19b_jdrumfir_800CA2BC(work, world, arg1, arg2) < 0)
+        if (s19b_jdrumfir_800CA2BC(work, world, follow, delay) < 0)
         {
             GV_DestroyActor(work);
             return NULL;
@@ -176,29 +159,29 @@ void s19b_jdrumfir_800CA564(Work *work, int arg1)
 
     if (arg1 != 0)
     {
-        if (work->field_5C < 0)
+        if (work->emit_timer < 0)
         {
-            spd = &work->speeds[work->field_60];
-            spd->vx = work->field_58;
+            spd = &work->speeds[work->next];
+            spd->vx = work->life;
             spd->vy = 255;
             spd->vz = GV_RandU(16);
 
-            vtx = &work->vertices[work->field_60];
+            vtx = &work->vertices[work->next];
             vtx->vx = work->world.t[0] + GV_RandS(256) / 2;
             vtx->vz = work->world.t[2] + GV_RandS(256) / 2;
-            vtx->pad = work->field_58 * 20 - 200;
+            vtx->pad = work->life * 20 - 200;
             if (vtx->pad < 200)
             {
                 vtx->pad = 200;
             }
             vtx->vy = work->world.t[1] + vtx->pad;
 
-            work->field_5C = 12;
-            work->field_60 = (work->field_60 + 1) & 0xF;
+            work->emit_timer = 12;
+            work->next = (work->next + 1) & 0xF;
         }
         else
         {
-            work->field_5C--;
+            work->emit_timer--;
         }
     }
 

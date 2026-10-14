@@ -1,17 +1,7 @@
 #include "game/game.h"
 #include "strcode.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x40];
-    OBJECT  *body;
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "../jeep_system.h"
 
 typedef struct _Work
 {
@@ -165,9 +155,9 @@ static void Act(Work *work)
         ShadePacks(prim->packs[GV_Clock], 24, shade);
     }
 
-    prim->world.t[0] += Takabe_JeepSystem.pos.vx;
-    prim->world.t[1] += Takabe_JeepSystem.pos.vy;
-    prim->world.t[2] += Takabe_JeepSystem.pos.vz;
+    prim->world.t[0] += Takabe_JeepSystem.scroll.vx;
+    prim->world.t[1] += Takabe_JeepSystem.scroll.vy;
+    prim->world.t[2] += Takabe_JeepSystem.scroll.vz;
 }
 
 static void Die(Work *work)

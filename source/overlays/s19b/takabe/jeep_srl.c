@@ -6,47 +6,8 @@
 #include "libgcl/libgcl.h"
 #include "takabe/thing.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    SVECTOR  field_20;
-    int      field_28;
-    int      field_2C;
-    int      field_30;
-    char     pad3[0x38 - 0x30 - sizeof(int)];
-    SVECTOR  field_38;
-    int      field_40;
-    int      field_44;
-    int      field_48;
-    char     pad4[0x60 - 0x48 - sizeof(int)];
-    OBJECT  *body;
-    char     pad5[0x78 - 0x60 - sizeof(OBJECT *)];
-    int      field_78;
-    int      field_7C;
-    MATRIX   world;
-    char     pad6[0xCC];
-} JEEP_SYSTEM;
+#include "jeep_system.h"
 
-extern JEEP_SYSTEM Takabe_JeepSystem;
-
-
-typedef struct _JeepScrollSeg
-{
-    SVECTOR  pos;      /* 0x00 */
-    SVECTOR  field_8;  /* 0x08 */
-    short    field_10; /* 0x10 */
-    short    field_12; /* 0x12 */
-    short    field_14; /* 0x14 */
-    char     pad_16[0x18 - 0x16];
-    DG_OBJS *field_18; /* 0x18 */
-    int     *field_1C; /* 0x1C: count, then JeepVtx[] */
-    struct _JeepSegDef *field_20; /* 0x20 */
-    int      field_24; /* 0x24 */
-    int      field_28; /* 0x28 */
-} JeepScrollSeg; /* 0x2C */
 
 typedef struct _JeepSegDef
 {
@@ -60,6 +21,22 @@ typedef struct _JeepSegDef
     u_char  *flags;    /* 0x14: n_lines bytes, twice */
 } JeepSegDef;
 
+/* One of the 16 road pieces scrolling under the jeep */
+typedef struct _JeepScrollSeg
+{
+    SVECTOR     pos;      /* 0x00 */
+    SVECTOR     dir;      /* 0x08: offset to the next piece */
+    short       shear_x;  /* 0x10 */
+    short       shear_y;  /* 0x12 */
+    short       field_14; /* 0x14 */
+    char        pad_16[0x18 - 0x16];
+    DG_OBJS    *objs;     /* 0x18 */
+    DG_LITS    *lits;     /* 0x1C */
+    JeepSegDef *def;      /* 0x20 */
+    int         flags;    /* 0x24 */
+    int         event;    /* 0x28 */
+} JeepScrollSeg; /* 0x2C */
+
 typedef struct _JeepSegLine
 {
     SVECTOR v[2]; /* pad words hold a radius */
@@ -71,14 +48,6 @@ typedef struct _JeepSegFace
     SVECTOR v[4]; /* 0x10 */
 } JeepSegFace; /* 0x30 */
 
-typedef struct _JeepVtx
-{
-    SVECTOR pos;    /* 0x00 */
-    u_short field_8;
-    u_short field_A;
-    CVECTOR field_C;
-} JeepVtx; /* 0x10 */
-
 typedef struct _JeepHzdFace
 {
     SVECTOR min;  /* 0x00 */
@@ -86,61 +55,70 @@ typedef struct _JeepHzdFace
     SVECTOR v[4]; /* 0x10 */
 } JeepHzdFace; /* 0x30 */
 
-typedef struct _JeepLight
+/* A road piece model and its resources */
+typedef struct _JeepModel
 {
-    DG_DEF  *def;     /* 0x00: 'k' cache */
-    DG_LITS *lit;     /* 0x04: 'l' cache */
-    int     *hzd;     /* 0x08: 'h' cache */
-    int      field_C; /* 0x0C: hzd[4] */
-    DG_OBJS *objs;    /* 0x10 */
-    char     pad_14[0x1C - 0x14];
-} JeepLight; /* 0x1C */
+    DG_DEF     *def;     /* 0x00: 'k' cache */
+    DG_LITS    *lit;     /* 0x04: 'l' cache */
+    int        *hzd;     /* 0x08: 'h' cache */
+    JeepSegDef *segdef;  /* 0x0C: hzd[4] */
+    DG_OBJS    *objs;    /* 0x10 */
+    char        pad_14[0x1C - 0x14];
+} JeepModel; /* 0x1C */
+
+/* Entry of the road script (s19b_dword_800C354C), terminated by model == -1 */
+typedef struct _JeepRoadCmd
+{
+    short model;       /* road piece model */
+    short count;       /* number of pieces */
+    short x, y;        /* target curve */
+    short speed_x;
+    short speed_y;
+    short event_delay; /* the event is raised on this piece */
+    short event;
+} JeepRoadCmd;
 
 typedef struct _Work
 {
     GV_ACT        work;
-    int           map;         /* 0x20 */
-    int           name;        /* 0x24 */
-    MATRIX        mtx_28;      /* 0x28 */
-    JeepLight     lights[13];  /* 0x48 */
-    JeepScrollSeg segs[16]; /* 0x1B4 */
-    DG_OBJS      *field_474[16]; /* 0x474 */
-    HZD_HDL      *field_4B4;     /* 0x4B4 */
-    JeepHzdFace  *field_4B8;     /* 0x4B8: cursor into faces */
+    int           map;           /* 0x20 */
+    int           name;          /* 0x24 */
+    MATRIX        mtx_28;        /* 0x28 */
+    JeepModel     models[13];    /* 0x48 */
+    JeepScrollSeg segs[16];      /* 0x1B4 */
+    DG_OBJS      *field_474[16]; /* 0x474: model 12, shown instead of far model 0 pieces */
+    HZD_HDL      *hzd;           /* 0x4B4 */
+    JeepHzdFace  *face_cursor;   /* 0x4B8: cursor into faces */
     JeepHzdFace   faces[24];     /* 0x4BC */
-    HZD_SEG      *field_93C;     /* 0x93C: cursor into hzd_segs */
+    HZD_SEG      *seg_cursor;    /* 0x93C: cursor into hzd_segs */
     HZD_SEG       hzd_segs[48];  /* 0x940 */
-    int           field_C40;
-    int          *field_C44;
-    char          pad1d[0xC48 - 0xC44 - sizeof(int *)];
-    int           field_C48;
-    int           field_C4C;
-    int           field_C50;
-    int           field_C54;
-    short        *field_C58;
-    char          pad1b[0xC60 - 0xC58 - sizeof(short *)];
-    int           field_C60;
-    int           field_C64;
-    int           field_C68;
-    int           field_C6C;
-    int           field_C70;
-    int           field_C74;
-    int           field_C78;
-    int           field_C7C;
-    int           field_C80;
+    int           max_lights;    /* 0xC40 */
+    DG_LITS      *lits;          /* 0xC44: the map's lights, refilled every frame */
+    int           curve_x;       /* 0xC48 */
+    int           curve_y;       /* 0xC4C */
+    int           cmd_count;     /* 0xC50 */
+    int           event_delay;   /* 0xC54 */
+    JeepRoadCmd  *cmd;           /* 0xC58 */
+    char          pad_C5C[0x4];
+    int           field_C60;     /* 0xC60 */
+    int           field_C64;     /* 0xC64 */
+    int           reshaded;      /* 0xC68 */
+    int           head;          /* 0xC6C: index of the farthest piece */
+    int           proc_gate1;    /* 0xC70 */
+    int           proc_gate2;    /* 0xC74 */
+    int           proc_end;      /* 0xC78 */
+    char          pad_C7C[0x4];
+    int           fade_time;     /* 0xC80 */
 } Work;
 
 extern Work *s19b_dword_800DE5B0;
 
-const char s19b_aLightoverjeepsrlc_800DDC94[] = "<<<<< light over !!!!!!!(jeep.srl.c) >>>>>\n";
-const char s19b_aMaxlightd_800DDCC0[] = "max light:%d\n";
-const char s19b_aJsnake_800DDCD0[] = "j_snake";
 
 void *NewJeepGate(int name, SVECTOR *pos, int side);
 void *NewJeepGlass(int name, SVECTOR *pos, int side);
 void *NewJeepLamp(SVECTOR *root_pos, int tex_id, int unused);
 void *s19b_jeep2_800D6F24(int name, int map); // NewJeep2
-void  s19b_jeep_800D2170(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2, short *arg3);
+void  s19b_jeep_800D2170(SVECTOR *col0, SVECTOR *col1, SVECTOR *col2, MATRIX *mtx);
 void  s19b_jeep_800D21DC(int ang, MATRIX *mat, SVECTOR *out);
 void  s19b_jeep_gls_800CE5F8(DG_OBJS *objs);
 void  s19b_jeep_gls_800CE628(SVECTOR *pos, SVECTOR *src, JeepHzdFace *face, int flag);
@@ -156,76 +134,76 @@ void  s19b_jlamp_800D0CE0(void);
 void  s19b_jlamp_800D0D40(void);
 int   s19b_jeep_gls_800CEDFC(int arg0, int arg1);
 void  s19b_jeep_srl_800CD638(Work *work, int *out);
-void  s19b_jeep_srl_800CD7B4(Work *work, int arg1, JeepVtx *out);
+void  s19b_jeep_srl_800CD7B4(Work *work, JeepScrollSeg *unused, DG_LIT *out);
 void  s19b_jeep_gls_800CEE7C(Work *work, int arg1, SVECTOR *pos);
 extern void  Takabe_ReshadeModel(DG_OBJS *objs, void *lit);
 extern void *NewPadVibration(unsigned char *, int);
 extern void *NewFadeInOut(int arg0, int arg1);
 extern GM_CameraSystemWork GM_Camera;
-extern int s19b_dword_800C36FC;
-extern int s19b_dword_800C3710;
+extern u_char s19b_dword_800C36FC[];
+extern u_char s19b_dword_800C3710[];
 void  s19b_jeep_gls_800CE8DC(struct _Work *work, JeepScrollSeg *seg, int flag);
 extern void RotTransSV(SVECTOR *v0, SVECTOR *v1, long *sz);
-extern int  s19b_dword_800C36DC;
+extern MATRIX s19b_dword_800C36DC; /* shear matrix of the road pieces */
 extern u_short s19b_dword_800C3530[]; /* 13 model-name hashes */
 
-extern int s19b_dword_800C354C;
+extern JeepRoadCmd s19b_dword_800C354C[];
 
 void s19b_jeep_srl_800CD638(Work *work, int *out)
 {
-    short *p = work->field_C58;
+    JeepRoadCmd *p = work->cmd;
 
-    work->field_C48 = GV_NearSpeed(work->field_C48, p[2], p[4]);
-    work->field_C4C = GV_NearSpeed(work->field_C4C, p[3], p[5]);
-    out[0] = p[0];
-    out[1] = work->field_C48;
-    out[2] = work->field_C4C;
-    out[3] = p[7];
+    work->curve_x = GV_NearSpeed(work->curve_x, p->x, p->speed_x);
+    work->curve_y = GV_NearSpeed(work->curve_y, p->y, p->speed_y);
+    out[0] = p->model;
+    out[1] = work->curve_x;
+    out[2] = work->curve_y;
+    out[3] = p->event;
 
-    if (work->field_C50 > 0)
+    if (work->cmd_count > 0)
     {
-        if (--work->field_C54 == 0)
+        if (--work->event_delay == 0)
         {
-            Takabe_JeepSystem.field_40 = p[7];
+            Takabe_JeepSystem.seg_event = p->event;
         }
         else
         {
-            Takabe_JeepSystem.field_40 = 0;
+            Takabe_JeepSystem.seg_event = 0;
         }
-        if (--work->field_C50 == 0)
+        if (--work->cmd_count == 0)
         {
-            work->field_C58 += 8;
-            p = work->field_C58;
-            if (*p == -1)
+            work->cmd++;
+            p = work->cmd;
+            if (p->model == -1)
             {
-                p = (short *)&s19b_dword_800C354C;
-                work->field_C58 = p;
+                p = s19b_dword_800C354C;
+                work->cmd = p;
             }
-            work->field_C50 = p[1];
-            work->field_C54 = p[6];
+            work->cmd_count = p->count;
+            work->event_delay = p->event_delay;
         }
     }
     else
     {
-        Takabe_JeepSystem.field_40 = 0;
+        Takabe_JeepSystem.seg_event = 0;
         if (Takabe_JeepSystem.field_44 != 0)
         {
             Takabe_JeepSystem.field_44--;
-            work->field_C50 = -work->field_C50;
+            work->cmd_count = -work->cmd_count;
         }
     }
 }
 void s19b_jeep_srl_800CD790(Work *work)
 {
-    short *p = (short *)&s19b_dword_800C354C;
-    work->field_C58 = p;
-    work->field_C50 = p[1];
-    work->field_C54 = p[6];
+    JeepRoadCmd *p = s19b_dword_800C354C;
+    work->cmd = p;
+    work->cmd_count = p->count;
+    work->event_delay = p->event_delay;
 }
-void s19b_jeep_srl_800CD7B4(Work *work, int arg1, JeepVtx *out)
+void s19b_jeep_srl_800CD7B4(Work *work, JeepScrollSeg *unused, DG_LIT *out)
 {
     JeepScrollSeg *seg;
-    JeepVtx       *vtx;
+    DG_LIT        *vtx;
     DG_OBJS       *objs;
     SVECTOR        pos;
     long           flag;
@@ -236,40 +214,40 @@ void s19b_jeep_srl_800CD7B4(Work *work, int arg1, JeepVtx *out)
 
     for (i = 0; i < 16; i++)
     {
-        k = (i - work->field_C6C) & 0xF;
+        k = (i - work->head) & 0xF;
         seg = &work->segs[i];
         if ((unsigned)(k - 4) < 8)
         {
             DG_SetPos2(&seg->pos, &DG_ZeroVector);
-            DG_PutObjs(seg->field_18);
-            ((MATRIX *)&s19b_dword_800C36DC)->m[0][2] = seg->field_10;
-            ((MATRIX *)&s19b_dword_800C36DC)->m[1][2] = seg->field_12;
-            MulMatrix0(&seg->field_18->world, (MATRIX *)&s19b_dword_800C36DC, &seg->field_18->world);
-            SetRotMatrix(&seg->field_18->world);
-            objs = seg->field_18;
+            DG_PutObjs(seg->objs);
+            s19b_dword_800C36DC.m[0][2] = seg->shear_x;
+            s19b_dword_800C36DC.m[1][2] = seg->shear_y;
+            MulMatrix0(&seg->objs->world, &s19b_dword_800C36DC, &seg->objs->world);
+            SetRotMatrix(&seg->objs->world);
+            objs = seg->objs;
             map = GM_CurrentMap;
             objs->group_id = map;
-            work->field_474[i]->root = &seg->field_18->world;
-            if (seg->field_18->def == work->lights[0].def && abs(seg->pos.vz) >= 0x1771)
+            work->field_474[i]->root = &seg->objs->world;
+            if (seg->objs->def == work->models[0].def && abs(seg->pos.vz) >= 0x1771)
             {
                 work->field_474[i]->flag &= ~0x80;
-                seg->field_18->flag |= 0x80;
+                seg->objs->flag |= 0x80;
             }
             else
             {
-                seg->field_18->flag &= ~0x80;
+                seg->objs->flag &= ~0x80;
                 work->field_474[i]->flag |= 0x80;
             }
-            n = *seg->field_1C;
-            vtx = (JeepVtx *)(seg->field_1C + 1);
+            n = seg->lits->n_lights;
+            vtx = seg->lits->lights;
             while (n > 0)
             {
-                RotTransSV(&vtx->pos, &pos, &flag);
-                out->pos = pos;
-                out->field_8 = vtx->field_8 >> 1;
-                out->field_A = vtx->field_A >> 1;
-                out->field_C = vtx->field_C;
-                (*work->field_C44)++;
+                RotTransSV(&vtx->point, &pos, &flag);
+                out->point = pos;
+                out->r_range = vtx->r_range >> 1;
+                out->e_range = vtx->e_range >> 1;
+                out->color = vtx->color;
+                work->lits->n_lights++;
                 vtx++;
                 out++;
                 n--;
@@ -282,21 +260,21 @@ void s19b_jeep_srl_800CD7B4(Work *work, int arg1, JeepVtx *out)
             {
                 s19b_jeep_gls_800CE8DC(work, seg, 0);
             }
-            seg->field_24 &= ~2;
+            seg->flags &= ~2;
         }
         else
         {
-            seg->field_18->flag |= 0x80;
+            seg->objs->flag |= 0x80;
             work->field_474[i]->flag |= 0x80;
         }
-        seg->field_24 &= ~1;
+        seg->flags &= ~1;
     }
 }
 
 void s19b_jeep_srl_800CDAA4(Work *work)
 {
-    JeepVtx       *vtx;
-    int           *count;
+    DG_LIT        *vtx;
+    DG_LITS       *lits;
     JeepScrollSeg *seg;
     JeepScrollSeg *next;
     int            out[4];
@@ -308,94 +286,94 @@ void s19b_jeep_srl_800CDAA4(Work *work)
     int            v;
 
     GM_CurrentMap = work->map;
-    if (work->field_C68 == 0)
+    if (work->reshaded == 0)
     {
         for (j = 0; j < 13; j++)
         {
-            Takabe_ReshadeModel(work->lights[j].objs, work->lights[j].lit);
+            Takabe_ReshadeModel(work->models[j].objs, work->models[j].lit);
         }
-        work->field_C68 = 1;
+        work->reshaded = 1;
     }
-    Takabe_JeepSystem.pos = Takabe_JeepSystem.field_20;
-    count = work->field_C44;
-    *count = 0;
-    vtx = (JeepVtx *)(count + 1);
-    work->field_4B8 = work->faces;
-    work->field_93C = work->hzd_segs;
-    work->field_4B4->n_d_segs = 0;
-    work->field_4B4->n_d_flrs = 0;
+    Takabe_JeepSystem.scroll = Takabe_JeepSystem.offset;
+    lits = work->lits;
+    lits->n_lights = 0;
+    vtx = lits->lights;
+    work->face_cursor = work->faces;
+    work->seg_cursor = work->hzd_segs;
+    work->hzd->n_d_segs = 0;
+    work->hzd->n_d_flrs = 0;
     for (i = 0; i < 16; i++)
     {
         seg = &work->segs[i];
-        z = seg->pos.vz + Takabe_JeepSystem.pos.vz;
+        z = seg->pos.vz + Takabe_JeepSystem.scroll.vz;
         if (z >= 32000)
         {
             s19b_jeep_srl_800CD638(work, out);
             v = out[1];
-            seg->field_8.vx = v / 2;
-            seg->field_10 = (-v << 11) / 4000;
+            seg->dir.vx = v / 2;
+            seg->shear_x = (-v << 11) / 4000;
             v = out[2];
-            seg->field_8.vy = v / 2;
-            seg->field_12 = (-v << 11) / 4000;
-            seg->field_24 = 3;
-            seg->field_28 = out[3];
+            seg->dir.vy = v / 2;
+            seg->shear_y = (-v << 11) / 4000;
+            seg->flags = 3;
+            seg->event = out[3];
             z -= 64000;
             k = (i + 1) & 0xF;
             next = &work->segs[k];
-            seg->pos.vx = next->pos.vx + next->field_8.vx;
-            seg->pos.vy = next->pos.vy + next->field_8.vy;
-            seg->pos.vx += seg->field_8.vx;
-            seg->pos.vy += seg->field_8.vy;
+            seg->pos.vx = next->pos.vx + next->dir.vx;
+            seg->pos.vy = next->pos.vy + next->dir.vy;
+            seg->pos.vx += seg->dir.vx;
+            seg->pos.vy += seg->dir.vy;
             if (k < i)
             {
-                seg->pos.vx -= Takabe_JeepSystem.pos.vx;
-                seg->pos.vy -= Takabe_JeepSystem.pos.vy;
+                seg->pos.vx -= Takabe_JeepSystem.scroll.vx;
+                seg->pos.vy -= Takabe_JeepSystem.scroll.vy;
             }
-            work->field_C6C = i;
-            s19b_jeep_gls_800CE5F8(seg->field_18);
-            seg->field_18 = s19b_jeep_gls_800CE52C(out[0], work);
-            seg->field_1C = (int *)work->lights[out[0]].lit;
-            seg->field_20 = (struct _JeepSegDef *)work->lights[out[0]].field_C;
+            work->head = i;
+            s19b_jeep_gls_800CE5F8(seg->objs);
+            seg->objs = s19b_jeep_gls_800CE52C(out[0], work);
+            seg->lits = work->models[out[0]].lit;
+            seg->def = work->models[out[0]].segdef;
             seg->pos.vz = z;
-            seg->pos.vx += Takabe_JeepSystem.pos.vx;
-            seg->pos.vy += Takabe_JeepSystem.pos.vy;
+            seg->pos.vx += Takabe_JeepSystem.scroll.vx;
+            seg->pos.vy += Takabe_JeepSystem.scroll.vy;
             s19b_jeep_gls_800CEE7C(work, out[3], &seg->pos);
             s19b_jeep_gls_800CEFE4(work, out[0], seg);
         }
         else
         {
             seg->pos.vz = z;
-            seg->pos.vx += Takabe_JeepSystem.pos.vx;
-            seg->pos.vy += Takabe_JeepSystem.pos.vy;
+            seg->pos.vx += Takabe_JeepSystem.scroll.vx;
+            seg->pos.vy += Takabe_JeepSystem.scroll.vy;
         }
     }
     SetSpadStack(SPAD_STACK_ADDR);
-    s19b_jeep_srl_800CD7B4(work, (int)seg, vtx);
+    s19b_jeep_srl_800CD7B4(work, seg, vtx);
     ResetSpadStack();
-    if ((u_int)*work->field_C44 > (u_int)work->field_C40)
+    if ((u_int)work->lits->n_lights > (u_int)work->max_lights)
     {
-        printf((char *)s19b_aLightoverjeepsrlc_800DDC94);
+        printf("<<<<< light over !!!!!!!(jeep.srl.c) >>>>>\n");
     }
     s19b_jlamp_800D0D40();
     GM_Camera.flag |= 2;
     GM_Camera.zoom = 0xF0;
-    if (work->field_C80 != 0)
+    if (work->fade_time != 0)
     {
-        n = work->field_C80 + 1;
-        work->field_C80 = n;
+        n = work->fade_time + 1;
+        work->fade_time = n;
         if (n >= 0x47)
         {
-            if (work->field_C78 != 0 && GM_GameOverTimer == 0)
+            if (work->proc_end != 0 && GM_GameOverTimer == 0)
             {
-                GCL_ExecProc(work->field_C78, NULL);
+                GCL_ExecProc(work->proc_end, NULL);
             }
         }
         else if (n >= 0x1F)
         {
             if (n == 0x1F)
             {
-                NewPadVibration((unsigned char *)&s19b_dword_800C36FC, 1);
-                NewPadVibration((unsigned char *)&s19b_dword_800C3710, 2);
+                NewPadVibration(s19b_dword_800C36FC, 1);
+                NewPadVibration(s19b_dword_800C3710, 2);
             }
         }
     }
@@ -404,18 +382,19 @@ void s19b_jeep_srl_800CDAA4(Work *work)
         if (s19b_jeep_gls_800CEDFC(Takabe_JeepSystem.control->mov.vz, 9600) == 14)
         {
             NewFadeInOut(2, 0x14);
-            work->field_C80 = 1;
+            work->fade_time = 1;
         }
     }
-    Takabe_JeepSystem.world.t[0] += Takabe_JeepSystem.pos.vx;
-    Takabe_JeepSystem.world.t[1] += Takabe_JeepSystem.pos.vy;
-    Takabe_JeepSystem.world.t[2] += Takabe_JeepSystem.pos.vz;
+    Takabe_JeepSystem.world.t[0] += Takabe_JeepSystem.scroll.vx;
+    Takabe_JeepSystem.world.t[1] += Takabe_JeepSystem.scroll.vy;
+    Takabe_JeepSystem.world.t[2] += Takabe_JeepSystem.scroll.vz;
 }
 void s19b_jeep_srl_800CDAA4(Work *work);
 
 void s19b_jeep_srl_800CDF48(Work *work)
 {
-    int i;
+    int *n_lights;
+    int  i;
 
     for (i = 0; i < 16; i++)
     {
@@ -423,17 +402,18 @@ void s19b_jeep_srl_800CDF48(Work *work)
     }
     for (i = 0; i < 16; i++)
     {
-        s19b_jeep_gls_800CE5F8(work->segs[i].field_18);
+        s19b_jeep_gls_800CE5F8(work->segs[i].objs);
     }
     for (i = 0; i < 13; i++)
     {
-        DG_OBJS *objs = work->lights[i].objs;
+        DG_OBJS *objs = work->models[i].objs;
         DG_FreePreshade(objs);
         DG_FreeObjs(objs);
     }
     Takabe_JeepSystem.field_78 = 0;
     GM_StreamPlayStop();
-    *work->field_C44 = work->field_C40;
+    n_lights = &work->lits->n_lights;
+    *n_lights = work->max_lights;
     GM_GameStatus &= ~0x20000000;
 }
 void s19b_jeep_srl_800CDF48(Work *work);
@@ -456,36 +436,36 @@ int s19b_jeep_srl_800CE020(Work *work, int name, int where)
     work->mtx_28 = DG_ZeroMatrix;
     s19b_jeep_gls_800CE400(work);
     map = GM_GetMap(GM_CurrentMap);
-    work->field_C44 = (int *)map->lit;
-    work->field_C40 = *work->field_C44;
-    printf((char *)s19b_aMaxlightd_800DDCC0, work->field_C40);
-    Takabe_JeepSystem.field_48 = THING_Gcl_GetInt('c');
+    work->lits = map->lit;
+    work->max_lights = work->lits->n_lights;
+    printf("max light:%d\n", work->max_lights);
+    Takabe_JeepSystem.otacon = THING_Gcl_GetInt('c');
     work->field_C60 = 0;
-    work->field_C68 = 0;
-    work->field_C6C = 0;
-    Takabe_JeepSystem.field_20 = DG_ZeroVector;
-    Takabe_JeepSystem.pos = Takabe_JeepSystem.field_20;
-    Takabe_JeepSystem.field_30 = 0;
-    Takabe_JeepSystem.field_2C = 0;
-    Takabe_JeepSystem.field_28 = 0;
+    work->reshaded = 0;
+    work->head = 0;
+    Takabe_JeepSystem.offset = DG_ZeroVector;
+    Takabe_JeepSystem.scroll = Takabe_JeepSystem.offset;
+    Takabe_JeepSystem.world_pos.vz = 0;
+    Takabe_JeepSystem.world_pos.vy = 0;
+    Takabe_JeepSystem.world_pos.vx = 0;
     seg = work->segs;
     for (i = 0, z = -31500; i < 16; seg++, i++, z += 4000)
     {
-        seg->field_18 = s19b_jeep_gls_800CE52C(0, work);
-        seg->field_1C = (int *)work->lights[0].lit;
-        seg->field_20 = (struct _JeepSegDef *)work->lights[0].field_C;
-        seg->field_8.vz = -2000;
-        seg->field_10 = 0;
+        seg->objs = s19b_jeep_gls_800CE52C(0, work);
+        seg->lits = work->models[0].lit;
+        seg->def = work->models[0].segdef;
+        seg->dir.vz = -2000;
+        seg->shear_x = 0;
         seg->field_14 = 0;
-        seg->field_8.vx = 0;
-        seg->field_8.vy = 0;
+        seg->dir.vx = 0;
+        seg->dir.vy = 0;
         seg->pos.vx = 0;
         seg->pos.vy = 0;
         seg->pos.vz = z;
-        seg->field_24 = 1;
-        seg->field_28 = 0;
-        Takabe_JeepSystem.field_38 = seg->pos;
-        if (Takabe_JeepSystem.field_38.vz < 16000)
+        seg->flags = 1;
+        seg->event = 0;
+        Takabe_JeepSystem.seg_pos = seg->pos;
+        if (Takabe_JeepSystem.seg_pos.vz < 16000)
         {
             s19b_jeep_gls_800CEFE4(work, 0, seg);
         }
@@ -497,20 +477,20 @@ int s19b_jeep_srl_800CE020(Work *work, int name, int where)
         *gate++ = objs;
         objs->flag |= 0x80;
     }
-    work->field_4B4 = GM_GetMap(work->map)->hzd;
+    work->hzd = GM_GetMap(work->map)->hzd;
     s19b_dword_800DE5B0 = work;
     if (GCL_GetOption('e'))
     {
-        work->field_C70 = GCL_StrToInt(GCL_NextStr());
-        work->field_C74 = GCL_StrToInt(GCL_NextStr());
-        work->field_C78 = GCL_StrToInt(GCL_NextStr());
+        work->proc_gate1 = GCL_StrToInt(GCL_NextStr());
+        work->proc_gate2 = GCL_StrToInt(GCL_NextStr());
+        work->proc_end = GCL_StrToInt(GCL_NextStr());
     }
     Takabe_JeepSystem.field_78 = 0x800;
     Takabe_JeepSystem.world = DG_ZeroMatrix;
-    NewJeep(GV_StrCode(s19b_aJsnake_800DDCD0), where);
+    NewJeep(GV_StrCode("j_snake"), where);
     s19b_jlamp_800D0CE0();
     s19b_jeep_srl_800CD790(work);
-    work->field_C58 = (short *)&s19b_dword_800C354C;
+    work->cmd = s19b_dword_800C354C;
     GM_GameStatus |= STATE_NOSLOW;
     return 0;
 }
@@ -537,14 +517,14 @@ void *NewJeepScroll(int name, int where)
 
 void s19b_jeep_gls_800CE400(Work *work)
 {
-    JeepLight *light;
+    JeepModel *light;
     DG_DEF    *def;
     DG_LITS   *lit;
     int       *hzd;
     DG_OBJS   *objs;
     int        i;
 
-    light = work->lights;
+    light = work->models;
 
     for (i = 0; i < 13; light++, i++)
     {
@@ -552,11 +532,11 @@ void s19b_jeep_gls_800CE400(Work *work)
         light->lit = lit = GV_GetCache(GV_CacheID(s19b_dword_800C3530[i], 'l'));
         if (lit == NULL)
         {
-            light->lit = lit = work->lights[0].lit;
+            light->lit = lit = work->models[0].lit;
         }
 
         light->hzd     = hzd = GV_GetCache(GV_CacheID(s19b_dword_800C3530[i], 'h'));
-        light->field_C = hzd[4];
+        light->segdef = (JeepSegDef *)hzd[4];
         light->objs    = objs = DG_MakeObjs(def, 'W', 0);
 
         if (lit != NULL)
@@ -573,7 +553,7 @@ void s19b_jeep_gls_800CE400(Work *work)
 }
 DG_OBJS *s19b_jeep_gls_800CE52C(int idx, Work *work)
 {
-    JeepLight *lights = work->lights;
+    JeepModel *lights = work->models;
     DG_OBJS   *objs;
     DG_OBJ    *src;
     DG_OBJ    *dst;
@@ -697,9 +677,9 @@ void s19b_jeep_gls_800CE8DC(struct _Work *work, JeepScrollSeg *road, int do_segs
     int          i;
     SVECTOR      verts[4];
 
-    SetRotMatrix(&road->field_18->world);
-    def = road->field_20;
-    cnt = &work->field_4B4->n_d_segs;
+    SetRotMatrix(&road->objs->world);
+    def = road->def;
+    cnt = &work->hzd->n_d_segs;
     face = def->faces;
 
     for (i = def->n_faces; i > 0; i--)
@@ -713,20 +693,20 @@ void s19b_jeep_gls_800CE8DC(struct _Work *work, JeepScrollSeg *road, int do_segs
             s19b_jeep_gls_800CE8B8(&face->v[3], vec++);
             DG_PutVector(verts, verts, 4);
 
-            if (Takabe_JeepSystem.pos.vz != 0)
+            if (Takabe_JeepSystem.scroll.vz != 0)
             {
-                s19b_jeep_gls_800CE628(&road->pos, verts, work->field_4B8, road->field_24 & 2);
+                s19b_jeep_gls_800CE628(&road->pos, verts, work->face_cursor, road->flags & 2);
             }
 
             face++;
-            HZD_QueueDynamicFloor(work->field_4B4, (HZD_FLR *)work->field_4B8++);
+            HZD_QueueDynamicFloor(work->hzd, (HZD_FLR *)work->face_cursor++);
         }
     }
 
     if (do_segs)
     {
-        def2 = road->field_20;
-        cnt2 = &work->field_4B4->n_d_segs;
+        def2 = road->def;
+        cnt2 = &work->hzd->n_d_segs;
         flags1 = def2->flags;
         line = def2->lines;
         flags2 = flags1 + def2->n_lines;
@@ -743,13 +723,13 @@ void s19b_jeep_gls_800CE8DC(struct _Work *work, JeepScrollSeg *road, int do_segs
                 verts[0].pad = line->v[0].pad / 2;
                 verts[1].pad = line->v[1].pad / 2;
 
-                if (Takabe_JeepSystem.pos.vz != 0)
+                if (Takabe_JeepSystem.scroll.vz != 0)
                 {
-                    s19b_jeep_gls_800CE83C(vec, (SVECTOR *)work->field_93C);
+                    s19b_jeep_gls_800CE83C(vec, (SVECTOR *)work->seg_cursor);
                 }
 
                 line++;
-                HZD_QueueDynamicSegment2(work->field_4B4, work->field_93C++, *flags1 | (*flags2 << 8));
+                HZD_QueueDynamicSegment2(work->hzd, work->seg_cursor++, *flags1 | (*flags2 << 8));
                 flags1++;
                 flags2++;
             }
@@ -759,7 +739,7 @@ void s19b_jeep_gls_800CE8DC(struct _Work *work, JeepScrollSeg *road, int do_segs
 void s19b_jeep_gls_800CEB2C(int arg0, SVECTOR *rot)
 {
     Work   *work = s19b_dword_800DE5B0;
-    int     idx = work->field_C6C;
+    int     idx = work->head;
     int     base;
     SVECTOR dir;
 
@@ -767,7 +747,7 @@ void s19b_jeep_gls_800CEB2C(int arg0, SVECTOR *rot)
     base = (arg0 - base) / 4000; /* two statements: quotient reuses the dividend reg */
     idx += base;
     idx &= 0xF;
-    dir = work->segs[idx].field_8;
+    dir = work->segs[idx].dir;
     rot->vy = GV_VecDir2(&dir);
     rot->vx = ratan2(-dir.vy, SquareRoot0(dir.vx * dir.vx + dir.vz * dir.vz));
     rot->vz = 0;
@@ -775,7 +755,7 @@ void s19b_jeep_gls_800CEB2C(int arg0, SVECTOR *rot)
 void s19b_jeep_gls_800CEC24(int arg0, SVECTOR *out)
 {
     Work          *work = s19b_dword_800DE5B0;
-    int            idx = work->field_C6C;
+    int            idx = work->head;
     int            base;
     JeepScrollSeg *seg;
     JeepScrollSeg *prev;
@@ -798,18 +778,18 @@ void s19b_jeep_gls_800CEC24(int arg0, SVECTOR *out)
         seg = &work->segs[(idx + 1) & 0xF];
     }
     zero = DG_ZeroVector;
-    dir = seg->field_8;
-    sum.vx = dir.vx + prev->field_8.vx;
-    sum.vy = dir.vy + prev->field_8.vy;
+    dir = seg->dir;
+    sum.vx = dir.vx + prev->dir.vx;
+    sum.vy = dir.vy + prev->dir.vy;
     sum.vz = -4000;
-    s19b_jeep_800D2170(&zero, &dir, &sum, (short *)&mtx);
+    s19b_jeep_800D2170(&zero, &dir, &sum, &mtx);
     s19b_jeep_800D21DC(((seg->pos.vz - arg0) << 12) / 4000, &mtx, out);
     GV_AddVec3(out, &seg->pos, out);
 }
 int s19b_jeep_gls_800CEDFC(int arg0, int arg1)
 {
     Work          *work = s19b_dword_800DE5B0;
-    int            idx = work->field_C6C;
+    int            idx = work->head;
     int            base;
     JeepScrollSeg *seg;
 
@@ -817,7 +797,7 @@ int s19b_jeep_gls_800CEDFC(int arg0, int arg1)
     idx += (arg0 - base - arg1) / 4000;
     idx &= 0xF;
     seg = &work->segs[idx];
-    return seg->field_28;
+    return seg->event;
 }
 
 void s19b_jeep_gls_800CEE7C(Work *work, int arg1, SVECTOR *pos)
@@ -827,10 +807,10 @@ void s19b_jeep_gls_800CEE7C(Work *work, int arg1, SVECTOR *pos)
     int      state;
     int      proc_id;
     
-    Takabe_JeepSystem.field_38 = *pos;
-    state = Takabe_JeepSystem.field_40;
+    Takabe_JeepSystem.seg_pos = *pos;
+    state = Takabe_JeepSystem.seg_event;
 
-    GV_SubVec3(pos, &Takabe_JeepSystem.pos, &diff);
+    GV_SubVec3(pos, &Takabe_JeepSystem.scroll, &diff);
 
     if (state == 2)
     {
@@ -841,7 +821,7 @@ void s19b_jeep_gls_800CEE7C(Work *work, int arg1, SVECTOR *pos)
         NewJeepGlass(2, &diff, 0);
         NewJeepGlass(2, &diff, 1);
 
-        proc_id = work->field_C70;
+        proc_id = work->proc_gate1;
         if (proc_id)
         {
             args.argc = 0;
@@ -858,7 +838,7 @@ void s19b_jeep_gls_800CEE7C(Work *work, int arg1, SVECTOR *pos)
         NewJeepGlass(2, &diff, 0);
         NewJeepGlass(2, &diff, 1);
 
-        proc_id = work->field_C74;
+        proc_id = work->proc_gate2;
         if (proc_id)
         {
             args.argc = 0;
@@ -877,7 +857,7 @@ void s19b_jeep_gls_800CEFE4(Work *work, int disable, JeepScrollSeg *seg)
     SVECTOR diff;
     SVECTOR pos;
 
-    GV_SubVec3(&Takabe_JeepSystem.field_38, &Takabe_JeepSystem.pos, &diff);
+    GV_SubVec3(&Takabe_JeepSystem.seg_pos, &Takabe_JeepSystem.scroll, &diff);
 
     if (disable == 0)
     {

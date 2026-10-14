@@ -3,55 +3,40 @@
 #include <rand.h>
 #include "game/game.h"
 
-typedef struct _Work
+typedef struct _Work Work;
+typedef void (*MrlStateFunc)(Work *work, int time);
+
+/* Meryl (or Otacon) sitting in the jeep Snake rides in, spawned by jeep.c */
+struct _Work
 {
-    GV_ACT   actor;                                    /* 0x000 */
-    CONTROL *root_ctrl;                                /* 0x020 */
-    MATRIX  *root_mat;                                 /* 0x024 */
-    CONTROL  control;                                  /* 0x028 */
-    OBJECT   body;                                     /* 0x0A4 */
+    GV_ACT         actor;                              /* 0x000 */
+    CONTROL       *root_ctrl;                          /* 0x020: the jeep's control */
+    MATRIX        *root_mat;                           /* 0x024: the jeep body's world matrix */
+    CONTROL        control;                            /* 0x028 */
+    OBJECT         body;                               /* 0x0A4 */
     MOTION_CONTROL m_ctrl;                             /* 0x188 */
     MOTION_SEGMENT m_segs1[17];                        /* 0x1D8 */
     MOTION_SEGMENT m_segs2[17];                        /* 0x43C */
-    SVECTOR  rots[16];                                 /* 0x6A0 */
-    SVECTOR  adjust[16];                               /* 0x720 */
-    MATRIX   light[2];                                 /* 0x7A0 */
-    int      field_7E0;                                /* 0x7E0 */
-    int      field_7E4;                                /* 0x7E4 */
-    TARGET  *target;                                   /* 0x7E8 */
-    void    *field_7EC;                                /* 0x7EC: current state handler */
-    char     pad_7F4[0x7F4 - 0x7EC - sizeof(void *)];
-    int      field_7F4;                                /* 0x7F4: frame counter */
-    char     pad_7FC[0x7FC - 0x7F4 - sizeof(int)];
-    int      field_7FC;                                /* 0x7FC: action id */
-    int      field_800;                                /* 0x800: flags */
-    char     pad_818[0x818 - 0x800 - sizeof(int)];
-    short    field_818;                                /* 0x818 */
-    short    field_81A;                                /* 0x81A */
-    short    field_81C;                                /* 0x81C */
-    short    field_81E;                                /* 0x81E */
-} Work;
+    SVECTOR        rots[16];                           /* 0x6A0 */
+    SVECTOR        adjust[16];                         /* 0x720 */
+    MATRIX         light[2];                           /* 0x7A0 */
+    int            name_id;                            /* 0x7E0: GV_StrCode of the character's name */
+    int            head_turn;                          /* 0x7E4: target head rotation */
+    TARGET        *target;                             /* 0x7E8 */
+    MrlStateFunc   state;                              /* 0x7EC */
+    char           pad_7F0[0x4];
+    int            time;                               /* 0x7F4: frames in the current state */
+    char           pad_7F8[0x4];
+    int            action;                             /* 0x7FC */
+    int            flags;                              /* 0x800: mrl_flags of the jeep system */
+    char           pad_804[0x818 - 0x804];
+    short          se[4];                              /* 0x818 */
+};
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2a[0x4C - 0x8];
-    int      field_4C;
-    int      field_50;
-    char     pad2b[0x60 - 0x50 - sizeof(int)];
-    OBJECT  *snake_body;
-    OBJECT  *field_64;
-    char     pad3[0x78 - 0x64 - sizeof(OBJECT *)];
-    int      field_78;
-    char     pad4[0x130 - 0x78 - sizeof(int)];
-    SVECTOR  field_130;
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "../jeep_system.h"
 
 
-extern int  s19b_dword_800C39E0;
+extern SVECTOR s19b_dword_800C39E0;
 extern void s19b_jeep_mrl_800D47B8(Work *work);
 extern void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 
@@ -60,15 +45,15 @@ void s19b_jeep_mrl_800D3D30(Work *work)
     CONTROL *ctl = &work->control;
     OBJECT  *body;
     DG_OBJS *objs;
-    SVECTOR *jpos = &Takabe_JeepSystem.field_130;
+    SVECTOR *jpos = &Takabe_JeepSystem.meryl_head;
 
     s19b_jeep_mrl_800D47B8(work);
     body = &work->body;
     GM_ActMotion(body);
-    sna_act_helper2_helper2_80033054(work->field_7E0, &work->adjust[6]);
-    work->adjust[6].vy = GV_NearSpeed(work->adjust[6].vy, work->field_7E4, 200);
+    sna_act_helper2_helper2_80033054(work->name_id, &work->adjust[6]);
+    work->adjust[6].vy = GV_NearSpeed(work->adjust[6].vy, work->head_turn, 200);
     ctl->rot = ctl->turn = DG_ZeroVector;
-    ctl->mov = *(SVECTOR *)&s19b_dword_800C39E0;
+    ctl->mov = s19b_dword_800C39E0;
     GM_ActControl(ctl);
     GM_ActObject(body);
     objs = body->objs;
@@ -82,7 +67,7 @@ void s19b_jeep_mrl_800D3D30(Work *work)
     jpos->vz = body->objs->objs[6].world.t[2];
     GM_MoveTarget(work->target, &ctl->mov);
 }
-int s19b_jeep_mrl_800D3E98(Work *work, int name, int arg2)
+int s19b_jeep_mrl_800D3E98(Work *work, int name, int otacon)
 {
     CONTROL *ctl = &work->control;
     OBJECT  *body;
@@ -96,23 +81,23 @@ int s19b_jeep_mrl_800D3E98(Work *work, int name, int arg2)
     GM_ConfigControlInterp(ctl, 4);
 
     body = &work->body;
-    if (arg2 == 0)
+    if (otacon == 0)
     {
         GM_InitObject(body, GV_StrCode("meryl"), 0x2D, GV_StrCode("mel_19b"));
-        work->field_7E0 = GV_StrCode("メリル");
-        work->field_818 = 0x82;
-        work->field_81A = 0x83;
-        work->field_81C = 0x84;
-        work->field_81E = 0x82;
+        work->name_id = GV_StrCode("メリル");
+        work->se[0] = 0x82;
+        work->se[1] = 0x83;
+        work->se[2] = 0x84;
+        work->se[3] = 0x82;
     }
     else
     {
         GM_InitObject(body, GV_StrCode("otacom"), 0x2D, GV_StrCode("mel_19b"));
-        work->field_7E0 = GV_StrCode("オタコン");
-        work->field_818 = 0x85;
-        work->field_81A = 0x86;
-        work->field_81C = 0x87;
-        work->field_81E = 0x85;
+        work->name_id = GV_StrCode("オタコン");
+        work->se[0] = 0x85;
+        work->se[1] = 0x86;
+        work->se[2] = 0x87;
+        work->se[3] = 0x85;
     }
     GM_ConfigObjectJoint(body);
     GM_ConfigMotionControl(body, &work->m_ctrl, GV_StrCode("mel_19b"), work->m_segs1, work->m_segs2,
@@ -122,7 +107,7 @@ int s19b_jeep_mrl_800D3E98(Work *work, int name, int arg2)
     GM_ActMotion(&work->body);
     GM_ConfigMotionAdjust(body, work->adjust);
     work->target = GM_AllocTarget();
-    Takabe_JeepSystem.field_64 = body;
+    Takabe_JeepSystem.meryl_body = body;
     ctl->r_sphere = -2;
     return 0;
 }
@@ -133,10 +118,7 @@ void s19b_jeep_mrl_800D4098(Work *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
 }
-extern void s19b_jeep_mrl_800D3D30(Work *work);
-extern int  s19b_jeep_mrl_800D3E98(Work *work, int name, int arg2);
-
-void *s19b_jeep_mrl_800D40D4(int arg0, int arg1, int arg2)
+GV_ACT *s19b_jeep_mrl_800D40D4(CONTROL *root_ctrl, MATRIX *root_mat, int otacon)
 {
     Work *work = GV_NewActor(GV_ACTOR_AFTER, 0x820);
 
@@ -144,72 +126,72 @@ void *s19b_jeep_mrl_800D40D4(int arg0, int arg1, int arg2)
     {
         GV_SetNamedActor(work, s19b_jeep_mrl_800D3D30, s19b_jeep_mrl_800D4098,
                          "jeep_mrl.c");
-        work->root_ctrl = (CONTROL *)arg0;
-        work->root_mat = (MATRIX *)arg1;
-        if (s19b_jeep_mrl_800D3E98(work, GV_StrCode("meryl"), arg2) < 0)
+        work->root_ctrl = root_ctrl;
+        work->root_mat = root_mat;
+        if (s19b_jeep_mrl_800D3E98(work, GV_StrCode("meryl"), otacon) < 0)
         {
             GV_DestroyActor(work);
             return NULL;
         }
     }
-    return work;
+    return &work->actor;
 }
 
-extern void s19b_jeep_mrl_800D424C(Work *work, int arg1);
-extern void s19b_jeep_mrl_800D4290(Work *work, int arg1);
-extern void s19b_jeep_mrl_800D43AC(Work *work, int arg1);
-extern void s19b_jeep_mrl_800D4414(Work *work, int arg1);
-extern void s19b_jeep_mrl_800D4574(Work *work, int arg1);
-extern void s19b_jeep_mrl_800D46D4(Work *work, int arg1);
+extern void s19b_jeep_mrl_800D424C(Work *work, int time);
+extern void s19b_jeep_mrl_800D4290(Work *work, int time);
+extern void s19b_jeep_mrl_800D43AC(Work *work, int time);
+extern void s19b_jeep_mrl_800D4414(Work *work, int time);
+extern void s19b_jeep_mrl_800D4574(Work *work, int time);
+extern void s19b_jeep_mrl_800D46D4(Work *work, int time);
 
 int s19b_jeep_mrl_800D4188(Work *work)
 {
-    int flags = work->field_800;
+    int flags = work->flags;
 
     if (flags & 2)
     {
-        work->field_7EC = (void *)s19b_jeep_mrl_800D46D4;
-        work->field_7F4 = 0;
+        work->state = s19b_jeep_mrl_800D46D4;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         return 1;
     }
     if (flags & 1)
     {
-        work->field_7EC = (void *)s19b_jeep_mrl_800D424C;
-        work->field_7F4 = 0;
+        work->state = s19b_jeep_mrl_800D424C;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         return 1;
     }
     if (flags & 0x20)
     {
-        work->field_7EC = (void *)s19b_jeep_mrl_800D4414;
-        work->field_7F4 = 0;
+        work->state = s19b_jeep_mrl_800D4414;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         return 1;
     }
     if (flags & 0x200)
     {
-        work->field_7EC = (void *)s19b_jeep_mrl_800D4574;
-        work->field_7F4 = 0;
+        work->state = s19b_jeep_mrl_800D4574;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         return 1;
     }
     if (flags & 0x1000)
     {
-        work->field_7EC = (void *)s19b_jeep_mrl_800D43AC;
-        work->field_7F4 = 0;
+        work->state = s19b_jeep_mrl_800D43AC;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         return 1;
     }
     if ((flags & 0x10000) == 0)
     {
-        work->field_7EC = (void *)s19b_jeep_mrl_800D4290;
-        work->field_7F4 = 0;
+        work->state = s19b_jeep_mrl_800D4290;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         return 1;
@@ -217,28 +199,28 @@ int s19b_jeep_mrl_800D4188(Work *work)
     return 0;
 }
 
-void s19b_jeep_mrl_800D424C(Work *work, int arg1)
+void s19b_jeep_mrl_800D424C(Work *work, int time)
 {
-    if (arg1 == 0)
+    if (time == 0)
     {
-        work->field_7FC = 0;
+        work->action = 0;
         GM_ConfigObjectAction(&work->body, 0, 0, 4);
     }
     s19b_jeep_mrl_800D4188(work);
 }
-void s19b_jeep_mrl_800D4290(Work *work, int arg1)
+void s19b_jeep_mrl_800D4290(Work *work, int time)
 {
     SVECTOR sp10;
     int     diff;
 
-    if (arg1 == 0)
+    if (time == 0)
     {
-        work->field_7FC = 0;
+        work->action = 0;
         GM_ConfigObjectAction(&work->body, 0, 0, 4);
     }
-    if ((Takabe_JeepSystem.field_4C & 1) && GV_RandU(0x100) < 0x14)
+    if ((Takabe_JeepSystem.flags & 1) && GV_RandU(0x100) < 0x14)
     {
-        GM_SeSet(&work->control.mov, work->field_81C);
+        GM_SeSet(&work->control.mov, work->se[2]);
     }
     GV_SubVec3(&GM_PlayerPosition, &work->control.mov, &sp10);
 
@@ -256,155 +238,155 @@ void s19b_jeep_mrl_800D4290(Work *work, int arg1)
     {
         diff = 0x400;
     }
-    work->field_7E4 = diff;
+    work->head_turn = diff;
 
-    if (work->field_800 & 0x10000)
+    if (work->flags & 0x10000)
     {
-        work->field_7E4 = 0;
+        work->head_turn = 0;
         if (s19b_jeep_mrl_800D4188(work) == 0)
         {
-            work->field_7EC = (void *)s19b_jeep_mrl_800D424C;
-            work->field_7F4 = 0;
+            work->state = s19b_jeep_mrl_800D424C;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
         }
     }
 }
-void s19b_jeep_mrl_800D43AC(Work *work, int arg1)
+void s19b_jeep_mrl_800D43AC(Work *work, int time)
 {
-    if (arg1 == 0)
+    if (time == 0)
     {
-        work->field_7FC = 7;
+        work->action = 7;
         GM_ConfigObjectAction(&work->body, 7, 0, 4);
     }
-    if (work->field_800 & 0x10000)
+    if (work->flags & 0x10000)
     {
-        work->field_7EC = (void *)s19b_jeep_mrl_800D424C;
-        work->field_7F4 = 0;
+        work->state = s19b_jeep_mrl_800D424C;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
     }
 }
-extern void s19b_jeep_mrl_800D4488(Work *work, int arg1);
-extern void s19b_jeep_mrl_800D4500(Work *work, int arg1);
-extern void s19b_jeep_mrl_800D45E8(Work *work, int arg1);
-extern void s19b_jeep_mrl_800D4660(Work *work, int arg1);
+extern void s19b_jeep_mrl_800D4488(Work *work, int time);
+extern void s19b_jeep_mrl_800D4500(Work *work, int time);
+extern void s19b_jeep_mrl_800D45E8(Work *work, int time);
+extern void s19b_jeep_mrl_800D4660(Work *work, int time);
 
-void s19b_jeep_mrl_800D4414(Work *work, int arg1)
+void s19b_jeep_mrl_800D4414(Work *work, int time)
 {
-    if (arg1 == 0)
+    if (time == 0)
     {
-        work->field_7FC = 7;
+        work->action = 7;
         GM_ConfigObjectAction(&work->body, 7, 0, 4);
     }
     if (s19b_jeep_mrl_800D4188(work) != 0) return;
     if (work->body.is_end == 0) return;
-    work->field_7EC = (void *)s19b_jeep_mrl_800D4488;
-    work->field_7F4 = 0;
+    work->state = s19b_jeep_mrl_800D4488;
+    work->time = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
 
-void s19b_jeep_mrl_800D4488(Work *work, int arg1)
+void s19b_jeep_mrl_800D4488(Work *work, int time)
 {
-    if (arg1 == 0)
+    if (time == 0)
     {
-        work->field_7FC = 8;
+        work->action = 8;
         GM_ConfigObjectAction(&work->body, 8, 0, 0);
     }
     if (s19b_jeep_mrl_800D4188(work) != 0) return;
-    if (work->field_800 & 0x20000) return;
-    work->field_7EC = (void *)s19b_jeep_mrl_800D4500;
-    work->field_7F4 = 0;
+    if (work->flags & 0x20000) return;
+    work->state = s19b_jeep_mrl_800D4500;
+    work->time = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
 
-void s19b_jeep_mrl_800D4500(Work *work, int arg1)
+void s19b_jeep_mrl_800D4500(Work *work, int time)
 {
-    if (arg1 == 0)
+    if (time == 0)
     {
-        work->field_7FC = 9;
+        work->action = 9;
         GM_ConfigObjectAction(&work->body, 9, 0, 4);
     }
     if (s19b_jeep_mrl_800D4188(work) != 0) return;
     if (work->body.is_end == 0) return;
-    work->field_7EC = (void *)s19b_jeep_mrl_800D424C;
-    work->field_7F4 = 0;
+    work->state = s19b_jeep_mrl_800D424C;
+    work->time = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
 
-void s19b_jeep_mrl_800D4574(Work *work, int arg1)
+void s19b_jeep_mrl_800D4574(Work *work, int time)
 {
-    if (arg1 == 0)
+    if (time == 0)
     {
-        work->field_7FC = 1;
+        work->action = 1;
         GM_ConfigObjectAction(&work->body, 1, 0, 4);
     }
     if (s19b_jeep_mrl_800D4188(work) != 0) return;
     if (work->body.is_end == 0) return;
-    work->field_7EC = (void *)s19b_jeep_mrl_800D45E8;
-    work->field_7F4 = 0;
+    work->state = s19b_jeep_mrl_800D45E8;
+    work->time = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
 
-void s19b_jeep_mrl_800D45E8(Work *work, int arg1)
+void s19b_jeep_mrl_800D45E8(Work *work, int time)
 {
-    if (arg1 == 0)
+    if (time == 0)
     {
-        work->field_7FC = 2;
+        work->action = 2;
         GM_ConfigObjectAction(&work->body, 2, 0, 0);
     }
     if (s19b_jeep_mrl_800D4188(work) != 0) return;
-    if (work->field_800 & 0x20000) return;
-    work->field_7EC = (void *)s19b_jeep_mrl_800D4660;
-    work->field_7F4 = 0;
+    if (work->flags & 0x20000) return;
+    work->state = s19b_jeep_mrl_800D4660;
+    work->time = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
 
-void s19b_jeep_mrl_800D4660(Work *work, int arg1)
+void s19b_jeep_mrl_800D4660(Work *work, int time)
 {
-    if (arg1 == 0)
+    if (time == 0)
     {
-        work->field_7FC = 3;
+        work->action = 3;
         GM_ConfigObjectAction(&work->body, 3, 0, 4);
     }
     if (s19b_jeep_mrl_800D4188(work) != 0) return;
     if (work->body.is_end == 0) return;
-    work->field_7EC = (void *)s19b_jeep_mrl_800D424C;
-    work->field_7F4 = 0;
+    work->state = s19b_jeep_mrl_800D424C;
+    work->time = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
-void s19b_jeep_mrl_800D46D4(Work *work, int arg1)
+void s19b_jeep_mrl_800D46D4(Work *work, int time)
 {
-    if (arg1 == 0)
+    if (time == 0)
     {
-        work->field_7FC = 0xD;
+        work->action = 0xD;
         GM_ConfigObjectAction(&work->body, 0xD, 0, 4);
-        GM_SeSet(&work->control.mov, work->field_818);
+        GM_SeSet(&work->control.mov, work->se[0]);
     }
     if (work->body.is_end == 0) return;
-    work->field_7EC = (void *)s19b_jeep_mrl_800D424C;
-    work->field_7F4 = 0;
+    work->state = s19b_jeep_mrl_800D424C;
+    work->time = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
 void s19b_jeep_mrl_800D4744(Work *work)
 {
-    void (*fn)(Work *, int);
-    int   old = work->field_7F4;
+    MrlStateFunc fn;
+    int          old = work->time;
 
-    work->field_7F4 = old + 1;
-    fn = (void (*)(Work *, int))work->field_7EC;
+    work->time = old + 1;
+    fn = work->state;
     if (fn == 0)
     {
         fn = s19b_jeep_mrl_800D424C;
-        work->field_7EC = (void *)fn;
-        work->field_7FC = 0;
+        work->state = fn;
+        work->action = 0;
         GM_ConfigObjectAction(&work->body, 0, 0, 4);
     }
     fn(work, old);
@@ -412,7 +394,7 @@ void s19b_jeep_mrl_800D4744(Work *work)
 
 void s19b_jeep_mrl_800D47B8(Work *work)
 {
-    work->field_800 = Takabe_JeepSystem.field_50;
-    Takabe_JeepSystem.field_50 &= 0xFFFF0000;
+    work->flags = Takabe_JeepSystem.mrl_flags;
+    Takabe_JeepSystem.mrl_flags &= 0xFFFF0000;
     s19b_jeep_mrl_800D4744(work);
 }

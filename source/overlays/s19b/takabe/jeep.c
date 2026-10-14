@@ -10,17 +10,18 @@
 extern SVECTOR s19b_dword_800C39BC;
 extern SVECTOR s19b_dword_800C39C4;
 
-void s19b_jeep_800D2170(SVECTOR *arg0, SVECTOR *arg1, SVECTOR *arg2, short *arg3)
+/* Makes a rotation matrix of three column vectors */
+void s19b_jeep_800D2170(SVECTOR *col0, SVECTOR *col1, SVECTOR *col2, MATRIX *mtx)
 {
-    arg3[0] = arg0->vx;
-    arg3[1] = arg1->vx;
-    arg3[2] = arg2->vx;
-    arg3[3] = arg0->vy;
-    arg3[4] = arg1->vy;
-    arg3[5] = arg2->vy;
-    arg3[6] = arg0->vz;
-    arg3[7] = arg1->vz;
-    arg3[8] = arg2->vz;
+    mtx->m[0][0] = col0->vx;
+    mtx->m[0][1] = col1->vx;
+    mtx->m[0][2] = col2->vx;
+    mtx->m[1][0] = col0->vy;
+    mtx->m[1][1] = col1->vy;
+    mtx->m[1][2] = col2->vy;
+    mtx->m[2][0] = col0->vz;
+    mtx->m[2][1] = col1->vz;
+    mtx->m[2][2] = col2->vz;
 }
 
 void s19b_jeep_800D21DC(int ang, MATRIX *mat, SVECTOR *out)
@@ -44,11 +45,11 @@ void s19b_jeep_800D21DC(int ang, MATRIX *mat, SVECTOR *out)
     ApplyMatrixSV(mat, &vec, out);
 }
 
-extern VECTOR s19b_dword_800DDD7C;
+extern const VECTOR s19b_dword_800DDD7C;
 extern u_char s19b_dword_800C3990[];
 extern u_char s19b_dword_800C3994[];
 
-extern int  s19b_spark2_m_800D9C90(SVECTOR *mov, VECTOR *pos, int *param, SVECTOR *out);
+extern int  s19b_spark2_m_800D9C90(CONTROL *control, VECTOR *pos, int *unused, SVECTOR *out);
 extern int  s19b_spark2_m_800D9EC0(SVECTOR *mov, SVECTOR *rot, SVECTOR *speed, SVECTOR *out);
 extern void s19b_spark2_m_800DA0B4(SVECTOR *rots, int param, SVECTOR *rot, SVECTOR *out);
 extern void s19b_jeep_800D3928(JeepWork *work);
@@ -86,24 +87,24 @@ void s19b_jeep_800D2258(JeepWork *work)
 
         if (work->func_3F8 != s19b_jeep_800D3928)
         {
-            work->field_3D0 += work->field_3D0 / 16;
-            work->field_3D4 -= work->field_3D4 / 4;
+            work->velocity += work->velocity / 16;
+            work->target_velocity -= work->target_velocity / 4;
             work->vibrate_timer = 5;
             NewPadVibration(s19b_dword_800C3990, 1);
             NewPadVibration(s19b_dword_800C3994, 0);
         }
         else
         {
-            work->field_3D4 -= work->field_3D4 / 128;
-            work->field_3CA -= 20;
-            if (work->field_3CA < -0x3B6)
+            work->target_velocity -= work->target_velocity / 128;
+            work->lateral_target -= 20;
+            if (work->lateral_target < -0x3B6)
             {
-                work->field_3CA = -0x3B6;
+                work->lateral_target = -0x3B6;
             }
 
             if (work->field_3E4 == 0)
             {
-                Takabe_JeepSystem.flags_50 |= 0x20200;
+                Takabe_JeepSystem.mrl_flags |= 0x20200;
             }
 
             work->field_3E4 = 5;
@@ -114,7 +115,7 @@ void s19b_jeep_800D2258(JeepWork *work)
 
     target->damaged &= ~TARGET_PUSH;
 
-    flags |= s19b_spark2_m_800D9C90(&control->mov, &work->pos, &work->field_3D0, &Takabe_JeepSystem.offset);
+    flags |= s19b_spark2_m_800D9C90(control, &work->pos, &work->velocity, &Takabe_JeepSystem.offset);
 
     if (flags & 1)
     {
@@ -123,14 +124,14 @@ void s19b_jeep_800D2258(JeepWork *work)
 
     if (flags == 2)
     {
-        work->field_3C8 += target->offset.vx;
+        work->lateral += target->offset.vx;
     }
 
-    Takabe_JeepSystem.offset.vy = -s19b_spark2_m_800D9EC0(&control->mov, &work->rot, &work->speed, &work->field_3B0);
-    s19b_spark2_m_800DA0B4(work->tyres.rots, work->field_3E8, &work->rot, &work->field_3C0);
+    Takabe_JeepSystem.offset.vy = -s19b_spark2_m_800D9EC0(&control->mov, &work->rot, &work->speed, &work->old_speed);
+    s19b_spark2_m_800DA0B4(work->tyres.rots, work->old_velocity, &work->rot, &work->old_rot);
 
-    work->tyres.objs->rots[3].vy = -work->field_3EC;
-    work->tyres.objs->rots[4].vy = -work->field_3EC;
+    work->tyres.objs->rots[3].vy = -work->steer;
+    work->tyres.objs->rots[4].vy = -work->steer;
 
     control->turn = work->rot;
     control->turn.vx = 0;
@@ -159,7 +160,7 @@ void s19b_jeep_800D2258(JeepWork *work)
     GM_ActObject2((OBJECT *)&work->front_headlights);
     GM_ActObject2((OBJECT *)&work->headlights);
 
-    work->field_3E8 = work->field_3D0;
+    work->old_velocity = work->velocity;
     work->func_3F8(work);
 
     work->old_pos.vx = work->pos.vx;
@@ -190,7 +191,7 @@ void s19b_jeep_800D2258(JeepWork *work)
     if (work->vibrate_timer != 0)
     {
         work->vibrate_timer--;
-        Takabe_JeepSystem.flags_50 |= 2;
+        Takabe_JeepSystem.mrl_flags |= 2;
         Takabe_JeepSystem.flags |= 2;
     }
 
@@ -198,7 +199,7 @@ void s19b_jeep_800D2258(JeepWork *work)
     {
         if (--work->field_3E4 == 0)
         {
-            Takabe_JeepSystem.flags_50 &= ~0x20200;
+            Takabe_JeepSystem.mrl_flags &= ~0x20200;
         }
     }
 }
@@ -230,7 +231,7 @@ void s19b_jeep_800D2800(JeepWork *work)
 extern JeepWork *s19b_dword_800DE64C;
 
 extern void s19b_jeep_800D2E78(JeepWork *work);
-extern GV_ACT *s19b_jeep_mrl_800D40D4(CONTROL *control, MATRIX *root, int param);
+extern GV_ACT *s19b_jeep_mrl_800D40D4(CONTROL *root_ctrl, MATRIX *root_mat, int otacon);
 extern void *NewJeepSnake(CONTROL *control, MATRIX *root);
 extern void NewJeepLamp2(MATRIX *root);
 
@@ -293,32 +294,32 @@ int s19b_jeep_800D2880(JeepWork *work, int name, int map)
     work->old_pos = work->pos;
     Takabe_JeepSystem.world_pos = work->old_pos;
 
-    work->field_3B0 = work->speed = work->field_3A8 = DG_ZeroVector;
+    work->old_speed = work->speed = work->field_3A8 = DG_ZeroVector;
     work->speed.vz = -400;
-    work->field_3B0.vz = -0x800;
-    work->field_3C8 = 0;
-    work->field_3CA = 0;
+    work->old_speed.vz = -0x800;
+    work->lateral = 0;
+    work->lateral_target = 0;
 
     Takabe_JeepSystem.offset.vx = -work->speed.vx;
     Takabe_JeepSystem.offset.vy = -work->speed.vy;
     Takabe_JeepSystem.offset.vz = -work->speed.vz;
-    Takabe_JeepSystem.pos = Takabe_JeepSystem.offset;
+    Takabe_JeepSystem.scroll = Takabe_JeepSystem.offset;
 
-    work->field_3E8 = work->field_3D0 = work->field_3D4 = 400;
+    work->old_velocity = work->velocity = work->target_velocity = 400;
     work->field_3CC = 0;
-    work->field_3EC = 0;
+    work->steer = 0;
     work->func_3F8 = s19b_jeep_800D2E78;
     work->field_3DC = 0;
     work->vibrate_timer = 0;
 
-    work->mrl = s19b_jeep_mrl_800D40D4(control, &body->objs->world, Takabe_JeepSystem.field_48);
+    work->mrl = s19b_jeep_mrl_800D40D4(control, &body->objs->world, Takabe_JeepSystem.otacon);
     s19b_dword_800DE64C = work;
     NewJeepSnake(control, &body->objs->world);
 
     Takabe_JeepSystem.control = control;
     Takabe_JeepSystem.rot = rot;
     Takabe_JeepSystem.body = body;
-    Takabe_JeepSystem.flags_50 |= 0x10000;
+    Takabe_JeepSystem.mrl_flags |= 0x10000;
 
     NewJeepLamp2(&body->objs->world);
     GM_SeSet(NULL, 0xC0);
@@ -380,11 +381,11 @@ void s19b_jeep_800D2CE8(JeepWork *work)
 {
     if (work->vibrate_timer == 0)
     {
-        work->field_3D0 = GV_NearSpeed(work->field_3D0, work->field_3D4, 5);
+        work->velocity = GV_NearSpeed(work->velocity, work->target_velocity, 5);
     }
     else
     {
-        work->field_3D0 = GV_NearSpeed(work->field_3D0, work->field_3D4, 10);
+        work->velocity = GV_NearSpeed(work->velocity, work->target_velocity, 10);
     }
 }
 
@@ -395,7 +396,7 @@ void s19b_jeep_800D2D3C(JeepWork *work)
     SVECTOR  vec;
 
     memset(&vec, 0, 8);
-    vec.vz = work->field_3D0;
+    vec.vz = work->velocity;
     rot = vec;
     DG_SetPos2(&DG_ZeroVector, &work->rot);
     DG_RotVector(&rot, &rot, 1);
@@ -403,11 +404,11 @@ void s19b_jeep_800D2D3C(JeepWork *work)
     work->speed.vz = rot.vz;
     s19b_jeep_gls_800CEC24(ctl->mov.vz - 0x640, &vec);
     GV_SubVec3(&vec, &ctl->mov, &vec);
-    vec.vx += work->field_3C8;
+    vec.vx += work->lateral;
     vec.vx += rsin(work->field_3CC << 5) * 50 >> 12;
     work->rot.vy = GV_VecDir2(&vec);
     work->field_3CC++;
-    work->field_3D4 = GV_NearSpeed(work->field_3D4, 0x190, 0xa);
+    work->target_velocity = GV_NearSpeed(work->target_velocity, 0x190, 0xa);
 }
 
 void s19b_jeep_800D2E78(JeepWork *work)
@@ -416,26 +417,26 @@ void s19b_jeep_800D2E78(JeepWork *work)
     s19b_jeep_800D2D3C(work);
     if ((work->field_3CC & 0x3F) == 0)
     {
-        work->field_3CA = (rand() * 1200 >> 15) - 0x258;
+        work->lateral_target = (rand() * 1200 >> 15) - 0x258;
     }
-    work->field_3C8 = GV_NearSpeed(work->field_3C8, work->field_3CA, 0x1E);
+    work->lateral = GV_NearSpeed(work->lateral, work->lateral_target, 0x1E);
 
-    if (Takabe_JeepSystem.field_40 == 0)
+    if (Takabe_JeepSystem.seg_event == 0)
     {
     }
-    else if (Takabe_JeepSystem.field_40 == 1)
-    {
-        work->func_3F8 = s19b_jeep_800D2F54;
-    }
-    else if (Takabe_JeepSystem.field_40 == 3)
+    else if (Takabe_JeepSystem.seg_event == 1)
     {
         work->func_3F8 = s19b_jeep_800D2F54;
     }
-    else if (Takabe_JeepSystem.field_40 == 6)
+    else if (Takabe_JeepSystem.seg_event == 3)
+    {
+        work->func_3F8 = s19b_jeep_800D2F54;
+    }
+    else if (Takabe_JeepSystem.seg_event == 6)
     {
         work->func_3F8 = s19b_jeep_800D36A4;
     }
-    else if (Takabe_JeepSystem.field_40 == 7)
+    else if (Takabe_JeepSystem.seg_event == 7)
     {
         work->func_3F8 = s19b_jeep_800D37D0;
     }
@@ -455,13 +456,13 @@ void s19b_jeep_800D2F54(JeepWork *work)
         /* fallthrough */
     case 1:
         s19b_jeep_800D2D3C(work);
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, 250, 30);
-        work->field_3D0 = GV_NearSpeed(work->field_3D0, work->field_3D4, 5);
+        work->lateral = GV_NearSpeed(work->lateral, 250, 30);
+        work->velocity = GV_NearSpeed(work->velocity, work->target_velocity, 5);
         if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 0xDAC) == 9)
         {
             work->field_3DC = 2;
             work->field_3A8 = work->speed;
-            Takabe_JeepSystem.flags_50 |= 0x20020;
+            Takabe_JeepSystem.mrl_flags |= 0x20020;
             GM_SeSet(&ctl->mov, 0xB6);
             NewPadVibration(s19b_dword_800C39B0, 2);
             GM_SetSound(0xFF0000FE, 0);
@@ -469,7 +470,7 @@ void s19b_jeep_800D2F54(JeepWork *work)
         break;
     case 2:
         memset(&vec, 0, 8);
-        vec.vz = work->field_3D0;
+        vec.vz = work->velocity;
         rot = vec;
         DG_SetPos2(&DG_ZeroVector, &work->rot);
         DG_RotVector(&rot, &rot, 1);
@@ -478,26 +479,26 @@ void s19b_jeep_800D2F54(JeepWork *work)
         work->speed.vx = rot.vx + work->field_3A8.vx;
         work->speed.vz = rot.vz + work->field_3A8.vz;
         work->rot.vy = GV_NearExp8(work->rot.vy, 0xC00);
-        work->field_3D0 = GV_NearExp4(work->field_3D0, 0);
-        work->field_3E8 = 0;
-        if ((unsigned int)(work->field_3D0 - 6) < 0x2C)
+        work->velocity = GV_NearExp4(work->velocity, 0);
+        work->old_velocity = 0;
+        if ((unsigned int)(work->velocity - 6) < 0x2C)
         {
             s19b_jblood_800C850C(&work->tyres.objs->objs[1].world, &work->body.objs->world);
             s19b_jblood_800C850C(&work->tyres.objs->objs[2].world, &work->body.objs->world);
         }
-        work->field_3E8 = 0;
-        work->field_3EC = GV_NearSpeed(work->field_3EC, -400, 20);
+        work->old_velocity = 0;
+        work->steer = GV_NearSpeed(work->steer, -400, 20);
         if (work->speed.vx == 0 && work->speed.vz == 0)
         {
             work->field_3DC = 3;
-            Takabe_JeepSystem.flags_50 &= 0xFFFDFFDF;
-            Takabe_JeepSystem.flags_50 &= 0xFFFEFFFF;
+            Takabe_JeepSystem.mrl_flags &= 0xFFFDFFDF;
+            Takabe_JeepSystem.mrl_flags &= 0xFFFEFFFF;
             work->field_3CC = 0;
         }
         break;
     case 3:
         work->field_3CC++;
-        work->field_3EC = GV_NearSpeed(work->field_3EC, -300, 10);
+        work->steer = GV_NearSpeed(work->steer, -300, 10);
         if (s19b_jeep_800D39F0() == 1)
         {
             work->field_3DC = 4;
@@ -521,8 +522,8 @@ void s19b_jeep_800D2F54(JeepWork *work)
         break;
     case 5:
         s19b_jeep_800D2D3C(work);
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, 250, 30);
-        work->field_3D0 = GV_NearSpeed(work->field_3D0, work->field_3D4, 5);
+        work->lateral = GV_NearSpeed(work->lateral, 250, 30);
+        work->velocity = GV_NearSpeed(work->velocity, work->target_velocity, 5);
         if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 0x34BC) == 9)
         {
             Voicesys_800CE2D0();
@@ -542,53 +543,53 @@ void s19b_jeep_800D32C4(JeepWork *work)
     case 0:
         work->field_3DC = 1;
         work->field_3CC = 0;
-        work->field_3EC = -300;
-        Takabe_JeepSystem.flags_50 |= 0x20020;
-        Takabe_JeepSystem.flags_50 |= 0x10000;
+        work->steer = -300;
+        Takabe_JeepSystem.mrl_flags |= 0x20020;
+        Takabe_JeepSystem.mrl_flags |= 0x10000;
         GM_SeSet(&ctl->mov, 0xBB);
         NewPadVibration(s19b_dword_800C39A0, 2);
         /* fallthrough */
     case 1:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, 750, 50);
+        work->lateral = GV_NearSpeed(work->lateral, 750, 50);
         vec = DG_ZeroVector;
-        s19b_jeep_800D3A54(&vec, &work->rot.vy, work->field_3EC, work->field_3D0);
+        s19b_jeep_800D3A54(&vec, &work->rot.vy, work->steer, work->velocity);
         work->speed.vx = vec.vx;
         work->speed.vz = vec.vz;
-        work->field_3D0 = GV_NearSpeed(work->field_3D0, -250, 10);
-        work->field_3EC = GV_NearSpeed(work->field_3EC, -400, 10);
+        work->velocity = GV_NearSpeed(work->velocity, -250, 10);
+        work->steer = GV_NearSpeed(work->steer, -400, 10);
         if ((work->rot.vy & 0xFFF) < 0x708)
         {
             work->field_3DC = 2;
         }
         break;
     case 2:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, 750, 50);
+        work->lateral = GV_NearSpeed(work->lateral, 750, 50);
         vec = DG_ZeroVector;
-        s19b_jeep_800D3A54(&vec, &work->rot.vy, work->field_3EC, work->field_3D0);
+        s19b_jeep_800D3A54(&vec, &work->rot.vy, work->steer, work->velocity);
         work->speed.vx = vec.vx;
         work->speed.vz = vec.vz;
-        work->field_3D0 = GV_NearSpeed(work->field_3D0, 0, 20);
-        work->field_3EC = GV_NearSpeed(work->field_3EC, 0, 7);
-        if (work->field_3D0 == 0)
+        work->velocity = GV_NearSpeed(work->velocity, 0, 20);
+        work->steer = GV_NearSpeed(work->steer, 0, 7);
+        if (work->velocity == 0)
         {
             work->field_3CC = 0;
             work->field_3DC = 5;
             GM_SeSet(&ctl->mov, 0xB4);
             NewPadVibration(s19b_dword_800C39A0, 2);
-            Takabe_JeepSystem.flags_50 = (Takabe_JeepSystem.flags_50 & 0xFFFDFFDF) | 0x200;
+            Takabe_JeepSystem.mrl_flags = (Takabe_JeepSystem.mrl_flags & 0xFFFDFFDF) | 0x200;
         }
         break;
     case 3:
         s19b_jeep_800D2D3C(work);
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, 1000, 50);
-        work->field_3D0 = GV_NearSpeed(work->field_3D0, work->field_3D4, s19b_dword_800DE648);
+        work->lateral = GV_NearSpeed(work->lateral, 1000, 50);
+        work->velocity = GV_NearSpeed(work->velocity, work->target_velocity, s19b_dword_800DE648);
         s19b_dword_800DE648 += 2;
-        work->field_3EC = GV_NearSpeed(work->field_3EC, 50, 10);
+        work->steer = GV_NearSpeed(work->steer, 50, 10);
         if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, -0xCB2) == 9)
         {
             work->field_3DC = 4;
         }
-        if (work->field_3D0 < 200)
+        if (work->velocity < 200)
         {
             s19b_jblood_800C850C(&work->tyres.objs->objs[1].world, &work->body.objs->world);
             s19b_jblood_800C850C(&work->tyres.objs->objs[2].world, &work->body.objs->world);
@@ -596,23 +597,23 @@ void s19b_jeep_800D32C4(JeepWork *work)
         break;
     case 4:
         s19b_jeep_800D2D3C(work);
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, 600, 50);
-        work->field_3D0 = GV_NearSpeed(work->field_3D0, 400, 5);
-        work->field_3EC = GV_NearSpeed(work->field_3EC, 0, 7);
+        work->lateral = GV_NearSpeed(work->lateral, 600, 50);
+        work->velocity = GV_NearSpeed(work->velocity, 400, 5);
+        work->steer = GV_NearSpeed(work->steer, 0, 7);
         if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, -6000) == 9)
         {
             work->field_3DC = -1;
         }
-        work->field_3EC = GV_NearSpeed(work->field_3EC, 0, 20);
+        work->steer = GV_NearSpeed(work->steer, 0, 20);
         break;
     case 5:
-        work->field_3EC = GV_NearSpeed(work->field_3EC, 100, 30);
+        work->steer = GV_NearSpeed(work->steer, 100, 30);
         work->field_3CC++;
         if (work->field_3CC >= 6)
         {
             work->field_3DC = 3;
-            work->field_3C8 = 750;
-            work->field_3D0 = 0;
+            work->lateral = 750;
+            work->velocity = 0;
             s19b_dword_800DE648 = 2;
             GM_SeSet(NULL, 0xC0);
         }
@@ -637,7 +638,7 @@ void s19b_jeep_800D36A4(JeepWork *work)
     switch (work->field_3DC)
     {
     case 0:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, 750, 50);
+        work->lateral = GV_NearSpeed(work->lateral, 750, 50);
         if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 2000) == 10)
         {
             work->field_3DC = 1;
@@ -646,7 +647,7 @@ void s19b_jeep_800D36A4(JeepWork *work)
         }
         break;
     case 1:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, 1500, 50);
+        work->lateral = GV_NearSpeed(work->lateral, 1500, 50);
         if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 3000) == 12)
         {
             work->field_3DC = 2;
@@ -655,8 +656,8 @@ void s19b_jeep_800D36A4(JeepWork *work)
         }
         break;
     case 2:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, 750, 50);
-        if (work->field_3C8 == 750)
+        work->lateral = GV_NearSpeed(work->lateral, 750, 50);
+        if (work->lateral == 750)
         {
             work->func_3F8 = s19b_jeep_800D2E78;
             work->field_3DC = 0;
@@ -675,7 +676,7 @@ void s19b_jeep_800D37D0(JeepWork *work)
     switch (work->field_3DC)
     {
     case 0:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, -750, 50);
+        work->lateral = GV_NearSpeed(work->lateral, -750, 50);
         if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 2000) == 11)
         {
             work->field_3DC = 1;
@@ -683,7 +684,7 @@ void s19b_jeep_800D37D0(JeepWork *work)
         }
         break;
     case 1:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, -1350, 50);
+        work->lateral = GV_NearSpeed(work->lateral, -1350, 50);
         if (s19b_jeep_gls_800CEDFC(ctl->mov.vz, 3000) == 13)
         {
             work->field_3DC = 2;
@@ -696,8 +697,8 @@ void s19b_jeep_800D37D0(JeepWork *work)
         }
         break;
     case 2:
-        work->field_3C8 = GV_NearSpeed(work->field_3C8, -750, 50);
-        if (work->field_3C8 == -750)
+        work->lateral = GV_NearSpeed(work->lateral, -750, 50);
+        if (work->lateral == -750)
         {
             work->func_3F8 = s19b_jeep_800D3928;
             work->field_3DC = 0;
@@ -712,19 +713,19 @@ void s19b_jeep_800D3928(JeepWork *work)
     s19b_jeep_800D2D3C(work);
     if ((work->field_3CC & 0x3F) == 0)
     {
-        work->field_3CA = (rand() * 60 >> 15) - 0x258;
+        work->lateral_target = (rand() * 60 >> 15) - 0x258;
     }
-    work->field_3C8 = GV_NearSpeed(work->field_3C8, work->field_3CA, 0x1E);
+    work->lateral = GV_NearSpeed(work->lateral, work->lateral_target, 0x1E);
 }
 
 int s19b_jeep_800D399C(void)
 {
-    return s19b_dword_800DE64C->field_3D0;
+    return s19b_dword_800DE64C->velocity;
 }
 int s19b_jeep_800D39B4(SVECTOR *dst)
 {
     *dst = s19b_dword_800DE64C->control.mov;
-    return s19b_dword_800DE64C->field_3C8;
+    return s19b_dword_800DE64C->lateral;
 }
 
 int s19b_jeep_800D39F0(void)

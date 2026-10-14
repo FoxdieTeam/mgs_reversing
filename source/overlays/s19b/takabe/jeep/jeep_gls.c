@@ -1,22 +1,6 @@
 #include "game/game.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x18];
-    SVECTOR  field_38;
-    char     pad4[0x20];
-    OBJECT  *body;
-    char     pad5[0x18];
-    int      field_7C;
-    MATRIX   world;
-    char     pad6[0xCC];
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "../jeep_system.h"
 
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 #define BODY_MODEL  GV_StrCode("19b_o1")
@@ -64,9 +48,9 @@ void s19b_jeep_gls_800CF0B0(Work *work)
         }
     }
 
-    GV_AddVec3(&control->mov, &Takabe_JeepSystem.pos, &control->mov);
+    GV_AddVec3(&control->mov, &Takabe_JeepSystem.scroll, &control->mov);
 
-    work->dist += Takabe_JeepSystem.pos.vz;
+    work->dist += Takabe_JeepSystem.scroll.vz;
     if (work->dist > 32000)
     {
         GV_DestroyActor(work);

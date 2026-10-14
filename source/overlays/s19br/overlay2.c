@@ -1,304 +1,124 @@
 #include "mgstype.h"
+#include <libgte.h>
+#include <libgpu.h>
+#include "overlays/s19b/takabe/democame.h"
+#include "overlays/s19b/takabe/jeep/jeepdemo.h"
 
-int s19b_dword_800C3530 = 0x1B3FCB82;
-int s19b_dword_800C3534 = 0x1F3F1B40;
-int s19b_dword_800C3538 = 0x1F411F40;
-int s19b_dword_800C353C = 0x2340233F;
-int s19b_dword_800C3540 = 0x273F2341;
-int s19b_dword_800C3544 = 0x27412740;
-int s19b_dword_800C3548 = 0x0000F6B4;
-int s19b_dword_800C354C = 0x000A0000;
-int s19b_dword_800C3550 = 0x03E80000;
-int s19b_dword_800C3554 = 0x00C80000;
-int s19b_dword_800C3558 = 0x00000000;
-int s19b_dword_800C355C = 0x000A0000;
-int s19b_dword_800C3560 = 0x03E803E8;
-int s19b_dword_800C3564 = 0x00C80064;
-int s19b_dword_800C3568 = 0x00000000;
-int s19b_dword_800C356C = 0x00040000;
-int s19b_dword_800C3570 = 0x03E8FC18;
-int s19b_dword_800C3574 = 0x00000064;
-int s19b_dword_800C3578 = 0x00000000;
-int s19b_dword_800C357C = 0x000A0000;
-int s19b_dword_800C3580 = 0x00000000;
-int s19b_dword_800C3584 = 0x00640064;
-int s19b_dword_800C3588 = 0x00010002;
-int s19b_dword_800C358C = 0x00010001;
-int s19b_dword_800C3590 = 0x00000000;
-int s19b_dword_800C3594 = 0x00000000;
-int s19b_dword_800C3598 = 0x00090001;
-int s19b_dword_800C359C = 0x00010002;
-int s19b_dword_800C35A0 = 0x00000000;
-int s19b_dword_800C35A4 = 0x00000000;
-int s19b_dword_800C35A8 = 0x00020001;
-int s19b_dword_800C35AC = 0x000A0000;
-int s19b_dword_800C35B0 = 0x03E80000;
-int s19b_dword_800C35B4 = 0x00640000;
-int s19b_dword_800C35B8 = 0x00000000;
-int s19b_dword_800C35BC = 0x000A0000;
-int s19b_dword_800C35C0 = 0x00000000;
-int s19b_dword_800C35C4 = 0x00640000;
-int s19b_dword_800C35C8 = 0x00030001;
-int s19b_dword_800C35CC = 0x00010001;
-int s19b_dword_800C35D0 = 0x00000000;
-int s19b_dword_800C35D4 = 0x00000000;
-int s19b_dword_800C35D8 = 0x00090001;
-int s19b_dword_800C35DC = 0x00010002;
-int s19b_dword_800C35E0 = 0x00000000;
-int s19b_dword_800C35E4 = 0x00000000;
-int s19b_dword_800C35E8 = 0x00040001;
-int s19b_dword_800C35EC = 0x00140000;
-int s19b_dword_800C35F0 = 0x03E80000;
-int s19b_dword_800C35F4 = 0x00320000;
-int s19b_dword_800C35F8 = 0x0005000F;
-int s19b_dword_800C35FC = 0xFFF80000;
-int s19b_dword_800C3600 = 0x03E80000;
-int s19b_dword_800C3604 = 0x00000000;
-int s19b_dword_800C3608 = 0x00060005;
-int s19b_dword_800C360C = 0x00010003;
-int s19b_dword_800C3610 = 0x03E80000;
-int s19b_dword_800C3614 = 0x00000000;
-int s19b_dword_800C3618 = 0x000A0001;
-int s19b_dword_800C361C = 0xFFF80004;
-int s19b_dword_800C3620 = 0x03E80000;
-int s19b_dword_800C3624 = 0x00000000;
-int s19b_dword_800C3628 = 0x000F0000;
-int s19b_dword_800C362C = 0x00010005;
-int s19b_dword_800C3630 = 0x03E80000;
-int s19b_dword_800C3634 = 0x00000000;
-int s19b_dword_800C3638 = 0x000C0001;
-int s19b_dword_800C363C = 0xFFF80000;
-int s19b_dword_800C3640 = 0x03E80000;
-int s19b_dword_800C3644 = 0x00000000;
-int s19b_dword_800C3648 = 0x00070005;
-int s19b_dword_800C364C = 0x00010006;
-int s19b_dword_800C3650 = 0x03E80000;
-int s19b_dword_800C3654 = 0x00000000;
-int s19b_dword_800C3658 = 0x000B0001;
-int s19b_dword_800C365C = 0xFFF80007;
-int s19b_dword_800C3660 = 0x03E80000;
-int s19b_dword_800C3664 = 0x00000000;
-int s19b_dword_800C3668 = 0x00000000;
-int s19b_dword_800C366C = 0x00010008;
-int s19b_dword_800C3670 = 0x03E80000;
-int s19b_dword_800C3674 = 0x00000000;
-int s19b_dword_800C3678 = 0x000D0001;
-int s19b_dword_800C367C = 0xFFF00000;
-int s19b_dword_800C3680 = 0x03E80000;
-int s19b_dword_800C3684 = 0x00000000;
-int s19b_dword_800C3688 = 0x0008000B;
-int s19b_dword_800C368C = 0x00010009;
-int s19b_dword_800C3690 = 0x03E80000;
-int s19b_dword_800C3694 = 0x00000000;
-int s19b_dword_800C3698 = 0x00000000;
-int s19b_dword_800C369C = 0x0001000A;
-int s19b_dword_800C36A0 = 0x03E80000;
-int s19b_dword_800C36A4 = 0x00000000;
-int s19b_dword_800C36A8 = 0x00000000;
-int s19b_dword_800C36AC = 0x0001000B;
-int s19b_dword_800C36B0 = 0x03E80000;
-int s19b_dword_800C36B4 = 0x00000000;
-int s19b_dword_800C36B8 = 0x00000000;
-int s19b_dword_800C36BC = 0x0008000B;
-int s19b_dword_800C36C0 = 0x03E80000;
-int s19b_dword_800C36C4 = 0x00000000;
-int s19b_dword_800C36C8 = 0x000E0000;
-int s19b_dword_800C36CC = 0x0000FFFF;
-int s19b_dword_800C36D0 = 0x03E80000;
-int s19b_dword_800C36D4 = 0x00C80064;
-int s19b_dword_800C36D8 = 0x00000000;
-int s19b_dword_800C36DC = 0x00000800;
-int s19b_dword_800C36E0 = 0x00000000;
-int s19b_dword_800C36E4 = 0x00000801;
-int s19b_dword_800C36E8 = 0x00000000;
-int s19b_dword_800C36EC = 0x00000800;
-int s19b_dword_800C36F0 = 0x00000000;
-int s19b_dword_800C36F4 = 0x00000000;
-int s19b_dword_800C36F8 = 0x00000000;
-int s19b_dword_800C36FC = 0x0400097F;
-int s19b_dword_800C3700 = 0x0400097F;
-int s19b_dword_800C3704 = 0x0400067F;
-int s19b_dword_800C3708 = 0x0600047F;
-int s19b_dword_800C370C = 0x0000037F;
-int s19b_dword_800C3710 = 0x02F309FF;
-int s19b_dword_800C3714 = 0x06FF02E7;
-int s19b_dword_800C3718 = 0x02E001F5;
-int s19b_dword_800C371C = 0x08E508F3;
-int s19b_dword_800C3720 = 0x07C8020B;
-int s19b_dword_800C3724 = 0x06A4030B;
-int s19b_dword_800C3728 = 0x2F3F1F65;
-int s19b_dword_800C372C = 0x24C60000;
-int s19b_dword_800C3730 = 0x00000800;
-int s19b_dword_800C3734 = 0x00000800;
-int s19b_dword_800C3738 = 0x00000800;
-int s19b_dword_800C373C = 0x00000000;
-int s19b_dword_800C3740 = 0x04260000;
-int s19b_dword_800C3744 = 0x00000659;
-int s19b_dword_800C3748 = 0x04260000;
-int s19b_dword_800C374C = 0x00000177;
-int s19b_dword_800C3750 = 0x0232FB1E;
-int s19b_dword_800C3754 = 0x0000055F;
-int s19b_dword_800C3758 = 0x023204E2;
-int s19b_dword_800C375C = 0x00000271;
-int s19b_dword_800C3760 = 0x0BB801F4;
-int s19b_dword_800C3764 = 0x00001388;
-int s19b_dword_800C3768 = 0x00000000;
-int s19b_dword_800C376C = 0x00000000;
-int s19b_dword_800C3770 = 0x057800FA;
-int s19b_dword_800C3774 = 0x000005DC;
-int s19b_dword_800C3778 = 0x00000003;
-int s19b_dword_800C377C = 0x0000001E;
-int s19b_dword_800C3780 = 0x00000000;
-int s19b_dword_800C3784 = 0x00000000;
-int s19b_dword_800C3788 = 0x00000000;
-int s19b_dword_800C378C = 0x00000000;
-int s19b_dword_800C3790 = 0x00000000;
-int s19b_dword_800C3794 = 0x00000300;
-int s19b_dword_800C3798 = 0x00000003;
-int s19b_dword_800C379C = 0x0000001F;
-int s19b_dword_800C37A0 = 0x00000000;
-int s19b_dword_800C37A4 = 0x00000000;
-int s19b_dword_800C37A8 = 0x00000000;
-int s19b_dword_800C37AC = 0x00000000;
-int s19b_dword_800C37B0 = 0x00000000;
-int s19b_dword_800C37B4 = 0x00000030;
-int s19b_dword_800C37B8 = 0x00000003;
-int s19b_dword_800C37BC = 0x00000082;
-int s19b_dword_800C37C0 = 0x00000000;
-int s19b_dword_800C37C4 = 0x00000000;
-int s19b_dword_800C37C8 = 0x00000000;
-int s19b_dword_800C37CC = 0x00000000;
-int s19b_dword_800C37D0 = 0x00000000;
-int s19b_dword_800C37D4 = 0x00000003;
-int s19b_dword_800C37D8 = 0x00000000;
-int s19b_dword_800C37DC = 0x000000AF;
-int s19b_dword_800C37E0 = 0x00000000;
-int s19b_dword_800C37E4 = 0x00000000;
-int s19b_dword_800C37E8 = 0x00000000;
-int s19b_dword_800C37EC = 0x00000000;
-int s19b_dword_800C37F0 = 0x00000000;
-int s19b_dword_800C37F4 = 0x00000021;
-int s19b_dword_800C37F8 = 0x00000003;
-int s19b_dword_800C37FC = 0x000000B0;
-int s19b_dword_800C3800 = 0x00000002;
-int s19b_dword_800C3804 = 0x00000000;
-int s19b_dword_800C3808 = 0x00000000;
-int s19b_dword_800C380C = 0xFAECFF56;
-int s19b_dword_800C3810 = 0x000001F4;
-int s19b_dword_800C3814 = 0x000000E0;
-int s19b_dword_800C3818 = 0x00000003;
-int s19b_dword_800C381C = 0x00000113;
-int s19b_dword_800C3820 = 0x00000002;
-int s19b_dword_800C3824 = 0x00000000;
-int s19b_dword_800C3828 = 0x00000000;
-int s19b_dword_800C382C = 0xFCE0FF56;
-int s19b_dword_800C3830 = 0x000001F4;
-int s19b_dword_800C3834 = 0x00000024;
-int s19b_dword_800C3838 = 0x00000003;
-int s19b_dword_800C383C = 0x00000131;
-int s19b_dword_800C3840 = 0x00000002;
-int s19b_dword_800C3844 = 0x00000000;
-int s19b_dword_800C3848 = 0x00000000;
-int s19b_dword_800C384C = 0xFC0000AA;
-int s19b_dword_800C3850 = 0x000001F4;
-int s19b_dword_800C3854 = 0x000000E0;
-int s19b_dword_800C3858 = 0x00000001;
-int s19b_dword_800C385C = 0x0000014F;
-int s19b_dword_800C3860 = 0x00000002;
-int s19b_dword_800C3864 = 0x00000000;
-int s19b_dword_800C3868 = 0x00000000;
-int s19b_dword_800C386C = 0xFFEC010E;
-int s19b_dword_800C3870 = 0x00000BB8;
-int s19b_dword_800C3874 = 0x0000002C;
-int s19b_dword_800C3878 = 0xFFFFFFFF;
-int s19b_dword_800C387C = 0x00000000;
-int s19b_dword_800C3880 = 0x00000000;
-int s19b_dword_800C3884 = 0x00000000;
-int s19b_dword_800C3888 = 0x00000000;
-int s19b_dword_800C388C = 0x00000000;
-int s19b_dword_800C3890 = 0x00000000;
-int s19b_dword_800C3894 = 0x00000000;
-int s19b_dword_800C3898 = 0x00000001;
-int s19b_dword_800C389C = 0x800D06E0;
-int s19b_dword_800C38A0 = 0x0000001E;
-int s19b_dword_800C38A4 = 0x800D072C;
-int s19b_dword_800C38A8 = 0x00000082;
-int s19b_dword_800C38AC = 0x800D07EC;
-int s19b_dword_800C38B0 = 0x0000008D;
-int s19b_dword_800C38B4 = 0x800D087C;
-int s19b_dword_800C38B8 = 0x00000113;
-int s19b_dword_800C38BC = 0x800D08C8;
-int s19b_dword_800C38C0 = 0x0000014F;
-int s19b_dword_800C38C4 = 0x800D08F0;
-int s19b_dword_800C38C8 = 0xFFFFFFFF;
-int s19b_dword_800C38CC = 0x800D072C;
-int s19b_dword_800C38D0 = 0x00000003;
-int s19b_dword_800C38D4 = 0x0000001E;
-int s19b_dword_800C38D8 = 0x00000000;
-int s19b_dword_800C38DC = 0x00000000;
-int s19b_dword_800C38E0 = 0x00000000;
-int s19b_dword_800C38E4 = 0x00000000;
-int s19b_dword_800C38E8 = 0x00000000;
-int s19b_dword_800C38EC = 0x00000300;
-int s19b_dword_800C38F0 = 0x00000001;
-int s19b_dword_800C38F4 = 0x00000082;
-int s19b_dword_800C38F8 = 0x00000002;
-int s19b_dword_800C38FC = 0x00000000;
-int s19b_dword_800C3900 = 0x00000000;
-int s19b_dword_800C3904 = 0x0BB80FD2;
-int s19b_dword_800C3908 = 0x000001F4;
-int s19b_dword_800C390C = 0x0000002C;
-int s19b_dword_800C3910 = 0x00000001;
-int s19b_dword_800C3914 = 0x00000276;
-int s19b_dword_800C3918 = 0x00000000;
-int s19b_dword_800C391C = 0x00000000;
-int s19b_dword_800C3920 = 0x00000000;
-int s19b_dword_800C3924 = 0x0FA00000;
-int s19b_dword_800C3928 = 0x0000D120;
-int s19b_dword_800C392C = 0x00000002;
-int s19b_dword_800C3930 = 0xFFFFFFFF;
-int s19b_dword_800C3934 = 0x00000000;
-int s19b_dword_800C3938 = 0x00000000;
-int s19b_dword_800C393C = 0x00000000;
-int s19b_dword_800C3940 = 0x00000000;
-int s19b_dword_800C3944 = 0x00000000;
-int s19b_dword_800C3948 = 0x00000000;
-int s19b_dword_800C394C = 0x00000000;
-int s19b_dword_800C3950 = 0x00000001;
-int s19b_dword_800C3954 = 0x800D0928;
-int s19b_dword_800C3958 = 0x0000001E;
-int s19b_dword_800C395C = 0x800D094C;
-int s19b_dword_800C3960 = 0x0000003C;
-int s19b_dword_800C3964 = 0x800D0970;
-int s19b_dword_800C3968 = 0x00000082;
-int s19b_dword_800C396C = 0x800D09B8;
-int s19b_dword_800C3970 = 0x0000008C;
-int s19b_dword_800C3974 = 0x800D0990;
-int s19b_dword_800C3978 = 0x00000096;
-int s19b_dword_800C397C = 0x800D09DC;
-int s19b_dword_800C3980 = 0xFFFFFFFF;
-int s19b_dword_800C3984 = 0x800D094C;
-int s19b_dword_800C3988 = 0x012C012C;
-int s19b_dword_800C398C = 0x02580258;
-int s19b_dword_800C3990 = 0x0000017F;
-int s19b_dword_800C3994 = 0x051702FF;
-int s19b_dword_800C3998 = 0x000002A0;
-int s19b_dword_800C399C = 0x0000027F;
-int s19b_dword_800C39A0 = 0x06B701FF;
-int s19b_dword_800C39A4 = 0x095C0B90;
-int s19b_dword_800C39A8 = 0x04220445;
-int s19b_dword_800C39AC = 0x00000000;
-int s19b_dword_800C39B0 = 0x047E045A;
-int s19b_dword_800C39B4 = 0x0F3F02BC;
-int s19b_dword_800C39B8 = 0x00001921;
-int s19b_dword_800C39BC = 0x01B8016D;
-int s19b_dword_800C39C0 = 0x000002A5;
-int s19b_dword_800C39C4 = 0x01B8013B;
-int s19b_dword_800C39C8 = 0x0000016D;
-int s19b_dword_800C39CC = 0x00000000;
-int s19b_dword_800C39D0 = 0x01C20000;
-int s19b_dword_800C39D4 = 0x0000012C;
-int s19b_dword_800C39D8 = 0x01C20000;
-int s19b_dword_800C39DC = 0x0000FED4;
-int s19b_dword_800C39E0 = 0x03930159;
-int s19b_dword_800C39E4 = 0x0000FE48;
+/* jeep_srl.c */
+
+/* model names of the road pieces */
+u_short s19b_dword_800C3530[13] = {
+    0xCB82, 0x1B3F, 0x1B40, 0x1F3F, 0x1F40, 0x1F41, 0x233F, 0x2340, 0x2341, 0x273F, 0x2740, 0x2741, 0xF6B4
+};
+
+/* road script: model, count, x, y, speed_x, speed_y, event_delay, event
+ * (JeepRoadCmd in jeep_srl.c), ends with model == -1 */
+short s19b_dword_800C354C[][8] = {
+    {    0,    10,     0,  1000,     0,   200,     0,     0},
+    {    0,    10,  1000,  1000,   100,   200,     0,     0},
+    {    0,     4, -1000,  1000,   100,     0,     0,     0},
+    {    0,    10,     0,     0,   100,   100,     2,     1},
+    {    1,     1,     0,     0,     0,     0,     1,     9},
+    {    2,     1,     0,     0,     0,     0,     1,     2},
+    {    0,    10,     0,  1000,     0,   100,     0,     0},
+    {    0,    10,     0,     0,     0,   100,     1,     3},
+    {    1,     1,     0,     0,     0,     0,     1,     9},
+    {    2,     1,     0,     0,     0,     0,     1,     4},
+    {    0,    20,     0,  1000,     0,    50,    15,     5},
+    {    0,    -8,     0,  1000,     0,     0,     5,     6},
+    {    3,     1,     0,  1000,     0,     0,     1,    10},
+    {    4,    -8,     0,  1000,     0,     0,     0,    15},
+    {    5,     1,     0,  1000,     0,     0,     1,    12},
+    {    0,    -8,     0,  1000,     0,     0,     5,     7},
+    {    6,     1,     0,  1000,     0,     0,     1,    11},
+    {    7,    -8,     0,  1000,     0,     0,     0,     0},
+    {    8,     1,     0,  1000,     0,     0,     1,    13},
+    {    0,   -16,     0,  1000,     0,     0,    11,     8},
+    {    9,     1,     0,  1000,     0,     0,     0,     0},
+    {   10,     1,     0,  1000,     0,     0,     0,     0},
+    {   11,     1,     0,  1000,     0,     0,     0,     0},
+    {   11,     8,     0,  1000,     0,     0,     0,    14},
+    {   -1,     0,     0,  1000,   100,   200,     0,     0},
+};
+
+/* shear of the road pieces */
+MATRIX s19b_dword_800C36DC = {{{0x800, 0, 0}, {0, 0x801, 0}, {0, 0, 0x800}}, {0, 0, 0}};
+
+/* pad vibrations */
+u_char s19b_dword_800C36FC[] = {0x7F, 0x09, 0x00, 0x04, 0x7F, 0x09, 0x00, 0x04, 0x7F, 0x06, 0x00, 0x04, 0x7F, 0x04, 0x00, 0x06, 0x7F, 0x03, 0x00, 0x00};
+/* the last two bytes are uninitialised padding of the original (end of an object) */
+u_char s19b_dword_800C3710[] = {0xFF, 0x09, 0xF3, 0x02, 0xE7, 0x02, 0xFF, 0x06, 0xF5, 0x01, 0xE0, 0x02, 0xF3, 0x08, 0xE5, 0x08, 0x0B, 0x02, 0xC8, 0x07, 0x0B, 0x03, 0xA4, 0x06, 0x65, 0x1F, 0x3F, 0x2F, 0x00, 0x00, 0xC6, 0x24};
+
+/* jeep_gls.c */
+VECTOR s19b_dword_800C3730 = {2048, 2048, 2048};
+
+SVECTOR s19b_dword_800C3740 = {0, 1062, 1625};
+SVECTOR s19b_dword_800C3748 = {0, 1062, 375};
+
+/* jeep_gte.c */
+SVECTOR s19b_dword_800C3750 = {-1250, 562, 1375};
+SVECTOR s19b_dword_800C3758 = {1250, 562, 625};
+
+/* jeepdemo.c: attach points of the demo cameras */
+SVECTOR s19b_dword_800C3760 = {500, 3000, 5000};
+SVECTOR s19b_dword_800C3768 = {0, 0, 0};
+SVECTOR s19b_dword_800C3770 = {250, 1400, 1500};
+
+/* jeepdemo.c: demo camera 0 */
+DEMOCAM_KEY s19b_dword_800C3778[] = {
+    { 3,  30, 0, {0, 0, 0}, {0, 0, 0}, 0x300},
+    { 3,  31, 0, {0, 0, 0}, {0, 0, 0}, 0x030},
+    { 3, 130, 0, {0, 0, 0}, {0, 0, 0}, 0x003},
+    { 0, 175, 0, {0, 0, 0}, {0, 0, 0}, 0x021},
+    { 3, 176, 2, {0, 0, 0}, {-170, -1300, 500}, 0x0E0},
+    { 3, 275, 2, {0, 0, 0}, {-170, -800, 500}, 0x024},
+    { 3, 305, 2, {0, 0, 0}, {170, -1024, 500}, 0x0E0},
+    { 1, 335, 2, {0, 0, 0}, {270, -20, 3000}, 0x02C},
+    {-1,   0, 0, {0, 0, 0}, {0, 0, 0}, 0x000},
+};
+
+DEMOCAM_CMD s19b_dword_800C3898[] = {
+    {  1, s19b_jlamp_800D06E0},
+    { 30, s19b_jlamp_800D072C},
+    {130, s19b_jlamp_800D07EC},
+    {141, s19b_jlamp_800D087C},
+    {275, s19b_jlamp_800D08C8},
+    {335, s19b_jlamp_800D08F0},
+    { -1, s19b_jlamp_800D072C},
+};
+
+/* jeepdemo.c: demo camera 1 */
+DEMOCAM_KEY s19b_dword_800C38D0[] = {
+    { 3,  30, 0, {0, 0, 0}, {0, 0, 0}, 0x300},
+    { 1, 130, 2, {0, 0, 0}, {4050, 3000, 500}, 0x02C},
+    { 1, 630, 0, {0, 0, 0}, {0, 4000, -12000}, 0x002},
+    {-1,   0, 0, {0, 0, 0}, {0, 0, 0}, 0x000},
+};
+
+DEMOCAM_CMD s19b_dword_800C3950[] = {
+    {  1, s19b_jlamp_800D0928},
+    { 30, s19b_jlamp_800D094C},
+    { 60, s19b_jlamp_800D0970},
+    {130, s19b_jlamp_800D09B8},
+    {140, s19b_jlamp_800D0990},
+    {150, s19b_jlamp_800D09DC},
+    { -1, s19b_jlamp_800D094C},
+};
+
+/* jlamp.c */
+RECT s19b_dword_800C3988 = {300, 300, 600, 600};
+
+/* jeep.c */
+u_char s19b_dword_800C3990[] = {0x7F, 0x01, 0x00, 0x00};
+u_char s19b_dword_800C3994[] = {0xFF, 0x02, 0x17, 0x05, 0xA0, 0x02, 0x00, 0x00};
+u_char s19b_dword_800C399C[] = {0x7F, 0x02, 0x00, 0x00};
+u_char s19b_dword_800C39A0[] = {0xFF, 0x01, 0xB7, 0x06, 0x90, 0x0B, 0x5C, 0x09, 0x45, 0x04, 0x22, 0x04, 0x00, 0x00, 0x00, 0x00};
+u_char s19b_dword_800C39B0[] = {0x5A, 0x04, 0x7E, 0x04, 0xBC, 0x02, 0x3F, 0x0F, 0x21, 0x19, 0x00, 0x00};
+
+SVECTOR s19b_dword_800C39BC = {365, 440, 677};
+SVECTOR s19b_dword_800C39C4 = {315, 440, 365};
+
+int s19b_dword_800C39CC = 0;
+
+SVECTOR s19b_dword_800C39D0[2] = {{0, 450, 300}, {0, 450, -300}};
+SVECTOR s19b_dword_800C39E0 = {345, 915, -440};
