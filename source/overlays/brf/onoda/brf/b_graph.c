@@ -80,6 +80,22 @@ typedef struct
     short field_2;
 } BrfKeyframe;
 
+#define BRF_SET_UV(poly, tex)                                                       \
+    {                                                                               \
+        int offx, offx2, offx3;                                                     \
+        int offy, offy2;                                                            \
+                                                                                    \
+        offx = (tex)->off_x;                                                        \
+        offx2 = offx + (tex)->w;                                                    \
+        offy = (tex)->off_y;                                                        \
+        offx3 = offx2 + 1;                                                          \
+        offy2 = offy + (tex)->h + 1;                                                \
+                                                                                    \
+        setUV4((poly), offx, offy, offx3, offy, offx, offy2, offx3, offy2);        \
+        (poly)->tpage = (tex)->tpage;                                               \
+        (poly)->clut = (tex)->clut;                                                 \
+    }
+
 void brf_800CCBD4();
 void brf_800CC5E4();
 void brf_800CF4E0();
@@ -2387,28 +2403,100 @@ void brf_800D4A34(Work *work)
         break;
     }
 }
-const int brf_dword_800E20A4 = 0x800D575C;
-const int brf_dword_800E20A8 = 0x800D5764;
-const int brf_dword_800E20AC = 0x800D534C;
-const int brf_dword_800E20B0 = 0x800D5558;
-const int brf_dword_800E20B4 = 0x800D575C;
-const char brf_dword_800E20B8[4] = "";
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D52F0.s")
-#define BRF_SET_UV(poly, tex)                                                       \
-    {                                                                               \
-        int offx, offx2, offx3;                                                     \
-        int offy, offy2;                                                            \
-                                                                                    \
-        offx = (tex)->off_x;                                                        \
-        offx2 = offx + (tex)->w;                                                    \
-        offy = (tex)->off_y;                                                        \
-        offx3 = offx2 + 1;                                                          \
-        offy2 = offy + (tex)->h + 1;                                                \
-                                                                                    \
-        setUV4((poly), offx, offy, offx3, offy, offx, offy2, offx3, offy2);        \
-        (poly)->tpage = (tex)->tpage;                                               \
-        (poly)->clut = (tex)->clut;                                                 \
+extern int brf_dword_800C3870, brf_dword_800C3888;
+
+void brf_800D52F0(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+    DG_TEX *g;
+
+    switch (work->field_AD20)
+    {
+    case 1:
+        if (work->field_AD5C != 0)
+        {
+            GM_StreamPlayStart();
+            brf_800CC150(work);
+            brf_800CC388(work);
+            work->field_AD7C = 0x1E;
+            work->field_AD88 = 0x1E;
+            work->field_AD8C = 0xF0;
+            work->field_AD94 = 0x1E;
+            work->field_AD80 = 0xF0;
+            work->field_AD98 = 0xF0;
+            work->field_ADA4 = 0;
+            work->field_AD9C = 0;
+            work->field_ADA0 = 0;
+            work->field_AD78 = 0;
+            work->field_AD84 = 0;
+            work->field_AD90 = 0;
+            brf_800CF4A0(work, work->field_AD84, work->field_AD88, 0xC8, work->field_AD8C, 2, &brf_dword_800C3870);
+            brf_800CF4A0(work, work->field_AD90, work->field_AD94, 0xC8, work->field_AD98, 2, &brf_dword_800C3888);
+            brf_800CAC7C(work, GV_StrCode(brf_dword_800E1DE4));
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1DF0));
+            BRF_SET_UV(&base[8], g);
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1DE4));
+            BRF_SET_UV(&base[9], g);
+            work->z_A597[8] = 10;
+            work->z_A597[9] = 10;
+        }
+        if (work->field_ADA4 == 0)
+        {
+            brf_800CF394(work, 1);
+            brf_800CADD4(work, &base[8], 8);
+            brf_800CC5E4(work, &base[8], &base[9]);
+        }
+        else
+        {
+            brf_800CECE4(work);
+        }
+        break;
+    case 2:
+        if (work->field_AD5C != 0)
+        {
+            if (work->field_ADA4 == 0)
+            {
+                brf_800CC28C(work);
+                work->field_AD88 = 0x1E;
+                work->field_AD84 = 0;
+                work->field_AD8C = 0x118;
+                brf_800CAC7C(work, GV_StrCode(brf_dword_800E1DC4));
+                g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1CA0));
+                BRF_SET_UV(&base[6], g);
+                g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1DD4));
+                BRF_SET_UV(&base[7], g);
+                brf_800CF4A0(work, work->field_AD84, work->field_AD88, 0xC8, work->field_AD8C, 2, &brf_dword_800C3870);
+                brf_800CF4A0(work, work->field_AD90, work->field_AD94, 0xC8, work->field_AD98, 2, &brf_dword_800C3888);
+                work->z_A597[6] = 10;
+                work->z_A597[7] = 10;
+            }
+            else
+            {
+                goto call_cece4;
+            }
+        }
+        if (work->field_ADA4 == 0)
+        {
+            brf_800CF394(work, 0);
+            brf_800CADD4(work, &base[7], 5);
+            brf_800CBB68(work, &base[6], 0);
+            brf_800CC5E4(work, &base[6], &base[7]);
+        }
+        else
+        {
+call_cece4:
+            brf_800CECE4(work);
+        }
+        break;
+    case -1:
+    case 3:
+        brf_800CF5A8(work);
+        break;
+    case 0:
+        break;
     }
+}
+const char brf_dword_800E20B8[4] = "";
 
 extern int brf_dword_800C38A0;
 
