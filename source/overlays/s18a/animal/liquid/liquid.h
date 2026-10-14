@@ -48,7 +48,7 @@ typedef struct _LiquidWork
     int            f960;          /* 0x960 */
     int            f964;          /* 0x964 */
     int            f968;          /* 0x968 */
-    char           pad_96C[0x970 - 0x96C];
+    int            f96C;          /* 0x96C */
     SVECTOR        f970;          /* 0x970 */
     int            f978;          /* 0x978 */
     int            f97C;          /* 0x97C */
