@@ -22,39 +22,14 @@ typedef struct _Work
 void BloodHazard_Act(Work *work);
 void BloodHazard_Die(Work *work);
 
-/* NON_MATCHING: the code of this draft is identical to the original, only the
- * stack frame differs: the original frame is 8 bytes bigger (0x44..0x4f unused,
- * after the three spill slots at 0x38..0x40). Verified with the native cc1 in
- * gdb: if the pseudo holding the high part of width * 0x55555556 (width / 3 in
- * the loop) goes "on stack" when reload spills $hi, the output is exactly the
- * original (reload redirects the mult output into its reload register, so the
- * 8-aligned spill slot stays unreferenced). That happens if regclass gives the
- * pseudo alternate class NO_REGS (it then is local-allocated to $hi and not
- * retried), or if retry_global_alloc fails for it or for one of the floor
- * normal / sqrt mult results. With this source the pseudo's GR cost (48) is
- * below its memory cost (56), so it gets GR as alternate class; a C construct
- * that changes this without changing the code has not been found.
- * Cause, measured with the native cc1: the width / 3 high-word pseudo first gets
- * $hi in global-alloc. The hoisted height / 3 highpart insn (outside the loop)
- * has a spilled output, so reload needs a HI_REG reload for it and spills hard
- * reg $hi, evicting the width / 3 pseudo. retry_global_alloc then finds it a GR
- * ($t2) because its alternate class is GR (cost 48 against memory 56, always 2 *
- * loop weight short of flipping for one set + one use), so it gets no stack slot.
- * In the original the retry must fail (or the pseudo is local-allocated, which
- * needs alternate class NO_REGS), the pseudo stays spilled and alter_reg gives it
- * the unreferenced slot. InitPacks in enemy/eyeflash.c has the same kind of
- * unused 8 byte frame with a plain / 3, but there the hi pseudo simply stays in
- * $hi and another short-lived pseudo gets the slot, so it is no template.
- * 14000 permuter variants, user-variable forms of width / 3 and height / 3 and
- * explicit 64-bit forms of the multiply did not change it (an explicit
- * (long long) multiply reaches the 120 byte frame but spills the 64-bit value).
- * Tried without success: a dead SVECTOR or long long local (or array) gives the
- * right frame size, but it is a pre-reload local so it sits below the spill slots
- * and shifts them by 8 (8 of 670 words differ); hoisting/rewriting width / 3,
- * reordering the locals and 64-bit expressions of the divide change nothing useful.
- * (Act/Die are not static: a static function following an INCLUDE_ASM
- * function would be merged into it by include_asm_fixup.py) */
-#if 0
+/* The two "= 0" below are written as (tex->w + 1) >> 12 (a 4096 fixed-point shift
+ * of the texture width, as in InitPacks) on purpose. tex->w is an
+ * unsigned byte, so both are always 0 and gcc folds them to constants without
+ * emitting any code, but each leaves a stale pseudo behind (combine replaces the
+ * known-zero shift by 0 without clearing its register info). Reload then gives
+ * the two pseudos stack slots that nothing references: the original frame is 8
+ * bytes bigger than the code needs (0x44..0x4f unused, after the three spill
+ * slots at 0x38..0x40). Plain zeroes give a frame that is 8 bytes short. */
 void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx);
 
 void *NewBloodHazard(MATRIX *world, int width, int height, int size, int dist)
@@ -171,7 +146,7 @@ void *NewBloodHazard(MATRIX *world, int width, int height, int size, int dist)
             {
                 seg = HZD_GetOnlineHazard();
                 pos.vx = -((seg->p1.z - seg->p2.z) * -seg->p1.h);
-                pos.vy = 0;
+                pos.vy = (tex->w + 1) >> 12;
                 pos.vz = (seg->p1.x - seg->p2.x) * -seg->p1.h;
             }
             else
@@ -184,7 +159,7 @@ void *NewBloodHazard(MATRIX *world, int width, int height, int size, int dist)
 
             ang.vx = -ratan2(pos.vy, SquareRoot0(pos.vx * pos.vx + pos.vz * pos.vz));
             ang.vy = ratan2(pos.vx, pos.vz);
-            ang.vz = 0;
+            ang.vz = (tex->w + 1) >> 12;
 
             s = size >> 1;
             work->verts[i * 4 + 0].vx = -s;
@@ -204,8 +179,6 @@ void *NewBloodHazard(MATRIX *world, int width, int height, int size, int dist)
 
     return (void *)work;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800D6A4C.s")
 
 void BloodHazard_Act(Work *work)
 {

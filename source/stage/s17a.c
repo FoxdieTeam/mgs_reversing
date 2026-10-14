@@ -7,7 +7,7 @@ extern NEWCHARA AN_Smoke_800CE0F8;      /* (black smoke) */
 extern NEWCHARA NewBlastLine;           /* okajima/blst_ln.c */
 extern NEWCHARA AN_Blast_high2;         /* bullet/blast.c */
 extern NEWCHARA NewNinjaLaser;          /* kojo/ninjalzr.c */
-extern NEWCHARA s17a_800D6A4C;          /* kojo/bloodhzd.c: NewBloodHazard (INCLUDE_ASM) */
+extern NEWCHARA NewBloodHazard;         /* kojo/bloodhzd.c */
 extern NEWCHARA NewWindcrcl_800CF784;   /* takabe/windcrcl.c */
 
 CHARA _StageCharacterEntries[] = {
@@ -49,7 +49,7 @@ CHARA _StageCharacterEntries[] = {
     DEMO_INVERSLIGHT2,
     { 0x0041, NewNinjaLaser }, //  DEMO_NINJALASER,
     DEMO_GHOST,
-    { 0x0047, s17a_800D6A4C }, //  DEMO_BLOODHAZARD,
+    { 0x0047, NewBloodHazard }, //  DEMO_BLOODHAZARD,
     DEMO_BLOODDRIP,
     { 0x0049, NewWindcrcl_800CF784 }, //  DEMO_NINJAGROUND,
 

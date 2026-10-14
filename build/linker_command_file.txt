@@ -2940,7 +2940,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\rcm.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\kojo\mgrexlzr.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\kojo\bloodhzd.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay13.obj", overlay
     include "{{OBJ_DIR}}\kojo\blooddrp.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\kojo\mgrex.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\kojo\mgrexact.obj", overlay
