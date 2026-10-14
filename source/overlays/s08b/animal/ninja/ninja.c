@@ -147,7 +147,7 @@ extern void  s08b_bunsin2_800D452C(Work *work);
 extern void  s08b_bunsin2_800D4FBC(MATRIX *world, int type);
 extern void  s08b_bunsin2_800D53E8(int a0, int a1);
 extern void  s08b_bunsin2_800D5434(void);
-extern void *s08b_p_sphere_800D9834(void *a, void *b);
+extern void *s08b_p_sphere_800D9834(DG_OBJS **parent, int *state);
 extern int   okajima_CHAF_LIFE;
 extern int     s08b_dword_800C3440;
 extern int     s08b_dword_800C3444;
