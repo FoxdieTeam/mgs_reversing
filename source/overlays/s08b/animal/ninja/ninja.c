@@ -199,6 +199,7 @@ extern int   s08b_dword_800E4340;
 
 extern char s08b_aErrerrerrsoundbuffover_800E3764[];
 extern char s08b_aNinjac_800E37F8[];
+extern char s08b_aJumpfctrlturnvyd_800E3920[];
 extern char s08b_aDcountd_800E39B8[];
 extern char s08b_aPunchdamagelifedcombod_800E393C[];
 extern char s08b_aNjafist_800E3740[];
@@ -1189,7 +1190,99 @@ void s08b_bunsin2_800CA298(Work *work, int time)
     control->seg_flag = 4;
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CA414.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CA5D8.s")
+void s08b_bunsin2_800CA5D8(Work *work, int time)
+{
+    CONTROL *control = &work->control;
+    int      angle = work->field_19B4;
+
+    if (time == 0)
+    {
+        work->field_19A4 = 5;
+        GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[5], 0, 4);
+        work->field_918 = control->mov;
+        control->turn.vy = angle;
+    }
+
+    if (s08b_bunsin2_800C9548(work) == 0)
+    {
+        if (time == 7)
+        {
+            GM_SeSetMode(&control->mov, 0xBC, 1);
+        }
+
+        if (time == 70)
+        {
+            GM_SeSetMode(&control->mov, 0xBC, 1);
+            s08b_bunsin2_800C8FF8(work);
+        }
+
+        if (time == 13 || time == 60)
+        {
+            GM_SeSetMode(&control->mov, 0xBB, 1);
+        }
+
+        if (time == 79)
+        {
+            work->field_1994 = s08b_bunsin2_800C9B38;
+            work->field_199C = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            work->field_19A8 = 1;
+            return;
+        }
+
+        if (work->body.is_end != 0)
+        {
+            work->body.is_end = 0;
+        }
+
+        if ((unsigned int)(time - 7) < 62)
+        {
+            work->field_19F8 = 0;
+            work->field_19C0 |= 2;
+
+            if (time == 9)
+            {
+                work->body.objs->flag |= DG_FLAG_INVISIBLE;
+                work->field_1A80->type |= DG_PRIM_INVISIBLE;
+            }
+
+            if (time == 65)
+            {
+                work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+                work->field_1A80->type &= ~DG_PRIM_INVISIBLE;
+            }
+        }
+
+        if (time == 39)
+        {
+            control->mov.vx = work->field_1968.vx;
+            control->mov.vz = work->field_1968.vz;
+        }
+
+        if ((unsigned int)(time - 7) < 9 || (unsigned int)(time - 56) < 10)
+        {
+            control->mov.vy = control->levels[0] + work->body.height * 2;
+        }
+        else if ((unsigned int)(time - 16) < 40)
+        {
+            control->mov.vy = 6000;
+            control->step.vy = 0;
+        }
+        else
+        {
+            control->mov.vy = work->body.height + control->levels[0];
+        }
+
+        if (time >= 67)
+        {
+            work->target->class |= 0x1F;
+        }
+
+        control->step.vx = 0;
+        control->step.vz = 0;
+    }
+}
 void s08b_bunsin2_800CA858(Work *work, int time)
 {
     CONTROL *control = &work->control;
