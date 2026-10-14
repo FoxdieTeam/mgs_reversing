@@ -26,11 +26,12 @@ typedef void (*NinjaFunc)(struct _Work *);
 
 typedef void (*NinjaAction)(struct _Work *, int);
 
-typedef struct _NinjaClone
+/* copy of a HZD route; pad of each point holds the point's command */
+typedef struct _NinjaRoute
 {
-    int     field_0;
-    SVECTOR field_4[32];
-} NinjaClone;
+    int     n_points;
+    SVECTOR points[32];
+} NinjaRoute;
 
 typedef struct _Work
 {
@@ -51,7 +52,7 @@ typedef struct _Work
     HOMING        *hom;                  /* 0x910 */
     int            step_vy;              /* 0x914 */
     SVECTOR        origin;               /* 0x918 */
-    NinjaClone     clones[16];           /* 0x920 */
+    NinjaRoute     routes[16];           /* 0x920 */
     short          n_routes;             /* 0x1960 */
     char           pad_1962[2];
     short          route;                /* 0x1964 */
@@ -597,7 +598,7 @@ int s08b_ninja_800C8558(Work *work)
 {
     HZD_DEF    *def;
     HZD_PAT    *route;
-    NinjaClone *clone;
+    NinjaRoute *dst;
     HZD_PTP    *points;
     int         n_routes;
     int         i, j;
@@ -605,7 +606,7 @@ int s08b_ninja_800C8558(Work *work)
     def = work->control.map->hzd->def;
     n_routes = def->n_routes;
     route = def->routes;
-    clone = work->clones;
+    dst = work->routes;
 
     if (n_routes >= 17)
     {
@@ -616,23 +617,23 @@ int s08b_ninja_800C8558(Work *work)
 
     for (i = 0; i < n_routes; i++)
     {
-        clone->field_0 = route->n_points;
-        if ((unsigned int)(clone->field_0 - 1) >= 32)
+        dst->n_points = route->n_points;
+        if ((unsigned int)(dst->n_points - 1) >= 32)
         {
             return -1;
         }
 
         points = route->points;
-        for (j = 0; j < clone->field_0; j++)
+        for (j = 0; j < dst->n_points; j++)
         {
-            clone->field_4[j].vx = points->x;
-            clone->field_4[j].vy = points->y;
-            clone->field_4[j].vz = points->z;
-            clone->field_4[j].pad = points->command;
+            dst->points[j].vx = points->x;
+            dst->points[j].vy = points->y;
+            dst->points[j].vz = points->z;
+            dst->points[j].pad = points->command;
             points++;
         }
 
-        clone++;
+        dst++;
         route++;
     }
 
@@ -842,7 +843,7 @@ int s08b_ninja_800C8BE8(Work *work, int name, int where) // GetResources
     NewTenmetu(&work->body.objs->objs[6].world, &work->tenmetu_force);
     s08b_bunsin2_800CD914(work, 1);
 
-    work->control.mov = work->clones[0].field_4[0];
+    work->control.mov = work->routes[0].points[0];
     work->control.mov.vx = -0x1D65;
     work->control.mov.vz = -0x80F;
 
@@ -3177,33 +3178,33 @@ void s08b_bunsin2_800CDBAC(Work *work)
 }
 void s08b_bunsin2_800CDDD8(Work *work)
 {
-    NinjaClone *c = &work->clones[work->route];
+    NinjaRoute *c = &work->routes[work->route];
     int i = work->route_point + 1;
     MAP *map;
 
-    if (i >= c->field_0)
+    if (i >= c->n_points)
     {
         i = 0;
     }
     work->route_point = i;
-    work->target_pos = c->field_4[i];
+    work->target_pos = c->points[i];
     map = work->control.map;
     work->target_addr = HZD_GetAddress(map->hzd, &work->target_pos, -1);
 }
 void s08b_bunsin2_800CDE74(Work *work)
 {
-    NinjaClone *clone;
+    NinjaRoute *r;
     int         route;
     int         point;
 
     route = GV_Time % work->n_routes;
-    clone = &work->clones[route];
+    r = &work->routes[route];
     work->route = route;
 
-    point = GV_Time % clone->field_0;
+    point = GV_Time % r->n_points;
     work->route_point = point;
 
-    work->target_pos = clone->field_4[point];
+    work->target_pos = r->points[point];
     work->target_addr = HZD_GetAddress(work->control.map->hzd, &work->target_pos, -1);
 }
 
@@ -3432,19 +3433,19 @@ int s08b_bunsin2_800CEF34(int a, int b)
     return 0;
 }
 
-int s08b_bunsin2_800CEF94(NinjaClone *p, int n, int initial)
+int s08b_bunsin2_800CEF94(NinjaRoute *p, int n, int initial)
 {
     int sum = 0;
     int i;
     for (i = 0; i < n; i++)
     {
-        sum += p->field_0;
+        sum += p->n_points;
         p++;
     }
     return sum + initial;
 }
 
-void s08b_bunsin2_800CEFC0(NinjaClone *clones, int val, short *out_count, short *out_rem)
+void s08b_bunsin2_800CEFC0(NinjaRoute *routes, int val, short *out_count, short *out_rem)
 {
     int cur = val;
     int count = -1;
@@ -3453,8 +3454,8 @@ void s08b_bunsin2_800CEFC0(NinjaClone *clones, int val, short *out_count, short 
     {
         val = cur;
         count++;
-        cur = val - clones->field_0;
-        clones++;
+        cur = val - routes->n_points;
+        routes++;
     }
     *out_count = count;
     *out_rem = val;
