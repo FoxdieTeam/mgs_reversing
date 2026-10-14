@@ -111,6 +111,8 @@ int s18a_dword_800C3494 = 0x00000000;
 int s18a_dword_800C3498 = 0x00000000;
 int s18a_dword_800C349C = 0x00000000;
 
+/*--FUNCS--*/
+
 const int s18a_dword_800E2D84 = 0x6D696C63;
 const int s18a_dword_800E2D88 = 0x72612062;
 const int s18a_dword_800E2D8C = 0x20206165;
@@ -143,6 +145,7 @@ const int s18a_dword_800E2DF4 = 0x6D696C63;
 const int s18a_dword_800E2DF8 = 0x72612062;
 const int s18a_dword_800E2DFC = 0x20206165;
 const int s18a_dword_800E2E00 = 0x000A2035;
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C722C.s")
 const int s18a_dword_800E2E04 = 0x800C73AC;
 const int s18a_dword_800E2E08 = 0x800C73CC;
 const int s18a_dword_800E2E0C = 0x800C73DC;
@@ -173,6 +176,7 @@ const int s18a_dword_800E2E6C = 0x800C756C;
 const int s18a_dword_800E2E70 = 0x800C757C;
 const int s18a_dword_800E2E74 = 0x800C757C;
 const int s18a_dword_800E2E78 = 0x800C752C;
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C736C.s")
 const int s18a_dword_800E2E7C = 0x50414557;
 const int s18a_dword_800E2E80 = 0x303D4E4F;
 const int s18a_dword_800E2E84 = 0x20782578;
@@ -182,10 +186,15 @@ const int s18a_dword_800E2E90 = 0x20782578;
 const int s18a_dword_800E2E94 = 0x61665F70;
 const int s18a_dword_800E2E98 = 0x3D746E69;
 const int s18a_dword_800E2E9C = 0x000A6425;
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7584.s")
 const int s18a_dword_800E2EA0 = 0x25736F70;
 const int s18a_dword_800E2EA4 = 0x64252064;
 const int s18a_dword_800E2EA8 = 0x20642520;
 const int s18a_dword_800E2EAC = 0x0000000A;
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7684.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7878.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7904.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7A18.s")
 const int s18a_dword_800E2EB0 = 0x03E8FF38;
 const int s18a_dword_800E2EB4 = 0x00000258;
 const int s18a_dword_800E2EB8 = 0x03E800C8;
@@ -225,12 +234,52 @@ const int s18a_dword_800E2F3C = 0x800C7F24;
 const int s18a_dword_800E2F40 = 0x800C7FA0;
 const int s18a_dword_800E2F44 = 0x800C7FF0;
 const int s18a_dword_800E2F48 = 0x800C8040;
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7A68.s")
 const int s18a_dword_800E2F4C = 0x00C80190;
 const int s18a_dword_800E2F50 = 0x00000190;
 const int s18a_dword_800E2F54 = 0x00C803E8;
 const int s18a_dword_800E2F58 = 0x000003E8;
 const int s18a_dword_800E2F5C = 0x03E80000;
 const int s18a_dword_800E2F60 = 0x0000FE0C;
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C80B8.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8210.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C82A4.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C839C.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C84B8.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8558.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C863C.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8754.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C886C.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8990.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8A8C.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8BB0.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8CD4.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8DC4.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8EBC.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9044.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C91D4.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9384.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9534.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C966C.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C97AC.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C990C.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9A0C.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9B20.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9C2C.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA1A4.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA3B4.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA440.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA6E0.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA9FC.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CAD88.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB114.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB310.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB418.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB56C.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB640.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB780.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB8AC.s")
+#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB9D0.s")
 const int s18a_dword_800E2F64 = 0x30736F70;
 const int s18a_dword_800E2F68 = 0x20642520;
 const int s18a_dword_800E2F6C = 0x25206425;
@@ -281,249 +330,6 @@ const int s18a_dword_800E301C = 0x20646975;
 const int s18a_dword_800E3020 = 0x20727245;
 const int s18a_dword_800E3024 = 0x0A202121;
 const int s18a_dword_800E3028 = 0x00000000;
-const int s18a_dword_800E302C = 0x800CC5B0;
-const int s18a_dword_800E3030 = 0x800CC650;
-const int s18a_dword_800E3034 = 0x800CC5C8;
-const int s18a_dword_800E3038 = 0x800CC5DC;
-const int s18a_dword_800E303C = 0x800CC61C;
-const int s18a_dword_800E3040 = 0x800CC5FC;
-const int s18a_dword_800E3044 = 0x253A782C;
-const int s18a_dword_800E3048 = 0x3A792064;
-const int s18a_dword_800E304C = 0x7A206425;
-const int s18a_dword_800E3050 = 0x2064253A;
-const int s18a_dword_800E3054 = 0x0000000A;
-const int s18a_dword_800E3058 = 0x00000000;
-const int s18a_dword_800E305C = 0x800CCA4C;
-const int s18a_dword_800E3060 = 0x800CCA58;
-const int s18a_dword_800E3064 = 0x800CCA64;
-const int s18a_dword_800E3068 = 0x800CCA6C;
-const int s18a_dword_800E306C = 0x800CCA7C;
-const int s18a_dword_800E3070 = 0x00000000;
-const int s18a_dword_800E3074 = 0x800CCAB4;
-const int s18a_dword_800E3078 = 0x800CCAC4;
-const int s18a_dword_800E307C = 0x800CCAD4;
-const int s18a_dword_800E3080 = 0x800CCACC;
-const int s18a_dword_800E3084 = 0x800CCAD4;
-const int s18a_dword_800E3088 = 0x00000000;
-const int s18a_dword_800E308C = 0x800CCB0C;
-const int s18a_dword_800E3090 = 0x800CCB14;
-const int s18a_dword_800E3094 = 0x800CCB2C;
-const int s18a_dword_800E3098 = 0x800CCB24;
-const int s18a_dword_800E309C = 0x800CCB2C;
-const int s18a_dword_800E30A0 = 0x00000000;
-const int s18a_dword_800E30A4 = 0x800CCB84;
-const int s18a_dword_800E30A8 = 0x800CCB64;
-const int s18a_dword_800E30AC = 0x800CCB6C;
-const int s18a_dword_800E30B0 = 0x800CCB7C;
-const int s18a_dword_800E30B4 = 0x800CCB84;
-const int s18a_dword_800E30B8 = 0x00000000;
-const int s18a_dword_800E30BC = 0x800CCBDC;
-const int s18a_dword_800E30C0 = 0x800CCBD4;
-const int s18a_dword_800E30C4 = 0x800CCBBC;
-const int s18a_dword_800E30C8 = 0x800CCBC4;
-const int s18a_dword_800E30CC = 0x800CCBDC;
-const int s18a_dword_800E30D0 = 0x00000000;
-const int s18a_dword_800E30D4 = 0x800CCC68;
-const int s18a_dword_800E30D8 = 0x800CCC7C;
-const int s18a_dword_800E30DC = 0x800CCC90;
-const int s18a_dword_800E30E0 = 0x800CCCA4;
-const int s18a_dword_800E30E4 = 0x800CCCB8;
-const int s18a_dword_800E30E8 = 0x786F7620;
-const int s18a_dword_800E30EC = 0x6F686320;
-const int s18a_dword_800E30F0 = 0x74616875;
-const int s18a_dword_800E30F4 = 0x253D2075;
-const int s18a_dword_800E30F8 = 0x000A2064;
-const int s18a_dword_800E30FC = 0x786F7620;
-const int s18a_dword_800E3100 = 0x69617320;
-const int s18a_dword_800E3104 = 0x20756B73;
-const int s18a_dword_800E3108 = 0x64253D20;
-const int s18a_dword_800E310C = 0x00000A20;
-const int s18a_dword_800E3110 = 0x635F6120;
-const int s18a_dword_800E3114 = 0x746E756F;
-const int s18a_dword_800E3118 = 0x25203D20;
-const int s18a_dword_800E311C = 0x000A2064;
-const int s18a_dword_800E3120 = 0x65726120;
-const int s18a_dword_800E3124 = 0x203D2061;
-const int s18a_dword_800E3128 = 0x000A6425;
-const char s18a_dword_800E312C[] = "go tekken 1";
-const int s18a_dword_800E3138 = 0x73616870;
-const int s18a_dword_800E313C = 0x6C203265;
-const int s18a_dword_800E3140 = 0x20656669;
-const int s18a_dword_800E3144 = 0x6425203D;
-const int s18a_dword_800E3148 = 0x00000A20;
-const int s18a_dword_800E314C = 0x800CFE14;
-const int s18a_dword_800E3150 = 0x800CFE24;
-const int s18a_dword_800E3154 = 0x800CFE34;
-const int s18a_dword_800E3158 = 0x800CFE44;
-const int s18a_dword_800E315C = 0x800CFE54;
-const int s18a_dword_800E3160 = 0x800CFE64;
-const int s18a_dword_800E3164 = 0x800CFE74;
-const int s18a_dword_800E3168 = 0x800CFE8C;
-const int s18a_dword_800E316C = 0x800CFE8C;
-const int s18a_dword_800E3170 = 0x800CFE8C;
-const int s18a_dword_800E3174 = 0x800CFE8C;
-const int s18a_dword_800E3178 = 0x800CFE8C;
-const int s18a_dword_800E317C = 0x800CFE8C;
-const int s18a_dword_800E3180 = 0x800CFE8C;
-const int s18a_dword_800E3184 = 0x800CFE8C;
-const int s18a_dword_800E3188 = 0x800CFE8C;
-const int s18a_dword_800E318C = 0x800CFE8C;
-const int s18a_dword_800E3190 = 0x800CFE8C;
-const int s18a_dword_800E3194 = 0x800CFE84;
-const int s18a_dword_800E3198 = 0x00000000;
-const int s18a_dword_800E319C = 0x800D04A8;
-const int s18a_dword_800E31A0 = 0x800D04B8;
-const int s18a_dword_800E31A4 = 0x800D0488;
-const int s18a_dword_800E31A8 = 0x800D0498;
-const int s18a_dword_800E31AC = 0x800D0478;
-const int s18a_dword_800E31B0 = 0x00000000;
-const int s18a_dword_800E31B4 = 0x800D054C;
-const int s18a_dword_800E31B8 = 0x800D053C;
-const int s18a_dword_800E31BC = 0x800D055C;
-const int s18a_dword_800E31C0 = 0x800D056C;
-const int s18a_dword_800E31C4 = 0x800D0574;
-const int s18a_dword_800E31C8 = 0x800D0574;
-const int s18a_dword_800E31CC = 0x800D0574;
-const int s18a_dword_800E31D0 = 0x800D0574;
-const int s18a_dword_800E31D4 = 0x800D0574;
-const int s18a_dword_800E31D8 = 0x800D0574;
-const int s18a_dword_800E31DC = 0x800D0574;
-const int s18a_dword_800E31E0 = 0x800D0574;
-const int s18a_dword_800E31E4 = 0x800D0574;
-const int s18a_dword_800E31E8 = 0x800D0574;
-const int s18a_dword_800E31EC = 0x800D0574;
-const int s18a_dword_800E31F0 = 0x800D0574;
-const int s18a_dword_800E31F4 = 0x800D0574;
-const int s18a_dword_800E31F8 = 0x800D0574;
-const int s18a_dword_800E31FC = 0x800D0574;
-const int s18a_dword_800E3200 = 0x800D0574;
-const int s18a_dword_800E3204 = 0x800D0574;
-const int s18a_dword_800E3208 = 0x800D0574;
-const int s18a_dword_800E320C = 0x800D0574;
-const int s18a_dword_800E3210 = 0x800D0574;
-const int s18a_dword_800E3214 = 0x800D0574;
-const int s18a_dword_800E3218 = 0x800D052C;
-const int s18a_dword_800E321C = 0x800D0740;
-const int s18a_dword_800E3220 = 0x800D07C8;
-const int s18a_dword_800E3224 = 0x800D0730;
-const int s18a_dword_800E3228 = 0x800D07C8;
-const int s18a_dword_800E322C = 0x800D07C0;
-const int s18a_dword_800E3230 = 0x800D0750;
-const int s18a_dword_800E3234 = 0x800D07C8;
-const int s18a_dword_800E3238 = 0x800D0760;
-const int s18a_dword_800E323C = 0x800D0770;
-const int s18a_dword_800E3240 = 0x800D0780;
-const int s18a_dword_800E3244 = 0x800D0790;
-const int s18a_dword_800E3248 = 0x800D07B0;
-const int s18a_dword_800E324C = 0x800D07A0;
-const int s18a_dword_800E3250 = 0x00000000;
-const int s18a_dword_800E3254 = 0x800D0844;
-const int s18a_dword_800E3258 = 0x800D08CC;
-const int s18a_dword_800E325C = 0x800D0834;
-const int s18a_dword_800E3260 = 0x800D08CC;
-const int s18a_dword_800E3264 = 0x800D08B4;
-const int s18a_dword_800E3268 = 0x800D08CC;
-const int s18a_dword_800E326C = 0x800D08CC;
-const int s18a_dword_800E3270 = 0x800D0874;
-const int s18a_dword_800E3274 = 0x800D0884;
-const int s18a_dword_800E3278 = 0x800D0854;
-const int s18a_dword_800E327C = 0x800D0864;
-const int s18a_dword_800E3280 = 0x800D08A4;
-const int s18a_dword_800E3284 = 0x800D0894;
-const int s18a_dword_800E3288 = 0x800D08C4;
-const int s18a_dword_800E328C = 0x800D0938;
-const int s18a_dword_800E3290 = 0x800D09D0;
-const int s18a_dword_800E3294 = 0x800D09C8;
-const int s18a_dword_800E3298 = 0x800D0948;
-const int s18a_dword_800E329C = 0x800D0958;
-const int s18a_dword_800E32A0 = 0x800D0988;
-const int s18a_dword_800E32A4 = 0x800D0998;
-const int s18a_dword_800E32A8 = 0x800D0968;
-const int s18a_dword_800E32AC = 0x800D0978;
-const int s18a_dword_800E32B0 = 0x800D09A8;
-const int s18a_dword_800E32B4 = 0x800D09D0;
-const int s18a_dword_800E32B8 = 0x800D09D0;
-const int s18a_dword_800E32BC = 0x800D09D0;
-const int s18a_dword_800E32C0 = 0x800D09D0;
-const int s18a_dword_800E32C4 = 0x800D09B8;
-const int s18a_dword_800E32C8 = 0x00000000;
-const int s18a_dword_800E32CC = 0x800D0AC4;
-const int s18a_dword_800E32D0 = 0x800D0AD4;
-const int s18a_dword_800E32D4 = 0x800D0AE4;
-const int s18a_dword_800E32D8 = 0x800D0AF4;
-const int s18a_dword_800E32DC = 0x800D0B0C;
-const int s18a_dword_800E32E0 = 0x800D0B04;
-const int s18a_dword_800E32E4 = 0x800D0B60;
-const int s18a_dword_800E32E8 = 0x800D0B80;
-const int s18a_dword_800E32EC = 0x800D0B70;
-const int s18a_dword_800E32F0 = 0x800D0BA0;
-const int s18a_dword_800E32F4 = 0x800D0B90;
-const int s18a_dword_800E32F8 = 0x800D0BB0;
-const int s18a_dword_800E32FC = 0x800D0C0C;
-const int s18a_dword_800E3300 = 0x800D0C1C;
-const int s18a_dword_800E3304 = 0x800D0C2C;
-const int s18a_dword_800E3308 = 0x800D0C4C;
-const int s18a_dword_800E330C = 0x800D0C3C;
-const int s18a_dword_800E3310 = 0x800D0C5C;
-const int s18a_dword_800E3314 = 0x800D0CB8;
-const int s18a_dword_800E3318 = 0x800D0CC8;
-const int s18a_dword_800E331C = 0x800D0CD8;
-const int s18a_dword_800E3320 = 0x800D0CF8;
-const int s18a_dword_800E3324 = 0x800D0CE8;
-const int s18a_dword_800E3328 = 0x800D0D08;
-const int s18a_dword_800E332C = 0x800D0DD8;
-const int s18a_dword_800E3330 = 0x800D0DE8;
-const int s18a_dword_800E3334 = 0x800D0DF8;
-const int s18a_dword_800E3338 = 0x800D0E08;
-const int s18a_dword_800E333C = 0x800D0E18;
-
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C722C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C736C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7584.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7684.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7878.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7904.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7A18.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7A68.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C80B8.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8210.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C82A4.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C839C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C84B8.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8558.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C863C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8754.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C886C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8990.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8A8C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8BB0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8CD4.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8DC4.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8EBC.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9044.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C91D4.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9384.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9534.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C966C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C97AC.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C990C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9A0C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9B20.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C9C2C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA1A4.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA3B4.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA440.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA6E0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CA9FC.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CAD88.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB114.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB310.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB418.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB56C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB640.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB780.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB8AC.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB9D0.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CBB50.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CBF38.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC0F0.s")
@@ -536,6 +342,12 @@ void s18a_800CC56C(void)
 {
 }
 
+const int s18a_dword_800E302C = 0x800CC5B0;
+const int s18a_dword_800E3030 = 0x800CC650;
+const int s18a_dword_800E3034 = 0x800CC5C8;
+const int s18a_dword_800E3038 = 0x800CC5DC;
+const int s18a_dword_800E303C = 0x800CC61C;
+const int s18a_dword_800E3040 = 0x800CC5FC;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC574.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC660.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC6A8.s")
@@ -544,22 +356,73 @@ void s18a_800CC56C(void)
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC76C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC7BC.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC800.s")
+const int s18a_dword_800E3044 = 0x253A782C;
+const int s18a_dword_800E3048 = 0x3A792064;
+const int s18a_dword_800E304C = 0x7A206425;
+const int s18a_dword_800E3050 = 0x2064253A;
+const int s18a_dword_800E3054 = 0x0000000A;
+const int s18a_dword_800E3058 = 0x00000000;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC830.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC8B0.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC8F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC96C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC9E4.s")
+const int s18a_dword_800E305C = 0x800CCA4C;
+const int s18a_dword_800E3060 = 0x800CCA58;
+const int s18a_dword_800E3064 = 0x800CCA64;
+const int s18a_dword_800E3068 = 0x800CCA6C;
+const int s18a_dword_800E306C = 0x800CCA7C;
+const int s18a_dword_800E3070 = 0x00000000;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCA20.s")
+const int s18a_dword_800E3074 = 0x800CCAB4;
+const int s18a_dword_800E3078 = 0x800CCAC4;
+const int s18a_dword_800E307C = 0x800CCAD4;
+const int s18a_dword_800E3080 = 0x800CCACC;
+const int s18a_dword_800E3084 = 0x800CCAD4;
+const int s18a_dword_800E3088 = 0x00000000;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCA88.s")
+const int s18a_dword_800E308C = 0x800CCB0C;
+const int s18a_dword_800E3090 = 0x800CCB14;
+const int s18a_dword_800E3094 = 0x800CCB2C;
+const int s18a_dword_800E3098 = 0x800CCB24;
+const int s18a_dword_800E309C = 0x800CCB2C;
+const int s18a_dword_800E30A0 = 0x00000000;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCAE0.s")
+const int s18a_dword_800E30A4 = 0x800CCB84;
+const int s18a_dword_800E30A8 = 0x800CCB64;
+const int s18a_dword_800E30AC = 0x800CCB6C;
+const int s18a_dword_800E30B0 = 0x800CCB7C;
+const int s18a_dword_800E30B4 = 0x800CCB84;
+const int s18a_dword_800E30B8 = 0x00000000;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCB38.s")
+const int s18a_dword_800E30BC = 0x800CCBDC;
+const int s18a_dword_800E30C0 = 0x800CCBD4;
+const int s18a_dword_800E30C4 = 0x800CCBBC;
+const int s18a_dword_800E30C8 = 0x800CCBC4;
+const int s18a_dword_800E30CC = 0x800CCBDC;
+const int s18a_dword_800E30D0 = 0x00000000;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCB90.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCBE8.s")
+const int s18a_dword_800E30D4 = 0x800CCC68;
+const int s18a_dword_800E30D8 = 0x800CCC7C;
+const int s18a_dword_800E30DC = 0x800CCC90;
+const int s18a_dword_800E30E0 = 0x800CCCA4;
+const int s18a_dword_800E30E4 = 0x800CCCB8;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCC0C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCCE0.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCD5C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCDA8.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCDEC.s")
+const int s18a_dword_800E30E8 = 0x786F7620;
+const int s18a_dword_800E30EC = 0x6F686320;
+const int s18a_dword_800E30F0 = 0x74616875;
+const int s18a_dword_800E30F4 = 0x253D2075;
+const int s18a_dword_800E30F8 = 0x000A2064;
+const int s18a_dword_800E30FC = 0x786F7620;
+const int s18a_dword_800E3100 = 0x69617320;
+const int s18a_dword_800E3104 = 0x20756B73;
+const int s18a_dword_800E3108 = 0x64253D20;
+const int s18a_dword_800E310C = 0x00000A20;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCE24.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCF48.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD2D8.s")
@@ -582,6 +445,10 @@ void s18a_800CC56C(void)
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CDD68.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CDDE0.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CDEFC.s")
+const int s18a_dword_800E3110 = 0x635F6120;
+const int s18a_dword_800E3114 = 0x746E756F;
+const int s18a_dword_800E3118 = 0x25203D20;
+const int s18a_dword_800E311C = 0x000A2064;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CDFCC.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CE0F8.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CE170.s")
@@ -598,6 +465,9 @@ void s18a_800CC56C(void)
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CE858.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CE93C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CE97C.s")
+const int s18a_dword_800E3120 = 0x65726120;
+const int s18a_dword_800E3124 = 0x203D2061;
+const int s18a_dword_800E3128 = 0x000A6425;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CEA0C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CEAEC.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CEB78.s")
@@ -607,6 +477,7 @@ void s18a_800CC56C(void)
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CEDCC.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CEE0C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CEE58.s")
+const char s18a_dword_800E312C[] = "go tekken 1";
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CEEBC.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CEF30.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CEF70.s")
@@ -616,6 +487,11 @@ void s18a_800CC56C(void)
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF138.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF184.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF1CC.s")
+const int s18a_dword_800E3138 = 0x73616870;
+const int s18a_dword_800E313C = 0x6C203265;
+const int s18a_dword_800E3140 = 0x20656669;
+const int s18a_dword_800E3144 = 0x6425203D;
+const int s18a_dword_800E3148 = 0x00000A20;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF214.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF338.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CF3B0.s")
@@ -646,6 +522,26 @@ void s18a_800CC56C(void)
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFC70.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFCB4.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFD54.s")
+const int s18a_dword_800E314C = 0x800CFE14;
+const int s18a_dword_800E3150 = 0x800CFE24;
+const int s18a_dword_800E3154 = 0x800CFE34;
+const int s18a_dword_800E3158 = 0x800CFE44;
+const int s18a_dword_800E315C = 0x800CFE54;
+const int s18a_dword_800E3160 = 0x800CFE64;
+const int s18a_dword_800E3164 = 0x800CFE74;
+const int s18a_dword_800E3168 = 0x800CFE8C;
+const int s18a_dword_800E316C = 0x800CFE8C;
+const int s18a_dword_800E3170 = 0x800CFE8C;
+const int s18a_dword_800E3174 = 0x800CFE8C;
+const int s18a_dword_800E3178 = 0x800CFE8C;
+const int s18a_dword_800E317C = 0x800CFE8C;
+const int s18a_dword_800E3180 = 0x800CFE8C;
+const int s18a_dword_800E3184 = 0x800CFE8C;
+const int s18a_dword_800E3188 = 0x800CFE8C;
+const int s18a_dword_800E318C = 0x800CFE8C;
+const int s18a_dword_800E3190 = 0x800CFE8C;
+const int s18a_dword_800E3194 = 0x800CFE84;
+const int s18a_dword_800E3198 = 0x00000000;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFDDC.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFE9C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CFF18.s")
@@ -661,19 +557,124 @@ void s18a_800CC56C(void)
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D02DC.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D034C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D03C0.s")
+const int s18a_dword_800E319C = 0x800D04A8;
+const int s18a_dword_800E31A0 = 0x800D04B8;
+const int s18a_dword_800E31A4 = 0x800D0488;
+const int s18a_dword_800E31A8 = 0x800D0498;
+const int s18a_dword_800E31AC = 0x800D0478;
+const int s18a_dword_800E31B0 = 0x00000000;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D0434.s")
+const int s18a_dword_800E31B4 = 0x800D054C;
+const int s18a_dword_800E31B8 = 0x800D053C;
+const int s18a_dword_800E31BC = 0x800D055C;
+const int s18a_dword_800E31C0 = 0x800D056C;
+const int s18a_dword_800E31C4 = 0x800D0574;
+const int s18a_dword_800E31C8 = 0x800D0574;
+const int s18a_dword_800E31CC = 0x800D0574;
+const int s18a_dword_800E31D0 = 0x800D0574;
+const int s18a_dword_800E31D4 = 0x800D0574;
+const int s18a_dword_800E31D8 = 0x800D0574;
+const int s18a_dword_800E31DC = 0x800D0574;
+const int s18a_dword_800E31E0 = 0x800D0574;
+const int s18a_dword_800E31E4 = 0x800D0574;
+const int s18a_dword_800E31E8 = 0x800D0574;
+const int s18a_dword_800E31EC = 0x800D0574;
+const int s18a_dword_800E31F0 = 0x800D0574;
+const int s18a_dword_800E31F4 = 0x800D0574;
+const int s18a_dword_800E31F8 = 0x800D0574;
+const int s18a_dword_800E31FC = 0x800D0574;
+const int s18a_dword_800E3200 = 0x800D0574;
+const int s18a_dword_800E3204 = 0x800D0574;
+const int s18a_dword_800E3208 = 0x800D0574;
+const int s18a_dword_800E320C = 0x800D0574;
+const int s18a_dword_800E3210 = 0x800D0574;
+const int s18a_dword_800E3214 = 0x800D0574;
+const int s18a_dword_800E3218 = 0x800D052C;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D04E8.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D059C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D060C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D063C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D066C.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D069C.s")
+const int s18a_dword_800E321C = 0x800D0740;
+const int s18a_dword_800E3220 = 0x800D07C8;
+const int s18a_dword_800E3224 = 0x800D0730;
+const int s18a_dword_800E3228 = 0x800D07C8;
+const int s18a_dword_800E322C = 0x800D07C0;
+const int s18a_dword_800E3230 = 0x800D0750;
+const int s18a_dword_800E3234 = 0x800D07C8;
+const int s18a_dword_800E3238 = 0x800D0760;
+const int s18a_dword_800E323C = 0x800D0770;
+const int s18a_dword_800E3240 = 0x800D0780;
+const int s18a_dword_800E3244 = 0x800D0790;
+const int s18a_dword_800E3248 = 0x800D07B0;
+const int s18a_dword_800E324C = 0x800D07A0;
+const int s18a_dword_800E3250 = 0x00000000;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D06EC.s")
+const int s18a_dword_800E3254 = 0x800D0844;
+const int s18a_dword_800E3258 = 0x800D08CC;
+const int s18a_dword_800E325C = 0x800D0834;
+const int s18a_dword_800E3260 = 0x800D08CC;
+const int s18a_dword_800E3264 = 0x800D08B4;
+const int s18a_dword_800E3268 = 0x800D08CC;
+const int s18a_dword_800E326C = 0x800D08CC;
+const int s18a_dword_800E3270 = 0x800D0874;
+const int s18a_dword_800E3274 = 0x800D0884;
+const int s18a_dword_800E3278 = 0x800D0854;
+const int s18a_dword_800E327C = 0x800D0864;
+const int s18a_dword_800E3280 = 0x800D08A4;
+const int s18a_dword_800E3284 = 0x800D0894;
+const int s18a_dword_800E3288 = 0x800D08C4;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D07F0.s")
+const int s18a_dword_800E328C = 0x800D0938;
+const int s18a_dword_800E3290 = 0x800D09D0;
+const int s18a_dword_800E3294 = 0x800D09C8;
+const int s18a_dword_800E3298 = 0x800D0948;
+const int s18a_dword_800E329C = 0x800D0958;
+const int s18a_dword_800E32A0 = 0x800D0988;
+const int s18a_dword_800E32A4 = 0x800D0998;
+const int s18a_dword_800E32A8 = 0x800D0968;
+const int s18a_dword_800E32AC = 0x800D0978;
+const int s18a_dword_800E32B0 = 0x800D09A8;
+const int s18a_dword_800E32B4 = 0x800D09D0;
+const int s18a_dword_800E32B8 = 0x800D09D0;
+const int s18a_dword_800E32BC = 0x800D09D0;
+const int s18a_dword_800E32C0 = 0x800D09D0;
+const int s18a_dword_800E32C4 = 0x800D09B8;
+const int s18a_dword_800E32C8 = 0x00000000;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D08F4.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D09F8.s")
+const int s18a_dword_800E32CC = 0x800D0AC4;
+const int s18a_dword_800E32D0 = 0x800D0AD4;
+const int s18a_dword_800E32D4 = 0x800D0AE4;
+const int s18a_dword_800E32D8 = 0x800D0AF4;
+const int s18a_dword_800E32DC = 0x800D0B0C;
+const int s18a_dword_800E32E0 = 0x800D0B04;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D0A8C.s")
+const int s18a_dword_800E32E4 = 0x800D0B60;
+const int s18a_dword_800E32E8 = 0x800D0B80;
+const int s18a_dword_800E32EC = 0x800D0B70;
+const int s18a_dword_800E32F0 = 0x800D0BA0;
+const int s18a_dword_800E32F4 = 0x800D0B90;
+const int s18a_dword_800E32F8 = 0x800D0BB0;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D0B1C.s")
+const int s18a_dword_800E32FC = 0x800D0C0C;
+const int s18a_dword_800E3300 = 0x800D0C1C;
+const int s18a_dword_800E3304 = 0x800D0C2C;
+const int s18a_dword_800E3308 = 0x800D0C4C;
+const int s18a_dword_800E330C = 0x800D0C3C;
+const int s18a_dword_800E3310 = 0x800D0C5C;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D0BD0.s")
+const int s18a_dword_800E3314 = 0x800D0CB8;
+const int s18a_dword_800E3318 = 0x800D0CC8;
+const int s18a_dword_800E331C = 0x800D0CD8;
+const int s18a_dword_800E3320 = 0x800D0CF8;
+const int s18a_dword_800E3324 = 0x800D0CE8;
+const int s18a_dword_800E3328 = 0x800D0D08;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D0C74.s")
+const int s18a_dword_800E332C = 0x800D0DD8;
+const int s18a_dword_800E3330 = 0x800D0DE8;
+const int s18a_dword_800E3334 = 0x800D0DF8;
+const int s18a_dword_800E3338 = 0x800D0E08;
+const int s18a_dword_800E333C = 0x800D0E18;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800D0D28.s")

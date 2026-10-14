@@ -24,15 +24,20 @@ typedef struct _LiquidWork
     MATRIX         light[2];      /* 0x87C */
     TARGET        *target;        /* 0x8BC */
     TARGET        *target2;       /* 0x8C0 */
-    char           pad_8C4[0x92C - 0x8C4];
-    int            f92C;          /* 0x92C */
+    char           pad_8C4[0x90C - 0x8C4];
+    int            f90C;          /* 0x90C */
+    char           pad_910[0x92C - 0x910];
+    void          *act;           /* 0x92C */
     int            f930;          /* 0x930 */
-    int            f934;          /* 0x934 */
+    int            time;          /* 0x934 */
     int            f938;          /* 0x938 */
-    char           pad_93C[0x948 - 0x93C];
+    int            pose;          /* 0x93C */
+    int            f940;          /* 0x940 */
+    char           pad_944[0x948 - 0x944];
     int            f948;          /* 0x948 */
     HOMING        *hom;           /* 0x94C */
-    char           pad_950[0x958 - 0x950];
+    int            cmd;           /* 0x950 */
+    char           pad_954[0x958 - 0x954];
     int            f958;          /* 0x958 */
     int            f95C;          /* 0x95C */
     int            f960;          /* 0x960 */
@@ -51,7 +56,7 @@ typedef struct _LiquidWork
     int            f99C;          /* 0x99C */
     int            f9A0;          /* 0x9A0 */
     int            f9A4;          /* 0x9A4 */
-    char           pad_9A8[0x9AC - 0x9A8];
+    int            f9A8;          /* 0x9A8 */
     short          f9AC;          /* 0x9AC */
     short          f9AE;          /* 0x9AE */
     int            f9B0;          /* 0x9B0 */
@@ -66,7 +71,7 @@ typedef struct _LiquidWork
     void          *shadow;        /* 0xA38 */
     u_char         damage1[3];    /* 0xA3C */
     u_char         damage2[5];    /* 0xA3F */
-    char           pad_A44[0xA4C - 0xA44];
+    SVECTOR        last_pos;      /* 0xA44 */
 } LiquidWork;
 
 #endif // __S18A_LIQUID_H__
