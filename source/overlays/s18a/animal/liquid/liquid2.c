@@ -151,6 +151,12 @@ void  s18a_800CCDA8(void);
 void  s18a_liquid_800C5200(int mode);
 void *NewCountdown(int time, int proc);
 void  SetCountdownTime(int time);
+static inline void s18a_liquid_SetPhase(LiquidWork *work, int phase)
+{
+    work->f964 = phase;
+    work->f97C = 0;
+    work->f968 = 0;
+}
 /*--FUNCS--*/
 
 int s18a_800C722C(SVECTOR *pos, short *out)
@@ -3957,15 +3963,243 @@ void s18a_800CD62C(LiquidWork *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD6D0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD758.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD7F4.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD8B4.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CD98C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CDA40.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CDAF8.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CDBB8.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CDC40.s")
+void s18a_800CD6D0(LiquidWork *work)
+{
+    if (work->f968 == 0)
+    {
+        work->cmd = 1;
+    }
+
+    if (work->f968 < 54)
+    {
+        SetCountdownTime(5400);
+    }
+
+    if (work->f968 > 70)
+    {
+        work->cmd = 6;
+        s18a_liquid_SetPhase(work, 3);
+    }
+    else
+    {
+        work->f968++;
+    }
+}
+
+void s18a_800CD758(LiquidWork *work)
+{
+    work->cmd = 6;
+    work->f954 = work->f9AC;
+
+    if (work->f968 > 0 && GM_StreamStatus() == 1)
+    {
+        GM_StreamPlayStart();
+    }
+
+    if (work->f968 > 100 && GM_StreamStatus() == -1)
+    {
+        s18a_liquid_SetPhase(work, 4);
+    }
+    else
+    {
+        work->f968++;
+    }
+}
+
+void s18a_800CD7F4(LiquidWork *work)
+{
+    work->cmd = 6;
+    work->f954 = work->f9AC;
+
+    if (work->f968 == 0)
+    {
+        if (GM_StreamStatus() == -1)
+        {
+            GM_VoxStream(work->voices[17], 0x40000000);
+        }
+
+        s18a_liquid_800C5200(1);
+    }
+
+    if (work->f968 == 60)
+    {
+        GM_StreamPlayStart();
+    }
+
+    if (work->f968 > 200 && GM_StreamStatus() == -1)
+    {
+        s18a_liquid_SetPhase(work, 5);
+    }
+    else
+    {
+        work->f968++;
+    }
+}
+
+void s18a_800CD8B4(LiquidWork *work)
+{
+    work->f954 = work->f9AC;
+
+    if (work->f968 == 0)
+    {
+        if (GM_StreamStatus() == -1)
+        {
+            GM_VoxStream(work->voices[18], 0x40000000);
+        }
+
+        s18a_liquid_800C5200(2);
+    }
+
+    if (work->f968 == 30)
+    {
+        GM_StreamPlayStart();
+    }
+
+    if (work->f968 < 30)
+    {
+        work->cmd = 6;
+    }
+    else
+    {
+        work->cmd = 2;
+    }
+
+    if (work->f968 > 300 && GM_StreamStatus() == -1)
+    {
+        s18a_liquid_SetPhase(work, 6);
+    }
+    else
+    {
+        work->f968++;
+    }
+}
+
+void s18a_800CD98C(LiquidWork *work)
+{
+    work->cmd = 6;
+    work->f954 = work->f9AC;
+
+    if (work->f968 == 0)
+    {
+        s18a_liquid_800C5200(3);
+        GM_VoxStream(work->voices[0], 0x40000000);
+    }
+
+    if (work->f968 > 160 && GM_StreamStatus() == 1)
+    {
+        DG_InvisibleObjs(work->weapon.objs);
+        work->f960 = 1;
+        s18a_liquid_SetPhase(work, 1);
+    }
+    else
+    {
+        work->f968++;
+    }
+}
+
+void s18a_800CDA40(LiquidWork *work)
+{
+    work->cmd = 3;
+    GM_GameStatus |= STATE_PADRELEASE;
+    work->f954 = work->f9AC;
+
+    if (work->f968 == 0)
+    {
+        GM_VoxStream(work->voices[0], 0x40000000);
+    }
+
+    if (work->f968 > 60 && GM_StreamStatus() == 1)
+    {
+        GM_StreamPlayStart();
+        work->f960 = 1;
+        s18a_liquid_SetPhase(work, 2);
+    }
+
+    work->f968++;
+}
+
+void s18a_800CDAF8(LiquidWork *work)
+{
+    work->cmd = 3;
+    work->f954 = work->f9AC;
+
+    if (work->f968 == 0)
+    {
+        GM_StreamPlayStart();
+
+        if (work->proc_s >= 0)
+        {
+            GCL_ExecProc(work->proc_s, NULL);
+        }
+    }
+
+    if (work->f968 == 30)
+    {
+        GM_AlertModeSet(4);
+    }
+
+    if (work->f968 > 30 && GM_StreamStatus() == -1)
+    {
+        CloseCinemaScreen();
+        s18a_liquid_SetPhase(work, 2);
+    }
+
+    work->f968++;
+}
+
+void s18a_800CDBB8(LiquidWork *work)
+{
+    GM_GameStatus |= STATE_PADRELEASE;
+
+    if (work->f968 > 15)
+    {
+        GM_GameStatus &= ~STATE_PADRELEASE;
+        s18a_liquid_800C5200(6);
+        work->f95C = 3;
+        work->f960 = 1;
+        s18a_liquid_SetPhase(work, 3);
+        work->f978 = 5400;
+    }
+    else
+    {
+        work->f968++;
+    }
+}
+
+void s18a_800CDC40(LiquidWork *work)
+{
+    int dist;
+
+    work->cmd = 5;
+    work->f954 = work->f9AC;
+    dist = work->f9B0;
+
+    if (dist > 8000)
+    {
+        work->f960 = 3;
+        s18a_liquid_SetPhase(work, 13);
+    }
+    else if (dist > 3000)
+    {
+        work->f960 = 2;
+        s18a_liquid_SetPhase(work, 8);
+    }
+    else if (dist < 1500)
+    {
+        work->f960 = 2;
+        s18a_liquid_SetPhase(work, 9);
+    }
+    else if (work->f968 > 5)
+    {
+        work->f960 = 2;
+        s18a_liquid_SetPhase(work, 10);
+    }
+    else
+    {
+        work->f968++;
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CDCD4.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CDD28.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CDD68.s")
