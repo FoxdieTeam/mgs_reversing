@@ -124,6 +124,14 @@ static inline void SetZako10Mode( Zako10Work *work, ZAKO10ACTION action )
     GM_ConfigMotionAdjust( &( work->body ), 0 );
 }
 
+static inline void SetZako10ModeFields( Zako10Work *work, ZAKO10ACTION action )
+{
+    work->action = action;
+    work->time = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+}
+
 static inline void SetZako10Mode2( Zako10Work *work, ZAKO10ACTION action )
 {
     if ( work->action2 == NULL )
