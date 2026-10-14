@@ -2,7 +2,6 @@
 #include <sys/types.h>
 #include <libgte.h>
 
-extern const int s19a_dword_800E03AC;
 
 int s19a_dword_800C381C = 0xDE32EA14;
 int s19a_dword_800C3820 = 0x89CEB4AC;
@@ -65,13 +64,6 @@ int s19a_dword_800C3900 = 0x0000FEAC;
 int s19a_dword_800C3904 = 0x00000000;
 int s19a_dword_800C3908 = 0x03930159;
 int s19a_dword_800C390C = 0x0000FE48;
-int s19a_dword_800C3910 = 0x0002C61C;
-int s19a_dword_800C3914 = 0x00030002;
-int s19a_dword_800C3918 = 0x012C0001;
-int s19a_dword_800C391C = 0x03200001;
-int s19a_dword_800C3920 = 0x00800320;
-int s19a_dword_800C3924 = 0x00000000;
-void *s19a_dword_800C3928 = (void *)&s19a_dword_800E03AC;
 
 const int s19a_dword_800E0334 = 0x800D8F7C;
 const int s19a_dword_800E0338 = 0x800D8FB8;
@@ -93,6 +85,3 @@ const int s19a_dword_800E0390 = 0xEAA5E1A5;
 const int s19a_dword_800E0394 = 0x0000EBA5;
 const char s19a_dword_800E0398[] = "otacom";
 const char s19a_dword_800E03A0[] = "pkjp_mrl.c";
-const int s19a_dword_800E03AC = 0x00010700;
-const int s19a_dword_800E03B0 = 0xF4010905;
-const int s19a_dword_800E03B4 = 0x0F010002;

@@ -4068,8 +4068,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800DBFB8.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC028.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC0A0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC0D4.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s19a\anime\effect\pkflash.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\takabe\pk_gate.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
