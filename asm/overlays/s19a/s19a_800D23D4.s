@@ -3,6 +3,8 @@
 
 	xdef s19a_800D23D4
 s19a_800D23D4:
+	xdef Zako19ActionMain
+Zako19ActionMain:
 	dw 0x27BDFFE8 ; 800D23D4
 	dw 0xAFB00010 ; 800D23D8
 	dw 0x00808021 ; 800D23DC

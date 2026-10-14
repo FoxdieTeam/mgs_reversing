@@ -3,6 +3,8 @@
 
 	xdef s19a_800D2440
 s19a_800D2440:
+	xdef Zako19PushMove
+Zako19PushMove:
 	dw 0x27BDFFE0 ; 800D2440
 	dw 0xAFB20018 ; 800D2444
 	dw 0x00809021 ; 800D2448

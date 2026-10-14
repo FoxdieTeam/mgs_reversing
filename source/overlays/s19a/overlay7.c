@@ -79,7 +79,7 @@ int SECTION(".bss") s19a_dword_800E0DE4;
 int SECTION(".bss") s19a_dword_800E0DE8;
 int SECTION(".bss") s19a_dword_800E0DEC;
 int SECTION(".bss") s19a_dword_800E0DF0;
-int SECTION(".bss") s19a_dword_800E0DF4;
+int SECTION(".bss") ZAKO19_GameFlag;
 int SECTION(".bss") s19a_dword_800E0DF8;
 int SECTION(".bss") s19a_dword_800E0DFC;
 int SECTION(".bss") s19a_dword_800E0E00;

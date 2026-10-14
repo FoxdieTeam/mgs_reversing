@@ -1,4 +1,6 @@
 #include "mgstype.h"
+#include <sys/types.h>
+#include <libgte.h>
 
 extern const int s19a_dword_800E03AC;
 
@@ -40,20 +42,14 @@ int s19a_dword_800C374C = 0x00000000;
 int s19a_dword_800C3750 = 0x00000000;
 int s19a_dword_800C3754 = 0x00000000;
 int s19a_dword_800C3758 = 0x00000000;
-int s19a_dword_800C375C = 0x05DC012C;
-int s19a_dword_800C3760 = 0x0000012C;
-int s19a_dword_800C3764 = 0x00000000;
-int s19a_dword_800C3768 = 0x00000000;
-int s19a_dword_800C376C = 0x01F40320;
-int s19a_dword_800C3770 = 0x00000320;
-int s19a_dword_800C3774 = 0x00000064;
-int s19a_dword_800C3778 = 0x00000000;
-int s19a_dword_800C377C = 0x0320012C;
-int s19a_dword_800C3780 = 0x0000012C;
-int s19a_dword_800C3784 = 0x00000000;
-int s19a_dword_800C3788 = 0x00000000;
-char s19a_dword_800C378C[] = "0u0u0u";
-int s19a_dword_800C3794 = 0x00000FA0;
+SVECTOR ZAKO19_TARGET_SIZE = {300, 1500, 300};
+SVECTOR ZAKO19_TARGET_FORCE = {0, 0, 0};
+SVECTOR ZAKO19_ATTACK_SIZE = {800, 500, 800};
+SVECTOR ZAKO19_ATTACK_FORCE = {100, 0, 0};
+SVECTOR ZAKO19_TOUCH_SIZE = {300, 800, 300};
+SVECTOR ZAKO19_TOUCH_FORCE = {0, 0, 0};
+SVECTOR ZAKO19_NO_POINT = {30000, 30000, 30000};
+int     ZAKO19_EYE_LENGTH = 4000;
 int s19a_dword_800C3798 = 0x00000BB8;
 int s19a_dword_800C379C = 0x00000FA0;
 int s19a_dword_800C37A0 = 0x00001B58;
