@@ -169,8 +169,8 @@ typedef struct _WATCHER {
 typedef struct _COMMANDER {
     /* 0x000 */ int     field_0;
     /* 0x004 */ int     field_4;
-    /* 0x008 */ int     n_watchers;
-    /* 0x00C */ int     field_C;
+    /* 0x008 */ int     field_8;
+    /* 0x00C */ int     n_watchers;
     /* 0x010 */ int     time;
     /* 0x014 */ int     time2;
     /* 0x018 */ int     alert_time;

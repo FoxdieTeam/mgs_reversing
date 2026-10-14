@@ -3,6 +3,8 @@
 
 	xdef s19a_800D649C
 s19a_800D649C:
+	xdef Zako19Think
+Zako19Think:
 	dw 0x27BDFFE8 ; 800D649C
 	dw 0xAFB00010 ; 800D64A0
 	dw 0x00808021 ; 800D64A4
