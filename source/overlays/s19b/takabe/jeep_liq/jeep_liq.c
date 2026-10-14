@@ -22,7 +22,7 @@ extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
 extern void  s19b_jblood_800C7FB8(MATRIX *world);
 extern void  ReadRotMatrix(MATRIX *m);
 
-extern int   s19b_jeep_mrl_800D399C(void);
+extern int   s19b_jeep_800D399C(void);
 extern void  s19b_jeep_gls_800CEC24(int z, SVECTOR *out);
 extern int   s19b_jeep_gls_800CEDFC(int z, int arg1);
 extern void  s19b_jlamp_800D0A20(int arg0);
@@ -259,7 +259,7 @@ void s19b_jeep_liq_800D76F8(Jeep2Work *work, Jeep2Func arg1)
 int s19b_jeep_liq_800D771C(int cur, int center, int pos)
 {
     int d    = pos - center;
-    int base = s19b_jeep_mrl_800D399C();
+    int base = s19b_jeep_800D399C();
 
     if (d >= 0)
     {
@@ -296,14 +296,14 @@ int s19b_jeep_liq_800D771C(int cur, int center, int pos)
 void s19b_jeep_liq_800D77F0(Jeep2Work *work)
 {
     int v = work->pos.vz - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
-    s19b_jeep_mrl_800D399C();
+    s19b_jeep_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, 0x753, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
 void s19b_jeep_liq_800D7860(Jeep2Work *work)
 {
     int s1 = work->pos.vz - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
-    int a1 = s19b_jeep_mrl_800D399C();
+    int a1 = s19b_jeep_800D399C();
 
     if (work->speed_timer == 0)
     {
@@ -334,28 +334,28 @@ void s19b_jeep_liq_800D7860(Jeep2Work *work)
 void s19b_jeep_liq_800D797C(Jeep2Work *work)
 {
     int v = work->pos.vz - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
-    s19b_jeep_mrl_800D399C();
+    s19b_jeep_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, 0, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
 void s19b_jeep_liq_800D79EC(Jeep2Work *work)
 {
     int v = work->pos.vz - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
-    s19b_jeep_mrl_800D399C();
+    s19b_jeep_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, -0x177, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
 void s19b_jeep_liq_800D7A5C(Jeep2Work *work)
 {
     int v = work->pos.vz - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
-    s19b_jeep_mrl_800D399C();
+    s19b_jeep_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, 0xbb8, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
 void s19b_jeep_liq_800D7ACC(Jeep2Work *work)
 {
     int v = work->pos.vz - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
-    s19b_jeep_mrl_800D399C();
+    s19b_jeep_800D399C();
     work->speed_target = s19b_jeep_liq_800D771C(work->speed_target, 0x1194, v);
     work->speed = GV_NearSpeed(work->speed, work->speed_target, 5);
 }
@@ -560,13 +560,13 @@ void s19b_jeep_liq_800D8014(Jeep2Work *work, Jeep2Func arg1)
     }
 }
 extern unsigned char s19b_dword_800C3A9C[];
-extern int s19b_jeep_mrl_800D39B4(SVECTOR *dst);
+extern int s19b_jeep_800D39B4(SVECTOR *dst);
 
 void s19b_jeep_liq_800D8044(Jeep2Work *work)
 {
     SVECTOR sp10;
 
-    s19b_jeep_mrl_800D39B4(&sp10);
+    s19b_jeep_800D39B4(&sp10);
     if (Takabe_JeepSystem.has_homing_target != 0 && work->shoot_count >= 0x15)
     {
         work->shoot_count = 0;
@@ -591,7 +591,7 @@ void s19b_jeep_liq_800D8118(Jeep2Work *work)
     SVECTOR dst;
     int     d;
 
-    s19b_jeep_mrl_800D39B4(&dst);
+    s19b_jeep_800D39B4(&dst);
     d = work->control.mov.vz - dst.vz;
     if (d < 0)
     {

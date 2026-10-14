@@ -116,7 +116,7 @@ void s19b_jeep2_800D667C(Jeep2Work *work)
 
     s19b_spark2_m_800D9C90(&control->mov, &work->pos, &work->speed, &out);
     s19b_spark2_m_800D9EC0(&control->mov, &work->rot, &work->move, &work->field_388);
-    s19b_spark2_m_800DA0B4(work->jeep_t.rots, work->speed_prev, &work->rot, &work->field_398);
+    s19b_spark2_m_800DA0B4(work->tyres.rots, work->speed_prev, &work->rot, &work->field_398);
 
     control->turn = work->rot;
     control->turn.vx = 0;
@@ -127,23 +127,23 @@ void s19b_jeep2_800D667C(Jeep2Work *work)
 
     GM_ActControl(control);
 
-    GM_ActObject2(&work->jeep_b);
-    RotMatrixX(work->rot.vx, &work->jeep_b.objs->world);
-    ScaleMatrix(&work->jeep_b.objs->world, &s19b_dword_800C3A84);
+    GM_ActObject2(&work->body);
+    RotMatrixX(work->rot.vx, &work->body.objs->world);
+    ScaleMatrix(&work->body.objs->world, &s19b_dword_800C3A84);
 
     rot.vx = control->rot.vx;
     rot.vy = control->rot.vy;
     rot.vz = 0;
     DG_SetPos2(&control->mov, &rot);
 
-    GM_ActObject2(&work->jeep_t);
-    RotMatrixX(work->rot.vx, &work->jeep_t.objs->world);
-    ScaleMatrix(&work->jeep_t.objs->world, &s19b_dword_800C3A84);
+    GM_ActObject2(&work->tyres);
+    RotMatrixX(work->rot.vx, &work->tyres.objs->world);
+    ScaleMatrix(&work->tyres.objs->world, &s19b_dword_800C3A84);
 
-    GM_ActObject2((OBJECT *)&work->fhl);
-    GM_ActObject2((OBJECT *)&work->hl);
+    GM_ActObject2((OBJECT *)&work->front_headlights);
+    GM_ActObject2((OBJECT *)&work->headlights);
 
-    DG_SetPos(&work->jeep_b.objs->world);
+    DG_SetPos(&work->body.objs->world);
     DG_MovePos(&s19b_dword_800C3A7C);
 
     GM_ActObject2((OBJECT *)&work->gun);
@@ -154,11 +154,11 @@ void s19b_jeep2_800D667C(Jeep2Work *work)
 void s19b_jeep2_800D6A70(Jeep2Work *work)
 {
     GM_FreeControl(&work->control);
-    GM_FreeObject(&work->jeep_b);
-    GM_FreeObject(&work->jeep_t);
+    GM_FreeObject(&work->body);
+    GM_FreeObject(&work->tyres);
     GM_FreeObject((OBJECT *)&work->gun);
-    GM_FreeObject((OBJECT *)&work->fhl);
-    GM_FreeObject((OBJECT *)&work->hl);
+    GM_FreeObject((OBJECT *)&work->front_headlights);
+    GM_FreeObject((OBJECT *)&work->headlights);
     GM_FreeTarget(work->target);
     GV_DestroyActor(work->liq);
 }
@@ -193,9 +193,9 @@ int s19b_jeep2_800D6B18(Jeep2Work *work, int name, int where)
     GM_ConfigControlHazard(control, -1, -2, -1);
     GM_ConfigControlInterp(control, 0);
 
-    body = &work->jeep_b;
+    body = &work->body;
     rot = &control->rot;
-    top = &work->jeep_t;
+    top = &work->tyres;
 
     control->mov = control->rot = control->turn = DG_ZeroVector;
     control->step = DG_ZeroVector;
@@ -214,12 +214,12 @@ int s19b_jeep2_800D6B18(Jeep2Work *work, int name, int where)
     GM_InitObjectNoRots(obj, 0x3FA9, 0x6D, 0);
     GM_ConfigObjectLight((OBJECT *)obj, work->light);
 
-    obj = &work->fhl;
+    obj = &work->front_headlights;
     GM_InitObjectNoRots(obj, 0x3A07, 0x16D, 0);
     obj->objs->root = &body->objs->world;
     GM_ConfigObjectLight((OBJECT *)obj, &work->light2);
 
-    obj = &work->hl;
+    obj = &work->headlights;
     GM_InitObjectNoRots(obj, 0xDA10, 0x16D, 0);
     obj->objs->root = &body->objs->world;
     GM_ConfigObjectLight((OBJECT *)obj, &work->light2);

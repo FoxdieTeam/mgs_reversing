@@ -15,12 +15,12 @@ struct _JeepWork
     /* +0x024 */ int            map;
     /* +0x028 */ CONTROL        control;
     /* +0x0A4 */ TARGET        *target;
-    /* +0x0A8 */ OBJECT         jeep_b;
-    /* +0x18C */ OBJECT         jeep_t;
+    /* +0x0A8 */ OBJECT         body;
+    /* +0x18C */ OBJECT         tyres;
     /* +0x270 */ MATRIX         light[2];
     /* +0x2B0 */ TARGET         target2;
-    /* +0x2F8 */ OBJECT_NO_ROTS fhl;
-    /* +0x31C */ OBJECT_NO_ROTS hl;
+    /* +0x2F8 */ OBJECT_NO_ROTS front_headlights;
+    /* +0x31C */ OBJECT_NO_ROTS headlights;
     /* +0x340 */ MATRIX         light2;
     /* +0x360 */ char           pad_360[0x20];
     /* +0x380 */ VECTOR         pos;

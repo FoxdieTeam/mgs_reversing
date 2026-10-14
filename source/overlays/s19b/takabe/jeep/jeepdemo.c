@@ -62,7 +62,7 @@ extern const SVECTOR s19b_dword_800DDD4C;
 extern const SVECTOR s19b_dword_800DDD54;
 extern const SVECTOR s19b_dword_800DDD5C;
 extern const SVECTOR s19b_dword_800DDD64;
-int s19b_jeep_mrl_800D39B4(SVECTOR *dst);
+int s19b_jeep_800D39B4(SVECTOR *dst);
 void s19b_jeep_gls_800CEC24(int, SVECTOR *);
 extern SVECTOR s19b_dword_800C3760;
 extern SVECTOR s19b_dword_800C3768;
@@ -314,7 +314,7 @@ void s19b_jlamp_800D0D40(void)
         s19b_jeep_gls_800CEC24(Takabe_JeepSystem.control->mov.vz + s19b_dword_800DE5C8.dist, &sp10);
         s19b_dword_800DE5C8.angle = GV_NearSpeed(s19b_dword_800DE5C8.angle, 1500, 100);
         sp10.vy += s19b_dword_800DE5C8.angle;
-        sp10.vx += s19b_jeep_mrl_800D39B4(&sp18);
+        sp10.vx += s19b_jeep_800D39B4(&sp18);
         s19b_dword_800DE5C8.fixed = 0;
         s19b_dword_800DE5C8.pos = sp10;
         s19b_jlamp_800D0648(&s19b_dword_800DE5C8.pos, &GM_SnakeCamera.position, &GM_SnakeCamera.rotate,
