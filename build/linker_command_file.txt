@@ -4022,6 +4022,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\takabe\drum.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s19a\overlay8.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800D8E54.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800D8E8C.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800D974C.obj", overlay
@@ -4048,27 +4049,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800DAD68.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800DAE40.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800DB510.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DB53C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DB668.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DB860.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DB89C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DB950.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DB980.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DB9F4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DBA10.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DBA54.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DBB44.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DBC28.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DBCF8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DBD6C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DBDE4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DBE58.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DBECC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DBF44.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DBFB8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC028.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DC0A0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s19a\takabe\pkjp_mrl.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\anime\effect\pkflash.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\takabe\pk_gate.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
