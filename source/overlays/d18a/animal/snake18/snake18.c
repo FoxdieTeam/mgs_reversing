@@ -214,24 +214,9 @@ typedef struct WeaponCreateEntry
     Snake18Func mStateFn;
 } WeaponCreateEntry;
 
-extern const char d18a_aWorkheightdlevelsd_800DA684[];
-extern const char d18a_aSnakeposddd_800DA66C[];
-extern const char d18a_aErrerrerrliquidnearerr_800DA648[];
-extern const char d18a_aLsight_800DA7C8[];
-extern const char d18a_aSecond_800DA7C0[];
-extern const char d18a_aFirst_800DA7B8[];
-extern const char d18a_aKaze_800DA7B0[];
-extern const char d18a_aStanced_800DA7A4[];
-extern const char d18a_aFlagx_800DA798[];
-extern const char d18a_aItemd_800DA78C[];
-extern const char d18a_aWeapond_800DA780[];
-extern const char d18a_aStatusx_800DA774[];
-extern const char d18a_aCeilfloordd_800DA760[];
-extern const char d18a_aPosddd_800DA750[];
 extern int counter_8009F448;
 extern void *NewBakudan(); /* called with 4 arguments here */
 extern SVECTOR svector_8009F478;
-extern const char d18a_aWorkglobaldatad_800DA6AC[];
 
 
 
@@ -1647,9 +1632,6 @@ int d18a_snake18_800CC410(Snake18Work *work)
     }
     return 1;
 }
-const char d18a_aErrerrerrliquidnearerr_800DA648[] = " Err Err Err Liquid Near Err !! \n";
-const char d18a_aSnakeposddd_800DA66C[] = "snake pos1 %d %d %d \n";
-const char d18a_aWorkheightdlevelsd_800DA684[] = "work->height %d levels%d \n";
 int d18a_snake18_800CC490(Snake18Work *work)
 {
     SVECTOR  near;
@@ -1683,7 +1665,7 @@ int d18a_snake18_800CC490(Snake18Work *work)
             seg_flag = (area & 1) ? 0x20 : 0x10;
             if (!HZD_NearHazardCheck(control->map->hzd, &control->mov, 5000, 4, seg_flag))
             {
-                printf(d18a_aErrerrerrliquidnearerr_800DA648);
+                printf(" Err Err Err Liquid Near Err !! \n");
             }
             else
             {
@@ -1697,8 +1679,8 @@ int d18a_snake18_800CC490(Snake18Work *work)
 
             control->step.vx = 0;
             control->step.vz = 0;
-            printf(d18a_aSnakeposddd_800DA66C, control->mov.vx, control->mov.vy, control->mov.vz);
-            printf(d18a_aWorkheightdlevelsd_800DA684, work->control.height, control->levels[0]);
+            printf("snake pos1 %d %d %d \n", control->mov.vx, control->mov.vy, control->mov.vz);
+            printf("work->height %d levels%d \n", work->control.height, control->levels[0]);
 
             if (control->levels[0] < 5000)
             {
@@ -3427,7 +3409,7 @@ void d18a_snake18_800CF39C(Snake18Work *work, int time)
 
     if (work->body.is_end)
     {
-        printf(d18a_aWorkglobaldatad_800DA6AC, work->f924);
+        printf(" work->global_data = %d \n ", work->f924);
 
         if (work->f924 == 1)
         {
@@ -3451,7 +3433,6 @@ void d18a_snake18_800CF39C(Snake18Work *work, int time)
         }
     }
 }
-const char d18a_aWorkglobaldatad_800DA6AC[] = " work->global_data = %d \n ";
 void d18a_snake18_800CF574(Snake18Work *work, int time)
 {
     int action;
@@ -6050,14 +6031,6 @@ void d18a_snake18_800D4084(Snake18Work *work)
         GM_SeSet(&GM_PlayerPosition, 0xA8);
     }
 }
-const char d18a_aPosddd_800DA750[] = "pos %d %d %d\n";
-const char d18a_aCeilfloordd_800DA760[] = "ceil floor %d %d\n";
-const char d18a_aStatusx_800DA774[] = "status %4x\n";
-const char d18a_aWeapond_800DA780[] = "weapon %d\n";
-const char d18a_aItemd_800DA78C[] = "item %d\n";
-const char d18a_aFlagx_800DA798[] = "flag %4x\n";
-const char d18a_aStanced_800DA7A4[] = "stance %d\n";
-const char d18a_aKaze_800DA7B0[] = "kaze \n";
 void d18a_snake18_800D40F0(Snake18Work *work)
 {
     int height;
@@ -6110,17 +6083,17 @@ void d18a_snake18_800D40F0(Snake18Work *work)
     if (GV_PadData[1].status & PAD_CIRCLE)
     {
         MENU_Locate(32, 16, 0);
-        MENU_Printf(d18a_aPosddd_800DA750, work->control.mov.vx, work->control.mov.vy, work->control.mov.vz);
-        MENU_Printf(d18a_aCeilfloordd_800DA760, work->control.levels[1], work->control.levels[0]);
-        MENU_Printf(d18a_aStatusx_800DA774, GM_PlayerStatus);
-        MENU_Printf(d18a_aWeapond_800DA780, work->weapon);
-        MENU_Printf(d18a_aItemd_800DA78C, work->item);
-        MENU_Printf(d18a_aFlagx_800DA798, work->flags);
-        MENU_Printf(d18a_aStanced_800DA7A4, work->stance);
+        MENU_Printf("pos %d %d %d\n", work->control.mov.vx, work->control.mov.vy, work->control.mov.vz);
+        MENU_Printf("ceil floor %d %d\n", work->control.levels[1], work->control.levels[0]);
+        MENU_Printf("status %4x\n", GM_PlayerStatus);
+        MENU_Printf("weapon %d\n", work->weapon);
+        MENU_Printf("item %d\n", work->item);
+        MENU_Printf("flag %4x\n", work->flags);
+        MENU_Printf("stance %d\n", work->stance);
 
         if (GM_StatusEvent & EV_CommonCold)
         {
-            MENU_Printf(d18a_aKaze_800DA7B0);
+            MENU_Printf("kaze \n");
         }
     }
 
@@ -6146,8 +6119,6 @@ void d18a_snake18_800D40F0(Snake18Work *work)
         work->control.seg_flag = 4;
     }
 }
-const char d18a_aFirst_800DA7B8[] = "first\n";
-const char d18a_aSecond_800DA7C0[] = "second\n";
 static inline void d18a_snake18_UpdateLife(Snake18Work *work)
 {
     TARGET *target;
@@ -6181,12 +6152,12 @@ void d18a_snake18_800D4388(Snake18Work *work)
     {
         if (GM_PlayerStatus & PLAYER_SECOND_CONTROLLER)
         {
-            printf(d18a_aFirst_800DA7B8);
+            printf("first\n");
             GM_PlayerStatus &= ~PLAYER_SECOND_CONTROLLER;
         }
         else
         {
-            printf(d18a_aSecond_800DA7C0);
+            printf("second\n");
             GM_PlayerStatus |= PLAYER_SECOND_CONTROLLER;
         }
     }
@@ -6267,7 +6238,6 @@ void d18a_snake18_800D46CC(Snake18Work *work)
         GM_PlayerBody = 0;
     }
 }
-const char d18a_aLsight_800DA7C8[] = "lsight";
 int d18a_snake18_800D4784(Snake18Work *work)
 {
     SVECTOR  *verts;
@@ -6284,7 +6254,7 @@ int d18a_snake18_800D4784(Snake18Work *work)
         return -1;
     }
 
-    tex = DG_GetTexture(GV_StrCode(d18a_aLsight_800DA7C8));
+    tex = DG_GetTexture(GV_StrCode("lsight"));
     work->lsight_tex = tex;
     if (!tex)
     {
@@ -6542,7 +6512,6 @@ int d18a_snake18_800D4C44( Snake18Work *work, int name, int where )
     return 0;
 }
 
-const char d18a_dword_800DA7F4[] = "snake18.c";
 
 void *d18a_snake18_800D4E94(int name, int where)
 {
@@ -6552,7 +6521,7 @@ void *d18a_snake18_800D4E94(int name, int where)
         return NULL;
     }
     GV_SetNamedActor(&work->actor, d18a_snake18_800D4388, d18a_snake18_800D46CC,
-                     d18a_dword_800DA7F4);
+                     "snake18.c");
     if (d18a_snake18_800D4C44(work, name, where) < 0)
     {
         GV_DestroyActor(&work->actor);
