@@ -19,6 +19,8 @@
 #include "mts/mts.h" // for fprintf
 #include "charadef.h"
 
+#define TARGET_FLAG (TARGET_AVAIL | TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH | TARGET_SEEK)
+
 #include <stdio.h>
 
 struct _Work;
@@ -464,10 +466,10 @@ void s08b_ninja_800C811C(Work *work)
 {
     TARGET *target = work->target;
 
-    if (target->damaged & 8)
+    if (target->damaged & TARGET_PUSH)
     {
         GV_AddVec3(&target->offset, &work->control.step, &work->control.step);
-        target->damaged &= 0xFFF7;
+        target->damaged &= ~TARGET_PUSH;
     }
 }
 
@@ -552,7 +554,7 @@ void s08b_ninja_800C8354(Work *work)
 {
     TARGET *t = work->target;
 
-    GM_SetTarget(t, 0x1F, 2, &s08b_dword_800C3390);
+    GM_SetTarget(t, TARGET_FLAG, 2, &s08b_dword_800C3390);
     GM_SetPowerTarget(t, 1, -1, 0xFF, 0xFF, &s08b_dword_800C3398);
     GM_SetCaptureTarget(t, -1, 0xFF, NULL, NULL);
 }
@@ -1039,7 +1041,7 @@ int s08b_bunsin2_800C9A58(OBJECT *parent)
 }
 void s08b_bunsin2_800C9B38(Work *work, int first)
 {
-    work->target->class |= 0x1F;
+    work->target->class |= TARGET_FLAG;
 
     if (first == 0)
     {
@@ -1274,7 +1276,7 @@ void s08b_bunsin2_800CA5D8(Work *work, int time)
 
         if (time >= 67)
         {
-            work->target->class |= 0x1F;
+            work->target->class |= TARGET_FLAG;
         }
 
         control->step.vx = 0;
@@ -1396,13 +1398,13 @@ void s08b_bunsin2_800CAA78(Work *work, int first)
         work->control.turn.vx = 0;
     }
 
-    work->target->class |= 0x1F;
+    work->target->class |= TARGET_FLAG;
 }
 void s08b_bunsin2_800CAB50(Work *work, int first)
 {
     CONTROL *control = &work->control;
 
-    work->target->class |= 0x1F;
+    work->target->class |= TARGET_FLAG;
 
     if (first == 0)
     {
@@ -1440,7 +1442,7 @@ void s08b_bunsin2_800CAC3C(Work *work, int first)
 {
     CONTROL *control = &work->control;
 
-    work->target->class |= 0x1F;
+    work->target->class |= TARGET_FLAG;
 
     if (first == 0)
     {
@@ -1609,7 +1611,7 @@ void s08b_bunsin2_800CAFF8(Work *work, int time)
     {
         control->step.vx = 0;
         control->step.vz = 0;
-        work->target->class |= 0x1F;
+        work->target->class |= TARGET_FLAG;
     }
 }
 void s08b_bunsin2_800CB0A8(Work *work, int time)
@@ -1638,7 +1640,7 @@ void s08b_bunsin2_800CB0A8(Work *work, int time)
     {
         control->step.vx = 0;
         control->step.vz = 0;
-        work->target->class |= 0x1F;
+        work->target->class |= TARGET_FLAG;
     }
 }
 void s08b_bunsin2_800CB158(Work *work, int time)
@@ -1671,7 +1673,7 @@ void s08b_bunsin2_800CB158(Work *work, int time)
 stop:
             control->step.vx = 0;
             control->step.vz = 0;
-            work->target->class |= 0x1F;
+            work->target->class |= TARGET_FLAG;
         }
     }
 }
@@ -1775,7 +1777,7 @@ void s08b_bunsin2_800CB38C(Work *work, int time)
 stop:
             control->step.vx = 0;
             control->step.vz = 0;
-            work->target->class |= 0x1F;
+            work->target->class |= TARGET_FLAG;
         }
     }
 }
@@ -1814,7 +1816,7 @@ stop:
             s08b_bunsin2_800C9588(work, 6);
             control->step.vx = 0;
             control->step.vz = 0;
-            work->target->class |= 0x1F;
+            work->target->class |= TARGET_FLAG;
         }
     }
 }
@@ -1878,7 +1880,7 @@ void s08b_bunsin2_800CB52C(Work *work, int time)
             return;
         }
 
-        work->target->class |= 0x1F;
+        work->target->class |= TARGET_FLAG;
 
         switch (GM_GameLevel)
         {
@@ -1954,7 +1956,7 @@ void s08b_bunsin2_800CB7A0(Work *work, int time)
         }
         else
         {
-            work->target->class |= 0x1F;
+            work->target->class |= TARGET_FLAG;
         }
     }
 }
@@ -1963,7 +1965,7 @@ void s08b_bunsin2_800CB914(Work *work, int time)
     CONTROL *control = &work->control;
     int      result = 0;
 
-    work->target->class |= 0x1F;
+    work->target->class |= TARGET_FLAG;
 
     if (time == 0)
     {
@@ -2064,7 +2066,7 @@ void s08b_bunsin2_800CBAA4(Work *work, int time)
             return;
         }
 
-        work->target->class |= 0x1F;
+        work->target->class |= TARGET_FLAG;
 
         switch (GM_GameLevel)
         {
@@ -2133,7 +2135,7 @@ void s08b_bunsin2_800CBCEC(Work *work, int time)
             return;
         }
 
-        work->target->class |= 0x1F;
+        work->target->class |= TARGET_FLAG;
     }
 }
 void s08b_bunsin2_800CBE30(Work *work, int time)
@@ -2189,7 +2191,7 @@ void s08b_bunsin2_800CBE30(Work *work, int time)
             return;
         }
 
-        work->target->class |= 0x1F;
+        work->target->class |= TARGET_FLAG;
 
         switch (GM_GameLevel)
         {
@@ -2303,7 +2305,7 @@ void s08b_bunsin2_800CC080(Work *work, int time)
         {
             if (frame != 26)
             {
-                work->target->class |= 0x1F;
+                work->target->class |= TARGET_FLAG;
             }
 
             control->step.vx = 0;
@@ -2357,7 +2359,7 @@ void s08b_bunsin2_800CC2F8(Work *work, int time)
             return;
         }
 
-        work->target->class |= 0x1F;
+        work->target->class |= TARGET_FLAG;
     }
 }
 void s08b_bunsin2_800CC434(Work *work, int time)
@@ -2394,7 +2396,7 @@ void s08b_bunsin2_800CC434(Work *work, int time)
             return;
         }
 
-        work->target->class |= 0x1F;
+        work->target->class |= TARGET_FLAG;
         control->step.vx = 0;
         control->step.vz = 0;
         control->rot.vy += 0x80;
@@ -2462,7 +2464,7 @@ void s08b_bunsin2_800CC578(Work *work, int time)
     {
         if (time < 10)
         {
-            work->target->class |= 0x1F;
+            work->target->class |= TARGET_FLAG;
         }
     }
 }
@@ -2606,7 +2608,7 @@ void s08b_bunsin2_800CCAF0(Work *work, int time)
     TARGET  *target;
     int      state;
 
-    work->target->class |= 0x1F;
+    work->target->class |= TARGET_FLAG;
     work->bunsin_state = 1;
     work->katana_state = 2;
 
@@ -2636,7 +2638,7 @@ void s08b_bunsin2_800CCAF0(Work *work, int time)
 
     state = work->motion;
 
-    if (target->damaged & 4)
+    if (target->damaged & TARGET_POWER)
     {
         target->force = DG_ZeroVector;
         target->vital = 30;
