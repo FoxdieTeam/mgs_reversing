@@ -1565,20 +1565,17 @@ void s08b_bunsin2_800CAF6C(Work *work, int time)
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[27], 0, 4);
     }
 
-    if (work->command != 22)
+    if (work->command == 22)
     {
-        if (s08b_bunsin2_800C9120(work) == 0)
-        {
-            work->action = s08b_bunsin2_800C9B38;
-            work->time = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
-            goto stop;
-        }
+        control->step.vx = 0;
+        control->step.vz = 0;
     }
-    else
+    else if (s08b_bunsin2_800C9120(work) == 0)
     {
-stop:
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         control->step.vx = 0;
         control->step.vz = 0;
     }
@@ -1655,20 +1652,18 @@ void s08b_bunsin2_800CB158(Work *work, int time)
     {
         work->field_1A00 = 1;
 
-        if (work->command != 26)
+        if (work->command == 26)
         {
-            if (s08b_bunsin2_800C9120(work) == 0)
-            {
-                work->action = s08b_bunsin2_800C9B38;
-                work->time = 0;
-                work->control.turn.vz = 0;
-                work->control.turn.vx = 0;
-                goto stop;
-            }
+            control->step.vx = 0;
+            control->step.vz = 0;
+            work->target->class |= 0x1F;
         }
-        else
+        else if (s08b_bunsin2_800C9120(work) == 0)
         {
-stop:
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
             control->step.vx = 0;
             control->step.vz = 0;
             work->target->class |= 0x1F;
@@ -1687,21 +1682,18 @@ void s08b_bunsin2_800CB210(Work *work, int time)
 
     work->field_1A00 = 1;
 
-    if (work->command != 27)
+    if (work->command == 27)
     {
-        if (s08b_bunsin2_800C9120(work) == 0)
-        {
-            work->field_19F0 = 30;
-            work->action = s08b_bunsin2_800C9B38;
-            work->time = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
-            goto stop;
-        }
+        control->step.vx = 0;
+        control->step.vz = 0;
     }
-    else
+    else if (s08b_bunsin2_800C9120(work) == 0)
     {
-stop:
+        work->field_19F0 = 30;
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
         control->step.vx = 0;
         control->step.vz = 0;
     }
@@ -1728,22 +1720,20 @@ void s08b_bunsin2_800CB2AC(Work *work, int time)
 
     if (work->command != 28)
     {
-        if (s08b_bunsin2_800C9120(work) == 0)
+        if (s08b_bunsin2_800C9120(work) != 0)
         {
-            work->action = s08b_bunsin2_800C9B38;
-            work->time = 0;
-            work->control.turn.vz = 0;
-            work->control.turn.vx = 0;
-            goto stop;
+            return;
         }
+
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
     }
-    else
-    {
-stop:
-        s08b_bunsin2_800C9588(work, 6);
-        control->step.vx = 0;
-        control->step.vz = 0;
-    }
+
+    s08b_bunsin2_800C9588(work, 6);
+    control->step.vx = 0;
+    control->step.vz = 0;
 }
 void s08b_bunsin2_800CB38C(Work *work, int time)
 {
@@ -1759,20 +1749,18 @@ void s08b_bunsin2_800CB38C(Work *work, int time)
     {
         work->field_1A00 = 1;
 
-        if (work->command != 30)
+        if (work->command == 30)
         {
-            if (s08b_bunsin2_800C9120(work) == 0)
-            {
-                work->action = s08b_bunsin2_800C9B38;
-                work->time = 0;
-                work->control.turn.vz = 0;
-                work->control.turn.vx = 0;
-                goto stop;
-            }
+            control->step.vx = 0;
+            control->step.vz = 0;
+            work->target->class |= 0x1F;
         }
-        else
+        else if (s08b_bunsin2_800C9120(work) == 0)
         {
-stop:
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
             control->step.vx = 0;
             control->step.vz = 0;
             work->target->class |= 0x1F;
@@ -1799,23 +1787,21 @@ void s08b_bunsin2_800CB444(Work *work, int time)
 
         if (work->command != 29)
         {
-            if (s08b_bunsin2_800C9120(work) == 0)
+            if (s08b_bunsin2_800C9120(work) != 0)
             {
-                work->action = s08b_bunsin2_800C9B38;
-                work->time = 0;
-                work->control.turn.vz = 0;
-                work->control.turn.vx = 0;
-                goto stop;
+                return;
             }
+
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
         }
-        else
-        {
-stop:
-            s08b_bunsin2_800C9588(work, 6);
-            control->step.vx = 0;
-            control->step.vz = 0;
-            work->target->class |= 0x1F;
-        }
+
+        s08b_bunsin2_800C9588(work, 6);
+        control->step.vx = 0;
+        control->step.vz = 0;
+        work->target->class |= 0x1F;
     }
 }
 void s08b_bunsin2_800CB52C(Work *work, int time)
