@@ -5,46 +5,100 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/item.h"
+#include "strcode.h"
 
 extern DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
 
+#define KMD_BOX_04 0x4d62 // GV_StrCode("box_04")
+#define KMD_BOX_05 0x4d63 // GV_StrCode("box_05")
+
+// One container: 72 of them form a 3x3 grid (z, x) of 2 layers (y) of
+// 2x2 containers. The 36 containers of the bottom layer are the ones
+// that can be shot (they have a target and a damage state).
+typedef struct _DynConBox
+{
+    TARGET        *target;   /* 0x00 */
+    OBJECT_NO_ROTS obj[2];   /* 0x04 - intact / damaged model */
+    SVECTOR        pos;      /* 0x4C */
+    SVECTOR        rot;      /* 0x54 */
+    MATRIX         light[2]; /* 0x5C */
+} DynConBox;
+
+typedef struct _DynConPan
+{
+    OBJECT_NO_ROTS obj;      /* 0x00 */
+    MATRIX         light[2]; /* 0x24 */
+    char           pad[0x10];
+} DynConPan;
+
+typedef struct _DynConTent
+{
+    OBJECT_NO_ROTS obj;      /* 0x00 */
+    MATRIX         light[2]; /* 0x24 */
+} DynConTent;
+
+typedef struct _DynConItem
+{
+    OBJECT_NO_ROTS obj;      /* 0x00 */
+    SVECTOR       *pos;      /* 0x24 */
+    SVECTOR       *rot;      /* 0x28 */
+    SVECTOR        rot2;     /* 0x2C */
+    SVECTOR        ofs;      /* 0x34 */
+    MATRIX         light[2]; /* 0x3C */
+    int            state;    /* 0x7C */
+} DynConItem;
+
 typedef struct _DynCon
 {
-    GV_ACT  actor;           /* 0x00 */
-    int     map;             /* 0x20 */
-    char    pad_24[0x3594 - 0x24];
-    int     field_3594[5][2];/* 0x3594 */
-    HZD_SEG segs[4][2][4];   /* 0x35BC - four HZD_SEG per [i][j] */
-    char    pad_37BC[0x383C - 0x37BC];
-    HZD_FLR floors[4][2][2]; /* 0x383C - two HZD_FLR per [i][j] */
-    char    pad_3B3C[0x3C0C - 0x3B3C];
-    SVECTOR field_3C0C[4];   /* 0x3C0C */
-    char    pad_3C2C[0x3F00 - 0x3C2C];
-    int     field_3F00[4];   /* 0x3F00 */
-    int     field_3F10[4];   /* 0x3F10 - countdown, reset to 32 (800D6004/603C) */
-    int     field_3F20[4];   /* 0x3F20 - cycle counter (800D6004/603C) */
-    int     field_3F30[4];   /* 0x3F30 */
-    SVECTOR field_3F40[4];   /* 0x3F40 */
-    SVECTOR field_3F60[4];   /* 0x3F60 */
-    short   field_3F80[4][4];/* 0x3F80 - bounds [min_x, min_z, max_x, max_z] per row */
-    HZD_SEG slots[4][2];     /* 0x3FA0 - two HZD_SEG per row */
-    int     field_4020[4];   /* 0x4020 - flag per row */
-    char    pad_4030[0x4050 - 0x4030];
-    int     field_4050;      /* 0x4050 - mode/state (1 or 3) */
+    GV_ACT     actor;            /* 0x0000 */
+    int        map;              /* 0x0020 */
+    DynConBox  boxes[72];        /* 0x0024 */
+    int        box_flags[144];   /* 0x2C04 - boxes[i / 2].obj[i % 2] is initialized */
+    DynConPan  pans[8];          /* 0x2E44 */
+    int        pan_flags[8];     /* 0x31E4 */
+    DynConTent tents[4];         /* 0x3204 */
+    DynConItem items[4];         /* 0x3394 */
+    int        field_3594[5][2]; /* 0x3594 - box index */
+    HZD_SEG    segs[5][2][4];    /* 0x35BC */
+    HZD_FLR    floors[5][2][2];  /* 0x383C */
+    char       pad_3BFC[0x10];   /* 0x3BFC */
+    SVECTOR    field_3C0C[4];    /* 0x3C0C */
+    int        field_3C2C[36];   /* 0x3C2C - hit counter */
+    int        field_3CBC[36];   /* 0x3CBC - damage state */
+    int        field_3D4C[36];   /* 0x3D4C - previous damage state */
+    int        field_3DDC;       /* 0x3DDC - hits per damage state */
+    int        field_3DE0[6][6]; /* 0x3DE0 - models */
+    int        field_3E70[36];   /* 0x3E70 - model set */
+    int        field_3F00[4];    /* 0x3F00 - special box */
+    int        field_3F10[4];    /* 0x3F10 - countdown, reset to 32 (800D6004/603C) */
+    int        field_3F20[4];    /* 0x3F20 - cycle counter (800D6004/603C) */
+    int        field_3F30[4];    /* 0x3F30 */
+    SVECTOR    field_3F40[4];    /* 0x3F40 */
+    SVECTOR    field_3F60[4];    /* 0x3F60 */
+    short      field_3F80[4][4]; /* 0x3F80 - bounds [min_x, min_z, max_x, max_z] per row */
+    HZD_SEG    slots[4][2];      /* 0x3FA0 - two HZD_SEG per row */
+    int        field_4020[4];    /* 0x4020 - flag per row */
+    char       pad_4030[0x10];   /* 0x4030 */
+    int        field_4040[4];    /* 0x4040 */
+    int        field_4050;       /* 0x4050 - mode/state (1 or 3) */
+    int        field_4054;       /* 0x4054 - GCL proc */
+    int        field_4058;       /* 0x4058 - GCL proc */
+    int        field_405C;       /* 0x405C - GCL proc */
+    int        field_4060[40];   /* 0x4060 */
+    char       pad_4100[0x60];   /* 0x4100 */
+    int        field_4160[4];    /* 0x4160 */
 } DynCon;
 
-typedef struct _DynStack
-{
-    char  pad[0x70];
-    short val_70;
-    short val_72;
-    short val_74;
-    short pad2;
-    short val_78;
-    short val_7A;
-    short val_7C;
-    char  pad3[156 - 0x7E];
-} DynStack;
+void s15c_dyncon_800D61E0(DynCon *work);
+void s15c_dyncon_800D7F88(DynCon *work);
+int  s15c_dyncon_800D7AB4(DynCon *work);
+int  s15c_dyncon_800D8510(DynCon *work);
+
+unsigned char dyncon_vibration1_800C35CC[] = {0x00, 0x04, 0x7F, 0x04, 0x00, 0x00};
+unsigned char dyncon_vibration2_800C35D4[] = {0x55, 0x04, 0x87, 0x08, 0x64, 0x0A, 0x41, 0x0C, 0x00, 0x00};
+
+int SECTION(".bss") dyncon_800E3448[4];
+int SECTION(".bss") dyncon_800E3458[4];
 
 void s15c_dyncon_800D3EBC(OBJECT_NO_ROTS *obj, int model, int flag)
 {
@@ -180,15 +234,13 @@ extern void s15c_dyncon_800D3F24(HZD_SEG *segs, HZD_FLR *floors, MATRIX *mtx,
 
 void s15c_dyncon_800D567C(DynCon *work, int s1, int s2, int code)
 {
-    MATRIX    mtx;
-    SVECTOR   pos;
-    SVECTOR   rot;
-    SVECTOR   a;
-    SVECTOR   b;
-    DynStack *ds;
+    MATRIX  mtx;
+    SVECTOR pos;
+    SVECTOR rot;
+    SVECTOR a;
+    SVECTOR b;
 
-    ds  = (DynStack *)work + work->field_3594[s1][s2];
-    pos = *(SVECTOR *)&ds->val_70;
+    pos = work->boxes[work->field_3594[s1][s2]].pos;
     rot = DG_ZeroVector;
 
     switch (code)
@@ -196,20 +248,17 @@ void s15c_dyncon_800D567C(DynCon *work, int s1, int s2, int code)
     case 1:
         a = work->field_3C0C[0];
         b = work->field_3C0C[1];
-        ds = (DynStack *)work + work->field_3594[s1][s2];
-        rot.vy = ds->val_7A;
+        rot.vy = work->boxes[work->field_3594[s1][s2]].rot.vy;
         break;
     case 2:
         a = work->field_3C0C[2];
         b = work->field_3C0C[3];
-        ds = (DynStack *)work + work->field_3594[s1][s2];
-        rot.vy = ds->val_7C + 0x800;
+        rot.vy = work->boxes[work->field_3594[s1][s2]].rot.vz + 0x800;
         break;
     case 3:
         a = work->field_3C0C[2];
         b = work->field_3C0C[3];
-        ds = (DynStack *)work + work->field_3594[s1][s2];
-        rot.vy = ds->val_7C - 0x400;
+        rot.vy = work->boxes[work->field_3594[s1][s2]].rot.vz - 0x400;
         break;
     }
 
@@ -218,7 +267,31 @@ void s15c_dyncon_800D567C(DynCon *work, int s1, int s2, int code)
     s15c_dyncon_800D3F24(&work->segs[s1][s2][0], &work->floors[s1][s2][0],
                          &mtx, &a, &b);
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5910.s")
+void s15c_dyncon_800D5910(DynCon *work, int i, int j)
+{
+    i += j * 3;
+    i <<= 2;
+
+    if (work->field_3CBC[i] > 5)
+    {
+        work->field_3CBC[i] = 5;
+    }
+
+    if (work->field_3CBC[i + 1] > 5)
+    {
+        work->field_3CBC[i + 1] = 5;
+    }
+
+    if (work->field_3CBC[i + 2] > 5)
+    {
+        work->field_3CBC[i + 2] = 5;
+    }
+
+    if (work->field_3CBC[i + 3] > 5)
+    {
+        work->field_3CBC[i + 3] = 5;
+    }
+}
 void s15c_dyncon_800D59C0(SVECTOR *vec, int code)
 {
     switch (code)
@@ -245,8 +318,85 @@ void s15c_dyncon_800D59C0(SVECTOR *vec, int code)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5A3C.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D5C38.s")
+void s15c_dyncon_800D5A3C(DynCon *work, int i, int index, int state, int drz, int drx,
+                          int ax, int ay, int az, int bx, int by, int bz)
+{
+    SVECTOR vec;
+
+    if (!(i & 1))
+    {
+        work->boxes[index + 4].rot.vz += drz;
+    }
+    else
+    {
+        work->boxes[index + 4].rot.vz -= drz;
+    }
+
+    work->boxes[index + 4].rot.vx += drx;
+
+    vec.vx = ax;
+    vec.vy = ay;
+    vec.vz = az;
+    s15c_dyncon_800D59C0(&vec, i);
+
+    if (state == 5)
+    {
+        switch (i)
+        {
+        case 0:
+            vec.vz = 0;
+            break;
+        case 1:
+            vec.vx = 0;
+            break;
+        case 2:
+            vec.vx = 0;
+            break;
+        case 3:
+            vec.vz = 0;
+            break;
+        }
+    }
+
+    work->field_3F40[i] = vec;
+
+    vec.vx = bx;
+    vec.vy = by;
+    vec.vz = bz;
+    s15c_dyncon_800D59C0(&vec, i);
+
+    work->boxes[index + 4].pos.vx += vec.vx;
+    work->boxes[index + 4].pos.vy += vec.vy;
+    work->boxes[index + 4].pos.vz += vec.vz;
+}
+void s15c_dyncon_800D5C38(DynCon *work, int i, int index)
+{
+    SVECTOR         rot;
+    OBJECT_NO_ROTS *obj;
+    SVECTOR        *pos;
+
+    obj = &work->pans[i * 2].obj;
+    pos = &work->boxes[index].pos;
+    rot = work->boxes[index].rot;
+
+    DG_SetPos2(pos, &rot);
+    s15c_dyncon_800D3EBC(obj, GV_StrCode("pan1"), 0x47);
+    obj->objs->objs[0].raise = -250;
+    work->pan_flags[i * 2] = 1;
+    GM_ActObject2((OBJECT *)obj);
+
+    if (i % 2 == 1)
+    {
+        rot.vy += 0x800;
+    }
+
+    obj = &work->pans[i * 2 + 1].obj;
+    DG_SetPos2(pos, &rot);
+    s15c_dyncon_800D3EBC(obj, GV_StrCode("pan2"), 0x47);
+    obj->objs->objs[0].raise = -250;
+    work->pan_flags[i * 2 + 1] = 1;
+    GM_ActObject2((OBJECT *)obj);
+}
 void s15c_dyncon_800D5DC0(SVECTOR *vec, SVECTOR *target, int len)
 {
     vec->vx = (vec->vx * (len - 1) + target->vx) / len;
@@ -288,16 +438,14 @@ void s15c_dyncon_800D5F68(DynCon *work, int index, int arg2, int a3_val,
                           int sp28, int sp2c, int sp30, int sp34,
                           int sp38, int sp3c)
 {
-    DynStack *item = (DynStack *)work + index;
+    work->boxes[index].rot.vx += (short)a3_val;
+    work->boxes[index].rot.vy += (short)sp28;
 
-    item->val_78 += (short)a3_val;
-    item->val_7A += (short)sp28;
+    work->boxes[index].rot.vz += (short)sp2c;
+    work->boxes[index].pos.vx += (short)sp30;
 
-    item->val_7C += (short)sp2c;
-    item->val_70 += (short)sp30;
-
-    item->val_72 += (short)sp34;
-    item->val_74 += (short)sp38;
+    work->boxes[index].pos.vy += (short)sp34;
+    work->boxes[index].pos.vz += (short)sp38;
 
     s15c_dyncon_800D5EDC(work, arg2, sp3c);
 }
@@ -320,13 +468,10 @@ void s15c_dyncon_800D603C(DynCon *work, int i)
 }
 void s15c_dyncon_800D6070(DynCon *work, int row, int idx)
 {
-    DynStack *item = (DynStack *)work + row;
-
-    item->val_70 += (work->field_3F40[idx].vx * work->field_3F10[idx]) / 128;
-    item->val_72 += (work->field_3F40[idx].vy * work->field_3F10[idx]) / 128;
-    item->val_74 += (work->field_3F40[idx].vz * work->field_3F10[idx]) / 128;
+    work->boxes[row].pos.vx += (work->field_3F40[idx].vx * work->field_3F10[idx]) / 128;
+    work->boxes[row].pos.vy += (work->field_3F40[idx].vy * work->field_3F10[idx]) / 128;
+    work->boxes[row].pos.vz += (work->field_3F40[idx].vz * work->field_3F10[idx]) / 128;
 }
-extern int dyncon_800E3448[4];
 
 void s15c_dyncon_800D6128(DynCon *work, SVECTOR *pos, int range)
 {
@@ -353,11 +498,64 @@ void s15c_dyncon_800D6128(DynCon *work, SVECTOR *pos, int range)
         out[i] = work->field_3F30[i];
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D61E0.s")
+void s15c_dyncon_800D61E0(DynCon *work)
+{
+    OBJECT_NO_ROTS *obj;
+    SVECTOR        *ofs;
+    DynConBox      *box;
+    int             i;
+    int             index;
+
+    obj = &work->items[0].obj;
+    ofs = &work->items[0].ofs;
+    work->items[0].rot2 = DG_ZeroVector;
+    ofs->vx = -250;
+    ofs->vy = 1800;
+    ofs->vz = -250;
+    GM_InitObjectNoRots(obj, KMD_BOX_04, 0x36D, 0);
+    GM_ConfigObjectLight((OBJECT *)obj, work->items[0].light);
+    work->items[0].obj.objs->objs[0].raise = 250;
+
+    obj = &work->items[1].obj;
+    ofs = &work->items[1].ofs;
+    work->items[1].rot2 = DG_ZeroVector;
+    ofs->vx = 250;
+    ofs->vy = 1800;
+    ofs->vz = -250;
+    GM_InitObjectNoRots(obj, KMD_BOX_01, 0x36D, 0);
+    GM_ConfigObjectLight((OBJECT *)obj, work->items[1].light);
+    work->items[1].obj.objs->objs[0].raise = 250;
+
+    obj = &work->items[2].obj;
+    ofs = &work->items[2].ofs;
+    work->items[2].rot2 = DG_ZeroVector;
+    ofs->vx = -250;
+    ofs->vy = 1800;
+    ofs->vz = -250;
+    GM_InitObjectNoRots(obj, KMD_BOX_01, 0x36D, 0);
+    GM_ConfigObjectLight((OBJECT *)obj, work->items[2].light);
+    work->items[2].obj.objs->objs[0].raise = 0;
+
+    obj = &work->items[3].obj;
+    ofs = &work->items[3].ofs;
+    work->items[3].rot2 = DG_ZeroVector;
+    ofs->vx = 250;
+    ofs->vy = 1800;
+    ofs->vz = -250;
+    GM_InitObjectNoRots(obj, KMD_BOX_05, 0x36D, 0);
+    GM_ConfigObjectLight((OBJECT *)obj, work->items[3].light);
+    work->items[3].obj.objs->objs[0].raise = 250;
+
+    for (i = 0; i < 4; i++)
+    {
+        index = work->field_3F00[i] / 4 * 8 + work->field_3F00[i] % 4 + 4;
+        box = &work->boxes[index];
+        work->items[i].pos = &box->pos;
+        work->items[i].rot = &box->rot;
+        work->items[i].state = 0;
+    }
+}
 extern void *NewItemPut(SVECTOR *pos, SVECTOR *step, ITEM_INFO *info);
-extern const char s15c_aNikitamissile_800E2D80[];
-extern const char s15c_aC_800E2D94[];
-extern const char s15c_aRation_800E2D9C[];
 
 void *s15c_dyncon_800D6434(DynCon *work, SVECTOR *pos, SVECTOR *step, int item_type)
 {
@@ -366,25 +564,25 @@ void *s15c_dyncon_800D6434(DynCon *work, SVECTOR *pos, SVECTOR *step, int item_t
     switch (item_type)
     {
     case 0:
-        item.message = s15c_aNikitamissile_800E2D80;
+        item.message = "NIKITA MISSILE * 4";
         item.type    = 3;
         item.id      = WP_Nikita;
         item.num     = 4;
         break;
     case 1:
-        item.message = s15c_aC_800E2D94;
+        item.message = "C4 * 2";
         item.id      = WP_C4;
         item.type    = 0;
         item.num     = 2;
         break;
     case 2:
-        item.message = s15c_aC_800E2D94;
+        item.message = "C4 * 2";
         item.type    = 0;
         item.id      = WP_C4;
         item.num     = 2;
         break;
     case 3:
-        item.message = s15c_aRation_800E2D9C;
+        item.message = "RATION";
         item.type    = 4;
         item.id      = IT_Ration;
         item.num     = 1;
@@ -393,9 +591,105 @@ void *s15c_dyncon_800D6434(DynCon *work, SVECTOR *pos, SVECTOR *step, int item_t
     item.time = -1;
     return NewItemPut(pos, step, &item);
 }
+// FIXME: rdata of the INCLUDE_ASM function below, remove once it is decompiled
+const char dyncon_aConall_800E2DA4[] = "con_all";
+const int  dyncon_jtbl_800E2DB0[] __attribute__((aligned(8))) = {
+    0x800D6F34, 0x800D733C, 0x800D741C, 0x800D7440, 0x800D76FC, 0x800D78DC};
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6528.s")
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7A84.s")
+#if 0 /* NON_MATCHING */
+int s15c_dyncon_800D7AB4(DynCon *work)
+{
+    SVECTOR size;
+    SVECTOR pos;
+    TARGET *target;
+    int     n, c;
+    int     i, j, k;
+    int     a, b;
+
+    n = 0;
+    c = 0;
+
+    size.vx = 1010;
+    size.vy = 885;
+    size.vz = 760;
+
+    for (j = 0; j < 3; j++)
+    {
+        for (i = 0; i < 3; i++)
+        {
+            for (k = 0; k < 2; k++)
+            {
+                for (a = 0; a < 2; a++)
+                {
+                    for (b = 0; b < 2; b++)
+                    {
+                        if (k == 0)
+                        {
+                            if (work->field_4050 == 1)
+                            {
+                                target = GM_AllocTarget();
+                                work->boxes[c].target = target;
+                                if (target)
+                                {
+                                    GM_SetTarget(target, TARGET_SEEK | TARGET_POWER, PLAYER_SIDE, &size);
+                                }
+
+                                pos = work->boxes[n].pos;
+                                pos.vy += 437;
+                                GM_MoveTarget(target, &pos);
+                            }
+
+                            work->field_3C2C[c] = 0;
+                            work->field_3CBC[c] = 0;
+                            work->field_3D4C[c] = 0;
+
+                            if (b == a)
+                            {
+                                work->field_3E70[c] = 2;
+                            }
+                            else
+                            {
+                                work->field_3E70[c] = 3;
+                            }
+
+                            c++;
+                        }
+
+                        n++;
+                    }
+                }
+            }
+        }
+    }
+
+    work->field_3F00[0] = 3;
+    work->field_3F00[1] = 21;
+    work->field_3F00[2] = 24;
+    work->field_3F00[3] = 34;
+
+    for (i = 0; i < 4; i++)
+    {
+        work->field_3F10[i] = 0;
+        work->field_3F20[i] = 0;
+        work->field_3F30[i] = 1;
+    }
+
+    work->field_3E70[work->field_3F00[0]] = 0;
+    work->field_3E70[work->field_3F00[1]] = 1;
+    work->field_3E70[work->field_3F00[2]] = 0;
+    work->field_3E70[work->field_3F00[3]] = 1;
+
+    work->field_3E70[28] = 4;
+    work->field_3E70[29] = 5;
+    work->field_3E70[30] = 5;
+    work->field_3E70[31] = 4;
+
+    return 1;
+}
+#else
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7AB4.s")
+#endif
 int s15c_dyncon_800D7D44(DynCon *work)
 {
     int i, j;
@@ -427,14 +721,335 @@ int s15c_dyncon_800D7D44(DynCon *work)
 
     return 1;
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7E30.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7EF4.s")
+void s15c_dyncon_800D7E30(DynCon *work, int tent, int index, int model)
+{
+    SVECTOR         pos;
+    OBJECT_NO_ROTS *obj;
+
+    pos = work->boxes[index].pos;
+    pos.vy += 1749;
+
+    obj = &work->tents[tent].obj;
+    DG_SetPos2(&pos, &work->boxes[index].rot);
+    s15c_dyncon_800D3EBC(obj, model, 0x47);
+    obj->objs->objs[0].raise = -250;
+    GM_ActObject2((OBJECT *)obj);
+}
+
+void s15c_dyncon_800D7EF4(DynCon *work, int index, int model)
+{
+    DynConBox      *box;
+    OBJECT_NO_ROTS *obj;
+
+    box = &work->boxes[index];
+    obj = &box->obj[0];
+    DG_SetPos2(&box->pos, &box->rot);
+    s15c_dyncon_800D3EBC(obj, model, 0x47);
+    work->box_flags[index * 2] = 1;
+    GM_ActObject2((OBJECT *)obj);
+}
+
+// FIXME: rdata of the INCLUDE_ASM function below (s15c_dyncon_800D8510 uses these
+// too to avoid duplicates), use string literals again once it is decompiled
+const char dyncon_aConuf0_800E2DC8[] = "con_uf0";
+const char dyncon_aConten_800E2DD0[] = "con_ten";
+const char dyncon_aConub0_800E2DD8[] = "con_ub0";
+const char dyncon_aContf_800E2DE0[] = "con_tf";
+const char dyncon_aContb_800E2DE8[] = "con_tb";
+#if 0 /* NON_MATCHING */
+void s15c_dyncon_800D7F88(DynCon *work)
+{
+    int n, t;
+    int i, j, k;
+    int a, b;
+    int x, y, z, xx, zz, q;
+
+    n = 0;
+    for (j = 0; j < 3; j++)
+    {
+        for (i = 0; i < 3; i++)
+        {
+            for (k = 0; k < 2; k++)
+            {
+                for (a = 0; a < 2; a++)
+                {
+                    for (b = 0; b < 2; b++)
+                    {
+                        work->boxes[n].pos.vx = (i * 7000) + (b * 2000 - 8000);
+                        work->boxes[n].pos.vz = (j * 6000) + (a * 1500 - 5250);
+                        work->boxes[n].pos.vy = (k * 1750);
+                        work->boxes[n].rot.vx = 0;
+                        work->boxes[n].rot.vy = (1 - a) * 2048;
+                        work->boxes[n].rot.vz = 0;
+                        n++;
+                    }
+                }
+            }
+        }
+    }
+
+    n = 0;
+    t = 0;
+    for (j = 0; j < 3; j++)
+    {
+        for (i = 0; i < 3; i++)
+        {
+            if (i == 1 && j == 2)
+            {
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_uf0"));
+                s15c_dyncon_800D7E30(work, t, n, GV_StrCode("con_ten"));
+                t++;
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_ub0"));
+                s15c_dyncon_800D7E30(work, t, n, GV_StrCode("con_ten"));
+                t++;
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_ub0"));
+                s15c_dyncon_800D7E30(work, t, n, GV_StrCode("con_ten"));
+                t++;
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_uf0"));
+                s15c_dyncon_800D7E30(work, t, n, GV_StrCode("con_ten"));
+                t++;
+                n += 5;
+            }
+            else
+            {
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_uf0"));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_ub0"));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_ub0"));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_uf0"));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_tf"));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_tb"));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_tb"));
+                n++;
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_tf"));
+                n++;
+            }
+        }
+    }
+}
+#else
 #pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7F88.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D82FC.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8510.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D88C8.s")
-extern void s15c_dyncon_800D82FC(void *work);
-extern void s15c_dyncon_800D88C8(void *work);
+#endif
+
+void s15c_dyncon_800D82FC(DynCon *work)
+{
+    int i, j;
+
+    for (i = 0; i < 72; i++)
+    {
+        if (work->box_flags[i * 2] == 1)
+        {
+            GM_FreeObject((OBJECT *)&work->boxes[i].obj[0]);
+            work->box_flags[i * 2] = 0;
+        }
+
+        if (work->box_flags[i * 2 + 1] == 1)
+        {
+            GM_FreeObject((OBJECT *)&work->boxes[i].obj[1]);
+            work->box_flags[i * 2 + 1] = 0;
+        }
+    }
+
+    for (i = 0; i < 8; i++)
+    {
+        if (work->pan_flags[i] == 1)
+        {
+            GM_FreeObject((OBJECT *)&work->pans[i].obj);
+            work->pan_flags[i] = 0;
+        }
+    }
+
+    for (i = 0; i < 4; i++)
+    {
+        GM_FreeObject((OBJECT *)&work->tents[i].obj);
+    }
+
+    if (work->field_4050 != 0)
+    {
+        for (i = 0; i < 5; i++)
+        {
+            for (j = 0; j < 2; j++)
+            {
+                if (i != 4 && j == 0 && work->field_4040[i] == 0)
+                {
+                    s15c_dyncon_800D5354(work, i, 0);
+                }
+            }
+        }
+
+        for (i = 0; i < 4; i++)
+        {
+            if (work->field_4020[i] == 1)
+            {
+                s15c_dyncon_800D5114(work, i);
+            }
+        }
+    }
+
+    if (work->field_4050 == 1)
+    {
+        for (i = 0; i < 36; i++)
+        {
+            GM_FreeTarget(work->boxes[i].target);
+        }
+
+        GM_FreeObject((OBJECT *)&work->items[0].obj);
+        GM_FreeObject((OBJECT *)&work->items[1].obj);
+        GM_FreeObject((OBJECT *)&work->items[2].obj);
+        GM_FreeObject((OBJECT *)&work->items[3].obj);
+    }
+}
+int s15c_dyncon_800D8510(DynCon *work)
+{
+    int i;
+
+    for (i = 143; i >= 0; i--)
+    {
+        work->box_flags[i] = 0;
+    }
+
+    for (i = 7; i >= 0; i--)
+    {
+        work->pan_flags[i] = 0;
+    }
+
+    for (i = 0; i < 4; i++)
+    {
+        work->field_4020[i] = 0;
+        dyncon_800E3458[i] = 0;
+        work->field_3F20[i] = 0;
+    }
+
+    work->field_3C0C[0].vx = -1000;
+    work->field_3C0C[0].vy = 0;
+    work->field_3C0C[0].vz = -750;
+    work->field_3C0C[1].vx = 1000;
+    work->field_3C0C[1].vy = 1750;
+    work->field_3C0C[1].vz = 750;
+    work->field_3C0C[2].vx = -1000;
+    work->field_3C0C[2].vy = -750;
+    work->field_3C0C[2].vz = 0;
+    work->field_3C0C[3].vx = 1000;
+    work->field_3C0C[3].vy = 750;
+    work->field_3C0C[3].vz = 1750;
+
+    work->field_3F80[0][0] = -5000;
+    work->field_3F80[0][1] = -5500;
+    work->field_3F80[0][2] = -2000;
+    work->field_3F80[0][3] = -3000;
+    work->field_3F80[1][0] = 5000;
+    work->field_3F80[1][1] = -3000;
+    work->field_3F80[1][2] = 9000;
+    work->field_3F80[1][3] = 500;
+    work->field_3F80[2][0] = -9000;
+    work->field_3F80[2][1] = 3000;
+    work->field_3F80[2][2] = -5000;
+    work->field_3F80[2][3] = 6000;
+    work->field_3F80[3][0] = 2000;
+    work->field_3F80[3][1] = 6000;
+    work->field_3F80[3][2] = 5000;
+    work->field_3F80[3][3] = 9000;
+
+    work->field_3DE0[0][0] = GV_StrCode(dyncon_aConuf0_800E2DC8);
+    work->field_3DE0[0][1] = GV_StrCode("con_uf1");
+    work->field_3DE0[0][2] = GV_StrCode("con_uf2");
+    work->field_3DE0[0][3] = GV_StrCode("con_uf3");
+    work->field_3DE0[0][4] = GV_StrCode("br5");
+    work->field_3DE0[0][5] = GV_StrCode("br6");
+    work->field_3DE0[1][0] = GV_StrCode(dyncon_aConub0_800E2DD8);
+    work->field_3DE0[1][1] = GV_StrCode("con_ub1");
+    work->field_3DE0[1][2] = GV_StrCode("con_ub2");
+    work->field_3DE0[1][3] = GV_StrCode("con_ub3");
+    work->field_3DE0[1][4] = GV_StrCode("br7");
+    work->field_3DE0[1][5] = GV_StrCode("br8");
+    work->field_3DE0[2][0] = GV_StrCode(dyncon_aConuf0_800E2DC8);
+    work->field_3DE0[2][1] = GV_StrCode("con_uf1");
+    work->field_3DE0[2][2] = GV_StrCode("con_uf2");
+    work->field_3DE0[2][3] = GV_StrCode("con_uf3");
+    work->field_3DE0[2][4] = GV_StrCode("con_uf3");
+    work->field_3DE0[2][5] = GV_StrCode("con_uf3");
+    work->field_3DE0[3][0] = GV_StrCode(dyncon_aConub0_800E2DD8);
+    work->field_3DE0[3][1] = GV_StrCode("con_ub1");
+    work->field_3DE0[3][2] = GV_StrCode("con_ub2");
+    work->field_3DE0[3][3] = GV_StrCode("con_ub3");
+    work->field_3DE0[3][4] = GV_StrCode("con_ub3");
+    work->field_3DE0[3][5] = GV_StrCode("con_ub3");
+    work->field_3DE0[4][0] = GV_StrCode(dyncon_aConuf0_800E2DC8);
+    work->field_3DE0[4][1] = GV_StrCode("con_uf1");
+    work->field_3DE0[4][2] = GV_StrCode("con_uf2");
+    work->field_3DE0[4][3] = GV_StrCode("con_uf3");
+    work->field_3DE0[4][4] = GV_StrCode("con_uf3");
+    work->field_3DE0[4][5] = GV_StrCode("con_uf3");
+    work->field_3DE0[5][0] = GV_StrCode(dyncon_aConub0_800E2DD8);
+    work->field_3DE0[5][1] = GV_StrCode("con_ub1");
+    work->field_3DE0[5][2] = GV_StrCode("con_ub2");
+    work->field_3DE0[5][3] = GV_StrCode("con_ub3");
+    work->field_3DE0[5][4] = GV_StrCode("con_ub3");
+    work->field_3DE0[5][5] = GV_StrCode("con_ub3");
+
+    s15c_dyncon_800D7F88(work);
+
+    if (work->field_4050 != 0)
+    {
+        if (s15c_dyncon_800D7D44(work) < 0)
+        {
+            return -1;
+        }
+
+        if (s15c_dyncon_800D7AB4(work) < 0)
+        {
+            return -1;
+        }
+    }
+
+    return 1;
+}
+void s15c_dyncon_800D88C8(DynCon *work)
+{
+    GCL_ARGS args;
+    long     data[20];
+    long    *out;
+    int      i;
+
+    out = data;
+    for (i = 0; i < 20; i++)
+    {
+        *out++ = ((unsigned char)work->field_3CBC[i * 2] << 8) | (unsigned char)work->field_3CBC[i * 2 + 1];
+    }
+
+    // BUG: these overflow data[] (and are read from the wrong place)
+    *out = ((unsigned char)dyncon_800E3458[i] << 8) | (unsigned char)dyncon_800E3458[i + 1];
+    *out = ((unsigned char)dyncon_800E3458[i + 2] << 8) | (unsigned char)dyncon_800E3458[i + 3];
+
+    if (work->field_4054 >= 0)
+    {
+        args.argc = 8;
+        args.argv = &data[0];
+        GCL_ForceExecProc(work->field_4054, &args);
+    }
+
+    if (work->field_4058 >= 0)
+    {
+        args.argc = 8;
+        args.argv = &data[8];
+        GCL_ForceExecProc(work->field_4058, &args);
+    }
+
+    if (work->field_405C >= 0)
+    {
+        args.argc = 4;
+        args.argv = &data[16];
+        GCL_ForceExecProc(work->field_405C, &args);
+    }
+}
 
 void s15c_dyncon_800D89F8(DynCon *work)
 {
@@ -444,7 +1059,7 @@ void s15c_dyncon_800D89F8(DynCon *work)
         s15c_dyncon_800D88C8(work);
     }
 }
-void s15c_dyncon_800D8A34(char *opt, short *out, int count)
+void s15c_dyncon_800D8A34(char *opt, unsigned short *out, int count)
 {
     int   i;
     char *s;
@@ -460,10 +1075,109 @@ void s15c_dyncon_800D8A34(char *opt, short *out, int count)
         out++;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D8A9C.s")
+int s15c_dyncon_800D8A9C(DynCon *work, int where)
+{
+    unsigned short data[20];
+    char          *opt;
+    int            i;
+
+    opt = GCL_GetOption('s');
+    if (opt)
+    {
+        work->field_4050 = GCL_StrToInt(opt);
+    }
+    else
+    {
+        work->field_4050 = 1;
+    }
+
+    opt = GCL_GetOption('c');
+    if (!opt || (work->field_3DDC = GCL_StrToInt(opt)) <= 0)
+    {
+        work->field_3DDC = 1;
+    }
+
+    work->map = where;
+    GM_CurrentMap = where;
+
+    if (s15c_dyncon_800D8510(work) < 0)
+    {
+        return -1;
+    }
+
+    if (work->field_4050 == 1)
+    {
+        opt = GCL_GetOption('f');
+        if (opt)
+        {
+            work->field_4054 = GCL_StrToInt(opt);
+        }
+        else
+        {
+            work->field_4054 = -1;
+        }
+
+        opt = GCL_GetOption('g');
+        if (opt)
+        {
+            work->field_4058 = GCL_StrToInt(opt);
+        }
+        else
+        {
+            work->field_4058 = -1;
+        }
+
+        opt = GCL_GetOption('h');
+        if (opt)
+        {
+            work->field_405C = GCL_StrToInt(opt);
+        }
+        else
+        {
+            work->field_405C = -1;
+        }
+
+        s15c_dyncon_800D61E0(work);
+    }
+
+    if (work->field_4050 >= 2 && work->field_4050 <= 3)
+    {
+        opt = GCL_GetOption('l');
+        if (opt)
+        {
+            s15c_dyncon_800D8A34(opt, &data[0], 8);
+        }
+
+        opt = GCL_GetOption('m');
+        if (opt)
+        {
+            s15c_dyncon_800D8A34(opt, &data[8], 8);
+        }
+
+        opt = GCL_GetOption('n');
+        if (opt)
+        {
+            s15c_dyncon_800D8A34(opt, &data[16], 4);
+        }
+
+        for (i = 0; i < 20; i++)
+        {
+            work->field_4060[i * 2] = data[i] >> 8;
+            work->field_4060[i * 2 + 1] = data[i] & 0xFF;
+        }
+    }
+
+    work->field_4160[0] = 0;
+    work->field_4160[1] = 0;
+    work->field_4160[2] = 0;
+    work->field_4160[3] = 0;
+    work->field_4040[0] = 0;
+    work->field_4040[1] = 0;
+    work->field_4040[2] = 0;
+    work->field_4040[3] = 0;
+    return 0;
+}
 extern void s15c_dyncon_800D6528(void *work);
-extern int  s15c_dyncon_800D8A9C(DynCon *work, int arg);
-extern const char s15c_dword_800E2E30[];
 
 GV_ACT *s15c_dyncon_800D8C9C(int name, int where)
 {
@@ -473,7 +1187,7 @@ GV_ACT *s15c_dyncon_800D8C9C(int name, int where)
     work = (DynCon *)GV_NewActor(GV_ACTOR_USER, 0x4170);
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, s15c_dyncon_800D6528, s15c_dyncon_800D89F8, s15c_dword_800E2E30);
+        GV_SetNamedActor(&work->actor, s15c_dyncon_800D6528, s15c_dyncon_800D89F8, "dyncon.c");
         if (s15c_dyncon_800D8A9C(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
