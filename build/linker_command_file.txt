@@ -2938,13 +2938,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
     include "{{OBJ_DIR}}\okajima\scn_mark.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D5F78.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D6060.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D62F0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D6534.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D65CC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800D6654.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s10a\okajima\10a_demo.obj", overlay
     include "{{OBJ_DIR}}\okajima\wolf\wolf2.obj", overlay
     include "{{OBJ_DIR}}\okajima\wolf\unknown.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\rcm.obj", overlay
