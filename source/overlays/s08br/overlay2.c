@@ -388,16 +388,6 @@ const int s08b_dword_800E3BF0 = 0x800D4B84;
 const int s08b_dword_800E3BF4 = 0x800D4B94;
 const int s08b_dword_800E3BF8 = 0x800D4BB4;
 const int s08b_dword_800E3BFC = 0x800D4BA4;
-const int s08b_dword_800E3C00 = 0x800D4C0C;
-const int s08b_dword_800E3C04 = 0x800D4C1C;
-const int s08b_dword_800E3C08 = 0x800D4C74;
-const int s08b_dword_800E3C0C = 0x800D4C2C;
-const int s08b_dword_800E3C10 = 0x800D4C74;
-const int s08b_dword_800E3C14 = 0x800D4C74;
-const int s08b_dword_800E3C18 = 0x800D4C3C;
-const int s08b_dword_800E3C1C = 0x800D4C4C;
-const int s08b_dword_800E3C20 = 0x800D4C6C;
-const int s08b_dword_800E3C24 = 0x800D4C5C;
 
 int SECTION(".bss") s08b_dword_800E4314;
 int SECTION(".bss") s08b_dword_800E4318;
