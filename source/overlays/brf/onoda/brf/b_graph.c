@@ -3002,18 +3002,6 @@ const int brf_dword_800E21C4 = 0x800D6F78;
 const char brf_dword_800E21C8[12] = "a_back_u";
 const char brf_dword_800E21D4[8] = "a_naomi";
 const char brf_dword_800E21DC[8] = "\xa5\xca\xa5\xaa\xa5\xdf"; /* "ナオミ" (Naomi) */
-const int brf_dword_800E21E4 = 0x800D75CC;
-const int brf_dword_800E21E8 = 0x800D75D4;
-const int brf_dword_800E21EC = 0x800D7100;
-const int brf_dword_800E21F0 = 0x800D7198;
-const int brf_dword_800E21F4 = 0x800D71F8;
-const int brf_dword_800E21F8 = 0x800D72D8;
-const int brf_dword_800E21FC = 0x800D7418;
-const int brf_dword_800E2200 = 0x800D747C;
-const int brf_dword_800E2204 = 0x800D7500;
-const int brf_dword_800E2208 = 0x800D7564;
-const int brf_dword_800E220C = 0x800D75CC;
-const char brf_dword_800E2210[4] = "";
 extern int brf_dword_800C390C;
 
 void brf_800D674C(Work *work)
@@ -3140,7 +3128,137 @@ void brf_800D6F98(Work *work)
     }
     work->field_AD34++;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D70A4.s")
+extern int brf_dword_800C3954, brf_dword_800C3978;
+
+void brf_800D70A4(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+    DG_TEX *g;
+
+    switch (work->field_AD20)
+    {
+    case 1:
+        if (work->field_AD5C != 0)
+        {
+            GM_StreamPlayStart();
+            brf_800CC150(work);
+            brf_800CC388(work);
+            brf_800CF4A0(work, 0x32, 0x5A, 0x12C, 0x1C2, 3, &brf_dword_800C3954);
+            work->z_A597[1] = 10;
+            work->z_A597[2] = 10;
+        }
+        brf_800CADD4(work, &base[2], 9);
+        brf_800CC5E4(work, &base[1], &base[2]);
+        break;
+    case 2:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->field_AD30 = 0;
+            work->z_A597[0] = 10;
+            work->z_A597[1] = 10;
+            work->z_A597[2] = 10;
+        }
+        brf_800CD8B8(work, 16, 2, 0);
+        brf_800CC5E4(work, &base[1], &base[2]);
+        break;
+    case 3:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            brf_800CAC7C(work, GV_StrCode(brf_dword_800E21C8));
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E21C8));
+            BRF_SET_UV(&base[6], g);
+            work->z_A597[0] = 10;
+            work->z_A597[1] = 10;
+        }
+        brf_800CADD4(work, &base[0], 8);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        break;
+    case 4:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC190(work);
+            brf_800CF4A0(work, 0x28, 0x5A, 0x12C, 0x2EE, 5, &brf_dword_800C3978);
+            work->field_AD34 = 0;
+            brf_800CAC7C(work, GV_StrCode(brf_dword_800E21D4));
+            g = brf_800CABF4(work, GV_StrCode(brf_dword_800E21D4));
+            BRF_SET_UV(&base[8], g);
+            setRGB0(&base[8], 0x80, 0xC0, 0xC0);
+            work->z_A597[3] = 10;
+            work->z_A597[4] = 10;
+            work->z_A597[6] = 12;
+            work->z_A597[7] = 12;
+            work->z_A597[8] = 8;
+        }
+        brf_800CADD4(work, &base[3], 4);
+        brf_800CC5E4(work, &base[6], &base[7]);
+        brf_800D6F98(work);
+        break;
+    case 5:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[3] = 10;
+            work->z_A597[4] = 10;
+            work->z_A597[5] = 10;
+            work->z_A597[6] = 12;
+            work->z_A597[7] = 12;
+            work->field_AD30 = 0;
+            work->z_A597[8] = 8;
+        }
+        brf_800CD8B8(work, 16, 3, 5);
+        brf_800CC5E4(work, &base[6], &base[7]);
+        break;
+    case 6:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[4] = 10;
+            work->z_A597[5] = 10;
+            work->z_A597[6] = 12;
+            work->z_A597[7] = 12;
+            work->z_A597[8] = 8;
+        }
+        brf_800CADD4(work, &base[5], 3);
+        brf_800CC5E4(work, &base[6], &base[7]);
+        brf_800CDDD4(work, GV_StrCode(brf_dword_800E21DC), 8);
+        break;
+    case 7:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[3] = 10;
+            work->z_A597[4] = 10;
+            work->z_A597[5] = 10;
+            work->z_A597[6] = 12;
+            work->z_A597[7] = 12;
+            work->field_AD30 = 0;
+            work->z_A597[8] = 8;
+        }
+        brf_800CD8B8(work, 16, 5, 3);
+        brf_800CC5E4(work, &base[6], &base[7]);
+        break;
+    case 8:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[3] = 10;
+            work->z_A597[4] = 10;
+            work->z_A597[6] = 12;
+            work->z_A597[7] = 12;
+            work->z_A597[8] = 8;
+        }
+        brf_800CADD4(work, &base[3], 4);
+        brf_800CC5E4(work, &base[6], &base[7]);
+        break;
+    case -1:
+    case 9:
+        brf_800CF5A8(work);
+        break;
+    }
+}
+const char brf_dword_800E2210[4] = "";
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D75F0.s")
 extern int brf_dword_800C39B4;
 void brf_800D75F0(Work *work);
