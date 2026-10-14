@@ -392,31 +392,50 @@ const char brf_dword_800E1C80[16] = "a_fog_haku_1";
 const char brf_dword_800E1C90[16] = "MePati Renzoku\n";
 const char brf_dword_800E1CA0[16] = "b_face_open_u";
 const char brf_dword_800E1CB0[20] = "b_face_angry_piku";
-const int brf_dword_800E1CC4 = 0x800CBE98;
-const int brf_dword_800E1CC8 = 0x800CBF1C;
-const int brf_dword_800E1CCC = 0x800CBF1C;
-const int brf_dword_800E1CD0 = 0x800CBEA4;
-const int brf_dword_800E1CD4 = 0x800CBF1C;
-const int brf_dword_800E1CD8 = 0x800CBF1C;
-const int brf_dword_800E1CDC = 0x800CBE98;
-const int brf_dword_800E1CE0 = 0x800CBF1C;
-const int brf_dword_800E1CE4 = 0x800CBF1C;
-const int brf_dword_800E1CE8 = 0x800CBEA4;
-const int brf_dword_800E1CEC = 0x800CBF1C;
-const int brf_dword_800E1CF0 = 0x800CBF1C;
-const int brf_dword_800E1CF4 = 0x800CBE98;
-const int brf_dword_800E1CF8 = 0x800CBF1C;
-const int brf_dword_800E1CFC = 0x800CBF1C;
-const int brf_dword_800E1D00 = 0x800CBEA4;
-const int brf_dword_800E1D04 = 0x800CBF1C;
-const int brf_dword_800E1D08 = 0x800CBF1C;
-const int brf_dword_800E1D0C = 0x800CBE98;
-const int brf_dword_800E1D10 = 0x800CBF1C;
-const int brf_dword_800E1D14 = 0x800CBF1C;
-const int brf_dword_800E1D18 = 0x800CBEA4;
-const int brf_dword_800E1D1C = 0x800CBF1C;
-const int brf_dword_800E1D20 = 0x800CBF1C;
-const int brf_dword_800E1D24 = 0x800CBE98;
+
+void brf_800CBE34(Work *work, POLY_FT4 *dest)
+{
+    DG_TEX *g;
+
+    switch (work->field_AD30 % 128)
+    {
+    case 0:
+    case 6:
+    case 12:
+    case 18:
+    case 24:
+        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1CA0));
+        break;
+    case 3:
+    case 9:
+    case 15:
+    case 21:
+        g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1CB0));
+        break;
+    default:
+        goto skip;
+    }
+
+    {
+        int u = g->off_x;
+        int uw = u + g->w + 1;
+        int v = g->off_y;
+        int vh = v + g->h + 1;
+
+        dest->u0 = u;
+        dest->v0 = v;
+        dest->u1 = uw;
+        dest->v1 = v;
+        dest->u2 = u;
+        dest->v2 = vh;
+        dest->u3 = uw;
+        dest->v3 = vh;
+        dest->tpage = g->tpage;
+        dest->clut = g->clut;
+    }
+skip:
+    work->field_AD30++;
+}
 const char brf_dword_800E1D28[12] = "b_eye_open";
 const char brf_dword_800E1D34[12] = "b_eye_half";
 const char brf_dword_800E1D40[12] = "b_eye_close";
@@ -424,8 +443,6 @@ const char brf_dword_800E1D4C[12] = "b_eye_down";
 const char brf_dword_800E1D58[4] = "abc";
 const char brf_dword_800E1D5C[8] = "0123";
 const char brf_dword_800E1D64[8] = "0123s";
-
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBE34.s")
 extern const char brf_dword_800E1D28[];
 extern const char brf_dword_800E1D34[];
 extern const char brf_dword_800E1D40[];
