@@ -138,7 +138,7 @@ typedef struct _Snake18Work
     short   f86E;        // 0x86E
     DG_TEX *f870;        // 0x870
     DG_PRIM *f874;       // 0x874
-    char    pad_878[0x898 - 0x878];
+    SVECTOR f878[4];     // 0x878 (laser sight vertices)
     GV_ACT *f898;        // 0x898 (item actor)
     int     f89C;        // 0x89C
     int     f8A0;        // 0x8A0
@@ -221,6 +221,7 @@ extern int      d18a_dword_800DAEF4;
 extern char    *d18a_dword_800DAEFC;
 extern HZD_FLR *d18a_dword_800DAF00[2];
 extern GV_MSG   d18a_dword_800DAEA0[3];
+extern const char d18a_aLsight_800DA7C8[];
 extern const char d18a_aSecond_800DA7C0[];
 extern const char d18a_aFirst_800DA7B8[];
 extern const char d18a_aKaze_800DA7B0[];
@@ -408,9 +409,9 @@ void d18a_snake18_800D4084(Snake18Work *work);
 void d18a_snake18_800D40F0(Snake18Work *work);
 void d18a_snake18_800D4388(Snake18Work *work);
 void d18a_snake18_800D46CC(Snake18Work *work);
-void d18a_snake18_800D4784(); /* asm */
-void d18a_snake18_800D48FC(); /* asm */
-int d18a_snake18_800D49FC(); /* asm */
+int d18a_snake18_800D4784(Snake18Work *work);
+void d18a_snake18_800D48FC(Snake18Work *work);
+int d18a_snake18_800D49FC(Snake18Work *work);
 int d18a_snake18_800D4B84(Snake18Work *work);
 int d18a_snake18_800D4BA4(Snake18Work *work);
 int d18a_snake18_800D4C44(Snake18Work *work, int name, int where);
@@ -5615,10 +5616,172 @@ void d18a_snake18_800D46CC(Snake18Work *work)
     }
 }
 const char d18a_aLsight_800DA7C8[] = "lsight";
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D4784.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D48FC.s")
+int d18a_snake18_800D4784(Snake18Work *work)
+{
+    SVECTOR  *verts;
+    SVECTOR  *verts2;
+    DG_PRIM  *prim;
+    DG_TEX   *tex;
+    POLY_GT4 *poly;
+    int       i, j;
 
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D49FC.s")
+    verts = work->f878;
+    prim = GM_MakePrim(DG_PRIM_LINE_GT2, 2, verts, NULL);
+    if (!prim)
+    {
+        return -1;
+    }
+
+    tex = DG_GetTexture(GV_StrCode(d18a_aLsight_800DA7C8));
+    work->f870 = tex;
+    if (!tex)
+    {
+        return -1;
+    }
+
+    prim->raise = 500;
+
+    for (i = 0; i < 2; i++)
+    {
+        poly = prim->packs[i];
+
+        for (j = 0; j < 2; j++)
+        {
+            LSTORE(COLOR_BLACK, &poly->r0);
+            LSTORE(COLOR_GRAY, &poly->r1);
+            LSTORE(COLOR_BLACK, &poly->r2);
+            LSTORE(COLOR_GRAY, &poly->r3);
+            setPolyGT4(poly);
+            setSemiTrans(poly, 1);
+            poly->tpage = tex->tpage;
+            poly->clut = tex->clut;
+            poly++;
+        }
+    }
+
+    verts2 = verts + 2;
+
+    verts[2].vx = -100;
+    verts[0].vx = -100;
+    verts[3].vy = -300;
+    verts2[0].vy = -300;
+    verts[1].vy = -300;
+    verts[0].vy = -300;
+    verts2[0].vz = 300;
+    verts[0].vz = 300;
+    verts[1].vx = -800;
+    verts[1].vz = 2000;
+    verts[3].vx = 800;
+    verts[3].vz = 2000;
+
+    DG_InvisiblePrim(prim);
+    work->f874 = prim;
+    return 0;
+}
+
+void d18a_snake18_800D48FC(Snake18Work *work)
+{
+    short stance;
+
+    stance = work->f8FE = GM_PlayerStance;
+
+    if (work->f89C == IT_Box1 || work->f89C == IT_Box2 || work->f89C == IT_Box3)
+    {
+        d18a_snake18_StartAnim(work, d18a_snake18_800CFF5C);
+        return;
+    }
+
+    if (GM_PlayerStatus & PLAYER_INTRUDE)
+    {
+        d18a_snake18_800CB3E8(work);
+        d18a_snake18_StartAnim(work, d18a_snake18_800CEEAC);
+        return;
+    }
+
+    switch (stance)
+    {
+    case 1:
+        d18a_snake18_StartAnim(work, d18a_snake18_800CD768);
+        break;
+
+    case 2:
+        d18a_snake18_StartAnim(work, d18a_snake18_800CD808);
+        break;
+
+    case 3:
+        work->f8FE = 2;
+        GM_PlayerStatus |= PLAYER_INTRUDE | PLAYER_GROUND;
+        d18a_snake18_800CB3E8(work);
+        d18a_snake18_StartAnim(work, d18a_snake18_800CEEAC);
+        break;
+
+    default:
+        d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
+        break;
+    }
+}
+
+int d18a_snake18_800D49FC(Snake18Work *work)
+{
+    char *opt;
+
+    work->f798 = -1;
+    work->f7E4 = 0;
+    work->f850 = NULL;
+    work->f854 = 0;
+    work->f85C = 0;
+    work->f864 = -1;
+    work->f868 = 0;
+    GM_WeaponChanged = 1;
+    d18a_snake18_800CD040(work);
+
+    work->f898 = NULL;
+    work->f89C = -1;
+    work->f8A0 = 0;
+    d18a_snake18_800CD4C0(work);
+
+    if (d18a_snake18_800D4784(work) < 0)
+    {
+        return -1;
+    }
+
+    work->f8A8 = &d18a_dword_800C36C8[GM_Weapon];
+    work->f8B0 = 0;
+    work->f8B8 = 0;
+    work->f8B4 = NULL;
+    work->f8BC = NULL;
+    work->f8C0 = NULL;
+    work->f8F8 = 0;
+    work->f8FC = 0;
+    work->f8FD = 0;
+    work->f900 = 450;
+    work->f912 = 0;
+    work->f910 = 0;
+    work->f924 = 0;
+    work->f914 = DG_ZeroVector;
+    work->f91C = work->control.mov;
+    work->f934 = 0;
+    work->f92C = 0;
+    work->f92E = 0;
+    work->f90C = 0;
+    work->f90D = 0;
+    work->f90E = 0;
+
+    opt = GCL_GetOption('o');
+    if (opt)
+    {
+        work->f92A = GCL_StrToInt(opt);
+    }
+    else
+    {
+        work->f92A = 0;
+    }
+
+    d18a_snake18_800D48FC(work);
+    GM_ConfigObjectAction(&work->body, d18a_snake18_800CB280(work, work->f8FE), 0, 0);
+    return 0;
+}
+
 
 int d18a_snake18_800D4B84( Snake18Work *work )
 {
