@@ -1,8 +1,8 @@
 	opt	c+, at+, e+, n-
 	section .text
 
-	xdef s19a_800C40AC
-s19a_800C40AC:
+	xdef NewCountdownGcl
+NewCountdownGcl:
 	dw 0x27BDFFE0 ; 800C40AC
 	dw 0xAFB00010 ; 800C40B0
 	dw 0x24102710 ; 800C40B4
