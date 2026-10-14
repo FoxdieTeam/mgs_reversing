@@ -1,35 +1,6 @@
 #include "mgstype.h"
 
-int s17a_dword_800C365C = 0x00000001;
-int s17a_dword_800C3660 = 0x00000001;
-int s17a_dword_800C3664 = 0xFFFF8300;
-int s17a_dword_800C3668 = 0xFFFF8300;
-int s17a_dword_800C366C = 0xFFFF8300;
-int s17a_dword_800C3670 = 0x00007D00;
-int s17a_dword_800C3674 = 0x00007D00;
-int s17a_dword_800C3678 = 0x00007D00;
-int s17a_dword_800C367C = 0x00000403;
-int s17a_dword_800C3680 = 0x00000038;
-int s17a_dword_800C3684 = 0xFFFF8300;
-int s17a_dword_800C3688 = 0xFFFF8300;
-int s17a_dword_800C368C = 0xFFFF8300;
-int s17a_dword_800C3690 = 0x00007D00;
-int s17a_dword_800C3694 = 0x00007D00;
-int s17a_dword_800C3698 = 0x00007D00;
-int s17a_dword_800C369C = 0x00000000;
-int s17a_dword_800C36A0 = 0x00000000;
-int s17a_dword_800C36A4 = 0x00000000;
-int s17a_dword_800C36A8 = 0xFFFFFFFF;
-int s17a_dword_800C36AC = 0xFFFFFFFF;
-int s17a_dword_800C36B0 = 0x00000048;
-int s17a_dword_800C36B4 = 0x00000000;
-int s17a_dword_800C36B8 = 0x00000000;
-int s17a_dword_800C36BC = 0x00000008;
-int s17a_dword_800C36C0 = 0x00000000;
-int s17a_dword_800C36C4 = 0x00000000;
-int s17a_dword_800C36C8 = 0x00000000;
-int s17a_dword_800C36CC = 0x00000000;
-int s17a_dword_800C36D0 = 0x00000000;
+
 int s17a_dword_800C36D4 = 0x00000000;
 int s17a_dword_800C36D8 = 0x00000000;
 int s17a_dword_800C36DC = 0x00000000;
@@ -1757,4 +1728,3 @@ int s17a_dword_800C51C0 = 0x00000000;
 int s17a_dword_800C51C4 = 0x00000000;
 int s17a_dword_800C51C8 = 0x00000000;
 char s17a_dword_800C51CC[] = "MG-REX";
-
