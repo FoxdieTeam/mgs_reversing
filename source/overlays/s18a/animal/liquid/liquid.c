@@ -16,7 +16,7 @@ extern int  GetCountdownTime(void);
 
 extern void s18a_800CC660(LiquidWork *work, int arg1);
 extern void s18a_800CC7BC(LiquidWork *work);
-extern void s18a_800D2250(MATRIX *pos, int arg1);
+extern void *NewLensFlare(MATRIX *world, int time);
 
 extern int     GM_AlertMax;
 extern SVECTOR GM_PlayerPosition;
@@ -553,7 +553,7 @@ void s18a_liquid_800C5F18(LiquidWork *work)
             mat.t[2] = -4300;
 
             GM_GameStatus |= STATE_PADRELEASE;
-            s18a_800D2250(&mat, 20);
+            NewLensFlare(&mat, 20);
 
             if (GM_GameOverTimer == 0 && GM_Vitality > 0)
             {

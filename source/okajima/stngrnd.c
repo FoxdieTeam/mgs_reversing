@@ -12,7 +12,7 @@
 #include "game/game.h"
 #include "strcode.h"
 
-static SVECTOR stru_800BDF90;
+SVECTOR stru_800BDF90; // also written by s18a lens_fl.c
 
 /*---------------------------------------------------------------------------*/
 

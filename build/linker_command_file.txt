@@ -3519,14 +3519,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
     include "{{OBJ_DIR}}\animal\liquid\bombled.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\rcm2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D1CCC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D1D3C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D1DB8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D1F30.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D1FA4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D1FC4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\s18a_800D2250.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s18a\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s18a\okajima\lens_fl.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\overlays\s18a\overlay5.obj", overlay
