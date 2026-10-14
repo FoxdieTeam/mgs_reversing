@@ -947,25 +947,18 @@ void s08b_bunsin2_800C8F0C(Work *work)
     world.t[1] = 20;
     world.t[2] = work->control.mov.vz;
 
-    if (GM_GameLevel == GM_LEVEL_NORMAL)
+    switch (GM_GameLevel)
     {
+    case GM_LEVEL_NORMAL:
         NewWindcrcl_800CF784(&world, 200, 100, 300, 10);
-    }
-    else if (GM_GameLevel > GM_LEVEL_EASY)
-    {
-        if (GM_GameLevel < GM_LEVEL_EXTREME + 1)
-        {
-            NewWindcrcl_800CF784(&world, 200, 100, 400, 10);
-        }
-        else
-        {
-            goto level_easy;
-        }
-    }
-    else
-    {
-level_easy:
+        break;
+    case GM_LEVEL_HARD:
+    case GM_LEVEL_EXTREME:
+        NewWindcrcl_800CF784(&world, 200, 100, 400, 10);
+        break;
+    default:
         NewWindcrcl_800CF784(&world, 200, 100, 200, 10);
+        break;
     }
 }
 void s08b_bunsin2_800C8FF8(Work *work)
@@ -1054,14 +1047,13 @@ void s08b_bunsin2_800C9B38(Work *work, int first)
             GM_ConfigObjectOverride(&work->body, s08b_dword_800C33A0[0], 0, 4, 0);
             work->action2 = 0;
             work->time2 = 0;
-            goto reset;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
         }
-
-        if (work->dir >= 0)
+        else if (work->dir >= 0)
         {
             work->action = s08b_bunsin2_800C9C74;
             work->time = 0;
-reset:
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
         }
