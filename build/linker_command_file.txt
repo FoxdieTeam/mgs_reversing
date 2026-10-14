@@ -1722,7 +1722,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindact.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody5.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\unknown.obj", overlay
 
@@ -2770,7 +2769,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindact.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800D89E0.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\unknown.obj", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay
@@ -2867,7 +2865,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindact.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\kojo\hindbody2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11h\s11h_800D7E54.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\blastoff.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
