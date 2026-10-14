@@ -1,18 +1,8 @@
+#define __S19B_OVERLAY6_C__
+
 #include "mgstype.h"
 #include "game/game.h"
-
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x40];
-    OBJECT  *body;
-    char     pad4[0x1C];
-    MATRIX   world;
-    char     pad5[0xCC];
-} JEEP_SYSTEM;
+#include "takabe/jeep_system.h"
 
 int SECTION(".bss") s19b_dword_800DE648;
 int SECTION(".bss") s19b_dword_800DE64C;

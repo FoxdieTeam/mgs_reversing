@@ -1,22 +1,6 @@
 #include "mgstype.h"
 #include "game/game.h"
-
-/* Global jeep state shared by the jeep actors (defined in overlay6.c) */
-typedef struct _JEEP_SYSTEM
-{
-    /* +0x00 */ char     pad_00[0x0C];
-    /* +0x0C */ int      active;
-    /* +0x10 */ CONTROL *control;
-    /* +0x14 */ SVECTOR *rot;
-    /* +0x18 */ char     pad_18[0x10];
-    /* +0x28 */ VECTOR   pos; // world position of the jeep, actors are placed relative to it
-    /* +0x38 */ char     pad_38[0x1C];
-    /* +0x54 */ int      field_54;
-    /* +0x58 */ char     pad_58[0x18];
-    /* +0x70 */ OBJECT  *body;
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "jeep_system.h"
 
 typedef struct _Jeep2Work Jeep2Work;
 
@@ -336,11 +320,11 @@ int s19b_jeep2_800D6B18(Jeep2Work *work, int name, int where)
     work->liq = s19b_spark2_m_800D8670(control, &body->objs->world, &work->hit);
     NewJeepLamp2(&body->objs->world);
 
-    Takabe_JeepSystem.active = 1;
-    Takabe_JeepSystem.control = control;
-    Takabe_JeepSystem.rot = rot;
-    Takabe_JeepSystem.field_54 = 0x10000;
-    Takabe_JeepSystem.body = body;
+    Takabe_JeepSystem.active2 = 1;
+    Takabe_JeepSystem.control2 = control;
+    Takabe_JeepSystem.rot2 = rot;
+    Takabe_JeepSystem.flags_54 = 0x10000;
+    Takabe_JeepSystem.body2 = body;
     return 0;
 }
 
