@@ -78,8 +78,8 @@ static void Die(Work *work)
 {
 }
 
-const SVECTOR d18a_dword_800DA370 = {65436, 50, 65466};
-const SVECTOR d18a_dword_800DA378 = {100, 50, 65466};
+static const SVECTOR led_start_ofs = {-100, 50, -70, 0};
+static const SVECTOR led_end_ofs = {100, 50, -70, 0};
 
 static int GetResources(Work *work, SVECTOR *pos)
 {
@@ -88,8 +88,8 @@ static int GetResources(Work *work, SVECTOR *pos)
     SVECTOR svec2;
     SVECTOR svec3;
 
-    svec1 = d18a_dword_800DA370;
-    svec2 = d18a_dword_800DA378;
+    svec1 = led_start_ofs;
+    svec2 = led_end_ofs;
     DG_SetPos2(pos, &DG_ZeroVector);
     DG_MovePos(&svec1);
 

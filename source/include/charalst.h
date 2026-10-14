@@ -33,12 +33,12 @@
 #define CHARA_ASIOTOKUN         { 0x92bc, NewAsiotoKun }            // GV_StrCode("足音君") enemy/asioto.c
 #define CHARA_AT                { 0x9988, NewArmsTechPresident }    // GV_StrCode("ＡＴ") onoda/s04b/at.c
 #define CHARA_BELONG            { 0xf59e, NewBelong }               // GV_StrCode("付随物") chara/others/belong.c
-#define CHARA_BLACKSMOKE        { 0x6b6c, ? }                       // GV_StrCode("黒煙") animal/liquid/b_smoke.c
+#define CHARA_BLACKSMOKE        { 0x6b6c, NewBlackSmoke }           // GV_StrCode("黒煙") animal/liquid/b_smoke.c
 #define CHARA_BLINKTEX          { 0x8185, NewBlinkTexture }         // GV_StrCode("点滅テクスチャ") okajima/blink_tx.c
 #define CHARA_BLOODY_MERYL      { 0x1158, NewBloodyMeryl }          // GV_StrCode("血まみれメリル") okajima/mel10.c
 #define CHARA_BLOOD_POOL        { 0x4e95, NewBloodCl }              // GV_StrCode("血溜り") okajima/blood_cl.c
 #define CHARA_BLOOD_POOL2       { 0x6a4c, NewBloodBl }              // GV_StrCode("血溜り２") okajima/blood_bl.c
-#define CHARA_BLUR              { 0x9093, ? }                       // GV_StrCode("ブラー") ???
+#define CHARA_BLUR              { 0x9093, NewBlur }                 // GV_StrCode("ブラー") okajima/blur.c
 #define CHARA_BOXALL            { 0xf74b, NewAllItemBox }           // GV_StrCode("全部箱") chara/torture/boxall.c
 #define CHARA_BREAK_OBJECT      { 0x32fc, NewBreakObject }          // takabe/breakobj.c
 #define CHARA_BUTTONCHECK       { 0x6471, NewButtonCheckerSet }     // GV_StrCode("ボタンチェッカー") takabe/btn_chk.c
@@ -125,7 +125,7 @@
 #define CHARA_LIFEUP            { 0x711f, NewLifeUp }               // GV_StrCode("ライフ増加") takabe/life_up.c
 #define CHARA_LIFT              { 0x425f, NewLift }                 // GV_StrCode("リフト") takabe/lift.c
 #define CHARA_LIFT2             { 0x921b, ? }                       // GV_StrCode("リフト２") takabe/lift2.c (PC-ONLY)
-#define CHARA_LIQUID            { 0x7bf2, ? }                       // GV_StrCode("リキッド") animal/liquid/liquid.c
+#define CHARA_LIQUID            { 0x7bf2, NewLiquid }               // GV_StrCode("リキッド") animal/liquid/liquid.c
 #define CHARA_AB_CH             { 0xcf72, NewAbstractChange }       // onoda/abst/ab_ch.c
 #define CHARA_LOAD_DATA         { 0x53c7, NewLoadData }             // GV_StrCode("ロードデータ") menu/mload.c
 #define CHARA_M1E1              { 0x9d71, ? }                       // kojo/m1e1.c
@@ -405,7 +405,9 @@ extern NEWCHARA NewRope;                        /* --> chara/rope/rope.c        
 extern NEWCHARA NewCountdownGcl;                /* --> menu/countdwn.c          */
 extern NEWCHARA NewCamera_800CF388;             /* ???/camera.c                 */
 extern NEWCHARA NewDemoDoll;                    /* animal/doll/doll.c           */
+extern NEWCHARA NewBlackSmoke;                  /* animal/liquid/b_smoke.c      */
 extern NEWCHARA NewBombLed;                     /* animal/liquid/bombled.c      */
+extern NEWCHARA NewLiquid;                      /* animal/liquid/liquid.c       */
 extern NEWCHARA NewMeryl72_800C7BC4;            /* animal/meryl72/meryl72.c     */
 extern NEWCHARA NewNinjaBoss;                   /* animal/ninja/ninja.c         */
 extern NEWCHARA d18a_snake18_800D4E94;          /* animal/snake18/snake18.c     */
@@ -493,6 +495,7 @@ extern NEWCHARA NewBlood;                       /* okajima/blood.c              
 extern NEWCHARA NewBloodBl;                     /* okajima/blood_bl.c           */
 extern NEWCHARA NewBloodCl;                     /* okajima/blood_cl.c           */
 extern NEWCHARA NewBlastLine;                   /* okajima/blst_ln.c            */
+extern NEWCHARA NewBlur;                        /* okajima/blur.c               */
 extern NEWCHARA NewBlurSet;                     /* okajima/blur.c               */
 extern NEWCHARA NewBlurPure;                    /* okajima/blurpure.c           */
 extern NEWCHARA NewBubbleDSn;                   /* okajima/bub_d_sn.c           */
