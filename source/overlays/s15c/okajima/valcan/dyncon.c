@@ -326,14 +326,14 @@ void s15c_dyncon_800D6070(DynCon *work, int row, int idx)
     item->val_72 += (work->field_3F40[idx].vy * work->field_3F10[idx]) / 128;
     item->val_74 += (work->field_3F40[idx].vz * work->field_3F10[idx]) / 128;
 }
-extern int s15c_dword_800E344C;
+extern int dyncon_800E3448[4];
 
 void s15c_dyncon_800D6128(DynCon *work, SVECTOR *pos, int range)
 {
     int  i;
     int *out;
 
-    out = &s15c_dword_800E344C;
+    out = dyncon_800E3448;
     for (i = 0; i < 4; i++)
     {
         if (work->field_3F20[i] > 0)
