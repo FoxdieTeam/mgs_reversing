@@ -219,6 +219,9 @@ extern int      d18a_dword_800DAEF4;
 extern char    *d18a_dword_800DAEFC;
 extern HZD_FLR *d18a_dword_800DAF00[2];
 extern GV_MSG   d18a_dword_800DAEA0[3];
+extern PUNCH d18a_dword_800C39B8[3];
+extern SVECTOR d18a_dword_800C39B0;
+extern PUNCH d18a_dword_800C3990;
 extern int counter_8009F448;
 extern void *NewBakudan(); /* called with 4 arguments here */
 extern SVECTOR d18a_dword_800C3948;
@@ -265,7 +268,7 @@ void d18a_snake18_800CB7BC(Snake18Work *work, int arg1);
 void d18a_snake18_800CB7D0(Snake18Work *work, int arg1);
 void d18a_snake18_800CB838(Snake18Work *work);
 void d18a_snake18_800CB888(Snake18Work *work);
-void d18a_snake18_800CB908(Snake18Work *work, PUNCH *arg1);
+int d18a_snake18_800CB908(Snake18Work *work, PUNCH *arg1);
 int d18a_snake18_800CB9CC(Snake18Work *arg0, PUNCH *arg1);
 int d18a_snake18_800CBA64(Snake18Work *work, PUNCH *arg1);
 void d18a_snake18_800CBB34(Snake18Work *work);
@@ -380,16 +383,15 @@ void d18a_snake18_800D3024(Snake18Work *work, int time);
 void d18a_snake18_800D3218(Snake18Work *work, int time);
 void d18a_snake18_800D3330(Snake18Work *work, int time);
 void d18a_snake18_800D3508(Snake18Work *work, int time);
-void d18a_snake18_800D3774(); /* asm */
-void d18a_snake18_800D37FC(); /* asm */
-void d18a_snake18_800D3A1C(); /* asm */
-void d18a_snake18_800D3A9C(); /* asm */
-void d18a_snake18_800D3B1C(); /* asm */
-void d18a_snake18_800D3C14(); /* asm */
-void d18a_snake18_800D3D0C(); /* asm */
-void d18a_snake18_800D3ED0(); /* asm */
-void d18a_snake18_800D3F3C(); /* asm */
-void d18a_snake18_800D3FE8(); /* asm */
+void d18a_snake18_800D3774(Snake18Work *work, int time);
+void d18a_snake18_800D37FC(Snake18Work *work, int time);
+void d18a_snake18_800D3A1C(Snake18Work *work, int time);
+void d18a_snake18_800D3A9C(Snake18Work *work, int time);
+void d18a_snake18_800D3B1C(Snake18Work *work, int time);
+void d18a_snake18_800D3C14(Snake18Work *work, int time);
+void d18a_snake18_800D3D0C(Snake18Work *work, int time);
+void d18a_snake18_800D3ED0(Snake18Work *work, int time);
+void d18a_snake18_800D3FE8(Snake18Work *work, int time);
 void d18a_snake18_800D4084(void);
 void d18a_snake18_800D40F0(); /* asm */
 void d18a_snake18_800D4388(); /* asm */
@@ -1018,7 +1020,7 @@ void d18a_snake18_800CB888(Snake18Work *work)
     work->f90E = 0;
 }
 
-void d18a_snake18_800CB908(Snake18Work *work, PUNCH *arg1)
+int d18a_snake18_800CB908(Snake18Work *work, PUNCH *arg1)
 {
     TARGET *t = &work->f7EC;
     SVECTOR sp18;
@@ -1035,7 +1037,7 @@ void d18a_snake18_800CB908(Snake18Work *work, PUNCH *arg1)
 
     DG_PutVector(&arg1->field_0, &sp18, 1);
     GM_MoveTarget(t, &sp18);
-    GM_PowerTarget(t);
+    return GM_PowerTarget(t);
 }
 
 int d18a_snake18_800CB9CC(Snake18Work *arg0, PUNCH *arg1)
@@ -5083,16 +5085,288 @@ void d18a_snake18_800D3508(Snake18Work *work, int time)
         d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D3774.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D37FC.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D3A1C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D3A9C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D3B1C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D3C14.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D3D0C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D3ED0.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D3F3C.s")
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D3FE8.s")
+void d18a_snake18_800D3774(Snake18Work *work, int time)
+{
+    if (time == 0)
+    {
+        work->f8BC = d18a_snake18_800D3D0C;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        GM_PlayerStatus &= ~PLAYER_MOVE;
+        d18a_snake18_SetAction(work, work->f8A8->attack->field_0[2], 1);
+        work->f910 = 0;
+        work->f7E4 |= 4;
+    }
+}
+
+void d18a_snake18_800D37FC(Snake18Work *work, int time)
+{
+    SVECTOR *rot;
+    SVECTOR *vec;
+
+    if (time == 0)
+    {
+        work->f8BC = d18a_snake18_800CE7BC;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        GM_PlayerStatus &= ~PLAYER_MOVE;
+        work->f924 = 0;
+
+        if (!d18a_snake18_800CB9CC(work, &d18a_dword_800C3990) || (((TARGET *)work->f834)->class & 0x20) ||
+            (GM_PlayerStatus & PLAYER_INVINCIBLE))
+        {
+            if (work->f834)
+            {
+                ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+                work->f834 = 0;
+                work->f924 = 0;
+            }
+
+            d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
+            work->f7E4 &= ~4;
+            return;
+        }
+
+        vec = &work->f838;
+        rot = &work->control.rot;
+        DG_SetPos2(&((TARGET *)work->f834)->center, rot);
+
+        DG_PutVector(&d18a_dword_800C39B0, vec, 1);
+        DG_SetPos2(&work->control.mov, rot);
+        GV_SubVec3(vec, &work->control.mov, vec);
+
+        vec->vx /= 4;
+        vec->vy /= 4;
+        vec->vz /= 4;
+
+        d18a_snake18_SetAction(work, work->f8A8->special2->field_0[0], 4);
+        work->f7E4 |= 4;
+    }
+
+    if (time < 4)
+    {
+        GV_AddVec3(&work->control.step, &work->f838, &work->control.step);
+    }
+    else
+    {
+        d18a_snake18_StartAnim(work, d18a_snake18_800D3A1C);
+    }
+}
+
+void d18a_snake18_800D3A1C(Snake18Work *work, int time)
+{
+    int action;
+
+    if (time == 0)
+    {
+        work->f8BC = d18a_snake18_800D3ED0;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        action = work->f8A8->special2->field_0[0];
+        d18a_snake18_SetAction(work, action, 4);
+        ((TARGET *)work->f834)->a_mode = action;
+    }
+}
+void d18a_snake18_800D3A9C(Snake18Work *work, int time)
+{
+    int action;
+
+    if (time == 0)
+    {
+        work->f8BC = d18a_snake18_800D3FE8;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        action = work->f8A8->attack->field_0[6];
+        d18a_snake18_SetAction(work, action, 4);
+        ((TARGET *)work->f834)->a_mode = action;
+    }
+}
+
+void d18a_snake18_800D3B1C(Snake18Work *work, int time)
+{
+    int     action;
+    TARGET *target;
+
+    if (time == 0)
+    {
+        action = work->f8A8->attack->field_0[7];
+        work->f8BC = d18a_snake18_800CE7BC;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        target = (TARGET *)work->f834;
+        d18a_snake18_SetAction(work, action, 4);
+        target->a_mode = action;
+        target->damage = 5;
+        target->faint--;
+        work->f924 = 0;
+    }
+
+    if (work->body.is_end)
+    {
+        if (work->f834)
+        {
+            ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+            work->f834 = 0;
+            work->f924 = 0;
+        }
+
+        d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
+        work->f7E4 &= ~4;
+    }
+}
+
+void d18a_snake18_800D3C14(Snake18Work *work, int time)
+{
+    int action;
+
+    if (time == 0)
+    {
+        work->f8BC = d18a_snake18_800CE7BC;
+        work->f8C0 = d18a_snake18_800CE7BC;
+        action = work->f8A8->special2->field_0[1];
+        GM_PlayerStatus |= PLAYER_MOVE;
+        d18a_snake18_SetAction(work, action, 4);
+        ((TARGET *)work->f834)->a_mode = action;
+    }
+
+    if (d18a_dword_800DAEF0 < 0 || !(work->pad->status & PAD_SQUARE) || ((TARGET *)work->f834)->vital <= 0)
+    {
+        d18a_snake18_StartAnim(work, d18a_snake18_800D3A1C);
+        return;
+    }
+
+    work->control.turn.vy = d18a_dword_800DAEF0 + 0x800;
+}
+void d18a_snake18_800D3D0C(Snake18Work *work, int time)
+{
+    int yaw;
+    int pitch;
+
+    GM_GetHomingTarget2(&work->body.objs->objs[6].world, work->control.rot.vy, &yaw, &pitch,
+                        work->control.map->index, 2000, 512);
+
+    if (yaw >= 0)
+    {
+        work->control.turn.vy = yaw;
+    }
+
+    if (time == 4)
+    {
+        GM_SeSet(&work->control.mov, d18a_snake18_800CB908(work, &d18a_dword_800C39B8[0]) ? 0x34 : 0x38);
+    }
+
+    if (time == 8)
+    {
+        if (!(work->f910 & PAD_CIRCLE))
+        {
+            goto end;
+        }
+
+        work->f910 &= ~PAD_CIRCLE;
+    }
+
+    if (time == 11)
+    {
+        GM_SeSet(&work->control.mov, d18a_snake18_800CB908(work, &d18a_dword_800C39B8[1]) ? 0x34 : 0x38);
+    }
+
+    if (time == 13)
+    {
+        if (!(work->f910 & PAD_CIRCLE))
+        {
+            goto end;
+        }
+
+        work->f910 = 0;
+    }
+
+    if (time == 22)
+    {
+        GM_SeSet(&work->control.mov, d18a_snake18_800CB908(work, &d18a_dword_800C39B8[2]) ? 0x35 : 0x39);
+    }
+
+    if (work->body.is_end)
+    {
+end:
+        d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
+        GM_PlayerStatus &= ~PLAYER_ATTACK;
+        work->f7E4 &= ~4;
+        return;
+    }
+
+    work->f910 |= work->pad->press;
+    GM_PlayerStatus |= PLAYER_ATTACK;
+}
+
+static inline void d18a_snake18_ReleaseCapture(Snake18Work *work)
+{
+    if (work->f834)
+    {
+        ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+        work->f834 = 0;
+        work->f924 = 0;
+    }
+
+    d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
+    work->f7E4 &= ~4;
+}
+
+void d18a_snake18_800D3ED0(Snake18Work *work, int time)
+{
+    unsigned short press;
+    unsigned short status;
+
+    if (((TARGET *)work->f834)->vital <= 0)
+    {
+        d18a_snake18_ReleaseCapture(work);
+        return;
+    }
+
+    if (!(((TARGET *)work->f834)->class & TARGET_CAPTURE))
+    {
+        d18a_snake18_ReleaseCapture(work);
+        return;
+    }
+
+    press = work->pad->press;
+    status = work->pad->status;
+
+    if (press & PAD_SQUARE)
+    {
+        d18a_snake18_StartAnim(work, d18a_snake18_800D3A9C);
+        work->f7E4 &= ~4;
+        return;
+    }
+
+    if (!(status & PAD_SQUARE))
+    {
+        if (++work->f910 >= 9)
+        {
+            d18a_snake18_ReleaseCapture(work);
+        }
+        return;
+    }
+
+    work->f910 = 0;
+
+    if (d18a_dword_800DAEF0 >= 0)
+    {
+        d18a_snake18_StartAnim(work, d18a_snake18_800D3C14);
+    }
+}
+void d18a_snake18_800D3FE8(Snake18Work *work, int time)
+{
+    if (time == 0 || (work->pad->press & PAD_SQUARE))
+    {
+        ((TARGET *)work->f834)->faint--;
+
+        if (++work->f924 >= 11)
+        {
+            d18a_snake18_StartAnim(work, d18a_snake18_800D3B1C);
+            return;
+        }
+    }
+
+    if (work->body.is_end)
+    {
+        d18a_snake18_StartAnim(work, d18a_snake18_800D3A1C);
+    }
+}
 void d18a_snake18_800D4084(void)
 {
     int s = GM_PlayerStatus & 0x10054;
