@@ -1,47 +1,7 @@
 #include "game/game.h"
 #include "jeep_system.h"
+#include "jeep.h"
 
-typedef struct _Work Work;
-
-typedef void (*JeepFunc)(Work *);
-
-struct _Work
-{
-    /* +0x000 */ GV_ACT         actor;
-    /* +0x020 */ GV_ACT        *mrl;
-    /* +0x024 */ int            map;
-    /* +0x028 */ CONTROL        control;
-    /* +0x0A4 */ TARGET        *target;
-    /* +0x0A8 */ OBJECT         jeep_b;
-    /* +0x18C */ OBJECT         jeep_t;
-    /* +0x270 */ MATRIX         light[2];
-    /* +0x2B0 */ TARGET         target2;
-    /* +0x2F8 */ OBJECT_NO_ROTS fhl;
-    /* +0x31C */ OBJECT_NO_ROTS hl;
-    /* +0x340 */ MATRIX         light2;
-    /* +0x360 */ char           pad_360[0x20];
-    /* +0x380 */ VECTOR         pos;
-    /* +0x390 */ VECTOR         old_pos;
-    /* +0x3A0 */ SVECTOR        speed;
-    /* +0x3A8 */ SVECTOR        field_3A8;
-    /* +0x3B0 */ SVECTOR        field_3B0;
-    /* +0x3B8 */ SVECTOR        rot;
-    /* +0x3C0 */ SVECTOR        field_3C0;
-    /* +0x3C8 */ short          field_3C8;
-    /* +0x3CA */ short          field_3CA;
-    /* +0x3CC */ int            field_3CC;
-    /* +0x3D0 */ int            field_3D0;
-    /* +0x3D4 */ int            field_3D4;
-    /* +0x3D8 */ int            field_3D8;
-    /* +0x3DC */ int            field_3DC;
-    /* +0x3E0 */ int            vibrate_timer;
-    /* +0x3E4 */ int            field_3E4;
-    /* +0x3E8 */ int            field_3E8;
-    /* +0x3EC */ int            field_3EC;
-    /* +0x3F0 */ int            field_3F0;
-    /* +0x3F4 */ int            field_3F4;
-    /* +0x3F8 */ JeepFunc       func_3F8;
-};
 
 extern SVECTOR s19b_dword_800C39BC;
 extern SVECTOR s19b_dword_800C39C4;
@@ -91,10 +51,10 @@ extern u_char s19b_dword_800C3994[];
 extern int  s19b_spark2_m_800D9C90(SVECTOR *mov, VECTOR *pos, int *param, SVECTOR *out);
 extern int  s19b_spark2_m_800D9EC0(SVECTOR *mov, SVECTOR *rot, SVECTOR *speed, SVECTOR *out);
 extern void s19b_spark2_m_800DA0B4(SVECTOR *rots, int param, SVECTOR *rot, SVECTOR *out);
-extern void s19b_jeep_mrl_800D3928(Work *work);
+extern void s19b_jeep_mrl_800D3928(JeepWork *work);
 extern void *NewPadVibration(u_char *table, int dir);
 
-void s19b_jeep_800D2258(Work *work)
+void s19b_jeep_800D2258(JeepWork *work)
 {
     CONTROL *control;
     TARGET  *target;
@@ -244,9 +204,9 @@ void s19b_jeep_800D2258(Work *work)
 #endif
 
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_800D2258.s")
-void s19b_jeep_800D2258(Work *work);
+void s19b_jeep_800D2258(JeepWork *work);
 
-void s19b_jeep_800D2790(Work *work)
+void s19b_jeep_800D2790(JeepWork *work)
 {
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->jeep_b);
@@ -258,7 +218,7 @@ void s19b_jeep_800D2790(Work *work)
     GM_SetSound(0xFF0000FE, 0);
 }
 
-void s19b_jeep_800D2800(Work *work)
+void s19b_jeep_800D2800(JeepWork *work)
 {
     TARGET *trg;
 
@@ -270,14 +230,14 @@ void s19b_jeep_800D2800(Work *work)
     GM_SetPowerTarget(trg, POWER_DECREASE | POWER_EXPLODE, 2, 8, 0, &DG_ZeroVector);
 }
 
-extern Work *s19b_dword_800DE64C;
+extern JeepWork *s19b_dword_800DE64C;
 
-extern void s19b_jeep_mrl_800D2E78(Work *work);
+extern void s19b_jeep_mrl_800D2E78(JeepWork *work);
 extern GV_ACT *s19b_jeep_mrl_800D40D4(CONTROL *control, MATRIX *root, int param);
 extern void *NewJeepSnake(CONTROL *control, MATRIX *root);
 extern void NewJeepLamp2(MATRIX *root);
 
-int s19b_jeep_800D2880(Work *work, int name, int map)
+int s19b_jeep_800D2880(JeepWork *work, int name, int map)
 {
     CONTROL         *control;
     OBJECT          *body;
@@ -372,9 +332,9 @@ extern const char s19b_aJeepc_800DDD8C[]; // = "jeep.c"
 
 void *NewJeep(int arg0, int arg1)
 {
-    Work *work;
+    JeepWork *work;
 
-    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(JeepWork));
     if (work != NULL)
     {
         GV_SetNamedActor(work, s19b_jeep_800D2258, s19b_jeep_800D2790, s19b_aJeepc_800DDD8C);
