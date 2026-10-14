@@ -1503,7 +1503,32 @@ void brf_800CF4A0(Work *work, int a, int b, int c, int d, int e, int f)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF5A8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF984.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D00C4.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D0234.s")
+void brf_800D0234(Work *work)
+{
+    if (work->field_AD34 < 0xF0)
+    {
+        brf_800CE6F0(work, 0, 1, 1);
+    }
+    else if (work->field_AD34 == 0xF0)
+    {
+        work->field_ADB8 = 0;
+        work->field_ADBC = 1;
+    }
+    else if (work->field_AD34 >= 0x2BC)
+    {
+        if (work->field_AD34 < 0x348)
+        {
+            brf_800CE648(work, 0, 1, 1);
+        }
+        else if (work->field_AD34 == 0x348)
+        {
+            work->field_ADB8 = 0;
+            work->field_ADBC = 1;
+        }
+    }
+    brf_800CE1C4(work);
+    work->field_AD34++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D02F4.s")
 void brf_800D1764(Work *work)
 {
@@ -2251,7 +2276,45 @@ void brf_800D693C(Work *work)
     work->field_AD30++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D69A8.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D6F98.s")
+void brf_800D6F98(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+    int xl, xr;
+    int t;
+
+    if (work->field_AD34 < 0xC9)
+    {
+        t = work->field_AD34 * 3;
+        xr = t - 0x28a;
+        xl = t - 0x388;
+    }
+    else
+    {
+        xr = -0x32;
+        xl = -0x130;
+    }
+    base[8].y0 = -0x96;
+    base[8].y1 = -0x96;
+    base[8].y2 = 0x69;
+    base[8].y3 = 0x69;
+    base[8].x0 = xl;
+    base[8].x1 = xr;
+    base[8].x2 = xl;
+    base[8].x3 = xr;
+    switch (work->field_AD34)
+    {
+    case 0x88:
+        GM_SeSet2(0xe0, 0x30, 0xb1);
+        break;
+    case 0xA8:
+        GM_SeSet2(0xe0, 0x3f, 0xb2);
+        break;
+    case 0xC8:
+        GM_SeSet2(0xeb, 0x3f, 0xb1);
+        break;
+    }
+    work->field_AD34++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D70A4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D75F0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D8060.s")
@@ -2816,7 +2879,32 @@ skip:
     }
     work->field_AD34++;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCED4.s")
+void brf_800DCED4(Work *work, POLY_FT4 *poly)
+{
+    int xl, xr;
+    int t;
+
+    if (work->field_AD34 >= 0x29)
+    {
+        if (work->field_AD34 < 0x3D)
+        {
+            t = (work->field_AD34 - 0x28) * 8;
+            xl = t - 0x27b;
+            xr = t - 0x7f;
+            setXY4(poly, xl, -0x11c, xr, -0x11c, xl, 0x64, xr, 0x64);
+        }
+    }
+    switch (work->field_AD34)
+    {
+    case 0x28:
+        GM_SeSet2(0xe0, 0x3f, 0xb4);
+        break;
+    case 0x3C:
+        GM_SeSet2(0xeb, 0x3f, 0xb5);
+        break;
+    }
+    work->field_AD34++;
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCFB4.s")
 void brf_800DD648(Work *work)
 {
