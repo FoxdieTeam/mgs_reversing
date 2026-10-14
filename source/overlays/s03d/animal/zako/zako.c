@@ -47,11 +47,31 @@ extern int s03d_dword_800C3A5C;
 extern SVECTOR s03d_dword_800C3AA0;
 extern SVECTOR s03d_dword_800C3AA8;
 extern short s03d_word_800C3A10[20];
-extern const SVECTOR s03d_dword_800DB548;
-extern const SVECTOR s03d_dword_800DB550;
-extern const SVECTOR s03d_dword_800DB558;
 
 extern int s03d_dword_800DC2F8;
+
+// rdata of zako.c: starts at 0x800DB4B4 (the "zako.c" string before it belongs to the
+// object linked in front, its padding byte is object padding)
+const char s03d_dword_800DB4B4[] = {' ', 'm', 'e', 'r'};
+const char s03d_dword_800DB4B8[] = {'y', 'l', ' ', 'K'};
+const char s03d_dword_800DB4BC[] = {'I', 'L', 'L', 'E'};
+const char s03d_dword_800DB4C0[] = {'D', ' ', '!', '!'};
+const char s03d_dword_800DB4C4[] = {'!', ' ', '\n', 0x0};
+const char s03d_dword_800DB4C8[] = {' ', 'S', 'N', 'A'};
+const char s03d_dword_800DB4CC[] = {'K', 'E', ' ', 'K'};
+const char s03d_dword_800DB4D0[] = {'I', 'L', 'L', 'E'};
+const char s03d_dword_800DB4D4[] = {'D', ' ', '!', '!'};
+const char s03d_dword_800DB4D8[] = {'!', ' ', '\n', 0x0};
+
+const int s03d_dword_800DB4DC = 0x800CD840;
+const int s03d_dword_800DB4E0 = 0x800CD8D8;
+const int s03d_dword_800DB4E4 = 0x800CD7C8;
+const int s03d_dword_800DB4E8 = 0x800CD828;
+const int s03d_dword_800DB4EC = 0x800CD910;
+const int s03d_dword_800DB4F0 = 0x800CD964;
+const int s03d_dword_800DB4F4 = 0x800CD964;
+const int s03d_dword_800DB4F8 = 0x800CD92C;
+const int s03d_dword_800DB4FC = 0x800CD940;
 
 void AN_Fog(SVECTOR *svec);
 void AN_Sleep(SVECTOR *svec);
@@ -105,7 +125,11 @@ void s03d_800D14AC(Work *work);
 void s03d_800D13F8(Work *work);
 void s03d_800D3B5C(Work *work);
 void s03d_800D153C(Work *work);
+int  ZakoCom_800D4038(void);
 void ZakoCom_800D4050(int idx);
+extern const SVECTOR s03d_dword_800DB548;
+extern const SVECTOR s03d_dword_800DB550;
+extern const SVECTOR s03d_dword_800DB558;
 
 static inline void SetMode(Work *work, ACTION action)
 {
@@ -399,7 +423,65 @@ void Zako_800CDA70(Work *work)
     GM_SetTarget(&work->attack, 4, 1, (SVECTOR *)&s03d_dword_800C39C0);
     GM_SetPowerTarget(&work->attack, 7, 5, 0, 3, (SVECTOR *)&s03d_dword_800C39C8);
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDB5C.s")
+void s03d_800CDB5C(Work *work)
+{
+    CONTROL *ctrl;
+    HZD_ZON *zone;
+    int      reset;
+
+    ctrl = &work->control;
+    work->field_B04 = ZakoCom_800D4038();
+    work->field_B00 = 1;
+    GM_ConfigControlAttribute(ctrl, RADAR_VISIBLE | RADAR_SIGHT | RADAR_ALL_MAP);
+    Zako_800CDA70(work);
+
+    if (s03d_dword_800DC2F8 < 4)
+    {
+        reset = work->param.fAF8 * 2 + 25;
+        printf("aaa reset wait zone id = %d z=%d\n", work->param.fAF8, reset);
+    }
+    else
+    {
+        reset = ZAKOCOM_MGR->field_38[work->param.fAF8 % 2];
+        printf("bbb reset fight zone id = %d z=%d\n", work->param.fAF8, reset);
+    }
+
+    zone = HZD_GetZone(ctrl->map->hzd, reset);
+    ctrl->mov.vx = zone->x;
+    ctrl->mov.vy = zone->y + 1000;
+    ctrl->mov.vz = zone->z;
+    if (work->param.fAF8 == 2)
+    {
+        ctrl->mov.vz += 500;
+    }
+
+    ctrl->map = GM_GetMap(work->field_B54);
+
+    work->field_AC8 = 0;
+    work->field_ACA = 0;
+    work->field_ACC = 0;
+    work->field_ACE = 0;
+    work->field_AD0 = 0;
+    work->field_AD4 = work->n_nodes - 1;
+    work->field_B5C = work->field_B50;
+    work->field_B48 = work->field_B40;
+    work->vision.range = 512;
+    work->vision.length = 4000;
+    work->field_B28 = 0;
+    work->vision.facedir = 0;
+    work->field_AE8 = 0;
+    work->field_ADC = 1;
+    work->field_BA0 = 0;
+    work->field_B60 = work->field_B54;
+    work->field_B80 = work->field_B40;
+    work->field_B58 = work->field_B74 = work->field_B50;
+}
+
+const SVECTOR s03d_dword_800DB548 = {-200, 1000, 600, 0};
+const SVECTOR s03d_dword_800DB550 = {5, 0, 100, 0};
+const SVECTOR s03d_dword_800DB558 = {400, 1000, 400, 0};
+const char s03d_dword_800DB560[] = {0x0, 0x0, 0x0, 0x0};
+
 int Zako_800CDD40(int from, int to)
 {
     int dir;
