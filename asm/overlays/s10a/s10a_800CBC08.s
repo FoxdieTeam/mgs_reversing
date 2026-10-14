@@ -2,7 +2,9 @@
 	section .text
 
 	xdef s10a_800CBC08
+	xdef Zako10PushMove
 s10a_800CBC08:
+Zako10PushMove:
 	dw 0x27BDFFE0 ; 800CBC08
 	dw 0xAFB20018 ; 800CBC0C
 	dw 0x00809021 ; 800CBC10

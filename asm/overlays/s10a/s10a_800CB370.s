@@ -2,7 +2,9 @@
 	section .text
 
 	xdef s10a_800CB370
+	xdef ZAKO10_SetPutChar
 s10a_800CB370:
+ZAKO10_SetPutChar:
 	dw 0x00003021 ; 800CB370
 	dw 0x3C02800C ; 800CB374
 	dw 0x244234E4 ; 800CB378

@@ -79,7 +79,7 @@ int SECTION(".bss") s10a_dword_800E4A8C;
 int SECTION(".bss") s10a_dword_800E4A90;
 int SECTION(".bss") s10a_dword_800E4A94;
 int SECTION(".bss") s10a_dword_800E4A98;
-int SECTION(".bss") s10a_dword_800E4A9C;
+int SECTION(".bss") ZAKO10_GameFlag;
 int SECTION(".bss") s10a_dword_800E4AA0;
 int SECTION(".bss") s10a_dword_800E4AA4;
 int SECTION(".bss") s10a_dword_800E4AA8;

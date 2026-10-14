@@ -2,7 +2,9 @@
 	section .text
 
 	xdef s10a_800CE198
+	xdef ZAKO10_FreeIndex
 s10a_800CE198:
+ZAKO10_FreeIndex:
 	dw 0x3C02800E ; 800CE198
 	dw 0x24424970 ; 800CE19C
 	dw 0x00042100 ; 800CE1A0

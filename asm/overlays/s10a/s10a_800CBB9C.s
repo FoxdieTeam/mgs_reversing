@@ -2,7 +2,9 @@
 	section .text
 
 	xdef s10a_800CBB9C
+	xdef Zako10ActionMain
 s10a_800CBB9C:
+Zako10ActionMain:
 	dw 0x27BDFFE8 ; 800CBB9C
 	dw 0xAFB00010 ; 800CBBA0
 	dw 0x00808021 ; 800CBBA4

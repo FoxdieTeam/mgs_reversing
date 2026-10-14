@@ -2,7 +2,9 @@
 	section .text
 
 	xdef s10a_800CE154
+	xdef ZAKO10_GetIndex
 s10a_800CE154:
+ZAKO10_GetIndex:
 	dw 0x00002821 ; 800CE154
 	dw 0x24060002 ; 800CE158
 	dw 0x3C02800E ; 800CE15C
