@@ -8,7 +8,7 @@ static SVECTOR aimpos2 = {5000, 0, 500};
 
 /*---------------------------------------------------------------------------*/
 
-extern int s03d_dword_800DC2F8;
+extern int ZakoGameFlag;
 
 /*---------------------------------------------------------------------------*/
 
@@ -50,7 +50,7 @@ static void Think3_Phase0(Work *work)
     work->pad.press |= PAD_L1;
     work->trg_yaw = work->player_dir;
 
-    if (s03d_dword_800DC2F8 == 0 || s03d_dword_800DC2F8 == 4)
+    if (ZakoGameFlag == 0 || ZakoGameFlag == 4)
     {
         work->think3 = 1;
         work->count3 = 0;
@@ -63,12 +63,12 @@ static void Think3_Phase0(Work *work)
 
 static void Think3_Phase1(Work *work)
 {
-    if (s03d_dword_800DC2F8 == 2)
+    if (ZakoGameFlag == 2)
     {
         work->think3 = 0;
         work->count3 = 0;
     }
-    else if (s03d_dword_800DC2F8 == 6)
+    else if (ZakoGameFlag == 6)
     {
         LockOn(work, 2);
         work->field_970 = 90;
@@ -95,7 +95,7 @@ static void Think3_Phase1(Work *work)
 
 static void Think3_Phase2(Work *work)
 {
-    if (s03d_dword_800DC2F8 == 14)
+    if (ZakoGameFlag == 14)
     {
         work->think3 = 6;
         work->count3 = 0;
@@ -172,7 +172,7 @@ static void Think3_Phase5(Work *work)
         work->pad.press |= PAD_R1;
     }
 
-    if (s03d_dword_800DC2F8 == 8)
+    if (ZakoGameFlag == 8)
     {
         work->think3 = 2;
     }

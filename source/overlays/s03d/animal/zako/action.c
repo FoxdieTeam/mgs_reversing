@@ -14,42 +14,53 @@
 #include "bullet/tenage.h"
 #include "okajima/bullet.h"
 
-extern int s03d_dword_800C39B0;
-extern int s03d_dword_800C39B8;
-extern int s03d_dword_800C39C0;
-extern int s03d_dword_800C39C8;
-extern int s03d_dword_800C3A90[];
-extern int s03d_dword_800C3A64;
-extern int s03d_dword_800C3A6C;
-extern int s03d_dword_800C3A84;
-extern int s03d_dword_800C3A88;
-extern int s03d_dword_800C3A74;
-extern int s03d_dword_800C3A7C;
-extern short s03d_word_800C39F0[2];
-extern int s03d_dword_800C39F4;
-extern short s03d_word_800C3A00[2];
-extern int s03d_dword_800C3A04;
-extern int s03d_dword_800C3A08;
-extern int s03d_dword_800C3A0C;
-extern short s03d_word_800C39E0[4];
-extern SVECTOR s03d_dword_800C3A44;
-extern SVECTOR s03d_dword_800C3A4C;
-extern SVECTOR s03d_dword_800C3A54;
-extern int s03d_dword_800C39FC;
-extern short s03d_word_800C3A38[2];
-extern int s03d_dword_800DC2F4;
-extern short s03d_word_800C3A3C[2];
-extern short s03d_word_800C39E8[2];
-extern short s03d_word_800C39EC[2];
-extern int s03d_dword_800DC310;
-extern SVECTOR s03d_dword_800C3B88;
-extern int s03d_dword_800C3A5C;
-extern SVECTOR s03d_dword_800C3AA0;
-extern SVECTOR s03d_dword_800C3AA8;
-extern short s03d_word_800C3A10[20];
+void s03d_800D0CD4(Work *work);
+void s03d_800D0D6C(Work *work);
+void s03d_800D0DF0(Work *work);
+void s03d_800D0E2C(Work *work);
 
-extern int s03d_dword_800DC2F8;
-extern SVECTOR s03d_dword_800C3AB0;
+extern const char ItemMsgFamas[];
+extern const char ItemMsgSocom[];
+extern const char ItemMsgRation[];
+
+short ZakoActionTable[] = {
+    19, 20, 10, 22,  9, 34, 35, 36,
+    45, 13, 12, 26, 15, 14, 16, 27,
+     8, 21, 30, 31, 32, 33, 37, 25,
+     5,  2, 42,  4, 39, 40,  6,  7,
+    38,  3, 41, 17, 18, 43, 23, 24,
+    28, 29,  0,  1, 51, 17, 18, 43,
+    22
+};
+
+SVECTOR ThrowPos2 = {4250, 250, 500};
+SVECTOR ThrowPos = {4250, 250, 500};
+SVECTOR ThrowStep = {0, 50, 200};
+SVECTOR CatchOffset = {-150, 0, 300};
+SVECTOR BloodPos = {0, 0, 100};
+SVECTOR BloodRot = {-1024, 0, 0};
+SVECTOR FogPos = {0, 0, 100};
+SVECTOR FogRot = {-1024, 0, 0};
+
+const char *ItemMessages[] = {
+    ItemMsgRation,
+    ItemMsgSocom,
+    ItemMsgFamas,
+};
+
+PUTFUNC PutChars[] = {
+    s03d_800D0CD4,
+    s03d_800D0D6C,
+    s03d_800D0DF0,
+    s03d_800D0E2C,
+};
+
+SVECTOR MuzzlePos = {5, -500, 80};
+SVECTOR MuzzleRot = {1024, 0, 0};
+SVECTOR s03d_dword_800C3AB0 = {8000, 0, -1000};
+
+extern int s03d_dword_800DC2F4;
+extern SVECTOR s03d_dword_800C3B88;
 
 void AN_Fog(SVECTOR *svec);
 void AN_Sleep(SVECTOR *svec);
@@ -93,7 +104,7 @@ void Zako_800D0B88(Work *work);
 int  s03d_800CDE1C(Work *work);
 void s03d_800CE720(struct _Work *work, int arg);
 int  Zako_800D0EF0(Work *work, int index);
-int  Zako_800D0F38(Work *work, int value);
+int  Zako_800D0F38(Work *work, PUTFUNC func);
 void s03d_800CDB5C(Work *work);
 int  s03d_800CD61C(Work *work);
 int  s03d_800CD75C(Work *work);
@@ -195,7 +206,7 @@ int s03d_800CD75C(Work *work)
         target->force = DG_ZeroVector;
         if (target->vital <= 0)
         {
-            if (target->vital != work->field_BA2 - 0x40)
+            if (target->vital != work->last_vital - 0x40)
             {
                 work->field_BA0 = 1;
                 printf(" meryl KILLED !!! \n");
@@ -276,12 +287,12 @@ void Zako_800CDA70(Work *work)
     int     b14 = work->param.life;
     int     b16 = work->param.faint;
 
-    GM_SetTarget(t, 0x9E, 2, (SVECTOR *)&s03d_dword_800C39B0);
-    GM_SetPowerTarget(t, 1, -1, b14, b16, (SVECTOR *)&s03d_dword_800C39B8);
+    GM_SetTarget(t, 0x9E, 2, &ZAKO_TARGET_SIZE);
+    GM_SetPowerTarget(t, 1, -1, b14, b16, &ZAKO_TARGET_FORCE);
     GM_SetCaptureTarget(t, -1, b16, NULL, NULL);
     GM_SetC4Target(t, &work->body.objs->objs[1].world);
-    GM_SetTarget(&work->attack, 4, 1, (SVECTOR *)&s03d_dword_800C39C0);
-    GM_SetPowerTarget(&work->attack, 7, 5, 0, 3, (SVECTOR *)&s03d_dword_800C39C8);
+    GM_SetTarget(&work->attack, 4, 1, &ZAKO_ATTACK_SIZE);
+    GM_SetPowerTarget(&work->attack, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE);
 }
 void s03d_800CDB5C(Work *work)
 {
@@ -290,19 +301,19 @@ void s03d_800CDB5C(Work *work)
     int      reset;
 
     ctrl = &work->control;
-    work->field_B04 = ZakoCom_800D4038();
-    work->field_B00 = 1;
+    work->n_dead = ZakoCom_800D4038();
+    work->visible = 1;
     GM_ConfigControlAttribute(ctrl, RADAR_VISIBLE | RADAR_SIGHT | RADAR_ALL_MAP);
     Zako_800CDA70(work);
 
-    if (s03d_dword_800DC2F8 < 4)
+    if (ZakoGameFlag < 4)
     {
         reset = work->param.index * 2 + 25;
         printf("aaa reset wait zone id = %d z=%d\n", work->param.index, reset);
     }
     else
     {
-        reset = ZAKOCOM_MGR->field_38[work->param.index % 2];
+        reset = ZakoCommand.zones[work->param.index % 2];
         printf("bbb reset fight zone id = %d z=%d\n", work->param.index, reset);
     }
 
@@ -315,26 +326,26 @@ void s03d_800CDB5C(Work *work)
         ctrl->mov.vz += 500;
     }
 
-    ctrl->map = GM_GetMap(work->field_B54);
+    ctrl->map = GM_GetMap(work->start_map);
 
-    work->field_AC8 = 0;
-    work->field_ACA = 0;
-    work->field_ACC = 0;
-    work->field_ACE = 0;
-    work->field_AD0 = 0;
+    work->think1 = 0;
+    work->think2 = 0;
+    work->think3 = 0;
+    work->think4 = 0;
+    work->count3 = 0;
     work->field_AD4 = work->n_nodes - 1;
-    work->field_B5C = work->field_B50;
-    work->field_B48 = work->field_B40;
+    work->target_addr = work->start_addr;
+    work->target_pos = work->start_pos;
     work->vision.range = 512;
     work->vision.length = 4000;
-    work->field_B28 = 0;
+    work->alert_level = 0;
     work->vision.facedir = 0;
-    work->field_AE8 = 0;
-    work->field_ADC = 1;
+    work->pad.sound = 0;
+    work->pad.field_4 = 1;
     work->field_BA0 = 0;
-    work->field_B60 = work->field_B54;
-    work->field_B80 = work->field_B40;
-    work->field_B58 = work->field_B74 = work->field_B50;
+    work->target_map = work->start_map;
+    work->next_pos = work->start_pos;
+    work->last_addr = work->next_addr = work->start_addr;
 }
 
 const SVECTOR s03d_dword_800DB548 = {-200, 1000, 600, 0};
@@ -372,7 +383,7 @@ void Zako_800CDD94(Work *work)
 
     diff = GM_PlayerBody->objs->objs[6].world.t[1] -
            work->body.objs->objs[6].world.t[1];
-    v = GV_NearExp8(work->adjust[2].vx, (ratan2(work->field_B90, diff) & 0xFFF) - 0x400);
+    v = GV_NearExp8(work->adjust[2].vx, (ratan2(work->sn_dis, diff) & 0xFFF) - 0x400);
     work->adjust[2].vx = v;
     work->adjust[6].vx = v;
     if (v < 0)
@@ -396,7 +407,7 @@ int s03d_800CDE1C(Work *work)
     force    = s03d_dword_800DB550;
     size     = s03d_dword_800DB558;
 
-    target = (TARGET *)((char *)work + 0x948);
+    target = &work->punch;
     GM_SetTarget(target, 4, ENEMY_SIDE, &size);
     DG_SetPos2(&work->control.mov, &work->control.rot);
     DG_RotVector(&force, &svec, 1);
@@ -408,7 +419,7 @@ void Zako_800CDF2C(Work *work)
 {
     TARGET *t = &work->attack;
 
-    GM_SetPowerTarget(t, 7, 5, 0, 3, (SVECTOR *)&s03d_dword_800C39C8);
+    GM_SetPowerTarget(t, 7, 5, 0, 3, &ZAKO_ATTACK_FORCE);
     GM_MoveTarget(t, &work->control.mov);
     GM_PowerTarget(t);
 }
@@ -416,7 +427,7 @@ int s03d_800CDF94(Work *work)
 {
     int status;
 
-    status = work->field_AD8;
+    status = work->pad.press;
 
     if (status & 1)
     {
@@ -490,7 +501,7 @@ int s03d_800CDF94(Work *work)
 void s03d_800CE12C(Work *work, int arg)
 {
     work->target->class |= 0x9E;
-    if (ZAKOCOM_MGR->field_1C == 0)
+    if (ZakoCommand.alert_mode == 0)
     {
         work->target->class |= 0x40;
     }
@@ -498,11 +509,11 @@ void s03d_800CE12C(Work *work, int arg)
     if (arg == 0)
     {
         work->act.motion1 = 0;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C39E0[0], 0, 4);
+        GM_ConfigObjectAction(&work->body, ZakoActionTable[0], 0, 4);
     }
     if (Zako_800CDA04(work) || s03d_800CDF94(work))
     {
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = NULL;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -510,19 +521,19 @@ void s03d_800CE12C(Work *work, int arg)
     }
     else
     {
-        if (work->field_AE6 >= 0)
+        if (work->pad.dir >= 0)
         {
-            if (GV_DiffDirAbs(work->control.rot.vy, work->field_AE6) < 0x100)
+            if (GV_DiffDirAbs(work->control.rot.vy, work->pad.dir) < 0x100)
             {
-                if (work->field_ADC & 1)
+                if (work->pad.field_4 & 1)
                 {
                     work->act.motion1 = 2;
-                    GM_ConfigObjectAction(&work->body, s03d_word_800C39E0[2], 0, 4);
+                    GM_ConfigObjectAction(&work->body, ZakoActionTable[2], 0, 4);
                 }
                 else
                 {
                     work->act.motion1 = 1;
-                    GM_ConfigObjectAction(&work->body, s03d_word_800C39E0[1], 0, 4);
+                    GM_ConfigObjectAction(&work->body, ZakoActionTable[1], 0, 4);
                 }
                 work->action = s03d_800CE318;
                 work->time = 0;
@@ -532,7 +543,7 @@ void s03d_800CE12C(Work *work, int arg)
             }
             else
             {
-                work->control.turn.vy = work->field_AE6;
+                work->control.turn.vy = work->pad.dir;
             }
         }
         work->vision.facedir = GV_NearExp4P(work->vision.facedir, work->control.rot.vy);
@@ -560,7 +571,7 @@ void s03d_800CE318(Work *work, int arg)
     int      dir, motion, touches, touch, touch2, size;
 
     work->target->class |= 0x9E;
-    if (ZAKOCOM_MGR->field_1C == 0)
+    if (ZakoCommand.alert_mode == 0)
     {
         work->target->class |= 0x40;
     }
@@ -568,7 +579,7 @@ void s03d_800CE318(Work *work, int arg)
 
     if (Zako_800CDA04(work))
     {
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = NULL;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -578,7 +589,7 @@ void s03d_800CE318(Work *work, int arg)
 
     if (s03d_800CDF94(work))
     {
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = NULL;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -589,13 +600,13 @@ void s03d_800CE318(Work *work, int arg)
     touch = -1;
     ctrl = &work->control;
     vecs = ctrl->vecs;
-    dir = work->field_AE6;
+    dir = work->pad.dir;
     motion = work->act.motion1;
 
-    if ((work->field_ADC & 1) && motion != 2)
+    if ((work->pad.field_4 & 1) && motion != 2)
     {
         work->act.motion1 = 2;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C39E0[2], 0, 4);
+        GM_ConfigObjectAction(&work->body, ZakoActionTable[2], 0, 4);
     }
 
     if (dir < 0)
@@ -605,7 +616,7 @@ void s03d_800CE318(Work *work, int arg)
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         GM_ConfigMotionAdjust(&work->body, NULL);
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = NULL;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -634,7 +645,7 @@ void s03d_800CE318(Work *work, int arg)
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         GM_ConfigMotionAdjust(&work->body, NULL);
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = NULL;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -679,11 +690,11 @@ void s03d_800CE5B4(Work *work, int arg)
     {
         work->act.field_14 = 3;
         work->act.motion1 = 0x1F;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[7], 0, 4);
+        GM_ConfigObjectAction(&work->body, ZakoActionTable[31], 0, 4);
     }
     if (Zako_800CDA04(work) == 0 && work->body.is_end)
     {
-        work->field_AE0 = 0;
+        work->pad.field_8 = 0;
         work->action = s03d_800CF68C;
         work->time = 0;
         work->control.turn.vz = 0;
@@ -699,13 +710,13 @@ void s03d_800CE644(Work *work, int arg)
     if (arg == 0)
     {
         work->act.motion1 = 0x10;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3A00[0], 0, 4);
+        GM_ConfigObjectAction(&work->body, ZakoActionTable[16], 0, 4);
     }
     if (Zako_800CDA04(work))
     {
         return;
     }
-    if (work->body.is_end || !(work->field_AD8 & 0x20))
+    if (work->body.is_end || !(work->pad.press & 0x20))
     {
         work->action = s03d_800CE12C;
         work->time = 0;
@@ -715,7 +726,7 @@ void s03d_800CE644(Work *work, int arg)
     }
     else
     {
-        short vy = work->field_B94;
+        short vy = work->sn_dir;
         control->step.vx = 0;
         control->step.vz = 0;
         control->turn.vy = vy;
@@ -726,19 +737,19 @@ void s03d_800CE720(Work *work, int arg)
     int status;
 
     work->target->class |= 0x9E;
-    status = work->field_AD8;
+    status = work->pad.press;
     work->vision.length = 0xFA0;
     if (arg == 0)
     {
         if (status & 0x10000)
         {
             work->act.motion1 = 3;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C39E0[3], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[3], 0, 4);
         }
         else
         {
             work->act.motion1 = 5;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C39E8[1], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[5], 0, 4);
         }
         GM_ConfigMotionAdjust(&work->body, work->adjust);
     }
@@ -793,9 +804,9 @@ void s03d_800CE720(Work *work, int arg)
     }
     if (work->param.index != 1 || !(GV_Time & 0x100))
     {
-        if (work->field_AE6 >= 0)
+        if (work->pad.dir >= 0)
         {
-            work->control.turn.vy = work->field_AE6;
+            work->control.turn.vy = work->pad.dir;
         }
     }
     else
@@ -810,15 +821,15 @@ void s03d_800CE8F4(Work *work, int arg)
     work->vision.length = 0xFA0;
     if (arg == 0)
     {
-        if (work->field_AD8 & 0x10000)
+        if (work->pad.press & 0x10000)
         {
             work->act.motion1 = 4;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C39E8[0], 0, 0);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[4], 0, 0);
         }
         else
         {
             work->act.motion1 = 6;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C39EC[0], 0, 0);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[6], 0, 0);
         }
         Zako_800D0EF0(work, 3);
         GM_ConfigMotionAdjust(&work->body, work->adjust);
@@ -847,16 +858,16 @@ void s03d_800CE9E8(Work *work, int arg)
     rot = &work->control.rot;
     if (arg == 1 || arg == 7)
     {
-        rot->vy = (*(unsigned short *)&rot->vy - 0x100) & 0xFFF;
+        rot->vy = ((u_short)rot->vy - 0x100) & 0xFFF;
     }
     if (arg == 3 || arg == 5)
     {
-        rot->vy = (*(unsigned short *)&rot->vy + 0x100) & 0xFFF;
+        rot->vy = ((u_short)rot->vy + 0x100) & 0xFFF;
     }
     if (arg == 2 || arg == 4 || arg == 6)
     {
         work->act.motion1 = 6;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C39EC[0], 0, 0);
+        GM_ConfigObjectAction(&work->body, ZakoActionTable[6], 0, 0);
         Zako_800D0EF0(work, 3);
     }
     Zako_800CDD94(work);
@@ -886,7 +897,7 @@ void s03d_800CEB38(Work *work, int arg)
     if (arg == 0)
     {
         work->act.motion1 = 7;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C39EC[1], 0, 4);
+        GM_ConfigObjectAction(&work->body, ZakoActionTable[7], 0, 4);
     }
     if (arg == 17)
     {
@@ -896,15 +907,15 @@ void s03d_800CEB38(Work *work, int arg)
     {
         if (work->param.index == 2)
         {
-            pos = &s03d_dword_800C3A44;
+            pos = &ThrowPos2;
         }
         else
         {
-            pos = &s03d_dword_800C3A4C;
+            pos = &ThrowPos;
         }
-        target = &work->field_B68;
+        target = &work->throw_pos;
         dist = GV_DiffVec3(pos, target);
-        step = &s03d_dword_800C3A54;
+        step = &ThrowStep;
         step->vz = dist / 8;
         GV_SubVec3(target, pos, &svec);
         rot.vx = 0;
@@ -924,7 +935,7 @@ void s03d_800CEB38(Work *work, int arg)
             work->control.turn.vx = 0;
             GM_ConfigMotionAdjust(&work->body, NULL);
         }
-        work->control.turn.vy = work->field_AE6;
+        work->control.turn.vy = work->pad.dir;
     }
 }
 void s03d_800CECBC(Work *work, int arg)
@@ -934,13 +945,13 @@ void s03d_800CECBC(Work *work, int arg)
     if (arg == 0)
     {
         work->act.motion1 = 8;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C39F0[0], 0, 0);
+        GM_ConfigObjectAction(&work->body, ZakoActionTable[8], 0, 0);
     }
     if (arg == 3 && s03d_800CDE1C(work))
     {
         GM_SeSet(&work->control.mov, 0x25);
     }
-    work->control.turn.vy = work->field_B94;
+    work->control.turn.vy = work->sn_dir;
     if (Zako_800CDA04(work))
     {
         return;
@@ -960,7 +971,7 @@ void s03d_800CED94(Work *work, int arg)
     if (arg == 0)
     {
         work->act.motion1 = 0x13;
-        GM_ConfigObjectAction(&work->body, ((short *)&s03d_dword_800C3A04)[1], 0, 4);
+        GM_ConfigObjectAction(&work->body, ZakoActionTable[19], 0, 4);
     }
     if (Zako_800CDA04(work))
     {
@@ -990,7 +1001,7 @@ void s03d_800CEE3C(Work *work, int arg)
     {
         work->act.field_14 = 6;
         work->act.motion1 = 0x1B;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[3], 0, 4);
+        GM_ConfigObjectAction(&work->body, ZakoActionTable[27], 0, 4);
     }
     if (arg >= 8 && arg <= 17)
     {
@@ -1019,7 +1030,7 @@ void s03d_800CEE3C(Work *work, int arg)
             if (ctrl->grounded == 0)
             {
                 work->act.motion1 = 0x24;
-                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[12], 0, 4);
+                GM_ConfigObjectAction(&work->body, ZakoActionTable[36], 0, 4);
             }
             else
             {
@@ -1057,7 +1068,7 @@ void s03d_800CF114(Work *work)
 
     work->control.turn = GM_PlayerControl->rot;
     DG_SetPos2(&GM_PlayerPosition, &GM_PlayerControl->rot);
-    DG_PutVector((SVECTOR *)&s03d_dword_800C3A5C, &vec, 1);
+    DG_PutVector(&CatchOffset, &vec, 1);
     GV_SubVec3(&vec, &work->control.mov, &work->control.step);
 }
 void s03d_800CF194(Work *work, int time)
@@ -1113,14 +1124,14 @@ void s03d_800CF194(Work *work, int time)
         {
             target->side = 0;
             work->act.motion1 = 23;
-            GM_ConfigObjectAction(&work->body, ((short *)&s03d_dword_800C3A0C)[1], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[23], 0, 4);
             work->field_AF8 = 0;
         }
 
         if (work->field_AF8 == 50 && target->faint > 0)
         {
             work->act.motion1 = 44;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C3A38[0], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[44], 0, 4);
         }
 
         if (motion == 44 && !(work->field_AF8 & 7))
@@ -1137,7 +1148,7 @@ void s03d_800CF194(Work *work, int time)
         {
             target->side = 0;
             work->act.motion1 = 24;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[0], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[24], 0, 4);
         }
 
         work->control.turn = GM_PlayerControl->rot;
@@ -1156,7 +1167,7 @@ void s03d_800CF194(Work *work, int time)
         return;
     }
 
-    if (work->field_B90 > 800)
+    if (work->sn_dis > 800)
     {
         target->captured = 0;
     }
@@ -1168,7 +1179,7 @@ void s03d_800CF4D4(Work *work, int arg)
     if (arg == 0)
     {
         work->act.motion1 = 0x22;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[10], 0, 4);
+        GM_ConfigObjectAction(&work->body, ZakoActionTable[34], 0, 4);
     }
     if (work->body.is_end)
     {
@@ -1188,7 +1199,7 @@ void s03d_800CF548(Work *work, int arg)
     if (arg == 0)
     {
         work->act.motion1 = 0x1C;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[4], 0, 4);
+        GM_ConfigObjectAction(&work->body, ZakoActionTable[28], 0, 4);
         work->target->faint = 0;
     }
     if (Zako_800CDA04(work))
@@ -1200,7 +1211,7 @@ void s03d_800CF548(Work *work, int arg)
     {
         work->act.field_14 = 1;
         work->act.motion1 = 0x21;
-        GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[9], 0, 4);
+        GM_ConfigObjectAction(&work->body, ZakoActionTable[33], 0, 4);
     }
     else
     {
@@ -1234,18 +1245,18 @@ void s03d_800CF68C(Work *work, int time)
             if (work->act.field_14 == 1)
             {
                 work->act.motion1 = 37;
-                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[13], 0, 4);
+                GM_ConfigObjectAction(&work->body, ZakoActionTable[37], 0, 4);
             }
             else
             {
                 work->act.motion1 = 35;
-                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[11], 0, 4);
+                GM_ConfigObjectAction(&work->body, ZakoActionTable[35], 0, 4);
             }
         }
         else
         {
             work->act.motion1 = 36;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[12], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[36], 0, 4);
         }
 
         if (work->target->faint <= 0)
@@ -1283,12 +1294,12 @@ void s03d_800CF844(Work *work, int arg)
         if (work->act.field_14 < 3)
         {
             work->act.motion1 = 0x2A;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[18], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[42], 0, 4);
         }
         else
         {
             work->act.motion1 = 0x2B;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[19], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[43], 0, 4);
         }
         GM_SeSet(&work->control.mov, 0x36);
     }
@@ -1315,12 +1326,12 @@ void s03d_800CF90C(Work *work, int arg)
             if (work->field_AF6 >= 0x96)
             {
                 work->act.motion1 = 0x28;
-                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[16], 0, 4);
+                GM_ConfigObjectAction(&work->body, ZakoActionTable[40], 0, 4);
             }
             else
             {
                 work->act.motion1 = 0x26;
-                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[14], 0, 4);
+                GM_ConfigObjectAction(&work->body, ZakoActionTable[38], 0, 4);
             }
         }
         else
@@ -1328,12 +1339,12 @@ void s03d_800CF90C(Work *work, int arg)
             if (work->field_AF6 >= 0x96)
             {
                 work->act.motion1 = 0x29;
-                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[17], 0, 4);
+                GM_ConfigObjectAction(&work->body, ZakoActionTable[41], 0, 4);
             }
             else
             {
                 work->act.motion1 = 0x27;
-                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[15], 0, 4);
+                GM_ConfigObjectAction(&work->body, ZakoActionTable[39], 0, 4);
             }
         }
     }
@@ -1360,7 +1371,7 @@ void s03d_800CFA04(Work *work, int arg)
     if (arg == 0)
     {
         work->act.motion1 = 0xF;
-        GM_ConfigObjectAction(&work->body, ((short *)&s03d_dword_800C39FC)[1], 0, 4);
+        GM_ConfigObjectAction(&work->body, ZakoActionTable[15], 0, 4);
         GM_SeSet(&work->control.mov, 0x8D);
         if (t->a_mode == 3)
         {
@@ -1402,14 +1413,14 @@ void s03d_800CFB04(Work *work, int time)
         case 0:
             GM_SeSet(&control->mov, SE_PUNCHIT1);
             work->act.motion1 = 30;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[6], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[30], 0, 4);
             GM_SeSet(&control->mov, SE_V_ENE_PUNCHED);
             Zako_800D0B18(work, 5, 0);
             work->field_AF6 = 17;
             break;
         case 1:
             work->act.motion1 = 33;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[9], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[33], 0, 4);
             if (work->target->vital <= 0)
             {
                 if (GM_Weapon == WP_Rifle)
@@ -1431,26 +1442,26 @@ void s03d_800CFB04(Work *work, int time)
         case 3:
             GM_SeSet(&control->mov, SE_EDMG01);
             work->act.motion1 = 31;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[7], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[31], 0, 4);
             Zako_800D0B18(work, 5, 0);
             work->field_AF6 = 17;
             break;
         case 2:
             GM_SeSet(&control->mov, SE_V_ENE_THROWN);
             work->act.motion1 = 32;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[8], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[32], 0, 4);
             Zako_800D0B18(work, 5, 0);
             work->field_AF6 = 22;
             break;
         case 4:
             GM_SeSet(&control->mov, SE_V_ENE_SNAPPED);
             work->act.motion1 = 25;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[1], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[25], 0, 4);
             work->field_AF6 = 67;
             break;
         case 5:
             work->act.motion1 = 26;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[2], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[26], 0, 4);
             work->field_AF6 = 15;
             break;
         }
@@ -1562,18 +1573,18 @@ void s03d_800CFFF0(Work *work, int arg)
                 if (work->act.field_14 == 1)
                 {
                     work->act.motion1 = 37;
-                    GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[13], 0, 4);
+                    GM_ConfigObjectAction(&work->body, ZakoActionTable[37], 0, 4);
                 }
                 else
                 {
                     work->act.motion1 = 35;
-                    GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[11], 0, 4);
+                    GM_ConfigObjectAction(&work->body, ZakoActionTable[35], 0, 4);
                 }
             }
             else
             {
                 work->act.motion1 = 36;
-                GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[12], 0, 4);
+                GM_ConfigObjectAction(&work->body, ZakoActionTable[36], 0, 4);
             }
         }
     }
@@ -1599,25 +1610,25 @@ void s03d_800D01C4(Work *work, int arg)
             if (work->act.field_14 == 1)
             {
                 work->act.motion1 = 0x2F;
-                GM_ConfigObjectAction(&work->body, s03d_word_800C3A3C[1], 0, 4);
+                GM_ConfigObjectAction(&work->body, ZakoActionTable[47], 0, 4);
             }
             else
             {
                 work->act.motion1 = 0x2D;
-                GM_ConfigObjectAction(&work->body, s03d_word_800C3A38[1], 0, 4);
+                GM_ConfigObjectAction(&work->body, ZakoActionTable[45], 0, 4);
             }
         }
         else
         {
             work->act.motion1 = 0x2E;
-            GM_ConfigObjectAction(&work->body, s03d_word_800C3A3C[0], 0, 4);
+            GM_ConfigObjectAction(&work->body, ZakoActionTable[46], 0, 4);
         }
         GM_ConfigControlAttribute(&work->control, 0);
-        work->field_B28 = 0;
+        work->alert_level = 0;
     }
     if (arg == 4)
     {
-        int b04 = work->field_B04;
+        int b04 = work->n_dead;
 
         printf("n_dead = %d \n", b04);
         if (b04 == 6 || b04 == 0xA || b04 == 0xE)
@@ -1631,11 +1642,11 @@ void s03d_800D01C4(Work *work, int arg)
     }
     if (arg & 2)
     {
-        work->field_B00 = 0;
+        work->visible = 0;
     }
     else
     {
-        work->field_B00 = 1;
+        work->visible = 1;
     }
     if (arg >= 9)
     {
@@ -1647,49 +1658,30 @@ void s03d_800D01C4(Work *work, int arg)
     }
 }
 
-const char s03d_dword_800DB5A4[] = {'F', 'A', '-', 'M'};
-const char s03d_dword_800DB5A8[] = {'A', 'S', '/', 'B'};
-const char s03d_dword_800DB5AC[] = {'U', 'L', 'L', 'E'};
-const char s03d_dword_800DB5B0[] = {'T', ' ', '*', ' '};
-const char s03d_dword_800DB5B4[] = {'2', '5', 0x0, 0x0};
-
-const char s03d_dword_800DB5B8[] = {'S', 'O', 'C', 'O'};
-const char s03d_dword_800DB5BC[] = {'M', '/', 'B', 'U'};
-const char s03d_dword_800DB5C0[] = {'L', 'L', 'E', 'T'};
-const char s03d_dword_800DB5C4[] = {' ', '*', ' ', '1'};
-const char s03d_dword_800DB5C8[] = {'2', 0x0, 0x0, 0x0};
-
-const char s03d_dword_800DB5CC[] = {'R', 'A', 'T', 'I'};
-const char s03d_dword_800DB5D0[] = {'O', 'N', 0x0, 0x0};
-
+const char ItemMsgFamas[] = "FA-MAS/BULLET * 25";
+const char ItemMsgSocom[] = "SOCOM/BULLET * 12";
+const char ItemMsgRation[] = "RATION";
 
 void s03d_800D0324(Work *work, int arg)
 {
     if (arg == 0)
     {
-        int *base = &s03d_dword_800DC310;
-        work->field_B00 = 0;
+        work->visible = 0;
         work->control.mov = s03d_dword_800C3B88;
-        base[work->param.index * 4 + 0x90 / 4] = 1;
+        ZakoCommand.watchers[work->param.index].field_4 = 1;
         if (work->field_BA0 == 0)
         {
-            unsigned short *lv = (unsigned short *)linkvarbuf;
-            lv[0x4F]++;
+            GM_EnemyKillCount++;
         }
     }
+
+    if (ZakoCommand.watchers[work->param.index].field_4 != 2)
     {
-        int *base = &s03d_dword_800DC310;
-        if (base[work->param.index * 4 + 0x90 / 4] != 2)
-        {
-            return;
-        }
-        s03d_800CDB5C(work);
-        work->action = s03d_800CE12C;
-        work->time = 0;
-        work->control.turn.vz = 0;
-        work->control.turn.vx = 0;
-        GM_ConfigMotionAdjust(&work->body, NULL);
+        return;
     }
+
+    s03d_800CDB5C(work);
+    SetMode(work, s03d_800CE12C);
 }
 int Zako_800D0408(Work *work)
 {
@@ -1705,7 +1697,7 @@ void s03d_800D041C(Work *work)
     act = &work->act;
     control = &work->control;
 
-    work->field_AEC = 0;
+    work->trigger = 0;
     work->vision.length = 0;
     work->target->class = TARGET_AVAIL;
 
@@ -1735,7 +1727,7 @@ void s03d_800D041C(Work *work)
 
     if (act->field_1C == 0)
     {
-        control->r_sphere = GV_NearExp2(control->r_sphere, act->motion2);
+        control->r_sphere = GV_NearExp2(control->r_sphere, act->r_sphere);
     }
     else
     {
@@ -1751,7 +1743,7 @@ void s03d_800D041C(Work *work)
         work->hom->flag = 0;
     }
 
-    if (ZAKOCOM_MGR->entries[work->param.index].field_4 == 1)
+    if (ZakoCommand.watchers[work->param.index].field_4 == 1)
     {
         work->hom->flag = 0;
     }
@@ -1770,17 +1762,17 @@ void s03d_800D041C(Work *work)
     act->field_04 -= 16;
     control->step.vy = act->field_04;
 
-    work->field_BA2 = work->target->vital;
+    work->last_vital = work->target->vital;
 }
 void s03d_800D05DC(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39F0[1], 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[9], 0, 4, 0x3FE);
     }
-    if (!(work->field_AD8 & 1))
+    if (!(work->pad.press & 1))
     {
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1788,22 +1780,22 @@ void s03d_800D05DC(Work *work, int arg1)
     }
     else if (arg1 < 4)
     {
-        work->vision.facedir = (*(unsigned short *)&work->control.rot.vy - (arg1 << 8)) & 0xFFF;
+        work->vision.facedir = ((u_short)work->control.rot.vy - (arg1 << 8)) & 0xFFF;
     }
     else
     {
-        work->vision.facedir = (*(unsigned short *)&work->control.rot.vy - 0x400) & 0xFFF;
+        work->vision.facedir = ((u_short)work->control.rot.vy - 0x400) & 0xFFF;
     }
 }
 void s03d_800D0698(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C39F4, 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[10], 0, 4, 0x3FE);
     }
-    if (!(work->field_AD8 & 2))
+    if (!(work->pad.press & 2))
     {
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1811,11 +1803,11 @@ void s03d_800D0698(Work *work, int arg1)
     }
     else if (arg1 < 4)
     {
-        work->vision.facedir = (*(unsigned short *)&work->control.rot.vy + (arg1 << 8)) & 0xFFF;
+        work->vision.facedir = ((u_short)work->control.rot.vy + (arg1 << 8)) & 0xFFF;
     }
     else
     {
-        work->vision.facedir = (*(unsigned short *)&work->control.rot.vy + 0x400) & 0xFFF;
+        work->vision.facedir = ((u_short)work->control.rot.vy + 0x400) & 0xFFF;
     }
 }
 void s03d_800D0754(Work *work, int arg1)
@@ -1823,11 +1815,11 @@ void s03d_800D0754(Work *work, int arg1)
     work->vision.length = 0x7D0;
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->body, ((short *)&s03d_dword_800C39F4)[1], 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[11], 0, 4, 0x3FE);
     }
-    if (!(work->field_AD8 & 4))
+    if (!(work->pad.press & 4))
     {
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1839,11 +1831,11 @@ void s03d_800D07DC(Work *work, int arg1)
     work->vision.length = 0;
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C3A0C, 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[22], 0, 4, 0x3FE);
     }
     if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1855,11 +1847,11 @@ void s03d_800D085C(Work *work, int arg1)
     work->vision.length = 0;
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C3A08, 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[20], 0, 4, 0x3FE);
     }
     if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1870,11 +1862,11 @@ void s03d_800D08DC(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->body, ((short *)&s03d_dword_800C3A08)[1], 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[21], 0, 4, 0x3FE);
     }
     if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1886,11 +1878,11 @@ void s03d_800D0958(Work *work, int arg1)
     work->vision.length = 0;
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C3A00[1], 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[17], 0, 4, 0x3FE);
     }
     if (work->body.time2)
     {
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1904,10 +1896,10 @@ void s03d_800D09D8(Work *work, int arg1)
     work->vision.length = 0;
     if (arg1 == 0)
     {
-        GM_ConfigObjectOverride(&work->body, *(short *)&s03d_dword_800C3A04, 0, 4, 0x3FE);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[18], 0, 4, 0x3FE);
         if (work->control.map->index == GM_PlayerMap && GV_RandU(12) >= 5)
         {
-            work->field_AE8 = 0xF0;
+            work->pad.sound = 0xF0;
         }
     }
     if (arg1 == 20)
@@ -1916,14 +1908,14 @@ void s03d_800D09D8(Work *work, int arg1)
         pos.vy += 500;
         AN_Sleep(&pos);
     }
-    if (work->field_AD8 & 0x1000)
+    if (work->pad.press & 0x1000)
     {
         work->action = s03d_800CED94;
         work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         GM_ConfigMotionAdjust(&work->body, NULL);
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1931,7 +1923,7 @@ void s03d_800D09D8(Work *work, int arg1)
     }
     else if (arg1 == 0x82)
     {
-        GM_ConfigObjectOverride(&work->body, s03d_word_800C39E0[0], 0, 4, 0);
+        GM_ConfigObjectOverride(&work->body, ZakoActionTable[0], 0, 4, 0);
         work->action2 = 0;
         work->time2 = 0;
         work->control.turn.vz = 0;
@@ -1943,8 +1935,8 @@ void Zako_800D0B18(Work *work, int index, int count)
     MATRIX m;
 
     DG_SetPos(&work->body.objs->objs[index].world);
-    DG_MovePos((SVECTOR *)&s03d_dword_800C3A64);
-    DG_RotatePos((SVECTOR *)&s03d_dword_800C3A6C);
+    DG_MovePos(&BloodPos);
+    DG_RotatePos(&BloodRot);
     ReadRotMatrix(&m);
     NewBlood(&m, count);
 }
@@ -1954,8 +1946,8 @@ void Zako_800D0B88(Work *work)
     SVECTOR sv;
 
     DG_SetPos(&work->body.objs->objs[1].world);
-    DG_MovePos((SVECTOR *)&s03d_dword_800C3A74);
-    DG_RotatePos((SVECTOR *)&s03d_dword_800C3A7C);
+    DG_MovePos(&FogPos);
+    DG_RotatePos(&FogRot);
     ReadRotMatrix(&m);
     sv.vx = *(short *)&m.t[0];
     sv.vy = *(short *)&m.t[1];
@@ -1975,14 +1967,14 @@ void Zako_800D0BEC(Work *work, int type)
             info.type = 4;
             info.id = IT_Ration;
             info.num = 1;
-            info.message = (const char *)s03d_dword_800C3A84;
+            info.message = ItemMessages[0];
         }
         else if (type < 4)
         {
             info.type = 2;
             info.id = WP_Socom;
             info.num = 0xC;
-            info.message = (const char *)s03d_dword_800C3A88;
+            info.message = ItemMessages[1];
         }
     }
     info.time = 0x384;
@@ -2029,7 +2021,7 @@ void s03d_800D0CD4(Work *work)
 
 void s03d_800D0D6C(Work *work)
 {
-    if (ZAKOCOM_MGR->field_1C == 1)
+    if (ZakoCommand.alert_mode == 1)
     {
         return;
     }
@@ -2058,14 +2050,14 @@ void s03d_800D0E2C(Work *work)
 
     world = &work->body.objs->objs[4].world;
     DG_SetPos(world);
-    DG_MovePos(&s03d_dword_800C3AA0);
-    DG_RotatePos(&s03d_dword_800C3AA8);
+    DG_MovePos(&MuzzlePos);
+    DG_RotatePos(&MuzzleRot);
     ReadRotMatrix(&m);
     NewBulletEx(0x100, &m, 2, 1, 0, 10, work->param.damage, 10000, 750);
     GM_SeSet(&work->control.mov, 0x2D);
     AN_BulletSmoke(world, 0);
     AN_FamasFlash(&m);
-    Zako_800D0F38(work, (int)s03d_800D0E2C);
+    Zako_800D0F38(work, s03d_800D0E2C);
 }
 int Zako_800D0EF0(Work *work, int index)
 {
@@ -2073,23 +2065,23 @@ int Zako_800D0EF0(Work *work, int index)
 
     for (i = 0; i < 8; i++)
     {
-        if (work->field_AA8[i] == 0)
+        if (work->putchar[i] == NULL)
         {
-            work->field_AA8[i] = s03d_dword_800C3A90[index];
+            work->putchar[i] = PutChars[index];
             return 1;
         }
     }
     return 0;
 }
-int Zako_800D0F38(Work *work, int value)
+int Zako_800D0F38(Work *work, PUTFUNC func)
 {
     int i;
 
     for (i = 0; i < 8; i++)
     {
-        if (work->field_AA8[i] == value)
+        if (work->putchar[i] == func)
         {
-            work->field_AA8[i] = 0;
+            work->putchar[i] = NULL;
             return 1;
         }
     }
@@ -2101,9 +2093,9 @@ void Zako_800D0F6C(Work *work)
 
     for (i = 0; i < 8; i++)
     {
-        if (work->field_AA8[i])
+        if (work->putchar[i])
         {
-            ((void (*)(Work *))work->field_AA8[i])(work);
+            work->putchar[i](work);
         }
     }
 }
@@ -2205,14 +2197,14 @@ void s03d_800D123C(Work *work)
 {
     if ((work->modetime[7] & 2) && work->vision.pad == 2 && (GM_PlayerStatus & PLAYER_CB_BOX))
     {
-        if (GV_DiffVec3(&work->field_B34, &GM_PlayerPosition) > 50 || work->field_B3C != GM_WhereList[0]->rot.vy)
+        if (GV_DiffVec3(&work->player_pos, &GM_PlayerPosition) > 50 || work->player_dir != GM_WhereList[0]->rot.vy)
         {
-            if (ZAKOCOM_MGR->field_1C == 1)
+            if (ZakoCommand.alert_mode == 1)
             {
                 return;
             }
-            work->field_B34 = GM_PlayerPosition;
-            work->field_B3C = GM_WhereList[0]->rot.vy;
+            work->player_pos = GM_PlayerPosition;
+            work->player_dir = GM_WhereList[0]->rot.vy;
             work->modetime[6] |= 2;
         }
         work->vision.pad = 0;
@@ -2230,7 +2222,7 @@ void s03d_800D1324(Work *work)
         return;
     }
 
-    if (work->field_ACA == 5)
+    if (work->think2 == 5)
     {
         return;
     }
@@ -2263,26 +2255,26 @@ void s03d_800D13F8(Work *work)
     switch (work->vision.pad)
     {
     case 0:
-        if (work->field_B28 != 255 || !(GM_PlayerStatus & PLAYER_INTRUDE))
+        if (work->alert_level != 255 || !(GM_PlayerStatus & PLAYER_INTRUDE))
         {
-            work->field_B28 -= 4;
+            work->alert_level -= 4;
         }
         break;
     case 1:
-        work->field_B28--;
+        work->alert_level--;
         break;
     case 2:
-        work->field_B28++;
+        work->alert_level++;
         break;
     }
 
-    if (work->field_B28 < 0)
+    if (work->alert_level < 0)
     {
-        work->field_B28 = 0;
+        work->alert_level = 0;
     }
-    else if (work->field_B28 > 255)
+    else if (work->alert_level > 255)
     {
-        work->field_B28 = 255;
+        work->alert_level = 255;
     }
 }
 
@@ -2299,8 +2291,8 @@ void s03d_800D14AC(Work *work)
     pos = &GM_PlayerPosition;
     GV_SubVec3(pos, &control->mov, &diff);
     diff.vy = 0;
-    work->field_B94 = GV_VecDir2(&diff);
-    work->field_B90 = GV_VecLen3(&diff);
+    work->sn_dir = GV_VecDir2(&diff);
+    work->sn_dis = GV_VecLen3(&diff);
 
     /* unused result, but it keeps pos live across the calls */
     height = ABS(pos->vy - work->control.mov.vy);
@@ -2370,6 +2362,6 @@ void s03d_800D15A8(Work *work)
 
         ctrl = &work->control;
         ctrl->turn.vy = turn;
-        ctrl->r_sphere = GV_NearExp2(ctrl->r_sphere, work->act.motion2);
+        ctrl->r_sphere = GV_NearExp2(ctrl->r_sphere, work->act.r_sphere);
     }
 }
