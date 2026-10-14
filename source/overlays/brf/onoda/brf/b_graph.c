@@ -1370,16 +1370,6 @@ const int brf_dword_800E2014 = 0x800D37AC;
 const int brf_dword_800E2018 = 0x800D3824;
 const int brf_dword_800E201C = 0x800D38EC;
 const int brf_dword_800E2020 = 0x800D39D0;
-const int brf_dword_800E2024 = 0x800D45A4;
-const int brf_dword_800E2028 = 0x800D45AC;
-const int brf_dword_800E202C = 0x800D41FC;
-const int brf_dword_800E2030 = 0x800D4264;
-const int brf_dword_800E2034 = 0x800D42F0;
-const int brf_dword_800E2038 = 0x800D4368;
-const int brf_dword_800E203C = 0x800D4440;
-const int brf_dword_800E2040 = 0x800D44D0;
-const int brf_dword_800E2044 = 0x800D45A4;
-const char brf_dword_800E2048[4] = "";
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CECE4.s")
 void brf_800CE1C4(Work *work);
 
@@ -1927,7 +1917,118 @@ void brf_800D3CB8(Work *work, int a1, int a2)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D3D8C.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D41A4.s")
+extern int brf_dword_800C37A4;
+void brf_800D3D8C(Work *work);
+
+void brf_800D41A4(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+    int i;
+
+    switch (work->field_AD20)
+    {
+    case 1:
+        if (work->field_AD5C != 0)
+        {
+            GM_StreamPlayStart();
+            brf_800CC150(work);
+            brf_800CC28C(work);
+            work->z_A597[0] = 10;
+            work->z_A597[1] = 10;
+        }
+        brf_800CADD4(work, &base[1], 5);
+        brf_800CBB68(work, &base[0], 0);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        break;
+    case 2:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 10;
+            work->z_A597[1] = 10;
+            work->z_A597[4] = 8;
+            work->field_AD30 = 0;
+            work->z_A597[5] = 9;
+            GM_SeSet2(0, 0x3F, 0xBC);
+        }
+        brf_800CADD4(work, &base[1], 5);
+        brf_800CBB68(work, &base[0], 0);
+        brf_800D39F0(work, &base[4], &base[5]);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        break;
+    case 3:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 10;
+            work->z_A597[1] = 10;
+            work->z_A597[4] = 8;
+            work->field_AD34 = 0;
+            work->field_AD3C = 0;
+            work->z_A597[5] = 9;
+        }
+        brf_800CADD4(work, &base[1], 5);
+        brf_800CBB68(work, &base[0], 0);
+        brf_800D3D8C(work);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        break;
+    case 4:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 10;
+            work->z_A597[1] = 10;
+            work->z_A597[4] = 8;
+            work->field_AD30 = 0;
+            work->field_AD38 = 0;
+            work->z_A597[5] = 9;
+            for (i = 6; i < 22; i++)
+            {
+                work->z_A597[i] = 7;
+            }
+        }
+        brf_800CADD4(work, &base[1], 5);
+        brf_800CBB68(work, &base[0], 0);
+        brf_800D3A30(work);
+        brf_800CF4E0(work, 1, 0x140, -0x1E, -0x1E, 0x1F4, 4, &brf_dword_800C37A4);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        break;
+    case 5:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->z_A597[0] = 10;
+            work->z_A597[1] = 10;
+        }
+        brf_800CADD4(work, &base[1], 5);
+        brf_800CBB68(work, &base[0], 0);
+        brf_800CF4E0(work, 1, 0x140, -0x1E, -0x1E, 0x1F4, 4, &brf_dword_800C37A4);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        break;
+    case 6:
+        if (work->field_AD5C != 0)
+        {
+            brf_800CC560(work);
+            work->field_AD30 = 0;
+            work->z_A597[0] = 10;
+            work->z_A597[1] = 10;
+            work->z_A597[2] = 10;
+            work->z_A597[3] = 10;
+        }
+        brf_800CADD4(work, &base[1], 5);
+        brf_800CBB68(work, &base[0], 0);
+        brf_800CF4E0(work, 1, 0x140, -0x1E, -0x1E, 0x1F4, 4, &brf_dword_800C37A4);
+        brf_800CD8B8(work, 16, 0, 2);
+        brf_800CD8B8(work, 16, 1, 3);
+        brf_800CC5E4(work, &base[0], &base[1]);
+        break;
+    case -1:
+    case 7:
+        brf_800CF5A8(work);
+        break;
+    }
+}
+const char brf_dword_800E2048[4] = "";
 extern int brf_dword_800C37D4;
 
 void brf_800D45C4(Work *work)
