@@ -191,9 +191,7 @@ extern int     *s08b_dword_800E4318;
 extern Work    *s08b_dword_800E431C;
 extern int   s08b_dword_800E4320;
 extern int   s08b_dword_800E4324;
-extern int   s08b_dword_800E4334[];
-extern int   s08b_dword_800E4338;
-extern int   s08b_dword_800E433C;
+extern int   s08b_dword_800E4334[3];
 extern int   s08b_dword_800E4340;
 
 extern char s08b_aErrerrerrsoundbuffover_800E3764[];

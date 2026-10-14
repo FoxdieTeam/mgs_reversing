@@ -1,5 +1,5 @@
 #include "mgstype.h"
-#include "libgv/libgv.h"
+#include "game/game.h"
 #include "menu/menuman.h"
 
 extern const char s08b_aNinja_800E3714[];
@@ -90,15 +90,11 @@ SVECTOR s08b_dword_800C358C = {-2000, 2000, -1250, 0};
 int     s08b_dword_800C3594 = 74;
 
 const char s08b_aNinja_800E3714[] = "NINJA";
-const int s08b_dword_800E371C = 0x800C8054;
-const int s08b_dword_800E3720 = 0x800C8064;
-const int s08b_dword_800E3724 = 0x800C80C4;
-const int s08b_dword_800E3728 = 0x800C8074;
-const int s08b_dword_800E372C = 0x800C80CC;
-const int s08b_dword_800E3730 = 0x800C8084;
-const int s08b_dword_800E3734 = 0x800C8094;
-const int s08b_dword_800E3738 = 0x800C80A4;
-const int s08b_dword_800E373C = 0x800C80B4;
+/* jump table (code addresses inside an asm function) */
+const int s08b_jt_800E371C[] = {
+    0x800C8054, 0x800C8064, 0x800C80C4, 0x800C8074, 0x800C80CC, 0x800C8084,
+    0x800C8094, 0x800C80A4, 0x800C80B4,
+};
 const char s08b_aNjafist_800E3740[] = "nja_fist";
 const char s08b_aNjab_800E374C[] = "nja_08b";
 const char s08b_aKatana_800E3754[] = "katana";
@@ -112,84 +108,47 @@ const char s08b_aJumpdamaged_800E37D0[] = " jump damage=%d \n";
 const char s08b_aEledamaged_800E37E4[] = " ele damage=%d \n";
 const char s08b_aNinjac_800E37F8[] = "ninja.c";
 
-const int s08b_dword_800E3800 = 0x800C9154;
-const int s08b_dword_800E3804 = 0x800C9174;
-const int s08b_dword_800E3808 = 0x800C9184;
-const int s08b_dword_800E380C = 0x800C9194;
-const int s08b_dword_800E3810 = 0x800C91A4;
-const int s08b_dword_800E3814 = 0x800C91B4;
-const int s08b_dword_800E3818 = 0x800C91C4;
-const int s08b_dword_800E381C = 0x800C91D4;
-const int s08b_dword_800E3820 = 0x800C91E4;
-const int s08b_dword_800E3824 = 0x800C9204;
-const int s08b_dword_800E3828 = 0x800C9334;
-const int s08b_dword_800E382C = 0x800C9244;
-const int s08b_dword_800E3830 = 0x800C9254;
-const int s08b_dword_800E3834 = 0x800C9264;
-const int s08b_dword_800E3838 = 0x800C9274;
-const int s08b_dword_800E383C = 0x800C9284;
-const int s08b_dword_800E3840 = 0x800C9294;
-const int s08b_dword_800E3844 = 0x800C92A4;
-const int s08b_dword_800E3848 = 0x800C92B4;
-const int s08b_dword_800E384C = 0x800C92C4;
-const int s08b_dword_800E3850 = 0x800C91F4;
-const int s08b_dword_800E3854 = 0x800C9214;
-const int s08b_dword_800E3858 = 0x800C9224;
-const int s08b_dword_800E385C = 0x800C9234;
-const int s08b_dword_800E3860 = 0x800C92D4;
-const int s08b_dword_800E3864 = 0x800C92E4;
-const int s08b_dword_800E3868 = 0x800C92F4;
-const int s08b_dword_800E386C = 0x800C9304;
-const int s08b_dword_800E3870 = 0x800C9314;
-const int s08b_dword_800E3874 = 0x800C9324;
+/* jump table (code addresses inside an asm function) */
+const int s08b_jt_800E3800[] = {
+    0x800C9154, 0x800C9174, 0x800C9184, 0x800C9194, 0x800C91A4, 0x800C91B4,
+    0x800C91C4, 0x800C91D4, 0x800C91E4, 0x800C9204, 0x800C9334, 0x800C9244,
+    0x800C9254, 0x800C9264, 0x800C9274, 0x800C9284, 0x800C9294, 0x800C92A4,
+    0x800C92B4, 0x800C92C4, 0x800C91F4, 0x800C9214, 0x800C9224, 0x800C9234,
+    0x800C92D4, 0x800C92E4, 0x800C92F4, 0x800C9304, 0x800C9314, 0x800C9324,
+};
 const char s08b_aWeaponxxamodexx_800E3878[] = "WEAPON=0x%x a_mode=0x%x \n";
-const char s08b_dword_800E3894[] = {'8', 0xff, 0xc8, 0x0};
-const char s08b_dword_800E3898[] = {0xc8, 0x0, 0x0, 0x0};
-const char s08b_dword_800E389C[] = {'8', 0xff, 0xc, 0xfe};
-const char s08b_dword_800E38A0[] = {0x90, 0x1, 0x0, 0x0};
-const char s08b_dword_800E38A4[] = {0x0, 0x0, 0xc, 0xfe};
-const char s08b_dword_800E38A8[] = {0x0, 0x0, 0x0, 0x0};
-const char s08b_dword_800E38AC[] = {0xf4, 0x1, 0x90, 0x1};
-const char s08b_dword_800E38B0[] = {' ', 0x3, 0x0, 0x0};
-const char s08b_dword_800E38B4[] = {0xb8, 0xb, 0xd0, 0x7};
-const char s08b_dword_800E38B8[] = {0xb8, 0xb, 0x0, 0x0};
-const char s08b_dword_800E38BC[] = {0xe8, 0x3, 0xd0, 0x7};
-const char s08b_dword_800E38C0[] = {0xe8, 0x3, 0x0, 0x0};
-const char s08b_dword_800E38C4[] = {0xdc, 0x5, 0xd0, 0x7};
-const char s08b_dword_800E38C8[] = {0xdc, 0x5, 0x0, 0x0};
-const char s08b_dword_800E38CC[] = {0xd0, 0x7, 0xd0, 0x7};
-const char s08b_dword_800E38D0[] = {0xd0, 0x7, 0x0, 0x0};
-const char s08b_dword_800E38D4[] = {0x5, 0x0, 0x0, 0x0};
+const SVECTOR s08b_dword_800E3894 = {-200, 200, 200, 0};
+const SVECTOR s08b_dword_800E389C = {-200, -500, 400, 0};
+const SVECTOR s08b_dword_800E38A4 = {0, -500, 0, 0};
+const SVECTOR s08b_dword_800E38AC = {500, 400, 800, 0};
+const SVECTOR s08b_dword_800E38B4 = {3000, 2000, 3000, 0};
+const SVECTOR s08b_dword_800E38BC = {1000, 2000, 1000, 0};
+const SVECTOR s08b_dword_800E38C4 = {1500, 2000, 1500, 0};
+const SVECTOR s08b_dword_800E38CC = {2000, 2000, 2000, 0};
+const int     s08b_dword_800E38D4 = 5;
 const char s08b_a_800E38D8[] = "2";
-const char s08b_dword_800E38DC[] = {0x0, 0x0, 0x0, 0x0};
-const int s08b_dword_800E38E0 = 0x800C9828;
-const int s08b_dword_800E38E4 = 0x800C9854;
-const int s08b_dword_800E38E8 = 0x800C986C;
-const int s08b_dword_800E38EC = 0x800C9898;
-const int s08b_dword_800E38F0 = 0x800C98C4;
-const int s08b_dword_800E38F4 = 0x800C98DC;
-const int s08b_dword_800E38F8 = 0x800C98DC;
-const char s08b_dword_800E38FC[] = {0x0, 0x0, 0x0, 0x0};
-const int s08b_dword_800E3900 = 0x800C99CC;
-const int s08b_dword_800E3904 = 0x800C99DC;
-const int s08b_dword_800E3908 = 0x800C9A04;
-const int s08b_dword_800E390C = 0x800C9A14;
-const int s08b_dword_800E3910 = 0x800C9A24;
-const int s08b_dword_800E3914 = 0x800C9A44;
-const int s08b_dword_800E3918 = 0x800C9A44;
-const int s08b_dword_800E391C = 0x800C9A44;
+const char s08b_dword_800E38DC[] = {0x0, 0x0, 0x0, 0x0}; /* jump table alignment */
+/* jump table (code addresses inside an asm function) */
+const int s08b_jt_800E38E0[] = {
+    0x800C9828, 0x800C9854, 0x800C986C, 0x800C9898, 0x800C98C4, 0x800C98DC,
+    0x800C98DC,
+};
+const char s08b_dword_800E38FC[] = {0x0, 0x0, 0x0, 0x0}; /* jump table alignment */
+/* jump table (code addresses inside an asm function) */
+const int s08b_jt_800E3900[] = {
+    0x800C99CC, 0x800C99DC, 0x800C9A04, 0x800C9A14, 0x800C9A24, 0x800C9A44,
+    0x800C9A44, 0x800C9A44,
+};
 const char s08b_aJumpfctrlturnvyd_800E3920[] = " jumpf ctrl turn vy =%d \n";
 const char s08b_aPunchdamagelifedcombod_800E393C[] = "Punch Damage life = %d combo %d\n";
 
-int SECTION(".bss") s08b_dword_800E4314;
-int SECTION(".bss") s08b_dword_800E4318;
-int SECTION(".bss") s08b_dword_800E431C;
+CONTROL *SECTION(".bss") s08b_dword_800E4314; /* ninja control */
+int     *SECTION(".bss") s08b_dword_800E4318;
+void    *SECTION(".bss") s08b_dword_800E431C; /* ninja Work */
 int SECTION(".bss") s08b_dword_800E4320;
 int SECTION(".bss") s08b_dword_800E4324;
 int SECTION(".bss") s08b_dword_800E4328;
 int SECTION(".bss") s08b_dword_800E432C;
 int SECTION(".bss") s08b_dword_800E4330;
-int SECTION(".bss") s08b_dword_800E4334;
-int SECTION(".bss") s08b_dword_800E4338;
-int SECTION(".bss") s08b_dword_800E433C;
+int SECTION(".bss") s08b_dword_800E4334[3];
 int SECTION(".bss") s08b_dword_800E4340;
