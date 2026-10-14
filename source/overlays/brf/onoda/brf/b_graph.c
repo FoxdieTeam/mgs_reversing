@@ -81,7 +81,7 @@ typedef struct
 } BrfKeyframe;
 
 DG_TEX *brf_800CABF4();
-extern char brf_dword_800E1BF0[];
+extern const char brf_dword_800E1BF0[];
 
 DG_TEX *brf_800CABF4(work, id)
 Work *work;
@@ -98,7 +98,7 @@ int id;
     }
     if (!found)
     {
-        printf(brf_dword_800E1BF0, id);
+        printf((char *)brf_dword_800E1BF0, id);
     }
     return 0;
 }
@@ -122,7 +122,7 @@ void brf_800CAC7C(Work *work, int id)
     }
     else
     {
-        printf(brf_dword_800E1BF0, id);
+        printf((char *)brf_dword_800E1BF0, id);
     }
 }
 extern const char brf_dword_800E1C14[];
@@ -279,6 +279,152 @@ void brf_800CBDC8(Work *work, void *a1)
     }
     work->field_AD34++;
 }
+const char brf_dword_800E13BC[28] = "      GROUP, AS AN ADVISOR.";
+const char brf_dword_800E13D8[28] = "      ABOLITION PROPOSAL";
+const char brf_dword_800E13F4[24] = "      NUCLEAR WEAPON";
+const char brf_dword_800E140C[24] = "      NATIONALLY HOSTED";
+const char brf_dword_800E1424[20] = "      WORLD'S FIRST";
+const char brf_dword_800E1438[24] = "      COMMITTEE, THE";
+const char brf_dword_800E1450[28] = "1996  ATTENDS THE CANBERRA";
+const char brf_dword_800E146C[20] = "      MAGAZINES.";
+const char brf_dword_800E1480[20] = "      INFORMATION";
+const char brf_dword_800E1494[20] = "      AND US NAVAL";
+const char brf_dword_800E14A8[28] = "      INFORMATION MAGAZINES";
+const char brf_dword_800E14C4[28] = "      WRITES FOR ASSORTED";
+const char brf_dword_800E14E0[16] = "      ANALYST.";
+const char brf_dword_800E14F0[28] = "      TO BECOME A FREELANCE";
+const char brf_dword_800E150C[24] = "1995  LEAVES THE BUREAU";
+const char brf_dword_800E1524[16] = "      AGENCY).";
+const char brf_dword_800E1534[28] = "      (DEFENSE INTELLIGENCE";
+const char brf_dword_800E1550[20] = "1992  JOINS THE DIA";
+const char brf_dword_800E1564[28] = "      SHE MOVES TO THE US.";
+const char brf_dword_800E1580[28] = "      CLEANUP AT CHERNOBYL,";
+const char brf_dword_800E159C[28] = "      PARTICIPATED IN THE";
+const char brf_dword_800E15B8[20] = "      PARENTS,WHO";
+const char brf_dword_800E15CC[24] = "1990  AFTER LOSING HER";
+const char brf_dword_800E15E4[20] = "      CHERNOBYL).";
+const char brf_dword_800E15F8[28] = "      3 KILOMETERS NORTH OF";
+const char brf_dword_800E1614[28] = "      IN PRYPIAT  (A CITY ";
+const char brf_dword_800E1630[28] = "      POWER PLANT DISASTER";
+const char brf_dword_800E164C[24] = "      CHERNOBYL NUCLEAR";
+const char brf_dword_800E1664[28] = "      RADIATION FROM THE";
+const char brf_dword_800E1680[28] = "      WERE SHOWERED BY THE";
+const char brf_dword_800E169C[28] = "1986  SHE AND HER FAMILY";
+const char brf_dword_800E16B8[24] = "1970s BORN IN UKRAINE.";
+const char brf_dword_800E16D0[8] = "PROFILE";
+const char brf_dword_800E16D8[16] = "HEIGHT: 166 CM";
+const char brf_dword_800E16E8[24] = "NATIONALITY: UKRAINIAN";
+const char brf_dword_800E1700[8] = "AGE: 30";
+const char brf_dword_800E1708[12] = "SEX: FEMALE";
+const char brf_dword_800E1714[28] = "NAME: NASTASHA ROMANENKO";
+const char brf_dword_800E1730[12] = "ROMANENKO";
+const char brf_dword_800E173C[12] = "NASTASHA";
+const char brf_dword_800E1748[28] = "THOSE OF THE OPPOSITE SEX.";
+const char brf_dword_800E1764[24] = "NOT TO BE ATTRACTED TO";
+const char brf_dword_800E177C[28] = "HAS RECEIVED PSYCHOTHERAPY";
+const char brf_dword_800E1798[20] = "COMBAT TRAINING.";
+const char brf_dword_800E17AC[24] = "THROUGH VR SIMULATION";
+const char brf_dword_800E17C4[28] = "EXPERIENCE, BUT HAS GONE";
+const char brf_dword_800E17E0[24] = "SHE HAS NO REAL COMBAT";
+const char brf_dword_800E17F8[20] = "     AS A NOVICE.";
+const char brf_dword_800E180C[28] = "2005 JOINS THIS EXERCISE ";
+const char brf_dword_800E1828[16] = "HEIGHT: 175 CM";
+const char brf_dword_800E1838[20] = "NATIONALITY: USA";
+const char brf_dword_800E184C[8] = "AGE: 18";
+const char brf_dword_800E1854[24] = "NAME: MERYL SILVERBURGH";
+const char brf_dword_800E186C[12] = "SILVERBURGH";
+const char brf_dword_800E1878[8] = "MERYL";
+const char brf_dword_800E1880[16] = "AT PRESIDENT";
+const char brf_dword_800E1890[8] = "DARPA";
+const char brf_dword_800E1898[16] = "OFFICE CHIEF";
+const char brf_dword_800E18A8[12] = "BIG BOSS";
+const char brf_dword_800E18B4[8] = "OCELOT";
+const char brf_dword_800E18BC[12] = "REVOLVER";
+const char brf_dword_800E18C8[16] = "VULCAN RAVEN";
+const char brf_dword_800E18D8[8] = "OCTOPUS";
+const char brf_dword_800E18E0[8] = "DECOY";
+const char brf_dword_800E18E8[12] = "SNIPER WOLF";
+const char brf_dword_800E18F4[8] = "MANTIS";
+const char brf_dword_800E18FC[8] = "PSYCHO";
+const char brf_dword_800E1904[12] = "A NATIVE.";
+const char brf_dword_800E1910[20] = "SPEAKS ARABIC LIKE";
+const char brf_dword_800E1924[20] = "FRENCH, MALAY, ETC.";
+const char brf_dword_800E1938[28] = "SUCH AS ENGLISH, SPANISH,";
+const char brf_dword_800E1954[24] = "FLUENT IN 7 LANGUAGES";
+const char brf_dword_800E196C[20] = "HAS AN IQ OF 180.";
+const char brf_dword_800E1980[20] = "      FOX-HOUND.";
+const char brf_dword_800E1994[24] = "      LEADER OF THE NEW";
+const char brf_dword_800E19AC[24] = "      BECOMES BATTLE";
+const char brf_dword_800E19C4[28] = "2000  JOINS FOX-HOUND and";
+const char brf_dword_800E19E0[16] = "      COUNTRY.";
+const char brf_dword_800E19F0[24] = "      RETURNS TO HIS";
+const char brf_dword_800E1A08[24] = "      GOVERNMENT AND";
+const char brf_dword_800E1A20[24] = "1994  RESCUED BY THE US";
+const char brf_dword_800E1A38[16] = "      A MIA.   ";
+const char brf_dword_800E1A48[28] = "      IRAQ AND WAS DECLARED";
+const char brf_dword_800E1A64[28] = "      HE BECOMES A POW OF";
+const char brf_dword_800E1A80[28] = "      DURING THE MISSION";
+const char brf_dword_800E1A9C[20] = "      THE GULF WAR.";
+const char brf_dword_800E1AB0[28] = "      MISSILE LANCHERS IN";
+const char brf_dword_800E1ACC[28] = "      THE MOBILE SCUD     ";
+const char brf_dword_800E1AE8[28] = "      FORCE SAS TO DESTROY";
+const char brf_dword_800E1B04[24] = "      BRITISH SPECIAL";
+const char brf_dword_800E1B1C[20] = "1990  WORKS FOR THE";
+const char brf_dword_800E1B30[20] = "      UPON BIRTH.";
+const char brf_dword_800E1B44[24] = "      MOVED TO ENGLAND";
+const char brf_dword_800E1B5C[24] = "1970s BORN IN THE US.";
+const char brf_dword_800E1B74[16] = "HEIGHT: 183 CM";
+const char brf_dword_800E1B84[28] = "NATIONALITY: BRITISH(USA)";
+const char brf_dword_800E1BA0[12] = "AGE: 30s";
+const char brf_dword_800E1BAC[12] = "SEX: MALE";
+const char brf_dword_800E1BB8[16] = "NAME: UNKNOWN";
+const char brf_dword_800E1BC8[24] = "CODE NAME: LIQUID SNAKE";
+const char brf_dword_800E1BE0[16] = "LIQUID SNAKE";
+const char brf_dword_800E1BF0[36] = "ERROR! Cannot Find Texture id = %d\n";
+const char brf_dword_800E1C14[12] = "\xa5\xb9\xa5\xcd\xa1\xbc\xa5\xaf"; /* "スネーク" (Snake) */
+const char brf_dword_800E1C20[16] = "a_fog_normal_3";
+const char brf_dword_800E1C30[16] = "a_fog_normal_1";
+const char brf_dword_800E1C40[16] = "a_fog_normal_4";
+const char brf_dword_800E1C50[16] = "a_fog_normal_2";
+const char brf_dword_800E1C60[16] = "a_fog_haku_3";
+const char brf_dword_800E1C70[16] = "a_fog_haku_2";
+const char brf_dword_800E1C80[16] = "a_fog_haku_1";
+const char brf_dword_800E1C90[16] = "MePati Renzoku\n";
+const char brf_dword_800E1CA0[16] = "b_face_open_u";
+const char brf_dword_800E1CB0[20] = "b_face_angry_piku";
+const int brf_dword_800E1CC4 = 0x800CBE98;
+const int brf_dword_800E1CC8 = 0x800CBF1C;
+const int brf_dword_800E1CCC = 0x800CBF1C;
+const int brf_dword_800E1CD0 = 0x800CBEA4;
+const int brf_dword_800E1CD4 = 0x800CBF1C;
+const int brf_dword_800E1CD8 = 0x800CBF1C;
+const int brf_dword_800E1CDC = 0x800CBE98;
+const int brf_dword_800E1CE0 = 0x800CBF1C;
+const int brf_dword_800E1CE4 = 0x800CBF1C;
+const int brf_dword_800E1CE8 = 0x800CBEA4;
+const int brf_dword_800E1CEC = 0x800CBF1C;
+const int brf_dword_800E1CF0 = 0x800CBF1C;
+const int brf_dword_800E1CF4 = 0x800CBE98;
+const int brf_dword_800E1CF8 = 0x800CBF1C;
+const int brf_dword_800E1CFC = 0x800CBF1C;
+const int brf_dword_800E1D00 = 0x800CBEA4;
+const int brf_dword_800E1D04 = 0x800CBF1C;
+const int brf_dword_800E1D08 = 0x800CBF1C;
+const int brf_dword_800E1D0C = 0x800CBE98;
+const int brf_dword_800E1D10 = 0x800CBF1C;
+const int brf_dword_800E1D14 = 0x800CBF1C;
+const int brf_dword_800E1D18 = 0x800CBEA4;
+const int brf_dword_800E1D1C = 0x800CBF1C;
+const int brf_dword_800E1D20 = 0x800CBF1C;
+const int brf_dword_800E1D24 = 0x800CBE98;
+const char brf_dword_800E1D28[12] = "b_eye_open";
+const char brf_dword_800E1D34[12] = "b_eye_half";
+const char brf_dword_800E1D40[12] = "b_eye_close";
+const char brf_dword_800E1D4C[12] = "b_eye_down";
+const char brf_dword_800E1D58[4] = "abc";
+const char brf_dword_800E1D5C[8] = "0123";
+const char brf_dword_800E1D64[8] = "0123s";
+
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CBE34.s")
 extern const char brf_dword_800E1D28[];
 extern const char brf_dword_800E1D34[];
@@ -702,7 +848,36 @@ void brf_800CDDD4(Work *work, int code, int idx)
     }
     work->field_AD70 = s;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDF34.s")
+void brf_800CDF34(Work *work)
+{
+    switch (work->field_ADA4)
+    {
+    case 1:
+    case 4:
+        work->field_ADA4 = 2;
+        brf_800CC28C(work);
+        GM_SeSet2(0, 0x3f, 0xb0);
+        break;
+    case 2:
+    case 5:
+        work->field_ADA4 = 3;
+        brf_800CC388(work);
+        GM_SeSet2(0, 0x3f, 0xb0);
+        break;
+    case 3:
+    case 6:
+        work->field_ADA4 = 1;
+        brf_800CC190(work);
+        GM_SeSet2(0, 0x3f, 0xb0);
+        break;
+    }
+}
+const int brf_dword_800E1D84 = 0x800CE04C;
+const int brf_dword_800E1D88 = 0x800CE110;
+const int brf_dword_800E1D8C = 0x800CE13C;
+const int brf_dword_800E1D90 = 0x800CE04C;
+const int brf_dword_800E1D94 = 0x800CE110;
+const int brf_dword_800E1D98 = 0x800CE13C;
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CDFE4.s")
 extern int brf_dword_800C35F4, brf_dword_800C360C, brf_dword_800C3690;
 void brf_800CDAEC();
@@ -1058,7 +1233,338 @@ void brf_800CEB4C(Work *work, int a1, int a2)
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CEC68.s")
+void brf_800CEC68(Work *work)
+{
+    switch (work->field_ADA4)
+    {
+    case 1:
+    case 4:
+        brf_800CEB4C(work, 0, 1);
+        break;
+    case 2:
+    case 5:
+        brf_800CEB4C(work, 6, 2);
+        break;
+    case 3:
+    case 6:
+        brf_800CEB4C(work, 8, 3);
+        break;
+    }
+}
+const char brf_dword_800E1DB4[16] = "a_up_close_u";
+const char brf_dword_800E1DC4[16] = "b_face_close_u";
+const char brf_dword_800E1DD4[16] = "b_face_close_d";
+const char brf_dword_800E1DE4[12] = "c_face_d";
+const char brf_dword_800E1DF0[20] = "c_face_open_u";
+const int brf_dword_800E1E04 = 0x800CEE28;
+const int brf_dword_800E1E08 = 0x800CEEF8;
+const int brf_dword_800E1E0C = 0x800CF03C;
+const int brf_dword_800E1E10 = 0x800CF180;
+const int brf_dword_800E1E14 = 0x800CF1A0;
+const int brf_dword_800E1E18 = 0x800CF1E4;
+const char brf_dword_800E1E1C[8] = "stop";
+const char brf_dword_800E1E24[8] = "eject";
+const char brf_dword_800E1E2C[12] = "b_eye_angry";
+const char brf_dword_800E1E38[12] = "b_face_left";
+const char brf_dword_800E1E44[12] = "a_up_left";
+const char brf_dword_800E1E50[8] = "a_back";
+const char brf_dword_800E1E58[12] = "a_up_close";
+const char brf_dword_800E1E64[12] = "a_up_half";
+const char brf_dword_800E1E70[12] = "a_up_open";
+const int brf_dword_800E1E7C = 0x800D00A0;
+const int brf_dword_800E1E80 = 0x800D00A8;
+const int brf_dword_800E1E84 = 0x800CF9E0;
+const int brf_dword_800E1E88 = 0x800CFA44;
+const int brf_dword_800E1E8C = 0x800CFA6C;
+const int brf_dword_800E1E90 = 0x800CFB38;
+const int brf_dword_800E1E94 = 0x800CFC14;
+const int brf_dword_800E1E98 = 0x800CFCF8;
+const int brf_dword_800E1E9C = 0x800CFDDC;
+const int brf_dword_800E1EA0 = 0x800CFEC0;
+const int brf_dword_800E1EA4 = 0x800CFFB8;
+const int brf_dword_800E1EA8 = 0x800D0030;
+const int brf_dword_800E1EAC = 0x800D00A0;
+const char brf_dword_800E1EB0[16] = "a_smoke_haku";
+const char brf_dword_800E1EC0[12] = "a_smoke_up";
+const char brf_dword_800E1ECC[16] = "a_smoke_half";
+const char brf_dword_800E1EDC[20] = "a_smoke_down_close";
+const char brf_dword_800E1EF0[12] = "a_smoke_suu";
+const int brf_dword_800E1EFC = 0x800D1744;
+const int brf_dword_800E1F00 = 0x800D174C;
+const int brf_dword_800E1F04 = 0x800D034C;
+const int brf_dword_800E1F08 = 0x800D042C;
+const int brf_dword_800E1F0C = 0x800D04A4;
+const int brf_dword_800E1F10 = 0x800D0500;
+const int brf_dword_800E1F14 = 0x800D0604;
+const int brf_dword_800E1F18 = 0x800D067C;
+const int brf_dword_800E1F1C = 0x800D0780;
+const int brf_dword_800E1F20 = 0x800D07DC;
+const int brf_dword_800E1F24 = 0x800D08D8;
+const int brf_dword_800E1F28 = 0x800D0AA4;
+const int brf_dword_800E1F2C = 0x800D0B2C;
+const int brf_dword_800E1F30 = 0x800D0C28;
+const int brf_dword_800E1F34 = 0x800D0DE8;
+const int brf_dword_800E1F38 = 0x800D0FB4;
+const int brf_dword_800E1F3C = 0x800D1010;
+const int brf_dword_800E1F40 = 0x800D10FC;
+const int brf_dword_800E1F44 = 0x800D1158;
+const int brf_dword_800E1F48 = 0x800D125C;
+const int brf_dword_800E1F4C = 0x800D13B4;
+const int brf_dword_800E1F50 = 0x800D14B0;
+const int brf_dword_800E1F54 = 0x800D167C;
+const int brf_dword_800E1F58 = 0x800D1744;
+const int brf_dword_800E1F5C = 0x800D2E50;
+const int brf_dword_800E1F60 = 0x800D2E58;
+const int brf_dword_800E1F64 = 0x800D273C;
+const int brf_dword_800E1F68 = 0x800D281C;
+const int brf_dword_800E1F6C = 0x800D28A4;
+const int brf_dword_800E1F70 = 0x800D2984;
+const int brf_dword_800E1F74 = 0x800D2A78;
+const int brf_dword_800E1F78 = 0x800D2AFC;
+const int brf_dword_800E1F7C = 0x800D2C04;
+const int brf_dword_800E1F80 = 0x800D2C80;
+const int brf_dword_800E1F84 = 0x800D2D90;
+const int brf_dword_800E1F88 = 0x800D2E58;
+const int brf_dword_800E1F8C = 0x800D2E58;
+const int brf_dword_800E1F90 = 0x800D2E58;
+const int brf_dword_800E1F94 = 0x800D2E58;
+const int brf_dword_800E1F98 = 0x800D2E58;
+const int brf_dword_800E1F9C = 0x800D2E50;
+const char brf_dword_800E1FA0[16] = "b_eye_r_tyoi";
+const char brf_dword_800E1FB0[16] = "b_eye_l_tyou";
+const char brf_dword_800E1FC0[16] = "b_eye_l_tyoi";
+const char brf_dword_800E1FD0[12] = "\xa5\xad\xa5\xe3\xa5\xf3\xa5\xd9\xa5\xeb"; /* "キャンベル" (Campbell) */
+const char brf_dword_800E1FDC[16] = "b_eye_r_tyou";
+const int brf_dword_800E1FEC = 0x800D39D0;
+const int brf_dword_800E1FF0 = 0x800D39D8;
+const int brf_dword_800E1FF4 = 0x800D3278;
+const int brf_dword_800E1FF8 = 0x800D3348;
+const int brf_dword_800E1FFC = 0x800D3408;
+const int brf_dword_800E2000 = 0x800D34B4;
+const int brf_dword_800E2004 = 0x800D3598;
+const int brf_dword_800E2008 = 0x800D3608;
+const int brf_dword_800E200C = 0x800D36D8;
+const int brf_dword_800E2010 = 0x800D374C;
+const int brf_dword_800E2014 = 0x800D37AC;
+const int brf_dword_800E2018 = 0x800D3824;
+const int brf_dword_800E201C = 0x800D38EC;
+const int brf_dword_800E2020 = 0x800D39D0;
+const int brf_dword_800E2024 = 0x800D45A4;
+const int brf_dword_800E2028 = 0x800D45AC;
+const int brf_dword_800E202C = 0x800D41FC;
+const int brf_dword_800E2030 = 0x800D4264;
+const int brf_dword_800E2034 = 0x800D42F0;
+const int brf_dword_800E2038 = 0x800D4368;
+const int brf_dword_800E203C = 0x800D4440;
+const int brf_dword_800E2040 = 0x800D44D0;
+const int brf_dword_800E2044 = 0x800D45A4;
+const char brf_dword_800E2048[4] = "";
+const int brf_dword_800E204C = 0x800D484C;
+const int brf_dword_800E2050 = 0x800D4854;
+const int brf_dword_800E2054 = 0x800D46BC;
+const int brf_dword_800E2058 = 0x800D4718;
+const int brf_dword_800E205C = 0x800D4778;
+const int brf_dword_800E2060 = 0x800D47D4;
+const int brf_dword_800E2064 = 0x800D484C;
+const char brf_dword_800E2068[4] = "";
+const int brf_dword_800E206C = 0x800D52D0;
+const int brf_dword_800E2070 = 0x800D52D8;
+const int brf_dword_800E2074 = 0x800D4A8C;
+const int brf_dword_800E2078 = 0x800D4B34;
+const int brf_dword_800E207C = 0x800D4BC8;
+const int brf_dword_800E2080 = 0x800D4C90;
+const int brf_dword_800E2084 = 0x800D4D6C;
+const int brf_dword_800E2088 = 0x800D4E58;
+const int brf_dword_800E208C = 0x800D4F40;
+const int brf_dword_800E2090 = 0x800D5020;
+const int brf_dword_800E2094 = 0x800D5108;
+const int brf_dword_800E2098 = 0x800D519C;
+const int brf_dword_800E209C = 0x800D523C;
+const int brf_dword_800E20A0 = 0x800D52D0;
+const int brf_dword_800E20A4 = 0x800D575C;
+const int brf_dword_800E20A8 = 0x800D5764;
+const int brf_dword_800E20AC = 0x800D534C;
+const int brf_dword_800E20B0 = 0x800D5558;
+const int brf_dword_800E20B4 = 0x800D575C;
+const char brf_dword_800E20B8[4] = "";
+const int brf_dword_800E20BC = 0x800D5CA4;
+const int brf_dword_800E20C0 = 0x800D5CAC;
+const int brf_dword_800E20C4 = 0x800D57D8;
+const int brf_dword_800E20C8 = 0x800D583C;
+const int brf_dword_800E20CC = 0x800D58FC;
+const int brf_dword_800E20D0 = 0x800D59C4;
+const int brf_dword_800E20D4 = 0x800D5A4C;
+const int brf_dword_800E20D8 = 0x800D5AA8;
+const int brf_dword_800E20DC = 0x800D5B1C;
+const int brf_dword_800E20E0 = 0x800D5B68;
+const int brf_dword_800E20E4 = 0x800D5BB4;
+const int brf_dword_800E20E8 = 0x800D5BF8;
+const int brf_dword_800E20EC = 0x800D5C44;
+const int brf_dword_800E20F0 = 0x800D5CA4;
+const char brf_dword_800E20F4[16] = "b_mar_eye_open";
+const char brf_dword_800E2104[16] = "c_face_half_u";
+const char brf_dword_800E2114[16] = "c_face_close_u";
+const int brf_dword_800E2124 = 0x800D6728;
+const int brf_dword_800E2128 = 0x800D6730;
+const int brf_dword_800E212C = 0x800D5F2C;
+const int brf_dword_800E2130 = 0x800D5F98;
+const int brf_dword_800E2134 = 0x800D5FE4;
+const int brf_dword_800E2138 = 0x800D603C;
+const int brf_dword_800E213C = 0x800D6064;
+const int brf_dword_800E2140 = 0x800D6130;
+const int brf_dword_800E2144 = 0x800D61A4;
+const int brf_dword_800E2148 = 0x800D62A4;
+const int brf_dword_800E214C = 0x800D6334;
+const int brf_dword_800E2150 = 0x800D63F8;
+const int brf_dword_800E2154 = 0x800D6464;
+const int brf_dword_800E2158 = 0x800D64F0;
+const int brf_dword_800E215C = 0x800D6584;
+const int brf_dword_800E2160 = 0x800D6608;
+const int brf_dword_800E2164 = 0x800D6664;
+const int brf_dword_800E2168 = 0x800D66C0;
+const int brf_dword_800E216C = 0x800D6728;
+const char brf_dword_800E2170[4] = "";
+const int brf_dword_800E2174 = 0x800D6F78;
+const int brf_dword_800E2178 = 0x800D6F80;
+const int brf_dword_800E217C = 0x800D6A00;
+const int brf_dword_800E2180 = 0x800D6A6C;
+const int brf_dword_800E2184 = 0x800D6AB8;
+const int brf_dword_800E2188 = 0x800D6D84;
+const int brf_dword_800E218C = 0x800D6B14;
+const int brf_dword_800E2190 = 0x800D6E28;
+const int brf_dword_800E2194 = 0x800D6B60;
+const int brf_dword_800E2198 = 0x800D6B98;
+const int brf_dword_800E219C = 0x800D6F20;
+const int brf_dword_800E21A0 = 0x800D6BEC;
+const int brf_dword_800E21A4 = 0x800D6CDC;
+const int brf_dword_800E21A8 = 0x800D6D28;
+const int brf_dword_800E21AC = 0x800D6D84;
+const int brf_dword_800E21B0 = 0x800D6DDC;
+const int brf_dword_800E21B4 = 0x800D6E28;
+const int brf_dword_800E21B8 = 0x800D6E80;
+const int brf_dword_800E21BC = 0x800D6EC0;
+const int brf_dword_800E21C0 = 0x800D6F20;
+const int brf_dword_800E21C4 = 0x800D6F78;
+const char brf_dword_800E21C8[12] = "a_back_u";
+const char brf_dword_800E21D4[8] = "a_naomi";
+const char brf_dword_800E21DC[8] = "\xa5\xca\xa5\xaa\xa5\xdf"; /* "ナオミ" (Naomi) */
+const int brf_dword_800E21E4 = 0x800D75CC;
+const int brf_dword_800E21E8 = 0x800D75D4;
+const int brf_dword_800E21EC = 0x800D7100;
+const int brf_dword_800E21F0 = 0x800D7198;
+const int brf_dword_800E21F4 = 0x800D71F8;
+const int brf_dword_800E21F8 = 0x800D72D8;
+const int brf_dword_800E21FC = 0x800D7418;
+const int brf_dword_800E2200 = 0x800D747C;
+const int brf_dword_800E2204 = 0x800D7500;
+const int brf_dword_800E2208 = 0x800D7564;
+const int brf_dword_800E220C = 0x800D75CC;
+const char brf_dword_800E2210[4] = "";
+const int brf_dword_800E2214 = 0x800D8254;
+const int brf_dword_800E2218 = 0x800D825C;
+const int brf_dword_800E221C = 0x800D80B8;
+const int brf_dword_800E2220 = 0x800D8150;
+const int brf_dword_800E2224 = 0x800D8194;
+const int brf_dword_800E2228 = 0x800D81EC;
+const int brf_dword_800E222C = 0x800D8254;
+const char brf_dword_800E2230[12] = "c_photo_4";
+const char brf_dword_800E223C[12] = "c_photo_5";
+const char brf_dword_800E2248[12] = "c_photo_6";
+const char brf_dword_800E2254[16] = "b_face_wo";
+const int brf_dword_800E2264 = 0x800DA028;
+const int brf_dword_800E2268 = 0x800DA030;
+const int brf_dword_800E226C = 0x800D9450;
+const int brf_dword_800E2270 = 0x800D94B4;
+const int brf_dword_800E2274 = 0x800D957C;
+const int brf_dword_800E2278 = 0x800D963C;
+const int brf_dword_800E227C = 0x800D96B8;
+const int brf_dword_800E2280 = 0x800D9740;
+const int brf_dword_800E2284 = 0x800D983C;
+const int brf_dword_800E2288 = 0x800D988C;
+const int brf_dword_800E228C = 0x800D98D0;
+const int brf_dword_800E2290 = 0x800D99A0;
+const int brf_dword_800E2294 = 0x800D9A70;
+const int brf_dword_800E2298 = 0x800D9B58;
+const int brf_dword_800E229C = 0x800D9C04;
+const int brf_dword_800E22A0 = 0x800D9CE0;
+const int brf_dword_800E22A4 = 0x800D9D1C;
+const int brf_dword_800E22A8 = 0x800D9DE0;
+const int brf_dword_800E22AC = 0x800D9E2C;
+const int brf_dword_800E22B0 = 0x800D9EEC;
+const int brf_dword_800E22B4 = 0x800D9FBC;
+const int brf_dword_800E22B8 = 0x800DA028;
+const char brf_dword_800E22BC[8] = "b_face";
+const char brf_dword_800E22C4[8] = "c_inj_u";
+const char brf_dword_800E22CC[8] = "c_inj_d";
+const char brf_dword_800E22D4[20] = "c_inj_naomi_open_u";
+const char brf_dword_800E22E8[20] = "c_inj_naomi_on_u";
+const char brf_dword_800E22FC[20] = "c_inj_naomi_half_u";
+const char brf_dword_800E2310[20] = "c_inj_naomi_close_u";
+const char brf_dword_800E2324[16] = "b_eye_r_down";
+const char brf_dword_800E2334[12] = "c_inj_on_u";
+const char brf_dword_800E2340[4] = "map";
+const int brf_dword_800E2344 = 0x800DCA84;
+const int brf_dword_800E2348 = 0x800DCA8C;
+const int brf_dword_800E234C = 0x800DBAD8;
+const int brf_dword_800E2350 = 0x800DBB70;
+const int brf_dword_800E2354 = 0x800DBBEC;
+const int brf_dword_800E2358 = 0x800DBC68;
+const int brf_dword_800E235C = 0x800DBE28;
+const int brf_dword_800E2360 = 0x800DBD3C;
+const int brf_dword_800E2364 = 0x800DBE28;
+const int brf_dword_800E2368 = 0x800DBE84;
+const int brf_dword_800E236C = 0x800DBF44;
+const int brf_dword_800E2370 = 0x800DC134;
+const int brf_dword_800E2374 = 0x800DC234;
+const int brf_dword_800E2378 = 0x800DC338;
+const int brf_dword_800E237C = 0x800DC37C;
+const int brf_dword_800E2380 = 0x800DC46C;
+const int brf_dword_800E2384 = 0x800DC4FC;
+const int brf_dword_800E2388 = 0x800DC5C4;
+const int brf_dword_800E238C = 0x800DC62C;
+const int brf_dword_800E2390 = 0x800DC680;
+const int brf_dword_800E2394 = 0x800DC75C;
+const int brf_dword_800E2398 = 0x800DC7B0;
+const int brf_dword_800E239C = 0x800DC89C;
+const int brf_dword_800E23A0 = 0x800DC8E8;
+const int brf_dword_800E23A4 = 0x800DC9A8;
+const int brf_dword_800E23A8 = 0x800DCA84;
+const int brf_dword_800E23AC = 0x800DD620;
+const int brf_dword_800E23B0 = 0x800DD628;
+const int brf_dword_800E23B4 = 0x800DD014;
+const int brf_dword_800E23B8 = 0x800DD0A4;
+const int brf_dword_800E23BC = 0x800DD110;
+const int brf_dword_800E23C0 = 0x800DD170;
+const int brf_dword_800E23C4 = 0x800DD1CC;
+const int brf_dword_800E23C8 = 0x800DD27C;
+const int brf_dword_800E23CC = 0x800DD320;
+const int brf_dword_800E23D0 = 0x800DD450;
+const int brf_dword_800E23D4 = 0x800DD4C4;
+const int brf_dword_800E23D8 = 0x800DD538;
+const int brf_dword_800E23DC = 0x800DD59C;
+const int brf_dword_800E23E0 = 0x800DD620;
+const char brf_dword_800E23E4[36] = "Memory for Texture Free Finish!\n";
+const char brf_dword_800E2408[12] = "colorbar";
+const char brf_dword_800E2414[12] = "scanline";
+const char brf_dword_800E2420[8] = "play";
+const char brf_dword_800E2428[8] = "camera";
+const char brf_dword_800E2430[4] = "x";
+const char brf_dword_800E2434[4] = "dot";
+const char brf_dword_800E2438[4] = "y";
+const char brf_dword_800E243C[4] = "z";
+const char brf_dword_800E2440[8] = "b_line1";
+const char brf_dword_800E2448[12] = "a_back_d";
+const char brf_dword_800E2454[16] = "b_face_angry_u";
+const char brf_dword_800E2464[24] = "liquid_simon_waku";
+const int brf_dword_800E247C = 0x800DEDBC;
+const int brf_dword_800E2480 = 0x800DEDDC;
+const int brf_dword_800E2484 = 0x800DEE04;
+const int brf_dword_800E2488 = 0x800DEE34;
+const int brf_dword_800E248C = 0x800DF000;
+const int brf_dword_800E2490 = 0x800DF1CC;
+const int brf_dword_800E2494 = 0x800DF404;
+const int brf_dword_800E2498 = 0x800DF490;
+const int brf_dword_800E249C = 0x800DF980;
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CECE4.s")
 void brf_800CE1C4(Work *work);
 
