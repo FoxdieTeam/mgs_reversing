@@ -3850,6 +3850,7 @@ int s08b_bunsin2_800CFDE0(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CFE54.s")
+void s08b_bunsin2_800CFE54(Work *work);
 
 int s08b_bunsin2_800D0004(Work *work)
 {
@@ -4669,6 +4670,7 @@ int s08b_bunsin2_800D125C(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D12A0.s")
+int s08b_bunsin2_800D12A0(Work *work);
 
 int s08b_bunsin2_800D12EC(Work *work)
 {
@@ -6795,8 +6797,72 @@ void s08b_bunsin2_800D4638(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D468C.s")
-void s08b_bunsin2_800D468C(Work *work);
+void s08b_bunsin2_800D468C(Work *work)
+{
+    int result;
+
+    switch (work->field_19CC)
+    {
+    case 24:
+        s08b_bunsin2_800D0A90(work);
+        break;
+
+    case 5:
+        s08b_bunsin2_800CFE54(work);
+        break;
+
+    case 32:
+        s08b_bunsin2_800D0B1C(work);
+        break;
+
+    case 20:
+        result = s08b_bunsin2_800D12EC(work);
+        goto check;
+
+    case 13:
+        result = s08b_bunsin2_800D1014(work);
+        goto check;
+
+    case 17:
+        result = s08b_bunsin2_800D1218(work);
+        goto check;
+
+    case 16:
+        result = s08b_bunsin2_800D11A8(work);
+        goto check;
+
+    case 19:
+        result = s08b_bunsin2_800D12A0(work);
+check:
+        if (result != 0)
+        {
+            work->field_19B0 = -1;
+            work->field_19CC = 0x17;
+            work->field_19D0 = 0;
+        }
+        break;
+
+    case 23:
+        s08b_bunsin2_800D0EB8(work);
+        break;
+    }
+
+    if (work->field_19B0 != 7 && work->field_19D0 != 0)
+    {
+        if (s08b_bunsin2_800CF254(work) != 0)
+        {
+            work->field_19D0 = 0;
+            work->field_19D4 = 0;
+            work->field_19B8 = 1;
+            return;
+        }
+    }
+
+    if (GM_GameLevel == GM_LEVEL_EXTREME)
+    {
+        work->field_19C0 |= 2;
+    }
+}
 void s08b_bunsin2_800D47E0(Work *work)
 {
     if (work->field_19CC == 0x15 && s08b_bunsin2_800D1348(work) != 0)
