@@ -11,7 +11,7 @@ typedef struct _JEEP_SYSTEM
     OBJECT  *body;
     char     pad4[0x1C];
     MATRIX   world;
-    char     pad5[0xCC];
+    char     pad5[0x90];
 } JEEP_SYSTEM;
 
 int SECTION(".bss") s19b_dword_800DE648;
@@ -20,5 +20,8 @@ int SECTION(".bss") s19b_dword_800DE650;
 int SECTION(".bss") s19b_dword_800DE654;
 
 JEEP_SYSTEM SECTION(".bss") Takabe_JeepSystem;
+
+SVECTOR SECTION(".bss") s19b_dword_800DE788;
+char SECTION(".bss") s19b_pad_800DE790[0x34];
 
 int SECTION(".bss") s19b_dword_800DE7C4;
