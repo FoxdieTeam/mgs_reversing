@@ -2,6 +2,12 @@
 #include "game/game.h"
 #include "hind.h"
 #include "mts/mts.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
+#include "bullet/blast.h"
+#include "okajima/blurpure.h"
+#include "takabe/cinema.h"
 
 void s11g_hind_800D5E44(HindWork *work, int a1);
 void s11g_hind_800D5E54(int arg0, SVECTOR *arg1, int se_id);
@@ -11,12 +17,435 @@ void s11g_hind_800D62BC(VECTOR *vec, VECTOR *pos, int len);
 void s11g_hind_800D60D8(int arg0, SVECTOR *arg1, int se_id);
 void s11g_hind_800D6260(long *vec, long *pos, long *old, int len);
 void s11g_hind_800D648C(SVECTOR *a, SVECTOR *b, int len);
+void s11g_hind_800D5FB4(HindWork *work, int a1);
+void s11g_hind_800D60F0(HindWork *work);
 void s11g_hind_800D66F0(HindWork *work);
 void s11g_hind_800D6848(HindWork *work);
 void s11g_hind_800D7644(HindWork *work);
 void AN_Blast_Rand(SVECTOR *pos);
+void *NewBlastoff(SVECTOR *arg0, int arg1, int arg2, int *arg3);
 
 extern int amissile_alive_8009F490;
+
+/* Missile demo: the hind is hit by the stinger and crashes */
+void s11g_hind_800D6848(HindWork *work)
+{
+    SVECTOR vec;
+    SVECTOR rot;
+    VECTOR  pos;
+    SVECTOR step;
+    SVECTOR rot2;
+    SVECTOR step2;
+    SVECTOR rot3;
+    SVECTOR step3;
+    SVECTOR rot4;
+    SVECTOR blast;
+    int     dist;
+
+    work->target1->damaged |= TARGET_POWER;
+    work->target2->damaged |= TARGET_POWER;
+    work->target3->damaged |= TARGET_POWER;
+
+    dist = GV_DiffVec3(&work->move_missile_target_pos, &work->move_missile_pos);
+
+    switch (work->field_5C8)
+    {
+    case 0:
+        work->field_5E4 = 150;
+        work->field_5C8 = 1;
+        /* fallthrough */
+    case 1:
+        vec.vx = 0;
+        vec.vy = 0;
+        vec.vz = 4096;
+
+        rot.vx = 0;
+        rot.vy = work->control.rot.vy;
+        rot.vz = 0;
+
+        DG_SetPos2(&DG_ZeroVector, &rot);
+        DG_PutVector(&vec, &vec, 1);
+
+        work->field_60C.vx += vec.vx;
+        work->field_60C.vy = 30000;
+        work->field_60C.vz += vec.vz;
+
+        pos.vx = 130000;
+        pos.vy = 30000;
+        pos.vz = 20000;
+        s11g_hind_800D62BC(&work->field_60C, &pos, 64);
+
+        work->field_62C = work->field_60C;
+        s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 128);
+
+        if (work->field_5E4 < 0)
+        {
+            work->field_5E4 = 150;
+            work->field_5C8 = 2;
+            work->field_60C.vx = 130000;
+            work->field_60C.vy = 23000;
+            work->field_60C.vz = 20000;
+        }
+        break;
+
+    case 2:
+        if (work->field_5E4 < 0)
+        {
+            work->field_5C8 = 17;
+            work->field_5E4 = 90;
+            work->field_60C.vy = 23000;
+            work->field_60C.vx = 130000;
+            work->field_60C.vz = 20000;
+        }
+
+        s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 128);
+        work->field_62C = work->field_5FC;
+        break;
+
+    case 17:
+        if (work->field_5E4 > 1)
+        {
+            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 64);
+        }
+        else if (work->field_5E4 > 0)
+        {
+            work->last_item = GM_Item;
+            work->last_weapon = GM_Weapon;
+
+            if (GM_Item == IT_Scope || GM_Item == IT_Camera ||
+                GM_Item == IT_NVG || GM_Item == IT_ThermG)
+            {
+                GM_Item = IT_None;
+            }
+
+            if (GM_Weapon == WP_Rifle || GM_Weapon == WP_Stinger)
+            {
+                GM_Weapon = WP_None;
+            }
+        }
+        else if (GM_Vitality != 0 && GM_GameOverTimer == 0)
+        {
+            s11g_hind_800D619C(work, 18);
+            work->field_8E4 = NewBlurPure();
+            GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF;
+            work->field_8E0 = (int)NewCinemaScreen(2000000000, 1);
+            work->nMissileDemoMode2 = 11;
+            work->field_5C8 = 18;
+            work->field_5E4 = 90;
+            work->field_60C.vx = 10000;
+            work->field_60C.vy = 23000;
+            work->field_60C.vz = -8000;
+            work->field_5FC = work->field_60C;
+            work->field_4BC = work->field_5FC;
+        }
+        else
+        {
+            work->nMissileDemoMode2 = 0;
+        }
+        break;
+
+    case 18:
+        work->field_60C.vx = 10000;
+        work->field_60C.vy = 23000;
+        work->field_60C.vz = -4000;
+        work->field_5FC = work->field_60C;
+        work->field_4BC = work->field_5FC;
+
+        work->field_62C.vx = gUnkCameraStruct2_800B7868.position.vx;
+        work->field_62C.vy = gUnkCameraStruct2_800B7868.position.vy;
+        work->field_62C.vz = gUnkCameraStruct2_800B7868.position.vz;
+        work->nMissileDemoMode2 = 11;
+
+        work->move_missile_pos_v = work->field_4BC;
+        work->move_missile_pos_v.vx += 2000;
+        work->move_missile_pos_v.vy -= 4000;
+        work->move_missile_pos_v.vz += 4000;
+        work->move_missile_rot = work->control.rot;
+
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 256);
+        }
+        else
+        {
+            work->field_60C.vx += 3000;
+            work->field_60C.vy += 3000;
+            work->field_60C.vz -= 10000;
+            GM_SeSet2(0, 63, 42);
+            GM_SeSet2(0, 63, 191);
+            GM_SeSet2(0, 63, 188);
+            work->field_5C8 = 21;
+            work->field_5E4 = 70;
+        }
+        break;
+
+    case 21:
+        s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 32);
+
+        work->field_62C.vx = gUnkCameraStruct2_800B7868.position.vx;
+        work->field_62C.vy = gUnkCameraStruct2_800B7868.position.vy;
+        work->field_62C.vz = gUnkCameraStruct2_800B7868.position.vz;
+        work->nMissileDemoMode2 = 11;
+
+        if (work->field_5E4 > 0)
+        {
+            step.vx = 0;
+            step.vy = 0;
+            step.vz = 1000;
+            rot2 = work->move_missile_rot;
+            DG_SetPos2(&DG_ZeroVector, &rot2);
+            DG_PutVector(&step, &step, 1);
+
+            work->move_missile_pos_v.vx += step.vx;
+            work->move_missile_pos_v.vy += step.vy;
+            work->move_missile_pos_v.vz += step.vz;
+
+            AN_Blast_Mini(&work->move_missile_pos);
+
+            vec = work->move_missile_pos;
+            vec.vx += GV_RandS(256);
+            vec.vy += GV_RandS(256);
+            vec.vz += GV_RandS(256);
+            AN_Blast_Mini(&vec);
+
+            s11g_hind_800D5FB4(work, 0);
+            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 256);
+        }
+        else
+        {
+            GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF);
+
+            if (work->field_8E0)
+            {
+                NewCinemaScreenClose((void *)work->field_8E0);
+                work->field_8E0 = 0;
+            }
+
+            if (work->field_8E4)
+            {
+                GV_DestroyActor(work->field_8E4);
+                work->field_8E4 = NULL;
+            }
+
+            if (work->last_weapon == WP_Rifle || work->last_weapon == WP_Stinger)
+            {
+                GM_Weapon = work->last_weapon;
+            }
+
+            if (work->last_item == IT_Scope || work->last_item == IT_Camera ||
+                work->last_item == IT_NVG || work->last_item == IT_ThermG)
+            {
+                GM_Item = work->last_item;
+            }
+
+            work->field_60C.vx = 130000;
+            work->field_60C.vy = 25000;
+            work->field_60C.vz = 15000;
+            work->nMissileDemoMode2 = 0;
+            work->field_5FC = work->field_60C;
+            work->field_4BC = work->field_5FC;
+            work->field_5C8 = 5;
+            work->field_5E4 = 30;
+            work->move_missile_pos_v = work->field_4BC;
+            work->move_missile_target_pos.vx = 4000;
+            work->move_missile_target_pos.vy = 2000;
+            work->move_missile_target_pos.vz = 6500;
+            work->move_missile_pos_v.vx += 2000;
+            work->move_missile_pos_v.vy -= 4000;
+            work->move_missile_pos_v.vz += 4000;
+            s11g_hind_800D60F0(work);
+        }
+        break;
+
+    case 5:
+        if (work->field_5E4 > 0)
+        {
+            work->nMissileDemoMode = 1;
+            work->move_missile_pos_v = work->field_4BC;
+            s11g_hind_800D60F0(work);
+        }
+        else
+        {
+            GM_SeSet2(0, 63, 188);
+            GM_SeSet2(0, 63, 189);
+            work->field_5C8 = 6;
+            work->field_5E4 = 120;
+            work->field_5E8 = 22;
+            work->field_5EC = 22;
+        }
+        break;
+
+    case 6:
+        if (work->field_5E4 > 0)
+        {
+            if (work->field_5E4 == 117)
+            {
+                NewBlastoff(&work->move_missile_pos_delay, 70, 0, &work->field_670);
+                NewBlastoff(&work->move_missile_pos_delay, 70, 1, &work->field_670);
+                NewBlastoff(&work->move_missile_pos_delay, 70, 2, &work->field_670);
+                NewBlastoff(&work->move_missile_pos_delay, 70, 3, &work->field_670);
+            }
+
+            if (work->field_5EC > 0)
+            {
+                work->field_5EC--;
+            }
+            else
+            {
+                GM_SeSet2(0, 63, 79);
+
+                if (--work->field_5E8 <= 0)
+                {
+                    work->field_5E8 = 1;
+                }
+
+                work->field_5EC = work->field_5E8;
+            }
+
+            s11g_hind_800D60F0(work);
+
+            step2.vx = 0;
+            step2.vy = 0;
+            step2.vz = 1000;
+            rot3 = work->move_missile_rot;
+            DG_SetPos2(&DG_ZeroVector, &rot3);
+            DG_PutVector(&step2, &step2, 1);
+
+            work->move_missile_pos_delay = work->move_missile_pos_blast;
+            work->move_missile_pos_blast = work->move_missile_pos;
+
+            work->move_missile_pos_v.vx += step2.vx;
+            work->move_missile_pos_v.vy += step2.vy;
+            work->move_missile_pos_v.vz += step2.vz;
+        }
+        else
+        {
+            GM_SeSet2(0, 63, 79);
+            work->field_5C8 = 7;
+            work->field_5E4 = 10000;
+        }
+        break;
+
+    case 7:
+        if (dist > 2500)
+        {
+            GM_SeSet2(0, 63, 79);
+            s11g_hind_800D60F0(work);
+
+            step3.vx = 0;
+            step3.vy = 0;
+            step3.vz = 1000;
+            rot4 = work->move_missile_rot;
+            DG_SetPos2(&DG_ZeroVector, &rot4);
+            DG_PutVector(&step3, &step3, 1);
+
+            work->move_missile_pos_delay = work->move_missile_pos_blast;
+            work->move_missile_pos_blast = work->move_missile_pos;
+
+            work->move_missile_pos_v.vx += step3.vx;
+            work->move_missile_pos_v.vy += step3.vy;
+            work->move_missile_pos_v.vz += step3.vz;
+        }
+        else
+        {
+            GM_SetNoise(255, 32, &DG_ZeroVector);
+
+            GM_PadVibration = GV_RandU(2);
+            work->field_948 = 255;
+            GM_PadVibration2 = 255;
+            GM_SeSet2(0, 255, 192);
+
+            work->field_5C8 = 8;
+            work->field_5E4 = 50;
+            work->move_missile_pos_help2 = work->move_missile_target_pos;
+            work->nMissileDemoMode = 2;
+            AN_Blast_high(&work->move_missile_pos_help2);
+
+            if (work->field_8EC != -1)
+            {
+                GCL_ExecProc(work->field_8EC, NULL);
+            }
+        }
+        break;
+
+    case 8:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D60F0(work);
+
+            work->move_missile_pos_help2.vx -= 200;
+            blast = work->move_missile_pos_help2;
+            blast.vx += GV_RandS(4096);
+            blast.vz += GV_RandS(4096);
+
+            if (GV_RandU(2) == 0)
+            {
+                GM_SeSet2(0, 255, 41);
+            }
+
+            if (GV_RandU(8) == 0)
+            {
+                GM_SeSet2(0, 255, 39);
+            }
+
+            if (GV_RandU(16) == 0)
+            {
+                GM_SeSet2(0, 255, 40);
+                GM_SetNoise(255, 32, &DG_ZeroVector);
+            }
+
+            AN_Blast_Rand(&blast);
+
+            GM_MoveTarget(&work->field_57C, &work->move_missile_pos_help2);
+            GM_PowerTarget(&work->field_57C);
+
+            work->field_948 -= 8;
+            if (work->field_948 < 0)
+            {
+                work->field_948 = GV_RandU(128) + 128;
+            }
+
+            GM_PadVibration = GV_RandU(2);
+            GM_PadVibration2 = work->field_948;
+        }
+        else
+        {
+            work->target1->damaged &= ~TARGET_POWER;
+            work->target2->damaged &= ~TARGET_POWER;
+            work->target3->damaged &= ~TARGET_POWER;
+
+            work->field_658 = 0;
+            work->field_5C4 = 0;
+            work->field_5C8 = 0;
+        }
+        break;
+    }
+}
+
+const int s11g_dword_800DD1E8 = 0x800D7700;
+const int s11g_dword_800DD1EC = 0x800D776C;
+const int s11g_dword_800DD1F0 = 0x800D7868;
+const int s11g_dword_800DD1F4 = 0x800D9260;
+const int s11g_dword_800DD1F8 = 0x800D9260;
+const int s11g_dword_800DD1FC = 0x800D7FB4;
+const int s11g_dword_800DD200 = 0x800D80D8;
+const int s11g_dword_800DD204 = 0x800D827C;
+const int s11g_dword_800DD208 = 0x800D8458;
+const int s11g_dword_800DD20C = 0x800D8D58;
+const int s11g_dword_800DD210 = 0x800D90B4;
+const int s11g_dword_800DD214 = 0x800D9260;
+const int s11g_dword_800DD218 = 0x800D9260;
+const int s11g_dword_800DD21C = 0x800D9260;
+const int s11g_dword_800DD220 = 0x800D9260;
+const int s11g_dword_800DD224 = 0x800D9260;
+const int s11g_dword_800DD228 = 0x800D9260;
+const int s11g_dword_800DD22C = 0x800D78D8;
+const int s11g_dword_800DD230 = 0x800D7A68;
+const int s11g_dword_800DD234 = 0x800D9260;
+const int s11g_dword_800DD238 = 0x800D9260;
+const int s11g_dword_800DD23C = 0x800D7C3C;
+
+#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D7644.s")
 
 void s11g_hind_800D9344(HindWork *work)
 {
