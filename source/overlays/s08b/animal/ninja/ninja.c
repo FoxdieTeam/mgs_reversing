@@ -4221,7 +4221,69 @@ void s08b_bunsin2_800D0CD8(Work *work)
         work->field_19D0 = work->field_19D0 + 1;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0D80.s")
+void s08b_bunsin2_800D0D80(Work *work)
+{
+    int dist;
+
+    work->field_19B4 = work->field_1A28;
+    dist = work->field_1A2C;
+
+    if (work->field_19D0 == 0)
+    {
+        work->field_19E0 = 0;
+    }
+
+    if (s08b_bunsin2_800CF54C(work) != 0)
+    {
+        work->field_19D0 = 0;
+        work->field_19D4 = 0;
+        work->field_19B8 = 1;
+        return;
+    }
+
+    if (dist >= 3001)
+    {
+        work->field_19C8 = 3;
+        work->field_19CC = 8;
+        work->field_19D0 = 0;
+        return;
+    }
+
+    if (dist < 1000)
+    {
+        if (!(GM_PlayerStatus & (PLAYER_SQUAT | PLAYER_GROUND | PLAYER_CB_BOX)) || (GV_Time & 3) == 0)
+        {
+            work->field_19E0++;
+        }
+    }
+
+    if (dist < 500 || work->field_19E0 >= 16)
+    {
+        work->field_19C8 = 6;
+        work->field_19CC = 15;
+        work->field_19D0 = 0;
+        return;
+    }
+
+    if (work->field_19D0 >= 31)
+    {
+        work->field_19C8 = 6;
+        if (dist < 1000)
+        {
+            work->field_19CC = 15;
+        }
+        else
+        {
+            work->field_19CC = 16;
+        }
+
+        work->field_19D0 = 0;
+        return;
+    }
+
+    work->field_19B0 = 9;
+    work->field_19D0++;
+}
 void s08b_bunsin2_800D0EB8(Work *work)
 {
     int limit;
