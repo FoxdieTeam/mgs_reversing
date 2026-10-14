@@ -687,17 +687,21 @@ void s19b_jeep_gls_800CE8B8(HZD_VEC *src, SVECTOR *dst)
     dst->vz = src->z;
 }
 
-/* queue the road hazard: same code, but the original keeps &hzd->n_d_segs in s6 and the sys address in s7 (swapped here) and orders the seg setup loads differently */
-#if 0 /* NON_MATCHING */
-static void QueueRoadHazard(Work *work, JEEP_ROAD *road, int do_segs)
+/* Queues the dynamic floors and (if do_segs) walls of a road piece in the hazard.
+ * The wall loop has its own grp and cnt: with variables shared by both loops they are
+ * live in several basic blocks and get allocated after the single-block temporaries,
+ * which changes the registers. */
+void s19b_jeep_gls_800CE8DC(Work *work, JEEP_ROAD *road, int do_segs)
 {
     HZD_SEG *seg;
     HZD_GRP *grp;
+    HZD_GRP *grp2;
     u_char  *flags1;
     u_char  *flags2;
     SVECTOR *vec;
     HZD_FLR *flr;
     short   *cnt;
+    short   *cnt2;
     int      i;
     SVECTOR  verts[4];
 
@@ -729,15 +733,15 @@ static void QueueRoadHazard(Work *work, JEEP_ROAD *road, int do_segs)
 
     if (do_segs)
     {
-        grp = road->grp;
-        cnt = &work->hzd->n_d_segs;
-        flags1 = grp->wallsFlags;
-        seg = grp->walls;
-        flags2 = flags1 + grp->n_walls;
+        grp2 = road->grp;
+        cnt2 = &work->hzd->n_d_segs;
+        flags1 = grp2->wallsFlags;
+        seg = grp2->walls;
+        flags2 = flags1 + grp2->n_walls;
 
-        for (i = grp->n_walls; i > 0; i--)
+        for (i = grp2->n_walls; i > 0; i--)
         {
-            if (*cnt < JEEP_SEG_COUNT)
+            if (*cnt2 < JEEP_SEG_COUNT)
             {
                 vec = verts;
                 s19b_jeep_gls_800CE8B8(&seg->p1, vec);
@@ -753,14 +757,13 @@ static void QueueRoadHazard(Work *work, JEEP_ROAD *road, int do_segs)
                 }
 
                 seg++;
-                HZD_QueueDynamicSegment2(work->hzd, work->seg_cur++, (*flags2++ << 8) | *flags1++);
+                HZD_QueueDynamicSegment2(work->hzd, work->seg_cur++, *flags1 | (*flags2 << 8));
+                flags1++;
+                flags2++;
             }
         }
     }
 }
-
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE8DC.s")
 
 void s19b_jeep_gls_800CEB2C(int z, SVECTOR *rot)
 {
