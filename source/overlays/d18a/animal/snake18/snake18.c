@@ -326,7 +326,7 @@ void d18a_snake18_800CFF5C(Snake18Work *work, int arg1);
 void d18a_snake18_800CFFD4(Snake18Work *work, int arg1);
 void d18a_snake18_800D0054(Snake18Work *work, int arg1);
 void d18a_snake18_800D00E0(Snake18Work *work, int arg1);
-void d18a_snake18_800D01D8(); /* asm */
+void d18a_snake18_800D01D8(Snake18Work *work, int time);
 void d18a_snake18_800D0974(Snake18Work *work);
 void d18a_snake18_800D09B4(Snake18Work *work);
 void d18a_snake18_800D0A10(Snake18Work *work);
@@ -3855,11 +3855,11 @@ const char d18a_aSnakeposddd_800DA6F0[] = "snake pos2 %d %d %d \n";
 const char d18a_aSnakesetactiond_800DA708[] = " snake set action = %d \n";
 const char d18a_aNextmotiondlocaldatad_800DA724[] = "next motion=%d  local_data=%d\n";
 const char d18a_aSnevs_800DA744[] = "sne_18vs";
-#if 0 /* NON_MATCHING */
-// switch case tree: orig compares "slt $v0, $v1, $a1" with $a1 = 2 (reused by the later beq), we emit "slti" - one instruction short
 void d18a_snake18_800D01D8(Snake18Work *work, int time)
 {
     int action;
+    int r;
+    int two;
     int base;
     int done;
     int dir;
@@ -3940,46 +3940,59 @@ void d18a_snake18_800D01D8(Snake18Work *work, int time)
         printf(d18a_aSnakesetactiond_800DA708, work->body.action);
     }
 
+    two = 2;
     action = work->body.action;
     base = work->f8F0;
 
-    switch (action % 3)
+    // a switch (action % 3) with the case value 2 held in a register
+    if (action % 3 != 1)
     {
-    case 0:
-        if (work->m_ctrl.info1.frame == 1 && GM_GameLevel != 3)
+        if (action % 3 < two)
         {
-            GM_SeSet(&work->control.mov, 0xB2);
+            if (action % 3 == 0)
+            {
+                goto case0;
+            }
         }
-
-        if (work->m_ctrl.info1.frame == 15 && GM_GameLevel != 3)
+        else if (action % 3 == two)
         {
-            GM_SeSet(&work->control.mov, 0x18);
+            goto case2;
         }
-
-        if (work->m_ctrl.info1.frame == 2 && !(GM_GameStatus & STATE_STUN))
-        {
-            NewPadVibration(d18a_dword_800C381C, 1);
-            NewPadVibration(d18a_dword_800C3824, 2);
-        }
-        break;
-
-    case 1:
-        break;
-
-    case 2:
-        if (work->m_ctrl.info1.frame == 1 && !(GM_GameStatus & STATE_STUN))
-        {
-            NewPadVibration(d18a_dword_800C382C, 1);
-            NewPadVibration(d18a_dword_800C3834, 2);
-        }
-
-        if (work->m_ctrl.info1.frame == 12)
-        {
-            GM_SeSet(&work->control.mov, 0xB3);
-        }
-        break;
     }
 
+    goto next;
+
+case0:
+    if (work->m_ctrl.info1.frame == 1 && GM_GameLevel != 3)
+    {
+        GM_SeSet(&work->control.mov, 0xB2);
+    }
+
+    if (work->m_ctrl.info1.frame == 15 && GM_GameLevel != 3)
+    {
+        GM_SeSet(&work->control.mov, 0x18);
+    }
+
+    if (work->m_ctrl.info1.frame == 2 && !(GM_GameStatus & STATE_STUN))
+    {
+        NewPadVibration(d18a_dword_800C381C, 1);
+        NewPadVibration(d18a_dword_800C3824, 2);
+    }
+    goto next;
+
+case2:
+    if (work->m_ctrl.info1.frame == 1 && !(GM_GameStatus & STATE_STUN))
+    {
+        NewPadVibration(d18a_dword_800C382C, 1);
+        NewPadVibration(d18a_dword_800C3834, 2);
+    }
+
+    if (work->m_ctrl.info1.frame == 12)
+    {
+        GM_SeSet(&work->control.mov, 0xB3);
+    }
+
+next:
     done = 0;
 
     if (action == base * 3 + 1)
@@ -4105,8 +4118,6 @@ void d18a_snake18_800D01D8(Snake18Work *work, int time)
     d18a_snake18_800CC8B0(work, 0x18);
     work->f7E4 |= 1;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800D01D8.s")
 
 void d18a_snake18_800D0974( Snake18Work *work )
 {
