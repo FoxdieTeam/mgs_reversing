@@ -8,6 +8,8 @@ class Section:
         self.name = name
         self.code = bytearray()
         self.bss = 0
+        # (offset, size) of uninitialized gaps (`.space`) inside initialized sections
+        self.uninit = []
         # list of (patch type, offset in section, expression)
         self.patches = []
 
@@ -77,12 +79,13 @@ def parse_obj_sections(path):
             current = u16()
         elif cmd == 8:
             n = u32()
-            sec = sections[current]
-            if sec.name in ('.bss', '.sbss'):
-                sec.bss += n
+            sec_ = sections[current]
+            if sec_.name in ('.bss', '.sbss'):
+                sec_.bss += n
             else:
-                # .space inside an initialized section (e.g. SVECTOR padding in .data)
-                sec.code += bytes(n)
+                # `.space` inside .data/.rdata: uninitialized bytes in place
+                sec_.uninit.append((len(sec_.code), n))
+                sec_.code += bytes(n)
         elif cmd == 10:
             ptype = u8()
             off = u16()

@@ -301,6 +301,9 @@ def sec_words_masked(sec, size):
         for k in range(4):
             if off + k < len(mask):
                 mask[off + k] = 0
+    for off, n in getattr(sec, 'uninit', ()):
+        for k in range(off, min(off + n, len(mask))):
+            mask[k] = 0
     return code, bytes(mask)
 
 
