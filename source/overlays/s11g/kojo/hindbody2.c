@@ -1385,16 +1385,319 @@ void s11g_hind_800D96B0(HindWork *work)
     }
 }
 
-const int s11g_dword_800DD260 = 0x800D9BC4;
-const int s11g_dword_800DD264 = 0x800DA520;
-const int s11g_dword_800DD268 = 0x800DA520;
-const int s11g_dword_800DD26C = 0x800DA520;
-const int s11g_dword_800DD270 = 0x800D9C08;
-const int s11g_dword_800DD274 = 0x800D9D74;
-const int s11g_dword_800DD278 = 0x800D9FD8;
-const int s11g_dword_800DD27C = 0x800DA0E0;
-const int s11g_dword_800DD280 = 0x800DA2B4;
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800D9B80.s")
+void s11g_hind_800D9B80(HindWork *work)
+{
+    int amount;
+    int dir;
+    int diff;
+
+    switch (work->field_5C8)
+    {
+    case 0:
+        work->field_5C8 = 4;
+        work->field_5E4 = 20;
+        work->field_60C = work->field_4BC;
+        work->field_60C.vy = 10000;
+        work->field_5F8 = GV_RandU(2);
+        /* fallthrough */
+    case 4:
+        work->field_5D4 = 1;
+
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 8);
+            break;
+        }
+
+        work->field_5F4 &= 0xFFF;
+
+        if (work->field_5F4 > 256 && work->field_5F4 < 1792)
+        {
+            work->field_5C8 = 4;
+            work->field_5E4 = 2;
+
+            switch (GM_GameLevel)
+            {
+            default:
+            case GM_LEVEL_EASY:
+            case GM_LEVEL_NORMAL:
+                amount = 8;
+                break;
+            case GM_LEVEL_HARD:
+                amount = 16;
+                break;
+            case GM_LEVEL_EXTREME:
+                amount = 16;
+                break;
+            }
+
+            work->field_5F4 = (work->field_5F4 < 1024) ? work->field_5F4 - amount : work->field_5F4 + amount;
+            work->field_60C.vy = 13000;
+        }
+        else
+        {
+            work->field_5C8 = 5;
+
+            switch (GM_GameLevel)
+            {
+            default:
+            case GM_LEVEL_EASY:
+            case GM_LEVEL_NORMAL:
+                work->field_5E4 = GV_RandU(32) + 70;
+                work->field_5E8 = GV_RandU(4) * 4 + 4;
+                break;
+            case GM_LEVEL_HARD:
+                work->field_5E4 = GV_RandU(16) + 20;
+                work->field_5E8 = GV_RandU(2) + 3;
+                break;
+            case GM_LEVEL_EXTREME:
+                work->field_5E4 = GV_RandU(16) + 20;
+                work->field_5E8 = GV_RandU(2) + 2;
+                break;
+            }
+
+            work->field_60C.vy = 13000;
+        }
+
+        work->field_60C.vx = rcos(work->field_5F4) * 8;
+        work->field_60C.vz = rsin(work->field_5F4) * 8;
+        break;
+
+    case 5:
+        if (work->field_5E4 > 0)
+        {
+            switch (GM_GameLevel)
+            {
+            default:
+            case GM_LEVEL_EASY:
+            case GM_LEVEL_NORMAL:
+                s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 40);
+                break;
+            case GM_LEVEL_HARD:
+                s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 32);
+                break;
+            case GM_LEVEL_EXTREME:
+                s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 32);
+                break;
+            }
+        }
+        else if (work->field_5E8 > 0)
+        {
+            work->field_5E8--;
+            work->field_5C8 = 5;
+
+            switch (GM_GameLevel)
+            {
+            default:
+            case GM_LEVEL_EASY:
+            case GM_LEVEL_NORMAL:
+                work->field_5E4 = GV_RandU(32) + 30;
+                break;
+            case GM_LEVEL_HARD:
+                work->field_5E4 = GV_RandU(16) + 20;
+                break;
+            case GM_LEVEL_EXTREME:
+                work->field_5E4 = GV_RandU(16) + 20;
+                break;
+            }
+
+            if (work->field_5F4 > 256 && work->field_5F4 < 1792)
+            {
+                if (work->field_5F4 > 1024)
+                {
+                    work->field_5F8 = 1;
+                }
+                else
+                {
+                    work->field_5F8 = 0;
+                }
+
+                work->field_5E8 = GV_RandU(4) * 2 + 4;
+            }
+            else if (work->field_5F4 > 2560 && work->field_5F4 < 3587 && !(GV_Time & 63) && GV_RandU(2) == 0)
+            {
+                work->field_5E8 = GV_RandU(4) * 2 + 4;
+                work->field_5F8 = 1 - work->field_5F8;
+            }
+
+            if (work->field_5F8 != 0)
+            {
+                work->field_5F4 += 256;
+            }
+            else
+            {
+                work->field_5F4 -= 256;
+            }
+
+            work->field_60C.vx = (rcos(work->field_5F4) * 30000) / 4096;
+            work->field_60C.vz = (rsin(work->field_5F4) * 30000) / 4096;
+            work->field_60C.vy = (work->field_60C.vy - 15000) / 2;
+        }
+        else
+        {
+            work->field_5F4 &= 0xFFF;
+            work->field_5E8 = GV_RandU(2);
+            work->field_5E4 = GV_RandU(16) + 60;
+
+            if (work->field_5F8 != 0)
+            {
+                work->field_5F4 += 256;
+            }
+            else
+            {
+                work->field_5F4 -= 256;
+            }
+
+            work->field_5C8 = 6;
+        }
+        break;
+
+    case 6:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 16);
+            break;
+        }
+
+        work->field_8D4 = 1;
+        work->field_5C8 = 7;
+        work->field_5E4 = GV_RandU(16) + 60;
+        dir = work->field_5F4;
+
+        if (work->field_5F8 != 0)
+        {
+            dir += GV_RandU(256);
+        }
+        else
+        {
+            dir -= GV_RandU(256);
+        }
+
+        if (work->field_5F4 <= 500 || work->field_5F4 >= 1600)
+        {
+            work->field_5F4 = dir;
+        }
+
+        work->field_60C.vx = (rcos(work->field_5F4) * 20000) / 4096;
+        work->field_60C.vy = 10000;
+        work->field_60C.vz = (rsin(work->field_5F4) * 20000) / 4096;
+        break;
+
+    case 7:
+        if (work->field_5E4 > 0)
+        {
+            s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 4);
+            break;
+        }
+
+        work->field_5C8 = 8;
+
+        switch (GM_GameLevel)
+        {
+        default:
+        case GM_LEVEL_EASY:
+        case GM_LEVEL_NORMAL:
+            work->field_5E4 = GV_RandU(8) + 32;
+            work->field_5E8 = GV_RandU(2) + 2;
+            break;
+        case GM_LEVEL_HARD:
+            work->field_5E4 = GV_RandU(8) + 32;
+            work->field_5E8 = GV_RandU(2) + 1;
+            break;
+        case GM_LEVEL_EXTREME:
+            work->field_5E4 = GV_RandU(4) + 32;
+            work->field_5E8 = GV_RandU(2) + 1;
+            break;
+        }
+
+        work->field_60C.vx = (rcos(work->field_5F4) * 25000) / 4096;
+        work->field_60C.vz = (rsin(work->field_5F4) * 25000) / 4096;
+        work->field_60C.vy = (work->field_60C.vy + 10000) / 2;
+
+        switch (work->field_8C0++ % 4)
+        {
+        case 1:
+            s11g_hind_800D619C(work, 23);
+            break;
+        case 0:
+        case 2:
+            s11g_hind_800D5E54(0, &work->field_964, 132);
+            break;
+        case 3:
+            s11g_hind_800D619C(work, 24);
+            break;
+        }
+        break;
+
+    case 8:
+        work->field_5D4 = 1;
+
+        if (work->field_5E4 > 0)
+        {
+            switch (GM_GameLevel)
+            {
+            default:
+            case GM_LEVEL_EASY:
+            case GM_LEVEL_NORMAL:
+                s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 64);
+                break;
+            case GM_LEVEL_HARD:
+                s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 64);
+                break;
+            case GM_LEVEL_EXTREME:
+                s11g_hind_800D62BC(&work->field_5FC, &work->field_60C, 64);
+                break;
+            }
+        }
+        else if (work->field_5E8 > 0)
+        {
+            work->field_5E8--;
+            work->field_5C8 = 8;
+            work->field_5E4 = GV_RandU(8) + 32;
+            work->field_5F8 = GV_RandU(2);
+
+            if (work->field_5F8 != 0)
+            {
+                diff = GV_RandS(128) - 512;
+                work->field_5F4 -= diff;
+            }
+            else
+            {
+                diff = GV_RandS(128) - 512;
+                work->field_5F4 += diff;
+            }
+
+            work->field_60C.vx = (rcos(work->field_5F4) * 25000) / 4096 + 5000;
+            work->field_60C.vz = (rsin(work->field_5F4) * 25000) / 4096 + 5000;
+
+            if (work->field_60C.vz < 4000)
+            {
+                work->field_60C.vy = (work->field_60C.vy + 13000) / 2;
+            }
+            else
+            {
+                work->field_60C.vy = (work->field_60C.vy + 10000) / 2;
+            }
+        }
+        else if (work->field_434 < work->field_430 / 5 && GV_RandU(4) < 3)
+        {
+            work->field_5C8 = 5;
+            work->field_5E4 = GV_RandU(32) + 30;
+            work->field_5E8 = GV_RandU(4) * 4 + 4;
+            work->field_5F4 &= 0xFFF;
+            work->field_5F4 = (work->field_5F4 / 512) * 512 + 256;
+            work->field_60C.vx = (rcos(work->field_5F4) * 30000) / 4096;
+            work->field_60C.vz = (rsin(work->field_5F4) * 30000) / 4096;
+            work->field_60C.vy = (work->field_60C.vy + 10000) / 2;
+        }
+        else
+        {
+            work->field_5C4 = 2;
+            work->field_5C8 = 0;
+        }
+        break;
+    }
+}
 
 #pragma INCLUDE_ASM("asm/overlays/s11g/s11g_hind_800DA534.s")
 void s11g_hind_800DA534(HindWork *work);
