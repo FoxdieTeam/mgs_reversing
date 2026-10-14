@@ -2,19 +2,7 @@
 #include "game/game.h"
 #include "takabe/prim.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x40];
-    OBJECT  *body;
-    char     pad4[0x1C];
-    MATRIX   world;
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "../jeep_system.h"
 
 typedef struct _Work
 {
@@ -42,9 +30,9 @@ static void Act(Work *work)
 {
     GM_CurrentMap = work->map;
 
-    work->prim->world.t[0] += Takabe_JeepSystem.pos.vx;
-    work->prim->world.t[1] += Takabe_JeepSystem.pos.vy;
-    work->prim->world.t[2] += Takabe_JeepSystem.pos.vz;
+    work->prim->world.t[0] += Takabe_JeepSystem.scroll.vx;
+    work->prim->world.t[1] += Takabe_JeepSystem.scroll.vy;
+    work->prim->world.t[2] += Takabe_JeepSystem.scroll.vz;
 
     if (work->prim->world.t[2] > 32000)
     {

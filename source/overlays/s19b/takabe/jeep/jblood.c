@@ -1,4 +1,5 @@
 #include "game/game.h"
+#include "../jeep_system.h"
 
 typedef struct _Work
 {
@@ -14,7 +15,6 @@ typedef struct _Work
 
 RECT s19b_dword_800C348C = {50, 50, 100, 100};
 
-extern SVECTOR Takabe_JeepSystem[];
 
 void s19b_jblood_800C8448(SVECTOR *pos, SVECTOR *speed, MATRIX *world);
 
@@ -202,9 +202,9 @@ static void Act(Work *work)
     ShadePacks(prim->packs[0], 16, time * 16);
     ShadePacks(prim->packs[1], 16, time * 16);
 
-    work->world.t[0] += Takabe_JeepSystem[3].vx;
-    work->world.t[1] += Takabe_JeepSystem[3].vy;
-    work->world.t[2] += Takabe_JeepSystem[3].vz;
+    work->world.t[0] += Takabe_JeepSystem.scroll.vx;
+    work->world.t[1] += Takabe_JeepSystem.scroll.vy;
+    work->world.t[2] += Takabe_JeepSystem.scroll.vz;
 
     DG_SetPos(&work->world);
     DG_PutPrim(work->prim);

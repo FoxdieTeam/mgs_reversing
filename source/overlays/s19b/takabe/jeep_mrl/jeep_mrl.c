@@ -32,23 +32,7 @@ typedef struct _Work
     short    field_81E;                                /* 0x81E */
 } Work;
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2a[0x4C - 0x8];
-    int      field_4C;
-    int      field_50;
-    char     pad2b[0x60 - 0x50 - sizeof(int)];
-    OBJECT  *snake_body;
-    OBJECT  *field_64;
-    char     pad3[0x78 - 0x64 - sizeof(OBJECT *)];
-    int      field_78;
-    char     pad4[0x130 - 0x78 - sizeof(int)];
-    SVECTOR  field_130;
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "../jeep_system.h"
 
 
 extern int  s19b_dword_800C39E0;
@@ -60,7 +44,7 @@ void s19b_jeep_mrl_800D3D30(Work *work)
     CONTROL *ctl = &work->control;
     OBJECT  *body;
     DG_OBJS *objs;
-    SVECTOR *jpos = &Takabe_JeepSystem.field_130;
+    SVECTOR *jpos = &Takabe_JeepSystem.meryl_head;
 
     s19b_jeep_mrl_800D47B8(work);
     body = &work->body;
@@ -122,7 +106,7 @@ int s19b_jeep_mrl_800D3E98(Work *work, int name, int arg2)
     GM_ActMotion(&work->body);
     GM_ConfigMotionAdjust(body, work->adjust);
     work->target = GM_AllocTarget();
-    Takabe_JeepSystem.field_64 = body;
+    Takabe_JeepSystem.meryl_body = body;
     ctl->r_sphere = -2;
     return 0;
 }
@@ -236,7 +220,7 @@ void s19b_jeep_mrl_800D4290(Work *work, int arg1)
         work->field_7FC = 0;
         GM_ConfigObjectAction(&work->body, 0, 0, 4);
     }
-    if ((Takabe_JeepSystem.field_4C & 1) && GV_RandU(0x100) < 0x14)
+    if ((Takabe_JeepSystem.flags & 1) && GV_RandU(0x100) < 0x14)
     {
         GM_SeSet(&work->control.mov, work->field_81C);
     }
@@ -412,7 +396,7 @@ void s19b_jeep_mrl_800D4744(Work *work)
 
 void s19b_jeep_mrl_800D47B8(Work *work)
 {
-    work->field_800 = Takabe_JeepSystem.field_50;
-    Takabe_JeepSystem.field_50 &= 0xFFFF0000;
+    work->field_800 = Takabe_JeepSystem.mrl_flags;
+    Takabe_JeepSystem.mrl_flags &= 0xFFFF0000;
     s19b_jeep_mrl_800D4744(work);
 }

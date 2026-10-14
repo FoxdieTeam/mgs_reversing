@@ -73,7 +73,7 @@ void s19b_jeep_liq_800D7114(Work *work)
     ((void (*)(Work *))work->field_3F8)(work);
     s19b_jeep_liq_800D6FB8(work);
 
-    state = Takabe_JeepSystem.field_40;
+    state = Takabe_JeepSystem.seg_event;
     if (state != 0)
     {
         if (state == 6)
@@ -184,7 +184,7 @@ void s19b_jeep_liq_800D7468(Work *work)
         work->field_3C8 = 0;
         work->field_3CC = 1;
         work->field_3C0 = 1;
-        Takabe_JeepSystem.field_54 |= 0x20000;
+        Takabe_JeepSystem.liq_flags |= 0x20000;
         GM_GameStatus |= 0x104A2000;
         s19b_jlamp_800D0A20(1);
         /* fallthrough */
@@ -287,14 +287,14 @@ int s19b_jeep_liq_800D771C(int center, int from, int to)
 }
 void s19b_jeep_liq_800D77F0(Work *work)
 {
-    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    int v = work->field_360 - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_800D399C();
     work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0x753, v);
     work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
 }
 void s19b_jeep_liq_800D7860(Work *work)
 {
-    int s1 = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    int s1 = work->field_360 - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     int a1 = s19b_jeep_800D399C();
 
     if (work->field_3D4 == 0)
@@ -308,12 +308,12 @@ void s19b_jeep_liq_800D7860(Work *work)
             work->field_3A8 = v0;
             work->field_3B0 = v0;
             work->field_3D4 = 0x3c;
-            Takabe_JeepSystem.field_54 |= 2;
+            Takabe_JeepSystem.liq_flags |= 2;
         }
         else if (s1 >= 0x5dd)
         {
             work->field_3B0 = GV_NearSpeed(work->field_3B0, a1 + 0x32, 7);
-            Takabe_JeepSystem.field_54 |= 0x1000;
+            Takabe_JeepSystem.liq_flags |= 0x1000;
         }
     }
     else
@@ -325,28 +325,28 @@ void s19b_jeep_liq_800D7860(Work *work)
 }
 void s19b_jeep_liq_800D797C(Work *work)
 {
-    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    int v = work->field_360 - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_800D399C();
     work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0, v);
     work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
 }
 void s19b_jeep_liq_800D79EC(Work *work)
 {
-    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    int v = work->field_360 - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_800D399C();
     work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, -0x177, v);
     work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
 }
 void s19b_jeep_liq_800D7A5C(Work *work)
 {
-    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    int v = work->field_360 - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_800D399C();
     work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0xbb8, v);
     work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
 }
 void s19b_jeep_liq_800D7ACC(Work *work)
 {
-    int v = work->field_360 - (Takabe_JeepSystem.field_30 - Takabe_JeepSystem.field_24);
+    int v = work->field_360 - (Takabe_JeepSystem.world_pos.vz - Takabe_JeepSystem.offset.vz);
     s19b_jeep_800D399C();
     work->field_3B0 = s19b_jeep_liq_800D771C(work->field_3B0, 0x1194, v);
     work->field_3A8 = GV_NearSpeed(work->field_3A8, work->field_3B0, 5);
@@ -482,7 +482,7 @@ void s19b_jeep_liq_800D7E2C(Work *work)
             work->field_3A0 = r;
             if (r == work->field_3A4)
             {
-                Takabe_JeepSystem.field_54 |= 0x2000;
+                Takabe_JeepSystem.liq_flags |= 0x2000;
             }
         }
         break;
@@ -523,7 +523,7 @@ void s19b_jeep_liq_800D7F20(Work *work)
             work->field_3A0 = r;
             if (r == work->field_3A4)
             {
-                Takabe_JeepSystem.field_54 |= 0x2000;
+                Takabe_JeepSystem.liq_flags |= 0x2000;
             }
         }
         break;
@@ -559,7 +559,7 @@ void s19b_jeep_liq_800D8044(Work *work)
     SVECTOR sp10;
 
     s19b_jeep_800D39B4(&sp10);
-    if (Takabe_JeepSystem.field_5C != 0 && work->field_3F0 >= 0x15)
+    if (Takabe_JeepSystem.has_homing_target != 0 && work->field_3F0 >= 0x15)
     {
         work->field_3F0 = 0;
         if (work->field_3A0 > 0)
@@ -570,7 +570,7 @@ void s19b_jeep_liq_800D8044(Work *work)
         {
             s19b_jeep_liq_800D7B3C(work, (int)s19b_jeep_liq_800D7F20);
         }
-        Takabe_JeepSystem.field_54 |= 0x1000;
+        Takabe_JeepSystem.liq_flags |= 0x1000;
         GM_SeSet((SVECTOR *)&work->prim, s19b_dword_800C3A9C[GV_RandU(4)]);
     }
     else
@@ -625,7 +625,7 @@ void s19b_jeep_liq_800D8250(Work *work)
     OBJECT  *body = &work->obj;
     CONTROL *ctl = &work->ctrl;
     DG_OBJS *objs;
-    SVECTOR *jpos = &Takabe_JeepSystem.field_138;
+    SVECTOR *jpos = &Takabe_JeepSystem.liq_pos;
     SVECTOR  pos = s19b_dword_800DDE60;
 
     GM_ActMotion(body);
@@ -690,7 +690,7 @@ int s19b_jeep_liq_800D8420(Work *work, int name)
     {
         homing->flag = 1;
     }
-    Takabe_JeepSystem.field_68 = body;
+    Takabe_JeepSystem.liq_body = body;
     ctl->r_sphere = -2;
     work->f90C = 0;
     work->f910 = 0;

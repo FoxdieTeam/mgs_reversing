@@ -103,7 +103,7 @@ void s19b_jeep_800D2258(JeepWork *work)
 
             if (work->field_3E4 == 0)
             {
-                Takabe_JeepSystem.flags_50 |= 0x20200;
+                Takabe_JeepSystem.mrl_flags |= 0x20200;
             }
 
             work->field_3E4 = 5;
@@ -190,7 +190,7 @@ void s19b_jeep_800D2258(JeepWork *work)
     if (work->vibrate_timer != 0)
     {
         work->vibrate_timer--;
-        Takabe_JeepSystem.flags_50 |= 2;
+        Takabe_JeepSystem.mrl_flags |= 2;
         Takabe_JeepSystem.flags |= 2;
     }
 
@@ -198,7 +198,7 @@ void s19b_jeep_800D2258(JeepWork *work)
     {
         if (--work->field_3E4 == 0)
         {
-            Takabe_JeepSystem.flags_50 &= ~0x20200;
+            Takabe_JeepSystem.mrl_flags &= ~0x20200;
         }
     }
 }
@@ -302,7 +302,7 @@ int s19b_jeep_800D2880(JeepWork *work, int name, int map)
     Takabe_JeepSystem.offset.vx = -work->speed.vx;
     Takabe_JeepSystem.offset.vy = -work->speed.vy;
     Takabe_JeepSystem.offset.vz = -work->speed.vz;
-    Takabe_JeepSystem.pos = Takabe_JeepSystem.offset;
+    Takabe_JeepSystem.scroll = Takabe_JeepSystem.offset;
 
     work->field_3E8 = work->field_3D0 = work->field_3D4 = 400;
     work->field_3CC = 0;
@@ -318,7 +318,7 @@ int s19b_jeep_800D2880(JeepWork *work, int name, int map)
     Takabe_JeepSystem.control = control;
     Takabe_JeepSystem.rot = rot;
     Takabe_JeepSystem.body = body;
-    Takabe_JeepSystem.flags_50 |= 0x10000;
+    Takabe_JeepSystem.mrl_flags |= 0x10000;
 
     NewJeepLamp2(&body->objs->world);
     GM_SeSet(NULL, 0xC0);
@@ -420,22 +420,22 @@ void s19b_jeep_800D2E78(JeepWork *work)
     }
     work->field_3C8 = GV_NearSpeed(work->field_3C8, work->field_3CA, 0x1E);
 
-    if (Takabe_JeepSystem.field_40 == 0)
+    if (Takabe_JeepSystem.seg_event == 0)
     {
     }
-    else if (Takabe_JeepSystem.field_40 == 1)
-    {
-        work->func_3F8 = s19b_jeep_800D2F54;
-    }
-    else if (Takabe_JeepSystem.field_40 == 3)
+    else if (Takabe_JeepSystem.seg_event == 1)
     {
         work->func_3F8 = s19b_jeep_800D2F54;
     }
-    else if (Takabe_JeepSystem.field_40 == 6)
+    else if (Takabe_JeepSystem.seg_event == 3)
+    {
+        work->func_3F8 = s19b_jeep_800D2F54;
+    }
+    else if (Takabe_JeepSystem.seg_event == 6)
     {
         work->func_3F8 = s19b_jeep_800D36A4;
     }
-    else if (Takabe_JeepSystem.field_40 == 7)
+    else if (Takabe_JeepSystem.seg_event == 7)
     {
         work->func_3F8 = s19b_jeep_800D37D0;
     }
@@ -461,7 +461,7 @@ void s19b_jeep_800D2F54(JeepWork *work)
         {
             work->field_3DC = 2;
             work->field_3A8 = work->speed;
-            Takabe_JeepSystem.flags_50 |= 0x20020;
+            Takabe_JeepSystem.mrl_flags |= 0x20020;
             GM_SeSet(&ctl->mov, 0xB6);
             NewPadVibration(s19b_dword_800C39B0, 2);
             GM_SetSound(0xFF0000FE, 0);
@@ -490,8 +490,8 @@ void s19b_jeep_800D2F54(JeepWork *work)
         if (work->speed.vx == 0 && work->speed.vz == 0)
         {
             work->field_3DC = 3;
-            Takabe_JeepSystem.flags_50 &= 0xFFFDFFDF;
-            Takabe_JeepSystem.flags_50 &= 0xFFFEFFFF;
+            Takabe_JeepSystem.mrl_flags &= 0xFFFDFFDF;
+            Takabe_JeepSystem.mrl_flags &= 0xFFFEFFFF;
             work->field_3CC = 0;
         }
         break;
@@ -543,8 +543,8 @@ void s19b_jeep_800D32C4(JeepWork *work)
         work->field_3DC = 1;
         work->field_3CC = 0;
         work->field_3EC = -300;
-        Takabe_JeepSystem.flags_50 |= 0x20020;
-        Takabe_JeepSystem.flags_50 |= 0x10000;
+        Takabe_JeepSystem.mrl_flags |= 0x20020;
+        Takabe_JeepSystem.mrl_flags |= 0x10000;
         GM_SeSet(&ctl->mov, 0xBB);
         NewPadVibration(s19b_dword_800C39A0, 2);
         /* fallthrough */
@@ -575,7 +575,7 @@ void s19b_jeep_800D32C4(JeepWork *work)
             work->field_3DC = 5;
             GM_SeSet(&ctl->mov, 0xB4);
             NewPadVibration(s19b_dword_800C39A0, 2);
-            Takabe_JeepSystem.flags_50 = (Takabe_JeepSystem.flags_50 & 0xFFFDFFDF) | 0x200;
+            Takabe_JeepSystem.mrl_flags = (Takabe_JeepSystem.mrl_flags & 0xFFFDFFDF) | 0x200;
         }
         break;
     case 3:

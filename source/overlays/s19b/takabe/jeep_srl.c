@@ -6,31 +6,7 @@
 #include "libgcl/libgcl.h"
 #include "takabe/thing.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    SVECTOR  field_20;
-    int      field_28;
-    int      field_2C;
-    int      field_30;
-    char     pad3[0x38 - 0x30 - sizeof(int)];
-    SVECTOR  field_38;
-    int      field_40;
-    int      field_44;
-    int      field_48;
-    char     pad4[0x60 - 0x48 - sizeof(int)];
-    OBJECT  *body;
-    char     pad5[0x78 - 0x60 - sizeof(OBJECT *)];
-    int      field_78;
-    int      field_7C;
-    MATRIX   world;
-    char     pad6[0xCC];
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "jeep_system.h"
 
 
 typedef struct _JeepScrollSeg
@@ -186,11 +162,11 @@ void s19b_jeep_srl_800CD638(Work *work, int *out)
     {
         if (--work->field_C54 == 0)
         {
-            Takabe_JeepSystem.field_40 = p[7];
+            Takabe_JeepSystem.seg_event = p[7];
         }
         else
         {
-            Takabe_JeepSystem.field_40 = 0;
+            Takabe_JeepSystem.seg_event = 0;
         }
         if (--work->field_C50 == 0)
         {
@@ -207,7 +183,7 @@ void s19b_jeep_srl_800CD638(Work *work, int *out)
     }
     else
     {
-        Takabe_JeepSystem.field_40 = 0;
+        Takabe_JeepSystem.seg_event = 0;
         if (Takabe_JeepSystem.field_44 != 0)
         {
             Takabe_JeepSystem.field_44--;
@@ -316,7 +292,7 @@ void s19b_jeep_srl_800CDAA4(Work *work)
         }
         work->field_C68 = 1;
     }
-    Takabe_JeepSystem.pos = Takabe_JeepSystem.field_20;
+    Takabe_JeepSystem.scroll = Takabe_JeepSystem.offset;
     count = work->field_C44;
     *count = 0;
     vtx = (JeepVtx *)(count + 1);
@@ -327,7 +303,7 @@ void s19b_jeep_srl_800CDAA4(Work *work)
     for (i = 0; i < 16; i++)
     {
         seg = &work->segs[i];
-        z = seg->pos.vz + Takabe_JeepSystem.pos.vz;
+        z = seg->pos.vz + Takabe_JeepSystem.scroll.vz;
         if (z >= 32000)
         {
             s19b_jeep_srl_800CD638(work, out);
@@ -348,8 +324,8 @@ void s19b_jeep_srl_800CDAA4(Work *work)
             seg->pos.vy += seg->field_8.vy;
             if (k < i)
             {
-                seg->pos.vx -= Takabe_JeepSystem.pos.vx;
-                seg->pos.vy -= Takabe_JeepSystem.pos.vy;
+                seg->pos.vx -= Takabe_JeepSystem.scroll.vx;
+                seg->pos.vy -= Takabe_JeepSystem.scroll.vy;
             }
             work->field_C6C = i;
             s19b_jeep_gls_800CE5F8(seg->field_18);
@@ -357,16 +333,16 @@ void s19b_jeep_srl_800CDAA4(Work *work)
             seg->field_1C = (int *)work->lights[out[0]].lit;
             seg->field_20 = (struct _JeepSegDef *)work->lights[out[0]].field_C;
             seg->pos.vz = z;
-            seg->pos.vx += Takabe_JeepSystem.pos.vx;
-            seg->pos.vy += Takabe_JeepSystem.pos.vy;
+            seg->pos.vx += Takabe_JeepSystem.scroll.vx;
+            seg->pos.vy += Takabe_JeepSystem.scroll.vy;
             s19b_jeep_gls_800CEE7C(work, out[3], &seg->pos);
             s19b_jeep_gls_800CEFE4(work, out[0], seg);
         }
         else
         {
             seg->pos.vz = z;
-            seg->pos.vx += Takabe_JeepSystem.pos.vx;
-            seg->pos.vy += Takabe_JeepSystem.pos.vy;
+            seg->pos.vx += Takabe_JeepSystem.scroll.vx;
+            seg->pos.vy += Takabe_JeepSystem.scroll.vy;
         }
     }
     SetSpadStack(SPAD_STACK_ADDR);
@@ -407,9 +383,9 @@ void s19b_jeep_srl_800CDAA4(Work *work)
             work->field_C80 = 1;
         }
     }
-    Takabe_JeepSystem.world.t[0] += Takabe_JeepSystem.pos.vx;
-    Takabe_JeepSystem.world.t[1] += Takabe_JeepSystem.pos.vy;
-    Takabe_JeepSystem.world.t[2] += Takabe_JeepSystem.pos.vz;
+    Takabe_JeepSystem.world.t[0] += Takabe_JeepSystem.scroll.vx;
+    Takabe_JeepSystem.world.t[1] += Takabe_JeepSystem.scroll.vy;
+    Takabe_JeepSystem.world.t[2] += Takabe_JeepSystem.scroll.vz;
 }
 void s19b_jeep_srl_800CDAA4(Work *work);
 
@@ -463,11 +439,11 @@ int s19b_jeep_srl_800CE020(Work *work, int name, int where)
     work->field_C60 = 0;
     work->field_C68 = 0;
     work->field_C6C = 0;
-    Takabe_JeepSystem.field_20 = DG_ZeroVector;
-    Takabe_JeepSystem.pos = Takabe_JeepSystem.field_20;
-    Takabe_JeepSystem.field_30 = 0;
-    Takabe_JeepSystem.field_2C = 0;
-    Takabe_JeepSystem.field_28 = 0;
+    Takabe_JeepSystem.offset = DG_ZeroVector;
+    Takabe_JeepSystem.scroll = Takabe_JeepSystem.offset;
+    Takabe_JeepSystem.world_pos.vz = 0;
+    Takabe_JeepSystem.world_pos.vy = 0;
+    Takabe_JeepSystem.world_pos.vx = 0;
     seg = work->segs;
     for (i = 0, z = -31500; i < 16; seg++, i++, z += 4000)
     {
@@ -484,8 +460,8 @@ int s19b_jeep_srl_800CE020(Work *work, int name, int where)
         seg->pos.vz = z;
         seg->field_24 = 1;
         seg->field_28 = 0;
-        Takabe_JeepSystem.field_38 = seg->pos;
-        if (Takabe_JeepSystem.field_38.vz < 16000)
+        Takabe_JeepSystem.seg_pos = seg->pos;
+        if (Takabe_JeepSystem.seg_pos.vz < 16000)
         {
             s19b_jeep_gls_800CEFE4(work, 0, seg);
         }
@@ -713,7 +689,7 @@ void s19b_jeep_gls_800CE8DC(struct _Work *work, JeepScrollSeg *road, int do_segs
             s19b_jeep_gls_800CE8B8(&face->v[3], vec++);
             DG_PutVector(verts, verts, 4);
 
-            if (Takabe_JeepSystem.pos.vz != 0)
+            if (Takabe_JeepSystem.scroll.vz != 0)
             {
                 s19b_jeep_gls_800CE628(&road->pos, verts, work->field_4B8, road->field_24 & 2);
             }
@@ -743,7 +719,7 @@ void s19b_jeep_gls_800CE8DC(struct _Work *work, JeepScrollSeg *road, int do_segs
                 verts[0].pad = line->v[0].pad / 2;
                 verts[1].pad = line->v[1].pad / 2;
 
-                if (Takabe_JeepSystem.pos.vz != 0)
+                if (Takabe_JeepSystem.scroll.vz != 0)
                 {
                     s19b_jeep_gls_800CE83C(vec, (SVECTOR *)work->field_93C);
                 }
@@ -827,10 +803,10 @@ void s19b_jeep_gls_800CEE7C(Work *work, int arg1, SVECTOR *pos)
     int      state;
     int      proc_id;
     
-    Takabe_JeepSystem.field_38 = *pos;
-    state = Takabe_JeepSystem.field_40;
+    Takabe_JeepSystem.seg_pos = *pos;
+    state = Takabe_JeepSystem.seg_event;
 
-    GV_SubVec3(pos, &Takabe_JeepSystem.pos, &diff);
+    GV_SubVec3(pos, &Takabe_JeepSystem.scroll, &diff);
 
     if (state == 2)
     {
@@ -877,7 +853,7 @@ void s19b_jeep_gls_800CEFE4(Work *work, int disable, JeepScrollSeg *seg)
     SVECTOR diff;
     SVECTOR pos;
 
-    GV_SubVec3(&Takabe_JeepSystem.field_38, &Takabe_JeepSystem.pos, &diff);
+    GV_SubVec3(&Takabe_JeepSystem.seg_pos, &Takabe_JeepSystem.scroll, &diff);
 
     if (disable == 0)
     {

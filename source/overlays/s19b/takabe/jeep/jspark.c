@@ -2,19 +2,7 @@
 
 #include "game/game.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x40];
-    OBJECT  *body;
-    char     pad4[0x1C];
-    MATRIX   world;
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "../jeep_system.h"
 
 typedef struct _Work
 {
@@ -209,9 +197,9 @@ static void Act(Work *work)
 
     GM_CurrentMap = work->map;
 
-    work->world.t[0] += Takabe_JeepSystem.pos.vx;
-    work->world.t[1] += Takabe_JeepSystem.pos.vy;
-    work->world.t[2] += Takabe_JeepSystem.pos.vz;
+    work->world.t[0] += Takabe_JeepSystem.scroll.vx;
+    work->world.t[1] += Takabe_JeepSystem.scroll.vy;
+    work->world.t[2] += Takabe_JeepSystem.scroll.vz;
 
     DG_SetPos(&work->world);
     DG_PutPrim(work->prim);

@@ -2,6 +2,7 @@
 #define __MGS_TAKABE_JEEP_LIQ_H__
 
 #include "game/game.h"
+#include "../jeep_system.h"
 
 typedef struct _Work
 {
@@ -79,31 +80,6 @@ typedef struct _Work
     int             f940;         /* 0x940 */
     int            *f944;         /* 0x944 */
 } Work;
-
-typedef struct _JEEP_SYSTEM_S
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3a[0x24 - 0x18 - sizeof(SVECTOR)];
-    short    field_24;
-    char     pad3b[0x30 - 0x24 - sizeof(short)];
-    int      field_30;
-    char     pad3c[0x40 - 0x30 - sizeof(int)];
-    int      field_40;
-    int      field_44;
-    char     pad3d[0x54 - 0x44 - sizeof(int)];
-    int      field_54;
-    char     pad5c[0x5C - 0x54 - sizeof(int)];
-    int      field_5C;
-    char     pad60[0x68 - 0x5C - sizeof(int)];
-    OBJECT  *field_68;
-    char     pad6C[0x138 - 0x68 - sizeof(OBJECT *)];
-    SVECTOR  field_138;
-} JEEP_SYSTEM_S;
-
-extern JEEP_SYSTEM_S Takabe_JeepSystem;
 
 /* jeep_liq.c */
 void s19b_jeep_liq_800D6FB8(Work *work);

@@ -47,21 +47,7 @@ typedef struct _Jeep2Work
     /* +0x3F8 */ void          *field_3F8;
 } Jeep2Work;
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad_0[0xC];
-    int      field_C;    /* 0x0C */
-    CONTROL *field_10;   /* 0x10 */
-    SVECTOR *field_14;   /* 0x14 */
-    char     pad_18[0x28 - 0x14 - sizeof(SVECTOR *)];
-    VECTOR   field_28;   /* 0x28 */
-    char     pad_38[0x54 - 0x28 - sizeof(VECTOR)];
-    int      field_54;   /* 0x54 */
-    char     pad_58[0x70 - 0x54 - sizeof(int)];
-    OBJECT  *field_70;   /* 0x70 */
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "jeep_system.h"
 
 extern void  s19b_jeep_gls_800CEC24(int arg0, SVECTOR *out);
 extern void  s19b_jeep_liq_800D76B0(void *work);
@@ -92,8 +78,8 @@ void s19b_jeep2_800D667C(Jeep2Work *work)
     work->field_358.vz += work->field_378.vz;
 
     control = &work->control;
-    control->mov.vx = work->field_358.vx - Takabe_JeepSystem.field_28.vx;
-    control->mov.vz = work->field_358.vz - Takabe_JeepSystem.field_28.vz;
+    control->mov.vx = work->field_358.vx - Takabe_JeepSystem.world_pos.vx;
+    control->mov.vz = work->field_358.vz - Takabe_JeepSystem.world_pos.vz;
 
     if (work->field_3C4 != 0)
     {
@@ -279,7 +265,7 @@ int s19b_jeep2_800D6B18(Jeep2Work *work, int name, int where)
 
     work->field_390 = work->control.rot;
 
-    work->field_358 = Takabe_JeepSystem.field_28;
+    work->field_358 = Takabe_JeepSystem.world_pos;
     work->field_358.vz += 20000;
     work->field_368 = work->field_358;
     work->field_368.vz += 400;
@@ -295,11 +281,11 @@ int s19b_jeep2_800D6B18(Jeep2Work *work, int name, int where)
     work->field_3B4 = 0;
     work->field_3B8 = 0;
 
-    z = work->field_358.vz - Takabe_JeepSystem.field_28.vz;
+    z = work->field_358.vz - Takabe_JeepSystem.world_pos.vz;
     control->mov.vz = z;
     s19b_jeep_gls_800CEC24(z, &vec);
     control->mov.vx = vec.vx;
-    work->field_358.vx = vec.vx + Takabe_JeepSystem.field_28.vx;
+    work->field_358.vx = vec.vx + Takabe_JeepSystem.world_pos.vx;
     control->mov.vy = vec.vy;
 
     work->field_3D0 = (void *)s19b_jeep_liq_800D76B0;
@@ -319,11 +305,11 @@ int s19b_jeep2_800D6B18(Jeep2Work *work, int name, int where)
     work->field_20 = s19b_spark2_m_800D8670(control, (DG_PRIM *)work->jeep_b.objs, &work->field_3C4);
     NewJeepLamp2(&work->jeep_b.objs->world);
 
-    Takabe_JeepSystem.field_C  = 1;
-    Takabe_JeepSystem.field_10 = control;
-    Takabe_JeepSystem.field_14 = rot;
-    Takabe_JeepSystem.field_54 = 0x10000;
-    Takabe_JeepSystem.field_70 = &work->jeep_b;
+    Takabe_JeepSystem.active2  = 1;
+    Takabe_JeepSystem.control2 = control;
+    Takabe_JeepSystem.rot2 = rot;
+    Takabe_JeepSystem.liq_flags = 0x10000;
+    Takabe_JeepSystem.body2 = &work->jeep_b;
     return 0;
 }
 

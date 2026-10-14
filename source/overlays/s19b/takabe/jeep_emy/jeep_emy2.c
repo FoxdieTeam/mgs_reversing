@@ -1,19 +1,6 @@
 #include "game/game.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x40];
-    OBJECT  *body;
-    char     pad4[0x18];
-    int      field_7C;
-    MATRIX   world;
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "../jeep_system.h"
 
 /* TODO: Commonise */
 struct _Work;

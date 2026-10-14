@@ -47,7 +47,7 @@ int s19b_spark2_m_800D87A4(Work *work)
         GM_SeSet((SVECTOR *)&work->ctrl, 0x81);
 
         /* both arms spell out the same tail: cross-jumping merges it back */
-        if (!(Takabe_JeepSystem.field_54 & 0x20000))
+        if (!(Takabe_JeepSystem.liq_flags & 0x20000))
         {
             work->f8EC = (void *)s19b_spark2_m_800D9390;
             work->f8F4 = 0;
@@ -652,7 +652,7 @@ void s19b_spark2_m_800D964C(Work *work)
 
 int s19b_spark2_m_800D9680(Work *work)
 {
-    int js = Takabe_JeepSystem.field_54;
+    int js = Takabe_JeepSystem.liq_flags;
 
     if (js & 0x1000)
     {
@@ -813,7 +813,7 @@ void s19b_spark2_m_800D9910(Work *work)
 
 void s19b_spark2_m_800D99C4(Work *work)
 {
-    int js = Takabe_JeepSystem.field_54;
+    int js = Takabe_JeepSystem.liq_flags;
     work->f900 |= 0x10;
     if (work->f918 >= 61 || (js & 0x2000))
     {
@@ -830,7 +830,7 @@ void s19b_spark2_m_800D99C4(Work *work)
 
 void s19b_spark2_m_800D9A30(Work *work)
 {
-    if (Takabe_JeepSystem.field_54 & 0x1000)
+    if (Takabe_JeepSystem.liq_flags & 0x1000)
     {
         work->f914 = 4;
         work->f918 = 0;
@@ -845,7 +845,7 @@ void s19b_spark2_m_800D9A30(Work *work)
 void s19b_spark2_m_800D9A74(Work *work)
 {
     int new_f900 = work->f900 | 0x10;
-    int js = Takabe_JeepSystem.field_54;
+    int js = Takabe_JeepSystem.liq_flags;
     work->f900 = new_f900;
     if (js & 0x2000)
     {
@@ -898,7 +898,7 @@ void s19b_spark2_m_800D9B88(Work *work)
     case 1: s19b_spark2_m_800D9B38(work); break;
     }
 
-    if (Takabe_JeepSystem.field_54 & 0x10000000)
+    if (Takabe_JeepSystem.liq_flags & 0x10000000)
     {
         work->f910 = 1;
     }
@@ -923,7 +923,7 @@ void s19b_spark2_m_800D9C04(Work *work)
         s19b_spark2_m_800D9B88(work);
     }
 
-    Takabe_JeepSystem.field_54 &= 0xFFFF0000;
+    Takabe_JeepSystem.liq_flags &= 0xFFFF0000;
     work->f920 += 1;
 }
 
@@ -1162,9 +1162,9 @@ static void Act(SparkWork *work)
 
     ShadePacks(prim->packs[GV_Clock], 16, shade);
 
-    work->world.t[0] += Takabe_JeepSystem.pos.vx;
-    work->world.t[1] += Takabe_JeepSystem.pos.vy;
-    work->world.t[2] += Takabe_JeepSystem.pos.vz;
+    work->world.t[0] += Takabe_JeepSystem.scroll.vx;
+    work->world.t[1] += Takabe_JeepSystem.scroll.vy;
+    work->world.t[2] += Takabe_JeepSystem.scroll.vz;
 
     DG_SetPos(&work->world);
     DG_PutPrim(work->prim);
@@ -1228,5 +1228,5 @@ void *NewSpark2M(MATRIX *world)
 
 void s19b_fadeio_800DA784(void)
 {
-    GV_ZeroMemory(&Takabe_JeepSystem, 0x16C);
+    GV_ZeroMemory(&Takabe_JeepSystem, sizeof(Takabe_JeepSystem));
 }

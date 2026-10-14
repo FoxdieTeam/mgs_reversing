@@ -5,22 +5,7 @@
 #include "libgcl/libgcl.h"
 #include "takabe/thing.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x18];
-    SVECTOR  field_38;
-    char     pad4[0x20];
-    OBJECT  *body;
-    char     pad5[0x18];
-    int      field_7C;
-    MATRIX   world;
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "../jeep_system.h"
 
 struct _Work;
 typedef void (*JBULLET_FN)(struct _Work *, int);
@@ -121,14 +106,14 @@ static void Act(Work *work)
     int      n_models;
 
     control = &work->control;
-    GV_AddVec3(&control->mov, &Takabe_JeepSystem.pos, &control->mov);
-    GV_AddVec3(&work->field_8EC, &Takabe_JeepSystem.pos, &work->field_8EC);
-    GV_AddVec3(&work->field_8F4, &Takabe_JeepSystem.pos, &work->field_8F4);
+    GV_AddVec3(&control->mov, &Takabe_JeepSystem.scroll, &control->mov);
+    GV_AddVec3(&work->field_8EC, &Takabe_JeepSystem.scroll, &work->field_8EC);
+    GV_AddVec3(&work->field_8F4, &Takabe_JeepSystem.scroll, &work->field_8F4);
 
     vec = work->field_900;
     for (i = work->field_8FC; i > 0; i--, vec++)
     {
-        GV_AddVec3(vec, &Takabe_JeepSystem.pos, vec);
+        GV_AddVec3(vec, &Takabe_JeepSystem.scroll, vec);
     }
 
     if (control->mov.vz > 16000)
@@ -214,7 +199,7 @@ static void GetMidpoint(SVECTOR *vec)
     vec->vx /= 2;
     vec->vy /= 2;
     vec->vz /= 2;
-    GV_AddVec3(vec, &Takabe_JeepSystem.field_38, vec);
+    GV_AddVec3(vec, &Takabe_JeepSystem.seg_pos, vec);
 }
 
 static int GetResources(Work *work, int name, int where)

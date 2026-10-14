@@ -2,42 +2,7 @@
 #include "game/camera.h"
 #include "takabe/cinema.h"
 
-struct _DemoCam;
-
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3a[0x4C - 0x20];
-    int      field_4C;
-    char     pad3b[0x54 - 0x4C - sizeof(int)];
-    int      field_54;
-    char     pad4[0x8];
-    OBJECT  *body;
-    char     pad5a[0x6C - 0x64];
-    MATRIX **field_6C;
-    MATRIX **field_70;
-    char     pad5b[0x7C - 0x70 - sizeof(MATRIX **)];
-    int      field_7C;
-    MATRIX   world;
-    char     pad6[0x88];
-    int      field_128;
-    char     pad7[0x130 - 0x128 - sizeof(int)];
-    int      field_130;
-    char     pad8[0x138 - 0x130 - sizeof(int)];
-    SVECTOR  field_138;
-    SVECTOR  field_140;
-    SVECTOR  field_148;
-    MATRIX  *field_150;
-    SVECTOR  field_154;
-    MATRIX  *field_15C;
-    SVECTOR  field_160;
-    struct _DemoCam *field_168;
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "../jeep_system.h"
 
 typedef struct _Work
 {
@@ -84,30 +49,30 @@ void s19b_jlamp_800D0648(SVECTOR *from, SVECTOR *to, SVECTOR *ang, int *len)
 void s19b_jlamp_800D06E0(Work *work)
 {
     NewCinemaScreen(300, 0);
-    work->field_44 = &Takabe_JeepSystem.field_128;
-    Takabe_JeepSystem.field_54 |= 0x10000000;
+    work->field_44 = &Takabe_JeepSystem.camera_pos;
+    Takabe_JeepSystem.liq_flags |= 0x10000000;
 }
 
 extern void Voicesys_800CE2D0(void);
 
 void s19b_jlamp_800D072C(Work *work)
 {
-    Takabe_JeepSystem.field_4C |= 0x10000;
-    work->field_40 = &Takabe_JeepSystem.field_140;
-    Takabe_JeepSystem.field_150 = *Takabe_JeepSystem.field_6C;
-    Takabe_JeepSystem.field_154 = s19b_dword_800C3760;
-    work->field_44 = &Takabe_JeepSystem.field_148;
-    Takabe_JeepSystem.field_15C = *Takabe_JeepSystem.field_70;
-    Takabe_JeepSystem.field_160 = s19b_dword_800C3768;
+    Takabe_JeepSystem.flags |= 0x10000;
+    work->field_40 = &Takabe_JeepSystem.attach_pos[0];
+    Takabe_JeepSystem.attach[0].mtx = &Takabe_JeepSystem.body->objs->world;
+    Takabe_JeepSystem.attach[0].ofs = s19b_dword_800C3760;
+    work->field_44 = &Takabe_JeepSystem.attach_pos[1];
+    Takabe_JeepSystem.attach[1].mtx = &Takabe_JeepSystem.body2->objs->world;
+    Takabe_JeepSystem.attach[1].ofs = s19b_dword_800C3768;
     GM_SeSet(NULL, 0xC4);
 }
 void s19b_jlamp_800D07EC(Work *work)
 {
     Voicesys_800CE2D0();
-    work->field_44 = &Takabe_JeepSystem.field_138;
-    work->field_40 = &Takabe_JeepSystem.field_140;
-    Takabe_JeepSystem.field_150 = *Takabe_JeepSystem.field_70;
-    Takabe_JeepSystem.field_154 = s19b_dword_800C3770;
+    work->field_44 = &Takabe_JeepSystem.liq_pos;
+    work->field_40 = &Takabe_JeepSystem.attach_pos[0];
+    Takabe_JeepSystem.attach[0].mtx = &Takabe_JeepSystem.body2->objs->world;
+    Takabe_JeepSystem.attach[0].ofs = s19b_dword_800C3770;
     s19b_dword_800DE5B8 = (int)NewBlurSet(0, 0, 0);
     s19b_jlamp_800D0FE4(1);
 }
@@ -115,22 +80,22 @@ void s19b_jlamp_800D07EC(Work *work)
 void s19b_jlamp_800D087C(void)
 {
     GV_DestroyActorQuick((GV_ACT *)s19b_dword_800DE5B8);
-    Takabe_JeepSystem.field_4C = (Takabe_JeepSystem.field_4C & ~0x10000) | 0x20000;
+    Takabe_JeepSystem.flags = (Takabe_JeepSystem.flags & ~0x10000) | 0x20000;
 }
 void s19b_jlamp_800D08C8(Work *work)
 {
-    work->field_44 = &Takabe_JeepSystem.field_128;
+    work->field_44 = &Takabe_JeepSystem.camera_pos;
     Voicesys_800CE2D0();
 }
 void s19b_jlamp_800D08F0(void)
 {
     GM_GameStatus &= ~0x40000000;
-    Takabe_JeepSystem.field_54 &= ~0x10000000;
+    Takabe_JeepSystem.liq_flags &= ~0x10000000;
 }
 void s19b_jlamp_800D0928(Work *work)
 {
-    work->field_44 = &Takabe_JeepSystem.field_130;
-    Takabe_JeepSystem.field_4C |= 0x40000;
+    work->field_44 = &Takabe_JeepSystem.meryl_head;
+    Takabe_JeepSystem.flags |= 0x40000;
 }
 void s19b_jlamp_800D094C(void)
 {
@@ -143,13 +108,13 @@ void s19b_jlamp_800D0970(void)
 }
 void s19b_jlamp_800D0990(Work *work)
 {
-    work->field_44 = &Takabe_JeepSystem.field_138;
+    work->field_44 = &Takabe_JeepSystem.liq_pos;
     Voicesys_800CE2D0();
 }
 void s19b_jlamp_800D09B8(Work *work)
 {
     work->field_44 = NULL;
-    Takabe_JeepSystem.field_4C &= ~0x40000;
+    Takabe_JeepSystem.flags &= ~0x40000;
 }
 void s19b_jlamp_800D09DC(void)
 {
@@ -163,10 +128,10 @@ extern GM_SnakeCameraWork  GM_SnakeCamera;
 typedef struct _DemoCamCmd
 {
     int frame;
-    void (*fn)(struct _DemoCam *);
+    void (*fn)(struct _DemoCamera *);
 } DemoCamCmd;
 
-typedef struct _DemoCam
+typedef struct _DemoCamera
 {
     GV_ACT      actor;
     SVECTOR     field_20;
@@ -196,19 +161,19 @@ void s19b_jlamp_800D0A20(int arg0)
         return;
     }
     js = &Takabe_JeepSystem;
-    if (js->field_168 != NULL)
+    if (js->demo_camera != NULL)
     {
         return;
     }
     if (arg0 == 0)
     {
-        js->field_168 = NewDemoCamera(&s19b_dword_800C3778);
-        js->field_168->field_94 = (DemoCamCmd *)&s19b_dword_800C3898;
+        js->demo_camera = NewDemoCamera(&s19b_dword_800C3778);
+        js->demo_camera->field_94 = (DemoCamCmd *)&s19b_dword_800C3898;
     }
     else if (arg0 == 1)
     {
-        js->field_168 = NewDemoCamera(&s19b_dword_800C38D0);
-        js->field_168->field_94 = (DemoCamCmd *)&s19b_dword_800C3950;
+        js->demo_camera = NewDemoCamera(&s19b_dword_800C38D0);
+        js->demo_camera->field_94 = (DemoCamCmd *)&s19b_dword_800C3950;
     }
     else
     {
@@ -222,7 +187,7 @@ void s19b_jlamp_800D0ABC(void)
 {
     DemoCam *cam;
 
-    cam = Takabe_JeepSystem.field_168;
+    cam = Takabe_JeepSystem.demo_camera;
     if (cam == 0)
     {
         return;
@@ -242,15 +207,15 @@ void s19b_jlamp_800D0ABC(void)
 
     {
         JEEP_SYSTEM *js = &Takabe_JeepSystem;
-        if (js->field_150 != 0)
+        if (js->attach[0].mtx != 0)
         {
-            DG_SetPos(js->field_150);
-            DG_PutVector(&js->field_154, &js->field_140, 1);
+            DG_SetPos(js->attach[0].mtx);
+            DG_PutVector(&js->attach[0].ofs, &js->attach_pos[0], 1);
         }
-        if (js->field_15C != 0)
+        if (js->attach[1].mtx != 0)
         {
-            DG_SetPos(js->field_15C);
-            DG_PutVector(&js->field_160, &js->field_148, 1);
+            DG_SetPos(js->attach[1].mtx);
+            DG_PutVector(&js->attach[1].ofs, &js->attach_pos[1], 1);
         }
         GM_Camera.position = cam->field_20;
         GM_Camera.target = cam->field_28;
@@ -260,8 +225,8 @@ void s19b_jlamp_800D0ABC(void)
         if (cam->field_88 != 0)
         {
             GV_DestroyActor(&cam->actor);
-            js->field_168 = 0;
-            js->field_4C &= ~0x20000;
+            js->demo_camera = 0;
+            js->flags &= ~0x20000;
         }
     }
 }
