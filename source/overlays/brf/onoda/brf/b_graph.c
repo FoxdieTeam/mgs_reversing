@@ -1501,7 +1501,10 @@ void brf_800CF4A0(Work *work, int a, int b, int c, int d, int e, int f)
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF4E0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF5A8.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF984.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D00C4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D0234.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D02F4.s")
 void brf_800D1764(Work *work)
 {
     if (work->field_AD34 < 0xBE)
@@ -1628,6 +1631,7 @@ void brf_800D1AD8(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D1BDC.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D26E4.s")
 void brf_800D2E70(Work *work)
 {
     POLY_FT4 *base = work->field_28C;
@@ -1726,6 +1730,7 @@ void brf_800D2ED0(Work *work)
     work->field_AD38++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D30A0.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D3220.s")
 void brf_800D39F0(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 {
     int v = work->field_AD30 << 2;
@@ -1818,6 +1823,7 @@ void brf_800D3CB8(Work *work, int a1, int a2)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D3D8C.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D41A4.s")
 extern int brf_dword_800C37D4;
 
 void brf_800D45C4(Work *work)
@@ -2133,6 +2139,9 @@ void brf_800D493C(Work *work)
     work->field_AD34++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D49B8.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D4A34.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D52F0.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D5780.s")
 void brf_800D5CC4(Work *work)
 {
     POLY_FT4 *base = work->field_28C;
@@ -2190,6 +2199,8 @@ void brf_800D5DDC(Work *work)
     work->field_AD30++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D5E54.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D5ED0.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D674C.s")
 void brf_800D68D0(Work *work)
 {
     POLY_FT4 *base = work->field_28C;
@@ -2208,8 +2219,11 @@ void brf_800D68D0(Work *work)
     work->field_AD30++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D693C.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D69A8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D6F98.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D70A4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D75F0.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D8060.s")
 void brf_800D8274(Work *work)
 {
     int v = work->field_AD3C;
@@ -2452,6 +2466,7 @@ void brf_800D892C(Work *work)
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D8A24.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D93F4.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DA04C.s")
 void brf_800DA3A8(Work *work, POLY_FT4 *poly)
 {
@@ -2592,6 +2607,7 @@ void brf_800DA6E4(int a, POLY_FT4 *poly)
     poly->y1 += 12;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DA700.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DBA7C.s")
 void brf_800DCAA8(Work *work)
 {
     if (work->field_AD34 % 3 == 0)
@@ -2770,6 +2786,8 @@ skip:
     work->field_AD34++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCED4.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCFB4.s")
+#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DD648.s")
 extern int brf_dword_800C4CB0;
 
 void brf_800DD6DC(Work *work)
