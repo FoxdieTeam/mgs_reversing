@@ -151,7 +151,7 @@ extern void s11d_rope_800C697C(Work *work, int arg1);
 extern void s11d_rope_800C6B18(Work *work, int arg1);
 
 extern void s11d_rope_800C6F28(Work *work, int arg1);
-extern void s11d_rope_800C7138(Work *work);
+extern void s11d_rope_800C7138(Work *work, int arg1);
 extern void s11d_rope_800C7320(Work *work);
 extern void s11d_rope_800C766C(Work *work);
 extern void s11d_rope_800C8364(Work *work);
