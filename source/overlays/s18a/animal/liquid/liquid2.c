@@ -733,12 +733,247 @@ void s18a_800C8558(LiquidWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C863C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8754.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C886C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8990.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8A8C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8BB0.s")
+void s18a_800C863C(LiquidWork *work, int time)
+{
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 1);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
+    }
+
+    s18a_800C8210(work);
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (work->f954 >= 0)
+    {
+        work->control.turn.vy = work->f954;
+    }
+
+    if (work->cmd != 3)
+    {
+        if (s18a_800C736C(work))
+        {
+            s18a_liquid_ResetOverride(work);
+        }
+        else
+        {
+            s18a_liquid_SetAct(work, s18a_800C82A4);
+        }
+        return;
+    }
+
+    work->target->class |= 0x17;
+}
+
+void s18a_800C8754(LiquidWork *work, int time)
+{
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 2);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
+    }
+
+    s18a_800C8210(work);
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (work->f954 >= 0)
+    {
+        work->control.turn.vy = work->f954;
+    }
+
+    if (work->cmd != 4)
+    {
+        if (s18a_800C736C(work))
+        {
+            s18a_liquid_ResetOverride(work);
+        }
+        else
+        {
+            s18a_liquid_SetAct(work, s18a_800C82A4);
+        }
+        return;
+    }
+
+    work->target->class |= 0x17;
+}
+
+void s18a_800C886C(LiquidWork *work, int time)
+{
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 3);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
+    }
+
+    s18a_800C8210(work);
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (GV_DiffDirAbs(work->control.rot.vy, work->f9AC) >= 1024)
+    {
+        work->control.turn.vy = work->f9AC;
+    }
+
+    if (work->cmd != 5)
+    {
+        if (s18a_800C736C(work))
+        {
+            s18a_liquid_ResetOverride(work);
+        }
+        else
+        {
+            s18a_liquid_SetAct(work, s18a_800C82A4);
+        }
+        return;
+    }
+
+    work->target->class |= 0x17;
+}
+
+void s18a_800C8990(LiquidWork *work, int time)
+{
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 4);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
+    }
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7904(work))
+    {
+        return;
+    }
+
+    work->control.turn.vy = work->f9AC;
+
+    if (work->cmd != 6)
+    {
+        if (s18a_800C736C(work))
+        {
+            s18a_liquid_ResetOverride(work);
+        }
+        else
+        {
+            s18a_liquid_SetAct(work, s18a_800C82A4);
+        }
+        return;
+    }
+
+    work->target->class |= 0x17;
+}
+
+void s18a_800C8A8C(LiquidWork *work, int time)
+{
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 3);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
+    }
+
+    s18a_800C8210(work);
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (GV_DiffDirAbs(work->control.rot.vy, work->f9AC) >= 1024)
+    {
+        work->control.turn.vy = work->f9AC;
+    }
+
+    if (work->cmd != 7)
+    {
+        if (s18a_800C736C(work))
+        {
+            s18a_liquid_ResetOverride(work);
+        }
+        else
+        {
+            s18a_liquid_SetAct(work, s18a_800C82A4);
+        }
+        return;
+    }
+
+    work->target->class |= 0x17;
+}
+
+void s18a_800C8BB0(LiquidWork *work, int time)
+{
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 5);
+        GM_ConfigMotionAdjust(&work->body, work->adjust);
+    }
+
+    s18a_800C8210(work);
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (s18a_800C7904(work))
+    {
+        return;
+    }
+
+    if (GV_DiffDirAbs(work->control.rot.vy, work->f9AC) >= 1024)
+    {
+        work->control.turn.vy = work->f9AC;
+    }
+
+    if (work->cmd != 8)
+    {
+        if (s18a_800C736C(work))
+        {
+            s18a_liquid_ResetOverride(work);
+        }
+        else
+        {
+            s18a_liquid_SetAct(work, s18a_800C82A4);
+        }
+        return;
+    }
+
+    work->target->class |= 0x17;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8CD4.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8DC4.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C8EBC.s")
