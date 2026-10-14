@@ -97,18 +97,7 @@ static void Die(Work *work)
 {
 }
 
-int s17a_800CB5B0(Work *work, SVECTOR *pos, SVECTOR *rot, int speed, int num, int type, int mode, u_char r, u_char g, u_char b);
-
-/* NON_MATCHING: with the work->time store last (as below) the register
- * allocation matches; what still differs: the original sets time = 15 in the
- * entry block (in the delay slot of the first switch branch, so $s3 is saved
- * early in the prologue) while case 0 has no code of its own, and sched2 keeps
- * the original store order (num, r, g, b, time, frame, type). Adding "time = 15;"
- * before the switch (with "default:" on case 2) reproduces the prologue and
- * the switch, but then time is not live at the function entry anymore and
- * gets a higher allocation priority ($s1 instead of $s3). */
-#if 0
-int s17a_800CB5B0(Work *work, SVECTOR *pos, SVECTOR *rot, int speed, int num, int type, int mode, u_char r, u_char g, u_char b)
+static int GetResources(Work *work, SVECTOR *pos, SVECTOR *rot, int speed, int num, int type, int mode, u_char r, u_char g, u_char b)
 {
     SVECTOR vec;
     SVECTOR rot2;
@@ -118,17 +107,17 @@ int s17a_800CB5B0(Work *work, SVECTOR *pos, SVECTOR *rot, int speed, int num, in
     work->mode = mode;
     work->map = GM_CurrentMap;
 
+    /* the default value is set twice (here and for cases 0/2); both are in
+     * the original code */
+    time = 15;
+
     switch (mode)
     {
     case 0:
-        time = 15;
-        break;
-    case 1:
-        time = 30;
-        break;
     case 2:
         time = 15;
         break;
+    case 1:
     case 3:
         time = 30;
         break;
@@ -156,16 +145,14 @@ int s17a_800CB5B0(Work *work, SVECTOR *pos, SVECTOR *rot, int speed, int num, in
     }
 
     work->num = num;
+    work->type = type;
     work->r = r;
     work->g = g;
     work->b = b;
-    work->frame = 0;
-    work->type = type;
     work->time = time;
+    work->frame = 0;
     return 0;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s17a/s17a_800CB5B0.s")
 
 void *NewCrashSmoke(SVECTOR *pos, SVECTOR *rot, int speed, int num, int type, int mode, u_char r, u_char g, u_char b)
 {
@@ -175,7 +162,7 @@ void *NewCrashSmoke(SVECTOR *pos, SVECTOR *rot, int speed, int num, int type, in
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "crsh_smk.c");
-        s17a_800CB5B0(work, pos, rot, speed, num, type, mode, r, g, b);
+        GetResources(work, pos, rot, speed, num, type, mode, r, g, b);
     }
 
     return (void *)work;
