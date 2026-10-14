@@ -2671,58 +2671,199 @@ void s18a_800CB8AC(LiquidWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CB9D0.s")
-const int s18a_dword_800E2F64 = 0x30736F70;
-const int s18a_dword_800E2F68 = 0x20642520;
-const int s18a_dword_800E2F6C = 0x25206425;
-const int s18a_dword_800E2F70 = 0x000A2064;
-const int s18a_dword_800E2F74 = 0x696C6320;
-const int s18a_dword_800E2F78 = 0x7420626D;
-const int s18a_dword_800E2F7C = 0x20657079;
-const int s18a_dword_800E2F80 = 0x6425203D;
-const int s18a_dword_800E2F84 = 0x00000A20;
-const int s18a_dword_800E2F88 = 0x72724520;
-const int s18a_dword_800E2F8C = 0x72724520;
-const int s18a_dword_800E2F90 = 0x72724520;
-const int s18a_dword_800E2F94 = 0x71694C20;
-const int s18a_dword_800E2F98 = 0x20646975;
-const int s18a_dword_800E2F9C = 0x7261654E;
-const int s18a_dword_800E2FA0 = 0x72724520;
-const int s18a_dword_800E2FA4 = 0x20212120;
-const int s18a_dword_800E2FA8 = 0x0000000A;
-const int s18a_dword_800E2FAC = 0x800CBC1C;
-const int s18a_dword_800E2FB0 = 0x800CBC1C;
-const int s18a_dword_800E2FB4 = 0x800CBC00;
-const int s18a_dword_800E2FB8 = 0x800CBC1C;
-const int s18a_dword_800E2FBC = 0x800CBC38;
-const int s18a_dword_800E2FC0 = 0x800CBC00;
-const int s18a_dword_800E2FC4 = 0x800CBC00;
-const int s18a_dword_800E2FC8 = 0x800CBC00;
-const int s18a_dword_800E2FCC = 0x800CBD60;
-const int s18a_dword_800E2FD0 = 0x800CBD60;
-const int s18a_dword_800E2FD4 = 0x800CBD44;
-const int s18a_dword_800E2FD8 = 0x800CBD60;
-const int s18a_dword_800E2FDC = 0x800CBD7C;
-const int s18a_dword_800E2FE0 = 0x800CBD44;
-const int s18a_dword_800E2FE4 = 0x800CBD44;
-const int s18a_dword_800E2FE8 = 0x800CBD44;
-const int s18a_dword_800E2FEC = 0x800CBDFC;
-const int s18a_dword_800E2FF0 = 0x800CBDFC;
-const int s18a_dword_800E2FF4 = 0x800CBDE0;
-const int s18a_dword_800E2FF8 = 0x800CBDFC;
-const int s18a_dword_800E2FFC = 0x800CBE18;
-const int s18a_dword_800E3000 = 0x800CBDE0;
-const int s18a_dword_800E3004 = 0x800CBDE0;
-const int s18a_dword_800E3008 = 0x800CBDE0;
-const int s18a_dword_800E300C = 0x72724520;
-const int s18a_dword_800E3010 = 0x72724520;
-const int s18a_dword_800E3014 = 0x72724520;
-const int s18a_dword_800E3018 = 0x71694C20;
-const int s18a_dword_800E301C = 0x20646975;
-const int s18a_dword_800E3020 = 0x20727245;
-const int s18a_dword_800E3024 = 0x0A202121;
-const int s18a_dword_800E3028 = 0x00000000;
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CBB50.s")
+void s18a_800CB9D0(LiquidWork *work, int time)
+{
+    CONTROL *control;
+    int      dir;
+
+    control = &work->control;
+
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 24);
+        GM_SeSetMode(&control->mov, 134, 1);
+
+        work->life -= work->damage1[2];
+        if (work->life < 0)
+        {
+            work->life = 0;
+        }
+    }
+
+    if (s18a_800C7684(work))
+    {
+        return;
+    }
+
+    if (time == 21)
+    {
+        GM_SeSet(&work->control.mov, 177);
+        GM_SeSetMode(&work->control.mov, 135, 1);
+    }
+
+    if (time == 59)
+    {
+        dir = control->rot.vy + 2048;
+        control->turn.vy = control->rot.vy = dir & 0xFFF;
+        work->pose = 3;
+        GM_ConfigObjectAction(&work->body, s18a_liquid_motions[3], 0, 0);
+    }
+
+    if (time >= 61)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+        return;
+    }
+
+    if (time < 24)
+    {
+        control->turn = *work->target->field_1C;
+    }
+
+    work->f944 = 1;
+    work->target2->class = 1;
+}
+
+void s18a_800CBB50(LiquidWork *work, int time)
+{
+    SVECTOR  near;
+    SVECTOR  unused;
+    CONTROL *control;
+    int      seg;
+    int      base;
+
+    control = &work->control;
+
+    if (time == 0)
+    {
+        work->control.mov = work->last_pos;
+        printf("pos0 %d %d %d \n", work->control.mov.vx, control->mov.vy, control->mov.vz);
+
+        work->f914 = s18a_800C722C(&control->mov, &work->control.turn.vy);
+        printf(" climb type = %d \n", work->f914);
+
+        switch (work->f914)
+        {
+        case 2:
+        case 5:
+        case 6:
+        case 7:
+            s18a_liquid_SetPose(work, 26);
+            break;
+
+        case 0:
+        case 1:
+        case 3:
+            s18a_liquid_SetPose(work, 33);
+            break;
+
+        case 4:
+            s18a_liquid_SetPose(work, 36);
+            break;
+        }
+
+        work->f9A4 = 1;
+        work->f910 = control->levels[0];
+
+        seg = (work->f914 & 1) ? 0x20 : 0x10;
+        if (!HZD_NearHazardCheck(control->map->hzd, &work->control.mov, 5000, 4, seg))
+        {
+            printf(" Err Err Err Liquid Near Err !! \n");
+        }
+        else
+        {
+            HZD_GetNearVector(&near);
+        }
+
+        control->mov.vx += near.vx;
+        control->mov.vy += near.vy;
+        control->mov.vz += near.vz;
+        control->step.vx = 0;
+        control->step.vz = 0;
+        GM_SeSet(&control->mov, 178);
+        return;
+    }
+
+    base = 30;
+
+    if (time == 26)
+    {
+        switch (work->f914)
+        {
+        case 2:
+        case 5:
+        case 6:
+        case 7:
+            s18a_liquid_SetPose(work, 27);
+            break;
+
+        case 0:
+        case 1:
+        case 3:
+            s18a_liquid_SetPose(work, 34);
+            break;
+
+        case 4:
+            s18a_liquid_SetPose(work, 37);
+            break;
+        }
+    }
+    else if (time == 58)
+    {
+        switch (work->f914)
+        {
+        case 2:
+        case 5:
+        case 6:
+        case 7:
+            s18a_liquid_SetPose(work, 28);
+            break;
+
+        case 0:
+        case 1:
+        case 3:
+            s18a_liquid_SetPose(work, 35);
+            break;
+
+        case 4:
+            s18a_liquid_SetPose(work, 38);
+            break;
+        }
+
+        GM_SeSet(&control->mov, 179);
+    }
+
+    if (time > base + 30)
+    {
+        if (work->body.is_end)
+        {
+            work->control.height = work->body.height = 1100;
+            work->pose = 0;
+            GM_ConfigObjectAction(&work->body, s18a_liquid_motions[0], 0, 0);
+            work->f940 = 1;
+            work->f948 = 30;
+            work->f9A4 = 0;
+            s18a_liquid_SetAct(work, s18a_800C82A4);
+            return;
+        }
+    }
+
+    if (time >= 27 && time < base + 28)
+    {
+        control->step.vx = 0;
+        control->step.vz = 0;
+    }
+
+    if (work->f914 == 2 || work->f914 == 6)
+    {
+        if (time > base + 30 && time < base + 50)
+        {
+            work->f910 += 16;
+        }
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CBF38.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC0F0.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC1F0.s")

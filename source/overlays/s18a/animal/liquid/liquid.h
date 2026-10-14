@@ -26,7 +26,8 @@ typedef struct _LiquidWork
     TARGET        *target2;       /* 0x8C0 */
     TARGET         attack;        /* 0x8C4 */
     int            f90C;          /* 0x90C */
-    char           pad_910[0x918 - 0x910];
+    int            f910;          /* 0x910 */
+    int            f914;          /* 0x914 */
     int            f918;          /* 0x918 */
     int            f91C;          /* 0x91C */
     SVECTOR        f920;          /* 0x920 */
