@@ -2826,14 +2826,9 @@ void s08b_bunsin2_800CD000(Work *work)
 
     if (work->flags & 4)
     {
-        if (work->field_7D8 == 0 && work->clone1 == NULL && work->clone2 == NULL)
+        if ((work->field_7D8 == 0 && work->clone1 == NULL && work->clone2 == NULL) ||
+            work->field_7D8 == GV_Time % 3)
         {
-            goto invisible_off;
-        }
-
-        if (work->field_7D8 == GV_Time % 3)
-        {
-invisible_off:
             work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
         }
         else
@@ -4248,7 +4243,8 @@ int s08b_bunsin2_800D0550(Work *work)
                 s08b_dword_800C344C = 4;
             }
 
-            goto advance;
+            work->count3++;
+            return 0;
         }
     }
 
@@ -4257,7 +4253,6 @@ int s08b_bunsin2_800D0550(Work *work)
         return 1;
     }
 
-advance:
     work->count3++;
     return 0;
 }
