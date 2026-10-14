@@ -23,6 +23,3 @@ const int s17a_dword_800E5C48 = 0x800DABC8;
 const int s17a_dword_800E5C4C = 0x800DABD8;
 const int s17a_dword_800E5C50 = 0x800DABE8;
 const int s17a_dword_800E5C54 = 0x800DABFC;
-const int s17a_dword_800E5C58 = 0x00000000;
-const int s17a_dword_800E5C5C = 0x000001F4;
-const char s17a_dword_800E5C60[] = "spark2l.c";
