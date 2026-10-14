@@ -26,7 +26,11 @@ typedef struct _LiquidWork
     TARGET        *target2;       /* 0x8C0 */
     TARGET         attack;        /* 0x8C4 */
     int            f90C;          /* 0x90C */
-    char           pad_910[0x92C - 0x910];
+    char           pad_910[0x918 - 0x910];
+    int            f918;          /* 0x918 */
+    int            f91C;          /* 0x91C */
+    SVECTOR        f920;          /* 0x920 */
+    int            f928;          /* 0x928 */
     void          *act;           /* 0x92C */
     int            f930;          /* 0x930 */
     int            time;          /* 0x934 */
@@ -37,7 +41,7 @@ typedef struct _LiquidWork
     int            f948;          /* 0x948 */
     HOMING        *hom;           /* 0x94C */
     int            cmd;           /* 0x950 */
-    char           pad_954[0x958 - 0x954];
+    int            f954;          /* 0x954 */
     int            f958;          /* 0x958 */
     int            f95C;          /* 0x95C */
     int            f960;          /* 0x960 */
@@ -57,8 +61,7 @@ typedef struct _LiquidWork
     int            f9A0;          /* 0x9A0 */
     int            f9A4;          /* 0x9A4 */
     int            f9A8;          /* 0x9A8 */
-    short          f9AC;          /* 0x9AC */
-    short          f9AE;          /* 0x9AE */
+    int            f9AC;          /* 0x9AC */
     int            f9B0;          /* 0x9B0 */
     char           pad_9B4[0x9BC - 0x9B4];
     short          dead_timer;    /* 0x9BC */
