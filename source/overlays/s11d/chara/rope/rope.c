@@ -5,20 +5,25 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "okajima/blood.h"
+#include "chara/snake/shadow.h"
 
 typedef struct _Work
 {
     GV_ACT      actor;
     CONTROL     control;
     OBJECT      object;
-    char        pad_obj[0x186 - 0x9C - sizeof(OBJECT)];
-    short       field_186;
-    char        pad2b[0x7DC - 0x186 - sizeof(short)];
+    char        pad_obj[0x180 - 0x9C - sizeof(OBJECT)];
+    MOTION_CONTROL m_ctrl;
+    MOTION_SEGMENT m_segs1[17];
+    MOTION_SEGMENT m_segs2[17];
+    SVECTOR     rots[16];
+    char        pad_718[0x79C - 0x718];
+    MATRIX      light[2];
     DG_PRIM    *field_7DC;
     char        pad2c[0x800 - 0x7DC - sizeof(DG_PRIM *)];
     void       *field_800;
     TARGET     *target;
-    char        pad3a0[0x810 - 0x804 - sizeof(TARGET *)];
+    SVECTOR     field_808;
     DG_PRIM    *field_810;
     char        pad3a1[0xA14 - 0x810 - sizeof(DG_PRIM *)];
     DG_PRIM    *field_A14;
@@ -65,9 +70,11 @@ typedef struct _Work
     int         field_F34;
     int         field_F38;
     int         field_F3C;
-    char        pad3d00a[0xF44 - 0xF3C - sizeof(int)];
+    int         field_F40;
     short       field_F44;
-    char        pad3d00b[0xF50 - 0xF44 - sizeof(short)];
+    char        pad_f46[2];
+    int         field_F48;
+    int         field_F4C;
     SVECTOR     field_F50;
     SVECTOR     field_F58;
     char        pad3d01[0xF60 - 0xF58 - sizeof(SVECTOR)];
@@ -96,7 +103,8 @@ typedef struct _Work
     int         field_FA0;
     int         field_FA4[16];
     SVECTOR     field_FE4[16];
-    char        pad6a4[0x107C - 0xFE4 - sizeof(SVECTOR) * 16];
+    char        pad6a4[0x1078 - 0xFE4 - sizeof(SVECTOR) * 16];
+    int         field_1078;
     int         field_107C[3];
     int         field_1088[4];
 } Work;
@@ -1253,7 +1261,7 @@ void s11d_rope_800C8250(Work *work)
 
     s11d_dword_800D1F84 = (work->field_F70 & 2) > 0;
     GM_PlayerAction = work->object.action;
-    dword_800AB9D4 = work->field_186;
+    dword_800AB9D4 = work->m_ctrl.info1.frame;
     s11d_rope_800C5410();
 }
 
@@ -1307,6 +1315,7 @@ int s11d_rope_800C879C(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C882C.s")
+int s11d_rope_800C882C(Work *work);
 
 void s11d_rope_800C8C04(Work *work)
 {
@@ -1333,6 +1342,7 @@ void s11d_rope_800C8C04(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8C88.s")
+int s11d_rope_800C8C88(Work *work);
 
 void s11d_rope_800C8EE4(Work *work)
 {
@@ -1475,7 +1485,118 @@ void s11d_rope_800C9134(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C91AC.s")
+int s11d_rope_800C91AC(Work *work, int name, int where)
+{
+    CONTROL *control;
+    OBJECT  *object;
+    SVECTOR  indices;
+    void    *shadow;
+
+    control = &work->control;
+    work->pad = &GV_PadData[2];
+
+    if (GM_InitControl(control, name, where) < 0)
+    {
+        return -1;
+    }
+
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(control, 0, 0x1C2, 0x1C2);
+    work->field_F44 = 0x1C2;
+    control->seg_flag = 1;
+    GM_ConfigControlAttribute(control, 1);
+    GM_ConfigControlTrapCheck(control);
+
+    GM_PlayerControl = control;
+    GM_PlayerPosition = work->control.mov;
+
+    object = &work->object;
+    GM_InitObject(object, GV_StrCode("snake"), 0x2D, GV_StrCode("sne_11d"));
+    GM_ConfigObjectJoint(object);
+    GM_ConfigMotionControl(object, &work->m_ctrl, GV_StrCode("sne_11d"), work->m_segs1, work->m_segs2, control, work->rots);
+    GM_ConfigObjectLight(object, work->light);
+    GM_ConfigObjectAction(object, 0, 0, 0);
+
+    object->objs->objs[0].raise = 500;
+    object->objs->objs[1].raise = 500;
+
+    if (s11d_rope_800C879C(work) < 0)
+    {
+        return -1;
+    }
+    if (s11d_rope_800C882C(work) < 0)
+    {
+        return -1;
+    }
+    if (s11d_rope_800C8C88(work) < 0)
+    {
+        return -1;
+    }
+    if (s11d_rope_800C8FDC(work) < 0)
+    {
+        return -1;
+    }
+
+    s11d_rope_800C8EE4(work);
+    s11d_rope_800C90BC(work);
+    s11d_rope_800C9134(work);
+
+    if (GCL_GetOption('n'))
+    {
+        work->field_EA0 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->field_EA0 = 0;
+    }
+
+    if (GCL_GetOption('e'))
+    {
+        work->field_1078 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->field_1078 = -1;
+    }
+
+    GM_PlayerBody = object;
+    work->field_EAC = (int)s11d_rope_800C6544;
+    work->field_EB0 = 0;
+    work->field_EB8 = 0;
+    work->field_EB4 = 0;
+    work->field_EBE = 0;
+    work->field_EBC = 0;
+    s11d_rope_800C8C04(work);
+
+    work->field_F50 = DG_ZeroVector;
+    work->field_808 = work->control.mov;
+    work->field_F40 = 0x2710;
+    work->field_F44 = 0x1C2;
+    work->field_F4C = -1;
+    work->field_F48 = 0;
+    work->field_F70 = 0;
+    work->field_F74 = 0;
+    work->field_F78 = 0;
+    work->field_F7C = 0;
+    work->field_F60 = 0;
+    work->field_F64 = 0;
+    work->field_F68 = 0;
+
+    indices.vx = 0;
+    indices.vy = 6;
+    indices.vz = 12;
+    indices.pad = 15;
+    shadow = NewShadow(control, object, indices);
+    work->field_800 = shadow;
+    if (shadow == NULL)
+    {
+        return -1;
+    }
+
+    s11d_dword_800D1F84 = 0;
+    GM_GameStatus |= STATE_NOSLOW;
+    return 0;
+}
 
 void *NewRope(int name, int where)
 {

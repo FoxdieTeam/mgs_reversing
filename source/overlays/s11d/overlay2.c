@@ -20,8 +20,6 @@ const int s11d_dword_800D1D9C = 0x800C548C;
 const int s11d_dword_800D1DA0 = 0x800C548C;
 const char s11d_aWire_800D1DA4[] = "wire";
 const char s11d_aShadow_800D1DAC[] = "shadow";
-const char s11d_aSnake_800D1DB4[] = "snake";
-const char s11d_aSned_800D1DBC[] = "sne_11d";
 
 int SECTION(".bss") s11d_dword_800D1F78;
 int SECTION(".bss") s11d_dword_800D1F7C;
