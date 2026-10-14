@@ -17,8 +17,7 @@ short s18a_liquid_motions[40] = {
     13, 17, 18, 19, 15, 16, 20, 21, 22, 27, 24, 25, 26, 30, 31, 32, 33, 34, 35, 28
 };
 SVECTOR s18a_dword_800C3368 = {2500, 10000, 500, 0};
-int s18a_dword_800C3370 = 0x00000000;
-int s18a_dword_800C3374 = 0x0000FC18;
+SVECTOR s18a_dword_800C3370 = {0, 0, -1000, 0};
 int s18a_dword_800C3378 = 0x00000000;
 int s18a_dword_800C337C = 0x00000064;
 int s18a_dword_800C3380 = 0x0000FC00;
@@ -169,6 +168,8 @@ static inline int s18a_liquid_After(int time, int start)
 void s18a_800CC488(LiquidWork *work, int arg1);
 void s18a_800CB780(LiquidWork *work, int time);
 void s18a_800CB8AC(LiquidWork *work, int time);
+extern int s18a_dword_800E3EF0;
+void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
 /*--FUNCS--*/
 
 int s18a_800C722C(SVECTOR *pos, short *out)
@@ -2864,10 +2865,136 @@ void s18a_800CBB50(LiquidWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CBF38.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC0F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC1F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC278.s")
+void s18a_800CBF38(LiquidWork *work, int time)
+{
+    SVECTOR  diff1;
+    SVECTOR  diff2;
+    SVECTOR  pos;
+    SVECTOR  rot;
+    MATRIX   mat;
+    CONTROL *control;
+    HZD_SEG *seg;
+    int      dir;
+    int      dir1;
+    int      dir2;
+    int      diff;
+
+    control = &work->control;
+
+    if (time != 0)
+    {
+        return;
+    }
+
+    s18a_liquid_SetPose(work, 39);
+    work->f9A4 = 2;
+    work->f910 = control->levels[0];
+
+    if (HZD_OnlineHazardCheck(control->map->hzd, &s18a_dword_800C3368, &control->mov, 4, 4))
+    {
+        diff1.vx = s18a_dword_800C3368.vx - work->control.mov.vx;
+        diff1.vy = 0;
+        diff1.vz = s18a_dword_800C3368.vz - control->mov.vz;
+        dir = GV_VecDir2(&diff1);
+
+        seg = HZD_GetOnlineHazard();
+        diff2.vx = seg->p2.x - seg->p1.x;
+        diff2.vy = 0;
+        diff2.vz = seg->p2.z - seg->p1.z;
+        dir1 = GV_VecDir2(&diff2) + 1024;
+        dir1 &= 0xFFF;
+
+        diff = GV_DiffDirAbs(dir1, dir);
+        dir2 = dir1 + 2024;
+        dir2 &= 0xFFF;
+
+        if (diff < GV_DiffDirAbs(dir2, dir))
+        {
+            control->turn.vy = dir1;
+        }
+        else
+        {
+            control->turn.vy = dir2;
+        }
+
+        HZD_GetOnlinePoint(&pos);
+        rot.vx = 0;
+        rot.vy = control->turn.vy;
+        rot.vz = 0;
+        DG_SetPos2(&pos, &rot);
+        DG_MovePos(&s18a_dword_800C3370);
+        ReadRotMatrix(&mat);
+        control->mov.vx = mat.t[0];
+        control->mov.vy = mat.t[1];
+        control->mov.vz = mat.t[2];
+    }
+    else
+    {
+        printf(" Err Err Err Liquid Err !! \n");
+    }
+
+    s18a_dword_800E3EF0 = control->mov.vy;
+}
+
+void s18a_800CC0F0(LiquidWork *work, int time)
+{
+    if (time == 0)
+    {
+        s18a_liquid_SetPose(work, 25);
+        work->control.turn = GM_PlayerControl->rot;
+        s18a_800C80B8(work, 1);
+        GM_SeSetMode(&work->control.mov, 135, 1);
+    }
+
+    if (s18a_800C7A18(work))
+    {
+        return;
+    }
+
+    if (time == 35)
+    {
+        GM_SeSet(&work->control.mov, 187);
+    }
+
+    if (work->body.is_end)
+    {
+        work->f940 = 1;
+        s18a_liquid_SetAct(work, s18a_800C82A4);
+        return;
+    }
+
+    work->target->class |= 0x17;
+}
+
+void s18a_800CC1F0(LiquidWork *work)
+{
+    if (work->f948 > 0)
+    {
+        if (work->f948 & 2)
+        {
+            work->body.objs->flag |= DG_FLAG_INVISIBLE;
+        }
+        else
+        {
+            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        }
+
+        work->target->class = 1;
+        work->target->captured = 0;
+        work->f948--;
+        work->target2->class = 1;
+    }
+    else
+    {
+        work->f948 = 0;
+    }
+}
+
+void s18a_800CC278(LiquidWork *work)
+{
+    sna_act_helper2_helper2_80033054(work->control.name, &work->adjust[5]);
+}
+
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC2A0.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC488.s")
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC4F0.s")
