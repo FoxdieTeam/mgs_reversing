@@ -2746,11 +2746,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
     include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
     include "{{OBJ_DIR}}\overlays\s11g\okajima\blst_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800C7D60.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800C7F18.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800C7F20.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800C8168.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\overlay.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s17a\okajima\crsh_smk.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
