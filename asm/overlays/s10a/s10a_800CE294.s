@@ -2,7 +2,9 @@
 	section .text
 
 	xdef s10a_800CE294
+	xdef ZAKO10_GetMapZone
 s10a_800CE294:
+ZAKO10_GetMapZone:
 	dw 0x3C02800E ; 800CE294
 	dw 0x944349DC ; 800CE298
 	dw 0x00000000 ; 800CE29C

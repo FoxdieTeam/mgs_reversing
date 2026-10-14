@@ -2,7 +2,9 @@
 	section .text
 
 	xdef s10a_800CE21C
+	xdef ZAKO10_SetGoPointNoise
 s10a_800CE21C:
+ZAKO10_SetGoPointNoise:
 	dw 0x3C02800B ; 800CE21C
 	dw 0x8C4256D0 ; 800CE220
 	dw 0x27BDFFE8 ; 800CE224

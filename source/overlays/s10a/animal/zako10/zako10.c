@@ -69,13 +69,13 @@ void Zako10Visibility( Zako10Work *work )
 {
     if ( work->visible )
     {
-        if ( work->param_low_poly == 1 )
+        if ( work->param.low_poly == 1 )
         {
             if ( GM_GameStatus & STATE_CAM_CHANGE || GM_Camera.first_person )
             {
-                if ( work->has_kmd != work->param_low_poly )
+                if ( work->has_kmd != work->param.low_poly )
                 {
-                    work->has_kmd = work->param_low_poly;
+                    work->has_kmd = work->param.low_poly;
                     Zako10ChangeModel( work->body.objs, work->def );
                 }
             }
@@ -158,8 +158,8 @@ void Zako10InitTarget( Zako10Work *work )
     int faint;
 
     target = work->target;
-    life   = work->param_life;
-    faint  = work->param_faint;
+    life   = work->param.life;
+    faint  = work->param.faint;
 
     GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ZAKO10_TARGET_SIZE );
     GM_SetPowerTarget( target, POWER_DECREASE, -1, life, faint, &ZAKO10_TARGET_FORCE );
@@ -223,14 +223,14 @@ int Zako10InitObjects( Zako10Work* work, int name, int where )
     GM_ConfigMotionControl( body, &work->m_ctrl, OAR_ENEMY, work->m_segs1, work->m_segs2, ctrl, work->rots );
     GM_ConfigObjectLight( body, work->light );
 
-    work->param_low_poly = 0;
+    work->param.low_poly = 0;
 
     opt2 = GCL_GetOption( 'y' );
     if ( opt2 ) {
-        work->param_low_poly = GCL_StrToInt( (char*)opt2 );
+        work->param.low_poly = GCL_StrToInt( (char*)opt2 );
     }
 
-    has_kmd = work->param_low_poly;
+    has_kmd = work->param.low_poly;
     if ( has_kmd == 1 )
     {
         work->def = body->objs->def;
@@ -263,7 +263,7 @@ int Zako10InitObjects( Zako10Work* work, int name, int where )
 
 void Zako10Free( Zako10Work* work )
 {
-    ZAKO10_FreeIndex( work->field_B74 );
+    ZAKO10_FreeIndex( work->param.index );
     GM_FreeControl( &( work->control ) );
     GM_FreeObject( &( work->body ) );
     GM_FreeObject( &( work->weapon ) );
@@ -285,7 +285,7 @@ int Zako10ReadNodes( Zako10Work* work )
     HZD_PTP *points;
 
     patrol = work->control.map->hzd->def->routes;
-    patrol = &patrol[ work->param_root ];
+    patrol = &patrol[ work->param.root ];
 
     work->n_nodes = patrol->n_points;
 
@@ -380,9 +380,9 @@ void Zako10GetResources( Zako10Work *work, int name, int where )
     int i;
 
     Zako10InitObjects( work, name, where ) ;
-    work->field_B74 = ZAKO10_GetIndex( work ) ;
+    work->param.index = ZAKO10_GetIndex( work ) ;
 
-    if ( work->field_B74  << 24 < 0  )
+    if ( work->param.index  << 24 < 0  )
     {
        printf( "Err not enough work !!\n" ) ;
     }
@@ -390,71 +390,71 @@ void Zako10GetResources( Zako10Work *work, int name, int where )
     Zako10ReadSetTimes( work ) ;
 
     //root
-    work->param_root = 0;
+    work->param.root = 0;
     opt = GCL_GetOption( 'r' );
     if ( opt )
     {
-        work->param_root = GCL_StrToInt( ( char* )opt );
+        work->param.root = GCL_StrToInt( ( char* )opt );
     }
 
     //life
-    work->param_life = 192;
+    work->param.life = 192;
     opt = GCL_GetOption( 'l' );
     if ( opt )
     {
-        work->param_life = GCL_StrToInt( ( char* )opt );
+        work->param.life = GCL_StrToInt( ( char* )opt );
     }
 
     //faint
-    work->param_faint = 7;
+    work->param.faint = 7;
     opt = GCL_GetOption( 'f' );
     if ( opt )
     {
-        work->param_faint = GCL_StrToInt( ( char* )opt );
+        work->param.faint = GCL_StrToInt( ( char* )opt );
     }
 
-    work->param_blood = 65;
+    work->param.blood = 65;
     opt = GCL_GetOption( 'b' );
     if ( opt )
     {
-        work->param_blood = GCL_StrToInt( ( char* )opt );
+        work->param.blood = GCL_StrToInt( ( char* )opt );
     }
 
-    printf( " low[pory=%d\n", work->param_low_poly ) ;
-    work->field_B7D = 0xFF;
+    printf( " low[pory=%d\n", work->param.low_poly ) ;
+    work->param.field_B81 = 0xFF;
 
     opt = GCL_GetOption('g');
     if ( opt )
     {
-        work->field_B7D = GCL_StrToInt( ( char* )opt );
+        work->param.field_B81 = GCL_StrToInt( ( char* )opt );
     }
-    if ( work->param_blood == 'Z' )
+    if ( work->param.blood == 'Z' )
     {
-        work->field_B7D = 0;
+        work->param.field_B81 = 0;
     }
 
-    work->field_BF8 = ZAKO10_EyeLengthTable[ work->field_B74 ];
-    work->field_BFC = work->field_B74;
-    work->field_B78 = 0xFF;
+    work->field_BF8 = ZAKO10_EyeLengthTable[ work->param.index ];
+    work->field_BFC = work->param.index;
+    work->param.field_B7C = 0xFF;
 
     opt = GCL_GetOption( 'n' );
     if ( opt )
     {
-        work->field_B78 = GCL_StrToInt( ( char* )opt );
+        work->param.field_B7C = GCL_StrToInt( ( char* )opt );
     }
 
-    work->param_area = 'A';
+    work->param.area = 'A';
     opt = GCL_GetOption( 'a' );
     if (opt != 0)
     {
-        work->param_area = GCL_StrToInt( ( char* )opt );
+        work->param.area = GCL_StrToInt( ( char* )opt );
     }
 
-    if ( work->param_area == 'S' ) ZAKO10_SetPutChar( work, PUTBREATH ) ; /* 白い息はく */
+    if ( work->param.area == 'S' ) ZAKO10_SetPutChar( work, PUTBREATH ) ; /* 白い息はく */
     work->scale = 4096 ;            /* スケール */
 
     if ( ( opt = GCL_GetOption( 's' ) ) != NULL ) work->scale += GCL_StrToInt( ( char* )opt );
-    work->param_item = 1;
+    work->param.item = 1;
 
     if( Zako10ReadNodes( work ) < 0 ) fprintf( 1, "watchar.c : action point Err\n" );
 
@@ -492,8 +492,8 @@ void Zako10GetResources( Zako10Work *work, int name, int where )
     work->subweapon = NULL;
 
     work->control.mov = work->nodes[ 0 ] ;
-    work->param_c_root = 0;
-    work->field_B7B = work->field_B78;
+    work->param.c_root = 0;
+    work->param.field_B7F = work->param.field_B7C;
 
     for ( i = 0 ; i <= 7 ; i++ )
     {

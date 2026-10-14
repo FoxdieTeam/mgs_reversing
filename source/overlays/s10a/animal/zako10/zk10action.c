@@ -520,8 +520,8 @@ void ZAKO10_PutSound( Zako10Work* work )
     a3 = work->unknown.last_set;
     a2 = work->m_ctrl.info1.frame;
 
-    v1 = ( ( work->field_B74 % 4 ) * 2 ) + 0xA0;
-    a1 = ( ( work->field_B74 % 4 ) * 2 ) + 0xA1;
+    v1 = ( ( work->param.index % 4 ) * 2 ) + 0xA0;
+    a1 = ( ( work->param.index % 4 ) * 2 ) + 0xA1;
 
     if( a3 == 1 )
     {
@@ -589,7 +589,7 @@ void ZAKO10_PutBreath( Zako10Work *work, int arg1 )
     }
     else
     {
-        if ( ( GV_Time % 64 ) == ( work->field_B74 * 16 ) )
+        if ( ( GV_Time % 64 ) == ( work->param.index * 16 ) )
         {
             AN_Breath( &work->body.objs->objs[6].world );
         }

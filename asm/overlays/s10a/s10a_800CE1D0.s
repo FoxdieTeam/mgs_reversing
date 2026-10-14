@@ -2,7 +2,9 @@
 	section .text
 
 	xdef s10a_800CE1D0
+	xdef ZAKO10_SetGoPointLast
 s10a_800CE1D0:
+ZAKO10_SetGoPointLast:
 	dw 0x3C03800E ; 800CE1D0
 	dw 0x3C02800E ; 800CE1D4
 	dw 0x8C424AA0 ; 800CE1D8

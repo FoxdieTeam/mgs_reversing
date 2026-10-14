@@ -2926,49 +2926,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s10a\animal\zako10\zk10enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC448.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC480.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC4C8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC544.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC584.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC5E0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC668.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC680.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC698.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC708.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC774.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC838.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC850.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC90C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC924.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC95C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CC998.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CCC58.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CCCAC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CCDA4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CCDF4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CCE94.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CCEFC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CCF6C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CCFF4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CD088.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CD0E0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CD138.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CD198.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CD1F4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CD25C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CD288.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CD308.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CD460.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CD4CC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CD674.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CD76C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CD970.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CDA68.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CDB14.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CDBBC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\s10a_800CDC74.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s10a\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s10a\animal\zako10\zk10think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\overlays\s10a\s10a_800CE154.obj", overlay
     include "{{OBJ_DIR}}\overlays\s10a\s10a_800CE180.obj", overlay

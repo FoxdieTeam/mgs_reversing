@@ -267,7 +267,7 @@ void Zako10CheckSight( Zako10Work* work )
         return;
     }
 
-    if ( Zako10Command.counter % Zako10Command.n_watchers == work->field_B74 )
+    if ( Zako10Command.counter % Zako10Command.n_watchers == work->param.index )
     {
         //ridiculous, but its the only way it matches
         if ( ZAKO10_EYE_LENGTH + 2000 >= dis )
@@ -362,14 +362,14 @@ void Zako10PushMove( Zako10Work *work )
         if ( GV_Time & 256 )
         {
             s1 = target->offset.pad * 1024;
-            if ( !( work->field_B74 & 1 ) )
+            if ( !( work->param.index & 1 ) )
             {
                 s1 = ( target->offset.pad + 2 ) * 1024;
             }
         }
         else
         {
-            if ( work->field_B74 & 1 )
+            if ( work->param.index & 1 )
             {
                 s1 = ( target->offset.pad + 2 ) * 1024;
             }

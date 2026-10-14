@@ -64,18 +64,7 @@ typedef struct _Zako10Work
     int            mark_time;                  //0xB68
     int            act_status;                 //0xB6C
     int            field_B70;                  //0xB70
-    signed char    field_B74;                  //0xB74 param.index
-    signed char    param_blood;                //0xB75
-    signed char    param_area;                 //0xB76
-    signed char    param_low_poly;             //0xB77
-    char           field_B78;                  //0xB78
-    signed char    param_root;                 //0xB79
-    char           param_c_root;               //0xB7A
-    char           field_B7B;                  //0xB7B
-    signed char    param_item;                 //0xB7C
-    char           field_B7D;                  //0xB7D
-    short          param_life;                 //0xB7E
-    short          param_faint;                //0xB80
+    PARAM          param;                      //0xB74
     short          local_data;                 //0xB82
     int            field_B84;                  //0xB84
     VISION         vision;                     //0xB88
