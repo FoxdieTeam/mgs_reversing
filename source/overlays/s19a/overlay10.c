@@ -65,5 +65,3 @@ int s19a_dword_800C3A4C = 0x00481025;
 int s19a_dword_800C3A50 = 0x03E00008;
 int s19a_dword_800C3A54 = 0xAC620000;
 
-const char s19a_dword_800E0410[] = "drumsmke.c";
-const char s19a_dword_800E041C[] = "drumfire.c";

@@ -4034,21 +4034,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
     include "{{OBJ_DIR}}\takabe\cat_in.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\overlay10.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DE19C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DE278.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DE2B4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DE33C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DE3E0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DE4B0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DE56C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DE630.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DE964.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DEA40.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DEA7C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DEB04.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DEBA8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DEC60.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800DED24.obj", overlay
+    include "{{OBJ_DIR}}\takabe\drumsmke.obj", overlay
+    include "{{OBJ_DIR}}\takabe\drumfire.obj", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\MTX_003.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\SMP_01.OBJ", overlay
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgte\SMP_04.OBJ", overlay
