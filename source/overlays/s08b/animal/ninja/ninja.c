@@ -5104,8 +5104,74 @@ reset:
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D2AB4.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D2B24.s")
+void s08b_bunsin2_800D2AB4(Work *work)
+{
+    switch (work->field_19CC)
+    {
+    case 0x17:
+        if (s08b_bunsin2_800D06A0(work) != 0)
+        {
+            if (GM_GameStatus & STATE_CHAFF)
+            {
+                work->field_19C8 = 9;
+                work->field_19CC = 0x1C;
+            }
+            else if (s08b_dword_800C3448 < 2)
+            {
+                work->field_19CC = 7;
+            }
+            else
+            {
+                s08b_bunsin2_800CE2E8(work);
+                work->field_19C8 = 8;
+                work->field_19CC = 5;
+            }
+
+            work->field_19D4 = 0;
+            work->field_19D0 = 0;
+        }
+        break;
+
+    case 0x22:
+        if (s08b_bunsin2_800D06A0(work) != 0)
+        {
+            work->field_19C8 = 0;
+            work->field_19CC = 0x18;
+            work->field_19D4 = 0;
+            work->field_19D0 = 0;
+        }
+        break;
+
+    case 5:
+        if (s08b_bunsin2_800CFDE0(work) != 0)
+        {
+            work->field_19C8 = 8;
+            work->field_19CC = 0x26;
+            work->field_19D4 = 0;
+            work->field_19D0 = 0;
+        }
+        break;
+
+    case 7:
+        if (s08b_bunsin2_800CFCF8(work) != 0)
+        {
+            if (s08b_dword_800C3448 == 0)
+            {
+                work->field_19C8 = 8;
+                work->field_19CC = 0x26;
+            }
+            else
+            {
+                work->field_19C8 = 0;
+                work->field_19CC = 0x24;
+            }
+
+            work->field_19D4 = 0;
+            work->field_19D0 = 0;
+        }
+        break;
+    }
+}
 void s08b_bunsin2_800D2BFC(Work *work)
 {
     switch (work->field_19CC)
@@ -5422,7 +5488,108 @@ void s08b_bunsin2_800D3394(Work *work)
 
     work->field_19D0 = 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D3468.s")
+void s08b_bunsin2_800D3468(Work *work)
+{
+    int count;
+    int state;
+
+    switch (work->field_19CC)
+    {
+    case 0x1A:
+        switch (s08b_bunsin2_800D0814(work))
+        {
+        case 1:
+            work->field_19CC = 2;
+            work->field_19D0 = 0;
+            break;
+
+        case 2:
+            s08b_bunsin2_800CDFA0(work);
+            work->field_19CC = 4;
+            work->field_19D0 = 0;
+            break;
+        }
+        break;
+
+    case 4:
+        if (s08b_bunsin2_800CFC90(work) != 0)
+        {
+            s08b_bunsin2_800CDFF8(work);
+            work->field_19CC = 0x1A;
+            work->field_19D0 = 0;
+        }
+        break;
+
+    case 2:
+        if (s08b_bunsin2_800CFC64(work) != 0)
+        {
+            s08b_bunsin2_800D3394(work);
+
+            count = s08b_dword_800C3444 + 1;
+            s08b_dword_800C3444 = count;
+            if (count == 0x14)
+            {
+                s08b_bunsin2_800CDB54(work->field_1A98[2]);
+            }
+            else if (count == 0x28)
+            {
+                s08b_bunsin2_800CDB54(work->field_1A98[1]);
+                s08b_dword_800C3444 = 0;
+            }
+        }
+
+        if (work->field_19D4 >= 0x1C3)
+        {
+            work->field_19C8 = 5;
+            work->field_19CC = 8;
+            work->field_19D0 = 0;
+            break;
+        }
+
+        if (work->field_19D4 >= 0x97 && work->field_1A2C < 3000 && work->field_19AC == 1 && GM_Weapon != -1)
+        {
+            work->field_19C8 = 6;
+            if (work->field_1A2C < 1500)
+            {
+                work->field_19CC = 14;
+            }
+            else
+            {
+                work->field_19CC = 13;
+            }
+
+            work->field_19D0 = 0;
+        }
+        break;
+
+    case 3:
+        if (s08b_bunsin2_800CFC90(work) != 0)
+        {
+            s08b_bunsin2_800D3394(work);
+        }
+        break;
+    }
+
+    if (s08b_bunsin2_800CF354(work) != 0)
+    {
+        state = work->field_1A38;
+        if (state == 3)
+        {
+            work->field_1A0C = 0;
+            work->field_19D0 = 0;
+        }
+        else if (state == 1)
+        {
+            work->field_19D0 = state;
+        }
+        else
+        {
+            work->field_19D0 = 0;
+        }
+
+        work->field_19B0 = -1;
+    }
+}
 void s08b_bunsin2_800D367C(Work *work)
 {
     switch (work->field_19CC)
