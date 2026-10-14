@@ -140,6 +140,7 @@ extern void s11d_rope_800C5B10(Work *work);
 extern void s11d_rope_800C5E74(Work *work);
 extern void s11d_rope_800C6478(Work *work);
 extern void s11d_rope_800C650C(void);
+extern void s11d_rope_800C6544(Work *work, int arg1);
 extern void s11d_rope_800C6834(Work *work, int arg1);
 extern void s11d_rope_800C7EC4(Work *work, int arg1);
 extern void s11d_rope_800C7F8C(Work *work, int arg1);
@@ -361,7 +362,70 @@ void s11d_rope_800C45F8(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4648.s")
+void s11d_rope_800C4648(Work *work)
+{
+    SVECTOR cam;
+    SVECTOR diff;
+    int     idx;
+    int     next;
+
+    if (work->field_EAC == (int)s11d_rope_800C6544)
+    {
+        return;
+    }
+    if (work->field_F70 & 0x1000)
+    {
+        return;
+    }
+
+    next = -1;
+    idx = work->field_FA0;
+    if (idx != work->field_F9C - 1)
+    {
+        next = idx + 1;
+    }
+
+    if (work->field_FA4[idx] < work->control.mov.vy)
+    {
+        if (idx > 0)
+        {
+            idx--;
+        }
+    }
+    else if (next != -1)
+    {
+        next = idx + 1;
+        if (work->control.mov.vy < work->field_FA4[next])
+        {
+            idx = next;
+        }
+    }
+
+    work->field_FA0 = idx;
+
+    cam = GM_SnakeCamera.rotate;
+    cam.vz = GM_SnakeCamera.track;
+    GV_SubVec3(&work->field_FE4[idx], &cam, &diff);
+
+    if (abs(diff.vz) > 64)
+    {
+        diff.vz = (diff.vz > 0) ? 64 : -64;
+    }
+    GM_SnakeCamera.track += diff.vz;
+    GM_CameraSetTrack(GM_SnakeCamera.track);
+
+    diff.vz = 0;
+    if (abs(diff.vx) > 8)
+    {
+        diff.vx = (diff.vx > 0) ? 8 : -8;
+    }
+    if (abs(diff.vy) > 8)
+    {
+        diff.vy = (diff.vy > 0) ? 8 : -8;
+    }
+    GV_AddVec3(&GM_SnakeCamera.rotate, &diff, &GM_SnakeCamera.rotate);
+    GM_CameraSetRotation(&GM_SnakeCamera.rotate);
+}
 
 void s11d_rope_800C481C(Work *work)
 {
