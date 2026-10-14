@@ -683,12 +683,10 @@ void ZAKO19SetCamera( SVECTOR *pos )
     GM_Camera.interp = 4;
 }
 
-#if 0 /* NON_MATCHING: the address of ZAKO19Command is kept in a register too early */
 static void GetResources( CommanderWork *work, int name, int where )
 {
     int i;
     char *opt;
-    int flag;
 
     ZAKO19_GameFlag = 0;
     ZAKO19Command.field_24 = 0;
@@ -737,10 +735,14 @@ static void GetResources( CommanderWork *work, int name, int where )
     opt = GCL_GetOption( 'f' );
     if ( opt )
     {
-        flag = GCL_StrToInt( opt );
+        GCL_StrToInt( opt ); /* value not used */
+        ZAKO19_Unknown = 1;
+    }
+    else
+    {
+        ZAKO19_Unknown = 1;
     }
 
-    ZAKO19_Unknown = 1;
     NewAsiato();
 
     opt = GCL_GetOption( 'j' );
@@ -772,10 +774,6 @@ static void GetResources( CommanderWork *work, int name, int where )
     ZAKO19Command.field_114 = 0;
 }
 
-#endif
-const char aZoneD_800E0300[] = "zone=%d ";
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D74FC.s")
-void s19a_800D74FC( CommanderWork *work, int name, int where );
 void *NewZako19Commander( int name, int where )
 {
     CommanderWork *work;
@@ -784,7 +782,7 @@ void *NewZako19Commander( int name, int where )
     if ( work != NULL )
     {
         GV_SetNamedActor( work, Zako19CommanderAct, Die, "zk19com.c" );
-        s19a_800D74FC( work, name, where );
+        GetResources( work, name, where );
     }
     return (void *)work;
 }

@@ -1,40 +1,34 @@
-/* same as overlays/s19b/menu/countdwn.c (only the radar drawing function differs in its data addresses) */
 #include "game/game.h"
 #include "libgcl/libgcl.h"
 #include "menu/radar.h"
 #include "menu/radio.h"
 #include "strcode.h"
 
-RadioUnknown countdwn_segments_big =
+STATIC RadioUnknown digit_font_large =
 {
     {{1, 0, 7, 2}, {0, 1, 2, 7}, {7, 1, 2, 7}, {1, 7, 7, 2}, {0, 9, 2, 6}, {7, 9, 2, 6}, {1, 14, 7, 2}},
     0x182589,
     0x818
 };
 
-RadioUnknown countdwn_segments_small =
+STATIC RadioUnknown digit_font_small =
 {
     {{1, 0, 5, 2}, {0, 1, 2, 5}, {5, 1, 2, 5}, {1, 5, 5, 2}, {0, 7, 2, 5}, {5, 7, 2, 5}, {1, 11, 5, 2}},
     0x182589,
     0x818
 };
 
-/* position of the digits: minutes, seconds, 1/100 seconds */
-u_char countdwn_digit_x[6] = {0x03, 0x0D, 0x1B, 0x25, 0x33, 0x3B};
-u_char countdwn_digit_y[6] = {0x20, 0x20, 0x20, 0x20, 0x23, 0x23};
-
-/* the dots between the digits (x, y) */
-u_char countdwn_colon_pos[8] = {0x18, 0x24, 0x18, 0x2B, 0x30, 0x25, 0x30, 0x2C};
-
-/* the lines above and below the timer (x, y, w, h) */
-u_char countdwn_line_rect[2][4] = {{0x01, 0x1D, 0x43, 0x01}, {0x01, 0x32, 0x43, 0x01}};
+STATIC u_char digit_x[] = {0x03, 0x0D, 0x1B, 0x25, 0x33, 0x3B};
+STATIC u_char digit_y[] = {0x20, 0x20, 0x20, 0x20, 0x23, 0x23};
+STATIC u_char colon_pos[] = {0x18, 0x24, 0x18, 0x2B, 0x30, 0x25, 0x30, 0x2C};
+STATIC u_char frame_lines[] = {0x01, 0x1D, 0x43, 0x01, 0x01, 0x32, 0x43, 0x01};
 
 int     SECTION(".bss") countdown_time;
 int     SECTION(".bss") countdown_proc;
 DG_TEX *SECTION(".bss") warn1_texture;
 DG_TEX *SECTION(".bss") warn2_texture;
 
-STATIC void draw_image(MenuPrim *prim, int x, int y, char shade, DG_TEX *tex)
+STATIC void draw_image(MenuPrim *prim, int x, int y, int shade, DG_TEX *tex)
 {
     POLY_FT4 *poly;
 
@@ -66,39 +60,36 @@ static void exec_countdown_proc(void)
     }
 }
 
-/* draws the countdown timer in the radar */
-#if 0 /* NON_MATCHING: register allocation */
-#define TIMER_X -34
-#define TIMER_Y -26
-
-void s19a_800C3AD4(MenuWork *work, u_long *ot)
+static void draw_countdown(MenuWork *work, u_long *ot)
 {
-    int           shade;
-    TILE         *tile;
+    RadioUnknown *font;
     u_char       *rect;
-    RadioUnknown *segments;
-    int           color;
-    int           value;
     int           time;
-    int           digit;
     int           i;
-    DR_TPAGE     *tpage;
-    int           div;
+    int           base;
+    int           value;
+    int           tens;
+    int           color;
+    int           shade;
 
     time = countdown_time * 100 / 30;
 
-    if (countdown_time > 0 && --countdown_time == 0)
+    if (countdown_time > 0)
     {
-        exec_countdown_proc();
+        if (--countdown_time == 0)
+        {
+            exec_countdown_proc();
+        }
     }
 
     for (i = 0; i < 8; i += 2)
     {
-        tile = (TILE *)work->prim->next;
-        work->prim->next += sizeof(TILE);
+        TILE *tile;
 
-        tile->x0 = countdwn_colon_pos[i] - 34;
-        tile->y0 = countdwn_colon_pos[i + 1] - 26;
+        NEW_PRIM(tile, work);
+
+        tile->x0 = colon_pos[i] - 34;
+        tile->y0 = colon_pos[i + 1] - 26;
         tile->w = 1;
         tile->h = 2;
 
@@ -114,42 +105,48 @@ void s19a_800C3AD4(MenuWork *work, u_long *ot)
         addPrim(ot, tile);
     }
 
-    segments = &countdwn_segments_small;
-    div = 100;
+    font = &digit_font_small;
+    base = 100;
 
     for (i = 5; i >= 0; i -= 2)
     {
-        value = time % div;
-        time /= div;
-        digit = value / 10;
+        value = time % base;
+        tens = value / 10;
+        time /= base;
+        sub_8003FD50(work->prim, digit_x[i] - 34, digit_y[i] - 26, value % 10, font, 1);
+        sub_8003FD50(work->prim, digit_x[i - 1] - 34, digit_y[i - 1] - 26, tens, font, 1);
 
-        sub_8003FD50(work->prim, countdwn_digit_x[i] + TIMER_X, countdwn_digit_y[i] + TIMER_Y, value - digit * 10, segments, 1);
-        sub_8003FD50(work->prim, countdwn_digit_x[i - 1] + TIMER_X, countdwn_digit_y[i - 1] + TIMER_Y, digit, segments, 1);
-
-        segments = &countdwn_segments_big;
-        div = 60;
+        font = &digit_font_large;
+        base = 60;
     }
 
-    rect = countdwn_line_rect[0];
+    rect = frame_lines;
     for (i = 2; i > 0; i--)
     {
+        TILE *tile;
+
         NEW_PRIM(tile, work);
 
-        tile->x0 = rect[0] + TIMER_X;
+        tile->x0 = rect[0] - 34;
+        tile->y0 = rect[1] - 26;
+
         LSTORE(0x182589, &tile->r0);
-        tile->y0 = rect[1] + TIMER_Y;
         tile->w = rect[2];
         tile->h = rect[3];
-        rect += 4;
-
         setTile(tile);
         setSemiTrans(tile, 1);
         addPrim(ot, tile);
+
+        rect += 4;
     }
 
-    NEW_PRIM(tpage, work);
-    setDrawTPage(tpage, 1, 0, getTPage(0, 2, 960, 256));
-    addPrim(ot, tpage);
+    {
+        DR_TPAGE *tpage;
+
+        NEW_PRIM(tpage, work);
+        setDrawTPage(tpage, 1, 0, getTPage(0, 2, 960, 256));
+        addPrim(ot, tpage);
+    }
 
     shade = GV_Time % 16;
     if (shade < 8)
@@ -161,26 +158,32 @@ void s19a_800C3AD4(MenuWork *work, u_long *ot)
         shade = 128;
     }
 
-    draw_image(work->prim, TIMER_X, -25, shade, warn1_texture);
+    draw_image(work->prim, -34, -25, shade, warn1_texture);
     draw_image(work->prim, -33, -13, 128, warn2_texture);
 
-    NEW_PRIM(tile, work);
-    tile->x0 = TIMER_X;
-    tile->w = 69;
-    tile->y0 = TIMER_Y;
-    tile->h = 52;
-    LSTORE(0xDE, &tile->r0);
-    setTile(tile);
-    setSemiTrans(tile, 1);
-    addPrim(ot, tile);
+    {
+        TILE *tile;
 
-    NEW_PRIM(tpage, work);
-    setDrawTPage(tpage, 1, 0, getTPage(0, 0, 960, 256));
-    addPrim(ot, tpage);
+        NEW_PRIM(tile, work);
+        tile->x0 = -34;
+        tile->w = 69;
+        tile->y0 = -26;
+        tile->h = 52;
+        LSTORE(0xDE, &tile->r0);
+        setTile(tile);
+        setSemiTrans(tile, 1);
+        addPrim(ot, tile);
+    }
+
+    {
+        DR_TPAGE *tpage;
+
+        NEW_PRIM(tpage, work);
+        setDrawTPage(tpage, 1, 0, getTPage(0, 0, 960, 256));
+        addPrim(ot, tpage);
+    }
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800C3AD4.s")
-void s19a_800C3AD4(MenuWork *, u_long *);
+
 
 int GetCountdownTime(void)
 {
@@ -217,7 +220,7 @@ void *NewCountdown(int time, int proc)
     if (work)
     {
         GV_SetNamedActor(work, Act, Die, "countdwn.c");
-        MENU_SetRadarFunc(s19a_800C3AD4);
+        MENU_SetRadarFunc(draw_countdown);
     }
 
     return work;

@@ -205,9 +205,6 @@ void InitTarget_800CE008( Work *work )
     GM_SetPowerTarget( trg2, POWER_CONST | POWER_EXPLODE, 5, 0, 0, &ZAKO19_TOUCH_FORCE );
 }
 
-const char aErrErrEnemyResetNumErr_800E0008[] = " Err Err Enemy Reset Num Err CALL KOREKADOOOOOOOOOO!!\n";
-
-#if 0 /* NON_MATCHING: the think/count3 stores and the EYE_LENGTH load are scheduled differently */
 /* 敵兵の復活（スタート地点の近くのゾーンへワープ） */
 void s19a_800CE134( Work *work )
 {
@@ -248,11 +245,11 @@ void s19a_800CE134( Work *work )
     work->alert_level = 0;
     work->vision.facedir = 0;
     work->vision.range = 512;
-    work->vision.length = ZAKO19_EYE_LENGTH;
     work->pad.sound = 0;
     work->pad.field_4 = 1;
     work->field_C3C = 0;
     work->target_map = work->start_map;
+    work->vision.length = ZAKO19_EYE_LENGTH;
     work->next_pos = work->start_pos;
 
     addr = work->field_BE4;
@@ -264,7 +261,7 @@ void s19a_800CE134( Work *work )
     {
         if ( !reset_num )
         {
-            printf( aErrErrEnemyResetNumErr_800E0008 );
+            printf( " Err Err Enemy Reset Num Err CALL KOREKADOOOOOOOOOO!!\n" );
         }
         else
         {
@@ -272,9 +269,6 @@ void s19a_800CE134( Work *work )
         }
     }
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800CE134.s")
-void s19a_800CE134( Work *work );
 
 int s19a_800CE2F8( int from, int to )
 {

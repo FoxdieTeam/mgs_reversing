@@ -58,7 +58,6 @@ SVECTOR drum_broken_walls[4] = {
     {-250, -500, -250}, {250, 500, -250}, {-250, -500, 250}, {250, 500, 250},
 };
 
-#if 0 /* NON_MATCHING: register allocation/scheduling differences around the DG_ZeroMatrix copy and the segment loop */
 static void Act(Work *work)
 {
     CONTROL *control;
@@ -66,8 +65,9 @@ static void Act(Work *work)
     OBJECT  *body;
     MATRIX   world;
     HZD_SEG *seg;
-    SVECTOR *wall;
+    SVECTOR *p1, *p2;
     int      i;
+    int      n;
     int      exploded;
 
     control = &work->control;
@@ -121,7 +121,7 @@ static void Act(Work *work)
             control->grounded = 0;
 
             seg = work->segs;
-            for (i = work->n_segs; i > 0; i--)
+            for (n = work->n_segs; n > 0; n--)
             {
                 HZD_DequeueDynamicSegment(work->hzd, seg++);
             }
@@ -191,13 +191,14 @@ static void Act(Work *work)
             RotMatrixY(control->rot.vy, &world);
 
             seg = work->segs;
-            for (i = 0; i < 4; )
+            for (i = 0; i < 4; i++)
             {
-                wall = &drum_broken_walls[i++];
+                p1 = &drum_broken_walls[i];
+                p2 = &drum_broken_walls[(i + 1) & 3];
                 world.t[0] = control->mov.vx;
                 world.t[1] = control->mov.vy;
                 world.t[2] = control->mov.vz;
-                THING_Hzd_800C45C4(seg, &world, wall, &drum_broken_walls[i & 3]);
+                THING_Hzd_800C45C4(seg, &world, p1, p2);
                 HZD_QueueDynamicSegment2(work->hzd, seg++, 0x144);
             }
 
@@ -218,13 +219,8 @@ static void Act(Work *work)
 
     GM_MoveTarget(target, &work->control.mov);
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19a/s19a_800D7E50.s")
-void s19a_800D7E50(Work *work); /* Act */
 
-
-/* not static: the function after an INCLUDE_ASM needs a symbol */
-void DrumDie(Work *work)
+static void Die(Work *work)
 {
     HZD_SEG *seg;
     int      i;
@@ -345,7 +341,7 @@ void *NewDrumCan(int name, int where)
     work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, s19a_800D7E50, DrumDie, "drum.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "drum.c");
         if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(&work->actor);
