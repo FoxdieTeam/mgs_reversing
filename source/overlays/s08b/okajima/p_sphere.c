@@ -8,8 +8,6 @@ typedef struct _Work
     char   pad_1E8[0x2E4 - 0x1E8];
 } Work;
 
-int s08b_dword_800C3614 = 0x00000000;
-int s08b_dword_800C3618 = 0x00000000;
 int s08b_dword_800C361C = 0x00000000;
 
 const char s08b_aNjaball_800E40B8[] = "nja_ball";

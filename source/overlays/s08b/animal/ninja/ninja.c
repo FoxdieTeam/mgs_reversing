@@ -182,8 +182,6 @@ extern SVECTOR s08b_dword_800C3458;
 extern short   s08b_dword_800C3510[][2];
 extern SVECTOR s08b_dword_800C358C;
 extern int     s08b_dword_800C3594;
-extern int     s08b_dword_800C3614;
-extern int     s08b_dword_800C3618;
 
 extern BLAST_DATA blast_data_8009F4B8[8]; // in bullet/blast.c
 extern CONTROL *s08b_dword_800E4314;
@@ -4329,8 +4327,8 @@ int s08b_bunsin2_800D072C(Work *work)
 
     s08b_bunsin2_800CDF68(work);
     r1 = s08b_bunsin2_800CEE18(work);
-    a0 = *(unsigned char *)&work->field_1978;
-    a1 = *(unsigned char *)&work->field_197C;
+    a0 = work->field_1978 & 0xFF;
+    a1 = work->field_197C & 0xFF;
     work->field_19D0++;
     if (s08b_bunsin2_800CEF34(a0, a1))
     {
@@ -4363,8 +4361,8 @@ int s08b_bunsin2_800D0784(Work *work)
 int s08b_bunsin2_800D0814(Work *work)
 {
     int r1 = s08b_bunsin2_800CEE68(work);
-    int a0 = *(unsigned char *)&work->field_1978;
-    int a1 = *(unsigned char *)&work->field_197C;
+    int a0 = work->field_1978 & 0xFF;
+    int a1 = work->field_197C & 0xFF;
     int r2;
 
     work->field_19D0++;
@@ -4398,8 +4396,8 @@ Work *work;
     int a0, a1;
 
     r1 = s08b_bunsin2_800CEE68(work);
-    a0 = *(unsigned char *)&work->field_1978;
-    a1 = *(unsigned char *)&work->field_197C;
+    a0 = work->field_1978 & 0xFF;
+    a1 = work->field_197C & 0xFF;
     work->field_19D0++;
 
     if (s08b_bunsin2_800CEF34(a0, a1))
@@ -7703,7 +7701,9 @@ static ANIMATION s08b_anim_2 = {0xFAD3, 1, 1, 1, 1, 0x1F4, 1, 0x50, 0x50, 0, NUL
 static ANIMATION s08b_anim_3 = {0x1968, 1, 1, 1, 1, 0, 1, 0x46, 0x46, 0xFF, NULL, (char *)s08b_anim_script_3};
 static unsigned short s08b_anim_tex[3] = {0xDCD3, 0xFAD3, 0x1968};
 
-int s08b_dword_800C3610 = 0;
+int   s08b_cinema_active_800C3610 = 0;
+int   s08b_cinema_time_800C3614 = 0;
+void *s08b_cinema_screen_800C3618 = NULL;
 
 void s08b_bunsin2_800D4FBC(MATRIX *world, int type)
 {
@@ -7894,45 +7894,45 @@ void s08b_bunsin2_800D53E8(int type, int time)
 {
     void *screen;
 
-    if (s08b_dword_800C3610 == 0)
+    if (s08b_cinema_active_800C3610 == 0)
     {
-        s08b_dword_800C3610 = 1;
-        s08b_dword_800C3614 = time;
+        s08b_cinema_active_800C3610 = 1;
+        s08b_cinema_time_800C3614 = time;
         screen = NewCinemaScreen(time, type);
-        s08b_dword_800C3618 = (int)screen;
+        s08b_cinema_screen_800C3618 = screen;
     }
 }
 void s08b_bunsin2_800D5434(void)
 {
-    if (s08b_dword_800C3614 == 0)
+    if (s08b_cinema_time_800C3614 == 0)
     {
         return;
     }
-    if (s08b_dword_800C3610 == 0)
+    if (s08b_cinema_active_800C3610 == 0)
     {
         return;
     }
-    if (s08b_dword_800C3618 == 0)
+    if (s08b_cinema_screen_800C3618 == NULL)
     {
         return;
     }
-    NewCinemaScreenClose((void *)s08b_dword_800C3618);
-    s08b_dword_800C3618 = 0;
-    s08b_dword_800C3610 = 0;
+    NewCinemaScreenClose(s08b_cinema_screen_800C3618);
+    s08b_cinema_screen_800C3618 = NULL;
+    s08b_cinema_active_800C3610 = 0;
 }
 void s08b_bunsin2_800D5498(void)
 {
     int v;
 
-    v = s08b_dword_800C3614;
+    v = s08b_cinema_time_800C3614;
     if (v != 0)
     {
         v--;
-        s08b_dword_800C3614 = v;
+        s08b_cinema_time_800C3614 = v;
         if (v == 0)
         {
-            s08b_dword_800C3618 = 0;
-            s08b_dword_800C3610 = 0;
+            s08b_cinema_screen_800C3618 = NULL;
+            s08b_cinema_active_800C3610 = 0;
         }
     }
 }
