@@ -4008,44 +4008,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\animal\zako19\zako19.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CDC70.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CDCFC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CDD18.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CDD54.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CDF44.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CDF9C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CE008.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CE134.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CE2F8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CE34C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CE3D4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CE4E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CE54C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CE750.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CE8F8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CEB90.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CEC20.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CED08.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CED10.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CEE84.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CEF34.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CF068.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CF1C0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CF298.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CF340.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CF638.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CF6B8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CFA2C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CFAA0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CFBF0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CFD68.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CFE30.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800CFF34.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D0048.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D055C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D073C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D0838.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s19a\s19a_800D092C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s19a\animal\zako19\action.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800D0AB8.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800D0B84.obj", overlay
     include "{{OBJ_DIR}}\overlays\s19a\s19a_800D0C50.obj", overlay

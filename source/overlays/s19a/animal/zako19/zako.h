@@ -170,28 +170,28 @@ typedef struct _COMMANDER {
     /* 0x000 */ int     field_0;
     /* 0x004 */ int     field_4;
     /* 0x008 */ int     n_watchers;
-    /* 0x00C */ int     time;
-    /* 0x010 */ int     time2;
-    /* 0x014 */ int     alert_time;
-    /* 0x018 */ int     alert_level;
-    /* 0x01C */ int     alert_mode;
-    /* 0x020 */ int     field_20;
-    /* 0x024 */ int     target_addr;
-    /* 0x028 */ int     target_map;
-    /* 0x02C */ SVECTOR target_pos;
-    /* 0x034 */ short   n_zones;
-    /* 0x036 */ short   far_zone;
-    /* 0x038 */ short   zones[ 4 ];
-    /* 0x040 */ int     field_40[ 8 ];
-    /* 0x060 */ int     field_60;
-    /* 0x064 */ MAP    *map;
-    /* 0x068 */ JDATA   jdata;
-    /* 0x08C */ WATCHER watchers[ 8 ];
-    /* 0x10C */ int     field_10C;
+    /* 0x00C */ int     field_C;
+    /* 0x010 */ int     time;
+    /* 0x014 */ int     time2;
+    /* 0x018 */ int     alert_time;
+    /* 0x01C */ int     alert_level;
+    /* 0x020 */ int     alert_mode;
+    /* 0x024 */ int     field_24;
+    /* 0x028 */ int     target_addr;
+    /* 0x02C */ int     target_map;
+    /* 0x030 */ SVECTOR target_pos;
+    /* 0x038 */ short   n_zones;
+    /* 0x03A */ short   far_zone;
+    /* 0x03C */ short   zones[ 4 ];
+    /* 0x044 */ int     field_44[ 8 ];
+    /* 0x064 */ int     field_64;
+    /* 0x068 */ MAP    *map;
+    /* 0x06C */ JDATA   jdata;
+    /* 0x090 */ WATCHER watchers[ 8 ];
     /* 0x110 */ int     field_110;
-    /* 0x114 */ int     end_proc;
-    /* 0x118 */ int     start_proc;
-    /* 0x11C */ int     start_proc2;
+    /* 0x114 */ int     field_114;
+    /* 0x118 */ int     end_proc;
+    /* 0x11C */ int     start_proc;
 } COMMANDER;
 
 // TODO: check name
@@ -290,21 +290,21 @@ extern int       ZAKO19_PlayerMap;
 void *NewZako19( int name, int where );
 
 // action.c
-void s11a_800CB964( Work *work, int time );
+void s19a_800CF298( Work *work, int time );
 void ZAKO19_ActionUpdate( Work *work );
 
 // override.c
-void s11a_800CD198( Work *work, int time );
-void s11a_800CD264( Work *work, int time );
-void s11a_800CD330( Work *work, int time );
-void s11a_800CD3C8( Work *work, int time );
-void s11a_800CD460( Work *work, int time );
-void s11a_800CD514( Work *work, int time );
-void s11a_800CD5DC( Work *work, int time );
-void s11a_800CD680( Work *work, int time );
-void s11a_800CD748( Work *work, int time );
-void s11a_800CD960( Work *work, int time );
-void s11a_800CDAA8( Work *work, int time );
+void s19a_800D0AB8( Work *work, int time );
+void s19a_800D0B84( Work *work, int time );
+void s19a_800D0C50( Work *work, int time );
+void s19a_800D0CE8( Work *work, int time );
+void s19a_800D0D80( Work *work, int time );
+void s19a_800D0E34( Work *work, int time );
+void s19a_800D0EFC( Work *work, int time );
+void s19a_800D0FA0( Work *work, int time );
+void s19a_800D1068( Work *work, int time );
+void s19a_800D1280( Work *work, int time );
+void s19a_800D13C8( Work *work, int time );
 
 // put.c
 void ZAKO19_PutBlood( Work *work, int unit, int count );
