@@ -1,4 +1,7 @@
 #include "mgstype.h"
+#include "anime/animconv/anime.h"
+#include "okajima/blood.h"
+#include "okajima/spark.h"
 #include "takabe/cinema.h"
 #include "chara/snake/sna_init.h"
 #include "game/game.h"
@@ -8,6 +11,7 @@
 #include "libgv/libgv.h"
 #include "menu/menuman.h"
 #include "mts/mts.h" // for fprintf
+#include "charadef.h"
 
 #include <stdio.h>
 
@@ -136,6 +140,13 @@ extern int     s08b_dword_800C3450;
 extern SVECTOR s08b_dword_800C34F8[];
 extern int     s08b_dword_800C3588;
 
+extern NEWCHARA s08c_800C4194;
+extern SVECTOR s08b_dword_800C33F8;
+extern SVECTOR s08b_dword_800C3400;
+extern SVECTOR s08b_dword_800C3408;
+extern SVECTOR s08b_dword_800C3410;
+extern SVECTOR s08b_dword_800C3430;
+extern int     s08b_dword_800C3438;
 extern int     s08b_dword_800C3380;
 extern int     s08b_dword_800C338C;
 extern int     s08b_dword_800C3390;
@@ -386,7 +397,23 @@ void s08b_ninja_800C7ED8(void)
     s08b_dword_800E4320++;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C7F74.s")
+void s08b_ninja_800C7F74(void)
+{
+    GV_NearExp8V(&GM_Camera.target, &GM_PlayerPosition, 3);
+    GM_Camera.rotate.vx = GV_NearExp4(GM_Camera.rotate.vx, 0x280);
+    GM_Camera.rotate.vy = GV_NearExp4(GM_Camera.rotate.vy, 0x800);
+    GM_Camera.rotate.vz = 0;
+    GM_Camera.track = GV_NearExp2(GM_Camera.track, 0x1F40);
+    if (s08b_dword_800E4320 >= 0x20)
+    {
+        s08b_ninja_800C79D4(1);
+    }
+    else
+    {
+        s08b_dword_800E4320++;
+    }
+}
+#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_ninja_800C800C.s")
 
 void s08b_ninja_800C811C(Work *work)
 {
@@ -784,12 +811,56 @@ int s08b_bunsin2_800CD2C0(int a, int b, int c)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD2E8.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD544.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD5AC.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD614.s")
+void s08b_bunsin2_800CD544(Work *work, int index)
+{
+    MATRIX mat;
+
+    DG_SetPos(&work->body.objs->objs[index].world);
+    DG_MovePos(&s08b_dword_800C33F8);
+    DG_RotatePos(&s08b_dword_800C3400);
+    ReadRotMatrix(&mat);
+    NewSpark(&mat, 0);
+}
+void s08b_bunsin2_800CD5AC(Work *work, int index)
+{
+    MATRIX mat;
+
+    DG_SetPos(&work->body.objs->objs[index].world);
+    DG_MovePos(&s08b_dword_800C3408);
+    DG_RotatePos(&s08b_dword_800C3410);
+    ReadRotMatrix(&mat);
+    NewBlood(&mat, 0);
+}
+void s08b_bunsin2_800CD614(Work *work)
+{
+    MATRIX  mat;
+    MATRIX *world;
+
+    world = &work->body.objs->objs[4].world;
+    DG_SetPos(world);
+    DG_MovePos(&s08b_dword_800C3430);
+    ReadRotMatrix(&mat);
+    GM_SeSet((SVECTOR *)&work->control, 0x49);
+    AN_SocomFlash(world, &mat, 0);
+    s08b_bunsin2_800CD95C(work, s08b_bunsin2_800CD614);
+}
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD690.s")
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD770.s")
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CD808.s")
+void s08b_bunsin2_800CD808(Work *work)
+{
+    if (!(s08b_dword_800C3438 & 1))
+    {
+        s08c_800C4194(&work->body.objs->objs[6].world);
+    }
+
+    if (s08b_dword_800C3438 >= 8)
+    {
+        s08b_dword_800C3438 = 0;
+        s08b_bunsin2_800CD95C(work, s08b_bunsin2_800CD808);
+    }
+
+    s08b_dword_800C3438++;
+}
 
 void s08b_bunsin2_800CD87C(Work *work)
 {
