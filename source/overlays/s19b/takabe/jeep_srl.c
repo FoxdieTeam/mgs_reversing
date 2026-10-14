@@ -762,44 +762,43 @@ static void QueueRoadHazard(Work *work, JEEP_ROAD *road, int do_segs)
 #endif
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CE8DC.s")
 
-/* register allocation differs (road head index and division constant registers swapped) */
-#if 0 /* NON_MATCHING */
 void s19b_jeep_gls_800CEB2C(int z, SVECTOR *rot)
 {
-    Work *work;
+    Work   *work;
     SVECTOR vec;
-    int base;
-    int i;
+    int     base;
+    int     i;
 
     work = s19b_dword_800DE5B0;
-    base = work->road[work->head].pos.vz - 2000;
-    i = ((z - base) / 4000 + work->head) & 0xF;
+    i = work->head;
+    base = work->road[i].pos.vz - 2000;
+    base = (z - base) / 4000; /* two statements, the quotient then reuses the dividend's register */
+    i += base;
+    i &= 0xF;
     vec = work->road[i].step;
 
     rot->vy = GV_VecDir2(&vec);
     rot->vx = ratan2(-vec.vy, SquareRoot0(vec.vx * vec.vx + vec.vz * vec.vz));
     rot->vz = 0;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEB2C.s")
 
-/* only differs in the destination register of the quotient (subu v0 instead of v1) */
-#if 0 /* NON_MATCHING */
 void s19b_jeep_gls_800CEC24(int z, SVECTOR *out)
 {
-    Work *work;
+    Work      *work;
     JEEP_ROAD *near;
     JEEP_ROAD *far;
-    SVECTOR zero;
-    SVECTOR step;
-    SVECTOR tmp;
-    MATRIX mat;
-    int base;
-    int i;
+    SVECTOR    zero;
+    SVECTOR    step;
+    SVECTOR    tmp;
+    MATRIX     mat;
+    int        base;
+    int        i;
 
     work = s19b_dword_800DE5B0;
-    base = work->road[work->head].pos.vz - 2000;
-    i = work->head + (z - base) / 4000;
+    i = work->head;
+    base = work->road[i].pos.vz - 2000;
+    base = (z - base) / 4000; /* two statements, the quotient then reuses the dividend's register */
+    i += base;
     far = &work->road[i & 0xF];
     if (far->pos.vz > z)
     {
@@ -819,8 +818,6 @@ void s19b_jeep_gls_800CEC24(int z, SVECTOR *out)
     s19b_jeep_800D21DC(((far->pos.vz - z) << 12) / 4000, &mat, out);
     GV_AddVec3(out, &far->pos, out);
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_gls_800CEC24.s")
 
 int s19b_jeep_gls_800CEDFC(int z, int offset)
 {
