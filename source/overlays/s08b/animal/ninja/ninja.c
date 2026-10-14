@@ -7018,38 +7018,64 @@ void s08b_bunsin2_800D41DC(Work *work)
 
 int s08b_bunsin2_800D42D8(Work *work)
 {
-    int result;
-
     switch (work->think3)
     {
     case 13:
-        result = s08b_bunsin2_800D1014(work);
-        goto check;
+        if (s08b_bunsin2_800D1014(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 14:
-        result = s08b_bunsin2_800D10C4(work);
-        goto check;
+        if (s08b_bunsin2_800D10C4(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 15:
-        result = s08b_bunsin2_800D1138(work);
-        goto check;
+        if (s08b_bunsin2_800D1138(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 16:
-        result = s08b_bunsin2_800D11A8(work);
-        goto check;
+        if (s08b_bunsin2_800D11A8(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 17:
-        result = s08b_bunsin2_800D1218(work);
-        goto check;
+        if (s08b_bunsin2_800D1218(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 18:
-        result = s08b_bunsin2_800D125C(work);
-        goto check;
+        if (s08b_bunsin2_800D125C(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 19:
-        result = s08b_bunsin2_800D12A0(work);
-check:
-        if (result != 0)
+        if (s08b_bunsin2_800D12A0(work) != 0)
         {
             work->command = -1;
             work->think3 = 23;
@@ -7200,8 +7226,6 @@ void s08b_bunsin2_800D4638(Work *work)
 
 void s08b_bunsin2_800D468C(Work *work)
 {
-    int result;
-
     switch (work->think3)
     {
     case 24:
@@ -7217,25 +7241,43 @@ void s08b_bunsin2_800D468C(Work *work)
         break;
 
     case 20:
-        result = s08b_bunsin2_800D12EC(work);
-        goto check;
+        if (s08b_bunsin2_800D12EC(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 13:
-        result = s08b_bunsin2_800D1014(work);
-        goto check;
+        if (s08b_bunsin2_800D1014(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 17:
-        result = s08b_bunsin2_800D1218(work);
-        goto check;
+        if (s08b_bunsin2_800D1218(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 16:
-        result = s08b_bunsin2_800D11A8(work);
-        goto check;
+        if (s08b_bunsin2_800D11A8(work) != 0)
+        {
+            work->command = -1;
+            work->think3 = 23;
+            work->count3 = 0;
+        }
+        break;
 
     case 19:
-        result = s08b_bunsin2_800D12A0(work);
-check:
-        if (result != 0)
+        if (s08b_bunsin2_800D12A0(work) != 0)
         {
             work->command = -1;
             work->think3 = 23;
