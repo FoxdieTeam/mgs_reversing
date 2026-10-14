@@ -34,13 +34,20 @@ void BloodHazard_Die(Work *work);
  * normal / sqrt mult results. With this source the pseudo's GR cost (48) is
  * below its memory cost (56), so it gets GR as alternate class; a C construct
  * that changes this without changing the code has not been found.
- * Measured with the native cc1 (regclass.c, loop weight 4, $hi<->GR move cost 6,
- * memory cost 4): a pseudo with one set and one use is always 2 * weight (8)
- * short of flipping (48 against 56), so plain rewrites of width / 3 cannot do it;
- * it would need two sets per use, or the set in a deeper loop than the use. The
- * ten mult/mflo pseudos of the normal and sqrt code have the same shape. 14000
- * permuter variants and user-variable forms of width / 3 and height / 3 found
- * nothing.
+ * Cause, measured with the native cc1: the width / 3 high-word pseudo first gets
+ * $hi in global-alloc. The hoisted height / 3 highpart insn (outside the loop)
+ * has a spilled output, so reload needs a HI_REG reload for it and spills hard
+ * reg $hi, evicting the width / 3 pseudo. retry_global_alloc then finds it a GR
+ * ($t2) because its alternate class is GR (cost 48 against memory 56, always 2 *
+ * loop weight short of flipping for one set + one use), so it gets no stack slot.
+ * In the original the retry must fail (or the pseudo is local-allocated, which
+ * needs alternate class NO_REGS), the pseudo stays spilled and alter_reg gives it
+ * the unreferenced slot. InitPacks in enemy/eyeflash.c has the same kind of
+ * unused 8 byte frame with a plain / 3, but there the hi pseudo simply stays in
+ * $hi and another short-lived pseudo gets the slot, so it is no template.
+ * 14000 permuter variants, user-variable forms of width / 3 and height / 3 and
+ * explicit 64-bit forms of the multiply did not change it (an explicit
+ * (long long) multiply reaches the 120 byte frame but spills the 64-bit value).
  * Tried without success: a dead SVECTOR or long long local (or array) gives the
  * right frame size, but it is a pre-reload local so it sits below the spill slots
  * and shifts them by 8 (8 of 670 words differ); hoisting/rewriting width / 3,
