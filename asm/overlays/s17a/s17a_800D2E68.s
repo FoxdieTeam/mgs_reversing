@@ -2,6 +2,8 @@
 	section .text
 
 	xdef s17a_800D2E68
+	xdef NewDrumFire
+NewDrumFire:
 s17a_800D2E68:
 	dw 0x27BDFFD8 ; 800D2E68
 	dw 0xAFB10014 ; 800D2E6C

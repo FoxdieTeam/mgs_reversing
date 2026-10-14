@@ -2,6 +2,8 @@
 	section .text
 
 	xdef s17a_800D26A0
+	xdef NewDrumSmoke
+NewDrumSmoke:
 s17a_800D26A0:
 	dw 0x27BDFFD8 ; 800D26A0
 	dw 0xAFB10014 ; 800D26A4
