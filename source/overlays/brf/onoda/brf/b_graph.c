@@ -80,6 +80,10 @@ typedef struct
     short field_2;
 } BrfKeyframe;
 
+void brf_800CCBD4();
+void brf_800CC5E4();
+void brf_800CF4E0();
+void brf_800CF5A8();
 DG_TEX *brf_800CABF4();
 extern const char brf_dword_800E1BF0[];
 
@@ -1495,14 +1499,48 @@ void brf_800CF430(Work *work)
 }
 void brf_800CDAEC();
 
-void brf_800CF4A0(Work *work, int a, int b, int c, int d, int e, int f)
+void brf_800CF4A0(Work *work, int a, int b, int c, int d, int e, void *f)
 {
     brf_800CDAEC(work->field_28C, e, f, a, b, d, c);
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF4E0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF5A8.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF984.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D00C4.s")
+extern int brf_dword_800C3768, brf_dword_800C3798;
+
+void brf_800D00C4(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+
+    switch (work->field_AD20)
+    {
+    case 1:
+        if (work->field_AD5C != 0)
+        {
+            GM_StreamPlayStart();
+            brf_800CC150(work);
+            brf_800CC190(work);
+            brf_800CF4A0(work, 0, 0x5A, 0x1C2, 0x44C, 4, &brf_dword_800C3768);
+            work->z_A597[0] = 10;
+            work->z_A597[1] = 12;
+            work->field_AD38 = 0;
+            work->field_AD30 = 0;
+            work->z_A597[2] = 8;
+            work->z_A597[3] = 8;
+        }
+        brf_800CF4E0(work, 0, 0, 0, 0x5A, 0x1C2, 1, &brf_dword_800C3798);
+        brf_800CCBD4(work, &base[1]);
+        brf_800CADD4(work, &base[0], 0);
+        brf_800CADD4(work, &base[4], 0);
+        break;
+    case 2:
+    case -1:
+        brf_800CF5A8(work);
+        break;
+    case 0:
+        break;
+    }
+}
 void brf_800D0234(Work *work)
 {
     if (work->field_AD34 < 0xF0)
@@ -1754,7 +1792,48 @@ void brf_800D2ED0(Work *work)
 
     work->field_AD38++;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D30A0.s")
+void brf_800D30A0(Work *work)
+{
+    switch (work->field_AD28)
+    {
+    case 0x40:
+        GM_SeSet2(0x1F, 0x30, 0xB4);
+        break;
+    case 0x60:
+        GM_SeSet2(0x1F, 0x3F, 0xB5);
+        break;
+    case 0x80:
+        GM_SeSet2(0x19, 0x3F, 0xB4);
+        break;
+    case 0xA0:
+        GM_SeSet2(0x10, 0x3F, 0xB5);
+        break;
+    case 0xB4:
+        GM_SeSet2(0xA, 0x3F, 0xB4);
+        break;
+    case 0x118:
+        GM_SeSet2(0xA, 0x3F, 0xB5);
+        break;
+    case 0x140:
+        GM_SeSet2(0xFA, 0x3F, 0xB4);
+        break;
+    case 0x258:
+        GM_SeSet2(0xFA, 0x3F, 0xBF);
+        break;
+    case 0x278:
+        GM_SeSet2(0xA, 0x3F, 0xB4);
+        break;
+    case 0x298:
+        GM_SeSet2(0x14, 0x3F, 0xB5);
+        break;
+    case 0x2B8:
+        GM_SeSet2(0x1E, 0x3F, 0xB4);
+        break;
+    case 0x2D8:
+        GM_SeSet2(0x1F, 0x30, 0xB5);
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D3220.s")
 void brf_800D39F0(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 {
@@ -1865,9 +1944,6 @@ void brf_800D45C4(Work *work)
     }
     work->field_AD38++;
 }
-void brf_800CC5E4();
-void brf_800CF5A8();
-
 void brf_800D4664(Work *work)
 {
     POLY_FT4 *base = work->field_28C;
@@ -2241,7 +2317,59 @@ void brf_800D5E54(Work *work)
     work->field_AD34++;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D5ED0.s")
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800D674C.s")
+extern int brf_dword_800C390C;
+
+void brf_800D674C(Work *work)
+{
+    POLY_FT4 *base = work->field_28C;
+
+    switch (work->field_AD20)
+    {
+    case 1:
+        if (work->field_AD5C != 0)
+        {
+            GM_StreamPlayStart();
+            brf_800CC150(work);
+            brf_800CC190(work);
+            work->field_ADA4 = 0;
+            work->field_AD9C = 0;
+            work->field_ADA0 = 0;
+            work->field_AD78 = 0;
+            work->field_AD7C = 0x1E;
+            work->field_AD80 = 0xF0;
+            work->field_AD84 = 0;
+            work->field_AD88 = 0x1E;
+            work->field_AD8C = 0xF0;
+            work->field_AD90 = 0;
+            work->field_AD94 = 0x1E;
+            work->field_AD98 = 0xF0;
+            brf_800CF4A0(work, 0, 0x1E, 0xC8, 0xF0, 6, &brf_dword_800C390C);
+            work->z_A597[0] = 12;
+            work->z_A597[1] = 12;
+            work->z_A597[2] = 8;
+            work->z_A597[3] = 8;
+            work->z_A597[4] = 10;
+            work->z_A597[5] = 10;
+        }
+        if (work->field_ADA4 == 0)
+        {
+            brf_800CF430(work);
+            brf_800CADD4(work, &base[4], 4);
+            brf_800CC5E4(work, &base[0], &base[1]);
+        }
+        else
+        {
+            brf_800CECE4(work);
+        }
+        break;
+    case 2:
+    case -1:
+        brf_800CF5A8(work);
+        break;
+    case 0:
+        break;
+    }
+}
 void brf_800D68D0(Work *work)
 {
     POLY_FT4 *base = work->field_28C;
