@@ -5,116 +5,121 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "okajima/blood.h"
+#include "takabe/cineutil.h"
+#include "chara/snake/shadow.h"
+
+typedef struct _RopeAxis
+{
+    int    speed;       // 0x00
+    int    saved_angle; // 0x04
+    int    dir;         // 0x08
+    int    step;        // 0x0C
+    int    f10;         // 0x10
+    int    dx;          // 0x14
+    int    dz;          // 0x18
+    int    angle;       // 0x1C
+    int    f20;         // 0x20
+    int    f24;         // 0x24
+    int    f28;         // 0x28
+    int    f2C;         // 0x2C
+    int    target;      // 0x30
+    short *pos;         // 0x34
+    short *rot;         // 0x38
+} RopeAxis;
 
 typedef struct _Work
 {
-    GV_ACT      actor;
-    CONTROL     control;
-    OBJECT      object;
-    char        pad_obj[0x186 - 0x9C - sizeof(OBJECT)];
-    short       field_186;
-    char        pad2b[0x7DC - 0x186 - sizeof(short)];
-    DG_PRIM    *field_7DC;
-    char        pad2c[0x800 - 0x7DC - sizeof(DG_PRIM *)];
-    void       *field_800;
-    TARGET     *target;
-    char        pad3a0[0x810 - 0x804 - sizeof(TARGET *)];
-    DG_PRIM    *field_810;
-    char        pad3a1[0xA14 - 0x810 - sizeof(DG_PRIM *)];
-    DG_PRIM    *field_A14;
-    char        pad3a2[0xEA0 - 0xA14 - sizeof(DG_PRIM *)];
-    int         field_EA0;
-    short      *field_EA4;
-    GV_PAD     *pad;
-    int         field_EAC;
-    int         field_EB0;
-    int         field_EB4;
-    int         field_EB8;
-    char        pad3c0[0xEBC - 0xEB8 - sizeof(int)];
-    short       field_EBC;
-    short       field_EBE;
-    char        pad3c[0xEC8 - 0xEBC - sizeof(short) * 2];
-    int         field_EC8;
-    int         field_ECC;
-    int         field_ED0;
-    int         field_ED4;
-    int         field_ED8;
-    int         field_EDC;
-    int         field_EE0;
-    int         field_EE4;
-    int         field_EE8;
-    int         field_EEC;
-    int         field_EF0;
-    int         field_EF4;
-    int         field_EF8;
-    int         field_EFC;
-    int         field_F00;
-    int         field_F04;
-    int         field_F08;
-    int         field_F0C;
-    int         field_F10;
-    int         field_F14;
-    int         field_F18;
-    int         field_F1C;
-    int         field_F20;
-    int         field_F24;
-    int         field_F28;
-    int         field_F2C;
-    int         field_F30;
-    int         field_F34;
-    int         field_F38;
-    int         field_F3C;
-    char        pad3d00a[0xF44 - 0xF3C - sizeof(int)];
-    short       field_F44;
-    char        pad3d00b[0xF50 - 0xF44 - sizeof(short)];
-    SVECTOR     field_F50;
-    SVECTOR     field_F58;
-    char        pad3d01[0xF60 - 0xF58 - sizeof(SVECTOR)];
-    int         field_F60;
-    int         field_F64;
-    int         field_F68;
-    char        pad3d1[0xF6C - 0xF68 - sizeof(int)];
-    int         field_F6C;
-    int         field_F70;
-    int         field_F74;
-    int         field_F78;
-    int         field_F7C;
-    char        pad5[0xF84 - 0xF7C - sizeof(int)];
-    short       field_F84;
-    short       field_F86;
-    short       field_F88;
-    char        pad6a0[0xF8C - 0xF88 - sizeof(short)];
-    short       field_F8C;
-    short       field_F8E;
-    char        pad6a1[0xF94 - 0xF8E - sizeof(short)];
-    short       field_F94;
-    short       field_F96;
-    short       field_F98;
-    char        pad6a3[0xF9C - 0xF98 - sizeof(short)];
-    int         field_F9C;
-    int         field_FA0;
-    int         field_FA4[16];
-    SVECTOR     field_FE4[16];
-    char        pad6a4[0x107C - 0xFE4 - sizeof(SVECTOR) * 16];
-    int         field_107C[3];
-    int         field_1088[4];
+    GV_ACT         actor;
+    CONTROL        control;
+    OBJECT         object;
+    MOTION_CONTROL m_ctrl;
+    MOTION_SEGMENT m_segs1[17];
+    MOTION_SEGMENT m_segs2[17];
+    SVECTOR        rots[16];
+    char           pad_718[0x79C - 0x718];
+    MATRIX         light[2];
+    DG_PRIM       *field_7DC;           /* 1 quad */
+    SVECTOR        field_7E0[4];
+    void          *shadow;
+    TARGET        *target;
+    SVECTOR        field_808;
+    DG_PRIM       *field_810;           /* 16 quads */
+    SVECTOR        field_814[16 * 4];
+    DG_PRIM       *field_A14;           /* 32 quads (the rope) */
+    SVECTOR        field_A18[32 * 4];
+    int            field_E18[32];
+    int            field_E98;
+    int            field_E9C;
+    int            ref_name;            /* 'n': name of the CONTROL found by s11d_rope_800C54CC */
+    CONTROL       *ref_control;
+    GV_PAD        *pad;
+    void         (*state)(struct _Work *, int);
+    int            state_time;
+    int            field_EB4;
+    int            field_EB8;
+    short          field_EBC;
+    short          field_EBE;
+    short          field_EC0;
+    short          field_EC2;
+    short          field_EC4;
+    short          field_EC6;
+    RopeAxis       axis[2];
+    int            field_F40;
+    short          field_F44;
+    short          field_F46;
+    int            field_F48;
+    int            field_F4C;
+    SVECTOR        field_F50;
+    SVECTOR        field_F58;
+    int            field_F60;
+    int            field_F64;
+    int            field_F68;
+    int            field_F6C;
+    int            field_F70;
+    int            field_F74;
+    int            field_F78;
+    int            field_F7C;
+    int            field_F80;
+    SVECTOR        field_F84[3];        /* 'i', 'a', 'r' */
+    int            n_cams;
+    int            cam_idx;
+    int            cam_heights[16];     /* 'h' */
+    SVECTOR        cam_rots[16];        /* 'c' */
+    char           pad_1064[0x1074 - 0x1064];
+    short          field_1074;
+    short          field_1076;
+    int            field_1078;          /* 'e' */
+    int            procs[3];            /* 'w' */
+    int            voxes[4];            /* 'v' */
 } Work;
 
 #define TARGET_FLAG ( TARGET_AVAIL | TARGET_POWER | TARGET_SEEK )
 
+u_char s11d_dword_800C3260[] = { 0x7F, 0x04, 0x00, 0x00 };
+u_char s11d_dword_800C3264[] = { 0xE1, 0x01, 0xFF, 0x02, 0x00, 0x00, 0x00, 0x00 };
+u_char s11d_dword_800C326C[] = { 0x7F, 0x06, 0x00, 0x00 };
+u_char s11d_dword_800C3270[] = { 0xE1, 0x01, 0xFF, 0x04, 0xE1, 0x02, 0x4B, 0x08, 0x00, 0x00, 0x00, 0x00 };
+u_char s11d_dword_800C327C[] = { 0x7F, 0x01, 0x00, 0x00 };
+u_char s11d_dword_800C3280[] = { 0xAF, 0x04, 0x28, 0x03, 0x23, 0x03, 0x1E, 0x0C, 0x00, 0x00, 0x00, 0x00 };
+static u_char s11d_dword_800C328C[] = { 0x7F, 0x06, 0x00, 0x00 };
+static u_char s11d_dword_800C3290[] = { 0xFF, 0x06, 0x00, 0x02, 0xA5, 0x06, 0x37, 0x08, 0x73, 0x02, 0x00, 0x00 };
+u_char s11d_dword_800C329C[] = { 0x00, 0x01, 0x7F, 0x01, 0x00, 0x00, 0x00, 0x00 };
+u_char s11d_dword_800C32A4[] = { 0x96, 0x02, 0x46, 0x04, 0x32, 0x03, 0x1E, 0x02, 0x00, 0x00, 0x00, 0x00 };
+u_char s11d_dword_800C32B0[] = { 0xAA, 0x03, 0x00, 0x00 };
 static u_char s11d_dword_800C32B4[] = { 0x7F, 0x01, 0x00, 0x00 };
 static u_char s11d_dword_800C32B8[] = { 0xD2, 0x02, 0x00, 0x00 };
 static SVECTOR s11d_dword_800C32BC = { 0, 0, 100 };
 static SVECTOR s11d_dword_800C32C4 = { -1024, 0, 0 };
 static SVECTOR target_size = { 300, 900, 300 };
 
-extern int s11d_dword_800D1F7C;
-extern int s11d_dword_800D1F80;
+extern short s11d_dword_800D1F7C[2];
+extern short s11d_dword_800D1F80[2];
 extern int s11d_dword_800D1F84;
 
 extern const char s11d_aTosi_800D1D5C[]; // "to_s11i"
 
 extern void TortureInfoKill(void);
+extern void AN_DamageSmoke1(SVECTOR *world);
 
 extern void s11d_rope_800C44A4(Work *work);
 extern void s11d_rope_800C44F0(Work *work);
@@ -128,14 +133,27 @@ extern void s11d_rope_800C4ECC(Work *work);
 extern void s11d_rope_800C502C(Work *work);
 extern void s11d_rope_800C5348(Work *work);
 extern void s11d_rope_800C5410(void);
+extern void s11d_rope_800C5584(Work *work, RopeAxis *axis, int index);
 extern void s11d_rope_800C5B10(Work *work);
 extern void s11d_rope_800C5E74(Work *work);
 extern void s11d_rope_800C6478(Work *work);
+extern void s11d_rope_800C6264(Work *work);
+extern void s11d_rope_800C62E0(Work *work);
 extern void s11d_rope_800C650C(void);
-extern void s11d_rope_800C6834(Work *work);
+extern void s11d_rope_800C6544(Work *work, int arg1);
+extern void s11d_rope_800C61D8(Work *work, int index);
+extern void s11d_rope_800C6834(Work *work, int arg1);
+extern void s11d_rope_800C7A4C(Work *work, int arg1);
+extern void s11d_rope_800C7B2C(Work *work, int arg1);
+extern void s11d_rope_800C7EC4(Work *work, int arg1);
+extern void s11d_rope_800C7F8C(Work *work, int arg1);
+extern void s11d_rope_800C697C(Work *work, int arg1);
+extern void s11d_rope_800C6B18(Work *work, int arg1);
 
-extern void s11d_rope_800C7138(Work *work);
-extern void s11d_rope_800C766C(Work *work);
+extern void s11d_rope_800C6F28(Work *work, int arg1);
+extern void s11d_rope_800C7138(Work *work, int arg1);
+extern void s11d_rope_800C7320(Work *work, int arg1);
+extern void s11d_rope_800C766C(Work *work, int arg1);
 extern void s11d_rope_800C8364(Work *work);
 extern void s11d_rope_800C868C(Work *work);
 extern int  s11d_rope_800C91AC(Work *work, int arg1, int arg2);
@@ -232,7 +250,7 @@ void s11d_rope_800C4404(Work *work)
     {
         return;
     }
-    if (work->field_EAC == (int)s11d_rope_800C7138)
+    if (work->state == s11d_rope_800C7138)
     {
         return;
     }
@@ -275,7 +293,7 @@ void s11d_rope_800C44A4(Work *work)
     {
         return;
     }
-    if (work->field_EA4[2] > work->field_F88)
+    if (work->ref_control->mov.vz > work->field_F84[0].vz)
     {
         work->field_F74 = flag | 2;
     }
@@ -349,11 +367,74 @@ void s11d_rope_800C45F8(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4648.s")
+void s11d_rope_800C4648(Work *work)
+{
+    SVECTOR cam;
+    SVECTOR diff;
+    int     idx;
+    int     next;
+
+    if (work->state == s11d_rope_800C6544)
+    {
+        return;
+    }
+    if (work->field_F70 & 0x1000)
+    {
+        return;
+    }
+
+    next = -1;
+    idx = work->cam_idx;
+    if (idx != work->n_cams - 1)
+    {
+        next = idx + 1;
+    }
+
+    if (work->cam_heights[idx] < work->control.mov.vy)
+    {
+        if (idx > 0)
+        {
+            idx--;
+        }
+    }
+    else if (next != -1)
+    {
+        next = idx + 1;
+        if (work->control.mov.vy < work->cam_heights[next])
+        {
+            idx = next;
+        }
+    }
+
+    work->cam_idx = idx;
+
+    cam = GM_SnakeCamera.rotate;
+    cam.vz = GM_SnakeCamera.track;
+    GV_SubVec3(&work->cam_rots[idx], &cam, &diff);
+
+    if (abs(diff.vz) > 64)
+    {
+        diff.vz = (diff.vz > 0) ? 64 : -64;
+    }
+    GM_SnakeCamera.track += diff.vz;
+    GM_CameraSetTrack(GM_SnakeCamera.track);
+
+    diff.vz = 0;
+    if (abs(diff.vx) > 8)
+    {
+        diff.vx = (diff.vx > 0) ? 8 : -8;
+    }
+    if (abs(diff.vy) > 8)
+    {
+        diff.vy = (diff.vy > 0) ? 8 : -8;
+    }
+    GV_AddVec3(&GM_SnakeCamera.rotate, &diff, &GM_SnakeCamera.rotate);
+    GM_CameraSetRotation(&GM_SnakeCamera.rotate);
+}
 
 void s11d_rope_800C481C(Work *work)
 {
-    GM_SnakeCamera.rotate.vy = work->field_EDC / 48 + 2048;
+    GM_SnakeCamera.rotate.vy = work->axis[0].dx / 48 + 2048;
     GM_CameraSetRotation(&GM_SnakeCamera.rotate);
 }
 
@@ -381,7 +462,109 @@ void s11d_rope_800C48C0(Work *work)
     target->class |= (TARGET_POWER | TARGET_SEEK);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C48EC.s")
+void s11d_rope_800C48EC(Work *work)
+{
+    TARGET *target;
+    int     damaged;
+
+    if (work->field_F70 & 0x2100)
+    {
+        return;
+    }
+
+    target = work->target;
+    damaged = target->damaged;
+
+    if (work->field_F70 & 0x8000)
+    {
+        if (work->field_F7C > 0)
+        {
+            work->field_F7C--;
+            if (work->field_F7C > 0)
+            {
+                if (!(work->field_F70 & 0x1000))
+                {
+                    if (work->field_F7C & 3)
+                    {
+                        work->object.objs->flag &= ~DG_FLAG_INVISIBLE;
+                    }
+                    else
+                    {
+                        work->object.objs->flag |= DG_FLAG_INVISIBLE;
+                    }
+                }
+                else
+                {
+                    GM_SnakeCamera.position.vy += GV_RandU(16) * work->field_F7C;
+                }
+                return;
+            }
+
+            if (!(work->field_F70 & 0x1000))
+            {
+                work->object.objs->flag &= ~DG_FLAG_INVISIBLE;
+            }
+            s11d_rope_800C48C0(work);
+        }
+    }
+
+    if (!(damaged & 4))
+    {
+        return;
+    }
+
+    if (target->a_mode == 2)
+    {
+        AN_DamageSmoke1(&work->control.mov);
+        NewPadVibration(s11d_dword_800C3260, 1);
+        NewPadVibration(s11d_dword_800C3264, 2);
+    }
+    else
+    {
+        NewPadVibration(s11d_dword_800C326C, 1);
+        NewPadVibration(s11d_dword_800C3270, 2);
+        s11d_rope_800C61D8(work, GV_RandU(16));
+    }
+    work->field_F44 = 0;
+
+    target->damage = 0;
+    target->faint = 0;
+    target->damaged &= ~4;
+    target->force = DG_ZeroVector;
+
+    if (target->vital <= 0)
+    {
+        work->state = s11d_rope_800C7F8C;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        GM_GameStatus |= 0x2000;
+        return;
+    }
+
+    if (work->field_F70 & 0x1000)
+    {
+        s11d_rope_800C486C(work);
+        GM_SeSet(&work->control.mov, 25);
+        return;
+    }
+
+    if (work->field_F74 & 0x2000)
+    {
+        work->state = s11d_rope_800C7A4C;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+    }
+    else
+    {
+        work->state = s11d_rope_800C7B2C;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+    }
+    work->target->size.vy = 0x384;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C4B78.s")
 
 int s11d_rope_800C4DE0(Work *work)
@@ -498,7 +681,104 @@ int s11d_rope_800C4FC8(Work *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C502C.s")
+void s11d_rope_800C502C(Work *work)
+{
+    RopeAxis *axis1 = &work->axis[0];
+    RopeAxis *axis2 = &work->axis[1];
+    int  action;
+    int  pad;
+
+    if (work->field_F74 & 0x10000)
+    {
+        work->field_F74 &= ~0x800000;
+        work->field_EC2 = 0;
+    }
+
+    if (work->field_F74 & 0x800000)
+    {
+        if (work->object.action != 0xF)
+        {
+            GM_ConfigObjectAction(&work->object, 0xF, 0, 0);
+        }
+
+        work->field_EC2--;
+        if (work->field_EC2 == 0)
+        {
+            work->field_F74 = (work->field_F74 & ~0x800000) | 0x100;
+            if (axis1->dir != 0)
+            {
+                work->control.turn.vy = -(axis1->dir * 0x600);
+            }
+        }
+    }
+
+    if (work->field_F74 & 0x810000)
+    {
+        if (work->field_F74 & 0x10000)
+        {
+            work->field_F74 &= ~0xF00;
+            axis1->speed = 0;
+            axis1->dir = 0;
+        }
+        else
+        {
+            work->field_F74 &= ~0x500;
+            axis2->speed = 0;
+            axis2->dir = 0;
+        }
+    }
+    else
+    {
+        if (!(work->field_F74 & 0x100))
+        {
+            s11d_rope_800C6264(work);
+        }
+        if (!(work->field_F74 & 0x200))
+        {
+            s11d_rope_800C62E0(work);
+        }
+    }
+
+    if (work->field_F74 & 0x300)
+    {
+        action = work->object.action;
+        if (action != 5 && action != 7 && action != 9)
+        {
+            if (action != 1)
+            {
+                GM_ConfigObjectAction(&work->object, 1, 0, 4);
+            }
+
+            pad = work->pad->status;
+            if (pad & (PAD_LEFT | PAD_RIGHT))
+            {
+                work->control.turn.vy = (pad & PAD_LEFT) ? 0x600 : -0x600;
+            }
+        }
+    }
+
+    if (work->field_F74 & 0x100)
+    {
+        s11d_rope_800C5584(work, &work->axis[0], 0);
+    }
+    if (work->field_F74 & 0x200)
+    {
+        s11d_rope_800C5584(work, &work->axis[1], 1);
+    }
+
+    if (work->field_F74 & 0x400)
+    {
+        axis1->dir = 0;
+        axis1->speed = 0;
+        work->field_F74 &= ~0x400;
+    }
+    if (work->field_F74 & 0x800)
+    {
+        axis2->dir = 0;
+        axis2->speed = 0;
+        work->field_F74 &= ~0x800;
+    }
+}
 
 int s11d_rope_800C5298(Work *work)
 {
@@ -587,18 +867,18 @@ void s11d_rope_800C54CC(Work *work)
     u_short  target_name;
     CONTROL *ctrl;
 
-    if (work->field_EA4)
+    if (work->ref_control)
     {
         return;
     }
-    if (!work->field_EA0)
+    if (!work->ref_name)
     {
         return;
     }
 
     wherelist = GM_WhereList;
     i = GM_N_WhereList;
-    target_name = (u_short)work->field_EA0;
+    target_name = (u_short)work->ref_name;
     if (i <= 0)
     {
         return;
@@ -608,7 +888,7 @@ void s11d_rope_800C54CC(Work *work)
         ctrl = *wherelist++;
         if (ctrl->name == target_name)
         {
-            work->field_EA4 = (short *)ctrl;
+            work->ref_control = ctrl;
             return;
         }
     } while (--i > 0);
@@ -616,25 +896,25 @@ void s11d_rope_800C54CC(Work *work)
 
 void s11d_rope_800C5538(Work *work)
 {
-    int *cluster1 = &work->field_EC8;  /* offsets EC8..EF4 */
-    int *cluster2 = &work->field_F04;  /* offsets F04..F30 */
+    RopeAxis *axis1 = &work->axis[0];
+    RopeAxis *axis2 = &work->axis[1];
 
-    cluster2[1]  = 0;  /* field_F08 */
-    cluster1[1]  = 0;  /* field_ECC */
-    cluster1[8]  = 0;  /* field_EE8 */
-    cluster1[4]  = 0;  /* field_ED8 */
-    cluster1[2]  = 0;  /* field_ED0 */
-    cluster1[0]  = 0;  /* field_EC8 */
-    cluster2[8]  = 0;  /* field_F24 */
-    cluster2[4]  = 0;  /* field_F14 */
-    cluster2[2]  = 0;  /* field_F0C */
-    cluster2[0]  = 0;  /* field_F04 */
-    cluster1[11] = 0;  /* field_EF4 */
-    cluster1[10] = 0;  /* field_EF0 */
-    cluster1[9]  = 0;  /* field_EEC */
-    cluster2[11] = 0;  /* field_F30 */
-    cluster2[10] = 0;  /* field_F2C */
-    cluster2[9]  = 0;  /* field_F28 */
+    axis2->saved_angle = 0;
+    axis1->saved_angle = 0;
+    axis1->f20 = 0;
+    axis1->f10 = 0;
+    axis1->dir = 0;
+    axis1->speed = 0;
+    axis2->f20 = 0;
+    axis2->f10 = 0;
+    axis2->dir = 0;
+    axis2->speed = 0;
+    axis1->f2C = 0;
+    axis1->f28 = 0;
+    axis1->f24 = 0;
+    axis2->f2C = 0;
+    axis2->f28 = 0;
+    axis2->f24 = 0;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C5584.s")
@@ -665,19 +945,19 @@ void s11d_rope_800C6240(Work *work)
 
 void s11d_rope_800C6264(Work *work)
 {
-    int *cluster = &work->field_EC8;   /* [0]=EC8 [1]=ECC [2]=ED0 [5]=EDC [7]=EE4 */
-    int  val = cluster[7];
-    int  abs_val = (val < 0) ? -val : val;
-    int  flag;
+    RopeAxis *axis = &work->axis[0];
+    int       val = axis->angle;
+    int       abs_val = (val < 0) ? -val : val;
+    int       flag;
 
     if (abs_val < 0x21)
     {
         return;
     }
 
-    cluster[2] = (cluster[5] > 0) ? -1 : 1;
-    cluster[0] = 0x18;
-    cluster[1] = cluster[7];
+    axis->dir = (axis->dx > 0) ? -1 : 1;
+    axis->speed = 0x18;
+    axis->saved_angle = axis->angle;
     work->field_F60 = -8;
     flag = work->field_F74 | 0x100;
     work->field_F74 = flag;
@@ -689,16 +969,16 @@ void s11d_rope_800C6264(Work *work)
 
 void s11d_rope_800C62E0(Work *work)
 {
-    int *p_F04 = &work->field_F04;
+    RopeAxis *axis = &work->axis[1];
 
     if (work->field_F74 & 0x4000)
     {
         return;
     }
-    p_F04[2] = (work->field_F74 & 0x10) ? 1 : -1;
-    p_F04[0] = 0x30;
+    axis->dir = (work->field_F74 & 0x10) ? 1 : -1;
+    axis->speed = 0x30;
     work->field_F74 |= 0x200;
-    p_F04[1] = p_F04[7];
+    axis->saved_angle = axis->angle;
     work->field_F60 = -8;
     work->field_F68 = -8;
     if (work->field_F74 & 0x1000)
@@ -738,11 +1018,234 @@ void s11d_rope_800C650C(void)
     NewPadVibration(s11d_dword_800C32B8, 2);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6544.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6834.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C697C.s")
+void s11d_rope_800C6544(Work *work, int arg1)
+{
+    SVECTOR rot;
+    int     vz;
 
-extern void s11d_rope_800C6CD4(Work *work);
+    if (arg1 == 0)
+    {
+        work->field_F74 |= 0x10000;
+        GM_GameStatus |= 0x10020000;
+        OpenCinemaScreen(1, 0x7530);
+
+        rot.vx = -0x2A8;
+        rot.vy = 0x800;
+        rot.vz = 0;
+        GM_CameraSetRotation(&rot);
+        GM_CameraSetTrack(0x8FC);
+
+        work->field_F70 |= 2;
+        if (work->object.action != 0x11)
+        {
+            GM_ConfigObjectAction(&work->object, 0x11, 0, 4);
+        }
+
+        work->field_EBE = 0x8FC;
+        s11d_rope_800C4898(work, 0);
+        GM_VoxInit();
+        GM_VoxQueueDelay(work->voxes[1], 4);
+        work->field_810->raise = 500;
+        work->field_A14->raise = 500;
+    }
+
+    GM_VoxTick();
+
+    switch (work->field_EBC)
+    {
+    case 0:
+        if (work->field_EBE < 0x3E80)
+        {
+            work->field_EBE += 0x60;
+            GM_CameraSetTrack(work->field_EBE);
+        }
+
+        if (work->field_F74 & 0x2000)
+        {
+            work->field_810->raise = 0x5DC;
+            work->field_A14->raise = 0x5DC;
+            s11d_rope_800C650C();
+            GM_SeSetMode(&work->control.mov, 0xB2, 1);
+            if (work->object.action != 0xB)
+            {
+                GM_ConfigObjectAction(&work->object, 0xB, 0, 4);
+            }
+            work->field_EBE = 0;
+            work->field_F44 = 0;
+            work->field_EBC++;
+        }
+
+        work->control.step.vy -= 0xC;
+        break;
+
+    case 1:
+        vz = work->field_F84[2].vz;
+        GV_NearExp4V(&work->control.mov.vz, &vz, 1);
+        work->field_EBE++;
+        if (work->field_EBE == 0x3C)
+        {
+            GCL_ExecProc(work->procs[0], NULL);
+            work->field_EBC++;
+        }
+        break;
+
+    case 2:
+        work->field_EBE++;
+        if (work->field_EBE == 0xBE)
+        {
+            GCL_ExecProc(work->procs[1], NULL);
+        }
+        if (work->field_EBE == 0xC4)
+        {
+            GM_SeSetMode(&work->ref_control->mov, 0xBC, 1);
+        }
+        if (work->field_EBE == 0x64)
+        {
+            GM_VoxQueue(work->voxes[3]);
+        }
+        if (work->field_EBE == 0x118)
+        {
+            GCL_ExecProc(work->procs[2], NULL);
+            GM_GameStatus = (GM_GameStatus & 0xEFFDFFFF) | 0x8000;
+            work->state = s11d_rope_800C6834;
+            work->state_time = 0;
+            work->field_EBE = 0;
+            work->field_EBC = 0;
+            CloseCinemaScreen();
+            s11d_rope_800C48C0(work);
+        }
+        break;
+    }
+}
+void s11d_rope_800C6834(Work *work, int arg1)
+{
+    short  vz;
+
+    if (arg1 == 0)
+    {
+        work->field_F74 |= 0x10000;
+        work->field_F58 = work->control.rot;
+        work->field_F70 = (work->field_F70 & ~0xFF) | 0x80;
+        work->field_F74 &= ~0xF00;
+        s11d_rope_800C5538(work);
+        if (work->object.action != 0xB)
+        {
+            GM_ConfigObjectAction(&work->object, 0xB, 0, 4);
+        }
+        work->field_F44 = 0;
+    }
+
+    vz = work->field_F84[2].vz;
+    GV_NearExp4V(&work->control.mov.vz, &vz, 1);
+
+    if (s11d_rope_800C5298(work))
+    {
+        s11d_rope_800C6240(work);
+        GM_SeSetMode(&work->control.mov, 0xb7, 1);
+        work->state = s11d_rope_800C6B18;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C4DE0(work))
+    {
+        s11d_rope_800C6240(work);
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C4F84(work))
+    {
+        work->state = s11d_rope_800C697C;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    work->control.step.vy -= 0x80;
+}
+void s11d_rope_800C697C(Work *work, int arg1)
+{
+    SVECTOR pos;
+    SVECTOR vz;
+    int     outside;
+
+    if (arg1 == 0)
+    {
+        work->field_F74 |= 0x10000;
+        work->field_F70 = (work->field_F70 & ~0xFF) | 0x80;
+        if (work->object.action != 0xC)
+        {
+            GM_ConfigObjectAction(&work->object, 0xC, 0, 4);
+        }
+        if (work->field_EB4 == 1)
+        {
+            work->control.turn.vy = 0x400;
+        }
+        else
+        {
+            work->control.turn.vy = -0x400;
+        }
+        work->field_F44 = 0;
+    }
+
+    vz.vx = work->field_F84[2].vz;
+    GV_NearExp4V(&work->control.mov.vz, &vz, 1);
+
+    if (s11d_rope_800C4DE0(work))
+    {
+        s11d_rope_800C6240(work);
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C4FC8(work))
+    {
+        work->state = s11d_rope_800C6834;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C5298(work))
+    {
+        s11d_rope_800C6240(work);
+        GM_SeSetMode(&work->control.mov, 0xb7, 1);
+        work->state = s11d_rope_800C6B18;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    work->control.step.vy -= 0x80;
+
+    pos.vx = work->control.mov.vx + work->field_EB4 * 0x50;
+    if (pos.vx < work->field_F84[0].vx || work->field_F84[1].vx < pos.vx)
+    {
+        outside = 1;
+    }
+    else
+    {
+        outside = 0;
+    }
+    if (!outside)
+    {
+        work->control.step.vx += work->field_EB4 * 0x50;
+    }
+}
+
+extern void s11d_rope_800C6CD4(Work *work, int arg1);
 extern void s11d_rope_800C7530(Work *work, int arg1);
 void s11d_rope_800C6B18(Work *work, int arg1)
 {
@@ -772,8 +1275,8 @@ void s11d_rope_800C6B18(Work *work, int arg1)
 
     if (work->object.is_end != 0)
     {
-        work->field_EAC = (int)s11d_rope_800C6CD4;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C6CD4;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         return;
@@ -805,14 +1308,14 @@ void s11d_rope_800C6B18(Work *work, int arg1)
             {
                 GM_SeSetMode(&work->control.mov, 0xb2, 1);
                 s11d_rope_800C650C();
-                work->field_EAC = (int)s11d_rope_800C6834;
+                work->state = s11d_rope_800C6834;
             }
             else
             {
-                work->field_EAC = (int)s11d_rope_800C7530;
+                work->state = s11d_rope_800C7530;
             }
 
-            work->field_EB0 = 0;
+            work->state_time = 0;
             work->field_EBE = 0;
             work->field_EBC = 0;
         }
@@ -820,14 +1323,397 @@ void s11d_rope_800C6B18(Work *work, int arg1)
 
 work->control.step.vz -= 0x6C;
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6CD4.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6F28.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7138.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7320.s")
+void s11d_rope_800C6CD4(Work *work, int arg1)
+{
+    int up;
+    int down;
+    int mask_up = PAD_UP;
+    int mask_down = PAD_DOWN;
+
+    if (arg1 == 0)
+    {
+        if (work->object.action != 8)
+        {
+            GM_ConfigObjectAction(&work->object, 8, 0, 4);
+        }
+        work->field_EB8 = 0;
+        work->field_EB4 = 0;
+        work->field_F74 |= 0x10000;
+        work->target->size.vy = 0xC8;
+        work->control.turn.vy = 0x800;
+        work->field_EBC = 4;
+        work->field_F44 = 0x1C2;
+    }
+
+    if (s11d_rope_800C4DE0(work))
+    {
+        work->target->size.vy = 0x384;
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        work->field_F74 &= 0xFFBFFFFF;
+        return;
+    }
+
+    up = work->field_F74;
+    if (up & 0x1000)
+    {
+        up = 0;
+    }
+    else
+    {
+        up = (work->pad->status & mask_up) != 0;
+    }
+    if (up)
+    {
+        work->target->size.vy = 0x384;
+        work->state = s11d_rope_800C7138;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    down = work->field_F74;
+    if (down & 0x2000)
+    {
+        down = 0;
+    }
+    else
+    {
+        down = (work->pad->status & mask_down) != 0;
+    }
+    if (down)
+    {
+        work->target->size.vy = 0x384;
+        work->state = s11d_rope_800C7320;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C52F0(work))
+    {
+        work->target->size.vy = 0x384;
+        work->state = s11d_rope_800C6F28;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (!(work->pad->status & PAD_CIRCLE))
+    {
+        work->field_F68 = -4;
+        work->field_EBE = 1;
+    }
+
+    if (work->field_EBE == 1)
+    {
+        work->field_EBC--;
+        if (work->field_EBC == 0)
+        {
+            work->target->size.vy = 0x384;
+
+            if (work->field_F74 & 0x2000)
+            {
+                GM_SeSetMode(&work->control.mov, 0xb2, 1);
+                s11d_rope_800C650C();
+                work->state = s11d_rope_800C6834;
+            }
+            else
+            {
+                work->state = s11d_rope_800C7530;
+            }
+
+            work->state_time = 0;
+            work->field_EBE = 0;
+            work->field_EBC = 0;
+        }
+    }
+
+    work->control.step.vz -= 0x6C;
+}
+void s11d_rope_800C6F28(Work *work, int arg1)
+{
+    SVECTOR pos;
+    int     dir;
+    int     action;
+    int     outside;
+    int     pad;
+    int     dx;
+
+    dir = work->field_EB4;
+
+    if (arg1 == 0)
+    {
+        work->field_F74 |= 0x10000;
+        work->field_F70 = (work->field_F70 & ~0xFF) | 0x10;
+        action = 3;
+        if (dir == 1)
+        {
+            action = 2;
+        }
+        if (work->object.action != action)
+        {
+            GM_ConfigObjectAction(&work->object, action, 0, 4);
+        }
+        work->field_F44 = 0x1C2;
+    }
+
+    if (s11d_rope_800C4DE0(work))
+    {
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (!s11d_rope_800C52F0(work))
+    {
+        if (work->field_F74 & 0x2000)
+        {
+            GM_SeSetMode(&work->control.mov, 0xb2, 1);
+            s11d_rope_800C650C();
+            work->state = s11d_rope_800C6834;
+        }
+        else
+        {
+            work->state = s11d_rope_800C6CD4;
+        }
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    dir = work->field_EB4;
+    action = 3;
+    if (dir == 1)
+    {
+        action = 2;
+    }
+    if (work->object.action != action)
+    {
+        GM_ConfigObjectAction(&work->object, action, 0, 4);
+    }
+
+    if (!(work->pad->status & PAD_CIRCLE))
+    {
+        work->state = s11d_rope_800C7530;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (!(work->field_F74 & 0x1000))
+    {
+        dx = dir * 64;
+        pos.vx = work->control.mov.vx + dx;
+        if (pos.vx < work->field_F84[0].vx || work->field_F84[1].vx < pos.vx)
+        {
+            outside = 1;
+        }
+        else
+        {
+            outside = 0;
+        }
+        if (!outside)
+        {
+            work->control.step.vx += dx;
+            work->control.step.vz -= 0x6C;
+            pad = work->pad->status;
+            if (pad & PAD_UP)
+            {
+                work->control.step.vy += 12;
+            }
+            else if (pad & PAD_DOWN)
+            {
+                work->control.step.vy -= 12;
+            }
+        }
+    }
+}
+void s11d_rope_800C7138(Work *work, int arg1)
+{
+    int up;
+    int mask = PAD_UP;
+    int dir;
+    int angle;
+    int scale;
+
+    if (arg1 == 0)
+    {
+        work->field_F74 |= 0x10000;
+        work->field_F70 = (work->field_F70 & ~0xFF) | 0x20;
+        if (work->object.action != 0x10)
+        {
+            GM_ConfigObjectAction(&work->object, 0x10, 0, 4);
+        }
+        work->field_F44 = 0;
+    }
+
+    if (s11d_rope_800C4DE0(work))
+    {
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C52F0(work))
+    {
+        work->state = s11d_rope_800C6F28;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    up = work->field_F74;
+    if (up & 0x1000)
+    {
+        up = 0;
+    }
+    else
+    {
+        up = (work->pad->status & mask) != 0;
+    }
+    if (!up)
+    {
+        work->state = s11d_rope_800C6CD4;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (!(work->pad->status & PAD_CIRCLE))
+    {
+        if (work->field_F74 & 0x2000)
+        {
+            GM_SeSetMode(&work->control.mov, 0xb2, 1);
+            s11d_rope_800C650C();
+            work->state = s11d_rope_800C6834;
+        }
+        else
+        {
+            work->state = s11d_rope_800C7530;
+        }
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    dir = work->axis[0].dir;
+    angle = work->axis[0].angle;
+    scale = 12;
+    if (work->field_F40 > 0x2710)
+    {
+        work->control.step.vx += dir * scale * rsin(angle) / 4096;
+        work->control.step.vy += rcos(angle) * scale / 4096;
+    }
+    work->control.step.vz -= 0x6C;
+}
+void s11d_rope_800C7320(Work *work, int arg1)
+{
+    int down;
+    int mask = PAD_DOWN;
+    int dir;
+    int angle;
+    int scale;
+
+    if (arg1 == 0)
+    {
+        work->field_F74 |= 0x10000;
+        work->field_F70 = (work->field_F70 & ~0xFF) | 0x20;
+        if (work->object.action != 0x11)
+        {
+            GM_ConfigObjectAction(&work->object, 0x11, 0, 4);
+        }
+        work->field_F44 = 0;
+    }
+
+    if (s11d_rope_800C4DE0(work))
+    {
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C52F0(work))
+    {
+        work->state = s11d_rope_800C6F28;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    down = work->field_F74;
+    if (down & 0x2000)
+    {
+        down = 0;
+    }
+    else
+    {
+        down = (work->pad->status & mask) != 0;
+    }
+
+    if (!down)
+    {
+        if (work->field_F74 & 0x2000)
+        {
+            GM_SeSetMode(&work->control.mov, 0xb2, 1);
+            s11d_rope_800C650C();
+            work->state = s11d_rope_800C6834;
+        }
+        else
+        {
+            work->state = s11d_rope_800C6CD4;
+        }
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (!(work->pad->status & PAD_CIRCLE))
+    {
+        if (s11d_rope_800C4DE0(work))
+        {
+            work->target->size.vy = 0x384;
+            work->state = s11d_rope_800C766C;
+        }
+        else
+        {
+            work->state = s11d_rope_800C7530;
+        }
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    angle = work->axis[0].angle / 2;
+    dir = work->axis[0].dir;
+    scale = 12;
+    work->control.step.vx += dir * scale * rsin(angle) / 4096;
+    work->control.step.vy -= rcos(angle) * scale / 4096;
+    work->control.step.vz -= 0x6C;
+}
 
 void s11d_rope_800C7530(Work *work, int arg1)
 {
-    void *state_fn;
+    void (*state)(Work *, int);
 
     if (arg1 == 0)
     {
@@ -861,23 +1747,23 @@ void s11d_rope_800C7530(Work *work, int arg1)
     {
         GM_SeSetMode(&work->control.mov, 0xb2, 1);
         s11d_rope_800C650C();
-        state_fn = s11d_rope_800C6834;
+        state = s11d_rope_800C6834;
     }
     else if (s11d_rope_800C5298(work))
     {
-        state_fn = s11d_rope_800C6B18;
+        state = s11d_rope_800C6B18;
     }
     else if (s11d_rope_800C4DE0(work))
     {
-        state_fn = s11d_rope_800C766C;
+        state = s11d_rope_800C766C;
     }
     else
     {
         return;
     }
 
-    work->field_EAC = (int)state_fn;
-    work->field_EB0 = 0;
+    work->state = state;
+    work->state_time = 0;
     work->field_EBE = 0;
     work->field_EBC = 0;
 }
@@ -901,8 +1787,8 @@ void s11d_rope_800C7A4C(Work *work, int arg1)
     if (work->object.is_end != 0)
     {
         s11d_rope_800C486C(work);
-        work->field_EAC = (int)s11d_rope_800C6834;
-        work->field_EB0 = 0;
+        work->state = s11d_rope_800C6834;
+        work->state_time = 0;
         work->field_EBE = 0;
         work->field_EBC = 0;
         work->field_F70 &= ~0x100;
@@ -910,8 +1796,154 @@ void s11d_rope_800C7A4C(Work *work, int arg1)
     work->control.step.vy -= 0x80;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7B2C.s")
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7D20.s")
+void s11d_rope_800C7B2C(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        work->field_F74 &= 0xFF9FFFFF;
+        work->field_F74 &= ~0x10000;
+        GM_SeSetMode(&work->control.mov, 25, 1);
+        work->field_F70 |= 0x100;
+        if (work->object.action != 9)
+        {
+            GM_ConfigObjectAction(&work->object, 9, 0, 4);
+        }
+        work->control.turn.vy = 0x800;
+        s11d_rope_800C4898(work, 0);
+    }
+
+    if (work->field_F74 & 0x2000)
+    {
+        if (work->field_EBC == 0)
+        {
+            work->field_EBC = 1;
+        }
+    }
+
+    if (work->field_EBC == 1)
+    {
+        work->field_EBC = 2;
+        work->field_F74 |= 0x10000;
+        work->control.step.vy -= 0x80;
+    }
+
+    if (work->field_F74 & 0x2000)
+    {
+        s11d_rope_800C486C(work);
+        work->field_F70 &= ~0x100;
+        GM_SeSetMode(&work->control.mov, 0xb2, 1);
+        s11d_rope_800C650C();
+        work->state = s11d_rope_800C6834;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C5298(work))
+    {
+        s11d_rope_800C486C(work);
+        work->field_F70 &= ~0x100;
+        GM_SeSetMode(&work->control.mov, 0xb7, 1);
+        work->state = s11d_rope_800C6B18;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C4DE0(work))
+    {
+        s11d_rope_800C486C(work);
+        work->state = s11d_rope_800C766C;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        work->field_F70 &= ~0x100;
+        return;
+    }
+
+    if (work->object.is_end)
+    {
+        s11d_rope_800C486C(work);
+        work->state = s11d_rope_800C7530;
+        work->state_time = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        work->field_F70 &= ~0x100;
+    }
+}
+void s11d_rope_800C7D20(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        if (work->object.action != 0xD)
+        {
+            GM_ConfigObjectAction(&work->object, 0xD, 0, 4);
+        }
+        work->field_F44 = 0x1C2;
+        if (work->control.mov.vy < -0x1770)
+        {
+            GM_SeSetMode(&work->control.mov, 0xB3, 1);
+        }
+        else
+        {
+            GM_SeSetMode(&work->control.mov, 0xB1, 1);
+        }
+        NewPadVibration(s11d_dword_800C328C, 1);
+        NewPadVibration(s11d_dword_800C3290, 2);
+        work->field_F74 |= 0x02000000;
+    }
+
+    if (work->control.mov.vy >= -0x36AF)
+    {
+        work->control.step.vz = 0x30;
+    }
+    else
+    {
+        work->control.step.vz = 0;
+    }
+
+    if (arg1 >= 10)
+    {
+        work->control.step.vy = -0x80;
+    }
+    else
+    {
+        work->control.step.vy = -0x20;
+    }
+
+    if (!(work->control.grounded & 1))
+    {
+        work->control.turn.vx = -0x400;
+    }
+
+    if (work->object.height < -work->control.step.vy)
+    {
+        work->control.step.vy = 8 - work->object.height;
+    }
+
+    if (arg1 == 0x10)
+    {
+        if (work->control.mov.vy < -0x3E80)
+        {
+            work->state = s11d_rope_800C7EC4;
+            work->state_time = 0;
+            work->field_EBE = 0;
+            work->field_EBC = 0;
+        }
+        else
+        {
+            work->state = s11d_rope_800C7F8C;
+            work->state_time = 0;
+            work->field_EBE = 0;
+            work->field_EBC = 0;
+            work->field_F74 &= ~0x02000000;
+        }
+    }
+
+    work->control.step.vy /= 2;
+}
 
 void s11d_rope_800C7EC4(Work *work, int arg1)
 {
@@ -951,8 +1983,6 @@ void s11d_rope_800C8200(Work *work, int arg1)
 
 void s11d_rope_800C8250(Work *work)
 {
-    void (*state_fn)(Work *, int);
-
     work->control.step = DG_ZeroVector;
 
     s11d_rope_800C54CC(work);
@@ -969,15 +1999,14 @@ void s11d_rope_800C8250(Work *work)
     s11d_rope_800C6478(work);
     s11d_rope_800C5B10(work);
 
-    state_fn = (void (*)(Work *, int))work->field_EAC;
-    state_fn(work, work->field_EB0++);
+    work->state(work, work->state_time++);
 
     s11d_rope_800C5E74(work);
     s11d_rope_800C502C(work);
 
     s11d_dword_800D1F84 = (work->field_F70 & 2) > 0;
     GM_PlayerAction = work->object.action;
-    dword_800AB9D4 = work->field_186;
+    dword_800AB9D4 = work->m_ctrl.info1.frame;
     s11d_rope_800C5410();
 }
 
@@ -987,7 +2016,7 @@ void s11d_rope_800C868C(Work *work)
 {
     TortureInfoKill();
 
-    GV_DestroyActor(work->field_800);
+    GV_DestroyActor(work->shadow);
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->object);
     GM_FreeTarget(work->target);
@@ -1031,75 +2060,77 @@ int s11d_rope_800C879C(Work *work)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C882C.s")
+int s11d_rope_800C882C(Work *work);
 
 void s11d_rope_800C8C04(Work *work)
 {
-    int *cluster1;
-    int *cluster2;
+    RopeAxis *axis1;
+    RopeAxis *axis2;
 
     s11d_rope_800C5538(work);
 
-    cluster1 = &work->field_EC8;
-    cluster2 = &work->field_F04;
+    axis1 = &work->axis[0];
+    axis2 = &work->axis[1];
 
-    cluster1[6]  = 0;                           /* field_EE0 */
-    cluster1[5]  = 0;                           /* field_EDC */
-    cluster2[6]  = 0;                           /* field_F1C */
-    cluster2[5]  = 0;                           /* field_F18 */
-    cluster1[3]  = 0x18;                        /* field_ED4 */
-    cluster2[3]  = 0x40;                        /* field_F10 */
-    cluster1[12] = work->field_F94;             /* field_EF8 */
-    cluster2[12] = work->field_F98;             /* field_F34 */
-    cluster1[13] = (int)&work->control.mov;     /* field_EFC */
-    cluster2[13] = (int)&work->control.mov.vz;  /* field_F38 */
-    cluster1[14] = (int)&work->control.turn.vz; /* field_F00 */
-    cluster2[14] = (int)&work->control.turn.vx; /* field_F3C */
+    axis1->dz = 0;
+    axis1->dx = 0;
+    axis2->dz = 0;
+    axis2->dx = 0;
+    axis1->step = 0x18;
+    axis2->step = 0x40;
+    axis1->target = work->field_F84[2].vx;
+    axis2->target = work->field_F84[2].vz;
+    axis1->pos = &work->control.mov.vx;
+    axis2->pos = &work->control.mov.vz;
+    axis1->rot = &work->control.turn.vz;
+    axis2->rot = &work->control.turn.vx;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C8C88.s")
+int s11d_rope_800C8C88(Work *work);
 
 void s11d_rope_800C8EE4(Work *work)
 {
-    short  *base = (short *)&work->field_F84;
-    u_char *param;
+    SVECTOR *vec = work->field_F84;
+    u_char  *param;
 
     param = GCL_GetOption('a');
     if (param)
     {
-        GCL_StrToSV(param, &base[4]);
+        GCL_StrToSV(param, (short *)&vec[1]);
     }
     else
     {
-        base[4] = 0x1770;
-        base[5] = 0x6590;
+        vec[1].vx = 0x1770;
+        vec[1].vy = 0x6590;
     }
-    ((short *)&s11d_dword_800D1F7C)[0] = base[5];
-    ((short *)&s11d_dword_800D1F80)[0] = base[4];
+    s11d_dword_800D1F7C[0] = vec[1].vy;
+    s11d_dword_800D1F80[0] = vec[1].vx;
 
     param = GCL_GetOption('i');
     if (param)
     {
-        GCL_StrToSV(param, base);
+        GCL_StrToSV(param, (short *)vec);
     }
     else
     {
-        base[0] = -0x1B58;
-        base[1] = -0x30D4;
-        base[2] = 0;
+        vec[0].vx = -0x1B58;
+        vec[0].vy = -0x30D4;
+        vec[0].vz = 0;
     }
-    ((short *)&s11d_dword_800D1F7C)[1] = base[1];
-    ((short *)&s11d_dword_800D1F80)[1] = base[0];
+    s11d_dword_800D1F7C[1] = vec[0].vy;
+    s11d_dword_800D1F80[1] = vec[0].vx;
 
     param = GCL_GetOption('r');
     if (param)
     {
-        GCL_StrToSV(param, (short *)&base[8]);
+        GCL_StrToSV(param, (short *)&vec[2]);
     }
     else
     {
-        base[8] = -0xBB8;
-        base[9] = 0x7530;
-        base[10] = 0x258;
+        vec[2].vx = -0xBB8;
+        vec[2].vy = 0x7530;
+        vec[2].vz = 0x258;
     }
 }
 
@@ -1115,7 +2146,7 @@ int s11d_rope_800C8FDC(Work *work)
 
     if (GCL_GetOption('c'))
     {
-        p1 = work->field_FE4;
+        p1 = work->cam_rots;
         while (GCL_NextStr())
         {
             if (j == 16)
@@ -1131,7 +2162,7 @@ int s11d_rope_800C8FDC(Work *work)
     if (GCL_GetOption('h'))
     {
         u_char *param;
-        p2 = work->field_FA4;
+        p2 = work->cam_heights;
         while ((param = GCL_NextStr()))
         {
             if (i == 16)
@@ -1144,8 +2175,8 @@ int s11d_rope_800C8FDC(Work *work)
         }
     }
 
-    work->field_F9C = j;
-    work->field_FA0 = 0;
+    work->n_cams = j;
+    work->cam_idx = 0;
     return 0;
 }
 
@@ -1161,7 +2192,7 @@ void s11d_rope_800C90BC(Work *work)
     }
 
     i = 0;
-    p = work->field_107C;
+    p = work->procs;
     while ((param = GCL_NextStr()))
     {
         if (i == 3)
@@ -1186,7 +2217,7 @@ void s11d_rope_800C9134(Work *work)
     }
 
     i = 0;
-    p = work->field_1088;
+    p = work->voxes;
     while ((param = GCL_NextStr()))
     {
         if (i == 4)
@@ -1199,7 +2230,118 @@ void s11d_rope_800C9134(Work *work)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C91AC.s")
+int s11d_rope_800C91AC(Work *work, int name, int where)
+{
+    CONTROL *control;
+    OBJECT  *object;
+    SVECTOR  indices;
+    void    *shadow;
+
+    control = &work->control;
+    work->pad = &GV_PadData[2];
+
+    if (GM_InitControl(control, name, where) < 0)
+    {
+        return -1;
+    }
+
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(control, 0, 0x1C2, 0x1C2);
+    work->field_F44 = 0x1C2;
+    control->seg_flag = 1;
+    GM_ConfigControlAttribute(control, 1);
+    GM_ConfigControlTrapCheck(control);
+
+    GM_PlayerControl = control;
+    GM_PlayerPosition = work->control.mov;
+
+    object = &work->object;
+    GM_InitObject(object, GV_StrCode("snake"), 0x2D, GV_StrCode("sne_11d"));
+    GM_ConfigObjectJoint(object);
+    GM_ConfigMotionControl(object, &work->m_ctrl, GV_StrCode("sne_11d"), work->m_segs1, work->m_segs2, control, work->rots);
+    GM_ConfigObjectLight(object, work->light);
+    GM_ConfigObjectAction(object, 0, 0, 0);
+
+    object->objs->objs[0].raise = 500;
+    object->objs->objs[1].raise = 500;
+
+    if (s11d_rope_800C879C(work) < 0)
+    {
+        return -1;
+    }
+    if (s11d_rope_800C882C(work) < 0)
+    {
+        return -1;
+    }
+    if (s11d_rope_800C8C88(work) < 0)
+    {
+        return -1;
+    }
+    if (s11d_rope_800C8FDC(work) < 0)
+    {
+        return -1;
+    }
+
+    s11d_rope_800C8EE4(work);
+    s11d_rope_800C90BC(work);
+    s11d_rope_800C9134(work);
+
+    if (GCL_GetOption('n'))
+    {
+        work->ref_name = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->ref_name = 0;
+    }
+
+    if (GCL_GetOption('e'))
+    {
+        work->field_1078 = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->field_1078 = -1;
+    }
+
+    GM_PlayerBody = object;
+    work->state = s11d_rope_800C6544;
+    work->state_time = 0;
+    work->field_EB8 = 0;
+    work->field_EB4 = 0;
+    work->field_EBE = 0;
+    work->field_EBC = 0;
+    s11d_rope_800C8C04(work);
+
+    work->field_F50 = DG_ZeroVector;
+    work->field_808 = work->control.mov;
+    work->field_F40 = 0x2710;
+    work->field_F44 = 0x1C2;
+    work->field_F4C = -1;
+    work->field_F48 = 0;
+    work->field_F70 = 0;
+    work->field_F74 = 0;
+    work->field_F78 = 0;
+    work->field_F7C = 0;
+    work->field_F60 = 0;
+    work->field_F64 = 0;
+    work->field_F68 = 0;
+
+    indices.vx = 0;
+    indices.vy = 6;
+    indices.vz = 12;
+    indices.pad = 15;
+    shadow = NewShadow(control, object, indices);
+    work->shadow = shadow;
+    if (shadow == NULL)
+    {
+        return -1;
+    }
+
+    s11d_dword_800D1F84 = 0;
+    GM_GameStatus |= STATE_NOSLOW;
+    return 0;
+}
 
 void *NewRope(int name, int where)
 {

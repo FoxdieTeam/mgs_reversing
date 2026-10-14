@@ -27,7 +27,7 @@ static SVECTOR target_force = {0, 0, 0};
 
 /*---------------------------------------------------------------------------*/
 
-extern int s03d_dword_800DC2F8;
+extern int ZakoGameFlag;
 
 /*---------------------------------------------------------------------------*/
 
@@ -78,7 +78,7 @@ static void Act(Work *work)
     Meryl3Act(work);
     GM_MoveTarget(work->target, &work->control.mov);
 
-    if (s03d_dword_800DC2F8 > 6)
+    if (ZakoGameFlag > 6)
     {
         work->field_990++;
     }

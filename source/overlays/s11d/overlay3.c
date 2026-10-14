@@ -1,9 +1,5 @@
 #include "mgstype.h"
 
-int s11d_dword_800C330C = 0x00000060;
-int s11d_dword_800C3310 = 0xFA600000;
-int s11d_dword_800C3314 = 0x00000BA4;
-
 const char s11d_dword_800D1E04[] = {0x1, 0xfe, '\n', 0x1};
 const char s11d_dword_800D1E08[] = {0xf4, 0x1, 0xf4, 0x8};
 const char s11d_dword_800D1E0C[] = {0xbe, 0xbe, 0xbe, 0x2};

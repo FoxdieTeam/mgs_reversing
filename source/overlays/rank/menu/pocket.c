@@ -11,11 +11,17 @@ typedef struct _Work {
     GV_ACT    actor;
     KCB       kcb;
     int       proc_id;
-    int       field_50;
+    int       mode;
     MenuPrim *prim_ptr;
     MenuPrim  prim;
     char      primbuf[ 2 ][ 0x2000 ];
 } Work;
+
+/* Memory card check actor (rank_800CCFC4) */
+typedef struct _CheckWork {
+    GV_ACT actor;
+    int    proc_id;
+} CheckWork;
 
 const char rank_dword_800E03BC[] = "id::%d\n";
 const char rank_dword_800E03C4[] = "------------\n";
@@ -29,27 +35,39 @@ const char rank_dword_800E041C[] = "-----------------------------\n";
 extern GV_PAD *GM_CurrentPadData;
 
 extern char  rank_dword_800C326C[];
+extern char  rank_dword_800E06D0[];
 extern char  rank_dword_800E06E4[];
 
 extern int    rank_dword_800E1870;
 extern int    rank_dword_800E1874;
 extern int    rank_dword_800E1878;
 extern int    rank_dword_800E187C;
-extern RadioFileModeStruElem *rank_dword_800E189C;
+extern RadioFileModeStru_800ABB7C *rank_dword_800E189C;
 extern int    rank_dword_800E18A0;
-extern int    rank_dword_800C330C[];
+extern const char *rank_dword_800C330C[];
 
 void rank_800CD1A8( MenuPrim *prim, RadioFileModeStruElem *elem );
 void rank_800CD230( MenuPrim *prim, RadioFileModeStruElem *elem );
 void rank_800CD32C( MenuPrim *prim, RadioFileModeStruElem *elem );
 void rank_800CDFC8( MenuPrim *prim, SELECT_INFO *info );
+extern RECT   rank_dword_800C3304;
 
 /*---------------------------------------------------------------------------*/
 
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CBD14.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC014.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC104.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC19C.s")
+
+extern char *MGS_MemoryCardName;
+
+void rank_800CC19C( char *dst )
+{
+    strcpy( dst, MGS_MemoryCardName );
+    dst[ 6 ] = 'P';
+    dst[ 12 ] = 'Q';
+    dst[ 13 ] = '0';
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC1E0.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC260.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC3D4.s")
@@ -62,17 +80,79 @@ int rank_800CC70C( int arg0 )
     return rank_dword_800E1878;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC738.s")
+int rank_800CC104( int arg );
+
+void rank_800CC738( void )
+{
+    int mask;
+    int i;
+
+    mask = 0;
+    for ( i = 0; i < 2; i++ )
+    {
+        if ( rank_800CC104( i ) )
+        {
+            mask |= 1 << i;
+        }
+    }
+
+    rank_dword_800E1878 = mask;
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC798.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CC7C0.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CCDC4.s")
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CCEC4.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CCF10.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CCF64.s")
+
+void rank_800CCDC4( void );
+
+int rank_800CCF10( void )
+{
+    rank_dword_800E187C = 0;
+    mts_set_stack_check( 8, (void *)&rank_dword_800E1870, 0x800 );
+    mts_sta_tsk( 8, rank_800CCDC4, (void *)&rank_dword_800E1870 );
+    return 1;
+}
+
+void rank_800CCF64( CheckWork *work )
+{
+    GCL_ARGS args;
+    long     argv[ 1 ];
+
+    if ( rank_dword_800E1878 >= 0 )
+    {
+        if ( work->proc_id >= 0 )
+        {
+            args.argc = 1;
+            argv[ 0 ] = rank_dword_800E1878;
+            args.argv = argv;
+            GCL_ExecProc( work->proc_id, &args );
+        }
+
+        GV_DestroyActor( work );
+    }
+}
+
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CCFC4.s")
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD074.s")
-void rank_800CD074( Work *work );
+void rank_800CD074( Work *work )
+{
+    KCB  *kcb;
+    void *buffer;
+
+    kcb = &work->kcb;
+    GV_ZeroMemory( kcb, sizeof( KCB ) );
+    ClearImage( &rank_dword_800C3304, 0, 0, 0 );
+    font_init_kcb( kcb, &rank_dword_800C3304, 960, 510 );
+    font_set_kcb( kcb, -1, -1, 0, 6, 2, 0 );
+    buffer = GV_AllocMemory( 0, font_get_buffer_size( kcb ) );
+    font_set_buffer( kcb, buffer );
+    font_set_color( kcb, 0, 0x6739, 0 );
+    font_set_color( kcb, 1, 0x3BEF, 0 );
+    font_set_color( kcb, 2, 0x3A4B, 0 );
+    font_set_color( kcb, 3, 0x1094, 0 );
+    font_clut_update( kcb );
+}
 
 void rank_800CD178( int *arr, int len )
 {
@@ -84,9 +164,83 @@ void rank_800CD178( int *arr, int len )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD1A8.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD230.s")
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD32C.s")
+void rank_800CD1A8( MenuPrim *pGlue, RadioFileModeStruElem *pElem )
+{
+    RadioFileModeUnk1 *pUnk;
+    TextConfig         textConfig;
+
+    pUnk = pElem->field_C_unk1;
+    if ( pElem->field_0 == 1 )
+    {
+        rank_800CD178( &pUnk->field_8, 2 );
+        pUnk->field_18 = 0x3d482e;
+    }
+    textConfig.xpos = pUnk->field_8 >> 16;
+    textConfig.ypos = pUnk->field_10 >> 16;
+    textConfig.flags = 0x12;
+    textConfig.color = pUnk->field_18 | 0x66000000;
+
+    _menu_number_draw_string2( pGlue, &textConfig, (char *)pUnk->field_4 );
+}
+
+void rank_800CD230( MenuPrim *pGlue, RadioFileModeStruElem *pElem )
+{
+    LINE_F2           *pPrim;
+    RadioFileModeUnk1 *pUnk;
+
+    pUnk = pElem->field_C_unk1;
+    if ( pElem->field_0 == 1 )
+    {
+        rank_800CD178( &pUnk->field_4, 4 );
+    }
+
+    if ( pUnk->field_4 != pUnk->field_14 || pUnk->field_C != pUnk->field_1C )
+    {
+        _NEW_PRIM( pPrim, pGlue );
+
+        LSTORE( pUnk->field_24, &pPrim->r0 );
+        pPrim->x0 = pUnk->field_4 >> 16;
+        pPrim->y0 = pUnk->field_C >> 16;
+        pPrim->x1 = pUnk->field_14 >> 16;
+        pPrim->y1 = pUnk->field_1C >> 16;
+        setLineF2( pPrim );
+        addPrim( pGlue->ot, pPrim );
+    }
+}
+
+void rank_800CD32C( MenuPrim *pGlue, RadioFileModeStruElem *pElem )
+{
+    RadioFileModeUnk1 *pUnk;
+    int                x, y, w, h;
+    TILE              *pTile;
+
+    pUnk = pElem->field_C_unk1;
+    if ( pElem->field_0 == 1 )
+    {
+        rank_800CD178( &pUnk->field_4, 4 );
+    }
+    x = ( pUnk->field_4 >> 16 );
+    y = ( pUnk->field_C >> 16 );
+    w = pUnk->field_14 >> 16;
+    h = pUnk->field_1C >> 16;
+    x -= w / 2;
+    y -= h / 2;
+
+    _NEW_PRIM( pTile, pGlue );
+
+    LSTORE( 0x72A452, &pTile->r0 );
+    setTile( pTile );
+    pTile->x0 = x;
+    pTile->y0 = y;
+    pTile->w = w;
+    pTile->h = h;
+    setSemiTrans( pTile, 0 );
+    addPrim( pGlue->ot, pTile );
+
+    radio_draw_face_frame( pGlue, x, y, w, h );
+    radio_draw_face_frame( pGlue, x, y, w, h );
+}
+
 void rank_800CD474( MenuPrim *prim, RadioFileModeStruElem *elem )
 {
     RadioFileModeUnk1 *unk;
@@ -97,13 +251,26 @@ void rank_800CD474( MenuPrim *prim, RadioFileModeStruElem *elem )
         rank_800CD178( &unk->field_4, 2 );
     }
 
-    *(short *)unk->field_14 = unk->field_4 >> 16;
-    *(short *)( unk->field_14 + 2 ) = unk->field_C >> 16;
+    ( (SELECT_INFO *)unk->field_14 )->xofs = unk->field_4 >> 16;
+    ( (SELECT_INFO *)unk->field_14 )->yofs = unk->field_C >> 16;
     rank_800CDFC8( prim, (SELECT_INFO *)unk->field_14 );
 }
 
-#pragma INCLUDE_ASM("asm/overlays/rank/rank_800CD4E4.s")
-void rank_800CD4E4( void );
+void rank_800CD4E4( void )
+{
+    int i;
+
+    rank_dword_800E189C = GV_AllocMemory( GV_PACKET_MEMORY0, sizeof( RadioFileModeStru_800ABB7C ) );
+    if ( !rank_dword_800E189C )
+    {
+        printf( rank_dword_800E06D0 );
+    }
+
+    for ( i = 11; i >= 0; i-- )
+    {
+        rank_dword_800E189C->field_0_array[ i ].field_0 = 0;
+    }
+}
 
 void rank_800CD540( void )
 {
@@ -116,11 +283,11 @@ void rank_800CD568( int idx, int x, int y, int divisor, int idx2 )
     RadioFileModeUnk2          *unk;
     RadioFileModeStruElem      *elem;
 
-    rfm = (RadioFileModeStru_800ABB7C *)rank_dword_800E189C;
+    rfm = rank_dword_800E189C;
     unk = &rfm->field_c0_array[ idx ];
     elem = &rfm->field_0_array[ idx ];
 
-    unk->field_4 = (const char *)rank_dword_800C330C[ idx2 ];
+    unk->field_4 = rank_dword_800C330C[ idx2 ];
 
     elem->field_8_pFn = rank_800CD1A8;
     elem->field_C_unk1 = (RadioFileModeUnk1 *)unk;
@@ -153,7 +320,7 @@ void rank_800CD688( int idx, int x, int y, int divisor, SELECT_INFO *info )
     RadioFileModeUnk1          *unk;
     RadioFileModeStruElem      *elem;
 
-    rfm = (RadioFileModeStru_800ABB7C *)rank_dword_800E189C;
+    rfm = rank_dword_800E189C;
     elem = &rfm->field_0_array[ idx ];
     unk = &rfm->field_220_unk1;
 
@@ -183,7 +350,7 @@ void rank_800CD760( int idx, int x0, int y0, int x1, int y1, int divisor )
     RadioFileModeUnk1          *unk;
     RadioFileModeStruElem      *elem;
 
-    rfm = (RadioFileModeStru_800ABB7C *)rank_dword_800E189C;
+    rfm = rank_dword_800E189C;
     elem = &rfm->field_0_array[ idx ];
     unk = &rfm->field_130_array[ idx - 5 ];
 
@@ -214,7 +381,7 @@ void rank_800CD8D8( int index )
 {
     RadioFileModeStruElem *entry;
 
-    entry = &rank_dword_800E189C[ index ];
+    entry = &rank_dword_800E189C->field_0_array[ index ];
     entry->field_0 = 0;
 }
 
@@ -224,7 +391,7 @@ void rank_800CD8F0( int x0, int y0, int x1, int y1, int divisor )
     RadioFileModeStruElem      *elem;
     RadioFileModeUnk1          *unk;
 
-    rfm = (RadioFileModeStru_800ABB7C *)rank_dword_800E189C;
+    rfm = rank_dword_800E189C;
     elem = &rfm->field_0_array[ 11 ];
     unk = (RadioFileModeUnk1 *)&rfm->field_220_unk1.field_18;
 
@@ -256,7 +423,7 @@ void rank_800CDA44( void *prim )
     RadioFileModeStruElem *entry;
     int i;
 
-    entry = rank_dword_800E189C;
+    entry = rank_dword_800E189C->field_0_array;
     for ( i = 0; i < 12; i++, entry++ )
     {
         if ( entry->field_0 == 0 ) continue;
@@ -466,7 +633,7 @@ void rank_800CE260( MenuPrim *prim, u_long *ot )
 }
 
 #pragma INCLUDE_ASM("asm/overlays/rank/rank_800CE330.s")
-int rank_800CE330( Work *work, GV_PAD *pad, int field_50 );
+int rank_800CE330( Work *work, GV_PAD *pad, int mode );
 
 void rank_800CEBA8( Work *work )
 {
@@ -478,7 +645,7 @@ void rank_800CEBA8( Work *work )
     ot = DG_Chanl( 1 )->ot[ GV_Clock ];
     work->prim_ptr->ot = ot;
 
-    if ( rank_800CE330( work, &GM_CurrentPadData[ 2 ], work->field_50 ) )
+    if ( rank_800CE330( work, &GM_CurrentPadData[ 2 ], work->mode ) )
     {
         GV_DestroyActor( work );
     }
@@ -534,7 +701,7 @@ void *rank_800CECC0( int arg0 )
         rank_800CD074( work );
         rank_800CD4E4();
 
-        work->field_50 = arg0;
+        work->mode = arg0;
 
         if ( arg0 == 0 )
         {
