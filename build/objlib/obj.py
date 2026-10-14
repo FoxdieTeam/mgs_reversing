@@ -2,7 +2,7 @@ import struct
 import sys
 
 # psyq obj parser with one purpose: get the names, offsets, sizes, and bytes of all funcs
-def get_obj_funcs(path):
+def get_obj_funcs(path, symbols_out=None):
     pos = 0
     current_section = None
     text_section = None
@@ -84,6 +84,8 @@ def get_obj_funcs(path):
             offset = u32()
             xdef_name_len = u8()
             xdef_name = b(xdef_name_len)
+            if symbols_out is not None:
+                symbols_out['xdefs'].append((section, offset, xdef_name.decode()))
             if section == text_section:
                 xdefs.append((offset, xdef_name))
                 # print('xdef', xdef_name, offset)
@@ -96,12 +98,17 @@ def get_obj_funcs(path):
             pos += 2 + 1
             section_name_len = u8()
             section_name = b(section_name_len)
+            if symbols_out is not None:
+                symbols_out['sections'][section] = section_name.decode()
             if section_name.endswith(b'.text'):
                 text_section = section
-        elif cmd == 18:
-            pos += 2 + 4
+        elif cmd == 18: # local (non-exported) symbol
+            section = u16()
+            offset = u32()
             c = u8()
-            pos += c
+            name = b(c)
+            if symbols_out is not None:
+                symbols_out['locals'].append((section, offset, name.decode()))
         elif cmd == 20: # Group symbol
             # Example: (cmd=14) 02 00 00 06 63 68 61 6e 67 65 (....change)
             # ptr += 1; // symbol number
@@ -159,6 +166,10 @@ def get_obj_funcs(path):
             print('unknown opcode', cmd, hex(cmd), pos, path, file=sys.stderr)
             raise Exception('unknown opcode')
 
+    if symbols_out is not None:
+        symbols_out['text_size'] = sum(len(x[1]) for x in code_blocks)
+        return None
+
     ret = []
     all_code = b''.join([x[1] for x in code_blocks])
 
@@ -207,3 +218,12 @@ def get_obj_funcs(path):
     ret.sort(key=lambda x: x[1][0])
 
     return ret
+
+
+def get_obj_symbols(path):
+    """Sections and symbols of an obj: {'sections': {id: name}, 'xdefs': [(section id, offset, name)],
+    'locals': [(section id, offset, name)], 'text_size': bytes of code}. xdefs are the exported symbols (the ones psylink puts in
+    its map), locals are e.g. static functions and variables, which the linker drops."""
+    symbols = {'sections': {}, 'xdefs': [], 'locals': [], 'text_size': 0}
+    get_obj_funcs(path, symbols)
+    return symbols
