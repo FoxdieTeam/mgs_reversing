@@ -3813,18 +3813,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s17a\overlay4.obj", overlay
     include "{{OBJ_DIR}}\takabe\puthzd.obj", overlay
     include "{{OBJ_DIR}}\takabe\drumsmke.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2CC8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2DA4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2DE0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2E68.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2F0C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D2FC4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\s17a_800D3088.obj", overlay
+    include "{{OBJ_DIR}}\takabe\drumfire.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D33CC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D38FC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D39FC.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D3A60.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s17a\overlay7.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\overlay8.obj", overlay
     include "{{OBJ_DIR}}\kojo\inverlt2.obj", overlay
     include "{{OBJ_DIR}}\overlays\s17a\s17a_800D4994.obj", overlay
