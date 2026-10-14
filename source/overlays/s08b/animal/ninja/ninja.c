@@ -5223,7 +5223,9 @@ void s08b_bunsin2_800D1DE0(Work *work)
         if (s08b_bunsin2_800CF958(work) != 0)
         {
             work->think2 = 7;
-            goto stop;
+            work->think3 = 24;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
@@ -5250,17 +5252,15 @@ void s08b_bunsin2_800D1DE0(Work *work)
         if (s08b_bunsin2_800D0004(work) != 0)
         {
             work->think3 = 24;
-            goto reset;
+            work->count3 = 0;
         }
         break;
 
     case 7:
         if (s08b_bunsin2_800CFCF8(work) != 0)
         {
-stop:
             work->think3 = 24;
             work->think_time = 0;
-reset:
             work->count3 = 0;
         }
         break;
@@ -5675,9 +5675,10 @@ void s08b_bunsin2_800D2600(Work *work)
                 }
                 else
                 {
-                    goto reload;
+                    s08b_bunsin2_800CDE74(work);
+                    work->think2 = 1;
+                    work->think3 = 26;
                 }
-
             }
 
             work->think_time = 0;
@@ -5713,11 +5714,15 @@ void s08b_bunsin2_800D2600(Work *work)
                 command = 24;
                 if (work->field_1A0C != 0)
                 {
-                    goto reload;
+                    s08b_bunsin2_800CDE74(work);
+                    work->think2 = 1;
+                    work->think3 = 26;
                 }
-
-                work->think2 = 0;
-                work->think3 = command;
+                else
+                {
+                    work->think2 = 0;
+                    work->think3 = command;
+                }
             }
 
             work->think_time = 0;
@@ -5728,7 +5733,6 @@ void s08b_bunsin2_800D2600(Work *work)
     case 5:
         if (s08b_bunsin2_800CFDE0(work) != 0)
         {
-reload:
             s08b_bunsin2_800CDE74(work);
             work->think2 = 1;
             work->think3 = 26;
