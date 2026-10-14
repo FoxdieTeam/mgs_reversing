@@ -335,7 +335,7 @@ void *rank_800D0DA0( int a0, int a1 )
     work = GV_NewActor( 5, sizeof( Work ) );
     if ( work )
     {
-        GV_SetNamedActor( work, (void *)rank_800D0820, (void *)rank_800D090C, rank_dword_800E07DC );
+        GV_SetNamedActor( work, rank_800D0820, rank_800D090C, rank_dword_800E07DC );
 
         if ( rank_800D0D24( work, a1 ) < 0 )
         {
