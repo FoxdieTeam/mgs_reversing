@@ -1,77 +1,79 @@
 #include "game/game.h"
 #include <stdio.h>
 
+/* Pan/zoom state of one of the three zoomable views */
+typedef struct
+{
+    int x;
+    int y;
+    int scale;
+} BrfView;
+
 typedef struct _Work
 {
-    GV_ACT  actor;           /* 0x000 */
-    DG_PRIM *field_20;       /* 0x020 */
-    DG_PRIM *field_24;       /* 0x024 */
-    DG_PRIM *field_28;       /* 0x028 */
-    DG_PRIM *field_2C;       /* 0x02C */
-    DG_PRIM *field_30;       /* 0x030 */
-    POLY_FT4 field_34[15];        /* 0x034 */
-    POLY_FT4 field_28C[840];      /* 0x28C */
-    POLY_FT4 field_85CC[200];     /* 0x85CC */
-    POLY_FT4 *field_A50C;         /* 0xA50C */
-    POLY_F4  field_A510[5];       /* 0xA510 */
-    int     field_A588;                /* 0xA588 */
-    char    pad_A58C[0xA590 - 0xA58C]; /* 0xA58C */
-    unsigned char z_A590[5];           /* 0xA590 */
-    unsigned char z_A595[2];           /* 0xA595 */
-    unsigned char z_A597[0xA8DF - 0xA597]; /* 0xA597 */
-    unsigned char z_A8DF[0xA9A7 - 0xA8DF]; /* 0xA8DF */
-    unsigned char z_A9A7[0xA9B6 - 0xA9A7]; /* 0xA9A7 */
-    unsigned char field_A9B6[0xAD00 - 0xA9B6]; /* 0xA9B6 */
-    GV_PAD *pad;      /* 0xAD00 */
-    int     field_AD04;      /* 0xAD04 */
-    void   *field_AD08;      /* 0xAD08 */
-    int    *field_AD0C;      /* 0xAD0C */
-    int     field_AD10;      /* 0xAD10 */
-    int     field_AD14;      /* 0xAD14 */
-    int    *field_AD18;      /* 0xAD18 */
-    void  **field_AD1C;      /* 0xAD1C */
-    int     field_AD20;      /* 0xAD20 */
-    char    pad_AD24[0x4];   /* 0xAD24 */
-    int     field_AD28;      /* 0xAD28 */
-    int     field_AD2C;      /* 0xAD2C */
-    int     field_AD30;      /* 0xAD30 */
-    int     field_AD34;      /* 0xAD34 */
-    int     field_AD38;      /* 0xAD38 */
-    int     field_AD3C;      /* 0xAD3C */
-    int     field_AD40;      /* 0xAD40 */
-    int     field_AD44;      /* 0xAD44 */
-    int     field_AD48;      /* 0xAD48 */
-    char    pad_AD4C[0x4];   /* 0xAD4C */
-    int     field_AD50;      /* 0xAD50 */
-    int     field_AD54;      /* 0xAD54 */
-    int     field_AD58;      /* 0xAD58 */
-    int     field_AD5C;      /* 0xAD5C */
-    int     field_AD60;      /* 0xAD60 */
-    char    pad_AD64[0x8];   /* 0xAD64 */
-    int     field_AD6C;      /* 0xAD6C */
-    int     field_AD70;      /* 0xAD70 */
-    int     field_AD74;      /* 0xAD74 */
-    int     field_AD78;      /* 0xAD78 */
-    int     field_AD7C;      /* 0xAD7C */
-    int     field_AD80;      /* 0xAD80 */
-    int     field_AD84;      /* 0xAD84 */
-    int     field_AD88;      /* 0xAD88 */
-    int     field_AD8C;      /* 0xAD8C */
-    int     field_AD90;      /* 0xAD90 */
-    int     field_AD94;      /* 0xAD94 */
-    int     field_AD98;      /* 0xAD98 */
-    int     field_AD9C;      /* 0xAD9C */
-    int     field_ADA0;      /* 0xADA0 */
-    int     field_ADA4;      /* 0xADA4 */
-    int     field_ADA8;      /* 0xADA8 */
-    int     field_ADAC;      /* 0xADAC */
-    int     field_ADB0;      /* 0xADB0 */
-    char    pad_ADB4[0x4];   /* 0xADB4 */
-    int     field_ADB8;      /* 0xADB8 */
-    int     field_ADBC;      /* 0xADBC */
-    int     field_ADC0;      /* 0xADC0 */
-    char    field_ADC4;      /* 0xADC4 */
-    char    pad_ADC5[0x3];   /* 0xADC5 */
+    GV_ACT     actor;                     /* 0x000 */
+    DG_PRIM   *f4_prim;                   /* 0x020: f4_polys */
+    DG_PRIM   *prim_24;                   /* 0x024: two POLY_FT4 written in place */
+    DG_PRIM   *main_prim;                 /* 0x028: polys */
+    DG_PRIM   *small_prim;                /* 0x02C: small_polys */
+    DG_PRIM   *sub_prim;                  /* 0x030: sub_polys */
+    POLY_FT4   small_polys[15];           /* 0x034 */
+    POLY_FT4   polys[840];                /* 0x28C */
+    POLY_FT4   sub_polys[200];            /* 0x85CC */
+    POLY_FT4  *poly_buf;                  /* 0xA50C */
+    POLY_F4    f4_polys[5];               /* 0xA510 */
+    int        index;                     /* 0xA588: briefing index (selected item) */
+    char       pad_A58C[0x4];             /* 0xA58C */
+    /* per-poly visibility flags (shifted into the poly tag before drawing) */
+    u_char     f4_flags[5];               /* 0xA590 */
+    u_char     prim_24_flags[2];          /* 0xA595 */
+    u_char     poly_flags[840];           /* 0xA597 */
+    u_char     sub_flags[200];            /* 0xA8DF */
+    u_char     small_flags[15];           /* 0xA9A7 */
+    u_char     glyph_flags[840];          /* 0xA9B6: 1 if the text poly shows a glyph (not a space) */
+    char       pad_ACFE[0x2];             /* 0xACFE */
+    GV_PAD    *pad;                       /* 0xAD00 */
+    int        map;                       /* 0xAD04 */
+    DG_TEX    *textures;                  /* 0xAD08 */
+    int       *tex_ids;                   /* 0xAD0C */
+    int        n_textures;                /* 0xAD10 */
+    int        n_images;                  /* 0xAD14 */
+    int       *image_ids;                 /* 0xAD18 */
+    DG_IMAGE **images;                    /* 0xAD1C */
+    int        scene;                     /* 0xAD20 */
+    char       pad_AD24[0x4];             /* 0xAD24 */
+    int        time;                      /* 0xAD28 */
+    int        field_AD2C;                /* 0xAD2C */
+    int        field_AD30;                /* 0xAD30: per-scene animation counter */
+    int        field_AD34;                /* 0xAD34: per-scene animation counter */
+    int        field_AD38;                /* 0xAD38 */
+    int        field_AD3C;                /* 0xAD3C */
+    int        field_AD40;                /* 0xAD40 */
+    int        mouth;                     /* 0xAD44: last lip-sync state */
+    int        mouth_changed;             /* 0xAD48 */
+    char       pad_AD4C[0x4];             /* 0xAD4C */
+    int        key_index;                 /* 0xAD50 */
+    int        key_time;                  /* 0xAD54 */
+    int        key_scene;                 /* 0xAD58 */
+    int        scene_changed;             /* 0xAD5C */
+    int        lipsync;                   /* 0xAD60: jimctrl_helper_80037F68() result */
+    char       pad_AD64[0x8];             /* 0xAD64 */
+    int        lipsync2;                  /* 0xAD6C */
+    int        mouth2;                    /* 0xAD70 */
+    int        field_AD74;                /* 0xAD74 */
+    BrfView    view[3];                   /* 0xAD78 */
+    int        move_dir;                  /* 0xAD9C: 0 right, 1 left, 2 up, 3 down */
+    int        move_state;                /* 0xADA0 */
+    int        view_mode;                 /* 0xADA4 */
+    int        zoom_dir;                  /* 0xADA8: 4 triangle (scale up), 5 square (scale down) */
+    int        zoom_state;                /* 0xADAC */
+    int        zoom_count;                /* 0xADB0 */
+    char       pad_ADB4[0x4];             /* 0xADB4 */
+    int        field_ADB8;                /* 0xADB8: polys are drawn from poly_buf while < 5 */
+    int        field_ADBC;                /* 0xADBC */
+    int        field_ADC0;                /* 0xADC0 */
+    char       no_skip;                   /* 0xADC4 */
+    char       pad_ADC5[0x3];             /* 0xADC5 */
 } Work;
 
 typedef struct
@@ -113,11 +115,11 @@ int id;
 {
     int i;
     int found = 0;
-    for (i = 0; i < work->field_AD10; i++)
+    for (i = 0; i < work->n_textures; i++)
     {
-        if (work->field_AD0C[i] == id)
+        if (work->tex_ids[i] == id)
         {
-            return (DG_TEX *)((char *)work->field_AD08 + i * 12);
+            return &work->textures[i];
         }
     }
     if (!found)
@@ -131,11 +133,11 @@ void brf_800CAC7C(Work *work, int id)
     int i;
     int found = 0;
     DG_IMAGE *result = 0;
-    for (i = 0; i < work->field_AD14; i++)
+    for (i = 0; i < work->n_images; i++)
     {
-        if (work->field_AD18[i] == id)
+        if (work->image_ids[i] == id)
         {
-            result = work->field_AD1C[i];
+            result = work->images[i];
             found = 1;
         }
     }
@@ -158,7 +160,7 @@ void brf_800CAD24(Work *work, POLY_FT4 *dest, int a2, int a3, int a4)
     DG_TEX *g;
     int u, uw, v, vh;
 
-    work->field_AD48 = a2;
+    work->mouth_changed = a2;
     g = brf_800CABF4(work, ((unsigned short *)((int *)&brf_dword_800C5094)[a4])[a3]);
     u = g->off_x;
     uw = u + g->w + 1;
@@ -182,16 +184,16 @@ void brf_800CADD4(Work *work, void *a1, int a2)
     int v0 = jimctrl_helper_80037F68(GV_StrCode(brf_dword_800E1C14));
     int s0 = v0 & 0xFF;
 
-    work->field_AD60 = v0;
-    if (work->field_AD44 != s0)
+    work->lipsync = v0;
+    if (work->mouth != s0)
     {
         brf_800CAD24(work, a1, 0, s0, a2);
     }
-    else if (work->field_AD48 != 0)
+    else if (work->mouth_changed != 0)
     {
         brf_800CAD24(work, a1, 1, s0, a2);
     }
-    work->field_AD44 = s0;
+    work->mouth = s0;
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CAE84.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CB23C.s")
@@ -227,7 +229,7 @@ extern const char brf_dword_800E1C90[];
 
 void brf_800CBB68(Work *work, void *a1, int a2)
 {
-    if (work->field_AD60 >> 8)
+    if (work->lipsync >> 8)
     {
         if (work->field_AD40)
         {
@@ -519,7 +521,7 @@ extern const char brf_dword_800E1D64[];
 
 void brf_800CC070(Work *work, int idx)
 {
-    POLY_FT4 *p = &work->field_34[2];
+    POLY_FT4 *p = &work->small_polys[2];
     DG_TEX *tex = DG_GetTexture(GV_StrCode(brf_dword_800E1D58));
     int w1 = tex->w + 1;
     int ul = tex->off_x + w1 * idx / 3;
@@ -543,12 +545,12 @@ void brf_800CC150(Work *work)
 {
     int i;
 
-    work->z_A595[0] = 0;
-    work->z_A9A7[0] = 0;
+    work->prim_24_flags[0] = 0;
+    work->small_flags[0] = 0;
 
     for (i = 1; i < 15; i++)
     {
-        work->z_A9A7[i] = 2;
+        work->small_flags[i] = 2;
     }
 }
 void brf_800CC070();
@@ -558,16 +560,16 @@ void brf_800CC190(Work *work)
 {
     int i;
 
-    work->field_AD5C = 0;
+    work->scene_changed = 0;
     work->field_AD2C = 0;
-    work->field_AD44 = 0;
-    work->field_AD48 = 0;
+    work->mouth = 0;
+    work->mouth_changed = 0;
     work->field_ADB8 = 0;
     work->field_ADBC = 0;
 
     for (i = 1; i < 15; i++)
     {
-        work->z_A9A7[i] = 2;
+        work->small_flags[i] = 2;
     }
 
     brf_800CC070(work, 0);
@@ -575,9 +577,9 @@ void brf_800CC190(Work *work)
 
     {
         short *tbl = (short *)&brf_dword_800C3508;
-        for (i = 0; i < tbl[work->field_A588]; i++)
+        for (i = 0; i < tbl[work->index]; i++)
         {
-            work->z_A597[i] = 0;
+            work->poly_flags[i] = 0;
         }
     }
 
@@ -588,16 +590,16 @@ void brf_800CC28C(Work *work)
 {
     int i;
 
-    work->field_AD5C = 0;
+    work->scene_changed = 0;
     work->field_AD40 = 0;
-    work->field_AD44 = 0;
-    work->field_AD48 = 0;
+    work->mouth = 0;
+    work->mouth_changed = 0;
     work->field_ADB8 = 0;
     work->field_ADBC = 0;
 
     for (i = 1; i < 15; i++)
     {
-        work->z_A9A7[i] = 2;
+        work->small_flags[i] = 2;
     }
 
     brf_800CC070(work, 1);
@@ -605,9 +607,9 @@ void brf_800CC28C(Work *work)
 
     {
         short *tbl = (short *)&brf_dword_800C3508;
-        for (i = 0; i < tbl[work->field_A588]; i++)
+        for (i = 0; i < tbl[work->index]; i++)
         {
-            work->z_A597[i] = 0;
+            work->poly_flags[i] = 0;
         }
     }
 
@@ -618,15 +620,15 @@ void brf_800CC388(Work *work)
 {
     int i;
 
-    work->field_AD5C = 0;
-    work->field_AD44 = 0;
-    work->field_AD48 = 0;
+    work->scene_changed = 0;
+    work->mouth = 0;
+    work->mouth_changed = 0;
     work->field_ADB8 = 0;
     work->field_ADBC = 0;
 
     for (i = 1; i < 15; i++)
     {
-        work->z_A9A7[i] = 2;
+        work->small_flags[i] = 2;
     }
 
     brf_800CC070(work, 2);
@@ -634,9 +636,9 @@ void brf_800CC388(Work *work)
 
     {
         short *tbl = (short *)&brf_dword_800C3508;
-        for (i = 0; i < tbl[work->field_A588]; i++)
+        for (i = 0; i < tbl[work->index]; i++)
         {
-            work->z_A597[i] = 0;
+            work->poly_flags[i] = 0;
         }
     }
 
@@ -647,22 +649,22 @@ void brf_800CC480(Work *work)
 {
     int i;
 
-    work->field_AD5C = 0;
+    work->scene_changed = 0;
     work->field_ADB8 = 0;
     work->field_ADBC = 0;
 
     for (i = 1; i < 15; i++)
     {
-        work->z_A9A7[i] = 0;
+        work->small_flags[i] = 0;
     }
 
     GM_SeSet2(0, 0x3F, 0xC1);
 
     {
         short *tbl = (short *)&brf_dword_800C3508;
-        for (i = 0; i < tbl[work->field_A588]; i++)
+        for (i = 0; i < tbl[work->index]; i++)
         {
-            work->z_A597[i] = 0;
+            work->poly_flags[i] = 0;
         }
     }
 
@@ -673,11 +675,11 @@ void brf_800CC560(Work *work)
 {
     int i;
 
-    work->field_AD5C = 0;
+    work->scene_changed = 0;
 
-    for (i = 0; i < ((short *)&brf_dword_800C3508)[work->field_A588]; i++)
+    for (i = 0; i < ((short *)&brf_dword_800C3508)[work->index]; i++)
     {
-        work->z_A597[i] = 0;
+        work->poly_flags[i] = 0;
     }
 }
 int brf_800CC5CC(int a)
@@ -751,7 +753,7 @@ DG_TEX *brf_800CD7DC(Work *work, unsigned char c)
 }
 void brf_800CD870(Work *work, int idx)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
 
     base[idx].y0 -= 12;
     base[idx].y1 -= 12;
@@ -760,7 +762,7 @@ void brf_800CD870(Work *work, int idx)
 }
 void brf_800CD8B8(Work *work, int a1, int a2, int a3)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int v = work->field_AD30;
 
     if (a1 >= v)
@@ -779,7 +781,7 @@ void brf_800CD958(Work *work, int a1, int a2, int a3)
     int n = work->field_AD30;
     if (n < 0x11)
     {
-        POLY_FT4 *base = work->field_28C;
+        POLY_FT4 *base = work->polys;
         int c3 = n * 8;
         int c1 = base[a1].r0 * (0x10 - n) / 16;
         int c2 = base[a2].r0 * (0x10 - n) / 16;
@@ -790,7 +792,7 @@ void brf_800CD958(Work *work, int a1, int a2, int a3)
 }
 void brf_800CDA10(Work *work, int a1, int a2)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int v = work->field_AD30;
 
     if (v < 17)
@@ -805,7 +807,7 @@ void brf_800CDA10(Work *work, int a1, int a2)
 void brf_800CDAA8(Work *work, int idx)
 {
     int v = work->field_AD30;
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
 
     if (v < 0x11)
     {
@@ -838,16 +840,16 @@ void brf_800CDC8C(Work *work, POLY_FT4 *poly)
 
 void brf_800CDDD4(Work *work, int code, int idx)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int       v;
     int       s;
 
     v = jimctrl_helper_80037F68(code);
-    work->field_AD6C = v;
+    work->lipsync2 = v;
     s = v & 0xFF;
-    if (work->field_AD70 != s)
+    if (work->mouth2 != s)
     {
-        work->field_AD48 = 1;
+        work->mouth_changed = 1;
         switch (s)
         {
         case 1:
@@ -866,9 +868,9 @@ void brf_800CDDD4(Work *work, int code, int idx)
             break;
         }
     }
-    else if (work->field_AD48 != 0)
+    else if (work->mouth_changed != 0)
     {
-        work->field_AD48 = 0;
+        work->mouth_changed = 0;
         switch (s)
         {
         case 1:
@@ -887,27 +889,27 @@ void brf_800CDDD4(Work *work, int code, int idx)
             break;
         }
     }
-    work->field_AD70 = s;
+    work->mouth2 = s;
 }
 void brf_800CDF34(Work *work)
 {
-    switch (work->field_ADA4)
+    switch (work->view_mode)
     {
     case 1:
     case 4:
-        work->field_ADA4 = 2;
+        work->view_mode = 2;
         brf_800CC28C(work);
         GM_SeSet2(0, 0x3f, 0xb0);
         break;
     case 2:
     case 5:
-        work->field_ADA4 = 3;
+        work->view_mode = 3;
         brf_800CC388(work);
         GM_SeSet2(0, 0x3f, 0xb0);
         break;
     case 3:
     case 6:
-        work->field_ADA4 = 1;
+        work->view_mode = 1;
         brf_800CC190(work);
         GM_SeSet2(0, 0x3f, 0xb0);
         break;
@@ -925,15 +927,15 @@ void brf_800CDAEC();
 
 void brf_800CE1C4(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
-    int x = work->field_AD78;
-    int y = work->field_AD7C;
-    int m = work->field_AD80;
+    POLY_FT4 *base = work->polys;
+    int x = work->view[0].x;
+    int y = work->view[0].y;
+    int m = work->view[0].scale;
 
     brf_800CDAEC(base, 2, &brf_dword_800C35F4, x, y, m, 0xc8);
     brf_800CDAEC(base, 0xb, &brf_dword_800C360C, x * 12 / 10, y, m, 0xc8);
     brf_800CDAEC(base, 2, &brf_dword_800C3690, x * 15 / 10, y, m, 0xc8);
-    if (work->field_ADB0 & 3)
+    if (work->zoom_count & 3)
     {
         GM_SeSet2(0, 0x30, 0x24);
     }
@@ -942,15 +944,15 @@ extern int brf_dword_800C36A8, brf_dword_800C36C0, brf_dword_800C372C;
 
 void brf_800CE2F8(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
-    int x = work->field_AD78;
-    int y = work->field_AD7C;
-    int m = work->field_AD80;
+    POLY_FT4 *base = work->polys;
+    int x = work->view[0].x;
+    int y = work->view[0].y;
+    int m = work->view[0].scale;
 
     brf_800CDAEC(base, 2, &brf_dword_800C36A8, x, y, m, 0xc8);
     brf_800CDAEC(base, 9, &brf_dword_800C36C0, x * 12 / 10, y, m, 0xc8);
     brf_800CDAEC(base, 2, &brf_dword_800C372C, x * 15 / 10, y, m, 0xc8);
-    if (work->field_ADB0 && (work->field_ADB0 & 3))
+    if (work->zoom_count && (work->zoom_count & 3))
     {
         GM_SeSet2(0, 0x30, 0x24);
     }
@@ -960,72 +962,72 @@ Work *work;
 {
     unsigned short status = work->pad->status;
 
-    if (work->field_ADA0 == 1 || work->field_ADA0 == 2)
+    if (work->move_state == 1 || work->move_state == 2)
     {
-        switch (work->field_AD9C)
+        switch (work->move_dir)
         {
         case 0:
-            if (status & 0x2000) work->field_ADA0++;
-            else { work->field_ADA0--; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            if (status & PAD_R) work->move_state++;
+            else { work->move_state--; work->field_ADB8 = 0; work->field_ADBC = 1; }
             break;
         case 1:
-            if (status & 0x8000) work->field_ADA0++;
-            else { work->field_ADA0--; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            if (status & PAD_L) work->move_state++;
+            else { work->move_state--; work->field_ADB8 = 0; work->field_ADBC = 1; }
             break;
         case 2:
-            if (status & 0x1000) work->field_ADA0++;
-            else { work->field_ADA0--; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            if (status & PAD_U) work->move_state++;
+            else { work->move_state--; work->field_ADB8 = 0; work->field_ADBC = 1; }
             break;
         case 3:
-            if (status & 0x4000) work->field_ADA0++;
-            else { work->field_ADA0--; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            if (status & PAD_D) work->move_state++;
+            else { work->move_state--; work->field_ADB8 = 0; work->field_ADBC = 1; }
             break;
         }
     }
-    else if (work->field_ADA0 == 3)
+    else if (work->move_state == 3)
     {
-        switch (work->field_AD9C)
+        switch (work->move_dir)
         {
         case 0:
-            if (!(status & 0x2000)) { work->field_ADA0 = 2; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            if (!(status & PAD_R)) { work->move_state = 2; work->field_ADB8 = 0; work->field_ADBC = 1; }
             break;
         case 1:
-            if (!(status & 0x8000)) { work->field_ADA0 = 2; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            if (!(status & PAD_L)) { work->move_state = 2; work->field_ADB8 = 0; work->field_ADBC = 1; }
             break;
         case 2:
-            if (!(status & 0x1000)) { work->field_ADA0--; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            if (!(status & PAD_U)) { work->move_state--; work->field_ADB8 = 0; work->field_ADBC = 1; }
             break;
         case 3:
-            if (!(status & 0x4000)) { work->field_ADA0--; work->field_ADB8 = 0; work->field_ADBC = 1; }
+            if (!(status & PAD_D)) { work->move_state--; work->field_ADB8 = 0; work->field_ADBC = 1; }
             break;
         }
     }
 
-    if (work->field_ADAC == 1 || work->field_ADAC == 2)
+    if (work->zoom_state == 1 || work->zoom_state == 2)
     {
-        switch (work->field_ADA8)
+        switch (work->zoom_dir)
         {
         case 4:
-            if (status & 0x10) { work->field_ADAC++; work->field_ADB0++; return; }
-            work->field_ADAC--; work->field_ADB0 = 0; work->field_ADB8 = 0; work->field_ADBC = 1;
+            if (status & PAD_X) { work->zoom_state++; work->zoom_count++; return; }
+            work->zoom_state--; work->zoom_count = 0; work->field_ADB8 = 0; work->field_ADBC = 1;
             break;
         case 5:
-            if (status & 0x80) { work->field_ADAC++; work->field_ADB0++; return; }
-            work->field_ADAC--; work->field_ADB0 = 0; work->field_ADB8 = 0; work->field_ADBC = 1;
+            if (status & PAD_Y) { work->zoom_state++; work->zoom_count++; return; }
+            work->zoom_state--; work->zoom_count = 0; work->field_ADB8 = 0; work->field_ADBC = 1;
             break;
         }
     }
-    else if (work->field_ADAC == 3)
+    else if (work->zoom_state == 3)
     {
-        switch (work->field_ADA8)
+        switch (work->zoom_dir)
         {
         case 4:
-            if (status & 0x10) return;
-            work->field_ADAC = 2; work->field_ADB0 = 0; work->field_ADB8 = 0; work->field_ADBC = 1;
+            if (status & PAD_X) return;
+            work->zoom_state = 2; work->zoom_count = 0; work->field_ADB8 = 0; work->field_ADBC = 1;
             break;
         case 5:
-            if (status & 0x80) return;
-            work->field_ADAC = 2; work->field_ADB0 = 0; work->field_ADB8 = 0; work->field_ADBC = 1;
+            if (status & PAD_Y) return;
+            work->zoom_state = 2; work->zoom_count = 0; work->field_ADB8 = 0; work->field_ADBC = 1;
             break;
         }
     }
@@ -1036,18 +1038,18 @@ int idx;
 int mode;
 int delta;
 {
-    if (work->field_28C[idx].x0 < -127)
+    if (work->polys[idx].x0 < -127)
     {
         switch (mode)
         {
         case 1:
-            work->field_AD78 += delta;
+            work->view[0].x += delta;
             break;
         case 2:
-            work->field_AD84 += delta;
+            work->view[1].x += delta;
             break;
         case 3:
-            work->field_AD90 += delta;
+            work->view[2].x += delta;
             break;
         }
     }
@@ -1059,18 +1061,18 @@ int idx;
 int mode;
 int delta;
 {
-    if (work->field_28C[idx].x1 >= 0x80)
+    if (work->polys[idx].x1 >= 0x80)
     {
         switch (mode)
         {
         case 1:
-            work->field_AD78 -= delta;
+            work->view[0].x -= delta;
             break;
         case 2:
-            work->field_AD84 -= delta;
+            work->view[1].x -= delta;
             break;
         case 3:
-            work->field_AD90 -= delta;
+            work->view[2].x -= delta;
             break;
         }
     }
@@ -1082,7 +1084,7 @@ int a1;
 int a2;
 int a3;
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     if (base[a1 + 1].y2 < 0x59)
     {
         return;
@@ -1090,13 +1092,13 @@ int a3;
     switch (a2)
     {
     case 1:
-        work->field_AD7C -= a3;
+        work->view[0].y -= a3;
         break;
     case 2:
-        work->field_AD88 -= a3;
+        work->view[1].y -= a3;
         break;
     case 3:
-        work->field_AD94 -= a3;
+        work->view[2].y -= a3;
         break;
     }
 }
@@ -1107,18 +1109,18 @@ int idx;
 int mode;
 int delta;
 {
-    if (work->field_28C[idx].y0 < -104)
+    if (work->polys[idx].y0 < -104)
     {
         switch (mode)
         {
         case 1:
-            work->field_AD7C += delta;
+            work->view[0].y += delta;
             break;
         case 2:
-            work->field_AD88 += delta;
+            work->view[1].y += delta;
             break;
         case 3:
-            work->field_AD94 += delta;
+            work->view[2].y += delta;
             break;
         }
     }
@@ -1131,33 +1133,33 @@ int amount;
     switch (which)
     {
     case 1:
-        if (work->field_AD80 < 391)
+        if (work->view[0].scale < 391)
         {
-            work->field_AD80 += amount;
+            work->view[0].scale += amount;
         }
-        else if (work->field_ADB0)
+        else if (work->zoom_count)
         {
-            work->field_ADB0 = 0;
+            work->zoom_count = 0;
         }
         break;
     case 2:
-        if (work->field_AD8C < 391)
+        if (work->view[1].scale < 391)
         {
-            work->field_AD8C += amount;
+            work->view[1].scale += amount;
         }
-        else if (work->field_ADB0)
+        else if (work->zoom_count)
         {
-            work->field_ADB0 = 0;
+            work->zoom_count = 0;
         }
         break;
     case 3:
-        if (work->field_AD98 < 391)
+        if (work->view[2].scale < 391)
         {
-            work->field_AD98 += amount;
+            work->view[2].scale += amount;
         }
-        else if (work->field_ADB0)
+        else if (work->zoom_count)
         {
-            work->field_ADB0 = 0;
+            work->zoom_count = 0;
         }
         break;
     }
@@ -1171,33 +1173,33 @@ int amount;
     switch (which)
     {
     case 1:
-        if (work->field_AD80 >= 202)
+        if (work->view[0].scale >= 202)
         {
-            work->field_AD80 -= amount;
+            work->view[0].scale -= amount;
         }
-        else if (work->field_ADB0)
+        else if (work->zoom_count)
         {
-            work->field_ADB0 = 0;
+            work->zoom_count = 0;
         }
         break;
     case 2:
-        if (work->field_AD8C >= 202)
+        if (work->view[1].scale >= 202)
         {
-            work->field_AD8C -= amount;
+            work->view[1].scale -= amount;
         }
-        else if (work->field_ADB0)
+        else if (work->zoom_count)
         {
-            work->field_ADB0 = 0;
+            work->zoom_count = 0;
         }
         break;
     case 3:
-        if (work->field_AD98 >= 202)
+        if (work->view[2].scale >= 202)
         {
-            work->field_AD98 -= amount;
+            work->view[2].scale -= amount;
         }
-        else if (work->field_ADB0)
+        else if (work->zoom_count)
         {
-            work->field_ADB0 = 0;
+            work->zoom_count = 0;
         }
         break;
     }
@@ -1207,7 +1209,7 @@ void brf_800CE798();
 
 void brf_800CEA58(Work *work, int a1, int a2, int a3)
 {
-    switch (work->field_AD9C)
+    switch (work->move_dir)
     {
     case 1:
         brf_800CE648(work);
@@ -1228,7 +1230,7 @@ void brf_800CE2F8(Work *work);
 void brf_800CEAF4(work)
 Work *work;
 {
-    switch (work->field_ADA8)
+    switch (work->zoom_dir)
     {
     case 4:
         brf_800CE8E8(work);
@@ -1244,7 +1246,7 @@ void brf_800CEB4C(Work *work, int a1, int a2)
 {
     brf_800CE430(work, a2);
 
-    switch (work->field_ADAC)
+    switch (work->zoom_state)
     {
     case 0:
         break;
@@ -1259,7 +1261,7 @@ void brf_800CEB4C(Work *work, int a1, int a2)
         break;
     }
 
-    switch (work->field_ADA0)
+    switch (work->move_state)
     {
     case 0:
         break;
@@ -1276,7 +1278,7 @@ void brf_800CEB4C(Work *work, int a1, int a2)
 }
 void brf_800CEC68(Work *work)
 {
-    switch (work->field_ADA4)
+    switch (work->view_mode)
     {
     case 1:
     case 4:
@@ -1319,39 +1321,39 @@ void brf_800CF22C(Work *work, int a1)
 {
     unsigned short press = work->pad->press;
 
-    if (press & 0x2000)
+    if (press & PAD_R)
     {
-        work->field_AD9C = 0;
-        work->field_ADA0 = 1;
+        work->move_dir = 0;
+        work->move_state = 1;
     }
-    else if (press & 0x8000)
+    else if (press & PAD_L)
     {
-        work->field_AD9C = 1;
-        work->field_ADA0 = 1;
+        work->move_dir = 1;
+        work->move_state = 1;
     }
-    else if (press & 0x1000)
+    else if (press & PAD_U)
     {
-        work->field_AD9C = 2;
-        work->field_ADA0 = 1;
+        work->move_dir = 2;
+        work->move_state = 1;
     }
-    else if (press & 0x4000)
+    else if (press & PAD_D)
     {
-        work->field_AD9C = 3;
-        work->field_ADA0 = 1;
-    }
-
-    if (press & 0x10)
-    {
-        work->field_ADA8 = 4;
-        work->field_ADAC = 1;
-    }
-    else if (press & 0x80)
-    {
-        work->field_ADA8 = 5;
-        work->field_ADAC = 1;
+        work->move_dir = 3;
+        work->move_state = 1;
     }
 
-    if (work->field_ADA0 != 0 || work->field_ADAC != 0)
+    if (press & PAD_X)
+    {
+        work->zoom_dir = 4;
+        work->zoom_state = 1;
+    }
+    else if (press & PAD_Y)
+    {
+        work->zoom_dir = 5;
+        work->zoom_state = 1;
+    }
+
+    if (work->move_state != 0 || work->zoom_state != 0)
     {
         brf_800CEB4C(work, 0, 1);
     }
@@ -1370,7 +1372,7 @@ void brf_800CF354(Work *work, int a1)
 {
     if (work->pad->press != 0)
     {
-        work->field_ADA4 = 1;
+        work->view_mode = 1;
         brf_800CF22C(work, a1);
     }
 }
@@ -1384,29 +1386,29 @@ void brf_800CF394(Work *work, int a1)
 
     if (a1)
     {
-        if (press & 0x20)
+        if (press & PAD_A)
         {
-            work->field_ADA4 = 1;
+            work->view_mode = 1;
             brf_800CC190(work);
             GM_SeSet2(0, 0x3F, 0xB0);
         }
         else if (press & 0xFFFF)
         {
-            work->field_ADA4 = 3;
+            work->view_mode = 3;
             brf_800CECE4(work);
         }
     }
     else
     {
-        if (press & 0x20)
+        if (press & PAD_A)
         {
-            work->field_ADA4 = 3;
+            work->view_mode = 3;
             brf_800CC388(work);
             GM_SeSet2(0, 0x3F, 0xB0);
         }
         else if (press & 0xFFFF)
         {
-            work->field_ADA4 = 2;
+            work->view_mode = 2;
             brf_800CECE4(work);
         }
     }
@@ -1417,15 +1419,15 @@ void brf_800CF430(Work *work)
 {
     unsigned short press = work->pad->press;
 
-    if (press & 0x20)
+    if (press & PAD_A)
     {
-        work->field_ADA4 = 2;
+        work->view_mode = 2;
         brf_800CC28C(work);
         GM_SeSet2(0, 0x3F, 0xB0);
     }
     else if (press & 0xFFFF)
     {
-        work->field_ADA4 = 1;
+        work->view_mode = 1;
         brf_800CECE4(work);
     }
 }
@@ -1433,7 +1435,7 @@ void brf_800CDAEC();
 
 void brf_800CF4A0(Work *work, int a, int b, int c, int d, int e, void *f)
 {
-    brf_800CDAEC(work->field_28C, e, f, a, b, d, c);
+    brf_800CDAEC(work->polys, e, f, a, b, d, c);
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF4E0.s")
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800CF5A8.s")
@@ -1441,137 +1443,137 @@ extern int brf_dword_800C3744;
 
 void brf_800CF984(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     DG_TEX *g;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC388(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 8;
         }
         brf_800CCBD4(work, &base[0]);
         brf_800CADD4(work, &base[1], 10);
         break;
     case 2:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC28C(work);
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 8;
-            work->z_A597[4] = 8;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 8;
+            work->poly_flags[4] = 8;
         }
         brf_800CCBD4(work, &base[2]);
         brf_800CADD4(work, &base[4], 7);
         brf_800CBB68(work, &base[3], 2);
         break;
     case 3:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E2C));
             BRF_SET_UV(&base[3], g);
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 8;
-            work->z_A597[4] = 8;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 8;
+            work->poly_flags[4] = 8;
         }
         brf_800CCBD4(work, &base[2]);
         brf_800CADD4(work, &base[4], 7);
         break;
     case 4:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
             BRF_SET_UV(&base[3], g);
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 8;
-            work->z_A597[4] = 8;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 8;
+            work->poly_flags[4] = 8;
         }
         brf_800CCBD4(work, &base[2]);
         brf_800CADD4(work, &base[4], 7);
         brf_800CBB68(work, &base[3], 2);
         break;
     case 5:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E38));
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E38));
             BRF_SET_UV(&base[7], g);
             work->field_AD30 = 0;
-            work->z_A597[2] = 10;
-            work->z_A597[5] = 10;
+            work->poly_flags[2] = 10;
+            work->poly_flags[5] = 10;
         }
         brf_800CCBD4(work, &base[2]);
         brf_800CD8B8(work, 4, 2, 5);
         break;
     case 6:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E44));
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E44));
             BRF_SET_UV(&base[8], g);
             work->field_AD30 = 0;
-            work->z_A597[5] = 10;
-            work->z_A597[6] = 10;
+            work->poly_flags[5] = 10;
+            work->poly_flags[6] = 10;
         }
         brf_800CCBD4(work, &base[5]);
         brf_800CD8B8(work, 8, 5, 6);
         break;
     case 7:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E50));
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E50));
             BRF_SET_UV(&base[10], g);
             work->field_AD30 = 0;
-            work->z_A597[6] = 10;
-            work->z_A597[7] = 10;
+            work->poly_flags[6] = 10;
+            work->poly_flags[7] = 10;
         }
         brf_800CCBD4(work, &base[6]);
         brf_800CD8B8(work, 4, 6, 7);
         break;
     case 8:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC190(work);
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E58));
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E58));
             BRF_SET_UV(&base[9], g);
             brf_800CF4A0(work, 0, 0x5F, 0x64, 0xC8, 3, &brf_dword_800C3744);
-            work->z_A597[8] = 10;
-            work->z_A597[10] = 12;
+            work->poly_flags[8] = 10;
+            work->poly_flags[10] = 12;
         }
         brf_800CCBD4(work, &base[8]);
         break;
     case 9:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             work->field_AD30 = 0;
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E64));
-            work->z_A597[8] = 10;
-            work->z_A597[9] = 10;
-            work->z_A597[10] = 12;
+            work->poly_flags[8] = 10;
+            work->poly_flags[9] = 10;
+            work->poly_flags[10] = 12;
         }
         brf_800CCBD4(work, &base[8]);
         brf_800CD8B8(work, 16, 8, 9);
         break;
     case 10:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E1E70));
-            work->z_A597[9] = 10;
-            work->z_A597[10] = 12;
+            work->poly_flags[9] = 10;
+            work->poly_flags[10] = 12;
         }
         brf_800CCBD4(work, &base[9]);
         brf_800CADD4(work, &base[9], 0);
@@ -1615,23 +1617,23 @@ extern int brf_dword_800C3768, brf_dword_800C3798;
 
 void brf_800D00C4(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC190(work);
             brf_800CF4A0(work, 0, 0x5A, 0x1C2, 0x44C, 4, &brf_dword_800C3768);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 12;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 12;
             work->field_AD38 = 0;
             work->field_AD30 = 0;
-            work->z_A597[2] = 8;
-            work->z_A597[3] = 8;
+            work->poly_flags[2] = 8;
+            work->poly_flags[3] = 8;
         }
         brf_800CF4E0(work, 0, 0, 0, 0x5A, 0x1C2, 1, &brf_dword_800C3798);
         brf_800CCBD4(work, &base[1]);
@@ -1689,7 +1691,7 @@ void brf_800D1764(Work *work)
 }
 void brf_800D17E8(Work *work, int idx1, int idx2)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int v = work->field_AD3C << 2;
 
     setRGB0(&base[idx1], v, v, v);
@@ -1702,8 +1704,8 @@ void brf_800D1838(Work *work)
 
     for (i = 0; i < n; i++)
     {
-        work->z_A597[i + 0xF] = 2;
-        if (work->field_A9B6[i + 0xF] != 0)
+        work->poly_flags[i + 0xF] = 2;
+        if (work->glyph_flags[i + 0xF] != 0)
         {
             GM_SeSet2(0, 0x30, 0xB6);
         }
@@ -1716,23 +1718,23 @@ void brf_800D18D8(Work *work, int a1, int a2, int a3)
 
     for (i = 0; i < 0x334; i++)
     {
-        work->z_A597[i + 0xF] = 0;
+        work->poly_flags[i + 0xF] = 0;
     }
 
     for (i = 0; i < 0x11; i++)
     {
-        work->z_A597[i + 0xF] = 2;
+        work->poly_flags[i + 0xF] = 2;
     }
 
     for (i = a2; i < a3; i++)
     {
-        work->z_A597[i] = 2;
+        work->poly_flags[i] = 2;
     }
 
     for (i = 0; i < diff; i++)
     {
-        work->z_A597[i + a3] = 2;
-        if (work->field_A9B6[i + a3] != 0)
+        work->poly_flags[i + a3] = 2;
+        if (work->glyph_flags[i + a3] != 0)
         {
             GM_SeSet2(0, 0x30, 0xB6);
         }
@@ -1744,17 +1746,17 @@ void brf_800D1A04(Work *work, int a1, int a2)
 
     for (i = 0; i < 0x335; i++)
     {
-        work->z_A597[i + 0xF] = 0;
+        work->poly_flags[i + 0xF] = 0;
     }
 
     for (i = 0; i < 0x11; i++)
     {
-        work->z_A597[i + 0xF] = 2;
+        work->poly_flags[i + 0xF] = 2;
     }
 
     for (i = a1; i < a2; i++)
     {
-        work->z_A597[i] = 2;
+        work->poly_flags[i] = 2;
         brf_800CD870(work, i);
     }
 }
@@ -1770,23 +1772,23 @@ void brf_800D1AD8(Work *work)
 
     if (v < 0x409)
     {
-        POLY_FT4 *base = work->field_28C;
+        POLY_FT4 *base = work->polys;
         int c = 0x80 - ((v - 0x3E8) << 2);
 
         for (i = 0; i < 0x335; i++)
         {
-            work->z_A597[i + 0xF] = 0;
+            work->poly_flags[i + 0xF] = 0;
         }
 
         for (i = 0xD; i < 0x20; i++)
         {
-            work->z_A597[i] = 2;
+            work->poly_flags[i] = 2;
             setRGB0(&base[i], c, c, c);
         }
 
         for (i = 0x2E6; i < 0x344; i++)
         {
-            work->z_A597[i] = 2;
+            work->poly_flags[i] = 2;
             setRGB0(&base[i], c, c, c);
         }
     }
@@ -1794,46 +1796,46 @@ void brf_800D1AD8(Work *work)
     {
         for (i = 0; i < 0x335; i++)
         {
-            work->z_A597[i + 0xF] = 0;
+            work->poly_flags[i + 0xF] = 0;
         }
     }
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800D1BDC.s")
 void brf_800D26E4(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     DG_TEX *g;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC190(work);
-            work->field_AD78 = -0x50;
-            work->field_AD7C = 0x64;
+            work->view[0].x = -0x50;
+            work->view[0].y = 0x64;
             work->field_AD38 = 0;
             work->field_AD34 = 0;
-            work->field_ADA4 = 0;
-            work->field_AD9C = 0;
-            work->field_ADA0 = 0;
-            work->field_AD80 = 0xC8;
+            work->view_mode = 0;
+            work->move_dir = 0;
+            work->move_state = 0;
+            work->view[0].scale = 0xC8;
             brf_800CE2F8(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[2] = 10;
-            work->z_A597[6] = 9;
-            work->z_A597[7] = 9;
-            work->z_A597[10] = 8;
-            work->z_A597[11] = 8;
-            work->z_A597[12] = 11;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[2] = 10;
+            work->poly_flags[6] = 9;
+            work->poly_flags[7] = 9;
+            work->poly_flags[10] = 8;
+            work->poly_flags[11] = 8;
+            work->poly_flags[12] = 11;
         }
         brf_800CADD4(work, &base[2], 1);
         brf_800CB23C(work, 6, 7);
         brf_800CC5E4(work, &base[0], &base[1]);
-        if (work->field_ADA4 == 0)
+        if (work->view_mode == 0)
         {
             brf_800CF354(work, 3);
             brf_800D1764(work);
@@ -1844,24 +1846,24 @@ void brf_800D26E4(Work *work)
         }
         break;
     case 2:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 10;
-            work->z_A597[6] = 9;
-            work->z_A597[7] = 9;
-            work->z_A597[10] = 8;
-            work->z_A597[11] = 8;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 10;
+            work->poly_flags[6] = 9;
+            work->poly_flags[7] = 9;
+            work->poly_flags[10] = 8;
+            work->poly_flags[11] = 8;
             work->field_AD30 = 0;
-            work->z_A597[12] = 11;
+            work->poly_flags[12] = 11;
         }
         brf_800CD8B8(work, 16, 2, 3);
         brf_800CDA10(work, 6, 7);
         brf_800CC5E4(work, &base[0], &base[1]);
-        if (work->field_ADA4 == 0)
+        if (work->view_mode == 0)
         {
             brf_800CF354(work, 3);
             brf_800D1764(work);
@@ -1872,23 +1874,23 @@ void brf_800D26E4(Work *work)
         }
         break;
     case 3:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             work->field_AD30 = 0;
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1EB0));
             BRF_SET_UV(&base[2], g);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 10;
-            work->z_A597[10] = 8;
-            work->z_A597[11] = 8;
-            work->z_A597[12] = 11;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 10;
+            work->poly_flags[10] = 8;
+            work->poly_flags[11] = 8;
+            work->poly_flags[12] = 11;
         }
         brf_800CD8B8(work, 16, 3, 2);
         brf_800CC5E4(work, &base[0], &base[1]);
-        if (work->field_ADA4 == 0)
+        if (work->view_mode == 0)
         {
             brf_800CF354(work, 3);
             brf_800D1764(work);
@@ -1899,25 +1901,25 @@ void brf_800D26E4(Work *work)
         }
         break;
     case 4:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             work->field_AD30 = 0;
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1EC0));
             BRF_SET_UV(&base[3], g);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 9;
-            work->z_A597[10] = 8;
-            work->z_A597[11] = 8;
-            work->z_A597[12] = 11;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 9;
+            work->poly_flags[10] = 8;
+            work->poly_flags[11] = 8;
+            work->poly_flags[12] = 11;
         }
         brf_800CD8B8(work, 16, 2, 3);
         brf_800CDAA8(work, 4);
         brf_800CC5E4(work, &base[0], &base[1]);
-        if (work->field_ADA4 == 0)
+        if (work->view_mode == 0)
         {
             brf_800CF354(work, 3);
             brf_800D1764(work);
@@ -1928,26 +1930,26 @@ void brf_800D26E4(Work *work)
         }
         break;
     case 5:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 9;
-            work->z_A597[5] = 9;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 9;
+            work->poly_flags[5] = 9;
             work->field_AD3C = 0;
             work->field_AD38 = 0;
-            work->z_A597[10] = 8;
-            work->z_A597[11] = 8;
-            work->z_A597[12] = 11;
-            work->z_A597[13] = 8;
-            work->z_A597[14] = 8;
+            work->poly_flags[10] = 8;
+            work->poly_flags[11] = 8;
+            work->poly_flags[12] = 11;
+            work->poly_flags[13] = 8;
+            work->poly_flags[14] = 8;
         }
         brf_800CAE84(work, 4, 5);
         brf_800D1BDC(work);
         brf_800CC5E4(work, &base[0], &base[1]);
-        if (work->field_ADA4 == 0)
+        if (work->view_mode == 0)
         {
             brf_800CF354(work, 3);
             brf_800D1764(work);
@@ -1958,29 +1960,29 @@ void brf_800D26E4(Work *work)
         }
         break;
     case 6:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             work->field_AD30 = 0;
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1EF0));
             BRF_SET_UV(&base[2], g);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 9;
-            work->z_A597[5] = 9;
-            work->z_A597[10] = 8;
-            work->z_A597[11] = 8;
-            work->z_A597[12] = 11;
-            work->z_A597[13] = 8;
-            work->z_A597[14] = 8;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 9;
+            work->poly_flags[5] = 9;
+            work->poly_flags[10] = 8;
+            work->poly_flags[11] = 8;
+            work->poly_flags[12] = 11;
+            work->poly_flags[13] = 8;
+            work->poly_flags[14] = 8;
         }
         brf_800CD8B8(work, 16, 3, 2);
         brf_800CAE84(work, 4, 5);
         brf_800D1BDC(work);
         brf_800CC5E4(work, &base[0], &base[1]);
-        if (work->field_ADA4 == 0)
+        if (work->view_mode == 0)
         {
             brf_800CF354(work, 3);
             brf_800D1764(work);
@@ -1991,24 +1993,24 @@ void brf_800D26E4(Work *work)
         }
         break;
     case 7:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[2] = 10;
-            work->z_A597[4] = 9;
-            work->z_A597[5] = 9;
-            work->z_A597[10] = 8;
-            work->z_A597[11] = 8;
-            work->z_A597[12] = 11;
-            work->z_A597[13] = 8;
-            work->z_A597[14] = 8;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[2] = 10;
+            work->poly_flags[4] = 9;
+            work->poly_flags[5] = 9;
+            work->poly_flags[10] = 8;
+            work->poly_flags[11] = 8;
+            work->poly_flags[12] = 11;
+            work->poly_flags[13] = 8;
+            work->poly_flags[14] = 8;
         }
         brf_800CAE84(work, 4, 5);
         brf_800D1BDC(work);
         brf_800CC5E4(work, &base[0], &base[1]);
-        if (work->field_ADA4 == 0)
+        if (work->view_mode == 0)
         {
             brf_800CF354(work, 3);
             brf_800D1764(work);
@@ -2019,30 +2021,30 @@ void brf_800D26E4(Work *work)
         }
         break;
     case 8:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             work->field_AD30 = 0;
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1EB0));
             BRF_SET_UV(&base[3], g);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 9;
-            work->z_A597[5] = 9;
-            work->z_A597[8] = 9;
-            work->z_A597[10] = 8;
-            work->z_A597[11] = 8;
-            work->z_A597[12] = 11;
-            work->z_A597[13] = 8;
-            work->z_A597[14] = 8;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 9;
+            work->poly_flags[5] = 9;
+            work->poly_flags[8] = 9;
+            work->poly_flags[10] = 8;
+            work->poly_flags[11] = 8;
+            work->poly_flags[12] = 11;
+            work->poly_flags[13] = 8;
+            work->poly_flags[14] = 8;
         }
         brf_800CD8B8(work, 16, 2, 3);
         brf_800CD958(work, 4, 5, 8);
         brf_800D1BDC(work);
         brf_800CC5E4(work, &base[0], &base[1]);
-        if (work->field_ADA4 == 0)
+        if (work->view_mode == 0)
         {
             brf_800CF354(work, 3);
             brf_800D1764(work);
@@ -2053,25 +2055,25 @@ void brf_800D26E4(Work *work)
         }
         break;
     case 9:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[3] = 10;
-            work->z_A597[8] = 9;
-            work->z_A597[9] = 9;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[3] = 10;
+            work->poly_flags[8] = 9;
+            work->poly_flags[9] = 9;
             work->field_AD38 = 0;
-            work->z_A597[10] = 8;
-            work->z_A597[11] = 8;
-            work->z_A597[12] = 11;
-            work->z_A597[13] = 8;
-            work->z_A597[14] = 8;
+            work->poly_flags[10] = 8;
+            work->poly_flags[11] = 8;
+            work->poly_flags[12] = 11;
+            work->poly_flags[13] = 8;
+            work->poly_flags[14] = 8;
         }
         brf_800CB5F4(work, 8, 9);
         brf_800D1BDC(work);
         brf_800CC5E4(work, &base[0], &base[1]);
-        if (work->field_ADA4 == 0)
+        if (work->view_mode == 0)
         {
             brf_800CF354(work, 3);
             brf_800D1764(work);
@@ -2094,7 +2096,7 @@ const char brf_dword_800E1FD0[12] = "\xa5\xad\xa5\xe3\xa5\xf3\xa5\xd9\xa5\xeb"; 
 const char brf_dword_800E1FDC[16] = "b_eye_r_tyou";
 void brf_800D2E70(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int x = 0x7F - work->field_AD34 * 3;
 
     base[3].y0 = -0x96;
@@ -2111,7 +2113,7 @@ extern const char brf_dword_800E1FA0[];
 
 void brf_800D2ED0(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int       t = work->field_AD38;
     DG_TEX   *g;
 
@@ -2191,7 +2193,7 @@ void brf_800D2ED0(Work *work)
 }
 void brf_800D30A0(Work *work)
 {
-    switch (work->field_AD28)
+    switch (work->time)
     {
     case 0x40:
         GM_SeSet2(0x1F, 0x30, 0xB4);
@@ -2233,50 +2235,50 @@ void brf_800D30A0(Work *work)
 }
 void brf_800D3220(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     DG_TEX *g;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC28C(work);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1FB0));
             BRF_SET_UV(&base[1], g);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CCBD4(work, &base[0]);
         brf_800D30A0(work);
         break;
     case 2:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1FC0));
             BRF_SET_UV(&base[1], g);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CCBD4(work, &base[0]);
         brf_800D30A0(work);
         break;
     case 3:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
             BRF_SET_UV(&base[1], g);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBB68(work, &base[1], 2);
@@ -2284,17 +2286,17 @@ void brf_800D3220(Work *work)
         brf_800D30A0(work);
         break;
     case 4:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1FA0));
             BRF_SET_UV(&base[1], g);
             setRGB0(&base[3], 0x80, 0xC0, 0xC0);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
             work->field_AD34 = 0;
-            work->z_A597[3] = 8;
+            work->poly_flags[3] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800D2E70(work);
@@ -2302,13 +2304,13 @@ void brf_800D3220(Work *work)
         brf_800D30A0(work);
         break;
     case 5:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 8;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CDDD4(work, GV_StrCode(brf_dword_800E1FD0), 3);
@@ -2316,15 +2318,15 @@ void brf_800D3220(Work *work)
         brf_800D30A0(work);
         break;
     case 6:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1FDC));
             BRF_SET_UV(&base[1], g);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 8;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800D2E70(work);
@@ -2332,14 +2334,14 @@ void brf_800D3220(Work *work)
         brf_800D30A0(work);
         break;
     case 7:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
             work->field_AD38 = 0;
-            work->z_A597[3] = 8;
+            work->poly_flags[3] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CDDD4(work, GV_StrCode(brf_dword_800E1FD0), 3);
@@ -2347,14 +2349,14 @@ void brf_800D3220(Work *work)
         brf_800D30A0(work);
         break;
     case 8:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
             work->field_AD38 = 0;
-            work->z_A597[3] = 8;
+            work->poly_flags[3] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800D2ED0(work);
@@ -2362,13 +2364,13 @@ void brf_800D3220(Work *work)
         brf_800D30A0(work);
         break;
     case 9:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 8;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBB68(work, &base[1], 2);
@@ -2376,29 +2378,29 @@ void brf_800D3220(Work *work)
         brf_800D30A0(work);
         break;
     case 10:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E2C));
             BRF_SET_UV(&base[1], g);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 8;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CCBD4(work, &base[0]);
         break;
     case 11:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
             BRF_SET_UV(&base[1], g);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 8;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBB68(work, &base[1], 2);
@@ -2420,7 +2422,7 @@ void brf_800D39F0(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 }
 void brf_800D3A30(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int c = 0x80 - (work->field_AD30 << 2);
     int i;
 
@@ -2428,12 +2430,12 @@ void brf_800D3A30(Work *work)
     setRGB0(&base[5], c, c, c);
     for (i = 6; i < 22; i++)
     {
-        work->z_A597[i] = 2;
+        work->poly_flags[i] = 2;
         setRGB0(&base[i], c, c, c);
     }
     for (i = 180; i < 291; i++)
     {
-        work->z_A597[i] = 2;
+        work->poly_flags[i] = 2;
         setRGB0(&base[i], c, c, c);
     }
     work->field_AD30++;
@@ -2445,8 +2447,8 @@ void brf_800D3AF0(Work *work)
 
     for (i = 0; i < n; i++)
     {
-        work->z_A597[i + 6] = 2;
-        if (work->field_A9B6[i + 6] != 0)
+        work->poly_flags[i + 6] = 2;
+        if (work->glyph_flags[i + 6] != 0)
         {
             GM_SeSet2(0, 0x30, 0xB6);
         }
@@ -2459,23 +2461,23 @@ void brf_800D3B8C(Work *work, int a1, int a2, int a3)
 
     for (i = 0; i < 0x11D; i++)
     {
-        work->z_A597[i + 6] = 0;
+        work->poly_flags[i + 6] = 0;
     }
 
     for (i = 0; i < 0x10; i++)
     {
-        work->z_A597[i + 6] = 2;
+        work->poly_flags[i + 6] = 2;
     }
 
     for (i = a2; i < a3; i++)
     {
-        work->z_A597[i] = 2;
+        work->poly_flags[i] = 2;
     }
 
     for (i = 0; i < diff; i++)
     {
-        work->z_A597[i + a3] = 2;
-        if (work->field_A9B6[i + a3] != 0)
+        work->poly_flags[i + a3] = 2;
+        if (work->glyph_flags[i + a3] != 0)
         {
             GM_SeSet2(0, 0x30, 0xB6);
         }
@@ -2487,17 +2489,17 @@ void brf_800D3CB8(Work *work, int a1, int a2)
 
     for (i = 0; i < 0x11D; i++)
     {
-        work->z_A597[i + 6] = 0;
+        work->poly_flags[i + 6] = 0;
     }
 
     for (i = 0; i < 0x10; i++)
     {
-        work->z_A597[i + 6] = 2;
+        work->poly_flags[i + 6] = 2;
     }
 
     for (i = a1; i < a2; i++)
     {
-        work->z_A597[i] = 2;
+        work->poly_flags[i] = 2;
         brf_800CD870(work, i);
     }
 }
@@ -2514,7 +2516,7 @@ void brf_800D3D8C(Work *work)
     {
         for (i = 0; i < 16; i++)
         {
-            work->z_A597[i + 6] = 2;
+            work->poly_flags[i + 6] = 2;
         }
     }
     else if (n < 0x2B)
@@ -2644,33 +2646,33 @@ void brf_800D3D8C(Work *work);
 
 void brf_800D41A4(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int i;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC28C(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 10;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 10;
         }
         brf_800CADD4(work, &base[1], 5);
         brf_800CBB68(work, &base[0], 0);
         brf_800CC5E4(work, &base[0], &base[1]);
         break;
     case 2:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 10;
-            work->z_A597[4] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 10;
+            work->poly_flags[4] = 8;
             work->field_AD30 = 0;
-            work->z_A597[5] = 9;
+            work->poly_flags[5] = 9;
             GM_SeSet2(0, 0x3F, 0xBC);
         }
         brf_800CADD4(work, &base[1], 5);
@@ -2679,15 +2681,15 @@ void brf_800D41A4(Work *work)
         brf_800CC5E4(work, &base[0], &base[1]);
         break;
     case 3:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 10;
-            work->z_A597[4] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 10;
+            work->poly_flags[4] = 8;
             work->field_AD34 = 0;
             work->field_AD3C = 0;
-            work->z_A597[5] = 9;
+            work->poly_flags[5] = 9;
         }
         brf_800CADD4(work, &base[1], 5);
         brf_800CBB68(work, &base[0], 0);
@@ -2695,18 +2697,18 @@ void brf_800D41A4(Work *work)
         brf_800CC5E4(work, &base[0], &base[1]);
         break;
     case 4:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 10;
-            work->z_A597[4] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 10;
+            work->poly_flags[4] = 8;
             work->field_AD30 = 0;
             work->field_AD38 = 0;
-            work->z_A597[5] = 9;
+            work->poly_flags[5] = 9;
             for (i = 6; i < 22; i++)
             {
-                work->z_A597[i] = 7;
+                work->poly_flags[i] = 7;
             }
         }
         brf_800CADD4(work, &base[1], 5);
@@ -2716,11 +2718,11 @@ void brf_800D41A4(Work *work)
         brf_800CC5E4(work, &base[0], &base[1]);
         break;
     case 5:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 10;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 10;
         }
         brf_800CADD4(work, &base[1], 5);
         brf_800CBB68(work, &base[0], 0);
@@ -2728,14 +2730,14 @@ void brf_800D41A4(Work *work)
         brf_800CC5E4(work, &base[0], &base[1]);
         break;
     case 6:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             work->field_AD30 = 0;
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
-            work->z_A597[3] = 10;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
+            work->poly_flags[3] = 10;
         }
         brf_800CADD4(work, &base[1], 5);
         brf_800CBB68(work, &base[0], 0);
@@ -2758,7 +2760,7 @@ void brf_800D45C4(Work *work)
     if (work->field_AD38 < 0x1f4)
     {
         int mul = 0x2ee - work->field_AD38;
-        brf_800CDAEC(work->field_28C, 6, &brf_dword_800C37D4, 0, 0x5a, mul, 0xfa);
+        brf_800CDAEC(work->polys, 6, &brf_dword_800C37D4, 0, 0x5a, mul, 0xfa);
     }
     else if (work->field_AD38 == 0x1f4)
     {
@@ -2769,56 +2771,56 @@ void brf_800D45C4(Work *work)
 }
 void brf_800D4664(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC388(work);
-            work->z_A597[5] = 10;
-            work->z_A597[6] = 10;
+            work->poly_flags[5] = 10;
+            work->poly_flags[6] = 10;
         }
         brf_800CADD4(work, &base[5], 8);
         brf_800CC5E4(work, &base[5], &base[6]);
         break;
     case 2:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             work->field_AD30 = 0;
-            work->z_A597[5] = 10;
-            work->z_A597[6] = 10;
-            work->z_A597[7] = 10;
+            work->poly_flags[5] = 10;
+            work->poly_flags[6] = 10;
+            work->poly_flags[7] = 10;
         }
         brf_800CD8B8(work, 16, 5, 7);
         brf_800CC5E4(work, &base[5], &base[6]);
         break;
     case 3:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             work->field_AD30 = 0;
-            work->z_A597[6] = 10;
-            work->z_A597[7] = 10;
+            work->poly_flags[6] = 10;
+            work->poly_flags[7] = 10;
         }
         brf_800CADD4(work, &base[7], 9);
         brf_800CC5E4(work, &base[6], &base[7]);
         break;
     case 4:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC190(work);
-            work->z_A597[0] = 8;
-            work->z_A597[1] = 8;
+            work->poly_flags[0] = 8;
+            work->poly_flags[1] = 8;
             work->field_AD38 = 0;
-            work->z_A597[2] = 12;
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 10;
-            work->z_A597[8] = 12;
+            work->poly_flags[2] = 12;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 10;
+            work->poly_flags[8] = 12;
         }
         brf_800CADD4(work, &base[3], 2);
         brf_800D45C4(work);
@@ -2841,7 +2843,7 @@ void brf_800D486C(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 }
 void brf_800D48AC(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int c = 0x80 - (work->field_AD30 << 2);
     int i;
 
@@ -2857,8 +2859,8 @@ void brf_800D48AC(Work *work)
 }
 void brf_800D493C(Work *work)
 {
-    work->z_A597[work->field_AD34 + 9] = 2;
-    if (work->field_A9B6[work->field_AD34 + 9] != 0)
+    work->poly_flags[work->field_AD34 + 9] = 2;
+    if (work->glyph_flags[work->field_AD34 + 9] != 0)
     {
         GM_SeSet2(0, 0x30, 0xB6);
     }
@@ -2866,8 +2868,8 @@ void brf_800D493C(Work *work)
 }
 void brf_800D49B8(Work *work)
 {
-    work->z_A597[work->field_AD34 + 0x1A] = 2;
-    if (work->field_A9B6[work->field_AD34 + 0x1A] != 0)
+    work->poly_flags[work->field_AD34 + 0x1A] = 2;
+    if (work->glyph_flags[work->field_AD34 + 0x1A] != 0)
     {
         GM_SeSet2(0, 0x30, 0xB6);
     }
@@ -2877,57 +2879,57 @@ extern int brf_dword_800C381C;
 
 void brf_800D4A34(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int i;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC150(work);
             brf_800CC190(work);
             GM_StreamPlayStart();
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[5] = 7;
-            work->z_A597[6] = 7;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[5] = 7;
+            work->poly_flags[6] = 7;
             work->field_AD38 = 0;
-            work->z_A597[38] = 14;
-            work->z_A597[39] = 14;
+            work->poly_flags[38] = 14;
+            work->poly_flags[39] = 14;
         }
         brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
         brf_800CADD4(work, &base[0], 4);
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
     case 2:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[5] = 7;
-            work->z_A597[6] = 7;
-            work->z_A597[38] = 14;
-            work->z_A597[39] = 14;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[5] = 7;
+            work->poly_flags[6] = 7;
+            work->poly_flags[38] = 14;
+            work->poly_flags[39] = 14;
         }
         brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
         brf_800CADD4(work, &base[0], 4);
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
     case 3:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[3] = 8;
-            work->z_A597[5] = 7;
-            work->z_A597[6] = 7;
-            work->z_A597[8] = 10;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[3] = 8;
+            work->poly_flags[5] = 7;
+            work->poly_flags[6] = 7;
+            work->poly_flags[8] = 10;
             work->field_AD30 = 0;
-            work->z_A597[38] = 14;
-            work->z_A597[39] = 14;
+            work->poly_flags[38] = 14;
+            work->poly_flags[39] = 14;
             GM_SeSet2(0, 0x3F, 0xBC);
         }
         brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
@@ -2936,21 +2938,21 @@ void brf_800D4A34(Work *work)
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
     case 4:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[2] = 8;
-            work->z_A597[3] = 8;
-            work->z_A597[5] = 7;
-            work->z_A597[6] = 7;
-            work->z_A597[7] = 10;
-            work->z_A597[8] = 10;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[2] = 8;
+            work->poly_flags[3] = 8;
+            work->poly_flags[5] = 7;
+            work->poly_flags[6] = 7;
+            work->poly_flags[7] = 10;
+            work->poly_flags[8] = 10;
             work->field_AD30 = 0;
             work->field_AD34 = 0;
-            work->z_A597[38] = 14;
-            work->z_A597[39] = 14;
+            work->poly_flags[38] = 14;
+            work->poly_flags[39] = 14;
             GM_SeSet2(0, 0x3F, 0xBC);
         }
         brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
@@ -2960,23 +2962,23 @@ void brf_800D4A34(Work *work)
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
     case 5:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[2] = 8;
-            work->z_A597[3] = 8;
-            work->z_A597[5] = 7;
-            work->z_A597[6] = 7;
-            work->z_A597[7] = 10;
-            work->z_A597[8] = 10;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[2] = 8;
+            work->poly_flags[3] = 8;
+            work->poly_flags[5] = 7;
+            work->poly_flags[6] = 7;
+            work->poly_flags[7] = 10;
+            work->poly_flags[8] = 10;
             for (i = 9; i < 26; i++)
             {
-                work->z_A597[i] = 2;
+                work->poly_flags[i] = 2;
             }
-            work->z_A597[38] = 14;
-            work->z_A597[39] = 14;
+            work->poly_flags[38] = 14;
+            work->poly_flags[39] = 14;
         }
         brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
         brf_800D486C(work, &base[2], &base[7]);
@@ -2984,24 +2986,24 @@ void brf_800D4A34(Work *work)
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
     case 6:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[2] = 8;
-            work->z_A597[3] = 8;
-            work->z_A597[5] = 7;
-            work->z_A597[6] = 7;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[2] = 8;
+            work->poly_flags[3] = 8;
+            work->poly_flags[5] = 7;
+            work->poly_flags[6] = 7;
             work->field_AD34 = 0;
-            work->z_A597[7] = 10;
-            work->z_A597[8] = 10;
+            work->poly_flags[7] = 10;
+            work->poly_flags[8] = 10;
             for (i = 9; i < 26; i++)
             {
-                work->z_A597[i] = 2;
+                work->poly_flags[i] = 2;
             }
-            work->z_A597[38] = 14;
-            work->z_A597[39] = 14;
+            work->poly_flags[38] = 14;
+            work->poly_flags[39] = 14;
         }
         brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
         brf_800D49B8(work);
@@ -3009,48 +3011,48 @@ void brf_800D4A34(Work *work)
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
     case 7:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[2] = 8;
-            work->z_A597[3] = 8;
-            work->z_A597[5] = 7;
-            work->z_A597[6] = 7;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[2] = 8;
+            work->poly_flags[3] = 8;
+            work->poly_flags[5] = 7;
+            work->poly_flags[6] = 7;
             work->field_AD34 = 0;
-            work->z_A597[7] = 10;
-            work->z_A597[8] = 10;
+            work->poly_flags[7] = 10;
+            work->poly_flags[8] = 10;
             for (i = 9; i < 38; i++)
             {
-                work->z_A597[i] = 2;
+                work->poly_flags[i] = 2;
             }
-            work->z_A597[38] = 14;
-            work->z_A597[39] = 14;
+            work->poly_flags[38] = 14;
+            work->poly_flags[39] = 14;
         }
         brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
         brf_800CADD4(work, &base[0], 4);
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
     case 8:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[2] = 8;
-            work->z_A597[3] = 8;
-            work->z_A597[5] = 7;
-            work->z_A597[6] = 7;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[2] = 8;
+            work->poly_flags[3] = 8;
+            work->poly_flags[5] = 7;
+            work->poly_flags[6] = 7;
             work->field_AD30 = 0;
-            work->z_A597[7] = 10;
-            work->z_A597[8] = 10;
+            work->poly_flags[7] = 10;
+            work->poly_flags[8] = 10;
             for (i = 9; i < 38; i++)
             {
-                work->z_A597[i] = 2;
+                work->poly_flags[i] = 2;
             }
-            work->z_A597[38] = 14;
-            work->z_A597[39] = 14;
+            work->poly_flags[38] = 14;
+            work->poly_flags[39] = 14;
         }
         brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
         brf_800D48AC(work);
@@ -3058,47 +3060,47 @@ void brf_800D4A34(Work *work)
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
     case 9:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[5] = 7;
-            work->z_A597[6] = 7;
-            work->z_A597[38] = 14;
-            work->z_A597[39] = 14;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[5] = 7;
+            work->poly_flags[6] = 7;
+            work->poly_flags[38] = 14;
+            work->poly_flags[39] = 14;
         }
         brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
         brf_800CADD4(work, &base[0], 4);
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
     case 10:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 10;
-            work->z_A597[4] = 10;
-            work->z_A597[5] = 7;
-            work->z_A597[6] = 7;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 10;
+            work->poly_flags[4] = 10;
+            work->poly_flags[5] = 7;
+            work->poly_flags[6] = 7;
             work->field_AD30 = 0;
-            work->z_A597[38] = 14;
-            work->z_A597[39] = 14;
+            work->poly_flags[38] = 14;
+            work->poly_flags[39] = 14;
         }
         brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
         brf_800CD8B8(work, 16, 0, 4);
         brf_800CC5E4(work, &base[38], &base[39]);
         break;
     case 11:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[1] = 10;
-            work->z_A597[4] = 10;
-            work->z_A597[5] = 7;
-            work->z_A597[6] = 7;
-            work->z_A597[38] = 14;
-            work->z_A597[39] = 14;
+            work->poly_flags[1] = 10;
+            work->poly_flags[4] = 10;
+            work->poly_flags[5] = 7;
+            work->poly_flags[6] = 7;
+            work->poly_flags[38] = 14;
+            work->poly_flags[39] = 14;
         }
         brf_800CF4E0(work, 0, 0, 0, 0x5F, 0x17C, 7, &brf_dword_800C381C);
         brf_800CC5E4(work, &base[38], &base[39]);
@@ -3113,40 +3115,40 @@ extern int brf_dword_800C3870, brf_dword_800C3888;
 
 void brf_800D52F0(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     DG_TEX *g;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC388(work);
-            work->field_AD7C = 0x1E;
-            work->field_AD88 = 0x1E;
-            work->field_AD8C = 0xF0;
-            work->field_AD94 = 0x1E;
-            work->field_AD80 = 0xF0;
-            work->field_AD98 = 0xF0;
-            work->field_ADA4 = 0;
-            work->field_AD9C = 0;
-            work->field_ADA0 = 0;
-            work->field_AD78 = 0;
-            work->field_AD84 = 0;
-            work->field_AD90 = 0;
-            brf_800CF4A0(work, work->field_AD84, work->field_AD88, 0xC8, work->field_AD8C, 2, &brf_dword_800C3870);
-            brf_800CF4A0(work, work->field_AD90, work->field_AD94, 0xC8, work->field_AD98, 2, &brf_dword_800C3888);
+            work->view[0].y = 0x1E;
+            work->view[1].y = 0x1E;
+            work->view[1].scale = 0xF0;
+            work->view[2].y = 0x1E;
+            work->view[0].scale = 0xF0;
+            work->view[2].scale = 0xF0;
+            work->view_mode = 0;
+            work->move_dir = 0;
+            work->move_state = 0;
+            work->view[0].x = 0;
+            work->view[1].x = 0;
+            work->view[2].x = 0;
+            brf_800CF4A0(work, work->view[1].x, work->view[1].y, 0xC8, work->view[1].scale, 2, &brf_dword_800C3870);
+            brf_800CF4A0(work, work->view[2].x, work->view[2].y, 0xC8, work->view[2].scale, 2, &brf_dword_800C3888);
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E1DE4));
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1DF0));
             BRF_SET_UV(&base[8], g);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1DE4));
             BRF_SET_UV(&base[9], g);
-            work->z_A597[8] = 10;
-            work->z_A597[9] = 10;
+            work->poly_flags[8] = 10;
+            work->poly_flags[9] = 10;
         }
-        if (work->field_ADA4 == 0)
+        if (work->view_mode == 0)
         {
             brf_800CF394(work, 1);
             brf_800CADD4(work, &base[8], 8);
@@ -3158,30 +3160,30 @@ void brf_800D52F0(Work *work)
         }
         break;
     case 2:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
-            if (work->field_ADA4 == 0)
+            if (work->view_mode == 0)
             {
                 brf_800CC28C(work);
-                work->field_AD88 = 0x1E;
-                work->field_AD84 = 0;
-                work->field_AD8C = 0x118;
+                work->view[1].y = 0x1E;
+                work->view[1].x = 0;
+                work->view[1].scale = 0x118;
                 brf_800CAC7C(work, GV_StrCode(brf_dword_800E1DC4));
                 g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1CA0));
                 BRF_SET_UV(&base[6], g);
                 g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1DD4));
                 BRF_SET_UV(&base[7], g);
-                brf_800CF4A0(work, work->field_AD84, work->field_AD88, 0xC8, work->field_AD8C, 2, &brf_dword_800C3870);
-                brf_800CF4A0(work, work->field_AD90, work->field_AD94, 0xC8, work->field_AD98, 2, &brf_dword_800C3888);
-                work->z_A597[6] = 10;
-                work->z_A597[7] = 10;
+                brf_800CF4A0(work, work->view[1].x, work->view[1].y, 0xC8, work->view[1].scale, 2, &brf_dword_800C3870);
+                brf_800CF4A0(work, work->view[2].x, work->view[2].y, 0xC8, work->view[2].scale, 2, &brf_dword_800C3888);
+                work->poly_flags[6] = 10;
+                work->poly_flags[7] = 10;
             }
             else
             {
                 goto call_cece4;
             }
         }
-        if (work->field_ADA4 == 0)
+        if (work->view_mode == 0)
         {
             brf_800CF394(work, 0);
             brf_800CADD4(work, &base[7], 5);
@@ -3208,151 +3210,151 @@ extern int brf_dword_800C38A0;
 
 void brf_800D5780(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     DG_TEX *g;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC28C(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBB68(work, &base[1], 2);
         brf_800CCBD4(work, &base[0]);
         break;
     case 2:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1E2C));
             BRF_SET_UV(&base[1], g);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CCBD4(work, &base[0]);
         break;
     case 3:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
             BRF_SET_UV(&base[1], g);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBB68(work, &base[1], 2);
         brf_800CCBD4(work, &base[0]);
         break;
     case 4:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC190(work);
             brf_800CF4A0(work, 0, 0x50, 0x64, 0xA0, 6, &brf_dword_800C38A0);
-            work->z_A597[3] = 10;
-            work->z_A597[5] = 10;
-            work->z_A597[6] = 8;
-            work->z_A597[7] = 8;
-            work->z_A597[8] = 12;
+            work->poly_flags[3] = 10;
+            work->poly_flags[5] = 10;
+            work->poly_flags[6] = 8;
+            work->poly_flags[7] = 8;
+            work->poly_flags[8] = 12;
         }
         brf_800CADD4(work, &base[3], 4);
         brf_800CCBD4(work, &base[8]);
         break;
     case 5:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 10;
-            work->z_A597[5] = 10;
-            work->z_A597[6] = 8;
-            work->z_A597[7] = 8;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 10;
+            work->poly_flags[5] = 10;
+            work->poly_flags[6] = 8;
+            work->poly_flags[7] = 8;
             work->field_AD30 = 0;
-            work->z_A597[8] = 12;
+            work->poly_flags[8] = 12;
         }
         brf_800CD8B8(work, 16, 3, 4);
         brf_800CCBD4(work, &base[8]);
         break;
     case 6:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 10;
-            work->z_A597[5] = 10;
-            work->z_A597[6] = 8;
-            work->z_A597[7] = 8;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 10;
+            work->poly_flags[5] = 10;
+            work->poly_flags[6] = 8;
+            work->poly_flags[7] = 8;
             work->field_AD30 = 0;
-            work->z_A597[8] = 12;
+            work->poly_flags[8] = 12;
         }
         brf_800CD8B8(work, 16, 4, 3);
         brf_800CCBD4(work, &base[8]);
         break;
     case 7:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC28C(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBB68(work, &base[1], 1);
         brf_800CCBD4(work, &base[0]);
         break;
     case 8:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
+            work->poly_flags[0] = 10;
             work->field_AD34 = 0;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CBDC8(work, &base[1]);
         brf_800CCBD4(work, &base[0]);
         break;
     case 9:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CBB68(work, &base[1], 2);
         brf_800CCBD4(work, &base[0]);
         break;
     case 10:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
+            work->poly_flags[0] = 10;
             work->field_AD34 = 0;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CBD5C(work, &base[1]);
         brf_800CCBD4(work, &base[0]);
         break;
     case 11:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
+            work->poly_flags[0] = 10;
             work->field_AD34 = 0;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CBB68(work, &base[1], 1);
         brf_800CCBD4(work, &base[0]);
@@ -3368,7 +3370,7 @@ const char brf_dword_800E2104[16] = "c_face_half_u";
 const char brf_dword_800E2114[16] = "c_face_close_u";
 void brf_800D5CC4(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int v = work->field_AD30;
 
     if (v < 0x11)
@@ -3385,7 +3387,7 @@ void brf_800D5CC4(Work *work)
 }
 void brf_800D5D30(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int v = work->field_AD30;
 
     if (v < 0x11)
@@ -3410,7 +3412,7 @@ void brf_800D5D9C(Work *work, POLY_FT4 *a1, POLY_FT4 *a2)
 }
 void brf_800D5DDC(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int c = 0x80 - (work->field_AD30 << 2);
     int i;
 
@@ -3424,8 +3426,8 @@ void brf_800D5DDC(Work *work)
 }
 void brf_800D5E54(Work *work)
 {
-    work->z_A597[work->field_AD34 + 0xC] = 2;
-    if (work->field_A9B6[work->field_AD34 + 0xC] != 0)
+    work->poly_flags[work->field_AD34 + 0xC] = 2;
+    if (work->glyph_flags[work->field_AD34 + 0xC] != 0)
     {
         GM_SeSet2(0, 0x30, 0xB6);
     }
@@ -3435,85 +3437,85 @@ extern int brf_dword_800C38E8;
 
 void brf_800D5ED0(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     DG_TEX *g;
     int i;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC28C(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBB68(work, &base[1], 1);
         brf_800CCBD4(work, &base[0]);
         break;
     case 2:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
+            work->poly_flags[0] = 10;
             work->field_AD30 = 0;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
-            work->z_A597[3] = 8;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
+            work->poly_flags[3] = 8;
         }
         brf_800D5CC4(work);
         brf_800CCBD4(work, &base[0]);
         break;
     case 3:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 10;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 10;
             work->field_AD30 = 0;
-            work->z_A597[5] = 8;
-            work->z_A597[6] = 8;
+            work->poly_flags[5] = 8;
+            work->poly_flags[6] = 8;
         }
         brf_800D5D30(work);
         brf_800CCBD4(work, &base[3]);
         break;
     case 4:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[4] = 10;
-            work->z_A597[5] = 8;
-            work->z_A597[6] = 8;
+            work->poly_flags[4] = 10;
+            work->poly_flags[5] = 8;
+            work->poly_flags[6] = 8;
         }
         brf_800CADD4(work, &base[6], 6);
         brf_800CCBD4(work, &base[4]);
         break;
     case 5:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E20F4));
             BRF_SET_UV(&base[5], g);
-            work->z_A597[4] = 10;
-            work->z_A597[5] = 8;
-            work->z_A597[6] = 8;
+            work->poly_flags[4] = 10;
+            work->poly_flags[5] = 8;
+            work->poly_flags[6] = 8;
         }
         brf_800CADD4(work, &base[6], 6);
         brf_800CCBD4(work, &base[4]);
         break;
     case 6:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC388(work);
-            work->z_A597[7] = 12;
-            work->z_A597[9] = 12;
-            work->z_A597[10] = 8;
+            work->poly_flags[7] = 12;
+            work->poly_flags[9] = 12;
+            work->poly_flags[10] = 8;
             work->field_AD38 = 0;
-            work->z_A597[11] = 10;
+            work->poly_flags[11] = 10;
             GM_SeSet2(0, 0x3F, 0xBC);
         }
         brf_800D5D9C(work, &base[10], &base[11]);
@@ -3522,18 +3524,18 @@ void brf_800D5ED0(Work *work)
         brf_800CC5E4(work, &base[7], &base[9]);
         break;
     case 7:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E2104));
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E2114));
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E2114));
             BRF_SET_UV(&base[8], g);
-            work->z_A597[7] = 12;
-            work->z_A597[9] = 12;
-            work->z_A597[10] = 8;
+            work->poly_flags[7] = 12;
+            work->poly_flags[9] = 12;
+            work->poly_flags[10] = 8;
             work->field_AD34 = 0;
-            work->z_A597[11] = 10;
+            work->poly_flags[11] = 10;
         }
         brf_800D5E54(work);
         brf_800CADD4(work, &base[7], 9);
@@ -3541,17 +3543,17 @@ void brf_800D5ED0(Work *work)
         brf_800CC5E4(work, &base[7], &base[9]);
         break;
     case 8:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E1DF0));
-            work->z_A597[7] = 12;
-            work->z_A597[9] = 12;
-            work->z_A597[10] = 8;
-            work->z_A597[11] = 10;
+            work->poly_flags[7] = 12;
+            work->poly_flags[9] = 12;
+            work->poly_flags[10] = 8;
+            work->poly_flags[11] = 10;
             for (i = 12; i < 20; i++)
             {
-                work->z_A597[i] = 2;
+                work->poly_flags[i] = 2;
             }
         }
         brf_800CADD4(work, &base[7], 9);
@@ -3559,18 +3561,18 @@ void brf_800D5ED0(Work *work)
         brf_800CC5E4(work, &base[7], &base[9]);
         break;
     case 9:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[7] = 12;
-            work->z_A597[8] = 12;
-            work->z_A597[9] = 12;
-            work->z_A597[10] = 8;
+            work->poly_flags[7] = 12;
+            work->poly_flags[8] = 12;
+            work->poly_flags[9] = 12;
+            work->poly_flags[10] = 8;
             work->field_AD30 = 0;
-            work->z_A597[11] = 10;
+            work->poly_flags[11] = 10;
             for (i = 12; i < 20; i++)
             {
-                work->z_A597[i] = 2;
+                work->poly_flags[i] = 2;
             }
         }
         brf_800CD8B8(work, 16, 7, 8);
@@ -3578,16 +3580,16 @@ void brf_800D5ED0(Work *work)
         brf_800CC5E4(work, &base[7], &base[9]);
         break;
     case 10:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[8] = 12;
-            work->z_A597[9] = 12;
-            work->z_A597[10] = 8;
-            work->z_A597[11] = 10;
+            work->poly_flags[8] = 12;
+            work->poly_flags[9] = 12;
+            work->poly_flags[10] = 8;
+            work->poly_flags[11] = 10;
             for (i = 12; i < 20; i++)
             {
-                work->z_A597[i] = 2;
+                work->poly_flags[i] = 2;
             }
         }
         brf_800CADD4(work, &base[8], 8);
@@ -3595,17 +3597,17 @@ void brf_800D5ED0(Work *work)
         brf_800CC5E4(work, &base[8], &base[9]);
         break;
     case 11:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[8] = 12;
-            work->z_A597[9] = 12;
-            work->z_A597[10] = 8;
+            work->poly_flags[8] = 12;
+            work->poly_flags[9] = 12;
+            work->poly_flags[10] = 8;
             work->field_AD30 = 0;
-            work->z_A597[11] = 10;
+            work->poly_flags[11] = 10;
             for (i = 12; i < 20; i++)
             {
-                work->z_A597[i] = 2;
+                work->poly_flags[i] = 2;
             }
         }
         brf_800CADD4(work, &base[8], 8);
@@ -3614,64 +3616,64 @@ void brf_800D5ED0(Work *work)
         brf_800CC5E4(work, &base[8], &base[9]);
         break;
     case 12:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[8] = 12;
-            work->z_A597[9] = 12;
+            work->poly_flags[8] = 12;
+            work->poly_flags[9] = 12;
         }
         brf_800CADD4(work, &base[8], 8);
         brf_800CF4E0(work, 1, 0x258, 0, 0x55, 0x190, 3, &brf_dword_800C38E8);
         brf_800CC5E4(work, &base[8], &base[9]);
         break;
     case 13:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC28C(work);
             setRGB0(&base[0], 0x80, 0x80, 0x80);
             setRGB0(&base[1], 0x80, 0x80, 0x80);
             setRGB0(&base[2], 0x80, 0x80, 0x80);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBB68(work, &base[1], 1);
         brf_800CCBD4(work, &base[0]);
         break;
     case 14:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
+            work->poly_flags[0] = 10;
             work->field_AD34 = 0;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBDC8(work, &base[1]);
         brf_800CCBD4(work, &base[0]);
         break;
     case 15:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBB68(work, &base[1], 2);
         brf_800CCBD4(work, &base[0]);
         break;
     case 16:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
+            work->poly_flags[0] = 10;
             work->field_AD30 = 0;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CBF48(work, &base[1]);
         brf_800CADD4(work, &base[2], 7);
@@ -3688,37 +3690,37 @@ extern int brf_dword_800C390C;
 
 void brf_800D674C(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC190(work);
-            work->field_ADA4 = 0;
-            work->field_AD9C = 0;
-            work->field_ADA0 = 0;
-            work->field_AD78 = 0;
-            work->field_AD7C = 0x1E;
-            work->field_AD80 = 0xF0;
-            work->field_AD84 = 0;
-            work->field_AD88 = 0x1E;
-            work->field_AD8C = 0xF0;
-            work->field_AD90 = 0;
-            work->field_AD94 = 0x1E;
-            work->field_AD98 = 0xF0;
+            work->view_mode = 0;
+            work->move_dir = 0;
+            work->move_state = 0;
+            work->view[0].x = 0;
+            work->view[0].y = 0x1E;
+            work->view[0].scale = 0xF0;
+            work->view[1].x = 0;
+            work->view[1].y = 0x1E;
+            work->view[1].scale = 0xF0;
+            work->view[2].x = 0;
+            work->view[2].y = 0x1E;
+            work->view[2].scale = 0xF0;
             brf_800CF4A0(work, 0, 0x1E, 0xC8, 0xF0, 6, &brf_dword_800C390C);
-            work->z_A597[0] = 12;
-            work->z_A597[1] = 12;
-            work->z_A597[2] = 8;
-            work->z_A597[3] = 8;
-            work->z_A597[4] = 10;
-            work->z_A597[5] = 10;
+            work->poly_flags[0] = 12;
+            work->poly_flags[1] = 12;
+            work->poly_flags[2] = 8;
+            work->poly_flags[3] = 8;
+            work->poly_flags[4] = 10;
+            work->poly_flags[5] = 10;
         }
-        if (work->field_ADA4 == 0)
+        if (work->view_mode == 0)
         {
             brf_800CF430(work);
             brf_800CADD4(work, &base[4], 4);
@@ -3739,7 +3741,7 @@ void brf_800D674C(Work *work)
 }
 void brf_800D68D0(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int v = work->field_AD30;
 
     if (v < 0x11)
@@ -3756,7 +3758,7 @@ void brf_800D68D0(Work *work)
 }
 void brf_800D693C(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int v, w;
 
     if (work->field_AD30 < 0x11)
@@ -3772,85 +3774,85 @@ void brf_800D693C(Work *work)
 }
 void brf_800D69A8(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     DG_TEX *g;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC28C(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBB68(work, &base[1], 2);
         brf_800CCBD4(work, &base[0]);
         break;
     case 2:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
+            work->poly_flags[0] = 10;
             work->field_AD34 = 0;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CBD5C(work, &base[1]);
         brf_800CCBD4(work, &base[0]);
         break;
     case 3:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBB68(work, &base[1], 1);
         brf_800CCBD4(work, &base[0]);
         break;
     case 5:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 10;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 10;
             work->field_AD30 = 0;
-            work->z_A597[5] = 8;
-            work->z_A597[6] = 8;
+            work->poly_flags[5] = 8;
+            work->poly_flags[6] = 8;
         }
         brf_800D693C(work);
         brf_800CCBD4(work, &base[4]);
         break;
     case 7:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC388(work);
-            work->z_A597[8] = 10;
-            work->z_A597[9] = 10;
+            work->poly_flags[8] = 10;
+            work->poly_flags[9] = 10;
         }
         brf_800CC5E4(work, &base[7], &base[8]);
         break;
     case 8:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             work->field_AD30 = 0;
-            work->z_A597[7] = 10;
-            work->z_A597[8] = 10;
-            work->z_A597[9] = 10;
+            work->poly_flags[7] = 10;
+            work->poly_flags[8] = 10;
+            work->poly_flags[9] = 10;
         }
         brf_800CD8B8(work, 16, 9, 7);
         brf_800CC5E4(work, &base[7], &base[8]);
         break;
     case 10:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC28C(work);
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E1D28));
@@ -3858,33 +3860,33 @@ void brf_800D69A8(Work *work)
             setRGB0(&base[0], 0x80, 0x80, 0x80);
             setRGB0(&base[1], 0x80, 0x80, 0x80);
             setRGB0(&base[2], 0x80, 0x80, 0x80);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBB68(work, &base[1], 2);
         brf_800CCBD4(work, &base[0]);
         break;
     case 11:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
+            work->poly_flags[0] = 10;
             work->field_AD34 = 0;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CBD5C(work, &base[1]);
         brf_800CCBD4(work, &base[0]);
         break;
     case 12:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
         }
         brf_800CADD4(work, &base[2], 7);
         brf_800CBB68(work, &base[1], 1);
@@ -3892,72 +3894,72 @@ void brf_800D69A8(Work *work)
         break;
     case 4:
     case 13:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[0] = 10;
+            work->poly_flags[0] = 10;
             work->field_AD30 = 0;
-            work->z_A597[1] = 8;
-            work->z_A597[2] = 8;
-            work->z_A597[3] = 8;
+            work->poly_flags[1] = 8;
+            work->poly_flags[2] = 8;
+            work->poly_flags[3] = 8;
         }
         brf_800D68D0(work);
         brf_800CCBD4(work, &base[0]);
         break;
     case 14:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 10;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 10;
             work->field_AD30 = 0;
-            work->z_A597[5] = 8;
-            work->z_A597[6] = 8;
+            work->poly_flags[5] = 8;
+            work->poly_flags[6] = 8;
         }
         brf_800D693C(work);
         brf_800CCBD4(work, &base[4]);
         break;
     case 6:
     case 15:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[4] = 10;
-            work->z_A597[5] = 8;
-            work->z_A597[6] = 8;
+            work->poly_flags[4] = 10;
+            work->poly_flags[5] = 8;
+            work->poly_flags[6] = 8;
         }
         brf_800CADD4(work, &base[6], 6);
         brf_800CCBD4(work, &base[4]);
         break;
     case 16:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC388(work);
             setRGB0(&base[9], 0x80, 0x80, 0x80);
-            work->z_A597[8] = 10;
-            work->z_A597[9] = 10;
+            work->poly_flags[8] = 10;
+            work->poly_flags[9] = 10;
         }
         brf_800CC5E4(work, &base[8], &base[9]);
         break;
     case 17:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             work->field_AD30 = 0;
-            work->z_A597[7] = 10;
-            work->z_A597[8] = 10;
-            work->z_A597[9] = 10;
+            work->poly_flags[7] = 10;
+            work->poly_flags[8] = 10;
+            work->poly_flags[9] = 10;
         }
         brf_800CD8B8(work, 16, 9, 7);
         brf_800CC5E4(work, &base[8], &base[9]);
         break;
     case 9:
     case 18:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[7] = 10;
-            work->z_A597[8] = 10;
+            work->poly_flags[7] = 10;
+            work->poly_flags[8] = 10;
         }
         brf_800CADD4(work, &base[7], 8);
         brf_800CC5E4(work, &base[7], &base[8]);
@@ -3973,7 +3975,7 @@ const char brf_dword_800E21D4[8] = "a_naomi";
 const char brf_dword_800E21DC[8] = "\xa5\xca\xa5\xaa\xa5\xdf"; /* "ナオミ" (Naomi) */
 void brf_800D6F98(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int xl, xr;
     int t;
 
@@ -4014,51 +4016,51 @@ extern int brf_dword_800C3954, brf_dword_800C3978;
 
 void brf_800D70A4(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     DG_TEX *g;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC388(work);
             brf_800CF4A0(work, 0x32, 0x5A, 0x12C, 0x1C2, 3, &brf_dword_800C3954);
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
         }
         brf_800CADD4(work, &base[2], 9);
         brf_800CC5E4(work, &base[1], &base[2]);
         break;
     case 2:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             work->field_AD30 = 0;
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 10;
-            work->z_A597[2] = 10;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 10;
+            work->poly_flags[2] = 10;
         }
         brf_800CD8B8(work, 16, 2, 0);
         brf_800CC5E4(work, &base[1], &base[2]);
         break;
     case 3:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             brf_800CAC7C(work, GV_StrCode(brf_dword_800E21C8));
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E21C8));
             BRF_SET_UV(&base[6], g);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 10;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 10;
         }
         brf_800CADD4(work, &base[0], 8);
         brf_800CC5E4(work, &base[0], &base[1]);
         break;
     case 4:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC190(work);
             brf_800CF4A0(work, 0x28, 0x5A, 0x12C, 0x2EE, 5, &brf_dword_800C3978);
@@ -4067,69 +4069,69 @@ void brf_800D70A4(Work *work)
             g = brf_800CABF4(work, GV_StrCode(brf_dword_800E21D4));
             BRF_SET_UV(&base[8], g);
             setRGB0(&base[8], 0x80, 0xC0, 0xC0);
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 10;
-            work->z_A597[6] = 12;
-            work->z_A597[7] = 12;
-            work->z_A597[8] = 8;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 10;
+            work->poly_flags[6] = 12;
+            work->poly_flags[7] = 12;
+            work->poly_flags[8] = 8;
         }
         brf_800CADD4(work, &base[3], 4);
         brf_800CC5E4(work, &base[6], &base[7]);
         brf_800D6F98(work);
         break;
     case 5:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 10;
-            work->z_A597[5] = 10;
-            work->z_A597[6] = 12;
-            work->z_A597[7] = 12;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 10;
+            work->poly_flags[5] = 10;
+            work->poly_flags[6] = 12;
+            work->poly_flags[7] = 12;
             work->field_AD30 = 0;
-            work->z_A597[8] = 8;
+            work->poly_flags[8] = 8;
         }
         brf_800CD8B8(work, 16, 3, 5);
         brf_800CC5E4(work, &base[6], &base[7]);
         break;
     case 6:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[4] = 10;
-            work->z_A597[5] = 10;
-            work->z_A597[6] = 12;
-            work->z_A597[7] = 12;
-            work->z_A597[8] = 8;
+            work->poly_flags[4] = 10;
+            work->poly_flags[5] = 10;
+            work->poly_flags[6] = 12;
+            work->poly_flags[7] = 12;
+            work->poly_flags[8] = 8;
         }
         brf_800CADD4(work, &base[5], 3);
         brf_800CC5E4(work, &base[6], &base[7]);
         brf_800CDDD4(work, GV_StrCode(brf_dword_800E21DC), 8);
         break;
     case 7:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 10;
-            work->z_A597[5] = 10;
-            work->z_A597[6] = 12;
-            work->z_A597[7] = 12;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 10;
+            work->poly_flags[5] = 10;
+            work->poly_flags[6] = 12;
+            work->poly_flags[7] = 12;
             work->field_AD30 = 0;
-            work->z_A597[8] = 8;
+            work->poly_flags[8] = 8;
         }
         brf_800CD8B8(work, 16, 5, 3);
         brf_800CC5E4(work, &base[6], &base[7]);
         break;
     case 8:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
-            work->z_A597[3] = 10;
-            work->z_A597[4] = 10;
-            work->z_A597[6] = 12;
-            work->z_A597[7] = 12;
-            work->z_A597[8] = 8;
+            work->poly_flags[3] = 10;
+            work->poly_flags[4] = 10;
+            work->poly_flags[6] = 12;
+            work->poly_flags[7] = 12;
+            work->poly_flags[8] = 8;
         }
         brf_800CADD4(work, &base[3], 4);
         brf_800CC5E4(work, &base[6], &base[7]);
@@ -4147,52 +4149,52 @@ void brf_800D75F0(Work *work);
 
 void brf_800D8060(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
 
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
             brf_800CC150(work);
             brf_800CC28C(work);
             brf_800CF4A0(work, 0, 0, 0xFA, 0x190, 2, &brf_dword_800C39B4);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 10;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 10;
         }
         brf_800CADD4(work, &base[1], 5);
         brf_800CBB68(work, &base[0], 0);
         brf_800CC5E4(work, &base[0], &base[1]);
         break;
     case 2:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC480(work);
             work->field_AD30 = 0x23F;
             work->field_AD38 = 0;
-            work->z_A597[2] = 12;
+            work->poly_flags[2] = 12;
         }
         brf_800D75F0(work);
         break;
     case 3:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC28C(work);
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 10;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 10;
         }
         brf_800CADD4(work, &base[1], 5);
         brf_800CBB68(work, &base[0], 0);
         brf_800CC5E4(work, &base[0], &base[1]);
         break;
     case 4:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             brf_800CC560(work);
             work->field_AD30 = 0;
-            work->z_A597[0] = 10;
-            work->z_A597[1] = 10;
+            work->poly_flags[0] = 10;
+            work->poly_flags[1] = 10;
         }
         brf_800CADD4(work, &base[1], 5);
         brf_800CBE34(work, &base[0]);
@@ -4305,7 +4307,7 @@ const int brf_dword_800E249C = 0x800DF980;
 void brf_800D8274(Work *work)
 {
     int v = work->field_AD3C;
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
 
     if (v < 0x258)
     {
@@ -4363,7 +4365,7 @@ void brf_800D8274(Work *work)
 }
 void brf_800D8420(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int v = work->field_AD38;
 
     if (v < 0x21)
@@ -4380,7 +4382,7 @@ void brf_800D8420(Work *work)
 }
 void brf_800D849C(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int v = work->field_AD38;
 
     if (v < 0x21)
@@ -4394,14 +4396,14 @@ void brf_800D849C(Work *work)
         for (i = 16; i < 28; i++)
         {
             setRGB0(&base[i], c, c, c);
-            work->z_A597[i] = 2;
+            work->poly_flags[i] = 2;
         }
     }
     work->field_AD38++;
 }
 void brf_800D853C(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int v = work->field_AD30;
 
     if (v < 0x11)
@@ -4418,7 +4420,7 @@ void brf_800D853C(Work *work)
 }
 void brf_800D85A8(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int v = work->field_AD30;
 
     if (v < 0x11)
@@ -4434,7 +4436,7 @@ void brf_800D85A8(Work *work)
 }
 void brf_800D8614(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int v = work->field_AD30;
 
     if (v < 0xD)
@@ -4454,8 +4456,8 @@ void brf_800D8690(Work *work)
 
     for (i = 0; i < n; i++)
     {
-        work->z_A597[i + 0x10] = 2;
-        if (work->field_A9B6[i + 0x10] != 0)
+        work->poly_flags[i + 0x10] = 2;
+        if (work->glyph_flags[i + 0x10] != 0)
         {
             GM_SeSet2(0, 0x30, 0xB6);
         }
@@ -4468,23 +4470,23 @@ void brf_800D872C(Work *work, int a1, int a2, int a3)
 
     for (i = 0; i < 0x29C; i++)
     {
-        work->z_A597[i + 0x10] = 0;
+        work->poly_flags[i + 0x10] = 0;
     }
 
     for (i = 0; i < 0xC; i++)
     {
-        work->z_A597[i + 0x10] = 2;
+        work->poly_flags[i + 0x10] = 2;
     }
 
     for (i = a2; i < a3; i++)
     {
-        work->z_A597[i] = 2;
+        work->poly_flags[i] = 2;
     }
 
     for (i = 0; i < diff; i++)
     {
-        work->z_A597[i + a3] = 2;
-        if (work->field_A9B6[i + a3] != 0)
+        work->poly_flags[i + a3] = 2;
+        if (work->glyph_flags[i + a3] != 0)
         {
             GM_SeSet2(0, 0x30, 0xB6);
         }
@@ -4496,40 +4498,40 @@ void brf_800D8858(Work *work, int a1, int a2)
 
     for (i = 0; i < 0x29C; i++)
     {
-        work->z_A597[i + 0x10] = 0;
+        work->poly_flags[i + 0x10] = 0;
     }
 
     for (i = 0; i < 0xC; i++)
     {
-        work->z_A597[i + 0x10] = 2;
+        work->poly_flags[i + 0x10] = 2;
     }
 
     for (i = a1; i < a2; i++)
     {
-        work->z_A597[i] = 2;
+        work->poly_flags[i] = 2;
         brf_800CD870(work, i);
     }
 }
 void brf_800D892C(Work *work)
 {
-    POLY_FT4 *base = work->field_28C;
+    POLY_FT4 *base = work->polys;
     int i;
 
     for (i = 0; i < 0x29C; i++)
     {
-        work->z_A597[i + 0x10] = 0;
+        work->poly_flags[i + 0x10] = 0;
     }
 
     for (i = 0; i < 0xC; i++)
     {
-        work->z_A597[i + 0x10] = 2;
+        work->poly_flags[i + 0x10] = 2;
     }
 
     if (work->field_AD38 < 0x385)
     {
         for (i = 0x250; i < 0x2AC; i++)
         {
-            work->z_A597[i] = 2;
+            work->poly_flags[i] = 2;
         }
     }
     else if (work->field_AD38 < 0x3A5)
@@ -4539,7 +4541,7 @@ void brf_800D892C(Work *work)
         for (i = 0x250; i < 0x2AC; i++)
         {
             setRGB0(&base[i], c, c, c);
-            work->z_A597[i] = 2;
+            work->poly_flags[i] = 2;
         }
     }
 }
@@ -4690,7 +4692,7 @@ void brf_800DCAA8(Work *work)
 {
     if (work->field_AD34 % 3 == 0)
     {
-        POLY_FT4 *base = work->field_28C;
+        POLY_FT4 *base = work->polys;
         int i;
         for (i = 0; i < 8; i++)
         {
@@ -4892,20 +4894,20 @@ void brf_800DCED4(Work *work, POLY_FT4 *poly)
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800DCFB4.s")
 void brf_800DD648(Work *work)
 {
-    switch (work->field_AD20)
+    switch (work->scene)
     {
     case 0:
         break;
     case 1:
-        if (work->field_AD5C != 0)
+        if (work->scene_changed != 0)
         {
             GM_StreamPlayStart();
-            work->field_AD5C = 0;
+            work->scene_changed = 0;
         }
         break;
     case 2:
     case -1:
-        work->z_A595[0] = 0;
+        work->prim_24_flags[0] = 0;
         brf_800CF5A8(work);
         break;
     }
@@ -4914,30 +4916,30 @@ extern int brf_dword_800C4CB0;
 
 void brf_800DD6DC(Work *work)
 {
-    work->field_AD28++;
-    if (work->field_AD28 != work->field_AD54)
+    work->time++;
+    if (work->time != work->key_time)
     {
         return;
     }
-    if (work->field_AD20 == -1)
+    if (work->scene == -1)
     {
         return;
     }
 
-    work->field_AD5C = 1;
-    work->field_AD20 = work->field_AD58;
-    work->field_AD54 = ((BrfKeyframe **)&brf_dword_800C4CB0)[work->field_A588][work->field_AD50].field_0;
-    work->field_AD58 = ((BrfKeyframe **)&brf_dword_800C4CB0)[work->field_A588][work->field_AD50].field_2;
-    work->field_AD50++;
+    work->scene_changed = 1;
+    work->scene = work->key_scene;
+    work->key_time = ((BrfKeyframe **)&brf_dword_800C4CB0)[work->index][work->key_index].field_0;
+    work->key_scene = ((BrfKeyframe **)&brf_dword_800C4CB0)[work->index][work->key_index].field_2;
+    work->key_index++;
 }
 void brf_800DD77C(Work *work)
 {
     int press = work->pad->press;
 
-    if (work->field_ADC4 != 1 && (press & 0x40) && work->field_AD28 >= 0x33)
+    if (work->no_skip != 1 && (press & PAD_B) && work->time >= 0x33)
     {
-        work->field_AD20 = -1;
-        work->field_AD5C = 1;
+        work->scene = -1;
+        work->scene_changed = 1;
     }
 }
 void brf_800DD7C8(POLY_FT4 *p, int scale)
@@ -4957,65 +4959,65 @@ void brf_800DD830(Work *work)
     int       v;
     short    *tbl;
 
-    src = work->field_24->packs[GV_Clock];
+    src = work->prim_24->packs[GV_Clock];
     for (i = 0; i < 2; i++)
     {
-        *(unsigned short *)src = work->z_A595[i] << 8;
+        *(unsigned short *)src = work->prim_24_flags[i] << 8;
         src++;
     }
 
-    src = work->field_85CC;
-    dst = work->field_30->packs[GV_Clock];
+    src = work->sub_polys;
+    dst = work->sub_prim->packs[GV_Clock];
     for (i = 0; i < 200; i++)
     {
         *dst = *src;
-        *(unsigned short *)src = work->z_A8DF[i] << 8;
-        work->z_A8DF[i] = 0;
+        *(unsigned short *)src = work->sub_flags[i] << 8;
+        work->sub_flags[i] = 0;
         src++;
         dst++;
     }
 
-    dst = work->field_28->packs[GV_Clock];
+    dst = work->main_prim->packs[GV_Clock];
     if (work->field_ADB8 < 5)
     {
-        work->field_A50C = (POLY_FT4 *)(PACK_ADDR0 + 50 * 1024);
+        work->poly_buf = (POLY_FT4 *)(PACK_ADDR0 + 50 * 1024);
         src = (POLY_FT4 *)(PACK_ADDR0 + 50 * 1024);
     }
     else
     {
-        src = work->field_28C;
+        src = work->polys;
     }
-    for (i = 0; i < (tbl = (short *)&brf_dword_800C3508)[work->field_A588]; i++) /* required for the match */
+    for (i = 0; i < (tbl = (short *)&brf_dword_800C3508)[work->index]; i++) /* required for the match */
     {
         *dst = *src;
-        k = work->field_AD28 % 16;
+        k = work->time % 16;
         if (k >= 9)
         {
             k = 16 - k;
         }
         v = k * 2;
         brf_800DD7C8(dst, 128 - v);
-        *(unsigned short *)dst = work->z_A597[i] << 8;
+        *(unsigned short *)dst = work->poly_flags[i] << 8;
         src++;
         dst++;
     }
 
-    src4 = work->field_A510;
-    dst4 = work->field_20->packs[GV_Clock];
+    src4 = work->f4_polys;
+    dst4 = work->f4_prim->packs[GV_Clock];
     for (i = 0; i < 5; i++)
     {
         *dst4 = *src4;
-        *(unsigned short *)dst4 = work->z_A590[i] << 8;
+        *(unsigned short *)dst4 = work->f4_flags[i] << 8;
         src4++;
         dst4++;
     }
 
-    src = work->field_34;
-    dst = work->field_2C->packs[GV_Clock];
+    src = work->small_polys;
+    dst = work->small_prim->packs[GV_Clock];
     for (i = 0; i < 15; i++)
     {
         *dst = *src;
-        *(unsigned short *)dst = work->z_A9A7[i] << 8;
+        *(unsigned short *)dst = work->small_flags[i] << 8;
         src++;
         dst++;
     }
@@ -5026,9 +5028,9 @@ void brf_800DDBC8(Work *work)
 {
     int i;
 
-    for (i = 0; i < work->field_AD14; i++)
+    for (i = 0; i < work->n_images; i++)
     {
-        GV_Free(work->field_AD1C[i]);
+        GV_Free(work->images[i]);
     }
     printf((char *)brf_dword_800E23E4);
 }
@@ -5038,11 +5040,11 @@ void brf_800DDC40(Work *work); // Act
 
 void brf_800DDCA8(Work *work)
 {
-    GM_FreePrim(work->field_28);
-    GM_FreePrim(work->field_2C);
-    GM_FreePrim(work->field_20);
-    GM_FreePrim(work->field_24);
-    GM_FreePrim(work->field_30);
+    GM_FreePrim(work->main_prim);
+    GM_FreePrim(work->small_prim);
+    GM_FreePrim(work->f4_prim);
+    GM_FreePrim(work->prim_24);
+    GM_FreePrim(work->sub_prim);
     brf_800DDBC8(work);
 }
 void brf_800DDCA8(Work *work); // Die
@@ -5172,11 +5174,11 @@ void brf_800DE0F4(Work *work, unsigned char c, POLY_FT4 *poly, int x0, int y0, i
     tex = brf_800CD7DC(work, c);
     if (c == ' ')
     {
-        work->field_A9B6[slot] = 0;
+        work->glyph_flags[slot] = 0;
     }
     else
     {
-        work->field_A9B6[slot] = 1;
+        work->glyph_flags[slot] = 1;
     }
     brf_800DDDE8(work, poly, x0, y0, x1, y2, abe);
     w = tex->w + 1;
@@ -5216,29 +5218,31 @@ void brf_800DE270(int a0, POLY_F4 *poly, int x0, int y0, int x1, int y2, int abe
 void brf_800DE2E0(Work *work);
 void brf_800DECF8(Work *work, int a1);
 
-int brf_800DFCF8(Work *work, int p1, int p2, int p3, int p4, int p5, int p6, int p7, int p8, int p9) // GetResources
+int brf_800DFCF8(Work *work, int map, int n_textures, int *tex_ids, DG_TEX *textures, int index, int arg6,
+                 int n_images, int *image_ids, DG_IMAGE **images) // GetResources
 {
-    work->field_AD10 = p2;
-    work->field_AD0C = (int *)p3;
+    work->n_textures = n_textures;
+    work->tex_ids = tex_ids;
     work->pad = &GV_PadData[2];
-    work->field_AD04 = p1;
-    work->field_AD28 = 0;
-    work->field_AD5C = 0;
-    work->field_ADB0 = 0;
-    work->field_ADB8 = 0x64;
-    work->field_ADC4 = 0;
-    GM_CurrentMap = p1;
-    work->field_A588 = p5;
-    work->field_AD08 = (void *)p4;
-    work->field_AD14 = p7;
-    work->field_AD18 = (int *)p8;
-    work->field_AD1C = (void **)p9;
+    work->map = map;
+    work->time = 0;
+    work->scene_changed = 0;
+    work->zoom_count = 0;
+    work->field_ADB8 = 100;
+    work->no_skip = 0;
+    GM_CurrentMap = map;
+    work->index = index;
+    work->textures = textures;
+    work->n_images = n_images;
+    work->image_ids = image_ids;
+    work->images = images;
     brf_800DE2E0(work);
-    brf_800DECF8(work, p5);
+    brf_800DECF8(work, index);
     return 0;
 }
 
-void *NewBriefingGraph(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5, int arg6, int arg7, int arg8)
+void *NewBriefingGraph(int map, int n_textures, int *tex_ids, DG_TEX *textures, int index, int arg5, int n_images,
+                       int *image_ids, DG_IMAGE **images)
 {
     Work *work;
 
@@ -5246,7 +5250,7 @@ void *NewBriefingGraph(int arg0, int arg1, int arg2, int arg3, int arg4, int arg
     if (work != NULL)
     {
         GV_SetNamedActor(work, brf_800DDC40, brf_800DDCA8, "b_graph.c");
-        if (brf_800DFCF8(work, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8) < 0)
+        if (brf_800DFCF8(work, map, n_textures, tex_ids, textures, index, arg5, n_images, image_ids, images) < 0)
         {
             GV_DestroyActor(work);
             return NULL;
