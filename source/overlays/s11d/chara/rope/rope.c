@@ -5,6 +5,7 @@
 #include "libgcl/libgcl.h"
 #include "libhzd/libhzd.h"
 #include "okajima/blood.h"
+#include "takabe/cineutil.h"
 #include "chara/snake/shadow.h"
 
 typedef struct _RopeAxis
@@ -48,7 +49,7 @@ typedef struct _Work
     DG_PRIM    *field_A14;
     char        pad3a2[0xEA0 - 0xA14 - sizeof(DG_PRIM *)];
     int         field_EA0;
-    short      *field_EA4;
+    CONTROL    *field_EA4;
     GV_PAD     *pad;
     int         field_EAC;
     int         field_EB0;
@@ -292,7 +293,7 @@ void s11d_rope_800C44A4(Work *work)
     {
         return;
     }
-    if (work->field_EA4[2] > work->field_F88)
+    if (work->field_EA4->mov.vz > work->field_F88)
     {
         work->field_F74 = flag | 2;
     }
@@ -785,7 +786,7 @@ void s11d_rope_800C54CC(Work *work)
         ctrl = *wherelist++;
         if (ctrl->name == target_name)
         {
-            work->field_EA4 = (short *)ctrl;
+            work->field_EA4 = ctrl;
             return;
         }
     } while (--i > 0);
@@ -915,7 +916,105 @@ void s11d_rope_800C650C(void)
     NewPadVibration(s11d_dword_800C32B8, 2);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6544.s")
+void s11d_rope_800C6544(Work *work, int arg1)
+{
+    SVECTOR rot;
+    int     vz;
+
+    if (arg1 == 0)
+    {
+        work->field_F74 |= 0x10000;
+        GM_GameStatus |= 0x10020000;
+        OpenCinemaScreen(1, 0x7530);
+
+        rot.vx = -0x2A8;
+        rot.vy = 0x800;
+        rot.vz = 0;
+        GM_CameraSetRotation(&rot);
+        GM_CameraSetTrack(0x8FC);
+
+        work->field_F70 |= 2;
+        if (work->object.action != 0x11)
+        {
+            GM_ConfigObjectAction(&work->object, 0x11, 0, 4);
+        }
+
+        work->field_EBE = 0x8FC;
+        s11d_rope_800C4898(work, 0);
+        GM_VoxInit();
+        GM_VoxQueueDelay(work->field_1088[1], 4);
+        work->field_810->raise = 500;
+        work->field_A14->raise = 500;
+    }
+
+    GM_VoxTick();
+
+    switch (work->field_EBC)
+    {
+    case 0:
+        if (work->field_EBE < 0x3E80)
+        {
+            work->field_EBE += 0x60;
+            GM_CameraSetTrack(work->field_EBE);
+        }
+
+        if (work->field_F74 & 0x2000)
+        {
+            work->field_810->raise = 0x5DC;
+            work->field_A14->raise = 0x5DC;
+            s11d_rope_800C650C();
+            GM_SeSetMode(&work->control.mov, 0xB2, 1);
+            if (work->object.action != 0xB)
+            {
+                GM_ConfigObjectAction(&work->object, 0xB, 0, 4);
+            }
+            work->field_EBE = 0;
+            work->field_F44 = 0;
+            work->field_EBC++;
+        }
+
+        work->control.step.vy -= 0xC;
+        break;
+
+    case 1:
+        vz = work->field_F98;
+        GV_NearExp4V(&work->control.mov.vz, &vz, 1);
+        work->field_EBE++;
+        if (work->field_EBE == 0x3C)
+        {
+            GCL_ExecProc(work->field_107C[0], NULL);
+            work->field_EBC++;
+        }
+        break;
+
+    case 2:
+        work->field_EBE++;
+        if (work->field_EBE == 0xBE)
+        {
+            GCL_ExecProc(work->field_107C[1], NULL);
+        }
+        if (work->field_EBE == 0xC4)
+        {
+            GM_SeSetMode(&work->field_EA4->mov, 0xBC, 1);
+        }
+        if (work->field_EBE == 0x64)
+        {
+            GM_VoxQueue(work->field_1088[3]);
+        }
+        if (work->field_EBE == 0x118)
+        {
+            GCL_ExecProc(work->field_107C[2], NULL);
+            GM_GameStatus = (GM_GameStatus & 0xEFFDFFFF) | 0x8000;
+            work->field_EAC = (int)s11d_rope_800C6834;
+            work->field_EB0 = 0;
+            work->field_EBE = 0;
+            work->field_EBC = 0;
+            CloseCinemaScreen();
+            s11d_rope_800C48C0(work);
+        }
+        break;
+    }
+}
 void s11d_rope_800C6834(Work *work, int arg1)
 {
     short  vz;
