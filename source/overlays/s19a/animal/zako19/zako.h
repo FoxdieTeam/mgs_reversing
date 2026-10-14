@@ -5,6 +5,8 @@
 
 #define EN_FASEOUT 0x10000000
 
+#define T_NOISE 0
+
 #define TARGET_FLAG ( TARGET_AVAIL | TARGET_CAPTURE | TARGET_POWER \
                     | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
 
@@ -107,7 +109,8 @@ typedef struct _Work {
     /* 0xB30 */ int            l_count;
     /* 0xB34 */ int            next_node;
     /* 0xB38 */ PAD            pad;
-    /* 0xB4C */ char           padB4C[ 0x4 ];
+    /* 0xB4C */ short          field_B4C;
+    /* 0xB4E */ short          field_B4E;
     /* 0xB50 */ u_long         trigger;
     /* 0xB54 */ void          *subweapon;
     /* 0xB58 */ short          field_B58;
