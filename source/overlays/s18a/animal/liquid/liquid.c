@@ -860,9 +860,9 @@ fail:
 
     work->life = 255;
     work->f934 = 0;
-    work->f938 = 0;
+    work->time2 = 0;
     work->f92C = 0;
-    work->f930 = 0;
+    work->act2 = 0;
     work->f95C = 0;
     work->f960 = 0;
     work->f964 = 0;

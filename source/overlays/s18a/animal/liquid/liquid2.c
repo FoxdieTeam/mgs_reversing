@@ -5,12 +5,15 @@
 #include "libgcl/libgcl.h"
 #include "menu/menuman.h"
 #include "linkvar.h"
+#include "mts/mts.h" // for fprintf
+#include "okajima/blood.h"
+#include "anime/animconv/anime.h"
 
 /* Liquid's brain and moves (a cut-down copy of the snake code), original file name unknown */
 
-extern void s18a_800CC4F0(void);
-extern void s18a_800CC56C(void);
-extern void s18a_800CC574(void);
+void s18a_800CC4F0(LiquidWork *work);
+void s18a_800CC56C(LiquidWork *work);
+void s18a_800CC574(LiquidWork *work);
 
 short s18a_liquid_motions[40] = {
     0, 0, 1, 2, 37, 2, 36, 38, 3, 4, 23, 7, 5, 6, 9, 8, 11, 10, 29, 12,
@@ -18,63 +21,26 @@ short s18a_liquid_motions[40] = {
 };
 SVECTOR s18a_dword_800C3368 = {2500, 10000, 500, 0};
 SVECTOR s18a_dword_800C3370 = {0, 0, -1000, 0};
-int s18a_dword_800C3378 = 0x00000000;
-int s18a_dword_800C337C = 0x00000064;
-int s18a_dword_800C3380 = 0x0000FC00;
-int s18a_dword_800C3384 = 0x00000000;
-void *s18a_dword_800C3388 = (void *)s18a_800CC4F0;
-void *s18a_dword_800C338C = (void *)s18a_800CC56C;
-void *s18a_dword_800C3390 = (void *)s18a_800CC574;
-int s18a_dword_800C3394 = 0xFE0C0005;
-int s18a_dword_800C3398 = 0x00000050;
-int s18a_dword_800C339C = 0x2EE00C35;
-int s18a_dword_800C33A0 = 0x000002EE;
-int s18a_dword_800C33A4 = 0x2EE0FF83;
-int s18a_dword_800C33A8 = 0x000001F4;
-int s18a_dword_800C33AC = 0x2EE00C35;
-int s18a_dword_800C33B0 = 0x0000FD12;
-int s18a_dword_800C33B4 = 0x2EE0FF83;
-int s18a_dword_800C33B8 = 0x0000FE0C;
-int s18a_dword_800C33BC = 0x2EE00753;
-int s18a_dword_800C33C0 = 0x000002EE;
-int s18a_dword_800C33C4 = 0x2EE01405;
-int s18a_dword_800C33C8 = 0x000001F4;
-int s18a_dword_800C33CC = 0x2EE00753;
-int s18a_dword_800C33D0 = 0x0000FD12;
-int s18a_dword_800C33D4 = 0x2EE01405;
-int s18a_dword_800C33D8 = 0x0000FE0C;
-int s18a_dword_800C33DC = 0x2EE01405;
-int s18a_dword_800C33E0 = 0x000000FA;
-int s18a_dword_800C33E4 = 0x2EE00C35;
-int s18a_dword_800C33E8 = 0x0000FC18;
-int s18a_dword_800C33EC = 0x2EE01405;
-int s18a_dword_800C33F0 = 0x0000FF06;
-int s18a_dword_800C33F4 = 0x2EE00C35;
-int s18a_dword_800C33F8 = 0x000003E8;
-int s18a_dword_800C33FC = 0x2EE0FF83;
-int s18a_dword_800C3400 = 0x000000FA;
-int s18a_dword_800C3404 = 0x2EE00753;
-int s18a_dword_800C3408 = 0x0000FC18;
-int s18a_dword_800C340C = 0x2EE0FF83;
-int s18a_dword_800C3410 = 0x0000FF06;
-int s18a_dword_800C3414 = 0x2EE00753;
-int s18a_dword_800C3418 = 0x000003E8;
-int s18a_dword_800C341C = 0x2EE00EA6;
-int s18a_dword_800C3420 = 0x000004E2;
-int s18a_dword_800C3424 = 0x2EE01482;
-int s18a_dword_800C3428 = 0x000003E8;
-int s18a_dword_800C342C = 0x2EE00EA6;
-int s18a_dword_800C3430 = 0x0000FD12;
-int s18a_dword_800C3434 = 0x2EE01482;
-int s18a_dword_800C3438 = 0x0000FC18;
-int s18a_dword_800C343C = 0x2EE003E8;
-int s18a_dword_800C3440 = 0x000004E2;
-int s18a_dword_800C3444 = 0x2EE0FE0C;
-int s18a_dword_800C3448 = 0x000003E8;
-int s18a_dword_800C344C = 0x2EE003E8;
-int s18a_dword_800C3450 = 0x0000FD12;
-int s18a_dword_800C3454 = 0x2EE0FE0C;
-int s18a_dword_800C3458 = 0x0000FC18;
+SVECTOR s18a_dword_800C3378 = {0, 0, 100, 0};
+SVECTOR s18a_dword_800C3380 = {-1024, 0, 0, 0};
+void *s18a_dword_800C3388[] = {s18a_800CC4F0, s18a_800CC56C, s18a_800CC574};
+SVECTOR s18a_dword_800C3394 = {5, -500, 80, 0};
+SVECTOR s18a_dword_800C339C[8][2] = {
+    {{3125, 12000, 750, 0}, {-125, 12000, 500, 0}},
+    {{3125, 12000, -750, 0}, {-125, 12000, -500, 0}},
+    {{1875, 12000, 750, 0}, {5125, 12000, 500, 0}},
+    {{1875, 12000, -750, 0}, {5125, 12000, -500, 0}},
+    {{5125, 12000, 250, 0}, {3125, 12000, -1000, 0}},
+    {{5125, 12000, -250, 0}, {3125, 12000, 1000, 0}},
+    {{-125, 12000, 250, 0}, {1875, 12000, -1000, 0}},
+    {{-125, 12000, -250, 0}, {1875, 12000, 1000, 0}},
+};
+SVECTOR s18a_dword_800C341C[4][2] = {
+    {{3750, 12000, 1250, 0}, {5250, 12000, 1000, 0}},
+    {{3750, 12000, -750, 0}, {5250, 12000, -1000, 0}},
+    {{1000, 12000, 1250, 0}, {-500, 12000, 1000, 0}},
+    {{1000, 12000, -750, 0}, {-500, 12000, -1000, 0}},
+};
 int s18a_dword_800C345C = 0x00000000;
 int s18a_dword_800C3460 = 0x00000000;
 int s18a_dword_800C3464 = 0x00000000;
@@ -140,8 +106,8 @@ void s18a_800CC0F0(LiquidWork *work, int time);
 static inline void s18a_liquid_ResetOverride(LiquidWork *work)
 {
     GM_ConfigObjectOverride(&work->body, s18a_liquid_motions[0], 0, 4, 0);
-    work->f930 = 0;
-    work->f938 = 0;
+    work->act2 = 0;
+    work->time2 = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
@@ -170,6 +136,11 @@ void s18a_800CB780(LiquidWork *work, int time);
 void s18a_800CB8AC(LiquidWork *work, int time);
 extern int s18a_dword_800E3EF0;
 void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
+int s18a_800CC6A8(LiquidWork *work, void *func);
+void s18a_800CC1F0(LiquidWork *work);
+void s18a_800CC278(LiquidWork *work);
+void s18a_800D0D28(LiquidWork *work);
+void s18a_800CC2A0(LiquidWork *work);
 /*--FUNCS--*/
 
 int s18a_800C722C(SVECTOR *pos, short *out)
@@ -2995,27 +2966,270 @@ void s18a_800CC278(LiquidWork *work)
     sna_act_helper2_helper2_80033054(work->control.name, &work->adjust[5]);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC2A0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC488.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC4F0.s")
-void s18a_800CC56C(void)
+void s18a_800CC2A0(LiquidWork *work)
+{
+    void   (*act)(LiquidWork *, int);
+    int      time;
+    CONTROL *control;
+    OBJECT  *body;
+
+    work->target->class = 1;
+
+    if (!(GM_PlayerStatus & (PLAYER_SQUAT | PLAYER_GROUND)))
+    {
+        work->target2->class = 9;
+    }
+    else
+    {
+        work->target2->class = 1;
+    }
+
+    control = &work->control;
+    act = work->act;
+    time = work->time;
+    body = &work->body;
+
+    work->f940 = 0;
+    work->f944 = 0;
+    work->f9A8 = 0;
+    work->time = time + 1;
+
+    if (!act)
+    {
+        act = s18a_800C82A4;
+        work->act = act;
+    }
+
+    act(work, time);
+
+    act = work->act2;
+    if (act)
+    {
+        time = work->time2;
+        work->time2 = time + 1;
+        act(work, time);
+    }
+
+    work->target->damaged = 0;
+    s18a_800CC1F0(work);
+    s18a_800CC278(work);
+
+    control->height = body->height;
+
+    if (work->f9A4 == 1)
+    {
+        control->r_sphere = -2;
+        control->mov.vy = work->f910 + body->height;
+    }
+    else if (work->f9A4 == 2)
+    {
+        control->r_sphere = -2;
+        work->f90C -= 4;
+        control->mov.vy += control->step.vy = work->f90C;
+    }
+    else if (work->f9A4 == 3)
+    {
+        control->r_sphere = -2;
+        work->f90C -= 1;
+        control->mov.vy += control->step.vy = work->f90C;
+    }
+    else if (work->f944)
+    {
+        control->r_sphere = -1;
+    }
+    else
+    {
+        control->r_sphere = GV_NearExp2(control->r_sphere, 450);
+    }
+
+    if (work->f9A4 == 0)
+    {
+        if (work->f90C < 0 && control->grounded)
+        {
+            work->f90C = 0;
+        }
+
+        work->f90C -= 16;
+        control->step.vy = work->f90C;
+    }
+}
+
+void s18a_800CC488(LiquidWork *work, int joint)
+{
+    MATRIX mat;
+
+    DG_SetPos(&work->body.objs->objs[joint].world);
+    DG_MovePos(&s18a_dword_800C3378);
+    DG_RotatePos(&s18a_dword_800C3380);
+    ReadRotMatrix(&mat);
+    NewBlood(&mat, 0);
+}
+
+void s18a_800CC4F0(LiquidWork *work)
+{
+    MATRIX  mat;
+    MATRIX *world;
+
+    world = &work->body.objs->objs[4].world;
+    DG_SetPos(world);
+    DG_MovePos(&s18a_dword_800C3394);
+    ReadRotMatrix(&mat);
+    GM_SeSet(&work->control.mov, 73);
+    AN_SocomFlash(world, &mat, 0);
+    s18a_800CC6A8(work, s18a_800CC4F0);
+}
+
+void s18a_800CC56C(LiquidWork *work)
 {
 }
 
-const int s18a_dword_800E302C = 0x800CC5B0;
-const int s18a_dword_800E3030 = 0x800CC650;
-const int s18a_dword_800E3034 = 0x800CC5C8;
-const int s18a_dword_800E3038 = 0x800CC5DC;
-const int s18a_dword_800E303C = 0x800CC61C;
-const int s18a_dword_800E3040 = 0x800CC5FC;
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC574.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC660.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC6A8.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC6DC.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC73C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC76C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC7BC.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC800.s")
+void s18a_800CC574(LiquidWork *work)
+{
+    int frame;
+
+    frame = work->m_ctrl.info1.frame;
+
+    switch (work->pose)
+    {
+    case 8:
+        if (frame == 16)
+        {
+            GM_SeSetMode(&work->control.mov, 161, 0);
+        }
+        else if (frame == 8)
+        {
+            GM_SeSetMode(&work->control.mov, 160, 0);
+        }
+        break;
+
+    case 10:
+        if (frame == 4)
+        {
+            GM_SeSetMode(&work->control.mov, 161, 0);
+        }
+        break;
+
+    case 11:
+        if (frame == 8 || frame == 13)
+        {
+            GM_SeSetMode(&work->control.mov, 161, 0);
+        }
+        else if (frame == 15)
+        {
+            GM_SeSetMode(&work->control.mov, 160, 0);
+        }
+        break;
+
+    case 13:
+        if (frame == 6 || frame == 14)
+        {
+            GM_SeSetMode(&work->control.mov, 161, 0);
+        }
+        else if (frame == 15)
+        {
+            GM_SeSetMode(&work->control.mov, 160, 0);
+        }
+        break;
+
+    case 12:
+        if (frame == 6 || frame == 14)
+        {
+            GM_SeSetMode(&work->control.mov, 161, 0);
+        }
+        else if (frame == 15)
+        {
+            GM_SeSetMode(&work->control.mov, 160, 0);
+        }
+        break;
+    }
+}
+
+int s18a_800CC660(LiquidWork *work, int index)
+{
+    int i;
+
+    for (i = 0; i < 8; i++)
+    {
+        if (work->funcs[i] == NULL)
+        {
+            work->funcs[i] = s18a_dword_800C3388[index];
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+int s18a_800CC6A8(LiquidWork *work, void *func)
+{
+    int i;
+
+    for (i = 0; i < 8; i++)
+    {
+        if (work->funcs[i] == func)
+        {
+            work->funcs[i] = NULL;
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+void s18a_800CC6DC(LiquidWork *work)
+{
+    int i;
+    void (*func)(LiquidWork *);
+
+    for (i = 0; i < 8; i++)
+    {
+        func = work->funcs[i];
+        if (func != NULL)
+        {
+            func(work);
+        }
+    }
+}
+
+void s18a_800CC73C(LiquidWork *work)
+{
+    TARGET *target;
+    int     flag;
+
+    target = work->target;
+    flag = target->damaged;
+    work->f9B8 = 0;
+
+    if (flag & (TARGET_POWER | TARGET_CAPTURE))
+    {
+        work->f9B8 = target->a_mode;
+    }
+}
+
+void s18a_800CC76C(LiquidWork *work)
+{
+    SVECTOR diff;
+
+    GV_SubVec3(&GM_PlayerPosition, &work->control.mov, &diff);
+    diff.vy = 0;
+    work->f9AC = GV_VecDir2(&diff);
+    work->f9B0 = GV_VecLen3(&diff);
+}
+
+void s18a_800CC7BC(LiquidWork *work)
+{
+    s18a_800CC76C(work);
+    s18a_800CC73C(work);
+    s18a_800D0D28(work);
+    s18a_800CC2A0(work);
+    s18a_800CC6DC(work);
+}
+
+void s18a_800CC800(LiquidWork *work)
+{
+    work->f970 = GM_PlayerPosition;
+}
+
 const int s18a_dword_800E3044 = 0x253A782C;
 const int s18a_dword_800E3048 = 0x3A792064;
 const int s18a_dword_800E304C = 0x7A206425;
@@ -3023,24 +3237,147 @@ const int s18a_dword_800E3050 = 0x2064253A;
 const int s18a_dword_800E3054 = 0x0000000A;
 const int s18a_dword_800E3058 = 0x00000000;
 #pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC830.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC8B0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC8F0.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC96C.s")
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CC9E4.s")
-const int s18a_dword_800E305C = 0x800CCA4C;
-const int s18a_dword_800E3060 = 0x800CCA58;
-const int s18a_dword_800E3064 = 0x800CCA64;
-const int s18a_dword_800E3068 = 0x800CCA6C;
-const int s18a_dword_800E306C = 0x800CCA7C;
-const int s18a_dword_800E3070 = 0x00000000;
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCA20.s")
-const int s18a_dword_800E3074 = 0x800CCAB4;
-const int s18a_dword_800E3078 = 0x800CCAC4;
-const int s18a_dword_800E307C = 0x800CCAD4;
-const int s18a_dword_800E3080 = 0x800CCACC;
-const int s18a_dword_800E3084 = 0x800CCAD4;
-const int s18a_dword_800E3088 = 0x00000000;
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800CCA88.s")
+void s18a_800CC8B0(LiquidWork *work, int index, int which)
+{
+    work->f970 = s18a_dword_800C341C[index][which];
+}
+
+int s18a_800CC8F0(LiquidWork *work, int range)
+{
+    SVECTOR diff;
+    int     dx;
+    int     dz;
+
+    dx = work->f970.vx - work->control.mov.vx;
+    diff.vx = dx;
+    dz = work->f970.vz - work->control.mov.vz;
+    diff.vz = dz;
+
+    if (dx > -range && dx < range && dz > -range && dz < range)
+    {
+        return 1;
+    }
+
+    work->f954 = GV_VecDir2(&diff);
+    return 0;
+}
+
+int s18a_800CC96C(SVECTOR *pos)
+{
+    int area;
+
+    if (pos->vx >= 376 && pos->vx < 4375 && pos->vz > 1000 && pos->vz < -1000)
+    {
+        return -1;
+    }
+
+    if (pos->vx >= 2251)
+    {
+        area = pos->vz < 1;
+    }
+    else
+    {
+        area = 3;
+        if (pos->vz > 0)
+        {
+            area = 2;
+        }
+    }
+
+    return area;
+}
+
+int s18a_800CC9E4(SVECTOR *pos)
+{
+    int area;
+
+    area = 4;
+    if (pos->vz < 2251)
+    {
+        if (pos->vx >= 2251)
+        {
+            area = pos->vz < 1;
+        }
+        else
+        {
+            area = 3;
+            if (pos->vz > 0)
+            {
+                area = 2;
+            }
+        }
+    }
+
+    return area;
+}
+
+int s18a_800CCA20(int area, int dir)
+{
+    int ret;
+
+    ret = 0;
+
+    switch (area)
+    {
+    case 0:
+        if (dir > 512 && dir < 2560) ret = 1; else ret = 0;
+        break;
+
+    case 1:
+        if (dir > 1536 && dir < 3584) ret = 1; else ret = 0;
+        break;
+
+    case 2:
+        if (dir > 1536 && dir < 3584) ret = 0; else ret = 1;
+        break;
+
+    case 3:
+        if (dir > 512 && dir < 2560) ret = 0; else ret = 1;
+        break;
+
+    case 4:
+        if (dir < 2048) ret = 1; else ret = 0;
+        break;
+    }
+
+    return ret;
+}
+
+int s18a_800CCA88(int area, int dir)
+{
+    int ret;
+
+    ret = 2;
+
+    switch (area)
+    {
+    case 0:
+        ret = 1;
+        if (dir > 512 && dir < 2560)
+        {
+            ret = 2;
+        }
+        break;
+
+    case 1:
+        ret = 2;
+        break;
+
+    case 3:
+        ret = 0;
+        break;
+
+    case 2:
+    case 4:
+        ret = 1;
+        break;
+    }
+
+    return ret;
+}
+
+const int s18a_dword_800E3088 = 0; /* padding */
+
 const int s18a_dword_800E308C = 0x800CCB0C;
 const int s18a_dword_800E3090 = 0x800CCB14;
 const int s18a_dword_800E3094 = 0x800CCB2C;

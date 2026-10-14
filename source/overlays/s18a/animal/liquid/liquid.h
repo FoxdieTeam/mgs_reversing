@@ -31,11 +31,11 @@ typedef struct _LiquidWork
     int            f918;          /* 0x918 */
     int            f91C;          /* 0x91C */
     SVECTOR        f920;          /* 0x920 */
-    int            f928;          /* 0x928 */
+    TARGET        *f928;          /* 0x928 */
     void          *act;           /* 0x92C */
-    int            f930;          /* 0x930 */
+    void          *act2;          /* 0x930 */
     int            time;          /* 0x934 */
-    int            f938;          /* 0x938 */
+    int            time2;         /* 0x938 */
     int            pose;          /* 0x93C */
     int            f940;          /* 0x940 */
     int            f944;          /* 0x944 */
@@ -48,14 +48,15 @@ typedef struct _LiquidWork
     int            f960;          /* 0x960 */
     int            f964;          /* 0x964 */
     int            f968;          /* 0x968 */
-    char           pad_96C[0x978 - 0x96C];
+    char           pad_96C[0x970 - 0x96C];
+    SVECTOR        f970;          /* 0x970 */
     int            f978;          /* 0x978 */
     char           pad_97C[0x980 - 0x97C];
     int            f980;          /* 0x980 */
     int            f984;          /* 0x984 */
     int            life;          /* 0x988 */
     char           pad_98C[0x990 - 0x98C];
-    int            f990;          /* 0x990 */
+    SVECTOR       *f990;          /* 0x990 */
     int            f994;          /* 0x994 */
     int            cam_mode;      /* 0x998 */
     int            f99C;          /* 0x99C */
@@ -64,10 +65,11 @@ typedef struct _LiquidWork
     int            f9A8;          /* 0x9A8 */
     int            f9AC;          /* 0x9AC */
     int            f9B0;          /* 0x9B0 */
-    char           pad_9B4[0x9BC - 0x9B4];
+    char           pad_9B4[0x9B8 - 0x9B4];
+    int            f9B8;          /* 0x9B8 */
     short          dead_timer;    /* 0x9BC */
     short          f9BE;          /* 0x9BE */
-    char           pad_9C0[0x9E0 - 0x9C0];
+    void          *funcs[8];      /* 0x9C0 */
     int            proc_e;        /* 0x9E0 */
     int            proc_b;        /* 0x9E4 */
     int            proc_s;        /* 0x9E8 */
