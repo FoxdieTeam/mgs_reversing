@@ -35,3 +35,6 @@ const char s15a_dword_800D9124[] = "con_ub3";
 const char s15a_dword_800D912C[] = "br7";
 const char s15a_dword_800D9130[] = "br8";
 const char s15a_dword_800D9134[] = "dyncon.c";
+
+int SECTION(".bss") dyncon_800E3448[4];
+int SECTION(".bss") dyncon_800E3458[4];
