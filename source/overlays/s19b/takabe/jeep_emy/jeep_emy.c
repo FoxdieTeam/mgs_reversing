@@ -7,53 +7,7 @@
 
 #include "../jeep_system.h"
 
-struct _Work;
-typedef void (*JBULLET_FN)(struct _Work *, int);
-
-typedef struct _Work
-{
-    GV_ACT         actor;
-    CONTROL        control;
-    OBJECT         body;
-    MOTION_CONTROL m_ctrl;
-    MOTION_SEGMENT m_segs1[16 + 1];
-    MOTION_SEGMENT m_segs2[16 + 1];
-    SVECTOR        rots[16];
-    SVECTOR        adjust[16];
-    MATRIX         light[2];
-    OBJECT         weapon;
-    int            lod;
-    DG_DEF        *models[2];
-    TARGET        *target1;
-    TARGET        *target2;
-    HOMING        *hom;
-    int            field_8D4;
-    char           pad1[0x8];
-    int            field_8E0;
-    SVECTOR        field_8E4;
-    SVECTOR        field_8EC;
-    SVECTOR        field_8F4;
-    int            field_8FC;
-    SVECTOR        field_900[4];
-    JBULLET_FN     field_920;
-    char           pad2[0x4];
-    int            field_928;
-    char           pad3[0x4];
-    int            field_930;
-    int            field_934;
-    int            field_938;
-    int            field_93C;
-    int            field_940;
-    int            field_944;
-    int            field_948;
-    int            field_94C;
-    int            field_950;
-    int            field_954;
-    char           pad4[0xC];
-    int            field_964;
-    int            field_968;
-    char           pad5[0x28];
-} Work;
+#include "jeep_emy.h"
 
 static short s19b_dword_800C32C0[] =
 {
@@ -107,11 +61,11 @@ static void Act(Work *work)
 
     control = &work->control;
     GV_AddVec3(&control->mov, &Takabe_JeepSystem.scroll, &control->mov);
-    GV_AddVec3(&work->field_8EC, &Takabe_JeepSystem.scroll, &work->field_8EC);
-    GV_AddVec3(&work->field_8F4, &Takabe_JeepSystem.scroll, &work->field_8F4);
+    GV_AddVec3(&work->start_pos, &Takabe_JeepSystem.scroll, &work->start_pos);
+    GV_AddVec3(&work->goal_pos, &Takabe_JeepSystem.scroll, &work->goal_pos);
 
-    vec = work->field_900;
-    for (i = work->field_8FC; i > 0; i--, vec++)
+    vec = work->points;
+    for (i = work->n_points; i > 0; i--, vec++)
     {
         GV_AddVec3(vec, &Takabe_JeepSystem.scroll, vec);
     }
@@ -123,10 +77,10 @@ static void Act(Work *work)
 
     GM_ActMotion(&work->body);
 
-    if (work->field_8E0 != 0)
+    if (work->pushed != 0)
     {
-        control->step.vx = work->field_8E4.vx;
-        control->step.vz = work->field_8E4.vz;
+        control->step.vx = work->push_step.vx;
+        control->step.vz = work->push_step.vz;
     }
 
     update = 0;
@@ -224,11 +178,11 @@ static int GetResources(Work *work, int name, int where)
     GM_ConfigControlAttribute(control, RADAR_SIGHT | RADAR_VISIBLE);
     GM_ConfigControlInterp(control, 4);
 
-    work->field_8FC = THING_Gcl_GetInt('n');
-    if ((work->field_8FC > 0) && GCL_GetOption('a'))
+    work->n_points = THING_Gcl_GetInt('n');
+    if ((work->n_points > 0) && GCL_GetOption('a'))
     {
-        vec = work->field_900;
-        for (i = work->field_8FC; i > 0; i--, vec++)
+        vec = work->points;
+        for (i = work->n_points; i > 0; i--, vec++)
         {
             GCL_StrToSV(GCL_NextStr(), (short *)vec);
             GetMidpoint(vec);
@@ -264,11 +218,11 @@ static int GetResources(Work *work, int name, int where)
     control->r_sphere = -1;
 
     work->field_944 = 0;
-    work->field_948 = 0;
-    work->field_94C = 0;
+    work->ai_mode = 0;
+    work->ai_state = 0;
 
-    work->field_8EC = control->mov;
-    work->field_8F4 = work->field_900[0];
+    work->start_pos = control->mov;
+    work->goal_pos = work->points[0];
 
     return 0;
 }
@@ -336,14 +290,14 @@ int s19b_jbullet_800C5010(Work *work)
             if (trg->vital <= 0)
             {
                 work->field_934 = 0;
-                work->field_920 = s19b_jbullet_800C598C;
+                work->action = s19b_jbullet_800C598C;
             }
             else
             {
-                work->field_920 = s19b_jbullet_800C58CC;
+                work->action = s19b_jbullet_800C58CC;
             }
 
-            work->field_928 = 0;
+            work->time = 0;
 
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
@@ -359,7 +313,7 @@ int s19b_jbullet_800C5010(Work *work)
         trg->damage = 0;
         trg->damaged = 0;
 
-        work->field_8F4 = work->field_900[(rand() * work->field_8FC) >> 15];
+        work->goal_pos = work->points[(rand() * work->n_points) >> 15];
 
         Takabe_JeepSystem.field_7C = 1;
         return 1;
@@ -376,9 +330,9 @@ check_next:
             sp10.vz = trg->force.vz;
 
             len = s19b_jbullet_800C4FD4(&trg->force);
-            GV_LenVec3(&sp10, &work->field_8E4, GV_VecLen3(&sp10), len / 4);
+            GV_LenVec3(&sp10, &work->push_step, GV_VecLen3(&sp10), len / 4);
 
-            work->field_8E0 = 1;
+            work->pushed = 1;
 
             if (len < 100)
             {
@@ -389,8 +343,8 @@ check_next:
                 work->field_934 = 1;
             }
 
-            work->field_920 = s19b_jbullet_800C598C;
-            work->field_928 = 0;
+            work->action = s19b_jbullet_800C598C;
+            work->time = 0;
 
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
@@ -444,28 +398,28 @@ void s19b_jbullet_800C5278(Work *work)
 
 int s19b_jbullet_800C5348(Work *work)
 {
-    if (work->field_93C & 0x4)
+    if (work->input & 0x4)
     {
-        work->field_920 = s19b_jbullet_800C5654;
-        work->field_928 = 0;
+        work->action = s19b_jbullet_800C5654;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         return 1;
     }
 
-    if (work->field_93C & 0x1)
+    if (work->input & 0x1)
     {
-        work->field_920 = s19b_jbullet_800C5714;
-        work->field_928 = 0;
+        work->action = s19b_jbullet_800C5714;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         return 1;
     }
 
-    if (work->field_93C & 0x100)
+    if (work->input & 0x100)
     {
-        work->field_920 = s19b_jbullet_800C5560;
-        work->field_928 = 0;
+        work->action = s19b_jbullet_800C5560;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         return 1;
@@ -480,7 +434,7 @@ void s19b_jbullet_800C53C0(Work *work)
     int ang;
 
     height = GM_PlayerBody->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1];
-    ang = (ratan2(work->field_968, height) & 0xFFF) - 1024;
+    ang = (ratan2(work->player_dist, height) & 0xFFF) - 1024;
 
     work->adjust[2].vx = ang;
     work->adjust[6].vx = ang;
@@ -522,13 +476,13 @@ void s19b_jbullet_800C54D0(Work *work, int arg1)
 
     if (arg1 == 0)
     {
-        work->field_930 = 0;
+        work->motion = 0;
         GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[0], 0, 4);
     }
 
     if (!s19b_jbullet_800C5258(work) && !s19b_jbullet_800C5348(work))
     {
-        control->turn.vy = work->field_940;
+        control->turn.vy = work->input_dir;
         work->target1->class |= ( TARGET_POWER | TARGET_SEEK );
     }
 }
@@ -541,7 +495,7 @@ void s19b_jbullet_800C5560(Work *work, int arg1)
 
     if (arg1 == 0)
     {
-        work->field_930 = 4;
+        work->motion = 4;
         GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[4], 0, 4);
         AN_HeadMark(&work->body.objs->objs[6].world, 0);
 
@@ -559,12 +513,12 @@ void s19b_jbullet_800C5560(Work *work, int arg1)
 
     if (!s19b_jbullet_800C5258(work))
     {
-        control->turn.vy = work->field_940;
+        control->turn.vy = work->input_dir;
 
         if (work->body.is_end)
         {
-            work->field_920 = s19b_jbullet_800C54D0;
-            work->field_928 = 0;
+            work->action = s19b_jbullet_800C54D0;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
         }
@@ -577,11 +531,11 @@ void s19b_jbullet_800C5654(Work *work, int arg1)
     int      turn;
 
     control = &work->control;
-    turn = work->field_940;
+    turn = work->input_dir;
 
     if (arg1 == 0)
     {
-        work->field_930 = 1;
+        work->motion = 1;
         GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[1], 0, 4);
     }
 
@@ -589,12 +543,12 @@ void s19b_jbullet_800C5654(Work *work, int arg1)
 
     if (!s19b_jbullet_800C5258(work))
     {
-        if (!(work->field_93C & 4))
+        if (!(work->input & 4))
         {
             if (!s19b_jbullet_800C5348(work))
             {
-                work->field_920 = s19b_jbullet_800C54D0;
-                work->field_928 = 0;
+                work->action = s19b_jbullet_800C54D0;
+                work->time = 0;
                 work->control.turn.vz = 0;
                 work->control.turn.vx = 0;
             }
@@ -610,11 +564,11 @@ void s19b_jbullet_800C5714(Work *work, int arg1)
 {
     int temp_s2;
 
-    temp_s2 = work->field_93C;
+    temp_s2 = work->input;
 
     if (arg1 == 0)
     {
-        work->field_930 = 2;
+        work->motion = 2;
         GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[2], 0, 4);
         GM_ConfigMotionAdjust(&work->body, work->adjust);
     }
@@ -626,21 +580,21 @@ void s19b_jbullet_800C5714(Work *work, int arg1)
     {
         if (!(temp_s2 & 1))
         {
-            work->field_920 = s19b_jbullet_800C54D0;
-            work->field_928 = 0;
+            work->action = s19b_jbullet_800C54D0;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
         }
         else if (temp_s2 & 2)
         {
-            work->field_920 = s19b_jbullet_800C57E8;
-            work->field_928 = 0;
+            work->action = s19b_jbullet_800C57E8;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
         }
         else
         {
-            work->control.turn.vy = work->field_964;
+            work->control.turn.vy = work->player_dir;
         }
     }
 }
@@ -649,7 +603,7 @@ void s19b_jbullet_800C57E8(Work *work, int arg1)
 {
     if (arg1 == 0)
     {
-        work->field_930 = 2;
+        work->motion = 2;
         GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[2], 0, 4);
         GM_ConfigMotionAdjust(&work->body, work->adjust);
     }
@@ -664,12 +618,12 @@ void s19b_jbullet_800C57E8(Work *work, int arg1)
     if (!s19b_jbullet_800C5258(work))
     {
         s19b_jbullet_800C53C0(work);
-        work->control.turn.vy = work->field_964;
+        work->control.turn.vy = work->player_dir;
 
         if (arg1 > 18)
         {
-            work->field_920 = s19b_jbullet_800C5714;
-            work->field_928 = 0;
+            work->action = s19b_jbullet_800C5714;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
         }
@@ -687,7 +641,7 @@ void s19b_jbullet_800C58CC(Work *work, int arg1)
     {
         if (arg1 == 0)
         {
-            work->field_930 = 5;
+            work->motion = 5;
             GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[5], 0, 4);
             GM_SeSet(&work->control.mov, SE_ENEMY_DAMAGE);
             s19b_jbullet_800C4F54(work, 5, 1);
@@ -695,8 +649,8 @@ void s19b_jbullet_800C58CC(Work *work, int arg1)
 
         if (work->body.is_end)
         {
-            work->field_920 = s19b_jbullet_800C54D0;
-            work->field_928 = 0;
+            work->action = s19b_jbullet_800C54D0;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
         }
@@ -713,7 +667,7 @@ void s19b_jbullet_800C598C(Work *work, int arg1)
         switch (work->field_934)
         {
         case 0:
-            work->field_930 = 6;
+            work->motion = 6;
             GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[6], 0, 4);
 
             if (work->target1->vital <= 0)
@@ -725,19 +679,19 @@ void s19b_jbullet_800C598C(Work *work, int arg1)
                 s19b_jbullet_800C4F54(work, 5, 0);
             }
 
-            work->field_938 = 46;
+            work->shot_time = 46;
             break;
         case 2:
-            work->field_930 = 7;
+            work->motion = 7;
             GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[7], 0, 4);
             s19b_jbullet_800C4F54(work, 5, 0);
-            work->field_938 = 14;
+            work->shot_time = 14;
             break;
         case 1:
-            work->field_930 = 8;
+            work->motion = 8;
             GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[8], 0, 4);
             s19b_jbullet_800C4F54(work, 5, 0);
-            work->field_938 = 22;
+            work->shot_time = 22;
             break;
         }
 
@@ -756,13 +710,13 @@ void s19b_jbullet_800C598C(Work *work, int arg1)
     case 2:
         if (arg1 == 17)
         {
-            work->field_8E0 = 0;
+            work->pushed = 0;
         }
         break;
     case 1:
         if (arg1 == 37)
         {
-            work->field_8E0 = 0;
+            work->pushed = 0;
         }
         break;
     }
@@ -772,7 +726,7 @@ void s19b_jbullet_800C598C(Work *work, int arg1)
         work->control.step = DG_ZeroVector;
     }
 
-    if (arg1 == work->field_938)
+    if (arg1 == work->shot_time)
     {
         GM_SeSet(&work->control.mov, SE_HIT_FLOOR);
     }
@@ -784,14 +738,14 @@ void s19b_jbullet_800C598C(Work *work, int arg1)
 
         if (work->target1->vital <= 0)
         {
-            work->field_920 = s19b_jbullet_800C5D18;
+            work->action = s19b_jbullet_800C5D18;
         }
         else
         {
-            work->field_920 = s19b_jbullet_800C5C50;
+            work->action = s19b_jbullet_800C5C50;
         }
 
-        work->field_928 = 0;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
     }
@@ -808,11 +762,11 @@ void s19b_jbullet_800C5C50(Work *work, int arg1)
             switch (work->field_934)
             {
             case 2:
-                work->field_930 = 9;
+                work->motion = 9;
                 GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[9], 0, 4);
                 break;
             case 1:
-                work->field_930 = 10;
+                work->motion = 10;
                 GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[10], 0, 4);
                 break;
             }
@@ -820,8 +774,8 @@ void s19b_jbullet_800C5C50(Work *work, int arg1)
 
         if (work->body.is_end)
         {
-            work->field_920 = s19b_jbullet_800C54D0;
-            work->field_928 = 0;
+            work->action = s19b_jbullet_800C54D0;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
         }
@@ -838,19 +792,19 @@ void s19b_jbullet_800C5D18(Work *work, int arg1)
         {
             if (work->field_934 == 0)
             {
-                work->field_930 = 13;
+                work->motion = 13;
                 GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[13], 0, 4);
 
             }
             else
             {
-                work->field_930 = 11;
+                work->motion = 11;
                 GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[11], 0, 4);
             }
         }
         else
         {
-            work->field_930 = 12;
+            work->motion = 12;
             GM_ConfigObjectAction(&work->body, s19b_dword_800C32C0[12], 0, 4);
         }
 
@@ -870,8 +824,8 @@ void s19b_jbullet_800C5D18(Work *work, int arg1)
 
     if (arg1 > 32)
     {
-        work->field_920 = s19b_jbullet_800C5E40;
-        work->field_928 = 0;
+        work->action = s19b_jbullet_800C5E40;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
     }
@@ -894,26 +848,26 @@ void s19b_jbullet_800C5E60(Work *work)
 
     work->target1->class = TARGET_AVAIL;
 
-    callback = work->field_920;
-    count = work->field_928++;
+    callback = work->action;
+    count = work->time++;
 
     if (callback == NULL)
     {
         s19b_jbullet_800C5278(work);
         callback = s19b_jbullet_800C54D0;
-        work->field_920 = callback;
+        work->action = callback;
     }
 
     callback(work, count);
     control->height = body->height;
 
-    if ((work->field_8D4 < 0) && (control->grounded != 0))
+    if ((work->fall_step < 0) && (control->grounded != 0))
     {
-        work->field_8D4 = 0;
+        work->fall_step = 0;
     }
 
-    work->field_8D4 -= 16;
-    control->step.vy = work->field_8D4;
+    work->fall_step -= 16;
+    control->step.vy = work->fall_step;
 }
 
 void s19b_jbullet_800C5F2C(Work *work)
@@ -923,8 +877,8 @@ void s19b_jbullet_800C5F2C(Work *work)
     GV_SubVec3(&GM_PlayerPosition, &work->control.mov, &diff);
     diff.vy = 0;
 
-    work->field_964 = GV_VecDir2(&diff);
-    work->field_968 = GV_VecLen3(&diff);
+    work->player_dir = GV_VecDir2(&diff);
+    work->player_dist = GV_VecLen3(&diff);
 }
 
 void s19b_jbullet_800C5F7C(Work *work)

@@ -10,8 +10,11 @@
    Same actor as s19a pkjp_sne.c, plus the gun object, the camera follow and
    the scripted aim flags of Takabe_JeepSystem. */
 
+typedef struct _Work Work;
 
-typedef struct _Work
+typedef void (*ACTION)(Work *, int);
+
+struct _Work
 {
     GV_ACT         actor;
     CONTROL       *root_ctrl;           // 0x20
@@ -35,7 +38,7 @@ typedef struct _Work
     int            aim_pitch;           // 0x90C
     TARGET        *target;              // 0x910
     char           pad_914[0x4];
-    void          *action;              // 0x918
+    ACTION         action;              // 0x918
     char           pad_91C[0x4];
     int            time;                // 0x920
     char           pad_924[0x4];
@@ -50,9 +53,7 @@ typedef struct _Work
     int            dead;                // 0x950
     char           pad_954[0x4];
     SVECTOR        pos;                 // 0x958
-} Work;
-
-typedef void (*ACTION)(Work *, int);
+};
 
 
 #define EXEC_LEVEL GV_ACTOR_AFTER
