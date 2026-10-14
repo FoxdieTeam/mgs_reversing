@@ -2853,22 +2853,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
     include "{{OBJ_DIR}}\okajima\smke_ln.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke_ln.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAAEC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAB84.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAC10.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CACDC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAD58.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAE40.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAED8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAF34.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CAF54.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CB080.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CBB18.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CBBAC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\s11b_800CC144.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s11b\okajima\11b_demo.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s11b\overlay3.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
