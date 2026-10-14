@@ -306,9 +306,9 @@ void d18a_snake18_800CC90C(Snake18Work *work);
 void d18a_snake18_800CCB0C(TARGET *target);
 void d18a_snake18_800CCB50(Snake18Work *work);
 void d18a_snake18_800CCF30(Snake18Work *work);
-void d18a_snake18_800CD040(); /* asm */
+void d18a_snake18_800CD040(Snake18Work *work);
 void d18a_snake18_800CD2C4(Snake18Work *work, int item);
-void d18a_snake18_800CD4C0(); /* asm */
+void d18a_snake18_800CD4C0(Snake18Work *work);
 void d18a_snake18_800CD64C(Snake18Work *work, int arg1);
 void d18a_snake18_800CD768(Snake18Work *work, int arg1);
 void d18a_snake18_800CD808(Snake18Work *work, int arg1);
@@ -1848,7 +1848,94 @@ void d18a_snake18_800CCF30(Snake18Work *work)
 
     work->f8A8 = &d18a_dword_800C36C8[GM_Weapon];
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD040.s")
+void d18a_snake18_800CD040(Snake18Work *work)
+{
+    int tbl;
+    int ok;
+
+    if (!GM_WeaponChanged)
+    {
+        return;
+    }
+
+    if ((GM_PlayerStatus & (PLAYER_CB_BOX | PLAYER_DAMAGED | PLAYER_ACT_ONLY)) || (work->f7E4 & 0x10) ||
+        (!(work->f868 & 0x200) && (GM_PlayerStatus & PLAYER_WATCH)) || dword_8009F46C[0] ||
+        (GM_Weapon == WP_Stinger && (GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_GROUND))))
+    {
+fail:
+        ok = 0;
+    }
+    else if ((GM_Weapon == WP_Stinger || GM_Weapon == WP_Rifle) && work->f89C == 1)
+    {
+        goto fail;
+    }
+    else
+    {
+        ok = 1;
+        if (GM_PlayerStatus & PLAYER_CAUTION)
+        {
+            ok = GM_Weapon != WP_Rifle;
+        }
+    }
+
+    if (!ok)
+    {
+        return;
+    }
+
+    GM_WeaponChanged = 0;
+    d18a_snake18_800CCF30(work);
+
+    tbl = work->f868;
+    if (tbl & 0x200)
+    {
+        d18a_snake18_800CB34C(work);
+    }
+    else if (!(GM_PlayerStatus & PLAYER_INTRUDE))
+    {
+        d18a_snake18_800CB378(work);
+    }
+
+    if (tbl & 0x20)
+    {
+        d18a_snake18_StartAnim(work, (void *)work->f854);
+    }
+    else if (GM_PlayerStatus & PLAYER_INTRUDE)
+    {
+        d18a_snake18_StartAnim(work, d18a_snake18_800CEEAC);
+    }
+    else if (GM_PlayerStatus & PLAYER_CAUTION)
+    {
+        d18a_snake18_StartAnim(work, d18a_dword_800C37F0[work->f8FE]);
+    }
+    else
+    {
+        d18a_snake18_StartAnim(work, d18a_dword_800C37E4[work->f8FE]);
+    }
+
+    GM_PlayerStatus &= ~(PLAYER_MOVE | PLAYER_ATTACK | PLAYER_CHECK_WALL);
+
+    if (work->body.action2 != 0)
+    {
+        GM_ConfigObjectOverride(&work->body, 0, 0, 4, 0);
+    }
+
+    DG_InvisiblePrim(work->f874);
+    work->f7E4 &= ~4;
+    work->f7E4 &= ~2;
+
+    if (work->f834)
+    {
+        ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+        work->f834 = 0;
+        work->f924 = 0;
+    }
+
+    if (!(GM_PlayerStatus & PLAYER_CAUTION))
+    {
+        GM_ExitBehindCamera();
+    }
+}
 typedef void *(*Snake18EquipFn)(CONTROL *, OBJECT *, int);
 
 void d18a_snake18_800CD2C4(Snake18Work *work, int item)
@@ -1922,7 +2009,59 @@ void d18a_snake18_800CD2C4(Snake18Work *work, int item)
         d18a_snake18_800CB378(work);
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/d18a/d18a_snake18_800CD4C0.s")
+static inline int d18a_snake18_CanSwitchItem(Snake18Work *work)
+{
+    if ((GM_PlayerStatus & (PLAYER_DAMAGED | PLAYER_ACT_ONLY)) || (work->f7E4 & 0x20) ||
+        ((GM_Item == IT_Box1 || GM_Item == IT_Box2 || GM_Item == IT_Box3) && (GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_GROUND))))
+    {
+fail:
+        return 0;
+    }
+
+    if ((GM_Item == IT_Scope || GM_Item == IT_Box1 || GM_Item == IT_Box2 || GM_Item == IT_Box3) && ((work->f868 & 0x200) || dword_8009F46C[0]))
+    {
+        goto fail;
+    }
+
+    return 1;
+}
+
+void d18a_snake18_800CD4C0(Snake18Work *work)
+{
+    if (!d18a_snake18_CanSwitchItem(work))
+    {
+        return;
+    }
+
+    if (GM_Item == work->f89C)
+    {
+        return;
+    }
+
+    d18a_snake18_800CD2C4(work, GM_Item);
+    GM_PlayerStatus &= ~(PLAYER_MOVE | PLAYER_ATTACK | PLAYER_CHECK_WALL);
+
+    if (work->body.action2 != 0)
+    {
+        GM_ConfigObjectOverride(&work->body, 0, 0, 4, 0);
+    }
+
+    if (work->f834)
+    {
+        ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+        work->f834 = 0;
+        work->f924 = 0;
+    }
+
+    work->f7E4 &= ~4;
+    work->f7E4 &= ~2;
+    DG_InvisiblePrim(work->f874);
+
+    if (!(GM_PlayerStatus & PLAYER_CAUTION))
+    {
+        GM_ExitBehindCamera();
+    }
+}
 
 void d18a_snake18_800CD64C(Snake18Work *work, int arg1)
 {
