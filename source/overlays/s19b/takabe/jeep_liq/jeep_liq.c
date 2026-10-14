@@ -696,8 +696,6 @@ void s19b_spark2_m_800D8620(Work *work)
 }
 extern void s19b_jeep_liq_800D8250(Work *work);
 extern int  s19b_jeep_liq_800D8420(Work *work, int name);
-const char s19b_aJeepliqc_800DDE80[] = "jeep_liq.c";
-const char s19b_dword_800DDE8C[] = "liqiud";
 
 GV_ACT *s19b_spark2_m_800D8670(CONTROL *root_ctrl, MATRIX *root_mat, int *hit)
 {
@@ -706,11 +704,11 @@ GV_ACT *s19b_spark2_m_800D8670(CONTROL *root_ctrl, MATRIX *root_mat, int *hit)
     if (work != NULL)
     {
         GV_SetNamedActor(work, s19b_jeep_liq_800D8250, s19b_spark2_m_800D8620,
-                         s19b_aJeepliqc_800DDE80);
+                         "jeep_liq.c");
         work->root_ctrl = root_ctrl;
         work->root_mat = root_mat;
         work->hit = hit;
-        if (s19b_jeep_liq_800D8420(work, GV_StrCode(s19b_dword_800DDE8C)) < 0)
+        if (s19b_jeep_liq_800D8420(work, GV_StrCode("liqiud")) < 0)
         {
             GV_DestroyActor(work);
             return NULL;

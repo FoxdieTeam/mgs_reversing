@@ -1,7 +1,6 @@
 #include "mgstype.h"
+#include <libgte.h>
 
-const char s19b_dword_800DDD7C[] = {0x0, 0x8, 0x0, 0x0};
-const char s19b_dword_800DDD80[] = {0x0, 0x8, 0x0, 0x0};
-const char s19b_dword_800DDD84[] = {0x0, 0x8, 0x0, 0x0};
-const char s19b_dword_800DDD88[] = {0x0, 0x0, 0x0, 0x0};
-const char s19b_aJeepc_800DDD8C[] = "jeep.c";
+/* jeep.c */
+const VECTOR s19b_dword_800DDD7C = {2048, 2048, 2048}; // jeep model scale
+const char   s19b_aJeepc_800DDD8C[] = "jeep.c";

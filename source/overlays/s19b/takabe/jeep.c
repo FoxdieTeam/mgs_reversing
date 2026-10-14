@@ -45,7 +45,7 @@ void s19b_jeep_800D21DC(int ang, MATRIX *mat, SVECTOR *out)
     ApplyMatrixSV(mat, &vec, out);
 }
 
-extern VECTOR s19b_dword_800DDD7C;
+extern const VECTOR s19b_dword_800DDD7C;
 extern u_char s19b_dword_800C3990[];
 extern u_char s19b_dword_800C3994[];
 

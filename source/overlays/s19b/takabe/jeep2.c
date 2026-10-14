@@ -265,7 +265,6 @@ int s19b_jeep2_800D6B18(Jeep2Work *work, int name, int where)
 
 extern void s19b_jeep2_800D667C(Jeep2Work *work);
 extern int  s19b_jeep2_800D6B18(Jeep2Work *work, int arg0, int arg1);
-const char s19b_aJeepc_800DDE44[] = "jeep2.c";
 
 void *s19b_jeep2_800D6F24(int name, int where)
 {
@@ -274,7 +273,7 @@ void *s19b_jeep2_800D6F24(int name, int where)
     if (work != NULL)
     {
         GV_SetNamedActor(work, s19b_jeep2_800D667C, s19b_jeep2_800D6A70,
-                         s19b_aJeepc_800DDE44);
+                         "jeep2.c");
         if (s19b_jeep2_800D6B18(work, name, where) < 0)
         {
             GV_DestroyActor(work);
