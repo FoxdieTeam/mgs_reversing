@@ -350,12 +350,6 @@ int s18a_800C7584(LiquidWork *work)
     return 0;
 }
 
-const int s18a_dword_800E2EA0 = 0x25736F70;
-const int s18a_dword_800E2EA4 = 0x64252064;
-const int s18a_dword_800E2EA8 = 0x20642520;
-const int s18a_dword_800E2EAC = 0x0000000A;
-#if 0 /* NON_MATCHING */
-// the return value "li $v0, 1" is scheduled first (orig: last, after the last_pos copy)
 int s18a_800C7684(LiquidWork *work)
 {
     SVECTOR near;
@@ -423,11 +417,16 @@ int s18a_800C7684(LiquidWork *work)
     work->control.step.vx = 0;
     work->control.step.vy = 0;
     work->control.step.vz = 0;
-    work->last_pos = work->control.mov;
+
+    /* the do/while (0) only adds loop notes that end the scheduling block,
+       which keeps the return value "li $v0,1" after the last_pos copy */
+    do
+    {
+        work->last_pos = work->control.mov;
+    } while (0);
+
     return 1;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s18a/s18a_800C7684.s")
 int s18a_800C7878(LiquidWork *work)
 {
     TARGET *target;
