@@ -101,36 +101,34 @@ typedef struct _Zako10Work
     char           field_C39[3];               //0xC39
 } Zako10Work;                                  //0xC3C
 
-// zk10com.c: like ZAKO_COMMAND with an extra word in front
+// zk10com.c: like ZAKO_COMMAND with the commander's name in front
 typedef struct _ZAKO10_COMMAND
 {
-    int       field_00;     //0x00
-    int       field_04;     //0x04
-    int       field_08;     //0x08
+    int       name;         //0x00
+    int       n_proc_c;     //0x04 number of procs run by the 'c' option
+    int       n_proc_s;     //0x08 number of procs run by the 's' option
     int       n_watchers;   //0x0C
     int       counter;      //0x10 incremented every frame
     int       timer;        //0x14
-    int       field_18;     //0x18
+    int       evasion_time; //0x18
     int       alert;        //0x1C
     int       mode;         //0x20
-    int       field_24;     //0x24
+    int       c_root;       //0x24
     int       com_addr;     //0x28
     int       com_map;      //0x2C
     SVECTOR   com_pos;      //0x30
     short     n_zones;      //0x38
     short     reset_zone;   //0x3A
     short     zones[4];     //0x3C
-    int       field_44[8];  //0x44
-    int       field_64;     //0x64
+    int       order[8];     //0x44 watcher indices sorted by distance to snake
+    int       n_reset;      //0x64
     MAP      *map;          //0x68
     A4_STRUCT field_6C;     //0x6C
     WATCHER   watchers[8];  //0x90
     int       field_110;    //0x110
     int       field_114;    //0x114
-    int       voice;        //0x118
-    int       proc;         //0x11C
-    int       field_120;    //0x120
-    int       field_124;    //0x124
+    int       field_118;    //0x118
+    int       voice;        //0x11C
 } ZAKO10_COMMAND;
 
 typedef void ( *ZAKO10ACTION )( Zako10Work *, int );

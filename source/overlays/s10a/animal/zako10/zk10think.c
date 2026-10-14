@@ -696,10 +696,10 @@ int s10a_zk10think_800CD308( Zako10Work *work )
 
 int s10a_zk10think_800CD460( Zako10Work* work )
 {
-    if ( work->param.c_root != Zako10Command.field_24 )
+    if ( work->param.c_root != Zako10Command.c_root )
     {
         fprintf( 1, " Root Change !!\n" );
-        work->param.c_root = Zako10Command.field_24;
+        work->param.c_root = Zako10Command.c_root;
         s10a_zk10think_800CD308( work );
         return 1;
     }
