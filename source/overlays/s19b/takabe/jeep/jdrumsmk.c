@@ -12,19 +12,19 @@ typedef struct _Work
     DG_TEX  *tex;
     MATRIX   world;
     MATRIX  *root;
-    int      unk50;
-    int      unk54;
-    int      unk58;
-    int      unk5C;
-    int      unk60;
-    int      unk64;
+    int      follow;      /* bit 0: the smoke source follows root */
+    int      delay;       /* frames before the source starts to fade */
+    int      life;        /* frames left to emit */
+    int      strength;    /* life of new puffs */
+    int      emit_timer;
+    int      next;        /* next puff to emit */
     SVECTOR  vertices[16];
     SVECTOR  speeds[16];
-    DVECTOR  flags[16];
+    DVECTOR  puffs[16];   /* vx: life, vy: animation frame */
 } Work;
 
 static void InitPrim(Work *work);
-static void UpdatePrim(Work *work, int);
+static void UpdatePrim(Work *work, int emit);
 
 static void Act(Work *work)
 {
@@ -40,30 +40,30 @@ static void Act(Work *work)
         return;
     }
 
-    if (work->unk50 & 1)
+    if (work->follow & 1)
     {
         work->world = *work->root;
     }
 
-    if (work->unk54 > 0)
+    if (work->delay > 0)
     {
         UpdatePrim(work, 1);
-        work->unk54--;
-        work->unk5C++;
+        work->delay--;
+        work->strength++;
         return;
     }
 
     UpdatePrim(work, 1);
 
-    if (work->unk58 == 0)
+    if (work->life == 0)
     {
         GV_DestroyActor(work);
         return;
     }
 
-    work->unk58--;
-    work->unk54--;
-    work->unk5C++;
+    work->life--;
+    work->delay--;
+    work->strength++;
 }
 
 static void Die(Work *work)
@@ -71,23 +71,23 @@ static void Die(Work *work)
     GM_FreePrim(work->prim);
 }
 
-static int GetResources(Work *work, MATRIX *world, int arg2, int arg3)
+static int GetResources(Work *work, MATRIX *world, int follow, int delay)
 {
     work->map = GM_CurrentMap;
 
     work->root = world;
     work->world = *world;
-    work->unk50 = arg2;
-    work->unk54 = arg3;
+    work->follow = follow;
+    work->delay = delay;
 
     InitPrim(work);
 
-    work->unk58 = 80;
-    work->unk5C = 20;
+    work->life = 80;
+    work->strength = 20;
     return 0;
 }
 
-void *NewJeepDrumSmoke(MATRIX *world, int arg1, int arg2)
+void *NewJeepDrumSmoke(MATRIX *world, int follow, int delay)
 {
     Work *work;
 
@@ -96,7 +96,7 @@ void *NewJeepDrumSmoke(MATRIX *world, int arg1, int arg2)
     {
         GV_SetNamedActor(work, Act, Die, "jdrumsmk.c");
 
-        if (GetResources(work, world, arg1, arg2) < 0)
+        if (GetResources(work, world, follow, delay) < 0)
         {
             GV_DestroyActor(work);
             return NULL;
@@ -150,9 +150,9 @@ static void InitPrim(Work *work)
     prim->raise = 250;
 }
 
-static void UpdatePrim(Work *work, int arg1)
+static void UpdatePrim(Work *work, int emit)
 {
-    DVECTOR  *flag;
+    DVECTOR  *puff;
     SVECTOR  *vert;
     POLY_FT4 *packs;
     SVECTOR  *speed;
@@ -161,39 +161,39 @@ static void UpdatePrim(Work *work, int arg1)
     int       x, y, w, h;
     int       shade;
 
-    flag = work->flags;
+    puff = work->puffs;
     vert = work->vertices;
     packs = work->prim->packs[GV_Clock];
     speed = work->speeds;
 
-    if (arg1 != 0)
+    if (emit != 0)
     {
-        if (work->unk60 < 0)
+        if (work->emit_timer < 0)
         {
-            work->flags[work->unk64].vx = MIN(work->unk5C, work->unk58);
-            work->flags[work->unk64].vy = GV_RandU(16);
+            work->puffs[work->next].vx = MIN(work->strength, work->life);
+            work->puffs[work->next].vy = GV_RandU(16);
 
-            work->vertices[work->unk64].vx = work->world.t[0];
-            work->vertices[work->unk64].vy = work->world.t[1];
-            work->vertices[work->unk64].vz = work->world.t[2];
-            work->vertices[work->unk64].pad = 375;
+            work->vertices[work->next].vx = work->world.t[0];
+            work->vertices[work->next].vy = work->world.t[1];
+            work->vertices[work->next].vz = work->world.t[2];
+            work->vertices[work->next].pad = 375;
 
-            work->speeds[work->unk64].vx = GV_RandS(4);
-            work->speeds[work->unk64].vy = GV_RandS(4) + 15;
-            work->speeds[work->unk64].vz = GV_RandS(4);
+            work->speeds[work->next].vx = GV_RandS(4);
+            work->speeds[work->next].vy = GV_RandS(4) + 15;
+            work->speeds[work->next].vz = GV_RandS(4);
 
-            work->unk60 = 12;
-            work->unk64 = (work->unk64 + 1) & 15;
+            work->emit_timer = 12;
+            work->next = (work->next + 1) & 15;
         }
         else
         {
-            work->unk60--;
+            work->emit_timer--;
         }
     }
 
     for (i = 16; i > 0; i--)
     {
-        if (flag->vx != 0)
+        if (puff->vx != 0)
         {
             vert->pad += 5;
 
@@ -201,8 +201,8 @@ static void UpdatePrim(Work *work, int arg1)
             vert->vy += speed->vy;
             vert->vz += speed->vz;
 
-            xs = flag->vy & 7;
-            ys = flag->vy / 8;
+            xs = puff->vy & 7;
+            ys = puff->vy / 8;
 
 
             x = work->tex->off_x;
@@ -215,14 +215,14 @@ static void UpdatePrim(Work *work, int arg1)
             packs->v0 = packs->v1 = y + (h * ys) / 4;
             packs->v2 = packs->v3 = y + (h * (ys + 1)) / 4 - 1;
 
-            if (++flag->vy >= 30)
+            if (++puff->vy >= 30)
             {
-                flag->vy = 0;
+                puff->vy = 0;
             }
 
-            shade = MIN(flag->vx * 2, 255);
+            shade = MIN(puff->vx * 2, 255);
             setRGB0(packs, shade, shade, shade);
-            flag->vx--;
+            puff->vx--;
         }
         else
         {
@@ -232,7 +232,7 @@ static void UpdatePrim(Work *work, int arg1)
 
         vert++;
         speed++;
-        flag++;
+        puff++;
         packs++;
     }
 }
