@@ -5,11 +5,17 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/item.h"
+#include "game/vibrate.h"
 #include "linkvar.h"
 
 extern DG_OBJS *Takabe_MakePreshade(int model, DG_LITS *lit);
 
 extern int s15c_dword_800E345C[4];
+extern int s15c_dword_800E346C;
+extern SVECTOR s15c_dword_800E3474;
+extern int s15c_dword_800C35CC;
+extern int s15c_dword_800C35D4;
+extern const char s15c_dword_800E2E30[8];
 
 const char s15c_aPan_800E2D70[] = "pan1";
 const char s15c_aPan_800E2D78[] = "pan2";
@@ -17,30 +23,6 @@ const char s15c_aNikitamissile_800E2D80[] = "NIKITA MISSILE * 4";
 const char s15c_aC_800E2D94[] = "C4 * 2";
 const char s15c_aRation_800E2D9C[] = "RATION";
 const char s15c_aConall_800E2DA4[] = "con_all";
-const char s15c_dword_800E2DAC[] = {0x0, 0x0, 0x0, 0x0};
-const int s15c_dword_800E2DB0 = 0x800D6F34;
-const int s15c_dword_800E2DB4 = 0x800D733C;
-const int s15c_dword_800E2DB8 = 0x800D741C;
-const int s15c_dword_800E2DBC = 0x800D7440;
-const int s15c_dword_800E2DC0 = 0x800D76FC;
-const int s15c_dword_800E2DC4 = 0x800D78DC;
-const char s15c_aConuf_800E2DC8[] = "con_uf0";
-const char s15c_aConten_800E2DD0[] = "con_ten";
-const char s15c_aConub_800E2DD8[] = "con_ub0";
-const char s15c_aContf_800E2DE0[] = "con_tf";
-const char s15c_aContb_800E2DE8[] = "con_tb";
-const char s15c_aConuf_800E2DF0[] = "con_uf1";
-const char s15c_aConuf_800E2DF8[] = "con_uf2";
-const char s15c_aConuf_800E2E00[] = "con_uf3";
-const char s15c_aBr_800E2E08[] = "br5";
-const char s15c_aBr_800E2E0C[] = "br6";
-const char s15c_aConub_800E2E10[] = "con_ub1";
-const char s15c_aConub_800E2E18[] = "con_ub2";
-const char s15c_aConub_800E2E20[] = "con_ub3";
-const char s15c_aBr_800E2E28[] = "br7";
-const char s15c_aBr_800E2E2C[] = "br8";
-const char s15c_dword_800E2E30[] = {'d', 'y', 'n', 'c'};
-const char s15c_dword_800E2E34[] = {'o', 'n', '.', 'c'};
 
 typedef struct _Container
 {
@@ -94,7 +76,7 @@ typedef struct _Work
     int     field_3CBC[36];  /* 0x3CBC */
     int     field_3D4C[36];  /* 0x3D4C - the three run up to field_3DDC */
     int     field_3DDC;      /* 0x3DDC */
-    int     field_3DE0[3][12];/* 0x3DE0 - model name codes */
+    int     field_3DE0[6][6];/* 0x3DE0 - model name codes */
     int     field_3E70[36];  /* 0x3E70 */
     int     field_3F00[4];   /* 0x3F00 */
     int     field_3F10[4];   /* 0x3F10 - countdown, reset to 32 (800D6004/603C) */
@@ -136,7 +118,265 @@ void s15c_dyncon_800D3EBC(OBJECT_NO_ROTS *obj, int model, int flag)
     obj->map_name = GM_CurrentMap;
     obj->objs = Takabe_MakePreshade(model, GM_GetMap(GM_CurrentMap)->lit);
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D3F24.s")
+// Builds the 4 walls and the bottom/top floors of a rotated box
+void s15c_dyncon_800D3F24(HZD_SEG *segs, HZD_FLR *floors, MATRIX *mtx, SVECTOR *min, SVECTOR *max)
+{
+    VECTOR   normal;
+    SVECTOR  corners[8];
+    SVECTOR  lo[4];
+    SVECTOR  hi[4];
+    int      i, idx;
+    int      len;
+
+    corners[0].vx = min->vx;
+    corners[0].vy = min->vy;
+    corners[0].vz = min->vz;
+    corners[1].vx = min->vx;
+    corners[1].vy = min->vy;
+    corners[1].vz = max->vz;
+    corners[2].vx = max->vx;
+    corners[2].vy = min->vy;
+    corners[2].vz = max->vz;
+    corners[3].vx = max->vx;
+    corners[3].vy = min->vy;
+    corners[3].vz = min->vz;
+    corners[4].vx = min->vx;
+    corners[4].vy = max->vy;
+    corners[4].vz = min->vz;
+    corners[5].vx = min->vx;
+    corners[5].vy = max->vy;
+    corners[5].vz = max->vz;
+    corners[6].vx = max->vx;
+    corners[6].vy = max->vy;
+    corners[6].vz = max->vz;
+    corners[7].vx = max->vx;
+    corners[7].vy = max->vy;
+    corners[7].vz = min->vz;
+
+    DG_SetPos(mtx);
+    DG_PutVector(corners, corners, 8);
+
+    // min x
+    idx = 0;
+    lo[0] = corners[0];
+    for (i = 0; i < 8; i++)
+    {
+        if (corners[i].vx < lo[0].vx || (corners[i].vx == lo[0].vx && corners[i].vz < lo[0].vz))
+        {
+            idx = i;
+            lo[0] = corners[i];
+        }
+    }
+
+    if (idx >= 4)
+    {
+        idx -= 4;
+    }
+
+    hi[0] = lo[0];
+    lo[0].vy = (corners[idx].vy < corners[idx + 4].vy) ? corners[idx].vy : corners[idx + 4].vy;
+    hi[0].vy = (corners[idx + 4].vy < corners[idx].vy) ? corners[idx].vy : corners[idx + 4].vy;
+
+    // max z
+    idx = 0;
+    lo[1] = corners[0];
+    for (i = 0; i < 8; i++)
+    {
+        if (corners[i].vz > lo[1].vz || (corners[i].vz == lo[1].vz && corners[i].vx < lo[1].vx))
+        {
+            idx = i;
+            lo[1] = corners[i];
+        }
+    }
+
+    if (idx >= 4)
+    {
+        idx -= 4;
+    }
+
+    hi[1] = lo[1];
+    lo[1].vy = (corners[idx].vy < corners[idx + 4].vy) ? corners[idx].vy : corners[idx + 4].vy;
+    hi[1].vy = (corners[idx + 4].vy < corners[idx].vy) ? corners[idx].vy : corners[idx + 4].vy;
+
+    // max x
+    idx = 0;
+    lo[2] = corners[0];
+    for (i = 0; i < 8; i++)
+    {
+        if (corners[i].vx > lo[2].vx || (corners[i].vx == lo[2].vx && corners[i].vz > lo[2].vz))
+        {
+            idx = i;
+            lo[2] = corners[i];
+        }
+    }
+
+    if (idx >= 4)
+    {
+        idx -= 4;
+    }
+
+    hi[2] = lo[2];
+    lo[2].vy = (corners[idx].vy < corners[idx + 4].vy) ? corners[idx].vy : corners[idx + 4].vy;
+    hi[2].vy = (corners[idx + 4].vy < corners[idx].vy) ? corners[idx].vy : corners[idx + 4].vy;
+
+    // min z
+    idx = 0;
+    lo[3] = corners[0];
+    for (i = 0; i < 8; i++)
+    {
+        if (corners[i].vz < lo[3].vz || (corners[i].vz == lo[3].vz && corners[i].vx > lo[3].vx))
+        {
+            idx = i;
+            lo[3] = corners[i];
+        }
+    }
+
+    if (idx >= 4)
+    {
+        idx -= 4;
+    }
+
+    hi[3] = lo[3];
+    lo[3].vy = (corners[idx].vy < corners[idx + 4].vy) ? corners[idx].vy : corners[idx + 4].vy;
+    hi[3].vy = (corners[idx + 4].vy < corners[idx].vy) ? corners[idx].vy : corners[idx + 4].vy;
+
+    segs[0].p1.x = lo[0].vx;
+    segs[0].p1.z = lo[0].vz;
+    segs[0].p1.y = lo[0].vy;
+    segs[0].p1.h = hi[0].vy - lo[0].vy;
+    segs[0].p2.x = lo[1].vx;
+    segs[0].p2.z = lo[1].vz;
+    segs[0].p2.y = lo[1].vy;
+    segs[0].p2.h = hi[1].vy - lo[1].vy;
+    segs[1].p1.x = lo[1].vx;
+    segs[1].p1.z = lo[1].vz;
+    segs[1].p1.y = lo[1].vy;
+    segs[1].p1.h = hi[1].vy - lo[1].vy;
+    segs[1].p2.x = lo[2].vx;
+    segs[1].p2.z = lo[2].vz;
+    segs[1].p2.y = lo[2].vy;
+    segs[1].p2.h = hi[2].vy - lo[2].vy;
+    segs[2].p1.x = lo[3].vx;
+    segs[2].p1.z = lo[3].vz;
+    segs[2].p1.y = lo[3].vy;
+    segs[2].p1.h = hi[3].vy - lo[3].vy;
+    segs[2].p2.x = lo[2].vx;
+    segs[2].p2.z = lo[2].vz;
+    segs[2].p2.y = lo[2].vy;
+    segs[2].p2.h = hi[2].vy - lo[2].vy;
+    segs[3].p1.x = lo[0].vx;
+    segs[3].p1.z = lo[0].vz;
+    segs[3].p1.y = lo[0].vy;
+    segs[3].p1.h = hi[0].vy - lo[0].vy;
+    segs[3].p2.x = lo[3].vx;
+    segs[3].p2.z = lo[3].vz;
+    segs[3].p2.y = lo[3].vy;
+    segs[3].p2.h = hi[3].vy - lo[3].vy;
+
+    floors[0].p1.x = lo[0].vx;
+    floors[0].p1.z = lo[0].vz;
+    floors[0].p1.y = lo[0].vy;
+    floors[0].p2.x = lo[3].vx;
+    floors[0].p2.z = lo[3].vz;
+    floors[0].p2.y = lo[3].vy;
+    floors[0].p3.x = lo[2].vx;
+    floors[0].p3.z = lo[2].vz;
+    floors[0].p3.y = lo[2].vy;
+    floors[0].p4.x = lo[1].vx;
+    floors[0].p4.z = lo[1].vz;
+    floors[0].p4.y = lo[1].vy;
+    floors[0].p4.h = 0;
+
+    floors[0].b1 = floors[0].p1;
+    floors[0].b1.h = 0;
+    floors[0].b1.x = MIN(floors[0].b1.x, floors[0].p2.x);
+    floors[0].b1.x = MIN(floors[0].b1.x, floors[0].p3.x);
+    floors[0].b1.x = MIN(floors[0].b1.x, floors[0].p4.x);
+    floors[0].b1.z = MIN(floors[0].b1.z, floors[0].p2.z);
+    floors[0].b1.z = MIN(floors[0].b1.z, floors[0].p3.z);
+    floors[0].b1.z = MIN(floors[0].b1.z, floors[0].p4.z);
+    floors[0].b1.y = MIN(floors[0].b1.y, floors[0].p2.y);
+    floors[0].b1.y = MIN(floors[0].b1.y, floors[0].p3.y);
+    floors[0].b1.y = MIN(floors[0].b1.y, floors[0].p4.y);
+
+    floors[0].b2 = floors[0].p1;
+    floors[0].b2.h = 0;
+    floors[0].b2.x = MAX(floors[0].b2.x, floors[0].p2.x);
+    floors[0].b2.x = MAX(floors[0].b2.x, floors[0].p3.x);
+    floors[0].b2.x = MAX(floors[0].b2.x, floors[0].p4.x);
+    floors[0].b2.z = MAX(floors[0].b2.z, floors[0].p2.z);
+    floors[0].b2.z = MAX(floors[0].b2.z, floors[0].p3.z);
+    floors[0].b2.z = MAX(floors[0].b2.z, floors[0].p4.z);
+    floors[0].b2.y = MAX(floors[0].b2.y, floors[0].p2.y);
+    floors[0].b2.y = MAX(floors[0].b2.y, floors[0].p3.y);
+    floors[0].b2.y = MAX(floors[0].b2.y, floors[0].p4.y);
+
+    normal.vx = ((floors[0].p2.y - floors[0].p1.y) * (floors[0].p3.z - floors[0].p2.z) - (floors[0].p2.z - floors[0].p1.z) * (floors[0].p3.y - floors[0].p2.y)) >> 16;
+    normal.vy = ((floors[0].p2.z - floors[0].p1.z) * (floors[0].p3.x - floors[0].p2.x) - (floors[0].p2.x - floors[0].p1.x) * (floors[0].p3.z - floors[0].p2.z)) >> 16;
+    normal.vz = ((floors[0].p2.x - floors[0].p1.x) * (floors[0].p3.y - floors[0].p2.y) - (floors[0].p2.y - floors[0].p1.y) * (floors[0].p3.x - floors[0].p2.x)) >> 16;
+
+    len = SquareRoot0(normal.vx * normal.vx + normal.vy * normal.vy + normal.vz * normal.vz);
+    if (len == 0)
+    {
+        len = 1;
+    }
+
+    floors[0].p1.h = normal.vx * 255 / len;
+    floors[0].p2.h = normal.vz * 255 / len;
+    floors[0].p3.h = normal.vy * 255 / len;
+
+    floors[1].p1.x = hi[0].vx;
+    floors[1].p1.z = hi[0].vz;
+    floors[1].p1.y = hi[0].vy;
+    floors[1].p2.x = hi[3].vx;
+    floors[1].p2.z = hi[3].vz;
+    floors[1].p2.y = hi[3].vy;
+    floors[1].p3.x = hi[2].vx;
+    floors[1].p3.z = hi[2].vz;
+    floors[1].p3.y = hi[2].vy;
+    floors[1].p4.x = hi[1].vx;
+    floors[1].p4.z = hi[1].vz;
+    floors[1].p4.y = hi[1].vy;
+    floors[1].p4.h = 0;
+
+    floors[1].b1 = floors[1].p1;
+    floors[1].b1.h = 0;
+    floors[1].b1.x = MIN(floors[1].b1.x, floors[1].p2.x);
+    floors[1].b1.x = MIN(floors[1].b1.x, floors[1].p3.x);
+    floors[1].b1.x = MIN(floors[1].b1.x, floors[1].p4.x);
+    floors[1].b1.z = MIN(floors[1].b1.z, floors[1].p2.z);
+    floors[1].b1.z = MIN(floors[1].b1.z, floors[1].p3.z);
+    floors[1].b1.z = MIN(floors[1].b1.z, floors[1].p4.z);
+    floors[1].b1.y = MIN(floors[1].b1.y, floors[1].p2.y);
+    floors[1].b1.y = MIN(floors[1].b1.y, floors[1].p3.y);
+    floors[1].b1.y = MIN(floors[1].b1.y, floors[1].p4.y);
+
+    floors[1].b2 = floors[1].p1;
+    floors[1].b2.h = 0;
+    floors[1].b2.x = MAX(floors[1].b2.x, floors[1].p2.x);
+    floors[1].b2.x = MAX(floors[1].b2.x, floors[1].p3.x);
+    floors[1].b2.x = MAX(floors[1].b2.x, floors[1].p4.x);
+    floors[1].b2.z = MAX(floors[1].b2.z, floors[1].p2.z);
+    floors[1].b2.z = MAX(floors[1].b2.z, floors[1].p3.z);
+    floors[1].b2.z = MAX(floors[1].b2.z, floors[1].p4.z);
+    floors[1].b2.y = MAX(floors[1].b2.y, floors[1].p2.y);
+    floors[1].b2.y = MAX(floors[1].b2.y, floors[1].p3.y);
+    floors[1].b2.y = MAX(floors[1].b2.y, floors[1].p4.y);
+
+    normal.vx = ((floors[1].p2.y - floors[1].p1.y) * (floors[1].p3.z - floors[1].p2.z) - (floors[1].p2.z - floors[1].p1.z) * (floors[1].p3.y - floors[1].p2.y)) >> 16;
+    normal.vy = ((floors[1].p2.z - floors[1].p1.z) * (floors[1].p3.x - floors[1].p2.x) - (floors[1].p2.x - floors[1].p1.x) * (floors[1].p3.z - floors[1].p2.z)) >> 16;
+    normal.vz = ((floors[1].p2.x - floors[1].p1.x) * (floors[1].p3.y - floors[1].p2.y) - (floors[1].p2.y - floors[1].p1.y) * (floors[1].p3.x - floors[1].p2.x)) >> 16;
+
+    len = SquareRoot0(normal.vx * normal.vx + normal.vy * normal.vy + normal.vz * normal.vz);
+    if (len == 0)
+    {
+        len = 1;
+    }
+
+    floors[1].p1.h = normal.vx * 255 / len;
+    floors[1].p2.h = normal.vz * 255 / len;
+    floors[1].p3.h = normal.vy * 255 / len;
+}
 void s15c_dyncon_800D5090(Work *work, int i)
 {
     HZD_HDL *hzd = GM_GetMap(work->map)->hzd;
@@ -640,8 +880,547 @@ void *s15c_dyncon_800D6434(Work *work, SVECTOR *pos, SVECTOR *step, int item_typ
     item.time = -1;
     return NewItemPut(pos, step, &item);
 }
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D6528.s")
-#pragma INCLUDE_ASM("asm/overlays/s15c/s15c_dyncon_800D7A84.s")
+void s15c_dyncon_800D6528(Work *work)
+{
+    SVECTOR vec;
+    SVECTOR pos;
+    MATRIX  rot1;
+    MATRIX  rot2;
+    int i, n, index, row, col, count, hit, side, k, half, twice, vx;
+    Container      *box, *upper, *crate, *box4, *box6;
+    OBJECT_NO_ROTS *obj;
+    Item     *item;
+
+    GM_CurrentMap = work->map;
+
+    if (work->field_4050 == 1)
+    {
+        item = work->items;
+        for (i = 0; i < 4; i++, item++)
+        {
+            switch (item->field_7C)
+            {
+            case 0:
+                item->field_2C.vx = 0;
+                item->field_2C.vz = 0;
+                item->field_2C.vy -= 90;
+                DG_SetPos2(item->mov, item->rot);
+                DG_PutVector(&item->field_34, &vec, 1);
+                DG_SetPos2(&vec, &item->field_2C);
+                GM_ActObject2((OBJECT *)&item->obj);
+                DG_GetLightMatrix2(&vec, item->light);
+                break;
+
+            case 1:
+                item->field_2C.vx = 0;
+                item->field_2C.vz = 0;
+                item->field_2C.vy -= 90;
+                DG_SetPos2(&DG_ZeroVector, item->rot);
+                ReadRotMatrix(&rot1);
+                DG_SetPos2(item->mov, item->rot);
+                DG_PutVector(&item->field_34, &vec, 1);
+                DG_SetPos2(&vec, &item->field_2C);
+                ReadRotMatrix(&rot2);
+                CompMatrix(&rot1, &rot2, &rot1);
+                SetRotMatrix(&rot1);
+                GM_ActObject2((OBJECT *)&item->obj);
+                DG_GetLightMatrix2(&vec, item->light);
+                break;
+
+            case 2:
+                DG_SetPos2(&DG_ZeroVector, item->rot);
+                ReadRotMatrix(&rot1);
+                DG_SetPos2(item->mov, item->rot);
+                item->field_34.vy += 300;
+                DG_PutVector(&item->field_34, &vec, 1);
+                DG_InvisibleObjs(item->obj.objs);
+                s15c_dyncon_800D6434(work, &vec, &DG_ZeroVector, i);
+                item->field_7C = 3;
+                break;
+            }
+        }
+    }
+
+    if (s15c_dword_800E346C == 1)
+    {
+        GV_DestroyActor(&work->actor);
+    }
+
+    if (work->field_4050 == 1)
+    {
+        for (k = 0; k < 4; k++)
+        {
+            work->field_3F30[k] = 1;
+        }
+
+        s15c_dyncon_800D6128(work, &s15c_dword_800E3474, 10000);
+        s15c_dyncon_800D6128(work, &GM_PlayerPosition, 5000);
+    }
+
+    count = 0;
+    for (row = 0; row < 3; row++)
+    {
+        for (col = 0; col < 3; col++)
+        {
+            hit = 0xFF;
+
+            for (index = 0; index < 2; index++)
+            {
+                for (i = 0; i < 2; count++, i++)
+                {
+                    if ((count == 3 && work->field_3F30[0] == 0) ||
+                        (count == 21 && work->field_3F30[1] == 0) ||
+                        (count == 24 && work->field_3F30[2] == 0) ||
+                        (count == 34 && work->field_3F30[3] == 0))
+                    {
+                        continue;
+                    }
+
+                    if (work->field_4050 == 1 && (work->containers[count].target->damaged & TARGET_POWER))
+                    {
+                        work->containers[count].target->damaged &= ~TARGET_POWER;
+
+                        GV_SubVec3(&work->containers[count].mov, &GM_PlayerPosition, &vec);
+                        pos.vx = GM_PlayerPosition.vx + vec.vx / 8;
+                        pos.vy = work->containers[count].mov.vy;
+                        pos.vz = GM_PlayerPosition.vz + vec.vz / 8;
+
+                        if (work->field_4050 == 1)
+                        {
+                            GM_SeSet(&pos, 0xBD);
+                        }
+
+                        if (++work->field_3C2C[count] >= work->field_3DDC)
+                        {
+                            hit = index * 2 + i;
+                            work->field_3C2C[count] = 0;
+                            work->field_3CBC[count]++;
+                        }
+                    }
+
+                    if (work->field_4050 >= 2 && work->field_4050 <= 3 && work->field_3CBC[count] < work->field_4060[count])
+                    {
+                        if (++work->field_3C2C[count] >= work->field_3DDC)
+                        {
+                            hit = index * 2 + i;
+                            work->field_3C2C[count] = 0;
+                            work->field_3CBC[count]++;
+                        }
+                    }
+                }
+            }
+
+            if (hit != 0xFF)
+            {
+                // Both branches are identical and get merged by the compiler;
+                // the test on i only exists to steer gcc's register allocation.
+                if (i)
+                {
+                    s15c_dyncon_800D5910(work, col, row, hit);
+                }
+                else
+                {
+                    s15c_dyncon_800D5910(work, col, row, hit);
+                }
+            }
+        }
+    }
+
+    for (n = 0; n < 36; n++)
+    {
+        if (work->field_3CBC[n] == work->field_3D4C[n])
+        {
+            continue;
+        }
+
+        index = n / 4 * 8 + n % 4;
+        box = &work->containers[index];
+
+        GV_SubVec3(&box->mov, &GM_PlayerPosition, &vec);
+        pos.vx = GM_PlayerPosition.vx + vec.vx / 8;
+        pos.vy = work->containers[index].mov.vy;
+        pos.vz = GM_PlayerPosition.vz + vec.vz / 8;
+
+        work->field_3D4C[n] = work->field_3CBC[n];
+
+        if (work->field_4050 == 1)
+        {
+            GM_SeSet(&pos, 0xB4);
+        }
+
+        side = 1 - work->field_3CBC[n] % 2;
+        GM_FreeObject((OBJECT *)&box->objs[side]);
+        work->field_2C04[index * 2 + side] = 0;
+
+        side = work->field_3CBC[n] % 2;
+        obj = &box->objs[side];
+        work->field_2C04[index * 2 + side] = 1;
+
+        if ((n == 21 || n == 34) && (work->field_3CBC[n] >= 4 && work->field_3CBC[n] <= 5))
+        {
+            work->containers[index].rot.vy += 0x800;
+            DG_SetPos2(&box->mov, &box->rot);
+            work->containers[index].rot.vy -= 0x800;
+        }
+        else
+        {
+            DG_SetPos2(&work->containers[index].mov, &work->containers[index].rot);
+        }
+
+        s15c_dyncon_800D3EBC(obj, work->field_3DE0[work->field_3E70[n]][work->field_3CBC[n]], 0x47);
+        GM_ActObject2((OBJECT *)obj);
+
+        for (k = 0; k < 4; k++)
+        {
+            if (n != work->field_3F00[k])
+            {
+                continue;
+            }
+
+            if (work->field_3CBC[n] == 4)
+            {
+                work->field_3F10[k] = 32;
+                s15c_dyncon_800D5A3C(work, k, index, work->field_3CBC[n], -80, 112, -48, -24, -48, -48, -212, -48);
+                s15c_dyncon_800D5C38(work, k, index);
+
+                upper = &work->containers[index + 4];
+                GM_FreeObject((OBJECT *)&upper->objs[0]);
+                obj = &upper->objs[1];
+                work->field_2C04[(index + 4) * 2] = 0;
+                DG_SetPos2(&upper->mov, &upper->rot);
+                s15c_dyncon_800D3EBC(obj, GV_StrCode(s15c_aConall_800E2DA4), 0x47);
+                work->field_2C04[(index + 4) * 2 + 1] = 1;
+            }
+
+            if (work->field_3CBC[n] == 5)
+            {
+                work->field_3F10[k] = 32;
+                s15c_dyncon_800D5A3C(work, k, index, work->field_3CBC[n], -112, 32, -80, -52, -80, -80, -240, -80);
+                if (k == 2)
+                {
+                    vx = work->field_3F40[k].vx;
+                    work->field_3F40[k].vx = -vx;
+                }
+            }
+        }
+    }
+
+    for (k = 0; k < 4; k++)
+    {
+        if (work->field_3F10[k] == 0 || work->field_4160[k] != 0)
+        {
+            continue;
+        }
+
+        index = work->field_3F00[k] / 4 * 8 + work->field_3F00[k] % 4;
+
+        GV_SubVec3(&work->containers[index].mov, &GM_PlayerPosition, &vec);
+        pos.vx = GM_PlayerPosition.vx + vec.vx / 8;
+        pos.vy = work->containers[index].mov.vy;
+        pos.vz = GM_PlayerPosition.vz + vec.vz / 8;
+
+        switch (work->field_3F20[k])
+        {
+        case 0:
+            if (work->field_4050 == 2)
+            {
+                switch (k)
+                {
+                case 0:
+                    crate = &work->containers[7];
+                    crate->mov.vx = -4000;
+                    crate->mov.vy = 749;
+                    crate->mov.vz = -3500;
+                    crate->rot.vx = 1023;
+                    crate->rot.vy = 1023;
+                    crate->rot.vz = -511;
+                    s15c_dyncon_800D5EDC(work, 0, 2);
+                    s15c_dyncon_800D5354(work, 0, 0);
+                    work->field_4040[k] = 1;
+                    break;
+                case 1:
+                    crate = &work->containers[45];
+                    crate->mov.vx = 8000;
+                    crate->mov.vy = 749;
+                    crate->mov.vz = -750;
+                    crate->rot.vx = 1023;
+                    crate->rot.vy = 2048;
+                    crate->rot.vz = -511;
+                    s15c_dyncon_800D5EDC(work, 1, 3);
+                    s15c_dyncon_800D5354(work, 1, 0);
+                    work->field_4040[k] = 1;
+                    break;
+                case 2:
+                    crate = &work->containers[52];
+                    crate->mov.vx = -7999;
+                    crate->mov.vy = 749;
+                    crate->mov.vz = 4999;
+                    crate->rot.vx = 1023;
+                    crate->rot.vy = 1024;
+                    crate->rot.vz = -511;
+                    s15c_dyncon_800D5EDC(work, 2, 2);
+                    s15c_dyncon_800D5354(work, 2, 0);
+                    work->field_4040[k] = 1;
+                    break;
+                case 3:
+                    crate = &work->containers[70];
+                    crate->mov.vx = 4000;
+                    crate->mov.vy = 749;
+                    crate->mov.vz = 8000;
+                    crate->rot.vx = 1023;
+                    crate->rot.vy = -1023;
+                    crate->rot.vz = 511;
+                    s15c_dyncon_800D5EDC(work, 3, 2);
+                    s15c_dyncon_800D5354(work, 3, 0);
+                    work->field_4040[k] = 1;
+                    break;
+                }
+                work->field_4160[k] = 1;
+            }
+            else if (work->field_4050 == 3)
+            {
+                switch (k)
+                {
+                case 0:
+                    crate = &work->containers[7];
+                    crate->mov.vx = -10000;
+                    crate->mov.vy = -10000;
+                    crate->mov.vz = -10000;
+                    crate->rot.vx = 0;
+                    crate->rot.vy = 0;
+                    crate->rot.vz = 0;
+                    s15c_dyncon_800D5EDC(work, 0, 2);
+                    DG_InvisibleObjs((&work->containers[index + 4])->objs[0].objs);
+                    s15c_dyncon_800D5354(work, 0, 0);
+                    work->field_4040[k] = 1;
+                    break;
+                case 1:
+                    crate = &work->containers[45];
+                    crate->mov.vx = 10000;
+                    crate->mov.vy = -10000;
+                    crate->mov.vz = -10000;
+                    crate->rot.vx = 0;
+                    crate->rot.vy = 0;
+                    crate->rot.vz = 0;
+                    s15c_dyncon_800D5EDC(work, 1, 3);
+                    DG_InvisibleObjs((&work->containers[index + 4])->objs[0].objs);
+                    s15c_dyncon_800D5354(work, 1, 0);
+                    work->field_4040[k] = 1;
+                    break;
+                case 2:
+                    crate = &work->containers[52];
+                    crate->mov.vx = -10000;
+                    crate->mov.vy = -10000;
+                    crate->mov.vz = 10000;
+                    crate->rot.vx = 0;
+                    crate->rot.vy = 0;
+                    crate->rot.vz = 0;
+                    s15c_dyncon_800D5EDC(work, 2, 2);
+                    DG_InvisibleObjs((&work->containers[index + 4])->objs[0].objs);
+                    s15c_dyncon_800D5354(work, 2, 0);
+                    work->field_4040[k] = 1;
+                    break;
+                case 3:
+                    crate = &work->containers[70];
+                    crate->mov.vx = 10000;
+                    crate->mov.vy = -10000;
+                    crate->mov.vz = 10000;
+                    crate->rot.vx = 0;
+                    crate->rot.vy = 0;
+                    crate->rot.vz = 0;
+                    s15c_dyncon_800D5EDC(work, 3, 2);
+                    DG_InvisibleObjs((&work->containers[index + 4])->objs[0].objs);
+                    s15c_dyncon_800D5354(work, 3, 0);
+                    work->field_4040[k] = 1;
+                    break;
+                }
+                work->field_4160[k] = 1;
+            }
+            else
+            {
+                if (work->field_4050 == 1)
+                {
+                    work->items[k].field_7C = 1;
+                    if (work->field_4050 == 1 && GV_RandU(2) == 0)
+                    {
+                        GM_SeSet(&pos, 0xB2);
+                    }
+                }
+
+                s15c_dyncon_800D6070(work, index + 4, k);
+                s15c_dyncon_800D603C(work, k);
+            }
+            break;
+
+        case 1:
+            if (work->field_4050 == 1 && GV_RandU(2) == 0)
+            {
+                GM_SeSet(&pos, 0xB2);
+            }
+
+            if (work->field_3F10[k] == 32)
+            {
+                s15c_dyncon_800D5428(work, k, 0);
+            }
+            else
+            {
+                s15c_dyncon_800D5114(work, k);
+                s15c_dyncon_800D5428(work, k, (32 - work->field_3F10[k]) * 4);
+            }
+
+            s15c_dyncon_800D5090(work, k);
+
+            if (k == 0 || k == 1)
+            {
+                work->containers[index + 4].rot.vy += 16;
+            }
+            else
+            {
+                work->containers[index + 4].rot.vy -= 16;
+            }
+
+            s15c_dyncon_800D6070(work, index + 4, k);
+
+        case 2:
+            s15c_dyncon_800D6004(work, k);
+            s15c_dyncon_800D5EDC(work, k, 1);
+            break;
+
+        case 3:
+            n = 32 - work->field_3F10[k];
+
+            if (work->field_4050 == 1 && GV_RandU(2) == 0)
+            {
+                GM_SeSet(&pos, 0xB2);
+            }
+
+            half = n / 2;
+            twice = n * 2;
+            switch (k)
+            {
+            case 0:
+                s15c_dyncon_800D5F68(work, index + 4, 0, n, n, -half, n, -half, -half, 2);
+                break;
+            case 1:
+                s15c_dyncon_800D5F68(work, index + 4, 1, n, n, half, -half, -half, -twice, 3);
+                break;
+            case 2:
+                s15c_dyncon_800D5F68(work, index + 4, 2, twice, -half, -half, n, -half, -twice, 3);
+                break;
+            case 3:
+                s15c_dyncon_800D5F68(work, index + 4, 3, n, -n, half, -n, -half, half, 2);
+                break;
+            }
+
+            s15c_dyncon_800D6070(work, index + 4, k);
+
+            if (--work->field_3F10[k] == 0)
+            {
+                work->field_3F10[k] = 8;
+                work->field_3F20[k]++;
+
+                switch (k)
+                {
+                case 0:
+                    s15c_dyncon_800D5EA8(work, 0, 0x380, 0x400, -0x200, -4000, 750, -3500);
+                    break;
+                case 1:
+                    s15c_dyncon_800D5EA8(work, 1, 0x380, 0x800, -0x200, 8000, 750, -750);
+                    break;
+                case 2:
+                    s15c_dyncon_800D5EA8(work, 2, 0x380, 0x400, -0x200, -8000, 750, 5000);
+                    break;
+                case 3:
+                    s15c_dyncon_800D5EA8(work, 3, 0x380, -0x400, 0x200, 4000, 750, 8000);
+                    break;
+                }
+
+                if (work->field_4050 == 1)
+                {
+                    GM_SeSet(&work->containers[index + 4].mov, 0x29);
+                }
+            }
+            break;
+
+        case 4:
+            if (work->field_4050 == 1 && GV_RandU(2) == 0)
+            {
+                GM_SeSet(&pos, 0xB2);
+            }
+
+            box4 = &work->containers[index + 4];
+            work->field_3F10[k]--;
+            s15c_dyncon_800D5DC0(&box4->mov, &work->field_3F40[k], 2);
+            s15c_dyncon_800D5DC0(&box4->rot, &work->field_3F60[k], 2);
+
+            switch (k)
+            {
+            case 0:
+                s15c_dyncon_800D5EDC(work, 0, 2);
+                break;
+            case 1:
+                s15c_dyncon_800D5EDC(work, 1, 3);
+                break;
+            case 2:
+                s15c_dyncon_800D5EDC(work, 2, 2);
+                break;
+            case 3:
+                s15c_dyncon_800D5EDC(work, 3, 2);
+                break;
+            }
+
+            if (work->field_3F10[k] == 0)
+            {
+                work->field_3F10[k] = 8;
+                work->field_3F20[k]++;
+                work->field_3F60[k].vx = 0x400;
+
+                if (work->field_4050 == 1)
+                {
+                    GM_SeSet(&pos, 0xB1);
+                }
+
+                GM_SetNoise(255, 32, &work->containers[index + 4].mov);
+                NewPadVibration((u_char *)&s15c_dword_800C35CC, 1);
+                NewPadVibration((u_char *)&s15c_dword_800C35D4, 2);
+            }
+            break;
+
+        case 5:
+            box6 = &work->containers[index + 4];
+            work->field_3F10[k]--;
+            s15c_dyncon_800D5DC0(&box6->mov, &work->field_3F40[k], 2);
+            s15c_dyncon_800D5DC0(&box6->rot, &work->field_3F60[k], 2);
+
+            if (work->field_3F10[k] == 0)
+            {
+                s15c_dyncon_800D5354(work, k, 0);
+                work->field_4040[k] = 1;
+                s15c_dyncon_800D5114(work, k);
+
+                if (work->field_4050 == 1)
+                {
+                    GM_SeSet(&pos, 0xB1);
+                }
+
+                GM_SetNoise(255, 32, &work->containers[index + 4].mov);
+                work->field_3F10[k] = 32;
+                work->field_3F20[k]++;
+
+                if (work->field_4050 == 1)
+                {
+                    work->items[k].field_7C = 2;
+                }
+            }
+            break;
+        }
+
+        obj = &work->containers[index + 4].objs[1];
+        DG_SetPos2(&work->containers[index + 4].mov, &work->containers[index + 4].rot);
+        GM_ActObject2((OBJECT *)obj);
+        s15c_dword_800E345C[k] = work->field_3F20[k];
+    }
+}
 int s15c_dyncon_800D7AB4(Work *work)
 {
     SVECTOR size;
@@ -824,40 +1603,40 @@ void s15c_dyncon_800D7F88(Work *work)
         {
             if (j == 1 && i == 2)
             {
-                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConuf_800E2DC8));
-                s15c_dyncon_800D7E30(work, p, n, GV_StrCode(s15c_aConten_800E2DD0));
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_uf0"));
+                s15c_dyncon_800D7E30(work, p, n, GV_StrCode("con_ten"));
                 p++;
                 n++;
-                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConub_800E2DD8));
-                s15c_dyncon_800D7E30(work, p, n, GV_StrCode(s15c_aConten_800E2DD0));
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_ub0"));
+                s15c_dyncon_800D7E30(work, p, n, GV_StrCode("con_ten"));
                 p++;
                 n++;
-                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConub_800E2DD8));
-                s15c_dyncon_800D7E30(work, p, n, GV_StrCode(s15c_aConten_800E2DD0));
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_ub0"));
+                s15c_dyncon_800D7E30(work, p, n, GV_StrCode("con_ten"));
                 p++;
                 n++;
-                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConuf_800E2DC8));
-                s15c_dyncon_800D7E30(work, p, n, GV_StrCode(s15c_aConten_800E2DD0));
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_uf0"));
+                s15c_dyncon_800D7E30(work, p, n, GV_StrCode("con_ten"));
                 p++;
                 n += 5;
             }
             else
             {
-                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConuf_800E2DC8));
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_uf0"));
                 n++;
-                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConub_800E2DD8));
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_ub0"));
                 n++;
-                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConub_800E2DD8));
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_ub0"));
                 n++;
-                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aConuf_800E2DC8));
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_uf0"));
                 n++;
-                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aContf_800E2DE0));
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_tf"));
                 n++;
-                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aContb_800E2DE8));
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_tb"));
                 n++;
-                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aContb_800E2DE8));
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_tb"));
                 n++;
-                s15c_dyncon_800D7EF4(work, n, GV_StrCode(s15c_aContf_800E2DE0));
+                s15c_dyncon_800D7EF4(work, n, GV_StrCode("con_tf"));
                 n++;
             }
         }
@@ -983,44 +1762,44 @@ int s15c_dyncon_800D8510(Work *work)
     work->field_3F80[3][2] = 5000;
     work->field_3F80[3][3] = 9000;
 
-    work->field_3DE0[0][0] = GV_StrCode(s15c_aConuf_800E2DC8);
-    work->field_3DE0[0][1] = GV_StrCode(s15c_aConuf_800E2DF0);
-    work->field_3DE0[0][2] = GV_StrCode(s15c_aConuf_800E2DF8);
-    work->field_3DE0[0][3] = GV_StrCode(s15c_aConuf_800E2E00);
-    work->field_3DE0[0][4] = GV_StrCode(s15c_aBr_800E2E08);
-    work->field_3DE0[0][5] = GV_StrCode(s15c_aBr_800E2E0C);
-    work->field_3DE0[0][6] = GV_StrCode(s15c_aConub_800E2DD8);
-    work->field_3DE0[0][7] = GV_StrCode(s15c_aConub_800E2E10);
-    work->field_3DE0[0][8] = GV_StrCode(s15c_aConub_800E2E18);
-    work->field_3DE0[0][9] = GV_StrCode(s15c_aConub_800E2E20);
-    work->field_3DE0[0][10] = GV_StrCode(s15c_aBr_800E2E28);
-    work->field_3DE0[0][11] = GV_StrCode(s15c_aBr_800E2E2C);
+    work->field_3DE0[0][0] = GV_StrCode("con_uf0");
+    work->field_3DE0[0][1] = GV_StrCode("con_uf1");
+    work->field_3DE0[0][2] = GV_StrCode("con_uf2");
+    work->field_3DE0[0][3] = GV_StrCode("con_uf3");
+    work->field_3DE0[0][4] = GV_StrCode("br5");
+    work->field_3DE0[0][5] = GV_StrCode("br6");
+    work->field_3DE0[1][0] = GV_StrCode("con_ub0");
+    work->field_3DE0[1][1] = GV_StrCode("con_ub1");
+    work->field_3DE0[1][2] = GV_StrCode("con_ub2");
+    work->field_3DE0[1][3] = GV_StrCode("con_ub3");
+    work->field_3DE0[1][4] = GV_StrCode("br7");
+    work->field_3DE0[1][5] = GV_StrCode("br8");
 
-    work->field_3DE0[1][0] = GV_StrCode(s15c_aConuf_800E2DC8);
-    work->field_3DE0[1][1] = GV_StrCode(s15c_aConuf_800E2DF0);
-    work->field_3DE0[1][2] = GV_StrCode(s15c_aConuf_800E2DF8);
-    work->field_3DE0[1][3] = GV_StrCode(s15c_aConuf_800E2E00);
-    work->field_3DE0[1][4] = GV_StrCode(s15c_aConuf_800E2E00);
-    work->field_3DE0[1][5] = GV_StrCode(s15c_aConuf_800E2E00);
-    work->field_3DE0[1][6] = GV_StrCode(s15c_aConub_800E2DD8);
-    work->field_3DE0[1][7] = GV_StrCode(s15c_aConub_800E2E10);
-    work->field_3DE0[1][8] = GV_StrCode(s15c_aConub_800E2E18);
-    work->field_3DE0[1][9] = GV_StrCode(s15c_aConub_800E2E20);
-    work->field_3DE0[1][10] = GV_StrCode(s15c_aConub_800E2E20);
-    work->field_3DE0[1][11] = GV_StrCode(s15c_aConub_800E2E20);
+    work->field_3DE0[2][0] = GV_StrCode("con_uf0");
+    work->field_3DE0[2][1] = GV_StrCode("con_uf1");
+    work->field_3DE0[2][2] = GV_StrCode("con_uf2");
+    work->field_3DE0[2][3] = GV_StrCode("con_uf3");
+    work->field_3DE0[2][4] = GV_StrCode("con_uf3");
+    work->field_3DE0[2][5] = GV_StrCode("con_uf3");
+    work->field_3DE0[3][0] = GV_StrCode("con_ub0");
+    work->field_3DE0[3][1] = GV_StrCode("con_ub1");
+    work->field_3DE0[3][2] = GV_StrCode("con_ub2");
+    work->field_3DE0[3][3] = GV_StrCode("con_ub3");
+    work->field_3DE0[3][4] = GV_StrCode("con_ub3");
+    work->field_3DE0[3][5] = GV_StrCode("con_ub3");
 
-    work->field_3DE0[2][0] = GV_StrCode(s15c_aConuf_800E2DC8);
-    work->field_3DE0[2][1] = GV_StrCode(s15c_aConuf_800E2DF0);
-    work->field_3DE0[2][2] = GV_StrCode(s15c_aConuf_800E2DF8);
-    work->field_3DE0[2][3] = GV_StrCode(s15c_aConuf_800E2E00);
-    work->field_3DE0[2][4] = GV_StrCode(s15c_aConuf_800E2E00);
-    work->field_3DE0[2][5] = GV_StrCode(s15c_aConuf_800E2E00);
-    work->field_3DE0[2][6] = GV_StrCode(s15c_aConub_800E2DD8);
-    work->field_3DE0[2][7] = GV_StrCode(s15c_aConub_800E2E10);
-    work->field_3DE0[2][8] = GV_StrCode(s15c_aConub_800E2E18);
-    work->field_3DE0[2][9] = GV_StrCode(s15c_aConub_800E2E20);
-    work->field_3DE0[2][10] = GV_StrCode(s15c_aConub_800E2E20);
-    work->field_3DE0[2][11] = GV_StrCode(s15c_aConub_800E2E20);
+    work->field_3DE0[4][0] = GV_StrCode("con_uf0");
+    work->field_3DE0[4][1] = GV_StrCode("con_uf1");
+    work->field_3DE0[4][2] = GV_StrCode("con_uf2");
+    work->field_3DE0[4][3] = GV_StrCode("con_uf3");
+    work->field_3DE0[4][4] = GV_StrCode("con_uf3");
+    work->field_3DE0[4][5] = GV_StrCode("con_uf3");
+    work->field_3DE0[5][0] = GV_StrCode("con_ub0");
+    work->field_3DE0[5][1] = GV_StrCode("con_ub1");
+    work->field_3DE0[5][2] = GV_StrCode("con_ub2");
+    work->field_3DE0[5][3] = GV_StrCode("con_ub3");
+    work->field_3DE0[5][4] = GV_StrCode("con_ub3");
+    work->field_3DE0[5][5] = GV_StrCode("con_ub3");
 
     s15c_dyncon_800D7F88(work);
 
@@ -1203,7 +1982,6 @@ int s15c_dyncon_800D8A9C(Work *work, int map)
 
     return 0;
 }
-extern void s15c_dyncon_800D6528(void *work);
 
 GV_ACT *s15c_dyncon_800D8C9C(int name, int where)
 {
@@ -1222,3 +2000,6 @@ GV_ACT *s15c_dyncon_800D8C9C(int name, int where)
     }
     return &work->actor;
 }
+
+/* 8 characters, no terminator: the NUL is the first byte of the next object */
+const char s15c_dword_800E2E30[8] = "dyncon.c";
