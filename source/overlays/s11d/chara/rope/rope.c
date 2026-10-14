@@ -1156,7 +1156,119 @@ void s11d_rope_800C6B18(Work *work, int arg1)
 
 work->control.step.vz -= 0x6C;
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6CD4.s")
+void s11d_rope_800C6CD4(Work *work, int arg1)
+{
+    int up;
+    int down;
+    int mask_up = PAD_UP;
+    int mask_down = PAD_DOWN;
+
+    if (arg1 == 0)
+    {
+        if (work->object.action != 8)
+        {
+            GM_ConfigObjectAction(&work->object, 8, 0, 4);
+        }
+        work->field_EB8 = 0;
+        work->field_EB4 = 0;
+        work->field_F74 |= 0x10000;
+        work->target->size.vy = 0xC8;
+        work->control.turn.vy = 0x800;
+        work->field_EBC = 4;
+        work->field_F44 = 0x1C2;
+    }
+
+    if (s11d_rope_800C4DE0(work))
+    {
+        work->target->size.vy = 0x384;
+        work->field_EAC = (int)s11d_rope_800C766C;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        work->field_F74 &= 0xFFBFFFFF;
+        return;
+    }
+
+    up = work->field_F74;
+    if (up & 0x1000)
+    {
+        up = 0;
+    }
+    else
+    {
+        up = (work->pad->status & mask_up) != 0;
+    }
+    if (up)
+    {
+        work->target->size.vy = 0x384;
+        work->field_EAC = (int)s11d_rope_800C7138;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    down = work->field_F74;
+    if (down & 0x2000)
+    {
+        down = 0;
+    }
+    else
+    {
+        down = (work->pad->status & mask_down) != 0;
+    }
+    if (down)
+    {
+        work->target->size.vy = 0x384;
+        work->field_EAC = (int)s11d_rope_800C7320;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C52F0(work))
+    {
+        work->target->size.vy = 0x384;
+        work->field_EAC = (int)s11d_rope_800C6F28;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (!(work->pad->status & PAD_CIRCLE))
+    {
+        work->field_F68 = -4;
+        work->field_EBE = 1;
+    }
+
+    if (work->field_EBE == 1)
+    {
+        work->field_EBC--;
+        if (work->field_EBC == 0)
+        {
+            work->target->size.vy = 0x384;
+
+            if (work->field_F74 & 0x2000)
+            {
+                GM_SeSetMode(&work->control.mov, 0xb2, 1);
+                s11d_rope_800C650C();
+                work->field_EAC = (int)s11d_rope_800C6834;
+            }
+            else
+            {
+                work->field_EAC = (int)s11d_rope_800C7530;
+            }
+
+            work->field_EB0 = 0;
+            work->field_EBE = 0;
+            work->field_EBC = 0;
+        }
+    }
+
+    work->control.step.vz -= 0x6C;
+}
 #pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C6F28.s")
 void s11d_rope_800C7138(Work *work, int arg1)
 {
