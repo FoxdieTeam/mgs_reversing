@@ -163,7 +163,6 @@ void s11g_11g_demo_800CB858(SVECTOR *pos, int se_id)
     GM_SeSetMode(pos, se_id, GM_SEMODE_BOMB);
 }
 
-#if 0 /* NON_MATCHING: register allocation of prev (a0 instead of v1) and scheduling in the counter block */
 void s11g_11g_demo_800CB878(Work *work, SVECTOR *pos, int index)
 {
     SVECTOR *verts;
@@ -195,14 +194,12 @@ void s11g_11g_demo_800CB878(Work *work, SVECTOR *pos, int index)
     }
 
     *verts++ = *pos;
-    *verts++ = prev[0];
+    *verts++ = *prev;
     *verts = *pos;
     verts->vy -= 100;
-    verts[1] = prev[2];
+    prev += 2;
+    verts[1] = *prev;
 }
-#endif
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_11g_demo_800CB878.s")
-void s11g_11g_demo_800CB878(Work *, SVECTOR *, int);
 
 void s11g_11g_demo_800CB994(Work *work)
 {
