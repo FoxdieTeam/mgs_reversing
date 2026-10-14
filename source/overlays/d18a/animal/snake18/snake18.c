@@ -107,7 +107,11 @@ typedef struct _Snake18Queue
     short   field_14;   // 0x8EC
 } Snake18Queue;
 
-typedef struct _Snake18Work
+typedef struct _Snake18Work Snake18Work;
+
+typedef void (*Snake18Func)(Snake18Work *work, int time);
+
+struct _Snake18Work
 {
     GV_ACT         actor;         // 0x000
     CONTROL        control;       // 0x020
@@ -123,18 +127,18 @@ typedef struct _Snake18Work
     int           *enable_shadow; // 0x7E0
 
     int     f7E4;        // 0x7E4
-    short  *f7E8;        // 0x7E8 (pointer slot, used by 800CC8E0 etc.)
+    TARGET *f7E8;        // 0x7E8
     TARGET  f7EC;        // 0x7EC
     char    pad_834[0x834 - 0x7EC - sizeof(TARGET)];
-    int     f834;        // 0x834 (TARGET *)
+    TARGET *f834;        // 0x834: target being held/punched
     SVECTOR f838;        // 0x838
     int     f840;        // 0x840
     char    pad_848[0x848 - 0x840 - sizeof(int)];
     SVECTOR f848;        // 0x848
-    void   *f850;        // 0x850
-    int     f854;        // 0x854
+    GV_ACT *f850;        // 0x850: weapon actor
+    Snake18Func f854;    // 0x854: weapon state
     int     f858;        // 0x858
-    int     f85C;        // 0x85C
+    u_long  f85C;        // 0x85C: trigger
     short  *f860;        // 0x860
     int     f864;        // 0x864
     char    pad_868[0x868 - 0x864 - sizeof(int)];
@@ -149,12 +153,12 @@ typedef struct _Snake18Work
     int     f8A0;        // 0x8A0
     GV_PAD *pad;         // 0x8A4
     ACTPACK18 *f8A8;   // 0x8A8
-    void   *f8AC;        // 0x8AC (callback pointer)
+    Snake18Func f8AC;    // 0x8AC
     int     f8B0;        // 0x8B0
-    void   *f8B4;        // 0x8B4 (callback pointer)
+    Snake18Func f8B4;    // 0x8B4
     int     f8B8;        // 0x8B8
-    void   *f8BC;        // 0x8BC (callback pointer)
-    void   *f8C0;        // 0x8C0 (callback pointer)
+    Snake18Func f8BC;    // 0x8BC
+    Snake18Func f8C0;    // 0x8C0
     Snake18Init f8C4;    // 0x8C4
     Snake18Queue f8D8;   // 0x8D8
     short   f8EE;        // 0x8EE
@@ -186,7 +190,7 @@ typedef struct _Snake18Work
     int     f930;        // 0x930
     int     f934;        // 0x934
     SVECTOR f938;        // 0x938
-} Snake18Work;
+};
 
 typedef struct _PUNCH
 {
@@ -199,8 +203,8 @@ typedef struct _PUNCH
 
 typedef struct WeaponCreateEntry
 {
-    void *mCreateActorFn;
-    void *mStateFn;
+    void       *(*mCreateActorFn)(CONTROL *, OBJECT *, int, u_long *, int);
+    Snake18Func mStateFn;
 } WeaponCreateEntry;
 
 extern const char d18a_aWorkheightdlevelsd_800DA684[];
@@ -248,7 +252,7 @@ void d18a_snake18_800CB59C(Snake18Work *work);
 void d18a_snake18_800CB60C(Snake18Work *work);
 int d18a_snake18_800CB710(Snake18Work *work, int a1);
 void d18a_snake18_800CB760(Snake18Work *work, int arg1);
-void d18a_snake18_800CB7BC(Snake18Work *work, int arg1);
+void d18a_snake18_800CB7BC(Snake18Work *work, Snake18Func func);
 void d18a_snake18_800CB7D0(Snake18Work *work, int arg1);
 void d18a_snake18_800CB838(Snake18Work *work);
 void d18a_snake18_800CB888(Snake18Work *work);
@@ -288,15 +292,15 @@ void d18a_snake18_800CD930(Snake18Work *work, int arg1);
 void d18a_snake18_800CD9A8(Snake18Work *work, int time);
 void d18a_snake18_800CDB04(Snake18Work *work, int time);
 void d18a_snake18_800CDC3C(Snake18Work *work, int time);
-void d18a_snake18_800CDD4C(Snake18Work *work);
-void d18a_snake18_800CDE8C(Snake18Work *work);
-void d18a_snake18_800CDFC8(Snake18Work *work);
-void d18a_snake18_800CE09C(Snake18Work *work);
-void d18a_snake18_800CE210(Snake18Work *work);
-void d18a_snake18_800CE38C(Snake18Work *work);
-void d18a_snake18_800CE4E4(Snake18Work *work);
-void d18a_snake18_800CE6B0(); /* asm */
-void d18a_snake18_800CE7BC(void);
+void d18a_snake18_800CDD4C(Snake18Work *work, int time);
+void d18a_snake18_800CDE8C(Snake18Work *work, int time);
+void d18a_snake18_800CDFC8(Snake18Work *work, int time);
+void d18a_snake18_800CE09C(Snake18Work *work, int time);
+void d18a_snake18_800CE210(Snake18Work *work, int time);
+void d18a_snake18_800CE38C(Snake18Work *work, int time);
+void d18a_snake18_800CE4E4(Snake18Work *work, int time);
+void d18a_snake18_800CE6B0(Snake18Work *work, int time);
+void d18a_snake18_800CE7BC(Snake18Work *work, int time);
 void d18a_snake18_800CE7C4(Snake18Work *work, int arg1);
 void d18a_snake18_800CE834(Snake18Work *work, int arg1);
 void d18a_snake18_800CE8E0(Snake18Work *work, int arg1);
@@ -306,7 +310,7 @@ void d18a_snake18_800CEB78(Snake18Work *work, int arg1);
 void d18a_snake18_800CEC68(Snake18Work *work, int time);
 void d18a_snake18_800CECE0(Snake18Work *work, int time);
 void d18a_snake18_800CED2C(Snake18Work *work, int arg1);
-void d18a_snake18_800CEDB0(Snake18Work *work);
+void d18a_snake18_800CEDB0(Snake18Work *work, int time);
 void d18a_snake18_800CEE60(Snake18Work *work);
 void d18a_snake18_800CEEAC(Snake18Work *work, int arg1);
 void d18a_snake18_800CEF0C(Snake18Work *work, int arg1);
@@ -315,7 +319,7 @@ void d18a_snake18_800CF03C(Snake18Work *work, int time);
 void d18a_snake18_800CF198(Snake18Work *work, int time);
 void d18a_snake18_800CF39C(Snake18Work *work, int time);
 void d18a_snake18_800CF574(Snake18Work *work, int time);
-void d18a_snake18_800CF718(int arg0, int arg1);
+void d18a_snake18_800CF718(Snake18Work *work, int time);
 void d18a_snake18_800CF744(Snake18Work *work, int time);
 void d18a_snake18_800CF850(Snake18Work *work, int time);
 void d18a_snake18_800CF990(Snake18Work *work, int time);
@@ -328,21 +332,21 @@ void d18a_snake18_800D0054(Snake18Work *work, int arg1);
 void d18a_snake18_800D00E0(Snake18Work *work, int arg1);
 void d18a_snake18_800D01D8(Snake18Work *work, int time);
 void d18a_snake18_800D0974(Snake18Work *work);
-void d18a_snake18_800D09B4(Snake18Work *work);
-void d18a_snake18_800D0A10(Snake18Work *work);
-void d18a_snake18_800D0AF8(Snake18Work *work);
-void d18a_snake18_800D0B4C(Snake18Work *work);
-void d18a_snake18_800D0B84(Snake18Work *work);
+void d18a_snake18_800D09B4(Snake18Work *work, int time);
+void d18a_snake18_800D0A10(Snake18Work *work, int time);
+void d18a_snake18_800D0AF8(Snake18Work *work, int time);
+void d18a_snake18_800D0B4C(Snake18Work *work, int time);
+void d18a_snake18_800D0B84(Snake18Work *work, int time);
 int d18a_snake18_800D0BF4(Snake18Work *work);
 void d18a_snake18_800D0E3C(Snake18Work *work);
 void d18a_snake18_800D1064(Snake18Work *work);
 void d18a_snake18_800D11A8(Snake18Work *work);
 void d18a_snake18_800D1300(Snake18Work *work);
-void d18a_snake18_800D1424(Snake18Work *work);
-void d18a_snake18_800D1598(Snake18Work *work);
-void d18a_snake18_800D1750(Snake18Work *work);
-void d18a_snake18_800D1814(Snake18Work *work);
-void d18a_snake18_800D18EC(Snake18Work *work);
+void d18a_snake18_800D1424(Snake18Work *work, int time);
+void d18a_snake18_800D1598(Snake18Work *work, int time);
+void d18a_snake18_800D1750(Snake18Work *work, int time);
+void d18a_snake18_800D1814(Snake18Work *work, int time);
+void d18a_snake18_800D18EC(Snake18Work *work, int time);
 void d18a_snake18_800D198C(Snake18Work *work, int amount);
 void d18a_snake18_800D1A08(Snake18Work *work);
 void d18a_snake18_800D1A6C(Snake18Work *work, int arg1);
@@ -355,14 +359,14 @@ void d18a_snake18_800D200C(Snake18Work *work, int time);
 void d18a_snake18_800D20EC(Snake18Work *work, int time);
 void d18a_snake18_800D22C8(Snake18Work *work, int a1);
 void d18a_snake18_800D23F0(Snake18Work *work, int time);
-void d18a_snake18_800D24CC(Snake18Work *work);
+void d18a_snake18_800D24CC(Snake18Work *work, int time);
 void d18a_snake18_800D2660(Snake18Work *work, int arg1);
-void d18a_snake18_800D26E4(Snake18Work *work);
+void d18a_snake18_800D26E4(Snake18Work *work, int time);
 void d18a_snake18_800D281C(Snake18Work *work);
 void d18a_snake18_800D28CC(Snake18Work *work, int time);
 void d18a_snake18_800D2A80(Snake18Work *work, int time);
-void d18a_snake18_800D2D88(Snake18Work *work);
-void d18a_snake18_800D2F70(Snake18Work *work);
+void d18a_snake18_800D2D88(Snake18Work *work, int time);
+void d18a_snake18_800D2F70(Snake18Work *work, int time);
 void d18a_snake18_800D3024(Snake18Work *work, int time);
 void d18a_snake18_800D3218(Snake18Work *work, int time);
 void d18a_snake18_800D3330(Snake18Work *work, int time);
@@ -404,7 +408,7 @@ static inline void d18a_snake18_SetOverride(Snake18Work *work, int action, int i
     }
 }
 
-static inline void d18a_snake18_StartAnim(Snake18Work *work, void *func)
+static inline void d18a_snake18_StartAnim(Snake18Work *work, Snake18Func func)
 {
     work->f8AC = func;
     work->f8B0 = 0;
@@ -479,7 +483,7 @@ ACTPACK18 snake18_weapon_actions[10] = {
 
 int d18a_dword_800C37E0 = 980;
 
-void *d18a_dword_800C37E4[] = {d18a_snake18_800CD64C, d18a_snake18_800CD768, d18a_snake18_800CD808};
+Snake18Func d18a_dword_800C37E4[] = {d18a_snake18_800CD64C, d18a_snake18_800CD768, d18a_snake18_800CD808};
 void *d18a_dword_800C37F0[] = {d18a_snake18_800CD9A8, d18a_snake18_800CDC3C};
 
 short d18a_dword_800C37F8[] = {750, 250, 250, 0};
@@ -1107,9 +1111,9 @@ void d18a_snake18_800CB760( Snake18Work *work, int arg1 )
     }
 }
 
-void d18a_snake18_800CB7BC(Snake18Work *work, int arg1)
+void d18a_snake18_800CB7BC(Snake18Work *work, Snake18Func func)
 {
-    work->f854 = arg1;
+    work->f854 = func;
     work->f858 = 0;
     work->f86E = 0;
     work->f86C = 0;
@@ -1133,7 +1137,7 @@ void d18a_snake18_800CB838(Snake18Work *work)
 {
     if (!(work->f868 & 4) && (GM_PlayerStatus & PLAYER_ATTACK) && (work->f86C != 3))
     {
-        work->f85C = (int)(work->f85C | 9);
+        work->f85C |= 9;
     }
 }
 
@@ -1179,16 +1183,14 @@ int d18a_snake18_800CB9CC(Snake18Work *arg0, PUNCH *arg1)
 {
     SVECTOR sp18;
     TARGET *temp_s1;
-    int     temp_v0;
 
     temp_s1 = &arg0->f7EC;
-    GM_SetTarget(temp_s1, 2, arg0->f930, (SVECTOR *)((char *)arg1 + 0x8));
+    GM_SetTarget(temp_s1, 2, arg0->f930, &arg1->size);
     GM_SetCaptureTarget(temp_s1, arg1->life, arg1->faint, &arg0->f840, &arg0->f848);
-    DG_PutVector((SVECTOR *)arg1, &sp18, 1);
+    DG_PutVector(&arg1->field_0, &sp18, 1);
     GM_MoveTarget(temp_s1, &sp18);
-    temp_v0 = (int)GM_CaptureTarget(temp_s1);
-    arg0->f834 = temp_v0;
-    return temp_v0 != 0;
+    arg0->f834 = GM_CaptureTarget(temp_s1);
+    return arg0->f834 != NULL;
 }
 int d18a_snake18_800CBA64(Snake18Work *work, PUNCH *arg1)
 {
@@ -1197,12 +1199,12 @@ int d18a_snake18_800CBA64(Snake18Work *work, PUNCH *arg1)
     TARGET *t;
 
     target = &work->f7EC;
-    GM_SetTarget(target, 0x40, work->f930, (SVECTOR *)((char *)arg1 + 0x8));
+    GM_SetTarget(target, 0x40, work->f930, &arg1->size);
     GM_SetCaptureTarget(target, arg1->life, 0, &work->f840, &work->f848);
-    DG_PutVector((SVECTOR *)arg1, &vec, 1);
+    DG_PutVector(&arg1->field_0, &vec, 1);
     GM_MoveTarget(target, &vec);
     t = GM_C4Target(target);
-    work->f834 = (int)t;
+    work->f834 = t;
     if (t == NULL)
     {
         return 0;
@@ -1265,7 +1267,7 @@ int d18a_snake18_800CBBC8(Snake18Work *work)
 
         if (tbl & 0x10)
         {
-            d18a_snake18_StartAnim(work, (void *)work->f854);
+            d18a_snake18_StartAnim(work, work->f854);
             work->f7E4 |= 4;
             return 1;
         }
@@ -1699,7 +1701,7 @@ int d18a_snake18_800CC490(Snake18Work *work)
                 control->levels[0] = 9600;
             }
 
-            target = (TARGET *)work->f7E8;
+            target = work->f7E8;
             work->f8F4 = 0;
             target->class &= ~TARGET_PUSH;
 
@@ -1808,19 +1810,19 @@ void d18a_snake18_800CC7F4(Snake18Work *work)
 
 void d18a_snake18_800CC8B0(Snake18Work *work, char arg1)
 {
-    int    mask = PLAYER_INVINCIBLE;
-    short *p    = work->f7E8;
+    int     mask = PLAYER_INVINCIBLE;
+    TARGET *target = work->f7E8;
     GM_PlayerStatus |= mask;
     work->f8FC = arg1;
-    *p &= 0xFF61;
+    target->class &= 0xFF61;
 }
 
 void d18a_snake18_800CC8E0(Snake18Work *arg0)
 {
-    short *p = arg0->f7E8;
-    short v = *p;
+    TARGET *target = arg0->f7E8;
+    short   class = target->class;
     GM_PlayerStatus &= ~PLAYER_INVINCIBLE;
-    *p = v | 0x9E;
+    target->class = class | 0x9E;
 }
 
 static inline int d18a_snake18_CanBlink(Snake18Work *work)
@@ -1920,7 +1922,7 @@ void d18a_snake18_800CCB50(Snake18Work *work)
         return;
     }
 
-    target = (TARGET *)work->f7E8;
+    target = work->f7E8;
     damaged = target->damaged;
 
     if (damaged & (TARGET_POWER | TARGET_CAPTURE))
@@ -1933,7 +1935,7 @@ void d18a_snake18_800CCB50(Snake18Work *work)
 
             if (work->f834)
             {
-                ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+                work->f834->damaged &= ~TARGET_CAPTURE;
                 work->f834 = 0;
                 work->f924 = 0;
             }
@@ -2008,7 +2010,7 @@ void d18a_snake18_800CCB50(Snake18Work *work)
                 }
             }
 
-            if (((TARGET *)work->f7E8)->vital <= 0)
+            if (work->f7E8->vital <= 0)
             {
                 d18a_snake18_StartAnim(work, d18a_snake18_800CF39C);
             }
@@ -2030,7 +2032,7 @@ void d18a_snake18_800CCB50(Snake18Work *work)
 void d18a_snake18_800CCF30(Snake18Work *work)
 {
     WeaponCreateEntry *e;
-    void *(*fn)(CONTROL *, OBJECT *, int, int *, int);
+    void *(*fn)(CONTROL *, OBJECT *, int, u_long *, int);
     int wid;
     void *actor = work->f850;
 
@@ -2050,7 +2052,7 @@ void d18a_snake18_800CCF30(Snake18Work *work)
         work->f860 = &GM_Weapons[ GM_Weapon ];
     }
 
-    d18a_snake18_800CB7BC(work, (int)e->mStateFn);
+    d18a_snake18_800CB7BC(work, e->mStateFn);
     fn = e->mCreateActorFn;
     if (fn)
     {
@@ -2110,7 +2112,7 @@ fail:
 
     if (tbl & 0x20)
     {
-        d18a_snake18_StartAnim(work, (void *)work->f854);
+        d18a_snake18_StartAnim(work, work->f854);
     }
     else if (GM_PlayerStatus & PLAYER_INTRUDE)
     {
@@ -2138,7 +2140,7 @@ fail:
 
     if (work->f834)
     {
-        ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+        work->f834->damaged &= ~TARGET_CAPTURE;
         work->f834 = 0;
         work->f924 = 0;
     }
@@ -2260,7 +2262,7 @@ void d18a_snake18_800CD4C0(Snake18Work *work)
 
     if (work->f834)
     {
-        ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+        work->f834->damaged &= ~TARGET_CAPTURE;
         work->f834 = 0;
         work->f924 = 0;
     }
@@ -2514,7 +2516,7 @@ void d18a_snake18_800CDC3C(Snake18Work *work, int time)
         work->control.step.vz += d18a_dword_800DAEF8->vz / 8;
     }
 }
-void d18a_snake18_800CDD4C(Snake18Work *work)
+void d18a_snake18_800CDD4C(Snake18Work *work, int time)
 {
     int action;
 
@@ -2563,7 +2565,7 @@ void d18a_snake18_800CDD4C(Snake18Work *work)
     d18a_snake18_StartAnim(work, d18a_snake18_800CE7C4);
 }
 
-void d18a_snake18_800CDE8C(Snake18Work *work)
+void d18a_snake18_800CDE8C(Snake18Work *work, int time)
 {
     int dir;
     int diff;
@@ -2612,7 +2614,7 @@ void d18a_snake18_800CDE8C(Snake18Work *work)
     }
 }
 
-void d18a_snake18_800CDFC8(Snake18Work *work)
+void d18a_snake18_800CDFC8(Snake18Work *work, int time)
 {
     if ((work->pad->press & PAD_CROSS) && !d18a_snake18_800CAF20(work))
     {
@@ -2636,7 +2638,7 @@ void d18a_snake18_800CDFC8(Snake18Work *work)
 
     d18a_snake18_StartAnim(work, d18a_snake18_800CD930);
 }
-void d18a_snake18_800CE09C(Snake18Work *work)
+void d18a_snake18_800CE09C(Snake18Work *work, int time)
 {
     int action;
     int dir;
@@ -2703,7 +2705,7 @@ void d18a_snake18_800CE09C(Snake18Work *work)
     d18a_snake18_800CB228(work, dir);
 }
 
-void d18a_snake18_800CE210(Snake18Work *work)
+void d18a_snake18_800CE210(Snake18Work *work, int time)
 {
     int dir;
     int backwards;
@@ -2762,7 +2764,7 @@ void d18a_snake18_800CE210(Snake18Work *work)
     work->control.turn.vy = d18a_snake18_800CAEC0(work, dir);
 }
 
-void d18a_snake18_800CE38C(Snake18Work *work)
+void d18a_snake18_800CE38C(Snake18Work *work, int time)
 {
     if (work->f910 != 0)
     {
@@ -2794,7 +2796,7 @@ void d18a_snake18_800CE38C(Snake18Work *work)
     d18a_snake18_800CBD34(work);
     d18a_snake18_800CBD80(work);
 }
-void d18a_snake18_800CE4E4(Snake18Work *work)
+void d18a_snake18_800CE4E4(Snake18Work *work, int time)
 {
     int action;
 
@@ -2846,7 +2848,7 @@ void d18a_snake18_800CE4E4(Snake18Work *work)
         GM_ConfigObjectAction(&work->body, action, 0, 4);
     }
 }
-void d18a_snake18_800CE6B0(Snake18Work *work)
+void d18a_snake18_800CE6B0(Snake18Work *work, int time)
 {
     /* one temporary for both values: being set twice, the 0x1C2 register is
        no "birth" for the scheduler, which keeps "li $v0,0x1c2" in the bnez
@@ -2880,7 +2882,7 @@ void d18a_snake18_800CE6B0(Snake18Work *work)
     d18a_snake18_800CBD80(work);
 }
 
-void d18a_snake18_800CE7BC(void)
+void d18a_snake18_800CE7BC(Snake18Work *work, int time)
 {
     /* do nothing */
 }
@@ -3077,7 +3079,7 @@ void d18a_snake18_800CEB78(Snake18Work *work, int arg1)
 
     if (arg1 == 4)
     {
-        d18a_snake18_800CB7BC(work, (int)d18a_snake18_800D2A80);
+        d18a_snake18_800CB7BC(work, d18a_snake18_800D2A80);
     }
 }
 void d18a_snake18_800CEC68(Snake18Work *work, int time)
@@ -3138,7 +3140,7 @@ void d18a_snake18_800CED2C(Snake18Work *work, int arg1)
     GM_PlayerStatus &= ~0x10;
 }
 
-void d18a_snake18_800CEDB0(Snake18Work *work)
+void d18a_snake18_800CEDB0(Snake18Work *work, int time)
 {
     if (GM_PlayerStatus & 2)
     {
@@ -3170,7 +3172,7 @@ void d18a_snake18_800CEE60(Snake18Work *work)
     {
         arg = work->f8B8;
         work->f8B8 = arg + 1;
-        ((void (*)(Snake18Work *, int))work->f8B4)(work, arg);
+        work->f8B4(work, arg);
     }
 }
 
@@ -3254,7 +3256,7 @@ void d18a_snake18_800CF03C(Snake18Work *work, int time)
         work->f8BC = d18a_snake18_800CE7BC;
         work->f8C0 = d18a_snake18_800D1814;
 
-        if (((TARGET *)work->f7E8)->vital <= 0)
+        if (work->f7E8->vital <= 0)
         {
             d18a_snake18_StartAnim(work, d18a_snake18_800CF39C);
             return;
@@ -3305,7 +3307,7 @@ void d18a_snake18_800CF198(Snake18Work *work, int time)
 
     if (time == 0)
     {
-        if (((TARGET *)work->f7E8)->vital <= 0 && GM_GameOverTimer == 0)
+        if (work->f7E8->vital <= 0 && GM_GameOverTimer == 0)
         {
             GM_SeSet(&work->control.mov, 0x1A);
             GM_GameOver();
@@ -3504,9 +3506,9 @@ void d18a_snake18_800CF574(Snake18Work *work, int time)
     }
 }
 
-void d18a_snake18_800CF718(int arg0, int arg1)
+void d18a_snake18_800CF718(Snake18Work *work, int time)
 {
-    if (arg1 == 0x258)
+    if (time == 0x258)
     {
         GM_GameOverTimer = 0;
         GM_GameOver();
@@ -3542,7 +3544,7 @@ void d18a_snake18_800CF744(Snake18Work *work, int time)
             GM_ConfigObjectAction(&work->body, action, 0, 4);
         }
 
-        if (((TARGET *)work->f7E8)->vital <= 0)
+        if (work->f7E8->vital <= 0)
         {
             d18a_snake18_StartAnim(work, d18a_snake18_800CF574);
             return;
@@ -3925,7 +3927,7 @@ void d18a_snake18_800D01D8(Snake18Work *work, int time)
 
         if (work->f834)
         {
-            ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+            work->f834->damaged &= ~TARGET_CAPTURE;
             work->f834 = 0;
             work->f924 = 0;
         }
@@ -4043,7 +4045,7 @@ next:
         if (work->f8D8.field_2[work->f910] == base * 3 + 1)
         {
             d18a_snake18_800CC8E0(work);
-            ((TARGET *)work->f7E8)->class &= ~TARGET_PUSH;
+            work->f7E8->class &= ~TARGET_PUSH;
         }
         else
         {
@@ -4145,7 +4147,7 @@ void d18a_snake18_800D0974( Snake18Work *work )
     }
 }
 
-void d18a_snake18_800D09B4( Snake18Work *work )
+void d18a_snake18_800D09B4(Snake18Work *work, int time)
 {
     u_short status;
 
@@ -4165,7 +4167,7 @@ void d18a_snake18_800D09B4( Snake18Work *work )
     }
 }
 
-void d18a_snake18_800D0A10(Snake18Work *work)
+void d18a_snake18_800D0A10(Snake18Work *work, int time)
 {
     int status;
     int flag;
@@ -4211,7 +4213,7 @@ void d18a_snake18_800D0A10(Snake18Work *work)
     d18a_snake18_800D0974(work);
 }
 
-void d18a_snake18_800D0AF8( Snake18Work *work)
+void d18a_snake18_800D0AF8(Snake18Work *work, int time)
 {
     if ( work->pad->press & ~PAD_TRIANGLE )
     {
@@ -4225,7 +4227,7 @@ void d18a_snake18_800D0AF8( Snake18Work *work)
     }
 }
 
-void d18a_snake18_800D0B4C(Snake18Work *work)
+void d18a_snake18_800D0B4C(Snake18Work *work, int time)
 {
     if (d18a_dword_800DAEF0 < 0)
     {
@@ -4240,7 +4242,7 @@ void d18a_snake18_800D0B4C(Snake18Work *work)
     work->control.turn.vx = 0;
 }
 
-void d18a_snake18_800D0B84(Snake18Work *work)
+void d18a_snake18_800D0B84(Snake18Work *work, int time)
 {
     int state = d18a_dword_800DAEF0;
     if (state < 0)
@@ -4586,7 +4588,7 @@ void d18a_snake18_800D1300(Snake18Work *work)
 
     work->control.turn.vy = turn;
 }
-void d18a_snake18_800D1424(Snake18Work *work)
+void d18a_snake18_800D1424(Snake18Work *work, int time)
 {
     unsigned short status;
     unsigned short press;
@@ -4626,7 +4628,7 @@ void d18a_snake18_800D1424(Snake18Work *work)
     }
 }
 
-void d18a_snake18_800D1598(Snake18Work *work)
+void d18a_snake18_800D1598(Snake18Work *work, int time)
 {
     unsigned short press;
     int            action;
@@ -4678,7 +4680,7 @@ void d18a_snake18_800D1598(Snake18Work *work)
     }
 }
 
-void d18a_snake18_800D1750(Snake18Work *work)
+void d18a_snake18_800D1750(Snake18Work *work, int time)
 {
     int new_action;
 
@@ -4705,7 +4707,7 @@ void d18a_snake18_800D1750(Snake18Work *work)
     d18a_snake18_800D1064(work);
 }
 
-void d18a_snake18_800D1814(Snake18Work *work)
+void d18a_snake18_800D1814(Snake18Work *work, int time)
 {
     if (!(work->pad->status & PAD_X))
     {
@@ -4734,7 +4736,7 @@ void d18a_snake18_800D1814(Snake18Work *work)
     }
 }
 
-void d18a_snake18_800D18EC(Snake18Work *work)
+void d18a_snake18_800D18EC(Snake18Work *work, int time)
 {
     int new_action;
 
@@ -4786,7 +4788,7 @@ void d18a_snake18_800D1A08(Snake18Work *work)
 
     if ((work->f868 & 0x40) && (GM_PlayerStatus & PLAYER_ATTACK))
     {
-        func = (void (*)(Snake18Work *, int))work->f854;
+        func = work->f854;
         if (func != NULL)
         {
             arg = work->f858;
@@ -5029,7 +5031,7 @@ void d18a_snake18_800D20EC(Snake18Work *work, int time)
         work->f7E4 |= 4;
         d18a_snake18_SetAction(work, work->f8A8->attack->field_0[6], 4);
 
-        target = (TARGET *)work->f834;
+        target = work->f834;
         DG_PutVector(&d18a_dword_800C3940, vec, 1);
         GV_SubVec3(&target->center, vec, vec);
 
@@ -5046,9 +5048,9 @@ void d18a_snake18_800D20EC(Snake18Work *work, int time)
     if (time == 6)
     {
         GM_SeSet(&work->control.mov, 0x31);
-        NewBakudan(((TARGET *)work->f834)->body, &d18a_dword_800C3948, 1, work->f930);
+        NewBakudan(work->f834->body, &d18a_dword_800C3948, 1, work->f930);
         work->f85C = 5;
-        ((TARGET *)work->f834)->damaged &= ~0x40;
+        work->f834->damaged &= ~0x40;
         work->f834 = 0;
     }
 
@@ -5116,7 +5118,7 @@ void d18a_snake18_800D23F0(Snake18Work *work, int time)
 
 static inline int d18a_snake18_CanTurnShoot(Snake18Work *work)
 {
-    if (work->f8A8->attack->field_0[3] == 0x9E || work->f854 == (int)d18a_snake18_800D28CC)
+    if (work->f8A8->attack->field_0[3] == 0x9E || work->f854 == d18a_snake18_800D28CC)
     {
         return 0;
     }
@@ -5124,7 +5126,7 @@ static inline int d18a_snake18_CanTurnShoot(Snake18Work *work)
     return 1;
 }
 
-void d18a_snake18_800D24CC(Snake18Work *work)
+void d18a_snake18_800D24CC(Snake18Work *work, int time)
 {
     GM_PlayerStatus &= ~PLAYER_MOVE;
 
@@ -5188,7 +5190,7 @@ void d18a_snake18_800D2660(Snake18Work *work, int arg1)
     work->control.turn.vx = 0;
     GM_PlayerStatus &= ~0x10;
 }
-void d18a_snake18_800D26E4(Snake18Work *work)
+void d18a_snake18_800D26E4(Snake18Work *work, int time)
 {
     int dir;
 
@@ -5294,7 +5296,7 @@ void d18a_snake18_800D28CC(Snake18Work *work, int time)
 
     if (work->body.time2 != 0)
     {
-        d18a_snake18_800CB7BC(work, (int)d18a_snake18_800D2A80);
+        d18a_snake18_800CB7BC(work, d18a_snake18_800D2A80);
 
         if (!(work->pad->status & PAD_SQUARE))
         {
@@ -5305,7 +5307,7 @@ void d18a_snake18_800D28CC(Snake18Work *work, int time)
                 GM_ConfigObjectOverride(&work->body, 0, 0, 4, 0);
             }
 
-            d18a_snake18_800CB7BC(work, (int)d18a_snake18_800CEB78);
+            d18a_snake18_800CB7BC(work, d18a_snake18_800CEB78);
             d18a_snake18_StartAnim(work, d18a_dword_800C37E4[work->f8FE]);
         }
     }
@@ -5340,7 +5342,7 @@ void d18a_snake18_800D2A80(Snake18Work *work, int time)
 
     if (GM_Magazine == 0 && GM_MagazineMax != 0 && GM_Weapons[work->f864] > 0)
     {
-        d18a_snake18_800CB7BC(work, (int)d18a_snake18_800D28CC);
+        d18a_snake18_800CB7BC(work, d18a_snake18_800D28CC);
         return;
     }
 
@@ -5396,7 +5398,7 @@ void d18a_snake18_800D2A80(Snake18Work *work, int time)
     {
         if (++work->f86E >= 5 || (tbl & 1))
         {
-            d18a_snake18_800CB7BC(work, (int)d18a_snake18_800CEB78);
+            d18a_snake18_800CB7BC(work, d18a_snake18_800CEB78);
             GM_ConfigMotionAdjust(&work->body, NULL);
             GM_PlayerStatus &= ~PLAYER_ATTACK;
         }
@@ -5406,7 +5408,7 @@ void d18a_snake18_800D2A80(Snake18Work *work, int time)
         work->f86E = 0;
     }
 }
-void d18a_snake18_800D2D88(Snake18Work *work)
+void d18a_snake18_800D2D88(Snake18Work *work, int time)
 {
     int     ammo;
     int     max;
@@ -5476,7 +5478,7 @@ void d18a_snake18_800D2D88(Snake18Work *work)
     }
 }
 
-void d18a_snake18_800D2F70(Snake18Work *work)
+void d18a_snake18_800D2F70(Snake18Work *work, int time)
 {
     int          trg;
     Snake18Init *init;
@@ -5694,11 +5696,11 @@ void d18a_snake18_800D3508(Snake18Work *work, int time)
             }
         }
 
-        if (((TARGET *)work->f834)->class & 0x20)
+        if (work->f834->class & 0x20)
         {
             if (work->f834)
             {
-                ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+                work->f834->damaged &= ~TARGET_CAPTURE;
                 work->f834 = 0;
                 work->f924 = 0;
             }
@@ -5715,7 +5717,7 @@ void d18a_snake18_800D3508(Snake18Work *work, int time)
         work->f848.vy += 0x800;
 
         vec = &work->f838;
-        target = (TARGET *)work->f834;
+        target = work->f834;
         DG_PutVector(&punch->field_0, vec, 1);
         GV_SubVec3(&target->center, vec, vec);
 
@@ -5735,7 +5737,7 @@ void d18a_snake18_800D3508(Snake18Work *work, int time)
 
         if (work->f834)
         {
-            ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+            work->f834->damaged &= ~TARGET_CAPTURE;
             work->f834 = 0;
             work->f924 = 0;
         }
@@ -5768,12 +5770,12 @@ void d18a_snake18_800D37FC(Snake18Work *work, int time)
         GM_PlayerStatus &= ~PLAYER_MOVE;
         work->f924 = 0;
 
-        if (!d18a_snake18_800CB9CC(work, &d18a_dword_800C3990) || (((TARGET *)work->f834)->class & 0x20) ||
+        if (!d18a_snake18_800CB9CC(work, &d18a_dword_800C3990) || (work->f834->class & 0x20) ||
             (GM_PlayerStatus & PLAYER_INVINCIBLE))
         {
             if (work->f834)
             {
-                ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+                work->f834->damaged &= ~TARGET_CAPTURE;
                 work->f834 = 0;
                 work->f924 = 0;
             }
@@ -5785,7 +5787,7 @@ void d18a_snake18_800D37FC(Snake18Work *work, int time)
 
         vec = &work->f838;
         rot = &work->control.rot;
-        DG_SetPos2(&((TARGET *)work->f834)->center, rot);
+        DG_SetPos2(&work->f834->center, rot);
 
         DG_PutVector(&d18a_dword_800C39B0, vec, 1);
         DG_SetPos2(&work->control.mov, rot);
@@ -5819,7 +5821,7 @@ void d18a_snake18_800D3A1C(Snake18Work *work, int time)
         work->f8C0 = d18a_snake18_800CE7BC;
         action = work->f8A8->special2->field_0[0];
         d18a_snake18_SetAction(work, action, 4);
-        ((TARGET *)work->f834)->a_mode = action;
+        work->f834->a_mode = action;
     }
 }
 void d18a_snake18_800D3A9C(Snake18Work *work, int time)
@@ -5832,7 +5834,7 @@ void d18a_snake18_800D3A9C(Snake18Work *work, int time)
         work->f8C0 = d18a_snake18_800CE7BC;
         action = work->f8A8->attack->field_0[6];
         d18a_snake18_SetAction(work, action, 4);
-        ((TARGET *)work->f834)->a_mode = action;
+        work->f834->a_mode = action;
     }
 }
 
@@ -5846,7 +5848,7 @@ void d18a_snake18_800D3B1C(Snake18Work *work, int time)
         action = work->f8A8->attack->field_0[7];
         work->f8BC = d18a_snake18_800CE7BC;
         work->f8C0 = d18a_snake18_800CE7BC;
-        target = (TARGET *)work->f834;
+        target = work->f834;
         d18a_snake18_SetAction(work, action, 4);
         target->a_mode = action;
         target->damage = 5;
@@ -5858,7 +5860,7 @@ void d18a_snake18_800D3B1C(Snake18Work *work, int time)
     {
         if (work->f834)
         {
-            ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+            work->f834->damaged &= ~TARGET_CAPTURE;
             work->f834 = 0;
             work->f924 = 0;
         }
@@ -5879,10 +5881,10 @@ void d18a_snake18_800D3C14(Snake18Work *work, int time)
         action = work->f8A8->special2->field_0[1];
         GM_PlayerStatus |= PLAYER_MOVE;
         d18a_snake18_SetAction(work, action, 4);
-        ((TARGET *)work->f834)->a_mode = action;
+        work->f834->a_mode = action;
     }
 
-    if (d18a_dword_800DAEF0 < 0 || !(work->pad->status & PAD_SQUARE) || ((TARGET *)work->f834)->vital <= 0)
+    if (d18a_dword_800DAEF0 < 0 || !(work->pad->status & PAD_SQUARE) || work->f834->vital <= 0)
     {
         d18a_snake18_StartAnim(work, d18a_snake18_800D3A1C);
         return;
@@ -5955,7 +5957,7 @@ static inline void d18a_snake18_ReleaseCapture(Snake18Work *work)
 {
     if (work->f834)
     {
-        ((TARGET *)work->f834)->damaged &= ~TARGET_CAPTURE;
+        work->f834->damaged &= ~TARGET_CAPTURE;
         work->f834 = 0;
         work->f924 = 0;
     }
@@ -5969,13 +5971,13 @@ void d18a_snake18_800D3ED0(Snake18Work *work, int time)
     unsigned short press;
     unsigned short status;
 
-    if (((TARGET *)work->f834)->vital <= 0)
+    if (work->f834->vital <= 0)
     {
         d18a_snake18_ReleaseCapture(work);
         return;
     }
 
-    if (!(((TARGET *)work->f834)->class & TARGET_CAPTURE))
+    if (!(work->f834->class & TARGET_CAPTURE))
     {
         d18a_snake18_ReleaseCapture(work);
         return;
@@ -6011,7 +6013,7 @@ void d18a_snake18_800D3FE8(Snake18Work *work, int time)
 {
     if (time == 0 || (work->pad->press & PAD_SQUARE))
     {
-        ((TARGET *)work->f834)->faint--;
+        work->f834->faint--;
 
         if (++work->f924 >= 11)
         {
@@ -6049,8 +6051,6 @@ const char d18a_aItemd_800DA78C[] = "item %d\n";
 const char d18a_aFlagx_800DA798[] = "flag %4x\n";
 const char d18a_aStanced_800DA7A4[] = "stance %d\n";
 const char d18a_aKaze_800DA7B0[] = "kaze \n";
-typedef void (*Snake18Func)(Snake18Work *, int);
-
 void d18a_snake18_800D40F0(Snake18Work *work)
 {
     int height;
@@ -6064,7 +6064,7 @@ void d18a_snake18_800D40F0(Snake18Work *work)
         height = 500;
     }
 
-    ((TARGET *)work->f7E8)->size.vy = height;
+    work->f7E8->size.vy = height;
 
     if (work->f904.vy < 0 && work->control.grounded)
     {
@@ -6118,9 +6118,9 @@ void d18a_snake18_800D40F0(Snake18Work *work)
     }
 
     frame = work->f8B0++;
-    ((Snake18Func)work->f8AC)(work, frame);
+    work->f8AC(work, frame);
 
-    ((GM_PlayerStatus & PLAYER_WATCH) ? (Snake18Func)work->f8C0 : (Snake18Func)work->f8BC)(work, frame);
+    ((GM_PlayerStatus & PLAYER_WATCH) ? work->f8C0 : work->f8BC)(work, frame);
 
     d18a_snake18_800D1A08(work);
     d18a_snake18_800CEE60(work);
@@ -6134,7 +6134,7 @@ void d18a_snake18_800D40F0(Snake18Work *work)
     d18a_snake18_800D4084(work);
     d18a_snake18_800CBB34(work);
 
-    if (((TARGET *)work->f7E8)->vital <= 0)
+    if (work->f7E8->vital <= 0)
     {
         work->control.seg_flag = 4;
     }
@@ -6146,7 +6146,7 @@ static inline void d18a_snake18_UpdateLife(Snake18Work *work)
     TARGET *target;
     int     vitality;
 
-    target = (TARGET *)work->f7E8;
+    target = work->f7E8;
     vitality = target->vital;
     vitality += GM_Vitality - work->f8FA;
     if (vitality > GM_VitalityMax)
@@ -6187,7 +6187,7 @@ void d18a_snake18_800D4388(Snake18Work *work)
     work->pad = &GV_PadData[0];
     d18a_snake18_800CABEC(work);
 
-    target = (TARGET *)work->f7E8;
+    target = work->f7E8;
     if (target->damaged & TARGET_PUSH)
     {
         GV_AddVec3(&target->offset, &work->control.step, &work->control.step);
@@ -6208,7 +6208,7 @@ void d18a_snake18_800D4388(Snake18Work *work)
 
     GM_ActObject(&work->body);
     DG_GetLightMatrix2(&work->control.mov, work->light);
-    GM_MoveTarget((TARGET *)work->f7E8, &work->control.mov);
+    GM_MoveTarget(work->f7E8, &work->control.mov);
 
     if (work->f7E4 & 0x800)
     {
@@ -6235,7 +6235,7 @@ void d18a_snake18_800D4388(Snake18Work *work)
 
     d18a_snake18_800D40F0(work);
 
-    target2 = (TARGET *)work->f7E8;
+    target2 = work->f7E8;
     target2->force = work->control.step;
     GM_PushTarget(target2);
 }
@@ -6244,7 +6244,7 @@ void d18a_snake18_800D46CC(Snake18Work *work)
     GV_DestroyOtherActor(work->shadow);
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
-    GM_FreeTarget((TARGET *)work->f7E8);
+    GM_FreeTarget(work->f7E8);
 
     GM_FreePrim(work->f874);
 
@@ -6373,7 +6373,7 @@ int d18a_snake18_800D49FC(Snake18Work *work)
     work->f798 = -1;
     work->f7E4 = 0;
     work->f850 = NULL;
-    work->f854 = 0;
+    work->f854 = NULL;
     work->f85C = 0;
     work->f864 = -1;
     work->f868 = 0;
@@ -6437,7 +6437,7 @@ int d18a_snake18_800D4B84( Snake18Work *work )
 int d18a_snake18_800D4BA4(Snake18Work *work)
 {
     TARGET *target = GM_AllocTarget();
-    work->f7E8 = (short *)target;
+    work->f7E8 = target;
     if (target == NULL)
     {
         return -1;
