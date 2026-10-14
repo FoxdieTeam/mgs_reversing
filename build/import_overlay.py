@@ -252,6 +252,42 @@ def split_functions(ow, lo, hi, tables, extra_starts):
             merged.append((s, e))
     return merged
 
+IMM_OPS = {1, 4, 5, 6, 7, 9, 13, 15, 20, 21, 22, 23, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 46, 50, 58}
+
+def norm_word(w):
+    op = w >> 26
+    if op in J_OPS:
+        return w & 0xFC000000
+    if op in IMM_OPS:
+        return w & 0xFFFF0000
+    return w
+
+def find_aliases(name, ow, lo, hi, wanted):
+    """Named asm functions of other overlays (kept as INCLUDE_ASM there, e.g. s11g_hind_800DAAC8)
+    that C files of those overlays call by name. If the very same code is found in this overlay,
+    its imported asm function also gets that name, so the C files can be shared.
+    returns {word index: symbol}"""
+    found = {}
+    nw = [norm_word(w) for w in ow]
+    index = defaultdict(list)
+    for i in range(lo, hi - 4):
+        index[tuple(nw[i:i + 4])].append(i)
+    for f in sorted(glob(os.path.join(ROOT, 'asm', 'overlays', '*', '*.s'))):
+        if os.path.basename(os.path.dirname(f)) == name:
+            continue
+        txt = open(f, errors='replace').read()
+        m = re.search(r'xdef\s+(\S+)', txt)
+        if not m or m.group(1) not in wanted:
+            continue
+        ws = [int(x, 16) for x in re.findall(r'dw 0x([0-9A-Fa-f]{8})', txt)]
+        if len(ws) < 8:
+            continue
+        key = [norm_word(w) for w in ws]
+        hits = [i for i in index.get(tuple(key[:4]), []) if nw[i:i + len(key)] == key]
+        if len(hits) == 1:
+            found[hits[0]] = m.group(1)
+    return found
+
 # ---------------------------------------------------------------------------
 
 def sec_words_masked(sec, size):
@@ -435,6 +471,14 @@ def run(args, exclude):
         t = line.split()
         if len(t) == 2:
             known.add(t[1])
+    wanted = set()
+    for c in cands:
+        if not c.is_lib:
+            wanted |= set(c.sections['__xrefs__'].values())
+    aliases = find_aliases(name, ow, (table_end - BASE) // 4, len(ow), wanted - known)
+    for i_, sym_ in sorted(aliases.items()):
+        print('alias %X %s' % (BASE + i_ * 4, sym_))
+    known |= set(aliases.values())
     excluded = []
     while True:
         defined = set(known)
@@ -624,7 +668,8 @@ def run(args, exclude):
         if it['kind'] != 'chunk':
             continue
         c_tables = [t for t in tables if it['lo'] <= min(t) < it['hi']]
-        chunk_funcs[k] = split_functions(ow, it['lo'], it['hi'], c_tables, [])
+        chunk_funcs[k] = split_functions(ow, it['lo'], it['hi'], c_tables,
+                                         [i_ for i_ in aliases if it['lo'] <= i_ < it['hi']])
 
     # known symbols, so data holding addresses can refer to them like in the main executable
     syms = {}
@@ -730,6 +775,9 @@ def run(args, exclude):
             funcs_total += 1
             if not args.dry:
                 lines = ['\topt\tc+, at+, e+, n-', '\tsection .text', '', '\txdef %s' % fname, '%s:' % fname]
+                if s in aliases:
+                    lines[3:3] = ['\txdef %s' % aliases[s]]
+                    lines.append('%s:' % aliases[s])
                 for x in range(s, e):
                     lines.append('\tdw 0x%08X ; %08X' % (ow[x], BASE + x * 4))
                 with open(os.path.join(asm_dir, fname + '.s'), 'w', newline='\n') as f:

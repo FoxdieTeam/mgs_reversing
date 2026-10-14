@@ -1,8 +1,10 @@
 	opt	c+, at+, e+, n-
 	section .text
 
+	xdef s11g_hind_800DAAC8
 	xdef s11b_800D89E0
 s11b_800D89E0:
+s11g_hind_800DAAC8:
 	dw 0x27BDFFA0 ; 800D89E0
 	dw 0xAFB30054 ; 800D89E4
 	dw 0x00809821 ; 800D89E8

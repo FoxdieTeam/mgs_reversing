@@ -1,4 +1,4 @@
 #include "mgstype.h"
 
+int s11h_dword_800C35C0 = 0x006BD182;
 
-const char s11h_dword_800DB0E4[] = "puthzd.c";
