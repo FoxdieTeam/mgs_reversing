@@ -1925,7 +1925,62 @@ void brf_800DA3A8(Work *work, POLY_FT4 *poly)
     }
     work->field_AD34++;
 }
-#pragma INCLUDE_ASM("asm/overlays/brf/brf_800DA4E8.s")
+void brf_800DA4E8(Work *work, POLY_FT4 *poly)
+{
+    int xl, xr, yt, yb;
+    int i, f;
+
+    f = work->field_AD34;
+
+    if (f < 0x30)
+    {
+        int t = -(f * 12);
+        xl = t + 0x7f;
+        yt = -0x11c;
+        xr = t + 0x27b;
+        yb = 0x64;
+    }
+    else if (f < 0x3D)
+    {
+        xl = -0x1b5;
+        for (i = 0; i < work->field_AD34 - 0x30; i++)
+        {
+            int t = xl - 12;
+            xl = t + i;
+        }
+        yt = -0x11c;
+        xr = xl + 0x1fc;
+        yb = 0x64;
+    }
+    else
+    {
+        xl = -0x203;
+        yt = -0x11c;
+        xr = -7;
+        yb = 0x64;
+    }
+    poly->x1 = xr;
+    poly->x3 = xr;
+    poly->x0 = xl;
+    poly->y0 = yt;
+    poly->y1 = yt;
+    poly->x2 = xl;
+    poly->y2 = yb;
+    poly->y3 = yb;
+    switch (work->field_AD34)
+    {
+    case 0xC:
+        GM_SeSet2(0x19, 0x3f, 0xb1);
+        break;
+    case 0x18:
+        GM_SeSet2(0, 0x3f, 0xb2);
+        break;
+    case 0x24:
+        GM_SeSet2(0xeb, 0x3f, 0xb1);
+        break;
+    }
+    work->field_AD34++;
+}
 void brf_800DA638(Work *work, POLY_FT4 *poly)
 {
     if (work->field_AD34 % 4 == 0)
