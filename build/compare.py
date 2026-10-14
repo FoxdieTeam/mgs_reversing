@@ -10,7 +10,10 @@ code, per function, so a mismatch in read-only data or data is reported as
 precisely as a mismatch in code.
 
 The section layout and the symbol names come from the linker map files
-(obj/asm.map for the exe, obj/asm_<overlay>_lhs.map for overlays).
+(obj/asm.map for the exe, obj/asm_<overlay>_lhs.map for overlays). The map only
+has exported symbols, so the local ones (static functions and variables) are
+read from the linked .obj files and placed relative to the exported symbols of
+the same object; every symbol in .text starts a function.
 
 References
 ----------
@@ -36,6 +39,7 @@ from dataclasses import dataclass, field
 
 from colorama import init as colorama_init
 from termcolor import colored
+from objlib import get_obj_symbols
 from uninitializer import extract
 
 TARGET_HASH = '4b8252b65953a02021486406cfcdca1c7670d1d1a8f3cf6e750ef6e360dc3a2f'
@@ -242,7 +246,6 @@ TARGET_VR_OVERLAYS_HASH = {
 }
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_DIR = os.path.dirname(SCRIPT_DIR)
-FUNCTIONS_FILE = os.path.join(SCRIPT_DIR, 'functions.txt')
 EXE_NAME = '_mgsi.exe'
 PSX_EXE_HEADER_SIZE = 0x800
 COLORS = os.environ.get('COLORS') != 'false'
@@ -259,14 +262,13 @@ class Variant:
     exe_hash: str
     overlay_hashes: dict
     cache_tag: str         # inserted into the names of the cached good copies
-    functions_file: str    # function list of the exe, or None (map symbols are used)
     um_dir: str            # um/<um_dir>/<overlay>.bin holds the uninitialized memory
 
 
 # build.py uses um/stage for the VR overlays too (um/stagevr/sound.bin is identical).
 VARIANTS = {
-    'main': Variant('main', '../obj', TARGET_HASH, TARGET_OVERLAYS_HASH, '', FUNCTIONS_FILE, 'stage'),
-    'vr': Variant('vr', '../obj_vr', TARGET_VR_HASH, TARGET_VR_OVERLAYS_HASH, '.vr', None, 'stage'),
+    'main': Variant('main', '../obj', TARGET_HASH, TARGET_OVERLAYS_HASH, '', 'stage'),
+    'vr': Variant('vr', '../obj_vr', TARGET_VR_HASH, TARGET_VR_OVERLAYS_HASH, '.vr', 'stage'),
 }
 
 
@@ -340,6 +342,7 @@ class Layout:
     sections: list             # Section, ascending, no overlaps, gaps filled with <padding>
     symbols: list              # (addr, name), ascending
     funcs: list                # (addr, name) of .text functions, ascending
+    unplaced: int = 0          # local symbols that could not be placed
     sym_addrs: list = field(default_factory=list)
     func_addrs: list = field(default_factory=list)
     sec_starts: list = field(default_factory=list)
@@ -404,15 +407,57 @@ def parse_map(path):
     return sections, symbols
 
 
-def read_functions_file(path):
+IN_FILE_KINDS = ('text', 'rdata', 'data', 'sdata', 'ctors', 'dtors')
+LINK_INCLUDE_RE = re.compile(r'^\s*include\s+"([^"]+)"', re.I)
+
+
+def linked_objects(link_file):
+    """Paths of the objects in a preprocessed linker command file, in link order."""
     ret = []
-    with open(path) as f:
+    if not os.path.exists(link_file):
+        return ret
+    with open(link_file, errors='replace') as f:
         for line in f:
-            split = line.rstrip().split(' ')
-            assert len(split) == 3, 'bad line in {}: {!r}'.format(path, line)
-            addr, size, name = split
-            ret.append((int(addr, 16), name))
+            m = LINK_INCLUDE_RE.match(line)
+            if m:
+                ret.append(os.path.normpath(os.path.join(SCRIPT_DIR, m.group(1).replace('\\', '/'))))
     return ret
+
+
+def object_symbols(link_file, map_symbols):
+    """Symbols the linker leaves out of its map: the local symbols (static functions and variables) of
+    the linked objects, placed at their final addresses.
+
+    The objects know the offset of each symbol in its section, the map knows where the exported symbols
+    ended up. An exported symbol of the same section anchors the section of that object, and the locals
+    follow at their offsets. Returns ([(addr, name, section kind, object)], number of locals in the file that could not be placed)."""
+    by_name = {}
+    for addr, name in map_symbols:
+        by_name.setdefault(name, addr)
+
+    found = []
+    unplaced = 0
+    for path in linked_objects(link_file):
+        if not os.path.exists(path):
+            continue
+        try:
+            syms = get_obj_symbols(path)
+        except Exception:
+            continue  # not an obj we can parse; its exported symbols are in the map anyway
+        bases = {}
+        for sec, off, name in syms['xdefs']:
+            if name in by_name and sec not in bases:
+                bases[sec] = by_name[name] - off
+        mod = os.path.splitext(os.path.basename(path))[0]
+        for sec, off, name in syms['locals']:
+            kind = syms['sections'].get(sec, '').rsplit('.', 1)[-1]
+            if name.startswith('$'):
+                continue
+            if sec in bases:
+                found.append((bases[sec] + off, name, kind, mod))
+            elif kind in IN_FILE_KINDS:
+                unplaced += 1  # nothing exported from that section to anchor it (bss is not in the file anyway)
+    return found, unplaced
 
 
 def fill_gaps(sections, base, end):
@@ -433,7 +478,7 @@ def fill_gaps(sections, base, end):
     return ret
 
 
-def load_layout(map_path, data, is_exe, functions_file=None):
+def load_layout(map_path, data, is_exe, link_file=None):
     """Section/symbol layout of a built binary, or None if there is no usable map."""
     if not os.path.exists(map_path):
         return None
@@ -458,21 +503,26 @@ def load_layout(map_path, data, is_exe, functions_file=None):
     for s in secs:
         s.off = header + s.start - base
 
-    text = [s for s in secs if s.kind == 'text']
+    unplaced = 0
+    if link_file:
+        locals_, unplaced = object_symbols(link_file, symbols)
+        # a name used by several objects is shown with the object it comes from
+        count = {}
+        for _, name, _, _ in locals_:
+            count[name] = count.get(name, 0) + 1
+        exported = {n for _, n in symbols}
+        extra = [(a, n if count[n] == 1 and n not in exported else '{}:{}'.format(mod, n))
+                 for a, n, _, mod in locals_]
+        symbols = sorted(symbols + extra, key=lambda s: s[0])
+
     funcs = []
+    text = [s for s in secs if s.kind == 'text']
     if text:
         lo, hi = text[0].start, text[0].end
-        funcs = [(a, n) for a, n in symbols if lo <= a < hi]
-        if functions_file and os.path.exists(functions_file):
-            listed = read_functions_file(functions_file)
-            if all(lo <= a < hi for a, _ in listed):
-                known = dict(funcs)
-                known.update(listed)
-                funcs = sorted(known.items())
-            else:
-                warn('{} does not fit {} (0x{:X}-0x{:X}); the layout has probably shifted. Using the linker map symbols only'
-                     .format(os.path.basename(functions_file), text[0].name, lo, hi - 1))
-    return Layout(base, header, secs, symbols, funcs)
+        for a, n in symbols:  # every symbol in .text starts a function
+            if lo <= a < hi and (not funcs or funcs[-1][0] != a):
+                funcs.append((a, n))
+    return Layout(base, header, secs, symbols, funcs, unplaced=unplaced)
 
 
 # ----------------------------------------------------------------------------
@@ -658,6 +708,11 @@ class Binary:
         return os.path.join(SCRIPT_DIR, '{}{}.matching.bin'.format(self.name, self.variant.cache_tag))
 
     @property
+    def link_file(self):
+        obj = os.path.dirname(self.path)
+        return os.path.join(obj, 'linker_command_file.txt' if self.is_exe else 'linker_command_file_{}_lhs.txt'.format(self.name))
+
+    @property
     def map_path(self):
         obj = os.path.dirname(self.path)
         return os.path.join(obj, 'asm.map' if self.is_exe else 'asm_{}_lhs.map'.format(self.name))
@@ -688,7 +743,7 @@ def report_diff(binary, ref_path, opts, detail):
     built = read_file(binary.path)
     ref = read_file(ref_path)
     layout = load_layout(binary.map_path, built, binary.is_exe,
-                         binary.variant.functions_file if binary.is_exe else None)
+                         binary.link_file)
     if layout is None:
         print('  no usable linker map ({}), cannot attribute the differences to sections'.format(rel(binary.map_path)))
         ranges = diff_ranges(built, ref)
@@ -765,11 +820,12 @@ def check_binary(binary, opts, detail):
         if opts.verbose:
             print('  ' + binary.name)
             layout = load_layout(binary.map_path, read_file(binary.path), binary.is_exe,
-                                 binary.variant.functions_file if binary.is_exe else None)
+                                 binary.link_file)
             if layout:
                 for sec in layout.sections:
                     print('    {:<14} 0x{:08X}-0x{:08X}'.format(sec.name, sec.start, sec.end - 1))
-                print('    {} functions'.format(len(layout.funcs)))
+                print('    {} functions, {} symbols{}'.format(len(layout.funcs), len(layout.symbols),
+                      ', {} local symbols could not be placed'.format(layout.unplaced) if layout.unplaced else ''))
         return True
 
     fail(shown)
