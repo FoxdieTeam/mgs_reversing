@@ -3517,7 +3517,47 @@ int s08b_bunsin2_800CF150(Work *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CF254.s")
+int s08b_bunsin2_800CF254(Work *work)
+{
+    int state = work->field_1A34;
+
+    if (state != 0)
+    {
+        switch (state)
+        {
+        case 2:
+            s08b_bunsin2_800CE21C(work);
+            work->field_19C8 = 7;
+            work->field_19CC = 5;
+            work->field_1A38 = state;
+            break;
+
+        case 1:
+            work->field_19C8 = 7;
+            work->field_19CC = 0x17;
+            work->field_1A38 = state;
+            break;
+
+        case 3:
+        case 4:
+            work->field_19C8 = 7;
+            work->field_19CC = 0x17;
+            work->field_1A38 = 3;
+            break;
+        }
+
+        return 1;
+    }
+
+    if ((unsigned int)(work->field_19CC - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
+    {
+        work->field_19C8 = 9;
+        work->field_19CC = 0x1D;
+        return 1;
+    }
+
+    return 0;
+}
 int s08b_bunsin2_800CF254(Work *work);
 
 int s08b_bunsin2_800CF354(Work *work)
