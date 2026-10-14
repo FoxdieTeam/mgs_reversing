@@ -1038,7 +1038,83 @@ void s11d_rope_800C7A4C(Work *work, int arg1)
     work->control.step.vy -= 0x80;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C7B2C.s")
+void s11d_rope_800C7B2C(Work *work, int arg1)
+{
+    if (arg1 == 0)
+    {
+        work->field_F74 &= 0xFF9FFFFF;
+        work->field_F74 &= ~0x10000;
+        GM_SeSetMode(&work->control.mov, 25, 1);
+        work->field_F70 |= 0x100;
+        if (work->object.action != 9)
+        {
+            GM_ConfigObjectAction(&work->object, 9, 0, 4);
+        }
+        work->control.turn.vy = 0x800;
+        s11d_rope_800C4898(work, 0);
+    }
+
+    if (work->field_F74 & 0x2000)
+    {
+        if (work->field_EBC == 0)
+        {
+            work->field_EBC = 1;
+        }
+    }
+
+    if (work->field_EBC == 1)
+    {
+        work->field_EBC = 2;
+        work->field_F74 |= 0x10000;
+        work->control.step.vy -= 0x80;
+    }
+
+    if (work->field_F74 & 0x2000)
+    {
+        s11d_rope_800C486C(work);
+        work->field_F70 &= ~0x100;
+        GM_SeSetMode(&work->control.mov, 0xb2, 1);
+        s11d_rope_800C650C();
+        work->field_EAC = (int)s11d_rope_800C6834;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C5298(work))
+    {
+        s11d_rope_800C486C(work);
+        work->field_F70 &= ~0x100;
+        GM_SeSetMode(&work->control.mov, 0xb7, 1);
+        work->field_EAC = (int)s11d_rope_800C6B18;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C4DE0(work))
+    {
+        s11d_rope_800C486C(work);
+        work->field_EAC = (int)s11d_rope_800C766C;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        work->field_F70 &= ~0x100;
+        return;
+    }
+
+    if (work->object.is_end)
+    {
+        s11d_rope_800C486C(work);
+        work->field_EAC = (int)s11d_rope_800C7530;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        work->field_F70 &= ~0x100;
+    }
+}
 void s11d_rope_800C7D20(Work *work, int arg1)
 {
     if (arg1 == 0)
