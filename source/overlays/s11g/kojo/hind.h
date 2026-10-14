@@ -143,7 +143,7 @@ typedef struct HindWork
     int      field_8D4;
     int      last_time;
     int      last_time2;
-    int      field_8E0;
+    void    *cinema_screen;
     GV_ACT  *field_8E4;
     GV_ACT  *field_8E8;
     int      field_8EC;

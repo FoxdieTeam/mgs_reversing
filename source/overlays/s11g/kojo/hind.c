@@ -617,7 +617,7 @@ void *NewHindBoss(int name, int where)
     work->invuln_timer = 0;
     work->nMissileDemoMode = 0;
     work->nMissileDemoMode2 = 0;
-    work->field_8E0 = 0;
+    work->cinema_screen = NULL;
     work->field_8CC = 0;
     work->field_8D0 = 0;
     work->field_8D4 = 0;

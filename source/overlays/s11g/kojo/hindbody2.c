@@ -131,7 +131,7 @@ void s11g_hind_800D6848(HindWork *work)
             s11g_hind_800D619C(work, 18);
             work->field_8E4 = NewBlurPure();
             GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF;
-            work->field_8E0 = (int)NewCinemaScreen(2000000000, 1);
+            work->cinema_screen = NewCinemaScreen(2000000000, 1);
             work->nMissileDemoMode2 = 11;
             work->field_5C8 = 18;
             work->field_5E4 = 90;
@@ -218,10 +218,10 @@ void s11g_hind_800D6848(HindWork *work)
         {
             GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF);
 
-            if (work->field_8E0)
+            if (work->cinema_screen)
             {
-                NewCinemaScreenClose((void *)work->field_8E0);
-                work->field_8E0 = 0;
+                NewCinemaScreenClose(work->cinema_screen);
+                work->cinema_screen = NULL;
             }
 
             if (work->field_8E4)
@@ -558,7 +558,7 @@ void s11g_hind_800D7644(HindWork *work)
             s11g_hind_800D619C(work, 18);
             work->field_8E4 = NewBlurPure();
             GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF;
-            work->field_8E0 = (int)NewCinemaScreen(2000000000, 1);
+            work->cinema_screen = NewCinemaScreen(2000000000, 1);
             work->nMissileDemoMode2 = 12;
             work->field_5C8 = 18;
             work->field_5E4 = 90;
@@ -668,10 +668,10 @@ void s11g_hind_800D7644(HindWork *work)
         {
             GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF);
 
-            if (work->field_8E0)
+            if (work->cinema_screen)
             {
-                NewCinemaScreenClose((void *)work->field_8E0);
-                work->field_8E0 = 0;
+                NewCinemaScreenClose(work->cinema_screen);
+                work->cinema_screen = NULL;
             }
 
             if (work->field_8E4)
@@ -916,7 +916,7 @@ void s11g_hind_800D7644(HindWork *work)
             if (GM_Vitality != 0 && GM_GameOverTimer == 0 && work->field_5E4 == 80)
             {
                 work->move_missile_pos_help2 = work->move_missile_target_pos;
-                work->field_8E0 = (int)NewCinemaScreen(2000000000, 1);
+                work->cinema_screen = NewCinemaScreen(2000000000, 1);
                 work->nMissileDemoMode2 = 999;
                 GM_GameStatus |= STATE_PADRELEASE;
                 GM_GameStatus |= STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF | STATE_CUT_IN;
@@ -1145,8 +1145,8 @@ void s11g_hind_800D7644(HindWork *work)
         else
         {
             GM_GameStatus &= ~STATE_PADRELEASE;
-            NewCinemaScreenClose((void *)work->field_8E0);
-            work->field_8E0 = 0;
+            NewCinemaScreenClose(work->cinema_screen);
+            work->cinema_screen = NULL;
 
             work->target1->damaged &= ~TARGET_POWER;
             work->target2->damaged &= ~TARGET_POWER;
