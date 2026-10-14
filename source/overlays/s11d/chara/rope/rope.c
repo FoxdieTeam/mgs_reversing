@@ -1076,7 +1076,80 @@ void s11d_rope_800C6834(Work *work, int arg1)
 
     work->control.step.vy -= 0x80;
 }
-#pragma INCLUDE_ASM("asm/overlays/s11d/s11d_rope_800C697C.s")
+void s11d_rope_800C697C(Work *work, int arg1)
+{
+    SVECTOR pos;
+    SVECTOR vz;
+    int     outside;
+
+    if (arg1 == 0)
+    {
+        work->field_F74 |= 0x10000;
+        work->field_F70 = (work->field_F70 & ~0xFF) | 0x80;
+        if (work->object.action != 0xC)
+        {
+            GM_ConfigObjectAction(&work->object, 0xC, 0, 4);
+        }
+        if (work->field_EB4 == 1)
+        {
+            work->control.turn.vy = 0x400;
+        }
+        else
+        {
+            work->control.turn.vy = -0x400;
+        }
+        work->field_F44 = 0;
+    }
+
+    vz.vx = work->field_F98;
+    GV_NearExp4V(&work->control.mov.vz, &vz, 1);
+
+    if (s11d_rope_800C4DE0(work))
+    {
+        s11d_rope_800C6240(work);
+        work->field_EAC = (int)s11d_rope_800C766C;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C4FC8(work))
+    {
+        work->field_EAC = (int)s11d_rope_800C6834;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    if (s11d_rope_800C5298(work))
+    {
+        s11d_rope_800C6240(work);
+        GM_SeSetMode(&work->control.mov, 0xb7, 1);
+        work->field_EAC = (int)s11d_rope_800C6B18;
+        work->field_EB0 = 0;
+        work->field_EBE = 0;
+        work->field_EBC = 0;
+        return;
+    }
+
+    work->control.step.vy -= 0x80;
+
+    pos.vx = work->control.mov.vx + work->field_EB4 * 0x50;
+    if (pos.vx < work->field_F84 || work->field_F8C < pos.vx)
+    {
+        outside = 1;
+    }
+    else
+    {
+        outside = 0;
+    }
+    if (!outside)
+    {
+        work->control.step.vx += work->field_EB4 * 0x50;
+    }
+}
 
 extern void s11d_rope_800C6CD4(Work *work, int arg1);
 extern void s11d_rope_800C7530(Work *work, int arg1);
