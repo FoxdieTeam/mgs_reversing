@@ -6208,7 +6208,6 @@ void s08b_bunsin2_800D3160(Work *work)
 void s08b_bunsin2_800D31EC(Work *work)
 {
     int command;
-    int result;
 
     switch (work->think3)
     {
@@ -6216,19 +6215,25 @@ void s08b_bunsin2_800D31EC(Work *work)
         switch (s08b_bunsin2_800D0814(work))
         {
         case 1:
-            command = 27;
-            goto set;
+            work->think3 = 27;
+            work->count3 = 0;
+            break;
 
         case 2:
             s08b_bunsin2_800CDFA0(work);
-            command = 3;
-            goto set;
+            work->think3 = 3;
+            work->count3 = 0;
+            break;
         }
         break;
 
     case 27:
-        result = s08b_bunsin2_800D0864(work);
-        goto check;
+        if (s08b_bunsin2_800D0864(work) != 0)
+        {
+            work->think3 = 24;
+            work->count3 = 0;
+        }
+        break;
 
     case 24:
         if (s08b_bunsin2_800D0A54() != 0)
@@ -6245,7 +6250,7 @@ void s08b_bunsin2_800D31EC(Work *work)
 
             work->think3 = command;
             work->command = -1;
-            goto reset;
+            work->count3 = 0;
         }
         break;
 
@@ -6253,12 +6258,15 @@ void s08b_bunsin2_800D31EC(Work *work)
         switch (s08b_bunsin2_800D08C8())
         {
         case 1:
-            goto stop;
+            work->think3 = 24;
+            work->count3 = 0;
+            break;
 
         case 2:
             s08b_bunsin2_800CDFA0(work);
-            command = 4;
-            goto set;
+            work->think3 = 4;
+            work->count3 = 0;
+            break;
         }
         break;
 
@@ -6266,25 +6274,23 @@ void s08b_bunsin2_800D31EC(Work *work)
         if (s08b_bunsin2_800CFC90(work) != 0)
         {
             s08b_bunsin2_800CDFF8(work);
-            command = 26;
-            goto set;
+            work->think3 = 26;
+            work->count3 = 0;
         }
         break;
 
     case 4:
-        result = s08b_bunsin2_800CFC90(work);
-        goto check;
+        if (s08b_bunsin2_800CFC90(work) != 0)
+        {
+            work->think3 = 24;
+            work->count3 = 0;
+        }
+        break;
 
     case 5:
-        result = s08b_bunsin2_800CFD88(work);
-check:
-        if (result != 0)
+        if (s08b_bunsin2_800CFD88(work) != 0)
         {
-stop:
-            command = 24;
-set:
-            work->think3 = command;
-reset:
+            work->think3 = 24;
             work->count3 = 0;
         }
         break;
