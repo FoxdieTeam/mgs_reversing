@@ -75,7 +75,7 @@ typedef struct _Work
     int            dir;                  /* 0x19B4 */
     int            field_19B8;           /* 0x19B8 */
     GV_ACT        *kogaku;               /* 0x19BC */
-    int            flags;           /* 0x19C0 */
+    int            flags;                /* 0x19C0: reset by the think every frame */
     int            think1;               /* 0x19C4 */
     int            think2;               /* 0x19C8 */
     int            think3;               /* 0x19CC */
