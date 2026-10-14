@@ -418,8 +418,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "camera" %}
     include "{{OBJ_DIR}}\stage\camera.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\camera\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\camera\unknown\camera.obj", overlay
     inclib "libpress.lib", overlay
 ;------------------------------------------------------------------------------

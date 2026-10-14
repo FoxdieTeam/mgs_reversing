@@ -1,150 +1,100 @@
 #include "mgstype.h"
+#include "game/game.h"
+#include "menu/menuman.h"
 
-int s08b_dword_800C3380 = 0x800E3714;
-int s08b_dword_800C3384 = 0x1F9F6F10;
-int s08b_dword_800C3388 = 0x00007FDF;
-int s08b_dword_800C338C = 0x000000FF;
-int s08b_dword_800C3390 = 0x05DC012C;
-int s08b_dword_800C3394 = 0x0000012C;
-int s08b_dword_800C3398 = 0x00000000;
-int s08b_dword_800C339C = 0x0000FC18;
-int s08b_dword_800C33A0 = 0x00020000;
-int s08b_dword_800C33A4 = 0x000A0012;
-int s08b_dword_800C33A8 = 0x00030028;
-int s08b_dword_800C33AC = 0x00050004;
-int s08b_dword_800C33B0 = 0x00000001;
-int s08b_dword_800C33B4 = 0x000C000B;
-int s08b_dword_800C33B8 = 0x00140013;
-int s08b_dword_800C33BC = 0x00160015;
-int s08b_dword_800C33C0 = 0x001E0022;
-int s08b_dword_800C33C4 = 0x00180017;
-int s08b_dword_800C33C8 = 0x001C001B;
-int s08b_dword_800C33CC = 0x000D002B;
-int s08b_dword_800C33D0 = 0x000F000E;
-int s08b_dword_800C33D4 = 0x001A0019;
-int s08b_dword_800C33D8 = 0x00240023;
-int s08b_dword_800C33DC = 0x00260025;
-int s08b_dword_800C33E0 = 0x00210020;
-int s08b_dword_800C33E4 = 0x00190027;
-int s08b_dword_800C33E8 = 0x002A0029;
-int s08b_dword_800C33EC = 0x002D002C;
-int s08b_dword_800C33F0 = 0x00000000;
-int s08b_dword_800C33F4 = 0x00000000;
-int s08b_dword_800C33F8 = 0x00000000;
-int s08b_dword_800C33FC = 0x00000064;
-int s08b_dword_800C3400 = 0x0000FC00;
-int s08b_dword_800C3404 = 0x00000000;
-int s08b_dword_800C3408 = 0x00000000;
-int s08b_dword_800C340C = 0x00000064;
-int s08b_dword_800C3410 = 0x0000FC00;
-int s08b_dword_800C3414 = 0x00000000;
-int s08b_dword_800C3418 = 0x800CD614;
-int s08b_dword_800C341C = 0x800CD690;
-int s08b_dword_800C3420 = 0x800CD770;
-int s08b_dword_800C3424 = 0x800CD808;
-int s08b_dword_800C3428 = 0x800CD87C;
-int s08b_dword_800C342C = 0x800CD8D8;
-int s08b_dword_800C3430 = 0xFE0C0005;
-int s08b_dword_800C3434 = 0x00000050;
-int s08b_dword_800C3438 = 0x00000000;
-int s08b_dword_800C343C = 0x00000000;
-int s08b_dword_800C3440 = 0x00000000;
-int s08b_dword_800C3444 = 0x00000000;
-int s08b_dword_800C3448 = 0x00000000;
-int s08b_dword_800C344C = 0x00000000;
-int s08b_dword_800C3450 = 0x00000000;
-int s08b_dword_800C3454 = 0x00000012;
-int s08b_dword_800C3458 = 0x03E807D0;
-int s08b_dword_800C345C = 0x00000000;
-int s08b_dword_800C3460 = 0x03E80FA0;
-int s08b_dword_800C3464 = 0x00001770;
-int s08b_dword_800C3468 = 0x03E8E0C0;
-int s08b_dword_800C346C = 0x0000F060;
-int s08b_dword_800C3470 = 0x03E81838;
-int s08b_dword_800C3474 = 0x00000000;
-int s08b_dword_800C3478 = 0x03E807D0;
-int s08b_dword_800C347C = 0x00000000;
-int s08b_dword_800C3480 = 0x03E8F63C;
-int s08b_dword_800C3484 = 0x00000000;
-int s08b_dword_800C3488 = 0x03E8D508;
-int s08b_dword_800C348C = 0x0000F736;
-int s08b_dword_800C3490 = 0x03E8E4A8;
-int s08b_dword_800C3494 = 0x000001F4;
-int s08b_dword_800C3498 = 0x03E80DAC;
-int s08b_dword_800C349C = 0x0000FE0C;
-int s08b_dword_800C34A0 = 0x03E80DAC;
-int s08b_dword_800C34A4 = 0x00001770;
-int s08b_dword_800C34A8 = 0x03E8E4A8;
-int s08b_dword_800C34AC = 0x00001770;
-int s08b_dword_800C34B0 = 0x03E8FC18;
-int s08b_dword_800C34B4 = 0x000007D0;
-int s08b_dword_800C34B8 = 0x03E80FA0;
-int s08b_dword_800C34BC = 0x00001964;
-int s08b_dword_800C34C0 = 0x03E8EA84;
-int s08b_dword_800C34C4 = 0x0000FA24;
-int s08b_dword_800C34C8 = 0x03E80BB8;
-int s08b_dword_800C34CC = 0x0000F63C;
-int s08b_dword_800C34D0 = 0x03E8E890;
-int s08b_dword_800C34D4 = 0x0000FA24;
-int s08b_dword_800C34D8 = 0x03E807D0;
-int s08b_dword_800C34DC = 0x0000FA24;
-int s08b_dword_800C34E0 = 0x03E8FA24;
-int s08b_dword_800C34E4 = 0x00000BB8;
-int s08b_dword_800C34E8 = 0x03E8E4A8;
-int s08b_dword_800C34EC = 0x0000157C;
-int s08b_dword_800C34F0 = 0x03E80FA0;
-int s08b_dword_800C34F4 = 0x00001194;
-int s08b_dword_800C34F8 = 0x03E8EE6C;
-int s08b_dword_800C34FC = 0x0000F830;
-int s08b_dword_800C3500 = 0x03E80000;
-int s08b_dword_800C3504 = 0x000007D0;
-int s08b_dword_800C3508 = 0x03E803E8;
-int s08b_dword_800C350C = 0x0000F830;
-int s08b_dword_800C3510 = 0x0010000A;
-int s08b_dword_800C3514 = 0x002D000D;
-int s08b_dword_800C3518 = 0x1E170A00;
-int s08b_dword_800C351C = 0xFF220502;
-int s08b_dword_800C3520 = 0xFF0E0604;
-int s08b_dword_800C3524 = 0xFF220205;
-int s08b_dword_800C3528 = 0xFF0E0406;
-int s08b_dword_800C352C = 0x23210C08;
-int s08b_dword_800C3530 = 0x1E17000A;
-int s08b_dword_800C3534 = 0x2321080C;
-int s08b_dword_800C3538 = 0xFF06040E;
-int s08b_dword_800C353C = 0xFF1C1210;
-int s08b_dword_800C3540 = 0xFF1C1012;
-int s08b_dword_800C3544 = 0x1E0A0017;
-int s08b_dword_800C3548 = 0xFF12101C;
-int s08b_dword_800C354C = 0xFF201F1D;
-int s08b_dword_800C3550 = 0x170A001E;
-int s08b_dword_800C3554 = 0xFF201D1F;
-int s08b_dword_800C3558 = 0xFF1F1D20;
-int s08b_dword_800C355C = 0x230C0821;
-int s08b_dword_800C3560 = 0xFF050222;
-int s08b_dword_800C3564 = 0x210C0823;
-int s08b_dword_800C3568 = 0x03E80FA0;
-int s08b_dword_800C356C = 0x00001770;
-int s08b_dword_800C3570 = 0x03E80BB8;
-int s08b_dword_800C3574 = 0x0000FC18;
-int s08b_dword_800C3578 = 0x03E8E2B4;
-int s08b_dword_800C357C = 0x00001964;
-int s08b_dword_800C3580 = 0x03E8E2B4;
-int s08b_dword_800C3584 = 0x0000FA24;
-int s08b_dword_800C3588 = 0x00000000;
-int s08b_dword_800C358C = 0x07D0F830;
-int s08b_dword_800C3590 = 0x0000FB1E;
-int s08b_dword_800C3594 = 0x0000004A;
+extern const char s08b_aNinja_800E3714[];
+
+void s08b_bunsin2_800CD614();
+void s08b_bunsin2_800CD690();
+void s08b_bunsin2_800CD770();
+void s08b_bunsin2_800CD808();
+void s08b_bunsin2_800CD87C();
+void s08b_bunsin2_800CD8D8();
+
+MENU_BAR_CONF s08b_dword_800C3380 = {s08b_aNinja_800E3714, {0x10, 0x6F, 0x9F}, {0x1F, 0xDF, 0x7F}, 0};
+int s08b_dword_800C338C = 255; /* life shown by the life bar */
+
+SVECTOR s08b_dword_800C3390 = {300, 1500, 300, 0};  /* target size */
+SVECTOR s08b_dword_800C3398 = {0, 0, -1000, 0};    /* power target offset */
+
+/* motion indices */
+short s08b_dword_800C33A0[40] = {
+     0,  2, 18, 10, 40,  3,  4,  5,  1,  0, 11, 12, 19, 20, 21, 22, 34, 30, 23, 24,
+    27, 28, 43, 13, 14, 15, 25, 26, 35, 36, 37, 38, 32, 33, 39, 25, 41, 42, 44, 45
+};
+
+SVECTOR s08b_dword_800C33F0 = {0, 0, 0, 0};
+SVECTOR s08b_dword_800C33F8 = {0, 0, 100, 0};
+SVECTOR s08b_dword_800C3400 = {-1024, 0, 0, 0};
+SVECTOR s08b_dword_800C3408 = {0, 0, 100, 0};
+SVECTOR s08b_dword_800C3410 = {-1024, 0, 0, 0};
+
+void (*s08b_dword_800C3418[])() = {
+    s08b_bunsin2_800CD614,
+    s08b_bunsin2_800CD690,
+    s08b_bunsin2_800CD770,
+    s08b_bunsin2_800CD808,
+    s08b_bunsin2_800CD87C,
+    s08b_bunsin2_800CD8D8
+};
+
+SVECTOR s08b_dword_800C3430 = {5, -500, 80, 0};
+
+int s08b_dword_800C3438 = 0;
+int s08b_dword_800C343C = 0;
+int s08b_dword_800C3440 = 0;
+int s08b_dword_800C3444 = 0;
+int s08b_dword_800C3448 = 0;
+int s08b_dword_800C344C = 0;
+int s08b_dword_800C3450 = 0;
+int s08b_dword_800C3454 = 18;
+
+SVECTOR s08b_dword_800C3458 = {2000, 1000, 0, 0};
+
+SVECTOR s08b_dword_800C3460[6] = {
+    {4000, 1000, 6000, 0}, {-8000, 1000, -4000, 0}, {6200, 1000, 0, 0},
+    {2000, 1000, 0, 0}, {-2500, 1000, 0, 0}, {-11000, 1000, -2250, 0}
+};
+
+SVECTOR s08b_dword_800C3490[4] = {
+    {-7000, 1000, 500, 0}, {3500, 1000, -500, 0}, {3500, 1000, 6000, 0}, {-7000, 1000, 6000, 0}
+};
+
+SVECTOR s08b_dword_800C34B0[9] = {
+    {-1000, 1000, 2000, 0}, {4000, 1000, 6500, 0}, {-5500, 1000, -1500, 0},
+    {3000, 1000, -2500, 0}, {-6000, 1000, -1500, 0}, {2000, 1000, -1500, 0},
+    {-1500, 1000, 3000, 0}, {-7000, 1000, 5500, 0}, {4000, 1000, 4500, 0}
+};
+
+SVECTOR s08b_dword_800C34F8[3] = {
+    {-4500, 1000, -2000, 0}, {0, 1000, 2000, 0}, {1000, 1000, -2000, 0}
+};
+
+short s08b_dword_800C3510[2][2] = {{10, 16}, {13, 45}};
+
+/* route graph: node followed by up to three neighbours (0xFF: none) */
+u_char s08b_dword_800C3518[20][4] = {
+    { 0, 10, 23,   30}, { 2,  5, 34, 0xFF}, { 4,  6, 14, 0xFF}, { 5,  2, 34, 0xFF},
+    { 6,  4, 14, 0xFF}, { 8, 12, 33,   35}, {10,  0, 23,   30}, {12,  8, 33,   35},
+    {14,  4,  6, 0xFF}, {16, 18, 28, 0xFF}, {18, 16, 28, 0xFF}, {23,  0, 10,   30},
+    {28, 16, 18, 0xFF}, {29, 31, 32, 0xFF}, {30,  0, 10,   23}, {31, 29, 32, 0xFF},
+    {32, 29, 31, 0xFF}, {33,  8, 12,   35}, {34,  2,  5, 0xFF}, {35,  8, 12,   33}
+};
+
+SVECTOR s08b_dword_800C3568[4] = {
+    {4000, 1000, 6000, 0}, {3000, 1000, -1000, 0}, {-7500, 1000, 6500, 0}, {-7500, 1000, -1500, 0}
+};
+
+int     s08b_dword_800C3588 = 0;
+SVECTOR s08b_dword_800C358C = {-2000, 2000, -1250, 0};
+int     s08b_dword_800C3594 = 74;
 
 const char s08b_aNinja_800E3714[] = "NINJA";
-const int s08b_dword_800E371C = 0x800C8054;
-const int s08b_dword_800E3720 = 0x800C8064;
-const int s08b_dword_800E3724 = 0x800C80C4;
-const int s08b_dword_800E3728 = 0x800C8074;
-const int s08b_dword_800E372C = 0x800C80CC;
-const int s08b_dword_800E3730 = 0x800C8084;
-const int s08b_dword_800E3734 = 0x800C8094;
-const int s08b_dword_800E3738 = 0x800C80A4;
-const int s08b_dword_800E373C = 0x800C80B4;
+/* jump table (code addresses inside an asm function) */
+const int s08b_jt_800E371C[] = {
+    0x800C8054, 0x800C8064, 0x800C80C4, 0x800C8074, 0x800C80CC, 0x800C8084,
+    0x800C8094, 0x800C80A4, 0x800C80B4,
+};
 const char s08b_aNjafist_800E3740[] = "nja_fist";
 const char s08b_aNjab_800E374C[] = "nja_08b";
 const char s08b_aKatana_800E3754[] = "katana";
@@ -158,84 +108,47 @@ const char s08b_aJumpdamaged_800E37D0[] = " jump damage=%d \n";
 const char s08b_aEledamaged_800E37E4[] = " ele damage=%d \n";
 const char s08b_aNinjac_800E37F8[] = "ninja.c";
 
-const int s08b_dword_800E3800 = 0x800C9154;
-const int s08b_dword_800E3804 = 0x800C9174;
-const int s08b_dword_800E3808 = 0x800C9184;
-const int s08b_dword_800E380C = 0x800C9194;
-const int s08b_dword_800E3810 = 0x800C91A4;
-const int s08b_dword_800E3814 = 0x800C91B4;
-const int s08b_dword_800E3818 = 0x800C91C4;
-const int s08b_dword_800E381C = 0x800C91D4;
-const int s08b_dword_800E3820 = 0x800C91E4;
-const int s08b_dword_800E3824 = 0x800C9204;
-const int s08b_dword_800E3828 = 0x800C9334;
-const int s08b_dword_800E382C = 0x800C9244;
-const int s08b_dword_800E3830 = 0x800C9254;
-const int s08b_dword_800E3834 = 0x800C9264;
-const int s08b_dword_800E3838 = 0x800C9274;
-const int s08b_dword_800E383C = 0x800C9284;
-const int s08b_dword_800E3840 = 0x800C9294;
-const int s08b_dword_800E3844 = 0x800C92A4;
-const int s08b_dword_800E3848 = 0x800C92B4;
-const int s08b_dword_800E384C = 0x800C92C4;
-const int s08b_dword_800E3850 = 0x800C91F4;
-const int s08b_dword_800E3854 = 0x800C9214;
-const int s08b_dword_800E3858 = 0x800C9224;
-const int s08b_dword_800E385C = 0x800C9234;
-const int s08b_dword_800E3860 = 0x800C92D4;
-const int s08b_dword_800E3864 = 0x800C92E4;
-const int s08b_dword_800E3868 = 0x800C92F4;
-const int s08b_dword_800E386C = 0x800C9304;
-const int s08b_dword_800E3870 = 0x800C9314;
-const int s08b_dword_800E3874 = 0x800C9324;
+/* jump table (code addresses inside an asm function) */
+const int s08b_jt_800E3800[] = {
+    0x800C9154, 0x800C9174, 0x800C9184, 0x800C9194, 0x800C91A4, 0x800C91B4,
+    0x800C91C4, 0x800C91D4, 0x800C91E4, 0x800C9204, 0x800C9334, 0x800C9244,
+    0x800C9254, 0x800C9264, 0x800C9274, 0x800C9284, 0x800C9294, 0x800C92A4,
+    0x800C92B4, 0x800C92C4, 0x800C91F4, 0x800C9214, 0x800C9224, 0x800C9234,
+    0x800C92D4, 0x800C92E4, 0x800C92F4, 0x800C9304, 0x800C9314, 0x800C9324,
+};
 const char s08b_aWeaponxxamodexx_800E3878[] = "WEAPON=0x%x a_mode=0x%x \n";
-const char s08b_dword_800E3894[] = {'8', 0xff, 0xc8, 0x0};
-const char s08b_dword_800E3898[] = {0xc8, 0x0, 0x0, 0x0};
-const char s08b_dword_800E389C[] = {'8', 0xff, 0xc, 0xfe};
-const char s08b_dword_800E38A0[] = {0x90, 0x1, 0x0, 0x0};
-const char s08b_dword_800E38A4[] = {0x0, 0x0, 0xc, 0xfe};
-const char s08b_dword_800E38A8[] = {0x0, 0x0, 0x0, 0x0};
-const char s08b_dword_800E38AC[] = {0xf4, 0x1, 0x90, 0x1};
-const char s08b_dword_800E38B0[] = {' ', 0x3, 0x0, 0x0};
-const char s08b_dword_800E38B4[] = {0xb8, 0xb, 0xd0, 0x7};
-const char s08b_dword_800E38B8[] = {0xb8, 0xb, 0x0, 0x0};
-const char s08b_dword_800E38BC[] = {0xe8, 0x3, 0xd0, 0x7};
-const char s08b_dword_800E38C0[] = {0xe8, 0x3, 0x0, 0x0};
-const char s08b_dword_800E38C4[] = {0xdc, 0x5, 0xd0, 0x7};
-const char s08b_dword_800E38C8[] = {0xdc, 0x5, 0x0, 0x0};
-const char s08b_dword_800E38CC[] = {0xd0, 0x7, 0xd0, 0x7};
-const char s08b_dword_800E38D0[] = {0xd0, 0x7, 0x0, 0x0};
-const char s08b_dword_800E38D4[] = {0x5, 0x0, 0x0, 0x0};
+const SVECTOR s08b_dword_800E3894 = {-200, 200, 200, 0};
+const SVECTOR s08b_dword_800E389C = {-200, -500, 400, 0};
+const SVECTOR s08b_dword_800E38A4 = {0, -500, 0, 0};
+const SVECTOR s08b_dword_800E38AC = {500, 400, 800, 0};
+const SVECTOR s08b_dword_800E38B4 = {3000, 2000, 3000, 0};
+const SVECTOR s08b_dword_800E38BC = {1000, 2000, 1000, 0};
+const SVECTOR s08b_dword_800E38C4 = {1500, 2000, 1500, 0};
+const SVECTOR s08b_dword_800E38CC = {2000, 2000, 2000, 0};
+const int     s08b_dword_800E38D4 = 5;
 const char s08b_a_800E38D8[] = "2";
-const char s08b_dword_800E38DC[] = {0x0, 0x0, 0x0, 0x0};
-const int s08b_dword_800E38E0 = 0x800C9828;
-const int s08b_dword_800E38E4 = 0x800C9854;
-const int s08b_dword_800E38E8 = 0x800C986C;
-const int s08b_dword_800E38EC = 0x800C9898;
-const int s08b_dword_800E38F0 = 0x800C98C4;
-const int s08b_dword_800E38F4 = 0x800C98DC;
-const int s08b_dword_800E38F8 = 0x800C98DC;
-const char s08b_dword_800E38FC[] = {0x0, 0x0, 0x0, 0x0};
-const int s08b_dword_800E3900 = 0x800C99CC;
-const int s08b_dword_800E3904 = 0x800C99DC;
-const int s08b_dword_800E3908 = 0x800C9A04;
-const int s08b_dword_800E390C = 0x800C9A14;
-const int s08b_dword_800E3910 = 0x800C9A24;
-const int s08b_dword_800E3914 = 0x800C9A44;
-const int s08b_dword_800E3918 = 0x800C9A44;
-const int s08b_dword_800E391C = 0x800C9A44;
+const char s08b_dword_800E38DC[] = {0x0, 0x0, 0x0, 0x0}; /* jump table alignment */
+/* jump table (code addresses inside an asm function) */
+const int s08b_jt_800E38E0[] = {
+    0x800C9828, 0x800C9854, 0x800C986C, 0x800C9898, 0x800C98C4, 0x800C98DC,
+    0x800C98DC,
+};
+const char s08b_dword_800E38FC[] = {0x0, 0x0, 0x0, 0x0}; /* jump table alignment */
+/* jump table (code addresses inside an asm function) */
+const int s08b_jt_800E3900[] = {
+    0x800C99CC, 0x800C99DC, 0x800C9A04, 0x800C9A14, 0x800C9A24, 0x800C9A44,
+    0x800C9A44, 0x800C9A44,
+};
 const char s08b_aJumpfctrlturnvyd_800E3920[] = " jumpf ctrl turn vy =%d \n";
 const char s08b_aPunchdamagelifedcombod_800E393C[] = "Punch Damage life = %d combo %d\n";
 
-int SECTION(".bss") s08b_dword_800E4314;
-int SECTION(".bss") s08b_dword_800E4318;
-int SECTION(".bss") s08b_dword_800E431C;
+CONTROL *SECTION(".bss") s08b_dword_800E4314; /* ninja control */
+int     *SECTION(".bss") s08b_dword_800E4318;
+void    *SECTION(".bss") s08b_dword_800E431C; /* ninja Work */
 int SECTION(".bss") s08b_dword_800E4320;
 int SECTION(".bss") s08b_dword_800E4324;
 int SECTION(".bss") s08b_dword_800E4328;
 int SECTION(".bss") s08b_dword_800E432C;
 int SECTION(".bss") s08b_dword_800E4330;
-int SECTION(".bss") s08b_dword_800E4334;
-int SECTION(".bss") s08b_dword_800E4338;
-int SECTION(".bss") s08b_dword_800E433C;
+int SECTION(".bss") s08b_dword_800E4334[3];
 int SECTION(".bss") s08b_dword_800E4340;

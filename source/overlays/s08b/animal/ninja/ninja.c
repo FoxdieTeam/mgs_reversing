@@ -26,102 +26,102 @@ typedef void (*NinjaFunc)(struct _Work *);
 
 typedef void (*NinjaAction)(struct _Work *, int);
 
-typedef struct _NinjaClone
+/* copy of a HZD route; pad of each point holds the point's command */
+typedef struct _NinjaRoute
 {
-    int     field_0;
-    SVECTOR field_4[32];
-} NinjaClone;
+    int     n_points;
+    SVECTOR points[32];
+} NinjaRoute;
 
 typedef struct _Work
 {
-    GV_ACT         actor;       /* 0x000 */
-    CONTROL        control;     /* 0x020 */
-    OBJECT         body;        /* 0x09C */
-    MOTION_CONTROL m_ctrl;      /* 0x180 */
-    MOTION_SEGMENT m_segs1[17]; /* 0x1D0 */
-    MOTION_SEGMENT m_segs2[17]; /* 0x434 */
-    SVECTOR        rots[16];    /* 0x698 */
-    SVECTOR        adjust[16];  /* 0x718 */
-    MATRIX         light[2];    /* 0x798 */
-    int            field_7D8;   /* 0x7D8 */
-    OBJECT         weapon;      /* 0x7DC */
-    int            field_8C0;   /* 0x8C0 */
-    TARGET        *target;      /* 0x8C4 */
-
-    char      pad_910[0x910 - 0x8C4 - sizeof(TARGET *)];
-    HOMING   *field_910;   /* 0x910 */
-    int        field_914;   /* 0x914 */
-    SVECTOR    field_918;   /* 0x918 */
-    NinjaClone clones[16];  /* 0x920 */
-    short      field_1960;  /* 0x1960 */
-    char       pad_1962[2];
-    short      field_1964;  /* 0x1964 */
-    short      field_1966;  /* 0x1966 */
-    SVECTOR   field_1968;  /* 0x1968 */
-    int       field_1970;  /* 0x1970 */
-    int       field_1974;  // 0x1974
-    int       field_1978;  // 0x1978
-    int       field_197C;  // 0x197C
-    SVECTOR   field_1980;  // 0x1980
-    int       field_1988;  // 0x1988
-    SVECTOR   field_198C;  // 0x198C
-    NinjaAction field_1994; /* 0x1994 */
-    NinjaAction field_1998; /* 0x1998 */
-    int       field_199C;  /* 0x199C */
-    int       field_19A0;  /* 0x19A0 */
-    int       field_19A4;  /* 0x19A4 */
-    int       field_19A8;  /* 0x19A8 */
-    int       field_19AC;  /* 0x19AC */
-    int       field_19B0;  /* 0x19B0 */
-    int       field_19B4;  /* 0x19B4 */
-    int       field_19B8;  /* 0x19B8 */
-    GV_ACT   *field_19BC;  /* 0x19BC */
-    int       field_19C0;  /* 0x19C0 */
-    int       field_19C4;  /* 0x19C4 */
-    int       field_19C8;  /* 0x19C8 */
-    int       field_19CC;  /* 0x19CC */
-    int       field_19D0;  /* 0x19D0 */
-    int       field_19D4;  /* 0x19D4 */
-    int       field_19D8;  /* 0x19D8 */
-    int       field_19DC;  /* 0x19DC */
-    int       field_19E0;  /* 0x19E0 */
-    int       field_19E4;  /* 0x19E4 */
-    char      pad_19E8[4];
-    int       field_19EC;  /* 0x19EC */
-    int       field_19F0;  /* 0x19F0 */
-    int       field_19F4;  /* 0x19F4 */
-    int       field_19F8;  /* 0x19F8 */
-    int       field_19FC;  /* 0x19FC */
-    int       field_1A00;  /* 0x1A00 */
-    int       field_1A04;  /* 0x1A04 */
-    int       field_1A08;  /* 0x1A08 */
-    int       field_1A0C;  /* 0x1A0C */
-    int       field_1A10;  /* 0x1A10 */
-    int       field_1A14;  /* 0x1A14 */
-    GV_ACT   *field_1A18;  /* 0x1A18 */
-    GV_ACT   *field_1A1C;  /* 0x1A1C */
-    void     *field_1A20;  /* 0x1A20 */
-    void     *field_1A24;  /* 0x1A24 */
-    int       field_1A28;     // 0x1A28
-    int       field_1A2C;     // 0x1A2C
-    char      pad_1A30[0x4]; /* 0x1A28 */
-    int       field_1A34;     /* 0x1A34 */
-    int       field_1A38;     /* 0x1A38 */
-    int       field_1A3C;  /* 0x1A3C */
-    NinjaFunc field_1A40[8];  /* 0x1A40 */
-    SVECTOR   shadow_verts[4]; /* 0x1A60 */
-    DG_PRIM  *field_1A80;  /* 0x1A80 */
-    SVECTOR   field_1A84;  /* 0x1A84 */
-    int       field_1A8C;  /* 0x1A8C */
-    int       field_1A90;  /* 0x1A90 */
-    int       field_1A94;  /* 0x1A94 */
-    int       field_1A98[0x23]; /* 0x1A98 */
-    short     field_1B24;  /* 0x1B24 */
-    short     field_1B26;  /* 0x1B26 */
-    short     field_1B28;  /* 0x1B28 */
-    char      pad_1B2A[2];
-    u_char    damage[6];   /* 0x1B2C */
-    char      pad_1B32[2];
+    GV_ACT         actor;                /* 0x000 */
+    CONTROL        control;              /* 0x020 */
+    OBJECT         body;                 /* 0x09C */
+    MOTION_CONTROL m_ctrl;               /* 0x180 */
+    MOTION_SEGMENT m_segs1[17];          /* 0x1D0 */
+    MOTION_SEGMENT m_segs2[17];          /* 0x434 */
+    SVECTOR        rots[16];             /* 0x698 */
+    SVECTOR        adjust[16];           /* 0x718 */
+    MATRIX         light[2];             /* 0x798 */
+    int            field_7D8;            /* 0x7D8 */
+    OBJECT         weapon;               /* 0x7DC */
+    int            field_8C0;            /* 0x8C0 */
+    TARGET        *target;               /* 0x8C4 */
+    TARGET         field_8C8;            /* 0x8C8 */
+    HOMING        *hom;                  /* 0x910 */
+    int            step_vy;              /* 0x914 */
+    SVECTOR        origin;               /* 0x918 */
+    NinjaRoute     routes[16];           /* 0x920 */
+    short          n_routes;             /* 0x1960 */
+    char           pad_1962[2];
+    short          route;                /* 0x1964 */
+    short          route_point;          /* 0x1966 */
+    SVECTOR        target_pos;           /* 0x1968 */
+    int            target_addr;          /* 0x1970 */
+    int            field_1974;           /* 0x1974 */
+    int            field_1978;           /* 0x1978 */
+    int            field_197C;           /* 0x197C */
+    SVECTOR        field_1980;           /* 0x1980 */
+    int            saved_addr;           /* 0x1988 */
+    SVECTOR        saved_pos;            /* 0x198C */
+    NinjaAction    action;               /* 0x1994 */
+    NinjaAction    action2;              /* 0x1998 */
+    int            time;                 /* 0x199C */
+    int            time2;                /* 0x19A0 */
+    int            motion;               /* 0x19A4 */
+    int            actend;               /* 0x19A8 */
+    int            player_visible;       /* 0x19AC */
+    int            command;              /* 0x19B0 */
+    int            dir;                  /* 0x19B4 */
+    int            field_19B8;           /* 0x19B8 */
+    GV_ACT        *kogaku;               /* 0x19BC */
+    int            flags;                /* 0x19C0: reset by the think every frame */
+    int            think1;               /* 0x19C4 */
+    int            think2;               /* 0x19C8 */
+    int            think3;               /* 0x19CC */
+    int            count3;               /* 0x19D0 */
+    int            think_time;           /* 0x19D4: frames since the last think2/think3 change */
+    int            field_19D8;           /* 0x19D8 */
+    int            field_19DC;           /* 0x19DC */
+    int            field_19E0;           /* 0x19E0 */
+    int            life;                 /* 0x19E4 */
+    char           pad_19E8[4];
+    int            field_19EC;           /* 0x19EC */
+    int            field_19F0;           /* 0x19F0 */
+    int            tenmetu_force;        /* 0x19F4 */
+    int            katana_state;         /* 0x19F8 */
+    int            bunsin_state;         /* 0x19FC */
+    int            field_1A00;           /* 0x1A00 */
+    int            sphere_state;         /* 0x1A04 */
+    int            field_1A08;           /* 0x1A08 */
+    int            field_1A0C;           /* 0x1A0C */
+    int            field_1A10;           /* 0x1A10 */
+    int            field_1A14;           /* 0x1A14 */
+    GV_ACT        *clone1;               /* 0x1A18 */
+    GV_ACT        *clone2;               /* 0x1A1C */
+    void          *bunsin1;              /* 0x1A20 */
+    void          *bunsin2;              /* 0x1A24 */
+    int            player_dir;           /* 0x1A28 */
+    int            player_dist;          /* 0x1A2C */
+    char           pad_1A30[4];
+    int            damage_mode;          /* 0x1A34 */
+    int            last_damage_mode;     /* 0x1A38 */
+    int            combo;                /* 0x1A3C */
+    NinjaFunc      funcs[8];             /* 0x1A40 */
+    SVECTOR        shadow_verts[4];      /* 0x1A60 */
+    DG_PRIM       *shadow_prim;          /* 0x1A80 */
+    SVECTOR        field_1A84;           /* 0x1A84 */
+    int            param_e;              /* 0x1A8C */
+    int            proc_w;               /* 0x1A90 */
+    int            proc_b;               /* 0x1A94 */
+    int            vox[0x23];            /* 0x1A98 */
+    short          knock_timer;          /* 0x1B24 */
+    short          field_1B26;           /* 0x1B26 */
+    short          field_1B28;           /* 0x1B28 */
+    char           pad_1B2A[2];
+    u_char         damage[6];            /* 0x1B2C */
+    char           pad_1B32[2];
 } Work;
 
 /* forward declarations for helpers called by the migrated functions */
@@ -148,7 +148,7 @@ extern void  s08b_bunsin2_800D452C(Work *work);
 extern void  s08b_bunsin2_800D4FBC(MATRIX *world, int type);
 extern void  s08b_bunsin2_800D53E8(int a0, int a1);
 extern void  s08b_bunsin2_800D5434(void);
-extern void *s08b_p_sphere_800D9834(void *a, void *b);
+extern void *s08b_p_sphere_800D9834(DG_OBJS **parent, int *state);
 extern int   okajima_CHAF_LIFE;
 extern int     s08b_dword_800C3440;
 extern int     s08b_dword_800C3444;
@@ -171,19 +171,17 @@ extern SVECTOR s08b_dword_800C3410;
 extern SVECTOR s08b_dword_800C3430;
 extern int     s08b_dword_800C3438;
 extern short   s08b_dword_800C33A0[];
-extern int     s08b_dword_800C3380;
+extern MENU_BAR_CONF s08b_dword_800C3380;
 extern int     s08b_dword_800C338C;
-extern int     s08b_dword_800C3390;
-extern int     s08b_dword_800C3398;
-extern void   *s08b_dword_800C3418[];
+extern SVECTOR s08b_dword_800C3390;
+extern SVECTOR s08b_dword_800C3398;
+extern NinjaFunc s08b_dword_800C3418[];
 extern int     s08b_dword_800C343C;
 extern int     s08b_dword_800C3454;
 extern SVECTOR s08b_dword_800C3458;
-extern short   s08b_dword_800C3510[];
+extern short   s08b_dword_800C3510[][2];
 extern SVECTOR s08b_dword_800C358C;
 extern int     s08b_dword_800C3594;
-extern int     s08b_dword_800C3614;
-extern int     s08b_dword_800C3618;
 
 extern BLAST_DATA blast_data_8009F4B8[8]; // in bullet/blast.c
 extern CONTROL *s08b_dword_800E4314;
@@ -191,9 +189,7 @@ extern int     *s08b_dword_800E4318;
 extern Work    *s08b_dword_800E431C;
 extern int   s08b_dword_800E4320;
 extern int   s08b_dword_800E4324;
-extern int   s08b_dword_800E4334[];
-extern int   s08b_dword_800E4338;
-extern int   s08b_dword_800E433C;
+extern int   s08b_dword_800E4334[3];
 extern int   s08b_dword_800E4340;
 
 extern char s08b_aErrerrerrsoundbuffover_800E3764[];
@@ -243,11 +239,11 @@ void s08b_ninja_800C7914(short *a, short *b, short *out)
     }
 }
 
-void s08b_ninja_800C796C(short *a, short *b)
+void s08b_ninja_800C796C(SVECTOR *a, SVECTOR *b)
 {
-    a[0] = GV_NearRange(a[0], b[0], 0xFA);
-    a[1] = GV_NearRange(a[1], b[1], 0x64);
-    a[2] = GV_NearRange(a[2], b[2], 0xFA);
+    a->vx = GV_NearRange(a->vx, b->vx, 0xFA);
+    a->vy = GV_NearRange(a->vy, b->vy, 0x64);
+    a->vz = GV_NearRange(a->vz, b->vz, 0xFA);
 }
 
 void s08b_ninja_800C79D4(int a0)
@@ -278,8 +274,8 @@ int s08b_ninja_800C7A3C(void)
         GM_Camera.rotate.vy = 0x800;
         GM_Camera.rotate.vz = 0;
         GM_Camera.track = 0x1F40;
-        GM_Camera.target = s08b_dword_800E431C->field_1968;
-        if (s08b_dword_800E431C->field_1968.vx >= -0x7CF)
+        GM_Camera.target = s08b_dword_800E431C->target_pos;
+        if (s08b_dword_800E431C->target_pos.vx >= -0x7CF)
         {
             s08b_dword_800E4324 = 0;
         }
@@ -318,7 +314,7 @@ int s08b_ninja_800C7A3C(void)
 void s08b_ninja_800C7B68(void)
 {
     GM_Camera.track = 0x1F40;
-    GM_Camera.target = s08b_dword_800E431C->field_1968;
+    GM_Camera.target = s08b_dword_800E431C->target_pos;
     GM_Camera.rotate.vx = 0x280;
     GM_Camera.rotate.vy = 0x800;
     GM_Camera.rotate.vz = 0;
@@ -335,8 +331,8 @@ int s08b_ninja_800C7BC8(void)
         GM_Camera.rotate.vy = 0x800;
         GM_Camera.rotate.vz = 0;
         GM_Camera.track = 0x1F40;
-        GM_Camera.target = s08b_dword_800E431C->field_1968;
-        if (s08b_dword_800E431C->field_1968.vx >= -0x7CF)
+        GM_Camera.target = s08b_dword_800E431C->target_pos;
+        if (s08b_dword_800E431C->target_pos.vx >= -0x7CF)
         {
             s08b_dword_800E4324 = 0;
         }
@@ -382,12 +378,12 @@ int s08b_ninja_800C7CF4(void)
         GM_Camera.rotate.vy = 0x800;
         GM_Camera.rotate.vz = 0;
         GM_Camera.track = 0x1F40;
-        GM_Camera.target = s08b_dword_800E431C->field_1968;
+        GM_Camera.target = s08b_dword_800E431C->target_pos;
     }
     if (s08b_dword_800E4320 >= 0x2E)
     {
         GM_Camera.type = 0;
-        if (s08b_dword_800E431C->field_1968.vx >= -0x7CF)
+        if (s08b_dword_800E431C->target_pos.vx >= -0x7CF)
         {
             GM_Camera.position.vx = 0x8EC;
             GM_Camera.position.vy = 0x96;
@@ -416,7 +412,7 @@ void s08b_ninja_800C7E14(void)
     SVECTOR vec;
 
     vec = GM_Camera.target;
-    s08b_ninja_800C796C((short *)&vec, (short *)&GM_PlayerPosition);
+    s08b_ninja_800C796C(&vec, &GM_PlayerPosition);
     GV_NearExp4V(&GM_Camera.target, &vec, 3);
     GM_Camera.rotate.vx = 0x280;
     GM_Camera.rotate.vy = GV_NearExp2(GM_Camera.rotate.vy, 0x800);
@@ -437,7 +433,7 @@ void s08b_ninja_800C7ED8(void)
     SVECTOR vec;
 
     vec = GM_Camera.target;
-    s08b_ninja_800C796C((short *)&vec, (short *)&GM_PlayerPosition);
+    s08b_ninja_800C796C(&vec, &GM_PlayerPosition);
     GV_NearExp4V(&GM_Camera.target, &vec, 3);
     GM_Camera.track = 0x1F40;
     GM_Camera.rotate.vx = 0x280;
@@ -493,23 +489,23 @@ int s08b_ninja_800C8170(void)
 
 void s08b_ninja_800C81C8(Work *work)
 {
-    if (work->field_1B24 == 0)
+    if (work->knock_timer == 0)
     {
         if (s08b_ninja_800C8170() && (GM_PlayerStatus & PLAYER_CHECK_WALL) &&
             GM_NoisePower == 0x64)
         {
-            work->field_1B24 = 0x5A;
+            work->knock_timer = 0x5A;
         }
     }
-    else if (work->field_1B24 == 0x4B)
+    else if (work->knock_timer == 0x4B)
     {
-        GM_SeSet((SVECTOR *)&work->control, 0x8F);
+        GM_SeSet(&work->control.mov, 0x8F);
     }
 
-    work->field_1B24--;
-    if (work->field_1B24 < 0)
+    work->knock_timer--;
+    if (work->knock_timer < 0)
     {
-        work->field_1B24 = 0;
+        work->knock_timer = 0;
     }
 }
 
@@ -522,13 +518,13 @@ void s08b_ninja_800C8264(Work *work) // Act
     GM_ActControl(c);
     GM_ActObject2(&work->body);
 
-    DG_GetLightMatrix2((SVECTOR *)c, work->light);
+    DG_GetLightMatrix2(&c->mov, work->light);
 
     s08b_bunsin2_800CDB10(work);
 
     if (work->field_7D8 == 0)
     {
-        GM_MoveTarget(work->target, (SVECTOR *)&work->control);
+        GM_MoveTarget(work->target, &work->control.mov);
         GM_PushTarget(work->target);
     }
 
@@ -536,17 +532,17 @@ void s08b_ninja_800C8264(Work *work) // Act
 
     if (work->field_7D8 == 0)
     {
-        if (work->field_19E4 < 0)
+        if (work->life < 0)
         {
-            work->field_19E4 = 0;
+            work->life = 0;
         }
 
-        if (work->field_19E4 < s08b_dword_800C338C)
+        if (work->life < s08b_dword_800C338C)
         {
             s08b_dword_800C338C--;
         }
 
-        MENU_DrawBar(16, 28, s08b_dword_800C338C << 2, work->field_19E4 << 2, (MENU_BAR_CONF *)&s08b_dword_800C3380);
+        MENU_DrawBar(16, 28, s08b_dword_800C338C << 2, work->life << 2, &s08b_dword_800C3380);
     }
 
     s08b_ninja_800C81C8(work);
@@ -556,9 +552,9 @@ void s08b_ninja_800C8354(Work *work)
 {
     TARGET *t = work->target;
 
-    GM_SetTarget(t, 0x1F, 2, (SVECTOR *)&s08b_dword_800C3390);
-    GM_SetPowerTarget(t, 1, -1, 0xFF, 0xFF, (SVECTOR *)&s08b_dword_800C3398);
-    GM_SetCaptureTarget(t, -1, 0xFF, (int *)0, (SVECTOR *)0);
+    GM_SetTarget(t, 0x1F, 2, &s08b_dword_800C3390);
+    GM_SetPowerTarget(t, 1, -1, 0xFF, 0xFF, &s08b_dword_800C3398);
+    GM_SetCaptureTarget(t, -1, 0xFF, NULL, NULL);
 }
 
 int s08b_ninja_800C83CC(Work *work, int name, int where)
@@ -592,9 +588,9 @@ int s08b_ninja_800C83CC(Work *work, int name, int where)
     GM_ConfigObjectLight(weapon, light);
     GM_ConfigObjectRoot(weapon, body, 4);
 
-    work->field_1A20 = NewBunsin2(body, 4, &work->field_19FC);
-    work->field_1A24 = NewBunsin2(body, 8, &work->field_19FC);
-    work->field_19FC = 0;
+    work->bunsin1 = NewBunsin2(body, 4, &work->bunsin_state);
+    work->bunsin2 = NewBunsin2(body, 8, &work->bunsin_state);
+    work->bunsin_state = 0;
     return 0;
 }
 
@@ -602,7 +598,7 @@ int s08b_ninja_800C8558(Work *work)
 {
     HZD_DEF    *def;
     HZD_PAT    *route;
-    NinjaClone *clone;
+    NinjaRoute *dst;
     HZD_PTP    *points;
     int         n_routes;
     int         i, j;
@@ -610,34 +606,34 @@ int s08b_ninja_800C8558(Work *work)
     def = work->control.map->hzd->def;
     n_routes = def->n_routes;
     route = def->routes;
-    clone = work->clones;
+    dst = work->routes;
 
     if (n_routes >= 17)
     {
         return -1;
     }
 
-    work->field_1960 = n_routes;
+    work->n_routes = n_routes;
 
     for (i = 0; i < n_routes; i++)
     {
-        clone->field_0 = route->n_points;
-        if ((unsigned int)(clone->field_0 - 1) >= 32)
+        dst->n_points = route->n_points;
+        if ((unsigned int)(dst->n_points - 1) >= 32)
         {
             return -1;
         }
 
         points = route->points;
-        for (j = 0; j < clone->field_0; j++)
+        for (j = 0; j < dst->n_points; j++)
         {
-            clone->field_4[j].vx = points->x;
-            clone->field_4[j].vy = points->y;
-            clone->field_4[j].vz = points->z;
-            clone->field_4[j].pad = points->command;
+            dst->points[j].vx = points->x;
+            dst->points[j].vy = points->y;
+            dst->points[j].vz = points->z;
+            dst->points[j].pad = points->command;
             points++;
         }
 
-        clone++;
+        dst++;
         route++;
     }
 
@@ -669,7 +665,7 @@ int s08b_ninja_800C8624(Work *work)
     v3->vz = 500;
 
     prim = GM_MakePrim(0x12, 1, v0, NULL);
-    work->field_1A80 = prim;
+    work->shadow_prim = prim;
     if (prim == NULL)
     {
         return -1;
@@ -699,19 +695,19 @@ void s08b_ninja_800C8798(Work *work) // Die
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
     GM_FreeObject(&work->weapon);
-    GM_ResetHomingTarget(work->field_910);
-    GV_DestroyActorQuick(work->field_1A20);
-    GV_DestroyActorQuick(work->field_1A24);
+    GM_ResetHomingTarget(work->hom);
+    GV_DestroyActorQuick(work->bunsin1);
+    GV_DestroyActorQuick(work->bunsin2);
 
-    if (work->field_19BC != NULL)
+    if (work->kogaku != NULL)
     {
-        GV_DestroyActorQuick(work->field_19BC);
+        GV_DestroyActorQuick(work->kogaku);
     }
 
     if (work->field_7D8 == 0)
     {
         GM_FreeTarget(work->target);
-        GM_FreePrim(work->field_1A80);
+        GM_FreePrim(work->shadow_prim);
     }
 }
 
@@ -770,7 +766,7 @@ int s08b_ninja_800C8988(Work *work)
     {
         return 0;
     }
-    if (s08b_ninja_800C8930(opt, work->field_1A98) < 0x23)
+    if (s08b_ninja_800C8930(opt, work->vox) < 0x23)
     {
         return 0;
     }
@@ -834,7 +830,7 @@ int s08b_ninja_800C8BE8(Work *work, int name, int where) // GetResources
         s08b_ninja_800C8848(work);
     }
 
-    work->field_910 = GM_SetHomingTarget(&work->body.objs->objs[6].world, &work->control);
+    work->hom = GM_SetHomingTarget(&work->body.objs->objs[6].world, &work->control);
     GM_ConfigMotionAdjust(&work->body, work->adjust);
 
     svec1.vx = 0;
@@ -843,45 +839,45 @@ int s08b_ninja_800C8BE8(Work *work, int name, int where) // GetResources
     svec2.vx = 0;
     svec2.vy = -0x41;
     svec2.vz = -0x2D;
-    NewKatana(&work->body.objs->objs[4].world, &svec1, &svec2, &work->field_19F8);
-    NewTenmetu(&work->body.objs->objs[6].world, &work->field_19F4);
+    NewKatana(&work->body.objs->objs[4].world, &svec1, &svec2, &work->katana_state);
+    NewTenmetu(&work->body.objs->objs[6].world, &work->tenmetu_force);
     s08b_bunsin2_800CD914(work, 1);
 
-    work->control.mov = work->clones[0].field_4[0];
+    work->control.mov = work->routes[0].points[0];
     work->control.mov.vx = -0x1D65;
     work->control.mov.vz = -0x80F;
 
-    work->field_1964 = 0;
-    work->field_1966 = 0;
-    work->field_199C = 0;
-    work->field_19A0 = 0;
-    work->field_1994 = 0;
-    work->field_1998 = 0;
-    work->field_19BC = NULL;
-    work->field_19C0 = 0;
+    work->route = 0;
+    work->route_point = 0;
+    work->time = 0;
+    work->time2 = 0;
+    work->action = 0;
+    work->action2 = 0;
+    work->kogaku = NULL;
+    work->flags = 0;
 
     if (work->field_7D8 == 0)
     {
-        work->field_19C4 = 0;
+        work->think1 = 0;
     }
     else
     {
-        work->field_19C4 = 5;
+        work->think1 = 5;
     }
 
-    work->field_19E4 = 0xFF;
-    work->field_19C8 = 0;
-    work->field_19CC = 0;
-    work->field_19D0 = 0;
+    work->life = 0xFF;
+    work->think2 = 0;
+    work->think3 = 0;
+    work->count3 = 0;
     work->field_19D8 = 0;
     work->field_19DC = 0;
     work->field_19B8 = 1;
-    work->field_1A3C = 0;
+    work->combo = 0;
     work->field_8C0 = 0;
     work->field_19F0 = 0;
     work->field_1A84 = DG_ZeroVector;
-    work->field_19F8 = 1;
-    work->field_1B24 = 0;
+    work->katana_state = 1;
+    work->knock_timer = 0;
     work->field_1A14 = 0;
     return 0;
 }
@@ -898,27 +894,27 @@ void *NewNinjaBoss(int name, int where)
 
         if (GCL_GetOption('e'))
         {
-            work->field_1A8C = GCL_StrToInt(GCL_NextStr());
+            work->param_e = GCL_StrToInt(GCL_NextStr());
         }
         else
         {
-            work->field_1A8C = -1;
+            work->param_e = -1;
         }
         if (GCL_GetOption('w'))
         {
-            work->field_1A90 = GCL_StrToInt(GCL_NextStr());
+            work->proc_w = GCL_StrToInt(GCL_NextStr());
         }
         else
         {
-            work->field_1A90 = -1;
+            work->proc_w = -1;
         }
         if (GCL_GetOption('b'))
         {
-            work->field_1A94 = GCL_StrToInt(GCL_NextStr());
+            work->proc_b = GCL_StrToInt(GCL_NextStr());
         }
         else
         {
-            work->field_1A94 = -1;
+            work->proc_b = -1;
         }
 
         work->field_7D8 = 0;
@@ -1047,7 +1043,7 @@ void s08b_bunsin2_800C9B38(Work *work, int first)
 
     if (first == 0)
     {
-        work->field_19A4 = 0;
+        work->motion = 0;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[0], 0, 4);
     }
 
@@ -1056,15 +1052,15 @@ void s08b_bunsin2_800C9B38(Work *work, int first)
         if (s08b_bunsin2_800C9120(work) != 0)
         {
             GM_ConfigObjectOverride(&work->body, s08b_dword_800C33A0[0], 0, 4, 0);
-            work->field_1998 = 0;
-            work->field_19A0 = 0;
+            work->action2 = 0;
+            work->time2 = 0;
             goto reset;
         }
 
-        if (work->field_19B4 >= 0)
+        if (work->dir >= 0)
         {
-            work->field_1994 = (NinjaAction)s08b_bunsin2_800C9C74;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9C74;
+            work->time = 0;
 reset:
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
@@ -1098,13 +1094,13 @@ void s08b_bunsin2_800CA11C(Work *work, int time)
     CONTROL *control = &work->control;
     int      frame = work->m_ctrl.info1.frame;
 
-    work->field_19FC = 1;
+    work->bunsin_state = 1;
 
     if (time == 0)
     {
-        work->field_19A4 = 7;
+        work->motion = 7;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[7], 0, 4);
-        work->field_918 = control->mov;
+        work->origin = control->mov;
     }
 
     if (time == 18)
@@ -1120,18 +1116,18 @@ void s08b_bunsin2_800CA11C(Work *work, int time)
 
     if (work->body.is_end != 0)
     {
-        work->field_1994 = s08b_bunsin2_800C9B38;
-        work->field_199C = 0;
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        work->field_19A8 = 1;
+        work->actend = 1;
         return;
     }
 
     if ((unsigned int)(frame - 7) < 19)
     {
-        control->step.vx = (work->field_1968.vx - work->field_918.vx) / 18;
-        control->step.vz = (work->field_1968.vz - work->field_918.vz) / 18;
+        control->step.vx = (work->target_pos.vx - work->origin.vx) / 18;
+        control->step.vz = (work->target_pos.vz - work->origin.vz) / 18;
     }
     else
     {
@@ -1147,13 +1143,13 @@ void s08b_bunsin2_800CA298(Work *work, int time)
     CONTROL *control = &work->control;
     int      frame = work->m_ctrl.info1.frame;
 
-    work->field_19FC = 1;
+    work->bunsin_state = 1;
 
     if (time == 0)
     {
-        work->field_19A4 = 6;
+        work->motion = 6;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[6], 0, 4);
-        work->field_918 = control->mov;
+        work->origin = control->mov;
     }
 
     if (time == 18)
@@ -1169,18 +1165,18 @@ void s08b_bunsin2_800CA298(Work *work, int time)
 
     if (work->body.is_end != 0)
     {
-        work->field_1994 = s08b_bunsin2_800C9B38;
-        work->field_199C = 0;
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        work->field_19A8 = 1;
+        work->actend = 1;
         return;
     }
 
     if ((unsigned int)(frame - 7) < 19)
     {
-        control->step.vx = (work->field_1968.vx - work->field_918.vx) / 18;
-        control->step.vz = (work->field_1968.vz - work->field_918.vz) / 18;
+        control->step.vx = (work->target_pos.vx - work->origin.vx) / 18;
+        control->step.vz = (work->target_pos.vz - work->origin.vz) / 18;
     }
     else
     {
@@ -1195,13 +1191,13 @@ void s08b_bunsin2_800CA298(Work *work, int time)
 void s08b_bunsin2_800CA5D8(Work *work, int time)
 {
     CONTROL *control = &work->control;
-    int      angle = work->field_19B4;
+    int      angle = work->dir;
 
     if (time == 0)
     {
-        work->field_19A4 = 5;
+        work->motion = 5;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[5], 0, 4);
-        work->field_918 = control->mov;
+        work->origin = control->mov;
         control->turn.vy = angle;
     }
 
@@ -1225,11 +1221,11 @@ void s08b_bunsin2_800CA5D8(Work *work, int time)
 
         if (time == 79)
         {
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            work->field_19A8 = 1;
+            work->actend = 1;
             return;
         }
 
@@ -1240,26 +1236,26 @@ void s08b_bunsin2_800CA5D8(Work *work, int time)
 
         if ((unsigned int)(time - 7) < 62)
         {
-            work->field_19F8 = 0;
-            work->field_19C0 |= 2;
+            work->katana_state = 0;
+            work->flags |= 2;
 
             if (time == 9)
             {
                 work->body.objs->flag |= DG_FLAG_INVISIBLE;
-                work->field_1A80->type |= DG_PRIM_INVISIBLE;
+                work->shadow_prim->type |= DG_PRIM_INVISIBLE;
             }
 
             if (time == 65)
             {
                 work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
-                work->field_1A80->type &= ~DG_PRIM_INVISIBLE;
+                work->shadow_prim->type &= ~DG_PRIM_INVISIBLE;
             }
         }
 
         if (time == 39)
         {
-            control->mov.vx = work->field_1968.vx;
-            control->mov.vz = work->field_1968.vz;
+            control->mov.vx = work->target_pos.vx;
+            control->mov.vz = work->target_pos.vz;
         }
 
         if ((unsigned int)(time - 7) < 9 || (unsigned int)(time - 56) < 10)
@@ -1289,13 +1285,13 @@ void s08b_bunsin2_800CA858(Work *work, int time)
 {
     CONTROL *control = &work->control;
 
-    work->field_19FC = 1;
+    work->bunsin_state = 1;
 
     if (time == 0)
     {
-        work->field_19A4 = 5;
+        work->motion = 5;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[5], 0, 4);
-        work->field_918 = work->control.mov;
+        work->origin = work->control.mov;
     }
 
     if (time == 7)
@@ -1316,9 +1312,9 @@ void s08b_bunsin2_800CA858(Work *work, int time)
 
     if (time == 39)
     {
-        work->field_19A8 = 1;
-        work->field_1994 = s08b_bunsin2_800C9B38;
-        work->field_199C = 0;
+        work->actend = 1;
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         return;
@@ -1331,25 +1327,25 @@ void s08b_bunsin2_800CA858(Work *work, int time)
 
     if ((unsigned int)(time - 7) < 22)
     {
-        work->field_19C0 |= 2;
+        work->flags |= 2;
 
         if (time == 9)
         {
             work->body.objs->flag |= DG_FLAG_INVISIBLE;
-            work->field_1A80->type |= DG_PRIM_INVISIBLE;
+            work->shadow_prim->type |= DG_PRIM_INVISIBLE;
         }
 
         if (time == 25)
         {
             work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
-            work->field_1A80->type &= ~DG_PRIM_INVISIBLE;
+            work->shadow_prim->type &= ~DG_PRIM_INVISIBLE;
         }
     }
 
     if (time == 15)
     {
-        control->mov.vx = work->field_1968.vx;
-        control->mov.vz = work->field_1968.vz;
+        control->mov.vx = work->target_pos.vx;
+        control->mov.vz = work->target_pos.vz;
     }
 
     if ((unsigned int)(time - 9) < 17)
@@ -1371,13 +1367,13 @@ void s08b_bunsin2_800CAA78(Work *work, int first)
 
     if (first == 0)
     {
-        work->field_19A4 = 8;
+        work->motion = 8;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[8], 0, 4);
     }
 
-    if (work->field_19B4 >= 0)
+    if (work->dir >= 0)
     {
-        control->turn.vy = work->field_19B4;
+        control->turn.vy = work->dir;
     }
 
     damage = s08b_bunsin2_800C9514(work);
@@ -1392,10 +1388,10 @@ void s08b_bunsin2_800CAA78(Work *work, int first)
         }
     }
 
-    if (work->field_19B0 != 7)
+    if (work->command != 7)
     {
-        work->field_1994 = s08b_bunsin2_800C9B38;
-        work->field_199C = 0;
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
     }
@@ -1410,29 +1406,29 @@ void s08b_bunsin2_800CAB50(Work *work, int first)
 
     if (first == 0)
     {
-        work->field_19A4 = 9;
+        work->motion = 9;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[9], 0, 4);
     }
 
     if (s08b_bunsin2_800C9548(work) == 0)
     {
-        if (work->field_19B4 >= 0)
+        if (work->dir >= 0)
         {
-            control->turn.vy = work->field_19B4;
+            control->turn.vy = work->dir;
         }
 
-        if (work->field_19B0 != 8)
+        if (work->command != 8)
         {
             if (s08b_bunsin2_800C9120(work) != 0)
             {
                 GM_ConfigObjectOverride(&work->body, s08b_dword_800C33A0[0], 0, 4, 0);
-                work->field_1998 = 0;
-                work->field_19A0 = 0;
+                work->action2 = 0;
+                work->time2 = 0;
             }
             else
             {
-                work->field_1994 = s08b_bunsin2_800C9B38;
-                work->field_199C = 0;
+                work->action = s08b_bunsin2_800C9B38;
+                work->time = 0;
             }
 
             work->control.turn.vz = 0;
@@ -1448,29 +1444,29 @@ void s08b_bunsin2_800CAC3C(Work *work, int first)
 
     if (first == 0)
     {
-        work->field_19A4 = 8;
+        work->motion = 8;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[8], 0, 4);
     }
 
     if (s08b_bunsin2_800C9548(work) == 0)
     {
-        if (work->field_19B4 >= 0)
+        if (work->dir >= 0)
         {
-            control->turn.vy = work->field_19B4;
+            control->turn.vy = work->dir;
         }
 
-        if (work->field_19B0 != 9)
+        if (work->command != 9)
         {
             if (s08b_bunsin2_800C9120(work) != 0)
             {
                 GM_ConfigObjectOverride(&work->body, s08b_dword_800C33A0[0], 0, 4, 0);
-                work->field_1998 = 0;
-                work->field_19A0 = 0;
+                work->action2 = 0;
+                work->time2 = 0;
             }
             else
             {
-                work->field_1994 = s08b_bunsin2_800C9B38;
-                work->field_199C = 0;
+                work->action = s08b_bunsin2_800C9B38;
+                work->time = 0;
             }
 
             work->control.turn.vz = 0;
@@ -1482,15 +1478,15 @@ void s08b_bunsin2_800CAD28(Work *work, int time)
 {
     if (time == 0)
     {
-        work->field_19A4 = 31;
+        work->motion = 31;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[31], 0, 4);
     }
 
-    work->field_19F8 = 2;
+    work->katana_state = 2;
 
     if ((unsigned int)(time - 1) < 6 || (unsigned int)(time - 20) < 16 || (unsigned int)(time - 101) < 5)
     {
-        work->field_19FC = 1;
+        work->bunsin_state = 1;
     }
 
     if (time == 22 || time == 30 || time == 100)
@@ -1500,8 +1496,8 @@ void s08b_bunsin2_800CAD28(Work *work, int time)
 
     if (s08b_bunsin2_800C9120(work) == 0 && work->body.is_end != 0)
     {
-        work->field_1994 = s08b_bunsin2_800C9B38;
-        work->field_199C = 0;
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
     }
@@ -1510,29 +1506,29 @@ void s08b_bunsin2_800CAE14(Work *work, int time)
 {
     CONTROL *control = &work->control;
 
-    work->field_19FC = 1;
+    work->bunsin_state = 1;
 
     if (time == 0)
     {
-        work->field_19A4 = 30;
+        work->motion = 30;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[30], 0, 4);
         GM_SeSet2(0, 0x3F, 0xB4);
     }
 
     if (time == 90)
     {
-        work->field_19A4 = 0;
+        work->motion = 0;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[0], 0, 15);
     }
 
-    if (work->field_19B4 >= 0)
+    if (work->dir >= 0)
     {
-        control->turn.vy = work->field_19B4;
+        control->turn.vy = work->dir;
     }
 
     if ((unsigned int)(time - 21) < 13 || (unsigned int)(time - 57) < 13)
     {
-        work->field_19FC = 1;
+        work->bunsin_state = 1;
     }
 
     if (time == 20)
@@ -1548,13 +1544,13 @@ void s08b_bunsin2_800CAE14(Work *work, int time)
 
     if (time < 33)
     {
-        work->field_19F8 = 2;
+        work->katana_state = 2;
     }
 
     if (s08b_bunsin2_800C9120(work) == 0 && time == 104)
     {
-        work->field_1994 = s08b_bunsin2_800C9B38;
-        work->field_199C = 0;
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
     }
@@ -1565,16 +1561,16 @@ void s08b_bunsin2_800CAF6C(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 27;
+        work->motion = 27;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[27], 0, 4);
     }
 
-    if (work->field_19B0 != 22)
+    if (work->command != 22)
     {
         if (s08b_bunsin2_800C9120(work) == 0)
         {
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
             goto stop;
@@ -1593,18 +1589,18 @@ void s08b_bunsin2_800CAFF8(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 28;
+        work->motion = 28;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[28], 0, 4);
     }
 
     work->field_1A00 = 1;
 
-    if (work->field_19B0 != 23)
+    if (work->command != 23)
     {
         if (s08b_bunsin2_800C9120(work) == 0)
         {
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
         }
@@ -1622,18 +1618,18 @@ void s08b_bunsin2_800CB0A8(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 29;
+        work->motion = 29;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[29], 0, 4);
     }
 
     work->field_1A00 = 1;
 
-    if (work->field_19B0 != 24)
+    if (work->command != 24)
     {
         if (s08b_bunsin2_800C9120(work) == 0)
         {
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
         }
@@ -1651,7 +1647,7 @@ void s08b_bunsin2_800CB158(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 32;
+        work->motion = 32;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[32], 0, 4);
     }
 
@@ -1659,12 +1655,12 @@ void s08b_bunsin2_800CB158(Work *work, int time)
     {
         work->field_1A00 = 1;
 
-        if (work->field_19B0 != 26)
+        if (work->command != 26)
         {
             if (s08b_bunsin2_800C9120(work) == 0)
             {
-                work->field_1994 = s08b_bunsin2_800C9B38;
-                work->field_199C = 0;
+                work->action = s08b_bunsin2_800C9B38;
+                work->time = 0;
                 work->control.turn.vz = 0;
                 work->control.turn.vx = 0;
                 goto stop;
@@ -1685,19 +1681,19 @@ void s08b_bunsin2_800CB210(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 27;
+        work->motion = 27;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[27], 0, 4);
     }
 
     work->field_1A00 = 1;
 
-    if (work->field_19B0 != 27)
+    if (work->command != 27)
     {
         if (s08b_bunsin2_800C9120(work) == 0)
         {
             work->field_19F0 = 30;
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
             goto stop;
@@ -1716,7 +1712,7 @@ void s08b_bunsin2_800CB2AC(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 34;
+        work->motion = 34;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[34], 0, 4);
         s08b_bunsin2_800C9588(work, 5);
         s08b_bunsin2_800C908C(work);
@@ -1730,12 +1726,12 @@ void s08b_bunsin2_800CB2AC(Work *work, int time)
 
     work->field_1A00 = 2;
 
-    if (work->field_19B0 != 28)
+    if (work->command != 28)
     {
         if (s08b_bunsin2_800C9120(work) == 0)
         {
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
             goto stop;
@@ -1755,7 +1751,7 @@ void s08b_bunsin2_800CB38C(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 35;
+        work->motion = 35;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[35], 0, 4);
     }
 
@@ -1763,12 +1759,12 @@ void s08b_bunsin2_800CB38C(Work *work, int time)
     {
         work->field_1A00 = 1;
 
-        if (work->field_19B0 != 30)
+        if (work->command != 30)
         {
             if (s08b_bunsin2_800C9120(work) == 0)
             {
-                work->field_1994 = s08b_bunsin2_800C9B38;
-                work->field_199C = 0;
+                work->action = s08b_bunsin2_800C9B38;
+                work->time = 0;
                 work->control.turn.vz = 0;
                 work->control.turn.vx = 0;
                 goto stop;
@@ -1789,7 +1785,7 @@ void s08b_bunsin2_800CB444(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 34;
+        work->motion = 34;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[34], 0, 4);
     }
 
@@ -1801,12 +1797,12 @@ void s08b_bunsin2_800CB444(Work *work, int time)
             s08b_bunsin2_800C8F0C(work);
         }
 
-        if (work->field_19B0 != 29)
+        if (work->command != 29)
         {
             if (s08b_bunsin2_800C9120(work) == 0)
             {
-                work->field_1994 = s08b_bunsin2_800C9B38;
-                work->field_199C = 0;
+                work->action = s08b_bunsin2_800C9B38;
+                work->time = 0;
                 work->control.turn.vz = 0;
                 work->control.turn.vx = 0;
                 goto stop;
@@ -1827,14 +1823,14 @@ void s08b_bunsin2_800CB52C(Work *work, int time)
     CONTROL *control = &work->control;
     int      result = 0;
 
-    work->field_19F8 = 2;
+    work->katana_state = 2;
 
     if (time == 0)
     {
-        work->field_19A4 = 10;
+        work->motion = 10;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[10], 0, 4);
-        control->rot.vy = work->field_1A28;
-        control->turn.vy = work->field_1A28;
+        control->rot.vy = work->player_dir;
+        control->turn.vy = work->player_dir;
         work->field_1B26 = 1;
     }
 
@@ -1857,7 +1853,7 @@ void s08b_bunsin2_800CB52C(Work *work, int time)
 
         if ((unsigned int)(time - 5) < 15)
         {
-            work->field_19FC = 1;
+            work->bunsin_state = 1;
             result = s08b_bunsin2_800C9588(work, 0);
         }
 
@@ -1874,11 +1870,11 @@ void s08b_bunsin2_800CB52C(Work *work, int time)
                 GM_SeSet2(0, 0x3F, 0xB3);
             }
 
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            work->field_19A8 = 1;
+            work->actend = 1;
             return;
         }
 
@@ -1896,14 +1892,14 @@ void s08b_bunsin2_800CB52C(Work *work, int time)
             control->step.vz = control->step.vz * 3 / 2;
             if ((time & 3) == 0)
             {
-                control->turn.vy = work->field_1A28;
+                control->turn.vy = work->player_dir;
             }
             break;
 
         case GM_LEVEL_EXTREME:
             control->step.vx *= 2;
             control->step.vz *= 2;
-            control->turn.vy = work->field_1A28;
+            control->turn.vy = work->player_dir;
             break;
         }
     }
@@ -1913,14 +1909,14 @@ void s08b_bunsin2_800CB7A0(Work *work, int time)
     CONTROL *control = &work->control;
     int      result = 0;
 
-    work->field_19F8 = 2;
+    work->katana_state = 2;
 
     if (time == 0)
     {
-        work->field_19A4 = 11;
+        work->motion = 11;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[11], 0, 4);
-        control->rot.vy = work->field_1A28;
-        control->turn.vy = work->field_1A28;
+        control->rot.vy = work->player_dir;
+        control->turn.vy = work->player_dir;
         work->field_1B26 = 1;
     }
 
@@ -1933,7 +1929,7 @@ void s08b_bunsin2_800CB7A0(Work *work, int time)
 
         if ((unsigned int)(time - 7) < 23)
         {
-            work->field_19FC = 1;
+            work->bunsin_state = 1;
             result = s08b_bunsin2_800C9588(work, 0);
         }
 
@@ -1950,11 +1946,11 @@ void s08b_bunsin2_800CB7A0(Work *work, int time)
                 GM_SeSet2(0, 0x3F, 0xB3);
             }
 
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            work->field_19A8 = 1;
+            work->actend = 1;
         }
         else
         {
@@ -1971,10 +1967,10 @@ void s08b_bunsin2_800CB914(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 12;
+        work->motion = 12;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[12], 0, 4);
-        control->rot.vy = work->field_1A28;
-        control->turn.vy = work->field_1A28;
+        control->rot.vy = work->player_dir;
+        control->turn.vy = work->player_dir;
         work->field_1B26 = 1;
     }
 
@@ -1987,19 +1983,19 @@ void s08b_bunsin2_800CB914(Work *work, int time)
 
         if ((unsigned int)(time - 13) < 5)
         {
-            work->field_19FC = 1;
+            work->bunsin_state = 1;
             result = s08b_bunsin2_800C9588(work, 3);
         }
 
         if ((unsigned int)(time - 39) < 3)
         {
-            work->field_19FC = 1;
+            work->bunsin_state = 1;
             result = s08b_bunsin2_800C9588(work, 3);
         }
 
         if ((unsigned int)(time - 57) < 3)
         {
-            work->field_19FC = 1;
+            work->bunsin_state = 1;
             result = s08b_bunsin2_800C9588(work, 4);
         }
 
@@ -2011,11 +2007,11 @@ void s08b_bunsin2_800CB914(Work *work, int time)
 
         if (work->body.is_end != 0)
         {
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            work->field_19A8 = 1;
+            work->actend = 1;
         }
     }
 }
@@ -2026,10 +2022,10 @@ void s08b_bunsin2_800CBAA4(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 13;
+        work->motion = 13;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[13], 0, 4);
-        control->rot.vy = work->field_1A28;
-        control->turn.vy = work->field_1A28;
+        control->rot.vy = work->player_dir;
+        control->turn.vy = work->player_dir;
         work->field_1B26 = 1;
     }
 
@@ -2042,13 +2038,13 @@ void s08b_bunsin2_800CBAA4(Work *work, int time)
 
         if ((unsigned int)(time - 14) < 5)
         {
-            work->field_19FC = 1;
+            work->bunsin_state = 1;
             result = s08b_bunsin2_800C9588(work, 3);
         }
 
         if ((unsigned int)(time - 22) < 18)
         {
-            work->field_19FC = 1;
+            work->bunsin_state = 1;
             result = s08b_bunsin2_800C9588(work, 3);
         }
 
@@ -2060,11 +2056,11 @@ void s08b_bunsin2_800CBAA4(Work *work, int time)
 
         if (work->body.is_end != 0)
         {
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            work->field_19A8 = 1;
+            work->actend = 1;
             return;
         }
 
@@ -2082,14 +2078,14 @@ void s08b_bunsin2_800CBAA4(Work *work, int time)
             control->step.vz = control->step.vz * 3 / 2;
             if ((time & 3) == 0)
             {
-                control->turn.vy = work->field_1A28;
+                control->turn.vy = work->player_dir;
             }
             break;
 
         case GM_LEVEL_EXTREME:
             control->step.vx *= 2;
             control->step.vz *= 2;
-            control->turn.vy = work->field_1A28;
+            control->turn.vy = work->player_dir;
             break;
         }
     }
@@ -2101,10 +2097,10 @@ void s08b_bunsin2_800CBCEC(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 14;
+        work->motion = 14;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[14], 0, 4);
-        control->rot.vy = work->field_1A28;
-        control->turn.vy = work->field_1A28;
+        control->rot.vy = work->player_dir;
+        control->turn.vy = work->player_dir;
         work->field_1B26 = 1;
     }
 
@@ -2117,7 +2113,7 @@ void s08b_bunsin2_800CBCEC(Work *work, int time)
 
         if ((unsigned int)(time - 14) < 7)
         {
-            work->field_19FC = 1;
+            work->bunsin_state = 1;
             result = s08b_bunsin2_800C9588(work, 0);
         }
 
@@ -2129,11 +2125,11 @@ void s08b_bunsin2_800CBCEC(Work *work, int time)
 
         if (work->body.is_end != 0)
         {
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            work->field_19A8 = 1;
+            work->actend = 1;
             return;
         }
 
@@ -2147,10 +2143,10 @@ void s08b_bunsin2_800CBE30(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 15;
+        work->motion = 15;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[15], 0, 4);
-        control->rot.vy = work->field_1A28;
-        control->turn.vy = work->field_1A28;
+        control->rot.vy = work->player_dir;
+        control->turn.vy = work->player_dir;
         work->field_1B26 = 1;
     }
 
@@ -2172,7 +2168,7 @@ void s08b_bunsin2_800CBE30(Work *work, int time)
     if ((unsigned int)(time - 11) < 17)
     {
         result = s08b_bunsin2_800C9588(work, 0);
-        work->field_19FC = 1;
+        work->bunsin_state = 1;
     }
 
     if (result != 0 && work->field_1B26 != 0)
@@ -2185,11 +2181,11 @@ void s08b_bunsin2_800CBE30(Work *work, int time)
     {
         if (work->body.is_end != 0)
         {
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            work->field_19A8 = 1;
+            work->actend = 1;
             return;
         }
 
@@ -2207,14 +2203,14 @@ void s08b_bunsin2_800CBE30(Work *work, int time)
             control->step.vz = control->step.vz * 3 / 2;
             if ((time & 3) == 0)
             {
-                control->turn.vy = work->field_1A28;
+                control->turn.vy = work->player_dir;
             }
             break;
 
         case GM_LEVEL_EXTREME:
             control->step.vx *= 2;
             control->step.vz *= 2;
-            control->turn.vy = work->field_1A28;
+            control->turn.vy = work->player_dir;
             break;
         }
     }
@@ -2229,10 +2225,10 @@ void s08b_bunsin2_800CC080(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 16;
+        work->motion = 16;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[16], 0, 4);
-        work->field_918 = control->mov;
-        angle = work->field_1A28;
+        work->origin = control->mov;
+        angle = work->player_dir;
         control->rot.vy = angle;
         control->turn.vy = angle;
         work->field_1B26 = 1;
@@ -2255,9 +2251,9 @@ void s08b_bunsin2_800CC080(Work *work, int time)
 
         if (work->body.is_end != 0 || limit < time)
         {
-            work->field_19A8 = 1;
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->actend = 1;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
             return;
@@ -2281,7 +2277,7 @@ void s08b_bunsin2_800CC080(Work *work, int time)
 
         if ((unsigned int)(time - 21) < 22)
         {
-            work->field_19FC = 1;
+            work->bunsin_state = 1;
         }
 
         if ((unsigned int)(time - 31) < 12)
@@ -2300,8 +2296,8 @@ void s08b_bunsin2_800CC080(Work *work, int time)
 
         if ((unsigned int)(frame - 7) < 19)
         {
-            control->step.vx = (GM_PlayerPosition.vx - work->field_918.vx) / 18;
-            control->step.vz = (GM_PlayerPosition.vz - work->field_918.vz) / 18;
+            control->step.vx = (GM_PlayerPosition.vx - work->origin.vx) / 18;
+            control->step.vz = (GM_PlayerPosition.vz - work->origin.vz) / 18;
         }
         else
         {
@@ -2324,10 +2320,10 @@ void s08b_bunsin2_800CC2F8(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 17;
+        work->motion = 17;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[17], 0, 4);
-        control->rot.vy = work->field_1A28;
-        control->turn.vy = work->field_1A28;
+        control->rot.vy = work->player_dir;
+        control->turn.vy = work->player_dir;
         work->field_1B26 = 1;
     }
 
@@ -2341,7 +2337,7 @@ void s08b_bunsin2_800CC2F8(Work *work, int time)
         result = 0;
         if ((unsigned int)(time - 18) < 5)
         {
-            work->field_19FC = 1;
+            work->bunsin_state = 1;
             result = s08b_bunsin2_800C9588(work, 0);
         }
 
@@ -2353,11 +2349,11 @@ void s08b_bunsin2_800CC2F8(Work *work, int time)
 
         if (work->body.is_end != 0)
         {
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            work->field_19A8 = 1;
+            work->actend = 1;
             return;
         }
 
@@ -2371,11 +2367,11 @@ void s08b_bunsin2_800CC434(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 33;
+        work->motion = 33;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[33], 0, 4);
     }
 
-    work->field_19FC = 1;
+    work->bunsin_state = 1;
 
     if (time < 150)
     {
@@ -2390,11 +2386,11 @@ void s08b_bunsin2_800CC434(Work *work, int time)
     {
         if (time >= 181)
         {
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            work->field_19A8 = 1;
+            work->actend = 1;
             return;
         }
 
@@ -2413,11 +2409,11 @@ void s08b_bunsin2_800CC578(Work *work, int time)
     int      rnd;
     int      arg2;
 
-    work->field_19FC = 1;
+    work->bunsin_state = 1;
 
     if (s08b_bunsin2_800C9548(work) != 0)
     {
-        work->field_1A3C++;
+        work->combo++;
         return;
     }
 
@@ -2425,11 +2421,11 @@ void s08b_bunsin2_800CC578(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19E4 -= work->damage[0];
-        fprintf(1, s08b_aPunchdamagelifedcombod_800E393C, work->field_19E4, work->field_1A3C);
+        work->life -= work->damage[0];
+        fprintf(1, s08b_aPunchdamagelifedcombod_800E393C, work->life, work->combo);
 
         body = &work->body;
-        work->field_19A4 = 18;
+        work->motion = 18;
         GM_ConfigObjectAction(body, s08b_dword_800C33A0[18], 0, 4);
         GM_SeSetMode(&control->mov, 0x89, 1);
 
@@ -2438,8 +2434,8 @@ void s08b_bunsin2_800CC578(Work *work, int time)
             GM_SeSetMode(&control->mov, 0x34, 1);
         }
 
-        control->rot.vy = work->field_1A28;
-        control->turn.vy = work->field_1A28;
+        control->rot.vy = work->player_dir;
+        control->turn.vy = work->player_dir;
 
         rnd = GV_RandU(16);
         arg2 = rnd + 2;
@@ -2453,16 +2449,16 @@ void s08b_bunsin2_800CC578(Work *work, int time)
 
     if (work->body.is_end != 0)
     {
-        work->field_19A8 = 1;
+        work->actend = 1;
         work->field_19F0 = 30;
-        work->field_1A3C = 0;
-        work->field_1994 = s08b_bunsin2_800C9B38;
-        work->field_199C = 0;
+        work->combo = 0;
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
     }
 
-    if (work->field_1A3C < 2)
+    if (work->combo < 2)
     {
         if (time < 10)
         {
@@ -2476,22 +2472,22 @@ void s08b_bunsin2_800CC71C(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 19;
-        work->field_19E4 -= work->damage[1];
+        work->motion = 19;
+        work->life -= work->damage[1];
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[19], 0, 4);
         GM_SeSetMode(&control->mov, 0x8A, 1);
         GM_SeSetMode(&control->mov, 0x34, 1);
-        control->rot.vy = work->field_1A28;
-        control->turn.vy = work->field_1A28;
+        control->rot.vy = work->player_dir;
+        control->turn.vy = work->player_dir;
     }
 
     if (work->body.is_end != 0)
     {
-        work->field_19A8 = 1;
+        work->actend = 1;
         work->field_19F0 = 30;
-        work->field_1A3C = 0;
-        work->field_1994 = s08b_bunsin2_800C9B38;
-        work->field_199C = 0;
+        work->combo = 0;
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
     }
@@ -2502,11 +2498,11 @@ void s08b_bunsin2_800CC7EC(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 21;
+        work->motion = 21;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[21], 0, 4);
     }
 
-    work->field_19FC = 1;
+    work->bunsin_state = 1;
 
     if (time == 30)
     {
@@ -2526,11 +2522,11 @@ void s08b_bunsin2_800CC7EC(Work *work, int time)
 
     if (work->body.is_end != 0)
     {
-        work->field_1994 = s08b_bunsin2_800C9B38;
-        work->field_199C = 0;
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        work->field_19A8 = 1;
+        work->actend = 1;
     }
 
     if (time < 24)
@@ -2544,7 +2540,7 @@ void s08b_bunsin2_800CC90C(Work *work, int time)
 
     if (time == 0)
     {
-        work->field_19A4 = 22;
+        work->motion = 22;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[22], 0, 4);
     }
 
@@ -2555,13 +2551,13 @@ void s08b_bunsin2_800CC90C(Work *work, int time)
 
     if (time == 30)
     {
-        work->field_19A4 = 38;
+        work->motion = 38;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[38], 0, 4);
     }
 
     if (time == 60)
     {
-        work->field_19A4 = 39;
+        work->motion = 39;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[39], 0, 4);
     }
 
@@ -2569,11 +2565,11 @@ void s08b_bunsin2_800CC90C(Work *work, int time)
     {
         if (work->body.is_end != 0)
         {
-            work->field_1994 = s08b_bunsin2_800C9B38;
-            work->field_199C = 0;
+            work->action = s08b_bunsin2_800C9B38;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            work->field_19A8 = 1;
+            work->actend = 1;
         }
     }
 
@@ -2586,7 +2582,7 @@ void s08b_bunsin2_800CCA4C(Work *work, int time)
 {
     if (time == 0)
     {
-        work->field_19A4 = 26;
+        work->motion = 26;
         GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[26], 0, 4);
     }
 
@@ -2597,9 +2593,9 @@ void s08b_bunsin2_800CCA4C(Work *work, int time)
 
     if (s08b_bunsin2_800C9120(work) == 0 && work->body.is_end != 0)
     {
-        work->field_19A8 = 1;
-        work->field_1994 = s08b_bunsin2_800C9B38;
-        work->field_199C = 0;
+        work->actend = 1;
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
     }
@@ -2611,11 +2607,11 @@ void s08b_bunsin2_800CCAF0(Work *work, int time)
     int      state;
 
     work->target->class |= 0x1F;
-    work->field_19FC = 1;
-    work->field_19F8 = 2;
+    work->bunsin_state = 1;
+    work->katana_state = 2;
 
     target = work->target;
-    work->field_19C0 &= ~2;
+    work->flags &= ~2;
 
     if (time == 0)
     {
@@ -2628,17 +2624,17 @@ void s08b_bunsin2_800CCAF0(Work *work, int time)
 
         if (GV_Time & 1)
         {
-            work->field_19A4 = 23;
+            work->motion = 23;
             GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[23], 0, 0);
         }
         else
         {
-            work->field_19A4 = 24;
+            work->motion = 24;
             GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[24], 0, 0);
         }
     }
 
-    state = work->field_19A4;
+    state = work->motion;
 
     if (target->damaged & 4)
     {
@@ -2660,34 +2656,34 @@ void s08b_bunsin2_800CCAF0(Work *work, int time)
 
         if (state == 23)
         {
-            work->field_19A4 = 24;
+            work->motion = 24;
             GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[24], 0, 0);
         }
         else if (state == 24)
         {
-            work->field_19A4 = 25;
+            work->motion = 25;
             GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[25], 0, 0);
         }
         else
         {
-            work->field_19A4 = 23;
+            work->motion = 23;
             GM_ConfigObjectAction(&work->body, s08b_dword_800C33A0[23], 0, 0);
         }
     }
 
     if (work->body.is_end != 0)
     {
-        work->field_19A8 = 1;
+        work->actend = 1;
         s08b_bunsin2_800CD914(work, 3);
-        work->field_1994 = s08b_bunsin2_800C9B38;
-        work->field_199C = 0;
+        work->action = s08b_bunsin2_800C9B38;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         GM_SeSetMode(&work->control.mov, 0x50, 1);
     }
 
-    control->rot.vy = work->field_1A28;
-    control->turn.vy = work->field_1A28;
+    control->rot.vy = work->player_dir;
+    control->turn.vy = work->player_dir;
 }
 
 void s08b_bunsin2_800CCD18(Work *work)
@@ -2697,13 +2693,13 @@ void s08b_bunsin2_800CCD18(Work *work)
 
 void s08b_bunsin2_800CCD40(Work *work)
 {
-    work->field_19F4 = 0;
-    work->field_19F4 = jimctrl_helper_80037F68(work->control.name) & 0xFF;
+    work->tenmetu_force = 0;
+    work->tenmetu_force = jimctrl_helper_80037F68(work->control.name) & 0xFF;
 }
 
 void s08b_bunsin2_800CCD74(Work *work)
 {
-    if (work->field_19F8 == 0)
+    if (work->katana_state == 0)
     {
         DG_InvisibleObjs(work->weapon.objs);
     }
@@ -2735,38 +2731,38 @@ void s08b_bunsin2_800CCDBC(Work *work)
 }
 void s08b_bunsin2_800CCE34(Work *work)
 {
-    if (work->field_19C0 & 2)
+    if (work->flags & 2)
     {
         if (GM_GameStatus & STATE_THERMG)
         {
-            if (work->field_19BC != NULL)
+            if (work->kogaku != NULL)
             {
                 GM_SeSetMode(&work->control.mov, 0x4E, 1);
-                GV_DestroyActorQuick(work->field_19BC);
-                work->field_19BC = NULL;
-                work->field_910->flag = 1;
-                work->field_1A80->type &= ~DG_PRIM_INVISIBLE;
+                GV_DestroyActorQuick(work->kogaku);
+                work->kogaku = NULL;
+                work->hom->flag = 1;
+                work->shadow_prim->type &= ~DG_PRIM_INVISIBLE;
             }
         }
-        else if (work->field_19BC == NULL)
+        else if (work->kogaku == NULL)
         {
             GM_SeSetMode(&work->control.mov, 0x4E, 1);
-            work->field_19BC = NewKogaku2(&work->control, &work->body, 0);
-            work->field_910->flag = 0;
-            work->field_1A80->type |= DG_PRIM_INVISIBLE;
+            work->kogaku = NewKogaku2(&work->control, &work->body, 0);
+            work->hom->flag = 0;
+            work->shadow_prim->type |= DG_PRIM_INVISIBLE;
         }
 
-        work->field_19F4 = -1;
+        work->tenmetu_force = -1;
         return;
     }
 
-    if (work->field_19BC != NULL)
+    if (work->kogaku != NULL)
     {
         GM_SeSetMode(&work->control.mov, 0x4E, 1);
-        GV_DestroyActorQuick(work->field_19BC);
-        work->field_19BC = NULL;
-        work->field_910->flag = 1;
-        work->field_1A80->type &= ~DG_PRIM_INVISIBLE;
+        GV_DestroyActorQuick(work->kogaku);
+        work->kogaku = NULL;
+        work->hom->flag = 1;
+        work->shadow_prim->type &= ~DG_PRIM_INVISIBLE;
     }
 }
 void s08b_bunsin2_800CCF8C(Work *work)
@@ -2778,7 +2774,7 @@ void s08b_bunsin2_800CCF8C(Work *work)
             GM_SeSetMode(&work->control.mov, 0xB2, 1);
         }
     }
-    else if (work->field_1A00 != 2 && work->field_19E4 < 0x5A)
+    else if (work->field_1A00 != 2 && work->life < 0x5A)
     {
         work->field_1A00 = 1;
     }
@@ -2792,41 +2788,41 @@ void s08b_bunsin2_800CD000(Work *work)
     int          height;
 
     work->target->class = TARGET_AVAIL;
-    work->field_19A8 = 0;
-    work->field_19FC = 0;
+    work->actend = 0;
+    work->bunsin_state = 0;
     work->field_1A00 = 0;
     work->field_1A10 = 0;
 
     if (work->field_8C0 == 1)
     {
-        work->field_19F8 = 0;
+        work->katana_state = 0;
     }
     else
     {
-        work->field_19F8 = 1;
+        work->katana_state = 1;
     }
 
     control = &work->control;
-    action = work->field_1994;
+    action = work->action;
     control->seg_flag = 2;
 
-    time = work->field_199C;
+    time = work->time;
     body = &work->body;
-    work->field_199C = time + 1;
+    work->time = time + 1;
 
     if (action == NULL)
     {
         action = s08b_bunsin2_800C9B38;
-        work->field_1994 = action;
+        work->action = action;
     }
 
     action(work, time);
 
-    action = work->field_1998;
+    action = work->action2;
     if (action != NULL)
     {
-        time = work->field_19A0;
-        work->field_19A0 = time + 1;
+        time = work->time2;
+        work->time2 = time + 1;
         action(work, time);
     }
 
@@ -2835,7 +2831,7 @@ void s08b_bunsin2_800CD000(Work *work)
     if (work->field_1A14 != 0)
     {
         work->target->class &= ~TARGET_CAPTURE;
-        work->field_19FC = 0;
+        work->bunsin_state = 0;
     }
 
     s08b_bunsin2_800CCD18(work);
@@ -2847,12 +2843,12 @@ void s08b_bunsin2_800CD000(Work *work)
 
     if (GM_GameStatus & STATE_THERMG)
     {
-        work->field_19FC = 0;
+        work->bunsin_state = 0;
     }
 
-    if (work->field_19C0 & 4)
+    if (work->flags & 4)
     {
-        if (work->field_7D8 == 0 && work->field_1A18 == NULL && work->field_1A1C == NULL)
+        if (work->field_7D8 == 0 && work->clone1 == NULL && work->clone2 == NULL)
         {
             goto invisible_off;
         }
@@ -2892,21 +2888,21 @@ invisible_off:
 
     control->r_sphere = height;
 
-    if (work->field_914 < 0)
+    if (work->step_vy < 0)
     {
         if (control->grounded != 0)
         {
-            work->field_914 = 0;
+            work->step_vy = 0;
         }
 
-        work->field_914 = work->field_914 - 16;
+        work->step_vy = work->step_vy - 16;
     }
     else
     {
-        work->field_914 = work->field_914 - 16;
+        work->step_vy = work->step_vy - 16;
     }
 
-    control->step.vy = work->field_914;
+    control->step.vy = work->step_vy;
     work->target->captured = 0;
 }
 
@@ -2954,7 +2950,7 @@ void s08b_bunsin2_800CD614(Work *work)
     DG_SetPos(world);
     DG_MovePos(&s08b_dword_800C3430);
     ReadRotMatrix(&mat);
-    GM_SeSet((SVECTOR *)&work->control, 0x49);
+    GM_SeSet(&work->control.mov, 0x49);
     AN_SocomFlash(world, &mat, 0);
     s08b_bunsin2_800CD95C(work, s08b_bunsin2_800CD614);
 }
@@ -2968,9 +2964,9 @@ void s08b_bunsin2_800CD770(Work *work)
 
     rot = DG_ZeroVector;
     rot.vy = work->control.rot.vy;
-    RotMatrixYXZ(&rot, &work->field_1A80->world);
+    RotMatrixYXZ(&rot, &work->shadow_prim->world);
 
-    world = &work->field_1A80->world;
+    world = &work->shadow_prim->world;
     world->t[0] = work->body.objs->world.t[0];
     world->t[1] = work->control.levels[0];
     world->t[2] = work->body.objs->world.t[2];
@@ -3015,9 +3011,9 @@ int s08b_bunsin2_800CD914(Work *work, int index)
 
     for (i = 0; i < 8; i++)
     {
-        if (work->field_1A40[i] == NULL)
+        if (work->funcs[i] == NULL)
         {
-            work->field_1A40[i] = s08b_dword_800C3418[index];
+            work->funcs[i] = s08b_dword_800C3418[index];
             return 1;
         }
     }
@@ -3031,9 +3027,9 @@ int s08b_bunsin2_800CD95C(Work *work, void *func)
 
     for (i = 0; i < 8; i++)
     {
-        if (work->field_1A40[i] == func)
+        if (work->funcs[i] == func)
         {
-            work->field_1A40[i] = NULL;
+            work->funcs[i] = NULL;
             return 1;
         }
     }
@@ -3048,7 +3044,7 @@ void s08b_bunsin2_800CD990(Work *work)
 
     for (i = 0; i < 8; i++)
     {
-        f = work->field_1A40[i];
+        f = work->funcs[i];
         if (f != NULL)
         {
             f(work);
@@ -3061,17 +3057,17 @@ void s08b_bunsin2_800CD9F0(Work *work)
     TARGET        *target = work->target;
     unsigned short flag   = target->damaged;
 
-    work->field_1A34 = 0;
+    work->damage_mode = 0;
     if (flag & TARGET_POWER)
     {
-        work->field_1A34 = target->a_mode;
+        work->damage_mode = target->a_mode;
         return;
     }
     if (flag & TARGET_CAPTURE)
     {
         if (target->a_mode == 0x24)
         {
-            work->field_1A34 = 6;
+            work->damage_mode = 6;
         }
     }
 }
@@ -3085,9 +3081,9 @@ void s08b_bunsin2_800CDA40(Work *work)
     pos = &work->control.mov;
     GV_SubVec3(&GM_PlayerPosition, pos, &diff);
     diff.vy = 0;
-    work->field_1A28 = GV_VecDir2(&diff);
-    work->field_1A2C = GV_VecLen3(&diff);
-    work->field_19AC = 0;
+    work->player_dir = GV_VecDir2(&diff);
+    work->player_dist = GV_VecLen3(&diff);
+    work->player_visible = 0;
 
     if ((GV_Time & 3) == 0)
     {
@@ -3095,11 +3091,11 @@ void s08b_bunsin2_800CDA40(Work *work)
         if (HZD_OnlineHazardCheck(map->hzd, &GM_PlayerPosition, pos, 0xF, 2) != 0 ||
             GM_OnlineTargetCheckAny(pos, &GM_PlayerPosition, map->index, &diff) != 0)
         {
-            work->field_19AC = 0;
+            work->player_visible = 0;
             return;
         }
 
-        work->field_19AC = 1;
+        work->player_visible = 1;
     }
 }
 
@@ -3129,7 +3125,7 @@ void s08b_bunsin2_800CDBAC(Work *work)
         {
             if (GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
-                GM_VoxStream(work->field_1A98[1], 0);
+                GM_VoxStream(work->vox[1], 0);
             }
             s08b_dword_800C3440 = s08b_dword_800C3440 + 1;
         }
@@ -3140,7 +3136,7 @@ void s08b_bunsin2_800CDBAC(Work *work)
         {
             if (GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
-                GM_VoxStream(work->field_1A98[2], 0);
+                GM_VoxStream(work->vox[2], 0);
             }
             s08b_dword_800C3440 = s08b_dword_800C3440 + 1;
         }
@@ -3151,7 +3147,7 @@ void s08b_bunsin2_800CDBAC(Work *work)
         {
             if (GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
-                GM_VoxStream(work->field_1A98[15], 0);
+                GM_VoxStream(work->vox[15], 0);
             }
             s08b_dword_800C3450 = s08b_dword_800C3450 + 1;
         }
@@ -3162,7 +3158,7 @@ void s08b_bunsin2_800CDBAC(Work *work)
         {
             if (GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
-                GM_VoxStream(work->field_1A98[16], 0);
+                GM_VoxStream(work->vox[16], 0);
             }
             s08b_dword_800C3450 = s08b_dword_800C3450 + 1;
         }
@@ -3173,7 +3169,7 @@ void s08b_bunsin2_800CDBAC(Work *work)
         {
             if (GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
-                GM_VoxStream(work->field_1A98[14], 0);
+                GM_VoxStream(work->vox[14], 0);
             }
             s08b_dword_800C3450 = 0;
         }
@@ -3182,66 +3178,66 @@ void s08b_bunsin2_800CDBAC(Work *work)
 }
 void s08b_bunsin2_800CDDD8(Work *work)
 {
-    NinjaClone *c = &work->clones[work->field_1964];
-    int i = work->field_1966 + 1;
+    NinjaRoute *c = &work->routes[work->route];
+    int i = work->route_point + 1;
     MAP *map;
 
-    if (i >= c->field_0)
+    if (i >= c->n_points)
     {
         i = 0;
     }
-    work->field_1966 = i;
-    work->field_1968 = c->field_4[i];
+    work->route_point = i;
+    work->target_pos = c->points[i];
     map = work->control.map;
-    work->field_1970 = HZD_GetAddress(map->hzd, &work->field_1968, -1);
+    work->target_addr = HZD_GetAddress(map->hzd, &work->target_pos, -1);
 }
 void s08b_bunsin2_800CDE74(Work *work)
 {
-    NinjaClone *clone;
+    NinjaRoute *r;
     int         route;
     int         point;
 
-    route = GV_Time % work->field_1960;
-    clone = &work->clones[route];
-    work->field_1964 = route;
+    route = GV_Time % work->n_routes;
+    r = &work->routes[route];
+    work->route = route;
 
-    point = GV_Time % clone->field_0;
-    work->field_1966 = point;
+    point = GV_Time % r->n_points;
+    work->route_point = point;
 
-    work->field_1968 = clone->field_4[point];
-    work->field_1970 = HZD_GetAddress(work->control.map->hzd, &work->field_1968, -1);
+    work->target_pos = r->points[point];
+    work->target_addr = HZD_GetAddress(work->control.map->hzd, &work->target_pos, -1);
 }
 
 void s08b_bunsin2_800CDF68(Work *work)
 {
-    work->field_1968 = GM_PlayerPosition;
-    work->field_1970 = GM_PlayerAddress;
+    work->target_pos = GM_PlayerPosition;
+    work->target_addr = GM_PlayerAddress;
 }
 
 void s08b_bunsin2_800CDFA0(Work *work)
 {
-    work->field_198C = work->field_1968;
-    work->field_1988 = work->field_1970;
-    work->field_1968 = work->field_1980;
-    work->field_1970 = work->field_197C;
+    work->saved_pos = work->target_pos;
+    work->saved_addr = work->target_addr;
+    work->target_pos = work->field_1980;
+    work->target_addr = work->field_197C;
 }
 
 void s08b_bunsin2_800CDFF8(Work *work)
 {
-    work->field_1968 = work->field_198C;
-    work->field_1970 = work->field_1988;
+    work->target_pos = work->saved_pos;
+    work->target_addr = work->saved_addr;
 }
 
 void s08b_bunsin2_800CE024(Work *work)
 {
-    work->field_1968 = s08b_dword_800C358C;
-    work->field_1970 = s08b_dword_800C3594 | (s08b_dword_800C3594 << 8);
+    work->target_pos = s08b_dword_800C358C;
+    work->target_addr = s08b_dword_800C3594 | (s08b_dword_800C3594 << 8);
 }
 
 void s08b_bunsin2_800CE064(Work *work)
 {
-    work->field_1968 = s08b_dword_800C3458;
-    work->field_1970 = s08b_dword_800C3454 | (s08b_dword_800C3454 << 8);
+    work->target_pos = s08b_dword_800C3458;
+    work->target_addr = s08b_dword_800C3454 | (s08b_dword_800C3454 << 8);
 }
 
 void s08b_bunsin2_800CE0A4(Work *work)
@@ -3258,8 +3254,8 @@ void s08b_bunsin2_800CE0A4(Work *work)
         }
     }
 
-    work->field_1968 = s08b_dword_800C3460[index];
-    work->field_1970 = HZD_GetAddress(work->control.map->hzd, &work->field_1968, -1);
+    work->target_pos = s08b_dword_800C3460[index];
+    work->target_addr = HZD_GetAddress(work->control.map->hzd, &work->target_pos, -1);
 }
 void s08b_bunsin2_800CE180(Work *work)
 {
@@ -3274,8 +3270,8 @@ void s08b_bunsin2_800CE180(Work *work)
         index -= 4;
     }
 
-    work->field_1968 = s08b_dword_800C3490[index];
-    work->field_1970 = HZD_GetAddress(work->control.map->hzd, &work->field_1968, -1);
+    work->target_pos = s08b_dword_800C3490[index];
+    work->target_addr = HZD_GetAddress(work->control.map->hzd, &work->target_pos, -1);
 }
 
 void s08b_bunsin2_800CE21C(Work *work)
@@ -3292,8 +3288,8 @@ void s08b_bunsin2_800CE21C(Work *work)
         }
     }
 
-    work->field_1968 = s08b_dword_800C34B0[index];
-    work->field_1970 = HZD_GetAddress(work->control.map->hzd, &work->field_1968, -1);
+    work->target_pos = s08b_dword_800C34B0[index];
+    work->target_addr = HZD_GetAddress(work->control.map->hzd, &work->target_pos, -1);
 }
 
 void s08b_bunsin2_800CE2E8(Work *work)
@@ -3314,8 +3310,8 @@ void s08b_bunsin2_800CE2E8(Work *work)
         index = 2;
     }
 
-    work->field_1968 = s08b_dword_800C34B0[index];
-    work->field_1970 = HZD_GetAddress(work->control.map->hzd, &work->field_1968, -1);
+    work->target_pos = s08b_dword_800C34B0[index];
+    work->target_addr = HZD_GetAddress(work->control.map->hzd, &work->target_pos, -1);
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CE398.s")
@@ -3331,9 +3327,9 @@ void s08b_bunsin2_800CE9BC(Work *work)
     MAP *map;
 
     work->field_19E0 = idx + 1;
-    work->field_1968 = s08b_dword_800C34F8[idx];
+    work->target_pos = s08b_dword_800C34F8[idx];
     map = work->control.map;
-    work->field_1970 = HZD_GetAddress(map->hzd, &work->field_1968, -1);
+    work->target_addr = HZD_GetAddress(map->hzd, &work->target_pos, -1);
 }
 void s08b_bunsin2_800CE9BC(Work *work);
 
@@ -3347,7 +3343,7 @@ int s08b_bunsin2_800CEA34(Work *work, int address)
     int      zone_index;
 
     hzd = work->control.map->hzd;
-    from = HZD_GetAddress(hzd, &work->field_1968, -1) & 0xFF;
+    from = HZD_GetAddress(hzd, &work->target_pos, -1) & 0xFF;
     to = address & 0xFF;
 
     zone_index = HZD_FarZoneNavigate(hzd, from, to, &dist);
@@ -3357,13 +3353,13 @@ int s08b_bunsin2_800CEA34(Work *work, int address)
     }
 
     zone = HZD_GetZone(hzd, zone_index);
-    work->field_1968.vx = zone->x;
-    work->field_1968.vy = zone->y;
-    work->field_1968.vz = zone->z;
-    work->field_1970 = (zone_index << 8) | zone_index;
+    work->target_pos.vx = zone->x;
+    work->target_pos.vy = zone->y;
+    work->target_pos.vz = zone->z;
+    work->target_addr = (zone_index << 8) | zone_index;
 
-    work->field_198C = work->field_1968;
-    work->field_1988 = work->field_1970;
+    work->saved_pos = work->target_pos;
+    work->saved_addr = work->target_addr;
     return dist;
 }
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800CEB40.s")
@@ -3374,28 +3370,28 @@ int s08b_bunsin2_800CECB4(Work *work);
 int s08b_bunsin2_800CEE18(Work *work)
 {
     int ret;
-    if ((work->field_19D0 & 0x1F) == 0)
+    if ((work->count3 & 0x1F) == 0)
     {
         work->field_1978 = -1;
         work->field_1974 = -1;
         s08b_bunsin2_800CECB4(work);
     }
     ret = s08b_bunsin2_800CECB4(work);
-    work->field_19B4 = ret;
+    work->dir = ret;
     return (unsigned int)ret >> 31;
 }
 
 int s08b_bunsin2_800CEE68(Work *work)
 {
     int ret;
-    if ((work->field_19D0 & 0x1F) == 0)
+    if ((work->count3 & 0x1F) == 0)
     {
         work->field_1978 = -1;
         work->field_1974 = -1;
         s08b_bunsin2_800CECB4(work);
     }
     ret = s08b_bunsin2_800CECB4(work);
-    work->field_19B4 = ret;
+    work->dir = ret;
     return (unsigned int)ret >> 31;
 }
 
@@ -3404,16 +3400,16 @@ int s08b_bunsin2_800CEEB8(Work *work, int arg1)
     SVECTOR vec;
     int     dx, dz;
 
-    dx = work->field_1968.vx - work->control.mov.vx;
+    dx = work->target_pos.vx - work->control.mov.vx;
     vec.vx = dx;
-    dz = work->field_1968.vz - work->control.mov.vz;
+    dz = work->target_pos.vz - work->control.mov.vz;
     vec.vz = dz;
 
     if (dx > -arg1 && dx < arg1 && dz > -arg1 && dz < arg1)
     {
         return 1;
     }
-    work->field_19B4 = GV_VecDir2(&vec);
+    work->dir = GV_VecDir2(&vec);
     return 0;
 }
 
@@ -3426,7 +3422,7 @@ int s08b_bunsin2_800CEF34(int a, int b)
     {
         SWAP(a, b);
     }
-    p = s08b_dword_800C3510;
+    p = s08b_dword_800C3510[0];
     for (i = 0; i < 2; i++, p += 2)
     {
         if (a == p[0] && b == p[1])
@@ -3437,19 +3433,19 @@ int s08b_bunsin2_800CEF34(int a, int b)
     return 0;
 }
 
-int s08b_bunsin2_800CEF94(NinjaClone *p, int n, int initial)
+int s08b_bunsin2_800CEF94(NinjaRoute *p, int n, int initial)
 {
     int sum = 0;
     int i;
     for (i = 0; i < n; i++)
     {
-        sum += p->field_0;
+        sum += p->n_points;
         p++;
     }
     return sum + initial;
 }
 
-void s08b_bunsin2_800CEFC0(NinjaClone *clones, int val, short *out_count, short *out_rem)
+void s08b_bunsin2_800CEFC0(NinjaRoute *routes, int val, short *out_count, short *out_rem)
 {
     int cur = val;
     int count = -1;
@@ -3458,8 +3454,8 @@ void s08b_bunsin2_800CEFC0(NinjaClone *clones, int val, short *out_count, short 
     {
         val = cur;
         count++;
-        cur = val - clones->field_0;
-        clones++;
+        cur = val - routes->n_points;
+        routes++;
     }
     *out_count = count;
     *out_rem = val;
@@ -3471,7 +3467,7 @@ int s08b_bunsin2_800CF150(Work *work)
     CONTROL *control = &work->control;
     int      hit;
 
-    if (work->field_1A2C < 1000 && GV_DiffDirAbs(control->rot.vy, work->field_1A28) < 0x400)
+    if (work->player_dist < 1000 && GV_DiffDirAbs(control->rot.vy, work->player_dir) < 0x400)
     {
         if (HZD_OnlineHazardCheck(control->map->hzd, &GM_PlayerPosition, &control->mov, 0xF, 2) == 0)
         {
@@ -3486,9 +3482,9 @@ int s08b_bunsin2_800CF150(Work *work)
         return 0;
     }
 
-    if (work->field_1A2C < 2000)
+    if (work->player_dist < 2000)
     {
-        if (GV_DiffDirAbs(control->rot.vy, work->field_1A28) < 0x200)
+        if (GV_DiffDirAbs(control->rot.vy, work->player_dir) < 0x200)
         {
             hit = HZD_OnlineHazardCheck(control->map->hzd, &GM_PlayerPosition, &control->mov, 0xF, 2);
             if (hit != 0)
@@ -3507,7 +3503,7 @@ int s08b_bunsin2_800CF150(Work *work)
 
 int s08b_bunsin2_800CF254(Work *work)
 {
-    int state = work->field_1A34;
+    int state = work->damage_mode;
 
     if (state != 0)
     {
@@ -3515,32 +3511,32 @@ int s08b_bunsin2_800CF254(Work *work)
         {
         case 2:
             s08b_bunsin2_800CE21C(work);
-            work->field_19C8 = 7;
-            work->field_19CC = 5;
-            work->field_1A38 = state;
+            work->think2 = 7;
+            work->think3 = 5;
+            work->last_damage_mode = state;
             break;
 
         case 1:
-            work->field_19C8 = 7;
-            work->field_19CC = 0x17;
-            work->field_1A38 = state;
+            work->think2 = 7;
+            work->think3 = 0x17;
+            work->last_damage_mode = state;
             break;
 
         case 3:
         case 4:
-            work->field_19C8 = 7;
-            work->field_19CC = 0x17;
-            work->field_1A38 = 3;
+            work->think2 = 7;
+            work->think3 = 0x17;
+            work->last_damage_mode = 3;
             break;
         }
 
         return 1;
     }
 
-    if ((unsigned int)(work->field_19CC - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
+    if ((unsigned int)(work->think3 - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
     {
-        work->field_19C8 = 9;
-        work->field_19CC = 0x1D;
+        work->think2 = 9;
+        work->think3 = 0x1D;
         return 1;
     }
 
@@ -3549,7 +3545,7 @@ int s08b_bunsin2_800CF254(Work *work)
 
 int s08b_bunsin2_800CF354(Work *work)
 {
-    int state = work->field_1A34;
+    int state = work->damage_mode;
 
     if (state != 0)
     {
@@ -3557,38 +3553,38 @@ int s08b_bunsin2_800CF354(Work *work)
         {
         case 2:
             s08b_bunsin2_800CDE74(work);
-            work->field_19C8 = 7;
-            work->field_19CC = 5;
-            work->field_1A38 = 2;
+            work->think2 = 7;
+            work->think3 = 5;
+            work->last_damage_mode = 2;
             break;
 
         case 1:
-            work->field_19C8 = 7;
-            work->field_19CC = 0x17;
-            work->field_1A38 = 1;
+            work->think2 = 7;
+            work->think3 = 0x17;
+            work->last_damage_mode = 1;
             break;
 
         case 3:
         case 4:
-            work->field_19C8 = 7;
-            work->field_19CC = 0x17;
-            work->field_1A38 = 3;
+            work->think2 = 7;
+            work->think3 = 0x17;
+            work->last_damage_mode = 3;
             break;
 
         case 6:
-            work->field_19C8 = 7;
-            work->field_19CC = 0x22;
-            work->field_1A38 = 6;
+            work->think2 = 7;
+            work->think3 = 0x22;
+            work->last_damage_mode = 6;
             break;
         }
 
         return 1;
     }
 
-    if ((unsigned int)(work->field_19CC - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
+    if ((unsigned int)(work->think3 - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
     {
-        work->field_19C8 = 9;
-        work->field_19CC = 0x1D;
+        work->think2 = 9;
+        work->think3 = 0x1D;
         return 1;
     }
 
@@ -3597,45 +3593,45 @@ int s08b_bunsin2_800CF354(Work *work)
 
 int s08b_bunsin2_800CF464(Work *work)
 {
-    int state = work->field_1A34;
+    int state = work->damage_mode;
 
     if (state != 0)
     {
         switch (state)
         {
         case 2:
-            work->field_19C8 = 4;
-            work->field_19CC = 10;
-            work->field_1A38 = 2;
+            work->think2 = 4;
+            work->think3 = 10;
+            work->last_damage_mode = 2;
             break;
 
         case 1:
-            work->field_19C8 = 7;
-            work->field_19CC = 0x17;
-            work->field_1A38 = 1;
+            work->think2 = 7;
+            work->think3 = 0x17;
+            work->last_damage_mode = 1;
             break;
 
         case 3:
         case 4:
-            work->field_19C8 = 7;
-            work->field_19CC = 0x17;
-            work->field_1A38 = 3;
+            work->think2 = 7;
+            work->think3 = 0x17;
+            work->last_damage_mode = 3;
             break;
 
         case 6:
-            work->field_19C8 = 7;
-            work->field_19CC = 0x22;
-            work->field_1A38 = 6;
+            work->think2 = 7;
+            work->think3 = 0x22;
+            work->last_damage_mode = 6;
             break;
         }
 
         return 1;
     }
 
-    if ((unsigned int)(work->field_19CC - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
+    if ((unsigned int)(work->think3 - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
     {
-        work->field_19C8 = 9;
-        work->field_19CC = 0x1D;
+        work->think2 = 9;
+        work->think3 = 0x1D;
         return 1;
     }
 
@@ -3644,7 +3640,7 @@ int s08b_bunsin2_800CF464(Work *work)
 
 int s08b_bunsin2_800CF54C(Work *work)
 {
-    int state = work->field_1A34;
+    int state = work->damage_mode;
 
     if (state != 0)
     {
@@ -3653,36 +3649,36 @@ int s08b_bunsin2_800CF54C(Work *work)
         case 2:
             s08b_dword_800C3448 = 0;
             s08b_bunsin2_800CE2E8(work);
-            work->field_19C8 = 7;
-            work->field_19CC = 5;
+            work->think2 = 7;
+            work->think3 = 5;
             break;
 
         case 1:
             s08b_dword_800C3448 = 0;
-            work->field_19C8 = 7;
-            work->field_19CC = 0x17;
+            work->think2 = 7;
+            work->think3 = 0x17;
             break;
 
         case 3:
         case 4:
-            work->field_19C8 = 7;
-            work->field_19CC = 0x17;
+            work->think2 = 7;
+            work->think3 = 0x17;
             s08b_dword_800C3448++;
             break;
 
         case 6:
-            work->field_19C8 = 7;
-            work->field_19CC = 0x22;
+            work->think2 = 7;
+            work->think3 = 0x22;
             break;
         }
 
         return 1;
     }
 
-    if ((unsigned int)(work->field_19CC - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
+    if ((unsigned int)(work->think3 - 3) >= 2 && (GM_GameStatus & STATE_CHAFF))
     {
-        work->field_19C8 = 9;
-        work->field_19CC = 0x1D;
+        work->think2 = 9;
+        work->think3 = 0x1D;
         return 1;
     }
 
@@ -3691,25 +3687,25 @@ int s08b_bunsin2_800CF54C(Work *work)
 
 void s08b_bunsin2_800CF660(Work *work)
 {
-    switch (work->field_1A34)
+    switch (work->damage_mode)
     {
     case 2:
         s08b_dword_800C3448 = 0;
         s08b_bunsin2_800CE2E8(work);
-        work->field_19C8 = 7;
-        work->field_19CC = 0x17;
+        work->think2 = 7;
+        work->think3 = 0x17;
         break;
 
     case 1:
         s08b_dword_800C3448 = 0;
-        work->field_19C8 = 7;
-        work->field_19CC = 0x17;
+        work->think2 = 7;
+        work->think3 = 0x17;
         break;
 
     case 3:
     case 4:
-        work->field_19C8 = 7;
-        work->field_19CC = 0x17;
+        work->think2 = 7;
+        work->think3 = 0x17;
         s08b_dword_800C3448++;
         break;
     }
@@ -3717,7 +3713,7 @@ void s08b_bunsin2_800CF660(Work *work)
 
 void s08b_bunsin2_800CF704(Work *work)
 {
-    int s = work->field_19D0;
+    int s = work->count3;
     int r;
 
     if (s == 0)
@@ -3730,9 +3726,9 @@ void s08b_bunsin2_800CF704(Work *work)
         GM_AlertModeSet(4);
         s08b_bunsin2_800D53E8(1, 0xEA60);
         GM_GameStatus |= STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40;
-        GM_VoxStream(work->field_1A98[0], 0);
+        GM_VoxStream(work->vox[0], 0);
         s08b_ninja_800C79D4(0);
-        work->field_19B4 = work->field_1A28;
+        work->dir = work->player_dir;
     }
     if (s >= 0xB)
     {
@@ -3741,33 +3737,33 @@ void s08b_bunsin2_800CF704(Work *work)
         {
             s08b_ninja_800C79D4(2);
             s08b_bunsin2_800D5434();
-            work->field_1964 = 0;
-            work->field_1966 = r;
-            work->field_19D4 = 0;
+            work->route = 0;
+            work->route_point = r;
+            work->think_time = 0;
             GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40);
             s08b_bunsin2_800CEB40(work);
-            work->field_19C4 = 3;
-            work->field_19C8 = 0;
-            work->field_19CC = 0x18;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think1 = 3;
+            work->think2 = 0;
+            work->think3 = 0x18;
+            work->think_time = 0;
+            work->count3 = 0;
             return;
         }
     }
     if (s < 0x50)
     {
-        work->field_19B0 = 9;
-        work->field_19B4 = work->field_1A28;
+        work->command = 9;
+        work->dir = work->player_dir;
     }
     else if (s == 0x50)
     {
-        work->field_19B0 = 0x15;
+        work->command = 0x15;
     }
     else if (s >= 0xCF)
     {
-        work->field_19B0 = 9;
+        work->command = 9;
     }
-    work->field_19D0 = work->field_19D0 + 1;
+    work->count3 = work->count3 + 1;
 }
 void s08b_bunsin2_800CF704(Work *work);
 
@@ -3775,31 +3771,31 @@ void s08b_bunsin2_800CF880(Work *work)
 {
     int s;
 
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
-        GM_VoxStream(work->field_1A98[1], 0);
-        work->field_19B4 = work->field_1A28;
+        GM_VoxStream(work->vox[1], 0);
+        work->dir = work->player_dir;
     }
-    if (work->field_19D0 >= 0xB)
+    if (work->count3 >= 0xB)
     {
         s = GM_StreamStatus();
         if (s == -1)
         {
-            work->field_1964 = 0;
-            work->field_1966 = s;
-            work->field_19D4 = 0;
+            work->route = 0;
+            work->route_point = s;
+            work->think_time = 0;
             GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40);
             s08b_bunsin2_800CEB40(work);
-            work->field_19C4 = 1;
-            work->field_19C8 = 0;
-            work->field_19CC = 0x17;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think1 = 1;
+            work->think2 = 0;
+            work->think3 = 0x17;
+            work->think_time = 0;
+            work->count3 = 0;
             return;
         }
     }
-    work->field_19B0 = 7;
-    work->field_19D0 = work->field_19D0 + 1;
+    work->command = 7;
+    work->count3 = work->count3 + 1;
 }
 void s08b_bunsin2_800CF880(Work *work);
 
@@ -3817,61 +3813,61 @@ int s08b_bunsin2_800CF960(Work *work)
 {
     CONTROL *control = &work->control;
 
-    if (work->field_19D0 == 5)
+    if (work->count3 == 5)
     {
-        work->field_1A1C = Bunsin2_800C8F04(control->name, GM_CurrentMap, control, 2);
+        work->clone2 = Bunsin2_800C8F04(control->name, GM_CurrentMap, control, 2);
     }
-    else if (work->field_19D0 == 4)
+    else if (work->count3 == 4)
     {
-        work->field_1A18 = Bunsin2_800C8F04(control->name, GM_CurrentMap, control, 1);
+        work->clone1 = Bunsin2_800C8F04(control->name, GM_CurrentMap, control, 1);
     }
 
-    if (work->field_19D0 >= 6)
+    if (work->count3 >= 6)
     {
-        work->field_19C0 |= 4;
+        work->flags |= 4;
     }
     else
     {
-        work->field_19B4 = work->field_1A28;
+        work->dir = work->player_dir;
     }
 
-    if (work->field_19D0 >= 21)
+    if (work->count3 >= 21)
     {
         return 1;
     }
 
-    work->field_19B0 = 7;
-    work->field_19D0++;
+    work->command = 7;
+    work->count3++;
     return 0;
 }
 
 int s08b_bunsin2_800CFA30(Work *work)
 {
-    int v = ++work->field_19D0;
+    int v = ++work->count3;
     if (v == 1)
     {
-        work->field_19B0 = 25;
+        work->command = 25;
         return 0;
     }
     if (v >= 71)
     {
-        work->field_19B0 = 28;
+        work->command = 28;
     }
-    return work->field_19D0 >= 161;
+    return work->count3 >= 161;
 }
 
 int s08b_bunsin2_800CFA80(Work *work)
 {
-    int n = work->field_19D0 + 1;
-    work->field_19D0 = n;
+    int n = work->count3 + 1;
+    work->count3 = n;
 
     if (n == 1)
     {
         work->field_1A14 = 1;
-        work->field_19B0 = 0x19;
-        if (work->field_1A94 >= 0)
+        work->command = 0x19;
+        if (work->proc_b >= 0)
         {
-            GCL_ExecProc(work->field_1A94, 0);
+            GCL_ExecProc(work->proc_b, 0);
         }
         return 0;
     }
@@ -3881,21 +3877,21 @@ int s08b_bunsin2_800CFA80(Work *work)
             GM_GameOverTimer == 0 &&
             GM_Vitality > 0)
         {
-            GM_VoxStream(work->field_1A98[18], 0);
+            GM_VoxStream(work->vox[18], 0);
         }
     }
-    if (work->field_19D0 == 0x46)
+    if (work->count3 == 0x46)
     {
-        work->field_1A04 = 1;
-        s08b_p_sphere_800D9834(&work->body.objs, &work->field_1A04);
+        work->sphere_state = 1;
+        s08b_p_sphere_800D9834(&work->body.objs, &work->sphere_state);
     }
-    if (work->field_19D0 >= 0x47)
+    if (work->count3 >= 0x47)
     {
-        work->field_19B0 = 0x1C;
+        work->command = 0x1C;
     }
-    if (work->field_19D0 >= 0xA1 && GM_StreamStatus() == -1)
+    if (work->count3 >= 0xA1 && GM_StreamStatus() == -1)
     {
-        work->field_1A04 = 3;
+        work->sphere_state = 3;
         return 1;
     }
     return 0;
@@ -3908,7 +3904,7 @@ int s08b_bunsin2_800CFB98(Work *work)
     SVECTOR  vec;
     int      dir;
 
-    if (work->field_19D0 < 10)
+    if (work->count3 < 10)
     {
         if (work->field_7D8 == 1)
         {
@@ -3929,73 +3925,73 @@ int s08b_bunsin2_800CFB98(Work *work)
         return 1;
     }
 
-    work->field_19B0 = 7;
-    work->field_19D0++;
+    work->command = 7;
+    work->count3++;
     return 0;
 }
 
 int s08b_bunsin2_800CFC64(Work *work)
 {
-    work->field_19D0++;
+    work->count3++;
     return s08b_bunsin2_800CEEB8(work, 500);
 }
 
 int s08b_bunsin2_800CFC90(Work *work)
 {
     s08b_bunsin2_800CEEB8(work, 0x64);
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
-        work->field_19B0 = 1;
-        work->field_19D0++;
+        work->command = 1;
+        work->count3++;
         return 0;
     }
-    if (++work->field_19D0 >= 0x12D)
+    if (++work->count3 >= 0x12D)
     {
         return 1;
     }
-    return work->field_19A8;
+    return work->actend;
 }
 
 int s08b_bunsin2_800CFCF8(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         work->field_1B28 = -1;
         s08b_bunsin2_800CE800(work, s08b_bunsin2_800CE584(work));
-        work->field_19D0 = work->field_19D0 + 1;
+        work->count3 = work->count3 + 1;
         return 0;
     }
-    if (work->field_19D0 == 1)
+    if (work->count3 == 1)
     {
-        work->field_19B4 = work->field_1B28;
+        work->dir = work->field_1B28;
     }
-    work->field_19D0 = work->field_19D0 + 1;
-    if (work->field_19D0 >= 0x12D)
+    work->count3 = work->count3 + 1;
+    if (work->count3 >= 0x12D)
     {
         return 1;
     }
-    return work->field_19A8;
+    return work->actend;
 }
 int s08b_bunsin2_800CFD88(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
-        work->field_19B0 = 5;
+        work->command = 5;
     }
-    if (work->field_19D0 >= 0x3D && work->body.is_end != 0)
+    if (work->count3 >= 0x3D && work->body.is_end != 0)
     {
         return 1;
     }
-    work->field_19D0++;
+    work->count3++;
     return 0;
 }
 int s08b_bunsin2_800CFDE0(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
-        work->field_19B0 = 6;
+        work->command = 6;
     }
-    if (work->field_19D0 >= 0x3D)
+    if (work->count3 >= 0x3D)
     {
         printf(" korekorekor\n");
         return 1;
@@ -4004,7 +4000,7 @@ int s08b_bunsin2_800CFDE0(Work *work)
     {
         return 1;
     }
-    work->field_19D0++;
+    work->count3++;
     return 0;
 }
 
@@ -4013,27 +4009,27 @@ void s08b_bunsin2_800CFE54(Work *work);
 
 int s08b_bunsin2_800D0004(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         s08b_bunsin2_800CE398(work);
-        work->field_19B0 = 6;
+        work->command = 6;
     }
-    if (work->field_19D0 >= 0x1F && work->body.is_end != 0)
+    if (work->count3 >= 0x1F && work->body.is_end != 0)
     {
         return 1;
     }
-    work->field_19D0++;
+    work->count3++;
     return 0;
 }
 
 int s08b_bunsin2_800D0078(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
-        work->field_19B0 = 5;
+        work->command = 5;
     }
 
-    if (work->field_19D0 == 30)
+    if (work->count3 == 30)
     {
         if (GM_ItemTypes[GM_Item + 1] & 2)
         {
@@ -4059,22 +4055,22 @@ int s08b_bunsin2_800D0078(Work *work)
         return 1;
     }
 
-    work->field_19D0++;
+    work->count3++;
     return 0;
 }
 
 int s08b_bunsin2_800D018C(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         s08b_bunsin2_800CE21C(work);
-        work->field_19B0 = 5;
+        work->command = 5;
     }
-    if (work->field_19D0 >= 0x3D && work->body.is_end != 0)
+    if (work->count3 >= 0x3D && work->body.is_end != 0)
     {
         return 1;
     }
-    work->field_19D0++;
+    work->count3++;
     return 0;
 }
 
@@ -4082,87 +4078,87 @@ int s08b_bunsin2_800D0200(Work *work)
 {
     int v;
 
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         s08b_bunsin2_800CDE74(work);
     }
     s08b_bunsin2_800CEEB8(work, 0x64);
 
-    v = work->field_19D0;
+    v = work->count3;
     if (v == 0)
     {
-        work->field_19B0 = 1;
-        work->field_19D0 = work->field_19D0 + 1;
+        work->command = 1;
+        work->count3 = work->count3 + 1;
         return 0;
     }
     {
         int ret = work->body.is_end;
-        work->field_19D0 = v + 1;
+        work->count3 = v + 1;
         return ret;
     }
 }
 int s08b_bunsin2_800D0278(Work *work)
 {
-    if (work->field_19D0 >= 0x79)
+    if (work->count3 >= 0x79)
     {
         return 1;
     }
-    return work->field_19A8;
+    return work->actend;
 }
 
 int s08b_bunsin2_800D02A0(Work *work)
 {
-    int v = ++work->field_19D0;
+    int v = ++work->count3;
     if (v == 1)
     {
-        work->field_19B0 = 25;
+        work->command = 25;
         return 0;
     }
     if (v >= 301)
     {
         return 1;
     }
-    return work->field_19A8;
+    return work->actend;
 }
 
 int s08b_bunsin2_800D02E8(Work *work)
 {
-    int v = ++work->field_19D0;
+    int v = ++work->count3;
     if (v == 1)
     {
-        work->field_19B0 = 25;
+        work->command = 25;
         return 0;
     }
     if (v >= 301)
     {
         return 1;
     }
-    return work->field_19A8;
+    return work->actend;
 }
 
 int s08b_bunsin2_800D0330(Work *work)
 {
-    if (work->field_1A34 != 0)
+    if (work->damage_mode != 0)
     {
         GM_StreamPlayStop();
-        work->field_19CC = 0x17;
+        work->think3 = 0x17;
         return 1;
     }
     if (okajima_CHAF_LIFE < 0x5A)
     {
         GM_StreamPlayStop();
-        work->field_19CC = 0x1C;
+        work->think3 = 0x1C;
         return 1;
     }
-    if (work->field_19D0 == 0 &&
+    if (work->count3 == 0 &&
         GM_StreamStatus() == -1 &&
         GM_GameOverTimer == 0 &&
         GM_Vitality > 0)
     {
-        GM_VoxStream(work->field_1A98[17], 0);
+        GM_VoxStream(work->vox[17], 0);
     }
-    work->field_19B0 = 0x1A;
-    work->field_19D0 = work->field_19D0 + 1;
+    work->command = 0x1A;
+    work->count3 = work->count3 + 1;
     return 0;
 }
 int s08b_bunsin2_800D0410(Work *work)
@@ -4171,8 +4167,8 @@ int s08b_bunsin2_800D0410(Work *work)
     {
         return 1;
     }
-    work->field_19B0 = 27;
-    work->field_19D0++;
+    work->command = 27;
+    work->count3++;
     return 0;
 }
 
@@ -4180,12 +4176,12 @@ int s08b_bunsin2_800D044C(Work *work)
 {
     int time;
 
-    time = work->field_19D0 + 1;
-    work->field_19D0 = time;
+    time = work->count3 + 1;
+    work->count3 = time;
 
     if (time == 1)
     {
-        work->field_19B0 = 25;
+        work->command = 25;
         return 0;
     }
 
@@ -4209,22 +4205,22 @@ int s08b_bunsin2_800D044C(Work *work)
         NewBlast(&work->body.objs->objs[1].world, blast_data_8009F4B8);
     }
 
-    if (work->field_19D0 >= 301)
+    if (work->count3 >= 301)
     {
         return 1;
     }
 
-    return work->field_19A8;
+    return work->actend;
 }
 
 int s08b_bunsin2_800D0530(Work *work)
 {
     int v;
 
-    v = work->field_19D0;
-    work->field_19B0 = 22;
+    v = work->count3;
+    work->command = 22;
     v++;
-    work->field_19D0 = v;
+    work->count3 = v;
     return v >= 0x1F;
 }
 
@@ -4234,7 +4230,7 @@ int s08b_bunsin2_800D0550(Work *work)
 {
     int slot = 7;
 
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         if (GM_StreamStatus() == -1)
         {
@@ -4265,7 +4261,7 @@ int s08b_bunsin2_800D0550(Work *work)
 
             if (GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
-                GM_VoxStream(work->field_1A98[slot], 0);
+                GM_VoxStream(work->vox[slot], 0);
             }
 
             s08b_dword_800C344C++;
@@ -4278,49 +4274,49 @@ int s08b_bunsin2_800D0550(Work *work)
         }
     }
 
-    if (work->field_19D0 >= 61 && GM_StreamStatus() == -1)
+    if (work->count3 >= 61 && GM_StreamStatus() == -1)
     {
         return 1;
     }
 
 advance:
-    work->field_19D0++;
+    work->count3++;
     return 0;
 }
 
 int s08b_bunsin2_800D0688(Work *work)
 {
-    return work->field_19D0++;
+    return work->count3++;
 }
 
 int s08b_bunsin2_800D06A0(Work *work)
 {
-    int count = work->field_19D0;
+    int count = work->count3;
     int n;
 
     if (count == 0)
     {
         GM_StreamPlayStop();
-        work->field_19D0++;
+        work->count3++;
         return 0;
     }
     n = count + 1;
-    work->field_19D0 = n;
+    work->count3 = n;
     if (n >= 0x12D)
     {
         return 1;
     }
-    if (n >= 0x79 && work->field_19A4 == 0)
+    if (n >= 0x79 && work->motion == 0)
     {
         return 1;
     }
-    return work->field_19A8;
+    return work->actend;
 }
 int s08b_bunsin2_800D0720(Work *work)
 {
     int val;
 
-    val = work->field_1968.pad;
+    val = work->target_pos.pad;
     return val & 0x1F;
 }
 
@@ -4331,9 +4327,9 @@ int s08b_bunsin2_800D072C(Work *work)
 
     s08b_bunsin2_800CDF68(work);
     r1 = s08b_bunsin2_800CEE18(work);
-    a0 = *(unsigned char *)&work->field_1978;
-    a1 = *(unsigned char *)&work->field_197C;
-    work->field_19D0++;
+    a0 = work->field_1978 & 0xFF;
+    a1 = work->field_197C & 0xFF;
+    work->count3++;
     if (s08b_bunsin2_800CEF34(a0, a1))
     {
         return 2;
@@ -4347,29 +4343,29 @@ int s08b_bunsin2_800D0784(Work *work)
 
     s08b_bunsin2_800CDF68(work);
 
-    if (work->field_19D0 & 0x10)
+    if (work->count3 & 0x10)
     {
         address = HZD_GetAddress(work->control.map->hzd, &work->control.mov, -1);
         work->field_1978 = address;
-        if (HZD_ReachTo(work->control.map->hzd, address, work->field_1970) >= 2)
+        if (HZD_ReachTo(work->control.map->hzd, address, work->target_addr) >= 2)
         {
             return 1;
         }
     }
 
-    work->field_19B4 = work->field_1A28;
-    work->field_19D0++;
+    work->dir = work->player_dir;
+    work->count3++;
     return 0;
 }
 
 int s08b_bunsin2_800D0814(Work *work)
 {
     int r1 = s08b_bunsin2_800CEE68(work);
-    int a0 = *(unsigned char *)&work->field_1978;
-    int a1 = *(unsigned char *)&work->field_197C;
+    int a0 = work->field_1978 & 0xFF;
+    int a1 = work->field_197C & 0xFF;
     int r2;
 
-    work->field_19D0++;
+    work->count3++;
     r2 = s08b_bunsin2_800CEF34(a0, a1);
     if (r2 != 0)
     {
@@ -4382,14 +4378,14 @@ int s08b_bunsin2_800D0864(Work *work)
 {
     SVECTOR vec;
 
-    GV_SubVec3(&work->field_1968, &work->control.mov, &vec);
+    GV_SubVec3(&work->target_pos, &work->control.mov, &vec);
     vec.vy = 0;
-    work->field_19B4 = GV_VecDir2(&vec);
+    work->dir = GV_VecDir2(&vec);
     if (GV_VecLen3(&vec) < 0x12C)
     {
         return 1;
     }
-    work->field_19D0++;
+    work->count3++;
     return 0;
 }
 
@@ -4400,9 +4396,9 @@ Work *work;
     int a0, a1;
 
     r1 = s08b_bunsin2_800CEE68(work);
-    a0 = *(unsigned char *)&work->field_1978;
-    a1 = *(unsigned char *)&work->field_197C;
-    work->field_19D0++;
+    a0 = work->field_1978 & 0xFF;
+    a1 = work->field_197C & 0xFF;
+    work->count3++;
 
     if (s08b_bunsin2_800CEF34(a0, a1))
     {
@@ -4421,20 +4417,20 @@ Work *work;
 }
 int s08b_bunsin2_800D093C(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         s08b_bunsin2_800CE0A4(work);
-        work->field_19B0 = 5;
+        work->command = 5;
     }
-    if (work->field_19D0 >= 0xB)
+    if (work->count3 >= 0xB)
     {
-        work->field_19C0 |= 2;
+        work->flags |= 2;
     }
-    if (work->field_19D0 >= 0x3D)
+    if (work->count3 >= 0x3D)
     {
         return 1;
     }
-    work->field_19D0 = work->field_19D0 + 1;
+    work->count3 = work->count3 + 1;
     return 0;
 }
 int s08b_bunsin2_800D09C4(Work *work)
@@ -4442,12 +4438,12 @@ int s08b_bunsin2_800D09C4(Work *work)
     int g;
     int threshold;
 
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
-        work->field_19B4 = work->field_1A28;
+        work->dir = work->player_dir;
         s08b_dword_800C3450 = s08b_dword_800C3450 + 1;
     }
-    work->field_19C0 |= 2;
+    work->flags |= 2;
 
     g = GM_GameLevel;
     if (g == 1)
@@ -4467,23 +4463,23 @@ int s08b_bunsin2_800D09C4(Work *work)
         threshold = 0x1C2;
     }
 
-    if (threshold < work->field_19D0)
+    if (threshold < work->count3)
     {
         return 1;
     }
-    work->field_19D0 = work->field_19D0 + 1;
+    work->count3 = work->count3 + 1;
     return 0;
 }
 int s08b_bunsin2_800D0A54(work)
 Work *work;
 {
-    work->field_19B0 = 8;
-    work->field_19B4 = work->field_1A28;
-    if (work->field_1A2C < 2000)
+    work->command = 8;
+    work->dir = work->player_dir;
+    if (work->player_dist < 2000)
     {
         return 1;
     }
-    work->field_19D0++;
+    work->count3++;
     return 0;
 }
 
@@ -4492,9 +4488,9 @@ void s08b_bunsin2_800D0A90(Work *work)
     int g;
     int threshold;
 
-    work->field_19B0 = 8;
-    work->field_19B4 = work->field_1A28;
-    if (work->field_19D0 == 0)
+    work->command = 8;
+    work->dir = work->player_dir;
+    if (work->count3 == 0)
     {
         work->field_19DC = work->field_19DC + 1;
     }
@@ -4517,84 +4513,84 @@ void s08b_bunsin2_800D0A90(Work *work)
         threshold = 0x3C;
     }
 
-    if (threshold < work->field_19D0)
+    if (threshold < work->count3)
     {
-        work->field_19C8 = 3;
-        work->field_19CC = 8;
-        work->field_19D0 = 0;
+        work->think2 = 3;
+        work->think3 = 8;
+        work->count3 = 0;
     }
     else
     {
-        work->field_19D0 = work->field_19D0 + 1;
+        work->count3 = work->count3 + 1;
     }
 }
 void s08b_bunsin2_800D0B1C(Work *work)
 {
-    work->field_19B0 = 7;
-    if (work->field_19D0 >= 11)
+    work->command = 7;
+    if (work->count3 >= 11)
     {
-        work->field_19CC = 5;
-        work->field_19D0 = 0;
+        work->think3 = 5;
+        work->count3 = 0;
     }
     else
     {
-        work->field_19D0++;
+        work->count3++;
     }
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D0B4C.s")
 void s08b_bunsin2_800D0CD8(Work *work)
 {
-    work->field_19B4 = work->field_1A28;
+    work->dir = work->player_dir;
     if (s08b_bunsin2_800CF354(work))
     {
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->count3 = 0;
+        work->think_time = 0;
         work->field_19B8 = 1;
         return;
     }
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         s08b_bunsin2_800D4FBC(&work->body.objs->objs[6].world, 0);
     }
-    if (work->field_19D0 >= 0x1F)
+    if (work->count3 >= 0x1F)
     {
         s08b_bunsin2_800CDE74(work);
-        work->field_19C8 = 1;
-        work->field_19CC = 0x1A;
-        work->field_19D0 = 0;
+        work->think2 = 1;
+        work->think3 = 0x1A;
+        work->count3 = 0;
     }
     else
     {
-        work->field_19B0 = 9;
-        work->field_19D0 = work->field_19D0 + 1;
+        work->command = 9;
+        work->count3 = work->count3 + 1;
     }
 }
 void s08b_bunsin2_800D0D80(Work *work)
 {
     int dist;
 
-    work->field_19B4 = work->field_1A28;
-    dist = work->field_1A2C;
+    work->dir = work->player_dir;
+    dist = work->player_dist;
 
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         work->field_19E0 = 0;
     }
 
     if (s08b_bunsin2_800CF54C(work) != 0)
     {
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->count3 = 0;
+        work->think_time = 0;
         work->field_19B8 = 1;
         return;
     }
 
     if (dist >= 3001)
     {
-        work->field_19C8 = 3;
-        work->field_19CC = 8;
-        work->field_19D0 = 0;
+        work->think2 = 3;
+        work->think3 = 8;
+        work->count3 = 0;
         return;
     }
 
@@ -4608,37 +4604,37 @@ void s08b_bunsin2_800D0D80(Work *work)
 
     if (dist < 500 || work->field_19E0 >= 16)
     {
-        work->field_19C8 = 6;
-        work->field_19CC = 15;
-        work->field_19D0 = 0;
+        work->think2 = 6;
+        work->think3 = 15;
+        work->count3 = 0;
         return;
     }
 
-    if (work->field_19D0 >= 31)
+    if (work->count3 >= 31)
     {
-        work->field_19C8 = 6;
+        work->think2 = 6;
         if (dist < 1000)
         {
-            work->field_19CC = 15;
+            work->think3 = 15;
         }
         else
         {
-            work->field_19CC = 16;
+            work->think3 = 16;
         }
 
-        work->field_19D0 = 0;
+        work->count3 = 0;
         return;
     }
 
-    work->field_19B0 = 9;
-    work->field_19D0++;
+    work->command = 9;
+    work->count3++;
 }
 void s08b_bunsin2_800D0EB8(Work *work)
 {
     int limit;
 
-    work->field_19B0 = 8;
-    work->field_19B4 = work->field_1A28;
+    work->command = 8;
+    work->dir = work->player_dir;
 
     if (GM_GameLevel == GM_LEVEL_NORMAL)
     {
@@ -4656,33 +4652,33 @@ void s08b_bunsin2_800D0EB8(Work *work)
         }
     }
 
-    if (limit < work->field_19D0 && !(GM_PlayerStatus & PLAYER_DOWNED))
+    if (limit < work->count3 && !(GM_PlayerStatus & PLAYER_DOWNED))
     {
-        work->field_19C8 = 5;
-        work->field_19CC = 24;
-        work->field_19D0 = 0;
+        work->think2 = 5;
+        work->think3 = 24;
+        work->count3 = 0;
         return;
     }
 
-    if (work->field_19D0 >= 61)
+    if (work->count3 >= 61)
     {
-        work->field_19CC = 19;
-        work->field_19D0 = 0;
+        work->think3 = 19;
+        work->count3 = 0;
         return;
     }
 
-    work->field_19D0++;
+    work->count3++;
 }
 
 int s08b_bunsin2_800D0F54(Work *work)
 {
-    work->field_19B0 = 7;
-    work->field_19B4 = work->field_1A28;
-    if (work->field_19D0 >= 11)
+    work->command = 7;
+    work->dir = work->player_dir;
+    if (work->count3 >= 11)
     {
         return 1;
     }
-    work->field_19D0++;
+    work->count3++;
     return 0;
 }
 
@@ -4691,23 +4687,23 @@ int s08b_bunsin2_800D0F88(Work *work)
     int limit;
     int level;
 
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
-        work->field_19B4 = work->field_1A28;
+        work->dir = work->player_dir;
     }
 
     level = GM_GameLevel;
     limit = 5;
     if (level == GM_LEVEL_NORMAL)
     {
-        work->field_19C0 |= 2;
+        work->flags |= 2;
     }
     else if (level > GM_LEVEL_EASY)
     {
         if (level < GM_LEVEL_EXTREME + 1)
         {
             limit = 1;
-            work->field_19C0 |= 2;
+            work->flags |= 2;
         }
         else
         {
@@ -4719,12 +4715,12 @@ int s08b_bunsin2_800D0F88(Work *work)
         limit = 10;
     }
 
-    if (limit < work->field_19D0)
+    if (limit < work->count3)
     {
         return 1;
     }
 
-    work->field_19D0++;
+    work->count3++;
     return 0;
 }
 int s08b_bunsin2_800D1014(Work *work)
@@ -4751,35 +4747,35 @@ int s08b_bunsin2_800D1014(Work *work)
         threshold = 0xA;
     }
 
-    if (threshold < work->field_19D0)
+    if (threshold < work->count3)
     {
         if (GM_PlayerStatus & 0x1060)
         {
-            work->field_19B0 = 0x12;
+            work->command = 0x12;
         }
         else if (GM_Weapon == -1)
         {
-            work->field_19B0 = 0x11;
+            work->command = 0x11;
         }
         else
         {
-            work->field_19B0 = 0xC;
+            work->command = 0xC;
         }
     }
     else
     {
-        work->field_19B0 = 7;
+        work->command = 7;
     }
 
-    n = work->field_19D0 + 1;
-    work->field_19D0 = n;
+    n = work->count3 + 1;
+    work->count3 = n;
     if (n >= 0x12D)
     {
         return 1;
     }
     if (n >= 9)
     {
-        return work->field_19A8;
+        return work->actend;
     }
     return 0;
 }
@@ -4787,80 +4783,80 @@ int s08b_bunsin2_800D10C4(Work *work)
 {
     if (GM_PlayerStatus & (PLAYER_SQUAT | PLAYER_GROUND | PLAYER_CB_BOX))
     {
-        work->field_19B0 = 0x12;
+        work->command = 0x12;
     }
     else if (GM_Weapon == WP_None)
     {
-        work->field_19B0 = 0x10;
+        work->command = 0x10;
     }
     else
     {
-        work->field_19B0 = 0xD;
+        work->command = 0xD;
     }
-    if (++work->field_19D0 == 1)
+    if (++work->count3 == 1)
     {
         return 0;
     }
-    if (work->field_19D0 >= 0x12D)
+    if (work->count3 >= 0x12D)
     {
         return 1;
     }
-    return work->field_19A8;
+    return work->actend;
 }
 
 int s08b_bunsin2_800D1138(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         if (GM_PlayerStatus & (PLAYER_SQUAT | PLAYER_GROUND | PLAYER_CB_BOX))
         {
-            work->field_19B0 = 0x12;
+            work->command = 0x12;
         }
         else
         {
-            work->field_19B0 = 0xE;
+            work->command = 0xE;
         }
     }
-    if (++work->field_19D0 == 1)
+    if (++work->count3 == 1)
     {
         return 0;
     }
-    if (work->field_19D0 >= 0x12D)
+    if (work->count3 >= 0x12D)
     {
         return 1;
     }
-    return work->field_19A8;
+    return work->actend;
 }
 
 int s08b_bunsin2_800D11A8(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         if (GM_PlayerStatus & (PLAYER_SQUAT | PLAYER_GROUND | PLAYER_CB_BOX))
         {
-            work->field_19B0 = 0x12;
+            work->command = 0x12;
         }
         else
         {
-            work->field_19B0 = 0xF;
+            work->command = 0xF;
         }
     }
-    if (++work->field_19D0 == 1)
+    if (++work->count3 == 1)
     {
         return 0;
     }
-    if (work->field_19D0 >= 0x12D)
+    if (work->count3 >= 0x12D)
     {
         return 1;
     }
-    return work->field_19A8;
+    return work->actend;
 }
 
 int s08b_bunsin2_800D1218(Work *work)
 {
     int v;
-    work->field_19B0 = 16;
-    v = ++work->field_19D0;
+    work->command = 16;
+    v = ++work->count3;
     if (v == 1)
     {
         return 0;
@@ -4869,14 +4865,14 @@ int s08b_bunsin2_800D1218(Work *work)
     {
         return 1;
     }
-    return work->field_19A8;
+    return work->actend;
 }
 
 int s08b_bunsin2_800D125C(Work *work)
 {
     int v;
-    work->field_19B0 = 17;
-    v = ++work->field_19D0;
+    work->command = 17;
+    v = ++work->count3;
     if (v == 1)
     {
         return 0;
@@ -4885,7 +4881,7 @@ int s08b_bunsin2_800D125C(Work *work)
     {
         return 1;
     }
-    return work->field_19A8;
+    return work->actend;
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_bunsin2_800D12A0.s")
@@ -4893,26 +4889,26 @@ int s08b_bunsin2_800D12A0(Work *work);
 
 int s08b_bunsin2_800D12EC(Work *work)
 {
-    work->field_19B0 = 0x13;
-    if (work->field_19D0 == 0)
+    work->command = 0x13;
+    if (work->count3 == 0)
     {
-        work->field_19B4 = work->field_1A28;
-        work->field_19D0 = 1;
+        work->dir = work->player_dir;
+        work->count3 = 1;
         s08b_bunsin2_800CDF68(work);
         return 0;
     }
-    if (++work->field_19D0 >= 0x12D)
+    if (++work->count3 >= 0x12D)
     {
         return 1;
     }
-    return work->field_19A8;
+    return work->actend;
 }
 
 int s08b_bunsin2_800D1348(Work *work)
 {
     int v;
-    work->field_19B0 = 20;
-    v = ++work->field_19D0;
+    work->command = 20;
+    v = ++work->count3;
     if (v == 1)
     {
         return 0;
@@ -4921,22 +4917,22 @@ int s08b_bunsin2_800D1348(Work *work)
     {
         return 1;
     }
-    return work->field_19A8;
+    return work->actend;
 }
 
 int s08b_bunsin2_800D138C(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
-        work->field_1A04 = 1;
-        s08b_p_sphere_800D9834(&work->body.objs, &work->field_1A04);
+        work->sphere_state = 1;
+        s08b_p_sphere_800D9834(&work->body.objs, &work->sphere_state);
     }
-    if (work->field_19D0 >= 0x1F)
+    if (work->count3 >= 0x1F)
     {
         return 1;
     }
-    work->field_19B0 = 0x1C;
-    work->field_19D0 = work->field_19D0 + 1;
+    work->command = 0x1C;
+    work->count3 = work->count3 + 1;
     return 0;
 }
 int s08b_bunsin2_800D1400(Work *work)
@@ -4946,13 +4942,13 @@ int s08b_bunsin2_800D1400(Work *work)
     switch (work->field_19E0)
     {
     case 1:
-        cond = work->field_19D0 < 0x1F;
+        cond = work->count3 < 0x1F;
         break;
     case 2:
-        cond = work->field_19D0 < 0x10;
+        cond = work->count3 < 0x10;
         break;
     default:
-        cond = work->field_19D0 < 0xB;
+        cond = work->count3 < 0xB;
         break;
     }
 
@@ -4961,16 +4957,16 @@ int s08b_bunsin2_800D1400(Work *work)
         return 1;
     }
 
-    if (work->field_19D0 == 4 &&
+    if (work->count3 == 4 &&
         work->field_19DC % 3 == 0 &&
         GM_StreamStatus() == -1 &&
         GM_GameOverTimer == 0 &&
         GM_Vitality > 0)
     {
-        GM_VoxStream(work->field_1A98[7], 0);
+        GM_VoxStream(work->vox[7], 0);
     }
-    work->field_19B0 = 0x1D;
-    work->field_19D0 = work->field_19D0 + 1;
+    work->command = 0x1D;
+    work->count3 = work->count3 + 1;
     return 0;
 }
 int s08b_bunsin2_800D1514(Work *work)
@@ -4980,19 +4976,19 @@ int s08b_bunsin2_800D1514(Work *work)
     switch (work->field_19E0)
     {
     case 1:
-        below = work->field_19D0 < 0x3D;
+        below = work->count3 < 0x3D;
         break;
     case 2:
-        below = work->field_19D0 < 0x2E;
+        below = work->count3 < 0x2E;
         break;
     default:
-        below = work->field_19D0 < 0x1F;
+        below = work->count3 < 0x1F;
         break;
     }
     if (below)
     {
-        work->field_19B0 = 0x1E;
-        work->field_19D0++;
+        work->command = 0x1E;
+        work->count3++;
         return 0;
     }
     return 1;
@@ -5000,7 +4996,7 @@ int s08b_bunsin2_800D1514(Work *work)
 
 int s08b_bunsin2_800D1588(Work *work)
 {
-    int s = work->field_19D0;
+    int s = work->count3;
 
     if (s == 0)
     {
@@ -5008,27 +5004,27 @@ int s08b_bunsin2_800D1588(Work *work)
             GM_GameOverTimer == 0 &&
             GM_Vitality > 0)
         {
-            GM_VoxStream(work->field_1A98[6], 0);
+            GM_VoxStream(work->vox[6], 0);
         }
     }
     if (s == 1)
     {
         return 1;
     }
-    work->field_19B0 = 8;
-    work->field_19B4 = work->field_1A28;
-    work->field_19D0 = work->field_19D0 + 1;
+    work->command = 8;
+    work->dir = work->player_dir;
+    work->count3 = work->count3 + 1;
     return 0;
 }
 int s08b_bunsin2_800D1638(Work *work)
 {
-    int s = work->field_19D0;
+    int s = work->count3;
 
     if (s == 0xA)
     {
         if (GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
-            GM_VoxStream(work->field_1A98[3], 0);
+            GM_VoxStream(work->vox[3], 0);
         }
     }
     if (s >= 0x83 && GM_StreamStatus() == -1)
@@ -5038,49 +5034,49 @@ int s08b_bunsin2_800D1638(Work *work)
         s08b_bunsin2_800D5434();
         return 1;
     }
-    work->field_19B4 = work->field_1A28;
+    work->dir = work->player_dir;
     if (s < 0x64)
     {
-        work->field_19B0 = 8;
+        work->command = 8;
     }
     else if (s == 0x64)
     {
-        work->field_19B0 = 0xA;
+        work->command = 0xA;
     }
     else if (s >= 0xCD)
     {
-        work->field_19B0 = 8;
+        work->command = 8;
     }
-    work->field_19D0 = work->field_19D0 + 1;
+    work->count3 = work->count3 + 1;
     return 0;
 }
 int s08b_bunsin2_800D1738(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         if (GM_StreamStatus() == -1 &&
             GM_GameOverTimer == 0 &&
             GM_Vitality > 0)
         {
-            GM_VoxStream(work->field_1A98[1], 0);
+            GM_VoxStream(work->vox[1], 0);
         }
-        if (work->field_1A90 >= 0)
+        if (work->proc_w >= 0)
         {
-            GCL_ExecProc(work->field_1A90, 0);
+            GCL_ExecProc(work->proc_w, 0);
         }
     }
-    if (work->field_19D0 >= 2)
+    if (work->count3 >= 2)
     {
         return 1;
     }
-    work->field_19B0 = 8;
-    work->field_19B4 = work->field_1A28;
-    work->field_19D0 = work->field_19D0 + 1;
+    work->command = 8;
+    work->dir = work->player_dir;
+    work->count3 = work->count3 + 1;
     return 0;
 }
 int s08b_bunsin2_800D17F8(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         if (GM_ItemTypes[GM_Item + 1] & 2)
         {
@@ -5096,73 +5092,73 @@ int s08b_bunsin2_800D17F8(Work *work)
             s08b_ninja_800C79D4(7);
         }
     }
-    if (work->field_19D0 == 0x1E)
+    if (work->count3 == 0x1E)
     {
         if (GM_StreamStatus() == -1 &&
             GM_GameOverTimer == 0 &&
             GM_Vitality > 0)
         {
-            GM_VoxStream(work->field_1A98[12], 0);
+            GM_VoxStream(work->vox[12], 0);
         }
     }
-    work->field_19B0 = 8;
-    work->field_19B4 = work->field_1A28;
-    if (work->field_19D0 >= 0x1F && GM_StreamStatus() == -1)
+    work->command = 8;
+    work->dir = work->player_dir;
+    if (work->count3 >= 0x1F && GM_StreamStatus() == -1)
     {
         return 1;
     }
-    work->field_19D0 = work->field_19D0 + 1;
+    work->count3 = work->count3 + 1;
     return 0;
 }
 int s08b_bunsin2_800D195C(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         if (GM_StreamStatus() == -1 &&
             GM_GameOverTimer == 0 &&
             GM_Vitality > 0)
         {
-            GM_VoxStream(work->field_1A98[14], 0);
+            GM_VoxStream(work->vox[14], 0);
         }
     }
-    work->field_19B0 = 9;
-    work->field_19B4 = work->field_1A28;
-    work->field_19C0 |= 2;
-    if (work->field_19D0 >= 0x1F && GM_StreamStatus() == -1)
+    work->command = 9;
+    work->dir = work->player_dir;
+    work->flags |= 2;
+    if (work->count3 >= 0x1F && GM_StreamStatus() == -1)
     {
         return 1;
     }
-    work->field_19D0 = work->field_19D0 + 1;
+    work->count3 = work->count3 + 1;
     return 0;
 }
 int s08b_bunsin2_800D1A18(Work *work)
 {
-    work->field_19C0 |= 2;
-    if (work->field_19D0 == 0)
+    work->flags |= 2;
+    if (work->count3 == 0)
     {
         s08b_bunsin2_800CE0A4(work);
-        work->field_19B0 = 5;
+        work->command = 5;
     }
-    if (work->field_19D0 == 0x1E)
+    if (work->count3 == 0x1E)
     {
         if (GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
             s08b_ninja_800C79D4(6);
         }
     }
-    if (work->field_19D0 >= 0x83 && GM_StreamStatus() == -1)
+    if (work->count3 >= 0x83 && GM_StreamStatus() == -1)
     {
         s08b_ninja_800C79D4(1);
         GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40);
         s08b_bunsin2_800D5434();
         return 1;
     }
-    work->field_19D0 = work->field_19D0 + 1;
+    work->count3 = work->count3 + 1;
     return 0;
 }
 int s08b_bunsin2_800D1AF8(Work *work)
 {
-    if (work->field_19D0 == 0)
+    if (work->count3 == 0)
     {
         if (GM_ItemTypes[GM_Item + 1] & 2)
         {
@@ -5178,42 +5174,42 @@ int s08b_bunsin2_800D1AF8(Work *work)
             s08b_ninja_800C79D4(8);
         }
     }
-    if (work->field_19D0 == 0x1E)
+    if (work->count3 == 0x1E)
     {
         if (GM_StreamStatus() == -1 && GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
-            GM_VoxStream(work->field_1A98[5], 0);
+            GM_VoxStream(work->vox[5], 0);
         }
     }
-    if (work->field_19D0 == 0x82)
+    if (work->count3 == 0x82)
     {
         if (GM_StreamStatus() == -1 && GM_GameOverTimer == 0 && GM_Vitality > 0)
         {
-            GM_VoxStream(work->field_1A98[10], 0);
+            GM_VoxStream(work->vox[10], 0);
         }
     }
-    work->field_19B4 = work->field_1A28;
-    if (work->field_19D0 >= 0x83)
+    work->dir = work->player_dir;
+    if (work->count3 >= 0x83)
     {
-        work->field_19B0 = 0x17;
+        work->command = 0x17;
     }
     else
     {
-        work->field_19B0 = 0x18;
+        work->command = 0x18;
     }
-    if (work->field_19D0 >= 0xE7 && GM_StreamStatus() == -1)
+    if (work->count3 >= 0xE7 && GM_StreamStatus() == -1)
     {
         s08b_ninja_800C79D4(1);
         GM_GameStatus &= ~(STATE_RADIO_OFF | STATE_LIFE_OFF | STATE_MENU_DISABLE | STATE_PADRELEASE | 0x40);
         s08b_bunsin2_800D5434();
         return 1;
     }
-    work->field_19D0 = work->field_19D0 + 1;
+    work->count3 = work->count3 + 1;
     return 0;
 }
 void s08b_bunsin2_800D1CF4(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0:
         s08b_bunsin2_800CF704(work);
@@ -5226,7 +5222,7 @@ void s08b_bunsin2_800D1CF4(Work *work)
 
 void s08b_bunsin2_800D1D44(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x18:
         s08b_bunsin2_800D0B4C(work);
@@ -5234,9 +5230,9 @@ void s08b_bunsin2_800D1D44(Work *work)
     case 7:
         if (s08b_bunsin2_800CFCF8(work) != 0)
         {
-            work->field_19CC = 0x18;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think3 = 0x18;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
     case 0x20:
@@ -5248,12 +5244,12 @@ void s08b_bunsin2_800D1DE0(Work *work)
 {
     extern int s08b_bunsin2_800CF958();
 
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0:
         if (s08b_bunsin2_800CF958(work) != 0)
         {
-            work->field_19C8 = 7;
+            work->think2 = 7;
             goto stop;
         }
         break;
@@ -5265,14 +5261,14 @@ void s08b_bunsin2_800D1DE0(Work *work)
     case 36:
         if (s08b_bunsin2_800D1588(work) != 0)
         {
-            work->field_19CC = 0x18;
-            work->field_19D0 = 0;
+            work->think3 = 0x18;
+            work->count3 = 0;
         }
 
         if (s08b_bunsin2_800CF54C(work) != 0)
         {
-            work->field_19D0 = 0;
-            work->field_19D4 = 0;
+            work->count3 = 0;
+            work->think_time = 0;
             work->field_19B8 = 1;
         }
         break;
@@ -5280,7 +5276,7 @@ void s08b_bunsin2_800D1DE0(Work *work)
     case 5:
         if (s08b_bunsin2_800D0004(work) != 0)
         {
-            work->field_19CC = 0x18;
+            work->think3 = 0x18;
             goto reset;
         }
         break;
@@ -5289,10 +5285,10 @@ void s08b_bunsin2_800D1DE0(Work *work)
         if (s08b_bunsin2_800CFCF8(work) != 0)
         {
 stop:
-            work->field_19CC = 0x18;
-            work->field_19D4 = 0;
+            work->think3 = 0x18;
+            work->think_time = 0;
 reset:
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
         break;
     }
@@ -5300,60 +5296,60 @@ reset:
 void s08b_bunsin2_800D1EC8(Work *work)
 {
     extern int s08b_bunsin2_800CF950();
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0:
         if (s08b_bunsin2_800CF950(work) != 0)
         {
             s08b_bunsin2_800CE024(work);
-            work->field_19CC = 5;
-            work->field_19D0 = 0;
+            work->think3 = 5;
+            work->count3 = 0;
         }
         break;
     case 5:
         if (s08b_bunsin2_800CFDE0(work) != 0)
         {
-            work->field_19CC = 0x17;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think3 = 0x17;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
     case 0x17:
         if (s08b_bunsin2_800D0688(work) >= 0x97)
         {
-            work->field_19C8 = 4;
-            work->field_19CC = 0xA;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think2 = 4;
+            work->think3 = 0xA;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         else
         {
-            work->field_19B0 = 0x16;
+            work->command = 0x16;
         }
         break;
     }
 }
 void s08b_bunsin2_800D1F9C(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 5:
         if (s08b_bunsin2_800D018C(work) != 0)
         {
-            work->field_19CC = 0x17;
-            work->field_19D0 = 0;
+            work->think3 = 0x17;
+            work->count3 = 0;
         }
         break;
 
     case 0x17:
-        if (s08b_bunsin2_800D0688(work) >= 0x97 || work->field_1A2C < 3000)
+        if (s08b_bunsin2_800D0688(work) >= 0x97 || work->player_dist < 3000)
         {
-            work->field_19CC = 0;
-            work->field_19D0 = 0;
+            work->think3 = 0;
+            work->count3 = 0;
             return;
         }
 
-        work->field_19B0 = 0x16;
+        work->command = 0x16;
         break;
 
     case 0:
@@ -5361,210 +5357,210 @@ void s08b_bunsin2_800D1F9C(Work *work)
         {
             s08b_dword_800E4340 = 1;
             s08b_bunsin2_800CE180(work);
-            work->field_19CC = 3;
-            work->field_19D0 = 0;
+            work->think3 = 3;
+            work->count3 = 0;
             return;
         }
         break;
 
     case 3:
-        work->field_19C0 |= 4;
+        work->flags |= 4;
         if (s08b_bunsin2_800CFD88(work) != 0)
         {
-            work->field_19C8 = 2;
-            work->field_19CC = 8;
-            work->field_19D0 = 0;
+            work->think2 = 2;
+            work->think3 = 8;
+            work->count3 = 0;
         }
         break;
     }
 
-    if (work->field_1A34 != 0)
+    if (work->damage_mode != 0)
     {
-        work->field_19C8 = 7;
-        work->field_19CC = 0x1F;
+        work->think2 = 7;
+        work->think3 = 0x1F;
 
-        if (work->field_1A18 != NULL)
+        if (work->clone1 != NULL)
         {
-            GV_DestroyActor(work->field_1A18);
-            work->field_1A18 = NULL;
+            GV_DestroyActor(work->clone1);
+            work->clone1 = NULL;
         }
 
-        if (work->field_1A1C != NULL)
+        if (work->clone2 != NULL)
         {
-            GV_DestroyActor(work->field_1A1C);
-            work->field_1A1C = NULL;
+            GV_DestroyActor(work->clone2);
+            work->clone2 = NULL;
         }
 
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->count3 = 0;
+        work->think_time = 0;
     }
 }
 
 void s08b_bunsin2_800D2104(Work *work)
 {
-    if (work->field_19CC == 0 && s08b_bunsin2_800CFA30(work))
+    if (work->think3 == 0 && s08b_bunsin2_800CFA30(work))
     {
-        work->field_19C8 = 1;
-        work->field_19CC = 6;
-        work->field_19D0 = 0;
+        work->think2 = 1;
+        work->think3 = 6;
+        work->count3 = 0;
         work->field_19E0 = 0;
     }
 }
 
 void s08b_bunsin2_800D2158(Work *work)
 {
-    if (work->field_19CC == 0 && s08b_bunsin2_800CFA80(work))
+    if (work->think3 == 0 && s08b_bunsin2_800CFA80(work))
     {
         work->field_19E0 = 0;
         work->field_19DC = 0;
         s08b_bunsin2_800CE9BC(work);
-        work->field_19C8 = 1;
-        work->field_19CC = 5;
-        work->field_19D0 = 0;
+        work->think2 = 1;
+        work->think3 = 5;
+        work->count3 = 0;
     }
 }
 
 void s08b_bunsin2_800D21B8(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x17:
         if (s08b_bunsin2_800D06A0(work))
         {
-            if (work->field_1A38 == 1)
+            if (work->last_damage_mode == 1)
             {
-                if (work->field_1A2C < 0x4B0)
+                if (work->player_dist < 0x4B0)
                 {
-                    work->field_19C8 = 5;
-                    work->field_19CC = 5;
+                    work->think2 = 5;
+                    work->think3 = 5;
                 }
                 else
                 {
-                    work->field_19C8 = 3;
-                    work->field_19CC = 8;
+                    work->think2 = 3;
+                    work->think3 = 8;
                 }
             }
             else
             {
-                if (work->field_19E4 < 6)
+                if (work->life < 6)
                 {
-                    work->field_19C4 = 7;
-                    work->field_19C8 = 0;
-                    work->field_19CC = 0;
+                    work->think1 = 7;
+                    work->think2 = 0;
+                    work->think3 = 0;
                 }
                 else
                 {
-                    work->field_19CC = 0x23;
+                    work->think3 = 0x23;
                 }
             }
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
         break;
     case 0x1C:
         if (s08b_bunsin2_800D02E8(work))
         {
-            work->field_19CC = 0x23;
-            work->field_19D0 = 0;
+            work->think3 = 0x23;
+            work->count3 = 0;
         }
         break;
     case 0x23:
         if (s08b_bunsin2_800D0550(work))
         {
-            if (work->field_1A2C < 0x4B0)
+            if (work->player_dist < 0x4B0)
             {
-                work->field_19C8 = 5;
-                work->field_19CC = 5;
+                work->think2 = 5;
+                work->think3 = 5;
             }
             else
             {
-                work->field_19C8 = 3;
-                work->field_19CC = 8;
+                work->think2 = 3;
+                work->think3 = 8;
             }
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
         else
         {
-            work->field_19B0 = 0x16;
+            work->command = 0x16;
         }
         break;
     case 5:
         if (s08b_bunsin2_800CFDE0(work))
         {
-            work->field_19C8 = 3;
-            work->field_19CC = 8;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think2 = 3;
+            work->think3 = 8;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
     }
 }
 void s08b_bunsin2_800D231C(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x17:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D06A0(work))
         {
-            if (work->field_19E4 < 6)
+            if (work->life < 6)
             {
-                work->field_19C4 = 7;
-                work->field_19C8 = 0;
-                work->field_19CC = 0;
+                work->think1 = 7;
+                work->think2 = 0;
+                work->think3 = 0;
             }
             else
             {
-                work->field_19CC = 0x1C;
+                work->think3 = 0x1C;
             }
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
         break;
     case 0x1D:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D0330(work))
         {
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
         break;
     case 0x1C:
         if (s08b_bunsin2_800D0410(work))
         {
-            if (work->field_1A2C < 0x4B0)
+            if (work->player_dist < 0x4B0)
             {
-                work->field_19C8 = 5;
-                work->field_19CC = 5;
+                work->think2 = 5;
+                work->think3 = 5;
             }
             else
             {
-                work->field_19C8 = 3;
-                work->field_19CC = 8;
+                work->think2 = 3;
+                work->think3 = 8;
             }
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
     }
 }
 void s08b_bunsin2_800D2420(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x17:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
-            if (work->field_19E4 < 6)
+            if (work->life < 6)
             {
-                work->field_19C4 = 7;
-                work->field_19C8 = 0;
-                work->field_19CC = 0;
+                work->think1 = 7;
+                work->think2 = 0;
+                work->think3 = 0;
             }
             else
             {
-                work->field_19CC = 0x1C;
+                work->think3 = 0x1C;
             }
 
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
         break;
 
@@ -5572,7 +5568,7 @@ void s08b_bunsin2_800D2420(Work *work)
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D0330(work) != 0)
         {
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
         break;
 
@@ -5580,34 +5576,34 @@ void s08b_bunsin2_800D2420(Work *work)
         if (s08b_bunsin2_800D0410(work) != 0)
         {
             s08b_bunsin2_800CDE74(work);
-            work->field_19C8 = 1;
-            work->field_19CC = 0x1A;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think2 = 1;
+            work->think3 = 0x1A;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
     }
 }
 void s08b_bunsin2_800D2510(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x17:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
-            if (work->field_19E4 < 6)
+            if (work->life < 6)
             {
-                work->field_19C4 = 7;
-                work->field_19C8 = 0;
-                work->field_19CC = 0;
+                work->think1 = 7;
+                work->think2 = 0;
+                work->think3 = 0;
             }
             else
             {
-                work->field_19CC = 0x1C;
+                work->think3 = 0x1C;
             }
 
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
         break;
 
@@ -5615,21 +5611,21 @@ void s08b_bunsin2_800D2510(Work *work)
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D0330(work) == 0)
         {
-            work->field_19C0 |= 2;
+            work->flags |= 2;
         }
         else
         {
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
         break;
 
     case 0x1C:
         if (s08b_bunsin2_800D0410(work) != 0)
         {
-            work->field_19C8 = 4;
-            work->field_19CC = 0xA;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think2 = 4;
+            work->think3 = 0xA;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
     }
@@ -5641,40 +5637,40 @@ void s08b_bunsin2_800D2600(Work *work)
     int dist;
     int command;
 
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x17:
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
-            time = work->field_19E4;
+            time = work->life;
             if (time < 6)
             {
-                work->field_19C4 = 7;
-                work->field_19C8 = 0;
-                work->field_19CC = 0;
+                work->think1 = 7;
+                work->think2 = 0;
+                work->think3 = 0;
             }
             else
             {
                 if (GM_GameStatus & STATE_CHAFF)
                 {
-                    work->field_19C8 = 9;
-                    work->field_19CC = 0x1C;
+                    work->think2 = 9;
+                    work->think3 = 0x1C;
                 }
-                else if (work->field_1A38 == 3)
+                else if (work->last_damage_mode == 3)
                 {
                     if (s08b_dword_800C3448 == 0)
                     {
                         s08b_dword_800C3448 = 2;
                         s08b_bunsin2_800CE2E8(work);
-                        work->field_19C8 = 8;
-                        work->field_19CC = 5;
+                        work->think2 = 8;
+                        work->think3 = 5;
                     }
                     else if (time < 0x79)
                     {
                         s08b_bunsin2_800CE2E8(work);
-                        work->field_19C4 = 2;
-                        work->field_19C8 = 8;
-                        work->field_19CC = 5;
+                        work->think1 = 2;
+                        work->think2 = 8;
+                        work->think3 = 5;
                     }
                     else
                     {
@@ -5695,12 +5691,12 @@ void s08b_bunsin2_800D2600(Work *work)
 
                         if (work->field_19DC % divisor == 0)
                         {
-                            work->field_19C8 = 6;
-                            work->field_19CC = 0x13;
+                            work->think2 = 6;
+                            work->think3 = 0x13;
                         }
                         else
                         {
-                            work->field_19CC = 7;
+                            work->think3 = 7;
                         }
                     }
                 }
@@ -5711,33 +5707,33 @@ void s08b_bunsin2_800D2600(Work *work)
 
             }
 
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
     case 0x22:
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
-            work->field_19CC = 7;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think3 = 7;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
     case 7:
         if (s08b_bunsin2_800CFCF8(work) != 0)
         {
-            dist = work->field_1A2C;
+            dist = work->player_dist;
             if (dist < 1000)
             {
-                work->field_19C8 = 6;
-                work->field_19CC = 0xF;
+                work->think2 = 6;
+                work->think3 = 0xF;
             }
             else if (dist < 5000)
             {
-                work->field_19C8 = 6;
-                work->field_19CC = 0x10;
+                work->think2 = 6;
+                work->think3 = 0x10;
             }
             else
             {
@@ -5747,12 +5743,12 @@ void s08b_bunsin2_800D2600(Work *work)
                     goto reload;
                 }
 
-                work->field_19C8 = 0;
-                work->field_19CC = command;
+                work->think2 = 0;
+                work->think3 = command;
             }
 
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
@@ -5761,99 +5757,99 @@ void s08b_bunsin2_800D2600(Work *work)
         {
 reload:
             s08b_bunsin2_800CDE74(work);
-            work->field_19C8 = 1;
-            work->field_19CC = 0x1A;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think2 = 1;
+            work->think3 = 0x1A;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
     }
 }
 void s08b_bunsin2_800D2860(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x17:
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
-            if (work->field_1A38 == 3)
+            if (work->last_damage_mode == 3)
             {
                 work->field_19DC++;
             }
 
-            if (work->field_19E4 < 6)
+            if (work->life < 6)
             {
-                work->field_19C4 = 7;
-                work->field_19C8 = 0;
-                work->field_19CC = 0;
+                work->think1 = 7;
+                work->think2 = 0;
+                work->think3 = 0;
             }
             else if (work->field_19DC >= 3)
             {
                 s08b_bunsin2_800CE2E8(work);
-                work->field_19C8 = 8;
-                work->field_19C4 = 0;
-                work->field_19CC = 5;
+                work->think2 = 8;
+                work->think1 = 0;
+                work->think3 = 5;
             }
             else
             {
-                work->field_19C8 = 4;
-                work->field_19CC = 10;
+                work->think2 = 4;
+                work->think3 = 10;
             }
 
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
     case 0x22:
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
-            work->field_19C8 = 4;
-            work->field_19CC = 10;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think2 = 4;
+            work->think3 = 10;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
     case 0x1C:
         if (s08b_bunsin2_800D02A0(work) != 0)
         {
-            work->field_19C8 = 3;
-            work->field_19C4 = 0;
-            work->field_19CC = 8;
-            work->field_19D0 = 0;
+            work->think2 = 3;
+            work->think1 = 0;
+            work->think3 = 8;
+            work->count3 = 0;
         }
         break;
 
     case 0x19:
         if (s08b_bunsin2_800D0200(work) != 0)
         {
-            if (work->field_19E4 < 0x5B)
+            if (work->life < 0x5B)
             {
-                work->field_19C4 = 4;
-                work->field_19C8 = 0;
-                work->field_19CC = 0;
+                work->think1 = 4;
+                work->think2 = 0;
+                work->think3 = 0;
             }
             else
             {
-                work->field_19C8 = 1;
-                work->field_19CC = 6;
+                work->think2 = 1;
+                work->think3 = 6;
             }
 
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
         break;
     }
 }
 void s08b_bunsin2_800D29DC(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x17:
         work->field_1A08 = 1;
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
-            work->field_19CC = 0x1C;
+            work->think3 = 0x1C;
             goto reset;
         }
 
@@ -5872,61 +5868,61 @@ void s08b_bunsin2_800D29DC(Work *work)
     case 0x1C:
         if (s08b_bunsin2_800D0410(work) != 0)
         {
-            work->field_19C8 = 8;
-            work->field_19CC = 0x26;
+            work->think2 = 8;
+            work->think3 = 0x26;
             s08b_dword_800C3448 = 0;
 reset:
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
     }
 }
 void s08b_bunsin2_800D2AB4(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x17:
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
             if (GM_GameStatus & STATE_CHAFF)
             {
-                work->field_19C8 = 9;
-                work->field_19CC = 0x1C;
+                work->think2 = 9;
+                work->think3 = 0x1C;
             }
             else if (s08b_dword_800C3448 < 2)
             {
-                work->field_19CC = 7;
+                work->think3 = 7;
             }
             else
             {
                 s08b_bunsin2_800CE2E8(work);
-                work->field_19C8 = 8;
-                work->field_19CC = 5;
+                work->think2 = 8;
+                work->think3 = 5;
             }
 
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
     case 0x22:
         if (s08b_bunsin2_800D06A0(work) != 0)
         {
-            work->field_19C8 = 0;
-            work->field_19CC = 0x18;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think2 = 0;
+            work->think3 = 0x18;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
     case 5:
         if (s08b_bunsin2_800CFDE0(work) != 0)
         {
-            work->field_19C8 = 8;
-            work->field_19CC = 0x26;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think2 = 8;
+            work->think3 = 0x26;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
@@ -5935,41 +5931,41 @@ void s08b_bunsin2_800D2AB4(Work *work)
         {
             if (s08b_dword_800C3448 == 0)
             {
-                work->field_19C8 = 8;
-                work->field_19CC = 0x26;
+                work->think2 = 8;
+                work->think3 = 0x26;
             }
             else
             {
-                work->field_19C8 = 0;
-                work->field_19CC = 0x24;
+                work->think2 = 0;
+                work->think3 = 0x24;
             }
 
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
     }
 }
 void s08b_bunsin2_800D2BFC(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x17:
         if (s08b_bunsin2_800D0688(work) >= 0x1F)
         {
-            work->field_19C8 = 0;
-            work->field_19CC = 5;
-            work->field_19D0 = 0;
+            work->think2 = 0;
+            work->think3 = 5;
+            work->count3 = 0;
         }
         else
         {
-            work->field_19B0 = 0x17;
-            if (work->field_1A34 != 0)
+            work->command = 0x17;
+            if (work->damage_mode != 0)
             {
-                work->field_19C8 = 7;
-                work->field_19CC = 0x19;
-                work->field_19D0 = 0;
-                work->field_19D4 = 0;
+                work->think2 = 7;
+                work->think3 = 0x19;
+                work->count3 = 0;
+                work->think_time = 0;
             }
         }
         break;
@@ -5977,20 +5973,20 @@ void s08b_bunsin2_800D2BFC(Work *work)
     case 0x19:
         if (s08b_bunsin2_800D0200(work) != 0)
         {
-            if (work->field_19E4 < 0x3D)
+            if (work->life < 0x3D)
             {
-                work->field_19C8 = 3;
-                work->field_19C4 = 0;
-                work->field_19CC = 8;
+                work->think2 = 3;
+                work->think1 = 0;
+                work->think3 = 8;
             }
             else
             {
-                work->field_19C8 = 0;
-                work->field_19CC = 5;
+                work->think2 = 0;
+                work->think3 = 5;
             }
 
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
@@ -6004,9 +6000,9 @@ void s08b_bunsin2_800D2BFC(Work *work)
     case 0x1F:
         if (s08b_bunsin2_800D0F54(work) != 0)
         {
-            work->field_19C8 = 6;
-            work->field_19CC = 0xE;
-            work->field_19D0 = 0;
+            work->think2 = 6;
+            work->think3 = 0xE;
+            work->count3 = 0;
         }
         break;
     }
@@ -6014,13 +6010,13 @@ void s08b_bunsin2_800D2BFC(Work *work)
 
 void s08b_bunsin2_800D2D3C(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x17:
         if (s08b_bunsin2_800D0278(work))
         {
-            work->field_19CC = 0x1D;
-            work->field_19D0 = 0;
+            work->think3 = 0x1D;
+            work->count3 = 0;
         }
         break;
     case 0x1D:
@@ -6036,7 +6032,7 @@ void s08b_bunsin2_800D2DB0(Work *work)
 {
     int x;
 
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x17:
         work->field_1A08 = 1;
@@ -6047,9 +6043,9 @@ void s08b_bunsin2_800D2DB0(Work *work)
         if (work->field_19E0 >= 3)
         {
             s08b_bunsin2_800CE064(work);
-            x = work->field_1A8C;
-            work->field_19CC = 0x1B;
-            work->field_19C8 = 1;
+            x = work->param_e;
+            work->think3 = 0x1B;
+            work->think2 = 1;
             work->field_19B8 = 3;
             if (x >= 0 && GM_GameOverTimer == 0 && GM_Vitality > 0)
             {
@@ -6059,10 +6055,10 @@ void s08b_bunsin2_800D2DB0(Work *work)
         else
         {
             s08b_bunsin2_800CE9BC(work);
-            work->field_19C8 = 1;
-            work->field_19CC = 5;
+            work->think2 = 1;
+            work->think3 = 5;
         }
-        work->field_19D0 = 0;
+        work->count3 = 0;
         break;
     case 0x1D:
         s08b_bunsin2_800D0530(work);
@@ -6071,26 +6067,26 @@ void s08b_bunsin2_800D2DB0(Work *work)
 }
 void s08b_bunsin2_800D2EA0(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 5:
         if (s08b_bunsin2_800D0078(work) != 0)
         {
-            work->field_19CC = 0x24;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think3 = 0x24;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
     case 0x24:
         if (s08b_bunsin2_800D1638(work) != 0)
         {
-            work->field_19C4 = 1;
-            work->field_19C8 = 2;
-            work->field_19CC = 8;
+            work->think1 = 1;
+            work->think2 = 2;
+            work->think3 = 8;
             work->field_19DC = 0;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
@@ -6098,27 +6094,27 @@ void s08b_bunsin2_800D2EA0(Work *work)
         if (s08b_bunsin2_800D1738(work) != 0)
         {
             s08b_bunsin2_800CDE74(work);
-            work->field_19C4 = 1;
-            work->field_19C8 = 1;
-            work->field_19CC = 0x1A;
+            work->think1 = 1;
+            work->think2 = 1;
+            work->think3 = 0x1A;
             work->field_1A0C = 1;
             work->field_19DC = 0;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
     }
 }
 void s08b_bunsin2_800D2F80(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 5:
         if (s08b_bunsin2_800D0078(work) != 0)
         {
-            work->field_19CC = 0x24;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think3 = 0x24;
+            work->think_time = 0;
+            work->count3 = 0;
             work->field_19DC = 0;
         }
         break;
@@ -6126,86 +6122,86 @@ void s08b_bunsin2_800D2F80(Work *work)
     case 0x24:
         if (s08b_bunsin2_800D17F8(work) != 0)
         {
-            work->field_19CC = 0x25;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think3 = 0x25;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
     case 0x25:
         if (s08b_bunsin2_800D195C(work) != 0)
         {
-            work->field_19CC = 0x26;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think3 = 0x26;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
 
     case 0x26:
         if (s08b_bunsin2_800D1A18(work) != 0)
         {
-            work->field_19C8 = 4;
-            work->field_19CC = 0xB;
-            work->field_19D4 = 0;
-            work->field_19D0 = 0;
+            work->think2 = 4;
+            work->think3 = 0xB;
+            work->think_time = 0;
+            work->count3 = 0;
         }
         break;
     }
 }
 void s08b_bunsin2_800D3064(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 5:
         if (s08b_bunsin2_800D0078(work) == 0)
         {
             return;
         }
-        work->field_19CC = 0x24;
+        work->think3 = 0x24;
         break;
     case 0x24:
         if (s08b_bunsin2_800D1638(work) == 0)
         {
             return;
         }
-        work->field_19C8 = 2;
-        work->field_19CC = 8;
+        work->think2 = 2;
+        work->think3 = 8;
         break;
     default:
         return;
     }
-    work->field_19D4 = 0;
-    work->field_19D0 = 0;
+    work->think_time = 0;
+    work->count3 = 0;
 }
 void s08b_bunsin2_800D30E0(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 5:
         if (s08b_bunsin2_800D0078(work) == 0)
         {
             return;
         }
-        work->field_19CC = 0x24;
+        work->think3 = 0x24;
         break;
     case 0x24:
         if (s08b_bunsin2_800D1AF8(work) == 0)
         {
             return;
         }
-        work->field_19C8 = 3;
-        work->field_19CC = 8;
+        work->think2 = 3;
+        work->think3 = 8;
         work->field_19DC = 0;
         break;
     default:
         return;
     }
-    work->field_19D4 = 0;
-    work->field_19D0 = 0;
+    work->think_time = 0;
+    work->count3 = 0;
 }
 void s08b_bunsin2_800D3160(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0:
         if (s08b_bunsin2_800CFB98(work) == 0)
@@ -6213,28 +6209,28 @@ void s08b_bunsin2_800D3160(Work *work)
             return;
         }
         s08b_bunsin2_800CE180(work);
-        work->field_19CC = 5;
+        work->think3 = 5;
         break;
     case 5:
-        work->field_19C0 |= 4;
+        work->flags |= 4;
         if (s08b_bunsin2_800CFD88(work) == 0)
         {
             return;
         }
-        work->field_19C8 = 2;
-        work->field_19CC = 8;
+        work->think2 = 2;
+        work->think3 = 8;
         break;
     default:
         return;
     }
-    work->field_19D0 = 0;
+    work->count3 = 0;
 }
 void s08b_bunsin2_800D31EC(Work *work)
 {
     int command;
     int result;
 
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 26:
         switch (s08b_bunsin2_800D0814(work))
@@ -6267,8 +6263,8 @@ void s08b_bunsin2_800D31EC(Work *work)
                 command = 0x19;
             }
 
-            work->field_19CC = command;
-            work->field_19B0 = -1;
+            work->think3 = command;
+            work->command = -1;
             goto reset;
         }
         break;
@@ -6307,37 +6303,37 @@ check:
 stop:
             command = 0x18;
 set:
-            work->field_19CC = command;
+            work->think3 = command;
 reset:
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
         break;
     }
 
-    if (work->field_1A34 == 2)
+    if (work->damage_mode == 2)
     {
         s08b_bunsin2_800CE21C(work);
-        work->field_19CC = 5;
-        work->field_19B0 = -1;
-        work->field_19D0 = 0;
+        work->think3 = 5;
+        work->command = -1;
+        work->count3 = 0;
     }
-    else if ((unsigned int)(work->field_1A34 - 3) < 2)
+    else if ((unsigned int)(work->damage_mode - 3) < 2)
     {
-        work->field_19C8 = 7;
-        work->field_19CC = 0x17;
-        work->field_19D0 = 0;
+        work->think2 = 7;
+        work->think3 = 0x17;
+        work->count3 = 0;
     }
 }
 void s08b_bunsin2_800D3394(Work *work)
 {
     int weapon;
 
-    if (work->field_19D4 >= 0x97 && (weapon = GM_Weapon) == -1)
+    if (work->think_time >= 0x97 && (weapon = GM_Weapon) == -1)
     {
-        work->field_19C8 = 2;
-        work->field_19CC = 8;
-        work->field_19B0 = weapon;
-        work->field_19D4 = 0;
+        work->think2 = 2;
+        work->think3 = 8;
+        work->command = weapon;
+        work->think_time = 0;
     }
     else
     {
@@ -6346,15 +6342,15 @@ void s08b_bunsin2_800D3394(Work *work)
         switch (s08b_bunsin2_800D0720(work))
         {
         case 0:
-            work->field_19CC = 2;
+            work->think3 = 2;
             break;
 
         case 1:
-            work->field_19CC = 3;
+            work->think3 = 3;
             break;
 
         case 5:
-            work->field_19CC = 5;
+            work->think3 = 5;
             break;
         }
 
@@ -6362,27 +6358,27 @@ void s08b_bunsin2_800D3394(Work *work)
         s08b_bunsin2_800CEEB8(work, 500);
     }
 
-    work->field_19D0 = 0;
+    work->count3 = 0;
 }
 void s08b_bunsin2_800D3468(Work *work)
 {
     int count;
     int state;
 
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x1A:
         switch (s08b_bunsin2_800D0814(work))
         {
         case 1:
-            work->field_19CC = 2;
-            work->field_19D0 = 0;
+            work->think3 = 2;
+            work->count3 = 0;
             break;
 
         case 2:
             s08b_bunsin2_800CDFA0(work);
-            work->field_19CC = 4;
-            work->field_19D0 = 0;
+            work->think3 = 4;
+            work->count3 = 0;
             break;
         }
         break;
@@ -6391,8 +6387,8 @@ void s08b_bunsin2_800D3468(Work *work)
         if (s08b_bunsin2_800CFC90(work) != 0)
         {
             s08b_bunsin2_800CDFF8(work);
-            work->field_19CC = 0x1A;
-            work->field_19D0 = 0;
+            work->think3 = 0x1A;
+            work->count3 = 0;
         }
         break;
 
@@ -6405,36 +6401,36 @@ void s08b_bunsin2_800D3468(Work *work)
             s08b_dword_800C3444 = count;
             if (count == 0x14)
             {
-                s08b_bunsin2_800CDB54(work->field_1A98[2]);
+                s08b_bunsin2_800CDB54(work->vox[2]);
             }
             else if (count == 0x28)
             {
-                s08b_bunsin2_800CDB54(work->field_1A98[1]);
+                s08b_bunsin2_800CDB54(work->vox[1]);
                 s08b_dword_800C3444 = 0;
             }
         }
 
-        if (work->field_19D4 >= 0x1C3)
+        if (work->think_time >= 0x1C3)
         {
-            work->field_19C8 = 5;
-            work->field_19CC = 8;
-            work->field_19D0 = 0;
+            work->think2 = 5;
+            work->think3 = 8;
+            work->count3 = 0;
             break;
         }
 
-        if (work->field_19D4 >= 0x97 && work->field_1A2C < 3000 && work->field_19AC == 1 && GM_Weapon != -1)
+        if (work->think_time >= 0x97 && work->player_dist < 3000 && work->player_visible == 1 && GM_Weapon != -1)
         {
-            work->field_19C8 = 6;
-            if (work->field_1A2C < 1500)
+            work->think2 = 6;
+            if (work->player_dist < 1500)
             {
-                work->field_19CC = 14;
+                work->think3 = 14;
             }
             else
             {
-                work->field_19CC = 13;
+                work->think3 = 13;
             }
 
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
         break;
 
@@ -6448,88 +6444,88 @@ void s08b_bunsin2_800D3468(Work *work)
 
     if (s08b_bunsin2_800CF354(work) != 0)
     {
-        state = work->field_1A38;
+        state = work->last_damage_mode;
         if (state == 3)
         {
             work->field_1A0C = 0;
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
         else if (state == 1)
         {
-            work->field_19D0 = state;
+            work->count3 = state;
         }
         else
         {
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
 
-        work->field_19B0 = -1;
+        work->command = -1;
     }
 }
 void s08b_bunsin2_800D367C(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 2:
         if (s08b_bunsin2_800CFC64(work) != 0)
         {
-            work->field_19CC = 6;
-            work->field_19D0 = 0;
+            work->think3 = 6;
+            work->count3 = 0;
         }
         break;
 
     case 3:
         if (s08b_bunsin2_800CFC90(work) != 0)
         {
-            work->field_19CC = 6;
-            work->field_19D0 = 0;
+            work->think3 = 6;
+            work->count3 = 0;
         }
         break;
 
     case 5:
         if (s08b_bunsin2_800CFDE0(work) != 0)
         {
-            work->field_19CC = 6;
-            work->field_19D0 = 0;
+            work->think3 = 6;
+            work->count3 = 0;
         }
         break;
 
     case 6:
-        if (work->field_19D4 >= 301)
+        if (work->think_time >= 301)
         {
-            work->field_19C8 = 4;
-            work->field_19CC = 10;
-            work->field_19D4 = 0;
+            work->think2 = 4;
+            work->think3 = 10;
+            work->think_time = 0;
             return;
         }
 
         switch (s08b_bunsin2_800D0720(work))
         {
         case 0:
-            work->field_19CC = 2;
+            work->think3 = 2;
             break;
 
         case 1:
-            work->field_19CC = 3;
+            work->think3 = 3;
             break;
 
         case 5:
-            work->field_19CC = 5;
+            work->think3 = 5;
             break;
         }
 
         s08b_bunsin2_800CEFF4(work);
         s08b_bunsin2_800CDDD8(work);
-        work->field_19D0 = 0;
+        work->count3 = 0;
         break;
     }
 
-    if ((unsigned int)(work->field_1A34 - 3) < 2)
+    if ((unsigned int)(work->damage_mode - 3) < 2)
     {
-        work->field_19C8 = 7;
-        work->field_19CC = 0x19;
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->think2 = 7;
+        work->think3 = 0x19;
+        work->count3 = 0;
+        work->think_time = 0;
     }
 }
 void s08b_bunsin2_800D37F0(Work *work)
@@ -6538,26 +6534,26 @@ void s08b_bunsin2_800D37F0(Work *work)
     {
         if (GM_PlayerPosition.vz >= 0x9C5)
         {
-            work->field_1968 = s08b_dword_800C3568[0];
-            work->field_1970 = 0x2828;
+            work->target_pos = s08b_dword_800C3568[0];
+            work->target_addr = 0x2828;
         }
         else
         {
-            work->field_1968 = s08b_dword_800C3568[1];
-            work->field_1970 = 0x1F1F;
+            work->target_pos = s08b_dword_800C3568[1];
+            work->target_addr = 0x1F1F;
         }
     }
     else
     {
         if (GM_PlayerPosition.vz >= 0x9C5)
         {
-            work->field_1968 = s08b_dword_800C3568[2];
-            work->field_1970 = 0x202;
+            work->target_pos = s08b_dword_800C3568[2];
+            work->target_addr = 0x202;
         }
         else
         {
-            work->field_1968 = s08b_dword_800C3568[3];
-            work->field_1970 = 0x4040;
+            work->target_pos = s08b_dword_800C3568[3];
+            work->target_addr = 0x4040;
         }
     }
 }
@@ -6565,20 +6561,20 @@ void s08b_bunsin2_800D38F0(Work *work)
 {
     s08b_bunsin2_800D37F0(work);
 
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0x1A:
         switch (s08b_bunsin2_800D0814(work))
         {
         case 1:
-            work->field_19CC = 0x1B;
-            work->field_19D0 = 0;
+            work->think3 = 0x1B;
+            work->count3 = 0;
             break;
 
         case 2:
             s08b_bunsin2_800CDFA0(work);
-            work->field_19CC = 3;
-            work->field_19D0 = 0;
+            work->think3 = 3;
+            work->count3 = 0;
             break;
         }
         break;
@@ -6586,16 +6582,16 @@ void s08b_bunsin2_800D38F0(Work *work)
     case 0x1B:
         if (s08b_bunsin2_800D0864(work) != 0)
         {
-            work->field_19CC = 0x18;
-            work->field_19D0 = 0;
+            work->think3 = 0x18;
+            work->count3 = 0;
         }
         break;
 
     case 0x18:
-        if (work->field_1A2C < 3000)
+        if (work->player_dist < 3000)
         {
-            work->field_19CC = 0x1A;
-            work->field_19D0 = 0;
+            work->think3 = 0x1A;
+            work->count3 = 0;
         }
         break;
 
@@ -6603,15 +6599,15 @@ void s08b_bunsin2_800D38F0(Work *work)
         if (s08b_bunsin2_800CFC90(work) != 0)
         {
             s08b_bunsin2_800CDFF8(work);
-            work->field_19CC = 0x1A;
-            work->field_19D0 = 0;
+            work->think3 = 0x1A;
+            work->count3 = 0;
         }
         break;
     }
 }
 void s08b_bunsin2_800D39F8(Work *work)
 {
-    int state = work->field_19CC;
+    int state = work->think3;
     switch (state)
     {
     case 5:
@@ -6619,65 +6615,65 @@ void s08b_bunsin2_800D39F8(Work *work)
         {
             return;
         }
-        work->field_19CC = 6;
+        work->think3 = 6;
         break;
     case 6:
         if (s08b_bunsin2_800CE8A0(work) != 0)
         {
-            work->field_19C8 = state;
-            work->field_19CC = 0x15;
+            work->think2 = state;
+            work->think3 = 0x15;
         }
         else
         {
-            work->field_19CC = 5;
+            work->think3 = 5;
         }
         break;
     default:
         return;
     }
-    work->field_19D0 = 0;
+    work->count3 = 0;
 }
 void s08b_bunsin2_800D3A84(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 5:
         if (s08b_bunsin2_800CFDE0(work) == 0)
         {
             return;
         }
-        work->field_19C8 = 6;
-        work->field_19CC = 0;
+        work->think2 = 6;
+        work->think3 = 0;
         break;
     case 0x1B:
         if (s08b_bunsin2_800D0864(work) == 0)
         {
             return;
         }
-        work->field_19C8 = 7;
-        work->field_19CC = 0x1D;
+        work->think2 = 7;
+        work->think3 = 0x1D;
         break;
     default:
         return;
     }
-    work->field_19D0 = 0;
+    work->count3 = 0;
 }
 void s08b_bunsin2_800D3B00(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 8:
         switch (s08b_bunsin2_800D072C(work))
         {
         case 1:
-            work->field_19CC = 9;
-            work->field_19D0 = 0;
+            work->think3 = 9;
+            work->count3 = 0;
             break;
 
         case 2:
             s08b_bunsin2_800CDFA0(work);
-            work->field_19CC = 3;
-            work->field_19D0 = 0;
+            work->think3 = 3;
+            work->count3 = 0;
             break;
         }
         break;
@@ -6685,16 +6681,16 @@ void s08b_bunsin2_800D3B00(Work *work)
     case 9:
         if (s08b_bunsin2_800D0784(work) != 0)
         {
-            work->field_19CC = 8;
-            work->field_19D0 = 0;
+            work->think3 = 8;
+            work->count3 = 0;
         }
         break;
 
     case 3:
         if (s08b_bunsin2_800CFC90(work) != 0)
         {
-            work->field_19CC = 8;
-            work->field_19D0 = 0;
+            work->think3 = 8;
+            work->count3 = 0;
         }
         break;
     }
@@ -6704,8 +6700,8 @@ void s08b_bunsin2_800D3BD4(Work *work)
 {
     if (s08b_bunsin2_800CF254(work))
     {
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->count3 = 0;
+        work->think_time = 0;
         work->field_19B8 = 1;
     }
     else
@@ -6713,12 +6709,12 @@ void s08b_bunsin2_800D3BD4(Work *work)
         s08b_bunsin2_800D3B00(work);
         work->field_19B8 = 0;
 
-        if (work->field_1A2C < 0x4B0)
+        if (work->player_dist < 0x4B0)
         {
-            work->field_19C8 = 5;
-            work->field_19CC = 5;
+            work->think2 = 5;
+            work->think3 = 5;
             work->field_19B8 = 1;
-            work->field_19D0 = 0;
+            work->count3 = 0;
         }
     }
 }
@@ -6727,59 +6723,59 @@ void s08b_bunsin2_800D3C44(Work *work)
 {
     if (s08b_bunsin2_800CF354(work))
     {
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->count3 = 0;
+        work->think_time = 0;
         work->field_19B8 = 1;
         return;
     }
     s08b_bunsin2_800D3B00(work);
-    if (work->field_1A2C < 0xBB8 && work->field_19CC != 3 && work->field_19AC == 1)
+    if (work->player_dist < 0xBB8 && work->think3 != 3 && work->player_visible == 1)
     {
-        work->field_19C8 = 0;
-        work->field_19CC = 0x18;
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->think2 = 0;
+        work->think3 = 0x18;
+        work->count3 = 0;
+        work->think_time = 0;
     }
 }
 void s08b_bunsin2_800D3CCC(Work *work)
 {
     if (s08b_bunsin2_800CF354(work) != 0)
     {
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->count3 = 0;
+        work->think_time = 0;
         work->field_19B8 = 1;
         return;
     }
 
     s08b_bunsin2_800D3B00(work);
 
-    if (work->field_1A2C < 3000 && work->field_19CC != 3 && work->field_19AC == 1)
+    if (work->player_dist < 3000 && work->think3 != 3 && work->player_visible == 1)
     {
         if (GM_Weapon != -1)
         {
             if ((unsigned int)(s08b_dword_800C3444 - 6) < 9 || (unsigned int)(s08b_dword_800C3444 - 26) < 9)
             {
-                s08b_bunsin2_800CDB54(work->field_1A98[11]);
+                s08b_bunsin2_800CDB54(work->vox[11]);
             }
 
-            work->field_19C8 = 6;
-            if (work->field_1A2C < 1500)
+            work->think2 = 6;
+            if (work->player_dist < 1500)
             {
-                work->field_19CC = 14;
+                work->think3 = 14;
             }
             else
             {
-                work->field_19CC = 13;
+                work->think3 = 13;
             }
         }
         else
         {
-            work->field_19C8 = 0;
-            work->field_19CC = 0x18;
+            work->think2 = 0;
+            work->think3 = 0x18;
         }
 
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->count3 = 0;
+        work->think_time = 0;
     }
 }
 void s08b_bunsin2_800D3DBC(Work *work)
@@ -6789,14 +6785,14 @@ void s08b_bunsin2_800D3DBC(Work *work)
     if (s08b_bunsin2_800CF464(work) != 0)
     {
         work->field_19B8 = 1;
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
-        work->field_19C0 &= ~2;
+        work->count3 = 0;
+        work->think_time = 0;
+        work->flags &= ~2;
         return;
     }
 
     s08b_bunsin2_800D3B00(work);
-    work->field_19C0 |= 2;
+    work->flags |= 2;
 
     limit = 3000;
     if (GM_GameLevel < 4)
@@ -6807,20 +6803,20 @@ void s08b_bunsin2_800D3DBC(Work *work)
         }
     }
 
-    if (work->field_1A2C < limit && work->field_19CC != 3 && work->field_19AC == 1)
+    if (work->player_dist < limit && work->think3 != 3 && work->player_visible == 1)
     {
-        work->field_19C8 = 6;
-        if (work->field_1A2C < 1500)
+        work->think2 = 6;
+        if (work->player_dist < 1500)
         {
-            work->field_19CC = 14;
+            work->think3 = 14;
         }
         else
         {
-            work->field_19CC = 13;
+            work->think3 = 13;
         }
 
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->count3 = 0;
+        work->think_time = 0;
     }
 }
 void s08b_bunsin2_800D3EA4(Work *work)
@@ -6829,32 +6825,32 @@ void s08b_bunsin2_800D3EA4(Work *work)
 
     s08b_bunsin2_800D3B00(work);
 
-    if (work->field_1A2C < 2000 && work->field_19CC != 3)
+    if (work->player_dist < 2000 && work->think3 != 3)
     {
-        work->field_19C8 = 4;
-        work->field_19CC = 10;
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->think2 = 4;
+        work->think3 = 10;
+        work->count3 = 0;
+        work->think_time = 0;
         work->field_19B8 = 1;
         return;
     }
 
-    state = work->field_1A34;
+    state = work->damage_mode;
     if (state == 2)
     {
-        work->field_19C8 = 4;
-        work->field_19CC = 10;
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->think2 = 4;
+        work->think3 = 10;
+        work->count3 = 0;
+        work->think_time = 0;
         work->field_19B8 = 1;
         return;
     }
 
     if ((unsigned int)(state - 3) < 2)
     {
-        work->field_19C8 = 7;
-        work->field_19CC = 0x17;
-        work->field_19D0 = 0;
+        work->think2 = 7;
+        work->think3 = 0x17;
+        work->count3 = 0;
         work->field_19B8 = 1;
     }
 }
@@ -6862,26 +6858,26 @@ void s08b_bunsin2_800D3F5C(Work *work)
 {
     if (s08b_bunsin2_800CF54C(work) != 0)
     {
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->count3 = 0;
+        work->think_time = 0;
         work->field_19B8 = 1;
         return;
     }
     s08b_bunsin2_800D3B00(work);
     work->field_19B8 = 0;
-    if (work->field_1A2C < 0x7D0 && work->field_19AC == 1 && work->field_19CC != 3)
+    if (work->player_dist < 0x7D0 && work->player_visible == 1 && work->think3 != 3)
     {
-        work->field_19C8 = 0;
-        work->field_19CC = 0x18;
-        work->field_19D0 = 0;
+        work->think2 = 0;
+        work->think3 = 0x18;
+        work->count3 = 0;
         work->field_19B8 = 1;
         return;
     }
-    if (work->field_1A2C >= 0x1771 && work->field_19CC != 3)
+    if (work->player_dist >= 0x1771 && work->think3 != 3)
     {
-        work->field_19CC = 5;
-        work->field_19C8 = 0;
-        work->field_19D0 = 0;
+        work->think3 = 5;
+        work->think2 = 0;
+        work->count3 = 0;
         work->field_19B8 = 1;
     }
 }
@@ -6891,62 +6887,62 @@ void s08b_bunsin2_800D401C(Work *work)
 
     s08b_bunsin2_800D3B00(work);
 
-    if (work->field_19CC != 3)
+    if (work->think3 != 3)
     {
         result = s08b_bunsin2_800CF150(work);
         if (result != 0)
         {
-            work->field_19C8 = 6;
+            work->think2 = 6;
 
             switch (result)
             {
             case 12:
-                work->field_19CC = 13;
+                work->think3 = 13;
                 break;
 
             case 13:
-                work->field_19CC = 14;
+                work->think3 = 14;
                 break;
 
             case 16:
-                work->field_19CC = 17;
+                work->think3 = 17;
                 break;
 
             case 17:
-                work->field_19CC = 18;
+                work->think3 = 18;
                 break;
 
             default:
-                work->field_19CC = 19;
+                work->think3 = 19;
                 break;
             }
 
-            work->field_19D0 = 0;
-            work->field_19D4 = 0;
+            work->count3 = 0;
+            work->think_time = 0;
             return;
         }
     }
 
-    work->field_19C0 |= 4;
-    if (work->field_1A34 != 0)
+    work->flags |= 4;
+    if (work->damage_mode != 0)
     {
-        work->field_19C8 = 7;
-        work->field_19CC = 0x19;
+        work->think2 = 7;
+        work->think3 = 0x19;
 
-        if (work->field_1A18 != NULL)
+        if (work->clone1 != NULL)
         {
-            GV_DestroyActor(work->field_1A18);
-            work->field_1A18 = NULL;
+            GV_DestroyActor(work->clone1);
+            work->clone1 = NULL;
         }
 
-        if (work->field_1A1C != NULL)
+        if (work->clone2 != NULL)
         {
-            GV_DestroyActor(work->field_1A1C);
-            work->field_1A1C = NULL;
+            GV_DestroyActor(work->clone2);
+            work->clone2 = NULL;
         }
 
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->count3 = 0;
+        work->think_time = 0;
     }
 }
 void s08b_bunsin2_800D4128(Work *work)
@@ -6954,7 +6950,7 @@ void s08b_bunsin2_800D4128(Work *work)
     int r;
 
     s08b_bunsin2_800D3B00(work);
-    if (work->field_19CC == 3)
+    if (work->think3 == 3)
     {
         return;
     }
@@ -6963,64 +6959,64 @@ void s08b_bunsin2_800D4128(Work *work)
     {
         return;
     }
-    work->field_19C8 = 6;
+    work->think2 = 6;
     switch (r)
     {
     case 0xC:
-        work->field_19CC = 0xD;
+        work->think3 = 0xD;
         break;
     case 0xD:
-        work->field_19CC = 0xE;
+        work->think3 = 0xE;
         break;
     case 0x10:
-        work->field_19CC = 0x11;
+        work->think3 = 0x11;
         break;
     case 0x11:
-        work->field_19CC = 0x12;
+        work->think3 = 0x12;
         break;
     default:
-        work->field_19CC = 0x13;
+        work->think3 = 0x13;
         break;
     }
-    work->field_19D0 = 0;
-    work->field_19D4 = 0;
+    work->count3 = 0;
+    work->think_time = 0;
 }
 void s08b_bunsin2_800D41DC(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 10:
         if (s08b_bunsin2_800D093C(work) != 0)
         {
-            work->field_19CC = 11;
-            work->field_19D0 = 0;
+            work->think3 = 11;
+            work->count3 = 0;
         }
         break;
 
     case 11:
         if (s08b_bunsin2_800D09C4(work) != 0)
         {
-            work->field_19C8 = 2;
-            work->field_19CC = 8;
-            work->field_19D0 = 0;
-            work->field_19D4 = 0;
+            work->think2 = 2;
+            work->think3 = 8;
+            work->count3 = 0;
+            work->think_time = 0;
         }
 
-        if (work->field_1A2C < 1000)
+        if (work->player_dist < 1000)
         {
-            work->field_19CC = 12;
-            work->field_19D0 = 0;
-            work->field_19D4 = 0;
+            work->think3 = 12;
+            work->count3 = 0;
+            work->think_time = 0;
         }
         break;
 
     case 12:
         if (s08b_bunsin2_800D0F88(work) != 0)
         {
-            work->field_19C8 = 6;
-            work->field_19CC = 14;
-            work->field_19D0 = 0;
-            work->field_19D4 = 0;
+            work->think2 = 6;
+            work->think3 = 14;
+            work->count3 = 0;
+            work->think_time = 0;
         }
         break;
     }
@@ -7028,9 +7024,9 @@ void s08b_bunsin2_800D41DC(Work *work)
     if (s08b_bunsin2_800CF464(work) != 0)
     {
         work->field_19B8 = 1;
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
-        work->field_19C0 &= ~2;
+        work->count3 = 0;
+        work->think_time = 0;
+        work->flags &= ~2;
     }
 }
 
@@ -7038,7 +7034,7 @@ int s08b_bunsin2_800D42D8(Work *work)
 {
     int result;
 
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 13:
         result = s08b_bunsin2_800D1014(work);
@@ -7069,20 +7065,20 @@ int s08b_bunsin2_800D42D8(Work *work)
 check:
         if (result != 0)
         {
-            work->field_19B0 = -1;
-            work->field_19CC = 0x17;
-            work->field_19D0 = 0;
+            work->command = -1;
+            work->think3 = 0x17;
+            work->count3 = 0;
         }
         break;
 
     case 23:
         if (s08b_bunsin2_800D0688(work) >= 6)
         {
-            work->field_19D0 = 0;
+            work->count3 = 0;
             return 1;
         }
 
-        work->field_19B0 = 8;
+        work->command = 8;
         break;
     }
 
@@ -7093,8 +7089,8 @@ void s08b_bunsin2_800D43D8(Work *work)
 {
     if (s08b_bunsin2_800CF354(work))
     {
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->count3 = 0;
+        work->think_time = 0;
         work->field_19B8 = 1;
         return;
     }
@@ -7105,32 +7101,32 @@ void s08b_bunsin2_800D43D8(Work *work)
     if (work->field_1A0C != 0)
     {
         s08b_bunsin2_800CDE74(work);
-        work->field_19C8 = 1;
-        work->field_19CC = 0x1A;
+        work->think2 = 1;
+        work->think3 = 0x1A;
     }
     else
     {
-        work->field_19C8 = 0;
-        work->field_19CC = 7;
+        work->think2 = 0;
+        work->think3 = 7;
     }
-    work->field_19D0 = 0;
-    work->field_19D4 = 0;
+    work->count3 = 0;
+    work->think_time = 0;
 }
 void s08b_bunsin2_800D4460(Work *work)
 {
     if (s08b_bunsin2_800CF464(work))
     {
         work->field_19B8 = 1;
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
-        work->field_19C0 &= ~2;
+        work->count3 = 0;
+        work->think_time = 0;
+        work->flags &= ~2;
     }
     else if (s08b_bunsin2_800D42D8(work))
     {
-        work->field_19C8 = 4;
-        work->field_19CC = 10;
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->think2 = 4;
+        work->think3 = 10;
+        work->count3 = 0;
+        work->think_time = 0;
     }
 }
 
@@ -7138,16 +7134,16 @@ void s08b_bunsin2_800D44D0(Work *work)
 {
     if (s08b_bunsin2_800CF54C(work))
     {
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->count3 = 0;
+        work->think_time = 0;
         work->field_19B8 = 1;
     }
     else if (s08b_bunsin2_800D42D8(work))
     {
-        work->field_19C8 = 0;
-        work->field_19CC = 7;
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->think2 = 0;
+        work->think3 = 7;
+        work->count3 = 0;
+        work->think_time = 0;
     }
 }
 
@@ -7156,50 +7152,50 @@ void s08b_bunsin2_800D452C(Work *work)
     if (s08b_bunsin2_800D42D8(work) != 0)
     {
         s08b_dword_800E4340 = 0;
-        work->field_19C8 = 7;
-        work->field_19CC = 0x17;
+        work->think2 = 7;
+        work->think3 = 0x17;
 
-        if (work->field_1A18 != NULL)
+        if (work->clone1 != NULL)
         {
-            GV_DestroyActor(work->field_1A18);
-            work->field_1A18 = NULL;
+            GV_DestroyActor(work->clone1);
+            work->clone1 = NULL;
         }
 
-        if (work->field_1A1C != NULL)
+        if (work->clone2 != NULL)
         {
-            GV_DestroyActor(work->field_1A1C);
-            work->field_1A1C = NULL;
+            GV_DestroyActor(work->clone2);
+            work->clone2 = NULL;
         }
 
         work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
-        work->field_19D0 = 0;
+        work->count3 = 0;
         return;
     }
 
-    if (work->field_1A34 != 0)
+    if (work->damage_mode != 0)
     {
-        work->field_19C8 = 7;
-        work->field_19CC = 0x19;
+        work->think2 = 7;
+        work->think3 = 0x19;
 
-        if (work->field_1A18 != NULL)
+        if (work->clone1 != NULL)
         {
-            GV_DestroyActor(work->field_1A18);
-            work->field_1A18 = NULL;
+            GV_DestroyActor(work->clone1);
+            work->clone1 = NULL;
         }
 
-        if (work->field_1A1C != NULL)
+        if (work->clone2 != NULL)
         {
-            GV_DestroyActor(work->field_1A1C);
-            work->field_1A1C = NULL;
+            GV_DestroyActor(work->clone2);
+            work->clone2 = NULL;
         }
 
-        work->field_19D0 = 0;
-        work->field_19D4 = 0;
+        work->count3 = 0;
+        work->think_time = 0;
         work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
         return;
     }
 
-    work->field_19C0 |= 4;
+    work->flags |= 4;
 }
 
 void s08b_bunsin2_800D4638(Work *work)
@@ -7207,10 +7203,10 @@ void s08b_bunsin2_800D4638(Work *work)
     if (s08b_bunsin2_800D42D8(work))
     {
         GV_DestroyActor(work);
-        work->field_19D0 = 0;
+        work->count3 = 0;
     }
 
-    if (work->field_19D0 >= 31)
+    if (work->count3 >= 31)
     {
         GV_DestroyActor(work);
     }
@@ -7220,7 +7216,7 @@ void s08b_bunsin2_800D468C(Work *work)
 {
     int result;
 
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 24:
         s08b_bunsin2_800D0A90(work);
@@ -7255,9 +7251,9 @@ void s08b_bunsin2_800D468C(Work *work)
 check:
         if (result != 0)
         {
-            work->field_19B0 = -1;
-            work->field_19CC = 0x17;
-            work->field_19D0 = 0;
+            work->command = -1;
+            work->think3 = 0x17;
+            work->count3 = 0;
         }
         break;
 
@@ -7266,12 +7262,12 @@ check:
         break;
     }
 
-    if (work->field_19B0 != 7 && work->field_19D0 != 0)
+    if (work->command != 7 && work->count3 != 0)
     {
         if (s08b_bunsin2_800CF254(work) != 0)
         {
-            work->field_19D0 = 0;
-            work->field_19D4 = 0;
+            work->count3 = 0;
+            work->think_time = 0;
             work->field_19B8 = 1;
             return;
         }
@@ -7279,78 +7275,78 @@ check:
 
     if (GM_GameLevel == GM_LEVEL_EXTREME)
     {
-        work->field_19C0 |= 2;
+        work->flags |= 2;
     }
 }
 void s08b_bunsin2_800D47E0(Work *work)
 {
-    if (work->field_19CC == 0x15 && s08b_bunsin2_800D1348(work) != 0)
+    if (work->think3 == 0x15 && s08b_bunsin2_800D1348(work) != 0)
     {
         if (work->field_19E0 < 0xF)
         {
-            work->field_19C8 = 1;
-            work->field_19CC = 6;
+            work->think2 = 1;
+            work->think3 = 6;
         }
         else
         {
-            work->field_19C8 = 7;
-            work->field_19CC = 0x1D;
+            work->think2 = 7;
+            work->think3 = 0x1D;
         }
-        work->field_19B0 = -1;
-        work->field_19D0 = 0;
+        work->command = -1;
+        work->count3 = 0;
     }
-    if (work->field_1A34 > 2 && work->field_1A34 < 5)
+    if (work->damage_mode > 2 && work->damage_mode < 5)
     {
-        work->field_19C8 = 7;
-        work->field_19CC = 0x17;
-        work->field_19D0 = 0;
+        work->think2 = 7;
+        work->think3 = 0x17;
+        work->count3 = 0;
     }
 }
 void s08b_bunsin2_800D4884(Work *work)
 {
-    switch (work->field_19CC)
+    switch (work->think3)
     {
     case 0:
         if (s08b_bunsin2_800D138C(work))
         {
-            work->field_1A04 = 2;
-            work->field_19CC = 0x17;
-            work->field_19D0 = 0;
+            work->sphere_state = 2;
+            work->think3 = 0x17;
+            work->count3 = 0;
         }
         break;
     case 0x16:
         if (s08b_bunsin2_800D1400(work))
         {
-            work->field_1A04 = 2;
-            work->field_19CC = 0x17;
-            work->field_19D0 = 0;
+            work->sphere_state = 2;
+            work->think3 = 0x17;
+            work->count3 = 0;
             work->field_19DC = work->field_19DC + 1;
         }
-        if (work->field_19D0 == 5)
+        if (work->count3 == 5)
         {
-            work->field_1A04 = 1;
+            work->sphere_state = 1;
         }
         break;
     case 0x17:
         if (s08b_bunsin2_800D1514(work))
         {
-            work->field_19CC = 0x16;
-            work->field_19D0 = 0;
+            work->think3 = 0x16;
+            work->count3 = 0;
         }
         break;
     }
 
     work->field_1A08 = 1;
-    if (work->field_1A34 != 0)
+    if (work->damage_mode != 0)
     {
-        work->field_1A04 = 3;
+        work->sphere_state = 3;
         s08b_bunsin2_800CF660(work);
-        work->field_19D0 = 0;
+        work->count3 = 0;
     }
 }
 void s08b_bunsin2_800D4984(Work *work)
 {
-    switch (work->field_19C8)
+    switch (work->think2)
     {
     case 0:
         s08b_bunsin2_800D1CF4(work);
@@ -7383,7 +7379,7 @@ void s08b_bunsin2_800D4984(Work *work)
 }
 void s08b_bunsin2_800D4A34(Work *work)
 {
-    switch (work->field_19C8)
+    switch (work->think2)
     {
     case 0:
         s08b_bunsin2_800D1D44(work);
@@ -7420,7 +7416,7 @@ void s08b_bunsin2_800D4A34(Work *work)
 }
 void s08b_bunsin2_800D4AF4(Work *work)
 {
-    switch (work->field_19C8)
+    switch (work->think2)
     {
     case 0:
         s08b_bunsin2_800D1EC8(work);
@@ -7463,7 +7459,7 @@ void s08b_bunsin2_800D4AF4(Work *work)
 }
 void s08b_bunsin2_800D4BD4(Work *work)
 {
-    switch (work->field_19C8)
+    switch (work->think2)
     {
     case 0:
         s08b_bunsin2_800D1DE0(work);
@@ -7496,7 +7492,7 @@ void s08b_bunsin2_800D4BD4(Work *work)
 }
 void s08b_bunsin2_800D4C84(Work *work)
 {
-    switch (work->field_19C8)
+    switch (work->think2)
     {
     case 0:
         s08b_bunsin2_800D1F9C(work);
@@ -7514,7 +7510,7 @@ void s08b_bunsin2_800D4C84(Work *work)
 }
 void s08b_bunsin2_800D4D18(Work *work)
 {
-    switch (work->field_19C8)
+    switch (work->think2)
     {
     case 0:
         s08b_bunsin2_800D3160(work);
@@ -7526,11 +7522,11 @@ void s08b_bunsin2_800D4D18(Work *work)
         s08b_bunsin2_800D4638(work);
         break;
     }
-    work->field_19C0 |= 4;
+    work->flags |= 4;
 }
 void s08b_bunsin2_800D4DA8(Work *work)
 {
-    switch (work->field_19C8)
+    switch (work->think2)
     {
     case 0:
         s08b_bunsin2_800D2104(work);
@@ -7548,7 +7544,7 @@ void s08b_bunsin2_800D4DA8(Work *work)
 }
 void s08b_bunsin2_800D4E3C(Work *work)
 {
-    switch (work->field_19C8)
+    switch (work->think2)
     {
     case 0:
         s08b_bunsin2_800D2158(work);
@@ -7566,13 +7562,13 @@ void s08b_bunsin2_800D4E3C(Work *work)
 }
 void s08b_bunsin2_800D4ED0(Work *work)
 {
-    int mode = work->field_19C4;
+    int mode = work->think1;
 
-    work->field_19B4 = -1;
-    work->field_19B0 = -1;
-    work->field_19C0 = 0;
+    work->dir = -1;
+    work->command = -1;
+    work->flags = 0;
     work->field_1A08 = 0;
-    work->field_1A98[34] = -1;
+    work->vox[34] = -1;
 
     switch (mode)
     {
@@ -7609,7 +7605,7 @@ void s08b_bunsin2_800D4ED0(Work *work)
         break;
     }
 
-    work->field_19D4++;
+    work->think_time++;
 }
 /* sprite animation scripts */
 static const char s08b_anim_script_0[] = {
@@ -7705,7 +7701,9 @@ static ANIMATION s08b_anim_2 = {0xFAD3, 1, 1, 1, 1, 0x1F4, 1, 0x50, 0x50, 0, NUL
 static ANIMATION s08b_anim_3 = {0x1968, 1, 1, 1, 1, 0, 1, 0x46, 0x46, 0xFF, NULL, (char *)s08b_anim_script_3};
 static unsigned short s08b_anim_tex[3] = {0xDCD3, 0xFAD3, 0x1968};
 
-int s08b_dword_800C3610 = 0;
+int   s08b_cinema_active_800C3610 = 0;
+int   s08b_cinema_time_800C3614 = 0;
+void *s08b_cinema_screen_800C3618 = NULL;
 
 void s08b_bunsin2_800D4FBC(MATRIX *world, int type)
 {
@@ -7896,45 +7894,45 @@ void s08b_bunsin2_800D53E8(int type, int time)
 {
     void *screen;
 
-    if (s08b_dword_800C3610 == 0)
+    if (s08b_cinema_active_800C3610 == 0)
     {
-        s08b_dword_800C3610 = 1;
-        s08b_dword_800C3614 = time;
+        s08b_cinema_active_800C3610 = 1;
+        s08b_cinema_time_800C3614 = time;
         screen = NewCinemaScreen(time, type);
-        s08b_dword_800C3618 = (int)screen;
+        s08b_cinema_screen_800C3618 = screen;
     }
 }
 void s08b_bunsin2_800D5434(void)
 {
-    if (s08b_dword_800C3614 == 0)
+    if (s08b_cinema_time_800C3614 == 0)
     {
         return;
     }
-    if (s08b_dword_800C3610 == 0)
+    if (s08b_cinema_active_800C3610 == 0)
     {
         return;
     }
-    if (s08b_dword_800C3618 == 0)
+    if (s08b_cinema_screen_800C3618 == NULL)
     {
         return;
     }
-    NewCinemaScreenClose((void *)s08b_dword_800C3618);
-    s08b_dword_800C3618 = 0;
-    s08b_dword_800C3610 = 0;
+    NewCinemaScreenClose(s08b_cinema_screen_800C3618);
+    s08b_cinema_screen_800C3618 = NULL;
+    s08b_cinema_active_800C3610 = 0;
 }
 void s08b_bunsin2_800D5498(void)
 {
     int v;
 
-    v = s08b_dword_800C3614;
+    v = s08b_cinema_time_800C3614;
     if (v != 0)
     {
         v--;
-        s08b_dword_800C3614 = v;
+        s08b_cinema_time_800C3614 = v;
         if (v == 0)
         {
-            s08b_dword_800C3618 = 0;
-            s08b_dword_800C3610 = 0;
+            s08b_cinema_screen_800C3618 = NULL;
+            s08b_cinema_active_800C3610 = 0;
         }
     }
 }
