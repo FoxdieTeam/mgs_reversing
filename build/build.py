@@ -769,7 +769,7 @@ took = time.time() - time_before
 print(f'build took {took:.2f} seconds')
 
 if exit_code == 0 and args.variant != 'dev_exe':
-    ret = subprocess.run([sys.executable, 'compare.py'])
+    ret = subprocess.run([sys.executable, 'compare.py', '--variant', 'vr' if args.variant == 'vr_exe' else 'main'])
     exit_code = ret.returncode
 
 if exit_code == 0 and args.variant != 'dev_exe':
