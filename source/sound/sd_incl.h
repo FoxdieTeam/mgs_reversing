@@ -3,13 +3,19 @@
 
 /*---------------------- SPU Channel Allocation ------------------------*/
 
+#define USE_TRACK_NUM       23
+
+/* Internal BGM & SE channels */
 #define INTERNAL_TRACK_NUM  (SNG_TRACK_NUM+SE_TRACK_NUM)
 
+/* Internal BGM channels */
 #define SNG_TRACK_NUM       13
 
+/* Internal SE channels */
 #define SE_START_TRACK      SNG_TRACK_NUM
 #define SE_TRACK_NUM        8
 
+/* Streaming channels */
 #define STR_TRACK_NUM       2
 
 /*---------------------- Main RAM Allocation ---------------------------*/

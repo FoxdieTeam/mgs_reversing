@@ -468,7 +468,7 @@ void echo_set2(void)
 
 void eon_set(void)
 {
-    if ((unsigned int)(mtrack - 13) < 8 && !se_playing[mtrack - 13].kind)
+    if ((unsigned int)(mtrack - SNG_TRACK_NUM) < 8 && !se_playing[mtrack - SNG_TRACK_NUM].kind)
     {
         rev_on_bit |= spu_ch_tbl[mtrack + 1];
     }
@@ -476,7 +476,7 @@ void eon_set(void)
 
 void eof_set(void)
 {
-    if ((unsigned int)(mtrack - 13) < 8 && !se_playing[mtrack - 13].kind)
+    if ((unsigned int)(mtrack - SNG_TRACK_NUM) < 8 && !se_playing[mtrack - SNG_TRACK_NUM].kind)
     {
         rev_off_bit |= spu_ch_tbl[mtrack + 1];
     }

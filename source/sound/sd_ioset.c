@@ -42,7 +42,7 @@ void spuwr(void)
         rev_off_bit = 0;
     }
 
-    for (i = 0; i < 21; i++)
+    for (i = 0; i < INTERNAL_TRACK_NUM; i++)
     {
         attr.mask = 0;
         attr.voice = spu_ch_tbl[i + 1];
@@ -122,7 +122,7 @@ void sound_off(void)
     int          i;
     unsigned int key_no;
 
-    for (i = 0; i < 23; i++)
+    for (i = 0; i < USE_TRACK_NUM; i++)
     {
         spu_tr_wk[i].rr = ENV_CUT_OFF;
         spu_tr_wk[i].env3_fg = 1;
@@ -137,7 +137,7 @@ void sng_off(void)
 {
     int i;
 
-    for (i = 0; i < 13; i++)
+    for (i = 0; i < SNG_TRACK_NUM; i++)
     {
         spu_tr_wk[i].rr = ENV_CUT_OFF;
         spu_tr_wk[i].env3_fg = 1;
@@ -148,10 +148,10 @@ void sng_off(void)
 
 void se_off(int i)
 {
-    spu_tr_wk[i + 13].env3_fg = 1;
-    spu_tr_wk[i + 13].rr = 0; /*ENV_CUT_OFF*/
-    song_end |= 1 << (i + 13);
-    keyoffs |= 1 << (i + 13);
+    spu_tr_wk[i + SNG_TRACK_NUM].env3_fg = 1;
+    spu_tr_wk[i + SNG_TRACK_NUM].rr = 0; /*ENV_CUT_OFF*/
+    song_end |= 1 << (i + SNG_TRACK_NUM);
+    keyoffs |= 1 << (i + SNG_TRACK_NUM);
 }
 
 void sng_pause(void)
@@ -309,8 +309,8 @@ void vol_set(unsigned int vol_data)
 {
     unsigned int pan;
 
-    if ((mtrack < 13) ||
-         (se_playing[mtrack - 13].kind == 0))
+    if ((mtrack < SNG_TRACK_NUM) ||
+         (se_playing[mtrack - SNG_TRACK_NUM].kind == 0))
     {
         if (vol_data >= sptr->dec_vol)
         {
@@ -333,7 +333,7 @@ void vol_set(unsigned int vol_data)
             pan = 20;
         }
 
-        if (mtrack < 13)
+        if (mtrack < SNG_TRACK_NUM)
         {
             spu_tr_wk[mtrack].vol_r = (vol_data * pant[pan] * sng_master_vol[mtrack]) >> 16;
             spu_tr_wk[mtrack].vol_l = (vol_data * pant[40 - pan] * sng_master_vol[mtrack]) >> 16;
@@ -357,8 +357,8 @@ void vol_set(unsigned int vol_data)
             vol_data = 0;
         }
 
-        pan = se_pan[mtrack - 13];
-        vol_data = (vol_data * se_vol[mtrack - 13]) >> 16;
+        pan = se_pan[mtrack - SNG_TRACK_NUM];
+        vol_data = (vol_data * se_vol[mtrack - SNG_TRACK_NUM]) >> 16;
 
         if (sound_mono_fg != 0)
         {

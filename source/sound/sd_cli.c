@@ -47,7 +47,7 @@ int sd_se_play(void)
 
     i = 0;
     bits = song_end >> 13;
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < SE_TRACK_NUM; i++)
     {
         if ((bits & 1) == 0 && se_playing[i].pri != 255)
         {
@@ -65,7 +65,7 @@ int sd_se_play2(void)
 
     i = 0;
     bits = song_end >> 13;
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < SE_TRACK_NUM; i++)
     {
         if ((bits & 1) == 0 && se_playing[i].pri == 255)
         {
@@ -140,7 +140,7 @@ int SePlay(int sound_code)
     int           pri;
 
     j = song_end >> 13;
-    for (i = 0; i < 8; j >>= 1, i++)
+    for (i = 0; i < SE_TRACK_NUM; j >>= 1, i++)
     {
         if ((j & 1) != 0)
         {
@@ -178,7 +178,7 @@ int SePlay(int sound_code)
         }
         priority = 256;
         j = 0;
-        for (i = 0; i < 8; i++)
+        for (i = 0; i < SE_TRACK_NUM; i++)
         {
             if (((se_playing[i].code & 0xFF) == sound_code) && !se_request[i].code)
             {
@@ -211,7 +211,7 @@ int SePlay(int sound_code)
 
         if (j != i)
         {
-            for (i = 0; i < 8; i++)
+            for (i = 0; i < SE_TRACK_NUM; i++)
             {
                 if ((se_playing[i].code != 0) ||
                      (se_request[i].code != 0))
@@ -225,7 +225,7 @@ int SePlay(int sound_code)
 
             if (j != i)
             {
-                for (i = 0; i < 8; i++)
+                for (i = 0; i < SE_TRACK_NUM; i++)
                 {
                     if (se_request[i].code == 0)
                     {

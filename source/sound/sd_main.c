@@ -247,7 +247,7 @@ void sd_init(void)
     init_sng_work();
     wave_load_status = 0;
     str_status = 0;
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < SE_TRACK_NUM; i++)
     {
         se_playing[i].code = 0;
     }

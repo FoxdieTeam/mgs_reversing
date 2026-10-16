@@ -199,7 +199,7 @@ void IntSdMain(void)
                         sng_status = 2;
                         if (sng_play_code == -1)
                         {
-                            for (i=0; i < 13; i++)
+                            for (i=0; i < SNG_TRACK_NUM; i++)
                             {
                                 sng_fade_time[i] = 0;
                                 sng_fade_value[i] = 0;
@@ -303,7 +303,7 @@ void IntSdMain(void)
                 }
                 ++mtrack;
             }
-            while ((unsigned int)mtrack < 13);
+            while ((unsigned int)mtrack < SNG_TRACK_NUM);
 
             song_end_last = song_end;
             if ((song_end & 0x1FFF) == 0x1FFF)
@@ -323,12 +323,12 @@ void IntSdMain(void)
 
     }
 
-    for (mtrack=13; mtrack < 21; mtrack++)
+    for (mtrack = SE_START_TRACK; mtrack < INTERNAL_TRACK_NUM; mtrack++)
     {
-        if (se_tracks < 2 && se_request[mtrack - 13].code)
+        if (se_tracks < 2 && se_request[mtrack - SNG_TRACK_NUM].code)
         {
-            se_off(mtrack - 13);
-            se_adrs_set(mtrack - 13);
+            se_off(mtrack - SNG_TRACK_NUM);
+            se_adrs_set(mtrack - SNG_TRACK_NUM);
         }
         else
         {
@@ -394,7 +394,7 @@ static inline void SngFadeIn_helper(unsigned int kind)
         sng_fadein_time = 1;
     }
 
-    for (i = 0; i < 13; i++)
+    for (i = 0; i < SNG_TRACK_NUM; i++)
     {
         sng_fade_time[i] = 0;
     }
@@ -440,7 +440,7 @@ int SngFadeOutP(unsigned int kind)
             fade_time = 1;
         }
 
-        for (i = 0; i < 13; i++)
+        for (i = 0; i < SNG_TRACK_NUM; i++)
         {
             if (!(sng_fout_term & (1 << i)))
             {
@@ -487,7 +487,7 @@ int SngFadeOutS(unsigned int code)
             fade_time = 1;
         }
 
-        for (i = 0; i < 13; i++)
+        for (i = 0; i < SNG_TRACK_NUM; i++)
         {
             if (!(sng_fout_term & (1 << i)))
             {
@@ -526,7 +526,7 @@ int SngKaihiP(void)
         sng_fade_time[2] = KAIHI_FO_RYTHM;
         sng_fade_time[3] = KAIHI_FO_RYTHM;
 
-        for (i = 4; i < 13; i++)
+        for (i = 4; i < SNG_TRACK_NUM; i++)
         {
             if (!(sng_fout_term & (1 << i)))
             {
@@ -554,12 +554,12 @@ void SngFadeWkSet(void)
     {
          sng_fadein_time = 0;
 
-        for (i = 0; i < 13; i++)
+        for (i = 0; i < SNG_TRACK_NUM; i++)
         {
             sng_fade_time[i] = 0;
         }
 
-        for (i = 0; i < 13; i++)
+        for (i = 0; i < SNG_TRACK_NUM; i++)
         {
             sng_fade_value[i] = 0;
         }
@@ -576,7 +576,7 @@ void SngFadeWkSet(void)
     case SNG_FIN_L:
         SngFadeIn_helper(sng_fadein_fg);
 
-        for (i = 0; i < 13; i++)
+        for (i = 0; i < SNG_TRACK_NUM; i++)
         {
             sng_fade_value[i] = SNG_VOL;
         }
@@ -614,14 +614,14 @@ void SngFadeInt(void)
         return;
     }
 
-    for (i = 0; i < 13; i++)
+    for (i = 0; i < SNG_TRACK_NUM; i++)
     {
         fout_on |= sng_fade_time[i];
     }
 
     if (fout_on != 0)
     {
-        for (i = 0; i < 13; i++)
+        for (i = 0; i < SNG_TRACK_NUM; i++)
         {
             if (sng_fade_time[i] == 0)
             {
@@ -683,7 +683,7 @@ void SngFadeInt(void)
 
         if (sng_fadein_time != 0)
         {
-            for (i = 0; i < 13; i++)
+            for (i = 0; i < SNG_TRACK_NUM; i++)
             {
                 if (sng_fadein_time >= sng_fade_value[i])
                 {
@@ -738,7 +738,7 @@ void SngFadeInt(void)
         var_t0 = vox_on_vol;
     }
 
-    for (i = 0; i < 13; i++)
+    for (i = 0; i < SNG_TRACK_NUM; i++)
     {
         vol1 = SNG_VOL;
 
@@ -822,7 +822,7 @@ void init_sng_work(void)
 {
     struct SOUND_W *ptr;
 
-    for (mtrack = 0; mtrack < 21; mtrack++)
+    for (mtrack = 0; mtrack < INTERNAL_TRACK_NUM; mtrack++)
     {
         ptr = &sound_w[mtrack];
         sptr = ptr;
@@ -854,7 +854,7 @@ void sng_adrs_set(int idx)
 
     song_end &= ~0x1fff;
 
-    for (i = 0; i < 13; i++)
+    for (i = 0; i < SNG_TRACK_NUM; i++)
     {
         addr2 =  sng_data[addr + i * 4 + 2] << 16;
         addr2 += sng_data[addr + i * 4 + 1] << 8;
@@ -890,16 +890,16 @@ void se_adrs_set(int idx)
     se_request[idx].pri = 0;
     se_request[idx].character = 0;
 
-    sng_track_init(&sound_w[idx + 13]);
+    sng_track_init(&sound_w[idx + SNG_TRACK_NUM]);
 
     se_vol[idx] = 2 * (se_playing[idx].code & 0x3f00);
 
-    song_end &= ~(1 << (idx + 13));
-    keyons &= ~(1 << (idx + 13));
+    song_end &= ~(1 << (idx + SNG_TRACK_NUM));
+    keyons &= ~(1 << (idx + SNG_TRACK_NUM));
     se_pan[idx] = ((se_playing[idx].code >> 16) + 32) & 0x3f;
-    keyoffs = keyoffs & ~(1 << (idx + 13));
+    keyoffs = keyoffs & ~(1 << (idx + SNG_TRACK_NUM));
 
-    sound_w[idx + 13].mpointer = se_playing[idx].addr;
+    sound_w[idx + SNG_TRACK_NUM].mpointer = se_playing[idx].addr;
 
     if (se_playing[idx].kind)
     {
