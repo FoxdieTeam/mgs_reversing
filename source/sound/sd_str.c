@@ -1,16 +1,35 @@
-#include "sd_incl.h"
-#include "sd_ext.h"
-
 #include <stdio.h>
 #include <stddef.h>
 #include <libspu.h>
 
+#include "sd_incl.h"
+#include "sd_ext.h"
+
 #include "../mts/mts.h"
 #include "../mts/taskid.h"
-#include "libfs/libfs.h"
+#include "../../source/libfs/libfs.h"
+
+/* in sd_main.c */
+extern void keyOff(unsigned int ch);
+extern void keyOn(unsigned int ch);
+/* in sd_file.c */
+extern void StrFadeWkSet(void);
+
+void StrFadeIn(unsigned int fade_speed);
+int StrFadeOut(unsigned int fade_speed);
+int StrFadeOutStop(unsigned int fade_speed);
+int StartStream(void);
+void UserSpuIRQProc(void);
+void sub_8008279C(void);
+void sub_800827A4(void);
+int StrSpuTransWithNoLoop(void);
+void StrSpuTransClose(void);
+void StrSpuTrans(void);
 
 int str_tick_count = -1;
 char *dword_8009F7B8 = 0;
+
+/*----------------------------------------------------------------------*/
 
 void StrFadeIn(unsigned int fade_speed)
 {
@@ -57,9 +76,7 @@ int StrFadeOutStop(unsigned int fade_speed)
     else
     {
         printf("Canceled STR FadeOut(%x:%x:%x)",
-                             str_status,
-                             str_fade_value,
-                             str_volume);
+            str_status, str_fade_value, str_volume);
         return -1;
     }
 }
@@ -130,7 +147,7 @@ int StartStream(void)
 
 void UserSpuIRQProc(void)
 {
-    switch (str_status & 0x0f)
+    switch (str_status & 0x0F)
     {
     case 2: /* fallthrough */
     case 3:
@@ -146,22 +163,22 @@ void UserSpuIRQProc(void)
         case 0x800:
             if ((str_int_ctr++ & 1) != 0)
             {
-                dword_800BF270 += 0x100;
-                dword_800BF270 &= 0x1fff;
+                irq_addr += 0x100;
+                irq_addr &= 0x1fff;
             }
             break;
 
         case 0xc00:
             if ((str_int_ctr++ & 3) != 0)
             {
-                dword_800BF270 += 0x100;
-                dword_800BF270 &= 0x1fff;
+                irq_addr += 0x100;
+                irq_addr &= 0x1fff;
             }
             break;
 
         default:
-            dword_800BF270 += 0x100;
-            dword_800BF270 &= 0x1fff;
+            irq_addr += 0x100;
+            irq_addr &= 0x1fff;
             break;
         }
         break;
@@ -172,22 +189,22 @@ void UserSpuIRQProc(void)
         case 0x800:
             if ((str_int_ctr++ & 1) != 0)
             {
-                dword_800BF270 += 0x100;
-                dword_800BF270 &= 0x1fff;
+                irq_addr += 0x100;
+                irq_addr &= 0x1fff;
             }
             break;
 
         case 0xc00:
             if ((str_int_ctr++ & 3) != 0)
             {
-                dword_800BF270 += 0x100;
-                dword_800BF270 &= 0x1fff;
+                irq_addr += 0x100;
+                irq_addr &= 0x1fff;
             }
             break;
 
         default:
-            dword_800BF270 += 0x100;
-            dword_800BF270 &= 0x1fff;
+            irq_addr += 0x100;
+            irq_addr &= 0x1fff;
             break;
         }
         break;
@@ -195,7 +212,7 @@ void UserSpuIRQProc(void)
 
     mts_isend(MTSID_SOUND_INT);
 
-    if ((dword_800BF1A8 & 1) == 0)
+    if ((spu_irq_counter & 1) == 0)
     {
         SpuSetIRQAddr(blank_data_addr + 256);
     }
@@ -204,7 +221,7 @@ void UserSpuIRQProc(void)
         SpuSetIRQAddr(blank_data_addr);
     }
 
-    dword_800BF1A8++;
+    spu_irq_counter++;
     SpuSetIRQ(SPU_RESET);
 }
 
@@ -233,7 +250,7 @@ int StrSpuTransWithNoLoop(void)
         dword_8009F7B8 = 0;
     }
 
-    switch (str_status & 0xf)
+    switch (str_status & 0x0F)
     {
     case 2:
         if (dword_800BF1A4 == 0)
@@ -374,7 +391,7 @@ int StrSpuTransWithNoLoop(void)
         attr.addr = spu_bgm_start_ptr_l;
         SpuSetVoiceAttr(&attr);
 
-        dword_800BF270 = 0;
+        irq_addr = 0;
         keyOn(SPU_21CH | SPU_22CH);
         str_next_idx = 4096;
         mute_l_r_fg = 0;
@@ -402,7 +419,7 @@ int StrSpuTransWithNoLoop(void)
             str_tick_count++;
         }
 
-        if (((str_next_idx == (dword_800BF270 & 4096)) || (dword_800BF1A4 != 0)) ||
+        if (((str_next_idx == (irq_addr & 4096)) || (dword_800BF1A4 != 0)) ||
              (mute_l_r_fg != 0))
         {
             result = 1;
@@ -417,7 +434,7 @@ int StrSpuTransWithNoLoop(void)
                     str_mono_offset = 0;
                 }
 
-                if (dword_800BF270 >= 4096u)
+                if (irq_addr >= 4096u)
                 {
                     if (dword_800BF1A4 == 0)
                     {
@@ -481,7 +498,7 @@ int StrSpuTransWithNoLoop(void)
                         {
                             str_play_offset = 0;
 
-                            str_off_idx = 4096 + dword_800BF270 + str_unplay_size;
+                            str_off_idx = 4096 + irq_addr + str_unplay_size;
                             str_off_idx &= 0xffffff00;
                             str_off_idx -= 0x300;
                             str_off_idx &= 0x1fff;
@@ -509,7 +526,7 @@ int StrSpuTransWithNoLoop(void)
 
                         str_play_offset = 0;
 
-                        str_off_idx = 4096 + dword_800BF270 + str_unplay_size;
+                        str_off_idx = 4096 + irq_addr + str_unplay_size;
                         str_off_idx &= 0xffffff00;
                         str_off_idx -= 0x300;
                         str_off_idx &= 0x1fff;
@@ -530,7 +547,7 @@ int StrSpuTransWithNoLoop(void)
                 str_mute_fg = 1;
                 printf("*");
 
-                if (dword_800BF270 >= 4096u)
+                if (irq_addr >= 4096u)
                 {
                     if (mute_l_r_fg == 0)
                     {
@@ -594,7 +611,7 @@ int StrSpuTransWithNoLoop(void)
         break;
 
     case 6:
-        if ((dword_800BF270 == str_off_idx) || (str_off_idx == -1))
+        if ((irq_addr == str_off_idx) || (str_off_idx == -1))
         {
             attr.mask = SPU_VOICE_ADSR_RR;
             attr.voice = SPU_21CH;

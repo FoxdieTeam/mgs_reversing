@@ -1,139 +1,205 @@
-#include "sd_incl.h"
-#include "sd_ext.h"
-
 #include <stdio.h>
 #include <stddef.h>
 #include <libspu.h>
 
+#include "sd_incl.h"
+#include "sd_ext.h"
+
 #include "../mts/mts.h"
 #include "../mts/taskid.h"
 
+/*--------------------*/
+/*--- Song Control ---*/
+/*--------------------*/
+/*SONG PAUSE*/
+#define SNG_PAUSEON     0x01FFFF01
+#define SNG_PAUSEOFF    0x01FFFF02
+/*SONG FADE IN*/
+#define SNG_FIN_S       0x01FFFF03
+#define SNG_FIN_M       0x01FFFF04
+#define SNG_FIN_L       0x01FFFF05
+/*SONG FADE OUT & PAUSE*/
+#define SNG_FOUTP_SS    0x01FFFF06
+#define SNG_FOUTP_S     0x01FFFF07
+#define SNG_FOUTP_M     0x01FFFF08
+#define SNG_FOUTP_L     0x01FFFF09
+/*SONG FADE OUT & STOP*/
+#define SNG_FOUTS_SS    0x01FFFF0A
+#define SNG_FOUTS_S     0x01FFFF0B
+#define SNG_FOUTS_M     0x01FFFF0C
+#define SNG_FOUTS_L     0x01FFFF0D
+/*Kaihi MODE*/
+#define SNG_KAIHI_01    0x01FFFF10
+/*Syukan MODE*/
+#define SNG_SYUKAN_ON   0x01FFFF20
+#define SNG_SYUKAN_OFF  0x01FFFF21
+
+/*SONG STOP*/
+#define SNG_STOP        0x01FFFFFF
+/*SONG PLAY CODE*/
+#define SNG_PLAY_01     0x01000001
+#define SNG_PLAY_02     0x01000002
+#define SNG_PLAY_03     0x01000003
+#define SNG_PLAY_04     0x01000004
+#define SNG_PLAY_05     0x01000005
+#define SNG_PLAY_06     0x01000006
+#define SNG_PLAY_07     0x01000007
+#define SNG_PLAY_08     0x01000008
+
+/*---------------------- External Declarations -------------------------*/
+
+/* in sd_ioset.c */
+extern void spuwr(void);
+extern void sng_off(void);
+extern void se_off(int i);
+extern void sng_pause(void);
+extern void sng_pause_off(void);
+
+/* in sd_sub1.c */
+extern int sound_sub(void);
+
+/* in sd_file.c */
+extern int PcmOpen(int code, int kind);
+extern int PcmRead(int fd, unsigned char *buf, int size);
+extern int PcmClose(int fd, int kind);
+
+/*---------------------- Prototype Declarations ------------------------*/
+
+void IntSdMain(void);
+void SngFadeIn(unsigned int kind);
+int SngFadeOutP(unsigned int kind);
+int SngFadeOutS(unsigned int kind);
+int SngKaihiP(void);
+void SngFadeWkSet(void);
+void SngFadeInt(void);
+void SngTempoInt(void);
+int LoadSngData(void);
+void init_sng_work(void);
+void sng_adrs_set(int idx);
+void se_adrs_set(int idx);
+void sng_track_init(struct SOUND_W *ptr);
+
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+
 void IntSdMain(void)
 {
-    int temp;
+    int sd_sng_code;
     int pSngData;
     int i;
     unsigned char *track_ptr;
     int new_sng_status;
-    SOUND_W* wTmp;
+    struct SOUND_W *wTmp;
 
     if (sd_sng_code_buf[sd_code_read])
     {
-        temp = sd_sng_code_buf[sd_code_read];
+        sd_sng_code = sd_sng_code_buf[sd_code_read];
         sd_sng_code_buf[sd_code_read] = 0;
         sd_code_read = (sd_code_read + 1) & 0xF;
-        printf("SngCode=%x\n", temp);
+        printf("SngCode=%x\n", sd_sng_code);
     }
     else
     {
-        temp = 0;
+        sd_sng_code = 0;
     }
 
-    if (temp)
+    if (sd_sng_code)
     {
-    switch (temp)
-    {
-        // Pause
-        case 0x01FFFF01:
+        switch (sd_sng_code)
+        {
+        case SNG_PAUSEON:
             sng_pause_fg = 1;
             sng_pause();
             printf("SongPauseOn\n");
             break;
 
-        // Unpause
-        case 0x01FFFF02:
+        case SNG_PAUSEOFF:
             sng_pause_off();
             sng_pause_fg = 0;
             printf("SongPauseOff\n");
             break;
 
-        // Fade in
-        case 0x01FFFF03: /* fallthrough */
-        case 0x01FFFF04: /* fallthrough */
-        case 0x01FFFF05:
+        case SNG_FIN_S: /* fallthrough */
+        case SNG_FIN_M: /* fallthrough */
+        case SNG_FIN_L:
             if (sng_play_code != 0xFFFFFFFF)
             {
                 sng_fout_fg = 0;
                 if (sng_status < 3)
                 {
-                    sng_fadein_fg = temp;
+                    sng_fadein_fg = sd_sng_code;
                 }
                 else
                 {
-                    SngFadeIn(temp);
+                    SngFadeIn(sd_sng_code);
                 }
                 sng_kaihi_fg = 0;
-                sng_kaihi_time = 0;
+                sng_tempo_move = 0;
             }
             printf("SongFadein\n");
             break;
 
-        // Fade out
-        case 0x01FFFF06: /* fallthrough */
-        case 0x01FFFF07: /* fallthrough */
-        case 0x01FFFF08: /* fallthrough */
-        case 0x01FFFF09:
-            SngFadeOutP(temp);
+        case SNG_FOUTP_SS:  /* fallthrough */
+        case SNG_FOUTP_S:   /* fallthrough */
+        case SNG_FOUTP_M:   /* fallthrough */
+        case SNG_FOUTP_L:
+            SngFadeOutP(sd_sng_code);
             printf("SongFadeout&Pause\n");
             break;
 
-        // Fade out and stop
-        case 0x01FFFF0A: /* fallthrough */
-        case 0x01FFFF0B: /* fallthrough */
-        case 0x01FFFF0C: /* fallthrough */
-        case 0x01FFFF0D:
-            SngFadeOutS(temp);
+        case SNG_FOUTS_SS:  /* fallthrough */
+        case SNG_FOUTS_S:   /* fallthrough */
+        case SNG_FOUTS_M:   /* fallthrough */
+        case SNG_FOUTS_L:
+            SngFadeOutS(sd_sng_code);
             printf("SongFadeout&Stop\n");
             break;
 
-        // Evasion Mode
-        case 0x01FFFF10:
+        case SNG_KAIHI_01:
             SngKaihiP();
             printf("SongKaihiMode\n");
             break;
 
-        // First Person Mode
-        case 0x01FFFF20:
+        case SNG_SYUKAN_ON:
             sng_syukan_fg = 1;
             printf("SongSyukanMode On\n");
             break;
 
-        // Exit first person
-        case 0x01FFFF21:
+        case SNG_SYUKAN_OFF:
             sng_syukan_fg = 0;
             printf("SongSyukanMode Off\n");
             break;
 
-        case 0x01FFFFFF:
+        case SNG_STOP:
             sng_play_code = 0;
             sng_off();
             printf("SongStop\n");
             break;
 
-        case 0x01000001: /* fallthrough */
-        case 0x01000002: /* fallthrough */
-        case 0x01000003: /* fallthrough */
-        case 0x01000004: /* fallthrough */
-        case 0x01000005: /* fallthrough */
-        case 0x01000006: /* fallthrough */
-        case 0x01000007: /* fallthrough */
-        case 0x01000008:
-
-            if (sng_play_code != temp)
+        case SNG_PLAY_01: /* fallthrough */
+        case SNG_PLAY_02: /* fallthrough */
+        case SNG_PLAY_03: /* fallthrough */
+        case SNG_PLAY_04: /* fallthrough */
+        case SNG_PLAY_05: /* fallthrough */
+        case SNG_PLAY_06: /* fallthrough */
+        case SNG_PLAY_07: /* fallthrough */
+        case SNG_PLAY_08:
+            if (sng_play_code != sd_sng_code)
             {
                 if (sng_status >= 2)
                 {
                     pSngData = sng_data[0];
-                    if (pSngData < (temp & 0xF))
+                    if (pSngData < (sd_sng_code & 0xF))
                     {
-                        printf("ERROR:SNG PLAY CODE(%x/%x)\n", temp, pSngData);
+                        printf("ERROR:SNG PLAY CODE(%x/%x)\n", sd_sng_code, pSngData);
                     }
                     else
                     {
                         sng_status = 2;
                         if (sng_play_code == -1)
                         {
-                            for (i=0; i < 13; i++)
+                            for (i=0; i < SNG_TRACK_NUM; i++)
                             {
                                 sng_fade_time[i] = 0;
                                 sng_fade_value[i] = 0;
@@ -141,11 +207,11 @@ void IntSdMain(void)
                             }
                             sng_fout_term = 0;
                         }
-                        sng_play_code = temp;
+                        sng_play_code = sd_sng_code;
                         sng_off();
                         sng_pause_fg = 0;
                         sng_kaihi_fg = 0;
-                        sng_kaihi_time = 0;
+                        sng_tempo_move = 0;
                     }
                 }
                 else
@@ -159,18 +225,17 @@ void IntSdMain(void)
             }
         break;
 
-    default:
-            if (sng_load_code != temp)
+        default:
+            if (sng_load_code != sd_sng_code)
             {
-                sng_load_code = temp;
+                sng_load_code = sd_sng_code;
                 sng_play_code = 0;
                 sng_status = 1;
                 sng_off();
                 mts_wup_tsk(MTSID_SOUND_MAIN);
             }
-
             break;
-    }
+        }
     }
 
     switch (sng_status)
@@ -238,7 +303,7 @@ void IntSdMain(void)
                 }
                 ++mtrack;
             }
-            while ((unsigned int)mtrack < 13);
+            while ((unsigned int)mtrack < SNG_TRACK_NUM);
 
             song_end_last = song_end;
             if ((song_end & 0x1FFF) == 0x1FFF)
@@ -258,12 +323,12 @@ void IntSdMain(void)
 
     }
 
-    for (mtrack=13; mtrack < 21; mtrack++)
+    for (mtrack = SE_START_TRACK; mtrack < INTERNAL_TRACK_NUM; mtrack++)
     {
-        if (se_tracks < 2 && se_request[mtrack - 13].code)
+        if (se_tracks < 2 && se_request[mtrack - SNG_TRACK_NUM].code)
         {
-            se_off(mtrack - 13);
-            se_adrs_set(mtrack - 13);
+            se_off(mtrack - SNG_TRACK_NUM);
+            se_adrs_set(mtrack - SNG_TRACK_NUM);
         }
         else
         {
@@ -303,20 +368,24 @@ void IntSdMain(void)
     spuwr();
 }
 
-static inline void SngFadeIn_helper(unsigned int mode)
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+
+static inline void SngFadeIn_helper(unsigned int kind)
 {
     int i;
 
-    switch (mode)
+    switch (kind)
     {
-    case 0x01FFFF03:
-        sng_fadein_time = 655;
+    case SNG_FIN_S:
+        sng_fadein_time = SNG_VOL / (INT1SEC);
         break;
-    case 0x01FFFF04:
-        sng_fadein_time = 218;
+    case SNG_FIN_M:
+        sng_fadein_time = SNG_VOL / (INT1SEC*3);
         break;
-    case 0x01FFFF05:
-        sng_fadein_time = 131;
+    case SNG_FIN_L:
+        sng_fadein_time = SNG_VOL / (INT1SEC*5);
         break;
     }
 
@@ -325,7 +394,7 @@ static inline void SngFadeIn_helper(unsigned int mode)
         sng_fadein_time = 1;
     }
 
-    for (i = 0; i < 13; i++)
+    for (i = 0; i < SNG_TRACK_NUM; i++)
     {
         sng_fade_time[i] = 0;
     }
@@ -333,45 +402,49 @@ static inline void SngFadeIn_helper(unsigned int mode)
     sng_fout_term = 0;
 }
 
-void SngFadeIn(unsigned int mode)
+void SngFadeIn(unsigned int kind)
 {
-    SngFadeIn_helper(mode);
+    SngFadeIn_helper(kind);
 }
 
-int SngFadeOutP(unsigned int code)
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+
+int SngFadeOutP(unsigned int kind)
 {
-    int temp;
+    int fade_time;
     int i;
 
     if (sng_status && sng_fout_term != 0x1FFF)
     {
-        switch (code)
+        switch (kind)
         {
-        case 0x01FFFF06:
-            temp = 1310;
+        case SNG_FOUTP_SS:
+            fade_time = SNG_VOL / (INT1SEC/2);
             break;
-        case 0x01FFFF07:
-            temp = 655;
+        case SNG_FOUTP_S:
+            fade_time = SNG_VOL / (INT1SEC);
             break;
-        case 0x01FFFF08:
-            temp = 218;
+        case SNG_FOUTP_M:
+            fade_time = SNG_VOL / (INT1SEC*3);
             break;
-        case 0x01FFFF09:
-            temp = 131;
+        case SNG_FOUTP_L:
+            fade_time = SNG_VOL / (INT1SEC*5);
             break;
-        //default: temp = 0; break; // we like UB
+        //default: fade_time = 0; break; // we like UB
         }
 
-        if (!temp)
+        if (!fade_time)
         {
-            temp = 1;
+            fade_time = 1;
         }
 
-        for (i = 0; i < 13; i++)
+        for (i = 0; i < SNG_TRACK_NUM; i++)
         {
             if (!(sng_fout_term & (1 << i)))
             {
-                sng_fade_time[i] = temp;
+                sng_fade_time[i] = fade_time;
             }
         }
 
@@ -382,39 +455,43 @@ int SngFadeOutP(unsigned int code)
     return -1;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+
 int SngFadeOutS(unsigned int code)
 {
-    int temp;
+    int fade_time;
     int i;
 
     if ((sng_status != 0) && ((sng_fout_term != 0x1FFF) || (sng_fadein_time != 0)))
     {
         switch (code)
         {
-        case 0x01FFFF0A:
-            temp = 1310;
+        case SNG_FOUTS_SS:
+            fade_time = SNG_VOL / (INT1SEC/2);
             break;
-        case 0x01FFFF0B:
-            temp = 655;
+        case SNG_FOUTS_S:
+            fade_time = SNG_VOL / (INT1SEC);
             break;
-        case 0x01FFFF0C:
-            temp = 218;
+        case SNG_FOUTS_M:
+            fade_time = SNG_VOL / (INT1SEC*3);
             break;
-        case 0x01FFFF0D:
-            temp = 131;
+        case SNG_FOUTS_L:
+            fade_time = SNG_VOL / (INT1SEC*5);
             break;
         }
 
-        if (temp == 0)
+        if (fade_time == 0)
         {
-            temp = 1;
+            fade_time = 1;
         }
 
-        for (i = 0; i < 13; i++)
+        for (i = 0; i < SNG_TRACK_NUM; i++)
         {
             if (!(sng_fout_term & (1 << i)))
             {
-                sng_fade_time[i] = temp;
+                sng_fade_time[i] = fade_time;
             }
         }
 
@@ -429,6 +506,12 @@ int SngFadeOutS(unsigned int code)
     return -1;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+#define KAIHI_FO_RYTHM  (SNG_VOL/(INT1SEC*15))
+#define KAIHI_FO_CHORD  (SNG_VOL/(INT1SEC*8))
+
 int SngKaihiP(void)
 {
     int i;
@@ -440,14 +523,14 @@ int SngKaihiP(void)
 
     if (sng_fout_term != 0x1FFF)
     {
-        sng_fade_time[2] = 43;
-        sng_fade_time[3] = 43;
+        sng_fade_time[2] = KAIHI_FO_RYTHM;
+        sng_fade_time[3] = KAIHI_FO_RYTHM;
 
-        for (i = 4; i < 13; i++)
+        for (i = 4; i < SNG_TRACK_NUM; i++)
         {
             if (!(sng_fout_term & (1 << i)))
             {
-                sng_fade_time[i] = 81;
+                sng_fade_time[i] = KAIHI_FO_CHORD;
             }
         }
 
@@ -459,6 +542,10 @@ int SngKaihiP(void)
     return -1;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+
 void SngFadeWkSet(void)
 {
     int i;
@@ -467,12 +554,12 @@ void SngFadeWkSet(void)
     {
          sng_fadein_time = 0;
 
-        for (i = 0; i < 13; i++)
+        for (i = 0; i < SNG_TRACK_NUM; i++)
         {
             sng_fade_time[i] = 0;
         }
 
-        for (i = 0; i < 13; i++)
+        for (i = 0; i < SNG_TRACK_NUM; i++)
         {
             sng_fade_value[i] = 0;
         }
@@ -484,14 +571,14 @@ void SngFadeWkSet(void)
 
     switch (sng_fadein_fg)
     {
-    case 0x01FFFF03: /* fallthrough */
-    case 0x01FFFF04: /* fallthrough */
-    case 0x01FFFF05:
+    case SNG_FIN_S: /* fallthrough */
+    case SNG_FIN_M: /* fallthrough */
+    case SNG_FIN_L:
         SngFadeIn_helper(sng_fadein_fg);
 
-        for (i = 0; i < 13; i++)
+        for (i = 0; i < SNG_TRACK_NUM; i++)
         {
-            sng_fade_value[i] = 65536;
+            sng_fade_value[i] = SNG_VOL;
         }
 
         sng_fadein_fg = 0;
@@ -502,32 +589,39 @@ void SngFadeWkSet(void)
     sng_fout_fg = 0;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+
+#define SYUKAN_MINUS_VOL    0x5000
+#define VOX_MINUS_VOL       0x6000
+
 void SngFadeInt(void)
 {
     char temp[64]; // This function allocates 64 bytes of unused stack space
-    int fade_time_bitmap;
-    int fade_value_bitmap;
+    int fout_on;
+    int fin_off;
     int i;
     unsigned int var_t0;
-    unsigned int var_a0_3;
-    unsigned int var_v1_3;
+    unsigned int vol1;
+    unsigned int vol2;
 
-    fade_time_bitmap = 0;
-    fade_value_bitmap = 0;
+    fout_on = 0;
+    fin_off = 0;
 
     if (sng_status < 3)
     {
         return;
     }
 
-    for (i = 0; i < 13; i++)
+    for (i = 0; i < SNG_TRACK_NUM; i++)
     {
-        fade_time_bitmap |= sng_fade_time[i];
+        fout_on |= sng_fade_time[i];
     }
 
-    if (fade_time_bitmap != 0)
+    if (fout_on != 0)
     {
-        for (i = 0; i < 13; i++)
+        for (i = 0; i < SNG_TRACK_NUM; i++)
         {
             if (sng_fade_time[i] == 0)
             {
@@ -536,10 +630,10 @@ void SngFadeInt(void)
 
             sng_fade_value[i] += sng_fade_time[i];
 
-            if (sng_fade_value[i] >= 0x10000)
+            if (sng_fade_value[i] >= SNG_VOL)
             {
                 sng_fout_term |= (1 << i);
-                sng_fade_value[i] = 0x10000;
+                sng_fade_value[i] = SNG_VOL;
                 sng_fade_time[i] = 0;
             }
 
@@ -564,13 +658,13 @@ void SngFadeInt(void)
     {
         if ((dword_800C0580 != 0) && (str_status != 0))
         {
-            if (vox_on_vol < 0x6000)
+            if (vox_on_vol < VOX_MINUS_VOL)
             {
-                vox_on_vol += 245;
+                vox_on_vol += (VOX_MINUS_VOL/INT1SEC);
 
-                if (vox_on_vol > 0x6000)
+                if (vox_on_vol > VOX_MINUS_VOL)
                 {
-                    vox_on_vol = 0x6000;
+                    vox_on_vol = VOX_MINUS_VOL;
                 }
             }
         }
@@ -578,7 +672,7 @@ void SngFadeInt(void)
         {
             if (vox_on_vol != 0)
             {
-                vox_on_vol -= 245;
+                vox_on_vol -= (VOX_MINUS_VOL/INT1SEC);
 
                 if (vox_on_vol < 0)
                 {
@@ -589,7 +683,7 @@ void SngFadeInt(void)
 
         if (sng_fadein_time != 0)
         {
-            for (i = 0; i < 13; i++)
+            for (i = 0; i < SNG_TRACK_NUM; i++)
             {
                 if (sng_fadein_time >= sng_fade_value[i])
                 {
@@ -600,10 +694,10 @@ void SngFadeInt(void)
                     sng_fade_value[i] -= sng_fadein_time;
                 }
 
-                fade_value_bitmap |= sng_fade_value[i];
+                fin_off |= sng_fade_value[i];
             }
 
-            if (fade_value_bitmap == 0)
+            if (fin_off == 0)
             {
                 sng_fadein_time = 0;
             }
@@ -612,13 +706,13 @@ void SngFadeInt(void)
 
     if (sng_syukan_fg != 0)
     {
-        if (sng_syukan_vol < 0x5000)
+        if (sng_syukan_vol < SYUKAN_MINUS_VOL)
         {
-            sng_syukan_vol += 204;
+            sng_syukan_vol += (SYUKAN_MINUS_VOL/INT1SEC);
 
-            if (sng_syukan_vol > 0x5000)
+            if (sng_syukan_vol > SYUKAN_MINUS_VOL)
             {
-                sng_syukan_vol = 0x5000;
+                sng_syukan_vol = SYUKAN_MINUS_VOL;
             }
         }
     }
@@ -626,7 +720,7 @@ void SngFadeInt(void)
     {
         if (sng_syukan_vol != 0)
         {
-            sng_syukan_vol -= 204;
+            sng_syukan_vol -= (SYUKAN_MINUS_VOL/INT1SEC);
 
             if (sng_syukan_vol < 0)
             {
@@ -644,57 +738,64 @@ void SngFadeInt(void)
         var_t0 = vox_on_vol;
     }
 
-    for (i = 0; i < 13; i++)
+    for (i = 0; i < SNG_TRACK_NUM; i++)
     {
-        var_a0_3 = 0x10000;
+        vol1 = SNG_VOL;
 
         if (var_t0 < sng_fade_value[i])
         {
-            var_v1_3 = sng_fade_value[i];
+            vol2 = sng_fade_value[i];
         }
         else
         {
-            var_v1_3 = var_t0;
+            vol2 = var_t0;
         }
 
-        if (var_v1_3 > var_a0_3)
+        if (vol2 > vol1)
         {
-            var_a0_3 = 0;
+            vol1 = 0;
         }
         else
         {
-            var_a0_3 -= var_v1_3;
+            vol1 -= vol2;
         }
 
-        sng_master_vol[i] = var_a0_3;
+        sng_master_vol[i] = vol1;
     }
 }
+
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+#define MOVE_TEMPO_VALUE    0x10
 
 void SngTempoInt(void)
 {
     if (sng_kaihi_fg != 0)
     {
-        if (sng_kaihi_time < 256)
+        if (sng_tempo_move < (MOVE_TEMPO_VALUE*0x10))
         {
-            sng_kaihi_time++;
+            sng_tempo_move++;
         }
     }
-    else if (sng_kaihi_time != 0)
+    else if (sng_tempo_move != 0)
     {
-        if (sng_kaihi_time <= 16)
+        if (sng_tempo_move <= MOVE_TEMPO_VALUE)
         {
-            sng_kaihi_time = 0;
+            sng_tempo_move = 0;
         }
         else
         {
-            sng_kaihi_time -= 16;
+            sng_tempo_move -= MOVE_TEMPO_VALUE;
         }
     }
 }
 
+/*----------------------------------------------------------------------*/
+
 int LoadSngData(void)
 {
-    sng_fp = PcmOpen(sng_load_code, 3);
+    sng_fp = PcmOpen(sng_load_code, KIND_MDX);
 
     if (sng_fp < 0)
     {
@@ -705,19 +806,23 @@ int LoadSngData(void)
     }
     else
     {
-        PcmRead(sng_fp, sng_data, 0x4000);
-        PcmClose(sng_fp, 3);
+        PcmRead(sng_fp, sng_data, SNG_DATA_SIZE);
+        PcmClose(sng_fp, KIND_MDX);
         sng_fp = 0;
         printf("CompletedLoadSong(%x)\n", sng_load_code);
         return 0;
     }
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+
 void init_sng_work(void)
 {
-    SOUND_W *ptr;
+    struct SOUND_W *ptr;
 
-    for (mtrack = 0; mtrack < 21; mtrack++)
+    for (mtrack = 0; mtrack < INTERNAL_TRACK_NUM; mtrack++)
     {
         ptr = &sound_w[mtrack];
         sptr = ptr;
@@ -734,6 +839,10 @@ void init_sng_work(void)
     sng_load_code = 0;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+
 void sng_adrs_set(int idx)
 {
     int i;
@@ -745,7 +854,7 @@ void sng_adrs_set(int idx)
 
     song_end &= ~0x1fff;
 
-    for (i = 0; i < 13; i++)
+    for (i = 0; i < SNG_TRACK_NUM; i++)
     {
         addr2 =  sng_data[addr + i * 4 + 2] << 16;
         addr2 += sng_data[addr + i * 4 + 1] << 8;
@@ -765,6 +874,10 @@ void sng_adrs_set(int idx)
     keyons &= ~0x1fff;
 }
 
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+
 void se_adrs_set(int idx)
 {
     se_playing[idx].code = se_request[idx].code;
@@ -777,60 +890,64 @@ void se_adrs_set(int idx)
     se_request[idx].pri = 0;
     se_request[idx].character = 0;
 
-    sng_track_init(&sound_w[idx + 13]);
+    sng_track_init(&sound_w[idx + SNG_TRACK_NUM]);
 
     se_vol[idx] = 2 * (se_playing[idx].code & 0x3f00);
 
-    song_end &= ~(1 << (idx + 13));
-    keyons &= ~(1 << (idx + 13));
+    song_end &= ~(1 << (idx + SNG_TRACK_NUM));
+    keyons &= ~(1 << (idx + SNG_TRACK_NUM));
     se_pan[idx] = ((se_playing[idx].code >> 16) + 32) & 0x3f;
-    keyoffs = keyoffs & ~(1 << (idx + 13));
+    keyoffs = keyoffs & ~(1 << (idx + SNG_TRACK_NUM));
 
-    sound_w[idx + 13].mpointer = se_playing[idx].addr;
+    sound_w[idx + SNG_TRACK_NUM].mpointer = se_playing[idx].addr;
 
     if (se_playing[idx].kind)
     {
         if (se_rev_on)
         {
-            eons |= spu_ch_tbl[mtrack + 1];
+            rev_on_bit |= spu_ch_tbl[mtrack + 1];
         }
         else
         {
-            eoffs |= spu_ch_tbl[mtrack + 1];
+            rev_off_bit |= spu_ch_tbl[mtrack + 1];
         }
     }
 }
 
-void sng_track_init(SOUND_W *ptr)
+/*----------------------------------------------------------------------*/
+/*                                                                      */
+/*----------------------------------------------------------------------*/
+
+void sng_track_init(struct SOUND_W *ptr)
 {
-    ptr->ngc      = 1;
-    ptr->pvod     = 127;
-    ptr->vol      = 127;
-    ptr->pand     = 2560;
-    ptr->panf     = 10;
-    ptr->tmpd     = 1;
-    ptr->rdmd     = 0;
-    ptr->ngo      = 0;
-    ptr->ngs      = 0;
-    ptr->ngg      = 0;
-    ptr->lp1_cnt  = 0;
-    ptr->lp2_cnt  = 0;
-    ptr->lp1_vol  = 0;
-    ptr->lp2_vol  = 0;
-    ptr->lp1_freq = 0;
+    ptr->ngc = 1;       /* sweep counter */
+    ptr->pvod = 0x7F;   /* volume move data */
+    ptr->vol = 0x7F;    /* volume (velosity) */
+    ptr->pand = 2560;   /* pan data */
+    ptr->panf = 10;     /* pan phase */
+    ptr->tmpd = 1;      /* tempo counter */
+    ptr->rdmd = 0;      /* LFO data */
+    ptr->ngo = 0;       /* keyoff counter */
+    ptr->ngs = 0;       /* step time */
+    ptr->ngg = 0;       /* gate time */
+    ptr->lp1_cnt = 0;   /* loop counter */
+    ptr->lp2_cnt = 0;
+    ptr->lp1_vol = 0;   /* loop volume */
+    ptr->lp2_vol = 0;
+    ptr->lp1_freq = 0;  /* loop frequency */
     ptr->lp2_freq = 0;
-    ptr->pvoc     = 0;
-    ptr->panoff   = 0;
-    ptr->panmod   = 0;
-    ptr->swsk     = 0;
-    ptr->swsc     = 0;
-    ptr->vibd     = 0;
-    ptr->vibdm    = 0;
-    ptr->tred     = 0;
-    ptr->snos     = 0;
-    ptr->ptps     = 0;
-    ptr->dec_vol  = 0;
-    ptr->tund     = 0;
-    ptr->tmp      = 255;
-    ptr->tmpc     = 0;
+    ptr->pvoc = 0;      /* volume move counter */
+    ptr->panoff = 0;    /* pan off flag */
+    ptr->panmod = 0;    /* pan mode */
+    ptr->swsk = 0;      /* sweep flag */
+    ptr->swsc = 0;      /* sweep counter */
+    ptr->vibd = 0;      /* vibrato depth */
+    ptr->vibdm = 0;     /* vibrato depth memory */
+    ptr->tred = 0;      /* tremolo depth */
+    ptr->snos = 0;      /* tone number */
+    ptr->ptps = 0;      /* part-transpose value */
+    ptr->dec_vol = 0;   /* volume correction value */
+    ptr->tund = 0;      /* tuning data */
+    ptr->tmp = 0xFF;    /* tempo data */
+    ptr->tmpc = 0;      /* tempo movement counter */
 }
