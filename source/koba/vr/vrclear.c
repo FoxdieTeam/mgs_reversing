@@ -338,10 +338,15 @@ static void FormatTime(char *buf, int time, int mode, Work *work)
     buf[0] = mins_str[0];
 }
 
+// NON_MATCHING: same instructions except register allocation; the original keeps "%s" hoisted in s7,
+// spills the hoisted &buf[len] to 0x30(sp) (frame 0x60 vs our 0x58) and uses fp/s3 for work/timer.
+// Ranks inside the same frame object as buf gives the shared base register and the 16 byte init.
+// FIXME: the compound literal assignment is a steering hack for that init.
+typedef struct { char *p[4]; } Ranks;
+
 static void DrawResult(int timer, Work *work)
 {
-    char  buf[16];
-    char *ranks[4] = { "1st", "2nd", "3rd", "record" };
+    struct { char buf[16]; Ranks r; } l;
     int   ammo;
     int   unit;
     int   t;
@@ -351,6 +356,8 @@ static void DrawResult(int timer, Work *work)
     int   rank;
     int   y;
     int   i;
+
+    l.r = (Ranks){ { "1st", "2nd", "3rd", "record" } };
 
     if (!(VR_Flags & VRFLAG_RESULT))
     {
@@ -388,7 +395,7 @@ static void DrawResult(int timer, Work *work)
                 time = 0;
             }
 
-            FormatTime(buf, time, 3, work);
+            FormatTime(l.buf, time, 3, work);
         }
         else
         {
@@ -398,14 +405,14 @@ static void DrawResult(int timer, Work *work)
                 time = 0;
             }
 
-            FormatTime(buf, time, 1, work);
+            FormatTime(l.buf, time, 1, work);
         }
 
         MENU_Locate(159, 108, 0x10);
-        MENU_Printf("%s", buf);
+        MENU_Printf("%s", l.buf);
 
         MENU_Locate(99, 108, 0x10);
-        MENU_Printf("%s", ranks[3]);
+        MENU_Printf("%s", l.r.p[3]);
 
         MENU_Locate(219, 72, 0x11);
         MENU_Printf("%d", count);
@@ -471,8 +478,8 @@ static void DrawResult(int timer, Work *work)
                     time = -time;
                 }
 
-                FormatTime(buf, time, 0, work);
-                buf[len] = '\0';
+                FormatTime(l.buf, time, 0, work);
+                l.buf[len] = '\0';
 
                 if (i == 3)
                 {
@@ -489,11 +496,11 @@ static void DrawResult(int timer, Work *work)
                 }
 
                 MENU_Locate(159, y, 0x10);
-                MENU_Printf("%s", buf);
+                MENU_Printf("%s", l.buf);
 
                 MENU_Color(208, 107, 57);
                 MENU_Locate(99, y, 0x10);
-                MENU_Printf("%s", ranks[i]);
+                MENU_Printf("%s", l.r.p[i]);
             }
 
             y += 12;
