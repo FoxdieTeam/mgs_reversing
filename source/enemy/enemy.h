@@ -535,6 +535,10 @@ typedef struct _ZAKO11F_COMMAND
 //command.c
 #define TOP_COMM_TRAVEL 0
 #define TOP_COMM_ALERT  1
+#define TOP_COMM_EVASION 2
+
+/* COM_GameStatus flags */
+#define COM_ST_SHARE_TARGET 0x4 /* VR: enemies publish their route target in COM_PlayerAddressOne/PositionOne */
 
 void  COM_CallBikkuriSe( SVECTOR *mov , int n );
 int  s00a_command_800CEA2C( WatcherWork *work );

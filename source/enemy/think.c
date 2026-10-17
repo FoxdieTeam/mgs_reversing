@@ -24,6 +24,9 @@ extern int           COM_PlayerAddressOne[8];
 extern int           COM_VibTime;
 extern int           COM_PlayerMap;
 extern int           COM_SHOOTRANGE;
+#ifdef VR_EXE
+extern unsigned int  ENE_SPECIAL_FLAG;
+#endif
 
 const char aErrerrerrnotlinkroutedtod_800E0690[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
 const char aErrnozoneidingcl_800E06C0[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
@@ -329,7 +332,25 @@ void s00a_command_800CAFD4( WatcherWork* work )
     addr = EnemyCommand.com_addr;
     if ( s00a_command_800CA898( work, &work->control.map->hzd->def->zones[ addr ] ) )
     {
+#ifdef VR_EXE
+        HZD_ZON *zone;
+        int      next;
+
+        next = s00a_command_800CA8E0( work, addr );
+        s00a_command_800CAA2C( work, next );
+
+        if ( COM_GameStatus & COM_ST_SHARE_TARGET )
+        {
+            COM_PlayerAddressOne[ work->field_B78 ] = next | next << 8;
+
+            zone = &work->control.map->hzd->def->zones[ next ];
+            COM_PlayerPositionOne[ work->field_B78 ].vx = zone->x;
+            COM_PlayerPositionOne[ work->field_B78 ].vy = zone->y;
+            COM_PlayerPositionOne[ work->field_B78 ].vz = zone->z;
+        }
+#else
         s00a_command_800CAA2C( work, s00a_command_800CA8E0( work, addr ) );
+#endif
         return;
     }
 
@@ -515,7 +536,11 @@ void s00a_command_800CB42C( WatcherWork* work )
     }
     else
     {
+#ifdef VR_EXE
+        if ( work->field_C00 >= 2 )
+#else
         if ( work->field_BFC >= 5800 )
+#endif
         {
             work->think1 = 2;
             work->think2 = 13;
@@ -528,6 +553,10 @@ void s00a_command_800CB42C( WatcherWork* work )
             work->think1 = 2;
             work->think2 = 11;
             work->pad.mode = 1;
+#ifdef VR_EXE
+            ENE_SPECIAL_FLAG = 1 - ENE_SPECIAL_FLAG;
+            work->field_C4A = ENE_SPECIAL_FLAG;
+#endif
         }
     }
     work->count3 = 0;
@@ -731,9 +760,15 @@ int s00a_command_800CB838( WatcherWork *work )
             return -1;
         }
 
+#ifdef VR_EXE
+        if ( ( !( work->field_C00 & 1 ) && EnemyCommand.mode != TOP_COMM_EVASION ) ||
+             ( work->field_C4A && EnemyCommand.mode == TOP_COMM_EVASION ) )
+#else
         if ( !( work->field_C00 & 1 ) )
+#endif
         {
-            addr3 = HZD_Navigate2( hzd, addr2, addr, &ctrl->mov );
+            // FIXME: &work->control.mov instead of &ctrl->mov (both Navigate calls) steers the VR register allocation
+            addr3 = HZD_Navigate2( hzd, addr2, addr, &work->control.mov );
             zone = &hzd->def->zones[ addr3 ];
 
             if ( GM_PlayerPosition.vx & 1 )
@@ -757,7 +792,7 @@ int s00a_command_800CB838( WatcherWork *work )
         }
         else
         {
-            addr3 = HZD_Navigate( hzd, addr2, addr, &ctrl->mov );
+            addr3 = HZD_Navigate( hzd, addr2, addr, &work->control.mov );
             zone = &hzd->def->zones[ addr3 ];
             work->field_C14.vx = zone->x;
             work->field_C14.vy = zone->y;
@@ -1050,6 +1085,13 @@ int s00a_command_800CC064( WatcherWork* work )
 
 int s00a_command_800CC0D4( WatcherWork* work )
 {
+#ifdef VR_EXE
+    if ( work->param_blood == 'W' )
+    {
+        return 1;
+    }
+#endif
+
     if ( s00a_command_800CBF00( work ) )
     {
         return 1;
@@ -1829,14 +1871,19 @@ static inline void think_reset( WatcherWork *work )
     EnemyResetThink_800CB224( work );
 }
 
+static inline void think_next_node( WatcherWork *work )
+{
+    work->next_node--;
+    s00a_command_800CB13C( work );
+    EnemyResetThink_800CB224( work );
+    s00a_command_800CB660( work );
+}
+
 static inline void think_reset2( WatcherWork *work )
 {
     if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
-        work->next_node--;
-        s00a_command_800CB13C( work );
-        EnemyResetThink_800CB224( work );
-        s00a_command_800CB660( work );
+        think_next_node( work );
     }
     else
     {
@@ -1978,8 +2025,17 @@ void s00a_command_800CD478( WatcherWork *work )
         case 4:
             if ( s00a_command_800CC8C8( work ) )
             {
-                work->think3 = 5;
-                work->count3 = 0;
+#ifdef VR_EXE
+                if ( work->param_blood == 'M' || work->param_blood == 'C' || work->param_blood == 'D' )
+                {
+                    think_next_node( work );
+                }
+                else
+#endif
+                {
+                    work->think3 = 5;
+                    work->count3 = 0;
+                }
             }
             break;
         case 5:
