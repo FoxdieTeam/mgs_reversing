@@ -40,6 +40,8 @@ void *NewLoadReplay(void)
     u_short *buffer;
     u_short *image;
     int      i;
+    u_short *src;
+    u_short *dst;
 
     actor = GV_NewActor(GV_ACTOR_AFTER2, sizeof(GV_ACT));
     if (actor != NULL)
@@ -59,11 +61,11 @@ void *NewLoadReplay(void)
         printf("store image\n");
         printf("end DrawSync\n");
 
-        // NON_MATCHING: the original increments i before the load in this loop
-        // (3 instructions in a different order), everything else matches
-        for (i = 0; i < REPLAY_COPY_SIZE; i++)
+        // FIXME: i++ first and separate copy pointers steer the scheduling/register allocation
+        for (i = 0, src = buffer, dst = image; i < REPLAY_COPY_SIZE;)
         {
-            image[i] = buffer[i];
+            i++;
+            *dst++ = *src++;
         }
 
         GV_Free(buffer);
