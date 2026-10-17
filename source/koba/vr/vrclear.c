@@ -14,6 +14,7 @@
 #include "linkvar.h"
 #include "menu/menuman.h"
 #include "takabe/fadeio.h"
+#include "vrmenu.h"
 
 /*---------------------------------------------------------------------------*/
 // VR-DISC: the "MISSION CLEARED" screen of the VR missions (result times,
@@ -46,7 +47,7 @@
 #define MENU_CLOSING        5
 #define MENU_HIDDEN         6
 
-// VrButton::links[] (cursor movement)
+// VR_MENU_ITEM::link[] (cursor movement)
 #define LINK_UP             0
 #define LINK_LEFT           1
 #define LINK_DOWN           2
@@ -76,21 +77,6 @@
 #define LOADREQ_GAMEOVER    0x81
 
 /*---------------------------------------------------------------------------*/
-
-// a menu button of the VR result screens (shared layout with vrover.c / pausmenu.c)
-typedef struct VrButton
-{
-    RECT        rect;           // 0x00
-    short       links[4];       // 0x08 button index the cursor moves to (-1: none)
-    int         texture;        // 0x10 texture id (<= 0: disabled)
-    int         proc;           // 0x14 GCL procedure (< 0: none)
-    RECT        cursor;         // 0x18 cursor rectangle around the button
-    short       count;          // 0x20
-    u_char      state;          // 0x22
-    char        pad_23;         // 0x23
-    DG_TEX     *tex;            // 0x24
-    POLY_FT4    polys[2];       // 0x28
-} VrButton;                     // 0x78
 
 typedef struct _Work
 {
@@ -144,17 +130,9 @@ extern u_int vr_sud01_dword_800DFBF0;   // VRFLAG_*
 extern int vr_sud01_dword_800DFBF8[4];  // record times, [3] = time of this run
 extern int vr_sud01_dword_800DFC04;     // time of this run
 
-// FIXME: VR menu helpers of the next object (0x800DB4B4.., not yet decompiled)
-extern void vr_sud01_800DB4B4(POLY_FT4 *polys, TILE *tiles, int clut);
-extern int  vr_sud01_800DB548(void);
-extern void vr_sud01_800DB9F4(RECT *rect, RECT *target, POLY_FT4 *polys, TILE *tile);
-extern void vr_sud01_800DBB10(VrButton *button);
-extern void vr_sud01_800DBB40(VrButton *button);
-extern int  vr_sud01_800DBEA4(VrButton *button, int proc, int state);
-
 /*---------------------------------------------------------------------------*/
 
-VrButton vrclear_buttons[NUM_BUTTONS] = {
+VR_MENU_ITEM vrclear_buttons[NUM_BUTTONS] = {
     { { 122, 169,  76,  8 }, {  1, -1,  2, -1 }, 0x8D82,  1, { 111, 166,  96, 14 } },
     { { 115, 153,  92,  8 }, { -1, -1,  0, -1 }, 0x7F9C,  1, { 103, 150, 114, 14 } },
     { { 132, 184,  56, 14 }, {  0, -1, -1, -1 }, 0x6DC8,  1, { 132, 184,  57, 14 } },
@@ -205,7 +183,7 @@ static int OpenButtons(int message)
 
     for (i = 0; i < NUM_BUTTONS; i++)
     {
-        vrclear_buttons[i].state = 1;
+        vrclear_buttons[i].state = VR_MENU_ITEM_STATE_GROW_W;
     }
 
     return 1;
@@ -754,19 +732,19 @@ static int MoveCursor(Work *work)
             dir = LINK_UP;
         }
 
-        next = vrclear_buttons[work->cur].links[dir];
+        next = vrclear_buttons[work->cur].link[dir];
         if (next != -1)
         {
-            if (vrclear_buttons[next].texture <= 0)
+            if (vrclear_buttons[next].tex_id <= 0)
             {
                 do
                 {
-                    next = vrclear_buttons[next].links[dir];
+                    next = vrclear_buttons[next].link[dir];
                     if (next == -1)
                     {
                         return 0;
                     }
-                } while (vrclear_buttons[next].texture <= 0);
+                } while (vrclear_buttons[next].tex_id <= 0);
             }
 
             work->sel = next;
@@ -779,7 +757,7 @@ static int MoveCursor(Work *work)
     status = pad->press;
     if ((status & PAD_CIRCLE) && vrclear_buttons[work->cur].proc >= 0)
     {
-        VrButton *button;
+        VR_MENU_ITEM *button;
         int       n;
 
         work->state = MENU_DECIDED;
@@ -789,12 +767,12 @@ static int MoveCursor(Work *work)
         while (n != 0)
         {
             n--;
-            button->state = 3;
-            button->count = 0;
+            button->state = VR_MENU_ITEM_STATE_SHRINK_H;
+            button->step = 0;
             button++;
         }
 
-        vrclear_buttons[work->cur].state = 0;
+        vrclear_buttons[work->cur].state = VR_MENU_ITEM_STATE_OPEN;
         PlayDecideSound(0, work->cur);
     }
 
@@ -904,7 +882,7 @@ static void DrawWindow(Work *work)
 
 static void Draw(Work *work)
 {
-    VrButton *button;
+    VR_MENU_ITEM *button;
     int       n;
     int       busy;
     int       skip;
@@ -924,7 +902,7 @@ static void Draw(Work *work)
         button = vrclear_buttons;
         for (n = work->n_buttons; n != 0; n--)
         {
-            vr_sud01_800DBB40(button);
+            VrMenu_DrawItem(button);
             button++;
         }
 
@@ -934,7 +912,7 @@ static void Draw(Work *work)
         if (!(vr_sud01_dword_800DFBF0 & VRFLAG_AMMO_BONUS))
         {
             MoveCursor(work);
-            vr_sud01_800DB9F4(&work->cursor, &vrclear_buttons[work->sel].cursor,
+            VrMenu_UpdateFrame(&work->cursor, &vrclear_buttons[work->sel].label,
                               work->cursor_polys[GV_Clock], &work->cursor_tiles[GV_Clock]);
         }
         else if (CheckPad(work))
@@ -979,11 +957,11 @@ static void Draw(Work *work)
         button = vrclear_buttons;
         for (n = work->n_buttons; n != 0; n--)
         {
-            vr_sud01_800DBB40(button);
+            VrMenu_DrawItem(button);
 
             if (button != &vrclear_buttons[work->cur])
             {
-                busy |= (button->state != 5 && button->state != 0);
+                busy |= (button->state != VR_MENU_ITEM_STATE_CLOSED && button->state != VR_MENU_ITEM_STATE_OPEN);
             }
 
             button++;
@@ -1006,13 +984,13 @@ static void Draw(Work *work)
             }
             else
             {
-                vr_sud01_800DBB10(&vrclear_buttons[work->cur]);
+                VrMenu_ExecItem(&vrclear_buttons[work->cur]);
             }
 
             work->state = MENU_CLOSING;
         }
 
-        vr_sud01_800DB9F4(&work->cursor, &vrclear_buttons[work->sel].cursor,
+        VrMenu_UpdateFrame(&work->cursor, &vrclear_buttons[work->sel].label,
                           work->cursor_polys[GV_Clock], &work->cursor_tiles[GV_Clock]);
         break;
 
@@ -1022,7 +1000,7 @@ static void Draw(Work *work)
         button = vrclear_buttons;
         for (n = work->n_buttons; n != 0; n--)
         {
-            vr_sud01_800DBB40(button);
+            VrMenu_DrawItem(button);
             button++;
         }
         break;
@@ -1086,12 +1064,12 @@ static void Init(Work *work)
     if ((vr_sud01_dword_800DFBF0 & VRFLAG_RESULT) && work->has_replay)
     {
         work->n_buttons = 4;
-        vrclear_buttons[BUTTON_RETRY].links[LINK_UP] = BUTTON_SAVE;
+        vrclear_buttons[BUTTON_RETRY].link[LINK_UP] = BUTTON_SAVE;
     }
     else
     {
         work->n_buttons = 3;
-        vrclear_buttons[BUTTON_RETRY].links[LINK_UP] = -1;
+        vrclear_buttons[BUTTON_RETRY].link[LINK_UP] = -1;
     }
 
     if (rank >= 3)
@@ -1124,15 +1102,15 @@ static void Init(Work *work)
 
         if ((vr_sud01_dword_800DFBF0 & VRFLAG_RESULT) && work->has_replay)
         {
-            vrclear_buttons[BUTTON_NEXT].links[LINK_UP] = BUTTON_SAVE;
-            vrclear_buttons[BUTTON_SAVE].links[LINK_DOWN] = BUTTON_NEXT;
+            vrclear_buttons[BUTTON_NEXT].link[LINK_UP] = BUTTON_SAVE;
+            vrclear_buttons[BUTTON_SAVE].link[LINK_DOWN] = BUTTON_NEXT;
             vrclear_buttons[BUTTON_SAVE].rect.y = vrclear_buttons[BUTTON_RETRY].rect.y;
-            vrclear_buttons[BUTTON_SAVE].cursor.y = vrclear_buttons[BUTTON_RETRY].cursor.y;
+            vrclear_buttons[BUTTON_SAVE].label.y = vrclear_buttons[BUTTON_RETRY].label.y;
         }
         else
         {
-            vrclear_buttons[BUTTON_NEXT].links[LINK_UP] = -1;
-            vrclear_buttons[BUTTON_SAVE].links[LINK_DOWN] = BUTTON_RETRY;
+            vrclear_buttons[BUTTON_NEXT].link[LINK_UP] = -1;
+            vrclear_buttons[BUTTON_SAVE].link[LINK_DOWN] = BUTTON_RETRY;
         }
 
         vrclear_buttons[BUTTON_RETRY].rect.w = 0;
@@ -1158,15 +1136,15 @@ static void Init(Work *work)
     {
         work->sel = BUTTON_EXIT;
 
-        vrclear_buttons[BUTTON_NEXT].links[LINK_UP] = -1;
-        vrclear_buttons[BUTTON_SAVE].links[LINK_DOWN] = BUTTON_RETRY;
+        vrclear_buttons[BUTTON_NEXT].link[LINK_UP] = -1;
+        vrclear_buttons[BUTTON_SAVE].link[LINK_DOWN] = BUTTON_RETRY;
         vrclear_buttons[BUTTON_RETRY].rect.w = 0;
         vrclear_buttons[BUTTON_RETRY].rect.h = 0;
         vrclear_buttons[BUTTON_RETRY].rect.x = 0;
         work->n_buttons = 3;
 
-        vrclear_buttons[BUTTON_NEXT].texture = GV_StrCode("replay");
-        tex = DG_GetTexture(vrclear_buttons[BUTTON_NEXT].texture);
+        vrclear_buttons[BUTTON_NEXT].tex_id = GV_StrCode("replay");
+        tex = DG_GetTexture(vrclear_buttons[BUTTON_NEXT].tex_id);
         vrclear_buttons[BUTTON_NEXT].tex = tex;
         DG_SetPacketTexture4(&vrclear_buttons[BUTTON_NEXT].polys[0], tex);
         DG_SetPacketTexture4(&vrclear_buttons[BUTTON_NEXT].polys[1], tex);
@@ -1174,9 +1152,9 @@ static void Init(Work *work)
         vrclear_buttons[BUTTON_NEXT].rect.w = 56;
         vrclear_buttons[BUTTON_NEXT].rect.h = 8;
         vrclear_buttons[BUTTON_NEXT].rect.x = 132;
-        vrclear_buttons[BUTTON_NEXT].cursor.w = 76;
-        vrclear_buttons[BUTTON_NEXT].cursor.h = 14;
-        vrclear_buttons[BUTTON_NEXT].cursor.x = 121;
+        vrclear_buttons[BUTTON_NEXT].label.w = 76;
+        vrclear_buttons[BUTTON_NEXT].label.h = 14;
+        vrclear_buttons[BUTTON_NEXT].label.x = 121;
     }
 
     work->cur = BUTTON_CURSOR;
@@ -1190,7 +1168,7 @@ static void Init(Work *work)
         work->state = MENU_OPEN_WINDOW;
     }
 
-    vr_sud01_800DB4B4(work->cursor_polys[0], work->cursor_tiles, vr_sud01_800DB548());
+    VrMenu_InitFrame(work->cursor_polys[0], work->cursor_tiles, VrMenu_LoadFrameTexture());
 
     work->cursor.x = 160;
     work->cursor.y = 112;
@@ -1341,7 +1319,7 @@ static int GetResources(Work *work, int where)
     n = 0;
     for (i = 0; i < NUM_BUTTONS; i++)
     {
-        if (vr_sud01_800DBEA4(&vrclear_buttons[i], procs[n], 1))
+        if (VrMenu_InitItem(&vrclear_buttons[i], procs[n], 1))
         {
             n++;
         }
