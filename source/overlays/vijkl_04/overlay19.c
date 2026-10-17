@@ -27,11 +27,6 @@ extern const char vijkl_04_dword_800E377C[];
 extern const char vijkl_04_dword_800E3784[];
 
 
-const int vijkl_04_dword_800E3828 = 0x800DFADC;
-const int vijkl_04_dword_800E382C = 0x800DFAE8;
-const int vijkl_04_dword_800E3830 = 0x800DFBA4;
-const int vijkl_04_dword_800E3834 = 0x800DFC34;
-const int vijkl_04_dword_800E3838 = 0x800DFCC4;
-const int vijkl_04_dword_800E383C = 0x800DFDF0;
-const char vijkl_04_dword_800E3840[] = "selectvr";
-const char vijkl_04_dword_800E384C[] = "vrover.c";
+const char vijkl_04_dword_800E3874[] = "op_back_l";
+const char vijkl_04_dword_800E3880[] = "op_back_r";
+const char vijkl_04_dword_800E388C[] = "bg3.c";

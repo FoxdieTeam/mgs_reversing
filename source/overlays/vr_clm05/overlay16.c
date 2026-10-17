@@ -27,18 +27,11 @@ extern const char vr_clm05_dword_800E4DF4[];
 extern const char vr_clm05_dword_800E4DFC[];
 
 
-const int vr_clm05_dword_800E4C20 = 0x800DBAAC;
-const int vr_clm05_dword_800E4C24 = 0x800DBAC4;
-const int vr_clm05_dword_800E4C28 = 0x800DBB80;
-const int vr_clm05_dword_800E4C2C = 0x800DBC24;
-const int vr_clm05_dword_800E4C30 = 0x800DBD2C;
-const int vr_clm05_dword_800E4C34 = 0x800DBDCC;
-const int vr_clm05_dword_800E4C38 = 0x800DBE84;
-const int vr_clm05_dword_800E4C3C = 0x69777276;
-const int vr_clm05_dword_800E4C40 = 0x776F646E;
-const int vr_clm05_dword_800E4C44 = 0x6143203A;
-const int vr_clm05_dword_800E4C48 = 0x2074276E;
-const int vr_clm05_dword_800E4C4C = 0x6F6C6C61;
-const int vr_clm05_dword_800E4C50 = 0x21212063;
-const int vr_clm05_dword_800E4C54 = 0x00000A20;
-const char vr_clm05_dword_800E4C58[] = "vrwindow.c";
+const int vr_clm05_dword_800E4EA0 = 0x800DF0E4;
+const int vr_clm05_dword_800E4EA4 = 0x800DF0F0;
+const int vr_clm05_dword_800E4EA8 = 0x800DF1AC;
+const int vr_clm05_dword_800E4EAC = 0x800DF23C;
+const int vr_clm05_dword_800E4EB0 = 0x800DF2CC;
+const int vr_clm05_dword_800E4EB4 = 0x800DF3F8;
+const char vr_clm05_dword_800E4EB8[] = "selectvr";
+const char vr_clm05_dword_800E4EC4[] = "vrover.c";

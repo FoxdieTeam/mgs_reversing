@@ -27,11 +27,6 @@ extern const char vr_sud13_dword_800E5BCC[];
 extern const char vr_sud13_dword_800E5BD4[];
 
 
-const int vr_sud13_dword_800E5C78 = 0x800E1E4C;
-const int vr_sud13_dword_800E5C7C = 0x800E1E58;
-const int vr_sud13_dword_800E5C80 = 0x800E1F14;
-const int vr_sud13_dword_800E5C84 = 0x800E1FA4;
-const int vr_sud13_dword_800E5C88 = 0x800E2034;
-const int vr_sud13_dword_800E5C8C = 0x800E2160;
-const char vr_sud13_dword_800E5C90[] = "selectvr";
-const char vr_sud13_dword_800E5C9C[] = "vrover.c";
+const char vr_sud13_dword_800E5CC4[] = "op_back_l";
+const char vr_sud13_dword_800E5CD0[] = "op_back_r";
+const char vr_sud13_dword_800E5CDC[] = "bg3.c";

@@ -27,11 +27,6 @@ extern const char vr_clm02_dword_800E1770[];
 extern const char vr_clm02_dword_800E1778[];
 
 
-const int vr_clm02_dword_800E181C = 0x800DBB90;
-const int vr_clm02_dword_800E1820 = 0x800DBB9C;
-const int vr_clm02_dword_800E1824 = 0x800DBC58;
-const int vr_clm02_dword_800E1828 = 0x800DBCE8;
-const int vr_clm02_dword_800E182C = 0x800DBD78;
-const int vr_clm02_dword_800E1830 = 0x800DBEA4;
-const char vr_clm02_dword_800E1834[] = "selectvr";
-const char vr_clm02_dword_800E1840[] = "vrover.c";
+const char vr_clm02_dword_800E184C[] = "demo";
+const char vr_clm02_dword_800E1854[] = "PAUSE";
+const char vr_clm02_dword_800E185C[] = "pausmenu.c";

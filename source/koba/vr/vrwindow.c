@@ -25,6 +25,19 @@
 
 /*---------------------------------------------------------------------------*/
 
+// The VR-DISC has its own sound effect table
+#ifdef VR_EXE
+#define VRWIN_SE_OPEN           182
+#define VRWIN_SE_CHAR           196
+#define VRWIN_SE_START          181
+#else
+#define VRWIN_SE_OPEN           SE_MENU_SELECT
+#define VRWIN_SE_CHAR           179
+#define VRWIN_SE_START          SE_MENU_SELECT
+#endif
+
+/*---------------------------------------------------------------------------*/
+
 typedef struct _Work
 {
     GV_ACT         actor;
@@ -110,7 +123,7 @@ static void CloseWindow(Work *work)
         GCL_ExecProc(work->proc, NULL);
     }
 
-    GM_SeSet2(0, 63, SE_MENU_SELECT);
+    GM_SeSet2(0, 63, VRWIN_SE_OPEN);
 
     switch (work->state)
     {
@@ -187,7 +200,7 @@ static int PrintMessage(Work *work, int size)
 
             if (work->f180 != 0 && vrwindow_strbuf[work->f180 - 1] != ' ')
             {
-                GM_SeSet2(0, 63, 179);
+                GM_SeSet2(0, 63, VRWIN_SE_CHAR);
             }
 
             font_draw_string(&work->kcb, 0, i * 18, vrwindow_strbuf, work->kcb.color);
@@ -450,7 +463,7 @@ void *NewVrWindow(int name, int where)
         work->step = 0;
         work->f34 = 0;
 
-        GM_SeSet2(0, 63, SE_MENU_SELECT);
+        GM_SeSet2(0, 63, VRWIN_SE_START);
 
         if (GCL_GetOption('s'))
         {

@@ -27,6 +27,4 @@ extern const char vab_cfr_dword_800E17F0[];
 extern const char vab_cfr_dword_800E17F8[];
 
 
-const char vab_cfr_dword_800E15FC[] = "op_back_l";
-const char vab_cfr_dword_800E1608[] = "op_back_r";
-const char vab_cfr_dword_800E1614[] = "bg3.c";
+const char vab_cfr_dword_800E161C[] = "splashvr.c";

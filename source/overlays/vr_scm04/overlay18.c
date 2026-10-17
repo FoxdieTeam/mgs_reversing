@@ -27,6 +27,4 @@ extern const char vr_scm04_dword_800E2888[];
 extern const char vr_scm04_dword_800E2890[];
 
 
-const char vr_scm04_dword_800E2A98[] = "op_back_l";
-const char vr_scm04_dword_800E2AA4[] = "op_back_r";
-const char vr_scm04_dword_800E2AB0[] = "bg3.c";
+const char vr_scm04_dword_800E2AB8[] = "splashvr.c";

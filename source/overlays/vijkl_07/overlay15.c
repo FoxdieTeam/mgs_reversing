@@ -1,30 +1,33 @@
 #include "mgstype.h"
 
-extern const char vijkl_07_dword_800E37DC[];
-extern const char vijkl_07_dword_800E37E0[];
-extern const char vijkl_07_dword_800E37E4[];
-extern const char vijkl_07_dword_800E37E8[];
-extern const char vijkl_07_dword_800E3844[];
-extern const char vijkl_07_dword_800E384C[];
-extern const char vijkl_07_dword_800E3858[];
-extern const char vijkl_07_dword_800E3868[];
-extern const char vijkl_07_dword_800E3870[];
-extern const char vijkl_07_dword_800E3878[];
-extern const char vijkl_07_dword_800E3880[];
-extern const char vijkl_07_dword_800E389C[];
-extern const char vijkl_07_dword_800E38B8[];
-extern const char vijkl_07_dword_800E38C8[];
-extern const char vijkl_07_dword_800E38D8[];
-extern const int vijkl_07_dword_800E38E4;
-extern const char vijkl_07_dword_800E38E8[];
-extern const char vijkl_07_dword_800E38F0[];
-extern const char vijkl_07_dword_800E38F8[];
-extern const char vijkl_07_dword_800E3900[];
-extern const char vijkl_07_dword_800E390C[];
-extern const char vijkl_07_dword_800E3914[];
-extern const int vijkl_07_dword_800E391C;
-extern const char vijkl_07_dword_800E3920[];
-extern const char vijkl_07_dword_800E3928[];
-
 
 const char vijkl_07_dword_800E3744[] = "goal.c";
+
+int SECTION(".bss") vijkl_07_dword_800E4348;
+int SECTION(".bss") vijkl_07_dword_800E434C;
+int SECTION(".bss") vijkl_07_dword_800E4350;
+int SECTION(".bss") vijkl_07_dword_800E4354;
+int SECTION(".bss") vijkl_07_dword_800E4358;
+int SECTION(".bss") vijkl_07_dword_800E435C;
+int SECTION(".bss") vijkl_07_dword_800E4360;
+int SECTION(".bss") vijkl_07_dword_800E4364;
+int SECTION(".bss") vijkl_07_dword_800E4368;
+int SECTION(".bss") vijkl_07_dword_800E436C;
+int SECTION(".bss") vijkl_07_dword_800E4370;
+int SECTION(".bss") vijkl_07_dword_800E4374;
+int SECTION(".bss") vijkl_07_dword_800E4378;
+int SECTION(".bss") vijkl_07_dword_800E437C;
+int SECTION(".bss") vijkl_07_dword_800E4380;
+int SECTION(".bss") vijkl_07_dword_800E4384;
+int SECTION(".bss") vijkl_07_dword_800E4388;
+int SECTION(".bss") vijkl_07_dword_800E438C;
+int SECTION(".bss") vijkl_07_dword_800E4390;
+int SECTION(".bss") vijkl_07_dword_800E4394;
+int SECTION(".bss") vijkl_07_dword_800E4398;
+int SECTION(".bss") vijkl_07_dword_800E439C;
+int SECTION(".bss") vijkl_07_dword_800E43A0;
+int SECTION(".bss") vijkl_07_dword_800E43A4;
+int SECTION(".bss") vijkl_07_dword_800E43A8;
+int SECTION(".bss") vijkl_07_dword_800E43AC;
+int SECTION(".bss") vijkl_07_dword_800E43B0;
+int SECTION(".bss") vijkl_07_dword_800E43B4;

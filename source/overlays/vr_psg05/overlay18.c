@@ -27,6 +27,6 @@ extern const char vr_psg05_dword_800E1998[];
 extern const char vr_psg05_dword_800E19A0[];
 
 
-const char vr_psg05_dword_800E1B20[] = "splashvr.c";
-const char vr_psg05_dword_800E1B2C[] = "glass";
-const char vr_psg05_dword_800E1B34[] = "vrglass.c";
+const char vr_psg05_dword_800E1B00[] = "op_back_l";
+const char vr_psg05_dword_800E1B0C[] = "op_back_r";
+const char vr_psg05_dword_800E1B18[] = "bg3.c";

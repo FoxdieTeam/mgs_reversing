@@ -27,11 +27,6 @@ extern const char vefgh_10_dword_800E288C[];
 extern const char vefgh_10_dword_800E2894[];
 
 
-const int vefgh_10_dword_800E2938 = 0x800DEEA0;
-const int vefgh_10_dword_800E293C = 0x800DEEAC;
-const int vefgh_10_dword_800E2940 = 0x800DEF68;
-const int vefgh_10_dword_800E2944 = 0x800DEFF8;
-const int vefgh_10_dword_800E2948 = 0x800DF088;
-const int vefgh_10_dword_800E294C = 0x800DF1B4;
-const char vefgh_10_dword_800E2950[] = "selectvr";
-const char vefgh_10_dword_800E295C[] = "vrover.c";
+const char vefgh_10_dword_800E2968[] = "demo";
+const char vefgh_10_dword_800E2970[] = "PAUSE";
+const char vefgh_10_dword_800E2978[] = "pausmenu.c";

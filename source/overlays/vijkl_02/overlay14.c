@@ -27,18 +27,11 @@ extern const char vijkl_02_dword_800E1E38[];
 extern const char vijkl_02_dword_800E1E40[];
 
 
-const int vijkl_02_dword_800E1C64 = 0x800D7CB4;
-const int vijkl_02_dword_800E1C68 = 0x800D7CCC;
-const int vijkl_02_dword_800E1C6C = 0x800D7D88;
-const int vijkl_02_dword_800E1C70 = 0x800D7E2C;
-const int vijkl_02_dword_800E1C74 = 0x800D7F34;
-const int vijkl_02_dword_800E1C78 = 0x800D7FD4;
-const int vijkl_02_dword_800E1C7C = 0x800D808C;
-const int vijkl_02_dword_800E1C80 = 0x69777276;
-const int vijkl_02_dword_800E1C84 = 0x776F646E;
-const int vijkl_02_dword_800E1C88 = 0x6143203A;
-const int vijkl_02_dword_800E1C8C = 0x2074276E;
-const int vijkl_02_dword_800E1C90 = 0x6F6C6C61;
-const int vijkl_02_dword_800E1C94 = 0x21212063;
-const int vijkl_02_dword_800E1C98 = 0x00000A20;
-const char vijkl_02_dword_800E1C9C[] = "vrwindow.c";
+const int vijkl_02_dword_800E1EE4 = 0x800DB2EC;
+const int vijkl_02_dword_800E1EE8 = 0x800DB2F8;
+const int vijkl_02_dword_800E1EEC = 0x800DB3B4;
+const int vijkl_02_dword_800E1EF0 = 0x800DB444;
+const int vijkl_02_dword_800E1EF4 = 0x800DB4D4;
+const int vijkl_02_dword_800E1EF8 = 0x800DB600;
+const char vijkl_02_dword_800E1EFC[] = "selectvr";
+const char vijkl_02_dword_800E1F08[] = "vrover.c";

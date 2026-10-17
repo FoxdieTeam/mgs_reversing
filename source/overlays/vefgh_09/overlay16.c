@@ -1,30 +1,33 @@
 #include "mgstype.h"
 
-extern const char vefgh_09_dword_800E4758[];
-extern const char vefgh_09_dword_800E475C[];
-extern const char vefgh_09_dword_800E4760[];
-extern const char vefgh_09_dword_800E4764[];
-extern const char vefgh_09_dword_800E47C0[];
-extern const char vefgh_09_dword_800E47C8[];
-extern const char vefgh_09_dword_800E47D4[];
-extern const char vefgh_09_dword_800E47E4[];
-extern const char vefgh_09_dword_800E47EC[];
-extern const char vefgh_09_dword_800E47F4[];
-extern const char vefgh_09_dword_800E47FC[];
-extern const char vefgh_09_dword_800E4818[];
-extern const char vefgh_09_dword_800E4834[];
-extern const char vefgh_09_dword_800E4844[];
-extern const char vefgh_09_dword_800E4854[];
-extern const int vefgh_09_dword_800E4860;
-extern const char vefgh_09_dword_800E4864[];
-extern const char vefgh_09_dword_800E486C[];
-extern const char vefgh_09_dword_800E4874[];
-extern const char vefgh_09_dword_800E487C[];
-extern const char vefgh_09_dword_800E4888[];
-extern const char vefgh_09_dword_800E4890[];
-extern const int vefgh_09_dword_800E4898;
-extern const char vefgh_09_dword_800E489C[];
-extern const char vefgh_09_dword_800E48A4[];
-
 
 const char vefgh_09_dword_800E46C0[] = "goal.c";
+
+int SECTION(".bss") vefgh_09_dword_800E52C0;
+int SECTION(".bss") vefgh_09_dword_800E52C4;
+int SECTION(".bss") vefgh_09_dword_800E52C8;
+int SECTION(".bss") vefgh_09_dword_800E52CC;
+int SECTION(".bss") vefgh_09_dword_800E52D0;
+int SECTION(".bss") vefgh_09_dword_800E52D4;
+int SECTION(".bss") vefgh_09_dword_800E52D8;
+int SECTION(".bss") vefgh_09_dword_800E52DC;
+int SECTION(".bss") vefgh_09_dword_800E52E0;
+int SECTION(".bss") vefgh_09_dword_800E52E4;
+int SECTION(".bss") vefgh_09_dword_800E52E8;
+int SECTION(".bss") vefgh_09_dword_800E52EC;
+int SECTION(".bss") vefgh_09_dword_800E52F0;
+int SECTION(".bss") vefgh_09_dword_800E52F4;
+int SECTION(".bss") vefgh_09_dword_800E52F8;
+int SECTION(".bss") vefgh_09_dword_800E52FC;
+int SECTION(".bss") vefgh_09_dword_800E5300;
+int SECTION(".bss") vefgh_09_dword_800E5304;
+int SECTION(".bss") vefgh_09_dword_800E5308;
+int SECTION(".bss") vefgh_09_dword_800E530C;
+int SECTION(".bss") vefgh_09_dword_800E5310;
+int SECTION(".bss") vefgh_09_dword_800E5314;
+int SECTION(".bss") vefgh_09_dword_800E5318;
+int SECTION(".bss") vefgh_09_dword_800E531C;
+int SECTION(".bss") vefgh_09_dword_800E5320;
+int SECTION(".bss") vefgh_09_dword_800E5324;
+int SECTION(".bss") vefgh_09_dword_800E5328;
+int SECTION(".bss") vefgh_09_dword_800E532C;

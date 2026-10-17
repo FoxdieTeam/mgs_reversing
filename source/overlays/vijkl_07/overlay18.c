@@ -27,11 +27,6 @@ extern const char vijkl_07_dword_800E3920[];
 extern const char vijkl_07_dword_800E3928[];
 
 
-const int vijkl_07_dword_800E39CC = 0x800DE4A8;
-const int vijkl_07_dword_800E39D0 = 0x800DE4B4;
-const int vijkl_07_dword_800E39D4 = 0x800DE570;
-const int vijkl_07_dword_800E39D8 = 0x800DE600;
-const int vijkl_07_dword_800E39DC = 0x800DE690;
-const int vijkl_07_dword_800E39E0 = 0x800DE7BC;
-const char vijkl_07_dword_800E39E4[] = "selectvr";
-const char vijkl_07_dword_800E39F0[] = "vrover.c";
+const char vijkl_07_dword_800E39FC[] = "demo";
+const char vijkl_07_dword_800E3A04[] = "PAUSE";
+const char vijkl_07_dword_800E3A0C[] = "pausmenu.c";

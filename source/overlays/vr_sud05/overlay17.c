@@ -27,6 +27,6 @@ extern const char vr_sud05_dword_800E00F4[];
 extern const char vr_sud05_dword_800E00FC[];
 
 
-const char vr_sud05_dword_800E01D0[] = "demo";
-const char vr_sud05_dword_800E01D8[] = "PAUSE";
-const char vr_sud05_dword_800E01E0[] = "pausmenu.c";
+const char vr_sud05_dword_800E01EC[] = "op_back_l";
+const char vr_sud05_dword_800E01F8[] = "op_back_r";
+const char vr_sud05_dword_800E0204[] = "bg3.c";

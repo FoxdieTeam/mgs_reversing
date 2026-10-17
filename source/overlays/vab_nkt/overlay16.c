@@ -27,6 +27,4 @@ extern const char vab_nkt_dword_800E2980[];
 extern const char vab_nkt_dword_800E2988[];
 
 
-const char vab_nkt_dword_800E278C[] = "op_back_l";
-const char vab_nkt_dword_800E2798[] = "op_back_r";
-const char vab_nkt_dword_800E27A4[] = "bg3.c";
+const char vab_nkt_dword_800E27AC[] = "splashvr.c";

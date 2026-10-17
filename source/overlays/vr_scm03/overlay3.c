@@ -1,5 +1,5 @@
 #include "mgstype.h"
 
 
-const char vr_scm03_dword_800E2474[] = "snake";
-const char vr_scm03_dword_800E247C[] = "snwarp.c";
+
+int SECTION(".bss") vr_scm03_dword_800E2E0C;

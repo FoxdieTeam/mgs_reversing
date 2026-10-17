@@ -27,11 +27,6 @@ extern const char vr_stg05_dword_800E3620[];
 extern const char vr_stg05_dword_800E3628[];
 
 
-const int vr_stg05_dword_800E36CC = 0x800DD838;
-const int vr_stg05_dword_800E36D0 = 0x800DD844;
-const int vr_stg05_dword_800E36D4 = 0x800DD900;
-const int vr_stg05_dword_800E36D8 = 0x800DD990;
-const int vr_stg05_dword_800E36DC = 0x800DDA20;
-const int vr_stg05_dword_800E36E0 = 0x800DDB4C;
-const char vr_stg05_dword_800E36E4[] = "selectvr";
-const char vr_stg05_dword_800E36F0[] = "vrover.c";
+const char vr_stg05_dword_800E36FC[] = "demo";
+const char vr_stg05_dword_800E3704[] = "PAUSE";
+const char vr_stg05_dword_800E370C[] = "pausmenu.c";

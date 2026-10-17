@@ -2,6 +2,7 @@
 
 
 
+int SECTION(".bss") vefgh_03_dword_800E3BE4;
 int SECTION(".bss") vefgh_03_dword_800E3BE8;
 int SECTION(".bss") vefgh_03_dword_800E3BEC;
 int SECTION(".bss") vefgh_03_dword_800E3BF0;

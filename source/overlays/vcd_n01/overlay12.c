@@ -1,5 +1,6 @@
 #include "mgstype.h"
 
 
-const char vcd_n01_dword_800E6054[] = "rcm_l";
-const char vcd_n01_dword_800E605C[] = "sn_in_ef.c";
+const char vcd_n01_dword_800E6068[] = "nja_ball";
+const char vcd_n01_dword_800E6074[] = "ballhlf";
+const char vcd_n01_dword_800E607C[] = "p_sphere.c";

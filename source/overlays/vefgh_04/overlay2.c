@@ -138,3 +138,5 @@ const int vefgh_04_dword_800E45C0 = 0x64252064;
 const int vefgh_04_dword_800E45C4 = 0x25207420;
 const int vefgh_04_dword_800E45C8 = 0x000A2064;
 const char vefgh_04_dword_800E45CC[] = "command.c";
+
+int SECTION(".bss") vefgh_04_dword_800E5BB4;

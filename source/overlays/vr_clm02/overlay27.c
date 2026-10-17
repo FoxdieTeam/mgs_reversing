@@ -27,6 +27,7 @@ extern const char vr_clm02_dword_800E1770[];
 extern const char vr_clm02_dword_800E1778[];
 
 
-const int vr_clm02_dword_800E1AF4 = 0x00000000;
-const int vr_clm02_dword_800E1AF8 = 0x000001F4;
-const char vr_clm02_dword_800E1AFC[] = "spark2.c";
+const int vr_clm02_dword_800E1B08 = 0x02000000;
+const int vr_clm02_dword_800E1B0C = 0x00000400;
+const char vr_clm02_dword_800E1B10[] = "lsight";
+const char vr_clm02_dword_800E1B18[] = "ir_cens.c";

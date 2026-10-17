@@ -1,30 +1,19 @@
 #include "mgstype.h"
 
-extern const char vab_psg_dword_800E16E8[];
-extern const char vab_psg_dword_800E16EC[];
-extern const char vab_psg_dword_800E16F0[];
-extern const char vab_psg_dword_800E16F4[];
-extern const char vab_psg_dword_800E1714[];
-extern const char vab_psg_dword_800E171C[];
-extern const char vab_psg_dword_800E1728[];
-extern const char vab_psg_dword_800E1738[];
-extern const char vab_psg_dword_800E1740[];
-extern const char vab_psg_dword_800E1748[];
-extern const char vab_psg_dword_800E1750[];
-extern const char vab_psg_dword_800E176C[];
-extern const char vab_psg_dword_800E1788[];
-extern const char vab_psg_dword_800E1798[];
-extern const char vab_psg_dword_800E17A8[];
-extern const int vab_psg_dword_800E17B4;
-extern const char vab_psg_dword_800E17B8[];
-extern const char vab_psg_dword_800E17C0[];
-extern const char vab_psg_dword_800E17C8[];
-extern const char vab_psg_dword_800E17D0[];
-extern const char vab_psg_dword_800E17DC[];
-extern const char vab_psg_dword_800E17E4[];
-extern const int vab_psg_dword_800E17EC;
-extern const char vab_psg_dword_800E17F0[];
-extern const char vab_psg_dword_800E17F8[];
+int vab_psg_dword_800C1598 = 0x71F13223;
+int vab_psg_dword_800C159C = 0x00C86E00;
+int vab_psg_dword_800C15A0 = 0x00467800;
+int vab_psg_dword_800C15A4 = 0x00005A50;
+int vab_psg_dword_800C15A8 = 0x00645000;
+int vab_psg_dword_800C15AC = 0x00646400;
+int vab_psg_dword_800C15B0 = 0x00005A5A;
+int vab_psg_dword_800C15B4 = 0x000A783C;
+char vab_psg_dword_800C15B8[] = "-dd";
+char vab_psg_dword_800C15BC[] = "xZ<";
+int vab_psg_dword_800C15C0 = 0x003C4F0C;
+int vab_psg_dword_800C15C4 = 0x003C4F0C;
+int vab_psg_dword_800C15C8 = 0x00C86E00;
+int vab_psg_dword_800C15CC = 0x00467800;
+int vab_psg_dword_800C15D0 = 0x00005A50;
 
-
-const char vab_psg_dword_800E13C4[] = "goal.c";
+const char vab_psg_dword_800E13B8[] = "fadeio.c";

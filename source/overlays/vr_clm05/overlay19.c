@@ -27,6 +27,4 @@ extern const char vr_clm05_dword_800E4DF4[];
 extern const char vr_clm05_dword_800E4DFC[];
 
 
-const char vr_clm05_dword_800E4ED0[] = "demo";
-const char vr_clm05_dword_800E4ED8[] = "PAUSE";
-const char vr_clm05_dword_800E4EE0[] = "pausmenu.c";
+const char vr_clm05_dword_800E4FB4[] = "splashvr.c";

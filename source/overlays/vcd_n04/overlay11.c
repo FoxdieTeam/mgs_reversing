@@ -27,6 +27,11 @@ extern const char vcd_n04_dword_800D4668[];
 extern const char vcd_n04_dword_800D4670[];
 
 
-const char vcd_n04_dword_800D4744[] = "demo";
-const char vcd_n04_dword_800D474C[] = "PAUSE";
-const char vcd_n04_dword_800D4754[] = "pausmenu.c";
+const int vcd_n04_dword_800D4714 = 0x800CDD04;
+const int vcd_n04_dword_800D4718 = 0x800CDD10;
+const int vcd_n04_dword_800D471C = 0x800CDDCC;
+const int vcd_n04_dword_800D4720 = 0x800CDE5C;
+const int vcd_n04_dword_800D4724 = 0x800CDEEC;
+const int vcd_n04_dword_800D4728 = 0x800CE018;
+const char vcd_n04_dword_800D472C[] = "selectvr";
+const char vcd_n04_dword_800D4738[] = "vrover.c";

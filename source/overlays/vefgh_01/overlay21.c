@@ -27,6 +27,4 @@ extern const char vefgh_01_dword_800E3B54[];
 extern const char vefgh_01_dword_800E3B5C[];
 
 
-const char vefgh_01_dword_800E3CBC[] = "op_back_l";
-const char vefgh_01_dword_800E3CC8[] = "op_back_r";
-const char vefgh_01_dword_800E3CD4[] = "bg3.c";
+const char vefgh_01_dword_800E3CDC[] = "splashvr.c";

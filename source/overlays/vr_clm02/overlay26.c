@@ -27,5 +27,6 @@ extern const char vr_clm02_dword_800E1770[];
 extern const char vr_clm02_dword_800E1778[];
 
 
-const char vr_clm02_dword_800E1AE0[] = "rcm_l";
-const char vr_clm02_dword_800E1AE8[] = "sn_in_ef.c";
+const int vr_clm02_dword_800E1AF4 = 0x00000000;
+const int vr_clm02_dword_800E1AF8 = 0x000001F4;
+const char vr_clm02_dword_800E1AFC[] = "spark2.c";

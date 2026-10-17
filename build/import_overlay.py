@@ -288,6 +288,37 @@ def norm_word(w):
         return w & 0xFFFF0000
     return w
 
+def find_lib_aliases(psyq_path, ow, lo, hi, wanted):
+    """Functions of the psyq libc/libapi/... archives (e.g. the BIOS call stubs strncpy, strcmp)
+    that the executable does not contain but shared C files call: the code is searched in the overlay
+    and the imported asm gets the symbol.  returns {word index: symbol}"""
+    found = {}
+    nw = [norm_word(w) for w in ow]
+    for lib in sorted(glob(os.path.join(psyq_path, PSYQ_VER, 'lib', '*.lib'))):
+        if not os.path.isfile(lib):
+            continue
+        data = open(lib, 'rb').read()
+        offs = [m.start() for m in re.finditer(b'LNK\x02', data)]
+        for i_, o in enumerate(offs):
+            tmp = os.path.join(ROOT, OBJ, '_libmember.obj')
+            with open(tmp, 'wb') as f:
+                f.write(data[o:offs[i_ + 1] if i_ + 1 < len(offs) else len(data)])
+            try:
+                secs = parse_obj_sections(tmp)
+            except Exception:
+                continue
+            xd = [x for x in secs['__xdefs__'] if x in wanted]
+            text = secs.get('.text')
+            if len(xd) != 1 or text is None or len(text.code) < 16 or len(text.code) % 4:
+                continue
+            key = [norm_word(w) for w in words(bytes(text.code))]
+            hits = [k for k in range(lo, hi - len(key)) if nw[k:k + len(key)] == key]
+            if len(hits) == 1:
+                found[hits[0]] = xd[0]
+    if os.path.exists(os.path.join(ROOT, OBJ, '_libmember.obj')):
+        os.remove(os.path.join(ROOT, OBJ, '_libmember.obj'))
+    return found
+
 def find_aliases(name, ow, lo, hi, wanted):
     """Named asm functions of other overlays (kept as INCLUDE_ASM there, e.g. s11g_hind_800DAAC8)
     that C files of those overlays call by name. If the very same code is found in this overlay,
@@ -458,6 +489,7 @@ def main():
     ap.add_argument('--dry', action='store_true', help='do not write any file, only report')
     ap.add_argument('--overwrite', action='store_true', help='replace previously imported files of the overlay')
     ap.add_argument('--chunk-asm', action='store_true', help='one asm object per code chunk instead of one per function')
+    ap.add_argument('--plain-bss', action='store_true', help='4 byte aligned bss sections (needed when the bss follows an object that ends on a 4 byte boundary)')
     ap.add_argument('--vr', action='store_true', help='overlay of the VR-DISC (uses obj_vr, psyq 4.5, stagevr)')
     ap.add_argument('--dirname', help='name of the asm/source directories and symbol prefix if it differs from the overlay name (e.g. camera_vr)')
     args = ap.parse_args()
@@ -511,6 +543,7 @@ def run(args, exclude):
         if not c.is_lib:
             wanted |= set(c.sections['__xrefs__'].values())
     aliases = find_aliases(dirname, ow, (table_end - BASE) // 4, len(ow), wanted - known)
+    aliases.update(find_lib_aliases(args.psyq_path, ow, (table_end - BASE) // 4, len(ow), wanted - known - set(aliases.values())))
     for i_, sym_ in sorted(aliases.items()):
         print('alias %X %s' % (BASE + i_ * 4, sym_))
     known |= set(aliases.values())
@@ -656,7 +689,10 @@ def run(args, exclude):
             rend = tail_end
 
 
-    plain_bss = any(b % 8 for b in bss_bases.values())
+    # an object whose bss ends on a 4 byte boundary with more bss behind it means 4 byte aligned bss sections
+    ends_odd = any((bss_bases[k] + it['cand'].sections['.bss'].bss) % 8 and bss_bases[k] + it['cand'].sections['.bss'].bss < end_addr
+                   for k, it in bss_items if k in bss_bases)
+    plain_bss = args.plain_bss or ends_odd or any(b % 8 for b in bss_bases.values())
     balign = a4 if plain_bss else a8
     bss_start = balign(rend)
     bss_blobs = defaultdict(list)

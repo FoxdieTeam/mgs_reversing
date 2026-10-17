@@ -27,6 +27,6 @@ extern const char vefgh_08_dword_800E4B90[];
 extern const char vefgh_08_dword_800E4B98[];
 
 
-const char vefgh_08_dword_800E4C6C[] = "demo";
-const char vefgh_08_dword_800E4C74[] = "PAUSE";
-const char vefgh_08_dword_800E4C7C[] = "pausmenu.c";
+const char vefgh_08_dword_800E4C88[] = "op_back_l";
+const char vefgh_08_dword_800E4C94[] = "op_back_r";
+const char vefgh_08_dword_800E4CA0[] = "bg3.c";

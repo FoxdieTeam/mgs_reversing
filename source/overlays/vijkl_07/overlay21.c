@@ -27,6 +27,4 @@ extern const char vijkl_07_dword_800E3920[];
 extern const char vijkl_07_dword_800E3928[];
 
 
-const char vijkl_07_dword_800E3A88[] = "op_back_l";
-const char vijkl_07_dword_800E3A94[] = "op_back_r";
-const char vijkl_07_dword_800E3AA0[] = "bg3.c";
+const char vijkl_07_dword_800E3AA8[] = "splashvr.c";

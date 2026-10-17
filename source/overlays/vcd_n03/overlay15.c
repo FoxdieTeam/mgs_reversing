@@ -1,10 +1,35 @@
 #include "mgstype.h"
 
-extern const char vcd_n03_dword_800E58E8[];
-extern const char vcd_n03_dword_800E58EC[];
-extern const char vcd_n03_dword_800E58F0[];
-extern const char vcd_n03_dword_800E58F4[];
+extern const int vcd_n03_dword_800E567C;
 
+int vcd_n03_dword_800C1654 = 0x00000400;
+int vcd_n03_dword_800C1658 = 0x00000000;
+int vcd_n03_dword_800C165C = 0x00320032;
+int vcd_n03_dword_800C1660 = 0x00640064;
+int vcd_n03_dword_800C1664 = 0x00011660;
+int vcd_n03_dword_800C1668 = 0x00010001;
+int vcd_n03_dword_800C166C = 0x01F40001;
+int vcd_n03_dword_800C1670 = 0x00A00001;
+int vcd_n03_dword_800C1674 = 0x00FF00A0;
+int vcd_n03_dword_800C1678 = 0x00000000;
+void *vcd_n03_dword_800C167C = (void *)&vcd_n03_dword_800E567C;
+int vcd_n03_dword_800C1680 = 0x00000000;
+int vcd_n03_dword_800C1684 = 0x71F13223;
+int vcd_n03_dword_800C1688 = 0x00000000;
+int vcd_n03_dword_800C168C = 0x00C86E00;
+int vcd_n03_dword_800C1690 = 0x00467800;
+int vcd_n03_dword_800C1694 = 0x00005A50;
+int vcd_n03_dword_800C1698 = 0x00645000;
+int vcd_n03_dword_800C169C = 0x00646400;
+int vcd_n03_dword_800C16A0 = 0x00005A5A;
+int vcd_n03_dword_800C16A4 = 0x000A783C;
+char vcd_n03_dword_800C16A8[] = "-dd";
+char vcd_n03_dword_800C16AC[] = "xZ<";
+int vcd_n03_dword_800C16B0 = 0x003C4F0C;
+int vcd_n03_dword_800C16B4 = 0x003C4F0C;
+int vcd_n03_dword_800C16B8 = 0x00C86E00;
+int vcd_n03_dword_800C16BC = 0x00467800;
+int vcd_n03_dword_800C16C0 = 0x00005A50;
 
 const char vcd_n03_dword_800E5758[] = "demo";
 const int vcd_n03_dword_800E5760 = 0xCDA5B9A5;

@@ -15,22 +15,28 @@
 	xdef opening_800C56F8
 	xdef opening_800C5924
 	xdef opening_800C59A8
+	xdef StSetRing
 	xdef opening_800C59D4
 	xdef opening_800C59D8
+	xdef CdRead2
 	xdef opening_800C5A5C
 	xdef opening_800C5A7C
 	xdef opening_800C5A88
 	xdef opening_800C5AE8
+	xdef StUnSetRing
 	xdef opening_800C5B68
 	xdef opening_800C5BF4
 	xdef opening_800C5C4C
 	xdef opening_800C5C58
+	xdef StSetStream
 	xdef opening_800C5CDC
 	xdef opening_800C5CE8
+	xdef StFreeRing
 	xdef opening_800C5D94
 	xdef opening_800C5D98
 	xdef opening_800C5DCC
 	xdef opening_800C5DD8
+	xdef StGetNext
 	xdef opening_800C5E90
 	xdef opening_800C5E98
 	xdef opening_800C5EB4
@@ -38,6 +44,7 @@
 	xdef opening_800C67D4
 	xdef opening_800C6800
 	xdef opening_800C69A8
+	xdef CdIntToPos
 	xdef opening_800C6AAC
 	xdef opening_800C6B2C
 	xdef opening_800C6B38
@@ -57,11 +64,14 @@
 	xdef opening_800C7120
 	xdef opening_800C7138
 	xdef opening_800C71B4
+	xdef opening_800C71B8
+	xdef DecDCTvlc2
 	xdef opening_800C71D8
 	xdef opening_800C71E8
 	xdef opening_800C7500
 	xdef opening_800C7534
 	xdef opening_800C7538
+	xdef DecDCTvlcBuild
 
 opening_800C4BBC:
 	dw 0x27BDFFE0 ; 800C4BBC
@@ -968,6 +978,7 @@ opening_800C5924:
 	dw 0x03E00008 ; 800C59A0
 	dw 0x27BD0020 ; 800C59A4
 opening_800C59A8:
+StSetRing:
 	dw 0x27BDFFE8 ; 800C59A8
 	dw 0xAFBF0010 ; 800C59AC
 	dw 0x3C01800C ; 800C59B0
@@ -982,6 +993,7 @@ opening_800C59A8:
 opening_800C59D4:
 	dw 0x00000000 ; 800C59D4
 opening_800C59D8:
+CdRead2:
 	dw 0x27BDFFE0 ; 800C59D8
 	dw 0xAFB00018 ; 800C59DC
 	dw 0x00808021 ; 800C59E0
@@ -1054,6 +1066,7 @@ opening_800C5A88:
 	dw 0x03E00008 ; 800C5AE0
 	dw 0x00000000 ; 800C5AE4
 opening_800C5AE8:
+StUnSetRing:
 	dw 0x27BDFFE8 ; 800C5AE8
 	dw 0xAFBF0010 ; 800C5AEC
 	dw 0x0C025C9A ; 800C5AF0
@@ -1150,6 +1163,7 @@ opening_800C5C4C:
 	dw 0x00000000 ; 800C5C50
 	dw 0x00000000 ; 800C5C54
 opening_800C5C58:
+StSetStream:
 	dw 0x27BDFFE0 ; 800C5C58
 	dw 0xAFB00010 ; 800C5C5C
 	dw 0x00808021 ; 800C5C60
@@ -1188,6 +1202,7 @@ opening_800C5CDC:
 	dw 0x00000000 ; 800C5CE0
 	dw 0x00000000 ; 800C5CE4
 opening_800C5CE8:
+StFreeRing:
 	dw 0x3C058208 ; 800C5CE8
 	dw 0x34A52083 ; 800C5CEC
 	dw 0x3C02800C ; 800C5CF0
@@ -1252,6 +1267,7 @@ opening_800C5DCC:
 	dw 0x00000000 ; 800C5DD0
 	dw 0x00000000 ; 800C5DD4
 opening_800C5DD8:
+StGetNext:
 	dw 0x00803821 ; 800C5DD8
 	dw 0x3C02800C ; 800C5DDC
 	dw 0x8C427790 ; 800C5DE0
@@ -2015,6 +2031,7 @@ opening_800C6800:
 	dw 0x03E00008 ; 800C69A0
 	dw 0x27BD0030 ; 800C69A4
 opening_800C69A8:
+CdIntToPos:
 	dw 0x3C031B4E ; 800C69A8
 	dw 0x346381B5 ; 800C69AC
 	dw 0x24840096 ; 800C69B0
@@ -2550,6 +2567,8 @@ opening_800C7138:
 	dw 0x00000000 ; 800C71B0
 opening_800C71B4:
 	dw 0x00000000 ; 800C71B4
+opening_800C71B8:
+DecDCTvlc2:
 	dw 0x3C08800C ; 800C71B8
 	dw 0x2508158C ; 800C71BC
 	dw 0x2081FFFF ; 800C71C0
@@ -2779,6 +2798,7 @@ opening_800C7500:
 opening_800C7534:
 	dw 0x00000000 ; 800C7534
 opening_800C7538:
+DecDCTvlcBuild:
 	dw 0x00001821 ; 800C7538
 	dw 0x3C07800C ; 800C753C
 	dw 0x24E715BC ; 800C7540

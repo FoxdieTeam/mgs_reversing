@@ -131,18 +131,4 @@ extern const int vrtitle_dword_800D9ACC;
 extern const int vrtitle_dword_800D9AE8;
 
 
-const int vrtitle_dword_800D9C44 = 0x800D7444;
-const int vrtitle_dword_800D9C48 = 0x800D745C;
-const int vrtitle_dword_800D9C4C = 0x800D7518;
-const int vrtitle_dword_800D9C50 = 0x800D75BC;
-const int vrtitle_dword_800D9C54 = 0x800D76C4;
-const int vrtitle_dword_800D9C58 = 0x800D7764;
-const int vrtitle_dword_800D9C5C = 0x800D781C;
-const int vrtitle_dword_800D9C60 = 0x69777276;
-const int vrtitle_dword_800D9C64 = 0x776F646E;
-const int vrtitle_dword_800D9C68 = 0x6143203A;
-const int vrtitle_dword_800D9C6C = 0x2074276E;
-const int vrtitle_dword_800D9C70 = 0x6F6C6C61;
-const int vrtitle_dword_800D9C74 = 0x21212063;
-const int vrtitle_dword_800D9C78 = 0x00000A20;
-const char vrtitle_dword_800D9C7C[] = "vrwindow.c";
+const char vrtitle_dword_800D9C38[] = "fadeio.c";

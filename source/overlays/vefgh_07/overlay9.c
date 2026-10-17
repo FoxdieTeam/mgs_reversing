@@ -1,5 +1,5 @@
 #include "mgstype.h"
 
 
-const char vefgh_07_dword_800E425C[] = "refrection6";
-const char vefgh_07_dword_800E4268[] = "lens_fl2.c";
+const char vefgh_07_dword_800E4248[] = "rcm_l";
+const char vefgh_07_dword_800E4250[] = "snake_e1.c";

@@ -1,5 +1,5 @@
 #include "mgstype.h"
 
 
-const char vijkl_10_dword_800E180C[] = "rcm_l";
-const char vijkl_10_dword_800E1814[] = "sn_in_ef.c";
+const char vijkl_10_dword_800E17F4[] = "refrection6";
+const char vijkl_10_dword_800E1800[] = "lens_fl2.c";

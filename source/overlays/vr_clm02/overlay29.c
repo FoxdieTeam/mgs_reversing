@@ -27,5 +27,25 @@ extern const char vr_clm02_dword_800E1770[];
 extern const char vr_clm02_dword_800E1778[];
 
 
-const char vr_clm02_dword_800E1B24[] = "mosaic.c";
-const char vr_clm02_dword_800E1B30[] = "Mosaic";
+const int vr_clm02_dword_800E1B38 = 0x20646170;
+const int vr_clm02_dword_800E1B3C = 0x656C6572;
+const int vr_clm02_dword_800E1B40 = 0x20657361;
+const int vr_clm02_dword_800E1B44 = 0x00000A3F;
+const int vr_clm02_dword_800E1B48 = 0x656D616E;
+const int vr_clm02_dword_800E1B4C = 0x25203D20;
+const int vr_clm02_dword_800E1B50 = 0x00000A64;
+const char vr_clm02_dword_800E1B54[] = "demo";
+const int vr_clm02_dword_800E1B5C = 0x535F5647;
+const int vr_clm02_dword_800E1B60 = 0x6F437274;
+const int vr_clm02_dword_800E1B64 = 0x22286564;
+const int vr_clm02_dword_800E1B68 = 0x6F6D6564;
+const int vr_clm02_dword_800E1B6C = 0x3D202922;
+const int vr_clm02_dword_800E1B70 = 0x0A642520;
+const int vr_clm02_dword_800E1B74 = 0x00000000;
+const int vr_clm02_dword_800E1B78 = 0x65766153;
+const int vr_clm02_dword_800E1B7C = 0x64646120;
+const int vr_clm02_dword_800E1B80 = 0x73736572;
+const int vr_clm02_dword_800E1B84 = 0x25203A20;
+const int vr_clm02_dword_800E1B88 = 0x0A783830;
+const int vr_clm02_dword_800E1B8C = 0x00000000;
+const char vr_clm02_dword_800E1B90[] = "paddemo2.c";

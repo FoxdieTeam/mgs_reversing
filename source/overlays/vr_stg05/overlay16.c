@@ -1,30 +1,31 @@
 #include "mgstype.h"
 
-extern const char vr_stg05_dword_800E34DC[];
-extern const char vr_stg05_dword_800E34E0[];
-extern const char vr_stg05_dword_800E34E4[];
-extern const char vr_stg05_dword_800E34E8[];
-extern const char vr_stg05_dword_800E3544[];
-extern const char vr_stg05_dword_800E354C[];
-extern const char vr_stg05_dword_800E3558[];
-extern const char vr_stg05_dword_800E3568[];
-extern const char vr_stg05_dword_800E3570[];
-extern const char vr_stg05_dword_800E3578[];
-extern const char vr_stg05_dword_800E3580[];
-extern const char vr_stg05_dword_800E359C[];
-extern const char vr_stg05_dword_800E35B8[];
-extern const char vr_stg05_dword_800E35C8[];
-extern const char vr_stg05_dword_800E35D8[];
-extern const int vr_stg05_dword_800E35E4;
-extern const char vr_stg05_dword_800E35E8[];
-extern const char vr_stg05_dword_800E35F0[];
-extern const char vr_stg05_dword_800E35F8[];
-extern const char vr_stg05_dword_800E3600[];
-extern const char vr_stg05_dword_800E360C[];
-extern const char vr_stg05_dword_800E3614[];
-extern const int vr_stg05_dword_800E361C;
-extern const char vr_stg05_dword_800E3620[];
-extern const char vr_stg05_dword_800E3628[];
-
 
 const char vr_stg05_dword_800E3444[] = "goal.c";
+
+int SECTION(".bss") vr_stg05_dword_800E3CD0;
+int SECTION(".bss") vr_stg05_dword_800E3CD4;
+int SECTION(".bss") vr_stg05_dword_800E3CD8;
+int SECTION(".bss") vr_stg05_dword_800E3CDC;
+int SECTION(".bss") vr_stg05_dword_800E3CE0;
+int SECTION(".bss") vr_stg05_dword_800E3CE4;
+int SECTION(".bss") vr_stg05_dword_800E3CE8;
+int SECTION(".bss") vr_stg05_dword_800E3CEC;
+int SECTION(".bss") vr_stg05_dword_800E3CF0;
+int SECTION(".bss") vr_stg05_dword_800E3CF4;
+int SECTION(".bss") vr_stg05_dword_800E3CF8;
+int SECTION(".bss") vr_stg05_dword_800E3CFC;
+int SECTION(".bss") vr_stg05_dword_800E3D00;
+int SECTION(".bss") vr_stg05_dword_800E3D04;
+int SECTION(".bss") vr_stg05_dword_800E3D08;
+int SECTION(".bss") vr_stg05_dword_800E3D0C;
+int SECTION(".bss") vr_stg05_dword_800E3D10;
+int SECTION(".bss") vr_stg05_dword_800E3D14;
+int SECTION(".bss") vr_stg05_dword_800E3D18;
+int SECTION(".bss") vr_stg05_dword_800E3D1C;
+int SECTION(".bss") vr_stg05_dword_800E3D20;
+int SECTION(".bss") vr_stg05_dword_800E3D24;
+int SECTION(".bss") vr_stg05_dword_800E3D28;
+int SECTION(".bss") vr_stg05_dword_800E3D2C;
+int SECTION(".bss") vr_stg05_dword_800E3D30;
+int SECTION(".bss") vr_stg05_dword_800E3D34;

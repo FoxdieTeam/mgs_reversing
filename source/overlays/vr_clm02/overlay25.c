@@ -27,5 +27,5 @@ extern const char vr_clm02_dword_800E1770[];
 extern const char vr_clm02_dword_800E1778[];
 
 
-const char vr_clm02_dword_800E1AC8[] = "refrection6";
-const char vr_clm02_dword_800E1AD4[] = "lens_fl2.c";
+const char vr_clm02_dword_800E1AE0[] = "rcm_l";
+const char vr_clm02_dword_800E1AE8[] = "sn_in_ef.c";

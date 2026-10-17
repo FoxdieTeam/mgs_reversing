@@ -27,6 +27,6 @@ extern const char vcd_n04_dword_800D4668[];
 extern const char vcd_n04_dword_800D4670[];
 
 
-const char vcd_n04_dword_800D4760[] = "op_back_l";
-const char vcd_n04_dword_800D476C[] = "op_back_r";
-const char vcd_n04_dword_800D4778[] = "bg3.c";
+const char vcd_n04_dword_800D4744[] = "demo";
+const char vcd_n04_dword_800D474C[] = "PAUSE";
+const char vcd_n04_dword_800D4754[] = "pausmenu.c";

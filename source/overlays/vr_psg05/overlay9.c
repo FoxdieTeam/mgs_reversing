@@ -1,5 +1,5 @@
 #include "mgstype.h"
 
 
-const char vr_psg05_dword_800E162C[] = "rcm_l";
-const char vr_psg05_dword_800E1634[] = "sn_in_ef.c";
+const char vr_psg05_dword_800E1614[] = "refrection6";
+const char vr_psg05_dword_800E1620[] = "lens_fl2.c";

@@ -1,10 +1,5 @@
 #include "mgstype.h"
 
-extern const char vcd_n05_dword_800DEE38[];
-extern const char vcd_n05_dword_800DEE3C[];
-extern const char vcd_n05_dword_800DEE40[];
-extern const char vcd_n05_dword_800DEE44[];
-
 
 const char vcd_n05_dword_800DEB38[] = "demo";
 const int vcd_n05_dword_800DEB40 = 0xCDA5B9A5;

@@ -1,5 +1,5 @@
 #include "mgstype.h"
 
 
-const char vab_psg_dword_800E1378[] = "refrection6";
-const char vab_psg_dword_800E1384[] = "lens_fl2.c";
+const char vab_psg_dword_800E1364[] = "rcm_l";
+const char vab_psg_dword_800E136C[] = "snake_e1.c";

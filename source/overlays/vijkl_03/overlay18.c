@@ -27,6 +27,6 @@ extern const char vijkl_03_dword_800E18A0[];
 extern const char vijkl_03_dword_800E18A8[];
 
 
-const char vijkl_03_dword_800E197C[] = "demo";
-const char vijkl_03_dword_800E1984[] = "PAUSE";
-const char vijkl_03_dword_800E198C[] = "pausmenu.c";
+const char vijkl_03_dword_800E1998[] = "op_back_l";
+const char vijkl_03_dword_800E19A4[] = "op_back_r";
+const char vijkl_03_dword_800E19B0[] = "bg3.c";

@@ -1,9 +1,5 @@
 #include "mgstype.h"
 
-extern void movie_800DA2EC(void);
-extern void movie_800DA32C(void);
-extern void movie_800DA36C(void);
-extern void movie_800DA514(void);
 extern const int movie_dword_800DDA54;
 extern const int movie_dword_800DDA7C;
 extern const int movie_dword_800DDAA8;
@@ -683,18 +679,3 @@ int movie_dword_800C2DC0 = 0x02007F00;
 int movie_dword_800C2DC4 = 0xB500B4FF;
 char movie_dword_800C2DC8[] = "   !";
 
-const int movie_dword_800DE344 = 0x800D7898;
-const int movie_dword_800DE348 = 0x800D78B0;
-const int movie_dword_800DE34C = 0x800D796C;
-const int movie_dword_800DE350 = 0x800D7A10;
-const int movie_dword_800DE354 = 0x800D7B18;
-const int movie_dword_800DE358 = 0x800D7BB8;
-const int movie_dword_800DE35C = 0x800D7C70;
-const int movie_dword_800DE360 = 0x69777276;
-const int movie_dword_800DE364 = 0x776F646E;
-const int movie_dword_800DE368 = 0x6143203A;
-const int movie_dword_800DE36C = 0x2074276E;
-const int movie_dword_800DE370 = 0x6F6C6C61;
-const int movie_dword_800DE374 = 0x21212063;
-const int movie_dword_800DE378 = 0x00000A20;
-const char movie_dword_800DE37C[] = "vrwindow.c";

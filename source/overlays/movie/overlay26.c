@@ -1,9 +1,5 @@
 #include "mgstype.h"
 
-extern void movie_800DA2EC(void);
-extern void movie_800DA32C(void);
-extern void movie_800DA36C(void);
-extern void movie_800DA514(void);
 extern const int movie_dword_800DDA54;
 extern const int movie_dword_800DDA7C;
 extern const int movie_dword_800DDAA8;

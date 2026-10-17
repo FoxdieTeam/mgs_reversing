@@ -27,5 +27,5 @@ extern const char vr_clm02_dword_800E1770[];
 extern const char vr_clm02_dword_800E1778[];
 
 
-const char vr_clm02_dword_800E1AA0[] = "famas_l";
-const char vr_clm02_dword_800E1AA8[] = "glight.c";
+const char vr_clm02_dword_800E1AB4[] = "rcm_l";
+const char vr_clm02_dword_800E1ABC[] = "snake_e1.c";
