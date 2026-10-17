@@ -265,10 +265,9 @@ class Variant:
     um_dir: str            # um/<um_dir>/<overlay>.bin holds the uninitialized memory
 
 
-# build.py uses um/stage for the VR overlays too (um/stagevr/sound.bin is identical).
 VARIANTS = {
     'main': Variant('main', '../obj', TARGET_HASH, TARGET_OVERLAYS_HASH, '', 'stage'),
-    'vr': Variant('vr', '../obj_vr', TARGET_VR_HASH, TARGET_VR_OVERLAYS_HASH, '.vr', 'stage'),
+    'vr': Variant('vr', '../obj_vr', TARGET_VR_HASH, TARGET_VR_OVERLAYS_HASH, '.vr', 'stagevr'),
 }
 
 
