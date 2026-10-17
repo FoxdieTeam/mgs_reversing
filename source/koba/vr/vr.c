@@ -244,6 +244,10 @@ static void Itoa2(int value, char *str)
     str[0] = (value / 10) % 10 + '0';
 }
 
+// NON_MATCHING: 7 words differ (register of `jitter`, the operand order of one
+// mult and one delay slot); everything else in vr.c matches.
+// FIXME: `t` is a second copy of `time` (assigned on both paths) so that gcc
+// computes t / 30 and time / 30 separately like the original
 static void DrawTime(int time, char *label, int x, int y, VrWork *work, int show)
 {
     char   s_csec[8];
@@ -251,32 +255,40 @@ static void DrawTime(int time, char *label, int x, int y, VrWork *work, int show
     char   s_min[8];
     int    t;
     int    csec, sec, min;
-    u_char digit, noise;
+    u_char digit;
+    int    noise;
+    u_char jitter;
 
     show = show && (VR_Flags & VRFLAG_RESULT);
 
-    t = time;
     if (VR_Status == VR_STATUS_CLEAR && show && work->result)
     {
-        t = time = VR_Records[3];
+        time = VR_Records[3];
+        t = VR_Records[3];
+    }
+    else
+    {
+        t = time;
     }
 
     csec = ((time % TIME_FPS) * 100) / TIME_FPS;
     digit = (((t % TIME_FPS) * 100) / TIME_FPS) % 10;
-    sec = (time / TIME_FPS) % 60;
-    noise = ((u_char)((t / TIME_FPS + digit * 29) * ((t % TIME_FPS) / 3))) >> 1;
-    min = (time / TIME_FPS) / 60;
+    noise = ((t % TIME_FPS) / 3) * (t / TIME_FPS + digit * 29);
+    noise = (u_char)noise >> 1;
+    time /= TIME_FPS;
+    sec = time % 60;
+    min = time / 60;
 
     if (digit == 6)
     {
-        noise &= 3;
+        jitter = noise & 3;
     }
     else
     {
-        noise %= 3;
+        jitter = (u_char)noise % 3;
     }
 
-    csec += noise;
+    csec += jitter;
 
     if (VR_Status == VR_STATUS_CLEAR && work->bonus != 0 && show)
     {

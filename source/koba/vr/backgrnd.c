@@ -74,6 +74,7 @@ static CVECTOR backgrnd_colors[N_COLORS] = {
 
 /*---------------------------------------------------------------------------*/
 
+// NON_MATCHING: 7 words differ (scheduling of the w/h constants and v0)
 static void SetPanel(Work *work, int name, BG_PACK *pack, int x, int y)
 {
     DG_TEX *tex;
