@@ -101,10 +101,6 @@ static void Die(Work *work)
     FreePrims(work, FLARE_COUNT);
 }
 
-// NON_MATCHING: equivalent code, but 9 words in the prologue differ: the original keeps
-// the %hi(GM_CurrentMap) in $t0 (the stores of the two 11s are scheduled before it), we
-// get $v0. Statement order permutations of the table/speed/map block do not fix it.
-// Until this matches lens_fl2 stays asm in the overlays (and snake_e1.c is not sharable).
 static int GetResources(Work *work, SVECTOR *pos, SVECTOR *speed, int time)
 {
     DVECTOR  from;
@@ -138,6 +134,7 @@ static int GetResources(Work *work, SVECTOR *pos, SVECTOR *speed, int time)
 
     work->speed = speed;
     work->map = GM_CurrentMap;
+    GM_SetCurrentMap(work->map); // (sic) as in stngrnd.c, cse drops the store
 
     work->pos = *pos;
     work->pos2.vx = work->pos.vx + GV_RandS(3) * 1000 + GV_RandS(512);
