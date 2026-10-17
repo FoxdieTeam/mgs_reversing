@@ -111,7 +111,7 @@ static int Control(Work *work)
     short   next;
 
     pad = &GV_PadData[2];
-    buttons = pad->press;
+    buttons = pad->press;   // FIXME: one variable for press and status steers the register allocation
 
     if (buttons & PAD_CIRCLE)
     {
