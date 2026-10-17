@@ -9,15 +9,13 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "koba/vr/vr.h"
+#include "koba/vr/backgrnd.h"
 
 /*---------------------------------------------------------------------------*/
 // VR-DISC background 3: four "op_back" quarters in front of the scrolling
 // background (koba/vr/backgrnd.c) that open from the centre and cycle colours
 
-// FIXME: these are defined by koba/vr/vr.c and koba/vr/backgrnd.c (not decompiled in this tree yet)
-extern int VR_Status;
-#define VR_STATUS_4         4
-void *NewBackground(int name, int where, int argc, char **argv);
 
 #define N_POLYS             4
 #define N_COLOR_SETS        14
