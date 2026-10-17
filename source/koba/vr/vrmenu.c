@@ -256,38 +256,42 @@ void VrMenu_DrawItem(VR_MENU_ITEM *item)
     addPrim(DG_ChanlOTag(1), &item->polys[GV_Clock]);
 }
 
-// NON_MATCHING: same instructions as the original but scheduled/allocated differently
-// (the original stores v0/v1 before computing off_y + h and reloads item->tex after the
-// setlen stores); everything else in this file matches.
+// FIXME: the temporaries (separate x/w/y/h loads, v1/u1 only for the second poly) steer
+// scheduling/regalloc to the original bytes; the original source form is unknown.
 int VrMenu_InitItem(VR_MENU_ITEM *item, int proc, int state)
 {
-    int u0, v0, u1, v1;
+    unsigned int x, w, y, h;
+    unsigned int x2, w2, y2, h2, u1, v1;
 
     item->state = state;
     item->step = 0;
     item->tex = DG_GetTexture(item->tex_id);
 
-    setPolyFT4(&item->polys[0]);
+    setlen(&item->polys[0], 9);
+    setcode(&item->polys[0], 0x2c);
+    setlen(&item->polys[1], 9);
+    setcode(&item->polys[1], 0x2c);
     setRGB0(&item->polys[0], 74, 118, 100);
-    setPolyFT4(&item->polys[1]);
     setRGB0(&item->polys[1], 74, 118, 100);
 
-    u0 = item->tex->off_x;
-    u1 = u0 + item->tex->w;
-    v0 = item->tex->off_y;
-    v1 = v0 + item->tex->h;
-    setUV4(&item->polys[0], u0, v0, u1, v0, u0, v1, u1, v1);
+    x = item->tex->off_x;
+    w = item->tex->w;
+    y = item->tex->off_y;
+    h = item->tex->h;
+    setUV4(&item->polys[0], x, y, x + w, y, x, y + h, x + w, y + h);
     item->polys[0].tpage = item->tex->tpage;
     item->polys[0].clut = item->tex->clut;
 
-    u0 = item->tex->off_x;
-    u1 = u0 + item->tex->w;
-    v0 = item->tex->off_y;
-    v1 = v0 + item->tex->h;
-    setUV4(&item->polys[1], u0, v0, u1, v0, u0, v1, u1, v1);
+    x2 = item->tex->off_x;
+    w2 = item->tex->w;
+    y2 = item->tex->off_y;
+    h2 = item->tex->h;
+    u1 = x2 + w2;
+    v1 = y2 + h2;
+    setUV4(&item->polys[1], x2, y2, u1, y2, x2, v1, u1, v1);
     item->polys[1].tpage = item->tex->tpage;
-    setSemiTrans(&item->polys[0], 1);
     item->polys[1].clut = item->tex->clut;
+    setSemiTrans(&item->polys[0], 1);
     setSemiTrans(&item->polys[1], 1);
 
     if (item->proc > 0 && proc != 0)
