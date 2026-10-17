@@ -67,7 +67,7 @@ void s19b_jeep2_800D667C(Jeep2Work *work)
 
     if (s19b_jeep_gls_800CEDFC(control->mov.vz, -8000) == 31)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
         return;
     }
 
@@ -292,7 +292,7 @@ void *s19b_jeep2_800D6F24(int arg0, int arg1)
                          s19b_aJeepc_800DDE44);
         if (s19b_jeep2_800D6B18(work, arg0, arg1) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }

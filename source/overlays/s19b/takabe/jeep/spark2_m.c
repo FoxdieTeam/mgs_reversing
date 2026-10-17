@@ -111,7 +111,7 @@ static void Act(Work *work)
     time = --work->time;
     if (time <= 0)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
         return;
     }
 
@@ -182,7 +182,7 @@ void *NewSpark2M(MATRIX *world)
         {
             ResetSpadStack();
 
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
 

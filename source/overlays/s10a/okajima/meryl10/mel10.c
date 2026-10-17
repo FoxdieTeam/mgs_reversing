@@ -58,8 +58,6 @@ typedef struct _Work
     int            f7B4;         /* 0x7B4 */
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 // in okajima/wolf/action.c (they take a Wolf2Work)
 void s12a_wolf2_800D37A8( Work *work );
 void wolf2_800D3D54( Work *work );
@@ -258,7 +256,7 @@ void s10a_mel10_800DC844( Work *work )
 
     if ( work->state == 3 && work->timer-- < 0 )
     {
-        GV_DestroyActor( &work->actor );
+        GV_DestroyActor(work);
     }
 }
 
@@ -486,14 +484,14 @@ void *NewBloodyMeryl( int name, int where, int argc, char **argv )
     SVECTOR pos;
     Work   *work;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( GV_ACTOR_PREV, sizeof( Work ) );
     if ( work != NULL )
     {
         GV_SetNamedActor( &work->actor, s10a_mel10_800DC844, s10a_mel10_800DCE18, "mel10.c" );
 
         if ( s10a_mel10_800DCFAC( work, name, where ) < 0 )
         {
-            GV_DestroyActor( &work->actor );
+            GV_DestroyActor(work);
             return NULL;
         }
 

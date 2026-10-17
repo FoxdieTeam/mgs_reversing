@@ -217,7 +217,7 @@ static void Act(Work *work)
     switch (work->mode)
     {
     case 0:
-        GM_SeSet2(0, 63, 42);
+        GM_SeSet2(0, 63, SE_ALERT_SIREN);
         work->timer = 40;
 
         work->eye_goal.vx = 4045;
@@ -310,7 +310,7 @@ static void Act(Work *work)
 
         if (work->timer < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
         }
         break;
     }
@@ -467,12 +467,12 @@ static void Act(Work *work)
 
             if (GV_RandU(128) == 0)
             {
-                GM_SeSet2(0, 255, 39);
+                GM_SeSet2(0, 255, SE_RICOCHET_WEAK);
             }
 
             if (GV_RandU(256) == 0)
             {
-                GM_SeSet2(0, 255, 40);
+                GM_SeSet2(0, 255, SE_RICOCHET_STRONG);
             }
             break;
         }

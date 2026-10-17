@@ -30,8 +30,6 @@ typedef struct _Work
     int      proc_end;  // 0x64: called when the time is up
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 #define TPAGE_TP(t)  (((t) >> 7) & 3)
 #define TPAGE_ABR(t) (((t) >> 5) & 3)
 #define TPAGE_X(t)   (((t) << 6) & 0x7C0)
@@ -165,7 +163,7 @@ static void Act(Work *work)
     poly = work->prim->packs[GV_Clock];
     for (i = 0; i < 5; i++)
     {
-        *(short *)poly = work->visible;
+        SSTOREL(work->visible, poly);
         poly++;
     }
 }
@@ -175,11 +173,7 @@ static void Die(Work *work)
     DG_PRIM *prim;
 
     prim = work->prim;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(prim);
 }
 
 static int GetResources(Work *work)
@@ -273,13 +267,13 @@ void *NewTimer(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "timer.c");
         if (GetResources(work) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }

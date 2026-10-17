@@ -17,8 +17,6 @@ typedef struct _Work
     SVECTOR  verts[N_BLOODS * 4];   // 0x38
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void BloodHazard_Act(Work *work);
 void BloodHazard_Die(Work *work);
 
@@ -48,7 +46,7 @@ void *NewBloodHazard(MATRIX *world, int width, int height, int size, int dist)
 
     tex = NULL;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;
@@ -142,10 +140,11 @@ void *NewBloodHazard(MATRIX *world, int width, int height, int size, int dist)
 
         if (HZD_OnlineHazardCheck(GM_GetMap(work->map)->hzd, &eye, &pos, 15, 0))
         {
-            if ((int)HZD_GetOnlineHazard() < 0)
+            if (((int)HZD_GetOnlineHazard() & 0x80000000) != 0)
             {
                 seg = HZD_GetOnlineHazard();
                 pos.vx = -((seg->p1.z - seg->p2.z) * -seg->p1.h);
+                /* FIXME: tex is whatever texture the loop above picked last; the original probably reads a different variable */
                 pos.vy = (tex->w + 1) >> 12;
                 pos.vz = (seg->p1.x - seg->p2.x) * -seg->p1.h;
             }

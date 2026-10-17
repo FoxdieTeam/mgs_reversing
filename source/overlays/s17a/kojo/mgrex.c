@@ -3,8 +3,6 @@
 #include "libgcl/libgcl.h"
 #include "mgrex.h"
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_BOUND | DG_FLAG_AMBIENT )
 #define PART_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT )
 #define LIQUID_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_BOUND | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
@@ -42,7 +40,7 @@ void *NewMetalGearRex(int name, int where)
         return (void *)-1;
     }
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(MGREX_WORK));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(MGREX_WORK));
     if (work == NULL)
     {
         return NULL;
@@ -55,7 +53,7 @@ void *NewMetalGearRex(int name, int where)
 
     if (GM_InitControl(&work->control, 0, where) < 0)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
         return NULL;
     }
 
@@ -311,20 +309,20 @@ void *NewMetalGearRex(int name, int where)
     work->control.interp = 0;
     GM_ConfigControlAttribute(&work->control, 5);
 
-    GM_InitObject(&work->body, GV_StrCode("mgrexw"), BODY_FLAG, 0);
-    GM_ConfigObjectJoint(&work->body);
-    GM_ConfigMotionControl(&work->body, &work->body_m_ctrl, GV_StrCode("mgrexw"), work->body_m_segs1, work->body_m_segs2, &work->body_control, work->body_rots);
-    GM_ConfigMotionAdjust(&work->body, work->body_adjust);
-    GM_ConfigObjectLight(&work->body, work->light);
+    GM_InitObject(&work->objWaist, GV_StrCode("mgrexw"), BODY_FLAG, 0);
+    GM_ConfigObjectJoint(&work->objWaist);
+    GM_ConfigMotionControl(&work->objWaist, &work->body_m_ctrl, GV_StrCode("mgrexw"), work->body_m_segs1, work->body_m_segs2, &work->body_control, work->body_rots);
+    GM_ConfigMotionAdjust(&work->objWaist, work->body_adjust);
+    GM_ConfigObjectLight(&work->objWaist, work->light);
     work->body_m_ctrl.rot = &work->control.rot;
-    work->body.objs->waist_rot = NULL;
+    work->objWaist.objs->waist_rot = NULL;
 
     GM_InitObject(&work->leg_l, GV_StrCode("mgrexll"), BODY_FLAG, 0);
     GM_ConfigObjectJoint(&work->leg_l);
     GM_ConfigMotionControl(&work->leg_l, &work->leg_l_m_ctrl, GV_StrCode("mgrexll"), work->leg_l_m_segs1, work->leg_l_m_segs2, &work->leg_l_control, work->leg_l_rots);
     GM_ConfigMotionAdjust(&work->leg_l, work->leg_l_adjust);
     GM_ConfigObjectLight(&work->leg_l, work->light);
-    GM_ConfigObjectRoot(&work->leg_l, &work->body, 0);
+    GM_ConfigObjectRoot(&work->leg_l, &work->objWaist, 0);
     work->leg_l.objs->waist_rot = NULL;
 
     GM_InitObject(&work->leg_r, GV_StrCode("mgrexrl"), BODY_FLAG, 0);
@@ -332,7 +330,7 @@ void *NewMetalGearRex(int name, int where)
     GM_ConfigMotionControl(&work->leg_r, &work->leg_r_m_ctrl, GV_StrCode("mgrexrl"), work->leg_r_m_segs1, work->leg_r_m_segs2, &work->leg_r_control, work->leg_r_rots);
     GM_ConfigMotionAdjust(&work->leg_r, work->leg_r_adjust);
     GM_ConfigObjectLight(&work->leg_r, work->light);
-    GM_ConfigObjectRoot(&work->leg_r, &work->body, 0);
+    GM_ConfigObjectRoot(&work->leg_r, &work->objWaist, 0);
     work->leg_r.objs->waist_rot = NULL;
 
     work->f390 = 1;
@@ -390,17 +388,17 @@ void *NewMetalGearRex(int name, int where)
     GM_SetTarget(work->target4, TARGET_AVAIL | TARGET_PUSH, NO_SIDE, &size);
     GM_SetPowerTarget(work->target4, POWER_CONST, -1, 0, 0, &DG_ZeroVector);
 
-    work->f6B8.vx = ((work->body.objs->objs[2].model->ux - work->body.objs->objs[2].model->lx) * 5) / 16;
-    work->f6B8.vy = (work->body.objs->objs[2].model->uy - work->body.objs->objs[2].model->ly) / 5;
-    work->f6C0.vx = -(((work->body.objs->objs[2].model->ux - work->body.objs->objs[2].model->lx) * 5) / 16);
-    work->f6C0.vy = (work->body.objs->objs[2].model->uy - work->body.objs->objs[2].model->ly) / 5;
+    work->f6B8.vx = ((work->objWaist.objs->objs[2].model->ux - work->objWaist.objs->objs[2].model->lx) * 5) / 16;
+    work->f6B8.vy = (work->objWaist.objs->objs[2].model->uy - work->objWaist.objs->objs[2].model->ly) / 5;
+    work->f6C0.vx = -(((work->objWaist.objs->objs[2].model->ux - work->objWaist.objs->objs[2].model->lx) * 5) / 16);
+    work->f6C0.vy = (work->objWaist.objs->objs[2].model->uy - work->objWaist.objs->objs[2].model->ly) / 5;
     work->f6C8 = work->f5FC + work->f60C;
     work->f6CC = work->f600 + work->f60C;
     work->f6D0 = work->f604;
     work->f6D4 = work->f608 + work->f610;
 
-    work->f6DA = (work->body.objs->objs[9].model->ly - work->body.objs->objs[9].model->uy) / 2;
-    work->f6DC = ((work->body.objs->objs[9].model->uz - work->body.objs->objs[9].model->lz) * 3) / 4;
+    work->f6DA = (work->objWaist.objs->objs[9].model->ly - work->objWaist.objs->objs[9].model->uy) / 2;
+    work->f6DC = ((work->objWaist.objs->objs[9].model->uz - work->objWaist.objs->objs[9].model->lz) * 3) / 4;
 
     work->f6E0 = work->f62C + work->f638;
     work->f6E4 = work->f630 + work->f638;
@@ -413,7 +411,7 @@ void *NewMetalGearRex(int name, int where)
 
     for (i = 0; i < 10; i++)
     {
-        work->body.objs->objs[i].world = DG_ZeroMatrix;
+        work->objWaist.objs->objs[i].world = DG_ZeroMatrix;
     }
 
     for (i = 0; i < 13; i++)
@@ -426,14 +424,14 @@ void *NewMetalGearRex(int name, int where)
         work->leg_r.objs->objs[i].world = DG_ZeroMatrix;
     }
 
-    work->f1A9C = work->body.objs->objs[3].model->ty;
+    work->f1A9C = work->objWaist.objs->objs[3].model->ty;
 
     if (work->mode == 0)
     {
         work->f1960 = 1;
         work->f1954 = -1;
         s17a_800DEBB4(work, 12, 0);
-        GM_ConfigObjectAction(&work->body, 47, 0, 0);
+        GM_ConfigObjectAction(&work->objWaist, 47, 0, 0);
         GM_ConfigObjectAction(&work->leg_l, 47, 0, 0);
         GM_ConfigObjectAction(&work->leg_r, 47, 0, 0);
         work->f1ABC = work->f1AC0 = work->f1AC4 = work->f5BC;
@@ -441,21 +439,21 @@ void *NewMetalGearRex(int name, int where)
     else if (work->mode == 3)
     {
         s17a_800DEBB4(work, 0, 0);
-        GM_ConfigObjectAction(&work->body, 0, 0, 0);
+        GM_ConfigObjectAction(&work->objWaist, 0, 0, 0);
         GM_ConfigObjectAction(&work->leg_l, 0, 0, 0);
         GM_ConfigObjectAction(&work->leg_r, 0, 0, 0);
         work->f1ABC = work->f1AC0 = work->f1AC4 = work->f5C4;
-        work->body.objs->objs[3].model->ty -= 500;
+        work->objWaist.objs->objs[3].model->ty -= 500;
     }
     else
     {
         work->f1960 = 1;
         work->f1954 = -1;
         s17a_800DEBB4(work, 13, 0);
-        GM_ConfigObjectAction(&work->body, 49, 0, 0);
+        GM_ConfigObjectAction(&work->objWaist, 49, 0, 0);
         GM_ConfigObjectAction(&work->leg_l, 49, 0, 0);
         GM_ConfigObjectAction(&work->leg_r, 49, 0, 0);
-        work->body.objs->objs[3].model->ty -= 500;
+        work->objWaist.objs->objs[3].model->ty -= 500;
     }
 
     life_bar = &work->life_bar;
@@ -469,33 +467,33 @@ void *NewMetalGearRex(int name, int where)
 
     GM_InitObjectNoRots(&work->pit_t, GV_StrCode("pit_t"), PART_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)&work->pit_t, work->light);
-    GM_ConfigObjectRoot((OBJECT *)&work->pit_t, &work->body, 2);
+    GM_ConfigObjectRoot((OBJECT *)&work->pit_t, &work->objWaist, 2);
 
     GM_InitObjectNoRots(&work->pit_u, GV_StrCode("pit_u"), PART_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)&work->pit_u, work->light);
-    GM_ConfigObjectRoot((OBJECT *)&work->pit_u, &work->body, 3);
+    GM_ConfigObjectRoot((OBJECT *)&work->pit_u, &work->objWaist, 3);
 
-    GM_InitObject(&work->pit_liq, GV_StrCode("pit_liq"), LIQUID_FLAG, 0);
-    GM_ConfigObjectRoot(&work->pit_liq, &work->body, 3);
-    GM_ConfigObjectLight(&work->pit_liq, work->pit_light);
-    GM_ConfigObjectJoint(&work->pit_liq);
+    GM_InitObject(&work->objCockpit2, GV_StrCode("pit_liq"), LIQUID_FLAG, 0);
+    GM_ConfigObjectRoot(&work->objCockpit2, &work->objWaist, 3);
+    GM_ConfigObjectLight(&work->objCockpit2, work->pit_light);
+    GM_ConfigObjectJoint(&work->objCockpit2);
 
     if (work->mode == 0)
     {
         GM_InitObjectNoRots(&work->radar, GV_StrCode("radar_f1"), PART_FLAG, 0);
-        work->pit_t.objs->flag |= DG_FLAG_INVISIBLE;
-        work->pit_liq.objs->flag |= DG_FLAG_INVISIBLE;
-        work->pit_u.objs->flag |= DG_FLAG_INVISIBLE;
-        work->radar_parent = &work->body.objs->objs[6];
+        DG_InvisibleObjs(work->pit_t.objs);
+        DG_InvisibleObjs(work->objCockpit2.objs);
+        DG_InvisibleObjs(work->pit_u.objs);
+        work->radar_parent = &work->objWaist.objs->objs[6];
     }
     else if (work->mode == 3 || work->mode == 5)
     {
         GM_InitObjectNoRots(&work->radar, GV_StrCode("radar_f3"), PART_FLAG, 0);
-        work->radar_parent = &work->pit_liq.objs->objs[1];
+        work->radar_parent = &work->objCockpit2.objs->objs[1];
     }
 
     GM_ConfigObjectLight((OBJECT *)&work->radar, work->light);
-    GM_ConfigObjectRoot((OBJECT *)&work->radar, &work->body, 6);
+    GM_ConfigObjectRoot((OBJECT *)&work->radar, &work->objWaist, 6);
 
     GM_InitControl(&work->control2, name, where);
     GM_ConfigControlAttribute(&work->control2, 0);

@@ -35,9 +35,9 @@ void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
 int  s17a_800DE900(SVECTOR *a0, VECTOR *a1, SVECTOR *a2, int a3);
 
 void s17a_800E3BA8(MGREX_WORK *work, int arg1);
-void s17a_800E46F8(MGREX_WORK *work);
+void SetSearchDirection(MGREX_WORK *work);
 void s17a_800E4A58(MGREX_WORK *work, SVECTOR *pos);
-int  s17a_800E4B0C(int from, int to, int step);
+int  NearPhaseSpeed(int from, int to, int step);
 
 extern MGREX_HITBOX mgrex_hitbox_leg_l[2];
 extern MGREX_HITBOX mgrex_hitbox_leg_r[2];
@@ -169,7 +169,7 @@ void s17a_800E32B4(MGREX_WORK *work)
     }
 
     box = mgrex_hitbox_body;
-    objs = work->body.objs;
+    objs = work->objWaist.objs;
     for (i = 0; i < 7; i++, hit++, box++)
     {
         world = &objs->objs[box->joint].world;
@@ -258,22 +258,22 @@ void s17a_800E377C(HZD_SEG *segs, HZD_SEG *dst, int n)
 
 void s17a_800E37D4(MGREX_WORK *work, HZD_SEG *segs)
 {
-    DG_SetPos(&work->body.objs->objs[2].world);
+    DG_SetPos(&work->objWaist.objs->objs[2].world);
     s17a_800E3678((HZD_SEG *)getScratchAddr(0x10), (SVECTOR *)getScratchAddr(0), mgrex_wall_body1, 8);
     s17a_800E377C((HZD_SEG *)getScratchAddr(0x10), segs, 8);
     segs += 8;
 
-    DG_SetPos(&work->body.objs->objs[4].world);
+    DG_SetPos(&work->objWaist.objs->objs[4].world);
     s17a_800E3678((HZD_SEG *)getScratchAddr(0x10), (SVECTOR *)getScratchAddr(0), mgrex_wall_body2, 4);
     s17a_800E377C((HZD_SEG *)getScratchAddr(0x10), segs, 4);
     segs += 4;
 
-    DG_SetPos(&work->body.objs->objs[6].world);
+    DG_SetPos(&work->objWaist.objs->objs[6].world);
     s17a_800E3678((HZD_SEG *)getScratchAddr(0x10), (SVECTOR *)getScratchAddr(0), mgrex_wall_body3, 5);
     s17a_800E377C((HZD_SEG *)getScratchAddr(0x10), segs, 5);
     segs += 5;
 
-    DG_SetPos(&work->body.objs->objs[8].world);
+    DG_SetPos(&work->objWaist.objs->objs[8].world);
     s17a_800E3678((HZD_SEG *)getScratchAddr(0x10), (SVECTOR *)getScratchAddr(0), mgrex_wall_body4, 4);
     s17a_800E377C((HZD_SEG *)getScratchAddr(0x10), segs, 4);
     segs += 4;
@@ -363,9 +363,9 @@ void s17a_800E3BA8(MGREX_WORK *work, int arg1)
             se = 0x81;
         }
 
-        pos.vx = work->pit_liq.objs->objs[1].world.t[0];
-        pos.vy = work->pit_liq.objs->objs[1].world.t[1];
-        pos.vz = work->pit_liq.objs->objs[1].world.t[2];
+        pos.vx = work->objCockpit2.objs->objs[1].world.t[0];
+        pos.vy = work->objCockpit2.objs->objs[1].world.t[1];
+        pos.vz = work->objCockpit2.objs->objs[1].world.t[2];
         GM_SeSetMode(&pos, se, 1);
     }
 
@@ -507,7 +507,7 @@ void s17a_800E3C7C(MGREX_WORK *work)
         work->control2.mov.vy = GM_PlayerControl->mov.vy;
     }
 
-    world = &work->body.objs->objs[4].world;
+    world = &work->objWaist.objs->objs[4].world;
     dir = work->f1A3C;
     d.vx = (work->player_pos.vx - world->t[0]) >> 2;
     d.vy = (work->player_pos.vy - world->t[1]) >> 2;
@@ -539,13 +539,13 @@ void s17a_800E3C7C(MGREX_WORK *work)
                 target = work->f1A3C - 300;
             }
 
-            work->f1A44.vy = GV_NearSpeed(work->f1A44.vy, target, 5);
+            work->svectSearchAngle.vy = GV_NearSpeed(work->svectSearchAngle.vy, target, 5);
 
             cx = (work->player_pos.vx - pos.vx) / 4;
             cy = (work->player_pos.vy - pos.vy) / 4;
             cz = (work->player_pos.vz - pos.vz) / 4;
-            work->f1A44.vx = ratan2(-cy, SquareRoot0(cx * cx + cz * cz));
-            work->f1A44.vz = 0;
+            work->svectSearchAngle.vx = ratan2(-cy, SquareRoot0(cx * cx + cz * cz));
+            work->svectSearchAngle.vz = 0;
 
             if (--work->f1A4C <= 0)
             {
@@ -572,7 +572,7 @@ void s17a_800E3C7C(MGREX_WORK *work)
         }
         else
         {
-            work->f1A44.vy = work->f1A3C;
+            work->svectSearchAngle.vy = work->f1A3C;
         }
         break;
 
@@ -588,8 +588,8 @@ void s17a_800E3C7C(MGREX_WORK *work)
                 target = work->f1A3C - 300;
             }
 
-            work->f1A44.vy = GV_NearSpeed(work->f1A44.vy, target, 5);
-            work->f1A44.vx = 300;
+            work->svectSearchAngle.vy = GV_NearSpeed(work->svectSearchAngle.vy, target, 5);
+            work->svectSearchAngle.vx = 300;
 
             if (--work->f1A4C <= 0)
             {
@@ -598,7 +598,7 @@ void s17a_800E3C7C(MGREX_WORK *work)
         }
         else
         {
-            work->f1A44.vy = work->f1A3C;
+            work->svectSearchAngle.vy = work->f1A3C;
         }
 
         if (--work->f1984 < 0)
@@ -616,11 +616,11 @@ void s17a_800E3C7C(MGREX_WORK *work)
         dz = (work->player_pos.vz - pos.vz) / 4;
 
         yaw = ratan2(dx, dz);
-        work->f1A44.vx = ratan2(-dy, SquareRoot0(dx * dx + dz * dz));
-        work->f1A44.vy = yaw;
-        work->f1A44.vz = 0;
+        work->svectSearchAngle.vx = ratan2(-dy, SquareRoot0(dx * dx + dz * dz));
+        work->svectSearchAngle.vy = yaw;
+        work->svectSearchAngle.vz = 0;
 
-        work->control2.radar_atr |= 0x1000;
+        work->control2.radar_atr |= RADAR_UNK4;
         work->player_pos = GM_PlayerControl->mov;
 
         if (!found)
@@ -640,7 +640,7 @@ void s17a_800E3C7C(MGREX_WORK *work)
         break;
     }
 
-    s17a_800E46F8(work);
+    SetSearchDirection(work);
 }
 
 void s17a_800E44C0(MGREX_WORK *work)
@@ -653,9 +653,9 @@ void s17a_800E44C0(MGREX_WORK *work)
 
     if (work->f794.pad == 0)
     {
-        work->f1994.vx = s17a_800E4B0C(work->f1994.vx, work->f794.vx, 40);
-        work->f1994.vy = s17a_800E4B0C(work->f1994.vy, work->f794.vy, 40);
-        work->f1994.vz = s17a_800E4B0C(work->f1994.vz, work->f794.vz, 40);
+        work->f1994.vx = NearPhaseSpeed(work->f1994.vx, work->f794.vx, 40);
+        work->f1994.vy = NearPhaseSpeed(work->f1994.vy, work->f794.vy, 40);
+        work->f1994.vz = NearPhaseSpeed(work->f1994.vz, work->f794.vz, 40);
     }
     else
     {
@@ -671,8 +671,8 @@ void s17a_800E44C0(MGREX_WORK *work)
     }
     else
     {
-        work->pit_liq.rots[1].vx = work->f198C.vx;
-        work->pit_liq.rots[1].vy = work->f198C.vy;
+        work->objCockpit2.rots[1].vx = work->f198C.vx;
+        work->objCockpit2.rots[1].vy = work->f198C.vy;
     }
 
     work->body_adjust[2].vx = work->f199C.vx;
@@ -680,7 +680,7 @@ void s17a_800E44C0(MGREX_WORK *work)
 
     if (work->mode != 0)
     {
-        DG_SetPos(&work->body.objs->objs[7].world);
+        DG_SetPos(&work->objWaist.objs->objs[7].world);
         ReadRotMatrix(&mat);
 
         pos.vx = mat.t[0];
@@ -697,13 +697,13 @@ void s17a_800E44C0(MGREX_WORK *work)
         out.vz += pos.vz;
 
         dist = s17a_800DE900(&pos, &out, &ofs, 14000);
-        work->f19A4.vx = s17a_800E4B0C(work->f19A4.vx, -ratan2(SquareRoot0(0xA509849 - dist * dist), dist), 40);
-        work->f19A4.vy = s17a_800E4B0C(work->f19A4.vy, -228, 5);
-        work->f19A4.vz = 0;
+        work->svectRailGunJointAngle.vx = NearPhaseSpeed(work->svectRailGunJointAngle.vx, -ratan2(SquareRoot0(0xA509849 - dist * dist), dist), 40);
+        work->svectRailGunJointAngle.vy = NearPhaseSpeed(work->svectRailGunJointAngle.vy, -228, 5);
+        work->svectRailGunJointAngle.vz = 0;
     }
 }
 
-void s17a_800E46F8(MGREX_WORK *work)
+void SetSearchDirection(MGREX_WORK *work)
 {
     MATRIX mat;
     MATRIX rot;
@@ -713,15 +713,15 @@ void s17a_800E46F8(MGREX_WORK *work)
     int    x, y, z;
     int    yaw, pitch;
 
-    RotMatrixZYX_gte(&work->f1A44, &rot);
+    RotMatrixZYX_gte(&work->svectSearchAngle, &rot);
 
     if (work->mode < 3)
     {
-        mat = work->body.objs->objs[5].world;
+        mat = work->objWaist.objs->objs[5].world;
     }
     else
     {
-        mat = work->pit_liq.objs->objs[0].world;
+        mat = work->objCockpit2.objs->objs[0].world;
     }
 
     DG_TransposeMatrix(&mat, &mat);
@@ -767,15 +767,15 @@ void s17a_800E46F8(MGREX_WORK *work)
         work->f1ACC |= 4;
     }
 
-    work->f198C.vx = s17a_800E4B0C(work->f198C.vx, pitch, 30);
-    work->f198C.vy = s17a_800E4B0C(work->f198C.vy, yaw, 30);
-    work->f198C.vz = s17a_800E4B0C(work->f198C.vz, 0, 30);
+    work->f198C.vx = NearPhaseSpeed(work->f198C.vx, pitch, 30);
+    work->f198C.vy = NearPhaseSpeed(work->f198C.vy, yaw, 30);
+    work->f198C.vz = NearPhaseSpeed(work->f198C.vz, 0, 30);
 
     m2 = DG_ZeroMatrix;
     RotMatrixY(work->f1A3C, &m2);
-    m2.t[0] = work->body.objs->objs[1].world.t[0];
-    m2.t[1] = work->body.objs->objs[1].world.t[1];
-    m2.t[2] = work->body.objs->objs[1].world.t[2];
+    m2.t[0] = work->objWaist.objs->objs[1].world.t[0];
+    m2.t[1] = work->objWaist.objs->objs[1].world.t[1];
+    m2.t[2] = work->objWaist.objs->objs[1].world.t[2];
 
     s01a_800E2364(&m2, &work->player_pos, &v);
     Square0(&v, &sq);
@@ -811,8 +811,8 @@ void s17a_800E46F8(MGREX_WORK *work)
         pitch = 150;
     }
 
-    work->f199C.vx = s17a_800E4B0C(work->f199C.vx, pitch, 30);
-    work->f199C.vy = s17a_800E4B0C(work->f199C.vy, yaw, 30);
+    work->f199C.vx = NearPhaseSpeed(work->f199C.vx, pitch, 30);
+    work->f199C.vy = NearPhaseSpeed(work->f199C.vy, yaw, 30);
 }
 
 void s17a_800E4A58(MGREX_WORK *work, SVECTOR *pos)
@@ -844,7 +844,7 @@ void s17a_800E4A58(MGREX_WORK *work, SVECTOR *pos)
     work->f1A54 = (GV_RandU(2) & 1) ? 1 : -1;
 }
 
-int s17a_800E4B0C(int from, int to, int step)
+int NearPhaseSpeed(int from, int to, int step)
 {
     int next;
     int diff;

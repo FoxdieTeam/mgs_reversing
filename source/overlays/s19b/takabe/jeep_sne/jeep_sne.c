@@ -1,4 +1,5 @@
 #include "mgstype.h"
+#include "strcode.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "game/game.h"
@@ -54,11 +55,6 @@ typedef struct _Work
 } Work;
 
 typedef void (*ACTION)(Work *, int);
-
-
-#define EXEC_LEVEL GV_ACTOR_AFTER
-
-#define SNAKE_NAME 0x21CA // GV_StrCode("スネーク")
 
 #define MOTION_DATA GV_StrCode("sne_19b")
 #define BODY_DATA   GV_StrCode("snake")
@@ -178,10 +174,9 @@ static void Act(Work *work)
             vitality = GM_VitalityMax;
         }
 
-        target->vital = vitality;
-        GM_Vitality = work->vitality = (short)vitality;
+        GM_Vitality = work->vitality = target->vital = vitality;
 
-        if ((short)vitality <= 0)
+        if (GM_Vitality <= 0)
         {
             if (GM_Item == IT_Ration && GM_Items[IT_Ration] != 0)
             {
@@ -206,7 +201,7 @@ static void Act(Work *work)
                 GM_GameOver();
                 GM_GameOverTimer = -1;
                 work->dead = 1;
-                GM_SeSet(NULL, 0x1A);
+                GM_SeSet(NULL, SE_PLAYEROUT);
                 GM_GameStatus |= STATE_PADRELEASE;
             }
             else
@@ -221,7 +216,7 @@ static void Act(Work *work)
     if (work->blink == 0)
     {
         work->target->class = TARGET_SEEK | TARGET_POWER;
-        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs(work->body.objs);
     }
     else
     {
@@ -229,11 +224,11 @@ static void Act(Work *work)
 
         if ((work->blink & 3) == 1)
         {
-            work->body.objs->flag |= DG_FLAG_INVISIBLE;
+            DG_InvisibleObjs(work->body.objs);
         }
         else
         {
-            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+            DG_VisibleObjs(work->body.objs);
         }
 
         work->blink--;
@@ -241,11 +236,11 @@ static void Act(Work *work)
 
     if (work->hide)
     {
-        work->body.objs->flag |= DG_FLAG_INVISIBLE;
+        DG_InvisibleObjs(work->body.objs);
     }
     else if (GM_GameStatus & STATE_PADDEMO)
     {
-        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs(work->body.objs);
     }
 }
 
@@ -326,7 +321,7 @@ void *NewJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "jeep_sne.c");
@@ -336,7 +331,7 @@ void *NewJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
 
         if (GetResources(work, GV_StrCode("スネーク")) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }
@@ -437,12 +432,12 @@ void Shoot(Work *work)
     pos.vz = world.t[2];
     if (Takabe_JeepSystem.field_78 == 0)
     {
-        GM_SeSet(&pos, 0x2E);
+        GM_SeSet(&pos, SE_GUNCAM_SHOT);
         AN_FamasFlash(&world);
     }
     else
     {
-        GM_SeSet(&pos, 0x2E);
+        GM_SeSet(&pos, SE_GUNCAM_SHOT);
         s19b_jblood_800C8070(&world);
     }
 }
@@ -495,7 +490,7 @@ static void StateDamage(Work *work, int time)
 
         if (GM_Vitality > 0)
         {
-            GM_SeSet(&work->control.mov, 0x88);
+            GM_SeSet(&work->control.mov, SE_V_ENE_HUH);
         }
     }
 
@@ -534,7 +529,7 @@ void StateHit(Work *work, int time)
     if (time == 0)
     {
         SetMotion(work, 8);
-        GM_SeSet(&work->control.mov, 0x88);
+        GM_SeSet(&work->control.mov, SE_V_ENE_HUH);
     }
 
     if (time >= 21)
@@ -561,7 +556,7 @@ static void StateDead(Work *work, int time)
     {
         NewPadVibration(jeep_sne_vib_dead1, 1);
         NewPadVibration(jeep_sne_vib_dead2, 2);
-        GM_SeSetMode(&work->control.mov, 0x33, GM_SEMODE_BOMB);
+        GM_SeSetMode(&work->control.mov, SE_HIT_FLOOR, GM_SEMODE_BOMB);
     }
 
     if (work->body.is_end)
@@ -794,7 +789,7 @@ static void Input(Work *work)
     flags = status;
     if (work->damaged && !work->dead)
     {
-        flags &= 0xFFFF0FFF;
+        flags &= ~0xF000;
         dx = 0;
         dy = 0;
 
@@ -916,6 +911,6 @@ static void Input(Work *work)
 static void PadAndAction(Work *work)
 {
     Input(work);
-    Takabe_JeepSystem.flags &= 0xFFFF0000;
+    Takabe_JeepSystem.flags &= ~0xFFFF;
     ActionMain(work);
 }

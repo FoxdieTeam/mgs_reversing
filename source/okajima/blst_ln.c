@@ -54,7 +54,7 @@ static void Act(Work *work)
     }
     if (--work->field_3C < 0)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
     }
     work->field_44++;
 }

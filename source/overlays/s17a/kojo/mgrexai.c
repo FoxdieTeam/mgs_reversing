@@ -853,10 +853,10 @@ int s17a_800DEBB4(MGREX_WORK *work, int action, int arg2)
 
 void s17a_800DEBEC(MGREX_WORK *work, int action, int time)
 {
-    if (work->body.action != action)
+    if (work->objWaist.action != action)
     {
         work->f70C = action;
-        GM_ConfigObjectAction(&work->body, action, 0, time);
+        GM_ConfigObjectAction(&work->objWaist, action, 0, time);
         GM_ConfigObjectAction(&work->leg_l, action, 0, time);
         GM_ConfigObjectAction(&work->leg_r, action, 0, time);
     }
@@ -864,9 +864,9 @@ void s17a_800DEBEC(MGREX_WORK *work, int action, int time)
 
 void s17a_800DEC6C(MGREX_WORK *work)
 {
-    if (work->body.m_ctrl->info1.field_14 == 1)
+    if (work->objWaist.m_ctrl->info1.field_14 == 1)
     {
-        work->body.m_ctrl->info1.field_14 = 0;
+        work->objWaist.m_ctrl->info1.field_14 = 0;
         work->leg_l.m_ctrl->info1.field_14 = 0;
         work->leg_r.m_ctrl->info1.field_14 = 0;
     }
@@ -874,9 +874,9 @@ void s17a_800DEC6C(MGREX_WORK *work)
 
 void s17a_800DECA8(MGREX_WORK *work)
 {
-    if (*(int *)&work->body.m_ctrl->info1 != 1)
+    if (*(int *)&work->objWaist.m_ctrl->info1 != 1)
     {
-        work->body.m_ctrl->info1.field_14 = 1;
+        work->objWaist.m_ctrl->info1.field_14 = 1;
         work->leg_l.m_ctrl->info1.field_14 = 1;
         work->leg_r.m_ctrl->info1.field_14 = 1;
     }
@@ -888,25 +888,25 @@ int s17a_800DECE4(MGREX_WORK *work)
     int time;
 
     time = 2;
-    action = work->body.action;
+    action = work->objWaist.action;
 
     if (action != 0 && action != 0x2F && action != 0x31)
     {
         if (action == 0xD)
         {
-            if (work->body.m_ctrl->info1.frame != 24 && !work->body.is_end)
+            if (work->objWaist.m_ctrl->info1.frame != 24 && !work->objWaist.is_end)
             {
                 return 0;
             }
         }
         else if (action == 0xE)
         {
-            if (work->body.m_ctrl->info1.frame != 23 && !work->body.is_end)
+            if (work->objWaist.m_ctrl->info1.frame != 23 && !work->objWaist.is_end)
             {
                 return 0;
             }
         }
-        else if (!work->body.is_end)
+        else if (!work->objWaist.is_end)
         {
             return 0;
         }
@@ -932,7 +932,7 @@ int s17a_800DECE4(MGREX_WORK *work)
     case 1:
         if (work->f1954 != 1)
         {
-            if (work->body.action == 1 || work->body.action == 2)
+            if (work->objWaist.action == 1 || work->objWaist.action == 2)
             {
                 s17a_800DEBEC(work, 5, time);
                 work->f195C = 0;
@@ -958,7 +958,7 @@ int s17a_800DECE4(MGREX_WORK *work)
             break;
         }
 
-        if (work->body.action == 1 || work->body.action == 2)
+        if (work->objWaist.action == 1 || work->objWaist.action == 2)
         {
             s17a_800DEBEC(work, 3, time);
         }
@@ -971,7 +971,7 @@ int s17a_800DECE4(MGREX_WORK *work)
     case 2:
         if (work->f1954 != 2)
         {
-            if (work->body.action == 0xF || work->body.action == 0x11)
+            if (work->objWaist.action == 0xF || work->objWaist.action == 0x11)
             {
                 s17a_800DEBEC(work, 0x12, time);
                 work->f195C = 0;
@@ -997,7 +997,7 @@ int s17a_800DECE4(MGREX_WORK *work)
             break;
         }
 
-        if (work->body.action == 0xF || work->body.action == 0x11)
+        if (work->objWaist.action == 0xF || work->objWaist.action == 0x11)
         {
             s17a_800DEBEC(work, 0x10, 0);
         }
@@ -1172,7 +1172,7 @@ int s17a_800DECE4(MGREX_WORK *work)
     case 10:
         if (work->f1954 != 10)
         {
-            if (work->body.action == 0x20 || work->body.action == 0x21)
+            if (work->objWaist.action == 0x20 || work->objWaist.action == 0x21)
             {
                 s17a_800DEBEC(work, 0x24, time);
                 work->f195C = 0;
@@ -1200,7 +1200,7 @@ int s17a_800DECE4(MGREX_WORK *work)
             break;
         }
 
-        if (work->body.action == 0x20 || work->body.action == 0x21)
+        if (work->objWaist.action == 0x20 || work->objWaist.action == 0x21)
         {
             s17a_800DEBEC(work, 0x22, time);
         }
@@ -1213,7 +1213,7 @@ int s17a_800DECE4(MGREX_WORK *work)
     case 11:
         if (work->f1954 != 11)
         {
-            if (work->body.action == 0x25 || work->body.action == 0x27)
+            if (work->objWaist.action == 0x25 || work->objWaist.action == 0x27)
             {
                 s17a_800DEBEC(work, 0x28, time);
                 work->f195C = 0;
@@ -1241,7 +1241,7 @@ int s17a_800DECE4(MGREX_WORK *work)
             break;
         }
 
-        if (work->body.action == 0x25 || work->body.action == 0x27)
+        if (work->objWaist.action == 0x25 || work->objWaist.action == 0x27)
         {
             s17a_800DEBEC(work, 0x26, 0);
         }
@@ -1425,11 +1425,11 @@ int s17a_800DF720(MGREX_WORK *work)
     {
         if (work->f1A60 == 0)
         {
-            if (work->body.action == 0xD)
+            if (work->objWaist.action == 0xD)
             {
                 work->target3->class &= ~8;
             }
-            else if (work->body.action == 0xE)
+            else if (work->objWaist.action == 0xE)
             {
                 work->target4->class &= ~8;
             }
@@ -1617,7 +1617,7 @@ int s17a_800DFAE8(MGREX_WORK *work)
 
     scratch = (MGREX_LASER_SCRATCH *)getScratchAddr(0);
 
-    world = &work->body.objs->objs[9].world;
+    world = &work->objWaist.objs->objs[9].world;
     scratch->dir.vx = (work->f1A68.vx - world->t[0]) >> 2;
     scratch->dir.vy = (work->f1A68.vy - world->t[1]) >> 2;
     scratch->dir.vz = (work->f1A68.vz - world->t[2]) >> 2;
@@ -1640,7 +1640,7 @@ int s17a_800DFAE8(MGREX_WORK *work)
     scratch->rot.t[1] = world->t[1];
     scratch->rot.t[2] = world->t[2];
 
-    scratch->world = work->body.objs->objs[0].world;
+    scratch->world = work->objWaist.objs->objs[0].world;
     DG_TransposeMatrix(&scratch->world, &scratch->world);
     MulMatrix0(&scratch->world, &scratch->rot, &scratch->local);
 
@@ -1705,7 +1705,7 @@ fire:
 
     if (work->f1A78 == NULL)
     {
-        work->f1A78 = NewMgLaser(&work->body.objs->objs[9].world, 2, work->f644, work->f1A64 - 1);
+        work->f1A78 = NewMgLaser(&work->objWaist.objs->objs[9].world, 2, work->f644, work->f1A64 - 1);
     }
 
     work->f1A64--;
@@ -1759,7 +1759,7 @@ fail:
 
     if (work->f1A60 == 1)
     {
-        DG_SetPos(&work->body.objs->objs[2].world);
+        DG_SetPos(&work->objWaist.objs->objs[2].world);
 
         if (work->f1A64 & 1)
         {

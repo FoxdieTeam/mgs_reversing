@@ -984,7 +984,7 @@ void d18a_snake18_800CB470(Snake18Work *work)
             return;
         }
         GM_PlayerStatus &= ~0x8000;
-        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs(work->body.objs);
     }
     else
     {
@@ -997,7 +997,7 @@ void d18a_snake18_800CB470(Snake18Work *work)
         {
             return;
         }
-        work->body.objs->flag |= DG_FLAG_INVISIBLE;
+        DG_InvisibleObjs(work->body.objs);
     }
 }
 void d18a_snake18_800CB514(Snake18Work *work)
@@ -1768,7 +1768,7 @@ void d18a_snake18_800CC6CC(Snake18Work *work)
             break;
 
         case HASH_DESTROY:
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             break;
 
         case HASH_MOTION:
@@ -1954,7 +1954,7 @@ void d18a_snake18_800CCB50(Snake18Work *work)
             else if (a_mode == 1 || a_mode == 3)
             {
                 d18a_snake18_StartAnim(work, d18a_snake18_800CF03C);
-                GM_SeSet(&work->control.mov, 0x26);
+                GM_SeSet(&work->control.mov, SE_ENEMY_DAMAGE);
 
                 if (!(GM_GameStatus & STATE_STUN))
                 {
@@ -1970,7 +1970,7 @@ void d18a_snake18_800CCB50(Snake18Work *work)
                 d18a_snake18_StartAnim(work, d18a_snake18_800CF198);
                 d18a_snake18_800CB378(work);
                 work->f7E4 |= 4;
-                GM_SeSet(&work->control.mov, 0x19);
+                GM_SeSet(&work->control.mov, SE_PLAYER_DAMAGE2);
 
                 if (!(GM_GameStatus & STATE_STUN))
                 {
@@ -1992,7 +1992,7 @@ void d18a_snake18_800CCB50(Snake18Work *work)
         {
             d18a_snake18_800CC8B0(work, 0x20);
             d18a_snake18_800CB7D0(work, 6);
-            GM_SeSet(&work->control.mov, 0x26);
+            GM_SeSet(&work->control.mov, SE_ENEMY_DAMAGE);
 
             if (!(GM_GameStatus & STATE_STUN))
             {
@@ -2332,7 +2332,7 @@ void d18a_snake18_800CD768(Snake18Work *work, int arg1)
 
     if (work->f8FE == 0)
     {
-        GM_SeSet(&work->control.mov, 8);
+        GM_SeSet(&work->control.mov, SE_CHANGE_STANCE);
     }
     work->f8FE = 1;
 
@@ -2570,7 +2570,7 @@ void d18a_snake18_800CDE8C(Snake18Work *work)
 
     if (work->pad->press & PAD_CROSS)
     {
-        GM_SeSet(&work->control.mov, 8);
+        GM_SeSet(&work->control.mov, SE_CHANGE_STANCE);
         d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
         GM_PlayerStatus &= ~PLAYER_SQUAT;
         return;
@@ -2907,7 +2907,7 @@ void d18a_snake18_800CE834(Snake18Work *work, int arg1)
 
     if (arg1 == 0)
     {
-        GM_SeSet(&work->control.mov, 8);
+        GM_SeSet(&work->control.mov, SE_CHANGE_STANCE);
         work->f8BC = d18a_snake18_800CE7BC;
         work->f8C0 = d18a_snake18_800CE7BC;
         GM_PlayerStatus |= 0x40;
@@ -2936,7 +2936,7 @@ void d18a_snake18_800CE8E0(Snake18Work *work, int arg1)
 
     if (arg1 == 0)
     {
-        GM_SeSet(&work->control.mov, 8);
+        GM_SeSet(&work->control.mov, SE_CHANGE_STANCE);
         work->f8FE = 0;
         work->f8BC = d18a_snake18_800CE7BC;
         work->f8C0 = d18a_snake18_800CE7BC;
@@ -3034,7 +3034,7 @@ void d18a_snake18_800CEA84(Snake18Work *work, int arg1)
         work->f858 = 0;
         GM_PlayerStatus |= 0x800;
         work->f7E4 &= ~6;
-        GM_SeSet(&work->control.mov, 0x2F);
+        GM_SeSet(&work->control.mov, SE_RELOAD);
 
         work->f8AC = d18a_snake18_800D1A6C;
         work->f8B0 = 0;
@@ -3226,11 +3226,11 @@ void d18a_snake18_800CEF44(Snake18Work *work, int arg1)
     }
     if (arg1 == 0x14)
     {
-        GM_SeSet(&work->control.mov, 0x26);
+        GM_SeSet(&work->control.mov, SE_ENEMY_DAMAGE);
     }
     if (arg1 == 0x2D)
     {
-        GM_SeSet(&work->control.mov, 0x33);
+        GM_SeSet(&work->control.mov, SE_HIT_FLOOR);
     }
     if (work->body.is_end != 0)
     {
@@ -3307,7 +3307,7 @@ void d18a_snake18_800CF198(Snake18Work *work, int time)
     {
         if (((TARGET *)work->f7E8)->vital <= 0 && GM_GameOverTimer == 0)
         {
-            GM_SeSet(&work->control.mov, 0x1A);
+            GM_SeSet(&work->control.mov, SE_PLAYEROUT);
             GM_GameOver();
             GM_GameOverTimer = -3;
         }
@@ -3364,7 +3364,7 @@ void d18a_snake18_800CF198(Snake18Work *work, int time)
 
     if (time == 24 && work->f8FE == 0)
     {
-        GM_SeSetMode(&work->control.mov, 0x33, GM_SEMODE_BOMB);
+        GM_SeSetMode(&work->control.mov, SE_HIT_FLOOR, GM_SEMODE_BOMB);
     }
 
     work->control.step.vx = work->f904.vx;
@@ -3376,7 +3376,7 @@ void d18a_snake18_800CF39C(Snake18Work *work, int time)
 
     if (time == 0)
     {
-        GM_SeSet(&work->control.mov, 0x1A);
+        GM_SeSet(&work->control.mov, SE_PLAYEROUT);
         GM_GameStatus |= STATE_PADRELEASE;
         work->f7E4 |= 0x12;
 
@@ -3614,7 +3614,7 @@ void d18a_snake18_800CF990(Snake18Work *work, int time)
         }
 
         GM_ConfigObjectOverride(&work->body, action, 0, 4, 0x3FE);
-        GM_SeSet(&work->control.mov, 0x37);
+        GM_SeSet(&work->control.mov, SE_WALLKNOCK);
         GM_SetNoise(100, 16, &work->control.mov);
     }
 
@@ -3658,7 +3658,7 @@ void d18a_snake18_800CFB04(Snake18Work *work, int time)
             GM_ConfigObjectAction(&work->body, action, 0, 4);
         }
 
-        GM_SeSet(&work->control.mov, 0x37);
+        GM_SeSet(&work->control.mov, SE_WALLKNOCK);
         GM_SetNoise(100, 16, &work->control.mov);
     }
 
@@ -3713,7 +3713,7 @@ void d18a_snake18_800CFD18(Snake18Work *work, int time)
 
         if (action == 0x9E || ground == 1)
         {
-            GM_SeSet(&work->control.mov, 0x37);
+            GM_SeSet(&work->control.mov, SE_WALLKNOCK);
             GM_SetNoise(100, 16, &work->control.mov);
             work->f8B4 = 0;
             work->f7E4 &= ~0x100;
@@ -3721,7 +3721,7 @@ void d18a_snake18_800CFD18(Snake18Work *work, int time)
         }
 
         GM_ConfigObjectOverride(&work->body, action, 0, 4, 0x3FE);
-        GM_SeSet(&work->control.mov, 0x37);
+        GM_SeSet(&work->control.mov, SE_WALLKNOCK);
         GM_SetNoise(100, 16, &work->control.mov);
     }
 
@@ -3826,7 +3826,7 @@ void d18a_snake18_800D00E0(Snake18Work *work, int arg1)
 
     if (arg1 == 0)
     {
-        GM_SeSet(&work->control.mov, 0x26);
+        GM_SeSet(&work->control.mov, SE_ENEMY_DAMAGE);
         GM_ConfigControlHazard(&work->control, 0, -2, -2);
         work->f900 = -2;
         work->f8BC = d18a_snake18_800CE7BC;
@@ -3873,7 +3873,7 @@ void d18a_snake18_800D01D8(Snake18Work *work, int time)
     {
         if (time == 0 && GM_GameOverTimer == 0)
         {
-            GM_SeSet(&work->control.mov, 0x1A);
+            GM_SeSet(&work->control.mov, SE_PLAYEROUT);
             GM_GameOver();
             GM_GameOverTimer = -3;
         }
@@ -3973,7 +3973,7 @@ case0:
 
     if (work->m_ctrl.info1.frame == 15 && GM_GameLevel != 3)
     {
-        GM_SeSet(&work->control.mov, 0x18);
+        GM_SeSet(&work->control.mov, SE_PLAYER_DAMAGE1);
     }
 
     if (work->m_ctrl.info1.frame == 2 && !(GM_GameStatus & STATE_STUN))
@@ -5045,7 +5045,7 @@ void d18a_snake18_800D20EC(Snake18Work *work, int time)
 
     if (time == 6)
     {
-        GM_SeSet(&work->control.mov, 0x31);
+        GM_SeSet(&work->control.mov, SE_C4_PUT);
         NewBakudan(((TARGET *)work->f834)->body, &d18a_dword_800C3948, 1, work->f930);
         work->f85C = 5;
         ((TARGET *)work->f834)->damaged &= ~0x40;
@@ -5289,7 +5289,7 @@ void d18a_snake18_800D28CC(Snake18Work *work, int time)
 
         GM_MagazineMax = ammo;
         GM_Magazine = mag_size;
-        GM_SeSet(&work->control.mov, 0x2F);
+        GM_SeSet(&work->control.mov, SE_RELOAD);
     }
 
     if (work->body.time2 != 0)
@@ -5517,7 +5517,7 @@ void d18a_snake18_800D3024(Snake18Work *work, int time)
     {
         d18a_snake18_SetOverride(work, work->f8A8->attack->field_0[0], 4, mask);
         work->f86C = 0;
-        GM_SeSet(&work->control.mov, 0x2C);
+        GM_SeSet(&work->control.mov, SE_PINNUKI);
     }
 
     d18a_snake18_800CB760(work, mask);

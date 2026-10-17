@@ -1,4 +1,5 @@
 #include "anime/animconv/anime.h"
+#include "strcode.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 
@@ -10,7 +11,7 @@ static const char pkflash_script[] = {
 };
 
 ANIMATION pkflash_anim = {
-    0xC61C,                     // tex
+    PCX_M60_FLASH,              // tex
     2,                          // texdev_x
     2,                          // texdev_y
     3,                          // n_anime

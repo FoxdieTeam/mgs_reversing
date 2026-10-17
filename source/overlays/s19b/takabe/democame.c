@@ -220,163 +220,163 @@ void s19b_democame_800DB968(Work *work)
 
     if (work->field_88 == 0)
     {
-    flag = work->field_74;
-    rest = work->field_70 - 1;
+        flag = work->field_74;
+        rest = work->field_70 - 1;
 
-    if (flag & 0x1)
-    {
-        SVECTOR *dst = &work->eye;
-        SVECTOR *src = work->field_40;
-        if (src == NULL)
+        if (flag & 0x1)
         {
-            src = &work->field_50;
-        }
+            SVECTOR *dst = &work->eye;
+            SVECTOR *src = work->field_40;
+            if (src == NULL)
+            {
+                src = &work->field_50;
+            }
 
-        if (rest == 0)
-        {
-            *dst = *src;
-        }
-        else
-        {
-            work->field_7C(dst, src, rest);
-        }
-    }
-
-    if (flag & 0x2)
-    {
-        SVECTOR *dst = &work->center;
-        SVECTOR *src = work->field_44;
-        if (src == NULL)
-        {
-            src = &work->field_58;
+            if (rest == 0)
+            {
+                *dst = *src;
+            }
+            else
+            {
+                work->field_7C(dst, src, rest);
+            }
         }
 
-        if (rest == 0)
+        if (flag & 0x2)
         {
-            *dst = *src;
-        }
-        else
-        {
-            work->field_7C(dst, src, rest);
-        }
-    }
+            SVECTOR *dst = &work->center;
+            SVECTOR *src = work->field_44;
+            if (src == NULL)
+            {
+                src = &work->field_58;
+            }
 
-    if (flag & 0x4)
-    {
-        SVECTOR *dst = &work->rotate;
-        SVECTOR *src = work->field_48;
-        if (src == NULL)
-        {
-            src = &work->field_60;
-        }
-
-        if (rest == 0)
-        {
-            *dst = *src;
-        }
-        else
-        {
-            work->field_80(dst, src, rest);
-        }
-    }
-
-    if (flag & 0x8)
-    {
-        int *track = work->field_4C;
-        if (track == NULL)
-        {
-            track = &work->field_68;
+            if (rest == 0)
+            {
+                *dst = *src;
+            }
+            else
+            {
+                work->field_7C(dst, src, rest);
+            }
         }
 
-        if (rest == 0)
+        if (flag & 0x4)
         {
+            SVECTOR *dst = &work->rotate;
+            SVECTOR *src = work->field_48;
+            if (src == NULL)
+            {
+                src = &work->field_60;
+            }
+
+            if (rest == 0)
+            {
+                *dst = *src;
+            }
+            else
+            {
+                work->field_80(dst, src, rest);
+            }
+        }
+
+        if (flag & 0x8)
+        {
+            int *track = work->field_4C;
+            if (track == NULL)
+            {
+                track = &work->field_68;
+            }
+
+            if (rest == 0)
+            {
+                work->track = *track;
+            }
+            else
+            {
+                work->track = work->field_78(work->track, *track, rest);
+            }
+        }
+
+        if (flag & 0x10)
+        {
+            SVECTOR *src = work->field_40;
+            if (src == NULL)
+            {
+                src = &work->field_50;
+            }
+            work->eye = *src;
+        }
+
+        if (flag & 0x20)
+        {
+            SVECTOR *src = work->field_44;
+            if (src == NULL)
+            {
+                src = &work->field_58;
+            }
+            work->center = *src;
+        }
+
+        if (flag & 0x40)
+        {
+            SVECTOR *src = work->field_48;
+            if (src == NULL)
+            {
+                src = &work->field_60;
+            }
+            work->rotate = *src;
+        }
+
+        if (flag & 0x80)
+        {
+            int *track = work->field_4C;
+            if (track == NULL)
+            {
+                track = &work->field_68;
+            }
             work->track = *track;
         }
-        else
+
+        if (flag & 0x100)
         {
-            work->track = work->field_78(work->track, *track, rest);
+            work->eye = GM_Camera.position;
         }
-    }
 
-    if (flag & 0x10)
-    {
-        SVECTOR *src = work->field_40;
-        if (src == NULL)
+        if (flag & 0x200)
         {
-            src = &work->field_50;
+            work->center = GM_Camera.target;
         }
-        work->eye = *src;
-    }
 
-    if (flag & 0x20)
-    {
-        SVECTOR *src = work->field_44;
-        if (src == NULL)
+        if (flag & 0x400)
         {
-            src = &work->field_58;
+            work->rotate = GM_Camera.rotate;
         }
-        work->center = *src;
-    }
 
-    if (flag & 0x40)
-    {
-        SVECTOR *src = work->field_48;
-        if (src == NULL)
+        if (flag & 0x800)
         {
-            src = &work->field_60;
+            work->track = GM_Camera.track;
         }
-        work->rotate = *src;
-    }
 
-    if (flag & 0x80)
-    {
-        int *track = work->field_4C;
-        if (track == NULL)
+        if (--work->field_70 <= 0)
         {
-            track = &work->field_68;
+            s19b_democame_800DB470(work);
+            s19b_democame_800DB790(work, work->field_84);
+
+            work->field_84++;
+            work->field_8C++;
+
+            if (work->field_6C == -1)
+            {
+                work->field_88 = 1;
+            }
+            else
+            {
+                work->field_70 -= work->field_84[-2].f4;
+            }
         }
-        work->track = *track;
-    }
 
-    if (flag & 0x100)
-    {
-        work->eye = GM_Camera.position;
-    }
-
-    if (flag & 0x200)
-    {
-        work->center = GM_Camera.target;
-    }
-
-    if (flag & 0x400)
-    {
-        work->rotate = GM_Camera.rotate;
-    }
-
-    if (flag & 0x800)
-    {
-        work->track = GM_Camera.track;
-    }
-
-    if (--work->field_70 <= 0)
-    {
-        s19b_democame_800DB470(work);
-        s19b_democame_800DB790(work, work->field_84);
-
-        work->field_84++;
-        work->field_8C++;
-
-        if (work->field_6C == -1)
-        {
-            work->field_88 = 1;
-        }
-        else
-        {
-            work->field_70 -= work->field_84[-2].f4;
-        }
-    }
-
-    work->field_90++;
+        work->field_90++;
     }
 }
 

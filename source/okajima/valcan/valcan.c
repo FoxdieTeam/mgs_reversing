@@ -174,7 +174,7 @@ void ValcanAct_800D9088(Work *work)
         if (work->field_8D8-- < 0)
         {
             valcan_dead_800E3468 = work->field_81C;
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
         }
     }
     ValcanDequeueDynamicSegment_800D8DA0(work);
@@ -389,7 +389,7 @@ void *NewValcan_800D9864(int name, int where)
         GV_SetNamedActor(&work->actor, ValcanAct_800D9088, ValcanDie_800D96E8, "valcan.c");
         if (ValcanGetResources_800D9830(work, name, where) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
         if (ValcanGetResources2_800D9774(work) < 0)

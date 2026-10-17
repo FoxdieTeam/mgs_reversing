@@ -99,7 +99,7 @@ static void Act(Work *work)
     if (work->time <= 0)
     {
         sub_8007913C();
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
     }
 }
 
@@ -227,7 +227,7 @@ void *NewLensFlare(MATRIX *world, int time)
 
         if (GetResources(work, world, time) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
 

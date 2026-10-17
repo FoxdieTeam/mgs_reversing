@@ -536,7 +536,7 @@ void s11g_hind_800D5820(HindWork *work)
     if (work->field_938 == 1)
     {
         s11g_hind_800D46D8(work, 8);
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
     }
 
     work->field_62C.vx = GM_PlayerPosition.vx;

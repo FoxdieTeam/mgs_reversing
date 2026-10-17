@@ -1,4 +1,5 @@
 #include "puthzd.h"
+#include "strcode.h"
 
 #include "mgstype.h"
 #include "libgv/libgv.h"
@@ -25,9 +26,7 @@ typedef struct _Work
     HZD_FLR  *flrs;     // 0x4C
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
-unsigned short puthzd_msgs[2] = {0xD182, 0x006B};
+unsigned short puthzd_msgs[2] = {HASH_ON2, HASH_OFF2};
 
 static void QueueHazard(Work *work, HZD_GRP *grp);
 static void DequeueHazard(Work *work, HZD_GRP *grp);
@@ -40,7 +39,7 @@ static void Act(Work *work)
     if (THING_Msg_CheckMessage(work->name, 2, puthzd_msgs) == 1)
     {
         THING_Hzd_800C4874(work->n_segs, work->segs, work->n_flrs, work->flrs);
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
     }
 }
 
@@ -98,14 +97,14 @@ void *NewPutHazard(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "puthzd.c");
 
         if (GetResources(work, name, where) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }

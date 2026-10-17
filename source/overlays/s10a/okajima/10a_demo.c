@@ -24,8 +24,6 @@ typedef struct _Work
     int     proc;       /* 0x5C */
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 void s10a_10a_demo_800D5F78( SVECTOR *vec, SVECTOR *pos, int len )
 {
     vec->vx = ( vec->vx * ( len - 1 ) + pos->vx ) / len;
@@ -68,7 +66,7 @@ void s10a_10a_demo_800D62F0( Work *work )
 
     if ( ( GV_Time % 60 ) == 0 )
     {
-        GM_SeSet2( 0, 63, 135 );
+        GM_SeSet2( 0, 63, SE_V_ENE_NOISE);
     }
 
     if ( work->time == 0 )
@@ -109,7 +107,7 @@ void s10a_10a_demo_800D62F0( Work *work )
     }
     else
     {
-        GV_DestroyActor( &work->actor );
+        GV_DestroyActor(work);
     }
 
     s10a_10a_demo_800D6060( work );
@@ -163,13 +161,13 @@ void *NewStage10ADemo( int name, int where, int argc, char **argv )
 {
     Work *work;
 
-    work = GV_NewActor( EXEC_LEVEL, sizeof( Work ) );
+    work = GV_NewActor( GV_ACTOR_PREV, sizeof( Work ) );
     if ( work != NULL )
     {
         GV_SetNamedActor( &work->actor, s10a_10a_demo_800D62F0, s10a_10a_demo_800D6534, "10a_demo.c" );
         if ( s10a_10a_demo_800D65CC( work, name, where ) < 0 )
         {
-            GV_DestroyActor( &work->actor );
+            GV_DestroyActor(work);
             return NULL;
         }
     }

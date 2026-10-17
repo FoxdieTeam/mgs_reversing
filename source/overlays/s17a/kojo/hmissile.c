@@ -37,8 +37,6 @@ typedef struct _Work
     DVECTOR        params[32];      // 0x338: vx = life, vy = anim frame
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
 extern BLAST_DATA blast_data_8009F4B8[8];
@@ -119,7 +117,7 @@ static void Act(Work *work)
             work->target.center = work->pos;
             GM_PushTarget(&work->target);
 
-            work->body.objs->flag |= DG_FLAG_INVISIBLE;
+            DG_InvisibleObjs(work->body.objs);
             work->state = 32;
 
             if (hit == 1)
@@ -219,7 +217,7 @@ static void Act(Work *work)
 
         if (work->state == 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return;
         }
 
@@ -279,14 +277,14 @@ void *NewHomingMissile(MATRIX *world, SVECTOR *aim, int side)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "hmissile.c");
 
         if (GetResources(work, world, aim, side) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }

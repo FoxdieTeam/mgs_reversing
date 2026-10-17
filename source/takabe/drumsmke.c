@@ -24,8 +24,6 @@ typedef struct _Work
     DVECTOR  params[16];    // 0x16C: vx = life, vy = anim frame
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 static void InitPrim(Work *work);
 static void UpdatePrim(Work *work, int spawn);
 
@@ -48,7 +46,7 @@ static void Act(Work *work)
 
         if (work->count == 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return;
         }
 
@@ -82,14 +80,14 @@ void *NewDrumSmoke(MATRIX *world, int flag, int time)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "drumsmke.c");
 
         if (GetResources(work, world, flag, time) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }
@@ -101,14 +99,14 @@ void *NewDrumSmoke2(MATRIX *world, SVECTOR *offset, int flag, int time)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "drumsmke.c");
 
         if (GetResources(work, world, flag, time) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
 

@@ -109,7 +109,7 @@ void Zako10Act( Zako10Work *work )
     ctrl = &( work->control ) ;
     if (GM_CheckMessage( &( work->actor ) , ctrl->name, HASH_KILL ) )
     {
-        GV_DestroyActor( &( work->actor ) );
+        GV_DestroyActor(work);
         return;
     }
 

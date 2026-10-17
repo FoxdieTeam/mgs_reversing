@@ -28,8 +28,6 @@ typedef struct _Work
     u_char  r, g, b;            // 0x100
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 void AN_Unknown_800D6F6C(SVECTOR *pos);
 void AN_Unknown_800D7028(SVECTOR *pos, int num);
 void AN_Unknown_800D70E4(SVECTOR *pos, char r, char g, char b);
@@ -84,7 +82,7 @@ static void Act(Work *work)
 
     if (--work->time < 0)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
     }
 
     if (!(work->time & 1))
@@ -158,7 +156,7 @@ void *NewCrashSmoke(SVECTOR *pos, SVECTOR *rot, int speed, int num, int type, in
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "crsh_smk.c");

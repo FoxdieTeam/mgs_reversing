@@ -724,13 +724,13 @@ void HindAct(HindWork *work)
         GV_DemoPadStatus[0] = 0;
         GV_DemoPadStatus[1] = 0;
 
-        GM_GameStatus |= 0x4A0040;
-        GM_GameStatus |= 0x40000000;
+        GM_GameStatus |= (STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF | STATE_CUT_IN);
+        GM_GameStatus |= STATE_PADDEMO;
 
         if (--work->field_5F0 == 0)
         {
-            GM_GameStatus &= ~0x004A0040;
-            GM_GameStatus &= ~0x40000000;
+            GM_GameStatus &= ~(STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF | STATE_CUT_IN);
+            GM_GameStatus &= ~STATE_PADDEMO;
 
             work->body.objs->def->models[2].verts = work->field_A70;
 

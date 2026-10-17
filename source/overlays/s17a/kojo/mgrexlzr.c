@@ -29,8 +29,6 @@ typedef struct _Work
     int            timer;                               // 0x950
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT )
 
 DG_DEF mgrexlzr_def = {
@@ -79,7 +77,7 @@ void *NewMetalGearLaser(MATRIX *root)
     int      w0, w1;
     int      ang, step;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work == NULL)
     {
         return NULL;
@@ -196,7 +194,7 @@ void *NewMetalGearLaser(MATRIX *root)
     work->body.objs->world = DG_ZeroMatrix;
     work->body.objs->light = work->light;
     work->body.objs->objs[0].raise = 1000;
-    work->body.objs->flag |= DG_FLAG_INVISIBLE;
+    DG_InvisibleObjs(work->body.objs);
 
     return (void *)work;
 }
@@ -212,7 +210,7 @@ static void Act(Work *work)
 
     if (--work->timer < 0)
     {
-        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs(work->body.objs);
     }
 
     DG_SetPos(work->root);

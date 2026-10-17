@@ -535,7 +535,7 @@ void s03d_800D4B84(ZakoComMgr *command)
             command->field_18 = 0xFF;
             GM_AlertModeSet(3);
             command->field_1C = 1;
-            GM_SeSet2(NULL, 0x3F, 0x2A);
+            GM_SeSet2(NULL, 0x3F, SE_ALERT_SIREN);
             ZAKOCOM_MGR->field_60 = 0;
         }
         break;

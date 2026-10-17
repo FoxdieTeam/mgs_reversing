@@ -59,7 +59,8 @@ void s19b_jeep_800D2258(JeepWork *work)
     CONTROL *control;
     TARGET  *target;
     SVECTOR  light_pos;
-    /* the scale vector and the rotation passed to DG_SetPos2 are one object in the original stack frame */
+    /* FIXME: the scale vector and the rotation passed to DG_SetPos2 are one object in the original stack frame;
+       they were probably declared in a local scope */
     union { VECTOR scale; SVECTOR rot; } u;
     VECTOR   scale2;
     int      flags;
@@ -416,7 +417,7 @@ void s19b_jeep_800D2E78(JeepWork *work)
     s19b_jeep_800D2D3C(work);
     if ((work->field_3CC & 0x3F) == 0)
     {
-        work->field_3CA = (rand() * 1200 >> 15) - 0x258;
+        work->field_3CA = ((rand() * 1200) >> 15) - 0x258;
     }
     work->field_3C8 = GV_NearSpeed(work->field_3C8, work->field_3CA, 0x1E);
 
@@ -490,8 +491,8 @@ void s19b_jeep_800D2F54(JeepWork *work)
         if (work->speed.vx == 0 && work->speed.vz == 0)
         {
             work->field_3DC = 3;
-            Takabe_JeepSystem.flags_50 &= 0xFFFDFFDF;
-            Takabe_JeepSystem.flags_50 &= 0xFFFEFFFF;
+            Takabe_JeepSystem.flags_50 &= ~0x20020;
+            Takabe_JeepSystem.flags_50 &= ~0x10000;
             work->field_3CC = 0;
         }
         break;
@@ -575,7 +576,7 @@ void s19b_jeep_800D32C4(JeepWork *work)
             work->field_3DC = 5;
             GM_SeSet(&ctl->mov, 0xB4);
             NewPadVibration(s19b_dword_800C39A0, 2);
-            Takabe_JeepSystem.flags_50 = (Takabe_JeepSystem.flags_50 & 0xFFFDFFDF) | 0x200;
+            Takabe_JeepSystem.flags_50 = (Takabe_JeepSystem.flags_50 & ~0x20020) | 0x200;
         }
         break;
     case 3:
@@ -712,7 +713,7 @@ void s19b_jeep_800D3928(JeepWork *work)
     s19b_jeep_800D2D3C(work);
     if ((work->field_3CC & 0x3F) == 0)
     {
-        work->field_3CA = (rand() * 60 >> 15) - 0x258;
+        work->field_3CA = ((rand() * 60) >> 15) - 0x258;
     }
     work->field_3C8 = GV_NearSpeed(work->field_3C8, work->field_3CA, 0x1E);
 }
@@ -737,7 +738,7 @@ int s19b_jeep_800D39F0(void)
     for (n = GM_N_WhereList; n > 0; n--)
     {
         CONTROL *control = *where;
-        if ((control->radar_atr & 1) && control->map == map)
+        if ((control->radar_atr & RADAR_VISIBLE) && control->map == map)
         {
             count++;
         }

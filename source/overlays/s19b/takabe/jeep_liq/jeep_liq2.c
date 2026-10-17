@@ -44,7 +44,7 @@ int s19b_spark2_m_800D87A4(LiqWork *work)
     if (target->damaged & 4)
     {
         target->force = DG_ZeroVector;
-        GM_SeSet(&work->control.mov, 0x81);
+        GM_SeSet(&work->control.mov, SE_V_ENE_FOUND02);
 
         /* both arms spell out the same tail: cross-jumping merges it back */
         if (!(Takabe_JeepSystem.flags_54 & 0x20000))
@@ -210,7 +210,7 @@ void s19b_spark2_m_800D8AEC(LiqWork *work)
     DG_MovePos((SVECTOR *)&s19b_dword_800C3AC0);
     ReadRotMatrix(&m);
     NewJeepBullet(&m, 2, 1, 0);
-    GM_SeSet(&work->control.mov, 0x2E);
+    GM_SeSet(&work->control.mov, SE_GUNCAM_SHOT);
     s19b_jblood_800C7FB8(&m);
 }
 
@@ -544,7 +544,7 @@ void s19b_spark2_m_800D9390(LiqWork *work, int mode)
     {
         work->action = 20;
         GM_ConfigObjectAction(&work->obj, 20, 0, 4);
-        GM_SeSet(&work->control.mov, 0x81);
+        GM_SeSet(&work->control.mov, SE_V_ENE_FOUND02);
         s19b_spark2_m_800D8724(work, 5, 1);
         *work->jeep_flags |= 1;
     }
@@ -567,7 +567,7 @@ void s19b_spark2_m_800D9434(LiqWork *work, int mode)
     }
     if (mode == 0)
     {
-        GM_SeSet(&work->control.mov, 0x81);
+        GM_SeSet(&work->control.mov, SE_V_ENE_FOUND02);
         s19b_spark2_m_800D8724(work, 5, 1);
         *work->jeep_flags |= 1;
     }
@@ -920,7 +920,7 @@ void s19b_spark2_m_800D9C04(LiqWork *work)
         s19b_spark2_m_800D9B88(work);
     }
 
-    Takabe_JeepSystem.flags_54 &= 0xFFFF0000;
+    Takabe_JeepSystem.flags_54 &= ~0xFFFF;
     work->f920 += 1;
 }
 

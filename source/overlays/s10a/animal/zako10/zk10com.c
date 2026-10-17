@@ -314,7 +314,7 @@ void s10a_zk10com_800CE7A8( ZAKO10_COMMAND *command )
             {
                 command->mode = 1;
                 command->alert = 255;
-                GM_SeSet2( 0, 0x3F, 0x2A );
+                GM_SeSet2( 0, 0x3F, SE_ALERT_SIREN);
                 Zako10Command.n_reset = 0;
             }
         break;

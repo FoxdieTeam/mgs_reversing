@@ -19,8 +19,6 @@ typedef struct _Work
     int      shaded;    // 0x124
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 #define OBJECT_FLAG ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE )
 
 void      Takabe_FreeObjs(DG_OBJS *objs);
@@ -117,13 +115,13 @@ void *NewParkingGate(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "pk_gate.c");
         if (GetResources(work, name, where) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }

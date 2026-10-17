@@ -161,7 +161,7 @@ static void Act(Work *work)
 
     if (work->time <= 0)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
         return;
     }
 
@@ -247,7 +247,7 @@ void *NewSpark2L(MATRIX *world)
 
         if (GetResources(work, world) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }

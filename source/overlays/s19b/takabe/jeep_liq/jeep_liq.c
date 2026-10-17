@@ -372,7 +372,7 @@ void s19b_jeep_liq_800D7B3C(Jeep2Work *work, Jeep2Func arg1)
 
 int s19b_jeep_liq_800D7B60(int center, int range)
 {
-    return (rand() * range >> 15) - range / 2 + center;
+    return ((rand() * range) >> 15) - range / 2 + center;
 }
 void s19b_jeep_liq_800D7BB0(Jeep2Work *work)
 {
@@ -655,11 +655,11 @@ void s19b_jeep_liq_800D8250(LiqWork *work)
     work->adjust[6].vx = work->sv_7B8.vx;
     if ((work->f940 & 3) == 1)
     {
-        work->obj.objs->flag |= DG_FLAG_INVISIBLE;
+        DG_InvisibleObjs(work->obj.objs);
     }
     else
     {
-        work->obj.objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs(work->obj.objs);
     }
 }
 #define LIQ_BODY_FLAG   (DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND)

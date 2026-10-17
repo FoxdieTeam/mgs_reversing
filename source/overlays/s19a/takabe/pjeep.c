@@ -1,4 +1,5 @@
 #include "mgstype.h"
+#include "strcode.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
@@ -41,8 +42,6 @@ typedef struct _Work
     HZD_HDL *hzd;           // 0x59C
     HZD_SEG  segs[8];       // 0x5A0
 } Work;
-
-#define EXEC_LEVEL GV_ACTOR_USER
 
 /* used by pkjp_sne.c and pkjp_mrl.c */
 DG_OBJS *SECTION(".bss") PkJeep_800E0E10;
@@ -136,7 +135,7 @@ static void Act(Work *work)
             work->time = 0;
             Voicesys_800CE2D0();
             PkJeep_800E0E1C = 255;
-            work->object5.objs->flag &= ~DG_FLAG_INVISIBLE;
+            DG_VisibleObjs(work->object5.objs);
             work->light2[0].t[0] = 128;
             work->light2[0].t[1] = 128;
             work->light2[0].t[2] = 128;
@@ -195,7 +194,7 @@ static void Act(Work *work)
         if (work->time == 1)
         {
             work->speed = 0;
-            THING_Msg_SendMessage(0x21CA, 0x3223);
+            THING_Msg_SendMessage(SNAKE_NAME, HASH_KILL);
             work->snake = NewPkJeepSnake(control, &work->body.objs->world);
         }
         else if (work->time < 15)
@@ -459,7 +458,7 @@ static int GetResources(Work *work, int name, int where)
     GM_InitObjectNoRots(obj, 0xDA10, 0x16D, 0);
     obj->objs->root = &work->body.objs->world;
     GM_ConfigObjectLight((OBJECT *)obj, work->light2);
-    obj->objs->flag |= DG_FLAG_INVISIBLE;
+    DG_InvisibleObjs(obj->objs);
 
     work->light2[0].t[0] = 0;
     work->light2[0].t[1] = 0;
@@ -500,13 +499,13 @@ void *NewPkJeep(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, PkJeepDie, "pjeep.c");
         if (GetResources(work, name, where) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }
@@ -600,7 +599,7 @@ void s19a_800D9E98(Work *work, int speed)
 
     if (hit)
     {
-        GM_SeSetMode(&target->center, 0x25, GM_SEMODE_BOMB);
+        GM_SeSetMode(&target->center, SE_HIT, GM_SEMODE_BOMB);
         NewPadVibration(pjeep_vib, 2);
     }
 }

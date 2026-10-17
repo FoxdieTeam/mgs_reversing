@@ -36,8 +36,6 @@ typedef struct _Work
     int            proc;            // 0x53C
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_PREV
-
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
 extern CONTROL *tenage_ctrls_800BDD30[16];
@@ -239,7 +237,7 @@ static void Act(Work *work)
         {
             GM_PlayerControl->rot.vy = work->rot;
             GM_PlayerControl->turn.vy = work->rot;
-            GM_PlayerBody->objs->flag |= DG_FLAG_INVISIBLE;
+            DG_InvisibleObjs(GM_PlayerBody->objs);
             GM_NoisePower = 0;
             GM_NoiseLength = 0;
         }
@@ -247,7 +245,7 @@ static void Act(Work *work)
         if (work->time == 3)
         {
             GV_PadMask = 0;
-            GM_GameStatus = (GM_GameStatus & 0xEFB5DFFF) | 0x08001000;
+            GM_GameStatus = (GM_GameStatus & ~(STATE_PAUSE_ONLY | STATE_PADRELEASE)) | STATE_PADMASK | 0x1000;
             work->weapon = GM_Weapon;
             GM_Weapon = 4;
             work->item = GM_Item;
@@ -273,7 +271,7 @@ static void Act(Work *work)
         GV_PadData[0].press = 0;
         GV_PadData[0].release = 0;
         Voicesys_800CE310();
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
         return;
     }
 
@@ -312,7 +310,7 @@ static int GetResources(Work *work, int name, int where)
     GV_PadData[0].press = 0;
     GM_PlayerStance = 0;
     GV_PadData[0].status = 0;
-    GM_GameStatus |= 0x184A2000;
+    GM_GameStatus |= (STATE_PAUSE_ONLY | STATE_PADRELEASE | STATE_PADMASK);
     GM_Camera.first_person = 2;
 
     work->rot = THING_Gcl_GetInt('r');
@@ -367,14 +365,14 @@ void *NewMgDemo1(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "mg_demo1.c");
 
         if (GetResources(work, name, where) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
 

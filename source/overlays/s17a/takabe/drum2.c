@@ -26,8 +26,6 @@ typedef struct _Work
     int     proc;           // 0x218
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_PAINT | DG_FLAG_TRANS | DG_FLAG_BOUND | DG_FLAG_ONEPIECE )
 
 extern BLAST_DATA blast_data_8009F4B8[8];
@@ -124,7 +122,7 @@ static void Act(Work *work)
             NewDrumSmoke(&world, 0, 150);
             NewDrumFire(&world, 0, 100);
 
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
         }
 
         target->damaged &= ~(TARGET_POWER | TARGET_PUSH);
@@ -218,13 +216,13 @@ void *NewDrumCan2(int name, int where)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "drum2.c");
         if (GetResources(work, name, where) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }

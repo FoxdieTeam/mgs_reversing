@@ -40,7 +40,7 @@ void *NewHindBoss(int name, int where)
 
     if (GM_InitControl(&work->control, name, where) < 0)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
         return NULL;
     }
 

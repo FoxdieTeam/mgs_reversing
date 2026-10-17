@@ -45,15 +45,13 @@ typedef struct _Work
     int            unused;                              // 0xABC
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_BOUND | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT )
 
 extern int s17a_dword_800E5E30;
 
 int s01a_800E1FCC(SVECTOR *in0, VECTOR *in1, SVECTOR *out, int len);
 
-unsigned short mg_laser_msgs[2] = {0x5E8B, HASH_KILL};
+unsigned short mg_laser_msgs[2] = {HASH_STOP, HASH_KILL};
 
 DG_DEF mg_laser_def = {
     1,                      // n_models
@@ -237,7 +235,7 @@ static void Act(Work *work)
         break;
 
     case 1:
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
         return;
     }
 
@@ -371,7 +369,7 @@ static void Act(Work *work)
 
     if (--work->time < -8)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
     }
 }
 
@@ -452,14 +450,14 @@ void *NewMgLaser(MATRIX *root, int side, int power, int time)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "mg_laser.c");
 
         if (GetResources(work, root, side, power) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
 

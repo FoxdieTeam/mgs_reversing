@@ -126,7 +126,7 @@ void s19b_jlamp_800D08C8(Work *work)
 }
 void s19b_jlamp_800D08F0(void)
 {
-    GM_GameStatus &= ~0x40000000;
+    GM_GameStatus &= ~STATE_PADDEMO;
     Takabe_JeepSystem.flags_54 &= ~0x10000000;
 }
 void s19b_jlamp_800D0928(Work *work)
@@ -187,7 +187,7 @@ void s19b_jlamp_800D0A20(int arg0)
         return;
     }
     GV_DemoPadStatus[0] = 0;
-    GM_GameStatus |= 0x40000000;
+    GM_GameStatus |= STATE_PADDEMO;
 }
 
 void s19b_jlamp_800D0ABC(void)

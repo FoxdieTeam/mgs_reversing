@@ -17,7 +17,7 @@ typedef struct _MGREX_WORK
 {
     GV_ACT          actor;
     CONTROL         control;            // 0x20
-    OBJECT          body;               // 0x9C  "mgrexw"
+    OBJECT          objWaist;           // 0x9C  "mgrexw"
     OBJECT          leg_l;              // 0x180 "mgrexll"
     OBJECT          leg_r;              // 0x264 "mgrexrl"
     MATRIX          light[2];           // 0x348
@@ -167,7 +167,7 @@ typedef struct _MGREX_WORK
     int             f1768;
     int             f176C;
     OBJECT_NO_ROTS  pit_t;              // 0x1770 "pit_t"
-    OBJECT          pit_liq;            // 0x1794 "pit_liq"
+    OBJECT          objCockpit2;        // 0x1794 "pit_liq"
     OBJECT_NO_ROTS  pit_u;              // 0x1878 "pit_u"
     OBJECT_NO_ROTS  radar;              // 0x189C "radar_f1" / "radar_f3"
     OBJECT_NO_ROTS  hatch_l;            // 0x18C0 "l_hatch1" + n
@@ -193,7 +193,7 @@ typedef struct _MGREX_WORK
     SVECTOR         f198C;
     SVECTOR         f1994;
     SVECTOR         f199C;
-    SVECTOR         f19A4;
+    SVECTOR         svectRailGunJointAngle;
     CONTROL         control2;           // 0x19AC
     DG_OBJ         *radar_parent;       // 0x1A28
     SVECTOR         player_pos;         // 0x1A2C
@@ -201,7 +201,7 @@ typedef struct _MGREX_WORK
     int             f1A38;
     int             f1A3C;
     int             f1A40;
-    SVECTOR         f1A44;
+    SVECTOR         svectSearchAngle;
     int             f1A4C;
     int             f1A50;
     int             f1A54;

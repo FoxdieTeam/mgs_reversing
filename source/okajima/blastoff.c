@@ -88,7 +88,7 @@ static void Act(Work *work)
         UpdatePrim(work);
         if (work->field_44 == 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return;
         }
         work->field_44--;
@@ -184,7 +184,7 @@ void *NewBlastoff(SVECTOR *arg0, int arg1, int arg2, int *arg3)
         GV_SetNamedActor(&work->actor, Act, Die, "blastoff.c");
         if (GetResources(work, arg0, arg1, arg2, arg3) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }

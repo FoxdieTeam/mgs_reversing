@@ -20,8 +20,6 @@ typedef struct _Work
     int            time;        // 0xC8
 } Work;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
 SVECTOR mg_hatch_speed = {0, 0, 300};
@@ -62,7 +60,7 @@ static void Act(Work *work)
 
         if (work->pos.vy < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
         }
     }
 
@@ -73,17 +71,17 @@ static void Act(Work *work)
     {
         if (work->time & 1)
         {
-            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+            DG_VisibleObjs(work->body.objs);
         }
         else
         {
-            work->body.objs->flag |= DG_FLAG_INVISIBLE;
+            DG_InvisibleObjs(work->body.objs);
         }
     }
 
     if (work->time > 80)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
     }
 
     work->time++;
@@ -123,14 +121,14 @@ void *NewMgHatch(MATRIX *world)
 {
     Work *work;
 
-    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
+    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "mg_hatch.c");
 
         if (GetResources(work, world) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }

@@ -46,8 +46,6 @@ typedef struct _BubbleWork
     int         time;                   // 0x170
 } BubbleWork;
 
-#define EXEC_LEVEL GV_ACTOR_USER
-
 void *NewMetalGearLaser(MATRIX *root);
 void  s01a_object_800D96B8(MATRIX *world, int arg1, char arg2, char arg3, char arg4, char arg5, char arg6, char arg7, char arg8, char *ptr);
 
@@ -65,7 +63,7 @@ void *NewNinjaLaser(MATRIX *root, int size, int time)
     int     i;
 
     tex = DG_GetTexture(GV_StrCode("blue_bonbori"));
-    if (tex == NULL || (work = GV_NewActor(EXEC_LEVEL, sizeof(Work))) == NULL)
+    if (tex == NULL || (work = GV_NewActor(GV_ACTOR_USER, sizeof(Work))) == NULL)
     {
         return NULL;
     }
@@ -139,7 +137,7 @@ void s17a_800D4DC0(Work *work)
 
     if (work->time <= 0)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
         return;
     }
 
@@ -349,7 +347,7 @@ void *NewNinjaLaserBubble(MATRIX *world)
     int         len;
 
     tex = DG_GetTexture(GV_StrCode("awa_3"));
-    if (tex == NULL || (work = GV_NewActor(EXEC_LEVEL, sizeof(BubbleWork))) == NULL)
+    if (tex == NULL || (work = GV_NewActor(GV_ACTOR_USER, sizeof(BubbleWork))) == NULL)
     {
         return NULL;
     }
@@ -454,7 +452,7 @@ static void BubbleAct(BubbleWork *work)
 
     if (--work->time <= 0)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
         return;
     }
 

@@ -5,6 +5,7 @@
 #include "takabe/fadeio.h"
 #include "linkvar.h"
 #include "mgrex.h"
+#include "sound/g_sound.h"
 
 /* Metal Gear REX: main actor functions (the original file name is unknown) */
 
@@ -72,7 +73,7 @@ void MgRex_Act(MGREX_WORK *work)
     work->body_rots[0].vy = work->f176C;
     memset(&work->body_control.step, 0, sizeof(SVECTOR));
 
-    GM_ActMotion(&work->body);
+    GM_ActMotion(&work->objWaist);
     GM_ActMotion(&work->leg_l);
     GM_ActMotion(&work->leg_r);
 
@@ -82,10 +83,10 @@ void MgRex_Act(MGREX_WORK *work)
     work->control.step.vy = 0;
     work->control.step.vx = work->body_control.step.vx * 10;
     work->control.step.vz = work->body_control.step.vz * 10;
-    work->control.mov.vy = work->body.height * 10;
+    work->control.mov.vy = work->objWaist.height * 10;
 
     GM_ActControl(&work->control);
-    GM_ActObject(&work->body);
+    GM_ActObject(&work->objWaist);
 
     DG_GetLightMatrix(&work->control.mov, work->light);
     DG_GetLightMatrix2(&work->control.mov, work->pit_light);
@@ -100,7 +101,7 @@ void MgRex_Act(MGREX_WORK *work)
     work->body_rots[7].vx = 0;
     work->body_rots[7].vy = 0;
     work->body_rots[7].vz = 0;
-    work->body_rots[8] = work->f19A4;
+    work->body_rots[8] = work->svectRailGunJointAngle;
 
     if (work->mode >= 3)
     {
@@ -109,7 +110,7 @@ void MgRex_Act(MGREX_WORK *work)
         work->body_rots[3].vz = 0;
     }
 
-    work->f1A3C = ratan2(work->body.objs->objs[4].world.m[0][2], work->body.objs->objs[4].world.m[2][2]) & 0xFFF;
+    work->f1A3C = ratan2(work->objWaist.objs->objs[4].world.m[0][2], work->objWaist.objs->objs[4].world.m[2][2]) & 0xFFF;
 
     switch (work->mode)
     {
@@ -199,7 +200,7 @@ void MgRex_Act(MGREX_WORK *work)
         msg.address = 0xC356;
         msg._len = 2;
         msg.message[0] = 1;
-        msg.message[1] = 0xD5CC;
+        msg.message[1] = HASH_LEAVE;
         GV_SendMessage(&msg);
         work->f1AD0 = 0;
     }
@@ -211,11 +212,11 @@ void MgRex_Act(MGREX_WORK *work)
 
     rot_y = work->body_rots[0].vy;
     work->f176C = rot_y;
-    RotMatrixY(rot_y, &work->body.objs->world);
+    RotMatrixY(rot_y, &work->objWaist.objs->world);
 
     vec = (SVECTOR *)getScratchAddr(0);
     work->body_rots[0].vy = 0;
-    DG_SetPos(&work->body.objs->world);
+    DG_SetPos(&work->objWaist.objs->world);
 
     DG_PutVector(mgrex_bounds, vec, 6);
 
@@ -262,18 +263,18 @@ void MgRex_Die(MGREX_WORK *work)
     int i;
 
     GM_FreeControl(&work->control);
-    GM_FreeObject(&work->body);
+    GM_FreeObject(&work->objWaist);
     GM_FreeObject(&work->leg_l);
     GM_FreeObject(&work->leg_r);
     GM_FreeControl(&work->control2);
     GM_FreeObject((OBJECT *)&work->pit_t);
     GM_FreeObject((OBJECT *)&work->pit_u);
-    GM_FreeObject(&work->pit_liq);
+    GM_FreeObject(&work->objCockpit2);
     GM_FreeObject((OBJECT *)&work->radar);
     GM_FreeObject((OBJECT *)&work->hatch_l);
     GM_FreeObject((OBJECT *)&work->hatch_r);
 
-    work->body.objs->objs[3].model->ty = work->f1A9C;
+    work->objWaist.objs->objs[3].model->ty = work->f1A9C;
 
     GM_FreeTarget(work->target3);
     GM_FreeTarget(work->target4);
@@ -410,7 +411,7 @@ void s17a_800DA9DC(MGREX_WORK *work)
 
     if (work->target_a)
     {
-        DG_SetPos(&work->body.objs->objs[6].world);
+        DG_SetPos(&work->objWaist.objs->objs[6].world);
         DG_PutVector(&mgrex_radar_offset, &pos, 1);
         GM_MoveTarget(work->target_a, &pos);
         work->ctrl_a.mov = pos;
@@ -423,7 +424,7 @@ void s17a_800DA9DC(MGREX_WORK *work)
             work->player_pos = GM_PlayerControl->mov;
             GM_SeSetPan(&pos, 176, 63);
             work->f1968 = 60;
-            NewMgSmoke1Offset(&work->body.objs->objs[6].world, &mgrex_radar_smoke_offset, 1, 90);
+            NewMgSmoke1Offset(&work->objWaist.objs->objs[6].world, &mgrex_radar_smoke_offset, 1, 90);
 
         }
 
@@ -442,7 +443,7 @@ void s17a_800DA9DC(MGREX_WORK *work)
                 GM_FreeObject((OBJECT *)&work->radar);
                 GM_InitObjectNoRots(&work->radar, GV_StrCode("radar_f2"), 0x15D, 0);
                 GM_ConfigObjectLight((OBJECT *)&work->radar, work->light);
-                GM_ConfigObjectRoot((OBJECT *)&work->radar, &work->body, 6);
+                GM_ConfigObjectRoot((OBJECT *)&work->radar, &work->objWaist, 6);
 
                 if (work->target_c)
                 {
@@ -469,9 +470,9 @@ skip_a:
 
     if (work->target_b)
     {
-        pos.vx = work->pit_liq.objs->objs[1].world.t[0];
-        pos.vy = work->pit_liq.objs->objs[1].world.t[1];
-        pos.vz = work->pit_liq.objs->objs[1].world.t[2];
+        pos.vx = work->objCockpit2.objs->objs[1].world.t[0];
+        pos.vy = work->objCockpit2.objs->objs[1].world.t[1];
+        pos.vz = work->objCockpit2.objs->objs[1].world.t[2];
         GM_MoveTarget(work->target_b, &pos);
         work->ctrl_b.mov = pos;
 
@@ -482,9 +483,9 @@ skip_a:
             s17a_800E3BA8(work, 2);
             work->player_pos = GM_PlayerControl->mov;
             GM_SeSetMode(&pos, 190, GM_SEMODE_BOMB);
-            GM_SeSetMode(&pos, 130, GM_SEMODE_BOMB);
+            GM_SeSetMode(&pos, SE_V_ENE_FOUND03, GM_SEMODE_BOMB);
             work->f1968 = 60;
-            NewMgSmoke1Offset(&work->pit_liq.objs->objs[1].world, &mgrex_pit_smoke_offset, 1, 90);
+            NewMgSmoke1Offset(&work->objCockpit2.objs->objs[1].world, &mgrex_pit_smoke_offset, 1, 90);
 
         }
 
@@ -531,7 +532,7 @@ skip_b:
         work->f1AA8 = 0;
         work->mode++;
         GM_ConfigControlAttribute(&work->control2, 1);
-        THING_Msg_SendMessage(0x3B49, 0x5E8B);
+        THING_Msg_SendMessage(0x3B49, HASH_STOP);
         NewFadeInOut(FADEIO_MODE_TOWHITE, 30);
     }
 }
@@ -575,10 +576,10 @@ void MgRex_800DB268(MGREX_WORK *work)
 
         work->f720 = 0;
         mgrex_saved = *work;
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
 
         GM_GameStatus &= ~STATE_JAMMING;
-        GM_GameStatus &= ~0x8000;
+        GM_GameStatus &= ~STATE_SHOW_LIFEBAR;
         GCL_ExecProc(work->f1764, NULL);
     }
 }
@@ -607,9 +608,9 @@ void MgRex_800DB478(MGREX_WORK *work)
 
         work->f720 = 0;
         mgrex_saved = *work;
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
 
-        GM_GameStatus &= ~0x8000;
+        GM_GameStatus &= ~STATE_SHOW_LIFEBAR;
         GCL_ExecProc(work->f1768, NULL);
     }
 }
@@ -630,9 +631,9 @@ void MgRex_800DB63C(MGREX_WORK *work)
     }
     else if (work->frame == 270)
     {
-        pos.vx = work->body.objs->objs[3].world.t[0];
-        pos.vy = work->body.objs->objs[3].world.t[1];
-        pos.vz = work->body.objs->objs[3].world.t[2];
+        pos.vx = work->objWaist.objs->objs[3].world.t[0];
+        pos.vy = work->objWaist.objs->objs[3].world.t[1];
+        pos.vz = work->objWaist.objs->objs[3].world.t[2];
         GM_SeSetPan(&pos, 177, 63);
     }
 
@@ -658,9 +659,9 @@ void MgRex_800DB728(MGREX_WORK *work)
         GM_SetPowerTarget(work->target_b, POWER_DECREASE, -1, work->f5C4, 0, &DG_ZeroVector);
     }
 
-    pos.vx = work->pit_liq.objs->objs[1].world.t[0];
-    pos.vy = work->pit_liq.objs->objs[1].world.t[1];
-    pos.vz = work->pit_liq.objs->objs[1].world.t[2];
+    pos.vx = work->objCockpit2.objs->objs[1].world.t[0];
+    pos.vy = work->objCockpit2.objs->objs[1].world.t[1];
+    pos.vz = work->objCockpit2.objs->objs[1].world.t[2];
     GM_MoveTarget(work->target_b, &pos);
 
     n_msgs = GV_ReceiveMessage(work->name, &msg);
@@ -669,7 +670,7 @@ void MgRex_800DB728(MGREX_WORK *work)
         if (msg->message[0] == HASH_KILL)
         {
             GM_FreeTarget(work->target_b);
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return;
         }
     }
@@ -793,9 +794,9 @@ void MgRex_800DB85C(MGREX_WORK *work)
         mgrex_step_se_timer += GV_PassageTime;
         if (mgrex_step_se_timer >= 6)
         {
-            pos.vx = work->body.objs->objs[6].world.t[0];
-            pos.vy = work->body.objs->objs[6].world.t[1];
-            pos.vz = work->body.objs->objs[6].world.t[2];
+            pos.vx = work->objWaist.objs->objs[6].world.t[0];
+            pos.vy = work->objWaist.objs->objs[6].world.t[1];
+            pos.vz = work->objWaist.objs->objs[6].world.t[2];
             mgrex_step_se_timer = 0;
             GM_SeSetMode(&pos, 199, GM_SEMODE_BOMB);
         }
@@ -807,19 +808,19 @@ void MgRex_800DBC24(MGREX_WORK *work)
     MATRIX world;
     MATRIX rot;
 
-    if (work->body.action == 48 && work->body.m_ctrl->info1.frame == 59)
+    if (work->objWaist.action == 48 && work->objWaist.m_ctrl->info1.frame == 59)
     {
         NewMgSmoke2(&work->leg_l.objs->objs[7].world, &mgrex_leg_smoke_offset, &mgrex_leg_smoke_dir, 30);
         NewMgSmoke2(&work->leg_r.objs->objs[7].world, &mgrex_leg_smoke_offset, &mgrex_leg_smoke_dir, 30);
     }
 
-    if (work->body.action == 12 && work->body.m_ctrl->info1.frame == 18)
+    if (work->objWaist.action == 12 && work->objWaist.m_ctrl->info1.frame == 18)
     {
         NewMgSmoke2(&work->leg_l.objs->objs[7].world, &mgrex_leg_smoke_offset, &mgrex_leg_smoke_dir, 8);
         NewMgSmoke2(&work->leg_r.objs->objs[7].world, &mgrex_leg_smoke_offset, &mgrex_leg_smoke_dir, 8);
     }
 
-    if (work->body.action == 9 && work->body.m_ctrl->info1.frame == 24)
+    if (work->objWaist.action == 9 && work->objWaist.m_ctrl->info1.frame == 24)
     {
         NewMgSmoke2(&work->leg_l.objs->objs[7].world, &mgrex_leg_smoke_offset, &mgrex_leg_smoke_dir, 10);
         NewMgSmoke2(&work->leg_r.objs->objs[7].world, &mgrex_leg_smoke_offset, &mgrex_leg_smoke_dir, 10);

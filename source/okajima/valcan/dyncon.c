@@ -915,7 +915,7 @@ void s15c_dyncon_800D6528(DynCon *work)
 
     if (valcan_dead_800E3468 == 1)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
     }
 
     if (work->field_4050 == 1)
@@ -1309,7 +1309,7 @@ void s15c_dyncon_800D6528(DynCon *work)
 
                 if (work->field_4050 == 1)
                 {
-                    GM_SeSet(&work->boxes[index + 4].pos, 0x29);
+                    GM_SeSet(&work->boxes[index + 4].pos, SE_EXPLOSION);
                 }
             }
             break;
@@ -1976,7 +1976,7 @@ GV_ACT *s15c_dyncon_800D8C9C(int name, int where)
         GV_SetNamedActor(&work->actor, s15c_dyncon_800D6528, s15c_dyncon_800D89F8, "dyncon.c");
         if (s15c_dyncon_800D8A9C(work, where) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }

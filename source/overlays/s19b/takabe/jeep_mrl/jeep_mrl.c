@@ -14,12 +14,12 @@ typedef void (*ACTION)(MerylJeepWork *, int);
 
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND )
 
-#define SetState(work, func)                    \
-{                                               \
-    (work)->action = (func);                    \
-    (work)->time = 0;                           \
-    (work)->control.turn.vz = 0;                \
-    (work)->control.turn.vx = 0;                \
+static inline void SetMode(MerylJeepWork *work, ACTION action)
+{
+    work->action = action;
+    work->time = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
 }
 
 void sna_act_helper2_helper2_80033054(int face, SVECTOR *rot);
@@ -134,7 +134,7 @@ void *s19b_jeep_mrl_800D40D4(CONTROL *root_ctrl, MATRIX *root_mat, int which)
 
         if (GetResources(work, GV_StrCode("meryl"), which) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }
@@ -159,37 +159,37 @@ static int CheckFlags(MerylJeepWork *work)
 
     if (flags & 0x2)
     {
-        SetState(work, StateDamage);
+        SetMode(work, StateDamage);
         return 1;
     }
 
     if (flags & 0x1)
     {
-        SetState(work, StateIdle);
+        SetMode(work, StateIdle);
         return 1;
     }
 
     if (flags & 0x20)
     {
-        SetState(work, StateDuck1);
+        SetMode(work, StateDuck1);
         return 1;
     }
 
     if (flags & 0x200)
     {
-        SetState(work, StateShout1);
+        SetMode(work, StateShout1);
         return 1;
     }
 
     if (flags & 0x1000)
     {
-        SetState(work, StateCrouch);
+        SetMode(work, StateCrouch);
         return 1;
     }
 
     if ((flags & 0x10000) == 0)
     {
-        SetState(work, StateLook);
+        SetMode(work, StateLook);
         return 1;
     }
 
@@ -246,7 +246,7 @@ static void StateLook(MerylJeepWork *work, int time)
         work->head_rot = 0;
         if (CheckFlags(work) == 0)
         {
-            SetState(work, StateIdle);
+            SetMode(work, StateIdle);
         }
     }
 }
@@ -261,7 +261,7 @@ static void StateCrouch(MerylJeepWork *work, int time)
 
     if (work->flags & 0x10000)
     {
-        SetState(work, StateIdle);
+        SetMode(work, StateIdle);
     }
 }
 
@@ -275,7 +275,7 @@ static void StateDuck1(MerylJeepWork *work, int time)
 
     if (CheckFlags(work) != 0) return;
     if (work->body.is_end == 0) return;
-    SetState(work, StateDuck2);
+    SetMode(work, StateDuck2);
 }
 
 static void StateDuck2(MerylJeepWork *work, int time)
@@ -288,7 +288,7 @@ static void StateDuck2(MerylJeepWork *work, int time)
 
     if (CheckFlags(work) != 0) return;
     if (work->flags & 0x20000) return;
-    SetState(work, StateDuck3);
+    SetMode(work, StateDuck3);
 }
 
 static void StateDuck3(MerylJeepWork *work, int time)
@@ -301,7 +301,7 @@ static void StateDuck3(MerylJeepWork *work, int time)
 
     if (CheckFlags(work) != 0) return;
     if (work->body.is_end == 0) return;
-    SetState(work, StateIdle);
+    SetMode(work, StateIdle);
 }
 
 static void StateShout1(MerylJeepWork *work, int time)
@@ -314,7 +314,7 @@ static void StateShout1(MerylJeepWork *work, int time)
 
     if (CheckFlags(work) != 0) return;
     if (work->body.is_end == 0) return;
-    SetState(work, StateShout2);
+    SetMode(work, StateShout2);
 }
 
 static void StateShout2(MerylJeepWork *work, int time)
@@ -327,7 +327,7 @@ static void StateShout2(MerylJeepWork *work, int time)
 
     if (CheckFlags(work) != 0) return;
     if (work->flags & 0x20000) return;
-    SetState(work, StateShout3);
+    SetMode(work, StateShout3);
 }
 
 static void StateShout3(MerylJeepWork *work, int time)
@@ -340,7 +340,7 @@ static void StateShout3(MerylJeepWork *work, int time)
 
     if (CheckFlags(work) != 0) return;
     if (work->body.is_end == 0) return;
-    SetState(work, StateIdle);
+    SetMode(work, StateIdle);
 }
 
 static void StateDamage(MerylJeepWork *work, int time)
@@ -353,7 +353,7 @@ static void StateDamage(MerylJeepWork *work, int time)
     }
 
     if (work->body.is_end == 0) return;
-    SetState(work, StateIdle);
+    SetMode(work, StateIdle);
 }
 
 static void ActionMain2(MerylJeepWork *work)
@@ -379,6 +379,6 @@ static void ActionMain2(MerylJeepWork *work)
 static void ActionMain(MerylJeepWork *work)
 {
     work->flags = Takabe_JeepSystem.flags_50;
-    Takabe_JeepSystem.flags_50 &= 0xFFFF0000;
+    Takabe_JeepSystem.flags_50 &= ~0xFFFF;
     ActionMain2(work);
 }

@@ -9,6 +9,7 @@
 #include "okajima/blood.h"
 #include "anime/animconv/anime.h"
 #include "takabe/cineutil.h"
+#include "sound/g_sound.h"
 
 /* Liquid's brain and moves (a cut-down copy of the snake code), original file name unknown */
 
@@ -766,7 +767,7 @@ void s18a_800C84B8(LiquidWork *work, int time)
 
     if (time == 53)
     {
-        GM_SeSet(&work->control.mov, 50);
+        GM_SeSet(&work->control.mov, SE_C4_SWITCH);
     }
 
     if (work->body.is_end)
@@ -1427,7 +1428,7 @@ void s18a_800C97AC(LiquidWork *work, int time)
     if (time == 6)
     {
         hit = s18a_800C7A68(work, 1);
-        GM_SeSet(&control->mov, 56);
+        GM_SeSet(&control->mov, SE_PUNCH_SWING);
     }
 
     if (time == 11)
@@ -1439,7 +1440,7 @@ void s18a_800C97AC(LiquidWork *work, int time)
     if (time == 15)
     {
         hit = s18a_800C7A68(work, 0);
-        GM_SeSet(&control->mov, 56);
+        GM_SeSet(&control->mov, SE_PUNCH_SWING);
     }
 
     if (s18a_800C7684(work))
@@ -1454,7 +1455,7 @@ void s18a_800C97AC(LiquidWork *work, int time)
 
     if (hit)
     {
-        GM_SeSet(&control->mov, 52);
+        GM_SeSet(&control->mov, SE_PUNCH_HIT);
     }
 
     if (work->body.is_end)
@@ -1482,12 +1483,12 @@ void s18a_800C990C(LiquidWork *work, int time)
     if (time == 4)
     {
         hit = s18a_800C7A68(work, 9);
-        GM_SeSet(&work->control.mov, 57);
+        GM_SeSet(&work->control.mov, SE_KICK_SWING);
     }
 
     if (hit)
     {
-        GM_SeSet(&work->control.mov, 52);
+        GM_SeSet(&work->control.mov, SE_PUNCH_HIT);
     }
 
     if (s18a_800C7684(work))
@@ -1523,14 +1524,14 @@ void s18a_800C9A0C(LiquidWork *work, int time)
 
     if (time == 10)
     {
-        GM_SeSet(&control->mov, 57);
+        GM_SeSet(&control->mov, SE_KICK_SWING);
     }
 
     if (time == 12)
     {
         if (s18a_800C7A68(work, 3))
         {
-            GM_SeSet(&control->mov, 53);
+            GM_SeSet(&control->mov, SE_KICK_HIT);
         }
     }
 
@@ -1617,7 +1618,7 @@ void s18a_800C9C2C(LiquidWork *work, int time)
     if (time == 3)
     {
         hit = s18a_800C7A68(work, 2);
-        GM_SeSet(&control->mov, 56);
+        GM_SeSet(&control->mov, SE_PUNCH_SWING);
     }
 
     if (time == 12)
@@ -1630,7 +1631,7 @@ void s18a_800C9C2C(LiquidWork *work, int time)
     if (time == 19)
     {
         hit = s18a_800C7A68(work, 2);
-        GM_SeSet(&control->mov, 56);
+        GM_SeSet(&control->mov, SE_PUNCH_SWING);
     }
 
     if (time == 30)
@@ -1643,7 +1644,7 @@ void s18a_800C9C2C(LiquidWork *work, int time)
     if (time == 33)
     {
         hit = s18a_800C7A68(work, 2);
-        GM_SeSet(&control->mov, 56);
+        GM_SeSet(&control->mov, SE_PUNCH_SWING);
     }
 
     if (time == 40)
@@ -1655,7 +1656,7 @@ void s18a_800C9C2C(LiquidWork *work, int time)
     if (time == 52)
     {
         hit = s18a_800C7A68(work, 3);
-        GM_SeSet(&control->mov, 57);
+        GM_SeSet(&control->mov, SE_KICK_SWING);
     }
 
     if (time == 65)
@@ -1668,7 +1669,7 @@ void s18a_800C9C2C(LiquidWork *work, int time)
     if (time == 68)
     {
         hit = s18a_800C7A68(work, 2);
-        GM_SeSet(&control->mov, 56);
+        GM_SeSet(&control->mov, SE_PUNCH_SWING);
     }
 
     if (time == 76)
@@ -1680,7 +1681,7 @@ void s18a_800C9C2C(LiquidWork *work, int time)
     if (time == 80)
     {
         hit = s18a_800C7A68(work, 2);
-        GM_SeSet(&work->control.mov, 57);
+        GM_SeSet(&work->control.mov, SE_KICK_SWING);
     }
 
     if (time == 86)
@@ -1692,7 +1693,7 @@ void s18a_800C9C2C(LiquidWork *work, int time)
     if (time == 98)
     {
         hit = s18a_800C7A68(work, 3);
-        GM_SeSet(&work->control.mov, 57);
+        GM_SeSet(&work->control.mov, SE_KICK_SWING);
     }
 
     if (time == 110)
@@ -1704,7 +1705,7 @@ void s18a_800C9C2C(LiquidWork *work, int time)
     if (time == 114)
     {
         hit = s18a_800C7A68(work, 2);
-        GM_SeSet(&work->control.mov, 57);
+        GM_SeSet(&work->control.mov, SE_KICK_SWING);
     }
 
     if (time == 120)
@@ -1716,7 +1717,7 @@ void s18a_800C9C2C(LiquidWork *work, int time)
     if (time == 123)
     {
         hit = s18a_800C7A68(work, 2);
-        GM_SeSet(&work->control.mov, 56);
+        GM_SeSet(&work->control.mov, SE_PUNCH_SWING);
     }
 
     if (time == 143)
@@ -1728,7 +1729,7 @@ void s18a_800C9C2C(LiquidWork *work, int time)
     if (time == 155)
     {
         hit = s18a_800C7A68(work, 3);
-        GM_SeSet(&work->control.mov, 57);
+        GM_SeSet(&work->control.mov, SE_KICK_SWING);
     }
 
     frame = work->m_ctrl.info1.frame;
@@ -1821,7 +1822,7 @@ void s18a_800CA1A4(LiquidWork *work, int time)
     {
         work->pose = 29;
         GM_ConfigObjectAction(&work->body, s18a_liquid_motions[29], 0, 8);
-        GM_SeSetMode(&control->mov, 132, 1);
+        GM_SeSetMode(&control->mov, SE_V_ENE_LOST, 1);
     }
 
     if (time < 15)
@@ -1838,7 +1839,7 @@ void s18a_800CA1A4(LiquidWork *work, int time)
 
     if (time == base + 2)
     {
-        GM_SeSet(&control->mov, 57);
+        GM_SeSet(&control->mov, SE_KICK_SWING);
     }
 
     if (time == base + 16)
@@ -1919,7 +1920,7 @@ void s18a_800CA440(LiquidWork *work, int time)
     if (time == 7)
     {
         s18a_800C7A68(work, 1);
-        GM_SeSet(&control->mov, 56);
+        GM_SeSet(&control->mov, SE_PUNCH_SWING);
     }
 
     if (time == 12)
@@ -1932,7 +1933,7 @@ void s18a_800CA440(LiquidWork *work, int time)
     if (time == 17)
     {
         s18a_800C7A68(work, 0);
-        GM_SeSet(&control->mov, 56);
+        GM_SeSet(&control->mov, SE_PUNCH_SWING);
     }
 
     if (time == 21)
@@ -1944,7 +1945,7 @@ void s18a_800CA440(LiquidWork *work, int time)
     if (time == 25)
     {
         s18a_800C7A68(work, 2);
-        GM_SeSet(&control->mov, 57);
+        GM_SeSet(&control->mov, SE_KICK_SWING);
     }
 
     frame = work->m_ctrl.info1.frame;
@@ -2027,7 +2028,7 @@ void s18a_800CA6E0(LiquidWork *work, int time)
     if (time == 6)
     {
         hit = s18a_800C7A68(work, 1);
-        GM_SeSet(&control->mov, 56);
+        GM_SeSet(&control->mov, SE_PUNCH_SWING);
     }
 
     if (time == 11)
@@ -2039,7 +2040,7 @@ void s18a_800CA6E0(LiquidWork *work, int time)
     if (time == 15)
     {
         hit = s18a_800C7A68(work, 0);
-        GM_SeSet(&control->mov, 56);
+        GM_SeSet(&control->mov, SE_PUNCH_SWING);
     }
 
     if (time == 19)
@@ -2050,7 +2051,7 @@ void s18a_800CA6E0(LiquidWork *work, int time)
     if (time == 23)
     {
         hit = s18a_800C7A68(work, 2);
-        GM_SeSet(&control->mov, 57);
+        GM_SeSet(&control->mov, SE_KICK_SWING);
     }
 
     if (time == 35)
@@ -2066,11 +2067,11 @@ void s18a_800CA6E0(LiquidWork *work, int time)
 
         if (!s18a_liquid_After(time, 15))
         {
-            GM_SeSet(&control->mov, 52);
+            GM_SeSet(&control->mov, SE_PUNCH_HIT);
         }
         else
         {
-            GM_SeSet(&control->mov, 53);
+            GM_SeSet(&control->mov, SE_KICK_HIT);
         }
     }
 
@@ -2474,8 +2475,8 @@ void s18a_800CB310(LiquidWork *work, int time)
             work->life = 0;
         }
 
-        GM_SeSet(&control->mov, 52);
-        GM_SeSetMode(&control->mov, 135, 1);
+        GM_SeSet(&control->mov, SE_PUNCH_HIT);
+        GM_SeSetMode(&control->mov, SE_V_ENE_NOISE, 1);
         s18a_800CC488(work, 6);
     }
 
@@ -2522,8 +2523,8 @@ void s18a_800CB418(LiquidWork *work, int time)
             work->life = 0;
         }
 
-        GM_SeSet(&control->mov, 53);
-        GM_SeSetMode(&control->mov, 134, 1);
+        GM_SeSet(&control->mov, SE_KICK_HIT);
+        GM_SeSetMode(&control->mov, SE_V_ENE_NOTHING, 1);
         s18a_800CC488(work, 6);
     }
 
@@ -2555,7 +2556,7 @@ void s18a_800CB56C(LiquidWork *work, int time)
     {
         work->pose = 31;
         GM_ConfigObjectAction(&work->body, s18a_liquid_motions[31], 0, 1);
-        GM_SeSet(&control->mov, 57);
+        GM_SeSet(&control->mov, SE_KICK_SWING);
     }
 
     work->f90C = -1000;
@@ -2603,8 +2604,8 @@ void s18a_800CB640(LiquidWork *work, int time)
             work->life = 0;
         }
 
-        GM_SeSet(&control->mov, 53);
-        GM_SeSetMode(&control->mov, 134, 1);
+        GM_SeSet(&control->mov, SE_KICK_HIT);
+        GM_SeSetMode(&control->mov, SE_V_ENE_NOTHING, 1);
         control->rot.vy = control->turn.vy = work->f9AC;
     }
 
@@ -2707,7 +2708,7 @@ void s18a_800CB8AC(LiquidWork *work, int time)
 
     if (hit)
     {
-        GM_SeSet(&control->mov, 53);
+        GM_SeSet(&control->mov, SE_KICK_HIT);
     }
 
     if (time == 41)
@@ -2743,7 +2744,7 @@ void s18a_800CB9D0(LiquidWork *work, int time)
     if (time == 0)
     {
         s18a_liquid_SetPose(work, 24);
-        GM_SeSetMode(&control->mov, 134, 1);
+        GM_SeSetMode(&control->mov, SE_V_ENE_NOTHING, 1);
 
         work->life -= work->damage1[2];
         if (work->life < 0)
@@ -2760,7 +2761,7 @@ void s18a_800CB9D0(LiquidWork *work, int time)
     if (time == 21)
     {
         GM_SeSet(&work->control.mov, 177);
-        GM_SeSetMode(&work->control.mov, 135, 1);
+        GM_SeSetMode(&work->control.mov, SE_V_ENE_NOISE, 1);
     }
 
     if (time == 59)
@@ -3004,7 +3005,7 @@ void s18a_800CC0F0(LiquidWork *work, int time)
         s18a_liquid_SetPose(work, 25);
         work->control.turn = GM_PlayerControl->rot;
         s18a_800C80B8(work, 1);
-        GM_SeSetMode(&work->control.mov, 135, 1);
+        GM_SeSetMode(&work->control.mov, SE_V_ENE_NOISE, 1);
     }
 
     if (s18a_800C7A18(work))
@@ -3033,11 +3034,11 @@ void s18a_800CC1F0(LiquidWork *work)
     {
         if (work->f948 & 2)
         {
-            work->body.objs->flag |= DG_FLAG_INVISIBLE;
+            DG_InvisibleObjs(work->body.objs);
         }
         else
         {
-            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+            DG_VisibleObjs(work->body.objs);
         }
 
         work->target->class = 1;
@@ -3164,7 +3165,7 @@ void s18a_800CC4F0(LiquidWork *work)
     DG_SetPos(world);
     DG_MovePos(&s18a_dword_800C3394);
     ReadRotMatrix(&mat);
-    GM_SeSet(&work->control.mov, 73);
+    GM_SeSet(&work->control.mov, SE_SOCOM_SHOT2);
     AN_SocomFlash(world, &mat, 0);
     s18a_800CC6A8(work, s18a_800CC4F0);
 }

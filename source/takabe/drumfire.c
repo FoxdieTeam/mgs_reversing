@@ -45,7 +45,7 @@ static void Act(Work *work)
 
         if (work->count == 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return;
         }
 
@@ -86,7 +86,7 @@ void *NewDrumFire(MATRIX *world, int flag, int time)
 
         if (GetResources(work, world, flag, time) < 0)
         {
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
     }

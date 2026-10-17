@@ -219,8 +219,8 @@ void s11g_11g_demo_800CB994(Work *work)
     
     GM_CurrentMap = work->map;
 
-    GM_GameStatus |= 0x4A0040;
-    GM_GameStatus |= 0x10000000;
+    GM_GameStatus |= (STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF | STATE_CUT_IN);
+    GM_GameStatus |= STATE_PADRELEASE;
 
     if ((GV_Time % 16) == 0)
     {
@@ -643,7 +643,7 @@ static int GetResources(Work *work, int name, int map)
     GV_DemoPadStatus[0] = 0;
     GV_DemoPadStatus[1] = 0;
 
-    GM_GameStatus |= ( STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF | 0x40 );
+    GM_GameStatus |= ( STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF | STATE_CUT_IN );
 
     if (s11g_11g_demo_800CB534(work) < 0)
     {

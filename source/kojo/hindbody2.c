@@ -175,7 +175,7 @@ void s11g_hind_800D6848(HindWork *work)
             work->field_60C.vx += 3000;
             work->field_60C.vy += 3000;
             work->field_60C.vz -= 10000;
-            GM_SeSet2(0, 63, 42);
+            GM_SeSet2(0, 63, SE_ALERT_SIREN);
             GM_SeSet2(0, 63, 191);
             GM_SeSet2(0, 63, 188);
             work->field_5C8 = 21;
@@ -296,7 +296,7 @@ void s11g_hind_800D6848(HindWork *work)
             }
             else
             {
-                GM_SeSet2(0, 63, 79);
+                GM_SeSet2(0, 63, SE_STINGER_LOCKON);
 
                 if (--work->field_5E8 <= 0)
                 {
@@ -324,7 +324,7 @@ void s11g_hind_800D6848(HindWork *work)
         }
         else
         {
-            GM_SeSet2(0, 63, 79);
+            GM_SeSet2(0, 63, SE_STINGER_LOCKON);
             work->field_5C8 = 7;
             work->field_5E4 = 10000;
         }
@@ -333,7 +333,7 @@ void s11g_hind_800D6848(HindWork *work)
     case 7:
         if (dist > 2500)
         {
-            GM_SeSet2(0, 63, 79);
+            GM_SeSet2(0, 63, SE_STINGER_LOCKON);
             s11g_hind_800D60F0(work);
 
             step3.vx = 0;
@@ -384,17 +384,17 @@ void s11g_hind_800D6848(HindWork *work)
 
             if (GV_RandU(2) == 0)
             {
-                GM_SeSet2(0, 255, 41);
+                GM_SeSet2(0, 255, SE_EXPLOSION);
             }
 
             if (GV_RandU(8) == 0)
             {
-                GM_SeSet2(0, 255, 39);
+                GM_SeSet2(0, 255, SE_RICOCHET_WEAK);
             }
 
             if (GV_RandU(16) == 0)
             {
-                GM_SeSet2(0, 255, 40);
+                GM_SeSet2(0, 255, SE_RICOCHET_STRONG);
                 GM_SetNoise(255, 32, &DG_ZeroVector);
             }
 
@@ -612,7 +612,7 @@ void s11g_hind_800D7644(HindWork *work)
             work->field_60C.vx += 3000;
             work->field_60C.vy += 3000;
             work->field_60C.vz += 10000;
-            GM_SeSet2(0, 63, 42);
+            GM_SeSet2(0, 63, SE_ALERT_SIREN);
             GM_SeSet2(0, 63, 191);
             GM_SeSet2(0, 63, 188);
             work->field_5C8 = 21;
@@ -759,7 +759,7 @@ void s11g_hind_800D7644(HindWork *work)
             }
             else
             {
-                GM_SeSet2(0, 63, 79);
+                GM_SeSet2(0, 63, SE_STINGER_LOCKON);
 
                 if (--work->field_5E8 <= 0)
                 {
@@ -787,7 +787,7 @@ void s11g_hind_800D7644(HindWork *work)
         }
         else
         {
-            GM_SeSet2(0, 63, 79);
+            GM_SeSet2(0, 63, SE_STINGER_LOCKON);
             work->field_5C8 = 7;
             work->field_5E4 = 10000;
         }
@@ -796,7 +796,7 @@ void s11g_hind_800D7644(HindWork *work)
     case 7:
         if (dist > 3000)
         {
-            GM_SeSet2(0, 63, 79);
+            GM_SeSet2(0, 63, SE_STINGER_LOCKON);
             s11g_hind_800D60F0(work);
 
             step3.vx = 0;
@@ -862,17 +862,17 @@ void s11g_hind_800D7644(HindWork *work)
 
             if (GV_RandU(2) == 0)
             {
-                GM_SeSet2(0, 255, 41);
+                GM_SeSet2(0, 255, SE_EXPLOSION);
             }
 
             if (GV_RandU(8) == 0)
             {
-                GM_SeSet2(0, 255, 39);
+                GM_SeSet2(0, 255, SE_RICOCHET_WEAK);
             }
 
             if (GV_RandU(16) == 0)
             {
-                GM_SeSet2(0, 255, 40);
+                GM_SeSet2(0, 255, SE_RICOCHET_STRONG);
             }
 
             if (GM_Vitality == 0 || GM_GameOverTimer != 0)
@@ -1087,7 +1087,7 @@ void s11g_hind_800D7644(HindWork *work)
 
             if (work->field_5E4 == 50)
             {
-                GM_SeSet2(0, 127, 130);
+                GM_SeSet2(0, 127, SE_V_ENE_FOUND03);
             }
         }
         else
@@ -1998,7 +1998,7 @@ void s11g_hind_800DAAC8(HindWork *work)
 
     case 3:
         work->field_A74 = 1;
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
         break;
     }
 
@@ -2157,16 +2157,16 @@ void s11g_hind_800DAAC8(HindWork *work)
             AN_Blast_Rand(&tmp);
 
             GM_SeSet2(0, 63, 176);
-            GM_SeSet2(0, 63, 41);
+            GM_SeSet2(0, 63, SE_EXPLOSION);
 
             if (GV_RandU(2))
             {
-                GM_SeSet2(0, 63, 39);
+                GM_SeSet2(0, 63, SE_RICOCHET_WEAK);
             }
 
             if (GV_RandU(2))
             {
-                GM_SeSet2(0, 63, 40);
+                GM_SeSet2(0, 63, SE_RICOCHET_STRONG);
             }
 
             work->control.turn.vx += GV_RandS(512);

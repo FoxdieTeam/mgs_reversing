@@ -606,7 +606,7 @@ void s03d_800CECBC(Work *work, int arg)
     }
     if (arg == 3 && s03d_800CDE1C(work))
     {
-        GM_SeSet(&work->control.mov, 0x25);
+        GM_SeSet(&work->control.mov, SE_HIT);
     }
     work->control.turn.vy = work->field_B94;
     if (Zako_800CDA04(work))
@@ -701,11 +701,11 @@ void s03d_800CF548(Work *work, int arg)
     }
     if (arg == phase + 0x18)
     {
-        GM_SeSet(pos, 0x51);
+        GM_SeSet(pos, SE_ENEMY_COLLAPSE);
     }
     if (arg == phase + 0x2E)
     {
-        GM_SeSet(pos, 0x33);
+        GM_SeSet(pos, SE_HIT_FLOOR);
     }
     if (arg >= phase + 0x32 && work->body.is_end)
     {
@@ -731,7 +731,7 @@ void s03d_800CF844(Work *work, int arg)
             work->field_8E0 = 0x2B;
             GM_ConfigObjectAction(&work->body, s03d_word_800C3A10[19], 0, 4);
         }
-        GM_SeSet(&work->control.mov, 0x36);
+        GM_SeSet(&work->control.mov, SE_ITEM_CURSOR);
     }
     if (arg == 4)
     {
@@ -802,10 +802,10 @@ void s03d_800CFA04(Work *work, int arg)
     {
         work->field_8E0 = 0xF;
         GM_ConfigObjectAction(&work->body, ((short *)&s03d_dword_800C39FC)[1], 0, 4);
-        GM_SeSet(&work->control.mov, 0x8D);
+        GM_SeSet(&work->control.mov, SE_V_ENE_PUNCHED);
         if (t->a_mode == 3)
         {
-            GM_SeSet(&work->control.mov, 0x34);
+            GM_SeSet(&work->control.mov, SE_PUNCH_HIT);
             Zako_800D0B88(work);
         }
         else

@@ -741,7 +741,7 @@ void *NewCrow(int name, int where)
         {
             do
             {
-                GV_DestroyActor(&work->actor);
+                GV_DestroyActor(work);
                 return NULL;
             } while (0);
         }
