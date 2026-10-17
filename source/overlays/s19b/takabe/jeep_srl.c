@@ -483,6 +483,8 @@ static int GetResources(Work *work, int name, int where)
         road++;
     }
 
+    /* NOTE: "for (j = 0; j < JEEP_ROAD_COUNT; j++) work->extra[j] = ..." (indexed, with or without
+       the objs temporary) was tried and generates one extra instruction, so the pointer walk stays. */
     extra = work->extra;
     j = JEEP_ROAD_COUNT;
     do

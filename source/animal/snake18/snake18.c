@@ -1019,6 +1019,7 @@ void d18a_snake18_800CB514(Snake18Work *work)
     angle = sp50.vx;
     if (angle < 0)
         angle += 0xF;
+    /* NOTE: written as ~0xF this compiles to different code, so keep the positive mask */
     angle &= 0xFFF0;
 
     GM_SnakeCamera.rotate2.vx = angle;

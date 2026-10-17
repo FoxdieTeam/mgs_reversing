@@ -30,6 +30,9 @@ typedef struct _Work
     int      proc_end;  // 0x64: called when the time is up
 } Work;
 
+/* These stand in for dumpTPage() from libgpu.h, which was tried and does not match: its last term
+   has no (short) cast around ((t) >> 2) & 0x200, and the original code has one, so the generated
+   code differs (the object grows). */
 #define TPAGE_TP(t)  (((t) >> 7) & 3)
 #define TPAGE_ABR(t) (((t) >> 5) & 3)
 #define TPAGE_X(t)   (((t) << 6) & 0x7C0)
