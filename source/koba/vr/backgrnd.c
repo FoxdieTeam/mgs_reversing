@@ -233,7 +233,7 @@ static int GetResources(Work *work, int map)
 
 /*---------------------------------------------------------------------------*/
 
-void *NewBackground(int name, int where)
+void *NewBackground(int name, int where, int argc, char **argv)
 {
     Work *work;
 
