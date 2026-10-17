@@ -17,6 +17,9 @@ typedef struct _Work
     u_short name;
     u_short visible;
     int     time;
+#ifdef VR_EXE
+    int     count;      /* frames since the actor started, replaces GV_Time */
+#endif
 } Work;
 
 static void Act( Work *work )
@@ -39,6 +42,21 @@ static void Act( Work *work )
         }
     }
 
+#ifdef VR_EXE
+    if ( work->visible )
+    {
+        if ( GM_AlertMode != ALERT_ACTIVE &&
+            !( GM_PlayerStatus & ( PLAYER_WATCH | PLAYER_INTRUDE | PLAYER_MOVE | PLAYER_GAME_OVER ) ) )
+        {
+            body = GM_PlayerBody;
+            if  ( body != NULL && ( work->count % work->time == 0 ) )
+            {
+                AN_Breath( &body->objs->objs[6].world );
+            }
+        }
+        work->count++;
+    }
+#else
     if ( work->visible && GM_AlertMode != ALERT_ACTIVE &&
         !( GM_PlayerStatus & ( PLAYER_WATCH | PLAYER_INTRUDE | PLAYER_MOVE | PLAYER_GAME_OVER ) ) )
     {
@@ -48,6 +66,7 @@ static void Act( Work *work )
             AN_Breath( &body->objs->objs[6].world );
         }
     }
+#endif
 }
 
 static void Die( Work *work )
@@ -68,6 +87,9 @@ static int GetResources( Work *work, int name, int where )
 
     work->name = name;
     work->visible = TRUE;
+#ifdef VR_EXE
+    work->count = 0;
+#endif
     return 0;
 }
 

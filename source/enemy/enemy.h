@@ -172,6 +172,13 @@ typedef struct _WatcherWork
     int            field_C44;                  //0xC44
     short          field_C48;                  //0xC48
     short          field_C4A;                  //0xC4A
+#ifdef VR_EXE
+    GV_ACT        *kogaku_body;                //0xC4C  stealth camouflage (param_blood 'K')
+    GV_ACT        *kogaku_weapon;              //0xC50
+    int            field_C54;                  //0xC54
+    int            field_C58;                  //0xC58
+    int            field_C5C;                  //0xC5C
+#endif
 } WatcherWork;
 
 typedef struct _ZakoWork
