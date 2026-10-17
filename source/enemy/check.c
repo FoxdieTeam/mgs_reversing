@@ -25,10 +25,6 @@ extern int               COM_EYE_LENGTH;
 extern int               COM_PlayerAddressOne[8];
 
 #ifdef VR_EXE
-/* VR only actions (action.c) */
-extern void vr_command_800C4808( WatcherWork *work, int time );
-extern void vr_command_800C48F0( WatcherWork *work, int time );
-
 #define BLOOD_WARP 'W'  /* param_blood: reset straight to the reset zone (no HZD_BoundOutZone) */
 #endif
 
@@ -425,13 +421,13 @@ int CheckPad_800C5A60( WatcherWork *work )
 #ifdef VR_EXE
     if ( press & 0x4000000 )
     {
-        SetMode( work, vr_command_800C4808 );
+        SetMode( work, ActLieDown );
         return 1;
     }
 
     if ( press & 0x8000000 )
     {
-        SetMode( work, vr_command_800C48F0 );
+        SetMode( work, ActHeartbeat );
         return 1;
     }
 #endif

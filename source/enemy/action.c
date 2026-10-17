@@ -805,8 +805,8 @@ void s00a_command_800C6EC8( WatcherWork* work )
 }
 
 #ifdef VR_EXE
-extern void VR_SetStatusFlag( int flag );   // command.c (VR)
-extern void VR_ClearStatusFlag( int flag ); // command.c (VR)
+extern void COM_SetBikkuriFlag( int flag );   // command.c (VR)
+extern void COM_ResetBikkuriFlag( int flag ); // command.c (VR)
 
 #define VR_ST_HOLD_C 0x100  // a 'C'/'E' soldier is being held
 #define VR_ST_HOLD_D 0x200  // a 'D'/'F' soldier is being held
@@ -815,11 +815,11 @@ static inline void SetHoldFlag( WatcherWork *work )
 {
     if ( work->param_blood == 'C' || work->param_blood == 'E' )
     {
-        VR_SetStatusFlag( VR_ST_HOLD_C );
+        COM_SetBikkuriFlag( VR_ST_HOLD_C );
     }
     else if ( work->param_blood == 'D' || work->param_blood == 'F' )
     {
-        VR_SetStatusFlag( VR_ST_HOLD_D );
+        COM_SetBikkuriFlag( VR_ST_HOLD_D );
     }
 }
 
@@ -827,11 +827,11 @@ static inline void ClearHoldFlag( WatcherWork *work )
 {
     if ( work->param_blood == 'C' || work->param_blood == 'E' )
     {
-        VR_ClearStatusFlag( VR_ST_HOLD_C );
+        COM_ResetBikkuriFlag( VR_ST_HOLD_C );
     }
     else if ( work->param_blood == 'D' || work->param_blood == 'F' )
     {
-        VR_ClearStatusFlag( VR_ST_HOLD_D );
+        COM_ResetBikkuriFlag( VR_ST_HOLD_D );
     }
 }
 #endif
