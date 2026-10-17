@@ -37,6 +37,9 @@ def parse_arguments():
     parser.add_argument('--variant', type=str, default='main_exe', choices=['main_exe', 'vr_exe', 'dev_exe'],
                         help='Variant to build: main_exe for MGS Integral Disc 1/2 (SLPM_862.47/SLPM_862.48), vr_exe for MGS Integral VR Disc (SLPM_862.49), dev_exe for non-matching build with debug mods that can be freely modified and loaded into an emulator')
 
+    parser.add_argument('--overlay', type=str, default=None,
+                        help='Only build and check this one overlay (and only the objects it links): much faster when working on a single overlay, verify everything without this option before committing')
+
     args = parser.parse_args()
 
     args.psyq_path = os.path.relpath(args.psyq_path).replace("\\","/")
@@ -56,6 +59,8 @@ def parse_arguments():
     print("psyq_path = " + args.psyq_path)
     return args
 
+ONLY_TARGETS = []
+
 def prefix(pfx, cmd):
     if pfx == "wibo" and has_wibo:
         return f"wibo {cmd}"
@@ -65,7 +70,7 @@ def prefix(pfx, cmd):
 
 def ninja_run():
     ninja = os.path.join(BIN_DIR, 'ninja')
-    ninja_args = [] # TODO: pass through args to ninja?
+    ninja_args = ONLY_TARGETS # [] builds everything; with --overlay just that overlay
 
     # warnings that were probably in the original code
     # TODO: hide these when building locally
@@ -508,6 +513,7 @@ def gen_build_target(targetName):
     # (with ~100 imported overlays the ninja file would grow to gigabytes).
     allObjs = f"../{args.obj_directory}/all_objs"
     ninja.build(allObjs, "phony", linkerDeps)
+    allObjDeps = list(linkerDeps)
     linkerDeps = [allObjs]
     ninja.build(cpeFile, "psylink", implicit=linkerDeps + [linkerCommandFile])
     ninja.newline()
@@ -704,7 +710,23 @@ def gen_build_target(targetName):
     if args.variant == 'dev_exe':
         OVERLAYS = []
 
+    if args.overlay:
+        if args.overlay not in OVERLAYS:
+            sys.exit(f"--overlay {args.overlay}: not a buildable overlay of this variant")
+        OVERLAYS = [args.overlay]
+
     for overlay in OVERLAYS:
+        if args.overlay:
+            # only the objects named in this overlay's block of the linker command file
+            import linker_command_file_preprocess as lcfp
+            tmp = f"../{args.obj_directory}/linker_command_file_{overlay}_probe.txt"
+            lcfp.main("linker_command_file.txt", args.psyq_path, tmp, args.defines + [f"OVERLAY={overlay}", "OVERLAY_SUFFIX=lhs"])
+            wanted = set()
+            for line in open(tmp, encoding="utf8", errors="replace"):
+                m = re.match(r'\s*include\s+"([^"]+\.obj)"', line)
+                if m and not m.group(1).startswith(args.psyq_path):
+                    wanted.add(os.path.normpath(m.group(1).replace("\\", "/")))
+            linkerDeps = [d for d in allObjDeps if os.path.normpath(d) in wanted]
         # It turns out that MGS overlays contain uninitialized memory
         # in:
         # - Padding between values in data/rdata (e.g. padding between strings)
@@ -759,6 +781,9 @@ def gen_build_target(targetName):
         ninja.build(overlayFile, "uninitializer", inputs=[lhsOverlayFile, rhsOverlayFile, f"../um/{'stagevr' if args.variant == 'vr_exe' else 'stage'}/{overlay}.bin"], variables={"overlay": f"{overlay}"})
         ninja.newline()
 
+if args.overlay:
+    ONLY_TARGETS[:] = [f"../{args.obj_directory}/{args.overlay}.bin"]
+
 #init_psyq_ini_files(args.psyq_path)
 gen_build_target("SLPM_862.47")
 
@@ -774,10 +799,10 @@ took = time.time() - time_before
 print(f'build took {took:.2f} seconds')
 
 if exit_code == 0 and args.variant != 'dev_exe':
-    ret = subprocess.run([sys.executable, 'compare.py', '--variant', 'vr' if args.variant == 'vr_exe' else 'main'])
+    ret = subprocess.run([sys.executable, 'compare.py', '--variant', 'vr' if args.variant == 'vr_exe' else 'main'] + (['--only', args.overlay] if args.overlay else []))
     exit_code = ret.returncode
 
-if exit_code == 0 and args.variant != 'dev_exe':
+if exit_code == 0 and args.variant != 'dev_exe' and not args.overlay:
     ret = subprocess.run([sys.executable, 'post_build_checkup.py'])
     exit_code = ret.returncode
 
