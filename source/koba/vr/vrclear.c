@@ -255,6 +255,7 @@ static void FormatTime(char *buf, int time, int mode, Work *work)
     int     secs, mins, cents;
     u_char  digit;
     u_char  jitter;
+    int     seed;
     int     ammo;
 
     time = (time < 0) ? 0 : time;
@@ -289,15 +290,20 @@ static void FormatTime(char *buf, int time, int mode, Work *work)
 
     cents = ((time % 30) * 100) / 30;
     time /= 30;
-    secs = time - (time / 60) * 60;
+    // FIXME: seconds through the quotient first; steers gcc's register copies
+    secs = time / 60;
+    secs = time - secs * 60;
     mins = time / 60;
+
+    // a pseudo random last digit for the hundredths
     digit = (((total % 30) * 100) / 30) % 10;
-    jitter = ((total % 30) / 3) * ((total / 30) + digit * 29);
+    seed = (total % 30) / 3;
+    jitter = ((total / 30) + digit * 29) * seed;
     jitter >>= 1;
 
     if (digit == 6)
     {
-        jitter &= 3;
+        jitter %= 4;
     }
     else
     {
