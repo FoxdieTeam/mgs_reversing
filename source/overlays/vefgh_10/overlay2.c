@@ -1,0 +1,43 @@
+#include "mgstype.h"
+
+
+const int vefgh_10_dword_800E15B0 = 0x00024700;
+const int vefgh_10_dword_800E15B4 = 0x0C270007;
+const int vefgh_10_dword_800E15B8 = 0x06080600;
+const int vefgh_10_dword_800E15BC = 0xFF010606;
+const int vefgh_10_dword_800E15C0 = 0x0D010002;
+const int vefgh_10_dword_800E15C4 = 0x0823000C;
+const int vefgh_10_dword_800E15C8 = 0x0AFFFFFF;
+const int vefgh_10_dword_800E15CC = 0x08000800;
+const int vefgh_10_dword_800E15D0 = 0x0002FF01;
+const int vefgh_10_dword_800E15D4 = 0x0A0F0D01;
+const int vefgh_10_dword_800E15D8 = 0x38FF38FF;
+const int vefgh_10_dword_800E15DC = 0x000CFE01;
+const int vefgh_10_dword_800E15E0 = 0x06060806;
+const int vefgh_10_dword_800E15E4 = 0x02FF0106;
+const int vefgh_10_dword_800E15E8 = 0x0C0D0100;
+const int vefgh_10_dword_800E15EC = 0xFF082300;
+const int vefgh_10_dword_800E15F0 = 0x000AFFFF;
+const int vefgh_10_dword_800E15F4 = 0x01060006;
+const int vefgh_10_dword_800E15F8 = 0x010002FF;
+const int vefgh_10_dword_800E15FC = 0x00000F0D;
+const int vefgh_10_dword_800E1600 = 0x00012C00;
+const int vefgh_10_dword_800E1604 = 0x0CFE0105;
+const int vefgh_10_dword_800E1608 = 0x06080300;
+const int vefgh_10_dword_800E160C = 0xFF010606;
+const int vefgh_10_dword_800E1610 = 0x0D010002;
+const int vefgh_10_dword_800E1614 = 0x0810000C;
+const int vefgh_10_dword_800E1618 = 0x0AFFFFFF;
+const int vefgh_10_dword_800E161C = 0x04000400;
+const int vefgh_10_dword_800E1620 = 0x0002FF01;
+const int vefgh_10_dword_800E1624 = 0x04000A01;
+const int vefgh_10_dword_800E1628 = 0xFF010400;
+const int vefgh_10_dword_800E162C = 0x0D010002;
+const int vefgh_10_dword_800E1630 = 0x0D756E0F;
+const int vefgh_10_dword_800E1634 = 0x656D616E;
+const int vefgh_10_dword_800E1638 = 0x20642520;
+const int vefgh_10_dword_800E163C = 0x6E207369;
+const int vefgh_10_dword_800E1640 = 0x6520746F;
+const int vefgh_10_dword_800E1644 = 0x74736978;
+const int vefgh_10_dword_800E1648 = 0x0000000A;
+const char vefgh_10_dword_800E164C[] = "belong.c";

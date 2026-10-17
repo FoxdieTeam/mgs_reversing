@@ -1,0 +1,55 @@
+#include "mgstype.h"
+
+extern const char vefgh_03_dword_800E3604[];
+extern const char vefgh_03_dword_800E3608[];
+extern const char vefgh_03_dword_800E360C[];
+extern const char vefgh_03_dword_800E3610[];
+extern const char vefgh_03_dword_800E366C[];
+extern const char vefgh_03_dword_800E3674[];
+extern const char vefgh_03_dword_800E3680[];
+extern const char vefgh_03_dword_800E3690[];
+extern const char vefgh_03_dword_800E3698[];
+extern const char vefgh_03_dword_800E36A0[];
+extern const char vefgh_03_dword_800E36A8[];
+extern const char vefgh_03_dword_800E36C4[];
+extern const char vefgh_03_dword_800E36E0[];
+extern const char vefgh_03_dword_800E36F0[];
+extern const char vefgh_03_dword_800E3700[];
+extern const int vefgh_03_dword_800E370C;
+extern const char vefgh_03_dword_800E3710[];
+extern const char vefgh_03_dword_800E3718[];
+extern const char vefgh_03_dword_800E3720[];
+extern const char vefgh_03_dword_800E3728[];
+extern const char vefgh_03_dword_800E3734[];
+extern const char vefgh_03_dword_800E373C[];
+extern const int vefgh_03_dword_800E3744;
+extern const char vefgh_03_dword_800E3748[];
+extern const char vefgh_03_dword_800E3750[];
+
+
+const char vefgh_03_dword_800E3840[] = "shadow";
+const int vefgh_03_dword_800E3848 = 0x800E09A0;
+const int vefgh_03_dword_800E384C = 0x800E09B8;
+const int vefgh_03_dword_800E3850 = 0x800E09D0;
+const int vefgh_03_dword_800E3854 = 0x800E09DC;
+const int vefgh_03_dword_800E3858 = 0x800E09F8;
+const int vefgh_03_dword_800E385C = 0x800E09F8;
+const char vefgh_03_dword_800E3860[] = "id_n";
+const char vefgh_03_dword_800E3868[] = "id_b";
+const char vefgh_03_dword_800E3870[] = "ufo";
+const char vefgh_03_dword_800E3874[] = "kokesi_c";
+const char vefgh_03_dword_800E3880[] = "kokesi_s";
+const char vefgh_03_dword_800E388C[] = "ufo2";
+const char vefgh_03_dword_800E3894[] = "mato_04add";
+const char vefgh_03_dword_800E38A0[] = "mato_06add";
+const char vefgh_03_dword_800E38AC[] = "mato_08add";
+const char vefgh_03_dword_800E38B8[] = "mato_09add";
+const char vefgh_03_dword_800E38C4[] = "mato_14add";
+const int vefgh_03_dword_800E38D0 = 0x746F6F72;
+const int vefgh_03_dword_800E38D4 = 0x746F6E20;
+const int vefgh_03_dword_800E38D8 = 0x756F6620;
+const int vefgh_03_dword_800E38DC = 0x000A646E;
+const char vefgh_03_dword_800E38E0[] = "vrbox.c";
+const char vefgh_03_dword_800E38E8[] = "op_back_l";
+const char vefgh_03_dword_800E38F4[] = "op_back_r";
+const char vefgh_03_dword_800E3900[] = "bg3.c";

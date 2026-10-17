@@ -1,0 +1,47 @@
+#include "mgstype.h"
+
+extern const char vcd_n01_dword_800E6250[];
+extern const char vcd_n01_dword_800E6254[];
+extern const char vcd_n01_dword_800E6258[];
+extern const char vcd_n01_dword_800E625C[];
+
+
+const char vcd_n01_dword_800E60C0[] = "demo";
+const int vcd_n01_dword_800E60C8 = 0xCDA5B9A5;
+const int vcd_n01_dword_800E60CC = 0xAFA5BCA1;
+const int vcd_n01_dword_800E60D0 = 0x00000000;
+const char vcd_n01_dword_800E60D4[] = "nikita";
+const char vcd_n01_dword_800E60DC[] = "kill";
+const char vcd_n01_dword_800E60E4[] = "stinger";
+const int vcd_n01_dword_800E60EC = 0x00007325;
+const char vcd_n01_dword_800E60F0[] = "%s:%s:%s";
+const char vcd_n01_dword_800E60FC[] = "TARGET";
+const char vcd_n01_dword_800E6104[] = "%d/%d";
+const int vcd_n01_dword_800E610C = 0x0A0A010A;
+const int vcd_n01_dword_800E6110 = 0x0A0A1E0A;
+const int vcd_n01_dword_800E6114 = 0x00000A0A;
+const int vcd_n01_dword_800E6118 = 0x800DC6CC;
+const int vcd_n01_dword_800E611C = 0x800DC594;
+const int vcd_n01_dword_800E6120 = 0x800DC5E8;
+const int vcd_n01_dword_800E6124 = 0x800DC62C;
+const int vcd_n01_dword_800E6128 = 0x800DC67C;
+const int vcd_n01_dword_800E612C = 0x800DC67C;
+const int vcd_n01_dword_800E6130 = 0x800DC67C;
+const int vcd_n01_dword_800E6134 = 0x800DC67C;
+const char vcd_n01_dword_800E6138[] = "plus";
+const char vcd_n01_dword_800E6140[] = "vrover";
+const char vcd_n01_dword_800E6148[] = "voiceover";
+const char vcd_n01_dword_800E6154[] = "clear";
+const char vcd_n01_dword_800E615C[] = "itemset";
+const char vcd_n01_dword_800E6164[] = "limit";
+const char vcd_n01_dword_800E616C[] = "time";
+const char vcd_n01_dword_800E6174[] = "vr.c";
+const int vcd_n01_dword_800E617C = 0x61656C50;
+const int vcd_n01_dword_800E6180 = 0x53206573;
+const int vcd_n01_dword_800E6184 = 0x45207465;
+const int vcd_n01_dword_800E6188 = 0x5250444E;
+const int vcd_n01_dword_800E618C = 0x0A21434F;
+const int vcd_n01_dword_800E6190 = 0x746F2A00;
+const char vcd_n01_dword_800E6194[] = "op_back_r";
+const char vcd_n01_dword_800E61A0[] = "op_back_l";
+const char vcd_n01_dword_800E61AC[] = "backgrnd.c";

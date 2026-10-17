@@ -1,0 +1,58 @@
+#include "mgstype.h"
+
+extern const char vr_fms05_dword_800E4C50[];
+extern const char vr_fms05_dword_800E4C54[];
+extern const char vr_fms05_dword_800E4C58[];
+extern const char vr_fms05_dword_800E4C5C[];
+extern const char vr_fms05_dword_800E4CB8[];
+extern const char vr_fms05_dword_800E4CC0[];
+extern const char vr_fms05_dword_800E4CCC[];
+extern const char vr_fms05_dword_800E4CDC[];
+extern const char vr_fms05_dword_800E4CE4[];
+extern const char vr_fms05_dword_800E4CEC[];
+extern const char vr_fms05_dword_800E4CF4[];
+extern const char vr_fms05_dword_800E4D10[];
+extern const char vr_fms05_dword_800E4D2C[];
+extern const char vr_fms05_dword_800E4D3C[];
+extern const char vr_fms05_dword_800E4D4C[];
+extern const int vr_fms05_dword_800E4D58;
+extern const char vr_fms05_dword_800E4D5C[];
+extern const char vr_fms05_dword_800E4D64[];
+extern const char vr_fms05_dword_800E4D6C[];
+extern const char vr_fms05_dword_800E4D74[];
+extern const char vr_fms05_dword_800E4D80[];
+extern const char vr_fms05_dword_800E4D88[];
+extern const int vr_fms05_dword_800E4D90;
+extern const char vr_fms05_dword_800E4D94[];
+extern const char vr_fms05_dword_800E4D9C[];
+
+
+const char vr_fms05_dword_800E4E70[] = "demo";
+const char vr_fms05_dword_800E4E78[] = "PAUSE";
+const char vr_fms05_dword_800E4E80[] = "pausmenu.c";
+const char vr_fms05_dword_800E4E8C[] = "shadow";
+const int vr_fms05_dword_800E4E94 = 0x800E1CC8;
+const int vr_fms05_dword_800E4E98 = 0x800E1CE0;
+const int vr_fms05_dword_800E4E9C = 0x800E1CF8;
+const int vr_fms05_dword_800E4EA0 = 0x800E1D04;
+const int vr_fms05_dword_800E4EA4 = 0x800E1D20;
+const int vr_fms05_dword_800E4EA8 = 0x800E1D20;
+const char vr_fms05_dword_800E4EAC[] = "id_n";
+const char vr_fms05_dword_800E4EB4[] = "id_b";
+const char vr_fms05_dword_800E4EBC[] = "ufo";
+const char vr_fms05_dword_800E4EC0[] = "kokesi_c";
+const char vr_fms05_dword_800E4ECC[] = "kokesi_s";
+const char vr_fms05_dword_800E4ED8[] = "ufo2";
+const char vr_fms05_dword_800E4EE0[] = "mato_04add";
+const char vr_fms05_dword_800E4EEC[] = "mato_06add";
+const char vr_fms05_dword_800E4EF8[] = "mato_08add";
+const char vr_fms05_dword_800E4F04[] = "mato_09add";
+const char vr_fms05_dword_800E4F10[] = "mato_14add";
+const int vr_fms05_dword_800E4F1C = 0x746F6F72;
+const int vr_fms05_dword_800E4F20 = 0x746F6E20;
+const int vr_fms05_dword_800E4F24 = 0x756F6620;
+const int vr_fms05_dword_800E4F28 = 0x000A646E;
+const char vr_fms05_dword_800E4F2C[] = "vrbox.c";
+const char vr_fms05_dword_800E4F34[] = "op_back_l";
+const char vr_fms05_dword_800E4F40[] = "op_back_r";
+const char vr_fms05_dword_800E4F4C[] = "bg3.c";

@@ -1,0 +1,43 @@
+#include "mgstype.h"
+
+
+const int vijkl_07_dword_800E2664 = 0x00024700;
+const int vijkl_07_dword_800E2668 = 0x0C270007;
+const int vijkl_07_dword_800E266C = 0x06080600;
+const int vijkl_07_dword_800E2670 = 0xFF010606;
+const int vijkl_07_dword_800E2674 = 0x0D010002;
+const int vijkl_07_dword_800E2678 = 0x0823000C;
+const int vijkl_07_dword_800E267C = 0x0AFFFFFF;
+const int vijkl_07_dword_800E2680 = 0x08000800;
+const int vijkl_07_dword_800E2684 = 0x0002FF01;
+const int vijkl_07_dword_800E2688 = 0x0A0F0D01;
+const int vijkl_07_dword_800E268C = 0x38FF38FF;
+const int vijkl_07_dword_800E2690 = 0x000CFE01;
+const int vijkl_07_dword_800E2694 = 0x06060806;
+const int vijkl_07_dword_800E2698 = 0x02FF0106;
+const int vijkl_07_dword_800E269C = 0x0C0D0100;
+const int vijkl_07_dword_800E26A0 = 0xFF082300;
+const int vijkl_07_dword_800E26A4 = 0x000AFFFF;
+const int vijkl_07_dword_800E26A8 = 0x01060006;
+const int vijkl_07_dword_800E26AC = 0x010002FF;
+const int vijkl_07_dword_800E26B0 = 0x00000F0D;
+const int vijkl_07_dword_800E26B4 = 0x00012C00;
+const int vijkl_07_dword_800E26B8 = 0x0CFE0105;
+const int vijkl_07_dword_800E26BC = 0x06080300;
+const int vijkl_07_dword_800E26C0 = 0xFF010606;
+const int vijkl_07_dword_800E26C4 = 0x0D010002;
+const int vijkl_07_dword_800E26C8 = 0x0810000C;
+const int vijkl_07_dword_800E26CC = 0x0AFFFFFF;
+const int vijkl_07_dword_800E26D0 = 0x04000400;
+const int vijkl_07_dword_800E26D4 = 0x0002FF01;
+const int vijkl_07_dword_800E26D8 = 0x04000A01;
+const int vijkl_07_dword_800E26DC = 0xFF010400;
+const int vijkl_07_dword_800E26E0 = 0x0D010002;
+const int vijkl_07_dword_800E26E4 = 0x200A0D0F;
+const int vijkl_07_dword_800E26E8 = 0x656D616E;
+const int vijkl_07_dword_800E26EC = 0x20642520;
+const int vijkl_07_dword_800E26F0 = 0x6E207369;
+const int vijkl_07_dword_800E26F4 = 0x6520746F;
+const int vijkl_07_dword_800E26F8 = 0x74736978;
+const int vijkl_07_dword_800E26FC = 0x0000000A;
+const char vijkl_07_dword_800E2700[] = "belong.c";

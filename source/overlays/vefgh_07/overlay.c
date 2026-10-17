@@ -1,0 +1,41 @@
+#include "mgstype.h"
+
+
+const char vefgh_07_dword_800E32A4[] = "breath.c";
+const int vefgh_07_dword_800E32B0 = 0x00024700;
+const int vefgh_07_dword_800E32B4 = 0x0C270007;
+const int vefgh_07_dword_800E32B8 = 0x06080600;
+const int vefgh_07_dword_800E32BC = 0xFF010606;
+const int vefgh_07_dword_800E32C0 = 0x0D010002;
+const int vefgh_07_dword_800E32C4 = 0x0823000C;
+const int vefgh_07_dword_800E32C8 = 0x0AFFFFFF;
+const int vefgh_07_dword_800E32CC = 0x08000800;
+const int vefgh_07_dword_800E32D0 = 0x0002FF01;
+const int vefgh_07_dword_800E32D4 = 0x0A0F0D01;
+const int vefgh_07_dword_800E32D8 = 0x38FF38FF;
+const int vefgh_07_dword_800E32DC = 0x000CFE01;
+const int vefgh_07_dword_800E32E0 = 0x06060806;
+const int vefgh_07_dword_800E32E4 = 0x02FF0106;
+const int vefgh_07_dword_800E32E8 = 0x0C0D0100;
+const int vefgh_07_dword_800E32EC = 0xFF082300;
+const int vefgh_07_dword_800E32F0 = 0x000AFFFF;
+const int vefgh_07_dword_800E32F4 = 0x01060006;
+const int vefgh_07_dword_800E32F8 = 0x010002FF;
+const int vefgh_07_dword_800E32FC = 0x00000F0D;
+const int vefgh_07_dword_800E3300 = 0x00012C00;
+const int vefgh_07_dword_800E3304 = 0x0CFE0105;
+const int vefgh_07_dword_800E3308 = 0x06080300;
+const int vefgh_07_dword_800E330C = 0xFF010606;
+const int vefgh_07_dword_800E3310 = 0x0D010002;
+const int vefgh_07_dword_800E3314 = 0x0810000C;
+const int vefgh_07_dword_800E3318 = 0x0AFFFFFF;
+const int vefgh_07_dword_800E331C = 0x04000400;
+const int vefgh_07_dword_800E3320 = 0x0002FF01;
+const int vefgh_07_dword_800E3324 = 0x04000A01;
+const int vefgh_07_dword_800E3328 = 0xFF010400;
+const int vefgh_07_dword_800E332C = 0x0D010002;
+const int vefgh_07_dword_800E3330 = 0x0000000F;
+const int vefgh_07_dword_800E3334 = 0x00007325;
+const char vefgh_07_dword_800E3338[] = "SNAKE'S ITEMS";
+const char vefgh_07_dword_800E3348[] = "shadow";
+const char vefgh_07_dword_800E3350[] = "boxall.c";

@@ -1,0 +1,54 @@
+#include "mgstype.h"
+
+
+
+int SECTION(".bss") vrtitle_dword_800D9CD0;
+int SECTION(".bss") vrtitle_dword_800D9CD4;
+int SECTION(".bss") vrtitle_dword_800D9CD8;
+int SECTION(".bss") vrtitle_dword_800D9CDC;
+int SECTION(".bss") vrtitle_dword_800D9CE0;
+int SECTION(".bss") vrtitle_dword_800D9CE4;
+int SECTION(".bss") vrtitle_dword_800D9CE8;
+int SECTION(".bss") vrtitle_dword_800D9CEC;
+int SECTION(".bss") vrtitle_dword_800D9CF0;
+int SECTION(".bss") vrtitle_dword_800D9CF4;
+int SECTION(".bss") vrtitle_dword_800D9CF8;
+int SECTION(".bss") vrtitle_dword_800D9CFC;
+int SECTION(".bss") vrtitle_dword_800D9D00;
+int SECTION(".bss") vrtitle_dword_800D9D04;
+int SECTION(".bss") vrtitle_dword_800D9D08;
+int SECTION(".bss") vrtitle_dword_800D9D0C;
+int SECTION(".bss") vrtitle_dword_800D9D10;
+int SECTION(".bss") vrtitle_dword_800D9D14;
+int SECTION(".bss") vrtitle_dword_800D9D18;
+int SECTION(".bss") vrtitle_dword_800D9D1C;
+int SECTION(".bss") vrtitle_dword_800D9D20;
+int SECTION(".bss") vrtitle_dword_800D9D24;
+int SECTION(".bss") vrtitle_dword_800D9D28;
+int SECTION(".bss") vrtitle_dword_800D9D2C;
+int SECTION(".bss") vrtitle_dword_800D9D30;
+int SECTION(".bss") vrtitle_dword_800D9D34;
+int SECTION(".bss") vrtitle_dword_800D9D38;
+int SECTION(".bss") vrtitle_dword_800D9D3C;
+int SECTION(".bss") vrtitle_dword_800D9D40;
+int SECTION(".bss") vrtitle_dword_800D9D44;
+int SECTION(".bss") vrtitle_dword_800D9D48;
+int SECTION(".bss") vrtitle_dword_800D9D4C;
+int SECTION(".bss") vrtitle_dword_800D9D50;
+int SECTION(".bss") vrtitle_dword_800D9D54;
+int SECTION(".bss") vrtitle_dword_800D9D58;
+int SECTION(".bss") vrtitle_dword_800D9D5C;
+int SECTION(".bss") vrtitle_dword_800D9D60;
+int SECTION(".bss") vrtitle_dword_800D9D64;
+int SECTION(".bss") vrtitle_dword_800D9D68;
+int SECTION(".bss") vrtitle_dword_800D9D6C;
+int SECTION(".bss") vrtitle_dword_800D9D70;
+int SECTION(".bss") vrtitle_dword_800D9D74;
+int SECTION(".bss") vrtitle_dword_800D9D78;
+int SECTION(".bss") vrtitle_dword_800D9D7C;
+int SECTION(".bss") vrtitle_dword_800D9D80;
+int SECTION(".bss") vrtitle_dword_800D9D84;
+int SECTION(".bss") vrtitle_dword_800D9D88;
+int SECTION(".bss") vrtitle_dword_800D9D8C;
+int SECTION(".bss") vrtitle_dword_800D9D90;
+int SECTION(".bss") vrtitle_dword_800D9D94;

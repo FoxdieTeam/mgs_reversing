@@ -1,0 +1,41 @@
+#include "mgstype.h"
+
+int photo_n1_dword_800C12E0 = 0x1C080401;
+int photo_n1_dword_800C12E4 = 0x0000302C;
+int photo_n1_dword_800C12E8 = 0xFC18FF06;
+int photo_n1_dword_800C12EC = 0xFC1800FA;
+int photo_n1_dword_800C12F0 = 0xFF0603E8;
+int photo_n1_dword_800C12F4 = 0x00FA03E8;
+int photo_n1_dword_800C12F8 = 0x03E800FA;
+int photo_n1_dword_800C12FC = 0x03E8FF06;
+int photo_n1_dword_800C1300 = 0x00FAFC18;
+int photo_n1_dword_800C1304 = 0xFF06FC18;
+int photo_n1_dword_800C1308 = 0xFC18FF06;
+int photo_n1_dword_800C130C = 0x03E80002;
+int photo_n1_dword_800C1310 = 0x03E800FA;
+int photo_n1_dword_800C1314 = 0x07D00002;
+int photo_n1_dword_800C1318 = 0x07D001F4;
+int photo_n1_dword_800C131C = 0x0FA00002;
+int photo_n1_dword_800C1320 = 0x0EA605DC;
+int photo_n1_dword_800C1324 = 0x17700002;
+int photo_n1_dword_800C1328 = 0x177009C4;
+int photo_n1_dword_800C132C = 0x280A0002;
+int photo_n1_dword_800C1330 = 0x27100FA0;
+int photo_n1_dword_800C1334 = 0x3E800003;
+int photo_n1_dword_800C1338 = 0x3E801964;
+int photo_n1_dword_800C133C = 0x34BC2616;
+int photo_n1_dword_800C1340 = 0x000003E8;
+int photo_n1_dword_800C1344 = 0x000007D0;
+int photo_n1_dword_800C1348 = 0x00000FA0;
+int photo_n1_dword_800C134C = 0x00001770;
+int photo_n1_dword_800C1350 = 0x00002710;
+int photo_n1_dword_800C1354 = 0x00003E80;
+int photo_n1_dword_800C1358 = 0x71F13223;
+
+const int photo_n1_dword_800D0D0C = 0x6B726F77;
+const int photo_n1_dword_800D0D10 = 0x7A69735F;
+const int photo_n1_dword_800D0D14 = 0x67625F65;
+const int photo_n1_dword_800D0D18 = 0x7865685F;
+const int photo_n1_dword_800D0D1C = 0x3525735F;
+const int photo_n1_dword_800D0D20 = 0x00000A64;
+const char photo_n1_dword_800D0D24[] = "bg_hex_s.c";

@@ -1,0 +1,45 @@
+#include "mgstype.h"
+
+int vr_nkt04_dword_800C15B4 = 0x00000000;
+int vr_nkt04_dword_800C15B8 = 0x00000000;
+int vr_nkt04_dword_800C15BC = 0x00000000;
+int vr_nkt04_dword_800C15C0 = 0x00000000;
+int vr_nkt04_dword_800C15C4 = 0x00500050;
+int vr_nkt04_dword_800C15C8 = 0x00A000A0;
+int vr_nkt04_dword_800C15CC = 0x012C012C;
+int vr_nkt04_dword_800C15D0 = 0x0000012C;
+
+const int vr_nkt04_dword_800E58DC = 0xFFB00000;
+const int vr_nkt04_dword_800E58E0 = 0x00000000;
+const char vr_nkt04_dword_800E58E4[] = "kill";
+const int vr_nkt04_dword_800E58EC = 0xFEC6BBB2;
+const int vr_nkt04_dword_800E58F0 = 0xEBA4ECA4;
+const int vr_nkt04_dword_800E58F4 = 0x00000000;
+const int vr_nkt04_dword_800E58F8 = 0xDAC0BBB2;
+const int vr_nkt04_dword_800E58FC = 0x0000EBA4;
+const int vr_nkt04_dword_800E5900 = 0xCFCEEBBB;
+const int vr_nkt04_dword_800E5904 = 0xB9A4E1CC;
+const int vr_nkt04_dword_800E5908 = 0x00000000;
+const int vr_nkt04_dword_800E590C = 0xCFCEEBBB;
+const int vr_nkt04_dword_800E5910 = 0xAFA4B5CC;
+const int vr_nkt04_dword_800E5914 = 0x0000B9A4;
+const int vr_nkt04_dword_800E5918 = 0xFDCDE8BD;
+const int vr_nkt04_dword_800E591C = 0xABB3C6BA;
+const int vr_nkt04_dword_800E5920 = 0x00000000;
+const int vr_nkt04_dword_800E5924 = 0xFDCDE8BD;
+const int vr_nkt04_dword_800E5928 = 0xDFBBE4C4;
+const int vr_nkt04_dword_800E592C = 0x00000000;
+const int vr_nkt04_dword_800E5930 = 0x00000000;
+const int vr_nkt04_dword_800E5934 = 0x800D344C;
+const int vr_nkt04_dword_800E5938 = 0x800D345C;
+const int vr_nkt04_dword_800E593C = 0x800D3468;
+const int vr_nkt04_dword_800E5940 = 0x800D3470;
+const int vr_nkt04_dword_800E5944 = 0x800D347C;
+const int vr_nkt04_dword_800E5948 = 0x800D3484;
+const int vr_nkt04_dword_800E594C = 0x800D348C;
+const int vr_nkt04_dword_800E5950 = 0xFF6A0000;
+const int vr_nkt04_dword_800E5954 = 0x0000FE70;
+const char vr_nkt04_dword_800E5958[] = "camera_l";
+const char vr_nkt04_dword_800E5964[] = "gca_gun";
+const char vr_nkt04_dword_800E596C[] = "gca_arm";
+const char vr_nkt04_dword_800E5974[] = "guncame.c";

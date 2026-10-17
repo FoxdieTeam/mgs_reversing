@@ -1,0 +1,50 @@
+#include "mgstype.h"
+
+extern const char vr_psg03_dword_800E1624[];
+extern const char vr_psg03_dword_800E1628[];
+extern const char vr_psg03_dword_800E162C[];
+extern const char vr_psg03_dword_800E1630[];
+extern const char vr_psg03_dword_800E168C[];
+extern const char vr_psg03_dword_800E1694[];
+extern const char vr_psg03_dword_800E16A0[];
+extern const char vr_psg03_dword_800E16B0[];
+extern const char vr_psg03_dword_800E16B8[];
+extern const char vr_psg03_dword_800E16C0[];
+extern const char vr_psg03_dword_800E16C8[];
+extern const char vr_psg03_dword_800E16E4[];
+extern const char vr_psg03_dword_800E1700[];
+extern const char vr_psg03_dword_800E1710[];
+extern const char vr_psg03_dword_800E1720[];
+extern const int vr_psg03_dword_800E172C;
+extern const char vr_psg03_dword_800E1730[];
+extern const char vr_psg03_dword_800E1738[];
+extern const char vr_psg03_dword_800E1740[];
+extern const char vr_psg03_dword_800E1748[];
+extern const char vr_psg03_dword_800E1754[];
+extern const char vr_psg03_dword_800E175C[];
+extern const int vr_psg03_dword_800E1764;
+extern const char vr_psg03_dword_800E1768[];
+extern const char vr_psg03_dword_800E1770[];
+
+
+const int vr_psg03_dword_800E1C08 = 0x05000000;
+const int vr_psg03_dword_800E1C0C = 0x00000100;
+const int vr_psg03_dword_800E1C10 = 0x00003C00;
+const int vr_psg03_dword_800E1C14 = 0x3500CA00;
+const int vr_psg03_dword_800E1C18 = 0x00003C00;
+const int vr_psg03_dword_800E1C1C = 0x01000600;
+const int vr_psg03_dword_800E1C20 = 0x00000000;
+const int vr_psg03_dword_800E1C24 = 0x72657300;
+const int vr_psg03_dword_800E1C28 = 0x01726576;
+const int vr_psg03_dword_800E1C2C = 0x00000000;
+const int vr_psg03_dword_800E1C30 = 0x00000000;
+const int vr_psg03_dword_800E1C34 = 0x43001600;
+const char vr_psg03_dword_800E1C38[] = ":\\WINDOWS\\FaxView.exe%";
+const int vr_psg03_dword_800E1C50 = 0x3500E800;
+const int vr_psg03_dword_800E1C54 = 0x00001800;
+const int vr_psg03_dword_800E1C58 = 0x00000400;
+const int vr_psg03_dword_800E1C5C = 0x00000000;
+const int vr_psg03_dword_800E1C60 = 0x72657600;
+const char vr_psg03_dword_800E1C64[] = "bORERVER\\0009N)";
+const int vr_psg03_dword_800E1C74 = 0x00E90000;
+const int vr_psg03_dword_800E1C78 = 0x00290035;
