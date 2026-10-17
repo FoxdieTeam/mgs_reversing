@@ -1658,11 +1658,6 @@ int d18a_snake18_800CC490(Snake18Work *work)
         return 0;
     }
 
-    /* FIXME: empty loop forces a label that keeps the redundant "move $a0, $s3" */
-    while (1)
-    {
-        break;
-    }
     control = &work->control;
     msg = d18a_dword_800DAEA0;
     work->control.msg = msg;
