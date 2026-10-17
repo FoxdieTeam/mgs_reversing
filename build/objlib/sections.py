@@ -121,9 +121,11 @@ def parse_obj_sections(path):
             skip(u8())
         elif cmd == 46:
             pos += 1
-        elif cmd == 48:
+        elif cmd == 48:  # xbss: uninitialised (.comm) symbol; defined by this object, allocated by the linker
             pos += 8
-            skip(u8())
+            n = u8()
+            xdefs[data[pos:pos + n].decode()] = (-1, 0)
+            skip(n)
         elif cmd == 50:
             pos += 2
         elif cmd == 52:

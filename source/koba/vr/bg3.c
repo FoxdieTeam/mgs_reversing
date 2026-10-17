@@ -218,7 +218,8 @@ static void Die(Work *work)
     }
 }
 
-static void InitPoly(Work *work, DG_TEX *tex, POLY_FT4 *poly, int u, int v, int w, int h, int x, int y)
+// not static: called by the relocatable asm of VrBg3GetResources
+void VrBg3InitPoly(Work *work, DG_TEX *tex, POLY_FT4 *poly, int u, int v, int w, int h, int x, int y)
 {
     int u1, v2;
 
@@ -239,6 +240,12 @@ static void InitPoly(Work *work, DG_TEX *tex, POLY_FT4 *poly, int u, int v, int 
     setSemiTrans(poly, 0);
 }
 
+// GetResources does not byte-match from C (final copy loop), so the original code is kept as RELOCATABLE asm
+// (symbolic, from build/symbolize_asm.py) which keeps this object shareable between overlays.
+int VrBg3GetResources(Work *work, int where);
+#pragma INCLUDE_ASM_RELOC("source/koba/vr/reloc/VrBg3GetResources.s")
+
+#if 0 /* NON_MATCHING best C attempt */
 // NON_MATCHING: only the final copy loop differs (the original strength-reduces
 // &work->polys[i] into its own register initialised to work->polys, which frees s0
 // for the constants; here gcc keeps one more saved register)
@@ -290,10 +297,10 @@ static int GetResources(Work *work, int where)
     work->tex_l = DG_GetTexture(GV_StrCode("op_back_l"));
     work->tex_r = DG_GetTexture(GV_StrCode("op_back_r"));
 
-    InitPoly(work, work->tex_l, poly, 0, 0,          QUARTER_U_MAX, QUARTER_V_MAX, -QUARTER_W, -QUARTER_H);
-    InitPoly(work, work->tex_l, &work->polys[1], 0, QUARTER_H,  QUARTER_U_MAX, QUARTER_V_MAX, -QUARTER_W, 0);
-    InitPoly(work, work->tex_r, &work->polys[2], 0, 0,          QUARTER_U_MAX, QUARTER_V_MAX, 0,          -QUARTER_H);
-    InitPoly(work, work->tex_r, &work->polys[3], 0, QUARTER_H,  QUARTER_U_MAX, QUARTER_V_MAX, 0,          0);
+    VrBg3InitPoly(work, work->tex_l, poly, 0, 0,          QUARTER_U_MAX, QUARTER_V_MAX, -QUARTER_W, -QUARTER_H);
+    VrBg3InitPoly(work, work->tex_l, &work->polys[1], 0, QUARTER_H,  QUARTER_U_MAX, QUARTER_V_MAX, -QUARTER_W, 0);
+    VrBg3InitPoly(work, work->tex_r, &work->polys[2], 0, 0,          QUARTER_U_MAX, QUARTER_V_MAX, 0,          -QUARTER_H);
+    VrBg3InitPoly(work, work->tex_r, &work->polys[3], 0, QUARTER_H,  QUARTER_U_MAX, QUARTER_V_MAX, 0,          0);
 
     work->timer = 0;
 
@@ -313,6 +320,7 @@ static int GetResources(Work *work, int where)
 
     return 0;
 }
+#endif
 
 /*---------------------------------------------------------------------------*/
 
@@ -325,7 +333,7 @@ void *NewVrBg3(int name, int where, int argc, char **argv)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "bg3.c");
 
-        if (GetResources(work, where) < 0)
+        if (VrBg3GetResources(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;

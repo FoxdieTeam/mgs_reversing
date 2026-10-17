@@ -246,7 +246,8 @@ static void PrintTwoDigits(int value, char *buf)
 }
 
 // formats a time in frames as "MM:SS:CC"
-static void FormatTime(char *buf, int time, int mode, Work *work)
+// not static: called by the relocatable asm of VrClearDrawResult
+void VrClearFormatTime(char *buf, int time, int mode, Work *work)
 {
     char    cents_str[8];
     char    secs_str[8];
@@ -338,6 +339,15 @@ static void FormatTime(char *buf, int time, int mode, Work *work)
     buf[0] = mins_str[0];
 }
 
+// DrawResult does not byte-match from C (register allocation), so the original code is kept as RELOCATABLE asm
+// (symbolic, from build/symbolize_asm.py) which keeps this object shareable between overlays.
+void VrClearDrawResult(int timer, Work *work);
+
+// "%s" literal of VrClearDrawResult's asm: the original compiler merged the identical literals of later functions
+extern char vrclear_fmt_s[];
+#pragma INCLUDE_ASM_RELOC("source/koba/vr/reloc/VrClearDrawResult.s")
+
+#if 0 /* NON_MATCHING best C attempt */
 // NON_MATCHING: same instructions except register allocation; the original keeps "%s" hoisted in s7,
 // spills the hoisted &buf[len] to 0x30(sp) (frame 0x60 vs our 0x58) and uses fp/s3 for work/timer.
 // Ranks inside the same frame object as buf gives the shared base register and the 16 byte init.
@@ -395,7 +405,7 @@ static void DrawResult(int timer, Work *work)
                 time = 0;
             }
 
-            FormatTime(l.buf, time, 3, work);
+            VrClearFormatTime(l.buf, time, 3, work);
         }
         else
         {
@@ -405,7 +415,7 @@ static void DrawResult(int timer, Work *work)
                 time = 0;
             }
 
-            FormatTime(l.buf, time, 1, work);
+            VrClearFormatTime(l.buf, time, 1, work);
         }
 
         MENU_Locate(159, 108, 0x10);
@@ -478,7 +488,7 @@ static void DrawResult(int timer, Work *work)
                     time = -time;
                 }
 
-                FormatTime(l.buf, time, 0, work);
+                VrClearFormatTime(l.buf, time, 0, work);
                 l.buf[len] = '\0';
 
                 if (i == 3)
@@ -507,6 +517,7 @@ static void DrawResult(int timer, Work *work)
         }
     }
 }
+#endif
 
 static void SetupMode(Work *work)
 {
@@ -659,9 +670,9 @@ static void DrawTitle(Work *work)
         if (work->custom_title)
         {
             MENU_Locate(work->title_x + i, top + i, 0x12);
-            MENU_Printf("%s", work->title[0]);
+            MENU_Printf(vrclear_fmt_s, work->title[0]);
             MENU_Locate(FRAME_WIDTH - work->title_x + i, bottom + i, 0x12);
-            MENU_Printf("%s", work->title[1]);
+            MENU_Printf(vrclear_fmt_s, work->title[1]);
         }
         else if (work->level != 0)
         {
@@ -682,7 +693,7 @@ static void DrawTitle(Work *work)
         else
         {
             MENU_Locate(work->title_x + i, top + i, 0x12);
-            MENU_Printf("%s", vrclear_mode_names[work->mode]);
+            MENU_Printf(vrclear_fmt_s, vrclear_mode_names[work->mode]);
             MENU_Locate(FRAME_WIDTH - work->title_x + i, bottom + i, 0x12);
             MENU_Printf("%s  CLEARED", vrclear_weapon_names[work->weapon_name]);
         }
@@ -907,7 +918,7 @@ static void Draw(Work *work)
             button++;
         }
 
-        DrawResult(work->timer++, work);
+        VrClearDrawResult(work->timer++, work);
         DrawWindow(work);
 
         if (!(VR_Flags & VRFLAG_AMMO_BONUS))
@@ -968,7 +979,7 @@ static void Draw(Work *work)
             button++;
         }
 
-        DrawResult(work->timer++, work);
+        VrClearDrawResult(work->timer++, work);
         DrawWindow(work);
 
         if (!busy && work->state == MENU_DECIDED)
@@ -1267,8 +1278,10 @@ static int GetResources(Work *work, int where)
 
     SetupMode(work);
 
-    work->title[1] = "";
-    work->title[0] = "";
+    // FIXME: "\0" instead of "": the original has its own 4 byte literal here, gcc would merge "" with the
+    // one of vrclear_mode_names and the rdata of the object would shrink by 4 bytes
+    work->title[1] = "\0";
+    work->title[0] = "\0";
     work->custom_title = 0;
 
     if (GCL_GetOption('z'))

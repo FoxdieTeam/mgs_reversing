@@ -1,0 +1,8 @@
+# vr_sud01 address -> symbol (data owned by source/koba/vr/vr.c); input of build/symbolize_asm.py --symfile
+800DFBE8 VR_FoundCount 4
+800DFBEC VR_TargetCount 4
+800DFBF0 VR_Flags 4
+800DFBF4 VR_Unused 4
+800DFBF8 VR_Records 16
+800DFC08 VR_Status 4
+800D5860 VrItoa2

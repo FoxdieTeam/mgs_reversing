@@ -74,6 +74,12 @@ static CVECTOR backgrnd_colors[N_COLORS] = {
 
 /*---------------------------------------------------------------------------*/
 
+// SetPanel does not byte-match from C (7 words differ: scheduling of the w/h constants), so the original code is
+// kept as RELOCATABLE asm (symbolic, from build/symbolize_asm.py) which keeps this object shareable between overlays.
+void BackgrndSetPanel(Work *work, int name, BG_PACK *pack, int x, int y);
+#pragma INCLUDE_ASM_RELOC("source/koba/vr/reloc/BackgrndSetPanel.s")
+
+#if 0 /* NON_MATCHING best C attempt */
 // NON_MATCHING: 7 words differ (scheduling of the w/h constants and v0)
 static void SetPanel(Work *work, int name, BG_PACK *pack, int x, int y)
 {
@@ -92,6 +98,7 @@ static void SetPanel(Work *work, int name, BG_PACK *pack, int x, int y)
     pack->h = PANEL_H;
     pack->clut = tex->clut;
 }
+#endif
 
 static void Scroll(Work *work)
 {
@@ -117,7 +124,7 @@ static void Scroll(Work *work)
             id = GV_StrCode("op_back_l");
         }
 
-        SetPanel(work, id, pack, PANEL_W, PANEL_Y);
+        BackgrndSetPanel(work, id, pack, PANEL_W, PANEL_Y);
 
         work->timer = 0;
         work->side = (work->side + 1) & 1;
@@ -217,15 +224,15 @@ static int GetResources(Work *work, int map)
     work->fade = FADE_TIME;
 
     pack = &work->packs[0];
-    SetPanel(work, GV_StrCode("op_back_l"), pack, -PANEL_W, PANEL_Y);
+    BackgrndSetPanel(work, GV_StrCode("op_back_l"), pack, -PANEL_W, PANEL_Y);
     setRGB0(pack, 0, 0, 0);
 
     pack = &work->packs[1];
-    SetPanel(work, GV_StrCode("op_back_r"), pack, 0, PANEL_Y);
+    BackgrndSetPanel(work, GV_StrCode("op_back_r"), pack, 0, PANEL_Y);
     setRGB0(pack, 0, 0, 0);
 
     pack = &work->packs[2];
-    SetPanel(work, GV_StrCode("op_back_l"), pack, PANEL_W, PANEL_Y);
+    BackgrndSetPanel(work, GV_StrCode("op_back_l"), pack, PANEL_W, PANEL_Y);
     setRGB0(pack, 0, 0, 0);
 
     return 0;

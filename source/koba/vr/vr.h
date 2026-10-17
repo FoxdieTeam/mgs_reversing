@@ -16,12 +16,16 @@ enum {
 #define VRFLAG_AMMO_BONUS   0x10    // remaining ammo is counted down
 #define VRFLAG_NO_NEXT      0x20    // the mission time is kept in a GCL variable
 
+// vr.c defines these itself (VR_DEFINES_DATA): a prior extern declaration would turn its SECTION(".bss") definitions
+// into .comm symbols (alphabetical layout, no xdef) instead of ordered .bss data of vr.obj
+#ifndef VR_DEFINES_DATA
 extern int vr_end_timer;
 extern int VR_FoundCount;   // times the player has been spotted (sneaking mode)
 extern int VR_TargetCount;  // targets destroyed ("plus" messages)
 extern int VR_Flags;        // VRFLAG_*
 extern int VR_Records[4];   // record times, [3] = time of this run
 extern int VR_Status;       // VR_STATUS_*
+#endif
 
 void *NewVr(int name, int where);
 

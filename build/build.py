@@ -484,7 +484,17 @@ def gen_build_target(targetName):
 
         ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
 
-        if "overlays/" in cFile:
+        # C files that paste relocatable asm (INCLUDE_ASM_RELOC) outside of overlays/: preprocess only, no fixup
+        relocAsm = []
+        if "overlays/" not in cFile:
+            with open(cFile, encoding="utf8", errors="replace") as cf:
+                relocAsm = re.findall(r'^#pragma\s+INCLUDE_ASM_RELOC\s*\(\s*"([^"]+)"', cf.read(), re.M)
+
+        if relocAsm:
+            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile,
+                        implicit=["../" + x for x in relocAsm])
+            ninja.build(cConvertedFile, "convert_c_encoding", cAsmPreProcFile)
+        elif "overlays/" in cFile:
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
             ninja.build(cConvertedFile, "convert_c_encoding", cAsmPreProcFile)
         else:
