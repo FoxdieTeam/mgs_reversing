@@ -108,6 +108,7 @@ int ZAKO10_GetMapZone( int map_id, int val )
                 return unk->field_04[ i ].field_02;
             }
         }
+        /* returning -1 here instead of the goto does not match */
         goto end;
     }
     return 0;

@@ -789,13 +789,16 @@ int s17a_800DE900(SVECTOR *from, VECTOR *to, SVECTOR *out, int dist)
     if (x < -13000)
     {
         clip = -13000;
-        goto clip_x;
+        v.vx = clip;
+        clip = (clip - from->vx) >> 4;
+        x = (x - from->vx) >> 4;
+        v.vy = ((v.vy - from->vy) * clip) / x + from->vy;
+        v.vz = ((v.vz - from->vz) * clip) / x + from->vz;
+        clip = 1;
     }
-
-    if (x > 13000)
+    else if (x > 13000)
     {
         clip = 13000;
-clip_x:
         v.vx = clip;
         clip = (clip - from->vx) >> 4;
         x = (x - from->vx) >> 4;
@@ -808,13 +811,16 @@ clip_x:
     if (x < -25000)
     {
         clip = -25000;
-        goto clip_z;
+        v.vz = clip;
+        clip = (clip - from->vz) >> 4;
+        x = (x - from->vz) >> 4;
+        v.vy = ((v.vy - from->vy) * clip) / x + from->vy;
+        v.vx = ((v.vx - from->vx) * clip) / x + from->vx;
+        clip = 1;
     }
-
-    if (x > 25000)
+    else if (x > 25000)
     {
         clip = 25000;
-clip_z:
         v.vz = clip;
         clip = (clip - from->vz) >> 4;
         x = (x - from->vz) >> 4;
@@ -1669,6 +1675,7 @@ int s17a_800DFAE8(MGREX_WORK *work)
     {
         if (work->f1950 == 5 && work->f1960 == 1)
         {
+            /* moving the fire block into this if instead of the goto does not match */
             goto fire;
         }
 
@@ -1724,7 +1731,9 @@ int s17a_800DFF74(MGREX_WORK *work)
 
     if (work->f1A64 == 0)
     {
-        goto fail;
+        work->f6FC = 2;
+        work->timers[1] = work->f5F4;
+        return -1;
     }
 
     if (work->f1950 != 6 || work->f1960 != 1)
@@ -1734,7 +1743,6 @@ int s17a_800DFF74(MGREX_WORK *work)
             return 0;
         }
 
-fail:
         work->f6FC = 2;
         work->timers[1] = work->f5F4;
         return -1;
@@ -1821,7 +1829,9 @@ int s17a_800E0328(MGREX_WORK *work)
 
     if (work->f1A64 == 0)
     {
-        goto fail;
+        work->f6FC = 2;
+        work->timers[4] = 60;
+        return -1;
     }
 
     if (work->f1950 != 4 || work->f1960 != 1)
@@ -1831,7 +1841,6 @@ int s17a_800E0328(MGREX_WORK *work)
             return 0;
         }
 
-fail:
         work->f6FC = 2;
         work->timers[4] = 60;
         return -1;

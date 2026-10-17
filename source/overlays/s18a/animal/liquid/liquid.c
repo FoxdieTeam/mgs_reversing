@@ -702,7 +702,8 @@ int s18a_liquid_800C646C(LiquidWork *work)
 
         if (count != 3)
         {
-            goto error;
+            fprintf(0, "Err Err Err Sound Buff Over !!\n");
+            return -1;
         }
     }
 
@@ -724,7 +725,6 @@ int s18a_liquid_800C646C(LiquidWork *work)
 
         if (count2 != 5)
         {
-error:
             fprintf(0, "Err Err Err Sound Buff Over !!\n");
             return -1;
         }
@@ -814,6 +814,7 @@ int s18a_liquid_800C6808(LiquidWork *work, int name, int where)
 
     if (s18a_liquid_800C65DC(work, name, where) < 0)
     {
+        /* returning -1 directly at each of the gotos below does not match */
 fail:
         return -1;
     }

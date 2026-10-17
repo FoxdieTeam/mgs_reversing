@@ -2075,6 +2075,7 @@ void d18a_snake18_800CD040(Snake18Work *work)
         (!(work->f868 & 0x200) && (GM_PlayerStatus & PLAYER_WATCH)) || dword_8009F46C[0] ||
         (GM_Weapon == WP_Stinger && (GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_GROUND))))
     {
+        /* duplicating "ok = 0" instead of the goto below does not match */
 fail:
         ok = 0;
     }
@@ -2227,6 +2228,7 @@ static inline int d18a_snake18_CanSwitchItem(Snake18Work *work)
     if ((GM_PlayerStatus & (PLAYER_DAMAGED | PLAYER_ACT_ONLY)) || (work->f7E4 & 0x20) ||
         ((GM_Item == IT_Box1 || GM_Item == IT_Box2 || GM_Item == IT_Box3) && (GM_PlayerStatus & (PLAYER_INTRUDE | PLAYER_GROUND))))
     {
+        /* returning 0 directly at the goto below does not match */
 fail:
         return 0;
     }
@@ -5913,7 +5915,10 @@ void d18a_snake18_800D3D0C(Snake18Work *work, int time)
     {
         if (!(work->f910 & PAD_CIRCLE))
         {
-            goto end;
+            d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
+            GM_PlayerStatus &= ~PLAYER_ATTACK;
+            work->f7E4 &= ~4;
+            return;
         }
 
         work->f910 &= ~PAD_CIRCLE;
@@ -5928,7 +5933,10 @@ void d18a_snake18_800D3D0C(Snake18Work *work, int time)
     {
         if (!(work->f910 & PAD_CIRCLE))
         {
-            goto end;
+            d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
+            GM_PlayerStatus &= ~PLAYER_ATTACK;
+            work->f7E4 &= ~4;
+            return;
         }
 
         work->f910 = 0;
@@ -5941,7 +5949,6 @@ void d18a_snake18_800D3D0C(Snake18Work *work, int time)
 
     if (work->body.is_end)
     {
-end:
         d18a_snake18_StartAnim(work, d18a_snake18_800CD64C);
         GM_PlayerStatus &= ~PLAYER_ATTACK;
         work->f7E4 &= ~4;

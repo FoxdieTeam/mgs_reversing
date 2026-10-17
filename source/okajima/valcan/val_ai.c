@@ -2072,6 +2072,7 @@ void Valcan_800DD03C(Work *work)
     {
         if (!(work->field_664->damaged & TARGET_POWER))
         {
+            /* the block after this one would have to be duplicated to drop the goto */
             goto skip;
         }
 

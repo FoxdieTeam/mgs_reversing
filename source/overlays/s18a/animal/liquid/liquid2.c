@@ -2651,6 +2651,7 @@ void s18a_800CB780(LiquidWork *work, int time)
         {
             if (GM_GameLevel < 2)
             {
+                /* duplicating the "easy" body instead of this goto does not match */
                 goto easy;
             }
 
@@ -4841,7 +4842,9 @@ void s18a_800CE770(LiquidWork *work)
         idx = s18a_800CC96C(pos);
         if (idx < 0)
         {
-            goto next;
+            work->f960 = 1;
+            s18a_liquid_SetPhase(work, 3);
+            return;
         }
 
         if (GM_PlayerPosition.vx & 1)
@@ -4866,7 +4869,6 @@ void s18a_800CE770(LiquidWork *work)
         }
         else
         {
-next:
             work->f960 = 1;
             s18a_liquid_SetPhase(work, 3);
             return;
@@ -4965,7 +4967,10 @@ void s18a_800CEA0C(LiquidWork *work)
 
         if (idx < 0)
         {
-            goto next;
+            work->f960 = 2;
+            work->f964 = 9;
+            work->f968 = 0;
+            return;
         }
 
         work->f990 = s18a_800CCCE0(idx, pos);
@@ -4982,7 +4987,6 @@ void s18a_800CEA0C(LiquidWork *work)
         }
         else
         {
-next:
             work->f960 = 2;
             work->f964 = 9;
             work->f968 = 0;
@@ -5068,6 +5072,7 @@ void s18a_800CEBC4(LiquidWork *work)
         {
             if (GM_GameLevel > 0)
             {
+                /* duplicating the check below instead of this goto does not match */
                 n = work->f980 + 2;
                 goto check;
             }

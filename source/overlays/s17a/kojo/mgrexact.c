@@ -436,37 +436,37 @@ void s17a_800DA9DC(MGREX_WORK *work)
 
         if (work->f5BC <= 0)
         {
-                GM_FreeControl(&work->ctrl_a);
-                GM_FreeTarget(work->target_a);
-                work->target_a = NULL;
+            GM_FreeControl(&work->ctrl_a);
+            GM_FreeTarget(work->target_a);
+            work->target_a = NULL;
 
-                GM_FreeObject((OBJECT *)&work->radar);
-                GM_InitObjectNoRots(&work->radar, GV_StrCode("radar_f2"), 0x15D, 0);
-                GM_ConfigObjectLight((OBJECT *)&work->radar, work->light);
-                GM_ConfigObjectRoot((OBJECT *)&work->radar, &work->objWaist, 6);
+            GM_FreeObject((OBJECT *)&work->radar);
+            GM_InitObjectNoRots(&work->radar, GV_StrCode("radar_f2"), 0x15D, 0);
+            GM_ConfigObjectLight((OBJECT *)&work->radar, work->light);
+            GM_ConfigObjectRoot((OBJECT *)&work->radar, &work->objWaist, 6);
 
-                if (work->target_c)
-                {
-                    GM_FreeControl(&work->ctrl_c);
-                    GM_FreeTarget(work->target_c);
-                    work->target_c = NULL;
-                }
+            if (work->target_c)
+            {
+                GM_FreeControl(&work->ctrl_c);
+                GM_FreeTarget(work->target_c);
+                work->target_c = NULL;
+            }
 
-                work->f720 = 2;
-                goto skip_a;
-        }
-
-        if (work->f1968)
-        {
-            work->target_a->class = TARGET_AVAIL;
-            work->f1968--;
+            work->f720 = 2;
         }
         else
         {
-            work->target_a->class = TARGET_POWER | TARGET_SEEK;
+            if (work->f1968)
+            {
+                work->target_a->class = TARGET_AVAIL;
+                work->f1968--;
+            }
+            else
+            {
+                work->target_a->class = TARGET_POWER | TARGET_SEEK;
+            }
         }
     }
-skip_a:
 
     if (work->target_b)
     {
@@ -497,32 +497,32 @@ skip_a:
 
         if (work->f5C4 <= 0)
         {
-                GM_FreeControl(&work->ctrl_b);
-                GM_FreeTarget(work->target_b);
-                work->target_b = NULL;
+            GM_FreeControl(&work->ctrl_b);
+            GM_FreeTarget(work->target_b);
+            work->target_b = NULL;
 
-                if (work->target_c)
-                {
-                    GM_FreeControl(&work->ctrl_c);
-                    GM_FreeTarget(work->target_c);
-                    work->target_c = NULL;
-                }
+            if (work->target_c)
+            {
+                GM_FreeControl(&work->ctrl_c);
+                GM_FreeTarget(work->target_c);
+                work->target_c = NULL;
+            }
 
-                work->f720 = 1;
-                goto skip_b;
-        }
-
-        if (work->f1968)
-        {
-            work->target_b->class = TARGET_AVAIL;
-            work->f1968--;
+            work->f720 = 1;
         }
         else
         {
-            work->target_b->class = TARGET_POWER | TARGET_SEEK;
+            if (work->f1968)
+            {
+                work->target_b->class = TARGET_AVAIL;
+                work->f1968--;
+            }
+            else
+            {
+                work->target_b->class = TARGET_POWER | TARGET_SEEK;
+            }
         }
     }
-skip_b:
 
     MENU_DrawBar2(28, (work->f1AC0 * 1500) / work->f1ABC, (work->f1AC4 * 1500) / work->f1ABC, 1500, &work->life_bar);
 

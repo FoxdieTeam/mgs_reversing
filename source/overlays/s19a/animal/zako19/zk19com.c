@@ -97,6 +97,7 @@ int ZAKO19FindRoute( int map, int id )
             if ( list->data[ i ][ 0 ] == id ) return list->data[ i ][ 1 ];
         }
 
+        /* returning -1 here instead of the goto does not match */
         goto not_found;
     }
 
