@@ -14,6 +14,7 @@
 #include "linkvar.h"
 #include "menu/menuman.h"
 #include "takabe/fadeio.h"
+#include "vr.h"
 #include "vrmenu.h"
 
 /*---------------------------------------------------------------------------*/
@@ -68,12 +69,6 @@
 
 #define NUM_WEAPONS         10
 
-// VR mission state flags (vr_sud01_dword_800DFBF0)
-#define VRFLAG_RANK_MASK    0x06                // record rank of this run (1st..3rd)
-#define VRFLAG_RESULT       0x08                // result times available
-#define VRFLAG_AMMO_BONUS   0x10                // remaining ammo is being counted down
-#define VRFLAG_NO_NEXT      0x20
-
 #define LOADREQ_GAMEOVER    0x81
 
 /*---------------------------------------------------------------------------*/
@@ -122,13 +117,6 @@ typedef struct _Work
 } Work;
 
 /*---------------------------------------------------------------------------*/
-
-// FIXME: VR mission state owned by another (not yet decompiled) object of the
-// overlay (bss right before vrwindow.c); provisional names
-extern int vr_sud01_dword_800DFBE8;     // sneaking bonus (0: -3 sec, 1: -1 sec)
-extern u_int vr_sud01_dword_800DFBF0;   // VRFLAG_*
-extern int vr_sud01_dword_800DFBF8[4];  // record times, [3] = time of this run
-extern int vr_sud01_dword_800DFC04;     // time of this run
 
 /*---------------------------------------------------------------------------*/
 
@@ -240,7 +228,7 @@ static void DrawReplayLabel(Work *work)
 
     if (work->blink >= 16 && work->replay)
     {
-        if (vr_sud01_dword_800DFBF0 & VRFLAG_RESULT)
+        if (VR_Flags & VRFLAG_RESULT)
         {
             DrawReplay();
         }
@@ -273,7 +261,7 @@ static void FormatTime(char *buf, int time, int mode, Work *work)
 
     if (mode != 0)
     {
-        total = vr_sud01_dword_800DFC04;
+        total = VR_Records[3];
     }
     else
     {
@@ -286,7 +274,7 @@ static void FormatTime(char *buf, int time, int mode, Work *work)
 
         if (work->mode == MODE_ADVANCED)
         {
-            switch (vr_sud01_dword_800DFBE8)
+            switch (VR_FoundCount)
             {
             case 0:
                 time = total + 90;
@@ -358,14 +346,14 @@ static void DrawResult(int timer, Work *work)
     int   y;
     int   i;
 
-    if (!(vr_sud01_dword_800DFBF0 & VRFLAG_RESULT))
+    if (!(VR_Flags & VRFLAG_RESULT))
     {
         return;
     }
 
     MENU_Color(208, 107, 57);
 
-    if (vr_sud01_dword_800DFBF0 & VRFLAG_AMMO_BONUS)
+    if (VR_Flags & VRFLAG_AMMO_BONUS)
     {
         unit = work->unit;
         ammo = linkvarbuf[work->weapon + 16];
@@ -388,7 +376,7 @@ static void DrawResult(int timer, Work *work)
 
         if (t == 0)
         {
-            time = vr_sud01_dword_800DFC04;
+            time = VR_Records[3];
             if (time < 0)
             {
                 time = 0;
@@ -398,7 +386,7 @@ static void DrawResult(int timer, Work *work)
         }
         else
         {
-            time = vr_sud01_dword_800DFC04 + unit * count;
+            time = VR_Records[3] + unit * count;
             if (time < 0)
             {
                 time = 0;
@@ -421,14 +409,14 @@ static void DrawResult(int timer, Work *work)
 
         if ((ammo - (t + 1) / 2) < -15)
         {
-            vr_sud01_dword_800DFBF0 &= ~VRFLAG_AMMO_BONUS;
+            VR_Flags &= ~VRFLAG_AMMO_BONUS;
         }
 
         if (work->mode == MODE_ADVANCED)
         {
             MENU_Locate(160, 84, 0x12);
 
-            switch (vr_sud01_dword_800DFBE8)
+            switch (VR_FoundCount)
             {
             case 0:
                 MENU_Printf("SNEAKING BONUS  -3 SEC");
@@ -448,7 +436,7 @@ static void DrawResult(int timer, Work *work)
             len = timer;
         }
 
-        rank = (vr_sud01_dword_800DFBF0 & VRFLAG_RANK_MASK) >> 1;
+        rank = (u_int)(VR_Flags & VRFLAG_RANK_MASK) >> 1;
         if (rank >= 3)
         {
             rank = -1;
@@ -471,7 +459,7 @@ static void DrawResult(int timer, Work *work)
         {
             if (i != rank || ((timer / 15) & 1))
             {
-                time = vr_sud01_dword_800DFBF8[i];
+                time = VR_Records[i];
                 if (time < 0)
                 {
                     time = -time;
@@ -485,7 +473,7 @@ static void DrawResult(int timer, Work *work)
                     y += 12;
                 }
 
-                if (vr_sud01_dword_800DFBF8[i] > 0)
+                if (VR_Records[i] > 0)
                 {
                     MENU_Color(208, 107, 57);
                 }
@@ -621,7 +609,7 @@ static void DrawTitle(Work *work)
     level[0] = (work->level / 10) + '0';
 
     y = 0;
-    if (!(vr_sud01_dword_800DFBF0 & VRFLAG_RESULT))
+    if (!(VR_Flags & VRFLAG_RESULT))
     {
         y = 15;
     }
@@ -811,7 +799,7 @@ static void LoadReplayData(Work *work)
     LoadImage(&rect1, (u_long *)(data + 1));
     DrawSync(0);
 
-    LoadImage(&rect2, (u_long *)&vr_sud01_dword_800DFC04);
+    LoadImage(&rect2, (u_long *)&VR_Records[3]);
     DrawSync(0);
 }
 
@@ -909,7 +897,7 @@ static void Draw(Work *work)
         DrawResult(work->timer++, work);
         DrawWindow(work);
 
-        if (!(vr_sud01_dword_800DFBF0 & VRFLAG_AMMO_BONUS))
+        if (!(VR_Flags & VRFLAG_AMMO_BONUS))
         {
             MoveCursor(work);
             VrMenu_UpdateFrame(&work->cursor, &vrclear_buttons[work->sel].label,
@@ -977,7 +965,7 @@ static void Draw(Work *work)
                 GCL_SetVar(work->stage_var, -1);
             }
 
-            if (work->cur == BUTTON_NEXT && !(vr_sud01_dword_800DFBF0 & VRFLAG_NO_NEXT))
+            if (work->cur == BUTTON_NEXT && !(VR_Flags & VRFLAG_NO_NEXT))
             {
                 work->fade = 1;
                 NewFadeInOut(FADEIO_MODE_TOBLACK, 10);
@@ -1040,12 +1028,12 @@ static void Init(Work *work)
 
     if (work->voice_flag == 0)
     {
-        vr_sud01_dword_800DFBF0 &= ~VRFLAG_AMMO_BONUS;
+        VR_Flags &= ~VRFLAG_AMMO_BONUS;
     }
 
     if (work->voice_flag == 16)
     {
-        vr_sud01_dword_800DFBF0 = 0;
+        VR_Flags = 0;
     }
 
     if (work->category != 0 && !work->replay)
@@ -1053,7 +1041,7 @@ static void Init(Work *work)
         SetClearFlag(work->category, work->stage);
     }
 
-    rank = (vr_sud01_dword_800DFBF0 & VRFLAG_RANK_MASK) >> 1;
+    rank = (u_int)(VR_Flags & VRFLAG_RANK_MASK) >> 1;
     LoadReplayData(work);
 
     if (work->category >= 5)
@@ -1061,7 +1049,7 @@ static void Init(Work *work)
         work->has_replay = 0;
     }
 
-    if ((vr_sud01_dword_800DFBF0 & VRFLAG_RESULT) && work->has_replay)
+    if ((VR_Flags & VRFLAG_RESULT) && work->has_replay)
     {
         work->n_buttons = 4;
         vrclear_buttons[BUTTON_RETRY].link[LINK_UP] = BUTTON_SAVE;
@@ -1079,7 +1067,7 @@ static void Init(Work *work)
 
     if (work->voice[0] != 0)
     {
-        if ((vr_sud01_dword_800DFBF0 & VRFLAG_RESULT) && rank != -1)
+        if ((VR_Flags & VRFLAG_RESULT) && rank != -1)
         {
             GM_VoxStream(work->voice[rank], 0x40000000);
         }
@@ -1100,7 +1088,7 @@ static void Init(Work *work)
     {
         work->sel = BUTTON_EXIT;
 
-        if ((vr_sud01_dword_800DFBF0 & VRFLAG_RESULT) && work->has_replay)
+        if ((VR_Flags & VRFLAG_RESULT) && work->has_replay)
         {
             vrclear_buttons[BUTTON_NEXT].link[LINK_UP] = BUTTON_SAVE;
             vrclear_buttons[BUTTON_SAVE].link[LINK_DOWN] = BUTTON_NEXT;
@@ -1122,12 +1110,12 @@ static void Init(Work *work)
         work->sel = BUTTON_RETRY;
     }
 
-    if (vr_sud01_dword_800DFBF0 & VRFLAG_NO_NEXT)
+    if (VR_Flags & VRFLAG_NO_NEXT)
     {
         work->sel = BUTTON_EXIT;
     }
 
-    if ((vr_sud01_dword_800DFBF0 & VRFLAG_RESULT) && work->has_replay)
+    if ((VR_Flags & VRFLAG_RESULT) && work->has_replay)
     {
         work->sel = BUTTON_SAVE;
     }
@@ -1163,7 +1151,7 @@ static void Init(Work *work)
     work->win_h = 0;
     work->win_w = 0;
 
-    if ((vr_sud01_dword_800DFBF0 & (VRFLAG_RESULT | VRFLAG_NO_NEXT)) == VRFLAG_NO_NEXT)
+    if ((VR_Flags & (VRFLAG_RESULT | VRFLAG_NO_NEXT)) == VRFLAG_NO_NEXT)
     {
         work->state = MENU_OPEN_WINDOW;
     }
@@ -1280,15 +1268,15 @@ static int GetResources(Work *work, int where)
         }
     }
 
-    vr_sud01_dword_800DFBE8 = 0;
+    VR_FoundCount = 0;
     if (work->mode != MODE_ADVANCED || work->custom_title)
     {
-        vr_sud01_dword_800DFBE8 = 2;
+        VR_FoundCount = 2;
     }
 
     if (work->mode == MODE_NINJA && !work->custom_title)
     {
-        vr_sud01_dword_800DFBE8 = 3;
+        VR_FoundCount = 3;
     }
 
     opt = GCL_GetOption('d');
