@@ -1,18 +1,7 @@
 #include "game/game.h"
+#include "../jeep_system.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x40];
-    OBJECT  *body;
-    char     pad4[0x1C];
-    MATRIX   world;
-} JEEP_SYSTEM;
 
-extern JEEP_SYSTEM Takabe_JeepSystem;
 
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 #define BODY_MODEL  GV_StrCode("19b_o2")

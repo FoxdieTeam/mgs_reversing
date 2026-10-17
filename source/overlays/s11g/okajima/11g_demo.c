@@ -44,7 +44,7 @@ typedef struct _Work
 #define BODY_DATA   GV_StrCode("stn_fr")
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
-VECTOR body_scale = {4096, 4096, 4096};
+VECTOR body_scale = {4096, 4096, 4096, 0};
 
 void  NewAnime_8005E774(SVECTOR *pos);
 void *NewBlastLine(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4);
@@ -163,8 +163,43 @@ void s11g_11g_demo_800CB858(SVECTOR *pos, int se_id)
     GM_SeSetMode(pos, se_id, GM_SEMODE_BOMB);
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s11g/s11g_11g_demo_800CB878.s")
-void s11g_11g_demo_800CB878(Work *, SVECTOR *, int);
+void s11g_11g_demo_800CB878(Work *work, SVECTOR *pos, int index)
+{
+    SVECTOR *verts;
+    SVECTOR *prev;
+    int      count;
+    int      i;
+    int      j;
+
+    count = work->f242C[index];
+    i = index * 16 + count;
+    work->f36B4[i] = 16;
+    j = i * 4;
+    verts = &work->vertices[j];
+
+    if (count == 0)
+    {
+        j = (index * 64) | 60;
+    }
+    else
+    {
+        j -= 4;
+    }
+
+    prev = &work->vertices[j];
+
+    if (++work->f242C[index] >= 16)
+    {
+        work->f242C[index] = 0;
+    }
+
+    *verts++ = *pos;
+    *verts++ = *prev;
+    *verts = *pos;
+    verts->vy -= 100;
+    prev += 2;
+    verts[1] = *prev;
+}
 
 void s11g_11g_demo_800CB994(Work *work)
 {
@@ -184,8 +219,8 @@ void s11g_11g_demo_800CB994(Work *work)
     
     GM_CurrentMap = work->map;
 
-    GM_GameStatus |= 0x4A0040;
-    GM_GameStatus |= 0x10000000;
+    GM_GameStatus |= (STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF | STATE_CUT_IN);
+    GM_GameStatus |= STATE_PADRELEASE;
 
     if ((GV_Time % 16) == 0)
     {
@@ -608,7 +643,7 @@ static int GetResources(Work *work, int name, int map)
     GV_DemoPadStatus[0] = 0;
     GV_DemoPadStatus[1] = 0;
 
-    GM_GameStatus |= ( STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF | 0x40 );
+    GM_GameStatus |= ( STATE_RADAR_OFF | STATE_MENU_DISABLE | STATE_LIFE_OFF | STATE_CUT_IN );
 
     if (s11g_11g_demo_800CB534(work) < 0)
     {

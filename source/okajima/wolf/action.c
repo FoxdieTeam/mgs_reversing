@@ -7,7 +7,7 @@
 SVECTOR wolf2_800C3560 = {0, 0, 100};
 SVECTOR wolf2_800C3568 = {-1024, 0, 0};
 
-extern SVECTOR wolf2_position;
+SVECTOR SECTION(".bss") wolf2_position;
 
 void   NewBlood( MATRIX *, int );
 void * NewKetchap_s( SVECTOR *, int, int, int );

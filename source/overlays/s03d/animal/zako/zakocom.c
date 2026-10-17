@@ -62,7 +62,7 @@ const char s03d_dword_800DBC74[] = {'=', '%', 'd', ' '};
 const char s03d_dword_800DBC78[] = {0x0, 0x0, 0x0, 0x0};
 const char s03d_dword_800DBC7C[] = {'z', 'a', 'k', 'o'};
 const char s03d_dword_800DBC80[] = {'c', 'o', 'm', '.'};
-const char s03d_dword_800DBC84[] = {'c', 0x0, 0x0, 0xf};
+const char s03d_dword_800DBC84[] = {'c', 0x0};
 
 extern int s03d_dword_800DC2E0;
 extern int s03d_dword_800DC2E8;
@@ -156,6 +156,7 @@ int s03d_800D414C(int map_id, int val)
                 return unk->field_04[i].field_02;
             }
         }
+        /* returning -1 here instead of the goto does not match */
         goto end;
     }
     return 0;
@@ -535,7 +536,7 @@ void s03d_800D4B84(ZakoComMgr *command)
             command->field_18 = 0xFF;
             GM_AlertModeSet(3);
             command->field_1C = 1;
-            GM_SeSet2(NULL, 0x3F, 0x2A);
+            GM_SeSet2(NULL, 0x3F, SE_ALERT_SIREN);
             ZAKOCOM_MGR->field_60 = 0;
         }
         break;
