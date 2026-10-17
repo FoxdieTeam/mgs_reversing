@@ -171,8 +171,10 @@ u_short *SECTION(".bss") vrclear_replay_data;
 
 static void SetClearFlag(int category, int stage)
 {
-    RECT rect = { 160, 224, 12, 16 };
-    int  word;
+    RECT   rect = { 160, 224, 12, 16 };
+    int    word;
+    u_long flags;
+
 
     StoreImage(&rect, vrclear_flags);
     DrawSync(0);
@@ -182,7 +184,9 @@ static void SetClearFlag(int category, int stage)
         word = stage >> 5;
         printf("stage = %d\n", stage);
         printf("area = %d\n", word);
-        vrclear_flags[category - 1][word] |= 1 << (stage - (word << 5));
+        flags = vrclear_flags[category - 1][word];
+        flags |= 1 << (stage - (word << 5));
+        vrclear_flags[category - 1][word] = flags;
         printf("clearflags[%d][%d] = %d\n", category - 1, word, 1 << (stage - (word << 5)));
     }
 
@@ -319,10 +323,10 @@ static void FormatTime(char *buf, int time, int mode, Work *work)
 
     cents = ((time % 30) * 100) / 30;
     time /= 30;
-    secs = time % 60;
+    secs = time - (time / 60) * 60;
     mins = time / 60;
     digit = (((total % 30) * 100) / 30) % 10;
-    jitter = ((total / 30) + digit * 29) * ((total % 30) / 3);
+    jitter = ((total % 30) / 3) * ((total / 30) + digit * 29);
     jitter >>= 1;
 
     if (digit == 6)
@@ -340,7 +344,8 @@ static void FormatTime(char *buf, int time, int mode, Work *work)
     if (mode == 3)
     {
         cents += ((ammo % 30) * 100) / 30;
-        secs = secs + cents / 100 + ammo / 30;
+        secs += cents / 100;
+        secs += ammo / 30;
         cents %= 100;
         mins += secs / 60;
         secs %= 60;
@@ -352,11 +357,11 @@ static void FormatTime(char *buf, int time, int mode, Work *work)
 
     buf[8] = '\0';
     buf[7] = cents_str[1];
-    buf[5] = ':';
     buf[6] = cents_str[0];
+    buf[5] = ':';
     buf[4] = secs_str[1];
-    buf[2] = ':';
     buf[3] = secs_str[0];
+    buf[2] = ':';
     buf[1] = mins_str[1];
     buf[0] = mins_str[0];
 }
@@ -371,7 +376,6 @@ static void DrawResult(int timer, Work *work)
     int   count;
     int   time;
     int   len;
-    char *end;
     int   rank;
     int   y;
     int   i;
@@ -485,7 +489,6 @@ static void DrawResult(int timer, Work *work)
             i = 3;
         }
 
-        end = &buf[len];
         for (; i < 4; i++)
         {
             if (i != rank || ((timer / 15) & 1))
@@ -497,7 +500,7 @@ static void DrawResult(int timer, Work *work)
                 }
 
                 FormatTime(buf, time, 0, work);
-                *end = '\0';
+                buf[len] = '\0';
 
                 if (i == 3)
                 {
@@ -633,6 +636,7 @@ static void DrawTitle(Work *work)
     char level[3];
     int  y;
     int  i;
+    int  top, bottom;
 
     level[2] = '\0';
     level[1] = (work->level % 10) + '0';
@@ -659,7 +663,10 @@ static void DrawTitle(Work *work)
         work->title_x -= 20;
     }
 
-    for (i = 0; i < 2; i++, y++)
+    top = y + 25;
+    bottom = y + 40;
+
+    for (i = 0; i < 2; i++)
     {
         if (i != 0)
         {
@@ -672,14 +679,14 @@ static void DrawTitle(Work *work)
 
         if (work->custom_title)
         {
-            MENU_Locate(work->title_x + i, y + 25, 0x12);
+            MENU_Locate(work->title_x + i, top + i, 0x12);
             MENU_Printf("%s", work->title[0]);
-            MENU_Locate(-work->title_x + 320 + i, y + 40, 0x12);
+            MENU_Locate(FRAME_WIDTH - work->title_x + i, bottom + i, 0x12);
             MENU_Printf("%s", work->title[1]);
         }
         else if (work->level != 0)
         {
-            MENU_Locate(work->title_x + i, y + 25, 0x12);
+            MENU_Locate(work->title_x + i, top + i, 0x12);
 
             if (work->weapon_name != 0)
             {
@@ -690,14 +697,14 @@ static void DrawTitle(Work *work)
                 MENU_Printf("%s %s", vrclear_mode_names[work->mode], vrclear_weapon_names[0]);
             }
 
-            MENU_Locate(-work->title_x + 320 + i, y + 40, 0x12);
+            MENU_Locate(FRAME_WIDTH - work->title_x + i, bottom + i, 0x12);
             MENU_Printf("LEVEL %s  CLEARED", level);
         }
         else
         {
-            MENU_Locate(work->title_x + i, y + 25, 0x12);
+            MENU_Locate(work->title_x + i, top + i, 0x12);
             MENU_Printf("%s", vrclear_mode_names[work->mode]);
-            MENU_Locate(-work->title_x + 320 + i, y + 40, 0x12);
+            MENU_Locate(FRAME_WIDTH - work->title_x + i, bottom + i, 0x12);
             MENU_Printf("%s  CLEARED", vrclear_weapon_names[work->weapon_name]);
         }
     }
