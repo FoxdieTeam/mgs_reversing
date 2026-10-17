@@ -173,8 +173,8 @@ typedef struct _WatcherWork
     short          field_C48;                  //0xC48
     short          field_C4A;                  //0xC4A
 #ifdef VR_EXE
-    void          *field_C4C;                  //0xC4C
-    void          *field_C50;                  //0xC50
+    GV_ACT        *kogaku_body;                //0xC4C  stealth camouflage (param_blood 'K')
+    GV_ACT        *kogaku_weapon;              //0xC50
     int            heartbeat_time;             //0xC54 tick count of the last heartbeat SE (action.c)
     int            field_C58;                  //0xC58
     int            field_C5C;                  //0xC5C
