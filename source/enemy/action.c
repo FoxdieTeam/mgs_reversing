@@ -12,13 +12,19 @@
 #include "game/game.h"
 #include "game/item.h"
 #include "okajima/bullet.h"
+#include "mts/mts.h"
 
 // from takabe/mosaic.h
 extern void *NewMosaic( MATRIX *, int, int, int );
 
 short ActTable_800C3358[54] =
 {
+#ifdef VR_EXE
+    // the VR uses motion 0x30 for ActTable[5]
+    0x13, 0x14, 0x0A, 0x16, 0x09, 0x30, 0x23, 0x24, 0x2D,
+#else
     0x13, 0x14, 0x0A, 0x16, 0x09, 0x22, 0x23, 0x24, 0x2D,
+#endif
     0x0D, 0x0C, 0x1A, 0x0F, 0x0E, 0x10, 0x1B, 0x08, 0x2E,
     0x32, 0x15, 0x1E, 0x1F, 0x20, 0x21, 0x25, 0x34, 0x35,
     0x19, 0x05, 0x02, 0x2A, 0x04, 0x27, 0x28, 0x06, 0x07,
@@ -280,6 +286,68 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
 void s00a_command_800C615C( WatcherWork *work, int time )
 {
 }
+
+#ifdef VR_EXE
+#define HEARTBEAT_DIS       2000
+#define HEARTBEAT_FACE_DIR  1800
+
+// VR only: lie on the floor (no interpolation)
+void ActLieDown( WatcherWork *work, int time )
+{
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION39, 0 );
+    }
+}
+
+// VR only: heartbeat SE while the player watches the soldier in first person from near by
+static void ENE_PutHeartbeat( WatcherWork *work )
+{
+    int now;
+    int interval;
+
+    if ( ( GM_PlayerStatus & PLAYER_WATCH ) && work->sn_dis < HEARTBEAT_DIS )
+    {
+        now = mts_get_tick_count();
+        if ( GV_DiffDirAbs( work->sn_dir, GM_PlayerControl->rot.vy ) < HEARTBEAT_FACE_DIR )
+        {
+            interval = 40;
+        }
+        else
+        {
+            interval = 20;
+        }
+
+        if ( now - work->heartbeat_time > interval )
+        {
+            GM_SeSetMode( &work->control.mov, SE_HEARTBEAT, GM_SEMODE_REAL );
+            work->heartbeat_time = mts_get_tick_count();
+        }
+    }
+}
+
+// VR only: stand still while pad.press has SP_HEARTBEAT set
+void ActHeartbeat( WatcherWork *work, int time )
+{
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision.length = COM_EYE_LENGTH;
+
+    if ( time == 0 )
+    {
+        SetAction( work, STANDSTILL, ACTINTERP );
+        work->heartbeat_time = 0;
+    }
+
+    if ( !( work->pad.press & SP_HEARTBEAT ) )
+    {
+        SetMode( work, ActStandStill_800C5C84 );
+    }
+    else
+    {
+        ENE_PutHeartbeat( work );
+    }
+}
+#endif
 
 void s00a_command_800C6164( WatcherWork *work, int time )
 {
@@ -669,6 +737,12 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
                 work->target->vital = 0;
                 GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB ) ;
             }
+#ifdef VR_EXE
+            else
+            {
+                SetAction( work, ACTION40, ACTINTERP );
+            }
+#endif
         }
         if ( work->body.is_end )
         {
@@ -730,6 +804,38 @@ void s00a_command_800C6EC8( WatcherWork* work )
     }
 }
 
+#ifdef VR_EXE
+extern void COM_SetBikkuriFlag( int flag );   // command.c (VR)
+extern void COM_ResetBikkuriFlag( int flag ); // command.c (VR)
+
+#define VR_ST_HOLD_C 0x100  // a 'C'/'E' soldier is being held
+#define VR_ST_HOLD_D 0x200  // a 'D'/'F' soldier is being held
+
+static inline void SetHoldFlag( WatcherWork *work )
+{
+    if ( work->param_blood == 'C' || work->param_blood == 'E' )
+    {
+        COM_SetBikkuriFlag( VR_ST_HOLD_C );
+    }
+    else if ( work->param_blood == 'D' || work->param_blood == 'F' )
+    {
+        COM_SetBikkuriFlag( VR_ST_HOLD_D );
+    }
+}
+
+static inline void ClearHoldFlag( WatcherWork *work )
+{
+    if ( work->param_blood == 'C' || work->param_blood == 'E' )
+    {
+        COM_ResetBikkuriFlag( VR_ST_HOLD_C );
+    }
+    else if ( work->param_blood == 'D' || work->param_blood == 'F' )
+    {
+        COM_ResetBikkuriFlag( VR_ST_HOLD_D );
+    }
+}
+#endif
+
 //enemy being held by snake
 void s00a_command_800C6FA8( WatcherWork* work, int time )
 {
@@ -737,6 +843,9 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     int v1;
     int s2;
     TARGET *target;
+#ifdef VR_EXE
+    int dh;
+#endif
 
     target = work->target;
     s2 = work->unknown.last_set;
@@ -748,6 +857,9 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     {
         work->field_B5A = target->faint;
         GM_SeSet( &work->control.mov, SE_V_ENE_GRABBED );
+#ifdef VR_EXE
+        SetHoldFlag( work );
+#endif
     }
 
     if ( work->field_B5A != target->faint )
@@ -813,12 +925,28 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     case 0x27:
         work->unknown.field_14 = 4;
         target->side = ENEMY_SIDE;
+#ifdef VR_EXE
+        if ( work->param_blood != 'M' )
+        {
+            target->vital = 0;
+        }
+        else
+        {
+            // 'M' soldiers survive the neck snap: toggle field_B96 (see s00a_command_800C82B0)
+            work->field_B96 = 1 - work->field_B96;
+        }
+        ClearHoldFlag( work );
+#else
         target->vital = 0;
+#endif
         SetMode( work, s00a_command_800C78E0 );
         return;
     default:
         work->unknown.field_14 = 5;
         target->side = ENEMY_SIDE;
+#ifdef VR_EXE
+        ClearHoldFlag( work );
+#endif
         SetMode( work, s00a_command_800C78E0 );
         return;
     }
@@ -829,10 +957,31 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
         a0 = work->control.mov.vy - GM_PlayerPosition.vy;
     }
 
+#ifdef VR_EXE
+    if ( work->param_blood == 'C' )
+    {
+        // the height difference of a scaled soldier widens the grab range
+        dh = work->body.height - ( work->body.height * work->scale ) / 4096;
+        if ( dh < 0 )
+        {
+            dh = ( work->body.height * work->scale ) / 4096 - work->body.height;
+        }
+
+        if ( work->sn_dis > dh + 800 || a0 > dh + 500 )
+        {
+            target->captured = 0;
+        }
+    }
+    else if ( work->sn_dis > 800 || a0 > 500  )
+    {
+        target->captured = 0;
+    }
+#else
     if ( work->sn_dis > 800 || a0 > 500  )
     {
         target->captured = 0;
     }
+#endif
     if ( !( work->control.map->index & GM_PlayerMap ) )
     {
         target->captured = 0;
@@ -915,6 +1064,13 @@ void s00a_command_800C7498( WatcherWork* work, int time )
         {
             SetAction( work, ACTION40, ACTINTERP );
         }
+
+#ifdef VR_EXE
+        if ( work->param_blood == 'M' && work->target->faint <= 0 )
+        {
+            work->target->faint = work->param_faint;
+        }
+#endif
 
         if ( work->target->faint <= 0 )
         {
@@ -1200,10 +1356,21 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
     work->unknown.field_1E = 0;
     work->act_status |= 0x8;
 
+#ifdef VR_EXE
+    if ( time == 0 )
+    {
+        if ( work->unknown.field_14 != 2 )
+        {
+            GM_SeSetMode( &ctrl->mov, SE_V_ENE_KILLED, GM_SEMODE_BOMB );
+        }
+        ctrl->skip_flag |= CTRL_BOTH_CHECK;
+    }
+#else
     if ( time == 0 && work->unknown.field_14 != 2 )
     {
         GM_SeSetMode( &ctrl->mov, SE_V_ENE_KILLED, GM_SEMODE_BOMB );
     }
+#endif
 
     if ( time > 16 && ctrl->grounded )
     {
@@ -1246,8 +1413,15 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
             GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
             ENE_PutBlood( work, 6, 1 );
             SetMode( work, s00a_command_800C8054 );
+#ifdef VR_EXE
+            ctrl->skip_flag &= ~CTRL_BOTH_CHECK;
+#endif
         }
     }
+#ifdef VR_EXE
+    s00a_command_800C59F8( work );
+    ctrl->height = 200;
+#endif
     ctrl->hzd_height = -32767;
 }
 
@@ -1335,11 +1509,17 @@ void s00a_command_800C82B0( WatcherWork *work )
     ACTION      action;
     CONTROL    *ctrl;
     WatcherUnk *unk;
+#ifdef VR_EXE
+    OBJECT     *body;
+#endif
 
     work->trigger = 0;
     work->vision.length = 0;
     work->target->class = TARGET_AVAIL;
 
+#ifdef VR_EXE
+    unk = &work->unknown;
+#endif
     action = work->action;
     ctrl   = &work->control;
 
@@ -1347,10 +1527,24 @@ void s00a_command_800C82B0( WatcherWork *work )
     work->act_status = 0;
     work->field_C30  = 0;
 
+#ifdef VR_EXE
+    // FIXME: the body pointer (and unk set before ctrl) only steer gcc's register/scheduling choices
+    body = &work->body;
+    if ( work->param_blood == 'C' )
+    {
+        ctrl->height = ( body->height * work->scale ) / 4096;
+    }
+    else
+    {
+        ctrl->height = body->height;
+    }
+    ctrl->hzd_height = ctrl->levels[0] + 750;
+#else
     ctrl->height = work->body.height;
     ctrl->hzd_height = ctrl->levels[0] + 750;
 
     unk = &work->unknown;
+#endif
 
     time_prev = work->time;
     work->time++;
@@ -1402,6 +1596,21 @@ void s00a_command_800C82B0( WatcherWork *work )
     {
         work->mark_time--;
     }
+
+#ifdef VR_EXE
+    if ( work->param_blood == 'M' && work->field_B96 )
+    {
+        GM_ConfigMotionAdjust( &work->body, work->adjust );
+        if ( work->field_B78 & 1 )
+        {
+            work->adjust[6].vz = 1024;
+        }
+        else
+        {
+            work->adjust[6].vz = -1024;
+        }
+    }
+#endif
 }
 
 void s00a_command_800C841C( WatcherWork* work, int time)
@@ -1938,6 +2147,9 @@ void ENE_PutSound( WatcherWork* work )
 void ENE_PutBreath( WatcherWork *work, int arg1 )
 {
     int frame;
+#ifdef VR_EXE
+    MATRIX *mat;
+#endif
     if ( EnemyCommand.mode == TOP_COMM_ALERT )
     {
         return;
@@ -1977,10 +2189,21 @@ void ENE_PutBreath( WatcherWork *work, int arg1 )
     }
     else
     {
+#ifdef VR_EXE
+        if ( ( ( GV_Time + 1 ) % 64 ) == ( work->field_B78 * 16 ) )
+        {
+            mat = &work->body.objs->objs[6].world;
+            if ( mat->t[0] || mat->t[1] || mat->t[2] )
+            {
+                AN_Breath( mat );
+            }
+        }
+#else
         if ( ( GV_Time % 64 ) == ( work->field_B78 * 16 ) )
         {
             AN_Breath( &work->body.objs->objs[6].world );
         }
+#endif
     }
 }
 

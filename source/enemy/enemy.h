@@ -172,6 +172,13 @@ typedef struct _WatcherWork
     int            field_C44;                  //0xC44
     short          field_C48;                  //0xC48
     short          field_C4A;                  //0xC4A
+#ifdef VR_EXE
+    GV_ACT        *kogaku_body;                //0xC4C  stealth camouflage (param_blood 'K')
+    GV_ACT        *kogaku_weapon;              //0xC50
+    int            heartbeat_time;             //0xC54 tick count of the last heartbeat SE (action.c)
+    int            field_C58;                  //0xC58
+    int            field_C5C;                  //0xC5C
+#endif
 } WatcherWork;
 
 typedef struct _ZakoWork
@@ -535,6 +542,10 @@ typedef struct _ZAKO11F_COMMAND
 //command.c
 #define TOP_COMM_TRAVEL 0
 #define TOP_COMM_ALERT  1
+#define TOP_COMM_EVASION 2
+
+/* COM_GameStatus flags */
+#define COM_ST_SHARE_TARGET 0x4 /* VR: enemies publish their route target in COM_PlayerAddressOne/PositionOne */
 
 void  COM_CallBikkuriSe( SVECTOR *mov , int n );
 int  s00a_command_800CEA2C( WatcherWork *work );
@@ -612,6 +623,9 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define SP_WEAPON      0x10000
 #define SP_WEAPON2     0x20000
 #define SP_DANBOWLKERI 0x400000
+#ifdef VR_EXE
+#define SP_HEARTBEAT   0x8000000
+#endif
 
 #define ACTINTERP   4
 
@@ -771,6 +785,10 @@ void s00a_command_800C818C( WatcherWork *work, int time );
 
 void ActGrenade_800C67EC( WatcherWork *work, int time );
 void ActOverScoutD_800C85DC( WatcherWork *work, int time );
+#ifdef VR_EXE
+void ActLieDown( WatcherWork *work, int time );
+void ActHeartbeat( WatcherWork *work, int time );
+#endif
 
 //think.c ?
 #define T_NOISE 0

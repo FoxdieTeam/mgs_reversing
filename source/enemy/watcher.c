@@ -16,6 +16,11 @@
 
 #include "chara/snake/shadow.h" // for NewShadow2
 #include "enemy/glight.h"       // for NewGunLight
+#ifdef VR_EXE
+#include "equip/equip.h"        // for NewKogaku2
+
+#define BLOOD_KOGAKU 'K'        /* param_blood: soldier wears stealth camouflage */
+#endif
 
 int s00a_dword_800C3328[8]  = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
 unsigned short s00a_dword_800C3348[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };
@@ -170,6 +175,24 @@ void s00a_watcher_800C41B4( WatcherWork *work )
         DG_VisibleObjs( work->weapon.objs );
         work->field_AF4[0] = 1;
 
+#ifdef VR_EXE
+        /* FIXME: inverted condition, steers the branch layout (bnez to the "= 1" store) */
+        if ( !( work->control.map->index & GM_PlayerMap ) )
+        {
+            work->field_AFC[0] = 0;
+        }
+        else
+        {
+            work->field_AFC[0] = 1;
+        }
+
+        /* no shadow and gun light for camouflaged soldiers */
+        if ( work->param_blood == BLOOD_KOGAKU )
+        {
+            work->field_AFC[0] = 0;
+            work->field_AF4[0] = 0;
+        }
+#else
         if ( work->control.map->index & GM_PlayerMap )
         {
             work->field_AFC[0] = 1;
@@ -178,6 +201,7 @@ void s00a_watcher_800C41B4( WatcherWork *work )
         {
             work->field_AFC[0] = 0;
         }
+#endif
     }
     else
     {
@@ -352,6 +376,22 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     return 0;
 }
 
+#ifdef VR_EXE
+static void WatcherInitKogaku( WatcherWork* work )
+{
+    CONTROL *ctrl;
+    OBJECT  *body;
+    OBJECT  *arm;
+
+    ctrl = &work->control;
+    body = &work->body;
+    arm  = &work->weapon;
+
+    work->kogaku_body   = NewKogaku2( ctrl, body, 0 );
+    work->kogaku_weapon = NewKogaku2( ctrl, arm, 0 );
+}
+#endif
+
 //FreeWatcher?
 void s00a_watcher_800C4814( WatcherWork* work )
 {
@@ -362,6 +402,21 @@ void s00a_watcher_800C4814( WatcherWork* work )
     GM_FreeTarget( work->target );
     GV_DestroyOtherActor( work->field_AF8 );
     GV_DestroyOtherActor( work->field_AF0 );
+#ifdef VR_EXE
+    if ( work->param_blood == BLOOD_KOGAKU )
+    {
+        if ( work->kogaku_body )
+        {
+            GV_DestroyActorQuick( work->kogaku_body );
+            work->kogaku_body = NULL;
+        }
+        if ( work->kogaku_weapon )
+        {
+            GV_DestroyActorQuick( work->kogaku_weapon );
+            work->kogaku_weapon = NULL;
+        }
+    }
+#endif
 }
 
 void WatcherDie_800C487C( WatcherWork* work )
@@ -542,6 +597,12 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     {
         work->param_blood = GCL_StrToInt( ( char* )opt );
     }
+#ifdef VR_EXE
+    if ( work->param_blood == BLOOD_KOGAKU )
+    {
+        WatcherInitKogaku( work );
+    }
+#endif
 
     work->local_data = 0;
     work->local_data2 = 0;
@@ -653,7 +714,11 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->visible = 1;
     work->vision.angle = 0x200;
     work->field_9E6 = 0;
+#ifdef VR_EXE
+    work->vision.facedir = work->control.rot.vy;
+#else
     work->vision.facedir = 0;
+#endif
     work->field_B94 = 0;
     work->field_B96 = 0;
     work->pad.sound = 0;

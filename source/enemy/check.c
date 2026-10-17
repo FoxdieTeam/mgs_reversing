@@ -24,6 +24,10 @@ extern SVECTOR           COM_NO_POINT;
 extern int               COM_EYE_LENGTH;
 extern int               COM_PlayerAddressOne[8];
 
+#ifdef VR_EXE
+#define BLOOD_WARP 'W'  /* param_blood: reset straight to the reset zone (no HZD_BoundOutZone) */
+#endif
+
 int s00a_command_800C50B0( WatcherWork *work )
 {
     TARGET *target;
@@ -202,7 +206,20 @@ void s00a_command_800C55B0( WatcherWork* work )
     GM_ConfigControlAttribute( ctrl, 0xD );
     InitTarget_800C5484( work );
 
+#ifdef VR_EXE
+    /* FIXME: warp first holds the player address, steers the address load before the branch */
+    warp = (char)COM_PlayerAddressOne[ work->field_B78 ];
+    if ( work->param_blood != BLOOD_WARP )
+    {
+        warp = HZD_BoundOutZone( EnemyCommand.map->hzd, warp, EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], 200 );
+    }
+    else
+    {
+        warp = EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ];
+    }
+#else
     warp = HZD_BoundOutZone( EnemyCommand.map->hzd, (char)COM_PlayerAddressOne[ work->field_B78 ], EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], 200 );
+#endif
 
     printf( (char *)aPlayxresetdwarpd_800DFD1C, (char)COM_PlayerAddressOne[ work->field_B78 ], EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], warp );
 
@@ -400,6 +417,20 @@ int CheckPad_800C5A60( WatcherWork *work )
         SetMode2( work, s00a_command_800C8DF8 );
         return 0;
     }
+
+#ifdef VR_EXE
+    if ( press & 0x4000000 )
+    {
+        SetMode( work, ActLieDown );
+        return 1;
+    }
+
+    if ( press & 0x8000000 )
+    {
+        SetMode( work, ActHeartbeat );
+        return 1;
+    }
+#endif
 
     if ( press & 0x100 )
     {
