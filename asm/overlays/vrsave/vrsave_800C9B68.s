@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef vrsave_800C9B68
+vrsave_800C9B68:
+	dw 0x2C420005 ; 800C9B68
+	dw 0x14400004 ; 800C9B6C
+	dw 0x00000000 ; 800C9B70
+	dw 0x8C82002C ; 800C9B74
+	dw 0x03E00008 ; 800C9B78
+	dw 0x00000000 ; 800C9B7C

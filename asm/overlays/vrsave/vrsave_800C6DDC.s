@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef vrsave_800C6DDC
+vrsave_800C6DDC:
+	dw 0x3C02800D ; 800C6DDC
+	dw 0x8C421C24 ; 800C6DE0
+	dw 0x00042100 ; 800C6DE4
+	dw 0x00441021 ; 800C6DE8
+	dw 0x03E00008 ; 800C6DEC
+	dw 0xAC400000 ; 800C6DF0

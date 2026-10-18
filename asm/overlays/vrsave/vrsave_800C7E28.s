@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef vrsave_800C7E28
+vrsave_800C7E28:
+	dw 0x27BDFFE8 ; 800C7E28
+	dw 0xAFBF0010 ; 800C7E2C
+	dw 0x0C023109 ; 800C7E30
+	dw 0x24A5000C ; 800C7E34
+	dw 0x8FBF0010 ; 800C7E38
+	dw 0x00000000 ; 800C7E3C
+	dw 0x03E00008 ; 800C7E40
+	dw 0x27BD0018 ; 800C7E44
