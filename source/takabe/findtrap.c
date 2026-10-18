@@ -26,8 +26,14 @@ typedef struct _Work
     int     proc_id;
     int     flag;
     int     wait;
+#ifdef VR_EXE
+    int     prev_first_person;  /* GM_Camera.first_person of the previous frame */
+    int     killed;             /* HASH_KILL received: destroy as soon as the trap is idle */
+    int     pad_4C[2];          /* unused */
+#else
     int     field_44;   /* unused */
     int     field_48;   /* unused */
+#endif
 } Work;
 
 /*---------------------------------------------------------------------------*/
@@ -60,17 +66,42 @@ static void Act(Work *work)
         if (work->flag == 0)
         {
             work->flag = 1;
+#ifdef VR_EXE
+            work->prev_first_person = 0;
+#endif
         }
         break;
     case 1:
+#ifdef VR_EXE
+        if (work->flag != 8 && !(work->flag & 4))
+        {
+            work->flag = 0;
+        }
+#else
         work->flag = 0;
+#endif
         break;
     case 2:
         work->flag = 8;
         GM_SetCameraCallbackFunc(0, FindEvent2);
         s12c_dword_800DAA58 = work->wait;
         break;
+#ifdef VR_EXE
+    case 3:
+        work->killed = 1;
+        break;
+#endif
     }
+
+#ifdef VR_EXE
+    if (!(work->flag & 1))
+    {
+        if (work->killed)
+        {
+            GV_DestroyActor(&work->actor);
+        }
+    }
+#endif
 
     if (work->flag & 1)
     {
@@ -78,8 +109,14 @@ static void Act(Work *work)
         {
             fpv_flag = GM_Camera.first_person;
 
+#ifdef VR_EXE
+            if (fpv_flag == work->flag && !(GM_Camera.flag & 0x100) &&
+                (GV_PadData->status & PAD_TRIANGLE) && !(GM_Camera.flag & 0x200) &&
+                work->prev_first_person == fpv_flag && dword_8009F470 == 0)
+#else
             if (fpv_flag == work->flag && !(GM_Camera.flag & 0x100) &&
                 (GV_PadData->status & PAD_TRIANGLE) && dword_8009F470 == 0)
+#endif
             {
                 MATRIX   eye_inv;
                 SVECTOR  sxy;
@@ -139,6 +176,9 @@ static void Act(Work *work)
             work->flag &= ~2;
             work->flag |= 4;
         }
+#ifdef VR_EXE
+        work->prev_first_person = GM_Camera.first_person;
+#endif
     }
 }
 
