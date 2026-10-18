@@ -43,6 +43,7 @@
 #define BUTTON_RETRY        1
 #define BUTTON_EXIT         2
 #define BUTTON_SAVE         3
+#define BUTTON_CURSOR       4
 #define NUM_BUTTONS         5
 
 // Work::state (menu)
@@ -90,14 +91,13 @@ typedef struct _Work
     short       pad_3CE;                // 0x3CE
     int         win_h;                  // 0x3D0
     int         win_w;                  // 0x3D4
-    char        pad_3D8[8];             // 0x3D8
+    int         stage;                  // 0x3D8
+    int         category;               // 0x3DC
     int         mode;                   // 0x3E0
     int         weapon_name;            // 0x3E4
-    u_char      category;               // 0x3E8
-    u_char      level;                  // 0x3E9
-    char        pad_3EA[2];             // 0x3EA
+    char        pad_3E8[4];             // 0x3E8
     int         act_state;              // 0x3EC
-    char        pad_3F0[4];             // 0x3F0
+    int         voice_flag;             // 0x3F0
     u_int       replay : 1;             // 0x3F4
     u_int       f3F4_1 : 1;
     u_int       has_replay : 1;
@@ -119,7 +119,6 @@ extern VR_MENU_ITEM vrclear2_buttons[NUM_BUTTONS];
 void Vrclear2DrawTitle(Work *work);
 void Vrclear2DrawResult(int timer, Work *work);
 int Vrclear2GetResources(Work *work, int where);
-void Vrclear2Init(Work *work);
 void Vrclear2Draw(Work *work);
 
 /*---------------------------------------------------------------------------*/
@@ -526,7 +525,167 @@ static void Draw(Work *work)
     }
 }
 
+// Init does not byte-match from C (the schedule of the loads of VR_Flags / Work::flags around the rank and the
+// button count differs, and the rank lives in a1 instead of a0), so the original code is kept as RELOCATABLE asm.
+void Vrclear2Init(Work *work);
 #pragma INCLUDE_ASM_RELOC("source/koba/vr/reloc/vrclear2_1.s")
+
+#if 0 /* NON_MATCHING best C attempt */
+static void Init(Work *work)
+{
+    char    units[10] = { 10, 1, 10, 10, 10, 30, 10, 10, 10, 10 };
+    RECT    rect;
+    int     i;
+    int     rank;
+    DG_TEX *tex;
+
+    for (i = 0; linkvarbuf[i + 17] < 0; i++)
+    {
+        if (i >= 11)
+        {
+            break;
+        }
+    }
+
+    if (i == 10)
+    {
+        work->weapon = 1;
+        work->unit = 0;
+        GM_SocomFlag = 0;
+    }
+    else
+    {
+        work->weapon = i + 1;
+        if ((u_char)i < 10)
+        {
+            work->unit = units[work->weapon - 1];
+        }
+    }
+
+    if (work->voice_flag == 0)
+    {
+        VR_Flags &= ~VRFLAG_AMMO_BONUS;
+    }
+
+    if (work->voice_flag == 16)
+    {
+        VR_Flags = 0;
+    }
+
+    if (work->category != 0 && !work->replay)
+    {
+        SetClearFlag(work->category, work->stage);
+    }
+
+    rank = (u_int)(VR_Flags & VRFLAG_RANK_MASK) >> 1;
+    work->has_replay = 0;
+    work->n_buttons = 3;
+    vrclear2_buttons[BUTTON_RETRY].link[LINK_UP] = -1;
+
+    if (rank >= 3)
+    {
+        rank = -1;
+    }
+
+    if (work->voice[0] != 0)
+    {
+        if ((VR_Flags & VRFLAG_RESULT) && rank != -1)
+        {
+            GM_VoxStream(work->voice[rank], 0x40000000);
+        }
+        else
+        {
+            GM_VoxStream(work->voice[3], 0x40000000);
+        }
+    }
+
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = 0;
+    rect.h = 0;
+    SetDrawArea(&work->area[0], &rect);
+    SetDrawArea(&work->area[1], &rect);
+
+    if (vrclear2_buttons[BUTTON_RETRY].proc == vrclear2_buttons[BUTTON_EXIT].proc)
+    {
+        work->sel = BUTTON_EXIT;
+
+        if ((VR_Flags & VRFLAG_RESULT) && work->has_replay)
+        {
+            vrclear2_buttons[BUTTON_NEXT].link[LINK_UP] = BUTTON_SAVE;
+            vrclear2_buttons[BUTTON_SAVE].link[LINK_DOWN] = BUTTON_NEXT;
+            vrclear2_buttons[BUTTON_SAVE].rect.y = vrclear2_buttons[BUTTON_RETRY].rect.y;
+            vrclear2_buttons[BUTTON_SAVE].label.y = vrclear2_buttons[BUTTON_RETRY].label.y;
+        }
+        else
+        {
+            vrclear2_buttons[BUTTON_NEXT].link[LINK_UP] = -1;
+            vrclear2_buttons[BUTTON_SAVE].link[LINK_DOWN] = BUTTON_RETRY;
+        }
+
+        vrclear2_buttons[BUTTON_RETRY].rect.w = 0;
+        vrclear2_buttons[BUTTON_RETRY].rect.h = 0;
+        vrclear2_buttons[BUTTON_RETRY].rect.x = 0;
+    }
+    else
+    {
+        work->sel = BUTTON_RETRY;
+    }
+
+    if (VR_Flags & VRFLAG_NO_NEXT)
+    {
+        work->sel = BUTTON_NEXT;
+    }
+
+    if ((VR_Flags & VRFLAG_RESULT) && work->has_replay)
+    {
+        work->sel = BUTTON_SAVE;
+    }
+
+    if (work->replay == 1)
+    {
+        work->sel = BUTTON_EXIT;
+
+        vrclear2_buttons[BUTTON_NEXT].link[LINK_UP] = -1;
+        vrclear2_buttons[BUTTON_SAVE].link[LINK_DOWN] = BUTTON_RETRY;
+        vrclear2_buttons[BUTTON_RETRY].rect.w = 0;
+        vrclear2_buttons[BUTTON_RETRY].rect.h = 0;
+        vrclear2_buttons[BUTTON_RETRY].rect.x = 0;
+        work->n_buttons = 3;
+
+        vrclear2_buttons[BUTTON_NEXT].tex_id = GV_StrCode("replay");
+        tex = DG_GetTexture(vrclear2_buttons[BUTTON_NEXT].tex_id);
+        vrclear2_buttons[BUTTON_NEXT].tex = tex;
+        DG_SetPacketTexture4(&vrclear2_buttons[BUTTON_NEXT].polys[0], tex);
+        DG_SetPacketTexture4(&vrclear2_buttons[BUTTON_NEXT].polys[1], tex);
+
+        vrclear2_buttons[BUTTON_NEXT].rect.w = 56;
+        vrclear2_buttons[BUTTON_NEXT].rect.h = 8;
+        vrclear2_buttons[BUTTON_NEXT].rect.x = 132;
+        vrclear2_buttons[BUTTON_NEXT].label.w = 76;
+        vrclear2_buttons[BUTTON_NEXT].label.h = 14;
+        vrclear2_buttons[BUTTON_NEXT].label.x = 121;
+    }
+
+    work->cur = BUTTON_CURSOR;
+    work->state = MENU_WAIT_OPEN;
+    work->count = 0;
+    work->win_h = 0;
+    work->win_w = 0;
+
+    if ((VR_Flags & (VRFLAG_RESULT | VRFLAG_NO_NEXT)) == VRFLAG_NO_NEXT)
+    {
+        work->state = MENU_OPEN_WINDOW;
+    }
+
+    VrMenu_InitFrame(work->cursor_polys[0], work->cursor_tiles, VrMenu_LoadFrameTexture());
+
+    work->cursor.x = 160;
+    work->cursor.y = 112;
+    work->cursor.w = 0;
+    work->cursor.h = 0;
+}
+#endif
 
 static void Act(Work *work)
 {
