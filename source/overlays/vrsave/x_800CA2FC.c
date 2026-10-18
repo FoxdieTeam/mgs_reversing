@@ -19,7 +19,7 @@ extern char       vrsave_dword_800C1A40[];
 
 void vrsave_800C69E8(void);
 void vrsave_800C661C(int mode);
-void vrsave_800C8938(MenuWork *work, int arg);
+void vrsave_800C8938(MenuWork *work, GV_PAD *pad);
 void vrsave_800CA144(MenuWork *work);
 void vrsave_800CA2CC(MenuWork *work);
 
@@ -47,9 +47,9 @@ void vrsave_800CA3A8(DATA_INFO *info, int mission, short score)
     vrsave_800CA378(info, mission, score, 2);
 }
 
-void vrsave_800CA404(int arg)
+void vrsave_800CA404(GV_PAD *pad)
 {
-    vrsave_800C8938(&Work, arg);
+    vrsave_800C8938(&Work, pad);
 }
 
 void vrsave_800CA42C(void)

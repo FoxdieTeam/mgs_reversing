@@ -43,11 +43,12 @@ typedef struct VR_SAVEMNGR_ITEM
     int          field_0C;   /* 0x0C */
     int          field_10;   /* 0x10 */
     int          tex_id;     /* 0x14 */
-    int          proc;       /* 0x18: GCL proc executed when chosen */
+    int          field_18;   /* 0x18 */
     short        limit;      /* 0x1C: number of animation steps to wait */
     char         pad_1E[0x06];
     RECT         frame_rect; /* 0x24: rectangle the menu frame moves to when this item is selected */
-    char         pad_2C[0x0A];
+    int          proc;       /* 0x2C: GCL proc executed when chosen */
+    char         pad_30[0x06];
     short        step;       /* 0x36: animation step */
     u_char       state;      /* 0x38 */
     char         pad_39[0x03];
@@ -61,7 +62,8 @@ typedef struct VR_SAVEMNGR_ITEM
 typedef struct VR_SAVEMNGR_WORK
 {
     GV_ACT   actor;                                      /* 0x00 */
-    int      timer;                                      /* 0x20 */
+    short    timer;                                      /* 0x20 */
+    short    pad_22;
     POLY_FT4 polys[2][VR_SAVEMNGR_FRAME_POLYS];          /* 0x24: menu frame (double buffered) */
     TILE     tiles[2];                                   /* 0x2A4: menu frame background */
     RECT     rect;                                       /* 0x2C4: current frame rectangle */
