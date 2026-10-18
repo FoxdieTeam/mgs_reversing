@@ -7369,7 +7369,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "vrtitle" %}
     include "{{OBJ_DIR}}\stagevr\vrtitle.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C1D68.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C1D68.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\x_800C1E84.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\text_800C1EDC.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\x_800C1F10.obj", overlay
