@@ -143,8 +143,7 @@ static inline void ENE_SeHitFloor( WatcherWork *work, CONTROL *ctrl )
 #endif
 
 #ifdef VR_MINENE
-/* "Minene" soldiers with param_blood 'T' use other voices for the same events */
-#define BLOOD_MINENE_VOICE 'T'
+/* "Minene" soldiers with param_blood BLOOD_MINENE_VOICE use other voices for the same events */
 
 static inline void ENE_SeThrown( WatcherWork *work, CONTROL *ctrl )
 {

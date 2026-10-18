@@ -649,6 +649,9 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define SE_MINENE_THROWN        0x19
 #define SE_MINENE_KILLED        0xC9
 #define SE_MINENE_HIT           0xCA
+#define SE_MINENE_HUH           0xC8
+
+#define BLOOD_MINENE_VOICE      'T'     /* param_blood: soldier uses the other voices */
 #endif
 
 #ifdef VR_MYSTERY
