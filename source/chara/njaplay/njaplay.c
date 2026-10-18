@@ -1371,6 +1371,84 @@ void njp_sna_anim_800C4B44(SnaInitWork *work, int time)
     }
 }
 
+// @800C4BA4 njp_sna_anim_spin_800C4BA4
+// the two damaging targets of the spin attack
+static inline void njp_sna_spin_targets(SnaInitWork *work)
+{
+    TARGET  target;
+    SVECTOR size;
+
+    size.vx = size.vz = 750;
+    size.vy = 200;
+    GM_SetTarget(&target, 4, PLAYER_SIDE, &size);
+    GM_SetPowerTarget(&target, POWER_DECREASE, 2, 256, 0, &DG_ZeroVector);
+    GM_MoveTarget(&target, &work->control.mov);
+    GM_PowerTarget(&target);
+
+    size.vx = size.vz = 1500;
+    size.vy = 200;
+    GM_SetTarget(&target, 4, PLAYER_SIDE, &size);
+    GM_SetPowerTarget(&target, POWER_DECREASE, 2, 1, 5, &DG_ZeroVector);
+    GM_MoveTarget(&target, &work->control.mov);
+    GM_PowerTarget(&target);
+}
+
+// spinning sword attack (R1): two damaging targets of different sizes at the position of the ninja
+void njp_sna_anim_spin_800C4BA4(SnaInitWork *work, int time)
+{
+    if (time == 0)
+    {
+        work->field_9C8_anim_update_fn_3p = njp_nop_800C48EC;
+        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        njp_SetAction_8004E22C(work, 12, 4);
+        GM_SeSetMode(&work->control.mov, 198, 1);
+        njp_sna_800C3318(work);
+    }
+
+    if (time % 10 == 0)
+    {
+        GM_SeSetMode(&work->control.mov, 208, 1);
+    }
+
+    njp_sna_spin_targets(work);
+
+    work->field_A38_local_data++;
+
+    if (work->field_A38_local_data == 24)
+    {
+        work->njp_mode = 3;
+    }
+
+    if (work->field_A38_local_data == 32)
+    {
+        GM_SeSetMode(&work->control.mov, 198, 1);
+        work->field_A38_local_data = 0;
+        njp_sna_800C3318(work);
+    }
+
+    work->field_89C_pTarget->vital--;
+
+    if ((work->field_89C_pTarget->vital & 0x3f) == 0)
+    {
+        GM_GameStatus |= STATE_DAMAGED;
+    }
+
+    if ((work->field_89C_pTarget->vital <= 0) && (GM_GameOverTimer == 0))
+    {
+        njp_sna_set_invuln_8004F2A0(work, 0);
+        GM_GameOverTimer = -1;
+        njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
+        njp_sna_start_anim_8004E1F4(work, njp_800C4E38);
+        work->njp_mode = 3;
+    }
+    else if (!(work->field_9B0_pad_ptr->status & PAD_R1))
+    {
+        njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK3);
+        njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
+        work->njp_mode = 3;
+    }
+}
+
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
 //ASM-END
 
@@ -1677,6 +1755,7 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
 
 
 
