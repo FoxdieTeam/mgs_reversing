@@ -79,7 +79,9 @@ typedef struct Wolf2Work
     int            f78C;
     char           pad9[0x14];
     int            f7A4;
-    char           pad10[0x24];
+    char           pad10a[0xC];
+    int            f7B4;            // (VR) blink timer
+    char           pad10[0x18];
     SVECTOR        f7CC;
     int            f7D4;
     int            f7D8;

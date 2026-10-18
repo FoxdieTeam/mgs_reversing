@@ -7,7 +7,12 @@
 SVECTOR wolf2_800C3560 = {0, 0, 100};
 SVECTOR wolf2_800C3568 = {-1024, 0, 0};
 
+#ifdef VR_EXE
+// (VR) there is no wolf2.c in the VR overlays: the position buffer belongs to this object
+SVECTOR SECTION(".bss") wolf2_position;
+#else
 extern SVECTOR wolf2_position;
+#endif
 
 void   NewBlood( MATRIX *, int );
 void * NewKetchap_s( SVECTOR *, int, int, int );
@@ -103,6 +108,28 @@ void s12a_wolf2_800D37A8(Wolf2Work *work)
     target = work->f65C;
 
     wolf2_position = work->control.mov;
+
+#ifdef VR_EXE
+    // The VR revision hops when a noise is made
+    if (GM_NoisePower == 255)
+    {
+        work->f7B4 = 4;
+    }
+
+    if (work->f7B4 > 0)
+    {
+        if ((GV_Time & 1) == 0)
+        {
+            work->control.mov.vy = 256 - (4 - work->f7B4) * (4 - work->f7B4) * 16;
+        }
+        else
+        {
+            work->control.mov.vy = 0;
+        }
+
+        work->f7B4--;
+    }
+#endif
 
     switch(work->f690)
     {
@@ -226,7 +253,9 @@ void s12a_wolf2_800D37A8(Wolf2Work *work)
                     GCL_ForceExecProc(work->f78C, NULL);
                 }
 
+#ifndef VR_EXE
                 GM_GameOver();
+#endif
             }
             else
             {
@@ -279,7 +308,9 @@ void s12a_wolf2_800D37A8(Wolf2Work *work)
                     GCL_ForceExecProc(work->f78C, NULL);
                 }
 
+#ifndef VR_EXE
                 GM_GameOver();
+#endif
             }
             else
             {
@@ -312,12 +343,22 @@ void s12a_wolf2_800D37A8(Wolf2Work *work)
     work->f660->vital = 1024;
     work->f660->a_mode = 0;
 
+#ifdef VR_EXE
+    // no streamed voice in the VR revision
+    if (work->f6AC == 1)
+    {
+        work->f6AC = 2;
+    }
+    else if (work->f6AC == 2)
+    {
+#else
     if (work->f6AC == 1 && GM_StreamStatus() == 2)
     {
         work->f6AC = 2;
     }
     else if (work->f6AC == 2 && GM_StreamStatus() == -1)
     {
+#endif
         work->f6AC = 0;
 
         work->f65C->damaged &= ~TARGET_POWER;
