@@ -639,7 +639,8 @@
   "njp_sna_80051A10",
   "njp_sna_80051BA4",
   "njp_sna_80051FD0",
-  "njp_sna_anim_chokethrow_begin2_80058C80"
+  "njp_sna_anim_chokethrow_begin2_80058C80",
+  "njp_sna_anim_wall_move_80052BA8"
  ],
  "bss_syms": {
   "800E5B48": [
@@ -699,11 +700,11 @@
    4
   ],
   "800E5B7C": [
-   "njp_bss_52",
+   "njp_pVec_800ABBCC",
    4
   ],
   "800E5B80": [
-   "njp_bss_56",
+   "njp_dword_800ABBD0",
    4
   ],
   "800E5B84": [
