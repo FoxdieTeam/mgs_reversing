@@ -4,16 +4,9 @@
 #include "libgcl/libgcl.h"
 #include "overlays/vrtitle/vrpocket.h"
 
-typedef struct PocketUpdateWork
-{
-    /* 0x00 */ char         pad_00[ 0x34 ];
-    /* 0x34 */ int          update_count;
-    /* 0x38 */ PocketUpdate updates[ 0 ];
-} PocketUpdateWork;
-
 extern PocketObj *vrtitle_dword_800D9D00;
 
-void vrtitle_800C9BE0( PocketUpdateWork *work )
+void vrtitle_800C9BE0( PocketBackWork *work )
 {
     PocketUpdate *update;
     PocketObj    *iter;
