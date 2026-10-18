@@ -3612,49 +3612,44 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\vcd_n05_800C2EA4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\godz\godzila.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\vcd_n05_800C4308.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\godz\godzchk.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\godz\godzact.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\godz\godzene.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\vcd_n05_800C89A0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\anime\effect\vr_mark_godz.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay4.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\vcd_n05_800C9E84.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\godz\godzthk.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\vcd_n05_800CC424.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay6.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay7.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\godz\godzcom.obj", overlay
+    include "{{OBJ_DIR}}\okajima\vr\splash2_godz.obj", overlay
+    include "{{OBJ_DIR}}\thing\vr\snow_godz.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
     include "{{OBJ_DIR}}\okajima\lens_fl2.obj", overlay
     include "{{OBJ_DIR}}\okajima\sn_in_ef.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay9.obj", overlay
     include "{{OBJ_DIR}}\okajima\vr\mel10_vr.obj", overlay
     include "{{OBJ_DIR}}\okajima\wolf\action.obj", overlay
     include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay
     include "{{OBJ_DIR}}\takabe\ripple.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay10.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay11.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay12.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay13.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vcd_n05\overlay4.obj", overlay
     include "{{OBJ_DIR}}\psyq_vr\strncpy.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vcd_n06" %}
