@@ -3471,9 +3471,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n01\overlay6.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n01\overlay7.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n01\vcd_n01_800E45C4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\waracut.obj", overlay
     include "{{OBJ_DIR}}\psyq_vr\strncpy.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vcd_n02" %}
@@ -3595,13 +3594,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
     include "{{OBJ_DIR}}\overlays\vcd_n04\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n04\overlay4.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n04\vcd_n04_800D0398.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n04\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vcd_n04\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox4.obj", overlay
     include "{{OBJ_DIR}}\okajima\vr\p_sphere_vr.obj", overlay
     include "{{OBJ_DIR}}\okajima\vr\plasma_l_vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
