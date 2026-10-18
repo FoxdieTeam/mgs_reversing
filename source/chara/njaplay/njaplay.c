@@ -73,7 +73,7 @@ void njp_800C5D4C(SnaInitWork *work, int time);
 void njp_800C5E9C(SnaInitWork *work, int time);
 void njp_800C5F20(SnaInitWork *work, int time);
 void njp_sna_anim_crouch_wall_update_800C4750(SnaInitWork *work, int time);
-void njp_800C4BA4(SnaInitWork *work, int time);
+void njp_sna_anim_spin_800C4BA4(SnaInitWork *work, int time);
 void njp_800C5150(SnaInitWork *work, int time);
 void njp_sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time);
 void njp_sna_anim_wall_move_update_800C47EC(SnaInitWork *work, int time);
@@ -957,7 +957,7 @@ int njp_sna_select_action_800C3A30(SnaInitWork *work)
     {
         njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK3);
         njp_GM_ClearPlayerStatusFlag(PLAYER_MOVE);
-        njp_sna_start_anim_8004E1F4(work, njp_800C4BA4);
+        njp_sna_start_anim_8004E1F4(work, njp_sna_anim_spin_800C4BA4);
     }
     else
     {
@@ -1677,6 +1677,9 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
+
 
 
 

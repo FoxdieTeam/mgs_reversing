@@ -2,8 +2,8 @@
 	.set	noat
 	.set	nomacro
 	.text
-	.globl	njp_800C4BA4
-njp_800C4BA4:
+	.globl	njp_sna_anim_spin_800C4BA4
+njp_sna_anim_spin_800C4BA4:
 	addiu	$29,$29,-128
 	sw	$18,112($29)
 	addu	$18,$4,$0
@@ -11,7 +11,7 @@ njp_800C4BA4:
 	addu	$16,$5,$0
 	sw	$31,120($29)
 	sw	$19,116($29)
-	bne	$16,$0,$Lnjp_800C4BA4_0
+	bne	$16,$0,$Lnjp_sna_anim_spin_800C4BA4_0
 	sw	$17,108($29)
 	addiu	$5,$0,12
 	addiu	$6,$0,4
@@ -26,7 +26,7 @@ njp_800C4BA4:
 	addiu	$6,$0,1
 	jal	njp_sna_800C3318
 	addu	$4,$18,$0
-$Lnjp_800C4BA4_0:
+$Lnjp_sna_anim_spin_800C4BA4_0:
 	lui	$2,0x6666
 	ori	$2,$2,0x6667
 	mult	$16,$2
@@ -37,13 +37,13 @@ $Lnjp_800C4BA4_0:
 	sll	$2,$3,2
 	addu	$2,$2,$3
 	sll	$2,$2,1
-	bne	$16,$2,$Lnjp_800C4BA4_1
+	bne	$16,$2,$Lnjp_sna_anim_spin_800C4BA4_1
 	nop
 	addiu	$4,$18,32
 	addiu	$5,$0,208
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
-$Lnjp_800C4BA4_1:
+$Lnjp_sna_anim_spin_800C4BA4_1:
 	addiu	$4,$29,24
 	addiu	$5,$0,4
 	addiu	$6,$0,1
@@ -97,13 +97,13 @@ $Lnjp_800C4BA4_1:
 	sh	$2,2452($18)
 	sll	$2,$2,16
 	sra	$2,$2,16
-	bne	$2,$3,$Lnjp_800C4BA4_2
+	bne	$2,$3,$Lnjp_sna_anim_spin_800C4BA4_2
 	addiu	$2,$0,3
 	sw	$2,2528($18)
-$Lnjp_800C4BA4_2:
+$Lnjp_sna_anim_spin_800C4BA4_2:
 	lh	$3,2452($18)
 	addiu	$2,$0,32
-	bne	$3,$2,$Lnjp_800C4BA4_3
+	bne	$3,$2,$Lnjp_sna_anim_spin_800C4BA4_3
 	addiu	$5,$0,198
 	addu	$4,$19,$0
 	jal	GM_SeSetMode
@@ -111,7 +111,7 @@ $Lnjp_800C4BA4_2:
 	sh	$0,2452($18)
 	jal	njp_sna_800C3318
 	addu	$4,$18,$0
-$Lnjp_800C4BA4_3:
+$Lnjp_sna_anim_spin_800C4BA4_3:
 	lw	$3,2200($18)
 	nop
 	lhu	$2,38($3)
@@ -123,22 +123,22 @@ $Lnjp_800C4BA4_3:
 	lhu	$2,38($2)
 	nop
 	andi	$2,$2,0x3f
-	bne	$2,$0,$Lnjp_800C4BA4_4
+	bne	$2,$0,$Lnjp_sna_anim_spin_800C4BA4_4
 	lui	$2,%hi(GM_GameStatus)
 	lw	$3,%lo(GM_GameStatus)($2)
 	lui	$4,0x200
 	or	$3,$3,$4
 	sw	$3,%lo(GM_GameStatus)($2)
-$Lnjp_800C4BA4_4:
+$Lnjp_sna_anim_spin_800C4BA4_4:
 	lw	$2,2200($18)
 	nop
 	lh	$2,38($2)
 	nop
-	bgtz	$2,$Lnjp_800C4BA4_5
+	bgtz	$2,$Lnjp_sna_anim_spin_800C4BA4_5
 	lui	$16,%hi(GM_GameOverTimer)
 	lw	$2,%lo(GM_GameOverTimer)($16)
 	nop
-	bne	$2,$0,$Lnjp_800C4BA4_5
+	bne	$2,$0,$Lnjp_sna_anim_spin_800C4BA4_5
 	addu	$4,$18,$0
 	jal	njp_sna_set_invuln_8004F2A0
 	addu	$5,$0,$0
@@ -149,27 +149,27 @@ $Lnjp_800C4BA4_4:
 	sw	$2,%lo(GM_GameOverTimer)($16)
 	addu	$4,$18,$0
 	lui	$5,%hi(njp_800C4E38)
-	j	$Lnjp_800C4BA4_6
+	j	$Lnjp_sna_anim_spin_800C4BA4_6
 	addiu	$5,$5,%lo(njp_800C4E38)
-$Lnjp_800C4BA4_5:
+$Lnjp_sna_anim_spin_800C4BA4_5:
 	lw	$2,2320($18)
 	nop
 	lhu	$2,0($2)
 	nop
 	andi	$2,$2,0x8
-	bne	$2,$0,$Lnjp_800C4BA4_7
+	bne	$2,$0,$Lnjp_sna_anim_spin_800C4BA4_7
 	addu	$4,$18,$0
 	jal	njp_sna_clear_flags1_8004E308
 	addiu	$5,$0,4
 	addu	$4,$18,$0
 	lui	$5,%hi(njp_sna_anim_idle_800C4200)
 	addiu	$5,$5,%lo(njp_sna_anim_idle_800C4200)
-$Lnjp_800C4BA4_6:
+$Lnjp_sna_anim_spin_800C4BA4_6:
 	jal	njp_sna_start_anim_8004E1F4
 	nop
 	addiu	$2,$0,3
 	sw	$2,2528($18)
-$Lnjp_800C4BA4_7:
+$Lnjp_sna_anim_spin_800C4BA4_7:
 	lw	$31,120($29)
 	lw	$19,116($29)
 	lw	$18,112($29)
