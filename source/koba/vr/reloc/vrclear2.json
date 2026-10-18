@@ -50,7 +50,7 @@
    "800DEF84"
   ],
   [
-   "Vrclear2SetupMode",
+   "SetupMode",
    "800DEF84",
    "800DF134"
   ],
@@ -361,7 +361,8 @@
   "DrawWindow",
   "Draw",
   "DrawTitle",
-  "GetResources"
+  "GetResources",
+  "SetupMode"
  ],
  "globl": true,
  "export": [

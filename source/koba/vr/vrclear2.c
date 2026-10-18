@@ -123,7 +123,6 @@ extern char        *vrclear2_weapon_names[];
 
 // still in the relocatable asm
 void Vrclear2DrawResult(int timer, Work *work);
-void Vrclear2SetupMode(Work *work);
 
 /*---------------------------------------------------------------------------*/
 
@@ -234,6 +233,79 @@ static void DrawReplayLabel(Work *work)
 }
 
 #pragma INCLUDE_ASM_RELOC("source/koba/vr/reloc/vrclear2_0.s")
+
+#define MODE_MYSTERY        12
+#define NUM_MODES           17
+#define NUM_WEAPONS         10
+
+static void SetupMode(Work *work)
+{
+    int mode;
+    int weapon_name;
+
+    if (work->category < 5)
+    {
+        if (work->stage < 20)
+        {
+            work->level = work->stage;
+
+            mode = 3;
+            if (!(work->category & 1))
+            {
+                mode = 4;
+            }
+            work->mode = mode;
+
+            weapon_name = 1;
+            if (work->category < 3)
+            {
+                weapon_name = 2;
+            }
+            work->weapon_name = weapon_name;
+        }
+        else
+        {
+            work->level = work->stage % 10;
+            work->weapon_name = work->stage / 10;
+
+            if (work->category < 3)
+            {
+                work->mode = work->category;
+            }
+            else
+            {
+                work->mode = work->category + 2;
+            }
+        }
+    }
+    else
+    {
+        work->weapon_name = 0;
+        work->mode = work->category + 2;
+        work->level = work->stage % 10;
+
+        if (work->category < 7)
+        {
+            work->level = 0;
+            work->weapon_name = work->stage % 10;
+        }
+
+        if (work->level == 0 && work->mode == MODE_MYSTERY)
+        {
+            work->level = 10;
+        }
+    }
+
+    if (work->weapon_name >= NUM_WEAPONS)
+    {
+        work->weapon_name = NUM_WEAPONS - 1;
+    }
+
+    if (work->mode >= NUM_MODES)
+    {
+        work->mode = NUM_MODES - 1;
+    }
+}
 
 static void DrawTitle(Work *work)
 {
@@ -859,7 +931,7 @@ static int GetResources(Work *work, int where)
         work->category = 0;
     }
 
-    Vrclear2SetupMode(work);
+    SetupMode(work);
 
     // FIXME: "\0" instead of "": the original has its own 4 byte literal here, gcc would merge "" with the
     // one of the mode names and the rdata of the object would shrink by 4 bytes
