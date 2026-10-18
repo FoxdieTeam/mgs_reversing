@@ -1,5 +1,6 @@
 #include "vrbox.h"
 
+#include <stdio.h>
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
@@ -14,8 +15,6 @@
 #include "bullet/blast.h"
 #include "koba/vr/vr.h"
 #include "koba/vr/splashvr.h"
-
-int printf(const char *fmt, ...);
 
 extern BLAST_DATA blast_data_8009F4B8[8];
 
@@ -603,6 +602,7 @@ static void Act(Work *work)
     if (target->damaged & 4)
     {
         target->damaged &= ~4;
+        // FIXME: a_mode is read as an unsigned short and compared as a short to match the original
         a_mode = target->a_mode;
 
         if ((a_mode - 3) < 2U)

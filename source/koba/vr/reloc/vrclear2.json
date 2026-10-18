@@ -10,32 +10,32 @@
  "out": "source/koba/vr/reloc/vrclear2.s",
  "funcs": [
   [
-   "Vrclear2_800DE6F8",
+   "SetClearFlag",
    "800DE6F8",
    "800DE808"
   ],
   [
-   "Vrclear2_800DE808",
+   "OpenButtons",
    "800DE808",
    "800DE844"
   ],
   [
-   "Vrclear2_800DE844",
+   "PlayDecideSound",
    "800DE844",
    "800DE8C8"
   ],
   [
-   "Vrclear2_800DE8C8",
+   "DrawDemo",
    "800DE8C8",
    "800DE93C"
   ],
   [
-   "Vrclear2_800DE93C",
+   "DrawReplay",
    "800DE93C",
    "800DE9B0"
   ],
   [
-   "Vrclear2_800DE9B0",
+   "DrawReplayLabel",
    "800DE9B0",
    "800DEA38"
   ],
@@ -45,62 +45,62 @@
    "800DED20"
   ],
   [
-   "Vrclear2_800DED20",
+   "Vrclear2DrawResult",
    "800DED20",
    "800DEF84"
   ],
   [
-   "Vrclear2_800DEF84",
+   "SetupMode",
    "800DEF84",
    "800DF134"
   ],
   [
-   "Vrclear2_800DF134",
+   "DrawTitle",
    "800DF134",
    "800DF420"
   ],
   [
-   "Vrclear2_800DF420",
+   "MoveCursor",
    "800DF420",
    "800DF60C"
   ],
   [
-   "Vrclear2_800DF60C",
+   "CheckPad",
    "800DF60C",
    "800DF644"
   ],
   [
-   "Vrclear2_800DF644",
+   "CheckMessage",
    "800DF644",
    "800DF6F4"
   ],
   [
-   "Vrclear2_800DF6F4",
+   "DrawWindow",
    "800DF6F4",
    "800DF908"
   ],
   [
-   "Vrclear2_800DF908",
+   "Draw",
    "800DF908",
    "800DFC58"
   ],
   [
-   "Vrclear2_800DFC58",
+   "Vrclear2Init",
    "800DFC58",
    "800E00E4"
   ],
   [
-   "Vrclear2_800E00E4",
+   "Act",
    "800E00E4",
    "800E01AC"
   ],
   [
-   "Vrclear2_800E01AC",
+   "Die",
    "800E01AC",
    "800E01B4"
   ],
   [
-   "Vrclear2_800E01B4",
+   "GetResources",
    "800E01B4",
    "800E03E0"
   ],
@@ -331,8 +331,41 @@
  "data": [
   [
    "800C1D98",
-   "vrclear2_data",
-   177
+   "vrclear2_buttons",
+   150
+  ],
+  [
+   "800C1FF0",
+   "vrclear2_mode_names",
+   17
+  ],
+  [
+   "800C2034",
+   "vrclear2_weapon_names",
+   10
   ]
+ ],
+ "c_funcs": [
+  "SetClearFlag",
+  "OpenButtons",
+  "PlayDecideSound",
+  "DrawDemo",
+  "DrawReplay",
+  "DrawReplayLabel",
+  "MoveCursor",
+  "CheckPad",
+  "CheckMessage",
+  "Act",
+  "Die",
+  "NewVrClear2",
+  "DrawWindow",
+  "Draw",
+  "DrawTitle",
+  "GetResources",
+  "SetupMode"
+ ],
+ "globl": true,
+ "export": [
+  "vrclear2_str_s"
  ]
 }

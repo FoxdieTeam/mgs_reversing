@@ -1,5 +1,6 @@
 #include "vrbox2.h"
 
+#include <stdio.h>
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
@@ -18,8 +19,6 @@
 #include "koba/vr/splashvr.h"
 
 extern BLAST_DATA blast_data_8009F4B8[8];
-
-int printf(const char *fmt, ...);
 
 /*---------------------------------------------------------------------------*/
 // VR-DISC wall target ("ＶＲＢＯＸ２"): a plate or a box (kabe) that blocks the way with dynamic hazard walls/floors

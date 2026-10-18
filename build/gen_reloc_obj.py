@@ -13,7 +13,8 @@ CONFIG (json):
    "syms":  {"800E1318": "NewSplashVr"} }
 Jump tables are detected automatically per function and are emitted in their address order between the rdata items.
  Optional: "data": [["800C1D98","name",COUNT_WORDS], ...] initialised .data words (pointers into the object are symbolic),
-           "bss_syms": {"800E1DA0": ["name", SIZE]} symbols of C-defined bss, "globl": true (export rdata/data labels)."""
+           "bss_syms": {"800E1DA0": ["name", SIZE]} symbols of C-defined bss, "globl": true (export data labels),
+           "export": ["name", ...] (export these rdata labels so C can refer to the literal, see vrclear2.c)."""
 import json, re, struct, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import symbolize_asm as S
@@ -79,7 +80,7 @@ for a, (n, kind, cnt) in rd.items():
         else:
             ws = ['0x%08X' % w for w in ws]
         body = ['\t.word\t' + w for w in ws]
-    items[a] = '\t.align\t2\n%s:\n' % n + '\n'.join(body) + '\n'
+    items[a] = '\t.align\t2\n%s%s:\n' % ('\t.globl\t%s\n' % n if n in cfg.get('export', []) else '', n) + '\n'.join(body) + '\n'
 for a, b in jt.items():
     items[a] = '\t.align\t2\n' + b
 # first user of every rdata item (by function order); items first used by a C function are emitted by the C compiler
@@ -91,11 +92,23 @@ for fi, t in enumerate(text):
             first[a] = fi
 for a, fi in jt_owner.items():
     first[a] = fi
+# items only referenced by other rdata items (strings behind a pointer table) go with the item pointing at them
+for a, n in names.items():
+    if a not in first:
+        for b, t in items.items():
+            if b != a and b in first and re.search(r'\b%s\b' % re.escape(n), t):
+                first[a] = first[b]
+                break
 for a, fi in first.items():
     if cfg['funcs'][fi][0] in cfuncs:
         for fj, t in enumerate(text):
             if fj > fi and cfg['funcs'][fj][0] not in cfuncs and a in names and re.search(r'\b%s\b' % re.escape(names[a]), t):
                 print('WARNING: %s is used by C function %s and asm function %s: define it in C' % (names[a], cfg['funcs'][fi][0], cfg['funcs'][fj][0]))
+# items nobody refers to in code (strings behind initialised data pointers) go with the first asm run
+asm_first = next(fi for fi, f in enumerate(cfg['funcs']) if f[0] not in cfuncs)
+for a in names:
+    if a not in first:
+        first[a] = asm_first
 # runs of asm functions
 runs = []
 for fi, (name, st, en) in enumerate(cfg['funcs']):
