@@ -58,6 +58,44 @@ static inline void UnsetMode( WatcherWork *work )
     work->control.turn.vx = 0;
 }
 
+#ifdef VR_MYSTERY
+static inline void ENE_SeThrown( WatcherWork *work, CONTROL *ctrl )
+{
+    if ( work->scale >= MYST_BIG_SCALE )
+    {
+        GM_SeSetMode( &ctrl->mov, SE_MYSTERY_BIG_THROWN, GM_SEMODE_BOMB );
+    }
+    else
+    {
+        GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
+    }
+}
+
+static inline void ENE_SeGrabbed( WatcherWork *work )
+{
+    if ( work->scale >= MYST_BIG_SCALE )
+    {
+        GM_SeSet( &work->control.mov, SE_MYSTERY_BIG_GRABBED );
+    }
+    else
+    {
+        GM_SeSet( &work->control.mov, SE_V_ENE_GRABBED );
+    }
+}
+
+static inline void ENE_SeHitFloor( WatcherWork *work, CONTROL *ctrl )
+{
+    if ( work->scale >= MYST_BIG_SCALE )
+    {
+        GM_SeSetMode( &ctrl->mov, SE_MYSTERY_BIG_HITFLOOR, GM_SEMODE_BOMB );
+    }
+    else
+    {
+        GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
+    }
+}
+#endif
+
 static inline void UnsetMode2( WatcherWork *work )
 {
     extern short    ActTable_800C3358[];
@@ -896,16 +934,32 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
         {
             if ( ctrl->mov.vy - ctrl->levels[0] < 2000 )
             {
+                #ifdef VR_MYSTERY
+                ENE_SeThrown( work, ctrl );
+#else
                 GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB ) ;
+#endif
+                #ifdef VR_MYSTERY
+                ENE_SeHitFloor( work, ctrl );
+#else
                 GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
+#endif
                 ENE_PutBlood( work, 6, 0 ) ;
+                #ifdef VR_MYSTERY
+                GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
+#else
                 GM_SetNoise( 0x64, 4, &work->control.mov ) ;
+#endif
             }
             //if they fall from a height?
             else if ( ctrl->mov.vy - ctrl->levels[0] > 3000 )
             {
                 work->target->vital = 0;
+                #ifdef VR_MYSTERY
+                ENE_SeThrown( work, ctrl );
+#else
                 GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB ) ;
+#endif
             }
 #ifdef VR_EXE
             else
@@ -930,8 +984,16 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
     {
         if ( ctrl->grounded )
         {
-            GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
-            GM_SetNoise( 0x64, 4, &work->control.mov ) ;
+            #ifdef VR_MYSTERY
+                ENE_SeHitFloor( work, ctrl );
+#else
+                GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
+#endif
+            #ifdef VR_MYSTERY
+                GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
+#else
+                GM_SetNoise( 0x64, 4, &work->control.mov ) ;
+#endif
             ENE_PutBlood( work, 6, 1 ) ;
 
             if ( work->target->vital <= 0 )
@@ -940,7 +1002,11 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             }
             else
             {
+                #ifdef VR_MYSTERY
+                ENE_SeThrown( work, ctrl );
+#else
                 GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB ) ;
+#endif
                 SetMode( work, s00a_command_800C7498 );
             }
         }
@@ -981,6 +1047,49 @@ extern void COM_ResetBikkuriFlag( int flag ); // command.c (VR)
 #define VR_ST_HOLD_C 0x100  // a 'C'/'E' soldier is being held
 #define VR_ST_HOLD_D 0x200  // a 'D'/'F' soldier is being held
 
+#ifdef VR_MYSTERY
+extern void COM_SetBikkuriFlagTop( void );    // command.c (VR)
+
+static inline void SetHoldFlag( WatcherWork *work )
+{
+    int flag;
+
+    if ( work->param_blood == 'C' || work->param_blood == 'E' )
+    {
+        flag = VR_ST_HOLD_D;
+        if ( !( work->field_C58 & MYST_FLAG_100 ) )
+        {
+            flag = VR_ST_HOLD_C;
+        }
+        COM_SetBikkuriFlag( flag );
+        printf( " HANNIN HANNIN HANNIN HANNIN!!\n" );
+    }
+    else if ( work->param_blood == 'D' || work->param_blood == 'F' )
+    {
+        COM_SetBikkuriFlag( VR_ST_HOLD_D );
+        printf( " MUJITU MUJITU MUJITU MUJITU !!\n" );
+    }
+}
+
+static inline void ClearHoldFlag( WatcherWork *work )
+{
+    if ( work->param_blood == 'C' || work->param_blood == 'E' )
+    {
+        if ( work->field_C58 & MYST_FLAG_100 )
+        {
+            COM_ResetBikkuriFlag( VR_ST_HOLD_D );
+        }
+        else
+        {
+            COM_ResetBikkuriFlag( VR_ST_HOLD_C );
+        }
+    }
+    else if ( work->param_blood == 'D' || work->param_blood == 'F' )
+    {
+        COM_ResetBikkuriFlag( VR_ST_HOLD_D );
+    }
+}
+#else
 static inline void SetHoldFlag( WatcherWork *work )
 {
     if ( work->param_blood == 'C' || work->param_blood == 'E' )
@@ -1005,6 +1114,7 @@ static inline void ClearHoldFlag( WatcherWork *work )
     }
 }
 #endif
+#endif
 
 //enemy being held by snake
 void s00a_command_800C6FA8( WatcherWork* work, int time )
@@ -1026,7 +1136,11 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     if ( time == 0 )
     {
         work->field_B5A = target->faint;
+#ifdef VR_MYSTERY
+        ENE_SeGrabbed( work );
+#else
         GM_SeSet( &work->control.mov, SE_V_ENE_GRABBED );
+#endif
 #ifdef VR_EXE
         SetHoldFlag( work );
 #endif
@@ -1034,14 +1148,22 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
 
     if ( work->field_B5A != target->faint )
     {
+#ifdef VR_MYSTERY
+        ENE_SeGrabbed( work );
+#else
         GM_SeSet( &work->control.mov, SE_V_ENE_GRABBED );
+#endif
         work->field_B5A = target->faint;
     }
 
     if ( target->damaged & TARGET_POWER )
     {
         ENE_PutBlood( work, 5, 0 );
+#ifdef VR_MYSTERY
+        ENE_SeGrabbed( work );
+#else
         GM_SeSet( &work->control.mov, SE_V_ENE_GRABBED );
+#endif
         target->force = DG_ZeroVector;
         target->damage = 0;
         target->damaged = TARGET_STALE;
@@ -1059,6 +1181,26 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
             target->captured = 0;
         }
     }
+#ifdef VR_MYSTERY
+    {
+        int      count;
+        GV_MSG  *msg;
+        CONTROL *ctrl;
+
+        ctrl = &work->control;
+        count = ctrl->n_msg;
+        msg = ctrl->msg;
+        for ( ; count > 0 ; count--, msg++ )
+        {
+            if ( msg->message[0] == MSG_MYSTERY_SEIZURE )
+            {
+                SetMode( work, ActSeizure_800C843C );
+                return;
+            }
+        }
+    }
+#endif
+
     switch ( GM_PlayerAction )
     {
     case 0x7:
@@ -1105,6 +1247,12 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
             // 'M' soldiers survive the neck snap: toggle field_B96 (see s00a_command_800C82B0)
             work->field_B96 = 1 - work->field_B96;
         }
+#ifdef VR_MYSTERY
+        if ( (unsigned char)( work->param_blood - 'C' ) < 4 )
+        {
+            COM_SetBikkuriFlagTop();
+        }
+#endif
         ClearHoldFlag( work );
 #else
         target->vital = 0;

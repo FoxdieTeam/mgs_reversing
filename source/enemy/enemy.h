@@ -652,6 +652,14 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define SE_MYSTERY_HEARTBEAT    0xD5
 #define SE_MYSTERY_GESTURE      0xD9
 #define SE_MYSTERY_GETUP        0xDE
+#define SE_MYSTERY_BIG_THROWN   0xCF
+#define SE_MYSTERY_BIG_HITFLOOR 0xD8
+#define SE_MYSTERY_BIG_GRABBED  0xD0
+
+#define MSG_MYSTERY_SEIZURE     0xB2D0  // FIXME: GV_StrCode of an unknown string
+
+// Soldiers with a scale (GCL option 's') of 2000 or more are giants that use other voices/sounds
+#define MYST_BIG_SCALE          0x1771
 #endif
 
 #define ACTINTERP   4
