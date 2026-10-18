@@ -162,6 +162,7 @@ void s00a_command_800C9930( WatcherWork* work )
 }
 #endif
 
+#ifndef VR_MINENE /* the minene soldier neither checks for boxes nor for footprints */
 void s00a_command_800C9ACC( WatcherWork *work )
 {
     if ( !( work->field_BA3 & 2 ) )
@@ -241,10 +242,23 @@ void s00a_command_800C9C7C( WatcherWork* work )
     work->field_BA1 |= 16;
 }
 
+#endif
+
 void s00a_command_800C9D28( WatcherWork* work )
 {
     work->field_BA1 = 0;
-#ifdef VR_EXE
+#ifdef VR_MINENE
+    /* the minene soldier does not check for footprints/dead bodies */
+    if ( !IS_SENSELESS( work ) )
+    {
+        s00a_command_800C9930( work );
+    }
+
+    if ( EnemyCommand.mode != TOP_COMM_ALERT )
+    {
+        s00a_command_800C98A4( work );
+    }
+#elif defined(VR_EXE)
     if ( !IS_SENSELESS( work ) )
     {
         s00a_command_800C9930( work );
@@ -338,7 +352,11 @@ void s00a_command_800C9E68( WatcherWork* work )
     }
 
 #ifdef VR_EXE
+#ifdef VR_MINENE
+    if ( IS_SENSELESS( work ) )
+#else
     if ( IS_SENSELESS( work ) || ( COM_GameStatus & 0x4000 ) )
+#endif
     {
         flag[0] = 0;
         return;

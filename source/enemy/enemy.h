@@ -643,6 +643,14 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #ifdef VR_EXE
 #define SP_HEARTBEAT   0x8000000
 #endif
+#ifdef VR_MINENE
+// Sound effects of the VR sound table used by the minene soldier (FIXME: names not known)
+#define SE_MINENE_PUNCHED       0x18
+#define SE_MINENE_THROWN        0x19
+#define SE_MINENE_KILLED        0xC9
+#define SE_MINENE_HIT           0xCA
+#endif
+
 #ifdef VR_MYSTERY
 #define SP_LIE_DOWN    0x4000000
 #define SP_AIM_ONCE    0x10000000

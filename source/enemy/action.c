@@ -43,6 +43,10 @@ extern unsigned int      COM_GameStatus;
 extern int               COM_VibTime;
 
 extern int GV_NearExp4P(int from, int to);
+#ifdef VR_MINENE
+// blood spray at a joint (VR only, n_blood.c)
+extern void *NewNBlood( MATRIX *world, int mode );
+#endif
 
 /***Inlines***********************************************************************************************/
 static inline void UnsetMode( WatcherWork *work )
@@ -57,6 +61,10 @@ static inline void UnsetMode( WatcherWork *work )
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
+
+#if defined(VR_MYSTERY) || defined(VR_MINENE)
+#define VR_ENE_SE   /* the soldier picks its voice/sound effects through the ENE_Se* helpers */
+#endif
 
 #ifdef VR_MYSTERY
 static inline void ENE_SeThrown( WatcherWork *work, CONTROL *ctrl )
@@ -131,6 +139,69 @@ static inline void ENE_SeHitFloor( WatcherWork *work, CONTROL *ctrl )
     {
         GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
     }
+}
+#endif
+
+#ifdef VR_MINENE
+/* "Minene" soldiers with param_blood 'T' use other voices for the same events */
+#define BLOOD_MINENE_VOICE 'T'
+
+static inline void ENE_SeThrown( WatcherWork *work, CONTROL *ctrl )
+{
+    if ( work->param_blood == BLOOD_MINENE_VOICE )
+    {
+        GM_SeSetMode( &ctrl->mov, SE_MINENE_THROWN, GM_SEMODE_BOMB );
+    }
+    else
+    {
+        GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
+    }
+}
+
+static inline void ENE_SeGrabbed( WatcherWork *work )
+{
+    if ( work->param_blood == BLOOD_MINENE_VOICE )
+    {
+        GM_SeSet( &work->control.mov, SE_PDMG02 );
+    }
+    else
+    {
+        GM_SeSet( &work->control.mov, SE_V_ENE_GRABBED );
+    }
+}
+
+static inline void ENE_SePunched( WatcherWork *work )
+{
+    if ( work->param_blood == BLOOD_MINENE_VOICE )
+    {
+        GM_SeSetMode( &work->control.mov, SE_MINENE_PUNCHED, GM_SEMODE_BOMB );
+    }
+    else
+    {
+        GM_SeSetMode( &work->control.mov, SE_V_ENE_PUNCHED, GM_SEMODE_BOMB );
+    }
+}
+
+static inline void ENE_SeThrown2( WatcherWork *work, CONTROL *ctrl )
+{
+    ENE_SeThrown( work, ctrl );
+}
+
+static inline void ENE_SeKilled( WatcherWork *work, CONTROL *ctrl )
+{
+    if ( work->param_blood == BLOOD_MINENE_VOICE )
+    {
+        GM_SeSetMode( &ctrl->mov, SE_MINENE_KILLED, GM_SEMODE_BOMB );
+    }
+    else
+    {
+        GM_SeSetMode( &ctrl->mov, SE_V_ENE_KILLED, GM_SEMODE_BOMB );
+    }
+}
+
+static inline void ENE_SeHitFloor( WatcherWork *work, CONTROL *ctrl )
+{
+    GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
 }
 #endif
 
@@ -259,7 +330,9 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
 
     work->vision.length = COM_EYE_LENGTH ;
     work->act_status |= 0x100;
+#ifndef VR_MINENE
     work->control.step = DG_ZeroVector;
+#endif
 
     if ( CheckDamage_800C5424( work ) || CheckPad_800C5A60( work ) )
     {
@@ -417,7 +490,7 @@ void s00a_command_800C615C( WatcherWork *work, int time )
 }
 #endif
 
-#ifdef VR_EXE
+#if defined(VR_EXE) && !defined(VR_MINENE)
 #define HEARTBEAT_DIS       2000
 #define HEARTBEAT_FACE_DIR  1800
 
@@ -655,6 +728,7 @@ void s00a_command_800C624C( WatcherWork *work, int time )
     work->vision.facedir = work->control.rot.vy;
 }
 
+#ifndef VR_MINENE
 void s00a_command_800C6320( WatcherWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
@@ -717,6 +791,7 @@ void s00a_command_800C6320( WatcherWork *work, int time )
     work->control.turn.vy = work->sn_dir;
     work->vision.facedir = work->control.rot.vy;
 }
+#endif
 
 
 void s00a_command_800C65A8( WatcherWork* work, int time )
@@ -972,7 +1047,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
         {
             if ( ctrl->mov.vy - ctrl->levels[0] < 2000 )
             {
-#ifdef VR_MYSTERY
+#ifdef VR_ENE_SE
                 ENE_SeThrown( work, ctrl );
                 ENE_SeHitFloor( work, ctrl );
                 ENE_PutBlood( work, 6, 0 ) ;
@@ -988,13 +1063,13 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             else if ( ctrl->mov.vy - ctrl->levels[0] > 3000 )
             {
                 work->target->vital = 0;
-#ifdef VR_MYSTERY
+#ifdef VR_ENE_SE
                 ENE_SeThrown( work, ctrl );
 #else
                 GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB ) ;
 #endif
             }
-#ifdef VR_EXE
+#if defined(VR_EXE) && !defined(VR_MINENE)
             else
             {
                 SetAction( work, ACTION40, ACTINTERP );
@@ -1017,7 +1092,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
     {
         if ( ctrl->grounded )
         {
-#ifdef VR_MYSTERY
+#ifdef VR_ENE_SE
             ENE_SeHitFloor( work, ctrl );
             GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
 #else
@@ -1032,7 +1107,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             }
             else
             {
-#ifdef VR_MYSTERY
+#ifdef VR_ENE_SE
                 ENE_SeThrown2( work, ctrl );
 #else
                 GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB ) ;
@@ -1166,7 +1241,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     if ( time == 0 )
     {
         work->field_B5A = target->faint;
-#ifdef VR_MYSTERY
+#ifdef VR_ENE_SE
         ENE_SeGrabbed( work );
 #else
         GM_SeSet( &work->control.mov, SE_V_ENE_GRABBED );
@@ -1178,7 +1253,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
 
     if ( work->field_B5A != target->faint )
     {
-#ifdef VR_MYSTERY
+#ifdef VR_ENE_SE
         ENE_SeGrabbed( work );
 #else
         GM_SeSet( &work->control.mov, SE_V_ENE_GRABBED );
@@ -1189,7 +1264,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
     if ( target->damaged & TARGET_POWER )
     {
         ENE_PutBlood( work, 5, 0 );
-#ifdef VR_MYSTERY
+#ifdef VR_ENE_SE
         ENE_SeGrabbed( work );
 #else
         GM_SeSet( &work->control.mov, SE_V_ENE_GRABBED );
@@ -1546,7 +1621,7 @@ void s00a_command_800C77C8( WatcherWork* work, int time )
         {
             ENE_PutBlood( work, 5, 0 );
         }
-#ifdef VR_MYSTERY
+#ifdef VR_ENE_SE
         ENE_SePunched( work );
 #else
         GM_SeSetMode( &work->control.mov, SE_V_ENE_PUNCHED, GM_SEMODE_BOMB );
@@ -1580,7 +1655,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
         case 0:
             GM_SeSet( &ctrl->mov, SE_PUNCH_HIT );
             SetAction( work, ACTION34, ACTINTERP );
-            #ifdef VR_MYSTERY
+            #ifdef VR_ENE_SE
             ENE_SeThrown2( work, ctrl );
 #else
             GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
@@ -1611,26 +1686,40 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
                 {
                     ENE_PutBlood( work, 6, 1 );
                 }
+#ifdef VR_MINENE
+                ENE_SeKilled( work, ctrl );
+#else
                 GM_SeSetMode( &ctrl->mov, SE_V_ENE_KILLED, GM_SEMODE_BOMB );
+#endif
+#ifndef VR_MINENE
                 work->field_B5A = 46;
+#endif
             }
             else
             {
                 ENE_PutBlood( work, 5, 0 );
-                #ifdef VR_MYSTERY
+#ifndef VR_MINENE
+                #ifdef VR_ENE_SE
             ENE_SeThrown2( work, ctrl );
 #else
             GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
+#endif
 #endif
                 if ( work->target->a_mode == 3 )
                 {
                     GM_SeSet( &work->control.mov, SE_PUNCH_HIT );
                 }
+#ifndef VR_MINENE
                 work->field_B5A = 46;
+#endif
             }
+#ifdef VR_MINENE
+            GM_SeSetMode( &ctrl->mov, SE_MINENE_HIT, GM_SEMODE_BOMB );
+            work->field_B5A = 46;
+#endif
             break;
         case 3:
-            #ifdef VR_MYSTERY
+            #ifdef VR_ENE_SE
             ENE_SeThrown2( work, ctrl );
 #else
             GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
@@ -1640,7 +1729,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             work->field_B5A = 17;
             break;
         case 2:
-            #ifdef VR_MYSTERY
+            #ifdef VR_ENE_SE
             ENE_SeThrown2( work, ctrl );
 #else
             GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
@@ -1650,7 +1739,9 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             work->field_B5A = 37;
             break;
         case 4:
-#ifdef VR_MYSTERY
+#ifdef VR_MINENE
+            /* the sound is played at time 4 of the action in the second switch */
+#elif defined(VR_ENE_SE)
             ENE_SeSnapped( work, ctrl );
 #else
             GM_SeSet( &ctrl->mov, SE_V_ENE_SNAPPED );
@@ -1729,10 +1820,31 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             ctrl->hzd_height = -32767;
         }
         break;
+#ifdef VR_MINENE
+    case 4:
+        work->act_status |= 0x04;
+        break;
+    case 5:
+        work->act_status |= 0x04;
+        if ( time == 4 )
+        {
+            if ( work->param_blood == BLOOD_MINENE_VOICE )
+            {
+                GM_SeSetMode( &work->control.mov, SE_MINENE_PUNCHED, GM_SEMODE_BOMB );
+            }
+            else
+            {
+                GM_SeSet( &ctrl->mov, SE_V_ENE_SNAPPED );
+            }
+            NewNBlood( &work->body.objs->objs[ 5 ].world, 26 );
+        }
+        break;
+#else
     case 4:
     case 5:
         work->act_status |= 0x04;
         break;
+#endif
     }
 
     if ( time > 16 && ctrl->grounded )
@@ -1751,7 +1863,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
     {
         if (ctrl->mov.vy - ctrl->levels[0] < 2000)
         {
-#ifdef VR_MYSTERY
+#ifdef VR_ENE_SE
             ENE_SeHitFloor( work, ctrl );
 #else
             GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
@@ -1793,7 +1905,7 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
     work->unknown.field_1E = 0;
     work->act_status |= 0x8;
 
-#ifdef VR_EXE
+#if defined(VR_EXE) && !defined(VR_MINENE)
     if ( time == 0 )
     {
         if ( work->unknown.field_14 != 2 )
@@ -1847,19 +1959,19 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
         {
             work->unknown.field_1E = 1;
             work->target->force = DG_ZeroVector;
-#ifdef VR_MYSTERY
+#ifdef VR_ENE_SE
             ENE_SeHitFloor( work, ctrl );
 #else
             GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
 #endif
             ENE_PutBlood( work, 6, 1 );
             SetMode( work, s00a_command_800C8054 );
-#ifdef VR_EXE
+#if defined(VR_EXE) && !defined(VR_MINENE)
             ctrl->skip_flag &= ~CTRL_BOTH_CHECK;
 #endif
         }
     }
-#ifdef VR_EXE
+#if defined(VR_EXE) && !defined(VR_MINENE)
     s00a_command_800C59F8( work );
 #ifndef VR_MYSTERY
     ctrl->height = 200;
@@ -2283,6 +2395,7 @@ void s00a_command_800C8A6C( WatcherWork *work, int time )
 
 extern void AN_Unknown_800C3B7C( MATRIX *matrix );
 
+#ifndef VR_MINENE
 void s00a_command_800C8C58( WatcherWork* work )
 {
     MATRIX mat;
@@ -2369,6 +2482,7 @@ void s00a_command_800C8DF8( WatcherWork *work, int time )
     }
 }
 
+#endif
 SVECTOR s00a_dword_800C33D4 = { 0,     0, 100 };
 SVECTOR s00a_dword_800C33DC = { -1024, 0,   0 };
 SVECTOR s00a_dword_800C33E4 = { 0,     0, 100 };
@@ -2429,6 +2543,12 @@ void ENE_PutFog( WatcherWork* work )
     AN_Fog( &svec );
 }
 
+#ifdef VR_MINENE
+// minene soldiers do not drop items
+void ENE_PutItem( WatcherWork *work )
+{
+}
+#else
 void ENE_PutItem( WatcherWork *work )
 {
     int a1;
@@ -2551,6 +2671,7 @@ void ENE_PutItem( WatcherWork *work )
         NewItemPut( &ctrl->mov, &svec, &item );
     }
 }
+#endif
 
 void ENE_PutMark( WatcherWork *work, int mark )
 {
@@ -2563,7 +2684,18 @@ void ENE_PutMark( WatcherWork *work, int mark )
     mat = &work->body.objs->objs[6].world;
     if( mark == 0 )
     {
+#ifdef VR_MINENE
+        if ( work->param_blood != BLOOD_MINENE_VOICE )
+        {
+            COM_CallBikkuriSe( &work->control.mov , 0x10 );
+        }
+        else
+        {
+            COM_CallBikkuriSe( &work->control.mov , 0x400 );
+        }
+#else
         COM_CallBikkuriSe( &work->control.mov , 0x10 );
+#endif
     }
 
     if ( work->mark_time )
@@ -2574,6 +2706,12 @@ void ENE_PutMark( WatcherWork *work, int mark )
     work->mark = AN_HeadMark( mat , mark ) ;
     work->mark_time = 30;
 }
+
+#ifdef VR_MINENE
+#define ENE_SeFootstep( work, id ) GM_SeSetMode( &( work )->control.mov, ( id ), GM_SEMODE_REAL )
+#else
+#define ENE_SeFootstep( work, id ) GM_SeSet( &( work )->control.mov, ( id ) )
+#endif
 
 void ENE_PutSound( WatcherWork* work )
 {
@@ -2594,11 +2732,19 @@ void ENE_PutSound( WatcherWork* work )
     v1 = ( ( work->field_B78 % 4 ) * 2 ) + 0xA0;
     a1 = ( ( work->field_B78 % 4 ) * 2 ) + 0xA1;
 
+#ifdef VR_MINENE
+    if ( work->param_blood == BLOOD_MINENE_VOICE )
+    {
+        v1 = 0xAE;
+        a1 = 0xAF;
+    }
+#endif
+
     if( a3 == 1 )
     {
         if ( a2 == 22 )
         {
-            GM_SeSet( &work->control.mov, a1 );
+            ENE_SeFootstep( work, a1 );
 #ifdef VR_MYSTERY
             if ( work->field_C58 & MYST_FOOTPRINTS )
             {
@@ -2608,7 +2754,7 @@ void ENE_PutSound( WatcherWork* work )
         }
         else if ( a2 == 11 )
         {
-            GM_SeSet( &work->control.mov, v1 );
+            ENE_SeFootstep( work, v1 );
 #ifdef VR_MYSTERY
             if ( work->field_C58 & MYST_FOOTPRINTS )
             {
@@ -2621,7 +2767,7 @@ void ENE_PutSound( WatcherWork* work )
     {
         if ( a2 == 16 )
         {
-            GM_SeSet( &work->control.mov, a1 );
+            ENE_SeFootstep( work, a1 );
 #ifdef VR_MYSTERY
             if ( work->field_C58 & MYST_FOOTPRINTS )
             {
@@ -2631,7 +2777,7 @@ void ENE_PutSound( WatcherWork* work )
         }
         else if ( a2 == 8 )
         {
-            GM_SeSet( &work->control.mov, v1 );
+            ENE_SeFootstep( work, v1 );
 #ifdef VR_MYSTERY
             if ( work->field_C58 & MYST_FOOTPRINTS )
             {
@@ -2645,7 +2791,7 @@ void ENE_PutSound( WatcherWork* work )
 void ENE_PutBreath( WatcherWork *work, int arg1 )
 {
     int frame;
-#ifdef VR_EXE
+#if defined(VR_EXE) && !defined(VR_MINENE)
     MATRIX *mat;
 #endif
     if ( EnemyCommand.mode == TOP_COMM_ALERT )
@@ -2703,7 +2849,7 @@ void ENE_PutBreath( WatcherWork *work, int arg1 )
                 AN_Breath( mat );
             }
         }
-#elif defined(VR_EXE)
+#elif defined(VR_EXE) && !defined(VR_MINENE)
         if ( ( ( GV_Time + 1 ) % 64 ) == ( work->field_B78 * 16 ) )
         {
             mat = &work->body.objs->objs[6].world;

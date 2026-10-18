@@ -134,6 +134,12 @@ int s00a_command_800C5194( WatcherWork *work ) {
         {
             work->unknown.field_14 = 2;
         }
+#ifdef VR_MINENE
+        if ( target->weapon == WP_Stinger )
+        {
+            GM_SeSetMode( &work->control.mov, SE_KICKHIT1, GM_SEMODE_BOMB );
+        }
+#endif
         SetMode( work, s00a_command_800C78E0 ) ;
         break;
     case 4:
@@ -229,7 +235,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     GM_ConfigControlAttribute( ctrl, 0xD );
     InitTarget_800C5484( work );
 
-#ifdef VR_EXE
+#if defined(VR_EXE) && !defined(VR_MINENE)
     /* FIXME: warp first holds the player address, steers the address load before the branch */
     warp = (char)COM_PlayerAddressOne[ work->field_B78 ];
     if ( work->param_blood != BLOOD_WARP )
@@ -435,7 +441,7 @@ int CheckPad_800C5A60( WatcherWork *work )
         SetMode( work, ActMysteryShoot_800C861C );
         return 0;
     }
-#else
+#elif !defined(VR_MINENE)
     if ( press & 0x800000 )
     {
         SetMode2( work, s00a_command_800C8C98 );
@@ -443,13 +449,15 @@ int CheckPad_800C5A60( WatcherWork *work )
     }
 #endif
 
+#ifndef VR_MINENE
     if ( press & 0x1000000 )
     {
         SetMode2( work, s00a_command_800C8DF8 );
         return 0;
     }
+#endif
 
-#ifdef VR_EXE
+#if defined(VR_EXE) && !defined(VR_MINENE)
     if ( press & 0x4000000 )
     {
         SetMode( work, ActLieDown );
@@ -492,11 +500,13 @@ int CheckPad_800C5A60( WatcherWork *work )
         return 1;
     }
 
+#ifndef VR_MINENE
     if ( press & SP_DANBOWLKERI )
     {
         SetMode( work, s00a_command_800C6320 );
         return 1;
     }
+#endif
 
     if ( press & 0x30000 )
     {
