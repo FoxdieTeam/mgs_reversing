@@ -15,12 +15,16 @@
 	xdef SetDefDispEnv
 	xdef vrtitle_800D83B0
 	xdef vrtitle_800D83B4
+	xdef DecDCTReset
 	xdef vrtitle_800D83E8
 	xdef vrtitle_800D8474
 	xdef vrtitle_800D850C
+	xdef DecDCTin
 	xdef vrtitle_800D8588
+	xdef DecDCTout
 	xdef vrtitle_800D85A8
 	xdef vrtitle_800D85E4
+	xdef DecDCToutSync
 	xdef vrtitle_800D8620
 	xdef vrtitle_800D8644
 	xdef vrtitle_800D8668
@@ -241,6 +245,7 @@ SetDefDispEnv:
 vrtitle_800D83B0:
 	dw 0x00000000 ; 800D83B0
 vrtitle_800D83B4:
+DecDCTReset:
 	dw 0x27BDFFE8 ; 800D83B4
 	dw 0xAFB00010 ; 800D83B8
 	dw 0x00808021 ; 800D83BC
@@ -330,6 +335,7 @@ vrtitle_800D8474:
 	dw 0x03E00008 ; 800D8504
 	dw 0x27BD0018 ; 800D8508
 vrtitle_800D850C:
+DecDCTin:
 	dw 0x27BDFFE8 ; 800D850C
 	dw 0x30A20001 ; 800D8510
 	dw 0x10400006 ; 800D8514
@@ -362,6 +368,7 @@ vrtitle_800D850C:
 	dw 0x03E00008 ; 800D8580
 	dw 0x00000000 ; 800D8584
 vrtitle_800D8588:
+DecDCTout:
 	dw 0x27BDFFE8 ; 800D8588
 	dw 0xAFBF0010 ; 800D858C
 	dw 0x0C0361FA ; 800D8590
@@ -387,6 +394,7 @@ vrtitle_800D85A8:
 	dw 0x03E00008 ; 800D85DC
 	dw 0x00000000 ; 800D85E0
 vrtitle_800D85E4:
+DecDCToutSync:
 	dw 0x27BDFFE8 ; 800D85E4
 	dw 0x14800005 ; 800D85E8
 	dw 0xAFBF0010 ; 800D85EC
