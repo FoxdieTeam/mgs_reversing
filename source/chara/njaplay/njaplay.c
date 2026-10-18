@@ -64,6 +64,8 @@ void njp_FreeTargets(SnaInitWork *work);
 void njp_800C4E38(SnaInitWork *work, int time);
 void njp_sna_anim_idle_800C4200(SnaInitWork *work, int time);
 void njp_800C44CC(SnaInitWork *work, int time);
+void njp_800C6CA4(SnaInitWork *work, int time);
+void njp_nop_800C48EC(SnaInitWork *work, int time);
 void njp_800C45CC(SnaInitWork *work, int time);
 void njp_800C6900(SnaInitWork *work, int time);
 extern int snainit_item_800A9420;
@@ -956,7 +958,7 @@ void njp_sna_anim_run_begin_80053B88(SnaInitWork *work, int time)
 //ASM-END
 
 // @800C48EC njp_nop_800C48EC
-void njp_nop_800C48EC(void)
+void njp_nop_800C48EC(SnaInitWork *work, int time)
 {
 }
 
@@ -1138,6 +1140,79 @@ void njp_sna_80051FD0(SnaInitWork *work)
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_5.s")
 //ASM-END
 
+// @800C6AC0 njp_sna_anim_chokethrow_begin2_80058C80
+void njp_sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
+{
+    int        bClear;            // $s0
+    TARGET *field_8E8_pTarget; // $v1
+    int        action_flag;       // $a1
+    SVECTOR   *p;
+
+    if (time == 0)
+    {
+        work->field_904_frames_last_choke = 0;
+        work->field_9C8_anim_update_fn_3p = njp_nop_800C48EC;
+        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        njp_GM_ClearPlayerStatusFlag(PLAYER_MOVE);
+        bClear = 0;
+        work->field_A54.choke_count = 0;
+
+        if (!njp_sna_8004FDE8(work, &njp_stru_8009EFE4))
+        {
+            bClear = 1;
+            work->field_A38_local_data = 1;
+        }
+
+        p = &work->field_8EC_vec;
+        if (!bClear)
+        {
+
+            field_8E8_pTarget = work->field_8E8_pTarget;
+
+            field_8E8_pTarget->faint--;
+
+            DG_SetPos2(&field_8E8_pTarget->center, &work->control.rot);
+
+            DG_PutVector(&njp_svector_800AB7FC, p, 1);
+            DG_SetPos2(&work->control.mov, &work->control.rot);
+            GV_SubVec3(p, &work->control.mov, p);
+            p->vx /= 4;
+            p->vy /= 4;
+            p->vz /= 4;
+            action_flag = 25;
+        }
+        else
+        {
+            work->field_8EC_vec = DG_ZeroVector;
+            action_flag = 3;
+        }
+        njp_SetAction_8004E22C(work, action_flag, 4);
+    }
+
+    if (time < 4)
+    {
+        ++work->field_904_frames_last_choke;
+        GV_AddVec3(&work->control.step, &work->field_8EC_vec,
+                            &work->control.step);
+    }
+    else
+    {
+        if (work->field_A38_local_data)
+        {
+            njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK3);
+            njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
+        }
+        else
+        {
+            work->field_89C_pTarget->size.vx = 150;
+            njp_sna_start_anim_8004E1F4(work, njp_800C6CA4);
+        }
+    }
+}
+
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_6.s")
+//ASM-END
+
 // @DATA
 // FIXME: the data is defined after the code on purpose: the code was compiled with only the type alignment of the
 // tables known (e.g. the 20 byte copy of njp_word_8009EFC0 is done with lwl/lwr).
@@ -1177,6 +1252,7 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
 
 
 

@@ -238,8 +238,8 @@ typedef struct SnaInitWork
     int                 field_8F4;
     int                 field_8F8;
     SVECTOR             field_8FC;
-#ifndef VR_NINJA // the ninja of the VR missions (chara/njaplay) has no weapons, scope and shadow poly: 0x9C bytes less
     int                 field_904_frames_last_choke;
+#ifndef VR_NINJA // the ninja of the VR missions (chara/njaplay) has no weapons, scope and shadow poly: 0x9C bytes less
     GV_ACT             *field_908_weapon_actor;
     TSnakeFunction      field_90C_pWeaponFn;
     int                 field_910;
@@ -256,8 +256,8 @@ typedef struct SnaInitWork
     SVECTOR             field_940;
     SVECTOR             field_948;
     POLY_FT4            field_950[2];
-#endif
     int                 field_9A0;
+#endif
     GV_ACT             *field_9A4_item_actor;
     int                 field_9A8_current_item;
     int                 field_9AC;
