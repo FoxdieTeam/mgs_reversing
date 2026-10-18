@@ -2,104 +2,151 @@
 	.set	noat
 	.set	nomacro
 	.text
-	.globl	vcd_n05_800C7260
-vcd_n05_800C7260:
-	addiu	$5,$4,32
-	lw	$2,2940($4)
+	.globl	vcd_n05_800C7A48
+vcd_n05_800C7A48:
+	addiu	$29,$29,-32
+	sw	$17,20($29)
+	addu	$17,$4,$0
+	addiu	$2,$0,1
+	sw	$31,24($29)
+	sw	$16,16($29)
+	lh	$3,2272($17)
+	lh	$16,402($17)
+	bne	$3,$2,$Lvcd_n05_800C7A48_3
 	nop
-	andi	$2,$2,0x40
-	bne	$2,$0,$Lvcd_n05_800C7260_11
-	addu	$6,$5,$0
-	lui	$2,%hi(GodzCommand+12)
-	lw	$3,%lo(GodzCommand+12)($2)
+	bne	$16,$3,$Lvcd_n05_800C7A48_1
+	addiu	$4,$17,32
+	addiu	$5,$0,198
+	jal	GM_SeSetMode
+	addu	$6,$2,$0
+	lui	$4,%hi(godzact_data+196)
+	addiu	$4,$4,%lo(godzact_data+196)
+	jal	NewPadVibration
+	addiu	$5,$0,1
+	lui	$4,%hi(godzact_data+204)
+	addiu	$4,$4,%lo(godzact_data+204)
+	jal	NewPadVibration
+	addiu	$5,$0,2
+	addiu	$4,$0,255
+	lui	$6,%hi(GM_NoisePower)
+	lw	$3,%lo(GM_NoisePower)($6)
+	nop
+	slt	$2,$4,$3
+	bne	$2,$0,$Lvcd_n05_800C7A48_8
+	addiu	$5,$0,8
+	bne	$3,$4,$Lvcd_n05_800C7A48_0
+	lui	$2,%hi(GM_NoiseLength)
+	lw	$2,%lo(GM_NoiseLength)($2)
+	nop
+	slt	$2,$5,$2
+	bne	$2,$0,$Lvcd_n05_800C7A48_8
+	lui	$2,%hi(GM_NoiseLength)
+$Lvcd_n05_800C7A48_0:
+	sw	$5,%lo(GM_NoiseLength)($2)
+	lui	$2,%hi(GM_NoisePosition)
+	j	$Lvcd_n05_800C7A48_7
+	sw	$4,%lo(GM_NoisePower)($6)
+$Lvcd_n05_800C7A48_1:
+	addiu	$2,$0,71
+	bne	$16,$2,$Lvcd_n05_800C7A48_8
+	addiu	$5,$0,197
+	jal	GM_SeSetMode
+	addiu	$6,$0,1
+	lui	$4,%hi(godzact_data+196)
+	addiu	$4,$4,%lo(godzact_data+196)
+	jal	NewPadVibration
+	addiu	$5,$0,1
+	lui	$4,%hi(godzact_data+204)
+	addiu	$4,$4,%lo(godzact_data+204)
+	jal	NewPadVibration
+	addiu	$5,$0,2
+	addiu	$4,$0,255
+	lui	$6,%hi(GM_NoisePower)
+	lw	$3,%lo(GM_NoisePower)($6)
+	nop
+	slt	$2,$4,$3
+	bne	$2,$0,$Lvcd_n05_800C7A48_8
+	addiu	$5,$0,8
+	bne	$3,$4,$Lvcd_n05_800C7A48_2
+	lui	$2,%hi(GM_NoiseLength)
+	lw	$2,%lo(GM_NoiseLength)($2)
+	nop
+	slt	$2,$5,$2
+	bne	$2,$0,$Lvcd_n05_800C7A48_8
+	lui	$2,%hi(GM_NoiseLength)
+$Lvcd_n05_800C7A48_2:
+	sw	$5,%lo(GM_NoiseLength)($2)
+	lui	$2,%hi(GM_NoisePosition)
+	j	$Lvcd_n05_800C7A48_7
+	sw	$4,%lo(GM_NoisePower)($6)
+$Lvcd_n05_800C7A48_3:
 	addiu	$2,$0,2
-	bne	$3,$2,$Lvcd_n05_800C7260_3
+	bne	$3,$2,$Lvcd_n05_800C7A48_8
+	addiu	$2,$0,16
+	bne	$16,$2,$Lvcd_n05_800C7A48_5
+	addiu	$2,$0,8
+	addiu	$4,$17,32
+	addiu	$5,$0,198
+	jal	GM_SeSetMode
+	addiu	$6,$0,1
+	addiu	$4,$0,255
+	lui	$6,%hi(GM_NoisePower)
+	lw	$3,%lo(GM_NoisePower)($6)
 	nop
-	lh	$2,4($5)
+	slt	$2,$4,$3
+	bne	$2,$0,$Lvcd_n05_800C7A48_8
+	addiu	$5,$0,8
+	bne	$3,$4,$Lvcd_n05_800C7A48_4
+	lui	$2,%hi(GM_NoiseLength)
+	lw	$2,%lo(GM_NoiseLength)($2)
 	nop
-	slti	$2,$2,-18500
-	beq	$2,$0,$Lvcd_n05_800C7260_2
+	slt	$2,$5,$2
+	bne	$2,$0,$Lvcd_n05_800C7A48_8
+	lui	$2,%hi(GM_NoiseLength)
+$Lvcd_n05_800C7A48_4:
+	sw	$5,%lo(GM_NoiseLength)($2)
+	lui	$2,%hi(GM_NoisePosition)
+	j	$Lvcd_n05_800C7A48_7
+	sw	$4,%lo(GM_NoisePower)($6)
+$Lvcd_n05_800C7A48_5:
+	bne	$16,$2,$Lvcd_n05_800C7A48_8
+	addiu	$4,$17,32
+	addiu	$5,$0,197
+	jal	GM_SeSetMode
+	addiu	$6,$0,1
+	lui	$5,%hi(GM_NoisePower)
+	lw	$3,%lo(GM_NoisePower)($5)
+	addiu	$4,$0,255
+	slt	$2,$4,$3
+	bne	$2,$0,$Lvcd_n05_800C7A48_8
 	nop
-	lh	$3,32($4)
+	bne	$3,$4,$Lvcd_n05_800C7A48_6
+	lui	$2,%hi(GM_NoiseLength)
+	lw	$2,%lo(GM_NoiseLength)($2)
 	nop
-	slti	$2,$3,-12500
-	bne	$2,$0,$Lvcd_n05_800C7260_0
-	addiu	$2,$0,-12500
-	slti	$2,$3,12501
-	bne	$2,$0,$Lvcd_n05_800C7260_1
-	addiu	$2,$0,12500
-$Lvcd_n05_800C7260_0:
-	sh	$2,32($4)
-	sh	$0,68($5)
-$Lvcd_n05_800C7260_1:
-	lh	$2,4($6)
-	nop
-	slti	$2,$2,-27500
-	beq	$2,$0,$Lvcd_n05_800C7260_11
-	addiu	$2,$0,-27500
-	j	$Lvcd_n05_800C7260_10
-	sh	$2,4($6)
-$Lvcd_n05_800C7260_2:
-	lh	$3,32($4)
-	nop
-	slti	$2,$3,-3000
-	bne	$2,$0,$Lvcd_n05_800C7260_7
-	addiu	$2,$0,-3000
-	slti	$2,$3,4501
-	bne	$2,$0,$Lvcd_n05_800C7260_9
-	addiu	$2,$0,4500
-	j	$Lvcd_n05_800C7260_8
-	sh	$2,32($4)
-$Lvcd_n05_800C7260_3:
-	lh	$2,4($5)
-	nop
-	slti	$2,$2,-18500
-	beq	$2,$0,$Lvcd_n05_800C7260_6
-	nop
-	lh	$3,32($4)
-	nop
-	slti	$2,$3,-1000
-	bne	$2,$0,$Lvcd_n05_800C7260_4
-	addiu	$2,$0,-950
-	slti	$2,$3,11501
-	bne	$2,$0,$Lvcd_n05_800C7260_5
-	addiu	$2,$0,11500
-$Lvcd_n05_800C7260_4:
-	sh	$2,32($4)
-	sh	$0,68($5)
-$Lvcd_n05_800C7260_5:
-	lh	$2,4($6)
-	nop
-	slti	$2,$2,-23500
-	beq	$2,$0,$Lvcd_n05_800C7260_11
-	addiu	$2,$0,-23500
-	j	$Lvcd_n05_800C7260_10
-	sh	$2,4($6)
-$Lvcd_n05_800C7260_6:
-	lh	$3,32($4)
-	nop
-	slti	$2,$3,-1000
-	bne	$2,$0,$Lvcd_n05_800C7260_7
-	addiu	$2,$0,-950
-	slti	$2,$3,1001
-	bne	$2,$0,$Lvcd_n05_800C7260_9
-	addiu	$2,$0,950
-$Lvcd_n05_800C7260_7:
-	sh	$2,32($4)
-$Lvcd_n05_800C7260_8:
-	sh	$0,68($5)
-$Lvcd_n05_800C7260_9:
-	lh	$2,4($6)
-	nop
-	slti	$2,$2,-3499
-	bne	$2,$0,$Lvcd_n05_800C7260_11
-	addiu	$2,$0,-3500
-	sh	$2,4($6)
-$Lvcd_n05_800C7260_10:
-	sh	$0,72($5)
-$Lvcd_n05_800C7260_11:
+	slt	$2,$16,$2
+	bne	$2,$0,$Lvcd_n05_800C7A48_8
+	lui	$2,%hi(GM_NoiseLength)
+$Lvcd_n05_800C7A48_6:
+	sw	$16,%lo(GM_NoiseLength)($2)
+	lui	$2,%hi(GM_NoisePosition)
+	sw	$4,%lo(GM_NoisePower)($5)
+$Lvcd_n05_800C7A48_7:
+	addiu	$10,$2,%lo(GM_NoisePosition)
+	lwl	$7,35($17)
+	lwr	$7,32($17)
+	lwl	$8,39($17)
+	lwr	$8,36($17)
+	swl	$7,3($10)
+	swr	$7,0($10)
+	swl	$8,7($10)
+	swr	$8,4($10)
+$Lvcd_n05_800C7A48_8:
+	lw	$31,24($29)
+	lw	$17,20($29)
+	lw	$16,16($29)
 	jr	$31
-	nop
+	addiu	$29,$29,32
 	.set	macro
 	.set	reorder
 	.set	at
@@ -107,197 +154,97 @@ $Lvcd_n05_800C7260_11:
 	.set	noat
 	.set	nomacro
 	.text
-	.globl	vcd_n05_800C73B0
-vcd_n05_800C73B0:
-	addiu	$29,$29,-40
-	sw	$17,20($29)
-	addu	$17,$4,$0
-	addu	$3,$0,$0
-	addiu	$5,$0,1
-	sw	$31,36($29)
-	sw	$20,32($29)
-	sw	$19,28($29)
-	sw	$18,24($29)
-	sw	$16,16($29)
-	sw	$0,2912($17)
-	sh	$0,2972($17)
-$Lvcd_n05_800C73B0_0:
-	lw	$2,2304($4)
-	addiu	$3,$3,1
-	sh	$5,0($2)
-	slti	$2,$3,5
-	bne	$2,$0,$Lvcd_n05_800C73B0_0
-	addiu	$4,$4,4
-	addiu	$20,$17,156
-	sw	$0,2300($17)
-	sw	$0,2940($17)
-	sw	$0,3140($17)
-	lh	$3,24($20)
-	lw	$2,2544($17)
-	nop
-	mult	$3,$2
-	addiu	$19,$17,2248
-	lw	$16,2284($17)
-	mflo	$3
-	bgez	$3,$Lvcd_n05_800C73B0_1
-	addiu	$18,$17,32
-	addiu	$3,$3,4095
-$Lvcd_n05_800C73B0_1:
-	lhu	$2,120($18)
-	sra	$3,$3,12
-	sh	$3,50($18)
-	addiu	$2,$2,750
-	sh	$2,52($18)
-	lw	$5,2292($17)
-	nop
-	addiu	$2,$5,1
-	bne	$16,$0,$Lvcd_n05_800C73B0_2
-	sw	$2,2292($17)
-	lui	$2,%hi(GodzAct_800C4DB8)
-	addiu	$16,$2,%lo(GodzAct_800C4DB8)
-	sw	$16,2284($17)
-$Lvcd_n05_800C73B0_2:
-	jalr	$31,$16
-	addu	$4,$17,$0
-	lw	$16,2288($17)
-	nop
-	beq	$16,$0,$Lvcd_n05_800C73B0_3
-	addu	$4,$17,$0
-	lw	$5,2296($17)
-	nop
-	addiu	$2,$5,1
-	jalr	$31,$16
-	sw	$2,2296($17)
-$Lvcd_n05_800C73B0_3:
-	lh	$2,30($19)
-	nop
-	bne	$2,$0,$Lvcd_n05_800C73B0_4
-	addiu	$2,$0,-1
-	lh	$4,54($18)
-	lh	$5,28($19)
-	jal	GV_NearExp2
-	nop
-	j	$Lvcd_n05_800C73B0_5
-	sh	$2,54($18)
-$Lvcd_n05_800C73B0_4:
-	sh	$2,54($18)
-$Lvcd_n05_800C73B0_5:
-	lw	$2,2304($17)
-	nop
-	lhu	$2,0($2)
-	nop
-	andi	$2,$2,0x4
-	beq	$2,$0,$Lvcd_n05_800C73B0_6
+	.globl	vcd_n05_800C7C60
+vcd_n05_800C7C60:
+	addiu	$29,$29,-32
+	lui	$2,%hi(GodzCommand+32)
+	lw	$3,%lo(GodzCommand+32)($2)
 	addiu	$2,$0,1
-	lw	$3,2540($17)
-	j	$Lvcd_n05_800C73B0_7
-	sw	$2,8($3)
-$Lvcd_n05_800C73B0_6:
-	lw	$2,2540($17)
+	beq	$3,$2,$Lvcd_n05_800C7C60_6
+	sw	$31,24($29)
+	lui	$3,%hi(GM_PlayerMap)
+	lw	$2,76($4)
+	lw	$3,%lo(GM_PlayerMap)($3)
+	lw	$2,0($2)
 	nop
-	sw	$0,8($2)
-$Lvcd_n05_800C73B0_7:
-	lui	$2,%hi(GODZ_GameFlag)
-	lw	$2,%lo(GODZ_GameFlag)($2)
+	and	$2,$2,$3
+	beq	$2,$0,$Lvcd_n05_800C7C60_6
+	addiu	$2,$0,20
+	lh	$3,2274($4)
 	nop
-	slti	$2,$2,7
-	bne	$2,$0,$Lvcd_n05_800C73B0_9
+	bne	$3,$2,$Lvcd_n05_800C7C60_0
+	addiu	$2,$0,22
+	lh	$3,426($4)
+	j	$Lvcd_n05_800C7C60_4
+	addiu	$2,$0,31
+$Lvcd_n05_800C7C60_0:
+	bne	$3,$2,$Lvcd_n05_800C7C60_1
+	addiu	$2,$0,19
+	lh	$3,426($4)
+	addiu	$2,$0,15
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,35
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,50
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,60
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,70
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,74
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,78
+	j	$Lvcd_n05_800C7C60_4
 	nop
-	lh	$3,24($20)
-	lw	$2,2544($17)
+$Lvcd_n05_800C7C60_1:
+	bne	$3,$2,$Lvcd_n05_800C7C60_2
+	lui	$2,%hi(GV_Time)
+	lh	$3,426($4)
+	addiu	$2,$0,30
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,40
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,50
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,60
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,70
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,80
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,90
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,95
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,100
+	beq	$3,$2,$Lvcd_n05_800C7C60_5
+	addiu	$2,$0,105
+	j	$Lvcd_n05_800C7C60_4
 	nop
-	mult	$3,$2
-	mflo	$2
-	bgez	$2,$Lvcd_n05_800C73B0_8
+$Lvcd_n05_800C7C60_2:
+	lw	$5,%lo(GV_Time)($2)
 	nop
-	addiu	$2,$2,4095
-$Lvcd_n05_800C73B0_8:
-	sra	$2,$2,12
-	j	$Lvcd_n05_800C73B0_11
-	sh	$2,2($18)
-$Lvcd_n05_800C73B0_9:
-	lh	$2,4($19)
+	bgez	$5,$Lvcd_n05_800C7C60_3
+	addu	$3,$5,$0
+	addiu	$3,$5,63
+$Lvcd_n05_800C7C60_3:
+	sra	$3,$3,6
+	sll	$3,$3,6
+	lb	$2,2948($4)
+	subu	$3,$5,$3
+	sll	$2,$2,4
+$Lvcd_n05_800C7C60_4:
+	bne	$3,$2,$Lvcd_n05_800C7C60_6
 	nop
-	bgez	$2,$Lvcd_n05_800C73B0_10
+$Lvcd_n05_800C7C60_5:
+	lw	$4,156($4)
+	jal	AN_Breath
+	addiu	$4,$4,624
+$Lvcd_n05_800C7C60_6:
+	lw	$31,24($29)
 	nop
-	lb	$2,87($18)
-	nop
-	beq	$2,$0,$Lvcd_n05_800C73B0_10
-	nop
-	sh	$0,4($19)
-$Lvcd_n05_800C73B0_10:
-	lhu	$2,4($19)
-	nop
-	addiu	$2,$2,-16
-	sh	$2,4($19)
-	sh	$2,70($18)
-$Lvcd_n05_800C73B0_11:
-	lw	$2,2936($17)
-	nop
-	blez	$2,$Lvcd_n05_800C73B0_12
-	addiu	$2,$2,-1
-	sw	$2,2936($17)
-$Lvcd_n05_800C73B0_12:
-	lb	$3,2949($17)
-	addiu	$2,$0,71
-	bne	$3,$2,$Lvcd_n05_800C73B0_14
-	lui	$2,%hi(GODZ_GameFlag)
-	lw	$2,%lo(GODZ_GameFlag)($2)
-	nop
-	slti	$2,$2,4
-	bne	$2,$0,$Lvcd_n05_800C73B0_18
-	addu	$3,$0,$0
-	addiu	$5,$0,1
-	addu	$4,$17,$0
-$Lvcd_n05_800C73B0_13:
-	lw	$2,2304($4)
-	addiu	$3,$3,1
-	sh	$5,0($2)
-	slti	$2,$3,5
-	bne	$2,$0,$Lvcd_n05_800C73B0_13
-	addiu	$4,$4,4
-	j	$Lvcd_n05_800C73B0_18
-	nop
-$Lvcd_n05_800C73B0_14:
-	lw	$3,%lo(GODZ_GameFlag)($2)
-	addiu	$2,$0,5
-	bne	$3,$2,$Lvcd_n05_800C73B0_16
-	slti	$2,$3,6
-	addu	$3,$0,$0
-	addiu	$5,$0,3
-	addu	$4,$17,$0
-$Lvcd_n05_800C73B0_15:
-	lw	$2,2304($4)
-	addiu	$3,$3,1
-	sh	$5,0($2)
-	slti	$2,$3,5
-	bne	$2,$0,$Lvcd_n05_800C73B0_15
-	addiu	$4,$4,4
-	j	$Lvcd_n05_800C73B0_18
-	nop
-$Lvcd_n05_800C73B0_16:
-	bne	$2,$0,$Lvcd_n05_800C73B0_18
-	addu	$3,$0,$0
-	addiu	$5,$0,1
-	addu	$4,$17,$0
-$Lvcd_n05_800C73B0_17:
-	lw	$2,2304($4)
-	addiu	$3,$3,1
-	sh	$5,0($2)
-	slti	$2,$3,5
-	bne	$2,$0,$Lvcd_n05_800C73B0_17
-	addiu	$4,$4,4
-$Lvcd_n05_800C73B0_18:
-	jal	vcd_n05_800C7260
-	addu	$4,$17,$0
-	lw	$31,36($29)
-	lw	$20,32($29)
-	lw	$19,28($29)
-	lw	$18,24($29)
-	lw	$17,20($29)
-	lw	$16,16($29)
 	jr	$31
-	addiu	$29,$29,40
+	addiu	$29,$29,32
 	.set	macro
 	.set	reorder
 	.set	at

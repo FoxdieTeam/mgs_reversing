@@ -20,6 +20,7 @@ extern void *NewMosaic( MATRIX *, int, int, int );
 
 extern GODZ_COMMAND  GodzCommand;
 extern int           GODZ_EYE_LENGTH;
+extern int           GODZ_GameFlag;
 extern SVECTOR       GODZ_NO_POINT;
 
 extern void   *AN_HeadMark( MATRIX *world, int mark );
@@ -47,7 +48,7 @@ void GodzAct_800C57FC( GodzWork *work, int time );
 void GodzAct_800C5904( GodzWork *work, int time );
 void GodzAct_800C590C( GodzWork *work, int time );
 void GodzAct_800C5AD4( GodzWork *work, int time );
-void vcd_n05_800C5BA4( GodzWork *work, int time );
+void GodzAct_800C5BA4( GodzWork *work, int time );
 void GodzAct_800C5CF8( GodzWork *work, int time );
 void GodzAct_800C5E70( GodzWork *work, int time );
 void GodzAct_800C5F38( GodzWork *work, int time );
@@ -60,8 +61,8 @@ void GodzAct_800C6814( GodzWork *work, int time );
 void GodzAct_800C6F14( GodzWork *work, int time );
 void GodzAct_800C70F4( GodzWork *work, int time );
 void GodzAct_800C71D8( GodzWork *work, int time );
-void vcd_n05_800C7260( GodzWork *work, int time );
-void vcd_n05_800C73B0( GodzWork *work );
+void vcd_n05_800C7260( GodzWork *work );
+void GodzActionUpdate( GodzWork *work );
 void GodzAct_800C7658( GodzWork *work, int time );
 void GodzAct_800C7724( GodzWork *work, int time );
 void GodzAct_800C77F0( GodzWork *work, int time );
@@ -87,6 +88,7 @@ void GODZ_ExecPutChar( GodzWork *work );
 #define SE_GODZ_ROAR  0x87  // sound mode of the "G" soldier
 #define SE_GODZ_ROAR2 0x80
 #define SE_GODZ_PUNCH 0x29  // sound effect of the punch
+#define SE_GODZ_SPIN  0x2E  // sound effect of the spin attack
 #define SE_GODZ_MARK1 0x8A  // sound mode of the "!" mark
 #define SE_GODZ_MARK2 0x8C  // sound mode of the other marks
 #define SE_GODZ_GETUP 0xC9  // sound mode of the soldier getting up
@@ -393,12 +395,12 @@ void GodzAct_800C5388( GodzWork *work, int time )
         if ( work->param.blood == 'G' )
         {
             SetAction( work, ACTION46, ACTINTERP );
-            GM_SeSetMode( &work->control, SE_GODZ_ROAR, 1 );
+            GM_SeSetMode( &work->control.mov, SE_GODZ_ROAR, 1 );
         }
         else
         {
             SetAction( work, ACTION47, ACTINTERP );
-            GM_SeSetMode( &work->control, SE_GODZ_ROAR2, 1 );
+            GM_SeSetMode( &work->control.mov, SE_GODZ_ROAR2, 1 );
         }
     }
 
@@ -508,7 +510,7 @@ void GodzAct_800C590C( GodzWork* work, int time )
 
     if ( press & 0x80000 )
     {
-        SetGodzMode( work, vcd_n05_800C5BA4 ) ;
+        SetGodzMode( work, GodzAct_800C5BA4 ) ;
         return;
     }
 
@@ -553,7 +555,50 @@ void GodzAct_800C5AD4( GodzWork* work, int time )
     SetGodzModeFields( work, GodzAct_800C590C );
 }
 
-#pragma INCLUDE_ASM_RELOC("source/enemy/vr/godz/reloc/godzact_1.s")
+void GodzAct_800C5BA4( GodzWork *work, int time )
+{
+    SVECTOR *rot;
+
+    SetTargetsClass( work, TARGET_FLAG );
+    work->vision.length = GODZ_EYE_LENGTH ;
+
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION5, ACTINTERP );
+        work->control.turn.vy = work->pad.dir;
+    }
+
+    if ( !GodzCheckDamage( work ) && time >= 16 )
+    {
+        rot = &work->control.rot;
+
+        if ( time < 31 )
+        {
+            rot->vy = ( rot->vy - 32 ) & 0xFFF;
+        }
+        else if ( time < 61 )
+        {
+            rot->vy = ( rot->vy + 32 ) & 0xFFF;
+        }
+        else if ( time < 76 )
+        {
+            rot->vy = ( rot->vy - 32 ) & 0xFFF;
+        }
+
+        if ( !( time & 1 ) )
+        {
+            GM_SeSet( &work->control.mov, SE_GODZ_SPIN );
+            GODZ_SetPutChar( work, 3 );
+        }
+
+        if ( time >= 77 )
+        {
+            SetGodzMode( work, GodzAct_800C590C );
+        }
+
+        work->control.turn.vy = rot->vy;
+    }
+}
 
 void GodzAct_800C5CF8( GodzWork* work, int time )
 {
@@ -776,7 +821,7 @@ void GodzAct_800C62D8( GodzWork *work, int time )
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/enemy/vr/godz/reloc/godzact_2.s")
+#pragma INCLUDE_ASM_RELOC("source/enemy/vr/godz/reloc/godzact_1.s")
 
 void GodzAct_800C6598( GodzWork *work, int time )
 {
@@ -1121,7 +1166,123 @@ void GodzAct_800C71D8( GodzWork *work, int time )
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/enemy/vr/godz/reloc/godzact_3.s")
+#pragma INCLUDE_ASM_RELOC("source/enemy/vr/godz/reloc/godzact_2.s")
+
+void GodzActionUpdate( GodzWork *work )
+{
+    short       v0;
+    int         time_prev;
+    int         i;
+    GODZACTION  action;
+    CONTROL    *ctrl;
+    WatcherUnk *unk;
+    OBJECT     *body;
+
+    work->trigger = 0;
+    work->vision.length = 0;
+
+    for ( i = 0 ; i < 5 ; i++ )
+    {
+        work->targets[ i ]->class = TARGET_AVAIL;
+    }
+
+    body = &work->body;
+    work->actend = 0;
+    work->act_status = 0;
+    work->field_C44 = 0;
+
+    unk = &work->unknown;
+    action = work->action;
+    ctrl   = &work->control;
+
+    ctrl->height = ( body->height * work->scale ) / 4096 ;
+    ctrl->hzd_height = ctrl->levels[0] + 750;
+
+    time_prev = work->time;
+    work->time++;
+
+    if ( !action )
+    {
+        action = GodzAct_800C4DB8;
+        work->action = GodzAct_800C4DB8;
+    }
+
+    action( work, time_prev );
+    action = work->action2;
+
+    if ( action )
+    {
+        time_prev = work->time2;
+        work->time2++;
+        action( work, time_prev );
+    }
+
+    if ( !unk->field_1E )
+    {
+        ctrl->r_sphere = GV_NearExp2( ctrl->r_sphere, unk->field_1C );
+    }
+    else
+    {
+        ctrl->r_sphere = -1;
+    }
+
+    if ( work->targets[0]->class & TARGET_POWER )
+    {
+        work->hom->flag = TRUE;
+    }
+    else
+    {
+        work->hom->flag = FALSE;
+    }
+
+    if ( GODZ_GameFlag >= 7 )
+    {
+        ctrl->mov.vy = ( body->height * work->scale ) / 4096;
+    }
+    else
+    {
+        if ( unk->field_04 < 0 && ctrl->grounded )
+        {
+            unk->field_04 = 0;
+        }
+
+        v0 = unk->field_04 - 16;
+        unk->field_04 = v0;
+        ctrl->step.vy = v0;
+    }
+
+    if ( work->mark_time > 0 )
+    {
+        work->mark_time--;
+    }
+
+    if ( work->param.blood == 'G' )
+    {
+        if ( GODZ_GameFlag >= 4 )
+        {
+            for ( i = 0 ; i < 5 ; i++ )
+            {
+                work->targets[ i ]->class = TARGET_AVAIL;
+            }
+        }
+    }
+    else if ( GODZ_GameFlag == 5 )
+    {
+        for ( i = 0 ; i < 5 ; i++ )
+        {
+            work->targets[ i ]->class = TARGET_AVAIL | TARGET_CAPTURE;
+        }
+    }
+    else if ( GODZ_GameFlag >= 6 )
+    {
+        for ( i = 0 ; i < 5 ; i++ )
+        {
+            work->targets[ i ]->class = TARGET_AVAIL;
+        }
+    }
+
+    vcd_n05_800C7260( work );
+}
 
 void GodzAct_800C7658( GodzWork* work, int time )
 {
@@ -1273,7 +1434,7 @@ void GODZ_PutMark( GodzWork *work, int mark )
     work->mark_time = 30;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/enemy/vr/godz/reloc/godzact_4.s")
+#pragma INCLUDE_ASM_RELOC("source/enemy/vr/godz/reloc/godzact_3.s")
 
 void GODZ_PutLSight( GodzWork* work )
 {

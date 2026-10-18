@@ -139,7 +139,6 @@ typedef struct _GODZ_COMMAND
 // FIXME: the action and think files of the godzilla soldier are not decompiled yet. The functions that the
 // decompiled files use are referenced by their address based symbols of the vcd_n05 overlay.
 #define GodzThink            vcd_n05_800CBF4C
-#define GodzActionUpdate     vcd_n05_800C73B0
 
 typedef void ( *GODZACTION )( GodzWork *, int );
 typedef void ( *GODZPUTFUNC )( GodzWork * );

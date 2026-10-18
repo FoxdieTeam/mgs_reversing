@@ -2,101 +2,104 @@
 	.set	noat
 	.set	nomacro
 	.text
-	.globl	vcd_n05_800C6440
-vcd_n05_800C6440:
-	addiu	$29,$29,-40
-	sw	$16,24($29)
-	addu	$16,$4,$0
-	sw	$31,32($29)
-	sw	$17,28($29)
-	lw	$2,2940($16)
-	addu	$17,$5,$0
-	ori	$2,$2,0x20
-	bne	$17,$0,$Lvcd_n05_800C6440_4
-	sw	$2,2940($16)
-	lw	$3,2268($16)
+	.globl	vcd_n05_800C7260
+vcd_n05_800C7260:
+	addiu	$5,$4,32
+	lw	$2,2940($4)
 	nop
-	slti	$2,$3,3
-	beq	$2,$0,$Lvcd_n05_800C6440_1
-	addiu	$2,$0,1
-	bne	$3,$2,$Lvcd_n05_800C6440_0
-	addiu	$4,$16,156
-	addiu	$2,$0,41
-	sh	$2,2272($16)
-	lui	$2,%hi(godzact_data+82)
-	lh	$5,%lo(godzact_data+82)($2)
-	j	$Lvcd_n05_800C6440_2
-	addu	$6,$0,$0
-$Lvcd_n05_800C6440_0:
-	addiu	$2,$0,39
-	sh	$2,2272($16)
-	lui	$2,%hi(godzact_data+78)
-	lh	$5,%lo(godzact_data+78)($2)
-	j	$Lvcd_n05_800C6440_2
-	addu	$6,$0,$0
-$Lvcd_n05_800C6440_1:
-	addiu	$4,$16,156
-	addu	$6,$0,$0
-	addiu	$2,$0,40
-	sh	$2,2272($16)
-	lui	$2,%hi(godzact_data+80)
-	lh	$5,%lo(godzact_data+80)($2)
-$Lvcd_n05_800C6440_2:
-	jal	GM_ConfigObjectAction
-	addiu	$7,$0,4
-	lui	$3,0x8888
-	lhu	$2,32($16)
-	ori	$3,$3,0x8889
-	sll	$2,$2,16
-	sra	$4,$2,16
-	mult	$4,$3
-	sra	$2,$2,31
-	mfhi	$8
-	addu	$3,$8,$4
-	sra	$3,$3,4
-	subu	$3,$3,$2
-	sll	$2,$3,4
-	subu	$2,$2,$3
-	sll	$2,$2,1
-	subu	$4,$4,$2
-	sll	$4,$4,16
-	sra	$2,$4,16
-	bgez	$2,$Lvcd_n05_800C6440_3
+	andi	$2,$2,0x40
+	bne	$2,$0,$Lvcd_n05_800C7260_11
+	addu	$6,$5,$0
+	lui	$2,%hi(GodzCommand+12)
+	lw	$3,%lo(GodzCommand+12)($2)
+	addiu	$2,$0,2
+	bne	$3,$2,$Lvcd_n05_800C7260_3
 	nop
-	subu	$2,$0,$2
-$Lvcd_n05_800C6440_3:
-	addiu	$2,$2,10
-	sh	$2,2922($16)
-$Lvcd_n05_800C6440_4:
-	lh	$2,2922($16)
+	lh	$2,4($5)
 	nop
-	slt	$2,$2,$17
-	beq	$2,$0,$Lvcd_n05_800C6440_6
+	slti	$2,$2,-18500
+	beq	$2,$0,$Lvcd_n05_800C7260_2
 	nop
-	lw	$3,2304($16)
+	lh	$3,32($4)
 	nop
-	lh	$2,42($3)
+	slti	$2,$3,-12500
+	bne	$2,$0,$Lvcd_n05_800C7260_0
+	addiu	$2,$0,-12500
+	slti	$2,$3,12501
+	bne	$2,$0,$Lvcd_n05_800C7260_1
+	addiu	$2,$0,12500
+$Lvcd_n05_800C7260_0:
+	sh	$2,32($4)
+	sh	$0,68($5)
+$Lvcd_n05_800C7260_1:
+	lh	$2,4($6)
 	nop
-	bgtz	$2,$Lvcd_n05_800C6440_5
-	addiu	$4,$16,156
-	lhu	$2,2960($16)
+	slti	$2,$2,-27500
+	beq	$2,$0,$Lvcd_n05_800C7260_11
+	addiu	$2,$0,-27500
+	j	$Lvcd_n05_800C7260_10
+	sh	$2,4($6)
+$Lvcd_n05_800C7260_2:
+	lh	$3,32($4)
 	nop
-	sh	$2,42($3)
-$Lvcd_n05_800C6440_5:
-	addu	$5,$0,$0
-	lui	$2,%hi(GodzAct_800C6598)
-	addiu	$2,$2,%lo(GodzAct_800C6598)
-	sw	$2,2284($16)
-	sw	$0,2292($16)
-	sh	$0,112($16)
-	jal	GM_ConfigMotionAdjust
-	sh	$0,108($16)
-$Lvcd_n05_800C6440_6:
-	lw	$31,32($29)
-	lw	$17,28($29)
-	lw	$16,24($29)
+	slti	$2,$3,-3000
+	bne	$2,$0,$Lvcd_n05_800C7260_7
+	addiu	$2,$0,-3000
+	slti	$2,$3,4501
+	bne	$2,$0,$Lvcd_n05_800C7260_9
+	addiu	$2,$0,4500
+	j	$Lvcd_n05_800C7260_8
+	sh	$2,32($4)
+$Lvcd_n05_800C7260_3:
+	lh	$2,4($5)
+	nop
+	slti	$2,$2,-18500
+	beq	$2,$0,$Lvcd_n05_800C7260_6
+	nop
+	lh	$3,32($4)
+	nop
+	slti	$2,$3,-1000
+	bne	$2,$0,$Lvcd_n05_800C7260_4
+	addiu	$2,$0,-950
+	slti	$2,$3,11501
+	bne	$2,$0,$Lvcd_n05_800C7260_5
+	addiu	$2,$0,11500
+$Lvcd_n05_800C7260_4:
+	sh	$2,32($4)
+	sh	$0,68($5)
+$Lvcd_n05_800C7260_5:
+	lh	$2,4($6)
+	nop
+	slti	$2,$2,-23500
+	beq	$2,$0,$Lvcd_n05_800C7260_11
+	addiu	$2,$0,-23500
+	j	$Lvcd_n05_800C7260_10
+	sh	$2,4($6)
+$Lvcd_n05_800C7260_6:
+	lh	$3,32($4)
+	nop
+	slti	$2,$3,-1000
+	bne	$2,$0,$Lvcd_n05_800C7260_7
+	addiu	$2,$0,-950
+	slti	$2,$3,1001
+	bne	$2,$0,$Lvcd_n05_800C7260_9
+	addiu	$2,$0,950
+$Lvcd_n05_800C7260_7:
+	sh	$2,32($4)
+$Lvcd_n05_800C7260_8:
+	sh	$0,68($5)
+$Lvcd_n05_800C7260_9:
+	lh	$2,4($6)
+	nop
+	slti	$2,$2,-3499
+	bne	$2,$0,$Lvcd_n05_800C7260_11
+	addiu	$2,$0,-3500
+	sh	$2,4($6)
+$Lvcd_n05_800C7260_10:
+	sh	$0,72($5)
+$Lvcd_n05_800C7260_11:
 	jr	$31
-	addiu	$29,$29,40
+	nop
 	.set	macro
 	.set	reorder
 	.set	at
