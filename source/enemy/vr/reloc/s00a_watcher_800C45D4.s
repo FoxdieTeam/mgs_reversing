@@ -166,3 +166,4 @@ $Ls00a_watcher_800C45D4_6:
 	addiu	$29,$29,64
 	.set	macro
 	.set	reorder
+	.set	at
