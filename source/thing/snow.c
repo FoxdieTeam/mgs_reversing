@@ -10,6 +10,26 @@
 
 /*---------------------------------------------------------------------------*/
 
+#ifdef VR_EXE
+// The VR revision of snow.c carries private copies of the libc rand() and of GV_RandU().
+// FIXME: they are mapped onto the library names with macros so the code below stays the same.
+static unsigned int snow_seed = 1;
+
+static int Snow_Rand(void)
+{
+    snow_seed = snow_seed * 1103515245 + 12345;
+    return (snow_seed >> 16) & 0x7FFF;
+}
+
+static int Snow_RandU(int input)
+{
+    return (input - 1) & Snow_Rand();
+}
+
+#define rand Snow_Rand
+#define GV_RandU Snow_RandU
+#endif
+
 typedef struct _SnowEntry
 {
     SVECTOR  pos;
@@ -507,7 +527,11 @@ void *NewSnow(int name, int where, int argc, char **argv)
 {
     Work *work;
 
+#ifdef VR_EXE
+    work = GV_NewActor(GV_ACTOR_AFTER2, sizeof(Work));
+#else
     work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
+#endif
     if (work != NULL)
     {
         GetOptions(work);
