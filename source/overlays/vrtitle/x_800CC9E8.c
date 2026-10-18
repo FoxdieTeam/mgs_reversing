@@ -68,6 +68,12 @@ extern int vrtitle_dword_800D9D40;
 
 extern char vrtitle_dword_800D9660[];
 extern char vrtitle_dword_800D9654[];
+extern const char vrtitle_dword_800D9410[];
+extern const char vrtitle_dword_800D942C[];
+extern int vrtitle_dword_800D9D08;
+extern int vrtitle_dword_800D9D0C;
+extern int vrtitle_dword_800D9D10;
+extern int vrtitle_dword_800D9D14;
 
 // Copy of menu_radio_do_file_mode_helper2_helper_8004A4C4
 
@@ -110,6 +116,50 @@ typedef struct CaptionInfo
     int     field_8;
     int     color;
 } CaptionInfo;
+
+int vrtitle_800CC9E8(MEMCARD *card, int index) {
+
+    char         *buffer;
+    int           result;
+    int           retries;
+    int           i;
+
+    GM_PadResetDisable = 1;
+    buffer = GV_AllocMemory(2, 0x2000);
+
+    if (!buffer) {
+        printf((char *)vrtitle_dword_800D9410);
+    }
+
+    result = 0;
+    retries = 4;
+
+    vrtitle_dword_800D9D08 = (int)buffer;
+    vrtitle_dword_800D9D0C = (int)buffer;
+
+    for (; retries > 0; retries--) {
+        memcard_read(card->port, card->files[index].name, 0, buffer, 0x2000);
+
+        while (memcard_status() > 0) {
+            mts_wait_vbl(2);
+        }
+
+        if (memcard_status() == 0) {
+            *(char *)&vrtitle_dword_800D9D10 = card->port;
+            for (i = 0; i < 24; i++) {
+                /* per-iteration scope for p710 is required for the match */
+                char *p710 = (char *)&vrtitle_dword_800D9D14;
+                p710[i] = card->files[index].name[i];
+            }
+            printf((char *)vrtitle_dword_800D942C, *(unsigned char *)&vrtitle_dword_800D9D10, (char *)&vrtitle_dword_800D9D14);
+            result = 1;
+            break;
+        }
+    }
+
+    GM_PadResetDisable = 0;
+    return result;
+}
 
 int vrtitle_800CCB5C(int arg0) {
 
