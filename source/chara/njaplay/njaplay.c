@@ -1287,8 +1287,37 @@ void njp_FreeTargets(SnaInitWork *work)
     work->njp_num_targets = 0;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
-//ASM-END
+// @800C495C njp_800C495C
+// allocates the extra targets of the ninja (freed by njp_FreeTargets)
+void njp_800C495C(SnaInitWork *work)
+{
+    SVECTOR size;
+    TARGET *target;
+    int     i;
+
+    size.vx = size.vz = 160;
+    size.vy = 650;
+
+    if (work->njp_num_targets != 0)
+    {
+        njp_FreeTargets(work);
+    }
+
+    for (i = 0; i < 3; i++)
+    {
+        target = GM_AllocTarget();
+        work->njp_targets[i] = target;
+
+        if (target == NULL)
+        {
+            break;
+        }
+
+        work->njp_num_targets++;
+        GM_SetTarget(target, 21, PLAYER_SIDE, &size);
+        GM_SetPowerTarget(target, POWER_DECREASE, -1, 1024, 0, &DG_ZeroVector);
+    }
+}
 
 // @800C4A38 njp_sna_anim_800C4A38
 void njp_sna_anim_800C4A38(SnaInitWork *work, int time)
@@ -1340,6 +1369,35 @@ void njp_sna_anim_800C4B44(SnaInitWork *work, int time)
         njp_SetAction_8004E22C(work, 13, 4);
         njp_sna_set_invuln_8004F2A0(work, 0);
     }
+}
+
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
+//ASM-END
+
+// @800C5104 njp_DG_ObjsMinY_800C5104
+// lowest y of the models of the objects
+int njp_DG_ObjsMinY_800C5104(DG_OBJS *objs)
+{
+    DG_OBJ *obj;
+    int     min;
+    int     n;
+    int     i;
+
+    obj = objs->objs;
+    min = 100000;
+    n = objs->n_models;
+
+    for (i = 0; i < n; i++)
+    {
+        if (obj->world.t[1] < min)
+        {
+            min = obj->world.t[1];
+        }
+
+        obj++;
+    }
+
+    return min;
 }
 
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
@@ -1619,6 +1677,9 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
+
 
 
 

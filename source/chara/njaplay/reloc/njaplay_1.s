@@ -2,66 +2,375 @@
 	.set	noat
 	.set	nomacro
 	.text
-	.globl	njp_800C495C
-njp_800C495C:
-	addiu	$29,$29,-56
-	sw	$19,44($29)
-	addu	$19,$4,$0
-	addiu	$2,$0,160
-	sh	$2,28($29)
-	sh	$2,24($29)
-	addiu	$2,$0,650
-	sw	$31,52($29)
-	sw	$20,48($29)
-	sw	$18,40($29)
-	sw	$17,36($29)
-	sw	$16,32($29)
-	sh	$2,26($29)
-	lw	$2,2524($19)
-	nop
-	beq	$2,$0,$Lnjp_800C495C_0
-	addu	$18,$0,$0
-	jal	njp_FreeTargets
-	nop
-$Lnjp_800C495C_0:
-	lui	$2,%hi(DG_ZeroVector)
-	addiu	$20,$2,%lo(DG_ZeroVector)
-	addu	$17,$19,$0
-$Lnjp_800C495C_1:
-	jal	GM_AllocTarget
-	nop
-	addu	$16,$2,$0
-	beq	$16,$0,$Lnjp_800C495C_2
-	sw	$16,2512($17)
-	addu	$4,$16,$0
-	addiu	$5,$0,21
+	.globl	njp_800C4BA4
+njp_800C4BA4:
+	addiu	$29,$29,-128
+	sw	$18,112($29)
+	addu	$18,$4,$0
+	sw	$16,104($29)
+	addu	$16,$5,$0
+	sw	$31,120($29)
+	sw	$19,116($29)
+	bne	$16,$0,$Lnjp_800C4BA4_0
+	sw	$17,108($29)
+	addiu	$5,$0,12
+	addiu	$6,$0,4
+	lui	$2,%hi(njp_nop_800C48EC)
+	addiu	$2,$2,%lo(njp_nop_800C48EC)
+	sw	$2,2340($18)
+	jal	njp_SetAction_8004E22C
+	sw	$2,2344($18)
+	addiu	$4,$18,32
+	addiu	$5,$0,198
+	jal	GM_SeSetMode
 	addiu	$6,$0,1
-	addiu	$7,$29,24
-	addiu	$17,$17,4
-	lw	$2,2524($19)
-	addu	$18,$18,$6
-	addu	$2,$2,$6
+	jal	njp_sna_800C3318
+	addu	$4,$18,$0
+$Lnjp_800C4BA4_0:
+	lui	$2,0x6666
+	ori	$2,$2,0x6667
+	mult	$16,$2
+	sra	$2,$16,31
+	mfhi	$8
+	sra	$3,$8,2
+	subu	$3,$3,$2
+	sll	$2,$3,2
+	addu	$2,$2,$3
+	sll	$2,$2,1
+	bne	$16,$2,$Lnjp_800C4BA4_1
+	nop
+	addiu	$4,$18,32
+	addiu	$5,$0,208
+	jal	GM_SeSetMode
+	addiu	$6,$0,1
+$Lnjp_800C4BA4_1:
+	addiu	$4,$29,24
+	addiu	$5,$0,4
+	addiu	$6,$0,1
+	addiu	$7,$29,96
+	addiu	$2,$0,750
+	addiu	$17,$0,200
+	sh	$2,100($29)
+	sh	$2,96($29)
 	jal	GM_SetTarget
-	sw	$2,2524($19)
-	addu	$4,$16,$0
+	sh	$17,98($29)
+	addiu	$4,$29,24
 	addiu	$5,$0,1
-	addiu	$6,$0,-1
-	addiu	$7,$0,1024
+	addiu	$6,$0,2
+	addiu	$7,$0,256
+	lui	$16,%hi(DG_ZeroVector)
+	addiu	$16,$16,%lo(DG_ZeroVector)
 	sw	$0,16($29)
 	jal	GM_SetPowerTarget
-	sw	$20,20($29)
-	slti	$2,$18,3
-	bne	$2,$0,$Lnjp_800C495C_1
+	sw	$16,20($29)
+	addiu	$4,$29,24
+	addiu	$19,$18,32
+	jal	GM_MoveTarget
+	addu	$5,$19,$0
+	jal	GM_PowerTarget
+	addiu	$4,$29,24
+	addiu	$4,$29,24
+	addiu	$5,$0,4
+	addiu	$6,$0,1
+	addiu	$7,$29,96
+	addiu	$2,$0,1500
+	sh	$2,100($29)
+	sh	$2,96($29)
+	jal	GM_SetTarget
+	sh	$17,98($29)
+	addiu	$4,$29,24
+	addiu	$5,$0,1
+	addiu	$6,$0,2
+	addu	$7,$5,$0
+	addiu	$2,$0,5
+	sw	$2,16($29)
+	jal	GM_SetPowerTarget
+	sw	$16,20($29)
+	addiu	$4,$29,24
+	jal	GM_MoveTarget
+	addu	$5,$19,$0
+	jal	GM_PowerTarget
+	addiu	$4,$29,24
+	lhu	$2,2452($18)
+	addiu	$3,$0,24
+	addiu	$2,$2,1
+	sh	$2,2452($18)
+	sll	$2,$2,16
+	sra	$2,$2,16
+	bne	$2,$3,$Lnjp_800C4BA4_2
+	addiu	$2,$0,3
+	sw	$2,2528($18)
+$Lnjp_800C4BA4_2:
+	lh	$3,2452($18)
+	addiu	$2,$0,32
+	bne	$3,$2,$Lnjp_800C4BA4_3
+	addiu	$5,$0,198
+	addu	$4,$19,$0
+	jal	GM_SeSetMode
+	addiu	$6,$0,1
+	sh	$0,2452($18)
+	jal	njp_sna_800C3318
+	addu	$4,$18,$0
+$Lnjp_800C4BA4_3:
+	lw	$3,2200($18)
 	nop
-$Lnjp_800C495C_2:
-	lw	$31,52($29)
-	lw	$20,48($29)
-	lw	$19,44($29)
-	lw	$18,40($29)
-	lw	$17,36($29)
-	lw	$16,32($29)
+	lhu	$2,38($3)
+	nop
+	addiu	$2,$2,-1
+	sh	$2,38($3)
+	lw	$2,2200($18)
+	nop
+	lhu	$2,38($2)
+	nop
+	andi	$2,$2,0x3f
+	bne	$2,$0,$Lnjp_800C4BA4_4
+	lui	$2,%hi(GM_GameStatus)
+	lw	$3,%lo(GM_GameStatus)($2)
+	lui	$4,0x200
+	or	$3,$3,$4
+	sw	$3,%lo(GM_GameStatus)($2)
+$Lnjp_800C4BA4_4:
+	lw	$2,2200($18)
+	nop
+	lh	$2,38($2)
+	nop
+	bgtz	$2,$Lnjp_800C4BA4_5
+	lui	$16,%hi(GM_GameOverTimer)
+	lw	$2,%lo(GM_GameOverTimer)($16)
+	nop
+	bne	$2,$0,$Lnjp_800C4BA4_5
+	addu	$4,$18,$0
+	jal	njp_sna_set_invuln_8004F2A0
+	addu	$5,$0,$0
+	addu	$4,$18,$0
+	lui	$5,0x8
+	addiu	$2,$0,-1
+	jal	njp_sna_set_flags1_8004E2F4
+	sw	$2,%lo(GM_GameOverTimer)($16)
+	addu	$4,$18,$0
+	lui	$5,%hi(njp_800C4E38)
+	j	$Lnjp_800C4BA4_6
+	addiu	$5,$5,%lo(njp_800C4E38)
+$Lnjp_800C4BA4_5:
+	lw	$2,2320($18)
+	nop
+	lhu	$2,0($2)
+	nop
+	andi	$2,$2,0x8
+	bne	$2,$0,$Lnjp_800C4BA4_7
+	addu	$4,$18,$0
+	jal	njp_sna_clear_flags1_8004E308
+	addiu	$5,$0,4
+	addu	$4,$18,$0
+	lui	$5,%hi(njp_sna_anim_idle_800C4200)
+	addiu	$5,$5,%lo(njp_sna_anim_idle_800C4200)
+$Lnjp_800C4BA4_6:
+	jal	njp_sna_start_anim_8004E1F4
+	nop
+	addiu	$2,$0,3
+	sw	$2,2528($18)
+$Lnjp_800C4BA4_7:
+	lw	$31,120($29)
+	lw	$19,116($29)
+	lw	$18,112($29)
+	lw	$17,108($29)
+	lw	$16,104($29)
 	jr	$31
-	addiu	$29,$29,56
+	addiu	$29,$29,128
+	.set	macro
+	.set	reorder
+	.set	at
+	.set	noreorder
+	.set	noat
+	.set	nomacro
+	.text
+	.globl	njp_800C4E38
+njp_800C4E38:
+	addiu	$29,$29,-128
+	sw	$19,116($29)
+	addu	$19,$4,$0
+	sw	$31,120($29)
+	sw	$18,112($29)
+	sw	$17,108($29)
+	bne	$5,$0,$Lnjp_800C4E38_0
+	sw	$16,104($29)
+	addiu	$5,$0,19
+	addiu	$6,$0,4
+	lui	$2,%hi(njp_nop_800C48EC)
+	addiu	$2,$2,%lo(njp_nop_800C48EC)
+	sw	$2,2340($19)
+	jal	njp_SetAction_8004E22C
+	sw	$2,2344($19)
+$Lnjp_800C4E38_0:
+	lh	$3,2452($19)
+	nop
+	beq	$3,$0,$Lnjp_800C4E38_1
+	addiu	$2,$0,1
+	beq	$3,$2,$Lnjp_800C4E38_2
+	lui	$3,0x6666
+	j	$Lnjp_800C4E38_5
+	nop
+$Lnjp_800C4E38_1:
+	lh	$2,182($19)
+	nop
+	beq	$2,$0,$Lnjp_800C4E38_5
+	addiu	$5,$0,12
+	addu	$4,$19,$0
+	jal	njp_SetAction_8004E22C
+	addiu	$6,$0,4
+	addiu	$17,$19,32
+	addu	$4,$17,$0
+	addiu	$5,$0,199
+	jal	GM_SeSetMode
+	addiu	$6,$0,1
+	jal	njp_sna_800C3318
+	addu	$4,$19,$0
+	addiu	$4,$29,24
+	addiu	$5,$0,4
+	addiu	$6,$0,1
+	addiu	$7,$29,96
+	addiu	$2,$0,750
+	addiu	$18,$0,200
+	sh	$2,100($29)
+	sh	$2,96($29)
+	jal	GM_SetTarget
+	sh	$18,98($29)
+	addiu	$4,$29,24
+	addiu	$5,$0,1
+	addiu	$6,$0,2
+	addiu	$7,$0,256
+	lui	$16,%hi(DG_ZeroVector)
+	addiu	$16,$16,%lo(DG_ZeroVector)
+	sw	$0,16($29)
+	jal	GM_SetPowerTarget
+	sw	$16,20($29)
+	addiu	$4,$29,24
+	jal	GM_MoveTarget
+	addu	$5,$17,$0
+	jal	GM_PowerTarget
+	addiu	$4,$29,24
+	addiu	$4,$29,24
+	addiu	$5,$0,4
+	addiu	$6,$0,1
+	addiu	$7,$29,96
+	addiu	$2,$0,1500
+	sh	$2,100($29)
+	sh	$2,96($29)
+	jal	GM_SetTarget
+	sh	$18,98($29)
+	addiu	$4,$29,24
+	addiu	$5,$0,1
+	addiu	$6,$0,2
+	addu	$7,$5,$0
+	addiu	$2,$0,5
+	sw	$2,16($29)
+	jal	GM_SetPowerTarget
+	sw	$16,20($29)
+	addiu	$4,$29,24
+	jal	GM_MoveTarget
+	addu	$5,$17,$0
+	jal	GM_PowerTarget
+	addiu	$4,$29,24
+	lhu	$2,2452($19)
+	nop
+	addiu	$2,$2,1
+	j	$Lnjp_800C4E38_5
+	sh	$2,2452($19)
+$Lnjp_800C4E38_2:
+	lhu	$2,2454($19)
+	ori	$3,$3,0x6667
+	sll	$2,$2,16
+	sra	$4,$2,16
+	mult	$4,$3
+	sra	$2,$2,31
+	mfhi	$8
+	sra	$3,$8,2
+	subu	$3,$3,$2
+	sll	$2,$3,2
+	addu	$2,$2,$3
+	sll	$2,$2,1
+	subu	$4,$4,$2
+	sll	$4,$4,16
+	bne	$4,$0,$Lnjp_800C4E38_3
+	addiu	$4,$19,32
+	addiu	$5,$0,208
+	jal	GM_SeSetMode
+	addiu	$6,$0,1
+$Lnjp_800C4E38_3:
+	lhu	$2,2454($19)
+	addiu	$3,$0,24
+	addiu	$2,$2,1
+	sh	$2,2454($19)
+	sll	$2,$2,16
+	sra	$2,$2,16
+	bne	$2,$3,$Lnjp_800C4E38_4
+	nop
+	jal	njp_sna_800C3270
+	addu	$4,$19,$0
+	addiu	$2,$0,3
+	sw	$2,2528($19)
+$Lnjp_800C4E38_4:
+	lh	$3,2454($19)
+	addiu	$2,$0,32
+	bne	$3,$2,$Lnjp_800C4E38_5
+	nop
+	jal	njp_sna_800C3318
+	addu	$4,$19,$0
+	addiu	$4,$29,24
+	addiu	$5,$0,4
+	addiu	$6,$0,1
+	addiu	$7,$29,96
+	addiu	$2,$0,750
+	addiu	$18,$0,200
+	sh	$2,100($29)
+	sh	$2,96($29)
+	jal	GM_SetTarget
+	sh	$18,98($29)
+	addiu	$4,$29,24
+	addiu	$5,$0,1
+	addiu	$6,$0,2
+	addiu	$7,$0,256
+	lui	$16,%hi(DG_ZeroVector)
+	addiu	$16,$16,%lo(DG_ZeroVector)
+	sw	$0,16($29)
+	jal	GM_SetPowerTarget
+	sw	$16,20($29)
+	addiu	$4,$29,24
+	addiu	$17,$19,32
+	jal	GM_MoveTarget
+	addu	$5,$17,$0
+	jal	GM_PowerTarget
+	addiu	$4,$29,24
+	addiu	$4,$29,24
+	addiu	$5,$0,4
+	addiu	$6,$0,1
+	addiu	$7,$29,96
+	addiu	$2,$0,1500
+	sh	$2,100($29)
+	sh	$2,96($29)
+	jal	GM_SetTarget
+	sh	$18,98($29)
+	addiu	$4,$29,24
+	addiu	$5,$0,1
+	addiu	$6,$0,2
+	addu	$7,$5,$0
+	addiu	$2,$0,5
+	sw	$2,16($29)
+	jal	GM_SetPowerTarget
+	sw	$16,20($29)
+	addiu	$4,$29,24
+	jal	GM_MoveTarget
+	addu	$5,$17,$0
+	jal	GM_PowerTarget
+	addiu	$4,$29,24
+$Lnjp_800C4E38_5:
+	lw	$31,120($29)
+	lw	$19,116($29)
+	lw	$18,112($29)
+	lw	$17,108($29)
+	lw	$16,104($29)
+	jr	$31
+	addiu	$29,$29,128
 	.set	macro
 	.set	reorder
 	.set	at
