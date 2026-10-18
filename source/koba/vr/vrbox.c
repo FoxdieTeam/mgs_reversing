@@ -13,13 +13,11 @@
 #include "strcode.h"
 #include "bullet/blast.h"
 #include "koba/vr/vr.h"
+#include "koba/vr/splashvr.h"
 
 int printf(const char *fmt, ...);
 
 extern BLAST_DATA blast_data_8009F4B8[8];
-
-// FIXME: splashvr.h lives in the splashvr branch; remove this prototype when merged
-void *NewSplashVr(MATRIX *world, SVECTOR *size, short count, int param, u_short tex_name, int spread);
 
 /*---------------------------------------------------------------------------*/
 // VR-DISC target: a model (target board, UFO, ...) that walks along a patrol
