@@ -14,4 +14,3 @@
 #pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C8290.s")
 #pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C8740.s")
 #pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C8918.s")
-#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C8A74.s")

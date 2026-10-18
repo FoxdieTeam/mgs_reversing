@@ -43,4 +43,51 @@ typedef struct PocketUpdate
     /* 0x02 */ short          value;
 } PocketUpdate;
 
+
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+
+// Element of the pocket list owned by the actor (the "file mode" style item list)
+typedef struct PocketListItem
+{
+    /* 0x00 */ char  pad_00[0x28];
+    /* 0x28 */ void *data; // allocated with GV_AllocMemory(2, ..), freed by the actor's die function
+} PocketListItem; // 0x2C bytes
+
+#define POCKET_LIST_MAX 24
+
+typedef struct PocketList
+{
+    /* 0x000 */ int            field_0;
+    /* 0x004 */ int            field_4;
+    /* 0x008 */ int            field_8;
+    /* 0x00C */ int            field_C;
+    /* 0x010 */ PocketListItem items[POCKET_LIST_MAX];
+    /* 0x430 */ int            count;
+} PocketList;
+
+// Entry of the pocket menu, filled from the GCL "t" option of the stage script
+typedef struct PocketEntry
+{
+    /* 0x00 */ char *name; // GCL string
+    /* 0x04 */ short selected;
+    /* 0x06 */ char  pad_06[0xDA];
+} PocketEntry; // 0xE0 bytes
+
+// Work of the pocket (title menu) actor, created by vrtitle_800C97E0, 0x1A48 bytes
+typedef struct PocketWork
+{
+    /* 0x0000 */ GV_ACT     actor;
+    /* 0x0020 */ char       pad_20[0xC];
+    /* 0x002C */ PocketList list;
+    /* 0x0460 */ char       pad_460[0xC8];
+    /* 0x0528 */ PocketEntry entries[22];
+    /* 0x1868 */ char       pad_1868[0x124];
+    /* 0x198C */ DG_PRIM   *prim1;
+    /* 0x1990 */ DG_PRIM   *prim2;
+    /* 0x1994 */ char       pad_1994[0x88];
+    /* 0x1A1C */ unsigned int flags;
+    /* 0x1A20 */ char       pad_1A20[0x28];
+} PocketWork;
+
 #endif
