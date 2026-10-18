@@ -75,7 +75,10 @@ typedef struct VR_SAVEMNGR_WORK
     int      field_2EC;
     int      field_2F0;
     int      field_2F4;
-    char     pad_2F8[0x14];
+    int      field_2F8;
+    int      field_2FC;
+    int      field_300;
+    char     pad_304[0x08];
     int      field_30C;
     int      flags;                                      /* 0x310: bit 2: memory card present */
     int      score;                                      /* 0x314 */
