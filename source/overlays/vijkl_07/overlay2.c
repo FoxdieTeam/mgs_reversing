@@ -1,46 +1,5 @@
 #include "mgstype.h"
 
-int vijkl_07_dword_800C1318 = 0x000009C4;
-int vijkl_07_dword_800C131C = 0x00000DAC;
-int vijkl_07_dword_800C1320 = 0x00000FA0;
-int vijkl_07_dword_800C1324 = 0x00001388;
-int vijkl_07_dword_800C1328 = 0x0000157C;
-int vijkl_07_dword_800C132C = 0x000015E0;
-int vijkl_07_dword_800C1330 = 0x00001644;
-int vijkl_07_dword_800C1334 = 0x000016A8;
-int vijkl_07_dword_800C1338 = 0x02EE012C;
-int vijkl_07_dword_800C133C = 0x0000012C;
-int vijkl_07_dword_800C1340 = 0x000F01C2;
-int vijkl_07_dword_800C1344 = 0x003C001E;
-int vijkl_07_dword_800C1348 = 0x0000005A;
-int vijkl_07_dword_800C134C = 0x75307D01;
 
-const int vijkl_07_dword_800E2910 = 0x20727245;
-const int vijkl_07_dword_800E2914 = 0x20727245;
-const int vijkl_07_dword_800E2918 = 0x20727245;
-const int vijkl_07_dword_800E291C = 0x74655320;
-const int vijkl_07_dword_800E2920 = 0x6D697420;
-const int vijkl_07_dword_800E2924 = 0x764F2065;
-const int vijkl_07_dword_800E2928 = 0x000A7265;
-const int vijkl_07_dword_800E292C = 0x20727245;
-const int vijkl_07_dword_800E2930 = 0x20727245;
-const int vijkl_07_dword_800E2934 = 0x20727245;
-const int vijkl_07_dword_800E2938 = 0x74655320;
-const int vijkl_07_dword_800E293C = 0x72694420;
-const int vijkl_07_dword_800E2940 = 0x65764F20;
-const int vijkl_07_dword_800E2944 = 0x00000A72;
-const int vijkl_07_dword_800E2948 = 0x20727245;
-const int vijkl_07_dword_800E294C = 0x20746F6E;
-const int vijkl_07_dword_800E2950 = 0x756F6E65;
-const int vijkl_07_dword_800E2954 = 0x77206867;
-const int vijkl_07_dword_800E2958 = 0x206B726F;
-const int vijkl_07_dword_800E295C = 0x000A2121;
-const int vijkl_07_dword_800E2960 = 0x63746177;
-const int vijkl_07_dword_800E2964 = 0x2E726168;
-const int vijkl_07_dword_800E2968 = 0x203A2063;
-const int vijkl_07_dword_800E296C = 0x69746361;
-const int vijkl_07_dword_800E2970 = 0x70206E6F;
-const int vijkl_07_dword_800E2974 = 0x746E696F;
-const int vijkl_07_dword_800E2978 = 0x72724520;
-const int vijkl_07_dword_800E297C = 0x0000000A;
-const char vijkl_07_dword_800E2980[] = "mystery.c";
+
+int SECTION(".bss") vijkl_07_dword_800E41AC;

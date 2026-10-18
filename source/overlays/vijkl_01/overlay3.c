@@ -2,4 +2,4 @@
 
 
 
-int SECTION(".bss") vijkl_01_dword_800E0644;
+int SECTION(".bss") vijkl_01_dword_800E086C;

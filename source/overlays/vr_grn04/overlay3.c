@@ -1,42 +1,4 @@
 #include "mgstype.h"
 
 
-const char vr_grn04_dword_800E2980[] = "shadow";
-const int vr_grn04_dword_800E2988 = 0x800DE8E4;
-const int vr_grn04_dword_800E298C = 0x800DE8FC;
-const int vr_grn04_dword_800E2990 = 0x800DE914;
-const int vr_grn04_dword_800E2994 = 0x800DE920;
-const int vr_grn04_dword_800E2998 = 0x800DE93C;
-const int vr_grn04_dword_800E299C = 0x800DE93C;
-const char vr_grn04_dword_800E29A0[] = "id_n";
-const char vr_grn04_dword_800E29A8[] = "id_b";
-const char vr_grn04_dword_800E29B0[] = "ufo";
-const char vr_grn04_dword_800E29B4[] = "kokesi_c";
-const char vr_grn04_dword_800E29C0[] = "kokesi_s";
-const char vr_grn04_dword_800E29CC[] = "ufo2";
-const char vr_grn04_dword_800E29D4[] = "mato_04add";
-const char vr_grn04_dword_800E29E0[] = "mato_06add";
-const char vr_grn04_dword_800E29EC[] = "mato_08add";
-const char vr_grn04_dword_800E29F8[] = "mato_09add";
-const char vr_grn04_dword_800E2A04[] = "mato_14add";
-const int vr_grn04_dword_800E2A10 = 0x746F6F72;
-const int vr_grn04_dword_800E2A14 = 0x746F6E20;
-const int vr_grn04_dword_800E2A18 = 0x756F6620;
-const int vr_grn04_dword_800E2A1C = 0x000A646E;
-const char vr_grn04_dword_800E2A20[] = "vrbox.c";
-const int vr_grn04_dword_800E2A28 = 0x74696E49;
-const int vr_grn04_dword_800E2A2C = 0x746E6F43;
-const int vr_grn04_dword_800E2A30 = 0x206C6F72;
-const int vr_grn04_dword_800E2A34 = 0x6F6E203A;
-const int vr_grn04_dword_800E2A38 = 0x70616D20;
-const int vr_grn04_dword_800E2A3C = 0x0A582520;
-const int vr_grn04_dword_800E2A40 = 0x00000000;
-const char vr_grn04_dword_800E2A44[] = "kabe_n";
-const char vr_grn04_dword_800E2A4C[] = "kabe_y";
-const char vr_grn04_dword_800E2A54[] = "kabe_01add";
-const char vr_grn04_dword_800E2A60[] = "kt_n";
-const char vr_grn04_dword_800E2A68[] = "mato_00add";
-const char vr_grn04_dword_800E2A74[] = "kt_b";
-const char vr_grn04_dword_800E2A7C[] = "mato_02add";
-const char vr_grn04_dword_800E2A88[] = "ice";
-const char vr_grn04_dword_800E2A8C[] = "vrbox2.c";
+const int vr_grn04_dword_800E2B1C = 0x14033F30;

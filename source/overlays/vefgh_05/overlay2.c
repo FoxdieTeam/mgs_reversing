@@ -1,46 +1,5 @@
 #include "mgstype.h"
 
-int vefgh_05_dword_800C13C0 = 0x000009C4;
-int vefgh_05_dword_800C13C4 = 0x00000DAC;
-int vefgh_05_dword_800C13C8 = 0x00000FA0;
-int vefgh_05_dword_800C13CC = 0x00001388;
-int vefgh_05_dword_800C13D0 = 0x0000157C;
-int vefgh_05_dword_800C13D4 = 0x000015E0;
-int vefgh_05_dword_800C13D8 = 0x00001644;
-int vefgh_05_dword_800C13DC = 0x000016A8;
-int vefgh_05_dword_800C13E0 = 0x02EE012C;
-int vefgh_05_dword_800C13E4 = 0x0000012C;
-int vefgh_05_dword_800C13E8 = 0x000F01C2;
-int vefgh_05_dword_800C13EC = 0x003C001E;
-int vefgh_05_dword_800C13F0 = 0x0000005A;
-int vefgh_05_dword_800C13F4 = 0x75307D01;
 
-const int vefgh_05_dword_800E54BC = 0x20727245;
-const int vefgh_05_dword_800E54C0 = 0x20727245;
-const int vefgh_05_dword_800E54C4 = 0x20727245;
-const int vefgh_05_dword_800E54C8 = 0x74655320;
-const int vefgh_05_dword_800E54CC = 0x6D697420;
-const int vefgh_05_dword_800E54D0 = 0x764F2065;
-const int vefgh_05_dword_800E54D4 = 0x000A7265;
-const int vefgh_05_dword_800E54D8 = 0x20727245;
-const int vefgh_05_dword_800E54DC = 0x20727245;
-const int vefgh_05_dword_800E54E0 = 0x20727245;
-const int vefgh_05_dword_800E54E4 = 0x74655320;
-const int vefgh_05_dword_800E54E8 = 0x72694420;
-const int vefgh_05_dword_800E54EC = 0x65764F20;
-const int vefgh_05_dword_800E54F0 = 0x00000A72;
-const int vefgh_05_dword_800E54F4 = 0x20727245;
-const int vefgh_05_dword_800E54F8 = 0x20746F6E;
-const int vefgh_05_dword_800E54FC = 0x756F6E65;
-const int vefgh_05_dword_800E5500 = 0x77206867;
-const int vefgh_05_dword_800E5504 = 0x206B726F;
-const int vefgh_05_dword_800E5508 = 0x000A2121;
-const int vefgh_05_dword_800E550C = 0x63746177;
-const int vefgh_05_dword_800E5510 = 0x2E726168;
-const int vefgh_05_dword_800E5514 = 0x203A2063;
-const int vefgh_05_dword_800E5518 = 0x69746361;
-const int vefgh_05_dword_800E551C = 0x70206E6F;
-const int vefgh_05_dword_800E5520 = 0x746E696F;
-const int vefgh_05_dword_800E5524 = 0x72724520;
-const int vefgh_05_dword_800E5528 = 0x0000000A;
-const char vefgh_05_dword_800E552C[] = "mystery.c";
+
+int SECTION(".bss") vefgh_05_dword_800E6D64;

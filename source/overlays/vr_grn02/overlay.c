@@ -1,46 +1,5 @@
 #include "mgstype.h"
 
-int vr_grn02_dword_800C1308 = 0x000009C4;
-int vr_grn02_dword_800C130C = 0x00000DAC;
-int vr_grn02_dword_800C1310 = 0x00000FA0;
-int vr_grn02_dword_800C1314 = 0x00001388;
-int vr_grn02_dword_800C1318 = 0x0000157C;
-int vr_grn02_dword_800C131C = 0x000015E0;
-int vr_grn02_dword_800C1320 = 0x00001644;
-int vr_grn02_dword_800C1324 = 0x000016A8;
-int vr_grn02_dword_800C1328 = 0x02EE012C;
-int vr_grn02_dword_800C132C = 0x0000012C;
-int vr_grn02_dword_800C1330 = 0x000F01C2;
-int vr_grn02_dword_800C1334 = 0x003C001E;
-int vr_grn02_dword_800C1338 = 0x0000005A;
-int vr_grn02_dword_800C133C = 0x75307D01;
 
-const int vr_grn02_dword_800E2D18 = 0x20727245;
-const int vr_grn02_dword_800E2D1C = 0x20727245;
-const int vr_grn02_dword_800E2D20 = 0x20727245;
-const int vr_grn02_dword_800E2D24 = 0x74655320;
-const int vr_grn02_dword_800E2D28 = 0x6D697420;
-const int vr_grn02_dword_800E2D2C = 0x764F2065;
-const int vr_grn02_dword_800E2D30 = 0x000A7265;
-const int vr_grn02_dword_800E2D34 = 0x20727245;
-const int vr_grn02_dword_800E2D38 = 0x20727245;
-const int vr_grn02_dword_800E2D3C = 0x20727245;
-const int vr_grn02_dword_800E2D40 = 0x74655320;
-const int vr_grn02_dword_800E2D44 = 0x72694420;
-const int vr_grn02_dword_800E2D48 = 0x65764F20;
-const int vr_grn02_dword_800E2D4C = 0x00000A72;
-const int vr_grn02_dword_800E2D50 = 0x20727245;
-const int vr_grn02_dword_800E2D54 = 0x20746F6E;
-const int vr_grn02_dword_800E2D58 = 0x756F6E65;
-const int vr_grn02_dword_800E2D5C = 0x77206867;
-const int vr_grn02_dword_800E2D60 = 0x206B726F;
-const int vr_grn02_dword_800E2D64 = 0x000A2121;
-const int vr_grn02_dword_800E2D68 = 0x63746177;
-const int vr_grn02_dword_800E2D6C = 0x2E726168;
-const int vr_grn02_dword_800E2D70 = 0x203A2063;
-const int vr_grn02_dword_800E2D74 = 0x69746361;
-const int vr_grn02_dword_800E2D78 = 0x70206E6F;
-const int vr_grn02_dword_800E2D7C = 0x746E696F;
-const int vr_grn02_dword_800E2D80 = 0x72724520;
-const int vr_grn02_dword_800E2D84 = 0x0000000A;
-const char vr_grn02_dword_800E2D88[] = "mystery.c";
+
+int SECTION(".bss") vr_grn02_dword_800E46E4;

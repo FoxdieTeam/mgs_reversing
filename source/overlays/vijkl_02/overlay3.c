@@ -1,42 +1,4 @@
 #include "mgstype.h"
 
 
-const char vijkl_02_dword_800E1F30[] = "shadow";
-const int vijkl_02_dword_800E1F38 = 0x800DE040;
-const int vijkl_02_dword_800E1F3C = 0x800DE058;
-const int vijkl_02_dword_800E1F40 = 0x800DE070;
-const int vijkl_02_dword_800E1F44 = 0x800DE07C;
-const int vijkl_02_dword_800E1F48 = 0x800DE098;
-const int vijkl_02_dword_800E1F4C = 0x800DE098;
-const char vijkl_02_dword_800E1F50[] = "id_n";
-const char vijkl_02_dword_800E1F58[] = "id_b";
-const char vijkl_02_dword_800E1F60[] = "ufo";
-const char vijkl_02_dword_800E1F64[] = "kokesi_c";
-const char vijkl_02_dword_800E1F70[] = "kokesi_s";
-const char vijkl_02_dword_800E1F7C[] = "ufo2";
-const char vijkl_02_dword_800E1F84[] = "mato_04add";
-const char vijkl_02_dword_800E1F90[] = "mato_06add";
-const char vijkl_02_dword_800E1F9C[] = "mato_08add";
-const char vijkl_02_dword_800E1FA8[] = "mato_09add";
-const char vijkl_02_dword_800E1FB4[] = "mato_14add";
-const int vijkl_02_dword_800E1FC0 = 0x746F6F72;
-const int vijkl_02_dword_800E1FC4 = 0x746F6E20;
-const int vijkl_02_dword_800E1FC8 = 0x756F6620;
-const int vijkl_02_dword_800E1FCC = 0x000A646E;
-const char vijkl_02_dword_800E1FD0[] = "vrbox.c";
-const int vijkl_02_dword_800E1FD8 = 0x74696E49;
-const int vijkl_02_dword_800E1FDC = 0x746E6F43;
-const int vijkl_02_dword_800E1FE0 = 0x206C6F72;
-const int vijkl_02_dword_800E1FE4 = 0x6F6E203A;
-const int vijkl_02_dword_800E1FE8 = 0x70616D20;
-const int vijkl_02_dword_800E1FEC = 0x0A582520;
-const int vijkl_02_dword_800E1FF0 = 0x00000000;
-const char vijkl_02_dword_800E1FF4[] = "kabe_n";
-const char vijkl_02_dword_800E1FFC[] = "kabe_y";
-const char vijkl_02_dword_800E2004[] = "kabe_01add";
-const char vijkl_02_dword_800E2010[] = "kt_n";
-const char vijkl_02_dword_800E2018[] = "mato_00add";
-const char vijkl_02_dword_800E2024[] = "kt_b";
-const char vijkl_02_dword_800E202C[] = "mato_02add";
-const char vijkl_02_dword_800E2038[] = "ice";
-const char vijkl_02_dword_800E203C[] = "vrbox2.c";
+const int vijkl_02_dword_800E2074 = 0x39303038;

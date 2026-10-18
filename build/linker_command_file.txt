@@ -3044,15 +3044,15 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_cfr\vab_cfr_800D7CF8.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\overlays\vab_cfr\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_cfr\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_cfr\overlay4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_cfr\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_cfr\vab_cfr_800DCC20.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vr2.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrclear2.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vab_cfr\vab_cfr_800E0478.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vab_clm" %}
     include "{{OBJ_DIR}}\stagevr\vab_clm.obj", overlay
@@ -3089,15 +3089,15 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_clm\vab_clm_800D7CF8.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\overlays\vab_clm\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_clm\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_clm\overlay4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_clm\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_clm\vab_clm_800DCC20.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vr2.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrclear2.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vab_clm\vab_clm_800E0478.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vab_fms" %}
     include "{{OBJ_DIR}}\stagevr\vab_fms.obj", overlay
@@ -3134,14 +3134,15 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_fms\vab_fms_800D7CF8.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\overlays\vab_fms\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_fms\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_fms\overlay4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_fms\vab_fms_800DCC20.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vr2.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrclear2.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vab_fms\vab_fms_800E0478.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vab_grn" %}
     include "{{OBJ_DIR}}\stagevr\vab_grn.obj", overlay
@@ -3179,20 +3180,17 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_grn\vab_grn_800D87CC.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\overlays\vab_grn\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_grn\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_grn\vab_grn_800DCDB4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_grn\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_grn\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_grn\vab_grn_800DE80C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_grn\overlay6.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_grn\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vr2.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrclear2.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_grn\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vab_grn\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vab_grn\vab_grn_800E21B8.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vab_nkt" %}
@@ -3230,17 +3228,16 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_nkt\vab_nkt_800D7D00.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\overlays\vab_nkt\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_nkt\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_nkt\vab_nkt_800DC2E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_nkt\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_nkt\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_nkt\overlay6.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_nkt\vab_nkt_800DDD40.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vr2.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrclear2.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vab_nkt\vab_nkt_800E1598.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vab_psg" %}
     include "{{OBJ_DIR}}\stagevr\vab_psg.obj", overlay
@@ -3277,15 +3274,15 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_psg\vab_psg_800D7CF8.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\overlays\vab_psg\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_psg\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_psg\overlay4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_psg\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_psg\vab_psg_800DCC20.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vr2.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrclear2.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vab_psg\vab_psg_800E0478.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vab_scm" %}
     include "{{OBJ_DIR}}\stagevr\vab_scm.obj", overlay
@@ -3324,16 +3321,14 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_scm\vab_scm_800D87C4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\overlays\vab_scm\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_scm\overlay4.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_scm\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_scm\vab_scm_800DD6EC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_scm\overlay6.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_scm\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vr2.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrclear2.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vab_scm\vab_scm_800E1098.obj", overlay
 ;------------------------------------------------------------------------------
@@ -3372,15 +3367,15 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_stg\vab_stg_800D7CF8.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\overlays\vab_stg\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_stg\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_stg\overlay4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_stg\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_stg\vab_stg_800DCC20.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vr2.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrclear2.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vab_stg\vab_stg_800E0478.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vab_sud" %}
     include "{{OBJ_DIR}}\stagevr\vab_sud.obj", overlay
@@ -3417,17 +3412,16 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_sud\vab_sud_800D7D00.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\overlays\vab_sud\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_sud\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_sud\vab_sud_800DC2E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_sud\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_sud\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_sud\overlay6.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vab_sud\vab_sud_800DDD40.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vr2.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrclear2.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vab_sud\vab_sud_800E1598.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vcd_n01" %}
     include "{{OBJ_DIR}}\stagevr\vcd_n01.obj", overlay
@@ -3607,8 +3601,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vcd_n04\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n04\overlay6.obj", overlay
     include "{{OBJ_DIR}}\overlays\vcd_n04\vcd_n04_800D0398.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vcd_n04\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vcd_n04\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vcd_n04\vcd_n04_800D4064.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vcd_n05" %}
     include "{{OBJ_DIR}}\stagevr\vcd_n05.obj", overlay
@@ -3687,10 +3684,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n06\vcd_n06_800D0650.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n06\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vcd_n06\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vcd_n06\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vcd_n06\vcd_n06_800D2918.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vefgh_01" %}
@@ -3704,23 +3701,22 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\vefgh_01_800C59A0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\vefgh_01_800C7988.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_01\overlay2.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\vefgh_01_800CF9B8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
@@ -3729,26 +3725,23 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\vefgh_01_800D6E90.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\overlay7.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_01\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\overlay9.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_01\overlay4.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\vefgh_01_800E0424.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\overlay10.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\overlay11.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_01\vefgh_01_800E1E7C.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_01\vefgh_01_800E2810.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vefgh_02" %}
     include "{{OBJ_DIR}}\stagevr\vefgh_02.obj", overlay
@@ -3759,23 +3752,22 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\vefgh_02_800C4F1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\vefgh_02_800C6F04.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_02\overlay2.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\vefgh_02_800CEF34.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
@@ -3784,26 +3776,23 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\vefgh_02_800D640C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\overlay7.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_02\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\overlay9.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_02\overlay4.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\vefgh_02_800DF9A0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\overlay10.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\overlay11.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_02\vefgh_02_800E13F8.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_02\vefgh_02_800E1D8C.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vefgh_03" %}
     include "{{OBJ_DIR}}\stagevr\vefgh_03.obj", overlay
@@ -3814,23 +3803,22 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\vefgh_03_800C4F1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\vefgh_03_800C6F04.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_03\overlay2.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\vefgh_03_800CEF34.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
@@ -3839,26 +3827,23 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\vefgh_03_800D640C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\overlay7.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_03\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\overlay9.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_03\overlay4.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\vefgh_03_800DF9A0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\overlay10.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\overlay11.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_03\vefgh_03_800E1AC0.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_03\vefgh_03_800E2454.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vefgh_04" %}
     include "{{OBJ_DIR}}\stagevr\vefgh_04.obj", overlay
@@ -3872,12 +3857,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\smoke.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\vefgh_04_800C715C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\vefgh_04_800C9144.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
@@ -3885,39 +3870,34 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\vefgh_04_800D047C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
     include "{{OBJ_DIR}}\okajima\lens_fl2.obj", overlay
     include "{{OBJ_DIR}}\okajima\sn_in_ef.obj", overlay
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_04\overlay2.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\paddemo2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\vefgh_04_800D8410.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_flr.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\overlay7.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_04\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\overlay9.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_04\overlay4.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\vefgh_04_800E1DEC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\overlay10.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\vefgh_04_800E3844.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_04\overlay11.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vefgh_04\vefgh_04_800E432C.obj", overlay
 ;------------------------------------------------------------------------------
@@ -3932,23 +3912,22 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\rcm.obj", overlay
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\vefgh_05_800C75D0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\vefgh_05_800C95B8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_05\overlay2.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\vefgh_05_800D15E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
@@ -3957,27 +3936,24 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\vefgh_05_800D8AC0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\unknown4.obj", overlay
     include "{{OBJ_DIR}}\takabe\lit_mdl.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\overlay7.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_05\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\overlay9.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_05\overlay4.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\vefgh_05_800E2CD4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\overlay10.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\overlay11.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_05\vefgh_05_800E472C.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_05\vefgh_05_800E50C0.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vefgh_06" %}
     include "{{OBJ_DIR}}\stagevr\vefgh_06.obj", overlay
@@ -3988,23 +3964,22 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\vefgh_06_800C5568.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\overlay.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\vefgh_06_800C7550.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_06\overlay.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\vefgh_06_800CF580.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
@@ -4014,26 +3989,22 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\paddemo2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\vefgh_06_800D7514.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\overlay6.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_06\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_06\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\vefgh_06_800E0AA8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\overlay9.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\vefgh_06_800E2BC8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_06\overlay10.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vefgh_06\vefgh_06_800E36B0.obj", overlay
 ;------------------------------------------------------------------------------
@@ -4049,23 +4020,22 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\vefgh_07_800C63C4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\vefgh_07_800C83AC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_07\overlay3.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\vefgh_07_800D03DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
@@ -4074,26 +4044,23 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\vefgh_07_800D78B4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\overlay8.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\overlay9.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_07\overlay4.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\overlay10.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_07\overlay5.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\vefgh_07_800E0E48.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\overlay11.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\overlay12.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_07\vefgh_07_800E28A0.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_07\vefgh_07_800E3234.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vefgh_08" %}
     include "{{OBJ_DIR}}\stagevr\vefgh_08.obj", overlay
@@ -4107,22 +4074,21 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_08\vefgh_08_800C8044.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_08\overlay.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_08\vefgh_08_800CA02C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_08\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_08\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_08\overlay.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_08\vefgh_08_800D1C30.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_08\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
@@ -4132,17 +4098,15 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_08\vefgh_08_800D97B8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_08\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_08\overlay6.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_08\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_08\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_08\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_08\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
@@ -4163,12 +4127,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\vefgh_09_800C75CC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\vefgh_09_800C95B4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
@@ -4176,36 +4140,32 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\vefgh_09_800D08EC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
     include "{{OBJ_DIR}}\okajima\lens_fl2.obj", overlay
     include "{{OBJ_DIR}}\okajima\sn_in_ef.obj", overlay
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_09\overlay3.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\vefgh_09_800D7DC4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\overlay8.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\overlay9.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_09\overlay4.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\overlay10.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_09\overlay5.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\vefgh_09_800E113C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\overlay11.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\overlay12.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_09\vefgh_09_800E2B94.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_09\vefgh_09_800E3528.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vefgh_10" %}
     include "{{OBJ_DIR}}\stagevr\vefgh_10.obj", overlay
@@ -4218,51 +4178,48 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\vefgh_10_800C59AC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\vefgh_10_800C7994.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay2.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\vefgh_10_800CF9C4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\overlays\vefgh_10\vefgh_10_800D40A8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay3.obj", overlay
     include "{{OBJ_DIR}}\enemy\dymc_seg.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
     include "{{OBJ_DIR}}\okajima\lens_fl2.obj", overlay
     include "{{OBJ_DIR}}\okajima\sn_in_ef.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay4.obj", overlay
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\vefgh_10_800D787C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay9.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay10.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay5.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay11.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay6.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay12.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vefgh_10\overlay7.obj", overlay
     include "{{OBJ_DIR}}\overlays\vefgh_10\vefgh_10_800E1534.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vijkl_01" %}
@@ -4273,23 +4230,22 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_01\vijkl_01_800C4EE4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_01\overlay.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_01\vijkl_01_800C6ECC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_01\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_01\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_01\overlay.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_01\vijkl_01_800CEEFC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_01\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
     include "{{OBJ_DIR}}\okajima\lens_fl2.obj", overlay
@@ -4300,9 +4256,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_01\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_01\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_01\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_01\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
@@ -4350,12 +4306,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_02\vijkl_02_800DD040.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_02\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_02\overlay4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_02\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_02\vijkl_02_800E0278.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_02\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_02\vijkl_02_800E0C0C.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vijkl_03" %}
     include "{{OBJ_DIR}}\stagevr\vijkl_03.obj", overlay
@@ -4365,31 +4321,29 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_03\vijkl_03_800C4F10.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_03\overlay.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_03\vijkl_03_800C6EF8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_03\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_03\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_03\overlay.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_03\vijkl_03_800CEF28.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_03\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
     include "{{OBJ_DIR}}\okajima\lens_fl2.obj", overlay
     include "{{OBJ_DIR}}\okajima\sn_in_ef.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_03\vijkl_03_800D5038.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dummy_fl.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_03\overlay5.obj", overlay
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\takabe\unknown4.obj", overlay
@@ -4397,9 +4351,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_03\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_03\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_03\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_03\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
@@ -4502,11 +4456,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_05\vijkl_05_800DE944.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_05\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_05\overlay4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_05\vijkl_05_800E1B7C.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_05\vijkl_05_800E2510.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vijkl_06" %}
     include "{{OBJ_DIR}}\stagevr\vijkl_06.obj", overlay
@@ -4519,22 +4473,21 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_06\vijkl_06_800C79D8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_06\overlay.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_06\vijkl_06_800C99C0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_06\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_06\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_06\overlay.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_06\vijkl_06_800D15C4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_06\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
     include "{{OBJ_DIR}}\okajima\lens_fl2.obj", overlay
@@ -4546,15 +4499,15 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_06\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_06\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_06\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_06\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_06\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_06\overlay4.obj", overlay
     include "{{OBJ_DIR}}\overlays\vijkl_06\vijkl_06_800E18FC.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vijkl_07" %}
@@ -4568,23 +4521,22 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\vijkl_07_800C5994.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\vijkl_07_800C797C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay2.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\vijkl_07_800CF9AC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
@@ -4593,26 +4545,23 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\vijkl_07_800D6E84.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\takabe\findtrap.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay7.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay9.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay4.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\vijkl_07_800E01FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay10.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay11.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay12.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_07\vijkl_07_800E1C54.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_07\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_07\vijkl_07_800E25E8.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vijkl_08" %}
     include "{{OBJ_DIR}}\stagevr\vijkl_08.obj", overlay
@@ -4655,11 +4604,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_08\vijkl_08_800DD038.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_08\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_08\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_08\vijkl_08_800DEA90.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_08\vijkl_08_800DF424.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vijkl_09" %}
     include "{{OBJ_DIR}}\stagevr\vijkl_09.obj", overlay
@@ -4701,12 +4649,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_09\vijkl_09_800DD040.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_09\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_09\overlay4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_09\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_09\vijkl_09_800DEA98.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_09\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_09\vijkl_09_800DF42C.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vijkl_10" %}
     include "{{OBJ_DIR}}\stagevr\vijkl_10.obj", overlay
@@ -4716,23 +4663,22 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\vijkl_10_800C4EF8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\overlay.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\vijkl_10_800C6EE0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_10\overlay.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\vijkl_10_800CEF10.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
     include "{{OBJ_DIR}}\okajima\lens_fl2.obj", overlay
@@ -4744,19 +4690,18 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_10\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_10\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\vijkl_10_800DE474.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\overlay8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\overlay9.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vijkl_10\vijkl_10_800DFECC.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_10\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vijkl_10\vijkl_10_800E0860.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_cfr01" %}
     include "{{OBJ_DIR}}\stagevr\vr_cfr01.obj", overlay
@@ -4798,13 +4743,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr01\vr_cfr01_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr01\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr01\vr_cfr01_800DF334.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr01\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr01\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_cfr01\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_cfr01\vr_cfr01_800DFE1C.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_cfr02" %}
@@ -4834,10 +4777,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
     include "{{OBJ_DIR}}\okajima\lens_fl2.obj", overlay
     include "{{OBJ_DIR}}\okajima\sn_in_ef.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr02\vr_cfr02_800D3C1C.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dummy_fl.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr02\overlay2.obj", overlay
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\paddemo2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
@@ -4846,18 +4788,17 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr02\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_cfr02\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr02\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_cfr02\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr02\vr_cfr02_800DF1D4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr02\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr02\vr_cfr02_800E240C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr02\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_cfr02\vr_cfr02_800E2EF4.obj", overlay
 ;------------------------------------------------------------------------------
@@ -4902,11 +4843,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr03\vr_cfr03_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr03\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr03\vr_cfr03_800DF334.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr03\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_cfr03\vr_cfr03_800DFE1C.obj", overlay
 ;------------------------------------------------------------------------------
@@ -4937,10 +4876,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
     include "{{OBJ_DIR}}\okajima\lens_fl2.obj", overlay
     include "{{OBJ_DIR}}\okajima\sn_in_ef.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr04\vr_cfr04_800D3C14.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dummy_fl.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr04\overlay2.obj", overlay
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\paddemo2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
@@ -4949,18 +4887,16 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr04\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_cfr04\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr04\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_cfr04\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr04\vr_cfr04_800DF1CC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr04\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr04\vr_cfr04_800E12EC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr04\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_cfr04\vr_cfr04_800E1DD4.obj", overlay
 ;------------------------------------------------------------------------------
@@ -5005,11 +4941,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr05\vr_cfr05_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr05\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr05\vr_cfr05_800DF9FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_cfr05\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_cfr05\vr_cfr05_800E04E4.obj", overlay
 ;------------------------------------------------------------------------------
@@ -5054,11 +4988,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm01\vr_clm01_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm01\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm01\vr_clm01_800DFA04.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm01\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_clm01\vr_clm01_800E04EC.obj", overlay
 ;------------------------------------------------------------------------------
@@ -5102,13 +5034,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm02\vr_clm02_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm02\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm02\vr_clm02_800DFA04.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm02\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm02\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_clm02\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_clm02\vr_clm02_800E04EC.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_clm03" %}
@@ -5152,11 +5082,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm03\vr_clm03_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm03\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm03\vr_clm03_800DFA04.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm03\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_clm03\vr_clm03_800E04EC.obj", overlay
 ;------------------------------------------------------------------------------
@@ -5201,11 +5129,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm04\vr_clm04_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm04\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm04\vr_clm04_800DFA04.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm04\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_clm04\vr_clm04_800E04EC.obj", overlay
 ;------------------------------------------------------------------------------
@@ -5253,11 +5179,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm05\vr_clm05_800E0E38.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm05\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm05\vr_clm05_800E2F58.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_clm05\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_clm05\vr_clm05_800E3A40.obj", overlay
 ;------------------------------------------------------------------------------
@@ -5301,13 +5225,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms01\vr_fms01_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms01\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms01\vr_fms01_800DF334.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms01\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms01\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_fms01\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_fms01\vr_fms01_800DFE1C.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_fms02" %}
@@ -5350,13 +5272,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms02\vr_fms02_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms02\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms02\vr_fms02_800DF9FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms02\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms02\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_fms02\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_fms02\vr_fms02_800E04E4.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_fms03" %}
@@ -5399,13 +5319,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms03\vr_fms03_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms03\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms03\vr_fms03_800DF9FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms03\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms03\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_fms03\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_fms03\vr_fms03_800E04E4.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_fms04" %}
@@ -5435,10 +5353,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
     include "{{OBJ_DIR}}\okajima\lens_fl2.obj", overlay
     include "{{OBJ_DIR}}\okajima\sn_in_ef.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms04\vr_fms04_800D3C14.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dummy_fl.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms04\overlay2.obj", overlay
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\paddemo2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
@@ -5447,18 +5364,16 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms04\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_fms04\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms04\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_fms04\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms04\vr_fms04_800DF1CC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms04\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms04\vr_fms04_800E12EC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms04\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_fms04\vr_fms04_800E1DD4.obj", overlay
 ;------------------------------------------------------------------------------
@@ -5506,11 +5421,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms05\vr_fms05_800E0CC8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms05\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms05\vr_fms05_800E2DE8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_fms05\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_fms05\vr_fms05_800E38D0.obj", overlay
 ;------------------------------------------------------------------------------
@@ -5555,11 +5468,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn01\vr_grn01_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn01\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn01\vr_grn01_800E0B1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn01\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_grn01\vr_grn01_800E1604.obj", overlay
 ;------------------------------------------------------------------------------
@@ -5571,23 +5483,22 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\enemy\vr\snwarp.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\vr_grn02_800C4F04.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\overlay.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\vr_grn02_800C6EEC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\overlay2.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_check.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_action.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_enemy.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_grn02\overlay.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\vr_grn02_800CEF1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\enemy\vr\mystery_think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
     include "{{OBJ_DIR}}\okajima\lens_fl2.obj", overlay
@@ -5599,20 +5510,19 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_grn02\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_grn02\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\vr_grn02_800DED20.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\vr_grn02_800E1F58.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn02\overlay9.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_grn02\overlay4.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_grn02\vr_grn02_800E2A40.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_grn03" %}
@@ -5655,13 +5565,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn03\vr_grn03_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn03\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn03\vr_grn03_800E0B1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn03\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn03\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_grn03\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_grn03\vr_grn03_800E1604.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_grn04" %}
@@ -5704,13 +5613,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn04\vr_grn04_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn04\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn04\vr_grn04_800E0B1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn04\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn04\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_grn04\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_grn04\vr_grn04_800E1604.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_grn05" %}
@@ -5754,11 +5662,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn05\vr_grn05_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn05\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn05\vr_grn05_800E0B1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_grn05\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_grn05\vr_grn05_800E1604.obj", overlay
 ;------------------------------------------------------------------------------
@@ -5803,11 +5710,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt01\vr_nkt01_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt01\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt01\vr_nkt01_800E0B1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt01\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_nkt01\vr_nkt01_800E1604.obj", overlay
 ;------------------------------------------------------------------------------
@@ -5852,11 +5758,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt02\vr_nkt02_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt02\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt02\vr_nkt02_800E0B1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt02\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_nkt02\vr_nkt02_800E1604.obj", overlay
 ;------------------------------------------------------------------------------
@@ -5901,11 +5806,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt03\vr_nkt03_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt03\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt03\vr_nkt03_800E0B1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt03\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_nkt03\vr_nkt03_800E1604.obj", overlay
 ;------------------------------------------------------------------------------
@@ -5953,11 +5857,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt04\vr_nkt04_800E0CD0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt04\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt04\vr_nkt04_800E3F08.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt04\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_nkt04\vr_nkt04_800E49F0.obj", overlay
 ;------------------------------------------------------------------------------
@@ -6001,13 +5904,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt05\vr_nkt05_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt05\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt05\vr_nkt05_800E0B1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt05\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_nkt05\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_nkt05\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_nkt05\vr_nkt05_800E1604.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_psg01" %}
@@ -6051,11 +5953,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg01\vr_psg01_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg01\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg01\vr_psg01_800DF334.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg01\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_psg01\vr_psg01_800DFE1C.obj", overlay
 ;------------------------------------------------------------------------------
@@ -6100,11 +6000,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg02\vr_psg02_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg02\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg02\vr_psg02_800DF9FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg02\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_psg02\vr_psg02_800E04E4.obj", overlay
 ;------------------------------------------------------------------------------
@@ -6148,13 +6046,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg03\vr_psg03_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg03\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg03\vr_psg03_800DF9FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg03\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg03\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_psg03\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_psg03\vr_psg03_800E04E4.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_psg04" %}
@@ -6197,13 +6093,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg04\vr_psg04_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg04\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg04\vr_psg04_800DF9FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg04\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg04\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_psg04\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_psg04\vr_psg04_800E04E4.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_psg05" %}
@@ -6246,11 +6140,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg05\vr_psg05_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg05\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg05\vr_psg05_800DF33C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_psg05\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_psg05\vr_psg05_800DFCD0.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_psg05\overlay3.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_psg05\vr_psg05_800E0714.obj", overlay
 ;------------------------------------------------------------------------------
@@ -6312,13 +6206,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm01\vr_scm01_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm01\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm01\vr_scm01_800E0B1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm01\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm01\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_scm01\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_scm01\vr_scm01_800E1604.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_scm02" %}
@@ -6362,11 +6255,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm02\vr_scm02_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm02\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm02\vr_scm02_800E0B1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm02\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_scm02\vr_scm02_800E1604.obj", overlay
 ;------------------------------------------------------------------------------
@@ -6411,11 +6303,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm03\vr_scm03_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm03\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm03\vr_scm03_800E0B1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm03\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_scm03\vr_scm03_800E1604.obj", overlay
 ;------------------------------------------------------------------------------
@@ -6460,11 +6351,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm04\vr_scm04_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm04\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm04\vr_scm04_800E0B1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm04\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_scm04\vr_scm04_800E1604.obj", overlay
 ;------------------------------------------------------------------------------
@@ -6508,13 +6398,12 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm05\vr_scm05_800DD8E4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm05\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm05\vr_scm05_800E0B1C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm05\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_scm05\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_scm05\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_scm05\vr_scm05_800E1604.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_stg01" %}
@@ -6558,11 +6447,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg01\vr_stg01_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg01\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg01\vr_stg01_800DF9FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg01\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_stg01\vr_stg01_800E04E4.obj", overlay
 ;------------------------------------------------------------------------------
@@ -6606,13 +6493,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg02\vr_stg02_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg02\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg02\vr_stg02_800DF9FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg02\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg02\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_stg02\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_stg02\vr_stg02_800E04E4.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_stg03" %}
@@ -6655,13 +6540,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg03\vr_stg03_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg03\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg03\vr_stg03_800DF9FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg03\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg03\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_stg03\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_stg03\vr_stg03_800E04E4.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vr_stg04" %}
@@ -6705,11 +6588,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg04\vr_stg04_800DD8DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg04\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg04\vr_stg04_800DF9FC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg04\overlay5.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_stg04\vr_stg04_800E04E4.obj", overlay
 ;------------------------------------------------------------------------------
@@ -6761,11 +6642,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\pausmenu.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg05\vr_stg05_800DF58C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg05\overlay7.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\vrbox.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg05\vr_stg05_800E16AC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_stg05\overlay8.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\splashvr.obj", overlay
     include "{{OBJ_DIR}}\nobu\vr\loadrep.obj", overlay
     include "{{OBJ_DIR}}\overlays\vr_stg05\vr_stg05_800E2194.obj", overlay
 ;------------------------------------------------------------------------------
@@ -7258,10 +7137,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\okajima\snake_e1.obj", overlay
     include "{{OBJ_DIR}}\okajima\lens_fl2.obj", overlay
     include "{{OBJ_DIR}}\okajima\sn_in_ef.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_sud11\vr_sud11_800D3C04.obj", overlay
+    include "{{OBJ_DIR}}\takabe\dummy_fl.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_sud11\overlay2.obj", overlay
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\paddemo2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
@@ -7270,9 +7148,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\goal.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_sud11\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_sud11\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vr_sud11\overlay4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vr_sud11\overlay3.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrclear.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrmenu.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
