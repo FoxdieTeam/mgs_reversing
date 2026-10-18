@@ -766,7 +766,7 @@ $Lvcd_n05_800C5768_1:
 	lw	$2,76($16)
 	nop
 	lw	$4,0($2)
-	jal	vcd_n05_800CE9A4
+	jal	NewSnow
 	nop
 $Lvcd_n05_800C5768_2:
 	lw	$31,24($29)
