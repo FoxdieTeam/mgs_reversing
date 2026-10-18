@@ -1,0 +1,358 @@
+// (VR only) this file is empty in the main executable build
+// Splash2 of the vcd_n05 (godzilla) mission: an older revision of okajima/splash2.c (DG_MakePrim/DG_QueuePrim instead of
+// GM_MakePrim, 60 frames, other splash shapes and no matrix parameter for the packet transform).
+#ifdef VR_EXE
+#include "okajima/splash2.h"
+
+#include "mgstype.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
+#include "game/game.h"
+
+#include "takabe/ripple.h"      // for NewRipple
+
+typedef struct _Work
+{
+    GV_ACT   actor;
+    int      map;
+    DG_PRIM *prim;
+    char     pad[2];
+    short    height;
+    char     pad2[4];
+    SVECTOR  vecs[8];
+    SVECTOR  vecs2[32];
+    SVECTOR  color;
+    int      timer;
+    int      noripple;
+} Work;
+
+RECT splash2_rect = { 50, 50, 100, 100 };
+
+void Splash2Transform( MATRIX *matrix, SVECTOR *vecs1, SVECTOR *vecs2, int count )
+{
+    SVECTOR vec[4];
+    int     ang;
+    int     xpos, ypos, zpos;
+    int     xoff, yoff, zoff;
+
+    DG_SetPos( &DG_ZeroMatrix );
+
+    for ( count--; count >= 0; vecs1++, vecs2 += 4, count-- )
+    {
+        ang = GV_RandU( 4096 );
+
+        xpos = rcos( ang );
+        zpos = rsin( ang );
+        ypos = GV_RandU( 256 ) + 64;
+
+        xpos /= ypos;
+        zpos /= ypos;
+
+        xoff = GV_RandS( 512 );
+        yoff = GV_RandS( 1024 );
+        zoff = GV_RandS( 512 );
+
+        vec[0].vy = ypos;
+        vec[1].vy = ypos + yoff;
+        vec[2].vy = ypos - yoff;
+        vec[3].vy = ypos * 4;
+        vec[1].vx = xpos + xoff;
+        vec[0].vx = xpos;
+        vec[0].vz = zpos;
+        vec[1].vz = zpos + zoff;
+        vec[2].vx = xpos - xoff;
+        vec[2].vz = zpos - zoff;
+        vec[3].vx = xpos * 4;
+        vec[3].vz = zpos * 4;
+
+        DG_RotVector( vec, vecs1, 1 );
+        DG_RotVector( vec, vecs2, 4 );
+    }
+}
+
+void Splash2ShadePacks( POLY_FT4 *packs, int n_packs, char shade )
+{
+    for ( n_packs--; n_packs >= 0; packs++, n_packs-- )
+    {
+        setRGB0( packs, shade, shade, shade );
+    }
+}
+
+void Splash2Act( Work *work )
+{
+    SVECTOR   color;
+    MATRIX    matrix;
+    int       timer;
+    POLY_FT4 *poly;
+    SVECTOR  *vecs;
+    SVECTOR  *vecs2;
+    int       i;
+    int       x, y, z;
+
+    GM_CurrentMap = work->map;
+
+    timer = --work->timer;
+    if ( work->timer <= 0 )
+    {
+        Splash2ShadePacks( work->prim->packs[0], 8, 0 );
+        Splash2ShadePacks( work->prim->packs[1], 8, 0 );
+        GV_DestroyActor( &(work->actor) );
+        return;
+    }
+
+    poly = work->prim->packs[GV_Clock];
+
+    timer *= 4;
+    color.vx = (work->color.vx * timer) / 256;
+    color.vy = (work->color.vy * timer) / 256;
+    color.vz = (work->color.vz * timer) / 256;
+
+    vecs = work->vecs;
+    vecs2 = work->vecs2;
+
+    for ( i = 7; i >= 0; vecs++, poly++, i-- )
+    {
+        x = vecs->vx;
+        y = vecs->vy;
+        z = vecs->vz;
+
+        vecs2->vx += x;
+        vecs2->vy += y;
+        vecs2->vz += z;
+        vecs2++;
+
+        vecs2->vx += x;
+        vecs2->vy += y;
+        vecs2->vz += z;
+        vecs2++;
+
+        vecs2->vx += x;
+        vecs2->vy += y;
+        vecs2->vz += z;
+        vecs2++;
+
+        vecs2->vx += x;
+        vecs2->vy += y;
+        vecs2->vz += z;
+        vecs2++;
+
+        vecs->vy -= 7;
+
+        setRGB0(poly, color.vx, color.vy, color.vz);
+    }
+
+    if ( (work->noripple != 1) && (GV_RandU(32) == 0) )
+    {
+        matrix = DG_ZeroMatrix;
+        matrix.t[0] = work->vecs2[3].vx;
+        matrix.t[1] = work->height;
+        matrix.t[2] = work->vecs2[3].vz;
+        NewRipple( &matrix, 2048 );
+    }
+}
+
+void Splash2Die( Work *work )
+{
+    GM_FreePrim( work->prim );
+}
+
+static inline void InitPacks( POLY_FT4 *pack, DG_TEX *tex, int r, int g, int b )
+{
+    setPolyFT4( pack );
+    setSemiTrans( pack, 1 );
+    DG_SetPacketTexture4( pack, tex );
+
+    pack->tpage |= 0x20;
+
+    setRGB0(pack, r, g, b);
+}
+
+int Splash2GetResources( Work *work, MATRIX *matrix, int noripple, int r, int g, int b )
+{
+    DG_PRIM  *prim;
+    DG_TEX   *tex;
+    POLY_FT4 *polys1;
+    POLY_FT4 *polys2;
+    int       i;
+
+    work->map = GM_CurrentMap;
+
+    Splash2Transform( matrix, work->vecs, work->vecs2, 8 );
+
+    prim = GM_MakePrim( DG_PRIM_POLY_FT4, 8, work->vecs2, &splash2_rect );
+    work->prim = prim;
+
+    if ( prim == NULL )
+    {
+        return -1;
+    }
+
+    prim->world = *matrix;
+
+    tex = DG_GetTexture( GV_StrCode( "awa_3" ) );
+    if ( tex == NULL )
+    {
+        return -1;
+    }
+
+    polys1 = prim->packs[0];
+    polys2 = prim->packs[1];
+
+    for ( i = 7; i >= 0; i--, polys1++, polys2++ )
+    {
+        InitPacks( polys1, tex, r, g, b );
+        InitPacks( polys2, tex, r, g, b );
+    }
+
+    work->color.vx = r;
+    work->color.vy = g;
+    work->color.vz = b;
+
+    work->timer = 60;
+    work->height = matrix->t[1];
+    work->noripple = noripple;
+
+    return 0;
+}
+
+void *NewSplash2( MATRIX *matrix, int noripple, int r, int g, int b )
+{
+    Work *work;
+
+    work = GV_NewActor( GV_ACTOR_USER, sizeof( Work ) );
+
+    if (work != NULL)
+    {
+        GV_SetNamedActor( &( work->actor ), Splash2Act, Splash2Die, "splash.c" );
+
+        if ( Splash2GetResources( work, matrix, noripple, r, g, b ) < 0 )
+        {
+            GV_DestroyActor( &( work->actor ) );
+            return NULL;
+        }
+    }
+
+    return work;
+}
+
+// FIXME: relocatable asm: the original frame of this function is 8 bytes bigger than the frame of the C version below
+// (two unreferenced slots), everything else is identical
+void NewSplash2Big(int angy, SVECTOR *pos, int noripple);
+#pragma INCLUDE_ASM_RELOC("source/okajima/vr/reloc/NewSplash2Big.s")
+#if 0 /* NON_MATCHING */
+void NewSplash2Big(int angy, SVECTOR *pos, int noripple)
+{
+    MATRIX  scalem;
+    SVECTOR rot;
+    VECTOR  scalev;
+    int     i;
+    int     rx;
+    int     scale;
+    short   ang;
+
+    i = -8;
+    ang = angy - 512;
+    rot.vz = 0;
+
+    for (; i <= 8; i++)
+    {
+        rx = 64 - i * i;
+
+        rot.vx = (rx * 6 + 300 + GV_RandS(32)) << 5;
+        rot.vy = ang;
+
+        RotMatrixYXZ_gte(&rot, &scalem);
+
+        scalem.t[0] = pos->vx;
+        scalem.t[1] = pos->vy;
+        scalem.t[2] = pos->vz;
+
+        scale = (rx * 32 + 1024 + GV_RandS(64)) * 4;
+        scalev.vz = scale;
+        scalev.vy = scale;
+        scalev.vx = scale;
+        scalev.vz = scale >> 1;
+        ang += 64;
+
+        ScaleMatrix(&scalem, &scalev);
+        NewSplash2(&scalem, noripple, 155, 155, 255);
+    }
+}
+#endif
+
+void NewSplash2Ang(SVECTOR *ang, SVECTOR *pos)
+{
+    MATRIX  scalem;
+    SVECTOR rot;
+    VECTOR  scalev;
+    int     i;
+    int     rx;
+    int     scale;
+    int     off;
+
+    i = -8;
+    off = -640;
+    rot.vz = 0;
+
+    for (; i <= 8; i++)
+    {
+        rx = 64 - i * i;
+
+        rot.vx = rx * 6 + 300 + GV_RandS(32);
+        rot.vy = ang->vy + off;
+
+        RotMatrixYXZ_gte(&rot, &scalem);
+
+        scalem.t[0] = pos->vx;
+        scalem.t[1] = pos->vy;
+        scalem.t[2] = pos->vz;
+
+        scale = rx * 32 + 2048 + GV_RandS(64);
+        scalev.vz = scale;
+        scalev.vy = scale;
+        scalev.vx = scale;
+        off += 80;
+
+        ScaleMatrix(&scalem, &scalev);
+        NewSplash2(&scalem, 1, 255, 255, 255);
+    }
+}
+
+void NewSplash2Wide(int angy, SVECTOR *pos, int noripple)
+{
+    MATRIX  scalem;
+    SVECTOR rot;
+    VECTOR  scalev;
+    int     i;
+    int     rx;
+    int     scale;
+    short   ang;
+
+    i = -16;
+    ang = angy - 2048;
+    rot.vz = 0;
+
+    for (; i <= 16; i++)
+    {
+        rx = 64 - (i * i) / 4;
+
+        rot.vx = rx * 6 + 300 + GV_RandS(32);
+        rot.vy = ang;
+
+        RotMatrixYXZ_gte(&rot, &scalem);
+
+        scalem.t[0] = pos->vx;
+        scalem.t[1] = pos->vy;
+        scalem.t[2] = pos->vz;
+
+        scale = rx * 16 + 512 + GV_RandS(64);
+        scalev.vz = scale;
+        scalev.vy = scale;
+        scalev.vx = scale;
+        ang += 128;
+
+        ScaleMatrix(&scalem, &scalev);
+        NewSplash2(&scalem, noripple, 128, 255, 128);
+    }
+}
+#endif

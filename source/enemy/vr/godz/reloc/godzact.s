@@ -691,11 +691,11 @@ $Lvcd_n05_800C5440_18:
 	addiu	$16,$0,-27500
 	sh	$2,16($29)
 	sh	$17,18($29)
-	jal	vcd_n05_800CD920
+	jal	NewSplash2Big
 	sh	$16,20($29)
 	addiu	$4,$0,1024
 	addiu	$5,$29,16
-	jal	vcd_n05_800CD920
+	jal	NewSplash2Big
 	addiu	$6,$0,1
 	addiu	$4,$0,2048
 	addiu	$5,$29,16
@@ -703,11 +703,11 @@ $Lvcd_n05_800C5440_18:
 	addiu	$2,$0,2500
 	sh	$2,16($29)
 	sh	$17,18($29)
-	jal	vcd_n05_800CD920
+	jal	NewSplash2Big
 	sh	$16,20($29)
 	addiu	$4,$0,1024
 	addiu	$5,$29,16
-	jal	vcd_n05_800CD920
+	jal	NewSplash2Big
 	addiu	$6,$0,1
 	addiu	$4,$18,156
 	addu	$5,$0,$0
