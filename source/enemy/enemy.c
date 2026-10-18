@@ -73,6 +73,12 @@ void s00a_command_800C98A4( WatcherWork *work )
     }
 }
 
+#if defined(VR_MYSTERY) && !defined(VR_MYSTERY_TRY_C)
+/* FIXME: NON_MATCHING in C (build with -DVR_MYSTERY_TRY_C to try): the original code loads GM_NoisePower again for the
+   switch (the first value is not reused) - kept as relocatable asm so that the object stays shareable. */
+void s00a_command_800C9930( WatcherWork* work );
+#pragma INCLUDE_ASM_RELOC("source/enemy/vr/reloc/s00a_command_800C9930.s")
+#else
 void s00a_command_800C9930( WatcherWork* work )
 {
     CONTROL *ctrl;
@@ -86,13 +92,24 @@ void s00a_command_800C9930( WatcherWork* work )
         return;
     }
 
-    ctrl = &work->control;
+#ifdef VR_MYSTERY
     if ( !GM_NoisePower )
     {
         return;
     }
 
-
+    /* the mystery soldier does not know about claymore noises */
+    ctrl = &work->control;
+    if ( !( ctrl->map->index & GM_PlayerMap ) )
+    {
+        return;
+    }
+#else
+    ctrl = &work->control;
+    if ( !GM_NoisePower )
+    {
+        return;
+    }
 
     if ( GM_NoisePower == 0xFF )
     {
@@ -111,6 +128,7 @@ void s00a_command_800C9930( WatcherWork* work )
             return;
         }
     }
+#endif
 
     switch ( GM_NoisePower )
     {
@@ -142,6 +160,7 @@ void s00a_command_800C9930( WatcherWork* work )
     }
     work->field_BA1 |= 1;
 }
+#endif
 
 void s00a_command_800C9ACC( WatcherWork *work )
 {

@@ -28,8 +28,15 @@ extern int           COM_SHOOTRANGE;
 extern unsigned int  ENE_SPECIAL_FLAG;
 #endif
 
+#ifdef VR_MYSTERY
+const char aNowzonedrzoned[] = " now zone = %d r_zone=%d\n";
+#endif
 const char aErrerrerrnotlinkroutedtod_800E0690[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
 const char aErrnozoneidingcl_800E06C0[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
+#ifdef VR_MYSTERY
+const char aRestrictedzoned[] = " restricted zone = %d \n";
+const char aBeforezoned[] = " before zone = %d \n";
+#endif
 const char aKirari_800E06E8[] = "kirari01";
 const char aBefmapnamed_800E06F4[] = "bef map name =%d \n";
 const char aAftmapnamed_800E0708[] = "aft map name =%d \n";
@@ -42,7 +49,11 @@ int s00a_dword_800C3524[32] =
     0x00000000, 0x00000001, 0x00000002, 0x00000004,
     0x00002000, 0x00000040, 0x00000080, 0x00000200,
     0x00000400, 0x00000800, 0x00000100, 0x00800000,
+#ifdef VR_MYSTERY
+    0x01000000, 0x04000000, 0x08000000, 0x10000000,
+#else
     0x01000000, 0x04000000, 0x08000000, 0x00000000,
+#endif
     0x00000000, 0x00000001, 0x00000002, 0x00000004,
     0x00002000, 0x00000040, 0x00000080, 0x00000200,
     0x00000400, 0x00000800, 0x00000000, 0x00000000,
@@ -89,6 +100,9 @@ int s00a_command_800CA8E0( WatcherWork *work, int addr_in )
 
     for (  ;; )
     {
+#ifdef VR_MYSTERY
+        printf( (char *)aNowzonedrzoned, addr, addr_in );
+#endif
         temp = addr & 0xFF;
         res = HZD_Navigate( hzd, temp | ( temp << 8 ), local_addr, &svec );
         if ( res == addr )
@@ -158,7 +172,16 @@ void s00a_command_800CAB74( WatcherWork* work )
 
     if ( work->field_C34 && s00a_command_800CA898( work , zone ) )
     {
+#ifdef VR_MYSTERY
+        int new_addr;
+
+        printf( (char *)aRestrictedzoned, addr );
+        new_addr = s00a_command_800CA8E0( work, addr );
+        printf( (char *)aBeforezoned, new_addr );
+        s00a_command_800CAA2C( work, new_addr );
+#else
         s00a_command_800CAA2C( work, s00a_command_800CA8E0( work, addr ) );
+#endif
         return;
     }
 
@@ -332,7 +355,7 @@ void s00a_command_800CAFD4( WatcherWork* work )
     addr = EnemyCommand.com_addr;
     if ( s00a_command_800CA898( work, &work->control.map->hzd->def->zones[ addr ] ) )
     {
-#ifdef VR_EXE
+#if defined(VR_EXE) && !defined(VR_MYSTERY)
         HZD_ZON *zone;
         int      next;
 

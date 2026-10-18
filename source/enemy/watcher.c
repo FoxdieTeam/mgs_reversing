@@ -18,11 +18,15 @@
 #include "enemy/glight.h"       // for NewGunLight
 #ifdef VR_EXE
 #include "equip/equip.h"        // for NewKogaku2
+#include "enemy/asiato2.h"      // for NewAsiato2
 
 #define BLOOD_KOGAKU 'K'        /* param_blood: soldier wears stealth camouflage */
 #endif
 
 int s00a_dword_800C3328[8]  = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
+#ifdef VR_MYSTERY
+SVECTOR MYSTERY_TARGET_SIZE = { 300, 750, 300, 0 };     // hit box with MYST_SMALL_TARGET
+#endif
 unsigned short s00a_dword_800C3348[8] = { 450, 15, 30, 60, 90, 0, 32001, 30000 };
 
 extern ENEMY_COMMAND  EnemyCommand;
@@ -39,7 +43,11 @@ const char aErrerrerrsettimeover_800DFC7C[] = "Err Err Err  Set time Over\n";
 const char aErrerrerrsetdirover_800DFC98[] = "Err Err Err  Set Dir Over\n";
 const char aErrnotenoughwork_800DFCB4[] = "Err not enough work !!\n";
 const char aWatcharcactionpointerr_800DFCCC[] = "watchar.c : action point Err\n";
+#ifdef VR_MYSTERY
+const char aWatcherc_800DFCEC[] = "mystery.c";
+#else
 const char aWatcherc_800DFCEC[] = "watcher.c";
+#endif
 
 /*  ルート変更フラグチェック
     指定フラグが立てば次のルートへ変更
@@ -105,6 +113,11 @@ int RootFlagCheck_800C3EE8( WatcherWork* work )
         case 0x566D:
             work->param_item = 1;
             break;
+#ifdef VR_MYSTERY
+        case 0xD359:
+            work->field_C58 &= ~MYST_FLAG_100;
+            break;
+#endif
         }
     }
     return 0;
@@ -273,7 +286,18 @@ void InitTarget_800C444C( WatcherWork *work )
     life   = work->param_life;
     faint  = work->param_faint;
 
+#ifdef VR_MYSTERY
+    if ( work->field_C58 & MYST_SMALL_TARGET )
+    {
+        GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &MYSTERY_TARGET_SIZE );
+    }
+    else
+    {
+        GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ENEMY_TARGET_SIZE );
+    }
+#else
     GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ENEMY_TARGET_SIZE );
+#endif
     GM_SetPowerTarget( target, POWER_DECREASE, -1, life, faint, &ENEMY_TARGET_FORCE );
     GM_SetCaptureTarget( target, -1, faint, NULL, NULL);
 
@@ -307,7 +331,9 @@ void s00a_watcher_800C4578( WatcherWork* work )
 int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 {
     int i;
+#ifndef VR_MYSTERY
     int has_kmd;
+#endif
     char *opt, *opt2;
     CONTROL *ctrl;
     OBJECT  *body;
@@ -332,7 +358,21 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     body  = &work->body;
     arm = &work->weapon;
 
+#ifdef VR_MYSTERY
+    /* FIXME: the model names of the mystery soldier are not known (GV_StrCode of unknown strings).
+       The two calls instead of a ?: steer gcc's jump optimizer (the original has the duplicated arguments setup
+       of a cross-jumped tail). */
+    if ( work->field_C58 & MYST_NEW_MODEL )
+    {
+        GM_InitObject( body, 0xB4A3, 0x32D, OAR_ENEMY ) ;
+    }
+    else
+    {
+        GM_InitObject( body, KMD_IPPANHEI, 0x32D, OAR_ENEMY ) ;
+    }
+#else
     GM_InitObject( body, KMD_IPPANHEI, 0x32D, OAR_ENEMY ) ;
+#endif
     GM_ConfigObjectJoint( body ) ;
     GM_ConfigMotionControl( body, &work->m_ctrl, OAR_ENEMY, work->m_segs1, work->m_segs2, ctrl, work->rots );
     GM_ConfigObjectLight( body, work->light );
@@ -344,6 +384,23 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
         work->field_B7B = GCL_StrToInt( opt2 );
     }
 
+#ifdef VR_MYSTERY
+    if ( work->field_B7B == 1 )
+    {
+        work->def = body->objs->def;
+        /* FIXME: two complete calls (not an argument selected by ?:) keep cse from replacing the constant stored to
+           has_kmd by the register of the compared field_B7B (the original doesn't) */
+        if ( work->field_C58 & MYST_NEW_MODEL )
+        {
+            work->kmd = GV_GetCache( GV_CacheID( 0x92BF, 'k' ) );
+        }
+        else
+        {
+            work->kmd = GV_GetCache( GV_CacheID( KMD_LOPRYHEI, 'k' ) );
+        }
+        work->has_kmd = 1;
+    }
+#else
     has_kmd = work->field_B7B;
     if ( has_kmd == 1 )
     {
@@ -351,8 +408,14 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
         work->kmd = GV_GetCache( GV_CacheID( KMD_LOPRYHEI, 'k' ) );
         work->has_kmd = has_kmd;
     }
+#endif
 
+#ifdef VR_MYSTERY
+    /* FIXME: work->body instead of the body pointer, as in the original */
+    work->hom = GM_SetHomingTarget( &work->body.objs->objs[6].world, ctrl );
+#else
     work->hom = GM_SetHomingTarget( &body->objs->objs[6].world, ctrl );
+#endif
     GM_InitObject( arm, KMD_FAMAS, 0x6D, 0 );
     GM_ConfigObjectLight( arm, work->light ) ;
     GM_ConfigObjectRoot( arm, body, 4 );
@@ -553,12 +616,43 @@ int s00a_watcher_800C4B18( WatcherWork* work )
     return 0;
 }
 
+#ifdef VR_MYSTERY
+/* Soldiers that start on a point with the action 0xD ... are put in a fixed pose (FIXME: exact meaning not known) */
+static void MysteryInitPose( WatcherWork *work )
+{
+    if ( ( work->nodes[0].pad & 0x1F ) == 0xD )
+    {
+        GM_ConfigObjectAction( &work->body, 0x11, 0, 0 );
+        work->unknown.last_set = 0x11;
+        work->pad.tmp = 0x04000000;
+        work->pad.time = 32001;
+        work->pad.dir = 0xC00;
+        ENE_SetLieDownMode( work );
+        work->think1 = 0;
+        work->think2 = 0;
+        work->think3 = 2;
+        work->think4 = 0;
+        work->control.height = work->body.height;
+        work->control.rot.vy = work->control.turn.vy = work->pad.dir;
+    }
+}
+#endif
+
 void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 {
     SVECTOR svec;
     int addr;
     char *opt;
     int i;
+
+#ifdef VR_MYSTERY
+    work->field_C58 = 0;
+    opt = GCL_GetOption( 'k' );
+    if ( opt )
+    {
+        work->field_C58 = GCL_StrToInt( ( char* )opt );
+    }
+#endif
 
     s00a_watcher_800C45D4( work, name, where ) ;
     work->field_B78 = s00a_command_800CEA2C( work ) ;
@@ -601,6 +695,13 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     if ( work->param_blood == BLOOD_KOGAKU )
     {
         WatcherInitKogaku( work );
+    }
+#endif
+
+#ifdef VR_MYSTERY
+    if ( work->field_C58 & MYST_FOOTPRINTS )
+    {
+        work->field_C5C = (int)NewAsiato2( &work->control, &work->body, 1800, &work->field_C30 );
     }
 #endif
 
@@ -669,7 +770,11 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
         work->param_area = GCL_StrToInt( ( char* )opt );
     }
 
+#ifdef VR_MYSTERY
+    if ( work->param_area == 'S' && !( work->field_C58 & MYST_FLAG_08 ) ) ENE_SetPutChar( work, PUTBREATH ) ; /* 白い息はく */
+#else
     if ( work->param_area == 'S' ) ENE_SetPutChar( work, PUTBREATH ) ; /* 白い息はく */
+#endif
     work->scale = 4096 ;            /* スケール */
 
     if ( ( opt = GCL_GetOption( 's' ) ) != NULL ) work->scale += GCL_StrToInt( ( char* )opt );
@@ -759,9 +864,20 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->field_BF0 = addr;
 
     work->field_C14 = work->start_pos;
+
+#ifdef VR_MYSTERY
+    if ( work->field_C58 & ( MYST_FLAG_08 | MYST_FLAG_40 ) )
+    {
+        MysteryInitPose( work );
+    }
+#endif
 }
 
+#ifdef VR_MYSTERY
+void *NewMystery(int name, int where, int argc, char **argv)
+#else
 void *NewSnakeWatcher(int name, int where, int argc, char **argv)
+#endif
 {
     WatcherWork *work ;
 

@@ -329,6 +329,7 @@ def symbolize(data, base, start, end, syms, strings, name, report, globls=()):
         out.append('\t' + fmt(i, labels, syms, sym_for, report))
     out.append('\t.set\tmacro')
     out.append('\t.set\treorder')
+    out.append('\t.set\tat')   # the C code that follows may need $at (e.g. rem/div macros)
     if jt_out or str_out:
         out.append('\t.rdata')
         out.append('\t.align\t2')

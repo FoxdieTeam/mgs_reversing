@@ -181,6 +181,20 @@ typedef struct _WatcherWork
 #endif
 } WatcherWork;
 
+#ifdef VR_MYSTERY
+// WatcherWork.field_C58: feature flags of the "mystery" soldier (GCL option 'k')
+#define MYST_FOOTPRINTS 0x01    // leaves footprints (asiato2), the pointer is kept in field_C5C
+#define MYST_FLAG_02    0x02    // other pain/get up animations (ACTION26/ACTION53 instead of 37/44), dies when its faint reaches 0
+#define MYST_RUN        0x04    // always runs instead of walking, a bit faster
+#define MYST_FLAG_08    0x08    // no white breath; with MYST_FLAG_40 the first path point may start the soldier lying down
+#define MYST_SMALL_TARGET 0x10  // smaller hit box (MYSTERY_TARGET_SIZE)
+#define MYST_FLAG_20    0x20    // pushed up (unknown.field_04) while it is knocked down
+#define MYST_FLAG_40    0x40    // see MYST_FLAG_08
+#define MYST_NEW_MODEL  0x80    // uses the other body model (and low poly model)
+#define MYST_FLAG_100   0x100   // swaps the VR_ST_HOLD_C/D flag of a held 'C'/'E' soldier (set from the pad, cleared by msg 0xD359)
+#define MYST_EXEC_PROC  0x200   // calls the GCL proc field_C3C ('e' option) when killed
+#endif
+
 typedef struct _ZakoWork
 {
     GV_ACT         actor;
@@ -600,6 +614,9 @@ void ENE_PutMark( WatcherWork *work, int mark ) ;
 void ENE_PutBlood( WatcherWork *work, int put, int i ) ;
 void ENE_PutItem( WatcherWork *work ) ;
 int  ENE_SetPutChar( WatcherWork *work, int put ) ;
+#ifdef VR_MYSTERY
+void ENE_SetLieDownMode( WatcherWork *work ) ;
+#endif
 
 void ENE_PutFog( WatcherWork *work ) ;
 int  ENE_ClearPutChar( WatcherWork *work, void *func ) ;
@@ -625,6 +642,27 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define SP_DANBOWLKERI 0x400000
 #ifdef VR_EXE
 #define SP_HEARTBEAT   0x8000000
+#endif
+#ifdef VR_MYSTERY
+#define SP_LIE_DOWN    0x4000000
+#define SP_AIM_ONCE    0x10000000
+#define SP_ALERT_GESTURE 0x800000
+
+// Sound effects of the VR sound table used by the mystery soldier (FIXME: names not known)
+#define SE_MYSTERY_KNOCKED      0xD4
+#define SE_MYSTERY_HEARTBEAT    0xD5
+#define SE_MYSTERY_GESTURE      0xD9
+#define SE_MYSTERY_GETUP        0xDE
+#define SE_MYSTERY_BIG_THROWN   0xCF
+#define SE_MYSTERY_BIG_HITFLOOR 0xD8
+#define SE_MYSTERY_BIG_GRABBED  0xD0
+#define SE_MYSTERY_BIG_SNAPPED  0xD1
+#define SE_MYSTERY_BIG_PUNCHED  0xCE
+
+#define MSG_MYSTERY_SEIZURE     0xB2D0  // FIXME: GV_StrCode of an unknown string
+
+// Soldiers with a scale (GCL option 's') of 2000 or more are giants that use other voices/sounds
+#define MYST_BIG_SCALE          0x1771
 #endif
 
 #define ACTINTERP   4
@@ -681,6 +719,9 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define ACTION49    49 //SAME ID AS 40
 #define ACTION50    50 //SAME ID AS 41
 #define ACTION51    51 //SAME ID AS 42
+#ifdef VR_MYSTERY
+#define ACTION53    53
+#endif
 
 typedef void    ( *ACTION )( WatcherWork *, int ) ;
 
@@ -788,6 +829,13 @@ void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 #ifdef VR_EXE
 void ActLieDown( WatcherWork *work, int time );
 void ActHeartbeat( WatcherWork *work, int time );
+#ifdef VR_MYSTERY
+void ActAimOnce_800C83C4( WatcherWork *work, int time );
+void ActKnockedBack_800C80D8( WatcherWork *work, int time );
+void ActGetUp_800C82EC( WatcherWork *work, int time );
+void ActSeizure_800C843C( WatcherWork *work, int time );
+void ActMysteryShoot_800C861C( WatcherWork *work, int time );
+#endif
 #endif
 
 //think.c ?
