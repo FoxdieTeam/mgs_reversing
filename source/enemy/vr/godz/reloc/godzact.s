@@ -3438,7 +3438,7 @@ $Lvcd_n05_800C799C_1:
 	nop
 	addu	$4,$17,$0
 $Lvcd_n05_800C799C_2:
-	jal	vcd_n05_800C89A0
+	jal	AN_HeadMark
 	addu	$5,$18,$0
 	sw	$2,2928($16)
 	addiu	$2,$0,30
