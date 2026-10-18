@@ -56,6 +56,8 @@ extern SVECTOR njp_stru_8009EFD4[3][2];
 extern Target_Data njp_stru_8009EFE4;
 extern SVECTOR njp_svector_800AB7FC;
 
+void njp_FreeTargets(SnaInitWork *work);
+
 #define GetAction( work ) (work->body.action)
 #define SEGMENT_ATR ( HZD_SEG_NO_COLLIDE )
 #define TARGET_FLAG ( TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
@@ -448,7 +450,92 @@ void njp_sna_clear_invuln_8004F2EC(SnaInitWork *work)
     work->field_89C_pTarget->class |= TARGET_FLAG;
 }
 
+// @800C2E00 njp_sub_8004F338
+void njp_sub_8004F338(SnaInitWork *work)
+{
+    if (njp_GM_CheckPlayerStatusFlag(PLAYER_INTRUDE))
+    {
+        work->field_A56 = 0;
+        njp_GM_ClearPlayerStatusFlag(PLAYER_MENU_DISABLE
+                                 | PLAYER_NORMAL_WATCH
+                                 | PLAYER_WATCH);
+    }
+    else
+    {
+        njp_sna_8004EC00(work);
+    }
+
+    njp_sna_clear_invuln_8004F2EC(work);
+    work->field_A24_invuln_frames = 0;
+    njp_sna_sub_8004E41C(work, 2);
+    GM_ConfigMotionAdjust(&work->body, 0);
+    njp_sna_8004E260(work, 0, 4, 0);
+
+    GM_ExitBehindCamera();
+
+    GM_PlayerStatus &= PLAYER_SECOND_AVAILABLE | PLAYER_NOT_SIGHT |
+                       PLAYER_GAME_OVER | PLAYER_CB_BOX | PLAYER_INTRUDE |
+                       PLAYER_ACT_ONLY | PLAYER_SQUAT | PLAYER_GROUND;
+
+    work->field_A28 = 0x1c2;
+    work->field_894_flags1 &= (SNA_FLAG1_UNK20 | SNA_FLAG1_UNK28 | SNA_FLAG1_UNK29);
+    work->control.skip_flag &= ~CTRL_BOTH_CHECK;
+    njp_FreeTargets(work);
+    GM_GameStatus &= ~STATE_DAMAGED;
+    work->njp_mode = 3;
+}
+
+// @800C2EF0 njp_sub_8004F454
+void njp_sub_8004F454(SnaInitWork *work)
+{
+    int i;
+
+    njp_GM_ClearPlayerStatusFlag(PLAYER_MOVE | PLAYER_ATTACK | PLAYER_CHECK_WALL);
+    GM_ConfigMotionAdjust(&work->body, NULL);
+
+    for (i = 0; i < SNAKEJOINT_NUM; i++)
+    {
+        work->adjust[i] = DG_ZeroVector;
+    }
+
+    njp_sna_8004E260(work, 0, 4, 0);
+    njp_sna_sub_8004E41C(work, 2);
+    njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK2 | SNA_FLAG1_UNK3 | SNA_FLAG1_UNK13 | SNA_FLAG1_UNK26 | SNA_FLAG1_UNK30);
+
+    if (njp_GM_CheckPlayerStatusFlag(PLAYER_CAUTION) == 0)
+    {
+        work->field_A28 = 450;
+        GM_ExitBehindCamera();
+    }
+
+    work->control.skip_flag &= ~CTRL_BOTH_CHECK;
+    njp_FreeTargets(work);
+    GM_GameStatus &= ~STATE_DAMAGED;
+    work->njp_mode = 3;
+}
+
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_0.s")
+//ASM-END
+
+// @800C48EC njp_nop_800C48EC
+void njp_nop_800C48EC(void)
+{
+}
+
+// @800C48F4 njp_FreeTargets
+void njp_FreeTargets(SnaInitWork *work)
+{
+    int i;
+
+    for (i = 0; i < work->njp_num_targets; i++)
+    {
+        GM_FreeTarget(work->njp_targets[i]);
+    }
+
+    work->njp_num_targets = 0;
+}
+
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
 //ASM-END
 
 // @800C6244 njp_sna_80051A10
@@ -564,7 +651,7 @@ int njp_sna_80051BA4(SnaInitWork *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
 //ASM-END
 
 // @800C67B0 njp_sna_80051FD0
@@ -610,7 +697,7 @@ void njp_sna_80051FD0(SnaInitWork *work)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
 //ASM-END
 
 // @DATA
@@ -652,6 +739,7 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
 
 
 

@@ -309,6 +309,12 @@ typedef struct SnaInitWork
     SVECTOR        field_A60;
     SVECTOR        field_A68;
     int            field_A70;
+#ifdef VR_NINJA
+    TARGET        *njp_targets[3]; // extra targets of the ninja (freed by njp_FreeTargets)
+    int            njp_num_targets;
+    int            njp_mode;
+    int            njp_field_9E4;
+#endif
 } SnaInitWork;
 
 typedef void * (*TSnakeEquipFuncion)(CONTROL *, OBJECT *, int);
