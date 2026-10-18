@@ -66,7 +66,7 @@ int GodzTargetsAllHit( GodzWork *work )
     return 1;
 }
 
-void GodzCheckHit( GodzWork *work )
+void GodzSenseHit( GodzWork *work )
 {
     if ( !( work->modetime[7] & 4 ) )
     {
@@ -227,7 +227,7 @@ void GodzCheckSenses( GodzWork* work )
 
     if ( GodzCommand.mode != TOP_COMM_ALERT )
     {
-        GodzCheckHit( work );
+        GodzSenseHit( work );
         GodzCheckSnakeBox( work );
         GodzCheckFootprints( work );
     }
