@@ -185,17 +185,17 @@
    "800C35BC"
   ],
   [
-   "njp_800C35BC",
+   "njp_sna_800C35BC",
    "800C35BC",
    "800C3640"
   ],
   [
-   "njp_800C3640",
+   "njp_sna_se_800C3640",
    "800C3640",
    "800C36EC"
   ],
   [
-   "njp_800C36EC",
+   "njp_sna_se_800C36EC",
    "800C36EC",
    "800C3738"
   ],
@@ -624,6 +624,9 @@
   "njp_sna_act_unk_helper4_8004FA3C",
   "njp_sna_800C3318",
   "njp_sna_stealth_800C33C8",
+  "njp_sna_800C35BC",
+  "njp_sna_se_800C3640",
+  "njp_sna_se_800C36EC",
   "njp_sna_8004FDE8",
   "njp_nop_800C48EC",
   "njp_FreeTargets",

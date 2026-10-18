@@ -730,8 +730,84 @@ void njp_sna_stealth_800C33C8(SnaInitWork *work)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_0.s")
-//ASM-END
+// @800C35BC njp_sna_800C35BC
+// adds a step of "len" in direction "dir" to the movement
+void njp_sna_800C35BC(SnaInitWork *work, int dir, int len)
+{
+    MATRIX  mtx;
+    SVECTOR rot;
+
+    if (dir >= 0)
+    {
+        rot.vz = 0;
+        rot.vx = 0;
+        rot.vy = dir;
+        RotMatrixYXZ(&rot, &mtx);
+        rot.vy = 0;
+        rot.vx = 0;
+        rot.vz = len;
+        ApplyMatrixSV(&mtx, &rot, &rot);
+        GV_AddVec3(&work->control.step, &rot, &work->control.step);
+    }
+}
+
+// @800C3640 njp_sna_se_800C3640
+void njp_sna_se_800C3640(SVECTOR *pos, int type, int param)
+{
+    int se = 0;
+
+    switch (type)
+    {
+    case 5:
+        if (param == 0)
+        {
+            se = 168;
+        }
+        else if (param == 10)
+        {
+            se = 169;
+        }
+        break;
+
+    case 13:
+        if (param == 3)
+        {
+            se = 205;
+        }
+        break;
+
+    case 14:
+        if (param == 3 || param == 14)
+        {
+            se = 205;
+        }
+        break;
+    }
+
+    if (se != 0)
+    {
+        GM_SeSetMode(pos, se, 1);
+    }
+}
+
+// @800C36EC njp_sna_se_800C36EC
+void njp_sna_se_800C36EC(SVECTOR *pos, int type, int param)
+{
+    int se = 0;
+
+    if (type == 26)
+    {
+        if (param == 3 || param == 14)
+        {
+            se = 205;
+        }
+    }
+
+    if (se != 0)
+    {
+        GM_SeSetMode(pos, se, 1);
+    }
+}
 
 // @800C3738 njp_sna_8004FDE8
 int njp_sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
@@ -774,7 +850,7 @@ int njp_sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
     return 0;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_0.s")
 //ASM-END
 
 // @800C48EC njp_nop_800C48EC
@@ -795,7 +871,7 @@ void njp_FreeTargets(SnaInitWork *work)
     work->njp_num_targets = 0;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
 //ASM-END
 
 // @800C6244 njp_sna_80051A10
@@ -911,7 +987,7 @@ int njp_sna_80051BA4(SnaInitWork *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
 //ASM-END
 
 // @800C67B0 njp_sna_80051FD0
@@ -957,7 +1033,7 @@ void njp_sna_80051FD0(SnaInitWork *work)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_4.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
 //ASM-END
 
 // @DATA
@@ -999,6 +1075,8 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
 
 
 
