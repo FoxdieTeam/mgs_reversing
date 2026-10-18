@@ -14,3 +14,11 @@ $S 800D9904 --name VrClearDrawResult --map $MAP --symfile source/koba/vr/reloc/v
    --string 800DF4B4=vrclear_str_record --string 800DF4BC=vrclear_ranks:ptrs:4 \
    --globl vrclear_fmt_s --string 800DF4CC=vrclear_fmt_s --string 800DF4D0=vrclear_fmt_d \
    --string 800DF4D4=vrclear_str_bullet --string 800DF4E0=vrclear_str_bonus3 --string 800DF4F8=vrclear_str_bonus1 --out source/koba/vr/reloc/VrClearDrawResult.s
+
+# vrbox4.c (UFO mission revision of vrbox.c, original in the vcd_n04 overlay)
+OV4=$OV/vcd_n04.bin
+MAP4=${MAP4:-obj_vr/asm_vcd_n04_lhs.map}
+S4="python3 build/symbolize_asm.py $OV4"
+$S4 800D0C24 --name VrBox4Act --map $MAP4 --symfile source/koba/vr/reloc/vrbox4.syms --out source/koba/vr/reloc/VrBox4Act.s
+$S4 800D050C --name VrBox4InitShadow --map $MAP4 --symfile source/koba/vr/reloc/vrbox4.syms \
+   --string 800D4784=vrbox4_str_shadow --out source/koba/vr/reloc/VrBox4InitShadow.s
