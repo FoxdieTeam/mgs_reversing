@@ -81,11 +81,16 @@ typedef struct _Work
 int s03e_dword_800C32B4 = 0x00000000;
 int s03e_dword_800C32B8 = 0x00000000;
 int s03e_dword_800C32BC = 0x00000000;
+#ifdef VR_EXE
+int s03e_dword_800CC6BC = 0x00000000; // VR revision: initialized data instead of bss
+#endif
 
 RECT guncame_rect = {80, 80, 160, 160};
 SVECTOR guncame_svec = {300, 300, 300, 0};
 
+#ifndef VR_EXE
 int SECTION(".bss") s03e_dword_800CC6BC;
+#endif
 
 extern int     dword_8009F480;
 extern int     s03e_dword_800C32B8;
@@ -316,6 +321,10 @@ void GunCame_800C73D0(Work *work)
     DG_SetPos2(&work->field_338, &work->control.rot);
     ReadRotMatrix(&pos);
 
+#ifdef VR_EXE
+    /* VR revision: fixed damage, no demo check and no difficulty levels */
+    NewBulletEx(BULLET_RECOILSPARK, &pos, 0, 1, 0, 30, 80, work->field_364, 2000);
+#else
     if (GM_GameStatus & (STATE_DEMO | STATE_PADDEMO | STATE_PADRELEASE))
     {
         NewBulletEx(BULLET_RECOILSPARK, &pos, 0, 1, 0, 30, 0, work->field_364, 2000);
@@ -343,6 +352,7 @@ void GunCame_800C73D0(Work *work)
             break;
         }
     }
+#endif
 
     AN_Unknown_800D6BCC(&work->field_338, &work->control.rot);
 }
@@ -1361,7 +1371,9 @@ void *NewGunCamera(int name, int where, int argc, char **argv)
             return NULL;
         }
         work->map = where;
+#ifndef VR_EXE
         s03e_dword_800C32B4++;
+#endif
     }
     return (void *)work;
 }
