@@ -488,7 +488,14 @@ def gen_build_target(targetName):
         relocAsm = []
         if "overlays/" not in cFile:
             with open(cFile, encoding="utf8", errors="replace") as cf:
-                relocAsm = re.findall(r'^#pragma\s+INCLUDE_ASM_RELOC\s*\(\s*"([^"]+)"', cf.read(), re.M)
+                cText = cf.read()
+            relocAsm = re.findall(r'^#pragma\s+INCLUDE_ASM_RELOC\s*\(\s*"([^"]+)"', cText, re.M)
+            # C files that include another C file (e.g. enemy/vr/mystery.c includes enemy/watcher.c)
+            for incFile in re.findall(r'^#include\s+"([^"]+\.c)"', cText, re.M):
+                incPath = os.path.join("..", "source", incFile)
+                if os.path.exists(incPath):
+                    with open(incPath, encoding="utf8", errors="replace") as cf:
+                        relocAsm += re.findall(r'^#pragma\s+INCLUDE_ASM_RELOC\s*\(\s*"([^"]+)"', cf.read(), re.M)
 
         if relocAsm:
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile,

@@ -181,6 +181,17 @@ typedef struct _WatcherWork
 #endif
 } WatcherWork;
 
+#ifdef VR_MYSTERY
+// WatcherWork.field_C58: feature flags of the "mystery" soldier (GCL option 'k')
+#define MYST_FOOTPRINTS 0x01    // leaves footprints (asiato2), the pointer is kept in field_C5C
+#define MYST_FLAG_04    0x04
+#define MYST_FLAG_08    0x08
+#define MYST_SMALL_TARGET 0x10  // smaller hit box (MYSTERY_TARGET_SIZE)
+#define MYST_FLAG_40    0x40
+#define MYST_NEW_MODEL  0x80    // uses the other body model (and low poly model)
+#define MYST_FLAG_100   0x100
+#endif
+
 typedef struct _ZakoWork
 {
     GV_ACT         actor;
@@ -600,6 +611,9 @@ void ENE_PutMark( WatcherWork *work, int mark ) ;
 void ENE_PutBlood( WatcherWork *work, int put, int i ) ;
 void ENE_PutItem( WatcherWork *work ) ;
 int  ENE_SetPutChar( WatcherWork *work, int put ) ;
+#ifdef VR_MYSTERY
+void ENE_ResetAction( WatcherWork *work ) ;
+#endif
 
 void ENE_PutFog( WatcherWork *work ) ;
 int  ENE_ClearPutChar( WatcherWork *work, void *func ) ;
