@@ -1,4 +1,5 @@
 #include "mgstype.h"
 
 
-const char vijkl_04_dword_800E3310[] = "furnace.c";
+
+int SECTION(".bss") vijkl_04_dword_800E3D84;

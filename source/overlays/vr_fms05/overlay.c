@@ -1,45 +1,5 @@
 #include "mgstype.h"
 
-int vr_fms05_dword_800C15AC = 0x00000000;
-int vr_fms05_dword_800C15B0 = 0x00000000;
-int vr_fms05_dword_800C15B4 = 0x00000000;
-int vr_fms05_dword_800C15B8 = 0x00000000;
-int vr_fms05_dword_800C15BC = 0x00500050;
-int vr_fms05_dword_800C15C0 = 0x00A000A0;
-int vr_fms05_dword_800C15C4 = 0x012C012C;
-int vr_fms05_dword_800C15C8 = 0x0000012C;
 
-const int vr_fms05_dword_800E47BC = 0xFFB00000;
-const int vr_fms05_dword_800E47C0 = 0x00000000;
-const char vr_fms05_dword_800E47C4[] = "kill";
-const int vr_fms05_dword_800E47CC = 0xFEC6BBB2;
-const int vr_fms05_dword_800E47D0 = 0xEBA4ECA4;
-const int vr_fms05_dword_800E47D4 = 0x00000000;
-const int vr_fms05_dword_800E47D8 = 0xDAC0BBB2;
-const int vr_fms05_dword_800E47DC = 0x0000EBA4;
-const int vr_fms05_dword_800E47E0 = 0xCFCEEBBB;
-const int vr_fms05_dword_800E47E4 = 0xB9A4E1CC;
-const int vr_fms05_dword_800E47E8 = 0x00000000;
-const int vr_fms05_dword_800E47EC = 0xCFCEEBBB;
-const int vr_fms05_dword_800E47F0 = 0xAFA4B5CC;
-const int vr_fms05_dword_800E47F4 = 0x0000B9A4;
-const int vr_fms05_dword_800E47F8 = 0xFDCDE8BD;
-const int vr_fms05_dword_800E47FC = 0xABB3C6BA;
-const int vr_fms05_dword_800E4800 = 0x00000000;
-const int vr_fms05_dword_800E4804 = 0xFDCDE8BD;
-const int vr_fms05_dword_800E4808 = 0xDFBBE4C4;
-const int vr_fms05_dword_800E480C = 0x00000000;
-const int vr_fms05_dword_800E4810 = 0x00000000;
-const int vr_fms05_dword_800E4814 = 0x800D3444;
-const int vr_fms05_dword_800E4818 = 0x800D3454;
-const int vr_fms05_dword_800E481C = 0x800D3460;
-const int vr_fms05_dword_800E4820 = 0x800D3468;
-const int vr_fms05_dword_800E4824 = 0x800D3474;
-const int vr_fms05_dword_800E4828 = 0x800D347C;
-const int vr_fms05_dword_800E482C = 0x800D3484;
-const int vr_fms05_dword_800E4830 = 0xFF6A0000;
-const int vr_fms05_dword_800E4834 = 0x0000FE70;
-const char vr_fms05_dword_800E4838[] = "camera_l";
-const char vr_fms05_dword_800E4844[] = "gca_gun";
-const char vr_fms05_dword_800E484C[] = "gca_arm";
-const char vr_fms05_dword_800E4854[] = "guncame.c";
+
+int SECTION(".bss") vr_fms05_dword_800E5464;

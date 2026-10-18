@@ -2,4 +2,4 @@
 
 
 
-int SECTION(".bss") vr_nkt04_dword_800E65F4;
+int SECTION(".bss") vr_nkt04_dword_800E665C;

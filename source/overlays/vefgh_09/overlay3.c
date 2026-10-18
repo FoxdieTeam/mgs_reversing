@@ -2,4 +2,4 @@
 
 
 
-int SECTION(".bss") vefgh_09_dword_800E52B4;
+int SECTION(".bss") vefgh_09_dword_800E5394;
