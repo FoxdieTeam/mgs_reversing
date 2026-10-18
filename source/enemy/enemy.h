@@ -559,7 +559,25 @@ typedef struct _ZAKO11F_COMMAND
 #define TOP_COMM_EVASION 2
 
 /* COM_GameStatus flags */
+#define COM_ST_VR_4000      0x4000  /* VR: set by a GCL message (FIXME: meaning not known), the soldiers then see nothing */
 #define COM_ST_SHARE_TARGET 0x4 /* VR: enemies publish their route target in COM_PlayerAddressOne/PositionOne */
+
+/* bikkuri_flag bits (command.c): COM_CallBikkuriSe ORs the kind of source and BIKKURI_CALLED */
+#define BIKKURI_CALLED      0x1
+#define BIKKURI_FLAG_2      0x2     /* set by the commander while no soldier is alerted (FIXME: exact meaning) */
+#define BIKKURI_SOLDIER     0x10
+#define BIKKURI_CAMERA      0x20
+#define BIKKURI_SEARCHLIGHT 0x40
+#ifdef VR_EXE
+#define BIKKURI_HOLD_C      0x100   /* a 'C'/'E' soldier is being held */
+#define BIKKURI_HOLD_D      0x200   /* a 'D'/'F' soldier is being held */
+#define BIKKURI_MINENE      0x400   /* the minene soldier "bikkuri" */
+#define BIKKURI_TOP         0x80000000
+
+void COM_SetBikkuriFlagTop( void );
+void COM_SetBikkuriFlag( int flag );
+void COM_ResetBikkuriFlag( int flag );
+#endif
 
 void  COM_CallBikkuriSe( SVECTOR *mov , int n );
 int  s00a_command_800CEA2C( WatcherWork *work );
@@ -640,9 +658,9 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define SP_WEAPON      0x10000
 #define SP_WEAPON2     0x20000
 #define SP_DANBOWLKERI 0x400000
-#ifdef VR_EXE
+#define SP_ALERT_GESTURE 0x800000
+#define SP_LIE_DOWN    0x4000000
 #define SP_HEARTBEAT   0x8000000
-#endif
 #ifdef VR_MINENE
 // Sound effects of the VR sound table used by the minene soldier (FIXME: names not known)
 #define SE_MINENE_PUNCHED       0x18
@@ -655,9 +673,7 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #endif
 
 #ifdef VR_MYSTERY
-#define SP_LIE_DOWN    0x4000000
 #define SP_AIM_ONCE    0x10000000
-#define SP_ALERT_GESTURE 0x800000
 
 // Sound effects of the VR sound table used by the mystery soldier (FIXME: names not known)
 #define SE_MYSTERY_KNOCKED      0xD4
@@ -670,11 +686,26 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define SE_MYSTERY_BIG_SNAPPED  0xD1
 #define SE_MYSTERY_BIG_PUNCHED  0xCE
 
+#define MSG_MYSTERY_CLEAR_FLAG_100 0xD359   // FIXME: GV_StrCode of an unknown string; clears MYST_FLAG_100
 #define MSG_MYSTERY_SEIZURE     0xB2D0  // FIXME: GV_StrCode of an unknown string
 
 // Soldiers with a scale (GCL option 's') of 2000 or more are giants that use other voices/sounds
 #define MYST_BIG_SCALE          0x1771
 #endif
+
+// Virtual sound ids: a soldier puts one in pad.sound, the commander resolves it to a real SE (voice or radio call,
+// see s00a_command_800CF13C) for the soldier that is closest to the player. Real SE ids are below 240.
+enum
+{
+    ENE_VSE_0 = 240,
+    ENE_VSE_1 = 241,
+    ENE_VSE_2 = 242,
+    ENE_VSE_3 = 243,
+    ENE_VSE_4 = 244,
+    ENE_VSE_5 = 245,
+    ENE_VSE_6 = 246,
+    ENE_VSE_7 = 247
+};
 
 #define ACTINTERP   4
 

@@ -1049,6 +1049,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             if ( ctrl->mov.vy - ctrl->levels[0] < 2000 )
             {
 #ifdef VR_ENE_SE
+                // FIXME: &ctrl->mov here but &work->control.mov in the plain revision, steers the address cse
                 ENE_SeThrown( work, ctrl );
                 ENE_SeHitFloor( work, ctrl );
                 ENE_PutBlood( work, 6, 0 ) ;
@@ -1094,6 +1095,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
         if ( ctrl->grounded )
         {
 #ifdef VR_ENE_SE
+            // FIXME: &ctrl->mov here but &work->control.mov in the plain revision, steers the address cse
             ENE_SeHitFloor( work, ctrl );
             GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
 #else
@@ -1147,32 +1149,25 @@ void s00a_command_800C6EC8( WatcherWork* work )
 }
 
 #ifdef VR_EXE
-extern void COM_SetBikkuriFlag( int flag );   // command.c (VR)
-extern void COM_ResetBikkuriFlag( int flag ); // command.c (VR)
-
-#define VR_ST_HOLD_C 0x100  // a 'C'/'E' soldier is being held
-#define VR_ST_HOLD_D 0x200  // a 'D'/'F' soldier is being held
 
 #ifdef VR_MYSTERY
-extern void COM_SetBikkuriFlagTop( void );    // command.c (VR)
-
 static inline void SetHoldFlag( WatcherWork *work )
 {
     int flag;
 
     if ( work->param_blood == 'C' || work->param_blood == 'E' )
     {
-        flag = VR_ST_HOLD_D;
+        flag = BIKKURI_HOLD_D;
         if ( !( work->field_C58 & MYST_FLAG_100 ) )
         {
-            flag = VR_ST_HOLD_C;
+            flag = BIKKURI_HOLD_C;
         }
         COM_SetBikkuriFlag( flag );
         printf( " HANNIN HANNIN HANNIN HANNIN!!\n" );
     }
     else if ( work->param_blood == 'D' || work->param_blood == 'F' )
     {
-        COM_SetBikkuriFlag( VR_ST_HOLD_D );
+        COM_SetBikkuriFlag( BIKKURI_HOLD_D );
         printf( " MUJITU MUJITU MUJITU MUJITU !!\n" );
     }
 }
@@ -1183,16 +1178,16 @@ static inline void ClearHoldFlag( WatcherWork *work )
     {
         if ( !( work->field_C58 & MYST_FLAG_100 ) )
         {
-            COM_ResetBikkuriFlag( VR_ST_HOLD_C );
+            COM_ResetBikkuriFlag( BIKKURI_HOLD_C );
         }
         else
         {
-            COM_ResetBikkuriFlag( VR_ST_HOLD_D );
+            COM_ResetBikkuriFlag( BIKKURI_HOLD_D );
         }
     }
     else if ( work->param_blood == 'D' || work->param_blood == 'F' )
     {
-        COM_ResetBikkuriFlag( VR_ST_HOLD_D );
+        COM_ResetBikkuriFlag( BIKKURI_HOLD_D );
     }
 }
 #else
@@ -1200,11 +1195,11 @@ static inline void SetHoldFlag( WatcherWork *work )
 {
     if ( work->param_blood == 'C' || work->param_blood == 'E' )
     {
-        COM_SetBikkuriFlag( VR_ST_HOLD_C );
+        COM_SetBikkuriFlag( BIKKURI_HOLD_C );
     }
     else if ( work->param_blood == 'D' || work->param_blood == 'F' )
     {
-        COM_SetBikkuriFlag( VR_ST_HOLD_D );
+        COM_SetBikkuriFlag( BIKKURI_HOLD_D );
     }
 }
 
@@ -1212,11 +1207,11 @@ static inline void ClearHoldFlag( WatcherWork *work )
 {
     if ( work->param_blood == 'C' || work->param_blood == 'E' )
     {
-        COM_ResetBikkuriFlag( VR_ST_HOLD_C );
+        COM_ResetBikkuriFlag( BIKKURI_HOLD_C );
     }
     else if ( work->param_blood == 'D' || work->param_blood == 'F' )
     {
-        COM_ResetBikkuriFlag( VR_ST_HOLD_D );
+        COM_ResetBikkuriFlag( BIKKURI_HOLD_D );
     }
 }
 #endif
@@ -1656,7 +1651,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
         case 0:
             GM_SeSet( &ctrl->mov, SE_PUNCH_HIT );
             SetAction( work, ACTION34, ACTINTERP );
-            #ifdef VR_ENE_SE
+#ifdef VR_ENE_SE
             ENE_SeThrown2( work, ctrl );
 #else
             GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
@@ -1700,10 +1695,10 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             {
                 ENE_PutBlood( work, 5, 0 );
 #ifndef VR_MINENE
-                #ifdef VR_ENE_SE
-            ENE_SeThrown2( work, ctrl );
+#ifdef VR_ENE_SE
+                ENE_SeThrown2( work, ctrl );
 #else
-            GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
+                GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
 #endif
 #endif
                 if ( work->target->a_mode == 3 )
@@ -1720,7 +1715,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
 #endif
             break;
         case 3:
-            #ifdef VR_ENE_SE
+#ifdef VR_ENE_SE
             ENE_SeThrown2( work, ctrl );
 #else
             GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
@@ -1730,7 +1725,7 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
             work->field_B5A = 17;
             break;
         case 2:
-            #ifdef VR_ENE_SE
+#ifdef VR_ENE_SE
             ENE_SeThrown2( work, ctrl );
 #else
             GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB );
@@ -2078,6 +2073,8 @@ void s00a_command_800C82B0( WatcherWork *work )
     work->target->class = TARGET_AVAIL;
 
 #ifdef VR_MYSTERY
+    // FIXME: the mystery revision assigns unk/ctrl/action only after the field_C30 test (below); the order steers gcc's
+    // scheduling and register allocation
     work->actend = 0;
 #else
 #ifdef VR_EXE
@@ -2376,7 +2373,7 @@ void s00a_command_800C8A6C( WatcherWork *work, int time )
                 int res = GV_RandU( 12 );
                 if ( res > 10 )
                 {
-                    work->pad.sound = 240;
+                    work->pad.sound = ENE_VSE_0;
                 }
             }
         }
@@ -2435,7 +2432,7 @@ void s00a_command_800C8C98( WatcherWork *work, int time )
         }
     }
 
-    if ( !( work->pad.press & 0x800000 ) )
+    if ( !( work->pad.press & SP_ALERT_GESTURE ) )
     {
         UnsetMode2( work );
     }
@@ -2688,14 +2685,14 @@ void ENE_PutMark( WatcherWork *work, int mark )
 #ifdef VR_MINENE
         if ( work->param_blood != BLOOD_MINENE_VOICE )
         {
-            COM_CallBikkuriSe( &work->control.mov , 0x10 );
+            COM_CallBikkuriSe( &work->control.mov , BIKKURI_SOLDIER );
         }
         else
         {
-            COM_CallBikkuriSe( &work->control.mov , 0x400 );
+            COM_CallBikkuriSe( &work->control.mov , BIKKURI_MINENE );
         }
 #else
-        COM_CallBikkuriSe( &work->control.mov , 0x10 );
+        COM_CallBikkuriSe( &work->control.mov , BIKKURI_SOLDIER );
 #endif
     }
 

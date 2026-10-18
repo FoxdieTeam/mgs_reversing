@@ -355,7 +355,7 @@ void s00a_command_800C9E68( WatcherWork* work )
 #ifdef VR_MINENE
     if ( IS_SENSELESS( work ) )
 #else
-    if ( IS_SENSELESS( work ) || ( COM_GameStatus & 0x4000 ) )
+    if ( IS_SENSELESS( work ) || ( COM_GameStatus & COM_ST_VR_4000 ) )
 #endif
     {
         flag[0] = 0;

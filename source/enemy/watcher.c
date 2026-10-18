@@ -116,7 +116,7 @@ int RootFlagCheck_800C3EE8( WatcherWork* work )
             work->param_item = 1;
             break;
 #ifdef VR_MYSTERY
-        case 0xD359:
+        case MSG_MYSTERY_CLEAR_FLAG_100:
             work->field_C58 &= ~MYST_FLAG_100;
             break;
 #endif
@@ -619,16 +619,21 @@ int s00a_watcher_800C4B18( WatcherWork* work )
 }
 
 #ifdef VR_MYSTERY
-/* Soldiers that start on a point with the action 0xD ... are put in a fixed pose (FIXME: exact meaning not known) */
+#define MYST_NODE_ACT_POSE  0xD     // route point action (low 5 bits of the point's command) that starts the fixed pose
+#define MYST_POSE_MOTION    0x11
+#define MYST_POSE_TIME      32001   // pad.time: practically forever
+#define MYST_POSE_DIR       0xC00   // facing direction
+
+/* Soldiers that start on a point with the action MYST_NODE_ACT_POSE are put in a fixed pose (FIXME: exact meaning not known) */
 static void MysteryInitPose( WatcherWork *work )
 {
-    if ( ( work->nodes[0].pad & 0x1F ) == 0xD )
+    if ( ( work->nodes[0].pad & 0x1F ) == MYST_NODE_ACT_POSE )
     {
-        GM_ConfigObjectAction( &work->body, 0x11, 0, 0 );
-        work->unknown.last_set = 0x11;
-        work->pad.tmp = 0x04000000;
-        work->pad.time = 32001;
-        work->pad.dir = 0xC00;
+        GM_ConfigObjectAction( &work->body, MYST_POSE_MOTION, 0, 0 );
+        work->unknown.last_set = MYST_POSE_MOTION;
+        work->pad.tmp = SP_LIE_DOWN;
+        work->pad.time = MYST_POSE_TIME;
+        work->pad.dir = MYST_POSE_DIR;
         ENE_SetLieDownMode( work );
         work->think1 = 0;
         work->think2 = 0;

@@ -16,8 +16,7 @@
 #include "strcode.h"
 
 #ifdef VR_EXE
-#define TOP_COMM_EVASION    2       // EnemyCommand.mode after an alert (GM_AlertModeSet(2))
-#define HASH_COM_VR_4000    0xb442  // VR message to the commander: sets COM_GameStatus 0x4000 (string unknown)
+#define HASH_COM_VR_4000    0xb442  // VR message to the commander: sets COM_ST_VR_4000 (string unknown)
 #endif
 
 int SECTION(".bss") bikkuri_time;
@@ -171,6 +170,7 @@ int s00a_command_800CEBCC( int map_id, int val )
                 return unk->field_04[i].field_02;
             }
         }
+        // FIXME: goto + shared return at the end steers the block order (plain returns do not match)
         goto end;
     }
     return 0;
@@ -180,7 +180,7 @@ end:
 
 void COM_CallBikkuriSe( SVECTOR *pos, int flag )
 {
-    bikkuri_flag |= ( flag | 0x1 );
+    bikkuri_flag |= ( flag | BIKKURI_CALLED );
     bikkuri_pos.vx = pos->vx;
     bikkuri_pos.vy = pos->vy;
     bikkuri_pos.vz = pos->vz;
@@ -188,10 +188,10 @@ void COM_CallBikkuriSe( SVECTOR *pos, int flag )
 }
 
 #ifdef VR_EXE
-/* VR only: direct access to the bikkuri flags (the VR action code sets/clears 0x100 and 0x200) */
+/* VR only: direct access to the bikkuri flags (the VR action code sets/clears BIKKURI_HOLD_C/D) */
 void COM_SetBikkuriFlagTop( void )
 {
-    bikkuri_flag |= 0x80000000;
+    bikkuri_flag |= BIKKURI_TOP;
 }
 
 void COM_SetBikkuriFlag( int flag )
@@ -412,28 +412,28 @@ int s00a_command_800CF13C( int val )
 {
     switch( val )
     {
-    case 240:
+    case ENE_VSE_0:
         s00a_command_800CF024( &val );
         break;
-    case 241:
+    case ENE_VSE_1:
         s00a_command_800CF050( &val );
         break;
-    case 242:
+    case ENE_VSE_2:
         s00a_command_800CF05C( &val );
         break;
-    case 243:
+    case ENE_VSE_3:
         s00a_command_800CF068( &val );
         break;
-    case 244:
+    case ENE_VSE_4:
         s00a_command_800CF074( &val );
         break;
-    case 245:
+    case ENE_VSE_5:
         s00a_command_800CF0CC( &val );
         break;
-    case 246:
+    case ENE_VSE_6:
         s00a_command_800CF080( &val );
         break;
-    case 247:
+    case ENE_VSE_7:
         s00a_command_800CF0D8( &val );
         break;
     }
@@ -767,7 +767,7 @@ int s00a_command_800CF940( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
 
     from = HZD_GetAddress( hzd, pos, -1 );
 
-    //TODO: fix
+    // FIXME: the do { ... } while (0) wrappers only steer gcc's basic block layout
     do
     {
         to = HZD_GetAddress( hzd, pos2, -1 );
@@ -784,24 +784,11 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
 
     ctrl = &work->control;
 
-    if ( TOPCOMMAND.mode == 1 )
+    if ( TOPCOMMAND.mode == 1 || GM_NoisePower != 0x64 ||
+         ( (WatcherWork *)EnemyCommand.field_0xC8[ idx ].watcher )->act_status & 0x10000028 ||
+         GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) >= COM_NOISEMODE_DIS )
     {
-        goto exit;
-    }
-
-    if ( GM_NoisePower != 0x64 )
-    {
-        goto exit;
-    }
-
-    if ( ((WatcherWork *)EnemyCommand.field_0xC8[ idx ].watcher)->act_status & 0x10000028 )
-    {
-       goto exit;
-    }
-
-    if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) >= COM_NOISEMODE_DIS )
-    {
-        goto exit;
+        return dis;
     }
 
     x = s00a_command_800CF940( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition );
@@ -812,7 +799,6 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
         dis = x;
     }
 
-    exit:
     return dis;
 }
 
@@ -854,7 +840,7 @@ void s00a_command_800CFA94( CommanderWork* work )
 
     if ( EnemyCommand.field_0x98 == 0 )
     {
-        bikkuri_flag |= 2;
+        bikkuri_flag |= BIKKURI_FLAG_2;
         if ( EnemyCommand.field_0x17C >= 0 )
         {
             GCL_ExecProc( EnemyCommand.field_0x17C, NULL );
@@ -1083,7 +1069,7 @@ void s00a_command_800D018C( CommanderWork* work )
             break;
 #ifdef VR_EXE
         case HASH_COM_VR_4000:
-            COM_GameStatus |= 0x4000;
+            COM_GameStatus |= COM_ST_VR_4000;
             break;
 #endif
         }
