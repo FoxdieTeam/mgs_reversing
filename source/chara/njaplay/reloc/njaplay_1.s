@@ -146,7 +146,7 @@ $Lnjp_800C5150_3:
 	addiu	$7,$0,300
 	sw	$2,60($29)
 	addiu	$2,$0,10
-	jal	NewWindcrcl_800CF784
+	.word	0x0C036E83
 	sw	$2,16($29)
 	addiu	$16,$29,64
 	addu	$4,$16,$0

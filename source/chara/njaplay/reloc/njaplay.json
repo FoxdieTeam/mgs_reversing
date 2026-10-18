@@ -440,7 +440,7 @@
    "800C6DC0"
   ],
   [
-   "njp_800C6DC0",
+   "njp_sna_init_main_logic_800596FC",
    "800C6DC0",
    "800C7C04"
   ],
@@ -699,11 +699,11 @@
    4
   ],
   "800E5B58": [
-   "njp_bss_16",
+   "njp_dword_800ABBAC",
    4
   ],
   "800E5B5C": [
-   "njp_bss_20",
+   "njp_dword_800ABBB0",
    4
   ],
   "800E5B60": [
@@ -739,7 +739,7 @@
    4
   ],
   "800E5B84": [
-   "njp_bss_60",
+   "njp_prev_seg",
    4
   ]
  },

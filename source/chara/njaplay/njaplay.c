@@ -36,8 +36,8 @@ short        SECTION(".bss") njp_dword_800ABBDC;
 short        SECTION(".bss") njp_dword_800ABBD4;
 int          SECTION(".bss") njp_gSnaMoveDir_800ABBA4;
 int          SECTION(".bss") njp_dword_800ABBA8;
-int          SECTION(".bss") njp_bss_16;
-int          SECTION(".bss") njp_bss_20;
+SVECTOR     *SECTION(".bss") njp_dword_800ABBAC;
+void        *SECTION(".bss") njp_dword_800ABBB0;
 char        *SECTION(".bss") njp_dword_800ABBB4;
 int          SECTION(".bss") njp_bss_28;
 HZD_FLR     *SECTION(".bss") njp_flr_800ABBB8[2];
@@ -46,7 +46,7 @@ int          SECTION(".bss") njp_dword_800ABBC4;
 SVECTOR     *SECTION(".bss") njp_pVec_800ABBC8;
 SVECTOR     *SECTION(".bss") njp_pVec_800ABBCC;
 int          SECTION(".bss") njp_dword_800ABBD0;
-int          SECTION(".bss") njp_bss_60;
+void        *SECTION(".bss") njp_prev_seg;
 
 // data of the object (see the end of the file)
 extern u_char  njp_dword_8009EED4[4];
@@ -63,6 +63,19 @@ extern SVECTOR njp_stru_8009EFD4[3][2];
 extern Target_Data njp_stru_8009EFE4;
 extern SVECTOR njp_svector_800AB7FC;
 
+// FIXME: the pad of this build is 4 bytes smaller than GV_PAD (the analog stick part is missing), the data ends here
+typedef struct NjpPad
+{
+    u_short status;
+    u_short press;
+    u_short release;
+    u_short quick;
+    short   dir;
+    short   analog;
+} NjpPad;
+
+extern NjpPad njp_GV_PadData_8009F0C4;
+
 void njp_FreeTargets(SnaInitWork *work);
 
 void njp_sna_anim_spin_end_800C4E38(SnaInitWork *work, int time);
@@ -75,7 +88,7 @@ void njp_800C495C(SnaInitWork *work);
 void njp_sna_anim_dying_80055524(SnaInitWork *work, int time);
 void njp_sna_act_unk_80050A64(SnaInitWork *work);
 void njp_CheckMessage0_80050878(SnaInitWork *work);
-void njp_800C6DC0(SnaInitWork *work);
+void njp_sna_init_main_logic_800596FC(SnaInitWork *work);
 void njp_sna_fp_update_800C6A60(SnaInitWork *work, int time);
 void njp_sna_anim_update_800C5C18(SnaInitWork *work, int time);
 void njp_sna_anim_update_800C5D4C(SnaInitWork *work, int time);
@@ -2821,7 +2834,7 @@ void njp_Act(SnaInitWork *work)
     GM_SnakeCamera.rotate2 = work->control.rot;
     GM_SnakeCamera.rotate2.vy &= 0xFFF;
 
-    njp_800C6DC0(work);
+    njp_sna_init_main_logic_800596FC(work);
 
     pTarget2 = work->field_89C_pTarget;
     pTarget2->force = work->control.step;
@@ -3077,18 +3090,15 @@ Target_Data njp_stru_8009EFE4 = {{0, 0, 0, 0}, {501, 600, 501, 0}, 0, 0, 7, 0};
 
 SVECTOR njp_svector_800AB7FC = {0, 0, -300, 0};
 
-// FIXME: the pad of this build is 4 bytes smaller than GV_PAD (the analog stick part is missing), the data ends here
-typedef struct NjpPad
-{
-    u_short status;
-    u_short press;
-    u_short release;
-    u_short quick;
-    short   dir;
-    short   analog;
-} NjpPad;
-
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
+
+
+
+
+
+
 
 
 
