@@ -2,31 +2,39 @@
 // (rank_800CF160), transplanted from the main-tree twin; offsets/constants adapted to the VR.
 #include "game/game.h"
 #include "libgcl/libgcl.h"
+#include "overlays/vrtitle/vrpocket.h"
 
-extern int vrtitle_dword_800D9CF8;
-
-void vrtitle_800C3420( char *work )
+typedef struct PocketUpdateWork
 {
-    unsigned short *update;
-    char           *iter;
-    int             i;
+    /* 0x0000 */ char         pad_0000[ 0x1994 ];
+    /* 0x1994 */ int          update_count;
+    /* 0x1998 */ PocketUpdate updates[ 0 ];
+} PocketUpdateWork;
 
-    update = (unsigned short *)( work + 0x1998 );
+extern PocketObj *vrtitle_dword_800D9CF8;
+
+void vrtitle_800C3420( PocketUpdateWork *work )
+{
+    PocketUpdate *update;
+    PocketObj    *iter;
+    int           i;
+
+    update = work->updates;
     i = 0;
-    if ( *(int *)( work + 0x1994 ) > 0 )
+    if ( work->update_count > 0 )
     {
         do
         {
-            for ( iter = (char *)vrtitle_dword_800D9CF8; iter; iter = *(char **)( iter + 4 ) )
+            for ( iter = vrtitle_dword_800D9CF8; iter; iter = iter->next )
             {
-                if ( *(unsigned short *)( iter + 0x24 ) == update[ 0 ] )
+                if ( iter->id == update->id )
                 {
-                    *(short *)( iter + 0x26 ) = update[ 1 ];
+                    iter->value = update->value;
                     break;
                 }
             }
-            update += 2;
-        } while ( *(int *)( work + 0x1994 ) > ++i );
+            update++;
+        } while ( work->update_count > ++i );
     }
-    *(int *)( work + 0x1994 ) = 0;
+    work->update_count = 0;
 }

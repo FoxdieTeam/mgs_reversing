@@ -2,13 +2,14 @@
 // (rank_800CF36C), transplanted from the main-tree twin; offsets/constants adapted to the VR.
 #include "game/game.h"
 #include "libgcl/libgcl.h"
+#include "overlays/vrtitle/vrpocket.h"
 
-char *vrtitle_800C9DA8( int id );
+PocketObj *vrtitle_800C9DA8( int id );
 
 void vrtitle_800C9DEC( int id, int mask )
 {
-    unsigned short *flags;
+    PocketObj *obj;
 
-    flags = (unsigned short *)( vrtitle_800C9DA8( id ) + 0x1E );
-    *flags &= ~mask;
+    obj = vrtitle_800C9DA8( id );
+    obj->flags &= ~mask;
 }
