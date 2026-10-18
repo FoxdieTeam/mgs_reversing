@@ -375,36 +375,36 @@ $LVrclear2DrawResult_11:
 	.set	noat
 	.set	nomacro
 	.text
-	.globl	Vrclear2_800DEF84
-Vrclear2_800DEF84:
+	.globl	Vrclear2SetupMode
+Vrclear2SetupMode:
 	addu	$6,$4,$0
 	lw	$2,988($6)
 	nop
 	slti	$2,$2,5
-	beq	$2,$0,$LVrclear2_800DEF84_4
+	beq	$2,$0,$LVrclear2SetupMode_4
 	lui	$5,0x6666
 	lw	$5,984($6)
 	nop
 	slti	$2,$5,20
-	beq	$2,$0,$LVrclear2_800DEF84_2
+	beq	$2,$0,$LVrclear2SetupMode_2
 	addiu	$4,$0,3
 	lw	$2,988($6)
 	nop
 	andi	$2,$2,0x1
-	bne	$2,$0,$LVrclear2_800DEF84_0
+	bne	$2,$0,$LVrclear2SetupMode_0
 	sw	$5,1000($6)
 	addiu	$4,$0,4
-$LVrclear2_800DEF84_0:
+$LVrclear2SetupMode_0:
 	lw	$2,988($6)
 	addiu	$3,$0,1
 	slti	$2,$2,3
-	beq	$2,$0,$LVrclear2_800DEF84_1
+	beq	$2,$0,$LVrclear2SetupMode_1
 	sw	$4,992($6)
 	addiu	$3,$0,2
-$LVrclear2_800DEF84_1:
-	j	$LVrclear2_800DEF84_6
+$LVrclear2SetupMode_1:
+	j	$LVrclear2SetupMode_6
 	sw	$3,996($6)
-$LVrclear2_800DEF84_2:
+$LVrclear2SetupMode_2:
 	lui	$2,0x6666
 	ori	$2,$2,0x6667
 	mult	$5,$2
@@ -427,14 +427,14 @@ $LVrclear2_800DEF84_2:
 	subu	$2,$2,$4
 	sw	$2,996($6)
 	slti	$2,$3,3
-	beq	$2,$0,$LVrclear2_800DEF84_3
+	beq	$2,$0,$LVrclear2SetupMode_3
 	addiu	$2,$3,2
-	j	$LVrclear2_800DEF84_6
+	j	$LVrclear2SetupMode_6
 	sw	$3,992($6)
-$LVrclear2_800DEF84_3:
-	j	$LVrclear2_800DEF84_6
+$LVrclear2SetupMode_3:
+	j	$LVrclear2SetupMode_6
 	sw	$2,992($6)
-$LVrclear2_800DEF84_4:
+$LVrclear2SetupMode_4:
 	lw	$4,984($6)
 	ori	$5,$5,0x6667
 	mult	$4,$5
@@ -452,7 +452,7 @@ $LVrclear2_800DEF84_4:
 	lw	$3,988($6)
 	subu	$4,$4,$2
 	slti	$3,$3,7
-	beq	$3,$0,$LVrclear2_800DEF84_5
+	beq	$3,$0,$LVrclear2SetupMode_5
 	sw	$4,1000($6)
 	lw	$4,984($6)
 	nop
@@ -467,31 +467,31 @@ $LVrclear2_800DEF84_4:
 	sll	$2,$2,1
 	subu	$4,$4,$2
 	sw	$4,996($6)
-$LVrclear2_800DEF84_5:
+$LVrclear2SetupMode_5:
 	lw	$2,1000($6)
 	nop
-	bne	$2,$0,$LVrclear2_800DEF84_6
+	bne	$2,$0,$LVrclear2SetupMode_6
 	addiu	$2,$0,12
 	lw	$3,992($6)
 	nop
-	bne	$3,$2,$LVrclear2_800DEF84_6
+	bne	$3,$2,$LVrclear2SetupMode_6
 	addiu	$2,$0,10
 	sw	$2,1000($6)
-$LVrclear2_800DEF84_6:
+$LVrclear2SetupMode_6:
 	lw	$2,996($6)
 	nop
 	slti	$2,$2,10
-	bne	$2,$0,$LVrclear2_800DEF84_7
+	bne	$2,$0,$LVrclear2SetupMode_7
 	addiu	$2,$0,9
 	sw	$2,996($6)
-$LVrclear2_800DEF84_7:
+$LVrclear2SetupMode_7:
 	lw	$2,992($6)
 	nop
 	slti	$2,$2,17
-	bne	$2,$0,$LVrclear2_800DEF84_8
+	bne	$2,$0,$LVrclear2SetupMode_8
 	addiu	$2,$0,16
 	sw	$2,992($6)
-$LVrclear2_800DEF84_8:
+$LVrclear2SetupMode_8:
 	jr	$31
 	nop
 	.set	macro

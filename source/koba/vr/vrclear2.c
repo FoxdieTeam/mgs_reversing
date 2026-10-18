@@ -34,6 +34,8 @@
 #define VRCLEAR_SE_CURSOR   31
 #define VRCLEAR_SE_TITLE    195
 
+#define PROC_GO_VRSAVE      "GO_VRSAVE"
+
 // VR_MENU_ITEM::link[] (cursor movement)
 #define LINK_UP             0
 #define LINK_LEFT           1
@@ -79,7 +81,7 @@ typedef struct _Work
     RECT        cursor;                 // 0x10C
     POLY_FT4    cursor_polys[2][8];     // 0x114
     TILE        cursor_tiles[2];        // 0x394
-    short       pad_3B4;                // 0x3B4
+    short       f3B4;                   // 0x3B4
     short       repeat;                 // 0x3B6
     u_char      weapon;                 // 0x3B8
     u_char      unit;                   // 0x3B9 frames per remaining bullet
@@ -121,7 +123,7 @@ extern char        *vrclear2_weapon_names[];
 
 // still in the relocatable asm
 void Vrclear2DrawResult(int timer, Work *work);
-int Vrclear2GetResources(Work *work, int where);
+void Vrclear2SetupMode(Work *work);
 
 /*---------------------------------------------------------------------------*/
 
@@ -801,7 +803,114 @@ static void Die(Work *work)
 {
 }
 
-#pragma INCLUDE_ASM_RELOC("source/koba/vr/reloc/vrclear2_2.s")
+static int GetResources(Work *work, int where)
+{
+    int   procs[NUM_BUTTONS];
+    int  *proc;
+    char *opt;
+    int   n;
+    int   i;
+
+    GM_CurrentMap = where;
+    work->title_x = 320;
+
+    opt = GCL_GetOption('c');
+    if (opt)
+    {
+        work->voice_flag = GCL_StrToInt(opt);
+    }
+    else
+    {
+        work->voice_flag = 1;
+    }
+
+    opt = GCL_GetOption('p');
+    if (opt)
+    {
+        n = GCL_StrToInt(opt);
+        if (n == 4)
+        {
+            work->f3B4 = 1;
+            n = 3;
+        }
+        else
+        {
+            work->f3B4 = 0;
+        }
+
+        proc = procs;
+        while (n != 0)
+        {
+            n--;
+            *proc++ = GCL_StrToInt(GCL_NextStr());
+        }
+    }
+
+    opt = GCL_GetOption('s');
+    work->stage_var = opt;
+    if (opt)
+    {
+        work->stage = GCL_StrToInt(opt);
+        work->category = GCL_StrToInt(GCL_NextStr());
+    }
+    else
+    {
+        work->stage = 0;
+        work->category = 0;
+    }
+
+    Vrclear2SetupMode(work);
+
+    // FIXME: "\0" instead of "": the original has its own 4 byte literal here, gcc would merge "" with the
+    // one of the mode names and the rdata of the object would shrink by 4 bytes
+    work->title[1] = "\0";
+    work->title[0] = "\0";
+    work->custom_title = 0;
+
+    if (GCL_GetOption('z'))
+    {
+        work->custom_title = 1;
+
+        for (i = 0; i < 2; i++)
+        {
+            work->title[i] = GCL_GetString(GCL_NextStr());
+
+            if (!work->title[i])
+            {
+                break;
+            }
+        }
+    }
+
+    if (GCL_GetOption('t'))
+    {
+        for (i = 0; i < 4; i++)
+        {
+            work->voice[i] = GCL_StrToInt(GCL_NextStr());
+        }
+    }
+    else
+    {
+        for (i = 0; i < 4; i++)
+        {
+            work->voice[i] = 0;
+        }
+    }
+
+    n = 0;
+    for (i = 0; i < NUM_BUTTONS; i++)
+    {
+        if (VrMenu_InitItem(&vrclear2_buttons[i], procs[n], 1))
+        {
+            n++;
+        }
+    }
+
+    vrclear2_buttons[BUTTON_SAVE].proc = GV_StrCode(PROC_GO_VRSAVE);
+
+    work->blink = 0;
+    return 0;
+}
 
 void *NewVrClear2(int name, int where)
 {
@@ -814,7 +923,7 @@ void *NewVrClear2(int name, int where)
 
         work->act_state = ACT_WAIT;
 
-        if (Vrclear2GetResources(work, where) < 0)
+        if (GetResources(work, where) < 0)
         {
             GV_DestroyActor(&work->actor);
             return NULL;
