@@ -45,7 +45,7 @@ void vrtitle_800CD214(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
     textConfig.flags = 0x12;
     textConfig.color = pUnk->field_18 | 0x66000000;
 
-    _menu_number_draw_string2(pGlue, &textConfig, (char *)pUnk->field_4); // TODO: Fix cast
+    _menu_number_draw_string2(pGlue, &textConfig, (char *)pUnk->field_4); // FIXME: field_4 is really a string pointer, typed int in RadioFileModeUnk1
 }
 
 void vrtitle_800CD29C(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
@@ -116,7 +116,7 @@ void vrtitle_800CD4E0(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
         vrtitle_800CD1E4(&pUnk->field_4, 2);
     }
 
-    *(short *)pUnk->field_14 = pUnk->field_4 >> 16; // TODO: Fix type of field_14
+    *(short *)pUnk->field_14 = pUnk->field_4 >> 16; // FIXME: field_14 is really a short *, typed int in RadioFileModeUnk1
     *(short *)(pUnk->field_14 + 2) = pUnk->field_C >> 16; // pUnk->field_C / 65536 wouldn't match
     vrtitle_800CEF74(pGlue, (SELECT_INFO *)pUnk->field_14);
 }
