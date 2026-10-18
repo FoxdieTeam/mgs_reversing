@@ -7446,7 +7446,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\vrtitle\text_800D500C.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\x_800D5EC0.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\x_800D5F48.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vrtitle\text_800D5FB8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800D613C.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\overlay.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\overlay2.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\overlay3.obj", overlay
