@@ -40,10 +40,7 @@ typedef struct VR_SAVEMNGR_ITEM
 {
     unsigned int flags;      /* 0x00 */
     RECT         rect;       /* 0x04: highlight rectangle */
-    int          field_0C;   /* 0x0C */
-    int          field_10;   /* 0x10 */
-    int          tex_id;     /* 0x14 */
-    int          field_18;   /* 0x18 */
+    int          link[4];    /* 0x0C: item to go to (low 16 bits, -1: none) for up, left, down, right */
     short        limit;      /* 0x1C: number of animation steps to wait */
     char         pad_1E[0x06];
     RECT         frame_rect; /* 0x24: rectangle the menu frame moves to when this item is selected */
@@ -70,8 +67,12 @@ typedef struct VR_SAVEMNGR_WORK
     short    cur_item;                                   /* 0x2CC: item the frame is on */
     short    next_item;                                  /* 0x2CE: item the frame moves to */
     short    state;                                      /* 0x2D0 */
-    char     pad_2D2[0x0E];
-    int      mission;                                    /* 0x2E0 */
+    char     pad_2D2[0x02];
+    int      repeat_dir;                                 /* 0x2D4: direction held */
+    int      repeat_delay;                               /* 0x2D8 */
+    int      field_2DC;
+    short    mission;                                    /* 0x2E0 */
+    short    pad_2E2;
     int      field_2E4;
     int      field_2E8;
     int      field_2EC;
@@ -82,7 +83,7 @@ typedef struct VR_SAVEMNGR_WORK
     int      field_300;
     char     pad_304[0x08];
     int      field_30C;
-    int      flags;                                      /* 0x310: bit 2: memory card present */
+    unsigned int flags;                                  /* 0x310: bit 2: memory card present */
     int      score;                                      /* 0x314 */
     int      field_318;
 } VR_SAVEMNGR_WORK;

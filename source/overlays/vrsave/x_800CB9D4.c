@@ -13,10 +13,10 @@ void vrsave_800CB9DC(void)
     VR_SAVEMNGR_ITEM *items;
 
     items = vrsave_dword_800C12CC;
-    items[0].tex_id = 2;
+    items[0].link[2] = 2;
     items[0].rect.y = 0x97;
     items[0].frame_rect.y = 0x94;
     items[1].state = 8;
     items[1].flags |= 0x20000000;
-    items[2].field_0C = 0;
+    items[2].link[0] = 0;
 }
