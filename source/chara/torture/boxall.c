@@ -18,6 +18,9 @@ typedef struct _BoxallWork
     DG_PRIM       *prim;
     SVECTOR        vertices[4];
     int            proc_id;
+#ifdef VR_EXE
+    char          *title;   // 0x168 optional text of the item box (option 'n'), NULL: "SNAKE'S ITEMS"
+#endif
 } Work;
 
 #define BODY_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_GBOUND | DG_FLAG_SHADE | DG_FLAG_ONEPIECE )
@@ -110,11 +113,33 @@ static void DrawItemText(Work *work)
 
     MENU_Color(200, 200, 200);
     MENU_Locate(text_line->x1 + 5, text_line->y1 - 8, 0x10);
+#ifdef VR_EXE
+    if (work->title != NULL)
+    {
+        MENU_Printf("%s", work->title);
+    }
+    else
+    {
+        MENU_Printf("SNAKE'S ITEMS");
+    }
+#else
     MENU_Printf("SNAKE'S ITEMS");
+#endif
 
     MENU_Color(1, 1, 1);
     MENU_Locate(text_line->x1 + 6, text_line->y1 - 7, 0x10);
+#ifdef VR_EXE
+    if (work->title != NULL)
+    {
+        text_line->x2 = text_line->x3 = MENU_Printf("%s", work->title) + 3;
+    }
+    else
+    {
+        text_line->x2 = text_line->x3 = MENU_Printf("SNAKE'S ITEMS") + 3;
+    }
+#else
     text_line->x2 = text_line->x3 = MENU_Printf("SNAKE'S ITEMS") + 3;
+#endif
 }
 
 static inline void DrawMessage(short *x, short *y, char *message)
@@ -134,6 +159,9 @@ static void DrawItemTextCollected(Work *work)
 {
     SVECTOR pos;
     MATRIX *m;
+#ifdef VR_EXE
+    char   *message;
+#endif
 
     m = &DG_Chanl(0)->eye_inv;
     gte_SetRotMatrix(m);
@@ -156,7 +184,19 @@ static void DrawItemTextCollected(Work *work)
         GM_SeSet2(0, 63, SE_ITEM_GET);
     }
 
+#ifdef VR_EXE
+    if (work->title != NULL)
+    {
+        message = work->title;
+    }
+    else
+    {
+        message = "SNAKE'S ITEMS";
+    }
+    DrawMessage(&pos.vx, &pos.vy, message);
+#else
     DrawMessage(&pos.vx, &pos.vy, "SNAKE'S ITEMS");
+#endif
 }
 
 static int HasCollectedItem(Work *work)
@@ -333,6 +373,17 @@ static int GetResources(Work *work, int name, int map)
     {
         return -1;
     }
+
+#ifdef VR_EXE
+    if (GCL_GetOption('n'))
+    {
+        work->title = GCL_GetString(GCL_NextStr());
+    }
+    else
+    {
+        work->title = NULL;
+    }
+#endif
 
     return 0;
 }
