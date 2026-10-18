@@ -23,20 +23,20 @@ extern SVECTOR GODZ_TOUCH_SIZE;
 extern SVECTOR GODZ_TOUCH_FORCE;
 
 // FIXME: the action functions (godzact.c) are not decompiled yet, they are referenced by their address based names
-extern void vcd_n05_800C62D8( GodzWork *work, int time );
-extern void vcd_n05_800C66E4( GodzWork *work, int time );
-extern void vcd_n05_800C6814( GodzWork *work, int time );
-extern void vcd_n05_800C5278( GodzWork *work, int time );
-extern void vcd_n05_800C5308( GodzWork *work, int time );
-extern void vcd_n05_800C5388( GodzWork *work, int time );
-extern void vcd_n05_800C5440( GodzWork *work, int time );
-extern void vcd_n05_800C57FC( GodzWork *work, int time );
-extern void vcd_n05_800C5904( GodzWork *work, int time );
-extern void vcd_n05_800C590C( GodzWork *work, int time );
-extern void vcd_n05_800C7658( GodzWork *work, int time );
-extern void vcd_n05_800C7724( GodzWork *work, int time );
-extern void vcd_n05_800C77F0( GodzWork *work, int time );
-extern void vcd_n05_800C7888( GodzWork *work, int time );
+extern void GodzAct_800C62D8( GodzWork *work, int time );
+extern void GodzAct_800C66E4( GodzWork *work, int time );
+extern void GodzAct_800C6814( GodzWork *work, int time );
+extern void GodzAct_800C5278( GodzWork *work, int time );
+extern void GodzAct_800C5308( GodzWork *work, int time );
+extern void GodzAct_800C5388( GodzWork *work, int time );
+extern void GodzAct_800C5440( GodzWork *work, int time );
+extern void GodzAct_800C57FC( GodzWork *work, int time );
+extern void GodzAct_800C5904( GodzWork *work, int time );
+extern void GodzAct_800C590C( GodzWork *work, int time );
+extern void GodzAct_800C7658( GodzWork *work, int time );
+extern void GodzAct_800C7724( GodzWork *work, int time );
+extern void GodzAct_800C77F0( GodzWork *work, int time );
+extern void GodzAct_800C7888( GodzWork *work, int time );
 
 // the target hit by a punch (damaged) enters the "hit" mode, the damage is not applied
 int GodzCheckPunched( GodzWork *work )
@@ -49,7 +49,7 @@ int GodzCheckPunched( GodzWork *work )
         target->damaged = 0;
         target->force = DG_ZeroVector;
         work->unknown.field_14 = 3;
-        SetGodzMode( work, vcd_n05_800C6814 );
+        SetGodzMode( work, GodzAct_800C6814 );
         return 1;
     }
 
@@ -102,22 +102,22 @@ int GodzCheckHit( GodzWork *work )
     case 2:
         target->force = DG_ZeroVector;
         work->unknown.field_14 = 3;
-        SetGodzMode( work, vcd_n05_800C6814 );
+        SetGodzMode( work, GodzAct_800C6814 );
         break;
     case 3:
         work->unknown.field_14 = 0;
-        SetGodzMode( work, vcd_n05_800C6814 );
+        SetGodzMode( work, GodzAct_800C6814 );
         break;
     case 0:
         target->force = DG_ZeroVector;
         if ( target->vital <= 0 )
         {
             work->unknown.field_14 = 1;
-            SetGodzMode( work, vcd_n05_800C6814 );
+            SetGodzMode( work, GodzAct_800C6814 );
         }
         else
         {
-            SetGodzMode( work, vcd_n05_800C66E4 );
+            SetGodzMode( work, GodzAct_800C66E4 );
         }
         break;
     case 1:
@@ -130,14 +130,14 @@ int GodzCheckHit( GodzWork *work )
         {
             work->unknown.field_14 = 3;
         }
-        SetGodzMode( work, vcd_n05_800C6814 );
+        SetGodzMode( work, GodzAct_800C6814 );
         break;
     case 4:
         work->unknown.field_14 = 3;
-        SetGodzMode( work, vcd_n05_800C6814 );
+        SetGodzMode( work, GodzAct_800C6814 );
         break;
     case 8:
-        SetGodzMode( work, vcd_n05_800C62D8 );
+        SetGodzMode( work, GodzAct_800C62D8 );
         break;
     }
 
@@ -153,7 +153,7 @@ int GodzCheckStunned( GodzWork *work )
 {
     if ( GM_GameStatus & STATE_STUN )
     {
-        SetGodzMode( work, vcd_n05_800C62D8 );
+        SetGodzMode( work, GodzAct_800C62D8 );
         return 1;
     }
 
@@ -333,67 +333,67 @@ int GodzCheckPad( GodzWork *work )
 
     if ( press & 0x01 )
     {
-        SetGodzMode2( work, vcd_n05_800C7658 );
+        SetGodzMode2( work, GodzAct_800C7658 );
         return 0;
     }
 
     if ( press & 0x02 )
     {
-        SetGodzMode2( work, vcd_n05_800C7724 );
+        SetGodzMode2( work, GodzAct_800C7724 );
         return 0;
     }
 
     if ( press & 0x04 )
     {
-        SetGodzMode2( work, vcd_n05_800C77F0 );
+        SetGodzMode2( work, GodzAct_800C77F0 );
         return 0;
     }
 
     if ( press & 0x2000 )
     {
-        SetGodzMode2( work, vcd_n05_800C7888 );
+        SetGodzMode2( work, GodzAct_800C7888 );
         return 0;
     }
 
     if ( press & 0x100 )
     {
-        SetGodzMode( work, vcd_n05_800C5278 );
+        SetGodzMode( work, GodzAct_800C5278 );
         return 1;
     }
 
     if ( press & 0x10000000 )
     {
-        SetGodzMode( work, vcd_n05_800C5308 );
+        SetGodzMode( work, GodzAct_800C5308 );
         return 1;
     }
 
     if ( press & 0x4000000 )
     {
-        SetGodzMode( work, vcd_n05_800C5388 );
+        SetGodzMode( work, GodzAct_800C5388 );
         return 1;
     }
 
     if ( press & 0x8000000 )
     {
-        SetGodzMode( work, vcd_n05_800C5440 );
+        SetGodzMode( work, GodzAct_800C5440 );
         return 1;
     }
 
     if ( press & 0x20 )
     {
-        SetGodzMode( work, vcd_n05_800C57FC );
+        SetGodzMode( work, GodzAct_800C57FC );
         return 1;
     }
 
     if ( press & SP_DANBOWLKERI )
     {
-        SetGodzMode( work, vcd_n05_800C5904 );
+        SetGodzMode( work, GodzAct_800C5904 );
         return 1;
     }
 
     if ( press & 0x30000 )
     {
-        SetGodzMode( work, vcd_n05_800C590C );
+        SetGodzMode( work, GodzAct_800C590C );
         work->adjust[2].vx = 0;
         return 1;
     }

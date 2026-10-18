@@ -1,25 +1,8 @@
 {
  "lo": "800C4DB8",
  "hi": "800C7FD0",
- "rdata": [
-  [
-   "800DE6EC",
-   "godz_str_okiagari",
-   "str"
-  ],
-  [
-   "800DE704",
-   "godz_str_turn",
-   "str"
-  ]
- ],
- "data": [
-  [
-   "800C12D0",
-   "godzact_data",
-   55
-  ]
- ],
+ "rdata": [],
+ "data": [],
  "c": {
   "800C4DB8": "GodzAct_800C4DB8",
   "800C4FA0": "GodzAct_800C4FA0",
@@ -39,7 +22,6 @@
   "800C62D8": "GodzAct_800C62D8",
   "800C6598": "GodzAct_800C6598",
   "800C66E4": "GodzAct_800C66E4",
-  "800C6814": "GodzAct_800C6814",
   "800C6F14": "GodzAct_800C6F14",
   "800C70F4": "GodzAct_800C70F4",
   "800C71D8": "GodzAct_800C71D8",
@@ -63,5 +45,51 @@
   "800C7EF4": "GODZ_SetPutChar",
   "800C7F3C": "GODZ_ClearPutChar",
   "800C7F70": "GODZ_ExecPutChar"
+ },
+ "sized_syms": {
+  "800C12D0": [
+   "GodzActTable",
+   108
+  ],
+  "800C133C": [
+   "godz_act_data_133C",
+   20
+  ],
+  "800C1350": [
+   "godz_act_data_1350",
+   20
+  ],
+  "800C1364": [
+   "godz_svec_1364",
+   8
+  ],
+  "800C136C": [
+   "godz_svec_136C",
+   8
+  ],
+  "800C1374": [
+   "godz_svec_1374",
+   8
+  ],
+  "800C137C": [
+   "godz_svec_137C",
+   8
+  ],
+  "800C1384": [
+   "GodzPutFuncList",
+   16
+  ],
+  "800C1394": [
+   "godz_svec_1394",
+   8
+  ],
+  "800C139C": [
+   "godz_svec_139C",
+   8
+  ],
+  "800C13A4": [
+   "godz_svec_13A4",
+   8
+  ]
  }
 }

@@ -1025,7 +1025,7 @@ vcd_n05_800CA9C4:
 	bne	$2,$0,$Lvcd_n05_800CA9C4_0
 	addiu	$2,$0,136
 	sh	$2,2906($16)
-	jal	vcd_n05_800C799C
+	jal	GODZ_PutMark
 	addiu	$5,$0,5
 $Lvcd_n05_800CA9C4_0:
 	lw	$3,2872($16)
@@ -1060,7 +1060,7 @@ vcd_n05_800CAA28:
 	nop
 	bne	$2,$0,$Lvcd_n05_800CAA28_0
 	nop
-	jal	vcd_n05_800C799C
+	jal	GODZ_PutMark
 	addu	$5,$0,$0
 	lhu	$2,3132($16)
 	nop
@@ -1098,7 +1098,7 @@ vcd_n05_800CAA8C:
 	nop
 	bne	$2,$0,$Lvcd_n05_800CAA8C_0
 	sltiu	$2,$2,20
-	jal	vcd_n05_800C799C
+	jal	GODZ_PutMark
 	addu	$5,$0,$0
 	addiu	$16,$17,32
 	addu	$4,$16,$0
@@ -1186,7 +1186,7 @@ vcd_n05_800CAB88:
 	jal	GM_SeSet
 	addiu	$5,$0,83
 	addu	$4,$16,$0
-	jal	vcd_n05_800C799C
+	jal	GODZ_PutMark
 	addu	$5,$0,$0
 $Lvcd_n05_800CAB88_0:
 	lw	$3,2872($16)

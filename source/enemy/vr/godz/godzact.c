@@ -42,7 +42,7 @@ void GodzAct_800C4FA0( GodzWork *work, int time );
 void GodzAct_800C5278( GodzWork *work, int time );
 void GodzAct_800C5308( GodzWork *work, int time );
 void GodzAct_800C5388( GodzWork *work, int time );
-void vcd_n05_800C5440( GodzWork *work, int time );
+void GodzAct_800C5440( GodzWork *work, int time );
 void GodzAct_800C5768( GodzWork *work, int time );
 void GodzAct_800C57FC( GodzWork *work, int time );
 void GodzAct_800C5904( GodzWork *work, int time );
@@ -54,14 +54,14 @@ void GodzAct_800C5E70( GodzWork *work, int time );
 void GodzAct_800C5F38( GodzWork *work, int time );
 void GodzAct_800C5FF4( GodzWork *work, int time );
 void GodzAct_800C62D8( GodzWork *work, int time );
-void vcd_n05_800C6440( GodzWork *work, int time );
+void GodzAct_800C6440( GodzWork *work, int time );
 void GodzAct_800C6598( GodzWork *work, int time );
 void GodzAct_800C66E4( GodzWork *work, int time );
 void GodzAct_800C6814( GodzWork *work, int time );
 void GodzAct_800C6F14( GodzWork *work, int time );
 void GodzAct_800C70F4( GodzWork *work, int time );
 void GodzAct_800C71D8( GodzWork *work, int time );
-void vcd_n05_800C7260( GodzWork *work );
+void GodzAct_800C7260( GodzWork *work );
 void GodzActionUpdate( GodzWork *work );
 void GodzAct_800C7658( GodzWork *work, int time );
 void GodzAct_800C7724( GodzWork *work, int time );
@@ -77,8 +77,8 @@ void GodzAct_800C78C0( GodzWork *work, int time );
 void GODZ_PutBlood( GodzWork *work, int obj_idx, int count );
 void GODZ_PutFog( GodzWork *work );
 void GODZ_PutMark( GodzWork *work, int mark );
-void vcd_n05_800C7A48( GodzWork *work );
-void vcd_n05_800C7C60( GodzWork *work, int arg1 );
+void GodzAct_800C7A48( GodzWork *work );
+void GodzAct_800C7C60( GodzWork *work, int arg1 );
 void GODZ_PutLSight( GodzWork *work );
 void GODZ_PutBullet( GodzWork *work );
 int GODZ_SetPutChar( GodzWork *work, int idx );
@@ -115,8 +115,8 @@ SVECTOR godz_svec_137C = { -1024, 0, 0, 0 };
 
 void *GodzPutFuncList[4] =
 {
-    vcd_n05_800C7A48,
-    vcd_n05_800C7C60,
+    GodzAct_800C7A48,
+    GodzAct_800C7C60,
     GODZ_PutLSight,
     GODZ_PutBullet
 };
@@ -164,7 +164,7 @@ static inline void UnsetMode2( GodzWork *work )
 
     if ( work->field_B74 )
     {
-        GV_DestroyOtherActor( work->field_B74 );
+        GV_DestroyActor( work->field_B74 );
         work->field_B74 = 0;
     }
 
@@ -195,7 +195,7 @@ static inline void UnsetAction2( GodzWork *work )
     
     work->unknown.last_unset = 0;
     GM_ConfigObjectOverride( &( work->body ), GodzActTable[ STANDSTILL ], 0, ACTINTERP, 0 );
-    GV_DestroyOtherActor( work->subweapon );
+    GV_DestroyActor( work->subweapon );
 }
 
 void GodzAct_800C4DB8( GodzWork* work, int time )
@@ -213,7 +213,7 @@ void GodzAct_800C4DB8( GodzWork* work, int time )
     if ( time == 0 )
     {
         SetAction( work, STANDSTILL, ACTINTERP );
-        printf( "okiagari end!! %d !!!\\n", work->control.turn.vx );
+        printf( "okiagari end!! %d !!!\n", work->control.turn.vx );
     }
 
     if ( GodzCheckDamage( work ) || GodzCheckPad( work ) )
@@ -369,7 +369,7 @@ void GodzAct_800C5278( GodzWork* work, int time )
     if ( !( GodzCheckDamage( work ) ) && ( work->body.is_end ) )
     {
         work->pad.tmp = 0;
-        SetGodzMode( work, vcd_n05_800C6440 );
+        SetGodzMode( work, GodzAct_800C6440 );
     }
 }
 
@@ -629,14 +629,14 @@ void GodzAct_800C5CF8( GodzWork* work, int time )
 
     if ( GodzCheckDamage( work ) )
     {
-        GV_DestroyOtherActor( work->subweapon ) ;
+        GV_DestroyActor( work->subweapon ) ;
         return ;
     }
 
 
     if ( work->body.is_end )
     {
-        GV_DestroyOtherActor( work->subweapon ) ;
+        GV_DestroyActor( work->subweapon ) ;
         SetGodzMode( work, GodzAct_800C590C );
     }
 }
@@ -739,7 +739,7 @@ void GodzAct_800C5FF4( GodzWork* work, int time )
             }
             else
             {
-                SetGodzMode( work, vcd_n05_800C6440 );
+                SetGodzMode( work, GodzAct_800C6440 );
             }
         }
     }
@@ -757,7 +757,7 @@ void GodzAct_800C5FF4( GodzWork* work, int time )
             }
             else
             {
-                SetGodzMode( work, vcd_n05_800C6440 );
+                SetGodzMode( work, GodzAct_800C6440 );
             }
         }
     }
@@ -817,7 +817,7 @@ void GodzAct_800C62D8( GodzWork *work, int time )
 
     if ( time >= time_offset + 50 && work->body.is_end )
     {
-        SetGodzMode( work, vcd_n05_800C6440 ) ;
+        SetGodzMode( work, GodzAct_800C6440 ) ;
     }
 }
 
@@ -901,171 +901,7 @@ void GodzAct_800C66E4( GodzWork* work, int time )
     }
 }
 
-void GodzAct_800C6814( GodzWork *work, int time )
-{
-    CONTROL* ctrl;
-    WatcherUnk *unk;
-
-    unk = &work->unknown;
-    work->unknown.field_1E = 0;
-    work->act_status |= 0x8;
-    work->control.step = work->targets[0]->force;
-
-
-    ctrl = &work->control;
-    if ( time == 0 )
-    {
-        switch( unk->field_14 )
-        {
-        case 0:
-            GM_SeSet( &ctrl->mov, SE_PUNCH_HIT );
-            SetAction( work, ACTION34, ACTINTERP );
-            GM_SeSet( &ctrl->mov, 0xC3 );
-            GODZ_PutBlood( work, 5, 0 );
-            work->field_B6A = 17;
-            break;
-        case 1:
-            SetAction( work, ACTION37, ACTINTERP );
-            if ( work->targets[0]->vital <= 0 )
-            {
-                if ( GM_Weapon == WP_Rifle )
-                {
-                    GODZ_PutBlood( work, 6, 2 );
-                }
-                else
-                {
-                    GODZ_PutBlood( work, 6, 1 );
-                }
-            }
-            else
-            {
-                GODZ_PutBlood( work, 5, 0 );
-
-            }
-            GM_SeSet( &ctrl->mov, 0xC3 );
-            work->field_B6A = 46;
-            break;
-        case 3:
-            GM_SeSet( &ctrl->mov, 0xC3 );
-            SetAction( work, ACTION35, ACTINTERP );
-            GODZ_PutBlood( work, 5, 0 );
-            work->field_B6A = 17;
-            break;
-        case 2:
-            GM_SeSet( &ctrl->mov, 0xC4 );
-            SetAction( work, ACTION36, ACTINTERP );
-            GODZ_PutBlood( work, 5, 0 );
-            work->field_B6A = 22;
-            break;
-        case 4:
-            GM_SeSet( &ctrl->mov, 0x90 );
-            GM_SeSet( &ctrl->mov, 0xBF );
-            SetAction( work, ACTION29, ACTINTERP );
-            work->field_B6A = 67;
-            break;
-        case 5:
-            SetAction( work, ACTION30, ACTINTERP );
-            work->field_B6A = 15;
-        break;
-        }
-    }
-
-    if ( time == 2 && work->targets[0]->vital <= 0 && GM_GameOverTimer == 0 && GM_Vitality > 0 )
-    {
-        if ( work->field_C4C >= 0 )
-        {
-            GCL_ExecProc( work->field_C4C, 0 );
-        }
-
-        GM_GameOver();
-        GM_GameOverTimer = -2;
-        GM_GameStatus |= STATE_PADRELEASE;
-
-        if ( GM_StreamStatus() == -1 )
-        {
-            GM_VoxStream( work->field_C44, 0 );
-        }
-    }
-
-    switch( unk->field_14 )
-    {
-    case 0:
-        if ( time < 12 )
-        {
-            ctrl->turn.vy += 170;
-        }
-
-        if ( time - 7 < 23u )
-        {
-            GodzAttackTouch( work );
-        }
-
-        if ( time < 20 )
-        {
-            work->control.hzd_height = -32767;
-        }
-        break;
-    case 1:
-        if ( time == 24 )
-        {
-            GM_SeSet( &ctrl->mov, SE_ENEMY_COLLAPSE );
-        }
-        break;
-    case 3:
-        if ( time - 7 < 23u )
-        {
-            GodzAttackTouch( work );
-        }
-        if ( time < 15 )
-        {
-            ctrl->hzd_height = -32767;
-        }
-        break;
-    case 2:
-        if ( time - 7 < 23u )
-        {
-            GodzAttackTouch( work );
-        }
-        if ( time < 20 )
-        {
-            ctrl->hzd_height = -32767;
-        }
-        break;
-    case 4:
-    case 5:
-        work->act_status |= 0x04;
-        break;
-    }
-
-    if ( time > 16 && ctrl->grounded )
-    {
-        ctrl->step = DG_ZeroVector;
-    }
-
-    if ( time == work->field_B6A )
-    {
-        if (ctrl->mov.vy - ctrl->levels[0] < 2000)
-        {
-            GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
-            GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
-            GODZ_PutBlood( work, 6, 0 ) ;
-        }
-    }
-
-    if ( work->body.is_end )
-    {
-        work->unknown.field_1E = 1;
-        work->targets[0]->force = DG_ZeroVector;
-        if ( work->targets[0]->vital <= 0 )
-        {
-            SetGodzMode( work, GodzAct_800C70F4 );
-        }
-        else
-        {
-            SetGodzMode( work, vcd_n05_800C6440 );
-        }
-    }
-}
+#pragma INCLUDE_ASM_RELOC("source/enemy/vr/godz/reloc/godzact_2.s")
 
 void GodzAct_800C6F14( GodzWork* work, int time )
 {
@@ -1166,7 +1002,7 @@ void GodzAct_800C71D8( GodzWork *work, int time )
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/enemy/vr/godz/reloc/godzact_2.s")
+#pragma INCLUDE_ASM_RELOC("source/enemy/vr/godz/reloc/godzact_3.s")
 
 void GodzActionUpdate( GodzWork *work )
 {
@@ -1281,7 +1117,7 @@ void GodzActionUpdate( GodzWork *work )
         }
     }
 
-    vcd_n05_800C7260( work );
+    GodzAct_800C7260( work );
 }
 
 void GodzAct_800C7658( GodzWork* work, int time )
@@ -1427,14 +1263,14 @@ void GODZ_PutMark( GodzWork *work, int mark )
 
     if ( work->mark_time )
     {
-        GV_DestroyOtherActor( work->mark );
+        GV_DestroyActor( work->mark );
     }
 
     work->mark = AN_HeadMark( mat , mark ) ;
     work->mark_time = 30;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/enemy/vr/godz/reloc/godzact_3.s")
+#pragma INCLUDE_ASM_RELOC("source/enemy/vr/godz/reloc/godzact_4.s")
 
 void GODZ_PutLSight( GodzWork* work )
 {

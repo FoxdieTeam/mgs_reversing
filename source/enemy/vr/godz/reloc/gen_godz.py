@@ -27,18 +27,20 @@ hi = int(cfg0['hi'], 16)
 funcs = []
 while a < hi:
     e = S.find_end(words, base, a)
-    funcs.append([cnames.get('%08X' % a, 'vcd_n05_%08X' % a), '%08X' % a, '%08X' % e])
+    funcs.append([cnames.get('%08X' % a, ('GodzAct_%08X' if name == 'act' else 'vcd_n05_%08X') % a), '%08X' % a, '%08X' % e])
     a = e
 
 # names of the functions of the other (C) objects, found by address
 CSYMS = {}
 for objp, st in (('enemy/vr/godz/godzila', 0x800C2EA4), ('enemy/vr/godz/godzchk', 0x800C4308), ('enemy/vr/godz/godzene', 0x800C7FD0),
-                 ('enemy/vr/godz/godzcom', 0x800CC424), ('okajima/vr/splash2_godz', 0x800CD168), ('thing/vr/snow_godz', 0x800CDC50),
+                 ('enemy/vr/godz/godzcom', 0x800CC424), ('enemy/vr/godz/godzact', 0x800C4DB8), ('okajima/vr/splash2_godz', 0x800CD168), ('thing/vr/snow_godz', 0x800CDC50),
                  ('anime/effect/vr_mark_godz', 0x800C89A0)):
+    if name == 'act' and objp.endswith('godzact'):
+        continue
     sec = parse_obj_sections('obj_vr/%s.obj' % objp)
     t = sec['.text']
     for n, (si, off) in sec['__xdefs__'].items():
-        if si == 2 and off < len(t.code) and n[0].isalpha() and not n.startswith('GODZ_'):
+        if si == 2 and off < len(t.code) and n[0].isalpha():
             CSYMS['%08X' % (st + off)] = n
 CSYMS['800C891C'] = 'AN_Fog'
 # data / bss of the other objects
@@ -77,5 +79,5 @@ for f in glob.glob(out.replace('.s', '*.s')):
             done.append((ad, n, b.group(1)))
     # the gcc/aspsx jump tables are 8 byte aligned; the table of 800C6814 has an extra zero word in front of it instead
     t = re.sub(r'\t\.align\t2\n(\w+_jtbl_)', r'\t.align\t3\n\1', t)
-    t = t.replace('\t.align\t3\nvcd_n05_800C6814_jtbl', '\t.word\t0\t\t\t# (the original has a zero word in front of the table)\n\t.align\t2\nvcd_n05_800C6814_jtbl')
+    t = re.sub(r'\t\.align\t3\n(\w+_800C6814_jtbl)', r'\t.word\t0\t\t\t# (the original has a zero word in front of the table)\n\t.align\t2\n\1', t)
     open(f, 'w').write(t)

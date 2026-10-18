@@ -2,8 +2,8 @@
 	.set	noat
 	.set	nomacro
 	.text
-	.globl	vcd_n05_800C5440
-vcd_n05_800C5440:
+	.globl	GodzAct_800C5440
+GodzAct_800C5440:
 	addiu	$29,$29,-40
 	sw	$18,32($29)
 	addu	$18,$4,$0
@@ -13,173 +13,173 @@ vcd_n05_800C5440:
 	lw	$2,2940($18)
 	addu	$16,$5,$0
 	ori	$2,$2,0x40
-	bne	$16,$0,$Lvcd_n05_800C5440_0
+	bne	$16,$0,$LGodzAct_800C5440_0
 	sw	$2,2940($18)
 	addiu	$4,$18,156
 	addu	$6,$0,$0
-	lui	$2,%hi(godzact_data)
+	lui	$2,%hi(GodzActTable)
 	sh	$0,2272($18)
-	lh	$5,%lo(godzact_data)($2)
+	lh	$5,%lo(GodzActTable)($2)
 	jal	GM_ConfigObjectAction
 	addiu	$7,$0,4
-$Lvcd_n05_800C5440_0:
+$LGodzAct_800C5440_0:
 	addiu	$2,$0,30
-	bne	$16,$2,$Lvcd_n05_800C5440_3
+	bne	$16,$2,$LGodzAct_800C5440_3
 	addiu	$2,$0,35
 	lb	$3,2949($18)
 	addiu	$2,$0,71
-	bne	$3,$2,$Lvcd_n05_800C5440_1
+	bne	$3,$2,$LGodzAct_800C5440_1
 	addiu	$4,$18,156
 	addu	$6,$0,$0
 	addiu	$2,$0,13
 	sh	$2,2272($18)
-	lui	$2,%hi(godzact_data+26)
-	lh	$5,%lo(godzact_data+26)($2)
+	lui	$2,%hi(GodzActTable+26)
+	lh	$5,%lo(GodzActTable+26)($2)
 	jal	GM_ConfigObjectAction
 	addiu	$7,$0,4
 	addiu	$4,$18,32
-	j	$Lvcd_n05_800C5440_2
+	j	$LGodzAct_800C5440_2
 	addiu	$5,$0,135
-$Lvcd_n05_800C5440_1:
+$LGodzAct_800C5440_1:
 	addu	$6,$0,$0
 	addiu	$2,$0,12
 	sh	$2,2272($18)
-	lui	$2,%hi(godzact_data+24)
-	lh	$5,%lo(godzact_data+24)($2)
+	lui	$2,%hi(GodzActTable+24)
+	lh	$5,%lo(GodzActTable+24)($2)
 	jal	GM_ConfigObjectAction
 	addiu	$7,$0,4
 	addiu	$4,$18,32
 	addiu	$5,$0,128
-$Lvcd_n05_800C5440_2:
+$LGodzAct_800C5440_2:
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	addiu	$2,$0,35
-$Lvcd_n05_800C5440_3:
-	beq	$16,$2,$Lvcd_n05_800C5440_4
+$LGodzAct_800C5440_3:
+	beq	$16,$2,$LGodzAct_800C5440_4
 	addiu	$2,$0,40
-	beq	$16,$2,$Lvcd_n05_800C5440_4
+	beq	$16,$2,$LGodzAct_800C5440_4
 	addiu	$2,$0,45
-	beq	$16,$2,$Lvcd_n05_800C5440_4
+	beq	$16,$2,$LGodzAct_800C5440_4
 	addiu	$2,$0,50
-	beq	$16,$2,$Lvcd_n05_800C5440_4
+	beq	$16,$2,$LGodzAct_800C5440_4
 	addiu	$2,$0,55
-	bne	$16,$2,$Lvcd_n05_800C5440_5
+	bne	$16,$2,$LGodzAct_800C5440_5
 	addiu	$2,$0,60
-$Lvcd_n05_800C5440_4:
+$LGodzAct_800C5440_4:
 	addiu	$4,$18,32
 	addiu	$5,$0,202
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	addiu	$2,$0,60
-$Lvcd_n05_800C5440_5:
-	bne	$16,$2,$Lvcd_n05_800C5440_6
+$LGodzAct_800C5440_5:
+	bne	$16,$2,$LGodzAct_800C5440_6
 	addiu	$2,$0,90
 	addiu	$4,$18,32
 	addiu	$5,$0,136
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	addiu	$2,$0,90
-$Lvcd_n05_800C5440_6:
-	bne	$16,$2,$Lvcd_n05_800C5440_7
+$LGodzAct_800C5440_6:
+	bne	$16,$2,$LGodzAct_800C5440_7
 	addiu	$2,$0,120
 	addiu	$4,$18,32
 	addiu	$5,$0,129
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	addiu	$2,$0,120
-$Lvcd_n05_800C5440_7:
-	bne	$16,$2,$Lvcd_n05_800C5440_8
+$LGodzAct_800C5440_7:
+	bne	$16,$2,$LGodzAct_800C5440_8
 	addiu	$2,$0,150
 	addiu	$4,$18,32
 	addiu	$5,$0,137
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	addiu	$2,$0,150
-$Lvcd_n05_800C5440_8:
-	bne	$16,$2,$Lvcd_n05_800C5440_9
+$LGodzAct_800C5440_8:
+	bne	$16,$2,$LGodzAct_800C5440_9
 	addiu	$2,$0,180
 	addiu	$4,$18,32
 	addiu	$5,$0,130
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	addiu	$2,$0,180
-$Lvcd_n05_800C5440_9:
-	bne	$16,$2,$Lvcd_n05_800C5440_10
+$LGodzAct_800C5440_9:
+	bne	$16,$2,$LGodzAct_800C5440_10
 	addiu	$2,$0,210
 	addiu	$4,$18,32
 	addiu	$5,$0,136
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	addiu	$2,$0,210
-$Lvcd_n05_800C5440_10:
-	bne	$16,$2,$Lvcd_n05_800C5440_11
+$LGodzAct_800C5440_10:
+	bne	$16,$2,$LGodzAct_800C5440_11
 	addiu	$2,$0,240
 	addiu	$4,$18,32
 	addiu	$5,$0,129
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	addiu	$2,$0,240
-$Lvcd_n05_800C5440_11:
-	bne	$16,$2,$Lvcd_n05_800C5440_12
+$LGodzAct_800C5440_11:
+	bne	$16,$2,$LGodzAct_800C5440_12
 	addiu	$2,$0,270
 	addiu	$4,$18,32
 	addiu	$5,$0,137
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	addiu	$2,$0,270
-$Lvcd_n05_800C5440_12:
-	bne	$16,$2,$Lvcd_n05_800C5440_13
+$LGodzAct_800C5440_12:
+	bne	$16,$2,$LGodzAct_800C5440_13
 	addiu	$2,$0,300
 	addiu	$4,$18,32
 	addiu	$5,$0,130
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	addiu	$2,$0,300
-$Lvcd_n05_800C5440_13:
-	bne	$16,$2,$Lvcd_n05_800C5440_14
+$LGodzAct_800C5440_13:
+	bne	$16,$2,$LGodzAct_800C5440_14
 	addiu	$2,$0,310
 	addiu	$4,$18,32
 	addiu	$5,$0,136
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	addiu	$2,$0,310
-$Lvcd_n05_800C5440_14:
-	bne	$16,$2,$Lvcd_n05_800C5440_15
+$LGodzAct_800C5440_14:
+	bne	$16,$2,$LGodzAct_800C5440_15
 	addiu	$2,$0,104
 	addiu	$4,$18,32
 	addiu	$5,$0,129
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	addiu	$2,$0,104
-$Lvcd_n05_800C5440_15:
-	bne	$16,$2,$Lvcd_n05_800C5440_16
+$LGodzAct_800C5440_15:
+	bne	$16,$2,$LGodzAct_800C5440_16
 	addiu	$2,$0,155
 	addiu	$4,$18,32
 	addiu	$5,$0,203
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	addiu	$2,$0,155
-$Lvcd_n05_800C5440_16:
-	beq	$16,$2,$Lvcd_n05_800C5440_17
+$LGodzAct_800C5440_16:
+	beq	$16,$2,$LGodzAct_800C5440_17
 	addiu	$2,$0,204
-	beq	$16,$2,$Lvcd_n05_800C5440_17
+	beq	$16,$2,$LGodzAct_800C5440_17
 	addiu	$2,$0,265
-	beq	$16,$2,$Lvcd_n05_800C5440_17
+	beq	$16,$2,$LGodzAct_800C5440_17
 	addiu	$2,$0,295
-	bne	$16,$2,$Lvcd_n05_800C5440_18
+	bne	$16,$2,$LGodzAct_800C5440_18
 	slti	$2,$16,61
-$Lvcd_n05_800C5440_17:
+$LGodzAct_800C5440_17:
 	addiu	$4,$18,32
 	addiu	$5,$0,204
 	jal	GM_SeSetMode
 	addiu	$6,$0,1
 	slti	$2,$16,61
-$Lvcd_n05_800C5440_18:
-	bne	$2,$0,$Lvcd_n05_800C5440_19
+$LGodzAct_800C5440_18:
+	bne	$2,$0,$LGodzAct_800C5440_19
 	nop
 	lh	$2,182($18)
 	nop
-	beq	$2,$0,$Lvcd_n05_800C5440_19
+	beq	$2,$0,$LGodzAct_800C5440_19
 	addiu	$4,$18,32
 	addiu	$5,$0,200
 	jal	GM_SeSetMode
@@ -219,7 +219,7 @@ $Lvcd_n05_800C5440_18:
 	sh	$0,112($18)
 	jal	GM_ConfigMotionAdjust
 	sh	$0,108($18)
-$Lvcd_n05_800C5440_19:
+$LGodzAct_800C5440_19:
 	lw	$31,36($29)
 	lw	$18,32($29)
 	lw	$17,28($29)
@@ -229,62 +229,4 @@ $Lvcd_n05_800C5440_19:
 	.set	macro
 	.set	reorder
 	.set	at
-	.data
-	.align	2
-godzact_data:
-	.word	0x00140013
-	.word	0x0016000A
-	.word	0x00220009
-	.word	0x00240023
-	.word	0x000D002D
-	.word	0x001A000C
-	.word	0x000E000F
-	.word	0x001B0010
-	.word	0x002E0008
-	.word	0x00150032
-	.word	0x001F001E
-	.word	0x00210020
-	.word	0x00340025
-	.word	0x00190035
-	.word	0x00020005
-	.word	0x0004002A
-	.word	0x00280027
-	.word	0x00070006
-	.word	0x00030026
-	.word	0x00110029
-	.word	0x002B0012
-	.word	0x00180017
-	.word	0x001D001C
-	.word	0x00010000
-	.word	0x00110033
-	.word	0x002B0012
-	.word	0x00000016
-	.word	0x037F0300
-	.word	0x037F0300
-	.word	0x037F0300
-	.word	0x037F0300
-	.word	0x00000000
-	.word	0x04E60278
-	.word	0x04FF04B4
-	.word	0x048C06C8
-	.word	0x0A3C0664
-	.word	0x00000000
-	.word	0x00000000
-	.word	0x00000064
-	.word	0x0000FC00
-	.word	0x00000000
-	.word	0x00000000
-	.word	0x00000064
-	.word	0x0000FC00
-	.word	0x00000000
-	.word	vcd_n05_800C7A48
-	.word	vcd_n05_800C7C60
-	.word	GODZ_PutLSight
-	.word	GODZ_PutBullet
-	.word	0x047F0200
-	.word	0x00000000
-	.word	0x067803B4
-	.word	0x0000063C
-	.word	0xFE0C0005
-	.word	0x00000050
 	.text
