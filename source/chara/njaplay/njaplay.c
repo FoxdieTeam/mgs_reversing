@@ -21,6 +21,7 @@
 #include "game/game.h"
 #include "okajima/blood.h"
 #include "strcode.h"
+#include "takabe/windcrcl.h"
 
 // bss of the object (the sbss variables of the main exe version are plain bss here, in the order of the original). The
 // "njp_" prefix keeps the symbols apart from the identical variables of the exe.
@@ -58,6 +59,9 @@ extern Target_Data njp_stru_8009EFE4;
 extern SVECTOR njp_svector_800AB7FC;
 
 void njp_FreeTargets(SnaInitWork *work);
+
+// shared with the p_sphere of the other VR overlays
+extern void *s08b_p_sphere_800D9834(DG_OBJS **pobjs, int *state);
 
 #define GetAction( work ) (work->body.action)
 #define SEGMENT_ATR ( HZD_SEG_NO_COLLIDE )
@@ -600,7 +604,96 @@ void njp_sna_8004F8E4(SnaInitWork *work, int a2)
     }
 }
 
+// @800C3270 njp_sna_800C3270
+void njp_sna_800C3270(SnaInitWork *work)
+{
+    if ((GM_GameOverTimer == -1) || (GM_GameOverTimer == 0))
+    {
+        GM_GameOverTimer = 0;
+        GM_GameOver();
+
+        GM_GameStatus |= STATE_PADRELEASE;
+        njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
+
+        if (work->field_A70 >= 0)
+        {
+            GCL_ForceExecProc(work->field_A70, NULL);
+        }
+    }
+}
+
+// @800C32E4 njp_sna_act_unk_helper4_8004FA3C
+int njp_sna_act_unk_helper4_8004FA3C(void)
+{
+    if (GM_Vitality == 0 || GM_GameOverTimer != 0)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+// @800C3318 njp_sna_800C3318
+void njp_sna_800C3318(SnaInitWork *work)
+{
+    MATRIX stackData;
+
+    stackData = DG_ZeroMatrix;
+    stackData.t[0] = work->control.mov.vx;
+    stackData.t[1] = 0x14;
+    stackData.t[2] = work->control.mov.vz;
+
+    NewWindcrcl_800CF784(&stackData, 0xc8, 0x64, 0x12c, 0xa);
+
+    work->njp_mode = 2;
+    s08b_p_sphere_800D9834(&work->body.objs, &work->njp_mode);
+}
+
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_0.s")
+//ASM-END
+
+// @800C3738 njp_sna_8004FDE8
+int njp_sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
+{
+    TARGET *pTarget;
+    SVECTOR vec;
+    SVECTOR vecs[2];
+
+    GM_SetTarget(&work->field_8A0_target, TARGET_CAPTURE, PLAYER_SIDE, &pTargetData->field_8_size);
+    GM_SetCaptureTarget(&work->field_8A0_target, pTargetData->field_18, pTargetData->field_1C, &work->field_8F4, &work->field_8FC);
+    DG_PutVector(&pTargetData->field_0, &vec, 1);
+    GM_MoveTarget(&work->field_8A0_target, &vec);
+
+    work->field_8E8_pTarget = NULL;
+
+    pTarget = GM_CaptureTarget(&work->field_8A0_target);
+
+    if (pTarget)
+    {
+        if (pTarget->class & 0x20)
+        {
+            pTarget->damaged &= ~TARGET_CAPTURE;
+            pTarget->faint += pTargetData->field_1C;
+            return 0;
+        }
+
+        vecs[0] = work->control.mov;
+        vecs[1] = pTarget->center;
+
+        if (njp_sna_line_check(vecs, work->control.map->hzd, HZD_CHK_ALL, SEGMENT_ATR) < 0)
+        {
+            work->field_8E8_pTarget = pTarget;
+            return 1;
+        }
+
+        pTarget->damaged &= ~TARGET_CAPTURE;
+        pTarget->faint += pTargetData->field_1C;
+    }
+
+    return 0;
+}
+
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
 //ASM-END
 
 // @800C48EC njp_nop_800C48EC
@@ -621,7 +714,7 @@ void njp_FreeTargets(SnaInitWork *work)
     work->njp_num_targets = 0;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
 //ASM-END
 
 // @800C6244 njp_sna_80051A10
@@ -737,7 +830,7 @@ int njp_sna_80051BA4(SnaInitWork *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
 //ASM-END
 
 // @800C67B0 njp_sna_80051FD0
@@ -783,7 +876,7 @@ void njp_sna_80051FD0(SnaInitWork *work)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_4.s")
 //ASM-END
 
 // @DATA
@@ -825,6 +918,8 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
 
 
 
