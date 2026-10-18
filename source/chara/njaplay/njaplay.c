@@ -20,6 +20,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "okajima/blood.h"
+#include "game/vibrate.h"
 #include "okajima/spark.h"
 #include "strcode.h"
 #include "equip/equip.h"
@@ -2450,6 +2451,12 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
+
+
+
+
 
 
 
