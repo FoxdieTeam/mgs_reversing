@@ -13,6 +13,7 @@ CONFIG (json):
    "syms":  {"800E1318": "NewSplashVr"} }
 Jump tables are detected automatically per function and are emitted in their address order between the rdata items.
  Optional: "data": [["800C1D98","name",COUNT_WORDS], ...] initialised .data words (pointers into the object are symbolic),
+           "sized_syms": {"800B5448": ["GM_Camera", 256]} (a symbol referenced as name+offset),
            "bss_syms": {"800E1DA0": ["name", SIZE]} symbols of C-defined bss, "globl": true (export data labels),
            "export": ["name", ...] (export these rdata labels so C can refer to the literal, see vrclear2.c)."""
 import json, re, struct, sys, os
@@ -25,6 +26,8 @@ data = open(os.path.expandvars(cfg['bin']), 'rb').read()
 syms = S.Syms()
 for k, v in cfg.get('syms', {}).items():
     syms.add(int(k, 16), v)
+for k, v in cfg.get('sized_syms', {}).items():   # exe/overlay symbols that are referenced with an offset: {"ADDR": ["name", SIZE]}
+    syms.add(int(k, 16), v[0], v[1])
 for name, st, en in cfg['funcs']:
     syms.add(int(st, 16), name)
 rd = {}

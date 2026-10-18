@@ -37,9 +37,17 @@ typedef struct _Work
     SVECTOR  bolt_end[2];                  /* 0x2D4 */
 } Work;
 
+#ifdef VR_EXE
+// In the VR overlays only the "active" flag lives in this object (the other two words belong to the ninja player code).
+// FIXME: it is run time data (a dump of the VR overlays holds a different value in every overlay that shares this object, see
+// VOLATILE_WORDS in build/uninitializer.py); emitted by hand to keep it in .data.
+__asm__(".data\n.globl s08b_dword_800C361C\n.align 2\ns08b_dword_800C361C:\n.space 4");
+extern int s08b_dword_800C361C;
+#else
 int s08b_dword_800C3614 = 0x00000000;
 int s08b_dword_800C3618 = 0x00000000;
 int s08b_dword_800C361C = 0x00000000;
+#endif
 
 const char s08b_aNjaball_800E40B8[] = "nja_ball";
 const char s08b_aBallhlf_800E40C4[] = "ballhlf";
