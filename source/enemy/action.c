@@ -1855,7 +1855,11 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
         {
             work->unknown.field_1E = 1;
             work->target->force = DG_ZeroVector;
+#ifdef VR_MYSTERY
+            ENE_SeHitFloor( work, ctrl );
+#else
             GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
+#endif
             ENE_PutBlood( work, 6, 1 );
             SetMode( work, s00a_command_800C8054 );
 #ifdef VR_EXE
@@ -1865,7 +1869,9 @@ void s00a_command_800C7E28( WatcherWork* work, int time )
     }
 #ifdef VR_EXE
     s00a_command_800C59F8( work );
+#ifndef VR_MYSTERY
     ctrl->height = 200;
+#endif
 #endif
     ctrl->hzd_height = -32767;
 }
@@ -1933,7 +1939,11 @@ void s00a_command_800C818C( WatcherWork *work, int time )
             GM_EnemyKillCount++;
         }
 
+#ifdef VR_MYSTERY
+        if ( !( work->field_C58 & MYST_EXEC_PROC ) && work->field_C3C >= 0 )
+#else
         if ( work->field_C3C >= 0 )
+#endif
         {
             GCL_ExecProc( work->field_C3C, NULL );
         }
@@ -1962,6 +1972,9 @@ void s00a_command_800C82B0( WatcherWork *work )
     work->vision.length = 0;
     work->target->class = TARGET_AVAIL;
 
+#ifdef VR_MYSTERY
+    work->actend = 0;
+#else
 #ifdef VR_EXE
     unk = &work->unknown;
 #endif
@@ -1969,8 +1982,22 @@ void s00a_command_800C82B0( WatcherWork *work )
     ctrl   = &work->control;
 
     work->actend = 0;
+#endif
     work->act_status = 0;
+#ifdef VR_MYSTERY
+    if ( !( work->field_C58 & MYST_FOOTPRINTS ) )
+    {
+        work->field_C30  = 0;
+    }
+#else
     work->field_C30  = 0;
+#endif
+
+#ifdef VR_MYSTERY
+    unk = &work->unknown;
+    ctrl   = &work->control;
+    action = work->action;
+#endif
 
 #ifdef VR_EXE
     // FIXME: the body pointer (and unk set before ctrl) only steer gcc's register/scheduling choices
