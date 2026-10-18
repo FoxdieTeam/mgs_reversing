@@ -40,7 +40,10 @@ typedef struct VR_SAVEMNGR_ITEM
 {
     unsigned int flags;      /* 0x00 */
     RECT         rect;       /* 0x04: highlight rectangle */
-    char         pad_0C[0x10];
+    int          field_0C;   /* 0x0C */
+    int          field_10;   /* 0x10 */
+    int          tex_id;     /* 0x14 */
+    int          proc;       /* 0x18: GCL proc executed when chosen */
     short        limit;      /* 0x1C: number of animation steps to wait */
     char         pad_1E[0x06];
     RECT         frame_rect; /* 0x24: rectangle the menu frame moves to when this item is selected */
