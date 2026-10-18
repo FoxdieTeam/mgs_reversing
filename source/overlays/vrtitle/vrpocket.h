@@ -12,7 +12,7 @@ typedef struct PocketObj
     /* 0x08 */ int               field_8;
     /* 0x0C */ short             field_C;
     /* 0x0E */ short             field_E;
-    /* 0x10 */ short             count; // number of sub entries, see vrtitle_800C3028
+    /* 0x10 */ unsigned short    count; // number of sub entries, see vrtitle_800C3028
     /* 0x12 */ char              kind;
     /* 0x13 */ char              enabled;
     /* 0x14 */ union
