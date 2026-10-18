@@ -169,7 +169,92 @@ void s08b_plasma_l_800D9F1C(Work *work, int arg1, int arg2)
     work->field_2F0[arg1] = work->field_2F0[v1] + (work->field_2F0[v2] - work->field_2F0[v1]) / 2;
 }
 
+// FIXME: NON_MATCHING attempt in C below, differs only in the order of the four pointer initializations in the
+// prologue (the original starts with the &field_30 one, the register allocation is identical). The VR build pastes the
+// original code as relocatable asm so that the object stays shareable.
+#if 0 /* NON_MATCHING */
+void s08b_plasma_l_800D9FB4(Work *work)
+{
+    SVECTOR  vec;
+    SVECTOR  rot;
+    SVECTOR  prev1;
+    SVECTOR  prev2;
+    SVECTOR *src;
+    SVECTOR *vtx;
+    int      i;
+    int     *p334;
+    int     *p378;
+    int     *p2F0;
+    SVECTOR *out;
+
+    GM_CurrentMap = work->map;
+
+    if (work->field_3BC > work->field_3C0)
+    {
+        GV_DestroyActor(&work->actor);
+    }
+
+    s08b_plasma_l_800D9C98(work);
+
+    s08b_plasma_l_800D9F1C(work, 2, 2);
+    s08b_plasma_l_800D9F1C(work, 6, 2);
+    s08b_plasma_l_800D9F1C(work, 10, 2);
+    s08b_plasma_l_800D9F1C(work, 14, 2);
+    for (i = 0; i < 8; i++)
+    {
+        s08b_plasma_l_800D9F1C(work, i * 2 + 1, 1);
+    }
+
+    p334 = work->field_334;
+    p378 = work->field_378;
+    p2F0 = work->field_2F0;
+    out = work->field_30;
+    rot.vx = 0;
+    rot.vz = 0;
+    vec.vx = 0;
+    for (i = 0; i < 17; i++, p334++, p378++, p2F0++, out++)
+    {
+        vec.vy = *p334 * work->field_2C / 4096;
+        vec.vz = *p378;
+        rot.vy = *p2F0;
+        DG_SetPos2(&DG_ZeroVector, &rot);
+        DG_PutVector(&vec, out, 1);
+    }
+
+    DG_SetPos2(&work->field_2D8, &work->field_2E8);
+    DG_PutVector(work->field_30, work->field_30, 17);
+
+    vec.vx = GV_RandS(16) + 16;
+    vec.vy = GV_RandS(16) + 16;
+    vec.vz = 16;
+
+    src = &work->field_30[1];
+    vtx = work->vertices;
+    prev1 = work->field_30[0];
+    GV_AddVec3(&work->field_30[0], &vec, &prev2);
+
+    for (i = 0; i < 16; i++)
+    {
+        *vtx++ = prev1;
+        *vtx = *src;
+        prev1 = *vtx;
+        vtx++;
+        *vtx++ = prev2;
+        GV_AddVec3(src, &vec, vtx);
+        prev2 = *vtx;
+        vtx++;
+        src++;
+    }
+
+    work->field_3BC++;
+}
+#endif
+
+#ifdef VR_EXE
+#pragma INCLUDE_ASM_RELOC("source/overlays/s08b/okajima/reloc/plasma_l_act.s")
+#else
 #pragma INCLUDE_ASM("asm/overlays/s08b/s08b_plasma_l_800D9FB4.s")
+#endif
 void s08b_plasma_l_800D9FB4(Work *);
 
 void s08b_plasma_l_800DA28C(Work *work)
