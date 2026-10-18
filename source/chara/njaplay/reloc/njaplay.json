@@ -220,7 +220,7 @@
    "800C3B98"
   ],
   [
-   "njp_800C3B98",
+   "njp_sub_800507D8",
    "800C3B98",
    "800C3C1C"
   ],
@@ -235,17 +235,17 @@
    "800C41B4"
   ],
   [
-   "njp_800C41B4",
+   "njp_sna_clear_target_800C41B4",
    "800C41B4",
    "800C4200"
   ],
   [
-   "njp_800C4200",
+   "njp_sna_anim_idle_800C4200",
    "800C4200",
    "800C4244"
   ],
   [
-   "njp_800C4244",
+   "njp_sna_anim_run_begin_80053B88",
    "800C4244",
    "800C4298"
   ],
@@ -255,7 +255,7 @@
    "800C43CC"
   ],
   [
-   "njp_800C43CC",
+   "njp_sna_anim_wall_move_80052BA8",
    "800C43CC",
    "800C44CC"
   ],
@@ -430,7 +430,7 @@
    "800C6AC0"
   ],
   [
-   "njp_800C6AC0",
+   "njp_sna_anim_chokethrow_begin2_80058C80",
    "800C6AC0",
    "800C6CA4"
   ],
@@ -630,6 +630,10 @@
   "njp_sna_8004FDE8",
   "njp_sna_800C3898",
   "njp_sna_800C399C",
+  "njp_sub_800507D8",
+  "njp_sna_clear_target_800C41B4",
+  "njp_sna_anim_idle_800C4200",
+  "njp_sna_anim_run_begin_80053B88",
   "njp_nop_800C48EC",
   "njp_FreeTargets",
   "njp_sna_80051A10",
@@ -686,7 +690,7 @@
    4
   ],
   "800E5B74": [
-   "njp_bss_44",
+   "njp_dword_800ABBC4",
    4
   ],
   "800E5B78": [

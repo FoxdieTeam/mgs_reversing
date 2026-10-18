@@ -38,7 +38,7 @@ int          SECTION(".bss") njp_bss_28;
 int          SECTION(".bss") njp_bss_32;
 int          SECTION(".bss") njp_bss_36;
 int          SECTION(".bss") njp_bss_40;
-int          SECTION(".bss") njp_bss_44;
+int          SECTION(".bss") njp_dword_800ABBC4;
 int          SECTION(".bss") njp_bss_48;
 int          SECTION(".bss") njp_bss_52;
 int          SECTION(".bss") njp_bss_56;
@@ -62,6 +62,10 @@ extern SVECTOR njp_svector_800AB7FC;
 void njp_FreeTargets(SnaInitWork *work);
 
 void njp_800C4E38(SnaInitWork *work, int time);
+void njp_sna_anim_idle_800C4200(SnaInitWork *work, int time);
+void njp_800C44CC(SnaInitWork *work, int time);
+void njp_800C45CC(SnaInitWork *work, int time);
+void njp_800C6900(SnaInitWork *work, int time);
 extern int snainit_item_800A9420;
 
 // shared with the p_sphere of the other VR overlays
@@ -894,6 +898,63 @@ void njp_sna_800C399C(SnaInitWork *work)
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_0.s")
 //ASM-END
 
+// @800C3B98 njp_sub_800507D8
+int njp_sub_800507D8(SnaInitWork *work)
+{
+    if (njp_dword_800ABBC4 == 0 && work->field_A38_local_data == 0)
+    {
+        work->field_A28 = 450;
+        njp_GM_ClearPlayerStatusFlag(PLAYER_CHECK_WALL | PLAYER_CAUTION | PLAYER_MOVE);
+        njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
+        njp_sna_8004E260(work, 0, 4, 0);
+        GM_ExitBehindCamera();
+        return 1;
+    }
+
+    return 0;
+}
+
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
+//ASM-END
+
+// @800C41B4 njp_sna_clear_target_800C41B4
+void njp_sna_clear_target_800C41B4(TARGET *target)
+{
+    target->damage = 0;
+    target->faint = 0;
+    target->damaged &= ~0x84;
+    target->force = DG_ZeroVector;
+    target->weapon = -1;
+    target->a_mode = 0;
+}
+
+// @800C4200 njp_sna_anim_idle_800C4200
+void njp_sna_anim_idle_800C4200(SnaInitWork *work, int time)
+{
+    if (time == 0)
+    {
+        work->field_9C8_anim_update_fn_3p = njp_800C44CC;
+        work->field_A26_stance = STAND;
+        work->field_9CC_anim_update_fn_1p = njp_800C6900;
+        njp_SetAction_8004E22C(work, 2, 4);
+    }
+}
+
+// @800C4244 njp_sna_anim_run_begin_80053B88
+void njp_sna_anim_run_begin_80053B88(SnaInitWork *work, int time)
+{
+    if (time == 0)
+    {
+        work->field_9C8_anim_update_fn_3p = njp_800C45CC;
+        work->field_9CC_anim_update_fn_1p = njp_800C6900;
+        njp_GM_SetPlayerStatusFlag(PLAYER_MOVE);
+        njp_SetAction_8004E22C(work, 5, 4);
+    }
+}
+
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
+//ASM-END
+
 // @800C48EC njp_nop_800C48EC
 void njp_nop_800C48EC(void)
 {
@@ -912,7 +973,7 @@ void njp_FreeTargets(SnaInitWork *work)
     work->njp_num_targets = 0;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
 //ASM-END
 
 // @800C6244 njp_sna_80051A10
@@ -1028,7 +1089,7 @@ int njp_sna_80051BA4(SnaInitWork *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_4.s")
 //ASM-END
 
 // @800C67B0 njp_sna_80051FD0
@@ -1074,7 +1135,7 @@ void njp_sna_80051FD0(SnaInitWork *work)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_5.s")
 //ASM-END
 
 // @DATA
@@ -1116,6 +1177,8 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
 
 
 

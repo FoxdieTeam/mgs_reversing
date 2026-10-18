@@ -2,140 +2,497 @@
 	.set	noat
 	.set	nomacro
 	.text
-	.globl	njp_800C65D4
-njp_800C65D4:
-	addiu	$29,$29,-48
-	sw	$20,40($29)
-	addu	$20,$4,$0
-	sw	$31,44($29)
-	sw	$19,36($29)
-	sw	$18,32($29)
-	sw	$17,28($29)
-	sw	$16,24($29)
-	lw	$2,2320($20)
-	lw	$3,2320($20)
-	lhu	$2,0($2)
+	.globl	njp_800C4298
+njp_800C4298:
+	addiu	$29,$29,-32
+	sw	$16,16($29)
+	addu	$16,$4,$0
+	sw	$31,24($29)
+	bne	$5,$0,$Lnjp_800C4298_2
+	sw	$17,20($29)
+	jal	njp_GM_CheckPlayerStatusFlag
+	lui	$4,0x1
+	bne	$2,$0,$Lnjp_800C4298_1
+	addu	$4,$16,$0
+	addiu	$17,$0,7
+	jal	njp_GM_CheckPlayerStatusFlag
+	lui	$4,0x100
+	beq	$2,$0,$Lnjp_800C4298_0
+	addiu	$4,$16,32
+	addiu	$17,$0,183
+$Lnjp_800C4298_0:
+	jal	GM_SeSet
+	addu	$5,$17,$0
+	lui	$2,%hi(njp_bss_56)
+	lhu	$2,%lo(njp_bss_56)($2)
+	lui	$4,0x1
+	addiu	$2,$2,-2048
+	jal	njp_GM_SetPlayerStatusFlag
+	sh	$2,110($16)
+	addu	$4,$16,$0
+$Lnjp_800C4298_1:
+	addiu	$5,$0,21
+	addiu	$2,$0,300
+	sh	$2,2436($16)
+	lui	$2,%hi(njp_800C4750)
+	addiu	$2,$2,%lo(njp_800C4750)
+	sw	$2,2340($16)
+	lui	$2,%hi(njp_800C6994)
+	addiu	$2,$2,%lo(njp_800C6994)
+	addiu	$6,$0,4
+	sh	$0,2434($16)
+	jal	njp_SetAction_8004E22C
+	sw	$2,2344($16)
+$Lnjp_800C4298_2:
+	lw	$2,76($16)
 	nop
-	sh	$2,16($29)
-	lbu	$2,15($3)
-	addiu	$4,$29,16
-	jal	GM_CheckShukanReverse
-	sb	$2,18($29)
-	jal	GM_CheckShukanReverseAnalog
-	addiu	$4,$29,18
-	addiu	$17,$20,2348
-	lh	$19,8($17)
-	lh	$2,6($17)
-	lh	$3,2348($20)
-	subu	$18,$0,$2
-	beq	$3,$0,$Lnjp_800C65D4_0
-	addu	$16,$0,$0
-	lh	$16,108($20)
-$Lnjp_800C65D4_0:
-	lui	$2,%hi(njp_dword_800ABBDC)
-	lh	$3,%lo(njp_dword_800ABBDC)($2)
+	lw	$4,8($2)
+	jal	GM_CheckBehindCamera
+	addiu	$5,$16,32
+	lh	$2,2454($16)
 	nop
-	slt	$2,$18,$3
-	beq	$2,$0,$Lnjp_800C65D4_1
-	lui	$2,%hi(njp_dword_800ABBD4)
-	addu	$18,$3,$0
-$Lnjp_800C65D4_1:
-	lh	$3,%lo(njp_dword_800ABBD4)($2)
+	slti	$2,$2,8
+	beq	$2,$0,$Lnjp_800C4298_5
+	lui	$2,%hi(njp_bss_52)
+	lw	$4,%lo(njp_bss_52)($2)
 	nop
-	slt	$2,$3,$19
-	beq	$2,$0,$Lnjp_800C65D4_2
+	beq	$4,$0,$Lnjp_800C4298_5
 	nop
-	addu	$19,$3,$0
-$Lnjp_800C65D4_2:
-	addu	$4,$20,$0
-	jal	njp_sna_check_flags1_8004E31C
-	addiu	$5,$0,16384
-	addiu	$6,$0,1
-	lhu	$3,16($29)
-	addu	$5,$2,$0
-	andi	$2,$3,0x1000
-	beq	$2,$0,$Lnjp_800C65D4_6
-	addu	$4,$6,$0
-	andi	$2,$5,0xff
-	beq	$2,$0,$Lnjp_800C65D4_3
-	addiu	$2,$0,64
-	addiu	$6,$0,64
-	lbu	$3,18($29)
+	lh	$3,0($4)
 	nop
-	subu	$4,$2,$3
-$Lnjp_800C65D4_3:
-	lh	$3,10($17)
-	andi	$2,$4,0xff
-	mult	$3,$2
-	mflo	$3
+	bgez	$3,$Lnjp_800C4298_3
 	nop
+	addiu	$3,$3,7
+$Lnjp_800C4298_3:
+	lhu	$2,100($16)
+	sra	$3,$3,3
+	addu	$2,$2,$3
+	sh	$2,100($16)
+	lh	$2,4($4)
 	nop
-	div	$3,$6
-	bne	$6,$0,$Lnjp_800C65D4_4
+	bgez	$2,$Lnjp_800C4298_4
 	nop
-	.word	0x0007000D
-$Lnjp_800C65D4_4:
-	addiu	$1,$0,-1
-	bne	$6,$1,$Lnjp_800C65D4_5
-	lui	$1,0x8000
-	bne	$3,$1,$Lnjp_800C65D4_5
-	nop
-	.word	0x0006000D
-$Lnjp_800C65D4_5:
-	mflo	$2
-	j	$Lnjp_800C65D4_10
-	subu	$16,$16,$2
-$Lnjp_800C65D4_6:
-	andi	$2,$3,0x4000
-	beq	$2,$0,$Lnjp_800C65D4_10
-	andi	$2,$5,0xff
-	beq	$2,$0,$Lnjp_800C65D4_7
-	nop
-	lbu	$2,18($29)
-	addiu	$6,$0,63
-	addiu	$4,$2,64
-$Lnjp_800C65D4_7:
-	lh	$3,12($17)
-	andi	$2,$4,0xff
-	mult	$3,$2
-	mflo	$3
-	nop
-	nop
-	div	$3,$6
-	bne	$6,$0,$Lnjp_800C65D4_8
-	nop
-	.word	0x0007000D
-$Lnjp_800C65D4_8:
-	addiu	$1,$0,-1
-	bne	$6,$1,$Lnjp_800C65D4_9
-	lui	$1,0x8000
-	bne	$3,$1,$Lnjp_800C65D4_9
-	nop
-	.word	0x0006000D
-$Lnjp_800C65D4_9:
-	mflo	$2
-	nop
-	addu	$16,$16,$2
-$Lnjp_800C65D4_10:
-	slt	$2,$16,$18
-	beq	$2,$0,$Lnjp_800C65D4_11
-	slt	$2,$19,$16
-	addu	$16,$18,$0
-	slt	$2,$19,$16
-$Lnjp_800C65D4_11:
-	beq	$2,$0,$Lnjp_800C65D4_12
-	nop
-	addu	$16,$19,$0
-$Lnjp_800C65D4_12:
-	sh	$16,108($20)
-	lw	$31,44($29)
-	lw	$20,40($29)
-	lw	$19,36($29)
-	lw	$18,32($29)
-	lw	$17,28($29)
-	lw	$16,24($29)
+	addiu	$2,$2,7
+$Lnjp_800C4298_4:
+	sra	$2,$2,3
+	lhu	$3,104($16)
+	lhu	$4,2454($16)
+	addu	$3,$3,$2
+	addiu	$4,$4,1
+	sh	$3,104($16)
+	sh	$4,2454($16)
+$Lnjp_800C4298_5:
+	lw	$31,24($29)
+	lw	$17,20($29)
+	lw	$16,16($29)
 	jr	$31
-	addiu	$29,$29,48
+	addiu	$29,$29,32
+	.set	macro
+	.set	reorder
+	.set	at
+	.set	noreorder
+	.set	noat
+	.set	nomacro
+	.text
+	.globl	njp_sna_anim_wall_move_80052BA8
+njp_sna_anim_wall_move_80052BA8:
+	addiu	$29,$29,-24
+	sw	$16,16($29)
+	addu	$16,$4,$0
+	bne	$5,$0,$Lnjp_sna_anim_wall_move_80052BA8_1
+	sw	$31,20($29)
+	lui	$4,0x1
+	jal	njp_GM_SetPlayerStatusFlag
+	ori	$4,$4,0x10
+	lui	$2,%hi(njp_800C47EC)
+	addiu	$2,$2,%lo(njp_800C47EC)
+	sw	$2,2340($16)
+	lui	$2,%hi(njp_800C6994)
+	lh	$3,2480($16)
+	addiu	$2,$2,%lo(njp_800C6994)
+	sw	$2,2344($16)
+	addiu	$2,$0,2
+	bne	$3,$2,$Lnjp_sna_anim_wall_move_80052BA8_0
+	addiu	$5,$0,23
+	addiu	$5,$0,22
+$Lnjp_sna_anim_wall_move_80052BA8_0:
+	addu	$4,$16,$0
+	addiu	$2,$0,300
+	addiu	$6,$0,4
+	sh	$2,2436($16)
+	jal	njp_SetAction_8004E22C
+	sh	$0,2480($16)
+	lui	$2,%hi(njp_bss_56)
+	lhu	$2,%lo(njp_bss_56)($2)
+	nop
+	addiu	$2,$2,-2048
+	sh	$2,110($16)
+$Lnjp_sna_anim_wall_move_80052BA8_1:
+	lh	$2,2454($16)
+	nop
+	slti	$2,$2,8
+	beq	$2,$0,$Lnjp_sna_anim_wall_move_80052BA8_4
+	lui	$2,%hi(njp_bss_52)
+	lw	$4,%lo(njp_bss_52)($2)
+	nop
+	beq	$4,$0,$Lnjp_sna_anim_wall_move_80052BA8_4
+	nop
+	lh	$3,0($4)
+	nop
+	bgez	$3,$Lnjp_sna_anim_wall_move_80052BA8_2
+	nop
+	addiu	$3,$3,7
+$Lnjp_sna_anim_wall_move_80052BA8_2:
+	lhu	$2,100($16)
+	sra	$3,$3,3
+	addu	$2,$2,$3
+	sh	$2,100($16)
+	lh	$2,4($4)
+	nop
+	bgez	$2,$Lnjp_sna_anim_wall_move_80052BA8_3
+	nop
+	addiu	$2,$2,7
+$Lnjp_sna_anim_wall_move_80052BA8_3:
+	sra	$2,$2,3
+	lhu	$3,104($16)
+	lhu	$4,2454($16)
+	addu	$3,$3,$2
+	addiu	$4,$4,1
+	sh	$3,104($16)
+	sh	$4,2454($16)
+$Lnjp_sna_anim_wall_move_80052BA8_4:
+	lw	$31,20($29)
+	lw	$16,16($29)
+	jr	$31
+	addiu	$29,$29,24
+	.set	macro
+	.set	reorder
+	.set	at
+	.set	noreorder
+	.set	noat
+	.set	nomacro
+	.text
+	.globl	njp_800C44CC
+njp_800C44CC:
+	addiu	$29,$29,-24
+	sw	$16,16($29)
+	sw	$31,20($29)
+	jal	njp_800C3A30
+	addu	$16,$4,$0
+	bne	$2,$0,$Lnjp_800C44CC_7
+	nop
+	lh	$2,2452($16)
+	lhu	$3,2452($16)
+	blez	$2,$Lnjp_800C44CC_0
+	addiu	$2,$3,-1
+	sh	$2,2452($16)
+$Lnjp_800C44CC_0:
+	lh	$2,2452($16)
+	nop
+	bne	$2,$0,$Lnjp_800C44CC_7
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lw	$2,%lo(njp_gSnaMoveDir_800ABBA4)($2)
+	nop
+	bltz	$2,$Lnjp_800C44CC_7
+	lui	$2,%hi(njp_dword_800ABBC4)
+	lw	$3,%lo(njp_dword_800ABBC4)($2)
+	addiu	$2,$0,1
+	beq	$3,$2,$Lnjp_800C44CC_1
+	addu	$4,$16,$0
+	beq	$3,$0,$Lnjp_800C44CC_2
+	addiu	$2,$0,2
+	lw	$3,1948($16)
+	nop
+	bne	$3,$2,$Lnjp_800C44CC_3
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	addu	$4,$16,$0
+$Lnjp_800C44CC_1:
+	lui	$5,%hi(njp_800C4298)
+	jal	njp_sna_start_anim_8004E1F4
+	addiu	$5,$5,%lo(njp_800C4298)
+	j	$Lnjp_800C44CC_7
+	nop
+$Lnjp_800C44CC_2:
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+$Lnjp_800C44CC_3:
+	lh	$4,110($16)
+	lw	$5,%lo(njp_gSnaMoveDir_800ABBA4)($2)
+	jal	GV_DiffDirAbs
+	nop
+	addu	$3,$2,$0
+	slti	$2,$3,257
+	bne	$2,$0,$Lnjp_800C44CC_5
+	addu	$4,$16,$0
+	addu	$2,$3,$0
+	bgez	$2,$Lnjp_800C44CC_4
+	nop
+	addiu	$2,$2,1023
+$Lnjp_800C44CC_4:
+	sra	$2,$2,10
+	addiu	$2,$2,1
+	j	$Lnjp_800C44CC_6
+	sh	$2,2452($16)
+$Lnjp_800C44CC_5:
+	lui	$5,%hi(njp_sna_anim_run_begin_80053B88)
+	jal	njp_sna_start_anim_8004E1F4
+	addiu	$5,$5,%lo(njp_sna_anim_run_begin_80053B88)
+$Lnjp_800C44CC_6:
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lhu	$2,%lo(njp_gSnaMoveDir_800ABBA4)($2)
+	nop
+	sh	$2,110($16)
+$Lnjp_800C44CC_7:
+	lw	$31,20($29)
+	lw	$16,16($29)
+	jr	$31
+	addiu	$29,$29,24
+	.set	macro
+	.set	reorder
+	.set	at
+	.set	noreorder
+	.set	noat
+	.set	nomacro
+	.text
+	.globl	njp_800C45CC
+njp_800C45CC:
+	addiu	$29,$29,-32
+	sw	$17,20($29)
+	addu	$17,$4,$0
+	sw	$31,24($29)
+	jal	njp_800C3A30
+	sw	$16,16($29)
+	bne	$2,$0,$Lnjp_800C45CC_9
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lw	$2,%lo(njp_gSnaMoveDir_800ABBA4)($2)
+	nop
+	bgez	$2,$Lnjp_800C45CC_0
+	lui	$2,%hi(njp_dword_800ABBC4)
+	lhu	$2,2454($17)
+	nop
+	addiu	$2,$2,1
+	sh	$2,2454($17)
+	sll	$2,$2,16
+	sra	$2,$2,16
+	slti	$2,$2,5
+	bne	$2,$0,$Lnjp_800C45CC_1
+	lui	$2,%hi(njp_dword_800ABBC4)
+	jal	njp_GM_ClearPlayerStatusFlag
+	addiu	$4,$0,16
+	addu	$4,$17,$0
+	lui	$5,%hi(njp_sna_anim_idle_800C4200)
+	jal	njp_sna_start_anim_8004E1F4
+	addiu	$5,$5,%lo(njp_sna_anim_idle_800C4200)
+	j	$Lnjp_800C45CC_9
+	nop
+$Lnjp_800C45CC_0:
+	sh	$0,2454($17)
+$Lnjp_800C45CC_1:
+	lw	$3,%lo(njp_dword_800ABBC4)($2)
+	addiu	$2,$0,1
+	beq	$3,$2,$Lnjp_800C45CC_2
+	nop
+	beq	$3,$0,$Lnjp_800C45CC_3
+	addiu	$2,$0,2
+	lw	$3,1948($17)
+	nop
+	bne	$3,$2,$Lnjp_800C45CC_3
+	nop
+$Lnjp_800C45CC_2:
+	lhu	$2,2452($17)
+	nop
+	addiu	$2,$2,1
+	sh	$2,2452($17)
+	sll	$2,$2,16
+	sra	$2,$2,16
+	slti	$2,$2,3
+	bne	$2,$0,$Lnjp_800C45CC_4
+	nop
+	jal	njp_GM_ClearPlayerStatusFlag
+	addiu	$4,$0,16
+	addu	$4,$17,$0
+	lui	$5,%hi(njp_800C4298)
+	jal	njp_sna_start_anim_8004E1F4
+	addiu	$5,$5,%lo(njp_800C4298)
+	j	$Lnjp_800C45CC_9
+	nop
+$Lnjp_800C45CC_3:
+	sh	$0,2452($17)
+$Lnjp_800C45CC_4:
+	lh	$2,2452($17)
+	nop
+	bne	$2,$0,$Lnjp_800C45CC_5
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lw	$5,%lo(njp_gSnaMoveDir_800ABBA4)($2)
+	nop
+	bltz	$5,$Lnjp_800C45CC_6
+	nop
+	jal	njp_sub_8004E4C0
+	addu	$4,$17,$0
+	j	$Lnjp_800C45CC_7
+	addu	$16,$2,$0
+$Lnjp_800C45CC_5:
+	lw	$16,%lo(njp_gSnaMoveDir_800ABBA4)($2)
+	nop
+	bgez	$16,$Lnjp_800C45CC_7
+	nop
+$Lnjp_800C45CC_6:
+	lh	$16,110($17)
+$Lnjp_800C45CC_7:
+	lh	$4,110($17)
+	jal	GV_DiffDirAbs
+	addu	$5,$16,$0
+	slti	$2,$2,1049
+	bne	$2,$0,$Lnjp_800C45CC_8
+	addu	$4,$17,$0
+	jal	njp_GM_ClearPlayerStatusFlag
+	addiu	$4,$0,16
+	addu	$4,$17,$0
+	lui	$5,%hi(njp_sna_anim_idle_800C4200)
+	jal	njp_sna_start_anim_8004E1F4
+	addiu	$5,$5,%lo(njp_sna_anim_idle_800C4200)
+	j	$Lnjp_800C45CC_9
+	sh	$16,110($17)
+$Lnjp_800C45CC_8:
+	sh	$16,110($17)
+	jal	njp_sub_8004EA50
+	addu	$5,$16,$0
+$Lnjp_800C45CC_9:
+	lw	$31,24($29)
+	lw	$17,20($29)
+	lw	$16,16($29)
+	jr	$31
+	addiu	$29,$29,32
+	.set	macro
+	.set	reorder
+	.set	at
+	.set	noreorder
+	.set	noat
+	.set	nomacro
+	.text
+	.globl	njp_800C4750
+njp_800C4750:
+	addiu	$29,$29,-24
+	sw	$16,16($29)
+	addu	$16,$4,$0
+	sw	$31,20($29)
+	lh	$2,2452($16)
+	lhu	$3,2452($16)
+	beq	$2,$0,$Lnjp_800C4750_0
+	addiu	$2,$3,-1
+	sh	$2,2452($16)
+$Lnjp_800C4750_0:
+	jal	njp_sub_800507D8
+	addu	$4,$16,$0
+	bne	$2,$0,$Lnjp_800C4750_3
+	lui	$4,%hi(njp_dword_800ABBC4)
+	lw	$3,%lo(njp_dword_800ABBC4)($4)
+	addiu	$2,$0,2
+	beq	$3,$2,$Lnjp_800C4750_1
+	addiu	$2,$0,4
+	bne	$3,$2,$Lnjp_800C4750_2
+	nop
+$Lnjp_800C4750_1:
+	lhu	$2,%lo(njp_dword_800ABBC4)($4)
+	addu	$4,$16,$0
+	lui	$5,%hi(njp_sna_anim_wall_move_80052BA8)
+	addiu	$5,$5,%lo(njp_sna_anim_wall_move_80052BA8)
+	jal	njp_sna_start_anim_8004E1F4
+	sh	$2,2480($16)
+$Lnjp_800C4750_2:
+	lui	$4,%hi(njp_bss_56)
+	lw	$2,%lo(njp_bss_56)($4)
+	lh	$3,42($16)
+	addiu	$2,$2,-2048
+	beq	$2,$3,$Lnjp_800C4750_3
+	nop
+	lhu	$2,%lo(njp_bss_56)($4)
+	sh	$0,2454($16)
+	addiu	$2,$2,-2048
+	sh	$2,110($16)
+$Lnjp_800C4750_3:
+	lw	$31,20($29)
+	lw	$16,16($29)
+	jr	$31
+	addiu	$29,$29,24
+	.set	macro
+	.set	reorder
+	.set	at
+	.set	noreorder
+	.set	noat
+	.set	nomacro
+	.text
+	.globl	njp_800C47EC
+njp_800C47EC:
+	addiu	$29,$29,-32
+	sw	$16,16($29)
+	addu	$16,$4,$0
+	sw	$31,24($29)
+	sw	$17,20($29)
+	lh	$2,2452($16)
+	lhu	$3,2452($16)
+	beq	$2,$0,$Lnjp_800C47EC_0
+	addiu	$2,$3,-1
+	sh	$2,2452($16)
+$Lnjp_800C47EC_0:
+	jal	njp_sub_800507D8
+	addu	$4,$16,$0
+	bne	$2,$0,$Lnjp_800C47EC_5
+	nop
+	lw	$2,76($16)
+	nop
+	lw	$4,8($2)
+	jal	GM_CheckBehindCamera
+	addiu	$5,$16,32
+	lui	$2,%hi(njp_dword_800ABBC4)
+	lw	$3,%lo(njp_dword_800ABBC4)($2)
+	addiu	$2,$0,1
+	bne	$3,$2,$Lnjp_800C47EC_1
+	lui	$5,%hi(njp_bss_56)
+	jal	njp_GM_ClearPlayerStatusFlag
+	addiu	$4,$0,16
+	addu	$4,$16,$0
+	lui	$5,%hi(njp_800C4298)
+	jal	njp_sna_start_anim_8004E1F4
+	addiu	$5,$5,%lo(njp_800C4298)
+	j	$Lnjp_800C47EC_5
+	nop
+$Lnjp_800C47EC_1:
+	lw	$2,%lo(njp_bss_56)($5)
+	lh	$3,42($16)
+	addiu	$2,$2,-2048
+	bne	$2,$3,$Lnjp_800C47EC_2
+	lui	$2,%hi(njp_bss_48)
+	lui	$3,%hi(njp_bss_52)
+	lw	$4,%lo(njp_bss_48)($2)
+	lw	$2,%lo(njp_bss_52)($3)
+	nop
+	beq	$4,$2,$Lnjp_800C47EC_3
+	lui	$2,%hi(njp_dword_800ABBC4)
+$Lnjp_800C47EC_2:
+	lhu	$2,%lo(njp_bss_56)($5)
+	sh	$0,2454($16)
+	addiu	$2,$2,-2048
+	sh	$2,110($16)
+	lui	$2,%hi(njp_dword_800ABBC4)
+$Lnjp_800C47EC_3:
+	lw	$3,%lo(njp_dword_800ABBC4)($2)
+	addiu	$2,$0,2
+	bne	$3,$2,$Lnjp_800C47EC_4
+	addiu	$17,$0,23
+	addiu	$17,$0,22
+$Lnjp_800C47EC_4:
+	jal	njp_GM_SetPlayerStatusFlag
+	addiu	$4,$0,16
+	addu	$4,$16,$0
+	addu	$5,$17,$0
+	jal	njp_SetAction_8004E22C
+	addiu	$6,$0,4
+$Lnjp_800C47EC_5:
+	lw	$31,24($29)
+	lw	$17,20($29)
+	lw	$16,16($29)
+	jr	$31
+	addiu	$29,$29,32
 	.set	macro
 	.set	reorder
 	.set	at
