@@ -2,50 +2,6 @@
 	.set	noat
 	.set	nomacro
 	.text
-	.globl	vcd_n05_800C71D8
-vcd_n05_800C71D8:
-	addiu	$29,$29,-24
-	sw	$31,16($29)
-	lw	$2,2940($4)
-	nop
-	ori	$2,$2,0x40
-	bne	$5,$0,$Lvcd_n05_800C71D8_0
-	sw	$2,2940($4)
-	lui	$2,%hi(GODZ_NO_POINT)
-	lui	$3,%hi(GodzCommand)
-	addiu	$9,$2,%lo(GODZ_NO_POINT)
-	lwl	$6,3($9)
-	lwr	$6,0($9)
-	lwl	$7,7($9)
-	lwr	$7,4($9)
-	swl	$6,35($4)
-	swr	$6,32($4)
-	swl	$7,39($4)
-	swr	$7,36($4)
-	lb	$2,2948($4)
-	addiu	$3,$3,%lo(GodzCommand)
-	sll	$2,$2,4
-	addu	$2,$2,$3
-	addiu	$3,$0,1
-	sw	$3,148($2)
-	lw	$4,3148($4)
-	nop
-	bltz	$4,$Lvcd_n05_800C71D8_0
-	nop
-	jal	GCL_ExecProc
-	addu	$5,$0,$0
-$Lvcd_n05_800C71D8_0:
-	lw	$31,16($29)
-	nop
-	jr	$31
-	addiu	$29,$29,24
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
 	.globl	vcd_n05_800C7260
 vcd_n05_800C7260:
 	addiu	$5,$4,32

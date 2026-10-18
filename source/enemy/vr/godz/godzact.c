@@ -20,7 +20,9 @@ extern void *NewMosaic( MATRIX *, int, int, int );
 
 extern GODZ_COMMAND  GodzCommand;
 extern int           GODZ_EYE_LENGTH;
+extern SVECTOR       GODZ_NO_POINT;
 
+extern void   *AN_HeadMark( MATRIX *world, int mark );
 extern void   *NewSnow( int where );
 extern void    NewBlood( MATRIX *, int );
 extern void    AN_Breath( MATRIX * );
@@ -57,7 +59,7 @@ void GodzAct_800C66E4( GodzWork *work, int time );
 void GodzAct_800C6814( GodzWork *work, int time );
 void GodzAct_800C6F14( GodzWork *work, int time );
 void GodzAct_800C70F4( GodzWork *work, int time );
-void vcd_n05_800C71D8( GodzWork *work, int time );
+void GodzAct_800C71D8( GodzWork *work, int time );
 void vcd_n05_800C7260( GodzWork *work, int time );
 void vcd_n05_800C73B0( GodzWork *work );
 void GodzAct_800C7658( GodzWork *work, int time );
@@ -84,6 +86,11 @@ void GODZ_ExecPutChar( GodzWork *work );
 
 #define SE_GODZ_ROAR  0x87  // sound mode of the "G" soldier
 #define SE_GODZ_ROAR2 0x80
+#define SE_GODZ_PUNCH 0x29  // sound effect of the punch
+#define SE_GODZ_MARK1 0x8A  // sound mode of the "!" mark
+#define SE_GODZ_MARK2 0x8C  // sound mode of the other marks
+#define SE_GODZ_GETUP 0xC9  // sound mode of the soldier getting up
+#define SE_GODZ_HIT2 0x93   // sound effect of the soldier hitting the floor (with SE_HIT_FLOOR)
 #define SE_GODZ_HIT  0x8B   // sound effect of the soldier hit
 #define SE_GODZ_FALL 0x8E   // sound effect of the soldier falling down
 
@@ -477,7 +484,8 @@ void GodzAct_800C590C( GodzWork* work, int time )
             SetAction( work, ACTION5, ACTINTERP );
         }
         GM_ConfigMotionAdjust( &( work->body ), work->adjust ) ;
-        GM_SeSetMode( &work->control.mov, 0xB2, GM_SEMODE_BOMB ) ;
+        GM_SeSetMode( &work->control.mov, 0, GM_SEMODE_BOMB ) ;
+        printf( " turn = %d rot = %d \n", work->control.turn.vy, work->control.rot.vy );
     }
 
     GodzReviseReadyGun( work );
@@ -516,7 +524,10 @@ void GodzAct_800C590C( GodzWork* work, int time )
         return;
     }
 
-    work->control.turn.vy = work->pad.dir;
+    if ( work->pad.dir >= 0 )
+    {
+        work->control.turn.vy = work->pad.dir;
+    }
     work->vision.facedir = work->control.rot.vy;
 }
 
@@ -585,9 +596,8 @@ void GodzAct_800C5CF8( GodzWork* work, int time )
     }
 }
 
-void GodzAct_800C5E70( GodzWork* work, int time )
+void GodzAct_800C5E70( GodzWork *work, int time )
 {
-    SetTargetsClass( work, TARGET_FLAG );
     work->vision.length = GODZ_EYE_LENGTH ;
 
     if ( time == 0 )
@@ -595,25 +605,21 @@ void GodzAct_800C5E70( GodzWork* work, int time )
         SetAction( work, ACTION8, 0 );
     }
 
-    if ( time == 3 )
+    if ( time == 27 )
     {
         if ( GodzAttackForce( work ) )
         {
-            GM_SeSet( &( work->control.mov ), SE_HIT );
+            GM_SeSetMode( &work->control.mov, SE_GODZ_PUNCH, GM_SEMODE_BOMB );
         }
-    }
-
-    work->control.turn.vy = work->sn_dir;
-
-    if ( GodzCheckDamage( work ) )
-    {
-        return ;
     }
 
     if ( work->body.is_end )
     {
         SetGodzMode( work, GodzAct_800C590C );
+        return;
     }
+
+    work->control.turn.vy = work->pad.dir;
 }
 
 void GodzAct_800C5F38( GodzWork* work, int time )
@@ -643,6 +649,7 @@ void GodzAct_800C5FF4( GodzWork* work, int time )
 {
     CONTROL *ctrl;
     TARGET  *target;
+    int      diff;
 
     target = work->targets[0];
     ctrl = &work->control;
@@ -665,12 +672,18 @@ void GodzAct_800C5FF4( GodzWork* work, int time )
         if ( time == 22 )
         {
 
-            if ( ctrl->mov.vy - ctrl->levels[0] < 2000 )
+            diff = ctrl->mov.vy - ctrl->levels[0];
+            if ( diff < 2000 )
             {
-                GM_SeSet( &ctrl->mov, 0xC3 ) ;
+                GM_SeSet( &ctrl->mov, SE_GODZ_HIT2 ) ;
                 GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
                 GODZ_PutBlood( work, 6, 0 ) ;
                 GM_SetNoise( 0x64, 4, &work->control.mov ) ;
+            }
+            else if ( diff > 30000 )
+            {
+                work->targets[0]->vital = 0;
+                GM_SeSet( &ctrl->mov, SE_GODZ_FALL ) ;
             }
         }
         if ( work->body.is_end )
@@ -689,11 +702,18 @@ void GodzAct_800C5FF4( GodzWork* work, int time )
     {
         if ( ctrl->grounded )
         {
-            GM_SeSet( &ctrl->mov, 0xC3 ) ;
+            GM_SeSet( &ctrl->mov, SE_GODZ_HIT2 ) ;
             GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             GODZ_PutBlood( work, 6, 1 ) ;
-            SetGodzMode( work, vcd_n05_800C6440 );
+            if ( work->targets[0]->vital <= 0 )
+            {
+                SetGodzMode( work, GodzAct_800C70F4 );
+            }
+            else
+            {
+                SetGodzMode( work, vcd_n05_800C6440 );
+            }
         }
     }
     if ( time < 24 )
@@ -720,6 +740,7 @@ void GodzAct_800C62D8( GodzWork *work, int time )
     if ( time == 0 )
     {
         SetAction( work, ACTION32, ACTINTERP ) ;
+        work->targets[0]->faint = 0;
     }
 
     if ( GodzCheckDamage( work ) )
@@ -757,16 +778,16 @@ void GodzAct_800C62D8( GodzWork *work, int time )
 
 #pragma INCLUDE_ASM_RELOC("source/enemy/vr/godz/reloc/godzact_2.s")
 
-void GodzAct_800C6598( GodzWork* work, int time )
+void GodzAct_800C6598( GodzWork *work, int time )
 {
     work->unknown.field_1E = 0;
-    work->act_status |= 0x08;
+    work->act_status |= 0x8;
 
     if ( time == 0 )
     {
         if ( work->unknown.field_14 < 3 )
         {
-            if ( work->field_B6A >= 0x5A )
+            if ( work->field_B6A >= 150 )
             {
                 SetAction( work, ACTION44, ACTINTERP );
             }
@@ -777,7 +798,7 @@ void GodzAct_800C6598( GodzWork* work, int time )
         }
         else
         {
-            if ( work->field_B6A >= 0x5A )
+            if ( work->field_B6A >= 150 )
             {
                 SetAction( work, ACTION45, ACTINTERP );
             }
@@ -786,10 +807,13 @@ void GodzAct_800C6598( GodzWork* work, int time )
                 SetAction( work, ACTION43, ACTINTERP );
             }
         }
+        GM_SeSetMode( &work->control.mov, SE_GODZ_GETUP, GM_SEMODE_BOMB );
     }
 
     if ( work->body.is_end )
     {
+        printf( "okiagari end!! %d !!!\n", work->control.turn.vx );
+        SetAction( work, STANDSTILL, ACTINTERP );
         SetGodzMode( work, GodzAct_800C4DB8 );
     }
 }
@@ -1053,6 +1077,7 @@ void GodzAct_800C6F14( GodzWork* work, int time )
 void GodzAct_800C70F4( GodzWork *work, int time )
 {
     work->act_status |= 0x40;
+
     if ( time == 0 )
     {
         if ( work->unknown.field_14 < 3 )
@@ -1072,16 +1097,27 @@ void GodzAct_800C70F4( GodzWork *work, int time )
         }
         GM_ConfigControlAttribute( &work->control, 0 );
         work->alert_level = 0;
-
-        if ( GM_GameOverTimer == -2 )
-        {
-            GM_GameOverTimer = 1;
-        }
     }
 
-    if ( time > 450 && GM_StreamStatus() == -1  )
+    if ( time >= 31 )
     {
-        GM_GameOver();
+        SetGodzMode( work, GodzAct_800C71D8 );
+    }
+}
+
+void GodzAct_800C71D8( GodzWork *work, int time )
+{
+    work->act_status |= 0x40;
+
+    if ( time == 0 )
+    {
+        work->control.mov = GODZ_NO_POINT;
+        GodzCommand.watchers[ work->param.index ].field_04 = 1;
+
+        if ( work->field_C4C >= 0 )
+        {
+            GCL_ExecProc( work->field_C4C, NULL );
+        }
     }
 }
 
@@ -1212,15 +1248,20 @@ void GODZ_PutFog(GodzWork *work )
 void GODZ_PutMark( GodzWork *work, int mark )
 {
     MATRIX *mat;
+
     if ( !( work->control.map->index & GM_PlayerMap ) )
     {
         return;
     }
 
     mat = &work->body.objs->objs[6].world;
-    if( mark == 0 )
+    if ( mark == 0 )
     {
-        COM_CallBikkuriSe( &work->control.mov , 0x10 );
+        GM_SeSetMode( &work->control.mov, SE_GODZ_MARK1, GM_SEMODE_BOMB );
+    }
+    else
+    {
+        GM_SeSetMode( &work->control.mov, SE_GODZ_MARK2, GM_SEMODE_BOMB );
     }
 
     if ( work->mark_time )
