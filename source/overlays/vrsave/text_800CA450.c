@@ -1,10 +1,5 @@
 #include "mgstype.h"
 
-#pragma INCLUDE_ASM("asm/overlays/vrsave/vrsave_800CA2FC.s")
-#pragma INCLUDE_ASM("asm/overlays/vrsave/vrsave_800CA378.s")
-#pragma INCLUDE_ASM("asm/overlays/vrsave/vrsave_800CA3A8.s")
-#pragma INCLUDE_ASM("asm/overlays/vrsave/vrsave_800CA404.s")
-#pragma INCLUDE_ASM("asm/overlays/vrsave/vrsave_800CA42C.s")
 #pragma INCLUDE_ASM("asm/overlays/vrsave/vrsave_800CA450.s")
 #pragma INCLUDE_ASM("asm/overlays/vrsave/vrsave_800CA66C.s")
 #pragma INCLUDE_ASM("asm/overlays/vrsave/vrsave_800CA738.s")
