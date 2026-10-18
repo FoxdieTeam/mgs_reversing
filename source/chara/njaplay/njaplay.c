@@ -68,11 +68,13 @@ void njp_sna_anim_800C4A38(SnaInitWork *work, int time);
 void njp_sna_anim_800C4A90(SnaInitWork *work, int time);
 void njp_sna_anim_800C4B44(SnaInitWork *work, int time);
 void njp_800C495C(SnaInitWork *work);
-void njp_800C5C18(SnaInitWork *work, int time);
+void njp_sna_anim_update_800C5C18(SnaInitWork *work, int time);
 void njp_800C5D4C(SnaInitWork *work, int time);
-void njp_800C5E9C(SnaInitWork *work, int time);
+void njp_sna_anim_slash_update_800C5E9C(SnaInitWork *work, int time);
 void njp_800C5F20(SnaInitWork *work, int time);
 void njp_800C60E4(SnaInitWork *work, int time);
+void njp_800C5A70(SnaInitWork *work);
+int njp_800C5B18(SnaInitWork *work);
 void njp_800C65D4(SnaInitWork *work);
 void njp_sna_anim_crouch_wall_update_800C4750(SnaInitWork *work, int time);
 void njp_sna_anim_spin_800C4BA4(SnaInitWork *work, int time);
@@ -1326,7 +1328,7 @@ void njp_sna_anim_800C4A38(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_800C5C18;
+        work->field_9C8_anim_update_fn_3p = njp_sna_anim_update_800C5C18;
         work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
         njp_SetAction_8004E22C(work, 3, 4);
         work->field_A38_local_data = -1;
@@ -1353,7 +1355,7 @@ void njp_sna_anim_800C4AF0(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_800C5E9C;
+        work->field_9C8_anim_update_fn_3p = njp_sna_anim_slash_update_800C5E9C;
         work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
         njp_SetAction_8004E22C(work, 14, 4);
         njp_sna_set_invuln_8004F2A0(work, 0);
@@ -1540,6 +1542,77 @@ void njp_sna_anim_800C54EC(SnaInitWork *work, int time)
 }
 
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
+//ASM-END
+
+// @800C5C18 njp_sna_anim_update_800C5C18
+void njp_sna_anim_update_800C5C18(SnaInitWork *work, int time)
+{
+    work->njp_field_9E4 = 2;
+    njp_800C5A70(work);
+
+    if (njp_800C5B18(work))
+    {
+        if (++work->field_A38_local_data >= 3)
+        {
+            work->field_A38_local_data = 0;
+        }
+
+        njp_SetAction_8004E22C(work, work->field_A38_local_data + 16, 0);
+    }
+
+    if (work->body.is_end != 0)
+    {
+        njp_SetAction_8004E22C(work, 3, 4);
+        work->field_A38_local_data = -1;
+    }
+
+    if (!(work->field_9B0_pad_ptr->status & PAD_CIRCLE))
+    {
+        njp_sna_start_anim_8004E1F4(work, njp_sna_anim_800C4AF0);
+        njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK3 | SNA_FLAG1_UNK30);
+        njp_GM_SetPlayerStatusFlag(PLAYER_ATTACK);
+        njp_FreeTargets(work);
+    }
+    else if (njp_gSnaMoveDir_800ABBA4 >= 0)
+    {
+        work->control.turn.vy = njp_gSnaMoveDir_800ABBA4;
+
+        if (work->field_A3A++ >= 2)
+        {
+            njp_sna_start_anim_8004E1F4(work, njp_sna_anim_800C4A90);
+            njp_GM_SetPlayerStatusFlag(PLAYER_MOVE);
+            njp_FreeTargets(work);
+        }
+    }
+}
+
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
+//ASM-END
+
+// @800C5E9C njp_sna_anim_slash_update_800C5E9C
+void njp_sna_anim_slash_update_800C5E9C(SnaInitWork *work, int time)
+{
+    work->njp_field_9E4 = 2;
+
+    if (time >= 3)
+    {
+        if (time == 16)
+        {
+            njp_sna_clear_invuln_8004F2EC(work);
+        }
+
+        njp_sna_800C3898(work, njp_stru_8009EFD4[0]);
+        njp_sna_800C399C(work);
+
+        if (work->body.is_end != 0)
+        {
+            njp_GM_ClearPlayerStatusFlag(PLAYER_ATTACK);
+            njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
+        }
+    }
+}
+
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_4.s")
 //ASM-END
 
 // @800C6244 njp_sna_80051A10
@@ -1911,7 +1984,7 @@ void njp_sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_5.s")
 //ASM-END
 
 // @DATA
@@ -1953,6 +2026,8 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
 
 
 
