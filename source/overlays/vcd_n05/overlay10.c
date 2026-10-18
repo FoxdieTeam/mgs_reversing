@@ -1,47 +1,5 @@
 #include "mgstype.h"
 
-int vcd_n05_dword_800C14D4 = 0x05DC012C;
-int vcd_n05_dword_800C14D8 = 0x0000012C;
-int vcd_n05_dword_800C14DC = 0x00000000;
-int vcd_n05_dword_800C14E0 = 0x00000000;
-int vcd_n05_dword_800C14E4 = 0x01F40320;
-int vcd_n05_dword_800C14E8 = 0x00000320;
-int vcd_n05_dword_800C14EC = 0x00000064;
-int vcd_n05_dword_800C14F0 = 0x00000000;
-int vcd_n05_dword_800C14F4 = 0x0320012C;
-int vcd_n05_dword_800C14F8 = 0x0000012C;
-int vcd_n05_dword_800C14FC = 0x00000000;
-int vcd_n05_dword_800C1500 = 0x00000000;
-char vcd_n05_dword_800C1504[] = "0u0u0u";
-int vcd_n05_dword_800C150C = 0x00000FA0;
-int vcd_n05_dword_800C1510 = 0x00000FA0;
-int vcd_n05_dword_800C1514 = 0x00000FA0;
-int vcd_n05_dword_800C1518 = 0x00001B58;
-int vcd_n05_dword_800C151C = 0x00001F40;
-int vcd_n05_dword_800C1520 = 0x00001F40;
-int vcd_n05_dword_800C1524 = 0x00001F40;
-int vcd_n05_dword_800C1528 = 0x00001F40;
-int vcd_n05_dword_800C152C = 0x00001F40;
-int vcd_n05_dword_800C1530 = 0x00000A01;
-int vcd_n05_dword_800C1534 = 0x00000AFF;
-int vcd_n05_dword_800C1538 = 0x00320032;
-int vcd_n05_dword_800C153C = 0x00640064;
-int vcd_n05_dword_800C1540 = 0x0000EC78;
-int vcd_n05_dword_800C1544 = 0x0000D8F0;
-int vcd_n05_dword_800C1548 = 0x1F401388;
-int vcd_n05_dword_800C154C = 0x00002710;
-int vcd_n05_dword_800C1550 = 0xFFCE0000;
-int vcd_n05_dword_800C1554 = 0x00000000;
-int vcd_n05_dword_800C1558 = 0x00000000;
-int vcd_n05_dword_800C155C = 0x00020002;
-int vcd_n05_dword_800C1560 = 0x000001F4;
-int vcd_n05_dword_800C1564 = 0x000003E8;
-int vcd_n05_dword_800C1568 = 0x0000FE0C;
-int vcd_n05_dword_800C156C = 0x000003E8;
-int vcd_n05_dword_800C1570 = 0x01F401F4;
-int vcd_n05_dword_800C1574 = 0x000001F4;
-int vcd_n05_dword_800C1578 = 0x00000000;
-int vcd_n05_dword_800C157C = 0x00000064;
-int vcd_n05_dword_800C1580 = 0x0000FC00;
-int vcd_n05_dword_800C1584 = 0x00000000;
 
+
+int SECTION(".bss") vcd_n05_dword_800DF38C;

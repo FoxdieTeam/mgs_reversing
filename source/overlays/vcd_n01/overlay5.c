@@ -2,4 +2,4 @@
 
 
 
-int SECTION(".bss") vcd_n01_dword_800E69E4;
+int SECTION(".bss") vcd_n01_dword_800E6A4C;

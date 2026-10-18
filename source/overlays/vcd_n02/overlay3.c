@@ -1,6 +1,6 @@
 #include "mgstype.h"
 
+extern const int vcd_n02_dword_800E54C8;
 
-const char vcd_n02_dword_800E554C[] = "nja_ball";
-const char vcd_n02_dword_800E5558[] = "ballhlf";
-const char vcd_n02_dword_800E5560[] = "p_sphere.c";
+void *vcd_n02_dword_800C1684 = (void *)&vcd_n02_dword_800E54C8;
+
