@@ -154,7 +154,7 @@ static void Act(Work *work)
 
     work->timer++;
 
-    if (VR_Status == VR_STATUS_4 || work->color == 9 || work->color > 10)
+    if (VR_Status == VR_STATUS_NO_HUD || work->color == 9 || work->color > 10)
     {
         if (work->fade != 0)
         {

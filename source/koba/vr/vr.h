@@ -6,9 +6,24 @@ enum {
     VR_STATUS_0 = 0,
     VR_STATUS_PLAY = 1,     // mission running
     VR_STATUS_CLEAR = 2,    // mission cleared ("clear" message / goal reached)
-    VR_STATUS_4 = 4,
+    VR_STATUS_NO_HUD = 4,   // time/target HUD hidden, background panels fade in
     VR_STATUS_END = 5,      // mission over
 };
+
+// Messages and constants shared by the mission managers (vr.c, vr2.c)
+#define HASH_VR_START       0xB247  // mission start
+#define HASH_VR_NO_HUD      0xEC10  // switch to VR_STATUS_NO_HUD
+
+#define VR_SE_LIMIT_COUNT   185     // last seconds of the time limit
+#define VR_SE_TARGET        180
+
+#define TIME_FPS            30      // the mission time counts frames
+#define DEAD_TIME           90      // frames between the player's death and the game over screen
+
+#define WEAPON_NONE         -1
+#define ITEM_NONE           -1
+
+#define STANCE_GROUND       2
 
 // VR_Flags
 #define VRFLAG_RANK_MASK    0x06    // record rank of this run (1st..3rd)

@@ -169,7 +169,7 @@ static void Act(Work *work)
         work->color_set = N_COLOR_SETS - 1;
     }
 
-    if (VR_Status == VR_STATUS_4 || work->color_set >= 11)
+    if (VR_Status == VR_STATUS_NO_HUD || work->color_set >= 11)
     {
         if (!work->started)
         {

@@ -32,22 +32,9 @@ extern MenuWork Work;
 
 /*---------------------------------------------------------------------------*/
 
-#define VR_SE_LIMIT_COUNT   185     // last seconds of the time limit
-#define VR_SE_TARGET        180
 #define VR_SE_DEAD          26
 
-#define TIME_FPS            30      // the mission time counts frames
-
-#define WEAPON_NONE         -1
-#define ITEM_NONE           -1
-
-#define STANCE_GROUND       2
-
 #define HASH_MOTION2        0xBE0A  // motion message of the VR2 missions
-#define HASH_VR_START       0xB247
-#define HASH_VR_4           0xEC10
-
-#define DEAD_TIME           90
 
 typedef struct _Vr2Work
 {
@@ -330,7 +317,7 @@ static void CheckMessages(Vr2Work *work)
             VR_Status = VR_STATUS_PLAY;
         }
 
-        if (msg->message[0] == HASH_VR_4)
+        if (msg->message[0] == HASH_VR_NO_HUD)
         {
             VR_Status = 3;
         }

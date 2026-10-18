@@ -31,16 +31,7 @@ extern MenuWork Work;
 
 /*---------------------------------------------------------------------------*/
 
-#define VR_SE_LIMIT_COUNT   185     // last seconds of the time limit
 #define VR_SE_TIME_UP       186
-#define VR_SE_TARGET        180
-
-#define TIME_FPS            30      // the mission time counts frames
-
-#define WEAPON_NONE         -1
-#define ITEM_NONE           -1
-
-#define STANCE_GROUND       2
 
 #define BIKKURI_FOUND       0x0001  // the player has been spotted
 #define BIKKURI_ALERT       0x0002
@@ -52,21 +43,17 @@ extern MenuWork Work;
 #define HASH_RECORD_END     0x32A1  // GV_StrCode("記録終了")
 #define HASH_PAUSE          0x3041  // GV_StrCode("一時停止")
 #define HASH_RESUME         0x2F6B  // GV_StrCode("再開")
-#define HASH_VR_START       0xB247
-#define HASH_VR_4           0xEC10
 #define HASH_CHANGE         0x11F8  // GV_StrCode("change")
 #define HASH_GOAL           0x48C1  // GV_StrCode("goal")
-
-#define DEAD_TIME           90
 
 // VrWork.mode
 enum {
     VR_MODE_NORMAL = 0,
     VR_MODE_TARGET = 1,     // shoot 'b' targets or collect 'c' items
     VR_MODE_SNEAKING = 2,   // bonus for not being spotted
-    VR_MODE_3 = 3,
-    VR_MODE_4 = 4,
-    VR_MODE_5 = 5,
+    VR_MODE_BIKKURI_GOAL = 3,   // cleared or failed by the "bikkuri" flags at the goal
+    VR_MODE_NO_AMMO_BONUS = 4,
+    VR_MODE_AMMO_BONUS = 5,
 };
 
 typedef struct _VrWork
@@ -443,12 +430,12 @@ static void CalcResult(VrWork *work)
         i++;
     }
 
-    if (work->mode == VR_MODE_5)
+    if (work->mode == VR_MODE_AMMO_BONUS)
     {
         VR_Flags |= VRFLAG_AMMO_BONUS;
     }
 
-    if (work->mode == VR_MODE_4)
+    if (work->mode == VR_MODE_NO_AMMO_BONUS)
     {
         VR_Flags &= ~VRFLAG_AMMO_BONUS;
     }
@@ -662,9 +649,9 @@ static void CheckMessages(VrWork *work)
             work->started = 1;
         }
 
-        if (msg->message[0] == HASH_VR_4)
+        if (msg->message[0] == HASH_VR_NO_HUD)
         {
-            VR_Status = VR_STATUS_4;
+            VR_Status = VR_STATUS_NO_HUD;
         }
 
         if (msg->message[0] == GV_StrCode("plus") && VR_Status == VR_STATUS_PLAY)
@@ -754,7 +741,7 @@ static void Act(VrWork *work)
             VrDrawTime(work->time, "time", 138, 200, work, 1);
             MENU_Color(200, 200, 200);
 
-            if (VR_Status != VR_STATUS_4)
+            if (VR_Status != VR_STATUS_NO_HUD)
             {
                 addPrim(DG_ChanlOTag(1), &work->back[GV_Clock]);
 
@@ -864,7 +851,7 @@ static void Act(VrWork *work)
         if (CheckGoal(&GM_PlayerPosition, &work->goal))
         {
             // FIXME: the clear code is duplicated (merged again by gcc) to match
-            if (work->mode == VR_MODE_3)
+            if (work->mode == VR_MODE_BIKKURI_GOAL)
             {
                 if (bikkuri_flag & BIKKURI_NO_GOAL)
                 {
