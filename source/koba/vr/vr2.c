@@ -577,7 +577,7 @@ void *NewVr2(int name, int where)
         opt = GCL_GetOption(OPT_LIMIT);
         if (!opt)
         {
-            work->time = 1800;
+            work->time = 60 * TIME_FPS;
             work->limit = 0;
         }
         else

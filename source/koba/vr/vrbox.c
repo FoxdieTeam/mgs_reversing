@@ -30,6 +30,14 @@ extern BLAST_DATA blast_data_8009F4B8[8];
 #define SHADOW_RAISE        500
 #define SHADOW_COLOR        0x50
 #define SHADOW_PRIM         (DG_PRIM_ONESIDE | DG_PRIM_POLY_FT4)
+// Route node flags (the pad field of the route point)
+#define NODE_SOUND_MASK     0x001F  // bit 0: target is shown after the node; any bit: show/hide sound
+#define NODE_WAIT_MASK      0x00E0  // seconds to wait at the node
+#define NODE_WAIT_SHIFT     5
+#define NODE_WAIT_UNIT      30      // frames per second
+#define NODE_SPEED_MASK     0x1C00  // speed in steps of 20
+#define NODE_SPEED_SHIFT    10
+#define NODE_SPEED_UNIT     20
 #define NODE_REACHED_DIST   25      // added to the speed
 
 // Target types ('m' option)
@@ -209,10 +217,10 @@ static int ReadNodeFlags(Work *work)
     int speed;
 
     node_flags = work->node.pad;
-    sound = node_flags & 0x1F;
-    speed = (node_flags & 0x1C00) >> 10;
+    sound = node_flags & NODE_SOUND_MASK;
+    speed = (node_flags & NODE_SPEED_MASK) >> NODE_SPEED_SHIFT;
 
-    work->wait = ((node_flags & 0xE0) >> 5) * 30;
+    work->wait = ((node_flags & NODE_WAIT_MASK) >> NODE_WAIT_SHIFT) * NODE_WAIT_UNIT;
 
     if (work->flags.automatic)
     {
@@ -239,7 +247,7 @@ static int ReadNodeFlags(Work *work)
 
     if (!work->flags.has_speed)
     {
-        work->speed = speed * 20;
+        work->speed = speed * NODE_SPEED_UNIT;
     }
 
     return 1;

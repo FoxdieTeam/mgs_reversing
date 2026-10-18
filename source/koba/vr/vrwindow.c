@@ -496,7 +496,7 @@ void *NewVrWindow(int name, int where)
         {
             for (i = 0; i < work->i_num; i++)
             {
-                work->b_text[i] = GCL_GetString((char *)GCL_NextStr());
+                work->b_text[i] = GCL_GetString(GCL_NextStr());
                 if (work->b_text[i] == 0)
                 {
                     break;
@@ -506,10 +506,10 @@ void *NewVrWindow(int name, int where)
 
         if (GCL_GetOption(OPT_WINDOW))
         {
-            work->w_rect.x = GCL_StrToInt((char *)GCL_NextStr());
-            work->w_rect.y = GCL_StrToInt((char *)GCL_NextStr());
-            work->w_rect.w = GCL_StrToInt((char *)GCL_NextStr());
-            work->w_rect.h = GCL_StrToInt((char *)GCL_NextStr());
+            work->w_rect.x = GCL_StrToInt(GCL_NextStr());
+            work->w_rect.y = GCL_StrToInt(GCL_NextStr());
+            work->w_rect.w = GCL_StrToInt(GCL_NextStr());
+            work->w_rect.h = GCL_StrToInt(GCL_NextStr());
 
             width = work->w_rect.w;
             if (width & 3)
@@ -517,6 +517,7 @@ void *NewVrWindow(int name, int where)
                 work->w_rect.w += 4 - (width % 4);
             }
 
+            // FIXME: x, y and h read above are overwritten (dead stores kept like the original)
             work->w_rect.h = (work->i_num * VRWIN_LINE_H) + VRWIN_LINE_H;
             work->w_rect.x = (FRAME_WIDTH - work->w_rect.w) >> 1;
             work->w_rect.y = (FRAME_HEIGHT - work->w_rect.h) >> 1;
@@ -531,10 +532,10 @@ void *NewVrWindow(int name, int where)
 
         if (GCL_GetOption(OPT_MARGIN))
         {
-            work->m_rect.x = work->w_rect.x + GCL_StrToInt((char *)GCL_NextStr());
-            work->m_rect.y = work->w_rect.y + GCL_StrToInt((char *)GCL_NextStr());
-            work->m_rect.w = GCL_StrToInt((char *)GCL_NextStr());
-            work->m_rect.h = GCL_StrToInt((char *)GCL_NextStr());
+            work->m_rect.x = work->w_rect.x + GCL_StrToInt(GCL_NextStr());
+            work->m_rect.y = work->w_rect.y + GCL_StrToInt(GCL_NextStr());
+            work->m_rect.w = GCL_StrToInt(GCL_NextStr());
+            work->m_rect.h = GCL_StrToInt(GCL_NextStr());
         }
         else
         {
@@ -544,6 +545,7 @@ void *NewVrWindow(int name, int where)
             work->m_rect.h = work->w_rect.h;
         }
 
+        // FIXME: the margin read above is overwritten (dead stores kept like the original)
         work->m_rect.x = work->w_rect.x + 16;
         work->m_rect.y = work->w_rect.y + 12;
         work->m_rect.w = work->w_rect.w - 16;
@@ -551,7 +553,7 @@ void *NewVrWindow(int name, int where)
 
         if (GCL_GetOption(OPT_PROC))
         {
-            work->proc = GCL_StrToInt((char *)GCL_NextStr());
+            work->proc = GCL_StrToInt(GCL_NextStr());
         }
         else
         {
