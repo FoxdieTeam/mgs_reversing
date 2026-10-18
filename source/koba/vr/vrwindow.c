@@ -15,13 +15,19 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define VRWIN_STATE_0           0
-#define VRWIN_STATE_1           1
-#define VRWIN_STATE_2           2
-#define VRWIN_STATE_3           3
-#define VRWIN_STATE_4           4
-#define VRWIN_STATE_5           5
+// Act states: the window opens (OPEN_W, OPEN_H), types the lines (TYPING), waits for the
+// "close" message (WAIT) and shrinks again (CLOSE_H, CLOSE_W)
+#define VRWIN_STATE_WAIT        0
+#define VRWIN_STATE_OPEN_W      1
+#define VRWIN_STATE_OPEN_H      2
+#define VRWIN_STATE_TYPING      3
+#define VRWIN_STATE_CLOSE_H     4
+#define VRWIN_STATE_CLOSE_W     5
 #define VRWIN_STATE_CLOSED      6
+
+#define VRWIN_LINE_H            18      // height of a text line
+#define VRWIN_MAX_LINES         16
+#define VRWIN_PAUSE_DELAY       10      // frames until the game is paused
 
 /*---------------------------------------------------------------------------*/
 
@@ -44,11 +50,11 @@ typedef struct _Work
     RECT           m_rect;      // margin?
     RECT           w_rect;      // window?
     short          step;
-    int            f34;
+    int            line;        // 0x34: first displayed line
     char           state;
     int            proc;
     char           i_num;       // number of lines
-    char          *b_text[16];
+    char          *b_text[VRWIN_MAX_LINES];
     u_short        name;
     u_short        clut;
     KCB            kcb;
@@ -57,14 +63,14 @@ typedef struct _Work
     LINE_F3        lines1[2];
     LINE_F3        lines2[2];
     DR_TPAGE       tpages[2];
-    int            f16C;
+    int            max_lines;   // 0x16C: lines that fit the window
     char           pad[0x4];
-    RECT           f174;
+    RECT           font_rect;   // 0x174: area of the font texture in VRAM
     int            flag;
-    int            f180;
+    int            n_chars;     // 0x180: characters typed so far in the current line
     void          *font_buffer;
-    short          f188;
-    short          f18A;
+    short          pause_timer; // 0x188: frames until the game is paused
+    short          pausing;     // 0x18A: pause the game while the window is open
 } Work;
 
 /*---------------------------------------------------------------------------*/
@@ -78,7 +84,7 @@ char SECTION(".bss") vrwindow_strbuf[100];
 
 /*---------------------------------------------------------------------------*/
 
-static void Vrwindow_800D73A4(Work *work, RECT *rect)
+static void DrawWindowRect(Work *work, RECT *rect)
 {
     setXY0(&work->tiles[GV_Clock], rect->x, rect->y);
     setWH(&work->tiles[GV_Clock], rect->w, rect->h);
@@ -127,23 +133,23 @@ static void CloseWindow(Work *work)
 
     switch (work->state)
     {
-    case VRWIN_STATE_0:
-        work->state = VRWIN_STATE_4;
+    case VRWIN_STATE_WAIT:
+        work->state = VRWIN_STATE_CLOSE_H;
         work->step = 0;
         break;
 
-    case VRWIN_STATE_1:
-        work->state = VRWIN_STATE_5;
+    case VRWIN_STATE_OPEN_W:
+        work->state = VRWIN_STATE_CLOSE_W;
         work->step = 4 - work->step;
         break;
 
-    case VRWIN_STATE_2:
-        work->state = VRWIN_STATE_4;
+    case VRWIN_STATE_OPEN_H:
+        work->state = VRWIN_STATE_CLOSE_H;
         work->step = 4 - work->step;
         break;
 
-    case VRWIN_STATE_3:
-        work->state = VRWIN_STATE_4;
+    case VRWIN_STATE_TYPING:
+        work->state = VRWIN_STATE_CLOSE_H;
         work->step = 0;
         break;
     }
@@ -157,65 +163,65 @@ static int PrintMessage(Work *work, int size)
 
     font_clear(&work->kcb);
 
-    for (i = 0; i < work->f16C; i++)
+    for (i = 0; i < work->max_lines; i++)
     {
         if (i >= work->i_num)
         {
             break;
         }
 
-        len = strlen(work->b_text[work->f34 + i]);
+        len = strlen(work->b_text[work->line + i]);
 
         if (size < len)
         {
-            strncpy(vrwindow_strbuf, work->b_text[work->f34 + i], size);
+            strncpy(vrwindow_strbuf, work->b_text[work->line + i], size);
 
-            idx = work->f180;
-            work->f180 = 0;
+            idx = work->n_chars;
+            work->n_chars = 0;
 
             while (idx < size)
             {
-                if ((work->f180 != 0) || (vrwindow_strbuf[idx] > 0x1F && vrwindow_strbuf[idx] < 0x7F))
+                if ((work->n_chars != 0) || (vrwindow_strbuf[idx] > 0x1F && vrwindow_strbuf[idx] < 0x7F))
                 {
-                    work->f180 = 0;
+                    work->n_chars = 0;
                 }
                 else
                 {
-                    work->f180 = size;
+                    work->n_chars = size;
                 }
 
                 idx++;
             }
 
-            if (size != 0 && work->f180 != 0)
+            if (size != 0 && work->n_chars != 0)
             {
                 vrwindow_strbuf[size - 1] = '\0';
-                work->f180 = size - 1;
+                work->n_chars = size - 1;
             }
             else
             {
                 vrwindow_strbuf[size] = '\0';
-                work->f180 = size;
+                work->n_chars = size;
             }
 
-            if (work->f180 != 0 && vrwindow_strbuf[work->f180 - 1] != ' ')
+            if (work->n_chars != 0 && vrwindow_strbuf[work->n_chars - 1] != ' ')
             {
                 GM_SeSet2(0, 63, VRWIN_SE_CHAR);
             }
 
-            font_draw_string(&work->kcb, 0, i * 18, vrwindow_strbuf, work->kcb.color);
+            font_draw_string(&work->kcb, 0, i * VRWIN_LINE_H, vrwindow_strbuf, work->kcb.color);
             font_update(&work->kcb);
             break;
         }
 
-        font_draw_string(&work->kcb, 0, i * 18, work->b_text[work->f34 + i], work->kcb.color);
+        font_draw_string(&work->kcb, 0, i * VRWIN_LINE_H, work->b_text[work->line + i], work->kcb.color);
         font_update(&work->kcb);
 
         size -= len;
-        work->f180 = 0;
+        work->n_chars = 0;
     }
 
-    if (i == work->f16C || i == work->i_num)
+    if (i == work->max_lines || i == work->i_num)
     {
         return 0;
     }
@@ -227,103 +233,103 @@ static void Act(Work *work)
 {
     RECT rect;
 
-    if (work->f18A != 0)
+    if (work->pausing != 0)
     {
-        if (work->f188 >= 0 && work->f188 <= 9)
+        if (work->pause_timer >= 0 && work->pause_timer < VRWIN_PAUSE_DELAY)
         {
-            work->f188++;
+            work->pause_timer++;
         }
-        else if (work->f188 == 10)
+        else if (work->pause_timer == VRWIN_PAUSE_DELAY)
         {
             GV_PauseLevel |= GV_PAUSE_MENU;
-            work->f188++;
+            work->pause_timer++;
         }
     }
 
     switch (work->state)
     {
-    case VRWIN_STATE_0:
+    case VRWIN_STATE_WAIT:
         if (CheckMessage(work))
         {
-            work->state = VRWIN_STATE_4;
+            work->state = VRWIN_STATE_CLOSE_H;
         }
 
         addPrim(DG_ChanlOTag(1), &work->sprts[GV_Clock]);
         CloseWindow(work);
         break;
 
-    case VRWIN_STATE_1:
+    case VRWIN_STATE_OPEN_W:
         rect.w = (work->w_rect.w * work->step) / 5;
         rect.h = 1;
         rect.x = work->w_rect.x + (work->w_rect.w - rect.w) / 2;
         rect.y = work->w_rect.y + work->w_rect.h / 2;
-        Vrwindow_800D73A4(work, &rect);
+        DrawWindowRect(work, &rect);
 
         if (++work->step == 5)
         {
-            work->state = VRWIN_STATE_2;
+            work->state = VRWIN_STATE_OPEN_H;
             work->step = 0;
         }
 
         CloseWindow(work);
         break;
 
-    case VRWIN_STATE_2:
+    case VRWIN_STATE_OPEN_H:
         rect.w = work->w_rect.w;
         rect.h = work->w_rect.h * work->step / 4;
         rect.x = work->w_rect.x;
         rect.y = work->w_rect.y + (work->w_rect.h - rect.h) / 2;
-        Vrwindow_800D73A4(work, &rect);
+        DrawWindowRect(work, &rect);
 
         if (++work->step == 5)
         {
-            work->state = VRWIN_STATE_3;
+            work->state = VRWIN_STATE_TYPING;
             work->step = 0;
         }
 
         CloseWindow(work);
         break;
 
-    case VRWIN_STATE_3:
+    case VRWIN_STATE_TYPING:
         work->step += 2;
         if (!PrintMessage(work, work->step))
         {
-            work->step -= strlen(work->b_text[work->f34]) * 2;
-            work->f180 = 0;
+            work->step -= strlen(work->b_text[work->line]) * 2;
+            work->n_chars = 0;
 
-            if (work->i_num <= (work->f34++ + work->f16C))
+            if (work->i_num <= (work->line++ + work->max_lines))
             {
-                work->state = VRWIN_STATE_0;
+                work->state = VRWIN_STATE_WAIT;
                 work->step = 0;
             }
         }
 
-        Vrwindow_800D73A4(work, &work->w_rect);
+        DrawWindowRect(work, &work->w_rect);
 
         addPrim(DG_ChanlOTag(1), &work->sprts[GV_Clock]);
         CloseWindow(work);
         break;
 
-    case VRWIN_STATE_4:
+    case VRWIN_STATE_CLOSE_H:
         rect.w = work->w_rect.w;
         rect.h = work->w_rect.h * (4 - work->step) / 4;
         rect.x = work->w_rect.x;
         rect.y = work->w_rect.y + (work->w_rect.h - rect.h) / 2;
-        Vrwindow_800D73A4(work, &rect);
+        DrawWindowRect(work, &rect);
 
         if (++work->step == 5)
         {
-            work->state = VRWIN_STATE_5;
+            work->state = VRWIN_STATE_CLOSE_W;
             work->step = 0;
         }
         break;
 
-    case VRWIN_STATE_5:
+    case VRWIN_STATE_CLOSE_W:
         rect.w = work->w_rect.w * (4 - work->step) / 4;
         rect.h = 1;
         rect.x = work->w_rect.x + (work->w_rect.w - rect.w) / 2;
         rect.y = work->w_rect.y + work->w_rect.h / 2;
-        Vrwindow_800D73A4(work, &rect);
+        DrawWindowRect(work, &rect);
 
         if (++work->step == 5)
         {
@@ -347,19 +353,19 @@ static void Act(Work *work)
     addPrim(DG_ChanlOTag(1), &work->tpages[GV_Clock]);
 }
 
-static void Vrwindow_800D7ED8(RECT *rect);
+static void FreeFontRect(RECT *rect);
 
 static void Die(Work *work)
 {
     if (work->flag)
     {
-        Vrwindow_800D7ED8(&work->f174);
+        FreeFontRect(&work->font_rect);
     }
 
     GV_Free(work->font_buffer);
 }
 
-static void Vrwindow_800D7E54(Work *work, RECT *rect)
+static void AllocFontRect(Work *work, RECT *rect)
 {
     rect->x = vrwindow_X1;
     rect->y = vrwindow_Y1;
@@ -373,13 +379,13 @@ static void Vrwindow_800D7E54(Work *work, RECT *rect)
     }
 }
 
-static void Vrwindow_800D7ED8(RECT *rect)
+static void FreeFontRect(RECT *rect)
 {
     vrwindow_Y1 = 256;
     vrwindow_X2 = 960;
 }
 
-static u_short Vrwindow_800D7EF4(RECT *rect)
+static u_short AllocClut(RECT *rect)
 {
     rect->x = vrwindow_X2;
     rect->y = vrwindow_Y2;
@@ -395,11 +401,11 @@ static void InitWindowText(KCB *kcb, int x, int y, Work *work)
 {
     RECT rect;
 
-    Vrwindow_800D7E54(work, &work->f174);
-    ClearImage(&work->f174, 0, 0, 0);
+    AllocFontRect(work, &work->font_rect);
+    ClearImage(&work->font_rect, 0, 0, 0);
 
-    work->clut = Vrwindow_800D7EF4(&rect);
-    font_init_kcb(kcb, &work->f174, rect.x, rect.y);
+    work->clut = AllocClut(&rect);
+    font_init_kcb(kcb, &work->font_rect, rect.x, rect.y);
     font_set_kcb(kcb, -1, -1, 0, 6, 2, 0);
 
     work->font_buffer = GV_Malloc(font_get_buffer_size(kcb));
@@ -415,8 +421,8 @@ static int GetResources(Work *work, int map)
 
     GM_CurrentMap = map;
 
-    work->f188 = 0;
-    InitWindowText(&work->kcb, work->m_rect.w, work->m_rect.h + 18, work);
+    work->pause_timer = 0;
+    InitWindowText(&work->kcb, work->m_rect.w, work->m_rect.h + VRWIN_LINE_H, work);
 
     for (i = 0; i < 2; i++)
     {
@@ -426,7 +432,7 @@ static int GetResources(Work *work, int map)
         LCOPY(&work->m_rect.x, &work->sprts[i].x0);
         LCOPY(&work->m_rect.w, &work->sprts[i].w);
         setSprt(&work->sprts[i]);
-        setUV0(&work->sprts[i], (work->f174.x - 896) * 4, work->f174.y);
+        setUV0(&work->sprts[i], (work->font_rect.x - 896) * 4, work->font_rect.y);
         work->sprts[i].clut = work->clut;
 
         setTile(&work->tiles[i]);
@@ -440,7 +446,7 @@ static int GetResources(Work *work, int map)
         setRGB0(&work->lines1[i], 64, 64, 64);
         setRGB0(&work->lines2[i], 64, 64, 64);
 
-        work->f180 = 0;
+        work->n_chars = 0;
     }
 
     return 0;
@@ -459,19 +465,19 @@ void *NewVrWindow(int name, int where)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "vrwindow.c");
 
-        work->state = VRWIN_STATE_1;
+        work->state = VRWIN_STATE_OPEN_W;
         work->step = 0;
-        work->f34 = 0;
+        work->line = 0;
 
         GM_SeSet2(0, 63, VRWIN_SE_START);
 
         if (GCL_GetOption('s'))
         {
-            work->f18A = 0;
+            work->pausing = 0;
         }
         else
         {
-            work->f18A = 1;
+            work->pausing = 1;
         }
 
         work->i_num = GCL_StrToInt(GCL_GetOption('i'));
@@ -501,7 +507,7 @@ void *NewVrWindow(int name, int where)
                 work->w_rect.w += 4 - (width % 4);
             }
 
-            work->w_rect.h = (work->i_num * 18) + 18;
+            work->w_rect.h = (work->i_num * VRWIN_LINE_H) + VRWIN_LINE_H;
             work->w_rect.x = (FRAME_WIDTH - work->w_rect.w) >> 1;
             work->w_rect.y = (FRAME_HEIGHT - work->w_rect.h) >> 1;
         }
@@ -552,7 +558,7 @@ void *NewVrWindow(int name, int where)
         }
 
         work->name = name;
-        work->f16C = work->m_rect.h / 18;
+        work->max_lines = work->m_rect.h / VRWIN_LINE_H;
 
         if (GetResources(work, where) < 0)
         {
