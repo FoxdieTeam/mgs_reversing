@@ -31,8 +31,8 @@ extern int vrtitle_dword_800D9D40;
 
 extern char vrtitle_dword_800D9660[];
 extern char vrtitle_dword_800D9654[];
-extern const char vrtitle_dword_800D9410[];
-extern const char vrtitle_dword_800D942C[];
+extern char vrtitle_dword_800D9410[];
+extern char vrtitle_dword_800D942C[];
 extern int vrtitle_dword_800D9D08;
 extern int vrtitle_dword_800D9D0C;
 extern int vrtitle_dword_800D9D10;
@@ -49,7 +49,7 @@ int vrtitle_800CC9E8(MEMCARD *card, int index) {
     buffer = GV_AllocMemory(2, 0x2000);
 
     if (!buffer) {
-        printf((char *)vrtitle_dword_800D9410);
+        printf(vrtitle_dword_800D9410);
     }
 
     result = 0;
@@ -72,7 +72,7 @@ int vrtitle_800CC9E8(MEMCARD *card, int index) {
                 char *p710 = (char *)&vrtitle_dword_800D9D14;
                 p710[i] = card->files[index].name[i];
             }
-            printf((char *)vrtitle_dword_800D942C, *(unsigned char *)&vrtitle_dword_800D9D10, (char *)&vrtitle_dword_800D9D14);
+            printf(vrtitle_dword_800D942C, *(unsigned char *)&vrtitle_dword_800D9D10, (char *)&vrtitle_dword_800D9D14);
             result = 1;
             break;
         }

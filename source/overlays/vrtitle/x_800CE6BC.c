@@ -26,13 +26,13 @@
 
 extern char                       *MGS_MemoryCardName; /* in main.c */
 
-extern const char vrtitle_dword_800D9708[];
-extern const char vrtitle_dword_800D9714[];
-extern const char vrtitle_dword_800D9728[];
+extern char vrtitle_dword_800D9708[];
+extern char vrtitle_dword_800D9714[];
+extern char vrtitle_dword_800D9728[];
 
 void vrtitle_800CE6BC(void *ptr)
 {
-    printf((char *)vrtitle_dword_800D9708);
+    printf(vrtitle_dword_800D9708);
     if (ptr)
     {
         GV_FreeMemory(GV_NORMAL_MEMORY, ptr);
@@ -49,8 +49,8 @@ void vrtitle_800CE6F8(void **arg0, int arg1)
         *arg0 = temp_v0;
         if (temp_v0 == NULL)
         {
-            printf((char *)vrtitle_dword_800D9714);
+            printf(vrtitle_dword_800D9714);
         }
-        printf((char *)vrtitle_dword_800D9728, *arg0);
+        printf(vrtitle_dword_800D9728, *arg0);
     }
 }

@@ -29,11 +29,11 @@ extern int                         vrtitle_dword_800D9D2C;
 
 extern int        vrtitle_dword_800D9D78;
 extern int        vrtitle_dword_800D9D7C;
-extern const char vrtitle_dword_800D9850[];
-extern const char vrtitle_dword_800D985C[];
+extern char vrtitle_dword_800D9850[];
+extern char vrtitle_dword_800D985C[];
 
-extern const char vrtitle_dword_800D9860[];
-extern const char vrtitle_dword_800D986C[];
+extern char vrtitle_dword_800D9860[];
+extern char vrtitle_dword_800D986C[];
 extern int        vrtitle_dword_800C1BAC;
 
 void vrtitle_800CFE1C(int code, char **pAreaNameForMenu, char **pAreaNameForSaveData)
@@ -42,8 +42,8 @@ void vrtitle_800CFE1C(int code, char **pAreaNameForMenu, char **pAreaNameForSave
 
     if (code == 0)
     {
-        *pAreaNameForMenu = (char *)vrtitle_dword_800D9850;
-        *pAreaNameForSaveData = (char *)vrtitle_dword_800D985C;
+        *pAreaNameForMenu = vrtitle_dword_800D9850;
+        *pAreaNameForSaveData = vrtitle_dword_800D985C;
     }
 
     GCL_SetArgTop((unsigned char *)vrtitle_dword_800D9D78);
@@ -90,6 +90,6 @@ void vrtitle_800CFF0C(char *out, MEMCARD *unused, int hours, int minutes)
         vrtitle_800CFE1C(vrtitle_dword_800D9D7C, &discard, &areaName);
     }
 
-    sprintf(out, (char *)vrtitle_dword_800D9860,
+    sprintf(out, vrtitle_dword_800D9860,
             vrtitle_dword_800D986C, vrtitle_dword_800D985C, playTime, vrtitle_dword_800D985C, areaName);
 }

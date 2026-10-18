@@ -26,20 +26,20 @@
 
 extern char                       *MGS_MemoryCardName; /* in main.c */
 
-extern const char vrtitle_dword_800D9254[];
-extern const char vrtitle_dword_800D926C[];
+extern char vrtitle_dword_800D9254[];
+extern char vrtitle_dword_800D926C[];
 extern int vrtitle_dword_800D9D08;
-extern const char vrtitle_dword_800D91C8[];
+extern char vrtitle_dword_800D91C8[];
 
 void vrtitle_800CBD28(Work *);
 
 extern int vrtitle_dword_800C14F0[];
-extern const char vrtitle_dword_800D91D4[];
-extern const char vrtitle_dword_800D91E8[];
-extern const char vrtitle_dword_800D9210[];
-extern const char vrtitle_dword_800D9228[];
+extern char vrtitle_dword_800D91D4[];
+extern char vrtitle_dword_800D91E8[];
+extern char vrtitle_dword_800D9210[];
+extern char vrtitle_dword_800D9228[];
 
-extern const char vrtitle_dword_800D9244[];
+extern char vrtitle_dword_800D9244[];
 
 void vrtitle_800CB8CC(unsigned long *runlevel, RECT *pRect)
 {
@@ -145,7 +145,7 @@ void vrtitle_800CB9EC(int arg0, u_short *out)
         *out++ = 0xFE00;
     }
 
-    printf((char *)vrtitle_dword_800D91C8, out);
+    printf(vrtitle_dword_800D91C8, out);
 }
 
 void vrtitle_800CBB8C(Work *work)
@@ -255,19 +255,19 @@ int vrtitle_800CBEDC(Work *unused, int idx)
     {
         mts_wait_vbl(1);
     }
-    printf((char *)vrtitle_dword_800D91D4);
+    printf(vrtitle_dword_800D91D4);
     tex = DG_GetTexture(id);
     if (tex->id != 0)
     {
         tex->id = 0;
-        printf((char *)vrtitle_dword_800D91E8);
+        printf(vrtitle_dword_800D91E8);
     }
     else
     {
-        printf((char *)vrtitle_dword_800D9210);
+        printf(vrtitle_dword_800D9210);
     }
     DG_LoadInitPcx(buf, id);
-    printf((char *)vrtitle_dword_800D9228);
+    printf(vrtitle_dword_800D9228);
     GV_Free(buf);
     return id;
 }
@@ -342,8 +342,8 @@ void vrtitle_800CBFD4(Work *work)
 
 void vrtitle_800CC1A0(Work* work) {
 
-    printf((char *)vrtitle_dword_800D9254);
-    printf((char *)vrtitle_dword_800D926C, work->field_4934);
+    printf(vrtitle_dword_800D9254);
+    printf(vrtitle_dword_800D926C, work->field_4934);
 
     vrtitle_800CBFD4(work);
 }

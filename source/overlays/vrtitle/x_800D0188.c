@@ -27,16 +27,17 @@
 extern char                       *MGS_MemoryCardName; /* in main.c */
 extern SPRT                        vrtitle_dword_800D9D84;
 
-extern int vrtitle_dword_800C1BCC;
+// (char, unused) pairs of the punctuation glyphs
+extern char vrtitle_dword_800C1BCC[];
 
-void vrtitle_800D0188(MenuPrim *prim, SELECT_INFO *info)
+void vrtitle_800D0188(MenuPrim *prim, CaptionInfo *info)
 {
     DR_TPAGE *pTpage;
 
     _NEW_PRIM(pTpage, prim);
 
     setlen(pTpage, 1);
-    pTpage->code[0] = 0xE100061F | ((*(int *)((char *)info + 8) >> 3) & 0x60);
+    pTpage->code[0] = 0xE100061F | ((info->field_8 >> 3) & 0x60);
     addPrim(prim->ot, pTpage);
 }
 
@@ -88,7 +89,7 @@ void vrtitle_800D0200(MenuPrim *prim, CaptionInfo *info, char *str)
         else
         {
             u = 0;
-            for (tbl = (char *)&vrtitle_dword_800C1BCC;; tbl += 2, u += 8)
+            for (tbl = vrtitle_dword_800C1BCC;; tbl += 2, u += 8)
             {
                 if (*tbl == c)
                 {
@@ -112,7 +113,7 @@ void vrtitle_800D0200(MenuPrim *prim, CaptionInfo *info, char *str)
 
         _NEW_PRIM(sprt, prim);
         *sprt = vrtitle_dword_800D9D84;
-        *(int *)&sprt->r0 = color;
+        *(int *)&sprt->r0 = color; // FIXME: writes r0, g0, b0 and code at once (same as setRGB0 + code)
         sprt->x0 = x;
         sprt->y0 = info->y;
         sprt->u0 = u;

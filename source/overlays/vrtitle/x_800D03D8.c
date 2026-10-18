@@ -27,12 +27,12 @@
 extern char                       *MGS_MemoryCardName; /* in main.c */
 extern SPRT                        vrtitle_dword_800D9D84;
 
-void vrtitle_800D03D8(MenuPrim *prim, SELECT_INFO *info, char *arg2)
+void vrtitle_800D03D8(MenuPrim *prim, CaptionInfo *info, char *arg2)
 {
     char sp10[64];
 
     sprintf(sp10, arg2);
-    vrtitle_800D0200(prim, (CaptionInfo *)info, sp10);
+    vrtitle_800D0200(prim, info, sp10);
     vrtitle_800D0188(prim, info);
 }
 

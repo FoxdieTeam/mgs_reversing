@@ -1405,14 +1405,14 @@ void camera_800C82EC(void)
     camera_800C82B0(&camera_dword_800C38E0, 1);
 }
 
-void camera_800C8314(MenuPrim *prim, SELECT_INFO *info)
+void camera_800C8314(MenuPrim *prim, CaptionInfo *info)
 {
     DR_TPAGE *pTpage;
 
     _NEW_PRIM(pTpage, prim);
 
     setlen(pTpage, 1);
-    pTpage->code[0] = 0xE100061F | ((*(int *)((char *)info + 8) >> 3) & 0x60);
+    pTpage->code[0] = 0xE100061F | ((info->field_8 >> 3) & 0x60);
     addPrim(prim->ot, pTpage);
 }
 
@@ -1507,12 +1507,12 @@ void camera_800C8554(int *arg0, int arg1, int arg2, int arg3)
     arg0[2] = arg3;
 }
 
-void camera_800C8564(MenuPrim *prim, SELECT_INFO *info, char *arg2)
+void camera_800C8564(MenuPrim *prim, CaptionInfo *info, char *arg2)
 {
     char sp10[64];
 
     sprintf(sp10, arg2);
-    camera_800C838C(prim, (CaptionInfo *)info, sp10);
+    camera_800C838C(prim, info, sp10);
     camera_800C8314(prim, info);
 }
 

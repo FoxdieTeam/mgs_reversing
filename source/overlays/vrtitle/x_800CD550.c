@@ -27,7 +27,7 @@
 extern RadioFileModeStru_800ABB7C *vrtitle_dword_800D9D64;
 extern char                       *MGS_MemoryCardName; /* in main.c */
 
-extern const char vrtitle_dword_800D96B0[]; // = "NO MEMORY FOR OBJ\n";
+extern char vrtitle_dword_800D96B0[]; // = "NO MEMORY FOR OBJ\n";
 
 void vrtitle_800CD550()
 {
@@ -37,7 +37,7 @@ void vrtitle_800CD550()
         (RadioFileModeStru_800ABB7C *)GV_AllocMemory(GV_NORMAL_MEMORY, sizeof(RadioFileModeStru_800ABB7C));
     if (vrtitle_dword_800D9D64 == NULL)
     {
-        printf((char *)vrtitle_dword_800D96B0);
+        printf(vrtitle_dword_800D96B0);
     }
 
     for (i = 0; i < 12; i++)

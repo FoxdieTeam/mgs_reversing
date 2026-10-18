@@ -27,7 +27,7 @@
 extern RadioFileModeStru_800ABB7C *vrsave_dword_800D1C24;
 extern char                       *MGS_MemoryCardName; /* in main.c */
 
-extern const char vrsave_dword_800D135C[]; // = "NO MEMORY FOR OBJ\n";
+extern char vrsave_dword_800D135C[]; // = "NO MEMORY FOR OBJ\n";
 
 void vrsave_800C69E8()
 {
@@ -37,7 +37,7 @@ void vrsave_800C69E8()
         (RadioFileModeStru_800ABB7C *)GV_AllocMemory(GV_NORMAL_MEMORY, sizeof(RadioFileModeStru_800ABB7C));
     if (vrsave_dword_800D1C24 == NULL)
     {
-        printf((char *)vrsave_dword_800D135C);
+        printf(vrsave_dword_800D135C);
     }
 
     for (i = 0; i < 12; i++)
