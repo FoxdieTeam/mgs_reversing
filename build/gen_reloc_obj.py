@@ -15,7 +15,8 @@ Jump tables are detected automatically per function and are emitted in their add
  Optional: "data": [["800C1D98","name",COUNT_WORDS], ...] initialised .data words (pointers into the object are symbolic),
            "sized_syms": {"800B5448": ["GM_Camera", 256]} (a symbol referenced as name+offset),
            "bss_syms": {"800E1DA0": ["name", SIZE]} symbols of C-defined bss, "globl": true (export data labels),
-           "export": ["name", ...] (export these rdata labels so C can refer to the literal, see vrclear2.c)."""
+           "export": ["name", ...] (export these rdata labels so C can refer to the literal, see vrclear2.c),
+           "rdata_attach_prev": true (unreferenced rdata items go with the run of the previous rdata item instead of the first run)."""
 import json, re, struct, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import symbolize_asm as S
@@ -109,9 +110,10 @@ for a, fi in first.items():
                 print('WARNING: %s is used by C function %s and asm function %s: define it in C' % (names[a], cfg['funcs'][fi][0], cfg['funcs'][fj][0]))
 # items nobody refers to in code (strings behind initialised data pointers) go with the first asm run
 asm_first = next(fi for fi, f in enumerate(cfg['funcs']) if f[0] not in cfuncs)
-for a in names:
+for a in sorted(names):
     if a not in first:
-        first[a] = asm_first
+        prev = [b for b in sorted(first) if b < a] if cfg.get('rdata_attach_prev') else []
+        first[a] = first[prev[-1]] if prev else asm_first
 # runs of asm functions
 runs = []
 for fi, (name, st, en) in enumerate(cfg['funcs']):

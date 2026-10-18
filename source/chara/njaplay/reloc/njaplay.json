@@ -10,282 +10,282 @@
  "out": "source/chara/njaplay/reloc/njaplay.s",
  "funcs": [
   [
-   "njp_800C258C",
+   "njp_sna_start_anim_8004E1F4",
    "800C258C",
    "800C25C4"
   ],
   [
-   "njp_800C25C4",
+   "njp_SetAction_8004E22C",
    "800C25C4",
    "800C25F8"
   ],
   [
-   "njp_800C25F8",
+   "njp_sna_8004E260",
    "800C25F8",
    "800C2634"
   ],
   [
-   "njp_800C2634",
+   "njp_GM_CheckPlayerStatusFlag",
    "800C2634",
    "800C264C"
   ],
   [
-   "njp_800C264C",
+   "njp_GM_SetPlayerStatusFlag",
    "800C264C",
    "800C2664"
   ],
   [
-   "njp_800C2664",
+   "njp_GM_ClearPlayerStatusFlag",
    "800C2664",
    "800C267C"
   ],
   [
-   "njp_800C267C",
+   "njp_sna_set_flags1_8004E2F4",
    "800C267C",
    "800C2690"
   ],
   [
-   "njp_800C2690",
+   "njp_sna_clear_flags1_8004E308",
    "800C2690",
    "800C26A4"
   ],
   [
-   "njp_800C26A4",
+   "njp_sna_check_flags1_8004E31C",
    "800C26A4",
    "800C26B8"
   ],
   [
-   "njp_800C26B8",
+   "njp_CheckSnakeDead_8004E384",
    "800C26B8",
    "800C274C"
   ],
   [
-   "njp_800C274C",
+   "njp_sna_sub_8004E41C",
    "800C274C",
    "800C2788"
   ],
   [
-   "njp_800C2788",
+   "njp_sub_8004E4C0",
    "800C2788",
    "800C27E8"
   ],
   [
-   "njp_800C27E8",
+   "njp_sna_line_check",
    "800C27E8",
    "800C2854"
   ],
   [
-   "njp_800C2854",
+   "njp_sub_8004E588",
    "800C2854",
    "800C28B4"
   ],
   [
-   "njp_800C28B4",
+   "njp_sub_8004EA50",
    "800C28B4",
    "800C290C"
   ],
   [
-   "njp_800C290C",
+   "njp_sub_8004E5E8",
    "800C290C",
    "800C2914"
   ],
   [
-   "njp_800C2914",
+   "njp_sna_8004EB14",
    "800C2914",
    "800C2974"
   ],
   [
-   "njp_800C2974",
+   "njp_sub_8004EB74",
    "800C2974",
    "800C29E4"
   ],
   [
-   "njp_800C29E4",
+   "njp_sna_8004EC00",
    "800C29E4",
    "800C2A58"
   ],
   [
-   "njp_800C2A58",
+   "njp_sna_act_helper2_helper3_8004ED6C",
    "800C2A58",
    "800C2B14"
   ],
   [
-   "njp_800C2B14",
+   "njp_sna_8004EE28",
    "800C2B14",
    "800C2B9C"
   ],
   [
-   "njp_800C2B9C",
+   "njp_sub_8004EFE4",
    "800C2B9C",
    "800C2BEC"
   ],
   [
-   "njp_800C2BEC",
+   "njp_sna_8004F034",
    "800C2BEC",
    "800C2C48"
   ],
   [
-   "njp_800C2C48",
+   "njp_sna_act_helper2_helper4_8004F090",
    "800C2C48",
    "800C2CFC"
   ],
   [
-   "njp_800C2CFC",
+   "njp_sub_8004F204",
    "800C2CFC",
    "800C2D68"
   ],
   [
-   "njp_800C2D68",
+   "njp_sna_set_invuln_8004F2A0",
    "800C2D68",
    "800C2DB4"
   ],
   [
-   "njp_800C2DB4",
+   "njp_sna_clear_invuln_8004F2EC",
    "800C2DB4",
    "800C2E00"
   ],
   [
-   "njp_800C2E00",
+   "njp_sub_8004F338",
    "800C2E00",
    "800C2EF0"
   ],
   [
-   "njp_800C2EF0",
+   "njp_sub_8004F454",
    "800C2EF0",
    "800C2FE4"
   ],
   [
-   "njp_800C2FE4",
+   "njp_UpdateLife_8004F6E8",
    "800C2FE4",
    "800C3118"
   ],
   [
-   "njp_800C3118",
+   "njp_sna_8004F8E4",
    "800C3118",
    "800C3270"
   ],
   [
-   "njp_800C3270",
+   "njp_sna_800C3270",
    "800C3270",
    "800C32E4"
   ],
   [
-   "njp_800C32E4",
+   "njp_sna_act_unk_helper4_8004FA3C",
    "800C32E4",
    "800C3318"
   ],
   [
-   "njp_800C3318",
+   "njp_sna_800C3318",
    "800C3318",
    "800C33C8"
   ],
   [
-   "njp_800C33C8",
+   "njp_sna_stealth_800C33C8",
    "800C33C8",
    "800C35BC"
   ],
   [
-   "njp_800C35BC",
+   "njp_sna_800C35BC",
    "800C35BC",
    "800C3640"
   ],
   [
-   "njp_800C3640",
+   "njp_sna_se_800C3640",
    "800C3640",
    "800C36EC"
   ],
   [
-   "njp_800C36EC",
+   "njp_sna_se_800C36EC",
    "800C36EC",
    "800C3738"
   ],
   [
-   "njp_800C3738",
+   "njp_sna_8004FDE8",
    "800C3738",
    "800C3898"
   ],
   [
-   "njp_800C3898",
+   "njp_sna_800C3898",
    "800C3898",
    "800C399C"
   ],
   [
-   "njp_800C399C",
+   "njp_sna_800C399C",
    "800C399C",
    "800C3A30"
   ],
   [
-   "njp_800C3A30",
+   "njp_sna_select_action_800C3A30",
    "800C3A30",
    "800C3B98"
   ],
   [
-   "njp_800C3B98",
+   "njp_sub_800507D8",
    "800C3B98",
    "800C3C1C"
   ],
   [
-   "njp_800C3C1C",
+   "njp_CheckMessage0_80050878",
    "800C3C1C",
    "800C3D84"
   ],
   [
-   "njp_800C3D84",
+   "njp_sna_act_unk_80050A64",
    "800C3D84",
    "800C41B4"
   ],
   [
-   "njp_800C41B4",
+   "njp_sna_clear_target_800C41B4",
    "800C41B4",
    "800C4200"
   ],
   [
-   "njp_800C4200",
+   "njp_sna_anim_idle_800C4200",
    "800C4200",
    "800C4244"
   ],
   [
-   "njp_800C4244",
+   "njp_sna_anim_run_begin_80053B88",
    "800C4244",
    "800C4298"
   ],
   [
-   "njp_800C4298",
+   "njp_sna_anim_wall_crouch_80052CCC",
    "800C4298",
    "800C43CC"
   ],
   [
-   "njp_800C43CC",
+   "njp_sna_anim_wall_move_80052BA8",
    "800C43CC",
    "800C44CC"
   ],
   [
-   "njp_800C44CC",
+   "njp_sna_anim_idle_update_800C44CC",
    "800C44CC",
    "800C45CC"
   ],
   [
-   "njp_800C45CC",
+   "njp_sna_anim_run_update_800C45CC",
    "800C45CC",
    "800C4750"
   ],
   [
-   "njp_800C4750",
+   "njp_sna_anim_crouch_wall_update_800C4750",
    "800C4750",
    "800C47EC"
   ],
   [
-   "njp_800C47EC",
+   "njp_sna_anim_wall_move_update_800C47EC",
    "800C47EC",
    "800C48EC"
   ],
   [
-   "njp_800C48EC",
+   "njp_nop_800C48EC",
    "800C48EC",
    "800C48F4"
   ],
   [
-   "njp_800C48F4",
+   "njp_FreeTargets",
    "800C48F4",
    "800C495C"
   ],
@@ -295,37 +295,37 @@
    "800C4A38"
   ],
   [
-   "njp_800C4A38",
+   "njp_sna_anim_800C4A38",
    "800C4A38",
    "800C4A90"
   ],
   [
-   "njp_800C4A90",
+   "njp_sna_anim_800C4A90",
    "800C4A90",
    "800C4AF0"
   ],
   [
-   "njp_800C4AF0",
+   "njp_sna_anim_800C4AF0",
    "800C4AF0",
    "800C4B44"
   ],
   [
-   "njp_800C4B44",
+   "njp_sna_anim_800C4B44",
    "800C4B44",
    "800C4BA4"
   ],
   [
-   "njp_800C4BA4",
+   "njp_sna_anim_spin_800C4BA4",
    "800C4BA4",
    "800C4E38"
   ],
   [
-   "njp_800C4E38",
+   "njp_sna_anim_spin_end_800C4E38",
    "800C4E38",
    "800C5104"
   ],
   [
-   "njp_800C5104",
+   "njp_DG_ObjsMinY_800C5104",
    "800C5104",
    "800C5150"
   ],
@@ -335,72 +335,72 @@
    "800C54EC"
   ],
   [
-   "njp_800C54EC",
+   "njp_sna_anim_800C54EC",
    "800C54EC",
    "800C5550"
   ],
   [
-   "njp_800C5550",
+   "njp_sna_anim_800C5550",
    "800C5550",
    "800C5634"
   ],
   [
-   "njp_800C5634",
+   "njp_sna_anim_800C5634",
    "800C5634",
    "800C573C"
   ],
   [
-   "njp_800C573C",
+   "njp_sna_anim_800C573C",
    "800C573C",
    "800C5838"
   ],
   [
-   "njp_800C5838",
+   "njp_sna_anim_dying_80055524",
    "800C5838",
    "800C5A70"
   ],
   [
-   "njp_800C5A70",
+   "njp_sna_move_targets_800C5A70",
    "800C5A70",
    "800C5B18"
   ],
   [
-   "njp_800C5B18",
+   "njp_sna_check_hits_800C5B18",
    "800C5B18",
    "800C5C18"
   ],
   [
-   "njp_800C5C18",
+   "njp_sna_anim_update_800C5C18",
    "800C5C18",
    "800C5D4C"
   ],
   [
-   "njp_800C5D4C",
+   "njp_sna_anim_update_800C5D4C",
    "800C5D4C",
    "800C5E9C"
   ],
   [
-   "njp_800C5E9C",
+   "njp_sna_anim_slash_update_800C5E9C",
    "800C5E9C",
    "800C5F20"
   ],
   [
-   "njp_800C5F20",
+   "njp_sna_anim_update_800C5F20",
    "800C5F20",
    "800C60E4"
   ],
   [
-   "njp_800C60E4",
+   "njp_sna_anim_update_800C60E4",
    "800C60E4",
    "800C6244"
   ],
   [
-   "njp_800C6244",
+   "njp_sna_80051A10",
    "800C6244",
    "800C63D8"
   ],
   [
-   "njp_800C63D8",
+   "njp_sna_80051BA4",
    "800C63D8",
    "800C65D4"
   ],
@@ -410,52 +410,52 @@
    "800C67B0"
   ],
   [
-   "njp_800C67B0",
+   "njp_sna_80051FD0",
    "800C67B0",
    "800C6900"
   ],
   [
-   "njp_800C6900",
+   "njp_sna_fp_update_800C6900",
    "800C6900",
    "800C6994"
   ],
   [
-   "njp_800C6994",
+   "njp_sna_fp_update_800C6994",
    "800C6994",
    "800C6A60"
   ],
   [
-   "njp_800C6A60",
+   "njp_sna_fp_update_800C6A60",
    "800C6A60",
    "800C6AC0"
   ],
   [
-   "njp_800C6AC0",
+   "njp_sna_anim_chokethrow_begin2_80058C80",
    "800C6AC0",
    "800C6CA4"
   ],
   [
-   "njp_800C6CA4",
+   "njp_sna_anim_choke_800C6CA4",
    "800C6CA4",
    "800C6DC0"
   ],
   [
-   "njp_800C6DC0",
+   "njp_sna_init_main_logic_800596FC",
    "800C6DC0",
    "800C7C04"
   ],
   [
-   "njp_800C7C04",
+   "njp_Act",
    "800C7C04",
    "800C81E8"
   ],
   [
-   "njp_800C81E8",
+   "njp_Die",
    "800C81E8",
    "800C82A4"
   ],
   [
-   "njp_800C82A4",
+   "njp_NewSnake",
    "800C82A4",
    "800C8774"
   ]
@@ -472,6 +472,62 @@
   "800B5448": [
    "GM_Camera",
    256
+  ],
+  "800C1210": [
+   "njp_dword_8009EED4",
+   4
+  ],
+  "800C1214": [
+   "njp_dword_8009EED8",
+   8
+  ],
+  "800C121C": [
+   "njp_dword_8009EEE0",
+   4
+  ],
+  "800C1220": [
+   "njp_dword_8009EEE4",
+   12
+  ],
+  "800C122C": [
+   "njp_dword_8009EF24",
+   8
+  ],
+  "800C1234": [
+   "njp_dword_8009EF2C",
+   8
+  ],
+  "800C123C": [
+   "njp_word_8009EFC0",
+   20
+  ],
+  "800C1250": [
+   "njp_svector_800AB7D4",
+   8
+  ],
+  "800C1258": [
+   "njp_svector_800AB7DC",
+   8
+  ],
+  "800C1260": [
+   "njp_front_probe",
+   24
+  ],
+  "800C1278": [
+   "njp_stru_8009EFD4",
+   48
+  ],
+  "800C12A8": [
+   "njp_stru_8009EFE4",
+   32
+  ],
+  "800C12C8": [
+   "njp_svector_800AB7FC",
+   8
+  ],
+  "800C12D0": [
+   "njp_GV_PadData_8009F0C4",
+   12
   ]
  },
  "rdata": [
@@ -532,17 +588,160 @@
    "njp_str_4898"
   ]
  ],
- "data": [
-  [
-   "800C1210",
-   "njp_data",
-   51
-  ]
+ "c_funcs": [
+  "njp_sna_start_anim_8004E1F4",
+  "njp_SetAction_8004E22C",
+  "njp_sna_8004E260",
+  "njp_GM_CheckPlayerStatusFlag",
+  "njp_GM_SetPlayerStatusFlag",
+  "njp_GM_ClearPlayerStatusFlag",
+  "njp_sna_set_flags1_8004E2F4",
+  "njp_sna_clear_flags1_8004E308",
+  "njp_sna_check_flags1_8004E31C",
+  "njp_CheckSnakeDead_8004E384",
+  "njp_sna_sub_8004E41C",
+  "njp_sub_8004E4C0",
+  "njp_sna_line_check",
+  "njp_sub_8004E588",
+  "njp_sub_8004EA50",
+  "njp_sub_8004E5E8",
+  "njp_sna_8004EB14",
+  "njp_sub_8004EB74",
+  "njp_sna_8004EC00",
+  "njp_sna_act_helper2_helper3_8004ED6C",
+  "njp_sna_8004EE28",
+  "njp_sub_8004EFE4",
+  "njp_sna_8004F034",
+  "njp_sna_act_helper2_helper4_8004F090",
+  "njp_sub_8004F204",
+  "njp_sna_set_invuln_8004F2A0",
+  "njp_sna_clear_invuln_8004F2EC",
+  "njp_sub_8004F338",
+  "njp_sub_8004F454",
+  "njp_UpdateLife_8004F6E8",
+  "njp_sna_8004F8E4",
+  "njp_sna_800C3270",
+  "njp_sna_act_unk_helper4_8004FA3C",
+  "njp_sna_800C3318",
+  "njp_sna_stealth_800C33C8",
+  "njp_sna_800C35BC",
+  "njp_sna_se_800C3640",
+  "njp_sna_se_800C36EC",
+  "njp_sna_8004FDE8",
+  "njp_sna_800C3898",
+  "njp_sna_800C399C",
+  "njp_sna_select_action_800C3A30",
+  "njp_sub_800507D8",
+  "njp_sna_act_unk_80050A64",
+  "njp_sna_clear_target_800C41B4",
+  "njp_sna_anim_idle_800C4200",
+  "njp_sna_anim_run_begin_80053B88",
+  "njp_sna_anim_wall_crouch_80052CCC",
+  "njp_sna_anim_wall_move_80052BA8",
+  "njp_sna_anim_idle_update_800C44CC",
+  "njp_sna_anim_run_update_800C45CC",
+  "njp_sna_anim_crouch_wall_update_800C4750",
+  "njp_sna_anim_wall_move_update_800C47EC",
+  "njp_nop_800C48EC",
+  "njp_FreeTargets",
+  "njp_800C495C",
+  "njp_sna_anim_800C4A38",
+  "njp_sna_anim_800C4A90",
+  "njp_sna_anim_800C4AF0",
+  "njp_sna_anim_800C4B44",
+  "njp_sna_anim_spin_800C4BA4",
+  "njp_sna_anim_spin_end_800C4E38",
+  "njp_DG_ObjsMinY_800C5104",
+  "njp_sna_anim_800C54EC",
+  "njp_sna_anim_800C5550",
+  "njp_sna_anim_800C5634",
+  "njp_sna_anim_800C573C",
+  "njp_sna_anim_dying_80055524",
+  "njp_sna_move_targets_800C5A70",
+  "njp_sna_check_hits_800C5B18",
+  "njp_sna_anim_update_800C5C18",
+  "njp_sna_anim_update_800C5D4C",
+  "njp_sna_anim_slash_update_800C5E9C",
+  "njp_sna_anim_update_800C5F20",
+  "njp_sna_anim_update_800C60E4",
+  "njp_sna_80051A10",
+  "njp_sna_80051BA4",
+  "njp_800C65D4",
+  "njp_sna_80051FD0",
+  "njp_sna_fp_update_800C6900",
+  "njp_sna_fp_update_800C6994",
+  "njp_sna_fp_update_800C6A60",
+  "njp_sna_anim_chokethrow_begin2_80058C80",
+  "njp_sna_anim_choke_800C6CA4",
+  "njp_Act",
+  "njp_Die",
+  "njp_NewSnake"
  ],
  "bss_syms": {
   "800E5B48": [
-   "njp_bss",
-   64
+   "njp_snainit_actor",
+   4
+  ],
+  "800E5B4C": [
+   "njp_dword_800ABBDC",
+   2
+  ],
+  "800E5B4E": [
+   "njp_dword_800ABBD4",
+   2
+  ],
+  "800E5B50": [
+   "njp_gSnaMoveDir_800ABBA4",
+   4
+  ],
+  "800E5B54": [
+   "njp_dword_800ABBA8",
+   4
+  ],
+  "800E5B58": [
+   "njp_dword_800ABBAC",
+   4
+  ],
+  "800E5B5C": [
+   "njp_dword_800ABBB0",
+   4
+  ],
+  "800E5B60": [
+   "njp_dword_800ABBB4",
+   4
+  ],
+  "800E5B64": [
+   "njp_bss_28",
+   4
+  ],
+  "800E5B68": [
+   "njp_flr_800ABBB8",
+   8
+  ],
+  "800E5B70": [
+   "njp_dword_800ABBC0",
+   4
+  ],
+  "800E5B74": [
+   "njp_dword_800ABBC4",
+   4
+  ],
+  "800E5B78": [
+   "njp_pVec_800ABBC8",
+   4
+  ],
+  "800E5B7C": [
+   "njp_pVec_800ABBCC",
+   4
+  ],
+  "800E5B80": [
+   "njp_dword_800ABBD0",
+   4
+  ],
+  "800E5B84": [
+   "njp_prev_seg",
+   4
   ]
- }
+ },
+ "rdata_attach_prev": true
 }
