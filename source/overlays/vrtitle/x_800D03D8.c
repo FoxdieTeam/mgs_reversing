@@ -24,6 +24,9 @@
 #include "mts/taskid.h"
 #include "overlays/camera/unknown/camera.h"
 
+void vrtitle_800D0200(MenuPrim *prim, CaptionInfo *info, char *str);
+void vrtitle_800D0188(MenuPrim *prim, CaptionInfo *info);
+
 extern char                       *MGS_MemoryCardName; /* in main.c */
 extern SPRT                        vrtitle_dword_800D9D84;
 

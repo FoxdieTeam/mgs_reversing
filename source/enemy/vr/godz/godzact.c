@@ -14,6 +14,7 @@
 #include "game/item.h"
 #include "anime/animconv/anime.h"
 #include "enemy/meryl.h"
+#include "okajima/bullet.h"
 
 // from takabe/mosaic.h
 extern void *NewMosaic( MATRIX *, int, int, int );
@@ -1349,7 +1350,7 @@ void GODZ_ExecPutChar( GodzWork* work )
     {
         if ( work->field_B10[i] )
         {
-            PUTFUNC func = work->field_B10[i];
+            GODZPUTFUNC func = work->field_B10[i];
             func( work );
         }
     }

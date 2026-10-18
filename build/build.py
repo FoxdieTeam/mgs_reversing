@@ -153,6 +153,14 @@ def ninja_run():
         r'smoke\.c:\d+: warning: `s00a_dword_800C34C8\' defined but not used',
         r'smoke3\.c:\d+: warning: unused variable `unused\'',
         r'jspark\.c:\d+: warning: unused variable `unused\'',
+        # in VR revisions (koba/vr, enemy/vr): these statics are only referenced from the relocatable asm
+        # (INCLUDE_ASM_RELOC) or from #if 0 NON_MATCHING code; they cannot be made global (names clash between actors)
+        r'vr2\.c:\d+: warning: `(Act|Die|GetResources)\' defined but not used',
+        r'vrbox\.c:\d+: warning: `InitShadowPoly\' defined but not used',
+        r'vrbox4\.c:\d+: warning: `(DrawLife|InitShadowPoly|ReadNodeFlags|NextNode|MoveToNode|UpdateShadow|Appear|Disappear)\' defined but not used',
+        r'vrclear2\.c:\d+: warning: `SetClearFlag\' defined but not used',
+        # m_door.c: 'model' is left uninitialized when there is no 'm' option, like the original (changes the match if fixed)
+        r'm_door\.c:\d+: warning: `model\' might be used uninitialized in this function',
     ]
 
     if os.environ.get('APPVEYOR'):

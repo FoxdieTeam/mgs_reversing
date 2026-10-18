@@ -86,6 +86,8 @@ static void Act(Work *work)
     SVECTOR  dir;
 
     // FIXME: rot and dir are unused here, they only widen the frame like in the VRBOX2 revision of this actor
+    (void)rot;
+    (void)dir;
     GM_CurrentMap = work->where;
 
     if (GM_CheckMessage(&work->actor, work->name, HASH_KILL))
@@ -188,6 +190,7 @@ static int GetResources(Work *work, int name, int where)
     int      vital;
     int      i;
 
+    (void)mat;
     GM_CurrentMap = where;
     work->where = where;
     work->name = name;

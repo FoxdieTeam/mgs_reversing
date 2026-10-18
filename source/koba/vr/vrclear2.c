@@ -141,7 +141,7 @@ static void SetClearFlag(int category, int stage)
     u_long flags;
 
 
-    StoreImage(&rect, vrclear2_flags);
+    StoreImage(&rect, vrclear2_flags[0]);
     DrawSync(0);
 
     if (stage > 0)
@@ -155,7 +155,7 @@ static void SetClearFlag(int category, int stage)
         printf("clearflags[%d][%d] = %d\n", category - 1, word, 1 << (stage - (word << 5)));
     }
 
-    LoadImage(&rect, vrclear2_flags);
+    LoadImage(&rect, vrclear2_flags[0]);
     DrawSync(0);
 }
 
@@ -841,7 +841,7 @@ static void Init(Work *work)
         work->state = MENU_OPEN_WINDOW;
     }
 
-    VrMenu_InitFrame(work->cursor_polys[0], work->cursor_tiles, VrMenu_LoadFrameTexture());
+    VrMenu_InitFrame(work->cursor_polys, work->cursor_tiles, VrMenu_LoadFrameTexture());
 
     work->cursor.x = 160;
     work->cursor.y = 112;

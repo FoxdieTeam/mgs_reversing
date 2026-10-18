@@ -16,6 +16,8 @@
 #include "mts/mts.h"
 #include "mts/taskid.h"
 
+void vrtitle_800CDD7C(SELECT_INFO *info);
+
 extern char *MGS_MemoryCardName; /* in main.c */
 
 void vrtitle_800CE764(SELECT_INFO *info, int dir)

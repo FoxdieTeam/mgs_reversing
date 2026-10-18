@@ -28,7 +28,6 @@ int vrsave_800CB404(VR_SAVEMNGR_WORK *work)
     unsigned int      status;
     int               dir;
     int               code;
-    int               i;
     int               j;
 
     pad = &GV_PadData[2];

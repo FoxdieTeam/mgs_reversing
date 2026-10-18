@@ -443,7 +443,7 @@ static int GetResources(Work *work, int name, int map)
         work->count = 0;
         work->ptr += 4;
         work->size += 4;
-        printf("Save address : %08x\n", work->ptr);
+        printf("Save address : %08x\n", (unsigned int)work->ptr);
     }
 
     if (GCL_GetOption('h'))

@@ -11,6 +11,8 @@
 #include "libfs/libfs.h"
 #include "libgcl/libgcl.h"
 
+void vrtitle_800C1EDC(int timeout);
+
 /* in safechk.obj */
 
 int vrtitle_800C1F10( void )

@@ -24,6 +24,8 @@
 #include "mts/taskid.h"
 #include "overlays/camera/unknown/camera.h"
 
+void vrtitle_800D0510(Work *work);
+
 extern char                       *MGS_MemoryCardName; /* in main.c */
 
 extern void vrtitle_800D06C0(Work *work, int x, int y, int w, int h, int color, int unused);

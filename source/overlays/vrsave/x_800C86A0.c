@@ -20,6 +20,8 @@ extern char *MGS_MemoryCardName; /* in main.c */
 
 #include "overlays/vrsave/vrsave.h"
 
+void vrsave_800C6DF4(int x0, int y0, int x1, int y1, int divisor);
+
 void vrsave_800C86A0(MenuPrim *pGlue, VR_SELECT_INFO *info);
 
 void vrsave_800C86A0(MenuPrim *pGlue, VR_SELECT_INFO *info)
