@@ -340,12 +340,12 @@
    "800C5550"
   ],
   [
-   "njp_800C5550",
+   "njp_sna_anim_800C5550",
    "800C5550",
    "800C5634"
   ],
   [
-   "njp_800C5634",
+   "njp_sna_anim_800C5634",
    "800C5634",
    "800C573C"
   ],
@@ -652,6 +652,8 @@
   "njp_sna_anim_spin_end_800C4E38",
   "njp_DG_ObjsMinY_800C5104",
   "njp_sna_anim_800C54EC",
+  "njp_sna_anim_800C5550",
+  "njp_sna_anim_800C5634",
   "njp_sna_move_targets_800C5A70",
   "njp_sna_check_hits_800C5B18",
   "njp_sna_anim_update_800C5C18",

@@ -761,9 +761,9 @@ $Lnjp_800C6DC0_53:
 	ori	$4,$4,0x100
 	bne	$19,$0,$Lnjp_800C6DC0_54
 	addu	$4,$18,$0
-	lui	$5,%hi(njp_800C5634)
+	lui	$5,%hi(njp_sna_anim_800C5634)
 	jal	njp_sna_start_anim_8004E1F4
-	addiu	$5,$5,%lo(njp_800C5634)
+	addiu	$5,$5,%lo(njp_sna_anim_800C5634)
 	addu	$4,$0,$0
 	addiu	$5,$0,63
 	jal	GM_SeSet2
@@ -1286,9 +1286,9 @@ $Lnjp_800C7C04_9:
 	swr	$9,2504($17)
 	jal	njp_sna_set_flags1_8004E2F4
 	sh	$0,2502($17)
-	lui	$2,%hi(njp_800C5550)
+	lui	$2,%hi(njp_sna_anim_800C5550)
 	lw	$3,2324($17)
-	addiu	$16,$2,%lo(njp_800C5550)
+	addiu	$16,$2,%lo(njp_sna_anim_800C5550)
 	beq	$3,$16,$Lnjp_800C7C04_11
 	nop
 	jal	njp_GM_CheckPlayerStatusFlag
