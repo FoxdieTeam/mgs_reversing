@@ -6153,8 +6153,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\x_800C4E44.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\text_800C4E74.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrsave\x_800C5E90.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\x_800C5EE8.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\text_800C5F38.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrsave\x_800C661C.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\x_800C66AC.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\x_800C69E8.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\text_800C6A6C.obj", overlay
@@ -6175,8 +6177,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\vrsave\text_800C9AA4.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\vrsave_800C9B80.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\text_800C9B8C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrsave\x_800CA2CC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrsave\text_800CA2FC.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\vrsave_800CB9D4.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\text_800CB9DC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrsave\x_800CBE9C.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\overlay4.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
@@ -7461,6 +7466,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\vrtitle\x_800D5F48.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\x_800D613C.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\text_800D61B4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800D6224.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\overlay.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\overlay2.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\overlay3.obj", overlay
