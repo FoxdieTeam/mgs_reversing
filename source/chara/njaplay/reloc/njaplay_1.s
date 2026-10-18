@@ -2,462 +2,6 @@
 	.set	noat
 	.set	nomacro
 	.text
-	.globl	njp_800C258C
-njp_800C258C:
-	lui	$2,%hi(GM_PlayerStatus)
-	lw	$2,%lo(GM_PlayerStatus)($2)
-	addu	$3,$0,$0
-	sw	$5,2324($4)
-	sw	$0,2328($4)
-	sh	$0,2454($4)
-	andi	$2,$2,0x40
-	beq	$2,$0,$Lnjp_800C258C_0
-	sh	$0,2452($4)
-	lhu	$3,2438($4)
-$Lnjp_800C258C_0:
-	nop
-	sh	$3,108($4)
-	jr	$31
-	sh	$0,112($4)
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C25C4
-njp_800C25C4:
-	addiu	$29,$29,-24
-	sw	$31,16($29)
-	lh	$2,170($4)
-	nop
-	beq	$2,$5,$Lnjp_800C25C4_0
-	addu	$7,$6,$0
-	addiu	$4,$4,156
-	jal	GM_ConfigObjectAction
-	addu	$6,$0,$0
-$Lnjp_800C25C4_0:
-	lw	$31,16($29)
-	nop
-	jr	$31
-	addiu	$29,$29,24
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C25F8
-njp_800C25F8:
-	addiu	$29,$29,-32
-	sw	$31,24($29)
-	lh	$2,172($4)
-	nop
-	beq	$2,$5,$Lnjp_800C25F8_0
-	addu	$3,$6,$0
-	sw	$7,16($29)
-	addiu	$4,$4,156
-	addu	$6,$0,$0
-	jal	GM_ConfigObjectOverride
-	addu	$7,$3,$0
-$Lnjp_800C25F8_0:
-	lw	$31,24($29)
-	nop
-	jr	$31
-	addiu	$29,$29,32
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C2634
-njp_800C2634:
-	lui	$2,%hi(GM_PlayerStatus)
-	lw	$2,%lo(GM_PlayerStatus)($2)
-	nop
-	and	$2,$2,$4
-	jr	$31
-	sltu	$2,$0,$2
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C264C
-njp_800C264C:
-	lui	$3,%hi(GM_PlayerStatus)
-	lw	$2,%lo(GM_PlayerStatus)($3)
-	nop
-	or	$2,$2,$4
-	jr	$31
-	sw	$2,%lo(GM_PlayerStatus)($3)
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C2664
-njp_800C2664:
-	lui	$2,%hi(GM_PlayerStatus)
-	lw	$3,%lo(GM_PlayerStatus)($2)
-	nor	$4,$0,$4
-	and	$3,$3,$4
-	jr	$31
-	sw	$3,%lo(GM_PlayerStatus)($2)
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C267C
-njp_800C267C:
-	lw	$2,2196($4)
-	nop
-	or	$2,$2,$5
-	jr	$31
-	sw	$2,2196($4)
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C2690
-njp_800C2690:
-	lw	$2,2196($4)
-	nor	$5,$0,$5
-	and	$2,$2,$5
-	jr	$31
-	sw	$2,2196($4)
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C26A4
-njp_800C26A4:
-	lw	$2,2196($4)
-	nop
-	and	$2,$2,$5
-	jr	$31
-	sltu	$2,$0,$2
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C26B8
-njp_800C26B8:
-	lui	$2,%hi(linkvarbuf+22)
-	lh	$2,%lo(linkvarbuf+22)($2)
-	addiu	$29,$29,-24
-	sw	$16,16($29)
-	addu	$16,$4,$0
-	beq	$2,$0,$Lnjp_800C26B8_0
-	sw	$31,20($29)
-	lui	$2,%hi(GM_GameOverTimer)
-	lw	$2,%lo(GM_GameOverTimer)($2)
-	nop
-	beq	$2,$0,$Lnjp_800C26B8_1
-	nop
-$Lnjp_800C26B8_0:
-	lui	$4,0x2000
-	lbu	$2,117($16)
-	ori	$4,$4,0x8000
-	ori	$2,$2,0x2
-	jal	njp_800C264C
-	sb	$2,117($16)
-	addu	$4,$16,$0
-	jal	njp_800C267C
-	lui	$5,0x40
-	lui	$4,%hi(GM_GameStatus)
-	lw	$2,%lo(GM_GameStatus)($4)
-	lui	$3,0x1008
-	or	$2,$2,$3
-	sw	$2,%lo(GM_GameStatus)($4)
-	lui	$2,%hi(GM_GameOverTimer)
-	lw	$3,%lo(GM_GameOverTimer)($2)
-	addiu	$2,$0,-2
-	beq	$3,$2,$Lnjp_800C26B8_1
-	addu	$4,$16,$0
-	jal	njp_800C267C
-	addiu	$5,$0,48
-$Lnjp_800C26B8_1:
-	lw	$31,20($29)
-	lw	$16,16($29)
-	jr	$31
-	addiu	$29,$29,24
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C274C
-njp_800C274C:
-	lw	$6,2276($4)
-	nop
-	beq	$6,$0,$Lnjp_800C274C_0
-	nor	$3,$0,$5
-	lhu	$2,6($6)
-	nop
-	and	$2,$2,$3
-	sh	$2,6($6)
-	lw	$3,2200($4)
-	addiu	$2,$0,300
-	sw	$0,2276($4)
-	sh	$0,2480($4)
-	sh	$2,16($3)
-$Lnjp_800C274C_0:
-	jr	$31
-	nop
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C2788
-njp_800C2788:
-	lui	$2,%hi(njp_bss+12)
-	lw	$3,%lo(njp_bss+12)($2)
-	nop
-	bltz	$3,$Lnjp_800C2788_2
-	lui	$2,%hi(njp_bss+24)
-	lw	$2,%lo(njp_bss+24)($2)
-	nop
-	lbu	$2,0($2)
-	nop
-	andi	$2,$2,0x40
-	beq	$2,$0,$Lnjp_800C2788_0
-	subu	$2,$5,$3
-	jr	$31
-	addu	$2,$5,$0
-$Lnjp_800C2788_0:
-	andi	$4,$2,0xfff
-	slti	$2,$4,1024
-	beq	$2,$0,$Lnjp_800C2788_1
-	slti	$2,$4,3073
-	addiu	$5,$3,1024
-$Lnjp_800C2788_1:
-	bne	$2,$0,$Lnjp_800C2788_2
-	nop
-	addiu	$5,$3,-1024
-$Lnjp_800C2788_2:
-	jr	$31
-	addu	$2,$5,$0
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C27E8
-njp_800C27E8:
-	addiu	$29,$29,-40
-	sw	$17,28($29)
-	addu	$17,$4,$0
-	addu	$4,$5,$0
-	addu	$5,$17,$0
-	sw	$7,16($29)
-	addu	$7,$6,$0
-	sw	$16,24($29)
-	addiu	$16,$17,8
-	sw	$31,32($29)
-	jal	HZD_OnlineHazardCheck
-	addu	$6,$16,$0
-	beq	$2,$0,$Lnjp_800C27E8_0
-	addiu	$2,$0,-1
-	jal	HZD_GetOnlinePoint
-	addu	$4,$16,$0
-	addu	$4,$16,$0
-	addu	$5,$17,$0
-	jal	GV_SubVec3
-	addu	$6,$17,$0
-	jal	GV_VecLen3
-	addu	$4,$17,$0
-$Lnjp_800C27E8_0:
-	lw	$31,32($29)
-	lw	$17,28($29)
-	lw	$16,24($29)
-	jr	$31
-	addiu	$29,$29,40
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C2854
-njp_800C2854:
-	addiu	$29,$29,-32
-	sw	$17,20($29)
-	addu	$17,$6,$0
-	addiu	$6,$0,3
-	sw	$31,24($29)
-	jal	HZD_LevelHazardCheck
-	sw	$16,16($29)
-	addu	$4,$17,$0
-	jal	HZD_GetLevelHeight
-	addu	$16,$2,$0
-	andi	$2,$16,0x1
-	bne	$2,$0,$Lnjp_800C2854_0
-	andi	$2,$16,0x2
-	addiu	$2,$0,-32767
-	sw	$2,0($17)
-	andi	$2,$16,0x2
-$Lnjp_800C2854_0:
-	bne	$2,$0,$Lnjp_800C2854_1
-	addiu	$2,$0,32767
-	sw	$2,4($17)
-$Lnjp_800C2854_1:
-	lw	$31,24($29)
-	lw	$17,20($29)
-	lw	$16,16($29)
-	jr	$31
-	addiu	$29,$29,32
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C28B4
-njp_800C28B4:
-	addiu	$29,$29,-24
-	sw	$16,16($29)
-	addu	$16,$4,$0
-	addu	$4,$5,$0
-	sw	$31,20($29)
-	lh	$5,42($16)
-	jal	GV_DiffDirS
-	nop
-	addu	$3,$2,$0
-	slti	$2,$3,129
-	bne	$2,$0,$Lnjp_800C28B4_0
-	slti	$2,$3,-128
-	j	$Lnjp_800C28B4_1
-	addiu	$3,$0,128
-$Lnjp_800C28B4_0:
-	beq	$2,$0,$Lnjp_800C28B4_1
-	nop
-	addiu	$3,$0,-128
-$Lnjp_800C28B4_1:
-	sh	$3,112($16)
-	lw	$31,20($29)
-	lw	$16,16($29)
-	jr	$31
-	addiu	$29,$29,24
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C290C
-njp_800C290C:
-	jr	$31
-	addiu	$2,$0,2
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C2914
-njp_800C2914:
-	lui	$2,%hi(njp_data+44)
-	addiu	$7,$2,%lo(njp_data+44)
-	lwl	$3,3($7)
-	lwr	$3,0($7)
-	lwl	$5,7($7)
-	lwr	$5,4($7)
-	lwl	$6,11($7)
-	lwr	$6,8($7)
-	swl	$3,2351($4)
-	swr	$3,2348($4)
-	swl	$5,2355($4)
-	swr	$5,2352($4)
-	swl	$6,2359($4)
-	swr	$6,2356($4)
-	lwl	$3,15($7)
-	lwr	$3,12($7)
-	lwl	$5,19($7)
-	lwr	$5,16($7)
-	swl	$3,2363($4)
-	swr	$3,2360($4)
-	swl	$5,2367($4)
-	swr	$5,2364($4)
-	jr	$31
-	nop
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	njp_800C2974
-njp_800C2974:
-	addiu	$29,$29,-24
-	lui	$2,%hi(GM_Camera+34)
-	lh	$2,%lo(GM_Camera+34)($2)
-	addu	$5,$4,$0
-	bne	$2,$0,$Lnjp_800C2974_1
-	sw	$31,16($29)
-	lw	$2,2320($5)
-	nop
-	lh	$3,8($2)
-	addiu	$2,$0,-1
-	bne	$3,$2,$Lnjp_800C2974_0
-	addiu	$2,$0,-3
-	addiu	$2,$0,-6
-$Lnjp_800C2974_0:
-	sh	$2,2428($5)
-$Lnjp_800C2974_1:
-	ori	$4,$0,0x8001
-	lui	$3,%hi(GM_Camera+34)
-	addiu	$2,$0,1
-	sh	$2,%lo(GM_Camera+34)($3)
-	jal	njp_800C264C
-	sh	$0,2482($5)
-	lui	$4,0x1ff
-	ori	$4,$4,0xff20
-	jal	sd_set_cli
-	addu	$5,$0,$0
-	lw	$31,16($29)
-	nop
-	jr	$31
-	addiu	$29,$29,24
-	.set	macro
-	.set	reorder
-	.set	at
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
 	.globl	njp_800C29E4
 njp_800C29E4:
 	addiu	$29,$29,-24
@@ -474,12 +18,12 @@ njp_800C29E4:
 $Lnjp_800C29E4_0:
 	addiu	$4,$0,9
 	sh	$0,34($5)
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	sh	$0,2482($16)
 	addu	$4,$16,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	ori	$5,$0,0x8000
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	addiu	$4,$0,2
 	bne	$2,$0,$Lnjp_800C29E4_1
 	lui	$4,0x1ff
@@ -521,11 +65,11 @@ njp_800C2A58:
 	lw	$3,40($2)
 	nop
 	and	$3,$3,$5
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	sw	$3,40($2)
 	bne	$2,$0,$Lnjp_800C2A58_1
 	nop
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	ori	$4,$0,0x8000
 	j	$Lnjp_800C2A58_1
 	nop
@@ -750,7 +294,7 @@ $Lnjp_800C2CFC_0:
 	jal	njp_800C29E4
 	sw	$3,2316($4)
 	lui	$4,0x40
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	ori	$4,$4,0x1000
 	lw	$31,20($29)
 	lw	$16,16($29)
@@ -771,7 +315,7 @@ njp_800C2D68:
 	sw	$17,20($29)
 	addu	$17,$5,$0
 	sw	$31,24($29)
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	lui	$4,0x80
 	lw	$3,2200($16)
 	sb	$17,2432($16)
@@ -797,10 +341,10 @@ njp_800C2DB4:
 	sw	$16,16($29)
 	addu	$16,$4,$0
 	sw	$31,20($29)
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	lui	$4,0x80
 	addu	$4,$16,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	addiu	$5,$0,1
 	lw	$3,2200($16)
 	nop
@@ -825,12 +369,12 @@ njp_800C2E00:
 	sw	$16,16($29)
 	addu	$16,$4,$0
 	sw	$31,20($29)
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	addiu	$4,$0,2
 	beq	$2,$0,$Lnjp_800C2E00_0
 	nop
 	sh	$0,2482($16)
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	ori	$4,$0,0x8009
 	j	$Lnjp_800C2E00_1
 	nop
@@ -842,7 +386,7 @@ $Lnjp_800C2E00_1:
 	addu	$4,$16,$0
 	addu	$4,$16,$0
 	addiu	$5,$0,2
-	jal	njp_800C274C
+	jal	njp_sna_sub_8004E41C
 	sb	$0,2432($16)
 	addiu	$4,$16,156
 	jal	GM_ConfigMotionAdjust
@@ -850,7 +394,7 @@ $Lnjp_800C2E00_1:
 	addu	$4,$16,$0
 	addu	$5,$0,$0
 	addiu	$6,$0,4
-	jal	njp_800C25F8
+	jal	njp_sna_8004E260
 	addu	$7,$5,$0
 	jal	GM_ExitBehindCamera
 	nop
@@ -897,7 +441,7 @@ njp_800C2EF0:
 	addu	$16,$4,$0
 	lui	$4,0x2
 	sw	$31,20($29)
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	ori	$4,$4,0x810
 	addiu	$4,$16,156
 	jal	GM_ConfigMotionAdjust
@@ -922,16 +466,16 @@ $Lnjp_800C2EF0_0:
 	addu	$4,$16,$0
 	addu	$5,$0,$0
 	addiu	$6,$0,4
-	jal	njp_800C25F8
+	jal	njp_sna_8004E260
 	addu	$7,$5,$0
 	addu	$4,$16,$0
-	jal	njp_800C274C
+	jal	njp_sna_sub_8004E41C
 	addiu	$5,$0,2
 	addu	$4,$16,$0
 	lui	$5,0x2200
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	ori	$5,$5,0x1006
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	lui	$4,0x1
 	bne	$2,$0,$Lnjp_800C2EF0_1
 	addiu	$2,$0,450
@@ -968,11 +512,11 @@ njp_800C2FE4:
 	sw	$16,16($29)
 	addu	$16,$4,$0
 	sw	$31,20($29)
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	lui	$5,0x40
 	bne	$2,$0,$Lnjp_800C2FE4_5
 	addu	$4,$16,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	lui	$5,0x100
 	beq	$2,$0,$Lnjp_800C2FE4_0
 	lui	$2,%hi(linkvarbuf+22)
@@ -1040,7 +584,7 @@ $Lnjp_800C2FE4_4:
 	lui	$5,0x100
 	sh	$6,38($7)
 	sh	$6,2430($4)
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	sh	$6,22($8)
 $Lnjp_800C2FE4_5:
 	lw	$31,20($29)
@@ -1122,7 +666,7 @@ njp_800C3118:
 	lw	$2,%lo(GM_GameStatus)($6)
 	lui	$3,0x1000
 	or	$2,$2,$3
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	sw	$2,%lo(GM_GameStatus)($6)
 	lw	$4,2508($16)
 	nop
@@ -1131,7 +675,7 @@ njp_800C3118:
 	jal	GCL_ForceExecProc
 	addu	$5,$0,$0
 $Lnjp_800C3118_0:
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	addiu	$4,$0,4096
 	beq	$2,$0,$Lnjp_800C3118_1
 	nop
@@ -1170,7 +714,7 @@ njp_800C3270:
 	lw	$3,%lo(GM_GameStatus)($2)
 	lui	$6,0x1000
 	or	$3,$3,$6
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	sw	$3,%lo(GM_GameStatus)($2)
 	lw	$4,2508($16)
 	nop
@@ -1275,7 +819,7 @@ njp_800C33C8:
 	addiu	$4,$0,1
 	sw	$31,28($29)
 	sw	$18,24($29)
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	sw	$17,20($29)
 	bne	$2,$0,$Lnjp_800C33C8_6
 	nop
@@ -1329,11 +873,11 @@ $Lnjp_800C33C8_1:
 	addu	$4,$16,$0
 	lui	$5,0x8
 	addiu	$2,$0,-1
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	sw	$2,%lo(GM_GameOverTimer)($17)
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4E38)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4E38)
 	addiu	$2,$0,3
 	sw	$2,2528($16)
@@ -1611,7 +1155,7 @@ $Lnjp_800C3738_0:
 	lw	$2,76($17)
 	addiu	$6,$0,15
 	lw	$5,8($2)
-	jal	njp_800C27E8
+	jal	njp_sna_line_check
 	addiu	$7,$0,1
 	bgez	$2,$Lnjp_800C3738_1
 	addiu	$2,$0,1
@@ -1782,10 +1326,10 @@ njp_800C3A30:
 	andi	$2,$4,0x40
 	addu	$4,$16,$0
 	lui	$5,0x2000
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	ori	$5,$5,0x4
-	lui	$2,%hi(njp_bss+8)
-	lw	$2,%lo(njp_bss+8)($2)
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lw	$2,%lo(njp_gSnaMoveDir_800ABBA4)($2)
 	nop
 	bltz	$2,$Lnjp_800C3A30_0
 	addu	$4,$16,$0
@@ -1793,7 +1337,7 @@ njp_800C3A30:
 	j	$Lnjp_800C3A30_6
 	addiu	$5,$5,%lo(njp_800C4A90)
 $Lnjp_800C3A30_0:
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	addiu	$5,$0,16
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4A38)
@@ -1807,10 +1351,10 @@ $Lnjp_800C3A30_1:
 	beq	$2,$0,$Lnjp_800C3A30_2
 	andi	$2,$4,0x80
 	addu	$4,$16,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	addiu	$5,$0,4
 	addu	$4,$16,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	addiu	$5,$0,16
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C5150)
@@ -1822,9 +1366,9 @@ $Lnjp_800C3A30_2:
 	beq	$2,$0,$Lnjp_800C3A30_3
 	nop
 	addu	$4,$16,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	addiu	$5,$0,4
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	addiu	$4,$0,2048
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4B44)
@@ -1832,9 +1376,9 @@ $Lnjp_800C3A30_2:
 	addiu	$5,$5,%lo(njp_800C4B44)
 $Lnjp_800C3A30_3:
 	addu	$4,$16,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	addiu	$5,$0,4
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,16
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C6AC0)
@@ -1847,15 +1391,15 @@ $Lnjp_800C3A30_4:
 	j	$Lnjp_800C3A30_7
 	addu	$2,$0,$0
 $Lnjp_800C3A30_5:
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	addiu	$5,$0,4
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,16
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4BA4)
 	addiu	$5,$5,%lo(njp_800C4BA4)
 $Lnjp_800C3A30_6:
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	nop
 	addiu	$2,$0,1
 $Lnjp_800C3A30_7:
@@ -1872,8 +1416,8 @@ $Lnjp_800C3A30_7:
 	.text
 	.globl	njp_800C3B98
 njp_800C3B98:
-	lui	$2,%hi(njp_bss+44)
-	lw	$2,%lo(njp_bss+44)($2)
+	lui	$2,%hi(njp_bss_44)
+	lw	$2,%lo(njp_bss_44)($2)
 	addiu	$29,$29,-24
 	sw	$16,16($29)
 	addu	$16,$4,$0
@@ -1885,16 +1429,16 @@ njp_800C3B98:
 	addiu	$2,$0,450
 	sh	$2,2436($16)
 	lui	$4,0x3
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	ori	$4,$4,0x10
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4200)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4200)
 	addu	$4,$16,$0
 	addu	$5,$0,$0
 	addiu	$6,$0,4
-	jal	njp_800C25F8
+	jal	njp_sna_8004E260
 	addu	$7,$5,$0
 	jal	GM_ExitBehindCamera
 	nop
@@ -1923,7 +1467,7 @@ njp_800C3C1C:
 	sw	$31,40($29)
 	sw	$19,36($29)
 	sw	$17,28($29)
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	sw	$16,24($29)
 	bne	$2,$0,$Lnjp_800C3C1C_3
 	nop
@@ -1964,11 +1508,11 @@ $Lnjp_800C3C1C_0:
 	bne	$3,$2,$Lnjp_800C3C1C_2
 	nop
 $Lnjp_800C3C1C_1:
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	addiu	$4,$0,4
 	bne	$2,$0,$Lnjp_800C3C1C_2
 	nop
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	addiu	$4,$0,4
 $Lnjp_800C3C1C_2:
 	lw	$2,16($29)
@@ -2035,7 +1579,7 @@ njp_800C3D84:
 	nop
 	beq	$2,$0,$Lnjp_800C3D84_24
 	nop
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	lui	$5,0x2
 	bne	$2,$0,$Lnjp_800C3D84_24
 	addiu	$23,$18,1956
@@ -2086,7 +1630,7 @@ $Lnjp_800C3D84_3:
 	sh	$0,0($17)
 $Lnjp_800C3D84_4:
 	addu	$4,$18,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	lui	$5,0x800
 	bne	$2,$0,$Lnjp_800C3D84_21
 	addu	$21,$0,$0
@@ -2135,7 +1679,7 @@ $Lnjp_800C3D84_8:
 	nop
 	bne	$20,$0,$Lnjp_800C3D84_9
 	nop
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,4
 	sh	$0,0($17)
 	lui	$4,%hi(njp_str_47F4)
@@ -2193,23 +1737,23 @@ $Lnjp_800C3D84_14:
 	sh	$2,12($16)
 	addu	$4,$18,$0
 	lui	$5,%hi(njp_800C5838)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C5838)
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	addiu	$4,$0,4
 	addu	$4,$18,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	lui	$5,0x800
 	j	$Lnjp_800C3D84_21
 	nop
 $Lnjp_800C3D84_15:
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	lui	$5,0x4
 	j	$Lnjp_800C3D84_21
 	sh	$0,0($17)
 $Lnjp_800C3D84_16:
 	addu	$4,$18,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	lui	$5,0x4
 	j	$Lnjp_800C3D84_21
 	sh	$0,0($17)
@@ -2219,12 +1763,12 @@ $Lnjp_800C3D84_17:
 	j	$Lnjp_800C3D84_21
 	sh	$0,0($17)
 $Lnjp_800C3D84_18:
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	lui	$4,0x2000
 	j	$Lnjp_800C3D84_21
 	sh	$0,0($17)
 $Lnjp_800C3D84_19:
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	lui	$4,0x2000
 	j	$Lnjp_800C3D84_21
 	sh	$0,0($17)
@@ -2251,7 +1795,7 @@ $Lnjp_800C3D84_20:
 	lw	$2,76($18)
 	addiu	$5,$18,32
 	lw	$4,8($2)
-	jal	njp_800C2854
+	jal	njp_sub_8004E588
 	addiu	$6,$29,32
 	lhu	$2,32($29)
 	nop
@@ -2360,7 +1904,7 @@ njp_800C4200:
 	addiu	$5,$0,2
 	addiu	$6,$0,4
 	sh	$0,2434($4)
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	sw	$2,2344($4)
 $Lnjp_800C4200_0:
 	lw	$31,16($29)
@@ -2387,11 +1931,11 @@ njp_800C4244:
 	sw	$2,2340($16)
 	lui	$2,%hi(njp_800C6900)
 	addiu	$2,$2,%lo(njp_800C6900)
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	sw	$2,2344($16)
 	addu	$4,$16,$0
 	addiu	$5,$0,5
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addiu	$6,$0,4
 $Lnjp_800C4244_0:
 	lw	$31,20($29)
@@ -2413,12 +1957,12 @@ njp_800C4298:
 	sw	$31,24($29)
 	bne	$5,$0,$Lnjp_800C4298_2
 	sw	$17,20($29)
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	lui	$4,0x1
 	bne	$2,$0,$Lnjp_800C4298_1
 	addu	$4,$16,$0
 	addiu	$17,$0,7
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	lui	$4,0x100
 	beq	$2,$0,$Lnjp_800C4298_0
 	addiu	$4,$16,32
@@ -2426,11 +1970,11 @@ njp_800C4298:
 $Lnjp_800C4298_0:
 	jal	GM_SeSet
 	addu	$5,$17,$0
-	lui	$2,%hi(njp_bss+56)
-	lhu	$2,%lo(njp_bss+56)($2)
+	lui	$2,%hi(njp_bss_56)
+	lhu	$2,%lo(njp_bss_56)($2)
 	lui	$4,0x1
 	addiu	$2,$2,-2048
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	sh	$2,110($16)
 	addu	$4,$16,$0
 $Lnjp_800C4298_1:
@@ -2444,7 +1988,7 @@ $Lnjp_800C4298_1:
 	addiu	$2,$2,%lo(njp_800C6994)
 	addiu	$6,$0,4
 	sh	$0,2434($16)
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	sw	$2,2344($16)
 $Lnjp_800C4298_2:
 	lw	$2,76($16)
@@ -2456,8 +2000,8 @@ $Lnjp_800C4298_2:
 	nop
 	slti	$2,$2,8
 	beq	$2,$0,$Lnjp_800C4298_5
-	lui	$2,%hi(njp_bss+52)
-	lw	$4,%lo(njp_bss+52)($2)
+	lui	$2,%hi(njp_bss_52)
+	lw	$4,%lo(njp_bss_52)($2)
 	nop
 	beq	$4,$0,$Lnjp_800C4298_5
 	nop
@@ -2505,7 +2049,7 @@ njp_800C43CC:
 	bne	$5,$0,$Lnjp_800C43CC_1
 	sw	$31,20($29)
 	lui	$4,0x1
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	ori	$4,$4,0x10
 	lui	$2,%hi(njp_800C47EC)
 	addiu	$2,$2,%lo(njp_800C47EC)
@@ -2523,10 +2067,10 @@ $Lnjp_800C43CC_0:
 	addiu	$2,$0,300
 	addiu	$6,$0,4
 	sh	$2,2436($16)
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	sh	$0,2480($16)
-	lui	$2,%hi(njp_bss+56)
-	lhu	$2,%lo(njp_bss+56)($2)
+	lui	$2,%hi(njp_bss_56)
+	lhu	$2,%lo(njp_bss_56)($2)
 	nop
 	addiu	$2,$2,-2048
 	sh	$2,110($16)
@@ -2535,8 +2079,8 @@ $Lnjp_800C43CC_1:
 	nop
 	slti	$2,$2,8
 	beq	$2,$0,$Lnjp_800C43CC_4
-	lui	$2,%hi(njp_bss+52)
-	lw	$4,%lo(njp_bss+52)($2)
+	lui	$2,%hi(njp_bss_52)
+	lw	$4,%lo(njp_bss_52)($2)
 	nop
 	beq	$4,$0,$Lnjp_800C43CC_4
 	nop
@@ -2593,12 +2137,12 @@ $Lnjp_800C44CC_0:
 	lh	$2,2452($16)
 	nop
 	bne	$2,$0,$Lnjp_800C44CC_7
-	lui	$2,%hi(njp_bss+8)
-	lw	$2,%lo(njp_bss+8)($2)
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lw	$2,%lo(njp_gSnaMoveDir_800ABBA4)($2)
 	nop
 	bltz	$2,$Lnjp_800C44CC_7
-	lui	$2,%hi(njp_bss+44)
-	lw	$3,%lo(njp_bss+44)($2)
+	lui	$2,%hi(njp_bss_44)
+	lw	$3,%lo(njp_bss_44)($2)
 	addiu	$2,$0,1
 	beq	$3,$2,$Lnjp_800C44CC_1
 	addu	$4,$16,$0
@@ -2607,19 +2151,19 @@ $Lnjp_800C44CC_0:
 	lw	$3,1948($16)
 	nop
 	bne	$3,$2,$Lnjp_800C44CC_3
-	lui	$2,%hi(njp_bss+8)
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
 	addu	$4,$16,$0
 $Lnjp_800C44CC_1:
 	lui	$5,%hi(njp_800C4298)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4298)
 	j	$Lnjp_800C44CC_7
 	nop
 $Lnjp_800C44CC_2:
-	lui	$2,%hi(njp_bss+8)
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
 $Lnjp_800C44CC_3:
 	lh	$4,110($16)
-	lw	$5,%lo(njp_bss+8)($2)
+	lw	$5,%lo(njp_gSnaMoveDir_800ABBA4)($2)
 	jal	GV_DiffDirAbs
 	nop
 	addu	$3,$2,$0
@@ -2637,11 +2181,11 @@ $Lnjp_800C44CC_4:
 	sh	$2,2452($16)
 $Lnjp_800C44CC_5:
 	lui	$5,%hi(njp_800C4244)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4244)
 $Lnjp_800C44CC_6:
-	lui	$2,%hi(njp_bss+8)
-	lhu	$2,%lo(njp_bss+8)($2)
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lhu	$2,%lo(njp_gSnaMoveDir_800ABBA4)($2)
 	nop
 	sh	$2,110($16)
 $Lnjp_800C44CC_7:
@@ -2665,11 +2209,11 @@ njp_800C45CC:
 	jal	njp_800C3A30
 	sw	$16,16($29)
 	bne	$2,$0,$Lnjp_800C45CC_9
-	lui	$2,%hi(njp_bss+8)
-	lw	$2,%lo(njp_bss+8)($2)
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lw	$2,%lo(njp_gSnaMoveDir_800ABBA4)($2)
 	nop
 	bgez	$2,$Lnjp_800C45CC_0
-	lui	$2,%hi(njp_bss+44)
+	lui	$2,%hi(njp_bss_44)
 	lhu	$2,2454($17)
 	nop
 	addiu	$2,$2,1
@@ -2678,19 +2222,19 @@ njp_800C45CC:
 	sra	$2,$2,16
 	slti	$2,$2,5
 	bne	$2,$0,$Lnjp_800C45CC_1
-	lui	$2,%hi(njp_bss+44)
-	jal	njp_800C2664
+	lui	$2,%hi(njp_bss_44)
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,16
 	addu	$4,$17,$0
 	lui	$5,%hi(njp_800C4200)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4200)
 	j	$Lnjp_800C45CC_9
 	nop
 $Lnjp_800C45CC_0:
 	sh	$0,2454($17)
 $Lnjp_800C45CC_1:
-	lw	$3,%lo(njp_bss+44)($2)
+	lw	$3,%lo(njp_bss_44)($2)
 	addiu	$2,$0,1
 	beq	$3,$2,$Lnjp_800C45CC_2
 	nop
@@ -2710,11 +2254,11 @@ $Lnjp_800C45CC_2:
 	slti	$2,$2,3
 	bne	$2,$0,$Lnjp_800C45CC_4
 	nop
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,16
 	addu	$4,$17,$0
 	lui	$5,%hi(njp_800C4298)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4298)
 	j	$Lnjp_800C45CC_9
 	nop
@@ -2724,17 +2268,17 @@ $Lnjp_800C45CC_4:
 	lh	$2,2452($17)
 	nop
 	bne	$2,$0,$Lnjp_800C45CC_5
-	lui	$2,%hi(njp_bss+8)
-	lw	$5,%lo(njp_bss+8)($2)
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lw	$5,%lo(njp_gSnaMoveDir_800ABBA4)($2)
 	nop
 	bltz	$5,$Lnjp_800C45CC_6
 	nop
-	jal	njp_800C2788
+	jal	njp_sub_8004E4C0
 	addu	$4,$17,$0
 	j	$Lnjp_800C45CC_7
 	addu	$16,$2,$0
 $Lnjp_800C45CC_5:
-	lw	$16,%lo(njp_bss+8)($2)
+	lw	$16,%lo(njp_gSnaMoveDir_800ABBA4)($2)
 	nop
 	bgez	$16,$Lnjp_800C45CC_7
 	nop
@@ -2747,17 +2291,17 @@ $Lnjp_800C45CC_7:
 	slti	$2,$2,1049
 	bne	$2,$0,$Lnjp_800C45CC_8
 	addu	$4,$17,$0
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,16
 	addu	$4,$17,$0
 	lui	$5,%hi(njp_800C4200)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4200)
 	j	$Lnjp_800C45CC_9
 	sh	$16,110($17)
 $Lnjp_800C45CC_8:
 	sh	$16,110($17)
-	jal	njp_800C28B4
+	jal	njp_sub_8004EA50
 	addu	$5,$16,$0
 $Lnjp_800C45CC_9:
 	lw	$31,24($29)
@@ -2787,28 +2331,28 @@ $Lnjp_800C4750_0:
 	jal	njp_800C3B98
 	addu	$4,$16,$0
 	bne	$2,$0,$Lnjp_800C4750_3
-	lui	$4,%hi(njp_bss+44)
-	lw	$3,%lo(njp_bss+44)($4)
+	lui	$4,%hi(njp_bss_44)
+	lw	$3,%lo(njp_bss_44)($4)
 	addiu	$2,$0,2
 	beq	$3,$2,$Lnjp_800C4750_1
 	addiu	$2,$0,4
 	bne	$3,$2,$Lnjp_800C4750_2
 	nop
 $Lnjp_800C4750_1:
-	lhu	$2,%lo(njp_bss+44)($4)
+	lhu	$2,%lo(njp_bss_44)($4)
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C43CC)
 	addiu	$5,$5,%lo(njp_800C43CC)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	sh	$2,2480($16)
 $Lnjp_800C4750_2:
-	lui	$4,%hi(njp_bss+56)
-	lw	$2,%lo(njp_bss+56)($4)
+	lui	$4,%hi(njp_bss_56)
+	lw	$2,%lo(njp_bss_56)($4)
 	lh	$3,42($16)
 	addiu	$2,$2,-2048
 	beq	$2,$3,$Lnjp_800C4750_3
 	nop
-	lhu	$2,%lo(njp_bss+56)($4)
+	lhu	$2,%lo(njp_bss_56)($4)
 	sh	$0,2454($16)
 	addiu	$2,$2,-2048
 	sh	$2,110($16)
@@ -2846,49 +2390,49 @@ $Lnjp_800C47EC_0:
 	lw	$4,8($2)
 	jal	GM_CheckBehindCamera
 	addiu	$5,$16,32
-	lui	$2,%hi(njp_bss+44)
-	lw	$3,%lo(njp_bss+44)($2)
+	lui	$2,%hi(njp_bss_44)
+	lw	$3,%lo(njp_bss_44)($2)
 	addiu	$2,$0,1
 	bne	$3,$2,$Lnjp_800C47EC_1
-	lui	$5,%hi(njp_bss+56)
-	jal	njp_800C2664
+	lui	$5,%hi(njp_bss_56)
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,16
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4298)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4298)
 	j	$Lnjp_800C47EC_5
 	nop
 $Lnjp_800C47EC_1:
-	lw	$2,%lo(njp_bss+56)($5)
+	lw	$2,%lo(njp_bss_56)($5)
 	lh	$3,42($16)
 	addiu	$2,$2,-2048
 	bne	$2,$3,$Lnjp_800C47EC_2
-	lui	$2,%hi(njp_bss+48)
-	lui	$3,%hi(njp_bss+52)
-	lw	$4,%lo(njp_bss+48)($2)
-	lw	$2,%lo(njp_bss+52)($3)
+	lui	$2,%hi(njp_bss_48)
+	lui	$3,%hi(njp_bss_52)
+	lw	$4,%lo(njp_bss_48)($2)
+	lw	$2,%lo(njp_bss_52)($3)
 	nop
 	beq	$4,$2,$Lnjp_800C47EC_3
-	lui	$2,%hi(njp_bss+44)
+	lui	$2,%hi(njp_bss_44)
 $Lnjp_800C47EC_2:
-	lhu	$2,%lo(njp_bss+56)($5)
+	lhu	$2,%lo(njp_bss_56)($5)
 	sh	$0,2454($16)
 	addiu	$2,$2,-2048
 	sh	$2,110($16)
-	lui	$2,%hi(njp_bss+44)
+	lui	$2,%hi(njp_bss_44)
 $Lnjp_800C47EC_3:
-	lw	$3,%lo(njp_bss+44)($2)
+	lw	$3,%lo(njp_bss_44)($2)
 	addiu	$2,$0,2
 	bne	$3,$2,$Lnjp_800C47EC_4
 	addiu	$17,$0,23
 	addiu	$17,$0,22
 $Lnjp_800C47EC_4:
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	addiu	$4,$0,16
 	addu	$4,$16,$0
 	addu	$5,$17,$0
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addiu	$6,$0,4
 $Lnjp_800C47EC_5:
 	lw	$31,24($29)
@@ -3032,7 +2576,7 @@ njp_800C4A38:
 	addiu	$2,$2,%lo(njp_800C48EC)
 	addiu	$5,$0,3
 	addiu	$6,$0,4
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	sw	$2,2344($16)
 	addu	$4,$16,$0
 	addiu	$2,$0,-1
@@ -3064,9 +2608,9 @@ njp_800C4A90:
 	addiu	$2,$2,%lo(njp_800C48EC)
 	addiu	$5,$0,24
 	addiu	$6,$0,4
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	sw	$2,2344($16)
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	addiu	$4,$0,16
 	addu	$4,$16,$0
 	addiu	$2,$0,-1
@@ -3098,7 +2642,7 @@ njp_800C4AF0:
 	lui	$2,%hi(njp_800C48EC)
 	addiu	$2,$2,%lo(njp_800C48EC)
 	addiu	$6,$0,4
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	sw	$2,2344($16)
 	addu	$4,$16,$0
 	jal	njp_800C2D68
@@ -3127,12 +2671,12 @@ njp_800C4B44:
 	addiu	$2,$2,%lo(njp_800C5F20)
 	sw	$2,2340($16)
 	lui	$2,%hi(njp_800C48EC)
-	lui	$3,%hi(njp_bss+8)
+	lui	$3,%hi(njp_gSnaMoveDir_800ABBA4)
 	addiu	$2,$2,%lo(njp_800C48EC)
-	lhu	$3,%lo(njp_bss+8)($3)
+	lhu	$3,%lo(njp_gSnaMoveDir_800ABBA4)($3)
 	addiu	$6,$0,4
 	sw	$2,2344($16)
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	sh	$3,110($16)
 	addu	$4,$16,$0
 	jal	njp_800C2D68
@@ -3165,7 +2709,7 @@ njp_800C4BA4:
 	lui	$2,%hi(njp_800C48EC)
 	addiu	$2,$2,%lo(njp_800C48EC)
 	sw	$2,2340($18)
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	sw	$2,2344($18)
 	addiu	$4,$18,32
 	addiu	$5,$0,198
@@ -3292,7 +2836,7 @@ $Lnjp_800C4BA4_4:
 	addu	$4,$18,$0
 	lui	$5,0x8
 	addiu	$2,$0,-1
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	sw	$2,%lo(GM_GameOverTimer)($16)
 	addu	$4,$18,$0
 	lui	$5,%hi(njp_800C4E38)
@@ -3306,13 +2850,13 @@ $Lnjp_800C4BA4_5:
 	andi	$2,$2,0x8
 	bne	$2,$0,$Lnjp_800C4BA4_7
 	addu	$4,$18,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	addiu	$5,$0,4
 	addu	$4,$18,$0
 	lui	$5,%hi(njp_800C4200)
 	addiu	$5,$5,%lo(njp_800C4200)
 $Lnjp_800C4BA4_6:
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	nop
 	addiu	$2,$0,3
 	sw	$2,2528($18)
@@ -3346,7 +2890,7 @@ njp_800C4E38:
 	lui	$2,%hi(njp_800C48EC)
 	addiu	$2,$2,%lo(njp_800C48EC)
 	sw	$2,2340($19)
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	sw	$2,2344($19)
 $Lnjp_800C4E38_0:
 	lh	$3,2452($19)
@@ -3363,7 +2907,7 @@ $Lnjp_800C4E38_1:
 	beq	$2,$0,$Lnjp_800C4E38_5
 	addiu	$5,$0,12
 	addu	$4,$19,$0
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addiu	$6,$0,4
 	addiu	$17,$19,32
 	addu	$4,$17,$0
@@ -3573,7 +3117,7 @@ njp_800C5150:
 	lui	$2,%hi(njp_800C48EC)
 	addiu	$2,$2,%lo(njp_800C48EC)
 	sw	$2,2340($20)
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	sw	$2,2344($20)
 	addu	$4,$20,$0
 	jal	njp_800C2D68
@@ -3584,7 +3128,7 @@ njp_800C5150:
 	lhu	$3,152($20)
 	ori	$2,$2,0x8
 	sh	$3,2452($20)
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	sb	$2,117($20)
 	addiu	$4,$20,32
 	addiu	$5,$0,209
@@ -3596,8 +3140,8 @@ $Lnjp_800C5150_0:
 	beq	$2,$0,$Lnjp_800C5150_2
 	sw	$0,1944($20)
 	addu	$4,$20,$0
-	lui	$2,%hi(njp_bss+8)
-	lw	$5,%lo(njp_bss+8)($2)
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lw	$5,%lo(njp_gSnaMoveDir_800ABBA4)($2)
 	jal	njp_800C35BC
 	addiu	$6,$0,96
 	addiu	$16,$20,32
@@ -3619,7 +3163,7 @@ $Lnjp_800C5150_0:
 	lw	$2,76($20)
 	addu	$5,$16,$0
 	lw	$4,8($2)
-	jal	njp_800C2854
+	jal	njp_sub_8004E588
 	addiu	$6,$29,24
 	lhu	$2,24($29)
 	nop
@@ -3660,7 +3204,7 @@ $Lnjp_800C5150_3:
 	lw	$2,2200($20)
 	addiu	$5,$0,4096
 	sh	$3,82($20)
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	sh	$3,18($2)
 	beq	$2,$0,$Lnjp_800C5150_5
 	nop
@@ -3668,7 +3212,7 @@ $Lnjp_800C5150_3:
 	nop
 	beq	$2,$0,$Lnjp_800C5150_4
 	addu	$4,$20,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	addiu	$5,$0,4096
 	addiu	$4,$29,32
 	lui	$2,%hi(DG_ZeroMatrix)
@@ -3780,10 +3324,10 @@ $Lnjp_800C5150_5:
 	lbu	$2,117($20)
 	addiu	$5,$5,%lo(njp_800C4200)
 	andi	$2,$2,0xf7
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	sb	$2,117($20)
 	addu	$4,$20,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	addiu	$5,$0,4100
 	jal	njp_800C2DB4
 	addu	$4,$20,$0
@@ -3817,12 +3361,12 @@ njp_800C54EC:
 	sw	$2,2340($16)
 	lui	$2,%hi(njp_800C48EC)
 	addiu	$2,$2,%lo(njp_800C48EC)
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	sw	$2,2344($16)
 	addu	$4,$16,$0
 	addiu	$5,$0,26
 	addiu	$6,$0,4
-	jal	njp_800C25F8
+	jal	njp_sna_8004E260
 	addiu	$7,$0,1022
 	addiu	$2,$0,1
 	sh	$2,2452($16)
@@ -3858,10 +3402,10 @@ njp_800C5550:
 	sw	$2,2344($16)
 	addu	$4,$16,$0
 	addiu	$5,$0,28
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addiu	$6,$0,4
 	addu	$4,$16,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	addiu	$5,$0,4
 $Lnjp_800C5550_0:
 	lh	$2,2452($16)
@@ -3885,11 +3429,11 @@ $Lnjp_800C5550_1:
 	jal	njp_800C2DB4
 	addu	$4,$16,$0
 	addu	$4,$16,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	addiu	$5,$0,4
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4200)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4200)
 	addiu	$4,$16,32
 	addiu	$5,$0,210
@@ -3924,7 +3468,7 @@ njp_800C5634:
 	sw	$2,2344($16)
 	addu	$4,$16,$0
 	addiu	$5,$0,9
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addiu	$6,$0,4
 	addiu	$4,$16,32
 	addiu	$5,$0,197
@@ -3942,7 +3486,7 @@ njp_800C5634:
 	addiu	$2,$0,-1
 	sw	$2,%lo(GM_GameOverTimer)($3)
 	addu	$4,$16,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	lui	$5,0x8
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4E38)
@@ -3966,13 +3510,13 @@ $Lnjp_800C5634_1:
 	jal	njp_800C2D68
 	addiu	$5,$0,32
 	lui	$4,0x40
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	ori	$4,$4,0x100
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4200)
 	addiu	$5,$5,%lo(njp_800C4200)
 $Lnjp_800C5634_2:
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	nop
 $Lnjp_800C5634_3:
 	lw	$31,20($29)
@@ -4004,7 +3548,7 @@ njp_800C573C:
 	sw	$2,2344($16)
 	addu	$4,$16,$0
 	addiu	$5,$0,10
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addiu	$6,$0,4
 	addiu	$4,$16,32
 	addiu	$5,$0,197
@@ -4022,7 +3566,7 @@ njp_800C573C:
 	addiu	$2,$0,-1
 	sw	$2,%lo(GM_GameOverTimer)($3)
 	addu	$4,$16,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	lui	$5,0x8
 $Lnjp_800C573C_0:
 	lh	$2,182($16)
@@ -4042,13 +3586,13 @@ $Lnjp_800C573C_1:
 	jal	njp_800C2D68
 	addiu	$5,$0,32
 	lui	$4,0x40
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	ori	$4,$4,0x100
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4200)
 	addiu	$5,$5,%lo(njp_800C4200)
 $Lnjp_800C573C_2:
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	nop
 $Lnjp_800C573C_3:
 	lw	$31,20($29)
@@ -4078,7 +3622,7 @@ njp_800C5838:
 	jal	njp_800C2E00
 	sw	$2,2344($16)
 	lui	$4,0x2000
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	ori	$4,$4,0x8000
 	lhu	$3,8($18)
 	nop
@@ -4101,7 +3645,7 @@ $Lnjp_800C5838_1:
 	addiu	$17,$0,-1
 	sh	$17,170($16)
 	lhu	$5,0($18)
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addiu	$6,$0,4
 	lh	$2,2($18)
 	nop
@@ -4113,7 +3657,7 @@ $Lnjp_800C5838_2:
 	sh	$17,2452($16)
 	sh	$17,2454($16)
 $Lnjp_800C5838_3:
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,64
 	sh	$0,108($16)
 	lhu	$2,8($18)
@@ -4159,7 +3703,7 @@ $Lnjp_800C5838_5:
 	lw	$2,76($16)
 	nop
 	lw	$4,8($2)
-	jal	njp_800C2854
+	jal	njp_sub_8004E588
 	addiu	$6,$29,16
 	lhu	$2,16($29)
 	nop
@@ -4172,7 +3716,7 @@ $Lnjp_800C5838_6:
 	nop
 	beq	$2,$0,$Lnjp_800C5838_9
 	addu	$4,$16,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	lui	$5,0x20
 	lhu	$2,8($18)
 	nop
@@ -4200,14 +3744,14 @@ $Lnjp_800C5838_7:
 	sh	$0,2452($16)
 $Lnjp_800C5838_8:
 	lui	$4,0x2000
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	ori	$4,$4,0x8040
 	jal	njp_800C2DB4
 	addu	$4,$16,$0
 	sh	$0,2434($16)
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4200)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4200)
 $Lnjp_800C5838_9:
 	lw	$31,36($29)
@@ -4287,7 +3831,7 @@ njp_800C5B18:
 	sw	$31,68($29)
 	sw	$18,56($29)
 	sw	$17,52($29)
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	sw	$16,48($29)
 	bne	$2,$0,$Lnjp_800C5B18_3
 	addu	$2,$19,$0
@@ -4379,7 +3923,7 @@ njp_800C5C18:
 $Lnjp_800C5C18_0:
 	lh	$5,2452($16)
 	addu	$6,$0,$0
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addiu	$5,$5,16
 $Lnjp_800C5C18_1:
 	lh	$2,182($16)
@@ -4387,7 +3931,7 @@ $Lnjp_800C5C18_1:
 	beq	$2,$0,$Lnjp_800C5C18_2
 	addu	$4,$16,$0
 	addiu	$5,$0,3
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addiu	$6,$0,4
 	addiu	$2,$0,-1
 	sh	$2,2452($16)
@@ -4398,23 +3942,23 @@ $Lnjp_800C5C18_2:
 	nop
 	andi	$2,$2,0x20
 	bne	$2,$0,$Lnjp_800C5C18_3
-	lui	$3,%hi(njp_bss+8)
+	lui	$3,%hi(njp_gSnaMoveDir_800ABBA4)
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4AF0)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4AF0)
 	addu	$4,$16,$0
 	lui	$5,0x2000
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	ori	$5,$5,0x4
 	j	$Lnjp_800C5C18_4
 	addiu	$4,$0,2048
 $Lnjp_800C5C18_3:
-	lw	$2,%lo(njp_bss+8)($3)
+	lw	$2,%lo(njp_gSnaMoveDir_800ABBA4)($3)
 	nop
 	bltz	$2,$Lnjp_800C5C18_5
 	nop
-	lhu	$2,%lo(njp_bss+8)($3)
+	lhu	$2,%lo(njp_gSnaMoveDir_800ABBA4)($3)
 	lhu	$3,2454($16)
 	sh	$2,110($16)
 	addiu	$2,$3,1
@@ -4425,11 +3969,11 @@ $Lnjp_800C5C18_3:
 	sh	$2,2454($16)
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4A90)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4A90)
 	addiu	$4,$0,16
 $Lnjp_800C5C18_4:
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	nop
 	jal	njp_800C48F4
 	addu	$4,$16,$0
@@ -4470,7 +4014,7 @@ $Lnjp_800C5D4C_0:
 	addu	$6,$0,$0
 	lh	$5,2452($16)
 	addiu	$7,$0,1022
-	jal	njp_800C25F8
+	jal	njp_sna_8004E260
 	addiu	$5,$5,16
 	addu	$4,$16,$0
 	jal	njp_800C2BEC
@@ -4482,7 +4026,7 @@ $Lnjp_800C5D4C_1:
 	addu	$4,$16,$0
 	addu	$5,$0,$0
 	addiu	$6,$0,4
-	jal	njp_800C25F8
+	jal	njp_sna_8004E260
 	addu	$7,$5,$0
 	addiu	$2,$0,-1
 	sh	$2,2452($16)
@@ -4493,45 +4037,45 @@ $Lnjp_800C5D4C_2:
 	nop
 	andi	$2,$2,0x20
 	bne	$2,$0,$Lnjp_800C5D4C_3
-	lui	$2,%hi(njp_bss+8)
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C54EC)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C54EC)
 	addu	$4,$16,$0
 	lui	$5,0x2000
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	ori	$5,$5,0x4
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	addiu	$4,$0,2048
 	j	$Lnjp_800C5D4C_4
 	nop
 $Lnjp_800C5D4C_3:
-	lw	$5,%lo(njp_bss+8)($2)
+	lw	$5,%lo(njp_gSnaMoveDir_800ABBA4)($2)
 	nop
 	bgez	$5,$Lnjp_800C5D4C_5
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4A38)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4A38)
 $Lnjp_800C5D4C_4:
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,16
 	addu	$4,$16,$0
 	addu	$5,$0,$0
 	addiu	$6,$0,4
-	jal	njp_800C25F8
+	jal	njp_sna_8004E260
 	addu	$7,$5,$0
 	jal	njp_800C48F4
 	addu	$4,$16,$0
 	j	$Lnjp_800C5D4C_6
 	nop
 $Lnjp_800C5D4C_5:
-	jal	njp_800C2788
+	jal	njp_sub_8004E4C0
 	addu	$4,$16,$0
 	sh	$2,110($16)
 	addu	$4,$16,$0
-	jal	njp_800C28B4
+	jal	njp_sub_8004EA50
 	addu	$5,$2,$0
 $Lnjp_800C5D4C_6:
 	lw	$31,20($29)
@@ -4571,11 +4115,11 @@ $Lnjp_800C5E9C_0:
 	nop
 	beq	$2,$0,$Lnjp_800C5E9C_1
 	nop
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,2048
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4200)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4200)
 $Lnjp_800C5E9C_1:
 	lw	$31,20($29)
@@ -4608,15 +4152,15 @@ $Lnjp_800C5F20_0:
 	bne	$17,$0,$Lnjp_800C5F20_1
 	slti	$19,$17,10
 	addu	$4,$16,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	addiu	$5,$0,4096
 	sh	$0,2442($16)
 	slti	$19,$17,10
 $Lnjp_800C5F20_1:
 	beq	$19,$0,$Lnjp_800C5F20_2
 	addu	$4,$16,$0
-	lui	$2,%hi(njp_bss+8)
-	lw	$5,%lo(njp_bss+8)($2)
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lw	$5,%lo(njp_gSnaMoveDir_800ABBA4)($2)
 	jal	njp_800C35BC
 	addiu	$6,$0,96
 	lbu	$2,117($16)
@@ -4631,7 +4175,7 @@ $Lnjp_800C5F20_2:
 	lbu	$2,117($16)
 	addiu	$5,$0,4096
 	andi	$2,$2,0xf7
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	sb	$2,117($16)
 	slti	$2,$17,3
 $Lnjp_800C5F20_3:
@@ -4678,19 +4222,19 @@ $Lnjp_800C5F20_5:
 	nop
 	slti	$2,$2,16
 	bne	$2,$0,$Lnjp_800C5F20_9
-	lui	$2,%hi(njp_bss+8)
-	lw	$2,%lo(njp_bss+8)($2)
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lw	$2,%lo(njp_gSnaMoveDir_800ABBA4)($2)
 	nop
 	bltz	$2,$Lnjp_800C5F20_9
 	nop
 $Lnjp_800C5F20_6:
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,2048
 	addu	$4,$16,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	addiu	$5,$0,4
-	lui	$2,%hi(njp_bss+8)
-	lw	$2,%lo(njp_bss+8)($2)
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lw	$2,%lo(njp_gSnaMoveDir_800ABBA4)($2)
 	nop
 	bltz	$2,$Lnjp_800C5F20_7
 	addu	$4,$16,$0
@@ -4698,13 +4242,13 @@ $Lnjp_800C5F20_6:
 	j	$Lnjp_800C5F20_8
 	addiu	$5,$5,%lo(njp_800C4244)
 $Lnjp_800C5F20_7:
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,16
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4200)
 	addiu	$5,$5,%lo(njp_800C4200)
 $Lnjp_800C5F20_8:
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	nop
 $Lnjp_800C5F20_9:
 	lw	$31,32($29)
@@ -4748,7 +4292,7 @@ $Lnjp_800C60E4_0:
 	beq	$17,$0,$Lnjp_800C60E4_1
 	addu	$4,$16,$0
 	addiu	$5,$0,5
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addiu	$6,$0,4
 	addiu	$2,$0,1022
 	sw	$2,16($29)
@@ -4768,13 +4312,13 @@ $Lnjp_800C60E4_1:
 	addu	$4,$16,$0
 	addu	$5,$0,$0
 	addiu	$6,$0,4
-	jal	njp_800C25F8
+	jal	njp_sna_8004E260
 	addu	$7,$5,$0
 $Lnjp_800C60E4_2:
 	beq	$17,$0,$Lnjp_800C60E4_3
-	lui	$2,%hi(njp_bss+8)
-	lw	$5,%lo(njp_bss+8)($2)
-	jal	njp_800C2788
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	lw	$5,%lo(njp_gSnaMoveDir_800ABBA4)($2)
+	jal	njp_sub_8004E4C0
 	addu	$4,$16,$0
 	sh	$2,110($16)
 $Lnjp_800C60E4_3:
@@ -4787,15 +4331,15 @@ $Lnjp_800C60E4_3:
 	addiu	$2,$0,23
 	bne	$18,$2,$Lnjp_800C60E4_6
 	sh	$17,2452($16)
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,2048
 	addu	$4,$16,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	addiu	$5,$0,4
 	addu	$4,$16,$0
 	addu	$5,$0,$0
 	addiu	$6,$0,4
-	jal	njp_800C25F8
+	jal	njp_sna_8004E260
 	addu	$7,$5,$0
 	beq	$17,$0,$Lnjp_800C60E4_4
 	addu	$4,$16,$0
@@ -4803,13 +4347,13 @@ $Lnjp_800C60E4_3:
 	j	$Lnjp_800C60E4_5
 	addiu	$5,$5,%lo(njp_800C4244)
 $Lnjp_800C60E4_4:
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,16
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4200)
 	addiu	$5,$5,%lo(njp_800C4200)
 $Lnjp_800C60E4_5:
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	nop
 $Lnjp_800C60E4_6:
 	lw	$31,36($29)
@@ -4870,7 +4414,7 @@ njp_800C6244:
 	lw	$2,76($19)
 	addiu	$7,$0,1
 	lw	$5,8($2)
-	jal	njp_800C27E8
+	jal	njp_sna_line_check
 	addiu	$16,$29,56
 	bgez	$2,$Lnjp_800C6244_0
 	nop
@@ -5014,13 +4558,13 @@ $Lnjp_800C63D8_3:
 	jal	njp_800C6244
 	addiu	$7,$29,16
 	addu	$4,$17,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	ori	$5,$0,0x8000
 	bne	$2,$0,$Lnjp_800C63D8_4
 	addiu	$2,$0,8
 	sh	$2,2484($17)
 	addu	$4,$17,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	ori	$5,$0,0x8000
 	j	$Lnjp_800C63D8_8
 	addiu	$2,$0,1
@@ -5064,7 +4608,7 @@ $Lnjp_800C63D8_6:
 	bne	$2,$0,$Lnjp_800C63D8_8
 	addiu	$2,$0,1
 	addu	$4,$17,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	ori	$5,$0,0x8000
 	j	$Lnjp_800C63D8_8
 	addu	$2,$0,$0
@@ -5113,15 +4657,15 @@ njp_800C65D4:
 	addu	$16,$0,$0
 	lh	$16,108($20)
 $Lnjp_800C65D4_0:
-	lui	$2,%hi(njp_bss+4)
-	lh	$3,%lo(njp_bss+4)($2)
+	lui	$2,%hi(njp_dword_800ABBDC)
+	lh	$3,%lo(njp_dword_800ABBDC)($2)
 	nop
 	slt	$2,$18,$3
 	beq	$2,$0,$Lnjp_800C65D4_1
-	lui	$2,%hi(njp_bss+6)
+	lui	$2,%hi(njp_dword_800ABBD4)
 	addu	$18,$3,$0
 $Lnjp_800C65D4_1:
-	lh	$3,%lo(njp_bss+6)($2)
+	lh	$3,%lo(njp_dword_800ABBD4)($2)
 	nop
 	slt	$2,$3,$19
 	beq	$2,$0,$Lnjp_800C65D4_2
@@ -5129,7 +4673,7 @@ $Lnjp_800C65D4_1:
 	addu	$19,$3,$0
 $Lnjp_800C65D4_2:
 	addu	$4,$20,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	addiu	$5,$0,16384
 	addiu	$6,$0,1
 	lhu	$3,16($29)
@@ -5241,7 +4785,7 @@ njp_800C67B0:
 	beq	$2,$0,$Lnjp_800C67B0_8
 	addiu	$19,$17,2348
 	lh	$16,110($17)
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	addiu	$5,$0,16384
 	addiu	$5,$0,1
 	addu	$3,$2,$0
@@ -5332,11 +4876,11 @@ njp_800C6900:
 	sw	$16,16($29)
 	addu	$16,$4,$0
 	sw	$31,20($29)
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,16
 	addu	$4,$16,$0
 	addiu	$5,$0,2
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addiu	$6,$0,4
 	lw	$2,2320($16)
 	nop
@@ -5349,7 +4893,7 @@ njp_800C6900:
 	addu	$4,$16,$0
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4200)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4200)
 	j	$Lnjp_800C6900_1
 	nop
@@ -5395,15 +4939,15 @@ njp_800C6994:
 	j	$Lnjp_800C6994_4
 	sh	$2,2452($16)
 $Lnjp_800C6994_0:
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	addiu	$4,$0,16
 	beq	$2,$0,$Lnjp_800C6994_1
 	andi	$2,$18,0xf000
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,16
 	addu	$4,$16,$0
 	addiu	$5,$0,21
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addiu	$6,$0,4
 	andi	$2,$18,0xf000
 $Lnjp_800C6994_1:
@@ -5412,13 +4956,13 @@ $Lnjp_800C6994_1:
 	bne	$2,$0,$Lnjp_800C6994_3
 	nop
 $Lnjp_800C6994_2:
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	lui	$4,0x1
 	addiu	$2,$0,450
 	sh	$2,2436($16)
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_800C4200)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4200)
 	jal	GM_ExitBehindCamera
 	nop
@@ -5490,7 +5034,7 @@ njp_800C6AC0:
 	addiu	$2,$2,%lo(njp_800C48EC)
 	sw	$0,2304($19)
 	sw	$2,2340($19)
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	sw	$2,2344($19)
 	addu	$16,$0,$0
 	addu	$4,$19,$0
@@ -5564,7 +5108,7 @@ $Lnjp_800C6AC0_4:
 	addiu	$5,$0,3
 $Lnjp_800C6AC0_5:
 	addu	$4,$19,$0
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addiu	$6,$0,4
 $Lnjp_800C6AC0_6:
 	slti	$2,$20,4
@@ -5583,7 +5127,7 @@ $Lnjp_800C6AC0_7:
 	nop
 	beq	$2,$0,$Lnjp_800C6AC0_8
 	addu	$4,$19,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	addiu	$5,$0,4
 	addu	$4,$19,$0
 	lui	$5,%hi(njp_800C4200)
@@ -5596,7 +5140,7 @@ $Lnjp_800C6AC0_8:
 	addiu	$2,$0,150
 	sh	$2,16($3)
 $Lnjp_800C6AC0_9:
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	nop
 $Lnjp_800C6AC0_10:
 	lw	$31,36($29)
@@ -5636,7 +5180,7 @@ $Lnjp_800C6CA4_0:
 	lui	$2,%hi(njp_800C48EC)
 	addiu	$2,$2,%lo(njp_800C48EC)
 	sw	$2,2340($17)
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	sw	$2,2344($17)
 	addiu	$2,$0,25
 	sh	$2,62($16)
@@ -5676,14 +5220,14 @@ $Lnjp_800C6CA4_2:
 	nop
 	beq	$2,$0,$Lnjp_800C6CA4_3
 	addu	$4,$17,$0
-	jal	njp_800C274C
+	jal	njp_sna_sub_8004E41C
 	addiu	$5,$0,2
 	addu	$4,$17,$0
 	lui	$5,%hi(njp_800C4200)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4200)
 	addu	$4,$17,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	addiu	$5,$0,4
 $Lnjp_800C6CA4_3:
 	lw	$31,56($29)
@@ -5728,7 +5272,7 @@ $Lnjp_800C6DC0_0:
 $Lnjp_800C6DC0_1:
 	lw	$2,2200($18)
 	addiu	$5,$0,4096
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	sh	$3,18($2)
 	bne	$2,$0,$Lnjp_800C6DC0_3
 	nop
@@ -5747,11 +5291,11 @@ $Lnjp_800C6DC0_2:
 	addiu	$2,$2,-32
 	sh	$2,2442($18)
 $Lnjp_800C6DC0_3:
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	addiu	$4,$0,128
 	bne	$2,$0,$Lnjp_800C6DC0_73
 	nop
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	lui	$4,0x2000
 	beq	$2,$0,$Lnjp_800C6DC0_4
 	lui	$2,%hi(njp_data+192)
@@ -5760,7 +5304,7 @@ $Lnjp_800C6DC0_3:
 $Lnjp_800C6DC0_4:
 	addu	$4,$18,$0
 	addiu	$5,$0,16384
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	sh	$0,112($18)
 	lw	$3,2320($18)
 	nop
@@ -5788,71 +5332,71 @@ $Lnjp_800C6DC0_5:
 $Lnjp_800C6DC0_6:
 	lui	$4,0x1
 $Lnjp_800C6DC0_7:
-	lui	$2,%hi(njp_bss+16)
-	lui	$3,%hi(njp_bss+12)
-	sw	$0,%lo(njp_bss+16)($2)
+	lui	$2,%hi(njp_bss_16)
+	lui	$3,%hi(njp_dword_800ABBA8)
+	sw	$0,%lo(njp_bss_16)($2)
 	addiu	$2,$0,-1
-	sw	$2,%lo(njp_bss+12)($3)
-	lui	$2,%hi(njp_bss+44)
-	sw	$0,%lo(njp_bss+44)($2)
-	lui	$2,%hi(njp_bss+60)
-	jal	njp_800C2634
-	addiu	$16,$2,%lo(njp_bss+60)
+	sw	$2,%lo(njp_dword_800ABBA8)($3)
+	lui	$2,%hi(njp_bss_44)
+	sw	$0,%lo(njp_bss_44)($2)
+	lui	$2,%hi(njp_bss_60)
+	jal	njp_GM_CheckPlayerStatusFlag
+	addiu	$16,$2,%lo(njp_bss_60)
 	beq	$2,$0,$Lnjp_800C6DC0_9
-	lui	$2,%hi(njp_bss+20)
-	lw	$2,%lo(njp_bss+20)($2)
+	lui	$2,%hi(njp_bss_20)
+	lw	$2,%lo(njp_bss_20)($2)
 	j	$Lnjp_800C6DC0_10
-	lui	$22,%hi(njp_bss+52)
+	lui	$22,%hi(njp_bss_52)
 $Lnjp_800C6DC0_8:
 	addu	$4,$18,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	addiu	$5,$0,16384
 	j	$Lnjp_800C6DC0_7
 	lui	$4,0x1
 $Lnjp_800C6DC0_9:
 	addu	$2,$0,$0
-	lui	$22,%hi(njp_bss+52)
+	lui	$22,%hi(njp_bss_52)
 $Lnjp_800C6DC0_10:
-	lui	$30,%hi(njp_bss+20)
+	lui	$30,%hi(njp_bss_20)
 	sw	$2,0($16)
 	addiu	$2,$0,-1
-	lw	$4,%lo(njp_bss+52)($22)
+	lw	$4,%lo(njp_bss_52)($22)
 	lw	$3,2320($18)
-	lui	$15,%hi(njp_bss+56)
-	sw	$2,%lo(njp_bss+56)($15)
+	lui	$15,%hi(njp_bss_56)
+	sw	$2,%lo(njp_bss_56)($15)
 	lh	$3,8($3)
-	lui	$2,%hi(njp_bss+48)
-	sw	$0,%lo(njp_bss+20)($30)
-	sw	$0,%lo(njp_bss+52)($22)
-	sw	$4,%lo(njp_bss+48)($2)
-	lui	$2,%hi(njp_bss+8)
-	sw	$3,%lo(njp_bss+8)($2)
+	lui	$2,%hi(njp_bss_48)
+	sw	$0,%lo(njp_bss_20)($30)
+	sw	$0,%lo(njp_bss_52)($22)
+	sw	$4,%lo(njp_bss_48)($2)
+	lui	$2,%hi(njp_gSnaMoveDir_800ABBA4)
+	sw	$3,%lo(njp_gSnaMoveDir_800ABBA4)($2)
 	lb	$16,120($18)
 	sw	$0,1948($18)
 	blez	$16,$Lnjp_800C6DC0_31
 	sw	$3,56($29)
 	addiu	$4,$18,128
-	lui	$21,%hi(njp_bss+16)
-	lui	$19,%hi(njp_bss+24)
+	lui	$21,%hi(njp_bss_16)
+	lui	$19,%hi(njp_dword_800ABBB4)
 	addiu	$2,$18,122
-	sw	$4,%lo(njp_bss+16)($21)
+	sw	$4,%lo(njp_bss_16)($21)
 	jal	GV_VecDir2
-	sw	$2,%lo(njp_bss+24)($19)
+	sw	$2,%lo(njp_dword_800ABBB4)($19)
 	addu	$4,$2,$0
-	lw	$2,%lo(njp_bss+24)($19)
-	lui	$20,%hi(njp_bss+12)
-	sw	$4,%lo(njp_bss+12)($20)
+	lw	$2,%lo(njp_dword_800ABBB4)($19)
+	lui	$20,%hi(njp_dword_800ABBA8)
+	sw	$4,%lo(njp_dword_800ABBA8)($20)
 	lbu	$2,0($2)
 	nop
 	andi	$2,$2,0x40
 	bne	$2,$0,$Lnjp_800C6DC0_11
 	nop
-	lw	$2,%lo(njp_bss+16)($21)
+	lw	$2,%lo(njp_bss_16)($21)
 	lw	$3,144($18)
-	lui	$23,%hi(njp_bss+56)
-	sw	$4,%lo(njp_bss+56)($23)
-	sw	$2,%lo(njp_bss+52)($22)
-	sw	$3,%lo(njp_bss+20)($30)
+	lui	$23,%hi(njp_bss_56)
+	sw	$4,%lo(njp_bss_56)($23)
+	sw	$2,%lo(njp_bss_52)($22)
+	sw	$3,%lo(njp_bss_20)($30)
 $Lnjp_800C6DC0_11:
 	lw	$24,56($29)
 	nop
@@ -5863,7 +5407,7 @@ $Lnjp_800C6DC0_11:
 	jal	GV_VecDir2
 	addu	$4,$17,$0
 	lw	$4,56($29)
-	lw	$5,%lo(njp_bss+12)($20)
+	lw	$5,%lo(njp_dword_800ABBA8)($20)
 	jal	GV_DiffDirAbs
 	addu	$16,$2,$0
 	addu	$5,$16,$0
@@ -5874,23 +5418,23 @@ $Lnjp_800C6DC0_11:
 	beq	$2,$0,$Lnjp_800C6DC0_12
 	addu	$4,$17,$0
 	addiu	$2,$18,123
-	sw	$4,%lo(njp_bss+16)($21)
+	sw	$4,%lo(njp_bss_16)($21)
 	jal	GV_VecDir2
-	sw	$2,%lo(njp_bss+24)($19)
-	lw	$3,%lo(njp_bss+24)($19)
+	sw	$2,%lo(njp_dword_800ABBB4)($19)
+	lw	$3,%lo(njp_dword_800ABBB4)($19)
 	addu	$4,$2,$0
-	sw	$4,%lo(njp_bss+12)($20)
+	sw	$4,%lo(njp_dword_800ABBA8)($20)
 	lbu	$2,0($3)
 	nop
 	andi	$2,$2,0x40
 	bne	$2,$0,$Lnjp_800C6DC0_13
 	addiu	$10,$0,-1
-	lw	$2,%lo(njp_bss+16)($21)
+	lw	$2,%lo(njp_bss_16)($21)
 	lw	$3,148($18)
-	lui	$25,%hi(njp_bss+56)
-	sw	$4,%lo(njp_bss+56)($25)
-	sw	$2,%lo(njp_bss+52)($22)
-	sw	$3,%lo(njp_bss+20)($30)
+	lui	$25,%hi(njp_bss_56)
+	sw	$4,%lo(njp_bss_56)($25)
+	sw	$2,%lo(njp_bss_52)($22)
+	sw	$3,%lo(njp_bss_20)($30)
 $Lnjp_800C6DC0_12:
 	addiu	$10,$0,-1
 $Lnjp_800C6DC0_13:
@@ -6053,8 +5597,8 @@ $Lnjp_800C6DC0_21:
 	j	$Lnjp_800C6DC0_27
 	xori	$16,$2,0x1
 $Lnjp_800C6DC0_22:
-	lui	$2,%hi(njp_bss+60)
-	lw	$3,%lo(njp_bss+60)($2)
+	lui	$2,%hi(njp_bss_60)
+	lw	$3,%lo(njp_bss_60)($2)
 	lw	$2,32($29)
 	nop
 	bne	$3,$2,$Lnjp_800C6DC0_23
@@ -6079,29 +5623,29 @@ $Lnjp_800C6DC0_27:
 	addiu	$2,$0,-1
 	bne	$16,$2,$Lnjp_800C6DC0_28
 	addiu	$17,$0,2
-	lui	$2,%hi(njp_bss+52)
-	sw	$0,%lo(njp_bss+52)($2)
-	lui	$2,%hi(njp_bss+56)
+	lui	$2,%hi(njp_bss_52)
+	sw	$0,%lo(njp_bss_52)($2)
+	lui	$2,%hi(njp_bss_56)
 	j	$Lnjp_800C6DC0_31
-	sw	$16,%lo(njp_bss+56)($2)
+	sw	$16,%lo(njp_bss_56)($2)
 $Lnjp_800C6DC0_28:
 	beq	$16,$17,$Lnjp_800C6DC0_29
 	sll	$4,$16,3
 	addiu	$4,$4,128
 	addu	$4,$18,$4
-	lui	$2,%hi(njp_bss+52)
+	lui	$2,%hi(njp_bss_52)
 	jal	GV_VecDir2
-	sw	$4,%lo(njp_bss+52)($2)
-	lui	$3,%hi(njp_bss+56)
-	sw	$2,%lo(njp_bss+56)($3)
+	sw	$4,%lo(njp_bss_52)($2)
+	lui	$3,%hi(njp_bss_56)
+	sw	$2,%lo(njp_bss_56)($3)
 	sllv	$2,$16,$17
 	addu	$2,$18,$2
 	lw	$3,144($2)
-	lui	$2,%hi(njp_bss+20)
-	sw	$3,%lo(njp_bss+20)($2)
+	lui	$2,%hi(njp_bss_20)
+	sw	$3,%lo(njp_bss_20)($2)
 $Lnjp_800C6DC0_29:
-	lui	$2,%hi(njp_bss+56)
-	lw	$5,%lo(njp_bss+56)($2)
+	lui	$2,%hi(njp_bss_56)
+	lw	$5,%lo(njp_bss_56)($2)
 	lw	$4,56($29)
 	jal	GV_DiffDirS
 	nop
@@ -6109,23 +5653,23 @@ $Lnjp_800C6DC0_29:
 	addiu	$2,$3,896
 	sltiu	$2,$2,1793
 	beq	$2,$0,$Lnjp_800C6DC0_31
-	lui	$4,%hi(njp_bss+44)
+	lui	$4,%hi(njp_bss_44)
 	addiu	$2,$0,1
 	bltz	$3,$Lnjp_800C6DC0_30
-	sw	$2,%lo(njp_bss+44)($4)
+	sw	$2,%lo(njp_bss_44)($4)
 	slti	$2,$3,257
 	bne	$2,$0,$Lnjp_800C6DC0_31
 	addiu	$2,$0,4
 	j	$Lnjp_800C6DC0_31
-	sw	$2,%lo(njp_bss+44)($4)
+	sw	$2,%lo(njp_bss_44)($4)
 $Lnjp_800C6DC0_30:
 	slti	$2,$3,-256
 	beq	$2,$0,$Lnjp_800C6DC0_31
 	nop
-	sw	$17,%lo(njp_bss+44)($4)
+	sw	$17,%lo(njp_bss_44)($4)
 $Lnjp_800C6DC0_31:
 	addu	$4,$18,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	lui	$5,0x20
 	beq	$2,$0,$Lnjp_800C6DC0_42
 	nop
@@ -6197,11 +5741,11 @@ $Lnjp_800C6DC0_36:
 	beq	$2,$0,$Lnjp_800C6DC0_37
 	nop
 	lh	$5,2434($18)
-	jal	njp_800C290C
+	jal	njp_sub_8004E5E8
 	addu	$4,$18,$0
 	addu	$4,$18,$0
 	addu	$5,$2,$0
-	jal	njp_800C25C4
+	jal	njp_SetAction_8004E22C
 	addu	$6,$0,$0
 $Lnjp_800C6DC0_37:
 	sh	$0,2380($18)
@@ -6225,14 +5769,14 @@ $Lnjp_800C6DC0_39:
 	bgtz	$3,$Lnjp_800C6DC0_39
 	addiu	$4,$4,20
 $Lnjp_800C6DC0_40:
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	addiu	$4,$0,4
 $Lnjp_800C6DC0_41:
 	addu	$4,$18,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	lui	$5,0x820
 $Lnjp_800C6DC0_42:
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	lui	$4,0x80
 	beq	$2,$0,$Lnjp_800C6DC0_51
 	nop
@@ -6242,11 +5786,11 @@ $Lnjp_800C6DC0_42:
 	addiu	$16,$16,-1
 	blez	$16,$Lnjp_800C6DC0_46
 	addu	$4,$18,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	addiu	$5,$0,1
 	bne	$2,$0,$Lnjp_800C6DC0_43
 	addu	$2,$0,$0
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	addiu	$4,$0,1
 	bne	$2,$0,$Lnjp_800C6DC0_43
 	addu	$2,$0,$0
@@ -6276,11 +5820,11 @@ $Lnjp_800C6DC0_45:
 	nop
 	beq	$2,$0,$Lnjp_800C6DC0_47
 	addu	$4,$18,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	addiu	$5,$0,2
 	beq	$2,$0,$Lnjp_800C6DC0_47
 	addu	$4,$18,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	addiu	$5,$0,1
 	bne	$2,$0,$Lnjp_800C6DC0_47
 	nop
@@ -6301,7 +5845,7 @@ $Lnjp_800C6DC0_47:
 	j	$Lnjp_800C6DC0_64
 	sb	$16,2432($18)
 $Lnjp_800C6DC0_48:
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	lui	$4,0x400
 	beq	$2,$0,$Lnjp_800C6DC0_49
 	addiu	$4,$0,-129
@@ -6352,29 +5896,29 @@ $Lnjp_800C6DC0_52:
 	addu	$19,$0,$0
 $Lnjp_800C6DC0_53:
 	addu	$4,$18,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	addiu	$5,$0,2
 	bne	$2,$0,$Lnjp_800C6DC0_57
 	lui	$4,0x21
 	lbu	$2,117($18)
 	ori	$4,$4,0x20
 	andi	$2,$2,0xfd
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	sb	$2,117($18)
 	addu	$4,$18,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	addiu	$5,$0,48
 	addu	$4,$18,$0
 	addiu	$2,$0,450
 	jal	njp_800C2EF0
 	sh	$2,2436($18)
 	lui	$4,0x40
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	ori	$4,$4,0x100
 	bne	$19,$0,$Lnjp_800C6DC0_54
 	addu	$4,$18,$0
 	lui	$5,%hi(njp_800C5634)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C5634)
 	addu	$4,$0,$0
 	addiu	$5,$0,63
@@ -6421,7 +5965,7 @@ $Lnjp_800C6DC0_55:
 	srl	$3,$3,31
 	addu	$2,$2,$3
 	sra	$2,$2,1
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	sh	$2,2444($18)
 	addu	$4,$0,$0
 	addiu	$5,$0,63
@@ -6438,7 +5982,7 @@ $Lnjp_800C6DC0_55:
 	jal	njp_800C29E4
 	addu	$4,$18,$0
 	addu	$4,$18,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	addiu	$5,$0,4
 	addu	$4,$18,$0
 $Lnjp_800C6DC0_56:
@@ -6531,11 +6075,11 @@ $Lnjp_800C6DC0_64:
 	jal	njp_800C3D84
 	addu	$4,$18,$0
 	addu	$4,$18,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	lui	$5,0x4000
 	bne	$2,$0,$Lnjp_800C6DC0_66
 	nop
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	addiu	$4,$0,8192
 	beq	$2,$0,$Lnjp_800C6DC0_65
 	nop
@@ -6543,7 +6087,7 @@ $Lnjp_800C6DC0_64:
 	nop
 	bne	$2,$0,$Lnjp_800C6DC0_66
 	nop
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	addiu	$4,$0,4
 	bne	$2,$0,$Lnjp_800C6DC0_66
 	nop
@@ -6555,7 +6099,7 @@ $Lnjp_800C6DC0_64:
 	jal	GM_StreamPlayStop
 	nop
 	addu	$4,$18,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	lui	$5,0x4000
 	lui	$3,%hi(GM_GameOverTimer)
 	addiu	$2,$0,1
@@ -6576,9 +6120,9 @@ $Lnjp_800C6DC0_65:
 	bne	$5,$2,$Lnjp_800C6DC0_66
 	nop
 	addu	$4,$18,$0
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	lui	$5,0x8
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	addiu	$4,$0,8192
 	addu	$4,$18,$0
 	jal	njp_800C2D68
@@ -6595,7 +6139,7 @@ $Lnjp_800C6DC0_66:
 	addiu	$2,$16,1
 	jalr	$31,$3
 	sw	$2,2328($18)
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	addiu	$4,$0,1
 	beq	$2,$0,$Lnjp_800C6DC0_67
 	addu	$4,$18,$0
@@ -6621,11 +6165,11 @@ $Lnjp_800C6DC0_68:
 	andi	$2,$2,0x10
 	beq	$2,$0,$Lnjp_800C6DC0_70
 	addu	$4,$18,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	addiu	$5,$0,4
 	bne	$2,$0,$Lnjp_800C6DC0_69
 	addu	$2,$0,$0
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	addiu	$4,$0,2049
 	bne	$2,$0,$Lnjp_800C6DC0_69
 	addu	$2,$0,$0
@@ -6638,9 +6182,9 @@ $Lnjp_800C6DC0_68:
 $Lnjp_800C6DC0_69:
 	beq	$2,$0,$Lnjp_800C6DC0_70
 	nop
-	jal	njp_800C2974
+	jal	njp_sub_8004EB74
 	addu	$4,$18,$0
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	addiu	$4,$0,8
 $Lnjp_800C6DC0_70:
 	jal	njp_800C33C8
@@ -6704,7 +6248,7 @@ njp_800C7C04:
 	sw	$20,56($29)
 	sw	$19,52($29)
 	sw	$18,48($29)
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	sw	$16,40($29)
 	beq	$2,$0,$Lnjp_800C7C04_1
 	addu	$2,$0,$0
@@ -6713,7 +6257,7 @@ njp_800C7C04:
 	jal	njp_800C3D84
 	addu	$4,$17,$0
 	addu	$4,$17,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	lui	$5,0x4
 	beq	$2,$0,$Lnjp_800C7C04_0
 	addiu	$4,$17,32
@@ -6760,11 +6304,11 @@ $Lnjp_800C7C04_2:
 	jal	GM_ActMotion
 	addiu	$4,$17,156
 	addu	$4,$17,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	lui	$5,0x80
 	beq	$2,$0,$Lnjp_800C7C04_4
 	addu	$4,$17,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	lui	$5,0x800
 	bne	$2,$0,$Lnjp_800C7C04_4
 	addiu	$4,$29,32
@@ -6802,11 +6346,11 @@ $Lnjp_800C7C04_3:
 	beq	$3,$0,$Lnjp_800C7C04_4
 	sh	$4,104($17)
 	addu	$4,$17,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	lui	$5,0x80
 $Lnjp_800C7C04_4:
 	addu	$4,$17,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	lui	$5,0x200
 	beq	$2,$0,$Lnjp_800C7C04_5
 	nop
@@ -6838,30 +6382,30 @@ $Lnjp_800C7C04_6:
 $Lnjp_800C7C04_7:
 	jal	njp_800C2FE4
 	addu	$4,$17,$0
-	jal	njp_800C26B8
+	jal	njp_CheckSnakeDead_8004E384
 	addu	$4,$17,$0
 	jal	njp_800C3C1C
 	addu	$4,$17,$0
 	jal	GM_ActControl
 	addiu	$4,$17,32
-	lui	$19,%hi(njp_bss+40)
-	lui	$16,%hi(njp_bss+32)
-	addiu	$4,$16,%lo(njp_bss+32)
+	lui	$19,%hi(njp_bss_40)
+	lui	$16,%hi(njp_bss_32)
+	addiu	$4,$16,%lo(njp_bss_32)
 	sw	$0,4($4)
-	sw	$0,%lo(njp_bss+32)($16)
+	sw	$0,%lo(njp_bss_32)($16)
 	lh	$3,86($17)
 	addiu	$2,$0,-2
 	beq	$3,$2,$Lnjp_800C7C04_8
-	sw	$0,%lo(njp_bss+40)($19)
+	sw	$0,%lo(njp_bss_40)($19)
 	jal	HZD_GetLevelHazard
 	nop
-	lw	$2,%lo(njp_bss+32)($16)
+	lw	$2,%lo(njp_bss_32)($16)
 	nop
 	beq	$2,$0,$Lnjp_800C7C04_8
 	nop
 	lh	$2,46($2)
 	nop
-	sw	$2,%lo(njp_bss+40)($19)
+	sw	$2,%lo(njp_bss_40)($19)
 $Lnjp_800C7C04_8:
 	lh	$2,152($17)
 	nop
@@ -6869,11 +6413,11 @@ $Lnjp_800C7C04_8:
 	slti	$2,$2,250
 	bne	$2,$0,$Lnjp_800C7C04_11
 	addu	$4,$17,$0
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	lui	$5,0x800
 	bne	$2,$0,$Lnjp_800C7C04_11
-	lui	$2,%hi(njp_bss+32)
-	lw	$2,%lo(njp_bss+32)($2)
+	lui	$2,%hi(njp_bss_32)
+	lw	$2,%lo(njp_bss_32)($2)
 	nop
 	beq	$2,$0,$Lnjp_800C7C04_9
 	addu	$4,$17,$0
@@ -6883,7 +6427,7 @@ $Lnjp_800C7C04_8:
 	beq	$2,$0,$Lnjp_800C7C04_11
 	nop
 $Lnjp_800C7C04_9:
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	addiu	$5,$0,4096
 	bne	$2,$0,$Lnjp_800C7C04_11
 	addu	$4,$17,$0
@@ -6896,31 +6440,31 @@ $Lnjp_800C7C04_9:
 	swr	$8,2500($17)
 	swl	$9,2507($17)
 	swr	$9,2504($17)
-	jal	njp_800C267C
+	jal	njp_sna_set_flags1_8004E2F4
 	sh	$0,2502($17)
 	lui	$2,%hi(njp_800C5550)
 	lw	$3,2324($17)
 	addiu	$16,$2,%lo(njp_800C5550)
 	beq	$3,$16,$Lnjp_800C7C04_11
 	nop
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	lui	$4,0x1
 	beq	$2,$0,$Lnjp_800C7C04_10
 	addiu	$2,$0,450
 	sh	$2,2436($17)
 	lui	$4,0x3
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	ori	$4,$4,0x10
 	addu	$4,$17,$0
 	addu	$5,$0,$0
 	addiu	$6,$0,4
-	jal	njp_800C25F8
+	jal	njp_sna_8004E260
 	addu	$7,$5,$0
 	jal	GM_ExitBehindCamera
 	nop
 $Lnjp_800C7C04_10:
 	addu	$4,$17,$0
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addu	$5,$16,$0
 $Lnjp_800C7C04_11:
 	lh	$3,86($17)
@@ -6938,7 +6482,7 @@ $Lnjp_800C7C04_12:
 	jal	GM_ActObject
 	addiu	$4,$17,156
 	addu	$4,$17,$0
-	jal	njp_800C2690
+	jal	njp_sna_clear_flags1_8004E308
 	lui	$5,0x100
 	addiu	$16,$17,32
 	addu	$4,$16,$0
@@ -6961,7 +6505,7 @@ $Lnjp_800C7C04_12:
 	swr	$8,24($29)
 	swl	$9,31($29)
 	swr	$9,28($29)
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	addiu	$5,$0,2048
 	bne	$2,$0,$Lnjp_800C7C04_13
 	lui	$19,%hi(GM_SnakeCamera)
@@ -7046,7 +6590,7 @@ $Lnjp_800C7C04_15:
 	swr	$8,0($11)
 	swl	$9,7($11)
 	swr	$9,4($11)
-	jal	njp_800C26A4
+	jal	njp_sna_check_flags1_8004E31C
 	addiu	$19,$29,16
 	beq	$2,$0,$Lnjp_800C7C04_16
 	nop
@@ -7074,13 +6618,13 @@ $Lnjp_800C7C04_16:
 	addiu	$4,$0,16384
 	lui	$3,%hi(GM_PlayerAddress)
 	sw	$2,2116($17)
-	jal	njp_800C2664
+	jal	njp_GM_ClearPlayerStatusFlag
 	sw	$2,%lo(GM_PlayerAddress)($3)
-	jal	njp_800C2634
+	jal	njp_GM_CheckPlayerStatusFlag
 	addiu	$4,$0,3
 	beq	$2,$0,$Lnjp_800C7C04_17
 	nop
-	jal	njp_800C264C
+	jal	njp_GM_SetPlayerStatusFlag
 	addiu	$4,$0,16384
 $Lnjp_800C7C04_17:
 	lw	$31,60($29)
@@ -7330,13 +6874,13 @@ $Lnjp_800C82A4_2:
 	sh	$2,2194($18)
 	addiu	$4,$0,116
 $Lnjp_800C82A4_3:
-	lui	$16,%hi(njp_bss+4)
+	lui	$16,%hi(njp_dword_800ABBDC)
 	addiu	$2,$0,-1023
-	lui	$17,%hi(njp_bss+6)
-	sh	$2,%lo(njp_bss+4)($16)
+	lui	$17,%hi(njp_dword_800ABBD4)
+	sh	$2,%lo(njp_dword_800ABBDC)($16)
 	addiu	$2,$0,1023
 	jal	GCL_GetOption
-	sh	$2,%lo(njp_bss+6)($17)
+	sh	$2,%lo(njp_dword_800ABBD4)($17)
 	beq	$2,$0,$Lnjp_800C82A4_4
 	nop
 	jal	GCL_NextStr
@@ -7344,10 +6888,10 @@ $Lnjp_800C82A4_3:
 	jal	GCL_StrToInt
 	addu	$4,$2,$0
 	jal	GCL_NextStr
-	sh	$2,%lo(njp_bss+4)($16)
+	sh	$2,%lo(njp_dword_800ABBDC)($16)
 	jal	GCL_StrToInt
 	addu	$4,$2,$0
-	sh	$2,%lo(njp_bss+6)($17)
+	sh	$2,%lo(njp_dword_800ABBD4)($17)
 $Lnjp_800C82A4_4:
 	sw	$21,2508($18)
 	jal	GCL_GetOption
@@ -7362,7 +6906,7 @@ $Lnjp_800C82A4_4:
 $Lnjp_800C82A4_5:
 	addu	$4,$18,$0
 	lui	$5,%hi(njp_800C4200)
-	jal	njp_800C258C
+	jal	njp_sna_start_anim_8004E1F4
 	addiu	$5,$5,%lo(njp_800C4200)
 	addu	$4,$20,$0
 	addu	$5,$0,$0
@@ -7438,9 +6982,9 @@ $Lnjp_800C82A4_5:
 	sw	$2,2184($18)
 	lui	$2,%hi(dword_800ABA1C)
 	sw	$0,%lo(dword_800ABA1C)($2)
-	lui	$2,%hi(njp_bss+52)
+	lui	$2,%hi(njp_bss_52)
 	addiu	$3,$0,-65
-	sw	$0,%lo(njp_bss+52)($2)
+	sw	$0,%lo(njp_bss_52)($2)
 	addiu	$2,$0,-883
 	sh	$21,30($22)
 	sh	$2,44($29)
@@ -7458,8 +7002,8 @@ $Lnjp_800C82A4_5:
 	addu	$2,$0,$0
 $Lnjp_800C82A4_6:
 	bltz	$2,$Lnjp_800C82A4_7
-	lui	$2,%hi(njp_bss)
-	sw	$18,%lo(njp_bss)($2)
+	lui	$2,%hi(njp_snainit_actor)
+	sw	$18,%lo(njp_snainit_actor)($2)
 	j	$Lnjp_800C82A4_9
 	addu	$2,$18,$0
 $Lnjp_800C82A4_7:
@@ -7538,58 +7082,4 @@ njp_str_4890:
 njp_str_4898:
 	.ascii	"njaplay.c"
 	.byte	0
-	.data
-	.align	2
-njp_data:
-	.word	0x0000047F
-	.word	0x02FF01E1
-	.word	0x00000000
-	.word	0x0000067F
-	.word	0x04FF01E1
-	.word	0x084B02E1
-	.word	0x00000000
-	.word	0x027F0200
-	.word	0x00000000
-	.word	0x04C8023C
-	.word	0x00000228
-	.word	0x01F40000
-	.word	0x01400000
-	.word	0x01400190
-	.word	0x00200190
-	.word	0x00000020
-	.word	0x00000000
-	.word	0x00000064
-	.word	0x0000FC00
-	.word	0x00000000
-	.word	0x0000FED4
-	.word	0x00000190
-	.word	0x00000000
-	.word	0x00000190
-	.word	0x0000012C
-	.word	0x00000190
-	.word	0xFFB5000A
-	.word	0x00000000
-	.word	0xFFB5000A
-	.word	0x0000FC5E
-	.word	0xFFB5000A
-	.word	0x00000000
-	.word	0xFFB5000A
-	.word	0x0000FB96
-	.word	0xFFB5000A
-	.word	0x00000000
-	.word	0xFFB5000A
-	.word	0x0000FC5E
-	.word	0x00000000
-	.word	0x00000000
-	.word	0x025801F5
-	.word	0x000001F5
-	.word	0x00000000
-	.word	0x00000000
-	.word	0x00000007
-	.word	0x00000000
-	.word	0x00000000
-	.word	0x0000FED4
-	.word	0x00000000
-	.word	0x00000000
-	.word	0x0000FFFF
 	.text

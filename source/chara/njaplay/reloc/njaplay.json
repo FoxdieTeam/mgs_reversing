@@ -10,82 +10,82 @@
  "out": "source/chara/njaplay/reloc/njaplay.s",
  "funcs": [
   [
-   "njp_800C258C",
+   "njp_sna_start_anim_8004E1F4",
    "800C258C",
    "800C25C4"
   ],
   [
-   "njp_800C25C4",
+   "njp_SetAction_8004E22C",
    "800C25C4",
    "800C25F8"
   ],
   [
-   "njp_800C25F8",
+   "njp_sna_8004E260",
    "800C25F8",
    "800C2634"
   ],
   [
-   "njp_800C2634",
+   "njp_GM_CheckPlayerStatusFlag",
    "800C2634",
    "800C264C"
   ],
   [
-   "njp_800C264C",
+   "njp_GM_SetPlayerStatusFlag",
    "800C264C",
    "800C2664"
   ],
   [
-   "njp_800C2664",
+   "njp_GM_ClearPlayerStatusFlag",
    "800C2664",
    "800C267C"
   ],
   [
-   "njp_800C267C",
+   "njp_sna_set_flags1_8004E2F4",
    "800C267C",
    "800C2690"
   ],
   [
-   "njp_800C2690",
+   "njp_sna_clear_flags1_8004E308",
    "800C2690",
    "800C26A4"
   ],
   [
-   "njp_800C26A4",
+   "njp_sna_check_flags1_8004E31C",
    "800C26A4",
    "800C26B8"
   ],
   [
-   "njp_800C26B8",
+   "njp_CheckSnakeDead_8004E384",
    "800C26B8",
    "800C274C"
   ],
   [
-   "njp_800C274C",
+   "njp_sna_sub_8004E41C",
    "800C274C",
    "800C2788"
   ],
   [
-   "njp_800C2788",
+   "njp_sub_8004E4C0",
    "800C2788",
    "800C27E8"
   ],
   [
-   "njp_800C27E8",
+   "njp_sna_line_check",
    "800C27E8",
    "800C2854"
   ],
   [
-   "njp_800C2854",
+   "njp_sub_8004E588",
    "800C2854",
    "800C28B4"
   ],
   [
-   "njp_800C28B4",
+   "njp_sub_8004EA50",
    "800C28B4",
    "800C290C"
   ],
   [
-   "njp_800C290C",
+   "njp_sub_8004E5E8",
    "800C290C",
    "800C2914"
   ],
@@ -95,7 +95,7 @@
    "800C2974"
   ],
   [
-   "njp_800C2974",
+   "njp_sub_8004EB74",
    "800C2974",
    "800C29E4"
   ],
@@ -539,10 +539,94 @@
    51
   ]
  ],
+ "c_funcs": [
+  "njp_sna_start_anim_8004E1F4",
+  "njp_SetAction_8004E22C",
+  "njp_sna_8004E260",
+  "njp_GM_CheckPlayerStatusFlag",
+  "njp_GM_SetPlayerStatusFlag",
+  "njp_GM_ClearPlayerStatusFlag",
+  "njp_sna_set_flags1_8004E2F4",
+  "njp_sna_clear_flags1_8004E308",
+  "njp_sna_check_flags1_8004E31C",
+  "njp_CheckSnakeDead_8004E384",
+  "njp_sna_sub_8004E41C",
+  "njp_sub_8004E4C0",
+  "njp_sna_line_check",
+  "njp_sub_8004E588",
+  "njp_sub_8004EA50",
+  "njp_sub_8004E5E8",
+  "njp_sub_8004EB74"
+ ],
  "bss_syms": {
   "800E5B48": [
-   "njp_bss",
-   64
+   "njp_snainit_actor",
+   4
+  ],
+  "800E5B4C": [
+   "njp_dword_800ABBDC",
+   2
+  ],
+  "800E5B4E": [
+   "njp_dword_800ABBD4",
+   2
+  ],
+  "800E5B50": [
+   "njp_gSnaMoveDir_800ABBA4",
+   4
+  ],
+  "800E5B54": [
+   "njp_dword_800ABBA8",
+   4
+  ],
+  "800E5B58": [
+   "njp_bss_16",
+   4
+  ],
+  "800E5B5C": [
+   "njp_bss_20",
+   4
+  ],
+  "800E5B60": [
+   "njp_dword_800ABBB4",
+   4
+  ],
+  "800E5B64": [
+   "njp_bss_28",
+   4
+  ],
+  "800E5B68": [
+   "njp_bss_32",
+   4
+  ],
+  "800E5B6C": [
+   "njp_bss_36",
+   4
+  ],
+  "800E5B70": [
+   "njp_bss_40",
+   4
+  ],
+  "800E5B74": [
+   "njp_bss_44",
+   4
+  ],
+  "800E5B78": [
+   "njp_bss_48",
+   4
+  ],
+  "800E5B7C": [
+   "njp_bss_52",
+   4
+  ],
+  "800E5B80": [
+   "njp_bss_56",
+   4
+  ],
+  "800E5B84": [
+   "njp_bss_60",
+   4
   ]
- }
+ },
+ "rdata_attach_prev": true
 }
