@@ -57,6 +57,7 @@ extern Target_Data njp_stru_8009EFE4;
 extern SVECTOR njp_svector_800AB7FC;
 
 #define GetAction( work ) (work->body.action)
+#define SEGMENT_ATR ( HZD_SEG_NO_COLLIDE )
 #define TARGET_FLAG ( TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
 
 // @800C258C njp_sna_start_anim_8004E1F4
@@ -450,6 +451,168 @@ void njp_sna_clear_invuln_8004F2EC(SnaInitWork *work)
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_0.s")
 //ASM-END
 
+// @800C6244 njp_sna_80051A10
+void njp_sna_80051A10(SnaInitWork *work, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *pVec)
+{
+    MATRIX rot;
+    SVECTOR vec;
+    SVECTOR vec2;
+    SVECTOR vec3;
+    SVECTOR vec4;
+
+    int len;
+
+    ReadRotMatrix(&rot);
+    DG_SetPos2(pPos, &work->control.rot);
+    DG_PutVector(pVec, pVec, 1);
+    SetRotMatrix(&rot);
+
+    vec = *pPos;
+    vec2 = *pVec;
+
+    if (njp_sna_line_check(&vec, work->control.map->hzd, HZD_CHK_ALL, SEGMENT_ATR) < 0)
+    {
+        vec2 = *pVec;
+    }
+
+    GV_SubVec3(&vec2, pPos, &vec3);
+    len = GV_VecLen3(&vec3);
+
+    if ((len - work->field_A28) <= 0)
+    {
+        vec3 = *pPos;
+    }
+    else
+    {
+        GV_LenVec3(&vec3, &vec4, len, len - work->field_A28);
+        GV_AddVec3(pPos, &vec4, &vec3);
+    }
+
+    *pOut = vec3;
+}
+
+// @800C63D8 njp_sna_80051BA4
+int njp_sna_80051BA4(SnaInitWork *work)
+{
+    SVECTOR vec;
+    SVECTOR vec2;
+    SVECTOR vec3;
+
+    GV_PAD *pPad = work->field_9B0_pad_ptr;
+    unsigned short press = pPad->press;
+    unsigned short release = pPad->release;
+
+    if (pPad->status & (PAD_R1 | PAD_L1))
+    {
+        if (press & PAD_R1)
+        {
+            work->field_A56 = 8;
+        }
+
+        if (press & PAD_L1)
+        {
+            work->field_A56 = 4;
+        }
+
+        if (release & PAD_R1)
+        {
+            work->field_A56 = 4;
+        }
+
+        if (release & PAD_L1)
+        {
+            work->field_A56 = 8;
+        }
+
+        vec2 = vec = DG_ZeroVector;
+        vec2.vx = 1280;
+        vec.vx = -1280;
+        vec3 = work->field_A60;
+
+        njp_sna_80051A10(work, &vec3, &work->field_A3C, &vec2);
+        njp_sna_80051A10(work, &vec3, &work->field_A44, &vec);
+
+        if (!njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK16))
+        {
+            work->field_A58 = 8;
+            njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK16);
+        }
+        else if (work->field_A56 & 4)
+        {
+            work->field_A60 = work->field_A3C;
+
+        }
+        else if (work->field_A56 & 8)
+        {
+            work->field_A60 = work->field_A44;
+        }
+
+        return 1;
+    }
+
+    if (work->field_A58 > 0)
+    {
+        if (--work->field_A58 == 0)
+        {
+            njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK16);
+            return 0;
+        }
+
+        return 1;
+    }
+
+    return 0;
+}
+
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
+//ASM-END
+
+// @800C67B0 njp_sna_80051FD0
+void njp_sna_80051FD0(SnaInitWork *work)
+{
+    int          iVar1;
+    u_short      uVar2;
+    unsigned int uVar3;
+    short        sVar4;
+    short        sVar5;
+    int          iVar6;
+    short     *short_arr;
+
+    short_arr = work->field_9D0;
+    uVar2 = work->field_9B0_pad_ptr->status;
+    if ((uVar2 & (PAD_LEFT | PAD_RIGHT)) != 0)
+    {
+        iVar1 = work->control.turn.vy;
+        uVar3 = njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK15);
+        sVar4 = 1;
+        sVar5 = 1;
+        if (uVar2 & PAD_LEFT)
+        {
+            if ((uVar3 & 0xff) != 0)
+            {
+                sVar4 = 0x40;
+                sVar5 = 0x40 - work->field_9B0_pad_ptr->left_dx;
+            }
+            iVar6 = ((int)short_arr[8]) * (sVar5 & 0xff);
+            iVar1 += iVar6 / sVar4;
+        }
+        else
+        {
+            if ((uVar3 & 0xff) != 0)
+            {
+                sVar4 = 0x3f;
+                sVar5 = work->field_9B0_pad_ptr->left_dx + 0x40;
+            }
+            iVar6 = ((int)short_arr[7]) * (sVar5 & 0xff);
+            iVar1 -= iVar6 / sVar4;
+        }
+        work->control.turn.vy = iVar1;
+    }
+}
+
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
+//ASM-END
+
 // @DATA
 // FIXME: the data is defined after the code on purpose: the code was compiled with only the type alignment of the
 // tables known (e.g. the 20 byte copy of njp_word_8009EFC0 is done with lwl/lwr).
@@ -489,5 +652,7 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
 
 
