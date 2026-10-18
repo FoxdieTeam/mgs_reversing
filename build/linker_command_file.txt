@@ -7388,12 +7388,13 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\vrtitle\text_800C3494.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3908.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\text_800C3928.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3A24.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3A5C.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3AA0.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3AD4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C3B08.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3B08.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3B30.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C3B58.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3B58.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3C10.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\text_800C3C30.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\vrtitle_800C4D8C.obj", overlay

@@ -11,6 +11,6 @@ void vrtitle_800C3908( PocketObj *obj )
     obj->field_E = 0;
     obj->field_C = 0;
     obj->field_18 = 0;
-    obj->field_14 = 0;
+    obj->field_14.word = 0;
     obj->flags = 0;
 }
