@@ -10,27 +10,27 @@
  "out": "source/koba/vr/reloc/vrclear2.s",
  "funcs": [
   [
-   "Vrclear2_800DE6F8",
+   "SetClearFlag",
    "800DE6F8",
    "800DE808"
   ],
   [
-   "Vrclear2_800DE808",
+   "OpenButtons",
    "800DE808",
    "800DE844"
   ],
   [
-   "Vrclear2_800DE844",
+   "PlayDecideSound",
    "800DE844",
    "800DE8C8"
   ],
   [
-   "Vrclear2_800DE8C8",
+   "DrawDemo",
    "800DE8C8",
    "800DE93C"
   ],
   [
-   "Vrclear2_800DE93C",
+   "DrawReplay",
    "800DE93C",
    "800DE9B0"
   ],
@@ -331,8 +331,16 @@
  "data": [
   [
    "800C1D98",
-   "vrclear2_data",
+   "vrclear2_buttons",
    177
   ]
- ]
+ ],
+ "c_funcs": [
+  "SetClearFlag",
+  "OpenButtons",
+  "PlayDecideSound",
+  "DrawDemo",
+  "DrawReplay"
+ ],
+ "globl": true
 }

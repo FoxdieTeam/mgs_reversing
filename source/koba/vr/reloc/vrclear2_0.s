@@ -2,227 +2,6 @@
 	.set	noat
 	.set	nomacro
 	.text
-	.globl	Vrclear2_800DE6F8
-Vrclear2_800DE6F8:
-	addiu	$29,$29,-48
-	sw	$20,40($29)
-	addu	$20,$4,$0
-	sw	$17,28($29)
-	addu	$17,$5,$0
-	lui	$2,%hi(vrclear2_rect)
-	sw	$19,36($29)
-	addiu	$19,$29,16
-	addu	$4,$19,$0
-	sw	$31,44($29)
-	sw	$18,32($29)
-	sw	$16,24($29)
-	addiu	$11,$2,%lo(vrclear2_rect)
-	lwl	$8,3($11)
-	lwr	$8,0($11)
-	lwl	$9,7($11)
-	lwr	$9,4($11)
-	swl	$8,19($29)
-	swr	$8,16($29)
-	swl	$9,23($29)
-	swr	$9,20($29)
-	lui	$2,%hi(vrclear2_flags)
-	addiu	$18,$2,%lo(vrclear2_flags)
-	jal	StoreImage
-	addu	$5,$18,$0
-	jal	DrawSync
-	addu	$4,$0,$0
-	blez	$17,$LVrclear2_800DE6F8_0
-	addu	$5,$17,$0
-	lui	$4,%hi(vrclear2_str_stage)
-	addiu	$4,$4,%lo(vrclear2_str_stage)
-	jal	printf
-	sra	$16,$17,5
-	lui	$4,%hi(vrclear2_str_area)
-	addiu	$4,$4,%lo(vrclear2_str_area)
-	jal	printf
-	addu	$5,$16,$0
-	lui	$4,%hi(vrclear2_str_flags)
-	addiu	$4,$4,%lo(vrclear2_str_flags)
-	addiu	$5,$20,-1
-	sll	$6,$16,2
-	sll	$2,$5,1
-	addu	$2,$2,$5
-	sll	$2,$2,3
-	addu	$6,$6,$2
-	addu	$6,$6,$18
-	sll	$2,$16,5
-	subu	$2,$17,$2
-	addiu	$7,$0,1
-	lw	$3,0($6)
-	sllv	$7,$7,$2
-	or	$3,$3,$7
-	sw	$3,0($6)
-	jal	printf
-	addu	$6,$16,$0
-$LVrclear2_800DE6F8_0:
-	addu	$4,$19,$0
-	jal	LoadImage
-	addu	$5,$18,$0
-	jal	DrawSync
-	addu	$4,$0,$0
-	lw	$31,44($29)
-	lw	$20,40($29)
-	lw	$19,36($29)
-	lw	$18,32($29)
-	lw	$17,28($29)
-	lw	$16,24($29)
-	jr	$31
-	addiu	$29,$29,48
-	.set	macro
-	.set	reorder
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	Vrclear2_800DE808
-Vrclear2_800DE808:
-	ori	$2,$0,0xedaf
-	beq	$4,$2,$LVrclear2_800DE808_0
-	addiu	$4,$0,1
-	jr	$31
-	addu	$2,$0,$0
-$LVrclear2_800DE808_0:
-	addiu	$3,$0,4
-	lui	$2,%hi(vrclear2_data)
-	addiu	$2,$2,%lo(vrclear2_data)
-	addiu	$2,$2,480
-$LVrclear2_800DE808_1:
-	sb	$4,34($2)
-	addiu	$3,$3,-1
-	bgez	$3,$LVrclear2_800DE808_1
-	addiu	$2,$2,-120
-	jr	$31
-	addiu	$2,$0,1
-	.set	macro
-	.set	reorder
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	Vrclear2_800DE844
-Vrclear2_800DE844:
-	addiu	$29,$29,-24
-	sw	$16,16($29)
-	addu	$16,$5,$0
-	bne	$16,$0,$LVrclear2_800DE844_0
-	sw	$31,20($29)
-	addu	$4,$0,$0
-	addiu	$5,$0,63
-	jal	GM_SeSet2
-	addiu	$6,$0,102
-$LVrclear2_800DE844_0:
-	addiu	$2,$0,1
-	bne	$16,$2,$LVrclear2_800DE844_1
-	addiu	$2,$0,2
-	addu	$4,$0,$0
-	addiu	$5,$0,63
-	jal	GM_SeSet2
-	addiu	$6,$0,102
-	addiu	$2,$0,2
-$LVrclear2_800DE844_1:
-	bne	$16,$2,$LVrclear2_800DE844_2
-	addiu	$2,$0,3
-	addu	$4,$0,$0
-	addiu	$5,$0,63
-	jal	GM_SeSet2
-	addiu	$6,$0,33
-	addiu	$2,$0,3
-$LVrclear2_800DE844_2:
-	bne	$16,$2,$LVrclear2_800DE844_3
-	addu	$4,$0,$0
-	addiu	$5,$0,63
-	jal	GM_SeSet2
-	addiu	$6,$0,33
-$LVrclear2_800DE844_3:
-	lw	$31,20($29)
-	lw	$16,16($29)
-	jr	$31
-	addiu	$29,$29,24
-	.set	macro
-	.set	reorder
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	Vrclear2_800DE8C8
-Vrclear2_800DE8C8:
-	addiu	$29,$29,-24
-	addiu	$4,$0,200
-	addu	$5,$4,$0
-	addu	$6,$4,$0
-	sw	$31,20($29)
-	jal	MENU_Color
-	sw	$16,16($29)
-	addiu	$4,$0,8
-	addu	$5,$4,$0
-	jal	MENU_Locate
-	addiu	$6,$0,16
-	lui	$16,%hi(vrclear2_str_demo)
-	addiu	$16,$16,%lo(vrclear2_str_demo)
-	jal	MENU_Printf
-	addu	$4,$16,$0
-	addiu	$4,$0,10
-	addu	$5,$4,$0
-	jal	MENU_Color
-	addu	$6,$4,$0
-	addiu	$4,$0,9
-	addu	$5,$4,$0
-	jal	MENU_Locate
-	addiu	$6,$0,16
-	jal	MENU_Printf
-	addu	$4,$16,$0
-	lw	$31,20($29)
-	lw	$16,16($29)
-	jr	$31
-	addiu	$29,$29,24
-	.set	macro
-	.set	reorder
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	Vrclear2_800DE93C
-Vrclear2_800DE93C:
-	addiu	$29,$29,-24
-	addiu	$4,$0,200
-	addu	$5,$4,$0
-	addu	$6,$4,$0
-	sw	$31,20($29)
-	jal	MENU_Color
-	sw	$16,16($29)
-	addiu	$4,$0,8
-	addu	$5,$4,$0
-	jal	MENU_Locate
-	addiu	$6,$0,16
-	lui	$16,%hi(vrclear2_str_replay_up)
-	addiu	$16,$16,%lo(vrclear2_str_replay_up)
-	jal	MENU_Printf
-	addu	$4,$16,$0
-	addiu	$4,$0,10
-	addu	$5,$4,$0
-	jal	MENU_Color
-	addu	$6,$4,$0
-	addiu	$4,$0,9
-	addu	$5,$4,$0
-	jal	MENU_Locate
-	addiu	$6,$0,16
-	jal	MENU_Printf
-	addu	$4,$16,$0
-	lw	$31,20($29)
-	lw	$16,16($29)
-	jr	$31
-	addiu	$29,$29,24
-	.set	macro
-	.set	reorder
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
 	.globl	Vrclear2_800DE9B0
 Vrclear2_800DE9B0:
 	addiu	$29,$29,-24
@@ -249,12 +28,12 @@ Vrclear2_800DE9B0:
 	andi	$2,$2,0x8
 	beq	$2,$0,$LVrclear2_800DE9B0_0
 	nop
-	jal	Vrclear2_800DE93C
+	jal	DrawReplay
 	nop
 	j	$LVrclear2_800DE9B0_1
 	nop
 $LVrclear2_800DE9B0_0:
-	jal	Vrclear2_800DE8C8
+	jal	DrawDemo
 	nop
 $LVrclear2_800DE9B0_1:
 	lw	$31,16($29)
@@ -834,10 +613,10 @@ $LVrclear2_800DF134_1:
 $LVrclear2_800DF134_2:
 	lui	$7,%hi(vrclear2_str_s)
 	addiu	$23,$7,%lo(vrclear2_str_s)
-	lui	$2,%hi(vrclear2_data+600)
-	addiu	$21,$2,%lo(vrclear2_data+600)
-	lui	$30,%hi(vrclear2_data+668)
-	addiu	$22,$30,%lo(vrclear2_data+668)
+	lui	$2,%hi(vrclear2_buttons+600)
+	addiu	$21,$2,%lo(vrclear2_buttons+600)
+	lui	$30,%hi(vrclear2_buttons+668)
+	addiu	$22,$30,%lo(vrclear2_buttons+668)
 	addiu	$20,$18,40
 	addiu	$19,$0,320
 	addiu	$18,$18,25
@@ -905,7 +684,7 @@ $LVrclear2_800DF134_6:
 $LVrclear2_800DF134_7:
 	lui	$4,%hi(vrclear2_str_fmt_ss)
 	lw	$2,992($16)
-	lw	$6,%lo(vrclear2_data+668)($30)
+	lw	$6,%lo(vrclear2_buttons+668)($30)
 	sll	$2,$2,2
 	addu	$2,$2,$21
 	lw	$5,0($2)
@@ -1009,8 +788,8 @@ $LVrclear2_800DF420_1:
 	addu	$5,$0,$0
 	addiu	$5,$0,3
 $LVrclear2_800DF420_2:
-	lui	$2,%hi(vrclear2_data)
-	addiu	$6,$2,%lo(vrclear2_data)
+	lui	$2,%hi(vrclear2_buttons)
+	addiu	$6,$2,%lo(vrclear2_buttons)
 	lh	$3,34($7)
 	sll	$8,$5,1
 	sll	$2,$3,4
@@ -1065,9 +844,9 @@ $LVrclear2_800DF420_5:
 	nop
 	andi	$2,$4,0x20
 	beq	$2,$0,$LVrclear2_800DF420_8
-	lui	$2,%hi(vrclear2_data)
+	lui	$2,%hi(vrclear2_buttons)
 	lh	$3,34($7)
-	addiu	$4,$2,%lo(vrclear2_data)
+	addiu	$4,$2,%lo(vrclear2_buttons)
 	sll	$2,$3,4
 	subu	$2,$2,$3
 	sll	$2,$2,3
@@ -1089,16 +868,16 @@ $LVrclear2_800DF420_6:
 	bne	$3,$0,$LVrclear2_800DF420_6
 	addiu	$2,$2,120
 $LVrclear2_800DF420_7:
-	lui	$2,%hi(vrclear2_data)
+	lui	$2,%hi(vrclear2_buttons)
 	lh	$4,34($7)
-	addiu	$2,$2,%lo(vrclear2_data)
+	addiu	$2,$2,%lo(vrclear2_buttons)
 	sll	$3,$4,4
 	subu	$3,$3,$4
 	sll	$3,$3,3
 	addu	$3,$3,$2
 	sb	$0,34($3)
 	lh	$5,34($7)
-	jal	Vrclear2_800DE844
+	jal	PlayDecideSound
 	addu	$4,$0,$0
 $LVrclear2_800DF420_8:
 	addu	$2,$0,$0
@@ -1363,10 +1142,10 @@ Vrclear2_800DF908:
 	jr	$2
 	nop
 $LVrclear2_800DF908_0:
-	lui	$2,%hi(vrclear2_data)
+	lui	$2,%hi(vrclear2_buttons)
 	lbu	$17,954($18)
 	lhu	$3,36($18)
-	addiu	$16,$2,%lo(vrclear2_data)
+	addiu	$16,$2,%lo(vrclear2_buttons)
 	beq	$17,$0,$LVrclear2_800DF908_2
 	sh	$3,34($18)
 $LVrclear2_800DF908_1:
@@ -1421,7 +1200,7 @@ $LVrclear2_800DF908_5:
 	addiu	$2,$2,1
 	jal	Vrclear2_800DF644
 	sh	$2,32($18)
-	jal	Vrclear2_800DE808
+	jal	OpenButtons
 	addu	$4,$2,$0
 	beq	$2,$0,$LVrclear2_800DF908_19
 	nop
@@ -1454,9 +1233,9 @@ $LVrclear2_800DF908_8:
 $LVrclear2_800DF908_9:
 	addu	$19,$0,$0
 	lbu	$17,954($18)
-	lui	$2,%hi(vrclear2_data)
+	lui	$2,%hi(vrclear2_buttons)
 	beq	$17,$0,$LVrclear2_800DF908_13
-	addiu	$16,$2,%lo(vrclear2_data)
+	addiu	$16,$2,%lo(vrclear2_buttons)
 	addu	$21,$16,$0
 	addiu	$20,$0,5
 $LVrclear2_800DF908_10:
@@ -1499,7 +1278,7 @@ $LVrclear2_800DF908_13:
 	lh	$3,34($18)
 	nop
 	bne	$3,$2,$LVrclear2_800DF908_14
-	lui	$16,%hi(vrclear2_data)
+	lui	$16,%hi(vrclear2_buttons)
 	lw	$2,1012($18)
 	nop
 	andi	$2,$2,0x1
@@ -1508,10 +1287,10 @@ $LVrclear2_800DF908_13:
 	lw	$4,964($18)
 	jal	GCL_SetVar
 	addiu	$5,$0,-1
-	lui	$16,%hi(vrclear2_data)
+	lui	$16,%hi(vrclear2_buttons)
 $LVrclear2_800DF908_14:
 	lh	$2,34($18)
-	addiu	$16,$16,%lo(vrclear2_data)
+	addiu	$16,$16,%lo(vrclear2_buttons)
 	sll	$4,$2,4
 	subu	$4,$4,$2
 	sll	$4,$4,3
@@ -1529,9 +1308,9 @@ $LVrclear2_800DF908_14:
 $LVrclear2_800DF908_15:
 	addiu	$4,$18,268
 $LVrclear2_800DF908_16:
-	lui	$5,%hi(vrclear2_data+24)
+	lui	$5,%hi(vrclear2_buttons+24)
 	lh	$2,36($18)
-	addiu	$5,$5,%lo(vrclear2_data+24)
+	addiu	$5,$5,%lo(vrclear2_buttons+24)
 	sll	$3,$2,4
 	subu	$3,$3,$2
 	sll	$3,$3,3
@@ -1553,9 +1332,9 @@ $LVrclear2_800DF908_17:
 	jal	Vrclear2_800DF6F4
 	addu	$4,$18,$0
 	lbu	$17,954($18)
-	lui	$2,%hi(vrclear2_data)
+	lui	$2,%hi(vrclear2_buttons)
 	beq	$17,$0,$LVrclear2_800DF908_19
-	addiu	$16,$2,%lo(vrclear2_data)
+	addiu	$16,$2,%lo(vrclear2_buttons)
 $LVrclear2_800DF908_18:
 	jal	VrMenu_DrawItem
 	addu	$4,$16,$0
@@ -1666,7 +1445,7 @@ $LVrclear2_800DFC58_6:
 	bne	$2,$0,$LVrclear2_800DFC58_7
 	lui	$2,%hi(VR_Flags)
 	lw	$5,984($18)
-	jal	Vrclear2_800DE6F8
+	jal	SetClearFlag
 	nop
 	lui	$2,%hi(VR_Flags)
 $LVrclear2_800DFC58_7:
@@ -1678,10 +1457,10 @@ $LVrclear2_800DFC58_7:
 	and	$4,$4,$2
 	sw	$4,1012($18)
 	addiu	$2,$0,3
-	lui	$3,%hi(vrclear2_data+128)
+	lui	$3,%hi(vrclear2_buttons+128)
 	sb	$2,954($18)
 	addiu	$2,$0,-1
-	sh	$2,%lo(vrclear2_data+128)($3)
+	sh	$2,%lo(vrclear2_buttons+128)($3)
 	slti	$2,$5,3
 	bne	$2,$0,$LVrclear2_800DFC58_8
 	lui	$2,%hi(VR_Flags)
@@ -1714,8 +1493,8 @@ $LVrclear2_800DFC58_10:
 	addiu	$4,$18,124
 	jal	SetDrawArea
 	addu	$5,$16,$0
-	lui	$2,%hi(vrclear2_data)
-	addiu	$5,$2,%lo(vrclear2_data)
+	lui	$2,%hi(vrclear2_buttons)
+	addiu	$5,$2,%lo(vrclear2_buttons)
 	lw	$3,140($5)
 	lw	$2,260($5)
 	nop
@@ -1741,15 +1520,15 @@ $LVrclear2_800DFC58_10:
 	j	$LVrclear2_800DFC58_12
 	sh	$4,386($5)
 $LVrclear2_800DFC58_11:
-	lui	$2,%hi(vrclear2_data)
-	addiu	$2,$2,%lo(vrclear2_data)
+	lui	$2,%hi(vrclear2_buttons)
+	addiu	$2,$2,%lo(vrclear2_buttons)
 	addiu	$3,$0,-1
 	sh	$3,8($2)
 	addiu	$3,$0,1
 	sh	$3,372($2)
 $LVrclear2_800DFC58_12:
-	lui	$2,%hi(vrclear2_data)
-	addiu	$2,$2,%lo(vrclear2_data)
+	lui	$2,%hi(vrclear2_buttons)
+	addiu	$2,$2,%lo(vrclear2_buttons)
 	sh	$0,124($2)
 	sh	$0,126($2)
 	j	$LVrclear2_800DFC58_14
@@ -1787,8 +1566,8 @@ $LVrclear2_800DFC58_16:
 	lui	$4,%hi(vrclear2_str_replay)
 	addiu	$4,$4,%lo(vrclear2_str_replay)
 	addiu	$2,$0,2
-	lui	$17,%hi(vrclear2_data)
-	addiu	$16,$17,%lo(vrclear2_data)
+	lui	$17,%hi(vrclear2_buttons)
+	addiu	$16,$17,%lo(vrclear2_buttons)
 	sh	$2,36($18)
 	addiu	$2,$0,-1
 	sh	$2,8($16)
@@ -1850,7 +1629,7 @@ $LVrclear2_800DFC58_16:
 	addiu	$2,$0,8
 	sh	$2,6($16)
 	addiu	$2,$0,132
-	sh	$2,%lo(vrclear2_data)($17)
+	sh	$2,%lo(vrclear2_buttons)($17)
 	addiu	$2,$0,76
 	sh	$2,28($16)
 	addiu	$2,$0,14
@@ -2095,8 +1874,8 @@ $LVrclear2_800E01B4_12:
 	addiu	$2,$2,-4
 	addu	$16,$0,$0
 $LVrclear2_800E01B4_13:
-	lui	$2,%hi(vrclear2_data)
-	addiu	$18,$2,%lo(vrclear2_data)
+	lui	$2,%hi(vrclear2_buttons)
+	addiu	$18,$2,%lo(vrclear2_buttons)
 	addiu	$17,$29,16
 $LVrclear2_800E01B4_14:
 	addu	$4,$18,$0
@@ -2114,8 +1893,8 @@ $LVrclear2_800E01B4_15:
 	lui	$4,%hi(vrclear2_str_go_vrsave)
 	jal	GV_StrCode
 	addiu	$4,$4,%lo(vrclear2_str_go_vrsave)
-	lui	$3,%hi(vrclear2_data+380)
-	sw	$2,%lo(vrclear2_data+380)($3)
+	lui	$3,%hi(vrclear2_buttons+380)
+	sw	$2,%lo(vrclear2_buttons+380)($3)
 	lw	$3,1012($19)
 	addiu	$4,$0,-497
 	and	$3,$3,$4
@@ -2180,30 +1959,6 @@ $LNewVrClear2_2:
 	.set	macro
 	.set	reorder
 	.rdata
-	.align	2
-vrclear2_rect:
-	.word	0x00E000A0
-	.word	0x0010000C
-	.align	2
-vrclear2_str_stage:
-	.ascii	"stage = %d\n"
-	.byte	0
-	.align	2
-vrclear2_str_area:
-	.ascii	"area = %d\n"
-	.byte	0
-	.align	2
-vrclear2_str_flags:
-	.ascii	"clearflags[%d][%d] = %d\n"
-	.byte	0
-	.align	2
-vrclear2_str_demo:
-	.ascii	"DEMO"
-	.byte	0
-	.align	2
-vrclear2_str_replay_up:
-	.ascii	"REPLAY"
-	.byte	0
 	.align	2
 vrclear2_str_1st:
 	.ascii	"1st"
@@ -2368,7 +2123,8 @@ vrclear2_str_file:
 	.byte	0
 	.data
 	.align	2
-vrclear2_data:
+	.globl	vrclear2_buttons
+vrclear2_buttons:
 	.word	0x00A9007A
 	.word	0x0008004C
 	.word	0xFFFF0001

@@ -91,11 +91,23 @@ for fi, t in enumerate(text):
             first[a] = fi
 for a, fi in jt_owner.items():
     first[a] = fi
+# items only referenced by other rdata items (strings behind a pointer table) go with the item pointing at them
+for a, n in names.items():
+    if a not in first:
+        for b, t in items.items():
+            if b != a and b in first and re.search(r'\b%s\b' % re.escape(n), t):
+                first[a] = first[b]
+                break
 for a, fi in first.items():
     if cfg['funcs'][fi][0] in cfuncs:
         for fj, t in enumerate(text):
             if fj > fi and cfg['funcs'][fj][0] not in cfuncs and a in names and re.search(r'\b%s\b' % re.escape(names[a]), t):
                 print('WARNING: %s is used by C function %s and asm function %s: define it in C' % (names[a], cfg['funcs'][fi][0], cfg['funcs'][fj][0]))
+# items nobody refers to in code (strings behind initialised data pointers) go with the first asm run
+asm_first = next(fi for fi, f in enumerate(cfg['funcs']) if f[0] not in cfuncs)
+for a in names:
+    if a not in first:
+        first[a] = asm_first
 # runs of asm functions
 runs = []
 for fi, (name, st, en) in enumerate(cfg['funcs']):
