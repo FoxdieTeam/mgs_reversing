@@ -35,7 +35,7 @@
    "800DE9B0"
   ],
   [
-   "Vrclear2_800DE9B0",
+   "DrawReplayLabel",
    "800DE9B0",
    "800DEA38"
   ],
@@ -60,17 +60,17 @@
    "800DF420"
   ],
   [
-   "Vrclear2_800DF420",
+   "MoveCursor",
    "800DF420",
    "800DF60C"
   ],
   [
-   "Vrclear2_800DF60C",
+   "CheckPad",
    "800DF60C",
    "800DF644"
   ],
   [
-   "Vrclear2_800DF644",
+   "CheckMessage",
    "800DF644",
    "800DF6F4"
   ],
@@ -80,27 +80,27 @@
    "800DF908"
   ],
   [
-   "Vrclear2_800DF908",
+   "Vrclear2Draw",
    "800DF908",
    "800DFC58"
   ],
   [
-   "Vrclear2_800DFC58",
+   "Vrclear2Init",
    "800DFC58",
    "800E00E4"
   ],
   [
-   "Vrclear2_800E00E4",
+   "Act",
    "800E00E4",
    "800E01AC"
   ],
   [
-   "Vrclear2_800E01AC",
+   "Die",
    "800E01AC",
    "800E01B4"
   ],
   [
-   "Vrclear2_800E01B4",
+   "Vrclear2GetResources",
    "800E01B4",
    "800E03E0"
   ],
@@ -340,7 +340,14 @@
   "OpenButtons",
   "PlayDecideSound",
   "DrawDemo",
-  "DrawReplay"
+  "DrawReplay",
+  "DrawReplayLabel",
+  "MoveCursor",
+  "CheckPad",
+  "CheckMessage",
+  "Act",
+  "Die",
+  "NewVrClear2"
  ],
  "globl": true
 }
