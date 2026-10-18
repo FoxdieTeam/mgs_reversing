@@ -20,6 +20,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "okajima/blood.h"
+#include "okajima/spark.h"
 #include "strcode.h"
 #include "equip/equip.h"
 #include "takabe/windcrcl.h"
@@ -69,12 +70,12 @@ void njp_sna_anim_800C4A90(SnaInitWork *work, int time);
 void njp_sna_anim_800C4B44(SnaInitWork *work, int time);
 void njp_800C495C(SnaInitWork *work);
 void njp_sna_anim_update_800C5C18(SnaInitWork *work, int time);
-void njp_800C5D4C(SnaInitWork *work, int time);
+void njp_sna_anim_update_800C5D4C(SnaInitWork *work, int time);
 void njp_sna_anim_slash_update_800C5E9C(SnaInitWork *work, int time);
 void njp_800C5F20(SnaInitWork *work, int time);
 void njp_800C60E4(SnaInitWork *work, int time);
-void njp_800C5A70(SnaInitWork *work);
-int njp_800C5B18(SnaInitWork *work);
+void njp_sna_move_targets_800C5A70(SnaInitWork *work);
+int njp_sna_check_hits_800C5B18(SnaInitWork *work);
 void njp_800C65D4(SnaInitWork *work);
 void njp_sna_anim_crouch_wall_update_800C4750(SnaInitWork *work, int time);
 void njp_sna_anim_spin_800C4BA4(SnaInitWork *work, int time);
@@ -1341,7 +1342,7 @@ void njp_sna_anim_800C4A90(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_800C5D4C;
+        work->field_9C8_anim_update_fn_3p = njp_sna_anim_update_800C5D4C;
         work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
         njp_SetAction_8004E22C(work, 24, 4);
         njp_GM_SetPlayerStatusFlag(PLAYER_MOVE);
@@ -1544,13 +1545,71 @@ void njp_sna_anim_800C54EC(SnaInitWork *work, int time)
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
 //ASM-END
 
+// @800C5A70 njp_sna_move_targets_800C5A70
+// moves the extra targets to the probe points in front of the ninja
+void njp_sna_move_targets_800C5A70(SnaInitWork *work)
+{
+    SVECTOR probe[3];
+    MATRIX  mtx;
+    int     i;
+
+    ReadRotMatrix(&mtx);
+    DG_SetPos2(&work->control.mov, &work->control.rot);
+    DG_PutVector(njp_front_probe, probe, 3);
+
+    for (i = 0; i < work->njp_num_targets; i++)
+    {
+        GM_MoveTarget(work->njp_targets[i], &probe[i]);
+    }
+
+    SetRotMatrix(&mtx);
+}
+
+// @800C5B18 njp_sna_check_hits_800C5B18
+// checks if the extra targets were hit, returns the number of hits
+int njp_sna_check_hits_800C5B18(SnaInitWork *work)
+{
+    MATRIX  mtx;
+    TARGET *target;
+    int     hits;
+    int     i;
+
+    hits = 0;
+
+    if (njp_GM_CheckPlayerStatusFlag(PLAYER_INVINCIBLE))
+    {
+        return hits;
+    }
+
+    for (i = 0; i < work->njp_num_targets; i++)
+    {
+        target = work->njp_targets[i];
+
+        if ((target->damaged & TARGET_POWER) && target->a_mode == 1)
+        {
+            target->damaged &= ~TARGET_POWER;
+            target->a_mode = 0;
+            target->vital = 1024;
+            ReadRotMatrix(&mtx);
+            hits++;
+            mtx.t[0] = target->center.vx;
+            mtx.t[1] = target->center.vy;
+            mtx.t[2] = target->center.vz;
+            GM_SeSetMode(&work->control.mov, 211, 1);
+            NewSpark(&mtx, 1);
+        }
+    }
+
+    return hits;
+}
+
 // @800C5C18 njp_sna_anim_update_800C5C18
 void njp_sna_anim_update_800C5C18(SnaInitWork *work, int time)
 {
     work->njp_field_9E4 = 2;
-    njp_800C5A70(work);
+    njp_sna_move_targets_800C5A70(work);
 
-    if (njp_800C5B18(work))
+    if (njp_sna_check_hits_800C5B18(work))
     {
         if (++work->field_A38_local_data >= 3)
         {
@@ -1586,8 +1645,53 @@ void njp_sna_anim_update_800C5C18(SnaInitWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
-//ASM-END
+// @800C5D4C njp_sna_anim_update_800C5D4C
+void njp_sna_anim_update_800C5D4C(SnaInitWork *work, int time)
+{
+    int angle;
+
+    njp_sna_move_targets_800C5A70(work);
+
+    if (njp_sna_check_hits_800C5B18(work))
+    {
+        if (++work->field_A38_local_data >= 3)
+        {
+            work->field_A38_local_data = 0;
+        }
+
+        njp_sna_8004E260(work, work->field_A38_local_data + 16, 0, 1022);
+        njp_sna_8004F034(work, 1022);
+    }
+
+    if (work->body.time2 != 0)
+    {
+        njp_sna_8004E260(work, 0, 4, 0);
+        work->field_A38_local_data = -1;
+    }
+
+    if (!(work->field_9B0_pad_ptr->status & PAD_CIRCLE))
+    {
+        njp_sna_start_anim_8004E1F4(work, njp_sna_anim_800C54EC);
+        njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK3 | SNA_FLAG1_UNK30);
+        njp_GM_SetPlayerStatusFlag(PLAYER_ATTACK);
+        njp_GM_ClearPlayerStatusFlag(PLAYER_MOVE);
+        njp_sna_8004E260(work, 0, 4, 0);
+        njp_FreeTargets(work);
+    }
+    else if (njp_gSnaMoveDir_800ABBA4 < 0)
+    {
+        njp_sna_start_anim_8004E1F4(work, njp_sna_anim_800C4A38);
+        njp_GM_ClearPlayerStatusFlag(PLAYER_MOVE);
+        njp_sna_8004E260(work, 0, 4, 0);
+        njp_FreeTargets(work);
+    }
+    else
+    {
+        angle = njp_sub_8004E4C0(work, njp_gSnaMoveDir_800ABBA4);
+        work->control.turn.vy = angle;
+        njp_sub_8004EA50(work, angle);
+    }
+}
 
 // @800C5E9C njp_sna_anim_slash_update_800C5E9C
 void njp_sna_anim_slash_update_800C5E9C(SnaInitWork *work, int time)
@@ -1612,7 +1716,7 @@ void njp_sna_anim_slash_update_800C5E9C(SnaInitWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_4.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
 //ASM-END
 
 // @800C6244 njp_sna_80051A10
@@ -1984,7 +2088,7 @@ void njp_sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_5.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_4.s")
 //ASM-END
 
 // @DATA
@@ -2026,6 +2130,10 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
+
+
 
 
 

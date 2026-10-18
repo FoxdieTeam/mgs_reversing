@@ -360,12 +360,12 @@
    "800C5A70"
   ],
   [
-   "njp_800C5A70",
+   "njp_sna_move_targets_800C5A70",
    "800C5A70",
    "800C5B18"
   ],
   [
-   "njp_800C5B18",
+   "njp_sna_check_hits_800C5B18",
    "800C5B18",
    "800C5C18"
   ],
@@ -375,7 +375,7 @@
    "800C5D4C"
   ],
   [
-   "njp_800C5D4C",
+   "njp_sna_anim_update_800C5D4C",
    "800C5D4C",
    "800C5E9C"
   ],
@@ -652,7 +652,10 @@
   "njp_sna_anim_spin_end_800C4E38",
   "njp_DG_ObjsMinY_800C5104",
   "njp_sna_anim_800C54EC",
+  "njp_sna_move_targets_800C5A70",
+  "njp_sna_check_hits_800C5B18",
   "njp_sna_anim_update_800C5C18",
+  "njp_sna_anim_update_800C5D4C",
   "njp_sna_anim_slash_update_800C5E9C",
   "njp_sna_80051A10",
   "njp_sna_80051BA4",
