@@ -4,6 +4,7 @@
 #include "libgv/libgv.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "strcode.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -18,15 +19,49 @@ typedef struct _Work
     GV_ACT     actor;
     int        m_opt;
     int        n_elems;
+#ifdef VR_EXE
+    int        name;    // 0x28
+#endif
     MotseElem *elems;
 } Work;
 
 /*---------------------------------------------------------------------------*/
 
+#ifdef VR_EXE
+// The VR revision dies when the "kill" message arrives
+static int CheckMessage(Work *work)
+{
+    GV_MSG *msg;
+    int     len;
+
+    len = GV_ReceiveMessage(work->name, &msg);
+    if (len > 0)
+    {
+        for (len--; len >= 0; msg++, len--)
+        {
+            if (msg->message[0] == HASH_KILL)
+            {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+#endif
+
 static void Act(Work *work)
 {
     MotseElem *elem;
     int        i;
+
+#ifdef VR_EXE
+    if (CheckMessage(work))
+    {
+        GV_DestroyActor(&work->actor);
+        return;
+    }
+#endif
 
     if ((GM_PlayerStatus & PLAYER_ACT_ONLY) && GM_PlayerAction == work->m_opt)
     {
@@ -63,6 +98,10 @@ static int GetResources(Work *work, int name)
         elems->param1 = GCL_StrToInt(param);
         elems->sound = GCL_StrToInt(GCL_NextStr());
     }
+
+#ifdef VR_EXE
+    work->name = name;
+#endif
 
     return 0;
 }
