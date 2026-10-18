@@ -64,6 +64,7 @@ void njp_FreeTargets(SnaInitWork *work);
 void njp_800C4E38(SnaInitWork *work, int time);
 void njp_sna_anim_idle_800C4200(SnaInitWork *work, int time);
 void njp_800C44CC(SnaInitWork *work, int time);
+void njp_800C4750(SnaInitWork *work, int time);
 void njp_800C4A38(SnaInitWork *work, int time);
 void njp_800C4A90(SnaInitWork *work, int time);
 void njp_800C4B44(SnaInitWork *work, int time);
@@ -1015,8 +1016,41 @@ void njp_sna_anim_run_begin_80053B88(SnaInitWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
-//ASM-END
+// @800C4298 njp_sna_anim_wall_crouch_80052CCC
+void njp_sna_anim_wall_crouch_80052CCC(SnaInitWork *work, int time)
+{
+    int sound;
+
+    if (time == 0)
+    {
+        if (njp_GM_CheckPlayerStatusFlag(PLAYER_CAUTION) == 0)
+        {
+            sound = SE_WALLPRESS;
+            if (njp_GM_CheckPlayerStatusFlag(PLAYER_IN_THE_WATER) != 0)
+            {
+                sound = 183;
+            }
+            GM_SeSet(&work->control.mov, sound);
+            work->control.turn.vy = njp_dword_800ABBD0 - 2048;
+            njp_GM_SetPlayerStatusFlag(PLAYER_CAUTION);
+        }
+
+        work->field_A28 = 300;
+        work->field_9C8_anim_update_fn_3p = njp_800C4750;
+        work->field_A26_stance = STAND;
+        work->field_9CC_anim_update_fn_1p = njp_800C6994;
+        njp_SetAction_8004E22C(work, 21, 4);
+    }
+
+    GM_CheckBehindCamera(work->control.map->hzd, &work->control);
+
+    if (work->field_A3A < 8 && njp_pVec_800ABBCC != NULL)
+    {
+        work->control.step.vx += njp_pVec_800ABBCC->vx / 8;
+        work->control.step.vz += njp_pVec_800ABBCC->vz / 8;
+        work->field_A3A++;
+    }
+}
 
 // @800C43CC njp_sna_anim_wall_move_80052BA8
 void njp_sna_anim_wall_move_80052BA8(SnaInitWork *work, int time)
@@ -1052,7 +1086,7 @@ void njp_sna_anim_wall_move_80052BA8(SnaInitWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
 //ASM-END
 
 // @800C48EC njp_nop_800C48EC
@@ -1073,7 +1107,7 @@ void njp_FreeTargets(SnaInitWork *work)
     work->njp_num_targets = 0;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
 //ASM-END
 
 // @800C6244 njp_sna_80051A10
@@ -1189,7 +1223,7 @@ int njp_sna_80051BA4(SnaInitWork *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_4.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
 //ASM-END
 
 // @800C67B0 njp_sna_80051FD0
@@ -1235,7 +1269,7 @@ void njp_sna_80051FD0(SnaInitWork *work)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_5.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_4.s")
 //ASM-END
 
 // @800C6AC0 njp_sna_anim_chokethrow_begin2_80058C80
@@ -1308,7 +1342,7 @@ void njp_sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_6.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_5.s")
 //ASM-END
 
 // @DATA
@@ -1350,6 +1384,7 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
 
 
 

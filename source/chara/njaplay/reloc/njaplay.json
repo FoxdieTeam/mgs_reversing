@@ -250,7 +250,7 @@
    "800C4298"
   ],
   [
-   "njp_800C4298",
+   "njp_sna_anim_wall_crouch_80052CCC",
    "800C4298",
    "800C43CC"
   ],
@@ -630,6 +630,7 @@
   "njp_sna_8004FDE8",
   "njp_sna_800C3898",
   "njp_sna_800C399C",
+  "njp_sna_select_action_800C3A30",
   "njp_sub_800507D8",
   "njp_sna_clear_target_800C41B4",
   "njp_sna_anim_idle_800C4200",
@@ -641,7 +642,7 @@
   "njp_sna_80051BA4",
   "njp_sna_80051FD0",
   "njp_sna_anim_chokethrow_begin2_80058C80",
-  "njp_sna_select_action_800C3A30"
+  "njp_sna_anim_wall_crouch_80052CCC"
  ],
  "bss_syms": {
   "800E5B48": [
