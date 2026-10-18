@@ -26,8 +26,15 @@ typedef struct _Work
     int     proc_id;
     int     flag;
     int     wait;
+#ifdef VR_EXE
+    int     last_fpv;   /* GM_Camera.first_person of the last frame */
+    int     dead;       /* HASH_KILL received: go away when the trap is not active */
+    int     field_4C;   /* unused */
+    int     field_50;   /* unused */
+#else
     int     field_44;   /* unused */
     int     field_48;   /* unused */
+#endif
 } Work;
 
 /*---------------------------------------------------------------------------*/
@@ -60,27 +67,62 @@ static void Act(Work *work)
         if (work->flag == 0)
         {
             work->flag = 1;
+#ifdef VR_EXE
+            work->last_fpv = 0;
+#endif
         }
         break;
     case 1:
+#ifdef VR_EXE
+        if (work->flag != 8 && !(work->flag & 4))
+        {
+            work->flag = 0;
+        }
+#else
         work->flag = 0;
+#endif
         break;
     case 2:
         work->flag = 8;
         GM_SetCameraCallbackFunc(0, FindEvent2);
         s12c_dword_800DAA58 = work->wait;
         break;
+#ifdef VR_EXE
+    case 3:
+        work->dead = 1;
+        break;
+#endif
     }
+
+#ifdef VR_EXE
+    if (!(work->flag & 1))
+    {
+        if (work->dead != 0)
+        {
+            GV_DestroyActor(&work->actor);
+        }
+    }
+#endif
 
     if (work->flag & 1)
     {
         if (work->flag == 1)
         {
+#ifdef VR_EXE
+            if (GM_Camera.first_person == work->flag && !(GM_Camera.flag & 0x100) &&
+                (GV_PadData->status & PAD_TRIANGLE) && !(GM_Camera.flag & 0x200))
+            {
+                fpv_flag = work->last_fpv;
+                /* NOTE: the body of the following if is shared with the main version (one nesting level less there) */
+                if (fpv_flag == GM_Camera.first_person && dword_8009F470 == 0)
+                {
+#else
             fpv_flag = GM_Camera.first_person;
 
             if (fpv_flag == work->flag && !(GM_Camera.flag & 0x100) &&
                 (GV_PadData->status & PAD_TRIANGLE) && dword_8009F470 == 0)
             {
+#endif
                 MATRIX   eye_inv;
                 SVECTOR  sxy;
                 SVECTOR  svec;
@@ -128,6 +170,9 @@ static void Act(Work *work)
                     s12c_dword_800DAA58 = wait;
                 }
             }
+#ifdef VR_EXE
+            }
+#endif
         }
         if ((work->flag & 2) && s12c_dword_800DAA5C != 0)
         {
@@ -139,6 +184,9 @@ static void Act(Work *work)
             work->flag &= ~2;
             work->flag |= 4;
         }
+#ifdef VR_EXE
+        work->last_fpv = GM_Camera.first_person;
+#endif
     }
 }
 
