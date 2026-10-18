@@ -41,43 +41,20 @@ int          SECTION(".bss") njp_bss_52;
 int          SECTION(".bss") njp_bss_56;
 int          SECTION(".bss") njp_bss_60;
 
-// data of the object (.data), in the order of the original
-u_char njp_dword_8009EED4[4] = {127, 4, 0, 0}; // pad vibration data
-u_char njp_dword_8009EED8[8] = {225, 1, 255, 2, 0, 0, 0, 0};
-u_char njp_dword_8009EEE0[4] = {127, 6, 0, 0};
-u_char njp_dword_8009EEE4[12] = {225, 1, 255, 4, 225, 2, 75, 8, 0, 0, 0, 0};
-u_char njp_dword_8009EF24[8] = {0, 2, 127, 2, 0, 0, 0, 0};
-u_char njp_dword_8009EF2C[8] = {60, 2, 200, 4, 40, 2, 0, 0};
-
-short njp_word_8009EFC0[10] = {0, 500, 0, 320, 400, 320, 400, 32, 32, 0};
-
-SVECTOR njp_svector_800AB7D4 = {0, 0, 100, 0};
-SVECTOR njp_svector_800AB7DC = {-1024, 0, 0, 0};
-
-SVECTOR njp_front_probe[3] = {{-300, 0, 400, 0}, {0, 0, 400, 0}, {300, 0, 400, 0}};
-
-SVECTOR njp_stru_8009EFD4[3][2] = {
-    {{10, -75, 0, 0}, {10, -75, -930, 0}},
-    {{10, -75, 0, 0}, {10, -75, -1130, 0}},
-    {{10, -75, 0, 0}, {10, -75, -930, 0}},
-};
-
-Target_Data njp_stru_8009EFE4 = {{0, 0, 0, 0}, {501, 600, 501, 0}, 0, 0, 7, 0};
-
-SVECTOR njp_svector_800AB7FC = {0, 0, -300, 0};
-
-// FIXME: the pad of this build is 4 bytes smaller than GV_PAD (the analog stick part is missing), the data ends here
-typedef struct NjpPad
-{
-    u_short status;
-    u_short press;
-    u_short release;
-    u_short quick;
-    short   dir;
-    short   analog;
-} NjpPad;
-
-NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+// data of the object (see the end of the file)
+extern u_char  njp_dword_8009EED4[4];
+extern u_char  njp_dword_8009EED8[8];
+extern u_char  njp_dword_8009EEE0[4];
+extern u_char  njp_dword_8009EEE4[12];
+extern u_char  njp_dword_8009EF24[8];
+extern u_char  njp_dword_8009EF2C[8];
+extern short   njp_word_8009EFC0[];
+extern SVECTOR njp_svector_800AB7D4;
+extern SVECTOR njp_svector_800AB7DC;
+extern SVECTOR njp_front_probe[3];
+extern SVECTOR njp_stru_8009EFD4[3][2];
+extern Target_Data njp_stru_8009EFE4;
+extern SVECTOR njp_svector_800AB7FC;
 
 #define GetAction( work ) (work->body.action)
 #define TARGET_FLAG ( TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
@@ -266,8 +243,11 @@ int njp_sub_8004E5E8(SnaInitWork *work, int flag)
     return 2;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_0.s")
-//ASM-END
+// @800C2914 njp_sna_8004EB14
+void njp_sna_8004EB14(SnaInitWork *work)
+{
+    memcpy(&work->field_9D0, &njp_word_8009EFC0, sizeof(work->field_9D0));
+}
 
 // @800C2974 njp_sub_8004EB74
 void njp_sub_8004EB74(SnaInitWork *work)
@@ -434,8 +414,22 @@ void njp_sna_act_helper2_helper4_8004F090(SnaInitWork *work, int param_2)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
-//ASM-END
+// @800C2CFC njp_sub_8004F204
+void njp_sub_8004F204(SnaInitWork *work)
+{
+    if (work->field_9A4_item_actor != 0)
+    {
+        GV_DestroyActorQuick(work->field_9A4_item_actor);
+    }
+
+    work->field_9A4_item_actor = 0;
+    work->field_9A8_current_item = IT_None;
+    GM_Item = IT_None;
+    work->field_9AC = GM_ItemTypes[0];
+
+    njp_sna_8004EC00(work);
+    njp_GM_ClearPlayerStatusFlag(PLAYER_WEAPON_DISABLE | PLAYER_CB_BOX);
+}
 
 // @800C2D68 njp_sna_set_invuln_8004F2A0
 void njp_sna_set_invuln_8004F2A0(SnaInitWork *work, char invuln_frames)
@@ -453,6 +447,47 @@ void njp_sna_clear_invuln_8004F2EC(SnaInitWork *work)
     work->field_89C_pTarget->class |= TARGET_FLAG;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_0.s")
 //ASM-END
+
+// @DATA
+// FIXME: the data is defined after the code on purpose: the code was compiled with only the type alignment of the
+// tables known (e.g. the 20 byte copy of njp_word_8009EFC0 is done with lwl/lwr).
+u_char njp_dword_8009EED4[4] = {127, 4, 0, 0}; // pad vibration data
+u_char njp_dword_8009EED8[8] = {225, 1, 255, 2, 0, 0, 0, 0};
+u_char njp_dword_8009EEE0[4] = {127, 6, 0, 0};
+u_char njp_dword_8009EEE4[12] = {225, 1, 255, 4, 225, 2, 75, 8, 0, 0, 0, 0};
+u_char njp_dword_8009EF24[8] = {0, 2, 127, 2, 0, 0, 0, 0};
+u_char njp_dword_8009EF2C[8] = {60, 2, 200, 4, 40, 2, 0, 0};
+
+short njp_word_8009EFC0[10] = {0, 500, 0, 320, 400, 320, 400, 32, 32, 0};
+
+SVECTOR njp_svector_800AB7D4 = {0, 0, 100, 0};
+SVECTOR njp_svector_800AB7DC = {-1024, 0, 0, 0};
+
+SVECTOR njp_front_probe[3] = {{-300, 0, 400, 0}, {0, 0, 400, 0}, {300, 0, 400, 0}};
+
+SVECTOR njp_stru_8009EFD4[3][2] = {
+    {{10, -75, 0, 0}, {10, -75, -930, 0}},
+    {{10, -75, 0, 0}, {10, -75, -1130, 0}},
+    {{10, -75, 0, 0}, {10, -75, -930, 0}},
+};
+
+Target_Data njp_stru_8009EFE4 = {{0, 0, 0, 0}, {501, 600, 501, 0}, 0, 0, 7, 0};
+
+SVECTOR njp_svector_800AB7FC = {0, 0, -300, 0};
+
+// FIXME: the pad of this build is 4 bytes smaller than GV_PAD (the analog stick part is missing), the data ends here
+typedef struct NjpPad
+{
+    u_short status;
+    u_short press;
+    u_short release;
+    u_short quick;
+    short   dir;
+    short   analog;
+} NjpPad;
+
+NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
 
