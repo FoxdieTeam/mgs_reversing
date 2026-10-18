@@ -1,4 +1,8 @@
 // (VR only) this file is empty in the main executable build
+// WORK IN PROGRESS, not linked anywhere yet: the think (800C9E84..800CC424) part of the vcd_n05 godzilla soldier. This is the s10a zako10 code
+// (renamed, GodzWork layout) and does NOT match the vcd_n05 bytes yet (godzila.c, godzene.c and godzcom.c are done, the
+// vcd_n05 asm chunks 800C4308 (check + action), 800C9E84 (think) are still asm). Orig functions and what differs:
+// see the commit message / report.
 #ifdef VR_EXE
 #include "godzila.h"
 #include "enemy/eyeflash.h"     // for NewEyeflash

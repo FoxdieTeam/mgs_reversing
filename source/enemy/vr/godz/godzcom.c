@@ -50,7 +50,7 @@ GODZ_COMMAND      SECTION(".bss") GodzCommand;
 
 
 void GODZ_SetTopCommAL( int alert );
-void s10a_zk10com_800CE3C0( void );
+void GodzSelectResetZone( void );
 
 int GODZ_GetIndex( GodzWork *work )
 {
@@ -119,7 +119,7 @@ end:
     return -1;
 }
 
-int s10a_zk10com_800CE308( char *ops, A4_STRUCT *unk )
+int GodzReadMapZones( char *ops, A4_STRUCT *unk )
 {
     int i;
     i = 0;
@@ -134,7 +134,7 @@ int s10a_zk10com_800CE308( char *ops, A4_STRUCT *unk )
     return i;
 }
 
-int s10a_zk10com_800CE368( char *ops, short* s )
+int GodzReadShorts( char *ops, short* s )
 {
     int i;
     unsigned char *res;
@@ -147,7 +147,7 @@ int s10a_zk10com_800CE368( char *ops, short* s )
     return i;
 }
 
-void s10a_zk10com_800CE3C0( void )
+void GodzSelectResetZone( void )
 {
     int i;
     int dist2;
@@ -178,7 +178,7 @@ void s10a_zk10com_800CE3C0( void )
     GodzCommand.reset_zone = reset_pos;
 }
 
-void s10a_zk10com_800CE4B0( GODZ_COMMAND* command )
+void GodzSortWatchers( GODZ_COMMAND* command )
 {
     int i;
     int t2;
@@ -231,7 +231,7 @@ void s10a_zk10com_800CE4B0( GODZ_COMMAND* command )
     }
 }
 
-void s10a_zk10com_800CE600( WATCHER *struct_c8 , int i )
+void GodzUpdateWatcher( WATCHER *struct_c8 , int i )
 {
     GodzWork *watcher;
     int x = struct_c8->field_08;
@@ -259,7 +259,7 @@ void s10a_zk10com_800CE600( WATCHER *struct_c8 , int i )
         case TOP_COMM_TRAVEL:
             if ( GodzCommand.field_110 & 1 )
             {
-                s10a_zk10com_800CE3C0();
+                GodzSelectResetZone();
                 struct_c8->field_04 = x;
                 struct_c8->field_08 = 0;
             }
@@ -268,7 +268,7 @@ void s10a_zk10com_800CE600( WATCHER *struct_c8 , int i )
             watcher = ( GodzWork * )struct_c8->watcher;
             if ( GodzCommand.n_reset < 255 && watcher->param.field_B7C == 0xFF )
             {
-                s10a_zk10com_800CE3C0();
+                GodzSelectResetZone();
                 struct_c8->field_04 = x;
                 struct_c8->field_08 = 0;
             }
@@ -284,7 +284,7 @@ int GodzMaxAlert( int a0, int a1 )
     return 0;
 }
 
-void s10a_zk10com_800CE744( int val, GODZ_COMMAND* command )
+void GodzUpdateAlertLevel( int val, GODZ_COMMAND* command )
 {
     if ( command->alert - val > 4 )
     {
@@ -303,7 +303,7 @@ void s10a_zk10com_800CE744( int val, GODZ_COMMAND* command )
     GODZ_SetTopCommAL( 0 );
 }
 
-void s10a_zk10com_800CE7A8( GODZ_COMMAND *command )
+void GodzUpdateMode( GODZ_COMMAND *command )
 {
     int alert;
 
@@ -356,24 +356,24 @@ void s10a_zk10com_800CE7A8( GODZ_COMMAND *command )
     GodzTopCommand.mode = command->mode;
 }
 
-void s10a_zk10com_800CE8DC( void )
+void GodzNop( void )
 {
     /* do nothing */
 }
 
-int s10a_zk10com_800CE8E4( void )
+int GodzReturnZero( void )
 {
     return 0;
 }
 
-void s10a_zk10com_800CE8EC( GodzCommanderWork* work )
+void GodzUpdateCommander( GodzCommanderWork* work )
 {
     int i;
     int alert;
     GodzWork *watcher;
 
-    s10a_zk10com_800CE8DC();
-    s10a_zk10com_800CE8E4();
+    GodzNop();
+    GodzReturnZero();
 
     alert = 0;
 
@@ -386,13 +386,13 @@ void s10a_zk10com_800CE8EC( GodzCommanderWork* work )
         }
         else if ( GodzCommand.watchers[ i ].field_04 == 1 )
         {
-            s10a_zk10com_800CE600( &GodzCommand.watchers[ i ], i );
+            GodzUpdateWatcher( &GodzCommand.watchers[ i ], i );
         }
     }
 
-    s10a_zk10com_800CE744( alert, &GodzCommand );
-    s10a_zk10com_800CE7A8( &GodzCommand );
-    s10a_zk10com_800CE4B0( &GodzCommand );
+    GodzUpdateAlertLevel( alert, &GodzCommand );
+    GodzUpdateMode( &GodzCommand );
+    GodzSortWatchers( &GodzCommand );
 
     GodzCommand.field_110 = 0;
 }
@@ -413,7 +413,7 @@ void GodzUpdateLastPosition( void )
     }
 }
 
-int s10a_zk10com_800CEA54( char *arg0 )
+int GodzExecProcs( char *arg0 )
 {
     int i;
     unsigned char* res;
@@ -434,7 +434,7 @@ int s10a_zk10com_800CEA54( char *arg0 )
     return i;
 }
 
-int s10a_zk10com_800CEAB8( void )
+int GodzReceiveMessage( void )
 {
     GV_MSG *msg;
 
@@ -461,7 +461,7 @@ static void Act( GodzCommanderWork* work )
 
     GodzCountTimer();
     GodzUpdateLastPosition();
-    s10a_zk10com_800CE8EC( work );
+    GodzUpdateCommander( work );
     GodzCommand.counter++;
 }
 
@@ -469,7 +469,7 @@ static void Die( GodzCommanderWork* work )
 {
 }
 
-void s10a_zk10com_800CEC44( SVECTOR *pos )
+void GodzSetCameraPos( SVECTOR *pos )
 {
     GodzCameraPos = *pos;
     GM_Camera.interp_mode = 2;
@@ -512,7 +512,7 @@ static void GetResources( GodzCommanderWork *work, int name, int where )
     ops = GCL_GetOption( 'v' );
     if ( ops )
     {
-        GodzCommand.n_zones = s10a_zk10com_800CE368( ops, GodzCommand.zones );
+        GodzCommand.n_zones = GodzReadShorts( ops, GodzCommand.zones );
     }
     else
     {
@@ -531,7 +531,7 @@ static void GetResources( GodzCommanderWork *work, int name, int where )
     ops = GCL_GetOption( 'j' );
     if ( ops )
     {
-        GodzCommand.field_6C.n_entry = s10a_zk10com_800CE308( ops, &GodzCommand.field_6C );
+        GodzCommand.field_6C.n_entry = GodzReadMapZones( ops, &GodzCommand.field_6C );
     }
     else
     {
@@ -556,21 +556,21 @@ static void GetResources( GodzCommanderWork *work, int name, int where )
     ops = GCL_GetOption( 'n' );
     if ( ops )
     {
-        GodzCommand.n_watchers = s10a_zk10com_800CEA54( ops );
+        GodzCommand.n_watchers = GodzExecProcs( ops );
     }
 
     GodzCommand.n_proc_c = 0;
     ops = GCL_GetOption( 'c' );
     if ( ops )
     {
-        GodzCommand.n_proc_c = s10a_zk10com_800CEA54( ops );
+        GodzCommand.n_proc_c = GodzExecProcs( ops );
     }
 
     GodzCommand.n_proc_s = 0;
     ops = GCL_GetOption( 's' );
     if ( ops )
     {
-        GodzCommand.n_proc_s = s10a_zk10com_800CEA54( ops );
+        GodzCommand.n_proc_s = GodzExecProcs( ops );
     }
 
     GodzCommand.field_114 = 0;

@@ -84,7 +84,7 @@ void GodzCheckHit( GodzWork *work )
     }
 }
 
-int s10a_zk10enemy_800CB4FC( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
+int GodzZoneDistance( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
 {
     int from;
     int to;
@@ -101,7 +101,7 @@ int s10a_zk10enemy_800CB4FC( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
     } while (0);
 }
 
-void s10a_zk10enemy_800CB55C( GodzWork* work )
+void GodzCheckNoise( GodzWork* work )
 {
     CONTROL *ctrl;
     if ( !( work->modetime[7] & 1 ) )
@@ -144,7 +144,7 @@ void s10a_zk10enemy_800CB55C( GodzWork* work )
     case 255:
         break;
     case 100:
-        if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) < 8000 && s10a_zk10enemy_800CB4FC( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition ) < 300  )
+        if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) < 8000 && GodzZoneDistance( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition ) < 300  )
         {
             work->modetime[6] |= 1;
             GM_NoiseLength = 0;
@@ -158,7 +158,7 @@ void s10a_zk10enemy_800CB55C( GodzWork* work )
     work->modetime[6] |= 1;
 }
 
-void s10a_zk10enemy_800CB6DC( GodzWork *work )
+void GodzCheckSnakeBox( GodzWork *work )
 {
 
     if ( work->modetime[7] & 2 && work->vision.field_B92 == 2 && ( ( GM_PlayerStatus & PLAYER_CB_BOX ) == PLAYER_CB_BOX ) )
@@ -188,7 +188,7 @@ void s10a_zk10enemy_800CB6DC( GodzWork *work )
     }
 }
 
-void s10a_zk10enemy_800CB804( GodzWork* work )
+void GodzCheckFootprints( GodzWork* work )
 {
     HZD_HDL *hzd;
     CONTROL *ctrl;
@@ -220,20 +220,20 @@ void s10a_zk10enemy_800CB804( GodzWork* work )
     work->modetime[6] |= 16;
 }
 
-void s10a_zk10enemy_800CB8B0( GodzWork* work )
+void GodzCheckSenses( GodzWork* work )
 {
     work->modetime[6] = 0;
-    s10a_zk10enemy_800CB55C( work );
+    GodzCheckNoise( work );
 
     if ( GodzCommand.mode != TOP_COMM_ALERT )
     {
         GodzCheckHit( work );
-        s10a_zk10enemy_800CB6DC( work );
-        s10a_zk10enemy_800CB804( work );
+        GodzCheckSnakeBox( work );
+        GodzCheckFootprints( work );
     }
 }
 
-void s10a_zk10enemy_800CB904( GodzWork* work )
+void GodzUpdateAlert( GodzWork* work )
 {
     int val;
     val = work->vision.field_B92;
@@ -358,8 +358,8 @@ void GodzActionMain( GodzWork *work )
      {
         GodzSetRadarParam( work );
         GodzCheckSight( work );
-        s10a_zk10enemy_800CB8B0( work );
-        s10a_zk10enemy_800CB904( work );
+        GodzCheckSenses( work );
+        GodzUpdateAlert( work );
         GodzThink( work );
         GODZ_ExecPutChar( work );
     }

@@ -22,7 +22,7 @@ extern SVECTOR GODZ_ATTACK_FORCE;
 extern SVECTOR GODZ_TOUCH_SIZE;
 extern SVECTOR GODZ_TOUCH_FORCE;
 
-// number of the soldier names in the guard table (see GodzCommand.watchers)
+// eye length of the soldiers, indexed by the watcher index
 int GodzEyeLengthTable[8] =
 {
     4000, 4000, 7000, 8000, 8000, 8000, 8000, 8000
