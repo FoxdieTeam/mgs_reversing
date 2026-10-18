@@ -1,0 +1,24 @@
+{
+ "lo": "800C4DB8",
+ "hi": "800C7FD0",
+ "rdata": [
+  [
+   "800DE6EC",
+   "godz_str_okiagari",
+   "str"
+  ],
+  [
+   "800DE704",
+   "godz_str_turn",
+   "str"
+  ]
+ ],
+ "data": [
+  [
+   "800C12D0",
+   "godzact_data",
+   55
+  ]
+ ],
+ "c": {}
+}
