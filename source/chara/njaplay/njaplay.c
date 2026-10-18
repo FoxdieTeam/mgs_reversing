@@ -61,7 +61,7 @@ extern SVECTOR njp_svector_800AB7FC;
 
 void njp_FreeTargets(SnaInitWork *work);
 
-void njp_800C4E38(SnaInitWork *work, int time);
+void njp_sna_anim_spin_end_800C4E38(SnaInitWork *work, int time);
 void njp_sna_anim_idle_800C4200(SnaInitWork *work, int time);
 void njp_sna_anim_idle_update_800C44CC(SnaInitWork *work, int time);
 void njp_sna_anim_800C4A38(SnaInitWork *work, int time);
@@ -704,7 +704,7 @@ void njp_sna_stealth_800C33C8(SnaInitWork *work)
             njp_sna_set_invuln_8004F2A0(work, 0);
             GM_GameOverTimer = -1;
             njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
-            njp_sna_start_anim_8004E1F4(work, njp_800C4E38);
+            njp_sna_start_anim_8004E1F4(work, njp_sna_anim_spin_end_800C4E38);
             work->njp_mode = 3;
             work->field_9A8_current_item = IT_Stealth;
         }
@@ -1438,7 +1438,7 @@ void njp_sna_anim_spin_800C4BA4(SnaInitWork *work, int time)
         njp_sna_set_invuln_8004F2A0(work, 0);
         GM_GameOverTimer = -1;
         njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
-        njp_sna_start_anim_8004E1F4(work, njp_800C4E38);
+        njp_sna_start_anim_8004E1F4(work, njp_sna_anim_spin_end_800C4E38);
         work->njp_mode = 3;
     }
     else if (!(work->field_9B0_pad_ptr->status & PAD_R1))
@@ -1449,8 +1449,51 @@ void njp_sna_anim_spin_800C4BA4(SnaInitWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
-//ASM-END
+// @800C4E38 njp_sna_anim_spin_end_800C4E38
+void njp_sna_anim_spin_end_800C4E38(SnaInitWork *work, int time)
+{
+    if (time == 0)
+    {
+        work->field_9C8_anim_update_fn_3p = njp_nop_800C48EC;
+        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        njp_SetAction_8004E22C(work, 19, 4);
+    }
+
+    switch (work->field_A38_local_data)
+    {
+    case 0:
+        if (work->body.is_end != 0)
+        {
+            njp_SetAction_8004E22C(work, 12, 4);
+            GM_SeSetMode(&work->control.mov, 199, 1);
+            njp_sna_800C3318(work);
+            njp_sna_spin_targets(work);
+            work->field_A38_local_data++;
+        }
+        break;
+
+    case 1:
+        if (work->field_A3A % 10 == 0)
+        {
+            GM_SeSetMode(&work->control.mov, 208, 1);
+        }
+
+        work->field_A3A++;
+
+        if (work->field_A3A == 24)
+        {
+            njp_sna_800C3270(work);
+            work->njp_mode = 3;
+        }
+
+        if (work->field_A3A == 32)
+        {
+            njp_sna_800C3318(work);
+            njp_sna_spin_targets(work);
+        }
+        break;
+    }
+}
 
 // @800C5104 njp_DG_ObjsMinY_800C5104
 // lowest y of the models of the objects
@@ -1478,7 +1521,7 @@ int njp_DG_ObjsMinY_800C5104(DG_OBJS *objs)
     return min;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
 //ASM-END
 
 // @800C6244 njp_sna_80051A10
@@ -1594,7 +1637,7 @@ int njp_sna_80051BA4(SnaInitWork *work)
     return 0;
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
 //ASM-END
 
 // @800C67B0 njp_sna_80051FD0
@@ -1640,7 +1683,7 @@ void njp_sna_80051FD0(SnaInitWork *work)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_4.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
 //ASM-END
 
 // @800C6AC0 njp_sna_anim_chokethrow_begin2_80058C80
@@ -1713,7 +1756,7 @@ void njp_sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_5.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_4.s")
 //ASM-END
 
 // @DATA
@@ -1755,6 +1798,7 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
 
 
 
