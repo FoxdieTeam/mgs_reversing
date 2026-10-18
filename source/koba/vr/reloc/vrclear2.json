@@ -45,7 +45,7 @@
    "800DED20"
   ],
   [
-   "Vrclear2_800DED20",
+   "Vrclear2DrawResult",
    "800DED20",
    "800DEF84"
   ],
@@ -55,7 +55,7 @@
    "800DF134"
   ],
   [
-   "Vrclear2_800DF134",
+   "Vrclear2DrawTitle",
    "800DF134",
    "800DF420"
   ],
@@ -75,12 +75,12 @@
    "800DF6F4"
   ],
   [
-   "Vrclear2_800DF6F4",
+   "DrawWindow",
    "800DF6F4",
    "800DF908"
   ],
   [
-   "Vrclear2Draw",
+   "Draw",
    "800DF908",
    "800DFC58"
   ],
@@ -347,7 +347,9 @@
   "CheckMessage",
   "Act",
   "Die",
-  "NewVrClear2"
+  "NewVrClear2",
+  "DrawWindow",
+  "Draw"
  ],
  "globl": true
 }

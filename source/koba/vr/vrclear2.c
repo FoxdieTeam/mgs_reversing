@@ -8,7 +8,10 @@
 #include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "game/strctrl.h"
+#include "linkvar.h"
 #include "menu/menuman.h"
 #include "vr.h"
 #include "vrmenu.h"
@@ -44,14 +47,19 @@
 
 // Work::state (menu)
 #define MENU_SELECT         0
+#define MENU_IDLE           1
+#define MENU_WAIT_OPEN      2
 #define MENU_DECIDED        3
+#define MENU_OPEN_WINDOW    4
+#define MENU_CLOSING        5
+#define MENU_HIDDEN         6
 
 // Work::act_state
 #define ACT_WAIT            0                   // waits for the "clear" message
 #define ACT_INIT            1
 #define ACT_MAIN            2
 
-// The Work of vrclear.c with a few more fields (the fields not used by the C functions below are unknown yet)
+// The Work of vrclear.c with a few more fields (the fields that are not used by the C functions are still unknown)
 typedef struct _Work
 {
     GV_ACT      actor;                  // 0x000
@@ -60,13 +68,34 @@ typedef struct _Work
     short       sel;                    // 0x024 button under the cursor
     short       state;                  // 0x026
     int         name;                   // 0x028
-    char        pad_2C[0xDC];           // 0x02C
+    int         voice[4];               // 0x02C
+    int         timer;                  // 0x03C
+    char        pad_40[0x30];           // 0x040
+    DR_AREA     area[2];                // 0x070
+    DR_ENV      env[2];                 // 0x088
     int         last_pad;               // 0x108
-    char        pad_10C[0x2AA];         // 0x10C
+    RECT        cursor;                 // 0x10C
+    POLY_FT4    cursor_polys[2][8];     // 0x114
+    TILE        cursor_tiles[2];        // 0x394
+    short       pad_3B4;                // 0x3B4
     short       repeat;                 // 0x3B6
-    char        pad_3B8[2];             // 0x3B8
+    u_char      weapon;                 // 0x3B8
+    u_char      unit;                   // 0x3B9 frames per remaining bullet
     u_char      n_buttons;              // 0x3BA
-    char        pad_3BB[0x3EC - 0x3BB]; // 0x3BB
+    char        pad_3BB;                // 0x3BB
+    char       *title[2];               // 0x3BC
+    char       *stage_var;              // 0x3C4
+    int         f3C8;                   // 0x3C8
+    short       title_x;                // 0x3CC
+    short       pad_3CE;                // 0x3CE
+    int         win_h;                  // 0x3D0
+    int         win_w;                  // 0x3D4
+    char        pad_3D8[8];             // 0x3D8
+    int         mode;                   // 0x3E0
+    int         weapon_name;            // 0x3E4
+    u_char      category;               // 0x3E8
+    u_char      level;                  // 0x3E9
+    char        pad_3EA[2];             // 0x3EA
     int         act_state;              // 0x3EC
     char        pad_3F0[4];             // 0x3F0
     u_int       replay : 1;             // 0x3F4
@@ -87,6 +116,8 @@ u_short *SECTION(".bss") vrclear2_replay_data;
 extern VR_MENU_ITEM vrclear2_buttons[NUM_BUTTONS];
 
 // still in the relocatable asm
+void Vrclear2DrawTitle(Work *work);
+void Vrclear2DrawResult(int timer, Work *work);
 int Vrclear2GetResources(Work *work, int where);
 void Vrclear2Init(Work *work);
 void Vrclear2Draw(Work *work);
@@ -331,6 +362,168 @@ static int CheckMessage(Work *work)
     }
 
     return 0;
+}
+
+static void DrawWindow(Work *work)
+{
+    RECT rect;
+
+    if (work->win_h < 111)
+    {
+        work->win_h += 12;
+    }
+    else
+    {
+        work->win_h = 111;
+    }
+
+    if (work->win_w < 160)
+    {
+        work->win_w += 12;
+    }
+    else
+    {
+        work->win_w = 160;
+    }
+
+    rect.x = work->win_w;
+    rect.y = work->win_h;
+    rect.w = FRAME_WIDTH - work->win_w * 2;
+    rect.h = FRAME_HEIGHT - work->win_h * 2;
+    SetDrawArea(&work->area[0], &rect);
+
+    rect.x = work->win_w + FRAME_WIDTH;
+    rect.y = work->win_h;
+    rect.w = FRAME_WIDTH - work->win_w * 2;
+    rect.h = FRAME_HEIGHT - work->win_h * 2;
+    SetDrawArea(&work->area[1], &rect);
+
+    if ((work->timer << 6) > 320)
+    {
+        // FIXME: written as *(env + n) so the address is summed as (n * 64) + work
+        *(work->env + GV_Clock) = DG_Chanl(0)->env1[GV_Clock];
+        addPrim(DG_ChanlOTag(0) + 196, &work->area[GV_Clock]);
+        addPrim(DG_ChanlOTag(0), &work->env[GV_Clock]);
+    }
+}
+
+static void Draw(Work *work)
+{
+    VR_MENU_ITEM *button;
+    int           n;
+    int           busy;
+    int           skip;
+
+    Vrclear2DrawTitle(work);
+
+    switch (work->state)
+    {
+    case MENU_SELECT:
+        work->cur = work->sel;
+
+        button = vrclear2_buttons;
+        for (n = work->n_buttons; n != 0; n--)
+        {
+            VrMenu_DrawItem(button);
+            button++;
+        }
+
+        Vrclear2DrawResult(work->timer++, work);
+        DrawWindow(work);
+
+        if (!(VR_Flags & VRFLAG_AMMO_BONUS))
+        {
+            MoveCursor(work);
+            VrMenu_UpdateFrame(&work->cursor, &vrclear2_buttons[work->sel].label,
+                              work->cursor_polys[GV_Clock], &work->cursor_tiles[GV_Clock]);
+        }
+        else if (CheckPad(work))
+        {
+            skip = linkvarbuf[work->weapon + 16] * 2 + 30;
+            if (skip < work->timer)
+            {
+                skip = work->timer;
+            }
+
+            work->timer = skip;
+        }
+        break;
+
+    case MENU_IDLE:
+        break;
+
+    case MENU_WAIT_OPEN:
+        work->count++;
+
+        if (OpenButtons(CheckMessage(work)))
+        {
+            work->state = MENU_SELECT;
+            work->count = 0;
+            work->timer = 0;
+
+            if (work->voice[0] != 0 && !work->replay)
+            {
+                GM_StreamPlayStart();
+            }
+
+            work->last_pad = GV_PadData[2].status;
+        }
+        break;
+
+    case MENU_OPEN_WINDOW:
+        DrawWindow(work);
+        work->timer++;
+        break;
+
+    case MENU_DECIDED:
+    case MENU_CLOSING:
+        busy = 0;
+
+        button = vrclear2_buttons;
+        for (n = work->n_buttons; n != 0; n--)
+        {
+            VrMenu_DrawItem(button);
+
+            if (button != &vrclear2_buttons[work->cur])
+            {
+                busy |= (button->state != VR_MENU_ITEM_STATE_CLOSED && button->state != VR_MENU_ITEM_STATE_OPEN);
+            }
+
+            button++;
+        }
+
+        Vrclear2DrawResult(work->timer++, work);
+        DrawWindow(work);
+
+        if (!busy && work->state == MENU_DECIDED)
+        {
+            if (work->cur == BUTTON_EXIT && work->replay)
+            {
+                GCL_SetVar(work->stage_var, -1);
+            }
+
+            // FIXME: executed twice, the fade out of vrclear.c is missing here
+            VrMenu_ExecItem(&vrclear2_buttons[work->cur]);
+            work->state = MENU_CLOSING;
+            VrMenu_ExecItem(&vrclear2_buttons[work->cur]);
+            work->state = MENU_CLOSING;
+        }
+
+        VrMenu_UpdateFrame(&work->cursor, &vrclear2_buttons[work->sel].label,
+                          work->cursor_polys[GV_Clock], &work->cursor_tiles[GV_Clock]);
+        break;
+
+    case MENU_HIDDEN:
+        DrawWindow(work);
+
+        button = vrclear2_buttons;
+        for (n = work->n_buttons; n != 0; n--)
+        {
+            VrMenu_DrawItem(button);
+            button++;
+        }
+        break;
+    }
 }
 
 #pragma INCLUDE_ASM_RELOC("source/koba/vr/reloc/vrclear2_1.s")

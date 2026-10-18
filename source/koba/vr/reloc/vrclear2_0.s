@@ -202,8 +202,8 @@ $LVrclear2_800DEA38_5:
 	.set	noat
 	.set	nomacro
 	.text
-	.globl	Vrclear2_800DED20
-Vrclear2_800DED20:
+	.globl	Vrclear2DrawResult
+Vrclear2DrawResult:
 	addiu	$29,$29,-80
 	sw	$21,68($29)
 	addu	$21,$4,$0
@@ -228,27 +228,27 @@ Vrclear2_800DED20:
 	nop
 	sw	$7,44($29)
 	andi	$2,$2,0x8
-	beq	$2,$0,$LVrclear2_800DED20_11
+	beq	$2,$0,$LVrclear2DrawResult_11
 	addu	$19,$5,$0
 	addiu	$4,$0,208
 	addiu	$5,$0,107
 	jal	MENU_Color
 	addiu	$6,$0,57
 	slti	$2,$21,9
-	beq	$2,$0,$LVrclear2_800DED20_0
+	beq	$2,$0,$LVrclear2DrawResult_0
 	addiu	$17,$0,8
 	addu	$17,$21,$0
-$LVrclear2_800DED20_0:
+$LVrclear2DrawResult_0:
 	lw	$2,%lo(VR_Flags)($16)
 	nop
 	andi	$2,$2,0x6
 	srl	$20,$2,1
 	slti	$2,$20,3
-	bne	$2,$0,$LVrclear2_800DED20_1
+	bne	$2,$0,$LVrclear2DrawResult_1
 	nop
 	addiu	$20,$0,-1
-$LVrclear2_800DED20_1:
-	bltz	$20,$LVrclear2_800DED20_2
+$LVrclear2DrawResult_1:
+	bltz	$20,$LVrclear2DrawResult_2
 	addiu	$18,$0,60
 	lui	$2,0x8888
 	ori	$2,$2,0x8889
@@ -262,26 +262,26 @@ $LVrclear2_800DED20_1:
 	sll	$2,$3,4
 	subu	$2,$2,$3
 	sll	$2,$2,1
-	bne	$4,$2,$LVrclear2_800DED20_2
+	bne	$4,$2,$LVrclear2DrawResult_2
 	nop
 	lw	$2,1012($19)
 	nop
 	andi	$2,$2,0x1
-	bne	$2,$0,$LVrclear2_800DED20_2
+	bne	$2,$0,$LVrclear2DrawResult_2
 	addu	$4,$0,$0
 	addiu	$5,$0,63
 	jal	GM_SeSet2
 	addiu	$6,$0,192
-$LVrclear2_800DED20_2:
+$LVrclear2DrawResult_2:
 	lw	$2,1012($19)
 	nop
 	andi	$2,$2,0x1
-	beq	$2,$0,$LVrclear2_800DED20_3
+	beq	$2,$0,$LVrclear2DrawResult_3
 	addu	$16,$0,$0
 	addiu	$16,$0,3
-$LVrclear2_800DED20_3:
+$LVrclear2DrawResult_3:
 	slti	$2,$16,4
-	beq	$2,$0,$LVrclear2_800DED20_11
+	beq	$2,$0,$LVrclear2DrawResult_11
 	lui	$2,0x8888
 	ori	$2,$2,0x8889
 	mult	$21,$2
@@ -296,31 +296,31 @@ $LVrclear2_800DED20_3:
 	sra	$2,$2,3
 	subu	$2,$2,$3
 	andi	$21,$2,0x1
-$LVrclear2_800DED20_4:
-	bne	$16,$20,$LVrclear2_800DED20_5
+$LVrclear2DrawResult_4:
+	bne	$16,$20,$LVrclear2DrawResult_5
 	addiu	$2,$0,3
-	beq	$21,$0,$LVrclear2_800DED20_10
+	beq	$21,$0,$LVrclear2DrawResult_10
 	nop
-$LVrclear2_800DED20_5:
-	bne	$16,$2,$LVrclear2_800DED20_6
+$LVrclear2DrawResult_5:
+	bne	$16,$2,$LVrclear2DrawResult_6
 	sb	$0,0($22)
 	addiu	$18,$18,12
-$LVrclear2_800DED20_6:
+$LVrclear2DrawResult_6:
 	lui	$2,%hi(VR_Records)
 	addiu	$2,$2,%lo(VR_Records)
 	addu	$2,$17,$2
 	lw	$2,0($2)
 	nop
-	blez	$2,$LVrclear2_800DED20_7
+	blez	$2,$LVrclear2DrawResult_7
 	addiu	$5,$0,107
 	addiu	$4,$0,208
-	j	$LVrclear2_800DED20_8
+	j	$LVrclear2DrawResult_8
 	addiu	$6,$0,57
-$LVrclear2_800DED20_7:
+$LVrclear2DrawResult_7:
 	addiu	$4,$0,104
 	addiu	$5,$0,53
 	addiu	$6,$0,28
-$LVrclear2_800DED20_8:
+$LVrclear2DrawResult_8:
 	jal	MENU_Color
 	nop
 	addiu	$4,$0,221
@@ -333,10 +333,10 @@ $LVrclear2_800DED20_8:
 	addu	$2,$17,$2
 	lw	$5,0($2)
 	nop
-	bgez	$5,$LVrclear2_800DED20_9
+	bgez	$5,$LVrclear2DrawResult_9
 	nop
 	subu	$5,$0,$5
-$LVrclear2_800DED20_9:
+$LVrclear2DrawResult_9:
 	jal	MENU_Printf
 	addiu	$4,$4,%lo(vrclear2_str_d)
 	addiu	$4,$0,208
@@ -351,14 +351,14 @@ $LVrclear2_800DED20_9:
 	lw	$5,16($19)
 	jal	MENU_Printf
 	addiu	$4,$4,%lo(vrclear2_str_s)
-$LVrclear2_800DED20_10:
+$LVrclear2DrawResult_10:
 	addiu	$18,$18,12
 	addiu	$19,$19,4
 	addiu	$16,$16,1
 	slti	$2,$16,4
-	bne	$2,$0,$LVrclear2_800DED20_4
+	bne	$2,$0,$LVrclear2DrawResult_4
 	addiu	$17,$17,4
-$LVrclear2_800DED20_11:
+$LVrclear2DrawResult_11:
 	lw	$31,76($29)
 	lw	$22,72($29)
 	lw	$21,68($29)
@@ -500,8 +500,8 @@ $LVrclear2_800DEF84_8:
 	.set	noat
 	.set	nomacro
 	.text
-	.globl	Vrclear2_800DF134
-Vrclear2_800DF134:
+	.globl	Vrclear2DrawTitle
+Vrclear2DrawTitle:
 	addiu	$29,$29,-64
 	sw	$16,24($29)
 	addu	$16,$4,$0
@@ -541,32 +541,32 @@ Vrclear2_800DF134:
 	lw	$2,%lo(VR_Flags)($2)
 	addiu	$3,$3,48
 	andi	$2,$2,0x8
-	bne	$2,$0,$LVrclear2_800DF134_0
+	bne	$2,$0,$LVrclear2DrawTitle_0
 	sb	$3,16($29)
 	addiu	$18,$0,15
-$LVrclear2_800DF134_0:
+$LVrclear2DrawTitle_0:
 	lh	$3,38($16)
 	addiu	$2,$0,6
-	beq	$3,$2,$LVrclear2_800DF134_11
+	beq	$3,$2,$LVrclear2DrawTitle_11
 	nop
 	lw	$3,972($16)
 	nop
 	slti	$2,$3,161
-	bne	$2,$0,$LVrclear2_800DF134_2
+	bne	$2,$0,$LVrclear2DrawTitle_2
 	addu	$17,$0,$0
 	addiu	$2,$0,320
-	bne	$3,$2,$LVrclear2_800DF134_1
+	bne	$3,$2,$LVrclear2DrawTitle_1
 	addu	$4,$0,$0
 	addiu	$5,$0,63
 	jal	GM_SeSet2
 	addiu	$6,$0,195
-$LVrclear2_800DF134_1:
+$LVrclear2DrawTitle_1:
 	lw	$2,972($16)
 	nop
 	addiu	$2,$2,-20
 	sw	$2,972($16)
 	addu	$17,$0,$0
-$LVrclear2_800DF134_2:
+$LVrclear2DrawTitle_2:
 	lui	$7,%hi(vrclear2_str_s)
 	addiu	$23,$7,%lo(vrclear2_str_s)
 	lui	$2,%hi(vrclear2_buttons+600)
@@ -576,13 +576,13 @@ $LVrclear2_800DF134_2:
 	addiu	$20,$18,40
 	addiu	$19,$0,320
 	addiu	$18,$18,25
-$LVrclear2_800DF134_3:
-	beq	$17,$0,$LVrclear2_800DF134_4
+$LVrclear2DrawTitle_3:
+	beq	$17,$0,$LVrclear2DrawTitle_4
 	addiu	$4,$0,50
 	addu	$5,$4,$0
-	j	$LVrclear2_800DF134_5
+	j	$LVrclear2DrawTitle_5
 	addu	$6,$4,$0
-$LVrclear2_800DF134_4:
+$LVrclear2DrawTitle_4:
 	addiu	$4,$0,200
 	lui	$2,%hi(GV_Clock)
 	lw	$2,%lo(GV_Clock)($2)
@@ -592,14 +592,14 @@ $LVrclear2_800DF134_4:
 	sll	$6,$6,3
 	addu	$6,$6,$2
 	sll	$6,$6,3
-$LVrclear2_800DF134_5:
+$LVrclear2DrawTitle_5:
 	jal	MENU_Color
 	nop
 	lw	$2,1012($16)
 	nop
 	srl	$2,$2,3
 	andi	$2,$2,0x1
-	beq	$2,$0,$LVrclear2_800DF134_6
+	beq	$2,$0,$LVrclear2DrawTitle_6
 	addu	$5,$18,$0
 	lw	$4,972($16)
 	addiu	$6,$0,18
@@ -614,19 +614,19 @@ $LVrclear2_800DF134_5:
 	jal	MENU_Locate
 	subu	$4,$19,$4
 	lw	$5,960($16)
-	j	$LVrclear2_800DF134_10
+	j	$LVrclear2DrawTitle_10
 	addu	$4,$23,$0
-$LVrclear2_800DF134_6:
+$LVrclear2DrawTitle_6:
 	lw	$2,1000($16)
 	nop
-	beq	$2,$0,$LVrclear2_800DF134_9
+	beq	$2,$0,$LVrclear2DrawTitle_9
 	addiu	$6,$0,18
 	lw	$4,972($16)
 	jal	MENU_Locate
 	addu	$4,$4,$17
 	lw	$2,996($16)
 	nop
-	beq	$2,$0,$LVrclear2_800DF134_7
+	beq	$2,$0,$LVrclear2DrawTitle_7
 	sll	$2,$2,2
 	addu	$2,$2,$22
 	lui	$4,%hi(vrclear2_str_fmt_dash)
@@ -635,9 +635,9 @@ $LVrclear2_800DF134_6:
 	sll	$3,$3,2
 	addu	$3,$3,$21
 	lw	$5,0($3)
-	j	$LVrclear2_800DF134_8
+	j	$LVrclear2DrawTitle_8
 	addiu	$4,$4,%lo(vrclear2_str_fmt_dash)
-$LVrclear2_800DF134_7:
+$LVrclear2DrawTitle_7:
 	lui	$4,%hi(vrclear2_str_fmt_ss)
 	lw	$2,992($16)
 	lw	$6,%lo(vrclear2_buttons+668)($30)
@@ -645,7 +645,7 @@ $LVrclear2_800DF134_7:
 	addu	$2,$2,$21
 	lw	$5,0($2)
 	addiu	$4,$4,%lo(vrclear2_str_fmt_ss)
-$LVrclear2_800DF134_8:
+$LVrclear2DrawTitle_8:
 	jal	MENU_Printf
 	nop
 	addu	$5,$20,$0
@@ -655,9 +655,9 @@ $LVrclear2_800DF134_8:
 	subu	$4,$19,$4
 	lui	$4,%hi(vrclear2_str_level_cleared)
 	addiu	$4,$4,%lo(vrclear2_str_level_cleared)
-	j	$LVrclear2_800DF134_10
+	j	$LVrclear2DrawTitle_10
 	addiu	$5,$29,16
-$LVrclear2_800DF134_9:
+$LVrclear2DrawTitle_9:
 	addu	$5,$18,$0
 	lw	$4,972($16)
 	jal	MENU_Locate
@@ -680,15 +680,15 @@ $LVrclear2_800DF134_9:
 	addu	$2,$2,$22
 	lw	$5,0($2)
 	addiu	$4,$4,%lo(vrclear2_str_cleared)
-$LVrclear2_800DF134_10:
+$LVrclear2DrawTitle_10:
 	jal	MENU_Printf
 	addiu	$20,$20,1
 	addiu	$19,$19,1
 	addiu	$17,$17,1
 	slti	$2,$17,2
-	bne	$2,$0,$LVrclear2_800DF134_3
+	bne	$2,$0,$LVrclear2DrawTitle_3
 	addiu	$18,$18,1
-$LVrclear2_800DF134_11:
+$LVrclear2DrawTitle_11:
 	lw	$31,60($29)
 	lw	$30,56($29)
 	lw	$23,52($29)
