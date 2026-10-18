@@ -183,45 +183,66 @@ def symbolize(data, base, start, end, syms, strings, name, report, globls=()):
             return [x for x in out if x < len(ins)]
         return [k + 1] if k + 1 < len(ins) else []
 
-    state = {0: {}}
-    work = [0]
-    while work:
-        k = work.pop()
-        i = ins[k]
-        cur = dict(state[k])
-        if i.kind == 'mem' or (i.kind == 'alu' and i.op == 0x09):
-            l = cur.get(i.rs)
-            if l is None:
-                lo_target.pop(i.addr, None)   # (state shrank at a merge since the last visit)
-            else:
-                lo_target[i.addr] = (((l[0] << 16) + s16(i.imm)) & 0xFFFFFFFF, l[1])
-        elif i.kind == 'alu' and i.op == 0x0D:
-            l = cur.get(i.rs)
-            if l is None:
-                lo_target.pop(i.addr, None)
-            else:
-                lo_target[i.addr] = ((l[0] << 16) | i.imm, l[1])
-        wr = i.writes()
-        if i.kind == 'lui':
-            cur[i.rt] = (i.imm, frozenset([i.addr]))   # (hi16, the lui instructions that may have produced it)
-        elif wr == -1:
-            cur.clear()
-        elif wr is not None:
-            cur.pop(wr, None)
-        pi = ins[k - 1] if k > 0 else None
-        if pi is not None and ((pi.kind == 'jump' and pi.mn == 'jal') or (pi.kind == 'jr' and pi.mn == 'jalr')):
-            for r in CALLER:
-                cur.pop(r, None)
-        for s2 in succs(k):
-            old = state.get(s2)
-            if old is None:
-                state[s2] = cur
-                work.append(s2)
-            else:
-                merged = {r: (v[0], v[1] | cur[r][1]) for r, v in old.items() if r in cur and cur[r][0] == v[0]}
-                if merged != old:
-                    state[s2] = merged
+    def dataflow(roots):
+        state = {0: {}}
+        work = [0]
+        for r in roots:
+            state[r] = {}
+            work.append(r)
+        while work:
+            k = work.pop()
+            i = ins[k]
+            cur = dict(state[k])
+            if i.kind == 'mem' or (i.kind == 'alu' and i.op == 0x09):
+                l = cur.get(i.rs)
+                if l is None:
+                    lo_target.pop(i.addr, None)   # (state shrank at a merge since the last visit)
+                else:
+                    lo_target[i.addr] = (((l[0] << 16) + s16(i.imm)) & 0xFFFFFFFF, l[1])
+            elif i.kind == 'alu' and i.op == 0x0D:
+                l = cur.get(i.rs)
+                if l is None:
+                    lo_target.pop(i.addr, None)
+                else:
+                    lo_target[i.addr] = ((l[0] << 16) | i.imm, l[1])
+            wr = i.writes()
+            if i.kind == 'lui':
+                cur[i.rt] = (i.imm, frozenset([i.addr]))   # (hi16, the lui instructions that may have produced it)
+            elif wr == -1:
+                cur.clear()
+            elif wr is not None:
+                cur.pop(wr, None)
+            pi = ins[k - 1] if k > 0 else None
+            if pi is not None and ((pi.kind == 'jump' and pi.mn == 'jal') or (pi.kind == 'jr' and pi.mn == 'jalr')):
+                for r in CALLER:
+                    cur.pop(r, None)
+            for s2 in succs(k):
+                old = state.get(s2)
+                if old is None:
+                    state[s2] = cur
                     work.append(s2)
+                else:
+                    merged = {r: (v[0], v[1] | cur[r][1]) for r, v in old.items() if r in cur and cur[r][0] == v[0]}
+                    if merged != old:
+                        state[s2] = merged
+                        work.append(s2)
+
+
+    # code reached only through a jump table (jr) is invisible to the flow above: find the tables the first pass
+    # revealed and run again with their targets as extra roots (no register state known there)
+    dataflow([])
+    roots = set()
+    for full, _las in lo_target.values():
+        off = full - base
+        if 0 <= off < len(data) - 4 and start <= struct.unpack_from('<I', data, off)[0] < end:
+            while off + 4 <= len(data):
+                v = struct.unpack_from('<I', data, off)[0]
+                if not (start <= v < end) or v not in idx:
+                    break
+                roots.add(idx[v])
+                off += 4
+    if roots:
+        dataflow(sorted(roots))
 
     for i in ins:
         if i.kind == 'lui' and 0x8000 <= i.imm < 0x8020 and not any(i.addr in la for _, la in lo_target.values()):
