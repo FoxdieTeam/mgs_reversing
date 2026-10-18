@@ -20,9 +20,9 @@ njp_800C82A4:
 	sw	$18,64($29)
 	addu	$18,$2,$0
 	beq	$18,$0,$Lnjp_800C82A4_8
-	lui	$5,%hi(njp_800C7C04)
+	lui	$5,%hi(njp_Act)
 	addu	$4,$18,$0
-	addiu	$5,$5,%lo(njp_800C7C04)
+	addiu	$5,$5,%lo(njp_Act)
 	lui	$6,%hi(njp_Die)
 	addiu	$6,$6,%lo(njp_Die)
 	lui	$7,%hi(njp_str_4898)

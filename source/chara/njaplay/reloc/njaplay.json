@@ -445,7 +445,7 @@
    "800C7C04"
   ],
   [
-   "njp_800C7C04",
+   "njp_Act",
    "800C7C04",
    "800C81E8"
   ],
@@ -672,6 +672,7 @@
   "njp_sna_fp_update_800C6A60",
   "njp_sna_anim_chokethrow_begin2_80058C80",
   "njp_sna_anim_choke_800C6CA4",
+  "njp_Act",
   "njp_Die"
  ],
  "bss_syms": {
@@ -712,15 +713,11 @@
    4
   ],
   "800E5B68": [
-   "njp_bss_32",
-   4
-  ],
-  "800E5B6C": [
-   "njp_bss_36",
-   4
+   "njp_flr_800ABBB8",
+   8
   ],
   "800E5B70": [
-   "njp_bss_40",
+   "njp_dword_800ABBC0",
    4
   ],
   "800E5B74": [

@@ -37,9 +37,8 @@ int          SECTION(".bss") njp_bss_16;
 int          SECTION(".bss") njp_bss_20;
 char        *SECTION(".bss") njp_dword_800ABBB4;
 int          SECTION(".bss") njp_bss_28;
-int          SECTION(".bss") njp_bss_32;
-int          SECTION(".bss") njp_bss_36;
-int          SECTION(".bss") njp_bss_40;
+HZD_FLR     *SECTION(".bss") njp_flr_800ABBB8[2];
+int          SECTION(".bss") njp_dword_800ABBC0;
 int          SECTION(".bss") njp_dword_800ABBC4;
 SVECTOR     *SECTION(".bss") njp_pVec_800ABBC8;
 SVECTOR     *SECTION(".bss") njp_pVec_800ABBCC;
@@ -70,6 +69,9 @@ void njp_sna_anim_800C4A38(SnaInitWork *work, int time);
 void njp_sna_anim_800C4A90(SnaInitWork *work, int time);
 void njp_sna_anim_800C4B44(SnaInitWork *work, int time);
 void njp_800C495C(SnaInitWork *work);
+void njp_800C3D84(SnaInitWork *work);
+void njp_CheckMessage0_80050878(SnaInitWork *work);
+void njp_800C6DC0(SnaInitWork *work);
 void njp_sna_fp_update_800C6A60(SnaInitWork *work, int time);
 void njp_sna_anim_update_800C5C18(SnaInitWork *work, int time);
 void njp_sna_anim_update_800C5D4C(SnaInitWork *work, int time);
@@ -2454,6 +2456,203 @@ void njp_sna_anim_choke_800C6CA4(SnaInitWork *work, int time)
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
 //ASM-END
 
+// @800C7C04 njp_Act
+static inline int njp_sna_act_helper_8005AD10(SnaInitWork *work)
+{
+    if (njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK19))
+    {
+        njp_CheckMessage0_80050878(work);
+        njp_800C3D84(work);
+
+        if (njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK19))
+        {
+            dword_800AB9D4 = 0;
+            DG_SetPos2(&work->control.mov, &work->control.rot);
+            DG_PutObjs(work->body.objs);
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
+static inline void njp_sna_act_helper2_8005AD10(SnaInitWork *work)
+{
+    SVECTOR vec;
+
+    if (njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK24) && !njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK28))
+    {
+        vec = work->field_A68;
+        GV_NearExp8V(&vec.vx, &DG_ZeroVector.vx, 3);
+
+        if (GV_VecLen3(&vec) > 8)
+        {
+            work->field_A68 = vec;
+        }
+
+        work->control.step.vx = work->field_A68.vx;
+        work->control.step.vz = work->field_A68.vz;
+
+        if (work->control.grounded & 1)
+        {
+            njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK24);
+        }
+    }
+
+    if (njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK26))
+    {
+        work->control.step.vz = 0;
+        work->control.step.vx = 0;
+    }
+}
+
+void njp_Act(SnaInitWork *work)
+{
+    SVECTOR vec;
+    SVECTOR vec2;
+    TARGET *pTarget;
+    int height;
+    int level;
+    TARGET *pTarget2;
+
+    if (njp_sna_act_helper_8005AD10(work))
+    {
+        return;
+    }
+
+    pTarget = work->field_89C_pTarget;
+
+    if (pTarget->damaged & 8)
+    {
+        GV_AddVec3(&pTarget->offset, &work->control.step, &work->control.step);
+        pTarget->damaged &= ~0x8;
+        pTarget->offset = DG_ZeroVector;
+    }
+
+    height = (short)work->body.height;
+
+    GM_ActMotion(&work->body);
+    njp_sna_act_helper2_8005AD10(work);
+
+    level = work->control.levels[0];
+    work->control.hzd_height = level + 750;
+
+    if ((work->control.skip_flag & CTRL_BOTH_CHECK) && (work->field_798_p_height < 750))
+    {
+        work->control.hzd_height = work->control.mov.vy;
+    }
+
+    /* しゃがみ天井突き抜け防止 */
+    if ((work->field_A26_stance != STAND) && (height >= 500))
+    {
+        work->control.height = 496;
+    }
+
+    njp_UpdateLife_8004F6E8(work);
+    njp_CheckSnakeDead_8004E384(work);
+    njp_CheckMessage0_80050878(work);
+
+    GM_ActControl(&work->control);
+
+    njp_dword_800ABBC0 = 0;
+    njp_flr_800ABBB8[1] = 0;
+    njp_flr_800ABBB8[0] = NULL;
+
+    if (work->control.r_sphere != -2)
+    {
+        HZD_GetLevelHazard(njp_flr_800ABBB8);
+
+        if (njp_flr_800ABBB8[0])
+        {
+            njp_dword_800ABBC0 = njp_flr_800ABBB8[0]->p4.h;
+        }
+    }
+
+    if (((level - work->control.levels[0]) >= 250) && !njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK28))
+    {
+        if (!njp_flr_800ABBB8[0] || (njp_flr_800ABBB8[0]->b1.h & 2))
+        {
+            if (!njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK13))
+            {
+                work->field_A68 = work->control.step;
+                work->field_A68.vy = 0;
+                njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK24);
+
+                if (work->field_9B8_fn_anim != njp_sna_anim_800C5550)
+                {
+                    if (njp_GM_CheckPlayerStatusFlag(PLAYER_CAUTION))
+                    {
+                        work->field_A28 = 450;
+                        njp_GM_ClearPlayerStatusFlag(PLAYER_CAUTION | PLAYER_CHECK_WALL | PLAYER_MOVE);
+                        njp_sna_8004E260(work, 0, 4, 0);
+                        GM_ExitBehindCamera();
+                    }
+
+                    njp_sna_start_anim_8004E1F4(work, njp_sna_anim_800C5550);
+                }
+            }
+        }
+    }
+
+    if (work->control.r_sphere == -2)
+    {
+        work->control.mov.vy += work->body.height - height;
+        DG_SetPos2(&work->control.mov, &work->control.rot);
+    }
+
+    GM_ActObject(&work->body);
+
+    njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK25);
+    DG_GetLightMatrix2(&work->control.mov, work->light);
+    *work->enable_shadow = dword_800ABA1C == 0;
+    GM_MoveTarget(work->field_89C_pTarget, &work->control.mov);
+
+    vec2 = work->control.mov;
+
+    if (!njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK12))
+    {
+        vec2.vy = work->body.objs->objs[6].world.t[1];
+    }
+
+    work->field_A60 = vec2;
+
+    GM_SnakeCamera.rotate2 = work->control.rot;
+    GM_SnakeCamera.rotate2.vy &= 0xFFF;
+
+    njp_800C6DC0(work);
+
+    pTarget2 = work->field_89C_pTarget;
+    pTarget2->force = work->control.step;
+    GM_PushTarget(pTarget2);
+
+    if (GM_Camera.first_person != 0)
+    {
+        GV_NearExp4V(&GM_SnakeCamera.position.vx, &work->field_A60.vx, 3);
+    }
+    else
+    {
+        GM_SnakeCamera.position = vec2;
+    }
+
+    GM_PlayerPosition = vec = work->control.mov;
+
+    if (njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK16))
+    {
+        GM_PlayerPosition = work->field_A60;
+        GM_MoveTarget(work->field_89C_pTarget, &work->field_A60);
+    }
+
+    vec.vy = level = work->control.levels[0];
+    GM_PlayerAddress = work->field_844 = HZD_GetAddress(work->control.map->hzd, &vec, work->field_844);
+
+    njp_GM_ClearPlayerStatusFlag(PLAYER_INVISIBLE);
+
+    if (njp_GM_CheckPlayerStatusFlag(3))
+    {
+        njp_GM_SetPlayerStatusFlag(PLAYER_INVISIBLE);
+    }
+}
+
 // @800C81E8 njp_Die
 void njp_Die(SnaInitWork *work)
 {
@@ -2532,6 +2731,10 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
+
+
 
 
 
