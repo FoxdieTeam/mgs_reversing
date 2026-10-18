@@ -328,19 +328,10 @@ void s00a_watcher_800C4578( WatcherWork* work )
     work->time2 = 0;
 }
 
-#if defined(VR_MYSTERY) && !defined(VR_MYSTERY_TRY_C)
-/* FIXME: NON_MATCHING in C (build with -DVR_MYSTERY_TRY_C to try): the cse pass of the original merges the constant
-   stored into has_kmd with the compared register (callee-saved s3) in the C version, but not in the original code.
-   The original function is kept as relocatable asm so that the object stays shareable. */
-int s00a_watcher_800C45D4( WatcherWork* work, int name, int where );
-#pragma INCLUDE_ASM_RELOC("source/enemy/vr/reloc/s00a_watcher_800C45D4.s")
-#else
 int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 {
     int i;
-#ifdef VR_MYSTERY
-    int kmd_id;
-#else
+#ifndef VR_MYSTERY
     int has_kmd;
 #endif
     char *opt, *opt2;
@@ -368,7 +359,9 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     arm = &work->weapon;
 
 #ifdef VR_MYSTERY
-    /* FIXME: the model names of the mystery soldier are not known (GV_StrCode of unknown strings) */
+    /* FIXME: the model names of the mystery soldier are not known (GV_StrCode of unknown strings).
+       The two calls instead of a ?: steer gcc's jump optimizer (the original has the duplicated arguments setup
+       of a cross-jumped tail). */
     if ( work->field_C58 & MYST_NEW_MODEL )
     {
         GM_InitObject( body, 0xB4A3, 0x32D, OAR_ENEMY ) ;
@@ -395,12 +388,16 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     if ( work->field_B7B == 1 )
     {
         work->def = body->objs->def;
-        kmd_id = KMD_LOPRYHEI;
+        /* FIXME: two complete calls (not an argument selected by ?:) keep cse from replacing the constant stored to
+           has_kmd by the register of the compared field_B7B (the original doesn't) */
         if ( work->field_C58 & MYST_NEW_MODEL )
         {
-            kmd_id = 0x92BF;
+            work->kmd = GV_GetCache( GV_CacheID( 0x92BF, 'k' ) );
         }
-        work->kmd = GV_GetCache( GV_CacheID( kmd_id, 'k' ) );
+        else
+        {
+            work->kmd = GV_GetCache( GV_CacheID( KMD_LOPRYHEI, 'k' ) );
+        }
         work->has_kmd = 1;
     }
 #else
@@ -413,7 +410,12 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     }
 #endif
 
+#ifdef VR_MYSTERY
+    /* FIXME: work->body instead of the body pointer, as in the original */
+    work->hom = GM_SetHomingTarget( &work->body.objs->objs[6].world, ctrl );
+#else
     work->hom = GM_SetHomingTarget( &body->objs->objs[6].world, ctrl );
+#endif
     GM_InitObject( arm, KMD_FAMAS, 0x6D, 0 );
     GM_ConfigObjectLight( arm, work->light ) ;
     GM_ConfigObjectRoot( arm, body, 4 );
@@ -436,7 +438,6 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
 
     return 0;
 }
-#endif
 
 #ifdef VR_EXE
 static void WatcherInitKogaku( WatcherWork* work )
