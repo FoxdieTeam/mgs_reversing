@@ -1,0 +1,27 @@
+{ "bin": "$OV/vr_scm03.bin", "maps": ["obj_vr/asm_vr_scm03_lhs.map"], "skip_prefix": ["vr_scm03_", "overlay"],
+  "out": "source/koba/vr/reloc/vrbox.s",
+  "syms": {"800E1318": "NewSplashVr"},
+  "funcs": [
+    ["VrBoxInitPack","800DD8E4","800DD944"],
+    ["VrBoxMakePrim","800DD944","800DDA9C"],
+    ["VrBoxUpdateFlags","800DDA9C","800DDB88"],
+    ["VrBoxCopyPath","800DDB88","800DDC24"],
+    ["VrBoxNextPathPoint","800DDC24","800DDC74"],
+    ["VrBoxMoveToTarget","800DDC74","800DDCEC"],
+    ["VrBoxUpdateHeight","800DDCEC","800DDDE8"],
+    ["VrBoxStart","800DDDE8","800DDF8C"],
+    ["VrBoxStop","800DDF8C","800DE034"],
+    ["VrBoxAct","800DE034","800DE7DC"],
+    ["VrBoxDie","800DE7DC","800DE858"],
+    ["VrBoxLoadModel","800DE858","800DE9B0"],
+    ["VrBoxGetResources","800DE9B0","800DF030"],
+    ["NewVrBox","800DF030","800DF0C4"]
+  ],
+  "rdata": [
+    ["800E2980","vrbox_str_shadow"],
+    ["800E29A0","vrbox_str_id_n"],["800E29A8","vrbox_str_id_b"],["800E29B0","vrbox_str_ufo"],
+    ["800E29B4","vrbox_str_kokesi_c"],["800E29C0","vrbox_str_kokesi_s"],["800E29CC","vrbox_str_ufo2"],
+    ["800E29D4","vrbox_str_mato_04add"],["800E29E0","vrbox_str_mato_06add"],["800E29EC","vrbox_str_mato_08add"],
+    ["800E29F8","vrbox_str_mato_09add"],["800E2A04","vrbox_str_mato_14add"],
+    ["800E2A10","vrbox_str_root_not_found"],["800E2A20","vrbox_str_file"]
+  ] }
