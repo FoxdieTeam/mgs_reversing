@@ -75,7 +75,7 @@ void njp_800C47EC(SnaInitWork *work, int time);
 void njp_800C6994(SnaInitWork *work, int time);
 void njp_800C6CA4(SnaInitWork *work, int time);
 void njp_nop_800C48EC(SnaInitWork *work, int time);
-void njp_800C45CC(SnaInitWork *work, int time);
+void njp_sna_anim_run_update_800C45CC(SnaInitWork *work, int time);
 void njp_800C6900(SnaInitWork *work, int time);
 extern int snainit_item_800A9420;
 
@@ -1009,7 +1009,7 @@ void njp_sna_anim_run_begin_80053B88(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_800C45CC;
+        work->field_9C8_anim_update_fn_3p = njp_sna_anim_run_update_800C45CC;
         work->field_9CC_anim_update_fn_1p = njp_800C6900;
         njp_GM_SetPlayerStatusFlag(PLAYER_MOVE);
         njp_SetAction_8004E22C(work, 5, 4);
@@ -1122,6 +1122,77 @@ void njp_sna_anim_idle_update_800C44CC(SnaInitWork *work, int time)
             work->control.turn.vy = njp_gSnaMoveDir_800ABBA4;
         }
     }
+}
+
+// @800C45CC njp_sna_anim_run_update_800C45CC
+void njp_sna_anim_run_update_800C45CC(SnaInitWork *work, int time)
+{
+    int angle;
+
+    if (njp_sna_select_action_800C3A30(work))
+    {
+        return;
+    }
+
+    if (njp_gSnaMoveDir_800ABBA4 < 0)
+    {
+        if (++work->field_A3A >= 5)
+        {
+            njp_GM_ClearPlayerStatusFlag(PLAYER_MOVE);
+            njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
+            return;
+        }
+    }
+    else
+    {
+        work->field_A3A = 0;
+    }
+
+    if ((dword_800ABBC4 == 1) || ((dword_800ABBC4 != 0) && (work->field_79C == 2)))
+    {
+        if (++work->field_A38_local_data >= 3)
+        {
+            njp_GM_ClearPlayerStatusFlag(PLAYER_MOVE);
+            njp_sna_start_anim_8004E1F4(work, njp_sna_anim_wall_crouch_80052CCC);
+            return;
+        }
+    }
+    else
+    {
+        work->field_A38_local_data = 0;
+    }
+
+    if (work->field_A38_local_data == 0)
+    {
+        if (njp_gSnaMoveDir_800ABBA4 >= 0)
+        {
+            angle = njp_sub_8004E4C0(work, njp_gSnaMoveDir_800ABBA4);
+        }
+        else
+        {
+            angle = work->control.turn.vy;
+        }
+    }
+    else
+    {
+        angle = njp_gSnaMoveDir_800ABBA4;
+
+        if (angle < 0)
+        {
+            angle = work->control.turn.vy;
+        }
+    }
+
+    if (GV_DiffDirAbs(work->control.turn.vy, angle) > 1048)
+    {
+        njp_GM_ClearPlayerStatusFlag(PLAYER_MOVE);
+        njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
+        work->control.turn.vy = angle;
+        return;
+    }
+
+    work->control.turn.vy = angle;
+    njp_sub_8004EA50(work, angle);
 }
 
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
@@ -1422,6 +1493,7 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
 
 
 
