@@ -10,82 +10,82 @@
  "out": "source/koba/vr/reloc/vr2.s",
  "funcs": [
   [
-   "Vr2KillMissiles",
+   "KillMissiles",
    "800DD5B4",
    "800DD634"
   ],
   [
-   "Vr2SetSnakeMotion",
+   "SetSnakeMotion",
    "800DD634",
    "800DD6A0"
   ],
   [
-   "Vr2ResetEquip",
+   "ResetEquip",
    "800DD6A0",
    "800DD6FC"
   ],
   [
-   "Vr2Itoa2",
+   "Itoa2",
    "800DD6FC",
    "800DD764"
   ],
   [
-   "Vr2DrawTime",
+   "DrawTime",
    "800DD764",
    "800DD8A4"
   ],
   [
-   "Vr2DrawScore",
+   "DrawScore",
    "800DD8A4",
    "800DDA34"
   ],
   [
-   "Vr2CheckEnd",
+   "CheckEnd",
    "800DDA34",
    "800DDB10"
   ],
   [
-   "Vr2Finish",
+   "Finish",
    "800DDB10",
    "800DDB94"
   ],
   [
-   "Vr2GameOver",
+   "GameOver",
    "800DDB94",
    "800DDBD4"
   ],
   [
-   "Vr2CalcResult",
+   "CalcResult",
    "800DDBD4",
    "800DDD00"
   ],
   [
-   "Vr2CheckMessages",
+   "CheckMessages",
    "800DDD00",
    "800DDDFC"
   ],
   [
-   "Vr2Act",
+   "Act",
    "800DDDFC",
    "800DE2C0"
   ],
   [
-   "Vr2Die",
+   "Die",
    "800DE2C0",
    "800DE2C8"
   ],
   [
-   "Vr2_800DE2C8",
+   "InitBack",
    "800DE2C8",
    "800DE318"
   ],
   [
-   "Vr2_800DE318",
+   "InitFrame",
    "800DE318",
    "800DE400"
   ],
   [
-   "Vr2_800DE400",
+   "GetResources",
    "800DE400",
    "800DE484"
   ],
@@ -166,5 +166,23 @@
    "VR_Records",
    16
   ]
- }
+ },
+ "c_funcs": [
+  "KillMissiles",
+  "SetSnakeMotion",
+  "ResetEquip",
+  "Itoa2",
+  "DrawTime",
+  "DrawScore",
+  "CheckEnd",
+  "Finish",
+  "GameOver",
+  "CalcResult",
+  "CheckMessages",
+  "Act",
+  "Die",
+  "InitBack",
+  "InitFrame",
+  "GetResources"
+ ]
 }

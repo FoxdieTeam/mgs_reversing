@@ -45,10 +45,12 @@ for m in cfg.get('maps', []):
         mm = re.match(r'^\s*([0-9A-Fa-f]{8})\s+([A-Za-z_$][\w$.]*)\s*$', line)
         if mm and not mm.group(2).startswith(skip):
             syms.weak.setdefault(int(mm.group(1), 16), mm.group(2))
+cfuncs = set(cfg.get('c_funcs', []))
 text = []
 jt = {}   # addr -> lines
+jt_owner = {}
 rep = []
-for name, st, en in cfg['funcs']:
+for fi, (name, st, en) in enumerate(cfg['funcs']):
     r = []
     out = S.symbolize(data, base, int(st, 16), int(en, 16), syms, {}, name, r, ())
     rep += ['%s: %s' % (name, x) for x in r]
@@ -62,12 +64,10 @@ for name, st, en in cfg['funcs']:
             m = re.match(r'(\w+)_jtbl_([0-9A-F]{8}):', b)
             if m:
                 jt[int(m.group(2), 16)] = b
+                jt_owner[int(m.group(2), 16)] = fi
         out = t + '\t.set\tmacro\n\t.set\treorder\n' if not t.rstrip().endswith('.set\treorder') else t
     text.append(out)
-# text: strip the repeated .set lines? keep (harmless)
-lines = []
-lines += ''.join(text).splitlines()
-items = []
+items = {}   # addr -> text
 for a, (n, kind, cnt) in rd.items():
     off = a - base
     if kind == 'str':
@@ -79,28 +79,60 @@ for a, (n, kind, cnt) in rd.items():
         else:
             ws = ['0x%08X' % w for w in ws]
         body = ['\t.word\t' + w for w in ws]
-    items.append((a, '\t.align\t2\n%s:\n' % n + '\n'.join(body) + '\n'))
+    items[a] = '\t.align\t2\n%s:\n' % n + '\n'.join(body) + '\n'
 for a, b in jt.items():
-    items.append((a, '\t.align\t2\n' + b))
-items.sort()
-lines.append('\t.rdata')
-for a, b in items:
-    lines.append(b.rstrip('\n'))
-if dt:
-    lines.append('\t.data')
-    for a, n, cnt in dt:
-        off = a - base
-        ws = struct.unpack_from('<%dI' % cnt, data, off)
-        out = ['\t.align\t2']
-        if cfg.get('globl'):
-            out.append('\t.globl\t%s' % n)
-        out.append('%s:' % n)
-        for w in ws:
-            r = syms.resolve(w) if w >= 0x80000000 else None
-            out.append('\t.word\t' + (r if r else '0x%08X' % w))
-        lines += out
-lines.append('\t.text')
-open(cfg['out'], 'w').write('\n'.join(lines) + '\n')
+    items[a] = '\t.align\t2\n' + b
+# first user of every rdata item (by function order); items first used by a C function are emitted by the C compiler
+names = {a: rd[a][0] for a in rd}
+first = {}
+for fi, t in enumerate(text):
+    for a, n in names.items():
+        if a not in first and re.search(r'\b%s\b' % re.escape(n), t):
+            first[a] = fi
+for a, fi in jt_owner.items():
+    first[a] = fi
+for a, fi in first.items():
+    if cfg['funcs'][fi][0] in cfuncs:
+        for fj, t in enumerate(text):
+            if fj > fi and cfg['funcs'][fj][0] not in cfuncs and a in names and re.search(r'\b%s\b' % re.escape(names[a]), t):
+                print('WARNING: %s is used by C function %s and asm function %s: define it in C' % (names[a], cfg['funcs'][fi][0], cfg['funcs'][fj][0]))
+# runs of asm functions
+runs = []
+for fi, (name, st, en) in enumerate(cfg['funcs']):
+    if name in cfuncs:
+        continue
+    if runs and runs[-1][-1] == fi - 1:
+        runs[-1].append(fi)
+    else:
+        runs.append([fi])
+outbase = cfg['out']
+written = []
+for ri, run in enumerate(runs):
+    lines = []
+    for fi in run:
+        lines += text[fi].splitlines()
+    its = sorted((a, items[a]) for a in items if first.get(a) in run)
+    if its:
+        lines.append('\t.rdata')
+        for a, b in its:
+            lines.append(b.rstrip('\n'))
+    if dt and ri == 0:
+        lines.append('\t.data')
+        for a, n, cnt in dt:
+            off = a - base
+            ws = struct.unpack_from('<%dI' % cnt, data, off)
+            out = ['\t.align\t2']
+            if cfg.get('globl'):
+                out.append('\t.globl\t%s' % n)
+            out.append('%s:' % n)
+            for w in ws:
+                r = syms.resolve(w) if w >= 0x80000000 else None
+                out.append('\t.word\t' + (r if r else '0x%08X' % w))
+            lines += out
+    lines.append('\t.text')
+    path = outbase if len(runs) == 1 and not cfuncs else outbase.replace('.s', '_%d.s' % ri)
+    open(path, 'w').write('\n'.join(lines) + '\n')
+    written.append(path)
 for r in rep:
     print('UNRESOLVED', r)
-print('wrote', cfg['out'], len(cfg['funcs']), 'functions,', len(items), 'rdata items')
+print('wrote', ' '.join(written), len(cfg['funcs']), 'functions,', len(cfuncs), 'in C')
