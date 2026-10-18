@@ -442,7 +442,7 @@ int CheckPad_800C5A60( WatcherWork *work )
         return 0;
     }
 #elif !defined(VR_MINENE)
-    if ( press & 0x800000 )
+    if ( press & SP_ALERT_GESTURE )
     {
         SetMode2( work, s00a_command_800C8C98 );
         return 0;
@@ -458,13 +458,13 @@ int CheckPad_800C5A60( WatcherWork *work )
 #endif
 
 #if defined(VR_EXE) && !defined(VR_MINENE)
-    if ( press & 0x4000000 )
+    if ( press & SP_LIE_DOWN )
     {
         SetMode( work, ActLieDown );
         return 1;
     }
 
-    if ( press & 0x8000000 )
+    if ( press & SP_HEARTBEAT )
     {
         SetMode( work, ActHeartbeat );
         return 1;

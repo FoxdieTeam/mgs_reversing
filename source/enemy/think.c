@@ -52,11 +52,11 @@ int s00a_dword_800C3524[32] =
 {
     0x00000000, 0x00000001, 0x00000002, 0x00000004,
     0x00002000, 0x00000040, 0x00000080, 0x00000200,
-    0x00000400, 0x00000800, 0x00000100, 0x00800000,
+    0x00000400, 0x00000800, 0x00000100, SP_ALERT_GESTURE,
 #ifdef VR_MYSTERY
-    0x01000000, 0x04000000, 0x08000000, 0x10000000,
+    0x01000000, SP_LIE_DOWN, SP_HEARTBEAT, SP_AIM_ONCE,
 #else
-    0x01000000, 0x04000000, 0x08000000, 0x00000000,
+    0x01000000, SP_LIE_DOWN, SP_HEARTBEAT, 0x00000000,
 #endif
     0x00000000, 0x00000001, 0x00000002, 0x00000004,
     0x00002000, 0x00000040, 0x00000080, 0x00000200,
@@ -829,6 +829,7 @@ int s00a_command_800CB838( WatcherWork *work )
         else
         {
 #ifdef VR_MINENE
+            // FIXME: &ctrl->mov / &work->control.mov, see the HZD_Navigate2 call above
             addr3 = HZD_Navigate( hzd, addr2, addr, &ctrl->mov );
 #else
             addr3 = HZD_Navigate( hzd, addr2, addr, &work->control.mov );
@@ -1236,13 +1237,13 @@ int s00a_command_800CC344( WatcherWork *work )
 {
     if ( work->count3 == 0 )
     {
-       if ( COM_GameStatus & 0x2000 )
+       if ( COM_GameStatus & COM_ST_DANBOWL )
        {
            work->think3 = 13;
            return 0;
        }
 
-        COM_GameStatus |= 0x2000;
+        COM_GameStatus |= COM_ST_DANBOWL;
         work->pad.dir = work->sn_dir;
     }
 
@@ -1264,7 +1265,7 @@ int s00a_command_800CC344( WatcherWork *work )
 
 int s00a_command_800CC40C( WatcherWork *work )
 {
-    if ( !( COM_GameStatus & 0x2000 ) )
+    if ( !( COM_GameStatus & COM_ST_DANBOWL ) )
     {
         return 1;
     }
@@ -1339,7 +1340,7 @@ int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
 {
     if ( work->act_status & 0x00000080  )
     {
-        work->pad.press |= 0x00800000  ;
+        work->pad.press |= SP_ALERT_GESTURE;
     }
 
     if( work->count3 == 0)

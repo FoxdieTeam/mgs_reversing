@@ -80,6 +80,7 @@ static void Act(Work *work)
     GM_ActControl(control);
 
 #ifdef VR_EXE
+    // keep the grenade between the floor and the ceiling (100 units margin)
     vy = vy + control->mov.vy;
     level = control->levels[0] + 100;
     if (level >= vy)

@@ -16,8 +16,7 @@
 #include "strcode.h"
 
 #ifdef VR_EXE
-#define TOP_COMM_EVASION    2       // EnemyCommand.mode after an alert (GM_AlertModeSet(2))
-#define HASH_COM_VR_4000    0xb442  // VR message to the commander: sets COM_GameStatus 0x4000 (string unknown)
+#define HASH_COM_VR_4000    0xb442  // VR message to the commander: sets COM_ST_VR_4000 (string unknown)
 #endif
 
 int SECTION(".bss") bikkuri_time;
@@ -181,7 +180,7 @@ end:
 
 void COM_CallBikkuriSe( SVECTOR *pos, int flag )
 {
-    bikkuri_flag |= ( flag | 0x1 );
+    bikkuri_flag |= ( flag | BIKKURI_CALLED );
     bikkuri_pos.vx = pos->vx;
     bikkuri_pos.vy = pos->vy;
     bikkuri_pos.vz = pos->vz;
@@ -189,10 +188,10 @@ void COM_CallBikkuriSe( SVECTOR *pos, int flag )
 }
 
 #ifdef VR_EXE
-/* VR only: direct access to the bikkuri flags (the VR action code sets/clears 0x100 and 0x200) */
+/* VR only: direct access to the bikkuri flags (the VR action code sets/clears BIKKURI_HOLD_C/D) */
 void COM_SetBikkuriFlagTop( void )
 {
-    bikkuri_flag |= 0x80000000;
+    bikkuri_flag |= BIKKURI_TOP;
 }
 
 void COM_SetBikkuriFlag( int flag )
@@ -841,7 +840,7 @@ void s00a_command_800CFA94( CommanderWork* work )
 
     if ( EnemyCommand.field_0x98 == 0 )
     {
-        bikkuri_flag |= 2;
+        bikkuri_flag |= BIKKURI_FLAG_2;
         if ( EnemyCommand.field_0x17C >= 0 )
         {
             GCL_ExecProc( EnemyCommand.field_0x17C, NULL );
@@ -1070,7 +1069,7 @@ void s00a_command_800D018C( CommanderWork* work )
             break;
 #ifdef VR_EXE
         case HASH_COM_VR_4000:
-            COM_GameStatus |= 0x4000;
+            COM_GameStatus |= COM_ST_VR_4000;
             break;
 #endif
         }
