@@ -139,7 +139,11 @@ void ActStandStill_800C5C84(WatcherWork* work, int time )
     {
         if ( GV_DiffDirAbs( work->control.rot.vy, work->pad.dir ) < 0x100 )
         {
+#ifdef VR_MYSTERY
+            if ( ( work->pad.mode & 0x1 ) || ( work->field_C58 & MYST_RUN ) )
+#else
             if ( work->pad.mode & 0x1 )
+#endif
             {
                 SetAction( work, ACTION2, ACTINTERP );
             }
@@ -193,7 +197,11 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
     field_8E0 = work->unknown.last_set;
     svec = work->control.vecs;
 
+#ifdef VR_MYSTERY
+    if ( ( ( work->pad.mode & 0x1 ) || ( work->field_C58 & MYST_RUN ) ) && ( work->unknown.last_set != ACTION2 ) )
+#else
     if ( (work->pad.mode & 0x1) && ( work->unknown.last_set != ACTION2 ) )
+#endif
     {
         SetAction( work, ACTION2, ACTINTERP );
     }
@@ -257,6 +265,12 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
     else if ( field_8E0 == 2 )
     {
         interval = 100;
+#ifdef VR_MYSTERY
+        if ( work->field_C58 & MYST_RUN )
+        {
+            interval = 110;
+        }
+#endif
     }
 
     x = interval * rsin( dir );
@@ -283,9 +297,49 @@ void s00a_command_800C5E48( WatcherWork* work, int time )
     }
 }
 
+#ifdef VR_MYSTERY
+// Mystery soldier only: knocked backwards, lies on the floor for a while and gets up again
+void ActKnockedBack_800C80D8( WatcherWork *work, int time )
+{
+    if ( time == 0 )
+    {
+        GM_SeSetMode( &work->control.mov, SE_MYSTERY_KNOCKED, GM_SEMODE_BOMB );
+        work->unknown.field_14 = 3;
+        work->field_C58 &= ~MYST_FLAG_100;
+        SetAction( work, ACTION35, ACTINTERP );
+    }
+
+    if ( time == 17 )
+    {
+        GM_SeSetMode( &work->control.mov, SE_HIT_FLOOR, GM_SEMODE_BOMB );
+        GM_SetNoise( 100, 4, &work->control.mov );
+    }
+
+    if ( time == 44 )
+    {
+        SetAction( work, ACTION40, ACTINTERP );
+    }
+
+    if ( time == 104 )
+    {
+        SetAction( work, ACTION45, ACTINTERP );
+    }
+
+    if ( time >= 105 )
+    {
+        work->unknown.field_1E = 0;
+        if ( work->body.is_end )
+        {
+            work->pad.time = 0;
+            SetMode( work, ActStandStill_800C5C84 );
+        }
+    }
+}
+#else
 void s00a_command_800C615C( WatcherWork *work, int time )
 {
 }
+#endif
 
 #ifdef VR_EXE
 #define HEARTBEAT_DIS       2000
@@ -298,7 +352,70 @@ void ActLieDown( WatcherWork *work, int time )
     {
         SetAction( work, ACTION39, 0 );
     }
+#ifdef VR_MYSTERY
+    if ( !( work->pad.press & SP_LIE_DOWN ) )
+    {
+        SetMode( work, ActGetUp_800C82EC );
+    }
+#endif
 }
+
+#ifdef VR_MYSTERY
+// Mystery soldier only: gets up after lying on the floor
+void ActGetUp_800C82EC( WatcherWork *work, int time )
+{
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION44, ACTINTERP );
+        GM_SeSetMode( &work->control.mov, SE_MYSTERY_GETUP, GM_SEMODE_BOMB );
+    }
+
+    if ( time == 68 )
+    {
+        SetAction( work, ACTION19, ACTINTERP );
+        GM_SeSetMode( &work->control.mov, SE_V_ENE_YAWN, GM_SEMODE_BOMB );
+    }
+
+    if ( time >= 81 && work->body.is_end )
+    {
+        SetMode( work, ActStandStill_800C5C84 );
+    }
+}
+
+// Mystery soldier only: aims the gun once
+void ActAimOnce_800C83C4( WatcherWork *work, int time )
+{
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION5, ACTINTERP );
+    }
+
+    if ( work->body.is_end )
+    {
+        work->pad.time = 0;
+        SetMode( work, ActStandStill_800C5C84 );
+    }
+}
+
+// Mystery soldier only: seizure
+void ActSeizure_800C843C( WatcherWork *work, int time )
+{
+    if ( time == 0 )
+    {
+        SetAction( work, ACTION33, ACTINTERP );
+    }
+
+    if ( time == 24 )
+    {
+        GM_SeSet( &work->control.mov, SE_HIZA01 );
+    }
+
+    if ( time == 74 )
+    {
+        SetAction( work, ACTION38, ACTINTERP );
+    }
+}
+#endif
 
 // VR only: heartbeat SE while the player watches the soldier in first person from near by
 static void ENE_PutHeartbeat( WatcherWork *work )
@@ -320,7 +437,11 @@ static void ENE_PutHeartbeat( WatcherWork *work )
 
         if ( now - work->heartbeat_time > interval )
         {
+#ifdef VR_MYSTERY
+            GM_SeSetMode( &work->control.mov, SE_MYSTERY_HEARTBEAT, GM_SEMODE_REAL );
+#else
             GM_SeSetMode( &work->control.mov, SE_HEARTBEAT, GM_SEMODE_REAL );
+#endif
             work->heartbeat_time = mts_get_tick_count();
         }
     }
@@ -347,6 +468,55 @@ void ActHeartbeat( WatcherWork *work, int time )
         ENE_PutHeartbeat( work );
     }
 }
+
+#ifdef VR_MYSTERY
+// Mystery soldier only: gesture while pad.press has SP_ALERT_GESTURE set
+void ActMysteryShoot_800C861C( WatcherWork *work, int time )
+{
+    SetTargetClass( work->target, TARGET_FLAG );
+    work->vision.length = COM_EYE_LENGTH;
+
+    if ( time == 0 )
+    {
+        SetAction( work, STANDSTILL, ACTINTERP );
+    }
+
+    switch ( work->unknown.last_set )
+    {
+    case ACTION26:
+        if ( work->m_ctrl.info1.frame == 10 )
+        {
+            GM_SeSetMode( &work->control.mov, SE_MYSTERY_GESTURE, GM_SEMODE_BOMB );
+        }
+        if ( work->body.is_end )
+        {
+            SetAction( work, ACTION25, ACTINTERP );
+        }
+        break;
+
+    case ACTION25:
+        if ( work->sn_dis >= 2501 )
+        {
+            SetAction( work, STANDSTILL, ACTINTERP );
+        }
+        break;
+
+    case STANDSTILL:
+        if ( work->sn_dis < 2000 )
+        {
+            SetAction( work, ACTION26, ACTINTERP );
+        }
+        break;
+    }
+
+    work->control.step = DG_ZeroVector;
+
+    if ( !( work->pad.press & SP_ALERT_GESTURE ) )
+    {
+        SetMode( work, ActStandStill_800C5C84 );
+    }
+}
+#endif
 #endif
 
 void s00a_command_800C6164( WatcherWork *work, int time )
@@ -2308,3 +2478,10 @@ void ENE_ExecPutChar( WatcherWork* work )
         }
     }
 }
+
+#ifdef VR_MYSTERY
+void ENE_SetLieDownMode( WatcherWork *work )
+{
+    SetMode( work, ActLieDown );
+}
+#endif

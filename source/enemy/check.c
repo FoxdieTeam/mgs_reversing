@@ -430,7 +430,7 @@ int CheckPad_800C5A60( WatcherWork *work )
     }
 
 #ifdef VR_MYSTERY
-    if ( press & 0x800000 )
+    if ( press & SP_ALERT_GESTURE )
     {
         SetMode( work, ActMysteryShoot_800C861C );
         return 0;
@@ -472,7 +472,11 @@ int CheckPad_800C5A60( WatcherWork *work )
 
     if ( press & 0x100 )
     {
+#ifdef VR_MYSTERY
+        SetMode( work, ActKnockedBack_800C80D8 );
+#else
         SetMode( work, s00a_command_800C615C );
+#endif
         return 1;
     }
 

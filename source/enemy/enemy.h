@@ -185,7 +185,7 @@ typedef struct _WatcherWork
 // WatcherWork.field_C58: feature flags of the "mystery" soldier (GCL option 'k')
 #define MYST_FOOTPRINTS 0x01    // leaves footprints (asiato2), the pointer is kept in field_C5C
 #define MYST_FLAG_02    0x02
-#define MYST_FLAG_04    0x04
+#define MYST_RUN        0x04    // always runs instead of walking, a bit faster
 #define MYST_FLAG_08    0x08
 #define MYST_SMALL_TARGET 0x10  // smaller hit box (MYSTERY_TARGET_SIZE)
 #define MYST_FLAG_40    0x40
@@ -614,7 +614,7 @@ void ENE_PutBlood( WatcherWork *work, int put, int i ) ;
 void ENE_PutItem( WatcherWork *work ) ;
 int  ENE_SetPutChar( WatcherWork *work, int put ) ;
 #ifdef VR_MYSTERY
-void ENE_ResetAction( WatcherWork *work ) ;
+void ENE_SetLieDownMode( WatcherWork *work ) ;
 #endif
 
 void ENE_PutFog( WatcherWork *work ) ;
@@ -643,7 +643,15 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define SP_HEARTBEAT   0x8000000
 #endif
 #ifdef VR_MYSTERY
+#define SP_LIE_DOWN    0x4000000
 #define SP_AIM_ONCE    0x10000000
+#define SP_ALERT_GESTURE 0x800000
+
+// Sound effects of the VR sound table used by the mystery soldier (FIXME: names not known)
+#define SE_MYSTERY_KNOCKED      0xD4
+#define SE_MYSTERY_HEARTBEAT    0xD5
+#define SE_MYSTERY_GESTURE      0xD9
+#define SE_MYSTERY_GETUP        0xDE
 #endif
 
 #define ACTINTERP   4
@@ -809,6 +817,9 @@ void ActLieDown( WatcherWork *work, int time );
 void ActHeartbeat( WatcherWork *work, int time );
 #ifdef VR_MYSTERY
 void ActAimOnce_800C83C4( WatcherWork *work, int time );
+void ActKnockedBack_800C80D8( WatcherWork *work, int time );
+void ActGetUp_800C82EC( WatcherWork *work, int time );
+void ActSeizure_800C843C( WatcherWork *work, int time );
 void ActMysteryShoot_800C861C( WatcherWork *work, int time );
 #endif
 #endif

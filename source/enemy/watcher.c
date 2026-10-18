@@ -626,7 +626,7 @@ static void MysteryInitPose( WatcherWork *work )
         work->pad.tmp = 0x04000000;
         work->pad.time = 32001;
         work->pad.dir = 0xC00;
-        ENE_ResetAction( work );
+        ENE_SetLieDownMode( work );
         work->think1 = 0;
         work->think2 = 0;
         work->think3 = 2;
