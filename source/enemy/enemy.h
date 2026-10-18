@@ -184,12 +184,14 @@ typedef struct _WatcherWork
 #ifdef VR_MYSTERY
 // WatcherWork.field_C58: feature flags of the "mystery" soldier (GCL option 'k')
 #define MYST_FOOTPRINTS 0x01    // leaves footprints (asiato2), the pointer is kept in field_C5C
+#define MYST_FLAG_02    0x02
 #define MYST_FLAG_04    0x04
 #define MYST_FLAG_08    0x08
 #define MYST_SMALL_TARGET 0x10  // smaller hit box (MYSTERY_TARGET_SIZE)
 #define MYST_FLAG_40    0x40
 #define MYST_NEW_MODEL  0x80    // uses the other body model (and low poly model)
 #define MYST_FLAG_100   0x100
+#define MYST_EXEC_PROC  0x200   // calls the GCL proc field_C3C ('e' option) when killed
 #endif
 
 typedef struct _ZakoWork
@@ -640,6 +642,9 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #ifdef VR_EXE
 #define SP_HEARTBEAT   0x8000000
 #endif
+#ifdef VR_MYSTERY
+#define SP_AIM_ONCE    0x10000000
+#endif
 
 #define ACTINTERP   4
 
@@ -802,6 +807,10 @@ void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 #ifdef VR_EXE
 void ActLieDown( WatcherWork *work, int time );
 void ActHeartbeat( WatcherWork *work, int time );
+#ifdef VR_MYSTERY
+void ActAimOnce_800C83C4( WatcherWork *work, int time );
+void ActMysteryShoot_800C861C( WatcherWork *work, int time );
+#endif
 #endif
 
 //think.c ?

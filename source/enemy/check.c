@@ -8,6 +8,9 @@
 #include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#ifdef VR_MYSTERY
+#include "libgcl/libgcl.h"
+#endif
 
 extern void s00a_command_800C6BCC( WatcherWork *work, int time );
 extern void s00a_command_800C6FA8( WatcherWork *work, int time );
@@ -87,7 +90,18 @@ int s00a_command_800C5194( WatcherWork *work ) {
         }
         break;
     case 3:
+#ifdef VR_MYSTERY
+        if ( ( work->field_C58 & MYST_FLAG_02 ) && target->faint <= 0 )
+        {
+            work->unknown.field_14 = 1;
+        }
+        else
+        {
+            work->unknown.field_14 = 0;
+        }
+#else
         work->unknown.field_14 = 0;
+#endif
         SetMode( work, s00a_command_800C78E0 ) ;
         break;
     case 0:
@@ -96,6 +110,15 @@ int s00a_command_800C5194( WatcherWork *work ) {
         {
             work->unknown.field_14 = 1;
             SetMode( work, s00a_command_800C78E0 ) ;
+#ifdef VR_MYSTERY
+            if ( work->field_C58 & MYST_EXEC_PROC )
+            {
+                if ( work->field_C3C >= 0 )
+                {
+                    GCL_ExecProc( work->field_C3C, NULL );
+                }
+            }
+#endif
         }
         else
         {
@@ -406,11 +429,19 @@ int CheckPad_800C5A60( WatcherWork *work )
         return 0;
     }
 
+#ifdef VR_MYSTERY
+    if ( press & 0x800000 )
+    {
+        SetMode( work, ActMysteryShoot_800C861C );
+        return 0;
+    }
+#else
     if ( press & 0x800000 )
     {
         SetMode2( work, s00a_command_800C8C98 );
         return 0;
     }
+#endif
 
     if ( press & 0x1000000 )
     {
@@ -430,6 +461,13 @@ int CheckPad_800C5A60( WatcherWork *work )
         SetMode( work, ActHeartbeat );
         return 1;
     }
+#ifdef VR_MYSTERY
+    if ( press & SP_AIM_ONCE )
+    {
+        SetMode( work, ActAimOnce_800C83C4 );
+        return 1;
+    }
+#endif
 #endif
 
     if ( press & 0x100 )
