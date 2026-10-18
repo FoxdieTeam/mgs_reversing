@@ -21,6 +21,7 @@
 #include "game/game.h"
 #include "okajima/blood.h"
 #include "strcode.h"
+#include "equip/equip.h"
 #include "takabe/windcrcl.h"
 
 // bss of the object (the sbss variables of the main exe version are plain bss here, in the order of the original). The
@@ -59,6 +60,9 @@ extern Target_Data njp_stru_8009EFE4;
 extern SVECTOR njp_svector_800AB7FC;
 
 void njp_FreeTargets(SnaInitWork *work);
+
+void njp_800C4E38(SnaInitWork *work, int time);
+extern int snainit_item_800A9420;
 
 // shared with the p_sphere of the other VR overlays
 extern void *s08b_p_sphere_800D9834(DG_OBJS **pobjs, int *state);
@@ -649,6 +653,83 @@ void njp_sna_800C3318(SnaInitWork *work)
     s08b_p_sphere_800D9834(&work->body.objs, &work->njp_mode);
 }
 
+// @800C33C8 njp_sna_stealth_800C33C8
+// optical camouflage (stealth): L1 toggles it, it drains the energy of the target and is switched off when empty
+void njp_sna_stealth_800C33C8(SnaInitWork *work)
+{
+    int item;
+
+    if (njp_GM_CheckPlayerStatusFlag(PLAYER_WATCH))
+    {
+        return;
+    }
+
+    if (work->field_9B0_pad_ptr->press & PAD_L1)
+    {
+        work->field_9A8_current_item = IT_Stealth;
+    }
+
+    if (work->field_9A4_item_actor)
+    {
+        work->field_89C_pTarget->vital--;
+
+        if ((work->field_89C_pTarget->vital & 0x3f) == 0)
+        {
+            GM_GameStatus |= STATE_DAMAGED;
+        }
+
+        if ((work->field_89C_pTarget->vital <= 0) && (GM_GameOverTimer == 0))
+        {
+            njp_sub_8004F454(work);
+            njp_sna_set_invuln_8004F2A0(work, 0);
+            GM_GameOverTimer = -1;
+            njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
+            njp_sna_start_anim_8004E1F4(work, njp_800C4E38);
+            work->njp_mode = 3;
+            work->field_9A8_current_item = IT_Stealth;
+        }
+    }
+
+    if (work->field_9A4_item_actor)
+    {
+        if (GM_Item == IT_None)
+        {
+            work->field_9A8_current_item = IT_Stealth;
+        }
+    }
+
+    item = work->field_9A8_current_item;
+
+    if (item == IT_Stealth)
+    {
+        if (work->field_9A4_item_actor == NULL)
+        {
+            work->field_9A4_item_actor = NewKogaku2(&work->control, &work->body, 6);
+
+            if (work->field_9A4_item_actor == NULL)
+            {
+                return;
+            }
+
+            GM_SeSetMode(&work->control.mov, 78, 1);
+            dword_800ABA1C = 1;
+            GM_Item = item;
+            snainit_item_800A9420 = item;
+        }
+        else
+        {
+            GV_DestroyActorQuick(work->field_9A4_item_actor);
+            GM_SeSetMode(&work->control.mov, 78, 1);
+            dword_800ABA1C = 0;
+            work->field_9A4_item_actor = NULL;
+            GM_Item = IT_None;
+            snainit_item_800A9420 = IT_None;
+        }
+
+        work->field_9A8_current_item = 0;
+    }
+}
+
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_0.s")
 //ASM-END
 
@@ -918,6 +999,8 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
 
 
 

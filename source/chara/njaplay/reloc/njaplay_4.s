@@ -1319,7 +1319,7 @@ $Lnjp_800C6DC0_69:
 	jal	njp_GM_SetPlayerStatusFlag
 	addiu	$4,$0,8
 $Lnjp_800C6DC0_70:
-	jal	njp_800C33C8
+	jal	njp_sna_stealth_800C33C8
 	addu	$4,$18,$0
 	lh	$2,170($18)
 	lh	$4,390($18)
