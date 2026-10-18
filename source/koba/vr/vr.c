@@ -115,7 +115,6 @@ int     SECTION(".bss") VR_TargetCount;
 int     SECTION(".bss") VR_Flags;
 int     SECTION(".bss") VR_Unused;
 int     SECTION(".bss") VR_Records[4];
-int     SECTION(".bss") VR_Status;
 
 /*---------------------------------------------------------------------------*/
 

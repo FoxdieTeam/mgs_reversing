@@ -788,7 +788,10 @@ def gen_build_target(targetName):
         ninja.newline()
 
         overlayFile = f"../{args.obj_directory}/{overlay}.bin"
-        ninja.build(overlayFile, "uninitializer", inputs=[lhsOverlayFile, rhsOverlayFile, f"../um/{'stagevr' if args.variant == 'vr_exe' else 'stage'}/{overlay}.bin"], variables={"overlay": f"{overlay}"})
+        umFile = f"../um/{'stagevr' if args.variant == 'vr_exe' else 'stage'}/{overlay}.bin"
+        # optional: bytes of bss beyond the end of the original overlay (see uninitializer.py)
+        trimFile = [umFile + ".trim"] if os.path.isfile(umFile + ".trim") else []
+        ninja.build(overlayFile, "uninitializer", inputs=[lhsOverlayFile, rhsOverlayFile, umFile], implicit=trimFile, variables={"overlay": f"{overlay}"})
         ninja.newline()
 
 if args.overlay:

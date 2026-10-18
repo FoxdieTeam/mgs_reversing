@@ -1,3 +1,4 @@
+#define VR_DEFINES_STATUS
 #include "backgrnd.h"
 
 #include <sys/types.h>
@@ -10,6 +11,8 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "koba/vr/vr.h"
+
+int SECTION(".bss") VR_Status;  // VR_STATUS_*, see vr.h
 
 /*---------------------------------------------------------------------------*/
 // VR-DISC scrolling background (the "op_back" panels behind the VR stages)

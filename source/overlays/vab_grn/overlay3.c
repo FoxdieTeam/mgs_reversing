@@ -2,6 +2,7 @@
 
 
 
+int SECTION(".bss") vab_grn_dword_800E3C10;
 int SECTION(".bss") vab_grn_dword_800E3C14;
 int SECTION(".bss") vab_grn_dword_800E3C18;
 int SECTION(".bss") vab_grn_dword_800E3C1C;

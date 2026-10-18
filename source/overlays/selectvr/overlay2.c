@@ -2,7 +2,6 @@
 
 
 
-int SECTION(".bss") selectvr_dword_800E0A0C;
 int SECTION(".bss") selectvr_dword_800E0A10;
 int SECTION(".bss") selectvr_dword_800E0A14;
 int SECTION(".bss") selectvr_dword_800E0A18;

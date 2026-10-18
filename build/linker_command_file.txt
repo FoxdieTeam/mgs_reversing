@@ -340,6 +340,7 @@ overlay   group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}.bin")
     section overlay.sdata, overlay
 
 {% if OVERLAY == "d11c" or
+      OVERLAY == "opening" or
       OVERLAY == "vrsave" or
       OVERLAY == "vr_sud15" or
       OVERLAY == "vr_sud14" or
@@ -2999,13 +3000,13 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\selectvr\overlay.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\overlays\selectvr\overlay2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\selectvr\selectvr_800CF968.obj", overlay
+    include "{{OBJ_DIR}}\overlays\selectvr\selectvr_800CFF70.obj", overlay
     include "{{OBJ_DIR}}\overlays\selectvr\overlay3.obj", overlay
     include "{{OBJ_DIR}}\overlays\selectvr\overlay4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\selectvr\overlay5.obj", overlay
     include "{{OBJ_DIR}}\takabe\envmap3.obj", overlay
-    include "{{OBJ_DIR}}\overlays\selectvr\overlay6.obj", overlay
+    include "{{OBJ_DIR}}\overlays\selectvr\overlay5.obj", overlay
     include "{{OBJ_DIR}}\overlays\selectvr\selectvr_800DFC54.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "vab_cfr" %}
@@ -6261,10 +6262,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrwindow.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\bg3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrsave\overlay2.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\vrsave_800C4E44.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vrsave\overlay2.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\overlay3.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrsave\overlay4.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vr.obj", overlay
     include "{{OBJ_DIR}}\enemy\command.obj", overlay
     include "{{OBJ_DIR}}\koba\vr\vrover.obj", overlay
@@ -7506,12 +7508,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\overlays\opening\overlay3.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
-    include "{{OBJ_DIR}}\overlays\opening\overlay4.obj", overlay
     include "{{OBJ_DIR}}\takabe\btn_chk.obj", overlay
+    include "{{OBJ_DIR}}\koba\vr\backgrnd.obj", overlay
+    include "{{OBJ_DIR}}\overlays\opening\overlay4.obj", overlay
     include "{{OBJ_DIR}}\overlays\opening\overlay5.obj", overlay
-    include "{{OBJ_DIR}}\overlays\opening\overlay6.obj", overlay
-    include "{{OBJ_DIR}}\overlays\opening\overlay7.obj", overlay
-    include "{{OBJ_DIR}}\overlays\opening\opening_800C4BBC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\opening\opening_800C51C4.obj", overlay
 ;------------------------------------------------------------------------------
 {% elif OVERLAY == "option" %}
     include "{{OBJ_DIR}}\stagevr\option.obj", overlay

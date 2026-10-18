@@ -24,7 +24,12 @@ extern int VR_FoundCount;   // times the player has been spotted (sneaking mode)
 extern int VR_TargetCount;  // targets destroyed ("plus" messages)
 extern int VR_Flags;        // VRFLAG_*
 extern int VR_Records[4];   // record times, [3] = time of this run
-extern int VR_Status;       // VR_STATUS_*
+#endif
+
+// VR_Status (VR_STATUS_*) is NOT part of vr.obj: the original links it in the bss of backgrnd.c (VR_DEFINES_STATUS), which
+// sits at a different place relative to vr.obj in the overlays
+#ifndef VR_DEFINES_STATUS
+extern int VR_Status;
 #endif
 
 void *NewVr(int name, int where);

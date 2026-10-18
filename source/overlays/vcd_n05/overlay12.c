@@ -2,5 +2,4 @@
 
 
 
-int SECTION(".bss") vcd_n05_dword_800DF6A8;
 int SECTION(".bss") vcd_n05_dword_800DF6AC;

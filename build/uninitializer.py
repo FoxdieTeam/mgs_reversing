@@ -92,11 +92,19 @@ BSS_HACK = defaultdict(int, {
     's02e_lhs.bin': 4,
 })
 
-def get_bss_adjustment(lhs):
+# The original overlay files can end inside the bss (the tail of the bss is not part of the file, the code still
+# accesses it). `extract` records how many bytes of the built overlay lie beyond the end of the original in
+# "<uninitialized template>.trim" and `inject` cuts them off again.
+def trim_path(uninitialized):
+    return uninitialized + '.trim'
+
+def get_bss_adjustment(lhs, uninitialized=None):
+    if uninitialized is not None and os.path.isfile(trim_path(uninitialized)):
+        return int(open(trim_path(uninitialized)).read().strip())
     return BSS_HACK[os.path.basename(lhs)]
 
 def inject(lhs, rhs, uninitialized, out):
-    bss_adjustment = get_bss_adjustment(lhs)
+    bss_adjustment = get_bss_adjustment(lhs, uninitialized)
     lhs = open(lhs, 'rb').read()
     rhs = open(rhs, 'rb').read()
 
@@ -130,11 +138,18 @@ def inject(lhs, rhs, uninitialized, out):
     open(out, 'wb').write(bytes(out_arr))
 
 def extract(lhs, rhs, target, uninitialized_out):
+    lhs_name = lhs
     bss_adjustment = get_bss_adjustment(lhs)
     lhs = open(lhs, 'rb').read()
     rhs = open(rhs, 'rb').read()
     target = open(target, 'rb').read()
 
+    if len(lhs) > len(target) and len(lhs) - len(target) != bss_adjustment:
+        # built overlay reaches beyond the original file: only fine if that is all bss (zeros in lhs, 0x9e in rhs)
+        extra = len(lhs) - len(target)
+        assert all(b == 0 for b in lhs[len(target):]) and all(b == 0x9e for b in rhs[len(target):len(lhs)]), \
+            f"LHS overlay is {extra} bytes larger than the target and that is not all bss"
+        bss_adjustment = extra
     if bss_adjustment > 0:
         lhs = lhs[:-bss_adjustment]
 
@@ -163,6 +178,10 @@ def extract(lhs, rhs, target, uninitialized_out):
         uninitialized_out_arr.pop()
 
     if uninitialized_out is not None:
+        if os.path.isfile(trim_path(uninitialized_out)):
+            os.remove(trim_path(uninitialized_out))
+        if bss_adjustment > 0 and BSS_HACK[os.path.basename(lhs_name)] != bss_adjustment:
+            open(trim_path(uninitialized_out), 'w').write('%d\n' % bss_adjustment)
         open(uninitialized_out, 'wb').write(bytes(uninitialized_out_arr))
 
         print("Extracted", len(uninitialized_out_arr), "bytes of uninitialized memory")
