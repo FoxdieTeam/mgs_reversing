@@ -155,12 +155,12 @@
    "800C2FE4"
   ],
   [
-   "njp_800C2FE4",
+   "njp_UpdateLife_8004F6E8",
    "800C2FE4",
    "800C3118"
   ],
   [
-   "njp_800C3118",
+   "njp_sna_8004F8E4",
    "800C3118",
    "800C3270"
   ],
@@ -616,13 +616,15 @@
   "njp_sub_8004F204",
   "njp_sna_set_invuln_8004F2A0",
   "njp_sna_clear_invuln_8004F2EC",
-  "njp_sna_80051A10",
-  "njp_sna_80051BA4",
-  "njp_sna_80051FD0",
   "njp_sub_8004F338",
   "njp_sub_8004F454",
+  "njp_UpdateLife_8004F6E8",
+  "njp_sna_8004F8E4",
   "njp_nop_800C48EC",
-  "njp_FreeTargets"
+  "njp_FreeTargets",
+  "njp_sna_80051A10",
+  "njp_sna_80051BA4",
+  "njp_sna_80051FD0"
  ],
  "bss_syms": {
   "800E5B48": [

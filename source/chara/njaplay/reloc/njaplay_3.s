@@ -1180,7 +1180,7 @@ $Lnjp_800C6DC0_61:
 	jal	GM_SeSet2
 	sh	$0,108($18)
 	addu	$4,$18,$0
-	jal	njp_800C3118
+	jal	njp_sna_8004F8E4
 	addiu	$5,$0,12
 $Lnjp_800C6DC0_62:
 	jal	njp_800C41B4
@@ -1512,7 +1512,7 @@ $Lnjp_800C7C04_6:
 	addiu	$2,$0,496
 	sh	$2,82($17)
 $Lnjp_800C7C04_7:
-	jal	njp_800C2FE4
+	jal	njp_UpdateLife_8004F6E8
 	addu	$4,$17,$0
 	jal	njp_CheckSnakeDead_8004E384
 	addu	$4,$17,$0

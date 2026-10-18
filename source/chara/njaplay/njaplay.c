@@ -20,6 +20,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "okajima/blood.h"
+#include "strcode.h"
 
 // bss of the object (the sbss variables of the main exe version are plain bss here, in the order of the original). The
 // "njp_" prefix keeps the symbols apart from the identical variables of the exe.
@@ -514,6 +515,91 @@ void njp_sub_8004F454(SnaInitWork *work)
     work->njp_mode = 3;
 }
 
+// @800C2FE4 njp_UpdateLife_8004F6E8
+void njp_UpdateLife_8004F6E8(SnaInitWork *work)
+{
+    int health;
+
+    if (njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK23))
+    {
+        return;
+    }
+
+    if (njp_sna_check_flags1_8004E31C(work,SNA_FLAG1_UNK25) &&
+        (GM_Vitality == work->field_89C_pTarget->vital))
+    {
+        return;
+    }
+
+    if ((work->field_9A8_current_item == IT_BodyArmor) && (work->field_89C_pTarget->a_mode == 1))
+    {
+        work->field_89C_pTarget->damage /= 2;
+        work->field_89C_pTarget->vital += work->field_89C_pTarget->damage;
+        work->field_89C_pTarget->damage = 0;
+    }
+
+    health = work->field_89C_pTarget->vital + GM_Vitality - work->field_A22_snake_current_health;
+
+    if (health > GM_VitalityMax)
+    {
+        health = GM_VitalityMax;
+    }
+
+    if (health < 0)
+    {
+        health = 0;
+    }
+
+    if (work->field_89C_pTarget->weapon == WP_Max)
+    {
+        health = 0;
+    }
+
+    work->field_89C_pTarget->vital = health;
+    work->field_A22_snake_current_health = health;
+    GM_Vitality = health;
+
+    njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK25);
+}
+
+// @800C3118 njp_sna_8004F8E4
+void njp_sna_8004F8E4(SnaInitWork *work, int a2)
+{
+    GV_MSG msg;
+
+    if ((GM_GameOverTimer == -1) || (GM_GameOverTimer == 0))
+    {
+        // スネーク
+        msg.address = GV_StrCode("スネーク");
+        msg.message_len = 6;
+        msg.message[0] = HASH_GO_MOTION;
+        msg.message[1] = a2;
+        msg.message[2] = -1;
+        msg.message[3] = -1;
+        msg.message[4] = 2;
+        msg.message[5] = 2042;
+
+        work->field_7A4_msgs[work->field_7A0_msg_count] = msg;
+        work->field_7A0_msg_count++;
+
+        GM_GameOverTimer = 0;
+        GM_GameOver();
+
+        GM_GameStatus |= STATE_PADRELEASE;
+        njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
+
+        if (work->field_A70 >= 0)
+        {
+            GCL_ForceExecProc(work->field_A70, NULL);
+        }
+
+        if (njp_GM_CheckPlayerStatusFlag(PLAYER_CB_BOX))
+        {
+            njp_sub_8004F204(work);
+        }
+    }
+}
+
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_0.s")
 //ASM-END
 
@@ -739,6 +825,8 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
 
 
 
