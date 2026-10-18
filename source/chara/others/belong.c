@@ -7,6 +7,9 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "strcode.h"
+#ifdef VR_BELONG
+#include "equip/equip.h"
+#endif
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,6 +22,11 @@ typedef struct _Work
     int            field_4C;
     int            name;
     int            field_54;
+#ifdef VR_BELONG
+    short          raise;   // 0x58, saved by EQ_InvisibleUnit
+    short          n_packs; // 0x5A, saved by EQ_InvisibleUnit
+    int            unit_state; // 0x5C, 1 and 2 are toggled by the ON/OFF messages, see CheckMessage
+#endif
 } Work;
 
 /*---------------------------------------------------------------------------*/
@@ -46,10 +54,24 @@ static void CheckMessage(Work *work)
         case HASH_ON:
             work->field_54 = 0;
             DG_VisibleObjs(work->field_28.objs);
+#ifdef VR_BELONG
+            if (work->unit_state == 1)
+            {
+                EQ_InvisibleUnit(work->field_24, work->field_4C, &work->n_packs, &work->raise);
+                work->unit_state = 2;
+            }
+#endif
             break;
         case HASH_OFF:
             DG_InvisibleObjs(work->field_28.objs);
             work->field_54 = 1;
+#ifdef VR_BELONG
+            if (work->unit_state == 2)
+            {
+                EQ_VisibleUnit(work->field_24, work->field_4C, &work->n_packs, &work->raise);
+                work->unit_state = 1;
+            }
+#endif
             break;
         }
     }
@@ -76,6 +98,12 @@ static void Act(Work *work)
 static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->field_28);
+#ifdef VR_BELONG
+    if (work->unit_state == 2)
+    {
+        EQ_VisibleUnit(work->field_24, work->field_4C, &work->n_packs, &work->raise);
+    }
+#endif
 }
 
 static int GetResources(Work *work, int name, int where)
@@ -118,6 +146,15 @@ static int GetResources(Work *work, int name, int where)
     GM_ConfigObjectRoot((OBJECT *)obj, parent_obj, num_parent);
     work->name = name;
     work->field_54 = 0;
+#ifdef VR_BELONG
+    work->unit_state = 0;
+    if (GCL_GetOption('v'))
+    {
+        GM_ConfigObjectLight((OBJECT *)obj, parent_obj->light);
+        EQ_InvisibleUnit(work->field_24, work->field_4C, &work->n_packs, &work->raise);
+        work->unit_state = 2;
+    }
+#endif
     return 0;
 }
 
