@@ -435,7 +435,7 @@
    "800C6CA4"
   ],
   [
-   "njp_800C6CA4",
+   "njp_sna_anim_choke_800C6CA4",
    "800C6CA4",
    "800C6DC0"
   ],
@@ -450,7 +450,7 @@
    "800C81E8"
   ],
   [
-   "njp_800C81E8",
+   "njp_Die",
    "800C81E8",
    "800C82A4"
   ],
@@ -670,7 +670,9 @@
   "njp_sna_fp_update_800C6900",
   "njp_sna_fp_update_800C6994",
   "njp_sna_fp_update_800C6A60",
-  "njp_sna_anim_chokethrow_begin2_80058C80"
+  "njp_sna_anim_chokethrow_begin2_80058C80",
+  "njp_sna_anim_choke_800C6CA4",
+  "njp_Die"
  ],
  "bss_syms": {
   "800E5B48": [
