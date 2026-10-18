@@ -2376,7 +2376,7 @@ void s00a_command_800C8A6C( WatcherWork *work, int time )
                 int res = GV_RandU( 12 );
                 if ( res > 10 )
                 {
-                    work->pad.sound = 240;
+                    work->pad.sound = ENE_VSE_0;
                 }
             }
         }

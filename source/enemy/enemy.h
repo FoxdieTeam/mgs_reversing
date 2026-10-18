@@ -676,6 +676,20 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define MYST_BIG_SCALE          0x1771
 #endif
 
+// Virtual sound ids: a soldier puts one in pad.sound, the commander resolves it to a real SE (voice or radio call,
+// see s00a_command_800CF13C) for the soldier that is closest to the player. Real SE ids are below 240.
+enum
+{
+    ENE_VSE_0 = 240,
+    ENE_VSE_1 = 241,
+    ENE_VSE_2 = 242,
+    ENE_VSE_3 = 243,
+    ENE_VSE_4 = 244,
+    ENE_VSE_5 = 245,
+    ENE_VSE_6 = 246,
+    ENE_VSE_7 = 247
+};
+
 #define ACTINTERP   4
 
 #define STANDSTILL  0

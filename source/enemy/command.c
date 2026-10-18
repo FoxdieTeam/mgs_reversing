@@ -171,6 +171,7 @@ int s00a_command_800CEBCC( int map_id, int val )
                 return unk->field_04[i].field_02;
             }
         }
+        // FIXME: goto + shared return at the end steers the block order (plain returns do not match)
         goto end;
     }
     return 0;
@@ -412,28 +413,28 @@ int s00a_command_800CF13C( int val )
 {
     switch( val )
     {
-    case 240:
+    case ENE_VSE_0:
         s00a_command_800CF024( &val );
         break;
-    case 241:
+    case ENE_VSE_1:
         s00a_command_800CF050( &val );
         break;
-    case 242:
+    case ENE_VSE_2:
         s00a_command_800CF05C( &val );
         break;
-    case 243:
+    case ENE_VSE_3:
         s00a_command_800CF068( &val );
         break;
-    case 244:
+    case ENE_VSE_4:
         s00a_command_800CF074( &val );
         break;
-    case 245:
+    case ENE_VSE_5:
         s00a_command_800CF0CC( &val );
         break;
-    case 246:
+    case ENE_VSE_6:
         s00a_command_800CF080( &val );
         break;
-    case 247:
+    case ENE_VSE_7:
         s00a_command_800CF0D8( &val );
         break;
     }
@@ -767,7 +768,7 @@ int s00a_command_800CF940( HZD_HDL *hzd, SVECTOR *pos, SVECTOR *pos2 )
 
     from = HZD_GetAddress( hzd, pos, -1 );
 
-    //TODO: fix
+    // FIXME: the do { ... } while (0) wrappers only steer gcc's basic block layout
     do
     {
         to = HZD_GetAddress( hzd, pos2, -1 );
@@ -784,24 +785,11 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
 
     ctrl = &work->control;
 
-    if ( TOPCOMMAND.mode == 1 )
+    if ( TOPCOMMAND.mode == 1 || GM_NoisePower != 0x64 ||
+         ( (WatcherWork *)EnemyCommand.field_0xC8[ idx ].watcher )->act_status & 0x10000028 ||
+         GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) >= COM_NOISEMODE_DIS )
     {
-        goto exit;
-    }
-
-    if ( GM_NoisePower != 0x64 )
-    {
-        goto exit;
-    }
-
-    if ( ((WatcherWork *)EnemyCommand.field_0xC8[ idx ].watcher)->act_status & 0x10000028 )
-    {
-       goto exit;
-    }
-
-    if ( GV_DiffVec3( &GM_NoisePosition, &ctrl->mov ) >= COM_NOISEMODE_DIS )
-    {
-        goto exit;
+        return dis;
     }
 
     x = s00a_command_800CF940( ctrl->map->hzd, &ctrl->mov, &GM_NoisePosition );
@@ -812,7 +800,6 @@ int s00a_command_800CF9A0( WatcherWork *work, int dis, int idx )
         dis = x;
     }
 
-    exit:
     return dis;
 }
 

@@ -293,6 +293,7 @@ void s00a_command_800CAD84( WatcherWork *work )
                     {
                         if ( !s00a_command_800CACA0( work, addr_copy, addr ) )
                         {
+                            // FIXME: the goto loop / goto end structure steers the block layout of this search
                             if ( s00a_command_800CEA9C( addr ) )
                             {
                                 goto loop;
@@ -745,7 +746,7 @@ int s00a_command_800CB7FC( WatcherWork *work )
 
     if ( count == 0 )
     {
-        work->pad.sound = 245;
+        work->pad.sound = ENE_VSE_5;
     }
     else
     {
@@ -882,7 +883,6 @@ int s00a_command_800CBB44( WatcherWork *work )
     int act, time, dir;
     int command;
 
-start:
     //    starting from lo
     //   |con |dir|tim| act   //
     //000|0 00|00 |000|0 0000//
@@ -914,7 +914,7 @@ start:
             {
                 return 0;
             }
-            goto start;
+            return s00a_command_800CBB44( work );
         }
 
         if ( con != 0 )
@@ -1355,10 +1355,10 @@ int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
                 }
                 else
                 {
-                    work->pad.sound = (  0x88   ) ; // SE_V_ENE_HUH
+                    work->pad.sound = SE_V_ENE_HUH; // 敵兵「ん？」
                 }
 #else
-                work->pad.sound = (  0x88   ) ; // SE_V_ENE_HUH
+                work->pad.sound = SE_V_ENE_HUH; // 敵兵「ん？」
 #endif
             }
             if( work->modetime[(  T_NOISE  )]  <= 3 )
@@ -1392,7 +1392,7 @@ int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
                 {
                     if ( !(work->act_status & 0x00000080 ) )
                     {
-                        work->pad.sound = 241;
+                        work->pad.sound = ENE_VSE_1;
                     }
                 }
                 return 1;
@@ -1551,7 +1551,7 @@ int s00a_command_800CC99C( WatcherWork *work )
     {
         if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
         {
-            work->pad.sound = 243;
+            work->pad.sound = ENE_VSE_3;
         }
         return 1;
     }
@@ -1569,7 +1569,7 @@ int s00a_command_800CCA28( WatcherWork *work )
         ENE_PutMark( work, 5 );
         if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
         {
-            work->pad.sound = 244;
+            work->pad.sound = ENE_VSE_4;
         }
         else
         {
@@ -1592,7 +1592,7 @@ int s00a_command_800CCA9C( WatcherWork *work )
     if ( work->count3 == 20 )
     {
         ENE_PutMark( work, 5 );
-        work->pad.sound = 244;
+        work->pad.sound = ENE_VSE_4;
     }
 
     if ( s00a_command_800CB6CC( work ) )
@@ -1612,7 +1612,7 @@ int s00a_command_800CCAFC( WatcherWork *work )
         ENE_PutMark( work, 5 );
         if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
         {
-            work->pad.sound = 242;
+            work->pad.sound = ENE_VSE_2;
         }
     }
 
@@ -2003,6 +2003,7 @@ void s00a_command_800CD210( WatcherWork* work )
                 }
                 work->count3 = 0;
 #ifdef VR_MINENE
+                // FIXME: only the minene revision returns here (skipping the common checks after the switch)
                 return;
 #endif
             }
@@ -2486,11 +2487,11 @@ void s00a_command_800CDD80( WatcherWork *work )
             s00a_command_800CB2C8( work );
             if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
             {
-                work->pad.sound = 240;
+                work->pad.sound = ENE_VSE_0;
             }
             else
             {
-                work->pad.sound = 246;
+                work->pad.sound = ENE_VSE_6;
             }
             work->alert_level = 255;
             ENE_SetGopointLast();
@@ -2514,7 +2515,7 @@ void s00a_command_800CDD80( WatcherWork *work )
         case 17:
         ENE_SetGopointLast();
         s00a_command_800CB258( work );
-        work->pad.sound   = 246;
+        work->pad.sound   = ENE_VSE_6;
         work->alert_level = 255;
     }
 }
