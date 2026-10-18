@@ -8,6 +8,20 @@
 
 #include "game/game.h"
 
+#ifdef VR_EXE
+// FIXME: the work of snake_vr/sna_init.h has no field_898_flags2, so the fields behind it are named 4 lower than in
+// snake/sna_init.h (the shared functions below are written with the names of the latter)
+#define field_9B8_fn_anim        field_9B4_fn_anim
+#define field_9BC_anim_frame     field_9B8_anim_frame
+#define field_A3A                field_A36
+#define field_A38_local_data     field_A34_local_data
+#define field_A2A                field_A26
+#define field_8E8_pTarget        field_8E4_pTarget
+#define field_A54                field_A50
+#define field_89C_pTarget        field_898_pTarget
+#define field_9D0                field_9CC
+#endif
+
 #define SEGMENT_ATR ( HZD_SEG_NO_COLLIDE )
 
 extern short   word_8009EFC0[];

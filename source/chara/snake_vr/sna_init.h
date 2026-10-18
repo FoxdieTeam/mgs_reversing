@@ -191,15 +191,15 @@ typedef enum
 // sub struct of SnaInitWork
 typedef struct UnkSnakeStruct2
 {
-    unsigned short field_9E4;
+    unsigned short field_9E0;
+    short          field_9E2;
+    short          field_9E4;
     short          field_9E6;
-    short          field_9E8;
+    short          field_9E8_flags3;
     short          field_9EA;
-    short          field_9EC_flags3;
+    short          field_9EC;
     short          field_9EE;
-    short          field_9F0;
-    short          field_9F2;
-    SVECTOR        field_9F4;
+    SVECTOR        field_9F0;
 } UnkSnakeStruct2;
 
 struct SnaInitWork;
@@ -230,85 +230,85 @@ typedef struct SnaInitWork
     unsigned short      field_890_autoaim_max_dist;
     unsigned short      field_892_autoaim_min_angle;
     SnaFlag1            field_894_flags1;
-    // field_898_flags2 removed here
-    TARGET             *field_89C_pTarget;
-    TARGET              field_8A0_target;
-    TARGET             *field_8E8_pTarget;
-    SVECTOR             field_8EC_vec;
+    // field_898_flags2 of snake/sna_init.h does not exist in this version: all following fields are 4 bytes lower
+    TARGET             *field_898_pTarget;
+    TARGET              field_89C_target;
+    TARGET             *field_8E4_pTarget;
+    SVECTOR             field_8E8_vec;
+    int                 field_8F0;
     int                 field_8F4;
-    int                 field_8F8;
-    SVECTOR             field_8FC;
-    int                 field_904_frames_last_choke;
+    SVECTOR             field_8F8;
+    int                 field_900_frames_last_choke;
 #ifndef VR_NINJA // the ninja of the VR missions (chara/njaplay) has no weapons, scope and shadow poly: 0x9C bytes less
-    GV_ACT             *field_908_weapon_actor;
-    TSnakeFunction      field_90C_pWeaponFn;
-    int                 field_910;
-    u_long              field_914_trigger;
-    short              *field_918_n_bullets;
-    int                 field_91C_weapon_idx;
-    int                 field_920_tbl;
-    short               field_924;
-    short               field_926;
-    DG_TEX             *field_928;
-    DG_PRIM            *field_92C;
-    SVECTOR             field_930;
-    SVECTOR             field_938;
-    SVECTOR             field_940;
-    SVECTOR             field_948;
-    POLY_FT4            field_950[2];
-    int                 field_9A0;
+    GV_ACT             *field_904_weapon_actor;
+    TSnakeFunction      field_908_pWeaponFn;
+    int                 field_90C;
+    u_long              field_910_trigger;
+    short              *field_914_n_bullets;
+    int                 field_918_weapon_idx;
+    int                 field_91C_tbl;
+    short               field_920;
+    short               field_922;
+    DG_TEX             *field_924;
+    DG_PRIM            *field_928;
+    SVECTOR             field_92C;
+    SVECTOR             field_934;
+    SVECTOR             field_93C;
+    SVECTOR             field_944;
+    POLY_FT4            field_94C[2];
+    int                 field_99C;
 #endif
-    GV_ACT             *field_9A4_item_actor;
-    int                 field_9A8_current_item;
-    int                 field_9AC;
-    GV_PAD             *field_9B0_pad_ptr;
+    GV_ACT             *field_9A0_item_actor;
+    int                 field_9A4_current_item;
+    int                 field_9A8;
+    GV_PAD             *field_9AC_pad_ptr;
 #ifndef VR_NINJA // ... and no action packs (its motions are fixed)
     ACTPACK            *actpack;
 #endif
-    TSnakeFunction      field_9B8_fn_anim;
-    int                 field_9BC_anim_frame;
-    TSnakeFunction      field_9C0;
-    int                 field_9C4;
-    TSnakeFunction      field_9C8_anim_update_fn_3p; // called for every anim/state while in third person
-    TSnakeFunction      field_9CC_anim_update_fn_1p; // same except first person. caller: 8005a7e0
-    short               field_9D0[10];
-    UnkSnakeStruct2     field_9E4;
-    void               *field_9FC;
-    NAVIGATE            field_A00; // auto movement of snake during mini cutscenes. some above fields may also be this
-    short               field_A20;
-    short               field_A22_snake_current_health;
-    char                field_A24_invuln_frames;
-    char                field_A25;
-    short               field_A26_stance; // SNA_STANCE_...
-    short               field_A28;
-    short               field_A2A;
-    SVECTOR             field_A2C;
-    char                field_A34;
-    char                field_A35_vibtime2;
-    char                field_A36;
-    char                field_A37;
-    short               field_A38_local_data;
-    short               field_A3A;
-    SVECTOR             field_A3C;
-    SVECTOR             field_A44;
-    int                 field_A4C;
-    short               field_A50;
-    short               field_A52;
+    TSnakeFunction      field_9B4_fn_anim;
+    int                 field_9B8_anim_frame;
+    TSnakeFunction      field_9BC;
+    int                 field_9C0;
+    TSnakeFunction      field_9C4_anim_update_fn_3p; // called for every anim/state while in third person
+    TSnakeFunction      field_9C8_anim_update_fn_1p; // same except first person. caller: 8005a7e0
+    short               field_9CC[10];
+    UnkSnakeStruct2     field_9E0;
+    void               *field_9F8;
+    NAVIGATE            field_9FC; // auto movement of snake during mini cutscenes. some above fields may also be this
+    short               field_A1C;
+    short               field_A1E_snake_current_health;
+    char                field_A20_invuln_frames;
+    char                field_A21;
+    short               field_A22_stance; // SNA_STANCE_...
+    short               field_A24;
+    short               field_A26;
+    SVECTOR             field_A28;
+    char                field_A30;
+    char                field_A31_vibtime2;
+    char                field_A32;
+    char                field_A33;
+    short               field_A34_local_data;
+    short               field_A36;
+    SVECTOR             field_A38;
+    SVECTOR             field_A40;
+    int                 field_A48;
+    short               field_A4C;
+    short               field_A4E;
     // var reused in differenet contexts, union is better than a generic name for all contexts
     union {
         short choke_count;
         short prone_bool_thing;
         short wall_thing;
         short knockdown_thing;
-    } field_A54;
-    short          field_A56;
-    short          field_A58;
-    unsigned short field_A5A;
-    unsigned short field_A5C;
-    short          field_A5E;
-    SVECTOR        field_A60;
-    SVECTOR        field_A68;
-    int            field_A70;
+    } field_A50;
+    short          field_A52;
+    short          field_A54;
+    unsigned short field_A56;
+    unsigned short field_A58;
+    short          field_A5A;
+    SVECTOR        field_A5C;
+    SVECTOR        field_A64;
+    int            field_A6C;
 #ifdef VR_NINJA
     TARGET        *njp_targets[3]; // extra targets of the ninja (freed by njp_FreeTargets)
     int            njp_num_targets;

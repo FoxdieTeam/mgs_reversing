@@ -125,14 +125,14 @@ extern void *s08b_p_sphere_800D9834(DG_OBJS **pobjs, int *state);
 void njp_sna_start_anim_8004E1F4(SnaInitWork *work, void *pFn)
 {
     short vec_x = 0;
-    work->field_9B8_fn_anim = pFn;
-    work->field_9BC_anim_frame = 0;
-    work->field_A3A = 0;
-    work->field_A38_local_data = 0;
+    work->field_9B4_fn_anim = pFn;
+    work->field_9B8_anim_frame = 0;
+    work->field_A36 = 0;
+    work->field_A34_local_data = 0;
 
     if ((GM_PlayerStatus & PLAYER_GROUND) != 0)
     {
-        vec_x = work->field_A2A;
+        vec_x = work->field_A26;
     }
 
     work->control.turn.vx = vec_x;
@@ -217,14 +217,14 @@ void njp_CheckSnakeDead_8004E384(SnaInitWork *snake)
 // @800C274C njp_sna_sub_8004E41C
 void njp_sna_sub_8004E41C(SnaInitWork *snake, unsigned short flags)
 {
-    TARGET *target = snake->field_8E8_pTarget;
+    TARGET *target = snake->field_8E4_pTarget;
 
     if (target != NULL)
     {
         target->damaged &= ~flags;
-        snake->field_8E8_pTarget = 0;
-        snake->field_A54.choke_count = 0;
-        snake->field_89C_pTarget->size.vx = 300;
+        snake->field_8E4_pTarget = 0;
+        snake->field_A50.choke_count = 0;
+        snake->field_898_pTarget->size.vx = 300;
     }
 }
 
@@ -308,7 +308,7 @@ int njp_sub_8004E5E8(SnaInitWork *work, int flag)
 // @800C2914 njp_sna_8004EB14
 void njp_sna_8004EB14(SnaInitWork *work)
 {
-    memcpy(&work->field_9D0, &njp_word_8009EFC0, sizeof(work->field_9D0));
+    memcpy(&work->field_9CC, &njp_word_8009EFC0, sizeof(work->field_9CC));
 }
 
 // @800C2974 njp_sub_8004EB74
@@ -316,18 +316,18 @@ void njp_sub_8004EB74(SnaInitWork *work)
 {
     if (GM_Camera.first_person == 0)
     {
-        if (work->field_9B0_pad_ptr->dir == (short)-1)
+        if (work->field_9AC_pad_ptr->dir == (short)-1)
         {
-            work->field_A20 = -6;
+            work->field_A1C = -6;
         }
         else
         {
-            work->field_A20 = -3;
+            work->field_A1C = -3;
         }
     }
 
     GM_Camera.first_person = 1;
-    work->field_A56 = 0;
+    work->field_A52 = 0;
     njp_GM_SetPlayerStatusFlag(PLAYER_MENU_DISABLE | PLAYER_WATCH);
 
     sd_set_cli(0x01ffff20, SD_ASYNC);
@@ -338,11 +338,11 @@ void njp_sna_8004EC00(SnaInitWork *work)
 {
     if (GM_Camera.first_person == 1)
     {
-        work->field_A20 = 6;
+        work->field_A1C = 6;
     }
 
     GM_Camera.first_person = 0;
-    work->field_A56 = 0;
+    work->field_A52 = 0;
 
     njp_GM_ClearPlayerStatusFlag(PLAYER_NORMAL_WATCH | PLAYER_WATCH);
     njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK16);
@@ -356,12 +356,12 @@ void njp_sna_8004EC00(SnaInitWork *work)
 // @800C2A58 njp_sna_act_helper2_helper3_8004ED6C
 void njp_sna_act_helper2_helper3_8004ED6C(SnaInitWork *work)
 {
-    if (work->field_A20 != 0)
+    if (work->field_A1C != 0)
     {
-        if (work->field_A20 >= 1)
+        if (work->field_A1C >= 1)
         {
 
-            if ((GM_Camera.first_person == 0) && (--work->field_A20 == 0))
+            if ((GM_Camera.first_person == 0) && (--work->field_A1C == 0))
             {
                 DG_VisibleObjs(work->body.objs);
 
@@ -371,7 +371,7 @@ void njp_sna_act_helper2_helper3_8004ED6C(SnaInitWork *work)
                 }
             }
         }
-        else if ((GM_Camera.first_person != 0) && (++work->field_A20 == 0))
+        else if ((GM_Camera.first_person != 0) && (++work->field_A1C == 0))
         {
             DG_InvisibleObjs(work->body.objs);
         }
@@ -479,15 +479,15 @@ void njp_sna_act_helper2_helper4_8004F090(SnaInitWork *work, int param_2)
 // @800C2CFC njp_sub_8004F204
 void njp_sub_8004F204(SnaInitWork *work)
 {
-    if (work->field_9A4_item_actor != 0)
+    if (work->field_9A0_item_actor != 0)
     {
-        GV_DestroyActorQuick(work->field_9A4_item_actor);
+        GV_DestroyActorQuick(work->field_9A0_item_actor);
     }
 
-    work->field_9A4_item_actor = 0;
-    work->field_9A8_current_item = IT_None;
+    work->field_9A0_item_actor = 0;
+    work->field_9A4_current_item = IT_None;
     GM_Item = IT_None;
-    work->field_9AC = GM_ItemTypes[0];
+    work->field_9A8 = GM_ItemTypes[0];
 
     njp_sna_8004EC00(work);
     njp_GM_ClearPlayerStatusFlag(PLAYER_WEAPON_DISABLE | PLAYER_CB_BOX);
@@ -497,8 +497,8 @@ void njp_sub_8004F204(SnaInitWork *work)
 void njp_sna_set_invuln_8004F2A0(SnaInitWork *work, char invuln_frames)
 {
     njp_GM_SetPlayerStatusFlag(PLAYER_INVINCIBLE);
-    work->field_A24_invuln_frames = invuln_frames;
-    work->field_89C_pTarget->class &= ~0x96;
+    work->field_A20_invuln_frames = invuln_frames;
+    work->field_898_pTarget->class &= ~0x96;
 }
 
 // @800C2DB4 njp_sna_clear_invuln_8004F2EC
@@ -506,7 +506,7 @@ void njp_sna_clear_invuln_8004F2EC(SnaInitWork *work)
 {
     njp_GM_ClearPlayerStatusFlag(PLAYER_INVINCIBLE);
     njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK1);
-    work->field_89C_pTarget->class |= TARGET_FLAG;
+    work->field_898_pTarget->class |= TARGET_FLAG;
 }
 
 // @800C2E00 njp_sub_8004F338
@@ -514,7 +514,7 @@ void njp_sub_8004F338(SnaInitWork *work)
 {
     if (njp_GM_CheckPlayerStatusFlag(PLAYER_INTRUDE))
     {
-        work->field_A56 = 0;
+        work->field_A52 = 0;
         njp_GM_ClearPlayerStatusFlag(PLAYER_MENU_DISABLE
                                  | PLAYER_NORMAL_WATCH
                                  | PLAYER_WATCH);
@@ -525,7 +525,7 @@ void njp_sub_8004F338(SnaInitWork *work)
     }
 
     njp_sna_clear_invuln_8004F2EC(work);
-    work->field_A24_invuln_frames = 0;
+    work->field_A20_invuln_frames = 0;
     njp_sna_sub_8004E41C(work, 2);
     GM_ConfigMotionAdjust(&work->body, 0);
     njp_sna_8004E260(work, 0, 4, 0);
@@ -536,7 +536,7 @@ void njp_sub_8004F338(SnaInitWork *work)
                        PLAYER_GAME_OVER | PLAYER_CB_BOX | PLAYER_INTRUDE |
                        PLAYER_ACT_ONLY | PLAYER_SQUAT | PLAYER_GROUND;
 
-    work->field_A28 = 0x1c2;
+    work->field_A24 = 0x1c2;
     work->field_894_flags1 &= (SNA_FLAG1_UNK20 | SNA_FLAG1_UNK28 | SNA_FLAG1_UNK29);
     work->control.skip_flag &= ~CTRL_BOTH_CHECK;
     njp_FreeTargets(work);
@@ -563,7 +563,7 @@ void njp_sub_8004F454(SnaInitWork *work)
 
     if (njp_GM_CheckPlayerStatusFlag(PLAYER_CAUTION) == 0)
     {
-        work->field_A28 = 450;
+        work->field_A24 = 450;
         GM_ExitBehindCamera();
     }
 
@@ -584,19 +584,19 @@ void njp_UpdateLife_8004F6E8(SnaInitWork *work)
     }
 
     if (njp_sna_check_flags1_8004E31C(work,SNA_FLAG1_UNK25) &&
-        (GM_Vitality == work->field_89C_pTarget->vital))
+        (GM_Vitality == work->field_898_pTarget->vital))
     {
         return;
     }
 
-    if ((work->field_9A8_current_item == IT_BodyArmor) && (work->field_89C_pTarget->a_mode == 1))
+    if ((work->field_9A4_current_item == IT_BodyArmor) && (work->field_898_pTarget->a_mode == 1))
     {
-        work->field_89C_pTarget->damage /= 2;
-        work->field_89C_pTarget->vital += work->field_89C_pTarget->damage;
-        work->field_89C_pTarget->damage = 0;
+        work->field_898_pTarget->damage /= 2;
+        work->field_898_pTarget->vital += work->field_898_pTarget->damage;
+        work->field_898_pTarget->damage = 0;
     }
 
-    health = work->field_89C_pTarget->vital + GM_Vitality - work->field_A22_snake_current_health;
+    health = work->field_898_pTarget->vital + GM_Vitality - work->field_A1E_snake_current_health;
 
     if (health > GM_VitalityMax)
     {
@@ -608,13 +608,13 @@ void njp_UpdateLife_8004F6E8(SnaInitWork *work)
         health = 0;
     }
 
-    if (work->field_89C_pTarget->weapon == WP_Max)
+    if (work->field_898_pTarget->weapon == WP_Max)
     {
         health = 0;
     }
 
-    work->field_89C_pTarget->vital = health;
-    work->field_A22_snake_current_health = health;
+    work->field_898_pTarget->vital = health;
+    work->field_A1E_snake_current_health = health;
     GM_Vitality = health;
 
     njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK25);
@@ -646,9 +646,9 @@ void njp_sna_8004F8E4(SnaInitWork *work, int a2)
         GM_GameStatus |= STATE_PADRELEASE;
         njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
 
-        if (work->field_A70 >= 0)
+        if (work->field_A6C >= 0)
         {
-            GCL_ForceExecProc(work->field_A70, NULL);
+            GCL_ForceExecProc(work->field_A6C, NULL);
         }
 
         if (njp_GM_CheckPlayerStatusFlag(PLAYER_CB_BOX))
@@ -669,9 +669,9 @@ void njp_sna_800C3270(SnaInitWork *work)
         GM_GameStatus |= STATE_PADRELEASE;
         njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
 
-        if (work->field_A70 >= 0)
+        if (work->field_A6C >= 0)
         {
-            GCL_ForceExecProc(work->field_A70, NULL);
+            GCL_ForceExecProc(work->field_A6C, NULL);
         }
     }
 }
@@ -714,21 +714,21 @@ void njp_sna_stealth_800C33C8(SnaInitWork *work)
         return;
     }
 
-    if (work->field_9B0_pad_ptr->press & PAD_L1)
+    if (work->field_9AC_pad_ptr->press & PAD_L1)
     {
-        work->field_9A8_current_item = IT_Stealth;
+        work->field_9A4_current_item = IT_Stealth;
     }
 
-    if (work->field_9A4_item_actor)
+    if (work->field_9A0_item_actor)
     {
-        work->field_89C_pTarget->vital--;
+        work->field_898_pTarget->vital--;
 
-        if ((work->field_89C_pTarget->vital & 0x3f) == 0)
+        if ((work->field_898_pTarget->vital & 0x3f) == 0)
         {
             GM_GameStatus |= STATE_DAMAGED;
         }
 
-        if ((work->field_89C_pTarget->vital <= 0) && (GM_GameOverTimer == 0))
+        if ((work->field_898_pTarget->vital <= 0) && (GM_GameOverTimer == 0))
         {
             njp_sub_8004F454(work);
             njp_sna_set_invuln_8004F2A0(work, 0);
@@ -736,27 +736,27 @@ void njp_sna_stealth_800C33C8(SnaInitWork *work)
             njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
             njp_sna_start_anim_8004E1F4(work, njp_sna_anim_spin_end_800C4E38);
             work->njp_sphere_state = 3;
-            work->field_9A8_current_item = IT_Stealth;
+            work->field_9A4_current_item = IT_Stealth;
         }
     }
 
-    if (work->field_9A4_item_actor)
+    if (work->field_9A0_item_actor)
     {
         if (GM_Item == IT_None)
         {
-            work->field_9A8_current_item = IT_Stealth;
+            work->field_9A4_current_item = IT_Stealth;
         }
     }
 
-    item = work->field_9A8_current_item;
+    item = work->field_9A4_current_item;
 
     if (item == IT_Stealth)
     {
-        if (work->field_9A4_item_actor == NULL)
+        if (work->field_9A0_item_actor == NULL)
         {
-            work->field_9A4_item_actor = NewKogaku2(&work->control, &work->body, 6);
+            work->field_9A0_item_actor = NewKogaku2(&work->control, &work->body, 6);
 
-            if (work->field_9A4_item_actor == NULL)
+            if (work->field_9A0_item_actor == NULL)
             {
                 return;
             }
@@ -768,15 +768,15 @@ void njp_sna_stealth_800C33C8(SnaInitWork *work)
         }
         else
         {
-            GV_DestroyActorQuick(work->field_9A4_item_actor);
+            GV_DestroyActorQuick(work->field_9A0_item_actor);
             GM_SeSetMode(&work->control.mov, 78, 1);
             dword_800ABA1C = 0;
-            work->field_9A4_item_actor = NULL;
+            work->field_9A0_item_actor = NULL;
             GM_Item = IT_None;
             snainit_item_800A9420 = IT_None;
         }
 
-        work->field_9A8_current_item = 0;
+        work->field_9A4_current_item = 0;
     }
 }
 
@@ -866,14 +866,14 @@ int njp_sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
     SVECTOR vec;
     SVECTOR vecs[2];
 
-    GM_SetTarget(&work->field_8A0_target, TARGET_CAPTURE, PLAYER_SIDE, &pTargetData->field_8_size);
-    GM_SetCaptureTarget(&work->field_8A0_target, pTargetData->field_18, pTargetData->field_1C, &work->field_8F4, &work->field_8FC);
+    GM_SetTarget(&work->field_89C_target, TARGET_CAPTURE, PLAYER_SIDE, &pTargetData->field_8_size);
+    GM_SetCaptureTarget(&work->field_89C_target, pTargetData->field_18, pTargetData->field_1C, &work->field_8F0, &work->field_8F8);
     DG_PutVector(&pTargetData->field_0, &vec, 1);
-    GM_MoveTarget(&work->field_8A0_target, &vec);
+    GM_MoveTarget(&work->field_89C_target, &vec);
 
-    work->field_8E8_pTarget = NULL;
+    work->field_8E4_pTarget = NULL;
 
-    pTarget = GM_CaptureTarget(&work->field_8A0_target);
+    pTarget = GM_CaptureTarget(&work->field_89C_target);
 
     if (pTarget)
     {
@@ -889,7 +889,7 @@ int njp_sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
 
         if (njp_sna_line_check(vecs, work->control.map->hzd, HZD_CHK_ALL, SEGMENT_ATR) < 0)
         {
-            work->field_8E8_pTarget = pTarget;
+            work->field_8E4_pTarget = pTarget;
             return 1;
         }
 
@@ -934,7 +934,7 @@ void njp_sna_800C399C(SnaInitWork *work)
     TARGET  target;
     SVECTOR size;
 
-    size = work->field_89C_pTarget->size;
+    size = work->field_898_pTarget->size;
     GM_SetTarget(&target, 4, PLAYER_SIDE, &size);
     GM_SetPowerTarget(&target, POWER_DECREASE, 1, 256, 0, &DG_ZeroVector);
     GM_MoveTarget(&target, &work->control.mov);
@@ -945,8 +945,8 @@ void njp_sna_800C399C(SnaInitWork *work)
 // starts a ninja action (jump, slash, ...) from the pad, returns 1 if one was started
 int njp_sna_select_action_800C3A30(SnaInitWork *work)
 {
-    u_short status = work->field_9B0_pad_ptr->status;
-    u_short press = work->field_9B0_pad_ptr->press;
+    u_short status = work->field_9AC_pad_ptr->status;
+    u_short press = work->field_9AC_pad_ptr->press;
 
     if ((status & PAD_CIRCLE) && work->control.grounded)
     {
@@ -1000,9 +1000,9 @@ int njp_sna_select_action_800C3A30(SnaInitWork *work)
 // @800C3B98 njp_sub_800507D8
 int njp_sub_800507D8(SnaInitWork *work)
 {
-    if (njp_dword_800ABBC4 == 0 && work->field_A38_local_data == 0)
+    if (njp_dword_800ABBC4 == 0 && work->field_A34_local_data == 0)
     {
-        work->field_A28 = 450;
+        work->field_A24 = 450;
         njp_GM_ClearPlayerStatusFlag(PLAYER_CHECK_WALL | PLAYER_CAUTION | PLAYER_MOVE);
         njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
         njp_sna_8004E260(work, 0, 4, 0);
@@ -1030,33 +1030,33 @@ static inline void njp_sna_act_unk_helper_80050A64(SnaInitWork *work, GV_MSG *pM
 
     flags = 0;
     len = pMsg->message_len;
-    pStr = &work->field_9E4;
+    pStr = &work->field_9E0;
 
     pMsg->message_len = 0;
-    pStr->field_9E4 = pMsg->message[1];
+    pStr->field_9E0 = pMsg->message[1];
+    pStr->field_9E2 = -1;
+    pStr->field_9E4 = -1;
     pStr->field_9E6 = -1;
-    pStr->field_9E8 = -1;
-    pStr->field_9EA = -1;
-    pStr->field_9EC_flags3 = 0;
+    pStr->field_9E8_flags3 = 0;
 
     if (len > 2)
     {
-        pStr->field_9E6 = pMsg->message[2];
+        pStr->field_9E2 = pMsg->message[2];
     }
 
     if (len > 3)
     {
-        pStr->field_9E8 = pMsg->message[3];
+        pStr->field_9E4 = pMsg->message[3];
     }
 
     if (len > 4)
     {
-        pStr->field_9EA = pMsg->message[4];
+        pStr->field_9E6 = pMsg->message[4];
     }
 
     if (len > 5)
     {
-        flags = pStr->field_9EC_flags3 = pMsg->message[5];
+        flags = pStr->field_9E8_flags3 = pMsg->message[5];
     }
 
     if (njp_sna_act_unk_helper4_8004FA3C() && (var_s4 == 0))
@@ -1067,21 +1067,21 @@ static inline void njp_sna_act_unk_helper_80050A64(SnaInitWork *work, GV_MSG *pM
     }
     else
     {
-        pStr->field_9F2 = 0;
+        pStr->field_9EE = 0;
 
         if (var_s4 != 0)
         {
-            pStr->field_9F2 = 1;
+            pStr->field_9EE = 1;
         }
 
         if (!(flags & 0x80))
         {
-            if (!work->field_A5A)
+            if (!work->field_A56)
             {
                 return;
             }
 
-            GM_ConfigMotionControl(&work->body, &work->m_ctrl, work->field_A5A,
+            GM_ConfigMotionControl(&work->body, &work->m_ctrl, work->field_A56,
                                    work->m_segs1, work->m_segs2, &work->control,
                                    work->rots);
         }
@@ -1093,11 +1093,11 @@ static inline void njp_sna_act_unk_helper_80050A64(SnaInitWork *work, GV_MSG *pM
                 return;
             }
 
-            pStr->field_9EE = work->control.mov.vy - pMsg->message[6];
+            pStr->field_9EA = work->control.mov.vy - pMsg->message[6];
         }
         else
         {
-            pStr->field_9EE = work->control.levels[0];
+            pStr->field_9EA = work->control.levels[0];
         }
 
         if (flags & 0x10)
@@ -1105,7 +1105,7 @@ static inline void njp_sna_act_unk_helper_80050A64(SnaInitWork *work, GV_MSG *pM
             work->control.skip_flag |= CTRL_SKIP_TRAP;
         }
 
-        pStr->field_9F0 = 1;
+        pStr->field_9EC = 1;
 
         njp_sna_start_anim_8004E1F4(work, njp_sna_anim_dying_80055524);
         njp_GM_SetPlayerStatusFlag(PLAYER_ACT_ONLY);
@@ -1226,9 +1226,9 @@ void njp_sna_anim_idle_800C4200(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_sna_anim_idle_update_800C44CC;
-        work->field_A26_stance = STAND;
-        work->field_9CC_anim_update_fn_1p = njp_sna_fp_update_800C6900;
+        work->field_9C4_anim_update_fn_3p = njp_sna_anim_idle_update_800C44CC;
+        work->field_A22_stance = STAND;
+        work->field_9C8_anim_update_fn_1p = njp_sna_fp_update_800C6900;
         njp_SetAction_8004E22C(work, 2, 4);
     }
 }
@@ -1238,8 +1238,8 @@ void njp_sna_anim_run_begin_80053B88(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_sna_anim_run_update_800C45CC;
-        work->field_9CC_anim_update_fn_1p = njp_sna_fp_update_800C6900;
+        work->field_9C4_anim_update_fn_3p = njp_sna_anim_run_update_800C45CC;
+        work->field_9C8_anim_update_fn_1p = njp_sna_fp_update_800C6900;
         njp_GM_SetPlayerStatusFlag(PLAYER_MOVE);
         njp_SetAction_8004E22C(work, 5, 4);
     }
@@ -1264,20 +1264,20 @@ void njp_sna_anim_wall_crouch_80052CCC(SnaInitWork *work, int time)
             njp_GM_SetPlayerStatusFlag(PLAYER_CAUTION);
         }
 
-        work->field_A28 = 300;
-        work->field_9C8_anim_update_fn_3p = njp_sna_anim_crouch_wall_update_800C4750;
-        work->field_A26_stance = STAND;
-        work->field_9CC_anim_update_fn_1p = njp_sna_fp_update_800C6994;
+        work->field_A24 = 300;
+        work->field_9C4_anim_update_fn_3p = njp_sna_anim_crouch_wall_update_800C4750;
+        work->field_A22_stance = STAND;
+        work->field_9C8_anim_update_fn_1p = njp_sna_fp_update_800C6994;
         njp_SetAction_8004E22C(work, 21, 4);
     }
 
     GM_CheckBehindCamera(work->control.map->hzd, &work->control);
 
-    if (work->field_A3A < 8 && njp_pVec_800ABBCC != NULL)
+    if (work->field_A36 < 8 && njp_pVec_800ABBCC != NULL)
     {
         work->control.step.vx += njp_pVec_800ABBCC->vx / 8;
         work->control.step.vz += njp_pVec_800ABBCC->vz / 8;
-        work->field_A3A++;
+        work->field_A36++;
     }
 }
 
@@ -1289,10 +1289,10 @@ void njp_sna_anim_wall_move_80052BA8(SnaInitWork *work, int time)
     if (time == 0)
     {
         njp_GM_SetPlayerStatusFlag(PLAYER_MOVE | PLAYER_CAUTION);
-        work->field_9C8_anim_update_fn_3p = njp_sna_anim_wall_move_update_800C47EC;
-        work->field_9CC_anim_update_fn_1p = njp_sna_fp_update_800C6994;
+        work->field_9C4_anim_update_fn_3p = njp_sna_anim_wall_move_update_800C47EC;
+        work->field_9C8_anim_update_fn_1p = njp_sna_fp_update_800C6994;
 
-        if (work->field_A54.wall_thing == 2)
+        if (work->field_A50.wall_thing == 2)
         {
             action = 22;
         }
@@ -1301,17 +1301,17 @@ void njp_sna_anim_wall_move_80052BA8(SnaInitWork *work, int time)
             action = 23;
         }
 
-        work->field_A28 = 300;
-        work->field_A54.wall_thing = 0;
+        work->field_A24 = 300;
+        work->field_A50.wall_thing = 0;
         njp_SetAction_8004E22C(work, action, 4);
         work->control.turn.vy = njp_dword_800ABBD0 - 2048;
     }
 
-    if (work->field_A3A < 8 && njp_pVec_800ABBCC != NULL)
+    if (work->field_A36 < 8 && njp_pVec_800ABBCC != NULL)
     {
         work->control.step.vx += njp_pVec_800ABBCC->vx / 8;
         work->control.step.vz += njp_pVec_800ABBCC->vz / 8;
-        work->field_A3A++;
+        work->field_A36++;
     }
 }
 
@@ -1325,12 +1325,12 @@ void njp_sna_anim_idle_update_800C44CC(SnaInitWork *work, int time)
         return;
     }
 
-    if (work->field_A38_local_data > 0)
+    if (work->field_A34_local_data > 0)
     {
-        work->field_A38_local_data--;
+        work->field_A34_local_data--;
     }
 
-    if (work->field_A38_local_data == 0 && njp_gSnaMoveDir_800ABBA4 >= 0)
+    if (work->field_A34_local_data == 0 && njp_gSnaMoveDir_800ABBA4 >= 0)
     {
         if (njp_dword_800ABBC4 == 1 || (njp_dword_800ABBC4 != 0 && work->field_79C == 2))
         {
@@ -1341,7 +1341,7 @@ void njp_sna_anim_idle_update_800C44CC(SnaInitWork *work, int time)
             diff = GV_DiffDirAbs(work->control.turn.vy, njp_gSnaMoveDir_800ABBA4);
             if (diff > 256)
             {
-                work->field_A38_local_data = diff / 1024 + 1;
+                work->field_A34_local_data = diff / 1024 + 1;
             }
             else
             {
@@ -1365,7 +1365,7 @@ void njp_sna_anim_run_update_800C45CC(SnaInitWork *work, int time)
 
     if (njp_gSnaMoveDir_800ABBA4 < 0)
     {
-        if (++work->field_A3A >= 5)
+        if (++work->field_A36 >= 5)
         {
             njp_GM_ClearPlayerStatusFlag(PLAYER_MOVE);
             njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
@@ -1374,12 +1374,12 @@ void njp_sna_anim_run_update_800C45CC(SnaInitWork *work, int time)
     }
     else
     {
-        work->field_A3A = 0;
+        work->field_A36 = 0;
     }
 
     if ((njp_dword_800ABBC4 == 1) || ((njp_dword_800ABBC4 != 0) && (work->field_79C == 2)))
     {
-        if (++work->field_A38_local_data >= 3)
+        if (++work->field_A34_local_data >= 3)
         {
             njp_GM_ClearPlayerStatusFlag(PLAYER_MOVE);
             njp_sna_start_anim_8004E1F4(work, njp_sna_anim_wall_crouch_80052CCC);
@@ -1388,10 +1388,10 @@ void njp_sna_anim_run_update_800C45CC(SnaInitWork *work, int time)
     }
     else
     {
-        work->field_A38_local_data = 0;
+        work->field_A34_local_data = 0;
     }
 
-    if (work->field_A38_local_data == 0)
+    if (work->field_A34_local_data == 0)
     {
         if (njp_gSnaMoveDir_800ABBA4 >= 0)
         {
@@ -1427,9 +1427,9 @@ void njp_sna_anim_run_update_800C45CC(SnaInitWork *work, int time)
 // @800C4750 njp_sna_anim_crouch_wall_update_800C4750
 void njp_sna_anim_crouch_wall_update_800C4750(SnaInitWork *work, int time)
 {
-    if (work->field_A38_local_data != 0)
+    if (work->field_A34_local_data != 0)
     {
-        work->field_A38_local_data--;
+        work->field_A34_local_data--;
     }
 
     if (njp_sub_800507D8(work))
@@ -1439,13 +1439,13 @@ void njp_sna_anim_crouch_wall_update_800C4750(SnaInitWork *work, int time)
 
     if (njp_dword_800ABBC4 == 2 || njp_dword_800ABBC4 == 4)
     {
-        work->field_A54.wall_thing = njp_dword_800ABBC4;
+        work->field_A50.wall_thing = njp_dword_800ABBC4;
         njp_sna_start_anim_8004E1F4(work, njp_sna_anim_wall_move_80052BA8);
     }
 
     if ((njp_dword_800ABBD0 - 2048) != work->control.rot.vy)
     {
-        work->field_A3A = 0;
+        work->field_A36 = 0;
         work->control.turn.vy = njp_dword_800ABBD0 - 2048;
     }
 }
@@ -1455,9 +1455,9 @@ void njp_sna_anim_wall_move_update_800C47EC(SnaInitWork *work, int time)
 {
     int action;
 
-    if (work->field_A38_local_data != 0)
+    if (work->field_A34_local_data != 0)
     {
-        work->field_A38_local_data--;
+        work->field_A34_local_data--;
     }
 
     if (njp_sub_800507D8(work))
@@ -1476,7 +1476,7 @@ void njp_sna_anim_wall_move_update_800C47EC(SnaInitWork *work, int time)
 
     if (((njp_dword_800ABBD0 - 2048) != work->control.rot.vy) || (njp_pVec_800ABBC8 != njp_pVec_800ABBCC))
     {
-        work->field_A3A = 0;
+        work->field_A36 = 0;
         work->control.turn.vy = njp_dword_800ABBD0 - 2048;
     }
 
@@ -1548,10 +1548,10 @@ void njp_sna_anim_800C4A38(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_sna_anim_update_800C5C18;
-        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        work->field_9C4_anim_update_fn_3p = njp_sna_anim_update_800C5C18;
+        work->field_9C8_anim_update_fn_1p = njp_nop_800C48EC;
         njp_SetAction_8004E22C(work, 3, 4);
-        work->field_A38_local_data = -1;
+        work->field_A34_local_data = -1;
         njp_800C495C(work);
     }
 }
@@ -1561,11 +1561,11 @@ void njp_sna_anim_800C4A90(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_sna_anim_update_800C5D4C;
-        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        work->field_9C4_anim_update_fn_3p = njp_sna_anim_update_800C5D4C;
+        work->field_9C8_anim_update_fn_1p = njp_nop_800C48EC;
         njp_SetAction_8004E22C(work, 24, 4);
         njp_GM_SetPlayerStatusFlag(PLAYER_MOVE);
-        work->field_A38_local_data = -1;
+        work->field_A34_local_data = -1;
         njp_800C495C(work);
     }
 }
@@ -1575,8 +1575,8 @@ void njp_sna_anim_800C4AF0(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_sna_anim_slash_update_800C5E9C;
-        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        work->field_9C4_anim_update_fn_3p = njp_sna_anim_slash_update_800C5E9C;
+        work->field_9C8_anim_update_fn_1p = njp_nop_800C48EC;
         njp_SetAction_8004E22C(work, 14, 4);
         njp_sna_set_invuln_8004F2A0(work, 0);
     }
@@ -1587,8 +1587,8 @@ void njp_sna_anim_800C4B44(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_sna_anim_update_800C5F20;
-        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        work->field_9C4_anim_update_fn_3p = njp_sna_anim_update_800C5F20;
+        work->field_9C8_anim_update_fn_1p = njp_nop_800C48EC;
         work->control.turn.vy = njp_gSnaMoveDir_800ABBA4;
         njp_SetAction_8004E22C(work, 13, 4);
         njp_sna_set_invuln_8004F2A0(work, 0);
@@ -1622,8 +1622,8 @@ void njp_sna_anim_spin_800C4BA4(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_nop_800C48EC;
-        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        work->field_9C4_anim_update_fn_3p = njp_nop_800C48EC;
+        work->field_9C8_anim_update_fn_1p = njp_nop_800C48EC;
         njp_SetAction_8004E22C(work, 12, 4);
         GM_SeSetMode(&work->control.mov, 198, 1);
         njp_sna_800C3318(work);
@@ -1636,28 +1636,28 @@ void njp_sna_anim_spin_800C4BA4(SnaInitWork *work, int time)
 
     njp_sna_spin_targets(work);
 
-    work->field_A38_local_data++;
+    work->field_A34_local_data++;
 
-    if (work->field_A38_local_data == 24)
+    if (work->field_A34_local_data == 24)
     {
         work->njp_sphere_state = 3;
     }
 
-    if (work->field_A38_local_data == 32)
+    if (work->field_A34_local_data == 32)
     {
         GM_SeSetMode(&work->control.mov, 198, 1);
-        work->field_A38_local_data = 0;
+        work->field_A34_local_data = 0;
         njp_sna_800C3318(work);
     }
 
-    work->field_89C_pTarget->vital--;
+    work->field_898_pTarget->vital--;
 
-    if ((work->field_89C_pTarget->vital & 0x3f) == 0)
+    if ((work->field_898_pTarget->vital & 0x3f) == 0)
     {
         GM_GameStatus |= STATE_DAMAGED;
     }
 
-    if ((work->field_89C_pTarget->vital <= 0) && (GM_GameOverTimer == 0))
+    if ((work->field_898_pTarget->vital <= 0) && (GM_GameOverTimer == 0))
     {
         njp_sna_set_invuln_8004F2A0(work, 0);
         GM_GameOverTimer = -1;
@@ -1665,7 +1665,7 @@ void njp_sna_anim_spin_800C4BA4(SnaInitWork *work, int time)
         njp_sna_start_anim_8004E1F4(work, njp_sna_anim_spin_end_800C4E38);
         work->njp_sphere_state = 3;
     }
-    else if (!(work->field_9B0_pad_ptr->status & PAD_R1))
+    else if (!(work->field_9AC_pad_ptr->status & PAD_R1))
     {
         njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK3);
         njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
@@ -1678,12 +1678,12 @@ void njp_sna_anim_spin_end_800C4E38(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_nop_800C48EC;
-        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        work->field_9C4_anim_update_fn_3p = njp_nop_800C48EC;
+        work->field_9C8_anim_update_fn_1p = njp_nop_800C48EC;
         njp_SetAction_8004E22C(work, 19, 4);
     }
 
-    switch (work->field_A38_local_data)
+    switch (work->field_A34_local_data)
     {
     case 0:
         if (work->body.is_end != 0)
@@ -1692,25 +1692,25 @@ void njp_sna_anim_spin_end_800C4E38(SnaInitWork *work, int time)
             GM_SeSetMode(&work->control.mov, 199, 1);
             njp_sna_800C3318(work);
             njp_sna_spin_targets(work);
-            work->field_A38_local_data++;
+            work->field_A34_local_data++;
         }
         break;
 
     case 1:
-        if (work->field_A3A % 10 == 0)
+        if (work->field_A36 % 10 == 0)
         {
             GM_SeSetMode(&work->control.mov, 208, 1);
         }
 
-        work->field_A3A++;
+        work->field_A36++;
 
-        if (work->field_A3A == 24)
+        if (work->field_A36 == 24)
         {
             njp_sna_800C3270(work);
             work->njp_sphere_state = 3;
         }
 
-        if (work->field_A3A == 32)
+        if (work->field_A36 == 32)
         {
             njp_sna_800C3318(work);
             njp_sna_spin_targets(work);
@@ -1753,11 +1753,11 @@ void njp_sna_anim_800C54EC(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_sna_anim_update_800C60E4;
-        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        work->field_9C4_anim_update_fn_3p = njp_sna_anim_update_800C60E4;
+        work->field_9C8_anim_update_fn_1p = njp_nop_800C48EC;
         njp_SetAction_8004E22C(work, 5, 4);
         njp_sna_8004E260(work, 26, 4, 1022);
-        work->field_A38_local_data = 1;
+        work->field_A34_local_data = 1;
     }
 }
 
@@ -1768,18 +1768,18 @@ void njp_sna_anim_800C5550(SnaInitWork *work, int time)
     {
         njp_sna_8004EC00(work);
         njp_sub_8004F454(work);
-        work->field_9C8_anim_update_fn_3p = njp_nop_800C48EC;
-        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        work->field_9C4_anim_update_fn_3p = njp_nop_800C48EC;
+        work->field_9C8_anim_update_fn_1p = njp_nop_800C48EC;
         njp_sna_set_invuln_8004F2A0(work, 0);
         njp_SetAction_8004E22C(work, 28, 4);
         njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK3);
     }
 
-    if (work->field_A38_local_data == 0 && work->body.is_end != 0)
+    if (work->field_A34_local_data == 0 && work->body.is_end != 0)
     {
         work->m_ctrl.interp = 15;
         work->m_ctrl.info1.field_14 = 0;
-        work->field_A38_local_data = 1;
+        work->field_A34_local_data = 1;
     }
 
     if (work->control.grounded & 1)
@@ -1796,13 +1796,13 @@ void njp_sna_anim_800C5634(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_nop_800C48EC;
-        work->field_9CC_anim_update_fn_1p = njp_sna_fp_update_800C6A60;
+        work->field_9C4_anim_update_fn_3p = njp_nop_800C48EC;
+        work->field_9C8_anim_update_fn_1p = njp_sna_fp_update_800C6A60;
         njp_sna_set_invuln_8004F2A0(work, 0);
         njp_SetAction_8004E22C(work, 9, 4);
         GM_SeSetMode(&work->control.mov, 197, 1);
 
-        if ((work->field_89C_pTarget->vital <= 0) && (GM_GameOverTimer == 0))
+        if ((work->field_898_pTarget->vital <= 0) && (GM_GameOverTimer == 0))
         {
             GM_GameOverTimer = -1;
             njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
@@ -1813,7 +1813,7 @@ void njp_sna_anim_800C5634(SnaInitWork *work, int time)
 
     if (work->body.is_end != 0)
     {
-        if (work->field_89C_pTarget->vital <= 0)
+        if (work->field_898_pTarget->vital <= 0)
         {
             njp_sna_start_anim_8004E1F4(work, njp_sna_anim_spin_end_800C4E38);
         }
@@ -1831,14 +1831,14 @@ void njp_sna_anim_800C573C(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_nop_800C48EC;
-        work->field_A26_stance = STAND;
-        work->field_9CC_anim_update_fn_1p = njp_sna_fp_update_800C6A60;
+        work->field_9C4_anim_update_fn_3p = njp_nop_800C48EC;
+        work->field_A22_stance = STAND;
+        work->field_9C8_anim_update_fn_1p = njp_sna_fp_update_800C6A60;
         njp_sna_set_invuln_8004F2A0(work, 0);
         njp_SetAction_8004E22C(work, 10, 4);
         GM_SeSetMode(&work->control.mov, 197, 1);
 
-        if ((work->field_89C_pTarget->vital <= 0) && (GM_GameOverTimer == 0))
+        if ((work->field_898_pTarget->vital <= 0) && (GM_GameOverTimer == 0))
         {
             GM_GameOverTimer = -1;
             njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
@@ -1847,7 +1847,7 @@ void njp_sna_anim_800C573C(SnaInitWork *work, int time)
 
     if (work->body.is_end != 0)
     {
-        if (work->field_89C_pTarget->vital <= 0)
+        if (work->field_898_pTarget->vital <= 0)
         {
             njp_sna_start_anim_8004E1F4(work, njp_sna_anim_spin_end_800C4E38);
         }
@@ -1863,66 +1863,66 @@ void njp_sna_anim_800C573C(SnaInitWork *work, int time)
 // @800C5838 njp_sna_anim_dying_80055524
 void njp_sna_anim_dying_80055524(SnaInitWork *work, int time)
 {
-    UnkSnakeStruct2 *unk2 = &work->field_9E4;
+    UnkSnakeStruct2 *unk2 = &work->field_9E0;
 
     if (time == 0)
     {
         int f9e6;
 
-        work->field_9C8_anim_update_fn_3p = njp_nop_800C48EC;
-        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        work->field_9C4_anim_update_fn_3p = njp_nop_800C48EC;
+        work->field_9C8_anim_update_fn_1p = njp_nop_800C48EC;
 
         njp_sub_8004F338(work);
         njp_GM_SetPlayerStatusFlag(PLAYER_MENU_DISABLE | PLAYER_PAD_OFF);
 
-        if ((unk2->field_9EC_flags3 & 0x400) == 0) // TODO: make flags enum for flags3
+        if ((unk2->field_9E8_flags3 & 0x400) == 0) // TODO: make flags enum for flags3
         {
-            if ((unk2->field_9EC_flags3 & 0x4000) != 0)
+            if ((unk2->field_9E8_flags3 & 0x4000) != 0)
             {
                 work->control.s_sphere = -2;
                 work->control.r_sphere = -2;
-                work->field_A28 = -2;
+                work->field_A24 = -2;
             }
             else
             {
                 work->control.s_sphere = -1;
                 work->control.r_sphere = -1;
-                work->field_A28 = -1;
+                work->field_A24 = -1;
             }
         }
 
         njp_sna_set_invuln_8004F2A0(work, 0);
         GetAction(work) = -1;
-        njp_SetAction_8004E22C(work, unk2->field_9E4, 4);
+        njp_SetAction_8004E22C(work, unk2->field_9E0, 4);
 
-        f9e6 = unk2->field_9E6;
+        f9e6 = unk2->field_9E2;
         if (f9e6 >= 0)
         {
             work->control.turn.vy = f9e6;
             work->control.rot.vy = f9e6;
         }
 
-        work->field_A38_local_data = -1;
-        work->field_A3A = -1;
+        work->field_A34_local_data = -1;
+        work->field_A36 = -1;
     }
 
     njp_GM_ClearPlayerStatusFlag(PLAYER_GROUND);
     work->control.turn.vx = 0;
 
-    if ((unk2->field_9EC_flags3 & 2) == 0)
+    if ((unk2->field_9E8_flags3 & 2) == 0)
     {
-        work->field_A2C = DG_ZeroVector;
+        work->field_A28 = DG_ZeroVector;
     }
 
-    if ((unk2->field_9EC_flags3 & 0x4000) == 0)
+    if ((unk2->field_9E8_flags3 & 0x4000) == 0)
     {
-        if ((unk2->field_9EC_flags3 & 2) == 0)
+        if ((unk2->field_9E8_flags3 & 2) == 0)
         {
             int   level;
             int   new_height;
             short y_pos;
 
-            new_height = (unsigned short)work->body.height - (-unk2->field_9EE + work->control.levels[0]);
+            new_height = (unsigned short)work->body.height - (-unk2->field_9EA + work->control.levels[0]);
             level = work->control.levels[0];
             work->control.height = new_height;
             y_pos = new_height + level;
@@ -1945,25 +1945,25 @@ void njp_sna_anim_dying_80055524(SnaInitWork *work, int time)
     {
         njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK22);
 
-        if ((unk2->field_9EC_flags3 & 0x20) == 0)
+        if ((unk2->field_9E8_flags3 & 0x20) == 0)
         {
             work->control.skip_flag &= ~CTRL_SKIP_TRAP;
         }
 
-        if ((unk2->field_9EC_flags3 & 0x100) != 0)
+        if ((unk2->field_9E8_flags3 & 0x100) != 0)
         {
             work->m_ctrl.interp = 15;
             work->m_ctrl.info1.field_14 = 0;
-            work->field_9B8_fn_anim = njp_nop_800C48EC;
-            work->field_9BC_anim_frame = 0;
-            work->field_A3A = 0;
-            work->field_A38_local_data = 0;
+            work->field_9B4_fn_anim = njp_nop_800C48EC;
+            work->field_9B8_anim_frame = 0;
+            work->field_A36 = 0;
+            work->field_A34_local_data = 0;
         }
         else
         {
             njp_GM_ClearPlayerStatusFlag(PLAYER_GROUND | PLAYER_MENU_DISABLE | PLAYER_PAD_OFF);
             njp_sna_clear_invuln_8004F2EC(work);
-            work->field_A26_stance = STAND;
+            work->field_A22_stance = STAND;
             njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
         }
     }
@@ -2035,21 +2035,21 @@ void njp_sna_anim_update_800C5C18(SnaInitWork *work, int time)
 
     if (njp_sna_check_hits_800C5B18(work))
     {
-        if (++work->field_A38_local_data >= 3)
+        if (++work->field_A34_local_data >= 3)
         {
-            work->field_A38_local_data = 0;
+            work->field_A34_local_data = 0;
         }
 
-        njp_SetAction_8004E22C(work, work->field_A38_local_data + 16, 0);
+        njp_SetAction_8004E22C(work, work->field_A34_local_data + 16, 0);
     }
 
     if (work->body.is_end != 0)
     {
         njp_SetAction_8004E22C(work, 3, 4);
-        work->field_A38_local_data = -1;
+        work->field_A34_local_data = -1;
     }
 
-    if (!(work->field_9B0_pad_ptr->status & PAD_CIRCLE))
+    if (!(work->field_9AC_pad_ptr->status & PAD_CIRCLE))
     {
         njp_sna_start_anim_8004E1F4(work, njp_sna_anim_800C4AF0);
         njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK3 | SNA_FLAG1_UNK30);
@@ -2060,7 +2060,7 @@ void njp_sna_anim_update_800C5C18(SnaInitWork *work, int time)
     {
         work->control.turn.vy = njp_gSnaMoveDir_800ABBA4;
 
-        if (work->field_A3A++ >= 2)
+        if (work->field_A36++ >= 2)
         {
             njp_sna_start_anim_8004E1F4(work, njp_sna_anim_800C4A90);
             njp_GM_SetPlayerStatusFlag(PLAYER_MOVE);
@@ -2078,22 +2078,22 @@ void njp_sna_anim_update_800C5D4C(SnaInitWork *work, int time)
 
     if (njp_sna_check_hits_800C5B18(work))
     {
-        if (++work->field_A38_local_data >= 3)
+        if (++work->field_A34_local_data >= 3)
         {
-            work->field_A38_local_data = 0;
+            work->field_A34_local_data = 0;
         }
 
-        njp_sna_8004E260(work, work->field_A38_local_data + 16, 0, 1022);
+        njp_sna_8004E260(work, work->field_A34_local_data + 16, 0, 1022);
         njp_sna_8004F034(work, 1022);
     }
 
     if (work->body.time2 != 0)
     {
         njp_sna_8004E260(work, 0, 4, 0);
-        work->field_A38_local_data = -1;
+        work->field_A34_local_data = -1;
     }
 
-    if (!(work->field_9B0_pad_ptr->status & PAD_CIRCLE))
+    if (!(work->field_9AC_pad_ptr->status & PAD_CIRCLE))
     {
         njp_sna_start_anim_8004E1F4(work, njp_sna_anim_800C54EC);
         njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK3 | SNA_FLAG1_UNK30);
@@ -2151,7 +2151,7 @@ void njp_sna_anim_update_800C5F20(SnaInitWork *work, int time)
     if (time == 0)
     {
         njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK13);
-        work->field_A2C.vy = 0;
+        work->field_A28.vy = 0;
     }
 
     if (time < 10)
@@ -2174,10 +2174,10 @@ void njp_sna_anim_update_800C5F20(SnaInitWork *work, int time)
             njp_sna_clear_invuln_8004F2EC(work);
         }
 
-        if (time >= 10 && work->field_A3A == 0 && (work->control.grounded & 1))
+        if (time >= 10 && work->field_A36 == 0 && (work->control.grounded & 1))
         {
             GM_SeSetMode(&work->control.mov, 210, 1);
-            work->field_A3A = 1;
+            work->field_A36 = 1;
         }
 
         njp_sna_800C3898(work, njp_stru_8009EFD4[1]);
@@ -2213,10 +2213,10 @@ void njp_sna_anim_update_800C60E4(SnaInitWork *work, int time)
     }
 
     // FIXME: the two step test steers the instruction scheduling
-    moving = work->field_9B0_pad_ptr->status & PAD_UDLR;
+    moving = work->field_9AC_pad_ptr->status & PAD_UDLR;
     moving = moving != 0;
 
-    if (moving != work->field_A38_local_data)
+    if (moving != work->field_A34_local_data)
     {
         if (moving)
         {
@@ -2237,7 +2237,7 @@ void njp_sna_anim_update_800C60E4(SnaInitWork *work, int time)
 
     njp_sna_800C3898(work, njp_stru_8009EFD4[2]);
     njp_sna_800C399C(work);
-    work->field_A38_local_data = moving;
+    work->field_A34_local_data = moving;
 
     if (time == 23)
     {
@@ -2284,13 +2284,13 @@ void njp_sna_80051A10(SnaInitWork *work, SVECTOR *pPos, SVECTOR *pOut, SVECTOR *
     GV_SubVec3(&vec2, pPos, &vec3);
     len = GV_VecLen3(&vec3);
 
-    if ((len - work->field_A28) <= 0)
+    if ((len - work->field_A24) <= 0)
     {
         vec3 = *pPos;
     }
     else
     {
-        GV_LenVec3(&vec3, &vec4, len, len - work->field_A28);
+        GV_LenVec3(&vec3, &vec4, len, len - work->field_A24);
         GV_AddVec3(pPos, &vec4, &vec3);
     }
 
@@ -2304,7 +2304,7 @@ int njp_sna_80051BA4(SnaInitWork *work)
     SVECTOR vec2;
     SVECTOR vec3;
 
-    GV_PAD *pPad = work->field_9B0_pad_ptr;
+    GV_PAD *pPad = work->field_9AC_pad_ptr;
     unsigned short press = pPad->press;
     unsigned short release = pPad->release;
 
@@ -2312,53 +2312,53 @@ int njp_sna_80051BA4(SnaInitWork *work)
     {
         if (press & PAD_R1)
         {
-            work->field_A56 = 8;
+            work->field_A52 = 8;
         }
 
         if (press & PAD_L1)
         {
-            work->field_A56 = 4;
+            work->field_A52 = 4;
         }
 
         if (release & PAD_R1)
         {
-            work->field_A56 = 4;
+            work->field_A52 = 4;
         }
 
         if (release & PAD_L1)
         {
-            work->field_A56 = 8;
+            work->field_A52 = 8;
         }
 
         vec2 = vec = DG_ZeroVector;
         vec2.vx = 1280;
         vec.vx = -1280;
-        vec3 = work->field_A60;
+        vec3 = work->field_A5C;
 
-        njp_sna_80051A10(work, &vec3, &work->field_A3C, &vec2);
-        njp_sna_80051A10(work, &vec3, &work->field_A44, &vec);
+        njp_sna_80051A10(work, &vec3, &work->field_A38, &vec2);
+        njp_sna_80051A10(work, &vec3, &work->field_A40, &vec);
 
         if (!njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK16))
         {
-            work->field_A58 = 8;
+            work->field_A54 = 8;
             njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK16);
         }
-        else if (work->field_A56 & 4)
+        else if (work->field_A52 & 4)
         {
-            work->field_A60 = work->field_A3C;
+            work->field_A5C = work->field_A38;
 
         }
-        else if (work->field_A56 & 8)
+        else if (work->field_A52 & 8)
         {
-            work->field_A60 = work->field_A44;
+            work->field_A5C = work->field_A40;
         }
 
         return 1;
     }
 
-    if (work->field_A58 > 0)
+    if (work->field_A54 > 0)
     {
-        if (--work->field_A58 == 0)
+        if (--work->field_A54 == 0)
         {
             njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK16);
             return 0;
@@ -2373,8 +2373,8 @@ int njp_sna_80051BA4(SnaInitWork *work)
 // @800C65D4 njp_800C65D4
 void njp_800C65D4(SnaInitWork *work)
 {
-    unsigned short status = work->field_9B0_pad_ptr->status;
-    unsigned char ldy = work->field_9B0_pad_ptr->left_dy;
+    unsigned short status = work->field_9AC_pad_ptr->status;
+    unsigned char ldy = work->field_9AC_pad_ptr->left_dy;
     short *temp_s4;
     int var_s1;
     int var_s2;
@@ -2386,11 +2386,11 @@ void njp_800C65D4(SnaInitWork *work)
     GM_CheckShukanReverse(&status);
     GM_CheckShukanReverseAnalog(&ldy);
 
-    temp_s4 = work->field_9D0;
+    temp_s4 = work->field_9CC;
     var_s2 = temp_s4[4];
     var_s1 = -temp_s4[3];
 
-    if (work->field_9D0[0] == 0)
+    if (work->field_9CC[0] == 0)
     {
         var_s0 = 0;
     }
@@ -2458,8 +2458,8 @@ void njp_sna_80051FD0(SnaInitWork *work)
     int          iVar6;
     short     *short_arr;
 
-    short_arr = work->field_9D0;
-    uVar2 = work->field_9B0_pad_ptr->status;
+    short_arr = work->field_9CC;
+    uVar2 = work->field_9AC_pad_ptr->status;
     if ((uVar2 & (PAD_LEFT | PAD_RIGHT)) != 0)
     {
         iVar1 = work->control.turn.vy;
@@ -2471,7 +2471,7 @@ void njp_sna_80051FD0(SnaInitWork *work)
             if ((uVar3 & 0xff) != 0)
             {
                 sVar4 = 0x40;
-                sVar5 = 0x40 - work->field_9B0_pad_ptr->left_dx;
+                sVar5 = 0x40 - work->field_9AC_pad_ptr->left_dx;
             }
             iVar6 = ((int)short_arr[8]) * (sVar5 & 0xff);
             iVar1 += iVar6 / sVar4;
@@ -2481,7 +2481,7 @@ void njp_sna_80051FD0(SnaInitWork *work)
             if ((uVar3 & 0xff) != 0)
             {
                 sVar4 = 0x3f;
-                sVar5 = work->field_9B0_pad_ptr->left_dx + 0x40;
+                sVar5 = work->field_9AC_pad_ptr->left_dx + 0x40;
             }
             iVar6 = ((int)short_arr[7]) * (sVar5 & 0xff);
             iVar1 -= iVar6 / sVar4;
@@ -2496,7 +2496,7 @@ void njp_sna_fp_update_800C6900(SnaInitWork *work, int time)
     njp_GM_ClearPlayerStatusFlag(PLAYER_MOVE);
     njp_SetAction_8004E22C(work, 2, 4);
 
-    if ((work->field_9B0_pad_ptr->status & PAD_TRIANGLE) == 0)
+    if ((work->field_9AC_pad_ptr->status & PAD_TRIANGLE) == 0)
     {
         njp_sna_8004EC00(work);
         njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
@@ -2516,13 +2516,13 @@ void njp_sna_fp_update_800C6900(SnaInitWork *work, int time)
 // @800C6994 njp_sna_fp_update_800C6994
 void njp_sna_fp_update_800C6994(SnaInitWork *work, int time)
 {
-    u_short status = work->field_9B0_pad_ptr->status;
-    u_short press = work->field_9B0_pad_ptr->press;
+    u_short status = work->field_9AC_pad_ptr->status;
+    u_short press = work->field_9AC_pad_ptr->press;
 
     if ((status & PAD_TRIANGLE) == 0)
     {
         njp_sna_8004EC00(work);
-        work->field_A38_local_data = 2;
+        work->field_A34_local_data = 2;
     }
     else
     {
@@ -2535,7 +2535,7 @@ void njp_sna_fp_update_800C6994(SnaInitWork *work, int time)
         if (((press & PAD_UDLR) != 0) || ((status & PAD_UDLR) == 0))
         {
             njp_GM_ClearPlayerStatusFlag(PLAYER_CAUTION);
-            work->field_A28 = 0x1c2;
+            work->field_A24 = 0x1c2;
             njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
             GM_ExitBehindCamera();
         }
@@ -2547,7 +2547,7 @@ void njp_sna_fp_update_800C6994(SnaInitWork *work, int time)
 // @800C6A60 njp_sna_fp_update_800C6A60
 void njp_sna_fp_update_800C6A60(SnaInitWork *work, int time)
 {
-    if ((work->field_9B0_pad_ptr->status & PAD_TRIANGLE) == 0)
+    if ((work->field_9AC_pad_ptr->status & PAD_TRIANGLE) == 0)
     {
         njp_sna_8004EC00(work);
     }
@@ -2560,34 +2560,34 @@ void njp_sna_fp_update_800C6A60(SnaInitWork *work, int time)
 void njp_sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
 {
     int        bClear;            // $s0
-    TARGET *field_8E8_pTarget; // $v1
+    TARGET *field_8E4_pTarget; // $v1
     int        action_flag;       // $a1
     SVECTOR   *p;
 
     if (time == 0)
     {
-        work->field_904_frames_last_choke = 0;
-        work->field_9C8_anim_update_fn_3p = njp_nop_800C48EC;
-        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        work->field_900_frames_last_choke = 0;
+        work->field_9C4_anim_update_fn_3p = njp_nop_800C48EC;
+        work->field_9C8_anim_update_fn_1p = njp_nop_800C48EC;
         njp_GM_ClearPlayerStatusFlag(PLAYER_MOVE);
         bClear = 0;
-        work->field_A54.choke_count = 0;
+        work->field_A50.choke_count = 0;
 
         if (!njp_sna_8004FDE8(work, &njp_stru_8009EFE4))
         {
             bClear = 1;
-            work->field_A38_local_data = 1;
+            work->field_A34_local_data = 1;
         }
 
-        p = &work->field_8EC_vec;
+        p = &work->field_8E8_vec;
         if (!bClear)
         {
 
-            field_8E8_pTarget = work->field_8E8_pTarget;
+            field_8E4_pTarget = work->field_8E4_pTarget;
 
-            field_8E8_pTarget->faint--;
+            field_8E4_pTarget->faint--;
 
-            DG_SetPos2(&field_8E8_pTarget->center, &work->control.rot);
+            DG_SetPos2(&field_8E4_pTarget->center, &work->control.rot);
 
             DG_PutVector(&njp_svector_800AB7FC, p, 1);
             DG_SetPos2(&work->control.mov, &work->control.rot);
@@ -2599,7 +2599,7 @@ void njp_sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
         }
         else
         {
-            work->field_8EC_vec = DG_ZeroVector;
+            work->field_8E8_vec = DG_ZeroVector;
             action_flag = 3;
         }
         njp_SetAction_8004E22C(work, action_flag, 4);
@@ -2607,20 +2607,20 @@ void njp_sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
 
     if (time < 4)
     {
-        ++work->field_904_frames_last_choke;
-        GV_AddVec3(&work->control.step, &work->field_8EC_vec,
+        ++work->field_900_frames_last_choke;
+        GV_AddVec3(&work->control.step, &work->field_8E8_vec,
                             &work->control.step);
     }
     else
     {
-        if (work->field_A38_local_data)
+        if (work->field_A34_local_data)
         {
             njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK3);
             njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
         }
         else
         {
-            work->field_89C_pTarget->size.vx = 150;
+            work->field_898_pTarget->size.vx = 150;
             njp_sna_start_anim_8004E1F4(work, njp_sna_anim_choke_800C6CA4);
         }
     }
@@ -2637,15 +2637,15 @@ void njp_sna_anim_choke_800C6CA4(SnaInitWork *work, int time)
         work->njp_katana_state = 2;
     }
 
-    target = work->field_8E8_pTarget;
+    target = work->field_8E4_pTarget;
 
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_nop_800C48EC;
-        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+        work->field_9C4_anim_update_fn_3p = njp_nop_800C48EC;
+        work->field_9C8_anim_update_fn_1p = njp_nop_800C48EC;
         njp_SetAction_8004E22C(work, 25, 4);
         target->a_mode = 25;
-        work->field_A54.wall_thing = 0;
+        work->field_A50.wall_thing = 0;
     }
 
     if (dword_800AB9D4 == 22)
@@ -2697,16 +2697,16 @@ static inline void njp_sna_act_helper2_8005AD10(SnaInitWork *work)
 
     if (njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK24) && !njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK28))
     {
-        vec = work->field_A68;
+        vec = work->field_A64;
         GV_NearExp8V(&vec.vx, &DG_ZeroVector.vx, 3);
 
         if (GV_VecLen3(&vec) > 8)
         {
-            work->field_A68 = vec;
+            work->field_A64 = vec;
         }
 
-        work->control.step.vx = work->field_A68.vx;
-        work->control.step.vz = work->field_A68.vz;
+        work->control.step.vx = work->field_A64.vx;
+        work->control.step.vz = work->field_A64.vz;
 
         if (work->control.grounded & 1)
         {
@@ -2735,7 +2735,7 @@ void njp_Act(SnaInitWork *work)
         return;
     }
 
-    pTarget = work->field_89C_pTarget;
+    pTarget = work->field_898_pTarget;
 
     if (pTarget->damaged & 8)
     {
@@ -2758,7 +2758,7 @@ void njp_Act(SnaInitWork *work)
     }
 
     /* しゃがみ天井突き抜け防止 */
-    if ((work->field_A26_stance != STAND) && (height >= 500))
+    if ((work->field_A22_stance != STAND) && (height >= 500))
     {
         work->control.height = 496;
     }
@@ -2789,15 +2789,15 @@ void njp_Act(SnaInitWork *work)
         {
             if (!njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK13))
             {
-                work->field_A68 = work->control.step;
-                work->field_A68.vy = 0;
+                work->field_A64 = work->control.step;
+                work->field_A64.vy = 0;
                 njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK24);
 
-                if (work->field_9B8_fn_anim != njp_sna_anim_800C5550)
+                if (work->field_9B4_fn_anim != njp_sna_anim_800C5550)
                 {
                     if (njp_GM_CheckPlayerStatusFlag(PLAYER_CAUTION))
                     {
-                        work->field_A28 = 450;
+                        work->field_A24 = 450;
                         njp_GM_ClearPlayerStatusFlag(PLAYER_CAUTION | PLAYER_CHECK_WALL | PLAYER_MOVE);
                         njp_sna_8004E260(work, 0, 4, 0);
                         GM_ExitBehindCamera();
@@ -2820,7 +2820,7 @@ void njp_Act(SnaInitWork *work)
     njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK25);
     DG_GetLightMatrix2(&work->control.mov, work->light);
     *work->enable_shadow = dword_800ABA1C == 0;
-    GM_MoveTarget(work->field_89C_pTarget, &work->control.mov);
+    GM_MoveTarget(work->field_898_pTarget, &work->control.mov);
 
     vec2 = work->control.mov;
 
@@ -2829,20 +2829,20 @@ void njp_Act(SnaInitWork *work)
         vec2.vy = work->body.objs->objs[6].world.t[1];
     }
 
-    work->field_A60 = vec2;
+    work->field_A5C = vec2;
 
     GM_SnakeCamera.rotate2 = work->control.rot;
     GM_SnakeCamera.rotate2.vy &= 0xFFF;
 
     njp_sna_init_main_logic_800596FC(work);
 
-    pTarget2 = work->field_89C_pTarget;
+    pTarget2 = work->field_898_pTarget;
     pTarget2->force = work->control.step;
     GM_PushTarget(pTarget2);
 
     if (GM_Camera.first_person != 0)
     {
-        GV_NearExp4V(&GM_SnakeCamera.position.vx, &work->field_A60.vx, 3);
+        GV_NearExp4V(&GM_SnakeCamera.position.vx, &work->field_A5C.vx, 3);
     }
     else
     {
@@ -2853,8 +2853,8 @@ void njp_Act(SnaInitWork *work)
 
     if (njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK16))
     {
-        GM_PlayerPosition = work->field_A60;
-        GM_MoveTarget(work->field_89C_pTarget, &work->field_A60);
+        GM_PlayerPosition = work->field_A5C;
+        GM_MoveTarget(work->field_898_pTarget, &work->field_A5C);
     }
 
     vec.vy = level = work->control.levels[0];
@@ -2878,7 +2878,7 @@ void njp_Die(SnaInitWork *work)
     pCtrl = &work->control;
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
-    GM_FreeTarget(work->field_89C_pTarget);
+    GM_FreeTarget(work->field_898_pTarget);
     njp_FreeTargets(work);
 
     pShadow = work->shadow;
@@ -2887,7 +2887,7 @@ void njp_Die(SnaInitWork *work)
         GV_DestroyOtherActor(pShadow);
     }
 
-    pItem = work->field_9A4_item_actor;
+    pItem = work->field_9A0_item_actor;
     if (pItem)
     {
         GV_DestroyOtherActor(pItem);
@@ -2909,17 +2909,17 @@ static inline void njp_InitEmpty(SnaInitWork *work)
 {
     int height;
 
-    work->field_A26_stance = GM_PlayerStance;
+    work->field_A22_stance = GM_PlayerStance;
     work->field_844 = -1;
-    work->field_9A8_current_item = IT_None;
-    work->field_A28 = 450;
-    work->field_A44 = work->control.mov;
-    work->field_A60 = work->control.mov;
-    GM_SnakeCamera.position = work->field_A60;
+    work->field_9A4_current_item = IT_None;
+    work->field_A24 = 450;
+    work->field_A40 = work->control.mov;
+    work->field_A5C = work->control.mov;
+    GM_SnakeCamera.position = work->field_A5C;
 
     if (GCL_GetOption('o')) // oar
     {
-        work->field_A5A = GCL_StrToInt(GCL_NextStr());
+        work->field_A56 = GCL_StrToInt(GCL_NextStr());
     }
 
     work->field_890_autoaim_max_dist = 6000;
@@ -2945,18 +2945,18 @@ static inline void njp_InitEmpty(SnaInitWork *work)
         njp_dword_800ABBD4 = GCL_StrToInt(GCL_NextStr());
     }
 
-    work->field_A70 = -1;
+    work->field_A6C = -1;
 
     if (GCL_GetOption('e')) // exec
     {
-        work->field_A70 = GCL_StrToInt(GCL_NextStr());
+        work->field_A6C = GCL_StrToInt(GCL_NextStr());
     }
 
     njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
     GM_ConfigObjectAction(&work->body, 0, 0, 0);
     GM_ActMotion(&work->body);
 
-    work->field_9B0_pad_ptr = GV_PadData;
+    work->field_9AC_pad_ptr = GV_PadData;
     height = (short)work->body.height;
     work->field_798_p_height = height;
     work->control.height = height;
@@ -3010,13 +3010,13 @@ static inline int njp_GetResources(SnaInitWork *work, int scriptData, int script
     size = &vec;
     setVector(size, 300, 650, 300);
 
-    trg = work->field_89C_pTarget = GM_AllocTarget();
+    trg = work->field_898_pTarget = GM_AllocTarget();
     GM_SetTarget(trg, 159, PLAYER_SIDE, size);
     GM_SetPowerTarget(trg, POWER_DECREASE, -1, GM_Vitality, 0, &DG_ZeroVector);
-    GM_SetCaptureTarget(trg, 0, 0, &work->field_8F4, &work->field_8FC);
+    GM_SetCaptureTarget(trg, 0, 0, &work->field_8F0, &work->field_8F8);
     GM_MoveTarget(trg, &work->control.mov);
 
-    work->field_A22_snake_current_health = GM_Vitality;
+    work->field_A1E_snake_current_health = GM_Vitality;
 
     shadow.vx = 0;
     shadow.vy = 6;
@@ -3091,6 +3091,8 @@ Target_Data njp_stru_8009EFE4 = {{0, 0, 0, 0}, {501, 600, 501, 0}, 0, 0, 7, 0};
 SVECTOR njp_svector_800AB7FC = {0, 0, -300, 0};
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
 
 
 
