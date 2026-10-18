@@ -19,7 +19,7 @@ extern void *NewMosaic( MATRIX *, int, int, int );
 
 short ActTable_800C3358[54] =
 {
-#ifdef VR_EXE
+#if defined(VR_EXE) && !defined(VR_MINENE)
     // the VR uses motion 0x30 for ActTable[5]
     0x13, 0x14, 0x0A, 0x16, 0x09, 0x30, 0x23, 0x24, 0x2D,
 #else
@@ -33,7 +33,9 @@ short ActTable_800C3358[54] =
 };
 
 SVECTOR s00a_dword_800C33C4 = { -150,  0, 300 };
+#ifndef VR_MINENE
 SVECTOR s00a_dword_800C33CC = { 0,  -550, 950 };
+#endif
 
 extern ENEMY_COMMAND     EnemyCommand;
 extern SVECTOR           COM_NO_POINT;
@@ -1820,10 +1822,10 @@ void s00a_command_800C78E0( WatcherWork *work, int time )
         }
         break;
 #ifdef VR_MINENE
-    case 4:
+    case 5:
         work->act_status |= 0x04;
         break;
-    case 5:
+    case 4:
         work->act_status |= 0x04;
         if ( time == 4 )
         {

@@ -1,0 +1,103 @@
+{
+ "bin": "$OV/vcd_n03.bin",
+ "maps": [
+  "obj_vr/asm_vcd_n03_lhs.map"
+ ],
+ "skip_prefix": [
+  "vcd_n03_",
+  "overlay"
+ ],
+ "out": "source/okajima/vr/reloc/n_blood.s",
+ "export": [],
+ "funcs": [
+  [
+   "NBloodInitVerts",
+   "800D6C1C",
+   "800D6E40"
+  ],
+  [
+   "NBloodUpdateVerts",
+   "800D6E40",
+   "800D6F24"
+  ],
+  [
+   "NBloodInitPacks",
+   "800D6F24",
+   "800D6FB8"
+  ],
+  [
+   "NBloodShadePacks",
+   "800D6FB8",
+   "800D6FE4"
+  ],
+  [
+   "NBloodAct",
+   "800D6FE4",
+   "800D7078"
+  ],
+  [
+   "NBloodDie",
+   "800D7078",
+   "800D70B4"
+  ],
+  [
+   "NBloodGetResources",
+   "800D70B4",
+   "800D71CC"
+  ],
+  [
+   "NewNBloods",
+   "800D71CC",
+   "800D7294"
+  ],
+  [
+   "NBloodMistInit",
+   "800D7294",
+   "800D7400"
+  ],
+  [
+   "NBloodMistAct",
+   "800D7400",
+   "800D7558"
+  ],
+  [
+   "NBloodMistDie",
+   "800D7558",
+   "800D7560"
+  ],
+  [
+   "NBloodMistGetResources",
+   "800D7560",
+   "800D75E8"
+  ],
+  [
+   "NewNBlood",
+   "800D75E8",
+   "800D7670"
+  ],
+  [
+   "NBloodMist",
+   "800D7670",
+   "800D76E8"
+  ]
+ ],
+ "rdata": [
+  [
+   "800E5668",
+   "nblood_str_blood_1",
+   "str"
+  ],
+  [
+   "800E5670",
+   "nblood_str_file",
+   "str"
+  ]
+ ],
+ "data": [
+  [
+   "800C1654",
+   "nblood_data",
+   10
+  ]
+ ]
+}
