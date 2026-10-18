@@ -9,7 +9,7 @@ typedef struct PocketObj
 {
     /* 0x00 */ struct PocketObj *prev;
     /* 0x04 */ struct PocketObj *next;
-    /* 0x08 */ int               field_8;
+    /* 0x08 */ void            (*update)(); // per frame callback of the owner (parameters differ per object kind)
     /* 0x0C */ short             field_C;
     /* 0x0E */ short             field_E;
     /* 0x10 */ unsigned short    count; // number of sub entries, see vrtitle_800C3028
