@@ -972,20 +972,15 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
         {
             if ( ctrl->mov.vy - ctrl->levels[0] < 2000 )
             {
-                #ifdef VR_MYSTERY
+#ifdef VR_MYSTERY
                 ENE_SeThrown( work, ctrl );
-#else
-                GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB ) ;
-#endif
-                #ifdef VR_MYSTERY
                 ENE_SeHitFloor( work, ctrl );
-#else
-                GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
-#endif
                 ENE_PutBlood( work, 6, 0 ) ;
-                #ifdef VR_MYSTERY
                 GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
 #else
+                GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB ) ;
+                GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
+                ENE_PutBlood( work, 6, 0 ) ;
                 GM_SetNoise( 0x64, 4, &work->control.mov ) ;
 #endif
             }
@@ -993,7 +988,7 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             else if ( ctrl->mov.vy - ctrl->levels[0] > 3000 )
             {
                 work->target->vital = 0;
-                #ifdef VR_MYSTERY
+#ifdef VR_MYSTERY
                 ENE_SeThrown( work, ctrl );
 #else
                 GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB ) ;
@@ -1022,15 +1017,12 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
     {
         if ( ctrl->grounded )
         {
-            #ifdef VR_MYSTERY
-                ENE_SeHitFloor( work, ctrl );
+#ifdef VR_MYSTERY
+            ENE_SeHitFloor( work, ctrl );
+            GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
 #else
-                GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
-#endif
-            #ifdef VR_MYSTERY
-                GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
-#else
-                GM_SetNoise( 0x64, 4, &work->control.mov ) ;
+            GM_SeSetMode( &ctrl->mov, SE_HIT_FLOOR, GM_SEMODE_BOMB ) ;
+            GM_SetNoise( 0x64, 4, &work->control.mov ) ;
 #endif
             ENE_PutBlood( work, 6, 1 ) ;
 
@@ -1040,8 +1032,8 @@ void s00a_command_800C6BCC( WatcherWork* work, int time )
             }
             else
             {
-                #ifdef VR_MYSTERY
-                ENE_SeThrown( work, ctrl );
+#ifdef VR_MYSTERY
+                ENE_SeThrown2( work, ctrl );
 #else
                 GM_SeSetMode( &ctrl->mov, SE_V_ENE_THROWN, GM_SEMODE_BOMB ) ;
 #endif
@@ -2533,7 +2525,11 @@ void ENE_PutItem( WatcherWork *work )
         break;
     case 2:
         //famas
+#ifdef VR_MYSTERY
+        if ( GM_FamasFlag < 0 )
+#else
         if ( GM_FamasFlag < 0 || GM_GameLevel < 0 )
+#endif
         {
             item.type   = 4;
             item.id     = IT_Ration;
@@ -2584,6 +2580,12 @@ void ENE_PutSound( WatcherWork* work )
     int a1, a3;
     int a2;
     int v1;
+#ifdef VR_MYSTERY
+    if ( work->field_C58 & MYST_FOOTPRINTS )
+    {
+        work->field_C30 = 0;
+    }
+#endif
     if ( !EnemyCommand.field_0x17A ) return;
 
     a3 = work->unknown.last_set;
@@ -2597,10 +2599,22 @@ void ENE_PutSound( WatcherWork* work )
         if ( a2 == 22 )
         {
             GM_SeSet( &work->control.mov, a1 );
+#ifdef VR_MYSTERY
+            if ( work->field_C58 & MYST_FOOTPRINTS )
+            {
+                work->field_C30 = 2;
+            }
+#endif
         }
         else if ( a2 == 11 )
         {
             GM_SeSet( &work->control.mov, v1 );
+#ifdef VR_MYSTERY
+            if ( work->field_C58 & MYST_FOOTPRINTS )
+            {
+                work->field_C30 = 1;
+            }
+#endif
         }
     }
     else if ( a3 == 2 )
@@ -2608,10 +2622,22 @@ void ENE_PutSound( WatcherWork* work )
         if ( a2 == 16 )
         {
             GM_SeSet( &work->control.mov, a1 );
+#ifdef VR_MYSTERY
+            if ( work->field_C58 & MYST_FOOTPRINTS )
+            {
+                work->field_C30 = a3;
+            }
+#endif
         }
         else if ( a2 == 8 )
         {
             GM_SeSet( &work->control.mov, v1 );
+#ifdef VR_MYSTERY
+            if ( work->field_C58 & MYST_FOOTPRINTS )
+            {
+                work->field_C30 = 1;
+            }
+#endif
         }
     }
 }
@@ -2661,7 +2687,23 @@ void ENE_PutBreath( WatcherWork *work, int arg1 )
     }
     else
     {
-#ifdef VR_EXE
+#ifdef VR_MYSTERY
+        if ( work->pad.press & SP_HEARTBEAT )
+        {
+            if ( !( GV_Time & 0x1F ) )
+            {
+                AN_Breath( &work->body.objs->objs[6].world );
+            }
+        }
+        else if ( ( ( GV_Time + 1 ) % 64 ) == ( work->field_B78 * 16 ) )
+        {
+            mat = &work->body.objs->objs[6].world;
+            if ( mat->t[0] || mat->t[1] || mat->t[2] )
+            {
+                AN_Breath( mat );
+            }
+        }
+#elif defined(VR_EXE)
         if ( ( ( GV_Time + 1 ) % 64 ) == ( work->field_B78 * 16 ) )
         {
             mat = &work->body.objs->objs[6].world;
