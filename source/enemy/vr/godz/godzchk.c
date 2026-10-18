@@ -300,7 +300,7 @@ const SVECTOR godz_rp_shift = { -200, 1000, 600, 0 };
 const SVECTOR godz_punch_force = { 5, 0, 100, 0 };
 const SVECTOR godz_punch_size = { 4000, 10000, 4000, 0 };
 
-void GodzAttackForce( GodzWork *work )
+TARGET *GodzAttackForce( GodzWork *work )
 {
     TARGET *target;
     SVECTOR svec;
@@ -314,7 +314,7 @@ void GodzAttackForce( GodzWork *work )
     DG_RotVector( &force, &svec, 1 );
     GM_SetCaptureTarget( target, 0x20, 1, (int *)&DG_ZeroVector, &DG_ZeroVector ); // FIXME: a4 is declared int *
     DG_PutVector( &rp_shift, &work->punch.center, 1 );
-    GM_CaptureTarget( target );
+    return GM_CaptureTarget( target );
 }
 
 void GodzAttackTouch( GodzWork *work )

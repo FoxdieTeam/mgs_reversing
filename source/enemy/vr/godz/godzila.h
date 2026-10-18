@@ -140,8 +140,6 @@ typedef struct _GODZ_COMMAND
 // decompiled files use are referenced by their address based symbols of the vcd_n05 overlay.
 #define GodzThink            vcd_n05_800CBF4C
 #define GodzActionUpdate     vcd_n05_800C73B0
-#define GODZ_ExecPutChar     vcd_n05_800C7F70
-#define GODZ_SetPutChar      vcd_n05_800C7EF4
 
 typedef void ( *GODZACTION )( GodzWork *, int );
 typedef void ( *GODZPUTFUNC )( GodzWork * );
