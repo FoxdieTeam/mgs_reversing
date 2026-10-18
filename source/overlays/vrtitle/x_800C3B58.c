@@ -1,5 +1,5 @@
 // vrtitle: VR revision copy of overlays/rank/chara/pocket/entry.c
-// (rank_800D2290, rank_800D22B0, rank_800D22D0, rank_800D2300), transplanted from the main-tree twin; offsets/constants adapted to the VR.
+// (no C twin in the main tree, rank overlay asm: rank_800D2218 area), VR revision adapted from the asm
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>

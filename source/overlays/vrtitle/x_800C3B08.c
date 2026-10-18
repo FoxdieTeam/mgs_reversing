@@ -1,5 +1,5 @@
 // vrtitle: VR revision copy of overlays/rank/chara/pocket/entry.c
-// (rank_800D2274), transplanted from the main-tree twin; offsets/constants adapted to the VR.
+// (no C twin in the main tree, rank overlay asm: rank_800D21DC area), VR revision adapted from the asm
 #include "game/game.h"
 #include "overlays/vrtitle/vrpocket.h"
 
