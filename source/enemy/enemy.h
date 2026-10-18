@@ -188,6 +188,7 @@ typedef struct _WatcherWork
 #define MYST_RUN        0x04    // always runs instead of walking, a bit faster
 #define MYST_FLAG_08    0x08
 #define MYST_SMALL_TARGET 0x10  // smaller hit box (MYSTERY_TARGET_SIZE)
+#define MYST_FLAG_20    0x20
 #define MYST_FLAG_40    0x40
 #define MYST_NEW_MODEL  0x80    // uses the other body model (and low poly model)
 #define MYST_FLAG_100   0x100
@@ -655,6 +656,8 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define SE_MYSTERY_BIG_THROWN   0xCF
 #define SE_MYSTERY_BIG_HITFLOOR 0xD8
 #define SE_MYSTERY_BIG_GRABBED  0xD0
+#define SE_MYSTERY_BIG_SNAPPED  0xD1
+#define SE_MYSTERY_BIG_PUNCHED  0xCE
 
 #define MSG_MYSTERY_SEIZURE     0xB2D0  // FIXME: GV_StrCode of an unknown string
 
@@ -716,6 +719,9 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define ACTION49    49 //SAME ID AS 40
 #define ACTION50    50 //SAME ID AS 41
 #define ACTION51    51 //SAME ID AS 42
+#ifdef VR_MYSTERY
+#define ACTION53    53
+#endif
 
 typedef void    ( *ACTION )( WatcherWork *, int ) ;
 
