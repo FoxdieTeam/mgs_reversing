@@ -72,7 +72,7 @@ void njp_800C495C(SnaInitWork *work);
 void njp_sna_anim_update_800C5C18(SnaInitWork *work, int time);
 void njp_sna_anim_update_800C5D4C(SnaInitWork *work, int time);
 void njp_sna_anim_slash_update_800C5E9C(SnaInitWork *work, int time);
-void njp_800C5F20(SnaInitWork *work, int time);
+void njp_sna_anim_update_800C5F20(SnaInitWork *work, int time);
 void njp_800C60E4(SnaInitWork *work, int time);
 void njp_sna_move_targets_800C5A70(SnaInitWork *work);
 int njp_sna_check_hits_800C5B18(SnaInitWork *work);
@@ -1368,7 +1368,7 @@ void njp_sna_anim_800C4B44(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_800C5F20;
+        work->field_9C8_anim_update_fn_3p = njp_sna_anim_update_800C5F20;
         work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
         work->control.turn.vy = njp_gSnaMoveDir_800ABBA4;
         njp_SetAction_8004E22C(work, 13, 4);
@@ -1712,6 +1712,68 @@ void njp_sna_anim_slash_update_800C5E9C(SnaInitWork *work, int time)
         {
             njp_GM_ClearPlayerStatusFlag(PLAYER_ATTACK);
             njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
+        }
+    }
+}
+
+// @800C5F20 njp_sna_anim_update_800C5F20
+void njp_sna_anim_update_800C5F20(SnaInitWork *work, int time)
+{
+    if (time >= 5 && time < 16)
+    {
+        work->njp_field_9E4 = 2;
+    }
+
+    if (time == 0)
+    {
+        njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK13);
+        work->field_A2C.vy = 0;
+    }
+
+    if (time < 10)
+    {
+        njp_sna_800C35BC(work, njp_gSnaMoveDir_800ABBA4, 96);
+        work->field_798_p_height = 0;
+        work->control.skip_flag |= CTRL_BOTH_CHECK;
+    }
+
+    if (time == 10)
+    {
+        work->control.skip_flag &= ~CTRL_BOTH_CHECK;
+        njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK13);
+    }
+
+    if (time >= 3)
+    {
+        if (time == 10)
+        {
+            njp_sna_clear_invuln_8004F2EC(work);
+        }
+
+        if (time >= 10 && work->field_A3A == 0 && (work->control.grounded & 1))
+        {
+            GM_SeSetMode(&work->control.mov, 210, 1);
+            work->field_A3A = 1;
+        }
+
+        njp_sna_800C3898(work, njp_stru_8009EFD4[1]);
+        njp_sna_800C399C(work);
+
+        if (work->body.is_end != 0 ||
+            (work->body.action == 13 && work->m_ctrl.info1.frame >= 16 && njp_gSnaMoveDir_800ABBA4 >= 0))
+        {
+            njp_GM_ClearPlayerStatusFlag(PLAYER_ATTACK);
+            njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK3);
+
+            if (njp_gSnaMoveDir_800ABBA4 >= 0)
+            {
+                njp_sna_start_anim_8004E1F4(work, njp_sna_anim_run_begin_80053B88);
+            }
+            else
+            {
+                njp_GM_ClearPlayerStatusFlag(PLAYER_MOVE);
+                njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
+            }
         }
     }
 }
@@ -2130,6 +2192,7 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
 
 
 

@@ -385,7 +385,7 @@
    "800C5F20"
   ],
   [
-   "njp_800C5F20",
+   "njp_sna_anim_update_800C5F20",
    "800C5F20",
    "800C60E4"
   ],
@@ -664,7 +664,8 @@
   "njp_sna_fp_update_800C6900",
   "njp_sna_fp_update_800C6994",
   "njp_sna_fp_update_800C6A60",
-  "njp_sna_anim_chokethrow_begin2_80058C80"
+  "njp_sna_anim_chokethrow_begin2_80058C80",
+  "njp_sna_anim_update_800C5F20"
  ],
  "bss_syms": {
   "800E5B48": [
