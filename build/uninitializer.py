@@ -112,6 +112,8 @@ VOLATILE_WORDS = {'s08b_dword_800C361C': 4}
 def volatile_offsets(lhs_name):
     """offsets in the overlay file of the VOLATILE_WORDS that the overlay links"""
     d, f = os.path.split(lhs_name)
+    if os.path.basename(os.path.abspath(d)) != 'obj_vr':   # VR build only
+        return set()
     map_path = os.path.join(d, 'asm_' + f.replace('.bin', '.map'))
     if not os.path.isfile(map_path):
         return set()
