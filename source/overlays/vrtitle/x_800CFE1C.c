@@ -34,7 +34,7 @@ extern char vrtitle_dword_800D985C[];
 
 extern char vrtitle_dword_800D9860[];
 extern char vrtitle_dword_800D986C[];
-extern int        vrtitle_dword_800C1BAC;
+extern char       vrtitle_dword_800C1BAC[]; // Shift-JIS default area name
 
 void vrtitle_800CFE1C(int code, char **pAreaNameForMenu, char **pAreaNameForSaveData)
 {
@@ -54,10 +54,10 @@ void vrtitle_800CFE1C(int code, char **pAreaNameForMenu, char **pAreaNameForSave
         {
             return;
         }
-        *pAreaNameForMenu = GCL_GetString((char *)GCL_NextStr());
+        *pAreaNameForMenu = GCL_GetString(GCL_NextStr());
         if (vrtitle_dword_800D9D7C > 0 && vrtitle_dword_800D9D2C == 0)
         {
-            *pAreaNameForSaveData = GCL_GetString((char *)GCL_NextStr());
+            *pAreaNameForSaveData = GCL_GetString(GCL_NextStr());
         }
     }
 }
@@ -83,7 +83,7 @@ void vrtitle_800CFF0C(char *out, MEMCARD *unused, int hours, int minutes)
     if (vrtitle_dword_800D9D7C == 0)
     {
         vrtitle_800CFE1C(1, &discard, &areaName);
-        areaName = (char *)&vrtitle_dword_800C1BAC;
+        areaName = vrtitle_dword_800C1BAC;
     }
     else
     {

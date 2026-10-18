@@ -33,10 +33,10 @@ extern char vrtitle_dword_800D9660[];
 extern char vrtitle_dword_800D9654[];
 extern char vrtitle_dword_800D9410[];
 extern char vrtitle_dword_800D942C[];
-extern int vrtitle_dword_800D9D08;
-extern int vrtitle_dword_800D9D0C;
-extern int vrtitle_dword_800D9D10;
-extern int vrtitle_dword_800D9D14;
+extern char         *vrtitle_dword_800D9D08;    // read buffer
+extern char         *vrtitle_dword_800D9D0C;    // read buffer (copy)
+extern unsigned char vrtitle_dword_800D9D10;    // port of the last loaded file
+extern char          vrtitle_dword_800D9D14[24]; // name of the last loaded file
 
 int vrtitle_800CC9E8(MEMCARD *card, int index) {
 
@@ -55,8 +55,8 @@ int vrtitle_800CC9E8(MEMCARD *card, int index) {
     result = 0;
     retries = 4;
 
-    vrtitle_dword_800D9D08 = (int)buffer;
-    vrtitle_dword_800D9D0C = (int)buffer;
+    vrtitle_dword_800D9D08 = buffer;
+    vrtitle_dword_800D9D0C = buffer;
 
     for (; retries > 0; retries--) {
         memcard_read(card->port, card->files[index].name, 0, buffer, 0x2000);
@@ -66,13 +66,13 @@ int vrtitle_800CC9E8(MEMCARD *card, int index) {
         }
 
         if (memcard_status() == 0) {
-            *(char *)&vrtitle_dword_800D9D10 = card->port;
+            vrtitle_dword_800D9D10 = card->port;
             for (i = 0; i < 24; i++) {
-                /* per-iteration scope for p710 is required for the match */
-                char *p710 = (char *)&vrtitle_dword_800D9D14;
+                /* FIXME: per-iteration scope for p710 is required for the match */
+                char *p710 = vrtitle_dword_800D9D14;
                 p710[i] = card->files[index].name[i];
             }
-            printf(vrtitle_dword_800D942C, *(unsigned char *)&vrtitle_dword_800D9D10, (char *)&vrtitle_dword_800D9D14);
+            printf(vrtitle_dword_800D942C, vrtitle_dword_800D9D10, vrtitle_dword_800D9D14);
             result = 1;
             break;
         }
