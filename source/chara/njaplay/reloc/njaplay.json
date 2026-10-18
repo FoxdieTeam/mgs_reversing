@@ -100,32 +100,32 @@
    "800C29E4"
   ],
   [
-   "njp_800C29E4",
+   "njp_sna_8004EC00",
    "800C29E4",
    "800C2A58"
   ],
   [
-   "njp_800C2A58",
+   "njp_sna_act_helper2_helper3_8004ED6C",
    "800C2A58",
    "800C2B14"
   ],
   [
-   "njp_800C2B14",
+   "njp_sna_8004EE28",
    "800C2B14",
    "800C2B9C"
   ],
   [
-   "njp_800C2B9C",
+   "njp_sub_8004EFE4",
    "800C2B9C",
    "800C2BEC"
   ],
   [
-   "njp_800C2BEC",
+   "njp_sna_8004F034",
    "800C2BEC",
    "800C2C48"
   ],
   [
-   "njp_800C2C48",
+   "njp_sna_act_helper2_helper4_8004F090",
    "800C2C48",
    "800C2CFC"
   ],
@@ -135,12 +135,12 @@
    "800C2D68"
   ],
   [
-   "njp_800C2D68",
+   "njp_sna_set_invuln_8004F2A0",
    "800C2D68",
    "800C2DB4"
   ],
   [
-   "njp_800C2DB4",
+   "njp_sna_clear_invuln_8004F2EC",
    "800C2DB4",
    "800C2E00"
   ],
@@ -472,6 +472,62 @@
   "800B5448": [
    "GM_Camera",
    256
+  ],
+  "800C1210": [
+   "njp_dword_8009EED4",
+   4
+  ],
+  "800C1214": [
+   "njp_dword_8009EED8",
+   8
+  ],
+  "800C121C": [
+   "njp_dword_8009EEE0",
+   4
+  ],
+  "800C1220": [
+   "njp_dword_8009EEE4",
+   12
+  ],
+  "800C122C": [
+   "njp_dword_8009EF24",
+   8
+  ],
+  "800C1234": [
+   "njp_dword_8009EF2C",
+   8
+  ],
+  "800C123C": [
+   "njp_word_8009EFC0",
+   20
+  ],
+  "800C1250": [
+   "njp_svector_800AB7D4",
+   8
+  ],
+  "800C1258": [
+   "njp_svector_800AB7DC",
+   8
+  ],
+  "800C1260": [
+   "njp_front_probe",
+   24
+  ],
+  "800C1278": [
+   "njp_stru_8009EFD4",
+   48
+  ],
+  "800C12A8": [
+   "njp_stru_8009EFE4",
+   32
+  ],
+  "800C12C8": [
+   "njp_svector_800AB7FC",
+   8
+  ],
+  "800C12D0": [
+   "njp_GV_PadData_8009F0C4",
+   12
   ]
  },
  "rdata": [
@@ -532,13 +588,6 @@
    "njp_str_4898"
   ]
  ],
- "data": [
-  [
-   "800C1210",
-   "njp_data",
-   51
-  ]
- ],
  "c_funcs": [
   "njp_sna_start_anim_8004E1F4",
   "njp_SetAction_8004E22C",
@@ -556,7 +605,15 @@
   "njp_sub_8004E588",
   "njp_sub_8004EA50",
   "njp_sub_8004E5E8",
-  "njp_sub_8004EB74"
+  "njp_sub_8004EB74",
+  "njp_sna_8004EC00",
+  "njp_sna_act_helper2_helper3_8004ED6C",
+  "njp_sna_8004EE28",
+  "njp_sub_8004EFE4",
+  "njp_sna_8004F034",
+  "njp_sna_act_helper2_helper4_8004F090",
+  "njp_sna_set_invuln_8004F2A0",
+  "njp_sna_clear_invuln_8004F2EC"
  ],
  "bss_syms": {
   "800E5B48": [

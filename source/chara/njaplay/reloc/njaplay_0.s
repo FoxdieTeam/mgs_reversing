@@ -4,8 +4,8 @@
 	.text
 	.globl	njp_800C2914
 njp_800C2914:
-	lui	$2,%hi(njp_data+44)
-	addiu	$7,$2,%lo(njp_data+44)
+	lui	$2,%hi(njp_word_8009EFC0)
+	addiu	$7,$2,%lo(njp_word_8009EFC0)
 	lwl	$3,3($7)
 	lwr	$3,0($7)
 	lwl	$5,7($7)
@@ -31,58 +31,4 @@ njp_800C2914:
 	.set	macro
 	.set	reorder
 	.set	at
-	.data
-	.align	2
-njp_data:
-	.word	0x0000047F
-	.word	0x02FF01E1
-	.word	0x00000000
-	.word	0x0000067F
-	.word	0x04FF01E1
-	.word	0x084B02E1
-	.word	0x00000000
-	.word	0x027F0200
-	.word	0x00000000
-	.word	0x04C8023C
-	.word	0x00000228
-	.word	0x01F40000
-	.word	0x01400000
-	.word	0x01400190
-	.word	0x00200190
-	.word	0x00000020
-	.word	0x00000000
-	.word	0x00000064
-	.word	0x0000FC00
-	.word	0x00000000
-	.word	0x0000FED4
-	.word	0x00000190
-	.word	0x00000000
-	.word	0x00000190
-	.word	0x0000012C
-	.word	0x00000190
-	.word	0xFFB5000A
-	.word	0x00000000
-	.word	0xFFB5000A
-	.word	0x0000FC5E
-	.word	0xFFB5000A
-	.word	0x00000000
-	.word	0xFFB5000A
-	.word	0x0000FB96
-	.word	0xFFB5000A
-	.word	0x00000000
-	.word	0xFFB5000A
-	.word	0x0000FC5E
-	.word	0x00000000
-	.word	0x00000000
-	.word	0x025801F5
-	.word	0x000001F5
-	.word	0x00000000
-	.word	0x00000000
-	.word	0x00000007
-	.word	0x00000000
-	.word	0x00000000
-	.word	0x0000FED4
-	.word	0x00000000
-	.word	0x00000000
-	.word	0x0000FFFF
 	.text

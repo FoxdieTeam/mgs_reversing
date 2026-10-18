@@ -19,6 +19,7 @@
 #include "libdg/libdg.h"
 #include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "okajima/blood.h"
 
 // bss of the object (the sbss variables of the main exe version are plain bss here, in the order of the original). The
 // "njp_" prefix keeps the symbols apart from the identical variables of the exe.
@@ -40,7 +41,46 @@ int          SECTION(".bss") njp_bss_52;
 int          SECTION(".bss") njp_bss_56;
 int          SECTION(".bss") njp_bss_60;
 
+// data of the object (.data), in the order of the original
+u_char njp_dword_8009EED4[4] = {127, 4, 0, 0}; // pad vibration data
+u_char njp_dword_8009EED8[8] = {225, 1, 255, 2, 0, 0, 0, 0};
+u_char njp_dword_8009EEE0[4] = {127, 6, 0, 0};
+u_char njp_dword_8009EEE4[12] = {225, 1, 255, 4, 225, 2, 75, 8, 0, 0, 0, 0};
+u_char njp_dword_8009EF24[8] = {0, 2, 127, 2, 0, 0, 0, 0};
+u_char njp_dword_8009EF2C[8] = {60, 2, 200, 4, 40, 2, 0, 0};
+
+short njp_word_8009EFC0[10] = {0, 500, 0, 320, 400, 320, 400, 32, 32, 0};
+
+SVECTOR njp_svector_800AB7D4 = {0, 0, 100, 0};
+SVECTOR njp_svector_800AB7DC = {-1024, 0, 0, 0};
+
+SVECTOR njp_front_probe[3] = {{-300, 0, 400, 0}, {0, 0, 400, 0}, {300, 0, 400, 0}};
+
+SVECTOR njp_stru_8009EFD4[3][2] = {
+    {{10, -75, 0, 0}, {10, -75, -930, 0}},
+    {{10, -75, 0, 0}, {10, -75, -1130, 0}},
+    {{10, -75, 0, 0}, {10, -75, -930, 0}},
+};
+
+Target_Data njp_stru_8009EFE4 = {{0, 0, 0, 0}, {501, 600, 501, 0}, 0, 0, 7, 0};
+
+SVECTOR njp_svector_800AB7FC = {0, 0, -300, 0};
+
+// FIXME: the pad of this build is 4 bytes smaller than GV_PAD (the analog stick part is missing), the data ends here
+typedef struct NjpPad
+{
+    u_short status;
+    u_short press;
+    u_short release;
+    u_short quick;
+    short   dir;
+    short   analog;
+} NjpPad;
+
+NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
 #define GetAction( work ) (work->body.action)
+#define TARGET_FLAG ( TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
 
 // @800C258C njp_sna_start_anim_8004E1F4
 void njp_sna_start_anim_8004E1F4(SnaInitWork *work, void *pFn)
@@ -251,6 +291,168 @@ void njp_sub_8004EB74(SnaInitWork *work)
     sd_set_cli(0x01ffff20, SD_ASYNC);
 }
 
+// @800C29E4 njp_sna_8004EC00
+void njp_sna_8004EC00(SnaInitWork *work)
+{
+    if (GM_Camera.first_person == 1)
+    {
+        work->field_A20 = 6;
+    }
+
+    GM_Camera.first_person = 0;
+    work->field_A56 = 0;
+
+    njp_GM_ClearPlayerStatusFlag(PLAYER_NORMAL_WATCH | PLAYER_WATCH);
+    njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK16);
+
+    if (!njp_GM_CheckPlayerStatusFlag(PLAYER_INTRUDE))
+    {
+        sd_set_cli(0x01ffff21, SD_ASYNC);
+    }
+}
+
+// @800C2A58 njp_sna_act_helper2_helper3_8004ED6C
+void njp_sna_act_helper2_helper3_8004ED6C(SnaInitWork *work)
+{
+    if (work->field_A20 != 0)
+    {
+        if (work->field_A20 >= 1)
+        {
+
+            if ((GM_Camera.first_person == 0) && (--work->field_A20 == 0))
+            {
+                DG_VisibleObjs(work->body.objs);
+
+                if (!njp_GM_CheckPlayerStatusFlag(PLAYER_ACT_ONLY))
+                {
+                    njp_GM_ClearPlayerStatusFlag(PLAYER_MENU_DISABLE);
+                }
+            }
+        }
+        else if ((GM_Camera.first_person != 0) && (++work->field_A20 == 0))
+        {
+            DG_InvisibleObjs(work->body.objs);
+        }
+    }
+}
+
+// @800C2B14 njp_sna_8004EE28
+void njp_sna_8004EE28(SnaInitWork *snake)
+{
+    MATRIX  mat1;
+    MATRIX  mat2;
+    SVECTOR vec;
+    int     vx;
+    MATRIX *world = &snake->body.objs->objs[6].world;
+
+    ReadRotMatrix(&mat1);
+    DG_TransposeMatrix(&mat1, &mat2);
+    MulMatrix0(&mat2, world, &mat2);
+    DG_MatrixRotZYX(&mat2, &vec);
+    SetRotMatrix(&mat1);
+
+    vx = (vec.vx / 16) * 16;
+    GM_SnakeCamera.rotate2.vx = vx;
+}
+
+// @800C2B9C njp_sub_8004EFE4
+int njp_sub_8004EFE4(SnaInitWork *work, int set)
+{
+    MOTION_INFO *info;
+    int          action;
+
+    if (set == 1)
+    {
+        info = &work->m_ctrl.info1;
+    }
+    else
+    {
+        info = &work->m_ctrl.info2;
+    }
+
+    if (set == 1)
+    {
+        action = GetAction(work);
+    }
+    else
+    {
+        action = work->body.action2;
+    }
+
+    if (info->frames_left + info->frame == 1)
+    {
+        return action;
+    }
+
+    return -1;
+}
+
+// @800C2BEC njp_sna_8004F034
+void njp_sna_8004F034(SnaInitWork *work, unsigned int bits)
+{
+    if ( bits != work->m_ctrl.info1.mask )
+    {
+        work->m_ctrl.info2.mask = ~bits;
+        work->m_ctrl.info1.mask = bits;
+        if ( bits == 0xFFFF && njp_sub_8004EFE4(work, 2) >= 0 )
+        {
+            work->m_ctrl.interp = 4;
+            work->m_ctrl.info2.field_14 = 2;
+        }
+    }
+}
+
+// @800C2C48 njp_sna_act_helper2_helper4_8004F090
+void njp_sna_act_helper2_helper4_8004F090(SnaInitWork *work, int param_2)
+{
+    int    iVar1;
+    MATRIX mtx;
+
+    DG_SetPos(&work->body.objs->objs[6].world);
+    DG_MovePos(&njp_svector_800AB7D4);
+    DG_RotatePos(&njp_svector_800AB7DC);
+    ReadRotMatrix(&mtx);
+
+    iVar1 = -1;
+    switch (param_2)
+    {
+    case 3:
+        iVar1 = 0;
+        break;
+    case 1:
+    case 4:
+        iVar1 = 1;
+        break;
+    case 2:
+        iVar1 = 2;
+        break;
+    }
+
+    if (iVar1 >= 0)
+    {
+        NewBlood(&mtx, iVar1);
+    }
+}
+
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_1.s")
+//ASM-END
+
+// @800C2D68 njp_sna_set_invuln_8004F2A0
+void njp_sna_set_invuln_8004F2A0(SnaInitWork *work, char invuln_frames)
+{
+    njp_GM_SetPlayerStatusFlag(PLAYER_INVINCIBLE);
+    work->field_A24_invuln_frames = invuln_frames;
+    work->field_89C_pTarget->class &= ~0x96;
+}
+
+// @800C2DB4 njp_sna_clear_invuln_8004F2EC
+void njp_sna_clear_invuln_8004F2EC(SnaInitWork *work)
+{
+    njp_GM_ClearPlayerStatusFlag(PLAYER_INVINCIBLE);
+    njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK1);
+    work->field_89C_pTarget->class |= TARGET_FLAG;
+}
+
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
 //ASM-END
 
