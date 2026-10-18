@@ -1,20 +1,6 @@
 #include "mgstype.h"
 
-extern const int vcd_n01_dword_800E5FE4;
 
-int vcd_n01_dword_800C1664 = 0x00000400;
-int vcd_n01_dword_800C1668 = 0x00000000;
-int vcd_n01_dword_800C166C = 0x00320032;
-int vcd_n01_dword_800C1670 = 0x00640064;
-int vcd_n01_dword_800C1674 = 0x00011660;
-int vcd_n01_dword_800C1678 = 0x00010001;
-int vcd_n01_dword_800C167C = 0x01F40001;
-int vcd_n01_dword_800C1680 = 0x00A00001;
-int vcd_n01_dword_800C1684 = 0x00FF00A0;
-int vcd_n01_dword_800C1688 = 0x00000000;
-void *vcd_n01_dword_800C168C = (void *)&vcd_n01_dword_800E5FE4;
-int vcd_n01_dword_800C1690 = 0x00000000;
-
-const char vcd_n01_dword_800E6068[] = "nja_ball";
-const char vcd_n01_dword_800E6074[] = "ballhlf";
-const char vcd_n01_dword_800E607C[] = "p_sphere.c";
+const char vcd_n01_dword_800E64AC[] = "nst_obj1";
+const char vcd_n01_dword_800E64B8[] = "nst_obj1_wara";
+const char vcd_n01_dword_800E64C8[] = "vrbox2.c";
