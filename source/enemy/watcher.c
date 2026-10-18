@@ -45,6 +45,8 @@ const char aErrnotenoughwork_800DFCB4[] = "Err not enough work !!\n";
 const char aWatcharcactionpointerr_800DFCCC[] = "watchar.c : action point Err\n";
 #ifdef VR_MYSTERY
 const char aWatcherc_800DFCEC[] = "mystery.c";
+#elif defined(VR_MINENE)
+const char aWatcherc_800DFCEC[] = "minene.c";
 #else
 const char aWatcherc_800DFCEC[] = "watcher.c";
 #endif
@@ -819,7 +821,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     work->visible = 1;
     work->vision.angle = 0x200;
     work->field_9E6 = 0;
-#ifdef VR_EXE
+#if defined(VR_EXE) && !defined(VR_MINENE)
     work->vision.facedir = work->control.rot.vy;
 #else
     work->vision.facedir = 0;
