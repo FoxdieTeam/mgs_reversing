@@ -1,0 +1,17 @@
+#include "mgstype.h"
+
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C5D3C.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C5F3C.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C60D8.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C6280.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C6418.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C65B8.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C669C.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C6B14.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C7318.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C74A0.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C7E74.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C8290.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C8740.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C8918.s")
+#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C8A74.s")
