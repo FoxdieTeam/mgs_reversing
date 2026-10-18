@@ -184,14 +184,14 @@ typedef struct _WatcherWork
 #ifdef VR_MYSTERY
 // WatcherWork.field_C58: feature flags of the "mystery" soldier (GCL option 'k')
 #define MYST_FOOTPRINTS 0x01    // leaves footprints (asiato2), the pointer is kept in field_C5C
-#define MYST_FLAG_02    0x02
+#define MYST_FLAG_02    0x02    // other pain/get up animations (ACTION26/ACTION53 instead of 37/44), dies when its faint reaches 0
 #define MYST_RUN        0x04    // always runs instead of walking, a bit faster
-#define MYST_FLAG_08    0x08
+#define MYST_FLAG_08    0x08    // no white breath; with MYST_FLAG_40 the first path point may start the soldier lying down
 #define MYST_SMALL_TARGET 0x10  // smaller hit box (MYSTERY_TARGET_SIZE)
-#define MYST_FLAG_20    0x20
-#define MYST_FLAG_40    0x40
+#define MYST_FLAG_20    0x20    // pushed up (unknown.field_04) while it is knocked down
+#define MYST_FLAG_40    0x40    // see MYST_FLAG_08
 #define MYST_NEW_MODEL  0x80    // uses the other body model (and low poly model)
-#define MYST_FLAG_100   0x100
+#define MYST_FLAG_100   0x100   // swaps the VR_ST_HOLD_C/D flag of a held 'C'/'E' soldier (set from the pad, cleared by msg 0xD359)
 #define MYST_EXEC_PROC  0x200   // calls the GCL proc field_C3C ('e' option) when killed
 #endif
 
