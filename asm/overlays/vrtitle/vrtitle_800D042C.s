@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef vrtitle_800D042C
+vrtitle_800D042C:
+	dw 0x00063200 ; 800D042C
+	dw 0x00A62825 ; 800D0430
+	dw 0x00073C00 ; 800D0434
+	dw 0x00A72825 ; 800D0438
+	dw 0x3C026400 ; 800D043C
+	dw 0x00A22825 ; 800D0440
+	dw 0x03E00008 ; 800D0444
+	dw 0xAC85000C ; 800D0448

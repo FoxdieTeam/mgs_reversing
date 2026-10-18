@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef vrtitle_800C3908
+vrtitle_800C3908:
+	dw 0xA0800013 ; 800C3908
+	dw 0xA4800026 ; 800C390C
+	dw 0xA480000E ; 800C3910
+	dw 0xA480000C ; 800C3914
+	dw 0xAC800018 ; 800C3918
+	dw 0xAC800014 ; 800C391C
+	dw 0x03E00008 ; 800C3920
+	dw 0xA480001E ; 800C3924

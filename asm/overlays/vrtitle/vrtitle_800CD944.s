@@ -1,0 +1,11 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef vrtitle_800CD944
+vrtitle_800CD944:
+	dw 0x3C02800E ; 800CD944
+	dw 0x8C429D64 ; 800CD948
+	dw 0x00042100 ; 800CD94C
+	dw 0x00441021 ; 800CD950
+	dw 0x03E00008 ; 800CD954
+	dw 0xAC400000 ; 800CD958

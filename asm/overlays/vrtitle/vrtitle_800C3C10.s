@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef vrtitle_800C3C10
+vrtitle_800C3C10:
+	dw 0x90820007 ; 800C3C10
+	dw 0x00000000 ; 800C3C14
+	dw 0x30420002 ; 800C3C18
+	dw 0x3442002C ; 800C3C1C
+	dw 0x00021600 ; 800C3C20
+	dw 0x00A22825 ; 800C3C24
+	dw 0x03E00008 ; 800C3C28
+	dw 0xAC850004 ; 800C3C2C

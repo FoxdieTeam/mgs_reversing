@@ -7356,7 +7356,40 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "vrtitle" %}
     include "{{OBJ_DIR}}\stagevr\vrtitle.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\vrtitle\vrtitle_800C1D68.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C1D68.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C1E84.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C1EDC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C1F10.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C1F60.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\vrtitle_800C27CC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C27D0.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\vrtitle_800C2DF0.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C2DFC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3028.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C305C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3908.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C3928.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\vrtitle_800C3A98.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3AA0.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3AD4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C3B08.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C3C10.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C3C30.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\vrtitle_800C4D8C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C4D94.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C99A8.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C99DC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C9BE0.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C9C74.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\vrtitle_800C9DE4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C9DEC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C9E20.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800C9E48.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800C9E7C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800CD7CC.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800CDBB0.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\x_800CF0F4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrtitle\text_800CF20C.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\overlay.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\overlay2.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrtitle\overlay3.obj", overlay

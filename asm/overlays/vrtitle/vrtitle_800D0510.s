@@ -1,0 +1,13 @@
+	opt	c+, at+, e+, n-
+	section .text
+
+	xdef vrtitle_800D0510
+vrtitle_800D0510:
+	dw 0x24020008 ; 800D0510
+	dw 0x24840020 ; 800D0514
+	dw 0xAC800664 ; 800D0518
+	dw 0x2442FFFF ; 800D051C
+	dw 0x0441FFFD ; 800D0520
+	dw 0x2484FFFC ; 800D0524
+	dw 0x03E00008 ; 800D0528
+	dw 0x00000000 ; 800D052C
