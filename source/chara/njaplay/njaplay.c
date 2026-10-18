@@ -1608,8 +1608,148 @@ void njp_sna_anim_800C5634(SnaInitWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
-//ASM-END
+// @800C573C njp_sna_anim_800C573C
+void njp_sna_anim_800C573C(SnaInitWork *work, int time)
+{
+    if (time == 0)
+    {
+        work->field_9C8_anim_update_fn_3p = njp_nop_800C48EC;
+        work->field_A26_stance = STAND;
+        work->field_9CC_anim_update_fn_1p = njp_sna_fp_update_800C6A60;
+        njp_sna_set_invuln_8004F2A0(work, 0);
+        njp_SetAction_8004E22C(work, 10, 4);
+        GM_SeSetMode(&work->control.mov, 197, 1);
+
+        if ((work->field_89C_pTarget->vital <= 0) && (GM_GameOverTimer == 0))
+        {
+            GM_GameOverTimer = -1;
+            njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
+        }
+    }
+
+    if (work->body.is_end != 0)
+    {
+        if (work->field_89C_pTarget->vital <= 0)
+        {
+            njp_sna_start_anim_8004E1F4(work, njp_sna_anim_spin_end_800C4E38);
+        }
+        else
+        {
+            njp_sna_set_invuln_8004F2A0(work, 32);
+            njp_GM_ClearPlayerStatusFlag(PLAYER_WEAPON_DISABLE | PLAYER_DAMAGED);
+            njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
+        }
+    }
+}
+
+// @800C5838 njp_sna_anim_dying_80055524
+void njp_sna_anim_dying_80055524(SnaInitWork *work, int time)
+{
+    UnkSnakeStruct2 *unk2 = &work->field_9E4;
+
+    if (time == 0)
+    {
+        int f9e6;
+
+        work->field_9C8_anim_update_fn_3p = njp_nop_800C48EC;
+        work->field_9CC_anim_update_fn_1p = njp_nop_800C48EC;
+
+        njp_sub_8004F338(work);
+        njp_GM_SetPlayerStatusFlag(PLAYER_MENU_DISABLE | PLAYER_PAD_OFF);
+
+        if ((unk2->field_9EC_flags3 & 0x400) == 0) // TODO: make flags enum for flags3
+        {
+            if ((unk2->field_9EC_flags3 & 0x4000) != 0)
+            {
+                work->control.s_sphere = -2;
+                work->control.r_sphere = -2;
+                work->field_A28 = -2;
+            }
+            else
+            {
+                work->control.s_sphere = -1;
+                work->control.r_sphere = -1;
+                work->field_A28 = -1;
+            }
+        }
+
+        njp_sna_set_invuln_8004F2A0(work, 0);
+        GetAction(work) = -1;
+        njp_SetAction_8004E22C(work, unk2->field_9E4, 4);
+
+        f9e6 = unk2->field_9E6;
+        if (f9e6 >= 0)
+        {
+            work->control.turn.vy = f9e6;
+            work->control.rot.vy = f9e6;
+        }
+
+        work->field_A38_local_data = -1;
+        work->field_A3A = -1;
+    }
+
+    njp_GM_ClearPlayerStatusFlag(PLAYER_GROUND);
+    work->control.turn.vx = 0;
+
+    if ((unk2->field_9EC_flags3 & 2) == 0)
+    {
+        work->field_A2C = DG_ZeroVector;
+    }
+
+    if ((unk2->field_9EC_flags3 & 0x4000) == 0)
+    {
+        if ((unk2->field_9EC_flags3 & 2) == 0)
+        {
+            int   level;
+            int   new_height;
+            short y_pos;
+
+            new_height = (unsigned short)work->body.height - (-unk2->field_9EE + work->control.levels[0]);
+            level = work->control.levels[0];
+            work->control.height = new_height;
+            y_pos = new_height + level;
+
+            work->control.mov.vy = y_pos;
+            work->body.objs->world.t[1] = y_pos;
+
+            DG_GetLightMatrix2(&work->control.mov, work->light);
+        }
+    }
+    else
+    {
+        int levels[2];
+        njp_sub_8004E588(work->control.map->hzd, &work->control.mov, levels);
+        work->control.levels[0] = levels[0];
+        work->control.levels[1] = levels[1];
+    }
+
+    if (work->body.is_end)
+    {
+        njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK22);
+
+        if ((unk2->field_9EC_flags3 & 0x20) == 0)
+        {
+            work->control.skip_flag &= ~CTRL_SKIP_TRAP;
+        }
+
+        if ((unk2->field_9EC_flags3 & 0x100) != 0)
+        {
+            work->m_ctrl.interp = 15;
+            work->m_ctrl.info1.field_14 = 0;
+            work->field_9B8_fn_anim = njp_nop_800C48EC;
+            work->field_9BC_anim_frame = 0;
+            work->field_A3A = 0;
+            work->field_A38_local_data = 0;
+        }
+        else
+        {
+            njp_GM_ClearPlayerStatusFlag(PLAYER_GROUND | PLAYER_MENU_DISABLE | PLAYER_PAD_OFF);
+            njp_sna_clear_invuln_8004F2EC(work);
+            work->field_A26_stance = STAND;
+            njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
+        }
+    }
+}
 
 // @800C5A70 njp_sna_move_targets_800C5A70
 // moves the extra targets to the probe points in front of the ninja
@@ -2268,7 +2408,7 @@ void njp_sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
+#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_2.s")
 //ASM-END
 
 // @DATA
@@ -2310,6 +2450,7 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
 
 
 

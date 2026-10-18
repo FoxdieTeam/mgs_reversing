@@ -280,9 +280,9 @@ $Lnjp_800C3D84_13:
 $Lnjp_800C3D84_14:
 	sh	$2,12($16)
 	addu	$4,$18,$0
-	lui	$5,%hi(njp_800C5838)
+	lui	$5,%hi(njp_sna_anim_dying_80055524)
 	jal	njp_sna_start_anim_8004E1F4
-	addiu	$5,$5,%lo(njp_800C5838)
+	addiu	$5,$5,%lo(njp_sna_anim_dying_80055524)
 	jal	njp_GM_SetPlayerStatusFlag
 	addiu	$4,$0,4
 	addu	$4,$18,$0
