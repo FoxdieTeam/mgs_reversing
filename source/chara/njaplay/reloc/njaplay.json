@@ -230,7 +230,7 @@
    "800C3D84"
   ],
   [
-   "njp_800C3D84",
+   "njp_sna_act_unk_80050A64",
    "800C3D84",
    "800C41B4"
   ],
@@ -632,6 +632,7 @@
   "njp_sna_800C399C",
   "njp_sna_select_action_800C3A30",
   "njp_sub_800507D8",
+  "njp_sna_act_unk_80050A64",
   "njp_sna_clear_target_800C41B4",
   "njp_sna_anim_idle_800C4200",
   "njp_sna_anim_run_begin_80053B88",

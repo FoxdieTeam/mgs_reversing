@@ -11,6 +11,7 @@
 #include "mgstype.h"
 #include "chara/snake_vr/sna_init.h"
 
+#include <stdio.h>
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
@@ -71,7 +72,8 @@ void njp_sna_anim_800C4A38(SnaInitWork *work, int time);
 void njp_sna_anim_800C4A90(SnaInitWork *work, int time);
 void njp_sna_anim_800C4B44(SnaInitWork *work, int time);
 void njp_800C495C(SnaInitWork *work);
-void njp_800C3D84(SnaInitWork *work);
+void njp_sna_anim_dying_80055524(SnaInitWork *work, int time);
+void njp_sna_act_unk_80050A64(SnaInitWork *work);
 void njp_CheckMessage0_80050878(SnaInitWork *work);
 void njp_800C6DC0(SnaInitWork *work);
 void njp_sna_fp_update_800C6A60(SnaInitWork *work, int time);
@@ -1000,6 +1002,200 @@ int njp_sub_800507D8(SnaInitWork *work)
 
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_0.s")
 //ASM-END
+
+// @800C3D84 njp_sna_act_unk_80050A64
+static inline void njp_sna_act_unk_helper_80050A64(SnaInitWork *work, GV_MSG *pMsg, int var_s4)
+{
+    int flags;
+    int len;
+    UnkSnakeStruct2 *pStr;
+
+    if (njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK28))
+    {
+        return;
+    }
+
+    flags = 0;
+    len = pMsg->message_len;
+    pStr = &work->field_9E4;
+
+    pMsg->message_len = 0;
+    pStr->field_9E4 = pMsg->message[1];
+    pStr->field_9E6 = -1;
+    pStr->field_9E8 = -1;
+    pStr->field_9EA = -1;
+    pStr->field_9EC_flags3 = 0;
+
+    if (len > 2)
+    {
+        pStr->field_9E6 = pMsg->message[2];
+    }
+
+    if (len > 3)
+    {
+        pStr->field_9E8 = pMsg->message[3];
+    }
+
+    if (len > 4)
+    {
+        pStr->field_9EA = pMsg->message[4];
+    }
+
+    if (len > 5)
+    {
+        flags = pStr->field_9EC_flags3 = pMsg->message[5];
+    }
+
+    if (njp_sna_act_unk_helper4_8004FA3C() && (var_s4 == 0))
+    {
+        njp_GM_ClearPlayerStatusFlag(PLAYER_ACT_ONLY);
+        pMsg->message_len = 0;
+        printf("force act cancel\n");
+    }
+    else
+    {
+        pStr->field_9F2 = 0;
+
+        if (var_s4 != 0)
+        {
+            pStr->field_9F2 = 1;
+        }
+
+        if (!(flags & 0x80))
+        {
+            if (!work->field_A5A)
+            {
+                return;
+            }
+
+            GM_ConfigMotionControl(&work->body, &work->m_ctrl, work->field_A5A,
+                                   work->m_segs1, work->m_segs2, &work->control,
+                                   work->rots);
+        }
+
+        if (flags & 4)
+        {
+            if (len <= 6)
+            {
+                return;
+            }
+
+            pStr->field_9EE = work->control.mov.vy - pMsg->message[6];
+        }
+        else
+        {
+            pStr->field_9EE = work->control.levels[0];
+        }
+
+        if (flags & 0x10)
+        {
+            work->control.skip_flag |= CTRL_SKIP_TRAP;
+        }
+
+        pStr->field_9F0 = 1;
+
+        njp_sna_start_anim_8004E1F4(work, njp_sna_anim_dying_80055524);
+        njp_GM_SetPlayerStatusFlag(PLAYER_ACT_ONLY);
+        njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK28);
+    }
+}
+
+void njp_sna_act_unk_80050A64(SnaInitWork *work)
+{
+    int     levels[2];
+    GV_MSG *pMsg;
+    GV_MSG *pMsgIter;
+    int msgCount;
+    int count;
+    int state;
+
+    if ((work->field_7A0_msg_count == 0) || njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK18))
+    {
+        return;
+    }
+
+    msgCount = 0;
+    pMsgIter = work->field_7A4_msgs;
+    pMsg = work->field_7A4_msgs;
+
+    for (count = work->field_7A0_msg_count; count > 0; count--, pMsg++)
+    {
+        switch (pMsg->message[0])
+        {
+        case HASH_MOTION:
+            state = 0;
+            goto helper;
+
+        case HASH_GO_MOTION:
+            state = 1;
+helper:
+            njp_sna_act_unk_helper_80050A64(work, pMsg, state);
+            break;
+
+        case HASH_STOP:
+            njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK19);
+            pMsg->message_len = 0;
+            break;
+
+        case HASH_START:
+            njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK19);
+            pMsg->message_len = 0;
+            break;
+
+        case HASH_KILL:
+            GV_DestroyActor(&work->actor);
+            pMsg->message_len = 0;
+            break;
+
+        case HASH_PADON:
+            njp_GM_ClearPlayerStatusFlag(PLAYER_PAD_OFF);
+            pMsg->message_len = 0;
+            break;
+
+        case HASH_PADOFF:
+            njp_GM_SetPlayerStatusFlag(PLAYER_PAD_OFF);
+            pMsg->message_len = 0;
+            break;
+
+        case HASH_POSITION:
+            work->control.mov.vx = pMsg->message[1];
+            work->control.mov.vy = pMsg->message[2];
+            work->control.mov.vz = pMsg->message[3];
+            work->control.step = DG_ZeroVector;
+            njp_sub_8004E588(work->control.map->hzd, &work->control.mov, levels);
+            work->control.levels[0] = levels[0];
+            work->control.levels[1] = levels[1];
+            pMsg->message_len = 0;
+            break;
+
+        default:
+            pMsg->message_len = 0;
+            break;
+        }
+
+        if (pMsg->message_len != 0)
+        {
+            *pMsgIter = *pMsg;
+            pMsgIter++;
+            msgCount++;
+        }
+    }
+
+    work->field_7A0_msg_count = msgCount;
+}
+
+// Unused strings left in the binary (debug prints of an older revision)
+static const char aPosDDD[] = "pos %d %d %d\n";
+static const char aTurnDDD[] = "turn %d %d %d\n";
+static const char aCeilFloorDD[] = "ceil floor %d %d\n";
+static const char aStatus4x[] = "status %4x\n";
+static const char aItemD[] = "item %d\n";
+static const char aFlag4x[] = "flag %4x\n";
+static const char aStanceD[] = "stance %d\n";
+static const char aPadX[] = "pad %x\n";
+static const char aPadtoD[] = "padto %d\n";
+static const char aTrapCheckD[] = "trap check %d\n";
+static const char aKaze[] = "kaze \n";
 
 // @800C41B4 njp_sna_clear_target_800C41B4
 void njp_sna_clear_target_800C41B4(TARGET *target)
@@ -2468,7 +2664,7 @@ static inline int njp_sna_act_helper_8005AD10(SnaInitWork *work)
     if (njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK19))
     {
         njp_CheckMessage0_80050878(work);
-        njp_800C3D84(work);
+        njp_sna_act_unk_80050A64(work);
 
         if (njp_sna_check_flags1_8004E31C(work, SNA_FLAG1_UNK19))
         {
@@ -2893,6 +3089,12 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
+
+
+
+
 
 
 

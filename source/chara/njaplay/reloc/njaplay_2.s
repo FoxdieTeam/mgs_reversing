@@ -832,7 +832,7 @@ $Lnjp_800C6DC0_63:
 	jal	njp_sna_clear_target_800C41B4
 	addu	$4,$16,$0
 $Lnjp_800C6DC0_64:
-	jal	njp_800C3D84
+	jal	njp_sna_act_unk_80050A64
 	addu	$4,$18,$0
 	addu	$4,$18,$0
 	jal	njp_sna_check_flags1_8004E31C
