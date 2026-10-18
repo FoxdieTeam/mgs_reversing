@@ -137,6 +137,14 @@ static void InitShadowPoly(POLY_FT4 *poly, DG_TEX *tex)
     poly->clut = tex->clut;
 }
 
+// InitShadow does not byte-match from C (the original addresses the four corners of the shadow quad through a mix of
+// base registers), so the original code is kept as RELOCATABLE asm (build/symbolize_asm.py, see reloc/gen.sh)
+// which keeps this object shareable between overlays.
+int VrBoxInitShadow(Work *work);
+#pragma INCLUDE_ASM_RELOC("source/koba/vr/reloc/VrBoxInitShadow.s")
+
+#if 0 /* NON_MATCHING best C attempt */
+// NON_MATCHING: same instructions and values, only the base registers of the quad stores differ.
 static int InitShadow(Work *work)
 {
     DG_PRIM *prim;
@@ -190,6 +198,8 @@ static int InitShadow(Work *work)
 
     return 0;
 }
+
+#endif
 
 // Reads the flags of the node that has been reached
 static int ReadNodeFlags(Work *work)
@@ -999,7 +1009,7 @@ static int GetResources(Work *work, int name, int where)
     work->flags.unused_17 = 0;
     work->flags.unused_18 = 0;
 
-    InitShadow(work);
+    VrBoxInitShadow(work);
     GM_ConfigControlAttribute(&work->control, 1);
     GM_ActControl(control);
     GM_ActObject2(&work->object);
