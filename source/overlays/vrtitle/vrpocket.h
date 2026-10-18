@@ -12,7 +12,8 @@ typedef struct PocketObj
     /* 0x08 */ int               field_8;
     /* 0x0C */ short             field_C;
     /* 0x0E */ short             field_E;
-    /* 0x10 */ char              field_10[ 3 ];
+    /* 0x10 */ short             count; // number of sub entries, see vrtitle_800C3028
+    /* 0x12 */ char              kind;
     /* 0x13 */ char              enabled;
     /* 0x14 */ union
     {
@@ -27,7 +28,7 @@ typedef struct PocketObj
     /* 0x1C */ char              field_1C;
     /* 0x1D */ char              pad_1D;
     /* 0x1E */ unsigned short    flags;
-    /* 0x20 */ int               field_20;
+    /* 0x20 */ void             *entries;
     /* 0x24 */ unsigned short    id;
     /* 0x26 */ short             value;
     /* 0x28 */ int               field_28; // only present in the 0x34 byte variant

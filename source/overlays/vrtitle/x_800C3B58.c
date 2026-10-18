@@ -13,12 +13,12 @@ PocketObj *vrtitle_800C3A5C( int id );
 
 void *vrtitle_800C3B58( void )
 {
-    return vrtitle_800C3A5C( POCKET_OBJ_BACKGROUND )->field_10;
+    return &vrtitle_800C3A5C( POCKET_OBJ_BACKGROUND )->count;
 }
 
 void *vrtitle_800C3B78( void )
 {
-    return &vrtitle_800C3A5C( POCKET_OBJ_BACKGROUND )->field_20;
+    return &vrtitle_800C3A5C( POCKET_OBJ_BACKGROUND )->entries;
 }
 
 void vrtitle_800C3B98( void )
