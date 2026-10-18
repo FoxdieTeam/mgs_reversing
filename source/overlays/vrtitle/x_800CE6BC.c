@@ -1,3 +1,5 @@
+// vrtitle: VR revision copy of overlays/camera/unknown/camera.c
+// (camera_800C68DC, camera_800C6918), transplanted from the main-tree twin; offsets/constants adapted to the VR.
 // Note that there are two "camera.c" actors,
 // this is probably not the enemy/camera.c actor.
 

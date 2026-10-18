@@ -1,3 +1,5 @@
+// vrtitle: VR revision copy of menu/datasave.c
+// (drawCaption_8004AE3C), transplanted from the main-tree twin; offsets/constants adapted to the VR.
 #include "menu/menuman.h"
 
 #include <stdio.h>

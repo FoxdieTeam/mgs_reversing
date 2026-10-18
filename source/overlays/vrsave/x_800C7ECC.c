@@ -1,3 +1,5 @@
+// vrsave: VR revision copy of menu/datasave.c
+// (updateCurrentEntry_8004B9C4), transplanted from the main-tree twin; offsets/constants adapted to the VR.
 #include "menu/menuman.h"
 
 #include <stdio.h>

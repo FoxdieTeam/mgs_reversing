@@ -1,3 +1,5 @@
+// vrtitle: VR revision copy of onoda/open/open.c
+// (title_open_800D4174, title_open_800D41E4), transplanted from the main-tree twin; offsets/constants adapted to the VR.
 #include <stdio.h>
 #include <sys/types.h>
 #include <libgte.h>

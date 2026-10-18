@@ -1,3 +1,5 @@
+// vrtitle: VR revision copy of menu/datasave.c
+// (menu_radio_do_file_mode_helper16_8004C164), transplanted from the main-tree twin; offsets/constants adapted to the VR.
 #include "menu/menuman.h"
 
 #include <stdio.h>

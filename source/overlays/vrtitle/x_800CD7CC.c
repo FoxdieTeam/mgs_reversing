@@ -1,3 +1,5 @@
+// vrtitle: VR revision copy of overlays/rank/menu/pocket.c
+// (rank_800CD760, rank_800CD8D8, rank_800CD8F0, rank_800CDA44, rank_800CDB1C), transplanted from the main-tree twin; offsets/constants adapted to the VR.
 #include <stdio.h>
 #include "mts/mts.h"
 #include "libgcl/libgcl.h"

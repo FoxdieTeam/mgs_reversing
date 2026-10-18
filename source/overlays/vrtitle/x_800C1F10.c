@@ -1,3 +1,5 @@
+// vrtitle: VR revision copy of onoda/change/safety.c
+// (Safety_800C47A0), transplanted from the main-tree twin; offsets/constants adapted to the VR.
 #include "onoda/change/safety.h"
 
 #include <stdio.h>

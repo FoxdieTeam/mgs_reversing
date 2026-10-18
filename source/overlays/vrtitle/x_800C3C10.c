@@ -1,3 +1,5 @@
+// vrtitle: VR revision copy of overlays/rank/chara/pocket/entry.c
+// (rank_800D21BC), transplanted from the main-tree twin; offsets/constants adapted to the VR.
 #include "game/game.h"
 #include "menu/radio.h"
 #include "libgcl/libgcl.h"
