@@ -8,6 +8,9 @@
 #include "game/game.h"
 #include "game/vibrate.h"
 #include "takabe/thing.h"
+#ifdef VR_EXE
+#include "koba/vr/vr.h"
+#endif
 
 extern CONTROL *tenage_ctrls_800BDD30[16];
 extern int      tenage_ctrls_count_800BDD70;
@@ -21,6 +24,19 @@ extern void Takabe_RefreshObjectPacks(DG_OBJS *);
 extern void s01a_800E2364(MATRIX *mtx, SVECTOR *in, VECTOR *out);
 
 /*----------------------------------------------------------------*/
+
+#ifdef VR_EXE
+// VR: the pitfall only kills while the player lives and the mission is running
+#define SE_PITFALL_OPEN     198
+#define SE_PITFALL_FALL     197
+#define SE_PITFALL_CLOSE    199
+#define PITFALL_IS_DEADLY() ( GM_Vitality > 0 && VR_Status == VR_STATUS_PLAY )
+#else
+#define SE_PITFALL_OPEN     187
+#define SE_PITFALL_FALL     186
+#define SE_PITFALL_CLOSE    188
+#define PITFALL_IS_DEADLY() ( GM_GameOverTimer == 0 )
+#endif
 
 typedef struct
 {
@@ -117,7 +133,7 @@ static void Act(Work *work)
             work->f194 = 1;
             work->f184 = work->f190;
 
-            GM_SeSet(&work->f15C, 187);
+            GM_SeSet(&work->f15C, SE_PITFALL_OPEN);
 
             NewPadVibration(dummy_floor_800C3610, 1);
             NewPadVibration(dummy_floor_800C3614, 2);
@@ -150,11 +166,11 @@ static void Act(Work *work)
     switch (work->f188)
     {
     case 0:
-        if ((work->f184 < 0) && (GM_GameOverTimer == 0))
+        if ((work->f184 < 0) && PITFALL_IS_DEADLY())
         {
-            GM_SeSet(&work->f15C, 186);
+            GM_SeSet(&work->f15C, SE_PITFALL_FALL);
 
-            if (GM_GameOverTimer == 0)
+            if (PITFALL_IS_DEADLY())
             {
                 if (work->f198 == 1)
                 {
@@ -166,7 +182,18 @@ static void Act(Work *work)
                         GCL_ExecProc(work->proc_id, NULL);
                     }
 
+#ifdef VR_EXE
+                    if (work->name == 0x5862)
+                    {
+                        work->proc_id = 0;
+                    }
+                    else
+                    {
+                        GM_GameOver();
+                    }
+#else
                     GM_GameOver();
+#endif
                 }
 
                 work->f188 = 2;
@@ -222,7 +249,7 @@ static void Act(Work *work)
         break;
 
     case 2:
-        if ((GM_GameOverTimer == 0) && (work->f198 == 1))
+        if (PITFALL_IS_DEADLY() && (work->f198 == 1))
         {
             work->f1A4 = 1;
             GM_PitfallDeathCount++;
@@ -270,7 +297,7 @@ static void Act(Work *work)
         {
             work->rot_z = 0;
             work->f1A4 = 0;
-            GM_SeSet(&work->f15C, 188);
+            GM_SeSet(&work->f15C, SE_PITFALL_CLOSE);
         }
 
         work->flr_obj[0].rot.vz = -work->rot_z;
