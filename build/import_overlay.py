@@ -312,8 +312,12 @@ def find_lib_aliases(psyq_path, ow, lo, hi, wanted):
             text = secs.get('.text')
             if len(xd) != 1 or text is None or len(text.code) < 16 or len(text.code) % 4:
                 continue
-            key = [norm_word(w) for w in words(bytes(text.code))]
-            hits = [k for k in range(lo, hi - len(key)) if nw[k:k + len(key)] == key]
+            kw = words(bytes(text.code))
+            relo = {o // 4 for _, o, _ in text.patches}
+            # relocated words are compared masked, all others exactly (SetSprt / SetTile differ only in an immediate)
+            key = [norm_word(w) if i in relo else w for i, w in enumerate(kw)]
+            hits = [k for k in range(lo, hi - len(key))
+                    if all((nw[k + i] if i in relo else ow[k + i]) == key[i] for i in range(len(key)))]
             if len(hits) == 1:
                 found[hits[0]] = xd[0]
     if os.path.exists(os.path.join(ROOT, OBJ, '_libmember.obj')):

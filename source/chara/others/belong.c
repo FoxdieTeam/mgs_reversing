@@ -7,6 +7,9 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "strcode.h"
+#ifdef VR_EXE
+#include "equip/equip.h"
+#endif
 
 /*---------------------------------------------------------------------------*/
 
@@ -19,7 +22,22 @@ typedef struct _Work
     int            field_4C;
     int            name;
     int            field_54;
+#ifdef VR_EXE
+    short          raise;       // 0x58 saved by EQ_InvisibleUnit
+    short          n_packs;     // 0x5A
+    int            unit_state;  // 0x5C see UNIT_*
+#endif
 } Work;
+
+#ifdef VR_EXE
+// FIXME: names guessed from the control flow of the VR revision
+enum
+{
+    UNIT_NONE = 0,    // nothing hidden
+    UNIT_SHOWN = 1,   // equipment unit of the parent was shown again
+    UNIT_HIDDEN = 2   // equipment unit of the parent is hidden (EQ_InvisibleUnit)
+};
+#endif
 
 /*---------------------------------------------------------------------------*/
 
@@ -45,11 +63,27 @@ static void CheckMessage(Work *work)
             break;
         case HASH_ON:
             work->field_54 = 0;
+#ifdef VR_EXE
             DG_VisibleObjs(work->field_28.objs);
+            if (work->unit_state == UNIT_SHOWN)
+            {
+                EQ_InvisibleUnit(work->field_24, work->field_4C, &work->n_packs, &work->raise);
+                work->unit_state = UNIT_HIDDEN;
+            }
+#else
+            DG_VisibleObjs(work->field_28.objs);
+#endif
             break;
         case HASH_OFF:
             DG_InvisibleObjs(work->field_28.objs);
             work->field_54 = 1;
+#ifdef VR_EXE
+            if (work->unit_state == UNIT_HIDDEN)
+            {
+                EQ_VisibleUnit(work->field_24, work->field_4C, &work->n_packs, &work->raise);
+                work->unit_state = UNIT_SHOWN;
+            }
+#endif
             break;
         }
     }
@@ -76,6 +110,12 @@ static void Act(Work *work)
 static void Die(Work *work)
 {
     GM_FreeObject((OBJECT *)&work->field_28);
+#ifdef VR_EXE
+    if (work->unit_state == UNIT_HIDDEN)
+    {
+        EQ_VisibleUnit(work->field_24, work->field_4C, &work->n_packs, &work->raise);
+    }
+#endif
 }
 
 static int GetResources(Work *work, int name, int where)
@@ -118,6 +158,15 @@ static int GetResources(Work *work, int name, int where)
     GM_ConfigObjectRoot((OBJECT *)obj, parent_obj, num_parent);
     work->name = name;
     work->field_54 = 0;
+#ifdef VR_EXE
+    work->unit_state = UNIT_NONE;
+    if (GCL_GetOption('v'))
+    {
+        GM_ConfigObjectLight((OBJECT *)obj, parent_obj->light);
+        EQ_InvisibleUnit(work->field_24, work->field_4C, &work->n_packs, &work->raise);
+        work->unit_state = UNIT_HIDDEN;
+    }
+#endif
     return 0;
 }
 
