@@ -6176,7 +6176,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\vrsave\x_800C8820.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\text_800C8938.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\x_800C9A68.obj", overlay
-    include "{{OBJ_DIR}}\overlays\vrsave\text_800C9B8C.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrsave\text_800C9C38.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrsave\x_800C9FA4.obj", overlay
+    include "{{OBJ_DIR}}\overlays\vrsave\text_800CA078.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\x_800CA144.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\x_800CA2CC.obj", overlay
     include "{{OBJ_DIR}}\overlays\vrsave\text_800CA2FC.obj", overlay
