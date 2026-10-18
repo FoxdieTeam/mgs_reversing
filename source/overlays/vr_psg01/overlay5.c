@@ -1,5 +1,4 @@
 #include "mgstype.h"
 
 
-
-int SECTION(".bss") vr_psg01_dword_800E157C;
+const char vr_psg01_dword_800E1228[] = "splashvr.c";

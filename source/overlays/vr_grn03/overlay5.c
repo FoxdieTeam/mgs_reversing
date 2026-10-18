@@ -1,6 +1,4 @@
 #include "mgstype.h"
 
 
-
-int SECTION(".bss") vr_grn03_dword_800E2E08;
-int SECTION(".bss") vr_grn03_dword_800E2E0C;
+const int vr_grn03_dword_800E2B1C = 0x2644015C;

@@ -1,5 +1,6 @@
 #include "mgstype.h"
 
 
-const char vcd_n05_dword_800DEA70[] = "refrection6";
-const char vcd_n05_dword_800DEA7C[] = "lens_fl2.c";
+
+int SECTION(".bss") vcd_n05_dword_800DF6A8;
+int SECTION(".bss") vcd_n05_dword_800DF6AC;

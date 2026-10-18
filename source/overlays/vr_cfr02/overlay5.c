@@ -1,5 +1,42 @@
 #include "mgstype.h"
 
 
-const char vr_cfr02_dword_800E3EC4[] = "snake";
-const char vr_cfr02_dword_800E3ECC[] = "snwarp.c";
+const char vr_cfr02_dword_800E43E8[] = "shadow";
+const int vr_cfr02_dword_800E43F0 = 0x800E01D4;
+const int vr_cfr02_dword_800E43F4 = 0x800E01EC;
+const int vr_cfr02_dword_800E43F8 = 0x800E0204;
+const int vr_cfr02_dword_800E43FC = 0x800E0210;
+const int vr_cfr02_dword_800E4400 = 0x800E022C;
+const int vr_cfr02_dword_800E4404 = 0x800E022C;
+const char vr_cfr02_dword_800E4408[] = "id_n";
+const char vr_cfr02_dword_800E4410[] = "id_b";
+const char vr_cfr02_dword_800E4418[] = "ufo";
+const char vr_cfr02_dword_800E441C[] = "kokesi_c";
+const char vr_cfr02_dword_800E4428[] = "kokesi_s";
+const char vr_cfr02_dword_800E4434[] = "ufo2";
+const char vr_cfr02_dword_800E443C[] = "mato_04add";
+const char vr_cfr02_dword_800E4448[] = "mato_06add";
+const char vr_cfr02_dword_800E4454[] = "mato_08add";
+const char vr_cfr02_dword_800E4460[] = "mato_09add";
+const char vr_cfr02_dword_800E446C[] = "mato_14add";
+const int vr_cfr02_dword_800E4478 = 0x746F6F72;
+const int vr_cfr02_dword_800E447C = 0x746F6E20;
+const int vr_cfr02_dword_800E4480 = 0x756F6620;
+const int vr_cfr02_dword_800E4484 = 0x000A646E;
+const char vr_cfr02_dword_800E4488[] = "vrbox.c";
+const int vr_cfr02_dword_800E4490 = 0x74696E49;
+const int vr_cfr02_dword_800E4494 = 0x746E6F43;
+const int vr_cfr02_dword_800E4498 = 0x206C6F72;
+const int vr_cfr02_dword_800E449C = 0x6F6E203A;
+const int vr_cfr02_dword_800E44A0 = 0x70616D20;
+const int vr_cfr02_dword_800E44A4 = 0x0A582520;
+const int vr_cfr02_dword_800E44A8 = 0x00000000;
+const char vr_cfr02_dword_800E44AC[] = "kabe_n";
+const char vr_cfr02_dword_800E44B4[] = "kabe_y";
+const char vr_cfr02_dword_800E44BC[] = "kabe_01add";
+const char vr_cfr02_dword_800E44C8[] = "kt_n";
+const char vr_cfr02_dword_800E44D0[] = "mato_00add";
+const char vr_cfr02_dword_800E44DC[] = "kt_b";
+const char vr_cfr02_dword_800E44E4[] = "mato_02add";
+const char vr_cfr02_dword_800E44F0[] = "ice";
+const char vr_cfr02_dword_800E44F4[] = "vrbox2.c";

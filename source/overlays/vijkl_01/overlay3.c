@@ -1,5 +1,5 @@
 #include "mgstype.h"
 
 
-const char vijkl_01_dword_800DEDF4[] = "snake";
-const char vijkl_01_dword_800DEDFC[] = "snwarp.c";
+
+int SECTION(".bss") vijkl_01_dword_800E0644;

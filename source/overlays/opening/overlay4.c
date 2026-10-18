@@ -1,8 +1,6 @@
 #include "mgstype.h"
 
-int opening_dword_800C127C = 0x71F13223;
 
-const char opening_dword_800C7674[] = "fadeio.c";
 
 int SECTION(".bss") opening_dword_800C7760;
 int SECTION(".bss") opening_dword_800C7764;

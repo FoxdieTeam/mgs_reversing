@@ -1,5 +1,4 @@
 #include "mgstype.h"
 
 
-const char vab_grn_dword_800E30D0[] = "rcm_l";
-const char vab_grn_dword_800E30D8[] = "sn_in_ef.c";
+const int vab_grn_dword_800E36F4 = 0x64757453;

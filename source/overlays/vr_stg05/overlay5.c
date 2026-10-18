@@ -2,4 +2,4 @@
 
 
 
-int SECTION(".bss") vr_stg05_dword_800E3B34;
+int SECTION(".bss") vr_stg05_dword_800E3D34;

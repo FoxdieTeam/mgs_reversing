@@ -1,8 +1,50 @@
 #include "mgstype.h"
 
+int photo_m1_dword_800C1408 = 0x1C080401;
+int photo_m1_dword_800C140C = 0x0000302C;
+int photo_m1_dword_800C1410 = 0xFC18FF06;
+int photo_m1_dword_800C1414 = 0xFC1800FA;
+int photo_m1_dword_800C1418 = 0xFF0603E8;
+int photo_m1_dword_800C141C = 0x00FA03E8;
+int photo_m1_dword_800C1420 = 0x03E800FA;
+int photo_m1_dword_800C1424 = 0x03E8FF06;
+int photo_m1_dword_800C1428 = 0x00FAFC18;
+int photo_m1_dword_800C142C = 0xFF06FC18;
+int photo_m1_dword_800C1430 = 0xFC18FF06;
+int photo_m1_dword_800C1434 = 0x03E80002;
+int photo_m1_dword_800C1438 = 0x03E800FA;
+int photo_m1_dword_800C143C = 0x07D00002;
+int photo_m1_dword_800C1440 = 0x07D001F4;
+int photo_m1_dword_800C1444 = 0x0FA00002;
+int photo_m1_dword_800C1448 = 0x0EA605DC;
+int photo_m1_dword_800C144C = 0x17700002;
+int photo_m1_dword_800C1450 = 0x177009C4;
+int photo_m1_dword_800C1454 = 0x280A0002;
+int photo_m1_dword_800C1458 = 0x27100FA0;
+int photo_m1_dword_800C145C = 0x3E800003;
+int photo_m1_dword_800C1460 = 0x3E801964;
+int photo_m1_dword_800C1464 = 0x34BC2616;
+int photo_m1_dword_800C1468 = 0x000003E8;
+int photo_m1_dword_800C146C = 0x000007D0;
+int photo_m1_dword_800C1470 = 0x00000FA0;
+int photo_m1_dword_800C1474 = 0x00001770;
+int photo_m1_dword_800C1478 = 0x00002710;
+int photo_m1_dword_800C147C = 0x00003E80;
 
-
-int SECTION(".bss") photo_m1_dword_800D4520;
-int SECTION(".bss") photo_m1_dword_800D4524;
-int SECTION(".bss") photo_m1_dword_800D4528;
-int SECTION(".bss") photo_m1_dword_800D452C;
+const int photo_m1_dword_800D3F80 = 0x800C803C;
+const int photo_m1_dword_800D3F84 = 0x800C805C;
+const int photo_m1_dword_800D3F88 = 0x800C80A4;
+const int photo_m1_dword_800D3F8C = 0x800C80CC;
+const int photo_m1_dword_800D3F90 = 0x800C80CC;
+const int photo_m1_dword_800D3F94 = 0x800C80CC;
+const char photo_m1_dword_800D3F98[] = "mei_eye1";
+const char photo_m1_dword_800D3FA4[] = "mei_leye";
+const char photo_m1_dword_800D3FB0[] = "mei_reye";
+const char photo_m1_dword_800D3FBC[] = "mei_face";
+const char photo_m1_dword_800D3FC8[] = "mei_mou1";
+const char photo_m1_dword_800D3FD4[] = "nao_eye1";
+const char photo_m1_dword_800D3FE0[] = "nao_eye2";
+const char photo_m1_dword_800D3FEC[] = "nao_eye3";
+const char photo_m1_dword_800D3FF8[] = "nao_face";
+const char photo_m1_dword_800D4004[] = "nao_mou1";
+const char photo_m1_dword_800D4010[] = "bg_st1.c";

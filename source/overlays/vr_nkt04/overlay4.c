@@ -1,8 +1,42 @@
 #include "mgstype.h"
 
 
-
-int SECTION(".bss") vr_nkt04_dword_800E6428;
-int SECTION(".bss") vr_nkt04_dword_800E642C;
-int SECTION(".bss") vr_nkt04_dword_800E6430;
-int SECTION(".bss") vr_nkt04_dword_800E6434;
+const char vr_nkt04_dword_800E5FAC[] = "shadow";
+const int vr_nkt04_dword_800E5FB4 = 0x800E1CD0;
+const int vr_nkt04_dword_800E5FB8 = 0x800E1CE8;
+const int vr_nkt04_dword_800E5FBC = 0x800E1D00;
+const int vr_nkt04_dword_800E5FC0 = 0x800E1D0C;
+const int vr_nkt04_dword_800E5FC4 = 0x800E1D28;
+const int vr_nkt04_dword_800E5FC8 = 0x800E1D28;
+const char vr_nkt04_dword_800E5FCC[] = "id_n";
+const char vr_nkt04_dword_800E5FD4[] = "id_b";
+const char vr_nkt04_dword_800E5FDC[] = "ufo";
+const char vr_nkt04_dword_800E5FE0[] = "kokesi_c";
+const char vr_nkt04_dword_800E5FEC[] = "kokesi_s";
+const char vr_nkt04_dword_800E5FF8[] = "ufo2";
+const char vr_nkt04_dword_800E6000[] = "mato_04add";
+const char vr_nkt04_dword_800E600C[] = "mato_06add";
+const char vr_nkt04_dword_800E6018[] = "mato_08add";
+const char vr_nkt04_dword_800E6024[] = "mato_09add";
+const char vr_nkt04_dword_800E6030[] = "mato_14add";
+const int vr_nkt04_dword_800E603C = 0x746F6F72;
+const int vr_nkt04_dword_800E6040 = 0x746F6E20;
+const int vr_nkt04_dword_800E6044 = 0x756F6620;
+const int vr_nkt04_dword_800E6048 = 0x000A646E;
+const char vr_nkt04_dword_800E604C[] = "vrbox.c";
+const int vr_nkt04_dword_800E6054 = 0x74696E49;
+const int vr_nkt04_dword_800E6058 = 0x746E6F43;
+const int vr_nkt04_dword_800E605C = 0x206C6F72;
+const int vr_nkt04_dword_800E6060 = 0x6F6E203A;
+const int vr_nkt04_dword_800E6064 = 0x70616D20;
+const int vr_nkt04_dword_800E6068 = 0x0A582520;
+const int vr_nkt04_dword_800E606C = 0x00000000;
+const char vr_nkt04_dword_800E6070[] = "kabe_n";
+const char vr_nkt04_dword_800E6078[] = "kabe_y";
+const char vr_nkt04_dword_800E6080[] = "kabe_01add";
+const char vr_nkt04_dword_800E608C[] = "kt_n";
+const char vr_nkt04_dword_800E6094[] = "mato_00add";
+const char vr_nkt04_dword_800E60A0[] = "kt_b";
+const char vr_nkt04_dword_800E60A8[] = "mato_02add";
+const char vr_nkt04_dword_800E60B4[] = "ice";
+const char vr_nkt04_dword_800E60B8[] = "vrbox2.c";

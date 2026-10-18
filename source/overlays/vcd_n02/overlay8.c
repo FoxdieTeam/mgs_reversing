@@ -1,5 +1,7 @@
 #include "mgstype.h"
 
+extern const int vcd_n02_dword_800E54C8;
 
-const char vcd_n02_dword_800E54B4[] = "blood_1";
-const char vcd_n02_dword_800E54BC[] = "n_blood.c";
+
+const char vcd_n02_dword_800E556C[] = "plasma";
+const char vcd_n02_dword_800E5574[] = "plasma_l.c";

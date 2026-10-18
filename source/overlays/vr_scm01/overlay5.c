@@ -1,5 +1,4 @@
 #include "mgstype.h"
 
 
-const char vr_scm01_dword_800E2474[] = "snake";
-const char vr_scm01_dword_800E247C[] = "snwarp.c";
+const int vr_scm01_dword_800E2B1C = 0x24C657AC;

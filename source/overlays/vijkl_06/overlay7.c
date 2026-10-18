@@ -1,5 +1,4 @@
 #include "mgstype.h"
 
 
-
-int SECTION(".bss") vijkl_06_dword_800E35A4;
+const int vijkl_06_dword_800E2EAC = 0x34303038;

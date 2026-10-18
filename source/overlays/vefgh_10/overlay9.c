@@ -1,6 +1,22 @@
 #include "mgstype.h"
 
 
-const int vefgh_10_dword_800E2504 = 0xA4A5E1A5;
-const int vefgh_10_dword_800E2508 = 0x0000F3A5;
-const char vefgh_10_dword_800E250C[] = "m_door.c";
+
+int SECTION(".bss") vefgh_10_dword_800E3238;
+int SECTION(".bss") vefgh_10_dword_800E323C;
+int SECTION(".bss") vefgh_10_dword_800E3240;
+int SECTION(".bss") vefgh_10_dword_800E3244;
+int SECTION(".bss") vefgh_10_dword_800E3248;
+int SECTION(".bss") vefgh_10_dword_800E324C;
+int SECTION(".bss") vefgh_10_dword_800E3250;
+int SECTION(".bss") vefgh_10_dword_800E3254;
+int SECTION(".bss") vefgh_10_dword_800E3258;
+int SECTION(".bss") vefgh_10_dword_800E325C;
+int SECTION(".bss") vefgh_10_dword_800E3260;
+int SECTION(".bss") vefgh_10_dword_800E3264;
+int SECTION(".bss") vefgh_10_dword_800E3268;
+int SECTION(".bss") vefgh_10_dword_800E326C;
+int SECTION(".bss") vefgh_10_dword_800E3270;
+int SECTION(".bss") vefgh_10_dword_800E3274;
+int SECTION(".bss") vefgh_10_dword_800E3278;
+int SECTION(".bss") vefgh_10_dword_800E327C;

@@ -3465,5 +3465,4 @@ int movie_dword_800C9618 = 0x000100FF;
 int movie_dword_800C961C = 0xFF000100;
 int movie_dword_800C9620 = 0x000100FF;
 int movie_dword_800C9624 = 0xFF000100;
-int movie_dword_800C9628 = 0x71F13223;
 

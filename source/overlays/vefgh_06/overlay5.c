@@ -1,10 +1,6 @@
 #include "mgstype.h"
 
+int vefgh_06_dword_800C15DC = 0xD5CC0DD2;
+int vefgh_06_dword_800C15E0 = 0x322342DC;
 
-
-int SECTION(".bss") vefgh_06_dword_800E4F30;
-int SECTION(".bss") vefgh_06_dword_800E4F34;
-int SECTION(".bss") vefgh_06_dword_800E4F38;
-int SECTION(".bss") vefgh_06_dword_800E4F3C;
-int SECTION(".bss") vefgh_06_dword_800E4F40;
-int SECTION(".bss") vefgh_06_dword_800E4F44;
+const char vefgh_06_dword_800E473C[] = "findtrap.c";

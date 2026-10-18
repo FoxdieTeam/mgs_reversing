@@ -855,4 +855,3 @@ int movie_dword_800C245C = 0x4770BC03;
 int movie_dword_800C2460 = 0xB500B403;
 char movie_dword_800C2464[] = ";I  H`";
 
-const char movie_dword_800DE338[] = "fadeio.c";
