@@ -63,7 +63,7 @@ void njp_FreeTargets(SnaInitWork *work);
 
 void njp_800C4E38(SnaInitWork *work, int time);
 void njp_sna_anim_idle_800C4200(SnaInitWork *work, int time);
-void njp_800C44CC(SnaInitWork *work, int time);
+void njp_sna_anim_idle_update_800C44CC(SnaInitWork *work, int time);
 void njp_800C4750(SnaInitWork *work, int time);
 void njp_800C4A38(SnaInitWork *work, int time);
 void njp_800C4A90(SnaInitWork *work, int time);
@@ -997,7 +997,7 @@ void njp_sna_anim_idle_800C4200(SnaInitWork *work, int time)
 {
     if (time == 0)
     {
-        work->field_9C8_anim_update_fn_3p = njp_800C44CC;
+        work->field_9C8_anim_update_fn_3p = njp_sna_anim_idle_update_800C44CC;
         work->field_A26_stance = STAND;
         work->field_9CC_anim_update_fn_1p = njp_800C6900;
         njp_SetAction_8004E22C(work, 2, 4);
@@ -1083,6 +1083,44 @@ void njp_sna_anim_wall_move_80052BA8(SnaInitWork *work, int time)
         work->control.step.vx += njp_pVec_800ABBCC->vx / 8;
         work->control.step.vz += njp_pVec_800ABBCC->vz / 8;
         work->field_A3A++;
+    }
+}
+
+// @800C44CC njp_sna_anim_idle_update_800C44CC
+void njp_sna_anim_idle_update_800C44CC(SnaInitWork *work, int time)
+{
+    int diff;
+
+    if (njp_sna_select_action_800C3A30(work))
+    {
+        return;
+    }
+
+    if (work->field_A38_local_data > 0)
+    {
+        work->field_A38_local_data--;
+    }
+
+    if (work->field_A38_local_data == 0 && njp_gSnaMoveDir_800ABBA4 >= 0)
+    {
+        if (njp_dword_800ABBC4 == 1 || (njp_dword_800ABBC4 != 0 && work->field_79C == 2))
+        {
+            njp_sna_start_anim_8004E1F4(work, njp_sna_anim_wall_crouch_80052CCC);
+        }
+        else
+        {
+            diff = GV_DiffDirAbs(work->control.turn.vy, njp_gSnaMoveDir_800ABBA4);
+            if (diff > 256)
+            {
+                work->field_A38_local_data = diff / 1024 + 1;
+            }
+            else
+            {
+                njp_sna_start_anim_8004E1F4(work, njp_sna_anim_run_begin_80053B88);
+            }
+
+            work->control.turn.vy = njp_gSnaMoveDir_800ABBA4;
+        }
     }
 }
 
@@ -1384,6 +1422,7 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
 
 
 
