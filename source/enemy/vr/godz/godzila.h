@@ -136,23 +136,12 @@ typedef struct _GODZ_COMMAND
     int       voice;        //0x11C
 } GODZ_COMMAND;
 
-// FIXME: the other files of the godzilla soldier (action, think, com) are not decompiled yet. The functions and the
-// data that the decompiled files use are referenced by their address based symbols of the vcd_n05 overlay.
+// FIXME: the action and think files of the godzilla soldier are not decompiled yet. The functions that the
+// decompiled files use are referenced by their address based symbols of the vcd_n05 overlay.
 #define GodzThink            vcd_n05_800CBF4C
 #define GodzActionUpdate     vcd_n05_800C73B0
 #define GODZ_ExecPutChar     vcd_n05_800C7F70
 #define GODZ_SetPutChar      vcd_n05_800C7EF4
-#define GODZ_GetIndex        vcd_n05_800CC424
-#define GODZ_FreeIndex       vcd_n05_800CC468
-#define GodzCommand          vcd_n05_dword_800DF250
-#define GODZ_TARGET_SIZE     vcd_n05_dword_800C14D4
-#define GODZ_TARGET_FORCE    vcd_n05_dword_800C14DC
-#define GODZ_ATTACK_SIZE     vcd_n05_dword_800C14E4
-#define GODZ_ATTACK_FORCE    vcd_n05_dword_800C14EC
-#define GODZ_TOUCH_SIZE      vcd_n05_dword_800C14F4
-#define GODZ_TOUCH_FORCE     vcd_n05_dword_800C14FC
-#define GODZ_NO_POINT        vcd_n05_dword_800C1504
-#define GODZ_EYE_LENGTH      vcd_n05_dword_800C150C
 
 typedef void ( *GODZACTION )( GodzWork *, int );
 typedef void ( *GODZPUTFUNC )( GodzWork * );

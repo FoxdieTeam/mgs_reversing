@@ -10,11 +10,13 @@
 #include "libhzd/libhzd.h"
 #include "game/game.h"
 #include "game/vibrate.h"
+#include "strcode.h"
 
 typedef struct _GodzCommanderWork
 {
     GV_ACT actor;
-    int    name;
+    int    field_20;
+    int    name;       // 0x24
 } GodzCommanderWork;
 
 SVECTOR GODZ_TARGET_SIZE  = { 300, 1500, 300 };
@@ -36,15 +38,14 @@ char GodzVibH[] = { 1, 10, 0, 0 };
 char GodzVibL[] = { 255, 10, 0, 0 };
 
 SVECTOR           SECTION(".bss") GodzCameraPos;
-GODZ_COMMAND    SECTION(".bss") GodzCommand;
 TOPCOMMAND_STRUCT SECTION(".bss") GodzTopCommand;
 int               SECTION(".bss") GodzFlag;
 int               SECTION(".bss") GODZ_GameFlag;
 int               SECTION(".bss") GODZCOM_PlayerAddress;
 int               SECTION(".bss") GODZCOM_PlayerMap;
 SVECTOR           SECTION(".bss") GODZCOM_PlayerPosition;
+GODZ_COMMAND      SECTION(".bss") GodzCommand;
 
-extern void NewAsiato( void );
 
 
 
@@ -277,14 +278,10 @@ void s10a_zk10com_800CE600( WATCHER *struct_c8 , int i )
     }
 }
 
-int s10a_zk10com_800CE72C( int a0, int a1 )
+// FIXME: always 0, the alert level of the godzilla soldiers is not taken into account
+int GodzMaxAlert( int a0, int a1 )
 {
-    if ( a0 < a1 )
-    {
-        a0 = a1;
-    }
-
-    return a0;
+    return 0;
 }
 
 void s10a_zk10com_800CE744( int val, GODZ_COMMAND* command )
@@ -385,7 +382,7 @@ void s10a_zk10com_800CE8EC( GodzCommanderWork* work )
         if ( GodzCommand.watchers[ i ].field_04 == 2 )
         {
             watcher = ( GodzWork * )GodzCommand.watchers[ i ].watcher;
-            alert =  s10a_zk10com_800CE72C( alert, watcher->alert_level );
+            alert =  GodzMaxAlert( alert, watcher->alert_level );
         }
         else if ( GodzCommand.watchers[ i ].field_04 == 1 )
         {
@@ -400,19 +397,19 @@ void s10a_zk10com_800CE8EC( GodzCommanderWork* work )
     GodzCommand.field_110 = 0;
 }
 
-void s10a_zk10com_800CE9E0( void )
+// the "player" the soldiers look for is the last soldier
+void GodzUpdateLastPosition( void )
 {
+    GodzWork *watcher;
     int addr;
-    int addr2;
 
-    addr = GM_PlayerAddress & 0xFF;
-    addr2 = ( GM_PlayerAddress >> 8 ) & 0xFF;
-
-    if ( addr == addr2 && addr != 0xFF )
+    if ( GodzCommand.n_watchers > 0 )
     {
-        GODZCOM_PlayerAddress  = GM_PlayerAddress;
-        GODZCOM_PlayerPosition = GM_PlayerPosition;
-        GODZCOM_PlayerMap      = GM_PlayerMap;
+        watcher = ( GodzWork * )GodzCommand.watchers[ GodzCommand.n_watchers - 1 ].watcher;
+        addr = HZD_GetAddress( GodzCommand.map->hzd, &watcher->control.mov, -1 );
+        GODZCOM_PlayerPosition = watcher->control.mov;
+        GODZCOM_PlayerAddress  = ( addr << 8 ) | addr;
+        GODZCOM_PlayerMap      = watcher->control.map->index;
     }
 }
 
@@ -449,40 +446,21 @@ int s10a_zk10com_800CEAB8( void )
     return -1;
 }
 
-void s10a_zk10com_800CEAF4( void )
+void GodzCountTimer( void )
 {
-    switch ( GODZ_GameFlag )
-    {
-    case 0:
-        if ( s10a_zk10com_800CEAB8() == 1 )
-        {
-            GODZ_GameFlag = 1;
-            NewPadVibration( GodzVibH, 1 );
-            NewPadVibration( GodzVibL, 2 );
-            if ( GM_StreamStatus() == -1 )
-            {
-                GM_VoxStream( GodzCommand.voice, 0x40000000 );
-            }
-            GodzCommand.timer = 0;
-        }
-        break;
-    case 1:
-        if ( GodzCommand.timer > 30 && GM_StreamStatus() == 1 )
-        {
-            GM_StreamPlayStart();
-        }
-        break;
-    case 2:
-        break;
-    }
-
     GodzCommand.timer++;
 }
 
 static void Act( GodzCommanderWork* work )
 {
-    s10a_zk10com_800CEAF4();
-    s10a_zk10com_800CE9E0();
+    if ( GM_CheckMessage( &work->actor, work->name, HASH_KILL ) )
+    {
+        GV_DestroyActor( &work->actor );
+        return;
+    }
+
+    GodzCountTimer();
+    GodzUpdateLastPosition();
     s10a_zk10com_800CE8EC( work );
     GodzCommand.counter++;
 }
@@ -508,6 +486,7 @@ static void GetResources( GodzCommanderWork *work, int name, int where )
     GodzCommand.c_root = 0;
     GodzCommand.alert = 0;
     GodzCommand.name = name;
+    work->name = name;
 
     for ( i = 0 ; i < 8 ; i++ )
     {
@@ -547,19 +526,7 @@ static void GetResources( GodzCommanderWork *work, int name, int where )
     }
 
     GodzCommand.reset_zone = 0;
-
-    ops = GCL_GetOption( 'f' );
-    if ( ops )
-    {
-        GCL_StrToInt( ops );    /* value not used */
-        GodzFlag = 1;
-    }
-    else
-    {
-        GodzFlag = 1;
-    }
-
-    NewAsiato();
+    GodzFlag = 0;
 
     ops = GCL_GetOption( 'j' );
     if ( ops )
@@ -616,7 +583,7 @@ void *NewGodzCommander( int name, int where, int argc, char **argv )
 
     work = GV_NewActor( GV_ACTOR_PREV, sizeof( GodzCommanderWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), Act, Die, "zk10com.c" );
+        GV_SetNamedActor( &( work->actor ), Act, Die, "godzcom.c" );
         GetResources( work, name, where );
     }
     return (void *)work;
