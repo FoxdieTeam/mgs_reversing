@@ -549,6 +549,9 @@ def run(args, exclude):
     for c in cands:
         if not c.is_lib:
             wanted |= set(c.sections['__xrefs__'].values())
+    # address based symbols of the overlay itself ('NAME_dword_ADDRESS' data, 'NAME_ADDRESS' asm functions) are
+    # available to its objects (the link fails if the function was meanwhile moved into a C object)
+    known |= set(x for x in wanted if re.fullmatch(re.escape(dirname) + r'_(dword_)?[0-9A-F]{8}', x))
     aliases = find_aliases(dirname, ow, (table_end - BASE) // 4, len(ow), wanted - known)
     aliases.update(find_lib_aliases(args.psyq_path, ow, (table_end - BASE) // 4, len(ow), wanted - known - set(aliases.values())))
     for i_, sym_ in sorted(aliases.items()):

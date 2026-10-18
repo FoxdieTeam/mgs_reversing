@@ -1,0 +1,110 @@
+	.set	noreorder
+	.set	noat
+	.set	nomacro
+	.text
+	.globl	SnowGetOptions
+SnowGetOptions:
+	addiu	$3,$0,256
+	addiu	$7,$3,31
+	lui	$2,%hi(snow_svec_800C3854)
+	addiu	$11,$2,%lo(snow_svec_800C3854)
+	lwl	$8,3($11)
+	lwr	$8,0($11)
+	lwl	$9,7($11)
+	lwr	$9,4($11)
+	swl	$8,35($4)
+	swr	$8,32($4)
+	swl	$9,39($4)
+	swr	$9,36($4)
+	lui	$2,%hi(snow_svec_800C385C)
+	addiu	$11,$2,%lo(snow_svec_800C385C)
+	lwl	$8,3($11)
+	lwr	$8,0($11)
+	lwl	$9,7($11)
+	lwr	$9,4($11)
+	swl	$8,43($4)
+	swr	$8,40($4)
+	swl	$9,47($4)
+	swr	$9,44($4)
+	lui	$2,%hi(snow_svec_800C3864)
+	addiu	$11,$2,%lo(snow_svec_800C3864)
+	lwl	$8,3($11)
+	lwr	$8,0($11)
+	lwl	$9,7($11)
+	lwr	$9,4($11)
+	swl	$8,51($4)
+	swr	$8,48($4)
+	swl	$9,55($4)
+	swr	$9,52($4)
+	lui	$2,%hi(DG_ZeroVector)
+	addiu	$11,$2,%lo(DG_ZeroVector)
+	lwl	$8,3($11)
+	lwr	$8,0($11)
+	lwl	$9,7($11)
+	lwr	$9,4($11)
+	swl	$8,59($4)
+	swr	$8,56($4)
+	swl	$9,63($4)
+	swr	$9,60($4)
+	addiu	$2,$0,32
+	sw	$2,64($4)
+	addiu	$2,$0,-5000
+	sh	$2,32($4)
+	sh	$2,36($4)
+	addiu	$2,$0,5000
+	sh	$2,40($4)
+	sh	$2,42($4)
+	sh	$2,44($4)
+	addiu	$2,$0,50
+	sh	$2,48($4)
+	addiu	$2,$0,-400
+	sh	$2,50($4)
+	addiu	$2,$0,-200
+	sh	$0,34($4)
+	sh	$0,52($4)
+	sh	$0,56($4)
+	sh	$2,58($4)
+	bgez	$7,$LSnowGetOptions_0
+	sh	$0,60($4)
+	addiu	$7,$3,62
+$LSnowGetOptions_0:
+	lh	$6,48($4)
+	lh	$5,50($4)
+	lh	$3,52($4)
+	sra	$2,$7,5
+	bgez	$6,$LSnowGetOptions_1
+	sw	$2,64($4)
+	subu	$6,$0,$6
+$LSnowGetOptions_1:
+	bgez	$5,$LSnowGetOptions_2
+	nop
+	subu	$5,$0,$5
+$LSnowGetOptions_2:
+	bgez	$3,$LSnowGetOptions_3
+	slt	$2,$6,$5
+	subu	$3,$0,$3
+$LSnowGetOptions_3:
+	bne	$2,$0,$LSnowGetOptions_4
+	addiu	$7,$0,2
+	slt	$2,$6,$3
+	bne	$2,$0,$LSnowGetOptions_6
+	sll	$2,$7,1
+	addu	$7,$0,$0
+	j	$LSnowGetOptions_5
+	addu	$3,$6,$0
+$LSnowGetOptions_4:
+	slt	$2,$5,$3
+	bne	$2,$0,$LSnowGetOptions_6
+	sll	$2,$7,1
+	addiu	$7,$0,1
+	addu	$3,$5,$0
+$LSnowGetOptions_5:
+	sll	$2,$7,1
+$LSnowGetOptions_6:
+	slt	$3,$0,$3
+	addu	$2,$2,$3
+	jr	$31
+	sw	$2,68($4)
+	.set	macro
+	.set	reorder
+	.set	at
