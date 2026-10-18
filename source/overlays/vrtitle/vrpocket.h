@@ -7,7 +7,7 @@
 // Entry of the singly linked list of pocket objects.
 typedef struct PocketObj
 {
-    /* 0x00 */ int               field_0;
+    /* 0x00 */ struct PocketObj *prev;
     /* 0x04 */ struct PocketObj *next;
     /* 0x08 */ int               field_8;
     /* 0x0C */ short             field_C;
@@ -31,9 +31,10 @@ typedef struct PocketObj
     /* 0x20 */ void             *entries;
     /* 0x24 */ unsigned short    id;
     /* 0x26 */ short             value;
-    /* 0x28 */ int               field_28; // only present in the 0x34 byte variant
-    /* 0x2C */ int               pad_2C[ 2 ];
-} PocketObj; // allocated as 0x28 or 0x34 bytes, see vrtitle_800C99A8 (the extra 0xC bytes are only valid for the large variant)
+    /* 0x28 */ int               field_28;
+} PocketObj; // 0x2C bytes; the entries array it owns has 0x28 or 0x34 byte elements, see vrtitle_800C99A8
+
+#define POCKET_OBJ_MAX 32
 
 // Pending (id, value) update, applied to the list by the owner's update function.
 typedef struct PocketUpdate
