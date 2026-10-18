@@ -496,213 +496,6 @@ $LVrclear2_800DEF84_8:
 	nop
 	.set	macro
 	.set	reorder
-	.set	noreorder
-	.set	noat
-	.set	nomacro
-	.text
-	.globl	Vrclear2DrawTitle
-Vrclear2DrawTitle:
-	addiu	$29,$29,-64
-	sw	$16,24($29)
-	addu	$16,$4,$0
-	lui	$5,0x6666
-	sw	$31,60($29)
-	sw	$30,56($29)
-	sw	$23,52($29)
-	sw	$22,48($29)
-	sw	$21,44($29)
-	sw	$20,40($29)
-	sw	$19,36($29)
-	sw	$18,32($29)
-	sw	$17,28($29)
-	sb	$0,18($29)
-	lw	$4,1000($16)
-	ori	$5,$5,0x6667
-	mult	$4,$5
-	sra	$2,$4,31
-	mfhi	$7
-	sra	$3,$7,2
-	subu	$3,$3,$2
-	sll	$2,$3,2
-	addu	$2,$2,$3
-	sll	$2,$2,1
-	subu	$4,$4,$2
-	addiu	$4,$4,48
-	sb	$4,17($29)
-	lw	$2,1000($16)
-	nop
-	mult	$2,$5
-	addu	$18,$0,$0
-	sra	$2,$2,31
-	mfhi	$7
-	sra	$3,$7,2
-	subu	$3,$3,$2
-	lui	$2,%hi(VR_Flags)
-	lw	$2,%lo(VR_Flags)($2)
-	addiu	$3,$3,48
-	andi	$2,$2,0x8
-	bne	$2,$0,$LVrclear2DrawTitle_0
-	sb	$3,16($29)
-	addiu	$18,$0,15
-$LVrclear2DrawTitle_0:
-	lh	$3,38($16)
-	addiu	$2,$0,6
-	beq	$3,$2,$LVrclear2DrawTitle_11
-	nop
-	lw	$3,972($16)
-	nop
-	slti	$2,$3,161
-	bne	$2,$0,$LVrclear2DrawTitle_2
-	addu	$17,$0,$0
-	addiu	$2,$0,320
-	bne	$3,$2,$LVrclear2DrawTitle_1
-	addu	$4,$0,$0
-	addiu	$5,$0,63
-	jal	GM_SeSet2
-	addiu	$6,$0,195
-$LVrclear2DrawTitle_1:
-	lw	$2,972($16)
-	nop
-	addiu	$2,$2,-20
-	sw	$2,972($16)
-	addu	$17,$0,$0
-$LVrclear2DrawTitle_2:
-	lui	$7,%hi(vrclear2_str_s)
-	addiu	$23,$7,%lo(vrclear2_str_s)
-	lui	$2,%hi(vrclear2_buttons+600)
-	addiu	$21,$2,%lo(vrclear2_buttons+600)
-	lui	$30,%hi(vrclear2_buttons+668)
-	addiu	$22,$30,%lo(vrclear2_buttons+668)
-	addiu	$20,$18,40
-	addiu	$19,$0,320
-	addiu	$18,$18,25
-$LVrclear2DrawTitle_3:
-	beq	$17,$0,$LVrclear2DrawTitle_4
-	addiu	$4,$0,50
-	addu	$5,$4,$0
-	j	$LVrclear2DrawTitle_5
-	addu	$6,$4,$0
-$LVrclear2DrawTitle_4:
-	addiu	$4,$0,200
-	lui	$2,%hi(GV_Clock)
-	lw	$2,%lo(GV_Clock)($2)
-	addu	$5,$4,$0
-	sll	$6,$2,1
-	addu	$6,$6,$2
-	sll	$6,$6,3
-	addu	$6,$6,$2
-	sll	$6,$6,3
-$LVrclear2DrawTitle_5:
-	jal	MENU_Color
-	nop
-	lw	$2,1012($16)
-	nop
-	srl	$2,$2,3
-	andi	$2,$2,0x1
-	beq	$2,$0,$LVrclear2DrawTitle_6
-	addu	$5,$18,$0
-	lw	$4,972($16)
-	addiu	$6,$0,18
-	jal	MENU_Locate
-	addu	$4,$4,$17
-	lw	$5,956($16)
-	jal	MENU_Printf
-	addu	$4,$23,$0
-	addu	$5,$20,$0
-	lw	$4,972($16)
-	addiu	$6,$0,18
-	jal	MENU_Locate
-	subu	$4,$19,$4
-	lw	$5,960($16)
-	j	$LVrclear2DrawTitle_10
-	addu	$4,$23,$0
-$LVrclear2DrawTitle_6:
-	lw	$2,1000($16)
-	nop
-	beq	$2,$0,$LVrclear2DrawTitle_9
-	addiu	$6,$0,18
-	lw	$4,972($16)
-	jal	MENU_Locate
-	addu	$4,$4,$17
-	lw	$2,996($16)
-	nop
-	beq	$2,$0,$LVrclear2DrawTitle_7
-	sll	$2,$2,2
-	addu	$2,$2,$22
-	lui	$4,%hi(vrclear2_str_fmt_dash)
-	lw	$3,992($16)
-	lw	$6,0($2)
-	sll	$3,$3,2
-	addu	$3,$3,$21
-	lw	$5,0($3)
-	j	$LVrclear2DrawTitle_8
-	addiu	$4,$4,%lo(vrclear2_str_fmt_dash)
-$LVrclear2DrawTitle_7:
-	lui	$4,%hi(vrclear2_str_fmt_ss)
-	lw	$2,992($16)
-	lw	$6,%lo(vrclear2_buttons+668)($30)
-	sll	$2,$2,2
-	addu	$2,$2,$21
-	lw	$5,0($2)
-	addiu	$4,$4,%lo(vrclear2_str_fmt_ss)
-$LVrclear2DrawTitle_8:
-	jal	MENU_Printf
-	nop
-	addu	$5,$20,$0
-	lw	$4,972($16)
-	addiu	$6,$0,18
-	jal	MENU_Locate
-	subu	$4,$19,$4
-	lui	$4,%hi(vrclear2_str_level_cleared)
-	addiu	$4,$4,%lo(vrclear2_str_level_cleared)
-	j	$LVrclear2DrawTitle_10
-	addiu	$5,$29,16
-$LVrclear2DrawTitle_9:
-	addu	$5,$18,$0
-	lw	$4,972($16)
-	jal	MENU_Locate
-	addu	$4,$4,$17
-	lw	$2,992($16)
-	lui	$7,%hi(vrclear2_str_s)
-	sll	$2,$2,2
-	addu	$2,$2,$21
-	lw	$5,0($2)
-	jal	MENU_Printf
-	addiu	$4,$7,%lo(vrclear2_str_s)
-	addu	$5,$20,$0
-	lw	$4,972($16)
-	addiu	$6,$0,18
-	jal	MENU_Locate
-	subu	$4,$19,$4
-	lw	$2,996($16)
-	lui	$4,%hi(vrclear2_str_cleared)
-	sll	$2,$2,2
-	addu	$2,$2,$22
-	lw	$5,0($2)
-	addiu	$4,$4,%lo(vrclear2_str_cleared)
-$LVrclear2DrawTitle_10:
-	jal	MENU_Printf
-	addiu	$20,$20,1
-	addiu	$19,$19,1
-	addiu	$17,$17,1
-	slti	$2,$17,2
-	bne	$2,$0,$LVrclear2DrawTitle_3
-	addiu	$18,$18,1
-$LVrclear2DrawTitle_11:
-	lw	$31,60($29)
-	lw	$30,56($29)
-	lw	$23,52($29)
-	lw	$22,48($29)
-	lw	$21,44($29)
-	lw	$20,40($29)
-	lw	$19,36($29)
-	lw	$18,32($29)
-	lw	$17,28($29)
-	lw	$16,24($29)
-	jr	$31
-	addiu	$29,$29,64
-	.set	macro
-	.set	reorder
 	.rdata
 	.align	2
 vrclear2_str_1st:
@@ -731,6 +524,7 @@ vrclear2_str_d:
 	.ascii	"%d"
 	.byte	0
 	.align	2
+	.globl	vrclear2_str_s
 vrclear2_str_s:
 	.ascii	"%s"
 	.byte	0
@@ -816,22 +610,6 @@ vrclear2_str_socom:
 	.align	2
 vrclear2_str_noweapon:
 	.ascii	"NO WEAPON"
-	.byte	0
-	.align	2
-vrclear2_str_fmt_dash:
-	.ascii	"%s - %s"
-	.byte	0
-	.align	2
-vrclear2_str_fmt_ss:
-	.ascii	"%s %s"
-	.byte	0
-	.align	2
-vrclear2_str_level_cleared:
-	.ascii	"LEVEL %s  CLEARED"
-	.byte	0
-	.align	2
-vrclear2_str_cleared:
-	.ascii	"%s  CLEARED"
 	.byte	0
 	.data
 	.align	2
@@ -987,6 +765,9 @@ vrclear2_buttons:
 	.word	0x00000000
 	.word	0x00000000
 	.word	0x00000000
+	.align	2
+	.globl	vrclear2_mode_names
+vrclear2_mode_names:
 	.word	vrclear2_pad17b4
 	.word	vrclear2_str_weapon
 	.word	vrclear2_str_weapon
@@ -1004,6 +785,9 @@ vrclear2_buttons:
 	.word	vrclear2_pad17b4
 	.word	vrclear2_str_vr_mission
 	.word	vrclear2_str_variety
+	.align	2
+	.globl	vrclear2_weapon_names
+vrclear2_weapon_names:
 	.word	vrclear2_pad17b4
 	.word	vrclear2_str_noweapon
 	.word	vrclear2_str_socom

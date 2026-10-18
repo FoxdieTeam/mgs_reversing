@@ -55,7 +55,7 @@
    "800DF134"
   ],
   [
-   "Vrclear2DrawTitle",
+   "DrawTitle",
    "800DF134",
    "800DF420"
   ],
@@ -332,7 +332,17 @@
   [
    "800C1D98",
    "vrclear2_buttons",
-   177
+   150
+  ],
+  [
+   "800C1FF0",
+   "vrclear2_mode_names",
+   17
+  ],
+  [
+   "800C2034",
+   "vrclear2_weapon_names",
+   10
   ]
  ],
  "c_funcs": [
@@ -349,7 +359,11 @@
   "Die",
   "NewVrClear2",
   "DrawWindow",
-  "Draw"
+  "Draw",
+  "DrawTitle"
  ],
- "globl": true
+ "globl": true,
+ "export": [
+  "vrclear2_str_s"
+ ]
 }

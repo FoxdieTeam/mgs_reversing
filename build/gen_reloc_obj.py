@@ -13,7 +13,8 @@ CONFIG (json):
    "syms":  {"800E1318": "NewSplashVr"} }
 Jump tables are detected automatically per function and are emitted in their address order between the rdata items.
  Optional: "data": [["800C1D98","name",COUNT_WORDS], ...] initialised .data words (pointers into the object are symbolic),
-           "bss_syms": {"800E1DA0": ["name", SIZE]} symbols of C-defined bss, "globl": true (export rdata/data labels)."""
+           "bss_syms": {"800E1DA0": ["name", SIZE]} symbols of C-defined bss, "globl": true (export data labels),
+           "export": ["name", ...] (export these rdata labels so C can refer to the literal, see vrclear2.c)."""
 import json, re, struct, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import symbolize_asm as S
@@ -79,7 +80,7 @@ for a, (n, kind, cnt) in rd.items():
         else:
             ws = ['0x%08X' % w for w in ws]
         body = ['\t.word\t' + w for w in ws]
-    items[a] = '\t.align\t2\n%s:\n' % n + '\n'.join(body) + '\n'
+    items[a] = '\t.align\t2\n%s%s:\n' % ('\t.globl\t%s\n' % n if n in cfg.get('export', []) else '', n) + '\n'.join(body) + '\n'
 for a, b in jt.items():
     items[a] = '\t.align\t2\n' + b
 # first user of every rdata item (by function order); items first used by a C function are emitted by the C compiler

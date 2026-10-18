@@ -32,6 +32,7 @@
 #define VRCLEAR_SE_MENU     102
 #define VRCLEAR_SE_EXIT     33
 #define VRCLEAR_SE_CURSOR   31
+#define VRCLEAR_SE_TITLE    195
 
 // VR_MENU_ITEM::link[] (cursor movement)
 #define LINK_UP             0
@@ -87,15 +88,14 @@ typedef struct _Work
     char       *title[2];               // 0x3BC
     char       *stage_var;              // 0x3C4
     int         f3C8;                   // 0x3C8
-    short       title_x;                // 0x3CC
-    short       pad_3CE;                // 0x3CE
+    int         title_x;                // 0x3CC
     int         win_h;                  // 0x3D0
     int         win_w;                  // 0x3D4
     int         stage;                  // 0x3D8
     int         category;               // 0x3DC
     int         mode;                   // 0x3E0
     int         weapon_name;            // 0x3E4
-    char        pad_3E8[4];             // 0x3E8
+    int         level;                  // 0x3E8
     int         act_state;              // 0x3EC
     int         voice_flag;             // 0x3F0
     u_int       replay : 1;             // 0x3F4
@@ -114,9 +114,12 @@ u_short *SECTION(".bss") vrclear2_replay_data;
 // initialised data of the original vrclear2.c: the menu buttons, followed by the mode/weapon name tables
 // (defined by the relocatable asm)
 extern VR_MENU_ITEM vrclear2_buttons[NUM_BUTTONS];
+// "%s" literal of the relocatable asm: the original compiler merged the identical literals of all functions
+extern char         vrclear2_str_s[];
+extern char        *vrclear2_mode_names[];
+extern char        *vrclear2_weapon_names[];
 
 // still in the relocatable asm
-void Vrclear2DrawTitle(Work *work);
 void Vrclear2DrawResult(int timer, Work *work);
 int Vrclear2GetResources(Work *work, int where);
 
@@ -229,6 +232,85 @@ static void DrawReplayLabel(Work *work)
 }
 
 #pragma INCLUDE_ASM_RELOC("source/koba/vr/reloc/vrclear2_0.s")
+
+static void DrawTitle(Work *work)
+{
+    char level[3];
+    int  y;
+    int  i;
+    int  top, bottom;
+
+    level[2] = '\0';
+    level[1] = (work->level % 10) + '0';
+    level[0] = (work->level / 10) + '0';
+
+    y = 0;
+    if (!(VR_Flags & VRFLAG_RESULT))
+    {
+        y = 15;
+    }
+
+    if (work->state == MENU_HIDDEN)
+    {
+        return;
+    }
+
+    if (work->title_x > 160)
+    {
+        if (work->title_x == 320)
+        {
+            GM_SeSet2(0, 63, VRCLEAR_SE_TITLE);
+        }
+
+        work->title_x -= 20;
+    }
+
+    top = y + 25;
+    bottom = y + 40;
+
+    for (i = 0; i < 2; i++)
+    {
+        if (i != 0)
+        {
+            MENU_Color(50, 50, 50);
+        }
+        else
+        {
+            MENU_Color(200, 200, GV_Clock * 200);
+        }
+
+        if (work->custom_title)
+        {
+            MENU_Locate(work->title_x + i, top + i, 0x12);
+            MENU_Printf(vrclear2_str_s, work->title[0]);
+            MENU_Locate(FRAME_WIDTH - work->title_x + i, bottom + i, 0x12);
+            MENU_Printf(vrclear2_str_s, work->title[1]);
+        }
+        else if (work->level != 0)
+        {
+            MENU_Locate(work->title_x + i, top + i, 0x12);
+
+            if (work->weapon_name != 0)
+            {
+                MENU_Printf("%s - %s", vrclear2_mode_names[work->mode], vrclear2_weapon_names[work->weapon_name]);
+            }
+            else
+            {
+                MENU_Printf("%s %s", vrclear2_mode_names[work->mode], vrclear2_weapon_names[0]);
+            }
+
+            MENU_Locate(FRAME_WIDTH - work->title_x + i, bottom + i, 0x12);
+            MENU_Printf("LEVEL %s  CLEARED", level);
+        }
+        else
+        {
+            MENU_Locate(work->title_x + i, top + i, 0x12);
+            MENU_Printf(vrclear2_str_s, vrclear2_mode_names[work->mode]);
+            MENU_Locate(FRAME_WIDTH - work->title_x + i, bottom + i, 0x12);
+            MENU_Printf("%s  CLEARED", vrclear2_weapon_names[work->weapon_name]);
+        }
+    }
+}
 
 static int MoveCursor(Work *work)
 {
@@ -412,7 +494,7 @@ static void Draw(Work *work)
     int           busy;
     int           skip;
 
-    Vrclear2DrawTitle(work);
+    DrawTitle(work);
 
     switch (work->state)
     {
