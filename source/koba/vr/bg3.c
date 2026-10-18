@@ -13,6 +13,11 @@
 #include "koba/vr/backgrnd.h"
 
 /*---------------------------------------------------------------------------*/
+
+// GCL options
+#define OPT_COLOR_SET      't'    // color set
+#define OPT_HIDDEN         'a'    // hidden
+
 // VR-DISC background 3: four "op_back" quarters in front of the scrolling
 // background (koba/vr/backgrnd.c) that open from the centre and cycle colours
 
@@ -259,7 +264,7 @@ static int GetResources(Work *work, int where)
 
     GM_CurrentMap = where;
 
-    opt = GCL_GetOption('t');
+    opt = GCL_GetOption(OPT_COLOR_SET);
     if (opt)
     {
         work->color_set = GCL_StrToInt(opt);
@@ -274,7 +279,7 @@ static int GetResources(Work *work, int where)
         work->color_set = N_COLOR_SETS - 1;
     }
 
-    opt = GCL_GetOption('a');
+    opt = GCL_GetOption(OPT_HIDDEN);
     if (opt)
     {
         work->hidden = GCL_StrToInt(opt);

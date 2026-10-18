@@ -15,6 +15,10 @@
 int SECTION(".bss") VR_Status;  // VR_STATUS_*, see vr.h
 
 /*---------------------------------------------------------------------------*/
+
+// GCL options
+#define OPT_COLOR          't'    // color index
+
 // VR-DISC scrolling background (the "op_back" panels behind the VR stages)
 
 #define N_PANELS        3
@@ -210,7 +214,7 @@ static int GetResources(Work *work, int map)
         prim->raise -= 2000;
     }
 
-    opt = GCL_GetOption('t');
+    opt = GCL_GetOption(OPT_COLOR);
     if (opt)
     {
         work->color = GCL_StrToInt(opt);

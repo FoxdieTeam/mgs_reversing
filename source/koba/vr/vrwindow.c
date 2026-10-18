@@ -15,6 +15,16 @@
 
 /*---------------------------------------------------------------------------*/
 
+// GCL options
+#define OPT_NO_PAUSE       's'    // do not pause the game
+#define OPT_N_LINES        'i'    // number of lines
+#define OPT_TEXT           'b'    // the lines
+#define OPT_WINDOW         'w'    // window rect
+#define OPT_MARGIN         'm'    // margin rect
+#define OPT_PROC           'p'    // proc run when closed
+#define OPT_FREE_FONT      'f'    // release the font area
+
+
 // Act states: the window opens (OPEN_W, OPEN_H), types the lines (TYPING), waits for the
 // "close" message (WAIT) and shrinks again (CLOSE_H, CLOSE_W)
 #define VRWIN_STATE_WAIT        0
@@ -471,7 +481,7 @@ void *NewVrWindow(int name, int where)
 
         GM_SeSet2(0, 63, VRWIN_SE_START);
 
-        if (GCL_GetOption('s'))
+        if (GCL_GetOption(OPT_NO_PAUSE))
         {
             work->pausing = 0;
         }
@@ -480,9 +490,9 @@ void *NewVrWindow(int name, int where)
             work->pausing = 1;
         }
 
-        work->i_num = GCL_StrToInt(GCL_GetOption('i'));
+        work->i_num = GCL_StrToInt(GCL_GetOption(OPT_N_LINES));
 
-        if (GCL_GetOption('b'))
+        if (GCL_GetOption(OPT_TEXT))
         {
             for (i = 0; i < work->i_num; i++)
             {
@@ -494,7 +504,7 @@ void *NewVrWindow(int name, int where)
             }
         }
 
-        if (GCL_GetOption('w'))
+        if (GCL_GetOption(OPT_WINDOW))
         {
             work->w_rect.x = GCL_StrToInt((char *)GCL_NextStr());
             work->w_rect.y = GCL_StrToInt((char *)GCL_NextStr());
@@ -519,7 +529,7 @@ void *NewVrWindow(int name, int where)
             work->w_rect.h = 13;
         }
 
-        if (GCL_GetOption('m'))
+        if (GCL_GetOption(OPT_MARGIN))
         {
             work->m_rect.x = work->w_rect.x + GCL_StrToInt((char *)GCL_NextStr());
             work->m_rect.y = work->w_rect.y + GCL_StrToInt((char *)GCL_NextStr());
@@ -539,7 +549,7 @@ void *NewVrWindow(int name, int where)
         work->m_rect.w = work->w_rect.w - 16;
         work->m_rect.h = work->w_rect.h - 12;
 
-        if (GCL_GetOption('p'))
+        if (GCL_GetOption(OPT_PROC))
         {
             work->proc = GCL_StrToInt((char *)GCL_NextStr());
         }
@@ -548,7 +558,7 @@ void *NewVrWindow(int name, int where)
             work->proc = 0;
         }
 
-        if (GCL_GetOption('f'))
+        if (GCL_GetOption(OPT_FREE_FONT))
         {
             work->flag = TRUE;
         }

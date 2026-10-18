@@ -14,6 +14,13 @@
 #include "koba/vr/vr.h"
 
 /*---------------------------------------------------------------------------*/
+
+// GCL options
+#define OPT_MODEL          'm'    // model
+#define OPT_POS            'p'    // position
+#define OPT_DIR            'd'    // rotation
+#define OPT_VISIBLE        'v'    // initially visible
+
 // VR-DISC goal marker: a spinning model that fades out once the mission
 // is cleared
 
@@ -153,13 +160,13 @@ void *NewGoal(int name, int where)
         GV_SetNamedActor(&work->actor, Act, Die, "goal.c");
 
         model = 0;
-        param = GCL_GetOption('m');
+        param = GCL_GetOption(OPT_MODEL);
         if (param != 0)
         {
             model = GCL_StrToInt(param);
         }
 
-        param = GCL_GetOption('p');
+        param = GCL_GetOption(OPT_POS);
         if (param != 0)
         {
             GCL_StrToSV(param, (short *)&pos);
@@ -169,7 +176,7 @@ void *NewGoal(int name, int where)
             pos = DG_ZeroVector;
         }
 
-        param = GCL_GetOption('d');
+        param = GCL_GetOption(OPT_DIR);
         if (param != 0)
         {
             GCL_StrToSV(param, (short *)&dir);
@@ -179,7 +186,7 @@ void *NewGoal(int name, int where)
             dir = DG_ZeroVector;
         }
 
-        param = GCL_GetOption('v');
+        param = GCL_GetOption(OPT_VISIBLE);
         if (param != 0)
         {
             work->visible = GCL_StrToInt(param);

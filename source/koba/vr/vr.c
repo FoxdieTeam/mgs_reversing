@@ -17,6 +17,23 @@
 #include "strcode.h"
 
 /*---------------------------------------------------------------------------*/
+
+// GCL options
+#define OPT_POS            'p'    // start position of the player
+#define OPT_GOAL2          'h'    // second goal position ("change" message)
+#define OPT_DIR            'd'    // player direction
+#define OPT_START_FLAGS    's'    // VR_Flags bits (<< 8) and proc run on start
+#define OPT_END_PROC       'e'    // proc run when the mission ends (required)
+#define OPT_LIMIT          'a'    // time limit in seconds*frames; makes it a timed mission
+#define OPT_RECORDS        'r'    // the three record times
+#define OPT_TIME_VAR       't'    // GCL variable and remove_items
+#define OPT_GAMEOVER_VOX   'o'    // voice of the game over screen
+#define OPT_NO_GOAL_END    'v'    // mission does not end at the goal
+#define OPT_N_TARGETS      'b'    // number of targets and proc
+#define OPT_N_ITEMS        'c'    // number of items and proc
+#define OPT_MODE           'f'    // VR_MODE_*
+#define OPT_KEEP_LIFE      'i'    // keep the life gauge
+
 // VR-DISC training mission manager: time limit, targets, goal, results
 
 // enemy/command.c
@@ -979,7 +996,7 @@ void *NewVr(int name, int where)
         work->proc = 0;
         work->end_proc = 0;
 
-        opt = GCL_GetOption('p');
+        opt = GCL_GetOption(OPT_POS);
         if (opt)
         {
             GCL_StrToSV(opt, (short *)&pos);
@@ -989,7 +1006,7 @@ void *NewVr(int name, int where)
             pos = DG_ZeroVector;
         }
 
-        opt = GCL_GetOption('h');
+        opt = GCL_GetOption(OPT_GOAL2);
         if (opt)
         {
             GCL_StrToSV(opt, (short *)&goal2);
@@ -1000,13 +1017,13 @@ void *NewVr(int name, int where)
             goal2 = pos;
         }
 
-        opt = GCL_GetOption('d');
+        opt = GCL_GetOption(OPT_DIR);
         if (opt)
         {
             work->dir = GCL_StrToInt(opt);
         }
 
-        opt = GCL_GetOption('s');
+        opt = GCL_GetOption(OPT_START_FLAGS);
         if (opt)
         {
             VR_Flags |= VRFLAG_AMMO_BONUS;
@@ -1014,7 +1031,7 @@ void *NewVr(int name, int where)
             work->proc = GCL_StrToInt(GCL_NextStr());
         }
 
-        opt = GCL_GetOption('e');
+        opt = GCL_GetOption(OPT_END_PROC);
         if (!opt)
         {
             printf("Please Set ENDPROC!\n");
@@ -1024,14 +1041,14 @@ void *NewVr(int name, int where)
 
         work->end_proc = GCL_StrToInt(opt);
 
-        opt = GCL_GetOption('a');
+        opt = GCL_GetOption(OPT_LIMIT);
         if (opt)
         {
             work->timed = 1;
             work->limit = GCL_StrToInt(opt);
             VR_Status = VR_STATUS_0;
 
-            opt = GCL_GetOption('r');
+            opt = GCL_GetOption(OPT_RECORDS);
             if (opt)
             {
                 VR_Records[0] = GCL_StrToInt(opt);
@@ -1050,7 +1067,7 @@ void *NewVr(int name, int where)
             VR_Records[3] = 0;
         }
 
-        opt = work->time_var = GCL_GetOption('t');
+        opt = work->time_var = GCL_GetOption(OPT_TIME_VAR);
         if (opt)
         {
             work->time = GCL_StrToInt(opt);
@@ -1063,7 +1080,7 @@ void *NewVr(int name, int where)
             work->remove_items = 1;
         }
 
-        opt = GCL_GetOption('o');
+        opt = GCL_GetOption(OPT_GAMEOVER_VOX);
         if (opt)
         {
             work->gameover_vox = GCL_StrToInt(opt);
@@ -1073,7 +1090,7 @@ void *NewVr(int name, int where)
             work->gameover_vox = -1;
         }
 
-        if (GCL_GetOption('v'))
+        if (GCL_GetOption(OPT_NO_GOAL_END))
         {
             work->goal_end = 0;
         }
@@ -1082,7 +1099,7 @@ void *NewVr(int name, int where)
             work->goal_end = 1;
         }
 
-        opt = GCL_GetOption('b');
+        opt = GCL_GetOption(OPT_N_TARGETS);
         if (opt)
         {
             VR_Flags |= VRFLAG_AMMO_BONUS;
@@ -1094,7 +1111,7 @@ void *NewVr(int name, int where)
             work->n_targets = 0;
         }
 
-        opt = GCL_GetOption('c');
+        opt = GCL_GetOption(OPT_N_ITEMS);
         if (opt)
         {
             VR_Flags |= VRFLAG_AMMO_BONUS;
@@ -1124,13 +1141,13 @@ void *NewVr(int name, int where)
             work->mode = VR_MODE_TARGET;
         }
 
-        opt = GCL_GetOption('f');
+        opt = GCL_GetOption(OPT_MODE);
         if (opt)
         {
             work->mode = GCL_StrToInt(opt);
         }
 
-        if (!GCL_GetOption('i'))
+        if (!GCL_GetOption(OPT_KEEP_LIFE))
         {
             Work.field_204_bars.field_6_snake_hp = GM_VitalityMax;
         }

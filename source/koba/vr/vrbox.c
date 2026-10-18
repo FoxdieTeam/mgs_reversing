@@ -22,6 +22,9 @@ extern BLAST_DATA blast_data_8009F4B8[8];
 // VR-DISC target: a model (target board, UFO, ...) that walks along a patrol
 // route (HZD route 'r'), can be shot and bursts into pieces
 
+#define BODY_FLAG           ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_BOUND \
+                            | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT )
+
 #define MAX_NODES           32
 #define SHADOW_SIZE         256
 #define SHADOW_RAISE        500
@@ -402,7 +405,7 @@ static void Disappear(Work *work)
     work->dying = 0;
     work->flags.shown = 0;
     work->respawn_count = work->respawn_time;
-    target->class = 0x201;
+    target->class = TARGET_AVAIL | TARGET_NO_LOCKON;
     target->damaged = 0;
     control = &work->control;
     work->hit_flash = 0;
@@ -566,7 +569,7 @@ static void Act(Work *work)
 
             if (work->scale == 0)
             {
-                work->target->class = 0x201;
+                work->target->class = TARGET_AVAIL | TARGET_NO_LOCKON;
 
                 if (work->flags.homing)
                 {
@@ -648,7 +651,7 @@ static void Act(Work *work)
                     }
 
                     target->vital = 255;
-                    target->class = 0x201;
+                    target->class = TARGET_AVAIL | TARGET_NO_LOCKON;
                 }
             }
         }
@@ -962,18 +965,18 @@ static int GetResources(Work *work, int name, int where)
     {
         if (work->flags.box)
         {
-            GM_InitObject(object, GV_StrCode("id_b"), 0x15D, 0);
+            GM_InitObject(object, GV_StrCode("id_b"), BODY_FLAG, 0);
             work->splash_tex = GV_StrCode("mato_06add");
         }
         else
         {
-            GM_InitObject(object, GV_StrCode("id_n"), 0x15D, 0);
+            GM_InitObject(object, GV_StrCode("id_n"), BODY_FLAG, 0);
             work->splash_tex = GV_StrCode("mato_04add");
         }
     }
     else
     {
-        GM_InitObject(object, models[work->flags.type - 1], 0x15D, 0);
+        GM_InitObject(object, models[work->flags.type - 1], BODY_FLAG, 0);
         work->splash_tex = textures[work->flags.type - 1];
 
         if (work->flags.type >= 2 && work->flags.type <= 4)

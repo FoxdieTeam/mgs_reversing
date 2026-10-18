@@ -17,6 +17,14 @@
 #include "vrmenu.h"
 
 /*---------------------------------------------------------------------------*/
+
+// GCL options
+#define OPT_VOICE_FLAG     'c'    // voice flag
+#define OPT_PROCS          'p'    // procs of the buttons
+#define OPT_STAGE          's'    // stage and category
+#define OPT_TITLE          'z'    // custom title strings
+#define OPT_VOICES         't'    // voices of the ranks
+
 // VR-DISC "VRCLEAR2": the "MISSION CLEARED" screen of the ADVANCED VR missions (vab_* overlays), a sibling of
 // vrclear.c (result times, record table, RETRY / NEXT / EXIT / SAVE menu) with a bigger Work and a different
 // result page.
@@ -886,7 +894,7 @@ static int GetResources(Work *work, int where)
     GM_CurrentMap = where;
     work->title_x = 320;
 
-    opt = GCL_GetOption('c');
+    opt = GCL_GetOption(OPT_VOICE_FLAG);
     if (opt)
     {
         work->voice_flag = GCL_StrToInt(opt);
@@ -896,7 +904,7 @@ static int GetResources(Work *work, int where)
         work->voice_flag = 1;
     }
 
-    opt = GCL_GetOption('p');
+    opt = GCL_GetOption(OPT_PROCS);
     if (opt)
     {
         n = GCL_StrToInt(opt);
@@ -918,7 +926,7 @@ static int GetResources(Work *work, int where)
         }
     }
 
-    opt = GCL_GetOption('s');
+    opt = GCL_GetOption(OPT_STAGE);
     work->stage_var = opt;
     if (opt)
     {
@@ -939,7 +947,7 @@ static int GetResources(Work *work, int where)
     work->title[0] = "\0";
     work->custom_title = 0;
 
-    if (GCL_GetOption('z'))
+    if (GCL_GetOption(OPT_TITLE))
     {
         work->custom_title = 1;
 
@@ -954,7 +962,7 @@ static int GetResources(Work *work, int where)
         }
     }
 
-    if (GCL_GetOption('t'))
+    if (GCL_GetOption(OPT_VOICES))
     {
         for (i = 0; i < 4; i++)
         {

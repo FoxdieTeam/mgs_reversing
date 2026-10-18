@@ -24,6 +24,9 @@ extern BLAST_DATA blast_data_8009F4B8[8];
 // VR-DISC wall target ("ＶＲＢＯＸ２"): a plate or a box (kabe) that blocks the way with dynamic hazard walls/floors
 // until it is shot, then bursts into pieces (koba/vr/splashvr.c)
 
+#define BODY_FLAG           ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_BOUND \
+                            | DG_FLAG_ONEPIECE | DG_FLAG_AMBIENT )
+
 #define OFFSET_PLATE        1000    // lifts a flat plate (option 'k') above the position
 #define OFFSET_BOX          500     // lifts a box above the position
 #define BOX_SIZE            525
@@ -462,12 +465,12 @@ static int GetResources(Work *work, int name, int where)
             if (value < 2)
             {
                 work->flags.turned = value & 1;
-                GM_InitObject(object, GV_StrCode("kabe_n"), 0x15D, 0);
+                GM_InitObject(object, GV_StrCode("kabe_n"), BODY_FLAG, 0);
             }
             else
             {
                 work->flags.turned = 0;
-                GM_InitObject(object, GV_StrCode("kabe_y"), 0x15D, 0);
+                GM_InitObject(object, GV_StrCode("kabe_y"), BODY_FLAG, 0);
             }
 
             work->flags.turned = GCL_StrToInt(opt) & 1;
@@ -478,12 +481,12 @@ static int GetResources(Work *work, int name, int where)
         {
             if (!work->flags.bomb)
             {
-                GM_InitObject(object, GV_StrCode("kt_n"), 0x15D, 0);
+                GM_InitObject(object, GV_StrCode("kt_n"), BODY_FLAG, 0);
                 work->splash_tex = GV_StrCode("mato_00add");
             }
             else
             {
-                GM_InitObject(object, GV_StrCode("kt_b"), 0x15D, 0);
+                GM_InitObject(object, GV_StrCode("kt_b"), BODY_FLAG, 0);
                 work->splash_tex = GV_StrCode("mato_02add");
             }
 
@@ -525,18 +528,18 @@ static int GetResources(Work *work, int name, int where)
         switch (type)
         {
         case 1:
-            GM_InitObject(object, GV_StrCode("kt_n"), 0x15D, 0);
+            GM_InitObject(object, GV_StrCode("kt_n"), BODY_FLAG, 0);
             work->splash_tex = GV_StrCode("mato_00add");
             break;
 
         case 2:
-            GM_InitObject(object, GV_StrCode("kt_b"), 0x15D, 0);
+            GM_InitObject(object, GV_StrCode("kt_b"), BODY_FLAG, 0);
             work->splash_tex = GV_StrCode("mato_02add");
             work->flags.bomb = 1;
             break;
 
         case 3:
-            GM_InitObject(object, GV_StrCode("ice"), 0x15D, 0);
+            GM_InitObject(object, GV_StrCode("ice"), BODY_FLAG, 0);
             break;
         }
 

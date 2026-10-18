@@ -15,6 +15,11 @@
 #include "vrmenu.h"
 
 /*---------------------------------------------------------------------------*/
+
+// GCL options
+#define OPT_PROCS          'p'    // procs of the menu items
+#define OPT_CONTINUES      'c'    // restart continues the game
+
 // The pause menu of the VR missions: CONTINUE / RESTART / EXIT
 
 #define PCX_CONTINUE        0xedaf  // GV_StrCode("continue")
@@ -365,7 +370,7 @@ static int GetResources(Work *work, int where)
 
     GM_CurrentMap = where;
 
-    opt = GCL_GetOption('p');
+    opt = GCL_GetOption(OPT_PROCS);
     if (opt)
     {
         // FIXME: i counts the procs too (one variable steers the register allocation)
@@ -406,7 +411,7 @@ static int GetResources(Work *work, int where)
 
     work->open = FALSE;
 
-    if (GCL_GetOption('c'))
+    if (GCL_GetOption(OPT_CONTINUES))
     {
         work->restart_continues = TRUE;
     }

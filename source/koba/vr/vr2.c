@@ -17,6 +17,16 @@
 #include "koba/vr/vr.h"
 
 /*---------------------------------------------------------------------------*/
+
+// GCL options
+#define OPT_DIR            'd'    // player direction
+#define OPT_START_FLAGS    's'    // VR_Flags bits (<< 8) and proc run on start
+#define OPT_END_PROC       'e'    // proc run when the mission ends (required)
+#define OPT_LIMIT          'a'    // time limit
+#define OPT_RECORDS        'r'    // the three record times
+#define OPT_GAMEOVER_VOX   'o'    // voice of the game over screen
+#define OPT_N_TARGETS      'b'    // number of targets
+
 // VR-DISC "VR2": mission manager of the ADVANCED VR missions (vab_* overlays). A sibling of vr.c: the pause/message
 // handling, the end sequence and the equipment reset are the same code, the HUD (time limit, score) and the
 // mission logic are different (the mission is cleared by reaching the target count when the time is up).
@@ -536,13 +546,13 @@ void *NewVr2(int name, int where)
 
         VR_Flags = 0;
 
-        opt = GCL_GetOption('d');
+        opt = GCL_GetOption(OPT_DIR);
         if (opt)
         {
             work->dir = GCL_StrToInt(opt);
         }
 
-        opt = GCL_GetOption('s');
+        opt = GCL_GetOption(OPT_START_FLAGS);
         if (opt)
         {
             VR_Flags |= VRFLAG_AMMO_BONUS;
@@ -554,7 +564,7 @@ void *NewVr2(int name, int where)
             work->proc = 0;
         }
 
-        opt = GCL_GetOption('e');
+        opt = GCL_GetOption(OPT_END_PROC);
         if (!opt)
         {
             printf("Please Set ENDPROC!\n");
@@ -564,7 +574,7 @@ void *NewVr2(int name, int where)
 
         work->end_proc = GCL_StrToInt(opt);
 
-        opt = GCL_GetOption('a');
+        opt = GCL_GetOption(OPT_LIMIT);
         if (!opt)
         {
             work->time = 1800;
@@ -577,7 +587,7 @@ void *NewVr2(int name, int where)
 
         VR_Status = VR_STATUS_0;
 
-        opt = GCL_GetOption('r');
+        opt = GCL_GetOption(OPT_RECORDS);
         if (opt)
         {
             VR_Records[0] = GCL_StrToInt(opt);
@@ -591,7 +601,7 @@ void *NewVr2(int name, int where)
             VR_Flags &= ~VRFLAG_RESULT;
         }
 
-        opt = GCL_GetOption('o');
+        opt = GCL_GetOption(OPT_GAMEOVER_VOX);
         if (opt)
         {
             work->gameover_vox = GCL_StrToInt(opt);
@@ -601,7 +611,7 @@ void *NewVr2(int name, int where)
             work->gameover_vox = -1;
         }
 
-        opt = GCL_GetOption('b');
+        opt = GCL_GetOption(OPT_N_TARGETS);
         if (opt)
         {
             work->n_targets = GCL_StrToInt(opt);
