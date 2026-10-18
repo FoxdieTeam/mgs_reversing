@@ -312,8 +312,8 @@ typedef struct SnaInitWork
 #ifdef VR_NINJA
     TARGET        *njp_targets[3]; // extra targets of the ninja (freed by njp_FreeTargets)
     int            njp_num_targets;
-    int            njp_mode;
-    int            njp_field_9E4;
+    int            njp_sphere_state;
+    int            njp_katana_state;
 #endif
 } SnaInitWork;
 

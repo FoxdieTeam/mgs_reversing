@@ -455,7 +455,7 @@
    "800C82A4"
   ],
   [
-   "njp_800C82A4",
+   "njp_NewSnake",
    "800C82A4",
    "800C8774"
   ]
@@ -673,7 +673,8 @@
   "njp_sna_anim_chokethrow_begin2_80058C80",
   "njp_sna_anim_choke_800C6CA4",
   "njp_Act",
-  "njp_Die"
+  "njp_Die",
+  "njp_NewSnake"
  ],
  "bss_syms": {
   "800E5B48": [

@@ -23,6 +23,8 @@
 #include "game/vibrate.h"
 #include "okajima/spark.h"
 #include "strcode.h"
+#include "chara/snake/shadow.h"
+#include "enemy/katana.h"
 #include "equip/equip.h"
 #include "takabe/windcrcl.h"
 
@@ -95,6 +97,10 @@ extern int snainit_item_800A9420;
 
 // shared with the p_sphere of the other VR overlays
 extern void *s08b_p_sphere_800D9834(DG_OBJS **pobjs, int *state);
+
+#define KMD_NINJA           0x92f1  // GV_StrCode of the ninja model
+#define OAR_NINJA           0x16ff
+#define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 
 #define GetAction( work ) (work->body.action)
 #define SEGMENT_ATR ( HZD_SEG_NO_COLLIDE )
@@ -520,7 +526,7 @@ void njp_sub_8004F338(SnaInitWork *work)
     work->control.skip_flag &= ~CTRL_BOTH_CHECK;
     njp_FreeTargets(work);
     GM_GameStatus &= ~STATE_DAMAGED;
-    work->njp_mode = 3;
+    work->njp_sphere_state = 3;
 }
 
 // @800C2EF0 njp_sub_8004F454
@@ -549,7 +555,7 @@ void njp_sub_8004F454(SnaInitWork *work)
     work->control.skip_flag &= ~CTRL_BOTH_CHECK;
     njp_FreeTargets(work);
     GM_GameStatus &= ~STATE_DAMAGED;
-    work->njp_mode = 3;
+    work->njp_sphere_state = 3;
 }
 
 // @800C2FE4 njp_UpdateLife_8004F6E8
@@ -678,8 +684,8 @@ void njp_sna_800C3318(SnaInitWork *work)
 
     NewWindcrcl_800CF784(&stackData, 0xc8, 0x64, 0x12c, 0xa);
 
-    work->njp_mode = 2;
-    s08b_p_sphere_800D9834(&work->body.objs, &work->njp_mode);
+    work->njp_sphere_state = 2;
+    s08b_p_sphere_800D9834(&work->body.objs, &work->njp_sphere_state);
 }
 
 // @800C33C8 njp_sna_stealth_800C33C8
@@ -714,7 +720,7 @@ void njp_sna_stealth_800C33C8(SnaInitWork *work)
             GM_GameOverTimer = -1;
             njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
             njp_sna_start_anim_8004E1F4(work, njp_sna_anim_spin_end_800C4E38);
-            work->njp_mode = 3;
+            work->njp_sphere_state = 3;
             work->field_9A8_current_item = IT_Stealth;
         }
     }
@@ -1425,7 +1431,7 @@ void njp_sna_anim_spin_800C4BA4(SnaInitWork *work, int time)
 
     if (work->field_A38_local_data == 24)
     {
-        work->njp_mode = 3;
+        work->njp_sphere_state = 3;
     }
 
     if (work->field_A38_local_data == 32)
@@ -1448,13 +1454,13 @@ void njp_sna_anim_spin_800C4BA4(SnaInitWork *work, int time)
         GM_GameOverTimer = -1;
         njp_sna_set_flags1_8004E2F4(work, SNA_FLAG1_UNK20);
         njp_sna_start_anim_8004E1F4(work, njp_sna_anim_spin_end_800C4E38);
-        work->njp_mode = 3;
+        work->njp_sphere_state = 3;
     }
     else if (!(work->field_9B0_pad_ptr->status & PAD_R1))
     {
         njp_sna_clear_flags1_8004E308(work, SNA_FLAG1_UNK3);
         njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
-        work->njp_mode = 3;
+        work->njp_sphere_state = 3;
     }
 }
 
@@ -1492,7 +1498,7 @@ void njp_sna_anim_spin_end_800C4E38(SnaInitWork *work, int time)
         if (work->field_A3A == 24)
         {
             njp_sna_800C3270(work);
-            work->njp_mode = 3;
+            work->njp_sphere_state = 3;
         }
 
         if (work->field_A3A == 32)
@@ -1815,7 +1821,7 @@ int njp_sna_check_hits_800C5B18(SnaInitWork *work)
 // @800C5C18 njp_sna_anim_update_800C5C18
 void njp_sna_anim_update_800C5C18(SnaInitWork *work, int time)
 {
-    work->njp_field_9E4 = 2;
+    work->njp_katana_state = 2;
     njp_sna_move_targets_800C5A70(work);
 
     if (njp_sna_check_hits_800C5B18(work))
@@ -1905,7 +1911,7 @@ void njp_sna_anim_update_800C5D4C(SnaInitWork *work, int time)
 // @800C5E9C njp_sna_anim_slash_update_800C5E9C
 void njp_sna_anim_slash_update_800C5E9C(SnaInitWork *work, int time)
 {
-    work->njp_field_9E4 = 2;
+    work->njp_katana_state = 2;
 
     if (time >= 3)
     {
@@ -1930,7 +1936,7 @@ void njp_sna_anim_update_800C5F20(SnaInitWork *work, int time)
 {
     if (time >= 5 && time < 16)
     {
-        work->njp_field_9E4 = 2;
+        work->njp_katana_state = 2;
     }
 
     if (time == 0)
@@ -1994,7 +2000,7 @@ void njp_sna_anim_update_800C60E4(SnaInitWork *work, int time)
 
     if (time >= 5 && time < 20)
     {
-        work->njp_field_9E4 = 2;
+        work->njp_katana_state = 2;
     }
 
     // FIXME: the two step test steers the instruction scheduling
@@ -2419,7 +2425,7 @@ void njp_sna_anim_choke_800C6CA4(SnaInitWork *work, int time)
 
     if (time >= 19 && time < 22)
     {
-        work->njp_field_9E4 = 2;
+        work->njp_katana_state = 2;
     }
 
     target = work->field_8E8_pTarget;
@@ -2689,8 +2695,164 @@ void njp_Die(SnaInitWork *work)
     }
 }
 
-#pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_3.s")
-//ASM-END
+// @800C82A4 njp_NewSnake
+static inline void njp_InitEmpty(SnaInitWork *work)
+{
+    int height;
+
+    work->field_A26_stance = GM_PlayerStance;
+    work->field_844 = -1;
+    work->field_9A8_current_item = IT_None;
+    work->field_A28 = 450;
+    work->field_A44 = work->control.mov;
+    work->field_A60 = work->control.mov;
+    GM_SnakeCamera.position = work->field_A60;
+
+    if (GCL_GetOption('o')) // oar
+    {
+        work->field_A5A = GCL_StrToInt(GCL_NextStr());
+    }
+
+    work->field_890_autoaim_max_dist = 6000;
+
+    if (GCL_GetOption('l')) // len
+    {
+        work->field_890_autoaim_max_dist = GCL_StrToInt(GCL_NextStr());
+    }
+
+    work->field_892_autoaim_min_angle = 512;
+
+    if (GCL_GetOption('r')) // rot
+    {
+        work->field_892_autoaim_min_angle = GCL_StrToInt(GCL_NextStr());
+    }
+
+    njp_dword_800ABBDC = -1023;
+    njp_dword_800ABBD4 = 1023;
+
+    if (GCL_GetOption('t')) // turn
+    {
+        njp_dword_800ABBDC = GCL_StrToInt(GCL_NextStr());
+        njp_dword_800ABBD4 = GCL_StrToInt(GCL_NextStr());
+    }
+
+    work->field_A70 = -1;
+
+    if (GCL_GetOption('e')) // exec
+    {
+        work->field_A70 = GCL_StrToInt(GCL_NextStr());
+    }
+
+    njp_sna_start_anim_8004E1F4(work, njp_sna_anim_idle_800C4200);
+    GM_ConfigObjectAction(&work->body, 0, 0, 0);
+    GM_ActMotion(&work->body);
+
+    work->field_9B0_pad_ptr = GV_PadData;
+    height = (short)work->body.height;
+    work->field_798_p_height = height;
+    work->control.height = height;
+}
+
+static inline int njp_GetResources(SnaInitWork *work, int scriptData, int scriptBinds)
+{
+    SVECTOR  shadow;
+    SVECTOR  vec;
+    SVECTOR  vec2;
+    int      attr;
+    CONTROL *control;
+    OBJECT  *body;
+    int      model;
+    SVECTOR *size;
+    TARGET  *trg;
+
+    attr = RADAR_VISIBLE;
+
+    control = &work->control;
+    if (GM_InitControl(control, scriptData, scriptBinds) < 0)
+    {
+        return -1;
+    }
+
+    GM_ConfigControlString(control, GCL_GetOption('p'), GCL_GetOption('d'));
+    GM_ConfigControlHazard(control, 0, 450, 450);
+    control->seg_flag = SEGMENT_ATR;
+    GM_ConfigControlAttribute(control, attr);
+    GM_ConfigControlTrapCheck(control);
+
+    body = &work->body;
+    model = KMD_NINJA;
+    if (GCL_GetOption('m')) // model
+    {
+        model = GCL_StrToInt(GCL_NextStr());
+    }
+
+    GM_InitObject(body, model, BODY_FLAG, KMD_NINJA);
+    GM_ConfigObjectJoint(body);
+    GM_ConfigMotionControl(body, &work->m_ctrl, OAR_NINJA, work->m_segs1, work->m_segs2, control, work->rots);
+    GM_ConfigObjectLight(body, work->light);
+
+    GM_PlayerControl = control;
+    GM_PlayerPosition = work->control.mov;
+    GM_PlayerBody = body;
+
+    njp_sna_8004EB14(work);
+    njp_InitEmpty(work);
+
+    size = &vec;
+    setVector(size, 300, 650, 300);
+
+    trg = work->field_89C_pTarget = GM_AllocTarget();
+    GM_SetTarget(trg, 159, PLAYER_SIDE, size);
+    GM_SetPowerTarget(trg, POWER_DECREASE, -1, GM_Vitality, 0, &DG_ZeroVector);
+    GM_SetCaptureTarget(trg, 0, 0, &work->field_8F4, &work->field_8FC);
+    GM_MoveTarget(trg, &work->control.mov);
+
+    work->field_A22_snake_current_health = GM_Vitality;
+
+    shadow.vx = 0;
+    shadow.vy = 6;
+    shadow.vz = 12;
+    shadow.pad = 15;
+
+    work->shadow = NewShadow2(control, body, shadow, &work->enable_shadow);
+
+    dword_800ABA1C = 0;
+    njp_pVec_800ABBCC = NULL;
+    GM_Item = IT_None;
+
+    vec.vx = 0;
+    vec.vy = -65;
+    vec.vz = -883;
+    vec2.vx = 0;
+    vec2.vy = -65;
+    vec2.vz = -45;
+
+    snainit_item_800A9420 = IT_None;
+    NewKatana(&work->body.objs->objs[4].world, &vec, &vec2, &work->njp_katana_state);
+    return 0;
+}
+
+void *njp_NewSnake(int name, int where, int argc, char **argv)
+{
+    SnaInitWork *work;
+
+    work = GV_NewActor(5, sizeof(SnaInitWork));
+    if (!work)
+    {
+        return NULL;
+    }
+
+    GV_SetNamedActor(&work->actor, njp_Act, njp_Die, "njaplay.c");
+
+    if (njp_GetResources(work, name, where) < 0)
+    {
+        GV_DestroyActor(&work->actor);
+        return NULL;
+    }
+
+    njp_snainit_actor = work;
+    return (void *)work;
+}
 
 // @DATA
 // FIXME: the data is defined after the code on purpose: the code was compiled with only the type alignment of the
@@ -2731,6 +2893,12 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
+
+
+
+
 
 
 
