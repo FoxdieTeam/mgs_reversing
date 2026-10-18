@@ -1,0 +1,18 @@
+{ "bin": "$OV/vr_scm03.bin", "maps": ["obj_vr/asm_vr_scm03_lhs.map"], "skip_prefix": ["vr_scm03_", "overlay"],
+  "out": "source/koba/vr/reloc/vrbox2.s",
+  "syms": {"800E1318": "NewSplashVr"},
+  "funcs": [
+    ["VrBox2GetBounds","800DF0C4","800DF140"],
+    ["VrBox2Func_800DF140","800DF140","800DF2FC"],
+    ["VrBox2Func_800DF2FC","800DF2FC","800DF5C4"],
+    ["VrBox2Func_800DF5C4","800DF5C4","800DF6B0"],
+    ["VrBox2Func_800DF6B0","800DF6B0","800DF778"],
+    ["VrBox2Func_800DF778","800DF778","800E0148"],
+    ["NewVrBox2","800E0148","800E01DC"]
+  ],
+  "rdata": [
+    ["800E2A28","vrbox2_str_no_map"],
+    ["800E2A44","vrbox2_str_kabe_n"],["800E2A4C","vrbox2_str_kabe_y"],["800E2A54","vrbox2_str_kabe_01add"],
+    ["800E2A60","vrbox2_str_kt_n"],["800E2A68","vrbox2_str_mato_00add"],["800E2A74","vrbox2_str_kt_b"],
+    ["800E2A7C","vrbox2_str_mato_02add"],["800E2A88","vrbox2_str_ice"],["800E2A8C","vrbox2_str_file"]
+  ] }
