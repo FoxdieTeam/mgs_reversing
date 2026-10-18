@@ -7,22 +7,6 @@
 #include "menu/radio.h"
 #include "menu/menuman.h"
 
-/*---------------------------------------------------------------------------*/
-
-typedef struct _Work {
-    GV_ACT    actor;
-    KCB       kcb;
-    int       proc_id;
-    int       field_50;
-    MenuPrim *prim_ptr;
-    MenuPrim  prim;
-    char      primbuf[ 2 ][ 0x2000 ];
-} Work;
-
-/*---------------------------------------------------------------------------*/
-
-/*---------------------------------------------------------------------------*/
-
 int vrtitle_800CF0F4( GV_PAD *pad, int *res, SELECT_INFO *info )
 {
     u_short status;

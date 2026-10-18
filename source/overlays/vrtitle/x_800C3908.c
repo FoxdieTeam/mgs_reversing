@@ -2,14 +2,15 @@
 // (rank_800CF1D4), transplanted from the main-tree twin; offsets/constants adapted to the VR.
 #include "game/game.h"
 #include "libgcl/libgcl.h"
+#include "overlays/vrtitle/vrpocket.h"
 
-void vrtitle_800C3908( char *work )
+void vrtitle_800C3908( PocketObj *obj )
 {
-    work[ 0x13 ] = 0;
-    *(short *)( work + 0x26 ) = 0;
-    *(short *)( work + 0x0E ) = 0;
-    *(short *)( work + 0x0C ) = 0;
-    *(int *)( work + 0x18 ) = 0;
-    *(int *)( work + 0x14 ) = 0;
-    *(short *)( work + 0x1E ) = 0;
+    obj->enabled = 0;
+    obj->value = 0;
+    obj->field_E = 0;
+    obj->field_C = 0;
+    obj->field_18 = 0;
+    obj->field_14.word = 0;
+    obj->flags = 0;
 }

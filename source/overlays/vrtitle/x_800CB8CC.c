@@ -22,105 +22,24 @@
 #include "game/game.h"
 #include "mts/mts.h"
 #include "mts/taskid.h"
-
-typedef struct _Work
-{
-    GV_ACT   actor;
-    int      f20;
-    GV_PAD  *pad;
-    int      f28;
-    int      f2C;
-    DG_PRIM *prim1, *prim2, *prim3;
-    POLY_FT4 polys_lr[2];
-    char     padding2[0x50];
-    POLY_FT4 polys[9];
-    POLY_FT4 polys2[26];
-    int      field_654[4];
-    GV_ACT  *field_664[9];
-    GV_ACT  *field_688[26];
-    char     padding3[0x10];
-    MenuWork field_700;
-    void    *field_920;
-    u_long  *field_924_mOrderingTable;
-    int      field_928;
-    void    *field_92C[2];
-    char     padding5[0x4000];
-    int      field_4934;
-    int      field_4938;
-    char     padding6[0x2C];
-    int      field_4968;
-    int      field_496C;
-    int      field_4970;
-    char     padding6b[0x44];
-    int      field_49B8;
-    int      field_49BC;
-    char     padding6c[0x8];
-    int      field_49C8;
-    MEMCARD  *field_49CC;
-    int      field_49D0;
-    char     padding6d[0xC];
-    int      f49E0;
-    char    *f49E4;
-} Work;
+#include "overlays/camera/unknown/camera.h"
 
 extern char                       *MGS_MemoryCardName; /* in main.c */
 
-extern const char vrtitle_dword_800D9254[];
-extern const char vrtitle_dword_800D926C[];
+extern char vrtitle_dword_800D9254[];
+extern char vrtitle_dword_800D926C[];
 extern int vrtitle_dword_800D9D08;
-extern const char vrtitle_dword_800D91C8[];
+extern char vrtitle_dword_800D91C8[];
 
 void vrtitle_800CBD28(Work *);
 
 extern int vrtitle_dword_800C14F0[];
-extern const char vrtitle_dword_800D91D4[];
-extern const char vrtitle_dword_800D91E8[];
-extern const char vrtitle_dword_800D9210[];
-extern const char vrtitle_dword_800D9228[];
+extern char vrtitle_dword_800D91D4[];
+extern char vrtitle_dword_800D91E8[];
+extern char vrtitle_dword_800D9210[];
+extern char vrtitle_dword_800D9228[];
 
-extern const char vrtitle_dword_800D9244[];
-
-// Copy of menu_radio_do_file_mode_helper2_helper_8004A4C4
-
-// Copy of menu_radio_do_file_mode_helper4_helper_8004A54C
-
-// duplicate of sub_8004A648
-
-// duplicate of menu_radio_do_file_mode_helper3_helper_8004A790
-
-// duplicate of init_file_mode_helper2_8004A800
-// but with GV_AllocMemory(GV_NORMAL_MEMORY, ...)
-// instead of GV_AllocMemory(0, ...)
-
-// duplicate of init_radio_message_board_80040F74
-// but with GV_AllocMemory(GV_NORMAL_MEMORY, ...)
-// instead of GV_AllocMemory(0, ...)
-// and with one font_set_color missing
-
-// duplicate of drawCaption_8004AE3C
-
-// duplicate of sub_8004AEA8
-
-// duplicate of show_message_8004AFE4
-
-// See also updateCurrentEntry_8004B9C4() in datasave.c
-
-// duplicate of menu_radio_do_file_mode_helper12_8004BA80
-
-// duplicate of menu_radio_do_file_mode_helper14_8004BE98
-
-// duplicate of menu_radio_do_file_mode_helper15_8004C04C, but with one missing line
-
-// duplicate of menu_radio_do_file_mode_helper16_8004C164
-
-typedef struct CaptionInfo
-{
-    int     x;
-    u_short y;
-    short   field_6;
-    int     field_8;
-    int     color;
-} CaptionInfo;
+extern char vrtitle_dword_800D9244[];
 
 void vrtitle_800CB8CC(unsigned long *runlevel, RECT *pRect)
 {
@@ -226,7 +145,7 @@ void vrtitle_800CB9EC(int arg0, u_short *out)
         *out++ = 0xFE00;
     }
 
-    printf((char *)vrtitle_dword_800D91C8, out);
+    printf(vrtitle_dword_800D91C8, out);
 }
 
 void vrtitle_800CBB8C(Work *work)
@@ -336,19 +255,19 @@ int vrtitle_800CBEDC(Work *unused, int idx)
     {
         mts_wait_vbl(1);
     }
-    printf((char *)vrtitle_dword_800D91D4);
+    printf(vrtitle_dword_800D91D4);
     tex = DG_GetTexture(id);
     if (tex->id != 0)
     {
         tex->id = 0;
-        printf((char *)vrtitle_dword_800D91E8);
+        printf(vrtitle_dword_800D91E8);
     }
     else
     {
-        printf((char *)vrtitle_dword_800D9210);
+        printf(vrtitle_dword_800D9210);
     }
     DG_LoadInitPcx(buf, id);
-    printf((char *)vrtitle_dword_800D9228);
+    printf(vrtitle_dword_800D9228);
     GV_Free(buf);
     return id;
 }
@@ -423,8 +342,8 @@ void vrtitle_800CBFD4(Work *work)
 
 void vrtitle_800CC1A0(Work* work) {
 
-    printf((char *)vrtitle_dword_800D9254);
-    printf((char *)vrtitle_dword_800D926C, work->field_4934);
+    printf(vrtitle_dword_800D9254);
+    printf(vrtitle_dword_800D926C, work->field_4934);
 
     vrtitle_800CBFD4(work);
 }

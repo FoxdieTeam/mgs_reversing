@@ -2,42 +2,50 @@
 // (rank_800CF160, rank_800CF1D4), transplanted from the main-tree twin; offsets/constants adapted to the VR.
 #include "game/game.h"
 #include "libgcl/libgcl.h"
+#include "overlays/vrtitle/vrpocket.h"
 
-extern int vrtitle_dword_800D9D00;
-
-void vrtitle_800C9BE0( char *work )
+typedef struct PocketUpdateWork
 {
-    unsigned short *update;
-    char           *iter;
-    int             i;
+    /* 0x00 */ char         pad_00[ 0x34 ];
+    /* 0x34 */ int          update_count;
+    /* 0x38 */ PocketUpdate updates[ 0 ];
+} PocketUpdateWork;
 
-    update = (unsigned short *)( work + 0x38 );
+extern PocketObj *vrtitle_dword_800D9D00;
+
+void vrtitle_800C9BE0( PocketUpdateWork *work )
+{
+    PocketUpdate *update;
+    PocketObj    *iter;
+    int           i;
+
+    update = work->updates;
     i = 0;
-    if ( *(int *)( work + 0x34 ) > 0 )
+    if ( work->update_count > 0 )
     {
         do
         {
-            for ( iter = (char *)vrtitle_dword_800D9D00; iter; iter = *(char **)( iter + 4 ) )
+            for ( iter = vrtitle_dword_800D9D00; iter; iter = iter->next )
             {
-                if ( *(unsigned short *)( iter + 0x24 ) == update[ 0 ] )
+                if ( iter->id == update->id )
                 {
-                    *(short *)( iter + 0x26 ) = update[ 1 ];
+                    iter->value = update->value;
                     break;
                 }
             }
-            update += 2;
-        } while ( *(int *)( work + 0x34 ) > ++i );
+            update++;
+        } while ( work->update_count > ++i );
     }
-    *(int *)( work + 0x34 ) = 0;
+    work->update_count = 0;
 }
 
-void vrtitle_800C9C54( char *work )
+void vrtitle_800C9C54( PocketObj *obj )
 {
-    work[ 0x13 ] = 0;
-    *(short *)( work + 0x26 ) = 0;
-    *(short *)( work + 0x0E ) = 0;
-    *(short *)( work + 0x0C ) = 0;
-    *(int *)( work + 0x18 ) = 0;
-    *(int *)( work + 0x14 ) = 0;
-    *(short *)( work + 0x1E ) = 0;
+    obj->enabled = 0;
+    obj->value = 0;
+    obj->field_E = 0;
+    obj->field_C = 0;
+    obj->field_18 = 0;
+    obj->field_14.word = 0;
+    obj->flags = 0;
 }

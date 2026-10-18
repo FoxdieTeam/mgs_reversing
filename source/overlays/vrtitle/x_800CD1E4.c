@@ -16,50 +16,9 @@
 #include "mts/mts.h"
 #include "mts/taskid.h"
 
-//------------------------------------------------------------------------------
-// gp
-//------------------------------------------------------------------------------
-
 extern char *MGS_MemoryCardName; /* in main.c */
 
-// The small triangle above the files list suggesting that there are more entries.
-
-// The small triangle below the files list suggesting that there are more entries.
-
 void vrtitle_800CEF74(MenuPrim *pGlue, SELECT_INFO *info);
-
-//file may be split here
-
-#define setRGB0_Fast(prim, rgbExtra) *(unsigned int *)&prim->r0 = rgbExtra
-
-// See also drawCaption_800C5EB4() in camera.c
-
-#define FONT_SIZE       14
-
-#define SAVE_MES_X      160
-#define SAVE_MES_Y      200
-
-// clang-format on
-
-// See also updateCurrentEntry_800C6984() in camera.c
-
-// See also SelectAct_800C32D8() in select.c
-
-/*
-pAreaNameForMenu uses MGS custom encoding.
-pAreaNameForSaveData uses Shift-JIS encoding.
-
-Example for "Heliport":
-MGS      : 80 48 80 65 80 6C 80 69 80 70 80 6F 80 72 80 74
-Shift-JIS: 82 67 82 85 82 8C 82 89 82 90 82 8F 82 92 82 94
-           Ｈ    ｅ    ｌ    ｉ    ｐ    ｏ    ｒ    ｔ
-*/
-
-// Called by data_info->make_title
-
-// Called by data_info->make_menu
-
-// Called by data_info->make_game_data
 
 void vrtitle_800CD1E4(int *arr, int len)
 {
@@ -86,7 +45,7 @@ void vrtitle_800CD214(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
     textConfig.flags = 0x12;
     textConfig.color = pUnk->field_18 | 0x66000000;
 
-    _menu_number_draw_string2(pGlue, &textConfig, (char *)pUnk->field_4); // TODO: Fix cast
+    _menu_number_draw_string2(pGlue, &textConfig, (char *)pUnk->field_4); // FIXME: field_4 is really a string pointer, typed int in RadioFileModeUnk1
 }
 
 void vrtitle_800CD29C(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
@@ -157,7 +116,7 @@ void vrtitle_800CD4E0(MenuPrim *pGlue, RadioFileModeStruElem *pElem)
         vrtitle_800CD1E4(&pUnk->field_4, 2);
     }
 
-    *(short *)pUnk->field_14 = pUnk->field_4 >> 16; // TODO: Fix type of field_14
+    *(short *)pUnk->field_14 = pUnk->field_4 >> 16; // FIXME: field_14 is really a short *, typed int in RadioFileModeUnk1
     *(short *)(pUnk->field_14 + 2) = pUnk->field_C >> 16; // pUnk->field_C / 65536 wouldn't match
     vrtitle_800CEF74(pGlue, (SELECT_INFO *)pUnk->field_14);
 }

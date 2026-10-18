@@ -3,22 +3,23 @@
 #include "game/game.h"
 #include "menu/radio.h"
 #include "libgcl/libgcl.h"
+#include "overlays/vrtitle/vrpocket.h"
 
-char *vrtitle_800C3A5C( int id );
+PocketObj *vrtitle_800C3A5C( int id );
 
 void vrtitle_800C4FC4( int arg0 )
 {
-    char *ptr;
+    PocketObj *obj;
 
-    ptr = vrtitle_800C3A5C( 14 );
-    ptr[ 0x13 ] = 1;
-    ptr[ 0x1C ] = arg0;
+    obj = vrtitle_800C3A5C( 14 );
+    obj->enabled = 1;
+    obj->field_1C = arg0;
 }
 
 void vrtitle_800C4FF8( void )
 {
-    char *ptr;
+    PocketObj *obj;
 
-    ptr = vrtitle_800C3A5C( 14 );
-    ptr[ 0x13 ] = 0;
+    obj = vrtitle_800C3A5C( 14 );
+    obj->enabled = 0;
 }

@@ -1,7 +1,5 @@
 #include "mgstype.h"
 
-#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C3C30.s")
-#pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C3CEC.s")
 #pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C3D64.s")
 #pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C3F3C.s")
 #pragma INCLUDE_ASM("asm/overlays/vrtitle/vrtitle_800C4478.s")

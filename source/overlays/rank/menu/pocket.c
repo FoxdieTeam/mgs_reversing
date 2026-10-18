@@ -7,15 +7,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct _Work {
-    GV_ACT    actor;
-    KCB       kcb;
-    int       proc_id;
-    int       field_50;
-    MenuPrim *prim_ptr;
-    MenuPrim  prim;
-    char      primbuf[ 2 ][ 0x2000 ];
-} Work;
+#include "overlays/rank/menu/pocket.h"
 
 const char rank_dword_800E03BC[] = "id::%d\n";
 const char rank_dword_800E03C4[] = "------------\n";
