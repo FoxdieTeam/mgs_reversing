@@ -205,12 +205,12 @@
    "800C3898"
   ],
   [
-   "njp_800C3898",
+   "njp_sna_800C3898",
    "800C3898",
    "800C399C"
   ],
   [
-   "njp_800C399C",
+   "njp_sna_800C399C",
    "800C399C",
    "800C3A30"
   ],
@@ -628,6 +628,8 @@
   "njp_sna_se_800C3640",
   "njp_sna_se_800C36EC",
   "njp_sna_8004FDE8",
+  "njp_sna_800C3898",
+  "njp_sna_800C399C",
   "njp_nop_800C48EC",
   "njp_FreeTargets",
   "njp_sna_80051A10",

@@ -751,7 +751,7 @@ $Lnjp_800C5150_3:
 	addiu	$7,$0,300
 	sw	$2,60($29)
 	addiu	$2,$0,10
-	.word	0x0C036E83
+	jal	NewWindcrcl_800CF784
 	sw	$2,16($29)
 	addiu	$16,$29,64
 	addu	$4,$16,$0
@@ -1614,9 +1614,9 @@ njp_800C5E9C:
 $Lnjp_800C5E9C_0:
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_stru_8009EFD4)
-	jal	njp_800C3898
+	jal	njp_sna_800C3898
 	addiu	$5,$5,%lo(njp_stru_8009EFD4)
-	jal	njp_800C399C
+	jal	njp_sna_800C399C
 	addu	$4,$16,$0
 	lh	$2,182($16)
 	nop
@@ -1713,9 +1713,9 @@ $Lnjp_800C5F20_4:
 $Lnjp_800C5F20_5:
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_stru_8009EFD4+16)
-	jal	njp_800C3898
+	jal	njp_sna_800C3898
 	addiu	$5,$5,%lo(njp_stru_8009EFD4+16)
-	jal	njp_800C399C
+	jal	njp_sna_800C399C
 	addu	$4,$16,$0
 	lh	$2,182($16)
 	nop
@@ -1831,9 +1831,9 @@ $Lnjp_800C60E4_2:
 $Lnjp_800C60E4_3:
 	addu	$4,$16,$0
 	lui	$5,%hi(njp_stru_8009EFD4+32)
-	jal	njp_800C3898
+	jal	njp_sna_800C3898
 	addiu	$5,$5,%lo(njp_stru_8009EFD4+32)
-	jal	njp_800C399C
+	jal	njp_sna_800C399C
 	addu	$4,$16,$0
 	addiu	$2,$0,23
 	bne	$18,$2,$Lnjp_800C60E4_6

@@ -850,6 +850,47 @@ int njp_sna_8004FDE8(SnaInitWork *work, Target_Data *pTargetData)
     return 0;
 }
 
+// @800C3898 njp_sna_800C3898
+// sword attack: "line" are two points in the space of the hand, if the line is not blocked a damaging target is put at its end
+void njp_sna_800C3898(SnaInitWork *work, SVECTOR *line)
+{
+    TARGET  target;
+    SVECTOR pos[2];
+    SVECTOR size;
+    MATRIX  mtx;
+
+    ReadRotMatrix(&mtx);
+    DG_SetPos(&work->body.objs->objs[4].world);
+    DG_PutVector(line, pos, 2);
+    SetRotMatrix(&mtx);
+
+    if (GM_OnlineTargetCheck(&pos[0], &pos[1], work->control.map->index, &pos[1], 1))
+    {
+        size.vx = size.vy = size.vz = 100;
+        GM_SetTarget(&target, 4, PLAYER_SIDE, &size);
+        GM_SetPowerTarget(&target, POWER_DECREASE, 1, 256, 0, &DG_ZeroVector);
+        GM_MoveTarget(&target, &pos[1]);
+        GM_PowerTarget(&target);
+
+        mtx.t[0] = pos[1].vx;
+        mtx.t[1] = pos[1].vy;
+        mtx.t[2] = pos[1].vz;
+    }
+}
+
+// @800C399C njp_sna_800C399C
+void njp_sna_800C399C(SnaInitWork *work)
+{
+    TARGET  target;
+    SVECTOR size;
+
+    size = work->field_89C_pTarget->size;
+    GM_SetTarget(&target, 4, PLAYER_SIDE, &size);
+    GM_SetPowerTarget(&target, POWER_DECREASE, 1, 256, 0, &DG_ZeroVector);
+    GM_MoveTarget(&target, &work->control.mov);
+    GM_PowerTarget(&target);
+}
+
 #pragma INCLUDE_ASM_RELOC("source/chara/njaplay/reloc/njaplay_0.s")
 //ASM-END
 
@@ -1075,6 +1116,8 @@ typedef struct NjpPad
 } NjpPad;
 
 NjpPad njp_GV_PadData_8009F0C4 = {0, 0, 0, 0, -1, 0};
+
+
 
 
 

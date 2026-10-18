@@ -2129,7 +2129,7 @@ $Lnjp_800C82A4_5:
 	lw	$4,156($18)
 	lui	$2,%hi(snainit_item_800A9420)
 	sw	$21,%lo(snainit_item_800A9420)($2)
-	.word	0x0C032C74
+	jal	NewKatana
 	addiu	$4,$4,440
 	addu	$2,$0,$0
 $Lnjp_800C82A4_6:
