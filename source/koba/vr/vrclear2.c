@@ -119,7 +119,6 @@ extern VR_MENU_ITEM vrclear2_buttons[NUM_BUTTONS];
 void Vrclear2DrawTitle(Work *work);
 void Vrclear2DrawResult(int timer, Work *work);
 int Vrclear2GetResources(Work *work, int where);
-void Vrclear2Draw(Work *work);
 
 /*---------------------------------------------------------------------------*/
 
@@ -711,7 +710,7 @@ static void Act(Work *work)
         break;
 
     case ACT_MAIN:
-        Vrclear2Draw(work);
+        Draw(work);
         break;
     }
 }
