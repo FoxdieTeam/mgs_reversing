@@ -9,15 +9,7 @@
 
 /*---------------------------------------------------------------------------*/
 
-typedef struct _Work {
-    GV_ACT    actor;
-    KCB       kcb;
-    int       proc_id;
-    int       field_50;
-    MenuPrim *prim_ptr;
-    MenuPrim  prim;
-    char      primbuf[ 2 ][ 0x2000 ];
-} Work;
+#include "overlays/rank/menu/pocket.h"
 
 /*---------------------------------------------------------------------------*/
 
