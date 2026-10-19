@@ -23,7 +23,7 @@ static ANIMATION anm_sleep_form = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     1,                          // amb
     2,                          // size_w

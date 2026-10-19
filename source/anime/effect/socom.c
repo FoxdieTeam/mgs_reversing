@@ -16,7 +16,7 @@ static ANIMATION anm_800C3B78 = {
     2,                          // texdev_x
     2,                          // texdev_y
     4,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     300,                        // raise
     1,                          // amb
     800,                        // size_w
@@ -38,7 +38,7 @@ static ANIMATION anm_800C3B94 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     1,                          // amb
     400,                        // size_w
@@ -65,7 +65,7 @@ static ANIMATION anm_800C3BB0 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     1,                          // amb
     400,                        // size_w
@@ -93,7 +93,7 @@ static ANIMATION anm_800C3BCC = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     1,                          // amb
     400,                        // size_w
@@ -120,7 +120,7 @@ static ANIMATION anm_800C3BE8 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     2,                          // amb
     400,                        // size_w

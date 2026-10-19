@@ -16,7 +16,7 @@ static ANIMATION anm_caterpiller_smoke_form = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     3,                          // amb
     500,                        // size_w
@@ -40,7 +40,7 @@ static ANIMATION stru_8009F758 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    3,                          // n_verts
+    3,                          // unit_num
     0,                          // raise
     1,                          // amb
     1000,                       // size_w
@@ -62,7 +62,7 @@ static ANIMATION stru_8009F774 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    8,                          // n_verts
+    8,                          // unit_num
     0,                          // raise
     3,                          // amb
     2200,                       // size_w
@@ -86,7 +86,7 @@ static ANIMATION stru_8009F790 = {
     2,                          // texdev_x
     2,                          // texdev_y
     4,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     300,                        // raise
     1,                          // amb
     5000,                       // size_w

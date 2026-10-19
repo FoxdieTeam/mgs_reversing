@@ -15,7 +15,7 @@ static ANIMATION s03c_dword_800C33DC = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     2,                          // amb
     1500,                       // size_w
@@ -39,7 +39,7 @@ static ANIMATION s03c_dword_800C33F8 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     1,                          // amb
     800,                        // size_w

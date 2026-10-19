@@ -17,7 +17,7 @@ static ANIMATION anm_panelsmoke_form = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     255,                        // raise
     1,                          // amb
     100,                        // size_w
