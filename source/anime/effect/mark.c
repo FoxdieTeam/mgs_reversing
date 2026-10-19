@@ -36,7 +36,7 @@ static ANIMATION anm_mark_form_800C3418 = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     1,                          // amb
     80,                         // size_w
@@ -73,7 +73,7 @@ static ANIMATION anm_mark_form_800C3434 = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     1,                          // amb
     80,                         // size_w
@@ -110,7 +110,7 @@ static ANIMATION anm_mark_form_800C3450 = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     1,                          // amb
     80,                         // size_w
@@ -131,7 +131,7 @@ static ANIMATION anm_mark_form_800C346C = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     1,                          // amb
     70,                         // size_w

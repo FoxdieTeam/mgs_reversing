@@ -16,7 +16,7 @@ static ANIMATION anm_800C32F0 = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     250,                        // raise
     1,                          // amb
     40,                         // size_w
@@ -30,7 +30,7 @@ static ANIMATION anm_800C330C = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     2500,                       // raise
     1,                          // amb
     40,                         // size_w

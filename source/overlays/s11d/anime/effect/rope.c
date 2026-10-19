@@ -14,7 +14,7 @@ ANIMATION anm_dmgsmoke1_form = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     2,                          // amb
     1500,                       // size_w
@@ -34,7 +34,7 @@ ANIMATION anm_dmgsmoke2_form = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     1,                          // amb
     800,                        // size_w

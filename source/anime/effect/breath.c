@@ -18,7 +18,7 @@ static ANIMATION anm_breath_form = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     300,                        // raise
     1,                          // amb
     500,                        // size_w
@@ -42,7 +42,7 @@ static ANIMATION anm_unknown_form = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     300,                        // raise
     1,                          // amb
     500,                        // size_w

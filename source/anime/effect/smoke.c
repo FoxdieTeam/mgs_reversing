@@ -55,7 +55,7 @@ static ANIMATION anm_piyopiyo_form = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     1,                          // amb
     200,                        // size_w
@@ -81,7 +81,7 @@ static ANIMATION s00a_dword_800C34C8 = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     5,                          // amb
     10,                         // size_w
@@ -106,7 +106,7 @@ static ANIMATION s00a_dword_800C34E4 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     1,                          // amb
     10,                         // size_w

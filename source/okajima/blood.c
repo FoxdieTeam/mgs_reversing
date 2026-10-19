@@ -304,7 +304,7 @@ static ANIMATION anm_blood_form = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     3,                          // amb
     300,                        // size_w

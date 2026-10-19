@@ -23,7 +23,7 @@ ANIMATION stru_8009F0D4 = {
     2,                          // texdev_x
     2,                          // texdev_y
     4,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     5,                          // amb
     50,                         // size_w
@@ -52,7 +52,7 @@ ANIMATION stru_8009F0F0 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     300,                        // raise
     1,                          // amb
     400,                        // size_w
@@ -75,7 +75,7 @@ static ANIMATION stru_8009F10C = {
     2,                          // texdev_x
     2,                          // texdev_y
     4,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     300,                        // raise
     1,                          // amb
     400,                        // size_w
@@ -98,7 +98,7 @@ static ANIMATION stru_8009F128 = {
     2,                          // texdev_x
     2,                          // texdev_y
     4,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     300,                        // raise
     1,                          // amb
     1400,                       // size_w
@@ -119,7 +119,7 @@ static ANIMATION stru_8009F144 = {
     2,                          // texdev_x
     2,                          // texdev_y
     4,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     300,                        // raise
     1,                          // amb
     400,                        // size_w
@@ -140,7 +140,7 @@ static ANIMATION anm_gunflash_form = {
     2,                          // texdev_x
     2,                          // texdev_y
     3,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     300,                        // raise
     1,                          // amb
     600,                        // size_w
@@ -174,7 +174,7 @@ static ANIMATION stru_8009F17C = {
     2,                          // texdev_x
     2,                          // texdev_y
     4,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     200,                        // raise
     5,                          // amb
     100,                        // size_w
@@ -196,7 +196,7 @@ static ANIMATION stru_8009F198 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    8,                          // n_verts
+    8,                          // unit_num
     0,                          // raise
     3,                          // amb
     2200,                       // size_w
@@ -219,7 +219,7 @@ static ANIMATION stru_8009F1B4 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     1,                          // amb
     1000,                       // size_w
@@ -245,7 +245,7 @@ static ANIMATION stru_8009F1D0 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    4,                          // n_verts
+    4,                          // unit_num
     0,                          // raise
     1,                          // amb
     2200,                       // size_w
@@ -268,7 +268,7 @@ static ANIMATION stru_8009F1EC = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     3,                          // amb
     400,                        // size_w
@@ -292,7 +292,7 @@ static ANIMATION stru_8009F208 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     3,                          // amb
     30,                         // size_w
