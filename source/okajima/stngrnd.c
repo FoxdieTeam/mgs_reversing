@@ -239,7 +239,7 @@ static ANIMATION anm_stn_g_sonic_form = {
     1,                              // texdev_x
     1,                              // texdev_y
     1,                              // n_anime
-    1,                              // n_verts
+    1,                              // unit_num
     500,                            // raise
     3,                              // amb
     800,                            // size_w
@@ -278,7 +278,7 @@ static ANIMATION anm_stun_g_center_form = {
     1,                              //
     1,                              //
     1,                              // n_anime
-    1,                              // n_verts
+    1,                              // unit_num
     500,                            //
     3,                              //
     600,                            // xw

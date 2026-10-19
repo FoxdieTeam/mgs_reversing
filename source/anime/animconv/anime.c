@@ -47,7 +47,7 @@ typedef struct _Work
     short     dev_x, dev_y;
     short     n_anime;
     short     amb;
-    short     n_verts;
+    short     unit_num;
     short     raise;
     SVECTOR  *vertices;
     Unit      unit[ 0 ];
@@ -306,7 +306,7 @@ static void ShadePacks( Work *work )
 
     pack = work->prim->packs[ GV_Clock ];
     unit = work->unit;
-    for ( i = work->n_verts; i > 0; i-- )
+    for ( i = work->unit_num; i > 0; i-- )
     {
         setRGB0( pack, unit->r, unit->g, unit->b );
         pack++;
@@ -484,7 +484,7 @@ static void Act( Work *work )
 
     unit = work->unit;
     verts = work->vertices;
-    for ( i = 0; i < work->n_verts; i++ )
+    for ( i = 0; i < work->unit_num; i++ )
     {
         if ( unit->count <= 0 )
         {
@@ -548,7 +548,7 @@ static int MakeBinData( Work *work, ANIMATION *animation )
 
     pre = animation->pre_script;
     unit = work->unit;
-    for ( i = 0; i < work->n_verts; i++ )
+    for ( i = 0; i < work->unit_num; i++ )
     {
         unit->dataptr = unit->data = scriptptr[ pre->scr_num ];
         pre++;
@@ -579,7 +579,7 @@ static void InitPacks( Work *work, u_char v )
     DG_RaisePrim( prim, work->raise );
 
     unit = work->unit;
-    for ( i = 0; i < work->n_verts; i++ )
+    for ( i = 0; i < work->unit_num; i++ )
     {
         x_off = unit->anime % work->dev_x;
         y_off = unit->anime / work->dev_x;
@@ -623,7 +623,7 @@ static void InitPacks( Work *work, u_char v )
 
 static int GetResources( Work *work, int map, ANIMATION *animation )
 {
-    int        n_verts;
+    int        unit_num;
     PRESCRIPT *pre;
     Unit      *unit;
     RECT      *rect;
@@ -635,12 +635,12 @@ static int GetResources( Work *work, int map, ANIMATION *animation )
     work->dev_y = animation->texdev_y;
     work->n_anime = animation->n_anime;
     work->amb = animation->amb;
-    work->n_verts = n_verts = animation->n_verts;
+    work->unit_num = unit_num = animation->unit_num;
     work->raise = animation->raise;
 
     pre = animation->pre_script;
 
-    for ( i = 0; i < n_verts; i++ )
+    for ( i = 0; i < unit_num; i++ )
     {
         work->vertices[ i ] = pre->pos;
         pre++;
@@ -652,7 +652,7 @@ static int GetResources( Work *work, int map, ANIMATION *animation )
     rect->w = animation->size_w;
     rect->h = animation->size_h;
 
-    work->prim = GM_MakePrim( PRIM_TYPE, n_verts, work->vertices, rect );
+    work->prim = GM_MakePrim( PRIM_TYPE, unit_num, work->vertices, rect );
     if ( work->prim == NULL )
     {
         return -1;
@@ -663,7 +663,7 @@ static int GetResources( Work *work, int map, ANIMATION *animation )
     unit = work->unit;
     pre = animation->pre_script;
 
-    for ( i = 0; i < n_verts; i++ )
+    for ( i = 0; i < unit_num; i++ )
     {
         unit->count = 0;
         unit->anime = pre->s_anim;
@@ -690,14 +690,14 @@ static int GetResources( Work *work, int map, ANIMATION *animation )
 
 void *NewAnime( MATRIX *world, int map, ANIMATION *animation )
 {
-    int   n_verts;
+    int   unit_num;
     Work *work;
 
-    n_verts = animation->n_verts;
-    work = GV_NewActor( GV_ACTOR_AFTER, sizeof(Work) + ( sizeof(Unit) + sizeof(SVECTOR) ) * n_verts );
+    unit_num = animation->unit_num;
+    work = GV_NewActor( GV_ACTOR_AFTER, sizeof(Work) + ( sizeof(Unit) + sizeof(SVECTOR) ) * unit_num );
     if ( work != NULL )
     {
-        work->vertices = (SVECTOR *)(work->unit + n_verts);
+        work->vertices = (SVECTOR *)(work->unit + unit_num);
         GV_SetNamedActor( &work->actor, Act, Die, "anime.c" );
 
         if ( GetResources( work, map, animation ) < 0 )

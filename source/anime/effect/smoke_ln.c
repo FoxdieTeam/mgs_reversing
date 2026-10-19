@@ -15,7 +15,7 @@ static ANIMATION d16e_dword_800C3520 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     3,                          // amb
     4000,                       // size_w
@@ -37,7 +37,7 @@ static ANIMATION d16e_dword_800C353C = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     3,                          // amb
     3000,                       // size_w
@@ -61,7 +61,7 @@ static ANIMATION d16e_dword_800C3558 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     2,                          // amb
     1500,                       // size_w
@@ -93,7 +93,7 @@ static ANIMATION d16e_dword_800C3574 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     2,                          // amb
     500,                        // size_w
@@ -107,7 +107,7 @@ static ANIMATION d16e_dword_800C3590 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     2,                          // amb
     500,                        // size_w
@@ -131,7 +131,7 @@ static ANIMATION d16e_dword_800C35AC = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     3000,                       // raise
     2,                          // amb
     1000,                       // size_w
@@ -145,7 +145,7 @@ static ANIMATION d16e_dword_800C35C8 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     3000,                       // raise
     2,                          // amb
     1000,                       // size_w
@@ -177,7 +177,7 @@ static ANIMATION d16e_dword_800C35E4 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     3,                          // amb
     500,                        // size_w
@@ -209,7 +209,7 @@ static ANIMATION d16e_dword_800C3600 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     2,                          // amb
     500,                        // size_w
@@ -242,7 +242,7 @@ static ANIMATION d16e_dword_800C361C = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     3,                          // amb
     500,                        // size_w
@@ -272,7 +272,7 @@ static ANIMATION d16e_dword_800C3638 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     3,                          // amb
     500,                        // size_w
@@ -302,7 +302,7 @@ static ANIMATION d16e_dword_800C3654 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     2,                          // amb
     500,                        // size_w
@@ -325,7 +325,7 @@ static ANIMATION d16e_dword_800C3670 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     1000,                       // raise
     3,                          // amb
     1,                          // size_w

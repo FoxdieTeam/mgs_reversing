@@ -214,7 +214,7 @@ ANIMATION anm_blast_single_form = {
     4,                          // texdev_x
     4,                          // texdev_y
     16,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     2000,                       // raise
     1,                          // amb
     1000,                       // size_w
@@ -236,7 +236,7 @@ ANIMATION anm_blast_random_form = {
     4,                          // texdev_x
     4,                          // texdev_y
     16,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     2000,                       // raise
     1,                          // amb
     1000,                       // size_w
@@ -258,7 +258,7 @@ ANIMATION anm_blast_mini_form = {
     4,                          // texdev_x
     4,                          // texdev_y
     16,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     2000,                       // raise
     1,                          // amb
     500,                        // size_w
@@ -280,7 +280,7 @@ ANIMATION anm_blast_minimini_form = {
     4,                          // texdev_x
     4,                          // texdev_y
     16,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     2000,                       // raise
     1,                          // amb
     200,                        // size_w
@@ -317,7 +317,7 @@ ANIMATION anm_blast_high_form = {
     4,                          // texdev_x
     4,                          // texdev_y
     16,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     2000,                       // raise
     1,                          // amb
     1000,                       // size_w

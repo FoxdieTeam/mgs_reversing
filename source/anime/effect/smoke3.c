@@ -15,7 +15,7 @@ static ANIMATION anm_800C370C = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    8,                          // n_verts
+    8,                          // unit_num
     500,                        // raise
     3,                          // amb
     300,                        // size_w
@@ -45,7 +45,7 @@ static ANIMATION anm_800C3728 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     1,                          // amb
     300,                        // size_w
@@ -68,7 +68,7 @@ static ANIMATION anm_800C3744 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     1,                          // amb
     300,                        // size_w
@@ -90,7 +90,7 @@ static ANIMATION anm_800C3760 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     3,                          // amb
     300,                        // size_w
@@ -114,7 +114,7 @@ static ANIMATION anm_800C377C = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     1,                          // amb
     800,                        // size_w
@@ -136,7 +136,7 @@ static ANIMATION anm_800C3798 = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     1,                          // amb
     400,                        // size_w

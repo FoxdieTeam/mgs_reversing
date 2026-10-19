@@ -19,7 +19,7 @@ typedef struct ANIMATION {
     u_short     tex;
     short       texdev_x, texdev_y;
     short       n_anime;
-    short       n_verts;
+    short       unit_num;
     short       raise;
     short       amb;
     short       size_w, size_h;

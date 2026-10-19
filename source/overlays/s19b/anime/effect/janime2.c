@@ -38,7 +38,7 @@ ANIMATION s19b_dword_800C33E0 = {
     2,                          // texdev_x
     2,                          // texdev_y
     4,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     5,                          // amb
     25,                         // size_w
@@ -65,7 +65,7 @@ ANIMATION s19b_dword_800C33FC = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     300,                        // raise
     1,                          // amb
     200,                        // size_w
@@ -84,7 +84,7 @@ ANIMATION s19b_dword_800C3418 = {
     2,                          // texdev_x
     2,                          // texdev_y
     3,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     300,                        // raise
     1,                          // amb
     300,                        // size_w
@@ -98,7 +98,7 @@ ANIMATION s19b_dword_800C3434 = {
     2,                          // texdev_x
     2,                          // texdev_y
     3,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     300,                        // raise
     1,                          // amb
     400,                        // size_w
@@ -119,7 +119,7 @@ ANIMATION s19b_dword_800C3450 = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     3,                          // amb
     150,                        // size_w
@@ -146,7 +146,7 @@ ANIMATION s19b_dword_800C346C = {
     8,                          // texdev_x
     4,                          // texdev_y
     30,                         // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     300,                        // raise
     1,                          // amb
     300,                        // size_w

@@ -209,7 +209,7 @@ void *NewSnowStorm(int nName, int nMap)
     lpAct->anime.texdev_x = 1;
     lpAct->anime.texdev_y = 1;
     lpAct->anime.n_anime = 1;
-    lpAct->anime.n_verts = 1;
+    lpAct->anime.unit_num = 1;
     lpAct->anime.amb = 3;
     lpAct->anime.v = 0xFF;
     lpAct->anime.pre_script = &lpAct->pre_script;

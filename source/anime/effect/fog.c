@@ -16,7 +16,7 @@ static ANIMATION anm_fog_form = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     800,                        // raise
     3,                          // amb
     600,                        // size_w

@@ -16,7 +16,7 @@ static ANIMATION anm_800C3C04 = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     230,                        // raise
     1,                          // amb
     300,                        // size_w
@@ -38,7 +38,7 @@ static ANIMATION anm_800C3C20 = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     230,                        // raise
     1,                          // amb
     1000,                       // size_w
@@ -59,7 +59,7 @@ static ANIMATION anm_800C3C3C = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     1,                          // amb
     200,                        // size_w
@@ -81,7 +81,7 @@ static ANIMATION anm_800C3C58 = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     500,                        // raise
     1,                          // amb
     2000,                       // size_w
@@ -102,7 +102,7 @@ static ANIMATION anm_800C3C74 = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     0,                          // raise
     0,                          // amb
     20,                         // size_w
@@ -124,7 +124,7 @@ static ANIMATION anm_800C3C90 = {
     1,                          // texdev_x
     1,                          // texdev_y
     1,                          // n_anime
-    1,                          // n_verts
+    1,                          // unit_num
     230,                        // raise
     1,                          // amb
     0,                          // size_w
