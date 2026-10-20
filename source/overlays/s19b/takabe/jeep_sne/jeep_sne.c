@@ -490,7 +490,7 @@ static void StateDamage(Work *work, int time)
 
         if (GM_Vitality > 0)
         {
-            GM_SeSet(&work->control.mov, SE_V_ENE_HUH);
+            GM_SeSet(&work->control.mov, 0x88);
         }
     }
 
@@ -529,7 +529,7 @@ void StateHit(Work *work, int time)
     if (time == 0)
     {
         SetMotion(work, 8);
-        GM_SeSet(&work->control.mov, SE_V_ENE_HUH);
+        GM_SeSet(&work->control.mov, 0x88);
     }
 
     if (time >= 21)

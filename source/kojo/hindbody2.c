@@ -1087,7 +1087,7 @@ void s11g_hind_800D7644(HindWork *work)
 
             if (work->field_5E4 == 50)
             {
-                GM_SeSet2(0, 127, SE_V_ENE_FOUND03);
+                GM_SeSet2(0, 127, 130);
             }
         }
         else

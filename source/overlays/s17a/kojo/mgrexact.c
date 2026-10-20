@@ -5,7 +5,6 @@
 #include "takabe/fadeio.h"
 #include "linkvar.h"
 #include "mgrex.h"
-#include "sound/g_sound.h"
 
 /* Metal Gear REX: main actor functions (the original file name is unknown) */
 
@@ -483,7 +482,7 @@ void s17a_800DA9DC(MGREX_WORK *work)
             s17a_800E3BA8(work, 2);
             work->player_pos = GM_PlayerControl->mov;
             GM_SeSetMode(&pos, 190, GM_SEMODE_BOMB);
-            GM_SeSetMode(&pos, SE_V_ENE_FOUND03, GM_SEMODE_BOMB);
+            GM_SeSetMode(&pos, 130, GM_SEMODE_BOMB);
             work->f1968 = 60;
             NewMgSmoke1Offset(&work->objCockpit2.objs->objs[1].world, &mgrex_pit_smoke_offset, 1, 90);
 

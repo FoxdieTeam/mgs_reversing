@@ -44,7 +44,7 @@ int s19b_spark2_m_800D87A4(LiqWork *work)
     if (target->damaged & 4)
     {
         target->force = DG_ZeroVector;
-        GM_SeSet(&work->control.mov, SE_V_ENE_FOUND02);
+        GM_SeSet(&work->control.mov, 0x81);
 
         /* both arms spell out the same tail: cross-jumping merges it back */
         if (!(Takabe_JeepSystem.flags_54 & 0x20000))
@@ -544,7 +544,7 @@ void s19b_spark2_m_800D9390(LiqWork *work, int mode)
     {
         work->action = 20;
         GM_ConfigObjectAction(&work->obj, 20, 0, 4);
-        GM_SeSet(&work->control.mov, SE_V_ENE_FOUND02);
+        GM_SeSet(&work->control.mov, 0x81);
         s19b_spark2_m_800D8724(work, 5, 1);
         *work->jeep_flags |= 1;
     }
@@ -567,7 +567,7 @@ void s19b_spark2_m_800D9434(LiqWork *work, int mode)
     }
     if (mode == 0)
     {
-        GM_SeSet(&work->control.mov, SE_V_ENE_FOUND02);
+        GM_SeSet(&work->control.mov, 0x81);
         s19b_spark2_m_800D8724(work, 5, 1);
         *work->jeep_flags |= 1;
     }

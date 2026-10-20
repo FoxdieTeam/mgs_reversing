@@ -416,7 +416,7 @@ static void StateDamage(Work *work, int time)
 
         if (GM_Vitality > 0)
         {
-            GM_SeSet(&work->control.mov, SE_V_ENE_HUH);
+            GM_SeSet(&work->control.mov, 0x88);
         }
     }
 

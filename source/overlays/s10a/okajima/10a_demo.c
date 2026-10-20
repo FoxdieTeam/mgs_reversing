@@ -66,7 +66,7 @@ void s10a_10a_demo_800D62F0( Work *work )
 
     if ( ( GV_Time % 60 ) == 0 )
     {
-        GM_SeSet2( 0, 63, SE_V_ENE_NOISE);
+        GM_SeSet2( 0, 63, 135 );
     }
 
     if ( work->time == 0 )

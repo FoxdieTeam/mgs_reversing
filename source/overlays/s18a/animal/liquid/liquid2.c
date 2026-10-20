@@ -1822,7 +1822,7 @@ void s18a_800CA1A4(LiquidWork *work, int time)
     {
         work->pose = 29;
         GM_ConfigObjectAction(&work->body, s18a_liquid_motions[29], 0, 8);
-        GM_SeSetMode(&control->mov, SE_V_ENE_LOST, 1);
+        GM_SeSetMode(&control->mov, 132, 1);
     }
 
     if (time < 15)
@@ -2476,7 +2476,7 @@ void s18a_800CB310(LiquidWork *work, int time)
         }
 
         GM_SeSet(&control->mov, SE_PUNCH_HIT);
-        GM_SeSetMode(&control->mov, SE_V_ENE_NOISE, 1);
+        GM_SeSetMode(&control->mov, 135, 1);
         s18a_800CC488(work, 6);
     }
 
@@ -2524,7 +2524,7 @@ void s18a_800CB418(LiquidWork *work, int time)
         }
 
         GM_SeSet(&control->mov, SE_KICK_HIT);
-        GM_SeSetMode(&control->mov, SE_V_ENE_NOTHING, 1);
+        GM_SeSetMode(&control->mov, 134, 1);
         s18a_800CC488(work, 6);
     }
 
@@ -2605,7 +2605,7 @@ void s18a_800CB640(LiquidWork *work, int time)
         }
 
         GM_SeSet(&control->mov, SE_KICK_HIT);
-        GM_SeSetMode(&control->mov, SE_V_ENE_NOTHING, 1);
+        GM_SeSetMode(&control->mov, 134, 1);
         control->rot.vy = control->turn.vy = work->f9AC;
     }
 
@@ -2745,7 +2745,7 @@ void s18a_800CB9D0(LiquidWork *work, int time)
     if (time == 0)
     {
         s18a_liquid_SetPose(work, 24);
-        GM_SeSetMode(&control->mov, SE_V_ENE_NOTHING, 1);
+        GM_SeSetMode(&control->mov, 134, 1);
 
         work->life -= work->damage1[2];
         if (work->life < 0)
@@ -2762,7 +2762,7 @@ void s18a_800CB9D0(LiquidWork *work, int time)
     if (time == 21)
     {
         GM_SeSet(&work->control.mov, 177);
-        GM_SeSetMode(&work->control.mov, SE_V_ENE_NOISE, 1);
+        GM_SeSetMode(&work->control.mov, 135, 1);
     }
 
     if (time == 59)
@@ -3006,7 +3006,7 @@ void s18a_800CC0F0(LiquidWork *work, int time)
         s18a_liquid_SetPose(work, 25);
         work->control.turn = GM_PlayerControl->rot;
         s18a_800C80B8(work, 1);
-        GM_SeSetMode(&work->control.mov, SE_V_ENE_NOISE, 1);
+        GM_SeSetMode(&work->control.mov, 135, 1);
     }
 
     if (s18a_800C7A18(work))

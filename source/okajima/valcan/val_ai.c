@@ -562,20 +562,20 @@ void Valcan_800DA990(Work *work)
                 switch (GV_RandU(4))
                 {
                 case 0:
-                    GM_SeSetMode(&work->field_910, SE_V_ENE_GRENADE, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->field_910, 0x83, GM_SEMODE_BOMB);
                     break;
                 case 1:
-                    GM_SeSetMode(&work->field_910, SE_V_ENE_HUH, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->field_910, 0x88, GM_SEMODE_BOMB);
                     break;
                 case 2:
                 case 3:
-                    GM_SeSetMode(&work->field_910, SE_V_ENE_RETURN, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->field_910, 0x85, GM_SEMODE_BOMB);
                     break;
                 }
             }
             else if (work->field_6A4 % 100 == 50 && GV_RandU(2) == 0)
             {
-                GM_SeSetMode(&work->field_910, SE_V_ENE_LOST, GM_SEMODE_BOMB);
+                GM_SeSetMode(&work->field_910, 0x84, GM_SEMODE_BOMB);
             }
         }
     }
@@ -1434,13 +1434,13 @@ void Valcan_800DC124(Work *work)
                 switch (work->field_770)
                 {
                 case 1:
-                    GM_SeSetMode(&work->field_910, SE_V_ENE_FOUND01, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->field_910, 0x80, GM_SEMODE_BOMB);
                     break;
                 case 2:
-                    GM_SeSetMode(&work->field_910, SE_V_ENE_FOUND02, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->field_910, 0x81, GM_SEMODE_BOMB);
                     break;
                 case 3:
-                    GM_SeSetMode(&work->field_910, SE_V_ENE_UNUSED10, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->field_910, 0x89, GM_SEMODE_BOMB);
                     break;
                 }
             }
@@ -1796,7 +1796,7 @@ void Valcan_800DC7A0(Work *work)
 
     if (GM_GameStatus & STATE_STUN)
     {
-        GM_SeSet2(0, 63, SE_V_ENE_HUH);
+        GM_SeSet2(0, 63, 0x88);
     }
 
     switch (work->field_788)
@@ -1841,11 +1841,11 @@ void Valcan_800DC7A0(Work *work)
                 work->field_8E8 = 0;
                 if (GV_RandU(2) != 0)
                 {
-                    GM_SeSetMode(&work->field_910, SE_V_ENE_NOTHING, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->field_910, 0x86, GM_SEMODE_BOMB);
                 }
                 else
                 {
-                    GM_SeSetMode(&work->field_910, SE_V_ENE_FOUND03, GM_SEMODE_BOMB);
+                    GM_SeSetMode(&work->field_910, 0x82, GM_SEMODE_BOMB);
                 }
             }
             work->field_688 = 17;
@@ -1947,7 +1947,7 @@ void Valcan_800DCE60(Work *work)
     {
         work->field_7AC = work->control.mov;
         work->field_698 = 35;
-        GM_SeSet2(0, 0x3F, SE_V_ENE_FOOTPRINTS);
+        GM_SeSet2(0, 0x3F, 0x8A);
         if (GV_RandU(2) == 0)
         {
             work->field_688 = 27;
@@ -2019,7 +2019,7 @@ void Valcan_800DD03C(Work *work)
 
         if (work->field_770 >= 2 && work->field_770 <= 3 && work->field_924 == -1)
         {
-            GM_SeSetMode(&work->field_910, SE_V_ENE_NOISE, GM_SEMODE_BOMB);
+            GM_SeSetMode(&work->field_910, 0x87, GM_SEMODE_BOMB);
         }
     }
 
@@ -2114,7 +2114,7 @@ void Valcan_800DD03C(Work *work)
         }
         else
         {
-            GM_SeSet2(0, 63, SE_V_ENE_FOOTPRINTS);
+            GM_SeSet2(0, 63, 0x8A);
         }
 
         work->field_924 = 90;
