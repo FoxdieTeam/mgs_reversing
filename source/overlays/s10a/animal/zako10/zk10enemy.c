@@ -267,53 +267,45 @@ void Zako10CheckSight( Zako10Work* work )
         return;
     }
 
-    if ( Zako10Command.counter % Zako10Command.n_watchers == work->param.index )
+    if ( Zako10Command.counter % Zako10Command.n_watchers != work->param.index )
     {
-        //ridiculous, but its the only way it matches
-        if ( ZAKO10_EYE_LENGTH + 2000 >= dis )
+        return;
+    }
+
+    if ( dis > ZAKO10_EYE_LENGTH + 2000 )
+    {
+        work->vision.field_B92 = 0;
+        return;
+    }
+
+    if ( diff > 2000 )
+    {
+        work->vision.field_B92 = 0;
+        return;
+    }
+
+    if ( dis >= 500 && GV_DiffDirAbs( work->vision.facedir, dir ) >= work->vision.angle )
+    {
+        work->vision.field_B92 = 0;
+        return;
+    }
+
+    map = work->control.map;
+    if ( !HZD_OnlineHazardCheck( map->hzd, pos, &ctrl->mov, HZD_CHK_ALL, SEGMENT_ATR ) &&
+         !GM_OnlineTargetCheckAny( &ctrl->mov, pos, map->index, &svec ) )
+    {
+        if ( dis > work->vision.length )
         {
-            if ( 2000 >= diff )
-            {
-                if ( dis < 500 || GV_DiffDirAbs( work->vision.facedir, dir ) < work->vision.angle )
-                {
-                    map = work->control.map;
-                    if ( !( HZD_OnlineHazardCheck( map->hzd, pos, &ctrl->mov, HZD_CHK_ALL, SEGMENT_ATR ) ) )
-                    {
-                        if ( !( GM_OnlineTargetCheckAny( &ctrl->mov, pos, map->index, &svec ) ) )
-                        {
-                            if ( work->vision.length < dis )
-                            {
-                                work->vision.field_B92 = 1;
-                            }
-                            else
-                            {
-                                work->vision.field_B92 = 2;
-                            }
-                        }
-                        else
-                        {
-                            work->vision.field_B92 = 0;
-                        }
-                    }
-                    else
-                    {
-                        work->vision.field_B92 = 0;
-                    }
-                }
-                else
-                {
-                    work->vision.field_B92 = 0;
-                }
-            }
-            else
-            {
-                work->vision.field_B92 = 0;
-            }
+            work->vision.field_B92 = 1;
         }
         else
         {
-            work->vision.field_B92 = 0;
+            work->vision.field_B92 = 2;
         }
+    }
+    else
+    {
+        work->vision.field_B92 = 0;
     }
 }
 

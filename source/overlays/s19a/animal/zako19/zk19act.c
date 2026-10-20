@@ -196,52 +196,45 @@ static void CheckVision( Work *work )
         return;
     }
 
-    if ( ZAKO19Command.time % ZAKO19Command.n_watchers == work->param.index )
+    if ( ZAKO19Command.time % ZAKO19Command.n_watchers != work->param.index )
     {
-        if ( ZAKO19_EYE_LENGTH + 2000 >= dis )
+        return;
+    }
+
+    if ( dis > ZAKO19_EYE_LENGTH + 2000 )
+    {
+        work->vision.pad = 0;
+        return;
+    }
+
+    if ( height > 2000 )
+    {
+        work->vision.pad = 0;
+        return;
+    }
+
+    if ( dis >= 500 && GV_DiffDirAbs( work->vision.facedir, dir ) >= work->vision.range )
+    {
+        work->vision.pad = 0;
+        return;
+    }
+
+    map = work->control.map;
+    if ( !HZD_OnlineHazardCheck( map->hzd, pos, &control->mov, HZD_CHK_ALL, HZD_SEG_NO_PLAYER ) &&
+         !GM_OnlineTargetCheckAny( &control->mov, pos, map->index, &tmp ) )
+    {
+        if ( dis > work->vision.length )
         {
-            if ( 2000 >= height )
-            {
-                if ( dis < 500 || GV_DiffDirAbs( work->vision.facedir, dir ) < work->vision.range )
-                {
-                    map = work->control.map;
-                    if ( !HZD_OnlineHazardCheck( map->hzd, pos, &control->mov, HZD_CHK_ALL, HZD_SEG_NO_PLAYER ) )
-                    {
-                        if ( !GM_OnlineTargetCheckAny( &control->mov, pos, map->index, &tmp ) )
-                        {
-                            if ( work->vision.length < dis )
-                            {
-                                work->vision.pad = 1;
-                            }
-                            else
-                            {
-                                work->vision.pad = 2;
-                            }
-                        }
-                        else
-                        {
-                            work->vision.pad = 0;
-                        }
-                    }
-                    else
-                    {
-                        work->vision.pad = 0;
-                    }
-                }
-                else
-                {
-                    work->vision.pad = 0;
-                }
-            }
-            else
-            {
-                work->vision.pad = 0;
-            }
+            work->vision.pad = 1;
         }
         else
         {
-            work->vision.pad = 0;
+            work->vision.pad = 2;
         }
+    }
+    else
+    {
+        work->vision.pad = 0;
     }
 }
 
