@@ -124,6 +124,8 @@ static void InitPacks(SparkPrim *packs, int n_packs)
 {
     while (--n_packs >= 0)
     {
+        /* NOTE: setlen(packs, 4) was tried: it only stores the len byte (sb) where the
+           original stores the whole tag word (sw), so it does not match */
         packs->tpage.tag = 0x04000000;
         packs->tpage.code[0] = _get_mode(0, 1, getTPage(0, 1, 0, 0));
         LSTORE(0x428080FF, &packs->color);
