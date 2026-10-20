@@ -378,7 +378,7 @@ static void Act(Work *work)
     }
 }
 
-void PkJeepDie(Work *work)
+static void Die(Work *work)
 {
     int i;
 
@@ -502,7 +502,7 @@ void *NewPkJeep(int name, int where)
     work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, Act, PkJeepDie, "pjeep.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "pjeep.c");
         if (GetResources(work, name, where) < 0)
         {
             GV_DestroyActor(work);

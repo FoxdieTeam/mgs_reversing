@@ -244,7 +244,7 @@ static void Act(Work *work)
     }
 }
 
-void JeepSnakeInitTarget(Work *work)
+static void InitTarget(Work *work)
 {
     TARGET *target;
     int     vitality;
@@ -293,7 +293,7 @@ static int GetResources(Work *work, int name)
 
     work->target = GM_AllocTarget();
 
-    JeepSnakeInitTarget(work);
+    InitTarget(work);
 
     control->r_sphere = -2;
 

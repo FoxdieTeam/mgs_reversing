@@ -113,7 +113,7 @@ static int GetResources(MerylJeepWork *work, int name, int which)
 }
 
 
-void PkJeepMerylDie(MerylJeepWork *work)
+static void Die(MerylJeepWork *work)
 {
     GM_FreeTarget(work->target);
     GM_FreeControl(&work->control);
@@ -127,7 +127,7 @@ void *NewPkJeepMeryl(CONTROL *root_ctrl, MATRIX *root_mat, int which)
     work = GV_NewActor(GV_ACTOR_AFTER, sizeof(MerylJeepWork));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, Act, PkJeepMerylDie, "pkjp_mrl.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "pkjp_mrl.c");
 
         work->root_ctrl = root_ctrl;
         work->root_mat = root_mat;
