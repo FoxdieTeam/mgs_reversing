@@ -148,7 +148,7 @@ int SECTION(".bss") FS_ResidentCacheDirty;
 static char *(*sound_load_callback)(char *) = NULL;
 static void (*sound_ready_callback)(void) = NULL;
 
-static u_short sound_wxv_id[] = { 0, 0 };
+static u_short sound_wvx_id[] = { 0, 0 };
 static u_short sound_which_wvx = 0;
 static u_short sound_mdx_id = 0;
 static u_short sound_efx_id = 0;
@@ -186,12 +186,12 @@ static int SetupNextFile( DATACNF_TAG *tag, CDBIOS_TASK *task )
             break;
 
         case 'w': // *.wvx
-            if ( sound_wxv_id[ sound_which_wvx ] != tag->id )
+            if ( sound_wvx_id[ sound_which_wvx ] != tag->id )
             {
                 task->buffer = SD_WavDataLoadInit( tag->id );
                 sound_ready_callback = SD_WavUnload;
                 sound_load_callback = &SD_WavLoadBuf;
-                sound_wxv_id[ sound_which_wvx ] = tag->id;
+                sound_wvx_id[ sound_which_wvx ] = tag->id;
             }
             else
             {
