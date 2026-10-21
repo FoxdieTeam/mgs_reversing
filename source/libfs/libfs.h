@@ -24,9 +24,6 @@ typedef struct {
     int pos;
 } FS_MOVIE_FILE;
 
-typedef char * (*TFsCallback)(char *);
-typedef void (*TFsSoundCallback)(void);
-
 /* select.c */
 void FS_StartDaemon(void);
 void FS_CdStageProgBinFix(void);
