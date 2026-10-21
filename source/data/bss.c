@@ -33,7 +33,7 @@ char BSS sd_int_stack[2048];            // in sd_main.c (5thMIX)
 
 gap gap_800BEFC8[0x4]; // 4 bytes
 
-int BSS             dword_800BEFCC;
+int BSS             str_stop_fg;
 
 gap                                     gap_800BEFD0[0x4]; // 4 bytes
 

@@ -103,9 +103,9 @@ void SdMain(void)
             str_fout_fg = 2;
         }
 
-        if (dword_800BEFCC) {
+        if (str_stop_fg) {
             KeyOffStr();
-            dword_800BEFCC = 0;
+            str_stop_fg = 0;
         }
 
         switch (str_status) {

@@ -13,7 +13,7 @@ extern unsigned char dummy_data[4096];
 #ifndef __BSSDEFINE__
 
 /* in sd_main.c */
-extern int              dword_800BEFCC;         // ???_fg
+extern int              str_stop_fg;
 extern int              sd_debug_mode;
 extern int              str_pause_wait;
 
