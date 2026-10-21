@@ -88,7 +88,7 @@ extern char             *se_data;               // unsigned char *
 extern int              sd_code_read;
 extern unsigned int     se_load_code;           // unsigned long
 extern int              sng_kaihi_fg;
-extern int              wave_data;
+extern int              wave_fp;
 extern int              sng_pause_fg;
 extern unsigned long    keyoffs;
 extern int              str_read_idx;

@@ -2,57 +2,26 @@
 #include "sd_ext.h"
 
 /************************************************************************/
-/*                                                                      */
+/*                      External Declarations                           */
 /************************************************************************/
-
 extern void tone_set(unsigned char n);
 extern void keyoff(void);
 
 /************************************************************************/
-/*                                                                      */
+/*                      Function Declarations                           */
 /************************************************************************/
-
-void rest_set(void);
-void tie_set(void);
-void sno_set(void);
-void svl_set(void);
-void svp_set(void);
-void use_set(void);
-void pan_set(void);
-void pan_move(void);
-void vib_set(void);
-void vib_change(void);
-void rdm_set(void);
-void lp1_start(void);
-void lp1_end(void);
-void lp2_start(void);
-void lp2_end(void);
-void l3s_set(void);
-void l3e_set(void);
-void tempo_set(void);
-void tempo_move(void);
-void trans_set(void);
-void tre_set(void);
-void vol_chg(void);
-void vol_move(void);
-void por_set(void);
-void sws_set(void);
-void detune_set(void);
-void swp_set(void);
-void echo_set1(void);
-void echo_set2(void);
-void eon_set(void);
-void eof_set(void);
-void kakko_start(void);
-void kakko_end(void);
-void env_set(void);
-void ads_set(void);
-void srs_set(void);
-void rrs_set(void);
-void pm_set(void);
-void jump_set(void);
+void rest_set(void), sno_set(void), pan_set(void), pan_move(void);
+void vib_set(void), rdm_set(void), lp1_start(void), lp1_end(void);
+void lp2_start(void), lp2_end(void), tempo_set(void), tempo_move(void);
+void trans_set(void), tre_set(void), vol_chg(void), vol_move(void);
+void vib_change(void), por_set(void), sws_set(void), detune_set(void);
+void swp_set(void), tie_set(void), echo_set1(void), echo_set2(void);
+void kakko_start(void), kakko_end(void), env_set(void), pm_set(void);
+void jump_set(void), no_cmd(void);
+void ads_set(void), srs_set(void), rrs_set(void);
+void eon_set(void), eof_set(void);
+void l3s_set(void), l3e_set(void), svl_set(void), svp_set(void), use_set(void);
 void block_end(void);
-void no_cmd(void);
 
 /*----------------------------------------------------------------------*/
 /*                                                                      */
@@ -80,11 +49,9 @@ void tie_set(void)
     sptr->ngg = mdata3;
     sptr->ngc = sptr->ngs;
     x = (sptr->ngg * sptr->ngc) / 100;
-    if (!x)
-    {
-       x = 1;
+    if (x == 0) {
+        x = 1;
     }
-
     sptr->ngo = x;
 }
 
@@ -133,30 +100,20 @@ void pan_set(void)
 /*----------------------------------------------------------------------*/
 void pan_move(void)
 {
-    unsigned char pand_shift;
     int pan_data;
+    unsigned char pand_shift;
 
     sptr->panc = mdata2;
-    pand_shift = (mdata3 + 0x14);
-    sptr->panm = pand_shift << 8;
-    pan_data = pand_shift - sptr->panf;
+    pand_shift = (mdata3 + 20);
+    sptr->panm = (pand_shift << 8);
+    pan_data = (pand_shift - sptr->panf);
 
-    if (pan_data < 0)
-    {
-        sptr->panad = -(((-pan_data) << 8) / (unsigned int)mdata2);
-        if (sptr->panad < -2032)
-        {
-            sptr->panad = -2032;
-        }
-    }
-    else
-    {
-        sptr->panad = (pan_data << 8) / (unsigned int)mdata2;
-        if (sptr->panad > 2032)
-        {
-            sptr->panad = 2032;
-        }
-
+    if (pan_data < 0) {
+        sptr->panad = -(((-pan_data) << 8) / mdata2);
+        if (sptr->panad < -0x7F0) sptr->panad = -0x7F0;
+    } else {
+        sptr->panad = ((pan_data << 8) / mdata2);
+        if (sptr->panad > 0x7F0) sptr->panad = 0x7F0;
     }
 }
 
@@ -167,36 +124,31 @@ void vib_set(void)
 {
     sptr->vibhs = mdata2;
     sptr->vibcad = mdata3;
-    if (sptr->vibcad < 64)
-    {
-        if (sptr->vibcad < 32)
-        {
-            sptr->vib_tc_ofst = 1;
-            sptr->vibcad = sptr->vibcad << 3;
-        }
-        else
-        {
-            sptr->vib_tc_ofst = 2;
-            sptr->vibcad = sptr->vibcad << 2;
-        }
-    }
-    else
-    {
-        if (sptr->vibcad < 128)
-        {
-            sptr->vib_tc_ofst = 4;
-            sptr->vibcad = sptr->vibcad << 1;
-        }
-        else if (sptr->vibcad != 255)
-        {
-            sptr->vib_tc_ofst = 8;
-        }
-        else
-        {
-            sptr->vib_tc_ofst = 16;
-        }
-    }
 
+    if (sptr->vibcad < 0x40) {
+        if (sptr->vibcad < 0x20) {
+            sptr->vib_tc_ofst = 1;
+            sptr->vibcad = (sptr->vibcad << 3);
+        }
+        else {
+            sptr->vib_tc_ofst = 2;
+            sptr->vibcad = (sptr->vibcad << 2);
+        }
+    }
+    else {
+        if (sptr->vibcad < 0x80) {
+            sptr->vib_tc_ofst = 4;
+            sptr->vibcad = (sptr->vibcad << 1);
+        }
+        else {
+            if (sptr->vibcad != 0xFF) {
+                sptr->vib_tc_ofst = 8;
+            }
+            else {
+                sptr->vib_tc_ofst = 16;
+            }
+        }
+    }
     sptr->vibd = mdata4 << 8;
     sptr->vibdm = mdata4 << 8;
 }
@@ -207,7 +159,7 @@ void vib_set(void)
 void vib_change(void)
 {
     sptr->vibcs = mdata2;
-    sptr->vibad = sptr->vibdm / (unsigned int)mdata2;
+    sptr->vibad = (sptr->vibdm / mdata2);
 }
 
 /*----------------------------------------------------------------------*/
@@ -234,27 +186,16 @@ void lp1_start(void)
 
 void lp1_end(void)
 {
-    char v1;
-
-    if (stop_jouchuu_se && !mdata2)
-    {
+    if ((stop_jouchuu_se) && (mdata2 == 0)) {
         sptr->lp1_vol = 0;
         sptr->lp1_freq = 0;
         ++stop_jouchuu_se;
-    }
-    else
-    {
-        v1 = sptr->lp1_cnt + 1;
-        sptr->lp1_cnt = v1;
-
-        if (v1 != mdata2 || v1  == 0)
-        {
+    } else {
+        if (((++sptr->lp1_cnt) != mdata2) || (mdata2 == 0)) {
             sptr->lp1_vol += (signed char)mdata3;
             sptr->lp1_freq += (signed char)mdata4 * 8;
             mptr = sptr->lp1_addr;
-        }
-        else
-        {
+        } else {
             sptr->lp1_vol = 0;
             sptr->lp1_freq = 0;
         }
@@ -274,14 +215,10 @@ void lp2_start(void)
 
 void lp2_end(void)
 {
-    unsigned char cnt;
-    cnt = sptr->lp2_cnt + 1;
-    sptr->lp2_cnt = cnt;
-    if (cnt != mdata2 || !cnt)
-    {
+    if (((++sptr->lp2_cnt) != mdata2) || (mdata2 == 0)) {
         sptr->lp2_vol += (signed char)mdata3;
-        sptr->lp2_freq +=  8 * (signed char)mdata4;
-        mptr =  sptr->lp2_addr;
+        sptr->lp2_freq += (signed char)mdata4 << 3;
+        mptr = sptr->lp2_addr;
     }
 }
 
@@ -295,12 +232,9 @@ void l3s_set(void)
 
 void l3e_set(void)
 {
-    if (sptr->lp3_addr)
-    {
+    if (sptr->lp3_addr) {
         mptr = sptr->lp3_addr;
-    }
-    else
-    {
+    } else {
         block_end();
     }
 }
@@ -318,38 +252,20 @@ void tempo_set(void)
 /*----------------------------------------------------------------------*/
 void tempo_move(void)
 {
-    int tmp_data;
+    register signed int tmp_data;
 
     sptr->tmpc = mdata2;
     sptr->tmpm = mdata3;
     sptr->tmpw = sptr->tmp << 8;
-
-    tmp_data = (unsigned char)sptr->tmpm - (unsigned char)sptr->tmp;
-    if (tmp_data < 0)
-    {
-        if (tmp_data < -127)
-        {
-            tmp_data = -127;
-        }
-        sptr->tmpad = -((-tmp_data << 8) / (unsigned char)sptr->tmpc);
-        if ((unsigned int)sptr->tmpad < -2032) // madness, but works
-        {
-            sptr->tmpad = -2032;
-        }
-
-    }
-    else
-    {
-        if (tmp_data > 127)
-        {
-            tmp_data = 127;
-        }
-
-        sptr->tmpad =  (tmp_data << 8) / (unsigned char)sptr->tmpc;
-        if ((unsigned int)sptr->tmpad > 0x7F0)
-        {
-            sptr->tmpad = 0x7F0;
-        }
+    tmp_data = sptr->tmpm - sptr->tmp;
+    if (tmp_data < 0) {
+        if (tmp_data < -127) tmp_data = -127;
+        sptr->tmpad = -((-tmp_data << 8) / sptr->tmpc);
+        if (sptr->tmpad < -0x7F0) sptr->tmpad = -0x7F0;
+    } else {
+        if (tmp_data > 127) tmp_data = 127;
+        sptr->tmpad =  (tmp_data << 8) / sptr->tmpc;
+        if (sptr->tmpad > 0x7F0) sptr->tmpad = 0x7F0;
     }
 }
 
@@ -358,7 +274,7 @@ void tempo_move(void)
 /*----------------------------------------------------------------------*/
 void trans_set(void)
 {
-    sptr->ptps = (signed char)mdata2;
+    sptr->ptps = ((signed char)mdata2);
 }
 
 /*----------------------------------------------------------------------*/
@@ -390,22 +306,13 @@ void vol_move(void)
     sptr->pvoc = mdata2;
     sptr->pvom = mdata3;
     vol_data = (mdata3 << 8);
-    vol_data = vol_data - sptr->pvod;
-    if (vol_data < 0)
-    {
+    vol_data -= sptr->pvod;
+    if (vol_data < 0) {
         sptr->pvoad = -(-vol_data / sptr->pvoc);
-        if (sptr->pvoad < -2032)
-        {
-            sptr->pvoad = -2032;
-        }
-    }
-    else
-    {
+        if (sptr->pvoad < -0x7F0) sptr->pvoad = -0x7F0;
+    } else {
         sptr->pvoad = vol_data / sptr->pvoc;
-        if (sptr->pvoad > 0x7F0)
-        {
-            sptr->pvoad = 0x7F0;
-        }
+        if (sptr->pvoad > 0x7F0) sptr->pvoad = 0x7F0;
     }
 }
 
@@ -416,12 +323,9 @@ void por_set(void)
 {
     sptr->swshc = 0;
     sptr->swsc = mdata2;
-    if (!mdata2)
-    {
+    if (mdata2 == 0) {
         sptr->swsk = 0;
-    }
-    else
-    {
+    } else {
         sptr->swsk = 1;
     }
 }
@@ -442,7 +346,7 @@ void sws_set(void)
 /*----------------------------------------------------------------------*/
 void detune_set(void)
 {
-    sptr->tund = (signed char)mdata2 << 2;
+    sptr->tund = ((signed char)mdata2) << 2;
 }
 
 /*----------------------------------------------------------------------*/
@@ -468,17 +372,19 @@ void echo_set2(void)
 
 void eon_set(void)
 {
-    if ((unsigned int)(mtrack - SNG_TRACK_NUM) < 8 && !se_playing[mtrack - SNG_TRACK_NUM].kind)
-    {
-        rev_on_bit |= spu_ch_tbl[mtrack + 1];
+    if ((mtrack >= SNG_TRACK_NUM) && (mtrack < INTERNAL_TRACK_NUM)) {
+        if (!se_playing[mtrack - SNG_TRACK_NUM].kind) {
+            rev_on_bit |= spu_ch_tbl[mtrack + 1];
+        }
     }
 }
 
 void eof_set(void)
 {
-    if ((unsigned int)(mtrack - SNG_TRACK_NUM) < 8 && !se_playing[mtrack - SNG_TRACK_NUM].kind)
-    {
-        rev_off_bit |= spu_ch_tbl[mtrack + 1];
+    if ((mtrack >= SNG_TRACK_NUM) && (mtrack < INTERNAL_TRACK_NUM)) {
+        if (!se_playing[mtrack - SNG_TRACK_NUM].kind) {
+            rev_off_bit |= spu_ch_tbl[mtrack + 1];
+        }
     }
 }
 
@@ -493,18 +399,15 @@ void kakko_start(void)
 
 void kakko_end(void)
 {
-    switch (sptr->kakfg)
-    {
+    switch (sptr->kakfg) {
     case 0:
         sptr->kakfg++;
         break;
-
     case 1:
         sptr->kakfg++;
         sptr->kak2ptr = mptr;
         mptr = sptr->kak1ptr;
         break;
-
     case 2:
         sptr->kakfg--;
         mptr = sptr->kak2ptr;
@@ -525,26 +428,24 @@ void env_set(void)
 /*----------------------------------------------------------------------*/
 void ads_set(void)
 {
-    spu_tr_wk[mtrack].a_mode = 1;
-    spu_tr_wk[mtrack].ar = ~mdata2 & 0x7F;
-    spu_tr_wk[mtrack].dr = ~mdata3 & 0xF;
-    spu_tr_wk[mtrack].sl = mdata4 & 0xF;
+    spu_tr_wk[mtrack].a_mode = SPU_VOICE_LINEARIncN;
+    spu_tr_wk[mtrack].ar = 127 - (mdata2 & 0x7F);
+    spu_tr_wk[mtrack].dr = 15 - (mdata3 & 0xF);
+    spu_tr_wk[mtrack].sl = (mdata4 & 0xF);
     spu_tr_wk[mtrack].env1_fg = 1;
 }
 
 void srs_set(void)
 {
-    spu_tr_wk[mtrack].s_mode = 3;
-    spu_tr_wk[mtrack].sr = ~mdata2 & 0x7F;
+    spu_tr_wk[mtrack].s_mode = SPU_VOICE_LINEARDecN;
+    spu_tr_wk[mtrack].sr = 127 - (mdata2 & 0x7F);
     spu_tr_wk[mtrack].env2_fg = 1;
 }
 
 void rrs_set(void)
 {
-    const short flags = ~mdata2 & 0x1F;
-    spu_tr_wk[mtrack].r_mode = 3;
-    spu_tr_wk[mtrack].rr = flags;
-    sptr->rrd = flags;
+    spu_tr_wk[mtrack].r_mode = SPU_VOICE_LINEARDecN;
+    sptr->rrd = spu_tr_wk[mtrack].rr = 31 - (mdata2 & 0x1F);
     spu_tr_wk[mtrack].env3_fg = 1;
 }
 

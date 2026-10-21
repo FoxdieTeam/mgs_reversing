@@ -8,6 +8,8 @@
 #include "../mts/mts.h"
 #include "../mts/taskid.h"
 
+#define REVERB_DEPTH 0x4000
+
 /*----- External Declarations -----*/
 
 /* in sd_drv.c */
@@ -60,10 +62,8 @@ void sound_main(int argc, const char *argv[])
     sd_debug_mode = 0;
     printf("SOUND_LAUNCH(argc:%d)\n", argc);
 
-    for (i = 0; i < argc; ++i)
-    {
-        if (argv[i][0] == '-' && argv[i][1] == 'd')
-        {
+    for (i = 0; i < argc; ++i) {
+        if (argv[i][0] == '-' && argv[i][1] == 'd') {
             sd_debug_mode = 1;
         }
         printf("ARG%d:[%s]\n", i, argv[i]);
@@ -89,41 +89,30 @@ void SdMain(void)
     mts_slp_tsk();
 
     sd_task_status = SD_TASK_ACTIVE;
-    while (1)
-    {
+    while (1) {
         mts_slp_tsk();
-        if (sng_status == 1)
-        {
-            if (LoadSngData())
-            {
+        if (sng_status == 1) {
+            if (LoadSngData()) {
                 sng_status = 0;
-            }
-            else
-            {
+            } else {
                 sng_status = 2;
             }
         }
 
-        if (str_fout_fg == 1)
-        {
+        if (str_fout_fg == 1) {
             str_fout_fg = 2;
         }
 
-        if (dword_800BEFCC)
-        {
+        if (dword_800BEFCC) {
             KeyOffStr();
             dword_800BEFCC = 0;
         }
 
-        switch (str_status)
-        {
+        switch (str_status) {
         case 1:
-            if (StartStream())
-            {
+            if (StartStream()) {
                 str_status = 0;
-            }
-            else
-            {
+            } else {
                 str_status = 2;
                 dword_800BF1A4 = 0;
             }
@@ -146,8 +135,7 @@ void SdMain(void)
             break;
         }
 
-        if (se_load_code)
-        {
+        if (se_load_code) {
             LoadSeFile();
         }
     }
@@ -163,18 +151,15 @@ void SdInt(void)
     printf("Start Task:SdInt\n");
     sd_init();
     mts_wup_tsk(MTSID_SOUND_MAIN);
-    while (1)
-    {
+    while (1) {
         mts_receive(MTS_TASK_INTR, NULL);
         IntSdMain();
-        if (SpuIsTransferCompleted(SPU_TRANSFER_PEEK) == 1)
-        {
+        if (SpuIsTransferCompleted(SPU_TRANSFER_PEEK) == 1) {
             WaveSpuTrans();
             mts_wup_tsk(MTSID_SOUND_MAIN);
         }
         StrFadeInt();
-        if (SpuIsTransferCompleted(SPU_TRANSFER_PEEK) == 1)
-        {
+        if (SpuIsTransferCompleted(SPU_TRANSFER_PEEK) == 1) {
             StrSpuTrans();
             mts_wup_tsk(MTSID_SOUND_MAIN);
         }
@@ -185,10 +170,9 @@ void SdInt(void)
 
 void sd_init(void)
 {
-    int           spuMem;
-    int           i;
     SpuCommonAttr c_attr;
     SpuReverbAttr r_attr;
+    int           i;
 
     SpuInit();
     SpuInitMalloc(24, spu_malloc_rec);
@@ -212,15 +196,11 @@ void sd_init(void)
     spu_bgm_start_ptr_r = SpuMalloc(0x2000);
     printf("spu_bgm_start_ptr_r=%x\n", spu_bgm_start_ptr_r);
 
-    spuMem = SpuMalloc(0x2000);
-    spu_bgm_start_ptr_l = spuMem;
-    if (spuMem == -1)
-    {
+    spu_bgm_start_ptr_l = SpuMalloc(0x2000);
+    if (spu_bgm_start_ptr_l == -1) {
         printf("SPU Buffer Over!!\n");
-    }
-    else
-    {
-        printf("spu_bgm_start_ptr_l=%x\n", spuMem);
+    } else {
+        printf("spu_bgm_start_ptr_l=%x\n", spu_bgm_start_ptr_l);
     }
 
     SpuSetReverb(SPU_OFF);
@@ -229,14 +209,13 @@ void sd_init(void)
 
     r_attr.mask = SPU_REV_MODE;
     r_attr.mode = SPU_REV_MODE_STUDIO_C;
-    if (SpuSetReverbModeParam(&r_attr))
-    {
+    if (SpuSetReverbModeParam(&r_attr)) {
         printf("SPU Reverb Buffer Over!!\n");
     }
 
     r_attr.mask = SPU_REV_DEPTHL | SPU_REV_DEPTHR;
-    r_attr.depth.left = 0x4000;
-    r_attr.depth.right = 0x4000;
+    r_attr.depth.left = REVERB_DEPTH;
+    r_attr.depth.right = REVERB_DEPTH;
     SpuSetReverbDepth(&r_attr);
     SpuSetReverb(SPU_ON);
 
@@ -247,8 +226,7 @@ void sd_init(void)
     init_sng_work();
     wave_load_status = 0;
     str_status = 0;
-    for (i = 0; i < SE_TRACK_NUM; i++)
-    {
+    for (i = 0; i < SE_TRACK_NUM; i++) {
         se_playing[i].code = 0;
     }
 
@@ -308,8 +286,7 @@ void KeyOffStr(void)
 {
     SpuVoiceAttr attr;
 
-    switch (SpuGetKeyStatus(SPU_21CH | SPU_22CH))
-    {
+    switch (SpuGetKeyStatus(SPU_21CH | SPU_22CH)) {
     case SPU_OFF:
         break;
 
@@ -321,23 +298,21 @@ void KeyOffStr(void)
     case SPU_OFF_ENV_ON:
         attr.voice = SPU_21CH;
         SpuGetVoiceAttr(&attr);
-        if (attr.rr != 8)
-        {
+        if (attr.rr != 8) {
             printf("SOUND ERROR:SPU OFF ENV ON(STR_TRACK_R=%x)\n", attr.rr);
         }
         attr.voice = SPU_22CH;
         SpuGetVoiceAttr(&attr);
-        if (attr.rr != 8)
-        {
+        if (attr.rr != 8) {
             printf("SOUND ERROR:SPU OFF ENV ON(STR_TRACK_L=%x)\n", attr.rr);
         }
+        break;
     }
 
     dword_800C0580 = 0;
     str_load_code = 0;
 
-    if (str_fp)
-    {
+    if (str_fp) {
         PcmClose(str_fp, KIND_STR);
         str_fp = 0;
     }
@@ -347,8 +322,7 @@ void KeyOffStr(void)
 
 void KeyOffStr2(void)
 {
-    switch (SpuGetKeyStatus(SPU_21CH | SPU_22CH))
-    {
+    switch (SpuGetKeyStatus(SPU_21CH | SPU_22CH)) {
     case SPU_OFF:
         break;
 
@@ -362,8 +336,7 @@ void KeyOffStr2(void)
     }
 
     dword_800C0580 = 0;
-    if (str_fp)
-    {
+    if (str_fp) {
         PcmClose(str_fp, KIND_STR);
         str_fp = 0;
     }

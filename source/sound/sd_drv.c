@@ -66,7 +66,7 @@ extern int PcmClose(int fd, int kind);
 /*---------------------- Prototype Declarations ------------------------*/
 
 void IntSdMain(void);
-void SngFadeIn(unsigned int kind);
+inline void SngFadeIn(unsigned int kind);
 int SngFadeOutP(unsigned int kind);
 int SngFadeOutS(unsigned int kind);
 int SngKaihiP(void);
@@ -82,32 +82,23 @@ void sng_track_init(struct SOUND_W *ptr);
 /*----------------------------------------------------------------------*/
 /*                                                                      */
 /*----------------------------------------------------------------------*/
-
 void IntSdMain(void)
 {
     int sd_sng_code;
-    int pSngData;
     int i;
-    unsigned char *track_ptr;
-    int new_sng_status;
-    struct SOUND_W *wTmp;
 
-    if (sd_sng_code_buf[sd_code_read])
-    {
+/*----------------------------------------------------------------------*/
+    if (sd_sng_code_buf[sd_code_read]) {
         sd_sng_code = sd_sng_code_buf[sd_code_read];
         sd_sng_code_buf[sd_code_read] = 0;
         sd_code_read = (sd_code_read + 1) & 0xF;
         printf("SngCode=%x\n", sd_sng_code);
-    }
-    else
-    {
+    } else {
         sd_sng_code = 0;
     }
 
-    if (sd_sng_code)
-    {
-        switch (sd_sng_code)
-        {
+    if (sd_sng_code) {
+        switch (sd_sng_code) {
         case SNG_PAUSEON:
             sng_pause_fg = 1;
             sng_pause();
@@ -123,15 +114,11 @@ void IntSdMain(void)
         case SNG_FIN_S: /* fallthrough */
         case SNG_FIN_M: /* fallthrough */
         case SNG_FIN_L:
-            if (sng_play_code != 0xFFFFFFFF)
-            {
+            if (sng_play_code != 0xFFFFFFFF) {
                 sng_fout_fg = 0;
-                if (sng_status < 3)
-                {
+                if (sng_status < 3) {
                     sng_fadein_fg = sd_sng_code;
-                }
-                else
-                {
+                } else {
                     SngFadeIn(sd_sng_code);
                 }
                 sng_kaihi_fg = 0;
@@ -185,22 +172,14 @@ void IntSdMain(void)
         case SNG_PLAY_06: /* fallthrough */
         case SNG_PLAY_07: /* fallthrough */
         case SNG_PLAY_08:
-            if (sng_play_code != sd_sng_code)
-            {
-                if (sng_status >= 2)
-                {
-                    pSngData = sng_data[0];
-                    if (pSngData < (sd_sng_code & 0xF))
-                    {
-                        printf("ERROR:SNG PLAY CODE(%x/%x)\n", sd_sng_code, pSngData);
-                    }
-                    else
-                    {
+            if (sng_play_code != sd_sng_code) {
+                if (sng_status >= 2) {
+                    if (sng_data[0] < (sd_sng_code & 0xF)) {
+                        printf("ERROR:SNG PLAY CODE(%x/%x)\n", sd_sng_code, sng_data[0]);
+                    } else {
                         sng_status = 2;
-                        if (sng_play_code == -1)
-                        {
-                            for (i=0; i < SNG_TRACK_NUM; i++)
-                            {
+                        if (sng_play_code == 0xFFFFFFFF) {
+                            for (i=0; i < SNG_TRACK_NUM; i++) {
                                 sng_fade_time[i] = 0;
                                 sng_fade_value[i] = 0;
                                 sng_master_vol[i] = 0;
@@ -213,21 +192,12 @@ void IntSdMain(void)
                         sng_kaihi_fg = 0;
                         sng_tempo_move = 0;
                     }
-                }
-                else
-                {
-                  printf("sng_status=%x\n", sng_status);
-                }
-            }
-            else
-            {
-                printf("SameSongHasAlreadyPlayed\n");
-            }
-        break;
+                } else printf("sng_status=%x\n", sng_status);
+            } else printf("SameSongHasAlreadyPlayed\n");
+            break;
 
         default:
-            if (sng_load_code != sd_sng_code)
-            {
+            if (sng_load_code != sd_sng_code) {
                 sng_load_code = sd_sng_code;
                 sng_play_code = 0;
                 sng_status = 1;
@@ -237,133 +207,83 @@ void IntSdMain(void)
             break;
         }
     }
-
-    switch (sng_status)
-    {
-        case 2:
-            if (sng_play_code == 0)
-            {
-                break;
-            }
-
-            if (sng_play_code == -1)
-            {
-                break;
-            }
-
+/*----------------------------------------------------------------------*/
+    switch (sng_status) {
+    case 2:
+        if ((sng_play_code) && (sng_play_code != 0xFFFFFFFF)) {
             sng_adrs_set(sng_play_code);
             SngFadeWkSet();
             sng_status = 3;
             song_end_last = 0;
-            break;
+        }
+        break;
 
-        case 3:
-            if (song_end_last)
-            {
-                if ((song_end_last & 0x1FFF) != (song_end & 0x1FFF))
-                {
-                    printf("*** SOUND WORK IS BROKEN !!! ***\n");
-                    printf("*** SOUND WORK IS BROKEN !!! ***\n");
-                    printf("*** song_end:%x -> %x        ***\n",
-                        song_end & 0x1FFF, song_end_last & 0x1FFF);
-                    printf("*** SOUND WORK IS BROKEN !!! ***\n");
-                    printf("*** SOUND WORK IS BROKEN !!! ***\n");
-                }
+    case 3:
+        if (song_end_last) {
+            if ((song_end_last & 0x1FFF) != (song_end & 0x1FFF)) {
+                printf("*** SOUND WORK IS BROKEN !!! ***\n");
+                printf("*** SOUND WORK IS BROKEN !!! ***\n");
+                printf("*** song_end:%x -> %x        ***\n",
+                    song_end & 0x1FFF, song_end_last & 0x1FFF);
+                printf("*** SOUND WORK IS BROKEN !!! ***\n");
+                printf("*** SOUND WORK IS BROKEN !!! ***\n");
+            }
+        }
+        SngFadeInt();
+        SngTempoInt();
+        for (mtrack = 0; mtrack < SNG_TRACK_NUM; mtrack++) {
+            keyd = spu_ch_tbl[mtrack + 1];
+            if ((song_end & keyd) != 0) continue;
+            sptr = &sound_w[mtrack];
+
+            if (sptr->mpointer == 0) {
+                song_end |= keyd;
+                continue;
             }
 
-            SngFadeInt();
-            SngTempoInt();
-
-            mtrack = 0;
-
-            do
-            {
-                keyd = spu_ch_tbl[mtrack + 1];
-                if ((song_end & keyd) == 0)
-                {
-                    sptr = &sound_w[mtrack];
-                    track_ptr = sptr->mpointer;
-                    if (!track_ptr)
-                    {
-                        song_end |= keyd;
-                    }
-                    else
-                    {
-                        mptr = track_ptr;
-                        if (sound_sub())
-                        {
-                            song_end |= keyd;
-                            sptr->mpointer = 0;
-                        }
-                        else
-                        {
-                            sptr->mpointer = mptr;
-                        }
-                    }
-                }
-                ++mtrack;
+            mptr = sptr->mpointer;
+            if (sound_sub() != 0) {
+                song_end |= keyd;
+                sptr->mpointer = 0;
+            } else {
+                sptr->mpointer = mptr;
             }
-            while ((unsigned int)mtrack < SNG_TRACK_NUM);
+        }
+        song_end_last = song_end;
+        if ((song_end & 0x1FFF) == 0x1FFF) sng_status = 4;
+        break;
 
-            song_end_last = song_end;
-            if ((song_end & 0x1FFF) == 0x1FFF)
-            {
-                new_sng_status = 4;
-                sng_status = new_sng_status;
-            }
-            break;
-
-
-        case 4:
-            sng_off();
-            new_sng_status = 2;
-            sng_play_code = 0;
-            sng_status = new_sng_status;
-            break;
-
+    case 4:
+        sng_off();
+        sng_play_code = 0;
+        sng_status = 2;
+        break;
     }
-
-    for (mtrack = SE_START_TRACK; mtrack < INTERNAL_TRACK_NUM; mtrack++)
-    {
-        if (se_tracks < 2 && se_request[mtrack - SNG_TRACK_NUM].code)
-        {
+/*----------------------------------------------------------------------*/
+    for (mtrack = SE_START_TRACK; mtrack < INTERNAL_TRACK_NUM; mtrack++) {
+        if (se_tracks < 2 && se_request[mtrack - SNG_TRACK_NUM].code) {
             se_off(mtrack - SNG_TRACK_NUM);
             se_adrs_set(mtrack - SNG_TRACK_NUM);
+            continue;
         }
-        else
-        {
-            keyd = spu_ch_tbl[mtrack + 1];
-            if ((song_end & keyd) == 0)
-            {
-                wTmp = &sound_w[mtrack];
-                track_ptr = wTmp->mpointer;
-                sptr = wTmp;
-                if (!track_ptr)
-                {
-                    song_end |= keyd;
-                }
-                else
-                {
-                    mptr = track_ptr;
-                    if (sound_sub())
-                    {
-                        song_end |= keyd;
-                        sptr->mpointer = 0;
-                    }
-                    else
-                    {
-                        sptr->mpointer = mptr;
-                    }
+        keyd = spu_ch_tbl[mtrack + 1];
+        if ((song_end & keyd) != 0) continue;
 
-                }
-            }
+        sptr = &sound_w[mtrack];
+        if (sptr->mpointer == 0) {
+            song_end |= keyd;
+            continue;
+        }
+
+        mptr = sptr->mpointer;
+        if (sound_sub() != 0) {
+            song_end |= keyd;
+            sptr->mpointer = 0;
+        } else {
+            sptr->mpointer = mptr;
         }
     }
-
-    if (stop_jouchuu_se >= 2)
-    {
-        stop_jouchuu_se = 0;
-    }
+    if (stop_jouchuu_se >= 2) stop_jouchuu_se = 0;
 
     spuwr();
 }
@@ -371,139 +291,81 @@ void IntSdMain(void)
 /*----------------------------------------------------------------------*/
 /*                                                                      */
 /*----------------------------------------------------------------------*/
-
-static inline void SngFadeIn_helper(unsigned int kind)
+inline void SngFadeIn(unsigned int kind)
 {
     int i;
 
-    switch (kind)
-    {
-    case SNG_FIN_S:
-        sng_fadein_time = SNG_VOL / (INT1SEC);
-        break;
-    case SNG_FIN_M:
-        sng_fadein_time = SNG_VOL / (INT1SEC*3);
-        break;
-    case SNG_FIN_L:
-        sng_fadein_time = SNG_VOL / (INT1SEC*5);
-        break;
+    switch (kind) {
+    case SNG_FIN_S: sng_fadein_time = SNG_VOL / (INT1SEC); break;
+    case SNG_FIN_M: sng_fadein_time = SNG_VOL / (INT1SEC*3); break;
+    case SNG_FIN_L: sng_fadein_time = SNG_VOL / (INT1SEC*5); break;
     }
+    if (sng_fadein_time == 0) sng_fadein_time = 1;
 
-    if (sng_fadein_time == 0)
-    {
-        sng_fadein_time = 1;
-    }
-
-    for (i = 0; i < SNG_TRACK_NUM; i++)
-    {
-        sng_fade_time[i] = 0;
-    }
-
+    for (i = 0; i < SNG_TRACK_NUM; i++) sng_fade_time[i] = 0;
     sng_fout_term = 0;
-}
-
-void SngFadeIn(unsigned int kind)
-{
-    SngFadeIn_helper(kind);
 }
 
 /*----------------------------------------------------------------------*/
 /*                                                                      */
 /*----------------------------------------------------------------------*/
-
 int SngFadeOutP(unsigned int kind)
 {
     int fade_time;
     int i;
 
-    if (sng_status && sng_fout_term != 0x1FFF)
-    {
-        switch (kind)
-        {
-        case SNG_FOUTP_SS:
-            fade_time = SNG_VOL / (INT1SEC/2);
-            break;
-        case SNG_FOUTP_S:
-            fade_time = SNG_VOL / (INT1SEC);
-            break;
-        case SNG_FOUTP_M:
-            fade_time = SNG_VOL / (INT1SEC*3);
-            break;
-        case SNG_FOUTP_L:
-            fade_time = SNG_VOL / (INT1SEC*5);
-            break;
+    if ((sng_status) && (sng_fout_term != 0x1FFF)) {
+        switch (kind) {
+        case SNG_FOUTP_SS:  fade_time = SNG_VOL / (INT1SEC/2);  break;
+        case SNG_FOUTP_S:   fade_time = SNG_VOL / (INT1SEC);    break;
+        case SNG_FOUTP_M:   fade_time = SNG_VOL / (INT1SEC*3);  break;
+        case SNG_FOUTP_L:   fade_time = SNG_VOL / (INT1SEC*5);  break;
         //default: fade_time = 0; break; // we like UB
         }
+        if (fade_time == 0) fade_time = 1;
 
-        if (!fade_time)
-        {
-            fade_time = 1;
-        }
-
-        for (i = 0; i < SNG_TRACK_NUM; i++)
-        {
-            if (!(sng_fout_term & (1 << i)))
-            {
+        for (i = 0; i < SNG_TRACK_NUM; i++) {
+            if ((sng_fout_term & (1 << i)) == 0) {
                 sng_fade_time[i] = fade_time;
             }
         }
-
         sng_fadein_time = 0;
         return 0;
+    } else {
+        return -1;
     }
-
-    return -1;
 }
 
 /*----------------------------------------------------------------------*/
 /*                                                                      */
 /*----------------------------------------------------------------------*/
-
-int SngFadeOutS(unsigned int code)
+int SngFadeOutS(unsigned int kind)
 {
     int fade_time;
     int i;
 
-    if ((sng_status != 0) && ((sng_fout_term != 0x1FFF) || (sng_fadein_time != 0)))
-    {
-        switch (code)
-        {
-        case SNG_FOUTS_SS:
-            fade_time = SNG_VOL / (INT1SEC/2);
-            break;
-        case SNG_FOUTS_S:
-            fade_time = SNG_VOL / (INT1SEC);
-            break;
-        case SNG_FOUTS_M:
-            fade_time = SNG_VOL / (INT1SEC*3);
-            break;
-        case SNG_FOUTS_L:
-            fade_time = SNG_VOL / (INT1SEC*5);
-            break;
+    if ((sng_status) && ((sng_fout_term != 0x1FFF) || (sng_fadein_time != 0))) {
+        switch (kind) {
+        case SNG_FOUTS_SS:  fade_time = SNG_VOL / (INT1SEC/2);  break;
+        case SNG_FOUTS_S:   fade_time = SNG_VOL / (INT1SEC);    break;
+        case SNG_FOUTS_M:   fade_time = SNG_VOL / (INT1SEC*3);  break;
+        case SNG_FOUTS_L:   fade_time = SNG_VOL / (INT1SEC*5);  break;
         }
+        if (fade_time == 0) fade_time = 1;
 
-        if (fade_time == 0)
-        {
-            fade_time = 1;
-        }
-
-        for (i = 0; i < SNG_TRACK_NUM; i++)
-        {
-            if (!(sng_fout_term & (1 << i)))
-            {
+        for (i = 0; i < SNG_TRACK_NUM; i++) {
+            if ((sng_fout_term & (1 << i)) == 0) {
                 sng_fade_time[i] = fade_time;
             }
         }
-
         sng_fadein_time = 0;
-        sng_play_code = -1;
-
+        sng_play_code = 0xFFFFFFFF;
         printf("SNG FADEOUT START(status=%x)\n", sng_status);
         return 0;
+    } else {
+        printf("SNG FADEOUT CANCELED(status=%x)\n", sng_status);
+        return -1;
     }
-
-    printf("SNG FADEOUT CANCELED(status=%x)\n", sng_status);
-    return -1;
 }
 
 /*----------------------------------------------------------------------*/
@@ -516,30 +378,20 @@ int SngKaihiP(void)
 {
     int i;
 
-    if (sng_status == 0)
-    {
-        return -1;
-    }
-
-    if (sng_fout_term != 0x1FFF)
-    {
+    if ((sng_status) && (sng_fout_term != 0x1FFF)) {
         sng_fade_time[2] = KAIHI_FO_RYTHM;
         sng_fade_time[3] = KAIHI_FO_RYTHM;
-
-        for (i = 4; i < SNG_TRACK_NUM; i++)
-        {
-            if (!(sng_fout_term & (1 << i)))
-            {
+        for (i = 4; i < SNG_TRACK_NUM; i++) {
+            if ((sng_fout_term & (1 << i)) == 0) {
                 sng_fade_time[i] = KAIHI_FO_CHORD;
             }
         }
-
         sng_fadein_time = 0;
         sng_kaihi_fg = 1;
         return 0;
+    } else {
+        return -1;
     }
-
-    return -1;
 }
 
 /*----------------------------------------------------------------------*/
@@ -550,41 +402,21 @@ void SngFadeWkSet(void)
 {
     int i;
 
-    if (sng_fadein_fg == 0)
-    {
+    if (sng_fadein_fg == 0) {
          sng_fadein_time = 0;
-
-        for (i = 0; i < SNG_TRACK_NUM; i++)
-        {
-            sng_fade_time[i] = 0;
+        for (i = 0; i < SNG_TRACK_NUM; i++) sng_fade_time[i] = 0;
+        for (i = 0; i < SNG_TRACK_NUM; i++) sng_fade_value[i] = 0;
+    } else {
+        switch (sng_fadein_fg) {
+        case SNG_FIN_S: /* fallthrough */
+        case SNG_FIN_M: /* fallthrough */
+        case SNG_FIN_L:
+            SngFadeIn(sng_fadein_fg);
+            for (i = 0; i < SNG_TRACK_NUM; i++) sng_fade_value[i] = SNG_VOL;
+            sng_fadein_fg = 0;
+            break;
         }
-
-        for (i = 0; i < SNG_TRACK_NUM; i++)
-        {
-            sng_fade_value[i] = 0;
-        }
-
-        sng_fout_term = 0;
-        sng_fout_fg = 0;
-        return;
     }
-
-    switch (sng_fadein_fg)
-    {
-    case SNG_FIN_S: /* fallthrough */
-    case SNG_FIN_M: /* fallthrough */
-    case SNG_FIN_L:
-        SngFadeIn_helper(sng_fadein_fg);
-
-        for (i = 0; i < SNG_TRACK_NUM; i++)
-        {
-            sng_fade_value[i] = SNG_VOL;
-        }
-
-        sng_fadein_fg = 0;
-        break;
-    }
-
     sng_fout_term = 0;
     sng_fout_fg = 0;
 }
@@ -599,168 +431,89 @@ void SngFadeWkSet(void)
 void SngFadeInt(void)
 {
     char temp[64]; // This function allocates 64 bytes of unused stack space
-    int fout_on;
-    int fin_off;
+    unsigned int vol1, vol2, vol3;
     int i;
-    unsigned int var_t0;
-    unsigned int vol1;
-    unsigned int vol2;
+    int fout_on = 0;
+    int fin_off = 0;
 
-    fout_on = 0;
-    fin_off = 0;
-
-    if (sng_status < 3)
-    {
-        return;
-    }
-
-    for (i = 0; i < SNG_TRACK_NUM; i++)
-    {
-        fout_on |= sng_fade_time[i];
-    }
-
-    if (fout_on != 0)
-    {
-        for (i = 0; i < SNG_TRACK_NUM; i++)
-        {
-            if (sng_fade_time[i] == 0)
-            {
-                continue;
-            }
-
-            sng_fade_value[i] += sng_fade_time[i];
-
-            if (sng_fade_value[i] >= SNG_VOL)
-            {
-                sng_fout_term |= (1 << i);
-                sng_fade_value[i] = SNG_VOL;
-                sng_fade_time[i] = 0;
-            }
-
-            if (sng_fout_term == 0x1fff)
-            {
-                if (sng_play_code == -1)
-                {
-                    sng_status = 4;
-                }
-                else
-                {
-                    sng_fout_fg = 1;
+    if (sng_status >= 3) {
+        for (i = 0; i < SNG_TRACK_NUM; i++) fout_on |= sng_fade_time[i];
+        if (fout_on) {
+            for (i = 0; i < SNG_TRACK_NUM; i++) {
+                if (sng_fade_time[i]) {
+                    sng_fade_value[i] += sng_fade_time[i];
+                    if (sng_fade_value[i] >= SNG_VOL) {
+                        sng_fout_term |= (1 << i);
+                        sng_fade_value[i] = SNG_VOL;
+                        sng_fade_time[i] = 0;
+                    }
+                    if (sng_fout_term == 0x1FFF) {
+                        if (sng_play_code == 0xFFFFFFFF) {
+                            sng_status = 4;
+                        } else {
+                            sng_fout_fg = 1;
+                        }
+                    } else {
+                        sng_fout_fg = 0;
+                    }
                 }
             }
-            else
-            {
-                sng_fout_fg = 0;
-            }
-        }
-    }
-    else
-    {
-        if ((dword_800C0580 != 0) && (str_status != 0))
-        {
-            if (vox_on_vol < VOX_MINUS_VOL)
-            {
-                vox_on_vol += (VOX_MINUS_VOL/INT1SEC);
-
-                if (vox_on_vol > VOX_MINUS_VOL)
-                {
-                    vox_on_vol = VOX_MINUS_VOL;
+        } else {
+            if ((dword_800C0580) && (str_status)) {
+                if (vox_on_vol < VOX_MINUS_VOL) {
+                    vox_on_vol += (VOX_MINUS_VOL/INT1SEC);
+                    if (vox_on_vol > VOX_MINUS_VOL) vox_on_vol = VOX_MINUS_VOL;
+                }
+            } else {
+                if (vox_on_vol) {
+                    vox_on_vol -= (VOX_MINUS_VOL/INT1SEC);
+                    if (vox_on_vol < 0) vox_on_vol = 0;
                 }
             }
-        }
-        else
-        {
-            if (vox_on_vol != 0)
-            {
-                vox_on_vol -= (VOX_MINUS_VOL/INT1SEC);
 
-                if (vox_on_vol < 0)
-                {
-                    vox_on_vol = 0;
+            if (sng_fadein_time) {
+                for (i = 0; i < SNG_TRACK_NUM; i++) {
+                    if (sng_fade_value[i] <= sng_fadein_time) sng_fade_value[i] = 0;
+                    else sng_fade_value[i] -= sng_fadein_time;
+                    fin_off |= sng_fade_value[i];
+                }
+                if (!fin_off) {
+                    sng_fadein_time = 0;
                 }
             }
         }
 
-        if (sng_fadein_time != 0)
-        {
-            for (i = 0; i < SNG_TRACK_NUM; i++)
-            {
-                if (sng_fadein_time >= sng_fade_value[i])
-                {
-                    sng_fade_value[i] = 0;
-                }
-                else
-                {
-                    sng_fade_value[i] -= sng_fadein_time;
-                }
-
-                fin_off |= sng_fade_value[i];
+        if (sng_syukan_fg) {
+            if (sng_syukan_vol < SYUKAN_MINUS_VOL) {
+                sng_syukan_vol += (SYUKAN_MINUS_VOL/INT1SEC);
+                if (sng_syukan_vol > SYUKAN_MINUS_VOL) sng_syukan_vol = SYUKAN_MINUS_VOL;
             }
-
-            if (fin_off == 0)
-            {
-                sng_fadein_time = 0;
+        } else {
+            if (sng_syukan_vol != 0) {
+                sng_syukan_vol -= (SYUKAN_MINUS_VOL/INT1SEC);
+                if (sng_syukan_vol < 0) sng_syukan_vol = 0;
             }
         }
-    }
 
-    if (sng_syukan_fg != 0)
-    {
-        if (sng_syukan_vol < SYUKAN_MINUS_VOL)
-        {
-            sng_syukan_vol += (SYUKAN_MINUS_VOL/INT1SEC);
+        if (vox_on_vol <= sng_syukan_vol) vol3 = sng_syukan_vol;
+        else vol3 = vox_on_vol;
 
-            if (sng_syukan_vol > SYUKAN_MINUS_VOL)
-            {
-                sng_syukan_vol = SYUKAN_MINUS_VOL;
+        for (i = 0; i < SNG_TRACK_NUM; i++) {
+            vol1 = SNG_VOL;
+
+            if (vol3 < sng_fade_value[i]) {
+                vol2 = sng_fade_value[i];
+            } else {
+                vol2 = vol3;
             }
-        }
-    }
-    else
-    {
-        if (sng_syukan_vol != 0)
-        {
-            sng_syukan_vol -= (SYUKAN_MINUS_VOL/INT1SEC);
-
-            if (sng_syukan_vol < 0)
-            {
-                sng_syukan_vol = 0;
+            if (vol2 > vol1) {
+                vol1 = 0;
+            } else {
+                vol1 -= vol2;
             }
-        }
-    }
 
-    if (vox_on_vol <= sng_syukan_vol)
-    {
-        var_t0 = sng_syukan_vol;
-    }
-    else
-    {
-        var_t0 = vox_on_vol;
-    }
-
-    for (i = 0; i < SNG_TRACK_NUM; i++)
-    {
-        vol1 = SNG_VOL;
-
-        if (var_t0 < sng_fade_value[i])
-        {
-            vol2 = sng_fade_value[i];
+            sng_master_vol[i] = vol1;
         }
-        else
-        {
-            vol2 = var_t0;
-        }
-
-        if (vol2 > vol1)
-        {
-            vol1 = 0;
-        }
-        else
-        {
-            vol1 -= vol2;
-        }
-
-        sng_master_vol[i] = vol1;
     }
 }
 
@@ -771,22 +524,14 @@ void SngFadeInt(void)
 
 void SngTempoInt(void)
 {
-    if (sng_kaihi_fg != 0)
-    {
-        if (sng_tempo_move < (MOVE_TEMPO_VALUE*0x10))
-        {
+    if (sng_kaihi_fg) {
+        if (sng_tempo_move < (MOVE_TEMPO_VALUE*0x10)) {
             sng_tempo_move++;
         }
-    }
-    else if (sng_tempo_move != 0)
-    {
-        if (sng_tempo_move <= MOVE_TEMPO_VALUE)
-        {
-            sng_tempo_move = 0;
-        }
-        else
-        {
-            sng_tempo_move -= MOVE_TEMPO_VALUE;
+    } else {
+        if (sng_tempo_move) {
+            if (sng_tempo_move <= MOVE_TEMPO_VALUE) sng_tempo_move = 0;
+            else sng_tempo_move -= MOVE_TEMPO_VALUE;
         }
     }
 }
@@ -796,43 +541,32 @@ void SngTempoInt(void)
 int LoadSngData(void)
 {
     sng_fp = PcmOpen(sng_load_code, KIND_MDX);
-
-    if (sng_fp < 0)
-    {
+    if (sng_fp < 0) {
         sng_fp = 0;
         printf("LoadSngData:File Open Error(%x)\n", sng_load_code);
         sng_load_code = 0;
         return -1;
     }
-    else
-    {
-        PcmRead(sng_fp, sng_data, SNG_DATA_SIZE);
-        PcmClose(sng_fp, KIND_MDX);
-        sng_fp = 0;
-        printf("CompletedLoadSong(%x)\n", sng_load_code);
-        return 0;
-    }
+    PcmRead(sng_fp, sng_data, SNG_DATA_SIZE);
+    PcmClose(sng_fp, KIND_MDX);
+    sng_fp = 0;
+    printf("CompletedLoadSong(%x)\n", sng_load_code);
+    return 0;
 }
 
 /*----------------------------------------------------------------------*/
 /*                                                                      */
 /*----------------------------------------------------------------------*/
-
 void init_sng_work(void)
 {
-    struct SOUND_W *ptr;
-
-    for (mtrack = 0; mtrack < INTERNAL_TRACK_NUM; mtrack++)
-    {
-        ptr = &sound_w[mtrack];
-        sptr = ptr;
-        ptr->mpointer = 0;
-        ptr->lp3_addr = 0;
-        ptr->lp2_addr = 0;
-        ptr->lp1_addr = 0;
-        sng_track_init(ptr);
+    for (mtrack = 0; mtrack < INTERNAL_TRACK_NUM; mtrack++) {
+        sptr = &sound_w[mtrack];
+        sptr->mpointer = 0;
+        sptr->lp3_addr = 0;
+        sptr->lp2_addr = 0;
+        sptr->lp1_addr = 0;
+        sng_track_init(sptr);
     }
-
     keyons = 0;
     keyoffs = 0;
     sng_play_code = 0;
@@ -842,42 +576,35 @@ void init_sng_work(void)
 /*----------------------------------------------------------------------*/
 /*                                                                      */
 /*----------------------------------------------------------------------*/
-
 void sng_adrs_set(int idx)
 {
-    int i;
-    int addr;
-    int addr2;
+    int i, pos;
+    int base, offset;
 
-    addr = sng_data[(idx & 0xF) * 4 + 1] << 8;
-    addr += sng_data[(idx & 0xF) * 4];
+    base = sng_data[(idx & 0xF) * 4 + 1] << 8;
+    base += sng_data[(idx & 0xF) * 4];
 
-    song_end &= ~0x1fff;
+    song_end &= ~0x1FFF;
 
-    for (i = 0; i < SNG_TRACK_NUM; i++)
-    {
-        addr2 =  sng_data[addr + i * 4 + 2] << 16;
-        addr2 += sng_data[addr + i * 4 + 1] << 8;
-        addr2 += sng_data[addr + i * 4];
-
-        if (addr2 != 0)
-        {
-            sound_w[i].mpointer = &sng_data[addr2];
+    for (i = 0; i < SNG_TRACK_NUM; i++) {
+        pos = (i << 2);
+        offset =  sng_data[base+pos+2] << 16;
+        offset += sng_data[base+pos+1] << 8;
+        offset += sng_data[base+pos];
+        if (offset) {
+            sound_w[i].mpointer = &sng_data[offset];
             sng_track_init(&sound_w[i]);
-        }
-        else
-        {
-            song_end |= 1 << i;
+        } else {
+            song_end |= (1 << i);
         }
     }
 
-    keyons &= ~0x1fff;
+    keyons &= ~0x1FFF;
 }
 
 /*----------------------------------------------------------------------*/
 /*                                                                      */
 /*----------------------------------------------------------------------*/
-
 void se_adrs_set(int idx)
 {
     se_playing[idx].code = se_request[idx].code;
@@ -892,23 +619,19 @@ void se_adrs_set(int idx)
 
     sng_track_init(&sound_w[idx + SNG_TRACK_NUM]);
 
-    se_vol[idx] = 2 * (se_playing[idx].code & 0x3f00);
+    se_vol[idx] = 2 * (se_playing[idx].code & 0x3F00);
 
     song_end &= ~(1 << (idx + SNG_TRACK_NUM));
     keyons &= ~(1 << (idx + SNG_TRACK_NUM));
-    se_pan[idx] = ((se_playing[idx].code >> 16) + 32) & 0x3f;
+    se_pan[idx] = ((se_playing[idx].code >> 16) + 32) & 0x3F;
     keyoffs = keyoffs & ~(1 << (idx + SNG_TRACK_NUM));
 
     sound_w[idx + SNG_TRACK_NUM].mpointer = se_playing[idx].addr;
 
-    if (se_playing[idx].kind)
-    {
-        if (se_rev_on)
-        {
+    if (se_playing[idx].kind) {
+        if (se_rev_on) {
             rev_on_bit |= spu_ch_tbl[mtrack + 1];
-        }
-        else
-        {
+        } else {
             rev_off_bit |= spu_ch_tbl[mtrack + 1];
         }
     }
@@ -917,7 +640,6 @@ void se_adrs_set(int idx)
 /*----------------------------------------------------------------------*/
 /*                                                                      */
 /*----------------------------------------------------------------------*/
-
 void sng_track_init(struct SOUND_W *ptr)
 {
     ptr->ngc = 1;       /* sweep counter */

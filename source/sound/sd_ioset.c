@@ -29,85 +29,71 @@ void spuwr(void)
 {
     int          i;
     SpuVoiceAttr attr;
-
-    if (keyoffs)
-    {
+/*----------------------------------------------------------------------*/
+    if (keyoffs) {
         SpuSetKey(SPU_OFF, keyoffs);
         keyoffs = 0;
     }
-
-    if (rev_off_bit)
-    {
+/*----------------------------------------------------------------------*/
+    if (rev_off_bit) {
         SpuSetReverbVoice(SPU_OFF, rev_off_bit);
         rev_off_bit = 0;
     }
-
-    for (i = 0; i < INTERNAL_TRACK_NUM; i++)
-    {
+/*----------------------------------------------------------------------*/
+    for (i = 0; i < INTERNAL_TRACK_NUM; i++) {
         attr.mask = 0;
         attr.voice = spu_ch_tbl[i + 1];
-        if (spu_tr_wk[i].vol_fg)
-        {
+        if (spu_tr_wk[i].vol_fg) {
             attr.mask |= SPU_VOICE_VOLL | SPU_VOICE_VOLR;
             attr.volume.left = spu_tr_wk[i].vol_l;
             attr.volume.right = spu_tr_wk[i].vol_r;
             spu_tr_wk[i].vol_fg = 0;
         }
-
-        if (spu_tr_wk[i].pitch_fg)
-        {
+/*----------------------------------------------------------------------*/
+        if (spu_tr_wk[i].pitch_fg) {
             attr.mask |= SPU_VOICE_PITCH;
             attr.pitch = spu_tr_wk[i].pitch;
             spu_tr_wk[i].pitch_fg = 0;
         }
-
-        if (spu_tr_wk[i].addr_fg)
-        {
+/*----------------------------------------------------------------------*/
+        if (spu_tr_wk[i].addr_fg) {
             attr.mask |= SPU_VOICE_WDSA;
             attr.addr = spu_tr_wk[i].addr + spu_wave_start_ptr;
             spu_tr_wk[i].addr_fg = 0;
         }
-
-        if (spu_tr_wk[i].env1_fg)
-        {
+/*----------------------------------------------------------------------*/
+        if (spu_tr_wk[i].env1_fg) {
             attr.mask |= SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_AR | SPU_VOICE_ADSR_DR;
             attr.a_mode = spu_tr_wk[i].a_mode;
             attr.ar = spu_tr_wk[i].ar;
             attr.dr = spu_tr_wk[i].dr;
             spu_tr_wk[i].env1_fg = 0;
         }
-
-        if (spu_tr_wk[i].env2_fg)
-        {
+        if (spu_tr_wk[i].env2_fg) {
             attr.mask |= SPU_VOICE_ADSR_SMODE | SPU_VOICE_ADSR_SR | SPU_VOICE_ADSR_SL;
             attr.s_mode = spu_tr_wk[i].s_mode;
             attr.sr = spu_tr_wk[i].sr;
             attr.sl = spu_tr_wk[i].sl;
             spu_tr_wk[i].env2_fg = 0;
         }
-
-        if (spu_tr_wk[i].env3_fg)
-        {
+        if (spu_tr_wk[i].env3_fg) {
             attr.mask |= SPU_VOICE_ADSR_RMODE | SPU_VOICE_ADSR_RR;
             attr.r_mode = spu_tr_wk[i].r_mode;
             attr.rr = spu_tr_wk[i].rr;
             spu_tr_wk[i].env3_fg = 0;
         }
-
-        if (attr.mask)
-        {
+/*----------------------------------------------------------------------*/
+        if (attr.mask) {
             SpuSetVoiceAttr(&attr);
         }
     }
-
-    if (rev_on_bit)
-    {
+/*----------------------------------------------------------------------*/
+    if (rev_on_bit) {
         SpuSetReverbVoice(SPU_ON, rev_on_bit);
         rev_on_bit = 0;
     }
-
-    if (keyons)
-    {
+/*----------------------------------------------------------------------*/
+    if (keyons) {
         SpuSetKey(SPU_ON, keyons);
         keyons = 0;
     }
@@ -119,14 +105,12 @@ void spuwr(void)
 
 void sound_off(void)
 {
-    int          i;
-    unsigned int key_no;
+    int i;
+    int key_no;
 
-    for (i = 0; i < USE_TRACK_NUM; i++)
-    {
+    for (i = 0; i < USE_TRACK_NUM; i++) {
         spu_tr_wk[i].rr = ENV_CUT_OFF;
         spu_tr_wk[i].env3_fg = 1;
-
         key_no = spu_ch_tbl[mtrack + 1];
         song_end |= key_no;
     }
@@ -137,13 +121,12 @@ void sng_off(void)
 {
     int i;
 
-    for (i = 0; i < SNG_TRACK_NUM; i++)
-    {
+    for (i = 0; i < SNG_TRACK_NUM; i++) {
         spu_tr_wk[i].rr = ENV_CUT_OFF;
         spu_tr_wk[i].env3_fg = 1;
     }
-    song_end |= 0x1FFFu;
-    keyoffs |= 0x1FFFu;
+    song_end |= 0x1FFF;
+    keyoffs |= 0x1FFF;
 }
 
 void se_off(int i)
@@ -203,58 +186,40 @@ void tone_set(unsigned char n)
     sptr->macro = voice_tbl[n].sample_note;
     sptr->micro = voice_tbl[n].sample_tune;
 
-    if (voice_tbl[n].a_mode)
-    {
-        spu_tr_wk[mtrack].a_mode = 5;
+/* Attack & Decay */
+    if (voice_tbl[n].a_mode) {
+        spu_tr_wk[mtrack].a_mode = SPU_VOICE_EXPIncN;
+    } else {
+        spu_tr_wk[mtrack].a_mode = SPU_VOICE_LINEARIncN;
     }
-    else
-    {
-        spu_tr_wk[mtrack].a_mode = 1;
-    }
-
     spu_tr_wk[mtrack].ar = ~voice_tbl[n].ar & 0x7F;
     spu_tr_wk[mtrack].dr = ~voice_tbl[n].dr & 0xF;
     spu_tr_wk[mtrack].env1_fg = 1;
 
-    switch (voice_tbl[n].s_mode)
-    {
-    case 0:
-        spu_tr_wk[mtrack].s_mode = 3;
-        break;
-
-    case 1:
-        spu_tr_wk[mtrack].s_mode = 7;
-        break;
-
-    case 2:
-        spu_tr_wk[mtrack].s_mode = 1;
-        break;
-
-    default:
-        spu_tr_wk[mtrack].s_mode = 5;
-        break;
+/* Sustain */
+    switch (voice_tbl[n].s_mode) {
+    case 0: spu_tr_wk[mtrack].s_mode = SPU_VOICE_LINEARDecN; break;
+    case 1: spu_tr_wk[mtrack].s_mode = SPU_VOICE_EXPDecN; break;
+    case 2: spu_tr_wk[mtrack].s_mode = SPU_VOICE_LINEARIncN; break;
+    default: spu_tr_wk[mtrack].s_mode = SPU_VOICE_EXPIncN; break;
     }
-
     spu_tr_wk[mtrack].sr = ~voice_tbl[n].sr & 0x7F;
     spu_tr_wk[mtrack].sl = voice_tbl[n].sl & 0xF;
     spu_tr_wk[mtrack].env2_fg = 1;
 
-    if (!voice_tbl[n].r_mode)
-    {
-        spu_tr_wk[mtrack].r_mode = 3;
+/* Release */
+    if (voice_tbl[n].r_mode) {
+        spu_tr_wk[mtrack].r_mode = SPU_VOICE_EXPDecN;
+    } else {
+        spu_tr_wk[mtrack].r_mode = SPU_VOICE_LINEARDecN;
     }
-    else
-    {
-        spu_tr_wk[mtrack].r_mode = 7;
-    }
-
     spu_tr_wk[mtrack].rr = sptr->rrd = ~voice_tbl[n].rr & 0x1F;
     spu_tr_wk[mtrack].env3_fg = 1;
-    if (!sptr->panmod)
-    {
+
+    if (sptr->panmod == 0) {
         pan_set2(voice_tbl[n].pan);
     }
-    sptr->dec_vol = (unsigned char)voice_tbl[n].decl_vol;
+    sptr->dec_vol = voice_tbl[n].decl_vol;
 }
 
 /************************************************************************/
@@ -263,10 +228,9 @@ void tone_set(unsigned char n)
 
 void pan_set2(unsigned char x)
 {
-    if (!sptr->panoff)
-    {
-        sptr->panf = 2 * x;
-        sptr->pand = x << 9;
+    if (sptr->panoff == 0) {
+        sptr->panf = x * 2;
+        sptr->pand = x * 2 << 8;
     }
 }
 
@@ -309,61 +273,30 @@ void vol_set(unsigned int vol_data)
 {
     unsigned int pan;
 
-    if ((mtrack < SNG_TRACK_NUM) ||
-         (se_playing[mtrack - SNG_TRACK_NUM].kind == 0))
-    {
-        if (vol_data >= sptr->dec_vol)
-        {
-            vol_data -= sptr->dec_vol;
-        }
-        else
-        {
-            vol_data = 0;
-        }
+    if ((mtrack < SNG_TRACK_NUM) || (se_playing[mtrack - SNG_TRACK_NUM].kind == 0)) {
+        if (vol_data >= sptr->dec_vol) vol_data -= sptr->dec_vol;
+        else vol_data = 0;
 
         pan = sptr->pand >> 8;
+        if (pan > 40) pan = 40;
+        if (sound_mono_fg) pan = 20;
 
-        if (pan > 40)
-        {
-            pan = 40;
-        }
-
-        if (sound_mono_fg != 0)
-        {
-            pan = 20;
-        }
-
-        if (mtrack < SNG_TRACK_NUM)
-        {
-            spu_tr_wk[mtrack].vol_r = (vol_data * pant[pan] * sng_master_vol[mtrack]) >> 16;
-            spu_tr_wk[mtrack].vol_l = (vol_data * pant[40 - pan] * sng_master_vol[mtrack]) >> 16;
+        if (mtrack < SNG_TRACK_NUM) {
+            spu_tr_wk[mtrack].vol_r = ((vol_data * pant[pan]) * sng_master_vol[mtrack]) >> 16;
+            spu_tr_wk[mtrack].vol_l = ((vol_data * pant[40-pan]) * sng_master_vol[mtrack]) >> 16;
+            spu_tr_wk[mtrack].vol_fg = 1;
+        } else {
+            spu_tr_wk[mtrack].vol_r = (vol_data * pant[pan]);
+            spu_tr_wk[mtrack].vol_l = (vol_data * pant[40-pan]);
             spu_tr_wk[mtrack].vol_fg = 1;
         }
-        else
-        {
-            spu_tr_wk[mtrack].vol_r = vol_data * pant[pan];
-            spu_tr_wk[mtrack].vol_l = vol_data * pant[40 - pan];
-            spu_tr_wk[mtrack].vol_fg = 1;
-        }
-    }
-    else
-    {
-        if (vol_data >= sptr->dec_vol)
-        {
-            vol_data -= sptr->dec_vol;
-        }
-        else
-        {
-            vol_data = 0;
-        }
+    } else {
+        if (vol_data >= sptr->dec_vol) vol_data -= sptr->dec_vol;
+        else vol_data = 0;
 
         pan = se_pan[mtrack - SNG_TRACK_NUM];
         vol_data = (vol_data * se_vol[mtrack - SNG_TRACK_NUM]) >> 16;
-
-        if (sound_mono_fg != 0)
-        {
-            pan = 32;
-        }
+        if (sound_mono_fg != 0) pan = 32;
 
         spu_tr_wk[mtrack].vol_r = vol_data * se_pant[pan];
         spu_tr_wk[mtrack].vol_l = vol_data * se_pant[64 - pan];
@@ -375,21 +308,16 @@ void vol_set(unsigned int vol_data)
 /*                                                                      */
 /************************************************************************/
 
-unsigned int freq_tbl[108] = {
-    0x010B, 0x011B, 0x012C, 0x013E, 0x0151, 0x0165, 0x017A, 0x0191,
-    0x01A9, 0x01C2, 0x01DD, 0x01F9, 0x0217, 0x0237, 0x0259, 0x027D,
-    0x02A3, 0x02CB, 0x02F5, 0x0322, 0x0352, 0x0385, 0x03BA, 0x03F3,
-    0x042F, 0x046F, 0x04B2, 0x04FA, 0x0546, 0x0596, 0x05EB, 0x0645,
-    0x06A5, 0x070A, 0x0775, 0x07E6, 0x085F, 0x08DE, 0x0965, 0x09F4,
-    0x0A8C, 0x0B2C, 0x0BD6, 0x0C8B, 0x0D4A, 0x0E14, 0x0EEA, 0x0FCD,
-    0x10BE, 0x11BD, 0x12CB, 0x13E9, 0x1518, 0x1659, 0x17AD, 0x1916,
-    0x1A94, 0x1C28, 0x1DD5, 0x1F9B, 0x217C, 0x237A, 0x2596, 0x27D2,
-    0x2A30, 0x2CB2, 0x2F5A, 0x322C, 0x3528, 0x3850, 0x3BAC, 0x3F36,
-    0x0021, 0x0023, 0x0026, 0x0028, 0x002A, 0x002D, 0x002F, 0x0032,
-    0x0035, 0x0038, 0x003C, 0x003F, 0x0042, 0x0046, 0x004B, 0x004F,
-    0x0054, 0x0059, 0x005E, 0x0064, 0x006A, 0x0070, 0x0077, 0x007E,
-    0x0085, 0x008D, 0x0096, 0x009F, 0x00A8, 0x00B2, 0x00BD, 0x00C8,
-    0x00D4, 0x00E1, 0x00EE, 0x00FC
+unsigned int freq_tbl[] = {
+  267,  283,  300,  318,  337,  357,  378,  401,  425,  450,  477,  505,
+  535,  567,  601,  637,  675,  715,  757,  802,  850,  901,  954, 1011,
+ 1071, 1135, 1202, 1274, 1350, 1430, 1515, 1605, 1701, 1802, 1909, 2022,
+ 2143, 2270, 2405, 2548, 2700, 2860, 3030, 3211, 3402, 3604, 3818, 4045,
+ 4286, 4541, 4811, 5097, 5400, 5721, 6061, 6422, 6804, 7208, 7637, 8091,
+ 8572, 9082, 9622,10194,10800,11442,12122,12844,13608,14416,15276,16182,
+   33,   35,   38,  40,    42,   45,   47,   50,   53,   56,   60,   63,
+   66,   70,   75,  79,    84,   89,   94,  100,  106,  112,  119,  126,
+  133,  141,  150, 159,   168,  178,  189,  200,  212,  225,  238,  252,
 };
 
 /************************************************************************/
@@ -398,9 +326,9 @@ unsigned int freq_tbl[108] = {
 
 void freq_set(unsigned int note_tune)
 {
-    unsigned char pl, ph, note, tune;
-    int           freq;
-    int          *ptr;
+    unsigned char   pl, ph, note, tune;
+    int             freq;
+    int             *ptr;
 
     note_tune += (signed char)sptr->micro;
     tune = note_tune;
@@ -408,12 +336,7 @@ void freq_set(unsigned int note_tune)
     note &= 0x7F;
     ptr = freq_tbl;
     freq = ptr[note + 1] - ptr[note];
-
-    if (freq & 0x8000)
-    {
-        freq = 201;
-    }
-
+    if ((freq & 0x8000) != 0) freq = 201;
     pl = freq;
     ph = freq >> 8;
     freq = ((pl * tune) >> 8) + (ph * tune);
@@ -429,7 +352,6 @@ void freq_set(unsigned int note_tune)
 
 void drum_set(unsigned char n)
 {
-    unsigned char addend = wavs + 0xB8;
-    n += addend;
+    n = n - SEQ_DRC + wavs;
     tone_set(n);
 }

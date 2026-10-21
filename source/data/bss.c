@@ -129,7 +129,7 @@ char* BSS           se_data;            // in sd_wk.c (5thMIX, MGS2)
 int BSS             sd_code_read;       // in sd_wk.c (MGS2)
 unsigned int BSS    se_load_code;       // in sd_wk.c (5thMIX, MGS2)
 int BSS             sng_kaihi_fg;       // in sd_wk.c (MGS2)
-int BSS             wave_data;
+int BSS             wave_fp;            // in sd_wk.c (5thMIX, MGS2)
 int BSS             sng_pause_fg;       // in sd_wk.c (MGS2)
 unsigned long BSS   keyoffs;            // in sd_wk.c (5thMIX, MGS2)
 int BSS             str_read_idx;       // in sd_str.c (MGS2) Moved?
