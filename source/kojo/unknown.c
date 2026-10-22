@@ -1,5 +1,7 @@
-#include "kojo/demo.h"
-#include "kojo/common.h"
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include "game/game.h"
 
 /******************************************************************************
  * definitions and typedefs and structures
@@ -333,60 +335,65 @@ VECTOR * sub_8007F1DC(VECTOR *out, VECTOREX *arg1, VECTOR *arg2)
     return out;
 }
 
+/* common.c */
+/******************************************************************************
+ * included
+ */
+#include "common.h"
+
 /******************************************************************************
  * publics
  */
 
-void InitChain(ACTNODE *root)
+void InitChain(
+    void* lpAddress)
 {
-    if (root)
-    {
-        root->prev = root;
-        root->next = root;
-    }
+    if (lpAddress == NULL)
+        return;
+
+    *(void**)lpAddress = lpAddress;
+    *(void**)((char*)lpAddress + sizeof(void*)) = lpAddress;
 }
 
-void NextChain(ACTNODE *root, ACTNODE *node)
+void NextChain(
+    void* lpManeger,
+    void* lpChain)
 {
-    if (root && node)
-    {
-        node->prev = root->prev;
-        node->next = root;
-            
-        if (root->prev == root)
-        {
-            root->next = node;
-        }
-        else
-        {
-            root->prev->next = node;
-        }
+    if ((lpManeger == NULL) || (lpChain == NULL))
+        return;
 
-        root->prev = node;
-    }
+    *(void**)lpChain = *(void**)lpManeger;
+    *(void**)((char*)lpChain + sizeof(void*)) = lpManeger;
+
+    if (*(void**)lpManeger == lpManeger)
+        *(void**)((char*)lpManeger + sizeof(void*)) = lpChain;
+    else
+        *(void**)((char*)(*(void**)lpManeger) + sizeof(void*)) = lpChain;
+
+    *(void**)lpManeger = lpChain;
 }
 
-void DeleteChain(ACTNODE *root, ACTNODE *node)
+void DeleteChain(
+    void* lpManeger,
+    void* lpDelete)
 {
-    int equal;
+    if ((lpManeger == NULL) || (lpDelete == NULL))
+        return;
 
-    if (root && node)
-    {
-        /* compiler removes the check if inlined */
-        equal = node->prev == root;
+    if (*(void**)lpDelete == lpManeger)
+        *(void**)((char*)lpManeger + sizeof(void*))
+            = *(void**)((char*)lpDelete + sizeof(void*));
+    else
+        *(void**)((char*)(*(void**)lpDelete) + sizeof(void*))
+            = *(void**)((char*)lpDelete + sizeof(void*));
 
-        if (equal)
-        {
-            root->next = node->next;
-        }
-        else
-        {
-            node->prev->next = node->next;
-        }
+    if (*(void**)((char*)lpDelete + sizeof(void*)) == lpManeger)
+        *(void**)lpManeger = *(void**)lpDelete;
+    else
+        *(void**)*(void**)
+            ((char*)lpDelete + sizeof(void*)) = *(void**)lpDelete;
 
-        node->next->prev = node->prev;
-        InitChain(node);
-    }
+    InitChain(lpDelete);
 }
 
 /******************************************************************************
