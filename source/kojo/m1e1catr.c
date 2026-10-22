@@ -15,11 +15,9 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-
-#include "mgstype.h"
-#include "libgv/libgv.h"
-#include "libdg/libdg.h"
 #include "game/game.h"
+
+#include "common.h"
 #include "m1e1.h"
 
 // in anime/effect/m1e1.c

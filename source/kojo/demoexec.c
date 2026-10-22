@@ -15,14 +15,10 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-
-#include "mgstype.h"
-#include "libgv/libgv.h"
-#include "libdg/libdg.h"
-#include "libhzd/libhzd.h"
 #include "game/game.h"
 #include "strcode.h"
 #include "charaid.h"
+
 #include "anime/animconv/anime.h"
 #include "bullet/blast.h"
 
@@ -30,9 +26,13 @@
 #include "common.h"
 #include "kojo/m1e1.h"
 
-#define BODY_FLAG ( DG_FLAG_SHADE | DG_FLAG_TRANS | DG_FLAG_TEXT )
+extern BLAST_DATA blast_data_8009F4B8[8];
 
-extern BLAST_DATA       blast_data_8009F4B8[8];
+/******************************************************************************
+ * definitions and typedefs and structures
+ */
+
+#define BODY_FLAG ( DG_FLAG_SHADE | DG_FLAG_TRANS | DG_FLAG_TEXT )
 
 /******************************************************************************
  * functions

@@ -4,10 +4,9 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-
-#include "mgstype.h"
-#include "libgv/libgv.h"
 #include "game/game.h"
+
+#include "common.h"
 
 /******************************************************************************
  * definitions and typedefs and structures

@@ -1,6 +1,10 @@
 #ifndef __MGS_KOJO_DEMO_H__
 #define __MGS_KOJO_DEMO_H__
 
+/******************************************************************************
+ * included
+ */
+
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
@@ -8,6 +12,7 @@
 #include "game/game.h"
 
 #include "fmt_dmo.h"
+#include "define.h"
 
 /******************************************************************************
  * definitions and typedefs and structures
