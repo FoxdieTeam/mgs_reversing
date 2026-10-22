@@ -1671,28 +1671,21 @@ int s17a_800DFAE8(MGREX_WORK *work)
     work->f794.vy = yaw;
     work->f794.vz = 0;
 
-    if (work->f1A64 != 0)
+    if (work->f1A64 == 0 || work->f1950 != 5 || work->f1960 != 1)
     {
-        if (work->f1950 == 5 && work->f1960 == 1)
-        {
-            /* moving the fire block into this if instead of the goto does not match */
-            goto fire;
-        }
-
-        if (work->f1A60 == 1)
+        if (work->f1A64 != 0 && work->f1A60 == 1)
         {
             work->f1A74 = ratan2(work->player_pos.vx - work->f1A68.vx, work->player_pos.vz - work->f1A68.vz);
             return 0;
         }
+
+        work->f6FC = 2;
+        work->f794 = DG_ZeroVector;
+        work->f794.pad = 0;
+        work->timers[3] = work->f628;
+        return -1;
     }
 
-    work->f6FC = 2;
-    work->f794 = DG_ZeroVector;
-    work->f794.pad = 0;
-    work->timers[3] = work->f628;
-    return -1;
-
-fire:
     dir = work->f1A74;
     speed = work->f1A70;
     work->f1A60 = 2;
