@@ -420,8 +420,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "camera" %}
     include "{{OBJ_DIR}}\stage\camera.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\camera\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\camera\unknown\camera.obj", overlay
     inclib "libpress.lib", overlay
 ;------------------------------------------------------------------------------
@@ -1545,8 +1543,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\s15c\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\dyncon.obj", overlay
     include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\valcan.obj", overlay
     include "{{OBJ_DIR}}\overlays\s15c\okajima\valcan\crow.obj", overlay
@@ -2051,8 +2047,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\d18a\animal\snake18\snake18.obj", overlay
     include "{{OBJ_DIR}}\okajima\smktrgt.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\smoke3.obj", overlay
@@ -2205,11 +2199,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "brf" %}
     include "{{OBJ_DIR}}\stage\brf.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\brf\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\brf\onoda\brf\b_select.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\brf\overlay3.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\brf\onoda\brf\b_graph.obj", overlay
 
@@ -2245,9 +2235,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\ml3act.obj", overlay
     include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\think.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\s03d\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\s03d\animal\zako\zako.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s03d\animal\zako\action.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay

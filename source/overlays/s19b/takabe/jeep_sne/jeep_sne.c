@@ -1,72 +1,64 @@
+#include "mgstype.h"
+#include "libgv/libgv.h"
+#include "libdg/libdg.h"
 #include "game/game.h"
+#include "game/camera.h"
+#include "sound/g_sound.h"
+#include "../jeep_system.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2a[0x4C - 0x8];
-    int      field_4C;
-    int      field_50;
-    char     pad2b[0x60 - 0x50 - sizeof(int)];
-    OBJECT  *snake_body;
-    char     pad3[0x78 - 0x60 - sizeof(OBJECT *)];
-    int      field_78;
-} JEEP_SYSTEM;
+/* Snake standing in the jeep (created by jeep.c), shooting with the jeep's gun.
+   Same actor as s19a pkjp_sne.c, plus the gun object, the camera follow and
+   the scripted aim flags of Takabe_JeepSystem. */
 
-typedef struct _Work
+typedef struct _Work Work;
+
+typedef void (*ACTION)(Work *, int);
+
+struct _Work
 {
     GV_ACT         actor;
-    CONTROL       *root_ctrl;
-    MATRIX        *root_mat;
-    CONTROL        control;
-    OBJECT         body;
-    MOTION_CONTROL m_ctrl;
-    MOTION_SEGMENT m_segs1[16 + 1];
-    MOTION_SEGMENT m_segs2[16 + 1];
-    SVECTOR        rots[16];          /* 0x6A0 */
-    SVECTOR        adjust[16];        /* 0x720 */
-    MATRIX         light[2];          /* 0x7A0 */
+    CONTROL       *root_ctrl;           // 0x20
+    MATRIX        *root_mat;            // 0x24
+    CONTROL        control;             // 0x28
+    OBJECT         body;                // 0xA4
+    MOTION_CONTROL m_ctrl;              // 0x188
+    MOTION_SEGMENT m_segs1[17];         // 0x1D8
+    MOTION_SEGMENT m_segs2[17];         // 0x43C
+    SVECTOR        rots[16];            // 0x6A0
+    SVECTOR        adjust[16];          // 0x720
+    MATRIX         light[2];            // 0x7A0
+    SVECTOR        rot;                 // 0x7E0
+    OBJECT         weapon;              // 0x7E8
+    SVECTOR        world_rot;           // 0x8CC: gun_rot + the jeep's rotation
+    SVECTOR        gun_rot;             // 0x8D4
+    char           pad_8DC[0x8];
+    MATRIX         gun_world;           // 0x8E4
+    int            shoot_wait;          // 0x904
+    int            aim_dir;             // 0x908
+    int            aim_pitch;           // 0x90C
+    TARGET        *target;              // 0x910
+    char           pad_914[0x4];
+    ACTION         action;              // 0x918
+    char           pad_91C[0x4];
+    int            time;                // 0x920
+    char           pad_924[0x4];
+    int            motion;              // 0x928
+    int            pad_flags;           // 0x92C
+    char           pad_930[0xC];
+    int            vitality;            // 0x93C
+    int            damaged;             // 0x940
+    int            blink;               // 0x944
+    int            hide;                // 0x948
+    char           pad_94C[0x4];
+    int            dead;                // 0x950
+    char           pad_954[0x4];
+    SVECTOR        pos;                 // 0x958
+};
 
-    SVECTOR        field_7E0;         /* 0x7E0 */
 
-    OBJECT         weapon;            /* 0x7E8 */
+#define EXEC_LEVEL GV_ACTOR_AFTER
 
-    char           pad2a[0x8E4 - 0x7E8 - sizeof(OBJECT)];
-    MATRIX         field_8E4;         /* 0x8E4 */
-    char           pad2b[0x908 - 0x8E4 - sizeof(MATRIX)];
-    int            field_908;         /* 0x908 */
-    char           pad_910[0x910 - 0x908 - sizeof(int)];
-
-    TARGET        *target;            /* 0x910 */
-
-    char           pad_918[0x918 - 0x910 - sizeof(TARGET *)];
-    void          *field_918;         /* 0x918 */
-    char           pad_920[0x920 - 0x918 - sizeof(void *)];
-    int            field_920;         /* 0x920 */
-    char           pad3a[0x928 - 0x920 - sizeof(int)];
-    int            field_928;         /* 0x928 */
-    int            field_92C;         /* 0x92C */
-    char           pad3b[0x93C - 0x92C - sizeof(int)];
-
-    int            hp;                /* 0x93C */
-
-    int            field_940;         /* 0x940 */
-    int            field_944;         /* 0x944 */
-    char           pad_950[0x950 - 0x944 - sizeof(int)];
-    int            field_950;         /* 0x950 */
-    char           pad4[0x958 - 0x950 - sizeof(int)];
-
-    SVECTOR        pos;               /* 0x958 */
-} Work;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
-
-/* gcc sinks a plain `work->field_928 = x` store into the branch-delay slot
-   of the following GM_ call; routing the store through a char* alias keeps
-   it in source order, matching the original. */
-#define SET_WEAPON_ACTION(work, val) (*(int *)((char *)&(work)->field_928) = (val))
-
-extern SVECTOR s19b_dword_800C39F8;
+#define SNAKE_NAME 0x21CA // GV_StrCode("スネーク")
 
 #define MOTION_DATA GV_StrCode("sne_19b")
 #define BODY_DATA   GV_StrCode("snake")
@@ -75,19 +67,198 @@ extern SVECTOR s19b_dword_800C39F8;
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND )
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jeep_sne_800D47F8.s")
-void s19b_jeep_sne_800D47F8(Work *); // Act
+extern void *NewPadVibration(unsigned char *table, int dir);
+extern void *NewBlood(MATRIX *world, int count);
+extern void *NewJeepBlood(MATRIX *, int, DG_OBJ *);
+extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
+extern void *AN_FamasFlash(MATRIX *world);
+extern void s19b_jblood_800C8070(MATRIX *world);
 
-void InitTarget(Work *work)
+extern void sna_act_helper2_helper2_80033054(int id, SVECTOR *vec);
+extern void Voicesys_800CE310(void);
+extern void Voicesys_800CE5F8(int, int);
+extern void Voicesys_800CE734(void);
+extern void GM_CheckShukanReverse(unsigned short *pInput);
+extern void GM_CheckShukanReverseAnalog(unsigned char *pInput);
+
+VECTOR  jeep_sne_scale = {2048, 2048, 2048};
+SVECTOR jeep_sne_target_size = {150, 750, 150};
+
+short   jeep_sne_actions[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+
+u_char  jeep_sne_vib_damage1[4] = {0x7F, 0x04, 0x00, 0x00};
+u_char  jeep_sne_vib_damage2[8] = {0xE1, 0x01, 0xFF, 0x02, 0x00, 0x00, 0x00, 0x00};
+u_char  jeep_sne_vib_dead1[4] = {0x7F, 0x01, 0x00, 0x00};
+u_char  jeep_sne_vib_dead2[4] = {0x9B, 0x03, 0x00, 0x00};
+
+SVECTOR jeep_sne_blood_pos = {0, 0, 100};
+SVECTOR jeep_sne_blood_rot = {-1024, 0, 0};
+
+SVECTOR jeep_sne_bullet_pos = {0, 286, 574};
+SVECTOR jeep_sne_bullet_rot = {3072, 0, 0};
+
+SVECTOR jeep_sne_gun_pos = {0, 1435, -925};
+SVECTOR jeep_sne_gun_ofs = {180, -932, -340};
+int     jeep_sne_counter = 0;
+
+static void StateNormal(Work *work, int time);
+static void StateDamage(Work *work, int time);
+void StateHit(Work *work, int time);
+static void StateDead(Work *work, int time);
+static void StateDead2(Work *work, int time);
+static void PadAndAction(Work *work);
+
+static inline void SetMotion(Work *work, int motion)
+{
+    if (work->motion != motion)
+    {
+        work->motion = motion;
+        GM_ConfigObjectAction(&work->body, jeep_sne_actions[motion], 0, 4);
+        work->rot = DG_ZeroVector;
+    }
+}
+
+static void Act(Work *work)
+{
+    SVECTOR  rot;
+    SVECTOR  diff;
+    SVECTOR *cam;
+    OBJECT  *body;
+    CONTROL *control;
+    TARGET  *target;
+    int      vitality;
+
+    body = &work->body;
+
+    rot = work->control.rot;
+    work->control.rot = DG_ZeroVector;
+    control = &work->control;
+    GM_ActMotion(body);
+    work->control.rot = rot;
+
+    work->rot.vx += work->control.step.vx;
+    work->rot.vz += work->control.step.vz;
+    work->rot.vy = work->body.height - 503;
+
+    GM_ActControl(control);
+    GM_ActObject(body);
+    ScaleMatrix(&work->body.objs->world, &jeep_sne_scale);
+    DG_GetLightMatrix(&control->mov, work->light);
+
+    PadAndAction(work);
+
+    sna_act_helper2_helper2_80033054(SNAKE_NAME, &work->adjust[6]);
+
+    GM_PlayerPosition = work->control.mov;
+
+    cam = &Takabe_JeepSystem.camera_pos;
+    cam->vx = work->body.objs->objs[6].world.t[0];
+    cam->vy = work->body.objs->objs[6].world.t[1];
+    cam->vz = work->body.objs->objs[6].world.t[2];
+
+    GV_SubVec3(&Takabe_JeepSystem.control->mov, &work->pos, &diff);
+    work->pos = Takabe_JeepSystem.control->mov;
+    GV_AddVec3(cam, &diff, cam);
+
+    GM_SnakeCamera.position = *cam;
+    GM_SnakeCamera.target = GM_SnakeCamera.position;
+
+    if (GM_GameOverTimer == 0)
+    {
+        if (GM_GameStatus & (STATE_PADRELEASE | STATE_PAUSE_ONLY))
+        {
+            work->target->vital = GM_Vitality;
+        }
+
+        target = work->target;
+        vitality = target->vital;
+        vitality += GM_Vitality - work->vitality;
+        if (vitality > GM_VitalityMax)
+        {
+            vitality = GM_VitalityMax;
+        }
+
+        target->vital = vitality;
+        GM_Vitality = work->vitality = (short)vitality;
+
+        if ((short)vitality <= 0)
+        {
+            if (GM_Item == IT_Ration && GM_Items[IT_Ration] != 0)
+            {
+                if (--GM_Items[IT_Ration] == 0)
+                {
+                    GM_Item = IT_None;
+                }
+
+                GM_Vitality = work->vitality = work->target->vital = (GM_GameLevel <= GM_LEVEL_EASY) ? 384 : 256;
+
+                if (GM_GameLevel < GM_LEVEL_EASY)
+                {
+                    GM_Vitality = work->vitality = work->target->vital = GM_VitalityMax;
+                }
+
+                GM_SeSet2(0, 63, SE_RECOVER_LIFE);
+                GM_RationUseCount++;
+            }
+            else if (!(GM_GameStatus & STATE_PADDEMO))
+            {
+                GM_Vitality = 0;
+                GM_GameOver();
+                GM_GameOverTimer = -1;
+                work->dead = 1;
+                GM_SeSet(NULL, 0x1A);
+                GM_GameStatus |= STATE_PADRELEASE;
+            }
+            else
+            {
+                GM_Vitality = 1;
+            }
+        }
+    }
+
+    GM_MoveTarget(work->target, &work->control.mov);
+
+    if (work->blink == 0)
+    {
+        work->target->class = TARGET_SEEK | TARGET_POWER;
+        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+    }
+    else
+    {
+        work->target->class = TARGET_AVAIL;
+
+        if ((work->blink & 3) == 1)
+        {
+            work->body.objs->flag |= DG_FLAG_INVISIBLE;
+        }
+        else
+        {
+            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        }
+
+        work->blink--;
+    }
+
+    if (work->hide)
+    {
+        work->body.objs->flag |= DG_FLAG_INVISIBLE;
+    }
+    else if (GM_GameStatus & STATE_PADDEMO)
+    {
+        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+    }
+}
+
+void JeepSnakeInitTarget(Work *work)
 {
     TARGET *target;
-    int     hp;
+    int     vitality;
 
     target = work->target;
-    hp = GM_Vitality;
+    vitality = GM_Vitality;
 
-    GM_SetTarget(target, ( TARGET_POWER | TARGET_SEEK ), PLAYER_SIDE, &s19b_dword_800C39F8);
-    GM_SetPowerTarget(target, POWER_DECREASE, -1, hp, 0, &DG_ZeroVector);
+    GM_SetTarget(target, TARGET_POWER | TARGET_SEEK, PLAYER_SIDE, &jeep_sne_target_size);
+    GM_SetPowerTarget(target, POWER_DECREASE, -1, vitality, 0, &DG_ZeroVector);
     target->map = work->root_ctrl->map->index;
 }
 
@@ -127,14 +298,14 @@ static int GetResources(Work *work, int name)
 
     work->target = GM_AllocTarget();
 
-    InitTarget(work);
+    JeepSnakeInitTarget(work);
 
     control->r_sphere = -2;
 
     GM_PlayerBody = body;
     GM_PlayerControl = control;
 
-    work->hp = GM_Vitality;
+    work->vitality = GM_Vitality;
 
     Takabe_JeepSystem.snake_body = body;
     work->pos = Takabe_JeepSystem.control->mov;
@@ -155,333 +326,596 @@ void *NewJeepSnake(CONTROL *root_ctrl, MATRIX *root_mat)
 {
     Work *work;
 
-    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
+    work = GV_NewActor(EXEC_LEVEL, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(work, s19b_jeep_sne_800D47F8, Die, "jeep_sne.c");
+        GV_SetNamedActor(&work->actor, Act, Die, "jeep_sne.c");
 
         work->root_ctrl = root_ctrl;
         work->root_mat = root_mat;
 
         if (GetResources(work, GV_StrCode("スネーク")) < 0)
         {
-            GV_DestroyActor(work);
+            GV_DestroyActor(&work->actor);
             return NULL;
         }
     }
 
-    return work;
+    return (void *)work;
 }
 
-extern void DG_SetPos(MATRIX *);
-extern void NewBlood(MATRIX *, int);
-extern void *NewJeepBlood(MATRIX *, int, DG_OBJ *);
-extern SVECTOR s19b_dword_800C3A28;
-extern SVECTOR s19b_dword_800C3A30;
-
-void s19b_jlamp2_800D5054(Work *work, int model, int arg2)
+static void PutBlood(Work *work, int obj, int count)
 {
-    MATRIX  mtx;
-    DG_OBJ *obj = &work->body.objs->objs[model];
+    MATRIX  world;
+    DG_OBJ *dobj;
 
-    DG_SetPos(&obj->world);
-    DG_MovePos(&s19b_dword_800C3A28);
-    DG_RotatePos(&s19b_dword_800C3A30);
-    ReadRotMatrix(&mtx);
+    dobj = &work->body.objs->objs[obj];
+    DG_SetPos(&dobj->world);
+    DG_MovePos(&jeep_sne_blood_pos);
+    DG_RotatePos(&jeep_sne_blood_rot);
+    ReadRotMatrix(&world);
     if (Takabe_JeepSystem.field_78 == 0)
     {
-        NewBlood(&mtx, arg2);
+        NewBlood(&world, count);
     }
     else
     {
-        NewJeepBlood(&mtx, arg2, obj);
+        NewJeepBlood(&world, count, dobj);
     }
 }
-void s19b_jlamp2_800D5484(Work *work, int arg1);
-extern void *NewPadVibration(unsigned char *, int);
-extern int s19b_dword_800C3A14;
-extern int s19b_dword_800C3A18;
 
-int s19b_jlamp2_800D50F4(Work *work)
+static int CheckDamage(Work *work)
 {
-    TARGET *target = work->target;
+    TARGET *target;
 
+    target = work->target;
     if (target->damaged & TARGET_POWER)
     {
         target->force = DG_ZeroVector;
-        work->field_918 = (void *)s19b_jlamp2_800D5484;
-        work->field_920 = 0;
+
+        work->action = StateDamage;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
+
         target->damage = 0;
         target->damaged = 0;
-        NewPadVibration((unsigned char *)&s19b_dword_800C3A14, 1);
-        NewPadVibration((unsigned char *)&s19b_dword_800C3A18, 2);
+
+        NewPadVibration(jeep_sne_vib_damage1, 1);
+        NewPadVibration(jeep_sne_vib_damage2, 2);
         return 1;
     }
+
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D519C.s")
-extern void *NewJeepBullet(MATRIX *world, int side, int mode, int mode2);
-extern void AN_FamasFlash(MATRIX *world);
-extern void s19b_jblood_800C8070(MATRIX *world);
-extern SVECTOR s19b_dword_800C3A40;
-extern SVECTOR s19b_dword_800C3A38;
-
-void s19b_jlamp2_800D5260(Work *work)
+static int CheckDamage2(Work *work)
 {
-    MATRIX  mtx;
-    SVECTOR svec;
+    if (CheckDamage(work))
+    {
+        work->target->class = TARGET_AVAIL;
+        work->blink = 4;
+        work->aim_dir += GV_RandS(512);
+        return 1;
+    }
+
+    if (work->blink != 0)
+    {
+        return 0;
+    }
+
+    if (work->pad_flags & 8)
+    {
+        work->action = StateHit;
+        work->time = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+
+        NewPadVibration(jeep_sne_vib_damage1, 1);
+        NewPadVibration(jeep_sne_vib_damage2, 2);
+        work->aim_dir += GV_RandS(256);
+        return 1;
+    }
+
+    return 0;
+}
+
+void Shoot(Work *work)
+{
+    MATRIX  world;
+    SVECTOR pos;
     long    flag;
 
-    RotMatrix(&s19b_dword_800C3A40, &mtx);
-    MulMatrix0(&work->field_8E4, &mtx, &mtx);
-    DG_SetPos(&work->field_8E4);
-    RotTrans(&s19b_dword_800C3A38, (VECTOR *)mtx.t, &flag);
-    NewJeepBullet(&mtx, 1, 1, 0);
-    svec.vx = *(short *)&mtx.t[0];
-    svec.vy = *(short *)&mtx.t[1];
-    svec.vz = *(short *)&mtx.t[2];
+    RotMatrix(&jeep_sne_bullet_rot, &world);
+    MulMatrix0(&work->gun_world, &world, &world);
+    DG_SetPos(&work->gun_world);
+    RotTrans(&jeep_sne_bullet_pos, (VECTOR *)world.t, &flag);
+    NewJeepBullet(&world, 1, 1, 0);
+
+    pos.vx = world.t[0];
+    pos.vy = world.t[1];
+    pos.vz = world.t[2];
     if (Takabe_JeepSystem.field_78 == 0)
     {
-        GM_SeSet(&svec, 0x2E);
-        AN_FamasFlash(&mtx);
+        GM_SeSet(&pos, 0x2E);
+        AN_FamasFlash(&world);
     }
     else
     {
-        GM_SeSet(&svec, 0x2E);
-        s19b_jblood_800C8070(&mtx);
+        GM_SeSet(&pos, 0x2E);
+        s19b_jblood_800C8070(&world);
     }
 }
-extern int  s19b_jlamp2_800D519C(Work *work);
-extern int  s19b_dword_800C3A00;
 
-void s19b_jlamp2_800D5328(Work *work, int arg1)
+static void StateNormal(Work *work, int time)
 {
-    int flags = work->field_92C;
+    int flags;
 
-    if (s19b_jlamp2_800D519C(work) != 0)
+    flags = work->pad_flags;
+
+    if (CheckDamage2(work))
     {
         return;
     }
+
     if (flags & 1)
     {
-        s19b_jlamp2_800D5260(work);
+        Shoot(work);
     }
-    if (arg1 == 0)
+
+    if (time == 0)
     {
-        if (work->field_928 != 0)
-        {
-            SET_WEAPON_ACTION(work, 0);
-            GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
-            work->field_7E0 = DG_ZeroVector;
-        }
+        SetMotion(work, 0);
     }
+
     if (flags & 2)
     {
-        if (work->field_928 != 2)
-        {
-            SET_WEAPON_ACTION(work, 2);
-            GM_ConfigObjectAction(&work->body, *(short *)((char *)&s19b_dword_800C3A00 + 4), 0, 4);
-            work->field_7E0 = DG_ZeroVector;
-        }
+        SetMotion(work, 2);
     }
     else if (flags & 4)
     {
-        if (work->field_928 != 3)
-        {
-            SET_WEAPON_ACTION(work, 3);
-            GM_ConfigObjectAction(&work->body, *(short *)((char *)&s19b_dword_800C3A00 + 6), 0, 4);
-            work->field_7E0 = DG_ZeroVector;
-        }
+        SetMotion(work, 3);
     }
     else
     {
-        if (work->field_928 != 0)
-        {
-            SET_WEAPON_ACTION(work, 0);
-            GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
-            work->field_7E0 = DG_ZeroVector;
-        }
+        SetMotion(work, 0);
     }
 }
-extern void s19b_jlamp2_800D5054(Work *work, int arg1, int arg2);
-extern void s19b_jlamp2_800D5328(Work *work, int arg1);
-extern void s19b_jlamp2_800D571C(Work *work, int arg1);
-extern int  s19b_dword_800C3A00;
 
-void s19b_jlamp2_800D5484(Work *work, int arg1)
+static void StateDamage(Work *work, int time)
 {
-    work->field_944 = 4;
-    if (arg1 == 0)
+    work->blink = 4;
+
+    if (time == 0)
     {
-        work->field_940 = 1;
-        if (work->field_928 != 1)
-        {
-            SET_WEAPON_ACTION(work, 1);
-            GM_ConfigObjectAction(&work->body, *(short *)((char *)&s19b_dword_800C3A00 + 2), 0, 4);
-            work->field_7E0 = DG_ZeroVector;
-        }
-        s19b_jlamp2_800D5054(work, 5, 0);
-        Takabe_JeepSystem.field_4C |= 1;
+        work->damaged = 1;
+        SetMotion(work, 1);
+        PutBlood(work, 5, 0);
+        Takabe_JeepSystem.flags |= 1;
+
         if (GM_Vitality > 0)
         {
             GM_SeSet(&work->control.mov, 0x88);
         }
     }
-    if (work->body.is_end != 0)
+
+    if (work->body.is_end)
     {
-        if (work->field_950 == 0)
+        if (work->dead == 0)
         {
-            work->field_918 = (void *)s19b_jlamp2_800D5328;
-            work->field_920 = 0;
+            work->action = StateNormal;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
-            if (work->field_928 != 0)
-            {
-                SET_WEAPON_ACTION(work, 0);
-                GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
-                work->field_7E0 = DG_ZeroVector;
-            }
-            work->field_940 = 0;
-            work->field_944 = 0x2D;
+            SetMotion(work, 0);
+            work->damaged = 0;
+            work->blink = 45;
         }
         else
         {
-            work->field_918 = (void *)s19b_jlamp2_800D571C;
-            work->field_920 = 0;
+            work->action = StateDead;
+            work->time = 0;
             work->control.turn.vz = 0;
             work->control.turn.vx = 0;
         }
     }
 }
-extern int  s19b_jlamp2_800D50F4(Work *work);
-extern int  GV_RandS(int);
-extern int  s19b_dword_800C3A10;
 
-void s19b_jlamp2_800D55E8(Work *work, int arg1)
+void StateHit(Work *work, int time)
 {
-    if (s19b_jlamp2_800D50F4(work) != 0)
+    if (CheckDamage(work))
     {
-        work->target->class = 1;
-        work->field_944 = 4;
-        work->field_908 += GV_RandS(0x200);
+        work->target->class = TARGET_AVAIL;
+        work->blink = 4;
+        work->aim_dir += GV_RandS(512);
         return;
     }
-    if (arg1 == 0)
+
+    if (time == 0)
     {
-        if (work->field_928 != 8)
-        {
-            SET_WEAPON_ACTION(work, 8);
-            GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A10, 0, 4);
-            work->field_7E0 = DG_ZeroVector;
-        }
+        SetMotion(work, 8);
         GM_SeSet(&work->control.mov, 0x88);
     }
-    if (arg1 >= 0x15)
+
+    if (time >= 21)
     {
-        work->field_918 = (void *)s19b_jlamp2_800D5328;
-        work->field_920 = 0;
+        work->action = StateNormal;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        if (work->field_928 != 0)
-        {
-            SET_WEAPON_ACTION(work, 0);
-            GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
-            work->field_7E0 = DG_ZeroVector;
-        }
+        SetMotion(work, 0);
     }
 }
-extern void s19b_jlamp2_800D5820(Work *work, int arg1);
-extern void Voicesys_800CE310(void);
-extern void Voicesys_800CE5F8(int, int);
-extern void Voicesys_800CE734(void);
-extern void *NewPadVibration(unsigned char *, int);
-extern int  GM_GameOverTimer;
-extern int  s19b_dword_800C3A08;
-extern int  s19b_dword_800C3A20;
-extern int  s19b_dword_800C3A24;
 
-void s19b_jlamp2_800D571C(Work *work, int arg1)
+static void StateDead(Work *work, int time)
 {
-    if (arg1 == 0)
+    if (time == 0)
     {
-        if (work->field_928 != 4)
-        {
-            SET_WEAPON_ACTION(work, 4);
-            GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A08, 0, 4);
-            work->field_7E0 = DG_ZeroVector;
-        }
+        SetMotion(work, 4);
         Voicesys_800CE310();
-        Voicesys_800CE5F8(0xF, 1);
+        Voicesys_800CE5F8(15, 1);
         Voicesys_800CE734();
     }
-    if (arg1 == 0x3D)
+
+    if (time == 61)
     {
-        NewPadVibration((unsigned char *)&s19b_dword_800C3A20, 1);
-        NewPadVibration((unsigned char *)&s19b_dword_800C3A24, 2);
-        GM_SeSetMode(&work->control.mov, 0x33, 1);
+        NewPadVibration(jeep_sne_vib_dead1, 1);
+        NewPadVibration(jeep_sne_vib_dead2, 2);
+        GM_SeSetMode(&work->control.mov, 0x33, GM_SEMODE_BOMB);
     }
-    if (work->body.is_end != 0)
+
+    if (work->body.is_end)
     {
         GM_GameOverTimer = 1;
-        work->field_918 = (void *)s19b_jlamp2_800D5820;
-        work->field_920 = 0;
+        work->action = StateDead2;
+        work->time = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
     }
 }
-extern int s19b_dword_800C3A00;
-extern int s19b_dword_800C3A08;
 
-void s19b_jlamp2_800D5820(Work *work, int arg1)
+static void StateDead2(Work *work, int time)
 {
-    if (arg1 == 0 && work->field_928 != 5)
+    if (time == 0)
     {
-        /* the char* launder keeps the store ahead of the call; a plain
-           work->field_928 = 5 sinks it into the delay slot and diverges */
-        SET_WEAPON_ACTION(work, 5);
-        GM_ConfigObjectAction(&work->body,
-                              *(short *)((char *)&s19b_dword_800C3A08 + 2), 0, 4);
-        work->field_7E0 = DG_ZeroVector;
+        SetMotion(work, 5);
     }
 }
-extern void s19b_jlamp2_800D5328(Work *work, int arg1);
 
-void s19b_jlamp2_800D5894(Work *work)
+static void ActionMain(Work *work)
 {
-    void (*fn)(Work *, int);
-    int   old;
+    ACTION action;
+    int    time;
 
-    work->target->class = 1;
-    old = work->field_920;
-    fn  = (void (*)(Work *, int))work->field_918;
-    work->field_920 = old + 1;
-    if (fn == 0)
+    work->target->class = TARGET_AVAIL;
+
+    time = work->time;
+    action = work->action;
+    work->time = time + 1;
+
+    if (action == NULL)
     {
-        fn = s19b_jlamp2_800D5328;
-        work->field_918 = (void *)fn;
-        if (work->field_928 != 0)
-        {
-            /* char* launder keeps the store ahead of the call (see 800D5820) */
-            SET_WEAPON_ACTION(work, 0);
-            GM_ConfigObjectAction(&work->body, *(short *)&s19b_dword_800C3A00, 0, 4);
-            work->field_7E0 = DG_ZeroVector;
-        }
+        action = StateNormal;
+        work->action = action;
+        SetMotion(work, 0);
     }
-    fn(work, old);
+
+    action(work, time);
+
     if (GM_GameStatus & STATE_PADDEMO)
     {
-        work->target->class = 1;
+        work->target->class = TARGET_AVAIL;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp2_800D596C.s")
-extern void s19b_jlamp2_800D596C(void *work);
 
-void s19b_jlamp2_800D613C(void *work)
+/* pad input: aims and shoots the jeep's gun */
+static void Input(Work *work)
 {
-    s19b_jlamp2_800D596C(work);
-    Takabe_JeepSystem.field_4C &= 0xFFFF0000;
-    s19b_jlamp2_800D5894(work);
+    SVECTOR  gun_pos;
+    MATRIX   rotm;
+    SVECTOR  vec;
+    SVECTOR  ofs;
+    MATRIX   world;
+    SVECTOR  rot;
+    SVECTOR  sv;
+    VECTOR   sq;
+    int      status;
+    int      dy;
+    int      yaw;
+    int      pitch;
+    int      dx;
+    int      first;
+    int      limit;
+    int      flags;
+    DG_OBJS *objs;
+    MATRIX  *mtx;
+    int      ang;
+    int      ang2;
+    int      rel;
+
+    dx = 0;
+    dy = 0;
+    work->pad_flags = 0;
+
+    if (work->dead == 0)
+    {
+        status = GV_PadData[0].status;
+
+        if (GV_PadData[0].analog == 2)
+        {
+            dy = GV_PadData[0].left_dy;
+            dx = GV_PadData[0].left_dx;
+
+            if (dx >= 128)
+            {
+                dx -= 192;
+                if (dx < 0)
+                {
+                    dx = 0;
+                }
+            }
+            else
+            {
+                dx -= 64;
+                if (dx > 0)
+                {
+                    dx = 0;
+                }
+            }
+
+            if (dy >= 128)
+            {
+                dy -= 192;
+                if (dy < 0)
+                {
+                    dy = 0;
+                }
+            }
+            else
+            {
+                dy -= 64;
+                if (dy > 0)
+                {
+                    dy = 0;
+                }
+            }
+
+            dx *= 2;
+            dy *= 2;
+        }
+
+        if (dx == 0 && dy == 0)
+        {
+            if (status & PAD_LEFT)
+            {
+                dx = -128;
+            }
+
+            if (status & PAD_RIGHT)
+            {
+                dx = 127;
+            }
+
+            if (status & PAD_UP)
+            {
+                dy = -128;
+            }
+
+            if (status & PAD_DOWN)
+            {
+                dy = 127;
+            }
+        }
+
+        if (GM_PlayerStatus & PLAYER_WATCH)
+        {
+            GM_CheckShukanReverse((unsigned short *)&status);
+            dy += 128;
+            GM_CheckShukanReverseAnalog((unsigned char *)&dy);
+            dy -= 128;
+        }
+    }
+    else
+    {
+        status = 0;
+        dy = 0;
+    }
+
+    first = GM_Camera.first_person;
+    if (first == 0)
+    {
+        if (jeep_sne_counter > 0)
+        {
+            jeep_sne_counter--;
+        }
+
+        limit = 18;
+    }
+    else
+    {
+        if (jeep_sne_counter < 15)
+        {
+            jeep_sne_counter++;
+        }
+
+        limit = 13;
+    }
+
+    if (jeep_sne_counter < limit)
+    {
+        work->hide = 0;
+    }
+    else
+    {
+        work->hide = 1;
+    }
+
+    if (Takabe_JeepSystem.flags & 0xFFFF0000)
+    {
+        if (Takabe_JeepSystem.flags & 0x10000)
+        {
+            work->gun_rot.vy = 0;
+        }
+        else if (Takabe_JeepSystem.flags & 0x20000)
+        {
+            work->gun_rot.vy = 0x800;
+            work->aim_dir = 0x800;
+        }
+        else if (Takabe_JeepSystem.flags & 0x40000)
+        {
+            rel = work->gun_rot.vy;
+            rel = (rel - 0x400) & 0xFFF;
+            if (rel >= 0x65 && rel < 0x800)
+            {
+                dx = -128;
+                status |= PAD_LEFT;
+            }
+            else if (rel >= 0x800 && rel < 0xFA0)
+            {
+                dx = 128;
+                status |= PAD_RIGHT;
+            }
+
+            status |= PAD_SQUARE;
+        }
+    }
+
+    gun_pos = jeep_sne_gun_pos;
+    work->world_rot.vy = (work->gun_rot.vy + work->root_ctrl->rot.vy) & 0xFFF;
+    DG_SetPos2(&gun_pos, &work->gun_rot);
+    RotMatrixZYX(&work->gun_rot, &rotm);
+    rotm.t[0] = gun_pos.vx;
+    rotm.t[1] = gun_pos.vy;
+    rotm.t[2] = gun_pos.vz;
+    CompMatrix(work->root_mat, &rotm, &work->gun_world);
+    GM_ActObject2(&work->weapon);
+    work->weapon.objs->world = work->gun_world;
+
+    flags = status;
+    if (work->damaged && !work->dead)
+    {
+        flags &= 0xFFFF0FFF;
+        dx = 0;
+        dy = 0;
+
+        if (GM_Camera.first_person)
+        {
+            flags |= 0x10;
+        }
+        else
+        {
+            flags &= ~0x10;
+        }
+    }
+
+    work->aim_dir -= dx / 4;
+
+    if (dx < 0)
+    {
+        work->pad_flags |= 2;
+    }
+    else if (dx > 0)
+    {
+        work->pad_flags |= 4;
+    }
+
+    work->gun_rot.vy = GV_NearExp4P(work->gun_rot.vy, work->aim_dir);
+
+    if (first == 1)
+    {
+        work->aim_pitch = GV_NearExp4P(work->aim_pitch, (dy * 300) / 128);
+    }
+    else
+    {
+        work->aim_pitch = GV_NearExp4P(work->aim_pitch, 0);
+    }
+
+    if (work->shoot_wait)
+    {
+        work->shoot_wait--;
+    }
+
+    if ((status & PAD_SQUARE) && work->shoot_wait == 0)
+    {
+        work->shoot_wait = 3;
+        work->pad_flags |= 1;
+    }
+
+    if (flags & 0x10)
+    {
+        GM_Camera.first_person = 1;
+        GM_PlayerStatus |= PLAYER_WATCH;
+    }
+    else
+    {
+        GM_Camera.first_person = 0;
+        GM_PlayerStatus &= ~PLAYER_WATCH;
+    }
+
+    ofs = jeep_sne_gun_pos;
+
+    if (first == 0)
+    {
+        GM_PlayerControl->rot = work->world_rot;
+        GM_SnakeCamera.rotate2.vy = work->world_rot.vy;
+    }
+    else
+    {
+        GM_PlayerControl->rot.vy = work->world_rot.vy;
+
+        mtx = &GM_PlayerBody->objs->objs[6].world;
+        sv.vx = mtx->m[0][2];
+        sv.vy = 0;
+        sv.vz = mtx->m[2][2];
+        ang = mtx->m[1][2];
+        GM_SnakeCamera.rotate2.vx = work->aim_pitch - ratan2(ang, GV_VecLen3(&sv));
+        GM_SnakeCamera.rotate2.vy = work->world_rot.vy;
+    }
+
+    rot = GM_PlayerControl->rot;
+    rot.vy -= work->root_ctrl->rot.vy;
+    DG_SetPos2(&DG_ZeroVector, &rot);
+    GV_AddVec3(&jeep_sne_gun_ofs, &work->rot, &vec);
+    DG_RotVector(&vec, &vec, 1);
+    GV_AddVec3(&vec, &ofs, &vec);
+    DG_SetPos2(&vec, &rot);
+    ReadRotMatrix(&world);
+    CompMatrix(work->root_mat, &world, &GM_PlayerBody->objs->world);
+
+    GM_PlayerControl->mov.vx = work->body.objs->world.t[0];
+    GM_PlayerControl->mov.vy = work->body.objs->world.t[1];
+    GM_PlayerControl->mov.vz = work->body.objs->world.t[2];
+
+    GM_GetHomingTarget2(&work->weapon.objs->world, work->world_rot.vy, &yaw, &pitch, GM_CurrentMap, 6000, 128);
+
+    objs = GM_PlayerBody->objs;
+    sq.vx = objs->world.m[0][2];
+    sq.vy = 0;
+    sq.vz = objs->world.m[2][2];
+    Square0(&sq, &sq);
+    ang2 = -ratan2(objs->world.m[1][2], SquareRoot0(sq.vx + sq.vz));
+
+    if (yaw == -1)
+    {
+        work->gun_rot.vx = GV_NearExp4(work->gun_rot.vx, 0);
+        Takabe_JeepSystem.has_homing_target = 0;
+    }
+    else
+    {
+        work->gun_rot.vx = GV_NearExp4(work->gun_rot.vx, pitch - ang2);
+        Takabe_JeepSystem.has_homing_target = 1;
+    }
+
+    if (Takabe_JeepSystem.flags & 2)
+    {
+        work->pad_flags |= 8;
+    }
+}
+
+
+static void PadAndAction(Work *work)
+{
+    Input(work);
+    Takabe_JeepSystem.flags &= 0xFFFF0000;
+    ActionMain(work);
 }

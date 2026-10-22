@@ -2,24 +2,7 @@
 #include "game/game.h"
 #include "takabe/prim.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x18];
-    SVECTOR  field_38;
-    int      field_40;
-    char     pad4[0x1C];
-    OBJECT  *body;
-    char     pad5[0x18];
-    int      field_7C;
-    MATRIX   world;
-    char     pad6[0xCC];
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "../jeep_system.h"
 
 typedef struct _Work
 {
@@ -29,11 +12,11 @@ typedef struct _Work
     DG_TEX  *tex;
     MATRIX   world;
     MATRIX  *root;
-    int      field_50;
-    int      field_54;
-    int      field_58;
-    int      field_5C;
-    int      field_60;
+    int      follow;      /* bit 0: the fire follows root */
+    int      delay;       /* frames before the fire starts to die out */
+    int      life;
+    int      emit_timer;
+    int      next;        /* next flame to emit */
     SVECTOR  vertices[16];
     SVECTOR  speeds[16];
 } Work;
@@ -45,9 +28,9 @@ void s19b_jdrumfir_800CA13C(Work *work)
 {
     GM_CurrentMap = work->map;
 
-    work->prim->world.t[0] += Takabe_JeepSystem.pos.vx;
-    work->prim->world.t[1] += Takabe_JeepSystem.pos.vy;
-    work->prim->world.t[2] += Takabe_JeepSystem.pos.vz;
+    work->prim->world.t[0] += Takabe_JeepSystem.scroll.vx;
+    work->prim->world.t[1] += Takabe_JeepSystem.scroll.vy;
+    work->prim->world.t[2] += Takabe_JeepSystem.scroll.vz;
 
     if (work->prim->world.t[2] > 32000)
     {
@@ -55,12 +38,12 @@ void s19b_jdrumfir_800CA13C(Work *work)
         return;
     }
 
-    if (work->field_50 & 1)
+    if (work->follow & 1)
     {
         work->world = *work->root;
     }
 
-    if (work->field_54 > 0)
+    if (work->delay > 0)
     {
         s19b_jdrumfir_800CA564(work, 1);
     }
@@ -68,16 +51,16 @@ void s19b_jdrumfir_800CA13C(Work *work)
     {
         s19b_jdrumfir_800CA564(work, 1);
 
-        if (work->field_58 == 0)
+        if (work->life == 0)
         {
             GV_DestroyActor(work);
             return;
         }
 
-        work->field_58--;
+        work->life--;
     }
 
-    work->field_54--;
+    work->delay--;
 }
 
 void s19b_jdrumfir_800CA280(Work *work)
@@ -85,21 +68,21 @@ void s19b_jdrumfir_800CA280(Work *work)
     GM_FreePrim(work->prim);
 }
 
-int s19b_jdrumfir_800CA2BC(Work *work, MATRIX *world, int arg2, int arg3)
+int s19b_jdrumfir_800CA2BC(Work *work, MATRIX *world, int follow, int delay)
 {
     work->root = world;
     work->map = GM_CurrentMap;
     work->world = *world;
 
-    work->field_50 = arg2;
-    work->field_54 = arg3;
+    work->follow = follow;
+    work->delay = delay;
 
     s19b_jdrumfir_800CA4A0(work);
-    work->field_58 = 40;
+    work->life = 40;
     return 0;
 }
 
-void *NewJeepDrumFire(MATRIX *world, int arg1, int arg2)
+void *NewJeepDrumFire(MATRIX *world, int follow, int delay)
 {
     Work* work;
 
@@ -108,7 +91,7 @@ void *NewJeepDrumFire(MATRIX *world, int arg1, int arg2)
     {
         GV_SetNamedActor(work, s19b_jdrumfir_800CA13C, s19b_jdrumfir_800CA280, "jdrumfir.c");
 
-        if (s19b_jdrumfir_800CA2BC(work, world, arg1, arg2) < 0)
+        if (s19b_jdrumfir_800CA2BC(work, world, follow, delay) < 0)
         {
             GV_DestroyActor(work);
             return NULL;
@@ -162,4 +145,109 @@ void s19b_jdrumfir_800CA4A0(Work *work)
     prim->raise = 500;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jdrumfir_800CA564.s")
+void s19b_jdrumfir_800CA564(Work *work, int arg1)
+{
+    POLY_FT4 *pack;
+    SVECTOR  *vtx;
+    SVECTOR  *spd;
+    int       i;
+    int       col;
+    int       row;
+    int       x, y, w, h;
+    int       bright;
+    int       flash;
+
+    if (arg1 != 0)
+    {
+        if (work->emit_timer < 0)
+        {
+            spd = &work->speeds[work->next];
+            spd->vx = work->life;
+            spd->vy = 255;
+            spd->vz = GV_RandU(16);
+
+            vtx = &work->vertices[work->next];
+            vtx->vx = work->world.t[0] + GV_RandS(256) / 2;
+            vtx->vz = work->world.t[2] + GV_RandS(256) / 2;
+            vtx->pad = work->life * 20 - 200;
+            if (vtx->pad < 200)
+            {
+                vtx->pad = 200;
+            }
+            vtx->vy = work->world.t[1] + vtx->pad;
+
+            work->emit_timer = 12;
+            work->next = (work->next + 1) & 0xF;
+        }
+        else
+        {
+            work->emit_timer--;
+        }
+    }
+
+    spd  = work->speeds;
+    vtx  = work->vertices;
+    pack = work->prim->packs[GV_Clock];
+
+    for (i = 16; i > 0; vtx++, spd++, pack++, i--)
+    {
+        if (spd->vx != 0)
+        {
+            col = spd->vz & 3;
+            row = spd->vz / 4;
+
+            x = work->tex->off_x;
+            w = work->tex->w;
+            pack->u0 = pack->u2 = x + (w + 1) * col / 4;
+            pack->u1 = pack->u3 = x + (w + 1) * (col + 1) / 4 - 1;
+
+            y = work->tex->off_y;
+            h = work->tex->h;
+            pack->v0 = pack->v1 = y + (h + 1) * row / 4;
+            pack->v2 = pack->v3 = y + (h + 1) * (row + 1) / 4 - 1;
+
+            spd->vz++;
+            if (spd->vz >= 16)
+            {
+                spd->vz = 0;
+            }
+
+            bright = spd->vx * 16;
+            if (bright >= 256)
+            {
+                bright = 255;
+            }
+            flash = spd->vy;
+            if (flash > 0)
+            {
+                bright -= flash;
+                if (bright < 0)
+                {
+                    bright = 0;
+                }
+                spd->vy = flash / 2;
+            }
+            pack->r0 = bright;
+            pack->g0 = bright;
+            pack->b0 = bright;
+
+            vtx->pad -= 10;
+            if (vtx->pad < 200)
+            {
+                vtx->pad = 200;
+            }
+            if (vtx->pad != 200)
+            {
+                vtx->vy -= 10;
+            }
+            spd->vx--;
+        }
+        else
+        {
+            vtx->pad = 0;
+            pack->r0 = 0;
+            pack->g0 = 0;
+            pack->b0 = 0;
+        }
+    }
+}

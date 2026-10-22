@@ -1,16 +1,6 @@
 #include "game/game.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x40];
-    OBJECT  *body;
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "../jeep_system.h"
 
 typedef struct _Work
 {
@@ -55,9 +45,9 @@ static void Act(Work *work)
 {
     GM_CurrentMap = work->map;
 
-    work->pos.vx += Takabe_JeepSystem.pos.vx;
-    work->pos.vy += Takabe_JeepSystem.pos.vy;
-    work->depth += Takabe_JeepSystem.pos.vz;
+    work->pos.vx += Takabe_JeepSystem.scroll.vx;
+    work->pos.vy += Takabe_JeepSystem.scroll.vy;
+    work->depth += Takabe_JeepSystem.scroll.vz;
 
     work->pos.vz = work->depth;
 

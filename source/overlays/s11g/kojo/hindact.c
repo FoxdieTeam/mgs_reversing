@@ -453,23 +453,23 @@ void HindAct(HindWork *work)
         break;
     }
 
-    if (--work->field_504 < 0)
+    if (--work->gun_timer < 0)
     {
-        work->field_504 = 0;
+        work->gun_timer = 0;
     }
 
-    if (--work->field_508 < 0)
+    if (--work->missile_timer < 0)
     {
-        work->field_508 = 0;
+        work->missile_timer = 0;
     }
 
-    if ((work->field_50C > 0) && (--work->field_50C == 0))
+    if ((work->invuln_timer > 0) && (--work->invuln_timer == 0))
     {
         work->target1->damaged &= ~TARGET_POWER;
         work->target2->damaged &= ~TARGET_POWER;
         work->target3->damaged &= ~TARGET_POWER;
 
-        if (work->field_434 <= 0)
+        if (work->hits <= 0)
         {
             if (work->field_658 == 0)
             {
@@ -486,7 +486,7 @@ void HindAct(HindWork *work)
         }
     }
 
-    switch (work->field_4AC)
+    switch (work->mode)
     {
     case 2:
         s11g_hind_800D5820(work);
@@ -642,7 +642,7 @@ void HindAct(HindWork *work)
 
     work->field_64C = 0;
 
-    if ((work->field_658 == 0) && (work->field_50C == 0))
+    if ((work->field_658 == 0) && (work->invuln_timer == 0))
     {
         if ((work->target1->damaged != TARGET_STALE) ||
             (work->target2->damaged != TARGET_STALE) ||
@@ -668,9 +668,9 @@ void HindAct(HindWork *work)
                         work->field_64C = 2;
                     }
 
-                    work->field_434--;
+                    work->hits--;
                     work->life -= work->damage;
-                    work->field_50C = work->field_438;
+                    work->invuln_timer = work->invuln_time;
                 }
                 else
                 {
@@ -688,14 +688,14 @@ void HindAct(HindWork *work)
         }
     }
 
-    if (work->field_50C > 0)
+    if (work->invuln_timer > 0)
     {
         if ((GV_Time % 4) == 0)
         {
             AN_Smoke_800CE240(&work->control.mov);
         }
 
-        if ((work->field_50C % 2) == 0)
+        if ((work->invuln_timer % 2) == 0)
         {
             work->body.objs->light->t[0] = 190;
             work->body.objs->light->t[1] = 190;
@@ -705,9 +705,9 @@ void HindAct(HindWork *work)
         }
     }
 
-    work->field_414 = 0;
+    work->first_frame = 0;
 
-    if ((work->field_4AC == 2) && (work->field_5F0 > 0) && (work->field_94C != 1))
+    if ((work->mode == 2) && (work->field_5F0 > 0) && (work->field_94C != 1))
     {
         if (work->field_8F0 != -1)
         {
@@ -767,7 +767,7 @@ void HindAct(HindWork *work)
 
     s11g_hind_800D2CB4(work);
 
-    if (work->field_4AC != 2)
+    if (work->mode != 2)
     {
         if (work->fight_start_flag == 0)
         {

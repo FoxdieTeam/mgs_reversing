@@ -2,19 +2,7 @@
 #include "anime/animconv/anime.h"
 #include "game/game.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x40];
-    OBJECT  *body;
-    char     pad4[0x1C];
-    MATRIX   world;
-} JEEP_SYSTEM;
-
-extern JEEP_SYSTEM Takabe_JeepSystem;
+#include "../../takabe/jeep_system.h"
 
 extern ANIMATION anm_blast_mini_form;
 
