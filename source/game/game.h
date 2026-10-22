@@ -9,6 +9,7 @@
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libhzd/libhzd.h"
+#include "libgcl/libgcl.h"
 #include "menu/menuman.h"
 #include "sound/sd_cli.h"
 #include "sound/g_sound.h"
