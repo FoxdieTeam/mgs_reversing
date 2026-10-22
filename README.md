@@ -387,13 +387,13 @@ Individual overlay progress:
             <td><b>s10a</b></td>
             <td>135 KB</td>
             <td>Underground Passage</td>
-            <td>❌ Work not started</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s10ar</b></td>
             <td>135 KB</td>
             <td>Underground Passage (RED)</td>
-            <td>❌ Work not started</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s11a</b></td>
@@ -405,7 +405,7 @@ Individual overlay progress:
             <td><b>s11b</b></td>
             <td>97 KB</td>
             <td>Communication Tower Roof</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s11c</b></td>
@@ -429,13 +429,13 @@ Individual overlay progress:
             <td><b>s11g</b></td>
             <td>105 KB</td>
             <td>Communication Tower B Roof</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s11h</b></td>
             <td>97 KB</td>
             <td>Communication Tower B Roof (vs. Hind D)</td>
-            <td>❌ Work not started</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s11i</b></td>
@@ -477,7 +477,7 @@ Individual overlay progress:
             <td><b>s15a</b></td>
             <td>89 KB</td>
             <td>Warehouse</td>
-            <td>❌ Work not started</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s15b</b></td>
@@ -489,7 +489,7 @@ Individual overlay progress:
             <td><b>s15c</b></td>
             <td>129 KB</td>
             <td>Warehouse</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s16a</b></td>
@@ -519,37 +519,37 @@ Individual overlay progress:
             <td><b>s17a</b></td>
             <td>140 KB</td>
             <td>Supply Route (vs. REX)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s17ar</b></td>
             <td>140 KB</td>
             <td>Supply Route (vs. REX) (RED)</td>
-            <td>❌ Work not started</td>
+            <td>🚧 Work in progress</td>
         </tr>
         <tr>
             <td><b>s18a</b></td>
             <td>133 KB</td>
             <td>Supply Route (vs. Liquid)</td>
-            <td>❌ Work not started</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s18ar</b></td>
             <td>133 KB</td>
             <td>Supply Route (vs. Liquid) (RED)</td>
-            <td>❌ Work not started</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s19a</b></td>
             <td>120 KB</td>
             <td>Escape Route (Garage)</td>
-            <td>❌ Work not started</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s19ar</b></td>
             <td>120 KB</td>
             <td>Escape Route (Garage) (RED)</td>
-            <td>❌ Work not started</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s19b</b></td>

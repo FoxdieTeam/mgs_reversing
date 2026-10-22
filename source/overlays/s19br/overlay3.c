@@ -1,13 +1,12 @@
 #include "mgstype.h"
+#include <sys/types.h>
+#include <libgte.h>
 
-const char s19b_dword_800DDD4C[] = {0xe4, 0xfd, 0xbe, 0x4};
-const char s19b_dword_800DDD50[] = {'=', 0xfc, 0x0, 0x0};
-const char s19b_dword_800DDD54[] = {0xac, 0x1, 'U', 0x2};
-const char s19b_dword_800DDD58[] = {0xb6, 0x6, 0x0, 0x0};
-const char s19b_dword_800DDD5C[] = {'O', 0xfd, 0xde, 0x3};
-const char s19b_dword_800DDD60[] = {'Q', 0xfe, 0x0, 0x0};
-const char s19b_dword_800DDD64[] = {0xcb, 0x1, 'o', 0x3};
-const char s19b_a_800DDD68[] = ";";
+// demo camera positions and targets used by s19b_jlamp_800D0D40
+const SVECTOR s19b_dword_800DDD4C = {-540, 1214, -963, 0};
+const SVECTOR s19b_dword_800DDD54 = {428, 597, 1718, 0};
+const SVECTOR s19b_dword_800DDD5C = {-689, 990, -431, 0};
+const SVECTOR s19b_dword_800DDD64 = {459, 879, 59, 0};
 
 int SECTION(".bss") s19b_dword_800DE5B0;
 int SECTION(".bss") s19b_dword_800DE5B4;

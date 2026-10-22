@@ -1,14 +1,7 @@
 #include "game/game.h"
+#include "../jeep_system.h"
 
-typedef struct _JEEP_SYSTEM_S
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-} JEEP_SYSTEM_S;
 
-extern JEEP_SYSTEM_S Takabe_JeepSystem;
 
 typedef struct _Work
 {
@@ -118,7 +111,7 @@ static void Act(Work *work)
     time = --work->time;
     if (time <= 0)
     {
-        GV_DestroyActor(&work->actor);
+        GV_DestroyActor(work);
         return;
     }
 
@@ -189,7 +182,7 @@ void *NewSpark2M(MATRIX *world)
         {
             ResetSpadStack();
 
-            GV_DestroyActor(&work->actor);
+            GV_DestroyActor(work);
             return NULL;
         }
 

@@ -1,17 +1,8 @@
 #include "game/game.h"
 #include "strcode.h"
+#include "../jeep_system.h"
 
-typedef struct _JEEP_SYSTEM
-{
-    char     pad1[0x4];
-    CONTROL *control;
-    char     pad2[0x10];
-    SVECTOR  pos;
-    char     pad3[0x40];
-    OBJECT  *body;
-} JEEP_SYSTEM;
 
-extern JEEP_SYSTEM Takabe_JeepSystem;
 
 typedef struct _Work
 {
@@ -65,8 +56,43 @@ void MovePacks(SVECTOR *speeds, SVECTOR *vertices, int count)
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s19b/s19b_gsplash3_800D00F4.s")
-void s19b_gsplash3_800D00F4(SVECTOR *, SVECTOR *, int);
+void s19b_gsplash3_800D00F4(SVECTOR *speeds, SVECTOR *vertices, int count)
+{
+    int x, y, z;
+    int rnd;
+
+    while (--count >= 0)
+    {
+        speeds->vy -= 8;
+        speeds->vx -= speeds->vx / 4;
+        speeds->vz -= speeds->vz / 4;
+        rnd = GV_RandS(64);
+
+        x = speeds->vx;
+        y = speeds->vy;
+        z = speeds->vz;
+
+        vertices[0].vx += x;
+        vertices[0].vy += y;
+        vertices[0].vz += z;
+        z = vertices[0].vz;
+
+        vertices[1].vx += x;
+        vertices[1].vy += y;
+        vertices[1].vz = z + rnd;
+
+        vertices[2].vx += x;
+        vertices[2].vy += y;
+        vertices[2].vz = z - rnd;
+
+        vertices[3].vx += x;
+        vertices[3].vy += y;
+        vertices[3].vz = z;
+
+        vertices += 4;
+        speeds++;
+    }
+}
 
 void InitPacks(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *tex)
 {
