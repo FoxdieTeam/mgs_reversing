@@ -10,15 +10,9 @@
  * included
  */
 
-#include "inverlt2.h"
-
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-
-#include "mgstype.h"
-#include "libgv/libgv.h"
-#include "libdg/libdg.h"
 #include "game/game.h"
 
 #include "okajima/stngrnd.h"    // for AN_Stn_G_*

@@ -10,19 +10,15 @@
  * included
  */
 
-#include "sstorm.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-
-#include "mgstype.h"
-#include "libgcl/libgcl.h"
-#include "libgv/libgv.h"
-#include "anime/animconv/anime.h"
 #include "game/game.h"
+#include "anime/animconv/anime.h"
+
+#include "common.h"
 
 /******************************************************************************
  * definitions and typedefs and structures

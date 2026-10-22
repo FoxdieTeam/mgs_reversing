@@ -1,15 +1,29 @@
-#ifndef __MGS_KOJO_COMMON_H__
-#define __MGS_KOJO_COMMON_H__
+#ifndef _INC_COMMON
+#define _INC_COMMON
+
+#ifdef __cplusplus
+extern "C" {
+#endif  /* __cplusplus */
+
+/******************************************************************************
+ * included
+ */
+
+#include <stddef.h>
+#include "mgstype.h"
+#include "define.h"
 
 /******************************************************************************
  * prototypes
  */
 
-// TODO: arg types should be void pointers
-
 /* common.c */
-extern void InitChain(ACTNODE *root);
-extern void NextChain(ACTNODE *root, ACTNODE *node);
-extern void DeleteChain(ACTNODE *root, ACTNODE *node);
+extern void InitChain(void* lpAddress);
+extern void NextChain(void* lpManeger, void* lpChain);
+extern void DeleteChain(void* lpManeger, void* lpDelete);
 
-#endif // __MGS_KOJO_COMMON_H__
+#ifdef __cplusplus
+}
+#endif  /* __cplusplus */
+
+#endif  /* _INC_COMMON */
