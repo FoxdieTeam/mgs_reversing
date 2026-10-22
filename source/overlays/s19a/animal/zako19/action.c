@@ -473,7 +473,6 @@ void s19a_800CE750( Work *work, int time )
 
 void s19a_800CE8F8( Work *work, int time )
 {
-    int      x, z;
     int      n_touches;
     int      step;
     int      tmp;
@@ -560,19 +559,9 @@ void s19a_800CE8F8( Work *work, int time )
         step = 100;
     }
 
-    x = step * rsin( dir );
-    if ( x < 0 )
-    {
-        x += 0xFFF;
-    }
-    ctrl->step.vx = x >> 12;
+    ctrl->step.vx = (step * rsin( dir )) / 4096;
 
-    z = step * rcos( dir );
-    if ( z < 0 )
-    {
-        z += 0xFFF;
-    }
-    ctrl->step.vz = z >> 12;
+    ctrl->step.vz = (step * rcos( dir )) / 4096;
 
     work->vision.facedir = work->control.rot.vy;
 }

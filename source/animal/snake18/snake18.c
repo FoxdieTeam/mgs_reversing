@@ -1006,7 +1006,7 @@ void d18a_snake18_800CB514(Snake18Work *work)
     MATRIX   sp30;
     SVECTOR  sp50;
     MATRIX  *mat;
-    int      angle;
+    int      vx;
 
     mat = &work->body.objs->objs[6].world;
 
@@ -1016,13 +1016,8 @@ void d18a_snake18_800CB514(Snake18Work *work)
     DG_MatrixRotZYX(&sp30, &sp50);
     SetRotMatrix(&sp10);
 
-    angle = sp50.vx;
-    if (angle < 0)
-        angle += 0xF;
-    /* NOTE: written as ~0xF this compiles to different code, so keep the positive mask */
-    angle &= 0xFFF0;
-
-    GM_SnakeCamera.rotate2.vx = angle;
+    vx = (sp50.vx / 16) * 16;
+    GM_SnakeCamera.rotate2.vx = vx;
 }
 
 void d18a_snake18_800CB59C(Snake18Work *work)

@@ -125,7 +125,6 @@ void Zako10ActStandStill(Zako10Work* work, int time )
 
 void s10a_zk10action_800CA7E8( Zako10Work* work, int time )
 {
-    int x, z;
     int s0;
     int interval;
     int tmp;
@@ -214,23 +213,9 @@ void s10a_zk10action_800CA7E8( Zako10Work* work, int time )
         interval = 100;
     }
 
-    x = interval * rsin( dir );
+    ctrl->step.vx = (interval * rsin( dir )) / 4096;
 
-    if ( x < 0 )
-    {
-        x += 0xFFF;
-    }
-
-    ctrl->step.vx = x >> 12;
-
-    z = interval * rcos( dir );
-
-    if ( z < 0 )
-    {
-        z += 0xFFF;
-    }
-
-    ctrl->step.vz = z >> 12;
+    ctrl->step.vz = (interval * rcos( dir )) / 4096;
     work->vision.facedir = work->control.rot.vy;
 }
 
