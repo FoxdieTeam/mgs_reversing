@@ -300,6 +300,7 @@ static void Act(Work *work)
     }
 
 #ifdef VR_EXE
+    // clamp the position to +-30000 so that it fits the 16-bit SVECTOR range used by DG_SetPos2
     rotator = work->control.mov;
 
     if (rotator.vx > 30000)

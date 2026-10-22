@@ -17,6 +17,14 @@ extern int       COM_EYE_LENGTH;
 
 extern int sna_current_item_8004FB38(void);
 
+#ifdef VR_EXE
+extern unsigned int COM_GameStatus;
+
+/* soldiers with these param_blood values neither hear nor see the player */
+#define IS_SENSELESS( work ) \
+    ( ( work )->param_blood == 'M' || ( work )->param_blood == 'C' || ( work )->param_blood == 'D' )
+#endif
+
 // in enemy/asiato.c
 extern int AsiatoCheck( HZD_HDL *, SVECTOR * );
 extern int SearchNearAsiato( HZD_HDL *, SVECTOR *, short, short, short );
@@ -51,6 +59,12 @@ void s00a_command_800C98A4( WatcherWork *work )
     if ( flags & 0x80 )
     {
         work->field_94C.damaged &= ~( 0x80 );
+#ifdef VR_EXE
+        if ( IS_SENSELESS( work ) )
+        {
+            return;
+        }
+#endif
         if ( ( GM_PlayerStatus & ( PLAYER_MOVE | PLAYER_CB_BOX ) ) == PLAYER_CB_BOX )
         {
             return;
@@ -59,6 +73,12 @@ void s00a_command_800C98A4( WatcherWork *work )
     }
 }
 
+#if defined(VR_MYSTERY) && !defined(VR_MYSTERY_TRY_C)
+/* FIXME: NON_MATCHING in C (build with -DVR_MYSTERY_TRY_C to try): the original code loads GM_NoisePower again for the
+   switch (the first value is not reused) - kept as relocatable asm so that the object stays shareable. */
+void s00a_command_800C9930( WatcherWork* work );
+#pragma INCLUDE_ASM_RELOC("source/enemy/vr/reloc/s00a_command_800C9930.s")
+#else
 void s00a_command_800C9930( WatcherWork* work )
 {
     CONTROL *ctrl;
@@ -72,13 +92,24 @@ void s00a_command_800C9930( WatcherWork* work )
         return;
     }
 
-    ctrl = &work->control;
+#ifdef VR_MYSTERY
     if ( !GM_NoisePower )
     {
         return;
     }
 
-
+    /* the mystery soldier does not know about claymore noises */
+    ctrl = &work->control;
+    if ( !( ctrl->map->index & GM_PlayerMap ) )
+    {
+        return;
+    }
+#else
+    ctrl = &work->control;
+    if ( !GM_NoisePower )
+    {
+        return;
+    }
 
     if ( GM_NoisePower == 0xFF )
     {
@@ -97,6 +128,7 @@ void s00a_command_800C9930( WatcherWork* work )
             return;
         }
     }
+#endif
 
     switch ( GM_NoisePower )
     {
@@ -128,7 +160,9 @@ void s00a_command_800C9930( WatcherWork* work )
     }
     work->field_BA1 |= 1;
 }
+#endif
 
+#ifndef VR_MINENE /* the minene soldier neither checks for boxes nor for footprints */
 void s00a_command_800C9ACC( WatcherWork *work )
 {
     if ( !( work->field_BA3 & 2 ) )
@@ -208,9 +242,38 @@ void s00a_command_800C9C7C( WatcherWork* work )
     work->field_BA1 |= 16;
 }
 
+#endif
+
 void s00a_command_800C9D28( WatcherWork* work )
 {
     work->field_BA1 = 0;
+#ifdef VR_MINENE
+    /* the minene soldier does not check for footprints/dead bodies */
+    if ( !IS_SENSELESS( work ) )
+    {
+        s00a_command_800C9930( work );
+    }
+
+    if ( EnemyCommand.mode != TOP_COMM_ALERT )
+    {
+        s00a_command_800C98A4( work );
+    }
+#elif defined(VR_EXE)
+    if ( !IS_SENSELESS( work ) )
+    {
+        s00a_command_800C9930( work );
+    }
+
+    if ( EnemyCommand.mode != TOP_COMM_ALERT )
+    {
+        s00a_command_800C98A4( work );
+        if ( !IS_SENSELESS( work ) )
+        {
+            s00a_command_800C9ACC( work );
+            s00a_command_800C9C7C( work );
+        }
+    }
+#else
     s00a_command_800C9930( work );
 
     if ( EnemyCommand.mode != TOP_COMM_ALERT )
@@ -219,6 +282,7 @@ void s00a_command_800C9D28( WatcherWork* work )
         s00a_command_800C9ACC( work );
         s00a_command_800C9C7C( work );
     }
+#endif
 }
 
 void s00a_command_800C9D7C( WatcherWork* work )
@@ -287,12 +351,73 @@ void s00a_command_800C9E68( WatcherWork* work )
         diff = work->control.mov.vy - pos->vy;
     }
 
+#ifdef VR_EXE
+#ifdef VR_MINENE
+    if ( IS_SENSELESS( work ) )
+#else
+    if ( IS_SENSELESS( work ) || ( COM_GameStatus & COM_ST_VR_4000 ) )
+#endif
+    {
+        flag[0] = 0;
+        return;
+    }
+#endif
+
     if ( !( work->control.map->index & GM_PlayerMap ) || GM_PlayerStatus & ( PLAYER_INTRUDE | PLAYER_HIDDEN ) )
     {
         work->vision.field_B92 = 0;
         return;
     }
 
+#ifdef VR_EXE
+    /* height range of the sight */
+    if ( EnemyCommand.field_0x178 == 2 )
+    {
+        x = 3000;
+    }
+    else
+    {
+        x = 2000;
+    }
+
+    /* FIXME: the mix of work->vision.field_B92 / flag[0] stores and of &ctrl->mov /
+       &work->control.mov below steers cse (which address form each store keeps) and
+       the register allocation of flag/pos/ctrl */
+    if ( EnemyCommand.field_0x0C % EnemyCommand.field_0x08 == work->field_B78 )
+    {
+        if ( COM_EYE_LENGTH + 2000 < dis || x < diff )
+        {
+            work->vision.field_B92 = 0;
+        }
+        else if ( dis < 500 || GV_DiffDirAbs( work->vision.facedir, dir ) < work->vision.angle )
+        {
+            map = work->control.map;
+            if ( HZD_OnlineHazardCheck( map->hzd, pos, &ctrl->mov, HZD_CHK_ALL, SEGMENT_ATR ) )
+            {
+                work->vision.field_B92 = 0;
+            }
+            else if ( !GM_OnlineTargetCheckAny( &work->control.mov, pos, map->index, &svec ) )
+            {
+                if ( work->vision.length < dis )
+                {
+                    flag[0] = 1;
+                }
+                else
+                {
+                    flag[0] = 2;
+                }
+            }
+            else
+            {
+                flag[0] = 0;
+            }
+        }
+        else
+        {
+            flag[0] = 0;
+        }
+    }
+#else
     if ( EnemyCommand.field_0x0C % EnemyCommand.field_0x08 == work->field_B78 )
     {
         x = 2000;
@@ -342,6 +467,7 @@ void s00a_command_800C9E68( WatcherWork* work )
             work->vision.field_B92 = 0;
         }
     }
+#endif
 
     if ( sna_current_item_8004FB38() == IT_Stealth && work->param_blood != 83 )
     {

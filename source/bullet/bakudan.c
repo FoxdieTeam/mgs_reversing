@@ -89,8 +89,8 @@ static void Act(BakudanWork *work)
     DG_GetLightMatrix(&control->mov, work->light_mtx);
 
 #ifdef VR_EXE
-    // VR executable for some reason assigns the result
-    // of the condition below to a temporary variable!?
+    // FIXME: the VR executable assigns the result of the condition below to a
+    // temporary variable (steers the branch layout)
     cond = 0;
 #endif
     if (((work->active_pad->press & PAD_CIRCLE) && /* if the circle button was pressed */

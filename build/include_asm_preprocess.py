@@ -15,6 +15,11 @@ PRAGMA_RE = r'^#pragma\s+INCLUDE_ASM\s*\(\s*"([^"]+)"\s*\).*$'
 # all on one line to keep error line numbers correct
 FUNC_FMT = r'int {}(void) {{ asm("{}"); return {}; }}'
 
+# #pragma INCLUDE_ASM_RELOC("source/koba/vr/reloc/VrDrawTime.s");
+# Relocatable (symbolic, see build/symbolize_asm.py) asm: pasted verbatim into the C output as a file scope asm()
+# so the assembler keeps the relocations and the object stays shareable between overlays (it needs no fixup pass).
+RELOC_RE = r'^#pragma\s+INCLUDE_ASM_RELOC\s*\(\s*"([^"]+)"\s*\).*$'
+
 # _800515BC.
 ADDR_SUFFIX_RE = r'_([0-9A-F]{8})\.'
 
@@ -31,6 +36,13 @@ def main(path, output, obj_path):
         line = raw_line.strip()
         if not line.startswith('#pragma'):
             processed.append(raw_line)
+            continue
+
+        m = re.match(RELOC_RE, line)
+        if m:
+            text = open(os.path.join('..', m.group(1)), encoding='utf8').read()
+            body = ''.join('"%s\\n"' % l.replace('\\', '\\\\').replace('"', '\\"') for l in text.splitlines())
+            processed.append('asm(%s);\n' % body)
             continue
 
         m = re.match(PRAGMA_RE, line)

@@ -31,6 +31,10 @@ typedef struct _Work {
     int          field_30;
     int          mode;
     int          field_38;
+#ifdef VR_EXE
+    int          proc;          // 0x3C: GCL proc run when a fade out is done ('e' option)
+    int          proc_delay;    // 0x40
+#endif
 } Work;
 
 /*---------------------------------------------------------------------------*/
@@ -49,6 +53,19 @@ static void Act(Work *work)
     if (GV_PauseLevel == 0)
     {
         status = THING_Msg_CheckMessage(work->name, 2, mes_list);
+#ifdef VR_EXE
+        switch (status)
+        {
+        case 0:
+            GV_DestroyActor(&work->actor);
+            return;
+
+        case 1:
+            work->field_2c = 0;
+            work->mode |= MODE_FADEIN;
+            break;
+        }
+#else
         if (status == 0)
         {
             GV_DestroyActor(&work->actor);
@@ -60,6 +77,7 @@ static void Act(Work *work)
             work->field_2c = 0;
             work->mode |= MODE_FADEIN;
         }
+#endif
     }
 
     ot = DG_ChanlOTag(1);
@@ -77,7 +95,9 @@ static void Act(Work *work)
         shade = 255 - shade;
     }
 
+#ifndef VR_EXE
     if (GV_PauseLevel == 0)
+#endif
     {
         if (!(GM_GameStatus & STATE_DEMO))
         {
@@ -98,6 +118,18 @@ static void Act(Work *work)
     {
         GV_DestroyActor(&work->actor);
     }
+#ifdef VR_EXE
+
+    if (work->mode == MODE_FADEOUT && work->field_2c > work->shade && work->proc > 0)
+    {
+        if (work->proc_delay++ >= 2)
+        {
+            GV_PauseLevel = 0;
+            GCL_ExecProc(work->proc, NULL);
+            work->proc = -1;
+        }
+    }
+#endif
 }
 
 static void Die(Work *work)
@@ -159,6 +191,18 @@ static int GetResources(Work *work, int mode, int shade)
     work->mode = mode;
     work->shade = shade;
     work->field_2c = 1;
+#ifdef VR_EXE
+    if (GCL_GetOption('e'))
+    {
+        work->proc = GCL_StrToInt(GCL_NextStr());
+        work->proc_delay = 0;
+        work->shade -= 2;
+    }
+    else
+    {
+        work->proc = -1;
+    }
+#endif
     return 0;
 }
 

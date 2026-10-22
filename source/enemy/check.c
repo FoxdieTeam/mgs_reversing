@@ -8,6 +8,9 @@
 #include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
+#ifdef VR_MYSTERY
+#include "libgcl/libgcl.h"
+#endif
 
 extern void s00a_command_800C6BCC( WatcherWork *work, int time );
 extern void s00a_command_800C6FA8( WatcherWork *work, int time );
@@ -23,6 +26,10 @@ extern TOPCOMMAND_STRUCT TOPCOMMAND;
 extern SVECTOR           COM_NO_POINT;
 extern int               COM_EYE_LENGTH;
 extern int               COM_PlayerAddressOne[8];
+
+#ifdef VR_EXE
+#define BLOOD_WARP 'W'  /* param_blood: reset straight to the reset zone (no HZD_BoundOutZone) */
+#endif
 
 int s00a_command_800C50B0( WatcherWork *work )
 {
@@ -83,7 +90,18 @@ int s00a_command_800C5194( WatcherWork *work ) {
         }
         break;
     case 3:
+#ifdef VR_MYSTERY
+        if ( ( work->field_C58 & MYST_FLAG_02 ) && target->faint <= 0 )
+        {
+            work->unknown.field_14 = 1;
+        }
+        else
+        {
+            work->unknown.field_14 = 0;
+        }
+#else
         work->unknown.field_14 = 0;
+#endif
         SetMode( work, s00a_command_800C78E0 ) ;
         break;
     case 0:
@@ -92,6 +110,15 @@ int s00a_command_800C5194( WatcherWork *work ) {
         {
             work->unknown.field_14 = 1;
             SetMode( work, s00a_command_800C78E0 ) ;
+#ifdef VR_MYSTERY
+            if ( work->field_C58 & MYST_EXEC_PROC )
+            {
+                if ( work->field_C3C >= 0 )
+                {
+                    GCL_ExecProc( work->field_C3C, NULL );
+                }
+            }
+#endif
         }
         else
         {
@@ -107,6 +134,12 @@ int s00a_command_800C5194( WatcherWork *work ) {
         {
             work->unknown.field_14 = 2;
         }
+#ifdef VR_MINENE
+        if ( target->weapon == WP_Stinger )
+        {
+            GM_SeSetMode( &work->control.mov, SE_KICKHIT1, GM_SEMODE_BOMB );
+        }
+#endif
         SetMode( work, s00a_command_800C78E0 ) ;
         break;
     case 4:
@@ -202,7 +235,20 @@ void s00a_command_800C55B0( WatcherWork* work )
     GM_ConfigControlAttribute( ctrl, 0xD );
     InitTarget_800C5484( work );
 
+#if defined(VR_EXE) && !defined(VR_MINENE)
+    /* FIXME: warp first holds the player address, steers the address load before the branch */
+    warp = (char)COM_PlayerAddressOne[ work->field_B78 ];
+    if ( work->param_blood != BLOOD_WARP )
+    {
+        warp = HZD_BoundOutZone( EnemyCommand.map->hzd, warp, EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], 200 );
+    }
+    else
+    {
+        warp = EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ];
+    }
+#else
     warp = HZD_BoundOutZone( EnemyCommand.map->hzd, (char)COM_PlayerAddressOne[ work->field_B78 ], EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], 200 );
+#endif
 
     printf( (char *)aPlayxresetdwarpd_800DFD1C, (char)COM_PlayerAddressOne[ work->field_B78 ], EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], warp );
 
@@ -389,21 +435,56 @@ int CheckPad_800C5A60( WatcherWork *work )
         return 0;
     }
 
-    if ( press & 0x800000 )
+#ifdef VR_MYSTERY
+    if ( press & SP_ALERT_GESTURE )
+    {
+        SetMode( work, ActMysteryShoot_800C861C );
+        return 0;
+    }
+#elif !defined(VR_MINENE)
+    if ( press & SP_ALERT_GESTURE )
     {
         SetMode2( work, s00a_command_800C8C98 );
         return 0;
     }
+#endif
 
+#ifndef VR_MINENE
     if ( press & 0x1000000 )
     {
         SetMode2( work, s00a_command_800C8DF8 );
         return 0;
     }
+#endif
+
+#if defined(VR_EXE) && !defined(VR_MINENE)
+    if ( press & SP_LIE_DOWN )
+    {
+        SetMode( work, ActLieDown );
+        return 1;
+    }
+
+    if ( press & SP_HEARTBEAT )
+    {
+        SetMode( work, ActHeartbeat );
+        return 1;
+    }
+#ifdef VR_MYSTERY
+    if ( press & SP_AIM_ONCE )
+    {
+        SetMode( work, ActAimOnce_800C83C4 );
+        return 1;
+    }
+#endif
+#endif
 
     if ( press & 0x100 )
     {
+#ifdef VR_MYSTERY
+        SetMode( work, ActKnockedBack_800C80D8 );
+#else
         SetMode( work, s00a_command_800C615C );
+#endif
         return 1;
     }
 
@@ -419,11 +500,13 @@ int CheckPad_800C5A60( WatcherWork *work )
         return 1;
     }
 
+#ifndef VR_MINENE
     if ( press & SP_DANBOWLKERI )
     {
         SetMode( work, s00a_command_800C6320 );
         return 1;
     }
+#endif
 
     if ( press & 0x30000 )
     {

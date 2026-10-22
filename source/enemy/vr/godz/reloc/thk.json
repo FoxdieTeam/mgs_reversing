@@ -1,0 +1,44 @@
+{
+ "lo": "800C9E84",
+ "hi": "800CBFD4",
+ "rdata": [
+  [
+   "800DE8F8",
+   "godz_str_target_map",
+   "str"
+  ],
+  [
+   "800DE914",
+   "godz_str_kirari01",
+   "str"
+  ],
+  [
+   "800DE920",
+   "godz_str_c_root",
+   "str"
+  ],
+  [
+   "800DE94C",
+   "godz_str_action",
+   "str"
+  ],
+  [
+   "800DE95C",
+   "godz_str_root_change",
+   "str"
+  ],
+  [
+   "800DE9BC",
+   "godz_str_tuita",
+   "str"
+  ]
+ ],
+ "data": [
+  [
+   "800C1434",
+   "godzthk_data",
+   38
+  ]
+ ],
+ "c": {}
+}

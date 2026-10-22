@@ -37,6 +37,9 @@ def parse_arguments():
     parser.add_argument('--variant', type=str, default='main_exe', choices=['main_exe', 'vr_exe', 'dev_exe'],
                         help='Variant to build: main_exe for MGS Integral Disc 1/2 (SLPM_862.47/SLPM_862.48), vr_exe for MGS Integral VR Disc (SLPM_862.49), dev_exe for non-matching build with debug mods that can be freely modified and loaded into an emulator')
 
+    parser.add_argument('--overlay', type=str, default=None,
+                        help='Only build and check this one overlay (and only the objects it links): much faster when working on a single overlay, verify everything without this option before committing')
+
     args = parser.parse_args()
 
     args.psyq_path = os.path.relpath(args.psyq_path).replace("\\","/")
@@ -56,6 +59,8 @@ def parse_arguments():
     print("psyq_path = " + args.psyq_path)
     return args
 
+ONLY_TARGETS = []
+
 def prefix(pfx, cmd):
     if pfx == "wibo" and has_wibo:
         return f"wibo {cmd}"
@@ -65,7 +70,7 @@ def prefix(pfx, cmd):
 
 def ninja_run():
     ninja = os.path.join(BIN_DIR, 'ninja')
-    ninja_args = [] # TODO: pass through args to ninja?
+    ninja_args = ONLY_TARGETS # [] builds everything; with --overlay just that overlay
 
     # warnings that were probably in the original code
     # TODO: hide these when building locally
@@ -148,6 +153,14 @@ def ninja_run():
         r'smoke\.c:\d+: warning: `s00a_dword_800C34C8\' defined but not used',
         r'smoke3\.c:\d+: warning: unused variable `unused\'',
         r'jspark\.c:\d+: warning: unused variable `unused\'',
+        # in VR revisions (koba/vr, enemy/vr): these statics are only referenced from the relocatable asm
+        # (INCLUDE_ASM_RELOC) or from #if 0 NON_MATCHING code; they cannot be made global (names clash between actors)
+        r'vr2\.c:\d+: warning: `(Act|Die|GetResources)\' defined but not used',
+        r'vrbox\.c:\d+: warning: `InitShadowPoly\' defined but not used',
+        r'vrbox4\.c:\d+: warning: `(DrawLife|InitShadowPoly|ReadNodeFlags|NextNode|MoveToNode|UpdateShadow|Appear|Disappear)\' defined but not used',
+        r'vrclear2\.c:\d+: warning: `SetClearFlag\' defined but not used',
+        # m_door.c: 'model' is left uninitialized when there is no 'm' option, like the original (changes the match if fixed)
+        r'm_door\.c:\d+: warning: `model\' might be used uninitialized in this function',
     ]
 
     if os.environ.get('APPVEYOR'):
@@ -479,7 +492,24 @@ def gen_build_target(targetName):
 
         ninja.build(cPreProcFile, "psyq_c_preprocess_44", cFile, implicit=[cPreProcHeadersFixedFile])
 
-        if "overlays/" in cFile:
+        # C files that paste relocatable asm (INCLUDE_ASM_RELOC) outside of overlays/: preprocess only, no fixup
+        relocAsm = []
+        if "overlays/" not in cFile:
+            with open(cFile, encoding="utf8", errors="replace") as cf:
+                cText = cf.read()
+            relocAsm = re.findall(r'^#pragma\s+INCLUDE_ASM_RELOC\s*\(\s*"([^"]+)"', cText, re.M)
+            # C files that include another C file (e.g. enemy/vr/mystery.c includes enemy/watcher.c)
+            for incFile in re.findall(r'^#include\s+"([^"]+\.c)"', cText, re.M):
+                incPath = os.path.join("..", "source", incFile)
+                if os.path.exists(incPath):
+                    with open(incPath, encoding="utf8", errors="replace") as cf:
+                        relocAsm += re.findall(r'^#pragma\s+INCLUDE_ASM_RELOC\s*\(\s*"([^"]+)"', cf.read(), re.M)
+
+        if relocAsm:
+            ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile,
+                        implicit=["../" + x for x in relocAsm])
+            ninja.build(cConvertedFile, "convert_c_encoding", cAsmPreProcFile)
+        elif "overlays/" in cFile:
             ninja.build([cAsmPreProcFile, cAsmPreProcFileDeps, cDynDepFile], "asm_include_preprocess_44", cPreProcFile)
             ninja.build(cConvertedFile, "convert_c_encoding", cAsmPreProcFile)
         else:
@@ -504,6 +534,12 @@ def gen_build_target(targetName):
 
     # run the linker to generate the cpe
     cpeFile = f"../{args.obj_directory}/_mgsi.cpe"
+    # One aggregate target instead of repeating every object in each link step
+    # (with ~100 imported overlays the ninja file would grow to gigabytes).
+    allObjs = f"../{args.obj_directory}/all_objs"
+    ninja.build(allObjs, "phony", linkerDeps)
+    allObjDeps = list(linkerDeps)
+    linkerDeps = [allObjs]
     ninja.build(cpeFile, "psylink", implicit=linkerDeps + [linkerCommandFile])
     ninja.newline()
 
@@ -590,116 +626,132 @@ def gen_build_target(targetName):
 
     if args.variant == 'vr_exe':
         OVERLAYS = [
-            #"camera",
-            #"movie",
-            #"opening",
-            #"option",
-            #"photo_m1",
-            #"photo_m2",
-            #"photo_n1",
-            #"photo_n2",
-            #"photo_n3",
+            "camera",
+            "movie",
+            "opening",
+            "option",
+            "photo_m1",
+            "photo_m2",
+            "photo_n1",
+            "photo_n2",
+            "photo_n3",
             #"select",
-            #"selectvr",
+            "selectvr",
             "sound",
-            #"vab_cfr",
-            #"vab_clm",
-            #"vab_fms",
-            #"vab_grn",
-            #"vab_nkt",
-            #"vab_psg",
-            #"vab_scm",
-            #"vab_stg",
-            #"vab_sud",
-            #"vcd_n01",
-            #"vcd_n02",
-            #"vcd_n03",
-            #"vcd_n04",
-            #"vcd_n05",
-            #"vcd_n06",
-            #"vefgh_01",
-            #"vefgh_02",
-            #"vefgh_03",
-            #"vefgh_04",
-            #"vefgh_05",
-            #"vefgh_06",
-            #"vefgh_07",
-            #"vefgh_08",
-            #"vefgh_09",
-            #"vefgh_10",
-            #"vijkl_01",
-            #"vijkl_02",
-            #"vijkl_03",
-            #"vijkl_04",
-            #"vijkl_05",
-            #"vijkl_06",
-            #"vijkl_07",
-            #"vijkl_08",
-            #"vijkl_09",
-            #"vijkl_10",
-            #"vr_cfr01",
-            #"vr_cfr02",
-            #"vr_cfr03",
-            #"vr_cfr04",
-            #"vr_cfr05",
-            #"vr_clm01",
-            #"vr_clm02",
-            #"vr_clm03",
-            #"vr_clm04",
-            #"vr_clm05",
-            #"vr_fms01",
-            #"vr_fms02",
-            #"vr_fms03",
-            #"vr_fms04",
-            #"vr_fms05",
-            #"vr_grn01",
-            #"vr_grn02",
-            #"vr_grn03",
-            #"vr_grn04",
-            #"vr_grn05",
-            #"vr_nkt01",
-            #"vr_nkt02",
-            #"vr_nkt03",
-            #"vr_nkt04",
-            #"vr_nkt05",
-            #"vr_psg01",
-            #"vr_psg02",
-            #"vr_psg03",
-            #"vr_psg04",
-            #"vr_psg05",
-            #"vr_scm01",
-            #"vr_scm02",
-            #"vr_scm03",
-            #"vr_scm04",
-            #"vr_scm05",
-            #"vr_stg01",
-            #"vr_stg02",
-            #"vr_stg03",
-            #"vr_stg04",
-            #"vr_stg05",
-            #"vr_sud01",
-            #"vr_sud02",
-            #"vr_sud03",
-            #"vr_sud04",
-            #"vr_sud05",
-            #"vr_sud06",
-            #"vr_sud07",
-            #"vr_sud08",
-            #"vr_sud09",
-            #"vr_sud10",
-            #"vr_sud11",
-            #"vr_sud12",
-            #"vr_sud13",
-            #"vr_sud14",
-            #"vr_sud15",
-            #"vrsave",
-            #"vrtitle",
+            "vab_cfr",
+            "vab_clm",
+            "vab_fms",
+            "vab_grn",
+            "vab_nkt",
+            "vab_psg",
+            "vab_scm",
+            "vab_stg",
+            "vab_sud",
+            "vcd_n01",
+            "vcd_n02",
+            "vcd_n03",
+            "vcd_n04",
+            "vcd_n05",
+            "vcd_n06",
+            "vefgh_01",
+            "vefgh_02",
+            "vefgh_03",
+            "vefgh_04",
+            "vefgh_05",
+            "vefgh_06",
+            "vefgh_07",
+            "vefgh_08",
+            "vefgh_09",
+            "vefgh_10",
+            "vijkl_01",
+            "vijkl_02",
+            "vijkl_03",
+            "vijkl_04",
+            "vijkl_05",
+            "vijkl_06",
+            "vijkl_07",
+            "vijkl_08",
+            "vijkl_09",
+            "vijkl_10",
+            "vr_cfr01",
+            "vr_cfr02",
+            "vr_cfr03",
+            "vr_cfr04",
+            "vr_cfr05",
+            "vr_clm01",
+            "vr_clm02",
+            "vr_clm03",
+            "vr_clm04",
+            "vr_clm05",
+            "vr_fms01",
+            "vr_fms02",
+            "vr_fms03",
+            "vr_fms04",
+            "vr_fms05",
+            "vr_grn01",
+            "vr_grn02",
+            "vr_grn03",
+            "vr_grn04",
+            "vr_grn05",
+            "vr_nkt01",
+            "vr_nkt02",
+            "vr_nkt03",
+            "vr_nkt04",
+            "vr_nkt05",
+            "vr_psg01",
+            "vr_psg02",
+            "vr_psg03",
+            "vr_psg04",
+            "vr_psg05",
+            "vr_scm01",
+            "vr_scm02",
+            "vr_scm03",
+            "vr_scm04",
+            "vr_scm05",
+            "vr_stg01",
+            "vr_stg02",
+            "vr_stg03",
+            "vr_stg04",
+            "vr_stg05",
+            "vr_sud01",
+            "vr_sud02",
+            "vr_sud03",
+            "vr_sud04",
+            "vr_sud05",
+            "vr_sud06",
+            "vr_sud07",
+            "vr_sud08",
+            "vr_sud09",
+            "vr_sud10",
+            "vr_sud11",
+            "vr_sud12",
+            "vr_sud13",
+            "vr_sud14",
+            "vr_sud15",
+            "vrsave",
+            "vrtitle",
         ]
 
     if args.variant == 'dev_exe':
         OVERLAYS = []
 
+    if args.overlay:
+        if args.overlay not in OVERLAYS:
+            sys.exit(f"--overlay {args.overlay}: not a buildable overlay of this variant")
+        OVERLAYS = [args.overlay]
+
     for overlay in OVERLAYS:
+        if args.overlay:
+            # only the objects named in this overlay's block of the linker command file
+            import linker_command_file_preprocess as lcfp
+            tmp = f"../{args.obj_directory}/linker_command_file_{overlay}_probe.txt"
+            lcfp.main("linker_command_file.txt", args.psyq_path, tmp, args.defines + [f"OVERLAY={overlay}", "OVERLAY_SUFFIX=lhs"])
+            wanted = set()
+            for line in open(tmp, encoding="utf8", errors="replace"):
+                m = re.match(r'\s*include\s+"([^"]+\.obj)"', line)
+                if m and not m.group(1).startswith(args.psyq_path):
+                    wanted.add(os.path.normpath(m.group(1).replace("\\", "/")))
+            linkerDeps = [d for d in allObjDeps if os.path.normpath(d) in wanted]
         # It turns out that MGS overlays contain uninitialized memory
         # in:
         # - Padding between values in data/rdata (e.g. padding between strings)
@@ -751,8 +803,14 @@ def gen_build_target(targetName):
         ninja.newline()
 
         overlayFile = f"../{args.obj_directory}/{overlay}.bin"
-        ninja.build(overlayFile, "uninitializer", inputs=[lhsOverlayFile, rhsOverlayFile, f"../um/stage/{overlay}.bin"], variables={"overlay": f"{overlay}"})
+        umFile = f"../um/{'stagevr' if args.variant == 'vr_exe' else 'stage'}/{overlay}.bin"
+        # optional: bytes of bss beyond the end of the original overlay (see uninitializer.py)
+        trimFile = [umFile + ".trim"] if os.path.isfile(umFile + ".trim") else []
+        ninja.build(overlayFile, "uninitializer", inputs=[lhsOverlayFile, rhsOverlayFile, umFile], implicit=trimFile, variables={"overlay": f"{overlay}"})
         ninja.newline()
+
+if args.overlay:
+    ONLY_TARGETS[:] = [f"../{args.obj_directory}/{args.overlay}.bin"]
 
 #init_psyq_ini_files(args.psyq_path)
 gen_build_target("SLPM_862.47")
@@ -769,10 +827,10 @@ took = time.time() - time_before
 print(f'build took {took:.2f} seconds')
 
 if exit_code == 0 and args.variant != 'dev_exe':
-    ret = subprocess.run([sys.executable, 'compare.py', '--variant', 'vr' if args.variant == 'vr_exe' else 'main'])
+    ret = subprocess.run([sys.executable, 'compare.py', '--variant', 'vr' if args.variant == 'vr_exe' else 'main'] + (['--only', args.overlay] if args.overlay else []))
     exit_code = ret.returncode
 
-if exit_code == 0 and args.variant != 'dev_exe':
+if exit_code == 0 and args.variant != 'dev_exe' and not args.overlay:
     ret = subprocess.run([sys.executable, 'post_build_checkup.py'])
     exit_code = ret.returncode
 

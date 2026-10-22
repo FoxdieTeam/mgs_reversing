@@ -8,6 +8,12 @@
 #include "../mts/mts.h"
 #include "../mts/taskid.h"
 
+#ifdef VR_EXE
+// VR only: system sound codes (0xFF0000xx) that stop / resume all sound effects
+#define SD_CODE_SE_STOP     0xFF000003
+#define SD_CODE_SE_RESUME   0xFF000004
+#endif
+
 extern SETBL *se_header;
 
 int sd_task_active(void)
@@ -334,10 +340,10 @@ void sd_set(int sound_code)
         switch (sound_code)
         {
     #ifdef VR_EXE
-        case 0xFF000003:
+        case SD_CODE_SE_STOP:
             se_stop_fg = 1;
             return;
-        case 0xFF000004:
+        case SD_CODE_SE_RESUME:
             se_stop_fg = 0;
             return;
     #endif

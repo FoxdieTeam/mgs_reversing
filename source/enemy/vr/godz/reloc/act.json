@@ -1,0 +1,95 @@
+{
+ "lo": "800C4DB8",
+ "hi": "800C7FD0",
+ "rdata": [],
+ "data": [],
+ "c": {
+  "800C4DB8": "GodzAct_800C4DB8",
+  "800C4FA0": "GodzAct_800C4FA0",
+  "800C5278": "GodzAct_800C5278",
+  "800C5308": "GodzAct_800C5308",
+  "800C5388": "GodzAct_800C5388",
+  "800C5768": "GodzAct_800C5768",
+  "800C57FC": "GodzAct_800C57FC",
+  "800C5904": "GodzAct_800C5904",
+  "800C590C": "GodzAct_800C590C",
+  "800C5AD4": "GodzAct_800C5AD4",
+  "800C5BA4": "GodzAct_800C5BA4",
+  "800C5CF8": "GodzAct_800C5CF8",
+  "800C5E70": "GodzAct_800C5E70",
+  "800C5F38": "GodzAct_800C5F38",
+  "800C5FF4": "GodzAct_800C5FF4",
+  "800C62D8": "GodzAct_800C62D8",
+  "800C6598": "GodzAct_800C6598",
+  "800C66E4": "GodzAct_800C66E4",
+  "800C6F14": "GodzAct_800C6F14",
+  "800C70F4": "GodzAct_800C70F4",
+  "800C71D8": "GodzAct_800C71D8",
+  "800C73B0": "GodzActionUpdate",
+  "800C7658": "GodzAct_800C7658",
+  "800C7724": "GodzAct_800C7724",
+  "800C77F0": "GodzAct_800C77F0",
+  "800C7888": "GodzAct_800C7888",
+  "800C7890": "GodzAct_800C7890",
+  "800C7898": "GodzAct_800C7898",
+  "800C78A0": "GodzAct_800C78A0",
+  "800C78A8": "GodzAct_800C78A8",
+  "800C78B0": "GodzAct_800C78B0",
+  "800C78B8": "GodzAct_800C78B8",
+  "800C78C0": "GodzAct_800C78C0",
+  "800C78C8": "GODZ_PutBlood",
+  "800C7938": "GODZ_PutFog",
+  "800C799C": "GODZ_PutMark",
+  "800C7DA8": "GODZ_PutLSight",
+  "800C7DE4": "GODZ_PutBullet",
+  "800C7EF4": "GODZ_SetPutChar",
+  "800C7F3C": "GODZ_ClearPutChar",
+  "800C7F70": "GODZ_ExecPutChar"
+ },
+ "sized_syms": {
+  "800C12D0": [
+   "GodzActTable",
+   108
+  ],
+  "800C133C": [
+   "godz_act_data_133C",
+   20
+  ],
+  "800C1350": [
+   "godz_act_data_1350",
+   20
+  ],
+  "800C1364": [
+   "godz_svec_1364",
+   8
+  ],
+  "800C136C": [
+   "godz_svec_136C",
+   8
+  ],
+  "800C1374": [
+   "godz_svec_1374",
+   8
+  ],
+  "800C137C": [
+   "godz_svec_137C",
+   8
+  ],
+  "800C1384": [
+   "GodzPutFuncList",
+   16
+  ],
+  "800C1394": [
+   "godz_svec_1394",
+   8
+  ],
+  "800C139C": [
+   "godz_svec_139C",
+   8
+  ],
+  "800C13A4": [
+   "godz_svec_13A4",
+   8
+  ]
+ }
+}

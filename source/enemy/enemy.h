@@ -172,7 +172,28 @@ typedef struct _WatcherWork
     int            field_C44;                  //0xC44
     short          field_C48;                  //0xC48
     short          field_C4A;                  //0xC4A
+#ifdef VR_EXE
+    GV_ACT        *kogaku_body;                //0xC4C  stealth camouflage (param_blood 'K')
+    GV_ACT        *kogaku_weapon;              //0xC50
+    int            heartbeat_time;             //0xC54 tick count of the last heartbeat SE (action.c)
+    int            field_C58;                  //0xC58
+    int            field_C5C;                  //0xC5C
+#endif
 } WatcherWork;
+
+#ifdef VR_MYSTERY
+// WatcherWork.field_C58: feature flags of the "mystery" soldier (GCL option 'k')
+#define MYST_FOOTPRINTS 0x01    // leaves footprints (asiato2), the pointer is kept in field_C5C
+#define MYST_FLAG_02    0x02    // other pain/get up animations (ACTION26/ACTION53 instead of 37/44), dies when its faint reaches 0
+#define MYST_RUN        0x04    // always runs instead of walking, a bit faster
+#define MYST_FLAG_08    0x08    // no white breath; with MYST_FLAG_40 the first path point may start the soldier lying down
+#define MYST_SMALL_TARGET 0x10  // smaller hit box (MYSTERY_TARGET_SIZE)
+#define MYST_FLAG_20    0x20    // pushed up (unknown.field_04) while it is knocked down
+#define MYST_FLAG_40    0x40    // see MYST_FLAG_08
+#define MYST_NEW_MODEL  0x80    // uses the other body model (and low poly model)
+#define MYST_FLAG_100   0x100   // swaps the VR_ST_HOLD_C/D flag of a held 'C'/'E' soldier (set from the pad, cleared by msg 0xD359)
+#define MYST_EXEC_PROC  0x200   // calls the GCL proc field_C3C ('e' option) when killed
+#endif
 
 typedef struct _ZakoWork
 {
@@ -535,6 +556,28 @@ typedef struct _ZAKO11F_COMMAND
 //command.c
 #define TOP_COMM_TRAVEL 0
 #define TOP_COMM_ALERT  1
+#define TOP_COMM_EVASION 2
+
+/* COM_GameStatus flags */
+#define COM_ST_VR_4000      0x4000  /* VR: set by a GCL message (FIXME: meaning not known), the soldiers then see nothing */
+#define COM_ST_SHARE_TARGET 0x4 /* VR: enemies publish their route target in COM_PlayerAddressOne/PositionOne */
+
+/* bikkuri_flag bits (command.c): COM_CallBikkuriSe ORs the kind of source and BIKKURI_CALLED */
+#define BIKKURI_CALLED      0x1
+#define BIKKURI_FLAG_2      0x2     /* set by the commander while no soldier is alerted (FIXME: exact meaning) */
+#define BIKKURI_SOLDIER     0x10
+#define BIKKURI_CAMERA      0x20
+#define BIKKURI_SEARCHLIGHT 0x40
+#ifdef VR_EXE
+#define BIKKURI_HOLD_C      0x100   /* a 'C'/'E' soldier is being held */
+#define BIKKURI_HOLD_D      0x200   /* a 'D'/'F' soldier is being held */
+#define BIKKURI_MINENE      0x400   /* the minene soldier "bikkuri" */
+#define BIKKURI_TOP         0x80000000
+
+void COM_SetBikkuriFlagTop( void );
+void COM_SetBikkuriFlag( int flag );
+void COM_ResetBikkuriFlag( int flag );
+#endif
 
 void  COM_CallBikkuriSe( SVECTOR *mov , int n );
 int  s00a_command_800CEA2C( WatcherWork *work );
@@ -589,6 +632,9 @@ void ENE_PutMark( WatcherWork *work, int mark ) ;
 void ENE_PutBlood( WatcherWork *work, int put, int i ) ;
 void ENE_PutItem( WatcherWork *work ) ;
 int  ENE_SetPutChar( WatcherWork *work, int put ) ;
+#ifdef VR_MYSTERY
+void ENE_SetLieDownMode( WatcherWork *work ) ;
+#endif
 
 void ENE_PutFog( WatcherWork *work ) ;
 int  ENE_ClearPutChar( WatcherWork *work, void *func ) ;
@@ -612,6 +658,54 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define SP_WEAPON      0x10000
 #define SP_WEAPON2     0x20000
 #define SP_DANBOWLKERI 0x400000
+#define SP_ALERT_GESTURE 0x800000
+#define SP_LIE_DOWN    0x4000000
+#define SP_HEARTBEAT   0x8000000
+#ifdef VR_MINENE
+// Sound effects of the VR sound table used by the minene soldier (FIXME: names not known)
+#define SE_MINENE_PUNCHED       0x18
+#define SE_MINENE_THROWN        0x19
+#define SE_MINENE_KILLED        0xC9
+#define SE_MINENE_HIT           0xCA
+#define SE_MINENE_HUH           0xC8
+
+#define BLOOD_MINENE_VOICE      'T'     /* param_blood: soldier uses the other voices */
+#endif
+
+#ifdef VR_MYSTERY
+#define SP_AIM_ONCE    0x10000000
+
+// Sound effects of the VR sound table used by the mystery soldier (FIXME: names not known)
+#define SE_MYSTERY_KNOCKED      0xD4
+#define SE_MYSTERY_HEARTBEAT    0xD5
+#define SE_MYSTERY_GESTURE      0xD9
+#define SE_MYSTERY_GETUP        0xDE
+#define SE_MYSTERY_BIG_THROWN   0xCF
+#define SE_MYSTERY_BIG_HITFLOOR 0xD8
+#define SE_MYSTERY_BIG_GRABBED  0xD0
+#define SE_MYSTERY_BIG_SNAPPED  0xD1
+#define SE_MYSTERY_BIG_PUNCHED  0xCE
+
+#define MSG_MYSTERY_CLEAR_FLAG_100 0xD359   // FIXME: GV_StrCode of an unknown string; clears MYST_FLAG_100
+#define MSG_MYSTERY_SEIZURE     0xB2D0  // FIXME: GV_StrCode of an unknown string
+
+// Soldiers with a scale (GCL option 's') of 2000 or more are giants that use other voices/sounds
+#define MYST_BIG_SCALE          0x1771
+#endif
+
+// Virtual sound ids: a soldier puts one in pad.sound, the commander resolves it to a real SE (voice or radio call,
+// see s00a_command_800CF13C) for the soldier that is closest to the player. Real SE ids are below 240.
+enum
+{
+    ENE_VSE_0 = 240,
+    ENE_VSE_1 = 241,
+    ENE_VSE_2 = 242,
+    ENE_VSE_3 = 243,
+    ENE_VSE_4 = 244,
+    ENE_VSE_5 = 245,
+    ENE_VSE_6 = 246,
+    ENE_VSE_7 = 247
+};
 
 #define ACTINTERP   4
 
@@ -667,6 +761,9 @@ void s00a_command_800CB1C4( WatcherWork* work );
 #define ACTION49    49 //SAME ID AS 40
 #define ACTION50    50 //SAME ID AS 41
 #define ACTION51    51 //SAME ID AS 42
+#ifdef VR_MYSTERY
+#define ACTION53    53
+#endif
 
 typedef void    ( *ACTION )( WatcherWork *, int ) ;
 
@@ -771,6 +868,17 @@ void s00a_command_800C818C( WatcherWork *work, int time );
 
 void ActGrenade_800C67EC( WatcherWork *work, int time );
 void ActOverScoutD_800C85DC( WatcherWork *work, int time );
+#ifdef VR_EXE
+void ActLieDown( WatcherWork *work, int time );
+void ActHeartbeat( WatcherWork *work, int time );
+#ifdef VR_MYSTERY
+void ActAimOnce_800C83C4( WatcherWork *work, int time );
+void ActKnockedBack_800C80D8( WatcherWork *work, int time );
+void ActGetUp_800C82EC( WatcherWork *work, int time );
+void ActSeizure_800C843C( WatcherWork *work, int time );
+void ActMysteryShoot_800C861C( WatcherWork *work, int time );
+#endif
+#endif
 
 //think.c ?
 #define T_NOISE 0

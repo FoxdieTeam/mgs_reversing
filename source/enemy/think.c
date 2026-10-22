@@ -24,9 +24,23 @@ extern int           COM_PlayerAddressOne[8];
 extern int           COM_VibTime;
 extern int           COM_PlayerMap;
 extern int           COM_SHOOTRANGE;
+#ifdef VR_EXE
+extern unsigned int  ENE_SPECIAL_FLAG;
+#endif
 
+#if defined(VR_MYSTERY) || defined(VR_MINENE)
+#define VR_ZONE_LOG /* the route finding prints the zones it uses */
+#endif
+
+#ifdef VR_ZONE_LOG
+const char aNowzonedrzoned[] = " now zone = %d r_zone=%d\n";
+#endif
 const char aErrerrerrnotlinkroutedtod_800E0690[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
 const char aErrnozoneidingcl_800E06C0[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
+#ifdef VR_ZONE_LOG
+const char aRestrictedzoned[] = " restricted zone = %d \n";
+const char aBeforezoned[] = " before zone = %d \n";
+#endif
 const char aKirari_800E06E8[] = "kirari01";
 const char aBefmapnamed_800E06F4[] = "bef map name =%d \n";
 const char aAftmapnamed_800E0708[] = "aft map name =%d \n";
@@ -38,8 +52,12 @@ int s00a_dword_800C3524[32] =
 {
     0x00000000, 0x00000001, 0x00000002, 0x00000004,
     0x00002000, 0x00000040, 0x00000080, 0x00000200,
-    0x00000400, 0x00000800, 0x00000100, 0x00800000,
-    0x01000000, 0x04000000, 0x08000000, 0x00000000,
+    0x00000400, 0x00000800, 0x00000100, SP_ALERT_GESTURE,
+#ifdef VR_MYSTERY
+    0x01000000, SP_LIE_DOWN, SP_HEARTBEAT, SP_AIM_ONCE,
+#else
+    0x01000000, SP_LIE_DOWN, SP_HEARTBEAT, 0x00000000,
+#endif
     0x00000000, 0x00000001, 0x00000002, 0x00000004,
     0x00002000, 0x00000040, 0x00000080, 0x00000200,
     0x00000400, 0x00000800, 0x00000000, 0x00000000,
@@ -86,6 +104,9 @@ int s00a_command_800CA8E0( WatcherWork *work, int addr_in )
 
     for (  ;; )
     {
+#ifdef VR_ZONE_LOG
+        printf( (char *)aNowzonedrzoned, addr, addr_in );
+#endif
         temp = addr & 0xFF;
         res = HZD_Navigate( hzd, temp | ( temp << 8 ), local_addr, &svec );
         if ( res == addr )
@@ -155,7 +176,16 @@ void s00a_command_800CAB74( WatcherWork* work )
 
     if ( work->field_C34 && s00a_command_800CA898( work , zone ) )
     {
+#ifdef VR_ZONE_LOG
+        int new_addr;
+
+        printf( (char *)aRestrictedzoned, addr );
+        new_addr = s00a_command_800CA8E0( work, addr );
+        printf( (char *)aBeforezoned, new_addr );
+        s00a_command_800CAA2C( work, new_addr );
+#else
         s00a_command_800CAA2C( work, s00a_command_800CA8E0( work, addr ) );
+#endif
         return;
     }
 
@@ -263,6 +293,7 @@ void s00a_command_800CAD84( WatcherWork *work )
                     {
                         if ( !s00a_command_800CACA0( work, addr_copy, addr ) )
                         {
+                            // FIXME: the goto loop / goto end structure steers the block layout of this search
                             if ( s00a_command_800CEA9C( addr ) )
                             {
                                 goto loop;
@@ -329,7 +360,25 @@ void s00a_command_800CAFD4( WatcherWork* work )
     addr = EnemyCommand.com_addr;
     if ( s00a_command_800CA898( work, &work->control.map->hzd->def->zones[ addr ] ) )
     {
+#if defined(VR_EXE) && !defined(VR_MYSTERY) && !defined(VR_MINENE)
+        HZD_ZON *zone;
+        int      next;
+
+        next = s00a_command_800CA8E0( work, addr );
+        s00a_command_800CAA2C( work, next );
+
+        if ( COM_GameStatus & COM_ST_SHARE_TARGET )
+        {
+            COM_PlayerAddressOne[ work->field_B78 ] = next | next << 8;
+
+            zone = &work->control.map->hzd->def->zones[ next ];
+            COM_PlayerPositionOne[ work->field_B78 ].vx = zone->x;
+            COM_PlayerPositionOne[ work->field_B78 ].vy = zone->y;
+            COM_PlayerPositionOne[ work->field_B78 ].vz = zone->z;
+        }
+#else
         s00a_command_800CAA2C( work, s00a_command_800CA8E0( work, addr ) );
+#endif
         return;
     }
 
@@ -365,12 +414,14 @@ void s00a_command_800CB13C( WatcherWork* work )
     work->target_map = work->start_map;
 }
 
+#ifndef VR_MINENE /* the minene soldier does not follow footprints */
 void s00a_command_800CB1C4( WatcherWork* work )
 {
     AsiatoPos( work->field_BA0, &work->target_pos );
     work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
     work->target_map = work->control.map->index;
 }
+#endif
 
 void EnemyResetThink_800CB224( WatcherWork* work )
 {
@@ -515,7 +566,11 @@ void s00a_command_800CB42C( WatcherWork* work )
     }
     else
     {
+#if defined(VR_EXE) && !defined(VR_MINENE)
+        if ( work->field_C00 >= 2 )
+#else
         if ( work->field_BFC >= 5800 )
+#endif
         {
             work->think1 = 2;
             work->think2 = 13;
@@ -528,6 +583,10 @@ void s00a_command_800CB42C( WatcherWork* work )
             work->think1 = 2;
             work->think2 = 11;
             work->pad.mode = 1;
+#if defined(VR_EXE) && !defined(VR_MINENE)
+            ENE_SPECIAL_FLAG = 1 - ENE_SPECIAL_FLAG;
+            work->field_C4A = ENE_SPECIAL_FLAG;
+#endif
         }
     }
     work->count3 = 0;
@@ -644,6 +703,7 @@ int s00a_command_800CB6CC( WatcherWork* work )
     }
 }
 
+#ifndef VR_MINENE
 int s00a_command_800CB770( WatcherWork* work )
 {
     int count;
@@ -671,6 +731,7 @@ int s00a_command_800CB770( WatcherWork* work )
         return 0;
     }
 }
+#endif
 
 int s00a_command_800CB7E0( WatcherWork *work )
 {
@@ -685,7 +746,7 @@ int s00a_command_800CB7FC( WatcherWork *work )
 
     if ( count == 0 )
     {
-        work->pad.sound = 245;
+        work->pad.sound = ENE_VSE_5;
     }
     else
     {
@@ -731,9 +792,19 @@ int s00a_command_800CB838( WatcherWork *work )
             return -1;
         }
 
+#if defined(VR_EXE) && !defined(VR_MINENE)
+        if ( ( !( work->field_C00 & 1 ) && EnemyCommand.mode != TOP_COMM_EVASION ) ||
+             ( work->field_C4A && EnemyCommand.mode == TOP_COMM_EVASION ) )
+#else
         if ( !( work->field_C00 & 1 ) )
+#endif
         {
+#ifdef VR_MINENE
             addr3 = HZD_Navigate2( hzd, addr2, addr, &ctrl->mov );
+#else
+            // FIXME: &work->control.mov instead of &ctrl->mov (both Navigate calls) steers the VR register allocation
+            addr3 = HZD_Navigate2( hzd, addr2, addr, &work->control.mov );
+#endif
             zone = &hzd->def->zones[ addr3 ];
 
             if ( GM_PlayerPosition.vx & 1 )
@@ -757,7 +828,12 @@ int s00a_command_800CB838( WatcherWork *work )
         }
         else
         {
+#ifdef VR_MINENE
+            // FIXME: &ctrl->mov / &work->control.mov, see the HZD_Navigate2 call above
             addr3 = HZD_Navigate( hzd, addr2, addr, &ctrl->mov );
+#else
+            addr3 = HZD_Navigate( hzd, addr2, addr, &work->control.mov );
+#endif
             zone = &hzd->def->zones[ addr3 ];
             work->field_C14.vx = zone->x;
             work->field_C14.vy = zone->y;
@@ -808,7 +884,6 @@ int s00a_command_800CBB44( WatcherWork *work )
     int act, time, dir;
     int command;
 
-start:
     //    starting from lo
     //   |con |dir|tim| act   //
     //000|0 00|00 |000|0 0000//
@@ -840,7 +915,7 @@ start:
             {
                 return 0;
             }
-            goto start;
+            return s00a_command_800CBB44( work );
         }
 
         if ( con != 0 )
@@ -1050,6 +1125,13 @@ int s00a_command_800CC064( WatcherWork* work )
 
 int s00a_command_800CC0D4( WatcherWork* work )
 {
+#if defined(VR_EXE) && !defined(VR_MINENE)
+    if ( work->param_blood == 'W' )
+    {
+        return 1;
+    }
+#endif
+
     if ( s00a_command_800CBF00( work ) )
     {
         return 1;
@@ -1103,6 +1185,7 @@ void s00a_command_800CC210( WatcherWork* work )
     work->pad.dir = s00a_command_800CC1DC( &work->control.mov, &work->target_pos );
 }
 
+#ifndef VR_MINENE
 int s00a_command_800CC240(SVECTOR* svec, SVECTOR* svec2, int a1) {
     int x, z;
 
@@ -1133,6 +1216,8 @@ int s00a_command_800CC294( WatcherWork *work )
     return 0;
 }
 
+#endif
+
 int s00a_command_800CC2E8( WatcherWork* work )
 {
 
@@ -1147,17 +1232,18 @@ int s00a_command_800CC2E8( WatcherWork* work )
     return 0;
 }
 
+#ifndef VR_MINENE
 int s00a_command_800CC344( WatcherWork *work )
 {
     if ( work->count3 == 0 )
     {
-       if ( COM_GameStatus & 0x2000 )
+       if ( COM_GameStatus & COM_ST_DANBOWL )
        {
            work->think3 = 13;
            return 0;
        }
 
-        COM_GameStatus |= 0x2000;
+        COM_GameStatus |= COM_ST_DANBOWL;
         work->pad.dir = work->sn_dir;
     }
 
@@ -1179,7 +1265,7 @@ int s00a_command_800CC344( WatcherWork *work )
 
 int s00a_command_800CC40C( WatcherWork *work )
 {
-    if ( !( COM_GameStatus & 0x2000 ) )
+    if ( !( COM_GameStatus & COM_ST_DANBOWL ) )
     {
         return 1;
     }
@@ -1188,6 +1274,8 @@ int s00a_command_800CC40C( WatcherWork *work )
     work->count3++;
     return 0;
 }
+
+#endif
 
 int s00a_command_800CC44C( WatcherWork *work )
 {
@@ -1252,7 +1340,7 @@ int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
 {
     if ( work->act_status & 0x00000080  )
     {
-        work->pad.press |= 0x00800000  ;
+        work->pad.press |= SP_ALERT_GESTURE;
     }
 
     if( work->count3 == 0)
@@ -1261,7 +1349,18 @@ int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
         {
             if( work->modetime[(  T_NOISE  )]  <= 1 )
             {
-                work->pad.sound = (  0x88   ) ; // SE_V_ENE_HUH
+#ifdef VR_MINENE
+                if ( work->param_blood == BLOOD_MINENE_VOICE )
+                {
+                    work->pad.sound = SE_MINENE_HUH;
+                }
+                else
+                {
+                    work->pad.sound = SE_V_ENE_HUH; // 敵兵「ん？」
+                }
+#else
+                work->pad.sound = SE_V_ENE_HUH; // 敵兵「ん？」
+#endif
             }
             if( work->modetime[(  T_NOISE  )]  <= 3 )
             {
@@ -1294,7 +1393,7 @@ int Think3_NoiseModeWatch_800CC5C0( WatcherWork *work )
                 {
                     if ( !(work->act_status & 0x00000080 ) )
                     {
-                        work->pad.sound = 241;
+                        work->pad.sound = ENE_VSE_1;
                     }
                 }
                 return 1;
@@ -1359,6 +1458,7 @@ int s00a_command_800CC7A4( WatcherWork *work )
     return 0;
 }
 
+#ifndef VR_MINENE
 int s00a_command_800CC83C( WatcherWork* work )
 {
     if ( work->count3 == 0 )
@@ -1388,6 +1488,8 @@ int s00a_command_800CC83C( WatcherWork* work )
     return 0;
 }
 
+#endif
+
 int s00a_command_800CC8C8( WatcherWork *work )
 {
     if ( work->count3 > 2 && work->act_status & 1 )
@@ -1408,7 +1510,18 @@ int s00a_command_800CC90C( WatcherWork *work )
 
     if ( work->count3 == 30 )
     {
+#ifdef VR_MINENE
+        if ( work->param_blood == BLOOD_MINENE_VOICE )
+        {
+            work->pad.sound = SE_MINENE_HUH;
+        }
+        else
+        {
+            work->pad.sound = SE_V_ENE_HUH; // 敵兵「ん？」
+        }
+#else
         work->pad.sound = SE_V_ENE_HUH; // 敵兵「ん？」
+#endif
         ENE_PutMark( work, 5 );
     }
 
@@ -1421,6 +1534,7 @@ int s00a_command_800CC90C( WatcherWork *work )
     return 0;
 }
 
+#ifndef VR_MINENE
 int s00a_command_800CC99C( WatcherWork *work )
 {
     if ( work->count3 == 0 )
@@ -1438,7 +1552,7 @@ int s00a_command_800CC99C( WatcherWork *work )
     {
         if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
         {
-            work->pad.sound = 243;
+            work->pad.sound = ENE_VSE_3;
         }
         return 1;
     }
@@ -1447,6 +1561,8 @@ int s00a_command_800CC99C( WatcherWork *work )
     return 0;
 }
 
+#endif
+
 int s00a_command_800CCA28( WatcherWork *work )
 {
     if ( work->count3 == 20 )
@@ -1454,7 +1570,7 @@ int s00a_command_800CCA28( WatcherWork *work )
         ENE_PutMark( work, 5 );
         if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
         {
-            work->pad.sound = 244;
+            work->pad.sound = ENE_VSE_4;
         }
         else
         {
@@ -1471,12 +1587,13 @@ int s00a_command_800CCA28( WatcherWork *work )
     return 0;
 }
 
+#ifndef VR_MINENE
 int s00a_command_800CCA9C( WatcherWork *work )
 {
     if ( work->count3 == 20 )
     {
         ENE_PutMark( work, 5 );
-        work->pad.sound = 244;
+        work->pad.sound = ENE_VSE_4;
     }
 
     if ( s00a_command_800CB6CC( work ) )
@@ -1496,7 +1613,7 @@ int s00a_command_800CCAFC( WatcherWork *work )
         ENE_PutMark( work, 5 );
         if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
         {
-            work->pad.sound = 242;
+            work->pad.sound = ENE_VSE_2;
         }
     }
 
@@ -1508,6 +1625,8 @@ int s00a_command_800CCAFC( WatcherWork *work )
     work->count3++;
     return 0;
 }
+
+#endif
 
 int s00a_command_800CCB7C( WatcherWork *work )
 {
@@ -1829,14 +1948,19 @@ static inline void think_reset( WatcherWork *work )
     EnemyResetThink_800CB224( work );
 }
 
+static inline void think_next_node( WatcherWork *work )
+{
+    work->next_node--;
+    s00a_command_800CB13C( work );
+    EnemyResetThink_800CB224( work );
+    s00a_command_800CB660( work );
+}
+
 static inline void think_reset2( WatcherWork *work )
 {
     if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
     {
-        work->next_node--;
-        s00a_command_800CB13C( work );
-        EnemyResetThink_800CB224( work );
-        s00a_command_800CB660( work );
+        think_next_node( work );
     }
     else
     {
@@ -1879,6 +2003,10 @@ void s00a_command_800CD210( WatcherWork* work )
                     set_dir( work );
                 }
                 work->count3 = 0;
+#ifdef VR_MINENE
+                // FIXME: only the minene revision returns here (skipping the common checks after the switch)
+                return;
+#endif
             }
             else
             {
@@ -1978,8 +2106,17 @@ void s00a_command_800CD478( WatcherWork *work )
         case 4:
             if ( s00a_command_800CC8C8( work ) )
             {
-                work->think3 = 5;
-                work->count3 = 0;
+#ifdef VR_EXE
+                if ( work->param_blood == 'M' || work->param_blood == 'C' || work->param_blood == 'D' )
+                {
+                    think_next_node( work );
+                }
+                else
+#endif
+                {
+                    work->think3 = 5;
+                    work->count3 = 0;
+                }
             }
             break;
         case 5:
@@ -2010,6 +2147,13 @@ void s00a_command_800CD478( WatcherWork *work )
 }
 
 
+#ifdef VR_MINENE
+/* the minene soldier does not look for boxes: empty */
+void s00a_command_800CD608( WatcherWork *work )
+{
+
+}
+#else
 void s00a_command_800CD608( WatcherWork *work )
 {
     short x;
@@ -2092,6 +2236,7 @@ void s00a_command_800CD608( WatcherWork *work )
             think_reset2( work );
         }
         break;
+#ifndef VR_MINENE
     case 7:
         if ( s00a_command_800CC344( work ) )
         {
@@ -2104,6 +2249,7 @@ void s00a_command_800CD608( WatcherWork *work )
             think_reset2( work );
         }
         break;
+#endif
     }
 
     if ( work->field_BA1 & 4 )
@@ -2133,6 +2279,8 @@ void s00a_command_800CD608( WatcherWork *work )
         return ;
     }
 }
+
+#endif
 
 void s00a_command_800CD8B0( WatcherWork *work )
 {
@@ -2242,6 +2390,13 @@ void s00a_command_800CD8B0( WatcherWork *work )
     }
 }
 
+#ifdef VR_MINENE
+/* the minene soldier does not follow footprints: empty */
+void s00a_command_800CDB88( WatcherWork *work )
+{
+
+}
+#else
 void s00a_command_800CDB88( WatcherWork *work )
 {
     switch ( work->think3 )
@@ -2321,6 +2476,8 @@ void s00a_command_800CDB88( WatcherWork *work )
     }
 }
 
+#endif
+
 void s00a_command_800CDD80( WatcherWork *work )
 {
     switch( work->think3 )
@@ -2331,11 +2488,11 @@ void s00a_command_800CDD80( WatcherWork *work )
             s00a_command_800CB2C8( work );
             if ( EnemyCommand.mode == TOP_COMM_TRAVEL )
             {
-                work->pad.sound = 240;
+                work->pad.sound = ENE_VSE_0;
             }
             else
             {
-                work->pad.sound = 246;
+                work->pad.sound = ENE_VSE_6;
             }
             work->alert_level = 255;
             ENE_SetGopointLast();
@@ -2359,7 +2516,7 @@ void s00a_command_800CDD80( WatcherWork *work )
         case 17:
         ENE_SetGopointLast();
         s00a_command_800CB258( work );
-        work->pad.sound   = 246;
+        work->pad.sound   = ENE_VSE_6;
         work->alert_level = 255;
     }
 }

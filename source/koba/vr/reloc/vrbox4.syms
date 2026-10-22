@@ -1,0 +1,13 @@
+800D0398 DrawLife
+800D04AC InitShadowPoly
+800D0664 ReadNodeFlags
+800D0814 NextNode
+800D0864 MoveToNode
+800D08DC UpdateShadow
+800D09D8 Appear
+800D0B7C Disappear
+800C1DC4 vib_boss_hit 14
+800C1DD4 vib_boss_hit2 4
+800C1DD8 vib_boss_down 8
+800C1DE0 vib_blast 4
+800C1E14 blast_se_table 4

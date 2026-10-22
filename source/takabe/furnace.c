@@ -17,6 +17,15 @@ void *NewMeltDie_800E0F5C(SVECTOR *arg1, int arg2);
 
 /*---------------------------------------------------------------------------*/
 
+#ifdef VR_EXE
+// VR revision: the burning sound effects were moved to a single id
+#define FURNACE_SE     200
+#define FURNACE_SE_HIT 200
+#else
+#define FURNACE_SE     186
+#define FURNACE_SE_HIT 187
+#endif
+
 typedef struct _Work
 {
     GV_ACT  actor;
@@ -74,7 +83,7 @@ static void Act(Work *work)
 
         NewMeltDie_800E0F5C(&svec, 60);
 
-        GM_SeSet(&svec, 186);
+        GM_SeSet(&svec, FURNACE_SE);
         GM_SetNoise(100, 2, &svec);
 
         GM_Vitality = 0; // :(
@@ -93,7 +102,7 @@ static void Act(Work *work)
             if (!BoundInCheck(work->bound, &(*wherelist)->mov) &&
                 BoundInCheck(work->bound, &svec))
             {
-                GM_SeSetMode(&svec, 186, GM_SEMODE_BOMB);
+                GM_SeSetMode(&svec, FURNACE_SE, GM_SEMODE_BOMB);
                 NewMeltDie_800E0F5C(&svec, 24);
             }
         }
@@ -105,7 +114,7 @@ static void Act(Work *work)
         {
             if (*tenage && BoundInCheck(work->bound, &(*tenage)->mov))
             {
-                GM_SeSetMode(&(*tenage)->mov, 187, GM_SEMODE_BOMB);
+                GM_SeSetMode(&(*tenage)->mov, FURNACE_SE_HIT, GM_SEMODE_BOMB);
                 NewMeltDie_800E0F5C(&(*tenage)->mov, 24);
                 (*tenage)->mov.pad = 1;
             }

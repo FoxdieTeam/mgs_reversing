@@ -1,0 +1,3 @@
+# data owned by source/koba/vr/vrclear.c (addresses of vr_sud01)
+800C1848 vrclear_last_count 4
+800D954C VrClearFormatTime

@@ -1,0 +1,47 @@
+	.set	noreorder
+	.set	noat
+	.set	nomacro
+	.text
+	.globl	BackgrndSetPanel
+BackgrndSetPanel:
+	addiu	$29,$29,-32
+	sw	$16,16($29)
+	addu	$16,$6,$0
+	sw	$18,24($29)
+	addu	$18,$7,$0
+	sw	$17,20($29)
+	lw	$17,48($29)
+	sw	$31,28($29)
+	jal	DG_GetTexture
+	addu	$4,$5,$0
+	lui	$5,0xe100
+	ori	$5,$5,0x200
+	lhu	$4,4($2)
+	lui	$3,0x500
+	sw	$3,0($16)
+	addiu	$3,$0,100
+	sb	$3,11($16)
+	andi	$4,$4,0x9ff
+	or	$4,$4,$5
+	sw	$4,4($16)
+	lbu	$3,8($2)
+	addiu	$4,$0,160
+	sb	$3,16($16)
+	lbu	$5,9($2)
+	addiu	$3,$0,224
+	sh	$18,12($16)
+	sh	$17,14($16)
+	sh	$4,20($16)
+	sh	$3,22($16)
+	sb	$5,17($16)
+	lhu	$2,6($2)
+	nop
+	sh	$2,18($16)
+	lw	$31,28($29)
+	lw	$18,24($29)
+	lw	$17,20($29)
+	lw	$16,16($29)
+	jr	$31
+	addiu	$29,$29,32
+	.set	macro
+	.set	reorder

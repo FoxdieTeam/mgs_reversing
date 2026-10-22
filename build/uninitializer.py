@@ -92,11 +92,46 @@ BSS_HACK = defaultdict(int, {
     's02e_lhs.bin': 4,
 })
 
-def get_bss_adjustment(lhs):
+# The original overlay files can end inside the bss (the tail of the bss is not part of the file, the code still
+# accesses it). `extract` records how many bytes of the built overlay lie beyond the end of the original in
+# "<uninitialized template>.trim" and `inject` cuts them off again.
+def trim_path(uninitialized):
+    return uninitialized + '.trim'
+
+def get_bss_adjustment(lhs, uninitialized=None):
+    if uninitialized is not None and os.path.isfile(trim_path(uninitialized)):
+        return int(open(trim_path(uninitialized)).read().strip())
     return BSS_HACK[os.path.basename(lhs)]
 
+# Words inside an initialized section (.data) whose value is not constant: the original overlay file is a memory dump and the
+# word holds a different run time value in every overlay that shares the object, e.g. a pointer written by the game. They
+# are declared in C as zero words (the linker cannot make them differ between the lhs and rhs build) and treated like
+# uninitialized memory here: {symbol: size in bytes}. The positions come from the link map of the lhs overlay.
+VOLATILE_WORDS = {'s08b_dword_800C361C': 4}
+
+def volatile_offsets(lhs_name):
+    """offsets in the overlay file of the VOLATILE_WORDS that the overlay links"""
+    d, f = os.path.split(lhs_name)
+    if os.path.basename(os.path.abspath(d)) != 'obj_vr':   # VR build only
+        return set()
+    map_path = os.path.join(d, 'asm_' + f.replace('.bin', '.map'))
+    if not os.path.isfile(map_path):
+        return set()
+    base = None
+    syms = {}
+    for line in open(map_path, errors='replace'):
+        t = line.split()
+        if base is None and len(t) == 6 and t[4] == 'overlay':
+            base = int(t[0], 16)
+        elif len(t) == 2 and t[1] in VOLATILE_WORDS:
+            syms[t[1]] = int(t[0], 16)
+    if base is None:
+        return set()
+    return {a - base + k for n, a in syms.items() for k in range(VOLATILE_WORDS[n])}
+
 def inject(lhs, rhs, uninitialized, out):
-    bss_adjustment = get_bss_adjustment(lhs)
+    volatile = volatile_offsets(lhs)
+    bss_adjustment = get_bss_adjustment(lhs, uninitialized)
     lhs = open(lhs, 'rb').read()
     rhs = open(rhs, 'rb').read()
 
@@ -118,10 +153,10 @@ def inject(lhs, rhs, uninitialized, out):
     out_arr = bytearray(lhs)
 
     for i, (lb, rb) in enumerate(zip(lhs, rhs)):
-        if lb == rb:
+        if lb == rb and i not in volatile:
             continue
 
-        assert lb == 0 and rb == 0x9e, f"LHS and RHS differ in more than uninitialized memory at offset {i}, {lb:X} != {rb:X}"
+        assert (lb == 0 and rb == 0x9e) or i in volatile, f"LHS and RHS differ in more than uninitialized memory at offset {i}, {lb:X} != {rb:X}"
 
         # Uninitialized memory!
         out_arr[i] = uninitialized[uninitialized_cur_idx]
@@ -130,11 +165,19 @@ def inject(lhs, rhs, uninitialized, out):
     open(out, 'wb').write(bytes(out_arr))
 
 def extract(lhs, rhs, target, uninitialized_out):
+    lhs_name = lhs
+    volatile = volatile_offsets(lhs)
     bss_adjustment = get_bss_adjustment(lhs)
     lhs = open(lhs, 'rb').read()
     rhs = open(rhs, 'rb').read()
     target = open(target, 'rb').read()
 
+    if len(lhs) > len(target) and len(lhs) - len(target) != bss_adjustment:
+        # built overlay reaches beyond the original file: only fine if that is all bss (zeros in lhs, 0x9e in rhs)
+        extra = len(lhs) - len(target)
+        assert all(b == 0 for b in lhs[len(target):]) and all(b == 0x9e for b in rhs[len(target):len(lhs)]), \
+            f"LHS overlay is {extra} bytes larger than the target and that is not all bss"
+        bss_adjustment = extra
     if bss_adjustment > 0:
         lhs = lhs[:-bss_adjustment]
 
@@ -147,10 +190,10 @@ def extract(lhs, rhs, target, uninitialized_out):
     nonzero_uninitialized = 0
 
     for i, (lb, rb, tb) in enumerate(zip(lhs, rhs, target)):
-        if lb == rb and rb == tb:
+        if lb == rb and rb == tb and i not in volatile:
             continue
 
-        assert lb == 0 and rb == 0x9e, f"LHS, RHS, target differ in more than uninitialized memory at offset {i}, {lb:X} != {rb:X} != {tb:X}"
+        assert (lb == 0 and rb == 0x9e) or (i in volatile and lb == rb == 0), f"LHS, RHS, target differ in more than uninitialized memory at offset {i}, {lb:X} != {rb:X} != {tb:X}"
 
         # Uninitialized memory!
         uninitialized_out_arr.append(tb)
@@ -163,6 +206,10 @@ def extract(lhs, rhs, target, uninitialized_out):
         uninitialized_out_arr.pop()
 
     if uninitialized_out is not None:
+        if os.path.isfile(trim_path(uninitialized_out)):
+            os.remove(trim_path(uninitialized_out))
+        if bss_adjustment > 0 and BSS_HACK[os.path.basename(lhs_name)] != bss_adjustment:
+            open(trim_path(uninitialized_out), 'w').write('%d\n' % bss_adjustment)
         open(uninitialized_out, 'wb').write(bytes(uninitialized_out_arr))
 
         print("Extracted", len(uninitialized_out_arr), "bytes of uninitialized memory")

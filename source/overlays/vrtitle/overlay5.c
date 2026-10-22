@@ -1,0 +1,43 @@
+#include "mgstype.h"
+
+int vrtitle_dword_800C1C18 = 0x40000001;
+int vrtitle_dword_800C1C1C = 0x13101002;
+int vrtitle_dword_800C1C20 = 0x16161310;
+int vrtitle_dword_800C1C24 = 0x16161616;
+int vrtitle_dword_800C1C28 = 0x1B1A181A;
+int vrtitle_dword_800C1C2C = 0x1A1A1B1B;
+int vrtitle_dword_800C1C30 = 0x1B1B1A1A;
+int vrtitle_dword_800C1C34 = 0x1D1D1D1B;
+int vrtitle_dword_800C1C38 = 0x1D222222;
+int vrtitle_dword_800C1C3C = 0x1B1B1D1D;
+int vrtitle_dword_800C1C40 = 0x20201D1D;
+int vrtitle_dword_800C1C44 = 0x26252222;
+int vrtitle_dword_800C1C48 = 0x22232325;
+int vrtitle_dword_800C1C4C = 0x28262623;
+int vrtitle_dword_800C1C50 = 0x30302828;
+int vrtitle_dword_800C1C54 = 0x38382E2E;
+int vrtitle_dword_800C1C58 = 0x5345453A;
+int vrtitle_dword_800C1C5C = 0x13101002;
+int vrtitle_dword_800C1C60 = 0x16161310;
+int vrtitle_dword_800C1C64 = 0x16161616;
+int vrtitle_dword_800C1C68 = 0x1B1A181A;
+int vrtitle_dword_800C1C6C = 0x1A1A1B1B;
+int vrtitle_dword_800C1C70 = 0x1B1B1A1A;
+int vrtitle_dword_800C1C74 = 0x1D1D1D1B;
+int vrtitle_dword_800C1C78 = 0x1D222222;
+int vrtitle_dword_800C1C7C = 0x1B1B1D1D;
+int vrtitle_dword_800C1C80 = 0x20201D1D;
+char vrtitle_dword_800C1C84[] = "\"\"%&%##\"#&&(((00..88:EES";
+
+const int vrtitle_dword_800D9C88 = 0x4345444D;
+const int vrtitle_dword_800D9C8C = 0x7365725F;
+const int vrtitle_dword_800D9C90 = 0x61623A74;
+const int vrtitle_dword_800D9C94 = 0x706F2064;
+const int vrtitle_dword_800D9C98 = 0x6E6F6974;
+const int vrtitle_dword_800D9C9C = 0x29642528;
+const int vrtitle_dword_800D9CA0 = 0x0000000A;
+const char vrtitle_dword_800D9CA4[] = "MDEC_in_sync";
+const char vrtitle_dword_800D9CB4[] = "MDEC_out_sync";
+const int vrtitle_dword_800D9CC4 = 0x74207325;
+const int vrtitle_dword_800D9CC8 = 0x6F656D69;
+const int vrtitle_dword_800D9CCC = 0x0A3A7475;
