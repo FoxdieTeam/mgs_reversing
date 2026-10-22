@@ -578,20 +578,17 @@ int s18a_800C7A68(LiquidWork *work, int type)
         break;
 
     case 6:
-        if (GM_GameLevel < 4)
+        switch (GM_GameLevel)
         {
-            if (GM_GameLevel > 0)
-            {
-                GM_SetTarget(target, 4, ENEMY_SIDE, &size1);
-            }
-            else
-            {
-                GM_SetTarget(target, 4, ENEMY_SIDE, &size0);
-            }
-        }
-        else
-        {
+        case 1:
+        case 2:
+        case 3:
+            GM_SetTarget(target, 4, ENEMY_SIDE, &size1);
+            break;
+
+        default:
             GM_SetTarget(target, 4, ENEMY_SIDE, &size0);
+            break;
         }
         DG_RotVector(&force0, &force, 1);
         GM_SetPowerTarget(target, 0, 2, work->damage2[4], 1, &force);
@@ -2647,26 +2644,22 @@ void s18a_800CB780(LiquidWork *work, int time)
 
     if (work->life < 30)
     {
-        if (GM_GameLevel < 4)
+        switch (GM_GameLevel)
         {
-            if (GM_GameLevel < 2)
-            {
-                /* duplicating the "easy" body instead of this goto does not match */
-                goto easy;
-            }
-
+        case 2:
+        case 3:
             if ((time & 7) == 0)
             {
                 work->life++;
             }
-        }
-        else
-        {
-easy:
+            break;
+
+        default:
             if ((time & 1) == 0)
             {
                 work->life++;
             }
+            break;
         }
     }
 
@@ -5041,20 +5034,16 @@ void s18a_800CEBC4(LiquidWork *work)
     int n;
     int time;
 
-    if (GM_GameLevel < 4)
+    switch (GM_GameLevel)
     {
-        if (GM_GameLevel < 2)
-        {
-            work->cmd = 5;
-        }
-        else
-        {
-            work->cmd = 7;
-        }
-    }
-    else
-    {
+    case 2:
+    case 3:
+        work->cmd = 7;
+        break;
+
+    default:
         work->cmd = 5;
+        break;
     }
 
     work->f954 = work->f9AC;
@@ -5068,19 +5057,18 @@ void s18a_800CEBC4(LiquidWork *work)
 
     if (work->f968 == 0)
     {
-        if (GM_GameLevel < 4)
+        switch (GM_GameLevel)
         {
-            if (GM_GameLevel > 0)
-            {
-                /* duplicating the check below instead of this goto does not match */
-                n = work->f980 + 2;
-                goto check;
-            }
+        case 1:
+        case 2:
+        case 3:
+            n = work->f980 + 2;
+            break;
+
+        default:
+            n = work->f980 + 1;
+            break;
         }
-
-        n = work->f980 + 1;
-
-check:
 
         if ((work->control.mov.vy % n) > 0 || n >= 3)
         {
@@ -5401,10 +5389,16 @@ void s18a_800CF214(LiquidWork *work)
         }
         else
         {
-            hard = 0;
-            if (GM_GameLevel < 4)
+            switch (GM_GameLevel)
             {
-                hard = GM_GameLevel >= 2;
+            case 2:
+            case 3:
+                hard = 1;
+                break;
+
+            default:
+                hard = 0;
+                break;
             }
 
             if (work->f99C == 1 || hard)
