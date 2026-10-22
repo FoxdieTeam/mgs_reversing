@@ -94,41 +94,40 @@ void ZAKO10_SetGoPointNoise(void)
     Zako10Command.com_map  = GM_PlayerMap;
 }
 
-int ZAKO10_GetMapZone( int map_id, int val )
+int ZAKO10FindRoute( int map, int id )
 {
+    JDATA *list;
     int i;
-    A4_STRUCT *unk = &Zako10Command.field_6C;
 
-    if ( unk->map_id == map_id )
+    list = &Zako10Command.jdata;
+    if ( list->map == map )
     {
-        for ( i = 0 ; i < unk->n_entry ; i++ )
+        for ( i = 0; i < list->count; i++ )
         {
-            if ( unk->field_04[ i ].field_00 == val )
-            {
-                return unk->field_04[ i ].field_02;
-            }
+            if ( list->data[ i ][ 0 ] == id ) return list->data[ i ][ 1 ];
         }
-        /* returning -1 here instead of the goto does not match */
-        goto end;
+
+        goto not_found;
     }
+
     return 0;
-end:
+
+not_found:
     return -1;
 }
 
-int s10a_zk10com_800CE308( char *ops, A4_STRUCT *unk )
+static int ReadMapJdata( char *opt, JDATA *list )
 {
-    int i;
-    i = 0;
+    int count;
 
+    count = 0;
     do {
-        unk->field_04[ i ].field_00 = GCL_StrToInt( GCL_NextStr() );
-        unk->field_04[ i ].field_02 = GCL_StrToInt( GCL_NextStr() );
-        i++;
+        list->data[ count ][ 0 ] = GCL_StrToInt( GCL_NextStr() );
+        list->data[ count ][ 1 ] = GCL_StrToInt( GCL_NextStr() );
+        count++;
     } while ( GCL_NextStr() != NULL );
 
-
-    return i;
+    return count;
 }
 
 int s10a_zk10com_800CE368( char *ops, short* s )
@@ -562,16 +561,16 @@ static void GetResources( Zako10CommanderWork *work, int name, int where )
     ops = GCL_GetOption( 'j' );
     if ( ops )
     {
-        Zako10Command.field_6C.n_entry = s10a_zk10com_800CE308( ops, &Zako10Command.field_6C );
+        Zako10Command.jdata.count = ReadMapJdata( ops, &Zako10Command.jdata );
     }
     else
     {
-        Zako10Command.field_6C.n_entry = 1;
-        Zako10Command.field_6C.field_04->field_00 = 0;
-        Zako10Command.field_6C.field_04->field_02 = 0;
+        Zako10Command.jdata.count = 1;
+        Zako10Command.jdata.data[ 0 ][ 0 ] = 0;
+        Zako10Command.jdata.data[ 0 ][ 1 ] = 0;
     }
 
-    Zako10Command.field_6C.map_id  = where;
+    Zako10Command.jdata.map = where;
 
     ops = GCL_GetOption( 'b' );
     if ( ops )

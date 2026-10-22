@@ -14,7 +14,7 @@ extern int            ZAKO10COM_PlayerMap;
 extern SVECTOR        ZAKO10COM_PlayerPosition;
 
 extern void ZAKO10_PutMark( Zako10Work *work, int mark );
-extern int  ZAKO10_GetMapZone( int map_id, int val );
+extern int  ZAKO10FindRoute( int map, int id );
 extern void ZAKO10_SetGoPointLast( void );
 extern void ZAKO10_SetGoPointNoise( void );
 
@@ -283,7 +283,7 @@ int s10a_zk10think_800CC998( Zako10Work *work )
     else
     {
         target_pos = &work->target_pos;
-        temp_addr  = ZAKO10_GetMapZone( work->control.map->index , work->target_map );
+        temp_addr  = ZAKO10FindRoute( work->control.map->index , work->target_map );
         zone = &hzd->def->zones[ temp_addr ];
         target_pos->vx = zone->x;
         target_pos->vy = zone->y;
@@ -313,7 +313,7 @@ int s10a_zk10think_800CC998( Zako10Work *work )
                         return -1;
                 }
 
-                addr2 = ZAKO10_GetMapZone( work->target_map, ctrl->map->index );
+                addr2 = ZAKO10FindRoute( work->target_map, ctrl->map->index );
                 ctrl->map = GM_GetMap( work->target_map );
                 zone = &ctrl->map->hzd->def->zones[ addr2 ];
                 work->control.mov.vx = zone->x;

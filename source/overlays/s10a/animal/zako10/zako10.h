@@ -101,6 +101,13 @@ typedef struct _Zako10Work
     char           field_C39[3];               //0xC39
 } Zako10Work;                                  //0xC3C
 
+typedef struct _JDATA
+{
+    u_short map;
+    u_short count;
+    u_short data[8][2];
+} JDATA;
+
 // zk10com.c: like ZAKO_COMMAND with the commander's name in front
 typedef struct _ZAKO10_COMMAND
 {
@@ -123,7 +130,7 @@ typedef struct _ZAKO10_COMMAND
     int       order[8];     //0x44 watcher indices sorted by distance to snake
     int       n_reset;      //0x64
     MAP      *map;          //0x68
-    A4_STRUCT field_6C;     //0x6C
+    JDATA     jdata;        //0x6C
     WATCHER   watchers[8];  //0x90
     int       field_110;    //0x110
     int       field_114;    //0x114
