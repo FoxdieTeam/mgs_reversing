@@ -166,7 +166,7 @@ typedef struct _MGREX_WORK
     int             f1764;              // 'z'
     int             f1768;
     int             f176C;
-    OBJECT_NO_ROTS  pit_t;              // 0x1770 "pit_t"
+    OBJECT_NO_ROTS  objCockpit;         // 0x1770 "pit_t"
     OBJECT          objCockpit2;        // 0x1794 "pit_liq"
     OBJECT_NO_ROTS  pit_u;              // 0x1878 "pit_u"
     OBJECT_NO_ROTS  radar;              // 0x189C "radar_f1" / "radar_f3"

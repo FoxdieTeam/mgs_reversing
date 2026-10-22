@@ -266,7 +266,7 @@ void MgRex_Die(MGREX_WORK *work)
     GM_FreeObject(&work->leg_l);
     GM_FreeObject(&work->leg_r);
     GM_FreeControl(&work->control2);
-    GM_FreeObject((OBJECT *)&work->pit_t);
+    GM_FreeObject((OBJECT *)&work->objCockpit);
     GM_FreeObject((OBJECT *)&work->pit_u);
     GM_FreeObject(&work->objCockpit2);
     GM_FreeObject((OBJECT *)&work->radar);

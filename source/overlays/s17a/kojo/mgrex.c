@@ -465,9 +465,9 @@ void *NewMetalGearRex(int name, int where)
     life_bar->right[1] = 0xBB;
     life_bar->right[2] = 0x8A;
 
-    GM_InitObjectNoRots(&work->pit_t, GV_StrCode("pit_t"), PART_FLAG, 0);
-    GM_ConfigObjectLight((OBJECT *)&work->pit_t, work->light);
-    GM_ConfigObjectRoot((OBJECT *)&work->pit_t, &work->objWaist, 2);
+    GM_InitObjectNoRots(&work->objCockpit, GV_StrCode("pit_t"), PART_FLAG, 0);
+    GM_ConfigObjectLight((OBJECT *)&work->objCockpit, work->light);
+    GM_ConfigObjectRoot((OBJECT *)&work->objCockpit, &work->objWaist, 2);
 
     GM_InitObjectNoRots(&work->pit_u, GV_StrCode("pit_u"), PART_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)&work->pit_u, work->light);
@@ -481,7 +481,7 @@ void *NewMetalGearRex(int name, int where)
     if (work->mode == 0)
     {
         GM_InitObjectNoRots(&work->radar, GV_StrCode("radar_f1"), PART_FLAG, 0);
-        DG_InvisibleObjs(work->pit_t.objs);
+        DG_InvisibleObjs(work->objCockpit.objs);
         DG_InvisibleObjs(work->objCockpit2.objs);
         DG_InvisibleObjs(work->pit_u.objs);
         work->radar_parent = &work->objWaist.objs->objs[6];
