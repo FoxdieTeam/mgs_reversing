@@ -622,9 +622,9 @@ void *NewGameOver(int can_continue)
         }
     }
 
-    GM_SetSound(0xff000008, SD_ASYNC);
-    GM_SetSound(0xff0000fe, SD_ASYNC);
-    GM_SetSound(0x01ffff0b, SD_ASYNC);
+    GM_SetSound(SE_REVERB_OFF, SD_ASYNC);
+    GM_SetSound(SE_JOUCHUU_OFF, SD_ASYNC);
+    GM_SetSound(SNG_FOUTS_S, SD_ASYNC);
 
     GM_SeSet3(0, 0x3f, SE_GAMEOVER);
 

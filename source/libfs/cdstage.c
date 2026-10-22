@@ -10,9 +10,16 @@
 #include "mts/mts.h"        // for mts_wait_vbl
 #include "libdg/libdg.h"    // for DG_FrameRate
 #include "libgv/libgv.h"    // for GV_xxxMemory
-#include "sound/sd_cli.h"
 
 extern void *StageCharacterEntries;
+
+/* in sound.lib (sd_file.c) */
+extern unsigned char *SD_SngDataLoadInit(unsigned short id);
+extern void SD_80083ED4(void);
+extern unsigned char *SD_SeDataLoadInit(unsigned short id);
+extern char *SD_WavDataLoadInit(unsigned short id);
+extern char *SD_WavLoadBuf(char *end);
+extern void SD_WavUnload(void);
 
 /*---------------------------------------------------------------------------*/
 
@@ -138,13 +145,13 @@ static int SECTION(".bss") gLoaderStartTime_800B528C;
 int SECTION(".bss") gOverlayBinSize_800B5290;
 int SECTION(".bss") FS_ResidentCacheDirty;
 
-STATIC TFsCallback      gFsCallback_8009D4F8 = NULL;
-STATIC TFsSoundCallback gFsSoundCallback_8009D4FC = NULL;
+static char *(*sound_load_callback)(char *) = NULL;
+static void (*sound_ready_callback)(void) = NULL;
 
-STATIC unsigned short   dword_8009D500[] = {0, 0};      // *.wvx id
-STATIC unsigned short   word_8009D504 = 0;              // *.wvx index
-STATIC unsigned short   word_8009D506 = 0;              // *.mdx id
-STATIC unsigned short   word_8009D508 = 0;              // *.efx id
+static u_short sound_wvx_id[] = { 0, 0 };
+static u_short sound_which_wvx = 0;
+static u_short sound_mdx_id = 0;
+static u_short sound_efx_id = 0;
 
 /*---------------------------------------------------------------------------*/
 
@@ -157,12 +164,12 @@ static int SetupNextFile( DATACNF_TAG *tag, CDBIOS_TASK *task )
     DATACNF_TAG   *looptag;
 
     info = fs_stage_info;
-    if ( gFsSoundCallback_8009D4FC )
+    if ( sound_ready_callback )
     {
-        gFsSoundCallback_8009D4FC();
-        gFsSoundCallback_8009D4FC = NULL;
+        sound_ready_callback();
+        sound_ready_callback = NULL;
     }
-    gFsCallback_8009D4F8 = 0;
+    sound_load_callback = NULL;
     region = tag->mode;
 
     switch ( region )
@@ -179,26 +186,26 @@ static int SetupNextFile( DATACNF_TAG *tag, CDBIOS_TASK *task )
             break;
 
         case 'w': // *.wvx
-            if ( dword_8009D500[ word_8009D504 ] != tag->id )
+            if ( sound_wvx_id[ sound_which_wvx ] != tag->id )
             {
                 task->buffer = SD_WavDataLoadInit( tag->id );
-                gFsSoundCallback_8009D4FC = SD_WavUnload;
-                gFsCallback_8009D4F8 = &SD_WavLoadBuf;
-                dword_8009D500[ word_8009D504 ] = tag->id;
+                sound_ready_callback = SD_WavUnload;
+                sound_load_callback = &SD_WavLoadBuf;
+                sound_wvx_id[ sound_which_wvx ] = tag->id;
             }
             else
             {
                 task->buffer = 0;
             }
-            word_8009D504 += 1;
+            sound_which_wvx += 1;
             break;
 
         case 'm': // *.mdx
-            if ( word_8009D506 != tag->id )
+            if ( sound_mdx_id != tag->id )
             {
                 task->buffer = SD_SngDataLoadInit(tag->id);
-                gFsSoundCallback_8009D4FC = SD_80083ED4;
-                word_8009D506 = tag->id;
+                sound_ready_callback = SD_80083ED4;
+                sound_mdx_id = tag->id;
             }
             else
             {
@@ -207,11 +214,11 @@ static int SetupNextFile( DATACNF_TAG *tag, CDBIOS_TASK *task )
             break;
 
         case 'e': // *.efx
-            if ( word_8009D508 != tag->id )
+            if ( sound_efx_id != tag->id )
             {
                 task->buffer = SD_SeDataLoadInit( tag->id );
-                gFsSoundCallback_8009D4FC = SD_80083ED4;
-                word_8009D508 = tag->id;
+                sound_ready_callback = SD_80083ED4;
+                sound_efx_id = tag->id;
             }
             else
             {
@@ -318,9 +325,9 @@ static int StageFileReadyCallback(CDBIOS_TASK *task)
         return result;
     }
 
-    if (gFsCallback_8009D4F8)
+    if (sound_load_callback)
     {
-        task->buffer = gFsCallback_8009D4F8(task->buffer + task->buffer_size * 4);
+        task->buffer = sound_load_callback(task->buffer + task->buffer_size * 4);
         return 2;
     }
 
@@ -571,7 +578,7 @@ void *FS_LoadStageRequest( const char *dirname )
     fs_stage_info = info;
     info->mode = 0;
     info->tag = NULL;
-    word_8009D504 = 0;
+    sound_which_wvx = 0;
     CDBIOS_ReadRequest( buffer, sector, FS_SECTOR_SIZE, StageConfigReadyCallback );
 
     return (void *)info;

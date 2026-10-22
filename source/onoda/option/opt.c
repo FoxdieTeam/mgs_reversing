@@ -1440,11 +1440,11 @@ static inline void SetGameOptionFlag( Work *work )
 
     if ( work->f924[3] == 0 )
     {
-        GM_SetSound( 0xFF000006, SD_ASYNC ) ;
+        GM_SetSound( SD_STEREO, SD_ASYNC ) ;
     }
     else
     {
-        GM_SetSound( 0xFF000005, SD_ASYNC ) ;
+        GM_SetSound( SD_MONORAL, SD_ASYNC ) ;
     }
 
     if ( work->f924[4] == 1 )

@@ -512,8 +512,8 @@ void *NewMetalGearLogo( int *exit )
 
         DG_FrameRate = 3;
 
-        GM_SetSound( 0xff0000fe, SD_ASYNC );
-        GM_SetSound( 0x01ffff0b, SD_ASYNC );
+        GM_SetSound( SE_JOUCHUU_OFF, SD_ASYNC );
+        GM_SetSound( SNG_FOUTS_S, SD_ASYNC );
         GM_SeSet2( 0, 63, SE_GAMEOVER );
 
         GetResources( work );
