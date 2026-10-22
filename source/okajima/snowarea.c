@@ -1,11 +1,10 @@
 #include "snowarea.h"
 
 #include <rand.h>
-#include "strcode.h"
-#include "libgcl/libgcl.h"
 #include "game/game.h"
+#include "strcode.h"
 
-/*----------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 #define SNOWFLAKE_MAX 32
 
@@ -28,13 +27,13 @@ typedef struct _Work {
     int     side;
     SET     set[ SNOWFLAKE_MAX ];
     int     color[ SNOWFLAKE_MAX ];
-    BOOL    enable;
+    int     enable;
     GV_MSG *msg;
 } Work;
 
 static RECT prim_rect = {0, 0, 2, 2};
 
-/*----------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 static void InitColor( int *rgb, int count )
 {
@@ -286,6 +285,8 @@ static int GetResources( Work *work, int map )
     work->enable = 1;
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 void *NewSnowAreaSet( int name, int where, int argc, char **argv )
 {
