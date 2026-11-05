@@ -1,7 +1,7 @@
 #ifndef __SD_INCL_H__
 #define __SD_INCL_H__
 
-/*---------------------- SPU Channel Allocation ------------------------*/
+/*--------------------- SPU Channel Allocation -------------------------*/
 
 #define USE_TRACK_NUM       23
 
@@ -18,7 +18,7 @@
 /* Streaming channels */
 #define STR_TRACK_NUM       2
 
-/*---------------------- Main RAM Allocation ---------------------------*/
+/*--------------------- Main RAM Allocation ----------------------------*/
 
 #define SNG_DATA_SIZE       0x4000
 #define WAVEHEADERSIZE      0x1000
@@ -26,14 +26,14 @@
 #define SE_DATA_SIZE        0x2000
 #define CDLOAD_BUF_SIZE     0x18000
 
-/*---------------------- SNG Driver ------------------------------------*/
+/*--------------------- SNG Driver -------------------------------------*/
 
 #define ENV_CUT_OFF         7       /* cutoff release register value */
 #define SEQ_DRC             0x0048  /* sequence control drum start code */
 #define SNG_NOTE_SIZE       4
 #define SNG_VOL             0x10000 /* BGM fade ratio max */
 
-/*---------------------- SNG Control Code ------------------------------*/
+/*--------------------- SNG Control Code -------------------------------*/
 
 #define REST_SET    0xf2
 #define KYU_SET     0xf2
@@ -50,7 +50,7 @@
 #define KAKKO_S     0xed            /* kakko start              */
 #define KAKKO_E     0xee            /* kakko end                */
 
-/*---------------------- XXX -------------------------------------------*/
+/*--------------------- Sound Code Sending Task Error Messages ---------*/
 
 #define ERR_STR_OPEN        -1
 #define ERR_VOX_OPEN        -2
@@ -60,7 +60,7 @@
 
 #define SD_TASK_ACTIVE      0x80
 
-/*---------------------- XXX -------------------------------------------*/
+/*--------------------- File Type Constants ----------------------------*/
 
 #define KIND_STR    1
 #define KIND_WVX    2
@@ -70,7 +70,7 @@
 #define INT1SEC     (100)   /* approx. interrupts per second. */
 
 /*----------------------------------------------------------------------*/
-/*                                                                      */
+/*                      Waveform Definition Work                        */
 /*----------------------------------------------------------------------*/
 struct WAVE_W {
     unsigned long   addr;
@@ -89,50 +89,49 @@ struct WAVE_W {
 };
 
 /*----------------------------------------------------------------------*/
-/*                                                                      */
+/*                      SPU Register Work                               */
 /*----------------------------------------------------------------------*/
 struct SPU_TRACK_REG {
-    unsigned short  vol_l;
-    unsigned short  vol_r;
+    unsigned short  vol_l;      /* VOL(L) */
+    unsigned short  vol_r;      /* VOL(R) */
     int             vol_fg;
-    unsigned short  pitch;
+    unsigned short  pitch;      /* P(L)/P(R) */
     int             pitch_fg;
-    unsigned long   addr;
+    unsigned long   addr;       /* Wave Address */
     int             addr_fg;
-    long            a_mode;
-    unsigned short  ar;
-    unsigned short  dr;
+    long            a_mode;     /* Attack Mode */
+    unsigned short  ar;         /* Attack Rate */
+    unsigned short  dr;         /* Decay Rate */
     int             env1_fg;
-    long            s_mode;
-    unsigned short  sr;
-    unsigned short  sl;
+    long            s_mode;     /* Sustain Mode */
+    unsigned short  sr;         /* Sustain Rate */
+    unsigned short  sl;         /* Sustain Level */
     int             env2_fg;
-    long            r_mode;
-    unsigned short  rr;
+    long            r_mode;     /* Release Mode */
+    unsigned short  rr;         /* Release Rate */
     int             env3_fg;
 };
 
 /*----------------------------------------------------------------------*/
-/*                                                                      */
+/*                      Sound Effect Work                               */
 /*----------------------------------------------------------------------*/
 struct SETBL {
     unsigned char   pri;
     unsigned char   tracks;
-    unsigned char   kind;       /**/
-    unsigned char   character;  /**/
+    unsigned char   kind;       /* 0:BGM, 1:SE (refer to pan table) */
+    unsigned char   character;  /* 0:Non-voice, 1:Snake, 2:, 3:, 4:... */
     unsigned char   *addr[3];
 };
-
 struct SEPLAYTBL {
     unsigned char   pri;
-    unsigned char   kind;       /**/
-    unsigned char   character;  /**/
+    unsigned char   kind;       /* 0:BGM, 1:SE (refer to pan table) */
+    unsigned char   character;  /* 0:Non-voice, 1:Snake, 2:, 3:, 4:... */
     unsigned char   *addr;
     unsigned long   code;
 };
 
 /*----------------------------------------------------------------------*/
-/*                                                                      */
+/*                      Sequencer Track Work                            */
 /*----------------------------------------------------------------------*/
 struct SOUND_W {
     unsigned char   *mpointer;  /* music data pointer */

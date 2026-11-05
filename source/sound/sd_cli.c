@@ -142,6 +142,7 @@ int SePlay(int sound_code)
     int                 se_code;
     struct SEPLAYTBL    se_tmp;
 
+/*----------------------------------------------------------------------*/
     j = song_end >> SE_START_TRACK;
     for (i = 0; i < SE_TRACK_NUM; i++) {
         if (j & 1) {
@@ -151,7 +152,7 @@ int SePlay(int sound_code)
         }
         j >>= 1;
     }
-
+/*----------------------------------------------------------------------*/
     se_code = sound_code & 0xFF;
 
     se_tmp.code = sound_code;
@@ -173,6 +174,7 @@ int SePlay(int sound_code)
             se_tmp.kind = se_header[se_code - 128].kind;
             se_tmp.addr = (unsigned int)se_header[se_code - 128].addr[idx] + se_data;
         }
+/*----------------------------------------------------------------------*/
         priority = 0x100;
         j = 0;
 
@@ -181,14 +183,15 @@ int SePlay(int sound_code)
                 priority = 0;
                 j = i;
                 break;
+            } else {
+                if (se_tracks == 1) {
+                    if ((se_request[i].code & 0xFF) == se_code) {
+                        priority = 0;
+                        j = i;
+                        break;
+                    }
+                }
             }
-            else if (se_tracks == 1 && ((se_request[i].code & 0xFF) == se_code))
-            {
-                priority = 0;
-                j = i;
-                break;
-            }
-
             if (se_tmp.character) {
                 if (se_playing[i].character == se_tmp.character) {
                     priority = 0;
@@ -206,12 +209,11 @@ int SePlay(int sound_code)
 
         if (j != i) {
             for (i = 0; i < SE_TRACK_NUM; i++) {
-                if ((se_playing[i].code != 0) || (se_request[i].code != 0)) {
-                    continue;
+                if ((se_playing[i].code == 0) && (se_request[i].code == 0)) {
+                    priority = 0;
+                    j = i;
+                    break;
                 }
-                priority = 0;
-                j = i;
-                break;
             }
 
             if (j != i) {
@@ -243,7 +245,6 @@ int SePlay(int sound_code)
             }
         }
     }
-
     se_tracks = 0;
     return 0;
 }
@@ -261,10 +262,8 @@ void sd_set(int sound_code)
 {
     int new_bgm_idx;
 
-    if (sd_print_fg != 0) {
-        printf("SdCode=%x\n", sound_code);
-    }
-
+    if (sd_print_fg) printf("SdCode=%x\n", sound_code);
+/*----------------------------------------------------------------------*/
     if ((sound_code & 0xFF000000) == 0x00000000) {
         if ((sound_code & 0xFF) == 0) goto SdSetEnd;
     #ifdef VR_EXE
@@ -273,6 +272,7 @@ void sd_set(int sound_code)
         SePlay(sound_code);
         goto SdSetEnd;
     }
+/*----------------------------------------------------------------------*/
     if ((sound_code & 0xFF000000) == 0x01000000) {
         if (sd_sng_code_buf[bgm_idx] == 0) {
             new_bgm_idx = (bgm_idx + 1) & 0x0F;
@@ -283,21 +283,22 @@ void sd_set(int sound_code)
         printf("***TooMuchBGMSoundCode(%x)***\n", sound_code);
         goto SdSetEnd;
     }
+/*----------------------------------------------------------------------*/
     if ((sound_code & 0xFF000000) == 0x02000000) {
         printf("SdCode=%x\n", sound_code);
         se_load_code = sound_code;
         goto SdSetEnd;
     }
+/*----------------------------------------------------------------------*/
     if ((sound_code & 0xFF000000) == 0xFE000000) {
-        if (wave_save_code != sound_code && se_save_code2 != sound_code)
-        {
+        if ((wave_save_code != sound_code) && (se_save_code2 != sound_code)) {
             wave_load_code = sound_code;
             wave_load_status = 1;
             mts_wup_tsk(MTSID_SOUND_MAIN);
         }
         goto SdSetEnd;
     }
-
+/*----------------------------------------------------------------------*/
     if ((sound_code >= 0xE0000000) && (sound_code < 0xE1000000)) {
         if (str_status == 0) {
             if (str_load_code == -1) {
@@ -317,34 +318,42 @@ void sd_set(int sound_code)
         printf("SdSet:Same Stream is Already Played.(code=%x)\n", sound_code);
         goto SdSetEnd;
     }
-
+/*----------------------------------------------------------------------*/
     switch (sound_code) {
 #ifdef VR_EXE
+/*----------------------------------------------------------------------*/
     case 0xFF000003:
         se_stop_fg = 1;
         break;
+/*----------------------------------------------------------------------*/
     case 0xFF000004:
         se_stop_fg = 0;
         break;
 #endif
+/*----------------------------------------------------------------------*/
     case 0xFF000005:
         sound_mono_fg = 1;
         break;
+/*----------------------------------------------------------------------*/
     case 0xFF000006:
         sound_mono_fg = 0;
         break;
+/*----------------------------------------------------------------------*/
     case 0xFF000007:
         se_rev_on = 1;
         vox_rev_on = 0;
         break;
+/*----------------------------------------------------------------------*/
     case 0xFF000008:
         se_rev_on = 0;
         vox_rev_on = 0;
         break;
+/*----------------------------------------------------------------------*/
     case 0xFF000009:
         se_rev_on = 1;
         vox_rev_on = 1;
         break;
+/*----------------------------------------------------------------------*/
     case 0xFF0000F4:
         StrFadeOut(INT1SEC);
         printf("*** STR FO(S) ***\n");
@@ -361,6 +370,7 @@ void sd_set(int sound_code)
         StrFadeOut(INT1SEC*10);
         printf("*** STR FO(LL) ***\n");
         break;
+/*----------------------------------------------------------------------*/
     case 0xFF0000F8:
         if (str_load_code != -1) {
             str_fout_fg = 0;
@@ -389,6 +399,7 @@ void sd_set(int sound_code)
         }
         printf("*** ERR:STR FI(L) ***\n");
         break;
+/*----------------------------------------------------------------------*/
     case 0xFF0000FA:
         StrFadeOutStop(INT1SEC);
         printf("*** STR FO(S)+STOP ***\n");
@@ -405,20 +416,22 @@ void sd_set(int sound_code)
         StrFadeOutStop(INT1SEC*10);
         printf("*** STR FO(LL)+STOP ***\n");
         break;
+/*----------------------------------------------------------------------*/
     case 0xFF0000FE:
         stop_jouchuu_se = 1;
         break;
-    case 0xFFFFFFEC:
+/*----------------------------------------------------------------------*/
+    case 0xFFFFFFEC:    /* Stop IRQ */
         SpuSetIRQ(SPU_OFF);
         break;
-    case 0xFFFFFFED:
+    case 0xFFFFFFED:    /* Restart IRQ */
         SpuSetIRQ(SPU_ON);
         break;
-    case 0xFFFFFFFD:
+    case 0xFFFFFFFD:    /* Stop STR */
         StrFadeOutStop(INT1SEC/2);
         break;
     }
-
+/*----------------------------------------------------------------------*/
 SdSetEnd:
     return;
 }

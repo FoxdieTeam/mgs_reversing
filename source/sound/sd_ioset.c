@@ -4,7 +4,7 @@
 #include "sd_ext.h"
 
 /************************************************************************/
-/*                                                                      */
+/*                      Function Declarations                           */
 /************************************************************************/
 
 void spuwr(void);
@@ -43,6 +43,7 @@ void spuwr(void)
     for (i = 0; i < INTERNAL_TRACK_NUM; i++) {
         attr.mask = 0;
         attr.voice = spu_ch_tbl[i + 1];
+/*----------------------------------------------------------------------*/
         if (spu_tr_wk[i].vol_fg) {
             attr.mask |= SPU_VOICE_VOLL | SPU_VOICE_VOLR;
             attr.volume.left = spu_tr_wk[i].vol_l;
@@ -276,11 +277,9 @@ void vol_set(unsigned int vol_data)
     if ((mtrack < SNG_TRACK_NUM) || (se_playing[mtrack - SNG_TRACK_NUM].kind == 0)) {
         if (vol_data >= sptr->dec_vol) vol_data -= sptr->dec_vol;
         else vol_data = 0;
-
         pan = sptr->pand >> 8;
         if (pan > 40) pan = 40;
         if (sound_mono_fg) pan = 20;
-
         if (mtrack < SNG_TRACK_NUM) {
             spu_tr_wk[mtrack].vol_r = ((vol_data * pant[pan]) * sng_master_vol[mtrack]) >> 16;
             spu_tr_wk[mtrack].vol_l = ((vol_data * pant[40-pan]) * sng_master_vol[mtrack]) >> 16;
@@ -293,11 +292,9 @@ void vol_set(unsigned int vol_data)
     } else {
         if (vol_data >= sptr->dec_vol) vol_data -= sptr->dec_vol;
         else vol_data = 0;
-
         pan = se_pan[mtrack - SNG_TRACK_NUM];
         vol_data = (vol_data * se_vol[mtrack - SNG_TRACK_NUM]) >> 16;
         if (sound_mono_fg != 0) pan = 32;
-
         spu_tr_wk[mtrack].vol_r = vol_data * se_pant[pan];
         spu_tr_wk[mtrack].vol_l = vol_data * se_pant[64 - pan];
         spu_tr_wk[mtrack].vol_fg = 1;
@@ -305,7 +302,7 @@ void vol_set(unsigned int vol_data)
 }
 
 /************************************************************************/
-/*                                                                      */
+/*                      Frequency Table                                 */
 /************************************************************************/
 
 unsigned int freq_tbl[] = {
@@ -330,10 +327,13 @@ void freq_set(unsigned int note_tune)
     int             freq;
     int             *ptr;
 
+/*----------------------------------------------------------------------*/
     note_tune += (signed char)sptr->micro;
     tune = note_tune;
     note = (note_tune >> 8) + sptr->macro;
     note &= 0x7F;
+
+/*----------------------------------------------------------------------*/
     ptr = freq_tbl;
     freq = ptr[note + 1] - ptr[note];
     if ((freq & 0x8000) != 0) freq = 201;

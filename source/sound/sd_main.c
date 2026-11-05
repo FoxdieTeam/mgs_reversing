@@ -50,6 +50,8 @@ void keyOn(unsigned int ch);
 int sd_mem_alloc(void);
 
 /*----------------------------------------------------------------------*/
+/* Sound Main Routine (Unused)                                          */
+/*----------------------------------------------------------------------*/
 
 /* TODO: should be declared static */
 extern char sd_main_stack[2048];
@@ -78,7 +80,8 @@ void reply_sound(int *arg0, int arg1, int arg2)
 }
 
 /*----------------------------------------------------------------------*/
-
+/* Sound Main Task                                                      */
+/*----------------------------------------------------------------------*/
 void SdMain(void)
 {
     sd_task_status = 0;
@@ -142,7 +145,8 @@ void SdMain(void)
 }
 
 /*----------------------------------------------------------------------*/
-
+/* Sound Interrupt Task                                                 */
+/*----------------------------------------------------------------------*/
 void SdInt(void)
 {
     char buf[98];
@@ -282,6 +286,8 @@ void keyOff(unsigned int ch)
     SpuSetKey(SPU_OFF, ch);
 }
 
+/*----------------------------------------------------------------------*/
+
 void KeyOffStr(void)
 {
     SpuVoiceAttr attr;
@@ -320,6 +326,8 @@ void KeyOffStr(void)
     StrSpuTransClose();
 }
 
+/*----------------------------------------------------------------------*/
+
 void KeyOffStr2(void)
 {
     switch (SpuGetKeyStatus(SPU_21CH | SPU_22CH)) {
@@ -342,6 +350,8 @@ void KeyOffStr2(void)
     }
     str_status = 0;
 }
+
+/*----------------------------------------------------------------------*/
 
 void keyOn(unsigned int ch)
 {

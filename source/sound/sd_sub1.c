@@ -188,6 +188,7 @@ int tx_read(void)
             if ((sptr->ngg <= 99) && (mdata4 != 0)) {
                 key_fg = 1;
             }
+/*----------------------------------------------------------------------*/
             read_fg = 0;
             sptr->rest_fg = 0;
             note_set();
@@ -239,6 +240,7 @@ void note_compute(void)
         drum_set(mdata1);
         x = 0x24;
     } else {
+/*----------------------------------------------------------------------*/
         x = mdata1;
     }
     x += sptr->ptps;
@@ -247,9 +249,8 @@ void note_compute(void)
     while (x >= 0x6000) {
         x -= 0x6000;
     }
-
     swp_ex = sptr->swpd;
-
+/*----------------------------------------------------------------------*/
     ptr = sptr;
     ptr->vibcc = 0;
     ptr->vibhc = 0;
@@ -266,10 +267,11 @@ void note_compute(void)
     adsr_reset();
 
     sptr->swpc = sptr->swsc;
-
     if (sptr->swpc != 0) {
+/*----------------------------------------------------------------------*/
         sptr->swphc = sptr->swshc;
         if (sptr->swsk == 0) {
+/*----------------------------------------------------------------------*/
             x = sptr->swpd;
             if (sptr->swss >= 0x7F01) {
                 sptr->swpd += 0x10000 - (sptr->swss & 0xFFFF);
@@ -278,6 +280,7 @@ void note_compute(void)
             }
             swpadset(x);
         } else {
+/*----------------------------------------------------------------------*/
             sptr->swpm = sptr->swpd;
             sptr->swpd = swp_ex;
         }
@@ -522,8 +525,7 @@ inline int vib_compute(void)
     return vib_data;
 }
 
-/*----------------------------------------------------------------------*/
-/*                                                                      */
+
 /*----------------------------------------------------------------------*/
 int vib_generate(signed char cnt)
 {
@@ -579,25 +581,30 @@ void bendch(void)
 /*----------------------------------------------------------------------*/
 void note_cntl(void)
 {
+    unsigned char   x;
     int             rdm_data;
     int             vib_data;
     int             fset_fg;
     int             frq_data;
     unsigned int    depth;
 /*----------------------------------------------------------------------*/
-    if (sptr->vol != 0 && sptr->tred != 0 && sptr->trehs == sptr->trehc) {
-        sptr->trec += (unsigned)(sptr->trecad * (char)sptr->tmpd) >> 8;
-
-        if (sptr->trec < 0) {
-            depth = sptr->tred * -sptr->trec;
-        } else {
-            if (sptr->trec == 0) {
-                depth = 1;
-            } else {
-                depth = sptr->tred * sptr->trec;
+    if (sptr->vol != 0) {
+        if (sptr->tred != 0) {
+            if (sptr->trehs == sptr->trehc) {
+                x = (unsigned char)sptr->tmpd;
+                sptr->trec += (unsigned int)(sptr->trecad * x) >> 8;
+                if (sptr->trec < 0) {
+                    depth = sptr->tred * -sptr->trec;
+                } else {
+                    if (sptr->trec == 0) {
+                        depth = 1;
+                    } else {
+                        depth = sptr->tred * sptr->trec;
+                    }
+                }
+                volxset(depth >> 8);
             }
         }
-        volxset(depth >> 8);
     }
 /*----------------------------------------------------------------------*/
     fset_fg = 0;

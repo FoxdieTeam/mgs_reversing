@@ -94,7 +94,7 @@
 #define SE_KAMAE01              (0x09)          // 構える
 #define SE_HEART01              (0x0A)
 #define SE_FULL0005             (0x0B)
-#define SE_KAIHUKU1             (0x0C)           // 回復
+#define SE_KAIHUKU1             (0x0C)          // 回復
 #define SE_ITEM0003             (0x0D)
 #define SE_RADAR001             (0x0E)
 #define SE_OVER03               (0x0F)
@@ -208,7 +208,7 @@
 #define SE_CHR_DSP1             (0x7B)
 #define SE_SHATTR0B             (0x7C)
 #define SE_MENUOPN1             (0x7D)
-#define SE_KAIHUKU4             (0x7E)           // 回復
+#define SE_KAIHUKU4             (0x7E)          // 回復
 #define SE_IDEC04               (0x7F)
 
 /* aliases */

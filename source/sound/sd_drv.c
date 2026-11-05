@@ -4,47 +4,10 @@
 
 #include "sd_incl.h"
 #include "sd_ext.h"
+#include "g_sound.h"
 
 #include "../mts/mts.h"
 #include "../mts/taskid.h"
-
-/*--------------------*/
-/*--- Song Control ---*/
-/*--------------------*/
-/*SONG PAUSE*/
-#define SNG_PAUSEON     0x01FFFF01
-#define SNG_PAUSEOFF    0x01FFFF02
-/*SONG FADE IN*/
-#define SNG_FIN_S       0x01FFFF03
-#define SNG_FIN_M       0x01FFFF04
-#define SNG_FIN_L       0x01FFFF05
-/*SONG FADE OUT & PAUSE*/
-#define SNG_FOUTP_SS    0x01FFFF06
-#define SNG_FOUTP_S     0x01FFFF07
-#define SNG_FOUTP_M     0x01FFFF08
-#define SNG_FOUTP_L     0x01FFFF09
-/*SONG FADE OUT & STOP*/
-#define SNG_FOUTS_SS    0x01FFFF0A
-#define SNG_FOUTS_S     0x01FFFF0B
-#define SNG_FOUTS_M     0x01FFFF0C
-#define SNG_FOUTS_L     0x01FFFF0D
-/*Kaihi MODE*/
-#define SNG_KAIHI_01    0x01FFFF10
-/*Syukan MODE*/
-#define SNG_SYUKAN_ON   0x01FFFF20
-#define SNG_SYUKAN_OFF  0x01FFFF21
-
-/*SONG STOP*/
-#define SNG_STOP        0x01FFFFFF
-/*SONG PLAY CODE*/
-#define SNG_PLAY_01     0x01000001
-#define SNG_PLAY_02     0x01000002
-#define SNG_PLAY_03     0x01000003
-#define SNG_PLAY_04     0x01000004
-#define SNG_PLAY_05     0x01000005
-#define SNG_PLAY_06     0x01000006
-#define SNG_PLAY_07     0x01000007
-#define SNG_PLAY_08     0x01000008
 
 /*---------------------- External Declarations -------------------------*/
 
@@ -350,6 +313,7 @@ int SngFadeOutS(unsigned int kind)
         case SNG_FOUTS_S:   fade_time = SNG_VOL / (INT1SEC);    break;
         case SNG_FOUTS_M:   fade_time = SNG_VOL / (INT1SEC*3);  break;
         case SNG_FOUTS_L:   fade_time = SNG_VOL / (INT1SEC*5);  break;
+        //default: fade_time = 0; break;
         }
         if (fade_time == 0) fade_time = 1;
 
