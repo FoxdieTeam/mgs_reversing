@@ -196,7 +196,7 @@ static void Act( Work *work )
     {
         if ( !flag )
         {
-            GM_SetSound( 0xff0000fe, SD_ASYNC );
+            GM_SetSound( SE_JOUCHUU_OFF, SD_ASYNC );
             ExecProc( work->proc_id, 0xBED3 );
             work->field_4C = 0;
             DG_FrameRate = 2;

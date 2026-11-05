@@ -76,7 +76,7 @@ def ninja_run():
         # in sound
         r'sd_cli\.c:\d+: warning: control reaches end of non-void function',
         r'sd_drv\.c:\d+: warning: unused variable `temp\'',
-        r'sd_drv\.c:\d+: warning: `temp\' might be used uninitialized in this function',
+        r'sd_drv\.c:\d+: warning: `fade_time\' might be used uninitialized in this function',
         r'sd_main\.c:\d+: warning: unused variable `buffer\'',
         # in chara
         r'torture\.c:\d+: warning: unused variable `pad\'',

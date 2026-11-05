@@ -123,6 +123,7 @@ typedef struct HindWork
     int           field_66C;
     int           field_670;
 
+// clang-format off
     int     nMissileDemoMode;     /* 動くミサイル用デモ */
     int     nMissileDemoMode2;    /* 動くミサイル用デモ */
     OBJECT  move_missile_body;    /* Mi24ハインドのミサイルモデル３番（実際に飛ぶ） */
@@ -141,8 +142,9 @@ typedef struct HindWork
     int           life_total;
     int           fight_start_flag;
 
-    /* 音用 */
+    /* 音声... */
     int vox_ids[48];
+// clang-format on
     int field_8BC;
     int field_8C0;
     int field_8C4;

@@ -104,11 +104,10 @@ static void Main( void )
     HZD_StartDaemon();
 
     printf( "sound:" );
-    mts_start_task( MTSID_SOUND_MAIN, SdMain, STACK_BOTTOM( SdStack ), SD_STACK_SIZE );
-
-    while ( !sd_task_active() )
     {
-        mts_wait_vbl( 1 );
+        extern void SdMain(void); /* in sd_main.c */
+        mts_start_task( MTSID_SOUND_MAIN, SdMain, STACK_BOTTOM( SdStack ), SD_STACK_SIZE );
+        while ( !sd_task_active() ) mts_wait_vbl( 1 );
     }
 
     printf( "gm:" );
@@ -116,8 +115,7 @@ static void Main( void )
 
     printf( "start\n" );
 
-    for ( ;; )
-    {
+    for ( ;; ){
         GV_ExecActorSystem();
     }
 }

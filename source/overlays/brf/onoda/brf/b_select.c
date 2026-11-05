@@ -417,7 +417,7 @@ void brf_800C6228(Work *work, int a1, int a2)
     work->field_70 = a2;
     work->field_D0 = 0;
     work->field_CC = a1;
-    GM_SetSound(0x01FFFF0B, 0);
+    GM_SetSound(SNG_FOUTS_S, 0);
 }
 #pragma INCLUDE_ASM("asm/overlays/brf/brf_800C62B0.s")
 void brf_800C65C8(Work *work)

@@ -129,6 +129,23 @@ void GV_DestroyOtherActor( void *target );
 
 #define GV_SetActor( _this, _act, _die ) GV_SetNamedActor( _this, _act, _die, __FILE__ )
 
+#ifndef __LIBGV_ACTOR_C__
+static inline void GV_PauseOnActorSystem( int pause )
+{
+    GV_PauseLevel |= pause;
+}
+
+static inline void GV_PauseOffActorSystem( int pause )
+{
+    GV_PauseLevel &= ~pause;
+}
+
+static inline void GV_PauseToggleActorSystem( int pause )
+{
+    GV_PauseLevel ^= pause;
+}
+#endif
+
 /*------ Cache System -------------------------------------------------------*/
 
 enum GV_CACHE_REGION

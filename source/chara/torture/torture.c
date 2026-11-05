@@ -729,7 +729,7 @@ void s03b_torture_800C4AB0(Work *work, int arg1)
 
         GM_VoxInit();
         GM_VoxQueueDelay(work->f87C[2], 4);
-        GM_SetSound(0xff0000fe, SD_ASYNC);
+        GM_SetSound(SE_JOUCHUU_OFF, SD_ASYNC);
         OpenCinemaScreen(0, 10000);
 
         if (work->body.action != 2)
@@ -1187,7 +1187,7 @@ void s03b_torture_800C5420(Work *work, int arg1)
 
         if (arg1 == temp_s2 + 136 + work->f860[0][work->f85C])
         {
-            GM_SetSound(0xff0000fe, SD_ASYNC);
+            GM_SetSound(SE_JOUCHUU_OFF, SD_ASYNC);
             work->f800 = (unsigned short)work->f800 & ~0x2;
             if (work->f804 <= 0)
             {

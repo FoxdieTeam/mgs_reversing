@@ -21,7 +21,7 @@ static void set_song(int song)
 {
     if (song == 0)
     {
-        GM_SetSound(0x01ffffff, SD_ASYNC);
+        GM_SetSound(SNG_STOP, SD_ASYNC);
     }
     else
     {
@@ -97,7 +97,7 @@ void GM_AlertSound(void)
         GM_SetSound(c_code | 0x01ffff00, SD_ASYNC);
 
         /* song pause or song fade in */
-        if (c_code == 0x01ffff01 || (c_code >= 0x01ffff03 && c_code <= 0x01ffff05))
+        if (c_code == SNG_PAUSEON || (c_code >= SNG_FIN_S && c_code <= SNG_FIN_L))
         {
             song_status &= ~STATUS_BIT_1;
         }
@@ -112,7 +112,7 @@ void GM_AlertSound(void)
         x_code = GCL_GetNextInt();
 
         /* song fade out */
-        if (x_code >= 0x01ffff0a && x_code <= 0x01ffff0d)
+        if (x_code >= SNG_FOUTS_SS && x_code <= SNG_FOUTS_L)
         {
             song_status |= STATUS_BIT_0;
         }
@@ -200,17 +200,17 @@ void GM_AlertAct( void )
                 if ( GM_AlertMode == ALERT_OFF )
                 {
                     GM_SeSet2( 0, 0x3F, SE_ALERT_SIREN );
-                    GM_SetSound( 0x01ffff0b, SD_ASYNC );
+                    GM_SetSound( SNG_FOUTS_S, SD_ASYNC );
                     set_song( song_codes[1] );
                 }
                 else if ( GM_AlertMode == ALERT_EVASION )
                 {
-                    GM_SetSound( 0x01ffff03, SD_ASYNC );
+                    GM_SetSound( SNG_FIN_S, SD_ASYNC );
                 }
                 break;
 
             case ALERT_EVASION:
-                GM_SetSound( 0x01ffff10, SD_ASYNC );
+                GM_SetSound( SNG_KAIHI_01, SD_ASYNC );
                 break;
 
             case ALERT_OFF:
@@ -224,7 +224,7 @@ void GM_AlertAct( void )
 
     if ( GM_AlertMode == ALERT_EVASION && song_status == 0 && GM_AlertLevel == 60 )
     {
-        GM_SetSound( 0x01ffff08, SD_ASYNC );
+        GM_SetSound( SNG_FOUTP_M, SD_ASYNC );
     }
 
     new_alert_mode = -1;

@@ -740,7 +740,7 @@ void s12a_wolf2_800D0980(Wolf2Work *work)
         if (GM_GameOverTimer == 0)
         {
             /* Zanzibar Breeze */
-            GM_SetSong(0x01000002);
+            GM_SetSong(SNG_PLAY_02);
         }
     }
 }

@@ -453,7 +453,7 @@ static void Act(Work *work)
 
         DG_UnDrawFrameCount = 0x7fff0000;
 
-        GM_SetSound(0xff0000fe, SD_ASYNC);
+        GM_SetSound(SE_JOUCHUU_OFF, SD_ASYNC);
         return;
 
     case 1:

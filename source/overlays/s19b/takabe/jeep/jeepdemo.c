@@ -151,8 +151,8 @@ void s19b_jlamp_800D09B8(Work *work)
 void s19b_jlamp_800D09DC(void)
 {
     GM_SeSet(NULL, 0xB5);
-    GM_SetSound(0x01FFFF0B, 0);
-    GM_SetSound(0xFF0000FE, 0);
+    GM_SetSound(SNG_FOUTS_S, 0);
+    GM_SetSound(SE_JOUCHUU_OFF, 0);
 }
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0A20.s")
 #pragma INCLUDE_ASM("asm/overlays/s19b/s19b_jlamp_800D0ABC.s")

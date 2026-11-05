@@ -608,8 +608,8 @@ void *NewToBeContinued(int name, int where, int argc, char **argv)
         GetResources(work);
     }
 
-    GM_SetSound(0xff0000fe, SD_ASYNC);
-    GM_SetSound(0x01ffff0b, SD_ASYNC);
+    GM_SetSound(SE_JOUCHUU_OFF, SD_ASYNC);
+    GM_SetSound(SNG_FOUTS_S, SD_ASYNC);
     GM_SeSet3(0, 63, SE_GAMEOVER);
 
     if (work->vox >= 0)

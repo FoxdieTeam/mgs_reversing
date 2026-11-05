@@ -1067,7 +1067,7 @@ void title_open_800C628C(Work *work)
         work->fA74 = 15;
         work->fB00 = 0;
         work->fB04 = 0;
-        GM_SetSound(0x1FFFF0C, 0);
+        GM_SetSound(SNG_FOUTS_M, 0);
     }
 
     if (work->fB0C == 0)
@@ -1080,7 +1080,7 @@ void title_open_800C628C(Work *work)
                 work->fA74 = 2;
                 if (sd_sng_play() == 1)
                 {
-                    GM_SetSound(0x1FFFFFF, 0);
+                    GM_SetSound(SNG_STOP, 0);
                 }
             }
             break;
@@ -1091,7 +1091,7 @@ void title_open_800C628C(Work *work)
                 work->fA74 = 3;
                 if (sd_sng_play() == 1)
                 {
-                    GM_SetSound(0x1FFFFFF, 0);
+                    GM_SetSound(SNG_STOP, 0);
                 }
             }
             break;
@@ -1344,7 +1344,7 @@ void title_open_800C628C(Work *work)
                     }
                     if (sd_sng_play() == 1)
                     {
-                        GM_SetSound(0x1FFFFFF, 0);
+                        GM_SetSound(SNG_STOP, 0);
                     }
                 }
                 else if (press & PAD_CROSS)
@@ -1433,7 +1433,7 @@ void title_open_800C628C(Work *work)
                     }
                     if (sd_sng_play() == 1)
                     {
-                        GM_SetSound(0x1FFFFFF, 0);
+                        GM_SetSound(SNG_STOP, 0);
                     }
                 }
                 else if (press & PAD_CROSS)
@@ -1522,7 +1522,7 @@ void title_open_800C628C(Work *work)
                     }
                     if (sd_sng_play() == 1)
                     {
-                        GM_SetSound(0x1FFFFFF, 0);
+                        GM_SetSound(SNG_STOP, 0);
                     }
                 }
                 else if (press & PAD_CROSS)
@@ -1610,7 +1610,7 @@ void title_open_800C628C(Work *work)
                     }
                     if (sd_sng_play() == 1)
                     {
-                        GM_SetSound(0x1FFFFFF, 0);
+                        GM_SetSound(SNG_STOP, 0);
                     }
                 }
                 else if (press & PAD_CROSS)
@@ -1700,7 +1700,7 @@ void title_open_800C628C(Work *work)
                     }
                     if (sd_sng_play() == 1)
                     {
-                        GM_SetSound(0x1FFFF0B, 0);
+                        GM_SetSound(SNG_FOUTS_S, 0);
                     }
                 }
                 else if (press & PAD_CROSS)
@@ -1788,7 +1788,7 @@ void title_open_800C628C(Work *work)
                     }
                     if (sd_sng_play() == 1)
                     {
-                        GM_SetSound(0x1FFFFFF, 0);
+                        GM_SetSound(SNG_STOP, 0);
                     }
                 }
                 else if (press & PAD_CROSS)
@@ -1898,7 +1898,7 @@ void title_open_800C628C(Work *work)
                 }
                 if (sd_sng_play() == 0)
                 {
-                    GM_SetSound(0x1000001, 0);
+                    GM_SetSound(SNG_PLAY_01, 0);
                 }
                 work->fA78 = 0;
                 title_open_800C4B94(&p934[4], 0, 0, 0, 0x80, 0xC0, 0x80);
@@ -2004,7 +2004,7 @@ void title_open_800C628C(Work *work)
                     }
                     if (sd_sng_play() == 0)
                     {
-                        GM_SetSound(0x1000001, 0);
+                        GM_SetSound(SNG_PLAY_01, 0);
                     }
                     work->fA78 = 0;
                     title_open_800C4B94(&p934[4], 0, 0, 0, 0x80, 0xC0, 0x80);
@@ -2076,7 +2076,7 @@ void title_open_800C628C(Work *work)
                 }
                 if (sd_sng_play() == 0)
                 {
-                    GM_SetSound(0x1000001, 0);
+                    GM_SetSound(SNG_PLAY_01, 0);
                 }
                 work->fA78 = 0;
                 title_open_800C4B94(&p934[4], 0, 0, 0, 0x80, 0xC0, 0x80);
@@ -2413,7 +2413,7 @@ void title_open_800C628C(Work *work)
                         work->fE0[3] = 0x100;
                         work->fE0[4] = 0x100;
                         work->fE0[5] = 0;
-                        GM_SetSound(0x1000001, 0);
+                        GM_SetSound(SNG_PLAY_01, 0);
                     }
                     break;
                 }
@@ -2729,7 +2729,7 @@ void title_open_800C628C(Work *work)
                         work->fE0[2] = 0;
                         work->fE0[3] = 0x100;
                         work->fE0[4] = 0x100;
-                        GM_SetSound(0x1000001, 0);
+                        GM_SetSound(SNG_PLAY_01, 0);
                     }
                     break;
                 }
@@ -3121,7 +3121,7 @@ void title_open_800C628C(Work *work)
                         work->fE0[2] = 0;
                         work->fE0[3] = 0x100;
                         work->fE0[4] = 0x100;
-                        GM_SetSound(0x1000001, 0);
+                        GM_SetSound(SNG_PLAY_01, 0);
                     }
                     break;
                 }
@@ -3600,7 +3600,7 @@ void title_open_800C628C(Work *work)
                         work->fE0[2] = 0;
                         work->fE0[3] = 0x100;
                         work->fE0[4] = 0x100;
-                        GM_SetSound(0x1000001, 0);
+                        GM_SetSound(SNG_PLAY_01, 0);
                     }
                     break;
                 }
@@ -3983,7 +3983,7 @@ void title_open_800C628C(Work *work)
                         work->fE0[3] = 0x100;
                         work->fE0[4] = 0x100;
                         work->fE0[5] = 0;
-                        GM_SetSound(0x1000001, 0);
+                        GM_SetSound(SNG_PLAY_01, 0);
                     }
                     break;
                 }
@@ -4338,7 +4338,7 @@ void title_open_800C628C(Work *work)
                         work->fE0[2] = 0;
                         work->fE0[3] = 0x100;
                         work->fE0[4] = 0x100;
-                        GM_SetSound(0x1000001, 0);
+                        GM_SetSound(SNG_PLAY_01, 0);
                     }
                     break;
                 }
@@ -4701,7 +4701,7 @@ void title_open_800C628C(Work *work)
                         work->fE0[2] = 0;
                         work->fE0[3] = 0x100;
                         work->fE0[4] = 0x100;
-                        GM_SetSound(0x1000001, 0);
+                        GM_SetSound(SNG_PLAY_01, 0);
                     }
                     break;
                 }
@@ -5084,7 +5084,7 @@ void title_open_800C628C(Work *work)
                         work->fE0[2] = 0;
                         work->fE0[3] = 0x100;
                         work->fE0[4] = 0x100;
-                        GM_SetSound(0x1000001, 0);
+                        GM_SetSound(SNG_PLAY_01, 0);
                     }
                     break;
                 }
@@ -5180,7 +5180,7 @@ void title_open_800C628C(Work *work)
                 work->f184 = 0;
                 if (sd_sng_play() == 1)
                 {
-                    GM_SetSound(0x1FFFFFF, 0);
+                    GM_SetSound(SNG_STOP, 0);
                 }
             }
             break;
@@ -8455,7 +8455,7 @@ static void Act(Work *work)
             work->f30[6] = 1280;
             work->f30[7] = 256;
 
-            GM_SetSound(0x1000001, 0);
+            GM_SetSound(SNG_PLAY_01, 0);
         }
 
         title_open_800CD3B8(work, 0);
@@ -8580,7 +8580,7 @@ static void Act(Work *work)
             work->f184 = 0;
             work->fB00 = 0;
 
-            GM_SetSound(0x1000001, 0);
+            GM_SetSound(SNG_PLAY_01, 0);
         }
 
         title_open_800CCDC8(work);
@@ -8620,7 +8620,7 @@ static void Act(Work *work)
 
             if (!sd_sng_play())
             {
-                GM_SetSound(0x1000001, 0);
+                GM_SetSound(SNG_PLAY_01, 0);
             }
 
             switch (work->fA78)
@@ -9509,7 +9509,7 @@ static int GetResources(Work *work, int where)
         }
         if (sd_sng_play() == 0)
         {
-            GM_SetSound(0x1000001, 0);
+            GM_SetSound(SNG_PLAY_01, 0);
         }
         work->fA78 = 1;
         title_open_800C4B94(&gp[0], 0, 0, 0, 0x80, 0xC0, 0x80);
@@ -9570,7 +9570,7 @@ static int GetResources(Work *work, int where)
         }
         if (sd_sng_play() == 0)
         {
-            GM_SetSound(0x1000001, 0);
+            GM_SetSound(SNG_PLAY_01, 0);
         }
         work->fA78 = 2;
         title_open_800C4B94(&gp[1], 0, 0, 0, 0x80, 0xC0, 0x80);
@@ -9631,7 +9631,7 @@ static int GetResources(Work *work, int where)
         }
         if (sd_sng_play() == 0)
         {
-            GM_SetSound(0x1000001, 0);
+            GM_SetSound(SNG_PLAY_01, 0);
         }
         work->fA78 = 3;
         title_open_800C4B94(&gp[2], 0, 0, 0, 0x80, 0xC0, 0x80);
@@ -9692,7 +9692,7 @@ static int GetResources(Work *work, int where)
         }
         if (sd_sng_play() == 0)
         {
-            GM_SetSound(0x1000001, 0);
+            GM_SetSound(SNG_PLAY_01, 0);
         }
         work->fA78 = 4;
         title_open_800C4B94(&gp[3], 0, 0, 0, 0x80, 0xC0, 0x80);
@@ -9753,7 +9753,7 @@ static int GetResources(Work *work, int where)
         }
         if (sd_sng_play() == 0)
         {
-            GM_SetSound(0x1000001, 0);
+            GM_SetSound(SNG_PLAY_01, 0);
         }
         work->fA78 = 5;
         title_open_800C4B94(&gp[4], 0, 0, 0, 0x80, 0xC0, 0x80);
