@@ -39,14 +39,14 @@ typedef struct _PARAM {
     /* 0xB7E */ short          life;
     /* 0xB80 */ short          faint;
     /* 0xB82 */ short          unknown; // TODO: new in zako14
-    /* 0xB82 */ short          damage;
+    /* 0xB84 */ short          damage;
 } PARAM;
 
 typedef struct _VISION {
-    /* 0xB88 */ short facedir;
-    /* 0xB8A */ short range;
-    /* 0xB8C */ short length;
-    /* 0xB8E */ short pad;
+    /* 0xB8C */ short facedir;
+    /* 0xB8E */ short range;
+    /* 0xB90 */ short length;
+    /* 0xB92 */ short pad;
 } VISION;
 
 typedef struct _PAD {
@@ -63,7 +63,8 @@ struct _Work;
 typedef void ( *ACTION )( struct _Work *, int ) ;
 typedef void ( *PUTFUNC )( struct _Work * ) ;
 
-// TODO: struct layout changed from zako11a, re-address all members
+// NOTE: layout differs from zako11a (PARAM gained a field, VISION moved), so
+//       offsets from 0xB74 on are shifted relative to zako11a.
 typedef struct _Work {
     /* 0x000 */ GV_ACT         actor;
     /* 0x020 */ CONTROL        control;
@@ -120,14 +121,14 @@ typedef struct _Work {
     /* 0xB6C */ int            act_status;
     /* 0xB70 */ char           padB70[ 0x4 ];
     /* 0xB74 */ PARAM          param;
-    /* 0xB84 */ char           padB84[ 0x6 ];
-    /* 0xB94 */ VISION         vision;
-    /* 0xB9C */ short          field_B9C;
-    /* 0xB84 */ char           padBA0[ 0x2 ];
-    /* 0xBA0 */ int            alert_level;
-    /* 0xBA4 */ signed char    modetime[ 8 ];
-    /* 0xBAC */ SVECTOR        player_pos;
-    /* 0xBB4 */ int            player_dir;
+    /* 0xB86 */ char           padB86[ 0x6 ];
+    /* 0xB8C */ VISION         vision;
+    /* 0xB94 */ short          field_B94;
+    /* 0xB96 */ char           padB96[ 0x2 ];
+    /* 0xB98 */ int            alert_level;
+    /* 0xB9C */ signed char    modetime[ 8 ];
+    /* 0xBA4 */ SVECTOR        player_pos;
+    /* 0xBAC */ int            player_dir;
     /* 0xBB0 */ int            acttime[ 8 ];
     /* 0xBD0 */ short          dir[ 4 ];
     /* 0xBD8 */ SVECTOR        start_pos;
@@ -213,8 +214,6 @@ typedef struct _PATTERN {
 
 /*---------------------------------------------------------------------------*/
 
-/*
-
 static inline void SetAction( Work *work, int action, int interp )
 {
     extern short ActionTable[];
@@ -269,8 +268,6 @@ static inline void UnsetMode( Work *work )
     work->control.turn.vx = work->control.turn.vz = 0;
 }
 
-*/
-
 /*---------------------------------------------------------------------------*/
 
 extern SVECTOR   ZAKO14_TARGET_SIZE;
@@ -318,7 +315,6 @@ int  ZAKO14_SetPutChar( Work *work, int index );
 int  ZAKO14_ClearPutChar( Work *work, void *func );
 void ZAKO14_ExecPutChars( Work *work );
 
-void s14e_800CA890( Work *work, int ); // ZAKO14_SetPutChar
 
 // zk11aact.c
 void Zako14ActionMain( Work *work );
