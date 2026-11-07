@@ -278,33 +278,33 @@ extern SVECTOR   ZAKO14_TOUCH_SIZE;
 extern SVECTOR   ZAKO14_TOUCH_FORCE;
 extern SVECTOR   ZAKO14_NO_POINT;
 extern int       ZAKO14_EYE_LENGTH;
-// extern SVECTOR   ZAKO14_PlayerPosition;
-// extern COMMANDER ZAKO14Command;
-// extern TOP       ZAKO14TOPCOMMAND;
-// extern int       ZAKO14_Unknown;
-// extern int       ZAKO14_GameFlag;
-// extern int       ZAKO14_PlayerAddress;
-// extern int       ZAKO14_PlayerMap;
+extern SVECTOR   ZAKO14_PlayerPosition;
+extern COMMANDER ZAKO14Command;
+extern TOP       ZAKO14TOPCOMMAND;
+extern int       ZAKO14_Unknown;
+extern int       ZAKO14_GameFlag;
+extern int       ZAKO14_PlayerAddress;
+extern int       ZAKO14_PlayerMap;
 
 // zako14.c
 void *NewZako14( int name, int where );
 
 // action.c
-void s11a_800CB964( Work *work, int time );
+void s14e_800C7F00( Work *work, int time );
 void ZAKO14_ActionUpdate( Work *work );
 
 // override.c
-void s11a_800CD198( Work *work, int time );
-void s11a_800CD264( Work *work, int time );
-void s11a_800CD330( Work *work, int time );
-void s11a_800CD3C8( Work *work, int time );
-void s11a_800CD460( Work *work, int time );
-void s11a_800CD514( Work *work, int time );
-void s11a_800CD5DC( Work *work, int time );
-void s11a_800CD680( Work *work, int time );
-void s11a_800CD748( Work *work, int time );
-void s11a_800CD960( Work *work, int time );
-void s11a_800CDAA8( Work *work, int time );
+void s14e_800C9838( Work *work, int time );
+void s14e_800C9904( Work *work, int time );
+void s14e_800C99D0( Work *work, int time );
+void s14e_800C9A68( Work *work, int time );
+void s14e_800C9B00( Work *work, int time );
+void s14e_800C9BB4( Work *work, int time );
+void s14e_800C9C7C( Work *work, int time );
+void s14e_800C9D20( Work *work, int time );
+void s14e_800C9DE8( Work *work, int time );
+void s14e_800CA000( Work *work, int time );
+void s14e_800CA148( Work *work, int time );
 
 // put.c
 void ZAKO14_PutBlood( Work *work, int unit, int count );
@@ -315,15 +315,14 @@ int  ZAKO14_SetPutChar( Work *work, int index );
 int  ZAKO14_ClearPutChar( Work *work, void *func );
 void ZAKO14_ExecPutChars( Work *work );
 
-
-// zk11aact.c
+// zk14act.c
 void Zako14ActionMain( Work *work );
 void Zako14PushMove( Work *work );
 
 // think.c
 void Zako14Think( Work *work );
 
-// zk11acom.c
+// zako14com.c
 int  ZAKO14SetWorkID( Work *work );
 void ZAKO14ResetWorkID( int id );
 void ZAKO14SetTopCommAL( int alert );

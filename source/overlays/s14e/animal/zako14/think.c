@@ -3,19 +3,7 @@
 #include <stdio.h>
 #include "enemy/eyeflash.h"
 
-extern SVECTOR   ZAKO14_PlayerPosition;
-extern COMMANDER ZAKO14Command;
-extern TOP       ZAKO14TOPCOMMAND;
-extern int       ZAKO14_Unknown;
-extern int       ZAKO14_GameFlag;
-extern int       ZAKO14_PlayerAddress;
-extern int       ZAKO14_PlayerMap;
-
-void s14e_800CD764( Work *work );
-void s14e_800CD858( Work *work );
-void s14e_800CD9DC( Work *work );
-void s14e_800CDADC( Work *work );
-int  s14e_800CCCC4( Work *work );
+int s14e_800CCCC4( Work *work );
 
 static SVECTOR s14e_dword_800C34D8[] = {
     { 5750, 0, -1000 },
@@ -31,80 +19,12 @@ static int ActionPatternA[ 4 ][ 16 ] = {
     { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 };
 
-/* Same indexing; only the first byte of each entry is read */
-static u_char ActionPatternB[ 4 ][ 16 ][ 4 ] = {
-    {
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 3, 0, 0, 0 },
-        { 3, 0, 0, 0 },
-        { 3, 0, 0, 0 },
-        { 2, 0, 0, 0 },
-        { 2, 0, 0, 0 },
-        { 2, 0, 0, 0 },
-        { 3, 0, 0, 0 },
-        { 3, 0, 0, 0 },
-        { 3, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-    },
-    {
-        { 1, 0, 0, 0 },
-        { 1, 0, 0, 0 },
-        { 2, 0, 0, 0 },
-        { 2, 0, 0, 0 },
-        { 32, 0, 0, 0 },
-        { 32, 0, 0, 0 },
-        { 3, 0, 0, 0 },
-        { 9, 0, 0, 0 },
-        { 9, 0, 0, 0 },
-        { 2, 0, 0, 0 },
-        { 2, 0, 0, 0 },
-        { 1, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-    },
-    {
-        { 3, 0, 0, 0 },
-        { 23, 0, 0, 0 },
-        { 23, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 1, 0, 0, 0 },
-        { 1, 0, 0, 0 },
-        { 1, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 6, 0, 0, 0 },
-        { 6, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-    },
-    {
-        { 2, 0, 0, 0 },
-        { 2, 0, 0, 0 },
-        { 2, 0, 0, 0 },
-        { 2, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-        { 0, 0, 0, 0 },
-    },
+/* Indexed by [work->param.index][ZAKO14_GameFlag] */
+static int ActionPatternB[ 4 ][ 16 ] = {
+    { 0, 0, 3, 3, 3, 2, 2, 2, 3, 3, 3, 0, 0, 0, 0, 0 },
+    { 1, 1, 2, 2, 32, 32, 3, 9, 9, 2, 2, 1, 0, 0, 0, 0 },
+    { 3, 23, 23, 0, 0, 1, 1, 1, 0, 0, 6, 6, 0, 0, 0, 0 },
+    { 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 };
 
 void TargetPlayer( Work *work )
@@ -166,7 +86,6 @@ int s14e_800CCC8C( SVECTOR *from, SVECTOR *to )
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800CCCC4.s")
-/* cf. zako11a: s11a_800D0A98 */
 int s14e_800CCF84( Work *work )
 {
     if ( work->count3 == 0 )
@@ -186,7 +105,6 @@ int s14e_800CCF84( Work *work )
     return 1;
 }
 
-/* cf. zako11a: s11a_800D0B38 */
 int s14e_800CD024( Work *work )
 {
     if ( work->count3 == 0 )
@@ -201,7 +119,6 @@ int s14e_800CD024( Work *work )
     return 0;
 }
 
-/* cf. zako11a: s11a_800D0BA0 */
 int s14e_800CD08C( Work *work )
 {
     if ( !( work->count3 & 0x1F ) )
@@ -217,7 +134,6 @@ int s14e_800CD08C( Work *work )
     work->count3++;
     return 0;
 }
-/* cf. zako11a: s11a_800D0C2C */
 int s14e_800CD0FC( Work *work, int r )
 {
     SVECTOR diff;
@@ -237,7 +153,6 @@ int s14e_800CD0FC( Work *work, int r )
 
 }
 
-/* cf. zako11a: s11a_800D0CB4 */
 int s14e_800CD184( Work *work )
 {
     TargetPlayer( work );
@@ -252,7 +167,6 @@ int s14e_800CD184( Work *work )
     return s14e_800CD0FC( work, 1500 );
 }
 
-/* cf. zako11a: s11a_800D0D48 */
 int s14e_800CD218( Work *work )
 {
     int count;
@@ -268,7 +182,6 @@ int s14e_800CD218( Work *work )
     work->count3++;
     return 0;
 }
-/* cf. zako11a: s11a_800D0DE8 */
 int s14e_800CD2B4( Work *work )
 {
     work->pad.press |= 0x20000;
@@ -307,7 +220,6 @@ int s14e_800CD2B4( Work *work )
     return 0;
 }
 
-/* cf. zako11a: s11a_800D0EB0 */
 int s14e_800CD37C( Work *work )
 {
     work->pad.press |= 0x10000;
@@ -327,7 +239,6 @@ int s14e_800CD37C( Work *work )
     return 0;
 }
 
-/* cf. zako11a: s11a_800D0F74 */
 int s14e_800CD440( Work *work )
 {
     work->pad.press |= 0x10000;
@@ -346,7 +257,6 @@ int s14e_800CD440( Work *work )
     return 0;
 }
 
-/* cf. zako11a: s11a_800D0FDC */
 int s14e_800CD4A8( Work *work )
 {
     int count;
@@ -367,7 +277,6 @@ int s14e_800CD4A8( Work *work )
     work->count3++;
     return 0;
 }
-/* cf. zako11a: s11a_800D103C */
 int s14e_800CD514( Work *work )
 {
     if ( work->count3 > 200 ) return 1;
@@ -377,7 +286,6 @@ int s14e_800CD514( Work *work )
     work->count3++;
     return 0;
 }
-/* cf. zako11a: s11a_800D10A0 */
 int s14e_800CD55C( Work *work )
 {
     if ( work->sn_dis < 800 )
@@ -391,7 +299,6 @@ int s14e_800CD55C( Work *work )
     return 0;
 }
 
-/* cf. zako11a: s11a_800D10E8 */
 int s14e_800CD5A4( Work *work )
 {
     work->pad.press |= 0x10000;
@@ -430,13 +337,12 @@ int s14e_800CD5A4( Work *work )
     work->count3++;
     return 0;
 }
-/* cf. zako11a: s11a_800D1230 */
 int s14e_800CD6C4( Work *work )
 {
     work->pad.press |= 0x10000;
     work->pad.dir = work->sn_dir;
 
-    work->param.next = ActionPatternB[ work->param.index ][ ZAKO14_GameFlag ][ 0 ];
+    work->param.next = ActionPatternB[ work->param.index ][ ZAKO14_GameFlag ];
     return 15;
 }
 void s14e_800CD714( Work *work )
@@ -444,7 +350,6 @@ void s14e_800CD714( Work *work )
     s14e_800CCC04( work );
 }
 
-/* cf. zako11a: s11a_800D13DC */
 void s14e_800CD734( Work *work )
 {
     if ( work->think3 == 0 )
@@ -453,7 +358,6 @@ void s14e_800CD734( Work *work )
     }
 }
 
-/* cf. zako11a: s11a_800D142C */
 void s14e_800CD764( Work *work )
 {
     switch ( work->think3 )
@@ -491,7 +395,6 @@ void s14e_800CD764( Work *work )
         break;
     }
 }
-/* cf. zako11a: s11a_800D1524 */
 void s14e_800CD858( Work *work )
 {
     int result;
@@ -576,7 +479,6 @@ void s14e_800CD858( Work *work )
         work->alert_level = 255;
     }
 }
-/* cf. zako11a: s11a_800D1804 */
 void s14e_800CD9DC( Work *work )
 {
     int result;

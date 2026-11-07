@@ -29,13 +29,6 @@ static u_short time_data[] = {
 
 /*----------------------------------------------------------------------------*/
 
-extern COMMANDER ZAKO14Command;
-extern int       ZAKO14_GameFlag;
-
-// zk11aact.c
-void Zako14ActionMain( Work *work ); // Zako14ActionMain
-void Zako14PushMove( Work *work ); // Zako14PushMove
-
 // BUG: Should be void GM_ConfigControlRadarparam( CONTROL *, u_short, u_short, u_short, u_short );
 extern void GM_ConfigControlRadarparam( CONTROL *ctrl, u_short dir, u_short dis, int range, u_short r );
 
