@@ -39,14 +39,14 @@ typedef struct _PARAM {
     /* 0xB7E */ short          life;
     /* 0xB80 */ short          faint;
     /* 0xB82 */ short          unknown; // TODO: new in zako14
-    /* 0xB82 */ short          damage;
+    /* 0xB84 */ short          damage;
 } PARAM;
 
 typedef struct _VISION {
-    /* 0xB88 */ short facedir;
-    /* 0xB8A */ short range;
-    /* 0xB8C */ short length;
-    /* 0xB8E */ short pad;
+    /* 0xB8C */ short facedir;
+    /* 0xB8E */ short range;
+    /* 0xB90 */ short length;
+    /* 0xB92 */ short pad;
 } VISION;
 
 typedef struct _PAD {
@@ -63,7 +63,8 @@ struct _Work;
 typedef void ( *ACTION )( struct _Work *, int ) ;
 typedef void ( *PUTFUNC )( struct _Work * ) ;
 
-// TODO: struct layout changed from zako11a, re-address all members
+// NOTE: layout differs from zako11a (PARAM gained a field, VISION moved), so
+//       offsets from 0xB74 on are shifted relative to zako11a.
 typedef struct _Work {
     /* 0x000 */ GV_ACT         actor;
     /* 0x020 */ CONTROL        control;
@@ -120,14 +121,14 @@ typedef struct _Work {
     /* 0xB6C */ int            act_status;
     /* 0xB70 */ char           padB70[ 0x4 ];
     /* 0xB74 */ PARAM          param;
-    /* 0xB84 */ char           padB84[ 0x6 ];
-    /* 0xB94 */ VISION         vision;
-    /* 0xB9C */ short          field_B9C;
-    /* 0xB84 */ char           padBA0[ 0x2 ];
-    /* 0xBA0 */ int            alert_level;
-    /* 0xBA4 */ signed char    modetime[ 8 ];
-    /* 0xBAC */ SVECTOR        player_pos;
-    /* 0xBB4 */ int            player_dir;
+    /* 0xB86 */ char           padB86[ 0x6 ];
+    /* 0xB8C */ VISION         vision;
+    /* 0xB94 */ short          field_B94;
+    /* 0xB96 */ char           padB96[ 0x2 ];
+    /* 0xB98 */ int            alert_level;
+    /* 0xB9C */ signed char    modetime[ 8 ];
+    /* 0xBA4 */ SVECTOR        player_pos;
+    /* 0xBAC */ int            player_dir;
     /* 0xBB0 */ int            acttime[ 8 ];
     /* 0xBD0 */ short          dir[ 4 ];
     /* 0xBD8 */ SVECTOR        start_pos;
@@ -213,8 +214,6 @@ typedef struct _PATTERN {
 
 /*---------------------------------------------------------------------------*/
 
-/*
-
 static inline void SetAction( Work *work, int action, int interp )
 {
     extern short ActionTable[];
@@ -269,8 +268,6 @@ static inline void UnsetMode( Work *work )
     work->control.turn.vx = work->control.turn.vz = 0;
 }
 
-*/
-
 /*---------------------------------------------------------------------------*/
 
 extern SVECTOR   ZAKO14_TARGET_SIZE;
@@ -281,33 +278,33 @@ extern SVECTOR   ZAKO14_TOUCH_SIZE;
 extern SVECTOR   ZAKO14_TOUCH_FORCE;
 extern SVECTOR   ZAKO14_NO_POINT;
 extern int       ZAKO14_EYE_LENGTH;
-// extern SVECTOR   ZAKO14_PlayerPosition;
-// extern COMMANDER ZAKO14Command;
-// extern TOP       ZAKO14TOPCOMMAND;
-// extern int       ZAKO14_Unknown;
-// extern int       ZAKO14_GameFlag;
-// extern int       ZAKO14_PlayerAddress;
-// extern int       ZAKO14_PlayerMap;
+extern SVECTOR   ZAKO14_PlayerPosition;
+extern COMMANDER ZAKO14Command;
+extern TOP       ZAKO14TOPCOMMAND;
+extern int       ZAKO14_Unknown;
+extern int       ZAKO14_GameFlag;
+extern int       ZAKO14_PlayerAddress;
+extern int       ZAKO14_PlayerMap;
 
 // zako14.c
 void *NewZako14( int name, int where );
 
 // action.c
-void s11a_800CB964( Work *work, int time );
+void s14e_800C7F00( Work *work, int time );
 void ZAKO14_ActionUpdate( Work *work );
 
 // override.c
-void s11a_800CD198( Work *work, int time );
-void s11a_800CD264( Work *work, int time );
-void s11a_800CD330( Work *work, int time );
-void s11a_800CD3C8( Work *work, int time );
-void s11a_800CD460( Work *work, int time );
-void s11a_800CD514( Work *work, int time );
-void s11a_800CD5DC( Work *work, int time );
-void s11a_800CD680( Work *work, int time );
-void s11a_800CD748( Work *work, int time );
-void s11a_800CD960( Work *work, int time );
-void s11a_800CDAA8( Work *work, int time );
+void s14e_800C9838( Work *work, int time );
+void s14e_800C9904( Work *work, int time );
+void s14e_800C99D0( Work *work, int time );
+void s14e_800C9A68( Work *work, int time );
+void s14e_800C9B00( Work *work, int time );
+void s14e_800C9BB4( Work *work, int time );
+void s14e_800C9C7C( Work *work, int time );
+void s14e_800C9D20( Work *work, int time );
+void s14e_800C9DE8( Work *work, int time );
+void s14e_800CA000( Work *work, int time );
+void s14e_800CA148( Work *work, int time );
 
 // put.c
 void ZAKO14_PutBlood( Work *work, int unit, int count );
@@ -318,16 +315,14 @@ int  ZAKO14_SetPutChar( Work *work, int index );
 int  ZAKO14_ClearPutChar( Work *work, void *func );
 void ZAKO14_ExecPutChars( Work *work );
 
-void s14e_800CA890( Work *work, int ); // ZAKO14_SetPutChar
-
-// zk11aact.c
+// zk14act.c
 void Zako14ActionMain( Work *work );
 void Zako14PushMove( Work *work );
 
 // think.c
 void Zako14Think( Work *work );
 
-// zk11acom.c
+// zako14com.c
 int  ZAKO14SetWorkID( Work *work );
 void ZAKO14ResetWorkID( int id );
 void ZAKO14SetTopCommAL( int alert );

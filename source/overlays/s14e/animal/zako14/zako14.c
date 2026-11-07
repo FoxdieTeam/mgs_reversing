@@ -5,6 +5,16 @@
 #include <stdio.h>
 #include "mts/mts.h" // for fprintf
 #include "libgcl/libgcl.h"
+#include "strcode.h"
+#include "chara/snake/shadow.h"
+#include "enemy/glight.h"
+
+/*----------------------------------------------------------------------------*/
+
+#define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                    | DG_FLAG_GBOUND | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
+#define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
+                    | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
 /*----------------------------------------------------------------------------*/
 
@@ -13,14 +23,9 @@ static int ChaseDis[] = {
     8000, 8000, 8000, 8000,
 };
 
-int s14e_dword_800C3330 = 0x000F012C;
-int s14e_dword_800C3334 = 0x003C001E;
-
-int s14e_dword_800C3338 = 0x0000005A;
-int s14e_dword_800C333C = 0x75307D01;
-
-const char s14e_dword_800DC908[] = "Err Err Err  Set time Over\n";
-const char s14e_dword_800DC924[] = "Err Err Err  Set Dir Over\n";
+static u_short time_data[] = {
+    300, 15, 30, 60, 90, 0, 32001, 30000,
+};
 
 /*----------------------------------------------------------------------------*/
 
@@ -29,44 +34,337 @@ extern void GM_ConfigControlRadarparam( CONTROL *ctrl, u_short dir, u_short dis,
 
 /*----------------------------------------------------------------------------*/
 
-void s14e_800C5958( void )
+static void CheckFlag( Work *work )
 {
-    return;
+    /* do nothing */
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C5960.s")
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C59DC.s")
+static void ChangeModel( DG_OBJS *objs, DG_DEF *def )
+{
+    DG_OBJ *obj;
+    int i;
 
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C5B14.s")
-void s14e_800C5B14( Work *work );
+    DG_FreeObjsPacket( objs, 0 );
+    DG_FreeObjsPacket( objs, 1 );
 
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C5C78.s")
-void s14e_800C5C78( Work *work );
+    objs->def = def;
+    obj = objs->objs;
+    for ( i = 0; i < 16; i++ )
+    {
+        obj->model = &def->models[ i ];
+        obj->n_packs = def->models[ i ].n_faces;
+        obj++;
+    }
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C5DAC.s")
+static void CheckModel( Work *work )
+{
+    if ( work->field_9E4 != 0 )
+    {
+        if ( work->param.low_poly == 1 )
+        {
+            if ( ( GM_GameStatus & STATE_CAM_CHANGE ) || GM_Camera.first_person )
+            {
+                if ( work->lod != 1 )
+                {
+                    work->lod = 1;
+                    ChangeModel( work->body.objs, work->lod_models[ 1 ] );
+                }
+            }
+            else
+            {
+                if ( work->lod != 0 )
+                {
+                    work->lod = 0;
+                    ChangeModel( work->body.objs, work->lod_models[ 0 ] );
+                }
+            }
+        }
 
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C5E08.s")
-void s14e_800C5E08( Work *work, int name, int where );
+        DG_VisibleObjs( work->body.objs );
+        DG_VisibleObjs( work->weapon.objs );
+        *work->shadow_enable = 1;
+        *work->glight_enable = 1;
+    }
+    else
+    {
+        DG_InvisibleObjs( work->body.objs );
+        DG_InvisibleObjs( work->weapon.objs );
+        *work->shadow_enable = 0;
+        *work->glight_enable = 0;
+    }
+}
 
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C6028.s")
+static void Act( Work *work )
+{
+    VECTOR scale;
+    CONTROL *control;
+    TARGET *trg, *touch;
 
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C609C.s")
-void s14e_800C609C( Work *work );
+    control = &work->control;
+    if ( GM_CheckMessage( work, control->name, HASH_KILL ) )
+    {
+        GV_DestroyActor( work );
+        return;
+    }
 
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C60BC.s")
-int s14e_800C60BC( Work *work );
+    CheckFlag( work );
 
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C6158.s")
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C61B0.s")
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C6208.s")
-void s14e_800C6208( Work *work );
+    if ( work->field_C34 == 0 )
+    {
+        Zako14PushMove( work );
 
-void s14e_800C62E0( Work *work, int name, int where )
+        GM_ActControl( control );
+        GM_ActObject2( &work->body );
+        GM_ActObject2( &work->weapon );
+        DG_GetLightMatrix2( &control->mov, work->light );
+
+        Zako14ActionMain( work );
+
+        trg = work->target;
+        GM_MoveTarget( trg, &control->mov );
+        GM_PushTarget( trg );
+
+        if ( trg->class & TARGET_TOUCH )
+        {
+            touch = &work->touch;
+            if ( touch->class & TARGET_TOUCH )
+            {
+                if ( touch->damaged & TARGET_TOUCH ) touch->damaged &= ~TARGET_TOUCH;
+                GM_MoveTarget( touch, &control->mov );
+                GM_TouchTarget( touch );
+            }
+        }
+
+        scale.vx = scale.vy = scale.vz = work->scale;
+        ScaleMatrix( &work->body.objs->world, &scale );
+    }
+
+    CheckModel( work );
+    if ( ZAKO14_GameFlag == 15 && ZAKO14Command.watchers[ work->param.index ].field_4 == 1 )
+    {
+        GV_DestroyActor( work );
+    }
+}
+
+static void InitTarget( Work *work )
+{
+    TARGET *trg, *trg2;
+    int life, faint;
+
+    trg = work->target;
+    life = work->param.life;
+    faint = work->param.faint;
+    GM_SetTarget( trg, TARGET_FLAG, ENEMY_SIDE, &ZAKO14_TARGET_SIZE );
+    GM_SetPowerTarget( trg, POWER_DECREASE, -1, life, faint, &ZAKO14_TARGET_FORCE );
+    GM_SetCaptureTarget( trg, -1, faint, NULL, NULL );
+    GM_SetC4Target( trg, &work->body.objs->objs[ 1 ].world );
+
+    trg2 = &work->attack;
+    work->param.unknown = work->param.life;
+    GM_SetTarget( trg2, TARGET_POWER, PLAYER_SIDE, &ZAKO14_ATTACK_SIZE );
+    GM_SetPowerTarget( trg2, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO14_ATTACK_FORCE );
+
+    trg2 = &work->touch;
+    GM_SetTarget( trg2, TARGET_TOUCH, ENEMY_SIDE, &ZAKO14_TOUCH_SIZE );
+    GM_SetPowerTarget( trg2, POWER_CONST | POWER_EXPLODE, 5, 0, 0, &ZAKO14_TOUCH_FORCE );
+}
+
+static void InitAct( Work *work )
+{
+    ACT *act;
+
+    act = &work->act;
+    GV_ZeroMemory( act, sizeof(ACT) );
+    act->field_00 = 0;
+    act->field_1C = 450;
+    act->field_1E = 1;
+
+    work->action = NULL;
+    work->action2 = NULL;
+    work->time = 0;
+    work->time2 = 0;
+}
+
+static int InitState( Work *work, int name, int where )
+{
+    SVECTOR indices;
+    CONTROL *control;
+    OBJECT *body, *weapon;
+    char *opt;
+    int i;
+
+    control = &work->control;
+    if ( GM_InitControl( control, name, where ) < 0 ) return -1;
+
+    GM_ConfigControlString( control, GCL_GetOption( 'p' ), GCL_GetOption( 'd' ) );
+    GM_ConfigControlAttribute( control, RADAR_VISIBLE | RADAR_SIGHT | RADAR_ALL_MAP );
+    GM_ConfigControlInterp( control, 4 );
+    control->seg_flag = HZD_SEG_NO_NAVIGATE;
+    GM_ConfigControlTrapCheck( control );
+
+    body = &work->body;
+    weapon = &work->weapon;
+
+    GM_InitObject( body, KMD_IPPANHEI, BODY_FLAG, OAR_ENEMY );
+    GM_ConfigObjectJoint( body );
+    GM_ConfigMotionControl( body, &work->m_ctrl, OAR_ENEMY, work->m_segs1, work->m_segs2, control, work->rots );
+    GM_ConfigObjectLight( body, work->light );
+
+    work->param.low_poly = 0;
+    opt = GCL_GetOption( 'y' );
+    if ( opt != NULL )
+    {
+        work->param.low_poly = GCL_StrToInt( opt );
+    }
+
+    if ( work->param.low_poly == 1 )
+    {
+        work->lod_models[ 1 ] = body->objs->def;
+        work->lod_models[ 0 ] = GV_GetCache( GV_CacheID( KMD_LOPRYHEI, 'k' ) );
+        work->lod = 1;
+    }
+
+    work->hom = GM_SetHomingTarget( &body->objs->objs[ 6 ].world, control );
+
+    GM_InitObject( weapon, KMD_FAMAS, WEAPON_FLAG, 0 );
+    GM_ConfigObjectLight( weapon, work->light );
+    GM_ConfigObjectRoot( weapon, body, 4 );
+
+    for ( i = 0; i < 0; i++ )
+    {
+        work->putchar[ i ] = NULL;
+    }
+
+    indices.vx = 0;
+    indices.vy = 6;
+    indices.vz = 12;
+    indices.pad = 15;
+    work->shadow = NewShadow2( control, body, indices, &work->shadow_enable );
+    work->glight = NewGunLight( &body->objs->objs[ 4 ].world, &work->glight_enable );
+
+    ZAKO14_SetPutChar( work, 0 );
+    InitAct( work );
+    return 0;
+}
+
+static void FreeState( Work *work )
+{
+    ZAKO14ResetWorkID( work->param.index );
+    GM_FreeControl( &work->control );
+    GM_FreeObject( &work->body );
+    GM_FreeObject( &work->weapon );
+    GM_FreeTarget( work->target );
+    GV_DestroyActor( work->glight );
+    GV_DestroyActor( work->shadow );
+    GM_ResetHomingTarget( work->hom );
+}
+
+static void Die( Work *work )
+{
+    FreeState( work );
+}
+
+static int ReadNodes( Work *work )
+{
+    HZD_PAT *route;
+    HZD_PTP *point;
+    int i;
+
+    route = work->control.map->hzd->def->routes;
+    route += work->param.root;
+
+    work->n_nodes = route->n_points;
+    if ( work->n_nodes <= 0 ) return -1;
+
+    point = route->points;
+    for ( i = 0; i < work->n_nodes; i++ )
+    {
+        work->nodes[ i ].vx = point->x;
+        work->nodes[ i ].vy = point->y;
+        work->nodes[ i ].vz = point->z;
+        work->nodes[ i ].pad = point->command;
+        point++;
+    }
+
+    return 0;
+}
+
+static int ReadDir( char *opt, short *data )
+{
+    int count;
+    char *str;
+
+    count = 0;
+    while ( ( str = GCL_NextStr() ) != NULL )
+    {
+        *data = GCL_StrToInt( str );
+        data++;
+        count++;
+    }
+    return count;
+}
+
+static int ReadTime( char *opt, int *data )
+{
+    int count;
+    char *str;
+
+    count = 0;
+    while ( ( str = GCL_NextStr() ) != NULL )
+    {
+        *data = GCL_StrToInt( str );
+        data++;
+        count++;
+    }
+
+    return count;
+}
+
+static int InitTables( Work *work )
+{
+    int i;
+    char *opt;
+
+    for ( i = 0; i < 8; i++ )
+    {
+        work->acttime[ i ] = time_data[ i ];
+    }
+
+    opt = GCL_GetOption( 't' );
+    if ( opt )
+    {
+        if ( ReadTime( opt, &work->acttime[ 1 ] ) > 4 )
+        {
+            printf( "Err Err Err  Set time Over\n" );
+            return -1;
+        }
+    }
+
+    for ( i = 0; i < 4; i++ )
+    {
+        work->dir[ i ] = i * 1024;
+    }
+
+    opt = GCL_GetOption( 'i' );
+    if ( opt )
+    {
+        if ( ReadDir( opt, work->dir ) > 4 )
+        {
+            printf( "Err Err Err  Set Dir Over\n" );
+            return -1;
+        }
+    }
+
+    return 0;
+}
+
+static void GetResources( Work *work, int name, int where )
 {
     char *opt;
     int addr, i;
 
-    s14e_800C5E08( work, name, where );
+    InitState( work, name, where );
 
     work->param.index = ZAKO14SetWorkID( work );
     if ( work->param.index < 0 )
@@ -74,7 +372,7 @@ void s14e_800C62E0( Work *work, int name, int where )
         printf( "Err not enough work !!\n" );
     }
 
-    s14e_800C6208( work );
+    InitTables( work );
 
     work->param.root = 0;
     opt = GCL_GetOption( 'r' );
@@ -144,7 +442,7 @@ void s14e_800C62E0( Work *work, int name, int where )
 
     if ( work->param.area == 'S' )
     {
-        s14e_800CA890( work, 1 );
+        ZAKO14_SetPutChar( work, 1 );
     }
 
     work->scale = 4096;
@@ -156,7 +454,7 @@ void s14e_800C62E0( Work *work, int name, int where )
 
     work->param.item = 1;
 
-    if ( s14e_800C60BC( work ) < 0 )
+    if ( ReadNodes( work ) < 0 )
     {
         fprintf( 1, "watchar.c : action point Err\n" );
     }
@@ -164,7 +462,7 @@ void s14e_800C62E0( Work *work, int name, int where )
     work->target = GM_AllocTarget();
     if ( work->target != NULL )
     {
-        s14e_800C5C78( work );
+        InitTarget( work );
     }
 
     work->think1 = 0;
@@ -187,7 +485,7 @@ void s14e_800C62E0( Work *work, int name, int where )
     work->field_9E4 = 1;
     work->vision.range = 512;
     work->vision.facedir = 0;
-    work->field_B9C = 0;
+    work->field_B94 = 0;
     work->pad.sound = 0;
     work->pad.time = 0;
     work->vision.length = ZAKO14_EYE_LENGTH;
@@ -225,8 +523,8 @@ void *NewZako14( int name, int where )
     work = GV_NewActor( GV_ACTOR_PREV, sizeof(Work) );
     if ( work != NULL )
     {
-        GV_SetNamedActor( work, s14e_800C5B14, s14e_800C609C, "zako14.c" );
-        s14e_800C62E0( work, name, where );
+        GV_SetNamedActor( work, Act, Die, "zako14.c" );
+        GetResources( work, name, where );
     }
     return (void *)work;
 }
