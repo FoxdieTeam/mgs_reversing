@@ -26,6 +26,7 @@
 #ifndef MAX
 #define MAX(x, y)       (((x) > (y)) ? (x) : (y))
 #endif
+/* defined identically to the PSX Runtime Library's <abs.h> */
 #ifndef ABS
 #define ABS(x)          (((x) >= 0) ? (x) : -(x))
 #endif
