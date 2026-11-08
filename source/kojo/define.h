@@ -110,7 +110,7 @@ typedef char *PSZ;
 #endif
 
 typedef unsigned long       DWORD;
-/*typedef int                 BOOL;*/
+typedef int                 BOOL;
 typedef unsigned char       BYTE;
 typedef unsigned short      WORD;
 typedef float               FLOAT;

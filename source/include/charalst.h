@@ -335,7 +335,7 @@
 #define DEMO_OPTICSCAMOUFLAGE2  { 0x001b, NewKogaku3 }              // equip/kogaku2.c
 #define DEMO_ENVIRONMENTMAPPING { 0x001c, NewEnvmap3_800CA3A4 }     // takabe/envmap3.c
 #define DEMO_PLASMA             { 0x001d, NewPlasma_800CD1A4 }      // okajima/plasma.c
-#define DEMO_WINDCIRCLE         { 0x001e, NewWindcrcl_800CF6BC }    // takabe/windcrcl.c
+#define DEMO_WINDCIRCLE         { 0x001e, NewWindCircle }           // takabe/windcrcl.c
 #define DEMO_SEPIA              { 0x001f, NewSepia_800C4F9C }       // takabe/sepia.c
 #define DEMO_METALGEARLASER     { 0x0020, ? }                       // kojo/mgrexlzr.c
 #define DEMO_UNSHAPEVIEW        { 0x0021, NewFocusView }            // takabe/focus.c
@@ -356,7 +356,7 @@
 #define DEMO_BLASTLINE          { 0x0030, ? }                       // okajima/blst_ln.c
 #define DEMO_SMOKELINE          { 0x0031, NewSmokeLn_800CDFA4 }     // okajima/smke_ln.c
 #define DEMO_SHELLSMOKE         { 0x0032, ? }                       // kojo/m1e1smke.c
-#define DEMO_CATERPILLERSMOKE   { 0x0033, demothrd_2_8007DA94 }     // --> anime/animconv/anime.c
+#define DEMO_CATERPILLERSMOKE   { 0x0033, AN_CaterpillerSmoke2 }    // --> anime/animconv/anime.c
 #define DEMO_CROWEYE            { 0x0034, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
 #define DEMO_OCEROTTEBULLETFIRE { 0x0035, NewAnime_8005E574 }       // --> anime/animconv/anime.c
 #define DEMO_OCEROTTEBULLETSMOKE { 0x0036, NewAnime_8005E6A4 }      // --> anime/animconv/anime.c
@@ -398,7 +398,7 @@ extern NEWCHARA AN_Smoke_800CE08C;              /* --> anime/animconv/anime.c   
 extern NEWCHARA AN_Smoke_800CE164;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA NewAnime_8005E574;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA NewAnime_8005E6A4;              /* --> anime/animconv/anime.c   */
-extern NEWCHARA demothrd_2_8007DA94;            /* --> anime/animconv/anime.c   */
+extern NEWCHARA AN_CaterpillerSmoke2;           /* --> anime/animconv/anime.c   */
 extern NEWCHARA s08c_800C4194;                  /* --> anime/animconv/anime.c   */
 extern NEWCHARA NewRope;                        /* --> chara/rope/rope.c        */
 extern NEWCHARA NewCountdownGcl;                /* --> menu/countdwn.c          */
@@ -599,7 +599,7 @@ extern NEWCHARA NewTexScroll;                   /* takabe/tex_scrl.c            
 extern NEWCHARA NewTruckTrap;                   /* takabe/tracktrp.c            */
 extern NEWCHARA NewVibrationEditor;             /* takabe/vib_edit.c            */
 extern NEWCHARA NewVoiceSystem;                 /* takabe/voicesys.c            */
-extern NEWCHARA NewWindcrcl_800CF6BC;           /* takabe/windcrcl.c            */
+extern NEWCHARA NewWindCircle;                  /* takabe/windcrcl.c            */
 extern NEWCHARA NewWaterSurface;                /* takabe/wsurface.c            */
 extern NEWCHARA NewWaterArea;                   /* takabe/wt_area.c             */
 extern NEWCHARA NewWaterArea2;                  /* takabe/wt_area2.c            */

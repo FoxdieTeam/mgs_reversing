@@ -9,8 +9,9 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-typedef struct _Work
-{
+/*---------------------------------------------------------------------------*/
+
+typedef struct _Work {
     GV_ACT   actor;
     int      map;
     DG_PRIM *prim;
@@ -23,30 +24,30 @@ typedef struct _Work
     int      time;
 } Work;
 
-typedef struct WindcrclScratch
-{
+typedef struct {
     MATRIX  scale;
     SVECTOR vec[66];
-} WindcrclScratch;
+} SCRPAD_DATA;
 
-void WindcrclScaleVecs_800CF08C(SVECTOR *out, int scale1, int scale2, int scale3)
+/*---------------------------------------------------------------------------*/
+
+static void ScaleVecs( SVECTOR *out, int scale1, int scale2, int scale3 )
 {
-    WindcrclScratch *scratch;
-    int              ang;
-    SVECTOR         *vec;
-    int              i;
-    int              cosv;
-    int              sinv;
+    SCRPAD_DATA *scratch;
+    int         ang;
+    SVECTOR     *vec;
+    int         i;
+    int         cosv;
+    int         sinv;
 
-    scratch = (WindcrclScratch *)SCRPAD_ADDR;
+    scratch = (SCRPAD_DATA *)SCRPAD_ADDR;
 
     ang = 0;
     vec = scratch->vec;
 
-    for (i = 32; i > 0; i--)
-    {
-        cosv = rcos(ang);
-        sinv = rsin(ang);
+    for (i = 32; i > 0; i--) {
+        cosv = rcos( ang );
+        sinv = rsin( ang );
 
         vec->vx = cosv;
         vec->vy = 4096;
@@ -66,22 +67,21 @@ void WindcrclScaleVecs_800CF08C(SVECTOR *out, int scale1, int scale2, int scale3
     scratch->scale.m[0][0] = scale1;
     scratch->scale.m[2][2] = scale1;
     scratch->scale.m[1][1] = 0;
-    SetRotMatrix(&scratch->scale);
+    SetRotMatrix( &scratch->scale );
 
     vec = scratch->vec;
-    DG_RotVector(vec, vec, 33);
+    DG_RotVector( vec, vec, 33 );
 
     scratch->scale.m[0][0] = scale2;
     scratch->scale.m[2][2] = scale2;
     scratch->scale.m[1][1] = scale3;
-    SetRotMatrix(&scratch->scale);
+    SetRotMatrix( &scratch->scale );
 
     vec = scratch->vec + 33;
-    DG_RotVector(vec, vec, 33);
+    DG_RotVector( vec, vec, 33 );
 
     vec = scratch->vec;
-    for (i = 32; i > 0; i--)
-    {
+    for (i = 32; i > 0; i--) {
         out[3] = vec[0];
         out[2] = vec[1];
         out[1] = vec[33];
@@ -91,37 +91,37 @@ void WindcrclScaleVecs_800CF08C(SVECTOR *out, int scale1, int scale2, int scale3
     }
 }
 
-void d01a_windcrcl_800CF2FC(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *tex)
+static void InitPacks( POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, DG_TEX *tex )
 {
-    while (--n_packs >= 0)
-    {
-        setPolyFT4(packs0);
-        setSemiTrans(packs0, 1);
+    while ( --n_packs >= 0 ) {
+        setPolyFT4( packs0 );
+        setSemiTrans( packs0, 1 );
 
-        setPolyFT4(packs1);
-        setSemiTrans(packs1, 1);
+        setPolyFT4( packs1 );
+        setSemiTrans( packs1, 1 );
 
-        DG_SetPacketTexture4(packs0, tex);
-        DG_SetPacketTexture4(packs1, tex);
+        DG_SetPacketTexture4( packs0, tex );
+        DG_SetPacketTexture4( packs1, tex );
 
         packs0++;
         packs1++;
     }
 }
 
-void WindcrclShadePacks_800CF3D4(POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, int shade)
+static void ShadePacks( POLY_FT4 *packs0, POLY_FT4 *packs1, int n_packs, int shade )
 {
-    while (--n_packs >= 0)
-    {
-        setRGB0(packs0, shade, shade, shade);
-        setRGB0(packs1, shade, shade, shade);
+    while ( --n_packs >= 0 ) {
+        setRGB0( packs0, shade, shade, shade );
+        setRGB0( packs1, shade, shade, shade );
 
         packs0++;
         packs1++;
     }
 }
 
-void WindcrclAct_800CF414(Work *work)
+/*---------------------------------------------------------------------------*/
+
+static void Act( Work *work )
 {
     DG_PRIM *prim;
     short    time;
@@ -131,9 +131,8 @@ void WindcrclAct_800CF414(Work *work)
     GM_CurrentMap = work->map;
 
     time = --work->time;
-    if (time <= 0)
-    {
-        GV_DestroyActor(&work->actor);
+    if ( time <= 0 ) {
+        GV_DestroyActor( &work->actor );
         return;
     }
 
@@ -141,25 +140,25 @@ void WindcrclAct_800CF414(Work *work)
 
     cosv = work->f448 + (work->f450 * rcos(work->f454)) / 4096;
     sinv = (work->f450 * rsin(work->f454)) / 4096;
-    WindcrclScaleVecs_800CF08C(work->vecs, work->f448, cosv, sinv);
+    ScaleVecs( work->vecs, work->f448, cosv, sinv );
 
     work->f448 += work->f44C;
     work->f44C -= work->f44C / 8;
-    work->f454 = GV_NearExp8(work->f454, 0);
+    work->f454 = GV_NearExp8( work->f454, 0 );
 
-    DG_SetPos(&work->world);
-    DG_PutPrim(prim);
-    DG_VisiblePrim(prim);
+    DG_SetPos( &work->world );
+    DG_PutPrim( prim );
+    DG_VisiblePrim( prim );
 
-    WindcrclShadePacks_800CF3D4(prim->packs[0], prim->packs[1], 32, time * 8);
+    ShadePacks( prim->packs[0], prim->packs[1], 32, time * 8 );
 }
 
-void WindcrclDie_800CF55C(Work *work)
+static void Die( Work *work )
 {
-    GM_FreePrim(work->prim);
+    GM_FreePrim( work->prim );
 }
 
-int WindcrclGetResources_800CF598(Work *work, MATRIX *world, int arg2)
+static int GetResources( Work *work, MATRIX *world, int arg2 )
 {
     DG_PRIM *prim;
     DG_TEX  *tex;
@@ -167,24 +166,22 @@ int WindcrclGetResources_800CF598(Work *work, MATRIX *world, int arg2)
     work->f454 = 600;
     work->map = GM_CurrentMap;
 
-    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 32, work->vecs, NULL);
+    prim = GM_MakePrim( DG_PRIM_POLY_FT4, 32, work->vecs, NULL );
     work->prim = prim;
-    if (prim == NULL)
-    {
+    if ( prim == NULL ) {
         return -1;
     }
 
-    tex = DG_GetTexture(GV_StrCode("hind_wind01"));
-    if (tex == NULL)
-    {
+    tex = DG_GetTexture( GV_StrCode("hind_wind01") );
+    if ( tex == NULL ) {
         return -1;
     }
 
-    d01a_windcrcl_800CF2FC(prim->packs[0], prim->packs[1], 32, tex);
+    InitPacks( prim->packs[0], prim->packs[1], 32, tex );
 
     prim->raise = 1000;
 
-    DG_InvisiblePrim(prim);
+    DG_InvisiblePrim( prim );
 
     work->world = *world;
     work->time = 16;
@@ -192,50 +189,46 @@ int WindcrclGetResources_800CF598(Work *work, MATRIX *world, int arg2)
     return 0;
 }
 
-void *NewWindcrcl_800CF6BC(MATRIX *world, int arg1)
+/*---------------------------------------------------------------------------*/
+
+void *NewWindCircle( MATRIX *world, int arg1 )
 {
     Work *work;
 
-    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
-    if (work != NULL)
-    {
-        GV_SetNamedActor(&work->actor, WindcrclAct_800CF414, WindcrclDie_800CF55C, "windcrcl.c");
+    work = GV_NewActor( GV_ACTOR_USER, sizeof( Work ) );
+    if ( work != NULL ) {
+        GV_SetNamedActor( &work->actor, Act, Die, "windcrcl.c" );
 
         work->f448 = arg1 / 2;
         work->f44C = work->f448 / 5;
         work->f450 = work->f44C;
 
-        if (WindcrclGetResources_800CF598(work, world, arg1) < 0)
-        {
-            GV_DestroyActor(&work->actor);
+        if ( GetResources( work, world, arg1 ) < 0 ) {
+            GV_DestroyActor( &work->actor );
             return NULL;
         }
     }
-
     return (void *)work;
 }
 
-void *NewWindcrcl_800CF784(MATRIX *world, int arg1, int arg2, int arg3, int time)
+void *NewWindCircle2( MATRIX *world, int arg1, int arg2, int arg3, int time )
 {
     Work *work;
 
-    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
-    if (work != NULL)
-    {
-        GV_SetNamedActor(&work->actor, WindcrclAct_800CF414, WindcrclDie_800CF55C, "windcrcl.c");
+    work = GV_NewActor( GV_ACTOR_USER, sizeof( Work ) );
+    if ( work != NULL ) {
+        GV_SetNamedActor( &work->actor, Act, Die, "windcrcl.c" );
 
         work->f448 = arg1 / 2;
         work->f450 = arg2;
         work->f44C = arg3;
 
-        if (WindcrclGetResources_800CF598(work, world, arg1) < 0)
-        {
-            GV_DestroyActor(&work->actor);
+        if ( GetResources( work, world, arg1 ) < 0 ) {
+            GV_DestroyActor( &work->actor );
             return NULL;
         }
 
         work->time = time;
     }
-
     return (void *)work;
 }

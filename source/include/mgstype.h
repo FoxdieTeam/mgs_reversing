@@ -20,12 +20,20 @@
 
 /*---------------------------------------------------------------------------*/
 
+#ifndef FALSE
+#define FALSE           (0)
+#endif
+#ifndef TRUE
+#define TRUE            (!FALSE)
+#endif
+
 #ifndef MIN
 #define MIN(x, y)       (((x) < (y)) ? (x) : (y))
 #endif
 #ifndef MAX
 #define MAX(x, y)       (((x) > (y)) ? (x) : (y))
 #endif
+/* defined identically to the PSX Runtime Library's <abs.h> */
 #ifndef ABS
 #define ABS(x)          (((x) >= 0) ? (x) : -(x))
 #endif
@@ -35,23 +43,8 @@
 #endif
 
 #ifndef SWAP
-#define SWAP(a, b)                                              \
-    do {                                                        \
-        __typeof__(a) _temp = (a);                              \
-        (a) = (b); (b) = _temp;                                 \
-    } while (0)
-#endif
-
-/*---------------------------------------------------------------------------*/
-// NOTE: (bool)0.5 evaluates to true, whereas (int)0.5 evaluates to 0.
-
-typedef int             BOOL;
-
-#ifndef FALSE
-#define FALSE           (0)
-#endif
-#ifndef TRUE
-#define TRUE            (!FALSE)
+#define SWAP(a, b) \
+    do { __typeof__(a) _tmp = (a); (a) = (b); (b) = _tmp; } while (0)
 #endif
 
 /*---------------------------------------------------------------------------*/
