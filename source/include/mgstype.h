@@ -43,11 +43,8 @@
 #endif
 
 #ifndef SWAP
-#define SWAP(a, b)                                              \
-    do {                                                        \
-        __typeof__(a) _temp = (a);                              \
-        (a) = (b); (b) = _temp;                                 \
-    } while (0)
+#define SWAP(a, b) \
+    do { __typeof__(a) _tmp = (a); (a) = (b); (b) = _tmp; } while (0)
 #endif
 
 /*---------------------------------------------------------------------------*/
