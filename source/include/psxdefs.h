@@ -1,5 +1,5 @@
 /**
- * Supplemental definitions for PSX SDK headers
+ * Supplemental definitions for the PSX environment.
  */
 #ifndef __MGS_PSXDEFS_H__
 #define __MGS_PSXDEFS_H__
