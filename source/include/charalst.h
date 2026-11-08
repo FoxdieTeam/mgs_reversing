@@ -356,7 +356,7 @@
 #define DEMO_BLASTLINE          { 0x0030, ? }                       // okajima/blst_ln.c
 #define DEMO_SMOKELINE          { 0x0031, NewSmokeLn_800CDFA4 }     // okajima/smke_ln.c
 #define DEMO_SHELLSMOKE         { 0x0032, ? }                       // kojo/m1e1smke.c
-#define DEMO_CATERPILLERSMOKE   { 0x0033, demothrd_2_8007DA94 }     // --> anime/animconv/anime.c
+#define DEMO_CATERPILLERSMOKE   { 0x0033, AN_CaterpillerSmoke2 }    // --> anime/animconv/anime.c
 #define DEMO_CROWEYE            { 0x0034, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
 #define DEMO_OCEROTTEBULLETFIRE { 0x0035, NewAnime_8005E574 }       // --> anime/animconv/anime.c
 #define DEMO_OCEROTTEBULLETSMOKE { 0x0036, NewAnime_8005E6A4 }      // --> anime/animconv/anime.c
@@ -398,7 +398,7 @@ extern NEWCHARA AN_Smoke_800CE08C;              /* --> anime/animconv/anime.c   
 extern NEWCHARA AN_Smoke_800CE164;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA NewAnime_8005E574;              /* --> anime/animconv/anime.c   */
 extern NEWCHARA NewAnime_8005E6A4;              /* --> anime/animconv/anime.c   */
-extern NEWCHARA demothrd_2_8007DA94;            /* --> anime/animconv/anime.c   */
+extern NEWCHARA AN_CaterpillerSmoke2;           /* --> anime/animconv/anime.c   */
 extern NEWCHARA s08c_800C4194;                  /* --> anime/animconv/anime.c   */
 extern NEWCHARA NewRope;                        /* --> chara/rope/rope.c        */
 extern NEWCHARA NewCountdownGcl;                /* --> menu/countdwn.c          */

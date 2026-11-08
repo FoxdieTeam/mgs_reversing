@@ -48,11 +48,11 @@ static void demothrd_hind_8007D9C8(LPMGSDEMOACT lpAct, DMO_ADJ *adjust, DMO_MDL 
 
 /* in anime/effect/m1e1.c */
 extern void AN_CaterpillerSmoke(SVECTOR *pos);
-extern void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation);
-extern void sub_8007DC24(SVECTOR *pPosition);
-extern void sub_8007DD80(short param_1, SVECTOR *pPos);
-extern void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation);
-extern void sub_8007E0AC(int y, SVECTOR *pPosition);
+extern void AN_CaterpillerSmoke2(SVECTOR *pos, SVECTOR *rot);
+extern void sub_8007DC24(SVECTOR *pos);
+extern void sub_8007DD80(short param_1, SVECTOR *pos);
+extern void sub_8007DF10(SVECTOR *rot, SVECTOR *trans);
+extern void sub_8007E0AC(int y, SVECTOR *pos);
 
 /* in demoscrn.c */
 extern void DemoScreenChanl(DG_CHANL *chanl, int idx);

@@ -26,7 +26,7 @@ static ANIMATION anm_caterpiller_smoke_form = {
     (char *)anm_caterpiller_smoke_form_script // script
 };
 
-static const char animation_data_80013488[] = {
+static const char anm_caterpiller_smoke2_form_script[] = {
     0x00,0x4a,0x02,0x00, 0x07,0x00,0x20,0x01, 0xfe,0x0c,0x00,0x05, 0x01,0xff,0x02,0x00,
     0x01,0x0d,0x0c,0x00, 0x0a,0x01,0xff,0x08, 0xfa,0xfa,0xfa,0x02, 0x00,0x01,0x0d,0x0f,
     0x01,0xfe,0x0c,0x00, 0x04,0x0a,0x01,0x2c, 0x01,0x2c,0x01,0xff, 0x02,0x00,0x01,0x0d,
@@ -35,7 +35,7 @@ static const char animation_data_80013488[] = {
     0x0f
 };
 
-static ANIMATION stru_8009F758 = {
+static ANIMATION anm_caterpiller_smoke2_form = {
     PCX_SMOKE,                  // tex
     8,                          // texdev_x
     4,                          // texdev_y
@@ -47,7 +47,7 @@ static ANIMATION stru_8009F758 = {
     1000,                       // size_h
     64,                         // v
     NULL,                       // pre_script
-    (char *)animation_data_80013488 // script
+    (char *)anm_caterpiller_smoke2_form_script // script
 };
 
 static const char animation_data_800134DC[] = {
@@ -98,7 +98,7 @@ static ANIMATION stru_8009F790 = {
 
 /*---------------------------------------------------------------------------*/
 
-void AN_CaterpillerSmoke(SVECTOR *pos)
+void AN_CaterpillerSmoke( SVECTOR *pos )
 {
     ANIMATION *anm;
     PRESCRIPT  pre = {{ 0 }};
@@ -111,7 +111,7 @@ void AN_CaterpillerSmoke(SVECTOR *pos)
     NewAnime( NULL, 0, anm );
 }
 
-void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation)
+void AN_CaterpillerSmoke2( SVECTOR *pos, SVECTOR *rot )
 {
     SVECTOR    rotation;
     SVECTOR    speed;
@@ -120,12 +120,12 @@ void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation)
     ANIMATION *anm;
 
     rotation.vx = 0;
-    rotation.vy = pRotation->vy - 512;
+    rotation.vy = rot->vy - 512;
     rotation.vz = 0;
 
     for (i = 0; i < 2; i++)
     {
-        pre[i].pos = *pPosition;
+        pre[i].pos = *pos;
         pre[i].pos.vy += 400;
 
         speed.vx = 0;
@@ -134,18 +134,18 @@ void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation)
 
         rotation.vy += 341;
 
-        DG_SetPos2(&DG_ZeroVector, &rotation);
-        DG_PutVector(&speed, &speed, 1);
+        DG_SetPos2( &DG_ZeroVector, &rotation );
+        DG_PutVector( &speed, &speed, 1 );
 
         pre[i].speed = speed;
         pre[i].scr_num = 0;
         pre[i].s_anim = 0;
     }
 
-    anm = &stru_8009F758;
+    anm = &anm_caterpiller_smoke2_form;
     anm->pre_script = pre;
 
-    pre[2].pos = *pPosition;
+    pre[2].pos = *pos;
     pre[2].pos.vy += 400;
     pre[2].speed = DG_ZeroVector;
     pre[2].scr_num = 1;
@@ -154,7 +154,7 @@ void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation)
     NewAnime( NULL, 0, anm );
 }
 
-void sub_8007DC24(SVECTOR *pPosition)
+void sub_8007DC24( SVECTOR *pos )
 {
     SVECTOR    rotation;
     SVECTOR    speed_in;
@@ -170,14 +170,14 @@ void sub_8007DC24(SVECTOR *pPosition)
 
     for (i = 0; i < 8; i++)
     {
-        pre[i].pos = *pPosition;
+        pre[i].pos = *pos;
         pre[i].pos.vy += 500;
 
         speed_in.vz = 100;
         rotation.vy += 512;
 
-        DG_SetPos2(&DG_ZeroVector, &rotation);
-        DG_PutVector(&speed_in, &speed_out, 1);
+        DG_SetPos2( &DG_ZeroVector, &rotation );
+        DG_PutVector( &speed_in, &speed_out, 1 );
 
         pre[i].speed = speed_out;
         pre[i].scr_num = 0;
@@ -189,7 +189,7 @@ void sub_8007DC24(SVECTOR *pPosition)
     NewAnime( NULL, 0, anm );
 }
 
-void sub_8007DD80(short param_1, SVECTOR *pPos)
+void sub_8007DD80( short param_1, SVECTOR *pos )
 {
     int i;
     SVECTOR vec1;
@@ -204,22 +204,22 @@ void sub_8007DD80(short param_1, SVECTOR *pPos)
     speed_tmp = DG_ZeroVector;
     for (i = 0; i < 8; i++)
     {
-        pre[i].pos = *pPos;
+        pre[i].pos = *pos;
         pre[i].pos.vy -= 1000;
         speed_tmp.vz = GV_RandU(64) + 100;
         vec1.vy += 0x80;
         vec2.vy = vec1.vy + GV_RandS(0x40);
-        DG_SetPos2(&DG_ZeroVector, &vec2);
-        DG_PutVector(&speed_tmp, &speed, 1);
+        DG_SetPos2( &DG_ZeroVector, &vec2 );
+        DG_PutVector( &speed_tmp, &speed, 1 );
         pre[i].speed = speed;
         pre[i].scr_num = 0;
     }
 
     stru_8009F774.pre_script = pre;
-    NewAnime(0, 0, &stru_8009F774);
+    NewAnime( NULL, 0, &stru_8009F774 );
 }
 
-void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
+void sub_8007DF10( SVECTOR *rot, SVECTOR *trans )
 {
     ANIMATION *anm;
     SVECTOR    vin[3];
@@ -237,8 +237,8 @@ void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
     vin[2] = DG_ZeroVector;
     vin[2].vz = 3000;
 
-    DG_SetPos2(pTranslation, pRotation);
-    DG_PutVector(vin, vout, 3);
+    DG_SetPos2( trans, rot );
+    DG_PutVector( vin, vout, 3 );
 
     anm = &stru_8009F790;
     anm->pre_script = &pre;
@@ -256,7 +256,7 @@ void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation)
     NewAnime( NULL, 0, anm );
 }
 
-void sub_8007E0AC(int y, SVECTOR *pPosition)
+void sub_8007E0AC( int y, SVECTOR *pos )
 {
     ANIMATION *anm;
     SVECTOR    rotation;
@@ -272,15 +272,15 @@ void sub_8007E0AC(int y, SVECTOR *pPosition)
 
     for ( i = 0; i < 8; i++ )
     {
-        pre[i].pos = *pPosition;
+        pre[i].pos = *pos;
 
         vin.vx = GV_RandU(64);
         vin.vz = GV_RandU(64);
 
         rotation.vz += 512;
 
-        DG_SetPos2(&DG_ZeroVector, &rotation);
-        DG_PutVector(&vin, &pre[i].speed, 1);
+        DG_SetPos2( &DG_ZeroVector, &rotation );
+        DG_PutVector( &vin, &pre[i].speed, 1 );
         pre[i].scr_num = 0;
     }
 

@@ -22,7 +22,7 @@
 
 // in anime/effect/m1e1.c
 extern void AN_CaterpillerSmoke(SVECTOR *pos);
-extern void demothrd_2_8007DA94(SVECTOR *pPosition, SVECTOR *pRotation);
+extern void AN_CaterpillerSmoke2(SVECTOR *pos, SVECTOR *rot);
 
 /******************************************************************************
  * definitions and typedefs and structures
@@ -101,7 +101,7 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
 // clang-format on
                 {
                     lpAct->nLeftCaterSmokeTCount = 6;
-                    demothrd_2_8007DA94(&lpAct->field_718_targets[4]->center, &svect3);
+                    AN_CaterpillerSmoke2(&lpAct->field_718_targets[4]->center, &svect3);
                 }
 
                 lpAct->nLeftCaterDirection = 1;
@@ -111,7 +111,7 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
                 if (lpAct->nLeftCaterDirection != -1 && lpAct->nLeftCaterSmokeTCount == 0)
                 {
                     lpAct->nLeftCaterSmokeTCount = 6;
-                    demothrd_2_8007DA94(&lpAct->field_718_targets[0]->center, &lpAct->control.rot);
+                    AN_CaterpillerSmoke2(&lpAct->field_718_targets[0]->center, &lpAct->control.rot);
                 }
 
                 lpAct->nLeftCaterDirection = -1;
@@ -183,7 +183,7 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
                     && (lpAct->nRightCaterSmokeTCount == 0))
                 {
                     lpAct->nRightCaterSmokeTCount = 6;
-                    demothrd_2_8007DA94(&lpAct->field_718_targets[9]->center, &svect3);
+                    AN_CaterpillerSmoke2(&lpAct->field_718_targets[9]->center, &svect3);
                 }
 
                 lpAct->nRightCaterDirection = 1;
@@ -193,7 +193,7 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
                 if (lpAct->nRightCaterDirection != -1 && lpAct->nRightCaterSmokeTCount == 0)
                 {
                     lpAct->nRightCaterSmokeTCount = 6;
-                    demothrd_2_8007DA94(&lpAct->field_718_targets[5]->center, &lpAct->control.rot);
+                    AN_CaterpillerSmoke2(&lpAct->field_718_targets[5]->center, &lpAct->control.rot);
                 }
 
                 lpAct->nRightCaterDirection = -1;
