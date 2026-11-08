@@ -44,7 +44,7 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
     int     diff;
     int     nSound;
     int     nLength;
-    DG_MDL *model;
+    DG_MDL *model1;
     DG_MDL *model2;
 
     diff = lpAct->field_D60 - lpAct->field_D8C;
@@ -70,10 +70,10 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
             svect3.vy -= 4096;
         }
 
-        memset(&svect1, 0, 8);
+        memset(&svect1, 0, sizeof(svect1));
 
-        model = lpAct->field_1C0[0].objs->objs[0].model;
-        svect1.vx = model->lx + (model->ux - model->lx) / 2;
+        model1 = lpAct->field_1C0[0].objs->objs[0].model;
+        svect1.vx = model1->lx + (model1->ux - model1->lx) / 2;
 
         DG_PutVector(&svect1, &svect1, 1);
 
@@ -153,7 +153,7 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
     else    /* 2 回に 1 回実行 */
     {
 // clang-format on
-        memset(&svect1, 0, 8);
+        memset(&svect1, 0, sizeof(svect1));
 
         model2 = lpAct->field_46C[0].objs->objs[0].model;
         svect1.vx = model2->lx + (model2->ux - model2->lx) / 2;
