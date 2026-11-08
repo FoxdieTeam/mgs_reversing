@@ -20,6 +20,13 @@
 
 /*---------------------------------------------------------------------------*/
 
+#ifndef FALSE
+#define FALSE           (0)
+#endif
+#ifndef TRUE
+#define TRUE            (!FALSE)
+#endif
+
 #ifndef MIN
 #define MIN(x, y)       (((x) < (y)) ? (x) : (y))
 #endif
@@ -41,18 +48,6 @@
         __typeof__(a) _temp = (a);                              \
         (a) = (b); (b) = _temp;                                 \
     } while (0)
-#endif
-
-/*---------------------------------------------------------------------------*/
-// NOTE: (bool)0.5 evaluates to true, whereas (int)0.5 evaluates to 0.
-
-typedef int             BOOL;
-
-#ifndef FALSE
-#define FALSE           (0)
-#endif
-#ifndef TRUE
-#define TRUE            (!FALSE)
 #endif
 
 /*---------------------------------------------------------------------------*/
