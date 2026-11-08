@@ -116,8 +116,8 @@ void *NewSnowStorm( int nName, int nMap )
     }
 
     lpAct->animation.size_w = lpAct->svectMax.vx - lpAct->svectMin.vx;
-    lpAct->animation.size_w = MAX( lpAct->animation.size_w, lpAct->svectMax.vy - lpAct->svectMin.vy );
-    lpAct->animation.size_w = MAX( lpAct->animation.size_w, lpAct->svectMax.vz - lpAct->svectMin.vz );
+    lpAct->animation.size_w = __max( lpAct->animation.size_w, lpAct->svectMax.vy - lpAct->svectMin.vy );
+    lpAct->animation.size_w = __max( lpAct->animation.size_w, lpAct->svectMax.vz - lpAct->svectMin.vz );
     lpAct->animation.texdev_x = 1;
     lpAct->animation.texdev_y = 1;
     lpAct->animation.n_anime = 1;
@@ -241,12 +241,12 @@ static void Act( LPSNOWSTORM lpAct )
         pos.vz += speed.vz;
     }
 
-    pos.vx = MIN( pos.vx, 32000 );
-    pos.vx = MAX( pos.vx, -32000 );
-    pos.vy = MIN( pos.vy, 32000 );
-    pos.vy = MAX( pos.vy, -32000 );
-    pos.vz = MIN( pos.vz, 32000 );
-    pos.vz = MAX( pos.vz, -32000 );
+    pos.vx = __min( pos.vx, 32000 );
+    pos.vx = __max( pos.vx, -32000 );
+    pos.vy = __min( pos.vy, 32000 );
+    pos.vy = __max( pos.vy, -32000 );
+    pos.vz = __min( pos.vz, 32000 );
+    pos.vz = __max( pos.vz, -32000 );
 
     lpAct->preScript.pos.vx = pos.vx;
     lpAct->preScript.pos.vy = pos.vy;
