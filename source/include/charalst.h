@@ -335,7 +335,7 @@
 #define DEMO_OPTICSCAMOUFLAGE2  { 0x001b, NewKogaku3 }              // equip/kogaku2.c
 #define DEMO_ENVIRONMENTMAPPING { 0x001c, NewEnvmap3_800CA3A4 }     // takabe/envmap3.c
 #define DEMO_PLASMA             { 0x001d, NewPlasma_800CD1A4 }      // okajima/plasma.c
-#define DEMO_WINDCIRCLE         { 0x001e, NewWindcrcl_800CF6BC }    // takabe/windcrcl.c
+#define DEMO_WINDCIRCLE         { 0x001e, NewWindCircle }           // takabe/windcrcl.c
 #define DEMO_SEPIA              { 0x001f, NewSepia_800C4F9C }       // takabe/sepia.c
 #define DEMO_METALGEARLASER     { 0x0020, ? }                       // kojo/mgrexlzr.c
 #define DEMO_UNSHAPEVIEW        { 0x0021, NewFocusView }            // takabe/focus.c
@@ -599,7 +599,7 @@ extern NEWCHARA NewTexScroll;                   /* takabe/tex_scrl.c            
 extern NEWCHARA NewTruckTrap;                   /* takabe/tracktrp.c            */
 extern NEWCHARA NewVibrationEditor;             /* takabe/vib_edit.c            */
 extern NEWCHARA NewVoiceSystem;                 /* takabe/voicesys.c            */
-extern NEWCHARA NewWindcrcl_800CF6BC;           /* takabe/windcrcl.c            */
+extern NEWCHARA NewWindCircle;                  /* takabe/windcrcl.c            */
 extern NEWCHARA NewWaterSurface;                /* takabe/wsurface.c            */
 extern NEWCHARA NewWaterArea;                   /* takabe/wt_area.c             */
 extern NEWCHARA NewWaterArea2;                  /* takabe/wt_area2.c            */
