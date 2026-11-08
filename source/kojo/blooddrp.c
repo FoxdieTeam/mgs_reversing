@@ -112,7 +112,7 @@ void *NewBloodDrip( SVECTOR *pos, int size, int speed )
  * statics
  */
 
-void Act( LPBLOODDRIP lpAct )
+static void Act( LPBLOODDRIP lpAct )
 {
     int levels[ 2 ];
     SVECTOR  diff;
