@@ -77,82 +77,82 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
 
         DG_PutVector(&svect1, &svect1, 1);
 
-        if (lpAct->bInitialize == TRUE)
-        {
+// clang-format off
+        if(lpAct->bInitialize == TRUE)
             lpAct->svectLeftCater = svect1;
-        }
 
         svect2.vx = svect1.vx - lpAct->svectLeftCater.vx;
         svect2.vy = svect1.vy - lpAct->svectLeftCater.vy;
         svect2.vz = svect1.vz - lpAct->svectLeftCater.vz;
 
-        nLength = SquareRoot0(svect2.vx * svect2.vx
-            + svect2.vy * svect2.vy + svect2.vz * svect2.vz);
-        nLength = (nLength * (1024 - abs(ratan2(svect2.vx, svect2.vz) - svect3.vy))) >> 10;
+        nLength = (SquareRoot0(svect2.vx * svect2.vx
+            + svect2.vy * svect2.vy + svect2.vz * svect2.vz)
+            * (1024 - abs(ratan2(svect2.vx, svect2.vz) - svect3.vy))) >> 10;
 
-        if (abs(nLength) < lpAct->nCaterLength)
+        if(abs(nLength) >= lpAct->nCaterLength)
         {
-            return;
-        }
+            svect3 = lpAct->control.rot;
+            svect3.vy += 2048;
 
-        svect3 = lpAct->control.rot;
-        svect3.vy += 2048;
-
-        if (nLength > 0)
-        {
-            if (lpAct->nLeftCaterDirection != 1 && lpAct->nLeftCaterSmokeTCount == 0)
+            if(nLength > 0)
             {
-                lpAct->nLeftCaterSmokeTCount = 6;
-                demothrd_2_8007DA94(&lpAct->field_718_targets[4]->center, &svect3);
+                if((lpAct->nLeftCaterDirection != 1)
+                    && (lpAct->nLeftCaterSmokeTCount == 0))
+// clang-format on
+                {
+                    lpAct->nLeftCaterSmokeTCount = 6;
+                    demothrd_2_8007DA94(&lpAct->field_718_targets[4]->center, &svect3);
+                }
+
+                lpAct->nLeftCaterDirection = 1;
             }
-
-            lpAct->nLeftCaterDirection = 1;
-        }
-        else
-        {
-            if (lpAct->nLeftCaterDirection != -1 && lpAct->nLeftCaterSmokeTCount == 0)
-            {
-                lpAct->nLeftCaterSmokeTCount = 6;
-                demothrd_2_8007DA94(&lpAct->field_718_targets[0]->center, &lpAct->control.rot);
-            }
-
-            lpAct->nLeftCaterDirection = -1;
-        }
-
-        AN_CaterpillerSmoke(&lpAct->field_718_targets[rand() % 5]->center);
-        DG_InvisibleObjs(lpAct->field_1C0[lpAct->field_E74].objs);
-
-        lpAct->field_E74 += lpAct->nLeftCaterDirection;
-
-        if (lpAct->field_E74 < 0)
-        {
-            lpAct->field_E74 = 2;
-        }
-
-        if (lpAct->field_E74 > 2)
-        {
-            lpAct->field_E74 = 0;
-        }
-
-        DG_VisibleObjs(lpAct->field_1C0[lpAct->field_E74].objs);
-
-        lpAct->svectLeftCater = svect1;
-
-        if ((nSound >= 3) && (lpAct->nCaterSoundTCount <= 0))
-        {
-            if (lpAct->nCaterSoundStartTCount == 0)
-                GM_SeSetPan(&lpAct->control.mov,
-                    SE_M1E1_CATERPILLERDEAD1, lpAct->nSoundVolume);
             else
-                GM_SeSetPan(&lpAct->control.mov,
-                    SE_M1E1_CATERPILLERDEAD2, lpAct->nSoundVolume);
+            {
+                if (lpAct->nLeftCaterDirection != -1 && lpAct->nLeftCaterSmokeTCount == 0)
+                {
+                    lpAct->nLeftCaterSmokeTCount = 6;
+                    demothrd_2_8007DA94(&lpAct->field_718_targets[0]->center, &lpAct->control.rot);
+                }
 
-            lpAct->nCaterSoundTCount = nSound;
-            lpAct->nCaterSoundStartTCount = M1E1_SOUNDCATERPILLERDEAD1;
+                lpAct->nLeftCaterDirection = -1;
+            }
+
+            AN_CaterpillerSmoke(&lpAct->field_718_targets[rand() % 5]->center);
+            DG_InvisibleObjs(lpAct->field_1C0[lpAct->field_E74].objs);
+
+            lpAct->field_E74 += lpAct->nLeftCaterDirection;
+
+            if (lpAct->field_E74 < 0)
+            {
+                lpAct->field_E74 = 2;
+            }
+
+            if (lpAct->field_E74 > 2)
+            {
+                lpAct->field_E74 = 0;
+            }
+
+            DG_VisibleObjs(lpAct->field_1C0[lpAct->field_E74].objs);
+
+            lpAct->svectLeftCater = svect1;
+// clang-format off
+            if((nSound > 2) && (lpAct->nCaterSoundTCount <= 0))
+            {
+                if(lpAct->nCaterSoundStartTCount == 0)
+                    GM_SeSetPan(&lpAct->control.mov,
+                        SE_M1E1_CATERPILLERDEAD1, lpAct->nSoundVolume);
+                else
+                    GM_SeSetPan(&lpAct->control.mov,
+                        SE_M1E1_CATERPILLERDEAD2, lpAct->nSoundVolume);
+
+                lpAct->nCaterSoundTCount = nSound;
+                lpAct->nCaterSoundStartTCount = M1E1_SOUNDCATERPILLERDEAD1;
+            }
         }
     }
-    else
+    else    /* 2 回に 1 回実行 */
     {
+// clang-format on
         memset(&svect1, 0, 8);
 
         model2 = lpAct->field_46C[0].objs->objs[0].model;
@@ -161,78 +161,75 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
         DG_SetPos2(&lpAct->control.mov, &lpAct->control.turn);
         DG_PutVector(&svect1, &svect1, 1);
 
-        if (lpAct->bInitialize == TRUE)
-        {
+        if(lpAct->bInitialize == TRUE)
             lpAct->svectRightCater = svect1;
-        }
 
         svect2.vx = svect1.vx - lpAct->svectRightCater.vx;
         svect2.vy = svect1.vy - lpAct->svectRightCater.vy;
         svect2.vz = svect1.vz - lpAct->svectRightCater.vz;
 
-        nLength = SquareRoot0(svect2.vx * svect2.vx
-            + svect2.vy * svect2.vy + svect2.vz * svect2.vz);
-        nLength = (nLength * (1024 - abs(ratan2(svect2.vx, svect2.vz) - svect3.vy))) >> 10;
+        nLength = (SquareRoot0(svect2.vx * svect2.vx
+            + svect2.vy * svect2.vy + svect2.vz * svect2.vz)
+            * (1024 - abs(ratan2(svect2.vx, svect2.vz) - svect3.vy))) >> 10;
 
-        if (abs(nLength) < lpAct->nCaterLength)
+        if(abs(nLength) >= lpAct->nCaterLength)
         {
-            return;
-        }
+            svect3 = lpAct->control.rot;
+            svect3.vy += 2048;
 
-        svect3 = lpAct->control.rot;
-        svect3.vy += 2048;
-
-        if (nLength > 0)
-        {
-            if (lpAct->nRightCaterDirection != 1 && lpAct->nRightCaterSmokeTCount == 0)
+            if(nLength > 0)
             {
-                lpAct->nRightCaterSmokeTCount = 6;
-                demothrd_2_8007DA94(&lpAct->field_718_targets[9]->center, &svect3);
+                if((lpAct->nRightCaterDirection != 1)
+                    && (lpAct->nRightCaterSmokeTCount == 0))
+                {
+                    lpAct->nRightCaterSmokeTCount = 6;
+                    demothrd_2_8007DA94(&lpAct->field_718_targets[9]->center, &svect3);
+                }
+
+                lpAct->nRightCaterDirection = 1;
             }
-
-            lpAct->nRightCaterDirection = 1;
-        }
-        else
-        {
-            if (lpAct->nRightCaterDirection != -1 && lpAct->nRightCaterSmokeTCount == 0)
-            {
-                lpAct->nRightCaterSmokeTCount = 6;
-                demothrd_2_8007DA94(&lpAct->field_718_targets[5]->center, &lpAct->control.rot);
-            }
-
-            lpAct->nRightCaterDirection = -1;
-        }
-
-        AN_CaterpillerSmoke(&lpAct->field_718_targets[(rand() % 5) + 5]->center);
-        DG_InvisibleObjs(lpAct->field_46C[lpAct->field_E78].objs);
-
-        lpAct->field_E78 += lpAct->nLeftCaterDirection;
-
-        if (lpAct->field_E78 < 0)
-        {
-            lpAct->field_E78 = 2;
-        }
-
-        if (lpAct->field_E78 > 2)
-        {
-            lpAct->field_E78 = 0;
-        }
-
-        DG_VisibleObjs(lpAct->field_46C[lpAct->field_E78].objs);
-
-        lpAct->svectRightCater = svect1;
-
-        if ((nSound >= 3) && (lpAct->nCaterSoundTCount <= 0))
-        {
-            if (lpAct->nCaterSoundStartTCount == 0)
-                GM_SeSetPan(&lpAct->control.mov,
-                    SE_M1E1_CATERPILLERDEAD1, lpAct->nSoundVolume);
             else
-                GM_SeSetPan(&lpAct->control.mov,
-                    SE_M1E1_CATERPILLERDEAD2, lpAct->nSoundVolume);
+            {
+                if (lpAct->nRightCaterDirection != -1 && lpAct->nRightCaterSmokeTCount == 0)
+                {
+                    lpAct->nRightCaterSmokeTCount = 6;
+                    demothrd_2_8007DA94(&lpAct->field_718_targets[5]->center, &lpAct->control.rot);
+                }
 
-            lpAct->nCaterSoundTCount = nSound;
-            lpAct->nCaterSoundStartTCount = M1E1_SOUNDCATERPILLERDEAD1;
+                lpAct->nRightCaterDirection = -1;
+            }
+
+            AN_CaterpillerSmoke(&lpAct->field_718_targets[(rand() % 5) + 5]->center);
+            DG_InvisibleObjs(lpAct->field_46C[lpAct->field_E78].objs);
+
+            lpAct->field_E78 += lpAct->nLeftCaterDirection;
+
+            if (lpAct->field_E78 < 0)
+            {
+                lpAct->field_E78 = 2;
+            }
+
+            if (lpAct->field_E78 > 2)
+            {
+                lpAct->field_E78 = 0;
+            }
+
+            DG_VisibleObjs(lpAct->field_46C[lpAct->field_E78].objs);
+
+            lpAct->svectRightCater = svect1;
+
+            if((nSound > 2) && (lpAct->nCaterSoundTCount <= 0))
+            {
+                if(lpAct->nCaterSoundStartTCount == 0)
+                    GM_SeSetPan(&lpAct->control.mov,
+                        SE_M1E1_CATERPILLERDEAD1, lpAct->nSoundVolume);
+                else
+                    GM_SeSetPan(&lpAct->control.mov,
+                        SE_M1E1_CATERPILLERDEAD2, lpAct->nSoundVolume);
+
+                lpAct->nCaterSoundTCount = nSound;
+                lpAct->nCaterSoundStartTCount = M1E1_SOUNDCATERPILLERDEAD1;
+            }
         }
     }
 }
