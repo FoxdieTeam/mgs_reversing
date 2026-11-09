@@ -1050,11 +1050,11 @@ static int DemoDebugCmd(char *top)
     flags = GCL_GetOption('e') != 0;
     if (GCL_GetOption('a'))
     {
-        flags |= 4;
+        flags |= DMT_WRITEFILEAVI;
     }
     if (GCL_GetOption('v'))
     {
-        flags |= 2;
+        flags |= DMT_STATEVIEWLOAD;
     }
     if (GCL_GetOption('s'))
     {

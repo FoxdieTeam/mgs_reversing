@@ -99,7 +99,7 @@ loop_case3:
                     return;
                 case 5:
                     DG_UnDrawFrameCount = 3;
-                    DM_ThreadStream( 1, 0 );
+                    DM_ThreadStream( DMT_EXECUTE, 0 );
                     work->field_24 = 1;
                     break;
                 case 3:
