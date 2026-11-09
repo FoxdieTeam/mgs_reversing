@@ -149,7 +149,7 @@ BOOL CreateDemo(
         model->control.r_sphere = 0;
         model->control.interp = 0;
 
-        if (model_file->dwStyle & 0x1)
+        if (model_file->dwStyle & MGS_SCENETOSTAGE)
         {
             GM_InitObject(&model->object, model_file->nStrCode, BODY_FLAG | DG_FLAG_ONEPIECE | DG_FLAG_PAINT, 0);
             continue;
@@ -302,9 +302,9 @@ BOOL DestroyDemo(
     MGSDEMOMODEL *model;
     int         i;
 
-    if (lpAct->dwStyle & 0x2)
+    if (lpAct->dwStyle & DMT_STATEVIEWLOAD)
     {
-        GM_GameStatus |= STATE_DEMO_VERBOSE;
+        GM_GameStatus |= STATE_VIEW_LOAD;
     }
 
     for (node = lpAct->chain.lpNext; node != &lpAct->chain; node = lpAct->chain.lpNext)
@@ -2225,7 +2225,7 @@ static BOOL ShowScene(
         lpModel->control.rot.vy = lpSMotion->svectRotate_y;
         lpModel->control.rot.vz = lpSMotion->svectRotate_z;
 
-        if (lpScene->dwStyle & 0x1)
+        if (lpScene->dwStyle & MGS_SCENETOSTAGE)
         {
             GM_ActControl(&lpModel->control);
             GM_ActObject2(&lpModel->object);

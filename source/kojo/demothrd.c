@@ -217,11 +217,11 @@ static void DieStream(
 static void ActFile(
     LPMGSDEMOACT lpAct)
 {
-    int time;
-    int new_time;
-    int success;
+    int nVSync;
+    int nTime;
+    BOOL bNext;
 
-    time = VSync(-1);
+    nVSync = VSync(-1);
 
     if (lpAct->nTime == -1)
     {
@@ -237,25 +237,19 @@ static void ActFile(
 
     if (lpAct->nVSync == 0)
     {
-        lpAct->nVSync = time - 2;
+        lpAct->nVSync = nVSync - 2;
         printf("PlayDemoSound\n");
     }
 
-    if (lpAct->dwStyle & 4)
-    {
-        new_time = lpAct->nTime + 1;
-    }
+    if (lpAct->dwStyle & DMT_WRITEFILEAVI)
+        nTime = lpAct->nTime + 1;
     else
-    {
-        new_time = (time - lpAct->nVSync) / 2;
-    }
+        nTime = (nVSync - lpAct->nVSync) / 2;
 
-    lpAct->nTime = new_time;
+    lpAct->nTime = nTime;
 
     if (lpAct->lpDemo->nFrameCount < lpAct->nTime)
-    {
-        success = 0;
-    }
+        bNext = FALSE;
     else
     {
         while (lpAct->nTime != lpAct->lpExtMemory->nTime)
@@ -263,18 +257,14 @@ static void ActFile(
             lpAct->lpExtMemory = (MGSDEMO *)((char *)lpAct->lpExtMemory + lpAct->lpExtMemory->nSize);
         }
 
-        success = FrameRunDemo(lpAct, (MGSDEMOFRAME *)lpAct->lpExtMemory);
+        bNext = FrameRunDemo(lpAct, (MGSDEMOFRAME *)lpAct->lpExtMemory);
     }
 
     if (GV_PadData[1].status & PAD_CROSS)
-    {
-        success = 0;
-    }
+        bNext = FALSE;
 
-    if (success == 0)
-    {
+    if (bNext == FALSE)
         GV_DestroyActor(&lpAct->actor);
-    }
 }
 
 static void DieFile(

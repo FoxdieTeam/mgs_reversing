@@ -12,6 +12,14 @@ extern "C" {
 #include "define.h"
 
 /******************************************************************************
+ * definitions and typedefs and structures
+ */
+
+#define DMT_EXECUTE       0x00000001
+#define DMT_STATEVIEWLOAD 0x00000002
+#define DMT_WRITEFILEAVI  0x00000004
+
+/******************************************************************************
  * prototypes
  */
 

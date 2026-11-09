@@ -151,6 +151,8 @@ typedef struct tagMGSDEMOSTAGE
     int nStrCode;
 } MGSDEMOSTAGE, *PMGSDEMOSTAGE, *LPMGSDEMOSTAGE;
 
+#define MGS_SCENETOSTAGE 0x00000001
+
 typedef struct tagMGSDEMOSCENE
 {
     int   nID;
