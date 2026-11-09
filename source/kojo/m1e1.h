@@ -1,5 +1,13 @@
-#ifndef __MGS_KOJO_M1E1_H__
-#define __MGS_KOJO_M1E1_H__
+#ifndef _INC_M1E1
+#define _INC_M1E1
+
+#ifdef __cplusplus
+extern "C" {
+#endif  /* __cplusplus */
+
+/******************************************************************************
+ * included
+ */
 
 #include <sys/types.h>
 #include <libgte.h>
@@ -60,4 +68,8 @@ typedef struct tagM1E1ACTOR
 void M1E1Caterpiller(LPM1E1ACTOR lpAct);
 void M1E1GetCaterpillerVertex(OBJECT *obj1, OBJECT *obj2, SVECTOR *pos, int a4);
 
-#endif // __MGS_KOJO_M1E1_H__
+#ifdef __cplusplus
+}
+#endif  /* __cplusplus */
+
+#endif  /* _INC_M1E1 */
