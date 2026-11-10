@@ -60,324 +60,292 @@ extern void DemoScreenChanl(DG_CHANL *chanl, int idx);
  * publics
  */
 
+/******************************************************************************
+ */
 BOOL CreateDemo(
     LPMGSDEMOACT lpAct,
     LPMGSDEMO    lpDemo)
 {
-    MGSDEMOSTAGE *maps;
-    MGSDEMOSCENE *models;
-    MGSDEMOSTAGE *map;
-    int         i;
-    MGSDEMOMODEL *model;
-    MGSDEMOSCENE *model_file;
-    MATRIX     *light;
+    int            i;
+    LPMGSDEMOSTAGE lpStage;
+    LPMGSDEMOSCENE lpScene;
+    LPMGSDEMOMODEL lpModel;
 
     lpAct->lpfnDGScreenChanl = DG_SetChanlSystemUnits(DG_SCREEN_CHANL, DemoScreenChanl);
     lpAct->nGameStatus = GM_GameStatus;
-    lpAct->old_camera = GM_Camera;
+    lpAct->GMCameraSave = GM_Camera;
     lpAct->nItemSave = GM_Item;
     lpAct->nWeaponSave = GM_Weapon;
 
     OFFSET_TO_PTR(lpDemo, &lpDemo->lpStage);
     OFFSET_TO_PTR(lpDemo, &lpDemo->lpScene);
 
-    InitChain(&lpAct->chain);
+    InitChain(&lpAct->lpEffectPrevious);
 
-    lpAct->lpDemo = GV_Malloc(sizeof(MGSDEMO));
-    if (!lpAct->lpDemo)
-    {
+    if((lpAct->lpDemo = (LPMGSDEMO)GV_Malloc(sizeof(MGSDEMO))) == NULL)
         return 0;
-    }
 
-    *lpAct->lpDemo = *lpDemo;
+    memcpy(lpAct->lpDemo, lpDemo, sizeof(MGSDEMO));
     lpAct->lpDemo->lpStage = NULL;
     lpAct->lpDemo->lpScene = NULL;
 
-    maps = GV_Malloc((sizeof(MGSDEMOSTAGE) * lpDemo->nStageCount) | 1);
-    lpAct->lpDemo->lpStage = maps;
-    if (!maps)
-    {
+    if((lpAct->lpDemo->lpStage = (LPMGSDEMOSTAGE)GV_Malloc(
+        (sizeof(MGSDEMOSTAGE) * lpDemo->nStageCount) | 1)) == NULL)
         return 0;
-    }
-
-    models = GV_Malloc((sizeof(MGSDEMOSCENE) * lpDemo->nSceneCount) | 1);
-    lpAct->lpDemo->lpScene = models;
-    if (!models)
-    {
+    if((lpAct->lpDemo->lpScene = (LPMGSDEMOSCENE)GV_Malloc(
+        (sizeof(MGSDEMOSCENE) * lpDemo->nSceneCount) | 1)) == NULL)
         return 0;
-    }
 
-    memcpy(lpAct->lpDemo->lpStage, lpDemo->lpStage, sizeof(MGSDEMOSTAGE) * lpAct->lpDemo->nStageCount);
-    memcpy(lpAct->lpDemo->lpScene, lpDemo->lpScene, sizeof(MGSDEMOSCENE) * lpAct->lpDemo->nSceneCount);
+    memcpy(lpAct->lpDemo->lpStage,
+        lpDemo->lpStage, sizeof(MGSDEMOSTAGE) * lpAct->lpDemo->nStageCount);
+    memcpy(lpAct->lpDemo->lpScene,
+        lpDemo->lpScene, sizeof(MGSDEMOSCENE) * lpAct->lpDemo->nSceneCount);
 
-    map = lpAct->lpDemo->lpStage;
-    for (i = 0; i < lpAct->lpDemo->nStageCount; i++)
+    for(i = 0, lpStage = lpAct->lpDemo->lpStage;
+        i < lpAct->lpDemo->nStageCount; i++, lpStage++)
     {
-        if (!GV_GetCache(map->nCacheID))
+        if(GV_GetCache(lpStage->nCacheID) == NULL)
         {
             printf("Noload model ( Stage )\n");
             return 0;
         }
-
-        map++;
     }
 
-    lpAct->lpModel = GV_Malloc((sizeof(MGSDEMOMODEL) * lpAct->lpDemo->nSceneCount) | 1);
-    if (!lpAct->lpModel)
-    {
+    if((lpAct->lpModel = (LPMGSDEMOMODEL)GV_Malloc(
+        (sizeof(MGSDEMOMODEL) * lpAct->lpDemo->nSceneCount) | 1)) == NULL)
         return 0;
-    }
+    memset(lpAct->lpModel, 0x00,
+        sizeof(MGSDEMOMODEL) * lpAct->lpDemo->nSceneCount);
 
-    memset(lpAct->lpModel, 0, sizeof(MGSDEMOMODEL) * lpAct->lpDemo->nSceneCount);
-
-    model_file = lpAct->lpDemo->lpScene;
-    model = lpAct->lpModel;
-    for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, model_file++, model++)
+    for(i = 0, lpScene = lpAct->lpDemo->lpScene, lpModel = lpAct->lpModel;
+        i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
     {
-        if (!GV_GetCache(model_file->nCacheID))
+        if(GV_GetCache(lpScene->nCacheID) == NULL)
         {
             printf("Noload model ( Scene = No.%d )\n", i + 1);
             return 0;
         }
 
-        if (GM_InitControl(&model->control, model_file->nName, lpAct->nMap) < 0)
+        if(GM_InitControl(&lpModel->control, lpScene->nName, lpAct->nMap) < 0)
         {
             printf("Error init control ( Scene = No.%d )\n", i + 1);
             return 0;
         }
 
-        model->control.r_sphere = 0;
-        model->control.interp = 0;
+        lpModel->control.r_sphere = 0;
+        lpModel->control.interp = 0;
 
-        if (model_file->dwStyle & MGS_SCENETOSTAGE)
+        if((lpScene->dwStyle & MGS_SCENETOSTAGE) != 0)
         {
-            GM_InitObject(&model->object, model_file->nStrCode, BODY_FLAG | DG_FLAG_ONEPIECE | DG_FLAG_PAINT, 0);
+            GM_InitObject(&lpModel->object, lpScene->nStrCode,
+                BODY_FLAG | DG_FLAG_ONEPIECE | DG_FLAG_PAINT, 0);
             continue;
         }
 
-        if ((model_file->nStrCode == IDMODEL_16O4A)
-            || (model_file->nStrCode == IDMODEL_16O5A)
-            || (model_file->nStrCode == IDMODEL_16O6A)
-            || (model_file->nStrCode == IDMODEL_16O7A)
-            || (model_file->nStrCode == IDMODEL_16O8A)
-            || (model_file->nStrCode == IDMODEL_16O9A)
-            || (model_file->nStrCode == IDMODEL_16O10A)
-            || (model_file->nStrCode == IDMODEL_16O4B)
-            || (model_file->nStrCode == IDMODEL_16O5B)
-            || (model_file->nStrCode == IDMODEL_16O6B)
-            || (model_file->nStrCode == IDMODEL_16O7B)
-            || (model_file->nStrCode == IDMODEL_16O8B)
-            || (model_file->nStrCode == IDMODEL_16O9B)
-            || (model_file->nStrCode == IDMODEL_16O10B)
-            || (model_file->nStrCode == IDMODEL_16O4C)
-            || (model_file->nStrCode == IDMODEL_16O5C)
-            || (model_file->nStrCode == IDMODEL_16O6C)
-            || (model_file->nStrCode == IDMODEL_16O7C)
-            || (model_file->nStrCode == IDMODEL_16O8C)
-            || (model_file->nStrCode == IDMODEL_16O9C)
-            || (model_file->nStrCode == IDMODEL_16O10C))
+        if((lpScene->nStrCode == IDMODEL_16O4A)
+            || (lpScene->nStrCode == IDMODEL_16O5A)
+            || (lpScene->nStrCode == IDMODEL_16O6A)
+            || (lpScene->nStrCode == IDMODEL_16O7A)
+            || (lpScene->nStrCode == IDMODEL_16O8A)
+            || (lpScene->nStrCode == IDMODEL_16O9A)
+            || (lpScene->nStrCode == IDMODEL_16O10A)
+            || (lpScene->nStrCode == IDMODEL_16O4B)
+            || (lpScene->nStrCode == IDMODEL_16O5B)
+            || (lpScene->nStrCode == IDMODEL_16O6B)
+            || (lpScene->nStrCode == IDMODEL_16O7B)
+            || (lpScene->nStrCode == IDMODEL_16O8B)
+            || (lpScene->nStrCode == IDMODEL_16O9B)
+            || (lpScene->nStrCode == IDMODEL_16O10B)
+            || (lpScene->nStrCode == IDMODEL_16O4C)
+            || (lpScene->nStrCode == IDMODEL_16O5C)
+            || (lpScene->nStrCode == IDMODEL_16O6C)
+            || (lpScene->nStrCode == IDMODEL_16O7C)
+            || (lpScene->nStrCode == IDMODEL_16O8C)
+            || (lpScene->nStrCode == IDMODEL_16O9C)
+            || (lpScene->nStrCode == IDMODEL_16O10C))
         {
-            GM_InitObject(&model->object, model_file->nStrCode, BODY_FLAG & ~DG_FLAG_SHADE, 0);
+            GM_InitObject(&lpModel->object, lpScene->nStrCode, BODY_FLAG & ~DG_FLAG_SHADE, 0);
         }
-        else if (model_file->nStrCode == IDMODEL_02A_R8)
+        else if(lpScene->nStrCode == IDMODEL_02A_R8)
         {
-            model->light[0].t[0] = 100;
-            model->light[0].t[1] = 110;
-            model->light[0].t[2] = 110;
+            lpModel->light[0].t[0] = 100;
+            lpModel->light[0].t[1] = 110;
+            lpModel->light[0].t[2] = 110;
 
-            GM_InitObject(&model->object, model_file->nStrCode, BODY_FLAG | DG_FLAG_AMBIENT, 0);
+            GM_InitObject(&lpModel->object, lpScene->nStrCode, BODY_FLAG | DG_FLAG_AMBIENT, 0);
         }
-        else if ((model_file->nStrCode == GV_StrCode("mgrexw"))
-            || (model_file->nStrCode == GV_StrCode("mgrexll"))
-            || (model_file->nStrCode == GV_StrCode("mgrexrl"))
-            || (model_file->nStrCode == GV_StrCode("pit_t"))
-            || (model_file->nStrCode == GV_StrCode("pit_u"))
-            || (model_file->nStrCode == GV_StrCode("pit_liq"))
-            || (model_file->nStrCode == GV_StrCode("radar_f1"))
-            || (model_file->nStrCode == GV_StrCode("radar_f2"))
-            || (model_file->nStrCode == GV_StrCode("radar_f3"))
-            || (model_file->nStrCode == GV_StrCode("l_hatch1"))
-            || (model_file->nStrCode == GV_StrCode("l_hatch2"))
-            || (model_file->nStrCode == GV_StrCode("l_hatch3"))
-            || (model_file->nStrCode == GV_StrCode("l_hatch4"))
-            || (model_file->nStrCode == GV_StrCode("r_hatch1"))
-            || (model_file->nStrCode == GV_StrCode("r_hatch2"))
-            || (model_file->nStrCode == GV_StrCode("r_hatch3"))
-            || (model_file->nStrCode == GV_StrCode("r_hatch4")))
+        else if((lpScene->nStrCode == GV_StrCode("mgrexw"))
+            || (lpScene->nStrCode == GV_StrCode("mgrexll"))
+            || (lpScene->nStrCode == GV_StrCode("mgrexrl"))
+            || (lpScene->nStrCode == GV_StrCode("pit_t"))
+            || (lpScene->nStrCode == GV_StrCode("pit_u"))
+            || (lpScene->nStrCode == GV_StrCode("pit_liq"))
+            || (lpScene->nStrCode == GV_StrCode("radar_f1"))
+            || (lpScene->nStrCode == GV_StrCode("radar_f2"))
+            || (lpScene->nStrCode == GV_StrCode("radar_f3"))
+            || (lpScene->nStrCode == GV_StrCode("l_hatch1"))
+            || (lpScene->nStrCode == GV_StrCode("l_hatch2"))
+            || (lpScene->nStrCode == GV_StrCode("l_hatch3"))
+            || (lpScene->nStrCode == GV_StrCode("l_hatch4"))
+            || (lpScene->nStrCode == GV_StrCode("r_hatch1"))
+            || (lpScene->nStrCode == GV_StrCode("r_hatch2"))
+            || (lpScene->nStrCode == GV_StrCode("r_hatch3"))
+            || (lpScene->nStrCode == GV_StrCode("r_hatch4")))
         {
-            model->light[0].t[0] = 64;
-            model->light[0].t[1] = 64;
-            model->light[0].t[2] = 64;
+            lpModel->light[0].t[0] = 64;
+            lpModel->light[0].t[1] = 64;
+            lpModel->light[0].t[2] = 64;
 
-            GM_InitObject(&model->object, model_file->nStrCode, BODY_FLAG | DG_FLAG_AMBIENT, 0);
+            GM_InitObject(&lpModel->object, lpScene->nStrCode, BODY_FLAG | DG_FLAG_AMBIENT, 0);
         }
         else
         {
-            GM_InitObject(&model->object, model_file->nStrCode, BODY_FLAG, 0);
+            GM_InitObject(&lpModel->object, lpScene->nStrCode, BODY_FLAG, 0);
         }
 
-        light = model->light;
+        GM_ConfigObjectJoint(&lpModel->object);
+        GM_ConfigObjectLight(&lpModel->object, lpModel->light);
 
-        GM_ConfigObjectJoint(&model->object);
-        GM_ConfigObjectLight(&model->object, light);
+        DG_InvisibleObjs(lpModel->object.objs);
 
-        DG_InvisibleObjs(model->object.objs);
-
-        if (model_file->nStrCode == GV_StrCode("m1e1") || model_file->nStrCode == IDMODEL_M1E1DEMO)
+        if((lpScene->nStrCode == GV_StrCode("m1e1")) || (lpScene->nStrCode == IDMODEL_M1E1DEMO))
         {
-            model->lpData = GV_Malloc(sizeof(MGSDEMOM1E1));
-            if (!model->lpData)
-            {
+            if((lpModel->lpData = GV_Malloc(sizeof(MGSDEMOM1E1))) == NULL)
                 return 0;
-            }
+            memset(lpModel->lpData, 0x00, sizeof(MGSDEMOM1E1));
 
-            memset(model->lpData, 0, sizeof(MGSDEMOM1E1));
+            GM_InitObject(&lpModel->lpData->object[0][0], GV_StrCode("m1e1cl1"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
+            GM_InitObject(&lpModel->lpData->object[0][1], GV_StrCode("m1e1cl2"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
+            GM_InitObject(&lpModel->lpData->object[0][2], GV_StrCode("m1e1cl3"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
+            GM_InitObject(&lpModel->lpData->object[1][0], GV_StrCode("m1e1cr1"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
+            GM_InitObject(&lpModel->lpData->object[1][1], GV_StrCode("m1e1cr2"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
+            GM_InitObject(&lpModel->lpData->object[1][2], GV_StrCode("m1e1cr3"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
 
-            GM_InitObject(&model->lpData->object[0][0], GV_StrCode("m1e1cl1"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
-            GM_InitObject(&model->lpData->object[0][1], GV_StrCode("m1e1cl2"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
-            GM_InitObject(&model->lpData->object[0][2], GV_StrCode("m1e1cl3"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
-            GM_InitObject(&model->lpData->object[1][0], GV_StrCode("m1e1cr1"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
-            GM_InitObject(&model->lpData->object[1][1], GV_StrCode("m1e1cr2"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
-            GM_InitObject(&model->lpData->object[1][2], GV_StrCode("m1e1cr3"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
+            GM_ConfigObjectJoint(&lpModel->lpData->object[0][0]);
+            GM_ConfigObjectJoint(&lpModel->lpData->object[0][1]);
+            GM_ConfigObjectJoint(&lpModel->lpData->object[0][2]);
+            GM_ConfigObjectJoint(&lpModel->lpData->object[1][0]);
+            GM_ConfigObjectJoint(&lpModel->lpData->object[1][1]);
+            GM_ConfigObjectJoint(&lpModel->lpData->object[1][2]);
 
-            GM_ConfigObjectJoint(&model->lpData->object[0][0]);
-            GM_ConfigObjectJoint(&model->lpData->object[0][1]);
-            GM_ConfigObjectJoint(&model->lpData->object[0][2]);
-            GM_ConfigObjectJoint(&model->lpData->object[1][0]);
-            GM_ConfigObjectJoint(&model->lpData->object[1][1]);
-            GM_ConfigObjectJoint(&model->lpData->object[1][2]);
+            GM_ConfigObjectLight(&lpModel->lpData->object[0][0], lpModel->light);
+            GM_ConfigObjectLight(&lpModel->lpData->object[0][1], lpModel->light);
+            GM_ConfigObjectLight(&lpModel->lpData->object[0][2], lpModel->light);
+            GM_ConfigObjectLight(&lpModel->lpData->object[1][0], lpModel->light);
+            GM_ConfigObjectLight(&lpModel->lpData->object[1][1], lpModel->light);
+            GM_ConfigObjectLight(&lpModel->lpData->object[1][2], lpModel->light);
 
-            GM_ConfigObjectLight(&model->lpData->object[0][0], light);
-            GM_ConfigObjectLight(&model->lpData->object[0][1], light);
-            GM_ConfigObjectLight(&model->lpData->object[0][2], light);
-            GM_ConfigObjectLight(&model->lpData->object[1][0], light);
-            GM_ConfigObjectLight(&model->lpData->object[1][1], light);
-            GM_ConfigObjectLight(&model->lpData->object[1][2], light);
-
-            model->lpData->field_560 = 83;
+            lpModel->lpData->field_560 = 83;
         }
-        else if (model_file->nStrCode == GV_StrCode("hind") || model_file->nStrCode == IDMODEL_MI24HINDDEMO)
+        else if((lpScene->nStrCode == GV_StrCode("hind"))
+            || (lpScene->nStrCode == IDMODEL_MI24HINDDEMO))
         {
-            model->lpData = GV_Malloc(sizeof(MGSDEMOHIND));
-            if (!model->lpData)
-            {
+            if((lpModel->lpData = GV_Malloc(sizeof(MGSDEMOHIND))) == NULL)
                 return 0;
-            }
-
-            memset(model->lpData, 0, sizeof(MGSDEMOHIND));
+            memset(lpModel->lpData, 0x00, sizeof(MGSDEMOHIND));
         }
     }
 
-    if (!GV_GetCache(IDMODEL_CACHEEFFECT))
+    if(GV_GetCache(IDMODEL_CACHEEFFECT) == NULL)
     {
         printf("Noload model ( null.kmd )\n");
         return 0;
     }
 
-    if (GM_InitControl(&lpAct->control, 0, lpAct->nMap) < 0)
+    if(GM_InitControl(&lpAct->modelEffect.control, 0, lpAct->nMap) < 0)
     {
         printf("Error init control ( null.kmd )\n");
         return 0;
     }
 
-    lpAct->control.r_sphere = 0;
-    lpAct->control.interp = 0;
+    lpAct->modelEffect.control.r_sphere = 0;
+    lpAct->modelEffect.control.interp = 0;
 
-    GM_InitObject(&lpAct->object, IDMODEL_EFFECT, BODY_FLAG, 0);
+    GM_InitObject(&lpAct->modelEffect.object, IDMODEL_EFFECT, BODY_FLAG, 0);
 
-    GM_ConfigObjectJoint(&lpAct->object);
-    GM_ConfigObjectLight(&lpAct->object, lpAct->light);
+    GM_ConfigObjectJoint(&lpAct->modelEffect.object);
+    GM_ConfigObjectLight(&lpAct->modelEffect.object, lpAct->modelEffect.light);
 
-    DG_InvisibleObjs(lpAct->object.objs);
+    DG_InvisibleObjs(lpAct->modelEffect.object.objs);
 
     GM_GameStatus |= STATE_DEMO;
     return 1;
 }
 
+/******************************************************************************
+ */
 BOOL DestroyDemo(
     LPMGSDEMOACT lpAct)
 {
-    MGSDEMOEFFECTACT *node;
-    MGSDEMOSCENE *model_file;
-    MGSDEMOMODEL *model;
-    int         i;
+    int                i;
+    LPMGSDEMOEFFECTACT lpEAct;
+    LPMGSDEMOSCENE     lpScene;
+    LPMGSDEMOMODEL     lpModel;
 
-    if (lpAct->dwStyle & DMT_STATEVIEWLOAD)
-    {
+    if((lpAct->dwStyle & DMT_STATEVIEWLOAD) != 0)
         GM_GameStatus |= STATE_VIEW_LOAD;
+
+    while((lpEAct = (LPMGSDEMOEFFECTACT)lpAct->lpEffectNext)
+        != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
+    {
+        if(lpEAct->lpActor != NULL)
+            GV_DestroyOtherActor(lpEAct->lpActor);
+        if(lpEAct->lpActor2 != NULL)
+            GV_DestroyOtherActor(lpEAct->lpActor2);
+
+        DeleteChain(&lpAct->lpEffectPrevious, &lpEAct->lpPrevious);
+        GV_Free(lpEAct);
     }
 
-    for (node = lpAct->chain.lpNext; node != &lpAct->chain; node = lpAct->chain.lpNext)
+    if(lpAct->lpModel != NULL)
     {
-        if (node->lpActor)
+        for(i = 0, lpScene = lpAct->lpDemo->lpScene, lpModel = lpAct->lpModel;
+            i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
-            GV_DestroyOtherActor(node->lpActor);
-        }
+            GM_FreeObject(&lpModel->object);
 
-        if (node->lpActor2)
-        {
-            GV_DestroyOtherActor(node->lpActor2);
-        }
+            if(lpModel->lpData == NULL)
+                continue;
 
-        DeleteChain(&lpAct->chain, node);
-        GV_Free(node);
-    }
-
-    if (lpAct->lpModel)
-    {
-        model_file = lpAct->lpDemo->lpScene;
-        model = lpAct->lpModel;
-        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, model_file++, model++)
-        {
-            GM_FreeObject(&model->object);
-
-            if (model->lpData)
+            if((lpScene->nStrCode == GV_StrCode("m1e1")) || (lpScene->nStrCode == IDMODEL_M1E1DEMO))
             {
-                if (model_file->nStrCode == GV_StrCode("m1e1") || model_file->nStrCode == IDMODEL_M1E1DEMO)
-                {
-                    GM_FreeObject(&model->lpData->object[0][0]);
-                    GM_FreeObject(&model->lpData->object[0][1]);
-                    GM_FreeObject(&model->lpData->object[0][2]);
-                    GM_FreeObject(&model->lpData->object[1][0]);
-                    GM_FreeObject(&model->lpData->object[1][1]);
-                    GM_FreeObject(&model->lpData->object[1][2]);
-                }
-
-                GV_Free(model->lpData);
+                GM_FreeObject(&lpModel->lpData->object[0][0]);
+                GM_FreeObject(&lpModel->lpData->object[0][1]);
+                GM_FreeObject(&lpModel->lpData->object[0][2]);
+                GM_FreeObject(&lpModel->lpData->object[1][0]);
+                GM_FreeObject(&lpModel->lpData->object[1][1]);
+                GM_FreeObject(&lpModel->lpData->object[1][2]);
             }
+
+            GV_Free(lpModel->lpData);
         }
 
-        GM_FreeControl(&model->control);
+        GM_FreeControl(&lpModel->control);
         GV_Free(lpAct->lpModel);
     }
 
-    GM_FreeObject(&lpAct->object);
-    GM_FreeControl(&lpAct->control);
+    GM_FreeObject(&lpAct->modelEffect.object);
+    GM_FreeControl(&lpAct->modelEffect.control);
 
-    if (lpAct->lpDemo)
+    if(lpAct->lpDemo != NULL)
     {
-        if (lpAct->lpDemo->lpStage)
-        {
-            GV_Free(lpAct->lpDemo->lpStage);
-        }
-
-        if (lpAct->lpDemo->lpScene)
-        {
-            GV_Free(lpAct->lpDemo->lpScene);
-        }
-
+        if(lpAct->lpDemo->lpStage != NULL) GV_Free(lpAct->lpDemo->lpStage);
+        if(lpAct->lpDemo->lpScene != NULL) GV_Free(lpAct->lpDemo->lpScene);
         GV_Free(lpAct->lpDemo);
     }
 
     GM_GameStatus &= ~STATE_DEMO;
     DG_SetChanlSystemUnits(DG_SCREEN_CHANL, lpAct->lpfnDGScreenChanl);
     GM_GameStatus = lpAct->nGameStatus;
-    GM_Camera = lpAct->old_camera;
-    GM_Item = lpAct->nItemSave;
-    GM_Weapon = lpAct->nWeaponSave;
+    GM_Camera     = lpAct->GMCameraSave;
+    GM_Item       = lpAct->nItemSave;
+    GM_Weapon     = lpAct->nWeaponSave;
+
     return 1;
 }
 
+/******************************************************************************
+ */
 BOOL FrameRunDemo(
     LPMGSDEMOACT   lpAct,
     LPMGSDEMOFRAME lpDFrame)
@@ -386,140 +354,143 @@ BOOL FrameRunDemo(
     SVECTOR   rot;
     VECTOR    trans;
     int       radius;
-    MGSDEMOEFFECTACT *node;
-    MGSDEMOEFFECT *lpEffect;
-    int       i;
-    MGSDEMOEFFECTACT *iter;
-    MGSDEMOSCENEMOTION *lpSMotion;
+
+    int                  i;
+    LPMGSDEMOEFFECT      lpEffect;
+    LPMGSDEMOEFFECTACT   lpEAct;
+    LPMGSDEMOEFFECTACT   lpEActN;
+    LPMGSDEMOSCENEMOTION lpSMotion;
 
     OFFSET_TO_PTR(lpDFrame, &lpDFrame->lpEffect);
     OFFSET_TO_PTR(lpDFrame, &lpDFrame->lpSMotion);
 
-    lpAct->control.mov.vx = lpDFrame->svectCamera_x;
-    lpAct->control.mov.vy = lpDFrame->svectCamera_y;
-    lpAct->control.mov.vz = lpDFrame->svectCamera_z;
+    lpAct->modelEffect.control.mov.vx = lpDFrame->svectCamera.vx;
+    lpAct->modelEffect.control.mov.vy = lpDFrame->svectCamera.vy;
+    lpAct->modelEffect.control.mov.vz = lpDFrame->svectCamera.vz;
 
-    diff.vx = (lpDFrame->svectTarget_x - lpDFrame->svectCamera_x) >> 2;
-    diff.vx = (lpDFrame->svectTarget_y - lpDFrame->svectCamera_y) >> 2;
-    diff.vx = (lpDFrame->svectTarget_z - lpDFrame->svectCamera_z) >> 2;
+    diff.vx = (lpDFrame->svectTarget.vx - lpDFrame->svectCamera.vx) >> 2;
+    diff.vx = (lpDFrame->svectTarget.vy - lpDFrame->svectCamera.vy) >> 2;
+    diff.vx = (lpDFrame->svectTarget.vz - lpDFrame->svectCamera.vz) >> 2;
 
     radius = SquareRoot0(diff.vx  * diff.vx  + diff.vz * diff.vz);
-    lpAct->control.rot.vx = ratan2(diff.vy, radius);
-    lpAct->control.rot.vy = ratan2(diff.vx, diff.vz);
-    lpAct->control.rot.vz = lpDFrame->nZRotate;
+    lpAct->modelEffect.control.rot.vx = ratan2(diff.vy, radius);
+    lpAct->modelEffect.control.rot.vy = ratan2(diff.vx, diff.vz);
+    lpAct->modelEffect.control.rot.vz = lpDFrame->nZRotate;
 
-    GM_ActControl(&lpAct->control);
-    GM_ActObject2(&lpAct->object);
-    DG_GetLightMatrix(&lpAct->control.mov, lpAct->light);
+    GM_ActControl(&lpAct->modelEffect.control);
+    GM_ActObject2(&lpAct->modelEffect.object);
+    DG_GetLightMatrix(&lpAct->modelEffect.control.mov, lpAct->modelEffect.light);
 
-    lpAct->field_268 = 0;
-    lpAct->field_26C = 0;
+    lpAct->bEffectStop = FALSE;
+    lpAct->bEffectBubbleStop = FALSE;
 
-    for (node = lpAct->chain.lpNext; node != &lpAct->chain; node = node->lpNext)
+    if((lpEAct = (LPMGSDEMOEFFECTACT)lpAct->lpEffectNext)
+        != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
     {
-        node->bCheck = 0;
+        do
+            lpEAct->bCheck = FALSE;
+        while((lpEAct = (LPMGSDEMOEFFECTACT)lpEAct->lpNext)
+            != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious);
     }
 
-    lpEffect = lpDFrame->lpEffect;
-    for ( i = 0; i < lpDFrame->nEffectCount; i++, lpEffect++ )
+    for(i = 0, lpEffect = lpDFrame->lpEffect;
+        i < lpDFrame->nEffectCount; i++, lpEffect++ )
     {
-        node = lpAct->chain.lpNext;
-
-        if ( node != &lpAct->chain )
+        if((lpEAct = (LPMGSDEMOEFFECTACT)lpAct->lpEffectNext)
+            != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
             do
             {
-                if (node->effect.field_0 == lpEffect->field_0)
+                if(lpEAct->effect.nID == lpEffect->nID)
                 {
-                    node->bCheck = 1;
+                    lpEAct->bCheck = TRUE;
                     break;
                 }
-
-                node = node->lpNext;
             }
-            while (node != &lpAct->chain);
+            while((lpEAct = (LPMGSDEMOEFFECTACT)lpEAct->lpNext)
+                != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious);
 
-            if ( node->effect.field_0 == lpEffect->field_0 )
-            {
+            if(lpEAct->effect.nID == lpEffect->nID)
                 continue;
-            }
         }
 
-        node = GV_Malloc(sizeof(MGSDEMOEFFECTACT));
-        if ( !node )
-        {
+        if((lpEAct = (LPMGSDEMOEFFECTACT)
+            GV_Malloc(sizeof(MGSDEMOEFFECTACT))) == NULL)
             return 1;
-        }
+        memset(lpEAct, 0x00, sizeof(MGSDEMOEFFECTACT));
 
-        memset(node, 0, sizeof(MGSDEMOEFFECTACT));
-        NextChain(&lpAct->chain, node);
-        node->bCheck = 1;
+        NextChain(&lpAct->lpEffectPrevious, &lpEAct->lpPrevious);
+        lpEAct->bCheck = TRUE;
+        lpEAct->effect = *lpEffect;
 
-        node->effect = *lpEffect;
-
-        // This function uses offset 0x34 of chara despite it seemingly only being 0x34 bytes in size
-        if ( !ShowEffect(lpAct, (DMO_DATA_0x36 *)lpEffect, node) )
-        {
+        // TODO: Get rid of this cast.
+        if(ShowEffect(lpAct, (DMO_DATA_0x36 *)lpEffect, lpEAct) == 0)
             return 0;
-        }
     }
 
-    for ( iter = lpAct->chain.lpNext; iter != &lpAct->chain; )
+    if((lpEActN = (LPMGSDEMOEFFECTACT)lpAct->lpEffectNext)
+        != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
     {
-        node = iter;
-        iter = node->lpNext;
-
-        if ( node->bCheck != 1 && !node->lpActor )
+        do
         {
-            DeleteChain(&lpAct->chain, node);
-            GV_Free(node);
+            lpEAct = lpEActN;
+            lpEActN = (LPMGSDEMOEFFECTACT)lpEAct->lpNext;
+
+            if((lpEAct->bCheck == TRUE) || (lpEAct->lpActor != NULL))
+                continue;
+
+            DeleteChain(&lpAct->lpEffectPrevious, &lpEAct->lpPrevious);
+            GV_Free(lpEAct);
         }
+        while(lpEActN != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious);
     }
 
-    for ( node = lpAct->chain.lpNext; node != &lpAct->chain; node = node->lpNext )
+    if((lpEAct = (LPMGSDEMOEFFECTACT)lpAct->lpEffectNext)
+        != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
     {
-        if ( !ShowEffectExecute(lpAct, lpDFrame, node) )
+        do
         {
-            return 0;
+            if(ShowEffectExecute(lpAct, lpDFrame, lpEAct) == 0)
+                return 0;
         }
+        while((lpEAct = (LPMGSDEMOEFFECTACT)lpEAct->lpNext)
+            != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious);
     }
 
     ShowEffectStop(lpAct, lpDFrame);
 
     lpSMotion = lpDFrame->lpSMotion;
-    for ( i = 0; i < lpDFrame->nSMotionCount; i++, lpSMotion++ )
+    for(i = 0; i < lpDFrame->nSMotionCount; i++, lpSMotion++)
     {
-        if ( !ShowScene(lpAct, lpSMotion) )
-        {
+        if(ShowScene(lpAct, lpSMotion) == 0)
             return 0;
-        }
     }
 
-    gUnkCameraStruct2_800B7868.position.vx = lpDFrame->svectCamera_x;
-    gUnkCameraStruct2_800B7868.position.vy = lpDFrame->svectCamera_y;
-    gUnkCameraStruct2_800B7868.position.vz = lpDFrame->svectCamera_z;
+    gUnkCameraStruct2_800B7868.position.vx = lpDFrame->svectCamera.vx;
+    gUnkCameraStruct2_800B7868.position.vy = lpDFrame->svectCamera.vy;
+    gUnkCameraStruct2_800B7868.position.vz = lpDFrame->svectCamera.vz;
 
-    gUnkCameraStruct2_800B7868.target.vx = lpDFrame->svectTarget_x;
-    gUnkCameraStruct2_800B7868.target.vy = lpDFrame->svectTarget_y;
-    gUnkCameraStruct2_800B7868.target.vz = lpDFrame->svectTarget_z;
+    gUnkCameraStruct2_800B7868.target.vx = lpDFrame->svectTarget.vx;
+    gUnkCameraStruct2_800B7868.target.vy = lpDFrame->svectTarget.vy;
+    gUnkCameraStruct2_800B7868.target.vz = lpDFrame->svectTarget.vz;
 
     DG_Chanl(0)->screen = lpDFrame->nScreen;
 
-    diff.vx = lpDFrame->svectTarget_x - lpDFrame->svectCamera_x;
-    diff.vy = lpDFrame->svectTarget_y - lpDFrame->svectCamera_y;
-    diff.vz = lpDFrame->svectTarget_z - lpDFrame->svectCamera_z;
+    diff.vx = lpDFrame->svectTarget.vx - lpDFrame->svectCamera.vx;
+    diff.vy = lpDFrame->svectTarget.vy - lpDFrame->svectCamera.vy;
+    diff.vz = lpDFrame->svectTarget.vz - lpDFrame->svectCamera.vz;
 
     radius = SquareRoot0(diff.vx * diff.vx + diff.vz * diff.vz);
     rot.vx = -ratan2(diff.vy, radius);
     rot.vy = ratan2(diff.vx, diff.vz);
     rot.vz = 2048;
 
-    diff.vx = lpDFrame->svectCamera_x;
-    diff.vy = lpDFrame->svectCamera_y;
-    diff.vz = lpDFrame->svectCamera_z;
+    diff.vx = lpDFrame->svectCamera.vx;
+    diff.vy = lpDFrame->svectCamera.vy;
+    diff.vz = lpDFrame->svectCamera.vz;
 
     DG_SetPos2(&diff, &rot);
-    memset(&rot, 0, 8);
+    memset(&rot, 0x00, sizeof(SVECTOR));
 
     rot.vz = lpDFrame->nZRotate;
     DG_RotatePos(&rot);
@@ -539,6 +510,8 @@ BOOL FrameRunDemo(
  * statics
  */
 
+/******************************************************************************
+ */
 static BOOL ShowEffect(
     LPMGSDEMOACT       lpAct,
     DMO_DATA_0x36*     lpEffect,
@@ -548,8 +521,8 @@ static BOOL ShowEffect(
     // to prevent those cases from being merged (GCC "cross jump" optimization).
     typedef void (*VoidMakeChara)();
 
-    int     levels[2];
-    GV_MSG  msg;
+    int     lFloor[2];
+    GV_MSG  gvMessage;
     SVECTOR svec1, svec2, svec3, svec4;
     MATRIX  mat1, mat2;
     MGSDEMOEFFECTACT *lpEActL;
@@ -557,7 +530,7 @@ static BOOL ShowEffect(
     void *(*funcptr)();
 
     MGSDEMOSCENE *lpScene;
-    MGSDEMOMODEL *pModel;
+    MGSDEMOMODEL *lpModel;
     int              hzdret;
     int              i;
 
@@ -573,7 +546,7 @@ static BOOL ShowEffect(
     DG_SetPos2(&svec1, &svec2);
     ReadRotMatrix(&mat2);
 
-    switch (lpEffect->field_4_type)
+    switch (lpEffect->nEffectID)
     {
     case EFFECT_EXPLOSION:
         funcptr = GM_GetCharaID(DEMOID_EXPLOSION);
@@ -595,7 +568,7 @@ static BOOL ShowEffect(
     case EFFECT_FADEOUT:
         KillEffect(lpAct, EFFECT_FADEOUT);
 
-        switch (lpEffect->field_4_type)
+        switch (lpEffect->nEffectID)
         {
         case EFFECT_FADEIN:
             funcptr = GM_GetCharaID(DEMOID_FADEIN);
@@ -750,10 +723,10 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_SHADOW:
-        pModel = lpAct->lpModel;
+        lpModel = lpAct->lpModel;
         lpScene = lpAct->lpDemo->lpScene;
 
-        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, pModel++)
+        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
             if (lpScene->nID == lpEffect->data.variant_0xE.field_14)
             {
@@ -766,9 +739,12 @@ static BOOL ShowEffect(
             break;
         }
 
-        for (lpEActL = lpAct->chain.lpNext; lpEActL != &lpAct->chain; lpEActL = lpEActL->lpNext)
+        for (lpEActL = lpAct->lpEffectNext;
+            lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious;
+            lpEActL = lpEActL->lpNext)
         {
-            if (lpEActL->effect.field_4_type == 0xE && lpEActL->effect.field_14_type == lpEffect->data.variant_0xE.field_14)
+            if ((lpEActL->effect.nEffectID == EFFECT_SHADOW)
+                && (lpEActL->effect.field_14_type == lpEffect->data.variant_0xE.field_14))
             {
                 if (lpEActL->lpActor)
                 {
@@ -784,7 +760,7 @@ static BOOL ShowEffect(
             if (funcptr != NULL)
             {
                 lpEAct->lpActor =
-                    funcptr(&pModel->object,
+                    funcptr(&lpModel->object,
                             lpEffect->data.variant_0xE.field_18,
                             &lpEAct->nParam1,
                             &lpEAct->nParam2,
@@ -797,19 +773,18 @@ static BOOL ShowEffect(
 
     case EFFECT_FOOTPRINTS:
         svec1.vy += 0x64;
-        hzdret = HZD_LevelHazardCheck(lpAct->control.map->hzd, &svec1, HZD_CHK_F_FLOOR);
+        hzdret = HZD_LevelHazardCheck(lpAct->modelEffect.control.map->hzd, &svec1, HZD_CHK_F_FLOOR);
 
         do {} while (0);
-        HZD_GetLevelHeight(levels);
+        HZD_GetLevelHeight(lFloor);
 
         if (hzdret & 1)
         {
-            svec1.vy = levels[0];
+            svec1.vy = lFloor[0];
         }
-
         else if (hzdret & 2)
         {
-            svec1.vy = levels[1];
+            svec1.vy = lFloor[1];
         }
         else
         {
@@ -824,17 +799,17 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_MESSAGE:
-        memset(&msg, 0, sizeof(msg));
-        msg.address = lpEffect->data.variant_0x10.address;
-        msg.message[0] = lpEffect->data.variant_0x10.message[0];
-        msg.message[1] = lpEffect->data.variant_0x10.message[1];
-        msg.message[2] = lpEffect->data.variant_0x10.message[2];
-        msg.message[3] = lpEffect->data.variant_0x10.message[3];
-        msg.message[4] = lpEffect->data.variant_0x10.message[4];
-        msg.message[5] = lpEffect->data.variant_0x10.message[5];
-        msg.message[6] = lpEffect->data.variant_0x10.message[6];
-        msg.message_len = 7;
-        GV_SendMessage(&msg);
+        memset(&gvMessage, 0x00, sizeof(gvMessage));
+        gvMessage.address = lpEffect->data.variant_0x10.address;
+        gvMessage.message[0] = lpEffect->data.variant_0x10.message[0];
+        gvMessage.message[1] = lpEffect->data.variant_0x10.message[1];
+        gvMessage.message[2] = lpEffect->data.variant_0x10.message[2];
+        gvMessage.message[3] = lpEffect->data.variant_0x10.message[3];
+        gvMessage.message[4] = lpEffect->data.variant_0x10.message[4];
+        gvMessage.message[5] = lpEffect->data.variant_0x10.message[5];
+        gvMessage.message[6] = lpEffect->data.variant_0x10.message[6];
+        gvMessage.message_len = 7;
+        GV_SendMessage(&gvMessage);
         break;
 
     case EFFECT_NINJAEYE:
@@ -854,7 +829,7 @@ static BOOL ShowEffect(
                 funcptr(&svec1,
                         lpEffect->data.variant_0x12.field_20,
                         lpEffect->data.variant_0x12.field_24,
-                        &lpAct->field_26C,
+                        &lpAct->bEffectBubbleStop,
                         lpEffect->data.variant_0x12.field_26,
                         lpEffect->data.variant_0x12.field_28,
                         lpEffect->data.variant_0x12.field_2A);
@@ -871,7 +846,7 @@ static BOOL ShowEffect(
             {
                 funcptr(&svec1, &svec3,
                         lpEffect->data.variant_0x12.field_1C,
-                        &lpAct->field_26C,
+                        &lpAct->bEffectBubbleStop,
                         lpEffect->data.variant_0x12.field_26,
                         lpEffect->data.variant_0x12.field_28,
                         lpEffect->data.variant_0x12.field_2A);
@@ -879,7 +854,7 @@ static BOOL ShowEffect(
         }
         else
         {
-            lpAct->field_26C = 1;
+            lpAct->bEffectBubbleStop = TRUE;
         }
         break;
 
@@ -887,13 +862,13 @@ static BOOL ShowEffect(
     case EFFECT_DARKVISIBLEGOGGLE:
     case EFFECT_IRRAYSGOGGLE:
     case EFFECT_GUSMASK:
-        lpEActL = lpAct->chain.lpNext;
-        while (lpEActL != &lpAct->chain)
+        lpEActL = lpAct->lpEffectNext;
+        while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            if (lpEActL->effect.field_4_type == EFFECT_SCOPE ||
-                lpEActL->effect.field_4_type == EFFECT_DARKVISIBLEGOGGLE ||
-                lpEActL->effect.field_4_type == EFFECT_IRRAYSGOGGLE ||
-                lpEActL->effect.field_4_type == EFFECT_GUSMASK)
+            if ((lpEActL->effect.nEffectID == EFFECT_SCOPE) ||
+                (lpEActL->effect.nEffectID == EFFECT_DARKVISIBLEGOGGLE) ||
+                (lpEActL->effect.nEffectID == EFFECT_IRRAYSGOGGLE) ||
+                (lpEActL->effect.nEffectID == EFFECT_GUSMASK))
             {
                 if (lpEActL->lpActor != NULL)
                 {
@@ -909,7 +884,7 @@ static BOOL ShowEffect(
             lpEActL = lpEActL->lpNext;
         }
 
-        switch (lpEffect->field_4_type)
+        switch (lpEffect->nEffectID)
         {
         case EFFECT_SCOPE:
             if (lpEffect->data.variant_0x13.field_14 != 1)
@@ -917,7 +892,8 @@ static BOOL ShowEffect(
                 funcptr = GM_GetCharaID(DEMOID_SCOPE);
                 if (funcptr != NULL)
                 {
-                    lpEAct->lpActor = funcptr(&lpAct->control, &lpAct->object, 0);
+                    lpEAct->lpActor = funcptr(&lpAct->modelEffect.control,
+                                              &lpAct->modelEffect.object, 0);
                 }
             }
             break;
@@ -928,7 +904,8 @@ static BOOL ShowEffect(
                 funcptr = GM_GetCharaID(DEMOID_DARKVISIBLEGOGGLE);
                 if (funcptr != NULL)
                 {
-                    lpEAct->lpActor = funcptr(&lpAct->control, &lpAct->object, 0);
+                    lpEAct->lpActor = funcptr(&lpAct->modelEffect.control,
+                                              &lpAct->modelEffect.object, 0);
                     if (lpEffect->data.variant_0x14.field_16 != 0)
                     {
                         funcptr = GM_GetCharaID(DEMOID_DARKVISIBLEGOGGLE2);
@@ -947,7 +924,8 @@ static BOOL ShowEffect(
                 funcptr = GM_GetCharaID(DEMOID_IRRAYSGOGGLE);
                 if (funcptr != NULL)
                 {
-                    lpEAct->lpActor = funcptr(&lpAct->control, &lpAct->object, 0);
+                    lpEAct->lpActor = funcptr(&lpAct->modelEffect.control,
+                                              &lpAct->modelEffect.object, 0);
                     if (lpEffect->data.variant_0x15.field_16 != 0)
                     {
                         funcptr = GM_GetCharaID(DEMOID_IRRAYSGOGGLE2);
@@ -982,10 +960,10 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_OPTICSCAMOUFLAGE:
-        pModel = lpAct->lpModel;
+        lpModel = lpAct->lpModel;
         lpScene = lpAct->lpDemo->lpScene;
 
-        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, pModel++)
+        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
             if (lpScene->nID == lpEffect->data.variant_0x17.field_18)
             {
@@ -998,10 +976,11 @@ static BOOL ShowEffect(
             break;
         }
 
-        lpEActL = lpAct->chain.lpNext;
-        while (lpEActL != &lpAct->chain)
+        lpEActL = lpAct->lpEffectNext;
+        while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            if ((lpEActL->effect.field_4_type == 0x17) && (lpEActL->effect.field_18_xy == lpEffect->data.variant_0x17.field_18))
+            if ((lpEActL->effect.nEffectID == EFFECT_OPTICSCAMOUFLAGE)
+                && (lpEActL->effect.field_18_xy == lpEffect->data.variant_0x17.field_18))
             {
                 if (lpEActL->lpActor != NULL)
                 {
@@ -1012,14 +991,15 @@ static BOOL ShowEffect(
             lpEActL = lpEActL->lpNext;
         }
 
-        if (lpEffect->data.variant_0x17.field_14 != 1 && lpEffect->field_4_type == 0x17)
+        if ((lpEffect->data.variant_0x17.field_14 != 1)
+            && (lpEffect->nEffectID == EFFECT_OPTICSCAMOUFLAGE))
         {
             if (lpEffect->data.variant_0x17.field_1C == 0)
             {
                 funcptr = GM_GetCharaID(DEMOID_OPTICSCAMOUFLAGE);
                 if (funcptr != NULL)
                 {
-                    lpEAct->lpActor = funcptr(&lpAct->control, &pModel->object, 0);
+                    lpEAct->lpActor = funcptr(&lpAct->modelEffect.control, &lpModel->object, 0);
                 }
             }
             else
@@ -1027,17 +1007,17 @@ static BOOL ShowEffect(
                 funcptr = GM_GetCharaID(DEMOID_OPTICSCAMOUFLAGE2);
                 if (funcptr != NULL)
                 {
-                    lpEAct->lpActor = funcptr(&lpAct->control, &pModel->object, 0);
+                    lpEAct->lpActor = funcptr(&lpAct->modelEffect.control, &lpModel->object, 0);
                 }
             }
         }
         break;
 
     case EFFECT_ENVIRONMENTMAPPING:
-        pModel = lpAct->lpModel;
+        lpModel = lpAct->lpModel;
         lpScene = lpAct->lpDemo->lpScene;
 
-        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, pModel++)
+        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
             if (lpScene->nID == lpEffect->data.variant_0x18.field_18)
             {
@@ -1050,10 +1030,11 @@ static BOOL ShowEffect(
             break;
         }
 
-        lpEActL = lpAct->chain.lpNext;
-        while (lpEActL != &lpAct->chain)
+        lpEActL = lpAct->lpEffectNext;
+        while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            if ((lpEActL->effect.field_4_type == 0x18) && (lpEActL->effect.field_18_xy == lpEffect->data.variant_0x18.field_18))
+            if ((lpEActL->effect.nEffectID == EFFECT_ENVIRONMENTMAPPING)
+                && (lpEActL->effect.field_18_xy == lpEffect->data.variant_0x18.field_18))
             {
                 if (lpEActL->lpActor != NULL)
                 {
@@ -1068,16 +1049,16 @@ static BOOL ShowEffect(
             funcptr = GM_GetCharaID(DEMOID_ENVIRONMENTMAPPING);
             if (funcptr != NULL)
             {
-                lpEAct->lpActor = funcptr(&pModel->object, lpEffect->data.variant_0x18.field_1C);
+                lpEAct->lpActor = funcptr(&lpModel->object, lpEffect->data.variant_0x18.field_1C);
             }
         }
         break;
 
     case EFFECT_PLASMA:
-        pModel = lpAct->lpModel;
+        lpModel = lpAct->lpModel;
         lpScene = lpAct->lpDemo->lpScene;
 
-        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, pModel++)
+        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
             if (lpScene->nID == lpEffect->data.variant_0x19.field_14)
             {
@@ -1093,7 +1074,7 @@ static BOOL ShowEffect(
         funcptr = GM_GetCharaID(DEMOID_PLASMA);
         if (funcptr != NULL)
         {
-            funcptr(&pModel->object,
+            funcptr(&lpModel->object,
                     lpEffect->data.variant_0x19.field_18,
                     lpEffect->data.variant_0x19.field_1A,
                     lpEffect->data.variant_0x19.field_1C,
@@ -1117,15 +1098,16 @@ static BOOL ShowEffect(
             if (funcptr != NULL)
             {
                 lpEAct->lpActor = funcptr(lpEffect->data.variant_0x1B.field_16,
-                                        lpEffect->data.variant_0x1B.field_18,
-                                        lpEffect->data.variant_0x1B.field_1A);
+                                          lpEffect->data.variant_0x1B.field_18,
+                                          lpEffect->data.variant_0x1B.field_1A);
             }
         }
         break;
 
     case EFFECT_METALGEARLASER:
-        lpEActL = lpAct->chain.lpNext;
-        while (lpEActL != &lpAct->chain && (lpEActL->effect.field_4_type != 0x1C || lpEActL->lpActor == NULL))
+        lpEActL = lpAct->lpEffectNext;
+        while ((lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
+            && (lpEActL->effect.nEffectID != EFFECT_METALGEARLASER || lpEActL->lpActor == NULL))
         {
             lpEActL = lpEActL->lpNext;
         }
@@ -1135,7 +1117,7 @@ static BOOL ShowEffect(
         svec2.vx = lpEffect->data.variant_0x1C.field_1A;
         svec2.vy = lpEffect->data.variant_0x1C.field_1C;
         svec2.vz = lpEffect->data.variant_0x1C.field_1E;
-        if (lpEActL == &lpAct->chain)
+        if (lpEActL == (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
             funcptr = GM_GetCharaID(DEMOID_METALGEARLASER);
             if (funcptr != NULL)
@@ -1160,19 +1142,20 @@ static BOOL ShowEffect(
             if (funcptr != NULL)
             {
                 lpEAct->lpActor = funcptr(lpEffect->data.variant_0x1D.field_18,
-                                         lpEffect->data.variant_0x1D.field_1C);
+                                          lpEffect->data.variant_0x1D.field_1C);
             }
         }
         break;
 
     case EFFECT_STOP:
-        lpEActL = lpAct->chain.lpNext;
-        lpAct->field_268 = 1;
-        lpAct->field_26C = 1;
-        while (lpEActL != &lpAct->chain)
+        lpEActL = lpAct->lpEffectNext;
+        lpAct->bEffectStop = TRUE;
+        lpAct->bEffectBubbleStop = TRUE;
+        while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
             if (lpEActL->lpActor != NULL)
             {
+// clang-format off
                 GV_DestroyOtherActor(lpEActL->lpActor);
                 if (lpEActL->lpActor2 != NULL)
                 {
@@ -1186,12 +1169,13 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_URINATIONCIRCLE:    /* 失禁 */
+// clang-format on
         if (lpEffect->data.variant_0x20.field_20 == 1)
         {
-            lpEActL = lpAct->chain.lpNext;
-            while (lpEActL != &lpAct->chain)
+            lpEActL = lpAct->lpEffectNext;
+            while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
             {
-                if (lpEActL->effect.field_4_type == EFFECT_URINATIONCIRCLE)
+                if (lpEActL->effect.nEffectID == EFFECT_URINATIONCIRCLE)
                 {
                     if (lpEActL->lpActor != NULL)
                     {
@@ -1244,8 +1228,8 @@ static BOOL ShowEffect(
             if (funcptr != NULL)
             {
                 lpEAct->lpActor = funcptr(lpEffect->data.variant_0x22.field_16,
-                                         lpEffect->data.variant_0x22.field_18,
-                                         lpEffect->data.variant_0x22.field_1A);
+                                          lpEffect->data.variant_0x22.field_18,
+                                          lpEffect->data.variant_0x22.field_1A);
             }
         }
         break;
@@ -1302,10 +1286,10 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_MI24HIND:
-        pModel = lpAct->lpModel;
+        lpModel = lpAct->lpModel;
         lpScene = lpAct->lpDemo->lpScene;
 
-        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, pModel++)
+        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
             if (lpScene->nStrCode == GV_StrCode("hind"))
             {
@@ -1322,8 +1306,8 @@ static BOOL ShowEffect(
             break;
         }
 
-        pModel->lpData->object[0][0].objs = lpEffect->data.variant_0x26.field_14;
-        pModel->lpData->object[0][0].flag = lpEffect->data.variant_0x26.field_18;
+        lpModel->lpData->object[0][0].objs = lpEffect->data.variant_0x26.field_14;
+        lpModel->lpData->object[0][0].flag = lpEffect->data.variant_0x26.field_18;
         break;
 
     case EFFECT_BLACKSMOKE:
@@ -1354,22 +1338,22 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_SIGHT:
-        lpEActL = lpAct->chain.lpNext;
+        lpEActL = lpAct->lpEffectNext;
 
-        if (lpEActL != &lpAct->chain)
+        if (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            while ((lpEActL->effect.field_4_type != EFFECT_SIGHT) || !lpEActL->lpActor)
+            while ((lpEActL->effect.nEffectID != EFFECT_SIGHT) || !lpEActL->lpActor)
             {
                 lpEActL = lpEActL->lpNext;
 
-                if (lpEActL == &lpAct->chain)
+                if (lpEActL == (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
                 {
                     break;
                 }
             }
         }
 
-        if (lpEActL == &lpAct->chain)
+        if (lpEActL == (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
             if (lpEffect->data.variant_0x29.field_14 != 1)
             {
@@ -1377,7 +1361,7 @@ static BOOL ShowEffect(
                 if (funcptr != NULL)
                 {
                     lpEAct->lpActor = funcptr(lpEffect->data.variant_0x29.field_1C,
-                                            &lpEffect->data.variant_0x29.field_16);
+                                             &lpEffect->data.variant_0x29.field_16);
                 }
             }
         }
@@ -1391,7 +1375,7 @@ static BOOL ShowEffect(
                 if (funcptr != NULL)
                 {
                     lpEAct->lpActor = funcptr(lpEffect->data.variant_0x29.field_1C,
-                                            &lpEffect->data.variant_0x29.field_16);
+                                             &lpEffect->data.variant_0x29.field_16);
                 }
             }
             else
@@ -1412,10 +1396,10 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_NINJASWORD:
-        pModel = lpAct->lpModel;
+        lpModel = lpAct->lpModel;
         lpScene = lpAct->lpDemo->lpScene;
 
-        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, pModel++)
+        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
             if (lpScene->nID == lpEffect->data.variant_0x2A.field_14)
             {
@@ -1428,10 +1412,10 @@ static BOOL ShowEffect(
             break;
         }
 
-        lpEActL = lpAct->chain.lpNext;
-        while (lpEActL != &lpAct->chain)
+        lpEActL = lpAct->lpEffectNext;
+        while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            if ((lpEActL->effect.field_4_type == EFFECT_NINJASWORD) &&
+            if ((lpEActL->effect.nEffectID == EFFECT_NINJASWORD) &&
                 (lpEActL->effect.field_14_type == lpEffect->data.variant_0x2A.field_14))
             {
                 if (lpEActL->lpActor != NULL)
@@ -1447,17 +1431,17 @@ static BOOL ShowEffect(
             funcptr = GM_GetCharaID(DEMOID_NINJASWORD);
             if (funcptr != NULL)
             {
-                lpEAct->lpActor = funcptr(&pModel->object.objs->objs[4]);
+                lpEAct->lpActor = funcptr(&lpModel->object.objs->objs[4]);
             }
         }
         break;
 
     case EFFECT_SUBMARINEROOM:
-        lpEActL = lpAct->chain.lpNext;
+        lpEActL = lpAct->lpEffectNext;
 
-        while (lpEActL != &lpAct->chain)
+        while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            if (lpEActL->effect.field_4_type == EFFECT_SUBMARINEROOM)
+            if (lpEActL->effect.nEffectID == EFFECT_SUBMARINEROOM)
             {
                 if (lpEActL->lpActor != NULL)
                 {
@@ -1515,9 +1499,13 @@ static BOOL ShowEffect(
         funcptr = GM_GetCharaID(DEMOID_SMOKELINE);
         if (funcptr != NULL)
         {
-            funcptr(lpEffect->data.variant_0x2E.field_26, lpEffect->data.variant_0x2E.field_20, lpEffect->data.variant_0x2E.field_24,
-                    &svec1, &svec3, &svec4, lpEffect->data.variant_0x2E.field_28 & 0xFF,
-                    lpEffect->data.variant_0x2E.field_2A & 0xFF, lpEffect->data.variant_0x2E.field_2C & 0xFF);
+            funcptr(lpEffect->data.variant_0x2E.field_26,
+                    lpEffect->data.variant_0x2E.field_20,
+                    lpEffect->data.variant_0x2E.field_24,
+                    &svec1, &svec3, &svec4,
+                    lpEffect->data.variant_0x2E.field_28 & 0xFF,
+                    lpEffect->data.variant_0x2E.field_2A & 0xFF,
+                    lpEffect->data.variant_0x2E.field_2C & 0xFF);
         }
         break;
 
@@ -1573,18 +1561,20 @@ static BOOL ShowEffect(
             funcptr = GM_GetCharaID(DEMOID_ENVIRONMENTLIGHT);
             if (funcptr != NULL)
             {
-                funcptr(lpEffect->data.variant_0x34.field_14, lpEffect->data.variant_0x34.field_18, &svec3, &svec4,
-                        lpEffect->data.variant_0x34.field_1C, lpEffect->data.variant_0x34.field_20);
+                funcptr(lpEffect->data.variant_0x34.field_14,
+                        lpEffect->data.variant_0x34.field_18,
+                        &svec3, &svec4,
+                        lpEffect->data.variant_0x34.field_1C,
+                        lpEffect->data.variant_0x34.field_20);
             }
         }
         else
         {
-            memset(&msg, 0, sizeof(msg));
-            msg.address = lpEffect->data.variant_0x34.field_14;
-            msg.message[0] = HASH_KILL;
-            msg.message_len = 1;
-
-            GV_SendMessage(&msg);
+            memset(&gvMessage, 0x00, sizeof(gvMessage));
+            gvMessage.address = lpEffect->data.variant_0x34.field_14;
+            gvMessage.message[0] = HASH_KILL;
+            gvMessage.message_len = 1;
+            GV_SendMessage(&gvMessage);
         }
         break;
 
@@ -1592,9 +1582,13 @@ static BOOL ShowEffect(
         funcptr = GM_GetCharaID(DEMOID_CRASHSMOKE);
         if (funcptr != NULL)
         {
-            funcptr(&svec1, &svec2, lpEffect->data.variant_0x35.field_18, lpEffect->data.variant_0x35.field_1C,
-                    lpEffect->data.variant_0x35.field_1E, lpEffect->data.variant_0x35.field_20,
-                    lpEffect->data.variant_0x35.field_22 & 0xFF, lpEffect->data.variant_0x35.field_24 & 0xFF,
+            funcptr(&svec1, &svec2,
+                    lpEffect->data.variant_0x35.field_18,
+                    lpEffect->data.variant_0x35.field_1C,
+                    lpEffect->data.variant_0x35.field_1E,
+                    lpEffect->data.variant_0x35.field_20,
+                    lpEffect->data.variant_0x35.field_22 & 0xFF,
+                    lpEffect->data.variant_0x35.field_24 & 0xFF,
                     lpEffect->data.variant_0x35.field_26 & 0xFF);
         }
         break;
@@ -1603,10 +1597,18 @@ static BOOL ShowEffect(
         funcptr = GM_GetCharaID(DEMOID_CELOFAN);
         if (funcptr != NULL)
         {
-            funcptr(lpEffect->data.variant_0x37.field_14, lpEffect->data.variant_0x37.field_18, lpEffect->data.variant_0x37.field_1C,
-                    lpEffect->data.variant_0x37.field_1E, lpEffect->data.variant_0x37.field_20, lpEffect->data.variant_0x37.field_22,
-                    &lpEffect->data.variant_0x37.field_24, &lpEffect->data.variant_0x37.field_28, lpEffect->data.variant_0x37.field_2C,
-                    lpEffect->data.variant_0x37.field_2E, lpEffect->data.variant_0x37.field_30, lpEffect->data.variant_0x37.field_32);
+            funcptr(lpEffect->data.variant_0x37.field_14,
+                    lpEffect->data.variant_0x37.field_18,
+                    lpEffect->data.variant_0x37.field_1C,
+                    lpEffect->data.variant_0x37.field_1E,
+                    lpEffect->data.variant_0x37.field_20,
+                    lpEffect->data.variant_0x37.field_22,
+                    &lpEffect->data.variant_0x37.field_24,
+                    &lpEffect->data.variant_0x37.field_28,
+                    lpEffect->data.variant_0x37.field_2C,
+                    lpEffect->data.variant_0x37.field_2E,
+                    lpEffect->data.variant_0x37.field_30,
+                    lpEffect->data.variant_0x37.field_32);
         }
         break;
 
@@ -1661,28 +1663,42 @@ static BOOL ShowEffect(
         funcptr = GM_GetCharaID(DEMOID_INVERSLIGHT2);
         if (funcptr != NULL)
         {
-            funcptr(&svec1, lpEffect->data.variant_0x3B.field_14, lpEffect->data.variant_0x3B.field_18,
-                    lpEffect->data.variant_0x3B.field_1C, lpEffect->data.variant_0x3B.field_20, lpEffect->data.variant_0x3B.field_22,
-                    lpEffect->data.variant_0x3B.field_24, lpEffect->data.variant_0x3B.field_26, lpEffect->data.variant_0x3B.field_28);
+            funcptr(&svec1,
+                    lpEffect->data.variant_0x3B.field_14,
+                    lpEffect->data.variant_0x3B.field_18,
+                    lpEffect->data.variant_0x3B.field_1C,
+                    lpEffect->data.variant_0x3B.field_20,
+                    lpEffect->data.variant_0x3B.field_22,
+                    lpEffect->data.variant_0x3B.field_24,
+                    lpEffect->data.variant_0x3B.field_26,
+                    lpEffect->data.variant_0x3B.field_28);
         }
         break;
     case EFFECT_CELOFAN2:
         funcptr = GM_GetCharaID(DEMOID_CELOFAN2);
         if (funcptr != NULL)
         {
-            funcptr(lpEffect->data.variant_0x3C.field_14, lpEffect->data.variant_0x3C.field_18, lpEffect->data.variant_0x3C.field_1C,
-                    lpEffect->data.variant_0x3C.field_1E, lpEffect->data.variant_0x3C.field_20, lpEffect->data.variant_0x3C.field_22,
-                    lpEffect->data.variant_0x3C.field_24, &lpEffect->data.variant_0x3C.field_26, &lpEffect->data.variant_0x3C.field_2A,
-                    lpEffect->data.variant_0x3C.field_2E, lpEffect->data.variant_0x3C.field_30, lpEffect->data.variant_0x3C.field_32,
+            funcptr(lpEffect->data.variant_0x3C.field_14,
+                    lpEffect->data.variant_0x3C.field_18,
+                    lpEffect->data.variant_0x3C.field_1C,
+                    lpEffect->data.variant_0x3C.field_1E,
+                    lpEffect->data.variant_0x3C.field_20,
+                    lpEffect->data.variant_0x3C.field_22,
+                    lpEffect->data.variant_0x3C.field_24,
+                    &lpEffect->data.variant_0x3C.field_26,
+                    &lpEffect->data.variant_0x3C.field_2A,
+                    lpEffect->data.variant_0x3C.field_2E,
+                    lpEffect->data.variant_0x3C.field_30,
+                    lpEffect->data.variant_0x3C.field_32,
                     lpEffect->data.variant_0x3C.field_34);
         }
         break;
 
     case EFFECT_NINJALASER:
-        pModel = lpAct->lpModel;
+        lpModel = lpAct->lpModel;
         lpScene = lpAct->lpDemo->lpScene;
 
-        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, pModel++)
+        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
             if (lpScene->nID == lpEffect->data.variant_0x3D.field_18)
             {
@@ -1698,21 +1714,21 @@ static BOOL ShowEffect(
         funcptr = GM_GetCharaID(DEMOID_NINJALASER);
         if (funcptr != NULL)
         {
-            funcptr(&pModel->object.objs[6].world.m[1][1], lpEffect->data.variant_0x3D.field_14,
+            funcptr(&lpModel->object.objs[6].world.m[1][1], lpEffect->data.variant_0x3D.field_14,
                     lpEffect->data.variant_0x3D.field_16);
         }
         break;
 
     case EFFECT_GUSEFFECT:
-        lpEActL = lpAct->chain.lpNext;
+        lpEActL = lpAct->lpEffectNext;
 
-        if (lpEActL != &lpAct->chain)
+        if (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            while ((lpEActL->effect.field_4_type != EFFECT_GUSEFFECT) || !lpEActL->lpActor)
+            while ((lpEActL->effect.nEffectID != EFFECT_GUSEFFECT) || !lpEActL->lpActor)
             {
                 lpEActL = lpEActL->lpNext;
 
-                if (lpEActL == &lpAct->chain)
+                if (lpEActL == (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
                 {
                     break;
                 }
@@ -1721,7 +1737,7 @@ static BOOL ShowEffect(
 
         if (lpEffect->data.variant_0x3E.field_14 == 0)
         {
-            if (lpEActL != &lpAct->chain)
+            if (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
             {
                 GV_DestroyOtherActor(lpEActL->lpActor);
                 lpEActL->lpActor = NULL;
@@ -1739,7 +1755,7 @@ static BOOL ShowEffect(
         }
         else if (lpEffect->data.variant_0x3E.field_14 == 1)
         {
-            if (lpEActL != &lpAct->chain)
+            if (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
             {
                 GV_DestroyOtherActor(lpEActL->lpActor);
                 lpEActL->lpActor = NULL;
@@ -1747,31 +1763,26 @@ static BOOL ShowEffect(
         }
         else if (lpEffect->data.variant_0x3E.field_14 == 2)
         {
-            if (lpEActL != &lpAct->chain)
+            if (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
             {
-                memset(&msg, 0, sizeof(msg));
-                msg.address = 0x3B8E;
+                memset(&gvMessage, 0x00, sizeof(gvMessage));
+                gvMessage.address = 0x3B8E;
                 if (lpEffect->data.variant_0x3E.field_20 == 0)
-                {
-                    msg.message[0] = HASH_ON2;
-                }
+                    gvMessage.message[0] = HASH_ON2;
                 else
-                {
-                    msg.message[0] = HASH_OFF2;
-                }
-                msg.message[1] = lpEffect->data.variant_0x3E.field_22;
-                msg.message_len = 2;
-
-                GV_SendMessage(&msg);
+                    gvMessage.message[0] = HASH_OFF2;
+                gvMessage.message[1] = lpEffect->data.variant_0x3E.field_22;
+                gvMessage.message_len = 2;
+                GV_SendMessage(&gvMessage);
             }
         }
         break;
 
     case EFFECT_SUBMARINEWATER:
-        pModel = lpAct->lpModel;
+        lpModel = lpAct->lpModel;
         lpScene = lpAct->lpDemo->lpScene;
 
-        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, pModel++)
+        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
             if (lpScene->nID == lpEffect->data.variant_0x3F.field_18)
             {
@@ -1784,10 +1795,10 @@ static BOOL ShowEffect(
             break;
         }
 
-        lpEActL = lpAct->chain.lpNext;
-        while (lpEActL != &lpAct->chain)
+        lpEActL = lpAct->lpEffectNext;
+        while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            if ((lpEActL->effect.field_4_type == EFFECT_SUBMARINEWATER) &&
+            if ((lpEActL->effect.nEffectID == EFFECT_SUBMARINEWATER) &&
                 (lpEActL->effect.field_18_xy == lpEffect->data.variant_0x3F.field_18))
             {
                 if (lpEActL->lpActor != NULL)
@@ -1804,7 +1815,7 @@ static BOOL ShowEffect(
             funcptr = GM_GetCharaID(DEMOID_SUBMARINEWATER);
             if (funcptr != NULL)
             {
-                lpEAct->lpActor = funcptr(&pModel->object, &pModel->control.rot);
+                lpEAct->lpActor = funcptr(&lpModel->object, &lpModel->control.rot);
             }
         }
         break;
@@ -1838,10 +1849,10 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_FAMASLIGHT:
-        pModel = lpAct->lpModel;
+        lpModel = lpAct->lpModel;
         lpScene = lpAct->lpDemo->lpScene;
 
-        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, pModel++)
+        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
             if (lpScene->nID == lpEffect->data.variant_0x43.field_14)
             {
@@ -1854,11 +1865,11 @@ static BOOL ShowEffect(
             break;
         }
 
-        lpEActL = lpAct->chain.lpNext;
+        lpEActL = lpAct->lpEffectNext;
 
-        while (lpEActL != &lpAct->chain)
+        while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            if ((lpEActL->effect.field_4_type == EFFECT_FAMASLIGHT) &&
+            if ((lpEActL->effect.nEffectID == EFFECT_FAMASLIGHT) &&
                 (lpEActL->effect.field_14_type == lpEffect->data.variant_0x43.field_14))
             {
                 if (lpEActL->lpActor != NULL)
@@ -1875,16 +1886,16 @@ static BOOL ShowEffect(
             funcptr = GM_GetCharaID(DEMOID_FAMASLIGHT);
             if (funcptr != NULL)
             {
-                lpEAct->lpActor = funcptr(pModel->object.objs + 1);
+                lpEAct->lpActor = funcptr(lpModel->object.objs + 1);
             }
         }
         break;
 
     case EFFECT_HUMANSHADOW:
-        pModel = lpAct->lpModel;
+        lpModel = lpAct->lpModel;
         lpScene = lpAct->lpDemo->lpScene;
 
-        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, pModel++)
+        for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
             if (lpScene->nID == lpEffect->data.variant_0x44.field_18)
             {
@@ -1897,22 +1908,22 @@ static BOOL ShowEffect(
             break;
         }
 
-        lpEActL = lpAct->chain.lpNext;
+        lpEActL = lpAct->lpEffectNext;
 
-        if (lpEActL != &lpAct->chain)
+        if (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            while ((lpEActL->effect.field_4_type != EFFECT_HUMANSHADOW) || !lpEActL->lpActor)
+            while ((lpEActL->effect.nEffectID != EFFECT_HUMANSHADOW) || !lpEActL->lpActor)
             {
                 lpEActL = lpEActL->lpNext;
 
-                if (lpEActL == &lpAct->chain)
+                if (lpEActL == (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
                 {
                     break;
                 }
             }
         }
 
-        if (lpEActL == &lpAct->chain)
+        if (lpEActL == (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
             if (lpEffect->data.variant_0x44.field_14 != 1)
             {
@@ -1934,7 +1945,7 @@ static BOOL ShowEffect(
                     }
 
                     lpEAct->lpActor =
-                        funcptr(pModel, &pModel->object, &lpEAct->svect1.vx, lpScene->nCacheID);
+                        funcptr(lpModel, &lpModel->object, &lpEAct->svect1.vx, lpScene->nCacheID);
                 }
             }
         }
@@ -1988,10 +1999,10 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_MGCROOMDISPLAY:
-        lpEActL = lpAct->chain.lpNext;
-        while (lpEActL != &lpAct->chain)
+        lpEActL = lpAct->lpEffectNext;
+        while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            if (lpEActL->effect.field_4_type == EFFECT_MGCROOMDISPLAY)
+            if (lpEActL->effect.nEffectID == EFFECT_MGCROOMDISPLAY)
             {
                 if (lpEActL->lpActor != NULL)
                 {
@@ -2017,8 +2028,12 @@ static BOOL ShowEffect(
 
         if (funcptr != NULL)
         {
-            funcptr(lpEffect->data.variant_0x4A.field_18, lpEffect->data.variant_0x4A.field_1A, 0,
-                    lpEffect->data.variant_0x4A.field_14, lpEffect->data.variant_0x4A.field_1C, lpEffect->data.variant_0x4A.field_20);
+            funcptr(lpEffect->data.variant_0x4A.field_18,
+                    lpEffect->data.variant_0x4A.field_1A,
+                    0,
+                    lpEffect->data.variant_0x4A.field_14,
+                    lpEffect->data.variant_0x4A.field_1C,
+                    lpEffect->data.variant_0x4A.field_20);
         }
         break;
     }
@@ -2026,179 +2041,138 @@ static BOOL ShowEffect(
     return 1;
 }
 
+/******************************************************************************
+ */
 static void KillEffect(
     LPMGSDEMOACT lpAct,
     int          nEffectID)
 {
-    MGSDEMOEFFECTACT *pSubIter; // $s0
-    MGSDEMOEFFECTACT *pCur; // $a0
-    MGSDEMOEFFECTACT *pCur_; // $s1
-    GV_ACT *pPrevious; // $a0
-    GV_ACT *pNext; // $a0
+    LPMGSDEMOEFFECTACT lpEActL;
 
-    pSubIter = lpAct->chain.lpNext;
-    pCur = &lpAct->chain;
-    if ( pSubIter != pCur )
+    if((lpEActL = (LPMGSDEMOEFFECTACT)lpAct->lpEffectNext)
+        != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
     {
-        pCur_ = pCur;
         do
         {
-            if ( pSubIter->effect.field_4_type == nEffectID )
+            if((lpEActL->effect.nEffectID == nEffectID) &&
+                (lpEActL->lpActor != NULL))
             {
-                pPrevious = pSubIter->lpActor;
-                if ( pPrevious )
-                {
-                    GV_DestroyOtherActor(pPrevious);
-                    pNext = pSubIter->lpActor2;
-                    if ( pNext )
-                    {
-                        GV_DestroyOtherActor(pNext);
-                    }
-                    pSubIter->lpActor = NULL;
-                    pSubIter->lpActor2 = NULL;
-                }
+                GV_DestroyOtherActor(lpEActL->lpActor);
+                if(lpEActL->lpActor2)
+                    GV_DestroyOtherActor(lpEActL->lpActor2);
+                lpEActL->lpActor = NULL;
+                lpEActL->lpActor2 = NULL;
             }
-            pSubIter = pSubIter->lpNext;
         }
-        while ( pSubIter != pCur_ );
+        while((lpEActL = (LPMGSDEMOEFFECTACT)lpEActL->lpNext)
+            != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious);
     }
 }
 
+/******************************************************************************
+ */
 static BOOL ShowEffectExecute(
     LPMGSDEMOACT       lpAct,
     LPMGSDEMOFRAME     lpDFrame,
     LPMGSDEMOEFFECTACT lpEAct)
 {
-    MGSDEMOSCENEMOTION *lpSMotion;
-    int i;
-    HZD_VEC vec2;
-    SVECTOR vecPos;
+    int                  i;
+    int                  lFloor[2];
+    SVECTOR              svect1;
+    LPMGSDEMOSCENEMOTION lpSMotion;
 
-    if (lpEAct->effect.field_4_type == EFFECT_SHADOW)
+    switch(lpEAct->effect.nEffectID)
     {
-        lpSMotion = lpDFrame->lpSMotion;
-        {
-            for (i = 0; i < lpDFrame->nSMotionCount; i++)
-            {
-                if (lpSMotion->nSceneID == lpEAct->effect.field_14_type)
-                {
-                    break;
-                }
-                ++lpSMotion;
-            }
+    case EFFECT_SHADOW:
+        for(i = 0, lpSMotion = lpDFrame->lpSMotion;
+            (i < lpDFrame->nSMotionCount) && (lpSMotion->nSceneID != lpEAct->effect.field_14_type);
+            i++, lpSMotion++);
+        if(i >= lpDFrame->nSMotionCount)
+            break;
 
-            if (i < lpDFrame->nSMotionCount)
-            {
-                vecPos.vx = lpSMotion->svectMove_x;
-                vecPos.vy = lpSMotion->svectMove_y;
-                vecPos.vz = lpSMotion->svectMove_z;
-                i = HZD_LevelHazardCheck(lpAct->control.map->hzd, &vecPos, HZD_CHK_F_FLOOR);
-                HZD_GetLevelHeight((int *)&vec2);
-                lpEAct->nParam1 = lpSMotion->svectRotate_y;
-                if ((i & 1) != 0)
-                {
-                    lpEAct->nParam2 = vec2.x + 50;
-                }
-                else if ((i & 2) != 0)
-                {
-                    lpEAct->nParam2 = vec2.y + 50;
-                }
-                else
-                {
-                    lpEAct->nParam2 = lpSMotion->svectMove_y + 50;
-                }
-            }
-        }
+        svect1.vx = lpSMotion->svectMove.vx;
+        svect1.vy = lpSMotion->svectMove.vy;
+        svect1.vz = lpSMotion->svectMove.vz;
+        i = HZD_LevelHazardCheck(
+            lpAct->modelEffect.control.map->hzd, &svect1, HZD_CHK_F_FLOOR);
+        HZD_GetLevelHeight(lFloor);
+
+        lpEAct->nParam1 = lpSMotion->svectRotate.vy;
+             if((i & 1) != 0) lpEAct->nParam2 = (short)lFloor[0] + 50;
+        else if((i & 2) != 0) lpEAct->nParam2 = (short)lFloor[1] + 50;
+        else lpEAct->nParam2 = lpSMotion->svectMove.vy + 50;
+        break;
     }
     return 1;
 }
 
+/******************************************************************************
+ */
 static BOOL ShowEffectStop(
     LPMGSDEMOACT   lpAct,
     LPMGSDEMOFRAME lpDFrame)
 {
-    MGSDEMOEFFECT *lpEffect;
-    int i;
-    MGSDEMOEFFECTACT *pNext;
-    MGSDEMOEFFECTACT *new_var;
-    MGSDEMOEFFECTACT *new_var2;
-    MGSDEMOEFFECTACT *root;
+    int                i;
+    LPMGSDEMOEFFECT    lpEffect;
+    LPMGSDEMOEFFECTACT lpEAct;
 
-    lpEffect = lpDFrame->lpEffect;
-    for (i = 0; i < lpDFrame->nEffectCount; ++lpEffect)
+    for(i = 0, lpEffect = lpDFrame->lpEffect;
+        i < lpDFrame->nEffectCount; i++, lpEffect++)
     {
-        ++i;
-        if (lpEffect->field_4_type == EFFECT_METALGEARLASER)
-        {
+        if(lpEffect->nEffectID == EFFECT_METALGEARLASER)
             return 1;
-        }
     }
 
-    pNext = lpAct->chain.lpNext;
-    new_var = &lpAct->chain;
-    if (pNext != new_var)
+    if ((lpEAct = (LPMGSDEMOEFFECTACT)lpAct->lpEffectNext)
+        != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
     {
-        if (pNext->effect.field_4_type != EFFECT_METALGEARLASER)
+        do
         {
-            new_var2 = new_var;
-            root = &lpAct->chain;
-            while (1)
-            {
-                pNext = pNext->lpNext;
-                if (pNext == new_var2)
-                {
-                    break;
-                }
-                if (pNext->effect.field_4_type == EFFECT_METALGEARLASER)
-                {
-                    root = &lpAct->chain;
-                    break;
-                }
-            }
+            if(lpEAct->effect.nEffectID == EFFECT_METALGEARLASER)
+                break;
         }
+        while((lpEAct = (LPMGSDEMOEFFECTACT)lpEAct->lpNext)
+            != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious);
     }
-    if (pNext != (&lpAct->chain))
+
+    if(lpEAct != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
     {
-        GV_DestroyOtherActor(pNext->lpActor);
-        root = &lpAct->chain;
-        pNext->lpActor = NULL;
-        DeleteChain(root, pNext);
-        GV_Free(pNext);
+        GV_DestroyOtherActor(lpEAct->lpActor);
+        lpEAct->lpActor = NULL;
+
+        DeleteChain(&lpAct->lpEffectPrevious, &lpEAct->lpPrevious);
+        GV_Free(lpEAct);
     }
+
     return 1;
 }
 
+/******************************************************************************
+ */
 static BOOL ShowScene(
     LPMGSDEMOACT         lpAct,
     LPMGSDEMOSCENEMOTION lpSMotion)
 {
-    MGSDEMOSCENE *lpScene;
-    MGSDEMOMODEL *lpModel;
-    int         i;
-    short      *lpsvectRotate;
+    int            i;
+    SVECTOREX*     lpsvectRotate;
+    LPMGSDEMOMODEL lpModel;
+    LPMGSDEMOSCENE lpScene;
 
     OFFSET_TO_PTR(lpSMotion, &lpSMotion->lpsvectRotate);
 
-    lpScene = lpAct->lpDemo->lpScene;
-    lpModel = lpAct->lpModel;
-    for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
-    {
-        if (lpScene->nID == lpSMotion->nSceneID)
-        {
-            break;
-        }
-    }
+    for(i = 0, lpScene = lpAct->lpDemo->lpScene, lpModel = lpAct->lpModel;
+        (i < lpAct->lpDemo->nSceneCount)
+        && (lpScene->nID != lpSMotion->nSceneID); i++, lpScene++, lpModel++);
 
-    if (i >= lpAct->lpDemo->nSceneCount)
-    {
+    if(i >= lpAct->lpDemo->nSceneCount)
         return 0;
-    }
 
-    if (!lpSMotion->bPreview)
+    if(lpSMotion->bPreview == FALSE)
     {
         DG_InvisibleObjs(lpModel->object.objs);
 
-        if (lpScene->nStrCode == GV_StrCode("m1e1") || lpScene->nStrCode == IDMODEL_M1E1DEMO)
+        if((lpScene->nStrCode == GV_StrCode("m1e1"))
+            || (lpScene->nStrCode == IDMODEL_M1E1DEMO))
         {
             DG_InvisibleObjs(lpModel->lpData->object[0][0].objs);
             DG_InvisibleObjs(lpModel->lpData->object[0][1].objs);
@@ -2212,20 +2186,21 @@ static BOOL ShowScene(
     {
         DG_VisibleObjs(lpModel->object.objs);
 
-        if (lpScene->nStrCode == GV_StrCode("m1e1") || lpScene->nStrCode == IDMODEL_M1E1DEMO)
+        if((lpScene->nStrCode == GV_StrCode("m1e1"))
+            || (lpScene->nStrCode == IDMODEL_M1E1DEMO))
         {
             DG_VisibleObjs(lpModel->lpData->object[0][lpModel->lpData->field_558_idx[0]].objs);
             DG_VisibleObjs(lpModel->lpData->object[1][lpModel->lpData->field_558_idx[1]].objs);
         }
 
-        lpModel->control.mov.vx = lpSMotion->svectMove_x;
-        lpModel->control.mov.vy = lpSMotion->svectMove_y;
-        lpModel->control.mov.vz = lpSMotion->svectMove_z;
-        lpModel->control.rot.vx = lpSMotion->svectRotate_x;
-        lpModel->control.rot.vy = lpSMotion->svectRotate_y;
-        lpModel->control.rot.vz = lpSMotion->svectRotate_z;
+        lpModel->control.mov.vx = lpSMotion->svectMove.vx;
+        lpModel->control.mov.vy = lpSMotion->svectMove.vy;
+        lpModel->control.mov.vz = lpSMotion->svectMove.vz;
+        lpModel->control.rot.vx = lpSMotion->svectRotate.vx;
+        lpModel->control.rot.vy = lpSMotion->svectRotate.vy;
+        lpModel->control.rot.vz = lpSMotion->svectRotate.vz;
 
-        if (lpScene->dwStyle & MGS_SCENETOSTAGE)
+        if((lpScene->dwStyle & MGS_SCENETOSTAGE) != 0)
         {
             GM_ActControl(&lpModel->control);
             GM_ActObject2(&lpModel->object);
@@ -2233,18 +2208,20 @@ static BOOL ShowScene(
         else
         {
             lpsvectRotate = lpSMotion->lpsvectRotate;
-            for (i = 0; i < lpSMotion->nRotateCount; i++, lpsvectRotate += 3)
+            for(i = 0; i < lpSMotion->nRotateCount; i++, lpsvectRotate++)
             {
-                lpModel->object.rots[i].vx = lpsvectRotate[0];
-                lpModel->object.rots[i].vy = lpsvectRotate[1];
-                lpModel->object.rots[i].vz = lpsvectRotate[2];
+                lpModel->object.rots[i].vx = lpsvectRotate->vx;
+                lpModel->object.rots[i].vy = lpsvectRotate->vy;
+                lpModel->object.rots[i].vz = lpsvectRotate->vz;
             }
 
-            if (lpScene->nStrCode == GV_StrCode("m1e1") || lpScene->nStrCode == IDMODEL_M1E1DEMO)
+            if((lpScene->nStrCode == GV_StrCode("m1e1"))
+                || (lpScene->nStrCode == IDMODEL_M1E1DEMO))
             {
                 demothrd_m1e1_8007D404(lpAct, lpSMotion, lpScene, lpModel);
             }
-            else if (lpScene->nStrCode == GV_StrCode("hind") || lpScene->nStrCode == IDMODEL_MI24HINDDEMO)
+            else if((lpScene->nStrCode == GV_StrCode("hind"))
+                || (lpScene->nStrCode == IDMODEL_MI24HINDDEMO))
             {
                 demothrd_hind_8007D9C8(lpAct, lpSMotion, lpScene, lpModel);
             }
@@ -2259,6 +2236,8 @@ static BOOL ShowScene(
     return 1;
 }
 
+/******************************************************************************
+ */
 static inline int magic_calc(SVECTOR* svect1, LPMGSDEMOMODEL lpModel)
 {
     int distance1 = SquareRoot0(((svect1->vx * svect1->vx) + (svect1->vy * svect1->vy)) + (svect1->vz * svect1->vz));
@@ -2270,6 +2249,8 @@ static inline int magic_calc(SVECTOR* svect1, LPMGSDEMOMODEL lpModel)
     return (distance1 * (1024 - tmp4)) / 1024;
 }
 
+/******************************************************************************
+ */
 static void demothrd_m1e1_8007D404(
     LPMGSDEMOACT         lpAct,
     LPMGSDEMOSCENEMOTION lpSMotion,
@@ -2284,7 +2265,7 @@ static void demothrd_m1e1_8007D404(
     SVECTOR smokeVecs[10];
 
     lpM1E1 = lpModel->lpData;
-    for (i = 0; i < 3; i++)
+    for(i = 0; i < 3; i++)
     {
         GM_ActMotion(&lpM1E1->object[0][i]);
         GM_ActMotion(&lpM1E1->object[1][i]);
@@ -2294,14 +2275,14 @@ static void demothrd_m1e1_8007D404(
     DG_RotatePos(lpModel->object.rots);
 
     M1E1GetCaterpillerVertex(&lpModel->lpData->object[0][0], &lpModel->lpData->object[1][0], smokeVecs, 1);
-    for (i = 0; i < 10; i++)
+    for(i = 0; i < 10; i++)
     {
         smokeVecs[i].vy = smokeVecs[i].vy + 300;
     }
 
     DG_PutVector(smokeVecs, smokeVecs, 10);
 
-    memset(&vec, 0, sizeof(SVECTOR));
+    memset(&vec, 0x00, sizeof(SVECTOR));
     vec.vx = lpM1E1->object[1][0].objs->objs[0].model->lx + ((lpM1E1->object[1][0].objs->objs[0].model->ux - lpM1E1->object[1][0].objs->objs[0].model->lx) / 2);
     DG_PutVector(&vec, &vec, 1);
 
@@ -2311,31 +2292,26 @@ static void demothrd_m1e1_8007D404(
 
     tmp1 = magic_calc(&vecTmp, lpModel);
 
-    if (abs(tmp1) >= lpM1E1->field_560)
+    if(abs(tmp1) >= lpM1E1->field_560)
     {
         AN_CaterpillerSmoke(&smokeVecs[rand() % 5]);
         DG_InvisibleObjs(lpM1E1->object[0][lpM1E1->field_558_idx[0]].objs);
-        if (tmp1 > 0)
-        {
+        if(tmp1 > 0)
             lpM1E1->field_558_idx[0]++;
-        }
         else
-        {
             lpM1E1->field_558_idx[0]--;
-        }
-        if (lpM1E1->field_558_idx[0] < 0)
-        {
+
+        if(lpM1E1->field_558_idx[0] < 0)
             lpM1E1->field_558_idx[0] = 2;
-        }
-        if (lpM1E1->field_558_idx[0] >= 3)
-        {
+
+        if(lpM1E1->field_558_idx[0] >= 3)
             lpM1E1->field_558_idx[0] = 0;
-        }
+
         DG_VisibleObjs(lpM1E1->object[0][lpM1E1->field_558_idx[0]].objs);
         lpM1E1->field_564[0] = vec;
     }
 
-    memset(&vec, 0, sizeof(SVECTOR));
+    memset(&vec, 0x00, sizeof(SVECTOR));
     vec.vx = lpM1E1->object[1][0].objs->objs[0].model->lx + ((lpM1E1->object[1][0].objs->objs[0].model->ux - lpM1E1->object[1][0].objs->objs[0].model->lx) / 2);
     DG_SetPos2(&lpModel->control.mov, &lpModel->control.rot);
 
@@ -2346,38 +2322,35 @@ static void demothrd_m1e1_8007D404(
 
     tmp1 = magic_calc(&vecTmp, lpModel);
 
-    if (abs(tmp1) >= lpM1E1->field_560)
+    if(abs(tmp1) >= lpM1E1->field_560)
     {
         AN_CaterpillerSmoke(&smokeVecs[(rand() % 5) + 5]);
         DG_InvisibleObjs(lpM1E1->object[1][lpM1E1->field_558_idx[1]].objs);
-        if (tmp1 > 0)
-        {
+        if(tmp1 > 0)
             lpM1E1->field_558_idx[1]++;
-        }
         else
-        {
             lpM1E1->field_558_idx[1]--;
-        }
-        if (lpM1E1->field_558_idx[1] < 0)
-        {
+
+        if(lpM1E1->field_558_idx[1] < 0)
             lpM1E1->field_558_idx[1] = 2;
-        }
-        if (lpM1E1->field_558_idx[1] >= 3)
-        {
+
+        if(lpM1E1->field_558_idx[1] >= 3)
             lpM1E1->field_558_idx[1] = 0;
-        }
+
         DG_VisibleObjs(lpM1E1->object[1][lpM1E1->field_558_idx[1]].objs);
         lpM1E1->field_564[1] = vec;
     }
     DG_SetPos2(&lpModel->control.mov, &lpModel->control.rot);
     DG_RotatePos(lpModel->object.rots);
-    for (i = 0; i < 3; i++)
+    for(i = 0; i < 3; i++)
     {
         GM_ActObject(&lpM1E1->object[0][i]);
         GM_ActObject(&lpM1E1->object[1][i]);
     }
 }
 
+/******************************************************************************
+ */
 static void demothrd_hind_8007D9C8(
     LPMGSDEMOACT         lpAct,
     LPMGSDEMOSCENEMOTION lpSMotion,
@@ -2387,16 +2360,12 @@ static void demothrd_hind_8007D9C8(
     LPMGSDEMOHIND lpHind = (LPMGSDEMOHIND)lpModel->lpData;
 
     lpHind->field_8 -= lpHind->field_0;
-    if ( lpHind->field_8 < 0 )
-    {
+    if(lpHind->field_8 < 0)
         lpHind->field_8 += 4096;
-    }
 
     lpHind->field_C -= lpHind->field_4;
-    if ( lpHind->field_C < 0 )
-    {
+    if(lpHind->field_C < 0)
         lpHind->field_C += 4096;
-    }
 
     lpModel->object.rots[1].vy = lpHind->field_8;
     lpModel->object.rots[2].vx = lpHind->field_C;

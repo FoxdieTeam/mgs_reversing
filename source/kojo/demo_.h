@@ -145,139 +145,113 @@ typedef struct tagMGSDEMOHIND
 } MGSDEMOHIND, *PMGSDEMOHIND, *LPMGSDEMOHIND;
 /***** XXX *****/
 
-typedef struct tagMGSDEMOSTAGE
+typedef struct tagMGSDEMOSTAGE  /* stage */
 {
-    int nCacheID;
-    int nStrCode;
+    int nCacheID;   /**/
+    int nStrCode;   /**/
 } MGSDEMOSTAGE, *PMGSDEMOSTAGE, *LPMGSDEMOSTAGE;
 
 #define MGS_SCENETOSTAGE 0x00000001
 
-typedef struct tagMGSDEMOSCENE
+typedef struct tagMGSDEMOSCENE  /* scene */
 {
-    int   nID;
-    DWORD dwStyle;
-    int   nCacheID;
-    int   nStrCode;
-    int   nName;
+    int   nID;      /**/
+    DWORD dwStyle;  /**/
+    int   nCacheID; /**/
+    int   nStrCode; /**/
+    int   nName;    /**/
 } MGSDEMOSCENE, *PMGSDEMOSCENE, *LPMGSDEMOSCENE;
 
 typedef struct tagMGSDEMO   /* demo header */
 {
-    u_int          nSize;
-    int            nTime;
-    int            nFrameCount;
-    int            nStageCount;
-    int            nSceneCount;
-    LPMGSDEMOSTAGE lpStage;
-    LPMGSDEMOSCENE lpScene;
+    u_int          nSize;           /**/
+    int            nTime;           /**/
+    int            nFrameCount;     /**/
+    int            nStageCount;     /**/
+    int            nSceneCount;     /**/
+    LPMGSDEMOSTAGE lpStage;         /**/
+    LPMGSDEMOSCENE lpScene;         /**/
 } MGSDEMO, *PMGSDEMO, *LPMGSDEMO;
 
 typedef struct tagMGSDEMOEFFECT
 {
-    int      field_0;
-    int      field_4_type;
-    short    field_8_x;
-    short    field_A_y;
-    short    field_C_z;
-    short    field_E_x;
-    short    field_10_y;
-    short    field_12_z;
-    int      field_14_type;
-    int      field_18_xy;
-    int      field_1C_zpad;
-    int      field_20;
-    char     field_24;
-    char     field_25;
-    char     field_26;
-    char     field_27;
-    short    field_28;
-    short    field_2A;
-    int      field_2C;
-    short    field_30;
-    short    field_32;
+    int       nID;          /**/
+    int       nEffectID;    /**/
+//  BYTE      byBuffer[44]; /**/
+    BYTE      dummy1[12];     // TODO: Replace
+    int       field_14_type;  // TODO: Replace
+    int       field_18_xy;    // TODO: Replace
+    int       field_1C_zpad;  // TODO: Replace
+    BYTE      dummy2[20];     // TODO: Replace
 } MGSDEMOEFFECT, *PMGSDEMOEFFECT, *LPMGSDEMOEFFECT;
 
 typedef struct tagMGSDEMOEFFECTACT
 {
-    struct tagMGSDEMOEFFECTACT *lpPrevious; // TODO: void*
-    struct tagMGSDEMOEFFECTACT *lpNext;     // TODO: void*
-    BOOL          bCheck;
-    void*         lpActor;
-    void*         lpActor2;
-    MGSDEMOEFFECT effect;
-    int           nParam1;
-    int           nParam2;
-    SVECTOR       svect1;
-    MATRIX        matrix;
+    void*         lpPrevious;   /**/
+    void*         lpNext;       /**/
+    BOOL          bCheck;       /**/
+    void*         lpActor;      /**/
+    void*         lpActor2;     /**/
+    MGSDEMOEFFECT effect;       /**/
+    int           nParam1;      /**/
+    int           nParam2;      /**/
+    SVECTOR       svect1;       /**/
+    MATRIX        matrix;       /**/
 } MGSDEMOEFFECTACT, *PMGSDEMOEFFECTACT, *LPMGSDEMOEFFECTACT;
 
 typedef struct tagMGSDEMOSCENEMOTION
 {
-    int     nSceneID;
-    short   bPreview;
-    short   svectRotate_x;
-    short   svectRotate_y;
-    short   svectRotate_z;
-    short   svectMove_x;
-    short   svectMove_y;
-    short   svectMove_z;
-    short   nRotateCount;
-    short*  lpsvectRotate;
+    int        nSceneID;        /**/
+    short      bPreview;        /**/
+    SVECTOREX  svectRotate;     /**/
+    SVECTOREX  svectMove;       /**/
+    short      nRotateCount;    /**/
+    SVECTOREX* lpsvectRotate;   /**/
 } MGSDEMOSCENEMOTION, *PMGSDEMOSCENEMOTION, *LPMGSDEMOSCENEMOTION;
 
 typedef struct tagMGSDEMOFRAME
 {
-    u_int               nSize;
-    int                 nTime;
-    short               svectCamera_x;
-    short               svectCamera_y;
-    short               svectCamera_z;
-    short               svectTarget_x;
-    short               svectTarget_y;
-    short               svectTarget_z;
-    short               nZRotate;
-    short               nScreen;
-    short               nEffectCount;
-    LPMGSDEMOEFFECT     lpEffect;
-    short               nSMotionCount;
-    LPMGSDEMOSCENEMOTION lpSMotion;
+    u_int                nSize;             /**/
+    int                  nTime;             /**/
+    SVECTOREX            svectCamera;       /**/
+    SVECTOREX            svectTarget;       /**/
+    short                nZRotate;          /**/
+    short                nScreen;           /**/
+    short                nEffectCount;      /**/
+    LPMGSDEMOEFFECT      lpEffect;          /**/
+    short                nSMotionCount;     /**/
+    LPMGSDEMOSCENEMOTION lpSMotion;         /**/
 } MGSDEMOFRAME, *PMGSDEMOFRAME, *LPMGSDEMOFRAME;
 
 typedef struct tagMGSDEMOMODEL
 {
-    CONTROL     control;
-    OBJECT      object;
-    MATRIX      light[2];
+    CONTROL    control;     /**/
+    OBJECT     object;      /**/
+    MATRIX     light[2];    /**/
     MGSDEMOM1E1 *lpData; // TODO: void*
 } MGSDEMOMODEL, *PMGSDEMOMODEL, *LPMGSDEMOMODEL;
 
 typedef struct tagMGSDEMOACT
 {
-    GV_ACT              actor;
-    DWORD               dwStyle;
-    int                 nVSync;
-    int                 nMap;
-    int                 nTime;
-    LPMGSDEMO           lpDemo;
-    LPMGSDEMOMODEL      lpModel;
-    MGSDEMOEFFECTACT    chain;
-    int                 field_B0; /* unused */
-    int                 field_B4; /* unused */
-    int                 field_B8; /* unused */
-    int                 field_BC; /* unused */
-    LPMGSDEMO           lpExtMemory;
-    CONTROL             control;        // MGSDEMOMODEL modelEffect
-    OBJECT              object;         // MGSDEMOMODEL modelEffect
-    MATRIX              light[2];       // MGSDEMOMODEL modelEffect
-    int                 field_264;      // MGSDEMOMODEL modelEffect
-    int                 field_268; /* unused */
-    int                 field_26C; /* unused */
-    DG_CHANLFUNC        lpfnDGScreenChanl;
-    int                 nGameStatus;
-    GM_CameraSystemWork old_camera;
-    int                 nItemSave;
-    int                 nWeaponSave;
+    GV_ACT              actor;              /**/
+    DWORD               dwStyle;            /**/
+    int                 nVSync;             /**/
+    int                 nMap;               /**/
+    int                 nTime;              /**/
+    LPMGSDEMO           lpDemo;             /**/
+    LPMGSDEMOMODEL      lpModel;            /**/
+    void*               lpEffectPrevious;   /**/
+    void*               lpEffectNext;       /**/
+    char                szPath[128];        /**/
+    LPMGSDEMO           lpExtMemory;        /**/
+    MGSDEMOMODEL        modelEffect;        /**/
+    BOOL                bEffectStop;        /**/
+    BOOL                bEffectBubbleStop;  /**/
+    DG_CHANLFUNC        lpfnDGScreenChanl;  /**/
+    int                 nGameStatus;        /**/
+    GM_CameraSystemWork GMCameraSave;       /**/
+    int                 nItemSave;          /**/
+    int                 nWeaponSave;        /**/
 } MGSDEMOACT, *PMGSDEMOACT, *LPMGSDEMOACT;
 
 /***** XXX *****/
@@ -286,8 +260,8 @@ typedef struct tagMGSDEMOACT
 /* This should be replaced by loads of individual structs */
 typedef struct DMO_DATA_0x36
 {
-    int field_0;
-    int field_4_type;
+    int nID;
+    int nEffectID;
 
     SVECTOREX field_8_vec1;
     SVECTOREX field_E_vec2;
@@ -298,43 +272,36 @@ typedef struct DMO_DATA_0x36
     // should be named properly (and maybe it'll be easier
     // to find patterns then).
     union {
-        struct
-        {
+        struct {
             int   field_14;
             short field_18;
         } variant_0x3;
 
-        struct
-        {
+        struct {
             int   field_14;
             short field_18;
         } variant_0x4;
 
-        struct
-        {
+        struct {
             int   field_14;
             short field_18;
             short field_1A;
             int   field_1C;
         } variant_0x5;
 
-        struct
-        {
+        struct {
             short field_14;
         } variant_0x6;
 
-        struct
-        {
+        struct {
             short field_14;
         } variant_0x7;
 
-        struct
-        {
+        struct {
             short field_14;
         } variant_0x9;
 
-        struct
-        {
+        struct {
             int   field_14;
             short field_18;
             short field_1A;
@@ -345,16 +312,14 @@ typedef struct DMO_DATA_0x36
             short field_24;
         } variant_0xA;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             int   field_18;
             int   field_1C;
         } variant_0xC;
 
-        struct
-        {
+        struct {
             int     field_14;
             SVECTOR field_18;
             short   field_20;
@@ -363,19 +328,16 @@ typedef struct DMO_DATA_0x36
             short   field_26;
         } variant_0xE;
 
-        struct
-        {
+        struct {
             short field_14;
         } variant_0xF;
 
-        struct
-        {
+        struct {
             int address;
             int message[7];
-        } variant_0x10;
+        } variant_0x10; // EFFECT_MESSAGE
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             short field_18;
@@ -388,41 +350,35 @@ typedef struct DMO_DATA_0x36
             short field_2A;
         } variant_0x12;
 
-        struct
-        {
+        struct {
             short field_14;
         } variant_0x13;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
         } variant_0x14;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
         } variant_0x15;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             int   field_18;
             short field_1C;
         } variant_0x17;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             int   field_18;
             int   field_1C;
         } variant_0x18;
 
-        struct
-        {
+        struct {
             int   field_14;
             short field_18;
             short field_1A;
@@ -430,21 +386,18 @@ typedef struct DMO_DATA_0x36
             short field_20;
         } variant_0x19;
 
-        struct
-        {
+        struct {
             int field_14;
         } variant_0x1A;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             short field_18;
             short field_1A;
         } variant_0x1B;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             short field_18;
@@ -453,21 +406,18 @@ typedef struct DMO_DATA_0x36
             short field_1E;
         } variant_0x1C;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             int   field_18;
             int   field_1C;
         } variant_0x1D;
 
-        struct
-        {
+        struct {
             short field_14;
         } variant_0x1E;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             int   field_18;
@@ -475,8 +425,7 @@ typedef struct DMO_DATA_0x36
             short field_20;
         } variant_0x20;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             short field_18;
@@ -484,16 +433,14 @@ typedef struct DMO_DATA_0x36
             int   field_1C;
         } variant_0x21;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             short field_18;
             short field_1A;
         } variant_0x22;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             short field_18;
@@ -503,32 +450,27 @@ typedef struct DMO_DATA_0x36
             int   field_20;
         } variant_0x23;
 
-        struct
-        {
+        struct {
             short field_14;
         } variant_0x24;
 
-        struct
-        {
+        struct {
             short field_14;
         } variant_0x25;
 
-        struct
-        {
+        struct {
             DG_OBJS *field_14;
             int      field_18;
         } variant_0x26;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             int   field_18;
             int   field_1C;
         } variant_0x28;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             short field_18;
@@ -536,19 +478,16 @@ typedef struct DMO_DATA_0x36
             int   field_1C;
         } variant_0x29;
 
-        struct
-        {
+        struct {
             int   field_14;
             short field_18;
         } variant_0x2A;
 
-        struct
-        {
+        struct {
             short field_14;
         } variant_0x2B;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             short field_18;
@@ -556,8 +495,7 @@ typedef struct DMO_DATA_0x36
             short field_1C;
         } variant_0x2C;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             short field_18;
@@ -567,8 +505,7 @@ typedef struct DMO_DATA_0x36
             short field_22;
         } variant_0x2D;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             short field_18;
@@ -583,13 +520,11 @@ typedef struct DMO_DATA_0x36
             short field_2C;
         } variant_0x2E;
 
-        struct
-        {
+        struct {
             short field_14;
         } variant_0x2F;
 
-        struct
-        {
+        struct {
             int   field_14;
             int   field_18;
             short field_1C;
@@ -604,8 +539,7 @@ typedef struct DMO_DATA_0x36
             short field_30;
         } variant_0x34;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             int   field_18;
@@ -617,15 +551,13 @@ typedef struct DMO_DATA_0x36
             short field_26;
         } variant_0x35;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             int   field_18;
         } variant_0x36;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             int   field_18;
@@ -643,20 +575,17 @@ typedef struct DMO_DATA_0x36
             short field_32;
         } variant_0x37;
 
-        struct
-        {
+        struct {
             short field_14;
         } variant_0x39;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             short field_18;
         } variant_0x3A;
 
-        struct
-        {
+        struct {
             int   field_14;
             int   field_18;
             int   field_1C;
@@ -667,8 +596,7 @@ typedef struct DMO_DATA_0x36
             short field_28;
         } variant_0x3B;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             int   field_18;
@@ -687,15 +615,13 @@ typedef struct DMO_DATA_0x36
             short field_34;
         } variant_0x3C;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             int   field_18;
         } variant_0x3D;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             short field_18;
@@ -706,32 +632,27 @@ typedef struct DMO_DATA_0x36
             short field_22;
         } variant_0x3E;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             int   field_18;
         } variant_0x3F;
 
-        struct
-        {
+        struct {
             short field_14;
         } variant_0x41;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
         } variant_0x42;
 
-        struct
-        {
+        struct {
             int   field_14;
             short field_18;
         } variant_0x43;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             int   field_18;
@@ -741,27 +662,23 @@ typedef struct DMO_DATA_0x36
             short field_22;
         } variant_0x44;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
             short field_18;
             short field_1A;
         } variant_0x45;
 
-        struct
-        {
+        struct {
             short field_14;
             short field_16;
         } variant_0x46;
 
-        struct
-        {
+        struct {
             short field_14;
         } variant_0x49;
 
-        struct
-        {
+        struct {
             int   field_14;
             short field_18;
             short field_1A;

@@ -37,17 +37,16 @@ static void DieFile(LPMGSDEMOACT lpAct);
  * publics
  */
 
+/******************************************************************************
+ */
 int DM_ThreadStream(
     DWORD dwStyle,
     int   unused)
 {
     LPMGSDEMOACT lpAct;
 
-    lpAct = GV_NewActor(GV_ACTOR_MANAGER, sizeof(MGSDEMOACT));
-    if (!lpAct)
-    {
+    if ((lpAct = GV_NewActor(GV_ACTOR_MANAGER, sizeof(MGSDEMOACT))) == NULL)
         return 0;
-    }
 
     lpAct->dwStyle = dwStyle;
     lpAct->nTime = -1;
@@ -59,6 +58,8 @@ int DM_ThreadStream(
     return 1;
 }
 
+/******************************************************************************
+ */
 int DM_ThreadFile(
     DWORD dwStyle,
     char* lpstrFileName)
@@ -80,13 +81,13 @@ int DM_ThreadFile(
     FS_EnableMemfile(0, 0);
     lpAct->lpExtMemory = (void *)0x80200000;
 
-    MakeFullPath(lpstrFileName, (char *)&lpAct->chain.bCheck);
-    printf("Demo file = \"%s\"\n", (char *)&lpAct->chain.bCheck);
+    MakeFullPath(lpstrFileName, lpAct->szPath);
+    printf("Demo file = \"%s\"\n", lpAct->szPath);
 
-    fd = PCopen((char *)&lpAct->chain.bCheck, 0, 0);
-    if ( fd < 0 )
+    fd = PCopen(lpAct->szPath, 0, 0);
+    if (fd < 0)
     {
-        printf("\"%s\" not found\n", (char *)&lpAct->chain.bCheck);
+        printf("\"%s\" not found\n", lpAct->szPath);
         GV_DestroyActor(&lpAct->actor);
         return 0;
     }
@@ -96,14 +97,14 @@ int DM_ThreadFile(
 
     buffer = (char *)lpAct->lpExtMemory;
 
-    while ( fsize > 0 )
+    while (fsize > 0)
     {
         length = (fsize <= 0x8000) ? fsize : 0x8000;
         length = PCread(fd, buffer, length);
 
         fsize -= length;
 
-        if ( length < 0 )
+        if (length < 0)
         {
             PCclose(fd);
             GV_DestroyActor(&lpAct->actor);
@@ -121,6 +122,8 @@ int DM_ThreadFile(
  * statics
  */
 
+/******************************************************************************
+ */
 static void ActStream(
     LPMGSDEMOACT lpAct)
 {
@@ -206,6 +209,8 @@ static void ActStream(
     }
 }
 
+/******************************************************************************
+ */
 static void DieStream(
     LPMGSDEMOACT lpAct)
 {
@@ -214,6 +219,8 @@ static void DieStream(
     DG_UnDrawFrameCount = 0x7fff0000;
 }
 
+/******************************************************************************
+ */
 static void ActFile(
     LPMGSDEMOACT lpAct)
 {
@@ -267,6 +274,8 @@ static void ActFile(
         GV_DestroyActor(&lpAct->actor);
 }
 
+/******************************************************************************
+ */
 static void DieFile(
     LPMGSDEMOACT lpAct)
 {
