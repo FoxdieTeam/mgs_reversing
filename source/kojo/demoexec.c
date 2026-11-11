@@ -2271,12 +2271,10 @@ static void demothrd_hind_8007D9C8(
 {
     LPMGSDEMOHIND lpHind = (LPMGSDEMOHIND)lpModel->lpData;
 
-    lpHind->field_8 -= lpHind->field_0;
-    if(lpHind->field_8 < 0)
+    if((lpHind->field_8 -= lpHind->field_0) < 0)
         lpHind->field_8 += 4096;
 
-    lpHind->field_C -= lpHind->field_4;
-    if(lpHind->field_C < 0)
+    if((lpHind->field_C -= lpHind->field_4) < 0)
         lpHind->field_C += 4096;
 
     lpModel->object.rots[1].vy = lpHind->field_8;
