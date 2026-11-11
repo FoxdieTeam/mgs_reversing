@@ -37,7 +37,7 @@ extern BLAST_DATA blast_data_8009F4B8[8];
  * functions
  */
 
-static BOOL ShowEffect(LPMGSDEMOACT lpAct, DMO_DATA_0x36* lpEffect, LPMGSDEMOEFFECTACT lpEAct);
+static BOOL ShowEffect(LPMGSDEMOACT lpAct, LPMGSDEMOEFFECT_ lpEffect, LPMGSDEMOEFFECTACT lpEAct);
 static void KillEffect(LPMGSDEMOACT lpAct, int nEffectID);
 static BOOL ShowEffectExecute(LPMGSDEMOACT lpAct, LPMGSDEMOFRAME lpDFrame, LPMGSDEMOEFFECTACT lpEAct);
 static BOOL ShowEffectStop(LPMGSDEMOACT lpAct, LPMGSDEMOFRAME lpDFrame);
@@ -424,7 +424,7 @@ BOOL FrameRunDemo(
         lpEAct->effect = *lpEffect;
 
         // TODO: Get rid of this cast.
-        if(ShowEffect(lpAct, (DMO_DATA_0x36 *)lpEffect, lpEAct) == 0)
+        if(ShowEffect(lpAct, (LPMGSDEMOEFFECT_)lpEffect, lpEAct) == 0)
             return 0;
     }
 
@@ -514,53 +514,52 @@ BOOL FrameRunDemo(
  */
 static BOOL ShowEffect(
     LPMGSDEMOACT       lpAct,
-    DMO_DATA_0x36*     lpEffect,
+    LPMGSDEMOEFFECT_   lpEffect,
     LPMGSDEMOEFFECTACT lpEAct)
 {
-    // TODO: Some funcptr calls are first cast to VoidMakeChara. This is a hack
+    // TODO: Some lpfnEffect calls are first cast to VOIDCHARA. This is a hack
     // to prevent those cases from being merged (GCC "cross jump" optimization).
-    typedef void (*VoidMakeChara)();
+    typedef void (*VOIDCHARA)();
 
     int     lFloor[2];
     GV_MSG  gvMessage;
-    SVECTOR svec1, svec2, svec3, svec4;
+    SVECTOR svectMove;
+    SVECTOR svectRotate;
+    SVECTOR svec3, svec4;
     MATRIX  mat1, mat2;
-    MGSDEMOEFFECTACT *lpEActL;
 
-    void *(*funcptr)();
+    void *(*lpfnEffect)();
 
-    MGSDEMOSCENE *lpScene;
-    MGSDEMOMODEL *lpModel;
-    int              hzdret;
-    int              i;
+    int                i;
+    LPMGSDEMOEFFECTACT lpEActL;
+    LPMGSDEMOSCENE     lpScene;
+    LPMGSDEMOMODEL     lpModel;
 
-    svec1.vx = lpEffect->field_E_vec2.vx;
-    svec1.vy = lpEffect->field_E_vec2.vy;
-    svec1.vz = lpEffect->field_E_vec2.vz;
-    svec2.vx = lpEffect->field_8_vec1.vx;
-    svec2.vy = lpEffect->field_8_vec1.vy;
-    svec2.vz = lpEffect->field_8_vec1.vz;
+    svectMove.vx = lpEffect->svectMove.vx;
+    svectMove.vy = lpEffect->svectMove.vy;
+    svectMove.vz = lpEffect->svectMove.vz;
+    svectRotate.vx = lpEffect->svectRotate.vx;
+    svectRotate.vy = lpEffect->svectRotate.vy;
+    svectRotate.vz = lpEffect->svectRotate.vz;
 
-    DG_SetPos2(&svec1, &DG_ZeroVector);
+    DG_SetPos2(&svectMove, &DG_ZeroVector);
     ReadRotMatrix(&mat1);
-    DG_SetPos2(&svec1, &svec2);
+    DG_SetPos2(&svectMove, &svectRotate);
     ReadRotMatrix(&mat2);
 
     switch (lpEffect->nEffectID)
     {
     case EFFECT_EXPLOSION:
-        funcptr = GM_GetCharaID(DEMOID_EXPLOSION);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_EXPLOSION)) != NULL)
         {
-            funcptr(&mat1, &blast_data_8009F4B8[3]);
+            lpfnEffect(&mat1, &blast_data_8009F4B8[3]);
         }
         break;
 
     case EFFECT_SMOKE:
-        funcptr = GM_GetCharaID(DEMOID_SMOKE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_SMOKE)) != NULL)
         {
-            funcptr(&svec1);
+            lpfnEffect(&svectMove);
         }
         break;
 
@@ -571,142 +570,117 @@ static BOOL ShowEffect(
         switch (lpEffect->nEffectID)
         {
         case EFFECT_FADEIN:
-            funcptr = GM_GetCharaID(DEMOID_FADEIN);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_FADEIN)) != NULL)
             {
                 if (lpEffect->data.variant_0x3.field_18 == 0)
-                {
-                    funcptr(1, lpEffect->data.variant_0x3.field_14);
-                }
+                    lpfnEffect(1, lpEffect->data.variant_0x3.field_14);
                 else
-                {
-                    funcptr(3, lpEffect->data.variant_0x3.field_14);
-                }
+                    lpfnEffect(3, lpEffect->data.variant_0x3.field_14);
             }
             break;
 
         case EFFECT_FADEOUT:
-            funcptr = GM_GetCharaID(DEMOID_FADEOUT);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_FADEOUT)) != NULL)
             {
                 if (lpEffect->data.variant_0x4.field_18 == 0)
-                {
-                    lpEAct->lpActor = funcptr(0, lpEffect->data.variant_0x4.field_14);
-                }
+                    lpEAct->lpActor = lpfnEffect(0, lpEffect->data.variant_0x4.field_14);
                 else
-                {
-                    lpEAct->lpActor = funcptr(2, lpEffect->data.variant_0x4.field_14);
-                }
+                    lpEAct->lpActor = lpfnEffect(2, lpEffect->data.variant_0x4.field_14);
             }
             break;
         }
         break;
 
     case EFFECT_TEXT:
-        funcptr = GM_GetCharaID(DEMOID_TEXT);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_TEXT)) != NULL)
         {
-            funcptr(lpEffect->data.variant_0x5.field_18,
-                    lpEffect->data.variant_0x5.field_1A,
-                    0,
-                    lpEffect->data.variant_0x5.field_14,
-                    lpEffect->data.variant_0x5.field_1C);
+            lpfnEffect(
+                lpEffect->data.variant_0x5.field_18,
+                lpEffect->data.variant_0x5.field_1A,
+                0,
+                lpEffect->data.variant_0x5.field_14,
+                lpEffect->data.variant_0x5.field_1C);
         }
         break;
 
     case EFFECT_SURPRISEDMARK:
-        funcptr = GM_GetCharaID(DEMOID_SURPRISEDMARK);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_SURPRISEDMARK)) != NULL)
         {
             if (lpEffect->data.variant_0x6.field_14 == 0)
-            {
-                funcptr(&mat1, 2);
-            }
+                lpfnEffect(&mat1, 2);
             else
-            {
-                funcptr(&mat1, 0);
-            }
+                lpfnEffect(&mat1, 0);
         }
         break;
 
     case EFFECT_QUESTIONMARK:
-        funcptr = GM_GetCharaID(DEMOID_QUESTIONMARK);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_QUESTIONMARK)) != NULL)
         {
             if (lpEffect->data.variant_0x7.field_14 == 0)
-            {
-                funcptr(&mat1, 3);
-            }
+                lpfnEffect(&mat1, 3);
             else
-            {
-                funcptr(&mat1, 1);
-            }
+                lpfnEffect(&mat1, 1);
         }
         break;
 
     case EFFECT_SLEEPMARK:
-        funcptr = GM_GetCharaID(DEMOID_SLEEPMARK);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_SLEEPMARK)) != NULL)
         {
-            funcptr(&svec1);
+            lpfnEffect(&svectMove);
         }
         break;
 
     case EFFECT_BLOOD:
         if (lpEffect->data.variant_0x9.field_14 != 4)
         {
-            funcptr = GM_GetCharaID(DEMOID_BLOOD);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_BLOOD)) != NULL)
             {
-                funcptr(&mat2, lpEffect->data.variant_0x9.field_14);
+                lpfnEffect(&mat2, lpEffect->data.variant_0x9.field_14);
             }
         }
         else
         {
-            funcptr = GM_GetCharaID(DEMOID_BLOOD2);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_BLOOD2)) != NULL)
             {
-                funcptr(&mat2, 0xFF);
+                lpfnEffect(&mat2, 0xFF);
             }
         }
         break;
     case EFFECT_BULLET:
-        funcptr = GM_GetCharaID(DEMOID_BULLET);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_BULLET)) != NULL)
         {
-            funcptr(lpEffect->data.variant_0xA.field_14,
-                    &mat2,
-                    lpEffect->data.variant_0xA.field_18,
-                    lpEffect->data.variant_0xA.field_1A,
-                    lpEffect->data.variant_0xA.field_1C,
-                    lpEffect->data.variant_0xA.field_1E,
-                    lpEffect->data.variant_0xA.field_20,
-                    lpEffect->data.variant_0xA.field_22,
-                    lpEffect->data.variant_0xA.field_24);
+            lpfnEffect(
+                lpEffect->data.variant_0xA.field_14,
+                &mat2,
+                lpEffect->data.variant_0xA.field_18,
+                lpEffect->data.variant_0xA.field_1A,
+                lpEffect->data.variant_0xA.field_1C,
+                lpEffect->data.variant_0xA.field_1E,
+                lpEffect->data.variant_0xA.field_20,
+                lpEffect->data.variant_0xA.field_22,
+                lpEffect->data.variant_0xA.field_24);
         }
         break;
     case EFFECT_MISSILESMOKE:
-        funcptr = GM_GetCharaID(DEMOID_MISSILESMOKE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_MISSILESMOKE)) != NULL)
         {
-            funcptr(&mat2);
+            lpfnEffect(&mat2);
         }
         break;
 
     case EFFECT_BLOODCIRCLE:
-        funcptr = GM_GetCharaID(DEMOID_BLOODCIRCLE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_BLOODCIRCLE)) != NULL)
         {
             if (lpEffect->data.variant_0xC.field_14 >= 4 && lpEffect->data.variant_0xC.field_14 <= 7)
             {
-                funcptr(&svec1,
-                        lpEffect->data.variant_0xC.field_14,
-                        lpEffect->data.variant_0xC.field_18,
-                        lpEffect->data.variant_0xC.field_1C);
+                lpfnEffect(&svectMove,
+                    lpEffect->data.variant_0xC.field_14,
+                    lpEffect->data.variant_0xC.field_18,
+                    lpEffect->data.variant_0xC.field_1C);
             }
             else
             {
-                lpEAct->lpActor = funcptr(&svec1,
+                lpEAct->lpActor = lpfnEffect(&svectMove,
                                         lpEffect->data.variant_0xC.field_14,
                                         lpEffect->data.variant_0xC.field_18,
                                         lpEffect->data.variant_0xC.field_1C);
@@ -715,10 +689,9 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_BREATH:
-        funcptr = GM_GetCharaID(DEMOID_BREATH);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_BREATH)) != NULL)
         {
-            funcptr(&mat2);
+            lpfnEffect(&mat2);
         }
         break;
 
@@ -756,45 +729,34 @@ static BOOL ShowEffect(
 
         if (lpEffect->data.variant_0xE.field_20 != 1)
         {
-            funcptr = GM_GetCharaID(DEMOID_SHADOW);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_SHADOW)) != NULL)
             {
                 lpEAct->lpActor =
-                    funcptr(&lpModel->object,
-                            lpEffect->data.variant_0xE.field_18,
-                            &lpEAct->nParam1,
-                            &lpEAct->nParam2,
-                            lpEffect->data.variant_0xE.field_22 & 0xFF,
-                            lpEffect->data.variant_0xE.field_24 & 0xFF,
-                            lpEffect->data.variant_0xE.field_26 & 0xFF);
+                    lpfnEffect(
+                        &lpModel->object,
+                        lpEffect->data.variant_0xE.field_18,
+                        &lpEAct->nParam1,
+                        &lpEAct->nParam2,
+                        lpEffect->data.variant_0xE.field_22 & 0xFF,
+                        lpEffect->data.variant_0xE.field_24 & 0xFF,
+                        lpEffect->data.variant_0xE.field_26 & 0xFF);
             }
         }
         break;
 
     case EFFECT_FOOTPRINTS:
-        svec1.vy += 0x64;
-        hzdret = HZD_LevelHazardCheck(lpAct->modelEffect.control.map->hzd, &svec1, HZD_CHK_F_FLOOR);
-
+        svectMove.vy += 0x64;
+        i = HZD_LevelHazardCheck(
+            lpAct->modelEffect.control.map->hzd, &svectMove, HZD_CHK_F_FLOOR);
         do {} while (0);
         HZD_GetLevelHeight(lFloor);
+             if (i & 1) svectMove.vy = lFloor[0];
+        else if (i & 2) svectMove.vy = lFloor[1];
+        else svectMove.vy = lpEffect->svectMove.vy;
 
-        if (hzdret & 1)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_FOOTPRINTS)) != NULL)
         {
-            svec1.vy = lFloor[0];
-        }
-        else if (hzdret & 2)
-        {
-            svec1.vy = lFloor[1];
-        }
-        else
-        {
-            svec1.vy = lpEffect->field_E_vec2.vy;
-        }
-
-        funcptr = GM_GetCharaID(DEMOID_FOOTPRINTS);
-        if (funcptr != NULL)
-        {
-            lpEAct->lpActor = funcptr(&mat2, lpEffect->data.variant_0xF.field_14, svec1.vy);
+            lpEAct->lpActor = lpfnEffect(&mat2, lpEffect->data.variant_0xF.field_14, svectMove.vy);
         }
         break;
 
@@ -813,26 +775,24 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_NINJAEYE:
-        funcptr = GM_GetCharaID(DEMOID_NINJAEYE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_NINJAEYE)) != NULL)
         {
-            ((VoidMakeChara)funcptr)(&mat2);
+            ((VOIDCHARA)lpfnEffect)(&mat2);
         }
         break;
 
     case EFFECT_BUBBLE:
         if (lpEffect->data.variant_0x12.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(DEMOID_BUBBLE);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_BUBBLE)) != NULL)
             {
-                funcptr(&svec1,
-                        lpEffect->data.variant_0x12.field_20,
-                        lpEffect->data.variant_0x12.field_24,
-                        &lpAct->bEffectBubbleStop,
-                        lpEffect->data.variant_0x12.field_26,
-                        lpEffect->data.variant_0x12.field_28,
-                        lpEffect->data.variant_0x12.field_2A);
+                lpfnEffect(&svectMove,
+                    lpEffect->data.variant_0x12.field_20,
+                    lpEffect->data.variant_0x12.field_24,
+                    &lpAct->bEffectBubbleStop,
+                    lpEffect->data.variant_0x12.field_26,
+                    lpEffect->data.variant_0x12.field_28,
+                    lpEffect->data.variant_0x12.field_2A);
             }
         }
         else if (lpEffect->data.variant_0x12.field_14 == 1)
@@ -841,15 +801,14 @@ static BOOL ShowEffect(
             svec3.vy = lpEffect->data.variant_0x12.field_18;
             svec3.vz = lpEffect->data.variant_0x12.field_1A;
 
-            funcptr = GM_GetCharaID(DEMOID_BUBBLE2);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_BUBBLE2)) != NULL)
             {
-                funcptr(&svec1, &svec3,
-                        lpEffect->data.variant_0x12.field_1C,
-                        &lpAct->bEffectBubbleStop,
-                        lpEffect->data.variant_0x12.field_26,
-                        lpEffect->data.variant_0x12.field_28,
-                        lpEffect->data.variant_0x12.field_2A);
+                lpfnEffect(&svectMove, &svec3,
+                    lpEffect->data.variant_0x12.field_1C,
+                    &lpAct->bEffectBubbleStop,
+                    lpEffect->data.variant_0x12.field_26,
+                    lpEffect->data.variant_0x12.field_28,
+                    lpEffect->data.variant_0x12.field_2A);
             }
         }
         else
@@ -889,10 +848,9 @@ static BOOL ShowEffect(
         case EFFECT_SCOPE:
             if (lpEffect->data.variant_0x13.field_14 != 1)
             {
-                funcptr = GM_GetCharaID(DEMOID_SCOPE);
-                if (funcptr != NULL)
+                if ((lpfnEffect = GM_GetCharaID(DEMOID_SCOPE)) != NULL)
                 {
-                    lpEAct->lpActor = funcptr(&lpAct->modelEffect.control,
+                    lpEAct->lpActor = lpfnEffect(&lpAct->modelEffect.control,
                                               &lpAct->modelEffect.object, 0);
                 }
             }
@@ -901,17 +859,15 @@ static BOOL ShowEffect(
         case EFFECT_DARKVISIBLEGOGGLE:
             if (lpEffect->data.variant_0x14.field_14 != 1)
             {
-                funcptr = GM_GetCharaID(DEMOID_DARKVISIBLEGOGGLE);
-                if (funcptr != NULL)
+                if ((lpfnEffect = GM_GetCharaID(DEMOID_DARKVISIBLEGOGGLE)) != NULL)
                 {
-                    lpEAct->lpActor = funcptr(&lpAct->modelEffect.control,
+                    lpEAct->lpActor = lpfnEffect(&lpAct->modelEffect.control,
                                               &lpAct->modelEffect.object, 0);
                     if (lpEffect->data.variant_0x14.field_16 != 0)
                     {
-                        funcptr = GM_GetCharaID(DEMOID_DARKVISIBLEGOGGLE2);
-                        if (funcptr != NULL)
+                        if ((lpfnEffect = GM_GetCharaID(DEMOID_DARKVISIBLEGOGGLE2)) != NULL)
                         {
-                            lpEAct->lpActor2 = funcptr(5);
+                            lpEAct->lpActor2 = lpfnEffect(5);
                         }
                     }
                 }
@@ -921,17 +877,15 @@ static BOOL ShowEffect(
         case EFFECT_IRRAYSGOGGLE:
             if (lpEffect->data.variant_0x15.field_14 != 1)
             {
-                funcptr = GM_GetCharaID(DEMOID_IRRAYSGOGGLE);
-                if (funcptr != NULL)
+                if ((lpfnEffect = GM_GetCharaID(DEMOID_IRRAYSGOGGLE)) != NULL)
                 {
-                    lpEAct->lpActor = funcptr(&lpAct->modelEffect.control,
+                    lpEAct->lpActor = lpfnEffect(&lpAct->modelEffect.control,
                                               &lpAct->modelEffect.object, 0);
                     if (lpEffect->data.variant_0x15.field_16 != 0)
                     {
-                        funcptr = GM_GetCharaID(DEMOID_IRRAYSGOGGLE2);
-                        if (funcptr != NULL)
+                        if ((lpfnEffect = GM_GetCharaID(DEMOID_IRRAYSGOGGLE2)) != NULL)
                         {
-                            lpEAct->lpActor2 = funcptr(6);
+                            lpEAct->lpActor2 = lpfnEffect(6);
                         }
                     }
                 }
@@ -941,10 +895,9 @@ static BOOL ShowEffect(
         case EFFECT_GUSMASK:
             if (lpEffect->data.variant_0x1E.field_14 != 1)
             {
-                funcptr = GM_GetCharaID(DEMOID_GUSMASK);
-                if (funcptr != NULL)
+                if ((lpfnEffect = GM_GetCharaID(DEMOID_GUSMASK)) != NULL)
                 {
-                    lpEAct->lpActor = funcptr();
+                    lpEAct->lpActor = lpfnEffect();
                 }
             }
             break;
@@ -952,10 +905,9 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_GUNSMOKE:
-        funcptr = GM_GetCharaID(DEMOID_GUNSMOKE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_GUNSMOKE)) != NULL)
         {
-            funcptr(&svec1);
+            lpfnEffect(&svectMove);
         }
         break;
 
@@ -996,18 +948,16 @@ static BOOL ShowEffect(
         {
             if (lpEffect->data.variant_0x17.field_1C == 0)
             {
-                funcptr = GM_GetCharaID(DEMOID_OPTICSCAMOUFLAGE);
-                if (funcptr != NULL)
+                if ((lpfnEffect = GM_GetCharaID(DEMOID_OPTICSCAMOUFLAGE)) != NULL)
                 {
-                    lpEAct->lpActor = funcptr(&lpAct->modelEffect.control, &lpModel->object, 0);
+                    lpEAct->lpActor = lpfnEffect(&lpAct->modelEffect.control, &lpModel->object, 0);
                 }
             }
             else
             {
-                funcptr = GM_GetCharaID(DEMOID_OPTICSCAMOUFLAGE2);
-                if (funcptr != NULL)
+                if ((lpfnEffect = GM_GetCharaID(DEMOID_OPTICSCAMOUFLAGE2)) != NULL)
                 {
-                    lpEAct->lpActor = funcptr(&lpAct->modelEffect.control, &lpModel->object, 0);
+                    lpEAct->lpActor = lpfnEffect(&lpAct->modelEffect.control, &lpModel->object, 0);
                 }
             }
         }
@@ -1046,10 +996,9 @@ static BOOL ShowEffect(
         }
         if (lpEffect->data.variant_0x18.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(DEMOID_ENVIRONMENTMAPPING);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_ENVIRONMENTMAPPING)) != NULL)
             {
-                lpEAct->lpActor = funcptr(&lpModel->object, lpEffect->data.variant_0x18.field_1C);
+                lpEAct->lpActor = lpfnEffect(&lpModel->object, lpEffect->data.variant_0x18.field_1C);
             }
         }
         break;
@@ -1071,22 +1020,20 @@ static BOOL ShowEffect(
             break;
         }
 
-        funcptr = GM_GetCharaID(DEMOID_PLASMA);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_PLASMA)) != NULL)
         {
-            funcptr(&lpModel->object,
-                    lpEffect->data.variant_0x19.field_18,
-                    lpEffect->data.variant_0x19.field_1A,
-                    lpEffect->data.variant_0x19.field_1C,
-                    lpEffect->data.variant_0x19.field_20);
+            lpfnEffect(&lpModel->object,
+                lpEffect->data.variant_0x19.field_18,
+                lpEffect->data.variant_0x19.field_1A,
+                lpEffect->data.variant_0x19.field_1C,
+                lpEffect->data.variant_0x19.field_20);
         }
         break;
 
     case EFFECT_WINDCIRCLE:
-        funcptr = GM_GetCharaID(DEMOID_WINDCIRCLE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_WINDCIRCLE)) != NULL)
         {
-            funcptr(&mat2, lpEffect->data.variant_0x1A.field_14);
+            lpfnEffect(&mat2, lpEffect->data.variant_0x1A.field_14);
         }
         break;
 
@@ -1094,10 +1041,9 @@ static BOOL ShowEffect(
         KillEffect(lpAct, EFFECT_SEPIA);
         if (lpEffect->data.variant_0x1B.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(DEMOID_SEPIA);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_SEPIA)) != NULL)
             {
-                lpEAct->lpActor = funcptr(lpEffect->data.variant_0x1B.field_16,
+                lpEAct->lpActor = lpfnEffect(lpEffect->data.variant_0x1B.field_16,
                                           lpEffect->data.variant_0x1B.field_18,
                                           lpEffect->data.variant_0x1B.field_1A);
             }
@@ -1111,18 +1057,19 @@ static BOOL ShowEffect(
         {
             lpEActL = lpEActL->lpNext;
         }
-        svec1.vx = lpEffect->data.variant_0x1C.field_14;
-        svec1.vy = lpEffect->data.variant_0x1C.field_16;
-        svec1.vz = lpEffect->data.variant_0x1C.field_18;
-        svec2.vx = lpEffect->data.variant_0x1C.field_1A;
-        svec2.vy = lpEffect->data.variant_0x1C.field_1C;
-        svec2.vz = lpEffect->data.variant_0x1C.field_1E;
+
+        svectMove.vx = lpEffect->data.variant_0x1C.svectMove.vx;
+        svectMove.vy = lpEffect->data.variant_0x1C.svectMove.vy;
+        svectMove.vz = lpEffect->data.variant_0x1C.svectMove.vz;
+        svectRotate.vx = lpEffect->data.variant_0x1C.svectRotate.vx;
+        svectRotate.vy = lpEffect->data.variant_0x1C.svectRotate.vy;
+        svectRotate.vz = lpEffect->data.variant_0x1C.svectRotate.vz;
+
         if (lpEActL == (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            funcptr = GM_GetCharaID(DEMOID_METALGEARLASER);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_METALGEARLASER)) != NULL)
             {
-                lpEAct->lpActor = funcptr(&lpEAct->matrix);
+                lpEAct->lpActor = lpfnEffect(&lpEAct->matrix);
                 lpEActL = lpEAct;
             }
             else
@@ -1130,7 +1077,7 @@ static BOOL ShowEffect(
                 break;
             }
         }
-        DG_SetPos2(&svec1, &svec2);
+        DG_SetPos2(&svectMove, &svectRotate);
         ReadRotMatrix(&lpEActL->matrix);
         break;
 
@@ -1138,10 +1085,9 @@ static BOOL ShowEffect(
         KillEffect(lpAct, EFFECT_UNSHAPEVIEW);
         if (lpEffect->data.variant_0x1D.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(DEMOID_UNSHAPEVIEW);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_UNSHAPEVIEW)) != NULL)
             {
-                lpEAct->lpActor = funcptr(lpEffect->data.variant_0x1D.field_18,
+                lpEAct->lpActor = lpfnEffect(lpEffect->data.variant_0x1D.field_18,
                                           lpEffect->data.variant_0x1D.field_1C);
             }
         }
@@ -1188,19 +1134,18 @@ static BOOL ShowEffect(
         }
         else
         {
-            funcptr = GM_GetCharaID(DEMOID_URINATIONCIRCLE);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_URINATIONCIRCLE)) != NULL)
             {
                 if (lpEffect->data.variant_0x20.field_14 >= 2 && lpEffect->data.variant_0x20.field_14 <= 5)
                 {
-                    funcptr(&svec1,
-                            lpEffect->data.variant_0x20.field_14 + 2,
-                            lpEffect->data.variant_0x20.field_18,
-                            lpEffect->data.variant_0x20.field_1C);
+                    lpfnEffect(&svectMove,
+                        lpEffect->data.variant_0x20.field_14 + 2,
+                        lpEffect->data.variant_0x20.field_18,
+                        lpEffect->data.variant_0x20.field_1C);
                 }
                 else
                 {
-                    lpEAct->lpActor = funcptr(&svec1,
+                    lpEAct->lpActor = lpfnEffect(&svectMove,
                                         lpEffect->data.variant_0x20.field_14 + 2,
                                         lpEffect->data.variant_0x20.field_18,
                                         lpEffect->data.variant_0x20.field_1C);
@@ -1213,10 +1158,9 @@ static BOOL ShowEffect(
         svec3.vx = lpEffect->data.variant_0x21.field_14;
         svec3.vy = lpEffect->data.variant_0x21.field_16;
         svec3.vz = lpEffect->data.variant_0x21.field_18;
-        funcptr = GM_GetCharaID(DEMOID_PLASMA2);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_PLASMA2)) != NULL)
         {
-            funcptr(&svec1, &svec3, lpEffect->data.variant_0x21.field_1C);
+            lpfnEffect(&svectMove, &svec3, lpEffect->data.variant_0x21.field_1C);
         }
         break;
 
@@ -1224,10 +1168,9 @@ static BOOL ShowEffect(
         KillEffect(lpAct, EFFECT_BLUR);
         if (lpEffect->data.variant_0x22.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(DEMOID_BLUR);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_BLUR)) != NULL)
             {
-                lpEAct->lpActor = funcptr(lpEffect->data.variant_0x22.field_16,
+                lpEAct->lpActor = lpfnEffect(lpEffect->data.variant_0x22.field_16,
                                           lpEffect->data.variant_0x22.field_18,
                                           lpEffect->data.variant_0x22.field_1A);
             }
@@ -1240,21 +1183,19 @@ static BOOL ShowEffect(
         svec3.vz = lpEffect->data.variant_0x23.field_18;
         if (lpEffect->data.variant_0x23.field_1A != 4)
         {
-            funcptr = GM_GetCharaID(DEMOID_STEAMSMOKE);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_STEAMSMOKE)) != NULL)
             {
-                ((VoidMakeChara)funcptr)(&svec1, &svec3, lpEffect->data.variant_0x23.field_1A);
+                ((VOIDCHARA)lpfnEffect)(&svectMove, &svec3, lpEffect->data.variant_0x23.field_1A);
             }
         }
         else
         {
-            funcptr = GM_GetCharaID(DEMOID_STEAMSMOKE2);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_STEAMSMOKE2)) != NULL)
             {
-                ((VoidMakeChara)funcptr)(&svec1, &svec3,
-                                         lpEffect->data.variant_0x23.field_1C & 0xFF,
-                                         lpEffect->data.variant_0x23.field_1E & 0xFF,
-                                         lpEffect->data.variant_0x23.field_20 & 0xFF);
+                ((VOIDCHARA)lpfnEffect)(&svectMove, &svec3,
+                    lpEffect->data.variant_0x23.field_1C & 0xFF,
+                    lpEffect->data.variant_0x23.field_1E & 0xFF,
+                    lpEffect->data.variant_0x23.field_20 & 0xFF);
             }
         }
         break;
@@ -1264,10 +1205,9 @@ static BOOL ShowEffect(
 
         if (lpEffect->data.variant_0x24.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(DEMOID_MONOTONE);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_MONOTONE)) != NULL)
             {
-                lpEAct->lpActor = funcptr();
+                lpEAct->lpActor = lpfnEffect();
             }
         }
         break;
@@ -1277,10 +1217,9 @@ static BOOL ShowEffect(
 
         if (lpEffect->data.variant_0x25.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(DEMOID_RIFLESIGHT);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_RIFLESIGHT)) != NULL)
             {
-                lpEAct->lpActor = funcptr();
+                lpEAct->lpActor = lpfnEffect();
             }
         }
         break;
@@ -1311,25 +1250,23 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_BLACKSMOKE:
-        funcptr = GM_GetCharaID(DEMOID_BLACKSMOKE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_BLACKSMOKE)) != NULL)
         {
-            funcptr(&svec1);
+            lpfnEffect(&svectMove);
         }
         break;
 
     case EFFECT_URINATIONCIRCLE2:
-        funcptr = GM_GetCharaID(DEMOID_URINATIONCIRCLE2);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_URINATIONCIRCLE2)) != NULL)
         {
             if (lpEffect->data.variant_0x28.field_14 >= 0 && lpEffect->data.variant_0x28.field_14 <= 3)
             {
-                funcptr(&svec1, lpEffect->data.variant_0x28.field_14 + 4, lpEffect->data.variant_0x28.field_18,
+                lpfnEffect(&svectMove, lpEffect->data.variant_0x28.field_14 + 4, lpEffect->data.variant_0x28.field_18,
                         lpEffect->data.variant_0x28.field_1C);
             }
             else
             {
-                lpEAct->lpActor = funcptr(&svec1,
+                lpEAct->lpActor = lpfnEffect(&svectMove,
                                          lpEffect->data.variant_0x28.field_14 + 4,
                                          lpEffect->data.variant_0x28.field_18,
                                          lpEffect->data.variant_0x28.field_1C);
@@ -1357,10 +1294,9 @@ static BOOL ShowEffect(
         {
             if (lpEffect->data.variant_0x29.field_14 != 1)
             {
-                funcptr = GM_GetCharaID(DEMOID_SIGHT);
-                if (funcptr != NULL)
+                if ((lpfnEffect = GM_GetCharaID(DEMOID_SIGHT)) != NULL)
                 {
-                    lpEAct->lpActor = funcptr(lpEffect->data.variant_0x29.field_1C,
+                    lpEAct->lpActor = lpfnEffect(lpEffect->data.variant_0x29.field_1C,
                                              &lpEffect->data.variant_0x29.field_16);
                 }
             }
@@ -1371,10 +1307,9 @@ static BOOL ShowEffect(
             {
                 GV_DestroyOtherActor(lpEActL->lpActor);
                 lpEActL->lpActor = NULL;
-                funcptr = GM_GetCharaID(DEMOID_SIGHT);
-                if (funcptr != NULL)
+                if ((lpfnEffect = GM_GetCharaID(DEMOID_SIGHT)) != NULL)
                 {
-                    lpEAct->lpActor = funcptr(lpEffect->data.variant_0x29.field_1C,
+                    lpEAct->lpActor = lpfnEffect(lpEffect->data.variant_0x29.field_1C,
                                              &lpEffect->data.variant_0x29.field_16);
                 }
             }
@@ -1428,10 +1363,9 @@ static BOOL ShowEffect(
         }
         if (lpEffect->data.variant_0x2A.field_18 != 1)
         {
-            funcptr = GM_GetCharaID(DEMOID_NINJASWORD);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_NINJASWORD)) != NULL)
             {
-                lpEAct->lpActor = funcptr(&lpModel->object.objs->objs[4]);
+                lpEAct->lpActor = lpfnEffect(&lpModel->object.objs->objs[4]);
             }
         }
         break;
@@ -1454,10 +1388,9 @@ static BOOL ShowEffect(
 
         if (lpEffect->data.variant_0x2B.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(DEMOID_SUBMARINEROOM);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_SUBMARINEROOM)) != NULL)
             {
-                lpEAct->lpActor = funcptr();
+                lpEAct->lpActor = lpfnEffect();
             }
         }
         break;
@@ -1466,12 +1399,11 @@ static BOOL ShowEffect(
         svec3.vx = lpEffect->data.variant_0x2C.field_14;
         svec3.vy = lpEffect->data.variant_0x2C.field_16;
         svec3.vz = lpEffect->data.variant_0x2C.field_18;
-        funcptr = GM_GetCharaID(DEMOID_BLACKSMOKE2);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_BLACKSMOKE2)) != NULL)
         {
-            funcptr(&svec1, &svec3,
-                    lpEffect->data.variant_0x2C.field_1A,
-                    lpEffect->data.variant_0x2C.field_1C);
+            lpfnEffect(&svectMove, &svec3,
+                lpEffect->data.variant_0x2C.field_1A,
+                lpEffect->data.variant_0x2C.field_1C);
         }
         break;
 
@@ -1479,13 +1411,13 @@ static BOOL ShowEffect(
         svec3.vx = lpEffect->data.variant_0x2D.field_14;
         svec3.vy = lpEffect->data.variant_0x2D.field_16;
         svec3.vz = lpEffect->data.variant_0x2D.field_18;
-        funcptr = GM_GetCharaID(DEMOID_BLASTLINE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_BLASTLINE)) != NULL)
         {
-            funcptr(lpEffect->data.variant_0x2D.field_22,
-                    lpEffect->data.variant_0x2D.field_1C,
-                    lpEffect->data.variant_0x2D.field_20,
-                    &svec1, &svec3);
+            lpfnEffect(
+                lpEffect->data.variant_0x2D.field_22,
+                lpEffect->data.variant_0x2D.field_1C,
+                lpEffect->data.variant_0x2D.field_20,
+                &svectMove, &svec3);
         }
         break;
 
@@ -1496,56 +1428,51 @@ static BOOL ShowEffect(
         svec4.vx = lpEffect->data.variant_0x2E.field_1A;
         svec4.vy = lpEffect->data.variant_0x2E.field_1C;
         svec4.vz = lpEffect->data.variant_0x2E.field_1E;
-        funcptr = GM_GetCharaID(DEMOID_SMOKELINE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_SMOKELINE)) != NULL)
         {
-            funcptr(lpEffect->data.variant_0x2E.field_26,
-                    lpEffect->data.variant_0x2E.field_20,
-                    lpEffect->data.variant_0x2E.field_24,
-                    &svec1, &svec3, &svec4,
-                    lpEffect->data.variant_0x2E.field_28 & 0xFF,
-                    lpEffect->data.variant_0x2E.field_2A & 0xFF,
-                    lpEffect->data.variant_0x2E.field_2C & 0xFF);
+            lpfnEffect(
+                lpEffect->data.variant_0x2E.field_26,
+                lpEffect->data.variant_0x2E.field_20,
+                lpEffect->data.variant_0x2E.field_24,
+                &svectMove, &svec3, &svec4,
+                lpEffect->data.variant_0x2E.field_28 & 0xFF,
+                lpEffect->data.variant_0x2E.field_2A & 0xFF,
+                lpEffect->data.variant_0x2E.field_2C & 0xFF);
         }
         break;
 
     case EFFECT_SHELLSMOKE:
-        funcptr = GM_GetCharaID(DEMOID_SHELLSMOKE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_SHELLSMOKE)) != NULL)
         {
-            funcptr(lpEffect->data.variant_0x2F.field_14, &svec1, &svec2);
+            lpfnEffect(lpEffect->data.variant_0x2F.field_14, &svectMove, &svectRotate);
         }
         break;
 
     case EFFECT_CATERPILLERSMOKE:
-        funcptr = GM_GetCharaID(DEMOID_CATERPILLERSMOKE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_CATERPILLERSMOKE)) != NULL)
         {
-            funcptr(&svec2, &svec1);
+            lpfnEffect(&svectRotate, &svectMove);
         }
         break;
 
     case EFFECT_CROWEYE:
-        funcptr = GM_GetCharaID(DEMOID_CROWEYE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_CROWEYE)) != NULL)
         {
-            funcptr(&svec1);
+            lpfnEffect(&svectMove);
         }
         break;
 
     case EFFECT_OCEROTTEBULLETFIRE:
-        funcptr = GM_GetCharaID(DEMOID_OCEROTTEBULLETFIRE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_OCEROTTEBULLETFIRE)) != NULL)
         {
-            funcptr(&mat2);
+            lpfnEffect(&mat2);
         }
         break;
 
     case EFFECT_OCEROTTEBULLETSMOKE:
-        funcptr = GM_GetCharaID(DEMOID_OCEROTTEBULLETSMOKE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_OCEROTTEBULLETSMOKE)) != NULL)
         {
-            funcptr(&svec1);
+            lpfnEffect(&svectMove);
         }
         break;
 
@@ -1558,14 +1485,14 @@ static BOOL ShowEffect(
         svec4.vz = lpEffect->data.variant_0x34.field_2E;
         if (lpEffect->data.variant_0x34.field_30 == 0)
         {
-            funcptr = GM_GetCharaID(DEMOID_ENVIRONMENTLIGHT);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_ENVIRONMENTLIGHT)) != NULL)
             {
-                funcptr(lpEffect->data.variant_0x34.field_14,
-                        lpEffect->data.variant_0x34.field_18,
-                        &svec3, &svec4,
-                        lpEffect->data.variant_0x34.field_1C,
-                        lpEffect->data.variant_0x34.field_20);
+                lpfnEffect(
+                    lpEffect->data.variant_0x34.field_14,
+                    lpEffect->data.variant_0x34.field_18,
+                    &svec3, &svec4,
+                    lpEffect->data.variant_0x34.field_1C,
+                    lpEffect->data.variant_0x34.field_20);
             }
         }
         else
@@ -1579,44 +1506,42 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_CRASHSMOKE:
-        funcptr = GM_GetCharaID(DEMOID_CRASHSMOKE);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_CRASHSMOKE)) != NULL)
         {
-            funcptr(&svec1, &svec2,
-                    lpEffect->data.variant_0x35.field_18,
-                    lpEffect->data.variant_0x35.field_1C,
-                    lpEffect->data.variant_0x35.field_1E,
-                    lpEffect->data.variant_0x35.field_20,
-                    lpEffect->data.variant_0x35.field_22 & 0xFF,
-                    lpEffect->data.variant_0x35.field_24 & 0xFF,
-                    lpEffect->data.variant_0x35.field_26 & 0xFF);
+            lpfnEffect(&svectMove, &svectRotate,
+                lpEffect->data.variant_0x35.field_18,
+                lpEffect->data.variant_0x35.field_1C,
+                lpEffect->data.variant_0x35.field_1E,
+                lpEffect->data.variant_0x35.field_20,
+                lpEffect->data.variant_0x35.field_22 & 0xFF,
+                lpEffect->data.variant_0x35.field_24 & 0xFF,
+                lpEffect->data.variant_0x35.field_26 & 0xFF);
         }
         break;
 
     case EFFECT_CELOFAN:
-        funcptr = GM_GetCharaID(DEMOID_CELOFAN);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_CELOFAN)) != NULL)
         {
-            funcptr(lpEffect->data.variant_0x37.field_14,
-                    lpEffect->data.variant_0x37.field_18,
-                    lpEffect->data.variant_0x37.field_1C,
-                    lpEffect->data.variant_0x37.field_1E,
-                    lpEffect->data.variant_0x37.field_20,
-                    lpEffect->data.variant_0x37.field_22,
-                    &lpEffect->data.variant_0x37.field_24,
-                    &lpEffect->data.variant_0x37.field_28,
-                    lpEffect->data.variant_0x37.field_2C,
-                    lpEffect->data.variant_0x37.field_2E,
-                    lpEffect->data.variant_0x37.field_30,
-                    lpEffect->data.variant_0x37.field_32);
+            lpfnEffect(
+                lpEffect->data.variant_0x37.field_14,
+                lpEffect->data.variant_0x37.field_18,
+                lpEffect->data.variant_0x37.field_1C,
+                lpEffect->data.variant_0x37.field_1E,
+                lpEffect->data.variant_0x37.field_20,
+                lpEffect->data.variant_0x37.field_22,
+                &lpEffect->data.variant_0x37.field_24,
+                &lpEffect->data.variant_0x37.field_28,
+                lpEffect->data.variant_0x37.field_2C,
+                lpEffect->data.variant_0x37.field_2E,
+                lpEffect->data.variant_0x37.field_30,
+                lpEffect->data.variant_0x37.field_32);
         }
         break;
 
     case EFFECT_INVERSLIGHT:
-        funcptr = GM_GetCharaID(DEMOID_INVERSLIGHT);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_INVERSLIGHT)) != NULL)
         {
-            ((VoidMakeChara)funcptr)(&svec1);
+            ((VOIDCHARA)lpfnEffect)(&svectMove);
         }
         break;
 
@@ -1624,26 +1549,23 @@ static BOOL ShowEffect(
         switch (lpEffect->data.variant_0x39.field_14)
         {
         case 0:
-            funcptr = GM_GetCharaID(DEMOID_SPACK);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_SPACK)) != NULL)
             {
-                ((VoidMakeChara)funcptr)(&mat2);
+                ((VOIDCHARA)lpfnEffect)(&mat2);
             }
             break;
 
         case 1:
-            funcptr = GM_GetCharaID(DEMOID_SPACK2);
-            if (funcptr != 0)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_SPACK2)) != NULL)
             {
-                funcptr(&mat2, 0);
+                lpfnEffect(&mat2, 0);
             }
             break;
 
         case 2:
-            funcptr = GM_GetCharaID(DEMOID_SPACK2);
-            if (funcptr != 0)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_SPACK2)) != NULL)
             {
-                funcptr(&mat2, 1);
+                lpfnEffect(&mat2, 1);
             }
             break;
         }
@@ -1653,44 +1575,42 @@ static BOOL ShowEffect(
         svec3.vx = lpEffect->data.variant_0x3A.field_14;
         svec3.vy = lpEffect->data.variant_0x3A.field_16;
         svec3.vz = lpEffect->data.variant_0x3A.field_18;
-        funcptr = GM_GetCharaID(DEMOID_STEAMEXPLOSION);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_STEAMEXPLOSION)) != NULL)
         {
-            funcptr(&svec1, &svec3);
+            lpfnEffect(&svectMove, &svec3);
         }
         break;
     case EFFECT_INVERSLIGHT2:
-        funcptr = GM_GetCharaID(DEMOID_INVERSLIGHT2);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_INVERSLIGHT2)) != NULL)
         {
-            funcptr(&svec1,
-                    lpEffect->data.variant_0x3B.field_14,
-                    lpEffect->data.variant_0x3B.field_18,
-                    lpEffect->data.variant_0x3B.field_1C,
-                    lpEffect->data.variant_0x3B.field_20,
-                    lpEffect->data.variant_0x3B.field_22,
-                    lpEffect->data.variant_0x3B.field_24,
-                    lpEffect->data.variant_0x3B.field_26,
-                    lpEffect->data.variant_0x3B.field_28);
+            lpfnEffect(&svectMove,
+                lpEffect->data.variant_0x3B.field_14,
+                lpEffect->data.variant_0x3B.field_18,
+                lpEffect->data.variant_0x3B.field_1C,
+                lpEffect->data.variant_0x3B.field_20,
+                lpEffect->data.variant_0x3B.field_22,
+                lpEffect->data.variant_0x3B.field_24,
+                lpEffect->data.variant_0x3B.field_26,
+                lpEffect->data.variant_0x3B.field_28);
         }
         break;
     case EFFECT_CELOFAN2:
-        funcptr = GM_GetCharaID(DEMOID_CELOFAN2);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_CELOFAN2)) != NULL)
         {
-            funcptr(lpEffect->data.variant_0x3C.field_14,
-                    lpEffect->data.variant_0x3C.field_18,
-                    lpEffect->data.variant_0x3C.field_1C,
-                    lpEffect->data.variant_0x3C.field_1E,
-                    lpEffect->data.variant_0x3C.field_20,
-                    lpEffect->data.variant_0x3C.field_22,
-                    lpEffect->data.variant_0x3C.field_24,
-                    &lpEffect->data.variant_0x3C.field_26,
-                    &lpEffect->data.variant_0x3C.field_2A,
-                    lpEffect->data.variant_0x3C.field_2E,
-                    lpEffect->data.variant_0x3C.field_30,
-                    lpEffect->data.variant_0x3C.field_32,
-                    lpEffect->data.variant_0x3C.field_34);
+            lpfnEffect(
+                lpEffect->data.variant_0x3C.field_14,
+                lpEffect->data.variant_0x3C.field_18,
+                lpEffect->data.variant_0x3C.field_1C,
+                lpEffect->data.variant_0x3C.field_1E,
+                lpEffect->data.variant_0x3C.field_20,
+                lpEffect->data.variant_0x3C.field_22,
+                lpEffect->data.variant_0x3C.field_24,
+                &lpEffect->data.variant_0x3C.field_26,
+                &lpEffect->data.variant_0x3C.field_2A,
+                lpEffect->data.variant_0x3C.field_2E,
+                lpEffect->data.variant_0x3C.field_30,
+                lpEffect->data.variant_0x3C.field_32,
+                lpEffect->data.variant_0x3C.field_34);
         }
         break;
 
@@ -1711,11 +1631,11 @@ static BOOL ShowEffect(
             break;
         }
 
-        funcptr = GM_GetCharaID(DEMOID_NINJALASER);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_NINJALASER)) != NULL)
         {
-            funcptr(&lpModel->object.objs[6].world.m[1][1], lpEffect->data.variant_0x3D.field_14,
-                    lpEffect->data.variant_0x3D.field_16);
+            lpfnEffect(&lpModel->object.objs[6].world.m[1][1],
+                lpEffect->data.variant_0x3D.field_14,
+                lpEffect->data.variant_0x3D.field_16);
         }
         break;
 
@@ -1743,14 +1663,14 @@ static BOOL ShowEffect(
                 lpEActL->lpActor = NULL;
             }
 
-            funcptr = GM_GetCharaID(DEMOID_GUSEFFECT);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_GUSEFFECT)) != NULL)
             {
                 svec3.vx = lpEffect->data.variant_0x3E.field_16;
                 svec3.vy = lpEffect->data.variant_0x3E.field_18;
                 svec3.vz = lpEffect->data.variant_0x3E.field_1A;
-                lpEAct->lpActor =
-                    funcptr(&svec3, lpEffect->data.variant_0x3E.field_1E, lpEffect->data.variant_0x3E.field_1C + 1);
+                lpEAct->lpActor = lpfnEffect(&svec3,
+                                        lpEffect->data.variant_0x3E.field_1E,
+                                        lpEffect->data.variant_0x3E.field_1C + 1);
             }
         }
         else if (lpEffect->data.variant_0x3E.field_14 == 1)
@@ -1812,10 +1732,9 @@ static BOOL ShowEffect(
 
         if (lpEffect->data.variant_0x3F.field_14 != 1)
         {
-            funcptr = GM_GetCharaID(DEMOID_SUBMARINEWATER);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_SUBMARINEWATER)) != NULL)
             {
-                lpEAct->lpActor = funcptr(&lpModel->object, &lpModel->control.rot);
+                lpEAct->lpActor = lpfnEffect(&lpModel->object, &lpModel->control.rot);
             }
         }
         break;
@@ -1836,16 +1755,17 @@ static BOOL ShowEffect(
         KillEffect(lpAct, EFFECT_GHOST);
         if (lpEffect->data.variant_0x41.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(DEMOID_GHOST);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_GHOST)) != NULL)
             {
-                lpEAct->lpActor = funcptr();
+                lpEAct->lpActor = lpfnEffect();
             }
         }
         break;
 
     case EFFECT_LIGHT:
-        DG_SetTmpLight(&svec1, lpEffect->data.variant_0x42.field_14, lpEffect->data.variant_0x42.field_16);
+        DG_SetTmpLight(&svectMove,
+            lpEffect->data.variant_0x42.nBrightness,
+            lpEffect->data.variant_0x42.nRadius);
         break;
 
     case EFFECT_FAMASLIGHT:
@@ -1883,10 +1803,9 @@ static BOOL ShowEffect(
 
         if (lpEffect->data.variant_0x43.field_18 != 1)
         {
-            funcptr = GM_GetCharaID(DEMOID_FAMASLIGHT);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_FAMASLIGHT)) != NULL)
             {
-                lpEAct->lpActor = funcptr(lpModel->object.objs + 1);
+                lpEAct->lpActor = lpfnEffect(lpModel->object.objs + 1);
             }
         }
         break;
@@ -1927,9 +1846,7 @@ static BOOL ShowEffect(
         {
             if (lpEffect->data.variant_0x44.field_14 != 1)
             {
-                funcptr = GM_GetCharaID(DEMOID_HUMANSHADOW);
-
-                if (funcptr != NULL)
+                if ((lpfnEffect = GM_GetCharaID(DEMOID_HUMANSHADOW)) != NULL)
                 {
                     lpEAct->svect1.vx = lpEffect->data.variant_0x44.field_1E;
                     lpEAct->svect1.vy = lpEffect->data.variant_0x44.field_20;
@@ -1945,7 +1862,7 @@ static BOOL ShowEffect(
                     }
 
                     lpEAct->lpActor =
-                        funcptr(lpModel, &lpModel->object, &lpEAct->svect1.vx, lpScene->nCacheID);
+                        lpfnEffect(lpModel, &lpModel->object, &lpEAct->svect1.vx, lpScene->nCacheID);
                 }
             }
         }
@@ -1963,38 +1880,36 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_BLOODHAZARD:
-        funcptr = GM_GetCharaID(DEMOID_BLOODHAZARD);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_BLOODHAZARD)) != NULL)
         {
-            lpEAct->lpActor = funcptr(&mat2,
-                                    lpEffect->data.variant_0x45.field_14,
-                                    lpEffect->data.variant_0x45.field_16,
-                                    lpEffect->data.variant_0x45.field_18,
-                                    lpEffect->data.variant_0x45.field_1A);
+            lpEAct->lpActor = lpfnEffect(&mat2,
+                lpEffect->data.variant_0x45.field_14,
+                lpEffect->data.variant_0x45.field_16,
+                lpEffect->data.variant_0x45.field_18,
+                lpEffect->data.variant_0x45.field_1A);
         }
         break;
 
     case EFFECT_BLOODDRIP:
-        funcptr = GM_GetCharaID(DEMOID_BLOODDRIP);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_BLOODDRIP)) != NULL)
         {
-            funcptr(&svec1, lpEffect->data.variant_0x46.field_14, lpEffect->data.variant_0x46.field_16);
+            lpfnEffect(&svectMove,
+                lpEffect->data.variant_0x46.field_14,
+                lpEffect->data.variant_0x46.field_16);
         }
         break;
 
     case EFFECT_NINJAGROUND:
-        funcptr = GM_GetCharaID(DEMOID_NINJAGROUND);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_NINJAGROUND)) != NULL)
         {
-            funcptr(&mat2, 400, 400, 400, 10);
+            lpfnEffect(&mat2, 400, 400, 400, 10);
         }
         break;
 
     case EFFECT_BOMBLIGHT:
-        funcptr = GM_GetCharaID(DEMOID_BOMBLIGHT);
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_BOMBLIGHT)) != NULL)
         {
-            ((VoidMakeChara)funcptr)(&svec1);
+            ((VOIDCHARA)lpfnEffect)(&svectMove);
         }
         break;
 
@@ -2015,25 +1930,22 @@ static BOOL ShowEffect(
 
         if (lpEffect->data.variant_0x49.field_14 == 0)
         {
-            funcptr = GM_GetCharaID(DEMOID_MGCROOMDISPLAY);
-            if (funcptr != NULL)
+            if ((lpfnEffect = GM_GetCharaID(DEMOID_MGCROOMDISPLAY)) != NULL)
             {
-                lpEAct->lpActor = funcptr();
+                lpEAct->lpActor = lpfnEffect();
             }
         }
         break;
 
     case EFFECT_TEXT2:
-        funcptr = GM_GetCharaID(DEMOID_TEXT2);
-
-        if (funcptr != NULL)
+        if ((lpfnEffect = GM_GetCharaID(DEMOID_TEXT2)) != NULL)
         {
-            funcptr(lpEffect->data.variant_0x4A.field_18,
-                    lpEffect->data.variant_0x4A.field_1A,
-                    0,
-                    lpEffect->data.variant_0x4A.field_14,
-                    lpEffect->data.variant_0x4A.field_1C,
-                    lpEffect->data.variant_0x4A.field_20);
+            lpfnEffect(lpEffect->data.variant_0x4A.field_18,
+                lpEffect->data.variant_0x4A.field_1A,
+                0,
+                lpEffect->data.variant_0x4A.field_14,
+                lpEffect->data.variant_0x4A.field_1C,
+                lpEffect->data.variant_0x4A.field_20);
         }
         break;
     }

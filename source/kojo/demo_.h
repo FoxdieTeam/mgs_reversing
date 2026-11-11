@@ -177,8 +177,9 @@ typedef struct tagMGSDEMOEFFECT
 {
     int       nID;          /**/
     int       nEffectID;    /**/
-//  BYTE      byBuffer[44]; /**/
-    BYTE      dummy1[12];     // TODO: Replace
+    SVECTOREX svectRotate;  /**/
+    SVECTOREX svectMove;    /**/
+//  BYTE      byBuffer[32]; /**/
     int       field_14_type;  // TODO: Replace
     int       field_18_xy;    // TODO: Replace
     int       field_1C_zpad;  // TODO: Replace
@@ -257,49 +258,42 @@ typedef struct tagMGSDEMOACT
 /***** XXX *****/
 /***** XXX *****/
 
-/* This should be replaced by loads of individual structs */
-typedef struct DMO_DATA_0x36
+typedef struct tagMGSDEMOEFFECT_
 {
-    int nID;
-    int nEffectID;
-
-    SVECTOREX field_8_vec1;
-    SVECTOREX field_E_vec2;
-
-    // TODO: Is there a cleaner way to model this structure?
-    // Some of the variants are very similar. Once all
-    // ShowEffect functions are decompiled those fields
-    // should be named properly (and maybe it'll be easier
-    // to find patterns then).
+    int       nID;          /**/
+    int       nEffectID;    /**/
+    SVECTOREX svectRotate;  /**/
+    SVECTOREX svectMove;    /**/
+//  BYTE      byBuffer[32]; /**/
     union {
         struct {
             int   field_14;
             short field_18;
-        } variant_0x3;
+        } variant_0x3;  // EFFECT_FADEIN --> EFFECTFADEINOUT
 
         struct {
             int   field_14;
             short field_18;
-        } variant_0x4;
+        } variant_0x4;  // EFFECT_FADEOUT --> EFFECTFADEINOUT
 
         struct {
             int   field_14;
             short field_18;
             short field_1A;
             int   field_1C;
-        } variant_0x5;
+        } variant_0x5;  // EFFECT_TEXT
 
         struct {
             short field_14;
-        } variant_0x6;
+        } variant_0x6;  // EFFECT_SURPRISEDMARK
 
         struct {
             short field_14;
-        } variant_0x7;
+        } variant_0x7;  // EFFECT_QUESTIONMARK
 
         struct {
             short field_14;
-        } variant_0x9;
+        } variant_0x9;  // EFFECT_BLOOD
 
         struct {
             int   field_14;
@@ -310,14 +304,14 @@ typedef struct DMO_DATA_0x36
             short field_20;
             short field_22;
             short field_24;
-        } variant_0xA;
+        } variant_0xA;  // EFFECT_BULLET
 
         struct {
             short field_14;
             short field_16;
             int   field_18;
             int   field_1C;
-        } variant_0xC;
+        } variant_0xC;  // EFFECT_BLOODCIRCLE
 
         struct {
             int     field_14;
@@ -326,11 +320,11 @@ typedef struct DMO_DATA_0x36
             short   field_22;
             short   field_24;
             short   field_26;
-        } variant_0xE;
+        } variant_0xE;  // EFFECT_SHADOW
 
         struct {
             short field_14;
-        } variant_0xF;
+        } variant_0xF;  // EFFECT_FOOTPRINTS
 
         struct {
             int address;
@@ -348,35 +342,35 @@ typedef struct DMO_DATA_0x36
             short field_26;
             short field_28;
             short field_2A;
-        } variant_0x12;
+        } variant_0x12; // EFFECT_BUBBLE
 
         struct {
             short field_14;
-        } variant_0x13;
-
-        struct {
-            short field_14;
-            short field_16;
-        } variant_0x14;
+        } variant_0x13; // EFFECT_SCOPE
 
         struct {
             short field_14;
             short field_16;
-        } variant_0x15;
+        } variant_0x14; // EFFECT_DARKVISIBLEGOGGLE
+
+        struct {
+            short field_14;
+            short field_16;
+        } variant_0x15; // EFFECT_IRRAYSGOGGLE
 
         struct {
             short field_14;
             short field_16;
             int   field_18;
             short field_1C;
-        } variant_0x17;
+        } variant_0x17; // EFFECT_OPTICSCAMOUFLAGE
 
         struct {
             short field_14;
             short field_16;
             int   field_18;
             int   field_1C;
-        } variant_0x18;
+        } variant_0x18; // EFFECT_ENVIRONMENTMAPPING
 
         struct {
             int   field_14;
@@ -384,38 +378,34 @@ typedef struct DMO_DATA_0x36
             short field_1A;
             int   field_1C;
             short field_20;
-        } variant_0x19;
+        } variant_0x19; // EFFECT_PLASMA
 
         struct {
             int field_14;
-        } variant_0x1A;
+        } variant_0x1A; // EFFECT_WINDCIRCLE
 
         struct {
             short field_14;
             short field_16;
             short field_18;
             short field_1A;
-        } variant_0x1B;
+        } variant_0x1B; // EFFECT_SEPIA
 
         struct {
-            short field_14;
-            short field_16;
-            short field_18;
-            short field_1A;
-            short field_1C;
-            short field_1E;
-        } variant_0x1C;
+            SVECTOREX svectMove;
+            SVECTOREX svectRotate;
+        } variant_0x1C; // EFFECT_METALGEARLASER --> EFFECTMETALGEARLASER
 
         struct {
             short field_14;
             short field_16;
             int   field_18;
             int   field_1C;
-        } variant_0x1D;
+        } variant_0x1D; // EFFECT_UNSHAPEVIEW
 
         struct {
             short field_14;
-        } variant_0x1E;
+        } variant_0x1E; // EFFECT_GUSMASK
 
         struct {
             short field_14;
@@ -423,7 +413,7 @@ typedef struct DMO_DATA_0x36
             int   field_18;
             int   field_1C;
             short field_20;
-        } variant_0x20;
+        } variant_0x20; // EFFECT_URINATIONCIRCLE -- > EFFECTURINATIONCIRCLE
 
         struct {
             short field_14;
@@ -431,14 +421,14 @@ typedef struct DMO_DATA_0x36
             short field_18;
             short field_1A;
             int   field_1C;
-        } variant_0x21;
+        } variant_0x21; // EFFECT_PLASMA2
 
         struct {
             short field_14;
             short field_16;
             short field_18;
             short field_1A;
-        } variant_0x22;
+        } variant_0x22; // EFFECT_BLUR
 
         struct {
             short field_14;
@@ -448,27 +438,27 @@ typedef struct DMO_DATA_0x36
             short field_1C;
             short field_1E;
             int   field_20;
-        } variant_0x23;
+        } variant_0x23; // EFFECT_STEAMSMOKE
 
         struct {
             short field_14;
-        } variant_0x24;
+        } variant_0x24; // EFFECT_MONOTONE
 
         struct {
             short field_14;
-        } variant_0x25;
+        } variant_0x25; // EFFECT_RIFLESIGHT
 
         struct {
             DG_OBJS *field_14;
             int      field_18;
-        } variant_0x26;
+        } variant_0x26; // EFFECT_MI24HIND
 
         struct {
             short field_14;
             short field_16;
             int   field_18;
             int   field_1C;
-        } variant_0x28;
+        } variant_0x28; // EFFECT_URINATIONCIRCLE2
 
         struct {
             short field_14;
@@ -476,16 +466,16 @@ typedef struct DMO_DATA_0x36
             short field_18;
             short field_1A;
             int   field_1C;
-        } variant_0x29;
+        } variant_0x29; // EFFECT_SIGHT
 
         struct {
             int   field_14;
             short field_18;
-        } variant_0x2A;
+        } variant_0x2A; // EFFECT_NINJASWORD
 
         struct {
             short field_14;
-        } variant_0x2B;
+        } variant_0x2B; // EFFECT_SUBMARINEROOM
 
         struct {
             short field_14;
@@ -493,7 +483,7 @@ typedef struct DMO_DATA_0x36
             short field_18;
             short field_1A;
             short field_1C;
-        } variant_0x2C;
+        } variant_0x2C; // EFFECT_BLACKSMOKE2
 
         struct {
             short field_14;
@@ -503,7 +493,7 @@ typedef struct DMO_DATA_0x36
             int   field_1C;
             short field_20;
             short field_22;
-        } variant_0x2D;
+        } variant_0x2D; // EFFECT_BLASTLINE
 
         struct {
             short field_14;
@@ -518,11 +508,11 @@ typedef struct DMO_DATA_0x36
             short field_28;
             short field_2A;
             short field_2C;
-        } variant_0x2E;
+        } variant_0x2E; // EFFECT_SMOKELINE
 
         struct {
             short field_14;
-        } variant_0x2F;
+        } variant_0x2F; // EFFECT_SHELLSMOKE
 
         struct {
             int   field_14;
@@ -537,7 +527,7 @@ typedef struct DMO_DATA_0x36
             short field_2C;
             short field_2E;
             short field_30;
-        } variant_0x34;
+        } variant_0x34; // EFFECT_ENVIRONMENTLIGHT
 
         struct {
             short field_14;
@@ -549,13 +539,13 @@ typedef struct DMO_DATA_0x36
             short field_22;
             short field_24;
             short field_26;
-        } variant_0x35;
+        } variant_0x35; // EFFECT_CRASHSMOKE
 
         struct {
             short field_14;
             short field_16;
             int   field_18;
-        } variant_0x36;
+        } variant_0x36; // EFFECT_PADVIBRATION(2)
 
         struct {
             short field_14;
@@ -573,17 +563,17 @@ typedef struct DMO_DATA_0x36
             short field_2E;
             short field_30;
             short field_32;
-        } variant_0x37;
+        } variant_0x37; // EFFECT_CELOFAN
 
         struct {
             short field_14;
-        } variant_0x39;
+        } variant_0x39; // EFFECT_SPACK
 
         struct {
             short field_14;
             short field_16;
             short field_18;
-        } variant_0x3A;
+        } variant_0x3A; // EFFECT_STEAMEXPLOSION
 
         struct {
             int   field_14;
@@ -594,7 +584,7 @@ typedef struct DMO_DATA_0x36
             short field_24;
             short field_26;
             short field_28;
-        } variant_0x3B;
+        } variant_0x3B; // EFFECT_INVERSLIGHT2
 
         struct {
             short field_14;
@@ -613,13 +603,13 @@ typedef struct DMO_DATA_0x36
             short field_30;
             short field_32;
             short field_34;
-        } variant_0x3C;
+        } variant_0x3C; // EFFECT_CELOFAN2
 
         struct {
             short field_14;
             short field_16;
             int   field_18;
-        } variant_0x3D;
+        } variant_0x3D; // EFFECT_NINJALASER
 
         struct {
             short field_14;
@@ -630,27 +620,27 @@ typedef struct DMO_DATA_0x36
             short field_1E;
             short field_20;
             short field_22;
-        } variant_0x3E;
+        } variant_0x3E; // EFFECT_GUSEFFECT
 
         struct {
             short field_14;
             short field_16;
             int   field_18;
-        } variant_0x3F;
+        } variant_0x3F; // EFFECT_SUBMARINEWATER
 
         struct {
             short field_14;
-        } variant_0x41;
+        } variant_0x41; // EFFECT_GHOST
 
         struct {
-            short field_14;
-            short field_16;
-        } variant_0x42;
+            short nBrightness;
+            short nRadius;
+        } variant_0x42; // EFFECT_LIGHT
 
         struct {
             int   field_14;
             short field_18;
-        } variant_0x43;
+        } variant_0x43; // EFFECT_FAMASLIGHT
 
         struct {
             short field_14;
@@ -660,23 +650,23 @@ typedef struct DMO_DATA_0x36
             short field_1E;
             short field_20;
             short field_22;
-        } variant_0x44;
+        } variant_0x44; // EFFECT_HUMANSHADOW
 
         struct {
             short field_14;
             short field_16;
             short field_18;
             short field_1A;
-        } variant_0x45;
+        } variant_0x45; // EFFECT_BLOODHAZARD
 
         struct {
             short field_14;
             short field_16;
-        } variant_0x46;
+        } variant_0x46; // EFFECT_BLOODDRIP
 
         struct {
             short field_14;
-        } variant_0x49;
+        } variant_0x49; // EFFECT_MGCROOMDISPLAY
 
         struct {
             int   field_14;
@@ -684,9 +674,9 @@ typedef struct DMO_DATA_0x36
             short field_1A;
             int   field_1C;
             int   field_20;
-        } variant_0x4A;
+        } variant_0x4A; // EFFECT_TEXT2
     } data;
-} DMO_DATA_0x36;
+} MGSDEMOEFFECT_, *PMGSDEMOEFFECT_, *LPMGSDEMOEFFECT_;
 
 /******************************************************************************
  * prototypes
