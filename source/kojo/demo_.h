@@ -128,21 +128,21 @@ extern "C" {
 #define EFFECT_TEXT2                74
 
 /***** XXX *****/
-typedef struct tagMGSDEMOM1E1
+typedef struct tagMODELM1E1
 {
     OBJECT  object[2][3];
-    int     field_558_idx[2];
+    int     nIndex[2];
     int     field_560;
     SVECTOR field_564[2];
-} MGSDEMOM1E1, *PMGSDEMOM1E1, *LPMGSDEMOM1E1;
+} MODELM1E1, *PMODELM1E1, *LPMODELM1E1;
 
-typedef struct tagMGSDEMOHIND
+typedef struct tagMODELMI24HIND
 {
     int field_0;
     int field_4;
     int field_8;
     int field_C;
-} MGSDEMOHIND, *PMGSDEMOHIND, *LPMGSDEMOHIND;
+} MODELMI24HIND, *PMODELMI24HIND, *LPMODELMI24HIND;
 /***** XXX *****/
 
 typedef struct tagMGSDEMOSTAGE  /* stage */
@@ -183,7 +183,7 @@ typedef struct tagMGSDEMOEFFECT
     int       field_14_type;  // TODO: Replace
     int       field_18_xy;    // TODO: Replace
     int       field_1C_zpad;  // TODO: Replace
-    BYTE      dummy2[20];     // TODO: Replace
+    BYTE      dummy[32-(sizeof(int)*3)];
 } MGSDEMOEFFECT, *PMGSDEMOEFFECT, *LPMGSDEMOEFFECT;
 
 typedef struct tagMGSDEMOEFFECTACT
@@ -229,7 +229,7 @@ typedef struct tagMGSDEMOMODEL
     CONTROL    control;     /**/
     OBJECT     object;      /**/
     MATRIX     light[2];    /**/
-    MGSDEMOM1E1 *lpData; // TODO: void*
+    void*      lpData;      /**/
 } MGSDEMOMODEL, *PMGSDEMOMODEL, *LPMGSDEMOMODEL;
 
 typedef struct tagMGSDEMOACT
@@ -258,424 +258,478 @@ typedef struct tagMGSDEMOACT
 /***** XXX *****/
 /***** XXX *****/
 
+// 0x03 EFFECT_FADEIN  --> NewFadeInOut
+// 0x04 EFFECT_FADEOUT --> NewFadeInOut
+typedef struct tagEFFECTFADEINOUT {
+    int   field_14;
+    short field_18;
+} EFFECTFADEINOUT, *PEFFECTFADEINOUT, *LPEFFECTFADEINOUT;
+
+// 0x05 EFFECT_TEXT
+typedef struct tagEFFECTTEXT {
+    int   field_14;
+    short field_18;
+    short field_1A;
+    int   field_1C;
+} EFFECTTEXT, *PEFFECTTEXT, *LPEFFECTTEXT;
+
+// 0x06 EFFECT_SURPRISEDMARK
+typedef struct tagEFFECTSURPRISEDMARK {
+    short field_14;
+} EFFECTSURPRISEDMARK, *PEFFECTSURPRISEDMARK, *LPEFFECTSURPRISEDMARK;
+
+// 0x07 EFFECT_QUESTIONMARK
+typedef struct tagEFFECTQUESTIONMARK {
+    short field_14;
+} EFFECTQUESTIONMARK, *PEFFECTQUESTIONMARK, *LPEFFECTQUESTIONMARK;
+
+// 0x09 EFFECT_BLOOD
+typedef struct tagEFFECTBLOOD {
+    short field_14;
+} EFFECTBLOOD, *PEFFECTBLOOD, *LPEFFECTBLOOD;
+
+// 0x0A EFFECT_BULLET
+typedef struct tagEFFECTBULLET {
+    int   field_14;
+    short field_18;
+    short field_1A;
+    short field_1C;
+    short field_1E;
+    short field_20;
+    short field_22;
+    short field_24;
+} EFFECTBULLET, *PEFFECTBULLET, *LPEFFECTBULLET;
+
+// 0x0C EFFECT_BLOODCIRCLE
+typedef struct tagEFFECTBLOODCIRCLE {
+    short field_14;
+    short field_16;
+    int   field_18;
+    int   field_1C;
+} EFFECTBLOODCIRCLE, *PEFFECTBLOODCIRCLE, *LPEFFECTBLOODCIRCLE;
+
+// 0x0E EFFECT_SHADOW
+typedef struct tagEFFECTSHADOW {
+    int     field_14;
+    SVECTOR field_18;
+    short   field_20;
+    short   field_22;
+    short   field_24;
+    short   field_26;
+} EFFECTSHADOW, *PEFFECTSHADOW, *LPEFFECTSHADOW;
+
+// 0x0F EFFECT_FOOTPRINTS
+typedef struct tagEFFECTFOOTPRINTS {
+    short field_14;
+} EFFECTFOOTPRINTS, *PEFFECTFOOTPRINTS, *LPEFFECTFOOTPRINTS;
+
+// 0x10 EFFECT_MESSAGE
+typedef struct tagEFFECTMESSAGE {
+    int address;
+    int message[7];
+} EFFECTMESSAGE, *PEFFECTMESSAGE, *LPEFFECTMESSAGE;
+
+// 0x12 EFFECT_BUBBLE
+typedef struct tagEFFECTBUBBLE {
+    short field_14;
+    short field_16;
+    short field_18;
+    short field_1A;
+    int   field_1C;
+    int   field_20;
+    short field_24;
+    short field_26;
+    short field_28;
+    short field_2A;
+} EFFECTBUBBLE, *PEFFECTBUBBLE, *LPEFFECTBUBBLE;
+
+// 0x13 EFFECT_SCOPE
+typedef struct tagEFFECTSCOPE {
+    short field_14;
+} EFFECTSCOPE, *PEFFECTSCOPE, *LPEFFECTSCOPE;
+
+// 0x14 EFFECT_DARKVISIBLEGOGGLE
+typedef struct tagEFFECTDARKVISIBLEGOGGLE {
+    short field_14;
+    short field_16;
+} EFFECTDARKVISIBLEGOGGLE, *PEFFECTDARKVISIBLEGOGGLE, *LPEFFECTDARKVISIBLEGOGGLE;
+
+// 0x15 EFFECT_IRRAYSGOGGLE
+typedef struct tagEFFECTIRRAYSGOGGLE {
+    short field_14;
+    short field_16;
+} EFFECTIRRAYSGOGGLE, *PEFFECTIRRAYSGOGGLE, *LPEFFECTIRRAYSGOGGLE;
+
+// 0x17 EFFECT_OPTICSCAMOUFLAGE
+typedef struct tagEFFECTOPTICSCAMOUFLAGE {
+    short field_14;
+    short field_16;
+    int   field_18;
+    short field_1C;
+} EFFECTOPTICSCAMOUFLAGE, *PEFFECTOPTICSCAMOUFLAGE, *LPEFFECTOPTICSCAMOUFLAGE;
+
+// 0x18 EFFECT_ENVIRONMENTMAPPING
+typedef struct tagEFFECTENVIRONMENTMAPPING {
+    short field_14;
+    short field_16;
+    int   field_18;
+    int   field_1C;
+} EFFECTENVIRONMENTMAPPING, *PEFFECTENVIRONMENTMAPPING, *LPEFFECTENVIRONMENTMAPPING;
+
+// 0x19 EFFECT_PLASMA
+typedef struct tagEFFECTPLASMA {
+    int   field_14;
+    short field_18;
+    short field_1A;
+    int   field_1C;
+    short field_20;
+} EFFECTPLASMA, *PEFFECTPLASMA, *LPEFFECTPLASMA;
+
+// 0x1A EFFECT_WINDCIRCLE
+typedef struct tagEFFECTWINDCIRCLE {
+    int field_14;
+} EFFECTWINDCIRCLE, *PEFFECTWINDCIRCLE, *LPEFFECTWINDCIRCLE;
+
+// 0x1B EFFECT_SEPIA
+typedef struct tagEFFECTSEPIA {
+    short field_14;
+    short field_16;
+    short field_18;
+    short field_1A;
+} EFFECTSEPIA, *PEFFECTSEPIA, *LPEFFECTSEPIA;
+
+// 0x1C EFFECT_METALGEARLASER
+typedef struct tagEFFECTMETALGEARLASER {
+    SVECTOREX svectMove;
+    SVECTOREX svectRotate;
+} EFFECTMETALGEARLASER, *PEFFECTMETALGEARLASER, *LPEFFECTMETALGEARLASER;
+
+// 0x1D EFFECT_UNSHAPEVIEW
+typedef struct tagEFFECTUNSHAPEVIEW {
+    short field_14;
+    short field_16;
+    int   field_18;
+    int   field_1C;
+} EFFECTUNSHAPEVIEW, *PEFFECTUNSHAPEVIEW, *LPEFFECTUNSHAPEVIEW;
+
+// 0x1E EFFECT_GUSMASK
+typedef struct {
+    short field_14;
+} EFFECTGUSMASK, *PEFFECTGUSMASK, *LPEFFECTGUSMASK;
+
+// 0x20 EFFECT_URINATIONCIRCLE
+typedef struct tagEFFECTURINATIONCIRCLE {
+    short field_14;
+    short field_16;
+    int   field_18;
+    int   field_1C;
+    short field_20;
+} EFFECTURINATIONCIRCLE, *PEFFECTURINATIONCIRCLE, *LPEFFECTURINATIONCIRCLE;
+
+// 0x21 EFFECT_PLASMA2
+typedef struct tagEFFECTPLASMA2 {
+    short field_14;
+    short field_16;
+    short field_18;
+    short field_1A;
+    int   field_1C;
+} EFFECTPLASMA2, *PEFFECTPLASMA2, *LPEFFECTPLASMA2;
+
+// 0x22 EFFECT_BLUR
+typedef struct tagEFFECTBLUR {
+    short field_14;
+    short field_16;
+    short field_18;
+    short field_1A;
+} EFFECTBLUR, *PEFFECTBLUR, *LPEFFECTBLUR;
+
+// 0x23 EFFECT_STEAMSMOKE
+typedef struct tagEFFECTSTEAMSMOKE {
+    short field_14;
+    short field_16;
+    short field_18;
+    short field_1A;
+    short field_1C;
+    short field_1E;
+    int   field_20;
+} EFFECTSTEAMSMOKE, *PEFFECTSTEAMSMOKE, *LPEFFECTSTEAMSMOKE;
+
+// 0x24 EFFECT_MONOTONE
+typedef struct tagEFFECTMONOTONE {
+    short field_14;
+} EFFECTMONOTONE, *PEFFECTMONOTONE, *LPEFFECTMONOTONE;
+
+// 0x25 EFFECT_RIFLESIGHT
+typedef struct tagEFFECTRIFLESIGHT {
+    short field_14;
+} EFFECTRIFLESIGHT, *PEFFECTRIFLESIGHT, *LPEFFECTRIFLESIGHT;
+
+// 0x26 EFFECT_MI24HIND
+typedef struct tagEFFECTMI24HIND {
+    DG_OBJS* lpObjs;
+    int      nFlags;
+} EFFECTMI24HIND, *PEFFECTMI24HIND, *LPEFFECTMI24HIND;
+
+// 0x28 EFFECT_URINATIONCIRCLE2
+typedef struct tagEFFECTURINATIONCIRCLE2 {
+    short field_14;
+    short field_16;
+    int   field_18;
+    int   field_1C;
+} EFFECTURINATIONCIRCLE2, *PEFFECTURINATIONCIRCLE2, *LPEFFECTURINATIONCIRCLE2;
+
+// 0x29 EFFECT_SIGHT
+typedef struct tagEFFECTSIGHT {
+    short field_14;
+    short field_16;
+    short field_18;
+    short field_1A;
+    int   field_1C;
+} EFFECTSIGHT, *PEFFECTSIGHT, *LPEFFECTSIGHT;
+
+// 0x2A EFFECT_NINJASWORD
+typedef struct tagEFFECTNINJASWORD {
+    int   field_14;
+    short field_18;
+} EFFECTNINJASWORD, *PEFFECTNINJASWORD, *LPEFFECTNINJASWORD;
+
+// 0x2B EFFECT_SUBMARINEROOM
+typedef struct tagEFFECTSUBMARINEROOM {
+    short field_14;
+} EFFECTSUBMARINEROOM, *PEFFECTSUBMARINEROOM, *LPEFFECTSUBMARINEROOM;
+
+// 0x2C EFFECT_BLACKSMOKE2
+typedef struct tagEFFECTBLACKSMOKE2 {
+    short field_14;
+    short field_16;
+    short field_18;
+    short field_1A;
+    short field_1C;
+} EFFECTBLACKSMOKE2, *PEFFECTBLACKSMOKE2, *LPEFFECTBLACKSMOKE2;
+
+// 0x2D EFFECT_BLASTLINE
+typedef struct tagEFFECTBLASTLINE {
+    short field_14;
+    short field_16;
+    short field_18;
+    short field_1A;
+    int   field_1C;
+    short field_20;
+    short field_22;
+} EFFECTBLASTLINE, *PEFFECTBLASTLINE, *LPEFFECTBLASTLINE;
+
+// 0x2E EFFECT_SMOKELINE
+typedef struct tagEFFECTSMOKELINE {
+    short field_14;
+    short field_16;
+    short field_18;
+    short field_1A;
+    short field_1C;
+    short field_1E;
+    int   field_20;
+    short field_24;
+    short field_26;
+    short field_28;
+    short field_2A;
+    short field_2C;
+} EFFECTSMOKELINE, *PEFFECTSMOKELINE, *LPEFFECTSMOKELINE;
+
+// 0x2F EFFECT_SHELLSMOKE
+typedef struct tagEFFECTSHELLSMOKE {
+    short field_14;
+} EFFECTSHELLSMOKE, *PEFFECTSHELLSMOKE, *LPEFFECTSHELLSMOKE;
+
+// 0x34 EFFECT_ENVIRONMENTLIGHT
+typedef struct tagEFFECTENVIRONMENTLIGHT {
+    int   field_14;
+    int   field_18;
+    short field_1C;
+    short field_1E;
+    int   field_20;
+    short field_24;
+    short field_26;
+    short field_28;
+    short field_2A;
+    short field_2C;
+    short field_2E;
+    short field_30;
+} EFFECTENVIRONMENTLIGHT, *PEFFECTENVIRONMENTLIGHT, *LPEFFECTENVIRONMENTLIGHT;
+
+// 0x35 EFFECT_CRASHSMOKE
+typedef struct tagEFFECTCRASHSMOKE {
+    short field_14;
+    short field_16;
+    int   field_18;
+    short field_1C;
+    short field_1E;
+    short field_20;
+    short field_22;
+    short field_24;
+    short field_26;
+} EFFECTCRASHSMOKE, *PEFFECTCRASHSMOKE, *LPEFFECTCRASHSMOKE;
+
+// 0x36 EFFECT_PADVIBRATION(2)
+typedef struct tagEFFECTPADVIBRATION {
+    short field_14;
+    short field_16;
+    int   field_18;
+} EFFECTPADVIBRATION, *PEFFECTPADVIBRATION, *LPEFFECTPADVIBRATION;
+
+// 0x37 EFFECT_CELOFAN
+typedef struct tagEFFECTCELOFAN {
+    short field_14;
+    short field_16;
+    int   field_18;
+    short field_1C;
+    short field_1E;
+    short field_20;
+    short field_22;
+    short field_24;
+    short field_26;
+    short field_28;
+    short field_2A;
+    short field_2C;
+    short field_2E;
+    short field_30;
+    short field_32;
+} EFFECTCELOFAN, *PEFFECTCELOFAN, *LPEFFECTCELOFAN;
+
+// 0x39 EFFECT_SPACK
+typedef struct tagEFFECTSPACK {
+    short field_14;
+} EFFECTSPACK, *PEFFECTSPACK, *LPEFFECTSPACK;
+
+// 0x3A EFFECT_STEAMEXPLOSION
+typedef struct tagEFFECTSTEAMEXPLOSION {
+    short field_14;
+    short field_16;
+    short field_18;
+} EFFECTSTEAMEXPLOSION, *PEFFECTSTEAMEXPLOSION, *LPEFFECTSTEAMEXPLOSION;
+
+// 0x3B EFFECT_INVERSLIGHT2
+typedef struct tagEFFECTINVERSLIGHT2 {
+    int   field_14;
+    int   field_18;
+    int   field_1C;
+    short field_20;
+    short field_22;
+    short field_24;
+    short field_26;
+    short field_28;
+} EFFECTINVERSLIGHT2, *PEFFECTINVERSLIGHT2, *LPEFFECTINVERSLIGHT2;
+
+// 0x3C EFFECT_CELOFAN2
+typedef struct tagEFFECTCELOFAN2 {
+    short field_14;
+    short field_16;
+    int   field_18;
+    short field_1C;
+    short field_1E;
+    short field_20;
+    short field_22;
+    short field_24;
+    short field_26;
+    short field_28;
+    short field_2A;
+    short field_2C;
+    short field_2E;
+    short field_30;
+    short field_32;
+    short field_34;
+} EFFECTCELOFAN2, *PEFFECTCELOFAN2, *LPEFFECTCELOFAN2;
+
+// 0x3D EFFECT_NINJALASER
+typedef struct tagEFFECTNINJALASER {
+    short field_14;
+    short field_16;
+    int   field_18;
+} EFFECTNINJALASER, *PEFFECTNINJALASER, *LPEFFECTNINJALASER;
+
+// 0x3E EFFECT_GUSEFFECT
+typedef struct tagEFFECTGUSEFFECT {
+    short field_14;
+    short field_16;
+    short field_18;
+    short field_1A;
+    short field_1C;
+    short field_1E;
+    short field_20;
+    short field_22;
+} EFFECTGUSEFFECT, *PEFFECTGUSEFFECT, *LPEFFECTGUSEFFECT;
+
+// 0x3F EFFECT_SUBMARINEWATER
+typedef struct tagEFFECTSUBMARINEWATER {
+    short field_14;
+    short field_16;
+    int   field_18;
+} EFFECTSUBMARINEWATER, *PEFFECTSUBMARINEWATER, *LPEFFECTSUBMARINEWATER;
+
+// 0x41 EFFECT_GHOST
+typedef struct tagEFFECTGHOST {
+    short field_14;
+} EFFECTGHOST, *PEFFECTGHOST, *LPEFFECTGHOST;
+
+// 0x42 EFFECT_LIGHT
+typedef struct tagEFFECTLIGHT {
+    short nBrightness;
+    short nRadius;
+} EFFECTLIGHT, *PEFFECTLIGHT, *LPEFFECTLIGHT;
+
+// 0x43 EFFECT_FAMASLIGHT
+typedef struct tagEFFECTFAMASLIGHT {
+    int   field_14;
+    short field_18;
+} EFFECTFAMASLIGHT, *PEFFECTFAMASLIGHT, *LPEFFECTFAMASLIGHT;
+
+// 0x44 EFFECT_HUMANSHADOW
+typedef struct tagEFFECTHUMANSHADOW {
+    short field_14;
+    short field_16;
+    int   field_18;
+    short field_1C;
+    short field_1E;
+    short field_20;
+    short field_22;
+} EFFECTHUMANSHADOW, *PEFFECTHUMANSHADOW, *LPEFFECTHUMANSHADOW;
+
+// 0x45 EFFECT_BLOODHAZARD
+typedef struct tagEFFECTBLOODHAZARD {
+    short field_14;
+    short field_16;
+    short field_18;
+    short field_1A;
+} EFFECTBLOODHAZARD, *PEFFECTBLOODHAZARD, *LPEFFECTBLOODHAZARD;
+
+// 0x46 EFFECT_BLOODDRIP
+typedef struct tagEFFECTBLOODDRIP {
+    short field_14;
+    short field_16;
+} EFFECTBLOODDRIP, *PEFFECTBLOODDRIP, *LPEFFECTBLOODDRIP;
+
+// 0x49 EFFECT_MGCROOMDISPLAY
+typedef struct tagEFFECTMGCROOMDISPLAY {
+    short field_14;
+} EFFECTMGCROOMDISPLAY, *PEFFECTMGCROOMDISPLAY, *LPEFFECTMGCROOMDISPLAY;
+
+// 0x4A EFFECT_TEXT2
+typedef struct tagEFFECTTEXT2 {
+    int   field_14;
+    short field_18;
+    short field_1A;
+    int   field_1C;
+    int   field_20;
+} EFFECTTEXT2, *PEFFECTTEXT2, *LPEFFECTTEXT2;
+
+/***** XXX *****/
+/***** XXX *****/
+
 typedef struct tagMGSDEMOEFFECT_
 {
     int       nID;          /**/
     int       nEffectID;    /**/
     SVECTOREX svectRotate;  /**/
     SVECTOREX svectMove;    /**/
-//  BYTE      byBuffer[32]; /**/
-    union {
-        struct {
-            int   field_14;
-            short field_18;
-        } variant_0x3;  // EFFECT_FADEIN --> EFFECTFADEINOUT
-
-        struct {
-            int   field_14;
-            short field_18;
-        } variant_0x4;  // EFFECT_FADEOUT --> EFFECTFADEINOUT
-
-        struct {
-            int   field_14;
-            short field_18;
-            short field_1A;
-            int   field_1C;
-        } variant_0x5;  // EFFECT_TEXT
-
-        struct {
-            short field_14;
-        } variant_0x6;  // EFFECT_SURPRISEDMARK
-
-        struct {
-            short field_14;
-        } variant_0x7;  // EFFECT_QUESTIONMARK
-
-        struct {
-            short field_14;
-        } variant_0x9;  // EFFECT_BLOOD
-
-        struct {
-            int   field_14;
-            short field_18;
-            short field_1A;
-            short field_1C;
-            short field_1E;
-            short field_20;
-            short field_22;
-            short field_24;
-        } variant_0xA;  // EFFECT_BULLET
-
-        struct {
-            short field_14;
-            short field_16;
-            int   field_18;
-            int   field_1C;
-        } variant_0xC;  // EFFECT_BLOODCIRCLE
-
-        struct {
-            int     field_14;
-            SVECTOR field_18;
-            short   field_20;
-            short   field_22;
-            short   field_24;
-            short   field_26;
-        } variant_0xE;  // EFFECT_SHADOW
-
-        struct {
-            short field_14;
-        } variant_0xF;  // EFFECT_FOOTPRINTS
-
-        struct {
-            int address;
-            int message[7];
-        } variant_0x10; // EFFECT_MESSAGE
-
-        struct {
-            short field_14;
-            short field_16;
-            short field_18;
-            short field_1A;
-            int   field_1C;
-            int   field_20;
-            short field_24;
-            short field_26;
-            short field_28;
-            short field_2A;
-        } variant_0x12; // EFFECT_BUBBLE
-
-        struct {
-            short field_14;
-        } variant_0x13; // EFFECT_SCOPE
-
-        struct {
-            short field_14;
-            short field_16;
-        } variant_0x14; // EFFECT_DARKVISIBLEGOGGLE
-
-        struct {
-            short field_14;
-            short field_16;
-        } variant_0x15; // EFFECT_IRRAYSGOGGLE
-
-        struct {
-            short field_14;
-            short field_16;
-            int   field_18;
-            short field_1C;
-        } variant_0x17; // EFFECT_OPTICSCAMOUFLAGE
-
-        struct {
-            short field_14;
-            short field_16;
-            int   field_18;
-            int   field_1C;
-        } variant_0x18; // EFFECT_ENVIRONMENTMAPPING
-
-        struct {
-            int   field_14;
-            short field_18;
-            short field_1A;
-            int   field_1C;
-            short field_20;
-        } variant_0x19; // EFFECT_PLASMA
-
-        struct {
-            int field_14;
-        } variant_0x1A; // EFFECT_WINDCIRCLE
-
-        struct {
-            short field_14;
-            short field_16;
-            short field_18;
-            short field_1A;
-        } variant_0x1B; // EFFECT_SEPIA
-
-        struct {
-            SVECTOREX svectMove;
-            SVECTOREX svectRotate;
-        } variant_0x1C; // EFFECT_METALGEARLASER --> EFFECTMETALGEARLASER
-
-        struct {
-            short field_14;
-            short field_16;
-            int   field_18;
-            int   field_1C;
-        } variant_0x1D; // EFFECT_UNSHAPEVIEW
-
-        struct {
-            short field_14;
-        } variant_0x1E; // EFFECT_GUSMASK
-
-        struct {
-            short field_14;
-            short field_16;
-            int   field_18;
-            int   field_1C;
-            short field_20;
-        } variant_0x20; // EFFECT_URINATIONCIRCLE -- > EFFECTURINATIONCIRCLE
-
-        struct {
-            short field_14;
-            short field_16;
-            short field_18;
-            short field_1A;
-            int   field_1C;
-        } variant_0x21; // EFFECT_PLASMA2
-
-        struct {
-            short field_14;
-            short field_16;
-            short field_18;
-            short field_1A;
-        } variant_0x22; // EFFECT_BLUR
-
-        struct {
-            short field_14;
-            short field_16;
-            short field_18;
-            short field_1A;
-            short field_1C;
-            short field_1E;
-            int   field_20;
-        } variant_0x23; // EFFECT_STEAMSMOKE
-
-        struct {
-            short field_14;
-        } variant_0x24; // EFFECT_MONOTONE
-
-        struct {
-            short field_14;
-        } variant_0x25; // EFFECT_RIFLESIGHT
-
-        struct {
-            DG_OBJS *field_14;
-            int      field_18;
-        } variant_0x26; // EFFECT_MI24HIND
-
-        struct {
-            short field_14;
-            short field_16;
-            int   field_18;
-            int   field_1C;
-        } variant_0x28; // EFFECT_URINATIONCIRCLE2
-
-        struct {
-            short field_14;
-            short field_16;
-            short field_18;
-            short field_1A;
-            int   field_1C;
-        } variant_0x29; // EFFECT_SIGHT
-
-        struct {
-            int   field_14;
-            short field_18;
-        } variant_0x2A; // EFFECT_NINJASWORD
-
-        struct {
-            short field_14;
-        } variant_0x2B; // EFFECT_SUBMARINEROOM
-
-        struct {
-            short field_14;
-            short field_16;
-            short field_18;
-            short field_1A;
-            short field_1C;
-        } variant_0x2C; // EFFECT_BLACKSMOKE2
-
-        struct {
-            short field_14;
-            short field_16;
-            short field_18;
-            short field_1A;
-            int   field_1C;
-            short field_20;
-            short field_22;
-        } variant_0x2D; // EFFECT_BLASTLINE
-
-        struct {
-            short field_14;
-            short field_16;
-            short field_18;
-            short field_1A;
-            short field_1C;
-            short field_1E;
-            int   field_20;
-            short field_24;
-            short field_26;
-            short field_28;
-            short field_2A;
-            short field_2C;
-        } variant_0x2E; // EFFECT_SMOKELINE
-
-        struct {
-            short field_14;
-        } variant_0x2F; // EFFECT_SHELLSMOKE
-
-        struct {
-            int   field_14;
-            int   field_18;
-            short field_1C;
-            short field_1E;
-            int   field_20;
-            short field_24;
-            short field_26;
-            short field_28;
-            short field_2A;
-            short field_2C;
-            short field_2E;
-            short field_30;
-        } variant_0x34; // EFFECT_ENVIRONMENTLIGHT
-
-        struct {
-            short field_14;
-            short field_16;
-            int   field_18;
-            short field_1C;
-            short field_1E;
-            short field_20;
-            short field_22;
-            short field_24;
-            short field_26;
-        } variant_0x35; // EFFECT_CRASHSMOKE
-
-        struct {
-            short field_14;
-            short field_16;
-            int   field_18;
-        } variant_0x36; // EFFECT_PADVIBRATION(2)
-
-        struct {
-            short field_14;
-            short field_16;
-            int   field_18;
-            short field_1C;
-            short field_1E;
-            short field_20;
-            short field_22;
-            short field_24;
-            short field_26;
-            short field_28;
-            short field_2A;
-            short field_2C;
-            short field_2E;
-            short field_30;
-            short field_32;
-        } variant_0x37; // EFFECT_CELOFAN
-
-        struct {
-            short field_14;
-        } variant_0x39; // EFFECT_SPACK
-
-        struct {
-            short field_14;
-            short field_16;
-            short field_18;
-        } variant_0x3A; // EFFECT_STEAMEXPLOSION
-
-        struct {
-            int   field_14;
-            int   field_18;
-            int   field_1C;
-            short field_20;
-            short field_22;
-            short field_24;
-            short field_26;
-            short field_28;
-        } variant_0x3B; // EFFECT_INVERSLIGHT2
-
-        struct {
-            short field_14;
-            short field_16;
-            int   field_18;
-            short field_1C;
-            short field_1E;
-            short field_20;
-            short field_22;
-            short field_24;
-            short field_26;
-            short field_28;
-            short field_2A;
-            short field_2C;
-            short field_2E;
-            short field_30;
-            short field_32;
-            short field_34;
-        } variant_0x3C; // EFFECT_CELOFAN2
-
-        struct {
-            short field_14;
-            short field_16;
-            int   field_18;
-        } variant_0x3D; // EFFECT_NINJALASER
-
-        struct {
-            short field_14;
-            short field_16;
-            short field_18;
-            short field_1A;
-            short field_1C;
-            short field_1E;
-            short field_20;
-            short field_22;
-        } variant_0x3E; // EFFECT_GUSEFFECT
-
-        struct {
-            short field_14;
-            short field_16;
-            int   field_18;
-        } variant_0x3F; // EFFECT_SUBMARINEWATER
-
-        struct {
-            short field_14;
-        } variant_0x41; // EFFECT_GHOST
-
-        struct {
-            short nBrightness;
-            short nRadius;
-        } variant_0x42; // EFFECT_LIGHT
-
-        struct {
-            int   field_14;
-            short field_18;
-        } variant_0x43; // EFFECT_FAMASLIGHT
-
-        struct {
-            short field_14;
-            short field_16;
-            int   field_18;
-            short field_1C;
-            short field_1E;
-            short field_20;
-            short field_22;
-        } variant_0x44; // EFFECT_HUMANSHADOW
-
-        struct {
-            short field_14;
-            short field_16;
-            short field_18;
-            short field_1A;
-        } variant_0x45; // EFFECT_BLOODHAZARD
-
-        struct {
-            short field_14;
-            short field_16;
-        } variant_0x46; // EFFECT_BLOODDRIP
-
-        struct {
-            short field_14;
-        } variant_0x49; // EFFECT_MGCROOMDISPLAY
-
-        struct {
-            int   field_14;
-            short field_18;
-            short field_1A;
-            int   field_1C;
-            int   field_20;
-        } variant_0x4A; // EFFECT_TEXT2
-    } data;
+    BYTE      byBuffer[32]; /**/
 } MGSDEMOEFFECT_, *PMGSDEMOEFFECT_, *LPMGSDEMOEFFECT_;
 
 /******************************************************************************

@@ -27,6 +27,17 @@ extern BLAST_DATA blast_data_8009F4B8[8];
 #include "common.h"
 #include "kojo/m1e1.h"  // for M1E1GetCaterpillerVertex
 
+/* in anime/effect/m1e1.c */
+extern void AN_CaterpillerSmoke(SVECTOR *pos);
+extern void AN_CaterpillerSmoke2(SVECTOR *pos, SVECTOR *rot);
+extern void sub_8007DC24(SVECTOR *pos);
+extern void sub_8007DD80(short param_1, SVECTOR *pos);
+extern void sub_8007DF10(SVECTOR *rot, SVECTOR *trans);
+extern void sub_8007E0AC(int y, SVECTOR *pos);
+
+/* in demoscrn.c */
+extern void DemoScreenChanl(DG_CHANL *chanl, int idx);
+
 /******************************************************************************
  * definitions and typedefs and structures
  */
@@ -44,17 +55,6 @@ static BOOL ShowEffectStop(LPMGSDEMOACT lpAct, LPMGSDEMOFRAME lpDFrame);
 static BOOL ShowScene(LPMGSDEMOACT lpAct, LPMGSDEMOSCENEMOTION lpSMotion);
 static void demothrd_m1e1_8007D404(LPMGSDEMOACT lpAct, LPMGSDEMOSCENEMOTION lpSMotion, LPMGSDEMOSCENE lpScene, LPMGSDEMOMODEL lpModel);
 static void demothrd_hind_8007D9C8(LPMGSDEMOACT lpAct, LPMGSDEMOSCENEMOTION lpSMotion, LPMGSDEMOSCENE lpScene, LPMGSDEMOMODEL lpModel);
-
-/* in anime/effect/m1e1.c */
-extern void AN_CaterpillerSmoke(SVECTOR *pos);
-extern void AN_CaterpillerSmoke2(SVECTOR *pos, SVECTOR *rot);
-extern void sub_8007DC24(SVECTOR *pos);
-extern void sub_8007DD80(short param_1, SVECTOR *pos);
-extern void sub_8007DF10(SVECTOR *rot, SVECTOR *trans);
-extern void sub_8007E0AC(int y, SVECTOR *pos);
-
-/* in demoscrn.c */
-extern void DemoScreenChanl(DG_CHANL *chanl, int idx);
 
 /******************************************************************************
  * publics
@@ -210,39 +210,45 @@ BOOL CreateDemo(
 
         if((lpScene->nStrCode == GV_StrCode("m1e1")) || (lpScene->nStrCode == IDMODEL_M1E1DEMO))
         {
-            if((lpModel->lpData = GV_Malloc(sizeof(MGSDEMOM1E1))) == NULL)
+            if((lpModel->lpData = GV_Malloc(sizeof(MODELM1E1))) == NULL)
                 return 0;
-            memset(lpModel->lpData, 0x00, sizeof(MGSDEMOM1E1));
+            memset(lpModel->lpData, 0x00, sizeof(MODELM1E1));
 
-            GM_InitObject(&lpModel->lpData->object[0][0], GV_StrCode("m1e1cl1"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
-            GM_InitObject(&lpModel->lpData->object[0][1], GV_StrCode("m1e1cl2"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
-            GM_InitObject(&lpModel->lpData->object[0][2], GV_StrCode("m1e1cl3"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
-            GM_InitObject(&lpModel->lpData->object[1][0], GV_StrCode("m1e1cr1"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
-            GM_InitObject(&lpModel->lpData->object[1][1], GV_StrCode("m1e1cr2"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
-            GM_InitObject(&lpModel->lpData->object[1][2], GV_StrCode("m1e1cr3"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
+            GM_InitObject(&((LPMODELM1E1)lpModel->lpData)->object[0][0],
+                GV_StrCode("m1e1cl1"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
+            GM_InitObject(&((LPMODELM1E1)lpModel->lpData)->object[0][1],
+                GV_StrCode("m1e1cl2"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
+            GM_InitObject(&((LPMODELM1E1)lpModel->lpData)->object[0][2],
+                GV_StrCode("m1e1cl3"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
+            GM_InitObject(&((LPMODELM1E1)lpModel->lpData)->object[1][0],
+                GV_StrCode("m1e1cr1"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
+            GM_InitObject(&((LPMODELM1E1)lpModel->lpData)->object[1][1],
+                GV_StrCode("m1e1cr2"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
+            GM_InitObject(&((LPMODELM1E1)lpModel->lpData)->object[1][2],
+                GV_StrCode("m1e1cr3"), BODY_FLAG | DG_FLAG_AMBIENT | DG_FLAG_GBOUND, 0);
 
-            GM_ConfigObjectJoint(&lpModel->lpData->object[0][0]);
-            GM_ConfigObjectJoint(&lpModel->lpData->object[0][1]);
-            GM_ConfigObjectJoint(&lpModel->lpData->object[0][2]);
-            GM_ConfigObjectJoint(&lpModel->lpData->object[1][0]);
-            GM_ConfigObjectJoint(&lpModel->lpData->object[1][1]);
-            GM_ConfigObjectJoint(&lpModel->lpData->object[1][2]);
+            GM_ConfigObjectJoint(&((LPMODELM1E1)lpModel->lpData)->object[0][0]);
+            GM_ConfigObjectJoint(&((LPMODELM1E1)lpModel->lpData)->object[0][1]);
+            GM_ConfigObjectJoint(&((LPMODELM1E1)lpModel->lpData)->object[0][2]);
+            GM_ConfigObjectJoint(&((LPMODELM1E1)lpModel->lpData)->object[1][0]);
+            GM_ConfigObjectJoint(&((LPMODELM1E1)lpModel->lpData)->object[1][1]);
+            GM_ConfigObjectJoint(&((LPMODELM1E1)lpModel->lpData)->object[1][2]);
 
-            GM_ConfigObjectLight(&lpModel->lpData->object[0][0], lpModel->light);
-            GM_ConfigObjectLight(&lpModel->lpData->object[0][1], lpModel->light);
-            GM_ConfigObjectLight(&lpModel->lpData->object[0][2], lpModel->light);
-            GM_ConfigObjectLight(&lpModel->lpData->object[1][0], lpModel->light);
-            GM_ConfigObjectLight(&lpModel->lpData->object[1][1], lpModel->light);
-            GM_ConfigObjectLight(&lpModel->lpData->object[1][2], lpModel->light);
+            GM_ConfigObjectLight(&((LPMODELM1E1)lpModel->lpData)->object[0][0], lpModel->light);
+            GM_ConfigObjectLight(&((LPMODELM1E1)lpModel->lpData)->object[0][1], lpModel->light);
+            GM_ConfigObjectLight(&((LPMODELM1E1)lpModel->lpData)->object[0][2], lpModel->light);
+            GM_ConfigObjectLight(&((LPMODELM1E1)lpModel->lpData)->object[1][0], lpModel->light);
+            GM_ConfigObjectLight(&((LPMODELM1E1)lpModel->lpData)->object[1][1], lpModel->light);
+            GM_ConfigObjectLight(&((LPMODELM1E1)lpModel->lpData)->object[1][2], lpModel->light);
 
-            lpModel->lpData->field_560 = 83;
+            ((LPMODELM1E1)lpModel->lpData)->field_560 = 83;
         }
         else if((lpScene->nStrCode == GV_StrCode("hind"))
             || (lpScene->nStrCode == IDMODEL_MI24HINDDEMO))
         {
-            if((lpModel->lpData = GV_Malloc(sizeof(MGSDEMOHIND))) == NULL)
+            if((lpModel->lpData = GV_Malloc(sizeof(MODELMI24HIND))) == NULL)
                 return 0;
-            memset(lpModel->lpData, 0x00, sizeof(MGSDEMOHIND));
+            memset(lpModel->lpData, 0x00, sizeof(MODELMI24HIND));
         }
     }
 
@@ -309,12 +315,12 @@ BOOL DestroyDemo(
 
             if((lpScene->nStrCode == GV_StrCode("m1e1")) || (lpScene->nStrCode == IDMODEL_M1E1DEMO))
             {
-                GM_FreeObject(&lpModel->lpData->object[0][0]);
-                GM_FreeObject(&lpModel->lpData->object[0][1]);
-                GM_FreeObject(&lpModel->lpData->object[0][2]);
-                GM_FreeObject(&lpModel->lpData->object[1][0]);
-                GM_FreeObject(&lpModel->lpData->object[1][1]);
-                GM_FreeObject(&lpModel->lpData->object[1][2]);
+                GM_FreeObject(&((LPMODELM1E1)lpModel->lpData)->object[0][0]);
+                GM_FreeObject(&((LPMODELM1E1)lpModel->lpData)->object[0][1]);
+                GM_FreeObject(&((LPMODELM1E1)lpModel->lpData)->object[0][2]);
+                GM_FreeObject(&((LPMODELM1E1)lpModel->lpData)->object[1][0]);
+                GM_FreeObject(&((LPMODELM1E1)lpModel->lpData)->object[1][1]);
+                GM_FreeObject(&((LPMODELM1E1)lpModel->lpData)->object[1][2]);
             }
 
             GV_Free(lpModel->lpData);
@@ -572,20 +578,22 @@ static BOOL ShowEffect(
         case EFFECT_FADEIN:
             if ((lpfnEffect = GM_GetCharaID(DEMOID_FADEIN)) != NULL)
             {
-                if (lpEffect->data.variant_0x3.field_18 == 0)
-                    lpfnEffect(1, lpEffect->data.variant_0x3.field_14);
+                if (((LPEFFECTFADEINOUT)lpEffect->byBuffer)->field_18 == 0)
+                    lpfnEffect(1, ((LPEFFECTFADEINOUT)lpEffect->byBuffer)->field_14);
                 else
-                    lpfnEffect(3, lpEffect->data.variant_0x3.field_14);
+                    lpfnEffect(3, ((LPEFFECTFADEINOUT)lpEffect->byBuffer)->field_14);
             }
             break;
 
         case EFFECT_FADEOUT:
             if ((lpfnEffect = GM_GetCharaID(DEMOID_FADEOUT)) != NULL)
             {
-                if (lpEffect->data.variant_0x4.field_18 == 0)
-                    lpEAct->lpActor = lpfnEffect(0, lpEffect->data.variant_0x4.field_14);
+                if (((LPEFFECTFADEINOUT)lpEffect->byBuffer)->field_18 == 0)
+                    lpEAct->lpActor = lpfnEffect(0,
+                        ((LPEFFECTFADEINOUT)lpEffect->byBuffer)->field_14);
                 else
-                    lpEAct->lpActor = lpfnEffect(2, lpEffect->data.variant_0x4.field_14);
+                    lpEAct->lpActor = lpfnEffect(2,
+                        ((LPEFFECTFADEINOUT)lpEffect->byBuffer)->field_14);
             }
             break;
         }
@@ -595,18 +603,18 @@ static BOOL ShowEffect(
         if ((lpfnEffect = GM_GetCharaID(DEMOID_TEXT)) != NULL)
         {
             lpfnEffect(
-                lpEffect->data.variant_0x5.field_18,
-                lpEffect->data.variant_0x5.field_1A,
+                ((LPEFFECTTEXT)lpEffect->byBuffer)->field_18,
+                ((LPEFFECTTEXT)lpEffect->byBuffer)->field_1A,
                 0,
-                lpEffect->data.variant_0x5.field_14,
-                lpEffect->data.variant_0x5.field_1C);
+                ((LPEFFECTTEXT)lpEffect->byBuffer)->field_14,
+                ((LPEFFECTTEXT)lpEffect->byBuffer)->field_1C);
         }
         break;
 
     case EFFECT_SURPRISEDMARK:
         if ((lpfnEffect = GM_GetCharaID(DEMOID_SURPRISEDMARK)) != NULL)
         {
-            if (lpEffect->data.variant_0x6.field_14 == 0)
+            if (((LPEFFECTSURPRISEDMARK)lpEffect->byBuffer)->field_14 == 0)
                 lpfnEffect(&mat1, 2);
             else
                 lpfnEffect(&mat1, 0);
@@ -616,7 +624,7 @@ static BOOL ShowEffect(
     case EFFECT_QUESTIONMARK:
         if ((lpfnEffect = GM_GetCharaID(DEMOID_QUESTIONMARK)) != NULL)
         {
-            if (lpEffect->data.variant_0x7.field_14 == 0)
+            if (((LPEFFECTQUESTIONMARK)lpEffect->byBuffer)->field_14 == 0)
                 lpfnEffect(&mat1, 3);
             else
                 lpfnEffect(&mat1, 1);
@@ -631,11 +639,11 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_BLOOD:
-        if (lpEffect->data.variant_0x9.field_14 != 4)
+        if (((LPEFFECTBLOOD)lpEffect->byBuffer)->field_14 != 4)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_BLOOD)) != NULL)
             {
-                lpfnEffect(&mat2, lpEffect->data.variant_0x9.field_14);
+                lpfnEffect(&mat2, ((LPEFFECTBLOOD)lpEffect->byBuffer)->field_14);
             }
         }
         else
@@ -650,15 +658,15 @@ static BOOL ShowEffect(
         if ((lpfnEffect = GM_GetCharaID(DEMOID_BULLET)) != NULL)
         {
             lpfnEffect(
-                lpEffect->data.variant_0xA.field_14,
+                ((LPEFFECTBULLET)lpEffect->byBuffer)->field_14,
                 &mat2,
-                lpEffect->data.variant_0xA.field_18,
-                lpEffect->data.variant_0xA.field_1A,
-                lpEffect->data.variant_0xA.field_1C,
-                lpEffect->data.variant_0xA.field_1E,
-                lpEffect->data.variant_0xA.field_20,
-                lpEffect->data.variant_0xA.field_22,
-                lpEffect->data.variant_0xA.field_24);
+                ((LPEFFECTBULLET)lpEffect->byBuffer)->field_18,
+                ((LPEFFECTBULLET)lpEffect->byBuffer)->field_1A,
+                ((LPEFFECTBULLET)lpEffect->byBuffer)->field_1C,
+                ((LPEFFECTBULLET)lpEffect->byBuffer)->field_1E,
+                ((LPEFFECTBULLET)lpEffect->byBuffer)->field_20,
+                ((LPEFFECTBULLET)lpEffect->byBuffer)->field_22,
+                ((LPEFFECTBULLET)lpEffect->byBuffer)->field_24);
         }
         break;
     case EFFECT_MISSILESMOKE:
@@ -671,19 +679,20 @@ static BOOL ShowEffect(
     case EFFECT_BLOODCIRCLE:
         if ((lpfnEffect = GM_GetCharaID(DEMOID_BLOODCIRCLE)) != NULL)
         {
-            if (lpEffect->data.variant_0xC.field_14 >= 4 && lpEffect->data.variant_0xC.field_14 <= 7)
+            if ((((LPEFFECTBLOODCIRCLE)lpEffect->byBuffer)->field_14 >= 4)
+                && (((LPEFFECTBLOODCIRCLE)lpEffect->byBuffer)->field_14 <= 7))
             {
                 lpfnEffect(&svectMove,
-                    lpEffect->data.variant_0xC.field_14,
-                    lpEffect->data.variant_0xC.field_18,
-                    lpEffect->data.variant_0xC.field_1C);
+                    ((LPEFFECTBLOODCIRCLE)lpEffect->byBuffer)->field_14,
+                    ((LPEFFECTBLOODCIRCLE)lpEffect->byBuffer)->field_18,
+                    ((LPEFFECTBLOODCIRCLE)lpEffect->byBuffer)->field_1C);
             }
             else
             {
                 lpEAct->lpActor = lpfnEffect(&svectMove,
-                                        lpEffect->data.variant_0xC.field_14,
-                                        lpEffect->data.variant_0xC.field_18,
-                                        lpEffect->data.variant_0xC.field_1C);
+                    ((LPEFFECTBLOODCIRCLE)lpEffect->byBuffer)->field_14,
+                    ((LPEFFECTBLOODCIRCLE)lpEffect->byBuffer)->field_18,
+                    ((LPEFFECTBLOODCIRCLE)lpEffect->byBuffer)->field_1C);
             }
         }
         break;
@@ -701,7 +710,7 @@ static BOOL ShowEffect(
 
         for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
-            if (lpScene->nID == lpEffect->data.variant_0xE.field_14)
+            if (lpScene->nID == ((LPEFFECTSHADOW)lpEffect->byBuffer)->field_14)
             {
                 break;
             }
@@ -717,7 +726,7 @@ static BOOL ShowEffect(
             lpEActL = lpEActL->lpNext)
         {
             if ((lpEActL->effect.nEffectID == EFFECT_SHADOW)
-                && (lpEActL->effect.field_14_type == lpEffect->data.variant_0xE.field_14))
+                && (lpEActL->effect.field_14_type == ((LPEFFECTSHADOW)lpEffect->byBuffer)->field_14))
             {
                 if (lpEActL->lpActor)
                 {
@@ -727,19 +736,19 @@ static BOOL ShowEffect(
             }
         }
 
-        if (lpEffect->data.variant_0xE.field_20 != 1)
+        if (((LPEFFECTSHADOW)lpEffect->byBuffer)->field_20 != 1)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_SHADOW)) != NULL)
             {
                 lpEAct->lpActor =
                     lpfnEffect(
                         &lpModel->object,
-                        lpEffect->data.variant_0xE.field_18,
+                        ((LPEFFECTSHADOW)lpEffect->byBuffer)->field_18,
                         &lpEAct->nParam1,
                         &lpEAct->nParam2,
-                        lpEffect->data.variant_0xE.field_22 & 0xFF,
-                        lpEffect->data.variant_0xE.field_24 & 0xFF,
-                        lpEffect->data.variant_0xE.field_26 & 0xFF);
+                        ((LPEFFECTSHADOW)lpEffect->byBuffer)->field_22 & 0xFF,
+                        ((LPEFFECTSHADOW)lpEffect->byBuffer)->field_24 & 0xFF,
+                        ((LPEFFECTSHADOW)lpEffect->byBuffer)->field_26 & 0xFF);
             }
         }
         break;
@@ -756,20 +765,21 @@ static BOOL ShowEffect(
 
         if ((lpfnEffect = GM_GetCharaID(DEMOID_FOOTPRINTS)) != NULL)
         {
-            lpEAct->lpActor = lpfnEffect(&mat2, lpEffect->data.variant_0xF.field_14, svectMove.vy);
+            lpEAct->lpActor = lpfnEffect(&mat2,
+                ((LPEFFECTFOOTPRINTS)lpEffect->byBuffer)->field_14, svectMove.vy);
         }
         break;
 
     case EFFECT_MESSAGE:
         memset(&gvMessage, 0x00, sizeof(gvMessage));
-        gvMessage.address = lpEffect->data.variant_0x10.address;
-        gvMessage.message[0] = lpEffect->data.variant_0x10.message[0];
-        gvMessage.message[1] = lpEffect->data.variant_0x10.message[1];
-        gvMessage.message[2] = lpEffect->data.variant_0x10.message[2];
-        gvMessage.message[3] = lpEffect->data.variant_0x10.message[3];
-        gvMessage.message[4] = lpEffect->data.variant_0x10.message[4];
-        gvMessage.message[5] = lpEffect->data.variant_0x10.message[5];
-        gvMessage.message[6] = lpEffect->data.variant_0x10.message[6];
+        gvMessage.address = ((LPEFFECTMESSAGE)lpEffect->byBuffer)->address;
+        gvMessage.message[0] = ((LPEFFECTMESSAGE)lpEffect->byBuffer)->message[0];
+        gvMessage.message[1] = ((LPEFFECTMESSAGE)lpEffect->byBuffer)->message[1];
+        gvMessage.message[2] = ((LPEFFECTMESSAGE)lpEffect->byBuffer)->message[2];
+        gvMessage.message[3] = ((LPEFFECTMESSAGE)lpEffect->byBuffer)->message[3];
+        gvMessage.message[4] = ((LPEFFECTMESSAGE)lpEffect->byBuffer)->message[4];
+        gvMessage.message[5] = ((LPEFFECTMESSAGE)lpEffect->byBuffer)->message[5];
+        gvMessage.message[6] = ((LPEFFECTMESSAGE)lpEffect->byBuffer)->message[6];
         gvMessage.message_len = 7;
         GV_SendMessage(&gvMessage);
         break;
@@ -782,33 +792,33 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_BUBBLE:
-        if (lpEffect->data.variant_0x12.field_14 == 0)
+        if (((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_14 == 0)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_BUBBLE)) != NULL)
             {
                 lpfnEffect(&svectMove,
-                    lpEffect->data.variant_0x12.field_20,
-                    lpEffect->data.variant_0x12.field_24,
+                    ((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_20,
+                    ((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_24,
                     &lpAct->bEffectBubbleStop,
-                    lpEffect->data.variant_0x12.field_26,
-                    lpEffect->data.variant_0x12.field_28,
-                    lpEffect->data.variant_0x12.field_2A);
+                    ((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_26,
+                    ((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_28,
+                    ((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_2A);
             }
         }
-        else if (lpEffect->data.variant_0x12.field_14 == 1)
+        else if (((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_14 == 1)
         {
-            svec3.vx = lpEffect->data.variant_0x12.field_16;
-            svec3.vy = lpEffect->data.variant_0x12.field_18;
-            svec3.vz = lpEffect->data.variant_0x12.field_1A;
+            svec3.vx = ((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_16;
+            svec3.vy = ((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_18;
+            svec3.vz = ((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_1A;
 
             if ((lpfnEffect = GM_GetCharaID(DEMOID_BUBBLE2)) != NULL)
             {
                 lpfnEffect(&svectMove, &svec3,
-                    lpEffect->data.variant_0x12.field_1C,
+                    ((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_1C,
                     &lpAct->bEffectBubbleStop,
-                    lpEffect->data.variant_0x12.field_26,
-                    lpEffect->data.variant_0x12.field_28,
-                    lpEffect->data.variant_0x12.field_2A);
+                    ((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_26,
+                    ((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_28,
+                    ((LPEFFECTBUBBLE)lpEffect->byBuffer)->field_2A);
             }
         }
         else
@@ -846,24 +856,27 @@ static BOOL ShowEffect(
         switch (lpEffect->nEffectID)
         {
         case EFFECT_SCOPE:
-            if (lpEffect->data.variant_0x13.field_14 != 1)
+            if (((LPEFFECTSCOPE)lpEffect->byBuffer)->field_14 != 1)
             {
                 if ((lpfnEffect = GM_GetCharaID(DEMOID_SCOPE)) != NULL)
                 {
-                    lpEAct->lpActor = lpfnEffect(&lpAct->modelEffect.control,
-                                              &lpAct->modelEffect.object, 0);
+                    lpEAct->lpActor = lpfnEffect(
+                        &lpAct->modelEffect.control,
+                        &lpAct->modelEffect.object, 0);
                 }
             }
             break;
 
         case EFFECT_DARKVISIBLEGOGGLE:
-            if (lpEffect->data.variant_0x14.field_14 != 1)
+            if (((LPEFFECTDARKVISIBLEGOGGLE)lpEffect->byBuffer)->field_14 != 1)
             {
                 if ((lpfnEffect = GM_GetCharaID(DEMOID_DARKVISIBLEGOGGLE)) != NULL)
                 {
-                    lpEAct->lpActor = lpfnEffect(&lpAct->modelEffect.control,
-                                              &lpAct->modelEffect.object, 0);
-                    if (lpEffect->data.variant_0x14.field_16 != 0)
+                    lpEAct->lpActor = lpfnEffect(
+                        &lpAct->modelEffect.control,
+                        &lpAct->modelEffect.object, 0);
+
+                    if (((LPEFFECTDARKVISIBLEGOGGLE)lpEffect->byBuffer)->field_16 != 0)
                     {
                         if ((lpfnEffect = GM_GetCharaID(DEMOID_DARKVISIBLEGOGGLE2)) != NULL)
                         {
@@ -875,13 +888,15 @@ static BOOL ShowEffect(
             break;
 
         case EFFECT_IRRAYSGOGGLE:
-            if (lpEffect->data.variant_0x15.field_14 != 1)
+            if (((LPEFFECTIRRAYSGOGGLE)lpEffect->byBuffer)->field_14 != 1)
             {
                 if ((lpfnEffect = GM_GetCharaID(DEMOID_IRRAYSGOGGLE)) != NULL)
                 {
-                    lpEAct->lpActor = lpfnEffect(&lpAct->modelEffect.control,
-                                              &lpAct->modelEffect.object, 0);
-                    if (lpEffect->data.variant_0x15.field_16 != 0)
+                    lpEAct->lpActor = lpfnEffect(
+                        &lpAct->modelEffect.control,
+                        &lpAct->modelEffect.object, 0);
+
+                    if (((LPEFFECTIRRAYSGOGGLE)lpEffect->byBuffer)->field_16 != 0)
                     {
                         if ((lpfnEffect = GM_GetCharaID(DEMOID_IRRAYSGOGGLE2)) != NULL)
                         {
@@ -893,7 +908,7 @@ static BOOL ShowEffect(
             break;
 
         case EFFECT_GUSMASK:
-            if (lpEffect->data.variant_0x1E.field_14 != 1)
+            if (((LPEFFECTGUSMASK)lpEffect->byBuffer)->field_14 != 1)
             {
                 if ((lpfnEffect = GM_GetCharaID(DEMOID_GUSMASK)) != NULL)
                 {
@@ -917,7 +932,7 @@ static BOOL ShowEffect(
 
         for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
-            if (lpScene->nID == lpEffect->data.variant_0x17.field_18)
+            if (lpScene->nID == ((LPEFFECTOPTICSCAMOUFLAGE)lpEffect->byBuffer)->field_18)
             {
                 break;
             }
@@ -932,7 +947,7 @@ static BOOL ShowEffect(
         while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
             if ((lpEActL->effect.nEffectID == EFFECT_OPTICSCAMOUFLAGE)
-                && (lpEActL->effect.field_18_xy == lpEffect->data.variant_0x17.field_18))
+                && (lpEActL->effect.field_18_xy == ((LPEFFECTOPTICSCAMOUFLAGE)lpEffect->byBuffer)->field_18))
             {
                 if (lpEActL->lpActor != NULL)
                 {
@@ -943,10 +958,10 @@ static BOOL ShowEffect(
             lpEActL = lpEActL->lpNext;
         }
 
-        if ((lpEffect->data.variant_0x17.field_14 != 1)
+        if ((((LPEFFECTOPTICSCAMOUFLAGE)lpEffect->byBuffer)->field_14 != 1)
             && (lpEffect->nEffectID == EFFECT_OPTICSCAMOUFLAGE))
         {
-            if (lpEffect->data.variant_0x17.field_1C == 0)
+            if (((LPEFFECTOPTICSCAMOUFLAGE)lpEffect->byBuffer)->field_1C == 0)
             {
                 if ((lpfnEffect = GM_GetCharaID(DEMOID_OPTICSCAMOUFLAGE)) != NULL)
                 {
@@ -969,7 +984,7 @@ static BOOL ShowEffect(
 
         for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
-            if (lpScene->nID == lpEffect->data.variant_0x18.field_18)
+            if (lpScene->nID == ((LPEFFECTENVIRONMENTMAPPING)lpEffect->byBuffer)->field_18)
             {
                 break;
             }
@@ -984,7 +999,7 @@ static BOOL ShowEffect(
         while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
             if ((lpEActL->effect.nEffectID == EFFECT_ENVIRONMENTMAPPING)
-                && (lpEActL->effect.field_18_xy == lpEffect->data.variant_0x18.field_18))
+                && (lpEActL->effect.field_18_xy == ((LPEFFECTENVIRONMENTMAPPING)lpEffect->byBuffer)->field_18))
             {
                 if (lpEActL->lpActor != NULL)
                 {
@@ -994,11 +1009,12 @@ static BOOL ShowEffect(
             }
             lpEActL = lpEActL->lpNext;
         }
-        if (lpEffect->data.variant_0x18.field_14 == 0)
+        if (((LPEFFECTENVIRONMENTMAPPING)lpEffect->byBuffer)->field_14 == 0)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_ENVIRONMENTMAPPING)) != NULL)
             {
-                lpEAct->lpActor = lpfnEffect(&lpModel->object, lpEffect->data.variant_0x18.field_1C);
+                lpEAct->lpActor = lpfnEffect(&lpModel->object,
+                    ((LPEFFECTENVIRONMENTMAPPING)lpEffect->byBuffer)->field_1C);
             }
         }
         break;
@@ -1009,7 +1025,7 @@ static BOOL ShowEffect(
 
         for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
-            if (lpScene->nID == lpEffect->data.variant_0x19.field_14)
+            if (lpScene->nID == ((LPEFFECTPLASMA)lpEffect->byBuffer)->field_14)
             {
                 break;
             }
@@ -1023,29 +1039,30 @@ static BOOL ShowEffect(
         if ((lpfnEffect = GM_GetCharaID(DEMOID_PLASMA)) != NULL)
         {
             lpfnEffect(&lpModel->object,
-                lpEffect->data.variant_0x19.field_18,
-                lpEffect->data.variant_0x19.field_1A,
-                lpEffect->data.variant_0x19.field_1C,
-                lpEffect->data.variant_0x19.field_20);
+                ((LPEFFECTPLASMA)lpEffect->byBuffer)->field_18,
+                ((LPEFFECTPLASMA)lpEffect->byBuffer)->field_1A,
+                ((LPEFFECTPLASMA)lpEffect->byBuffer)->field_1C,
+                ((LPEFFECTPLASMA)lpEffect->byBuffer)->field_20);
         }
         break;
 
     case EFFECT_WINDCIRCLE:
         if ((lpfnEffect = GM_GetCharaID(DEMOID_WINDCIRCLE)) != NULL)
         {
-            lpfnEffect(&mat2, lpEffect->data.variant_0x1A.field_14);
+            lpfnEffect(&mat2, ((LPEFFECTWINDCIRCLE)lpEffect->byBuffer)->field_14);
         }
         break;
 
     case EFFECT_SEPIA:
         KillEffect(lpAct, EFFECT_SEPIA);
-        if (lpEffect->data.variant_0x1B.field_14 == 0)
+        if (((LPEFFECTSEPIA)lpEffect->byBuffer)->field_14 == 0)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_SEPIA)) != NULL)
             {
-                lpEAct->lpActor = lpfnEffect(lpEffect->data.variant_0x1B.field_16,
-                                          lpEffect->data.variant_0x1B.field_18,
-                                          lpEffect->data.variant_0x1B.field_1A);
+                lpEAct->lpActor = lpfnEffect(
+                    ((LPEFFECTSEPIA)lpEffect->byBuffer)->field_16,
+                    ((LPEFFECTSEPIA)lpEffect->byBuffer)->field_18,
+                    ((LPEFFECTSEPIA)lpEffect->byBuffer)->field_1A);
             }
         }
         break;
@@ -1057,14 +1074,20 @@ static BOOL ShowEffect(
         {
             lpEActL = lpEActL->lpNext;
         }
-
-        svectMove.vx = lpEffect->data.variant_0x1C.svectMove.vx;
-        svectMove.vy = lpEffect->data.variant_0x1C.svectMove.vy;
-        svectMove.vz = lpEffect->data.variant_0x1C.svectMove.vz;
-        svectRotate.vx = lpEffect->data.variant_0x1C.svectRotate.vx;
-        svectRotate.vy = lpEffect->data.variant_0x1C.svectRotate.vy;
-        svectRotate.vz = lpEffect->data.variant_0x1C.svectRotate.vz;
-
+// clang-format off
+        svectMove.vx = ((LPEFFECTMETALGEARLASER)
+            lpEffect->byBuffer)->svectMove.vx;
+        svectMove.vy = ((LPEFFECTMETALGEARLASER)
+            lpEffect->byBuffer)->svectMove.vy;
+        svectMove.vz = ((LPEFFECTMETALGEARLASER)
+            lpEffect->byBuffer)->svectMove.vz;
+        svectRotate.vx = ((LPEFFECTMETALGEARLASER)
+            lpEffect->byBuffer)->svectRotate.vx;
+        svectRotate.vy = ((LPEFFECTMETALGEARLASER)
+            lpEffect->byBuffer)->svectRotate.vy;
+        svectRotate.vz = ((LPEFFECTMETALGEARLASER)
+            lpEffect->byBuffer)->svectRotate.vz;
+// clang-format on
         if (lpEActL == (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_METALGEARLASER)) != NULL)
@@ -1083,12 +1106,13 @@ static BOOL ShowEffect(
 
     case EFFECT_UNSHAPEVIEW:
         KillEffect(lpAct, EFFECT_UNSHAPEVIEW);
-        if (lpEffect->data.variant_0x1D.field_14 == 0)
+        if (((LPEFFECTUNSHAPEVIEW)lpEffect->byBuffer)->field_14 == 0)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_UNSHAPEVIEW)) != NULL)
             {
-                lpEAct->lpActor = lpfnEffect(lpEffect->data.variant_0x1D.field_18,
-                                          lpEffect->data.variant_0x1D.field_1C);
+                lpEAct->lpActor = lpfnEffect(
+                    ((LPEFFECTUNSHAPEVIEW)lpEffect->byBuffer)->field_18,
+                    ((LPEFFECTUNSHAPEVIEW)lpEffect->byBuffer)->field_1C);
             }
         }
         break;
@@ -1116,7 +1140,7 @@ static BOOL ShowEffect(
 
     case EFFECT_URINATIONCIRCLE:    /* 失禁 */
 // clang-format on
-        if (lpEffect->data.variant_0x20.field_20 == 1)
+        if (((LPEFFECTURINATIONCIRCLE)lpEffect->byBuffer)->field_20 == 1)
         {
             lpEActL = lpAct->lpEffectNext;
             while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
@@ -1136,56 +1160,59 @@ static BOOL ShowEffect(
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_URINATIONCIRCLE)) != NULL)
             {
-                if (lpEffect->data.variant_0x20.field_14 >= 2 && lpEffect->data.variant_0x20.field_14 <= 5)
+                if ((((LPEFFECTURINATIONCIRCLE)lpEffect->byBuffer)->field_14 >= 2)
+                    && (((LPEFFECTURINATIONCIRCLE)lpEffect->byBuffer)->field_14 <= 5))
                 {
                     lpfnEffect(&svectMove,
-                        lpEffect->data.variant_0x20.field_14 + 2,
-                        lpEffect->data.variant_0x20.field_18,
-                        lpEffect->data.variant_0x20.field_1C);
+                        ((LPEFFECTURINATIONCIRCLE)lpEffect->byBuffer)->field_14 + 2,
+                        ((LPEFFECTURINATIONCIRCLE)lpEffect->byBuffer)->field_18,
+                        ((LPEFFECTURINATIONCIRCLE)lpEffect->byBuffer)->field_1C);
                 }
                 else
                 {
                     lpEAct->lpActor = lpfnEffect(&svectMove,
-                                        lpEffect->data.variant_0x20.field_14 + 2,
-                                        lpEffect->data.variant_0x20.field_18,
-                                        lpEffect->data.variant_0x20.field_1C);
+                        ((LPEFFECTURINATIONCIRCLE)lpEffect->byBuffer)->field_14 + 2,
+                        ((LPEFFECTURINATIONCIRCLE)lpEffect->byBuffer)->field_18,
+                        ((LPEFFECTURINATIONCIRCLE)lpEffect->byBuffer)->field_1C);
                 }
             }
         }
         break;
 
     case EFFECT_PLASMA2:
-        svec3.vx = lpEffect->data.variant_0x21.field_14;
-        svec3.vy = lpEffect->data.variant_0x21.field_16;
-        svec3.vz = lpEffect->data.variant_0x21.field_18;
+        svec3.vx = ((LPEFFECTPLASMA2)lpEffect->byBuffer)->field_14;
+        svec3.vy = ((LPEFFECTPLASMA2)lpEffect->byBuffer)->field_16;
+        svec3.vz = ((LPEFFECTPLASMA2)lpEffect->byBuffer)->field_18;
         if ((lpfnEffect = GM_GetCharaID(DEMOID_PLASMA2)) != NULL)
         {
-            lpfnEffect(&svectMove, &svec3, lpEffect->data.variant_0x21.field_1C);
+            lpfnEffect(&svectMove, &svec3, ((LPEFFECTPLASMA2)lpEffect->byBuffer)->field_1C);
         }
         break;
 
     case EFFECT_BLUR:
         KillEffect(lpAct, EFFECT_BLUR);
-        if (lpEffect->data.variant_0x22.field_14 == 0)
+        if (((LPEFFECTBLUR)lpEffect->byBuffer)->field_14 == 0)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_BLUR)) != NULL)
             {
-                lpEAct->lpActor = lpfnEffect(lpEffect->data.variant_0x22.field_16,
-                                          lpEffect->data.variant_0x22.field_18,
-                                          lpEffect->data.variant_0x22.field_1A);
+                lpEAct->lpActor = lpfnEffect(
+                    ((LPEFFECTBLUR)lpEffect->byBuffer)->field_16,
+                    ((LPEFFECTBLUR)lpEffect->byBuffer)->field_18,
+                    ((LPEFFECTBLUR)lpEffect->byBuffer)->field_1A);
             }
         }
         break;
 
     case EFFECT_STEAMSMOKE:
-        svec3.vx = lpEffect->data.variant_0x23.field_14;
-        svec3.vy = lpEffect->data.variant_0x23.field_16;
-        svec3.vz = lpEffect->data.variant_0x23.field_18;
-        if (lpEffect->data.variant_0x23.field_1A != 4)
+        svec3.vx = ((LPEFFECTSTEAMSMOKE)lpEffect->byBuffer)->field_14;
+        svec3.vy = ((LPEFFECTSTEAMSMOKE)lpEffect->byBuffer)->field_16;
+        svec3.vz = ((LPEFFECTSTEAMSMOKE)lpEffect->byBuffer)->field_18;
+        if (((LPEFFECTSTEAMSMOKE)lpEffect->byBuffer)->field_1A != 4)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_STEAMSMOKE)) != NULL)
             {
-                ((VOIDCHARA)lpfnEffect)(&svectMove, &svec3, lpEffect->data.variant_0x23.field_1A);
+                ((VOIDCHARA)lpfnEffect)(&svectMove, &svec3,
+                    ((LPEFFECTSTEAMSMOKE)lpEffect->byBuffer)->field_1A);
             }
         }
         else
@@ -1193,9 +1220,9 @@ static BOOL ShowEffect(
             if ((lpfnEffect = GM_GetCharaID(DEMOID_STEAMSMOKE2)) != NULL)
             {
                 ((VOIDCHARA)lpfnEffect)(&svectMove, &svec3,
-                    lpEffect->data.variant_0x23.field_1C & 0xFF,
-                    lpEffect->data.variant_0x23.field_1E & 0xFF,
-                    lpEffect->data.variant_0x23.field_20 & 0xFF);
+                    ((LPEFFECTSTEAMSMOKE)lpEffect->byBuffer)->field_1C & 0xFF,
+                    ((LPEFFECTSTEAMSMOKE)lpEffect->byBuffer)->field_1E & 0xFF,
+                    ((LPEFFECTSTEAMSMOKE)lpEffect->byBuffer)->field_20 & 0xFF);
             }
         }
         break;
@@ -1203,7 +1230,7 @@ static BOOL ShowEffect(
     case EFFECT_MONOTONE:
         KillEffect(lpAct, EFFECT_MONOTONE);
 
-        if (lpEffect->data.variant_0x24.field_14 == 0)
+        if (((LPEFFECTMONOTONE)lpEffect->byBuffer)->field_14 == 0)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_MONOTONE)) != NULL)
             {
@@ -1215,7 +1242,7 @@ static BOOL ShowEffect(
     case EFFECT_RIFLESIGHT:
         KillEffect(lpAct, EFFECT_RIFLESIGHT);
 
-        if (lpEffect->data.variant_0x25.field_14 == 0)
+        if (((LPEFFECTRIFLESIGHT)lpEffect->byBuffer)->field_14 == 0)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_RIFLESIGHT)) != NULL)
             {
@@ -1245,8 +1272,8 @@ static BOOL ShowEffect(
             break;
         }
 
-        lpModel->lpData->object[0][0].objs = lpEffect->data.variant_0x26.field_14;
-        lpModel->lpData->object[0][0].flag = lpEffect->data.variant_0x26.field_18;
+        ((LPMODELM1E1)lpModel->lpData)->object[0][0].objs = ((LPEFFECTMI24HIND)lpEffect->byBuffer)->lpObjs;
+        ((LPMODELM1E1)lpModel->lpData)->object[0][0].flag = ((LPEFFECTMI24HIND)lpEffect->byBuffer)->nFlags;
         break;
 
     case EFFECT_BLACKSMOKE:
@@ -1259,17 +1286,20 @@ static BOOL ShowEffect(
     case EFFECT_URINATIONCIRCLE2:
         if ((lpfnEffect = GM_GetCharaID(DEMOID_URINATIONCIRCLE2)) != NULL)
         {
-            if (lpEffect->data.variant_0x28.field_14 >= 0 && lpEffect->data.variant_0x28.field_14 <= 3)
+            if ((((LPEFFECTURINATIONCIRCLE2)lpEffect->byBuffer)->field_14 >= 0)
+                && (((LPEFFECTURINATIONCIRCLE2)lpEffect->byBuffer)->field_14 <= 3))
             {
-                lpfnEffect(&svectMove, lpEffect->data.variant_0x28.field_14 + 4, lpEffect->data.variant_0x28.field_18,
-                        lpEffect->data.variant_0x28.field_1C);
+                lpfnEffect(&svectMove,
+                    ((LPEFFECTURINATIONCIRCLE2)lpEffect->byBuffer)->field_14 + 4,
+                    ((LPEFFECTURINATIONCIRCLE2)lpEffect->byBuffer)->field_18,
+                    ((LPEFFECTURINATIONCIRCLE2)lpEffect->byBuffer)->field_1C);
             }
             else
             {
                 lpEAct->lpActor = lpfnEffect(&svectMove,
-                                         lpEffect->data.variant_0x28.field_14 + 4,
-                                         lpEffect->data.variant_0x28.field_18,
-                                         lpEffect->data.variant_0x28.field_1C);
+                    ((LPEFFECTURINATIONCIRCLE2)lpEffect->byBuffer)->field_14 + 4,
+                    ((LPEFFECTURINATIONCIRCLE2)lpEffect->byBuffer)->field_18,
+                    ((LPEFFECTURINATIONCIRCLE2)lpEffect->byBuffer)->field_1C);
             }
         }
         break;
@@ -1292,25 +1322,27 @@ static BOOL ShowEffect(
 
         if (lpEActL == (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            if (lpEffect->data.variant_0x29.field_14 != 1)
+            if (((LPEFFECTSIGHT)lpEffect->byBuffer)->field_14 != 1)
             {
                 if ((lpfnEffect = GM_GetCharaID(DEMOID_SIGHT)) != NULL)
                 {
-                    lpEAct->lpActor = lpfnEffect(lpEffect->data.variant_0x29.field_1C,
-                                             &lpEffect->data.variant_0x29.field_16);
+                    lpEAct->lpActor = lpfnEffect(
+                        ((LPEFFECTSIGHT)lpEffect->byBuffer)->field_1C,
+                        &((LPEFFECTSIGHT)lpEffect->byBuffer)->field_16);
                 }
             }
         }
-        else if (lpEffect->data.variant_0x29.field_14 != 0)
+        else if (((LPEFFECTSIGHT)lpEffect->byBuffer)->field_14 != 0)
         {
-            if (lpEActL->effect.field_1C_zpad != lpEffect->data.variant_0x29.field_1C)
+            if (lpEActL->effect.field_1C_zpad != ((LPEFFECTSIGHT)lpEffect->byBuffer)->field_1C)
             {
                 GV_DestroyOtherActor(lpEActL->lpActor);
                 lpEActL->lpActor = NULL;
                 if ((lpfnEffect = GM_GetCharaID(DEMOID_SIGHT)) != NULL)
                 {
-                    lpEAct->lpActor = lpfnEffect(lpEffect->data.variant_0x29.field_1C,
-                                             &lpEffect->data.variant_0x29.field_16);
+                    lpEAct->lpActor = lpfnEffect(
+                        ((LPEFFECTSIGHT)lpEffect->byBuffer)->field_1C,
+                        &((LPEFFECTSIGHT)lpEffect->byBuffer)->field_16);
                 }
             }
             else
@@ -1320,7 +1352,7 @@ static BOOL ShowEffect(
                 {
                     short a, b;
                 };
-                *(struct copier *)((char *)&lpEActL->effect.field_14_type + 2) = *(struct copier *)&lpEffect->data.variant_0x29.field_16;
+                *(struct copier *)((char *)&lpEActL->effect.field_14_type + 2) = *(struct copier *)&((LPEFFECTSIGHT)lpEffect->byBuffer)->field_16;
             }
         }
         else
@@ -1336,7 +1368,7 @@ static BOOL ShowEffect(
 
         for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
-            if (lpScene->nID == lpEffect->data.variant_0x2A.field_14)
+            if (lpScene->nID == ((LPEFFECTNINJASWORD)lpEffect->byBuffer)->field_14)
             {
                 break;
             }
@@ -1351,7 +1383,7 @@ static BOOL ShowEffect(
         while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
             if ((lpEActL->effect.nEffectID == EFFECT_NINJASWORD) &&
-                (lpEActL->effect.field_14_type == lpEffect->data.variant_0x2A.field_14))
+                (lpEActL->effect.field_14_type == ((LPEFFECTNINJASWORD)lpEffect->byBuffer)->field_14))
             {
                 if (lpEActL->lpActor != NULL)
                 {
@@ -1361,7 +1393,7 @@ static BOOL ShowEffect(
             }
             lpEActL = lpEActL->lpNext;
         }
-        if (lpEffect->data.variant_0x2A.field_18 != 1)
+        if (((LPEFFECTNINJASWORD)lpEffect->byBuffer)->field_18 != 1)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_NINJASWORD)) != NULL)
             {
@@ -1386,7 +1418,7 @@ static BOOL ShowEffect(
             lpEActL = lpEActL->lpNext;
         }
 
-        if (lpEffect->data.variant_0x2B.field_14 == 0)
+        if (((LPEFFECTSUBMARINEROOM)lpEffect->byBuffer)->field_14 == 0)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_SUBMARINEROOM)) != NULL)
             {
@@ -1396,55 +1428,57 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_BLACKSMOKE2:
-        svec3.vx = lpEffect->data.variant_0x2C.field_14;
-        svec3.vy = lpEffect->data.variant_0x2C.field_16;
-        svec3.vz = lpEffect->data.variant_0x2C.field_18;
+        svec3.vx = ((LPEFFECTBLACKSMOKE2)lpEffect->byBuffer)->field_14;
+        svec3.vy = ((LPEFFECTBLACKSMOKE2)lpEffect->byBuffer)->field_16;
+        svec3.vz = ((LPEFFECTBLACKSMOKE2)lpEffect->byBuffer)->field_18;
         if ((lpfnEffect = GM_GetCharaID(DEMOID_BLACKSMOKE2)) != NULL)
         {
             lpfnEffect(&svectMove, &svec3,
-                lpEffect->data.variant_0x2C.field_1A,
-                lpEffect->data.variant_0x2C.field_1C);
+                ((LPEFFECTBLACKSMOKE2)lpEffect->byBuffer)->field_1A,
+                ((LPEFFECTBLACKSMOKE2)lpEffect->byBuffer)->field_1C);
         }
         break;
 
     case EFFECT_BLASTLINE:
-        svec3.vx = lpEffect->data.variant_0x2D.field_14;
-        svec3.vy = lpEffect->data.variant_0x2D.field_16;
-        svec3.vz = lpEffect->data.variant_0x2D.field_18;
+        svec3.vx = ((LPEFFECTBLASTLINE)lpEffect->byBuffer)->field_14;
+        svec3.vy = ((LPEFFECTBLASTLINE)lpEffect->byBuffer)->field_16;
+        svec3.vz = ((LPEFFECTBLASTLINE)lpEffect->byBuffer)->field_18;
         if ((lpfnEffect = GM_GetCharaID(DEMOID_BLASTLINE)) != NULL)
         {
             lpfnEffect(
-                lpEffect->data.variant_0x2D.field_22,
-                lpEffect->data.variant_0x2D.field_1C,
-                lpEffect->data.variant_0x2D.field_20,
+                ((LPEFFECTBLASTLINE)lpEffect->byBuffer)->field_22,
+                ((LPEFFECTBLASTLINE)lpEffect->byBuffer)->field_1C,
+                ((LPEFFECTBLASTLINE)lpEffect->byBuffer)->field_20,
                 &svectMove, &svec3);
         }
         break;
 
     case EFFECT_SMOKELINE:
-        svec3.vx = lpEffect->data.variant_0x2E.field_14;
-        svec3.vy = lpEffect->data.variant_0x2E.field_16;
-        svec3.vz = lpEffect->data.variant_0x2E.field_18;
-        svec4.vx = lpEffect->data.variant_0x2E.field_1A;
-        svec4.vy = lpEffect->data.variant_0x2E.field_1C;
-        svec4.vz = lpEffect->data.variant_0x2E.field_1E;
+        svec3.vx = ((LPEFFECTSMOKELINE)lpEffect->byBuffer)->field_14;
+        svec3.vy = ((LPEFFECTSMOKELINE)lpEffect->byBuffer)->field_16;
+        svec3.vz = ((LPEFFECTSMOKELINE)lpEffect->byBuffer)->field_18;
+        svec4.vx = ((LPEFFECTSMOKELINE)lpEffect->byBuffer)->field_1A;
+        svec4.vy = ((LPEFFECTSMOKELINE)lpEffect->byBuffer)->field_1C;
+        svec4.vz = ((LPEFFECTSMOKELINE)lpEffect->byBuffer)->field_1E;
         if ((lpfnEffect = GM_GetCharaID(DEMOID_SMOKELINE)) != NULL)
         {
             lpfnEffect(
-                lpEffect->data.variant_0x2E.field_26,
-                lpEffect->data.variant_0x2E.field_20,
-                lpEffect->data.variant_0x2E.field_24,
+                ((LPEFFECTSMOKELINE)lpEffect->byBuffer)->field_26,
+                ((LPEFFECTSMOKELINE)lpEffect->byBuffer)->field_20,
+                ((LPEFFECTSMOKELINE)lpEffect->byBuffer)->field_24,
                 &svectMove, &svec3, &svec4,
-                lpEffect->data.variant_0x2E.field_28 & 0xFF,
-                lpEffect->data.variant_0x2E.field_2A & 0xFF,
-                lpEffect->data.variant_0x2E.field_2C & 0xFF);
+                ((LPEFFECTSMOKELINE)lpEffect->byBuffer)->field_28 & 0xFF,
+                ((LPEFFECTSMOKELINE)lpEffect->byBuffer)->field_2A & 0xFF,
+                ((LPEFFECTSMOKELINE)lpEffect->byBuffer)->field_2C & 0xFF);
         }
         break;
 
     case EFFECT_SHELLSMOKE:
         if ((lpfnEffect = GM_GetCharaID(DEMOID_SHELLSMOKE)) != NULL)
         {
-            lpfnEffect(lpEffect->data.variant_0x2F.field_14, &svectMove, &svectRotate);
+            lpfnEffect(
+                ((LPEFFECTSHELLSMOKE)lpEffect->byBuffer)->field_14,
+                &svectMove, &svectRotate);
         }
         break;
 
@@ -1477,28 +1511,28 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_ENVIRONMENTLIGHT:
-        svec3.vx = lpEffect->data.variant_0x34.field_24;
-        svec3.vy = lpEffect->data.variant_0x34.field_26;
-        svec3.vz = lpEffect->data.variant_0x34.field_28;
-        svec4.vx = lpEffect->data.variant_0x34.field_2A;
-        svec4.vy = lpEffect->data.variant_0x34.field_2C;
-        svec4.vz = lpEffect->data.variant_0x34.field_2E;
-        if (lpEffect->data.variant_0x34.field_30 == 0)
+        svec3.vx = ((LPEFFECTENVIRONMENTLIGHT)lpEffect->byBuffer)->field_24;
+        svec3.vy = ((LPEFFECTENVIRONMENTLIGHT)lpEffect->byBuffer)->field_26;
+        svec3.vz = ((LPEFFECTENVIRONMENTLIGHT)lpEffect->byBuffer)->field_28;
+        svec4.vx = ((LPEFFECTENVIRONMENTLIGHT)lpEffect->byBuffer)->field_2A;
+        svec4.vy = ((LPEFFECTENVIRONMENTLIGHT)lpEffect->byBuffer)->field_2C;
+        svec4.vz = ((LPEFFECTENVIRONMENTLIGHT)lpEffect->byBuffer)->field_2E;
+        if (((LPEFFECTENVIRONMENTLIGHT)lpEffect->byBuffer)->field_30 == 0)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_ENVIRONMENTLIGHT)) != NULL)
             {
                 lpfnEffect(
-                    lpEffect->data.variant_0x34.field_14,
-                    lpEffect->data.variant_0x34.field_18,
+                    ((LPEFFECTENVIRONMENTLIGHT)lpEffect->byBuffer)->field_14,
+                    ((LPEFFECTENVIRONMENTLIGHT)lpEffect->byBuffer)->field_18,
                     &svec3, &svec4,
-                    lpEffect->data.variant_0x34.field_1C,
-                    lpEffect->data.variant_0x34.field_20);
+                    ((LPEFFECTENVIRONMENTLIGHT)lpEffect->byBuffer)->field_1C,
+                    ((LPEFFECTENVIRONMENTLIGHT)lpEffect->byBuffer)->field_20);
             }
         }
         else
         {
             memset(&gvMessage, 0x00, sizeof(gvMessage));
-            gvMessage.address = lpEffect->data.variant_0x34.field_14;
+            gvMessage.address = ((LPEFFECTENVIRONMENTLIGHT)lpEffect->byBuffer)->field_14;
             gvMessage.message[0] = HASH_KILL;
             gvMessage.message_len = 1;
             GV_SendMessage(&gvMessage);
@@ -1509,13 +1543,13 @@ static BOOL ShowEffect(
         if ((lpfnEffect = GM_GetCharaID(DEMOID_CRASHSMOKE)) != NULL)
         {
             lpfnEffect(&svectMove, &svectRotate,
-                lpEffect->data.variant_0x35.field_18,
-                lpEffect->data.variant_0x35.field_1C,
-                lpEffect->data.variant_0x35.field_1E,
-                lpEffect->data.variant_0x35.field_20,
-                lpEffect->data.variant_0x35.field_22 & 0xFF,
-                lpEffect->data.variant_0x35.field_24 & 0xFF,
-                lpEffect->data.variant_0x35.field_26 & 0xFF);
+                ((LPEFFECTCRASHSMOKE)lpEffect->byBuffer)->field_18,
+                ((LPEFFECTCRASHSMOKE)lpEffect->byBuffer)->field_1C,
+                ((LPEFFECTCRASHSMOKE)lpEffect->byBuffer)->field_1E,
+                ((LPEFFECTCRASHSMOKE)lpEffect->byBuffer)->field_20,
+                ((LPEFFECTCRASHSMOKE)lpEffect->byBuffer)->field_22 & 0xFF,
+                ((LPEFFECTCRASHSMOKE)lpEffect->byBuffer)->field_24 & 0xFF,
+                ((LPEFFECTCRASHSMOKE)lpEffect->byBuffer)->field_26 & 0xFF);
         }
         break;
 
@@ -1523,18 +1557,18 @@ static BOOL ShowEffect(
         if ((lpfnEffect = GM_GetCharaID(DEMOID_CELOFAN)) != NULL)
         {
             lpfnEffect(
-                lpEffect->data.variant_0x37.field_14,
-                lpEffect->data.variant_0x37.field_18,
-                lpEffect->data.variant_0x37.field_1C,
-                lpEffect->data.variant_0x37.field_1E,
-                lpEffect->data.variant_0x37.field_20,
-                lpEffect->data.variant_0x37.field_22,
-                &lpEffect->data.variant_0x37.field_24,
-                &lpEffect->data.variant_0x37.field_28,
-                lpEffect->data.variant_0x37.field_2C,
-                lpEffect->data.variant_0x37.field_2E,
-                lpEffect->data.variant_0x37.field_30,
-                lpEffect->data.variant_0x37.field_32);
+                ((LPEFFECTCELOFAN)lpEffect->byBuffer)->field_14,
+                ((LPEFFECTCELOFAN)lpEffect->byBuffer)->field_18,
+                ((LPEFFECTCELOFAN)lpEffect->byBuffer)->field_1C,
+                ((LPEFFECTCELOFAN)lpEffect->byBuffer)->field_1E,
+                ((LPEFFECTCELOFAN)lpEffect->byBuffer)->field_20,
+                ((LPEFFECTCELOFAN)lpEffect->byBuffer)->field_22,
+                &((LPEFFECTCELOFAN)lpEffect->byBuffer)->field_24,
+                &((LPEFFECTCELOFAN)lpEffect->byBuffer)->field_28,
+                ((LPEFFECTCELOFAN)lpEffect->byBuffer)->field_2C,
+                ((LPEFFECTCELOFAN)lpEffect->byBuffer)->field_2E,
+                ((LPEFFECTCELOFAN)lpEffect->byBuffer)->field_30,
+                ((LPEFFECTCELOFAN)lpEffect->byBuffer)->field_32);
         }
         break;
 
@@ -1546,7 +1580,7 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_SPACK:
-        switch (lpEffect->data.variant_0x39.field_14)
+        switch (((LPEFFECTSPACK)lpEffect->byBuffer)->field_14)
         {
         case 0:
             if ((lpfnEffect = GM_GetCharaID(DEMOID_SPACK)) != NULL)
@@ -1572,45 +1606,47 @@ static BOOL ShowEffect(
         break;
 
     case EFFECT_STEAMEXPLOSION:
-        svec3.vx = lpEffect->data.variant_0x3A.field_14;
-        svec3.vy = lpEffect->data.variant_0x3A.field_16;
-        svec3.vz = lpEffect->data.variant_0x3A.field_18;
+        svec3.vx = ((LPEFFECTSTEAMEXPLOSION)lpEffect->byBuffer)->field_14;
+        svec3.vy = ((LPEFFECTSTEAMEXPLOSION)lpEffect->byBuffer)->field_16;
+        svec3.vz = ((LPEFFECTSTEAMEXPLOSION)lpEffect->byBuffer)->field_18;
         if ((lpfnEffect = GM_GetCharaID(DEMOID_STEAMEXPLOSION)) != NULL)
         {
             lpfnEffect(&svectMove, &svec3);
         }
         break;
+
     case EFFECT_INVERSLIGHT2:
         if ((lpfnEffect = GM_GetCharaID(DEMOID_INVERSLIGHT2)) != NULL)
         {
             lpfnEffect(&svectMove,
-                lpEffect->data.variant_0x3B.field_14,
-                lpEffect->data.variant_0x3B.field_18,
-                lpEffect->data.variant_0x3B.field_1C,
-                lpEffect->data.variant_0x3B.field_20,
-                lpEffect->data.variant_0x3B.field_22,
-                lpEffect->data.variant_0x3B.field_24,
-                lpEffect->data.variant_0x3B.field_26,
-                lpEffect->data.variant_0x3B.field_28);
+                ((LPEFFECTINVERSLIGHT2)lpEffect->byBuffer)->field_14,
+                ((LPEFFECTINVERSLIGHT2)lpEffect->byBuffer)->field_18,
+                ((LPEFFECTINVERSLIGHT2)lpEffect->byBuffer)->field_1C,
+                ((LPEFFECTINVERSLIGHT2)lpEffect->byBuffer)->field_20,
+                ((LPEFFECTINVERSLIGHT2)lpEffect->byBuffer)->field_22,
+                ((LPEFFECTINVERSLIGHT2)lpEffect->byBuffer)->field_24,
+                ((LPEFFECTINVERSLIGHT2)lpEffect->byBuffer)->field_26,
+                ((LPEFFECTINVERSLIGHT2)lpEffect->byBuffer)->field_28);
         }
         break;
+
     case EFFECT_CELOFAN2:
         if ((lpfnEffect = GM_GetCharaID(DEMOID_CELOFAN2)) != NULL)
         {
             lpfnEffect(
-                lpEffect->data.variant_0x3C.field_14,
-                lpEffect->data.variant_0x3C.field_18,
-                lpEffect->data.variant_0x3C.field_1C,
-                lpEffect->data.variant_0x3C.field_1E,
-                lpEffect->data.variant_0x3C.field_20,
-                lpEffect->data.variant_0x3C.field_22,
-                lpEffect->data.variant_0x3C.field_24,
-                &lpEffect->data.variant_0x3C.field_26,
-                &lpEffect->data.variant_0x3C.field_2A,
-                lpEffect->data.variant_0x3C.field_2E,
-                lpEffect->data.variant_0x3C.field_30,
-                lpEffect->data.variant_0x3C.field_32,
-                lpEffect->data.variant_0x3C.field_34);
+                ((LPEFFECTCELOFAN2)lpEffect->byBuffer)->field_14,
+                ((LPEFFECTCELOFAN2)lpEffect->byBuffer)->field_18,
+                ((LPEFFECTCELOFAN2)lpEffect->byBuffer)->field_1C,
+                ((LPEFFECTCELOFAN2)lpEffect->byBuffer)->field_1E,
+                ((LPEFFECTCELOFAN2)lpEffect->byBuffer)->field_20,
+                ((LPEFFECTCELOFAN2)lpEffect->byBuffer)->field_22,
+                ((LPEFFECTCELOFAN2)lpEffect->byBuffer)->field_24,
+                &((LPEFFECTCELOFAN2)lpEffect->byBuffer)->field_26,
+                &((LPEFFECTCELOFAN2)lpEffect->byBuffer)->field_2A,
+                ((LPEFFECTCELOFAN2)lpEffect->byBuffer)->field_2E,
+                ((LPEFFECTCELOFAN2)lpEffect->byBuffer)->field_30,
+                ((LPEFFECTCELOFAN2)lpEffect->byBuffer)->field_32,
+                ((LPEFFECTCELOFAN2)lpEffect->byBuffer)->field_34);
         }
         break;
 
@@ -1620,7 +1656,7 @@ static BOOL ShowEffect(
 
         for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
-            if (lpScene->nID == lpEffect->data.variant_0x3D.field_18)
+            if (lpScene->nID == ((LPEFFECTNINJALASER)lpEffect->byBuffer)->field_18)
             {
                 break;
             }
@@ -1634,8 +1670,8 @@ static BOOL ShowEffect(
         if ((lpfnEffect = GM_GetCharaID(DEMOID_NINJALASER)) != NULL)
         {
             lpfnEffect(&lpModel->object.objs[6].world.m[1][1],
-                lpEffect->data.variant_0x3D.field_14,
-                lpEffect->data.variant_0x3D.field_16);
+                ((LPEFFECTNINJALASER)lpEffect->byBuffer)->field_14,
+                ((LPEFFECTNINJALASER)lpEffect->byBuffer)->field_16);
         }
         break;
 
@@ -1655,7 +1691,7 @@ static BOOL ShowEffect(
             }
         }
 
-        if (lpEffect->data.variant_0x3E.field_14 == 0)
+        if (((LPEFFECTGUSEFFECT)lpEffect->byBuffer)->field_14 == 0)
         {
             if (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
             {
@@ -1665,15 +1701,15 @@ static BOOL ShowEffect(
 
             if ((lpfnEffect = GM_GetCharaID(DEMOID_GUSEFFECT)) != NULL)
             {
-                svec3.vx = lpEffect->data.variant_0x3E.field_16;
-                svec3.vy = lpEffect->data.variant_0x3E.field_18;
-                svec3.vz = lpEffect->data.variant_0x3E.field_1A;
+                svec3.vx = ((LPEFFECTGUSEFFECT)lpEffect->byBuffer)->field_16;
+                svec3.vy = ((LPEFFECTGUSEFFECT)lpEffect->byBuffer)->field_18;
+                svec3.vz = ((LPEFFECTGUSEFFECT)lpEffect->byBuffer)->field_1A;
                 lpEAct->lpActor = lpfnEffect(&svec3,
-                                        lpEffect->data.variant_0x3E.field_1E,
-                                        lpEffect->data.variant_0x3E.field_1C + 1);
+                    ((LPEFFECTGUSEFFECT)lpEffect->byBuffer)->field_1E,
+                    ((LPEFFECTGUSEFFECT)lpEffect->byBuffer)->field_1C + 1);
             }
         }
-        else if (lpEffect->data.variant_0x3E.field_14 == 1)
+        else if (((LPEFFECTGUSEFFECT)lpEffect->byBuffer)->field_14 == 1)
         {
             if (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
             {
@@ -1681,17 +1717,17 @@ static BOOL ShowEffect(
                 lpEActL->lpActor = NULL;
             }
         }
-        else if (lpEffect->data.variant_0x3E.field_14 == 2)
+        else if (((LPEFFECTGUSEFFECT)lpEffect->byBuffer)->field_14 == 2)
         {
             if (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
             {
                 memset(&gvMessage, 0x00, sizeof(gvMessage));
                 gvMessage.address = 0x3B8E;
-                if (lpEffect->data.variant_0x3E.field_20 == 0)
+                if (((LPEFFECTGUSEFFECT)lpEffect->byBuffer)->field_20 == 0)
                     gvMessage.message[0] = HASH_ON2;
                 else
                     gvMessage.message[0] = HASH_OFF2;
-                gvMessage.message[1] = lpEffect->data.variant_0x3E.field_22;
+                gvMessage.message[1] = ((LPEFFECTGUSEFFECT)lpEffect->byBuffer)->field_22;
                 gvMessage.message_len = 2;
                 GV_SendMessage(&gvMessage);
             }
@@ -1704,7 +1740,7 @@ static BOOL ShowEffect(
 
         for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
-            if (lpScene->nID == lpEffect->data.variant_0x3F.field_18)
+            if (lpScene->nID == ((LPEFFECTSUBMARINEWATER)lpEffect->byBuffer)->field_18)
             {
                 break;
             }
@@ -1719,7 +1755,7 @@ static BOOL ShowEffect(
         while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
             if ((lpEActL->effect.nEffectID == EFFECT_SUBMARINEWATER) &&
-                (lpEActL->effect.field_18_xy == lpEffect->data.variant_0x3F.field_18))
+                (lpEActL->effect.field_18_xy == ((LPEFFECTSUBMARINEWATER)lpEffect->byBuffer)->field_18))
             {
                 if (lpEActL->lpActor != NULL)
                 {
@@ -1730,7 +1766,7 @@ static BOOL ShowEffect(
             lpEActL = lpEActL->lpNext;
         }
 
-        if (lpEffect->data.variant_0x3F.field_14 != 1)
+        if (((LPEFFECTSUBMARINEWATER)lpEffect->byBuffer)->field_14 != 1)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_SUBMARINEWATER)) != NULL)
             {
@@ -1741,19 +1777,19 @@ static BOOL ShowEffect(
 
     case EFFECT_PADVIBRATION:
     case EFFECT_PADVIBRATION2:
-        if (lpEffect->data.variant_0x36.field_14 != 0)
+        if (((LPEFFECTPADVIBRATION)lpEffect->byBuffer)->field_14 != 0)
         {
             GM_PadVibration = 1;
         }
-        if (lpEffect->data.variant_0x36.field_16 != 0)
+        if (((LPEFFECTPADVIBRATION)lpEffect->byBuffer)->field_16 != 0)
         {
-            GM_PadVibration2 = lpEffect->data.variant_0x36.field_18;
+            GM_PadVibration2 = ((LPEFFECTPADVIBRATION)lpEffect->byBuffer)->field_18;
         }
         break;
 
     case EFFECT_GHOST:
         KillEffect(lpAct, EFFECT_GHOST);
-        if (lpEffect->data.variant_0x41.field_14 == 0)
+        if (((LPEFFECTGHOST)lpEffect->byBuffer)->field_14 == 0)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_GHOST)) != NULL)
             {
@@ -1764,8 +1800,8 @@ static BOOL ShowEffect(
 
     case EFFECT_LIGHT:
         DG_SetTmpLight(&svectMove,
-            lpEffect->data.variant_0x42.nBrightness,
-            lpEffect->data.variant_0x42.nRadius);
+            ((LPEFFECTLIGHT)lpEffect->byBuffer)->nBrightness,
+            ((LPEFFECTLIGHT)lpEffect->byBuffer)->nRadius);
         break;
 
     case EFFECT_FAMASLIGHT:
@@ -1774,7 +1810,7 @@ static BOOL ShowEffect(
 
         for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
-            if (lpScene->nID == lpEffect->data.variant_0x43.field_14)
+            if (lpScene->nID == ((LPEFFECTFAMASLIGHT)lpEffect->byBuffer)->field_14)
             {
                 break;
             }
@@ -1790,7 +1826,7 @@ static BOOL ShowEffect(
         while (lpEActL != (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
             if ((lpEActL->effect.nEffectID == EFFECT_FAMASLIGHT) &&
-                (lpEActL->effect.field_14_type == lpEffect->data.variant_0x43.field_14))
+                (lpEActL->effect.field_14_type == ((LPEFFECTFAMASLIGHT)lpEffect->byBuffer)->field_14))
             {
                 if (lpEActL->lpActor != NULL)
                 {
@@ -1801,7 +1837,7 @@ static BOOL ShowEffect(
             lpEActL = lpEActL->lpNext;
         }
 
-        if (lpEffect->data.variant_0x43.field_18 != 1)
+        if (((LPEFFECTFAMASLIGHT)lpEffect->byBuffer)->field_18 != 1)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_FAMASLIGHT)) != NULL)
             {
@@ -1816,7 +1852,7 @@ static BOOL ShowEffect(
 
         for (i = 0; i < lpAct->lpDemo->nSceneCount; i++, lpScene++, lpModel++)
         {
-            if (lpScene->nID == lpEffect->data.variant_0x44.field_18)
+            if (lpScene->nID == ((LPEFFECTHUMANSHADOW)lpEffect->byBuffer)->field_18)
             {
                 break;
             }
@@ -1844,15 +1880,15 @@ static BOOL ShowEffect(
 
         if (lpEActL == (LPMGSDEMOEFFECTACT)&lpAct->lpEffectPrevious)
         {
-            if (lpEffect->data.variant_0x44.field_14 != 1)
+            if (((LPEFFECTHUMANSHADOW)lpEffect->byBuffer)->field_14 != 1)
             {
                 if ((lpfnEffect = GM_GetCharaID(DEMOID_HUMANSHADOW)) != NULL)
                 {
-                    lpEAct->svect1.vx = lpEffect->data.variant_0x44.field_1E;
-                    lpEAct->svect1.vy = lpEffect->data.variant_0x44.field_20;
-                    lpEAct->svect1.vz = lpEffect->data.variant_0x44.field_22;
+                    lpEAct->svect1.vx = ((LPEFFECTHUMANSHADOW)lpEffect->byBuffer)->field_1E;
+                    lpEAct->svect1.vy = ((LPEFFECTHUMANSHADOW)lpEffect->byBuffer)->field_20;
+                    lpEAct->svect1.vz = ((LPEFFECTHUMANSHADOW)lpEffect->byBuffer)->field_22;
 
-                    if (lpEffect->data.variant_0x44.field_1C == 0)
+                    if (((LPEFFECTHUMANSHADOW)lpEffect->byBuffer)->field_1C == 0)
                     {
                         lpEAct->svect1.pad = 0;
                     }
@@ -1861,21 +1897,21 @@ static BOOL ShowEffect(
                         lpEAct->svect1.pad = -1;
                     }
 
-                    lpEAct->lpActor =
-                        lpfnEffect(lpModel, &lpModel->object, &lpEAct->svect1.vx, lpScene->nCacheID);
+                    lpEAct->lpActor = lpfnEffect(lpModel,
+                        &lpModel->object, &lpEAct->svect1.vx, lpScene->nCacheID);
                 }
             }
         }
-        else if (lpEffect->data.variant_0x44.field_14 == 1)
+        else if (((LPEFFECTHUMANSHADOW)lpEffect->byBuffer)->field_14 == 1)
         {
             GV_DestroyOtherActor(lpEActL->lpActor);
             lpEActL->lpActor = NULL;
         }
         else
         {
-            lpEActL->svect1.vx = lpEffect->data.variant_0x44.field_1E;
-            lpEActL->svect1.vy = lpEffect->data.variant_0x44.field_20;
-            lpEActL->svect1.vz = lpEffect->data.variant_0x44.field_22;
+            lpEActL->svect1.vx = ((LPEFFECTHUMANSHADOW)lpEffect->byBuffer)->field_1E;
+            lpEActL->svect1.vy = ((LPEFFECTHUMANSHADOW)lpEffect->byBuffer)->field_20;
+            lpEActL->svect1.vz = ((LPEFFECTHUMANSHADOW)lpEffect->byBuffer)->field_22;
         }
         break;
 
@@ -1883,10 +1919,10 @@ static BOOL ShowEffect(
         if ((lpfnEffect = GM_GetCharaID(DEMOID_BLOODHAZARD)) != NULL)
         {
             lpEAct->lpActor = lpfnEffect(&mat2,
-                lpEffect->data.variant_0x45.field_14,
-                lpEffect->data.variant_0x45.field_16,
-                lpEffect->data.variant_0x45.field_18,
-                lpEffect->data.variant_0x45.field_1A);
+                ((LPEFFECTBLOODHAZARD)lpEffect->byBuffer)->field_14,
+                ((LPEFFECTBLOODHAZARD)lpEffect->byBuffer)->field_16,
+                ((LPEFFECTBLOODHAZARD)lpEffect->byBuffer)->field_18,
+                ((LPEFFECTBLOODHAZARD)lpEffect->byBuffer)->field_1A);
         }
         break;
 
@@ -1894,8 +1930,8 @@ static BOOL ShowEffect(
         if ((lpfnEffect = GM_GetCharaID(DEMOID_BLOODDRIP)) != NULL)
         {
             lpfnEffect(&svectMove,
-                lpEffect->data.variant_0x46.field_14,
-                lpEffect->data.variant_0x46.field_16);
+                ((LPEFFECTBLOODDRIP)lpEffect->byBuffer)->field_14,
+                ((LPEFFECTBLOODDRIP)lpEffect->byBuffer)->field_16);
         }
         break;
 
@@ -1928,7 +1964,7 @@ static BOOL ShowEffect(
             lpEActL = lpEActL->lpNext;
         }
 
-        if (lpEffect->data.variant_0x49.field_14 == 0)
+        if (((LPEFFECTMGCROOMDISPLAY)lpEffect->byBuffer)->field_14 == 0)
         {
             if ((lpfnEffect = GM_GetCharaID(DEMOID_MGCROOMDISPLAY)) != NULL)
             {
@@ -1940,12 +1976,13 @@ static BOOL ShowEffect(
     case EFFECT_TEXT2:
         if ((lpfnEffect = GM_GetCharaID(DEMOID_TEXT2)) != NULL)
         {
-            lpfnEffect(lpEffect->data.variant_0x4A.field_18,
-                lpEffect->data.variant_0x4A.field_1A,
+            lpfnEffect(
+                ((LPEFFECTTEXT2)lpEffect->byBuffer)->field_18,
+                ((LPEFFECTTEXT2)lpEffect->byBuffer)->field_1A,
                 0,
-                lpEffect->data.variant_0x4A.field_14,
-                lpEffect->data.variant_0x4A.field_1C,
-                lpEffect->data.variant_0x4A.field_20);
+                ((LPEFFECTTEXT2)lpEffect->byBuffer)->field_14,
+                ((LPEFFECTTEXT2)lpEffect->byBuffer)->field_1C,
+                ((LPEFFECTTEXT2)lpEffect->byBuffer)->field_20);
         }
         break;
     }
@@ -2086,12 +2123,12 @@ static BOOL ShowScene(
         if((lpScene->nStrCode == GV_StrCode("m1e1"))
             || (lpScene->nStrCode == IDMODEL_M1E1DEMO))
         {
-            DG_InvisibleObjs(lpModel->lpData->object[0][0].objs);
-            DG_InvisibleObjs(lpModel->lpData->object[0][1].objs);
-            DG_InvisibleObjs(lpModel->lpData->object[0][2].objs);
-            DG_InvisibleObjs(lpModel->lpData->object[1][0].objs);
-            DG_InvisibleObjs(lpModel->lpData->object[1][1].objs);
-            DG_InvisibleObjs(lpModel->lpData->object[1][2].objs);
+            DG_InvisibleObjs(((LPMODELM1E1)lpModel->lpData)->object[0][0].objs);
+            DG_InvisibleObjs(((LPMODELM1E1)lpModel->lpData)->object[0][1].objs);
+            DG_InvisibleObjs(((LPMODELM1E1)lpModel->lpData)->object[0][2].objs);
+            DG_InvisibleObjs(((LPMODELM1E1)lpModel->lpData)->object[1][0].objs);
+            DG_InvisibleObjs(((LPMODELM1E1)lpModel->lpData)->object[1][1].objs);
+            DG_InvisibleObjs(((LPMODELM1E1)lpModel->lpData)->object[1][2].objs);
         }
     }
     else
@@ -2101,8 +2138,8 @@ static BOOL ShowScene(
         if((lpScene->nStrCode == GV_StrCode("m1e1"))
             || (lpScene->nStrCode == IDMODEL_M1E1DEMO))
         {
-            DG_VisibleObjs(lpModel->lpData->object[0][lpModel->lpData->field_558_idx[0]].objs);
-            DG_VisibleObjs(lpModel->lpData->object[1][lpModel->lpData->field_558_idx[1]].objs);
+            DG_VisibleObjs(((LPMODELM1E1)lpModel->lpData)->object[0][((LPMODELM1E1)lpModel->lpData)->nIndex[0]].objs);
+            DG_VisibleObjs(((LPMODELM1E1)lpModel->lpData)->object[1][((LPMODELM1E1)lpModel->lpData)->nIndex[1]].objs);
         }
 
         lpModel->control.mov.vx = lpSMotion->svectMove.vx;
@@ -2169,14 +2206,15 @@ static void demothrd_m1e1_8007D404(
     LPMGSDEMOSCENE       lpScene,
     LPMGSDEMOMODEL       lpModel)
 {
-    LPMGSDEMOM1E1 lpM1E1;
-    int tmp1;
-    int i;
-    SVECTOR vec;
-    SVECTOR vecTmp;
-    SVECTOR smokeVecs[10];
+    int         i;
+    LPMODELM1E1 lpM1E1;
+    int         tmp1;
+    SVECTOR     svect1;
+    SVECTOR     svect2;
+    SVECTOR     svectSmoke[10];
 
-    lpM1E1 = lpModel->lpData;
+    lpM1E1 = (LPMODELM1E1)lpModel->lpData;
+
     for(i = 0; i < 3; i++)
     {
         GM_ActMotion(&lpM1E1->object[0][i]);
@@ -2186,71 +2224,74 @@ static void demothrd_m1e1_8007D404(
     DG_SetPos2(&lpModel->control.mov, &lpModel->control.rot);
     DG_RotatePos(lpModel->object.rots);
 
-    M1E1GetCaterpillerVertex(&lpModel->lpData->object[0][0], &lpModel->lpData->object[1][0], smokeVecs, 1);
+    M1E1GetCaterpillerVertex(
+        &((LPMODELM1E1)lpModel->lpData)->object[0][0],
+        &((LPMODELM1E1)lpModel->lpData)->object[1][0], svectSmoke, 1);
+
     for(i = 0; i < 10; i++)
     {
-        smokeVecs[i].vy = smokeVecs[i].vy + 300;
+        svectSmoke[i].vy = svectSmoke[i].vy + 300;
     }
 
-    DG_PutVector(smokeVecs, smokeVecs, 10);
+    DG_PutVector(svectSmoke, svectSmoke, 10);
 
-    memset(&vec, 0x00, sizeof(SVECTOR));
-    vec.vx = lpM1E1->object[1][0].objs->objs[0].model->lx + ((lpM1E1->object[1][0].objs->objs[0].model->ux - lpM1E1->object[1][0].objs->objs[0].model->lx) / 2);
-    DG_PutVector(&vec, &vec, 1);
+    memset(&svect1, 0x00, sizeof(SVECTOR));
+    svect1.vx = lpM1E1->object[1][0].objs->objs[0].model->lx + ((lpM1E1->object[1][0].objs->objs[0].model->ux - lpM1E1->object[1][0].objs->objs[0].model->lx) / 2);
+    DG_PutVector(&svect1, &svect1, 1);
 
-    vecTmp.vx = vec.vx - lpM1E1->field_564[0].vx;
-    vecTmp.vy = vec.vy - lpM1E1->field_564[0].vy;
-    vecTmp.vz = vec.vz - lpM1E1->field_564[0].vz;
+    svect2.vx = svect1.vx - lpM1E1->field_564[0].vx;
+    svect2.vy = svect1.vy - lpM1E1->field_564[0].vy;
+    svect2.vz = svect1.vz - lpM1E1->field_564[0].vz;
 
-    tmp1 = magic_calc(&vecTmp, lpModel);
+    tmp1 = magic_calc(&svect2, lpModel);
 
     if(abs(tmp1) >= lpM1E1->field_560)
     {
-        AN_CaterpillerSmoke(&smokeVecs[rand() % 5]);
-        DG_InvisibleObjs(lpM1E1->object[0][lpM1E1->field_558_idx[0]].objs);
+        AN_CaterpillerSmoke(&svectSmoke[rand() % 5]);
+        DG_InvisibleObjs(lpM1E1->object[0][lpM1E1->nIndex[0]].objs);
         if(tmp1 > 0)
-            lpM1E1->field_558_idx[0]++;
+            lpM1E1->nIndex[0]++;
         else
-            lpM1E1->field_558_idx[0]--;
+            lpM1E1->nIndex[0]--;
 
-        if(lpM1E1->field_558_idx[0] < 0)
-            lpM1E1->field_558_idx[0] = 2;
+        if(lpM1E1->nIndex[0] < 0)
+            lpM1E1->nIndex[0] = 2;
 
-        if(lpM1E1->field_558_idx[0] >= 3)
-            lpM1E1->field_558_idx[0] = 0;
+        if(lpM1E1->nIndex[0] >= 3)
+            lpM1E1->nIndex[0] = 0;
 
-        DG_VisibleObjs(lpM1E1->object[0][lpM1E1->field_558_idx[0]].objs);
-        lpM1E1->field_564[0] = vec;
+        DG_VisibleObjs(lpM1E1->object[0][lpM1E1->nIndex[0]].objs);
+        lpM1E1->field_564[0] = svect1;
     }
 
-    memset(&vec, 0x00, sizeof(SVECTOR));
-    vec.vx = lpM1E1->object[1][0].objs->objs[0].model->lx + ((lpM1E1->object[1][0].objs->objs[0].model->ux - lpM1E1->object[1][0].objs->objs[0].model->lx) / 2);
+    memset(&svect1, 0x00, sizeof(SVECTOR));
+    svect1.vx = lpM1E1->object[1][0].objs->objs[0].model->lx + ((lpM1E1->object[1][0].objs->objs[0].model->ux - lpM1E1->object[1][0].objs->objs[0].model->lx) / 2);
     DG_SetPos2(&lpModel->control.mov, &lpModel->control.rot);
 
-    DG_PutVector(&vec, &vec, 1);
-    vecTmp.vx = vec.vx - lpM1E1->field_564[1].vx;
-    vecTmp.vy = vec.vy - lpM1E1->field_564[1].vy;
-    vecTmp.vz = vec.vz - lpM1E1->field_564[1].vz;
+    DG_PutVector(&svect1, &svect1, 1);
+    svect2.vx = svect1.vx - lpM1E1->field_564[1].vx;
+    svect2.vy = svect1.vy - lpM1E1->field_564[1].vy;
+    svect2.vz = svect1.vz - lpM1E1->field_564[1].vz;
 
-    tmp1 = magic_calc(&vecTmp, lpModel);
+    tmp1 = magic_calc(&svect2, lpModel);
 
     if(abs(tmp1) >= lpM1E1->field_560)
     {
-        AN_CaterpillerSmoke(&smokeVecs[(rand() % 5) + 5]);
-        DG_InvisibleObjs(lpM1E1->object[1][lpM1E1->field_558_idx[1]].objs);
+        AN_CaterpillerSmoke(&svectSmoke[(rand() % 5) + 5]);
+        DG_InvisibleObjs(lpM1E1->object[1][lpM1E1->nIndex[1]].objs);
         if(tmp1 > 0)
-            lpM1E1->field_558_idx[1]++;
+            lpM1E1->nIndex[1]++;
         else
-            lpM1E1->field_558_idx[1]--;
+            lpM1E1->nIndex[1]--;
 
-        if(lpM1E1->field_558_idx[1] < 0)
-            lpM1E1->field_558_idx[1] = 2;
+        if(lpM1E1->nIndex[1] < 0)
+            lpM1E1->nIndex[1] = 2;
 
-        if(lpM1E1->field_558_idx[1] >= 3)
-            lpM1E1->field_558_idx[1] = 0;
+        if(lpM1E1->nIndex[1] >= 3)
+            lpM1E1->nIndex[1] = 0;
 
-        DG_VisibleObjs(lpM1E1->object[1][lpM1E1->field_558_idx[1]].objs);
-        lpM1E1->field_564[1] = vec;
+        DG_VisibleObjs(lpM1E1->object[1][lpM1E1->nIndex[1]].objs);
+        lpM1E1->field_564[1] = svect1;
     }
     DG_SetPos2(&lpModel->control.mov, &lpModel->control.rot);
     DG_RotatePos(lpModel->object.rots);
@@ -2269,7 +2310,7 @@ static void demothrd_hind_8007D9C8(
     LPMGSDEMOSCENE       lpScene,
     LPMGSDEMOMODEL       lpModel)
 {
-    LPMGSDEMOHIND lpHind = (LPMGSDEMOHIND)lpModel->lpData;
+    LPMODELMI24HIND lpHind = (LPMODELMI24HIND)lpModel->lpData;
 
     if((lpHind->field_8 -= lpHind->field_0) < 0)
         lpHind->field_8 += 4096;
