@@ -23,11 +23,11 @@
 
 typedef struct tagFAMASLIGHT
 {
-    GV_ACT      actor;
-    int         nMap;
-    DG_PRIM     *prim;
-    MATRIX      *world;
-} FAMASLIGHT, *LPFAMASLIGHT;
+    GV_ACT   actor;
+    int      nMap;
+    DG_PRIM* lpPrim;
+    MATRIX*  lpWorld;
+} FAMASLIGHT, *PFAMASLIGHT, *LPFAMASLIGHT;
 
 /******************************************************************************
  * locals
@@ -47,58 +47,52 @@ static void Die(LPFAMASLIGHT lpAct);
  * publics
  */
 
-void *NewFamasLight(MATRIX *world)
+void* NewFamasLight(
+    MATRIX* lpWorld)
 {
-    DG_TEX          *tex;
-    LPFAMASLIGHT    lpAct;
-    DG_PRIM         *prim;
+    DG_TEX*      lpTex;
+    LPFAMASLIGHT lpAct;
+    DG_PRIM*     lpPrim;
 
-    tex = DG_GetTexture(FAMAS_LIGHT);
-    if (tex == NULL)
-    {
+    if((lpTex = DG_GetTexture(FAMAS_LIGHT)) == NULL)
         return NULL;
-    }
 
-    lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(FAMASLIGHT));
-    if (lpAct == NULL)
-    {
+    if((lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(FAMASLIGHT))) == NULL)
         return NULL;
-    }
 
     GV_SetNamedActor(&lpAct->actor, Act, Die, "famaslit.c");
 
-    lpAct->world = world;
+    lpAct->lpWorld = lpWorld;
     lpAct->nMap = GM_CurrentMap;
 
-    prim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 1, &famaslit_svec, &famaslit_rect);
-    lpAct->prim = prim;
+    lpPrim = GM_MakePrim(DG_PRIM_RECTANGLE | DG_PRIM_POLY_FT4, 1, &famaslit_svec, &famaslit_rect);
+    lpAct->lpPrim = lpPrim;
 
-    DG_GroupPrim(prim, 0);
+    DG_GroupPrim(lpPrim, 0);
+    lpAct->lpPrim->raise = 400;
 
-    lpAct->prim->raise = 400;
-
-#define PACK0   (((POLY_FT4 *)lpAct->prim->packs[0]) + 0)
-#define PACK1   (((POLY_FT4 *)lpAct->prim->packs[0]) + 1)
+#define PACK0   (((POLY_FT4 *)lpAct->lpPrim->packs[0]) + 0)
+#define PACK1   (((POLY_FT4 *)lpAct->lpPrim->packs[0]) + 1)
 
     {
         int x, y, w, h;
-        x = tex->off_x;
-        w = tex->w;
-        y = tex->off_y;
-        h = tex->h;
+        x = lpTex->off_x;
+        w = lpTex->w;
+        y = lpTex->off_y;
+        h = lpTex->h;
         setUVWH(PACK0, x, y, w, h);
-        PACK0->tpage = tex->tpage;
-        PACK0->clut = tex->clut;
+        PACK0->tpage = lpTex->tpage;
+        PACK0->clut = lpTex->clut;
     }
     {
         int x, y, w, h;
-        x = tex->off_x;
-        w = tex->w;
-        y = tex->off_y;
-        h = tex->h;
+        x = lpTex->off_x;
+        w = lpTex->w;
+        y = lpTex->off_y;
+        h = lpTex->h;
         setUVWH(PACK1, x, y, w, h);
-        PACK1->tpage = tex->tpage;
-        PACK1->clut = tex->clut;
+        PACK1->tpage = lpTex->tpage;
+        PACK1->clut = lpTex->clut;
     }
 
     PACK0->tpage &= ~0x60;
@@ -119,20 +113,22 @@ void *NewFamasLight(MATRIX *world)
 #undef PACK0
 #undef PACK1
 
-    return (void *)lpAct;
+    return (void*)lpAct;
 }
 
 /******************************************************************************
  * statics
  */
 
-static void Act(LPFAMASLIGHT lpAct)
+static void Act(
+    LPFAMASLIGHT lpAct)
 {
-    lpAct->prim->world = *lpAct->world;
-    DG_VisiblePrim(lpAct->prim);
+    lpAct->lpPrim->world = *lpAct->lpWorld;
+    DG_VisiblePrim(lpAct->lpPrim);
 }
 
-static void Die(LPFAMASLIGHT lpAct)
+static void Die(
+    LPFAMASLIGHT lpAct)
 {
-    GM_FreePrim(lpAct->prim);
+    GM_FreePrim(lpAct->lpPrim);
 }

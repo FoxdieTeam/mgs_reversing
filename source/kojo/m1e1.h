@@ -24,11 +24,11 @@ typedef struct tagM1E1ACTOR
 {
     GV_ACT  actor;
     CONTROL control;
-    MATRIX  field_9C_light_matrices[2];
+    MATRIX  light[2];
     OBJECT  field_DC;
     OBJECT  field_1C0[3];
     OBJECT  field_46C[3];
-    TARGET *field_718_targets[10];
+    TARGET* lpTarget[10];
     BOOL    bInitialize;
     char    field_744[0x61C];
     int     field_D60;
@@ -58,7 +58,7 @@ typedef struct tagM1E1ACTOR
     int     field_F6C;
     int     nCaterSoundTCount;
     int     nCaterSoundStartTCount;
-} M1E1ACTOR, *LPM1E1ACTOR;
+} M1E1ACTOR, *PM1E1ACTOR, *LPM1E1ACTOR;
 
 /******************************************************************************
  * prototypes
@@ -66,7 +66,7 @@ typedef struct tagM1E1ACTOR
 
 /* m1e1catr.c */
 void M1E1Caterpiller(LPM1E1ACTOR lpAct);
-void M1E1GetCaterpillerVertex(OBJECT *obj1, OBJECT *obj2, SVECTOR *pos, int a4);
+void M1E1GetCaterpillerVertex(OBJECT *obj1, OBJECT *obj2, SVECTOR *svectPos, BOOL arg3);
 
 #ifdef __cplusplus
 }

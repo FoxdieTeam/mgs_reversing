@@ -2226,7 +2226,7 @@ static void demothrd_m1e1_8007D404(
 
     M1E1GetCaterpillerVertex(
         &((LPMODELM1E1)lpModel->lpData)->object[0][0],
-        &((LPMODELM1E1)lpModel->lpData)->object[1][0], svectSmoke, 1);
+        &((LPMODELM1E1)lpModel->lpData)->object[1][0], svectSmoke, TRUE);
 
     for(i = 0; i < 10; i++)
     {

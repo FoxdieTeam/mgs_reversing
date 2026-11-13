@@ -1,5 +1,4 @@
 #include "game/game.h"
-#include "libgcl/libgcl.h"
 
 typedef struct _CamModel
 {

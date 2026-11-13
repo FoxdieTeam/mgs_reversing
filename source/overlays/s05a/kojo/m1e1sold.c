@@ -1,9 +1,8 @@
+#include <rand.h>
 #include "game/game.h"
 #include "chara/snake/sna_init.h"
-#include "libhzd/libhzd.h"
 #include "strcode.h"
 #include "bullet/blast.h"
-#include <rand.h>
 
 typedef struct
 {
