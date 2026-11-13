@@ -53,8 +53,8 @@ static void KillEffect(LPMGSDEMOACT lpAct, int nEffectID);
 static BOOL ShowEffectExecute(LPMGSDEMOACT lpAct, LPMGSDEMOFRAME lpDFrame, LPMGSDEMOEFFECTACT lpEAct);
 static BOOL ShowEffectStop(LPMGSDEMOACT lpAct, LPMGSDEMOFRAME lpDFrame);
 static BOOL ShowScene(LPMGSDEMOACT lpAct, LPMGSDEMOSCENEMOTION lpSMotion);
-static void demothrd_m1e1_8007D404(LPMGSDEMOACT lpAct, LPMGSDEMOSCENEMOTION lpSMotion, LPMGSDEMOSCENE lpScene, LPMGSDEMOMODEL lpModel);
-static void demothrd_hind_8007D9C8(LPMGSDEMOACT lpAct, LPMGSDEMOSCENEMOTION lpSMotion, LPMGSDEMOSCENE lpScene, LPMGSDEMOMODEL lpModel);
+static void ActM1E1(LPMGSDEMOACT lpAct, LPMGSDEMOSCENEMOTION lpSMotion, LPMGSDEMOSCENE lpScene, LPMGSDEMOMODEL lpModel);
+static void ActMi24Hind(LPMGSDEMOACT lpAct, LPMGSDEMOSCENEMOTION lpSMotion, LPMGSDEMOSCENE lpScene, LPMGSDEMOMODEL lpModel);
 
 /******************************************************************************
  * publics
@@ -2167,12 +2167,12 @@ static BOOL ShowScene(
             if((lpScene->nStrCode == GV_StrCode("m1e1"))
                 || (lpScene->nStrCode == IDMODEL_M1E1DEMO))
             {
-                demothrd_m1e1_8007D404(lpAct, lpSMotion, lpScene, lpModel);
+                ActM1E1(lpAct, lpSMotion, lpScene, lpModel);
             }
             else if((lpScene->nStrCode == GV_StrCode("hind"))
                 || (lpScene->nStrCode == IDMODEL_MI24HINDDEMO))
             {
-                demothrd_hind_8007D9C8(lpAct, lpSMotion, lpScene, lpModel);
+                ActMi24Hind(lpAct, lpSMotion, lpScene, lpModel);
             }
 
             GM_ActMotion(&lpModel->object);
@@ -2200,7 +2200,7 @@ static inline int magic_calc(SVECTOR* svect1, LPMGSDEMOMODEL lpModel)
 
 /******************************************************************************
  */
-static void demothrd_m1e1_8007D404(
+static void ActM1E1(
     LPMGSDEMOACT         lpAct,
     LPMGSDEMOSCENEMOTION lpSMotion,
     LPMGSDEMOSCENE       lpScene,
@@ -2304,7 +2304,7 @@ static void demothrd_m1e1_8007D404(
 
 /******************************************************************************
  */
-static void demothrd_hind_8007D9C8(
+static void ActMi24Hind(
     LPMGSDEMOACT         lpAct,
     LPMGSDEMOSCENEMOTION lpSMotion,
     LPMGSDEMOSCENE       lpScene,
