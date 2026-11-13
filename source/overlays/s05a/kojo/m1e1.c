@@ -1,5 +1,4 @@
 #include "game/game.h"
-#include "libgcl/libgcl.h"
 #include "menu/menuman.h"
 
 typedef struct _M1E1Work M1E1Work;

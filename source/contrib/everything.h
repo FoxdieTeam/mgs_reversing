@@ -40,7 +40,6 @@
 #include "game/delay.h"
 #include "game/item.h"
 #include "game/jimctrl.h"
-#include "game/loader.h"
 #include "game/vibrate.h"
 #include "font/font.h"
 #include "game/navi.h"

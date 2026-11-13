@@ -1,6 +1,6 @@
 #include "mgstype.h"
 #include "game/game.h"
-#include "kojo/demo.h"
+#include "kojo/unknown.h"
 #include "hind.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"

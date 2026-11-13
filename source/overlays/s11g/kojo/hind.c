@@ -1,8 +1,7 @@
 #include "mgstype.h"
 #include "game/game.h"
-#include "kojo/demo.h"
+#include "kojo/unknown.h"
 #include "hind.h"
-#include "libgcl/libgcl.h"
 
 SVECTOR s11g_dword_800C3598 = {5000, 3000, 5000, 0};
 SVECTOR s11g_dword_800C35A0 = {100, 0, 0, 0};

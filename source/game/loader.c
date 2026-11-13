@@ -1,11 +1,11 @@
-#include "loader.h"
-
 #include <stdio.h>
 #include "mgstype.h"
 #include "libgv/libgv.h"
 #include "libdg/libdg.h"
 #include "libfs/libfs.h"
 #include "game/game.h"
+
+/* ---------------------------------------------------------------- */
 
 typedef struct _Work
 {
@@ -16,62 +16,53 @@ typedef struct _Work
     int     time;
 } Work;
 
-static void Act(Work *work)
+static void Act( Work *work )
 {
     work->time++;
 
-    if (work->type != 2)
-    {
-        if (work->type == 3)
-        {
-            DG_OffsetDispEnv(work->time & 2);
+    if ( work->type != 2 ){
+        if ( work->type == 3 ){
+            DG_OffsetDispEnv( work->time & 2 );
             GM_PadVibration2 = 100;
         }
     }
 
-    if (work->reading)
-    {
-        if (!FS_LoadStageSync(work->info))
-        {
+    if ( work->reading ){
+        if ( !FS_LoadStageSync( work->info ) ){
             work->reading = FALSE;
         }
-    }
-    else
-    {
-        GV_DestroyActor(&work->actor);
+    } else {
+        GV_DestroyActor( work );
     }
 }
 
-static void Die(Work *work)
+static void Die( Work *work )
 {
-    printf("LoadEnd\n");
-    FS_LoadStageComplete(work->info);
+    printf( "LoadEnd\n" );
+    FS_LoadStageComplete( work->info );
     GM_LoadComplete = -1;
 }
 
-void *NewLoader(const char *dir)
+void *GM_StartLoader( const char *dir )
 {
     Work *work;
 
 #ifdef DEV_EXE
-    // force load some overlay in dev variant
-    if (strcmp(dir, "title") == 0)
-    {
+    // force load the stage select
+    if ( strcmp( dir, "title" ) == 0 ){
         dir = "select1";
     }
 #endif
 
-    work = GV_NewActor(GV_ACTOR_ASSIST, sizeof(Work));
+    work = GV_NewActor( GV_ACTOR_ASSIST, sizeof( Work ) );
 
-    printf("LoadReq\n");
-    work->info = FS_LoadStageRequest(dir);
+    printf( "LoadReq\n" );
 
-    if (!work->info)
-    {
-        printf("NOT FOUND STAGE %s\n", dir);
+    if ( ( work->info = FS_LoadStageRequest( dir ) ) == NULL ){
+        printf( "NOT FOUND STAGE %s\n", dir );
+//      HANGUP();
     }
-
-    GV_SetNamedActor(&work->actor, Act, Die, "loader.c");
+    GV_SetNamedActor( work, Act, Die, "loader.c" );
 
     work->reading = TRUE;
     work->type = (GM_LoadRequest & 0x0f);

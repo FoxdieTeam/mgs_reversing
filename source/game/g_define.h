@@ -44,8 +44,6 @@ enum {
     PLAYER_DEBUG                = 0x80000000,   /* Debug mode */
 };
 
-/*---------------------------------------------------------------------------*/
-
 #define GAME_FLAG_BIT_08 0x80    // cleared when unpausing, never set though
 #define GAME_FLAG_BIT_09 0x100   // set by s12c dog.c, used in bullet.c
 #define GAME_FLAG_BIT_13 0x1000  // enables menu when STATE_VOX_STREAM is set
@@ -54,36 +52,36 @@ enum {
 
 // GM_GameStatus
 enum {
-    STATE_CHAFF = 0x1,
-    STATE_STUN = 0x2,
-    STATE_NVG = 0x4,
-    STATE_THERMG = 0x8,
-    STATE_BEHIND_CAMERA = 0x10,
-    STATE_VOX_STREAM = 0x20,
-    STATE_CUT_IN = 0x40,
-    STATE_ENEMY_OFF = 0x200,
-    STATE_TAKING_PHOTO = 0x400,
-    STATE_CAMERA_ACTIVE = 0x800,
+    STATE_CHAFF         = 0x00000001,
+    STATE_STUN          = 0x00000002,
+    STATE_NVG           = 0x00000004,
+    STATE_THERMG        = 0x00000008,
+    STATE_BEHIND_CAMERA = 0x00000010,
+    STATE_VOX_STREAM    = 0x00000020,
+    STATE_CUT_IN        = 0x00000040,
+    STATE_ENEMY_OFF     = 0x00000200,
+    STATE_TAKING_PHOTO  = 0x00000400,
+    STATE_CAMERA_ACTIVE = 0x00000800,
     // ...
-    STATE_RADIO_OFF = 0x2000,
-    STATE_PAUSE_OFF = 0x4000,
-    STATE_SHOW_LIFEBAR = 0x8000,
-    STATE_HIDE_LIFEBAR = 0x10000,
-    STATE_LIFE_OFF = 0x20000,
-    STATE_EQUIP_OFF = 0x40000,
-    STATE_MENU_DISABLE = 0x80000,
-    STATE_RADAR_ON_REQ = 0x100000,
-    STATE_RADAR_OFF_REQ = 0x200000,
-    STATE_RADAR_OFF = 0x400000,
-    STATE_JAMMING = 0x800000, // "Snake, you can't use the radar in an area with strong harmonic resonance" (Mei Ling)
-    STATE_DEMO_VERBOSE = 0x1000000,
-    STATE_DAMAGED = 0x2000000,
-    STATE_GAME_OVER = 0x4000000,
-    STATE_PADMASK = 0x8000000,
-    STATE_PADRELEASE = 0x10000000,
-    STATE_NOSLOW = 0x20000000,
-    STATE_PADDEMO = 0x40000000,
-    STATE_DEMO = 0x80000000,
+    STATE_RADIO_OFF     = 0x00002000,
+    STATE_PAUSE_OFF     = 0x00004000,
+    STATE_SHOW_LIFEBAR  = 0x00008000,
+    STATE_HIDE_LIFEBAR  = 0x00010000,
+    STATE_LIFE_OFF      = 0x00020000,
+    STATE_EQUIP_OFF     = 0x00040000,
+    STATE_MENU_DISABLE  = 0x00080000,
+    STATE_RADAR_ON_REQ  = 0x00100000,
+    STATE_RADAR_OFF_REQ = 0x00200000,
+    STATE_RADAR_OFF     = 0x00400000,
+    STATE_JAMMING       = 0x00800000,   // "strong harmonic resonance"
+    STATE_VIEW_LOAD     = 0x01000000,
+    STATE_DAMAGED       = 0x02000000,
+    STATE_GAME_OVER     = 0x04000000,
+    STATE_PADMASK       = 0x08000000,
+    STATE_PADRELEASE    = 0x10000000,
+    STATE_NOSLOW        = 0x20000000,
+    STATE_PADDEMO       = 0x40000000,
+    STATE_DEMO          = 0x80000000,
 };
 
 #define STATE_CAM_CHANGE    ( STATE_BEHIND_CAMERA | STATE_CUT_IN )

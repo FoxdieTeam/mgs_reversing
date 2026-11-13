@@ -1,8 +1,7 @@
 #include "mgstype.h"
 #include "game/game.h"
-#include "kojo/demo.h"
+#include "kojo/unknown.h"
 #include "hind.h"
-#include "libgcl/libgcl.h"
 
 extern int              MENU_RadarScale;
 extern int              amissile_alive_8009F490;

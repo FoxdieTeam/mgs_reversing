@@ -1,8 +1,5 @@
 #include "game/game.h"
 #include "kojo/m1e1.h"
-#include "libgcl/libgcl.h"
-#include "libhzd/libhzd.h"
-#include "libdg/libdg.h"
 #include "okajima/bullet.h"
 
 extern int rand(void);
@@ -2103,17 +2100,16 @@ void s05a_800D9A14(Work *work)
     work->field_E54.vy = route->points[cnt].y;
     work->field_E54.vz = route->points[cnt].z;
 }
-extern void M1E1GetCaterpillerVertex(OBJECT *obj1, OBJECT *obj2, SVECTOR *pos, int a4);
 
-#define HZD_FLOOR(v)                                                            \
+#define HZD_FLOOR(v)                                            \
     if (HZD_LevelHazardCheck(work->control.map->hzd, (v), HZD_CHK_F_FLOOR) != 1) \
-    {                                                                          \
-        (v)->vy = 0;                                                          \
-    }                                                                          \
-    else                                                                       \
-    {                                                                          \
-        HZD_GetLevelHeight(levels);                                           \
-        (v)->vy = levels[0];                                                  \
+    {                                                           \
+        (v)->vy = 0;                                            \
+    }                                                           \
+    else                                                        \
+    {                                                           \
+        HZD_GetLevelHeight(levels);                             \
+        (v)->vy = levels[0];                                    \
     }
 
 void s05a_800DA02C(Work *work)
