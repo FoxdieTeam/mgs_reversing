@@ -96,6 +96,9 @@ void GM_ResetChara(void);
 void *GM_GetChara(unsigned char *script);
 void *GM_GetCharaID(int chara_id);
 
+/* loader.c */
+void *GM_StartLoader(const char *dir);
+
 /* alert.c */
 void GM_SetSong(int song);
 int  GM_GetNoiseSound(int flag, int noise);
