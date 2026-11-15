@@ -18,7 +18,7 @@ typedef struct _CamEb0
 
 typedef struct _CamActor
 {
-    char      pad_000[0x20];
+    GV_ACT    actor;
     CONTROL   control;         /* 0x020 */
     char      pad_09C[0xB0 - 0x9C];
     int       field_B0;        /* 0x0B0 */

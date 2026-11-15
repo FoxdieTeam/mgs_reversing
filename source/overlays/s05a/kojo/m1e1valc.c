@@ -5,7 +5,7 @@ typedef struct _Work Work;
 
 typedef struct _M1e1
 {
-    char    pad_000[0x20];
+    GV_ACT  actor;
     SVECTOR field_20;    /* 0x020 */
     char    pad_28[0xB0 - 0x28];
     int     field_B0;    /* 0x0B0 */
@@ -22,9 +22,9 @@ typedef struct _M1e1
     char    pad_D5C[0xDB8 - 0xD5C];
     int     field_DB8;   /* 0xDB8 */
     char    pad_DBC[0xE60 - 0xDBC];
-    int     field_E60;   /* 0xE60 */
+    int     nSoundVolume;   /* 0xE60 */
     char    pad_E64[0xEBC - 0xE64];
-    Work   *field_EBC;   /* 0xEBC */
+    Work   *lpValcan;    /* 0xEBC */
     int     field_EC0;   /* 0xEC0 */
     int     field_EC4;   /* 0xEC4 */
     int     field_EC8;   /* 0xEC8 */
@@ -73,20 +73,20 @@ Work *NewM1E1Vulcan(M1e1 *m1e1);
 void s05a_800DD1C8(M1e1 *m1e1)
 {
     SVECTOR pos;
-    int     s1;
+    int     vol;
 
     if (m1e1->field_ED0 == 2)
     {
         pos = GM_PlayerPosition;
-        s1 = 0x3F;
+        vol = 0x3F;
     }
     else
     {
         pos = m1e1->field_20;
-        s1 = m1e1->field_E60;
+        vol = m1e1->nSoundVolume;
     }
 
-    if (s05a_dword_800C3648 <= 0 && m1e1->field_EBC == NULL)
+    if (s05a_dword_800C3648 <= 0 && m1e1->lpValcan == NULL)
     {
         if (m1e1->field_EC0 == 1)
         {
@@ -103,13 +103,13 @@ void s05a_800DD1C8(M1e1 *m1e1)
         {
             if (m1e1->field_EC4 < 2 || !(rand() & 1))
             {
-                m1e1->field_EBC = NewM1E1Vulcan(m1e1);
-                GM_ConfigObjectAction(&m1e1->field_EBC->body, 2, 0, 5);
+                m1e1->lpValcan = NewM1E1Vulcan(m1e1);
+                GM_ConfigObjectAction(&m1e1->lpValcan->body, 2, 0, 5);
             }
             else
             {
                 s05a_dword_800C3648 = m1e1->field_DB8 * 2 / 3;
-                GM_SeSetPan(&pos, 0x85, s1);
+                GM_SeSetPan(&pos, 0x85, vol);
             }
         }
     }
@@ -125,21 +125,21 @@ void s05a_800DD1C8(M1e1 *m1e1)
 
     if (s05a_dword_800C3648 <= 0)
     {
-        if (m1e1->field_EBC != NULL && m1e1->field_EBC->body.action != 5 &&
-            m1e1->field_EBC->field_214 == 0)
+        if (m1e1->lpValcan != NULL && m1e1->lpValcan->body.action != 5 &&
+            m1e1->lpValcan->field_214 == 0)
         {
             m1e1->body.rots[8].vx = GV_NearSpeed(m1e1->body.rots[8].vx, -0x638, 0x2D);
             if (m1e1->body.rots[8].vx >= -0x5B1 && m1e1->body.rots[8].vx < -0x584)
             {
-                GM_SeSetPan(&pos, 0xBC, s1);
+                GM_SeSetPan(&pos, 0xBC, vol);
             }
         }
-        if (m1e1->field_EBC == NULL || m1e1->field_EBC->body.action == 5)
+        if (m1e1->lpValcan == NULL || m1e1->lpValcan->body.action == 5)
         {
             m1e1->body.rots[8].vx = GV_NearSpeed(m1e1->body.rots[8].vx, 0, 0x2D);
             if (m1e1->body.rots[8].vx >= -0xB4 && m1e1->body.rots[8].vx < -0x87)
             {
-                GM_SeSetPan(&pos, 0xBB, s1);
+                GM_SeSetPan(&pos, 0xBB, vol);
             }
         }
     }
@@ -230,7 +230,7 @@ void s05a_800DD6B8(Work *work)
     else
     {
         pos = work->control.mov;
-        vol = work->field_1EC->field_E60;
+        vol = work->field_1EC->nSoundVolume;
     }
 
     switch (work->body.action)
@@ -363,7 +363,7 @@ void s05a_800DDC14(Work *work)
         GM_Item = work->last_item;
     }
 
-    work->field_1EC->field_EBC = 0;
+    work->field_1EC->lpValcan = 0;
     GM_FreeObject(&work->body);
     GM_FreeControl(&work->control);
 }

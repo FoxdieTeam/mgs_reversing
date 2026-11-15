@@ -23,7 +23,7 @@ const char s05a_dword_800E34E8[] = {'m', '1', 'e', '1', 's', 'm', 'k', 'e', '.',
 void s05a_800DC058(Work *work);
 void s05a_800DC224(void *work);
 
-Work *s05a_800DBF58(int type, SVECTOR *a1, SVECTOR *a2)
+void *s05a_800DBF58(int type, SVECTOR *a1, SVECTOR *a2)
 {
     Work *work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
 
@@ -47,7 +47,7 @@ Work *s05a_800DBF58(int type, SVECTOR *a1, SVECTOR *a2)
         break;
     }
     GV_SetNamedActor(&work->actor, s05a_800DC058, s05a_800DC224, s05a_dword_800E34E8);
-    return work;
+    return (void *)work;
 }
 
 void s05a_800DC058(Work *work)

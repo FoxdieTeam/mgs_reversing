@@ -22,7 +22,8 @@ typedef struct _CamModel
 
 typedef struct _CamActor
 {
-    char      pad_000[0x24];
+    GV_ACT    actor;
+    char      pad_020[0x04];
     short     field_24;  /* 0x024 */
     char      pad_26[0x4C - 0x26];
     MAP      *field_4C;  /* 0x04C */
@@ -40,7 +41,7 @@ typedef struct _CamActor
 
 typedef struct _Camera
 {
-    char    pad_000[0x20];
+    GV_ACT  actor;
     SVECTOR field_20; /* 0x20 */
     SVECTOR field_28; /* 0x28 */
     SVECTOR field_30; /* 0x30 */
