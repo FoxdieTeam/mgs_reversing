@@ -431,7 +431,108 @@ void s14e_800C7398( Work *work, int time )
     work->vision.facedir = work->control.rot.vy;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800C7550.s")
+void s14e_800C7550( Work *work, int time )
+{
+    CONTROL *ctrl;
+    SVECTOR *vecs;
+    int dir, motion, touches, wall, wall2, size;
+
+    work->target->class |= TARGET_FLAG;
+    if ( ZAKO14Command.alert_mode == 0 ) work->target->class |= TARGET_C4;
+    work->vision.length = ZAKO14_EYE_LENGTH;
+
+    if ( CheckDamage( work ) )
+    {
+        UnsetMode( work );
+        return;
+    }
+
+    if ( s14e_800C6D20( work ) )
+    {
+        UnsetMode( work );
+        return;
+    }
+
+    if ( s14e_800C7194( work ) )
+    {
+        UnsetMode( work );
+        return;
+    }
+
+    wall = -1;
+    dir = work->pad.dir;
+    ctrl = &work->control;
+    motion = work->act.motion1;
+    vecs = ctrl->vecs;
+
+    if ( ( work->pad.field_4 & 1 ) && motion != 2 )
+    {
+        SetAction( work, 2, 4 );
+    }
+
+    if ( dir < 0 )
+    {
+        SetMode( work, s14e_800C7398 );
+        UnsetMode( work );
+        return;
+    }
+
+    touches = ctrl->n_touches;
+
+    if ( touches > 0 )
+    {
+        wall = GV_VecDir2( vecs );
+        if ( touches > 1 )
+        {
+            wall2 = GV_VecDir2( &ctrl->vecs[ 1 ] );
+            if ( GV_DiffDirAbs( dir, wall2 ) < GV_DiffDirAbs( dir, wall ) )
+            {
+                wall = wall2;
+            }
+        }
+    }
+
+    if ( dir < 0 )
+    {
+        SetMode( work, s14e_800C7398 );
+        UnsetMode( work );
+        return;
+    }
+
+    switch( s14e_800C6F40( dir, wall ) )
+    {
+    case 1:
+        dir = ( wall - 1024 ) & 4095;
+        break;
+    case 2:
+        dir = ( wall + 1024 ) & 4095;
+        break;
+    }
+
+    if ( work->body.objs->bound_mode == 0 )
+    {
+        ctrl->rot.vy = dir;
+        ctrl->turn.vy = dir;
+    }
+    else
+    {
+        ctrl->turn.vy = dir;
+    }
+
+    size = 0;
+    if ( motion == 1 )
+    {
+        size = 50;
+    }
+    else if ( motion == 2 )
+    {
+        size = 100;
+    }
+
+    ctrl->step.vx = size * rsin( dir ) / 4096;
+    ctrl->step.vz = size * rcos( dir ) / 4096;
+    work->vision.facedir = work->control.rot.vy;
+}
 
 void s14e_800C77F8( Work *work, int time )
 {

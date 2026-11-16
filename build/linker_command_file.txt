@@ -2624,19 +2624,19 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\animal\zako14\zako14.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako14\zako14.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\animal\zako14\action.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\animal\zako14\override.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\animal\zako14\put.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\animal\zako14\zk14act.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako14\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako14\override.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako14\put.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako14\zk14act.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\animal\zako14\think.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako14\think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
     include "{{OBJ_DIR}}\animal\zako14\zako14com.obj", overlay
     include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
@@ -2649,42 +2649,8 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\elevator.obj", overlay
     include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s14e\overlay3.obj", overlay
-
-    ; include "{{OBJ_DIR}}\takabe\fog.obj", overlay
-    ; include "{{OBJ_DIR}}\takabe\libdg2.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D8470.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D84DC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D852C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D8604.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D8698.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D87D0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D8848.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D8850.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D8878.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D88C0.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D8910.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D8968.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D89B8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D8A10.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D8AA8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D8D08.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D8D2C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D96E8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D9750.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D981C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D9964.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D99F8.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D9AFC.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800D9D3C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800DA2A4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800DA3B4.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800DA460.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800DA50C.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800DA674.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s14e\s14e_800DA720.obj", overlay
-
+    include "{{OBJ_DIR}}\takabe\fog.obj", overlay
+    include "{{OBJ_DIR}}\takabe\libdg2.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
     include "{{OBJ_DIR}}\takabe\cinema.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_seg.obj", overlay

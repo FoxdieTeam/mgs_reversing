@@ -90,6 +90,7 @@ BSS_HACK = defaultdict(int, {
     's02c_lhs.bin': 4,
     's02d_lhs.bin': 4,
     's02e_lhs.bin': 4,
+    's14e_lhs.bin': 4,
 })
 
 def get_bss_adjustment(lhs):
