@@ -144,6 +144,7 @@ void s05a_800DD1C8(M1e1 *m1e1)
         }
     }
 }
+
 Work *NewM1E1Vulcan(M1e1 *m1e1)
 {
     Work *work;
@@ -193,6 +194,7 @@ Work *NewM1E1Vulcan(M1e1 *m1e1)
     work->field_214 = 0x1E;
     return work;
 }
+
 void s05a_800DD6B8(Work *work)
 {
     SVECTOR pos;

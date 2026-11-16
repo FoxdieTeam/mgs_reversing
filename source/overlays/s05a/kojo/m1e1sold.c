@@ -194,6 +194,7 @@ void *s05a_800DDCBC(CamActor *director)
     }
     return work;
 }
+
 void s05a_800DDF18(Sol *work)
 {
     int     lvl[2];
@@ -491,6 +492,7 @@ void s05a_800DEB94(Sol *work)
         GM_ResetHomingTarget(work->homing);
     }
 }
+
 int s05a_800DEC18(Sol *work, SVECTOR *s2, int a2)
 {
     int     v;
@@ -554,6 +556,7 @@ int s05a_800DEC18(Sol *work, SVECTOR *s2, int a2)
     }
     return v;
 }
+
 void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
 {
     int     lvl[2];
@@ -784,6 +787,7 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
     control->step.vy += 0x10;
     control->step.vy -= (short)*arg3 >> 8;
 }
+
 int s05a_800DF834(int arg0, SVECTOR *vec, u_short *arg3)
 {
     SVECTOR d;
@@ -822,6 +826,7 @@ int s05a_800DF834(int arg0, SVECTOR *vec, u_short *arg3)
     }
     return 0;
 }
+
 int s05a_800DF9C8(TARGET *t, int flags)
 {
     SVECTOR delta;
@@ -978,6 +983,7 @@ void s05a_800DFFC0(SnaInitWork *work, void *pFn)
     work->control.turn.vx = vec_x;
     work->control.turn.vz = 0;
 }
+
 void s05a_800DFFF8(SnaInitWork *work, int action_flag, int interp)
 {
     if (work->body.action != action_flag)
@@ -985,6 +991,7 @@ void s05a_800DFFF8(SnaInitWork *work, int action_flag, int interp)
         GM_ConfigObjectAction(&work->body, action_flag, 0, interp);
     }
 }
+
 void s05a_800E002C(SnaInitWork *work, int a2, int interp, int a4)
 {
     if (work->body.action2 != a2)
@@ -992,6 +999,7 @@ void s05a_800E002C(SnaInitWork *work, int a2, int interp, int a4)
         GM_ConfigObjectOverride(&work->body, a2, 0, interp, a4);
     }
 }
+
 int s05a_800E0068(int flag)
 {
     return (GM_PlayerStatus & flag) != 0;
@@ -1025,6 +1033,7 @@ int s05a_800E00D8(SnaInitWork *snake, SnaFlag1 flags)
 {
     return (snake->field_894_flags1 & flags) != 0;
 }
+
 void s05a_800E0D38(CONTROL *control, HZD_HDL *hzd);
 void s05a_800E0E28(CONTROL *work, HZD_HDL *hzd);
 void s05a_800E0F64(CONTROL *work, HZD_HDL *hzd);
@@ -1164,6 +1173,7 @@ int s05a_800E00EC(GV_ACT *actor)
     DG_SetPos2(&work->control.mov, &work->control.rot);
     return 1;
 }
+
 int s05a_800E066C(SnaInitWork *work_)
 {
     SnaInitWork *work = work_;
@@ -1318,6 +1328,7 @@ int s05a_800E066C(SnaInitWork *work_)
     GM_ActObject(&work->body);
     return 1;
 }
+
 void s05a_800E0D38(CONTROL *control, HZD_HDL *hzd)
 {
     GV_MSG *msg;
@@ -1406,6 +1417,7 @@ void s05a_800E0E28(CONTROL *work, HZD_HDL *hzd)
         }
     }
 }
+
 void s05a_800E0F64(CONTROL *work, HZD_HDL *hzd)
 {
     SVECTOR react;

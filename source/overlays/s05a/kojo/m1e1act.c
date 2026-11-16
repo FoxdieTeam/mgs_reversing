@@ -532,6 +532,7 @@ void s05a_800D4A74(LPM1E1ACT lpAct)
         DG_MakeCameraMatrix(DG_Chanl(0), &va, &vb, 0x140);
     }
 }
+
 void s05a_800D5E30(LPM1E1ACT lpAct)
 {
     int i;
@@ -601,6 +602,7 @@ void s05a_800D5E30(LPM1E1ACT lpAct)
     s05a_dword_800C362C = 0;
     if (lpAct->field_D54 == 5 && lpAct->field_E20 >= 0) GCL_ExecProc(lpAct->field_E20, 0);
 }
+
 void s05a_800D627C(LPM1E1ACT lpAct)
 {
     int      lvl[2];
@@ -1124,6 +1126,7 @@ const char s05a_dword_800E34B4[] = "drive7";
 const char s05a_dword_800E34BC[] = "drive1";
 const char s05a_dword_800E34C4[] = "drive2";
 const char s05a_dword_800E34CC[] = {'d', 'r', 'i', 'v', 'e', '3', 0x0, 'U'}; /* linker pad byte */
+
 void s05a_800D797C(LPM1E1ACT lpAct)
 {
     MATRIX   mtx;
@@ -1422,6 +1425,7 @@ void s05a_800D797C(LPM1E1ACT lpAct)
         }
     }
 }
+
 void s05a_800D863C(LPM1E1ACT lpAct)
 {
     MATRIX  mtx;
@@ -1807,6 +1811,7 @@ void s05a_800D863C(LPM1E1ACT lpAct)
         NewBulletEx(0x620, &mtx, 2, 1, 0, 0x28, lpAct->field_DAC, lpAct->field_DB0, lpAct->field_DB4);
     }
 }
+
 void s05a_800D9754(LPM1E1ACT lpAct)
 {
     SVECTOR vec;
@@ -1849,6 +1854,7 @@ void s05a_800D9754(LPM1E1ACT lpAct)
         lpAct->field_EA0 += pv[2];
     }
 }
+
 extern const char s05a_dword_800E349C[]; /* "drive4" */
 extern const char s05a_dword_800E34A4[]; /* "drive5" */
 extern const char s05a_dword_800E34AC[]; /* "drive6" */
@@ -2085,6 +2091,7 @@ void s05a_800DA02C(LPM1E1ACT lpAct)
     mov.vz = (mid[0].vz + mid[1].vz) - (mid[2].vz + mid[3].vz);
     lpAct->control.turn.vz = ratan2(mov.vy, SquareRoot0(mov.vx * mov.vx + mov.vz * mov.vz));
 }
+
 void s05a_800DA62C(LPM1E1ACT lpAct)
 {
     SVECTOR vec;
@@ -2187,6 +2194,7 @@ void s05a_800DA62C(LPM1E1ACT lpAct)
     v -= r >> 1;
     *(int *)&lpAct->field_EA4 = v;
 }
+
 #define WMDL(off) (*(u_short *)((char *)lpAct->objBody.objs->objs[0].model + (off)))
 
 void s05a_800DA940(LPM1E1ACT lpAct)

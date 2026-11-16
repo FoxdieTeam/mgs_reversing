@@ -142,6 +142,7 @@ void *s05a_800E1134(void)
     s05a_dword_800C38CC = cam;
     return cam;
 }
+
 void s05a_800E1448(Camera *actor)
 {
     CamActor *listener;
@@ -355,6 +356,7 @@ void s05a_800E1A68(void)
     GM_SetCameraCallbackFunc(1, NULL);
     s05a_dword_800C38CC = 0;
 }
+
 void s05a_800E1AA8(void)
 {
     VECTOR  pos;
@@ -387,6 +389,7 @@ void s05a_800E1AA8(void)
     s05a_dword_800C38CC->field_66 += s05a_dword_800C38CC->field_6E;
     s05a_dword_800C38CC->field_68 += s05a_dword_800C38CC->field_70;
 }
+
 void s05a_800E1C14(void)
 {
     VECTOR  pos;
@@ -418,6 +421,7 @@ void s05a_800E1C14(void)
     s05a_dword_800C38CC->field_66 += s05a_dword_800C38CC->field_6E;
     s05a_dword_800C38CC->field_68 += s05a_dword_800C38CC->field_70;
 }
+
 void s05a_800E1D7C(void)
 {
     VECTOR  hi;
@@ -458,6 +462,7 @@ void s05a_800E1D7C(void)
         GM_Camera.target.vz -= 1;
     }
 }
+
 void s05a_800E1F0C(void)
 {
     VECTOR  hi;
@@ -498,6 +503,7 @@ void s05a_800E1F0C(void)
         GM_Camera.target.vz -= 1;
     }
 }
+
 void s05a_800E209C(VECTOR *out, VECTOR *in, int (*fn)())
 {
     { int t = s05a_dword_800C38CC->field_20.vx; if (t < out->vx) t = out->vx; out->vx = t; }
@@ -529,6 +535,7 @@ void s05a_800E209C(VECTOR *out, VECTOR *in, int (*fn)())
     GM_Camera.target.vy = fn(GM_Camera.target.vy, in->vy);
     GM_Camera.target.vz = fn(GM_Camera.target.vz, in->vz);
 }
+
 VECTOR *s05a_800E2328(VECTOR *out, SVECTOR *cam, VECTOR *in, SVECTOR *lo, SVECTOR *hi)
 {
     VECTOR  p;
