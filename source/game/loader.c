@@ -55,12 +55,13 @@ void *GM_StartLoader( const char *dir )
 #endif
 
     work = GV_NewActor( GV_ACTOR_ASSIST, sizeof( Work ) );
+    ASSERT( work != NULL );
 
     printf( "LoadReq\n" );
 
     if ( ( work->info = FS_LoadStageRequest( dir ) ) == NULL ){
         printf( "NOT FOUND STAGE %s\n", dir );
-//      HANGUP();
+        HANGUP();
     }
     GV_SetNamedActor( work, Act, Die, "loader.c" );
 
