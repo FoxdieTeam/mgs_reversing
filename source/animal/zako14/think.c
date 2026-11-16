@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include "enemy/eyeflash.h"
 
-int s14e_800CCCC4( Work *work );
-
 static SVECTOR s14e_dword_800C34D8[] = {
     { 5750, 0, -1000 },
     { 6250, 0, 500 },
@@ -85,7 +83,89 @@ int s14e_800CCC8C( SVECTOR *from, SVECTOR *to )
     return GV_VecDir2( &diff );
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s14e/s14e_800CCCC4.s")
+int s14e_800CCCC4( Work *work )
+{
+    SVECTOR diff;
+    HZD_HDL *hzd;
+    SVECTOR *target_pos;
+    int target, route, current, reach, next;
+    CONTROL *ctrl;
+    HZD_ZON *zone;
+
+    hzd = work->control.map->hzd;
+
+    if ( work->target_map == work->control.map->index )
+    {
+        target = work->target_addr;
+        target_pos = &work->target_pos;
+    }
+    else
+    {
+        route = ZAKO14FindRoute( work->control.map->index, work->target_map );
+        zone = &hzd->def->zones[ route ];
+
+        target = ( route << 8 ) | route;
+        target_pos = &work->target_pos;
+        target_pos->vx = zone->x;
+        target_pos->vy = zone->y;
+        target_pos->vz = zone->z;
+    }
+
+    ctrl = &work->control;
+    current = work->current_addr = HZD_GetAddress( hzd, &ctrl->mov, work->current_addr );
+    reach = HZD_ReachTo( hzd, current, work->next_addr );
+    if ( target != work->last_addr || reach <= 0 )
+    {
+        work->last_addr = target;
+        if ( HZD_ReachTo( hzd, current, target ) < 2 )
+        {
+            if ( work->target_map == work->control.map->index )
+            {
+                work->next_pos = *target_pos;
+                work->next_addr = target;
+                GV_SubVec3( &work->next_pos, &ctrl->mov, &diff );
+                work->pad.dir = GV_VecDir2( &diff );
+                return -1;
+            }
+
+            current = ZAKO14FindRoute( work->target_map, ctrl->map->index );
+            ctrl->map = GM_GetMap( work->target_map );
+
+            zone = HZD_GetZone( ctrl->map->hzd, current );
+            ctrl->mov.vx = zone->x;
+            ctrl->mov.vy = zone->y;
+            ctrl->mov.vz = zone->z;
+
+            work->current_addr = -1;
+            work->last_addr = -1;
+            return ctrl->rot.vy;
+        }
+
+        next = HZD_Navigate( hzd, current, target, &ctrl->mov );
+        zone = &hzd->def->zones[ next ];
+        if ( work->chase_dis == 4000 )
+        {
+            work->next_pos.vx = zone->x + 250;
+            work->next_pos.vy = zone->y;
+            work->next_pos.vz = zone->z + 250;
+        }
+        else
+        {
+            work->next_pos.vx = zone->x;
+            work->next_pos.vy = zone->y;
+            work->next_pos.vz = zone->z;
+        }
+
+        work->next_pos.vx = zone->x;
+        work->next_pos.vy = zone->y;
+        work->next_pos.vz = zone->z;
+        work->next_addr = HZD_Address( next, next );
+    }
+
+    GV_SubVec3( &work->next_pos, &work->control.mov, &diff );
+    return GV_VecDir2( &diff );
+}
+
 int s14e_800CCF84( Work *work )
 {
     if ( work->count3 == 0 )
