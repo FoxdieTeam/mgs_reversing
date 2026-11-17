@@ -50,9 +50,6 @@ typedef struct _Smoke
     TARGET  target;    /* 0x38 */
 } Smoke;
 
-const char s05a_dword_800E34D4[] = "m1e1shel.c";
-const char s05a_dword_800E34E0[] = {'n', 'o', 'n', 'e', 0x0, '7', 'C', ' '}; /* "none" + linker pad bytes */
-
 extern void *s05a_800DBF58(int arg0, SVECTOR *arg1, SVECTOR *arg2);
 void s05a_800DBED0(Smoke *work);
 void s05a_800DBF50(void *work);
@@ -83,7 +80,7 @@ void *s05a_800DAE58(int name, MATRIX *mat, int side, SVECTOR *target_pos, int vi
     work->field_23C = speed;
     work->field_240 = result;
     work->field_238 = range / speed;
-    GV_SetNamedActor(work, s05a_800DB278, s05a_800DB654, s05a_dword_800E34D4);
+    GV_SetNamedActor(work, s05a_800DB278, s05a_800DB654, "m1e1shel.c");
 
     if (GM_InitControl(&work->control, 0, 0) < 0)
     {
@@ -232,7 +229,7 @@ void *s05a_800DB684(Work *parent)
     {
         return NULL;
     }
-    GV_SetNamedActor(casing, s05a_800DBA94, s05a_800DBC44, s05a_dword_800E34D4);
+    GV_SetNamedActor(casing, s05a_800DBA94, s05a_800DBC44, "m1e1shel.c");
 
     casing->field_6C = 0xFF;
     casing->field_70 = 0xE0;
@@ -241,7 +238,7 @@ void *s05a_800DB684(Work *parent)
 
     prim = GM_MakePrim(DG_PRIM_POLY_FT4, 2, casing->verts, NULL);
     casing->field_24 = prim;
-    tex = DG_GetTexture(GV_StrCode(s05a_dword_800E34E0));
+    tex = DG_GetTexture(GV_StrCode("none"));
     s05a_800DBC80((POLY_FT4 *)casing->field_24->packs[0], tex);
     s05a_800DBC80((POLY_FT4 *)casing->field_24->packs[1], tex);
     casing->field_24->raise = 0x3E8;
@@ -371,7 +368,7 @@ void *s05a_800DBD14(SVECTOR *arg0, SVECTOR *arg1)
         return NULL;
     }
 
-    GV_SetNamedActor(work, s05a_800DBED0, s05a_800DBF50, s05a_dword_800E34D4);
+    GV_SetNamedActor(work, s05a_800DBED0, s05a_800DBF50, "m1e1shel.c");
     work->field_34 = 0;
     work->field_20 = GM_CurrentMap;
     work->field_24 = *arg0;

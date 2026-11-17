@@ -33,9 +33,6 @@ extern void *s05a_800DAE58(int name, MATRIX *mat, int side, SVECTOR *target_pos,
                            int *result);
 extern void *s05a_800DDCBC(LPM1E1ACT lpParent);
 
-extern const char s05a_dword_800E3484[]; /* "noca" */
-extern const char s05a_dword_800E3490[]; /* "m1e1" */
-
 void s05a_800D627C(LPM1E1ACT lpAct);
 void s05a_800D797C(LPM1E1ACT lpAct);
 void s05a_800D863C(LPM1E1ACT lpAct);
@@ -1116,17 +1113,6 @@ void s05a_800D627C(LPM1E1ACT lpAct)
     }
 }
 
-/* This TU's strings follow s05a_800D627C's jump table in .rdata. */
-const char s05a_dword_800E3484[] = "nocannon";
-const char s05a_dword_800E3490[] = "m1e1shel";
-const char s05a_dword_800E349C[] = "drive4";
-const char s05a_dword_800E34A4[] = "drive5";
-const char s05a_dword_800E34AC[] = "drive6";
-const char s05a_dword_800E34B4[] = "drive7";
-const char s05a_dword_800E34BC[] = "drive1";
-const char s05a_dword_800E34C4[] = "drive2";
-const char s05a_dword_800E34CC[] = {'d', 'r', 'i', 'v', 'e', '3', 0x0, 'U'}; /* linker pad byte */
-
 void s05a_800D797C(LPM1E1ACT lpAct)
 {
     MATRIX   mtx;
@@ -1311,7 +1297,7 @@ void s05a_800D797C(LPM1E1ACT lpAct)
                 }
                 for (; cnt > 0; cnt--, trap++)
                 {
-                    if (trap->name_id == GV_StrCode(s05a_dword_800E3484))
+                    if (trap->name_id == GV_StrCode("nocannon"))
                     {
                         if (trap->b1.x <= lpAct->field_E44.vx && lpAct->field_E44.vx <= trap->b2.x &&
                             trap->b1.y <= lpAct->field_E44.vy && lpAct->field_E44.vy <= trap->b2.y &&
@@ -1406,7 +1392,7 @@ void s05a_800D797C(LPM1E1ACT lpAct)
     {
         lpAct->field_ECC++;
         GM_SeSetPan(&lpAct->control.mov, 0xB8, lpAct->nSoundVolume);
-        s05a_800DAE58(GV_StrCode(s05a_dword_800E3490), &mtx, 2, NULL, lpAct->field_DC0, lpAct->field_DC4 * 2,
+        s05a_800DAE58(GV_StrCode("m1e1shel"), &mtx, 2, NULL, lpAct->field_DC0, lpAct->field_DC4 * 2,
                       lpAct->field_DC8, &lpAct->field_EC0);
     }
     else
@@ -1855,14 +1841,6 @@ void s05a_800D9754(LPM1E1ACT lpAct)
     }
 }
 
-extern const char s05a_dword_800E349C[]; /* "drive4" */
-extern const char s05a_dword_800E34A4[]; /* "drive5" */
-extern const char s05a_dword_800E34AC[]; /* "drive6" */
-extern const char s05a_dword_800E34B4[]; /* "drive7" */
-extern const char s05a_dword_800E34BC[]; /* "drive1" */
-extern const char s05a_dword_800E34C4[]; /* "drive2" */
-extern const char s05a_dword_800E34CC[]; /* "drive3" */
-
 void s05a_800D9A14(LPM1E1ACT lpAct)
 {
     int      cnt;
@@ -1880,7 +1858,7 @@ void s05a_800D9A14(LPM1E1ACT lpAct)
     }
     for (; cnt > 0; cnt--, trap++)
     {
-        if (trap->name_id == GV_StrCode(s05a_dword_800E349C))
+        if (trap->name_id == GV_StrCode("drive4"))
         {
             if (trap->b1.x <= lpAct->field_E44.vx && lpAct->field_E44.vx <= trap->b2.x &&
                 trap->b1.y <= lpAct->field_E44.vy && lpAct->field_E44.vy <= trap->b2.y &&
@@ -1889,9 +1867,9 @@ void s05a_800D9A14(LPM1E1ACT lpAct)
         }
         if (lpAct->field_F78 > 0)
         {
-            if (trap->name_id == GV_StrCode(s05a_dword_800E34A4) ||
-                trap->name_id == GV_StrCode(s05a_dword_800E34AC) ||
-                trap->name_id == GV_StrCode(s05a_dword_800E34B4))
+            if (trap->name_id == GV_StrCode("drive5") ||
+                trap->name_id == GV_StrCode("drive6") ||
+                trap->name_id == GV_StrCode("drive7"))
             {
                 if (trap->b1.x <= lpAct->field_E44.vx && lpAct->field_E44.vx <= trap->b2.x &&
                     trap->b1.y <= lpAct->field_E44.vy && lpAct->field_E44.vy <= trap->b2.y &&
@@ -1912,9 +1890,9 @@ void s05a_800D9A14(LPM1E1ACT lpAct)
         {
             if (lpAct->field_E08 < 2 && lpAct->field_E64 == 0)
             {
-                if (trap->name_id == GV_StrCode(s05a_dword_800E34BC) ||
-                    trap->name_id == GV_StrCode(s05a_dword_800E34C4) ||
-                    trap->name_id == GV_StrCode(s05a_dword_800E34CC))
+                if (trap->name_id == GV_StrCode("drive1") ||
+                    trap->name_id == GV_StrCode("drive2") ||
+                    trap->name_id == GV_StrCode("drive3"))
                 {
                     if (trap->b1.x <= lpAct->control.mov.vx && lpAct->control.mov.vx <= trap->b2.x &&
                         trap->b1.y <= lpAct->control.mov.vy && lpAct->control.mov.vy <= trap->b2.y &&
@@ -1929,13 +1907,13 @@ void s05a_800D9A14(LPM1E1ACT lpAct)
     /* phase 3: dispatch found trap's name_id -> field_E30 + route */
     def = lpAct->control.map->hzd->def;
     route = def->routes;
-    if (trap->name_id == GV_StrCode(s05a_dword_800E34BC)) { lpAct->field_E30 = 8; }
-    else if (trap->name_id == GV_StrCode(s05a_dword_800E34C4)) { lpAct->field_E30 = 9; route += 1; }
-    else if (trap->name_id == GV_StrCode(s05a_dword_800E34CC)) { lpAct->field_E30 = 0xA; route += 2; }
-    else if (trap->name_id == GV_StrCode(s05a_dword_800E349C)) { lpAct->field_E30 = 0xB; route += 3; }
-    else if (trap->name_id == GV_StrCode(s05a_dword_800E34A4)) { lpAct->field_E30 = 0xC; route += 4; }
-    else if (trap->name_id == GV_StrCode(s05a_dword_800E34AC)) { lpAct->field_E30 = 0xD; route += 5; }
-    else if (trap->name_id == GV_StrCode(s05a_dword_800E34B4)) { lpAct->field_E30 = 0xE; route += 6; }
+    if (trap->name_id == GV_StrCode("drive1")) { lpAct->field_E30 = 8; }
+    else if (trap->name_id == GV_StrCode("drive2")) { lpAct->field_E30 = 9; route += 1; }
+    else if (trap->name_id == GV_StrCode("drive3")) { lpAct->field_E30 = 0xA; route += 2; }
+    else if (trap->name_id == GV_StrCode("drive4")) { lpAct->field_E30 = 0xB; route += 3; }
+    else if (trap->name_id == GV_StrCode("drive5")) { lpAct->field_E30 = 0xC; route += 4; }
+    else if (trap->name_id == GV_StrCode("drive6")) { lpAct->field_E30 = 0xD; route += 5; }
+    else if (trap->name_id == GV_StrCode("drive7")) { lpAct->field_E30 = 0xE; route += 6; }
 
     /* phase 4: initial distance target->route->points[0] */
     d.vx = (lpAct->control.mov.vx - route->points->x) >> 2;

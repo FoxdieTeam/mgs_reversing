@@ -104,15 +104,13 @@ static int GetResources( Work *work, int name )
 
 /*---------------------------------------------------------------------------*/
 
-extern const char s05a_dword_800E345C[]; // "m1throw.c"
-
 void *NewM1Throw( int name )
 {
     Work *work;
 
     work = GV_NewActor( GV_ACTOR_AFTER, sizeof( Work ) );
     if ( work != NULL ) {
-        GV_SetNamedActor( &work->actor, Act, Die, s05a_dword_800E345C );
+        GV_SetNamedActor( &work->actor, Act, Die, "m1throw.c" );
         if ( GetResources( work, name ) >= 0 ) {
             return (void *)work;
         }

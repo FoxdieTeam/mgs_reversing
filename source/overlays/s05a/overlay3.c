@@ -1,7 +1,5 @@
 #include "game/game.h"
 
-int s05a_dword_800C3644 = 0x00000000;
-int s05a_dword_800C3648 = 0x00000000;
 int s05a_dword_800C364C = 0x16100602;
 int s05a_dword_800C3650 = 0x5958811A;
 int s05a_dword_800C3654 = 0x160F0000;
@@ -84,6 +82,7 @@ int s05a_dword_800C3784 = 0x00008575;
 int s05a_dword_800C3788 = 0x00008576;
 int s05a_dword_800C378C = 0x0E040D07;
 int s05a_dword_800C3790 = 0x007C7720;
+
 int s05a_dword_800C3794 = 0x800C364C;
 int s05a_dword_800C3798 = 0x800C3684;
 int s05a_dword_800C379C = 0x800C36D8;
@@ -162,4 +161,3 @@ int s05a_dword_800C38BC = 0x800C3760;
 int s05a_dword_800C38C0 = 0x800C3778;
 int s05a_dword_800C38C4 = 0x800C378C;
 int s05a_dword_800C38C8 = 0x000003D4;
-int s05a_dword_800C38CC = 0x00000000;

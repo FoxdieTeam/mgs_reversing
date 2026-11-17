@@ -14,12 +14,8 @@
 /******************************************************************************
  */
 
-extern int s05a_dword_800C3644;
-extern int s05a_dword_800C3648;
-
-const char s05a_dword_800E351C[] = "m1e1valc.c";
-const char s05a_dword_800E3528[] = "valcan";
-const char s05a_dword_800E3530[] = "tankman";
+static int s05a_dword_800C3644 = 0;
+static int s05a_dword_800C3648 = 0;
 
 /******************************************************************************
  */
@@ -121,7 +117,7 @@ void* NewM1E1Vulcan(LPM1E1ACT lpParent)
     }
     lpAct->field_1E8 = 1;
     lpAct->lpParent = lpParent;
-    GV_SetNamedActor(lpAct, s05a_800DD6B8, s05a_800DDC14, s05a_dword_800E351C);
+    GV_SetNamedActor(lpAct, s05a_800DD6B8, s05a_800DDC14, "m1e1valc.c");
     if (GM_InitControl(&lpAct->control, lpAct->lpParent->field_744, lpAct->lpParent->field_748) < 0)
     {
         GV_DestroyActor(lpAct);
@@ -133,9 +129,9 @@ void* NewM1E1Vulcan(LPM1E1ACT lpParent)
     lpAct->light[0].t[0] = lpAct->lpParent->light[0].t[0];
     lpAct->light[0].t[1] = lpAct->lpParent->light[0].t[1];
     lpAct->light[0].t[2] = lpAct->lpParent->light[0].t[2];
-    GM_InitObject(&lpAct->body, GV_StrCode(s05a_dword_800E3528), 0x32D, GV_StrCode(s05a_dword_800E3530));
+    GM_InitObject(&lpAct->body, GV_StrCode("valcan"), 0x32D, GV_StrCode("tankman"));
     GM_ConfigObjectJoint(&lpAct->body);
-    GM_ConfigMotionControl(&lpAct->body, &lpAct->m_ctrl, GV_StrCode(s05a_dword_800E3530),
+    GM_ConfigMotionControl(&lpAct->body, &lpAct->m_ctrl, GV_StrCode("tankman"),
                            lpAct->m_segs1, lpAct->m_segs2, &lpAct->subcontrol, lpAct->rots);
     GM_ConfigObjectLight(&lpAct->body, &lpAct->light[0]);
     DG_InvisibleObjs(lpAct->body.objs);

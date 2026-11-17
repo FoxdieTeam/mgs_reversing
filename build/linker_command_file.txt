@@ -2313,9 +2313,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\takabe\camshake.obj", overlay
     include "{{OBJ_DIR}}\takabe\dymc_flr.obj", overlay
     include "{{OBJ_DIR}}\kojo\sstorm.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s05a\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1.obj", overlay
     include "{{OBJ_DIR}}\overlays\s05a\chara\others\m1throw.obj", overlay
     include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1act.obj", overlay
@@ -2323,11 +2320,11 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1smke.obj", overlay
     include "{{OBJ_DIR}}\okajima\splash2.obj", overlay
     include "{{OBJ_DIR}}\takabe\ripple.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1valc.obj", overlay
+    include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1sold.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s05a\overlay3.obj", overlay
 
-    include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1valc.obj", overlay
-    include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1sold.obj", overlay
     include "{{OBJ_DIR}}\overlays\s05a\kojo\m1e1came.obj", overlay
 
     include "{{PSYQ_SDK}}\psyq_4.4\lib\libgpu\P22.OBJ", overlay

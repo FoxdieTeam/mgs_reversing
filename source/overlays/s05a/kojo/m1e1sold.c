@@ -21,16 +21,12 @@ extern void *NewDemoKage(OBJECT *parent, SVECTOR vec, int *arg2, int *arg3, char
  */
 
 extern LPM1E1ACT s05a_dword_800C362C;
-extern CONTROL   s05a_dword_800E3800;
+
+static CONTROL s05a_dword_800E3800;
 
 void s05a_800DDF18(LPM1E1GUNNERACT lpAct);
 int  s05a_800DEC18(LPM1E1GUNNERACT lpAct, SVECTOR *s2, int a2);
 void s05a_800DEB94(LPM1E1GUNNERACT lpAct);
-
-const char s05a_dword_800E356C[] = "m1e1sold.c";
-const char s05a_dword_800E3578[] = "out_c_m1";
-const char s05a_dword_800E3584[] = "tankman";
-const char s05a_dword_800E358C[] = "out_cold";
 
 /******************************************************************************
  */
@@ -54,7 +50,7 @@ void *s05a_800DDCBC(LPM1E1ACT lpParent)
     one = 1;
     lpAct->field_1E8 = one;
     lpAct->lpParent = lpParent;
-    GV_SetNamedActor(lpAct, s05a_800DDF18, s05a_800DEB94, s05a_dword_800E356C);
+    GV_SetNamedActor(lpAct, s05a_800DDF18, s05a_800DEB94, "m1e1sold.c");
 
     if (GM_InitControl(&lpAct->control, lpAct->lpParent->field_744,
                        lpAct->lpParent->field_748) < 0)
@@ -70,9 +66,9 @@ void *s05a_800DDCBC(LPM1E1ACT lpParent)
     lpAct->light[0].t[0] = lpAct->lpParent->light[0].t[0];
     lpAct->light[0].t[1] = lpAct->lpParent->light[0].t[1];
     lpAct->light[0].t[2] = lpAct->lpParent->light[0].t[2];
-    name = GV_StrCode(s05a_dword_800E3578);  /* "out_" */
+    name = GV_StrCode("out_c_m1");  /* "out_" */
 
-    tankstr = s05a_dword_800E3584;
+    tankstr = "tankman";
     bodyp = &lpAct->body;
     GM_InitObject(bodyp, name, 0x32d, GV_StrCode(tankstr));
     GM_ConfigObjectJoint(bodyp);
@@ -344,9 +340,9 @@ void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
         AN_Blast_high(&lpAct->control.mov);
         GM_SeSetPan(&lpAct->control.mov, 0xB1, lpAct->lpParent->nSoundVolume);
         GM_FreeObject(&lpAct->body);
-        GM_InitObject(&lpAct->body, GV_StrCode(s05a_dword_800E358C), 0x32D, GV_StrCode(s05a_dword_800E3584));
+        GM_InitObject(&lpAct->body, GV_StrCode("out_cold"), 0x32D, GV_StrCode("tankman"));
         GM_ConfigObjectJoint(&lpAct->body);
-        GM_ConfigMotionControl(&lpAct->body, &lpAct->m_ctrl, GV_StrCode(s05a_dword_800E3584), lpAct->m_segs1,
+        GM_ConfigMotionControl(&lpAct->body, &lpAct->m_ctrl, GV_StrCode("tankman"), lpAct->m_segs1,
                                lpAct->m_segs2, &lpAct->subcontrol, lpAct->rots);
         GM_ConfigObjectLight(&lpAct->body, &lpAct->light[0]);
         GM_ActMotion(&lpAct->body);

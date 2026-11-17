@@ -50,7 +50,8 @@ typedef struct tagM1E1CAMERAACT
 } M1E1CAMERAACT, *PM1E1CAMERAACT, *LPM1E1CAMERAACT;
 
 extern LPM1E1ACT s05a_dword_800C362C;
-extern LPM1E1CAMERAACT s05a_dword_800C38CC;
+
+static LPM1E1CAMERAACT s05a_dword_800C38CC = NULL;
 
 void s05a_800E209C(VECTOR *out, VECTOR *in, int (*fn)());
 VECTOR *s05a_800E2328(VECTOR *out, SVECTOR *cam, VECTOR *in, SVECTOR *lo, SVECTOR *hi);
@@ -60,9 +61,6 @@ void s05a_800E1AA8(void);
 void s05a_800E1C14(void);
 void s05a_800E1D7C(void);
 void s05a_800E1F0C(void);
-
-const char s05a_dword_800E35D8[] = "m1e1came.c";
-const char s05a_dword_800E35E4[] = {'n', 'o', 's', 'u', 'b', 'j', 'e', 'c', 't', 0x0, 'E', 'N'};
 
 void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx);
 
@@ -79,7 +77,7 @@ void *s05a_800E1134(void)
     {
         return NULL;
     }
-    GV_SetNamedActor(lpAct, s05a_800E1448, s05a_800E1A68, s05a_dword_800E35D8);
+    GV_SetNamedActor(lpAct, s05a_800E1448, s05a_800E1A68, "m1e1came.c");
 
     if (GCL_GetOption(0x62))
     {
@@ -226,7 +224,7 @@ void s05a_800E1448(LPM1E1CAMERAACT lpAct)
 
         for (i = grp->n_triggers - hzd->n_cameras; i > 0; i--, trp++)
         {
-            if (trp->name_id != GV_StrCode(s05a_dword_800E35E4)) continue;
+            if (trp->name_id != GV_StrCode("nosubject")) continue;
             if (trp->b1.x > GM_PlayerPosition.vx) continue;
             if (trp->b2.x < GM_PlayerPosition.vx) continue;
             if (trp->b1.y > GM_PlayerPosition.vy) continue;
