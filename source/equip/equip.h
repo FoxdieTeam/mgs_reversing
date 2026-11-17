@@ -3,6 +3,8 @@
 
 #include "game/game.h"      // for OBJECT, CONTROL
 
+/*---------------------------------------------------------------------------*/
+
 void *NewBandana( CONTROL *control, OBJECT *parent, int num_parent );
 void *NewBodyArmor( CONTROL *control, OBJECT *parent, int num_parent );
 void *NewBox( CONTROL *control, OBJECT *parent, int num_parent );
@@ -17,6 +19,8 @@ void *NewGoggleSight( int type );
 void *NewGasmaskSight(); // This has an issue with unused params
 
 void *NewJpegcam( CONTROL *control, OBJECT *parent, int num_parent );
+
+/*---------------------------------------------------------------------------*/
 
 void EQ_ChangeTexture(const char *itemName1, const char *itemName2);
 void EQ_InvisibleHead(OBJECT *object, short *n_packs, short *raise);
