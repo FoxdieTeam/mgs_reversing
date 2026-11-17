@@ -24,60 +24,73 @@ typedef struct tagM1E1ACT M1E1ACT, *PM1E1ACT, *LPM1E1ACT;
 
 typedef struct tagM1E1GUNNERACT
 {
-    GV_ACT         actor;               /* 0x000 */
-    CONTROL        control;             /* 0x020 */
-    MATRIX         light[2];            /* 0x09C */
-    OBJECT         body;                /* 0x0DC */
-    TARGET        *target;              /* 0x1C0 */
-    HOMING        *homing;              /* 0x1C4 */
-    MATRIX         field_1C8;           /* 0x1C8 */
-    int            field_1E8;           /* 0x1E8 */
-    LPM1E1ACT      lpParent;            /* 0x1EC */
-    int            field_1F0;           /* 0x1F0 */
-    int            field_1F4;           /* 0x1F4 */
-    int            nWeaponSave;         /* 0x1F8 */
-    int            nItemSave;           /* 0x1FC */
-    int            field_200;           /* 0x200 */
-    int            field_204;           /* 0x204 */
-    int            field_208;           /* 0x208 */
-    int            field_20C;           /* 0x20C */
-    char           pad_210[0x218 - 0x210];
-    int            field_218;           /* 0x218 */
-    int            field_21C;           /* 0x21C */
-    char           pad_220[0x228 - 0x220];
-    void          *field_228;           /* 0x228 */
-    int            field_22C;           /* 0x22C */
-    int            field_230;           /* 0x230 */
-    MOTION_CONTROL m_ctrl;              /* 0x234 */
-    MOTION_SEGMENT m_segs1[17];         /* 0x284 */
-    MOTION_SEGMENT m_segs2[17];         /* 0x4E8 */
-    CONTROL        subcontrol;          /* 0x74C */
-    SVECTOR        rots[16];            /* 0x7C8 */
+    GV_ACT         actor;
+    CONTROL        control;
+    MATRIX         light[2];
+    OBJECT         body;
+    TARGET        *target;
+    HOMING        *hom;
+    MATRIX         homMatrix;
+    BOOL           bHidden;
+    LPM1E1ACT      lpParent;
+    BOOL           bDead;
+    BOOL           bFell;
+    int            nWeaponSave;
+    int            nItemSave;
+    int            nHeight;
+    int            field_204; /* TODO: name */
+    int            field_208; /* TODO: name */
+    int            nFallDelay;
+    int            nUnused1;
+    int            nActDelay;
+    int            nSoundDelay1;
+    int            nSoundDelay2;
+    int            nUnused2;
+    int            nActionTime;
+    void          *lpShadow;
+    int            nKageDir;
+    int            nKageHeight;
+    MOTION_CONTROL m_ctrl;
+    MOTION_SEGMENT m_segs1[17];
+    MOTION_SEGMENT m_segs2[17];
+    CONTROL        subcontrol;
+    SVECTOR        rots[16];
 } M1E1GUNNERACT, *PM1E1GUNNERACT, *LPM1E1GUNNERACT;
 
+/* Same as M1E1GUNNERACT */
 typedef struct tagM1E1VALCANACT
 {
-    GV_ACT    actor;                    /* 0x000 */
-    CONTROL   control;                  /* 0x020 */
-    MATRIX    light[2];                 /* 0x09C */
-    OBJECT    body;                     /* 0x0DC */
-    char      pad_1C0[0x1E8 - 0x1C0];
-    int       field_1E8;                /* 0x1E8 */
-    LPM1E1ACT lpParent;                 /* 0x1EC */
-    char      pad_1F0[0x1F8 - 0x1F0];
-    int       nWeaponSave;              /* 0x1F8 */
-    int       nItemSave;                /* 0x1FC */
-    char      pad_200[0x214 - 0x200];
-    int       field_214;                /* 0x214 */
-    char      pad_218[0x220 - 0x218];
-    int       field_220;                /* 0x220 */
-    int       field_224;                /* 0x224 */
-    char      pad_228[0x234 - 0x228];
-    MOTION_CONTROL m_ctrl;              /* 0x234 */
-    MOTION_SEGMENT m_segs1[17];         /* 0x284 */
-    MOTION_SEGMENT m_segs2[17];         /* 0x4E8 */
-    CONTROL        subcontrol;          /* 0x74C */
-    SVECTOR        rots[16];            /* 0x7C8 */
+    GV_ACT         actor;
+    CONTROL        control;
+    MATRIX         light[2];
+    OBJECT         body;
+    TARGET        *target;
+    HOMING        *hom;
+    MATRIX         homMatrix;
+    BOOL           bHidden;
+    LPM1E1ACT      lpParent;
+    BOOL           bDead;
+    BOOL           bFell;
+    int            nWeaponSave;
+    int            nItemSave;
+    int            nHeight;
+    int            field_204; /* TODO: name */
+    int            field_208; /* TODO: name */
+    int            nFallDelay;
+    int            nUnused1;
+    int            nActDelay;
+    int            nSoundDelay1;
+    int            nSoundDelay2;
+    int            nUnused2;
+    int            nActionTime;
+    void          *lpShadow;
+    int            nKageDir;
+    int            nKageHeight;
+    MOTION_CONTROL m_ctrl;
+    MOTION_SEGMENT m_segs1[17];
+    MOTION_SEGMENT m_segs2[17];
+    CONTROL        subcontrol;
+    SVECTOR        rots[16];
 } M1E1VALCANACT, *PM1E1VALCANACT, *LPM1E1VALCANACT;
 
 struct tagM1E1ACT

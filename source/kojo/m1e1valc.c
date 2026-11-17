@@ -83,7 +83,7 @@ void s05a_800DD1C8(LPM1E1ACT lpAct)
     if (s05a_dword_800C3648 <= 0)
     {
         if (lpAct->lpValcan != NULL && lpAct->lpValcan->body.action != 5 &&
-            lpAct->lpValcan->field_214 == 0)
+            lpAct->lpValcan->nActDelay == 0)
         {
             lpAct->objBody.rots[8].vx = GV_NearSpeed(lpAct->objBody.rots[8].vx, -0x638, 0x2D);
             if (lpAct->objBody.rots[8].vx >= -0x5B1 && lpAct->objBody.rots[8].vx < -0x584)
@@ -115,7 +115,7 @@ void* NewM1E1Vulcan(LPM1E1ACT lpParent)
     {
         return NULL;
     }
-    lpAct->field_1E8 = 1;
+    lpAct->bHidden = TRUE;
     lpAct->lpParent = lpParent;
     GV_SetNamedActor(lpAct, s05a_800DD6B8, s05a_800DDC14, "m1e1valc.c");
     if (GM_InitControl(&lpAct->control, lpAct->lpParent->field_744, lpAct->lpParent->field_748) < 0)
@@ -151,7 +151,7 @@ void* NewM1E1Vulcan(LPM1E1ACT lpParent)
             GM_Item = IT_None;
         }
     }
-    lpAct->field_214 = 0x1E;
+    lpAct->nActDelay = 30;
     return (void*)lpAct;
 }
 
@@ -162,13 +162,13 @@ void s05a_800DD6B8(LPM1E1VALCANACT lpAct)
     SVECTOR vec2;
     int     vol;
 
-    if (lpAct->body.action == 5 && lpAct->field_214 == 1)
+    if (lpAct->body.action == 5 && lpAct->nActDelay == 1)
     {
         GV_DestroyActor(lpAct);
         return;
     }
-    if (--lpAct->field_214 < 0) lpAct->field_214 = 0;
-    if (lpAct->field_214 > 0) return;
+    if (--lpAct->nActDelay < 0) lpAct->nActDelay = 0;
+    if (lpAct->nActDelay > 0) return;
 
     memset(&lpAct->subcontrol.step, 0, 8);
     GM_ActMotion(&lpAct->body);
@@ -177,9 +177,9 @@ void s05a_800DD6B8(LPM1E1VALCANACT lpAct)
     GM_ActObject(&lpAct->body);
     lpAct->subcontrol.step = vec;
     DG_GetLightMatrix2(&lpAct->control.mov, &lpAct->light[0]);
-    if (lpAct->field_1E8 == 0)
+    if (!lpAct->bHidden)
     {
-        lpAct->body.objs->flag &= ~0x80;
+        DG_VisibleObjs(lpAct->body.objs);
     }
     lpAct->control.step.vx = 0;
     lpAct->control.step.vz = 0;
@@ -202,30 +202,30 @@ void s05a_800DD6B8(LPM1E1VALCANACT lpAct)
         break;
     case 11:
     case 12:
-        if (lpAct->field_224 == 0) GM_SeSetPan(&pos, 0x83, vol);
+        if (lpAct->nActionTime == 0) GM_SeSetPan(&pos, 0x83, vol);
         if (lpAct->body.action == 12)
         {
-            if (lpAct->field_224 == 0x11 || lpAct->field_224 == 0x18 || lpAct->field_224 == 0x1F ||
-                lpAct->field_224 == 0x26 || lpAct->field_224 == 0x2D || lpAct->field_224 == 0x34 ||
-                lpAct->field_224 == 0x3B || lpAct->field_224 == 0x42)
+            if (lpAct->nActionTime == 0x11 || lpAct->nActionTime == 0x18 || lpAct->nActionTime == 0x1F ||
+                lpAct->nActionTime == 0x26 || lpAct->nActionTime == 0x2D || lpAct->nActionTime == 0x34 ||
+                lpAct->nActionTime == 0x3B || lpAct->nActionTime == 0x42)
             {
                 GM_SeSetPan(&pos, 0x34, vol / 2);
             }
         }
         if (lpAct->body.action == 12)
         {
-            if (lpAct->field_224 == 0x4E || lpAct->field_224 == 0x55 || lpAct->field_224 == 0x5C ||
-                lpAct->field_224 == 0x63 || lpAct->field_224 == 0x69 || lpAct->field_224 == 0x70)
+            if (lpAct->nActionTime == 0x4E || lpAct->nActionTime == 0x55 || lpAct->nActionTime == 0x5C ||
+                lpAct->nActionTime == 0x63 || lpAct->nActionTime == 0x69 || lpAct->nActionTime == 0x70)
             {
                 GM_SeSetPan(&pos, 0xBA, vol);
             }
         }
-        lpAct->field_224++;
+        lpAct->nActionTime++;
         break;
     case 13:
-        if (lpAct->field_224 == 0x17) GM_SeSetPan(&pos, 0x87, vol);
-        if (lpAct->field_224 == 0x50) GM_SeSetPan(&pos, 0x87, vol);
-        lpAct->field_224++;
+        if (lpAct->nActionTime == 0x17) GM_SeSetPan(&pos, 0x87, vol);
+        if (lpAct->nActionTime == 0x50) GM_SeSetPan(&pos, 0x87, vol);
+        lpAct->nActionTime++;
         break;
     }
 
@@ -253,15 +253,15 @@ void s05a_800DD6B8(LPM1E1VALCANACT lpAct)
 
     if (lpAct->body.is_end == 0)
     {
-        lpAct->field_1E8 = 0;
+        lpAct->bHidden = FALSE;
     }
     else
     {
         switch (lpAct->body.action)
         {
         case 2:
-            lpAct->field_220 = 0;
-            lpAct->field_224 = 0;
+            lpAct->nUnused2 = 0;
+            lpAct->nActionTime = 0;
             if (lpAct->lpParent->field_ED0 == 2)
             {
                 if (lpAct->lpParent->field_ECC == 7)
@@ -288,20 +288,20 @@ void s05a_800DD6B8(LPM1E1VALCANACT lpAct)
                     GM_ConfigObjectAction(&lpAct->body, 0xC, 0, 5);
                 }
             }
-            lpAct->field_1E8 = 0;
+            lpAct->bHidden = FALSE;
             break;
         case 11:
         case 12:
         case 13:
             GM_ConfigObjectAction(&lpAct->body, 5, 0, 5);
-            lpAct->field_1E8 = 0;
+            lpAct->bHidden = FALSE;
             break;
         case 5:
-            lpAct->field_214 = 0x1E;
-            lpAct->body.objs->flag |= 0x80;
+            lpAct->nActDelay = 30;
+            DG_InvisibleObjs(lpAct->body.objs);
             break;
         default:
-            lpAct->field_1E8 = 0;
+            lpAct->bHidden = FALSE;
             break;
         }
     }

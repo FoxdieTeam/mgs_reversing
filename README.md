@@ -303,7 +303,7 @@ Individual overlay progress:
             <td><b>s05a</b></td>
             <td>130 KB</td>
             <td>Canyon</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s06a</b></td>

@@ -75,26 +75,6 @@ typedef struct ACTATTACK
     unsigned char field_9;
 } ACTATTACK;
 
-typedef struct ACTSPECIAL
-{
-    unsigned char field_0;
-    unsigned char field_1;
-    unsigned char field_2;
-    unsigned char field_3;
-    unsigned char field_4;
-    unsigned char field_5;
-    unsigned char field_6;
-    unsigned char field_7;
-} ACTSPECIAL;
-
-typedef struct Sna_E6
-{
-    unsigned char field_0;
-    unsigned char field_1;
-    unsigned char field_2;
-    unsigned char field_3;
-} Sna_E6;
-
 typedef struct Target_Data
 {
     SVECTOR      field_0;
@@ -112,8 +92,8 @@ typedef struct ACTPACK
     ACTTRANS   *trans;       /*  遷移モーション      */
     ACTDAMAGE  *damage;      /*  ダメージモーション  */
     ACTATTACK  *attack;      /*	攻撃モーション		*/
-    Sna_E6     *special1;    //u_char   *special1 ; /*  特殊モーション１    */
-    ACTSPECIAL *special2;    //u_char   *special2 ; /*  特殊モーション２    */
+    u_char     *special1;    /*  特殊モーション１    */
+    u_char     *special2;    /*  特殊モーション２    */
 } ACTPACK;
 
 typedef enum
