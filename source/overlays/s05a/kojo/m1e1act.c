@@ -31,20 +31,21 @@ extern void GetHazard2(HZD_SEG *seg, HZD_FLR *flr, MATRIX *pTransform,
 extern void AN_Smoke_800CE08C(SVECTOR *pos);
 extern void *s05a_800DAE58(int name, MATRIX *mat, int side, SVECTOR *target_pos, int vital, int range, int speed,
                            int *result);
-extern void *s05a_800DDCBC(LPM1E1ACT director);
+extern void *s05a_800DDCBC(LPM1E1ACT lpParent);
+
 extern const char s05a_dword_800E3484[]; /* "noca" */
 extern const char s05a_dword_800E3490[]; /* "m1e1" */
 
-void  s05a_800D627C(LPM1E1ACT lpAct);
-void  s05a_800D797C(LPM1E1ACT lpAct);
-void  s05a_800D863C(LPM1E1ACT lpAct);
-void  s05a_800D9754(LPM1E1ACT lpAct);
-void  s05a_800D9A14(LPM1E1ACT lpAct);
-void  s05a_800DA02C(LPM1E1ACT lpAct);
-void  s05a_800DA62C(LPM1E1ACT lpAct);
-void  s05a_800DA940(LPM1E1ACT lpAct);
-void  s05a_800DACF0(LPM1E1ACT lpAct);
-void  s05a_800DD1C8(LPM1E1ACT lpAct);
+void s05a_800D627C(LPM1E1ACT lpAct);
+void s05a_800D797C(LPM1E1ACT lpAct);
+void s05a_800D863C(LPM1E1ACT lpAct);
+void s05a_800D9754(LPM1E1ACT lpAct);
+void s05a_800D9A14(LPM1E1ACT lpAct);
+void s05a_800DA02C(LPM1E1ACT lpAct);
+void s05a_800DA62C(LPM1E1ACT lpAct);
+void s05a_800DA940(LPM1E1ACT lpAct);
+void s05a_800DACF0(LPM1E1ACT lpAct);
+void s05a_800DD1C8(LPM1E1ACT lpAct);
 
 /******************************************************************************
  */

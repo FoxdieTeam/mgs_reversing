@@ -24,9 +24,9 @@ const char s05a_dword_800E3530[] = "tankman";
 /******************************************************************************
  */
 
+void* NewM1E1Vulcan(LPM1E1ACT lpParent);
 void s05a_800DD6B8(LPM1E1VALCANACT lpAct);
 void s05a_800DDC14(LPM1E1VALCANACT lpAct);
-void* NewM1E1Vulcan(LPM1E1ACT lpParent);
 
 /******************************************************************************
  */
