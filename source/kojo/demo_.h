@@ -179,11 +179,7 @@ typedef struct tagMGSDEMOEFFECT
     int       nEffectID;    /**/
     SVECTOREX svectRotate;  /**/
     SVECTOREX svectMove;    /**/
-//  BYTE      byBuffer[32]; /**/
-    int       field_14_type;  // TODO: Replace
-    int       field_18_xy;    // TODO: Replace
-    int       field_1C_zpad;  // TODO: Replace
-    BYTE      dummy[32-(sizeof(int)*3)];
+    BYTE      byBuffer[32]; /**/
 } MGSDEMOEFFECT, *PMGSDEMOEFFECT, *LPMGSDEMOEFFECT;
 
 typedef struct tagMGSDEMOEFFECTACT
@@ -310,7 +306,7 @@ typedef struct tagEFFECTBLOODCIRCLE {
 
 // 0x0E EFFECT_SHADOW
 typedef struct tagEFFECTSHADOW {
-    int     field_14;
+    int     nSceneID;
     SVECTOR field_18;
     short   field_20;
     short   field_22;
@@ -331,16 +327,14 @@ typedef struct tagEFFECTMESSAGE {
 
 // 0x12 EFFECT_BUBBLE
 typedef struct tagEFFECTBUBBLE {
-    short field_14;
-    short field_16;
-    short field_18;
-    short field_1A;
-    int   field_1C;
-    int   field_20;
-    short field_24;
-    short field_26;
-    short field_28;
-    short field_2A;
+    short     field_14;
+    SVECTOREX svect1;
+    int       field_1C;
+    int       field_20;
+    short     field_24;
+    short     field_26;
+    short     field_28;
+    short     field_2A;
 } EFFECTBUBBLE, *PEFFECTBUBBLE, *LPEFFECTBUBBLE;
 
 // 0x13 EFFECT_SCOPE
@@ -428,11 +422,9 @@ typedef struct tagEFFECTURINATIONCIRCLE {
 
 // 0x21 EFFECT_PLASMA2
 typedef struct tagEFFECTPLASMA2 {
-    short field_14;
-    short field_16;
-    short field_18;
-    short field_1A;
-    int   field_1C;
+    SVECTOREX svect1;
+    short     field_1A;
+    int       field_1C;
 } EFFECTPLASMA2, *PEFFECTPLASMA2, *LPEFFECTPLASMA2;
 
 // 0x22 EFFECT_BLUR
@@ -445,13 +437,11 @@ typedef struct tagEFFECTBLUR {
 
 // 0x23 EFFECT_STEAMSMOKE
 typedef struct tagEFFECTSTEAMSMOKE {
-    short field_14;
-    short field_16;
-    short field_18;
-    short field_1A;
-    short field_1C;
-    short field_1E;
-    int   field_20;
+    SVECTOREX svect1;
+    short     field_1A;
+    short     field_1C;
+    short     field_1E;
+    int       field_20;
 } EFFECTSTEAMSMOKE, *PEFFECTSTEAMSMOKE, *LPEFFECTSTEAMSMOKE;
 
 // 0x24 EFFECT_MONOTONE
@@ -500,38 +490,30 @@ typedef struct tagEFFECTSUBMARINEROOM {
 
 // 0x2C EFFECT_BLACKSMOKE2
 typedef struct tagEFFECTBLACKSMOKE2 {
-    short field_14;
-    short field_16;
-    short field_18;
-    short field_1A;
-    short field_1C;
+    SVECTOREX svect1;
+    short     field_1A;
+    short     field_1C;
 } EFFECTBLACKSMOKE2, *PEFFECTBLACKSMOKE2, *LPEFFECTBLACKSMOKE2;
 
 // 0x2D EFFECT_BLASTLINE
 typedef struct tagEFFECTBLASTLINE {
-    short field_14;
-    short field_16;
-    short field_18;
-    short field_1A;
-    int   field_1C;
-    short field_20;
-    short field_22;
+    SVECTOREX svect1;
+    short     field_1A;
+    int       field_1C;
+    short     field_20;
+    short     field_22;
 } EFFECTBLASTLINE, *PEFFECTBLASTLINE, *LPEFFECTBLASTLINE;
 
 // 0x2E EFFECT_SMOKELINE
 typedef struct tagEFFECTSMOKELINE {
-    short field_14;
-    short field_16;
-    short field_18;
-    short field_1A;
-    short field_1C;
-    short field_1E;
-    int   field_20;
-    short field_24;
-    short field_26;
-    short field_28;
-    short field_2A;
-    short field_2C;
+    SVECTOREX svect1;
+    SVECTOREX svect2;
+    int       field_20;
+    short     field_24;
+    short     field_26;
+    short     field_28;
+    short     field_2A;
+    short     field_2C;
 } EFFECTSMOKELINE, *PEFFECTSMOKELINE, *LPEFFECTSMOKELINE;
 
 // 0x2F EFFECT_SHELLSMOKE
@@ -541,18 +523,14 @@ typedef struct tagEFFECTSHELLSMOKE {
 
 // 0x34 EFFECT_ENVIRONMENTLIGHT
 typedef struct tagEFFECTENVIRONMENTLIGHT {
-    int   field_14;
-    int   field_18;
-    short field_1C;
-    short field_1E;
-    int   field_20;
-    short field_24;
-    short field_26;
-    short field_28;
-    short field_2A;
-    short field_2C;
-    short field_2E;
-    short field_30;
+    int       field_14;
+    int       field_18;
+    short     field_1C;
+    short     field_1E;
+    int       field_20;
+    SVECTOREX svect1;
+    SVECTOREX svect2;
+    short     field_30;
 } EFFECTENVIRONMENTLIGHT, *PEFFECTENVIRONMENTLIGHT, *LPEFFECTENVIRONMENTLIGHT;
 
 // 0x35 EFFECT_CRASHSMOKE
@@ -719,18 +697,6 @@ typedef struct tagEFFECTTEXT2 {
     int   field_1C;
     int   field_20;
 } EFFECTTEXT2, *PEFFECTTEXT2, *LPEFFECTTEXT2;
-
-/***** XXX *****/
-/***** XXX *****/
-
-typedef struct tagMGSDEMOEFFECT_
-{
-    int       nID;          /**/
-    int       nEffectID;    /**/
-    SVECTOREX svectRotate;  /**/
-    SVECTOREX svectMove;    /**/
-    BYTE      byBuffer[32]; /**/
-} MGSDEMOEFFECT_, *PMGSDEMOEFFECT_, *LPMGSDEMOEFFECT_;
 
 /******************************************************************************
  * prototypes

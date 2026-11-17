@@ -30,7 +30,7 @@ void *NewStanGrenade( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *fl
 void *NewChaffGrenade( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
 void *NewTimerBomb( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
 
-/* rmc.c */
+/* rcm.c */
 void *NewRCM( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *flags, int side );
 
 /* aam.c */
