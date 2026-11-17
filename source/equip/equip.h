@@ -26,8 +26,8 @@ void EQ_ChangeTexture(const char *itemName1, const char *itemName2);
 void EQ_InvisibleHead(OBJECT *object, short *n_packs, short *raise);
 void EQ_VisibleHead(OBJECT *object, short *n_packs, short *raise);
 #ifdef VR_EXE
-void EQ_InvisibleUnit(OBJECT *object, int idx, short *n_packs, short *raise);
-void EQ_VisibleUnit(OBJECT *object, int idx, short *n_packs, short *raise);
+void EQ_InvisibleUnit(OBJECT *object, int unit, short *n_packs, short *raise);
+void EQ_VisibleUnit(OBJECT *object, int unit, short *n_packs, short *raise);
 #endif
 
 #endif // __EQUIP_EQUIP_H__
