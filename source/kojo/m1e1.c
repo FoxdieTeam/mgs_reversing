@@ -14,13 +14,6 @@
 /******************************************************************************
  */
 
-typedef struct
-{
-    int         field_0;
-    short       field_4;
-    signed char field_6;
-} GunnerTpl;
-
 extern void  s05a_800D4A74(LPM1E1ACT lpAct);
 extern void  s05a_800D5E30(LPM1E1ACT lpAct);
 extern void *NewM1Throw(int name);
@@ -30,18 +23,10 @@ extern int s05a_800DEDE8();
 extern int s05a_800DF834();
 extern int s05a_800DF9C8();
 
-extern const char s05a_dword_800E340C[]; /* "m1e1.c" */
-extern const char s05a_dword_800E3414[]; /* "m1e1" */
-extern const char s05a_dword_800E341C[]; /* "m1e1cl1" */
-extern const char s05a_dword_800E3424[]; /* "m1e1cl2" */
-extern const char s05a_dword_800E342C[]; /* "m1e1cl3" */
-extern const char s05a_dword_800E3434[]; /* "m1e1cr1" */
-extern const char s05a_dword_800E343C[]; /* "m1e1cr2" */
-extern const char s05a_dword_800E3444[]; /* "m1e1cr3" */
-extern const char s05a_dword_800E344C[]; /* "throw" */
-extern const GunnerTpl s05a_dword_800E3454; /* "GUNNER\0" @ 0x800E3454 */
-
-extern LPM1E1ACT s05a_dword_800C362C;
+LPM1E1ACT s05a_dword_800C362C = NULL;
+int s05a_dword_800C3630 = 0;
+int s05a_dword_800C3634 = 0;
+int s05a_dword_800C3638 = 0;
 
 /******************************************************************************
  */
@@ -62,7 +47,7 @@ void *NewM1E1(int name, int where)
     }
 
     lpAct->bInitialize = 1;
-    GV_SetNamedActor(lpAct, s05a_800D4A74, s05a_800D5E30, s05a_dword_800E340C);
+    GV_SetNamedActor(lpAct, s05a_800D4A74, s05a_800D5E30, "m1e1.c");
     lpAct->field_744 = name;
     lpAct->field_748 = where;
 
@@ -265,43 +250,43 @@ void *NewM1E1(int name, int where)
     lpAct->control.r_sphere = -2;
     lpAct->control.interp = 0;
     GM_ConfigControlAttribute(&lpAct->control, 5);
-    strcode = GV_StrCode(s05a_dword_800E3414);
+    strcode = GV_StrCode("m1e1");
     GM_InitObject(&lpAct->objBody, strcode, 0x2D, 0);
     GM_ConfigObjectJoint(&lpAct->objBody);
     GM_ConfigObjectLight(&lpAct->objBody, &lpAct->light[0]);
     DG_InvisibleObjs(lpAct->objBody.objs);
 
-    strcode = GV_StrCode(s05a_dword_800E341C);
+    strcode = GV_StrCode("m1e1cl1");
     GM_InitObject(&lpAct->objLeftCater[0], strcode, 0x2D, 0);
     GM_ConfigObjectJoint(&lpAct->objLeftCater[0]);
     GM_ConfigObjectLight(&lpAct->objLeftCater[0], &lpAct->light[0]);
     DG_InvisibleObjs(lpAct->objLeftCater[0].objs);
 
-    strcode = GV_StrCode(s05a_dword_800E3424);
+    strcode = GV_StrCode("m1e1cl2");
     GM_InitObject(&lpAct->objLeftCater[1], strcode, 0x2D, 0);
     GM_ConfigObjectJoint(&lpAct->objLeftCater[1]);
     GM_ConfigObjectLight(&lpAct->objLeftCater[1], &lpAct->light[0]);
     DG_InvisibleObjs(lpAct->objLeftCater[1].objs);
 
-    strcode = GV_StrCode(s05a_dword_800E342C);
+    strcode = GV_StrCode("m1e1cl3");
     GM_InitObject(&lpAct->objLeftCater[2], strcode, 0x2D, 0);
     GM_ConfigObjectJoint(&lpAct->objLeftCater[2]);
     GM_ConfigObjectLight(&lpAct->objLeftCater[2], &lpAct->light[0]);
     DG_InvisibleObjs(lpAct->objLeftCater[2].objs);
 
-    strcode = GV_StrCode(s05a_dword_800E3434);
+    strcode = GV_StrCode("m1e1cr1");
     GM_InitObject(&lpAct->objRightCater[0], strcode, 0x2D, 0);
     GM_ConfigObjectJoint(&lpAct->objRightCater[0]);
     GM_ConfigObjectLight(&lpAct->objRightCater[0], &lpAct->light[0]);
     DG_InvisibleObjs(lpAct->objRightCater[0].objs);
 
-    strcode = GV_StrCode(s05a_dword_800E343C);
+    strcode = GV_StrCode("m1e1cr2");
     GM_InitObject(&lpAct->objRightCater[1], strcode, 0x2D, 0);
     GM_ConfigObjectJoint(&lpAct->objRightCater[1]);
     GM_ConfigObjectLight(&lpAct->objRightCater[1], &lpAct->light[0]);
     DG_InvisibleObjs(lpAct->objRightCater[1].objs);
 
-    strcode = GV_StrCode(s05a_dword_800E3444);
+    strcode = GV_StrCode("m1e1cr3");
     GM_InitObject(&lpAct->objRightCater[2], strcode, 0x2D, 0);
     GM_ConfigObjectJoint(&lpAct->objRightCater[2]);
     GM_ConfigObjectLight(&lpAct->objRightCater[2], &lpAct->light[0]);
@@ -326,7 +311,7 @@ void *NewM1E1(int name, int where)
     DG_VisibleObjs(lpAct->objRightCater[lpAct->field_E78].objs);
     if (lpAct->field_E08 > 0)
     {
-        lpAct->lpM1Throw = NewM1Throw(GV_StrCode(s05a_dword_800E344C));
+        lpAct->lpM1Throw = NewM1Throw(GV_StrCode("throw"));
         flag = 0x150;
         lpAct->field_D54 = 1;
         GM_lpfnPlayerActControl = (int (*)(GV_ACT *))s05a_800E00EC;
@@ -534,7 +519,7 @@ void *NewM1E1(int name, int where)
         GM_SetPowerTarget(&lpAct->target3, 1, 2, 0, 0, &DG_ZeroVector);
         GM_SetPowerTarget(&lpAct->target4, 1, 2, 0, 0, &DG_ZeroVector);
         GM_SetPowerTarget(&lpAct->target5, 1, 2, 0, 0, &DG_ZeroVector);
-        memcpy(lpAct->life_name, &s05a_dword_800E3454, 7);
+        memcpy(lpAct->life_name, "GUNNER", 7);
         lpAct->life_conf.name = lpAct->life_name;
         lpAct->life_conf.left[0] = 0x10;
         lpAct->life_conf.left[1] = 0x6F;

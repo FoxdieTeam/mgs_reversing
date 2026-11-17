@@ -21,16 +21,12 @@ extern void *NewDemoKage(OBJECT *parent, SVECTOR vec, int *arg2, int *arg3, char
  */
 
 extern LPM1E1ACT s05a_dword_800C362C;
-extern CONTROL   s05a_dword_800E3800;
+
+static CONTROL s05a_dword_800E3800;
 
 void s05a_800DDF18(LPM1E1GUNNERACT lpAct);
 int  s05a_800DEC18(LPM1E1GUNNERACT lpAct, SVECTOR *s2, int a2);
 void s05a_800DEB94(LPM1E1GUNNERACT lpAct);
-
-const char s05a_dword_800E356C[] = "m1e1sold.c";
-const char s05a_dword_800E3578[] = "out_c_m1";
-const char s05a_dword_800E3584[] = "tankman";
-const char s05a_dword_800E358C[] = "out_cold";
 
 /******************************************************************************
  */
@@ -38,12 +34,10 @@ const char s05a_dword_800E358C[] = "out_cold";
 void *s05a_800DDCBC(LPM1E1ACT lpParent)
 {
     LPM1E1GUNNERACT lpAct;
-    int       one;
     int       name;
     int       i;
     OBJECT   *bodyp;
     const char *tankstr;
-    DG_OBJS  *objs;
     SVECTOR   size;
 
     lpAct = GV_NewActor(6, 0x848);
@@ -51,10 +45,9 @@ void *s05a_800DDCBC(LPM1E1ACT lpParent)
     {
         return 0;
     }
-    one = 1;
-    lpAct->field_1E8 = one;
+    lpAct->bHidden = TRUE;
     lpAct->lpParent = lpParent;
-    GV_SetNamedActor(lpAct, s05a_800DDF18, s05a_800DEB94, s05a_dword_800E356C);
+    GV_SetNamedActor(lpAct, s05a_800DDF18, s05a_800DEB94, "m1e1sold.c");
 
     if (GM_InitControl(&lpAct->control, lpAct->lpParent->field_744,
                        lpAct->lpParent->field_748) < 0)
@@ -70,9 +63,9 @@ void *s05a_800DDCBC(LPM1E1ACT lpParent)
     lpAct->light[0].t[0] = lpAct->lpParent->light[0].t[0];
     lpAct->light[0].t[1] = lpAct->lpParent->light[0].t[1];
     lpAct->light[0].t[2] = lpAct->lpParent->light[0].t[2];
-    name = GV_StrCode(s05a_dword_800E3578);  /* "out_" */
+    name = GV_StrCode("out_c_m1");  /* "out_" */
 
-    tankstr = s05a_dword_800E3584;
+    tankstr = "tankman";
     bodyp = &lpAct->body;
     GM_InitObject(bodyp, name, 0x32d, GV_StrCode(tankstr));
     GM_ConfigObjectJoint(bodyp);
@@ -84,10 +77,9 @@ void *s05a_800DDCBC(LPM1E1ACT lpParent)
                            lpAct->rots);
     GM_ConfigObjectLight(bodyp, &lpAct->light[0]);
 
-    objs = bodyp->objs;
-    *(int *)&objs->flag |= 0x80;
-    lpAct->homing = GM_SetHomingTarget(&lpAct->field_1C8, &lpAct->control);
-    lpAct->homing->flag = one;
+    DG_InvisibleObjs(bodyp->objs);
+    lpAct->hom = GM_SetHomingTarget(&lpAct->homMatrix, &lpAct->control);
+    lpAct->hom->flag = 1;
     lpAct->target = GM_AllocTarget();
     size.vx = 0x12c;
     size.vy = 0x12c;
@@ -116,15 +108,15 @@ void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
     lpAct->subcontrol.step = vec1;
     DG_GetLightMatrix2(&lpAct->control.mov, &lpAct->light[0]);
 
-    if (lpAct->field_1E8 == 0)
+    if (!lpAct->bHidden)
     {
-        lpAct->body.objs->flag &= ~0x80;
+        DG_VisibleObjs(lpAct->body.objs);
     }
-    if (--lpAct->field_20C < 0) lpAct->field_20C = 0;
-    if (--lpAct->field_218 < 0) lpAct->field_218 = 0;
-    if (--lpAct->field_21C < 0) lpAct->field_21C = 0;
+    if (--lpAct->nFallDelay < 0) lpAct->nFallDelay = 0;
+    if (--lpAct->nSoundDelay1 < 0) lpAct->nSoundDelay1 = 0;
+    if (--lpAct->nSoundDelay2 < 0) lpAct->nSoundDelay2 = 0;
 
-    if (lpAct->field_21C == 0 && lpAct->lpParent->field_ED0 == 3)
+    if (lpAct->nSoundDelay2 == 0 && lpAct->lpParent->field_ED0 == 3)
     {
         if (lpAct->lpParent->field_D58 == 0)
         {
@@ -139,14 +131,14 @@ void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
         GM_Item = lpAct->nItemSave;
     }
 
-    lpAct->field_1F0 = 0;
+    lpAct->bDead = FALSE;
     if (lpAct->m_ctrl.info1.frame == 1)
     {
-        lpAct->field_200 = lpAct->body.height;
+        lpAct->nHeight = lpAct->body.height;
     }
     lpAct->control.step.vx = 0;
     lpAct->control.step.vz = 0;
-    lpAct->subcontrol.step.vy = lpAct->body.height - lpAct->field_200;
+    lpAct->subcontrol.step.vy = lpAct->body.height - lpAct->nHeight;
 
     switch (lpAct->body.action)
     {
@@ -160,8 +152,8 @@ void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
             lpAct->lpParent->field_E10 = 0;
             if (GM_Vitality != 0 && GM_GameOverTimer == 0)
             {
-                lpAct->field_218 = 0x96;
-                lpAct->field_21C = 0x3C;
+                lpAct->nSoundDelay1 = 150;
+                lpAct->nSoundDelay2 = 60;
                 GM_SeSetPan(&GM_PlayerPosition, 0x82, 0x3F);
                 lpAct->lpParent->field_D54 = 3;
                 lpAct->lpParent->field_ED0 = 3;
@@ -176,11 +168,11 @@ void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
         }
         else if (lpAct->body.action == 1)
         {
-            if (lpAct->lpParent->field_E10 == 0 && lpAct->field_218 <= 0 && lpAct->lpParent->field_ED4 >= 0x1E)
+            if (lpAct->lpParent->field_E10 == 0 && lpAct->nSoundDelay1 <= 0 && lpAct->lpParent->field_ED4 >= 0x1E)
             {
                 if (rand() % 3 != 0)
                 {
-                    lpAct->field_218 = 0x96;
+                    lpAct->nSoundDelay1 = 150;
                     GM_SeSetPan(&lpAct->control.mov, 0x80, lpAct->lpParent->nSoundVolume);
                 }
             }
@@ -213,7 +205,7 @@ void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
         GM_MoveTarget(lpAct->target, &vec1);
         vec1.vy += 0x96;
         DG_SetPos2(&vec1, &DG_ZeroVector);
-        ReadRotMatrix(&lpAct->field_1C8);
+        ReadRotMatrix(&lpAct->homMatrix);
         break;
 
     case 3:
@@ -236,21 +228,21 @@ void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
             HZD_GetLevelHeight(lvl);
             vec1.vy = lvl[0];
         }
-        if (lpAct->field_1F4 == 0 && lpAct->control.mov.vy - vec1.vy < 0x12C)
+        if (!lpAct->bFell && lpAct->control.mov.vy - vec1.vy < 0x12C)
         {
-            lpAct->field_1F4 = 1;
-            GM_SeSetPan(&lpAct->control.mov, 0x33, lpAct->lpParent->nSoundVolume);
+            lpAct->bFell = TRUE;
+            GM_SeSetPan(&lpAct->control.mov, SE_HIT_FLOOR, lpAct->lpParent->nSoundVolume);
         }
-        lpAct->field_22C = lpAct->control.rot.vy;
-        lpAct->field_230 = vec1.vy + 0x64;
+        lpAct->nKageDir = lpAct->control.rot.vy;
+        lpAct->nKageHeight = vec1.vy + 100;
         break;
 
     case 4:
         if (!((GV_Time >> 2) & 1))
         {
-            lpAct->body.objs->flag |= 0x80;
+            DG_InvisibleObjs(lpAct->body.objs);
         }
-        if (lpAct->field_20C <= 0)
+        if (lpAct->nFallDelay <= 0)
         {
             GV_DestroyActor(lpAct);
             return;
@@ -269,12 +261,12 @@ void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
             GV_DestroyActor(lpAct);
             return;
         case 3:
-            lpAct->field_20C = 0x3C;
+            lpAct->nFallDelay = 60;
             GM_ConfigObjectAction(&lpAct->body, 4, 0, 5);
-            if (lpAct->field_1F4 == 0)
+            if (!lpAct->bFell)
             {
-                lpAct->field_1F4 = 1;
-                GM_SeSetPan(&lpAct->control.mov, 0x33, lpAct->lpParent->nSoundVolume);
+                lpAct->bFell = TRUE;
+                GM_SeSetPan(&lpAct->control.mov, SE_HIT_FLOOR, lpAct->lpParent->nSoundVolume);
             }
             break;
         case 0:
@@ -291,7 +283,7 @@ void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
         {
             if (lpAct->lpParent->field_ED0 == 0 && !((GV_Time >> 2) & 1))
             {
-                lpAct->body.objs->flag |= 0x80;
+                DG_InvisibleObjs(lpAct->body.objs);
             }
             lpAct->target->vital = 0x2710;
             lpAct->target->damage = 0;
@@ -338,15 +330,15 @@ void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
     {
         GM_EnemyKillCount++;
         lpAct->lpParent->field_E0C = lpAct->lpParent->field_D74;
-        lpAct->field_1F0 = 1;
+        lpAct->bDead = TRUE;
         GM_FreeTarget(lpAct->target);
         lpAct->target = NULL;
         AN_Blast_high(&lpAct->control.mov);
         GM_SeSetPan(&lpAct->control.mov, 0xB1, lpAct->lpParent->nSoundVolume);
         GM_FreeObject(&lpAct->body);
-        GM_InitObject(&lpAct->body, GV_StrCode(s05a_dword_800E358C), 0x32D, GV_StrCode(s05a_dword_800E3584));
+        GM_InitObject(&lpAct->body, GV_StrCode("out_cold"), 0x32D, GV_StrCode("tankman"));
         GM_ConfigObjectJoint(&lpAct->body);
-        GM_ConfigMotionControl(&lpAct->body, &lpAct->m_ctrl, GV_StrCode(s05a_dword_800E3584), lpAct->m_segs1,
+        GM_ConfigMotionControl(&lpAct->body, &lpAct->m_ctrl, GV_StrCode("tankman"), lpAct->m_segs1,
                                lpAct->m_segs2, &lpAct->subcontrol, lpAct->rots);
         GM_ConfigObjectLight(&lpAct->body, &lpAct->light[0]);
         GM_ActMotion(&lpAct->body);
@@ -365,7 +357,7 @@ void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
         vec1.vy = 6;
         vec1.vz = 0xC;
         vec1.pad = 0xF;
-        lpAct->field_228 = NewDemoKage(&lpAct->body, vec1, &lpAct->field_22C, &lpAct->field_230, 0x80, 0x80, 0x80);
+        lpAct->lpShadow = NewDemoKage(&lpAct->body, vec1, &lpAct->nKageDir, &lpAct->nKageHeight, 0x80, 0x80, 0x80);
         memset(&vec1, 0, 8);
         vec1.vx = -lpAct->control.mov.vx;
         vec1.vy = -lpAct->control.mov.vy;
@@ -376,17 +368,17 @@ void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
         lpAct->field_204 = 0;
     }
 
-    lpAct->field_200 = lpAct->body.height;
+    lpAct->nHeight = lpAct->body.height;
     lpAct->lpParent->field_EB4 = lpAct->control.mov;
-    lpAct->field_1E8 = 0;
+    lpAct->bHidden = FALSE;
 }
 
 void s05a_800DEB94(LPM1E1GUNNERACT lpAct)
 {
     lpAct->lpParent->lpGunner = NULL;
-    if (lpAct->field_228)
+    if (lpAct->lpShadow)
     {
-        GV_DestroyActor(lpAct->field_228);
+        GV_DestroyActor(lpAct->lpShadow);
     }
     GM_FreeObject(&lpAct->body);
     GM_FreeControl(&lpAct->control);
@@ -394,9 +386,9 @@ void s05a_800DEB94(LPM1E1GUNNERACT lpAct)
     {
         GM_FreeTarget(lpAct->target);
     }
-    if (lpAct->homing)
+    if (lpAct->hom)
     {
-        GM_ResetHomingTarget(lpAct->homing);
+        GM_ResetHomingTarget(lpAct->hom);
     }
 }
 
@@ -1175,7 +1167,7 @@ int s05a_800E066C(SnaInitWork *work_)
         work->field_894_flags1 &= ~1;
         work->field_89C_pTarget->class |= 0x9e;
         GM_PlayerStatus = status & ~(PLAYER_INVINCIBLE | PLAYER_DAMAGED);
-        *(int *)&work->body.objs->flag &= ~0x80;
+        DG_VisibleObjs(work->body.objs);
         size.vx = 0x7d0;
         size.vy = 0x7d0;
         size.vz = 0x7d0;

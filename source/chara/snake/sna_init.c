@@ -144,7 +144,7 @@ ACTATTACK GrenadeAttack  = {60u,  136u, 35u,  136u, 50u,  0u,  0u,  0u,  0u};
 ACTATTACK PSG1Attack     = {44u,  136u, 136u, 136u, 136u, 0u,  0u,  0u,  0u};
 
 //u_char[] special
-Sna_E6 e6_8009ED48[] = {
+u_char e6_8009ED48[][4] = {
     {115u, 133u, 0u, 0u}, // none
     {112u, 133u, 0u, 0u}, // socom
     {113u, 133u, 0u, 0u}, // famas
@@ -156,8 +156,7 @@ Sna_E6 e6_8009ED48[] = {
 };
 
 //u_char[] special2
-// Should be part of the above special array
-ACTSPECIAL SECTION(".data") e7_8009ED68 = {7u, 13u, 4u, 14u, 32u, 119u, 124u, 0u};
+u_char SECTION(".data") e7_8009ED68[] = {7u, 13u, 4u, 14u, 32u, 119u, 124u};
 
 ACTSTILL NoneStill     = { stand1_fig,   stand2_fig,   squat_fig,   crouch_socom, caution_fig, squat_caution_fig,  cau_punch_r_fig, cau_punch_l_fig };
 ACTSTILL SocomStill    = { stand2_socom, stand2_socom, squat_socom, crouch_socom, caution1,    squat_caution,      caution_punch_r, caution_punch_l };
@@ -173,21 +172,21 @@ unsigned short short_8009ED6C = 980;
 
 ACTPACK actions_no_weapon_8009ED70 =
 {
-    &NoneStill, &NoneMove, &AllTrans, &NoneDamage,  &NoneAttack, &e6_8009ED48[0], &e7_8009ED68
+    &NoneStill, &NoneMove, &AllTrans, &NoneDamage,  &NoneAttack, e6_8009ED48[0], e7_8009ED68
 };
 
 ACTPACK weapon_actions_8009ED8C[10] =
 {
-    {&SocomStill,    &SocomMove,    &AllTrans, &SocomDamage, &SocomAttack,    &e6_8009ED48[1], &e7_8009ED68},
-    {&FamasStill,    &FamasMove,    &AllTrans, &FamasDamage, &FamasAttack,    &e6_8009ED48[2], &e7_8009ED68},
-    {&GrenadeStill,  &GrenadeMove,  &AllTrans, &NoneDamage,  &GrenadeAttack,  &e6_8009ED48[7], &e7_8009ED68},
-    {&NikitaSill,    &NikitaMove,   &AllTrans, &FamasDamage, &NikitaAttack,   &e6_8009ED48[4], &e7_8009ED68},
-    {&FamasStill,    &FamasMove,    &AllTrans, &FamasDamage, &StingerAttack,  &e6_8009ED48[3], &e7_8009ED68},
-    {&ClaymoreStill, &ClaymoreMove, &AllTrans, &NoneDamage,  &ClaymoreAttack, &e6_8009ED48[6], &e7_8009ED68},
-    {&C4Still,       &C4Move,       &AllTrans, &NoneDamage,  &C4Attack,       &e6_8009ED48[5], &e7_8009ED68},
-    {&GrenadeStill,  &GrenadeMove,  &AllTrans, &NoneDamage,  &GrenadeAttack,  &e6_8009ED48[7], &e7_8009ED68},
-    {&GrenadeStill,  &GrenadeMove,  &AllTrans, &NoneDamage,  &GrenadeAttack,  &e6_8009ED48[7], &e7_8009ED68},
-    {&NoneStill,     NULL,          &AllTrans, &NoneDamage,  &PSG1Attack,     &e6_8009ED48[3], &e7_8009ED68}
+    {&SocomStill,    &SocomMove,    &AllTrans, &SocomDamage, &SocomAttack,    e6_8009ED48[1], e7_8009ED68},
+    {&FamasStill,    &FamasMove,    &AllTrans, &FamasDamage, &FamasAttack,    e6_8009ED48[2], e7_8009ED68},
+    {&GrenadeStill,  &GrenadeMove,  &AllTrans, &NoneDamage,  &GrenadeAttack,  e6_8009ED48[7], e7_8009ED68},
+    {&NikitaSill,    &NikitaMove,   &AllTrans, &FamasDamage, &NikitaAttack,   e6_8009ED48[4], e7_8009ED68},
+    {&FamasStill,    &FamasMove,    &AllTrans, &FamasDamage, &StingerAttack,  e6_8009ED48[3], e7_8009ED68},
+    {&ClaymoreStill, &ClaymoreMove, &AllTrans, &NoneDamage,  &ClaymoreAttack, e6_8009ED48[6], e7_8009ED68},
+    {&C4Still,       &C4Move,       &AllTrans, &NoneDamage,  &C4Attack,       e6_8009ED48[5], e7_8009ED68},
+    {&GrenadeStill,  &GrenadeMove,  &AllTrans, &NoneDamage,  &GrenadeAttack,  e6_8009ED48[7], e7_8009ED68},
+    {&GrenadeStill,  &GrenadeMove,  &AllTrans, &NoneDamage,  &GrenadeAttack,  e6_8009ED48[7], e7_8009ED68},
+    {&NoneStill,     NULL,          &AllTrans, &NoneDamage,  &PSG1Attack,     e6_8009ED48[3], e7_8009ED68}
 };
 
 void *dword_8009EEA4[] = {
@@ -2630,7 +2629,7 @@ void sna_fn_800525F8(SnaInitWork *work, int time)
     {
         if (work->body.is_end)
         {
-            SetAction_8004E22C(work, work->actpack->special2->field_2, 4);
+            SetAction_8004E22C(work, work->actpack->special2[2], 4);
         }
     }
 
@@ -3827,7 +3826,7 @@ void sna_act_helper2_helper7_80054648(SnaInitWork *work, int time)
         work->field_9C8_anim_update_fn_3p = sna_fn_nothing_80053B80;
         work->field_9CC_anim_update_fn_1p = sna_fn_800525F8;
 
-        SetAction_8004E22C(work, work->actpack->special2->field_4, 4);
+        SetAction_8004E22C(work, work->actpack->special2[4], 4);
 
         if (work->field_89C_pTarget->vital <= 0)
         {
@@ -4165,11 +4164,11 @@ void sna_act_helper2_helper_80054EFC(SnaInitWork *work, int pTime)
         actor->field_9CC_anim_update_fn_1p = sna_act_helper2_helper_helper_800526BC;
         if (GM_CheckPlayerStatusFlag(PLAYER_GROUND))
         {
-            actionFlag = actor->actpack->special1->field_1;
+            actionFlag = actor->actpack->special1[1];
         }
         else
         {
-            actionFlag = actor->actpack->special1->field_0;
+            actionFlag = actor->actpack->special1[0];
         }
         if (GM_CheckPlayerStatusFlag(PLAYER_SQUAT) != 0)
         {
@@ -4310,7 +4309,7 @@ void sna_anim_box_idle_800553EC(SnaInitWork *work, int time)
         work->field_9CC_anim_update_fn_1p = sna_fn_800525F8;
         GM_ClearPlayerStatusFlag(PLAYER_GROUND | PLAYER_SQUAT);
         work->field_A26_stance = STAND;
-        SetAction_8004E22C(work, work->actpack->special2->field_2, 4);
+        SetAction_8004E22C(work, work->actpack->special2[2], 4);
     }
 }
 
@@ -4320,7 +4319,7 @@ void sna_anim_box_move_8005544C(SnaInitWork *work, int time)
     {
         work->field_9C8_anim_update_fn_3p = sna_fn_80056AD8;
         work->field_9CC_anim_update_fn_1p = sna_fn_800525F8;
-        SetAction_8004E22C(work, work->actpack->special2->field_3, 4);
+        SetAction_8004E22C(work, work->actpack->special2[3], 4);
         GM_SetPlayerStatusFlag(PLAYER_MOVE);
         GM_ConfigControlInterp(&work->control, 4);
     }
@@ -4332,7 +4331,7 @@ void sna_anim_box_stop_800554B4(SnaInitWork *work, int time)
     {
         work->field_9C8_anim_update_fn_3p = sna_fn_nothing_80053B80;
         work->field_9CC_anim_update_fn_1p = sna_fn_800525F8;
-        SetAction_8004E22C(work, work->actpack->special2->field_4, 4);
+        SetAction_8004E22C(work, work->actpack->special2[4], 4);
     }
 
     if (work->body.is_end)
@@ -4642,7 +4641,7 @@ void sna_anim_mini_cutscene_800559D8(SnaInitWork *work, int time)
         if (pStr->field_9EC_flags3 & 0x100)
         {
             stance = STAND;
-            action = work->actpack->special2->field_3;
+            action = work->actpack->special2[3];
         }
         else if (pStr->field_9EC_flags3 & 1)
         {
@@ -5286,7 +5285,7 @@ void sna_fn_80056AD8(SnaInitWork *work, int time)
     }
     else
     {
-        SetAction_8004E22C(work, work->actpack->special2->field_3, 4);
+        SetAction_8004E22C(work, work->actpack->special2[3], 4);
         GM_SetPlayerStatusFlag(PLAYER_MOVE);
 
         if (sna_sub_8004E358(work, SNA_FLAG2_UNK5) == 0)
@@ -6591,7 +6590,7 @@ void sna_anim_chokethrow_begin2_80058C80(SnaInitWork *work, int time)
             p->vx /= 4;
             p->vy /= 4;
             p->vz /= 4;
-            action_flag = work->actpack->special2->field_0;
+            action_flag = work->actpack->special2[0];
         }
         else
         {
@@ -6631,7 +6630,7 @@ void sna_anim_choke_80058E88(SnaInitWork *work, int time)
         work->field_9C8_anim_update_fn_3p = sna_anim_choke_helper_8005951C;
         work->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
 
-        action_flag = work->actpack->special2->field_0;
+        action_flag = work->actpack->special2[0];
         SetAction_8004E22C(work, action_flag, 4);
         work->field_8E8_pTarget->a_mode = action_flag;
     }
@@ -6720,7 +6719,7 @@ void sna_anim_choke_drag_80059054(SnaInitWork *work, int time)
     {
         work->field_9C8_anim_update_fn_3p = sna_fn_nothing_80053B80;
         work->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
-        bVar2 = work->actpack->special2->field_1;
+        bVar2 = work->actpack->special2[1];
         GM_SetPlayerStatusFlag(PLAYER_MOVE);
         SetAction_8004E22C(work, bVar2, 4);
         work->field_8E8_pTarget->a_mode = bVar2;
@@ -6757,7 +6756,7 @@ void sna_anim_choke_hold_80059154(SnaInitWork *work, int time)
     {
         work->field_9C8_anim_update_fn_3p = sna_fn_nothing_80053B80;
         work->field_9CC_anim_update_fn_1p = sna_fn_nothing_80053B80;
-        SetAction_8004E22C(work, work->actpack->special2->field_6, 4);
+        SetAction_8004E22C(work, work->actpack->special2[6], 4);
     }
 
     if (EndMotion(work))

@@ -47,7 +47,7 @@ static void Act( Work *work )
             work->body.height = GM_PlayerBody->height;
         }
         *work->body.objs->waist_rot = *GM_PlayerBody->objs->waist_rot;
-        if ( GM_PlayerBody->action2 == 0x32 ) {
+        if ( GM_PlayerBody->action2 == 50 ) {
             work->field_760 = 1;
             work->field_764 = 0;
         }
@@ -74,13 +74,13 @@ static void Act( Work *work )
             }
         }
         *GM_PlayerBody->objs->waist_rot = *work->body.objs->waist_rot;
-        if ( work->body.m_ctrl->info1.frames_left == 2 || GM_PlayerBody->action2 != 0x32 ) {
+        if ( work->body.m_ctrl->info1.frames_left == 2 || GM_PlayerBody->action2 != 50 ) {
             CopyMotionSegs( GM_PlayerBody->m_ctrl->info1.m_segs, work->body.m_ctrl->info1.m_segs, mask );
             GM_PlayerBody->m_ctrl->interp = 4;
             work->field_760 = 2;
         }
     } else {
-        if ( GM_PlayerBody->action2 != 0x32 ) {
+        if ( GM_PlayerBody->action2 != 50 ) {
             work->field_760 = 0;
         }
     }
@@ -96,7 +96,7 @@ static int GetResources( Work *work, int name )
 {
     work->body.objs = &work->objs;
     GM_ConfigMotionControl( &work->body, &work->m_ctrl, name,
-        &work->m_segs1[0], &work->m_segs2[0], &work->control, work->rots );
+        work->m_segs1, work->m_segs2, &work->control, work->rots );
     work->field_760 = 0;
     work->field_764 = 0;
     return 0;
@@ -104,15 +104,13 @@ static int GetResources( Work *work, int name )
 
 /*---------------------------------------------------------------------------*/
 
-extern const char s05a_dword_800E345C[]; // "m1throw.c"
-
 void *NewM1Throw( int name )
 {
     Work *work;
 
     work = GV_NewActor( GV_ACTOR_AFTER, sizeof( Work ) );
     if ( work != NULL ) {
-        GV_SetNamedActor( &work->actor, Act, Die, s05a_dword_800E345C );
+        GV_SetNamedActor( &work->actor, Act, Die, "m1throw.c" );
         if ( GetResources( work, name ) >= 0 ) {
             return (void *)work;
         }
