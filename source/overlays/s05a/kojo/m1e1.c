@@ -1,8 +1,18 @@
+/******************************************************************************
+ * included
+ */
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "game/game.h"
 #include "menu/menuman.h"
 
 #include "kojo/common.h"
 #include "kojo/m1e1.h"
+
+/******************************************************************************
+ */
 
 typedef struct
 {
@@ -32,8 +42,9 @@ extern const char s05a_dword_800E344C[]; /* "throw" */
 extern const GunnerTpl s05a_dword_800E3454; /* "GUNNER\0" @ 0x800E3454 */
 
 extern LPM1E1ACT s05a_dword_800C362C;
-extern MATRIX   DG_ZeroMatrix;
-extern SVECTOR  DG_ZeroVector;
+
+/******************************************************************************
+ */
 
 void *NewM1E1(int name, int where)
 {

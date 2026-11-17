@@ -1,45 +1,21 @@
+/******************************************************************************
+ * included
+ */
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "game/game.h"
 
-typedef struct _CamModel
-{
-    char    pad_000[0x15C];
-    MATRIX  field_15C; /* 0x15C */
-    char    pad_17C[0x284 - 0x17C];
-    u_short field_284; /* 0x284 */
-    char    pad_286[0x288 - 0x286];
-    u_short field_288; /* 0x288 */
-    char    pad_28A[0x28C - 0x28A];
-    u_short field_28C; /* 0x28C */
-    char    pad_28E[0x3F4 - 0x28E];
-    u_short field_3F4; /* 0x3F4 */
-    char    pad_3F6[0x3F8 - 0x3F6];
-    u_short field_3F8; /* 0x3F8 */
-    char    pad_3FA[0x3FC - 0x3FA];
-    u_short field_3FC; /* 0x3FC */
-    char    pad_3FE[0x498 - 0x3FE];
-    MATRIX  field_498; /* 0x498 */
-} CamModel;
+#include "kojo/common.h"
+#include "kojo/m1e1.h"
 
-typedef struct _CamActor
-{
-    GV_ACT    actor;
-    char      pad_020[0x04];
-    short     field_24;  /* 0x024 */
-    char      pad_26[0x4C - 0x26];
-    MAP      *field_4C;  /* 0x04C */
-    char      pad_50[0xDC - 0x50];
-    CamModel *field_DC;  /* 0x0DC */
-    char      pad_E0[0xD54 - 0xE0];
-    int       field_D54; /* 0xD54 */
-    char      pad_D58[0xDBC - 0xD58];
-    int       field_DBC; /* 0xDBC */
-    char      pad_DC0[0xE5C - 0xDC0];
-    int       field_E5C; /* 0xE5C */
-    char      pad_E60[0xED0 - 0xE60];
-    int       field_ED0; /* 0xED0 */
-} CamActor;
+#include "takabe/cinema.h"      // for NewCinemaScreen, etc.
 
-typedef struct _Camera
+/******************************************************************************
+ */
+
+typedef struct tagM1E1CAMERAACT
 {
     GV_ACT  actor;
     SVECTOR field_20; /* 0x20 */
@@ -71,121 +47,123 @@ typedef struct _Camera
     int     field_84; /* 0x84 */
     int     field_88; /* 0x88 */
     int     field_8C; /* 0x8C */
-} Camera;
+} M1E1CAMERAACT, *PM1E1CAMERAACT, *LPM1E1CAMERAACT;
 
-extern CamActor *s05a_dword_800C362C;
-extern Camera  *s05a_dword_800C38CC;
+extern LPM1E1ACT s05a_dword_800C362C;
+extern LPM1E1CAMERAACT s05a_dword_800C38CC;
 
 void s05a_800E209C(VECTOR *out, VECTOR *in, int (*fn)());
 VECTOR *s05a_800E2328(VECTOR *out, SVECTOR *cam, VECTOR *in, SVECTOR *lo, SVECTOR *hi);
-void s05a_800E1448(Camera *actor);
+void s05a_800E1448(LPM1E1CAMERAACT lpAct);
 void s05a_800E1A68(void);
 void s05a_800E1AA8(void);
 void s05a_800E1C14(void);
 void s05a_800E1D7C(void);
 void s05a_800E1F0C(void);
+
 const char s05a_dword_800E35D8[] = "m1e1came.c";
 const char s05a_dword_800E35E4[] = {'n', 'o', 's', 'u', 'b', 'j', 'e', 'c', 't', 0x0, 'E', 'N'};
 
-void *NewCinemaScreen(int time, int type);
-void *NewCinemaScreenClose(void *addr);
 void sub_8007EF34(SVECTOR *pOutVec1, SVECTOR *pOutVec2, MATRIX *pInMtx);
+
+/******************************************************************************
+ */
 
 void *s05a_800E1134(void)
 {
-    Camera *cam;
+    LPM1E1CAMERAACT lpAct;
     char   *s;
 
-    cam = GV_NewActor(GV_ACTOR_USER, 0x90);
-    if (cam == NULL)
+    lpAct = GV_NewActor(GV_ACTOR_USER, 0x90);
+    if (lpAct == NULL)
     {
-        return 0;
+        return NULL;
     }
-    GV_SetNamedActor(cam, s05a_800E1448, s05a_800E1A68, s05a_dword_800E35D8);
+    GV_SetNamedActor(lpAct, s05a_800E1448, s05a_800E1A68, s05a_dword_800E35D8);
 
     if (GCL_GetOption(0x62))
     {
-        if ((s = GCL_NextStr())) cam->field_20.vx = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_20.vy = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_20.vz = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_28.vx = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_28.vy = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_28.vz = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_3C.vx = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_3C.vy = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_3C.vz = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_44.vx = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_44.vy = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_44.vz = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_20.vx = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_20.vy = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_20.vz = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_28.vx = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_28.vy = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_28.vz = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_3C.vx = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_3C.vy = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_3C.vz = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_44.vx = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_44.vy = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_44.vz = GCL_StrToInt(s);
     }
     if (GCL_GetOption(0x72))
     {
-        if ((s = GCL_NextStr())) cam->field_30.vx = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_30.vy = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_30.vz = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_4C.vx = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_4C.vy = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) cam->field_4C.vz = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_30.vx = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_30.vy = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_30.vz = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_4C.vx = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_4C.vy = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_4C.vz = GCL_StrToInt(s);
     }
     if (GCL_GetOption(0x74))
     {
-        if ((s = GCL_NextStr())) *(int *)&cam->field_38 = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) *(int *)&cam->field_54 = GCL_StrToInt(s);
-        if ((s = GCL_NextStr())) *(int *)&cam->field_58 = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) *(int *)&lpAct->field_38 = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) *(int *)&lpAct->field_54 = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) *(int *)&lpAct->field_58 = GCL_StrToInt(s);
     }
     if (GCL_GetOption(0x6F))
     {
-        if ((s = GCL_NextStr())) cam->field_5C = GCL_StrToInt(s);
+        if ((s = GCL_NextStr())) lpAct->field_5C = GCL_StrToInt(s);
     }
 
-    cam->field_60 = 1;
-    s05a_dword_800C38CC = cam;
-    return cam;
+    lpAct->field_60 = 1;
+    s05a_dword_800C38CC = lpAct;
+    return (void*)lpAct;
 }
 
-void s05a_800E1448(Camera *actor)
+void s05a_800E1448(LPM1E1CAMERAACT lpAct)
 {
-    CamActor *listener;
+    LPM1E1ACT lpParent;
     SVECTOR   sp10;
 
-    listener = s05a_dword_800C362C;
-    if (listener == NULL || listener->field_D54 == 6)
+    lpParent = s05a_dword_800C362C;
+    if (lpParent == NULL || lpParent->field_D54 == 6)
     {
-        GV_DestroyActor((GV_ACT *)actor);
+        GV_DestroyActor((void *)lpAct);
         return;
     }
 
-    actor->field_84++;
+    lpAct->field_84++;
 
-    if (listener->field_ED0 == 2)
+    if (lpParent->field_ED0 == 2)
     {
-        if (actor->field_60 != 3)
+        if (lpAct->field_60 != 3)
         {
             int t;
             int u;
 
-            sub_8007EF34(&sp10, (SVECTOR *)&actor->field_64, &listener->field_DC->field_15C);
-            memset(&actor->field_6C, 0, 8);
-            memset(&actor->field_74, 0, 8);
+            sub_8007EF34(&sp10, (SVECTOR *)&lpAct->field_64, &lpParent->objBody.objs->objs[3].world);
+            memset(&lpAct->field_6C, 0, 8);
+            memset(&lpAct->field_74, 0, 8);
             t = -3;
-            actor->field_6E = t;
-            t = actor->field_64;
+            lpAct->field_6E = t;
+            t = lpAct->field_64;
             u = 0xDAC;
-            *(int *)&actor->field_7C = u;
-            u = (int)actor->field_80;
+            *(int *)&lpAct->field_7C = u;
+            u = (int)lpAct->field_80;
             t += 0x71;
-            actor->field_64 = t;
-            t = actor->field_66;
-            actor->field_84 = 0;
-            actor->field_88 = 0;
-            actor->field_8C = 0;
-            actor->field_68 = 0;
-            actor->field_6C = 0;
+            lpAct->field_64 = t;
+            t = lpAct->field_66;
+            lpAct->field_84 = 0;
+            lpAct->field_88 = 0;
+            lpAct->field_8C = 0;
+            lpAct->field_68 = 0;
+            lpAct->field_6C = 0;
             t += 0x156;
-            actor->field_66 = t;
+            lpAct->field_66 = t;
             if (u == 0)
             {
-                actor->field_80 = NewCinemaScreen(0x77359400, 0);
+                lpAct->field_80 = NewCinemaScreen(0x77359400, 0);
             }
             GM_GameStatus |= 0x104A2000;
             GM_Camera.flag |= 0x202;
@@ -195,31 +173,31 @@ void s05a_800E1448(Camera *actor)
         }
         else
         {
-            actor->field_8C = 1;
+            lpAct->field_8C = 1;
         }
         GM_Camera.type = 0;
-        actor->field_60 = 3;
+        lpAct->field_60 = 3;
         return;
     }
 
-    if (listener->field_ED0 == 3)
+    if (lpParent->field_ED0 == 3)
     {
-        if (actor->field_60 != 4)
+        if (lpAct->field_60 != 4)
         {
-            sub_8007EF34(&sp10, (SVECTOR *)&actor->field_64, &listener->field_DC->field_498);
-            memset(&actor->field_6C, 0, 8);
-            memset(&actor->field_74, 0, 8);
-            *(int *)&actor->field_7C = 0xBB8;
-            actor->field_84 = 0;
-            actor->field_88 = 0;
-            actor->field_8C = 0;
-            actor->field_68 = 0;
-            actor->field_6C = 2;
-            actor->field_6E = 6;
-            actor->field_64 += -0x11C;
-            if (actor->field_80 == 0)
+            sub_8007EF34(&sp10, (SVECTOR *)&lpAct->field_64, &lpParent->objBody.objs->objs[12].world);
+            memset(&lpAct->field_6C, 0, 8);
+            memset(&lpAct->field_74, 0, 8);
+            *(int *)&lpAct->field_7C = 0xBB8;
+            lpAct->field_84 = 0;
+            lpAct->field_88 = 0;
+            lpAct->field_8C = 0;
+            lpAct->field_68 = 0;
+            lpAct->field_6C = 2;
+            lpAct->field_6E = 6;
+            lpAct->field_64 += -0x11C;
+            if (lpAct->field_80 == 0)
             {
-                actor->field_80 = NewCinemaScreen(0x77359400, 0);
+                lpAct->field_80 = NewCinemaScreen(0x77359400, 0);
             }
             GM_GameStatus |= 0x104A2000;
             GM_Camera.flag |= 0x202;
@@ -229,10 +207,10 @@ void s05a_800E1448(Camera *actor)
         }
         else
         {
-            actor->field_8C = 1;
+            lpAct->field_8C = 1;
         }
         GM_Camera.type = 0;
-        actor->field_60 = 4;
+        lpAct->field_60 = 4;
         return;
     }
 
@@ -242,7 +220,7 @@ void s05a_800E1448(Camera *actor)
         HZD_TRP *trp;
         int      i;
 
-        hzd = listener->field_4C->hzd;
+        hzd = lpParent->control.map->hzd;
         grp = hzd->grp;
         trp = &grp->triggers->trap;
 
@@ -260,24 +238,24 @@ void s05a_800E1448(Camera *actor)
 
         if (i <= 0 &&
             s05a_dword_800C362C->field_E5C < s05a_dword_800C362C->field_DBC &&
-            GM_PlayerPosition.vz > s05a_dword_800C362C->field_24)
+            GM_PlayerPosition.vz > s05a_dword_800C362C->control.mov.vz)
         {
-            if (actor->field_60 != 2)
+            if (lpAct->field_60 != 2)
             {
-                if (actor->field_80 != 0)
+                if (lpAct->field_80 != 0)
                 {
-                    NewCinemaScreenClose(actor->field_80);
-                    actor->field_80 = 0;
+                    NewCinemaScreenClose(lpAct->field_80);
+                    lpAct->field_80 = 0;
                 }
-                actor->field_84 = 0;
-                if (actor->field_60 != 1)
+                lpAct->field_84 = 0;
+                if (lpAct->field_60 != 1)
                 {
-                    actor->field_8C = 0;
+                    lpAct->field_8C = 0;
                     GM_SnakeCamera.position = GM_PlayerPosition;
                 }
                 else
                 {
-                    actor->field_8C = actor->field_60;
+                    lpAct->field_8C = lpAct->field_60;
                 }
                 GM_GameStatus &= ~0x104A2000;
                 GM_Camera.flag = (GM_Camera.flag | 2) & ~0x200;
@@ -287,41 +265,41 @@ void s05a_800E1448(Camera *actor)
             }
             else
             {
-                actor->field_8C = 1;
+                lpAct->field_8C = 1;
             }
             if (GM_Camera.interp > 0)
             {
-                actor->field_88 = 0;
+                lpAct->field_88 = 0;
             }
-            else if (actor->field_60 != 1)
+            else if (lpAct->field_60 != 1)
             {
-                actor->field_88 = 0;
+                lpAct->field_88 = 0;
             }
             else
             {
-                actor->field_88 = actor->field_60;
+                lpAct->field_88 = lpAct->field_60;
             }
             GM_Camera.type = 0;
-            actor->field_60 = 2;
+            lpAct->field_60 = 2;
             return;
         }
 
-        if (actor->field_60 != 1)
+        if (lpAct->field_60 != 1)
         {
-            if (actor->field_80 != 0)
+            if (lpAct->field_80 != 0)
             {
-                NewCinemaScreenClose(actor->field_80);
-                actor->field_80 = 0;
+                NewCinemaScreenClose(lpAct->field_80);
+                lpAct->field_80 = 0;
             }
-            actor->field_84 = 0;
-            if (actor->field_60 != 2)
+            lpAct->field_84 = 0;
+            if (lpAct->field_60 != 2)
             {
-                actor->field_8C = 0;
+                lpAct->field_8C = 0;
                 GM_SnakeCamera.position = GM_PlayerPosition;
             }
             else
             {
-                actor->field_8C = 1;
+                lpAct->field_8C = 1;
             }
             GM_GameStatus &= ~0x104A2000;
             GM_Camera.flag = (GM_Camera.flag | 2) & ~0x200;
@@ -331,22 +309,22 @@ void s05a_800E1448(Camera *actor)
         }
         else
         {
-            actor->field_8C = actor->field_60;
+            lpAct->field_8C = lpAct->field_60;
         }
         if (GM_Camera.interp > 0)
         {
-            actor->field_88 = 0;
+            lpAct->field_88 = 0;
         }
-        else if (actor->field_60 != 2)
+        else if (lpAct->field_60 != 2)
         {
-            actor->field_88 = 0;
+            lpAct->field_88 = 0;
         }
         else
         {
-            actor->field_88 = 1;
+            lpAct->field_88 = 1;
         }
         GM_Camera.type = 0;
-        actor->field_60 = 1;
+        lpAct->field_60 = 1;
     }
 }
 
@@ -370,9 +348,9 @@ void s05a_800E1AA8(void)
     off.vz = s05a_dword_800C38CC->field_7C;
     DG_PutVector(&off, &off, 1);
 
-    s05a_dword_800C38CC->field_74.vx = s05a_dword_800C362C->field_DC->field_284;
-    s05a_dword_800C38CC->field_74.vy = s05a_dword_800C362C->field_DC->field_288;
-    s05a_dword_800C38CC->field_74.vz = s05a_dword_800C362C->field_DC->field_28C;
+    s05a_dword_800C38CC->field_74.vx = s05a_dword_800C362C->objBody.objs->objs[6].world.t[0];
+    s05a_dword_800C38CC->field_74.vy = s05a_dword_800C362C->objBody.objs->objs[6].world.t[1];
+    s05a_dword_800C38CC->field_74.vz = s05a_dword_800C362C->objBody.objs->objs[6].world.t[2];
     s05a_dword_800C38CC->field_74.vy += 0x1F4;
 
     pos.vx = s05a_dword_800C38CC->field_74.vx + off.vx;
@@ -403,9 +381,9 @@ void s05a_800E1C14(void)
     off.vz = s05a_dword_800C38CC->field_7C;
     DG_PutVector(&off, &off, 1);
 
-    s05a_dword_800C38CC->field_74.vx = s05a_dword_800C362C->field_DC->field_3F4;
-    s05a_dword_800C38CC->field_74.vy = s05a_dword_800C362C->field_DC->field_3F8;
-    s05a_dword_800C38CC->field_74.vz = s05a_dword_800C362C->field_DC->field_3FC;
+    s05a_dword_800C38CC->field_74.vx = s05a_dword_800C362C->objBody.objs->objs[10].world.t[0];
+    s05a_dword_800C38CC->field_74.vy = s05a_dword_800C362C->objBody.objs->objs[10].world.t[1];
+    s05a_dword_800C38CC->field_74.vz = s05a_dword_800C362C->objBody.objs->objs[10].world.t[2];
 
     pos.vx = s05a_dword_800C38CC->field_74.vx + off.vx;
     pos.vy = s05a_dword_800C38CC->field_74.vy + off.vy;

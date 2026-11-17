@@ -1,136 +1,43 @@
-#include <rand.h>
+/******************************************************************************
+ * included
+ */
+
+#include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "game/game.h"
+
+#include "kojo/common.h"
+#include "kojo/m1e1.h"
+
 #include "chara/snake/sna_init.h"
 #include "strcode.h"
-#include "bullet/blast.h"
+#include "bullet/blast.h"   // for AN_Blast_high
 
-typedef struct
-{
-    HZD_SEG seg[4];
-    HZD_FLR flr[2];
-} HzdBlock; /* 0xA0 */
+extern void *NewDemoKage(OBJECT *parent, SVECTOR vec, int *arg2, int *arg3, char r, char g, char b);
 
-typedef struct _CamEb0
-{
-    char    pad_000[0x1C0];
-    TARGET *field_1C0;      /* 0x1C0 */
-} CamEb0;
+/******************************************************************************
+ */
 
-typedef struct _CamActor
-{
-    GV_ACT    actor;
-    CONTROL   control;         /* 0x020 */
-    char      pad_09C[0xB0 - 0x9C];
-    int       field_B0;        /* 0x0B0 */
-    int       field_B4;        /* 0x0B4 */
-    int       field_B8;        /* 0x0B8 */
-    char      pad_BC[0xDC - 0xBC];
-    OBJECT    body;            /* 0x0DC */
-    char      pad_1C0[0x718 - 0x1C0];
-    TARGET   *field_718[10];   /* 0x718 */
-    char      pad_740[0x744 - 0x740];
-    int       field_744;       /* 0x744 */
-    int       field_748;       /* 0x748 */
-    CONTROL   snap_control;    /* 0x74C */
-    OBJECT    snap_body;       /* 0x7C8 */
-    char      pad_8AC[0xD54 - 0x8AC];
-    int       field_D54;       /* 0xD54 */
-    int       field_D58;       /* 0xD58 */
-    int       field_D5C;       /* 0xD5C */
-    int       field_D60;       /* 0xD60 */
-    int       field_D64;       /* 0xD64 */
-    int       field_D68;       /* 0xD68 */
-    char      pad_D6C[0xD74 - 0xD6C];
-    int       field_D74;       /* 0xD74 */
-    char      pad_D78[0xD88 - 0xD78];
-    int       field_D88;       /* 0xD88 */
-    int       field_D8C;       /* 0xD8C */
-    char      pad_D90[0xDA0 - 0xD90];
-    int       field_DA0;       /* 0xDA0 */
-    char      pad_DA4[0xDEC - 0xDA4];
-    int       field_DEC;       /* 0xDEC */
-    int       field_DF0;       /* 0xDF0 */
-    int       field_DF4;       /* 0xDF4 */
-    int       field_DF8;       /* 0xDF8 */
-    int       field_DFC;       /* 0xDFC */
-    int       field_E00;       /* 0xE00 */
-    int       field_E04;       /* 0xE04 */
-    int       field_E08;       /* 0xE08 */
-    int       field_E0C;       /* 0xE0C */
-    int       field_E10;       /* 0xE10 */
-    int       field_E14;       /* 0xE14 */
-    int       field_E18;       /* 0xE18 */
-    char      pad_E1C[0xE60 - 0xE1C];
-    int       field_E60;       /* 0xE60 */
-    char      pad_E64[0xEB0 - 0xE64];
-    CamEb0   *field_EB0;       /* 0xEB0 */
-    SVECTOR   field_EB4;       /* 0xEB4 */
-    char      pad_EBC[0xED0 - 0xEBC];
-    int       field_ED0;       /* 0xED0 */
-    int       field_ED4;       /* 0xED4 */
-    char      pad_ED8[0xF4C - 0xED8];
-    int       field_F4C;       /* 0xF4C */
-    int       field_F50;       /* 0xF50 */
-    char      pad_F54[0xF5C - 0xF54];
-    int       field_F5C;       /* 0xF5C */
-    char      pad_F60[0xF78 - 0xF60];
-    int       field_F78;       /* 0xF78 */
-    char      pad_F7C[0xFEC - 0xF7C];
-    HzdBlock  hzd[5];          /* 0xFEC */
-    HZD_FLR   copy0;           /* 0x130C */
-    HZD_FLR   copy1;           /* 0x133C */
-    HZD_FLR   copy2;           /* 0x136C */
-} CamActor;
-
-typedef struct _Sol
-{
-    GV_ACT         actor;         /* 0x000 */
-    CONTROL        control;       /* 0x020 */
-    MATRIX         light[2];      /* 0x09C */
-    OBJECT         body;          /* 0x0DC */
-    TARGET        *target;        /* 0x1C0 */
-    HOMING        *homing;        /* 0x1C4 */
-    MATRIX         field_1C8;     /* 0x1C8 */
-    int            field_1E8;     /* 0x1E8 */
-    CamActor      *field_1EC;     /* 0x1EC */
-    int            field_1F0;     /* 0x1F0 */
-    int            field_1F4;     /* 0x1F4 */
-    int            last_weapon;   /* 0x1F8 */
-    int            last_item;     /* 0x1FC */
-    int            field_200;     /* 0x200 */
-    int            field_204;     /* 0x204 */
-    int            field_208;     /* 0x208 */
-    int            field_20C;     /* 0x20C */
-    char           pad_210[0x218 - 0x210];
-    int            field_218;     /* 0x218 */
-    int            field_21C;     /* 0x21C */
-    char           pad_220[0x228 - 0x220];
-    void          *field_228;     /* 0x228 */
-    int            field_22C;     /* 0x22C */
-    int            field_230;     /* 0x230 */
-    MOTION_CONTROL m_ctrl;        /* 0x234 */
-    MOTION_SEGMENT m_segs1[17];   /* 0x284 */
-    MOTION_SEGMENT m_segs2[17];   /* 0x4E8 */
-    CONTROL        subcontrol;    /* 0x74C */
-    SVECTOR        rots[16];      /* 0x7C8 */
-} Sol;
-
-extern CamActor *s05a_dword_800C362C;
+extern LPM1E1ACT s05a_dword_800C362C;
 extern CONTROL   s05a_dword_800E3800;
 
-void s05a_800DDF18(Sol *work);
-int  s05a_800DEC18(Sol *work, SVECTOR *s2, int a2);
-extern void *NewDemoKage(OBJECT *parent, SVECTOR vec, int *arg2, int *arg3, char r, char g, char b);
-void s05a_800DEB94(Sol *work);
+void s05a_800DDF18(LPM1E1GUNNERACT lpAct);
+int  s05a_800DEC18(LPM1E1GUNNERACT lpAct, SVECTOR *s2, int a2);
+void s05a_800DEB94(LPM1E1GUNNERACT lpAct);
+
 const char s05a_dword_800E356C[] = "m1e1sold.c";
 const char s05a_dword_800E3578[] = "out_c_m1";
 const char s05a_dword_800E3584[] = "tankman";
 const char s05a_dword_800E358C[] = "out_cold";
-extern MATRIX DG_ZeroMatrix;
 
-void *s05a_800DDCBC(CamActor *director)
+/******************************************************************************
+ */
+
+void *s05a_800DDCBC(LPM1E1ACT lpParent)
 {
-    Sol      *work;
+    LPM1E1GUNNERACT lpAct;
     int       one;
     int       name;
     int       i;
@@ -139,127 +46,127 @@ void *s05a_800DDCBC(CamActor *director)
     DG_OBJS  *objs;
     SVECTOR   size;
 
-    work = GV_NewActor(6, 0x848);
-    if (work == NULL)
+    lpAct = GV_NewActor(6, 0x848);
+    if (lpAct == NULL)
     {
         return 0;
     }
     one = 1;
-    work->field_1E8 = one;
-    work->field_1EC = director;
-    GV_SetNamedActor(work, s05a_800DDF18, s05a_800DEB94, s05a_dword_800E356C);
+    lpAct->field_1E8 = one;
+    lpAct->lpParent = lpParent;
+    GV_SetNamedActor(lpAct, s05a_800DDF18, s05a_800DEB94, s05a_dword_800E356C);
 
-    if (GM_InitControl(&work->control, work->field_1EC->field_744,
-                       work->field_1EC->field_748) < 0)
+    if (GM_InitControl(&lpAct->control, lpAct->lpParent->field_744,
+                       lpAct->lpParent->field_748) < 0)
     {
-        GV_DestroyActor(work);
+        GV_DestroyActor(lpAct);
         return 0;
     }
 
-    work->control.r_sphere = -2;
-    work->control.interp = 0;
-    GM_ConfigControlAttribute(&work->control, 5);
+    lpAct->control.r_sphere = -2;
+    lpAct->control.interp = 0;
+    GM_ConfigControlAttribute(&lpAct->control, 5);
 
-    *(int *)&work->light[0].t[0] = *(int *)&work->field_1EC->field_B0;
-    *(int *)&work->light[0].t[1] = *(int *)&work->field_1EC->field_B4;
-    *(int *)&work->light[0].t[2] = *(int *)&work->field_1EC->field_B8;
+    lpAct->light[0].t[0] = lpAct->lpParent->light[0].t[0];
+    lpAct->light[0].t[1] = lpAct->lpParent->light[0].t[1];
+    lpAct->light[0].t[2] = lpAct->lpParent->light[0].t[2];
     name = GV_StrCode(s05a_dword_800E3578);  /* "out_" */
 
     tankstr = s05a_dword_800E3584;
-    bodyp = &work->body;
+    bodyp = &lpAct->body;
     GM_InitObject(bodyp, name, 0x32d, GV_StrCode(tankstr));
     GM_ConfigObjectJoint(bodyp);
-    GM_ConfigMotionControl(bodyp, &work->m_ctrl,
+    GM_ConfigMotionControl(bodyp, &lpAct->m_ctrl,
                            GV_StrCode(tankstr),
-                           work->m_segs1,
-                           work->m_segs2,
-                           &work->subcontrol,
-                           work->rots);
-    GM_ConfigObjectLight(bodyp, &work->light[0]);
+                           lpAct->m_segs1,
+                           lpAct->m_segs2,
+                           &lpAct->subcontrol,
+                           lpAct->rots);
+    GM_ConfigObjectLight(bodyp, &lpAct->light[0]);
 
     objs = bodyp->objs;
     *(int *)&objs->flag |= 0x80;
-    work->homing = GM_SetHomingTarget(&work->field_1C8, &work->control);
-    work->homing->flag = one;
-    work->target = GM_AllocTarget();
+    lpAct->homing = GM_SetHomingTarget(&lpAct->field_1C8, &lpAct->control);
+    lpAct->homing->flag = one;
+    lpAct->target = GM_AllocTarget();
     size.vx = 0x12c;
     size.vy = 0x12c;
     size.vz = 0x12c;
-    GM_SetTarget(work->target, 0x94, 2, &size);
-    GM_SetPowerTarget(work->target, 1, -1, 0x2710, 0, &DG_ZeroVector);
+    GM_SetTarget(lpAct->target, 0x94, 2, &size);
+    GM_SetPowerTarget(lpAct->target, 1, -1, 0x2710, 0, &DG_ZeroVector);
 
     for (i = 0; i < 0x10; i++)
     {
-        work->body.objs->objs[i].world = DG_ZeroMatrix;
+        lpAct->body.objs->objs[i].world = DG_ZeroMatrix;
     }
-    return work;
+    return (void*)lpAct;
 }
 
-void s05a_800DDF18(Sol *work)
+void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
 {
     int     lvl[2];
     SVECTOR vec1;
     SVECTOR vec2;
 
-    memset(&work->subcontrol.step, 0, 8);
-    GM_ActMotion(&work->body);
-    GM_ActControl(&work->control);
-    vec1 = work->subcontrol.step;
-    GM_ActObject(&work->body);
-    work->subcontrol.step = vec1;
-    DG_GetLightMatrix2(&work->control.mov, &work->light[0]);
+    memset(&lpAct->subcontrol.step, 0, 8);
+    GM_ActMotion(&lpAct->body);
+    GM_ActControl(&lpAct->control);
+    vec1 = lpAct->subcontrol.step;
+    GM_ActObject(&lpAct->body);
+    lpAct->subcontrol.step = vec1;
+    DG_GetLightMatrix2(&lpAct->control.mov, &lpAct->light[0]);
 
-    if (work->field_1E8 == 0)
+    if (lpAct->field_1E8 == 0)
     {
-        work->body.objs->flag &= ~0x80;
+        lpAct->body.objs->flag &= ~0x80;
     }
-    if (--work->field_20C < 0) work->field_20C = 0;
-    if (--work->field_218 < 0) work->field_218 = 0;
-    if (--work->field_21C < 0) work->field_21C = 0;
+    if (--lpAct->field_20C < 0) lpAct->field_20C = 0;
+    if (--lpAct->field_218 < 0) lpAct->field_218 = 0;
+    if (--lpAct->field_21C < 0) lpAct->field_21C = 0;
 
-    if (work->field_21C == 0 && work->field_1EC->field_ED0 == 3)
+    if (lpAct->field_21C == 0 && lpAct->lpParent->field_ED0 == 3)
     {
-        if (work->field_1EC->field_D58 == 0)
+        if (lpAct->lpParent->field_D58 == 0)
         {
-            work->field_1EC->field_D54 = 2;
+            lpAct->lpParent->field_D54 = 2;
         }
         else
         {
-            work->field_1EC->field_D54 = 7;
+            lpAct->lpParent->field_D54 = 7;
         }
-        work->field_1EC->field_ED0 = 1;
-        GM_Weapon = work->last_weapon;
-        GM_Item = work->last_item;
+        lpAct->lpParent->field_ED0 = 1;
+        GM_Weapon = lpAct->nWeaponSave;
+        GM_Item = lpAct->nItemSave;
     }
 
-    work->field_1F0 = 0;
-    if (work->m_ctrl.info1.frame == 1)
+    lpAct->field_1F0 = 0;
+    if (lpAct->m_ctrl.info1.frame == 1)
     {
-        work->field_200 = work->body.height;
+        lpAct->field_200 = lpAct->body.height;
     }
-    work->control.step.vx = 0;
-    work->control.step.vz = 0;
-    work->subcontrol.step.vy = work->body.height - work->field_200;
+    lpAct->control.step.vx = 0;
+    lpAct->control.step.vz = 0;
+    lpAct->subcontrol.step.vy = lpAct->body.height - lpAct->field_200;
 
-    switch (work->body.action)
+    switch (lpAct->body.action)
     {
     case 0:
     case 1:
     case 2:
     case 5:
     case 6:
-        if (work->body.action == 2 && work->field_1EC->field_E10 == 1)
+        if (lpAct->body.action == 2 && lpAct->lpParent->field_E10 == 1)
         {
-            work->field_1EC->field_E10 = 0;
+            lpAct->lpParent->field_E10 = 0;
             if (GM_Vitality != 0 && GM_GameOverTimer == 0)
             {
-                work->field_218 = 0x96;
-                work->field_21C = 0x3C;
+                lpAct->field_218 = 0x96;
+                lpAct->field_21C = 0x3C;
                 GM_SeSetPan(&GM_PlayerPosition, 0x82, 0x3F);
-                work->field_1EC->field_D54 = 3;
-                work->field_1EC->field_ED0 = 3;
-                work->last_weapon = GM_Weapon;
-                work->last_item = GM_Item;
+                lpAct->lpParent->field_D54 = 3;
+                lpAct->lpParent->field_ED0 = 3;
+                lpAct->nWeaponSave = GM_Weapon;
+                lpAct->nItemSave = GM_Item;
                 GM_Weapon = WP_None;
                 if (GM_Item != IT_NVG && GM_Item != IT_ThermG)
                 {
@@ -267,19 +174,19 @@ void s05a_800DDF18(Sol *work)
                 }
             }
         }
-        else if (work->body.action == 1)
+        else if (lpAct->body.action == 1)
         {
-            if (work->field_1EC->field_E10 == 0 && work->field_218 <= 0 && work->field_1EC->field_ED4 >= 0x1E)
+            if (lpAct->lpParent->field_E10 == 0 && lpAct->field_218 <= 0 && lpAct->lpParent->field_ED4 >= 0x1E)
             {
                 if (rand() % 3 != 0)
                 {
-                    work->field_218 = 0x96;
-                    GM_SeSetPan(&work->control.mov, 0x80, work->field_1EC->field_E60);
+                    lpAct->field_218 = 0x96;
+                    GM_SeSetPan(&lpAct->control.mov, 0x80, lpAct->lpParent->nSoundVolume);
                 }
             }
         }
 
-        DG_SetPos(&work->field_1EC->body.objs->objs[12].world);
+        DG_SetPos(&lpAct->lpParent->objBody.objs->objs[12].world);
         vec1.vx = 0;
         vec1.vy = 0;
         vec1.vz = 0;
@@ -291,36 +198,36 @@ void s05a_800DDF18(Sol *work)
         vec2.vx -= vec1.vx;
         vec2.vy -= vec1.vy;
         vec2.vz -= vec1.vz;
-        work->control.turn.vx = -ratan2(vec2.vy, SquareRoot0(vec2.vx * vec2.vx + vec2.vz * vec2.vz));
-        work->control.turn.vy = ratan2(vec2.vx, vec2.vz);
-        work->control.turn.vz = 0;
-        vec1.vx = work->field_1EC->body.objs->objs[12].world.t[0];
-        vec1.vy = work->field_1EC->body.objs->objs[12].world.t[1];
-        vec1.vz = work->field_1EC->body.objs->objs[12].world.t[2];
-        work->control.mov.vy = work->body.height + work->field_1EC->control.mov.vy - 0xC8;
-        work->control.step.vx = vec1.vx - work->control.mov.vx;
-        work->control.step.vz = vec1.vz - work->control.mov.vz;
+        lpAct->control.turn.vx = -ratan2(vec2.vy, SquareRoot0(vec2.vx * vec2.vx + vec2.vz * vec2.vz));
+        lpAct->control.turn.vy = ratan2(vec2.vx, vec2.vz);
+        lpAct->control.turn.vz = 0;
+        vec1.vx = lpAct->lpParent->objBody.objs->objs[12].world.t[0];
+        vec1.vy = lpAct->lpParent->objBody.objs->objs[12].world.t[1];
+        vec1.vz = lpAct->lpParent->objBody.objs->objs[12].world.t[2];
+        lpAct->control.mov.vy = lpAct->body.height + lpAct->lpParent->control.mov.vy - 0xC8;
+        lpAct->control.step.vx = vec1.vx - lpAct->control.mov.vx;
+        lpAct->control.step.vz = vec1.vz - lpAct->control.mov.vz;
         memset(&vec1, 0, 8);
         vec1.vy = 0x12C;
         DG_PutVector(&vec1, &vec1, 1);
-        GM_MoveTarget(work->target, &vec1);
+        GM_MoveTarget(lpAct->target, &vec1);
         vec1.vy += 0x96;
         DG_SetPos2(&vec1, &DG_ZeroVector);
-        ReadRotMatrix(&work->field_1C8);
+        ReadRotMatrix(&lpAct->field_1C8);
         break;
 
     case 3:
-        DG_SetPos2(&DG_ZeroVector, &work->control.rot);
+        DG_SetPos2(&DG_ZeroVector, &lpAct->control.rot);
         vec1.vx = 0;
-        vec1.vy = work->subcontrol.step.vy;
-        vec1.vz = SquareRoot0(work->subcontrol.step.vx * work->subcontrol.step.vx +
-                              work->subcontrol.step.vz * work->subcontrol.step.vz);
+        vec1.vy = lpAct->subcontrol.step.vy;
+        vec1.vz = SquareRoot0(lpAct->subcontrol.step.vx * lpAct->subcontrol.step.vx +
+                              lpAct->subcontrol.step.vz * lpAct->subcontrol.step.vz);
         DG_PutVector(&vec1, &vec1, 1);
-        work->control.mov.vy = s05a_800DEC18(work, &work->control.mov, work->control.mov.vy + vec1.vy);
-        work->control.step.vx = vec1.vx;
-        work->control.step.vz = vec1.vz;
-        vec1 = work->control.mov;
-        if (HZD_LevelHazardCheck(work->control.map->hzd, &vec1, HZD_CHK_FLOOR) != 1)
+        lpAct->control.mov.vy = s05a_800DEC18(lpAct, &lpAct->control.mov, lpAct->control.mov.vy + vec1.vy);
+        lpAct->control.step.vx = vec1.vx;
+        lpAct->control.step.vz = vec1.vz;
+        vec1 = lpAct->control.mov;
+        if (HZD_LevelHazardCheck(lpAct->control.map->hzd, &vec1, HZD_CHK_FLOOR) != 1)
         {
             vec1.vy = 0;
         }
@@ -329,45 +236,45 @@ void s05a_800DDF18(Sol *work)
             HZD_GetLevelHeight(lvl);
             vec1.vy = lvl[0];
         }
-        if (work->field_1F4 == 0 && work->control.mov.vy - vec1.vy < 0x12C)
+        if (lpAct->field_1F4 == 0 && lpAct->control.mov.vy - vec1.vy < 0x12C)
         {
-            work->field_1F4 = 1;
-            GM_SeSetPan(&work->control.mov, 0x33, work->field_1EC->field_E60);
+            lpAct->field_1F4 = 1;
+            GM_SeSetPan(&lpAct->control.mov, 0x33, lpAct->lpParent->nSoundVolume);
         }
-        work->field_22C = work->control.rot.vy;
-        work->field_230 = vec1.vy + 0x64;
+        lpAct->field_22C = lpAct->control.rot.vy;
+        lpAct->field_230 = vec1.vy + 0x64;
         break;
 
     case 4:
         if (!((GV_Time >> 2) & 1))
         {
-            work->body.objs->flag |= 0x80;
+            lpAct->body.objs->flag |= 0x80;
         }
-        if (work->field_20C <= 0)
+        if (lpAct->field_20C <= 0)
         {
-            GV_DestroyActor(work);
+            GV_DestroyActor(lpAct);
             return;
         }
         break;
     }
 
-    if (work->body.is_end != 0)
+    if (lpAct->body.is_end != 0)
     {
-        switch (work->body.action)
+        switch (lpAct->body.action)
         {
         case 2:
-            GM_ConfigObjectAction(&work->body, 0, 0, 5);
+            GM_ConfigObjectAction(&lpAct->body, 0, 0, 5);
             break;
         case 5:
-            GV_DestroyActor(work);
+            GV_DestroyActor(lpAct);
             return;
         case 3:
-            work->field_20C = 0x3C;
-            GM_ConfigObjectAction(&work->body, 4, 0, 5);
-            if (work->field_1F4 == 0)
+            lpAct->field_20C = 0x3C;
+            GM_ConfigObjectAction(&lpAct->body, 4, 0, 5);
+            if (lpAct->field_1F4 == 0)
             {
-                work->field_1F4 = 1;
-                GM_SeSetPan(&work->control.mov, 0x33, work->field_1EC->field_E60);
+                lpAct->field_1F4 = 1;
+                GM_SeSetPan(&lpAct->control.mov, 0x33, lpAct->lpParent->nSoundVolume);
             }
             break;
         case 0:
@@ -378,145 +285,145 @@ void s05a_800DDF18(Sol *work)
         }
     }
 
-    if (work->target != NULL)
+    if (lpAct->target != NULL)
     {
-        if (work->field_1EC->field_F5C > 0)
+        if (lpAct->lpParent->field_F5C > 0)
         {
-            if (work->field_1EC->field_ED0 == 0 && !((GV_Time >> 2) & 1))
+            if (lpAct->lpParent->field_ED0 == 0 && !((GV_Time >> 2) & 1))
             {
-                work->body.objs->flag |= 0x80;
+                lpAct->body.objs->flag |= 0x80;
             }
-            work->target->vital = 0x2710;
-            work->target->damage = 0;
-            work->target->damaged = 0;
+            lpAct->target->vital = 0x2710;
+            lpAct->target->damage = 0;
+            lpAct->target->damaged = 0;
         }
-        if (work->target != NULL)
+        if (lpAct->target != NULL)
         {
-            if (work->target->damaged < work->field_1EC->field_D74 / work->field_1EC->field_DEC)
+            if (lpAct->target->damaged < lpAct->lpParent->field_D74 / lpAct->lpParent->field_DEC)
             {
-                if (work->field_1EC->field_D74 / work->field_1EC->field_DF0 >= work->field_1EC->field_E0C)
+                if (lpAct->lpParent->field_D74 / lpAct->lpParent->field_DF0 >= lpAct->lpParent->field_E0C)
                 {
-                    work->target->vital = 0x2710;
-                    work->target->damage = 0;
-                    work->target->damaged = 0;
+                    lpAct->target->vital = 0x2710;
+                    lpAct->target->damage = 0;
+                    lpAct->target->damaged = 0;
                 }
             }
-            if (work->target != NULL && work->target->damaged != 0)
+            if (lpAct->target != NULL && lpAct->target->damaged != 0)
             {
-                if (work->target->damaged >= work->field_1EC->field_D74 / work->field_1EC->field_DEC)
+                if (lpAct->target->damaged >= lpAct->lpParent->field_D74 / lpAct->lpParent->field_DEC)
                 {
-                    work->field_1EC->field_F5C = work->field_1EC->field_E14;
+                    lpAct->lpParent->field_F5C = lpAct->lpParent->field_E14;
                 }
                 else
                 {
-                    work->target->damaged = work->field_1EC->field_D74 / work->field_1EC->field_DF0;
-                    work->field_1EC->field_F5C = work->field_1EC->field_E18;
+                    lpAct->target->damaged = lpAct->lpParent->field_D74 / lpAct->lpParent->field_DF0;
+                    lpAct->lpParent->field_F5C = lpAct->lpParent->field_E18;
                 }
-                if ((work->field_1EC->field_E0C -= work->target->damaged) < 0)
+                if ((lpAct->lpParent->field_E0C -= lpAct->target->damaged) < 0)
                 {
-                    work->field_1EC->field_E0C = 0;
+                    lpAct->lpParent->field_E0C = 0;
                 }
-                work->target->vital = 0x2710;
-                work->target->damage = 0;
-                work->target->damaged = 0;
-                if (work->field_1EC->field_E0C > 0)
+                lpAct->target->vital = 0x2710;
+                lpAct->target->damage = 0;
+                lpAct->target->damaged = 0;
+                if (lpAct->lpParent->field_E0C > 0)
                 {
-                    GM_SeSetPan(&work->control.mov, 0x88, work->field_1EC->field_E60);
+                    GM_SeSetPan(&lpAct->control.mov, 0x88, lpAct->lpParent->nSoundVolume);
                 }
             }
         }
     }
 
-    if (GM_Vitality != 0 && GM_GameOverTimer == 0 && work->target != NULL && work->field_1EC->field_E0C <= 0)
+    if (GM_Vitality != 0 && GM_GameOverTimer == 0 && lpAct->target != NULL && lpAct->lpParent->field_E0C <= 0)
     {
         GM_EnemyKillCount++;
-        work->field_1EC->field_E0C = work->field_1EC->field_D74;
-        work->field_1F0 = 1;
-        GM_FreeTarget(work->target);
-        work->target = NULL;
-        AN_Blast_high(&work->control.mov);
-        GM_SeSetPan(&work->control.mov, 0xB1, work->field_1EC->field_E60);
-        GM_FreeObject(&work->body);
-        GM_InitObject(&work->body, GV_StrCode(s05a_dword_800E358C), 0x32D, GV_StrCode(s05a_dword_800E3584));
-        GM_ConfigObjectJoint(&work->body);
-        GM_ConfigMotionControl(&work->body, &work->m_ctrl, GV_StrCode(s05a_dword_800E3584), work->m_segs1,
-                               work->m_segs2, &work->subcontrol, work->rots);
-        GM_ConfigObjectLight(&work->body, &work->light[0]);
-        GM_ActMotion(&work->body);
-        GM_ActControl(&work->control);
-        GM_ActObject(&work->body);
-        if (work->field_1EC->field_E08 >= 2)
+        lpAct->lpParent->field_E0C = lpAct->lpParent->field_D74;
+        lpAct->field_1F0 = 1;
+        GM_FreeTarget(lpAct->target);
+        lpAct->target = NULL;
+        AN_Blast_high(&lpAct->control.mov);
+        GM_SeSetPan(&lpAct->control.mov, 0xB1, lpAct->lpParent->nSoundVolume);
+        GM_FreeObject(&lpAct->body);
+        GM_InitObject(&lpAct->body, GV_StrCode(s05a_dword_800E358C), 0x32D, GV_StrCode(s05a_dword_800E3584));
+        GM_ConfigObjectJoint(&lpAct->body);
+        GM_ConfigMotionControl(&lpAct->body, &lpAct->m_ctrl, GV_StrCode(s05a_dword_800E3584), lpAct->m_segs1,
+                               lpAct->m_segs2, &lpAct->subcontrol, lpAct->rots);
+        GM_ConfigObjectLight(&lpAct->body, &lpAct->light[0]);
+        GM_ActMotion(&lpAct->body);
+        GM_ActControl(&lpAct->control);
+        GM_ActObject(&lpAct->body);
+        if (lpAct->lpParent->field_E08 >= 2)
         {
-            GM_SeSetPan(&work->control.mov, 0x81, work->field_1EC->field_E60);
+            GM_SeSetPan(&lpAct->control.mov, 0x81, lpAct->lpParent->nSoundVolume);
         }
         else
         {
-            GM_SeSetPan(&work->control.mov, 0x84, work->field_1EC->field_E60);
+            GM_SeSetPan(&lpAct->control.mov, 0x84, lpAct->lpParent->nSoundVolume);
         }
-        GM_ConfigObjectAction(&work->body, 3, 0, 5);
+        GM_ConfigObjectAction(&lpAct->body, 3, 0, 5);
         vec1.vx = 0;
         vec1.vy = 6;
         vec1.vz = 0xC;
         vec1.pad = 0xF;
-        work->field_228 = NewDemoKage(&work->body, vec1, &work->field_22C, &work->field_230, 0x80, 0x80, 0x80);
+        lpAct->field_228 = NewDemoKage(&lpAct->body, vec1, &lpAct->field_22C, &lpAct->field_230, 0x80, 0x80, 0x80);
         memset(&vec1, 0, 8);
-        vec1.vx = -work->control.mov.vx;
-        vec1.vy = -work->control.mov.vy;
-        vec1.vz = -work->control.mov.vz;
-        work->control.turn.vx = 0;
-        work->control.turn.vy = ratan2(vec1.vx, vec1.vz);
-        work->control.turn.vz = 0;
-        work->field_204 = 0;
+        vec1.vx = -lpAct->control.mov.vx;
+        vec1.vy = -lpAct->control.mov.vy;
+        vec1.vz = -lpAct->control.mov.vz;
+        lpAct->control.turn.vx = 0;
+        lpAct->control.turn.vy = ratan2(vec1.vx, vec1.vz);
+        lpAct->control.turn.vz = 0;
+        lpAct->field_204 = 0;
     }
 
-    work->field_200 = work->body.height;
-    work->field_1EC->field_EB4 = work->control.mov;
-    work->field_1E8 = 0;
+    lpAct->field_200 = lpAct->body.height;
+    lpAct->lpParent->field_EB4 = lpAct->control.mov;
+    lpAct->field_1E8 = 0;
 }
 
-void s05a_800DEB94(Sol *work)
+void s05a_800DEB94(LPM1E1GUNNERACT lpAct)
 {
-    work->field_1EC->field_EB0 = 0;
-    if (work->field_228)
+    lpAct->lpParent->lpGunner = NULL;
+    if (lpAct->field_228)
     {
-        GV_DestroyActor(work->field_228);
+        GV_DestroyActor(lpAct->field_228);
     }
-    GM_FreeObject(&work->body);
-    GM_FreeControl(&work->control);
-    if (work->target)
+    GM_FreeObject(&lpAct->body);
+    GM_FreeControl(&lpAct->control);
+    if (lpAct->target)
     {
-        GM_FreeTarget(work->target);
+        GM_FreeTarget(lpAct->target);
     }
-    if (work->homing)
+    if (lpAct->homing)
     {
-        GM_ResetHomingTarget(work->homing);
+        GM_ResetHomingTarget(lpAct->homing);
     }
 }
 
-int s05a_800DEC18(Sol *work, SVECTOR *s2, int a2)
+int s05a_800DEC18(LPM1E1GUNNERACT lpAct, SVECTOR *s2, int a2)
 {
     int     v;
     int     heights[2];
     SVECTOR local;
 
     v = 1;
-    if (work->field_204 == 0)
+    if (lpAct->field_204 == 0)
     {
-        work->field_208 = 0;
+        lpAct->field_208 = 0;
     }
 
     if (a2 - s2->vy <= 0)
     {
-        work->field_204 += s2->vy - a2;
+        lpAct->field_204 += s2->vy - a2;
     }
-    if (work->field_204 < 0x190)
+    if (lpAct->field_204 < 0x190)
     {
         return a2;
     }
 
-    if (work->field_208 == 0)
+    if (lpAct->field_208 == 0)
     {
-        v = work->m_ctrl.info1.frames_left;
+        v = lpAct->m_ctrl.info1.frames_left;
         if (v <= 0)
         {
             v = 1;
@@ -525,7 +432,7 @@ int s05a_800DEC18(Sol *work, SVECTOR *s2, int a2)
 
     local = *s2;
     local.vy += 0x2710;
-    if (HZD_LevelHazardCheck(work->control.map->hzd, &local, HZD_CHK_FLOOR) != 1)
+    if (HZD_LevelHazardCheck(lpAct->control.map->hzd, &local, HZD_CHK_FLOOR) != 1)
     {
         local.vy = 0;
     }
@@ -536,23 +443,23 @@ int s05a_800DEC18(Sol *work, SVECTOR *s2, int a2)
     }
     local.vy += 0x64;
 
-    if (work->field_208 == 0)
+    if (lpAct->field_208 == 0)
     {
-        work->field_208 = (s2->vy - local.vy) / v;
+        lpAct->field_208 = (s2->vy - local.vy) / v;
     }
 
-    v = s2->vy - work->field_208;
+    v = s2->vy - lpAct->field_208;
     if (v < local.vy)
     {
         v = local.vy;
     }
     {
-        int t = work->field_208 * 15;
-        work->field_208 = t / 14;
+        int t = lpAct->field_208 * 15;
+        lpAct->field_208 = t / 14;
     }
-    if (work->field_208 >= 0x3E9)
+    if (lpAct->field_208 >= 0x3E9)
     {
-        work->field_208 = 0x3E8;
+        lpAct->field_208 = 0x3E8;
     }
     return v;
 }
@@ -573,12 +480,12 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
     int     q;
     short   h;
 
-    mov_d.vx = s05a_dword_800C362C->control.mov.vx - s05a_dword_800C362C->snap_control.mov.vx;
-    mov_d.vy = s05a_dword_800C362C->control.mov.vy - s05a_dword_800C362C->snap_control.mov.vy;
-    mov_d.vz = s05a_dword_800C362C->control.mov.vz - s05a_dword_800C362C->snap_control.mov.vz;
-    rot_d.vx = s05a_dword_800C362C->control.rot.vx - s05a_dword_800C362C->snap_control.rot.vx;
-    rot_d.vy = s05a_dword_800C362C->control.rot.vy - s05a_dword_800C362C->snap_control.rot.vy;
-    rot_d.vz = s05a_dword_800C362C->control.rot.vz - s05a_dword_800C362C->snap_control.rot.vz;
+    mov_d.vx = s05a_dword_800C362C->control.mov.vx - s05a_dword_800C362C->oldControl.mov.vx;
+    mov_d.vy = s05a_dword_800C362C->control.mov.vy - s05a_dword_800C362C->oldControl.mov.vy;
+    mov_d.vz = s05a_dword_800C362C->control.mov.vz - s05a_dword_800C362C->oldControl.mov.vz;
+    rot_d.vx = s05a_dword_800C362C->control.rot.vx - s05a_dword_800C362C->oldControl.rot.vx;
+    rot_d.vy = s05a_dword_800C362C->control.rot.vy - s05a_dword_800C362C->oldControl.rot.vy;
+    rot_d.vz = s05a_dword_800C362C->control.rot.vz - s05a_dword_800C362C->oldControl.rot.vz;
 
     pos = control->mov;
     pos.vy += 0x4B;
@@ -590,17 +497,17 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
         {
             DG_SetPos2(&mov_d, &rot_d);
             memset(&pos, 0, 8);
-            pos.vy = s05a_dword_800C362C->body.rots[3].vy - s05a_dword_800C362C->snap_body.rots[3].vy;
+            pos.vy = s05a_dword_800C362C->objBody.rots[3].vy - s05a_dword_800C362C->oldBody.rots[3].vy;
             DG_RotatePos(&pos);
             pos = control->mov;
-            pos.vx -= s05a_dword_800C362C->snap_control.mov.vx;
-            pos.vy -= s05a_dword_800C362C->snap_control.mov.vy;
-            pos.vz -= s05a_dword_800C362C->snap_control.mov.vz;
+            pos.vx -= s05a_dword_800C362C->oldControl.mov.vx;
+            pos.vy -= s05a_dword_800C362C->oldControl.mov.vy;
+            pos.vz -= s05a_dword_800C362C->oldControl.mov.vz;
             DG_PutVector(&pos, &pos, 1);
-            pos.vx += s05a_dword_800C362C->snap_control.mov.vx;
-            pos.vy += s05a_dword_800C362C->snap_control.mov.vy;
-            pos.vz += s05a_dword_800C362C->snap_control.mov.vz;
-            hit = HZD_LevelHazardCheckOne(&s05a_dword_800C362C->hzd[4].flr[1], &pos);
+            pos.vx += s05a_dword_800C362C->oldControl.mov.vx;
+            pos.vy += s05a_dword_800C362C->oldControl.mov.vy;
+            pos.vz += s05a_dword_800C362C->oldControl.mov.vz;
+            hit = HZD_LevelHazardCheckOne(&s05a_dword_800C362C->hzdBlock[4].flr[1], &pos);
             HZD_GetLevelHeight(lvl);
             if (hit & 1)
             {
@@ -629,14 +536,14 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
         {
             DG_SetPos2(&mov_d, &rot_d);
             pos = control->mov;
-            pos.vx -= s05a_dword_800C362C->snap_control.mov.vx;
-            pos.vy -= s05a_dword_800C362C->snap_control.mov.vy;
-            pos.vz -= s05a_dword_800C362C->snap_control.mov.vz;
+            pos.vx -= s05a_dword_800C362C->oldControl.mov.vx;
+            pos.vy -= s05a_dword_800C362C->oldControl.mov.vy;
+            pos.vz -= s05a_dword_800C362C->oldControl.mov.vz;
             DG_PutVector(&pos, &pos, 1);
-            pos.vx += s05a_dword_800C362C->snap_control.mov.vx;
-            pos.vy += s05a_dword_800C362C->snap_control.mov.vy;
-            pos.vz += s05a_dword_800C362C->snap_control.mov.vz;
-            hit = HZD_LevelHazardCheckOne(&s05a_dword_800C362C->hzd[0].flr[1], &pos);
+            pos.vx += s05a_dword_800C362C->oldControl.mov.vx;
+            pos.vy += s05a_dword_800C362C->oldControl.mov.vy;
+            pos.vz += s05a_dword_800C362C->oldControl.mov.vz;
+            hit = HZD_LevelHazardCheckOne(&s05a_dword_800C362C->hzdBlock[0].flr[1], &pos);
             HZD_GetLevelHeight(lvl);
             if (hit & 1)
             {
@@ -665,14 +572,14 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
         {
             DG_SetPos2(&mov_d, &rot_d);
             pos = control->mov;
-            pos.vx -= s05a_dword_800C362C->snap_control.mov.vx;
-            pos.vy -= s05a_dword_800C362C->snap_control.mov.vy;
-            pos.vz -= s05a_dword_800C362C->snap_control.mov.vz;
+            pos.vx -= s05a_dword_800C362C->oldControl.mov.vx;
+            pos.vy -= s05a_dword_800C362C->oldControl.mov.vy;
+            pos.vz -= s05a_dword_800C362C->oldControl.mov.vz;
             DG_PutVector(&pos, &pos, 1);
-            pos.vx += s05a_dword_800C362C->snap_control.mov.vx;
-            pos.vy += s05a_dword_800C362C->snap_control.mov.vy;
-            pos.vz += s05a_dword_800C362C->snap_control.mov.vz;
-            hit = HZD_LevelHazardCheckOne(&s05a_dword_800C362C->hzd[1].flr[1], &pos);
+            pos.vx += s05a_dword_800C362C->oldControl.mov.vx;
+            pos.vy += s05a_dword_800C362C->oldControl.mov.vy;
+            pos.vz += s05a_dword_800C362C->oldControl.mov.vz;
+            hit = HZD_LevelHazardCheckOne(&s05a_dword_800C362C->hzdBlock[1].flr[1], &pos);
             HZD_GetLevelHeight(lvl);
             if (hit & 1)
             {
@@ -696,9 +603,9 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
         return;
     }
 
-    tgt.vx = s05a_dword_800C362C->body.objs->objs[12].world.t[0];
-    tgt.vy = s05a_dword_800C362C->body.objs->objs[12].world.t[1];
-    tgt.vz = s05a_dword_800C362C->body.objs->objs[12].world.t[2];
+    tgt.vx = s05a_dword_800C362C->objBody.objs->objs[12].world.t[0];
+    tgt.vy = s05a_dword_800C362C->objBody.objs->objs[12].world.t[1];
+    tgt.vz = s05a_dword_800C362C->objBody.objs->objs[12].world.t[2];
     pos.vx = (tgt.vx - GM_PlayerControl->mov.vx) >> 2;
     pos.vy = (tgt.vy - GM_PlayerControl->mov.vy) >> 2;
     pos.vz = (tgt.vz - GM_PlayerControl->mov.vz) >> 2;
@@ -769,7 +676,7 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
         {
             return;
         }
-        if (control->mov.vy < s05a_dword_800C362C->body.objs->objs[12].world.t[1])
+        if (control->mov.vy < s05a_dword_800C362C->objBody.objs->objs[12].world.t[1])
         {
             return;
         }
@@ -798,29 +705,29 @@ int s05a_800DF834(int arg0, SVECTOR *vec, u_short *arg3)
     {
         return 0;
     }
-    if (s05a_dword_800C362C->field_EB0 == NULL)
+    if (s05a_dword_800C362C->lpGunner == NULL)
     {
         return 0;
     }
 
-    d.vx = s05a_dword_800C362C->body.objs->objs[12].world.t[0];
-    d.vy = s05a_dword_800C362C->body.objs->objs[12].world.t[1];
-    d.vz = s05a_dword_800C362C->body.objs->objs[12].world.t[2];
+    d.vx = s05a_dword_800C362C->objBody.objs->objs[12].world.t[0];
+    d.vy = s05a_dword_800C362C->objBody.objs->objs[12].world.t[1];
+    d.vz = s05a_dword_800C362C->objBody.objs->objs[12].world.t[2];
     d.vx -= vec->vx;
     d.vy -= vec->vy;
     d.vz -= vec->vz;
 
-    e.vx = s05a_dword_800C362C->body.objs->objs[10].model->ux -
-           s05a_dword_800C362C->body.objs->objs[10].model->lx;
-    e.vz = s05a_dword_800C362C->body.objs->objs[10].model->uz -
-           s05a_dword_800C362C->body.objs->objs[10].model->lz;
+    e.vx = s05a_dword_800C362C->objBody.objs->objs[10].model->ux -
+           s05a_dword_800C362C->objBody.objs->objs[10].model->lx;
+    e.vz = s05a_dword_800C362C->objBody.objs->objs[10].model->uz -
+           s05a_dword_800C362C->objBody.objs->objs[10].model->lz;
     e.vx = (e.vx + e.vz) >> 2;
 
     dist = SquareRoot0(d.vx * d.vx + d.vy * d.vy + d.vz * d.vz);
     if (dist < e.vx * s05a_dword_800C362C->field_DFC)
     {
-        GM_SeSetPan(&s05a_dword_800C362C->field_EB0->field_1C0->center, 0xB2,
-                    s05a_dword_800C362C->field_E60);
+        GM_SeSetPan(&s05a_dword_800C362C->lpGunner->target->center, 0xB2,
+                    s05a_dword_800C362C->nSoundVolume);
         *arg3 |= 4;
         return 1;
     }
@@ -837,24 +744,24 @@ int s05a_800DF9C8(TARGET *t, int flags)
 
     if (s05a_dword_800C362C->field_ED0 != 0)
     {
-        if (s05a_dword_800C362C->field_EB0 != 0)
+        if (s05a_dword_800C362C->lpGunner != NULL)
         {
-            s05a_dword_800C362C->field_EB0->field_1C0->vital = 0x2710;
-            s05a_dword_800C362C->field_EB0->field_1C0->damage = 0;
-            s05a_dword_800C362C->field_EB0->field_1C0->damaged = 0;
+            s05a_dword_800C362C->lpGunner->target->vital = 0x2710;
+            s05a_dword_800C362C->lpGunner->target->damage = 0;
+            s05a_dword_800C362C->lpGunner->target->damaged = 0;
         }
         for (i = 0; i < 10; i++)
         {
-            s05a_dword_800C362C->field_718[i]->vital = 0x2710;
-            s05a_dword_800C362C->field_718[i]->damage = 0;
-            s05a_dword_800C362C->field_718[i]->damaged = 0;
+            s05a_dword_800C362C->lpTarget[i]->vital = 0x2710;
+            s05a_dword_800C362C->lpTarget[i]->damage = 0;
+            s05a_dword_800C362C->lpTarget[i]->damaged = 0;
         }
         return 1;
     }
 
-    if (s05a_dword_800C362C->field_EB0 != 0)
+    if (s05a_dword_800C362C->lpGunner != NULL)
     {
-        delta = s05a_dword_800C362C->field_EB0->field_1C0->center;
+        delta = s05a_dword_800C362C->lpGunner->target->center;
         dx = delta.vx - t->center.vx;
         delta.vx = dx;
         dy = delta.vy - t->center.vy;
@@ -862,56 +769,56 @@ int s05a_800DF9C8(TARGET *t, int flags)
         dz = delta.vz - t->center.vz;
         delta.vz = dz;
 
-        e.vx = s05a_dword_800C362C->body.objs->objs[10].model->ux -
-               s05a_dword_800C362C->body.objs->objs[10].model->lx;
-        e.vz = s05a_dword_800C362C->body.objs->objs[10].model->uz -
-               s05a_dword_800C362C->body.objs->objs[10].model->lz;
+        e.vx = s05a_dword_800C362C->objBody.objs->objs[10].model->ux -
+               s05a_dword_800C362C->objBody.objs->objs[10].model->lx;
+        e.vz = s05a_dword_800C362C->objBody.objs->objs[10].model->uz -
+               s05a_dword_800C362C->objBody.objs->objs[10].model->lz;
         e.vx = (e.vx + e.vz) >> 2;
 
         if (flags & 4)
         {
             for (i = 0; i < 10; i++)
             {
-                s05a_dword_800C362C->field_718[i]->vital = 0x2710;
-                s05a_dword_800C362C->field_718[i]->damage = 0;
-                s05a_dword_800C362C->field_718[i]->damaged = 0;
+                s05a_dword_800C362C->lpTarget[i]->vital = 0x2710;
+                s05a_dword_800C362C->lpTarget[i]->damage = 0;
+                s05a_dword_800C362C->lpTarget[i]->damaged = 0;
             }
             if (s05a_dword_800C362C->field_F5C > 0)
             {
                 return 0;
             }
-            s05a_dword_800C362C->field_EB0->field_1C0->damaged =
+            s05a_dword_800C362C->lpGunner->target->damaged =
                 (u_short)s05a_dword_800C362C->field_D74;
             return 1;
         }
 
-        if (s05a_dword_800C362C->field_EB0->field_1C0->damaged != 0)
+        if (s05a_dword_800C362C->lpGunner->target->damaged != 0)
         {
             dist = SquareRoot0(dx * dx + dy * dy + dz * dz);
             if (dist < e.vx * s05a_dword_800C362C->field_DFC * 3 &&
                 t->center.vy >=
-                    s05a_dword_800C362C->field_EB0->field_1C0->center.vy - 0x3E8)
+                    s05a_dword_800C362C->lpGunner->target->center.vy - 0x3E8)
             {
                 for (i = 0; i < 10; i++)
                 {
-                    s05a_dword_800C362C->field_718[i]->vital = 0x2710;
-                    s05a_dword_800C362C->field_718[i]->damage = 0;
-                    s05a_dword_800C362C->field_718[i]->damaged = 0;
+                    s05a_dword_800C362C->lpTarget[i]->vital = 0x2710;
+                    s05a_dword_800C362C->lpTarget[i]->damage = 0;
+                    s05a_dword_800C362C->lpTarget[i]->damaged = 0;
                 }
                 if (s05a_dword_800C362C->field_F5C > 0)
                 {
                     return 0;
                 }
-                s05a_dword_800C362C->field_EB0->field_1C0->damaged =
+                s05a_dword_800C362C->lpGunner->target->damaged =
                     s05a_dword_800C362C->field_D74 / s05a_dword_800C362C->field_DEC;
                 return (s05a_dword_800C362C->field_E0C -
-                        s05a_dword_800C362C->field_EB0->field_1C0->damaged) < 1;
+                        s05a_dword_800C362C->lpGunner->target->damaged) < 1;
             }
         }
 
-        s05a_dword_800C362C->field_EB0->field_1C0->vital = 0x2710;
-        s05a_dword_800C362C->field_EB0->field_1C0->damage = 0;
-        s05a_dword_800C362C->field_EB0->field_1C0->damaged = 0;
+        s05a_dword_800C362C->lpGunner->target->vital = 0x2710;
+        s05a_dword_800C362C->lpGunner->target->damage = 0;
+        s05a_dword_800C362C->lpGunner->target->damaged = 0;
     }
 
     if (s05a_dword_800C362C->field_F4C > 0 ||
@@ -922,32 +829,32 @@ int s05a_800DF9C8(TARGET *t, int flags)
     {
         for (i = 0; i < 10; i++)
         {
-            s05a_dword_800C362C->field_718[i]->vital = 0x2710;
-            s05a_dword_800C362C->field_718[i]->damage = 0;
-            s05a_dword_800C362C->field_718[i]->damaged = 0;
+            s05a_dword_800C362C->lpTarget[i]->vital = 0x2710;
+            s05a_dword_800C362C->lpTarget[i]->damage = 0;
+            s05a_dword_800C362C->lpTarget[i]->damaged = 0;
         }
         return 0;
     }
 
     for (i = 0; i < 10; i++)
     {
-        dx = s05a_dword_800C362C->field_718[i]->center.vx -
+        dx = s05a_dword_800C362C->lpTarget[i]->center.vx -
              t->center.vx;
         delta.vx = dx;
-        dy = s05a_dword_800C362C->field_718[i]->center.vy -
+        dy = s05a_dword_800C362C->lpTarget[i]->center.vy -
              t->center.vy;
         delta.vy = dy;
-        dz = s05a_dword_800C362C->field_718[i]->center.vz -
+        dz = s05a_dword_800C362C->lpTarget[i]->center.vz -
              t->center.vz;
         delta.vz = dz;
-        if (s05a_dword_800C362C->field_718[i]->damaged != 0)
+        if (s05a_dword_800C362C->lpTarget[i]->damaged != 0)
         {
             dist = SquareRoot0(dx * dx + dy * dy + dz * dz);
             if (dist >= 0x9C5)
             {
-                s05a_dword_800C362C->field_718[i]->vital = 0x2710;
-                s05a_dword_800C362C->field_718[i]->damage = 0;
-                s05a_dword_800C362C->field_718[i]->damaged = 0;
+                s05a_dword_800C362C->lpTarget[i]->vital = 0x2710;
+                s05a_dword_800C362C->lpTarget[i]->damage = 0;
+                s05a_dword_800C362C->lpTarget[i]->damaged = 0;
             }
         }
     }
@@ -957,7 +864,7 @@ int s05a_800DF9C8(TARGET *t, int flags)
     {
         for (i = 0; i < 10; i++)
         {
-            if (s05a_dword_800C362C->field_718[i]->damaged != 0)
+            if (s05a_dword_800C362C->lpTarget[i]->damaged != 0)
             {
                 return 1;
             }
@@ -1034,27 +941,27 @@ int s05a_800E00D8(SnaInitWork *snake, SnaFlag1 flags)
     return (snake->field_894_flags1 & flags) != 0;
 }
 
-void s05a_800E0D38(CONTROL *control, HZD_HDL *hzd);
-void s05a_800E0E28(CONTROL *work, HZD_HDL *hzd);
-void s05a_800E0F64(CONTROL *work, HZD_HDL *hzd);
-void s05a_800E1014(CONTROL *work, HZD_HDL *hzd);
+void s05a_800E0D38(CONTROL *control, HZD_HDL *lpHazard);
+void s05a_800E0E28(CONTROL *control, HZD_HDL *lpHazard);
+void s05a_800E0F64(CONTROL *control, HZD_HDL *lpHazard);
+void s05a_800E1014(CONTROL *control, HZD_HDL *lpHazard);
 
 int s05a_800E00EC(GV_ACT *actor)
 {
     int      vy = 0;
     SnaInitWork *work = (SnaInitWork *)actor;
-    HZD_HDL *hzd;
+    HZD_HDL *lpHazard;
     SVECTOR  pos;
     SVECTOR  rot;
     int      time;
     int      dist;
 
     GM_uTenageMotion = -1;
-    if (HZD_LevelHazardCheckOne(&s05a_dword_800C362C->hzd[0].flr[0], &work->control.mov) == 0 && !(GM_PlayerStatus & 0x1340))
+    if (HZD_LevelHazardCheckOne(&s05a_dword_800C362C->hzdBlock[0].flr[0], &work->control.mov) == 0 && !(GM_PlayerStatus & 0x1340))
     {
-        if (s05a_dword_800C362C->field_EB0 != NULL)
+        if (s05a_dword_800C362C->lpGunner != NULL)
         {
-            pos = s05a_dword_800C362C->field_EB0->field_1C0->center;
+            pos = s05a_dword_800C362C->lpGunner->target->center;
         }
         else
         {
@@ -1111,8 +1018,8 @@ int s05a_800E00EC(GV_ACT *actor)
         return 0;
     }
 
-    hzd = work->control.map->hzd;
-    s05a_800E0D38(&work->control, hzd);
+    lpHazard = work->control.map->hzd;
+    s05a_800E0D38(&work->control, lpHazard);
     GM_CurrentMap = work->control.map->index;
 
     if (work->control.r_sphere > 0)
@@ -1123,10 +1030,10 @@ int s05a_800E00EC(GV_ACT *actor)
             vy = work->control.mov.vy;
             work->control.mov.vy = work->control.hzd_height;
         }
-        s05a_800E0E28(&work->control, hzd);
+        s05a_800E0E28(&work->control, lpHazard);
         work->control.mov.vx += work->control.step.vx;
         work->control.mov.vz += work->control.step.vz;
-        s05a_800E0F64(&work->control, hzd);
+        s05a_800E0F64(&work->control, lpHazard);
         if (work->control.hzd_height != -0x7fff)
         {
             work->control.mov.vy = vy;
@@ -1141,7 +1048,7 @@ int s05a_800E00EC(GV_ACT *actor)
             GV_NearTimePV(&work->control.rot.vx, &work->control.turn.vx, work->control.interp, 3);
             work->control.interp = time - 1;
         }
-        s05a_800E1014(&work->control, hzd);
+        s05a_800E1014(&work->control, lpHazard);
     }
     else if (work->control.r_sphere < 0)
     {
@@ -1160,7 +1067,7 @@ int s05a_800E00EC(GV_ACT *actor)
         }
         if (work->control.r_sphere >= -1)
         {
-            s05a_800E1014(&work->control, hzd);
+            s05a_800E1014(&work->control, lpHazard);
         }
     }
 
@@ -1168,7 +1075,7 @@ int s05a_800E00EC(GV_ACT *actor)
     {
         work->control.evt.coord = work->control.mov;
         work->control.evt.coord.pad = work->control.rot.vy;
-        HZD_EnterTrap(hzd, &work->control.evt);
+        HZD_EnterTrap(lpHazard, &work->control.evt);
     }
     DG_SetPos2(&work->control.mov, &work->control.rot);
     return 1;
@@ -1212,7 +1119,7 @@ int s05a_800E066C(SnaInitWork *work_)
         return 0;
     }
 
-    if (HZD_LevelHazardCheckOne((HZD_FLR *)&s05a_dword_800C362C->hzd[0].flr[0], &GM_PlayerPosition) != 0)
+    if (HZD_LevelHazardCheckOne((HZD_FLR *)&s05a_dword_800C362C->hzdBlock[0].flr[0], &GM_PlayerPosition) != 0)
     {
         if (s05a_dword_800C362C->field_F78 > 0)
         {
@@ -1329,7 +1236,7 @@ int s05a_800E066C(SnaInitWork *work_)
     return 1;
 }
 
-void s05a_800E0D38(CONTROL *control, HZD_HDL *hzd)
+void s05a_800E0D38(CONTROL *control, HZD_HDL *lpHazard)
 {
     GV_MSG *msg;
     int     name;
@@ -1370,7 +1277,7 @@ void s05a_800E0D38(CONTROL *control, HZD_HDL *hzd)
     }
 }
 
-void s05a_800E0E28(CONTROL *work, HZD_HDL *hzd)
+void s05a_800E0E28(CONTROL *control, HZD_HDL *lpHazard)
 {
     SVECTOR local;
     int     half;
@@ -1378,65 +1285,65 @@ void s05a_800E0E28(CONTROL *work, HZD_HDL *hzd)
     int     len;
     int     diff;
 
-    half = work->r_sphere / 2;
-    dist = work->step.vx;
+    half = control->r_sphere / 2;
+    dist = control->step.vx;
     if (dist < 0)
     {
         dist = -dist;
     }
-    if (work->step.vz > 0)
+    if (control->step.vz > 0)
     {
-        dist += work->step.vz;
+        dist += control->step.vz;
     }
     else
     {
-        dist -= work->step.vz;
+        dist -= control->step.vz;
     }
 
     if (half < dist)
     {
-        GV_AddVec3(&work->mov, &work->step, &local);
-        if (HZD_OnlineHazardCheck(hzd, &work->mov, &local, 5, work->seg_flag) != 0)
+        GV_AddVec3(&control->mov, &control->step, &local);
+        if (HZD_OnlineHazardCheck(lpHazard, &control->mov, &local, 5, control->seg_flag) != 0)
         {
-            work->n_touches = 1;
-            work->segs[0] = HZD_GetOnlineHazard();
-            work->atrs[0] = HZD_GetOnlineHazardAtr();
-            HZD_GetOnlineVector(&work->vecs[0]);
-            len = GV_VecLen3(&work->vecs[0]);
+            control->n_touches = 1;
+            control->segs[0] = HZD_GetOnlineHazard();
+            control->atrs[0] = HZD_GetOnlineHazardAtr();
+            HZD_GetOnlineVector(&control->vecs[0]);
+            len = GV_VecLen3(&control->vecs[0]);
             diff = len - half;
             if (diff < 0)
             {
-                GV_LenVec3(&work->vecs[0], &local, len, -diff);
+                GV_LenVec3(&control->vecs[0], &local, len, -diff);
                 GV_SubVec3(&DG_ZeroVector, &local, &local);
             }
             else
             {
-                GV_LenVec3(&work->vecs[0], &local, len, diff);
+                GV_LenVec3(&control->vecs[0], &local, len, diff);
             }
-            work->step = local;
+            control->step = local;
         }
     }
 }
 
-void s05a_800E0F64(CONTROL *work, HZD_HDL *hzd)
+void s05a_800E0F64(CONTROL *control, HZD_HDL *lpHazard)
 {
     SVECTOR react;
     int     hazard;
 
-    hazard = HZD_NearHazardCheck(hzd, &work->mov, 0x1F4, 4, work->seg_flag);
+    hazard = HZD_NearHazardCheck(lpHazard, &control->mov, 0x1F4, 4, control->seg_flag);
     if (hazard > 0)
     {
-        work->n_touches = hazard;
-        HZD_GetNearHazard(&work->segs[0]);
-        HZX_GetNearHazardAtr(&work->atrs[0]);
-        HZD_GetNearVector(&work->vecs[0]);
-        HZD_HazardReaction(&work->vecs[0], hazard, work->r_sphere, &react);
-        work->mov.vx += react.vx;
-        work->mov.vz += react.vz;
+        control->n_touches = hazard;
+        HZD_GetNearHazard(&control->segs[0]);
+        HZX_GetNearHazardAtr(&control->atrs[0]);
+        HZD_GetNearVector(&control->vecs[0]);
+        HZD_HazardReaction(&control->vecs[0], hazard, control->r_sphere, &react);
+        control->mov.vx += react.vx;
+        control->mov.vz += react.vz;
     }
 }
 
-void s05a_800E1014(CONTROL *work, HZD_HDL *hzd)
+void s05a_800E1014(CONTROL *control, HZD_HDL *lpHazard)
 {
     int height[2];
     int flags;
@@ -1444,15 +1351,15 @@ void s05a_800E1014(CONTROL *work, HZD_HDL *hzd)
     int base;
     int lo;
 
-    y = work->mov.vy + work->step.vy;
-    base = work->height;
-    work->grounded = 0;
-    flags = HZD_LevelHazardCheck(hzd, &work->mov, HZD_CHK_F_FLOOR);
+    y = control->mov.vy + control->step.vy;
+    base = control->height;
+    control->grounded = 0;
+    flags = HZD_LevelHazardCheck(lpHazard, &control->mov, HZD_CHK_F_FLOOR);
     HZD_GetLevelHeight(height);
 
     if (flags & HZD_CHK_D_FLOOR)
     {
-        if ((unsigned int)(height[1] - work->levels[0] + 0xC7) < 0x18F)
+        if ((unsigned int)(height[1] - control->levels[0] + 0xC7) < 0x18F)
         {
             height[0] = height[1];
             flags &= ~HZD_CHK_D_FLOOR;
@@ -1476,15 +1383,15 @@ void s05a_800E1014(CONTROL *work, HZD_HDL *hzd)
     if (y < lo)
     {
         y = lo;
-        work->grounded = 1;
+        control->grounded = 1;
     }
     else if ((flags & HZD_CHK_D_FLOOR) && height[1] - base < y)
     {
         y = height[1] - base;
-        work->grounded = 2;
+        control->grounded = 2;
     }
 
-    work->levels[0] = height[0];
-    lo = (work->levels[1] = height[1]);
-    work->mov.vy = y;
+    control->levels[0] = height[0];
+    lo = (control->levels[1] = height[1]);
+    control->mov.vy = y;
 }

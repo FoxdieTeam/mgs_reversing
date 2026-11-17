@@ -1,63 +1,18 @@
-#include <rand.h>
+/******************************************************************************
+ * included
+ */
+
+#include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "game/game.h"
 
-typedef struct _Work Work;
+#include "kojo/common.h"
+#include "kojo/m1e1.h"
 
-typedef struct _M1e1
-{
-    GV_ACT  actor;
-    SVECTOR field_20;    /* 0x020 */
-    char    pad_28[0xB0 - 0x28];
-    int     field_B0;    /* 0x0B0 */
-    int     field_B4;    /* 0x0B4 */
-    int     field_B8;    /* 0x0B8 */
-    char    pad_BC[0xDC - 0xBC];
-    OBJECT  body;        /* 0x0DC */
-    char    pad_1C0[0x744 - 0x1C0];
-    int     field_744;   /* 0x744 */
-    int     field_748;   /* 0x748 */
-    char    pad_74C[0xD54 - 0x74C];
-    int     field_D54;   /* 0xD54 */
-    int     field_D58;   /* 0xD58 */
-    char    pad_D5C[0xDB8 - 0xD5C];
-    int     field_DB8;   /* 0xDB8 */
-    char    pad_DBC[0xE60 - 0xDBC];
-    int     nSoundVolume;   /* 0xE60 */
-    char    pad_E64[0xEBC - 0xE64];
-    Work   *lpValcan;    /* 0xEBC */
-    int     field_EC0;   /* 0xEC0 */
-    int     field_EC4;   /* 0xEC4 */
-    int     field_EC8;   /* 0xEC8 */
-    int     field_ECC;   /* 0xECC */
-    int     field_ED0;   /* 0xED0 */
-    char    pad_ED4[0xF48 - 0xED4];
-    int     field_F48;   /* 0xF48 */
-} M1e1;
-
-struct _Work
-{
-    GV_ACT  actor;       /* 0x000 */
-    CONTROL control;     /* 0x020 */
-    MATRIX  light[2];    /* 0x09C */
-    OBJECT  body;        /* 0x0DC */
-    char    pad_1C0[0x1E8 - 0x1C0];
-    int     field_1E8;   /* 0x1E8 */
-    M1e1   *field_1EC;   /* 0x1EC */
-    char    pad_1F0[0x1F8 - 0x1F0];
-    int     last_weapon; /* 0x1F8 */
-    int     last_item;   /* 0x1FC */
-    char    pad_200[0x214 - 0x200];
-    int     field_214;   /* 0x214 */
-    char    pad_218[0x220 - 0x218];
-    int     field_220;   /* 0x220 */
-    int     field_224;   /* 0x224 */
-    char    pad_228[0x234 - 0x228];
-    MOTION_CONTROL m_ctrl;        /* 0x234 */
-    MOTION_SEGMENT m_segs1[17];   /* 0x284 */
-    MOTION_SEGMENT m_segs2[17];   /* 0x4E8 */
-    CONTROL        subcontrol;    /* 0x74C */
-    SVECTOR        rots[16];      /* 0x7C8 */
-};
+/******************************************************************************
+ */
 
 extern int s05a_dword_800C3644;
 extern int s05a_dword_800C3648;
@@ -66,31 +21,37 @@ const char s05a_dword_800E351C[] = "m1e1valc.c";
 const char s05a_dword_800E3528[] = "valcan";
 const char s05a_dword_800E3530[] = "tankman";
 
-void  s05a_800DD6B8(Work *work);
-void  s05a_800DDC14(Work *work);
-Work *NewM1E1Vulcan(M1e1 *m1e1);
+/******************************************************************************
+ */
 
-void s05a_800DD1C8(M1e1 *m1e1)
+void s05a_800DD6B8(LPM1E1VALCANACT lpAct);
+void s05a_800DDC14(LPM1E1VALCANACT lpAct);
+void* NewM1E1Vulcan(LPM1E1ACT lpParent);
+
+/******************************************************************************
+ */
+
+void s05a_800DD1C8(LPM1E1ACT lpAct)
 {
     SVECTOR pos;
     int     vol;
 
-    if (m1e1->field_ED0 == 2)
+    if (lpAct->field_ED0 == 2)
     {
         pos = GM_PlayerPosition;
         vol = 0x3F;
     }
     else
     {
-        pos = m1e1->field_20;
-        vol = m1e1->nSoundVolume;
+        pos = lpAct->control.mov;
+        vol = lpAct->nSoundVolume;
     }
 
-    if (s05a_dword_800C3648 <= 0 && m1e1->lpValcan == NULL)
+    if (s05a_dword_800C3648 <= 0 && lpAct->lpValcan == NULL)
     {
-        if (m1e1->field_EC0 == 1)
+        if (lpAct->field_EC0 == 1)
         {
-            if (m1e1->field_EC4 < 2)
+            if (lpAct->field_EC4 < 2)
             {
                 s05a_dword_800C3644 = 0x32;
             }
@@ -101,14 +62,14 @@ void s05a_800DD1C8(M1e1 *m1e1)
         }
         if (s05a_dword_800C3644 == 1)
         {
-            if (m1e1->field_EC4 < 2 || !(rand() & 1))
+            if (lpAct->field_EC4 < 2 || !(rand() & 1))
             {
-                m1e1->lpValcan = NewM1E1Vulcan(m1e1);
-                GM_ConfigObjectAction(&m1e1->lpValcan->body, 2, 0, 5);
+                lpAct->lpValcan = NewM1E1Vulcan(lpAct);
+                GM_ConfigObjectAction(&lpAct->lpValcan->body, 2, 0, 5);
             }
             else
             {
-                s05a_dword_800C3648 = m1e1->field_DB8 * 2 / 3;
+                s05a_dword_800C3648 = lpAct->field_DB8 * 2 / 3;
                 GM_SeSetPan(&pos, 0x85, vol);
             }
         }
@@ -125,19 +86,19 @@ void s05a_800DD1C8(M1e1 *m1e1)
 
     if (s05a_dword_800C3648 <= 0)
     {
-        if (m1e1->lpValcan != NULL && m1e1->lpValcan->body.action != 5 &&
-            m1e1->lpValcan->field_214 == 0)
+        if (lpAct->lpValcan != NULL && lpAct->lpValcan->body.action != 5 &&
+            lpAct->lpValcan->field_214 == 0)
         {
-            m1e1->body.rots[8].vx = GV_NearSpeed(m1e1->body.rots[8].vx, -0x638, 0x2D);
-            if (m1e1->body.rots[8].vx >= -0x5B1 && m1e1->body.rots[8].vx < -0x584)
+            lpAct->objBody.rots[8].vx = GV_NearSpeed(lpAct->objBody.rots[8].vx, -0x638, 0x2D);
+            if (lpAct->objBody.rots[8].vx >= -0x5B1 && lpAct->objBody.rots[8].vx < -0x584)
             {
                 GM_SeSetPan(&pos, 0xBC, vol);
             }
         }
-        if (m1e1->lpValcan == NULL || m1e1->lpValcan->body.action == 5)
+        if (lpAct->lpValcan == NULL || lpAct->lpValcan->body.action == 5)
         {
-            m1e1->body.rots[8].vx = GV_NearSpeed(m1e1->body.rots[8].vx, 0, 0x2D);
-            if (m1e1->body.rots[8].vx >= -0xB4 && m1e1->body.rots[8].vx < -0x87)
+            lpAct->objBody.rots[8].vx = GV_NearSpeed(lpAct->objBody.rots[8].vx, 0, 0x2D);
+            if (lpAct->objBody.rots[8].vx >= -0xB4 && lpAct->objBody.rots[8].vx < -0x87)
             {
                 GM_SeSetPan(&pos, 0xBB, vol);
             }
@@ -145,131 +106,134 @@ void s05a_800DD1C8(M1e1 *m1e1)
     }
 }
 
-Work *NewM1E1Vulcan(M1e1 *m1e1)
-{
-    Work *work;
-    int   i;
+/******************************************************************************
+ */
 
-    work = GV_NewActor(GV_ACTOR_AFTER, sizeof(Work));
-    if (work == NULL)
+void* NewM1E1Vulcan(LPM1E1ACT lpParent)
+{
+    int             i;
+    LPM1E1VALCANACT lpAct;
+
+    lpAct = GV_NewActor(GV_ACTOR_AFTER, sizeof(M1E1VALCANACT));
+    if (lpAct == NULL)
     {
         return NULL;
     }
-    work->field_1E8 = 1;
-    work->field_1EC = m1e1;
-    GV_SetNamedActor(work, s05a_800DD6B8, s05a_800DDC14, s05a_dword_800E351C);
-    if (GM_InitControl(&work->control, work->field_1EC->field_744, work->field_1EC->field_748) < 0)
+    lpAct->field_1E8 = 1;
+    lpAct->lpParent = lpParent;
+    GV_SetNamedActor(lpAct, s05a_800DD6B8, s05a_800DDC14, s05a_dword_800E351C);
+    if (GM_InitControl(&lpAct->control, lpAct->lpParent->field_744, lpAct->lpParent->field_748) < 0)
     {
-        GV_DestroyActor(work);
+        GV_DestroyActor(lpAct);
         return NULL;
     }
-    work->control.r_sphere = -2;
-    work->control.interp = 0;
-    GM_ConfigControlAttribute(&work->control, 5);
-    work->light[0].t[0] = work->field_1EC->field_B0;
-    work->light[0].t[1] = work->field_1EC->field_B4;
-    work->light[0].t[2] = work->field_1EC->field_B8;
-    GM_InitObject(&work->body, GV_StrCode(s05a_dword_800E3528), 0x32D, GV_StrCode(s05a_dword_800E3530));
-    GM_ConfigObjectJoint(&work->body);
-    GM_ConfigMotionControl(&work->body, &work->m_ctrl, GV_StrCode(s05a_dword_800E3530),
-                           work->m_segs1, work->m_segs2, &work->subcontrol, work->rots);
-    GM_ConfigObjectLight(&work->body, &work->light[0]);
-    DG_InvisibleObjs(work->body.objs);
+    lpAct->control.r_sphere = -2;
+    lpAct->control.interp = 0;
+    GM_ConfigControlAttribute(&lpAct->control, 5);
+    lpAct->light[0].t[0] = lpAct->lpParent->light[0].t[0];
+    lpAct->light[0].t[1] = lpAct->lpParent->light[0].t[1];
+    lpAct->light[0].t[2] = lpAct->lpParent->light[0].t[2];
+    GM_InitObject(&lpAct->body, GV_StrCode(s05a_dword_800E3528), 0x32D, GV_StrCode(s05a_dword_800E3530));
+    GM_ConfigObjectJoint(&lpAct->body);
+    GM_ConfigMotionControl(&lpAct->body, &lpAct->m_ctrl, GV_StrCode(s05a_dword_800E3530),
+                           lpAct->m_segs1, lpAct->m_segs2, &lpAct->subcontrol, lpAct->rots);
+    GM_ConfigObjectLight(&lpAct->body, &lpAct->light[0]);
+    DG_InvisibleObjs(lpAct->body.objs);
     for (i = 0; i < 16; i++)
     {
-        work->body.objs->objs[i].world = DG_ZeroMatrix;
+        lpAct->body.objs->objs[i].world = DG_ZeroMatrix;
     }
-    if (GM_Vitality != 0 && GM_GameOverTimer == 0 && work->field_1EC->field_EC4 < 2)
+    if (GM_Vitality != 0 && GM_GameOverTimer == 0 && lpAct->lpParent->field_EC4 < 2)
     {
-        work->field_1EC->field_D54 = 3;
-        work->field_1EC->field_ED0 = 2;
-        work->last_weapon = GM_Weapon;
-        work->last_item = GM_Item;
+        lpAct->lpParent->field_D54 = 3;
+        lpAct->lpParent->field_ED0 = 2;
+        lpAct->nWeaponSave = GM_Weapon;
+        lpAct->nItemSave = GM_Item;
         GM_Weapon = WP_None;
         if (GM_Item != IT_NVG && GM_Item != IT_ThermG)
         {
             GM_Item = IT_None;
         }
     }
-    work->field_214 = 0x1E;
-    return work;
+    lpAct->field_214 = 0x1E;
+    return (void*)lpAct;
 }
 
-void s05a_800DD6B8(Work *work)
+void s05a_800DD6B8(LPM1E1VALCANACT lpAct)
 {
     SVECTOR pos;
     SVECTOR vec;
     SVECTOR vec2;
     int     vol;
 
-    if (work->body.action == 5 && work->field_214 == 1)
+    if (lpAct->body.action == 5 && lpAct->field_214 == 1)
     {
-        GV_DestroyActor(work);
+        GV_DestroyActor(lpAct);
         return;
     }
-    if (--work->field_214 < 0) work->field_214 = 0;
-    if (work->field_214 > 0) return;
+    if (--lpAct->field_214 < 0) lpAct->field_214 = 0;
+    if (lpAct->field_214 > 0) return;
 
-    memset(&work->subcontrol.step, 0, 8);
-    GM_ActMotion(&work->body);
-    GM_ActControl(&work->control);
-    vec = work->subcontrol.step;
-    GM_ActObject(&work->body);
-    work->subcontrol.step = vec;
-    DG_GetLightMatrix2(&work->control.mov, &work->light[0]);
-    if (work->field_1E8 == 0)
+    memset(&lpAct->subcontrol.step, 0, 8);
+    GM_ActMotion(&lpAct->body);
+    GM_ActControl(&lpAct->control);
+    vec = lpAct->subcontrol.step;
+    GM_ActObject(&lpAct->body);
+    lpAct->subcontrol.step = vec;
+    DG_GetLightMatrix2(&lpAct->control.mov, &lpAct->light[0]);
+    if (lpAct->field_1E8 == 0)
     {
-        work->body.objs->flag &= ~0x80;
+        lpAct->body.objs->flag &= ~0x80;
     }
-    work->control.step.vx = 0;
-    work->control.step.vz = 0;
+    lpAct->control.step.vx = 0;
+    lpAct->control.step.vz = 0;
 
-    if (work->field_1EC->field_ED0 == 2)
+    if (lpAct->lpParent->field_ED0 == 2)
     {
         pos = GM_PlayerPosition;
         vol = 0x3F;
     }
     else
     {
-        pos = work->control.mov;
-        vol = work->field_1EC->nSoundVolume;
+        pos = lpAct->control.mov;
+        vol = lpAct->lpParent->nSoundVolume;
     }
 
-    switch (work->body.action)
+    switch (lpAct->body.action)
     {
     case 2:
     case 5:
         break;
     case 11:
     case 12:
-        if (work->field_224 == 0) GM_SeSetPan(&pos, 0x83, vol);
-        if (work->body.action == 12)
+        if (lpAct->field_224 == 0) GM_SeSetPan(&pos, 0x83, vol);
+        if (lpAct->body.action == 12)
         {
-            if (work->field_224 == 0x11 || work->field_224 == 0x18 || work->field_224 == 0x1F ||
-                work->field_224 == 0x26 || work->field_224 == 0x2D || work->field_224 == 0x34 ||
-                work->field_224 == 0x3B || work->field_224 == 0x42)
+            if (lpAct->field_224 == 0x11 || lpAct->field_224 == 0x18 || lpAct->field_224 == 0x1F ||
+                lpAct->field_224 == 0x26 || lpAct->field_224 == 0x2D || lpAct->field_224 == 0x34 ||
+                lpAct->field_224 == 0x3B || lpAct->field_224 == 0x42)
             {
                 GM_SeSetPan(&pos, 0x34, vol / 2);
             }
         }
-        if (work->body.action == 12)
+        if (lpAct->body.action == 12)
         {
-            if (work->field_224 == 0x4E || work->field_224 == 0x55 || work->field_224 == 0x5C ||
-                work->field_224 == 0x63 || work->field_224 == 0x69 || work->field_224 == 0x70)
+            if (lpAct->field_224 == 0x4E || lpAct->field_224 == 0x55 || lpAct->field_224 == 0x5C ||
+                lpAct->field_224 == 0x63 || lpAct->field_224 == 0x69 || lpAct->field_224 == 0x70)
             {
                 GM_SeSetPan(&pos, 0xBA, vol);
             }
         }
-        work->field_224++;
+        lpAct->field_224++;
         break;
     case 13:
-        if (work->field_224 == 0x17) GM_SeSetPan(&pos, 0x87, vol);
-        if (work->field_224 == 0x50) GM_SeSetPan(&pos, 0x87, vol);
-        work->field_224++;
+        if (lpAct->field_224 == 0x17) GM_SeSetPan(&pos, 0x87, vol);
+        if (lpAct->field_224 == 0x50) GM_SeSetPan(&pos, 0x87, vol);
+        lpAct->field_224++;
         break;
     }
 
-    DG_SetPos(&work->field_1EC->body.objs->objs[6].world);
+    DG_SetPos(&lpAct->lpParent->objBody.objs->objs[6].world);
     vec.vx = 0;
     vec.vy = 0;
     vec.vz = 0;
@@ -281,91 +245,91 @@ void s05a_800DD6B8(Work *work)
     vec2.vx -= vec.vx;
     vec2.vy -= vec.vy;
     vec2.vz -= vec.vz;
-    work->control.turn.vx = -ratan2(vec2.vy, SquareRoot0(vec2.vx * vec2.vx + vec2.vz * vec2.vz));
-    work->control.turn.vy = ratan2(vec2.vx, vec2.vz);
-    work->control.turn.vz = 0;
-    vec.vx = work->field_1EC->body.objs->objs[6].world.t[0];
-    vec.vy = work->field_1EC->body.objs->objs[6].world.t[1];
-    vec.vz = work->field_1EC->body.objs->objs[6].world.t[2];
-    work->control.mov.vy = work->body.height + work->field_1EC->field_20.vy;
-    work->control.step.vx = vec.vx - work->control.mov.vx;
-    work->control.step.vz = vec.vz - work->control.mov.vz;
+    lpAct->control.turn.vx = -ratan2(vec2.vy, SquareRoot0(vec2.vx * vec2.vx + vec2.vz * vec2.vz));
+    lpAct->control.turn.vy = ratan2(vec2.vx, vec2.vz);
+    lpAct->control.turn.vz = 0;
+    vec.vx = lpAct->lpParent->objBody.objs->objs[6].world.t[0];
+    vec.vy = lpAct->lpParent->objBody.objs->objs[6].world.t[1];
+    vec.vz = lpAct->lpParent->objBody.objs->objs[6].world.t[2];
+    lpAct->control.mov.vy = lpAct->body.height + lpAct->lpParent->control.mov.vy;
+    lpAct->control.step.vx = vec.vx - lpAct->control.mov.vx;
+    lpAct->control.step.vz = vec.vz - lpAct->control.mov.vz;
 
-    if (work->body.is_end == 0)
+    if (lpAct->body.is_end == 0)
     {
-        work->field_1E8 = 0;
+        lpAct->field_1E8 = 0;
     }
     else
     {
-        switch (work->body.action)
+        switch (lpAct->body.action)
         {
         case 2:
-            work->field_220 = 0;
-            work->field_224 = 0;
-            if (work->field_1EC->field_ED0 == 2)
+            lpAct->field_220 = 0;
+            lpAct->field_224 = 0;
+            if (lpAct->lpParent->field_ED0 == 2)
             {
-                if (work->field_1EC->field_ECC == 7)
+                if (lpAct->lpParent->field_ECC == 7)
                 {
-                    GM_ConfigObjectAction(&work->body, 0xD, 0, 5);
+                    GM_ConfigObjectAction(&lpAct->body, 0xD, 0, 5);
                 }
-                else if (work->field_1EC->field_ECC < 4)
+                else if (lpAct->lpParent->field_ECC < 4)
                 {
-                    GM_ConfigObjectAction(&work->body, 0xB, 0, 5);
+                    GM_ConfigObjectAction(&lpAct->body, 0xB, 0, 5);
                 }
                 else
                 {
-                    GM_ConfigObjectAction(&work->body, 0xC, 0, 5);
+                    GM_ConfigObjectAction(&lpAct->body, 0xC, 0, 5);
                 }
             }
             else
             {
                 if ((rand() & 1) == 0)
                 {
-                    GM_ConfigObjectAction(&work->body, 0xB, 0, 5);
+                    GM_ConfigObjectAction(&lpAct->body, 0xB, 0, 5);
                 }
                 else
                 {
-                    GM_ConfigObjectAction(&work->body, 0xC, 0, 5);
+                    GM_ConfigObjectAction(&lpAct->body, 0xC, 0, 5);
                 }
             }
-            work->field_1E8 = 0;
+            lpAct->field_1E8 = 0;
             break;
         case 11:
         case 12:
         case 13:
-            GM_ConfigObjectAction(&work->body, 5, 0, 5);
-            work->field_1E8 = 0;
+            GM_ConfigObjectAction(&lpAct->body, 5, 0, 5);
+            lpAct->field_1E8 = 0;
             break;
         case 5:
-            work->field_214 = 0x1E;
-            work->body.objs->flag |= 0x80;
+            lpAct->field_214 = 0x1E;
+            lpAct->body.objs->flag |= 0x80;
             break;
         default:
-            work->field_1E8 = 0;
+            lpAct->field_1E8 = 0;
             break;
         }
     }
 }
 
-void s05a_800DDC14(Work *work)
+void s05a_800DDC14(LPM1E1VALCANACT lpAct)
 {
-    if (work->field_1EC->field_ED0 == 2)
+    if (lpAct->lpParent->field_ED0 == 2)
     {
-        if (work->field_1EC->field_D58 == 0)
+        if (lpAct->lpParent->field_D58 == 0)
         {
-            work->field_1EC->field_D54 = work->field_1EC->field_ED0;
+            lpAct->lpParent->field_D54 = lpAct->lpParent->field_ED0;
         }
         else
         {
-            work->field_1EC->field_D54 = 7;
+            lpAct->lpParent->field_D54 = 7;
         }
-        work->field_1EC->field_ED0 = 1;
-        work->field_1EC->field_F48 = work->field_1EC->field_DB8;
-        GM_Weapon = work->last_weapon;
-        GM_Item = work->last_item;
+        lpAct->lpParent->field_ED0 = 1;
+        lpAct->lpParent->field_F48 = lpAct->lpParent->field_DB8;
+        GM_Weapon = lpAct->nWeaponSave;
+        GM_Item = lpAct->nItemSave;
     }
 
-    work->field_1EC->lpValcan = 0;
-    GM_FreeObject(&work->body);
-    GM_FreeControl(&work->control);
+    lpAct->lpParent->lpValcan = NULL;
+    GM_FreeObject(&lpAct->body);
+    GM_FreeControl(&lpAct->control);
 }

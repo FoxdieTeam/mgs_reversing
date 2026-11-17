@@ -1,29 +1,25 @@
+/******************************************************************************
+ * included
+ */
+
+#include <stdlib.h>
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "game/game.h"
+
 #include "kojo/common.h"
 #include "kojo/m1e1.h"
-#include "okajima/bullet.h" // for NewBulletEx
 
-extern int rand(void);
-extern void *NewFadeInOut(int mode, int shade);
+#include "bullet/blast.h"       // for AN_Blast_high2
+#include "okajima/bullet.h"     // for NewBulletEx
+#include "takabe/fadeio.h"      // for NewFadeInOut
+
 extern void *NewSmokeLn_800CDFA4(int a0, int a1, int a2, SVECTOR *p, SVECTOR *q,
                                  SVECTOR *r, char b, char c, char d);
-extern void AN_Blast_high2(SVECTOR *pos, SVECTOR *offset);
 
-typedef struct
-{
-    HZD_SEG seg[4];
-    HZD_FLR flr[2];
-} HzdBlock; /* 0xA0 */
-
-/* The gunner actor (m1e1sold.c) as seen from here. */
-typedef struct _Gunner
-{
-    GV_ACT   actor;         /* 0x000 */
-    CONTROL  control;       /* 0x020 */
-    MATRIX   light[2];      /* 0x09C */
-    OBJECT   body;          /* 0x0DC */
-    TARGET  *target;        /* 0x1C0 */
-} Gunner;
+/******************************************************************************
+ */
 
 extern LPM1E1ACT s05a_dword_800C362C;
 extern int   s05a_dword_800C3630;
@@ -49,6 +45,9 @@ void  s05a_800DA62C(LPM1E1ACT lpAct);
 void  s05a_800DA940(LPM1E1ACT lpAct);
 void  s05a_800DACF0(LPM1E1ACT lpAct);
 void  s05a_800DD1C8(LPM1E1ACT lpAct);
+
+/******************************************************************************
+ */
 
 void s05a_800D4A74(LPM1E1ACT lpAct)
 {
@@ -172,7 +171,7 @@ void s05a_800D4A74(LPM1E1ACT lpAct)
         {
             lpAct->field_D54 = 5;
             lpAct->field_F80 = 0x1e;
-            NewFadeInOut(2, 0x1e);
+            NewFadeInOut(FADEIO_MODE_TOWHITE, 0x1e);
         }
         else
         {
@@ -188,7 +187,7 @@ void s05a_800D4A74(LPM1E1ACT lpAct)
     }
 
     if (lpAct->field_F4C <= 0 && lpAct->field_D54 == 4 &&
-        lpAct->lpGunner == 0 && lpAct->field_ED0 == 0)
+        lpAct->lpGunner == NULL && lpAct->field_ED0 == 0)
     {
         if (!lpAct->field_D58)
             lpAct->field_D54 = 2;
@@ -1530,13 +1529,13 @@ void s05a_800D863C(LPM1E1ACT lpAct)
                 lpAct->field_E10 = 1;
             }
         }
-        else if (lpAct->lpGunner != NULL && ((Gunner *)lpAct->lpGunner)->body.action == 6)
+        else if (lpAct->lpGunner != NULL && lpAct->lpGunner->body.action == 6)
         {
             vec.vy = lpAct->objBody.rots[12].vy + lpAct->objBody.rots[13].vy;
             vec.vx = lpAct->objBody.rots[13].vx;
-            if (((Gunner *)lpAct->lpGunner)->body.is_end)
+            if (lpAct->lpGunner->body.is_end)
             {
-                GM_ConfigObjectAction(&((Gunner *)lpAct->lpGunner)->body, 0, 0, 5);
+                GM_ConfigObjectAction(&lpAct->lpGunner->body, 0, 0, 5);
             }
         }
         else if (lpAct->field_E64 != 0)
@@ -1555,9 +1554,9 @@ void s05a_800D863C(LPM1E1ACT lpAct)
                 {
                     GV_DestroyActor(lpAct->lpGunner);
                 }
-                else if (((Gunner *)lpAct->lpGunner)->target != NULL && ((Gunner *)lpAct->lpGunner)->body.action != 5)
+                else if (lpAct->lpGunner->target != NULL && lpAct->lpGunner->body.action != 5)
                 {
-                    GM_ConfigObjectAction(&((Gunner *)lpAct->lpGunner)->body, 5, 0, 5);
+                    GM_ConfigObjectAction(&lpAct->lpGunner->body, 5, 0, 5);
                 }
             }
             if (lpAct->field_E30 == 6)
@@ -1565,7 +1564,7 @@ void s05a_800D863C(LPM1E1ACT lpAct)
                 lpAct->field_E30 = 0;
             }
         }
-        else if (lpAct->objBody.rots[11].vx != -0x71C || lpAct->lpGunner == NULL || ((Gunner *)lpAct->lpGunner)->body.action == 2)
+        else if (lpAct->objBody.rots[11].vx != -0x71C || lpAct->lpGunner == NULL || lpAct->lpGunner->body.action == 2)
         {
             if (lpAct->field_E30 < 7 || lpAct->field_E30 > 11)
             {
@@ -1582,7 +1581,7 @@ void s05a_800D863C(LPM1E1ACT lpAct)
             if (lpAct->lpGunner == NULL && lpAct->field_E08 > 0)
             {
                 lpAct->lpGunner = s05a_800DDCBC(lpAct);
-                GM_ConfigObjectAction(&((Gunner *)lpAct->lpGunner)->body, 2, 0, 5);
+                GM_ConfigObjectAction(&lpAct->lpGunner->body, 2, 0, 5);
             }
         }
         else if (lpAct->field_F84 <= 0 || lpAct->field_DA8 * k < lpAct->field_F44)
@@ -1599,7 +1598,7 @@ void s05a_800D863C(LPM1E1ACT lpAct)
             {
                 lpAct->field_F84 = lpAct->field_DA4 / k;
                 lpAct->field_F44 = 0;
-                GM_ConfigObjectAction(&((Gunner *)lpAct->lpGunner)->body, 6, 0, 5);
+                GM_ConfigObjectAction(&lpAct->lpGunner->body, 6, 0, 5);
             }
         }
         else if (vec.vx < -0x1C7 ||
@@ -1648,7 +1647,7 @@ void s05a_800D863C(LPM1E1ACT lpAct)
             {
                 vec.vx = (vec.vx < 0x72) ? vec.vx : 0x71;
             }
-            GM_ConfigObjectAction(&((Gunner *)lpAct->lpGunner)->body, 0, 0, 5);
+            GM_ConfigObjectAction(&lpAct->lpGunner->body, 0, 0, 5);
         }
         else if (lpAct->field_E64 == 0 && lpAct->field_D54 == 2)
         {
@@ -1698,11 +1697,11 @@ void s05a_800D863C(LPM1E1ACT lpAct)
                     fire = 1;
                     lpAct->field_F44 = lpAct->field_DA8;
                     lpAct->field_F84--;
-                    GM_ConfigObjectAction(&((Gunner *)lpAct->lpGunner)->body, 1, 0, 5);
+                    GM_ConfigObjectAction(&lpAct->lpGunner->body, 1, 0, 5);
                 }
-                if (((Gunner *)lpAct->lpGunner)->body.is_end)
+                if (lpAct->lpGunner->body.is_end)
                 {
-                    GM_ConfigObjectAction(&((Gunner *)lpAct->lpGunner)->body, 0, 0, 5);
+                    GM_ConfigObjectAction(&lpAct->lpGunner->body, 0, 0, 5);
                 }
             }
         }
@@ -1710,9 +1709,9 @@ void s05a_800D863C(LPM1E1ACT lpAct)
         lpAct->field_EE8 = vec;
     }
 
-    if (lpAct->lpGunner != NULL && ((Gunner *)lpAct->lpGunner)->body.action == 6 && ((Gunner *)lpAct->lpGunner)->body.is_end)
+    if (lpAct->lpGunner != NULL && lpAct->lpGunner->body.action == 6 && lpAct->lpGunner->body.is_end)
     {
-        GM_ConfigObjectAction(&((Gunner *)lpAct->lpGunner)->body, 0, 0, 5);
+        GM_ConfigObjectAction(&lpAct->lpGunner->body, 0, 0, 5);
     }
 
     if (lpAct->field_D54 == 7)
@@ -1724,12 +1723,12 @@ void s05a_800D863C(LPM1E1ACT lpAct)
             lpAct->field_F84--;
             if (lpAct->lpGunner != NULL)
             {
-                GM_ConfigObjectAction(&((Gunner *)lpAct->lpGunner)->body, 1, 0, 5);
+                GM_ConfigObjectAction(&lpAct->lpGunner->body, 1, 0, 5);
             }
         }
-        if (lpAct->lpGunner != NULL && ((Gunner *)lpAct->lpGunner)->body.is_end)
+        if (lpAct->lpGunner != NULL && lpAct->lpGunner->body.is_end)
         {
-            GM_ConfigObjectAction(&((Gunner *)lpAct->lpGunner)->body, 0, 0, 5);
+            GM_ConfigObjectAction(&lpAct->lpGunner->body, 0, 0, 5);
         }
     }
 

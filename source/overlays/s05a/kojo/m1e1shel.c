@@ -1,4 +1,14 @@
+/******************************************************************************
+ * included
+ */
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "game/game.h"
+
+/******************************************************************************
+ */
 
 typedef struct _Work
 {
@@ -51,6 +61,9 @@ void *s05a_800DBD14(SVECTOR *arg0, SVECTOR *arg1);
 void *s05a_800DB684(Work *work);
 void  s05a_800DB278(Work *work);
 void  s05a_800DB654(Work *work);
+
+/******************************************************************************
+ */
 
 void *s05a_800DAE58(int name, MATRIX *mat, int side, SVECTOR *target_pos, int vital, int range, int speed, int *result)
 {
