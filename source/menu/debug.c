@@ -600,7 +600,7 @@ char *menu_debug_screen_labels_8009E744[] = {
 void menu_viewer_act(MenuWork *work, u_long *ot)
 {
     mts_read_pad(2);
-    if (GM_GameStatus & STATE_DEMO_VERBOSE)
+    if (GM_GameStatus & STATE_VIEW_LOAD)
     {
         menu_draw_pow_debug(work, ot);
         return;

@@ -18,7 +18,6 @@
 #include "libgcl/libgcl.h"
 #include "memcard/memcard.h"
 
-#include "game/loader.h"
 #include "game/over.h"
 #include "menu/menuman.h"
 
@@ -209,7 +208,7 @@ static void GM_CreateLoader(void)
     {
         stage = GM_GetArea(GM_SaveArea);
     }
-    NewLoader(stage);
+    GM_StartLoader(stage);
 }
 
 static void GM_HidePauseScreen(void)

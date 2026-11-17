@@ -36,7 +36,8 @@ extern void AN_CaterpillerSmoke2(SVECTOR *pos, SVECTOR *rot);
  * publics
  */
 
-void M1E1Caterpiller(LPM1E1ACTOR lpAct)
+void M1E1Caterpiller(
+    LPM1E1ACT lpAct)
 {
     SVECTOR svect1;
     SVECTOR svect2;
@@ -50,29 +51,23 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
     diff = lpAct->field_D60 - lpAct->field_D8C;
     nSound = 2;
 
-    if (diff > 0)
-    {
+    if(diff > 0)
         nSound += ((diff - (lpAct->field_D68 - lpAct->field_D8C)) * 5) / diff;
-    }
 
-    if ((GV_Time & 1) == 0)
+    if((GV_Time & 1) == 0)
     {
         DG_SetPos2(&lpAct->control.mov, &lpAct->control.turn);
         svect3 = lpAct->control.turn;
 
-        while (svect3.vy < -2048)
-        {
+        while(svect3.vy < -2048)
             svect3.vy += 4096;
-        }
 
-        while (svect3.vy > 2048)
-        {
+        while(svect3.vy > 2048)
             svect3.vy -= 4096;
-        }
 
-        memset(&svect1, 0, sizeof(svect1));
+        memset(&svect1, 0x00, sizeof(svect1));
 
-        model1 = lpAct->field_1C0[0].objs->objs[0].model;
+        model1 = lpAct->objLeftCater[0].objs->objs[0].model;
         svect1.vx = model1->lx + (model1->ux - model1->lx) / 2;
 
         DG_PutVector(&svect1, &svect1, 1);
@@ -101,38 +96,33 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
 // clang-format on
                 {
                     lpAct->nLeftCaterSmokeTCount = 6;
-                    AN_CaterpillerSmoke2(&lpAct->field_718_targets[4]->center, &svect3);
+                    AN_CaterpillerSmoke2(&lpAct->lpTarget[4]->center, &svect3);
                 }
-
                 lpAct->nLeftCaterDirection = 1;
             }
             else
             {
-                if (lpAct->nLeftCaterDirection != -1 && lpAct->nLeftCaterSmokeTCount == 0)
+                if ((lpAct->nLeftCaterDirection != -1)
+                    && (lpAct->nLeftCaterSmokeTCount == 0))
                 {
                     lpAct->nLeftCaterSmokeTCount = 6;
-                    AN_CaterpillerSmoke2(&lpAct->field_718_targets[0]->center, &lpAct->control.rot);
+                    AN_CaterpillerSmoke2(&lpAct->lpTarget[0]->center, &lpAct->control.rot);
                 }
-
                 lpAct->nLeftCaterDirection = -1;
             }
 
-            AN_CaterpillerSmoke(&lpAct->field_718_targets[rand() % 5]->center);
-            DG_InvisibleObjs(lpAct->field_1C0[lpAct->field_E74].objs);
+            AN_CaterpillerSmoke(&lpAct->lpTarget[rand() % 5]->center);
+            DG_InvisibleObjs(lpAct->objLeftCater[lpAct->field_E74].objs);
 
             lpAct->field_E74 += lpAct->nLeftCaterDirection;
 
-            if (lpAct->field_E74 < 0)
-            {
+            if(lpAct->field_E74 < 0)
                 lpAct->field_E74 = 2;
-            }
 
-            if (lpAct->field_E74 > 2)
-            {
+            if(lpAct->field_E74 > 2)
                 lpAct->field_E74 = 0;
-            }
 
-            DG_VisibleObjs(lpAct->field_1C0[lpAct->field_E74].objs);
+            DG_VisibleObjs(lpAct->objLeftCater[lpAct->field_E74].objs);
 
             lpAct->svectLeftCater = svect1;
 // clang-format off
@@ -153,9 +143,9 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
     else    /* 2 回に 1 回実行 */
     {
 // clang-format on
-        memset(&svect1, 0, sizeof(svect1));
+        memset(&svect1, 0x00, sizeof(svect1));
 
-        model2 = lpAct->field_46C[0].objs->objs[0].model;
+        model2 = lpAct->objRightCater[0].objs->objs[0].model;
         svect1.vx = model2->lx + (model2->ux - model2->lx) / 2;
 
         DG_SetPos2(&lpAct->control.mov, &lpAct->control.turn);
@@ -183,38 +173,33 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
                     && (lpAct->nRightCaterSmokeTCount == 0))
                 {
                     lpAct->nRightCaterSmokeTCount = 6;
-                    AN_CaterpillerSmoke2(&lpAct->field_718_targets[9]->center, &svect3);
+                    AN_CaterpillerSmoke2(&lpAct->lpTarget[9]->center, &svect3);
                 }
-
                 lpAct->nRightCaterDirection = 1;
             }
             else
             {
-                if (lpAct->nRightCaterDirection != -1 && lpAct->nRightCaterSmokeTCount == 0)
+                if((lpAct->nRightCaterDirection != -1)
+                    && (lpAct->nRightCaterSmokeTCount == 0))
                 {
                     lpAct->nRightCaterSmokeTCount = 6;
-                    AN_CaterpillerSmoke2(&lpAct->field_718_targets[5]->center, &lpAct->control.rot);
+                    AN_CaterpillerSmoke2(&lpAct->lpTarget[5]->center, &lpAct->control.rot);
                 }
-
                 lpAct->nRightCaterDirection = -1;
             }
 
-            AN_CaterpillerSmoke(&lpAct->field_718_targets[(rand() % 5) + 5]->center);
-            DG_InvisibleObjs(lpAct->field_46C[lpAct->field_E78].objs);
+            AN_CaterpillerSmoke(&lpAct->lpTarget[(rand() % 5) + 5]->center);
+            DG_InvisibleObjs(lpAct->objRightCater[lpAct->field_E78].objs);
 
             lpAct->field_E78 += lpAct->nLeftCaterDirection;
 
-            if (lpAct->field_E78 < 0)
-            {
+            if(lpAct->field_E78 < 0)
                 lpAct->field_E78 = 2;
-            }
 
-            if (lpAct->field_E78 > 2)
-            {
+            if(lpAct->field_E78 > 2)
                 lpAct->field_E78 = 0;
-            }
 
-            DG_VisibleObjs(lpAct->field_46C[lpAct->field_E78].objs);
+            DG_VisibleObjs(lpAct->objRightCater[lpAct->field_E78].objs);
 
             lpAct->svectRightCater = svect1;
 
@@ -234,64 +219,64 @@ void M1E1Caterpiller(LPM1E1ACTOR lpAct)
     }
 }
 
-void M1E1GetCaterpillerVertex(OBJECT *obj1, OBJECT *obj2, SVECTOR *pos, int a4)
+void M1E1GetCaterpillerVertex(
+    OBJECT*  lpobjLeftCater,
+    OBJECT*  lpobjRightCater,
+    SVECTOR* lpsvectPos,
+    BOOL     arg3)
 {
-    DG_MDL *model;
-    int vx;
+    DG_MDL* lpModel;
+    int     vx;
 
     /* left caterpillar */
-    model = obj1->objs->objs[0].model;
-    vx = model->lx;
-    if ( a4 == 1 )
-    {
-        vx += (model->ux - vx) >> 1;
-    }
+    lpModel = lpobjLeftCater->objs->objs[0].model;
+    vx = lpModel->lx;
+    if(arg3 == TRUE)
+        vx += (lpModel->ux - vx) >> 1;
 
-    pos[0].vx = vx;
-    pos[0].vy = obj1->objs->objs[0].model->ly;
-    pos[0].vz = 2 * obj1->objs->objs[0].model->uz / 3;
+    lpsvectPos[0].vx = vx;
+    lpsvectPos[0].vy = lpobjLeftCater->objs->objs[0].model->ly;
+    lpsvectPos[0].vz = 2 * lpobjLeftCater->objs->objs[0].model->uz / 3;
 
-    pos[1].vx = vx;
-    pos[1].vy = obj1->objs->objs[0].model->ly;
-    pos[1].vz = obj1->objs->objs[0].model->uz / 3;
+    lpsvectPos[1].vx = vx;
+    lpsvectPos[1].vy = lpobjLeftCater->objs->objs[0].model->ly;
+    lpsvectPos[1].vz = lpobjLeftCater->objs->objs[0].model->uz / 3;
 
-    pos[2].vx = vx;
-    pos[2].vy = obj1->objs->objs[0].model->ly;
-    pos[2].vz = 0;
+    lpsvectPos[2].vx = vx;
+    lpsvectPos[2].vy = lpobjLeftCater->objs->objs[0].model->ly;
+    lpsvectPos[2].vz = 0;
 
-    pos[3].vx = vx;
-    pos[3].vy = obj1->objs->objs[0].model->ly;
-    pos[3].vz = obj1->objs->objs[0].model->lz / 3;
+    lpsvectPos[3].vx = vx;
+    lpsvectPos[3].vy = lpobjLeftCater->objs->objs[0].model->ly;
+    lpsvectPos[3].vz = lpobjLeftCater->objs->objs[0].model->lz / 3;
 
-    pos[4].vx = vx;
-    pos[4].vy = obj1->objs->objs[0].model->ly;
-    pos[4].vz = (2 * obj1->objs->objs[0].model->lz) / 3;
+    lpsvectPos[4].vx = vx;
+    lpsvectPos[4].vy = lpobjLeftCater->objs->objs[0].model->ly;
+    lpsvectPos[4].vz = (2 * lpobjLeftCater->objs->objs[0].model->lz) / 3;
 
     /* right caterpillar */
-    model = obj2->objs->objs[0].model;
-    vx = model->ux;
-    if ( a4 == 1 )
-    {
-        vx += (model->lx - vx) >> 1;
-    }
+    lpModel = lpobjRightCater->objs->objs[0].model;
+    vx = lpModel->ux;
+    if(arg3 == TRUE)
+        vx += (lpModel->lx - vx) >> 1;
 
-    pos[5].vx = vx;
-    pos[5].vy = obj2->objs->objs[0].model->ly;
-    pos[5].vz = 2 * obj2->objs->objs[0].model->uz / 3;
+    lpsvectPos[5].vx = vx;
+    lpsvectPos[5].vy = lpobjRightCater->objs->objs[0].model->ly;
+    lpsvectPos[5].vz = 2 * lpobjRightCater->objs->objs[0].model->uz / 3;
 
-    pos[6].vx = vx;
-    pos[6].vy = obj2->objs->objs[0].model->ly;
-    pos[6].vz = obj2->objs->objs[0].model->uz / 3;
+    lpsvectPos[6].vx = vx;
+    lpsvectPos[6].vy = lpobjRightCater->objs->objs[0].model->ly;
+    lpsvectPos[6].vz = lpobjRightCater->objs->objs[0].model->uz / 3;
 
-    pos[7].vx = vx;
-    pos[7].vy = obj2->objs->objs[0].model->ly;
-    pos[7].vz = 0;
+    lpsvectPos[7].vx = vx;
+    lpsvectPos[7].vy = lpobjRightCater->objs->objs[0].model->ly;
+    lpsvectPos[7].vz = 0;
 
-    pos[8].vx = vx;
-    pos[8].vy = obj2->objs->objs[0].model->ly;
-    pos[8].vz = obj2->objs->objs[0].model->lz / 3;
+    lpsvectPos[8].vx = vx;
+    lpsvectPos[8].vy = lpobjRightCater->objs->objs[0].model->ly;
+    lpsvectPos[8].vz = lpobjRightCater->objs->objs[0].model->lz / 3;
 
-    pos[9].vx = vx;
-    pos[9].vy = obj2->objs->objs[0].model->ly;
-    pos[9].vz = 2 * obj2->objs->objs[0].model->lz / 3;
+    lpsvectPos[9].vx = vx;
+    lpsvectPos[9].vy = lpobjRightCater->objs->objs[0].model->ly;
+    lpsvectPos[9].vz = 2 * lpobjRightCater->objs->objs[0].model->lz / 3;
 }

@@ -1,4 +1,14 @@
+/******************************************************************************
+ * included
+ */
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "game/game.h"
+
+/******************************************************************************
+ */
 
 typedef struct _Work
 {
@@ -51,6 +61,9 @@ void *s05a_800DBD14(SVECTOR *arg0, SVECTOR *arg1);
 void *s05a_800DB684(Work *work);
 void  s05a_800DB278(Work *work);
 void  s05a_800DB654(Work *work);
+
+/******************************************************************************
+ */
 
 void *s05a_800DAE58(int name, MATRIX *mat, int side, SVECTOR *target_pos, int vital, int range, int speed, int *result)
 {
@@ -135,6 +148,7 @@ void *s05a_800DAE58(int name, MATRIX *mat, int side, SVECTOR *target_pos, int vi
     GM_SetPowerTarget(&work->target, 0, -1, work->field_234, 0, &vec1);
     return work;
 }
+
 void s05a_800DB278(Work *work)
 {
     SVECTOR vec;
@@ -200,6 +214,7 @@ void s05a_800DB654(Work *work)
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
 }
+
 void s05a_800DBA94(Casing *work);
 void s05a_800DBC44(Casing *work);
 void s05a_800DBC80(POLY_FT4 *poly, DG_TEX *src);

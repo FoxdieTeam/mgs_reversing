@@ -1,5 +1,4 @@
 #include "mgstype.h"
-#include "libdg/libdg.h"
 #include "game/game.h"
 
 #define TEX_COPY_SIZE   (sizeof(DG_TEX) - offsetof(DG_TEX, used))
@@ -55,30 +54,27 @@ void EQ_VisibleHead(OBJECT *object, short *n_packs, short *raise)
 }
 
 #ifdef VR_EXE
-// Copies of EQ_InvisibleHead/EQ_VisibleHead
-// but with additional parameter "idx"
-
-void EQ_InvisibleUnit(OBJECT *object, int idx, short *n_packs, short *raise)
+void EQ_InvisibleUnit(OBJECT *object, int unit, short *n_packs, short *raise)
 {
-    if (idx < object->objs->n_models)
+    if (unit < object->objs->n_models)
     {
-        *n_packs = object->objs->objs[idx].n_packs;
-        *raise = object->objs->objs[idx].raise;
-        DG_FreeObjPacket(&object->objs->objs[idx], 0);
-        DG_FreeObjPacket(&object->objs->objs[idx], 1);
-        object->objs->objs[idx].n_packs = 1;
-        object->objs->objs[idx].raise = -30000;
+        *n_packs = object->objs->objs[unit].n_packs;
+        *raise = object->objs->objs[unit].raise;
+        DG_FreeObjPacket(&object->objs->objs[unit], 0);
+        DG_FreeObjPacket(&object->objs->objs[unit], 1);
+        object->objs->objs[unit].n_packs = 1;
+        object->objs->objs[unit].raise = -30000;
     }
 }
 
-void EQ_VisibleUnit(OBJECT *object, int idx, short *n_packs, short *raise)
+void EQ_VisibleUnit(OBJECT *object, int unit, short *n_packs, short *raise)
 {
-    if (idx < object->objs->n_models)
+    if (unit < object->objs->n_models)
     {
-        object->objs->objs[idx].n_packs = *n_packs;
-        object->objs->objs[idx].raise = *raise;
-        DG_FreeObjPacket(&object->objs->objs[idx], 0);
-        DG_FreeObjPacket(&object->objs->objs[idx], 1);
+        object->objs->objs[unit].n_packs = *n_packs;
+        object->objs->objs[unit].raise = *raise;
+        DG_FreeObjPacket(&object->objs->objs[unit], 0);
+        DG_FreeObjPacket(&object->objs->objs[unit], 1);
     }
 }
 #endif // VR_EXE

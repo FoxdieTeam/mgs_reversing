@@ -1,11 +1,23 @@
-#include "game/game.h"
-#include "bullet/blast.h"
-#include "okajima/splash2.h"
+/******************************************************************************
+ * included
+ */
 
-extern void sub_8007DC24(SVECTOR *pPosition);
-extern void sub_8007DD80(short param_1, SVECTOR *pPos);
-extern void sub_8007DF10(SVECTOR *pRotation, SVECTOR *pTranslation);
-extern void sub_8007E0AC(int y, SVECTOR *pPosition);
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
+#include "game/game.h"
+
+#include "bullet/blast.h"       // for AN_Blast_high2
+#include "okajima/splash2.h"    // for NewSplash2_800DB5E4
+
+/* in anime/effect/m1e1.c */
+extern void sub_8007DC24(SVECTOR *pos);
+extern void sub_8007DD80(short param_1, SVECTOR *pos);
+extern void sub_8007DF10(SVECTOR *rot, SVECTOR *trans);
+extern void sub_8007E0AC(int y, SVECTOR *pos);
+
+/******************************************************************************
+ */
 
 typedef struct
 {
@@ -21,9 +33,12 @@ typedef struct
 const char s05a_dword_800E34E8[] = {'m', '1', 'e', '1', 's', 'm', 'k', 'e', '.', 'c', 0x0, 'O'}; /* "m1e1smke.c" + linker pad byte */
 
 void s05a_800DC058(Work *work);
-void s05a_800DC224(void *work);
+void s05a_800DC224(Work *work);
 
-Work *s05a_800DBF58(int type, SVECTOR *a1, SVECTOR *a2)
+/******************************************************************************
+ */
+
+void *s05a_800DBF58(int type, SVECTOR *a1, SVECTOR *a2)
 {
     Work *work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
 
@@ -47,7 +62,7 @@ Work *s05a_800DBF58(int type, SVECTOR *a1, SVECTOR *a2)
         break;
     }
     GV_SetNamedActor(&work->actor, s05a_800DC058, s05a_800DC224, s05a_dword_800E34E8);
-    return work;
+    return (void *)work;
 }
 
 void s05a_800DC058(Work *work)
@@ -95,7 +110,7 @@ void s05a_800DC058(Work *work)
         work->field_3c++;
 }
 
-void s05a_800DC224(void *work)
+void s05a_800DC224(Work *work)
 {
     /* do nothing */
 }

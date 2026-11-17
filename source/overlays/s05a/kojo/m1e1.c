@@ -1,8 +1,18 @@
+/******************************************************************************
+ * included
+ */
+
+#include <sys/types.h>
+#include <libgte.h>
+#include <libgpu.h>
 #include "game/game.h"
-#include "libgcl/libgcl.h"
 #include "menu/menuman.h"
 
-typedef struct _M1E1Work M1E1Work;
+#include "kojo/common.h"
+#include "kojo/m1e1.h"
+
+/******************************************************************************
+ */
 
 typedef struct
 {
@@ -11,126 +21,9 @@ typedef struct
     signed char field_6;
 } GunnerTpl;
 
-struct _M1E1Work
-{
-    GV_ACT  actor;          /* 0x000 */
-    CONTROL control;        /* 0x020 */
-    MATRIX  light[2];       /* 0x09C */
-    OBJECT  body;           /* 0x0DC */
-    OBJECT  caterpillar_l[3]; /* 0x1C0 */
-    OBJECT  caterpillar_r[3]; /* 0x46C */
-    TARGET *field_718[10];  /* 0x718 */
-    int     field_740;      /* 0x740 */
-    int     field_744;      /* 0x744 */
-    int     field_748;      /* 0x748 */
-    char    pad_74C[0x8AC - 0x74C];
-    char          field_8AC[16];  /* 0x8AC bar name ("GUNNER") */
-    MENU_BAR_CONF field_8BC;      /* 0x8BC */
-    int           field_8C8;      /* 0x8C8 */
-    char    pad_8CC[0x8CC - 0x8CC];
-    SVECTOR field_8CC;      /* 0x8CC target size */
-    char    pad_8D4[0x914 - 0x8D4];
-    SVECTOR field_914;      /* 0x914 */
-    char    pad_91C[0x95C - 0x91C];
-    int     field_95C;      /* 0x95C */
-    char    pad_960[0x960 - 0x960];
-    SVECTOR field_960;      /* 0x960 */
-    char    pad_968[0x9A8 - 0x968];
-    SVECTOR field_9A8;      /* 0x9A8 */
-    char    pad_9B0[0x9F0 - 0x9B0];
-    SVECTOR field_9F0;      /* 0x9F0 */
-    char    pad_9F8[0xA38 - 0x9F8];
-    SVECTOR field_A38;      /* 0xA38 */
-    char    pad_A40[0xA80 - 0xA40];
-    int     field_A80;      /* 0xA80 */
-    char    pad_A84[0xD54 - 0xA84];   /* target array region 0xA84.. */
-    int     field_D54;      /* 0xD54  mode (1 / 6) */
-    char    pad_D58[0xD5C - 0xD58];
-    int     field_D5C;      /* 0xD5C  'e' block */
-    int     field_D60;
-    int     field_D64;
-    int     field_D68;
-    int     field_D6C;
-    int     field_D70;      /* 'd' block */
-    int     field_D74;
-    int     field_D78;
-    int     field_D7C;
-    int     field_D80;
-    int     field_D84;
-    int     field_D88;
-    int     field_D8C;
-    int     field_D90;      /* 's' block */
-    int     field_D94;
-    int     field_D98;
-    int     field_D9C;
-    int     field_DA0;
-    int     field_DA4;      /* 'g' block */
-    int     field_DA8;
-    int     field_DAC;
-    int     field_DB0;
-    int     field_DB4;
-    int     field_DB8;      /* 'c' block */
-    int     field_DBC;
-    int     field_DC0;
-    int     field_DC4;
-    int     field_DC8;
-    SVECTOR field_DCC;      /* 0xDCC mov source; .pad = enable flag */
-    SVECTOR field_DD4;      /* 0xDD4 turn source; .pad = enable flag */
-    short   field_DDC;
-    short   field_DDE;
-    short   field_DE0;
-    short   field_DE2;
-    short   field_DE4;
-    short   field_DE6;
-    short   field_DE8;
-    short   field_DEA;
-    int     field_DEC;      /* 'o' block */
-    int     field_DF0;
-    int     field_DF4;
-    int     field_DF8;
-    int     field_DFC;
-    int     field_E00;
-    int     field_E04;      /* 'w' block */
-    int     field_E08;
-    int     field_E0C;
-    int     field_E10;
-    int     field_E14;
-    int     field_E18;
-    int     field_E1C;      /* 'z' block */
-    int     field_E20;
-    int     field_E24;      /* 's' derived */
-    int     field_E28;
-    char    pad_E2C[0xE34 - 0xE2C];
-    int     field_E34;      /* DG_SetPos2/PutVector derived */
-    int     field_E38;
-    int     field_E3C;
-    char    pad_E40[0xE74 - 0xE40];
-    int     field_E74;      /* index a */
-    int     field_E78;      /* index b */
-    int     field_E7C;      /* 0x3E7 */
-    int     field_E80;      /* 0x3E7 */
-    int     field_E84;      /* 0x53 */
-    char    pad_E88[0xE8C - 0xE88];
-    SVECTOR field_E8C;      /* 0xE8C */
-    SVECTOR field_E94;      /* 0xE94 */
-    char    pad_E9C[0xEDC - 0xE9C];
-    void   *field_EDC;      /* 0xEDC throw actor */
-    char    pad_EE0[0xF44 - 0xEE0];
-    int     field_F44;      /* 0xF44 */
-    int     field_F48;      /* 0xF48 */
-    char    pad_F4C[0xF8C - 0xF4C];
-    short   field_F8C[(0xFEC - 0xF8C) / 2]; /* bbox arrays 0xF8C..0xFE8 */
-    struct
-    {
-        HZD_SEG seg[4];
-        HZD_FLR flr[2];
-    } hzd_queue[5];         /* 0xFEC */
-    char    pad_130C[0x139C - 0x130C];
-};
-
-extern void  s05a_800D4A74(M1E1Work *work);
-extern void  s05a_800D5E30(M1E1Work *work);
-extern void *NewM1Throw(int code);
+extern void  s05a_800D4A74(LPM1E1ACT lpAct);
+extern void  s05a_800D5E30(LPM1E1ACT lpAct);
+extern void *NewM1Throw(int name);
 extern int s05a_800E00EC();
 extern int s05a_800E066C();
 extern int s05a_800DEDE8();
@@ -148,293 +41,294 @@ extern const char s05a_dword_800E3444[]; /* "m1e1cr3" */
 extern const char s05a_dword_800E344C[]; /* "throw" */
 extern const GunnerTpl s05a_dword_800E3454; /* "GUNNER\0" @ 0x800E3454 */
 
-extern M1E1Work *s05a_dword_800C362C;
-extern MATRIX   DG_ZeroMatrix;
-extern SVECTOR  DG_ZeroVector;
+extern LPM1E1ACT s05a_dword_800C362C;
+
+/******************************************************************************
+ */
 
 void *NewM1E1(int name, int where)
 {
-    M1E1Work *work;
+    LPM1E1ACT lpAct;
     char    *param;
     SVECTOR  svec;
     int      strcode;
     int      flag;
     int      s1;
 
-    work = GV_NewActor(GV_ACTOR_USER, sizeof(M1E1Work));
-    if (work == NULL)
+    lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(M1E1ACT));
+    if (lpAct == NULL)
     {
-        return 0;
+        return NULL;
     }
 
-    work->field_740 = 1;
-    GV_SetNamedActor(work, s05a_800D4A74, s05a_800D5E30, s05a_dword_800E340C);
-    work->field_744 = name;
-    work->field_748 = where;
+    lpAct->bInitialize = 1;
+    GV_SetNamedActor(lpAct, s05a_800D4A74, s05a_800D5E30, s05a_dword_800E340C);
+    lpAct->field_744 = name;
+    lpAct->field_748 = where;
 
-    if (GM_InitControl(&work->control, 0, where) < 0)
+    if (GM_InitControl(&lpAct->control, 0, where) < 0)
     {
-        GV_DestroyActor(work);
-        return 0;
+        GV_DestroyActor(lpAct);
+        return NULL;
     }
 
-    work->light[0].t[0] = 0xFF;
-    work->light[0].t[1] = 0xFF;
-    work->light[0].t[2] = 0xFF;
+    lpAct->light[0].t[0] = 0xFF;
+    lpAct->light[0].t[1] = 0xFF;
+    lpAct->light[0].t[2] = 0xFF;
     if (GCL_GetOption('e'))
     {
         param = GCL_NextStr();
-        if (param) work->field_D5C = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
+        if (param) lpAct->field_D5C = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
         param = GCL_NextStr();
-        if (param) work->field_D60 = GCL_StrToInt(param) / 30;
+        if (param) lpAct->field_D60 = GCL_StrToInt(param) / 30;
         param = GCL_NextStr();
-        if (param) work->field_D64 = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
+        if (param) lpAct->field_D64 = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
         param = GCL_NextStr();
-        if (param) work->field_D68 = GCL_StrToInt(param) / 30;
+        if (param) lpAct->field_D68 = GCL_StrToInt(param) / 30;
         param = GCL_NextStr();
-        if (param) work->field_D6C = GCL_StrToInt(param) / 30;
-        if (work->field_D64 > work->field_D5C) work->field_D64 = work->field_D5C;
-        if (work->field_D68 > work->field_D60) work->field_D68 = work->field_D60;
+        if (param) lpAct->field_D6C = GCL_StrToInt(param) / 30;
+        if (lpAct->field_D64 > lpAct->field_D5C) lpAct->field_D64 = lpAct->field_D5C;
+        if (lpAct->field_D68 > lpAct->field_D60) lpAct->field_D68 = lpAct->field_D60;
     }
     if (GCL_GetOption('d'))
     {
-        work->field_D84 = 1;
+        lpAct->field_D84 = 1;
         param = GCL_NextStr();
-        if (param) work->field_D70 = GCL_StrToInt(param);
+        if (param) lpAct->field_D70 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_D74 = GCL_StrToInt(param);
+        if (param) lpAct->field_D74 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_D78 = GCL_StrToInt(param);
+        if (param) lpAct->field_D78 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_D7C = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
+        if (param) lpAct->field_D7C = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
         param = GCL_NextStr();
-        if (param) work->field_D80 = GCL_StrToInt(param) / 30;
+        if (param) lpAct->field_D80 = GCL_StrToInt(param) / 30;
         param = GCL_NextStr();
-        if (param) work->field_D84 = GCL_StrToInt(param);
-        if (work->field_D84 <= 0) work->field_D84 = 1;
+        if (param) lpAct->field_D84 = GCL_StrToInt(param);
+        if (lpAct->field_D84 <= 0) lpAct->field_D84 = 1;
         param = GCL_NextStr();
-        if (param) work->field_D88 = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
+        if (param) lpAct->field_D88 = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
         param = GCL_NextStr();
-        if (param) work->field_D8C = GCL_StrToInt(param) / 30;
+        if (param) lpAct->field_D8C = GCL_StrToInt(param) / 30;
     }
     if (GCL_GetOption('s'))
     {
         param = GCL_NextStr();
-        if (param) work->field_D94 = GCL_StrToInt(param);
+        if (param) lpAct->field_D94 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_D90 = GCL_StrToInt(param);
+        if (param) lpAct->field_D90 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_D98 = GCL_StrToInt(param) * 1000 / 60 * 100 / 23040;
+        if (param) lpAct->field_D98 = GCL_StrToInt(param) * 1000 / 60 * 100 / 23040;
         param = GCL_NextStr();
-        if (param) work->field_D9C = GCL_StrToInt(param) * 1000 / 60 * 100 / 23040;
+        if (param) lpAct->field_D9C = GCL_StrToInt(param) * 1000 / 60 * 100 / 23040;
         param = GCL_NextStr();
-        if (param) work->field_DA0 = GCL_StrToInt(param);
-        work->field_E24 = work->field_D94 - work->field_D90;
-        work->field_E28 = work->field_D98 - work->field_D9C;
-        if (work->field_E28 <= 0) work->field_E28 = 1;
+        if (param) lpAct->field_DA0 = GCL_StrToInt(param);
+        lpAct->field_E24 = lpAct->field_D94 - lpAct->field_D90;
+        lpAct->field_E28 = lpAct->field_D98 - lpAct->field_D9C;
+        if (lpAct->field_E28 <= 0) lpAct->field_E28 = 1;
     }
     if (GCL_GetOption('g'))
     {
         param = GCL_NextStr();
-        if (param) work->field_DA4 = GCL_StrToInt(param);
+        if (param) lpAct->field_DA4 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DA8 = GCL_StrToInt(param);
+        if (param) lpAct->field_DA8 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DAC = GCL_StrToInt(param);
+        if (param) lpAct->field_DAC = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DB0 = GCL_StrToInt(param);
+        if (param) lpAct->field_DB0 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DB4 = GCL_StrToInt(param) * 1000000 / 108000;
+        if (param) lpAct->field_DB4 = GCL_StrToInt(param) * 1000000 / 108000;
     }
     if (GCL_GetOption('c'))
     {
         param = GCL_NextStr();
-        if (param) work->field_DB8 = GCL_StrToInt(param);
+        if (param) lpAct->field_DB8 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DBC = GCL_StrToInt(param);
+        if (param) lpAct->field_DBC = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DC0 = GCL_StrToInt(param);
+        if (param) lpAct->field_DC0 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DC4 = GCL_StrToInt(param);
+        if (param) lpAct->field_DC4 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DC8 = GCL_StrToInt(param) * 1000000 / 108000;
+        if (param) lpAct->field_DC8 = GCL_StrToInt(param) * 1000000 / 108000;
     }
     if (GCL_GetOption('p'))
     {
         param = GCL_NextStr();
-        if (param) work->control.mov.vx = GCL_StrToInt(param);
+        if (param) lpAct->control.mov.vx = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->control.mov.vy = GCL_StrToInt(param);
+        if (param) lpAct->control.mov.vy = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->control.mov.vz = GCL_StrToInt(param);
+        if (param) lpAct->control.mov.vz = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->control.turn.vx = GCL_StrToInt(param) * 4096 / 360;
+        if (param) lpAct->control.turn.vx = GCL_StrToInt(param) * 4096 / 360;
         param = GCL_NextStr();
-        if (param) work->control.turn.vy = GCL_StrToInt(param) * 4096 / 360;
+        if (param) lpAct->control.turn.vy = GCL_StrToInt(param) * 4096 / 360;
         param = GCL_NextStr();
-        if (param) work->control.turn.vz = GCL_StrToInt(param) * 4096 / 360;
+        if (param) lpAct->control.turn.vz = GCL_StrToInt(param) * 4096 / 360;
         param = GCL_NextStr();
         if (param)
         {
             svec.vx = 0;
             svec.vy = 0;
             svec.vz = 0;
-            DG_SetPos2(&svec, &work->control.turn);
+            DG_SetPos2(&svec, &lpAct->control.turn);
             svec.vz = GCL_StrToInt(param) * 1000000 / 108000 * 16;
             DG_PutVector(&svec, &svec, 1);
-            work->field_E34 = svec.vx;
-            work->field_E38 = svec.vy;
-            work->field_E3C = svec.vz;
+            lpAct->field_E34.vx = svec.vx;
+            lpAct->field_E34.vy = svec.vy;
+            lpAct->field_E34.vz = svec.vz;
         }
         param = GCL_NextStr();
-        if (param) work->field_DCC.pad = GCL_StrToInt(param);
+        if (param) lpAct->field_DCC.pad = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DCC.vx = GCL_StrToInt(param);
+        if (param) lpAct->field_DCC.vx = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DCC.vy = GCL_StrToInt(param);
+        if (param) lpAct->field_DCC.vy = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DCC.vz = GCL_StrToInt(param);
+        if (param) lpAct->field_DCC.vz = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DD4.pad = GCL_StrToInt(param);
+        if (param) lpAct->field_DD4.pad = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DD4.vx = GCL_StrToInt(param) * 4096 / 360;
+        if (param) lpAct->field_DD4.vx = GCL_StrToInt(param) * 4096 / 360;
         param = GCL_NextStr();
-        if (param) work->field_DD4.vy = GCL_StrToInt(param) * 4096 / 360;
+        if (param) lpAct->field_DD4.vy = GCL_StrToInt(param) * 4096 / 360;
         param = GCL_NextStr();
-        if (param) work->field_DD4.vz = GCL_StrToInt(param) * 4096 / 360;
+        if (param) lpAct->field_DD4.vz = GCL_StrToInt(param) * 4096 / 360;
         param = GCL_NextStr();
-        if (param) work->field_DE2 = GCL_StrToInt(param);
+        if (param) lpAct->field_DE2 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DDC = GCL_StrToInt(param) * 4096 / 360;
+        if (param) lpAct->field_DDC = GCL_StrToInt(param) * 4096 / 360;
         param = GCL_NextStr();
-        if (param) work->field_DDE = GCL_StrToInt(param) * 4096 / 360;
+        if (param) lpAct->field_DDE = GCL_StrToInt(param) * 4096 / 360;
         param = GCL_NextStr();
-        if (param) work->field_DE0 = GCL_StrToInt(param) * 4096 / 360;
+        if (param) lpAct->field_DE0 = GCL_StrToInt(param) * 4096 / 360;
         param = GCL_NextStr();
-        if (param) work->field_DEA = GCL_StrToInt(param);
+        if (param) lpAct->field_DEA = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DE4 = GCL_StrToInt(param) * 4096 / 360;
+        if (param) lpAct->field_DE4 = GCL_StrToInt(param) * 4096 / 360;
         param = GCL_NextStr();
-        if (param) work->field_DE6 = GCL_StrToInt(param) * 4096 / 360;
+        if (param) lpAct->field_DE6 = GCL_StrToInt(param) * 4096 / 360;
         param = GCL_NextStr();
-        if (param) work->field_DE8 = GCL_StrToInt(param) * 4096 / 360;
+        if (param) lpAct->field_DE8 = GCL_StrToInt(param) * 4096 / 360;
     }
     if (GCL_GetOption('w'))
     {
         param = GCL_NextStr();
-        if (param) work->field_E04 = GCL_StrToInt(param) * 1000000 / 108000;
+        if (param) lpAct->field_E04 = GCL_StrToInt(param) * 1000000 / 108000;
         param = GCL_NextStr();
-        if (param) work->field_E08 = GCL_StrToInt(param);
+        if (param) lpAct->field_E08 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_E0C = GCL_StrToInt(param);
+        if (param) lpAct->field_E0C = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_E10 = GCL_StrToInt(param);
+        if (param) lpAct->field_E10 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_E14 = GCL_StrToInt(param);
+        if (param) lpAct->field_E14 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_E18 = GCL_StrToInt(param);
+        if (param) lpAct->field_E18 = GCL_StrToInt(param);
     }
     if (GCL_GetOption('o'))
     {
         param = GCL_NextStr();
-        if (param) work->field_DEC = GCL_StrToInt(param);
+        if (param) lpAct->field_DEC = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DF0 = GCL_StrToInt(param);
+        if (param) lpAct->field_DF0 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DF4 = GCL_StrToInt(param) * 4096 / 720;
+        if (param) lpAct->field_DF4 = GCL_StrToInt(param) * 4096 / 720;
         param = GCL_NextStr();
-        if (param) work->field_DF8 = GCL_StrToInt(param);
+        if (param) lpAct->field_DF8 = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_DFC = GCL_StrToInt(param);
+        if (param) lpAct->field_DFC = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_E00 = GCL_StrToInt(param);
+        if (param) lpAct->field_E00 = GCL_StrToInt(param);
     }
     else
     {
-        work->field_DEC = 2;
-        work->field_DF0 = 4;
-        work->field_DF4 = 0x31C;
-        work->field_DF8 = 0x2EE0;
-        work->field_DFC = 2;
-        work->field_E00 = 1;
+        lpAct->field_DEC = 2;
+        lpAct->field_DF0 = 4;
+        lpAct->field_DF4 = 0x31C;
+        lpAct->field_DF8 = 0x2EE0;
+        lpAct->field_DFC = 2;
+        lpAct->field_E00 = 1;
     }
     if (GCL_GetOption('z'))
     {
-        work->field_E1C = -1;
-        work->field_E20 = -1;
+        lpAct->field_E1C = -1;
+        lpAct->field_E20 = -1;
         param = GCL_NextStr();
-        if (param) work->field_E1C = GCL_StrToInt(param);
+        if (param) lpAct->field_E1C = GCL_StrToInt(param);
         param = GCL_NextStr();
-        if (param) work->field_E20 = GCL_StrToInt(param);
+        if (param) lpAct->field_E20 = GCL_StrToInt(param);
     }
 
-    work->control.r_sphere = -2;
-    work->control.interp = 0;
-    GM_ConfigControlAttribute(&work->control, 5);
+    lpAct->control.r_sphere = -2;
+    lpAct->control.interp = 0;
+    GM_ConfigControlAttribute(&lpAct->control, 5);
     strcode = GV_StrCode(s05a_dword_800E3414);
-    GM_InitObject(&work->body, strcode, 0x2D, 0);
-    GM_ConfigObjectJoint(&work->body);
-    GM_ConfigObjectLight(&work->body, &work->light[0]);
-    DG_InvisibleObjs(work->body.objs);
+    GM_InitObject(&lpAct->objBody, strcode, 0x2D, 0);
+    GM_ConfigObjectJoint(&lpAct->objBody);
+    GM_ConfigObjectLight(&lpAct->objBody, &lpAct->light[0]);
+    DG_InvisibleObjs(lpAct->objBody.objs);
 
     strcode = GV_StrCode(s05a_dword_800E341C);
-    GM_InitObject(&work->caterpillar_l[0], strcode, 0x2D, 0);
-    GM_ConfigObjectJoint(&work->caterpillar_l[0]);
-    GM_ConfigObjectLight(&work->caterpillar_l[0], &work->light[0]);
-    DG_InvisibleObjs(work->caterpillar_l[0].objs);
+    GM_InitObject(&lpAct->objLeftCater[0], strcode, 0x2D, 0);
+    GM_ConfigObjectJoint(&lpAct->objLeftCater[0]);
+    GM_ConfigObjectLight(&lpAct->objLeftCater[0], &lpAct->light[0]);
+    DG_InvisibleObjs(lpAct->objLeftCater[0].objs);
 
     strcode = GV_StrCode(s05a_dword_800E3424);
-    GM_InitObject(&work->caterpillar_l[1], strcode, 0x2D, 0);
-    GM_ConfigObjectJoint(&work->caterpillar_l[1]);
-    GM_ConfigObjectLight(&work->caterpillar_l[1], &work->light[0]);
-    DG_InvisibleObjs(work->caterpillar_l[1].objs);
+    GM_InitObject(&lpAct->objLeftCater[1], strcode, 0x2D, 0);
+    GM_ConfigObjectJoint(&lpAct->objLeftCater[1]);
+    GM_ConfigObjectLight(&lpAct->objLeftCater[1], &lpAct->light[0]);
+    DG_InvisibleObjs(lpAct->objLeftCater[1].objs);
 
     strcode = GV_StrCode(s05a_dword_800E342C);
-    GM_InitObject(&work->caterpillar_l[2], strcode, 0x2D, 0);
-    GM_ConfigObjectJoint(&work->caterpillar_l[2]);
-    GM_ConfigObjectLight(&work->caterpillar_l[2], &work->light[0]);
-    DG_InvisibleObjs(work->caterpillar_l[2].objs);
+    GM_InitObject(&lpAct->objLeftCater[2], strcode, 0x2D, 0);
+    GM_ConfigObjectJoint(&lpAct->objLeftCater[2]);
+    GM_ConfigObjectLight(&lpAct->objLeftCater[2], &lpAct->light[0]);
+    DG_InvisibleObjs(lpAct->objLeftCater[2].objs);
 
     strcode = GV_StrCode(s05a_dword_800E3434);
-    GM_InitObject(&work->caterpillar_r[0], strcode, 0x2D, 0);
-    GM_ConfigObjectJoint(&work->caterpillar_r[0]);
-    GM_ConfigObjectLight(&work->caterpillar_r[0], &work->light[0]);
-    DG_InvisibleObjs(work->caterpillar_r[0].objs);
+    GM_InitObject(&lpAct->objRightCater[0], strcode, 0x2D, 0);
+    GM_ConfigObjectJoint(&lpAct->objRightCater[0]);
+    GM_ConfigObjectLight(&lpAct->objRightCater[0], &lpAct->light[0]);
+    DG_InvisibleObjs(lpAct->objRightCater[0].objs);
 
     strcode = GV_StrCode(s05a_dword_800E343C);
-    GM_InitObject(&work->caterpillar_r[1], strcode, 0x2D, 0);
-    GM_ConfigObjectJoint(&work->caterpillar_r[1]);
-    GM_ConfigObjectLight(&work->caterpillar_r[1], &work->light[0]);
-    DG_InvisibleObjs(work->caterpillar_r[1].objs);
+    GM_InitObject(&lpAct->objRightCater[1], strcode, 0x2D, 0);
+    GM_ConfigObjectJoint(&lpAct->objRightCater[1]);
+    GM_ConfigObjectLight(&lpAct->objRightCater[1], &lpAct->light[0]);
+    DG_InvisibleObjs(lpAct->objRightCater[1].objs);
 
     strcode = GV_StrCode(s05a_dword_800E3444);
-    GM_InitObject(&work->caterpillar_r[2], strcode, 0x2D, 0);
-    GM_ConfigObjectJoint(&work->caterpillar_r[2]);
-    GM_ConfigObjectLight(&work->caterpillar_r[2], &work->light[0]);
-    DG_InvisibleObjs(work->caterpillar_r[2].objs);
-    work->field_E84 = 0x53;
-    work->field_F44 = work->field_DA8 >> 1;
-    work->field_F48 = work->field_DB8 >> 1;
+    GM_InitObject(&lpAct->objRightCater[2], strcode, 0x2D, 0);
+    GM_ConfigObjectJoint(&lpAct->objRightCater[2]);
+    GM_ConfigObjectLight(&lpAct->objRightCater[2], &lpAct->light[0]);
+    DG_InvisibleObjs(lpAct->objRightCater[2].objs);
+    lpAct->nCaterLength = 0x53;
+    lpAct->field_F44 = lpAct->field_DA8 >> 1;
+    lpAct->field_F48 = lpAct->field_DB8 >> 1;
 
-    work->field_E8C.vx =
-        (u_short)work->caterpillar_l[0].objs->objs[0].model->lx +
-        ((work->caterpillar_l[0].objs->objs[0].model->ux -
-          work->caterpillar_l[0].objs->objs[0].model->lx) / 2);
-    work->field_E94.vx =
-        (u_short)work->caterpillar_r[0].objs->objs[0].model->lx +
-        ((work->caterpillar_r[0].objs->objs[0].model->ux -
-          work->caterpillar_r[0].objs->objs[0].model->lx) / 2);
-    DG_SetPos2(&work->control.mov, &work->control.rot);
-    DG_PutVector(&work->field_E8C, &work->field_E8C, 1);
-    DG_PutVector(&work->field_E94, &work->field_E94, 1);
+    lpAct->svectLeftCater.vx =
+        (u_short)lpAct->objLeftCater[0].objs->objs[0].model->lx +
+        ((lpAct->objLeftCater[0].objs->objs[0].model->ux -
+          lpAct->objLeftCater[0].objs->objs[0].model->lx) / 2);
+    lpAct->svectRightCater.vx =
+        (u_short)lpAct->objRightCater[0].objs->objs[0].model->lx +
+        ((lpAct->objRightCater[0].objs->objs[0].model->ux -
+          lpAct->objRightCater[0].objs->objs[0].model->lx) / 2);
+    DG_SetPos2(&lpAct->control.mov, &lpAct->control.rot);
+    DG_PutVector(&lpAct->svectLeftCater, &lpAct->svectLeftCater, 1);
+    DG_PutVector(&lpAct->svectRightCater, &lpAct->svectRightCater, 1);
 
-    DG_VisibleObjs(work->caterpillar_l[work->field_E74].objs);
-    DG_VisibleObjs(work->caterpillar_r[work->field_E78].objs);
-    if (work->field_E08 > 0)
+    DG_VisibleObjs(lpAct->objLeftCater[lpAct->field_E74].objs);
+    DG_VisibleObjs(lpAct->objRightCater[lpAct->field_E78].objs);
+    if (lpAct->field_E08 > 0)
     {
-        work->field_EDC = NewM1Throw(GV_StrCode(s05a_dword_800E344C));
+        lpAct->lpM1Throw = NewM1Throw(GV_StrCode(s05a_dword_800E344C));
         flag = 0x150;
-        work->field_D54 = 1;
+        lpAct->field_D54 = 1;
         GM_lpfnPlayerActControl = (int (*)(GV_ACT *))s05a_800E00EC;
         GM_lpfnPlayerActObject2 = (int (*)(GV_ACT *))s05a_800E066C;
         GM_lpfnBombHoming       = (int (*)(CONTROL *, int, int *))s05a_800DEDE8;
@@ -443,162 +337,162 @@ void *NewM1E1(int name, int where)
     }
     else
     {
-        work->field_D54 = 6;
-        if (work->field_DCC.pad) work->control.mov = work->field_DCC;
-        if (work->field_DD4.pad) work->control.turn = work->field_DD4;
-        if (work->field_DE2)
+        lpAct->field_D54 = 6;
+        if (lpAct->field_DCC.pad) lpAct->control.mov = lpAct->field_DCC;
+        if (lpAct->field_DD4.pad) lpAct->control.turn = lpAct->field_DD4;
+        if (lpAct->field_DE2)
         {
-            work->body.rots[3].vy = work->field_DDE;
-            work->body.rots[5].vx = work->field_DDC;
-            work->body.rots[11].vx = work->field_DE8;
+            lpAct->objBody.rots[3].vy = lpAct->field_DDE;
+            lpAct->objBody.rots[5].vx = lpAct->field_DDC;
+            lpAct->objBody.rots[11].vx = lpAct->field_DE8;
         }
-        if (work->field_DEA)
+        if (lpAct->field_DEA)
         {
             short t;
-            t = (svec.vy = work->field_DE6);
+            t = (svec.vy = lpAct->field_DE6);
             if (t < -0xE3) { svec.vy = t; t = -0xE3; }
             svec.vy = t;
             if (t >= 0xE4) t = 0xE3;
             svec.vy = t;
-            work->body.rots[13].vy = t;
-            t = work->field_DE6 - svec.vy;
+            lpAct->objBody.rots[13].vy = t;
+            t = lpAct->field_DE6 - svec.vy;
             svec.vy = t;
             if (t < -0x155) t = -0x155;
             svec.vy = t;
             if (t >= 0x71D) t = 0x71C;
             svec.vy = t;
-            work->body.rots[12].vy = t;
-            work->body.rots[13].vx = work->field_DE4;
+            lpAct->objBody.rots[12].vy = t;
+            lpAct->objBody.rots[13].vx = lpAct->field_DE4;
         }
         flag = 0x100;
     }
-    work->field_F8C[0] = work->body.objs->objs[0].model->lx; /* F8C */
-    work->field_F8C[1] = work->body.objs->objs[0].model->ly; /* F8E */
-    work->field_F8C[2] = work->body.objs->objs[0].model->lz; /* F90 */
-    work->field_F8C[4] = work->body.objs->objs[0].model->ux; /* F94 */
-    work->field_F8C[5] = work->body.objs->objs[0].model->uy; /* F96 */
-    work->field_F8C[6] = work->body.objs->objs[0].model->uz; /* F98 */
-    if (work->field_F8C[1] < 0x258) work->field_F8C[1] = 0x258;
-    if (work->field_F8C[5] < work->field_F8C[1]) work->field_F8C[5] = work->field_F8C[1];
+    lpAct->bbox[0].vx = lpAct->objBody.objs->objs[0].model->lx; /* F8C */
+    lpAct->bbox[0].vy = lpAct->objBody.objs->objs[0].model->ly; /* F8E */
+    lpAct->bbox[0].vz = lpAct->objBody.objs->objs[0].model->lz; /* F90 */
+    lpAct->bbox[1].vx = lpAct->objBody.objs->objs[0].model->ux; /* F94 */
+    lpAct->bbox[1].vy = lpAct->objBody.objs->objs[0].model->uy; /* F96 */
+    lpAct->bbox[1].vz = lpAct->objBody.objs->objs[0].model->uz; /* F98 */
+    if (lpAct->bbox[0].vy < 0x258) lpAct->bbox[0].vy = 0x258;
+    if (lpAct->bbox[1].vy < lpAct->bbox[0].vy) lpAct->bbox[1].vy = lpAct->bbox[0].vy;
 
-    work->field_F8C[8]  = work->body.objs->objs[2].model->lx; /* F9C */
-    work->field_F8C[9]  = work->body.objs->objs[2].model->ly; /* F9E */
-    work->field_F8C[10] = work->body.objs->objs[2].model->lz; /* FA0 */
-    work->field_F8C[12] = work->body.objs->objs[2].model->ux; /* FA4 */
-    work->field_F8C[13] = work->body.objs->objs[2].model->uy; /* FA6 */
-    work->field_F8C[14] = work->body.objs->objs[2].model->uz; /* FA8 */
-    if (work->field_F8C[9] < 0x258) work->field_F8C[9] = 0x258;
-    if (work->field_F8C[13] < work->field_F8C[9]) work->field_F8C[13] = work->field_F8C[9];
+    lpAct->bbox[2].vx = lpAct->objBody.objs->objs[2].model->lx; /* F9C */
+    lpAct->bbox[2].vy = lpAct->objBody.objs->objs[2].model->ly; /* F9E */
+    lpAct->bbox[2].vz = lpAct->objBody.objs->objs[2].model->lz; /* FA0 */
+    lpAct->bbox[3].vx = lpAct->objBody.objs->objs[2].model->ux; /* FA4 */
+    lpAct->bbox[3].vy = lpAct->objBody.objs->objs[2].model->uy; /* FA6 */
+    lpAct->bbox[3].vz = lpAct->objBody.objs->objs[2].model->uz; /* FA8 */
+    if (lpAct->bbox[2].vy < 0x258) lpAct->bbox[2].vy = 0x258;
+    if (lpAct->bbox[3].vy < lpAct->bbox[2].vy) lpAct->bbox[3].vy = lpAct->bbox[2].vy;
 
-    work->field_F8C[16] = work->caterpillar_l[0].objs->objs[0].model->lx; /* FAC */
-    work->field_F8C[17] = work->caterpillar_l[0].objs->objs[0].model->ly; /* FAE */
-    work->field_F8C[18] = work->caterpillar_l[0].objs->objs[0].model->lz; /* FB0 */
-    work->field_F8C[20] = work->caterpillar_l[0].objs->objs[0].model->ux; /* FB4 */
-    work->field_F8C[21] = work->caterpillar_l[0].objs->objs[0].model->uy; /* FB6 */
-    work->field_F8C[22] = work->caterpillar_l[0].objs->objs[0].model->uz; /* FB8 */
-    if (work->field_F8C[17] < 0x258) work->field_F8C[17] = 0x258;
-    if (work->field_F8C[21] < work->field_F8C[17]) work->field_F8C[21] = work->field_F8C[17];
+    lpAct->bbox[4].vx = lpAct->objLeftCater[0].objs->objs[0].model->lx; /* FAC */
+    lpAct->bbox[4].vy = lpAct->objLeftCater[0].objs->objs[0].model->ly; /* FAE */
+    lpAct->bbox[4].vz = lpAct->objLeftCater[0].objs->objs[0].model->lz; /* FB0 */
+    lpAct->bbox[5].vx = lpAct->objLeftCater[0].objs->objs[0].model->ux; /* FB4 */
+    lpAct->bbox[5].vy = lpAct->objLeftCater[0].objs->objs[0].model->uy; /* FB6 */
+    lpAct->bbox[5].vz = lpAct->objLeftCater[0].objs->objs[0].model->uz; /* FB8 */
+    if (lpAct->bbox[4].vy < 0x258) lpAct->bbox[4].vy = 0x258;
+    if (lpAct->bbox[5].vy < lpAct->bbox[4].vy) lpAct->bbox[5].vy = lpAct->bbox[4].vy;
 
-    work->field_F8C[24] = work->caterpillar_r[0].objs->objs[0].model->lx; /* FBC */
-    work->field_F8C[25] = work->caterpillar_r[0].objs->objs[0].model->ly; /* FBE */
-    work->field_F8C[26] = work->caterpillar_r[0].objs->objs[0].model->lz; /* FC0 */
-    work->field_F8C[28] = work->caterpillar_r[0].objs->objs[0].model->ux; /* FC4 */
-    work->field_F8C[29] = work->caterpillar_r[0].objs->objs[0].model->uy; /* FC6 */
-    work->field_F8C[30] = work->caterpillar_r[0].objs->objs[0].model->uz; /* FC8 */
-    if (work->field_F8C[25] < 0x258) work->field_F8C[25] = 0x258;
-    if (work->field_F8C[29] < work->field_F8C[25]) work->field_F8C[29] = work->field_F8C[25];
+    lpAct->bbox[6].vx = lpAct->objRightCater[0].objs->objs[0].model->lx; /* FBC */
+    lpAct->bbox[6].vy = lpAct->objRightCater[0].objs->objs[0].model->ly; /* FBE */
+    lpAct->bbox[6].vz = lpAct->objRightCater[0].objs->objs[0].model->lz; /* FC0 */
+    lpAct->bbox[7].vx = lpAct->objRightCater[0].objs->objs[0].model->ux; /* FC4 */
+    lpAct->bbox[7].vy = lpAct->objRightCater[0].objs->objs[0].model->uy; /* FC6 */
+    lpAct->bbox[7].vz = lpAct->objRightCater[0].objs->objs[0].model->uz; /* FC8 */
+    if (lpAct->bbox[6].vy < 0x258) lpAct->bbox[6].vy = 0x258;
+    if (lpAct->bbox[7].vy < lpAct->bbox[6].vy) lpAct->bbox[7].vy = lpAct->bbox[6].vy;
 
-    work->field_F8C[32] = work->body.objs->objs[4].model->lx + 0xC8;  /* FCC */
-    work->field_F8C[33] = work->body.objs->objs[4].model->ly;          /* FCE */
-    work->field_F8C[34] = work->body.objs->objs[4].model->lz;          /* FD0 */
-    work->field_F8C[36] = work->body.objs->objs[4].model->ux - 0xC8;  /* FD4 */
-    work->field_F8C[37] = work->body.objs->objs[4].model->uy;          /* FD6 */
-    work->field_F8C[38] = work->body.objs->objs[4].model->uz - 0x2BC; /* FD8 */
+    lpAct->bbox[8].vx = lpAct->objBody.objs->objs[4].model->lx + 0xC8;  /* FCC */
+    lpAct->bbox[8].vy = lpAct->objBody.objs->objs[4].model->ly;         /* FCE */
+    lpAct->bbox[8].vz = lpAct->objBody.objs->objs[4].model->lz;         /* FD0 */
+    lpAct->bbox[9].vx = lpAct->objBody.objs->objs[4].model->ux - 0xC8;  /* FD4 */
+    lpAct->bbox[9].vy = lpAct->objBody.objs->objs[4].model->uy;         /* FD6 */
+    lpAct->bbox[9].vz = lpAct->objBody.objs->objs[4].model->uz - 0x2BC; /* FD8 */
 
-    work->field_F8C[41] = work->body.objs->objs[5].model->ly - 0x1F4; /* FDE */
-    work->field_F8C[42] = work->body.objs->objs[5].model->lz;          /* FE0 */
-    work->field_F8C[44] = work->body.objs->objs[5].model->ux;          /* FE4 */
-    work->field_F8C[45] = work->body.objs->objs[5].model->uy + 0x12C; /* FE6 */
-    work->field_F8C[46] = work->body.objs->objs[5].model->uz - 0x12C; /* FE8 */
-    work->field_F8C[40] = -work->field_F8C[44];                                /* FDC */
+    lpAct->bbox[10].vy = lpAct->objBody.objs->objs[5].model->ly - 0x1F4; /* FDE */
+    lpAct->bbox[10].vz = lpAct->objBody.objs->objs[5].model->lz;         /* FE0 */
+    lpAct->bbox[11].vx = lpAct->objBody.objs->objs[5].model->ux;         /* FE4 */
+    lpAct->bbox[11].vy = lpAct->objBody.objs->objs[5].model->uy + 0x12C; /* FE6 */
+    lpAct->bbox[11].vz = lpAct->objBody.objs->objs[5].model->uz - 0x12C; /* FE8 */
+    lpAct->bbox[10].vx = -lpAct->bbox[11].vx;                            /* FDC */
 
-    if (work->field_D54 == 6)
+    if (lpAct->field_D54 == 6)
     {
-        work->field_F8C[1]  = 0;
-        work->field_F8C[9]  = 0;
-        work->field_F8C[17] = 0;
-        work->field_F8C[25] = 0;
-        work->field_F8C[41] = 0;
+        lpAct->bbox[0].vy = 0;
+        lpAct->bbox[2].vy = 0;
+        lpAct->bbox[4].vy = 0;
+        lpAct->bbox[6].vy = 0;
+        lpAct->bbox[10].vy = 0;
     }
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[0].seg[0], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[0].seg[1], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[0].seg[2], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[0].seg[3], flag);
-    HZD_QueueDynamicFloor(work->control.map->hzd, &work->hzd_queue[0].flr[0]);
-    HZD_QueueDynamicFloor(work->control.map->hzd, &work->hzd_queue[0].flr[1]);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[0].seg[0], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[0].seg[1], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[0].seg[2], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[0].seg[3], flag);
+    HZD_QueueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[0].flr[0]);
+    HZD_QueueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[0].flr[1]);
 
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[1].seg[0], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[1].seg[1], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[1].seg[2], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[1].seg[3], flag);
-    HZD_QueueDynamicFloor(work->control.map->hzd, &work->hzd_queue[1].flr[0]);
-    HZD_QueueDynamicFloor(work->control.map->hzd, &work->hzd_queue[1].flr[1]);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[1].seg[0], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[1].seg[1], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[1].seg[2], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[1].seg[3], flag);
+    HZD_QueueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[1].flr[0]);
+    HZD_QueueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[1].flr[1]);
 
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[2].seg[0], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[2].seg[1], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[2].seg[2], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[2].seg[3], flag);
-    HZD_QueueDynamicFloor(work->control.map->hzd, &work->hzd_queue[2].flr[0]);
-    HZD_QueueDynamicFloor(work->control.map->hzd, &work->hzd_queue[2].flr[1]);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[2].seg[0], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[2].seg[1], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[2].seg[2], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[2].seg[3], flag);
+    HZD_QueueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[2].flr[0]);
+    HZD_QueueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[2].flr[1]);
 
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[3].seg[0], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[3].seg[1], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[3].seg[2], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[3].seg[3], flag);
-    HZD_QueueDynamicFloor(work->control.map->hzd, &work->hzd_queue[3].flr[0]);
-    HZD_QueueDynamicFloor(work->control.map->hzd, &work->hzd_queue[3].flr[1]);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[3].seg[0], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[3].seg[1], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[3].seg[2], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[3].seg[3], flag);
+    HZD_QueueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[3].flr[0]);
+    HZD_QueueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[3].flr[1]);
 
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[4].seg[0], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[4].seg[1], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[4].seg[2], flag);
-    HZD_QueueDynamicSegment2(work->control.map->hzd, &work->hzd_queue[4].seg[3], flag);
-    HZD_QueueDynamicFloor(work->control.map->hzd, &work->hzd_queue[4].flr[0]);
-    HZD_QueueDynamicFloor(work->control.map->hzd, &work->hzd_queue[4].flr[1]);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[4].seg[0], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[4].seg[1], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[4].seg[2], flag);
+    HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[4].seg[3], flag);
+    HZD_QueueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[4].flr[0]);
+    HZD_QueueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[4].flr[1]);
     for (s1 = 0; s1 < 8; s1++)
     {
-        work->body.objs->objs[s1].world = DG_ZeroMatrix;
+        lpAct->objBody.objs->objs[s1].world = DG_ZeroMatrix;
     }
 
-    s05a_dword_800C362C = work;
-    work->control.rot.vx = work->control.turn.vx;
-    work->control.rot.vy = work->control.turn.vy;
-    work->control.rot.vz = work->control.turn.vz;
+    s05a_dword_800C362C = lpAct;
+    lpAct->control.rot.vx = lpAct->control.turn.vx;
+    lpAct->control.rot.vy = lpAct->control.turn.vy;
+    lpAct->control.rot.vz = lpAct->control.turn.vz;
 
-    if (work->field_D54 == 6)
+    if (lpAct->field_D54 == 6)
     {
-        return work;
+        return (void *)lpAct;
     }
 
     {
         char    *q;
         int      off2;
 
-        work->field_E7C = 0x3E7;
-        work->field_E80 = 0x3E7;
-        work->field_A80 =
-            (work->caterpillar_l[0].objs->objs[0].model->ux -
-             work->caterpillar_l[0].objs->objs[0].model->lx) / 3;
+        lpAct->nLeftCaterDirection = 0x3E7;
+        lpAct->nRightCaterDirection = 0x3E7;
+        lpAct->field_A80 =
+            (lpAct->objLeftCater[0].objs->objs[0].model->ux -
+             lpAct->objLeftCater[0].objs->objs[0].model->lx) / 3;
 
         s1 = 0;
-        svec.vx = (u_short)work->field_A80;
-        svec.vz = (u_short)work->field_A80;
+        svec.vx = (u_short)lpAct->field_A80;
+        svec.vz = (u_short)lpAct->field_A80;
         svec.vy = 0x258;
         for (; s1 < 10; s1++)
         {
             TARGET *t = GM_AllocTarget();
-            work->field_718[s1] = t;
+            lpAct->lpTarget[s1] = t;
             GM_SetTarget(t, 0xC, 2, &svec);
-            GM_SetPowerTarget(work->field_718[s1], 1, -1, 0x2710, 0, &DG_ZeroVector);
+            GM_SetPowerTarget(lpAct->lpTarget[s1], 1, -1, 0x2710, 0, &DG_ZeroVector);
         }
 
         svec.vy = 0x32;
@@ -608,47 +502,47 @@ void *NewM1E1(int name, int where)
             off2 = 0xA84;
             for (; s1 < 10; s1++)
             {
-                q = (char *)work + off2;
+                q = (char *)lpAct + off2;
                 GM_SetTarget((TARGET *)q, 4, 2, &svec);
-                GM_SetPowerTarget((TARGET *)q, 1, 2, work->field_DA0, 0, zv);
+                GM_SetPowerTarget((TARGET *)q, 1, 2, lpAct->field_DA0, 0, zv);
                 off2 += 0x48;
             }
         }
 
-        work->field_8C8 =
-            (work->body.objs->objs[0].model->ux -
-             work->body.objs->objs[0].model->lx) / 3;
-        work->field_95C =
-            (work->body.objs->objs[0].model->ux -
-             work->body.objs->objs[0].model->lx) >> 2;
-        svec.vx = (u_short)work->field_8C8;
-        svec.vz = (u_short)work->field_8C8;
+        lpAct->field_8C8 =
+            (lpAct->objBody.objs->objs[0].model->ux -
+             lpAct->objBody.objs->objs[0].model->lx) / 3;
+        lpAct->field_95C =
+            (lpAct->objBody.objs->objs[0].model->ux -
+             lpAct->objBody.objs->objs[0].model->lx) >> 2;
+        svec.vx = (u_short)lpAct->field_8C8;
+        svec.vz = (u_short)lpAct->field_8C8;
         svec.vy =
-            (work->body.objs->objs[0].model->uy -
-             work->body.objs->objs[0].model->ly) / 6;
-        GM_SetTarget((TARGET *)&work->field_8CC, 4, 2, &svec);
-        GM_SetTarget((TARGET *)&work->field_914, 4, 2, &svec);
-        svec.vx = (u_short)work->field_95C;
-        svec.vz = (u_short)work->field_95C;
-        GM_SetTarget((TARGET *)&work->field_960, 4, 2, &svec);
-        GM_SetTarget((TARGET *)&work->field_9A8, 4, 2, &svec);
-        GM_SetTarget((TARGET *)&work->field_9F0, 4, 2, &svec);
-        GM_SetTarget((TARGET *)&work->field_A38, 4, 2, &svec);
-        GM_SetPowerTarget((TARGET *)&work->field_8CC, 1, 2, 0, 0, &DG_ZeroVector);
-        GM_SetPowerTarget((TARGET *)&work->field_914, 1, 2, 0, 0, &DG_ZeroVector);
-        GM_SetPowerTarget((TARGET *)&work->field_960, 1, 2, 0, 0, &DG_ZeroVector);
-        GM_SetPowerTarget((TARGET *)&work->field_9A8, 1, 2, 0, 0, &DG_ZeroVector);
-        GM_SetPowerTarget((TARGET *)&work->field_9F0, 1, 2, 0, 0, &DG_ZeroVector);
-        GM_SetPowerTarget((TARGET *)&work->field_A38, 1, 2, 0, 0, &DG_ZeroVector);
-        memcpy(work->field_8AC, &s05a_dword_800E3454, 7);
-        work->field_8BC.name = work->field_8AC;
-        work->field_8BC.left[0] = 0x10;
-        work->field_8BC.left[1] = 0x6F;
-        work->field_8BC.left[2] = 0x9F;
-        work->field_8BC.right[0] = 0x1F;
-        work->field_8BC.right[1] = 0xDF;
-        work->field_8BC.right[2] = 0x7F;
+            (lpAct->objBody.objs->objs[0].model->uy -
+             lpAct->objBody.objs->objs[0].model->ly) / 6;
+        GM_SetTarget(&lpAct->target0, 4, 2, &svec);
+        GM_SetTarget(&lpAct->target1, 4, 2, &svec);
+        svec.vx = (u_short)lpAct->field_95C;
+        svec.vz = (u_short)lpAct->field_95C;
+        GM_SetTarget(&lpAct->target2, 4, 2, &svec);
+        GM_SetTarget(&lpAct->target3, 4, 2, &svec);
+        GM_SetTarget(&lpAct->target4, 4, 2, &svec);
+        GM_SetTarget(&lpAct->target5, 4, 2, &svec);
+        GM_SetPowerTarget(&lpAct->target0, 1, 2, 0, 0, &DG_ZeroVector);
+        GM_SetPowerTarget(&lpAct->target1, 1, 2, 0, 0, &DG_ZeroVector);
+        GM_SetPowerTarget(&lpAct->target2, 1, 2, 0, 0, &DG_ZeroVector);
+        GM_SetPowerTarget(&lpAct->target3, 1, 2, 0, 0, &DG_ZeroVector);
+        GM_SetPowerTarget(&lpAct->target4, 1, 2, 0, 0, &DG_ZeroVector);
+        GM_SetPowerTarget(&lpAct->target5, 1, 2, 0, 0, &DG_ZeroVector);
+        memcpy(lpAct->life_name, &s05a_dword_800E3454, 7);
+        lpAct->life_conf.name = lpAct->life_name;
+        lpAct->life_conf.left[0] = 0x10;
+        lpAct->life_conf.left[1] = 0x6F;
+        lpAct->life_conf.left[2] = 0x9F;
+        lpAct->life_conf.right[0] = 0x1F;
+        lpAct->life_conf.right[1] = 0xDF;
+        lpAct->life_conf.right[2] = 0x7F;
     }
 
-    return work;
+    return (void *)lpAct;
 }
