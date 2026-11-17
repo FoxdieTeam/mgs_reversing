@@ -429,8 +429,7 @@ BOOL FrameRunDemo(
         lpEAct->bCheck = TRUE;
         lpEAct->effect = *lpEffect;
 
-        // TODO: Get rid of this cast.
-        if(ShowEffect(lpAct, (LPMGSDEMOEFFECT)lpEffect, lpEAct) == 0)
+        if(ShowEffect(lpAct, lpEffect, lpEAct) == 0)
             return 0;
     }
 
