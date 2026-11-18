@@ -29,8 +29,7 @@ extern int   s05a_dword_800C3638;
 extern void GetHazard2(HZD_SEG *seg, HZD_FLR *flr, MATRIX *pTransform,
                          SVECTOR *pMin, SVECTOR *pMax);
 extern void AN_Smoke_800CE08C(SVECTOR *pos);
-extern void *s05a_800DAE58(int name, MATRIX *mat, int side, SVECTOR *target_pos, int vital, int range, int speed,
-                           int *result);
+extern void *NewM1E1Shell(int nName, MATRIX *lpWorld, int nSide, SVECTOR *lpsvectTarget, int nVital, int nLength, int nSpeed, int *lpnResult);
 extern void *s05a_800DDCBC(LPM1E1ACT lpParent);
 
 void s05a_800D627C(LPM1E1ACT lpAct);
@@ -1392,7 +1391,7 @@ void s05a_800D797C(LPM1E1ACT lpAct)
     {
         lpAct->field_ECC++;
         GM_SeSetPan(&lpAct->control.mov, 0xB8, lpAct->nSoundVolume);
-        s05a_800DAE58(GV_StrCode("m1e1shel"), &mtx, 2, NULL, lpAct->field_DC0, lpAct->field_DC4 * 2,
+        NewM1E1Shell(GV_StrCode("m1e1shel"), &mtx, 2, NULL, lpAct->field_DC0, lpAct->field_DC4 * 2,
                       lpAct->field_DC8, &lpAct->field_EC0);
     }
     else

@@ -36,7 +36,7 @@ void s05a_800DC224(Work *work);
 /******************************************************************************
  */
 
-void *s05a_800DBF58(int type, SVECTOR *a1, SVECTOR *a2)
+void *NewM1E1Smoke(int type, SVECTOR *a1, SVECTOR *a2)
 {
     Work *work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
 
