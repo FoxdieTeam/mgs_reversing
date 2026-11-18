@@ -2052,10 +2052,25 @@ mgs_reversing also provides a helper script `run.py` that starts the built game 
     3. You should run this command in a separate command prompt. While this command is running, you can rebuild the game (with `python3 build.py --variant=dev_exe`) and the tool will automatically relaunch the emulator with the latest build.
 
 ### Mac OS
-In order to build on Mac OS you need to install wine using brew
+The Homebrew cask `wine-stable` has been **disabled** (it does not pass the macOS Gatekeeper check), so `brew install --cask wine-stable` no longer works and the Wine based setup above is not available on a current macOS.
+
+Instead, use [psyq-sdk](https://github.com/nicoSWD/psyq-sdk), a native re-implementation of the PsyQ command line tools (preprocessor, compiler, assemblers, linker). It runs on Apple Silicon and Intel without Wine or an emulator, and `build.py` picks it up automatically.
+
 ```
-brew install --cask --no-quarantine wine-stable
+xcode-select --install          # clang, make, git
+brew install autoconf gperf     # needed to build the compiler from source
+git clone https://github.com/nicoSWD/psyq-sdk.git
+make -C psyq-sdk
+git clone https://github.com/FoxdieTeam/psyq_sdk.git   # the original libraries and headers are still required
+git clone https://github.com/FoxdieTeam/mgs_reversing.git
+cd mgs_reversing/build/
+pip3 install -r requirements.txt
+python3 build.py
 ```
+
+`build.py` looks for `psyq-sdk` next to this repository. Set `PSYQ_NATIVE=/path/to/psyq-sdk` to use another location, or `PSYQ_NATIVE=0` to ignore it. When it is in use, `build.py` prints `using the native PsyQ toolchain in ...`.
+
+The native tools reproduce the original output byte for byte for the vast majority of files, but not all of them yet: the PsyQ 4.3 compiler (used by a few files) has no source available, and a few other files are scheduled differently. psyq-sdk can serve those from a cache of output made with the original compiler (see its README), so on a machine without that cache the affected files fail to build.
 
 ### Matching builds (main executable, VR executable)
 

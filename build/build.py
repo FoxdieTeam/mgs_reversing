@@ -20,6 +20,20 @@ os.environ['TMPDIR'] = tempfile.gettempdir()
 # Keep this overrideable from the shell by using setdefault.
 os.environ.setdefault('MVK_CONFIG_LOG_LEVEL', '0')
 
+# Native (no wine, no emulator) PsyQ toolchain: https://github.com/nicoSWD/psyq-sdk
+# Used automatically when it has been built (`make`) in a checkout next to this repository, or at $PSYQ_NATIVE.
+# PSYQ_NATIVE=0 disables it.
+native_dir = os.environ.get('PSYQ_NATIVE')
+if native_dir is None:
+    here = os.path.dirname(os.path.abspath(__file__))
+    candidates = [os.path.abspath(os.path.join(here, '..', '..', d)) for d in ('psyq-sdk', 'psyq-native')]
+    native_dir = next((c for c in candidates if os.path.exists(os.path.join(c, 'bin', 'cc1psx'))), candidates[0])
+def native_tool(path):
+    return os.path.join(native_dir, path)
+has_native = native_dir != '0' and all(os.path.exists(native_tool(p)) for p in (
+    'bin/cpppsx', 'bin/cc1psx', 'bin/aspsx', 'bin/asmpsx', 'bin/psylink', 'bin/psylink_overlay_fopen_mod',
+    'bin/cpe2exe', 'tools/cc1psx_wrapper.py'))
+
 has_wine = bool(which('wine'))
 has_wibo = bool(which('wibo'))
 has_cpp = bool(which('cpp'))
@@ -217,6 +231,21 @@ ninja.newline()
 ninja.variable("psyq_psylink_overlay_fopen_mod_exe", prefix("wibo", "$psyq_path/psyq_4.4/bin/psylink_overlay_fopen_mod.exe"))
 ninja.newline()
 
+if has_native:
+    print("using the native PsyQ toolchain in " + native_dir)
+    ninja.variable("psyq_c_preprocessor_44_exe", f"{native_tool('bin/cpppsx')} {preprocessor_defines}")
+    ninja.variable("psyq_c_preprocessor_43_exe", f"{native_tool('bin/cpppsx')} {preprocessor_defines}")
+    cc1_wrapper = f"{sys.executable} {native_tool('tools/cc1psx_wrapper.py')}"
+    ninja.variable("psyq_cc_44_exe", f"{cc1_wrapper} --ver 4.4")
+    ninja.variable("psyq_cc_43_exe", f"{cc1_wrapper} --ver 4.3")
+    ninja.variable("psyq_aspsx_44_exe", native_tool('bin/aspsx'))
+    ninja.variable("psyq_aspsx_2_56_exe", native_tool('bin/aspsx'))
+    ninja.variable("psyq_aspsx_2_81_exe", native_tool('bin/aspsx'))
+    ninja.variable("psyq_asmpsx_44_exe", native_tool('bin/asmpsx'))
+    ninja.variable("psyq_psylink_exe", native_tool('bin/psylink'))
+    ninja.variable("psyq_psylink_overlay_fopen_mod_exe", native_tool('bin/psylink_overlay_fopen_mod'))
+    ninja.newline()
+
 ninja.variable("src_dir", "../source")
 ninja.newline()
 
@@ -291,7 +320,10 @@ ninja.newline()
 
 # TODO: update the tool so we can set the output name optionally
 # cmd /c doesn't like forward slashed relative paths
-ninja.rule("cpe2exe", prefix("wine", "cmd /c \"$psyq_path_backslashed\\psyq_4.3\\bin\\cpe2exe.exe -CJ $in > NUL\""), "cpe2exe $in -> $out")
+if has_native:
+    ninja.rule("cpe2exe", f"{native_tool('bin/cpe2exe')} -CJ $in $out", "cpe2exe $in -> $out")
+else:
+    ninja.rule("cpe2exe", prefix("wine", "cmd /c \"$psyq_path_backslashed\\psyq_4.3\\bin\\cpe2exe.exe -CJ $in > NUL\""), "cpe2exe $in -> $out")
 ninja.newline()
 
 ninja.rule("hash_check", f"{sys.executable} $src_dir/../build/compare.py $in", "Hash check $in")
