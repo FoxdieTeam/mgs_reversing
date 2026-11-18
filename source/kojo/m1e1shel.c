@@ -6,414 +6,404 @@
 #include <libgte.h>
 #include <libgpu.h>
 #include "game/game.h"
+#include "kojo/common.h"
 
 /******************************************************************************
  */
 
-typedef struct _Work
-{
-    GV_ACT  actor;       /* 0x000 */
-    CONTROL control;     /* 0x020 */
-    OBJECT  body;        /* 0x09C */
-    MATRIX  light[2];    /* 0x180 */
-    TARGET  target;      /* 0x1C0 */
-    MATRIX  field_208;   /* 0x208 */
-    SVECTOR *field_228;  /* 0x228 */
-    SVECTOR field_22C;   /* 0x22C */
-    int     field_234;   /* 0x234 */
-    int     field_238;   /* 0x238 */
-    int     field_23C;   /* 0x23C */
-    int    *field_240;   /* 0x240 */
-    int     field_244;   /* 0x244 */
-    int     field_248;   /* 0x248 */
-} Work;
-
-typedef struct _Casing
-{
-    GV_ACT   actor;     /* 0x00 */
-    int      field_20;  /* 0x20 */
-    DG_PRIM *field_24;  /* 0x24 */
-    SVECTOR  verts[8];  /* 0x28 */
-    int      field_68;  /* 0x68 */
-    int      field_6C;  /* 0x6C */
-    int      field_70;  /* 0x70 */
-    int      field_74;  /* 0x74 */
-} Casing;
-
-typedef struct _Smoke
-{
-    GV_ACT  actor;     /* 0x00 */
-    int     field_20;  /* 0x20 */
-    SVECTOR field_24;  /* 0x24 */
-    SVECTOR field_2C;  /* 0x2C */
-    int     field_34;  /* 0x34 */
-    TARGET  target;    /* 0x38 */
-} Smoke;
-
-extern void *s05a_800DBF58(int arg0, SVECTOR *arg1, SVECTOR *arg2);
-void s05a_800DBED0(Smoke *work);
-void s05a_800DBF50(void *work);
-
-void *s05a_800DBD14(SVECTOR *arg0, SVECTOR *arg1);
-void *s05a_800DB684(Work *work);
-void  s05a_800DB278(Work *work);
-void  s05a_800DB654(Work *work);
+extern void *NewM1E1Smoke(int arg0, SVECTOR *lpsvectPos, SVECTOR *lpsvectRot);
 
 /******************************************************************************
  */
-
-void *s05a_800DAE58(int name, MATRIX *mat, int side, SVECTOR *target_pos, int vital, int range, int speed, int *result)
+typedef struct tagSHELLACT
 {
-    Work   *work;
-    SVECTOR vec1;
-    SVECTOR vec2;
-    int     dist;
-    short   h;
+    GV_ACT   actor;
+    CONTROL  control;
+    OBJECT   body;
+    MATRIX   light[2];
+    TARGET   target;
+    MATRIX   world;
+    SVECTOR *lpsvectTarget;
+    SVECTOR  svectPos;
+    int      nVital;
+    int      nMax;
+    int      nSpeed;
+    int     *lpnResult;
+    int      nTime;
+    int      nRange;
+} SHELLACT, *PSHELLACT, *LPSHELLACT;
 
-    work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
-    if (work == NULL)
+typedef struct tagLOCUSACT
+{
+    GV_ACT   actor;
+    int      nMap;
+    DG_PRIM *lpPrim;
+    SVECTOR  verts[8];
+    int      nTime;
+    int      nR, nG, nB;
+} LOCUSACT, *PLOCUSACT, *LPLOCUSACT;
+
+typedef struct tagSMOKEACT
+{
+    GV_ACT   actor;
+    int      nMap;
+    SVECTOR  svectPos;
+    SVECTOR  svectRot;
+    int      nTime;
+    TARGET   target;
+} SMOKEACT, *PSMOKEACT, *LPSMOKEACT;
+
+static void *NewShellLocus(LPSHELLACT lpParent);
+static void *NewShellSmoke(SVECTOR *lpsvectPos, SVECTOR *lpsvectRot);
+
+static void Act(LPSHELLACT lpAct);
+static void Die(LPSHELLACT lpAct);
+
+static void LocusAct(LPLOCUSACT lpAct);
+static void LocusDie(LPLOCUSACT lpAct);
+static void InitPacks(POLY_FT4 *lpPrim, DG_TEX *lpTex);
+
+static void SmokeAct(LPSMOKEACT lpAct);
+static void SmokeDie(LPSMOKEACT lpAct);
+
+/******************************************************************************
+ */
+void *NewM1E1Shell(int nName, MATRIX *lpWorld, int nSide, SVECTOR *lpsvectTarget, int nVital, int nLength, int nSpeed, int *lpnResult)
+{
+    SVECTOR     svect1;
+    SVECTOR     svect2;
+    LPSHELLACT  lpAct;
+    int         nDist;
+
+    lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(SHELLACT));
+    if (lpAct == NULL) return NULL;
+
+    lpAct->lpsvectTarget = lpsvectTarget;
+    lpAct->nVital = nVital;
+    lpAct->nSpeed = nSpeed;
+    lpAct->lpnResult = lpnResult;
+    lpAct->nMax = nLength / nSpeed;
+
+    GV_SetNamedActor(lpAct, Act, Die, "m1e1shel.c");
+
+    if (GM_InitControl(&lpAct->control, 0, 0) < 0)
     {
+        GV_DestroyActor(lpAct);
         return NULL;
     }
-    work->field_228 = target_pos;
-    work->field_234 = vital;
-    work->field_23C = speed;
-    work->field_240 = result;
-    work->field_238 = range / speed;
-    GV_SetNamedActor(work, s05a_800DB278, s05a_800DB654, "m1e1shel.c");
 
-    if (GM_InitControl(&work->control, 0, 0) < 0)
-    {
-        GV_DestroyActor(work);
-        return NULL;
-    }
+    lpAct->world = *lpWorld;
 
-    work->field_208 = *mat;
-    DG_SetPos(mat);
-    memset(&vec1, 0, 8);
-    vec2.vx = 0;
-    vec2.vy = 0;
-    vec2.vz = 0x64;
-    DG_PutVector(&vec1, &vec1, 1);
-    DG_PutVector(&vec2, &vec2, 1);
-    vec2.vx -= vec1.vx;
-    vec2.vy -= vec1.vy;
-    vec2.vz -= vec1.vz;
-    dist = SquareRoot0(vec2.vx * vec2.vx + vec2.vz * vec2.vz);
-    work->control.rot.vx = -ratan2(vec2.vy, dist);
-    work->control.rot.vy = ratan2(vec2.vx, vec2.vz);
-    work->control.rot.vz = 0;
-    work->control.turn = work->control.rot;
-    work->control.mov.vx = mat->t[0];
-    work->control.mov.vy = mat->t[1];
-    work->control.mov.vz = mat->t[2];
+    DG_SetPos(lpWorld);
 
-    GM_InitObject(&work->body, name, 0x36D, 0);
-    GM_ConfigObjectLight(&work->body, work->light);
+    memset(&svect1, 0, sizeof(SVECTOR));
+    svect2.vx = 0;
+    svect2.vy = 0;
+    svect2.vz = 100;
 
-    vec1.vx = work->body.objs->def->ux - work->body.objs->def->lx;
-    vec1.vy = work->body.objs->def->uy - work->body.objs->def->ly;
-    vec1.vz = work->body.objs->def->uz - work->body.objs->def->lz;
-    GM_ConfigControlHazard(&work->control, vec1.vx, vec1.vy, vec1.vz);
+    DG_PutVector(&svect1, &svect1, 1);
+    DG_PutVector(&svect2, &svect2, 1);
 
-    h = vec1.vy;
-    if (h < vec1.vx) h = vec1.vx;
-    work->field_248 = h;
-    {
-        int r, s;
-        r = vec1.vz;
-        if (r < h) r = h;
-        work->field_248 = r;
-        s = work->field_23C;
-        if (s < r) s = r;
-        work->field_248 = s * 3 / 5;
-    }
+    svect2.vx -= svect1.vx;
+    svect2.vy -= svect1.vy;
+    svect2.vz -= svect1.vz;
 
-    vec1.vx = work->field_248;
-    vec1.vy = work->field_248;
-    vec1.vz = work->field_248;
-    GM_SetTarget(&work->target, 4, side, &vec1);
+    nDist = SquareRoot0(svect2.vx * svect2.vx + svect2.vz * svect2.vz);
+    lpAct->control.rot.vx = -ratan2(svect2.vy, nDist);
+    lpAct->control.rot.vy = ratan2(svect2.vx, svect2.vz);
+    lpAct->control.rot.vz = 0;
 
-    vec1.vx = 0;
-    vec1.vy = 0;
-    vec1.vz = 0;
-    DG_SetPos2(&vec1, &work->control.rot);
-    vec1.vx = 0;
-    vec1.vy = 0;
-    vec1.vz = work->field_23C / 10;
-    DG_PutVector(&vec1, &vec1, 1);
-    GM_SetPowerTarget(&work->target, 0, -1, work->field_234, 0, &vec1);
-    return work;
+    lpAct->control.turn = lpAct->control.rot;
+
+    lpAct->control.mov.vx = lpWorld->t[0];
+    lpAct->control.mov.vy = lpWorld->t[1];
+    lpAct->control.mov.vz = lpWorld->t[2];
+
+    GM_InitObject(&lpAct->body, nName, 0x36D, 0);
+    GM_ConfigObjectLight(&lpAct->body, lpAct->light);
+
+    svect1.vx = lpAct->body.objs->def->ux - lpAct->body.objs->def->lx;
+    svect1.vy = lpAct->body.objs->def->uy - lpAct->body.objs->def->ly;
+    svect1.vz = lpAct->body.objs->def->uz - lpAct->body.objs->def->lz;
+    GM_ConfigControlHazard(&lpAct->control, svect1.vx, svect1.vy, svect1.vz);
+
+    lpAct->nRange = __max(svect1.vx, svect1.vy);
+    lpAct->nRange = __max(lpAct->nRange, svect1.vz);
+    lpAct->nRange = __max(lpAct->nRange, lpAct->nSpeed) * 3 / 5;
+
+    svect1.vx = lpAct->nRange;
+    svect1.vy = lpAct->nRange;
+    svect1.vz = lpAct->nRange;
+    GM_SetTarget(&lpAct->target, TARGET_POWER, nSide, &svect1);
+
+    svect1.vx = 0;
+    svect1.vy = 0;
+    svect1.vz = 0;
+    DG_SetPos2(&svect1, &lpAct->control.rot);
+
+    svect1.vx = 0;
+    svect1.vy = 0;
+    svect1.vz = lpAct->nSpeed / 10;
+    DG_PutVector(&svect1, &svect1, 1);
+
+    GM_SetPowerTarget(&lpAct->target, POWER_ONCE, -1, lpAct->nVital, 0, &svect1);
+
+    return (void *)lpAct;
 }
 
-void s05a_800DB278(Work *work)
+static void Act(LPSHELLACT lpAct)
 {
-    SVECTOR vec;
-    int s0;
-    int s2 = 0;
+    SVECTOR svect1;
+    int     nPower;
+    int     nDist;
+    int     nTouch;
 
-    work->field_22C = work->control.mov;
-    GM_ActControl(&work->control);
-    GM_ActObject2(&work->body);
-    DG_GetLightMatrix2(&work->control.mov, &work->light[0]);
-    GM_MoveTarget(&work->target, &work->control.mov);
-    work->field_244++;
-    if (work->field_244 < 2)
-        s05a_800DBF58(s2, &work->control.mov, &work->control.rot);
+    nPower = 0;
+    lpAct->svectPos = lpAct->control.mov;
 
-    if (work->field_228 == 0)
+    GM_ActControl(&lpAct->control);
+    GM_ActObject2(&lpAct->body);
+    DG_GetLightMatrix2(&lpAct->control.mov, lpAct->light);
+    GM_MoveTarget(&lpAct->target, &lpAct->control.mov);
+
+    lpAct->nTime++;
+
+    if (lpAct->nTime < 2)
     {
-        DG_SetPos2(&work->control.mov, &work->control.rot);
-        vec.vx = 0;
-        vec.vy = 0;
-        vec.vz = work->field_23C;
-        DG_RotVector(&vec, &work->control.step, 1);
+        NewM1E1Smoke(0, &lpAct->control.mov, &lpAct->control.rot);
+    }
+
+    if (lpAct->lpsvectTarget == NULL)
+    {
+        DG_SetPos2(&lpAct->control.mov, &lpAct->control.rot);
+        svect1.vx = 0;
+        svect1.vy = 0;
+        svect1.vz = lpAct->nSpeed;
+        DG_RotVector(&svect1, &lpAct->control.step, 1);
     }
     else
     {
-        int dist;
-        vec.vx = work->field_228->vx - work->control.mov.vx;
-        vec.vy = work->field_228->vy - work->control.mov.vy;
-        vec.vz = work->field_228->vz - work->control.mov.vz;
-        dist = SquareRoot0(vec.vx * vec.vx + vec.vy * vec.vy + vec.vz * vec.vz);
-        if (dist == 0) dist = 1;
-        work->control.step.vx = vec.vx * work->field_23C / dist;
-        work->control.step.vy = vec.vy * work->field_23C / dist;
-        work->control.step.vz = vec.vz * work->field_23C / dist;
-        work->control.turn.vx = -ratan2(vec.vy, SquareRoot0(vec.vx * vec.vx + vec.vz * vec.vz));
-        work->control.turn.vy = ratan2(vec.vx, vec.vz);
-        work->control.turn.vz = 0;
+        svect1.vx = lpAct->lpsvectTarget->vx - lpAct->control.mov.vx;
+        svect1.vy = lpAct->lpsvectTarget->vy - lpAct->control.mov.vy;
+        svect1.vz = lpAct->lpsvectTarget->vz - lpAct->control.mov.vz;
+
+        nDist = SquareRoot0(svect1.vx * svect1.vx + svect1.vy * svect1.vy + svect1.vz * svect1.vz);
+        if (nDist == 0) nDist = 1;
+
+        lpAct->control.step.vx = svect1.vx * lpAct->nSpeed / nDist;
+        lpAct->control.step.vy = svect1.vy * lpAct->nSpeed / nDist;
+        lpAct->control.step.vz = svect1.vz * lpAct->nSpeed / nDist;
+        lpAct->control.turn.vx = -ratan2(svect1.vy, SquareRoot0(svect1.vx * svect1.vx + svect1.vz * svect1.vz));
+        lpAct->control.turn.vy = ratan2(svect1.vx, svect1.vz);
+        lpAct->control.turn.vz = 0;
     }
 
-    s0 = work->control.n_touches;
-    if (s0 > 0)
-        s0 = GM_CheckControlTouches(&work->control, work->field_248);
-    if (s0 > 0 || (s2 = GM_PowerTarget(&work->target)) != 0 || work->field_244 >= work->field_238 ||
-        work->control.mov.vx < -0x6978 || work->control.mov.vx >= 0x6979 ||
-        work->control.mov.vy < -0x6978 || work->control.mov.vy >= 0x6979 ||
-        work->control.mov.vz < -0x6978 || work->control.mov.vz >= 0x6979)
+    nTouch = lpAct->control.n_touches;
+
+    if (nTouch > 0)
     {
-        if (s2 != 0) *work->field_240 = 1;
-        else if (s0 > 0) *work->field_240 = 2;
-        else *work->field_240 = 3;
-        GM_SeSetPan(&work->control.mov, 0xB7, 0x3F);
-        s05a_800DBD14(&work->control.mov, &work->control.rot);
-        GV_DestroyActor(work);
+        nTouch = GM_CheckControlTouches(&lpAct->control, lpAct->nRange);
+    }
+
+    if (nTouch > 0 ||
+        (nPower = GM_PowerTarget(&lpAct->target)) != 0 ||
+        lpAct->nTime >= lpAct->nMax ||
+        lpAct->control.mov.vx < -27000 || lpAct->control.mov.vx > 27000 ||
+        lpAct->control.mov.vy < -27000 || lpAct->control.mov.vy > 27000 ||
+        lpAct->control.mov.vz < -27000 || lpAct->control.mov.vz > 27000)
+    {
+        if (nPower != 0) *lpAct->lpnResult = 1;
+        else if (nTouch > 0) *lpAct->lpnResult = 2;
+        else *lpAct->lpnResult = 3;
+
+        GM_SeSetPan(&lpAct->control.mov, 183, 63);
+        NewShellSmoke(&lpAct->control.mov, &lpAct->control.rot);
+        GV_DestroyActor(lpAct);
     }
     else
     {
-        s05a_800DB684(work);
+        NewShellLocus(lpAct);
     }
 }
 
-void s05a_800DB654(Work *work)
+static void Die(LPSHELLACT lpAct)
 {
-    GM_FreeControl(&work->control);
-    GM_FreeObject(&work->body);
+    GM_FreeControl(&lpAct->control);
+    GM_FreeObject(&lpAct->body);
 }
 
-void s05a_800DBA94(Casing *work);
-void s05a_800DBC44(Casing *work);
-void s05a_800DBC80(POLY_FT4 *poly, DG_TEX *src);
-
-void *s05a_800DB684(Work *parent)
+/******************************************************************************
+ */
+static void *NewShellLocus(LPSHELLACT lpParent)
 {
-    Casing  *casing;
-    DG_PRIM *prim;
-    DG_TEX  *tex;
-    SVECTOR  off1;
-    SVECTOR  off2;
+    SVECTOR     svect1;
+    SVECTOR     svect2;
+    LPLOCUSACT  lpAct;
+    DG_TEX     *lpTex;
 
-    casing = GV_NewActor(GV_ACTOR_USER, sizeof(Casing));
-    if (casing == NULL)
-    {
-        return NULL;
-    }
-    GV_SetNamedActor(casing, s05a_800DBA94, s05a_800DBC44, "m1e1shel.c");
+    lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(LOCUSACT));
+    if (lpAct == NULL) return NULL;
 
-    casing->field_6C = 0xFF;
-    casing->field_70 = 0xE0;
-    casing->field_74 = 0xC0;
-    casing->field_20 = GM_CurrentMap;
+    GV_SetNamedActor(lpAct, LocusAct, LocusDie, "m1e1shel.c");
 
-    prim = GM_MakePrim(DG_PRIM_POLY_FT4, 2, casing->verts, NULL);
-    casing->field_24 = prim;
-    tex = DG_GetTexture(GV_StrCode("none"));
-    s05a_800DBC80((POLY_FT4 *)casing->field_24->packs[0], tex);
-    s05a_800DBC80((POLY_FT4 *)casing->field_24->packs[1], tex);
-    casing->field_24->raise = 0x3E8;
+    lpAct->nR = 255;
+    lpAct->nG = 224;
+    lpAct->nB = 192;
+    lpAct->nMap = GM_CurrentMap;
 
-    off1.vx = parent->body.objs->def->lx - parent->body.objs->def->ux;
-    off1.vy = parent->body.objs->def->ly - parent->body.objs->def->uy;
-    off1.vz = 0;
-    off2.vx = -off1.vx;
-    off2.vz = 0;
-    off2.vy = -off1.vy;
-    DG_SetPos2(&DG_ZeroVector, &parent->control.rot);
-    DG_PutVector(&off1, &off1, 1);
-    DG_PutVector(&off2, &off2, 1);
+    lpAct->lpPrim = GM_MakePrim(DG_PRIM_POLY_FT4, 2, lpAct->verts, NULL);
+    lpTex = DG_GetTexture(GV_StrCode("none"));
 
-    casing->verts[0].vx = parent->field_22C.vx;
-    casing->verts[0].vy = parent->field_22C.vy + off2.vy;
-    casing->verts[0].vz = parent->field_22C.vz;
-    casing->verts[1].vx = parent->field_22C.vx;
-    casing->verts[1].vy = parent->field_22C.vy + off1.vy;
-    casing->verts[1].vz = parent->field_22C.vz;
-    casing->verts[4].vx = parent->field_22C.vx + off2.vx;
-    casing->verts[4].vy = parent->field_22C.vy;
-    casing->verts[4].vz = parent->field_22C.vz;
-    casing->verts[5].vx = parent->field_22C.vx + off1.vx;
-    casing->verts[5].vy = parent->field_22C.vy;
-    casing->verts[5].vz = parent->field_22C.vz;
-    casing->verts[2].vx = parent->control.mov.vx;
-    casing->verts[2].vy = parent->control.mov.vy + off2.vy;
-    casing->verts[2].vz = parent->control.mov.vz;
-    casing->verts[3].vx = parent->control.mov.vx;
-    casing->verts[3].vy = parent->control.mov.vy + off1.vy;
-    casing->verts[3].vz = parent->control.mov.vz;
-    casing->verts[6].vx = parent->control.mov.vx + off2.vx;
-    casing->verts[6].vy = parent->control.mov.vy;
-    casing->verts[6].vz = parent->control.mov.vz;
-    casing->verts[7].vx = parent->control.mov.vx + off1.vx;
-    casing->verts[7].vy = parent->control.mov.vy;
-    casing->verts[7].vz = parent->control.mov.vz;
+    InitPacks((POLY_FT4 *)lpAct->lpPrim->packs[0], lpTex);
+    InitPacks((POLY_FT4 *)lpAct->lpPrim->packs[1], lpTex);
+    DG_RaisePrim(lpAct->lpPrim, 1000);
 
-    setRGB0((POLY_FT4 *)casing->field_24->packs[0], casing->field_6C, casing->field_70, casing->field_74);
-    setRGB0((POLY_FT4 *)casing->field_24->packs[0] + 1, casing->field_6C, casing->field_70, casing->field_74);
-    setRGB0((POLY_FT4 *)casing->field_24->packs[1], casing->field_6C, casing->field_70, casing->field_74);
-    setRGB0((POLY_FT4 *)casing->field_24->packs[1] + 1, casing->field_6C, casing->field_70, casing->field_74);
+    svect1.vx = lpParent->body.objs->def->lx - lpParent->body.objs->def->ux;
+    svect1.vy = lpParent->body.objs->def->ly - lpParent->body.objs->def->uy;
+    svect1.vz = 0;
 
-    return casing;
+    svect2.vx = -svect1.vx;
+    svect2.vz = 0;
+    svect2.vy = -svect1.vy;
+
+    DG_SetPos2(&DG_ZeroVector, &lpParent->control.rot);
+    DG_PutVector(&svect1, &svect1, 1);
+    DG_PutVector(&svect2, &svect2, 1);
+
+    lpAct->verts[0].vx = lpParent->svectPos.vx;
+    lpAct->verts[0].vy = lpParent->svectPos.vy + svect2.vy;
+    lpAct->verts[0].vz = lpParent->svectPos.vz;
+    lpAct->verts[1].vx = lpParent->svectPos.vx;
+    lpAct->verts[1].vy = lpParent->svectPos.vy + svect1.vy;
+    lpAct->verts[1].vz = lpParent->svectPos.vz;
+    lpAct->verts[4].vx = lpParent->svectPos.vx + svect2.vx;
+    lpAct->verts[4].vy = lpParent->svectPos.vy;
+    lpAct->verts[4].vz = lpParent->svectPos.vz;
+    lpAct->verts[5].vx = lpParent->svectPos.vx + svect1.vx;
+    lpAct->verts[5].vy = lpParent->svectPos.vy;
+    lpAct->verts[5].vz = lpParent->svectPos.vz;
+
+    lpAct->verts[2].vx = lpParent->control.mov.vx;
+    lpAct->verts[2].vy = lpParent->control.mov.vy + svect2.vy;
+    lpAct->verts[2].vz = lpParent->control.mov.vz;
+    lpAct->verts[3].vx = lpParent->control.mov.vx;
+    lpAct->verts[3].vy = lpParent->control.mov.vy + svect1.vy;
+    lpAct->verts[3].vz = lpParent->control.mov.vz;
+    lpAct->verts[6].vx = lpParent->control.mov.vx + svect2.vx;
+    lpAct->verts[6].vy = lpParent->control.mov.vy;
+    lpAct->verts[6].vz = lpParent->control.mov.vz;
+    lpAct->verts[7].vx = lpParent->control.mov.vx + svect1.vx;
+    lpAct->verts[7].vy = lpParent->control.mov.vy;
+    lpAct->verts[7].vz = lpParent->control.mov.vz;
+
+    setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[0], lpAct->nR, lpAct->nG, lpAct->nB);
+    setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[0] + 1, lpAct->nR, lpAct->nG, lpAct->nB);
+
+    setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[1], lpAct->nR, lpAct->nG, lpAct->nB);
+    setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[1] + 1, lpAct->nR, lpAct->nG, lpAct->nB);
+
+    return (void *)lpAct;
 }
 
-void s05a_800DBA94(Casing *work)
+static void LocusAct(LPLOCUSACT lpAct)
 {
-    GM_CurrentMap = work->field_20;
-    work->field_68++;
-    work->field_6C -= 25;
-    if (work->field_6C < 0)
+    GM_SetCurrentMap(lpAct->nMap);
+    lpAct->nTime++;
+
+    lpAct->nR -= 25;
+    if (lpAct->nR < 0) lpAct->nR = 0;
+    lpAct->nG -= 22;
+    if (lpAct->nG < 0) lpAct->nG = 0;
+    lpAct->nB -= 19;
+    if (lpAct->nB < 0) lpAct->nB = 0;
+
+    setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[0], lpAct->nR, lpAct->nG, lpAct->nB);
+    setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[0] + 1, lpAct->nR, lpAct->nG, lpAct->nB);
+    setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[1], lpAct->nR, lpAct->nG, lpAct->nB);
+    setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[1] + 1, lpAct->nR, lpAct->nG, lpAct->nB);
+
+    if (lpAct->nTime >= 11)
     {
-        work->field_6C = 0;
-    }
-    work->field_70 -= 22;
-    if (work->field_70 < 0)
-    {
-        work->field_70 = 0;
-    }
-    work->field_74 -= 19;
-    if (work->field_74 < 0)
-    {
-        work->field_74 = 0;
-    }
-    setRGB0((POLY_FT4 *)work->field_24->packs[0], work->field_6C, work->field_70, work->field_74);
-    setRGB0((POLY_FT4 *)work->field_24->packs[0] + 1, work->field_6C, work->field_70, work->field_74);
-    setRGB0((POLY_FT4 *)work->field_24->packs[1], work->field_6C, work->field_70, work->field_74);
-    setRGB0((POLY_FT4 *)work->field_24->packs[1] + 1, work->field_6C, work->field_70, work->field_74);
-    if (work->field_68 >= 11)
-    {
-        GV_DestroyActor(work);
+        GV_DestroyActor(lpAct);
     }
 }
 
-void s05a_800DBC44(Casing *work)
+static void LocusDie(LPLOCUSACT lpAct)
 {
-    DG_PRIM *prim = work->field_24;
-    if (prim)
-    {
-        DG_DequeuePrim(prim);
-        DG_FreePrim(prim);
-    }
+    GM_FreePrim(lpAct->lpPrim);
 }
 
-void s05a_800DBC80(POLY_FT4 *poly, DG_TEX *src)
+static void InitPacks(POLY_FT4 *lpPrim, DG_TEX *lpTex)
 {
     int i;
 
-    for (i = 0; i < 2; i++, poly++)
+    for (i = 0; i < 2; i++, lpPrim++)
     {
-        setPolyFT4(poly);
-        {
-            int u = src->off_x;
-            int w = src->w;
-            int uw = u + w;
-            int v = src->off_y;
-            int h = src->h;
-
-            poly->u0 = u;
-            poly->v0 = v;
-            poly->u1 = uw;
-            poly->v1 = v;
-            poly->u2 = u;
-            poly->v2 = v + h;
-            poly->u3 = uw;
-            poly->v3 = v + h;
-        }
-        poly->tpage = src->tpage;
-        poly->clut = src->clut;
-        poly->code |= 2;
-        poly->tpage |= 0x60;
+        setPolyFT4(lpPrim);
+        DG_SetPacketTexture4(lpPrim, lpTex);
+        setSemiTrans(lpPrim, 1);
+        lpPrim->tpage |= (3 << 5);
     }
 }
 
-void *s05a_800DBD14(SVECTOR *arg0, SVECTOR *arg1)
+/******************************************************************************
+ */
+static void *NewShellSmoke(SVECTOR *lpsvectPos, SVECTOR *lpsvectRot)
 {
-    Smoke *work;
-    SVECTOR force;
-    SVECTOR size;
+    SVECTOR     svect1;
+    SVECTOR     svect2;
+    LPSMOKEACT  lpAct;
 
-    memset(&force, 0, 8);
-    work = GV_NewActor(GV_ACTOR_USER, sizeof(Smoke));
-    if (work == NULL)
-    {
-        return NULL;
-    }
+    memset(&svect1, 0x00, sizeof(SVECTOR));
 
-    GV_SetNamedActor(work, s05a_800DBED0, s05a_800DBF50, "m1e1shel.c");
-    work->field_34 = 0;
-    work->field_20 = GM_CurrentMap;
-    work->field_24 = *arg0;
-    work->field_2C = *arg1;
+    lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(SMOKEACT));
+    if (lpAct == NULL) return NULL;
 
-    setVector(&size, 0x3E8, 0x3E8, 0x3E8);
-    force.vx = 0x64;
-    GM_SetTarget(&work->target, 4, 0, &size);
-    GM_SetPowerTarget(&work->target, 7, 2, 5, 2, &force);
-    GM_MoveTarget(&work->target, &work->field_24);
-    GM_PowerTarget(&work->target);
+    GV_SetNamedActor(lpAct, SmokeAct, SmokeDie, "m1e1shel.c");
 
-    setVector(&size, 0x7D0, 0x7D0, 0x7D0);
-    force.vx = 0x32;
-    GM_SetTarget(&work->target, 4, 0, &size);
-    GM_SetPowerTarget(&work->target, 7, 2, 1, 3, &force);
-    GM_MoveTarget(&work->target, &work->field_24);
-    GM_PowerTarget(&work->target);
+    lpAct->nTime = 0;
+    lpAct->nMap = GM_CurrentMap;
+    lpAct->svectPos = *lpsvectPos;
+    lpAct->svectRot = *lpsvectRot;
+
+    setVector(&svect2, 1000, 1000, 1000);
+    svect1.vx = 100;
+    GM_SetTarget(&lpAct->target, TARGET_POWER, NO_SIDE, &svect2);
+    GM_SetPowerTarget(&lpAct->target, POWER_CONST | POWER_EXPLODE, 2, 5, 2, &svect1);
+    GM_MoveTarget(&lpAct->target, &lpAct->svectPos);
+    GM_PowerTarget(&lpAct->target);
+
+    setVector(&svect2, 2000, 2000, 2000);
+    svect1.vx = 50;
+    GM_SetTarget(&lpAct->target, TARGET_POWER, NO_SIDE, &svect2);
+    GM_SetPowerTarget(&lpAct->target, POWER_CONST | POWER_EXPLODE, 2, 1, 3, &svect1);
+    GM_MoveTarget(&lpAct->target, &lpAct->svectPos);
+    GM_PowerTarget(&lpAct->target);
 
     sub_800790E8();
-    return work;
+    return (void *)lpAct;
 }
 
-void s05a_800DBED0(Smoke *work)
+static void SmokeAct(LPSMOKEACT lpAct)
 {
-    int n;
+    GM_SetCurrentMap(lpAct->nMap);
+    lpAct->nTime++;
 
-    GM_CurrentMap = work->field_20;
-    n = work->field_34 + 1;
-    work->field_34 = n;
-    if (n == 1)
+    if (lpAct->nTime == 1)
     {
-        s05a_800DBF58(1, &work->field_24, &work->field_2C);
+        NewM1E1Smoke(1, &lpAct->svectPos, &lpAct->svectRot);
     }
-    else if (n == 2)
+    else if (lpAct->nTime == 2)
     {
         sub_8007913C();
     }
-    else if (n >= 30)
+    else if (lpAct->nTime >= 30)
     {
-        GV_DestroyActor(work);
+        GV_DestroyActor(lpAct);
     }
 }
 
-void s05a_800DBF50(void *work)
+static void SmokeDie(LPSMOKEACT lpAct)
 {
     /* do nothing */
 }
