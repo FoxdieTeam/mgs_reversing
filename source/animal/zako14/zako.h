@@ -322,7 +322,7 @@ void Zako14PushMove( Work *work );
 // think.c
 void Zako14Think( Work *work );
 
-// zako14com.c
+// zk14com.c
 int  ZAKO14SetWorkID( Work *work );
 void ZAKO14ResetWorkID( int id );
 void ZAKO14SetTopCommAL( int alert );

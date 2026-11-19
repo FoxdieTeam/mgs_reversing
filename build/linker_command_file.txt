@@ -1381,13 +1381,14 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11e\overlay2.obj", overlay
 
     include "{{OBJ_DIR}}\animal\zako11e\zako11e.obj", overlay
-    include "{{OBJ_DIR}}\animal\zako11e\zk11echeck.obj", overlay
-    include "{{OBJ_DIR}}\animal\zako11e\zk11eaction.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\override.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\put.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s11e\overlay3.obj", overlay
 
-    include "{{OBJ_DIR}}\animal\zako11e\zk11eenemy.obj", overlay
-    include "{{OBJ_DIR}}\animal\zako11e\zk11ethink.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\zk11eact.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\think.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11e\zk11ecom.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s11e\overlay4.obj", overlay
@@ -2633,7 +2634,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\animal\zako14\think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\animal\zako14\zako14com.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako14\zk14com.obj", overlay
     include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
