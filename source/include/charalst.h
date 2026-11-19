@@ -354,7 +354,7 @@
 #define DEMO_SUBMARINEROOM      { 0x002e, NewSubRoom_800C815C }     // okajima/sub_room.c
 #define DEMO_BLACKSMOKE2        { 0x002f, AN_Smoke_800CE164 }       // ???
 #define DEMO_BLASTLINE          { 0x0030, NewBlastLine }            // okajima/blst_ln.c
-#define DEMO_SMOKELINE          { 0x0031, NewSmokeLn_800CDFA4 }     // okajima/smke_ln.c
+#define DEMO_SMOKELINE          { 0x0031, NewSmokeLine }            // okajima/smke_ln.c
 #define DEMO_SHELLSMOKE         { 0x0032, NewM1E1Smoke }            // kojo/m1e1smke.c
 #define DEMO_CATERPILLERSMOKE   { 0x0033, AN_CaterpillerSmoke2 }    // --> anime/animconv/anime.c
 #define DEMO_CROWEYE            { 0x0034, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
@@ -515,7 +515,7 @@ extern NEWCHARA NewRedAlert2;                   /* okajima/red_alrt.c           
 extern NEWCHARA RedAlert_800C4F48;              /* okajima/red_alrt.c           */
 extern NEWCHARA NewStage11Objects;              /* okajima/s11_objs.c           */
 extern NEWCHARA NewScnHeadMark;                 /* okajima/scn_mark.c           */
-extern NEWCHARA NewSmokeLn_800CDFA4;            /* okajima/smke_ln.c            */
+extern NEWCHARA NewSmokeLine;                   /* okajima/smke_ln.c            */
 extern NEWCHARA NewSmokeTarget;                 /* okajima/smktrgt.c            */
 extern NEWCHARA NewSnowAreaSet;                 /* okajima/snowarea.c           */
 extern NEWCHARA NewSpark;                       /* okajima/spark.c              */

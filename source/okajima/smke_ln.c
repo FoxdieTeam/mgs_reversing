@@ -3,13 +3,13 @@
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
-
-#include "mgstype.h"
-#include "libgv/libgv.h"
 #include "game/game.h"
 
-typedef struct _Work
-{
+extern void AN_Smoke_800CE2C4( SVECTOR *pos, SVECTOR *speed, int, int, int, int, int );
+
+/*---------------------------------------------------------------------------*/
+
+typedef struct _Work {
     GV_ACT  actor;
     int     map;
     SVECTOR f24;
@@ -20,29 +20,25 @@ typedef struct _Work
     int     time;
     int     f48;
     int     f4C;
-    char    f50;
-    char    f51;
-    char    f52;
+    char    r;
+    char    g;
+    char    b;
 } Work;
 
-void AN_Smoke_800CE2C4(SVECTOR *pos, SVECTOR *speed, int, int, int, int, int);
+/*---------------------------------------------------------------------------*/
 
-void SmokeLnAct_800CDB38(Work *work)
+static void Act( Work *work )
 {
     SVECTOR pos;
     int     rnd;
 
     GM_CurrentMap = work->map;
 
-    if (--work->time < 0)
-    {
+    if ( --work->time < 0 ) {
         GV_DestroyActor(&work->actor);
     }
 
-    if ((++work->f4C & 7) == 0)
-    {
-        return;
-    }
+    if ( ( ++work->f4C & 7 ) == 0 ) return;
 
     rnd = GV_RandS(32768);
     pos.vx = work->f24.vx + (((work->f2C.vx - work->f24.vx) * work->f4C) / work->f48) + ((rnd * work->f3C) / 32768);
@@ -53,63 +49,53 @@ void SmokeLnAct_800CDB38(Work *work)
     rnd = GV_RandS(32768);
     pos.vz = work->f24.vz + (((work->f2C.vz - work->f24.vz) * work->f4C) / work->f48) + ((rnd * work->f3C) / 32768);
 
-    switch(work->f40)
-    {
+    switch ( work->f40 ) {
     case 0:
-        AN_Smoke_800CE2C4(&pos, &work->speed, 0, 0, 0, 0, 0);
+        AN_Smoke_800CE2C4( &pos, &work->speed, 0, 0, 0, 0, 0 );
         break;
-
     case 1:
-        AN_Smoke_800CE2C4(&pos, &work->speed, 0, 1, 0, 0, 0);
+        AN_Smoke_800CE2C4( &pos, &work->speed, 0, 1, 0, 0, 0 );
         break;
-
     case 2:
-        AN_Smoke_800CE2C4(&pos, &work->speed, 0, 2, 0, 0, 0);
+        AN_Smoke_800CE2C4( &pos, &work->speed, 0, 2, 0, 0, 0 );
         break;
-
     case 3:
-        AN_Smoke_800CE2C4(&pos, &work->speed, 0, 3, 0, 0, 0);
+        AN_Smoke_800CE2C4( &pos, &work->speed, 0, 3, 0, 0, 0 );
         break;
-
     case 4:
-        AN_Smoke_800CE2C4(&pos, &work->speed, 1, 0, 0, 0, 0);
+        AN_Smoke_800CE2C4( &pos, &work->speed, 1, 0, 0, 0, 0 );
         break;
-
     case 5:
-        AN_Smoke_800CE2C4(&pos, &work->speed, 1, 1, 0, 0, 0);
+        AN_Smoke_800CE2C4( &pos, &work->speed, 1, 1, 0, 0, 0 );
         break;
-
     case 6:
-        AN_Smoke_800CE2C4(&pos, &work->speed, 1, 2, 0, 0, 0);
+        AN_Smoke_800CE2C4( &pos, &work->speed, 1, 2, 0, 0, 0 );
         break;
-
     case 7:
-        AN_Smoke_800CE2C4(&pos, &work->speed, 1, 3, 0, 0, 0);
+        AN_Smoke_800CE2C4( &pos, &work->speed, 1, 3, 0, 0, 0 );
         break;
-
     case 8:
-        AN_Smoke_800CE2C4(&pos, &work->speed, 2, 0, work->f50, work->f51, work->f52);
+        AN_Smoke_800CE2C4( &pos, &work->speed, 2, 0, work->r, work->g, work->b );
         break;
-
     case 9:
-        AN_Smoke_800CE2C4(&pos, &work->speed, 2, 1, work->f50, work->f51, work->f52);
+        AN_Smoke_800CE2C4( &pos, &work->speed, 2, 1, work->r, work->g, work->b );
         break;
-
     case 10:
-        AN_Smoke_800CE2C4(&pos, &work->speed, 2, 2, work->f50, work->f51, work->f52);
+        AN_Smoke_800CE2C4( &pos, &work->speed, 2, 2, work->r, work->g, work->b );
         break;
-
     case 11:
-        AN_Smoke_800CE2C4(&pos, &work->speed, 2, 3, work->f50, work->f51, work->f52);
+        AN_Smoke_800CE2C4( &pos, &work->speed, 2, 3, work->r, work->g, work->b );
         break;
     }
 }
 
-void SmokeLnDie_800CDEF0(Work *work)
+static void Die( Work *work )
 {
+    /* do nothing */
 }
 
-int SmokeLnGetResources_800CDEF8(Work *work, int arg1, int time, int arg3, SVECTOR *arg4, SVECTOR *arg5, SVECTOR *speed, char arg7, char arg8, char arg9)
+static int GetResources( Work *work, int arg1, int time, int arg3,
+    SVECTOR *arg4, SVECTOR *arg5, SVECTOR *speed, char r, char g, char b )
 {
     work->map = GM_CurrentMap;
 
@@ -121,25 +107,26 @@ int SmokeLnGetResources_800CDEF8(Work *work, int arg1, int time, int arg3, SVECT
     work->f2C = *arg5;
     work->speed = *speed;
 
-    work->f50 = arg7;
-    work->f51 = arg8;
-    work->f52 = arg9;
+    work->r = r;
+    work->g = g;
+    work->b = b;
 
     work->f48 = time;
     work->f4C = 0;
     return 0;
 }
 
-void *NewSmokeLn_800CDFA4(int arg0, int arg1, int arg2, SVECTOR *arg3, SVECTOR *arg4, SVECTOR *arg5, char arg6, char arg7, char arg8)
+/*---------------------------------------------------------------------------*/
+
+void *NewSmokeLine( int arg0, int arg1, int arg2,
+    SVECTOR *arg3, SVECTOR *arg4, SVECTOR *speed, char r, char g, char b )
 {
     Work *work;
 
-    work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
-    if (work != NULL)
-    {
-        GV_SetNamedActor(&work->actor, SmokeLnAct_800CDB38, SmokeLnDie_800CDEF0, "smke_ln.c");
-        SmokeLnGetResources_800CDEF8(work, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+    work = GV_NewActor( GV_ACTOR_PREV, sizeof(Work) );
+    if ( work != NULL ) {
+        GV_SetNamedActor( &work->actor, Act, Die, "smke_ln.c" );
+        GetResources( work, arg0, arg1, arg2, arg3, arg4, speed, r, g, b );
     }
-
     return (void *)work;
 }

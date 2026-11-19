@@ -21,7 +21,7 @@
 
 #include "bullet/blast.h"       // for AN_Blast_high2
 #include "okajima/bullet.h"     // for NewBulletEx
-#include "okajima/smke_ln.h"    // for NewSmokeLn_800CDFA4
+#include "okajima/smke_ln.h"    // for NewSmokeLine
 #include "takabe/fadeio.h"      // for NewFadeInOut
 
 /******************************************************************************
@@ -310,7 +310,7 @@ void M1E1Act(LPM1E1ACT lpAct)
         vb.vy += 0x3e8;
         memset(&vc, 0x00, sizeof(SVECTOR));
         vc.vy = 0x3e;
-        NewSmokeLn_800CDFA4(7, 1, 0, &va, &vb, &vc, 0, 0, 0);
+        NewSmokeLine(7, 1, 0, &va, &vb, &vc, 0, 0, 0);
     }
 
     /* ======== L. Target-power section 2 keyed on F50 ======== */
@@ -374,7 +374,7 @@ void M1E1Act(LPM1E1ACT lpAct)
         vb.vy += 0x3e8;
         memset(&vc, 0x00, sizeof(SVECTOR));
         vc.vy = 0x3e;
-        NewSmokeLn_800CDFA4(7, 2, 0, &va, &vb, &vc, 0, 0, 0);
+        NewSmokeLine(7, 2, 0, &va, &vb, &vc, 0, 0, 0);
     }
 
     for (i = 0; i < 10; i++)
