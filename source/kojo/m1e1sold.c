@@ -1,4 +1,12 @@
 /******************************************************************************
+ * System   : METALGEAR^3 for PlayStation
+ * Computer : PlayStation
+ * OS       : PlayStation
+ * Compiler : psyq
+ * Module   : 
+ */
+
+/******************************************************************************
  * included
  */
 
@@ -8,12 +16,12 @@
 #include <libgpu.h>
 #include "game/game.h"
 
-#include "kojo/common.h"
-#include "kojo/m1e1.h"
+#include "common.h"
+#include "m1e1.h"
 
-#include "chara/snake/sna_init.h"
 #include "strcode.h"
-#include "bullet/blast.h"   // for AN_Blast_high
+#include "chara/snake/sna_init.h"   // for Snake
+#include "bullet/blast.h"           // for AN_Blast_high
 
 extern void *NewDemoKage(OBJECT *parent, SVECTOR vec, int *arg2, int *arg3, char r, char g, char b);
 
@@ -35,7 +43,8 @@ void s05a_800E1014(CONTROL *control, HZD_HDL *lpHazard);
 /******************************************************************************
  */
 
-void *NewM1E1Soldier(LPM1E1ACT lpParent)
+void* NewM1E1Soldier(
+    LPM1E1ACT lpParent)
 {
     LPM1E1GUNNERACT lpAct;
     int       name;
@@ -44,20 +53,18 @@ void *NewM1E1Soldier(LPM1E1ACT lpParent)
     const char *tankstr;
     SVECTOR   size;
 
-    lpAct = GV_NewActor(6, 0x848);
-    if (lpAct == NULL)
-    {
-        return 0;
-    }
+    if((lpAct = GV_NewActor(GV_ACTOR_AFTER, sizeof(M1E1GUNNERACT))) == NULL)
+        return NULL;
+
     lpAct->bHidden = TRUE;
     lpAct->lpParent = lpParent;
     GV_SetNamedActor(lpAct, Act, Die, "m1e1sold.c");
 
-    if (GM_InitControl(&lpAct->control, lpAct->lpParent->nName,
-                       lpAct->lpParent->nMap) < 0)
+    if(GM_InitControl(&lpAct->control,
+        lpAct->lpParent->nName, lpAct->lpParent->nMap) < 0)
     {
         GV_DestroyActor(lpAct);
-        return 0;
+        return NULL;
     }
 
     lpAct->control.r_sphere = -2;
@@ -67,114 +74,113 @@ void *NewM1E1Soldier(LPM1E1ACT lpParent)
     lpAct->light[0].t[0] = lpAct->lpParent->light[0].t[0];
     lpAct->light[0].t[1] = lpAct->lpParent->light[0].t[1];
     lpAct->light[0].t[2] = lpAct->lpParent->light[0].t[2];
-    name = GV_StrCode("out_c_m1");  /* "out_" */
 
+    name = GV_StrCode("out_c_m1");
     tankstr = "tankman";
+
     bodyp = &lpAct->body;
     GM_InitObject(bodyp, name, 0x32d, GV_StrCode(tankstr));
     GM_ConfigObjectJoint(bodyp);
-    GM_ConfigMotionControl(bodyp, &lpAct->m_ctrl,
-                           GV_StrCode(tankstr),
-                           lpAct->m_segs1,
-                           lpAct->m_segs2,
-                           &lpAct->subcontrol,
-                           lpAct->rots);
+    GM_ConfigMotionControl(bodyp, &lpAct->m_ctrl, GV_StrCode(tankstr),
+        lpAct->m_segs1, lpAct->m_segs2, &lpAct->subcontrol, lpAct->rots);
     GM_ConfigObjectLight(bodyp, &lpAct->light[0]);
 
     DG_InvisibleObjs(bodyp->objs);
     lpAct->hom = GM_SetHomingTarget(&lpAct->homMatrix, &lpAct->control);
     lpAct->hom->flag = 1;
     lpAct->target = GM_AllocTarget();
-    size.vx = 0x12c;
-    size.vy = 0x12c;
-    size.vz = 0x12c;
+    size.vx = 300;
+    size.vy = 300;
+    size.vz = 300;
     GM_SetTarget(lpAct->target, 0x94, 2, &size);
-    GM_SetPowerTarget(lpAct->target, 1, -1, 0x2710, 0, &DG_ZeroVector);
+    GM_SetPowerTarget(lpAct->target, 1, -1, 10000, 0, &DG_ZeroVector);
 
-    for (i = 0; i < 0x10; i++)
+    for(i = 0; i < 16; i++)
     {
         lpAct->body.objs->objs[i].world = DG_ZeroMatrix;
     }
     return (void*)lpAct;
 }
 
-static void Act(LPM1E1GUNNERACT lpAct)
-{
-    int     lvl[2];
-    SVECTOR vec1;
-    SVECTOR vec2;
+/******************************************************************************
+ */
 
-    memset(&lpAct->subcontrol.step, 0, 8);
+static void Act(
+    LPM1E1GUNNERACT lpAct)
+{
+    int     lFloor[2];
+    SVECTOR svect1;
+    SVECTOR svect2;
+
+    memset(&lpAct->subcontrol.step, 0x00, sizeof(SVECTOR));
     GM_ActMotion(&lpAct->body);
     GM_ActControl(&lpAct->control);
-    vec1 = lpAct->subcontrol.step;
+    svect1 = lpAct->subcontrol.step;
     GM_ActObject(&lpAct->body);
-    lpAct->subcontrol.step = vec1;
+    lpAct->subcontrol.step = svect1;
     DG_GetLightMatrix2(&lpAct->control.mov, &lpAct->light[0]);
 
-    if (!lpAct->bHidden)
-    {
+    if(lpAct->bHidden == FALSE)
         DG_VisibleObjs(lpAct->body.objs);
-    }
-    if (--lpAct->nFallDelay < 0) lpAct->nFallDelay = 0;
-    if (--lpAct->nSoundDelay1 < 0) lpAct->nSoundDelay1 = 0;
-    if (--lpAct->nSoundDelay2 < 0) lpAct->nSoundDelay2 = 0;
 
-    if (lpAct->nSoundDelay2 == 0 && lpAct->lpParent->field_ED0 == 3)
+    if(--lpAct->nFallDelay < 0)
+        lpAct->nFallDelay = 0;
+
+    if(--lpAct->nSoundDelay1 < 0)
+        lpAct->nSoundDelay1 = 0;
+
+    if(--lpAct->nSoundDelay2 < 0)
+        lpAct->nSoundDelay2 = 0;
+
+    if((lpAct->nSoundDelay2 == 0) && (lpAct->lpParent->field_ED0 == 3))
     {
-        if (lpAct->lpParent->field_D58 == 0)
-        {
-            lpAct->lpParent->field_D54 = 2;
-        }
+        if(lpAct->lpParent->bCombo == FALSE)
+            lpAct->lpParent->nState = 2;
         else
-        {
-            lpAct->lpParent->field_D54 = 7;
-        }
+            lpAct->lpParent->nState = 7;
         lpAct->lpParent->field_ED0 = 1;
         GM_Weapon = lpAct->nWeaponSave;
         GM_Item = lpAct->nItemSave;
     }
 
     lpAct->bDead = FALSE;
-    if (lpAct->m_ctrl.info1.frame == 1)
-    {
+    if(lpAct->m_ctrl.info1.frame == 1)
         lpAct->nHeight = lpAct->body.height;
-    }
     lpAct->control.step.vx = 0;
     lpAct->control.step.vz = 0;
     lpAct->subcontrol.step.vy = lpAct->body.height - lpAct->nHeight;
 
-    switch (lpAct->body.action)
+    switch(lpAct->body.action)
     {
     case 0:
     case 1:
     case 2:
     case 5:
     case 6:
-        if (lpAct->body.action == 2 && lpAct->lpParent->field_E10 == 1)
+        if((lpAct->body.action == 2) && (lpAct->lpParent->field_E10 == 1))
         {
             lpAct->lpParent->field_E10 = 0;
-            if (GM_Vitality != 0 && GM_GameOverTimer == 0)
+            if((GM_Vitality != 0) && (GM_GameOverTimer == 0))
             {
                 lpAct->nSoundDelay1 = 150;
                 lpAct->nSoundDelay2 = 60;
                 GM_SeSetPan(&GM_PlayerPosition, 0x82, 0x3F);
-                lpAct->lpParent->field_D54 = 3;
+                lpAct->lpParent->nState = 3;
                 lpAct->lpParent->field_ED0 = 3;
                 lpAct->nWeaponSave = GM_Weapon;
                 lpAct->nItemSave = GM_Item;
                 GM_Weapon = WP_None;
-                if (GM_Item != IT_NVG && GM_Item != IT_ThermG)
-                {
+                if((GM_Item != IT_NVG) && (GM_Item != IT_ThermG))
                     GM_Item = IT_None;
-                }
             }
         }
-        else if (lpAct->body.action == 1)
+        else if(lpAct->body.action == 1)
         {
-            if (lpAct->lpParent->field_E10 == 0 && lpAct->nSoundDelay1 <= 0 && lpAct->lpParent->field_ED4 >= 0x1E)
+            if((lpAct->lpParent->field_E10 == 0)
+                && (lpAct->nSoundDelay1 <= 0)
+                && (lpAct->lpParent->field_ED4 >= 30))
             {
-                if (rand() % 3 != 0)
+                if((rand() % 3) != 0)
                 {
                     lpAct->nSoundDelay1 = 150;
                     GM_SeSetPan(&lpAct->control.mov, 0x80, lpAct->lpParent->nSoundVolume);
@@ -183,70 +189,72 @@ static void Act(LPM1E1GUNNERACT lpAct)
         }
 
         DG_SetPos(&lpAct->lpParent->objBody.objs->objs[12].world);
-        vec1.vx = 0;
-        vec1.vy = 0;
-        vec1.vz = 0;
-        vec2.vx = 0;
-        vec2.vy = 0;
-        vec2.vz = 0x64;
-        DG_PutVector(&vec1, &vec1, 1);
-        DG_PutVector(&vec2, &vec2, 1);
-        vec2.vx -= vec1.vx;
-        vec2.vy -= vec1.vy;
-        vec2.vz -= vec1.vz;
-        lpAct->control.turn.vx = -ratan2(vec2.vy, SquareRoot0(vec2.vx * vec2.vx + vec2.vz * vec2.vz));
-        lpAct->control.turn.vy = ratan2(vec2.vx, vec2.vz);
+        svect1.vx = 0;
+        svect1.vy = 0;
+        svect1.vz = 0;
+        svect2.vx = 0;
+        svect2.vy = 0;
+        svect2.vz = 100;
+        DG_PutVector(&svect1, &svect1, 1);
+        DG_PutVector(&svect2, &svect2, 1);
+        svect2.vx -= svect1.vx;
+        svect2.vy -= svect1.vy;
+        svect2.vz -= svect1.vz;
+        lpAct->control.turn.vx = -ratan2(svect2.vy,
+            SquareRoot0(svect2.vx * svect2.vx + svect2.vz * svect2.vz));
+        lpAct->control.turn.vy = ratan2(svect2.vx, svect2.vz);
         lpAct->control.turn.vz = 0;
-        vec1.vx = lpAct->lpParent->objBody.objs->objs[12].world.t[0];
-        vec1.vy = lpAct->lpParent->objBody.objs->objs[12].world.t[1];
-        vec1.vz = lpAct->lpParent->objBody.objs->objs[12].world.t[2];
-        lpAct->control.mov.vy = lpAct->body.height + lpAct->lpParent->control.mov.vy - 0xC8;
-        lpAct->control.step.vx = vec1.vx - lpAct->control.mov.vx;
-        lpAct->control.step.vz = vec1.vz - lpAct->control.mov.vz;
-        memset(&vec1, 0, 8);
-        vec1.vy = 0x12C;
-        DG_PutVector(&vec1, &vec1, 1);
-        GM_MoveTarget(lpAct->target, &vec1);
-        vec1.vy += 0x96;
-        DG_SetPos2(&vec1, &DG_ZeroVector);
+        svect1.vx = lpAct->lpParent->objBody.objs->objs[12].world.t[0];
+        svect1.vy = lpAct->lpParent->objBody.objs->objs[12].world.t[1];
+        svect1.vz = lpAct->lpParent->objBody.objs->objs[12].world.t[2];
+        lpAct->control.mov.vy = lpAct->body.height + lpAct->lpParent->control.mov.vy - 200;
+        lpAct->control.step.vx = svect1.vx - lpAct->control.mov.vx;
+        lpAct->control.step.vz = svect1.vz - lpAct->control.mov.vz;
+        memset(&svect1, 0x00, sizeof(SVECTOR));
+        svect1.vy = 300;
+        DG_PutVector(&svect1, &svect1, 1);
+        GM_MoveTarget(lpAct->target, &svect1);
+        svect1.vy += 150;
+        DG_SetPos2(&svect1, &DG_ZeroVector);
         ReadRotMatrix(&lpAct->homMatrix);
         break;
 
     case 3:
         DG_SetPos2(&DG_ZeroVector, &lpAct->control.rot);
-        vec1.vx = 0;
-        vec1.vy = lpAct->subcontrol.step.vy;
-        vec1.vz = SquareRoot0(lpAct->subcontrol.step.vx * lpAct->subcontrol.step.vx +
-                              lpAct->subcontrol.step.vz * lpAct->subcontrol.step.vz);
-        DG_PutVector(&vec1, &vec1, 1);
-        lpAct->control.mov.vy = s05a_800DEC18(lpAct, &lpAct->control.mov, lpAct->control.mov.vy + vec1.vy);
-        lpAct->control.step.vx = vec1.vx;
-        lpAct->control.step.vz = vec1.vz;
-        vec1 = lpAct->control.mov;
-        if (HZD_LevelHazardCheck(lpAct->control.map->hzd, &vec1, HZD_CHK_FLOOR) != 1)
+        svect1.vx = 0;
+        svect1.vy = lpAct->subcontrol.step.vy;
+        svect1.vz = SquareRoot0(
+            lpAct->subcontrol.step.vx * lpAct->subcontrol.step.vx +
+            lpAct->subcontrol.step.vz * lpAct->subcontrol.step.vz);
+        DG_PutVector(&svect1, &svect1, 1);
+        lpAct->control.mov.vy = s05a_800DEC18(lpAct,
+            &lpAct->control.mov, lpAct->control.mov.vy + svect1.vy);
+        lpAct->control.step.vx = svect1.vx;
+        lpAct->control.step.vz = svect1.vz;
+        svect1 = lpAct->control.mov;
+        if(HZD_LevelHazardCheck(lpAct->control.map->hzd, &svect1, HZD_CHK_FLOOR) != 1)
         {
-            vec1.vy = 0;
+            svect1.vy = 0;
         }
         else
         {
-            HZD_GetLevelHeight(lvl);
-            vec1.vy = lvl[0];
+            HZD_GetLevelHeight(lFloor);
+            svect1.vy = lFloor[0];
         }
-        if (!lpAct->bFell && lpAct->control.mov.vy - vec1.vy < 0x12C)
+        if((lpAct->bFell == FALSE) && (lpAct->control.mov.vy - svect1.vy < 300))
         {
             lpAct->bFell = TRUE;
             GM_SeSetPan(&lpAct->control.mov, SE_HIT_FLOOR, lpAct->lpParent->nSoundVolume);
         }
         lpAct->nKageDir = lpAct->control.rot.vy;
-        lpAct->nKageHeight = vec1.vy + 100;
+        lpAct->nKageHeight = svect1.vy + 100;
         break;
 
     case 4:
-        if (!((GV_Time >> 2) & 1))
-        {
+        if(((GV_Time >> 2) & 1) == 0)
             DG_InvisibleObjs(lpAct->body.objs);
-        }
-        if (lpAct->nFallDelay <= 0)
+
+        if(lpAct->nFallDelay <= 0)
         {
             GV_DestroyActor(lpAct);
             return;
@@ -254,25 +262,28 @@ static void Act(LPM1E1GUNNERACT lpAct)
         break;
     }
 
-    if (lpAct->body.is_end != 0)
+    if(lpAct->body.is_end != 0)
     {
-        switch (lpAct->body.action)
+        switch(lpAct->body.action)
         {
         case 2:
             GM_ConfigObjectAction(&lpAct->body, 0, 0, 5);
             break;
+
         case 5:
             GV_DestroyActor(lpAct);
             return;
+
         case 3:
             lpAct->nFallDelay = 60;
             GM_ConfigObjectAction(&lpAct->body, 4, 0, 5);
-            if (!lpAct->bFell)
+            if (lpAct->bFell == FALSE)
             {
                 lpAct->bFell = TRUE;
                 GM_SeSetPan(&lpAct->control.mov, SE_HIT_FLOOR, lpAct->lpParent->nSoundVolume);
             }
             break;
+
         case 0:
         case 1:
         case 4:
@@ -281,32 +292,32 @@ static void Act(LPM1E1GUNNERACT lpAct)
         }
     }
 
-    if (lpAct->target != NULL)
+    if(lpAct->target != NULL)
     {
-        if (lpAct->lpParent->field_F5C > 0)
+        if(lpAct->lpParent->field_F5C > 0)
         {
-            if (lpAct->lpParent->field_ED0 == 0 && !((GV_Time >> 2) & 1))
+            if((lpAct->lpParent->field_ED0 == 0) && (((GV_Time >> 2) & 1) == 0))
             {
                 DG_InvisibleObjs(lpAct->body.objs);
             }
-            lpAct->target->vital = 0x2710;
+            lpAct->target->vital = 10000;
             lpAct->target->damage = 0;
             lpAct->target->damaged = 0;
         }
-        if (lpAct->target != NULL)
+        if(lpAct->target != NULL)
         {
-            if (lpAct->target->damaged < lpAct->lpParent->field_D74 / lpAct->lpParent->field_DEC)
+            if(lpAct->target->damaged < (lpAct->lpParent->field_D74 / lpAct->lpParent->field_DEC))
             {
-                if (lpAct->lpParent->field_D74 / lpAct->lpParent->field_DF0 >= lpAct->lpParent->field_E0C)
+                if((lpAct->lpParent->field_D74 / lpAct->lpParent->field_DF0) >= lpAct->lpParent->field_E0C)
                 {
-                    lpAct->target->vital = 0x2710;
+                    lpAct->target->vital = 10000;
                     lpAct->target->damage = 0;
                     lpAct->target->damaged = 0;
                 }
             }
-            if (lpAct->target != NULL && lpAct->target->damaged != 0)
+            if((lpAct->target != NULL) && (lpAct->target->damaged != 0))
             {
-                if (lpAct->target->damaged >= lpAct->lpParent->field_D74 / lpAct->lpParent->field_DEC)
+                if(lpAct->target->damaged >= (lpAct->lpParent->field_D74 / lpAct->lpParent->field_DEC))
                 {
                     lpAct->lpParent->field_F5C = lpAct->lpParent->field_E14;
                 }
@@ -315,22 +326,21 @@ static void Act(LPM1E1GUNNERACT lpAct)
                     lpAct->target->damaged = lpAct->lpParent->field_D74 / lpAct->lpParent->field_DF0;
                     lpAct->lpParent->field_F5C = lpAct->lpParent->field_E18;
                 }
-                if ((lpAct->lpParent->field_E0C -= lpAct->target->damaged) < 0)
-                {
+
+                if((lpAct->lpParent->field_E0C -= lpAct->target->damaged) < 0)
                     lpAct->lpParent->field_E0C = 0;
-                }
-                lpAct->target->vital = 0x2710;
+
+                lpAct->target->vital = 10000;
                 lpAct->target->damage = 0;
                 lpAct->target->damaged = 0;
-                if (lpAct->lpParent->field_E0C > 0)
-                {
+                if(lpAct->lpParent->field_E0C > 0)
                     GM_SeSetPan(&lpAct->control.mov, 0x88, lpAct->lpParent->nSoundVolume);
-                }
             }
         }
     }
 
-    if (GM_Vitality != 0 && GM_GameOverTimer == 0 && lpAct->target != NULL && lpAct->lpParent->field_E0C <= 0)
+    if((GM_Vitality != 0) && (GM_GameOverTimer == 0)
+        && (lpAct->target != NULL) && (lpAct->lpParent->field_E0C <= 0))
     {
         GM_EnemyKillCount++;
         lpAct->lpParent->field_E0C = lpAct->lpParent->field_D74;
@@ -342,32 +352,30 @@ static void Act(LPM1E1GUNNERACT lpAct)
         GM_FreeObject(&lpAct->body);
         GM_InitObject(&lpAct->body, GV_StrCode("out_cold"), 0x32D, GV_StrCode("tankman"));
         GM_ConfigObjectJoint(&lpAct->body);
-        GM_ConfigMotionControl(&lpAct->body, &lpAct->m_ctrl, GV_StrCode("tankman"), lpAct->m_segs1,
-                               lpAct->m_segs2, &lpAct->subcontrol, lpAct->rots);
+        GM_ConfigMotionControl(&lpAct->body, &lpAct->m_ctrl, GV_StrCode("tankman"),
+            lpAct->m_segs1, lpAct->m_segs2, &lpAct->subcontrol, lpAct->rots);
         GM_ConfigObjectLight(&lpAct->body, &lpAct->light[0]);
         GM_ActMotion(&lpAct->body);
         GM_ActControl(&lpAct->control);
         GM_ActObject(&lpAct->body);
-        if (lpAct->lpParent->field_E08 >= 2)
-        {
+
+        if(lpAct->lpParent->field_E08 >= 2)
             GM_SeSetPan(&lpAct->control.mov, 0x81, lpAct->lpParent->nSoundVolume);
-        }
         else
-        {
             GM_SeSetPan(&lpAct->control.mov, 0x84, lpAct->lpParent->nSoundVolume);
-        }
+
         GM_ConfigObjectAction(&lpAct->body, 3, 0, 5);
-        vec1.vx = 0;
-        vec1.vy = 6;
-        vec1.vz = 0xC;
-        vec1.pad = 0xF;
-        lpAct->lpShadow = NewDemoKage(&lpAct->body, vec1, &lpAct->nKageDir, &lpAct->nKageHeight, 0x80, 0x80, 0x80);
-        memset(&vec1, 0, 8);
-        vec1.vx = -lpAct->control.mov.vx;
-        vec1.vy = -lpAct->control.mov.vy;
-        vec1.vz = -lpAct->control.mov.vz;
+        svect1.vx = 0;
+        svect1.vy = 6;
+        svect1.vz = 0xC;
+        svect1.pad = 0xF;
+        lpAct->lpShadow = NewDemoKage(&lpAct->body, svect1, &lpAct->nKageDir, &lpAct->nKageHeight, 0x80, 0x80, 0x80);
+        memset(&svect1, 0x00, sizeof(SVECTOR));
+        svect1.vx = -lpAct->control.mov.vx;
+        svect1.vy = -lpAct->control.mov.vy;
+        svect1.vz = -lpAct->control.mov.vz;
         lpAct->control.turn.vx = 0;
-        lpAct->control.turn.vy = ratan2(vec1.vx, vec1.vz);
+        lpAct->control.turn.vy = ratan2(svect1.vx, svect1.vz);
         lpAct->control.turn.vz = 0;
         lpAct->field_204 = 0;
     }
@@ -377,24 +385,26 @@ static void Act(LPM1E1GUNNERACT lpAct)
     lpAct->bHidden = FALSE;
 }
 
-static void Die(LPM1E1GUNNERACT lpAct)
+static void Die(
+    LPM1E1GUNNERACT lpAct)
 {
     lpAct->lpParent->lpGunner = NULL;
-    if (lpAct->lpShadow)
-    {
+
+    if(lpAct->lpShadow)
         GV_DestroyActor(lpAct->lpShadow);
-    }
+
     GM_FreeObject(&lpAct->body);
     GM_FreeControl(&lpAct->control);
-    if (lpAct->target)
-    {
+
+    if(lpAct->target)
         GM_FreeTarget(lpAct->target);
-    }
-    if (lpAct->hom)
-    {
+
+    if(lpAct->hom)
         GM_ResetHomingTarget(lpAct->hom);
-    }
 }
+
+/******************************************************************************
+ */
 
 int s05a_800DEC18(LPM1E1GUNNERACT lpAct, SVECTOR *s2, int a2)
 {
@@ -427,7 +437,7 @@ int s05a_800DEC18(LPM1E1GUNNERACT lpAct, SVECTOR *s2, int a2)
     }
 
     local = *s2;
-    local.vy += 0x2710;
+    local.vy += 10000;
     if (HZD_LevelHazardCheck(lpAct->control.map->hzd, &local, HZD_CHK_FLOOR) != 1)
     {
         local.vy = 0;
@@ -492,7 +502,7 @@ void M1E1SoldierBombHoming(CONTROL *control, int fuse_time, u_short *arg3)
         if (hit < 0x96)
         {
             DG_SetPos2(&mov_d, &rot_d);
-            memset(&pos, 0, 8);
+            memset(&pos, 0x00, sizeof(SVECTOR));
             pos.vy = s05a_dword_800C362C->objBody.rots[3].vy - s05a_dword_800C362C->oldBody.rots[3].vy;
             DG_RotatePos(&pos);
             pos = control->mov;
@@ -605,7 +615,7 @@ void M1E1SoldierBombHoming(CONTROL *control, int fuse_time, u_short *arg3)
     pos.vx = (tgt.vx - GM_PlayerControl->mov.vx) >> 2;
     pos.vy = (tgt.vy - GM_PlayerControl->mov.vy) >> 2;
     pos.vz = (tgt.vz - GM_PlayerControl->mov.vz) >> 2;
-    memset(&rot_d, 0, 8);
+    memset(&rot_d, 0x00, sizeof(SVECTOR));
     rot_d.vy = ratan2(pos.vx, pos.vz);
     while (rot_d.vy < -0x800) rot_d.vy += 0x1000;
     while (rot_d.vy >= 0x801) rot_d.vy -= 0x1000;
@@ -629,7 +639,7 @@ void M1E1SoldierBombHoming(CONTROL *control, int fuse_time, u_short *arg3)
         {
             return;
         }
-        memset(&control->step, 0, 8);
+        memset(&control->step, 0x00, sizeof(SVECTOR));
         if (hit <= s05a_dword_800C362C->field_DF8 * 2 / 3)
         {
             control->step.vz = 0x78;
@@ -678,7 +688,7 @@ void M1E1SoldierBombHoming(CONTROL *control, int fuse_time, u_short *arg3)
         }
     }
 
-    memset(&mov_d, 0, 8);
+    memset(&mov_d, 0x00, sizeof(SVECTOR));
     spd = SquareRoot0(control->step.vx * control->step.vx + control->step.vz * control->step.vz);
     q = hit / fuse_time;
     mov_d.vz = spd;
@@ -742,13 +752,13 @@ int M1E1SoldierBombExplosion(TARGET *t, int flags)
     {
         if (s05a_dword_800C362C->lpGunner != NULL)
         {
-            s05a_dword_800C362C->lpGunner->target->vital = 0x2710;
+            s05a_dword_800C362C->lpGunner->target->vital = 10000;
             s05a_dword_800C362C->lpGunner->target->damage = 0;
             s05a_dword_800C362C->lpGunner->target->damaged = 0;
         }
         for (i = 0; i < 10; i++)
         {
-            s05a_dword_800C362C->lpTarget[i]->vital = 0x2710;
+            s05a_dword_800C362C->lpTarget[i]->vital = 10000;
             s05a_dword_800C362C->lpTarget[i]->damage = 0;
             s05a_dword_800C362C->lpTarget[i]->damaged = 0;
         }
@@ -775,7 +785,7 @@ int M1E1SoldierBombExplosion(TARGET *t, int flags)
         {
             for (i = 0; i < 10; i++)
             {
-                s05a_dword_800C362C->lpTarget[i]->vital = 0x2710;
+                s05a_dword_800C362C->lpTarget[i]->vital = 10000;
                 s05a_dword_800C362C->lpTarget[i]->damage = 0;
                 s05a_dword_800C362C->lpTarget[i]->damaged = 0;
             }
@@ -797,7 +807,7 @@ int M1E1SoldierBombExplosion(TARGET *t, int flags)
             {
                 for (i = 0; i < 10; i++)
                 {
-                    s05a_dword_800C362C->lpTarget[i]->vital = 0x2710;
+                    s05a_dword_800C362C->lpTarget[i]->vital = 10000;
                     s05a_dword_800C362C->lpTarget[i]->damage = 0;
                     s05a_dword_800C362C->lpTarget[i]->damaged = 0;
                 }
@@ -812,7 +822,7 @@ int M1E1SoldierBombExplosion(TARGET *t, int flags)
             }
         }
 
-        s05a_dword_800C362C->lpGunner->target->vital = 0x2710;
+        s05a_dword_800C362C->lpGunner->target->vital = 10000;
         s05a_dword_800C362C->lpGunner->target->damage = 0;
         s05a_dword_800C362C->lpGunner->target->damaged = 0;
     }
@@ -825,7 +835,7 @@ int M1E1SoldierBombExplosion(TARGET *t, int flags)
     {
         for (i = 0; i < 10; i++)
         {
-            s05a_dword_800C362C->lpTarget[i]->vital = 0x2710;
+            s05a_dword_800C362C->lpTarget[i]->vital = 10000;
             s05a_dword_800C362C->lpTarget[i]->damage = 0;
             s05a_dword_800C362C->lpTarget[i]->damaged = 0;
         }
@@ -848,7 +858,7 @@ int M1E1SoldierBombExplosion(TARGET *t, int flags)
             dist = SquareRoot0(dx * dx + dy * dy + dz * dz);
             if (dist >= 0x9C5)
             {
-                s05a_dword_800C362C->lpTarget[i]->vital = 0x2710;
+                s05a_dword_800C362C->lpTarget[i]->vital = 10000;
                 s05a_dword_800C362C->lpTarget[i]->damage = 0;
                 s05a_dword_800C362C->lpTarget[i]->damaged = 0;
             }
@@ -961,7 +971,7 @@ int M1E1SoldierActControl(GV_ACT *actor)
         pos.vx = (pos.vx - work->control.mov.vx) >> 2;
         pos.vy = (pos.vy - work->control.mov.vy) >> 2;
         pos.vz = (pos.vz - work->control.mov.vz) >> 2;
-        memset(&rot, 0, 8);
+        memset(&rot, 0x00, sizeof(SVECTOR));
         rot.vy = ratan2(pos.vx, pos.vz);
         while (rot.vy < -0x800) rot.vy += 0x1000;
         while (rot.vy >= 0x801) rot.vy -= 0x1000;
@@ -1104,7 +1114,7 @@ int M1E1SoldierActObject(SnaInitWork *work_)
         return 0;
     }
 
-    if (s05a_dword_800C362C->field_D54 == 1 || s05a_dword_800C362C->field_D54 == 6)
+    if (s05a_dword_800C362C->nState == 1 || s05a_dword_800C362C->nState == 6)
     {
         s05a_dword_800E3800 = *GM_PlayerControl;
         return 0;
