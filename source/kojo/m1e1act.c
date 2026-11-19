@@ -2278,47 +2278,47 @@ void s05a_800DA940(LPM1E1ACT lpAct)
     DG_PutVector(verts, verts, 10);
     for(i = 0; i < 10; i++)
     {
-        GM_MoveTarget((TARGET *)&lpAct->field_A84[i], &verts[i]);
+        GM_MoveTarget(&lpAct->field_A84[i], &verts[i]);
     }
 
-    s0 = (*(int *)((char *)lpAct + 0x8C8) * 3) >> 2;
-    s1 = (*(int *)((char *)lpAct + 0x95C) * 3) >> 2;
+    s0 = (lpAct->field_8C8 * 3) >> 2;
+    s1 = (lpAct->field_95C * 3) >> 2;
 
     vec.vx = 0;
     vec.vz = WMDL(0x1C) - s0;
     vec.vy = WMDL(0x18);
     DG_PutVector(&vec, &vec, 1);
-    GM_MoveTarget((TARGET *)((char *)lpAct + 0x8CC), &vec);
+    GM_MoveTarget(&lpAct->target0, &vec);
 
     vec.vx = 0;
     vec.vz = WMDL(0x10) + s0;
     vec.vy = WMDL(0x18);
     DG_PutVector(&vec, &vec, 1);
-    GM_MoveTarget((TARGET *)((char *)lpAct + 0x914), &vec);
+    GM_MoveTarget(&lpAct->target1, &vec);
 
     vec.vx = WMDL(0x08) + s1;
     vec.vz = WMDL(0x1C) - s1;
     vec.vy = WMDL(0x18);
     DG_PutVector(&vec, &vec, 1);
-    GM_MoveTarget((TARGET *)((char *)lpAct + 0x960), &vec);
+    GM_MoveTarget(&lpAct->target2, &vec);
 
     vec.vx = WMDL(0x08) + s1;
     vec.vz = WMDL(0x10) + s1;
     vec.vy = WMDL(0x18);
     DG_PutVector(&vec, &vec, 1);
-    GM_MoveTarget((TARGET *)((char *)lpAct + 0x9A8), &vec);
+    GM_MoveTarget(&lpAct->target3, &vec);
 
     vec.vx = WMDL(0x14) - s1;
     vec.vz = WMDL(0x1C) - s1;
     vec.vy = WMDL(0x18);
     DG_PutVector(&vec, &vec, 1);
-    GM_MoveTarget((TARGET *)((char *)lpAct + 0x9F0), &vec);
+    GM_MoveTarget(&lpAct->target4, &vec);
 
     vec.vx = WMDL(0x14) - s1;
     vec.vz = WMDL(0x10) + s1;
     vec.vy = WMDL(0x18);
     DG_PutVector(&vec, &vec, 1);
-    GM_MoveTarget((TARGET *)((char *)lpAct + 0xA38), &vec);
+    GM_MoveTarget(&lpAct->target5, &vec);
 }
 
 void s05a_800DACF0(LPM1E1ACT lpAct)
@@ -2328,13 +2328,13 @@ void s05a_800DACF0(LPM1E1ACT lpAct)
     lpAct->copy2 = lpAct->hzdBlock[4].flr[1];
 
     GetHazard2(lpAct->hzdBlock[0].seg, lpAct->hzdBlock[0].flr,
-        (MATRIX *)((char *)lpAct->objBody.objs + 0xA4), &lpAct->bbox[0], &lpAct->bbox[1]);
+        &lpAct->objBody.objs->objs[1].world, &lpAct->bbox[0], &lpAct->bbox[1]);
     GetHazard2(lpAct->hzdBlock[1].seg, lpAct->hzdBlock[1].flr,
-        (MATRIX *)((char *)lpAct->objBody.objs + 0x100), &lpAct->bbox[2], &lpAct->bbox[3]);
+        &lpAct->objBody.objs->objs[2].world, &lpAct->bbox[2], &lpAct->bbox[3]);
     GetHazard2(lpAct->hzdBlock[2].seg, lpAct->hzdBlock[2].flr,
-        (MATRIX *)((char *)lpAct->objLeftCater[0].objs + 0x48), &lpAct->bbox[4], &lpAct->bbox[5]);
+        &lpAct->objLeftCater[0].objs->objs[0].world, &lpAct->bbox[4], &lpAct->bbox[5]);
     GetHazard2(lpAct->hzdBlock[3].seg, lpAct->hzdBlock[3].flr,
-        (MATRIX *)((char *)lpAct->objRightCater[0].objs + 0x48), &lpAct->bbox[6], &lpAct->bbox[7]);
+        &lpAct->objRightCater[0].objs->objs[0].world, &lpAct->bbox[6], &lpAct->bbox[7]);
     GetHazard2(lpAct->hzdBlock[4].seg, lpAct->hzdBlock[4].flr,
-        (MATRIX *)((char *)lpAct->objBody.objs + 0x15C), &lpAct->bbox[8], &lpAct->bbox[9]);
+        &lpAct->objBody.objs->objs[3].world, &lpAct->bbox[8], &lpAct->bbox[9]);
 }
