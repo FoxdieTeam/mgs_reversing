@@ -47,11 +47,9 @@ void* NewM1E1Soldier(
     LPM1E1ACT lpParent)
 {
     LPM1E1GUNNERACT lpAct;
-    int       name;
-    int       i;
-    OBJECT   *bodyp;
-    const char *tankstr;
-    SVECTOR   size;
+    int             i;
+    OBJECT*         lpBody;
+    SVECTOR         svectSize;
 
     if((lpAct = GV_NewActor(GV_ACTOR_AFTER, sizeof(M1E1GUNNERACT))) == NULL)
         return NULL;
@@ -75,24 +73,21 @@ void* NewM1E1Soldier(
     lpAct->light[0].t[1] = lpAct->lpParent->light[0].t[1];
     lpAct->light[0].t[2] = lpAct->lpParent->light[0].t[2];
 
-    name = GV_StrCode("out_c_m1");
-    tankstr = "tankman";
-
-    bodyp = &lpAct->body;
-    GM_InitObject(bodyp, name, 0x32d, GV_StrCode(tankstr));
-    GM_ConfigObjectJoint(bodyp);
-    GM_ConfigMotionControl(bodyp, &lpAct->m_ctrl, GV_StrCode(tankstr),
+    lpBody = &lpAct->body;
+    GM_InitObject(lpBody, GV_StrCode("out_c_m1"), 0x32d, GV_StrCode("tankman"));
+    GM_ConfigObjectJoint(lpBody);
+    GM_ConfigMotionControl(lpBody, &lpAct->m_ctrl, GV_StrCode("tankman"),
         lpAct->m_segs1, lpAct->m_segs2, &lpAct->subcontrol, lpAct->rots);
-    GM_ConfigObjectLight(bodyp, &lpAct->light[0]);
+    GM_ConfigObjectLight(lpBody, &lpAct->light[0]);
 
-    DG_InvisibleObjs(bodyp->objs);
+    DG_InvisibleObjs(lpBody->objs);
     lpAct->hom = GM_SetHomingTarget(&lpAct->homMatrix, &lpAct->control);
     lpAct->hom->flag = 1;
     lpAct->target = GM_AllocTarget();
-    size.vx = 300;
-    size.vy = 300;
-    size.vz = 300;
-    GM_SetTarget(lpAct->target, 0x94, 2, &size);
+    svectSize.vx = 300;
+    svectSize.vy = 300;
+    svectSize.vz = 300;
+    GM_SetTarget(lpAct->target, 0x94, 2, &svectSize);
     GM_SetPowerTarget(lpAct->target, 1, -1, 10000, 0, &DG_ZeroVector);
 
     for(i = 0; i < 16; i++)
