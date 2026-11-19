@@ -3,7 +3,7 @@
 
 #include "game/game.h"
 
-void *NewShadow(CONTROL *control, OBJECT *parent, SVECTOR indices);
-void *NewShadow2(CONTROL *control, OBJECT *parent, SVECTOR indices, int **enabled);
+void *NewHumanShadow(CONTROL *root_ctrl, OBJECT *root_obj, SVECTOR units);
+void *NewHumanShadow2(CONTROL *root_ctrl, OBJECT *root_obj, SVECTOR units, int **enabled);
 
 #endif // __MGS_CHARA_SHADOW_H__

@@ -8,7 +8,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/vibrate.h"       // for NewPadVibration
-#include "chara/snake/shadow.h" // for NewShadow
+#include "chara/snake/shadow.h" // for NewHumanShadow
 #include "takabe/cineutil.h"    // for OpenCinemaScreen, etc.
 
 /*---------------------------------------------------------------------------*/
@@ -318,7 +318,7 @@ static int GetResources(Work *work, int name, int where)
     indices.vy = 6;
     indices.vz = 12;
     indices.pad = 15;
-    work->shadow = NewShadow(control, body, indices);
+    work->shadow = NewHumanShadow(control, body, indices);
 
     work->state = 0;
 

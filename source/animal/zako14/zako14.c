@@ -240,7 +240,7 @@ static int InitState( Work *work, int name, int where )
     indices.vy = 6;
     indices.vz = 12;
     indices.pad = 15;
-    work->shadow = NewShadow2( control, body, indices, &work->shadow_enable );
+    work->shadow = NewHumanShadow2( control, body, indices, &work->shadow_enable );
     work->glight = NewGunLight( &body->objs->objs[ 4 ].world, &work->glight_enable );
 
     ZAKO14_SetPutChar( work, 0 );

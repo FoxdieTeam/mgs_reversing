@@ -8,7 +8,7 @@
 #include "libhzd/libhzd.h"
 #include "strcode.h"
 
-#include "chara/snake/shadow.h" // for NewShadow2
+#include "chara/snake/shadow.h" // for NewHumanShadow2
 #include "enemy/glight.h"       // for NewGunLight
 
 // BUG: Should be void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, u_short, u_short);
@@ -247,7 +247,7 @@ int s11i_zako11f_800C8B98( Zako11FWork* work, int name, int where )
     shadow.pad = 15;
     shadow.vx  = 0;
 
-    work->shadow = NewShadow2( ctrl, body, shadow,  &work->shadow_enable ) ;
+    work->shadow = NewHumanShadow2( ctrl, body, shadow,  &work->shadow_enable ) ;
     work->glight = NewGunLight( &( body->objs->objs[4].world ), &work->glight_enable ) ;
 
     ZAKO11F_SetPutChar_800CD700( work, 0 );

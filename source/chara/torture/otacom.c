@@ -165,7 +165,7 @@ void Otacom_800CB494(Work *work, int timer)
             indices.vy = 6;
             indices.vz = 12;
             indices.pad = 15;
-            work->shadow = NewShadow(control, object, indices);
+            work->shadow = NewHumanShadow(control, object, indices);
         }
 
         if (timer == 64)
@@ -223,7 +223,7 @@ void Otacom_800CB838(Work *work, int timer)
             indices.vy = 6;
             indices.vz = 12;
             indices.pad = 15;
-            work->shadow = NewShadow(control, object, indices);
+            work->shadow = NewHumanShadow(control, object, indices);
 
             GCL_ExecProc(work->procs[1], NULL);
 

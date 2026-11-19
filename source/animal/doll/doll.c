@@ -9,7 +9,7 @@
 #include "libhzd/libhzd.h"
 #include "strcode.h"
 
-#include "chara/snake/shadow.h" // for NewShadow
+#include "chara/snake/shadow.h" // for NewHumanShadow
 #include "enemy/asiato2.h"      // for NewAsiato2
 #include "enemy/glight.h"       // for NewGunLight
 
@@ -351,7 +351,7 @@ int s01a_doll_800DC1AC(DollWork *work, int name, int map)
     indices.vz  = 12;
     indices.pad = 15;
 
-    work->shadow = NewShadow(control, body, indices);
+    work->shadow = NewHumanShadow(control, body, indices);
     if (work->shadow == NULL)
     {
         return -1;

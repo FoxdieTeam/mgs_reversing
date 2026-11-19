@@ -12,7 +12,7 @@
 #include "chara/snake/sna_init.h"
 #include "strcode.h"
 
-#include "chara/snake/shadow.h" // for NewShadow
+#include "chara/snake/shadow.h" // for NewHumanShadow
 #include "enemy/glight.h"       // for NewGunLight
 #include "okajima/blood.h"      // for NewBlood
 #include "okajima/hiyoko.h"     // for NewHiyoko
@@ -3810,7 +3810,7 @@ static int GetResources(Work *work, int name, int where)
             indices.vy = 6;
             indices.vz = 12;
             indices.pad = 15;
-            work->shadow = NewShadow(control, object, indices);
+            work->shadow = NewHumanShadow(control, object, indices);
             if (work->shadow != NULL)
             {
                 GM_VoxInit();
