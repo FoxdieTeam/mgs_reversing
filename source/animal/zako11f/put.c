@@ -11,8 +11,28 @@ extern SVECTOR s11i_800C33CC;
 extern SVECTOR s11i_800C33F4;
 extern SVECTOR s11i_800C33FC;
 
-extern const char *s11i_dword_800C33D4[3];
-extern void       *PutFuncList_800C33E0[5];
+const char *s11i_dword_800C33D4[3] = {
+    (const char *)0x800D5260,
+    (const char *)0x800D524C,
+    (const char *)0x800D5238
+};
+
+void ZAKO11F_PutSound_800CD2C0( Zako11FWork *work );
+void ZAKO11F_PutBreath_800CD358( Zako11FWork *work );
+void ZAKO11F_PutLSight_800CD4A0( Zako11FWork *work );
+void ZAKO11F_PutBulletEx_800CD4DC( Zako11FWork *work );
+void ZAKO11F_PutBulletEx2_800CD618( Zako11FWork *work );
+
+void *PutFuncList_800C33E0[5] = {
+    ZAKO11F_PutSound_800CD2C0,
+    ZAKO11F_PutBreath_800CD358,
+    ZAKO11F_PutLSight_800CD4A0,
+    ZAKO11F_PutBulletEx_800CD4DC,
+    ZAKO11F_PutBulletEx2_800CD618
+};
+
+SVECTOR s11i_800C33F4 = {5, -500, 80, 0};
+SVECTOR s11i_800C33FC = {5, -500, 80, 0};
 
 extern ZAKO11F_COMMAND Zako11FCommand_800D5AF8;
 
