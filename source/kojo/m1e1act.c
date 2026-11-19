@@ -30,7 +30,7 @@ extern void GetHazard2(HZD_SEG *seg, HZD_FLR *flr, MATRIX *pTransform,
                          SVECTOR *pMin, SVECTOR *pMax);
 extern void AN_Smoke_800CE08C(SVECTOR *pos);
 extern void *NewM1E1Shell(int nName, MATRIX *lpWorld, int nSide, SVECTOR *lpsvectTarget, int nVital, int nLength, int nSpeed, int *lpnResult);
-extern void *s05a_800DDCBC(LPM1E1ACT lpParent);
+extern void *NewM1E1Soldier(LPM1E1ACT lpParent);
 
 void s05a_800D627C(LPM1E1ACT lpAct);
 void s05a_800D797C(LPM1E1ACT lpAct);
@@ -1566,7 +1566,7 @@ void s05a_800D863C(LPM1E1ACT lpAct)
             }
             if (lpAct->lpGunner == NULL && lpAct->field_E08 > 0)
             {
-                lpAct->lpGunner = s05a_800DDCBC(lpAct);
+                lpAct->lpGunner = NewM1E1Soldier(lpAct);
                 GM_ConfigObjectAction(&lpAct->lpGunner->body, 2, 0, 5);
             }
         }

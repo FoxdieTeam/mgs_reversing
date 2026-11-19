@@ -24,14 +24,18 @@ extern LPM1E1ACT s05a_dword_800C362C;
 
 static CONTROL s05a_dword_800E3800;
 
-void s05a_800DDF18(LPM1E1GUNNERACT lpAct);
-int  s05a_800DEC18(LPM1E1GUNNERACT lpAct, SVECTOR *s2, int a2);
-void s05a_800DEB94(LPM1E1GUNNERACT lpAct);
+static void Act(LPM1E1GUNNERACT lpAct);
+static void Die(LPM1E1GUNNERACT lpAct);
+int s05a_800DEC18(LPM1E1GUNNERACT lpAct, SVECTOR *s2, int a2);
+void s05a_800E0D38(CONTROL *control, HZD_HDL *lpHazard);
+void s05a_800E0E28(CONTROL *control, HZD_HDL *lpHazard);
+void s05a_800E0F64(CONTROL *control, HZD_HDL *lpHazard);
+void s05a_800E1014(CONTROL *control, HZD_HDL *lpHazard);
 
 /******************************************************************************
  */
 
-void *s05a_800DDCBC(LPM1E1ACT lpParent)
+void *NewM1E1Soldier(LPM1E1ACT lpParent)
 {
     LPM1E1GUNNERACT lpAct;
     int       name;
@@ -47,10 +51,10 @@ void *s05a_800DDCBC(LPM1E1ACT lpParent)
     }
     lpAct->bHidden = TRUE;
     lpAct->lpParent = lpParent;
-    GV_SetNamedActor(lpAct, s05a_800DDF18, s05a_800DEB94, "m1e1sold.c");
+    GV_SetNamedActor(lpAct, Act, Die, "m1e1sold.c");
 
-    if (GM_InitControl(&lpAct->control, lpAct->lpParent->field_744,
-                       lpAct->lpParent->field_748) < 0)
+    if (GM_InitControl(&lpAct->control, lpAct->lpParent->nName,
+                       lpAct->lpParent->nMap) < 0)
     {
         GV_DestroyActor(lpAct);
         return 0;
@@ -94,7 +98,7 @@ void *s05a_800DDCBC(LPM1E1ACT lpParent)
     return (void*)lpAct;
 }
 
-void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
+static void Act(LPM1E1GUNNERACT lpAct)
 {
     int     lvl[2];
     SVECTOR vec1;
@@ -373,7 +377,7 @@ void s05a_800DDF18(LPM1E1GUNNERACT lpAct)
     lpAct->bHidden = FALSE;
 }
 
-void s05a_800DEB94(LPM1E1GUNNERACT lpAct)
+static void Die(LPM1E1GUNNERACT lpAct)
 {
     lpAct->lpParent->lpGunner = NULL;
     if (lpAct->lpShadow)
@@ -456,7 +460,7 @@ int s05a_800DEC18(LPM1E1GUNNERACT lpAct, SVECTOR *s2, int a2)
     return v;
 }
 
-void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
+void M1E1SoldierBombHoming(CONTROL *control, int fuse_time, u_short *arg3)
 {
     int     lvl[2];
     SVECTOR pos;
@@ -687,7 +691,7 @@ void s05a_800DEDE8(CONTROL *control, int fuse_time, u_short *arg3)
     control->step.vy -= (short)*arg3 >> 8;
 }
 
-int s05a_800DF834(int arg0, SVECTOR *vec, u_short *arg3)
+int M1E1SoldierBombBound(int arg0, SVECTOR *vec, u_short *arg3)
 {
     SVECTOR d;
     SVECTOR e;
@@ -726,7 +730,7 @@ int s05a_800DF834(int arg0, SVECTOR *vec, u_short *arg3)
     return 0;
 }
 
-int s05a_800DF9C8(TARGET *t, int flags)
+int M1E1SoldierBombExplosion(TARGET *t, int flags)
 {
     SVECTOR delta;
     SVECTOR e;
@@ -933,12 +937,7 @@ int s05a_800E00D8(SnaInitWork *snake, SnaFlag1 flags)
     return (snake->field_894_flags1 & flags) != 0;
 }
 
-void s05a_800E0D38(CONTROL *control, HZD_HDL *lpHazard);
-void s05a_800E0E28(CONTROL *control, HZD_HDL *lpHazard);
-void s05a_800E0F64(CONTROL *control, HZD_HDL *lpHazard);
-void s05a_800E1014(CONTROL *control, HZD_HDL *lpHazard);
-
-int s05a_800E00EC(GV_ACT *actor)
+int M1E1SoldierActControl(GV_ACT *actor)
 {
     int      vy = 0;
     SnaInitWork *work = (SnaInitWork *)actor;
@@ -1073,7 +1072,7 @@ int s05a_800E00EC(GV_ACT *actor)
     return 1;
 }
 
-int s05a_800E066C(SnaInitWork *work_)
+int M1E1SoldierActObject(SnaInitWork *work_)
 {
     SnaInitWork *work = work_;
     int     heights[2];

@@ -19,96 +19,120 @@ extern void sub_8007E0AC(int y, SVECTOR *pos);
 /******************************************************************************
  */
 
-typedef struct
+typedef struct tagM1E1SMOKEACT
 {
-    GV_ACT  actor;      /* 0x00 */
-    int     field_20;   /* 0x20 */
-    int     field_24;   /* 0x24 */
-    SVECTOR field_28;   /* 0x28 */
-    SVECTOR field_30;   /* 0x30 */
-    int     field_38;   /* 0x38 */
-    int     field_3c;   /* 0x3C */
-} Work;
+    GV_ACT  actor;
+    int     nMap;
+    int     nType;
+    SVECTOR svectPos;
+    SVECTOR svectRot;
+    int     nTime1;
+    int     nTime2;
+} M1E1SMOKEACT, *PM1E1SMOKEACT, *LPM1E1SMOKEACT;
 
-void s05a_800DC058(Work *work);
-void s05a_800DC224(Work *work);
+static void Act(LPM1E1SMOKEACT lpAct);
+static void Die(LPM1E1SMOKEACT lpAct);
 
 /******************************************************************************
  */
 
-void *NewM1E1Smoke(int type, SVECTOR *a1, SVECTOR *a2)
+void *NewM1E1Smoke(int type, SVECTOR *lpsvectPos, SVECTOR *lpsvectRot)
 {
-    Work *work = GV_NewActor(GV_ACTOR_PREV, sizeof(Work));
+    LPM1E1SMOKEACT  lpAct;
 
-    if (work == NULL)
-    {
-        return NULL;
-    }
+    lpAct = GV_NewActor(GV_ACTOR_PREV, sizeof(M1E1SMOKEACT));
+    if (lpAct == NULL) return NULL;
 
-    work->field_24 = type;
-    work->field_20 = GM_CurrentMap;
-    work->field_28 = *a1;
-    work->field_30 = *a2;
-    work->field_3c = 0;
-    switch (work->field_24)
+    lpAct->nType = type;
+    lpAct->nMap = GM_CurrentMap;
+    lpAct->svectPos = *lpsvectPos;
+    lpAct->svectRot = *lpsvectRot;
+    lpAct->nTime2 = 0;
+
+    switch (lpAct->nType)
     {
     case 0:
-        work->field_38 = 60;
+        lpAct->nTime1 = 60;
         break;
     case 1:
-        work->field_38 = 10;
+        lpAct->nTime1 = 10;
         break;
     }
-    GV_SetNamedActor(&work->actor, s05a_800DC058, s05a_800DC224, "m1e1smke.c");
-    return (void *)work;
+
+    GV_SetNamedActor(&lpAct->actor, Act, Die, "m1e1smke.c");
+    return (void *)lpAct;
 }
 
-void s05a_800DC058(Work *work)
+static void Act(LPM1E1SMOKEACT lpAct)
 {
-    SVECTOR vec;
+    SVECTOR svect1;
 
-    GM_CurrentMap = work->field_20;
-    switch (work->field_24)
+    GM_SetCurrentMap(lpAct->nMap);
+
+    switch (lpAct->nType)
     {
     case 0:
-        if (work->field_38 == 0x39)
-            sub_8007DF10(&work->field_30, &work->field_28);
-        if ((work->field_3c / 4) * 4 == work->field_3c - 1)
+        if (lpAct->nTime1 == 57)
         {
-            if (work->field_38 >= 0x24)
-                sub_8007E0AC(work->field_30.vy, &work->field_28);
+            sub_8007DF10(&lpAct->svectRot, &lpAct->svectPos);
         }
-        if ((work->field_3c & 3) == 0)
+
+        if (lpAct->nTime2 / 4 * 4 == lpAct->nTime2 - 1)
         {
-            if (work->field_38 >= 0x29)
-                sub_8007DD80(work->field_30.vy, &work->field_28);
+            if (lpAct->nTime1 >= 36)
+            {
+                sub_8007E0AC(lpAct->svectRot.vy, &lpAct->svectPos);
+            }
+        }
+
+        if ((lpAct->nTime2 & 3) == 0)
+        {
+            if (lpAct->nTime1 >= 41)
+            {
+                sub_8007DD80(lpAct->svectRot.vy, &lpAct->svectPos);
+            }
         }
         break;
     case 1:
-        if (work->field_38 == 5)
+        if (lpAct->nTime1 == 5)
         {
-            DG_SetPos2(&DG_ZeroVector, &work->field_30);
-            memset(&vec, 0, 8);
-            vec.vx = -227;
-            DG_RotatePos(&vec);
-            memset(&vec, 0, 8);
-            vec.vz = 0x258;
-            DG_PutVector(&vec, &vec, 1);
-            AN_Blast_high2(&work->field_28, &vec);
+            DG_SetPos2(&DG_ZeroVector, &lpAct->svectRot);
+
+            memset(&svect1, 0, sizeof(SVECTOR));
+            svect1.vx = -227;
+            DG_RotatePos(&svect1);
+
+            memset(&svect1, 0, sizeof(SVECTOR));
+            svect1.vz = 600;
+            DG_PutVector(&svect1, &svect1, 1);
+
+            AN_Blast_high2(&lpAct->svectPos, &svect1);
         }
-        if (work->field_38 >= 7)
-            NewSplash2_800DB5E4(&work->field_30, &work->field_28);
-        if ((work->field_3c & 3) == 0)
-            sub_8007DC24(&work->field_28);
+
+        if (lpAct->nTime1 >= 7)
+        {
+            NewSplash2_800DB5E4(&lpAct->svectRot, &lpAct->svectPos);
+        }
+
+        if ((lpAct->nTime2 & 3) == 0)
+        {
+            sub_8007DC24(&lpAct->svectPos);
+        }
         break;
     }
-    if (--work->field_38 < 0)
-        GV_DestroyActor(work);
-    if ((work->field_38 & 1) == 0)
-        work->field_3c++;
+
+    if (--lpAct->nTime1 < 0)
+    {
+        GV_DestroyActor(lpAct);
+    }
+
+    if ((lpAct->nTime1 & 1) == 0)
+    {
+        lpAct->nTime2++;
+    }
 }
 
-void s05a_800DC224(Work *work)
+static void Die(LPM1E1SMOKEACT lpAct)
 {
     /* do nothing */
 }
