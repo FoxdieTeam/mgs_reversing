@@ -103,8 +103,8 @@ struct tagM1E1ACT
     OBJECT          objRightCater[3];   /* 0x46C */
     TARGET*         lpTarget[10];       /* 0x718 */
     BOOL            bInitialize;        /* 0x740 */
-    int             field_744;          /* 0x744 */
-    int             field_748;          /* 0x748 */
+    int             nName;              /* 0x744 */
+    int             nMap;               /* 0x748 */
     CONTROL         oldControl;         /* 0x74C */
     OBJECT          oldBody;            /* 0x7C8 */
     char            life_name[16];      /* 0x8AC "GUNNER" */

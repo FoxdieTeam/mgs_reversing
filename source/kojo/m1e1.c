@@ -17,11 +17,11 @@
 extern void  s05a_800D4A74(LPM1E1ACT lpAct);
 extern void  s05a_800D5E30(LPM1E1ACT lpAct);
 extern void *NewM1Throw(int name);
-extern int s05a_800E00EC();
-extern int s05a_800E066C();
-extern int s05a_800DEDE8();
-extern int s05a_800DF834();
-extern int s05a_800DF9C8();
+extern int M1E1SoldierActControl();
+extern int M1E1SoldierActObject();
+extern int M1E1SoldierBombHoming();
+extern int M1E1SoldierBombBound();
+extern int M1E1SoldierBombExplosion();
 
 LPM1E1ACT s05a_dword_800C362C = NULL;
 int s05a_dword_800C3630 = 0;
@@ -48,8 +48,8 @@ void *NewM1E1(int name, int where)
 
     lpAct->bInitialize = 1;
     GV_SetNamedActor(lpAct, s05a_800D4A74, s05a_800D5E30, "m1e1.c");
-    lpAct->field_744 = name;
-    lpAct->field_748 = where;
+    lpAct->nName = name;
+    lpAct->nMap = where;
 
     if (GM_InitControl(&lpAct->control, 0, where) < 0)
     {
@@ -314,11 +314,11 @@ void *NewM1E1(int name, int where)
         lpAct->lpM1Throw = NewM1Throw(GV_StrCode("throw"));
         flag = 0x150;
         lpAct->field_D54 = 1;
-        GM_lpfnPlayerActControl = (int (*)(GV_ACT *))s05a_800E00EC;
-        GM_lpfnPlayerActObject2 = (int (*)(GV_ACT *))s05a_800E066C;
-        GM_lpfnBombHoming       = (int (*)(CONTROL *, int, int *))s05a_800DEDE8;
-        GM_lpfnBombBound        = (int (*)(int, CONTROL *, int *))s05a_800DF834;
-        GM_lpfnBombExplosion    = (int (*)(TARGET *, int))s05a_800DF9C8;
+        GM_lpfnPlayerActControl = (int (*)(GV_ACT *))M1E1SoldierActControl;
+        GM_lpfnPlayerActObject2 = (int (*)(GV_ACT *))M1E1SoldierActObject;
+        GM_lpfnBombHoming       = (int (*)(CONTROL *, int, int *))M1E1SoldierBombHoming;
+        GM_lpfnBombBound        = (int (*)(int, CONTROL *, int *))M1E1SoldierBombBound;
+        GM_lpfnBombExplosion    = (int (*)(TARGET *, int))M1E1SoldierBombExplosion;
     }
     else
     {
