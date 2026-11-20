@@ -126,7 +126,7 @@ static int CreateObjects(Work *work, int name, int where)
     indices.vz = 12;
     indices.pad = 15;
 
-    work->shadow = NewShadow(control, body, indices);
+    work->shadow = NewHumanShadow(control, body, indices);
     if (work->shadow == NULL)
     {
         return -1;

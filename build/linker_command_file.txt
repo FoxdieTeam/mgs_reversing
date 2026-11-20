@@ -584,8 +584,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\dollact.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\think.obj", overlay
     include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
     include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
@@ -713,8 +714,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\dollact.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\think.obj", overlay
     include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
@@ -758,8 +760,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\dollact.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\think.obj", overlay
     include "{{OBJ_DIR}}\okajima\pato_lmp.obj", overlay
     include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
     include "{{OBJ_DIR}}\takabe\spark2.obj", overlay
@@ -1145,9 +1148,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\dollact.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\think.obj", overlay
     include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
@@ -1194,8 +1198,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\dollact.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\think.obj", overlay
     include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
@@ -1251,9 +1256,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\dollact.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\think.obj", overlay
     include "{{OBJ_DIR}}\okajima\uji.obj", overlay
     include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
@@ -1381,13 +1387,14 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\overlays\s11e\overlay2.obj", overlay
 
     include "{{OBJ_DIR}}\animal\zako11e\zako11e.obj", overlay
-    include "{{OBJ_DIR}}\animal\zako11e\zk11echeck.obj", overlay
-    include "{{OBJ_DIR}}\animal\zako11e\zk11eaction.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\override.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\put.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s11e\overlay3.obj", overlay
 
-    include "{{OBJ_DIR}}\animal\zako11e\zk11eenemy.obj", overlay
-    include "{{OBJ_DIR}}\animal\zako11e\zk11ethink.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\zk11eact.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11e\think.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11e\zk11ecom.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\s11e\overlay4.obj", overlay
@@ -1413,7 +1420,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\demokage.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
     include "{{OBJ_DIR}}\animal\meryl72\meryl72.obj", overlay
-    include "{{OBJ_DIR}}\animal\meryl72\check.obj", overlay
     include "{{OBJ_DIR}}\animal\meryl72\action.obj", overlay
     include "{{OBJ_DIR}}\animal\meryl72\override.obj", overlay
     include "{{OBJ_DIR}}\animal\meryl72\put.obj", overlay
@@ -1424,9 +1430,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\animal\meryl72\think.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\think7.obj", overlay
     include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
-    include "{{OBJ_DIR}}\animal\meryl72\think9.obj", overlay ; name needed
+    include "{{OBJ_DIR}}\animal\meryl72\think9.obj", overlay
     include "{{OBJ_DIR}}\kore\guest.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
@@ -1453,9 +1459,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\dollact.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\think.obj", overlay
     include "{{OBJ_DIR}}\okajima\splash.obj", overlay
     include "{{OBJ_DIR}}\okajima\d_bloods.obj", overlay
     include "{{OBJ_DIR}}\okajima\blood_cl.obj", overlay
@@ -1494,23 +1501,17 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\zako11f\zako11f.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11f\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11f\override.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11f\put.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11f\zk11fact.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11i\overlay3.obj", overlay
-
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
-
-    include "{{OBJ_DIR}}\animal\zako11f\override.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako11f\think.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11f\zk11fcom.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11i\overlay4.obj", overlay
-
     include "{{OBJ_DIR}}\takabe\dummy_wl.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay
@@ -1671,9 +1672,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\dollact.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\think.obj", overlay
     include "{{OBJ_DIR}}\okajima\plasma.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay
     include "{{OBJ_DIR}}\takabe\fadeio.obj", overlay
@@ -2000,9 +2002,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\dollact.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\think.obj", overlay
     include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
@@ -2047,9 +2050,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\dollact.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\think.obj", overlay
 
     include "{{OBJ_DIR}}\overlays\{{OVERLAY}}\overlay2.obj", overlay
 
@@ -2238,9 +2242,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\dollact.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\think.obj", overlay
     include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\meryl3.obj", overlay
     include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\ml3act.obj", overlay
     include "{{OBJ_DIR}}\overlays\s03d\animal\meryl3\think.obj", overlay
@@ -2417,9 +2422,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\dollact.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\breath.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\think.obj", overlay
     include "{{OBJ_DIR}}\okajima\plasma.obj", overlay
     include "{{OBJ_DIR}}\okajima\red_alrt.obj", overlay
     include "{{OBJ_DIR}}\okajima\blurpure.obj", overlay
@@ -2544,10 +2550,10 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\doll\doll.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato2.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll0.obj", overlay
-    include "{{OBJ_DIR}}\animal\doll\demodoll.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\action.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\dollact.obj", overlay
+    include "{{OBJ_DIR}}\animal\doll\think.obj", overlay
     include "{{OBJ_DIR}}\animal\meryl72\meryl72.obj", overlay
-    include "{{OBJ_DIR}}\animal\meryl72\check.obj", overlay
     include "{{OBJ_DIR}}\animal\meryl72\action.obj", overlay
     include "{{OBJ_DIR}}\animal\meryl72\override.obj", overlay
     include "{{OBJ_DIR}}\animal\meryl72\put.obj", overlay
@@ -2557,9 +2563,9 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\anime\effect\smoke.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
-    include "{{OBJ_DIR}}\animal\meryl72\think.obj", overlay
+    include "{{OBJ_DIR}}\animal\meryl72\think7.obj", overlay
     include "{{OBJ_DIR}}\takabe\cineutil.obj", overlay
-    include "{{OBJ_DIR}}\animal\meryl72\think9.obj", overlay ; name needed
+    include "{{OBJ_DIR}}\animal\meryl72\think9.obj", overlay
     include "{{OBJ_DIR}}\kore\guest.obj", overlay
     include "{{OBJ_DIR}}\okajima\blink_tx.obj", overlay
     include "{{OBJ_DIR}}\okajima\snowarea.obj", overlay
@@ -2633,7 +2639,7 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
     include "{{OBJ_DIR}}\animal\zako14\think.obj", overlay
     include "{{OBJ_DIR}}\enemy\eyeflash.obj", overlay
-    include "{{OBJ_DIR}}\animal\zako14\zako14com.obj", overlay
+    include "{{OBJ_DIR}}\animal\zako14\zk14com.obj", overlay
     include "{{OBJ_DIR}}\okajima\guncame.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\socom.obj", overlay
     include "{{OBJ_DIR}}\okajima\blur.obj", overlay

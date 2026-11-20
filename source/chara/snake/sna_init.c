@@ -8517,7 +8517,7 @@ static inline int GetResources(SnaInitWork *work, int name, int where)
     shadow.vz  = 12;
     shadow.pad = 15;
 
-    work->shadow = NewShadow2(control, body, shadow, &work->enable_shadow);
+    work->shadow = NewHumanShadow2(control, body, shadow, &work->enable_shadow);
 
     dword_800ABA1C = 0;
     GM_BombSeg = 0;

@@ -14,7 +14,7 @@
 #include "game/game.h"
 #include "strcode.h"
 
-#include "chara/snake/shadow.h" // for NewShadow2
+#include "chara/snake/shadow.h" // for NewHumanShadow2
 #include "enemy/glight.h"       // for NewGunLight
 
 int s00a_dword_800C3328[8]  = { 2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800 };
@@ -343,7 +343,7 @@ int s00a_watcher_800C45D4( WatcherWork* work, int name, int where )
     shadow.pad = 15;
     shadow.vx  = 0;
 
-    work->field_AF0 = (void*)NewShadow2( ctrl, body, shadow,  &work->field_AF4 ) ;
+    work->field_AF0 = (void*)NewHumanShadow2( ctrl, body, shadow,  &work->field_AF4 ) ;
     work->field_AF8 = NewGunLight( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
     ENE_SetPutChar( work, 0 );

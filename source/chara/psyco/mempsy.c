@@ -10,7 +10,7 @@
 #include "game/game.h"
 
 #include "chara/snake/sna_init.h"
-#include "chara/snake/shadow.h"         // for NewShadow
+#include "chara/snake/shadow.h"         // for NewHumanShadow
 #include "okajima/blurpure.h"           // for NewBlurPure
 #include "takabe/cineutil.h"            // for OpenCinemaScreen, etc.
 
@@ -1400,7 +1400,7 @@ static void InitShadow( Work *work )
     indices.vy = 6;
     indices.vz = 12;
     indices.pad = 15;
-    work->shadow = NewShadow( &work->control, &work->body, indices );
+    work->shadow = NewHumanShadow( &work->control, &work->body, indices );
 }
 
 static int GetResources( Work *work, int name, int where )
