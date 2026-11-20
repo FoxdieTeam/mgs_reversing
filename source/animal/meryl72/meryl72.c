@@ -277,12 +277,12 @@ void s07c_meryl72_800C7194( Meryl72Work *work )
 
 void s07c_meryl72_800C722C( void )
 {
-    printf( " type=0x%x\n", gUnkCameraStruct2_800B7868.type );
+    printf( " type=0x%x\n", gUnkCameraStruct2.type );
     printf( " rotate x=%d y=%d z=%d\n",
-            gUnkCameraStruct2_800B7868.rotate.vx,
-            gUnkCameraStruct2_800B7868.rotate.vy,
-            gUnkCameraStruct2_800B7868.rotate.vz );
-    printf( " track=%d\n", gUnkCameraStruct2_800B7868.track );
+            gUnkCameraStruct2.rotate.vx,
+            gUnkCameraStruct2.rotate.vy,
+            gUnkCameraStruct2.rotate.vz );
+    printf( " track=%d\n", gUnkCameraStruct2.track );
 
     memcpy( &meryl72_camera_800D5278, &GM_Camera, sizeof(GM_Camera) );
 

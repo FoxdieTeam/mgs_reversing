@@ -409,7 +409,7 @@ void PatrolLampAct_800D6678(Work *work)
                 }
                 else
                 {
-                    work->field_110C[i] = GV_DiffVec3(field_FA4_iter, &gUnkCameraStruct2_800B7868.position);
+                    work->field_110C[i] = GV_DiffVec3(field_FA4_iter, &gUnkCameraStruct2.position);
                     if (work->field_110C[i] < sp30)
                     {
                         sp30 = work->field_110C[i];

@@ -471,13 +471,13 @@ BOOL FrameRunDemo(
             return 0;
     }
 
-    gUnkCameraStruct2_800B7868.position.vx = lpDFrame->svectCamera.vx;
-    gUnkCameraStruct2_800B7868.position.vy = lpDFrame->svectCamera.vy;
-    gUnkCameraStruct2_800B7868.position.vz = lpDFrame->svectCamera.vz;
+    gUnkCameraStruct2.position.vx = lpDFrame->svectCamera.vx;
+    gUnkCameraStruct2.position.vy = lpDFrame->svectCamera.vy;
+    gUnkCameraStruct2.position.vz = lpDFrame->svectCamera.vz;
 
-    gUnkCameraStruct2_800B7868.target.vx = lpDFrame->svectTarget.vx;
-    gUnkCameraStruct2_800B7868.target.vy = lpDFrame->svectTarget.vy;
-    gUnkCameraStruct2_800B7868.target.vz = lpDFrame->svectTarget.vz;
+    gUnkCameraStruct2.target.vx = lpDFrame->svectTarget.vx;
+    gUnkCameraStruct2.target.vy = lpDFrame->svectTarget.vy;
+    gUnkCameraStruct2.target.vz = lpDFrame->svectTarget.vz;
 
     DG_Chanl(0)->screen = lpDFrame->nScreen;
 

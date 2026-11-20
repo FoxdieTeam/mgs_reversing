@@ -22,8 +22,8 @@ void Hind_LookAt_800D2C1C(SVECTOR *eye, SVECTOR *center)
 {
     DG_MakeCameraMatrix(&DG_Chanls[1], eye, center, 320);
     GM_Camera.interp_mode = 0;
-    gUnkCameraStruct2_800B7868.position = *eye;
-    gUnkCameraStruct2_800B7868.target = *center;
+    gUnkCameraStruct2.position = *eye;
+    gUnkCameraStruct2.target = *center;
 }
 
 void s11g_hind_800D2CB4(HindWork *work)
@@ -158,9 +158,9 @@ void s11g_hind_800D2F60(HindWork *work)
         return;
     }
 
-    sp30.vx = (work->move_missile_pos_v.vx - gUnkCameraStruct2_800B7868.position.vx) >> 2;
-    sp30.vy = (work->move_missile_pos_v.vy - gUnkCameraStruct2_800B7868.position.vy) >> 2;
-    sp30.vz = (work->move_missile_pos_v.vz - gUnkCameraStruct2_800B7868.position.vz) >> 2;
+    sp30.vx = (work->move_missile_pos_v.vx - gUnkCameraStruct2.position.vx) >> 2;
+    sp30.vy = (work->move_missile_pos_v.vy - gUnkCameraStruct2.position.vy) >> 2;
+    sp30.vz = (work->move_missile_pos_v.vz - gUnkCameraStruct2.position.vz) >> 2;
 
     len = SquareRoot0(sp30.vx * sp30.vx + sp30.vy * sp30.vy + sp30.vz * sp30.vz) * 4;
 
@@ -170,9 +170,9 @@ void s11g_hind_800D2F60(HindWork *work)
     work->move_missile_pos.vy = sp38.vy;
     work->move_missile_pos.vz = sp38.vz;
 
-    sp30.vx = sp38.vx - gUnkCameraStruct2_800B7868.position.vx;
-    sp30.vy = sp38.vy - gUnkCameraStruct2_800B7868.position.vy;
-    sp30.vz = sp38.vz - gUnkCameraStruct2_800B7868.position.vz;
+    sp30.vx = sp38.vx - gUnkCameraStruct2.position.vx;
+    sp30.vy = sp38.vy - gUnkCameraStruct2.position.vy;
+    sp30.vz = sp38.vz - gUnkCameraStruct2.position.vz;
 
     len2 = SquareRoot0(sp30.vx * sp30.vx + sp30.vy * sp30.vy + sp30.vz * sp30.vz);
     if (len == 0)
@@ -497,7 +497,7 @@ void HindAct(HindWork *work)
 
     if (amissile_alive_8009F490 != 1)
     {
-        work->field_A78 = gUnkCameraStruct2_800B7868.position;
+        work->field_A78 = gUnkCameraStruct2.position;
     }
 
     scale.vx = work->field_A78.vx;

@@ -221,9 +221,9 @@ static void Act(
 
     if(GM_PlayerStatus & PLAYER_WATCH)
     {
-        svectSpeed.vx = gUnkCameraStruct2_800B7868.target.vx - gUnkCameraStruct2_800B7868.position.vx;
-        svectSpeed.vy = gUnkCameraStruct2_800B7868.target.vy - gUnkCameraStruct2_800B7868.position.vy;
-        svectSpeed.vz = gUnkCameraStruct2_800B7868.target.vz - gUnkCameraStruct2_800B7868.position.vz;
+        svectSpeed.vx = gUnkCameraStruct2.target.vx - gUnkCameraStruct2.position.vx;
+        svectSpeed.vy = gUnkCameraStruct2.target.vy - gUnkCameraStruct2.position.vy;
+        svectSpeed.vz = gUnkCameraStruct2.target.vz - gUnkCameraStruct2.position.vz;
 
         svectRotate.vx = -ratan2(svectSpeed.vy, SquareRoot0(svectSpeed.vx * svectSpeed.vx + svectSpeed.vz * svectSpeed.vz));
         svectRotate.vy = ratan2(svectSpeed.vx, svectSpeed.vz);

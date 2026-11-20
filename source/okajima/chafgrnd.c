@@ -173,14 +173,14 @@ static void Act(Work* work)
     {
         work->field_24 = 1;
 
-        CalcParticlePosition(&gUnkCameraStruct2_800B7868.position, &gUnkCameraStruct2_800B7868.target, &sp18);
+        CalcParticlePosition(&gUnkCameraStruct2.position, &gUnkCameraStruct2.target, &sp18);
 
         pVec = (SVECTOR *)getScratchAddr(0);
         pVec->vx = 0;
         pVec->vy = 0;
         pVec->vz = 2000;
 
-        DG_SetPos2(&gUnkCameraStruct2_800B7868.position, &sp18);
+        DG_SetPos2(&gUnkCameraStruct2.position, &sp18);
         DG_PutVector(pVec, pVec, 1);
 
         sp20 = 1;
@@ -197,7 +197,7 @@ static void Act(Work* work)
     {
         if (work->field_a40[i])
         {
-            *var_s7 = gUnkCameraStruct2_800B7868.position;
+            *var_s7 = gUnkCameraStruct2.position;
             continue;
         }
 
