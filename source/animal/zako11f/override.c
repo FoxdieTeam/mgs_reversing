@@ -1,89 +1,21 @@
-#include "enemy/enemy.h"
+#include "zako.h"
 
-/***Inlines***********************************************************************************************/
-static inline void SetZako11FMode( Zako11FWork *work, ZAKO11FACTION action ) // rename
-{
-    work->action = action;
-    work->time = 0;
-    work->control.turn.vz = 0;
-    work->control.turn.vx = 0;
-    GM_ConfigMotionAdjust( &( work->body ), NULL );
-}
+/*---------------------------------------------------------------------------*/
 
-static inline void SetZako11FMode2( Zako11FWork *work, ZAKO11FACTION action ) // rename
-{
-    if ( !work->action2 )
-    {
-        work->action2 = action;
-        work->time2 = 0;
-    }
-
-    work->control.turn.vz = 0;
-    work->control.turn.vx = 0;
-    GM_ConfigMotionAdjust( &( work->body ), 0 );
-}
-
-static inline void SetZako11FModeFields( Zako11FWork *work, ZAKO11FACTION action ) // rename
-{
-    work->action = action;
-    work->time = 0;
-    work->control.turn.vz = 0;
-    work->control.turn.vx = 0;
-}
-
-static inline void UnsetMode( Zako11FWork *work )
-{
-    extern short    ActTable_800C3330[];
-    work->unknown.last_unset = 0;
-    GM_ConfigObjectOverride( &( work->body ), ActTable_800C3330[STANDSTILL], 0, ACTINTERP, 0 );
-
-    work->action2 = 0;
-    work->time2 = 0;
-    work->unknown.last_unset = 0;
-    work->control.turn.vz = 0;
-    work->control.turn.vx = 0;
-}
-
-static inline void SetAction( Zako11FWork *work, int n_action, int interp )
-{
-    extern short    ActTable_800C3330[];
-    work->unknown.last_set = n_action ;
-    GM_ConfigObjectAction( &( work->body ), ActTable_800C3330[n_action], 0, interp );
-}
-
-static inline void UnsetAction( Zako11FWork *work, int n_action )
-{
-    extern short    ActTable_800C3330[];
-
-    work->unknown.last_unset = n_action;
-    GM_ConfigObjectOverride( &( work->body ), ActTable_800C3330[n_action], 0, ACTINTERP, 0x3FE );
-}
-
-static inline void UnsetActionManual( Zako11FWork *work, int n_action, int a4 )
-{
-    extern short    ActTable_800C3330[];
-
-    work->unknown.last_unset = n_action;
-    GM_ConfigObjectOverride( &( work->body ), ActTable_800C3330[n_action], 0, ACTINTERP, a4 );
-}
-/**********************************************************************************************************/
-
-SVECTOR s11i_800C33AC = {0, -700, 900, 0};
-SVECTOR s11i_800C33B4 = {0, 0, 100, 0};
-SVECTOR s11i_800C33BC = {-1024, 0, 0, 0};
-SVECTOR s11i_800C33C4 = {0, 0, 100, 0};
-SVECTOR s11i_800C33CC = {-1024, 0, 0, 0};
-
-extern void AN_Unknown_800C3B7C( MATRIX *matrix );
 extern void AN_Sleep( SVECTOR *pos );
+extern void AN_Unknown_800C3B7C( MATRIX *world );
 
-void s11i_asiato_800CAD34( Zako11FWork *work, int time );
+/*---------------------------------------------------------------------------*/
 
-void s11i_asiato_800CC528(Zako11FWork *work, int time)
+static SVECTOR s11i_800C33AC = {0, -700, 900};
+
+/*---------------------------------------------------------------------------*/
+
+void s11i_asiato_800CC528(Work *work, int time)
 {
     if (time == 0)
     {
-        UnsetAction(work, ACTION9);
+        SetAction2(work, 9, ACTINTERP, 0x3FE);
     }
 
     if (!(work->pad.press & 0x1))
@@ -100,11 +32,11 @@ void s11i_asiato_800CC528(Zako11FWork *work, int time)
     }
 }
 
-void s11i_asiato_800CC5F4(Zako11FWork *work, int time)
+void s11i_asiato_800CC5F4(Work *work, int time)
 {
     if (time == 0)
     {
-        UnsetAction(work, ACTION10);
+        SetAction2(work, 10, ACTINTERP, 0x3FE);
     }
 
     if (!(work->pad.press & 0x2))
@@ -121,13 +53,13 @@ void s11i_asiato_800CC5F4(Zako11FWork *work, int time)
     }
 }
 
-void ActOverScoutD_800CC6C0(Zako11FWork *work, int time)
+void ActOverScoutD_800CC6C0(Work *work, int time)
 {
     work->vision.length = 3000;
 
     if (time == 0)
     {
-        UnsetAction(work, ACTION11);
+        SetAction2(work, 11, ACTINTERP, 0x3FE);
     }
 
     if (!(work->pad.press & 0x4))
@@ -136,13 +68,13 @@ void ActOverScoutD_800CC6C0(Zako11FWork *work, int time)
     }
 }
 
-void s11i_asiato_800CC758(Zako11FWork *work, int time)
+void s11i_asiato_800CC758(Work *work, int time)
 {
     work->vision.length = 3000;
 
     if (time == 0)
     {
-        UnsetAction(work, ACTION14);
+        SetAction2(work, 14, ACTINTERP, 0x3FE);
     }
 
     if (!(work->pad.press & 0x2000))
@@ -151,13 +83,13 @@ void s11i_asiato_800CC758(Zako11FWork *work, int time)
     }
 }
 
-void s11i_asiato_800CC7F0(Zako11FWork *work, int time)
+void s11i_asiato_800CC7F0(Work *work, int time)
 {
     work->vision.length = 0;
 
     if (time == 0)
     {
-        UnsetAction(work, ACTION24);
+        SetAction2(work, 24, ACTINTERP, 0x3FE);
         GM_SeSet(&work->control.mov, SE_V_ENE_SNEEZE);
     }
 
@@ -168,13 +100,13 @@ void s11i_asiato_800CC7F0(Zako11FWork *work, int time)
     }
 }
 
-void s11i_asiato_800CC8A4(Zako11FWork *work, int time)
+void s11i_asiato_800CC8A4(Work *work, int time)
 {
     work->vision.length = 0;
 
     if (time == 0)
     {
-        UnsetAction(work, ACTION22);
+        SetAction2(work, 22, ACTINTERP, 0x3FE);
     }
 
     if (time == 60)
@@ -189,11 +121,11 @@ void s11i_asiato_800CC8A4(Zako11FWork *work, int time)
     }
 }
 
-void s11i_asiato_800CC96C(Zako11FWork *work, int time)
+void s11i_asiato_800CC96C(Work *work, int time)
     {
     if (time == 0)
     {
-        UnsetAction(work, ACTION23);
+        SetAction2(work, 23, ACTINTERP, 0x3FE);
     }
 
     if ((work->body.time2 != 0) || !(work->pad.press & 0x400))
@@ -203,13 +135,13 @@ void s11i_asiato_800CC96C(Zako11FWork *work, int time)
     }
 }
 
-void s11i_asiato_800CCA10(Zako11FWork *work, int time)
+void s11i_asiato_800CCA10(Work *work, int time)
 {
     work->vision.length = 0;
 
     if (time == 0)
     {
-        UnsetAction(work, ACTION19);
+        SetAction2(work, 19, ACTINTERP, 0x3FE);
     }
 
     if (time == 90)
@@ -224,7 +156,7 @@ void s11i_asiato_800CCA10(Zako11FWork *work, int time)
     }
 }
 
-void s11i_asiato_800CCAD8(Zako11FWork *work, int time)
+void s11i_asiato_800CCAD8(Work *work, int time)
 {
     SVECTOR pos;
 
@@ -232,7 +164,7 @@ void s11i_asiato_800CCAD8(Zako11FWork *work, int time)
 
     if (time == 0)
     {
-        UnsetAction(work, ACTION19);
+        SetAction2(work, 19, ACTINTERP, 0x3FE);
     }
 
     if (time == 90)
@@ -242,7 +174,7 @@ void s11i_asiato_800CCAD8(Zako11FWork *work, int time)
 
     if (time == 110)
     {
-        UnsetAction(work, ACTION20);
+        SetAction2(work, 20, ACTINTERP, 0x3FE);
     }
 
     if (time > 110)
@@ -266,7 +198,7 @@ void s11i_asiato_800CCAD8(Zako11FWork *work, int time)
 
         if (work->pad.press & 0x1000)
         {
-            SetZako11FMode(work, s11i_asiato_800CAD34);
+            SetMode(work, s11i_asiato_800CAD34);
             UnsetMode(work);
             return;
         }
@@ -278,7 +210,7 @@ void s11i_asiato_800CCAD8(Zako11FWork *work, int time)
     }
 }
 
-void s11i_asiato_800CCCB0(Zako11FWork *work)
+void s11i_asiato_800CCCB0(Work *work)
 {
     MATRIX rot;
 
@@ -289,7 +221,7 @@ void s11i_asiato_800CCCB0(Zako11FWork *work)
     AN_Unknown_800C3B7C(&rot);
 }
 
-void s11i_asiato_800CCCF0(Zako11FWork *work, int time)
+void s11i_asiato_800CCCF0(Work *work, int time)
 {
     int diff;
 
@@ -298,7 +230,7 @@ void s11i_asiato_800CCCF0(Zako11FWork *work, int time)
 
     if (time == 0)
     {
-        UnsetAction(work, ACTION25);
+        SetAction2(work, 25, ACTINTERP, 0x3FE);
     }
 
     if (time >= 1000 && time < 1210)
@@ -328,18 +260,18 @@ void s11i_asiato_800CCCF0(Zako11FWork *work, int time)
     }
 }
 
-void s11i_asiato_800CCE38(Zako11FWork *work, int time)
+void s11i_asiato_800CCE38(Work *work, int time)
 {
     work->vision.length = 3000;
 
     if (time == 0)
     {
-        UnsetAction(work, ACTION25);
+        SetAction2(work, 25, ACTINTERP, 0x3FE);
     }
 
     if (time == 186)
     {
-        UnsetActionManual(work, ACTION26, 0xFFFF);
+        SetAction2(work, 26, ACTINTERP, 0xFFFF);
     }
 
     if (time == 0   || time == 4   || time == 8   || time == 12  ||

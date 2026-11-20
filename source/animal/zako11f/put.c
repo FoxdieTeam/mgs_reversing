@@ -1,47 +1,50 @@
-#include "enemy/enemy.h"
+#include "zako.h"
+
 #include "anime/animconv/anime.h"
+#include "enemy/l_sight.h"
 #include "game/item.h"
 #include "okajima/blood.h"
 #include "okajima/bullet.h"
 
-extern SVECTOR s11i_800C33B4;
-extern SVECTOR s11i_800C33BC;
-extern SVECTOR s11i_800C33C4;
-extern SVECTOR s11i_800C33CC;
-extern SVECTOR s11i_800C33F4;
-extern SVECTOR s11i_800C33FC;
+/*---------------------------------------------------------------------------*/
 
-const char *s11i_dword_800C33D4[3] = {
-    (const char *)0x800D5260,
-    (const char *)0x800D524C,
-    (const char *)0x800D5238
+extern void *AN_Breath( MATRIX *world );
+extern void *AN_Fog( SVECTOR *pos );
+extern void *AN_HeadMark( MATRIX* world, int mark );
+
+/*---------------------------------------------------------------------------*/
+
+static void PutSound( Work *work );
+static void PutBreath( Work *work );
+static void PutLaserSight( Work *work );
+static void PutBullet( Work *work );
+static void PutBulletEx( Work *work );
+
+static SVECTOR s11i_800C33B4 = {0, 0, 100};
+static SVECTOR s11i_800C33BC = {-1024, 0, 0};
+static SVECTOR s11i_800C33C4 = {0, 0, 100};
+static SVECTOR s11i_800C33CC = {-1024, 0, 0};
+
+static char *ItemText[] = {
+    "RATION",
+    "SOCOM/BULLET * 12",
+    "FA-MAS/BULLET * 25"
 };
 
-void ZAKO11F_PutSound_800CD2C0( Zako11FWork *work );
-void ZAKO11F_PutBreath_800CD358( Zako11FWork *work );
-void ZAKO11F_PutLSight_800CD4A0( Zako11FWork *work );
-void ZAKO11F_PutBulletEx_800CD4DC( Zako11FWork *work );
-void ZAKO11F_PutBulletEx2_800CD618( Zako11FWork *work );
-
-void *PutFuncList_800C33E0[5] = {
-    ZAKO11F_PutSound_800CD2C0,
-    ZAKO11F_PutBreath_800CD358,
-    ZAKO11F_PutLSight_800CD4A0,
-    ZAKO11F_PutBulletEx_800CD4DC,
-    ZAKO11F_PutBulletEx2_800CD618
+static void *PutChars[] = {
+    PutSound,
+    PutBreath,
+    PutLaserSight,
+    PutBullet,
+    PutBulletEx
 };
 
-SVECTOR s11i_800C33F4 = {5, -500, 80, 0};
-SVECTOR s11i_800C33FC = {5, -500, 80, 0};
+static SVECTOR s11i_800C33F4 = {5, -500, 80, 0};
+static SVECTOR s11i_800C33FC = {5, -500, 80, 0};
 
-extern ZAKO11F_COMMAND Zako11FCommand_800D5AF8;
+/*---------------------------------------------------------------------------*/
 
-void AN_Breath( MATRIX *world );
-void NewLSight( SVECTOR *from, SVECTOR *to, int color );
-
-int ZAKO11F_ClearPutChar_800CD748( Zako11FWork *work, void *func );
-
-void ZAKO11F_PutBlood_800CCFD4(Zako11FWork *work, int unit, int count)
+void ZAKO11F_PutBlood(Work *work, int unit, int count)
 {
     MATRIX world;
 
@@ -52,7 +55,7 @@ void ZAKO11F_PutBlood_800CCFD4(Zako11FWork *work, int unit, int count)
     NewBlood(&world, count);
 }
 
-void ZAKO11F_PutFog_800CD044(Zako11FWork *work)
+void ZAKO11F_PutFog(Work *work)
 {
     MATRIX  world;
     SVECTOR pos;
@@ -69,14 +72,14 @@ void ZAKO11F_PutFog_800CD044(Zako11FWork *work)
     AN_Fog( &pos );
 }
 
-void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
+void ZAKO11F_PutItem( Work *work )
 {
     int rand;
     SVECTOR svec;
     CONTROL *ctrl;
     ITEM_INFO item;
 
-    svec = work->unknown.field_0C;
+    svec = work->act.field_0C;
     rand = 10;
     ctrl = &work->control;
     svec.vx += GV_RandU( rand );
@@ -92,7 +95,7 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
         item.type   = 4;
         item.id     = IT_Ration;
         item.num = 1;
-        item.message  = s11i_dword_800C33D4[0];
+        item.message  = ItemText[0];
         break;
     case 2:
         //socom
@@ -101,7 +104,7 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
             item.type   = 4;
             item.id     = IT_Ration;
             item.num = 1;
-            item.message  = s11i_dword_800C33D4[0];
+            item.message  = ItemText[0];
         }
         else
         {
@@ -109,7 +112,7 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
             item.type = 2;
             item.id = WP_Socom;
             item.num = 12;
-            item.message  = s11i_dword_800C33D4[1];
+            item.message  = ItemText[1];
         }
         break;
     case 3:
@@ -119,14 +122,14 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
             item.type   = 4;
             item.id     = IT_Ration;
             item.num = 1;
-            item.message  = s11i_dword_800C33D4[0];
+            item.message  = ItemText[0];
         }
         else
         {
             item.id     = WP_Famas;
             item.type   = 2;
             item.num = 25;
-            item.message  = s11i_dword_800C33D4[2];
+            item.message  = ItemText[2];
         }
         break;
     }
@@ -134,7 +137,7 @@ void ZAKO11F_PutItem_800CD0A8( Zako11FWork *work )
     NewItemPut( &ctrl->mov, &svec, &item );
 }
 
-void ZAKO11F_PutMark_800CD224( Zako11FWork *work, int mark )
+void ZAKO11F_PutMark( Work *work, int mark )
 {
     MATRIX *world;
 
@@ -159,18 +162,20 @@ void ZAKO11F_PutMark_800CD224( Zako11FWork *work, int mark )
     work->mark_time = 30;
 }
 
-void ZAKO11F_PutSound_800CD2C0( Zako11FWork *work )
+/*---------------------------------------------------------------------------*/
+
+static void PutSound( Work *work )
 {
     int action;
     int frame;
     int step1, step2;
 
-    action = work->unknown.last_set;
+    action = work->act.motion1;
     frame = work->m_ctrl.info1.frame;
     step1 = 160 + (work->param.index % 4) * 2;
     step2 = 160 + (work->param.index % 4) * 2 + 1;
 
-    if (action == ACTION1)
+    if (action == 1)
     {
         if (frame == 22)
         {
@@ -181,7 +186,7 @@ void ZAKO11F_PutSound_800CD2C0( Zako11FWork *work )
             GM_SeSet(&work->control.mov, step1);
         }
     }
-    else if (action == ACTION2)
+    else if (action == 2)
     {
         if (frame == 16)
         {
@@ -194,11 +199,11 @@ void ZAKO11F_PutSound_800CD2C0( Zako11FWork *work )
     }
 }
 
-void ZAKO11F_PutBreath_800CD358( Zako11FWork *work )
+static void PutBreath( Work *work )
 {
     int frame;
 
-    if ( Zako11FCommand_800D5AF8.mode == TOP_COMM_ALERT )
+    if ( ZAKO11FCommand.alert_mode == TOP_COMM_ALERT )
     {
         return;
     }
@@ -208,7 +213,7 @@ void ZAKO11F_PutBreath_800CD358( Zako11FWork *work )
         return;
     }
 
-    if ( work->unknown.last_unset == ACTION20 )
+    if ( work->act.motion2 == 20 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( frame == 31 )
@@ -216,7 +221,7 @@ void ZAKO11F_PutBreath_800CD358( Zako11FWork *work )
             AN_Breath( &work->body.objs->objs[6].world );
         }
     }
-    else if ( work->unknown.last_unset == ACTION22 )
+    else if ( work->act.motion2 == 22 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
@@ -225,7 +230,7 @@ void ZAKO11F_PutBreath_800CD358( Zako11FWork *work )
             AN_Breath( &work->body.objs->objs[6].world );
         }
     }
-    else if ( work->unknown.last_unset == ACTION19 )
+    else if ( work->act.motion2 == 19 )
     {
         frame = work->m_ctrl.info2.frame;
         if ( ( frame == 30  ) || ( frame == 40  ) || ( frame == 50 ) || ( frame == 60 ) ||
@@ -244,15 +249,15 @@ void ZAKO11F_PutBreath_800CD358( Zako11FWork *work )
     }
 }
 
-void ZAKO11F_PutLSight_800CD4A0( Zako11FWork *work )
+static void PutLaserSight( Work *work )
 {
-    if ( work->vision.field_B92 == 2 )
+    if ( work->vision.pad == 2 )
     {
         NewLSight( &GM_PlayerPosition, &work->control.mov, 0x00008F );
     }
 }
 
-void ZAKO11F_PutBulletEx_800CD4DC( Zako11FWork *work )
+static void PutBullet( Work *work )
 {
     SVECTOR rot;
     MATRIX  local;
@@ -275,11 +280,11 @@ void ZAKO11F_PutBulletEx_800CD4DC( Zako11FWork *work )
 
     if ( GV_Time & 3 )
     {
-        NewBulletEx(BULLET_RECOILSPARK, &local, ENEMY_SIDE, 1, 0, 0xA, work->field_B84, 10000, 750);
+        NewBulletEx(BULLET_RECOILSPARK, &local, ENEMY_SIDE, 1, 0, 0xA, work->param.damage, 10000, 750);
     }
     else
     {
-        NewBulletEx(BULLET_RECOILSPARK | BULLET_NO_HZD, &local, ENEMY_SIDE, 1, 0, 0xA, work->field_B84, 10000, 750);
+        NewBulletEx(BULLET_RECOILSPARK | BULLET_NO_HZD, &local, ENEMY_SIDE, 1, 0, 0xA, work->param.damage, 10000, 750);
     }
 
     GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
@@ -287,10 +292,10 @@ void ZAKO11F_PutBulletEx_800CD4DC( Zako11FWork *work )
     AN_BulletSmoke( world, 0 );
     AN_FamasFlash( &local );
 
-    ZAKO11F_ClearPutChar_800CD748( work, ZAKO11F_PutBulletEx_800CD4DC );
+    ZAKO11F_ClearPutChar( work, PutBullet );
 }
 
-void ZAKO11F_PutBulletEx2_800CD618( Zako11FWork *work )
+static void PutBulletEx( Work *work )
 {
     SVECTOR rot;
     MATRIX  local;
@@ -307,25 +312,27 @@ void ZAKO11F_PutBulletEx2_800CD618( Zako11FWork *work )
     DG_RotatePos( &rot );
     ReadRotMatrix( &local );
 
-    NewBulletEx(BULLET_FLASH | BULLET_RECOILSPARK | BULLET_BLAST, &local, ENEMY_SIDE, 1, 0, 0x1E, work->field_B86, 40000, 1500);
+    NewBulletEx(BULLET_FLASH | BULLET_RECOILSPARK | BULLET_BLAST, &local, ENEMY_SIDE, 1, 0, 0x1E, work->param.damage2, 40000, 1500);
 
     GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
 
     AN_BulletSmoke( world, 0 );
     AN_FamasFlash( &local );
 
-    ZAKO11F_ClearPutChar_800CD748( work, ZAKO11F_PutBulletEx2_800CD618 );
+    ZAKO11F_ClearPutChar( work, PutBulletEx );
 }
 
-int ZAKO11F_SetPutChar_800CD700( Zako11FWork *work, int idx )
+/*---------------------------------------------------------------------------*/
+
+int ZAKO11F_SetPutChar( Work *work, int idx )
 {
     int i;
 
     for ( i = 0 ; i < 8 ; i++ )
     {
-        if ( work->field_B00[ i ] == NULL )
+        if ( work->putchar[ i ] == NULL )
         {
-            work->field_B00[ i ] = PutFuncList_800C33E0[ idx ];
+            work->putchar[ i ] = PutChars[ idx ];
             return 1;
         }
     }
@@ -333,15 +340,15 @@ int ZAKO11F_SetPutChar_800CD700( Zako11FWork *work, int idx )
     return 0;
 }
 
-int ZAKO11F_ClearPutChar_800CD748( Zako11FWork *work, void *func )
+int ZAKO11F_ClearPutChar( Work *work, void *func )
 {
     int i;
 
     for ( i = 0 ; i < 8 ; i++ )
     {
-        if ( work->field_B00[ i ] == func )
+        if ( work->putchar[ i ] == func )
         {
-            work->field_B00[ i ] = NULL;
+            work->putchar[ i ] = NULL;
             return 1;
         }
     }
@@ -349,15 +356,16 @@ int ZAKO11F_ClearPutChar_800CD748( Zako11FWork *work, void *func )
     return 0;
 }
 
-void ZAKO11F_ExecPutChar_800CD77C( Zako11FWork *work )
+void ZAKO11F_ExecPutChars( Work *work )
 {
     int i;
+    void ( *func )( Work * );
 
     for ( i = 0 ; i < 8 ; i++ )
     {
-        if ( work->field_B00[i] )
+        if ( work->putchar[i] )
         {
-            ZAKO11FPUTFUNC func = work->field_B00[i];
+            func = work->putchar[i];
             func( work );
         }
     }

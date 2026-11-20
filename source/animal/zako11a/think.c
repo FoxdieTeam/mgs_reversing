@@ -58,9 +58,8 @@ static SVECTOR AttackForce = {100, 0, 0};
 
 /* Change zone between map sections */
 static int ChangeZone = 87;
-
-int s11a_dword_800C39B0 = 0x0000003D;
-int s11a_dword_800C39B4 = 0x0000003E;
+int s11a_dword_800C39B0 = 61;
+int s11a_dword_800C39B4 = 62;
 
 /*---------------------------------------------------------------------------*/
 
@@ -100,7 +99,7 @@ void s11a_800D0408( Work *work )
     }
 
     work->count3 = 0;
-    work->pad.field_4 = 1;
+    work->pad.mode = 1;
 }
 
 void s11a_800D0474( Work *work )
@@ -109,7 +108,7 @@ void s11a_800D0474( Work *work )
     work->think2 = 0;
     work->think3 = 0;
     work->count3 = 0;
-    work->pad.field_4 = 1;
+    work->pad.mode = 1;
 }
 
 void s11a_800D0490( Work *work )
@@ -245,7 +244,7 @@ void ResetZone( Work *work, int mode )
 
 void s11a_800D07C4( Work *work, int mode )
 {
-    work->field_9E4 = 1;
+    work->visible = 1;
     GM_ConfigControlAttribute( &work->control, RADAR_VISIBLE | RADAR_SIGHT );
     s11a_800D0490( work );
     ResetZone( work, mode );
@@ -256,7 +255,7 @@ void s11a_800D0818( Work *work )
     CONTROL *control;
 
     control = &work->control;
-    work->field_9E4 = 0;
+    work->visible = 0;
     GM_ConfigControlAttribute( control, RADAR_OFF );
     control->mov.vx = 30000;
     control->mov.vy = 30000;
@@ -499,7 +498,7 @@ int s11a_800D0F74( Work *work )
     {
         work->pad.press |= 0x200000;
     }
-    else if ( work->field_8FC != 0 || ( work->count3 < 0 || work->count3 > 30 ) )
+    else if ( work->actend || ( work->count3 < 0 || work->count3 > 30 ) )
     {
         return 1;
     }
@@ -697,7 +696,7 @@ void s11a_800D142C( Work *work )
         work->think2 = 3;
         work->think3 = 17;
         work->count3 = 0;
-        work->pad.field_4 = 1;
+        work->pad.mode = 1;
         work->pad.sound = 240;
         work->alert_level = 255;
         break;

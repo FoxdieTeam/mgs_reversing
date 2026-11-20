@@ -1504,21 +1504,14 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\animal\zako11f\override.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11f\put.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11f\zk11fact.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11i\overlay3.obj", overlay
-
     include "{{OBJ_DIR}}\anime\effect\mark.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\fog.obj", overlay
     include "{{OBJ_DIR}}\anime\effect\sleep.obj", overlay
     include "{{OBJ_DIR}}\enemy\asiato.obj", overlay
     include "{{OBJ_DIR}}\enemy\l_sight.obj", overlay
     include "{{OBJ_DIR}}\enemy\grnad_e.obj", overlay
-
     include "{{OBJ_DIR}}\animal\zako11f\think.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11f\zk11fcom.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11i\overlay4.obj", overlay
-
     include "{{OBJ_DIR}}\takabe\dummy_wl.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\object.obj", overlay

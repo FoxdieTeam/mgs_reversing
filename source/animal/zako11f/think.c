@@ -1,35 +1,143 @@
-#include "game/game.h"
-#include "enemy/enemy.h"
+#include "zako.h"
 
-extern SVECTOR s11i_dword_800C34C4[3];
-extern int     s11i_dword_800C34DC[3][16];
-extern int     s11i_dword_800C359C[3][16];
-extern int     ZAKO11F_EYE_LENGTH_800C3694;
-extern SVECTOR ZAKOCOM_PlayerPosition_800D5AF0;
-extern int     ZAKO11F_GameFlag_800D5C4C;
-extern int     ZAKOCOM_PlayerAddress_800D5C50;
-extern int     ZAKOCOM_PlayerMap_800D5C54;
+/*---------------------------------------------------------------------------*/
 
-void ZAKO11F_PutMark_800CD224( Zako11FWork *work, int mark );
+static SVECTOR s11i_dword_800C34C4[] = {
+    {5750, 0, -1000},
+    {6250, 0, 500},
+    {5750, 0, 2000},
+};
 
-void s11i_zk11fcom_800D0C70( void );
-int  s11i_zk11fcom_800D0D34( int map_id, int val );
-int  s11i_zk11fcom_800D0DA8( void );
+static int s11i_dword_800C34DC[3][16] = {
+    {
+        0x00000002,
+        0x00000006,
+        0x00000001,
+        0x00000001,
+        0x00000006,
+        0x00000001,
+        0x00000001,
+        0x00000006,
+        0x00000001,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+    },
+    {
+        0x00000001,
+        0x00000006,
+        0x00000001,
+        0x00000001,
+        0x00000006,
+        0x00000001,
+        0x00000001,
+        0x00000006,
+        0x00000001,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+    },
+    {
+        0x00000001,
+        0x00000006,
+        0x00000001,
+        0x00000001,
+        0x00000006,
+        0x00000001,
+        0x00000001,
+        0x00000006,
+        0x00000001,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+    }
+};
 
-void s11i_zk11fcom_800CF9E4( Zako11FWork *work )
+static int s11i_dword_800C359C[3][16] = {
+    {
+        0x00000001,
+        0x00000001,
+        0x0000000D,
+        0x00000003,
+        0x00000003,
+        0x0000000F,
+        0x00000007,
+        0x00000007,
+        0x000000FF,
+        0x000000FF,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+    },
+    {
+        0x00000003,
+        0x00000003,
+        0x0000000F,
+        0x00000006,
+        0x00000006,
+        0x0000000F,
+        0x00000007,
+        0x00000007,
+        0x000000FF,
+        0x000000FF,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+    },
+    {
+        0x0000000A,
+        0x0000000A,
+        0x00000011,
+        0x00000009,
+        0x00000009,
+        0x0000000F,
+        0x00000007,
+        0x00000007,
+        0x000000FF,
+        0x000000FF,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+        0x00000000,
+    }
+};
+
+/*---------------------------------------------------------------------------*/
+
+void s11i_zk11fcom_800CF9E4( Work *work )
 {
-    work->target_addr = ZAKOCOM_PlayerAddress_800D5C50;
-    work->target_pos  = ZAKOCOM_PlayerPosition_800D5AF0;
-    work->target_map  = ZAKOCOM_PlayerMap_800D5C54;
+    work->target_addr = ZAKO11F_PlayerAddress;
+    work->target_pos = ZAKO11F_PlayerPosition;
+    work->target_map = ZAKO11F_PlayerMap;
 }
 
-void s11i_zk11fcom_800CFA2C( Zako11FWork *work )
+void s11i_zk11fcom_800CFA2C( Work *work )
 {
     int      addr;
     int      index;
     HZD_ZON *zone;
 
-    addr = work->param.field_B7C;
+    addr = work->param.next;
 
     index = addr << 1;
     index = index + addr;
@@ -43,9 +151,9 @@ void s11i_zk11fcom_800CFA2C( Zako11FWork *work )
     work->target_map = work->start_map;
 }
 
-void s11i_zk11fcom_800CFA88( Zako11FWork *work )
+void s11i_zk11fcom_800CFA88( Work *work )
 {
-    if ( work->param.field_B7C == 0xFF )
+    if ( work->param.next == 0xFF )
     {
         work->think2 = 1;
         work->think1 = 0;
@@ -63,7 +171,7 @@ void s11i_zk11fcom_800CFA88( Zako11FWork *work )
     work->pad.mode = TOP_COMM_ALERT;
 }
 
-void s11i_zk11fcom_800CFAF4( Zako11FWork *work )
+void s11i_zk11fcom_800CFAF4( Work *work )
 {
     work->think1 = 0;
     work->think2 = 4;
@@ -71,7 +179,7 @@ void s11i_zk11fcom_800CFAF4( Zako11FWork *work )
     work->count3 = 0;
 }
 
-void s11i_zk11fcom_800CFB10( Zako11FWork *work )
+void s11i_zk11fcom_800CFB10( Work *work )
 {
     work->think1 = 0;
     work->think2 = 0;
@@ -90,7 +198,7 @@ int s11i_zk11fcom_800CFB2C( SVECTOR *from, SVECTOR *to )
     return GV_VecDir2(&diff);
 }
 
-int s11i_zk11fcom_800CFB64( Zako11FWork *work )
+int s11i_zk11fcom_800CFB64( Work *work )
 {
     SVECTOR  svec;
     HZD_HDL *hzd;
@@ -111,7 +219,7 @@ int s11i_zk11fcom_800CFB64( Zako11FWork *work )
     else
     {
         target_pos = &work->target_pos;
-        route = s11i_zk11fcom_800D0D34( work->control.map->index , work->target_map );
+        route = ZAKO11FFindRoute( work->control.map->index , work->target_map );
 
         zone = &hzd->def->zones[ route ];
         target_pos->vx = zone->x;
@@ -123,70 +231,70 @@ int s11i_zk11fcom_800CFB64( Zako11FWork *work )
 
     control = &work->control;
 
-    work->field_C0C = HZD_GetAddress( hzd, &control->mov, work->field_C0C );
+    work->current_addr = HZD_GetAddress( hzd, &control->mov, work->current_addr );
 
-    addr2 = work->field_C0C;
-    reach = HZD_ReachTo( hzd, addr2, work->field_C10 );
+    addr2 = work->current_addr;
+    reach = HZD_ReachTo( hzd, addr2, work->next_addr );
 
-    if ( addr != work->field_BF0 || reach <= 0 )
+    if ( addr != work->last_addr || reach <= 0 )
     {
-        work->field_BF0 = addr;
+        work->last_addr = addr;
 
         if ( HZD_ReachTo( hzd, addr2, addr ) < 2 )
         {
                 if ( work->target_map == work->control.map->index )
                 {
-                        work->field_C1C = *target_pos;
-                        work->field_C10 = addr;
+                        work->next_pos = *target_pos;
+                        work->next_addr = addr;
 
-                        GV_SubVec3( &work->field_C1C, &control->mov, &svec );
+                        GV_SubVec3( &work->next_pos, &control->mov, &svec );
 
                         work->pad.dir = GV_VecDir2( &svec );
                         return -1;
                 }
 
-                addr2 = s11i_zk11fcom_800D0D34( work->target_map, control->map->index );
+                addr2 = ZAKO11FFindRoute( work->target_map, control->map->index );
                 control->map = GM_GetMap( work->target_map );
                 zone = &control->map->hzd->def->zones[ addr2 ];
                 work->control.mov.vx = zone->x;
                 control->mov.vy = zone->y;
                 control->mov.vz = zone->z;
-                work->field_C0C = -1;
-                work->field_BF0 = -1;
+                work->current_addr = -1;
+                work->last_addr = -1;
                 return control->rot.vy;
         }
 
         addr3 = HZD_Navigate( hzd, addr2, addr, &control->mov );
         zone = &hzd->def->zones[ addr3 ];
-        if ( work->field_BFC == 0xFA0 )
+        if ( work->chase_dis == 0xFA0 )
         {
-            work->field_C1C.vx = zone->x + 0xFA;
-            work->field_C1C.vy = zone->y;
-            work->field_C1C.vz = zone->z + 0xFA;
+            work->next_pos.vx = zone->x + 0xFA;
+            work->next_pos.vy = zone->y;
+            work->next_pos.vz = zone->z + 0xFA;
         } else
         {
-            work->field_C1C.vx = zone->x;
-            work->field_C1C.vy = zone->y;
-            work->field_C1C.vz = zone->z;
+            work->next_pos.vx = zone->x;
+            work->next_pos.vy = zone->y;
+            work->next_pos.vz = zone->z;
         }
 
-        work->field_C1C.vx = zone->x;
-        work->field_C1C.vy = zone->y;
-        work->field_C1C.vz = zone->z;
+        work->next_pos.vx = zone->x;
+        work->next_pos.vy = zone->y;
+        work->next_pos.vz = zone->z;
 
-        work->field_C10 = (addr3 & 0xFF) | (addr3 & 0xFF) << 8;
+        work->next_addr = (addr3 & 0xFF) | (addr3 & 0xFF) << 8;
     }
 
-    GV_SubVec3( &work->field_C1C, &work->control.mov, &svec );
+    GV_SubVec3( &work->next_pos, &work->control.mov, &svec );
     target_pos = &svec;
     return GV_VecDir2( target_pos );
 }
 
-int s11i_zk11fcom_800CFE24( Zako11FWork *work )
+int s11i_zk11fcom_800CFE24( Work *work )
 {
     if ( work->count3 == 0 && !( work->act_status & 0x8 ) )
     {
-        ZAKO11F_PutMark_800CD224( work, 0 );
+        ZAKO11F_PutMark( work, 0 );
     }
 
     if ( work->count3 < 20 )
@@ -199,12 +307,12 @@ int s11i_zk11fcom_800CFE24( Zako11FWork *work )
     return 1;
 }
 
-int s11i_zk11fcom_800CFEA4( Zako11FWork *work )
+int s11i_zk11fcom_800CFEA4( Work *work )
 {
     if ( work->count3 == 0 )
     {
         GM_SeSet( &work->control.mov, SE_EXCLAMATION );
-        ZAKO11F_PutMark_800CD224( work, 0 );
+        ZAKO11F_PutMark( work, 0 );
     }
 
     if ( work->count3 > 20 )
@@ -216,12 +324,12 @@ int s11i_zk11fcom_800CFEA4( Zako11FWork *work )
     return 0;
 }
 
-int s11i_zk11fcom_800CFF0C( Zako11FWork *work )
+int s11i_zk11fcom_800CFF0C( Work *work )
 {
     if ((work->count3 % 32) == 0)
     {
-        work->field_C0C = -1;
-        work->field_BF0 = -1;
+        work->current_addr = -1;
+        work->last_addr = -1;
         s11i_zk11fcom_800CFB64(work);
     }
 
@@ -235,7 +343,7 @@ int s11i_zk11fcom_800CFF0C( Zako11FWork *work )
     return 0;
 }
 
-int DirectTrace_800CFF7C( Zako11FWork *work, int range )
+int DirectTrace_800CFF7C( Work *work, int range )
 {
     SVECTOR dist;
     int     x, z;
@@ -253,7 +361,7 @@ int DirectTrace_800CFF7C( Zako11FWork *work, int range )
     return 1;
 }
 
-int s11i_zk11fcom_800D0004( Zako11FWork *work )
+int s11i_zk11fcom_800D0004( Work *work )
 {
     MAP *map;
 
@@ -268,8 +376,8 @@ int s11i_zk11fcom_800D0004( Zako11FWork *work )
 
     if ( work->count3 & 0x10 )
     {
-        work->field_C0C = HZD_GetAddress( map->hzd, &work->control.mov, -1 );
-        if ( HZD_ReachTo( work->control.map->hzd, work->field_C0C, work->target_addr ) > 1 )
+        work->current_addr = HZD_GetAddress( map->hzd, &work->control.mov, -1 );
+        if ( HZD_ReachTo( work->control.map->hzd, work->current_addr, work->target_addr ) > 1 )
         {
             return -1;
         }
@@ -278,7 +386,7 @@ int s11i_zk11fcom_800D0004( Zako11FWork *work )
     return DirectTrace_800CFF7C( work, 1500 );
 }
 
-int s11i_zk11fcom_800D0098( Zako11FWork *work )
+int s11i_zk11fcom_800D0098( Work *work )
 {
     work->pad.dir = work->sn_dir;
     work->pad.press |= 0x10000;
@@ -296,7 +404,7 @@ int s11i_zk11fcom_800D0098( Zako11FWork *work )
     return 0;
 }
 
-int s11i_zk11fcom_800D00EC( Zako11FWork *work )
+int s11i_zk11fcom_800D00EC( Work *work )
 {
     work->pad.press |= 0x20000;
 
@@ -315,7 +423,7 @@ int s11i_zk11fcom_800D00EC( Zako11FWork *work )
     return 0;
 }
 
-int s11i_zk11fcom_800D0148( Zako11FWork *work )
+int s11i_zk11fcom_800D0148( Work *work )
 {
     work->pad.press |= 0x10000;
 
@@ -334,7 +442,7 @@ int s11i_zk11fcom_800D0148( Zako11FWork *work )
     return 0;
 }
 
-int s11i_zk11fcom_800D020C( Zako11FWork *work )
+int s11i_zk11fcom_800D020C( Work *work )
 {
     work->pad.press |= 0x10000;
 
@@ -352,7 +460,7 @@ int s11i_zk11fcom_800D020C( Zako11FWork *work )
     return 0;
 }
 
-int s11i_zk11fcom_800D0274( Zako11FWork *work )
+int s11i_zk11fcom_800D0274( Work *work )
 {
     int count3;
 
@@ -372,7 +480,7 @@ int s11i_zk11fcom_800D0274( Zako11FWork *work )
     return 0;
 }
 
-int s11i_zk11fcom_800D02BC( Zako11FWork *work )
+int s11i_zk11fcom_800D02BC( Work *work )
 {
     int count3;
 
@@ -413,7 +521,7 @@ int s11i_zk11fcom_800D02BC( Zako11FWork *work )
     return 0;
 }
 
-int s11i_zk11fcom_800D039C( Zako11FWork *work )
+int s11i_zk11fcom_800D039C( Work *work )
 {
     if (work->sn_dis < 800)
     {
@@ -426,7 +534,7 @@ int s11i_zk11fcom_800D039C( Zako11FWork *work )
     return 0;
 }
 
-int s11i_zk11fcom_800D03E4( Zako11FWork *work )
+int s11i_zk11fcom_800D03E4( Work *work )
 {
     work->pad.press |= 0x10000;
 
@@ -452,10 +560,10 @@ int s11i_zk11fcom_800D03E4( Zako11FWork *work )
 
     if (work->count3 > 18)
     {
-        switch (s11i_dword_800C34DC[work->param.index][work->field_C3C])
+        switch (s11i_dword_800C34DC[work->param.index][work->gameflag])
         {
         case 0:
-            if (work->vision.field_B92 != 2)
+            if (work->vision.pad != 2)
             {
                 return 14;
             }
@@ -465,7 +573,7 @@ int s11i_zk11fcom_800D03E4( Zako11FWork *work )
                 return 10;
             }
 
-            if (work->sn_dis < work->field_BFC)
+            if (work->sn_dis < work->chase_dis)
             {
                 return 6;
             }
@@ -495,7 +603,7 @@ int s11i_zk11fcom_800D03E4( Zako11FWork *work )
         }
     }
 
-    if (work->field_C3C != ZAKO11F_GameFlag_800D5C4C)
+    if (work->gameflag != ZAKO11F_GameFlag)
     {
         return 14;
     }
@@ -504,25 +612,25 @@ int s11i_zk11fcom_800D03E4( Zako11FWork *work )
     return 0;
 }
 
-int s11i_zk11fcom_800D05D4( Zako11FWork *work )
+int s11i_zk11fcom_800D05D4( Work *work )
 {
     work->pad.dir = work->sn_dir;
     work->pad.press |= 0x10000;
 
-    work->field_C3C = ZAKO11F_GameFlag_800D5C4C;
-    work->param.field_B7C = s11i_dword_800C359C[work->param.index][ZAKO11F_GameFlag_800D5C4C];
+    work->gameflag = ZAKO11F_GameFlag;
+    work->param.next = s11i_dword_800C359C[work->param.index][ZAKO11F_GameFlag];
     return 15;
 }
 
 
-void s11i_zk11fcom_800D0628( Zako11FWork *work )
+void s11i_zk11fcom_800D0628( Work *work )
 {
-    work->field_C3C = ZAKO11F_GameFlag_800D5C4C;
-    work->param.field_B7C = s11i_dword_800C359C[work->param.index][ZAKO11F_GameFlag_800D5C4C];
+    work->gameflag = ZAKO11F_GameFlag;
+    work->param.next = s11i_dword_800C359C[work->param.index][ZAKO11F_GameFlag];
     s11i_zk11fcom_800CFA88(work);
 }
 
-void s11i_zk11fcom_800D0674( Zako11FWork *work )
+void s11i_zk11fcom_800D0674( Work *work )
 {
     switch (work->think3)
     {
@@ -532,7 +640,7 @@ void s11i_zk11fcom_800D0674( Zako11FWork *work )
     }
 }
 
-void s11i_zk11fcom_800D06A4( Zako11FWork *work )
+void s11i_zk11fcom_800D06A4( Work *work )
 {
     switch (work->think3)
     {
@@ -569,7 +677,7 @@ void s11i_zk11fcom_800D06A4( Zako11FWork *work )
     }
 }
 
-void s11i_zk11fcom_800D078C( Zako11FWork *work )
+void s11i_zk11fcom_800D078C( Work *work )
 {
     int think;
 
@@ -614,7 +722,7 @@ void s11i_zk11fcom_800D078C( Zako11FWork *work )
             work->count3 = 0;
         }
 
-        if (s11i_zk11fcom_800D0DA8() && work->sn_dis > ZAKO11F_EYE_LENGTH_800C3694 + 2000)
+        if (s11i_zk11fcom_800D0DA8() && work->sn_dis > ZAKO11F_EYE_LENGTH + 2000)
         {
             s11i_zk11fcom_800CFAF4(work);
         }
@@ -627,7 +735,7 @@ void s11i_zk11fcom_800D078C( Zako11FWork *work )
             work->count3 = 0;
         }
 
-        if (s11i_zk11fcom_800D0DA8() && work->sn_dis > ZAKO11F_EYE_LENGTH_800C3694 + 2000)
+        if (s11i_zk11fcom_800D0DA8() && work->sn_dis > ZAKO11F_EYE_LENGTH + 2000)
         {
             s11i_zk11fcom_800CFAF4(work);
         }
@@ -649,7 +757,7 @@ void s11i_zk11fcom_800D078C( Zako11FWork *work )
             work->count3 = 0;
         }
 
-        if (s11i_zk11fcom_800D0DA8() && work->sn_dis > ZAKO11F_EYE_LENGTH_800C3694 + 2000)
+        if (s11i_zk11fcom_800D0DA8() && work->sn_dis > ZAKO11F_EYE_LENGTH + 2000)
         {
             s11i_zk11fcom_800CFAF4(work);
         }
@@ -663,14 +771,14 @@ void s11i_zk11fcom_800D078C( Zako11FWork *work )
             work->count3 = 0;
         }
 
-        if (work->param.field_B7C == 0xFF)
+        if (work->param.next == 0xFF)
         {
-            if (work->field_C0C == ZAKOCOM_PlayerAddress_800D5C50 || work->sn_dis <= work->field_BFC)
+            if (work->current_addr == ZAKO11F_PlayerAddress || work->sn_dis <= work->chase_dis)
             {
                 break;
             }
         }
-        else if (HZD_InsideZone(work->control.map->hzd, &work->control.mov, work->param.field_B7C))
+        else if (HZD_InsideZone(work->control.map->hzd, &work->control.mov, work->param.next))
         {
             break;
         }
@@ -679,14 +787,14 @@ void s11i_zk11fcom_800D078C( Zako11FWork *work )
         break;
     }
 
-    if (work->vision.field_B92 == 2)
+    if (work->vision.pad == 2)
     {
-        s11i_zk11fcom_800D0C70();
+        ZAKO11FSetGopointLast();
         work->alert_level = 0xFF;
     }
 }
 
-void s11i_zk11fcom_800D098C( Zako11FWork *work )
+void s11i_zk11fcom_800D098C( Work *work )
 {
     int trace;
 
@@ -718,7 +826,7 @@ void s11i_zk11fcom_800D098C( Zako11FWork *work )
         break;
     }
 
-    if (work->sn_dis < work->field_BFC && GM_PlayerStance == 0)
+    if (work->sn_dis < work->chase_dis && GM_PlayerStance == 0)
     {
         work->think2 = 2;
         work->think3 = 14;
@@ -726,15 +834,15 @@ void s11i_zk11fcom_800D098C( Zako11FWork *work )
         work->pad.press |= 0x10000;
     }
 
-    if (work->vision.field_B92 == 2)
+    if (work->vision.pad == 2)
     {
         work->alert_level = 0xFF;
     }
 
-    s11i_zk11fcom_800D0C70();
+    ZAKO11FSetGopointLast();
 }
 
-void s11i_zk11fcom_800D0A88( Zako11FWork *work )
+void s11i_zk11fcom_800D0A88( Work *work )
 {
     if (work->think3 == 16 && s11i_zk11fcom_800CFF0C(work))
     {
@@ -752,7 +860,7 @@ void s11i_zk11fcom_800D0A88( Zako11FWork *work )
     }
 }
 
-void s11i_zk11fcom_800D0B1C( Zako11FWork *work )
+void s11i_zk11fcom_800D0B1C( Work *work )
 {
     switch ( work->think2 )
     {
@@ -774,7 +882,9 @@ void s11i_zk11fcom_800D0B1C( Zako11FWork *work )
     }
 }
 
-void Zako11FThink_800D0BAC( Zako11FWork *work )
+/*---------------------------------------------------------------------------*/
+
+void Zako11FThink( Work *work )
 {
     work->pad.dir   = -1;
     work->pad.press =  0;
@@ -783,7 +893,7 @@ void Zako11FThink_800D0BAC( Zako11FWork *work )
 
     if (work->think1 == 0)
     {
-        work->unknown.field_1E = 1;
+        work->act.field_1E = 1;
         s11i_zk11fcom_800D0B1C( work );
     }
 }

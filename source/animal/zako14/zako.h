@@ -6,9 +6,6 @@
 #define TARGET_FLAG ( TARGET_AVAIL | TARGET_CAPTURE | TARGET_POWER \
                     | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
 
-// TODO: These structures should be unified with the other zakos, using stage
-//       ifdefs to add or remove fields where necessary.
-
 // TODO: check name
 typedef struct _ACT {
     /* 0x8C8 */ int            field_00;
@@ -35,10 +32,10 @@ typedef struct _PARAM {
     /* 0xB7A */ char           c_root;
     /* 0xB7B */ char           c_next;
     /* 0xB7C */ signed char    item;
-    /* 0xB7D */ char           g_flag;
+    /* 0xB7D */ char           reset;
     /* 0xB7E */ short          life;
     /* 0xB80 */ short          faint;
-    /* 0xB82 */ short          unknown; // TODO: new in zako14
+    /* 0xB82 */ short          life_prev;
     /* 0xB84 */ short          damage;
 } PARAM;
 
@@ -51,8 +48,8 @@ typedef struct _VISION {
 
 typedef struct _PAD {
     /* 0xB38 */ int   press;
-    /* 0xB3C */ int   field_4;
-    /* 0xB40 */ int   field_8;
+    /* 0xB3C */ int   mode;
+    /* 0xB40 */ int   tmp;
     /* 0xB44 */ int   time;
     /* 0xB48 */ short dir;
     /* 0xB4A */ short sound;
@@ -83,14 +80,14 @@ typedef struct _Work {
     /* 0x8F0 */ ACTION         action2;
     /* 0x8F4 */ int            time;
     /* 0x8F8 */ int            time2;
-    /* 0x8FC */ int            field_8FC;
+    /* 0x8FC */ int            actend;
     /* 0x900 */ TARGET        *target;
     /* 0x904 */ TARGET         attack;
     /* 0x94C */ TARGET         touch;
     /* 0x994 */ TARGET         punch;
     /* 0x9DC */ HOMING        *hom;
     /* 0x9E0 */ int            scale;
-    /* 0x9E4 */ int            field_9E4;
+    /* 0x9E4 */ int            visible;
     /* 0x9E8 */ int            n_nodes;
     /* 0x9EC */ SVECTOR        nodes[ 32 ];
     /* 0xAEC */ int            search_flag;
@@ -129,11 +126,11 @@ typedef struct _Work {
     /* 0xB9C */ signed char    modetime[ 8 ];
     /* 0xBA4 */ SVECTOR        player_pos;
     /* 0xBAC */ int            player_dir;
-    /* 0xBB0 */ int            acttime[ 8 ];
-    /* 0xBD0 */ short          dir[ 4 ];
+    /* 0xBB0 */ int            set_time[ 8 ];
+    /* 0xBD0 */ short          set_dir[ 4 ];
     /* 0xBD8 */ SVECTOR        start_pos;
     /* 0xBE0 */ SVECTOR        target_pos;
-    /* 0xBE8 */ int            field_BE8;
+    /* 0xBE8 */ int            start_addr;
     /* 0xBEC */ int            start_map;
     /* 0xBF0 */ int            last_addr;
     /* 0xBF4 */ int            target_addr;
