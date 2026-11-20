@@ -177,6 +177,8 @@ static int GetResources(Work *work, int name, int where)
     return 0;
 }
 
+/*---------------------------------------------------------------------------*/
+
 void *NewMeryl3(int name, int where)
 {
     Work *work;

@@ -5,60 +5,59 @@
 #include "game/game.h"
 #include "libdg/libdg.h"
 
-typedef struct {
-    int   press;
-    int   dir;
-} Meryl72Pad;
+/*---------------------------------------------------------------------------*/
+
+typedef struct _PAD {
+    int press;
+    int dir;
+} PAD;
+
+struct _Work;
+
+typedef void ( *ACTION )( struct _Work *, int ) ;
 
 typedef struct _Work {
-    GV_ACT          actor;          /* 0x000 */
-    CONTROL         control;        /* 0x020 */
-    OBJECT          body;           /* 0x09C */
-    MOTION_CONTROL  m_ctrl;         /* 0x180 */
-    MOTION_SEGMENT  m_segs1[17];    /* 0x1D0 */
-    MOTION_SEGMENT  m_segs2[17];    /* 0x434 */
-    SVECTOR         rots[16];       /* 0x698 */
-    SVECTOR         adjust[16];     /* 0x718 */
-    MATRIX          light[2];       /* 0x798 */
-    char            pad_7D8[0x7DC - 0x7D8];
-    OBJECT          weapon;         /* 0x7DC */
-    int             lod;            /* 0x8C0 */
-    DG_DEF         *models[2];      /* 0x8C4 */
-    TARGET         *target;         /* 0x8CC */
-    char            pad_8D0[0x920 - 0x8D0];
-    int             height;         /* 0x920 */
-    char            pad_924[0x954 - 0x924];
-    void          (*action)(struct _Work *, int);  /* 0x954 */
-    void          (*action2)(struct _Work *, int); /* 0x958 */
-    int             time;           /* 0x95C */
-    int             time2;          /* 0x960 */
-    int             n_action;       /* 0x964 */
-    int             trg_yaw;        /* 0x968 */
-    int             trg_pitch;      /* 0x96C */
-    short           field_970;      /* 0x970 */
-    char            pad_972[0x974 - 0x972];
-    Meryl72Pad      pad;            /* 0x974 */
-    int             think1;         /* 0x97C */
-    int             think2;         /* 0x980 */
-    int             think3;         /* 0x984 */
-    int             count3;         /* 0x988 */
-    int             count1;         /* 0x98C */
-    int             field_990;      /* 0x990 */
-    char            pad_994[0x9A4 - 0x994];
-    int             player_dir;     /* 0x9A4 */
-    int             player_dis;     /* 0x9A8 */
-    char            pad_9AC[0x9B0 - 0x9AC];
-    void           *shadow;         /* 0x9B0 */
-    void           *glight;         /* 0x9B4 */
+    GV_ACT         actor;
+    CONTROL        control;
+    OBJECT         body;
+    MOTION_CONTROL m_ctrl;
+    MOTION_SEGMENT m_segs1[17];
+    MOTION_SEGMENT m_segs2[17];
+    SVECTOR        rots[16];
+    SVECTOR        adjust[16];
+    MATRIX         light[2];
+    char           pad_7D8[0x4];
+    OBJECT         weapon;
+    int            lod;
+    DG_DEF        *models[2];
+    TARGET        *target;
+    char           pad_8D0[0x50];
+    int            height;
+    char           pad_924[0x30];
+    ACTION         action;
+    ACTION         action2;
+    int            time;
+    int            time2;
+    int            n_action;
+    int            trg_yaw;
+    int            trg_pitch;
+    short          field_970;
+    PAD            pad;
+    int            think1;
+    int            think2;
+    int            think3;
+    int            count3;
+    int            count1;
+    int            field_990;
+    char           pad_994[0x10];
+    int            player_dir;
+    int            player_dis;
+    char           pad_9AC[0x4];
+    void          *shadow;
+    void          *glight;
 } Work;
 
-static inline void SetMode(Work *work, void (*action)(Work *, int))
-{
-    work->action = action;
-    work->time = 0;
-    work->control.turn.vz = 0;
-    work->control.turn.vx = 0;
-}
+/*---------------------------------------------------------------------------*/
 
 /* meryl3.c */
 void *NewMeryl3(int name, int where);

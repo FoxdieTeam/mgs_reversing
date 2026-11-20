@@ -238,6 +238,8 @@ static void Think1_Phase0(Work *work)
     }
 }
 
+/*---------------------------------------------------------------------------*/
+
 void Meryl3Think(Work *work)
 {
     work->pad.dir = -1;

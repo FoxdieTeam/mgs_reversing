@@ -40,6 +40,14 @@ static inline void SetAction( Work *work, int n_action, int interp )
     GM_ConfigObjectAction( &( work->body ), act_table[ n_action ], 0, interp );
 }
 
+static inline void SetMode(Work *work, ACTION action)
+{
+    work->action = action;
+    work->time = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+}
+
 static inline void UnsetMode( Work *work )
 {
     GM_ConfigObjectOverride( &( work->body ), act_table[ 0 ], 0, 4, 0 );
@@ -377,7 +385,7 @@ static void DoAction(Work *work)
     CONTROL *control;
     OBJECT  *body;
     int      time;
-    void   (*action)(struct _Work *, int);
+    ACTION   action;
 
     control = &work->control;
     body = &work->body;
@@ -416,6 +424,8 @@ static void CheckPlayer(Work *work)
     work->player_dir = GV_VecDir2(&vec);
     work->player_dis = GV_VecLen3(&vec);
 }
+
+/*---------------------------------------------------------------------------*/
 
 void Meryl3Act(Work *work)
 {
