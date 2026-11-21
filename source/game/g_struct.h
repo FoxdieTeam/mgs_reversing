@@ -91,16 +91,16 @@ typedef struct HOMING {
 
 typedef struct _MOTION_SEGMENT {
     SVECTOR  base;
-    SVECTOR  delta;
+    SVECTOR  step;
     int      interp;
-    u_short *stream;
+    u_short *data;
     short    field_18;
     short    field_1A;
     u_char   field_1C;
-    char     bit_offset;
-    char     x_size;
-    char     y_size;
-    char     z_size;
+    char     bit_pos;
+    char     e_bit_x;
+    char     e_bit_y;
+    char     e_bit_z;
 } MOTION_SEGMENT;
 
 typedef struct _MOTION_INFO {

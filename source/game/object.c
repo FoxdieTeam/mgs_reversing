@@ -18,18 +18,23 @@ int SECTION(".sbss") mt_count;
 STATIC int SECTION(".sbss") dword_800ABAC4;
 /*------------------------------------------------*/
 
-//not sure if this one belongs here
-SVECTOR *sub_80034834(SVECTOR *arg0, SVECTOR *arg1, SVECTOR arg2)
+static inline short SetPItoPI( short v )
 {
-    SVECTOR vec;
+    v &= 4095;
+    if ( v > 2048 ) v -= 4096;
+    return v;
+}
 
-    // TODO: this should be able to be matched without casting to unsigned short
-    vec.vx = FP_Subtract((unsigned short)arg2.vx, (unsigned short)arg1->vx);
-    vec.vy = FP_Subtract((unsigned short)arg2.vy, (unsigned short)arg1->vy);
-    vec.vz = FP_Subtract((unsigned short)arg2.vz, (unsigned short)arg1->vz);
+SVECTOR *sub_80034834( SVECTOR *out, SVECTOR *v1, SVECTOR v2 )
+{
+    SVECTOR tmp;
 
-    *arg0 = vec;
-    return arg0;
+    tmp.vx = SetPItoPI( ( v2.vx & 0xffff ) - v1->vx );
+    tmp.vy = SetPItoPI( ( v2.vy & 0xffff ) - v1->vy );
+    tmp.vz = SetPItoPI( ( v2.vz & 0xffff ) - v1->vz );
+
+    *out = tmp;
+    return out;
 }
 
 void GM_ActObjectMotion(OBJECT *obj)
