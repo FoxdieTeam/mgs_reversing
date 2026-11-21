@@ -100,6 +100,13 @@ int s00a_mouse_800D3C30(char *opt, SVECTOR *svec)
     return count;
 }
 
+static inline short SetPItoPI( short v )
+{
+    v &= 4095;
+    if ( v > 2048 ) v -= 4096;
+    return v;
+}
+
 void s00a_mouse_800D3C84(Work *work)
 {
     SVECTOR     sp10;
@@ -122,8 +129,8 @@ void s00a_mouse_800D3C84(Work *work)
         entry->f184 = 0;
         entry->f180 = 1;
 
-        entry->f174 = FP_Extend(sp10.vy - entry->f154.vy) / entry->f134;
-        entry->f178 = FP_Extend(sp10.vx - entry->f154.vx) / entry->f134;
+        entry->f174 = SetPItoPI(sp10.vy - entry->f154.vy) / entry->f134;
+        entry->f178 = SetPItoPI(sp10.vx - entry->f154.vx) / entry->f134;
         /* fallthrough */
 
     case 1:
