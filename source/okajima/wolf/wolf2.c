@@ -219,8 +219,8 @@ void wolf2_SetCamera(Wolf2Work *work)
 
     GM_Camera.interp_mode = 0;
     GM_Camera.zoom = 320;
-    gUnkCameraStruct2_800B7868.position = eye;
-    gUnkCameraStruct2_800B7868.target = center;
+    gUnkCameraStruct2.position = eye;
+    gUnkCameraStruct2.target = center;
 }
 
 void wolf2_Act(Wolf2Work *work)

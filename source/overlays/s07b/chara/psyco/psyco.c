@@ -183,7 +183,7 @@ void s07b_800CAD54( Work *work, int se_id )
     }
     else
     {
-        turn = gUnkCameraStruct2_800B7868.rotate.vy;
+        turn = gUnkCameraStruct2.rotate.vy;
         ang = dir + 1024;
     }
 

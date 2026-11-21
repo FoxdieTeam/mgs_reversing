@@ -1,27 +1,45 @@
 /******************************************************************************
+ * System   : METALGEAR^3 for PlayStation
+ * Computer : PlayStation
+ * OS       : PlayStation
+ * Compiler : psyq
+ * Module   : 
+ */
+
+/******************************************************************************
  * included
  */
 
+#include <stdlib.h>
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
 #include "game/game.h"
 #include "menu/menuman.h"
 
-#include "kojo/common.h"
-#include "kojo/m1e1.h"
+#include "common.h"
+#include "m1e1.h"
+
+extern void *NewM1Throw(int name);
 
 /******************************************************************************
+ * functions
  */
 
-extern void  s05a_800D4A74(LPM1E1ACT lpAct);
-extern void  s05a_800D5E30(LPM1E1ACT lpAct);
-extern void *NewM1Throw(int name);
+/* m1e1act.c */
+extern void M1E1Act(LPM1E1ACT lpAct);
+extern void M1E1Die(LPM1E1ACT lpAct);
+
+/* m1e1sold.c */
 extern int M1E1SoldierActControl();
 extern int M1E1SoldierActObject();
 extern int M1E1SoldierBombHoming();
 extern int M1E1SoldierBombBound();
 extern int M1E1SoldierBombExplosion();
+
+/******************************************************************************
+ * locals
+ */
 
 LPM1E1ACT s05a_dword_800C362C = NULL;
 int s05a_dword_800C3630 = 0;
@@ -29,103 +47,117 @@ int s05a_dword_800C3634 = 0;
 int s05a_dword_800C3638 = 0;
 
 /******************************************************************************
+ * publics
  */
 
-void *NewM1E1(int name, int where)
+void *NewM1E1(int nName, int nMap)
 {
     LPM1E1ACT lpAct;
-    char    *param;
-    SVECTOR  svec;
-    int      strcode;
-    int      flag;
-    int      s1;
+    char*     param;
+    SVECTOR   svec;
+    int       strcode;
+    int       flag;
+    int       s1;
 
-    lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(M1E1ACT));
-    if (lpAct == NULL)
-    {
+    if((lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(M1E1ACT))) == NULL)
         return NULL;
-    }
 
-    lpAct->bInitialize = 1;
-    GV_SetNamedActor(lpAct, s05a_800D4A74, s05a_800D5E30, "m1e1.c");
-    lpAct->nName = name;
-    lpAct->nMap = where;
+    lpAct->bInitialize = TRUE;
+    GV_SetNamedActor(lpAct, M1E1Act, M1E1Die, "m1e1.c");
+    lpAct->nName = nName;
+    lpAct->nMap = nMap;
 
-    if (GM_InitControl(&lpAct->control, 0, where) < 0)
+    if(GM_InitControl(&lpAct->control, 0, nMap) < 0)
     {
         GV_DestroyActor(lpAct);
         return NULL;
     }
 
-    lpAct->light[0].t[0] = 0xFF;
-    lpAct->light[0].t[1] = 0xFF;
-    lpAct->light[0].t[2] = 0xFF;
-    if (GCL_GetOption('e'))
+    lpAct->light[0].t[0] = 255;
+    lpAct->light[0].t[1] = 255;
+    lpAct->light[0].t[2] = 255;
+
+    if(GCL_GetOption('e'))
     {
-        param = GCL_NextStr();
-        if (param) lpAct->field_D5C = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
-        param = GCL_NextStr();
-        if (param) lpAct->field_D60 = GCL_StrToInt(param) / 30;
-        param = GCL_NextStr();
-        if (param) lpAct->field_D64 = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
-        param = GCL_NextStr();
-        if (param) lpAct->field_D68 = GCL_StrToInt(param) / 30;
-        param = GCL_NextStr();
-        if (param) lpAct->field_D6C = GCL_StrToInt(param) / 30;
-        if (lpAct->field_D64 > lpAct->field_D5C) lpAct->field_D64 = lpAct->field_D5C;
-        if (lpAct->field_D68 > lpAct->field_D60) lpAct->field_D68 = lpAct->field_D60;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_D5C = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_D60 = GCL_StrToInt(param) / 30;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_D64 = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_D68 = GCL_StrToInt(param) / 30;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_D6C = GCL_StrToInt(param) / 30;
+
+        if(lpAct->field_D64 > lpAct->field_D5C)
+            lpAct->field_D64 = lpAct->field_D5C;
+
+        if(lpAct->field_D68 > lpAct->field_D60)
+            lpAct->field_D68 = lpAct->field_D60;
     }
-    if (GCL_GetOption('d'))
+
+    if(GCL_GetOption('d'))
     {
         lpAct->field_D84 = 1;
-        param = GCL_NextStr();
-        if (param) lpAct->field_D70 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_D74 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_D78 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_D7C = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
-        param = GCL_NextStr();
-        if (param) lpAct->field_D80 = GCL_StrToInt(param) / 30;
-        param = GCL_NextStr();
-        if (param) lpAct->field_D84 = GCL_StrToInt(param);
-        if (lpAct->field_D84 <= 0) lpAct->field_D84 = 1;
-        param = GCL_NextStr();
-        if (param) lpAct->field_D88 = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
-        param = GCL_NextStr();
-        if (param) lpAct->field_D8C = GCL_StrToInt(param) / 30;
+
+        if ((param = GCL_NextStr()) != NULL)
+            lpAct->field_D70 = GCL_StrToInt(param);
+        if ((param = GCL_NextStr()) != NULL)
+            lpAct->field_D74 = GCL_StrToInt(param);
+        if ((param = GCL_NextStr()) != NULL)
+            lpAct->field_D78 = GCL_StrToInt(param);
+        if ((param = GCL_NextStr()) != NULL)
+            lpAct->field_D7C = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
+        if ((param = GCL_NextStr()) != NULL)
+            lpAct->field_D80 = GCL_StrToInt(param) / 30;
+        if ((param = GCL_NextStr()) != NULL)
+            lpAct->field_D84 = GCL_StrToInt(param);
+
+        if(lpAct->field_D84 <= 0)
+            lpAct->field_D84 = 1;
+
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_D88 = GCL_StrToInt(param) * 1000 / 60 * 100 / 180;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_D8C = GCL_StrToInt(param) / 30;
     }
-    if (GCL_GetOption('s'))
+
+    if(GCL_GetOption('s'))
     {
-        param = GCL_NextStr();
-        if (param) lpAct->field_D94 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_D90 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_D98 = GCL_StrToInt(param) * 1000 / 60 * 100 / 23040;
-        param = GCL_NextStr();
-        if (param) lpAct->field_D9C = GCL_StrToInt(param) * 1000 / 60 * 100 / 23040;
-        param = GCL_NextStr();
-        if (param) lpAct->field_DA0 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_D94 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_D90 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_D98 = GCL_StrToInt(param) * 1000 / 60 * 100 / 23040;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_D9C = GCL_StrToInt(param) * 1000 / 60 * 100 / 23040;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DA0 = GCL_StrToInt(param);
+
         lpAct->field_E24 = lpAct->field_D94 - lpAct->field_D90;
         lpAct->field_E28 = lpAct->field_D98 - lpAct->field_D9C;
-        if (lpAct->field_E28 <= 0) lpAct->field_E28 = 1;
+
+        if(lpAct->field_E28 <= 0)
+            lpAct->field_E28 = 1;
     }
-    if (GCL_GetOption('g'))
+
+    if(GCL_GetOption('g'))
     {
-        param = GCL_NextStr();
-        if (param) lpAct->field_DA4 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DA8 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DAC = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DB0 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DB4 = GCL_StrToInt(param) * 1000000 / 108000;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DA4 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DA8 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DAC = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DB0 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DB4 = GCL_StrToInt(param) * 1000000 / 108000;
     }
-    if (GCL_GetOption('c'))
+
+    if(GCL_GetOption('c'))
     {
         param = GCL_NextStr();
         if (param) lpAct->field_DB8 = GCL_StrToInt(param);
@@ -138,22 +170,22 @@ void *NewM1E1(int name, int where)
         param = GCL_NextStr();
         if (param) lpAct->field_DC8 = GCL_StrToInt(param) * 1000000 / 108000;
     }
-    if (GCL_GetOption('p'))
+
+    if(GCL_GetOption('p'))
     {
-        param = GCL_NextStr();
-        if (param) lpAct->control.mov.vx = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->control.mov.vy = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->control.mov.vz = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->control.turn.vx = GCL_StrToInt(param) * 4096 / 360;
-        param = GCL_NextStr();
-        if (param) lpAct->control.turn.vy = GCL_StrToInt(param) * 4096 / 360;
-        param = GCL_NextStr();
-        if (param) lpAct->control.turn.vz = GCL_StrToInt(param) * 4096 / 360;
-        param = GCL_NextStr();
-        if (param)
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->control.mov.vx = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->control.mov.vy = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->control.mov.vz = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->control.turn.vx = GCL_StrToInt(param) * 4096 / 360;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->control.turn.vy = GCL_StrToInt(param) * 4096 / 360;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->control.turn.vz = GCL_StrToInt(param) * 4096 / 360;
+        if((param = GCL_NextStr()) != NULL)
         {
             svec.vx = 0;
             svec.vy = 0;
@@ -165,86 +197,90 @@ void *NewM1E1(int name, int where)
             lpAct->field_E34.vy = svec.vy;
             lpAct->field_E34.vz = svec.vz;
         }
-        param = GCL_NextStr();
-        if (param) lpAct->field_DCC.pad = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DCC.vx = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DCC.vy = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DCC.vz = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DD4.pad = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DD4.vx = GCL_StrToInt(param) * 4096 / 360;
-        param = GCL_NextStr();
-        if (param) lpAct->field_DD4.vy = GCL_StrToInt(param) * 4096 / 360;
-        param = GCL_NextStr();
-        if (param) lpAct->field_DD4.vz = GCL_StrToInt(param) * 4096 / 360;
-        param = GCL_NextStr();
-        if (param) lpAct->field_DE2 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DDC = GCL_StrToInt(param) * 4096 / 360;
-        param = GCL_NextStr();
-        if (param) lpAct->field_DDE = GCL_StrToInt(param) * 4096 / 360;
-        param = GCL_NextStr();
-        if (param) lpAct->field_DE0 = GCL_StrToInt(param) * 4096 / 360;
-        param = GCL_NextStr();
-        if (param) lpAct->field_DEA = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DE4 = GCL_StrToInt(param) * 4096 / 360;
-        param = GCL_NextStr();
-        if (param) lpAct->field_DE6 = GCL_StrToInt(param) * 4096 / 360;
-        param = GCL_NextStr();
-        if (param) lpAct->field_DE8 = GCL_StrToInt(param) * 4096 / 360;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DCC.pad = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DCC.vx = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DCC.vy = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DCC.vz = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DD4.pad = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DD4.vx = GCL_StrToInt(param) * 4096 / 360;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DD4.vy = GCL_StrToInt(param) * 4096 / 360;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DD4.vz = GCL_StrToInt(param) * 4096 / 360;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DE2 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DDC = GCL_StrToInt(param) * 4096 / 360;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DDE = GCL_StrToInt(param) * 4096 / 360;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DE0 = GCL_StrToInt(param) * 4096 / 360;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DEA = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DE4 = GCL_StrToInt(param) * 4096 / 360;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DE6 = GCL_StrToInt(param) * 4096 / 360;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DE8 = GCL_StrToInt(param) * 4096 / 360;
     }
-    if (GCL_GetOption('w'))
+
+    if(GCL_GetOption('w'))
     {
-        param = GCL_NextStr();
-        if (param) lpAct->field_E04 = GCL_StrToInt(param) * 1000000 / 108000;
-        param = GCL_NextStr();
-        if (param) lpAct->field_E08 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_E0C = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_E10 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_E14 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_E18 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_E04 = GCL_StrToInt(param) * 1000000 / 108000;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_E08 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_E0C = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_E10 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_E14 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_E18 = GCL_StrToInt(param);
     }
-    if (GCL_GetOption('o'))
+
+    if(GCL_GetOption('o'))
     {
-        param = GCL_NextStr();
-        if (param) lpAct->field_DEC = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DF0 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DF4 = GCL_StrToInt(param) * 4096 / 720;
-        param = GCL_NextStr();
-        if (param) lpAct->field_DF8 = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_DFC = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_E00 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DEC = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DF0 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DF4 = GCL_StrToInt(param) * 4096 / 720;
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DF8 = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_DFC = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_E00 = GCL_StrToInt(param);
     }
     else
     {
         lpAct->field_DEC = 2;
         lpAct->field_DF0 = 4;
-        lpAct->field_DF4 = 0x31C;
-        lpAct->field_DF8 = 0x2EE0;
+        lpAct->field_DF4 = 796;
+        lpAct->field_DF8 = 12000;
         lpAct->field_DFC = 2;
         lpAct->field_E00 = 1;
     }
-    if (GCL_GetOption('z'))
+
+    if(GCL_GetOption('z'))
     {
         lpAct->field_E1C = -1;
         lpAct->field_E20 = -1;
-        param = GCL_NextStr();
-        if (param) lpAct->field_E1C = GCL_StrToInt(param);
-        param = GCL_NextStr();
-        if (param) lpAct->field_E20 = GCL_StrToInt(param);
+
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_E1C = GCL_StrToInt(param);
+        if((param = GCL_NextStr()) != NULL)
+            lpAct->field_E20 = GCL_StrToInt(param);
     }
 
     lpAct->control.r_sphere = -2;
@@ -309,11 +345,11 @@ void *NewM1E1(int name, int where)
 
     DG_VisibleObjs(lpAct->objLeftCater[lpAct->field_E74].objs);
     DG_VisibleObjs(lpAct->objRightCater[lpAct->field_E78].objs);
-    if (lpAct->field_E08 > 0)
+    if(lpAct->field_E08 > 0)
     {
         lpAct->lpM1Throw = NewM1Throw(GV_StrCode("throw"));
         flag = 0x150;
-        lpAct->field_D54 = 1;
+        lpAct->nState = 1;
         GM_lpfnPlayerActControl = (int (*)(GV_ACT *))M1E1SoldierActControl;
         GM_lpfnPlayerActObject2 = (int (*)(GV_ACT *))M1E1SoldierActObject;
         GM_lpfnBombHoming       = (int (*)(CONTROL *, int, int *))M1E1SoldierBombHoming;
@@ -322,16 +358,18 @@ void *NewM1E1(int name, int where)
     }
     else
     {
-        lpAct->field_D54 = 6;
-        if (lpAct->field_DCC.pad) lpAct->control.mov = lpAct->field_DCC;
-        if (lpAct->field_DD4.pad) lpAct->control.turn = lpAct->field_DD4;
-        if (lpAct->field_DE2)
+        lpAct->nState = 6;
+        if(lpAct->field_DCC.pad)
+            lpAct->control.mov = lpAct->field_DCC;
+        if(lpAct->field_DD4.pad)
+            lpAct->control.turn = lpAct->field_DD4;
+        if(lpAct->field_DE2)
         {
             lpAct->objBody.rots[3].vy = lpAct->field_DDE;
             lpAct->objBody.rots[5].vx = lpAct->field_DDC;
             lpAct->objBody.rots[11].vx = lpAct->field_DE8;
         }
-        if (lpAct->field_DEA)
+        if(lpAct->field_DEA)
         {
             short t;
             t = (svec.vy = lpAct->field_DE6);
@@ -351,57 +389,66 @@ void *NewM1E1(int name, int where)
         }
         flag = 0x100;
     }
-    lpAct->bbox[0].vx = lpAct->objBody.objs->objs[0].model->lx; /* F8C */
-    lpAct->bbox[0].vy = lpAct->objBody.objs->objs[0].model->ly; /* F8E */
-    lpAct->bbox[0].vz = lpAct->objBody.objs->objs[0].model->lz; /* F90 */
-    lpAct->bbox[1].vx = lpAct->objBody.objs->objs[0].model->ux; /* F94 */
-    lpAct->bbox[1].vy = lpAct->objBody.objs->objs[0].model->uy; /* F96 */
-    lpAct->bbox[1].vz = lpAct->objBody.objs->objs[0].model->uz; /* F98 */
-    if (lpAct->bbox[0].vy < 0x258) lpAct->bbox[0].vy = 0x258;
-    if (lpAct->bbox[1].vy < lpAct->bbox[0].vy) lpAct->bbox[1].vy = lpAct->bbox[0].vy;
 
-    lpAct->bbox[2].vx = lpAct->objBody.objs->objs[2].model->lx; /* F9C */
-    lpAct->bbox[2].vy = lpAct->objBody.objs->objs[2].model->ly; /* F9E */
-    lpAct->bbox[2].vz = lpAct->objBody.objs->objs[2].model->lz; /* FA0 */
-    lpAct->bbox[3].vx = lpAct->objBody.objs->objs[2].model->ux; /* FA4 */
-    lpAct->bbox[3].vy = lpAct->objBody.objs->objs[2].model->uy; /* FA6 */
-    lpAct->bbox[3].vz = lpAct->objBody.objs->objs[2].model->uz; /* FA8 */
-    if (lpAct->bbox[2].vy < 0x258) lpAct->bbox[2].vy = 0x258;
-    if (lpAct->bbox[3].vy < lpAct->bbox[2].vy) lpAct->bbox[3].vy = lpAct->bbox[2].vy;
+    lpAct->bbox[0].vx = lpAct->objBody.objs->objs[0].model->lx;
+    lpAct->bbox[0].vy = lpAct->objBody.objs->objs[0].model->ly;
+    lpAct->bbox[0].vz = lpAct->objBody.objs->objs[0].model->lz;
+    lpAct->bbox[1].vx = lpAct->objBody.objs->objs[0].model->ux;
+    lpAct->bbox[1].vy = lpAct->objBody.objs->objs[0].model->uy;
+    lpAct->bbox[1].vz = lpAct->objBody.objs->objs[0].model->uz;
+    if(lpAct->bbox[0].vy < 600)
+        lpAct->bbox[0].vy = 600;
+    if(lpAct->bbox[1].vy < lpAct->bbox[0].vy)
+        lpAct->bbox[1].vy = lpAct->bbox[0].vy;
 
-    lpAct->bbox[4].vx = lpAct->objLeftCater[0].objs->objs[0].model->lx; /* FAC */
-    lpAct->bbox[4].vy = lpAct->objLeftCater[0].objs->objs[0].model->ly; /* FAE */
-    lpAct->bbox[4].vz = lpAct->objLeftCater[0].objs->objs[0].model->lz; /* FB0 */
-    lpAct->bbox[5].vx = lpAct->objLeftCater[0].objs->objs[0].model->ux; /* FB4 */
-    lpAct->bbox[5].vy = lpAct->objLeftCater[0].objs->objs[0].model->uy; /* FB6 */
-    lpAct->bbox[5].vz = lpAct->objLeftCater[0].objs->objs[0].model->uz; /* FB8 */
-    if (lpAct->bbox[4].vy < 0x258) lpAct->bbox[4].vy = 0x258;
-    if (lpAct->bbox[5].vy < lpAct->bbox[4].vy) lpAct->bbox[5].vy = lpAct->bbox[4].vy;
+    lpAct->bbox[2].vx = lpAct->objBody.objs->objs[2].model->lx;
+    lpAct->bbox[2].vy = lpAct->objBody.objs->objs[2].model->ly;
+    lpAct->bbox[2].vz = lpAct->objBody.objs->objs[2].model->lz;
+    lpAct->bbox[3].vx = lpAct->objBody.objs->objs[2].model->ux;
+    lpAct->bbox[3].vy = lpAct->objBody.objs->objs[2].model->uy;
+    lpAct->bbox[3].vz = lpAct->objBody.objs->objs[2].model->uz;
+    if(lpAct->bbox[2].vy < 600)
+        lpAct->bbox[2].vy = 600;
+    if(lpAct->bbox[3].vy < lpAct->bbox[2].vy)
+        lpAct->bbox[3].vy = lpAct->bbox[2].vy;
 
-    lpAct->bbox[6].vx = lpAct->objRightCater[0].objs->objs[0].model->lx; /* FBC */
-    lpAct->bbox[6].vy = lpAct->objRightCater[0].objs->objs[0].model->ly; /* FBE */
-    lpAct->bbox[6].vz = lpAct->objRightCater[0].objs->objs[0].model->lz; /* FC0 */
-    lpAct->bbox[7].vx = lpAct->objRightCater[0].objs->objs[0].model->ux; /* FC4 */
-    lpAct->bbox[7].vy = lpAct->objRightCater[0].objs->objs[0].model->uy; /* FC6 */
-    lpAct->bbox[7].vz = lpAct->objRightCater[0].objs->objs[0].model->uz; /* FC8 */
-    if (lpAct->bbox[6].vy < 0x258) lpAct->bbox[6].vy = 0x258;
-    if (lpAct->bbox[7].vy < lpAct->bbox[6].vy) lpAct->bbox[7].vy = lpAct->bbox[6].vy;
+    lpAct->bbox[4].vx = lpAct->objLeftCater[0].objs->objs[0].model->lx;
+    lpAct->bbox[4].vy = lpAct->objLeftCater[0].objs->objs[0].model->ly;
+    lpAct->bbox[4].vz = lpAct->objLeftCater[0].objs->objs[0].model->lz;
+    lpAct->bbox[5].vx = lpAct->objLeftCater[0].objs->objs[0].model->ux;
+    lpAct->bbox[5].vy = lpAct->objLeftCater[0].objs->objs[0].model->uy;
+    lpAct->bbox[5].vz = lpAct->objLeftCater[0].objs->objs[0].model->uz;
+    if(lpAct->bbox[4].vy < 600)
+        lpAct->bbox[4].vy = 600;
+    if(lpAct->bbox[5].vy < lpAct->bbox[4].vy)
+        lpAct->bbox[5].vy = lpAct->bbox[4].vy;
 
-    lpAct->bbox[8].vx = lpAct->objBody.objs->objs[4].model->lx + 0xC8;  /* FCC */
-    lpAct->bbox[8].vy = lpAct->objBody.objs->objs[4].model->ly;         /* FCE */
-    lpAct->bbox[8].vz = lpAct->objBody.objs->objs[4].model->lz;         /* FD0 */
-    lpAct->bbox[9].vx = lpAct->objBody.objs->objs[4].model->ux - 0xC8;  /* FD4 */
-    lpAct->bbox[9].vy = lpAct->objBody.objs->objs[4].model->uy;         /* FD6 */
-    lpAct->bbox[9].vz = lpAct->objBody.objs->objs[4].model->uz - 0x2BC; /* FD8 */
+    lpAct->bbox[6].vx = lpAct->objRightCater[0].objs->objs[0].model->lx;
+    lpAct->bbox[6].vy = lpAct->objRightCater[0].objs->objs[0].model->ly;
+    lpAct->bbox[6].vz = lpAct->objRightCater[0].objs->objs[0].model->lz;
+    lpAct->bbox[7].vx = lpAct->objRightCater[0].objs->objs[0].model->ux;
+    lpAct->bbox[7].vy = lpAct->objRightCater[0].objs->objs[0].model->uy;
+    lpAct->bbox[7].vz = lpAct->objRightCater[0].objs->objs[0].model->uz;
+    if(lpAct->bbox[6].vy < 600)
+        lpAct->bbox[6].vy = 600;
+    if(lpAct->bbox[7].vy < lpAct->bbox[6].vy)
+        lpAct->bbox[7].vy = lpAct->bbox[6].vy;
 
-    lpAct->bbox[10].vy = lpAct->objBody.objs->objs[5].model->ly - 0x1F4; /* FDE */
-    lpAct->bbox[10].vz = lpAct->objBody.objs->objs[5].model->lz;         /* FE0 */
-    lpAct->bbox[11].vx = lpAct->objBody.objs->objs[5].model->ux;         /* FE4 */
-    lpAct->bbox[11].vy = lpAct->objBody.objs->objs[5].model->uy + 0x12C; /* FE6 */
-    lpAct->bbox[11].vz = lpAct->objBody.objs->objs[5].model->uz - 0x12C; /* FE8 */
-    lpAct->bbox[10].vx = -lpAct->bbox[11].vx;                            /* FDC */
+    lpAct->bbox[8].vx = lpAct->objBody.objs->objs[4].model->lx + 0xC8;
+    lpAct->bbox[8].vy = lpAct->objBody.objs->objs[4].model->ly;
+    lpAct->bbox[8].vz = lpAct->objBody.objs->objs[4].model->lz;
+    lpAct->bbox[9].vx = lpAct->objBody.objs->objs[4].model->ux - 0xC8;
+    lpAct->bbox[9].vy = lpAct->objBody.objs->objs[4].model->uy;
+    lpAct->bbox[9].vz = lpAct->objBody.objs->objs[4].model->uz - 0x2BC;
 
-    if (lpAct->field_D54 == 6)
+    lpAct->bbox[10].vy = lpAct->objBody.objs->objs[5].model->ly - 0x1F4;
+    lpAct->bbox[10].vz = lpAct->objBody.objs->objs[5].model->lz;
+    lpAct->bbox[11].vx = lpAct->objBody.objs->objs[5].model->ux;
+    lpAct->bbox[11].vy = lpAct->objBody.objs->objs[5].model->uy + 0x12C;
+    lpAct->bbox[11].vz = lpAct->objBody.objs->objs[5].model->uz - 0x12C;
+    lpAct->bbox[10].vx = -lpAct->bbox[11].vx;
+
+    if(lpAct->nState == 6)
     {
         lpAct->bbox[0].vy = 0;
         lpAct->bbox[2].vy = 0;
@@ -443,7 +490,8 @@ void *NewM1E1(int name, int where)
     HZD_QueueDynamicSegment2(lpAct->control.map->hzd, &lpAct->hzdBlock[4].seg[3], flag);
     HZD_QueueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[4].flr[0]);
     HZD_QueueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[4].flr[1]);
-    for (s1 = 0; s1 < 8; s1++)
+
+    for(s1 = 0; s1 < 8; s1++)
     {
         lpAct->objBody.objs->objs[s1].world = DG_ZeroMatrix;
     }
@@ -453,17 +501,15 @@ void *NewM1E1(int name, int where)
     lpAct->control.rot.vy = lpAct->control.turn.vy;
     lpAct->control.rot.vz = lpAct->control.turn.vz;
 
-    if (lpAct->field_D54 == 6)
-    {
-        return (void *)lpAct;
-    }
+    if(lpAct->nState == 6)
+        return (void*)lpAct;
 
     {
         char    *q;
         int      off2;
 
-        lpAct->nLeftCaterDirection = 0x3E7;
-        lpAct->nRightCaterDirection = 0x3E7;
+        lpAct->nLeftCaterDirection = 999;
+        lpAct->nRightCaterDirection = 999;
         lpAct->field_A80 =
             (lpAct->objLeftCater[0].objs->objs[0].model->ux -
              lpAct->objLeftCater[0].objs->objs[0].model->lx) / 3;
@@ -471,16 +517,16 @@ void *NewM1E1(int name, int where)
         s1 = 0;
         svec.vx = (u_short)lpAct->field_A80;
         svec.vz = (u_short)lpAct->field_A80;
-        svec.vy = 0x258;
+        svec.vy = 600;
         for (; s1 < 10; s1++)
         {
             TARGET *t = GM_AllocTarget();
             lpAct->lpTarget[s1] = t;
             GM_SetTarget(t, 0xC, 2, &svec);
-            GM_SetPowerTarget(lpAct->lpTarget[s1], 1, -1, 0x2710, 0, &DG_ZeroVector);
+            GM_SetPowerTarget(lpAct->lpTarget[s1], 1, -1, 10000, 0, &DG_ZeroVector);
         }
 
-        svec.vy = 0x32;
+        svec.vy = 50;
         s1 = 0;
         {
             SVECTOR *zv = &DG_ZeroVector;
@@ -519,6 +565,7 @@ void *NewM1E1(int name, int where)
         GM_SetPowerTarget(&lpAct->target3, 1, 2, 0, 0, &DG_ZeroVector);
         GM_SetPowerTarget(&lpAct->target4, 1, 2, 0, 0, &DG_ZeroVector);
         GM_SetPowerTarget(&lpAct->target5, 1, 2, 0, 0, &DG_ZeroVector);
+
         memcpy(lpAct->life_name, "GUNNER", 7);
         lpAct->life_conf.name = lpAct->life_name;
         lpAct->life_conf.left[0] = 0x10;
@@ -529,5 +576,5 @@ void *NewM1E1(int name, int where)
         lpAct->life_conf.right[2] = 0x7F;
     }
 
-    return (void *)lpAct;
+    return (void*)lpAct;
 }

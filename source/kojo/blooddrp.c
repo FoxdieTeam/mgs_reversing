@@ -151,9 +151,9 @@ static void Act(
     lpAct->verts[3].vy = lpAct->nSize >> 1;
     lpAct->verts[3].vz = 0;
 
-    diff.vx = (lpAct->svectPos.vx - gUnkCameraStruct2_800B7868.position.vx) >> 2;
-    diff.vy = (lpAct->svectPos.vy - gUnkCameraStruct2_800B7868.position.vy) >> 2;
-    diff.vz = (lpAct->svectPos.vz - gUnkCameraStruct2_800B7868.position.vz) >> 2;
+    diff.vx = (lpAct->svectPos.vx - gUnkCameraStruct2.position.vx) >> 2;
+    diff.vy = (lpAct->svectPos.vy - gUnkCameraStruct2.position.vy) >> 2;
+    diff.vz = (lpAct->svectPos.vz - gUnkCameraStruct2.position.vz) >> 2;
 
     svectRot.vx = -ratan2(diff.vy, SquareRoot0(diff.vx * diff.vx + diff.vz * diff.vz));
     svectRot.vy = ratan2(diff.vx, diff.vz);

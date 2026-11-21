@@ -230,11 +230,11 @@ void *NewDemoCamera(DemocameUnk *unk)
     {
         GV_SetNamedActor(work, s19b_democame_800DB968, s19b_democame_800DBD38, "democame.c");
 
-        work->eye = gUnkCameraStruct2_800B7868.position;
-        work->center = gUnkCameraStruct2_800B7868.target;
-        work->rotate = gUnkCameraStruct2_800B7868.rotate;
-        work->track = gUnkCameraStruct2_800B7868.track;
-        work->type = gUnkCameraStruct2_800B7868.type;
+        work->eye = gUnkCameraStruct2.position;
+        work->center = gUnkCameraStruct2.target;
+        work->rotate = gUnkCameraStruct2.rotate;
+        work->track = gUnkCameraStruct2.track;
+        work->type = gUnkCameraStruct2.type;
 
         s19b_democame_800DB470(work);
         s19b_democame_800DB790(work, unk);

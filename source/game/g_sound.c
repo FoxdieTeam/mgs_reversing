@@ -87,7 +87,7 @@ STATIC int get_pan_vol_world(SVECTOR *pos, int size, SEPARAM *param)
     GV_SubVec3(pos, &GM_PlayerPosition, &diff);
     dir = GV_VecDir2(&diff) + 1024;
 
-    param->pan = get_pan(dir - gUnkCameraStruct2_800B7868.rotate.vy, (dist * 31) / 7300);
+    param->pan = get_pan(dir - gUnkCameraStruct2.rotate.vy, (dist * 31) / 7300);
     param->vol = vol;
 
     if (vol <= 0)
@@ -187,7 +187,7 @@ STATIC int get_pan_vol_bomb_world(SVECTOR *pos, int size, SEPARAM *param)
     GV_SubVec3(pos, &GM_PlayerPosition, &diff);
     dir = GV_VecDir2(&diff) + 1024;
 
-    param->pan = get_pan(dir - gUnkCameraStruct2_800B7868.rotate.vy, (dist * 31) / 7700);
+    param->pan = get_pan(dir - gUnkCameraStruct2.rotate.vy, (dist * 31) / 7700);
     param->vol = vol;
 
     if (vol <= 0)

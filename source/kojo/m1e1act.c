@@ -1,4 +1,12 @@
 /******************************************************************************
+ * System   : METALGEAR^3 for PlayStation
+ * Computer : PlayStation
+ * OS       : PlayStation
+ * Compiler : psyq
+ * Module   : 
+ */
+
+/******************************************************************************
  * included
  */
 
@@ -8,15 +16,13 @@
 #include <libgpu.h>
 #include "game/game.h"
 
-#include "kojo/common.h"
-#include "kojo/m1e1.h"
+#include "common.h"
+#include "m1e1.h"
 
 #include "bullet/blast.h"       // for AN_Blast_high2
 #include "okajima/bullet.h"     // for NewBulletEx
+#include "okajima/smke_ln.h"    // for NewSmokeLine
 #include "takabe/fadeio.h"      // for NewFadeInOut
-
-extern void *NewSmokeLn_800CDFA4(int a0, int a1, int a2, SVECTOR *p, SVECTOR *q,
-                                 SVECTOR *r, char b, char c, char d);
 
 /******************************************************************************
  */
@@ -41,12 +47,11 @@ void s05a_800DA02C(LPM1E1ACT lpAct);
 void s05a_800DA62C(LPM1E1ACT lpAct);
 void s05a_800DA940(LPM1E1ACT lpAct);
 void s05a_800DACF0(LPM1E1ACT lpAct);
-void s05a_800DD1C8(LPM1E1ACT lpAct);
 
 /******************************************************************************
  */
 
-void s05a_800D4A74(LPM1E1ACT lpAct)
+void M1E1Act(LPM1E1ACT lpAct)
 {
     SVECTOR va;         /* sp+0x28 */
     SVECTOR vb;         /* sp+0x30 */
@@ -158,43 +163,43 @@ void s05a_800D4A74(LPM1E1ACT lpAct)
     }
 
     /* ======== F. D54 transition machine ======== */
-    if (lpAct->field_D54 == 1 && lpAct->bInitialize == 0 && lpAct->field_E5C < lpAct->field_DC4)
+    if (lpAct->nState == 1 && lpAct->bInitialize == 0 && lpAct->field_E5C < lpAct->field_DC4)
     {
-        lpAct->field_D54 = 2;
+        lpAct->nState = 2;
     }
     if (lpAct->lpGunner && *(int *)((char *)lpAct->lpGunner + 0x1f0) == 1)
     {
         if (--lpAct->field_E08 <= 0)
         {
-            lpAct->field_D54 = 5;
-            lpAct->field_F80 = 0x1e;
-            NewFadeInOut(FADEIO_MODE_TOWHITE, 0x1e);
+            lpAct->nState = 5;
+            lpAct->field_F80 = 30;
+            NewFadeInOut(FADEIO_MODE_TOWHITE, 30);
         }
         else
         {
-            lpAct->field_D54 = 4;
+            lpAct->nState = 4;
             lpAct->field_F4C = lpAct->field_D78;
         }
     }
 
-    if (lpAct->field_E08 <= 0 && lpAct->field_D54 == 5 && lpAct->field_F80 <= 0)
+    if (lpAct->field_E08 <= 0 && lpAct->nState == 5 && lpAct->field_F80 <= 0)
     {
         GV_DestroyActor(lpAct);
         return;
     }
 
-    if (lpAct->field_F4C <= 0 && lpAct->field_D54 == 4 &&
+    if (lpAct->field_F4C <= 0 && lpAct->nState == 4 &&
         lpAct->lpGunner == NULL && lpAct->field_ED0 == 0)
     {
-        if (!lpAct->field_D58)
-            lpAct->field_D54 = 2;
+        if (lpAct->bCombo == FALSE)
+            lpAct->nState = 2;
         else
-            lpAct->field_D54 = 7;
+            lpAct->nState = 7;
         lpAct->field_F5C = lpAct->field_E14;
     }
 
     /* ======== G. MENU progress bar ======== */
-    if (lpAct->field_D54 != 1 && lpAct->field_D54 != 6)
+    if (lpAct->nState != 1 && lpAct->nState != 6)
     {
         s0 = ((lpAct->field_E0C + lpAct->field_D74 * (lpAct->field_E08 - 1)) << 10) /
              (lpAct->field_D74 * lpAct->field_D70);
@@ -205,7 +210,7 @@ void s05a_800D4A74(LPM1E1ACT lpAct)
     }
 
     /* ======== H. memset + 11-call cascade ======== */
-    memset(&lpAct->field_E9C, 0, 8);
+    memset(&lpAct->field_E9C, 0x00, sizeof(SVECTOR));
     *(int *)&lpAct->field_EA4 = 0;
     s05a_800D797C(lpAct);
     s05a_800D863C(lpAct);
@@ -225,7 +230,7 @@ void s05a_800D4A74(LPM1E1ACT lpAct)
     lpAct->field_EC0 = 0;
     lpAct->bInitialize = 0;
     lpAct->field_E2C = lpAct->field_E30;
-    if (lpAct->field_D54 == 6)
+    if (lpAct->nState == 6)
         return;
 
     /* ======== J. Target-power section 1 ======== */
@@ -298,14 +303,14 @@ void s05a_800D4A74(LPM1E1ACT lpAct)
     if (lpAct->field_F4C > 0 && (lpAct->field_F4C & 0xf) == 0)
     {
         DG_SetPos((MATRIX *)&lpAct->objBody.objs->objs[10].world);
-        memset(&va, 0, 8);
+        memset(&va, 0x00, sizeof(SVECTOR));
         DG_PutVector(&va, &va, 1);
         va.vy -= 0x1f4;
         vb = va;
         vb.vy += 0x3e8;
-        memset(&vc, 0, 8);
+        memset(&vc, 0x00, sizeof(SVECTOR));
         vc.vy = 0x3e;
-        NewSmokeLn_800CDFA4(7, 1, 0, &va, &vb, &vc, 0, 0, 0);
+        NewSmokeLine(7, 1, 0, &va, &vb, &vc, 0, 0, 0);
     }
 
     /* ======== L. Target-power section 2 keyed on F50 ======== */
@@ -346,13 +351,13 @@ void s05a_800D4A74(LPM1E1ACT lpAct)
                         lpAct->field_D68 = lo;
                     }
                     DG_SetPos2(&DG_ZeroVector, &lpAct->control.rot);
-                    memset(&va, 0, 8);
+                    memset(&va, 0x00, sizeof(SVECTOR));
                     if (lpAct->field_E88 < 5)
                         va.vy = 0x400;
                     else
                         va.vy = -0x400;
                     DG_RotatePos(&va);
-                    memset(&va, 0, 8);
+                    memset(&va, 0x00, sizeof(SVECTOR));
                     va.vz = 0x258;
                     DG_PutVector(&va, &va, 1);
                     AN_Blast_high2(&lpAct->lpTarget[lpAct->field_E88]->center, &va);
@@ -362,19 +367,19 @@ void s05a_800D4A74(LPM1E1ACT lpAct)
         }
     }
 
-    if (lpAct->field_F50 > 0 && (lpAct->field_F50 & 0xf) == 0)
+    if ((lpAct->field_F50 > 0) && (lpAct->field_F50 & 0x0F) == 0)
     {
         va = lpAct->lpTarget[lpAct->field_E88]->center;
         vb = va;
         vb.vy += 0x3e8;
-        memset(&vc, 0, 8);
+        memset(&vc, 0x00, sizeof(SVECTOR));
         vc.vy = 0x3e;
-        NewSmokeLn_800CDFA4(7, 2, 0, &va, &vb, &vc, 0, 0, 0);
+        NewSmokeLine(7, 2, 0, &va, &vb, &vc, 0, 0, 0);
     }
 
     for (i = 0; i < 10; i++)
     {
-        lpAct->lpTarget[i]->vital = 0x2710;
+        lpAct->lpTarget[i]->vital = 10000;
         lpAct->lpTarget[i]->damage = 0;
         lpAct->lpTarget[i]->damaged = 0;
     }
@@ -392,12 +397,12 @@ void s05a_800D4A74(LPM1E1ACT lpAct)
             *p3634 = 0;
         }
 
-        if (lpAct->field_D54 == 7)
+        if (lpAct->nState == 7)
         {
-            if (GV_PadData[1].status == 0xf0)
+            if (GV_PadData[1].status == PAD_ABXY)
             {
-                lpAct->field_D58 = 0;
-                lpAct->field_D54 = 2;
+                lpAct->bCombo = FALSE;
+                lpAct->nState = 2;
                 return;
             }
         }
@@ -405,90 +410,103 @@ void s05a_800D4A74(LPM1E1ACT lpAct)
         {
             if (s05a_dword_800C3630 == 0)
             {
-                if (GV_PadData[1].status == 0xf0)
+                if (GV_PadData[1].status == PAD_ABXY)
                 {
                     s05a_dword_800C3630 = 1;
-                    *p3634 = 0x1e;
+                    *p3634 = 30;
                     return;
                 }
             }
 
-            if ((unsigned int)(s05a_dword_800C3634 - 1) >= 0x1d)
+            if ((unsigned int)(s05a_dword_800C3634 - 1) >= 29)
                 return;
 
-            if (s05a_dword_800C3630 == 1 && GV_PadData[1].status == 5)
+            if ((s05a_dword_800C3630 == 1)
+                && (GV_PadData[1].status == (PAD_L1 | PAD_L2)))
             {
                 s05a_dword_800C3630 = 2;
-                s05a_dword_800C3634 = 0x1e;
+                s05a_dword_800C3634 = 30;
             }
-            else if (s05a_dword_800C3630 == 2 && GV_PadData[1].status == 0xa)
+            else if ((s05a_dword_800C3630 == 2)
+                && (GV_PadData[1].status == (PAD_R1 | PAD_R2)))
             {
                 s05a_dword_800C3630 = 3;
-                s05a_dword_800C3634 = 0x1e;
+                s05a_dword_800C3634 = 30;
             }
-            else if (s05a_dword_800C3630 == 3 && GV_PadData[1].status == 0xc)
+            else if ((s05a_dword_800C3630 == 3)
+                && (GV_PadData[1].status == (PAD_L1 | PAD_R1)))
             {
                 s05a_dword_800C3630 = 4;
-                s05a_dword_800C3634 = 0x1e;
+                s05a_dword_800C3634 = 30;
             }
-            else if (s05a_dword_800C3630 == 4 && GV_PadData[1].status == 0x1000)
+            else if ((s05a_dword_800C3630 == 4)
+                && (GV_PadData[1].status == PAD_U))
             {
                 s05a_dword_800C3630 = 5;
-                s05a_dword_800C3634 = 0x1e;
+                s05a_dword_800C3634 = 30;
             }
-            else if (s05a_dword_800C3630 == 5 && GV_PadData[1].status == 0x4000)
+            else if ((s05a_dword_800C3630 == 5)
+                && (GV_PadData[1].status == PAD_D))
             {
                 s05a_dword_800C3630 = 6;
-                s05a_dword_800C3634 = 0x1e;
+                s05a_dword_800C3634 = 30;
             }
-            else if (s05a_dword_800C3630 == 6 && GV_PadData[1].status == 6)
+            else if ((s05a_dword_800C3630 == 6)
+                && (GV_PadData[1].status == (PAD_L1 | PAD_R2)))
             {
                 s05a_dword_800C3630 = 7;
-                s05a_dword_800C3634 = 0x1e;
+                s05a_dword_800C3634 = 30;
             }
-            else if (s05a_dword_800C3630 == 7 && GV_PadData[1].status == 0x8000)
+            else if ((s05a_dword_800C3630 == 7)
+                && (GV_PadData[1].status == PAD_L))
             {
                 s05a_dword_800C3630 = 8;
-                s05a_dword_800C3634 = 0x1e;
+                s05a_dword_800C3634 = 30;
             }
-            else if (s05a_dword_800C3630 == 8 && GV_PadData[1].status == 0x2000)
+            else if ((s05a_dword_800C3630 == 8)
+                && (GV_PadData[1].status == PAD_R))
             {
                 s05a_dword_800C3630 = 9;
-                s05a_dword_800C3634 = 0x1e;
+                s05a_dword_800C3634 = 30;
             }
-            else if (s05a_dword_800C3630 == 9 && GV_PadData[1].status == 3)
+            else if ((s05a_dword_800C3630 == 9)
+                && (GV_PadData[1].status == (PAD_L2 | PAD_R2)))
             {
-                s05a_dword_800C3630 = 0xa;
-                s05a_dword_800C3634 = 0x1e;
+                s05a_dword_800C3630 = 10;
+                s05a_dword_800C3634 = 30;
             }
-            else if (s05a_dword_800C3630 == 0xa && GV_PadData[1].status == 0xe0)
+            else if ((s05a_dword_800C3630 == 10)
+                && (GV_PadData[1].status == (PAD_A | PAD_B | PAD_Y)))
             {
-                s05a_dword_800C3630 = 0xb;
-                s05a_dword_800C3634 = 0x1e;
+                s05a_dword_800C3630 = 11;
+                s05a_dword_800C3634 = 30;
             }
-            else if (s05a_dword_800C3630 == 0xb && GV_PadData[1].status == 0x1000)
+            else if ((s05a_dword_800C3630 == 11)
+                && (GV_PadData[1].status == PAD_U))
             {
-                s05a_dword_800C3630 = 0xc;
-                s05a_dword_800C3634 = 0x1e;
+                s05a_dword_800C3630 = 12;
+                s05a_dword_800C3634 = 30;
             }
-            else if (s05a_dword_800C3630 == 0xc && GV_PadData[1].status == 3)
+            else if ((s05a_dword_800C3630 == 12)
+                && (GV_PadData[1].status == (PAD_L2 | PAD_R2)))
             {
-                s05a_dword_800C3630 = 0xd;
-                s05a_dword_800C3634 = 0x1e;
+                s05a_dword_800C3630 = 13;
+                s05a_dword_800C3634 = 30;
             }
-            else if (s05a_dword_800C3630 == 0xd && GV_PadData[1].status == 0x90)
+            else if ((s05a_dword_800C3630 == 13)
+                && (GV_PadData[1].status == (PAD_X | PAD_Y)))
             {
-                lpAct->field_D58 = 1;
-                lpAct->field_D54 = 7;
+                lpAct->bCombo = TRUE;
+                lpAct->nState = 7;
             }
         }
     }
 
     /* ======== N. D54==7 final pad input + DG_MakeCameraMatrix + AN_Blast tail ======== */
-    if (lpAct->field_D54 == 7)
+    if (lpAct->nState == 7)
     {
         u_short pad;
-        if (GV_PadData[1].status & 1)
+        if (GV_PadData[1].status & (PAD_L2))
         {
             va.vx = lpAct->field_E44.vx;
             va.vy = lpAct->field_E44.vy;
@@ -498,49 +516,54 @@ void s05a_800D4A74(LPM1E1ACT lpAct)
             vb.vx = va.vx + (vb.vx - va.vx) / 3;
             vb.vy = va.vy + (vb.vy - va.vy) / 3;
             vb.vz = va.vz + (vb.vz - va.vz) / 3;
-            DG_MakeCameraMatrix(DG_Chanl(0), &va, &vb, 0x140);
-            GM_PlayerBody->objs->flag |= 0x80;
+            DG_MakeCameraMatrix(DG_Chanl(0), &va, &vb, 320);
+            DG_InvisibleObjs(GM_PlayerBody->objs);
             s05a_dword_800C3638 = 1;
         }
         else if (s05a_dword_800C3638 == 1)
         {
-            GM_PlayerBody->objs->flag &= ~0x80;
+            DG_VisibleObjs(GM_PlayerBody->objs);
             s05a_dword_800C3638 = 0;
         }
 
         pad = GV_PadData[1].status;
-        if (!(pad & 4))
+        if ((pad & (PAD_L1)) == 0)
             return;
-        if (pad & 8)
+        if (pad & (PAD_R1))
             lpAct->field_F88 += 0x32;
-        else if (pad & 2)
+        else if (pad & (PAD_R2))
             lpAct->field_F88 -= 0x32;
 
         DG_SetPos((MATRIX *)&lpAct->objBody.objs->objs[6].world);
-        memset(&va, 0, 8);
-        memset(&vb, 0, 8);
-        va.vz = 0x3e8;
-        va.vy = 0x3e8;
-        vb.vz = 0x7d0;
-        vb.vy = lpAct->field_F88 + 0x3e8;
+        memset(&va, 0x00, sizeof(SVECTOR));
+        memset(&vb, 0x00, sizeof(SVECTOR));
+        va.vz = 1000;
+        va.vy = 1000;
+        vb.vz = 2000;
+        vb.vy = lpAct->field_F88 + 1000;
         DG_PutVector(&va, &va, 1);
         DG_PutVector(&vb, &vb, 1);
         DG_MakeCameraMatrix(DG_Chanl(0), &va, &vb, 0x140);
     }
 }
 
-void s05a_800D5E30(LPM1E1ACT lpAct)
+void M1E1Die(LPM1E1ACT lpAct)
 {
     int i;
 
     GM_uTenageMotion = -1;
-    if (lpAct->lpM1Throw) GV_DestroyActor(lpAct->lpM1Throw);
-    GM_lpfnPlayerActControl = 0;
-    GM_lpfnPlayerActObject2 = 0;
-    GM_lpfnBombHoming = 0;
-    GM_lpfnBombBound = 0;
-    GM_lpfnBombExplosion = 0;
-    if (lpAct->lpGunner) GV_DestroyActor(lpAct->lpGunner);
+
+    if (lpAct->lpM1Throw)
+        GV_DestroyActor(lpAct->lpM1Throw);
+
+    GM_lpfnPlayerActControl = NULL;
+    GM_lpfnPlayerActObject2 = NULL;
+    GM_lpfnBombHoming = NULL;
+    GM_lpfnBombBound = NULL;
+    GM_lpfnBombExplosion = NULL;
+
+    if (lpAct->lpGunner)
+        GV_DestroyActor(lpAct->lpGunner);
 
     if (lpAct->field_E1C >= 0)
     {
@@ -562,24 +585,28 @@ void s05a_800D5E30(LPM1E1ACT lpAct)
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[0].seg[3]);
     HZD_DequeueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[0].flr[0]);
     HZD_DequeueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[0].flr[1]);
+
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[1].seg[0]);
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[1].seg[1]);
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[1].seg[2]);
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[1].seg[3]);
     HZD_DequeueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[1].flr[0]);
     HZD_DequeueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[1].flr[1]);
+
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[2].seg[0]);
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[2].seg[1]);
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[2].seg[2]);
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[2].seg[3]);
     HZD_DequeueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[2].flr[0]);
     HZD_DequeueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[2].flr[1]);
+
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[3].seg[0]);
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[3].seg[1]);
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[3].seg[2]);
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[3].seg[3]);
     HZD_DequeueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[3].flr[0]);
     HZD_DequeueDynamicFloor(lpAct->control.map->hzd, &lpAct->hzdBlock[3].flr[1]);
+
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[4].seg[0]);
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[4].seg[1]);
     HZD_DequeueDynamicSegment(lpAct->control.map->hzd, &lpAct->hzdBlock[4].seg[2]);
@@ -593,11 +620,17 @@ void s05a_800D5E30(LPM1E1ACT lpAct)
         GM_FreeObject(&lpAct->objLeftCater[i]);
         GM_FreeObject(&lpAct->objRightCater[i]);
     }
-    for (i = 0; i < 8; i++) GM_FreeTarget(lpAct->lpTarget[i]);
+    for (i = 0; i < 8; i++)
+    {
+        GM_FreeTarget(lpAct->lpTarget[i]);
+    }
     GM_FreeControl(&lpAct->control);
     s05a_dword_800C362C = 0;
-    if (lpAct->field_D54 == 5 && lpAct->field_E20 >= 0) GCL_ExecProc(lpAct->field_E20, 0);
+    if (lpAct->nState == 5 && lpAct->field_E20 >= 0) GCL_ExecProc(lpAct->field_E20, 0);
 }
+
+/******************************************************************************
+ */
 
 void s05a_800D627C(LPM1E1ACT lpAct)
 {
@@ -653,7 +686,7 @@ void s05a_800D627C(LPM1E1ACT lpAct)
     quarter = spd_max >> 2;
     if (len == 0)
     {
-        memset(&dir, 0, 0x10);
+        memset(&dir, 0x00, sizeof(VECTOR));
     }
     else
     {
@@ -662,7 +695,7 @@ void s05a_800D627C(LPM1E1ACT lpAct)
         dir.vy = (lpAct->field_E34.vy * len) >> 8;
         dir.vz = (lpAct->field_E34.vz * len) >> 8;
     }
-    memset(&acc, 0, 0x10);
+    memset(&acc, 0x00, sizeof(VECTOR));
     if (abs(lpAct->field_E34.vx) + abs(lpAct->field_E34.vz) != 0 && abs(dir.vx) + abs(dir.vz) != 0)
     {
         tmp = lpAct->field_E34;
@@ -686,7 +719,7 @@ void s05a_800D627C(LPM1E1ACT lpAct)
         mv.vz = (mv.vz * i) >> 8;
     }
 
-    switch (lpAct->field_D54)
+    switch (lpAct->nState)
     {
     case 6:
         lpAct->field_E30 = 0;
@@ -706,8 +739,8 @@ void s05a_800D627C(LPM1E1ACT lpAct)
             }
             else
             {
-                memset(&mv, 0, 0x10);
-                memset(&lpAct->field_E34, 0, 0x10);
+                memset(&mv, 0x00, sizeof(VECTOR));
+                memset(&lpAct->field_E34, 0x00, sizeof(VECTOR));
                 vec.vx = (lpAct->field_E44.vx - lpAct->control.mov.vx) >> 2;
                 vec.vy = (lpAct->field_E44.vy - lpAct->control.mov.vy) >> 2;
                 vec.vz = (lpAct->field_E44.vz - lpAct->control.mov.vz) >> 2;
@@ -739,8 +772,8 @@ void s05a_800D627C(LPM1E1ACT lpAct)
             }
             else
             {
-                memset(&mv, 0, 0x10);
-                memset(&lpAct->field_E34, 0, 0x10);
+                memset(&mv, 0x00, sizeof(VECTOR));
+                memset(&lpAct->field_E34, 0x00, sizeof(VECTOR));
                 vec.vx = (lpAct->field_E44.vx - lpAct->control.mov.vx) >> 2;
                 vec.vy = (lpAct->field_E44.vy - lpAct->control.mov.vy) >> 2;
                 vec.vz = (lpAct->field_E44.vz - lpAct->control.mov.vz) >> 2;
@@ -769,8 +802,8 @@ void s05a_800D627C(LPM1E1ACT lpAct)
         {
             if (len << 2 < 0x7D0)
             {
-                memset(&mv, 0, 0x10);
-                memset(&lpAct->field_E34, 0, 0x10);
+                memset(&mv, 0x00, sizeof(VECTOR));
+                memset(&lpAct->field_E34, 0x00, sizeof(VECTOR));
                 vec.vx = (lpAct->field_E44.vx - lpAct->control.mov.vx) >> 2;
                 vec.vy = (lpAct->field_E44.vy - lpAct->control.mov.vy) >> 2;
                 vec.vz = (lpAct->field_E44.vz - lpAct->control.mov.vz) >> 2;
@@ -803,13 +836,13 @@ void s05a_800D627C(LPM1E1ACT lpAct)
     case 7:
         lpAct->field_E30 = 2;
         len = 0;
-        if (!(GV_PadData[1].status & 0x90) || (GV_PadData[1].status & 0x800))
+        if (!(GV_PadData[1].status & (PAD_X | PAD_Y)) || (GV_PadData[1].status & (PAD_STA)))
         {
-            if (GV_PadData[1].status & 0x1000)
+            if (GV_PadData[1].status & (PAD_U))
             {
                 len = spd_max;
             }
-            else if (GV_PadData[1].status & 0x4000)
+            else if (GV_PadData[1].status & (PAD_D))
             {
                 len = -spd_max;
             }
@@ -817,23 +850,25 @@ void s05a_800D627C(LPM1E1ACT lpAct)
             {
                 lpAct->field_E30 = 0;
             }
-            if (GV_PadData[1].status & 0x8000)
+            if (GV_PadData[1].status & (PAD_L))
             {
                 lpAct->control.turn.vy += spd_max >> 4;
                 turn = spd_max >> 4;
             }
-            if (GV_PadData[1].status & 0x2000)
+            if (GV_PadData[1].status & (PAD_R))
             {
                 turn = -spd_max >> 4;
                 lpAct->control.turn.vy -= spd_max >> 4;
             }
-            if (lpAct->control.turn.vy < -0x800) lpAct->control.turn.vy += 0x1000;
-            if (lpAct->control.turn.vy >= 0x801) lpAct->control.turn.vy -= 0x1000;
+            if (lpAct->control.turn.vy < -0x800)
+                lpAct->control.turn.vy += 0x1000;
+            if (lpAct->control.turn.vy >= 0x801)
+                lpAct->control.turn.vy -= 0x1000;
         }
-        memset(&vec, 0, 8);
+        memset(&vec, 0x00, sizeof(SVECTOR));
         vec.vy = lpAct->control.turn.vy;
         DG_SetPos2(&DG_ZeroVector, &vec);
-        memset(&vec, 0, 8);
+        memset(&vec, 0x00, sizeof(SVECTOR));
         vec.vz = len;
         DG_PutVector(&vec, &vec, 1);
         mv.vx = vec.vx;
@@ -858,7 +893,7 @@ void s05a_800D627C(LPM1E1ACT lpAct)
             }
             if (lpAct->field_E30 != 0)
             {
-                memset(&vec, 0, 8);
+                memset(&vec, 0x00, sizeof(SVECTOR));
                 vec.vz = SquareRoot0((lpAct->field_E34.vx >> 3) * (lpAct->field_E34.vx >> 3) +
                                      (lpAct->field_E34.vy >> 3) * (lpAct->field_E34.vy >> 3) +
                                      (lpAct->field_E34.vz >> 3) * (lpAct->field_E34.vz >> 3));
@@ -879,8 +914,8 @@ void s05a_800D627C(LPM1E1ACT lpAct)
     {
         if (quarter >= lpAct->field_E68)
         {
-            memset(&mv, 0, 0x10);
-            memset(&lpAct->field_E34, 0, 0x10);
+            memset(&mv, 0x00, sizeof(VECTOR));
+            memset(&lpAct->field_E34, 0x00, sizeof(VECTOR));
         }
         else
         {
@@ -919,7 +954,7 @@ void s05a_800D627C(LPM1E1ACT lpAct)
         zone = &lpAct->control.map->hzd->def->zones[HZD_GetAddress(lpAct->control.map->hzd, &vec, 0xFFFF) & 0xFF];
         if (lpAct->field_E30 < 7 || lpAct->field_E30 > 14)
         {
-            memset(&step, 0, 8);
+            memset(&step, 0x00, sizeof(SVECTOR));
             if (lpAct->control.mov.vx <= zone->x + zone->w && lpAct->control.mov.vx >= zone->x - zone->w)
             {
                 if (vec.vx > zone->x + zone->w || vec.vx < zone->x - zone->w)
@@ -1005,7 +1040,7 @@ void s05a_800D627C(LPM1E1ACT lpAct)
         lpAct->field_E34.vz = 0;
     }
 
-    if (lpAct->field_D54 == 2)
+    if (lpAct->nState == 2)
     {
         if (step.vx != lpAct->control.mov.vx || step.vz != lpAct->control.mov.vz)
         {
@@ -1141,7 +1176,7 @@ void s05a_800D797C(LPM1E1ACT lpAct)
         v0.vz = lpAct->objBody.objs->objs[3].model->tz;
         DG_MovePos(&v0);
         ReadRotMatrix(&mtx);
-        memset(&v0, 0, 8);
+        memset(&v0, 0x00, sizeof(SVECTOR));
         DG_PutVector(&v0, &v0, 1);
         v1.vx = (v0.vx - pos.vx) >> 2;
         v1.vy = (v0.vy - pos.vy) >> 2;
@@ -1152,7 +1187,7 @@ void s05a_800D797C(LPM1E1ACT lpAct)
         v1.vy = 0;
         v1.vz = lpAct->objBody.objs->objs[5].model->uz - lpAct->objBody.objs->objs[5].model->lz;
         DG_MovePos(&v1);
-        memset(&v1, 0, 8);
+        memset(&v1, 0x00, sizeof(SVECTOR));
         DG_PutVector(&v1, &v1, 1);
         v1.vx = v0.vx - v1.vx;
         v1.vy = v0.vy - v1.vy;
@@ -1171,7 +1206,7 @@ void s05a_800D797C(LPM1E1ACT lpAct)
         v0.vy = lpAct->objBody.objs->objs[5].model->ty;
         v0.vz = lpAct->objBody.objs->objs[5].model->tz;
         DG_MovePos(&v0);
-        memset(&v0, 0, 8);
+        memset(&v0, 0x00, sizeof(SVECTOR));
         DG_PutVector(&v0, &v0, 1);
         v1.vx = (v0.vx - pos.vx) >> 2;
         v1.vy = (v0.vy - pos.vy) >> 2;
@@ -1182,7 +1217,7 @@ void s05a_800D797C(LPM1E1ACT lpAct)
         v1.vy = 0;
         v1.vz = lpAct->objBody.objs->objs[5].model->uz - lpAct->objBody.objs->objs[5].model->lz;
         DG_MovePos(&v1);
-        memset(&v1, 0, 8);
+        memset(&v1, 0x00, sizeof(SVECTOR));
         DG_PutVector(&v1, &v1, 1);
         v1.vx = v0.vx - v1.vx;
         v1.vy = v0.vy - v1.vy;
@@ -1192,8 +1227,8 @@ void s05a_800D797C(LPM1E1ACT lpAct)
         vec.vx = tgt.vx - cur.vx;
         DG_SetPos(&mtx);
 
-        if (lpAct->field_D54 == 1 || lpAct->field_D54 == 3 || lpAct->field_D54 == 4 || lpAct->field_D54 == 5 ||
-            lpAct->field_D54 == 6 || (GM_GameStatus & 1))
+        if (lpAct->nState == 1 || lpAct->nState == 3 || lpAct->nState == 4 || lpAct->nState == 5 ||
+            lpAct->nState == 6 || (GM_GameStatus & 1))
         {
             vec.vy = lpAct->objBody.rots[3].vy;
             vec.vx = lpAct->objBody.rots[5].vx;
@@ -1267,7 +1302,7 @@ void s05a_800D797C(LPM1E1ACT lpAct)
             }
             fire = 0;
         }
-        else if (lpAct->field_D54 == 2)
+        else if (lpAct->nState == 2)
         {
             if (abs(lpAct->objBody.rots[3].vy - vec.vy) < 0xB && abs(lpAct->objBody.rots[5].vx - vec.vx) < 0xB)
             {
@@ -1321,16 +1356,17 @@ void s05a_800D797C(LPM1E1ACT lpAct)
         lpAct->field_EE0 = vec;
     }
 
-    if (lpAct->field_D54 == 7 && lpAct->field_F48 <= 0 && (GV_PadData[1].status & 0x20))
+    if (lpAct->nState == 7 && lpAct->field_F48 <= 0 && (GV_PadData[1].status & (PAD_A)))
     {
         fire = 1;
         lpAct->field_F58 = 0xF;
         lpAct->field_F48 = lpAct->field_DB8;
     }
 
-    if (lpAct->field_D54 != 7 || (GV_PadData[1].status & 0x880) == 0x880)
+    if ((lpAct->nState != 7)
+        || (GV_PadData[1].status & (PAD_Y | PAD_STA)) == (PAD_Y | PAD_STA))
     {
-        cnt = 0xA;
+        cnt = 10;
         if (lpAct->field_E00 == 1 && lpAct->field_E5C < lpAct->field_DBC)
         {
             cnt = 6;
@@ -1338,13 +1374,13 @@ void s05a_800D797C(LPM1E1ACT lpAct)
         lpAct->objBody.rots[3].vy = GV_NearSpeed(GV_NearPhase(lpAct->objBody.rots[3].vy, vec.vy), vec.vy, cnt);
         lpAct->objBody.rots[5].vx = GV_NearSpeed(GV_NearPhase(lpAct->objBody.rots[5].vx, vec.vx), vec.vx, cnt);
     }
-    else if ((GV_PadData[1].status & 0x880) == 0x80)
+    else if ((GV_PadData[1].status & (PAD_Y | PAD_STA)) == PAD_Y)
     {
-        if (GV_PadData[1].status & 0x8000) lpAct->objBody.rots[3].vy += 0xA;
-        if (GV_PadData[1].status & 0x2000) lpAct->objBody.rots[3].vy -= 0xA;
-        if (GV_PadData[1].status & 0x1000) lpAct->objBody.rots[5].vx -= 0xA;
-        if (GV_PadData[1].status & 0x4000) lpAct->objBody.rots[5].vx += 0xA;
-        if (GV_PadData[1].status & 0x100)
+        if (GV_PadData[1].status & (PAD_L)) lpAct->objBody.rots[3].vy += 10;
+        if (GV_PadData[1].status & (PAD_R)) lpAct->objBody.rots[3].vy -= 10;
+        if (GV_PadData[1].status & (PAD_U)) lpAct->objBody.rots[5].vx -= 10;
+        if (GV_PadData[1].status & (PAD_D)) lpAct->objBody.rots[5].vx += 10;
+        if (GV_PadData[1].status & (PAD_SEL))
         {
             lpAct->objBody.rots[3].vy = 0;
             lpAct->objBody.rots[5].vx = 0;
@@ -1449,7 +1485,7 @@ void s05a_800D863C(LPM1E1ACT lpAct)
         v0.vz = lpAct->objBody.objs->objs[12].model->tz;
         DG_MovePos(&v0);
         ReadRotMatrix(&mtx);
-        memset(&v0, 0, 8);
+        memset(&v0, 0x00, sizeof(SVECTOR));
         DG_PutVector(&v0, &v0, 1);
         v1.vx = (v0.vx - pos.vx) >> 2;
         v1.vy = (v0.vy - pos.vy) >> 2;
@@ -1460,7 +1496,7 @@ void s05a_800D863C(LPM1E1ACT lpAct)
         v1.vy = 0;
         v1.vz = lpAct->objBody.objs->objs[13].model->uz - lpAct->objBody.objs->objs[13].model->lz;
         DG_MovePos(&v1);
-        memset(&v1, 0, 8);
+        memset(&v1, 0x00, sizeof(SVECTOR));
         DG_PutVector(&v1, &v1, 1);
         v1.vx = v0.vx - v1.vx;
         v1.vy = v0.vy - v1.vy;
@@ -1480,7 +1516,7 @@ void s05a_800D863C(LPM1E1ACT lpAct)
         v0.vz = 0;
         v0.vy = lpAct->objBody.objs->objs[13].model->ty;
         DG_MovePos(&v0);
-        memset(&v0, 0, 8);
+        memset(&v0, 0x00, sizeof(SVECTOR));
         DG_PutVector(&v0, &v0, 1);
         v1.vx = (v0.vx - pos.vx) >> 2;
         v1.vy = (v0.vy - pos.vy) >> 2;
@@ -1491,7 +1527,7 @@ void s05a_800D863C(LPM1E1ACT lpAct)
         v1.vy = 0;
         v1.vz = lpAct->objBody.objs->objs[13].model->uz - lpAct->objBody.objs->objs[13].model->lz;
         DG_MovePos(&v1);
-        memset(&v1, 0, 8);
+        memset(&v1, 0x00, sizeof(SVECTOR));
         DG_PutVector(&v1, &v1, 1);
         v1.vx = v0.vx - v1.vx;
         v1.vy = v0.vy - v1.vy;
@@ -1500,17 +1536,17 @@ void s05a_800D863C(LPM1E1ACT lpAct)
 
         vec.vx = tgt.vx - cur.vx;
 
-        if (lpAct->field_D54 == 1 || lpAct->field_D54 == 3 || lpAct->field_D54 == 4 || lpAct->field_D54 == 5 ||
-            lpAct->field_D54 == 6)
+        if (lpAct->nState == 1 || lpAct->nState == 3 || lpAct->nState == 4 || lpAct->nState == 5 ||
+            lpAct->nState == 6)
         {
             lpAct->field_F40 = 0;
             vec.vy = lpAct->objBody.rots[12].vy + lpAct->objBody.rots[13].vy;
             vec.vx = lpAct->objBody.rots[13].vx;
-            if (lpAct->field_D54 == 1)
+            if (lpAct->nState == 1)
             {
                 lpAct->field_F84 = lpAct->field_DA4 / k;
             }
-            else if (lpAct->field_D54 == 4)
+            else if (lpAct->nState == 4)
             {
                 lpAct->field_E10 = 1;
             }
@@ -1635,7 +1671,7 @@ void s05a_800D863C(LPM1E1ACT lpAct)
             }
             GM_ConfigObjectAction(&lpAct->lpGunner->body, 0, 0, 5);
         }
-        else if (lpAct->field_E64 == 0 && lpAct->field_D54 == 2)
+        else if (lpAct->field_E64 == 0 && lpAct->nState == 2)
         {
             if (abs(lpAct->objBody.rots[12].vy + lpAct->objBody.rots[13].vy - vec.vy) < 0x31C * k &&
                 abs(lpAct->objBody.rots[13].vx - vec.vx) < 0x155 * k)
@@ -1700,9 +1736,9 @@ void s05a_800D863C(LPM1E1ACT lpAct)
         GM_ConfigObjectAction(&lpAct->lpGunner->body, 0, 0, 5);
     }
 
-    if (lpAct->field_D54 == 7)
+    if (lpAct->nState == 7)
     {
-        if (lpAct->field_F44 <= 0 && (GV_PadData[1].status & 0x40))
+        if ((lpAct->field_F44 <= 0) && (GV_PadData[1].status & (PAD_B)))
         {
             fire = 1;
             lpAct->field_F44 = lpAct->field_DA8;
@@ -1718,7 +1754,8 @@ void s05a_800D863C(LPM1E1ACT lpAct)
         }
     }
 
-    if (lpAct->field_D54 != 7 || (GV_PadData[1].status & 0x810) == 0x810)
+    if ((lpAct->nState != 7)
+        || ((GV_PadData[1].status & (PAD_STA | PAD_X)) == (PAD_STA | PAD_X)))
     {
         v1.vy = vec.vy;
         v1.vy = (v1.vy < -0xE3) ? -0xE3 : v1.vy;
@@ -1730,15 +1767,15 @@ void s05a_800D863C(LPM1E1ACT lpAct)
         lpAct->objBody.rots[13].vy = GV_NearSpeed(GV_NearPhase(lpAct->objBody.rots[13].vy, v1.vy), v1.vy, 0x2E / k);
         lpAct->objBody.rots[13].vx = GV_NearSpeed(GV_NearPhase(lpAct->objBody.rots[13].vx, vec.vx), vec.vx, 0x2E / k);
     }
-    else if ((GV_PadData[1].status & 0x810) == 0x10)
+    else if ((GV_PadData[1].status & (PAD_STA | PAD_X)) == PAD_X)
     {
-        if (GV_PadData[1].status & 8) lpAct->objBody.rots[12].vy += 0x17;
-        if (GV_PadData[1].status & 2) lpAct->objBody.rots[12].vy -= 0x17;
-        if (GV_PadData[1].status & 0x8000) lpAct->objBody.rots[13].vy += 0x2E;
-        if (GV_PadData[1].status & 0x2000) lpAct->objBody.rots[13].vy -= 0x2E;
-        if (GV_PadData[1].status & 0x1000) lpAct->objBody.rots[13].vx -= 0x2E;
-        if (GV_PadData[1].status & 0x4000) lpAct->objBody.rots[13].vx += 0x2E;
-        if (GV_PadData[1].status & 0x100)
+        if (GV_PadData[1].status & (PAD_R1)) lpAct->objBody.rots[12].vy += 23;
+        if (GV_PadData[1].status & (PAD_R2)) lpAct->objBody.rots[12].vy -= 23;
+        if (GV_PadData[1].status & (PAD_L)) lpAct->objBody.rots[13].vy += 46;
+        if (GV_PadData[1].status & (PAD_R)) lpAct->objBody.rots[13].vy -= 46;
+        if (GV_PadData[1].status & (PAD_U)) lpAct->objBody.rots[13].vx -= 46;
+        if (GV_PadData[1].status & (PAD_D)) lpAct->objBody.rots[13].vx += 46;
+        if (GV_PadData[1].status & (PAD_SEL))
         {
             lpAct->objBody.rots[12].vy = 0;
             lpAct->objBody.rots[13].vy = 0;
@@ -1806,15 +1843,24 @@ void s05a_800D9754(LPM1E1ACT lpAct)
     if (lpAct->field_F58 >= 0xF)
     {
         DG_SetPos2(&lpAct->control.mov, &lpAct->control.turn);
-        memset(&vec, 0, 8); vec.vy = *(u_short *)&lpAct->bbox[1].vy; vec.vz = (short)*(u_short *)&lpAct->bbox[0].vz >> 1;
-        DG_PutVector(&vec, &vec, 1); AN_Smoke_800CE08C(&vec);
-        memset(&vec, 0, 8); vec.vy = *(u_short *)&lpAct->bbox[1].vy; vec.vz = (short)*(u_short *)&lpAct->bbox[1].vz >> 1;
-        DG_PutVector(&vec, &vec, 1); AN_Smoke_800CE08C(&vec);
-        memset(&vec, 0, 8);
+        memset(&vec, 0x00, sizeof(SVECTOR));
+        vec.vy = *(u_short *)&lpAct->bbox[1].vy;
+        vec.vz = (short)*(u_short *)&lpAct->bbox[0].vz >> 1;
+        DG_PutVector(&vec, &vec, 1);
+        AN_Smoke_800CE08C(&vec);
+
+        memset(&vec, 0x00, sizeof(SVECTOR));
+        vec.vy = *(u_short *)&lpAct->bbox[1].vy;
+        vec.vz = (short)*(u_short *)&lpAct->bbox[1].vz >> 1;
+        DG_PutVector(&vec, &vec, 1);
+        AN_Smoke_800CE08C(&vec);
+
+        memset(&vec, 0x00, sizeof(SVECTOR));
         vec.vx = *(u_short *)((char *)lpAct->objBody.objs->objs[1].model + 0x20);
         vec.vy = *(u_short *)((char *)lpAct->objBody.objs->objs[1].model + 0x24) + (*(u_short *)&lpAct->bbox[9].vy - *(u_short *)&lpAct->bbox[8].vy);
         vec.vz = *(u_short *)((char *)lpAct->objBody.objs->objs[1].model + 0x28);
-        DG_PutVector(&vec, &vec, 1); AN_Smoke_800CE08C(&vec);
+        DG_PutVector(&vec, &vec, 1);
+        AN_Smoke_800CE08C(&vec);
     }
     s0 = lpAct->field_F58 - 0xA;
     {
@@ -1822,12 +1868,12 @@ void s05a_800D9754(LPM1E1ACT lpAct)
         if (s0 >= 0) { d = 5; s0 = 5 - s0; } else { d = 0xA; s0 = lpAct->field_F58; }
         s0 = s0 * 34 / d;
     }
-    memset(&vec, 0, 8); vec.vx = s0; DG_SetPos2(&DG_ZeroVector, &vec);
+    memset(&vec, 0x00, sizeof(SVECTOR)); vec.vx = s0; DG_SetPos2(&DG_ZeroVector, &vec);
     DG_RotatePos(&lpAct->objBody.rots[3]);
     {
         int dist, r;
         short pv[3];
-        memset(&vec, 0, 8); vec.vz = 0x64; DG_PutVector(&vec, &vec, 1);
+        memset(&vec, 0x00, sizeof(SVECTOR)); vec.vz = 0x64; DG_PutVector(&vec, &vec, 1);
         dist = SquareRoot0(vec.vx * vec.vx + vec.vz * vec.vz); r = ratan2(vec.vy, dist);
         pv[0] = r;
         r = (short)r; if (r < 0) r = -r; pv[2] = s0 - r;
@@ -1906,13 +1952,40 @@ void s05a_800D9A14(LPM1E1ACT lpAct)
     /* phase 3: dispatch found trap's name_id -> field_E30 + route */
     def = lpAct->control.map->hzd->def;
     route = def->routes;
-    if (trap->name_id == GV_StrCode("drive1")) { lpAct->field_E30 = 8; }
-    else if (trap->name_id == GV_StrCode("drive2")) { lpAct->field_E30 = 9; route += 1; }
-    else if (trap->name_id == GV_StrCode("drive3")) { lpAct->field_E30 = 0xA; route += 2; }
-    else if (trap->name_id == GV_StrCode("drive4")) { lpAct->field_E30 = 0xB; route += 3; }
-    else if (trap->name_id == GV_StrCode("drive5")) { lpAct->field_E30 = 0xC; route += 4; }
-    else if (trap->name_id == GV_StrCode("drive6")) { lpAct->field_E30 = 0xD; route += 5; }
-    else if (trap->name_id == GV_StrCode("drive7")) { lpAct->field_E30 = 0xE; route += 6; }
+    if (trap->name_id == GV_StrCode("drive1"))
+    {
+        lpAct->field_E30 = 8;
+    }
+    else if (trap->name_id == GV_StrCode("drive2"))
+    {
+        lpAct->field_E30 = 9;
+        route += 1;
+    }
+    else if (trap->name_id == GV_StrCode("drive3"))
+    {
+        lpAct->field_E30 = 10;
+        route += 2;
+    }
+    else if (trap->name_id == GV_StrCode("drive4"))
+    {
+        lpAct->field_E30 = 11;
+        route += 3;
+    }
+    else if (trap->name_id == GV_StrCode("drive5"))
+    {
+        lpAct->field_E30 = 12;
+        route += 4;
+    }
+    else if (trap->name_id == GV_StrCode("drive6"))
+    {
+        lpAct->field_E30 = 13;
+        route += 5;
+    }
+    else if (trap->name_id == GV_StrCode("drive7"))
+    {
+        lpAct->field_E30 = 14;
+        route += 6;
+    }
 
     /* phase 4: initial distance target->route->points[0] */
     d.vx = (lpAct->control.mov.vx - route->points->x) >> 2;
@@ -2035,27 +2108,27 @@ void s05a_800DA02C(LPM1E1ACT lpAct)
     }
 
     {
-    SVECTOR *mp = mid;
-    int i = 0;
-    mid[0].vx = (verts[0].vx + verts[1].vx) >> 1;
-    mid[0].vy = (verts[0].vy + verts[1].vy) >> 1;
-    mid[0].vz = (verts[0].vz + verts[1].vz) >> 1;
-    mid[1].vx = (verts[3].vx + verts[4].vx) >> 1;
-    mid[1].vy = (verts[3].vy + verts[4].vy) >> 1;
-    mid[1].vz = (verts[3].vz + verts[4].vz) >> 1;
-    mid[2].vx = (verts[5].vx + verts[6].vx) >> 1;
-    mid[2].vy = (verts[5].vy + verts[6].vy) >> 1;
-    mid[2].vz = (verts[5].vz + verts[6].vz) >> 1;
-    mid[3].vx = (verts[8].vx + verts[9].vx) >> 1;
-    mid[3].vy = (verts[8].vy + verts[9].vy) >> 1;
-    mid[3].vz = (verts[8].vz + verts[9].vz) >> 1;
+        SVECTOR *mp = mid;
+        int i = 0;
+        mid[0].vx = (verts[0].vx + verts[1].vx) >> 1;
+        mid[0].vy = (verts[0].vy + verts[1].vy) >> 1;
+        mid[0].vz = (verts[0].vz + verts[1].vz) >> 1;
+        mid[1].vx = (verts[3].vx + verts[4].vx) >> 1;
+        mid[1].vy = (verts[3].vy + verts[4].vy) >> 1;
+        mid[1].vz = (verts[3].vz + verts[4].vz) >> 1;
+        mid[2].vx = (verts[5].vx + verts[6].vx) >> 1;
+        mid[2].vy = (verts[5].vy + verts[6].vy) >> 1;
+        mid[2].vz = (verts[5].vz + verts[6].vz) >> 1;
+        mid[3].vx = (verts[8].vx + verts[9].vx) >> 1;
+        mid[3].vy = (verts[8].vy + verts[9].vy) >> 1;
+        mid[3].vz = (verts[8].vz + verts[9].vz) >> 1;
 
-    lpAct->control.mov.vy = 0;
-    for (i = 0; i < 4; i++)
-    {
-        lpAct->control.mov.vy = lpAct->control.mov.vy + mp[i].vy;
-    }
-    lpAct->control.mov.vy = (short)lpAct->control.mov.vy >> 2;
+        lpAct->control.mov.vy = 0;
+        for (i = 0; i < 4; i++)
+        {
+            lpAct->control.mov.vy = lpAct->control.mov.vy + mp[i].vy;
+        }
+        lpAct->control.mov.vy = (short)lpAct->control.mov.vy >> 2;
     }
 
     mov.vx = (mid[1].vx + mid[3].vx) - (mid[0].vx + mid[2].vx);
@@ -2132,15 +2205,15 @@ void s05a_800DA62C(LPM1E1ACT lpAct)
         }
     }
 
-    memset(&rot, 0, 8);
+    memset(&rot, 0x00, sizeof(SVECTOR));
     r = ratan2(lpAct->field_E34.vx, lpAct->field_E34.vz);
     rot.vy = r - lpAct->control.turn.vy;
-    memset(&vec, 0, 8);
+    memset(&vec, 0x00, sizeof(SVECTOR));
     vec.vx = lpAct->field_E70;
     DG_SetPos2(&DG_ZeroVector, &vec);
     DG_RotatePos(&rot);
 
-    memset(&vec, 0, 8);
+    memset(&vec, 0x00, sizeof(SVECTOR));
     vec.vz = 0x64;
     DG_PutVector(&vec, &vec, 1);
     v = vec.vx * vec.vx;
@@ -2162,7 +2235,7 @@ void s05a_800DA62C(LPM1E1ACT lpAct)
     lpAct->field_EA0 += rot.vz;
     DG_SetPos2(&DG_ZeroVector, &rot);
 
-    memset(&vec, 0, 8);
+    memset(&vec, 0x00, sizeof(SVECTOR));
     vec.vz = *(u_short *)&lpAct->bbox[1].vz;
     DG_PutVector(&vec, &vec, 1);
     r = vec.vy;
@@ -2181,44 +2254,71 @@ void s05a_800DA940(LPM1E1ACT lpAct)
     int     i;
     int     s0, s1;
 
-    if (lpAct->field_D54 == 6)
-    {
+    if(lpAct->nState == 6)
         return;
-    }
 
     DG_SetPos2(&lpAct->control.mov, &lpAct->control.turn);
     M1E1GetCaterpillerVertex(&lpAct->objLeftCater[0], &lpAct->objRightCater[0], verts, 1);
-    for (i = 0; i < 10; i++) verts[i].vy += 0x258;
+    for(i = 0; i < 10; i++)
+    {
+        verts[i].vy += 600;
+    }
     DG_PutVector(verts, verts, 10);
-    for (i = 0; i < 10; i++)
+    for(i = 0; i < 10; i++)
     {
         GM_MoveTarget(lpAct->lpTarget[i], &verts[i]);
         GM_PushTarget(lpAct->lpTarget[i]);
     }
 
     M1E1GetCaterpillerVertex(&lpAct->objLeftCater[0], &lpAct->objRightCater[0], verts, 0);
-    for (i = 0; i < 10; i++) verts[i].vy += 0x12C;
-    DG_PutVector(verts, verts, 10);
-    for (i = 0; i < 10; i++)
+    for(i = 0; i < 10; i++)
     {
-        GM_MoveTarget((TARGET *)&lpAct->field_A84[i], &verts[i]);
+        verts[i].vy += 300;
+    }
+    DG_PutVector(verts, verts, 10);
+    for(i = 0; i < 10; i++)
+    {
+        GM_MoveTarget(&lpAct->field_A84[i], &verts[i]);
     }
 
-    s0 = (*(int *)((char *)lpAct + 0x8C8) * 3) >> 2;
-    s1 = (*(int *)((char *)lpAct + 0x95C) * 3) >> 2;
+    s0 = (lpAct->field_8C8 * 3) >> 2;
+    s1 = (lpAct->field_95C * 3) >> 2;
 
-    vec.vx = 0; vec.vz = WMDL(0x1C) - s0; vec.vy = WMDL(0x18);
-    DG_PutVector(&vec, &vec, 1); GM_MoveTarget((TARGET *)((char *)lpAct + 0x8CC), &vec);
-    vec.vx = 0; vec.vz = WMDL(0x10) + s0; vec.vy = WMDL(0x18);
-    DG_PutVector(&vec, &vec, 1); GM_MoveTarget((TARGET *)((char *)lpAct + 0x914), &vec);
-    vec.vx = WMDL(0x08) + s1; vec.vz = WMDL(0x1C) - s1; vec.vy = WMDL(0x18);
-    DG_PutVector(&vec, &vec, 1); GM_MoveTarget((TARGET *)((char *)lpAct + 0x960), &vec);
-    vec.vx = WMDL(0x08) + s1; vec.vz = WMDL(0x10) + s1; vec.vy = WMDL(0x18);
-    DG_PutVector(&vec, &vec, 1); GM_MoveTarget((TARGET *)((char *)lpAct + 0x9A8), &vec);
-    vec.vx = WMDL(0x14) - s1; vec.vz = WMDL(0x1C) - s1; vec.vy = WMDL(0x18);
-    DG_PutVector(&vec, &vec, 1); GM_MoveTarget((TARGET *)((char *)lpAct + 0x9F0), &vec);
-    vec.vx = WMDL(0x14) - s1; vec.vz = WMDL(0x10) + s1; vec.vy = WMDL(0x18);
-    DG_PutVector(&vec, &vec, 1); GM_MoveTarget((TARGET *)((char *)lpAct + 0xA38), &vec);
+    vec.vx = 0;
+    vec.vz = WMDL(0x1C) - s0;
+    vec.vy = WMDL(0x18);
+    DG_PutVector(&vec, &vec, 1);
+    GM_MoveTarget(&lpAct->target0, &vec);
+
+    vec.vx = 0;
+    vec.vz = WMDL(0x10) + s0;
+    vec.vy = WMDL(0x18);
+    DG_PutVector(&vec, &vec, 1);
+    GM_MoveTarget(&lpAct->target1, &vec);
+
+    vec.vx = WMDL(0x08) + s1;
+    vec.vz = WMDL(0x1C) - s1;
+    vec.vy = WMDL(0x18);
+    DG_PutVector(&vec, &vec, 1);
+    GM_MoveTarget(&lpAct->target2, &vec);
+
+    vec.vx = WMDL(0x08) + s1;
+    vec.vz = WMDL(0x10) + s1;
+    vec.vy = WMDL(0x18);
+    DG_PutVector(&vec, &vec, 1);
+    GM_MoveTarget(&lpAct->target3, &vec);
+
+    vec.vx = WMDL(0x14) - s1;
+    vec.vz = WMDL(0x1C) - s1;
+    vec.vy = WMDL(0x18);
+    DG_PutVector(&vec, &vec, 1);
+    GM_MoveTarget(&lpAct->target4, &vec);
+
+    vec.vx = WMDL(0x14) - s1;
+    vec.vz = WMDL(0x10) + s1;
+    vec.vy = WMDL(0x18);
+    DG_PutVector(&vec, &vec, 1);
+    GM_MoveTarget(&lpAct->target5, &vec);
 }
 
 void s05a_800DACF0(LPM1E1ACT lpAct)
@@ -2228,13 +2328,13 @@ void s05a_800DACF0(LPM1E1ACT lpAct)
     lpAct->copy2 = lpAct->hzdBlock[4].flr[1];
 
     GetHazard2(lpAct->hzdBlock[0].seg, lpAct->hzdBlock[0].flr,
-                 (MATRIX *)((char *)lpAct->objBody.objs + 0xA4), &lpAct->bbox[0], &lpAct->bbox[1]);
+        &lpAct->objBody.objs->objs[1].world, &lpAct->bbox[0], &lpAct->bbox[1]);
     GetHazard2(lpAct->hzdBlock[1].seg, lpAct->hzdBlock[1].flr,
-                 (MATRIX *)((char *)lpAct->objBody.objs + 0x100), &lpAct->bbox[2], &lpAct->bbox[3]);
+        &lpAct->objBody.objs->objs[2].world, &lpAct->bbox[2], &lpAct->bbox[3]);
     GetHazard2(lpAct->hzdBlock[2].seg, lpAct->hzdBlock[2].flr,
-                 (MATRIX *)((char *)lpAct->objLeftCater[0].objs + 0x48), &lpAct->bbox[4], &lpAct->bbox[5]);
+        &lpAct->objLeftCater[0].objs->objs[0].world, &lpAct->bbox[4], &lpAct->bbox[5]);
     GetHazard2(lpAct->hzdBlock[3].seg, lpAct->hzdBlock[3].flr,
-                 (MATRIX *)((char *)lpAct->objRightCater[0].objs + 0x48), &lpAct->bbox[6], &lpAct->bbox[7]);
+        &lpAct->objRightCater[0].objs->objs[0].world, &lpAct->bbox[6], &lpAct->bbox[7]);
     GetHazard2(lpAct->hzdBlock[4].seg, lpAct->hzdBlock[4].flr,
-                 (MATRIX *)((char *)lpAct->objBody.objs + 0x15C), &lpAct->bbox[8], &lpAct->bbox[9]);
+        &lpAct->objBody.objs->objs[3].world, &lpAct->bbox[8], &lpAct->bbox[9]);
 }

@@ -28,8 +28,8 @@ typedef struct tagM1E1GUNNERACT
     CONTROL        control;
     MATRIX         light[2];
     OBJECT         body;
-    TARGET        *target;
-    HOMING        *hom;
+    TARGET*        target;
+    HOMING*        hom;
     MATRIX         homMatrix;
     BOOL           bHidden;
     LPM1E1ACT      lpParent;
@@ -47,7 +47,7 @@ typedef struct tagM1E1GUNNERACT
     int            nSoundDelay2;
     int            nUnused2;
     int            nActionTime;
-    void          *lpShadow;
+    void*          lpShadow;
     int            nKageDir;
     int            nKageHeight;
     MOTION_CONTROL m_ctrl;
@@ -56,42 +56,6 @@ typedef struct tagM1E1GUNNERACT
     CONTROL        subcontrol;
     SVECTOR        rots[16];
 } M1E1GUNNERACT, *PM1E1GUNNERACT, *LPM1E1GUNNERACT;
-
-/* Same as M1E1GUNNERACT */
-typedef struct tagM1E1VALCANACT
-{
-    GV_ACT         actor;
-    CONTROL        control;
-    MATRIX         light[2];
-    OBJECT         body;
-    TARGET        *target;
-    HOMING        *hom;
-    MATRIX         homMatrix;
-    BOOL           bHidden;
-    LPM1E1ACT      lpParent;
-    BOOL           bDead;
-    BOOL           bFell;
-    int            nWeaponSave;
-    int            nItemSave;
-    int            nHeight;
-    int            field_204; /* TODO: name */
-    int            field_208; /* TODO: name */
-    int            nFallDelay;
-    int            nUnused1;
-    int            nActDelay;
-    int            nSoundDelay1;
-    int            nSoundDelay2;
-    int            nUnused2;
-    int            nActionTime;
-    void          *lpShadow;
-    int            nKageDir;
-    int            nKageHeight;
-    MOTION_CONTROL m_ctrl;
-    MOTION_SEGMENT m_segs1[17];
-    MOTION_SEGMENT m_segs2[17];
-    CONTROL        subcontrol;
-    SVECTOR        rots[16];
-} M1E1VALCANACT, *PM1E1VALCANACT, *LPM1E1VALCANACT;
 
 struct tagM1E1ACT
 {
@@ -119,8 +83,8 @@ struct tagM1E1ACT
     TARGET          target5;            /* 0xA38 */
     int             field_A80;
     TARGET          field_A84[10];
-    int             field_D54;      /* mode (1 / 6) */
-    int             field_D58;
+    int             nState;
+    BOOL            bCombo;
     int             field_D5C;      /* 'e' block */
     int             field_D60;
     int             field_D64;
@@ -203,7 +167,7 @@ struct tagM1E1ACT
     SVECTOR         field_EA8;              /* 0xEA8 */
     LPM1E1GUNNERACT lpGunner;               /* 0xEB0 */
     SVECTOR         field_EB4;              /* 0xEB4 */
-    LPM1E1VALCANACT lpValcan;               /* 0xEBC */
+    LPM1E1GUNNERACT lpValcan;               /* 0xEBC */
     int             field_EC0;              /* 0xEC0 */
     int             field_EC4;              /* 0xEC4 */
     int             field_EC8;              /* 0xEC8 */
@@ -248,6 +212,12 @@ struct tagM1E1ACT
  * prototypes
  */
 
+/* m1e1.c */
+void* NewM1E1(int nName, int nMap);
+
+/* m1e1cam.c */
+void* NewM1E1Camera(void);
+
 /* m1e1catr.c */
 void M1E1Caterpiller(LPM1E1ACT lpAct);
 void M1E1GetCaterpillerVertex(
@@ -255,6 +225,29 @@ void M1E1GetCaterpillerVertex(
     OBJECT*  lpobjRightCater,
     SVECTOR* lpsvectPos,
     BOOL     arg3);
+
+/* m1e1shel.c */
+void* NewM1E1Shell(
+    int      nName,
+    MATRIX*  lpWorld,
+    int      nSide,
+    SVECTOR* lpsvectTarget,
+    int      nVital,
+    int      nLength,
+    int      nSpeed,
+    int*     lpnResult);
+
+/* m1e1smke.c */
+void* NewM1E1Smoke(
+    int      nType,
+    SVECTOR* lpsvectPos,
+    SVECTOR* lpsvectRot);
+
+/* m1e1sold.c */
+void* NewM1E1Soldier(LPM1E1ACT lpParent);
+
+/* m1e1valc.c */
+void s05a_800DD1C8(LPM1E1ACT lpAct);
 
 #ifdef __cplusplus
 }

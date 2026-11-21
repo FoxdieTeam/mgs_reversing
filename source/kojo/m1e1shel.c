@@ -1,20 +1,28 @@
 /******************************************************************************
+ * System   : METALGEAR^3 for PlayStation
+ * Computer : PlayStation
+ * OS       : PlayStation
+ * Compiler : psyq
+ * Module   : 
+ */
+
+/******************************************************************************
  * included
  */
 
+#include <stdlib.h>
 #include <sys/types.h>
 #include <libgte.h>
 #include <libgpu.h>
 #include "game/game.h"
-#include "kojo/common.h"
+
+#include "common.h"
+#include "m1e1.h"
 
 /******************************************************************************
+ * definitions and typedefs and structures
  */
 
-extern void *NewM1E1Smoke(int arg0, SVECTOR *lpsvectPos, SVECTOR *lpsvectRot);
-
-/******************************************************************************
- */
 typedef struct tagSHELLACT
 {
     GV_ACT   actor;
@@ -23,12 +31,12 @@ typedef struct tagSHELLACT
     MATRIX   light[2];
     TARGET   target;
     MATRIX   world;
-    SVECTOR *lpsvectTarget;
+    SVECTOR* lpsvectTarget;
     SVECTOR  svectPos;
     int      nVital;
     int      nMax;
     int      nSpeed;
-    int     *lpnResult;
+    int*     lpnResult;
     int      nTime;
     int      nRange;
 } SHELLACT, *PSHELLACT, *LPSHELLACT;
@@ -37,7 +45,7 @@ typedef struct tagLOCUSACT
 {
     GV_ACT   actor;
     int      nMap;
-    DG_PRIM *lpPrim;
+    DG_PRIM* lpPrim;
     SVECTOR  verts[8];
     int      nTime;
     int      nR, nG, nB;
@@ -45,38 +53,52 @@ typedef struct tagLOCUSACT
 
 typedef struct tagSMOKEACT
 {
-    GV_ACT   actor;
-    int      nMap;
-    SVECTOR  svectPos;
-    SVECTOR  svectRot;
-    int      nTime;
-    TARGET   target;
+    GV_ACT  actor;
+    int     nMap;
+    SVECTOR svectPos;
+    SVECTOR svectRot;
+    int     nTime;
+    TARGET  target;
 } SMOKEACT, *PSMOKEACT, *LPSMOKEACT;
 
+/******************************************************************************
+ * functions
+ */
+
 static void *NewShellLocus(LPSHELLACT lpParent);
-static void *NewShellSmoke(SVECTOR *lpsvectPos, SVECTOR *lpsvectRot);
+static void *NewShellSmoke(SVECTOR* lpsvectPos, SVECTOR* lpsvectRot);
 
 static void Act(LPSHELLACT lpAct);
 static void Die(LPSHELLACT lpAct);
 
 static void LocusAct(LPLOCUSACT lpAct);
 static void LocusDie(LPLOCUSACT lpAct);
-static void InitPacks(POLY_FT4 *lpPrim, DG_TEX *lpTex);
+static void InitPacks(POLY_FT4* lpPrim, DG_TEX* lpTex);
 
 static void SmokeAct(LPSMOKEACT lpAct);
 static void SmokeDie(LPSMOKEACT lpAct);
 
 /******************************************************************************
+ * publics
  */
-void *NewM1E1Shell(int nName, MATRIX *lpWorld, int nSide, SVECTOR *lpsvectTarget, int nVital, int nLength, int nSpeed, int *lpnResult)
-{
-    SVECTOR     svect1;
-    SVECTOR     svect2;
-    LPSHELLACT  lpAct;
-    int         nDist;
 
-    lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(SHELLACT));
-    if (lpAct == NULL) return NULL;
+void* NewM1E1Shell(
+    int      nName,
+    MATRIX*  lpWorld,
+    int      nSide,
+    SVECTOR* lpsvectTarget,
+    int      nVital,
+    int      nLength,
+    int      nSpeed,
+    int*     lpnResult)
+{
+    SVECTOR    svect1;
+    SVECTOR    svect2;
+    LPSHELLACT lpAct;
+    int        nDist;
+
+    if((lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(SHELLACT))) == NULL)
+        return NULL;
 
     lpAct->lpsvectTarget = lpsvectTarget;
     lpAct->nVital = nVital;
@@ -86,7 +108,7 @@ void *NewM1E1Shell(int nName, MATRIX *lpWorld, int nSide, SVECTOR *lpsvectTarget
 
     GV_SetNamedActor(lpAct, Act, Die, "m1e1shel.c");
 
-    if (GM_InitControl(&lpAct->control, 0, 0) < 0)
+    if(GM_InitControl(&lpAct->control, 0, 0) < 0)
     {
         GV_DestroyActor(lpAct);
         return NULL;
@@ -96,7 +118,7 @@ void *NewM1E1Shell(int nName, MATRIX *lpWorld, int nSide, SVECTOR *lpsvectTarget
 
     DG_SetPos(lpWorld);
 
-    memset(&svect1, 0, sizeof(SVECTOR));
+    memset(&svect1, 0x00, sizeof(SVECTOR));
     svect2.vx = 0;
     svect2.vy = 0;
     svect2.vz = 100;
@@ -112,7 +134,6 @@ void *NewM1E1Shell(int nName, MATRIX *lpWorld, int nSide, SVECTOR *lpsvectTarget
     lpAct->control.rot.vx = -ratan2(svect2.vy, nDist);
     lpAct->control.rot.vy = ratan2(svect2.vx, svect2.vz);
     lpAct->control.rot.vz = 0;
-
     lpAct->control.turn = lpAct->control.rot;
 
     lpAct->control.mov.vx = lpWorld->t[0];
@@ -148,10 +169,15 @@ void *NewM1E1Shell(int nName, MATRIX *lpWorld, int nSide, SVECTOR *lpsvectTarget
 
     GM_SetPowerTarget(&lpAct->target, POWER_ONCE, -1, lpAct->nVital, 0, &svect1);
 
-    return (void *)lpAct;
+    return (void*)lpAct;
 }
 
-static void Act(LPSHELLACT lpAct)
+/******************************************************************************
+ * statics
+ */
+
+static void Act(
+    LPSHELLACT lpAct)
 {
     SVECTOR svect1;
     int     nPower;
@@ -168,12 +194,10 @@ static void Act(LPSHELLACT lpAct)
 
     lpAct->nTime++;
 
-    if (lpAct->nTime < 2)
-    {
+    if(lpAct->nTime < 2)
         NewM1E1Smoke(0, &lpAct->control.mov, &lpAct->control.rot);
-    }
 
-    if (lpAct->lpsvectTarget == NULL)
+    if(lpAct->lpsvectTarget == NULL)
     {
         DG_SetPos2(&lpAct->control.mov, &lpAct->control.rot);
         svect1.vx = 0;
@@ -188,7 +212,7 @@ static void Act(LPSHELLACT lpAct)
         svect1.vz = lpAct->lpsvectTarget->vz - lpAct->control.mov.vz;
 
         nDist = SquareRoot0(svect1.vx * svect1.vx + svect1.vy * svect1.vy + svect1.vz * svect1.vz);
-        if (nDist == 0) nDist = 1;
+        if(nDist == 0) nDist = 1;
 
         lpAct->control.step.vx = svect1.vx * lpAct->nSpeed / nDist;
         lpAct->control.step.vy = svect1.vy * lpAct->nSpeed / nDist;
@@ -199,22 +223,22 @@ static void Act(LPSHELLACT lpAct)
     }
 
     nTouch = lpAct->control.n_touches;
-
-    if (nTouch > 0)
-    {
+    if(nTouch > 0)
         nTouch = GM_CheckControlTouches(&lpAct->control, lpAct->nRange);
-    }
 
-    if (nTouch > 0 ||
-        (nPower = GM_PowerTarget(&lpAct->target)) != 0 ||
-        lpAct->nTime >= lpAct->nMax ||
-        lpAct->control.mov.vx < -27000 || lpAct->control.mov.vx > 27000 ||
-        lpAct->control.mov.vy < -27000 || lpAct->control.mov.vy > 27000 ||
-        lpAct->control.mov.vz < -27000 || lpAct->control.mov.vz > 27000)
+    if((nTouch > 0)
+        || ((nPower = GM_PowerTarget(&lpAct->target)) != 0)
+        || (lpAct->nTime >= lpAct->nMax)
+        || (lpAct->control.mov.vx < -27000) || (lpAct->control.mov.vx > 27000)
+        || (lpAct->control.mov.vy < -27000) || (lpAct->control.mov.vy > 27000)
+        || (lpAct->control.mov.vz < -27000) || (lpAct->control.mov.vz > 27000))
     {
-        if (nPower != 0) *lpAct->lpnResult = 1;
-        else if (nTouch > 0) *lpAct->lpnResult = 2;
-        else *lpAct->lpnResult = 3;
+        if(nPower != 0)
+            *lpAct->lpnResult = 1;
+        else if(nTouch > 0)
+            *lpAct->lpnResult = 2;
+        else
+            *lpAct->lpnResult = 3;
 
         GM_SeSetPan(&lpAct->control.mov, 183, 63);
         NewShellSmoke(&lpAct->control.mov, &lpAct->control.rot);
@@ -226,7 +250,8 @@ static void Act(LPSHELLACT lpAct)
     }
 }
 
-static void Die(LPSHELLACT lpAct)
+static void Die(
+    LPSHELLACT lpAct)
 {
     GM_FreeControl(&lpAct->control);
     GM_FreeObject(&lpAct->body);
@@ -234,15 +259,17 @@ static void Die(LPSHELLACT lpAct)
 
 /******************************************************************************
  */
-static void *NewShellLocus(LPSHELLACT lpParent)
-{
-    SVECTOR     svect1;
-    SVECTOR     svect2;
-    LPLOCUSACT  lpAct;
-    DG_TEX     *lpTex;
 
-    lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(LOCUSACT));
-    if (lpAct == NULL) return NULL;
+static void* NewShellLocus(
+    LPSHELLACT lpParent)
+{
+    SVECTOR    svect1;
+    SVECTOR    svect2;
+    LPLOCUSACT lpAct;
+    DG_TEX*    lpTex;
+
+    if((lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(LOCUSACT))) == NULL)
+        return NULL;
 
     GV_SetNamedActor(lpAct, LocusAct, LocusDie, "m1e1shel.c");
 
@@ -302,42 +329,44 @@ static void *NewShellLocus(LPSHELLACT lpParent)
     setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[1], lpAct->nR, lpAct->nG, lpAct->nB);
     setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[1] + 1, lpAct->nR, lpAct->nG, lpAct->nB);
 
-    return (void *)lpAct;
+    return (void*)lpAct;
 }
 
-static void LocusAct(LPLOCUSACT lpAct)
+static void LocusAct(
+    LPLOCUSACT lpAct)
 {
     GM_SetCurrentMap(lpAct->nMap);
     lpAct->nTime++;
 
-    lpAct->nR -= 25;
-    if (lpAct->nR < 0) lpAct->nR = 0;
-    lpAct->nG -= 22;
-    if (lpAct->nG < 0) lpAct->nG = 0;
-    lpAct->nB -= 19;
-    if (lpAct->nB < 0) lpAct->nB = 0;
+    if((lpAct->nR -= 25) < 0)
+        lpAct->nR = 0;
+    if((lpAct->nG -= 22) < 0)
+        lpAct->nG = 0;
+    if((lpAct->nB -= 19) < 0)
+        lpAct->nB = 0;
 
     setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[0], lpAct->nR, lpAct->nG, lpAct->nB);
     setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[0] + 1, lpAct->nR, lpAct->nG, lpAct->nB);
     setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[1], lpAct->nR, lpAct->nG, lpAct->nB);
     setRGB0((POLY_FT4 *)lpAct->lpPrim->packs[1] + 1, lpAct->nR, lpAct->nG, lpAct->nB);
 
-    if (lpAct->nTime >= 11)
-    {
+    if(lpAct->nTime >= 11)
         GV_DestroyActor(lpAct);
-    }
 }
 
-static void LocusDie(LPLOCUSACT lpAct)
+static void LocusDie(
+    LPLOCUSACT lpAct)
 {
     GM_FreePrim(lpAct->lpPrim);
 }
 
-static void InitPacks(POLY_FT4 *lpPrim, DG_TEX *lpTex)
+static void InitPacks(
+    POLY_FT4* lpPrim,
+    DG_TEX*   lpTex)
 {
     int i;
 
-    for (i = 0; i < 2; i++, lpPrim++)
+    for(i = 0; i < 2; i++, lpPrim++)
     {
         setPolyFT4(lpPrim);
         DG_SetPacketTexture4(lpPrim, lpTex);
@@ -348,16 +377,19 @@ static void InitPacks(POLY_FT4 *lpPrim, DG_TEX *lpTex)
 
 /******************************************************************************
  */
-static void *NewShellSmoke(SVECTOR *lpsvectPos, SVECTOR *lpsvectRot)
+
+static void* NewShellSmoke(
+    SVECTOR* lpsvectPos,
+    SVECTOR* lpsvectRot)
 {
-    SVECTOR     svect1;
-    SVECTOR     svect2;
-    LPSMOKEACT  lpAct;
+    SVECTOR    svect1;
+    SVECTOR    svect2;
+    LPSMOKEACT lpAct;
 
     memset(&svect1, 0x00, sizeof(SVECTOR));
 
-    lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(SMOKEACT));
-    if (lpAct == NULL) return NULL;
+    if ((lpAct = GV_NewActor(GV_ACTOR_USER, sizeof(SMOKEACT))) == NULL)
+        return NULL;
 
     GV_SetNamedActor(lpAct, SmokeAct, SmokeDie, "m1e1shel.c");
 
@@ -381,29 +413,25 @@ static void *NewShellSmoke(SVECTOR *lpsvectPos, SVECTOR *lpsvectRot)
     GM_PowerTarget(&lpAct->target);
 
     sub_800790E8();
-    return (void *)lpAct;
+    return (void*)lpAct;
 }
 
-static void SmokeAct(LPSMOKEACT lpAct)
+static void SmokeAct(
+    LPSMOKEACT lpAct)
 {
     GM_SetCurrentMap(lpAct->nMap);
     lpAct->nTime++;
 
-    if (lpAct->nTime == 1)
-    {
+    if(lpAct->nTime == 1)
         NewM1E1Smoke(1, &lpAct->svectPos, &lpAct->svectRot);
-    }
     else if (lpAct->nTime == 2)
-    {
         sub_8007913C();
-    }
     else if (lpAct->nTime >= 30)
-    {
         GV_DestroyActor(lpAct);
-    }
 }
 
-static void SmokeDie(LPSMOKEACT lpAct)
+static void SmokeDie(
+    LPSMOKEACT lpAct)
 {
     /* do nothing */
 }

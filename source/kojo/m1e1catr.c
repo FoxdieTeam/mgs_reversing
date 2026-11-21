@@ -102,7 +102,7 @@ void M1E1Caterpiller(
             }
             else
             {
-                if ((lpAct->nLeftCaterDirection != -1)
+                if((lpAct->nLeftCaterDirection != -1)
                     && (lpAct->nLeftCaterSmokeTCount == 0))
                 {
                     lpAct->nLeftCaterSmokeTCount = 6;
