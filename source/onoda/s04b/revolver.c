@@ -1811,7 +1811,7 @@ static int GetResources(Work *work, int name, int where)
     indices.vz = 13;
     indices.pad = 16;
 
-    work->shadow = NewShadow(control, body, indices);
+    work->shadow = NewHumanShadow(control, body, indices);
     if (!work->shadow)
     {
         return -1;

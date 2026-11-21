@@ -124,7 +124,7 @@ int CheckPower( Work *work )
         break;
     case 1:
         target->force = DG_ZeroVector;
-        if ( target->vital <= 0 || work->param.unknown - target->vital >= 192 )
+        if ( target->vital <= 0 || work->param.life_prev - target->vital >= 192 )
         {
             work->act.field_14 = 1;
             SetMode( work, s14e_800C8CF8 );
@@ -210,24 +210,24 @@ void s14e_800C6E6C( Work *work )
     setVector( mov, 30000, 30000, 30000 );
     work->param.item = 1;
     work->think3 = 1;
-    work->field_9E4 = 0;
+    work->visible = 0;
     work->think1 = 0;
     work->think2 = 0;
     work->think4 = 0;
     work->count3 = 0;
     work->next_node = work->n_nodes - 1;
-    work->target_addr = work->field_BE8;
+    work->target_addr = work->start_addr;
     work->target_pos = work->start_pos;
     work->vision.range = 512;
     work->vision.length = ZAKO14_EYE_LENGTH;
     work->alert_level = 0;
     work->vision.facedir = 0;
     work->pad.sound = 0;
-    work->pad.field_4 = 1;
+    work->pad.mode = 1;
     work->field_C44 = 0;
     work->target_map = work->start_map;
     work->next_pos = work->start_pos;
-    work->last_addr = work->next_addr = work->field_BE8;
+    work->last_addr = work->next_addr = work->start_addr;
 }
 
 int s14e_800C6F40( int from, int to )
@@ -411,7 +411,7 @@ void s14e_800C7398( Work *work, int time )
     {
         if ( GV_DiffDirAbs( work->control.rot.vy, work->pad.dir ) < 256 )
         {
-            if ( work->pad.field_4 & 1 )
+            if ( work->pad.mode & 1 )
             {
                 SetAction( work, 2, 4 );
             }
@@ -465,7 +465,7 @@ void s14e_800C7550( Work *work, int time )
     motion = work->act.motion1;
     vecs = ctrl->vecs;
 
-    if ( ( work->pad.field_4 & 1 ) && motion != 2 )
+    if ( ( work->pad.mode & 1 ) && motion != 2 )
     {
         SetAction( work, 2, 4 );
     }
@@ -544,7 +544,7 @@ void s14e_800C77F8( Work *work, int time )
 
     if ( !CheckDamage( work ) && work->body.is_end )
     {
-        work->pad.field_8 = 0;
+        work->pad.tmp = 0;
         SetMode( work, s14e_800C8898 );
     }
 }
@@ -766,7 +766,7 @@ void s14e_800C7F00( Work *work, int time )
         work->target->class |= TARGET_FLAG;
         if ( work->body.is_end )
         {
-            work->field_8FC = 1;
+            work->actend = 1;
             SetMode( work, s14e_800C7398 );
         }
     }
@@ -1140,7 +1140,7 @@ void s14e_800C8AD8( Work *work, int time )
 
     if ( work->body.is_end )
     {
-        work->param.unknown = work->target->vital;
+        work->param.life_prev = work->target->vital;
         SetMode( work, s14e_800C7398 );
     }
 }
@@ -1431,11 +1431,11 @@ void s14e_800C94A8( Work *work, int time )
 
     if ( time & 2 )
     {
-        work->field_9E4 = 0;
+        work->visible = 0;
     }
     else
     {
-        work->field_9E4 = 1;
+        work->visible = 1;
     }
 
     if ( time > 8 ) SetMode( work, s14e_800C95B8 );
@@ -1447,7 +1447,7 @@ void s14e_800C95B8( Work *work, int time )
 
     if ( time == 0 )
     {
-        work->field_9E4 = 0;
+        work->visible = 0;
         work->control.mov = ZAKO14_NO_POINT;
         ZAKO14Command.watchers[ work->param.index ].field_4 = 1;
         if ( work->field_C44 == 0 ) GM_EnemyKillCount++;
@@ -1473,7 +1473,7 @@ void ZAKO14_ActionUpdate( Work *work )
     work->trigger = 0;
     work->vision.length = 0;
     work->target->class = TARGET_AVAIL;
-    work->field_8FC = 0;
+    work->actend = 0;
     work->act_status = 0;
     work->field_C38 = 0;
 

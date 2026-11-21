@@ -1,21 +1,12 @@
-#include "enemy/enemy.h"
+#include "zako.h"
 
-#define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
+#include "enemy/asiato.h"
 
-extern int             ZAKO11F_EYE_LENGTH_800C3694;
-extern ZAKO11F_COMMAND Zako11FCommand_800D5AF8;
+/*---------------------------------------------------------------------------*/
 
-// in enemy/asiato.c
-extern int AsiatoCheck( HZD_HDL *, SVECTOR * );
-extern int SearchNearAsiato( HZD_HDL *, SVECTOR *, short, short, short );
-
-void s11i_asiato_800CC39C( Zako11FWork *work );
-void Zako11FThink_800D0BAC( Zako11FWork *work );
-void ZAKO11F_ExecPutChar_800CD77C( Zako11FWork *work );
-
-void s11i_asiato_800CD7DC(Zako11FWork *work)
+void s11i_asiato_800CD7DC(Work *work)
 {
-    VISION     *vision;
+    VISION *vision;
     RADAR_SIGHT_PARAM *r_param;
 
     vision = &work->vision;
@@ -23,11 +14,11 @@ void s11i_asiato_800CD7DC(Zako11FWork *work)
 
     r_param->dir = vision->facedir;
     r_param->dis = vision->length;
-    r_param->range = vision->angle * 2;
+    r_param->range = vision->range * 2;
     r_param->r = 0;
 }
 
-void s11i_asiato_800CD808(Zako11FWork *work)
+void s11i_asiato_800CD808(Work *work)
 {
     if (work->modetime[7] & 0x4)
     {
@@ -35,7 +26,7 @@ void s11i_asiato_800CD808(Zako11FWork *work)
         {
             work->modetime[6] |= 0x4;
         }
-        else if (work->field_94C.damaged & TARGET_TOUCH)
+        else if (work->touch.damaged & TARGET_TOUCH)
         {
             if ((GM_PlayerStatus & (PLAYER_CB_BOX | PLAYER_MOVE)) != PLAYER_CB_BOX)
             {
@@ -58,7 +49,7 @@ int s11i_asiato_800CD88C(HZD_HDL *hzd, SVECTOR *from, SVECTOR *to)
     return HZD_ZoneDistance(hzd, from_addr, to_addr);
 }
 
-void s11i_asiato_800CD8EC(Zako11FWork *work)
+void s11i_asiato_800CD8EC(Work *work)
 {
     CONTROL *control;
 
@@ -120,14 +111,14 @@ void s11i_asiato_800CD8EC(Zako11FWork *work)
     work->modetime[6] |= 1;
 }
 
-void s11i_asiato_800CDA6C( Zako11FWork *work )
+void s11i_asiato_800CDA6C( Work *work )
 {
     if ( !( work->modetime[7] & 0x2 ) )
     {
         return;
     }
 
-    if (work->vision.field_B92 != 2)
+    if (work->vision.pad != 2)
     {
         return;
     }
@@ -137,15 +128,15 @@ void s11i_asiato_800CDA6C( Zako11FWork *work )
         return;
     }
 
-    if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList[0]->rot.vy ) )
+    if ( ( GV_DiffVec3( &work->player_pos, &GM_PlayerPosition ) > 50 ) || ( work->player_dir != GM_WhereList[0]->rot.vy ) )
     {
-        if ( Zako11FCommand_800D5AF8.mode == TOP_COMM_ALERT )
+        if ( ZAKO11FCommand.alert_mode == TOP_COMM_ALERT )
         {
             return;
         }
 
-        work->field_BA4 = GM_PlayerPosition;
-        work->field_BAC = GM_WhereList[0]->rot.vy;
+        work->player_pos = GM_PlayerPosition;
+        work->player_dir = GM_WhereList[0]->rot.vy;
         work->modetime[6] |= 0x2;
     }
     else if ( GV_DiffVec3( &work->control.mov, &GM_PlayerPosition ) < 1500 )
@@ -153,11 +144,11 @@ void s11i_asiato_800CDA6C( Zako11FWork *work )
         work->modetime[6] |= 0x40;
     }
 
-    work->vision.field_B92 = 0;
+    work->vision.pad = 0;
     work->modetime[6] |= 0x80;
 }
 
-void s11i_asiato_800CDB94( Zako11FWork *work )
+void s11i_asiato_800CDB94( Work *work )
 {
     HZD_HDL *hzd;
     CONTROL *control;
@@ -181,7 +172,7 @@ void s11i_asiato_800CDB94( Zako11FWork *work )
         return;
     }
 
-    if ( SearchNearAsiato( hzd, &control->mov, vision->facedir, vision->angle, vision->length ) < 0 )
+    if ( SearchNearAsiato( hzd, &control->mov, vision->facedir, vision->range, vision->length ) < 0 )
     {
         return;
     }
@@ -189,12 +180,12 @@ void s11i_asiato_800CDB94( Zako11FWork *work )
     work->modetime[6] |= 0x10;
 }
 
-void s11i_asiato_800CDC40( Zako11FWork *work )
+void s11i_asiato_800CDC40( Work *work )
 {
     work->modetime[6] = 0;
     s11i_asiato_800CD8EC( work );
 
-    if ( Zako11FCommand_800D5AF8.mode != TOP_COMM_ALERT )
+    if ( ZAKO11FCommand.alert_mode != TOP_COMM_ALERT )
     {
         s11i_asiato_800CD808( work );
         s11i_asiato_800CDA6C( work );
@@ -202,9 +193,9 @@ void s11i_asiato_800CDC40( Zako11FWork *work )
     }
 }
 
-void s11i_asiato_800CDC94( Zako11FWork *work )
+void s11i_asiato_800CDC94( Work *work )
 {
-    switch ( work->vision.field_B92 )
+    switch ( work->vision.pad )
     {
     case 0:
         if ( work->field_B94 != 2 || !( GM_PlayerStatus & PLAYER_INTRUDE ) || work->vision.length == 0 )
@@ -235,7 +226,7 @@ void s11i_asiato_800CDC94( Zako11FWork *work )
     }
 }
 
-void s11i_asiato_800CDD64( Zako11FWork *work )
+void s11i_asiato_800CDD64( Work *work )
 {
     SVECTOR  diff;
     SVECTOR *mov;
@@ -262,34 +253,34 @@ void s11i_asiato_800CDD64( Zako11FWork *work )
 
     if ( !( work->control.map->index & GM_PlayerMap ) || GM_PlayerStatus & PLAYER_INTRUDE )
     {
-        work->vision.field_B92 = 0;
+        work->vision.pad = 0;
         return;
     }
 
-    if ( Zako11FCommand_800D5AF8.field_0x0C % Zako11FCommand_800D5AF8.n_watchers == work->param.index )
+    if ( ZAKO11FCommand.time % ZAKO11FCommand.n_watchers == work->param.index )
     {
-        if ( ZAKO11F_EYE_LENGTH_800C3694 + 2000 < dis )
+        if ( ZAKO11F_EYE_LENGTH + 2000 < dis )
         {
-            work->vision.field_B92 = 0;
+            work->vision.pad = 0;
             return;
         }
 
         if ( height > 2000 )
         {
-            work->vision.field_B92 = 0;
+            work->vision.pad = 0;
             return;
         }
 
-        if ( dis >= 500 && GV_DiffDirAbs( work->vision.facedir, dir ) >= work->vision.angle )
+        if ( dis >= 500 && GV_DiffDirAbs( work->vision.facedir, dir ) >= work->vision.range )
         {
-            work->vision.field_B92 = 0;
+            work->vision.pad = 0;
             return;
         }
 
         map = work->control.map;
-        if ( HZD_OnlineHazardCheck( map->hzd, pos, mov, HZD_CHK_ALL, SEGMENT_ATR ) )
+        if ( HZD_OnlineHazardCheck( map->hzd, pos, mov, HZD_CHK_ALL, HZD_SEG_NO_PLAYER ) )
         {
-            work->vision.field_B92 = 0;
+            work->vision.pad = 0;
             return;
         }
 
@@ -297,36 +288,38 @@ void s11i_asiato_800CDD64( Zako11FWork *work )
         {
             if ( work->vision.length < dis )
             {
-                work->vision.field_B92 = 1;
+                work->vision.pad = 1;
             }
             else
             {
-                work->vision.field_B92 = 2;
+                work->vision.pad = 2;
             }
         }
         else
         {
-            work->vision.field_B92 = 0;
+            work->vision.pad = 0;
         }
     }
 }
 
-void Zako11FActionMain_800CDF40( Zako11FWork *work )
+/*---------------------------------------------------------------------------*/
+
+void Zako11FActionMain( Work *work )
 {
-     if ( work->unknown.last_set <= ACTION48 )
+     if ( work->act.motion1 <= 48 )
      {
         s11i_asiato_800CD7DC( work );
         s11i_asiato_800CDD64( work );
         s11i_asiato_800CDC40( work );
         s11i_asiato_800CDC94( work );
-        Zako11FThink_800D0BAC( work );
-        ZAKO11F_ExecPutChar_800CD77C( work );
+        Zako11FThink( work );
+        ZAKO11F_ExecPutChars( work );
     }
 
-    s11i_asiato_800CC39C( work );
+    ZAKO11F_ActionUpdate( work );
 }
 
-void Zako11FPushMove_800CDFAC( Zako11FWork *work )
+void Zako11FPushMove( Work *work )
 {
     TARGET  *target;
     int      ang;
@@ -344,8 +337,8 @@ void Zako11FPushMove_800CDFAC( Zako11FWork *work )
     GV_AddVec3( &target->offset, &work->control.step, &work->control.step );
     target->damaged &= ~TARGET_PUSH;
 
-    set = work->unknown.last_set;
-    if ( set != ACTION1 && set != ACTION2 )
+    set = work->act.motion1;
+    if ( set != 1 && set != 2 )
     {
         return;
     }
@@ -377,5 +370,5 @@ void Zako11FPushMove_800CDFAC( Zako11FWork *work )
 
     control = &work->control;
     control->turn.vy = ang;
-    control->r_sphere = GV_NearExp2( control->r_sphere, work->unknown.field_1C );
+    control->r_sphere = GV_NearExp2( control->r_sphere, work->act.field_1C );
 }

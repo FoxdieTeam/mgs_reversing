@@ -2,8 +2,8 @@
 
 /*---------------------------------------------------------------------------*/
 
-void AN_Sleep( SVECTOR *pos );
-void AN_Unknown_800C3B7C( MATRIX *world ); // TODO: test
+extern void AN_Sleep( SVECTOR *pos );
+extern void AN_Unknown_800C3B7C( MATRIX *world ); // TODO: test
 
 /*---------------------------------------------------------------------------*/
 

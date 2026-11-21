@@ -9,7 +9,7 @@
 #include "game/game.h"
 #include "strcode.h"
 
-#include "chara/snake/shadow.h" // for NewShadow2
+#include "chara/snake/shadow.h" // for NewHumanShadow2
 #include "enemy/dymc_seg.h"     // for NewDynamicSegment
 #include "enemy/glight.h"       // for NewGunLight
 
@@ -391,7 +391,7 @@ int s07a_meryl7_800D5908( WatcherWork* work, int name, int where )
     shadow.pad = 15;
     shadow.vx  = 0;
 
-    work->field_AF0 = (void*)NewShadow2( ctrl, body, shadow,  &work->field_AF4 ) ;
+    work->field_AF0 = (void*)NewHumanShadow2( ctrl, body, shadow,  &work->field_AF4 ) ;
     work->field_AF8 = NewGunLight( &( body->objs->objs[4].world ), &work->field_AFC ) ;
 
     MERYL_SetPutChar( work, 0 );

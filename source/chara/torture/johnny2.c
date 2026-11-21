@@ -6,7 +6,7 @@
 #include "libdg/libdg.h"
 #include "game/game.h"
 
-#include "chara/snake/shadow.h" // for NewShadow
+#include "chara/snake/shadow.h" // for NewHumanShadow
 #include "enemy/glight.h"       // for NewGunLight
 
 typedef struct _Work
@@ -171,7 +171,7 @@ static int GetResources(Work *work)
     indices.vy = 6;
     indices.vz = 12;
     indices.pad = 15;
-    work->shadow = NewShadow(control, obj, indices);
+    work->shadow = NewHumanShadow(control, obj, indices);
 
     if (work->shadow == NULL)
     {

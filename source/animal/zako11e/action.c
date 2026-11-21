@@ -60,12 +60,381 @@ static inline void UnsetAction2( ZakoWork *work )
 
 extern SVECTOR ZAKO11E_NO_POINT_800C38FC;
 extern int     ZAKO11E_EYE_LENGTH_800C3904;
-extern         ZAKO_COMMAND ZakoCommand_800DF280;
-
-extern int CheckPad_800D4A28( ZakoWork *work );
-extern int CheckDamage_800D46A0( ZakoWork * work );
+extern ZAKO_COMMAND ZakoCommand_800DF280;
 
 extern void s11e_zk11ecom_800D4DD4( ZakoWork *work, int time );
+
+extern void s11e_zk11ecom_800D57A0( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D5B04( ZakoWork *work, int time );
+
+extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D638C( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D5E78( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D5EEC( ZakoWork *work, int time );
+
+extern SVECTOR ZAKO_TARGET_SIZE_800C38CC;
+extern SVECTOR ZAKO_TARGET_FORCE_800C38D4;
+extern SVECTOR ZAKO_ATTACK_SIZE_800C38DC;
+extern SVECTOR ZAKO_ATTACK_FORCE_800C38E4;
+extern SVECTOR ZAKO_TOUCH_SIZE_800C38EC;
+extern SVECTOR ZAKO_TOUCH_FORCE_800C38F4;
+
+extern int     ZAKO11E_EYE_LENGTH_800C3904;
+extern SVECTOR ZAKO11E_NO_POINT_800C38FC;
+
+
+
+int s11e_zk11ecom_800D435C( ZakoWork *work )
+{
+    TARGET *target;
+
+    target= work->target;
+    if (  target->damaged & 2 )
+    {
+        if ( target->a_mode == 0x24 )
+        {
+            SetZakoMode( work, s11e_zk11ecom_800D57A0 ) ;
+        }
+        else
+        {
+            SetZakoMode( work, s11e_zk11ecom_800D5B04 ) ;
+        }
+        target->damaged = 0;
+        return 1;
+    }
+    return 0;
+}
+
+int s11e_zk11ecom_800D43E8( ZakoWork* work )
+{
+    int check;
+    check = work->target->damaged & 0x20;
+    return check > 0;
+}
+
+int s11e_zk11ecom_800D4404( SVECTOR* svec )
+{
+    return abs( svec->vx ) + abs( svec->vy ) + abs( svec->vz ) ;
+}
+
+int s11e_zk11ecom_800D4440( ZakoWork *work ) {
+    short val;
+    TARGET *target;
+
+    target = work->target;
+    if ( !( target->damaged & TARGET_POWER ) ) return 0;
+
+    val = target->a_mode - 1;
+    switch ( val )
+    {
+    case 2:
+        target->force = DG_ZeroVector;
+        if ( target->faint <= 0 )
+        {
+            work->unknown.field_14 = 1;
+            SetZakoMode( work, s11e_zk11ecom_800D649C ) ;
+        }
+        else
+        {
+            SetZakoMode( work, s11e_zk11ecom_800D638C ) ;
+        }
+        break;
+    case 3:
+        work->unknown.field_14 = 0;
+        SetZakoMode( work, s11e_zk11ecom_800D649C ) ;
+        break;
+    case 0:
+        target->force = DG_ZeroVector;
+        if ( target->vital <= 0  || ( work->local_data - target->vital ) >= 192 )
+        {
+            work->unknown.field_14 = 1;
+            SetZakoMode( work, s11e_zk11ecom_800D649C ) ;
+        }
+        else
+        {
+
+            SetZakoMode( work, s11e_zk11ecom_800D638C ) ;
+        }
+        break;
+    case 1:
+        if ( s11e_zk11ecom_800D4404( &target->force ) < 100 )
+        {
+            work->unknown.field_14 = 3;
+        }
+        else
+        {
+            work->unknown.field_14 = 2;
+        }
+        SetZakoMode( work, s11e_zk11ecom_800D649C ) ;
+        break;
+    case 4:
+        work->unknown.field_14 = 3;
+        SetZakoMode( work, s11e_zk11ecom_800D649C ) ;
+        break;
+    case 7:
+        SetZakoMode( work, s11e_zk11ecom_800D5E78 ) ;
+        break;
+    case 8:
+        SetZakoMode( work, s11e_zk11ecom_800D5EEC ) ;
+        break;
+    }
+
+    target->damage = 0;
+    target->damaged = 0;
+    return 1;
+}
+
+int s11e_zk11ecom_800D4648( ZakoWork * work )
+{
+    if ( GM_GameStatus & STATE_STUN )
+    {
+        SetZakoMode( work, s11e_zk11ecom_800D5EEC ) ;
+        return 1;
+    }
+
+    return 0;
+}
+
+int CheckDamage_800D46A0( ZakoWork * work )
+{
+    if ( s11e_zk11ecom_800D4440( work ) || s11e_zk11ecom_800D435C( work ) || s11e_zk11ecom_800D4648( work ) )
+    {
+        work->target->class = TARGET_AVAIL ;
+        return 1;
+    }
+
+    return 0;
+}
+
+void s11e_zk11ecom_800D4700( ZakoWork* work )
+{
+    int addr;
+    CONTROL *ctrl;
+
+    ctrl = &work->control;
+    ctrl->mov.vx = 30000;
+    ctrl->mov.vy = 30000;
+    ctrl->mov.vz = 30000;
+
+    work->param_item = 1;
+    work->think3 = 1;
+    work->visible = 0;
+    work->think1 = 0;
+    work->think2 = 0;
+    work->think4 = 0;
+    work->count3 = 0;
+
+    work->next_node   = work->n_nodes - 1;
+    work->target_addr = work->start_addr;
+    work->target_pos  = work->start_pos;
+
+    work->vision.angle = 512;
+    work->vision.length    = ZAKO11E_EYE_LENGTH_800C3904;
+    work->alert_level      = 0;
+    work->vision.facedir   = 0;
+    work->pad.sound        = 0;
+    work->pad.mode         = 1;
+    work->field_C4C        = 0;
+
+    work->target_map = work->start_map;
+    work->field_C1C  = work->start_pos;
+
+    addr = work->start_addr;
+    work->field_C10 = addr;
+    work->field_BF0 = addr;
+}
+
+int s11e_zk11ecom_800D47D4( int dir, int dist )
+{
+    int diff ;
+    if ( dist < 0 || dir < 0 ) return 0 ;
+
+    diff = GV_DiffDirS( dir, dist ) ;
+
+    if ( diff + 0x380 > 0x700u ) return 0 ;
+    if ( diff >= 0 ) return 1 ;
+
+    return 2 ;
+}
+
+void ReviseReadyGun_800D4828( ZakoWork* work )
+{
+    int trans;
+    int rotx;
+
+    trans = ( ( GM_PlayerBody->objs->objs[6].world.t[1] - work->body.objs->objs[6].world.t[1] ) );
+    trans = ratan2( work->sn_dis, trans  )  & 0xFFF;
+
+    rotx = GV_NearExp8( work->adjust[2].vx, trans - 0x400 );
+    work->adjust[2].vx = rotx;  /* 右腕 */
+    work->adjust[6].vx = rotx;  /* 頭 */
+    if ( rotx < 0 )             /* 左腕 */
+    {
+        work->adjust[7].vx = rotx * 3 ;
+    }
+    else
+    {
+        work->adjust[7].vx = ( rotx * 3 ) / 2 ;
+    }
+}
+
+const SVECTOR rp_shift_800DEB98 = {-200, 1000, 600};
+const SVECTOR force_800DEBA0 = {5, 0, 100};
+const SVECTOR size_800DEBA8 = {400, 1000, 400};
+const char s11e_dword_800DEBB0[] = {0x0, 0x0, 0x0, 0x0};
+
+/*
+    打撃攻撃
+    ヒットすれば１を返す
+    */
+int AttackForce_800D48B0( ZakoWork * work )
+{
+    TARGET *target;
+    SVECTOR svec;
+    SVECTOR rp_shift  = rp_shift_800DEB98; /* 右パンチ */
+    SVECTOR force     = force_800DEBA0;
+    SVECTOR size      = size_800DEBA8;
+
+    target = &work->punch;
+    GM_SetTarget( target, TARGET_POWER, ENEMY_SIDE, &size );
+    DG_SetPos2( &work->control.mov, &work->control.rot );
+    DG_RotVector( &force, &svec, 1 );
+    GM_SetPowerTarget( target, POWER_ONCE, 2, 32, 1, &svec );
+    DG_PutVector( &rp_shift, &work->punch.center, 1 );
+    return GM_PowerTarget( target );
+}
+
+void s11e_zk11ecom_800D49C0( ZakoWork *work )
+{
+    TARGET* target;
+
+    target = &work->field_904;
+    GM_SetPowerTarget( target, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
+    GM_MoveTarget( target, &work->control.mov );
+    GM_PowerTarget( target );
+}
+
+extern void s11e_zk11ecom_800D6F68( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7034( ZakoWork *work, int time );
+extern void ActOverScoutD_800D7100( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7198( ZakoWork *work, int time );
+
+extern void s11e_zk11ecom_800D6F68( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7034( ZakoWork *work, int time );
+extern void ActOverScoutD_800D7100( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7198( ZakoWork *work, int time );
+
+extern void s11e_zk11ecom_800D7230( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D72E4( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D73AC( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7450( ZakoWork *work, int time );
+
+extern void s11e_zk11ecom_800D7518( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7730( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7878( ZakoWork *work, int time );
+
+extern void s11e_zk11ecom_800D506C( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D50FC( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D51E4( ZakoWork *work, int time );
+extern void ActReadyGun_800D51EC( ZakoWork *work, int time );
+
+int CheckPad_800D4A28( ZakoWork *work )
+{
+    int press = work->pad.press;
+
+    if ( press & 0x01 )
+    {
+        SetZakoMode2( work, s11e_zk11ecom_800D6F68 );
+        return 0;
+    }
+
+    if ( press & 0x02 )
+    {
+        SetZakoMode2( work, s11e_zk11ecom_800D7034 );
+        return 0;
+    }
+
+    if ( press & 0x04 )
+    {
+        SetZakoMode2( work, ActOverScoutD_800D7100 ); // //ActOverScoutD_800D7100
+        return 0;
+    }
+
+    if ( press & 0x2000 )
+    {
+        SetZakoMode2( work, s11e_zk11ecom_800D7198 );
+        return 0;
+    }
+
+    if ( press & 0x40 )
+    {
+        SetZakoMode2( work, s11e_zk11ecom_800D7230 );
+        return 0;
+    }
+
+    if ( press & 0x80 )
+    {
+        SetZakoMode2( work, s11e_zk11ecom_800D72E4 );
+        return 0;
+    }
+
+    if ( press & 0x400 )
+    {
+        SetZakoMode2( work, s11e_zk11ecom_800D73AC );
+        return 0;
+    }
+
+    if ( press & 0x800 )
+    {
+        SetZakoMode2( work, s11e_zk11ecom_800D7450 );
+        return 0;
+    }
+
+    if ( press & 0x200 )
+    {
+        SetZakoMode2( work, s11e_zk11ecom_800D7518 );
+        return 0;
+    }
+
+    if ( press & 0x800000 )
+    {
+        SetZakoMode2( work, s11e_zk11ecom_800D7730 );
+        return 0;
+    }
+
+    if ( press & 0x1000000 )
+    {
+        SetZakoMode2( work, s11e_zk11ecom_800D7878 );
+        return 0;
+    }
+
+    if ( press & 0x100 )
+    {
+        SetZakoMode( work, s11e_zk11ecom_800D506C );
+        return 1;
+    }
+
+    if ( press & 0x20 )
+    {
+        SetZakoMode( work, s11e_zk11ecom_800D50FC );
+        return 1;
+    }
+
+    if ( press & SP_DANBOWLKERI )
+    {
+        SetZakoMode( work, s11e_zk11ecom_800D51E4 );
+        return 1;
+    }
+
+    if ( press & 0x30000 )
+    {
+        SetZakoMode( work, ActReadyGun_800D51EC );
+        work->adjust[2].vx = 0;
+        return 1;
+    }
+
+    return 0;
+}
 
 void ActStandStill_800D4C2C(ZakoWork* work, int time )
 {
@@ -1283,584 +1652,5 @@ void s11e_zk11ecom_800D6DDC( ZakoWork *work )
     if ( work->mark_time > 0 )
     {
         work->mark_time--;
-    }
-}
-
-//override.c?
-void s11e_zk11ecom_800D6F68( ZakoWork* work, int time )
-{
-    if ( time == 0 )
-    {
-        UnsetAction( work, ACTION9 );
-    }
-
-    if ( !( work->pad.press & 1 ) )
-    {
-        UnsetMode( work );
-    }
-    else
-    {
-        if ( time < 4 )
-        {
-            work->vision.facedir = ( work->control.rot.vy - ( time * 256 ) ) & 0xFFF;
-        }
-        else
-        {
-            work->vision.facedir = ( work->control.rot.vy - 1024 ) & 0xFFF;
-        }
-    }
-}
-
-void s11e_zk11ecom_800D7034( ZakoWork* work, int time)
-{
-    if ( time == 0 )
-    {
-        UnsetAction( work, ACTION10 );
-    }
-
-    if ( !( work->pad.press & 2 ) )
-    {
-        UnsetMode( work );
-    }
-    else
-    {
-        if ( time < 4 )
-        {
-            work->vision.facedir = ( work->control.rot.vy + ( time * 256 ) ) & 0xFFF;
-        }
-        else
-        {
-            work->vision.facedir = ( work->control.rot.vy + 1024 ) & 0xFFF;
-        }
-    }
-}
-
-void ActOverScoutD_800D7100( ZakoWork* work, int time )
-{
-    work->vision.length = 3000;
-
-    if ( time == 0 )
-    {
-        UnsetAction( work, ACTION11 );
-    }
-
-    if ( !( work->pad.press & 4 ) )
-    {
-        UnsetMode( work );
-    }
-}
-
-void s11e_zk11ecom_800D7198( ZakoWork* work, int time )
-{
-    work->vision.length = 3000;
-
-    if ( time == 0 )
-    {
-        UnsetAction( work, ACTION14 );
-    }
-
-    if ( !( work->pad.press & 0x2000 ) )
-    {
-        UnsetMode( work );
-    }
-}
-
-void s11e_zk11ecom_800D7230( ZakoWork* work, int time )
-{
-    work->vision.length = 0;
-
-    if ( time == 0 )
-    {
-        UnsetAction( work, ACTION24 );
-        GM_SeSet( &work->control.mov, SE_V_ENE_SNEEZE );
-    }
-
-    if ( work->body.time2 || !( work->pad.press & 0x40 ) )
-    {
-        work->pad.time = 0;
-        UnsetMode( work );
-    }
-}
-
-void s11e_zk11ecom_800D72E4( ZakoWork* work, int time )
-{
-    work->vision.length = 0;
-
-    if ( time == 0 )
-    {
-        UnsetAction( work, ACTION22 );
-    }
-
-    if ( time == 60 )
-    {
-        GM_SeSet( &work->control.mov, SE_V_ENE_YAWN );
-    }
-
-    if ( work->body.time2 || !( work->pad.press & 0x80 ) )
-    {
-        work->pad.time = 0;
-        UnsetMode( work );
-    }
-}
-
-void s11e_zk11ecom_800D73AC( ZakoWork* work, int time )
-{
-    if ( time == 0 )
-    {
-        UnsetAction( work, ACTION23 );
-    }
-
-    if ( work->body.time2 || !( work->pad.press & 0x400 ) )
-    {
-        work->pad.time = 0;
-        UnsetMode( work );
-    }
-}
-
-void s11e_zk11ecom_800D7450( ZakoWork* work, int time )
-{
-    work->vision.length = 0;
-
-    if ( time == 0 )
-    {
-        UnsetAction( work, ACTION19 );
-    }
-
-    if ( time == 90 )
-    {
-        GM_SeSet( &work->control.mov, SE_V_ENE_YAWN );
-    }
-
-    if ( work->body.time2 || !( work->pad.press & 0x800 ) )
-    {
-        work->pad.time = 0;
-        UnsetMode( work );
-    }
-}
-
-void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
-{
-    SVECTOR mov;
-    work->vision.length = 0;
-
-    if ( time == 0 )
-    {
-        UnsetAction( work, ACTION19 );
-    }
-
-    if ( time == 90 )
-    {
-        GM_SeSet( &work->control.mov, SE_V_ENE_YAWN );
-    }
-
-    if ( time == 110 )
-    {
-        UnsetAction( work, ACTION20 );
-    }
-
-    if ( time > 110 )
-    {
-        work->act_status |= 0x10;
-        if ( work->m_ctrl.info2.frame == 30 )
-        {
-            mov = work->control.mov;
-            mov.vy += 500;
-            AN_Sleep( &mov );
-            GM_SeSet( &work->control.mov, SE_V_ENE_SNORE );
-
-            if ( work->sn_dis < 1000 && ( GM_PlayerStatus & PLAYER_WATCH ) )
-            {
-                int res = GV_RandU( 12 );
-                if ( res > 10 )
-                {
-                    work->pad.sound = 240;
-                }
-            }
-        }
-        if ( work->pad.press & 0x1000 )
-        {
-            SetZakoMode( work, s11e_zk11ecom_800D56F8 );
-            UnsetMode( work );
-            return;
-        }
-    }
-
-    if ( !( work->pad.press & 0x200 ) )
-    {
-        UnsetMode( work );
-    }
-}
-
-extern void AN_Unknown_800C3B7C( MATRIX *matrix );
-extern SVECTOR s11e_dword_800C3668;
-
-void s11e_zk11ecom_800D76F0( ZakoWork* work )
-{
-    MATRIX mat;
-
-    DG_SetPos( &work->body.objs->objs[6].world );
-    DG_MovePos( &s11e_dword_800C3668 );
-    ReadRotMatrix( &mat );
-    AN_Unknown_800C3B7C( &mat );
-}
-
-void s11e_zk11ecom_800D7730( ZakoWork *work, int time )
-{
-    int diff;
-    work->vision.length = 3000;
-    work->act_status |= 0x80;
-
-    if ( time == 0 )
-    {
-        UnsetAction( work, ACTION25 );
-    }
-
-    diff = time - 1000;
-    if ( time >= 1000 && time < 1210 )
-    {
-        if ( diff == 0  || diff == 4  || diff == 8  || diff == 12 ||
-             diff == 20 || diff == 28 || diff == 36 || diff == 48 ||
-             diff == 60 )
-        {
-            GM_SeSet( &work->control.mov, SE_WET_STEP );
-            s11e_zk11ecom_800D76F0( work );
-        }
-    }
-    else if ( time > 30 && time & 1 )
-    {
-        GM_SeSet( &work->control.mov, SE_WET_STEP );
-        if ( time > 45 )
-        {
-            s11e_zk11ecom_800D76F0( work );
-        }
-    }
-
-    if ( !( work->pad.press & 0x800000 ) )
-    {
-        UnsetMode( work );
-    }
-}
-
-void s11e_zk11ecom_800D7878( ZakoWork *work, int time )
-{
-    work->vision.length = 3000;
-
-    if ( time == 0 )
-    {
-        UnsetAction( work, ACTION25 );
-    }
-
-    if ( time == 186 )
-    {
-        UnsetActionManual( work, ACTION26, 0xFFFF );
-    }
-
-    //?
-    if ( time == 0   || time == 4   || time == 8   || time == 12  ||
-         time == 20  || time == 28  || time == 36  || time == 48  ||
-         time == 60  || time == 120 || time == 122 || time == 124 ||
-         time == 126 || time == 180 || time == 182 || time == 184 ||
-         time == 186 )
-    {
-        GM_SeSet( &work->control.mov, SE_WET_STEP );
-        s11e_zk11ecom_800D76F0( work );
-    }
-
-    if ( ( time > 186 && work->body.time2 ) || !( work->pad.press & 0x1000000 ) )
-    {
-        work->pad.time = 0;
-        UnsetMode( work );
-    }
-}
-
-//put funcs
-extern SVECTOR s11e_dword_800C3670;
-extern SVECTOR s11e_dword_800C3678;
-extern SVECTOR s11e_dword_800C3680;
-extern SVECTOR s11e_dword_800C3688;
-
-
-extern void    NewBlood( MATRIX *, int );
-
-void ZAKO11E_PutBlood_800D7A14( ZakoWork* work, int obj_idx, int count )
-{
-    MATRIX mat;
-    DG_SetPos( &work->body.objs->objs[ obj_idx ].world );
-    DG_MovePos( &s11e_dword_800C3670 );
-    DG_RotatePos( &s11e_dword_800C3678 );
-    ReadRotMatrix( &mat );
-    NewBlood( &mat, count );
-}
-
-void ZAKO11E_PutFog_800D7A84( ZakoWork *work )
-{
-    MATRIX mat;
-    SVECTOR svec;
-
-    DG_SetPos( &work->body.objs->objs[1].world );
-    DG_MovePos( &s11e_dword_800C3680 );
-    DG_RotatePos( &s11e_dword_800C3688 );
-    ReadRotMatrix( &mat );
-
-    svec.vx = mat.t[ 0 ];
-    svec.vy = mat.t[ 1 ];
-    svec.vz = mat.t[ 2 ];
-
-    AN_Fog( &svec );
-}
-
-extern const char *s11e_dword_800C3690[3];
-
-void ZAKO11E_PutItem_800D7AE8( ZakoWork* work )
-{
-    int rand;
-    SVECTOR svec;
-    CONTROL *ctrl;
-    ITEM_INFO item;
-
-    svec = work->unknown.field_0C;
-    rand = 10;
-    ctrl = &work->control;
-    svec.vx += GV_RandU( rand );
-    svec.vy += 100;
-    rand = GV_RandU( rand );
-    svec.vz += rand;
-    rand = GV_RandU( 4 );
-
-    switch ( work->field_B74 )
-    {
-    case 0:
-        item.type   = 4;
-        item.id     = IT_Ration;
-        item.num = 1;
-        item.message  = s11e_dword_800C3690[0];
-        break;
-    case 1:
-    case 2:
-    case 3:
-            if ( GM_FamasFlag < 0 )
-            {
-                item.type   = 2;
-                item.message  = s11e_dword_800C3690[1];
-                item.id     = WP_Socom;
-                item.num = 12;
-            }
-            else
-            {
-                item.type = 2;
-                item.id = WP_Famas;
-                item.message  = s11e_dword_800C3690[2];
-                item.num = 25;
-            }
-            break;
-    }
-    item.time = 900;
-    NewItemPut( &ctrl->mov, &svec, &item );
-}
-
-void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark )
-{
-    MATRIX *mat;
-    if ( !( work->control.map->index & GM_PlayerMap ) )
-    {
-        return;
-    }
-
-    mat = &work->body.objs->objs[6].world;
-    if( mark == 0 )
-    {
-        GM_SeSet( &work->control.mov, SE_EXCLAMATION );
-    }
-
-    if ( work->mark_time )
-    {
-        GV_DestroyActor( work->mark );
-    }
-
-    work->mark = AN_HeadMark( mat, mark ) ;
-    work->mark_time = 30;
-}
-
-void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
-{
-    int a1, a3;
-    int a2;
-    int v1;
-
-    a3 = work->unknown.last_set;
-    a2 = work->m_ctrl.info1.frame;
-
-    v1 = ( ( work->field_B74 % 4 ) * 2 ) + 0xA0;
-    a1 = ( ( work->field_B74 % 4 ) * 2 ) + 0xA1;
-
-    if( a3 == 1 )
-    {
-        if ( a2 == 22 )
-        {
-            GM_SeSet( &work->control.mov, a1 );
-        }
-        else if ( a2 == 11 )
-        {
-            GM_SeSet( &work->control.mov, v1 );
-        }
-    }
-    else if ( a3 == 2 )
-    {
-        if ( a2 == 16 )
-        {
-            GM_SeSet( &work->control.mov, a1 );
-        }
-        else if ( a2 == 8 )
-        {
-            GM_SeSet( &work->control.mov, v1 );
-        }
-    }
-}
-
-extern void  NewLSight( SVECTOR *from, SVECTOR *to, int color ) ;
-extern void  AN_Breath( MATRIX * );
-
-void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
-{
-    int frame;
-    if ( ZakoCommand_800DF280.mode == TOP_COMM_ALERT )
-    {
-        return;
-    }
-
-    if ( !( work->control.map->index & GM_PlayerMap ) )
-    {
-        return;
-    }
-
-    if ( work->unknown.last_unset == 20 )
-    {
-        frame = work->m_ctrl.info2.frame;
-        if ( frame == 31 )
-        {
-            AN_Breath( &work->body.objs->objs[6].world );
-        }
-    }
-    else if ( work->unknown.last_unset == 22 )
-    {
-        frame = work->m_ctrl.info2.frame;
-        if ( ( frame == 15 ) || ( frame == 35 ) || ( frame == 50 ) || ( frame == 60 ) ||
-             ( frame == 70 ) || ( frame == 74 ) || ( frame == 78 ) )
-        {
-            AN_Breath( &work->body.objs->objs[6].world );
-        }
-    }
-    else if ( work->unknown.last_unset == 19 )
-    {
-        frame = work->m_ctrl.info2.frame;
-        if ( ( frame == 30  ) || ( frame == 40  ) || ( frame == 50 ) || ( frame == 60 ) ||
-             ( frame == 70  ) || ( frame == 80  ) || ( frame == 90 ) || ( frame == 95 ) ||
-             ( frame == 100 ) || ( frame == 105 ) )
-        {
-            AN_Breath( &work->body.objs->objs[6].world );
-        }
-    }
-    else
-    {
-        if ( ( GV_Time % 64 ) == ( work->field_B74 * 16 ) )
-        {
-            AN_Breath( &work->body.objs->objs[6].world );
-        }
-    }
-}
-
-void s11e_zk11ecom_800D7E8C( ZakoWork* work )
-{
-    if ( work->vision.field_B92 == 2 )
-    {
-        NewLSight( &GM_PlayerPosition, &work->control.mov, 0x00008F );
-    }
-}
-
-extern SVECTOR s11e_dword_800C36AC;
-
-extern void AN_BulletSmoke( MATRIX *, int );
-extern void AN_FamasFlash( MATRIX * );
-
-extern int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func );
-
-void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
-{
-    MATRIX* mat;
-    SVECTOR svec;
-    MATRIX local_mat;
-
-    svec = DG_ZeroVector;
-    svec.vz = GV_RandU( 128 );
-    mat = &work->body.objs->objs[4].world;
-
-    DG_SetPos( mat );
-    DG_MovePos( &s11e_dword_800C36AC );
-    DG_RotatePos( &svec );
-
-    svec.vx = GV_RandS( 16 ) + 1024;
-    svec.vz = 0;
-
-    DG_RotatePos( &svec );
-    ReadRotMatrix( &local_mat );
-
-    if ( GV_Time & 3 )
-    {
-        NewBulletEx( BULLET_RECOILSPARK,  &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
-    }
-    else
-    {
-        NewBulletEx( BULLET_RECOILSPARK | BULLET_NO_HZD, &local_mat, 2, 1, 0, 0xA, work->field_B84, 0x2710, 0x2EE);
-    }
-
-    GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
-    AN_BulletSmoke( mat, 0 );
-    AN_FamasFlash( &local_mat );
-    ZAKO11E_ClearPutChar_800D804C( work, ZAKO11E_PutBulletEx_800D7EC8 );
-}
-
-extern void *s11e_dword_800C369C[];
-
-int ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int idx )
-{
-    int i;
-
-    for ( i = 0 ; i < 8 ; i++ )
-    {
-        if ( work->field_B00[ i ] == NULL )
-        {
-            work->field_B00[ i ] = s11e_dword_800C369C[ idx ];
-            return 1;
-        }
-    }
-    return 0;
-}
-
-int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func )
-{
-    int i;
-
-    for ( i = 0 ; i < 8 ; i++ )
-    {
-        if ( work->field_B00[ i ] == func )
-        {
-            work->field_B00[ i ] = 0;
-            return 1;
-        }
-    }
-    return 0;
-}
-
-void ZAKO11E_ExecPutChar_800D8080( ZakoWork* work )
-{
-    int i;
-
-    for ( i = 0 ; i < 8 ; i++ )
-    {
-        if ( work->field_B00[i] )
-        {
-            ZAKOPUTFUNC func = work->field_B00[i];
-            func( work );
-        }
     }
 }

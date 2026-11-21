@@ -2,8 +2,6 @@
 
 #include <stdio.h>
 #include "mts/mts.h"      // for fprintf
-#include "libgcl/libgcl.h"
-#include "game/game.h"
 #include "game/vibrate.h" // for NewPadVibration
 
 /*---------------------------------------------------------------------------*/

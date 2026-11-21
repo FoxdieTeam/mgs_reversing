@@ -6,39 +6,36 @@
 #define TARGET_FLAG ( TARGET_AVAIL | TARGET_CAPTURE | TARGET_POWER \
                     | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
 
-// TODO: These structures should be unified with the other zakos, using stage
-//       ifdefs to add or remove fields where necessary.
-
 // TODO: check name
 typedef struct _ACT {
-    /* 0x8C8 */ int            field_00;
-    /* 0x8CC */ short          field_04;
-    /* 0x8CE */ short          field_06;
-    /* 0x8D0 */ int            field_08;
-    /* 0x8D4 */ SVECTOR        field_0C;
-    /* 0x8DC */ int            field_14;
-    /* 0x8E0 */ short          motion1;
-    /* 0x8E2 */ short          motion2;
-    /* 0x8E4 */ short          field_1C;
-    /* 0x8E6 */ short          field_1E;
-    /* 0x8E8 */ short          field_20;
-    /* 0x8EA */ short          field_22;
+    /* 0x8C8 */ int     field_00;
+    /* 0x8CC */ short   field_04;
+    /* 0x8CE */ short   field_06;
+    /* 0x8D0 */ int     field_08;
+    /* 0x8D4 */ SVECTOR field_0C;
+    /* 0x8DC */ int     field_14;
+    /* 0x8E0 */ short   motion1;
+    /* 0x8E2 */ short   motion2;
+    /* 0x8E4 */ short   field_1C;
+    /* 0x8E6 */ short   field_1E;
+    /* 0x8E8 */ short   field_20;
+    /* 0x8EA */ short   field_22;
 } ACT;
 
 typedef struct _PARAM {
-    /* 0xB74 */ signed char    index;
-    /* 0xB75 */ signed char    blood;
-    /* 0xB76 */ signed char    area;
-    /* 0xB77 */ signed char    low_poly;
-    /* 0xB78 */ char           next;
-    /* 0xB79 */ signed char    root;
-    /* 0xB7A */ char           c_root;
-    /* 0xB7B */ char           c_next;
-    /* 0xB7C */ signed char    item;
-    /* 0xB7D */ char           g_flag;
-    /* 0xB7E */ short          life;
-    /* 0xB80 */ short          faint;
-    /* 0xB82 */ short          damage;
+    /* 0xB74 */ signed char index;
+    /* 0xB75 */ signed char blood;
+    /* 0xB76 */ signed char area;
+    /* 0xB77 */ signed char low_poly;
+    /* 0xB78 */ char        next;
+    /* 0xB79 */ signed char root;
+    /* 0xB7A */ char        c_root;
+    /* 0xB7B */ char        c_next;
+    /* 0xB7C */ signed char item;
+    /* 0xB7D */ char        reset;
+    /* 0xB7E */ short       life;
+    /* 0xB80 */ short       faint;
+    /* 0xB82 */ short       damage;
 } PARAM;
 
 typedef struct _VISION {
@@ -50,8 +47,8 @@ typedef struct _VISION {
 
 typedef struct _PAD {
     /* 0xB38 */ int   press;
-    /* 0xB3C */ int   field_4;
-    /* 0xB40 */ int   field_8;
+    /* 0xB3C */ int   mode;
+    /* 0xB40 */ int   tmp;
     /* 0xB44 */ int   time;
     /* 0xB48 */ short dir;
     /* 0xB4A */ short sound;
@@ -80,14 +77,14 @@ typedef struct _Work {
     /* 0x8F0 */ ACTION         action2;
     /* 0x8F4 */ int            time;
     /* 0x8F8 */ int            time2;
-    /* 0x8FC */ int            field_8FC;
+    /* 0x8FC */ int            actend;
     /* 0x900 */ TARGET        *target;
     /* 0x904 */ TARGET         attack;
     /* 0x94C */ TARGET         touch;
     /* 0x994 */ TARGET         punch;
     /* 0x9DC */ HOMING        *hom;
     /* 0x9E0 */ int            scale;
-    /* 0x9E4 */ int            field_9E4;
+    /* 0x9E4 */ int            visible;
     /* 0x9E8 */ int            n_nodes;
     /* 0x9EC */ SVECTOR        nodes[ 32 ];
     /* 0xAEC */ int            search_flag;
@@ -125,12 +122,12 @@ typedef struct _Work {
     /* 0xB98 */ signed char    modetime[ 8 ];
     /* 0xBA0 */ SVECTOR        player_pos;
     /* 0xBA8 */ int            player_dir;
-    /* 0xBAC */ int            acttime[ 8 ];
-    /* 0xBCC */ short          dir[ 4 ];
-    /* 0xBD4 */ int            field_BD4;
+    /* 0xBAC */ int            set_time[ 8 ];
+    /* 0xBCC */ short          set_dir[ 4 ];
+    /* 0xBD4 */ int            floor_level;
     /* 0xBD8 */ SVECTOR        start_pos;
     /* 0xBE0 */ SVECTOR        target_pos;
-    /* 0xBE8 */ int            field_BE8;
+    /* 0xBE8 */ int            start_addr;
     /* 0xBEC */ int            start_map;
     /* 0xBF0 */ int            last_addr;
     /* 0xBF4 */ int            target_addr;
@@ -146,7 +143,7 @@ typedef struct _Work {
     /* 0xC2C */ int            sn_dis;
     /* 0xC30 */ int            sn_dir;
     /* 0xC34 */ int            field_C34;
-    /* 0xC38 */ int            field_C38;
+    /* 0xC38 */ int            faseout;
     /* 0xC3C */ int            field_C3C;
     /* 0xC40 */ int            gameflag;
     /* 0xC44 */ short          field_C44;
@@ -160,9 +157,9 @@ typedef struct _JDATA {
 
 // TODO: check name
 typedef struct _WATCHER {
-    int  field_0;
-    int  field_4;
-    int  field_8;
+    int   field_0;
+    int   field_4;
+    int   field_8;
     Work *work;
 } WATCHER;
 

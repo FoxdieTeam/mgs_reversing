@@ -2380,7 +2380,7 @@ int d18a_snake18_800D4C44( Snake18Work *work, int name, int where )
     shadow.vy = 6;
     shadow.vz = 12;
     shadow.pad = 15;
-    work->shadow = NewShadow2( ctrl, body, shadow, &work->enable_shadow );
+    work->shadow = NewHumanShadow2( ctrl, body, shadow, &work->enable_shadow );
     if ( work->shadow == NULL )
     {
         return -1;

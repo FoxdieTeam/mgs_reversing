@@ -61,7 +61,7 @@ void s14e_800CCC04( Work *work )
     }
 
     work->count3 = 0;
-    work->pad.field_4 = 1;
+    work->pad.mode = 1;
 }
 
 void s14e_800CCC70( Work *work )
@@ -70,7 +70,7 @@ void s14e_800CCC70( Work *work )
     work->think2 = 0;
     work->think3 = 0;
     work->count3 = 0;
-    work->pad.field_4 = 1;
+    work->pad.mode = 1;
 }
 
 int s14e_800CCC8C( SVECTOR *from, SVECTOR *to )
@@ -327,7 +327,7 @@ int s14e_800CD440( Work *work )
     {
         work->pad.press |= 0x200000;
     }
-    else if ( work->field_8FC != 0 || ( work->count3 < 0 || work->count3 > 30 ) )
+    else if ( work->actend || ( work->count3 < 0 || work->count3 > 30 ) )
     {
         return 1;
     }
@@ -463,7 +463,7 @@ void s14e_800CD764( Work *work )
         work->think2 = 3;
         work->think3 = 16;
         work->count3 = 0;
-        work->pad.field_4 = 1;
+        work->pad.mode = 1;
         work->pad.sound = 240;
         work->alert_level = 255;
         break;

@@ -1,39 +1,44 @@
+#include "zako.h"
+
 #include <stdio.h>
-
-#include "enemy/enemy.h"
-#include "mts/mts.h"
-#include "libgv/libgv.h"
-#include "libgcl/libgcl.h"
 #include "strcode.h"
+#include "mts/mts.h"      // for fprintf
 
-typedef struct _Zako11FCommanderWork
-{
-    GV_ACT actor;
-    int    name;
-    char   pad[0x4];
-} Zako11FCommanderWork;
+/*---------------------------------------------------------------------------*/
 
-extern int GM_GameOverTimer;
+SVECTOR ZAKO11F_TARGET_SIZE = {300, 1500, 300};
+SVECTOR ZAKO11F_TARGET_FORCE = {0, 0, 0};
+SVECTOR ZAKO11F_ATTACK_SIZE = {800, 500, 800};
+SVECTOR ZAKO11F_ATTACK_FORCE = {100, 0, 0};
+SVECTOR ZAKO11F_TOUCH_SIZE = {300, 800, 300};
+SVECTOR ZAKO11F_TOUCH_FORCE = {0, 0, 0};
+SVECTOR ZAKO11F_NO_POINT = {30000, 30000, 30000};
+int     ZAKO11F_EYE_LENGTH = 4000;
 
-extern int               s11i_dword_800C3698;
-extern SVECTOR           ZAKOCOM_PlayerPosition_800D5AF0;
-extern ZAKO11F_COMMAND   Zako11FCommand_800D5AF8;
-extern TOPCOMMAND_STRUCT TOPCOMMAND_800D5C40;
-extern int               s11i_dword_800D5C48;
-extern int               ZAKO11F_GameFlag_800D5C4C;
-extern int               ZAKOCOM_PlayerAddress_800D5C50;
-extern int               ZAKOCOM_PlayerMap_800D5C54;
+SVECTOR SECTION(".bss") ZAKO11F_PlayerPosition;
+COMMANDER SECTION(".bss") ZAKO11FCommand;
+TOP SECTION(".bss") ZAKO11FTOPCOMMAND;
+int SECTION(".bss") ZAKO11F_Unknown;
+int SECTION(".bss") ZAKO11F_GameFlag;
+int SECTION(".bss") ZAKO11F_PlayerAddress;
+int SECTION(".bss") ZAKO11F_PlayerMap;
 
-int s11i_zk11fcom_800D0BF4( Zako11FWork *watcher ) // SetZako
+/*---------------------------------------------------------------------------*/
+
+static int SoundPlayTime = 0;
+
+/*---------------------------------------------------------------------------*/
+
+int ZAKO11FSetWorkID( Work *work )
 {
     int i;
 
     for ( i = 0 ; i < 8 ; i++ )
     {
-        if ( !Zako11FCommand_800D5AF8.watchers[ i ].watcher )
+        if ( ZAKO11FCommand.watchers[ i ].work == NULL )
         {
-            Zako11FCommand_800D5AF8.watchers[ i ].watcher = watcher;
-            Zako11FCommand_800D5AF8.watchers[ i ].field_04 = 2;
+            ZAKO11FCommand.watchers[ i ].work = work;
+            ZAKO11FCommand.watchers[ i ].field_4 = 2;
             return i;
         }
     }
@@ -41,49 +46,47 @@ int s11i_zk11fcom_800D0BF4( Zako11FWork *watcher ) // SetZako
     return -1;
 }
 
-void s11i_zk11fcom_800D0C38( int index ) // ClearZako
+void ZAKO11FResetWorkID( int id )
 {
-    Zako11FCommand_800D5AF8.watchers[index].watcher = NULL;
-    Zako11FCommand_800D5AF8.watchers[index].field_04 = 1;
+    ZAKO11FCommand.watchers[ id ].work = NULL;
+    ZAKO11FCommand.watchers[ id ].field_4 = 1;
 }
 
-void s11i_zk11fcom_800D0C58( int alert )
+void ZAKO11FSetTopCommAL( int alert )
 {
-    TOPCOMMAND_800D5C40.alert = alert;
+    ZAKO11FTOPCOMMAND.alert = alert;
 }
 
-void s11i_zk11fcom_800D0C64( int mode )
+void ZAKO11FSetTopCommMD( int mode )
 {
-    TOPCOMMAND_800D5C40.mode = mode;
+    ZAKO11FTOPCOMMAND.mode = mode;
 }
 
-void s11i_zk11fcom_800D0C70( void )
+void ZAKO11FSetGopointLast( void )
 {
-    Zako11FCommand_800D5AF8.com_addr = ZAKOCOM_PlayerAddress_800D5C50;
-    Zako11FCommand_800D5AF8.com_pos  = ZAKOCOM_PlayerPosition_800D5AF0;
-    Zako11FCommand_800D5AF8.com_map  = ZAKOCOM_PlayerMap_800D5C54;
+    ZAKO11FCommand.target_addr = ZAKO11F_PlayerAddress;
+    ZAKO11FCommand.target_pos = ZAKO11F_PlayerPosition;
+    ZAKO11FCommand.target_map = ZAKO11F_PlayerMap;
 }
 
-void s11i_zk11fcom_800D0CBC(void)
+void ZAKO11FSetGopointNoise( void )
 {
-    Zako11FCommand_800D5AF8.com_addr = HZD_GetAddress( GM_WhereList[ 0 ]->map->hzd, &GM_NoisePosition, -1 );
-    Zako11FCommand_800D5AF8.com_pos  = GM_NoisePosition;
-    Zako11FCommand_800D5AF8.com_map  = GM_PlayerMap;
+    ZAKO11FCommand.target_addr = HZD_GetAddress( GM_WhereList[ 0 ]->map->hzd, &GM_NoisePosition, -1 );
+    ZAKO11FCommand.target_pos = GM_NoisePosition;
+    ZAKO11FCommand.target_map = GM_PlayerMap;
 }
 
-int s11i_zk11fcom_800D0D34( int map_id, int val )
+int ZAKO11FFindRoute( int map, int id )
 {
-    A4_STRUCT *unk = &Zako11FCommand_800D5AF8.field_0x68;
-    int        i;
+    JDATA *list;
+    int i;
 
-    if ( unk->map_id == map_id )
+    list = &ZAKO11FCommand.jdata;
+    if ( list->map == map )
     {
-        for ( i = 0 ; i < unk->n_entry ; i++ )
+        for ( i = 0; i < list->count; i++ )
         {
-            if ( unk->field_04[ i ].field_00 == val )
-            {
-                return unk->field_04[ i ].field_02;
-            }
+            if ( list->data[ i ][ 0 ] == id ) return list->data[ i ][ 1 ];
         }
 
         goto not_found;
@@ -95,38 +98,38 @@ not_found:
     return -1;
 }
 
-int s11i_zk11fcom_800D0DA8(void)
+int s11i_zk11fcom_800D0DA8( void )
 {
-    return Zako11FCommand_800D5AF8.field_0x112 > 0;
+    return ZAKO11FCommand.field_112 > 0;
 }
 
-void s11i_zk11fcom_800D0DB8(void)
+void s11i_zk11fcom_800D0DB8( void )
 {
-    Zako11FCommand_800D5AF8.field_0x112 = 5;
-    Zako11FCommand_800D5AF8.field_0x114++;
+    ZAKO11FCommand.field_112 = 5;
+    ZAKO11FCommand.field_114++;
 }
 
-void s11i_zk11fcom_800D0DD8(void)
+void s11i_zk11fcom_800D0DD8( void )
 {
-    if (Zako11FCommand_800D5AF8.first_damage == 0)
+    if ( ZAKO11FCommand.firstdamage == 0 )
     {
-        Zako11FCommand_800D5AF8.field_0x112 = 5;
-        Zako11FCommand_800D5AF8.first_damage = 1;
+        ZAKO11FCommand.field_112 = 5;
+        ZAKO11FCommand.firstdamage = 1;
     }
 }
 
-int s11i_zk11fcom_800D0E04(char *opt, A4_STRUCT *out)
+/*---------------------------------------------------------------------------*/
+
+static int ReadMapJdata( char *opt, JDATA *list )
 {
     int count;
 
     count = 0;
-
-    do
-    {
-        out->field_04[count].field_00 = GCL_StrToInt(GCL_NextStr());
-        out->field_04[count].field_02 = GCL_StrToInt(GCL_NextStr());
+    do {
+        list->data[ count ][ 0 ] = GCL_StrToInt( GCL_NextStr() );
+        list->data[ count ][ 1 ] = GCL_StrToInt( GCL_NextStr() );
         count++;
-    } while (GCL_NextStr());
+    } while ( GCL_NextStr() != NULL );
 
     return count;
 }
@@ -151,17 +154,17 @@ void s11i_zk11fcom_800D0EBC( void )
 {
     SVECTOR  dest;
     int      max;
-    int      reset_zone;
+    int      far_zone;
     int      i;
     HZD_ZON *zone;
     int      dist;
 
     max = 0;
-    reset_zone = 0;
+    far_zone = 0;
 
-    for ( i = 0; i < Zako11FCommand_800D5AF8.n_zones ; i++ )
+    for ( i = 0; i < ZAKO11FCommand.n_zones ; i++ )
     {
-        zone = &Zako11FCommand_800D5AF8.map->hzd->def->zones[ Zako11FCommand_800D5AF8.zones[ i ] ];
+        zone = &ZAKO11FCommand.map->hzd->def->zones[ ZAKO11FCommand.zones[ i ] ];
 
         dest.vx = zone->x;
         dest.vy = GM_PlayerPosition.vy;
@@ -171,16 +174,16 @@ void s11i_zk11fcom_800D0EBC( void )
         if ( max < dist )
         {
             max = dist;
-            reset_zone = i;
+            far_zone = i;
         }
     }
 
-    Zako11FCommand_800D5AF8.reset_zone = reset_zone;
+    ZAKO11FCommand.far_zone = far_zone;
 }
 
 int s11i_zk11fcom_800D0FAC( int n )
 {
-    return Zako11FCommand_800D5AF8.field_0x0C % n;
+    return ZAKO11FCommand.time % n;
 }
 
 void s11i_zk11fcom_800D0FEC( int *se_id )
@@ -355,19 +358,19 @@ int s11i_zk11fcom_800D12D8( int se_id )
     return se_id;
 }
 
-void s11i_zk11fcom_800D139C( ZAKO11F_COMMAND *command )
+void s11i_zk11fcom_800D139C( COMMANDER *command )
 {
     int          sound;
     int          min;
     int          i;
-    Zako11FWork *watcher;
+    Work *watcher;
 
-    if ( --s11i_dword_800C3698 < 0 )
+    if ( --SoundPlayTime < 0 )
     {
-        s11i_dword_800C3698 = 0;
+        SoundPlayTime = 0;
     }
 
-    if ( s11i_dword_800C3698 > 0 )
+    if ( SoundPlayTime > 0 )
     {
         return;
     }
@@ -377,9 +380,9 @@ void s11i_zk11fcom_800D139C( ZAKO11F_COMMAND *command )
 
     for ( i = 0 ; i < command->n_watchers ; i++ )
     {
-        if ( command->watchers[ i ].field_04 == 2 )
+        if ( command->watchers[ i ].field_4 == 2 )
         {
-            watcher = command->watchers[ i ].watcher;
+            watcher = command->watchers[ i ].work;
             if ( watcher->pad.sound != SE_DUMMY && watcher->sn_dis < min )
             {
                 sound = watcher->pad.sound;
@@ -391,54 +394,54 @@ void s11i_zk11fcom_800D139C( ZAKO11F_COMMAND *command )
 
     if ( sound != SE_DUMMY )
     {
-        s11i_dword_800C3698 = 30;
+        SoundPlayTime = 30;
         GM_SeSet2(0, 48, s11i_zk11fcom_800D12D8( sound ) );
     }
 }
 
 void s11i_zk11fcom_800D1480( WATCHER *watcher, int i )
 {
-    switch (watcher->field_08)
+    switch (watcher->field_8)
     {
     case 0:
-        if ( watcher->field_04 == 1 )
+        if ( watcher->field_4 == 1 )
         {
-            watcher->field_08 = 1;
-            watcher->field_00 = 1;
-            Zako11FCommand_800D5AF8.field_0x60++;
+            watcher->field_8 = 1;
+            watcher->field_0 = 1;
+            ZAKO11FCommand.field_60++;
 
             // This is probably a shared base struct
-            Zako11FCommand_800D5AF8.field_0x118 = ((WatcherWork *)watcher->watcher)->control.mov;
+            ZAKO11FCommand.field_118 = watcher->work->control.mov;
         }
         break;
 
     case 1:
-        watcher->field_00--;
-        if ( watcher->field_00 <= 0 )
+        watcher->field_0--;
+        if ( watcher->field_0 <= 0 )
         {
-            watcher->field_08 = 2;
-            watcher->field_00 = 0;
+            watcher->field_8 = 2;
+            watcher->field_0 = 0;
         }
         break;
 
     case 2:
-        switch ( Zako11FCommand_800D5AF8.mode )
+        switch ( ZAKO11FCommand.alert_mode )
         {
         case TOP_COMM_TRAVEL:
-            if ( Zako11FCommand_800D5AF8.field_0x10C & 1 )
+            if ( ZAKO11FCommand.field_10C & 1 )
             {
                 s11i_zk11fcom_800D0EBC();
-                watcher->field_04 = 2;
-                watcher->field_08 = 0;
+                watcher->field_4 = 2;
+                watcher->field_8 = 0;
             }
             break;
 
         case TOP_COMM_ALERT:
-            if ( Zako11FCommand_800D5AF8.field_0x60 < 0 )
+            if ( ZAKO11FCommand.field_60 < 0 )
             {
                 s11i_zk11fcom_800D0EBC();
-                watcher->field_04 = 2;
-                watcher->field_08 = 0;
+                watcher->field_4 = 2;
+                watcher->field_8 = 0;
             }
             break;
         }
@@ -451,89 +454,89 @@ int s11i_zk11fcom_800D15C4( int a0, int a1 )
     return MAX(a1, a0);
 }
 
-void s11i_zk11fcom_800D15DC( int alert, ZAKO11F_COMMAND *command )
+void s11i_zk11fcom_800D15DC( int alert_level, COMMANDER *command )
 {
-    if ( (command->alert - alert) > 4 )
+    if ( (command->alert_level - alert_level) > 4 )
     {
-        command->alert -= 4;
+        command->alert_level -= 4;
     }
     else
     {
-        command->alert = alert;
+        command->alert_level = alert_level;
     }
 
-    if ( command->alert < TOPCOMMAND_800D5C40.alert )
+    if ( command->alert_level < ZAKO11FTOPCOMMAND.alert )
     {
-        command->alert = TOPCOMMAND_800D5C40.alert;
+        command->alert_level = ZAKO11FTOPCOMMAND.alert;
     }
 
-    s11i_zk11fcom_800D0C58( 0 );
+    ZAKO11FSetTopCommAL( 0 );
 }
 
-void s11i_zk11fcom_800D1640(ZAKO11F_COMMAND *command)
+void s11i_zk11fcom_800D1640(COMMANDER *command)
 {
-    switch (command->mode)
+    switch (command->alert_mode)
     {
     case 0:
-        if (ZAKO11F_GameFlag_800D5C4C == 1 || ZAKO11F_GameFlag_800D5C4C == 2 || Zako11FCommand_800D5AF8.first_damage == 1)
+        if (ZAKO11F_GameFlag == 1 || ZAKO11F_GameFlag == 2 || ZAKO11FCommand.firstdamage == 1)
         {
-            printf(" gameflag=%d   firstdamage=%d \n", ZAKO11F_GameFlag_800D5C4C, Zako11FCommand_800D5AF8.first_damage);
-            Zako11FCommand_800D5AF8.first_damage = 2;
+            printf(" gameflag=%d   firstdamage=%d \n", ZAKO11F_GameFlag, ZAKO11FCommand.firstdamage);
+            ZAKO11FCommand.firstdamage = 2;
 
-            command->alert = 0xFF;
-            command->mode = 1;
+            command->alert_level = 0xFF;
+            command->alert_mode = 1;
 
-            if (Zako11FCommand_800D5AF8.field_0x124[0] >= 0)
+            if (ZAKO11FCommand.proc[0] >= 0)
             {
-                GCL_ExecProc(Zako11FCommand_800D5AF8.field_0x124[0], 0);
+                GCL_ExecProc(ZAKO11FCommand.proc[0], 0);
             }
         }
         break;
 
     case 1:
-        if (command->alert <= 0)
+        if (command->alert_level <= 0)
         {
-            command->mode = 2;
-            command->field_0x14 = 0;
+            command->alert_mode = 2;
+            command->alert_time = 0;
         }
         break;
 
     case 2:
-        command->field_0x14--;
+        command->alert_time--;
         break;
     }
 
-    TOPCOMMAND_800D5C40.mode = command->mode;
+    ZAKO11FTOPCOMMAND.mode = command->alert_mode;
 }
 
-void s11i_zk11fcom_800D1754(Zako11FCommanderWork *work)
+void s11i_zk11fcom_800D1754(CommanderWork *work)
 {
     int level;
     int i;
 
     level = 0;
 
-    for (i = 0; i < Zako11FCommand_800D5AF8.n_watchers; i++)
+    for (i = 0; i < ZAKO11FCommand.n_watchers; i++)
     {
-        if (Zako11FCommand_800D5AF8.watchers[i].field_04 == 2)
+        if (ZAKO11FCommand.watchers[i].field_4 == 2)
         {
-            level = s11i_zk11fcom_800D15C4(level, ((WatcherWork *)Zako11FCommand_800D5AF8.watchers[i].watcher)->alert_level);
+            level = s11i_zk11fcom_800D15C4(level, ZAKO11FCommand.watchers[i].work->alert_level);
         }
-        else if (Zako11FCommand_800D5AF8.watchers[i].field_04 == 1)
+        else if (ZAKO11FCommand.watchers[i].field_4 == 1)
         {
-            s11i_zk11fcom_800D1480(&Zako11FCommand_800D5AF8.watchers[i], i);
+            s11i_zk11fcom_800D1480(&ZAKO11FCommand.watchers[i], i);
         }
     }
 
-    s11i_zk11fcom_800D139C(&Zako11FCommand_800D5AF8);
-    s11i_zk11fcom_800D15DC(level, &Zako11FCommand_800D5AF8);
-    s11i_zk11fcom_800D1640(&Zako11FCommand_800D5AF8);
+    s11i_zk11fcom_800D139C(&ZAKO11FCommand);
+    s11i_zk11fcom_800D15DC(level, &ZAKO11FCommand);
+    s11i_zk11fcom_800D1640(&ZAKO11FCommand);
 
-    Zako11FCommand_800D5AF8.field_0x10C = 0;
+    ZAKO11FCommand.field_10C = 0;
 
-    if (--Zako11FCommand_800D5AF8.field_0x112 < 0)
+    if (--ZAKO11FCommand.field_112 < 0)
     {
-        Zako11FCommand_800D5AF8.field_0x112 = 0;
+        ZAKO11FCommand.field_112 = 0;
     }
 }
 
@@ -546,9 +549,9 @@ void s11i_zk11fcom_800D185C(void)
 
     if ( lo == hi && lo != 0xFF )
     {
-        ZAKOCOM_PlayerAddress_800D5C50 = GM_PlayerAddress;
-        ZAKOCOM_PlayerPosition_800D5AF0 = GM_PlayerPosition;
-        ZAKOCOM_PlayerMap_800D5C54 = GM_PlayerMap;
+        ZAKO11F_PlayerAddress = GM_PlayerAddress;
+        ZAKO11F_PlayerPosition = GM_PlayerPosition;
+        ZAKO11F_PlayerMap = GM_PlayerMap;
     }
 }
 
@@ -621,141 +624,141 @@ void s11i_zk11fcom_800D19D4(void)
     int f114;
     int i;
 
-    f114 = Zako11FCommand_800D5AF8.field_0x114;
+    f114 = ZAKO11FCommand.field_114;
 
-    switch( ZAKO11F_GameFlag_800D5C4C )
+    switch( ZAKO11F_GameFlag )
     {
     case 0:
         if (f114 != 0)
         {
-            ZAKO11F_GameFlag_800D5C4C = 2;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 2;
+            ZAKO11FCommand.time2 = 0;
 
         }
         else if (s11i_zk11fcom_800D1934(1))
         {
-            ZAKO11F_GameFlag_800D5C4C = 1;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 1;
+            ZAKO11FCommand.time2 = 0;
         }
         break;
 
     case 1:
         if (f114 != 0)
         {
-            ZAKO11F_GameFlag_800D5C4C = 2;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 2;
+            ZAKO11FCommand.time2 = 0;
         }
         else if (!s11i_zk11fcom_800D1934(0))
         {
-            ZAKO11F_GameFlag_800D5C4C = 0;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 0;
+            ZAKO11FCommand.time2 = 0;
         }
         else if (s11i_zk11fcom_800D1990(0))
         {
-            ZAKO11F_GameFlag_800D5C4C = 9;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 9;
+            ZAKO11FCommand.time2 = 0;
         }
         break;
 
     case 2:
-        if ( Zako11FCommand_800D5AF8.field_0x10 > 150 )
+        if ( ZAKO11FCommand.time2 > 150 )
         {
-            ZAKO11F_GameFlag_800D5C4C = 3;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 3;
+            ZAKO11FCommand.time2 = 0;
         }
         break;
 
     case 3:
         if ( f114 > 1 )
         {
-            ZAKO11F_GameFlag_800D5C4C = 5;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 5;
+            ZAKO11FCommand.time2 = 0;
         }
         else if (s11i_zk11fcom_800D1934(0))
         {
-            if (Zako11FCommand_800D5AF8.field_0x10 > 120 || s11i_zk11fcom_800D1934(1))
+            if (ZAKO11FCommand.time2 > 120 || s11i_zk11fcom_800D1934(1))
             {
-                ZAKO11F_GameFlag_800D5C4C = 4;
-                Zako11FCommand_800D5AF8.field_0x10 = 0;
+                ZAKO11F_GameFlag = 4;
+                ZAKO11FCommand.time2 = 0;
             }
         }
         else if (s11i_zk11fcom_800D1990(0))
         {
-            ZAKO11F_GameFlag_800D5C4C = 9;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 9;
+            ZAKO11FCommand.time2 = 0;
         }
         else
         {
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11FCommand.time2 = 0;
         }
         break;
 
     case 4:
         if ( f114 > 1 )
         {
-            ZAKO11F_GameFlag_800D5C4C = 5;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 5;
+            ZAKO11FCommand.time2 = 0;
         }
         else if (!s11i_zk11fcom_800D1934(0))
         {
-            ZAKO11F_GameFlag_800D5C4C = 3;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 3;
+            ZAKO11FCommand.time2 = 0;
         }
         else if (s11i_zk11fcom_800D1990(0))
         {
-            ZAKO11F_GameFlag_800D5C4C = 9;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 9;
+            ZAKO11FCommand.time2 = 0;
         }
         else
         {
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11FCommand.time2 = 0;
         }
         break;
 
     case 5:
-        if ( Zako11FCommand_800D5AF8.field_0x10 > 60 )
+        if ( ZAKO11FCommand.time2 > 60 )
         {
-            ZAKO11F_GameFlag_800D5C4C = 6;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 6;
+            ZAKO11FCommand.time2 = 0;
         }
         break;
 
     case 6:
         if (f114 > 2)
         {
-            ZAKO11F_GameFlag_800D5C4C = 8;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 8;
+            ZAKO11FCommand.time2 = 0;
         }
-        else if (Zako11FCommand_800D5AF8.field_0x10 >= 2)
+        else if (ZAKO11FCommand.time2 >= 2)
         {
-            ZAKO11F_GameFlag_800D5C4C = 7;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 7;
+            ZAKO11FCommand.time2 = 0;
         }
         break;
 
     case 7:
         if (f114 > 2)
         {
-            ZAKO11F_GameFlag_800D5C4C = 8;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 8;
+            ZAKO11FCommand.time2 = 0;
         }
-        else if (Zako11FCommand_800D5AF8.field_0x10 > 60)
+        else if (ZAKO11FCommand.time2 > 60)
         {
-            ZAKO11F_GameFlag_800D5C4C = 5;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 5;
+            ZAKO11FCommand.time2 = 0;
         }
         else if (s11i_zk11fcom_800D1990(0))
         {
-            ZAKO11F_GameFlag_800D5C4C = 9;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 9;
+            ZAKO11FCommand.time2 = 0;
         }
         break;
 
     case 8:
         if (f114 > 2)
         {
-            ZAKO11F_GameFlag_800D5C4C = 15;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 15;
+            ZAKO11FCommand.time2 = 0;
         }
         break;
 
@@ -765,52 +768,52 @@ void s11i_zk11fcom_800D19D4(void)
             switch (f114)
             {
             case 0:
-                ZAKO11F_GameFlag_800D5C4C = 1;
+                ZAKO11F_GameFlag = 1;
                 break;
 
             case 1:
-                ZAKO11F_GameFlag_800D5C4C = 4;
+                ZAKO11F_GameFlag = 4;
                 break;
 
             case 2:
-                ZAKO11F_GameFlag_800D5C4C = 7;
+                ZAKO11F_GameFlag = 7;
                 break;
             }
 
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11FCommand.time2 = 0;
         }
 
-        if (Zako11FCommand_800D5AF8.field_0x60 > 2)
+        if (ZAKO11FCommand.field_60 > 2)
         {
-            ZAKO11F_GameFlag_800D5C4C = 8;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 8;
+            ZAKO11FCommand.time2 = 0;
         }
         break;
 
     case 13:
-        if (Zako11FCommand_800D5AF8.field_0x10 > 60)
+        if (ZAKO11FCommand.time2 > 60)
         {
-            ZAKO11F_GameFlag_800D5C4C = 0;
-            Zako11FCommand_800D5AF8.field_0x10 = 0;
+            ZAKO11F_GameFlag = 0;
+            ZAKO11FCommand.time2 = 0;
         }
         break;
 
     case 15:
-        if (TOPCOMMAND_800D5C40.mode == 2)
+        if (ZAKO11FTOPCOMMAND.mode == 2)
         {
-            ZAKO11F_GameFlag_800D5C4C = 16;
+            ZAKO11F_GameFlag = 16;
 
             for (i = 0; i < 8; i++)
             {
-                if (Zako11FCommand_800D5AF8.watchers[i].watcher)
+                if (ZAKO11FCommand.watchers[i].work)
                 {
-                    ZAKO11F_GameFlag_800D5C4C = 15;
+                    ZAKO11F_GameFlag = 15;
                 }
             }
 
-            if (ZAKO11F_GameFlag_800D5C4C == 16 && Zako11FCommand_800D5AF8.field_0x120 > -1)
+            if (ZAKO11F_GameFlag == 16 && ZAKO11FCommand.end_proc > -1)
             {
-                GCL_ExecProc(Zako11FCommand_800D5AF8.field_0x120, NULL);
+                GCL_ExecProc(ZAKO11FCommand.end_proc, NULL);
             }
         }
         break;
@@ -819,12 +822,12 @@ void s11i_zk11fcom_800D19D4(void)
         break;
     }
 
-    Zako11FCommand_800D5AF8.field_0x10++;
+    ZAKO11FCommand.time2++;
 }
 
 /*---------------------------------------------------------------------------*/
 
-static void Act(Zako11FCommanderWork *work)
+static void Act(CommanderWork *work)
 {
     if (GM_CheckMessage(&work->actor, work->name, HASH_KILL))
     {
@@ -836,29 +839,29 @@ static void Act(Zako11FCommanderWork *work)
     s11i_zk11fcom_800D185C();
     s11i_zk11fcom_800D1754(work);
 
-    Zako11FCommand_800D5AF8.field_0x0C++;
+    ZAKO11FCommand.time++;
 
-    if (ZAKO11F_GameFlag_800D5C4C == 16)
+    if (ZAKO11F_GameFlag == 16)
     {
         GV_DestroyActor(&work->actor);
     }
 }
 
-static void Die(Zako11FCommanderWork *work)
+static void Die(CommanderWork *work)
 {
     /* do nothing */
 }
 
 /*---------------------------------------------------------------------------*/
 
-int ZakoCommander_800D1E38(void)
+static int GetProcs(void)
 {
     int   i;
     char *opt;
 
     for (i = 0; i < 8; i++)
     {
-        Zako11FCommand_800D5AF8.field_0x124[i] = -1;
+        ZAKO11FCommand.proc[i] = -1;
     }
 
     i = 0;
@@ -870,7 +873,7 @@ int ZakoCommander_800D1E38(void)
             return -1;
         }
 
-        Zako11FCommand_800D5AF8.field_0x124[i] = GCL_StrToInt(opt);
+        ZAKO11FCommand.proc[i] = GCL_StrToInt(opt);
         opt = GCL_NextStr();
         i++;
     }
@@ -878,108 +881,108 @@ int ZakoCommander_800D1E38(void)
     return i;
 }
 
-static void GetResources(Zako11FCommanderWork *work, int name, int where)
+static void GetResources(CommanderWork *work, int name, int where)
 {
     int   i;
     char *opt;
 
     work->name = name;
 
-    ZAKO11F_GameFlag_800D5C4C = 0;
+    ZAKO11F_GameFlag = 0;
 
-    Zako11FCommand_800D5AF8.field_0x20 = 0;
-    Zako11FCommand_800D5AF8.alert = 0;
-    Zako11FCommand_800D5AF8.field_0x10 = 0;
-    Zako11FCommand_800D5AF8.field_0x60 = 0;
-    Zako11FCommand_800D5AF8.field_0x112 = 0;
-    Zako11FCommand_800D5AF8.field_0x114 = 0;
-    Zako11FCommand_800D5AF8.first_damage = 0;
+    ZAKO11FCommand.field_20 = 0;
+    ZAKO11FCommand.alert_level = 0;
+    ZAKO11FCommand.time2 = 0;
+    ZAKO11FCommand.field_60 = 0;
+    ZAKO11FCommand.field_112 = 0;
+    ZAKO11FCommand.field_114 = 0;
+    ZAKO11FCommand.firstdamage = 0;
 
     for (i = 0; i < 8; i++)
     {
-        Zako11FCommand_800D5AF8.watchers[i].field_00 = 0;
-        Zako11FCommand_800D5AF8.watchers[i].field_04 = 0;
-        Zako11FCommand_800D5AF8.watchers[i].field_08 = 0;
-        Zako11FCommand_800D5AF8.watchers[i].watcher = NULL;
+        ZAKO11FCommand.watchers[i].field_0 = 0;
+        ZAKO11FCommand.watchers[i].field_4 = 0;
+        ZAKO11FCommand.watchers[i].field_8 = 0;
+        ZAKO11FCommand.watchers[i].work = NULL;
     }
 
     for (i = 0; i < 8; i++)
     {
-        Zako11FCommand_800D5AF8.field_0x40[i] = i;
+        ZAKO11FCommand.field_40[i] = i;
     }
 
-    Zako11FCommand_800D5AF8.field_0x0C = 0;
-    Zako11FCommand_800D5AF8.mode = 0;
+    ZAKO11FCommand.time = 0;
+    ZAKO11FCommand.alert_mode = 0;
 
-    TOPCOMMAND_800D5C40.mode = 0;
-    TOPCOMMAND_800D5C40.alert = 0;
+    ZAKO11FTOPCOMMAND.mode = 0;
+    ZAKO11FTOPCOMMAND.alert = 0;
 
-    Zako11FCommand_800D5AF8.map = GM_GetMap(where);
+    ZAKO11FCommand.map = GM_GetMap(where);
 
     opt = GCL_GetOption('e');
     if (opt)
     {
-        Zako11FCommand_800D5AF8.field_0x120 = GCL_StrToInt(GCL_NextStr());
+        ZAKO11FCommand.end_proc = GCL_StrToInt(GCL_NextStr());
     }
     else
     {
-        Zako11FCommand_800D5AF8.field_0x120 = -1;
+        ZAKO11FCommand.end_proc = -1;
     }
 
-    ZakoCommander_800D1E38();
+    GetProcs();
 
     opt = GCL_GetOption('v');
     if (opt)
     {
-        Zako11FCommand_800D5AF8.n_zones = s11i_zk11fcom_800D0E64(opt, Zako11FCommand_800D5AF8.zones);
+        ZAKO11FCommand.n_zones = s11i_zk11fcom_800D0E64(opt, ZAKO11FCommand.zones);
     }
     else
     {
-        Zako11FCommand_800D5AF8.n_zones = 1;
-        Zako11FCommand_800D5AF8.zones[0] = 0;
+        ZAKO11FCommand.n_zones = 1;
+        ZAKO11FCommand.zones[0] = 0;
     }
 
-    for (i = 0; i < Zako11FCommand_800D5AF8.n_zones; i++)
+    for (i = 0; i < ZAKO11FCommand.n_zones; i++)
     {
-        fprintf(1, "zone=%d ", Zako11FCommand_800D5AF8.zones[i]);
+        fprintf(1, "zone=%d ", ZAKO11FCommand.zones[i]);
     }
 
-    Zako11FCommand_800D5AF8.reset_zone = 0;
-    s11i_dword_800D5C48 = 0;
+    ZAKO11FCommand.far_zone = 0;
+    ZAKO11F_Unknown = 0;
 
     opt = GCL_GetOption('j');
     if (opt)
     {
-        Zako11FCommand_800D5AF8.field_0x68.n_entry = s11i_zk11fcom_800D0E04(opt, &Zako11FCommand_800D5AF8.field_0x68);
+        ZAKO11FCommand.jdata.count = ReadMapJdata(opt, &ZAKO11FCommand.jdata);
     }
     else
     {
-        Zako11FCommand_800D5AF8.field_0x68.n_entry = 1;
-        Zako11FCommand_800D5AF8.field_0x68.field_04[0].field_00 = 0;
-        Zako11FCommand_800D5AF8.field_0x68.field_04[0].field_02 = 0;
+        ZAKO11FCommand.jdata.count = 1;
+        ZAKO11FCommand.jdata.data[0][0] = 0;
+        ZAKO11FCommand.jdata.data[0][1] = 0;
     }
 
-    Zako11FCommand_800D5AF8.field_0x68.map_id = where;
-    Zako11FCommand_800D5AF8.n_watchers = 0;
+    ZAKO11FCommand.jdata.map = where;
+    ZAKO11FCommand.n_watchers = 0;
 
     opt = GCL_GetOption('n');
     if (opt)
     {
-        Zako11FCommand_800D5AF8.n_watchers = s11i_zk11fcom_800D18D0(opt);
+        ZAKO11FCommand.n_watchers = s11i_zk11fcom_800D18D0(opt);
     }
 
-    Zako11FCommand_800D5AF8.field_0x00 = 0;
-    Zako11FCommand_800D5AF8.field_0x04 = 0;
-    Zako11FCommand_800D5AF8.field_0x110 = 0;
+    ZAKO11FCommand.field_0 = 0;
+    ZAKO11FCommand.field_4 = 0;
+    ZAKO11FCommand.field_110 = 0;
 }
 
 /*---------------------------------------------------------------------------*/
 
 void *NewZako11FCommander( int name, int where )
 {
-    Zako11FCommanderWork *work ;
+    CommanderWork *work ;
 
-    work = GV_NewActor( GV_ACTOR_PREV, sizeof( Zako11FCommanderWork ) ) ;
+    work = GV_NewActor( GV_ACTOR_PREV, sizeof( CommanderWork ) ) ;
     if ( work != NULL ) {
         GV_SetNamedActor( &( work->actor ), Act, Die, "zk11fcom.c" );
         GetResources( work, name, where );

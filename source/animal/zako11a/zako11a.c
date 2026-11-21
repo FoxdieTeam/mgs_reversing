@@ -3,10 +3,8 @@
 #include <stdio.h>
 #include "strcode.h"
 #include "mts/mts.h" // for fprintf
-#include "libgcl/libgcl.h"
 #include "chara/snake/shadow.h"
 #include "enemy/glight.h"
-#include "game/game.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -101,7 +99,7 @@ static void ChangeModel( DG_OBJS *objs, DG_DEF *def )
 
 static void CheckModel( Work *work )
 {
-    if ( work->field_9E4 != 0 )
+    if ( work->visible != 0 )
     {
         if ( work->param.low_poly == 1 )
         {
@@ -153,7 +151,7 @@ static void Act( Work *work )
     CheckFlag( work );
     CheckMap( work );
 
-    if ( work->field_C38 == 0 )
+    if ( work->faseout == 0 )
     {
         Zako11APushMove( work );
 
@@ -269,7 +267,7 @@ static int InitState( Work *work, int name, int where )
     indices.vy = 6;
     indices.vz = 12;
     indices.pad = 15;
-    work->shadow = NewShadow2( control, body, indices, &work->shadow_enable );
+    work->shadow = NewHumanShadow2( control, body, indices, &work->shadow_enable );
     work->glight = NewGunLight( &body->objs->objs[ 4 ].world, &work->glight_enable );
 
     ZAKO11A_SetPutChar( work, 0 );
@@ -357,13 +355,13 @@ static int InitTables( Work *work )
 
     for ( i = 0; i < 8; i++ )
     {
-        work->acttime[ i ] = time_data[ i ];
+        work->set_time[ i ] = time_data[ i ];
     }
 
     opt = GCL_GetOption( 't' );
     if ( opt )
     {
-        if ( ReadTime( opt, &work->acttime[ 1 ] ) > 4 )
+        if ( ReadTime( opt, &work->set_time[ 1 ] ) > 4 )
         {
             printf( "Err Err Err  Set time Over\n" );
             return -1;
@@ -372,13 +370,13 @@ static int InitTables( Work *work )
 
     for ( i = 0; i < 4; i++ )
     {
-        work->dir[ i ] = i * 1024;
+        work->set_dir[ i ] = i * 1024;
     }
 
     opt = GCL_GetOption( 'i' );
     if ( opt )
     {
-        if ( ReadDir( opt, work->dir ) > 4 )
+        if ( ReadDir( opt, work->set_dir ) > 4 )
         {
             printf( "Err Err Err  Set Dir Over\n" );
             return -1;
@@ -423,11 +421,11 @@ static void GetResources( Work *work, int name, int where )
 
     printf( " low[pory=%d\n", work->param.low_poly );
 
-    work->param.g_flag = 255;
+    work->param.reset = 255;
     opt = GCL_GetOption( 'g' );
-    if ( opt ) work->param.g_flag = GCL_StrToInt( opt );
+    if ( opt ) work->param.reset = GCL_StrToInt( opt );
 
-    if ( work->param.blood == 90 ) work->param.g_flag = 0;
+    if ( work->param.blood == 90 ) work->param.reset = 0;
 
     work->chase_dis = dist_data[ work->param.index ];
     work->chase_index = work->param.index;
@@ -476,14 +474,14 @@ static void GetResources( Work *work, int name, int where )
     work->search_flag = 0;
     work->act_status = 0;
 
-    work->field_BD4 = 0;
+    work->floor_level = 0;
 
     work->target_pos = work->nodes[ 0 ];
     work->target_addr = HZD_GetAddress( work->control.map->hzd, &work->target_pos, -1 );
     work->target_map = GM_CurrentMap;
     work->alert_level = 0;
 
-    work->field_9E4 = 1;
+    work->visible = 1;
     work->vision.range = 512;
     work->vision.facedir = 0;
     work->field_B90 = 0;
@@ -511,7 +509,7 @@ static void GetResources( Work *work, int name, int where )
     work->start_map = GM_CurrentMap;
 
     addr = HZD_GetAddress( work->control.map->hzd, &work->control.mov, -1 );
-    work->field_BE8 = addr;
+    work->start_addr = addr;
     work->next_addr = addr;
     work->last_addr = addr;
     work->next_pos = work->start_pos;

@@ -17,13 +17,13 @@
 typedef struct _Work
 {
     GV_ACT         actor;
-    CONTROL       *control;
-    OBJECT        *parent;
+    CONTROL       *root_ctrl;
+    OBJECT        *root_obj;
     OBJECT_NO_ROTS object;
     MATRIX         light[2];
     int            color;       // Unused
     int            enabled;
-    SVECTOR        indices;
+    SVECTOR        units;
 } Work;
 
 typedef struct _SCRPAD_DATA
@@ -59,31 +59,31 @@ static void RotateShadow(Work *work)
     SCRPAD_DATA *pScratch = (SCRPAD_DATA *)getScratchAddr(0);
 
     SVECTOR *iter1 = pScratch->iter;
-    short *iter2 = (short *)&work->indices;
+    short *iter2 = (short *)&work->units;
 
     int i;
 
     for (i = 4; i > 0; i--, iter1++, iter2++)
     {
-        pMatrix = &work->parent->objs->objs[*iter2].world;
+        pMatrix = &work->root_obj->objs->objs[*iter2].world;
         iter1->vx = pMatrix->t[0];
 
-        pMatrix = &work->parent->objs->objs[*iter2].world;
+        pMatrix = &work->root_obj->objs->objs[*iter2].world;
         iter1->vy = pMatrix->t[1];
 
-        pMatrix = &work->parent->objs->objs[*iter2].world;
+        pMatrix = &work->root_obj->objs->objs[*iter2].world;
         iter1->vz = pMatrix->t[2];
     }
 
-    pScratch->mtx = work->parent->objs->world;
+    pScratch->mtx = work->root_obj->objs->world;
 
-    pScratch->mtx.t[0] = work->parent->objs[0].objs[0].world.t[0];
+    pScratch->mtx.t[0] = work->root_obj->objs[0].objs[0].world.t[0];
     lVar9 = pScratch->mtx.t[0];
 
-    pScratch->mtx.t[1] = work->parent->objs[0].objs[0].world.t[1];
+    pScratch->mtx.t[1] = work->root_obj->objs[0].objs[0].world.t[1];
     lVar5 = pScratch->mtx.t[1];
 
-    pScratch->mtx.t[2] = work->parent->objs[0].objs[0].world.t[2];
+    pScratch->mtx.t[2] = work->root_obj->objs[0].objs[0].world.t[2];
     lVar4 = pScratch->mtx.t[2];
 
     DG_TransposeMatrix(&pScratch->mtx, &pScratch->mtx);
@@ -151,12 +151,12 @@ static void MoveShadow(Work *work)
 {
     DG_OBJS *objs = work->object.objs;
 
-    RotMatrixY(work->control->rot.vy, &objs->world);
-    objs->world.t[0] = work->parent->objs->world.t[0];
-    objs->world.t[2] = work->parent->objs->world.t[2];
-    objs->world.t[1] = work->control->levels[0];
+    RotMatrixY(work->root_ctrl->rot.vy, &objs->world);
+    objs->world.t[0] = work->root_obj->objs->world.t[0];
+    objs->world.t[2] = work->root_obj->objs->world.t[2];
+    objs->world.t[1] = work->root_ctrl->levels[0];
 
-    if ((work->control->mov.vy - work->control->levels[0]) < 450)
+    if ((work->root_ctrl->mov.vy - work->root_ctrl->levels[0]) < 450)
     {
         objs->objs[0].raise = -500;
     }
@@ -168,7 +168,7 @@ static void MoveShadow(Work *work)
 
 static void Act(Work *work)
 {
-    if ((work->parent->objs->flag & DG_FLAG_INVISIBLE) || !work->enabled)
+    if ((work->root_obj->objs->flag & DG_FLAG_INVISIBLE) || !work->enabled)
     {
         DG_InvisibleObjs(work->object.objs);
     }
@@ -177,7 +177,7 @@ static void Act(Work *work)
         DG_VisibleObjs(work->object.objs);
         RotateShadow(work);
         MoveShadow(work);
-        DG_GroupObjs(work->object.objs, work->parent->map_name);
+        DG_GroupObjs(work->object.objs, work->root_obj->map_name);
     }
 }
 
@@ -186,12 +186,12 @@ static void Die(Work *work)
     GM_FreeObject((OBJECT *)&work->object);
 }
 
-static int GetResources(Work *work, CONTROL *control, OBJECT *parent, SVECTOR indices)
+static int GetResources(Work *work, CONTROL *root_ctrl, OBJECT *root_obj, SVECTOR units)
 {
     GM_InitObjectNoRots(&work->object, GV_StrCode("kage"), SHADOW_FLAG, 0);
     GM_ConfigObjectLight((OBJECT *)&work->object, work->light);
 
-    DG_GroupObjs(work->object.objs, parent->map_name);
+    DG_GroupObjs(work->object.objs, root_obj->map_name);
 
     work->light[0].m[1][1] = -0x1000;
     work->light[1].m[0][1] = 0x480;
@@ -204,10 +204,10 @@ static int GetResources(Work *work, CONTROL *control, OBJECT *parent, SVECTOR in
     work->object.objs->objs->model->flag |= DG_MODEL_TRANS;
     work->object.objs->objs->model->texids[0] = GV_StrCode("shadow");
 
-    work->control = control;
-    work->parent = parent;
-    work->indices = indices;
-    work->color = MAKE_RGBA(72,72,72, GPU_CODE_POLY_FT4);
+    work->root_ctrl = root_ctrl;
+    work->root_obj = root_obj;
+    work->units = units;
+    work->color = MAKE_RGBA(72, 72, 72, GPU_CODE_POLY_FT4);
     work->enabled = TRUE;
 
     return 0;
@@ -215,7 +215,7 @@ static int GetResources(Work *work, CONTROL *control, OBJECT *parent, SVECTOR in
 
 /*---------------------------------------------------------------------------*/
 
-void *NewShadow(CONTROL *control, OBJECT *parent, SVECTOR indices)
+void *NewHumanShadow(CONTROL *root_ctrl, OBJECT *root_obj, SVECTOR units)
 {
     Work *work;
 
@@ -223,7 +223,7 @@ void *NewShadow(CONTROL *control, OBJECT *parent, SVECTOR indices)
     if (work != NULL)
     {
         GV_SetNamedActor(&work->actor, Act, Die, "shadow.c");
-        if (GetResources(work, control, parent, indices) >= 0)
+        if (GetResources(work, root_ctrl, root_obj, units) >= 0)
         {
             return (void *)work;
         }
@@ -232,11 +232,11 @@ void *NewShadow(CONTROL *control, OBJECT *parent, SVECTOR indices)
     return NULL;
 }
 
-void *NewShadow2(CONTROL *control, OBJECT *parent, SVECTOR indices, int **enabled)
+void *NewHumanShadow2(CONTROL *root_ctrl, OBJECT *root_obj, SVECTOR units, int **enabled)
 {
     Work *work;
 
-    work = (Work *)NewShadow(control, parent, indices);
+    work = (Work *)NewHumanShadow(root_ctrl, root_obj, units);
     if (work != NULL && enabled != NULL)
     {
         *enabled = &work->enabled;

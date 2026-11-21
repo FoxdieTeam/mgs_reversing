@@ -155,58 +155,58 @@ static void PutSound( Work *work )
     {
         if ( frame == 22 )
         {
-            if ( work->field_BD4 > work->control.levels[ 0 ] )
+            if ( work->floor_level > work->control.levels[ 0 ] )
             {
                 r += 31;
             }
-            else if ( work->field_BD4 < work->control.levels[ 0 ] )
+            else if ( work->floor_level < work->control.levels[ 0 ] )
             {
                 r += 23;
             }
             GM_SeSetMode( &work->control.mov, r, GM_SEMODE_NORMAL );
-            work->field_BD4 = work->control.levels[ 0 ];
+            work->floor_level = work->control.levels[ 0 ];
         }
         else if ( frame == 11 )
         {            
-            if ( work->field_BD4 > work->control.levels[ 0 ] )
+            if ( work->floor_level > work->control.levels[ 0 ] )
             {
                 l += 31;
             }
-            else if ( work->field_BD4 < work->control.levels[ 0 ] )
+            else if ( work->floor_level < work->control.levels[ 0 ] )
             {
                 l += 23;
             }
             GM_SeSetMode( &work->control.mov, l, GM_SEMODE_NORMAL );
-            work->field_BD4 = work->control.levels[ 0 ];
+            work->floor_level = work->control.levels[ 0 ];
         }
     }
     else if ( action == 2 )
     {
         if ( frame == 16 )
         {
-            if ( work->field_BD4 > work->control.levels[ 0 ] )
+            if ( work->floor_level > work->control.levels[ 0 ] )
             {
                 r += 31;
             }
-            else if ( work->field_BD4 < work->control.levels[ 0 ] )
+            else if ( work->floor_level < work->control.levels[ 0 ] )
             {
                 r += 23;
             }
             GM_SeSetMode( &work->control.mov, r, GM_SEMODE_NORMAL );
-            work->field_BD4 = work->control.levels[ 0 ];
+            work->floor_level = work->control.levels[ 0 ];
         }
         else if ( frame == 8 )
         {
-            if ( work->field_BD4 > work->control.levels[ 0 ] )
+            if ( work->floor_level > work->control.levels[ 0 ] )
             {
                 l += 31;
             }
-            else if ( work->field_BD4 < work->control.levels[ 0 ] )
+            else if ( work->floor_level < work->control.levels[ 0 ] )
             {
                 l += 23;
             }
             GM_SeSetMode( &work->control.mov, l, GM_SEMODE_NORMAL );
-            work->field_BD4 = work->control.levels[ 0 ];
+            work->floor_level = work->control.levels[ 0 ];
         }
     }
 }
