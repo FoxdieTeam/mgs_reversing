@@ -1,32 +1,18 @@
 #include "zako.h"
 
-#include "mgstype.h"
-#include "enemy/eyeflash.h"     // for NewEyeflash
-#include "game/game.h"
+#include "enemy/eyeflash.h" // for NewEyeflash
 
-void ZakoCom_800D4088(void);
-
-void s03d_800D0C90(Work *work, int arg);
-int s03d_800D414C(int, int);
-
-SVECTOR s03d_dword_800C3B68[] =
-{
+SVECTOR s03d_dword_800C3B68[] = {
     {6750, 0, -1000},
     {7250, 0, 500},
     {6750, 0, 2000},
 };
 
-extern int s03d_dword_800DC2F8;
-extern int s03d_dword_800DC2FC;
-extern int s03d_dword_800DC300;
-extern SVECTOR s03d_dword_800DC308;
-extern int s03d_dword_800DC32C;
-
 void s03d_800D2C20(Work *work)
 {
-    work->field_B5C = s03d_dword_800DC2FC;
-    work->field_B48 = s03d_dword_800DC308;
-    work->field_B60 = s03d_dword_800DC300;
+    work->field_B5C = ZAKO_PlayerAddress;
+    work->field_B48 = ZAKO_PlayerPosition;
+    work->field_B60 = ZAKO_PlayerMap;
 }
 
 void s03d_800D2C68(Work *work)
@@ -120,7 +106,7 @@ int s03d_800D2DBC(Work *work)
     else
     {
         pos = &work->field_B48;
-        addr = s03d_800D414C(work->control.map->index, work->field_B60);
+        addr = ZAKOGetMapJointZone(work->control.map->index, work->field_B60);
         to = (addr << 8) | addr;
 
         zone = &hzd->def->zones[addr];
@@ -148,7 +134,7 @@ int s03d_800D2DBC(Work *work)
                 return -1;
             }
 
-            addr2 = s03d_800D414C(work->field_B60, control->map->index);
+            addr2 = ZAKOGetMapJointZone(work->field_B60, control->map->index);
             control->map = GM_GetMap(work->field_B60);
 
             zone = &control->map->hzd->def->zones[addr2];
@@ -384,9 +370,9 @@ int s03d_800D3570(Work *work)
         work->field_AD8 |= 0x10000;
     }
     work->field_AE6 = work->field_B94;
-    if (s03d_dword_800DC2F8 < 7)
+    if (ZAKO_GameFlag < 7)
     {
-        if (s03d_dword_800DC2F8 >= 4)
+        if (ZAKO_GameFlag >= 4)
         {
             return 0;
         }
@@ -413,7 +399,7 @@ int s03d_800D3570(Work *work)
 
 void s03d_800D367C(Work *work)
 {
-    switch (s03d_dword_800DC2F8)
+    switch (ZAKO_GameFlag)
     {
     case 9:
         if (work->field_B04 >= 0xF)
@@ -459,7 +445,7 @@ void s03d_800D3754(Work *work)
         if (s03d_800D307C(work) != 0)
         {
             s03d_800D2CCC(work);
-            if (s03d_dword_800DC32C != 0)
+            if (ZAKOCommand.field_1C != 0)
             {
                 work->field_AE8 = 0xF6;
             }
@@ -553,7 +539,7 @@ void s03d_800D3848(Work *work)
     }
     if (work->field_B26 == 2)
     {
-        ZakoCom_800D4088();
+        ZAKOSetGopointLast();
         work->field_B28 = 0xFF;
     }
 }
@@ -601,7 +587,7 @@ void s03d_800D3984(Work *work)
     {
         work->field_B28 = 0xFF;
     }
-    ZakoCom_800D4088();
+    ZAKOSetGopointLast();
 }
 
 void s03d_800D3A7C(Work *work)
@@ -639,7 +625,7 @@ void s03d_800D3ACC(Work *work)
     }
 }
 
-void s03d_800D3B5C(Work *work)
+void ZakoThink(Work *work)
 {
     work->field_AE6 = -1;
     work->control.radar_atr = 5;

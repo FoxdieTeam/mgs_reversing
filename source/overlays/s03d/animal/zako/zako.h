@@ -1,12 +1,9 @@
-#ifndef _S03D_ZAKO_H
-#define _S03D_ZAKO_H
+#ifndef __MGS_ANIMAL_ZAKO11A_ZAKO_H__
+#define __MGS_ANIMAL_ZAKO11A_ZAKO_H__
 
-#include "mgstype.h"
 #include "game/game.h"
-#include "libdg/libdg.h"
 
-typedef struct _PARAM
-{
+typedef struct _PARAM {
     signed char fAF8;
     char        fAF9;
     char        fAFA;
@@ -18,8 +15,7 @@ typedef struct _PARAM
     short       faint;
 } PARAM;
 
-typedef struct _Work
-{
+typedef struct _Work {
     GV_ACT          actor;          /* 0x000 */
     CONTROL         control;        /* 0x020 */
     OBJECT          body;           /* 0x09C */
@@ -127,65 +123,105 @@ typedef struct _Work
     char            pad_BA2[0xC00 - 0xBA2];
 } Work;
 
-typedef struct _ZakoActor
-{
-    char            pad_0[0xAE8];
-    short           field_AE8;      /* 0xAE8 */
-    char            pad_AEA[0xB28 - 0xAEA];
-    int             field_B28;      /* 0xB28 */
-    char            pad_B2C[0xB64 - 0xB2C];
-    int             field_B64;      /* 0xB64 */
-    char            pad_B68[0xB90 - 0xB68];
-    int             field_B90;      /* 0xB90 */
-} ZakoActor;
+// TODO: check name
+typedef struct _WATCHER {
+    int   field_0;
+    int   field_4;
+    int   field_8;
+    Work *work;
+} WATCHER;
 
-typedef struct _ZakoComEntry
-{
-    int             field_0;        /* 0x00 */
-    int             field_4;        /* 0x04 */
-    int             field_8;        /* 0x08 */
-    ZakoActor      *field_C;        /* 0x0C - zako actor work */
-} ZakoComEntry;                     /* 0x10 */
+typedef struct _JOINT {
+    u_short map;
+    u_short zone;
+} JOINT;
 
-typedef struct _A4_INNER_STRUCT
-{
-    unsigned short field_00;    //0x00
-    unsigned short field_02;    //0x02
-} A4_INNER_STRUCT;
+typedef struct _JOINT_DATA {
+    u_short map;
+    u_short n_joints;
+    JOINT   joints[ 8 ];
+} JOINT_DATA;
 
-typedef struct _A4_STRUCT
-{
-    unsigned short  map_id;      //0x00
-    unsigned short  n_entry;     //0x02
-    A4_INNER_STRUCT field_04[8]; //0x04
-} A4_STRUCT;
+typedef struct _COMMANDER {
+    int             field_0;         /* 0x000 */
+    int             field_4;         /* 0x004 */
+    int             count;           /* 0x008 */
+    int             field_C;         /* 0x00C */
+    int             field_10;        /* 0x010 */
+    int             field_14;        /* 0x014 */
+    int             field_18;        /* 0x018 */
+    int             field_1C;        /* 0x01C */
+    int             field_20;        /* 0x020 */
+    int             target_addr;     /* 0x024 */
+    int             target_map;      /* 0x028 */
+    SVECTOR         target_pos;      /* 0x02C */
+    short           n_zones;         /* 0x034 */
+    short           c_reset_pos;     /* 0x036 */
+    short           zones[4];        /* 0x038 */
+    int             order[8];        /* 0x040 */
+    int             reset_enemy_num; /* 0x060 */
+    MAP            *map;             /* 0x064 */
+    JOINT_DATA      joint_data;      /* 0x068 */
+    WATCHER         watchers[8];     /* 0x08C */
+    int             field_10C;       /* 0x10C */
+    int             field_110;       /* 0x110 */
+    int             sounds[3];       /* 0x114 */
+    int             end_proc;        /* 0x120 */
+    int             procs[8];        /* 0x124 */
+    int             field_144;       /* 0x144 */
+} COMMANDER;
 
-typedef struct _ZakoComMgr
-{
-    char            pad_0[0x8];
-    int             count;          /* 0x08 */
-    char            pad_C[0x14 - 0xC];
-    int             field_14;       /* 0x14 */
-    int             field_18;       /* 0x18 */
-    int             field_1C;       /* 0x1C */
-    char            pad_20[0x24 - 0x20];
-    int             field_24;       /* 0x24 */
-    int             field_28;       /* 0x28 */
-    SVECTOR         field_2C;       /* 0x2C */
-    short           field_34;       /* 0x34 */
-    short           field_36;       /* 0x36 */
-    short           field_38[4];    /* 0x38 */
-    int             field_40[8];    /* 0x40 */
-    int             field_60;       /* 0x60 */
-    MAP            *field_64;       /* 0x64 */
-    char            pad_68[0x8C - 0x68];
-    ZakoComEntry    entries[8];     /* 0x8C - 0x10C */
-    int             field_10C;      /* 0x10C */
-    char            pad_110[0x124 - 0x110];
-    int             field_124[8];   /* 0x124 */
-} ZakoComMgr;
+// TODO: check name
+typedef struct _TOP {
+    int mode;
+    int alert;
+} TOP;
 
-extern int s03d_dword_800DC310;
-#define ZAKOCOM_MGR ((ZakoComMgr *)&s03d_dword_800DC310)
+typedef struct _CommanderWork {
+    /* 0x000 */ GV_ACT actor;
+    /* 0x020 */ char   pad20[ 0x4 ];
+} CommanderWork;
 
-#endif // _S03D_ZAKO_H
+/*---------------------------------------------------------------------------*/
+
+#ifndef __ANIMAL_ZAKO_ZAKOCOM_C__
+extern SVECTOR   ZAKO_NO_POINT;
+extern SVECTOR   ZAKO_PlayerPosition;
+extern COMMANDER ZAKOCommand;
+extern TOP       ZAKOTOPCOMMAND;
+extern int       ZAKO_GameFlag;
+extern int       ZAKO_GameStatus;
+extern int       ZAKO_PlayerAddress;
+extern int       ZAKO_PlayerMap;
+#endif // __ANIMAL_ZAKO_ZAKOCOM_C__
+
+// zako.c
+void *NewZako( int name, int where );
+
+// action.c
+// ...
+
+// override.c
+// ...
+
+// put.c
+// ...
+
+// think.c
+void ZakoThink( Work *work );
+
+// zakoact.c
+void ZakoActionMain( Work *work );
+void ZakoPushMove( Work *work );
+
+// zakocom.c
+int  ZAKOSetWorkID( Work *work );
+int  ZAKO_800D4038( void ); /* TODO: name */
+void ZAKOResetWorkID( int id );
+void ZAKOSetTopCommAL( int alert );
+void ZAKOSetTopCommMD( int mode );
+void ZAKOSetGopointLast( void );
+void ZAKOSetGopointNoise( void );
+int  ZAKOGetMapJointZone( int map, int id );
+
+#endif // __MGS_ANIMAL_ZAKO11A_ZAKO_H__

@@ -1,196 +1,153 @@
+#define __ANIMAL_ZAKO_ZAKOCOM_C__
 #include "zako.h"
 
-#include "mgstype.h"
-#include "mts/mts.h" // for fprintf
-#include "libgcl/libgcl.h" // for GCL_NextStr, GCL_StrToInt
-#include "game/game.h"
+#include <stdio.h>
+#include "mts/mts.h"      // for fprintf
 #include "game/vibrate.h" // for NewPadVibration
+#include "takabe/cineutil.h" // for OpenCinemaScreen, etc.
 
-SVECTOR s03d_dword_800C3B88 = {30000, 30000, 30000};
+/*---------------------------------------------------------------------------*/
 
-int s03d_dword_800C3B90 = 0x00001F40;
-int s03d_dword_800C3B94 = 0x000003E8;
-unsigned char s03d_dword_800C3B98[4] = { 1, 1, 0, 0 };
-unsigned char s03d_dword_800C3B9C[4] = { 255, 1, 0, 0 };
-int s03d_dword_800C3BA0 = 0x00000BB8;
-int s03d_dword_800C3BA4 = 0x00000FA0;
-int s03d_dword_800C3BA8 = 0x00001B58;
-int s03d_dword_800C3BAC = 0x00001F40;
-int s03d_dword_800C3BB0 = 0x00001F40;
-int s03d_dword_800C3BB4 = 0x00001F40;
-int s03d_dword_800C3BB8 = 0x00001F40;
-int s03d_dword_800C3BBC = 0x00001F40;
-int s03d_dword_800C3BC0 = 0x00000000;
+SVECTOR ZAKO_NO_POINT = {30000, 30000, 30000};
 
-const char s03d_dword_800DBB48[12] = "dareda!!\n";
-const char s03d_dword_800DBB54[16] = "nanno otoda!!\n";
-const char s03d_dword_800DBB64[16] = "tadano hakoka\n";
-const char s03d_dword_800DBB74[20] = "kono asiatoha??\n";
-const char s03d_dword_800DBB88[16] = "kinoseika !!\n";
-const char s03d_dword_800DBB98[8] = "itazo \n";
-const char s03d_dword_800DBBA0[12] = "kottida!!\n";
-const char s03d_dword_800DBBAC[20] = "haitini modoruzo!!\n";
-const char s03d_dword_800DBBC0[16] = "kottida !!\n";
-const int s03d_dword_800DBBD0 = 0x800D4730;
-const int s03d_dword_800DBBD4 = 0x800D4740;
-const int s03d_dword_800DBBD8 = 0x800D4750;
-const int s03d_dword_800DBBDC = 0x800D4760;
-const int s03d_dword_800DBBE0 = 0x800D4770;
-const int s03d_dword_800DBBE4 = 0x800D4780;
-const int s03d_dword_800DBBE8 = 0x800D4790;
-const int s03d_dword_800DBBEC = 0x800D47A0;
-const char s03d_dword_800DBBF0[32] = "%d reset_enemy_num[%d ]\n";
-const int s03d_dword_800DBC10 = 0x800D4F14;
-const int s03d_dword_800DBC14 = 0x800D4F5C;
-const int s03d_dword_800DBC18 = 0x800D5008;
-const int s03d_dword_800DBC1C = 0x800D5090;
-const int s03d_dword_800DBC20 = 0x800D50D0;
-const int s03d_dword_800DBC24 = 0x800D5164;
-const int s03d_dword_800DBC28 = 0x800D51A8;
-const int s03d_dword_800DBC2C = 0x800D53D8;
-const int s03d_dword_800DBC30 = 0x800D5268;
-const int s03d_dword_800DBC34 = 0x800D52A4;
-const int s03d_dword_800DBC38 = 0x800D52B8;
-const int s03d_dword_800DBC3C = 0x800D52F0;
-const int s03d_dword_800DBC40 = 0x800D5324;
-const int s03d_dword_800DBC44 = 0x800D5344;
-const int s03d_dword_800DBC48 = 0x800D53A8;
-const int s03d_dword_800DBC4C = 0x800D53D8;
-const char s03d_dword_800DBC50[32] = "Err Err Err Sound Buff Over !!\n";
-const char s03d_dword_800DBC70[] = {'z', 'o', 'n', 'e'};
-const char s03d_dword_800DBC74[] = {'=', '%', 'd', ' '};
-const char s03d_dword_800DBC78[] = {0x0, 0x0, 0x0, 0x0};
-const char s03d_dword_800DBC7C[] = {'z', 'a', 'k', 'o'};
-const char s03d_dword_800DBC80[] = {'c', 'o', 'm', '.'};
-const char s03d_dword_800DBC84[] = {'c', 0x0, 0x0, 0xf};
+int SECTION(".bss") ZAKO_Unknown;
+int SECTION(".bss") s03d_dword_800DC2E4;
+TOP SECTION(".bss") ZAKOTOPCOMMAND;
+int SECTION(".bss") ZAKO_GameStatus;
+int SECTION(".bss") ZAKO_VibTime;
+int SECTION(".bss") ZAKO_GameFlag;
+int SECTION(".bss") ZAKO_PlayerAddress;
+int SECTION(".bss") ZAKO_PlayerMap;
+int SECTION(".bss") s03d_dword_800DC304;
+SVECTOR SECTION(".bss") ZAKO_PlayerPosition;
+COMMANDER SECTION(".bss") ZAKOCommand;
 
-extern int s03d_dword_800DC2E0;
-extern int s03d_dword_800DC2E8;
-extern int s03d_dword_800DC2EC;
-extern int s03d_dword_800DC310;
-extern int s03d_dword_800DC31C;
-extern int s03d_dword_800DC378;
-extern int s03d_dword_800DC2F4;
-extern int s03d_dword_800DC2FC;
-extern int s03d_dword_800DC300;
-extern SVECTOR s03d_dword_800DC308;
-extern int s03d_dword_800DC424;
-extern const char s03d_dword_800DBC50[];
-extern const char s03d_dword_800DBBF0[];
-extern int printf(const char *format, ...);
-extern int s03d_dword_800C3BC0;
-void s03d_800D42DC(void);
-int s03d_800D46F8(int cmd);
-void s03d_800D47BC(ZakoComMgr *command);
-void s03d_800D4B84(ZakoComMgr *command);
+/*---------------------------------------------------------------------------*/
 
-int ZakoCom_800D3FF4(ZakoActor *actor)
+static SVECTOR SocomPos = {8000, 0, 1000};
+
+static u_char VibH[4] = { 1, 1, 0, 0 };
+static u_char VibL[4] = { 255, 1, 0, 0 };
+
+static int ChaseDis[] = {
+    3000, 4000, 7000, 8000,
+    8000, 8000, 8000, 8000,
+};
+
+static int SoundPlayTime = 0;
+
+/*---------------------------------------------------------------------------*/
+
+int ZAKOSetWorkID( Work *work )
 {
-    ZakoComMgr *mgr = ZAKOCOM_MGR;
     int i;
 
-    for (i = 0; i < 8; i++)
+    for ( i = 0; i < 8; i++ )
     {
-        if (mgr->entries[i].field_C == 0)
+        if ( ZAKOCommand.watchers[ i ].work == NULL )
         {
-            mgr->entries[i].field_C = actor;
-            mgr->entries[i].field_4 = 2;
+            ZAKOCommand.watchers[ i ].work = work;
+            ZAKOCommand.watchers[ i ].field_4 = 2;
             return i;
         }
     }
+
     return -1;
 }
-int ZakoCom_800D4038(void)
-{
-    int v = s03d_dword_800DC2E0;
 
-    s03d_dword_800DC2E0 = v + 1;
+int ZAKO_800D4038( void )
+{
+    int v;
+
+    v = ZAKO_Unknown;
+    ZAKO_Unknown++;
     return v;
 }
 
-void ZakoCom_800D4050(int idx)
+void ZAKOResetWorkID( int index )
 {
-    ZakoComMgr *mgr = ZAKOCOM_MGR;
-
-    mgr->entries[idx].field_C = 0;
-    mgr->entries[idx].field_4 = 1;
+    ZAKOCommand.watchers[ index ].work = NULL;
+    ZAKOCommand.watchers[ index ].field_4 = 1;
 }
 
-void ZakoCom_800D4070(int value)
+void ZAKOSetTopCommAL( int alert )
 {
-    s03d_dword_800DC2EC = value;
+    ZAKOTOPCOMMAND.alert = alert;
 }
 
-void ZakoCom_800D407C(int value)
+void ZAKOSetTopCommMD( int mode )
 {
-    s03d_dword_800DC2E8 = value;
+    ZAKOTOPCOMMAND.mode = mode;
 }
-void ZakoCom_800D4088(void)
-{
-    ZakoComMgr *mgr = ZAKOCOM_MGR;
 
-    mgr->field_24 = s03d_dword_800DC2FC;
-    mgr->field_2C = s03d_dword_800DC308;
-    mgr->field_28 = s03d_dword_800DC300;
-}
-void ZakoCom_800D40D4(void)
+void ZAKOSetGopointLast( void )
 {
-    int addr = HZD_GetAddress(GM_WhereList[0]->map->hzd, &GM_NoisePosition, -1);
-    ZakoComMgr *mgr = ZAKOCOM_MGR;
+    ZAKOCommand.target_addr = ZAKO_PlayerAddress;
+    ZAKOCommand.target_pos = ZAKO_PlayerPosition;
+    ZAKOCommand.target_map = ZAKO_PlayerMap;
+}
 
-    mgr->field_24 = addr;
-    mgr->field_2C = GM_NoisePosition;
-    mgr->field_28 = GM_PlayerMap;
-}
-int s03d_800D414C(int map_id, int val)
+void ZAKOSetGopointNoise( void )
 {
+    ZAKOCommand.target_addr = HZD_GetAddress( GM_WhereList[ 0 ]->map->hzd, &GM_NoisePosition, -1 );
+    ZAKOCommand.target_pos = GM_NoisePosition;
+    ZAKOCommand.target_map = GM_PlayerMap;
+}
+
+int ZAKOGetMapJointZone( int from, int to )
+{
+    JOINT_DATA *data;
     int i;
-    A4_STRUCT *unk = (A4_STRUCT *)&s03d_dword_800DC378;
 
-    if (unk->map_id == map_id)
+    data = &ZAKOCommand.joint_data;
+    if ( data->map == from )
     {
-        for (i = 0; i < unk->n_entry; i++)
+        for ( i = 0; i < data->n_joints; i++ )
         {
-            if (unk->field_04[i].field_00 == val)
-            {
-                return unk->field_04[i].field_02;
-            }
+            if ( data->joints[ i ].map == to ) return data->joints[ i ].zone;
         }
-        goto end;
+
+        goto not_found;
     }
+
     return 0;
-end:
+
+not_found:
     return -1;
 }
-void ZakoCom_800D41C0(void)
+
+/*---------------------------------------------------------------------------*/
+
+static void ZakoCom_800D41C0(void)
 {
-    if (s03d_dword_800DC2F4 > 0)
+    if (ZAKO_VibTime > 0)
     {
-        NewPadVibration(s03d_dword_800C3B98, 1);
-        NewPadVibration(s03d_dword_800C3B9C, 2);
-        s03d_dword_800DC2F4--;
+        NewPadVibration(VibH, 1);
+        NewPadVibration(VibL, 2);
+        ZAKO_VibTime--;
     }
     else
     {
-        s03d_dword_800DC2F4 = 0;
+        ZAKO_VibTime = 0;
     }
 }
-int ZakoCom_800D4224(int arg0, short *out)
-{
-    int count = 0;
-    int i = 0;
 
+static int ReadMapJdata( char *opt, JOINT_DATA *data )
+{
+    int i;
+
+    i = 0;
     do
     {
-        count++;
-        out[i + 2] = GCL_StrToInt(GCL_NextStr());
-        out[i + 3] = GCL_StrToInt(GCL_NextStr());
-        i += 2;
-    } while (GCL_NextStr() != 0);
+        data->joints[ i ].map = GCL_StrToInt( GCL_NextStr() );
+        data->joints[ i ].zone = GCL_StrToInt( GCL_NextStr() );
+        i++;
+    } while ( GCL_NextStr() != 0 );
 
-    return count;
+    return i;
 }
-int ZakoCom_800D4284(int arg0, short *out)
+
+static int ZakoCom_800D4284(char *arg0, short *out)
 {
     short *p = out;
     int count = 0;
@@ -205,161 +162,203 @@ int ZakoCom_800D4284(int arg0, short *out)
 
     return count;
 }
-void s03d_800D42DC(void)
+
+static void SetCurrentReset( void )
 {
-    int i;
-    int dist2;
-    int dist1;
-    int reset_pos;
+    SVECTOR pos;
+    int max, reset, i, dist;
     HZD_ZON *zone;
-    SVECTOR svec;
 
-    i = dist1 = reset_pos = 0;
+    max = 0;
+    reset = 0;
 
-    for ( ; i < ZAKOCOM_MGR->field_34 ; i++ )
+    for ( i = 0; i < ZAKOCommand.n_zones ; i++ )
     {
-        zone = &ZAKOCOM_MGR->field_64->hzd->def->zones[ ZAKOCOM_MGR->field_38[ i ] ];
-        svec.vx = zone->x;
-        svec.vy = GM_PlayerPosition.vy;
-        svec.vz = zone->z;
-        dist2 = GV_DiffVec3( &svec, &GM_PlayerPosition );
-        if ( dist1 < dist2 )
+        zone = &ZAKOCommand.map->hzd->def->zones[ ZAKOCommand.zones[ i ] ];
+
+        pos.vx = zone->x;
+        pos.vy = GM_PlayerPosition.vy;
+        pos.vz = zone->z;
+
+        dist = GV_DiffVec3( &pos, &GM_PlayerPosition );
+        if ( max < dist )
         {
-            dist1 = dist2;
-            reset_pos = i;
+            max = dist;
+            reset = i;
         }
     }
 
-    ZAKOCOM_MGR->field_36 = reset_pos;
-}
-int ZakoCom_800D43CC(int arg)
-{
-    return s03d_dword_800DC31C % arg;
+    ZAKOCommand.c_reset_pos = reset;
 }
 
-void ZakoCom_800D440C(int *out)
+static int ZakoCom_800D43CC(int arg)
 {
-    int r = ZakoCom_800D43CC(2);
-
-    if (r == 0)
-    {
-        fprintf(1, s03d_dword_800DBB48);
-        out[0] = 0x80;
-    }
-    else if (r == 1)
-    {
-        fprintf(1, s03d_dword_800DBB48);
-        out[0] = 0x80;
-    }
+    return ZAKOCommand.field_C % arg;
 }
-void ZakoCom_800D4460(int *out)
+
+static void ZakoCom_800D440C(int *out)
 {
     int r = ZakoCom_800D43CC(2);
 
     if (r == 0)
     {
-        fprintf(1, s03d_dword_800DBB54);
-        out[0] = 0x87;
+        fprintf(1, "dareda!!\n");
+        *out = 0x80;
     }
     else if (r == 1)
     {
-        fprintf(1, s03d_dword_800DBB54);
-        out[0] = 0x87;
+        fprintf(1, "dareda!!\n");
+        *out = 0x80;
     }
 }
-void ZakoCom_800D44B4(int *out)
+
+static void ZakoCom_800D4460(int *out)
 {
     int r = ZakoCom_800D43CC(2);
 
     if (r == 0)
     {
-        fprintf(1, s03d_dword_800DBB64);
-        out[0] = 0x8B;
+        fprintf(1, "nanno otoda!!\n");
+        *out = 0x87;
     }
     else if (r == 1)
     {
-        fprintf(1, s03d_dword_800DBB64);
-        out[0] = 0x8B;
+        fprintf(1, "nanno otoda!!\n");
+        *out = 0x87;
     }
 }
-void ZakoCom_800D4508(int *out)
+
+static void ZakoCom_800D44B4(int *out)
 {
     int r = ZakoCom_800D43CC(2);
 
     if (r == 0)
     {
-        fprintf(1, s03d_dword_800DBB74);
-        out[0] = 0x8A;
+        fprintf(1, "tadano hakoka\n");
+        *out = 0x8B;
     }
     else if (r == 1)
     {
-        fprintf(1, s03d_dword_800DBB74);
-        out[0] = 0x8A;
+        fprintf(1, "tadano hakoka\n");
+        *out = 0x8B;
     }
 }
-void ZakoCom_800D455C(int *out)
+
+static void ZakoCom_800D4508(int *out)
 {
     int r = ZakoCom_800D43CC(2);
 
     if (r == 0)
     {
-        fprintf(1, s03d_dword_800DBB88);
-        out[0] = 0x86;
+        fprintf(1, "kono asiatoha??\n");
+        *out = 0x8A;
     }
     else if (r == 1)
     {
-        fprintf(1, s03d_dword_800DBB88);
-        out[0] = 0x86;
+        fprintf(1, "kono asiatoha??\n");
+        *out = 0x8A;
     }
 }
-void ZakoCom_800D45B0(int *out)
+
+static void ZakoCom_800D455C(int *out)
+{
+    int r = ZakoCom_800D43CC(2);
+
+    if (r == 0)
+    {
+        fprintf(1, "kinoseika !!\n");
+        *out = 0x86;
+    }
+    else if (r == 1)
+    {
+        fprintf(1, "kinoseika !!\n");
+        *out = 0x86;
+    }
+}
+
+static void ZakoCom_800D45B0(int *out)
 {
     switch (ZakoCom_800D43CC(3))
     {
     case 0:
-        fprintf(1, s03d_dword_800DBB98);
-        out[0] = 0x82;
+        fprintf(1, "itazo \n");
+        *out = 0x82;
         break;
     case 1:
-        fprintf(1, s03d_dword_800DBBA0);
-        out[0] = 0x81;
+        fprintf(1, "kottida!!\n");
+        *out = 0x81;
         break;
     case 2:
-        fprintf(1, s03d_dword_800DBBA0);
-        out[0] = 0x81;
+        fprintf(1, "kottida!!\n");
+        *out = 0x81;
         break;
     }
 }
-void ZakoCom_800D4640(int *out)
+
+static void ZakoCom_800D4640(int *out)
 {
     int r = ZakoCom_800D43CC(2);
 
     if (r == 0)
     {
-        fprintf(1, s03d_dword_800DBBAC);
-        out[0] = 0x85;
+        fprintf(1, "haitini modoruzo!!\n");
+        *out = 0x85;
     }
     else if (r == 1)
     {
-        fprintf(1, s03d_dword_800DBBAC);
-        out[0] = 0x85;
+        fprintf(1, "haitini modoruzo!!\n");
+        *out = 0x85;
     }
 }
-void ZakoCom_800D4694(int *out)
+
+static void ZakoCom_800D4694(int *out)
 {
-    switch (ZakoCom_800D43CC(2))
+    switch ( ZakoCom_800D43CC( 2 ) )
     {
     case 0:
-        fprintf(1, s03d_dword_800DBBC0);
-        out[0] = 0x81;
+        fprintf( 1, "kottida !!\n" );
+        *out = 0x81;
         break;
     case 1:
-        out[0] = 0;
+        *out = 0;
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D46F8.s")
-void s03d_800D47BC(ZakoComMgr *mgr)
+
+static int s03d_800D46F8( int id )
+{
+    switch ( id )
+    {
+    case 240:
+        ZakoCom_800D440C( &id );
+        break;
+    case 241:
+        ZakoCom_800D4460( &id );
+        break;
+    case 242:
+        ZakoCom_800D44B4( &id );
+        break;
+    case 243:
+        ZakoCom_800D4508( &id );
+        break;
+    case 244:
+        ZakoCom_800D455C( &id );
+        break;
+    case 245:
+        ZakoCom_800D4640( &id );
+        break;
+    case 246:
+        ZakoCom_800D45B0( &id );
+        break;
+    case 247:
+        ZakoCom_800D4694( &id );
+        break;
+    }
+
+    return id;
+}
+
+static void s03d_800D47BC(COMMANDER *comm)
 {
     int i;
     int prev;
@@ -368,15 +367,15 @@ void s03d_800D47BC(ZakoComMgr *mgr)
     int dists[8];
     int cur, min;
     int a, b;
-    ZakoActor *work;
+    Work *work;
 
-    for (i = 0; i < mgr->count; i++)
+    for (i = 0; i < comm->count; i++)
     {
-        work = mgr->entries[ZAKOCOM_MGR->field_40[i]].field_C;
+        work = comm->watchers[ZAKOCommand.order[i]].work;
         dists[i] = work->field_B90;
     }
 
-    for (t3 = mgr->count - 1; t3 > -1; t3 = t4)
+    for (t3 = comm->count - 1; t3 > -1; t3 = t4)
     {
         t4 = -1;
         for (i = 1; t3 >= i; i++)
@@ -395,101 +394,99 @@ void s03d_800D47BC(ZakoComMgr *mgr)
                 dists[i - 1] = cur;
                 dists[i] = min;
 
-                b = ZAKOCOM_MGR->field_40[i - 1];
-                a = ZAKOCOM_MGR->field_40[i];
+                b = ZAKOCommand.order[i - 1];
+                a = ZAKOCommand.order[i];
                 t4 = prev;
 
-                ZAKOCOM_MGR->field_40[i - 1] = a;
-                ZAKOCOM_MGR->field_40[i] = b;
+                ZAKOCommand.order[i - 1] = a;
+                ZAKOCommand.order[i] = b;
             }
         }
     }
 
-    for (i = 0; i < mgr->count; i++)
+    for (i = 0; i < comm->count; i++)
     {
-        work = mgr->entries[ZAKOCOM_MGR->field_40[i]].field_C;
-        work->field_B64 = (&s03d_dword_800C3BA0)[ZAKOCOM_MGR->field_40[i]];
+        work = comm->watchers[ZAKOCommand.order[i]].work;
+        work->field_B64 = ChaseDis[ZAKOCommand.order[i]];
     }
 }
-void ZakoCom_800D490C(ZakoComMgr *mgr)
+
+static void ZakoCom_800D490C(COMMANDER *comm)
 {
     int i;
     int min;
     int best;
 
-    s03d_dword_800C3BC0--;
-    if (s03d_dword_800C3BC0 < 0)
+    SoundPlayTime--;
+    if (SoundPlayTime < 0)
     {
-        s03d_dword_800C3BC0 = 0;
+        SoundPlayTime = 0;
     }
-    if (s03d_dword_800C3BC0 > 0)
+    if (SoundPlayTime > 0)
     {
         return;
     }
     min = 100000;
     best = 0;
-    for (i = 0; i < mgr->count; i++)
+    for (i = 0; i < comm->count; i++)
     {
-        if (mgr->entries[i].field_4 == 2)
+        if (comm->watchers[i].field_4 == 2)
         {
-            ZakoActor *w = mgr->entries[i].field_C;
+            Work *work = comm->watchers[i].work;
 
-            if (w->field_AE8 != 0 && w->field_B90 < min)
+            if (work->field_AE8 != 0 && work->field_B90 < min)
             {
-                best = w->field_AE8;
-                min = w->field_B90;
+                best = work->field_AE8;
+                min = work->field_B90;
             }
-            w->field_AE8 = 0;
+            work->field_AE8 = 0;
         }
     }
     if (best != 0)
     {
-        s03d_dword_800C3BC0 = 0x1E;
+        SoundPlayTime = 0x1E;
         GM_SeSet2(0, 0x30, s03d_800D46F8(best));
     }
 }
-void ZakoCom_800D49F0(ZakoComEntry *e, int idx)
-{
-    int state = e->field_8;
 
-    switch (state)
+static void ZakoCom_800D49F0(WATCHER *watcher, int idx)
+{
+    switch (watcher->field_8)
     {
     case 0:
-        if (e->field_4 == 1)
+        if (watcher->field_4 == 1)
         {
-            e->field_8 = 1;
-            e->field_0 = 1;
-            printf(s03d_dword_800DBBF0, idx, ++ZAKOCOM_MGR->field_60);
+            watcher->field_8 = 1;
+            watcher->field_0 = 1;
+            printf("%d reset_enemy_num[%d ]\n", idx, ++ZAKOCommand.reset_enemy_num);
         }
         break;
     case 1:
-        e->field_0--;
-        if (e->field_0 <= 0)
+        watcher->field_0--;
+        if (watcher->field_0 <= 0)
         {
-            e->field_8 = 2;
-            e->field_0 = 0;
+            watcher->field_8 = 2;
+            watcher->field_0 = 0;
         }
         break;
     case 2:
     {
-        ZakoComMgr *mgr = ZAKOCOM_MGR;
-
-        switch (mgr->field_1C)
+        switch (ZAKOCommand.field_1C)
         {
         case 0:
-            if (mgr->field_10C & 1)
+            if (ZAKOCommand.field_10C & 1)
             {
-                s03d_800D42DC();
-                e->field_4 = state;
-                e->field_8 = 0;
+                SetCurrentReset();
+                watcher->field_4 = 2;
+                watcher->field_8 = 0;
             }
             break;
         case 1:
-            if (mgr->field_60 < 16)
+            if (ZAKOCommand.reset_enemy_num < 16)
             {
-                s03d_800D42DC();
-                e->field_4 = state;
-                e->field_8 = 0;
+                SetCurrentReset();
+                watcher->field_4 = 2;
+                watcher->field_8 = 0;
             }
             break;
         }
@@ -497,7 +494,8 @@ void ZakoCom_800D49F0(ZakoComEntry *e, int idx)
     }
     }
 }
-int ZakoCom_800D4B08(int a, int b)
+
+static int ZakoCom_800D4B08(int a, int b)
 {
     if (a < b)
     {
@@ -505,48 +503,52 @@ int ZakoCom_800D4B08(int a, int b)
     }
     return a;
 }
-void ZakoCom_800D4B20(int targetval, ZakoComMgr *mgr)
+
+static void ZakoCom_800D4B20(int targetval, COMMANDER *comm)
 {
-    int v = mgr->field_18;
+    int v = comm->field_18;
 
     if (v - targetval >= 5)
     {
-        mgr->field_18 = v - 4;
+        comm->field_18 = v - 4;
     }
     else
     {
-        mgr->field_18 = targetval;
+        comm->field_18 = targetval;
     }
-    if (mgr->field_18 < s03d_dword_800DC2EC)
+
+    if (comm->field_18 < ZAKOTOPCOMMAND.alert)
     {
-        mgr->field_18 = s03d_dword_800DC2EC;
+        comm->field_18 = ZAKOTOPCOMMAND.alert;
     }
-    ZakoCom_800D4070(0);
+
+    ZAKOSetTopCommAL( 0 );
 }
-void s03d_800D4B84(ZakoComMgr *command)
+
+static void s03d_800D4B84(COMMANDER *comm)
 {
     int alert;
 
-    switch (command->field_1C)
+    switch (comm->field_1C)
     {
     case 0:
-        if (command->field_18 >= 255)
+        if (comm->field_18 >= 255)
         {
-            command->field_18 = 0xFF;
+            comm->field_18 = 0xFF;
             GM_AlertModeSet(3);
-            command->field_1C = 1;
+            comm->field_1C = 1;
             GM_SeSet2(NULL, 0x3F, 0x2A);
-            ZAKOCOM_MGR->field_60 = 0;
+            ZAKOCommand.reset_enemy_num = 0;
         }
         break;
     case 1:
-        if (command->field_18 <= 0)
+        if (comm->field_18 <= 0)
         {
             GM_AlertModeSet(2);
-            command->field_1C = 2;
-            command->field_14 = 0;
+            comm->field_1C = 2;
+            comm->field_14 = 0;
         }
-        alert = command->field_18;
+        alert = comm->field_18;
         if (alert >= 0x101)
         {
             alert = 0x100;
@@ -554,21 +556,21 @@ void s03d_800D4B84(ZakoComMgr *command)
         GM_SetAlertMax(alert);
         break;
     case 2:
-        command->field_14--;
-        if (command->field_14 <= 0)
+        comm->field_14--;
+        if (comm->field_14 <= 0)
         {
             GM_AlertModeSet(0);
-            command->field_1C = 0;
-            command->field_14 = 0;
+            comm->field_1C = 0;
+            comm->field_14 = 0;
         }
-        if (command->field_18 >= 255)
+        if (comm->field_18 >= 255)
         {
-            command->field_18 = 0xFF;
+            comm->field_18 = 0xFF;
             GM_AlertModeSet(3);
-            command->field_1C = 1;
-            ZAKOCOM_MGR->field_60 = 0;
+            comm->field_1C = 1;
+            ZAKOCommand.reset_enemy_num = 0;
         }
-        alert = command->field_14;
+        alert = comm->field_14;
         if (alert >= 0x101)
         {
             alert = 0x100;
@@ -576,119 +578,459 @@ void s03d_800D4B84(ZakoComMgr *command)
         GM_SetAlertMax(alert);
         break;
     }
-    s03d_dword_800DC2E8 = command->field_1C;
+    ZAKOTOPCOMMAND.mode = comm->field_1C;
 }
-void s03d_800D4CE0(GV_ACT *actor)
+
+static void s03d_800D4CE0( CommanderWork *work )
 {
-    int i;
-    int alert;
-    ZakoActor *watcher;
+    int alert, i;
 
     alert = 0;
-    for (i = 0; i < ZAKOCOM_MGR->count; i++)
+    for (i = 0; i < ZAKOCommand.count; i++)
     {
-        if (ZAKOCOM_MGR->entries[i].field_4 == 2)
+        if (ZAKOCommand.watchers[i].field_4 == 2)
         {
-            watcher = ZAKOCOM_MGR->entries[i].field_C;
-            alert = ZakoCom_800D4B08(alert, watcher->field_B28);
+            alert = ZakoCom_800D4B08(alert, ZAKOCommand.watchers[i].work->field_B28);
         }
-        else if (ZAKOCOM_MGR->entries[i].field_4 == 1)
+        else if (ZAKOCommand.watchers[i].field_4 == 1)
         {
-            ZakoCom_800D49F0(&ZAKOCOM_MGR->entries[i], i);
+            ZakoCom_800D49F0(&ZAKOCommand.watchers[i], i);
         }
     }
-    ZakoCom_800D490C(ZAKOCOM_MGR);
-    ZakoCom_800D4B20(alert, ZAKOCOM_MGR);
-    s03d_800D4B84(ZAKOCOM_MGR);
-    s03d_800D47BC(ZAKOCOM_MGR);
-    ZAKOCOM_MGR->field_10C = 0;
+
+    ZakoCom_800D490C(&ZAKOCommand);
+    ZakoCom_800D4B20(alert, &ZAKOCommand);
+    s03d_800D4B84(&ZAKOCommand);
+    s03d_800D47BC(&ZAKOCommand);
+    ZAKOCommand.field_10C = 0;
 }
-void ZakoCom_800D4DD4(void)
+
+static void ZakoCom_800D4DD4(void)
 {
     int addr = GM_PlayerAddress;
 
     if ((addr & 0xFF) == ((addr >> 8) & 0xFF) && (addr & 0xFF) != 0xFF)
     {
-        s03d_dword_800DC2FC = addr;
-        s03d_dword_800DC308 = GM_PlayerPosition;
-        s03d_dword_800DC300 = GM_PlayerMap;
+        ZAKO_PlayerAddress = addr;
+        ZAKO_PlayerPosition = GM_PlayerPosition;
+        ZAKO_PlayerMap = GM_PlayerMap;
     }
 }
-int ZakoCom_800D4E48(char *str)
-{
-    int count = 0;
 
-    if (str != 0)
+static int InitWorkCom( char *opt )
+{
+    int i, proc;
+
+    i = 0;
+    while ( opt != NULL )
     {
-        do
-        {
-            int proc = GCL_StrToInt(str);
-
-            str = GCL_NextStr();
-            GCL_ExecProc(proc, NULL);
-            count++;
-        } while (str != 0);
+        proc = GCL_StrToInt( opt );
+        opt = GCL_NextStr();
+        GCL_ExecProc( proc, NULL );
+        i++;
     }
 
-    return count;
+    return i;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D4EAC.s")
-int ZakoCom_800D5484(int arg0, int *out)
+
+static void GameFlagChk( void )
 {
-    int *p = out;
-    int count = 0;
+    int reset, i;
+
+    reset = ZAKOCommand.reset_enemy_num;
+
+    if ( GM_GameOverTimer != 0 ) return;
+    if ( GM_Vitality <= 0 ) return;
+
+    switch ( ZAKO_GameFlag )
+    {
+    case 0:
+        if ( ZAKOCommand.field_10 == 0 && GM_StreamStatus() == -1 )
+        {
+            GM_VoxStream( ZAKOCommand.sounds[ 0 ], 0x40000000 );
+        }
+
+        if ( reset != 0 )
+        {
+            ZAKO_GameFlag = 1;
+            ZAKOCommand.field_10 = 0;
+        }
+
+        ZAKOCommand.field_10++;
+        break;
+    case 1:
+        if ( reset > 2 )
+        {
+            if (GM_ItemTypes[ GM_Item + 1 ] & 0x2 )
+            {
+                GM_Item = IT_None;
+            }
+
+            if ( GM_WeaponTypes[ GM_Weapon + 1 ] & 0x200 )
+            {
+                GM_Weapon = WP_None;
+            }
+
+            OpenCinemaScreen( 0, 60000 );
+            GM_GameStatus |= ( STATE_PADRELEASE | STATE_MENU_DISABLE | STATE_LIFE_OFF | STATE_RADIO_OFF );
+            ZAKO_GameFlag = 2;
+            ZAKOCommand.field_10 = 0;
+        }
+        break;
+    case 2:
+        if ( ZAKOCommand.field_10 == 0 )
+        {
+            if ( GM_StreamStatus() == 1 )
+            {
+                GM_StreamPlayStart();
+            }
+
+            if ( ZAKOCommand.procs[ 5 ] >= 0 )
+            {
+                GCL_ExecProc( ZAKOCommand.procs[ 5 ], NULL );
+            }
+        }
+
+        if ( ZAKOCommand.field_10 > 10 )
+        {
+            ZAKO_GameFlag = 3;
+            ZAKOCommand.field_10 = 0;
+        }
+
+        ZAKOCommand.field_10++;
+        break;
+    case 3:
+        if ( ZAKOCommand.field_10 > 30 )
+        {
+            if ( ZAKOCommand.procs[ 0 ] >= 0 )
+            {
+                GCL_ExecProc( ZAKOCommand.procs[ 0 ], NULL );
+            }
+
+            ZAKO_GameFlag = 4;
+            ZAKOCommand.field_10 = 0;
+        }
+
+        ZAKOCommand.field_10++;
+        break;
+    case 4:
+        if ( ZAKOCommand.field_10 > 60 && GM_StreamStatus() == -1 )
+        {
+            GM_VoxStream( ZAKOCommand.sounds[ 1 ], 0 );
+
+            if ( ZAKOCommand.procs[ 1 ] >= 0 )
+            {
+                GCL_ExecProc( ZAKOCommand.procs[ 1 ], NULL );
+            }
+
+            ZAKO_GameFlag = 5;
+            ZAKOCommand.field_10 = 0;
+
+            if ( GM_Weapons[ WP_Socom ] < 0 )
+            {
+                GM_PlayerControl->mov.vx = SocomPos.vx;
+                GM_PlayerControl->mov.vz = SocomPos.vz;
+            }
+        }
+
+        ZAKOCommand.field_10++;
+        break;
+    case 5:
+        if ( ZAKOCommand.field_10 == 60 )
+        {
+            if ( ZAKOCommand.procs[ 2 ] >= 0 )
+            {
+                GCL_ExecProc( ZAKOCommand.procs[ 2 ], NULL );
+            }
+
+            ZAKO_GameFlag = 6;
+            ZAKOCommand.field_10 = 0;
+        }
+
+        ZAKOCommand.field_10++;
+        break;
+    case 6:
+        if ( ZAKOCommand.field_10 == 30 && ZAKOCommand.procs[ 3 ] >= 0 )
+        {
+            GCL_ExecProc( ZAKOCommand.procs[ 3 ], NULL );
+        }
+
+        if ( ZAKOCommand.field_10 == 180 && ZAKOCommand.procs[ 4 ] >= 0 )
+        {
+            GCL_ExecProc( ZAKOCommand.procs[ 4 ], NULL );
+        }
+
+        if ( ZAKOCommand.field_10 > 182 )
+        {
+            CloseCinemaScreen();
+            GM_GameStatus &= ~( STATE_PADRELEASE | STATE_MENU_DISABLE | STATE_LIFE_OFF | STATE_RADIO_OFF );
+            ZAKO_GameFlag = 8;
+            ZAKOCommand.field_10 = 0;
+        }
+
+        ZAKOCommand.field_10++;
+        break;
+    case 8:
+        if ( reset > 12 && reset < 15 )
+        {
+            ZAKO_GameFlag = 9;
+            ZAKOCommand.field_10 = 0;
+        }
+
+        ZAKOCommand.field_10++;
+        break;
+    case 9:
+        if ( reset > 14 )
+        {
+            ZAKO_GameFlag = 10;
+            ZAKOCommand.field_10 = 0;
+        }
+        break;
+    case 10:
+        ZAKOCommand.field_10++;
+        if ( ZAKOCommand.field_10++ > 30 )
+        {
+            ZAKO_GameFlag = 11;
+            ZAKOCommand.field_10 = 0;
+        }
+        break;
+    case 11:
+        ZAKOCommand.field_10++;
+        if ( ZAKOCommand.field_10++ > 220 )
+        {
+            ZAKO_GameFlag = 12;
+        }
+        break;
+    case 12:
+        if ( reset > 16 )
+        {
+            ZAKO_GameFlag = 13;
+            ZAKOCommand.field_10 = 0;
+        }
+        break;
+    case 13:
+        if ( ZAKOTOPCOMMAND.mode == 0 )
+        {
+            ZAKO_GameFlag = 14;
+            ZAKOCommand.field_10 = 0;
+
+            for ( i = 0; i < 8; i++ )
+            {
+                if ( ZAKOCommand.watchers[ i ].work != NULL )
+                {
+                    ZAKO_GameFlag = 13;
+                }
+            }
+        }
+        break;
+    case 14:
+        if ( ZAKOCommand.field_10 > 30 )
+        {
+            ZAKO_GameFlag = 15;
+        }
+
+        ZAKOCommand.field_10++;
+        break;
+    case 15:
+        break;
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+static void Act( CommanderWork *work )
+{
+    GameFlagChk();
+    ZakoCom_800D4DD4();
+    s03d_800D4CE0( work );
+
+    ZAKOCommand.field_C++;
+    ZakoCom_800D41C0();
+
+    if ( ZAKO_GameFlag == 15 )
+    {
+        GV_DestroyActor( work );
+    }
+}
+
+static void Die( CommanderWork *work )
+{
+    if ( ZAKOCommand.end_proc >= 0 )
+    {
+        GCL_ExecProc( ZAKOCommand.end_proc, NULL );
+    }
+}
+
+/*---------------------------------------------------------------------------*/
+
+static int GetInts( char *opt, int *out )
+{
+    int i;
     char *str;
 
-    while ((str = GCL_NextStr()) != 0)
+    i = 0;
+    while ( ( str = GCL_NextStr() ) != NULL )
     {
-        *p = GCL_StrToInt(str);
-        p++;
-        count++;
+        *out = GCL_StrToInt( str );
+        out++;
+        i++;
     }
 
-    return count;
+    return i;
 }
-int ZakoCom_800D54DC(void)
-{
-    char *opt = GCL_GetOption('s');
 
-    if (opt == 0)
-    {
-        return 0;
-    }
-    if (ZakoCom_800D5484((int)opt, &s03d_dword_800DC424) < 4)
-    {
-        return 0;
-    }
-    fprintf(0, s03d_dword_800DBC50);
-    return -1;
-}
-int s03d_800D5538(void)
+static int SetSoundCom( void )
 {
-    int   i;
-    int   c;
     char *opt;
 
-    c = -1;
-    for (i = 7; i >= 0; i--)
+    opt = GCL_GetOption( 's' );
+    if ( opt == NULL ) return 0;
+
+    if ( GetInts( opt, ZAKOCommand.sounds ) < 4 ) return 0;
+
+    fprintf( 0, "Err Err Err Sound Buff Over !!\n" );
+    return -1;
+}
+
+static int GetProcs( void )
+{
+    int i;
+    char *opt;
+
+    for ( i = 0; i < 8; i++ )
     {
-        ZAKOCOM_MGR->field_124[i] = c;
+        ZAKOCommand.procs[ i ] = -1;
     }
 
     i = 0;
     opt = GCL_GetOption('a');
-    while (opt)
+    while ( opt != NULL )
     {
-        if (i >= 8)
-        {
-            return -1;
-        }
-
-        ZAKOCOM_MGR->field_124[i] = GCL_StrToInt(opt);
+        if ( i >= 8 ) return -1;
+        ZAKOCommand.procs[ i ] = GCL_StrToInt( opt );
         opt = GCL_NextStr();
         i++;
     }
 
     return i;
 }
-#pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D55C8.s")
+
+static void GetResources( void *work, int name, int where )
+{
+    int i;
+    char *opt;
+
+    ZAKO_Unknown = 0;
+    ZAKO_GameFlag = 0;
+
+    ZAKOCommand.field_20 = 0;
+    ZAKOCommand.field_18 = 0;
+
+    ZAKO_VibTime = 0;
+
+    ZAKOCommand.reset_enemy_num = 0;
+    ZAKOCommand.field_10 = 0;
+
+    SetSoundCom();
+    GM_InitHomingSystem();
+
+    for ( i = 0; i < 8; i++ )
+    {
+        ZAKOCommand.watchers[ i ].field_0 = 0;
+        ZAKOCommand.watchers[ i ].field_4 = 0;
+        ZAKOCommand.watchers[ i ].field_8 = 0;
+        ZAKOCommand.watchers[ i ].work = NULL;
+    }
+
+    for ( i = 0; i < 8; i++ )
+    {
+        ZAKOCommand.order[ i ] = i;
+    }
+
+    ZAKOCommand.field_C = 0;
+    ZAKOCommand.field_1C = 0;
+
+    ZAKOTOPCOMMAND.mode = 0;
+    ZAKOTOPCOMMAND.alert = 0;
+
+    ZAKOCommand.map = GM_GetMap( where );
+
+    if ( GCL_GetOption( 'e' ) )
+    {
+        ZAKOCommand.end_proc = GCL_StrToInt( GCL_NextStr() );
+    }
+    else
+    {
+        ZAKOCommand.end_proc = -1;
+    }
+
+    GetProcs();
+
+    if ( GCL_GetOption( 'b' ) )
+    {
+        ZAKOCommand.field_144 = GCL_StrToInt( GCL_NextStr() );
+    }
+    else
+    {
+        ZAKOCommand.field_144 = -1;
+    }
+
+    opt = GCL_GetOption( 'v' );
+    if ( opt != NULL )
+    {
+        ZAKOCommand.n_zones = ZakoCom_800D4284( opt, ZAKOCommand.zones );
+    }
+    else
+    {
+        ZAKOCommand.n_zones = 1;
+        ZAKOCommand.zones[ 0 ] = 0;
+    }
+
+    for ( i = 0; i < ZAKOCommand.n_zones; i++ )
+    {
+        fprintf( 1, "zone=%d ", ZAKOCommand.zones[ i ] );
+    }
+
+    ZAKOCommand.c_reset_pos = 0;
+    ZAKO_GameStatus = 0;
+
+    opt = GCL_GetOption( 'j' );
+    if ( opt != NULL )
+    {
+        ZAKOCommand.joint_data.n_joints = ReadMapJdata( opt, &ZAKOCommand.joint_data );
+    }
+    else
+    {
+        ZAKOCommand.joint_data.n_joints = 1;
+        ZAKOCommand.joint_data.joints[ 0 ].map = 0;
+        ZAKOCommand.joint_data.joints[ 0 ].zone = 0;
+    }
+
+    ZAKOCommand.joint_data.map = where;
+    ZAKOCommand.count = 0;
+
+    opt = GCL_GetOption( 'n' );
+    if ( opt != NULL )
+    {
+        ZAKOCommand.count = InitWorkCom( opt );
+    }
+
+    ZAKOCommand.field_0 = 0;
+    ZAKOCommand.field_4 = 0;
+    ZAKOCommand.field_110 = 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
+void *NewZakoCommander( int name, int where )
+{
+    CommanderWork *work;
+
+    work = GV_NewActor( GV_ACTOR_PREV, sizeof(CommanderWork) );
+    if ( work != NULL )
+    {
+        GV_SetNamedActor( work, Act, Die, "zakocom.c" );
+        GetResources( work, name, where );
+    }
+    return (void *)work;
+}

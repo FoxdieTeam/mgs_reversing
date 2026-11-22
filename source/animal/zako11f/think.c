@@ -219,7 +219,7 @@ int s11i_zk11fcom_800CFB64( Work *work )
     else
     {
         target_pos = &work->target_pos;
-        route = ZAKO11FFindRoute( work->control.map->index , work->target_map );
+        route = ZAKO11FGetMapJointZone( work->control.map->index , work->target_map );
 
         zone = &hzd->def->zones[ route ];
         target_pos->vx = zone->x;
@@ -253,7 +253,7 @@ int s11i_zk11fcom_800CFB64( Work *work )
                         return -1;
                 }
 
-                addr2 = ZAKO11FFindRoute( work->target_map, control->map->index );
+                addr2 = ZAKO11FGetMapJointZone( work->target_map, control->map->index );
                 control->map = GM_GetMap( work->target_map );
                 zone = &control->map->hzd->def->zones[ addr2 ];
                 work->control.mov.vx = zone->x;

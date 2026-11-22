@@ -31,15 +31,11 @@ extern short s03d_word_800C3A38[2];
 extern short s03d_word_800C3A3C[2];
 extern short s03d_word_800C39E8[2];
 extern short s03d_word_800C39EC[2];
-extern int s03d_dword_800DC310;
-extern SVECTOR s03d_dword_800C3B88;
 extern int s03d_dword_800C3A5C;
 extern short s03d_word_800C3A10[20];
 extern const SVECTOR s03d_dword_800DB548;
 extern const SVECTOR s03d_dword_800DB550;
 extern const SVECTOR s03d_dword_800DB558;
-
-extern int s03d_dword_800DC2F8;
 
 void AN_Fog(SVECTOR *svec);
 
@@ -65,9 +61,7 @@ int  s03d_800CD984(Work *work);
 void s03d_800D041C(Work *work);
 void s03d_800D14AC(Work *work);
 void s03d_800D13F8(Work *work);
-void s03d_800D3B5C(Work *work);
-void s03d_800D153C(Work *work);
-void ZakoCom_800D4050(int idx);
+void ZakoActionMain(Work *work);
 
 void Zako_800CCAB0(DG_OBJS *objs, DG_DEF *def)
 {
@@ -133,10 +127,10 @@ void s03d_800CCC54(Work *work)
 
     DG_GetLightMatrix2(&control->mov, work->light);
 
-    s03d_800D153C(work);
+    ZakoActionMain(work);
     GM_MoveTarget(work->field_8FC, &control->mov);
 
-    if (s03d_dword_800DC2F8 == 13 && ZAKOCOM_MGR->entries[work->param.fAF8].field_4 == 1)
+    if (ZAKO_GameFlag == 13 && ZAKOCommand.watchers[work->param.fAF8].field_4 == 1)
     {
         GV_DestroyActor(work);
     }
@@ -175,7 +169,7 @@ void Zako_800CCDE0(Work *work)
 
 void s03d_800CD054(Work *work)
 {
-    ZakoCom_800D4050(work->param.fAF8);
+    ZAKOResetWorkID(work->param.fAF8);
     GM_FreeControl(&work->control);
     GM_FreeObject(&work->body);
     GM_FreeObject(&work->weapon);
@@ -230,6 +224,8 @@ int Zako_800CD16C(char *opt, char *out)
 }
 
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD1C4.s")
+
+// action.c
 
 int s03d_800CD61C(Work *work)
 {
@@ -286,7 +282,9 @@ int Zako_800CD720(SVECTOR *vec)
 
     return ABS(x) + ABS(y) + ABS(z);
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CD75C.s")
+
 int s03d_800CD984(Work *work)
 {
     if (work->control.mov.vx < 0x1194)
@@ -331,7 +329,9 @@ void Zako_800CDA70(Work *work)
     GM_SetTarget(&work->field_900, 4, 1, (SVECTOR *)&s03d_dword_800C39C0);
     GM_SetPowerTarget(&work->field_900, 7, 5, 0, 3, (SVECTOR *)&s03d_dword_800C39C8);
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDB5C.s")
+
 int Zako_800CDD40(int from, int to)
 {
     int dir;
@@ -402,8 +402,11 @@ void Zako_800CDF2C(Work *work)
     GM_MoveTarget(t, &work->control.mov);
     GM_PowerTarget(t);
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CDF94.s")
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE12C.s")
+
 void s03d_800CE2C0(Work *work, int arg1)
 {
     int dir = GV_DiffDirS(arg1, work->control.rot.vy);
@@ -419,7 +422,9 @@ void s03d_800CE2C0(Work *work, int arg1)
 
     work->control.turn.vz = dir;
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CE318.s")
+
 void s03d_800CE5B4(Work *work, int arg)
 {
     if (arg == 0)
@@ -599,7 +604,9 @@ void s03d_800CF114(Work *work)
     DG_PutVector((SVECTOR *)&s03d_dword_800C3A5C, &vec, 1);
     GV_SubVec3(&vec, &work->control.mov, &work->control.step);
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CF194.s")
+
 void s03d_800CF4D4(Work *work, int arg)
 {
     if (arg == 0)
@@ -616,6 +623,7 @@ void s03d_800CF4D4(Work *work, int arg)
         GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
+
 void s03d_800CF548(Work *work, int arg)
 {
     SVECTOR *pos = &work->control.mov;
@@ -660,7 +668,9 @@ void s03d_800CF548(Work *work, int arg)
         GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CF68C.s")
+
 void s03d_800CF844(Work *work, int arg)
 {
     if (arg == 0)
@@ -766,7 +776,9 @@ void s03d_800CFA04(Work *work, int arg)
         GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800CFB04.s")
+
 void s03d_800CFFF0(Work *work, int arg)
 {
     CONTROL *ctrl = &work->control;
@@ -903,28 +915,25 @@ const char s03d_dword_800DB5F4[] = {'e', '!', '!', ' '};
 const char s03d_dword_800DB5F8[] = {'[', '%', 'd', ']'};
 const char s03d_dword_800DB5FC[] = {'\n', 0x0, 0xa9, ','};
 
-
 void s03d_800D0324(Work *work, int arg)
 {
     if (arg == 0)
     {
-        int *base = &s03d_dword_800DC310;
         work->field_B00 = 0;
-        work->control.mov = s03d_dword_800C3B88;
-        base[work->param.fAF8 * 4 + 0x90 / 4] = 1;
+        work->control.mov = ZAKO_NO_POINT;
+
+        ZAKOCommand.watchers[work->param.fAF8].field_4 = 1;
+
         if (work->field_BA0 == 0)
         {
-            unsigned short *lv = (unsigned short *)linkvarbuf;
-            lv[0x4F]++;
+            GM_EnemyKillCount++;
         }
     }
+
+    if (ZAKOCommand.watchers[work->param.fAF8].field_4 == 2)
     {
-        int *base = &s03d_dword_800DC310;
-        if (base[work->param.fAF8 * 4 + 0x90 / 4] != 2)
-        {
-            return;
-        }
         s03d_800CDB5C(work);
+
         work->field_8E8 = s03d_800CE12C;
         work->field_8F0 = 0;
         work->control.turn.vz = 0;
@@ -932,11 +941,16 @@ void s03d_800D0324(Work *work, int arg)
         GM_ConfigMotionAdjust(&work->body, NULL);
     }
 }
+
 int Zako_800D0408(Work *work)
 {
-    return work->control.mov.vx >= 0x1195;
+    return work->control.mov.vx > 4500;
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D041C.s")
+
+// override.c
+
 void s03d_800D05DC(Work *work, int arg1)
 {
     if (arg1 == 0)
@@ -1062,7 +1076,11 @@ void s03d_800D0958(Work *work, int arg1)
         work->control.turn.vx = 0;
     }
 }
+
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D09D8.s")
+
+// put.c
+
 void Zako_800D0B18(Work *work, int index, int count)
 {
     MATRIX m;
@@ -1154,6 +1172,9 @@ void Zako_800D0F6C(Work *work)
         }
     }
 }
+
+// zakoact.c
+
 void Zako_800D0FCC(Work *work)
 {
     unsigned short    *src = &work->field_B20;
@@ -1217,7 +1238,9 @@ void s03d_800D13F8(Work *work)
 
 #pragma INCLUDE_ASM("asm/overlays/s03d/s03d_800D14AC.s")
 
-void s03d_800D153C(Work *work)
+// zakoact.c
+
+void ZakoActionMain(Work *work)
 {
     if (work->field_8E0 < 0x2D)
     {
@@ -1225,13 +1248,13 @@ void s03d_800D153C(Work *work)
         s03d_800D14AC(work);
         Zako_800D13E8(work);
         s03d_800D13F8(work);
-        s03d_800D3B5C(work);
+        ZakoThink(work);
         Zako_800D0F6C(work);
     }
     s03d_800D041C(work);
 }
 
-void s03d_800D15A8(Work *work)
+void ZakoPushMove(Work *work)
 {
     TARGET  *trg;
     CONTROL *ctrl;

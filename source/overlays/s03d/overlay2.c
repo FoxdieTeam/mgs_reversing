@@ -37,22 +37,31 @@ short s03d_word_800C3A38[2] = {0x0033, 0x0011};
 short s03d_word_800C3A3C[2] = {0x0012, 0x002B};
 
 int s03d_dword_800C3A40 = 0x00000016;
+
 int s03d_dword_800C3A44 = 0x00FA109A;
 int s03d_dword_800C3A48 = 0x000001F4;
+
 int s03d_dword_800C3A4C = 0x00FA109A;
 int s03d_dword_800C3A50 = 0x000001F4;
+
 int s03d_dword_800C3A54 = 0x00320000;
 int s03d_dword_800C3A58 = 0x000000C8;
+
 int s03d_dword_800C3A5C = 0x0000FF6A;
 int s03d_dword_800C3A60 = 0x0000012C;
+
 int s03d_dword_800C3A64 = 0x00000000;
 int s03d_dword_800C3A68 = 0x00000064;
+
 int s03d_dword_800C3A6C = 0x0000FC00;
 int s03d_dword_800C3A70 = 0x00000000;
+
 int s03d_dword_800C3A74 = 0x00000000;
 int s03d_dword_800C3A78 = 0x00000064;
+
 int s03d_dword_800C3A7C = 0x0000FC00;
 int s03d_dword_800C3A80 = 0x00000000;
+
 int s03d_dword_800C3A84 = 0x800DB5CC;
 int s03d_dword_800C3A88 = 0x800DB5B8;
 int s03d_dword_800C3A8C = 0x800DB5A4;
@@ -60,10 +69,13 @@ int s03d_dword_800C3A90 = 0x800D0CD4;
 int s03d_dword_800C3A94 = 0x800D0D6C;
 int s03d_dword_800C3A98 = 0x800D0DF0;
 int s03d_dword_800C3A9C = 0x800D0E2C;
+
 int s03d_dword_800C3AA0 = 0xFE0C0005;
 int s03d_dword_800C3AA4 = 0x00000050;
+
 int s03d_dword_800C3AA8 = 0x00000400;
 int s03d_dword_800C3AAC = 0x00000000;
+
 int s03d_dword_800C3AB0 = 0x00001F40;
 int s03d_dword_800C3AB4 = 0x0000FC18;
 
@@ -136,11 +148,13 @@ const int s03d_dword_800DB4A8 = 0x800CD28C;
 
 const char s03d_dword_800DB4AC[] = {'z', 'a', 'k', 'o'};
 const char s03d_dword_800DB4B0[] = {'.', 'c', 0x0, 0x8f};
+
 const char s03d_dword_800DB4B4[] = {' ', 'm', 'e', 'r'};
 const char s03d_dword_800DB4B8[] = {'y', 'l', ' ', 'K'};
 const char s03d_dword_800DB4BC[] = {'I', 'L', 'L', 'E'};
 const char s03d_dword_800DB4C0[] = {'D', ' ', '!', '!'};
 const char s03d_dword_800DB4C4[] = {'!', ' ', '\n', 0x0};
+
 const char s03d_dword_800DB4C8[] = {' ', 'S', 'N', 'A'};
 const char s03d_dword_800DB4CC[] = {'K', 'E', ' ', 'K'};
 const char s03d_dword_800DB4D0[] = {'I', 'L', 'L', 'E'};
@@ -166,6 +180,7 @@ const char s03d_dword_800DB514[] = {'i', 'd', ' ', '='};
 const char s03d_dword_800DB518[] = {' ', '%', 'd', ' '};
 const char s03d_dword_800DB51C[] = {'z', '=', '%', 'd'};
 const char s03d_dword_800DB520[] = {'\n', 0x0, 0x0, 0x0};
+
 const char s03d_dword_800DB524[] = {'b', 'b', 'b', ' '};
 const char s03d_dword_800DB528[] = {'r', 'e', 's', 'e'};
 const char s03d_dword_800DB52C[] = {'t', ' ', 'f', 'i'};
@@ -175,6 +190,7 @@ const char s03d_dword_800DB538[] = {' ', 'i', 'd', ' '};
 const char s03d_dword_800DB53C[] = {'=', ' ', '%', 'd'};
 const char s03d_dword_800DB540[] = {' ', 'z', '=', '%'};
 const char s03d_dword_800DB544[] = {'d', '\n', 0x0, 0x0};
+
 const char s03d_dword_800DB548[] = {'8', 0xff, 0xe8, 0x3};
 const char s03d_dword_800DB54C[] = {'X', 0x2, 0x0, 0x0};
 const char s03d_dword_800DB550[] = {0x5, 0x0, 0x0, 0x0};
