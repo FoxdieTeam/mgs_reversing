@@ -8,7 +8,8 @@
 
 #include "game.h"
 
-/*-----sbss---------------------------------------*/
+/*----------------------------------------------------------------*/
+
 int SECTION(".sbss") fc_rt;     // Unused?
 int SECTION(".sbss") mt_rt1;    // Unused?
 int SECTION(".sbss") mt_rt2;
@@ -16,7 +17,8 @@ int SECTION(".sbss") fc_cnt;    // Unused?
 int SECTION(".sbss") mt_count;
 
 STATIC int SECTION(".sbss") dword_800ABAC4;
-/*------------------------------------------------*/
+
+/*----------------------------------------------------------------*/
 
 static inline short SetPItoPI( short v )
 {
@@ -37,23 +39,23 @@ SVECTOR *sub_80034834( SVECTOR *out, SVECTOR *v1, SVECTOR v2 )
     return out;
 }
 
-void GM_ActObjectMotion(OBJECT *obj)
+void GM_ActObjectMotion( OBJECT *obj )
 {
     long intime, outtime;
-    intime = GetRCnt(RCntCNT1);
+    intime = GetRCnt( RCntCNT1 );
 
-    SetSpadStack(SPAD_STACK_ADDR);
-    GM_PlayAction(obj->m_ctrl); // motion streaming related
+    SetSpadStack( SPAD_STACK_ADDR );
+    GM_PlayAction( obj->m_ctrl );
     ResetSpadStack();
 
     obj->is_end = obj->m_ctrl->info1.time;
     obj->time2 = obj->m_ctrl->info2.time;
 //#ifdef DEBUG
-    outtime = GetRCnt(RCntCNT1);
-    mt_rt2 += (outtime - intime) & 0xffff;
+    outtime = GetRCnt( RCntCNT1 );
+    mt_rt2 += ( outtime - intime ) & 0xffff;
     mt_count++;
 //#endif
-    if (obj->m_ctrl->interp)
+    if ( obj->m_ctrl->interp )
         obj->m_ctrl->interp--; /* 補完カウンタ変更 */
     return;
 }
@@ -63,7 +65,7 @@ void GM_ActObjectMotion(OBJECT *obj)
 void GM_InitObjectNoRots( OBJECT_NO_ROTS *obj, int model, int flag, int motion )
 {
     ASSERT( model != 0 );
-    GV_ZeroMemory( obj, sizeof(OBJECT_NO_ROTS) );
+    GV_ZeroMemory( obj, sizeof( OBJECT_NO_ROTS ) );
     obj->flag = flag;
     obj->light = &DG_LightMatrix;
     obj->map_name = GM_CurrentMap;
@@ -75,157 +77,126 @@ void GM_InitObjectNoRots( OBJECT_NO_ROTS *obj, int model, int flag, int motion )
 
 void GM_InitObject( OBJECT *obj, int model, int flag, int motion )
 {
-    GV_ZeroMemory( obj->rots, sizeof(SVECTOR) * DG_MAX_JOINTS );
-    GM_InitObjectNoRots( (OBJECT_NO_ROTS *)obj, model, flag, motion );
+    GV_ZeroMemory( obj->rots, sizeof( SVECTOR ) * DG_MAX_JOINTS );
+    GM_InitObjectNoRots( ( OBJECT_NO_ROTS * )obj, model, flag, motion );
 }
 
 /*--------- M.Sonoyama 実験中 --------------*/
 
-// adds initial step to mutation from another function
-void GM_ActMotion(OBJECT *obj)
+/* モーション処理を行なう */
+void GM_ActMotion( OBJECT *obj )
 {
     SVECTOR step;
 
-    if (obj->m_ctrl)
-    {
+    if ( obj->m_ctrl != NULL ) {
         step = *obj->m_ctrl->step;
-        GM_ActObjectMotion(obj);
-        GV_AddVec3(&step, obj->m_ctrl->step, obj->m_ctrl->step);
+        GM_ActObjectMotion( obj );
+        GV_AddVec3( &step, obj->m_ctrl->step, obj->m_ctrl->step );
     }
 }
 
-// sets objects name and objs group id
-// if object has a motion control its step is zero'd
-void GM_ActObject(OBJECT *obj)
+void GM_ActObject( OBJECT *obj )
 {
-    DG_PutObjs(obj->objs);
+    DG_PutObjs( obj->objs );
 
-    if (obj->map_name != GM_CurrentMap)
-    {
+    if ( obj->map_name != GM_CurrentMap ) {
         obj->map_name = GM_CurrentMap;
-        DG_GroupObjs(obj->objs, GM_CurrentMap);
+        DG_GroupObjs( obj->objs, GM_CurrentMap );
     }
 
-    if (obj->m_ctrl)
-    {
+    if ( obj->m_ctrl != NULL ) {
         *obj->m_ctrl->step = DG_ZeroVector;
     }
 }
 
-// sets objects name objs groups id
-// if object has a motion control a separate function
-// to set up motion is called
-void GM_ActObject2(OBJECT *obj)
+void GM_ActObject2( OBJECT *obj )
 {
-    DG_PutObjs(obj->objs);
+    DG_PutObjs( obj->objs );
 
-    if (obj->map_name != GM_CurrentMap)
-    {
+    if ( obj->map_name != GM_CurrentMap ) {
         obj->map_name = GM_CurrentMap;
-        DG_GroupObjs(obj->objs, GM_CurrentMap);
+        DG_GroupObjs( obj->objs, GM_CurrentMap );
     }
 
-    if (obj->m_ctrl)
-    {
-        GM_ActObjectMotion(obj);
+    if ( obj->m_ctrl != NULL ) {
+        GM_ActObjectMotion( obj );
     }
 }
 
-// frees an objs object
-void GM_FreeObject(OBJECT *obj)
+void GM_FreeObject( OBJECT *obj )
 {
     DG_OBJS *objs = obj->objs;
 
-    if (objs)
-    {
-        DG_DequeueObjs(objs);
-        DG_FreeObjs(objs);
+    if ( objs ) {
+        DG_DequeueObjs( objs );
+        DG_FreeObjs( objs );
     }
 }
 
-// configures object flag attribute
-void GM_ConfigObjectFlags(OBJECT *obj, int flags)
+/*----------------------------------------------------------------*/
+
+void GM_ConfigObjectFlags( OBJECT *obj, int flags )
 {
     obj->flag = flags;
     obj->objs->flag = flags;
 }
 
-// configures object light attribute
-void GM_ConfigObjectLight(OBJECT *obj, MATRIX *light)
+void GM_ConfigObjectLight( OBJECT *obj, MATRIX *light )
 {
     obj->light = light;
     obj->objs->light = light;
 }
 
-// configures object step attribute but is stubbed in game
-void GM_ConfigObjectStep(OBJECT *obj, SVECTOR *step)
+void GM_ConfigObjectStep( OBJECT *obj, SVECTOR *step )
 {
     /* do nothing */
 }
 
-// configures object's root to the parents world attribute
-// also sets the light depending on if parent exists or not
-void GM_ConfigObjectRoot(OBJECT *obj, OBJECT *parent_obj, int num_parent)
+void GM_ConfigObjectRoot( OBJECT *obj, OBJECT *org, int unit )
 {
     MATRIX  *light;
     DG_OBJS *objs = obj->objs;
 
-    if (!parent_obj || num_parent < 0)
-    {
+    if ( org == NULL || unit < 0 ) {
         light = &DG_LightMatrix;
-        objs->root = 0;
-    }
-    else
-    {
-        objs->root = &parent_obj->objs->objs[num_parent].world;
-        light = parent_obj->light;
+        objs->root = NULL;
+    } else {
+        objs->root = &org->objs->objs[unit].world;
+        light = org->light;
     }
 
     obj->light = light;
     objs->light = light;
 }
 
-// configures object rots attribute
-void GM_ConfigObjectJoint(OBJECT *obj)
+void GM_ConfigObjectJoint( OBJECT *obj )
 {
     obj->objs->rots = obj->rots;
 }
 
-// configures object flag slide attribute
-void GM_ConfigObjectSlide(OBJECT *obj)
+void GM_ConfigObjectSlide( OBJECT *obj )
 {
     obj->objs->movs = obj->rots;
 }
 
-// configures the attributes of an objects motion control struct
-void GM_ConfigObjectAction(OBJECT *obj, int action, int time, int interp)
+void GM_ConfigObjectAction( OBJECT *obj, int action, int time, int interp )
 {
-    if (obj->m_ctrl)
-    {
-        GM_ConfigAction(obj->m_ctrl, action, time);
+    if ( obj->m_ctrl ) {
+        GM_ConfigAction( obj->m_ctrl, action, time );
         obj->action = action;
         obj->is_end = 0;
         obj->m_ctrl->interp = interp;
     }
 }
 
-//
-void GM_ConfigObjectOverride(OBJECT *obj, int action, int time, int interp, u_long mask)
+void GM_ConfigObjectOverride( OBJECT *obj, int action, int time, int interp, u_long mask )
 {
-    if (mask != 0)
-    {
-        if (!obj->m_ctrl)
-        {
-            return;
-        }
-
-        GM_ConfigActionOverride(obj->m_ctrl, action, time);
-    }
-    else
-    {
+    if ( mask != 0 ) {
+        if ( obj->m_ctrl == NULL ) return;
+        GM_ConfigActionOverride( obj->m_ctrl, action, time );
+    } else {
         obj->m_ctrl->info2.field_14 = 0;
-        if (!obj->m_ctrl->info1.field_14)
-        {
+        if ( obj->m_ctrl->info1.field_14 == 0 ) {
             obj->m_ctrl->info1.field_14 = 2;
         }
     }
@@ -237,39 +208,33 @@ void GM_ConfigObjectOverride(OBJECT *obj, int action, int time, int interp, u_lo
     obj->m_ctrl->info2.mask = ~mask;
 }
 
-// calls configObjectAction with given values
-int GM_ConfigObjectMotion(OBJECT *obj, int action, int interp)
+int GM_ConfigObjectMotion( OBJECT *obj, int action, int interp )
 {
-    GM_ConfigObjectAction(obj, obj->action, 0, interp);
+    GM_ConfigObjectAction( obj, obj->action, 0, interp );
     return 0;
 }
 
-// gets the objects buffer from cache and allocates memory for
-// creating a new object. Dequeues existing objects that it may have
-int GM_ConfigObjectModel(OBJECT_NO_ROTS *obj, int model)
+int GM_ConfigObjectModel( OBJECT_NO_ROTS *obj, int model )
 {
-    int      id;
-    void    *buf;
+    DG_DEF  *def;
     DG_OBJS *objs;
     DG_OBJS *current_objs = obj->objs;
 
-    id = GV_CacheID(model, 'k');
-    buf = GV_GetCache(id);
-    objs = DG_MakeObjs(buf, obj->flag, 0);
+    def = GV_GetCache( GV_CacheID( model, 'k' ) );
+    objs = DG_MakeObjs( def, obj->flag, 0 );
 
-    if (!objs)
+    if ( objs == NULL )
         return -1;
 
-    if (current_objs)
-    {
-        DG_DequeueObjs(current_objs);
-        DG_FreeObjs(current_objs);
+    if ( current_objs ) {
+        DG_DequeueObjs( current_objs );
+        DG_FreeObjs( current_objs );
     }
 
     obj->objs = objs;
     objs->light = obj->light;
     objs->group_id = obj->map_name;
-    DG_QueueObjs(objs);
+    DG_QueueObjs( objs );
 
     return 0;
 }
