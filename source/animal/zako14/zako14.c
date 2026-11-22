@@ -9,14 +9,14 @@
 #include "chara/snake/shadow.h"
 #include "enemy/glight.h"
 
-/*----------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 #define BODY_FLAG   ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
                     | DG_FLAG_GBOUND | DG_FLAG_AMBIENT | DG_FLAG_IRTEXTURE )
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
                     | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
-/*----------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 static int ChaseDis[] = {
     3000, 4000, 7000, 8000,
@@ -27,12 +27,12 @@ static u_short time_data[] = {
     300, 15, 30, 60, 90, 0, 32001, 30000,
 };
 
-/*----------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 // BUG: Should be void GM_ConfigControlRadarparam( CONTROL *, u_short, u_short, u_short, u_short );
 extern void GM_ConfigControlRadarparam( CONTROL *ctrl, u_short dir, u_short dis, int range, u_short r );
 
-/*----------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*/
 
 static void CheckFlag( Work *work )
 {
