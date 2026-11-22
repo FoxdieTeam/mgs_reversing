@@ -1,7 +1,5 @@
 #include "meryl3.h"
-#include "game/camera.h"
-#include "libgv/libgv.h"
-#include "libgcl/libgcl.h"
+
 #include "chara/snake/shadow.h"
 #include "enemy/glight.h"
 

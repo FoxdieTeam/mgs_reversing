@@ -372,7 +372,7 @@ static void s03d_800D47BC(COMMANDER *comm)
     for (i = 0; i < comm->count; i++)
     {
         work = comm->watchers[ZAKOCommand.order[i]].work;
-        dists[i] = work->field_B90;
+        dists[i] = work->sn_dis;
     }
 
     for (t3 = comm->count - 1; t3 > -1; t3 = t4)
@@ -407,7 +407,7 @@ static void s03d_800D47BC(COMMANDER *comm)
     for (i = 0; i < comm->count; i++)
     {
         work = comm->watchers[ZAKOCommand.order[i]].work;
-        work->field_B64 = ChaseDis[ZAKOCommand.order[i]];
+        work->chase_dis = ChaseDis[ZAKOCommand.order[i]];
     }
 }
 
@@ -434,12 +434,12 @@ static void ZakoCom_800D490C(COMMANDER *comm)
         {
             Work *work = comm->watchers[i].work;
 
-            if (work->field_AE8 != 0 && work->field_B90 < min)
+            if (work->pad.sound != 0 && work->sn_dis < min)
             {
-                best = work->field_AE8;
-                min = work->field_B90;
+                best = work->pad.sound;
+                min = work->sn_dis;
             }
-            work->field_AE8 = 0;
+            work->pad.sound = 0;
         }
     }
     if (best != 0)
@@ -590,7 +590,7 @@ static void s03d_800D4CE0( CommanderWork *work )
     {
         if (ZAKOCommand.watchers[i].field_4 == 2)
         {
-            alert = ZakoCom_800D4B08(alert, ZAKOCommand.watchers[i].work->field_B28);
+            alert = ZakoCom_800D4B08(alert, ZAKOCommand.watchers[i].work->alert_level);
         }
         else if (ZAKOCommand.watchers[i].field_4 == 1)
         {
