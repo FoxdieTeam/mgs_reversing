@@ -13,64 +13,50 @@
 #include "mgstype.h"
 #include <sys/types.h>
 #include <libgte.h>
-#include <libetc.h>
-
-/* gvd.c */
-extern int GV_Time;
-#ifndef __LIBGV_GVD_C__
-extern int GV_Clock;
-extern int GV_PassageTime;
-#endif
-
-void GV_StartDaemon(void);
-void GV_ResetSystem(void);
-
-void GV_SetPacketTempMemory(void);
-void GV_ResetPacketMemory(void);
-
-/* strcode.c */
-int GV_StrCode( const char *string );
+#include <libetc.h>     // for PADxxx
 
 /*---------------------------------------------------------------------------*/
 
-/* debug.c */
-extern const char *GV_DebugMes;
+typedef int ( *GV_LOADFUNC )( void *data, int id );
+typedef void ( *GV_FREEFUNC )( void * );
 
-void GV_Assert( char *, int );
-void GV_Warning( char *, int );
-void GV_Error( char *, int );
+enum {
+    GV_INIT_NOCACHE,
+    GV_INIT_CACHE,
+    GV_INIT_RESIDENT,
+};
 
-#ifdef DEV_EXE // #ifdef DEBUG
-#define ASSERT(c)       if (!(c)) { GV_Assert(__FILE__, __LINE__); }
-#define WARNING(f,v)    GV_Warning(f,v)
-#define ERROR(f,v)      GV_Error(f,v)
-#define OPERATOR()
-#define MARK(n)         (GV_DebugMes = (char *)n)
-#define HANGUP()        (*(int *)1 = 0)
-#else
-// NOTE: Assertions were disabled for INTEGRAL, but the US release
-// (and possibly others) were compiled with assertions still enabled.
-#define ASSERT(c)
-#define WARNING(f,v)
-#define ERROR(f,v)
-#define OPERATOR()
-#define MARK(n)
-#define HANGUP()
-#endif
+/*---------------------------------------------------------------------------*/
 
-/*------ Actor Management ---------------------------------------------------*/
+#define PACK_SIZE       (188 * 1024) /* 188KiB */
+#define MEM_SIZE        (428 * 1024) /* 428KiB */
+
+#define MEM_BOTTOM      ((void *)0x801E0000)
+
+#define PACK_ADDR0      (MEM_BOTTOM - PACK_SIZE * 2)
+#define PACK_ADDR1      (MEM_BOTTOM - PACK_SIZE)
+
+#define MEM_ADDR        (PACK_ADDR0 - MEM_SIZE)
+#define RESIDENT_BOTTOM (MEM_ADDR)
+
+enum {
+    GV_MEMORY_STATIC,
+    GV_MEMORY_DYNAMIC
+};
+
+enum {
+    GV_PACKET_MEMORY0,
+    GV_PACKET_MEMORY1,
+    GV_NORMAL_MEMORY,
+    MAX_MEMSYS,
+};
+
+/*---------------------------------------------------------------------------*/
 
 struct _GV_ACT;
+typedef void ( *GV_ACTFUNC )( struct _GV_ACT * );
 
-typedef void (*GV_ACTFUNC)(struct _GV_ACT *);
-typedef void (*GV_FREEFUNC)(void *);
-
-/**
- * @brief Linked list of game actors.
- * A game actor is an entity with a name and an update function.
- */
-typedef struct _GV_ACT
-{
+typedef struct _GV_ACT {
     struct _GV_ACT *prev;
     struct _GV_ACT *next;
     GV_ACTFUNC      act;        // update callback
@@ -110,142 +96,9 @@ enum {
 #define GV_LEVEL_NORMAL     (GV_PAUSE_STOP|GV_PAUSE_PAUSE|GV_PAUSE_MENU|GV_PAUSE_READERROR)
 #define GV_LEVEL_STOP       (GV_PAUSE_STOP|GV_PAUSE_READERROR)
 
-/* actor.c */
-#ifndef __LIBGV_ACTOR_C__
-extern int GV_PauseLevel;
-#endif
-
-void GV_InitActorSystem( void );
-void GV_ConfigActorSystem( int level, short pause, short kill );
-void GV_DumpActorSystem( void );
-void GV_ExecActorSystem( void );
-void GV_DestroyActorSystem( int kill );
-void GV_InitActor( int level, void *this, GV_FREEFUNC free );
-void *GV_NewActor( int level, int size );
-void GV_SetNamedActor( void *this, void *act, void *die, const char *name );
-void GV_DestroyActor( void *this );
-void GV_DestroyActorQuick( void *this );
-void GV_DestroyOtherActor( void *target );
-
-#define GV_SetActor( _this, _act, _die ) GV_SetNamedActor( _this, _act, _die, __FILE__ )
-
-#ifndef __LIBGV_ACTOR_C__
-static inline void GV_PauseOnActorSystem( int pause )
-{
-    GV_PauseLevel |= pause;
-}
-
-static inline void GV_PauseOffActorSystem( int pause )
-{
-    GV_PauseLevel &= ~pause;
-}
-
-static inline void GV_PauseToggleActorSystem( int pause )
-{
-    GV_PauseLevel ^= pause;
-}
-#endif
-
-/*------ Cache System -------------------------------------------------------*/
-
-enum GV_CACHE_REGION
-{
-    GV_INIT_NOCACHE,
-    GV_INIT_CACHE,
-    GV_INIT_RESIDENT,
-};
-
-typedef int ( *GV_LOADFUNC )( void *data, int id );
-
-/* cache.c */
-int   GV_CacheID( int root_id, int spec );
-int   GV_CacheID2( const char *root_name, int spec );
-int   GV_CacheID3( char *name );
-void *GV_GetCache( int id );
-int   GV_SetCache( int id, void *buf );
-void  GV_SetLoader( int spec, GV_LOADFUNC init );
-void  GV_ResetLoader( void );
-void  GV_InitCacheSystem( void );
-void  GV_SaveResidentFileCache( void );
-void  GV_FreeCacheSystem( void );
-int   GV_LoadInit( void *data, int name, int cache_mode );
-
-/*------ Memory Management --------------------------------------------------*/
-
-#define PACK_SIZE       (188 * 1024) /* 188KiB */
-#define MEM_SIZE        (428 * 1024) /* 428KiB */
-
-#define MEM_BOTTOM      ((void *)0x801E0000)
-
-#define PACK_ADDR0      (MEM_BOTTOM - PACK_SIZE * 2)
-#define PACK_ADDR1      (MEM_BOTTOM - PACK_SIZE)
-
-#define MEM_ADDR        (PACK_ADDR0 - MEM_SIZE)
-#define RESIDENT_BOTTOM (MEM_ADDR)
-
-enum {
-    GV_MEMORY_STATIC,
-    GV_MEMORY_DYNAMIC
-};
-
-enum {
-    GV_PACKET_MEMORY0,
-    GV_PACKET_MEMORY1,
-    GV_NORMAL_MEMORY, 
-    MAX_MEMSYS,       
-};
-
-#define MAX_MEMUNIT 512
-
-#define FREE_UNIT       ((void **)0)
-#define VOID_UNIT       ((void **)1)
-#define USED_UNIT       ((void **)2)
-#define MEMORY_DYNAMIC  (1)
-#define MEMORY_VOIDED   (2)
-#define MEMORY_FAILED   (4)
+/*---------------------------------------------------------------------------*/
 
 typedef struct {
-    void        *addr;
-    void        **addr_ptr;
-} M_Unit;
-
-typedef struct {
-    int         stat;
-    void        *start;
-    void        *end;
-    int         n_units;
-    M_Unit      units[ MAX_MEMUNIT ];
-} M_Sys;
-
-/* memory.c */
-void  GV_InitMemorySystemAll(void);
-void  GV_InitMemorySystem(int, int, void *, int);
-void  GV_ResetMemory(void);
-void *GV_AllocMemory(int, int);
-void *GV_AllocMemory2(int, int, void **);
-void  GV_FreeMemory(int, void *);
-void  GV_FreeMemory2(int, void **);
-void  GV_ClearMemorySystem(int);
-void  GV_CheckMemorySystem(int);
-void  GV_DumpMemorySystem(int);
-void  GV_CopyMemory(void *, void *, int);
-void  GV_ZeroMemory(void *, int);
-void *GV_Malloc(int);
-void  GV_Free(void *);
-void  GV_DelayedFree(void *);
-
-void *GV_GetMaxFreeMemory(int which);
-void *GV_SplitMemory(int which, void *addr, int size);
-
-/* resident.c */
-void  GV_InitResidentMemory( void );
-void  GV_SaveResidentTop( void );
-void *GV_AllocResidentMemory( long size );
-
-/*------ Message Handling ---------------------------------------------------*/
-
-typedef struct          // from memleak
-{
     u_short address;
     u_short _len;
     u_short message[7];
@@ -254,15 +107,25 @@ typedef struct          // from memleak
 
 #define MAX_MESSAGES 16
 
-/* message.c */
-void GV_InitMessageSystem( void );
-void GV_ClearMessageSystem( void );
-int  GV_SendMessage( GV_MSG *send );
-int  GV_ReceiveMessage( int address, GV_MSG **msg_ptr );
+/*---------------------------------------------------------------------------*/
 
-/*------ Input Processing ---------------------------------------------------*/
+typedef struct {
+    u_short         status;
+    u_short         press;
+    u_short         release;
+    u_short         quick;
+    short           dir;
 
-/* SNES-style button layout */
+    short           analog;
+    unsigned char   right_dx;
+    unsigned char   right_dy;
+    unsigned char   left_dx;
+    unsigned char   left_dy;
+} GV_PAD;
+
+// NOTE: The A-B-X-Y buttons follow the SNES (Nintendo-style) layout.
+// Try not to confuse them for the later Dreamcast & XBOX layouts.
+
 #define PAD_U           PADLup          // 0x1000 ↑
 #define PAD_D           PADLdown        // 0x4000 ↓
 #define PAD_L           PADLleft        // 0x8000 ←
@@ -281,9 +144,9 @@ int  GV_ReceiveMessage( int address, GV_MSG **msg_ptr );
 #define PAD_AR          PADj            // 0x0400 R3
 
 /* button masks */
-#define PAD_UDLR        (PAD_U  | PAD_D  | PAD_L  | PAD_R)
-#define PAD_ABXY        (PAD_A  | PAD_B  | PAD_X  | PAD_Y)
-#define PAD_LR          (PAD_L1 | PAD_L2 | PAD_R1 | PAD_R2)
+#define PAD_UDLR        (PAD_U|PAD_D|PAD_L|PAD_R)       // 0xf000
+#define PAD_ABXY        (PAD_A|PAD_B|PAD_X|PAD_Y)       // 0x00f0
+#define PAD_LR          (PAD_L1|PAD_L2|PAD_R1|PAD_R2)   // 0x000f
 
 /* button aliases */
 #define PAD_UP          PAD_U
@@ -299,43 +162,155 @@ int  GV_ReceiveMessage( int address, GV_MSG **msg_ptr );
 #define PAD_L3          PAD_AL
 #define PAD_R3          PAD_AR
 
-typedef struct
-{
-    u_short         status;
-    u_short         press;
-    u_short         release;
-    u_short         quick;
-    short           dir;
-
-    short           analog;
-    unsigned char   right_dx;
-    unsigned char   right_dy;
-    unsigned char   left_dx;
-    unsigned char   left_dy;
-} GV_PAD;
-
-enum
-{
+enum {
     GV_PAD_DIGITAL = 0,
     GV_PAD_ANAJOY = 1,
     GV_PAD_ANALOG = 2
 };
 
-/* pad.c */
-#ifndef __LIBGV_PAD_C__
-extern u_short  GV_DemoPadStatus[2];
-extern u_long   GV_DemoPadAnalog;
-extern GV_PAD   GV_PadData[4];
+/*---------------------------------------------------------------------------*/
+
+extern  int     GV_Time;
+#ifndef __LIBGV_GVD_C__
+extern  int     GV_PassageTime;
+extern  int     GV_Clock;
 #endif
-extern int GV_PadMask;
+#ifndef __LIBGV_ACTOR_C__
+extern  int     GV_PauseLevel;
+#endif
 
-void GV_InitPadSystem(void);
-void GV_UpdatePadSystem(void);
-void GV_OriginPadSystem(int);
-int  GV_GetPadOrigin(void);
-int  GV_GetPadDirNoPadOrg(int);
+extern const char *GV_DebugMes;
 
-/*------ Math Operations ----------------------------------------------------*/
+#ifndef __LIBGV_PAD_C__
+extern  u_short GV_DemoPadStatus[2];
+extern  u_long  GV_DemoPadAnalog;
+extern  GV_PAD  GV_PadData[4];
+#endif
+extern  int     GV_PadMask;
+
+/*---------------------------------------------------------------------------*/
+
+#ifndef __LIBGV_ACTOR_C__
+static inline void GV_PauseOnActorSystem( int pause )
+{
+    GV_PauseLevel |= pause;
+}
+
+static inline void GV_PauseOffActorSystem( int pause )
+{
+    GV_PauseLevel &= ~pause;
+}
+
+static inline void GV_PauseToggleActorSystem( int pause )
+{
+    GV_PauseLevel ^= pause;
+}
+#endif
+
+/*---------------------------------------------------------------------------*/
+
+#ifdef DEV_EXE // #ifdef DEBUG
+#define ASSERT(c)       if (!(c)) { GV_Assert(__FILE__, __LINE__); }
+#define WARNING(f,v)    GV_Warning(f,v)
+#define ERROR(f,v)      GV_Error(f,v)
+#define OPERATOR()
+#define MARK(n)         (GV_DebugMes = (char *)n)
+#define HANGUP()        (*(int *)1 = 0)
+#else
+// NOTE: Assertions were disabled for INTEGRAL, but the US release
+// (and possibly others) were compiled with assertions still enabled.
+#define ASSERT(c)
+#define WARNING(f,v)
+#define ERROR(f,v)
+#define OPERATOR()
+#define MARK(n)
+#define HANGUP()
+#endif
+
+/*---------------------------------------------------------------------------*/
+
+/* actor.c */
+extern  void    GV_InitActorSystem( void );
+extern  void    GV_ConfigActorSystem( int level, short pause, short kill );
+extern  void    GV_DumpActorSystem( void );
+extern  void    GV_ExecActorSystem( void );
+extern  void    GV_DestroyActorSystem( int kill );
+extern  void    GV_InitActor( int level, void *this, GV_FREEFUNC free );
+extern  void    *GV_NewActor( int level, int size );
+extern  void    GV_SetNamedActor( void *this, void *act, void *die, const char *name );
+
+#define GV_SetActor( _this, _act, _die ) GV_SetNamedActor( _this, _act, _die, __FILE__ )
+
+extern  void    GV_DestroyActor( void *this );
+extern  void    GV_DestroyActorQuick( void *this );
+extern  void    GV_DestroyOtherActor( void *target );
+
+/* cache.c */
+extern  int     GV_CacheID( int root_id, int spec );
+extern  int     GV_CacheID2( const char *root_name, int spec );
+extern  int     GV_CacheID3( char *name );
+extern  void    *GV_GetCache( int id );
+extern  int     GV_SetCache( int id, void *buf );
+extern  void    GV_SetLoader( int spec, GV_LOADFUNC init );
+extern  void    GV_ResetLoader( void );
+extern  void    GV_InitCacheSystem( void );
+extern  void    GV_SaveResidentFileCache( void );
+extern  void    GV_FreeCacheSystem( void );
+extern  int     GV_LoadInit( void *data, int name, int cache_mode );
+
+/* strcode.c */
+extern int GV_StrCode( const char *string );
+
+/* debug.c */
+extern  void    GV_Assert( char *, int );
+extern  void    GV_Warning( char *, int );
+extern  void    GV_Error( char *, int );
+
+/* gvd.c */
+extern  void    GV_StartDaemon( void );
+extern  void    GV_ResetSystem( void );
+extern  void    GV_SetPacketTempMemory( void );
+extern  void    GV_ResetPacketMemory( void );
+
+/* memory.c */
+extern  void    GV_InitMemorySystemAll( void );
+extern  void    GV_InitMemorySystem( int, int, void *, int );
+extern  void    GV_ResetMemory( void );
+extern  void    *GV_AllocMemory( int, int );
+extern  void    *GV_AllocMemory2( int, int, void ** );
+extern  void    GV_FreeMemory( int, void * );
+extern  void    GV_FreeMemory2( int, void ** );
+extern  void    GV_ClearMemorySystem( int );
+extern  void    GV_CheckMemorySystem( int );
+extern  void    GV_DumpMemorySystem( int );
+extern  void    GV_CopyMemory( void *, void *, int );
+extern  void    GV_ZeroMemory( void *, int );
+extern  void    *GV_Malloc( int );
+extern  void    GV_Free( void * );
+extern  void    GV_DelayedFree( void * );
+
+void *GV_GetMaxFreeMemory( int which );
+void *GV_SplitMemory( int which, void *addr, int size );
+
+/* resident.c */
+void GV_InitResidentMemory( void );
+void GV_SaveResidentTop( void );
+void *GV_AllocResidentMemory( long size );
+
+/* message.c */
+extern  void    GV_InitMessageSystem( void );
+extern  void    GV_ClearMessageSystem( void );
+extern  int     GV_SendMessage( GV_MSG *send );
+extern  int     GV_ReceiveMessage( int address, GV_MSG **msg_ptr );
+
+/* pad.c */
+extern  void    GV_InitPadSystem(void);
+extern  void    GV_UpdatePadSystem(void);
+extern  void    GV_OriginPadSystem(int);
+extern  int     GV_GetPadOrigin(void);
+extern  int     GV_GetPadDirNoPadOrg(int);
+
+/*---------------------------------------------------------------------------*/
 
 /* util.c */
 extern  void    GV_AddVec3( SVECTOR *vec1, SVECTOR *vec2, SVECTOR *vec3 );
@@ -394,5 +369,30 @@ extern  void    GV_MatToQuat( MATRIX *mat, SQUAT *quat );
 extern  void    GV_QuatSlerp( SQUAT *from, SQUAT *to, int t, SQUAT *res );
 extern  void    GV_QuatNormalize( SQUAT *quat );
 extern  void    GV_QuatMul( SQUAT *q1, SQUAT *q2, SQUAT *res );
+
+/*---------------------------------------------------------------------------*/
+// TODO: Move to a separate header?
+
+#define MAX_MEMUNIT     512
+
+#define FREE_UNIT       ((void **)0)
+#define VOID_UNIT       ((void **)1)
+#define USED_UNIT       ((void **)2)
+#define MEMORY_DYNAMIC  (1)
+#define MEMORY_VOIDED   (2)
+#define MEMORY_FAILED   (4)
+
+typedef struct {
+    void        *addr;
+    void        **addr_ptr;
+} M_Unit;
+
+typedef struct {
+    int         stat;
+    void        *start;
+    void        *end;
+    int         n_units;
+    M_Unit      units[ MAX_MEMUNIT ];
+} M_Sys;
 
 #endif // __MGS_LIBGV_H__

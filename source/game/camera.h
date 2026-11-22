@@ -71,7 +71,7 @@ extern int GM_event_camera_flag;
 extern CAMERA GM_CameraList[ 8 ];
 extern GM_SnakeCameraWork GM_SnakeCamera;
 extern GM_CameraSystemWork GM_Camera;
-extern UnkCameraStruct2 gUnkCameraStruct2_800B7868;
+extern UnkCameraStruct2 gUnkCameraStruct2;
 #endif
 
 /* camera.c */

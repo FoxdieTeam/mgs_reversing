@@ -1414,8 +1414,8 @@ void s12a_wolf2_800D1BE8(Wolf2Work *work)
     GM_Camera.interp_mode = 0;
     GM_Camera.zoom = 3721;
 
-    gUnkCameraStruct2_800B7868.position = eye;
-    gUnkCameraStruct2_800B7868.target = center;
+    gUnkCameraStruct2.position = eye;
+    gUnkCameraStruct2.target = center;
 }
 
 static inline int InBox(void)

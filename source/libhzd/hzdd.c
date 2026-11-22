@@ -8,7 +8,7 @@ int SECTION(".sbss") dword_800AB9A4; // unused
 int SECTION(".sbss") HZD_CurrentGroup;
 int SECTION(".sbss") dword_800AB9AC; // unused
 
-//------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------*/
 
 void HZD_StartDaemon(void)
 {

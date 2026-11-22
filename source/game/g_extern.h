@@ -129,7 +129,7 @@ void GM_FreeObject(OBJECT *obj);
 void GM_ConfigObjectFlags(OBJECT *obj, int flags);
 void GM_ConfigObjectLight(OBJECT *obj, MATRIX *light);
 void GM_ConfigObjectStep(OBJECT *obj, SVECTOR *step);
-void GM_ConfigObjectRoot(OBJECT *obj, OBJECT *parent_obj, int num_parent);
+void GM_ConfigObjectRoot(OBJECT *obj, OBJECT *org, int unit);
 void GM_ConfigObjectJoint(OBJECT *obj);
 void GM_ConfigObjectSlide(OBJECT *obj);
 

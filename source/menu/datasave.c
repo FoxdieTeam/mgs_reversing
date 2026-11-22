@@ -14,7 +14,7 @@
 #include "mts/mts.h"
 #include "mts/taskid.h"
 
-//------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------*/
 // gp
 int                         SECTION(".sbss") dword_800ABB44;
 int                         SECTION(".sbss") dword_800ABB48;
@@ -35,7 +35,7 @@ SELECT_INFO                *SECTION(".sbss") dword_800ABB88;
 int                         SECTION(".sbss") dword_800ABB8C;
 int                         SECTION(".sbss") dword_800ABB90;
 int                         SECTION(".sbss") dword_800ABB94;
-//------------------------------------------------------------------------------
+/*---------------------------------------------------------------------------*/
 
 extern char *MGS_MemoryCardName; /* in main.c */
 

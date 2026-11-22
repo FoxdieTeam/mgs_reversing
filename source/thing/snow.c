@@ -274,9 +274,9 @@ static int Snow_800C59C8(Work *work, SnowEntry *entry)
     SVECTOR *targetp;
     int      diff;
 
-    GV_SubVec3(&gUnkCameraStruct2_800B7868.target, &gUnkCameraStruct2_800B7868.position, &front);
+    GV_SubVec3(&gUnkCameraStruct2.target, &gUnkCameraStruct2.position, &front);
     GV_LenVec3(&front, &scaled, GV_VecLen3(&front), work->f2550);
-    GV_AddVec3(&gUnkCameraStruct2_800B7868.position, &scaled, &target);
+    GV_AddVec3(&gUnkCameraStruct2.position, &scaled, &target);
 
     targetp = &target;
 
