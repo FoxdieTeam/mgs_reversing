@@ -308,7 +308,7 @@ void HZD_GetNearHazard( HZD_SEG **segs )
     segs[ 1 ] = SECOND->seg;
 }
 
-void HZX_GetNearHazardAtr( char *atrs )
+void HZD_GetNearHazardAtr( char *atrs )
 {
     atrs[ 0 ] = FIRST->atr;
     atrs[ 1 ] = SECOND->atr;
