@@ -125,8 +125,7 @@ short word_8009D69C[15][64] = {
       0x06CC, 0x074A, 0x07D8, 0x0878, 0x0930, 0x0A0C, 0x0B24, 0x0CB8 }
 };
 
-int dword_8009DE1C[] =
-{
+int dword_8009DE1C[] = {
     65536 / 1,
     65536 / 1,
     65536 / 2,
@@ -145,8 +144,7 @@ int dword_8009DE1C[] =
     65536 / 15,
 };
 
-short dword_8009DE5C[] =
-{
+short dword_8009DE5C[] = {
     4096 / 1,
     4096 / 2,
     4096 / 3,
@@ -168,21 +166,93 @@ short dword_8009DE5C[] =
 MATRIX matrix_8009DE7C = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {0, 0, 0}};
 MATRIX matrix_8009DE9C = {{{0, 0, 0}, {0, 0, 0}, {0, 0, 0}}, {0, 0, 0}};
 
-STATIC void InterpolateJoint(MOTION_SEGMENT *m_seg, SVECTOR *out);
-STATIC void ApplyJointRotation(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info);
-STATIC int  BeginAction(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action);
-STATIC int  BeginActionOffset(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action, int frame);
-STATIC void SkipToKeyframe(MOTION_SEGMENT *m_seg, int frame);
-STATIC int  CorrectWaistRotation(SVECTOR *arg0, SVECTOR *arg1);
-STATIC int  NextKeyframe(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info);
-STATIC void InflateKeyframe(MOTION_SEGMENT *m_seg);
+static void InterpolateJoint(MOTION_SEGMENT *segment, SVECTOR *out);
+static void ApplyJointRotation(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info);
+static int  BeginAction(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action);
+static int  BeginActionOffset(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action, int time);
+static void SkipToKeyframe(MOTION_SEGMENT *segment, int time);
+static int  ApplyStep(SVECTOR *base, SVECTOR *step);
+static int  NextKeyframe(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info);
+static void InflateKeyframe(MOTION_SEGMENT *segment);
 
-// maybe static
-void ExtendVector(SVECTOR *vec)
+#define ADJUST_POINTER(a,b,c)                                                   \
+{                                                                               \
+    (b) += (c);                                                                 \
+    if ( (b) & 0x10 ){                                                          \
+        (a)++;                                                                  \
+        (b) &= 0x0f;                                                            \
+    }                                                                           \
+}
+
+static inline int PopDataBit( u_short *pos, char b_pos, int bit )
 {
-    vec->vx = FP_Extend(vec->vx);
-    vec->vy = FP_Extend(vec->vy);
-    vec->vz = FP_Extend(vec->vz);
+    u_int work,mask;
+    mask = ( 1 << bit ) - 1 ;
+    work = pos[0] + (pos[1] << 16);
+    work >>= b_pos;
+    return ( work & mask );
+}
+
+static inline int PopDataBitExt( u_short *pos, char b_pos, int bit )
+{
+    u_int work,mask;
+    mask = ( 1 << bit ) - 1 ;
+    work = pos[0] + (pos[1] << 16);
+    work >>= b_pos;
+    work &= mask;
+    if ( work & (1 << (bit-1))){
+        work |= ~mask;
+    }
+    return ( work );
+}
+
+static inline void CheckSub( SVECTOR *v1, SVECTOR *v2 )
+{
+    int d;
+
+    d = v2->vx - v1->vx;
+    if ( d >= 0 ){
+        d &= 4095;
+        if ( d >= 2048 ) d -= 4096;
+    } else {
+        d |= 61440;
+        if ( d < -2048 ) d += 4096;
+    }
+    v2->vx = d;
+
+    d = v2->vy - v1->vy;
+    if ( d >= 0 ){
+        d &= 4095;
+        if ( d >= 2048 ) d -= 4096;
+    } else {
+        d |= 61440;
+        if ( d < -2048 ) d += 4096;
+    }
+    v2->vy = d;
+
+    d = v2->vz - v1->vz;
+    if ( d >= 0 ){
+        d &= 4095;
+        if ( d >= 2048 ) d -= 4096;
+    } else {
+        d |= 61440;
+        if ( d < -2048 ) d += 4096;
+    }
+    v2->vz = d;
+}
+
+static inline short SetPItoPI( short v )
+{
+    v &= 4095;
+    if ( v > 2048 ) v -= 4096;
+    return v;
+}
+
+void SetVec( SVECTOR *v )
+{
+    v->vx = SetPItoPI( v->vx );
+    v->vy = SetPItoPI( v->vy );
+    v->vz = SetPItoPI( v->vz );
 }
 
 int GM_ConfigMotionControl(OBJECT *object, MOTION_CONTROL *m_ctrl, int name, MOTION_SEGMENT *m_segs1, MOTION_SEGMENT *m_segs2, CONTROL *control, SVECTOR *rots)
@@ -228,9 +298,9 @@ int GM_ConfigMotionAdjust(OBJECT *object, SVECTOR *adjust)
     return 0;
 }
 
-void GM_ConfigAction(MOTION_CONTROL *m_ctrl, int action, int frame)
+void GM_ConfigAction(MOTION_CONTROL *m_ctrl, int action, int time)
 {
-    MATRIX       saved;
+    MATRIX saved;
     MOTION_INFO *m_info;
 
     ReadRotMatrix(&saved);
@@ -241,13 +311,13 @@ void GM_ConfigAction(MOTION_CONTROL *m_ctrl, int action, int frame)
         ApplyJointRotation(m_ctrl, m_info);
     }
 
-    if (frame == 0)
+    if (time == 0)
     {
         BeginAction(m_ctrl, m_info, action);
     }
     else
     {
-        BeginActionOffset(m_ctrl, m_info, action, frame);
+        BeginActionOffset(m_ctrl, m_info, action, time);
     }
 
     if (m_info->frames_left == 1)
@@ -264,7 +334,7 @@ void GM_ConfigAction(MOTION_CONTROL *m_ctrl, int action, int frame)
     SetRotMatrix(&saved);
 }
 
-void GM_ConfigActionOverride(MOTION_CONTROL *m_ctrl, int action, int frame)
+void GM_ConfigActionOverride(MOTION_CONTROL *m_ctrl, int action, int time)
 {
     MATRIX       saved;
     MOTION_INFO *m_info;
@@ -277,13 +347,13 @@ void GM_ConfigActionOverride(MOTION_CONTROL *m_ctrl, int action, int frame)
         ApplyJointRotation(m_ctrl, m_info);
     }
 
-    if (frame == 0)
+    if (time == 0)
     {
         BeginAction(m_ctrl, m_info, action);
     }
     else
     {
-        BeginActionOffset(m_ctrl, m_info, action, frame);
+        BeginActionOffset(m_ctrl, m_info, action, time);
     }
 
     if (m_info->frames_left == 1)
@@ -300,176 +370,107 @@ void GM_ConfigActionOverride(MOTION_CONTROL *m_ctrl, int action, int frame)
     SetRotMatrix(&saved);
 }
 
-STATIC int BeginAction( MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action )
+static int BeginAction( MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action )
 {
-    char            unused[16];
-    MOTION_SEGMENT     *m_seg;
-    int             n_joint;
-    int             i;
-    MOTION_TABLE   *table;
-    int             n_frame;
-    int             size;
-    MOTION_ARCHIVE *archive;
-    unsigned int    temp1, temp2;
-    unsigned short  vec_size;
-    char            channel_size;
-    SVECTOR*        svec;
+    char unused[ 16 ];
+    int n_joint, i;
+    MOTION_TABLE *table;
+    MOTION_SEGMENT *segment;
+    MOTION_ARCHIVE *data;
 
     n_joint = m_ctrl->oar->n_joint;
-    size = n_joint + 2;
-    m_seg = m_info->m_segs;
+    table = &m_ctrl->oar->table[ ( n_joint + 2 ) * action ];
+    segment = m_info->m_segs;
 
-    table = &m_ctrl->oar->table[ size * action ];
-
-    n_frame = table[ 0 ];
-    table++; //progresses it to the start of the archive offsets
+    m_info->frames_left = table[ 0 ];
+    table++;
 
     m_info->frame = 0;
     m_info->field_4 = 0;
-    m_info->frames_left = n_frame;
 
-    archive = &m_ctrl->oar->archive[ table[ 0 ] ]; //start of bitstream vectors
-    table++; //progresses to the next offset
+    data = &m_ctrl->oar->archive[ table[ 0 ] ]; //start of bitstream vectors
+    table++;
 
-    m_seg->base.vy = archive[ 0 ];
-    archive++; //progress to next vector
+    segment->base.vy = data[ 0 ];
+    data++;
 
-    temp1 = archive[ 0 ] + ( archive [ 1 ] << 16 );
-
-    archive++; //progress to next vector
-
-    m_seg->bit_offset = 0;
-    m_seg->stream = archive;
-
-    temp2 = temp1 & 0xF;
-    temp1 &= 0xFFFF;
-    temp1 >>= 4;
-
-    m_seg->delta.vx = temp2;
-
-    temp2 = temp1 & 0xF;
-    temp1 >>= 4;
-    temp1 &= 0xF;
-
-    m_seg->delta.vy = temp2;
-    m_seg->delta.vz = temp1;
-
-    m_seg++;
-
-    for ( i = 0; i < n_joint; i++, m_seg++, table++ )
     {
-        archive = &m_ctrl->oar->archive[ table[ 0 ] ];
+        char bit_pos;
+        u_short tmp;
 
-        vec_size = archive [ 0 ];
+        bit_pos = 0;
+        tmp = PopDataBit( data, bit_pos, 16 );
+        ADJUST_POINTER( data, bit_pos, 16 );
 
-        m_seg->stream = archive;
+        segment->bit_pos = bit_pos;
+        segment->data = data;
 
-        vec_size &= 0xFFF;
+        segment->step.vx = tmp & 0x0f; tmp >>= 4;
+        segment->step.vy = tmp & 0x0f; tmp >>= 4;
+        segment->step.vz = tmp & 0x0f;
+    }
 
-        m_seg->bit_offset = 12;
+    segment++;
 
-        channel_size = vec_size & 0xF;
-        vec_size >>= 4;
-        m_seg->x_size = channel_size;
+    for ( i = 0; i < n_joint; i++, segment++, table++ )
+    {
+        u_short tmp;
 
-        channel_size = vec_size & 0xF;
-        vec_size >>= 4;
-        m_seg->y_size = channel_size;
+        data = &m_ctrl->oar->archive[ table[ 0 ] ];
+        tmp = data[ 0 ] & 0xfff;
 
-        channel_size = vec_size & 0xF;
-        vec_size >>= 4;
-        m_seg->z_size = channel_size;
+        segment->data = data;
+        segment->bit_pos = 12;
 
-        InflateKeyframe( m_seg );
+        segment->e_bit_x = ( tmp & 0x0f ); tmp >>= 4;
+        segment->e_bit_y = ( tmp & 0x0f ); tmp >>= 4;
+        segment->e_bit_z = ( tmp & 0x0f ); tmp >>= 4;
+
+        InflateKeyframe( segment );
 
         if ( i == 0 )
         {
-            CorrectWaistRotation( &m_seg->base, &m_seg->delta );
+            ApplyStep( &segment->base, &segment->step );
         }
         else
         {
-            svec = &m_seg->delta;
-            svec->vx = FP_Subtract_2( svec->vx, m_seg->base.vx );
-            svec->vy = FP_Subtract_2( svec->vy, m_seg->base.vy );
-            svec->vz = FP_Subtract_2( svec->vz, m_seg->base.vz );
+            CheckSub( &segment->base, &segment->step );
         }
     }
 
     return 0;
 }
 
-STATIC void InflateKeyframe(MOTION_SEGMENT *m_seg)
+static void InflateKeyframe( MOTION_SEGMENT *segment )
 {
-    unsigned int    val, val2;
-    unsigned int    shiftLeft, field_1C;
-    char            shiftRight, nextShiftRight;
-    unsigned short *field_14;
+    char bit_pos;
+    u_short *data;
+    u_int tmp, bit;
 
-    shiftRight = m_seg->bit_offset;
-    field_14 = m_seg->stream;
+    bit_pos = segment->bit_pos;
+    data = segment->data;
 
-    nextShiftRight = shiftRight + 8;
-    val = (unsigned int)(field_14[0] + (field_14[1] << 16)) >> shiftRight;
-    field_1C = val & 0xFF;
-    shiftRight = nextShiftRight;
-    if (nextShiftRight & 0x10)
-    {
-        field_14++;
-        shiftRight = nextShiftRight & 0xF;
-    }
-    val2 = val & 0xF;
-    field_1C >>= 4;
-    m_seg->field_1A = val2;
-    m_seg->field_1C = field_1C & 0xF;
-    m_seg->field_18 = val2 - 1;
+    tmp = PopDataBit( data, bit_pos, 8 );
+    ADJUST_POINTER( data, bit_pos, 8 );
+    segment->field_1A = ( tmp & 0x0f ); tmp >>= 4;
+    segment->field_1C = ( tmp & 0x0f );
+    segment->field_18 = segment->field_1A - 1;
+    segment->interp = dword_8009DE1C[ segment->field_1A ];
 
-    shiftLeft = m_seg->x_size;
-    m_seg->interp = dword_8009DE1C[m_seg->field_1A];
-    val = (unsigned int)(field_14[0] + (field_14[1] << 16)) >> shiftRight & ((1 << shiftLeft) - 1);
-    if (val & 1 << (shiftLeft - 1))
-    {
-        val |= ~((1 << shiftLeft) - 1);
-    }
-    m_seg->delta.vx = val;
-    nextShiftRight = shiftRight + shiftLeft;
-    shiftRight = nextShiftRight;
-    if (nextShiftRight & 0x10)
-    {
-        field_14++;
-        shiftRight = nextShiftRight & 0xF;
-    }
+    bit = segment->e_bit_x;
+    segment->step.vx = PopDataBitExt( data, bit_pos, bit );
+    ADJUST_POINTER( data, bit_pos, bit );
 
-    shiftLeft = m_seg->y_size;
-    val = (unsigned int)(field_14[0] + (field_14[1] << 16)) >> shiftRight & ((1 << shiftLeft) - 1);
-    if (val & 1 << (shiftLeft - 1))
-    {
-        val |= ~((1 << shiftLeft) - 1);
-    }
-    m_seg->delta.vy = val;
-    nextShiftRight = shiftRight + shiftLeft;
-    shiftRight = nextShiftRight;
-    if (nextShiftRight & 0x10)
-    {
-        field_14++;
-        shiftRight = nextShiftRight & 0xF;
-    }
+    bit = segment->e_bit_y;
+    segment->step.vy = PopDataBitExt( data, bit_pos, bit );
+    ADJUST_POINTER( data, bit_pos, bit );
 
-    shiftLeft = m_seg->z_size;
-    val = (unsigned int)(field_14[0] + (field_14[1] << 16)) >> shiftRight & ((1 << shiftLeft) - 1);
-    if (val & 1 << (shiftLeft - 1))
-    {
-        val |= ~((1 << shiftLeft) - 1);
-    }
-    m_seg->delta.vz = val;
-    nextShiftRight = shiftRight + shiftLeft;
-    shiftRight = nextShiftRight;
-    if (nextShiftRight & 0x10)
-    {
-        field_14++;
-        shiftRight = nextShiftRight & 0xF;
-    }
-    m_seg->bit_offset = shiftRight;
-    m_seg->stream = field_14;
+    bit = segment->e_bit_z;
+    segment->step.vz = PopDataBitExt( data, bit_pos, bit );
+    ADJUST_POINTER( data, bit_pos, bit );
+
+    segment->bit_pos = bit_pos;
+    segment->data = data;
 }
 
 int GM_PlayAction(MOTION_CONTROL *m_ctrl)
@@ -552,249 +553,148 @@ int GM_PlayAction(MOTION_CONTROL *m_ctrl)
     return time;
 }
 
-//TODO: move below elsewhere
-#define Shift_Op(v, a, b) \
-{                         \
-    v = a;                \
-    if ( a & 0x10 )       \
-    {                     \
-        b++;              \
-        v = a & 0xF;      \
-    }                     \
-}
-
-#define Mask_Op(sv, v, y, s)    \
-{                               \
-    v >>= s;                    \
-                                \
-                                \
-    v &= ((1 << y) - 1);        \
-                                \
-    if (v & (1 << (y - 1)))     \
-    {                           \
-        v |= ~((1 << y) - 1);   \
-    }                           \
-                                \
-    sv = v;                     \
-}
-// TODO: better name needed
-#define FP_Subtract2(v, a, b) \
-{                            \
-    (v) = (a) - (b);         \
-                             \
-    if ((v) >= 0)            \
-    {                        \
-        (v) &= 0xFFF;        \
-                             \
-        if ((v) >= 2048)     \
-        {                    \
-            (v) -= 4096;     \
-        }                    \
-    }                        \
-    else                     \
-    {                        \
-        (v) |= 0xF000;       \
-                             \
-        if ((v) < -2048)     \
-        {                    \
-            (v) += 4096;     \
-        }                    \
-    }                        \
-                             \
-    (a) = (v);               \
-}
-
-static inline void FP_Subtract3( SVECTOR *svec, SVECTOR *svec2 )
+static int NextKeyframe(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
 {
-    int value;
-    FP_Subtract2(value, svec2->vx, svec->vx);
-    FP_Subtract2(value, svec2->vy, svec->vy);
-    FP_Subtract2(value, svec2->vz, svec->vz);
-}
-
-static inline unsigned int extract_archive( MOTION_ARCHIVE *archive )
-{
-    return archive[0] + (archive[1] << 16);
-}
-
-STATIC int NextKeyframe(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
-{
-    MATRIX  rotation;
-    SVECTOR vec;
-
-    MOTION_SEGMENT *m_seg;
-    int         record_size;
-    int         ret;
-    int         delta;
-
-    SVECTOR *rots;
-
-    unsigned int vx, vy, vz;
-
-    MOTION_ARCHIVE *archive;
-
-    int i;
-
-    int interp;
-
-    int flags;
-    unsigned char shift;
-
-    SVECTOR *b;
-
-    int res;
-    int t0;
-    char shift_temp;
-
-    m_seg  = m_info->m_segs;
-    record_size = m_ctrl->oar->n_joint;
+    int ret, n_joint, size, tmp, height, mask, i;
+    MOTION_SEGMENT *segment;
+    SVECTOR *rots, *waist;
 
     ret = 0;
+    segment = m_info->m_segs;
+    n_joint = m_ctrl->oar->n_joint;
 
-    if (m_info->frames_left == 0)
-    {
-        return -1;
-    }
-
+    if ( m_info->frames_left == 0 ) return -1;
     m_info->frame++;
 
-    delta = dword_8009DE5C[m_ctrl->interp];
-    matrix_8009DE7C.m[0][0] = delta;
-    matrix_8009DE7C.m[1][1] = delta;
-    matrix_8009DE7C.m[2][2] = delta;
+    size = dword_8009DE5C[ m_ctrl->interp ];
+    matrix_8009DE7C.m[ 0 ][ 0 ] = size;
+    matrix_8009DE7C.m[ 1 ][ 1 ] = size;
+    matrix_8009DE7C.m[ 2 ][ 2 ] = size;
+    gte_SetLightMatrix( &matrix_8009DE7C );
 
-    gte_SetLightMatrix(&matrix_8009DE7C);
-
-    if (!(m_info->mask & 0x1))
+    if ( !(m_info->mask & 0x1) )
     {
-        if (m_info->field_4 == 0)
+        if ( m_info->field_4 == 0 )
         {
-            shift = m_seg->bit_offset;
-            archive = m_seg->stream;
+            MATRIX rot;
+            SVECTOR step;
+            char bit_pos;
+            u_short *data;
 
-            RotMatrix(m_ctrl->rot, &rotation);
-            gte_SetRotMatrix(&rotation);
+            bit_pos = segment->bit_pos;
+            data = segment->data;
 
-            // vx
-            vx = extract_archive(archive);
-            Mask_Op(res, vx, m_seg->delta.vx, shift);
+            RotMatrix( m_ctrl->rot, &rot );
+            gte_SetRotMatrix( &rot );
 
-            shift_temp = shift + m_seg->delta.vx;
-            Shift_Op(shift, shift_temp, archive);
+            tmp = PopDataBitExt( data, bit_pos, segment->step.vx );
+            ADJUST_POINTER( data, bit_pos, segment->step.vx );
+            step.vx = tmp;
 
-            vec.vx = res;
+            tmp = PopDataBitExt( data, bit_pos, segment->step.vy );
+            ADJUST_POINTER( data, bit_pos, segment->step.vy );
+            height = tmp + segment->base.vy;
+            step.vy = 0;
 
-            // vy
-            vy = extract_archive(archive);
-            Mask_Op(res, vy, m_seg->delta.vy, shift);
+            tmp = PopDataBitExt( data, bit_pos, segment->step.vz );
+            ADJUST_POINTER( data, bit_pos, segment->step.vz );
+            step.vz = tmp;
 
-            shift_temp = shift + m_seg->delta.vy;
-            Shift_Op(shift, shift_temp, archive);
-
-            t0 = res + m_seg->base.vy;
-            vec.vy = 0;
-
-            // vz
-            vz = extract_archive(archive);
-            Mask_Op(res, vz, m_seg->delta.vz, shift);
-
-            shift_temp = shift + m_seg->delta.vz;
-            Shift_Op(shift, shift_temp, archive);
-
-            vec.vz = res;
-
-            gte_ldv0(&vec);
+            gte_ldv0( &step );
             gte_rtv0();
-            res = m_ctrl->step->vy;
-            gte_stsv(m_ctrl->step);
-            m_ctrl->step->vy = res;
 
-            m_seg->bit_offset = shift;
-            m_seg->stream = archive;
+            tmp = m_ctrl->step->vy;
+            gte_stsv( m_ctrl->step );
+            m_ctrl->step->vy = tmp;
 
-            interp = (t0 - *m_ctrl->height) * delta;
-            *m_ctrl->height += interp / 4096;
+            segment->bit_pos = bit_pos;
+            segment->data = data;
+
+            *m_ctrl->height += ( height - *m_ctrl->height ) * size / 4096;
         }
-        else if (m_info->field_4 == 1)
+        else if ( m_info->field_4 == 1 )
         {
             m_ctrl->step->vx = 0;
             m_ctrl->step->vz = 0;
         }
     }
 
-    if (m_info->frames_left == 1)
+    if ( m_info->frames_left == 1 )
     {
         ret = -1;
     }
 
-    flags = m_info->mask;
+    mask = m_info->mask;
     rots = m_ctrl->rots;
 
-    m_seg++;
+    segment++;
 
-    if (!(flags & 0x2))
+    if ( !(mask & 0x2) )
     {
+        SVECTOR rot;
 
-        b = &m_ctrl->waist_rot;
+        waist = &m_ctrl->waist_rot;
 
-        InterpolateJoint(m_seg, (SVECTOR *)&rotation.m[0][0]);
+        InterpolateJoint( segment, &rot );
 
-        rotation.m[0][0] = (rotation.m[0][0] + m_seg->base.vx) & 0xFFF;
-        rotation.m[0][1] = (rotation.m[0][1] + m_seg->base.vy) & 0xFFF;
-        rotation.m[0][2] = (rotation.m[0][2] + m_seg->base.vz) & 0xFFF;
+        rot.vx = ( rot.vx + segment->base.vx ) & 4095;
+        rot.vy = ( rot.vy + segment->base.vy ) & 4095;
+        rot.vz = ( rot.vz + segment->base.vz ) & 4095;
 
-        FP_Subtract3(b, (SVECTOR*)&rotation.m[0][0]);
+        CheckSub( waist, &rot );
 
-        gte_ldv0(&rotation);
+        gte_ldv0( &rot );
         gte_llv0();
-        gte_stsv(&rotation);
+        gte_stsv( &rot );
 
-        b->vx = (b->vx + rotation.m[0][0]) & 0xFFF;
-        b->vy = (b->vy + rotation.m[0][1]) & 0xFFF;
-        b->vz = (b->vz + rotation.m[0][2]) & 0xFFF;
+        waist->vx = ( waist->vx + rot.vx ) & 4095;
+        waist->vy = ( waist->vy + rot.vy ) & 4095;
+        waist->vz = ( waist->vz + rot.vz ) & 4095;
     }
 
-    for (i = 0; i < record_size; i++, m_seg++, rots++, flags >>= 1)
+    for ( i = 0; i < n_joint; i++, segment++, rots++, mask >>= 1 )
     {
-        InterpolateJoint(m_seg, (SVECTOR *)&rotation.m[1][1]);
+        SVECTOR rot;
 
-        rotation.m[1][1] = (rotation.m[1][1] + m_seg->base.vx) & 0xFFF;
-        rotation.m[1][2] = (rotation.m[1][2] + m_seg->base.vy) & 0xFFF;
-        rotation.m[2][0] = (rotation.m[2][0] + m_seg->base.vz) & 0xFFF;
+        InterpolateJoint( segment, &rot );
 
-        if (--m_seg->field_18 < 0)
+        rot.vx = ( rot.vx + segment->base.vx ) & 4095;
+        rot.vy = ( rot.vy + segment->base.vy ) & 4095;
+        rot.vz = ( rot.vz + segment->base.vz ) & 4095;
+
+        if (--segment->field_18 < 0)
         {
-            m_seg->base = *(SVECTOR *)&rotation.m[1][1];
+            segment->base = rot;
 
-            if (ret == 0)
+            if ( ret == 0 )
             {
-                InflateKeyframe(m_seg);
-                FP_Subtract3(&m_seg->base, (SVECTOR*)&m_seg->delta);
+                InflateKeyframe( segment );
+                CheckSub( &segment->base, &segment->step );
             }
         }
 
-        if (!(flags & 0x1))
+        if ( !(mask & 0x1) )
         {
-            if (i == 0)
+            if ( i == 0 )
             {
-                CorrectWaistRotation(rots, (SVECTOR *)&rotation.m[1][1]);
+                ApplyStep( rots, &rot );
             }
             else
             {
-                FP_Subtract3(rots, (SVECTOR*)&rotation.m[1][1]);
+                CheckSub( rots, &rot );
             }
 
-            gte_ldv0(&rotation.m[1][1]);
+            gte_ldv0( &rot );
             gte_llv0();
-            gte_stsv(&rotation.m[1][1]);
+            gte_stsv( &rot );
 
-            rots->vx = (rots->vx + rotation.m[1][1]) & 0xFFF;
-            rots->vy = (rots->vy + rotation.m[1][2]) & 0xFFF;
-            rots->vz = (rots->vz + rotation.m[2][0]) & 0xFFF;
+            rots->vx = ( rots->vx + rot.vx ) & 4095;
+            rots->vy = ( rots->vy + rot.vy ) & 4095;
+            rots->vz = ( rots->vz + rot.vz ) & 4095;
         }
     }
 
-    if (--m_info->frames_left == 1)
+    if ( --m_info->frames_left == 1 )
     {
         ret = 1;
     }
@@ -802,16 +702,16 @@ STATIC int NextKeyframe(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
     return ret;
 }
 
-STATIC void InterpolateJoint(MOTION_SEGMENT *m_seg, SVECTOR *out)
+static void InterpolateJoint(MOTION_SEGMENT *segment, SVECTOR *out)
 {
     int interp;
 
-    interp = m_seg->interp * (m_seg->field_1A - m_seg->field_18);
+    interp = segment->interp * ( segment->field_1A - segment->field_18 );
     interp >>= 10;
 
     if (interp != 64)
     {
-        interp = word_8009D69C[m_seg->field_1C][interp];
+        interp = word_8009D69C[segment->field_1C][interp];
     }
     else
     {
@@ -823,7 +723,7 @@ STATIC void InterpolateJoint(MOTION_SEGMENT *m_seg, SVECTOR *out)
     matrix_8009DE9C.m[2][2] = interp;
 
     gte_SetRotMatrix(&matrix_8009DE9C);
-    gte_ldv0(&m_seg->delta);
+    gte_ldv0(&segment->step);
     gte_rtv0();
     gte_stsv(out);
 }
@@ -840,390 +740,257 @@ void GM_FixMotion2_8003601C(MOTION_CONTROL *m_ctrl)
     ApplyJointRotation(m_ctrl, &m_ctrl->info2);
 }
 
-STATIC void ApplyJointRotation(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info)
+static void ApplyJointRotation( MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info )
 {
-    SVECTOR         delta;
-    MOTION_SEGMENT *m_seg;
-    int             n_joints;
-    int             i;
+    SVECTOR delta;
+    MOTION_SEGMENT *segment;
+    int n_joints, i;
 
-    m_seg = m_info->m_segs;
-    m_seg++;
+    segment = m_info->m_segs;
+    segment++;
 
     n_joints = m_ctrl->oar->n_joint;
 
     m_info->frames_left = 0;
     m_info->field_4 = 1;
 
-    for (i = 0; i < n_joints; i++, m_seg++)
+    for ( i = 0; i < n_joints; i++, segment++ )
     {
-        InterpolateJoint(m_seg, &delta);
-        m_seg->base.vx += delta.vx;
-        m_seg->base.vy += delta.vy;
-        m_seg->base.vz += delta.vz;
+        InterpolateJoint(segment, &delta);
+        segment->base.vx += delta.vx;
+        segment->base.vy += delta.vy;
+        segment->base.vz += delta.vz;
     }
 }
 
-STATIC int BeginActionOffset(MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action, int frame)
+static int BeginActionOffset( MOTION_CONTROL *m_ctrl, MOTION_INFO *m_info, int action, int time )
 {
     char            unused[8];
     int             i;
-    MOTION_SEGMENT     *m_seg;
-    int             numRecords;
-    unsigned int    v0, v1;
+    MOTION_SEGMENT     *segment;
+    int             n_joint;
+    unsigned int    y, v1;
     MOTION_TABLE   *table;
-    MOTION_ARCHIVE *archive;
-    unsigned int temp3, temp6;
+    MOTION_ARCHIVE *data;
+    unsigned int temp6;
     unsigned int temp4;
-    int temp5;
-    unsigned short test;
 
-    unsigned int a0, a1;
+    unsigned int a0, x;
+    unsigned int z;
 
-    numRecords = m_ctrl->oar->n_joint;
-    m_seg = m_info->m_segs;
+    n_joint = m_ctrl->oar->n_joint;
+    segment = m_info->m_segs;
 
-    table = &m_ctrl->oar->table[(numRecords + 2) * action];
+    table = &m_ctrl->oar->table[(n_joint + 2) * action];
 
     m_info->frames_left = table[0]; //number of frames
     m_info->frame = 0;
-
-    temp5 = m_info->frames_left;
-    test = m_info->frames_left;
-
     table++;
 
-    if (frame >= temp5)
+    if (time >= m_info->frames_left)
     {
-        frame = temp5 - 1;
+        time = m_info->frames_left - 1;
     }
 
-    m_info->frames_left = test - frame;
+    m_info->frames_left -= time;
     m_info->field_4 = 0;
 
-    archive = &m_ctrl->oar->archive[table[0]];
-    m_seg->base.vy = archive[0];
-    archive++;
+    data = &m_ctrl->oar->archive[table[0]];
+    segment->base.vy = data[0];
+    data++;
 
-    v1 = archive[0] + (archive[1] << 16);
-    a1 = v1 & 0xF;
+    /* TODO: fix */
+    v1 = data[0] + (data[1] << 16);
 
+    x = v1 & 0xF;
+    a0 = x;
     v1 &= 0xFFFF;
     v1 >>= 4;
-    v0 = v1 & 0xF;
 
-    a0 = a1 + v0;
+    y = v1 & 0xF;
+    a0 += y;
     v1 >>= 4;
-    v1 &= 0xF;
 
-    a0 = a0 + v1;
-    a0 = a0 & 0xFFFF;
-    a0 = a0 * frame;
+    v1 &= 0xF;
+    z = v1;
+    a0 += z;
+
+    segment->step.vx = x;
+    segment->step.vy = y;
+    segment->step.vz = z;
+
+    /* TODO: fix */
+    a0 &= 0xffff;
+    a0 *= time;
 
     table++;
-    archive++;
+    data++;
 
-    m_seg->delta.vx = a1;
-    m_seg->delta.vy = v0;
-    m_seg->delta.vz = v1;
+    data += ( a0 / 16 ) & 0x0f;
+    segment->bit_pos = a0 & 0xF;
+    segment->data = data;
+    segment++;
 
-    archive = &archive[(a0 / 16) & 0xF ];
-    m_seg->bit_offset = a0 & 0xF;
-    m_seg->stream = archive;
-    m_seg++;
-
-    for (i = 0; i < numRecords; i++, m_seg++, table++)
+    for ( i = 0; i < n_joint; i++, segment++, table++ )
     {
-        archive = &m_ctrl->oar->archive[table[0]];
+        data = &m_ctrl->oar->archive[ table[ 0 ] ];
 
-        temp4 = (archive[0] + (archive[1] << 16)) & 0xFFF;
+        /* TODO: fix */
+        temp4 = (data[0] + (data[1] << 16)) & 0xfff;
         temp6 = temp4;
 
-        temp3 = temp4;
-        temp4 = temp4 >> 4;
-        temp6 = temp6 >> 8;
+        segment->e_bit_x = ( temp4 & 0x0f ); temp4 >>= 4;
+        segment->e_bit_y = ( temp4 & 0x0f ); temp6 >>= 8;
+        segment->e_bit_z = ( temp6 & 0x0f );
 
-        m_seg->stream = archive;
+        segment->data = data;
+        segment->bit_pos = 12;
 
-        m_seg->bit_offset = 12;
-        m_seg->x_size = temp3 & 0xF;
-        m_seg->y_size = temp4 & 0xF;
-        m_seg->z_size = temp6 & 0xF;
+        segment->field_18 = -1;
 
-        m_seg->field_18 = -1;
-
-        SkipToKeyframe(m_seg, frame);
-        FP_Subtract3(&m_seg->base, &m_seg->delta);
+        SkipToKeyframe(segment, time);
+        CheckSub(&segment->base, &segment->step);
     }
 
     return 0;
 }
 
-STATIC void SkipToKeyframe( MOTION_SEGMENT *m_seg, int frame )
+static void SkipToKeyframe( MOTION_SEGMENT *segment, int time )
 {
-    MOTION_ARCHIVE *archive;
-    MOTION_ARCHIVE *archive2;
-    char shift;
-    char shift2;
-    char shift_temp;
-    int t5;
-    char x, y, z;
-    int vec_size;
-    unsigned int a2;
-    unsigned int vx, vy, vz;
-    unsigned int vx2, vy2, vz2;
-    unsigned int b;
-    int temp2;
-    int temp;
+    int has_next, bit, keyframe;
+    char bit_pos, next_bit_pos, new_bit_pos;
+    u_short *data, *next_data;
+    u_int tmp, speed;
 
-    shift = m_seg->bit_offset;
-    archive = m_seg->stream;
-    t5 = 0;
+    has_next = 0;
+    bit_pos = segment->bit_pos;
+    data = segment->data;
 
-    if ((m_seg->field_18 + 1) > frame)
+    if ((segment->field_18 + 1) > time)
     {
-        m_seg->field_18 -= frame;
+        segment->field_18 -= time;
         return;
     }
 
-    frame -= m_seg->field_18 + 1;
-
-    x = m_seg->x_size;
-    y = m_seg->y_size;
-    z = m_seg->z_size;
-    vec_size = x + y + z;
+    time -= segment->field_18 + 1;
+    bit = segment->e_bit_x + segment->e_bit_y + segment->e_bit_z;
 
     for (;;)
     {
-        temp = (extract_archive(archive) >> shift);
-        a2    = temp & 0xFF;
-        temp2 = temp & 0xF;
+        tmp = PopDataBit( data, bit_pos, 8 );
+        keyframe = tmp & 0xF;
 
-        if (temp2 > frame)
-        {
-            z = shift + 8;
-            break;
-        }
+        if ( keyframe > time ) break;
+        time -= keyframe;
 
-        frame -= temp2;
+        next_bit_pos = bit_pos;
+        next_data = data;
+        has_next = 1;
 
-        shift2 = shift;
-        archive2 = archive;
-        t5 = 1;
-
-        shift_temp = (shift2 + 8) + vec_size;
-        archive = &archive2[shift_temp / 16];
-        shift = shift_temp & 0xF;
+        /* TODO: fix */
+        new_bit_pos = bit_pos + 8;
+        new_bit_pos += bit;
+        data += new_bit_pos / 16;
+        new_bit_pos &= 0x0f;
+        bit_pos = new_bit_pos;
     }
 
-    Shift_Op(shift, z, archive);
-    b = (a2 >> 4);
-    b = b & 0xF;
+    ADJUST_POINTER( data, bit_pos, 8 );
+    speed = tmp >> 4;
+    speed &= 0x0f;
 
-    m_seg->field_1A = temp2;
+    /* TODO: fix */
+    segment->field_1A = keyframe;
     do {} while(0);
-    m_seg->field_1C = b;
+    segment->field_1C = speed;
 
+    tmp = time;
 
-    a2 = frame;
+    segment->field_18 = ( segment->field_1A - tmp ) - 1;
+    segment->interp = dword_8009DE1C[ segment->field_1A ];
 
-    m_seg->field_18 = (m_seg->field_1A - a2) - 1;
-    m_seg->interp = dword_8009DE1C[m_seg->field_1A];
+    bit = segment->e_bit_x;
+    segment->step.vx = PopDataBitExt( data, bit_pos, bit );
+    ADJUST_POINTER( data, bit_pos, bit );
 
-    vec_size = m_seg->x_size;
-    vx = extract_archive(archive);
-    Mask_Op(m_seg->delta.vx, vx, vec_size, shift);
+    bit = segment->e_bit_y;
+    segment->step.vy = PopDataBitExt( data, bit_pos, bit );
+    ADJUST_POINTER( data, bit_pos, bit );
 
-    z = shift + vec_size;
-    Shift_Op(shift, z, archive);
+    bit = segment->e_bit_z;
+    segment->step.vz = PopDataBitExt( data, bit_pos, bit );
+    ADJUST_POINTER( data, bit_pos, bit );
 
-    vec_size = m_seg->y_size;
-    vy = extract_archive(archive);
-    Mask_Op(m_seg->delta.vy, vy, vec_size, shift);
+    segment->bit_pos = bit_pos;
+    segment->data = data;
 
-    z = shift + vec_size;
-    Shift_Op(shift, z, archive);
-
-    vec_size = m_seg->z_size;
-    vz = extract_archive(archive);
-    Mask_Op(m_seg->delta.vz, vz, vec_size, shift);
-
-    z = shift + vec_size;
-    Shift_Op(shift, z, archive);
-
-    m_seg->bit_offset = shift;
-    m_seg->stream = archive;
-    if (t5)
+    if ( has_next )
     {
-        archive2 = &archive2[shift2 / 16];
+        next_data += next_bit_pos / 16;
+        next_bit_pos &= 0x0f;
+        ADJUST_POINTER( next_data, next_bit_pos, 8 );
 
-        z = (shift2 & 0xF) + 8;
-        Shift_Op(shift2, z, archive2);
+        bit = segment->e_bit_x;
+        segment->step.vx = PopDataBitExt( next_data, next_bit_pos, bit );
+        ADJUST_POINTER( next_data, next_bit_pos, bit );
 
-        vec_size = m_seg->x_size;
-        vx2 = extract_archive(archive2);
-        Mask_Op(m_seg->delta.vx, vx2, vec_size, shift2);
+        bit = segment->e_bit_y;
+        segment->step.vy = PopDataBitExt( next_data, next_bit_pos, bit );
+        ADJUST_POINTER( next_data, next_bit_pos, bit );
 
-        z = shift2 + vec_size;
-        Shift_Op(shift2, z, archive2);
-
-        vec_size = m_seg->y_size;
-        vy2 = extract_archive(archive2);
-        Mask_Op(m_seg->delta.vy, vy2, vec_size, shift2);
-
-        z = shift2 + vec_size;
-        Shift_Op(shift2, z, archive2);
-
-        vec_size = m_seg->z_size;
-        vz2 = extract_archive(archive2);
-        Mask_Op(m_seg->delta.vz, vz2, vec_size, shift2);
+        bit = segment->e_bit_z;
+        segment->step.vz = PopDataBitExt( next_data, next_bit_pos, bit );
+        ADJUST_POINTER( next_data, next_bit_pos, bit );
     }
 }
 
-STATIC int CorrectWaistRotation(SVECTOR *arg0, SVECTOR *arg1)
+static int ApplyStep( SVECTOR *base, SVECTOR *step )
 {
-    SVECTOR  vec1;
-    SVECTOR  vec2;
-    SVECTOR *vec1Ptr;
-    int      var_a2; // side?
-    int      diff;
+    SVECTOR vec1, vec2;
+    int side;
 
-    vec1 = *arg0;
-    vec2 = *arg1;
+    vec1 = *base;
+    vec2 = *step;
+    side = 0;
 
-    var_a2 = 0;
+    vec1.vy = ( ( base->vy > 0 ) ? 2048 - base->vy : -2048 - base->vy ) & 4095;
+    vec1.vx = ( ( base->vx > 0 ) ? base->vx - 2048 : base->vx + 2048 ) & 4095;
+    vec1.vz = ( ( base->vz > 0 ) ? base->vz - 2048 : base->vz + 2048 ) & 4095;
 
-    if (arg0->vy > 0)
+    CheckSub( base, step );
+    CheckSub( &vec1, &vec2 );
+
+    if ( abs( step->vx ) <= abs( vec2.vx ) )
     {
-        vec1.vy = (2048 - arg0->vy) & 0xFFF;
+        side++;
     }
     else
     {
-        vec1.vy = (-2048 - arg0->vy) & 0xFFF;
+        side--;
     }
 
-    if (arg0->vx > 0)
+    if ( abs( step->vy ) <= abs( vec2.vy ) )
     {
-        vec1.vx = (arg0->vx - 2048) & 0xFFF;
+        side++;
     }
     else
     {
-        vec1.vx = (arg0->vx + 2048) & 0xFFF;
+        side--;
     }
 
-    if (arg0->vz > 0)
+    if ( abs( step->vz ) <= abs( vec2.vz ) )
     {
-        vec1.vz = (arg0->vz - 2048) & 0xFFF;
+        side++;
     }
     else
     {
-        vec1.vz = (arg0->vz + 2048) & 0xFFF;
+        side--;
     }
 
-    // TODO: for some reason using FP_Extend2, FP_ExtendN inlines doesn't work here?
-    diff = arg1->vx - arg0->vx;
-    if (diff >= 0)
+    if ( side < 0 )
     {
-        diff &= 0xfff;
-        if (diff >= 2048)
-        {
-            diff -= 4096;
-        }
-        arg1->vx = diff;
-    }
-    else
-    {
-        diff |= 0xf000;
-        if (diff < -2048)
-        {
-            diff += 4096;
-        }
-        arg1->vx = diff;
-    }
-
-    diff = arg1->vy - arg0->vy;
-    if (diff >= 0)
-    {
-        arg1->vy = FP_Extend2(diff);
-    }
-    else
-    {
-        arg1->vy = FP_ExtendN(diff);
-    }
-
-    diff = arg1->vz - arg0->vz;
-    if (diff >= 0)
-    {
-        arg1->vz = FP_Extend2(diff);
-    }
-    else
-    {
-        arg1->vz = FP_ExtendN(diff);
-    }
-
-    vec1Ptr = &vec1;
-
-    diff = vec2.vx - vec1Ptr->vx;
-    if (diff >= 0)
-    {
-        vec2.vx = FP_Extend2(diff);
-    }
-    else
-    {
-        vec2.vx = FP_ExtendN(diff);
-    }
-
-    diff = vec2.vy - vec1Ptr->vy;
-    if (diff >= 0)
-    {
-        vec2.vy = FP_Extend2(diff);
-    }
-    else
-    {
-        vec2.vy = FP_ExtendN(diff);
-    }
-
-    diff = vec2.vz - vec1Ptr->vz;
-    if (diff >= 0)
-    {
-        vec2.vz = FP_Extend2(diff);
-    }
-    else
-    {
-        vec2.vz = FP_ExtendN(diff);
-    }
-
-    if (abs(arg1->vx) <= abs(vec2.vx))
-    {
-        var_a2++;
-    }
-    else
-    {
-        var_a2--;
-    }
-
-    if (abs(arg1->vy) <= abs(vec2.vy))
-    {
-        var_a2++;
-    }
-    else
-    {
-        var_a2--;
-    }
-
-    if (abs(arg1->vz) <= abs(vec2.vz))
-    {
-        var_a2++;
-    }
-    else
-    {
-        var_a2--;
-    }
-
-    if (var_a2 < 0)
-    {
-        *arg0 = vec1;
-        *arg1 = vec2;
+        *base = vec1;
+        *step = vec2;
         return -1;
     }
 

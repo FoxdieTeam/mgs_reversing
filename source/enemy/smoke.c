@@ -18,9 +18,6 @@ typedef struct _Work
     int      field_3C;
 } Work;
 
-const char aSmoke[] = "smoke";
-const char aSmokeC[] = "smoke.c";
-
 RECT smoke_rect = {500, 1000, 1000, 2000};
 
 int s00a_smoke_800D2694(Work *work)
@@ -106,7 +103,7 @@ void s00a_smoke_800D2888(POLY_FT4 *prim, DG_TEX *unused, short color)
 
     // We already have this exact texture in variable called "unused", but let's waste
     // cycles and get it again just to be sure:
-    tex1 = DG_GetTexture(GV_StrCode(aSmoke));
+    tex1 = DG_GetTexture(GV_StrCode("smoke"));
     tex2 = tex1; // ...and make an additional copy to waste even more cycles
 
     setPolyFT4(prim);
@@ -195,7 +192,7 @@ int SmokeGetResources_800D2B0C(Work *work, int where)
     work->field_20 = prim;
     if (prim != NULL)
     {
-        tex = DG_GetTexture(GV_StrCode(aSmoke));
+        tex = DG_GetTexture(GV_StrCode("smoke"));
         work->field_2C = tex;
         if (tex != 0)
         {
@@ -217,7 +214,7 @@ void *NewSmoke(int name, int where, int argc, char **argv)
     work = GV_NewActor(GV_ACTOR_USER, sizeof(Work));
     if (work != NULL)
     {
-        GV_SetNamedActor(&work->actor, SmokeAct_800D2A80, SmokeDie_800D2AA0, aSmokeC);
+        GV_SetNamedActor(&work->actor, SmokeAct_800D2A80, SmokeDie_800D2AA0, "smoke.c");
         s00a_smoke_800D2ADC(&work->field_24);
         if (SmokeGetResources_800D2B0C(work, where) < 0)
         {

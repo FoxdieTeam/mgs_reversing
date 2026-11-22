@@ -76,14 +76,6 @@ char s03e_dword_800C327C[] = {0x55, 0x02, 0x6E, 0x02, 0x1E, 0x0E, 0x41, 0x04, 0x
 char s03e_dword_800C3290[] = {0x00, 0x0A, 0x7F, 0x02, 0x00, 0x1E, 0x7F, 0x02, 0x00, 0x00, 0x00, 0x00};
 char s03e_dword_800C329C[] = {0x23, 0x04, 0x4B, 0x04, 0x87, 0x06, 0x41, 0x08, 0x2D, 0x0C, 0x41, 0x06, 0x5F, 0x04, 0x00, 0x00};
 
-const char s03e_aMessagein_800CBF18[] = "message in\n";
-const char s03e_aMessageout_800CBF24[] = "message out\n";
-const char s03e_aMessagex_800CBF34[] = "message %X\n";
-const char s03e_aNofloorproc_800CBF40[] = "NO FLOOR PROC\n";
-const char s03e_aRotd_800CBF50[] = "ROT %d\n";
-const char s03e_aReqdoorclose_800CBF58[] = "REQ:DOOR CLOSE\n";
-const char s03e_aInitopen_800CBF68[] = "INiTOPEN\n";
-
 Work *SECTION(".bss") s03e_dword_800CC6B8;
 
 /*---------------------------------------------------------------------------*/
@@ -145,12 +137,12 @@ static int s03e_evpanel_800C3488(Work *work)
 
                 if (code == HASH_ENTER)
                 {
-                    printf((char *)s03e_aMessagein_800CBF18);
+                    printf("message in\n");
                     work->field_44++;
                 }
                 else
                 {
-                    printf((char *)s03e_aMessageout_800CBF24);
+                    printf("message out\n");
 
                     if (--work->field_44 < 0)
                     {
@@ -195,7 +187,7 @@ static int s03e_evpanel_800C3488(Work *work)
 
     if (message != 0)
     {
-        printf((char *)s03e_aMessagex_800CBF34, message);
+        printf("message %X\n", message);
     }
 
     return message;
@@ -216,7 +208,7 @@ static void s03e_evpanel_800C36B0(Work *work)
         script = GCL_GetNextValue(script, &code, &proc);
         if (script == NULL)
         {
-            printf((char *)s03e_aNofloorproc_800CBF40);
+            printf("NO FLOOR PROC\n");
         }
 
         if (i == work->current_button_idx)
@@ -225,7 +217,7 @@ static void s03e_evpanel_800C36B0(Work *work)
             args.argv = data;
 
             data[0] = work->f8C.vy;
-            printf((char *)s03e_aRotd_800CBF50, work->f8C.vy);
+            printf("ROT %d\n", work->f8C.vy);
 
             GCL_ExecProc(proc, &args);
             break;
@@ -311,7 +303,7 @@ static void s03e_evpanel_800C38F4(Work *work)
 
     GV_SendMessage(&msg);
 
-    printf((char *)s03e_aReqdoorclose_800CBF58);
+    printf("REQ:DOOR CLOSE\n");
     work->field_42 = 1;
 }
 
@@ -446,7 +438,7 @@ static void Act(Work *work)
         work->field_36 = 25;
         work->field_2E = 9;
 
-        printf((char *)s03e_aInitopen_800CBF68);
+        printf("INiTOPEN\n");
 
         NewPadVibration(s03e_dword_800C3290, 1);
         NewPadVibration(s03e_dword_800C329C, 2);
