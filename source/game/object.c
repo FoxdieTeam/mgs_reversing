@@ -198,11 +198,11 @@ void GM_ConfigObjectSlide(OBJECT *obj)
 }
 
 // configures the attributes of an objects motion control struct
-void GM_ConfigObjectAction(OBJECT *obj, int action, int frame, int interp)
+void GM_ConfigObjectAction(OBJECT *obj, int action, int time, int interp)
 {
     if (obj->m_ctrl)
     {
-        GM_ConfigAction(obj->m_ctrl, action, frame);
+        GM_ConfigAction(obj->m_ctrl, action, time);
         obj->action = action;
         obj->is_end = 0;
         obj->m_ctrl->interp = interp;
@@ -210,7 +210,7 @@ void GM_ConfigObjectAction(OBJECT *obj, int action, int frame, int interp)
 }
 
 //
-void GM_ConfigObjectOverride(OBJECT *obj, int action, int frame, int interp, u_long mask)
+void GM_ConfigObjectOverride(OBJECT *obj, int action, int time, int interp, u_long mask)
 {
     if (mask != 0)
     {
@@ -219,7 +219,7 @@ void GM_ConfigObjectOverride(OBJECT *obj, int action, int frame, int interp, u_l
             return;
         }
 
-        GM_ConfigActionOverride(obj->m_ctrl, action, frame);
+        GM_ConfigActionOverride(obj->m_ctrl, action, time);
     }
     else
     {
