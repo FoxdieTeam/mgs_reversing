@@ -278,11 +278,6 @@ void ReviseReadyGun_800D4828( ZakoWork* work )
     }
 }
 
-const SVECTOR rp_shift_800DEB98 = {-200, 1000, 600};
-const SVECTOR force_800DEBA0 = {5, 0, 100};
-const SVECTOR size_800DEBA8 = {400, 1000, 400};
-const char s11e_dword_800DEBB0[] = {0x0, 0x0, 0x0, 0x0};
-
 /*
     打撃攻撃
     ヒットすれば１を返す
@@ -291,9 +286,9 @@ int AttackForce_800D48B0( ZakoWork * work )
 {
     TARGET *target;
     SVECTOR svec;
-    SVECTOR rp_shift  = rp_shift_800DEB98; /* 右パンチ */
-    SVECTOR force     = force_800DEBA0;
-    SVECTOR size      = size_800DEBA8;
+    SVECTOR rp_shift  = {-200, 1000, 600}; /* 右パンチ */
+    SVECTOR force     = {5, 0, 100};
+    SVECTOR size      = {400, 1000, 400};
 
     target = &work->punch;
     GM_SetTarget( target, TARGET_POWER, ENEMY_SIDE, &size );

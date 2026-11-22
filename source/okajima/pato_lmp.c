@@ -51,13 +51,6 @@ typedef struct _Work
     int            sound;
 } Work;
 
-const char s00a_dword_800E0ADC[] = "開く";
-const char s00a_dword_800E0AE4[] = "閉める";
-const char s00a_aOpen_800E0AEC[] = "open";
-const char s00a_aClose_800E0AF4[] = "close";
-const char s00a_aSeon_800E0AFC[] = "se_on";
-const char s00a_aSeoff_800E0B04[] = "se_off";
-
 int s00a_pato_lmp_800D5E30( unsigned short name, int hash_count, unsigned short* hashes )
 {
     GV_MSG *msg;
@@ -329,12 +322,12 @@ void PatrolLampAct_800D6678(Work *work)
     zero = 0;
     GM_CurrentMap = work->map;
 
-    hashes[0] = GV_StrCode(s00a_dword_800E0ADC);
-    hashes[1] = GV_StrCode(s00a_dword_800E0AE4);
-    hashes[2] = GV_StrCode(s00a_aOpen_800E0AEC);
-    hashes[3] = GV_StrCode(s00a_aClose_800E0AF4);
-    hashes[4] = GV_StrCode(s00a_aSeon_800E0AFC);
-    hashes[5] = GV_StrCode(s00a_aSeoff_800E0B04);
+    hashes[0] = GV_StrCode("開く");
+    hashes[1] = GV_StrCode("閉める");
+    hashes[2] = GV_StrCode("open");
+    hashes[3] = GV_StrCode("close");
+    hashes[4] = GV_StrCode("se_on");
+    hashes[5] = GV_StrCode("se_off");
 
     switch (s00a_pato_lmp_800D5E30(work->name, 6, hashes))
     {
@@ -528,11 +521,6 @@ void s00a_pato_lmp_800D6D40( Work *work, int idx, int idx2, int y )
     work->field_151C[idx][idx2].vz = (255 - ((dis * 255)) / 3500);
 
 }
-
-const char aPatlit[] = "patlit";
-const char aPatBody[] = "pat_body";
-const char aPatLamp[] = "pat_lamp";
-const char aPatSpt1[] = "pat_spt1";
 
 //I'll clean this up later
 int PatrolLampGetResources_800D6E28(Work *work, int name, int map)
@@ -885,7 +873,7 @@ temp_label_end4:
 
     prim->raise = prim_temp;
 
-    tex = DG_GetTexture(GV_StrCode(aPatlit));
+    tex = DG_GetTexture(GV_StrCode("patlit"));
     if (!tex)
     {
         return -1;
@@ -901,21 +889,21 @@ temp_label_end4:
     for (sp328 = 0; sp328 < work->field_1004; sp328++)
     {
         temp_s0_2 = &work->field_24[sp328];
-        GM_InitObject(temp_s0_2, GV_StrCode(aPatBody), 0x6D, 0);
+        GM_InitObject(temp_s0_2, GV_StrCode("pat_body"), 0x6D, 0);
         GM_ConfigObjectJoint(temp_s0_2);
         GM_ConfigObjectLight(temp_s0_2, work->field_E64[sp328]);
 
         temp_s0_3 = &work->field_3B4[sp328];
-        GM_InitObject(temp_s0_3, GV_StrCode(aPatLamp), 0x6D, 0);
+        GM_InitObject(temp_s0_3, GV_StrCode("pat_lamp"), 0x6D, 0);
         GM_ConfigObjectJoint(temp_s0_3);
 
         temp_s0_4 = &work->field_744[sp328];
-        GM_InitObject(temp_s0_4, GV_StrCode(aPatSpt1), 0x16D, 0);
+        GM_InitObject(temp_s0_4, GV_StrCode("pat_spt1"), 0x16D, 0);
         GM_ConfigObjectJoint(temp_s0_4);
         GM_ConfigObjectLight(temp_s0_4, work->field_F64);
 
         temp_s0_5 = &work->field_AD4[sp328];
-        GM_InitObject(temp_s0_5, GV_StrCode(aPatSpt1), 0x16D, 0);
+        GM_InitObject(temp_s0_5, GV_StrCode("pat_spt1"), 0x16D, 0);
         GM_ConfigObjectJoint(temp_s0_5);
         GM_ConfigObjectLight(temp_s0_5, work->field_F64);
     }

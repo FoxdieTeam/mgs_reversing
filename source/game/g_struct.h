@@ -105,13 +105,8 @@ typedef struct _MOTION_SEGMENT {
 
 typedef struct _MOTION_INFO {
     short           frames_left;
-    // Controls the sound of Snake's footsteps; values, ranging from 0x0-0x11 (with intermediary jumps to 0x80 and
-    // 0xff), appear to be the current frame of the sound sample (with frame 0x8 corresponding to the hard footstep
-    // sound). Disabling any of the reads or writes causes Snake's footsteps no longer to make any noise, such that he
-    // can for instance walk in puddles without being heard by enemies.
     short           frame;
     short           field_4;
-    short           field_6;
     u_long          mask;
     MOTION_SEGMENT *m_segs;
     short           action;

@@ -30,12 +30,6 @@ extern SVECTOR        ENEMY_TOUCH_FORCE;
 extern SVECTOR        COM_NO_POINT;
 extern int            COM_EYE_LENGTH;
 
-const char aErrerrerrsettimeover_800DFC7C[] = "Err Err Err  Set time Over\n";
-const char aErrerrerrsetdirover_800DFC98[] = "Err Err Err  Set Dir Over\n";
-const char aErrnotenoughwork_800DFCB4[] = "Err not enough work !!\n";
-const char aWatcharcactionpointerr_800DFCCC[] = "watchar.c : action point Err\n";
-const char aWatcherc_800DFCEC[] = "watcher.c";
-
 /*  ルート変更フラグチェック
     指定フラグが立てば次のルートへ変更
     ここではコマンダーに変更ルートをセットする
@@ -453,7 +447,7 @@ int s00a_watcher_800C4A40( WatcherWork *work )
         ret = s00a_watcher_800C49E8( opt, &work->field_BB0[1] );
         if ( ret > 4 )
         {
-            printf( (char *)aErrerrerrsettimeover_800DFC7C ) ;
+            printf( "Err Err Err  Set time Over\n" ) ;
             return -1;
         }
     }
@@ -470,7 +464,7 @@ int s00a_watcher_800C4A40( WatcherWork *work )
         ret = s00a_watcher_800C4990( opt, work->field_BD0 );
         if ( ret > 4 )
         {
-            printf( (char *)aErrerrerrsetdirover_800DFC98 ) ;
+            printf( "Err Err Err  Set Dir Over\n" ) ;
             return -1;
         }
     }
@@ -490,7 +484,7 @@ int s00a_watcher_800C4B18( WatcherWork* work )
         res = s00a_watcher_800C4938( opt, work->field_C35 );
         if ( res > 7 )
         {
-            printf( (char *)aErrerrerrsettimeover_800DFC7C );
+            printf( "Err Err Err  Set time Over\n" );
             return -1;
         }
         work->field_C34 = res;
@@ -510,7 +504,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
 
     if ( work->field_B78  << 24 < 0  )
     {
-       printf( (char *)aErrnotenoughwork_800DFCB4 ) ;
+       printf( "Err not enough work !!\n" ) ;
     }
 
     s00a_watcher_800C4A40( work ) ;
@@ -618,7 +612,7 @@ void WatcherGetResources_800C4B7C( WatcherWork *work, int name, int where )
     //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
     //  work->param.life, work->param.faint, work->param.blood,work->param.area);
 
-    if( ReadNodes_800C489C( work ) < 0 ) fprintf( 1, aWatcharcactionpointerr_800DFCCC );
+    if( ReadNodes_800C489C( work ) < 0 ) fprintf( 1, "watchar.c : action point Err\n" );
 
     /*
         当たりデータを初期化する
@@ -702,7 +696,7 @@ void *NewSnakeWatcher(int name, int where, int argc, char **argv)
 
     work = GV_NewActor( GV_ACTOR_PREV, sizeof( WatcherWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), WatcherAct_800C430C, WatcherDie_800C487C, aWatcherc_800DFCEC );
+        GV_SetNamedActor( &( work->actor ), WatcherAct_800C430C, WatcherDie_800C487C, "watcher.c" );
         WatcherGetResources_800C4B7C( work, name, where );
     }
     return (void *)work;

@@ -123,14 +123,6 @@ int s00a_command_800C5194( WatcherWork *work ) {
     return 1;
 }
 
-const char aPlayxresetdwarpd_800DFD1C[] = " play = %x  reset = %d warp = %d \n";
-const char aErrnozoneidingcl_800DFD40[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
-const char aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68[] = " Err Err Enemy Reset Num Err CALL KOREKADOOOOOOOOOO!!\n";
-
-const SVECTOR rp_shift_800DFDA0 = { -200, 100, 600 }; /* 右パンチ */
-const SVECTOR force_800DFDA8 = { 5, 0, 100 };
-const SVECTOR size_800DFDB0 = { 400, 1000, 400 };
-
 int s00a_command_800C5370( WatcherWork * work )
 {
     if ( work->target->class & TARGET_POWER && GM_GameStatus & STATE_STUN )
@@ -204,7 +196,7 @@ void s00a_command_800C55B0( WatcherWork* work )
 
     warp = HZD_BoundOutZone( EnemyCommand.map->hzd, (char)COM_PlayerAddressOne[ work->field_B78 ], EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], 200 );
 
-    printf( (char *)aPlayxresetdwarpd_800DFD1C, (char)COM_PlayerAddressOne[ work->field_B78 ], EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], warp );
+    printf( " play = %x  reset = %d warp = %d \n", (char)COM_PlayerAddressOne[ work->field_B78 ], EnemyCommand.field_0x58 [ EnemyCommand.c_reset_pos ], warp );
 
     zone = &ctrl->map->hzd->def->zones[ warp ];
     ctrl->mov.vx = zone->x;
@@ -219,7 +211,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     }
     else
     {
-        printf((char *)aErrnozoneidingcl_800DFD40);
+        printf("!!!!!!Err No Zone ID In Gcl !!!!!!!!\n");
     }
 
     work->think1 = 0;
@@ -256,7 +248,7 @@ void s00a_command_800C55B0( WatcherWork* work )
     {
         if ( !reset_num )
         {
-            printf ( (char *)aErrerrenemyresetnumerrcallkorekadoooooooooo_800DFD68 ) ;
+            printf ( " Err Err Enemy Reset Num Err CALL KOREKADOOOOOOOOOO!!\n" ) ;
         }
         else
         {
@@ -308,9 +300,9 @@ int AttackForce_800C58E8( WatcherWork * work )
 {
     TARGET *target;
     SVECTOR svec;
-    SVECTOR rp_shift  = rp_shift_800DFDA0; /* 右パンチ */
-    SVECTOR force     = force_800DFDA8;
-    SVECTOR size      = size_800DFDB0;
+    SVECTOR rp_shift  = { -200, 100, 600 }; /* 右パンチ */
+    SVECTOR force     = { 5, 0, 100 };
+    SVECTOR size      = { 400, 1000, 400 };
 
     target = &work->punch;
     GM_SetTarget( target, 4, ENEMY_SIDE, &size );

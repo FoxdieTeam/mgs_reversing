@@ -87,9 +87,6 @@ int s00a_dword_800C35E4[] = {
     0x000016A8
 };
 
-const char aCresetposd_800E07FC[] = " c_reset_pos = %d \n";
-const char aKottida_800E0810[] = "kottida !!\n";
-
 int s00a_command_800CEA2C( WatcherWork *work )
 {
     int i;
@@ -298,7 +295,7 @@ void s00a_command_800CEE98(void)
     }
 
     EnemyCommand.c_reset_pos = reset_pos;
-    fprintf( 1, aCresetposd_800E07FC, reset_pos );
+    fprintf( 1, " c_reset_pos = %d \n", reset_pos );
 }
 
 int s00a_command_800CEFE4( int val )
@@ -362,7 +359,7 @@ void s00a_command_800CF0D8( int* val )
     switch ( s00a_command_800CEFE4( 2 ) )
     {
     case 0:
-        fprintf( 1, aKottida_800E0810 );
+        fprintf( 1, "kottida !!\n" );
         *val = SE_V_ENE_FOUND02; // 敵兵「（無線）こっちだ！」
         return;
     case 1:
@@ -524,16 +521,6 @@ void s00a_command_800CF420( ENEMY_COMMAND* command )
     }
 }
 
-const char s00a_aResetmaxdnumd_800E083C[] = "reset max=%d num=%d \n";
-const char aGmenemywatchcountd_800E0854[] = " GM_EnemyWatchCount = [%d] \n";
-const char aNowzonedrzoned_800E0874[] = " now zone = %d r_zone=%d\n";
-const char aNotrestrctedaread_800E0890[] = " ? ? ? Not Restrcted Area [%d] !!!!\n";
-const char aErrerrerrnotlinkroutedtod_800E08B8[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
-const char aCommanderrnozoneidingclzdidd_800E08E8[] = "command:!!!Err No Zone ID In Gcl z%d id%d!!!!!!!!\n";
-const char aCommandcwhereissnake_800E091C[] = "command.c:  Where Is Snake ????\n";
-const char aCom_noisemode_disD_800E0940[] = " COM_NOISEMODE_DIS =%d \n";
-const char aEeeDDDTD_800E095C[] = "eee %d %d %d t %d \n";
-
 void s00a_command_800CF504( WATCHER *struct_c8 , int i )
 {
     int x = struct_c8->field_08;
@@ -577,7 +564,7 @@ void s00a_command_800CF504( WATCHER *struct_c8 , int i )
                     s00a_command_800CEE98();
                     struct_c8->field_04 = x;
                     struct_c8->field_08 = 0;
-                    printf( (char *)s00a_aResetmaxdnumd_800E083C, EnemyCommand.reset_enemy_max, EnemyCommand.reset_enemy_num );
+                    printf( "reset max=%d num=%d \n", EnemyCommand.reset_enemy_max, EnemyCommand.reset_enemy_num );
                 }
             return;
         }
@@ -637,7 +624,7 @@ void s00a_command_800CF704( ENEMY_COMMAND *command )
                 if ( !( COM_GameStatus & 2 ) )
                 {
                     GM_EnemyWatchCount ++;
-                    printf( (char *)aGmenemywatchcountd_800E0854, GM_EnemyWatchCount );
+                    printf( " GM_EnemyWatchCount = [%d] \n", GM_EnemyWatchCount );
                 }
                 EnemyCommand.field_0x182 = 0;
             }
@@ -837,7 +824,7 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
 
     for (;;)
     {
-        printf( (char *)aNowzonedrzoned_800E0874, addr, r_zone );
+        printf( " now zone = %d r_zone=%d\n", addr, r_zone );
 
         l_zone_shift = HZD_Address( addr, addr );
 
@@ -847,11 +834,11 @@ int s00a_command_800CFC4C( WatcherWork* work, int r_zone )
         {
             if ( addr == r_zone )
             {
-                printf( (char *)aNotrestrctedaread_800E0890, addr );
+                printf( " ? ? ? Not Restrcted Area [%d] !!!!\n", addr );
                 return addr;
             }
 
-            printf( (char *)aErrerrerrnotlinkroutedtod_800E08B8, addr, r_zone );
+            printf( " Err Err Err Not Link Route [%d] to [%d] !!!!\n", addr, r_zone );
             return addr;
         }
 
@@ -898,7 +885,7 @@ void s00a_command_800CFDC8( WatcherWork* work, int addr, int idx )
     }
     else
     {
-        printf( (char *)aCommanderrnozoneidingclzdidd_800E08E8, addr, zone->padding );
+        printf( "command:!!!Err No Zone ID In Gcl z%d id%d!!!!!!!!\n", addr, zone->padding );
     }
 }
 
@@ -969,7 +956,7 @@ void s00a_command_800CFEA8( void )
             }
             else
             {
-                printf( (char *)aCommandcwhereissnake_800E091C );
+                printf( "command.c:  Where Is Snake ????\n" );
             }
         }
 
@@ -1195,7 +1182,7 @@ static void GetResources( CommanderWork *work, int name, int where )
         COM_NOISEMODE_DIS = GCL_StrToInt( ops );
     }
 
-    printf( ( void* )&aCom_noisemode_disD_800E0940 , COM_NOISEMODE_DIS );
+    printf( " COM_NOISEMODE_DIS =%d \n" , COM_NOISEMODE_DIS );
     EnemyCommand.field_0x88.pad = 0;
 
     ops = GCL_GetOption( 't' );
@@ -1218,7 +1205,7 @@ static void GetResources( CommanderWork *work, int name, int where )
             COM_ALERT_DECREMENT = 4;
     }
 
-    printf( ( void* )&aEeeDDDTD_800E095C, EnemyCommand.field_0x88.vx, EnemyCommand.field_0x88.vy, EnemyCommand.field_0x88.vz, COM_ALERT_DECREMENT  );
+    printf( "eee %d %d %d t %d \n", EnemyCommand.field_0x88.vx, EnemyCommand.field_0x88.vy, EnemyCommand.field_0x88.vz, COM_ALERT_DECREMENT  );
 
     EnemyCommand.field_0x1C  = 0x1E;
     EnemyCommand.c_reset_pos = 0;

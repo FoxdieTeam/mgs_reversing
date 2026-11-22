@@ -25,13 +25,6 @@ extern int           COM_VibTime;
 extern int           COM_PlayerMap;
 extern int           COM_SHOOTRANGE;
 
-const char aErrerrerrnotlinkroutedtod_800E0690[] = " Err Err Err Not Link Route [%d] to [%d] !!!!\n";
-const char aErrnozoneidingcl_800E06C0[] = "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n";
-const char aKirari_800E06E8[] = "kirari01";
-const char aBefmapnamed_800E06F4[] = "bef map name =%d \n";
-const char aAftmapnamed_800E0708[] = "aft map name =%d \n";
-const char aRootchange_800E071C[] = " Root Change !!\n";
-
 unsigned short s00a_dword_800C351C[4] = { 100, 50, 25, 10 };
 
 int s00a_dword_800C3524[32] =
@@ -90,7 +83,7 @@ int s00a_command_800CA8E0( WatcherWork *work, int addr_in )
         res = HZD_Navigate( hzd, temp | ( temp << 8 ), local_addr, &svec );
         if ( res == addr )
         {
-            printf( (char *)aErrerrerrnotlinkroutedtod_800E0690, addr, addr_in );
+            printf( " Err Err Err Not Link Route [%d] to [%d] !!!!\n", addr, addr_in );
             return addr;
         }
 
@@ -126,7 +119,7 @@ void s00a_command_800CAA2C( WatcherWork *work, int addr )
     }
     else
     {
-        printf( (char *)aErrnozoneidingcl_800E06C0 );
+        printf( "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n" );
     }
 }
 
@@ -168,7 +161,7 @@ void s00a_command_800CAB74( WatcherWork* work )
     map = GM_FindMapZone( 1 << zone->padding );
     if ( map == NULL )
     {
-        printf( (char *)aErrnozoneidingcl_800E06C0 );
+        printf( "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n" );
         work->target_map = COM_PlayerMapOne[ work->field_B78 ];
     }
     else
@@ -276,7 +269,7 @@ void s00a_command_800CAD84( WatcherWork *work )
                 }
                 else
                 {
-                    printf( (char *)aErrnozoneidingcl_800E06C0 );
+                    printf( "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n" );
                     if ( s00a_command_800CEA9C( addr ) )
                     {
                         goto loop;
@@ -935,7 +928,7 @@ int s00a_command_800CBDFC( WatcherWork* work )
     if ( count == 0 )
     {
         ENE_PutMark( work, 0 );
-        NewEyeflash( &work->body.objs->objs[6].world, &work->control.mov, aKirari_800E06E8, 0 );
+        NewEyeflash( &work->body.objs->objs[6].world, &work->control.mov, "kirari01", 0 );
         COM_VibTime = 10;
     }
 
@@ -1013,7 +1006,7 @@ int s00a_command_800CBF00( WatcherWork *work )
     ctrl->mov.vy = zone->y + 1000;
     ctrl->mov.vz = zone->z;
 
-    printf( (char *)aBefmapnamed_800E06F4, ctrl->map->index );
+    printf( "bef map name =%d \n", ctrl->map->index );
 
     map = GM_FindMapZone( 1 << zone->padding );
     if ( map )
@@ -1022,10 +1015,10 @@ int s00a_command_800CBF00( WatcherWork *work )
     }
     else
     {
-        printf( (char *)aErrnozoneidingcl_800E06C0 );
+        printf( "!!!!!!Err No Zone ID In Gcl !!!!!!!!\n" );
     }
 
-    printf( (char *)aAftmapnamed_800E0708, ctrl->map->index );
+    printf( "aft map name =%d \n", ctrl->map->index );
     return 1;
 }
 
@@ -1138,7 +1131,7 @@ int s00a_command_800CC2E8( WatcherWork* work )
 
     if ( work->param_c_root != work->param_root )
     {
-        fprintf( 1, (char *)aRootchange_800E071C );
+        fprintf( 1, " Root Change !!\n" );
         work->param_root = work->param_c_root;
         s00a_command_800CBA50( work );
         return 1;

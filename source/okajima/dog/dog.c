@@ -638,8 +638,6 @@ void s12c_dog_800CAC84(Work *work, int index, int state)
     }
 }
 
-const char s12c_dword_800D9B48[] = {0x0, 0x0, 0x0, 0x0}; /* rodata gap */
-
 void s12c_dog_800CAD8C(Work *work, int idx)
 {
     SVECTOR vec;
@@ -2414,8 +2412,6 @@ void s12c_dog_800CE194(Work *work, int index)
     }
 }
 
-const char s12c_dword_800D9F08[] = {0x0, 0x0, 0x0, 0x0}; /* rodata gap */
-
 void DogExecProc_800CEB2C(Work *work)
 {
     GCL_ARGS args;
@@ -2702,8 +2698,6 @@ void s12c_dog_800CEB74(Work *work, int index)
         break;
     }
 }
-
-const char s12c_dword_800D9F48[] = {0x0, 0x0, 0x0, 0x0}; /* rodata gap */
 
 void s12c_dog_800CF578(Work *work, int idx)
 {
