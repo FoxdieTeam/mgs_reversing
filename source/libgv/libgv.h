@@ -144,9 +144,9 @@ typedef struct {
 #define PAD_AR          PADj            // 0x0400 R3
 
 /* button masks */
-#define PAD_UDLR        (PAD_U  | PAD_D  | PAD_L  | PAD_R)
-#define PAD_ABXY        (PAD_A  | PAD_B  | PAD_X  | PAD_Y)
-#define PAD_LR          (PAD_L1 | PAD_L2 | PAD_R1 | PAD_R2)
+#define PAD_UDLR        (PAD_U|PAD_D|PAD_L|PAD_R)       // 0xf000
+#define PAD_ABXY        (PAD_A|PAD_B|PAD_X|PAD_Y)       // 0x00f0
+#define PAD_LR          (PAD_L1|PAD_L2|PAD_R1|PAD_R2)   // 0x000f
 
 /* button aliases */
 #define PAD_UP          PAD_U
@@ -170,28 +170,23 @@ enum {
 
 /*---------------------------------------------------------------------------*/
 
-/* gvd.c */
-extern int GV_Time;
+extern  int     GV_Time;
 #ifndef __LIBGV_GVD_C__
-extern int GV_Clock;
-extern int GV_PassageTime;
+extern  int     GV_PassageTime;
+extern  int     GV_Clock;
 #endif
-
-/* actor.c */
 #ifndef __LIBGV_ACTOR_C__
-extern int GV_PauseLevel;
+extern  int     GV_PauseLevel;
 #endif
 
-/* debug.c */
 extern const char *GV_DebugMes;
 
-/* pad.c */
 #ifndef __LIBGV_PAD_C__
-extern u_short  GV_DemoPadStatus[2];
-extern u_long   GV_DemoPadAnalog;
-extern GV_PAD   GV_PadData[4];
+extern  u_short GV_DemoPadStatus[2];
+extern  u_long  GV_DemoPadAnalog;
+extern  GV_PAD  GV_PadData[4];
 #endif
-extern int GV_PadMask;
+extern  int     GV_PadMask;
 
 /*---------------------------------------------------------------------------*/
 
@@ -243,11 +238,12 @@ extern  void    GV_DestroyActorSystem( int kill );
 extern  void    GV_InitActor( int level, void *this, GV_FREEFUNC free );
 extern  void    *GV_NewActor( int level, int size );
 extern  void    GV_SetNamedActor( void *this, void *act, void *die, const char *name );
+
+#define GV_SetActor( _this, _act, _die ) GV_SetNamedActor( _this, _act, _die, __FILE__ )
+
 extern  void    GV_DestroyActor( void *this );
 extern  void    GV_DestroyActorQuick( void *this );
 extern  void    GV_DestroyOtherActor( void *target );
-
-#define GV_SetActor( _this, _act, _die ) GV_SetNamedActor( _this, _act, _die, __FILE__ )
 
 /* cache.c */
 extern  int     GV_CacheID( int root_id, int spec );
