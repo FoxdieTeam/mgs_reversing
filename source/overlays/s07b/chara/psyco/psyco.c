@@ -87,7 +87,7 @@ typedef struct _Work {
     /* 0xA64 */ short field_A64;
     /* 0xA66 */ short field_A66;
 
-    /* 0xA68 */ char padA68[ 0x2 ];
+    /* 0xA68 */ short field_A68;          // step of the chair attack (s07b_800CDF40)
     /* 0xA6A */ short field_A6A;          // side 0..2 for the picture/book throw (GV_RandU % 3)
     /* 0xA6C */ char padA6C[ 0x14 ];
     /* 0xA80 */ GV_PAD *pad;             // GV_PadData[ 0 ] or [ 1 ] (second controller), set in s07b_800D1254
@@ -1196,7 +1196,80 @@ void s07b_800CDCAC( Work *work, int time )
 
     s07b_800CC8D4( work );
 }
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CDF40.s")
+void s07b_800CE134( Work *work, int time );
+void s07b_800CE2A8( Work *work, int time );
+
+void s07b_800CDF40( Work *work, int time )
+{
+    if ( time == 0 )
+    {
+        if ( work->field_8F0 == NULL && !( work->field_850 & 0x2000 ) )
+        {
+            work->field_A68 = 0;
+            s07b_800CAD54( work, 0x81 );
+            NewPsychoChair();
+            work->field_8F0 = &chair_alive;
+        }
+        s07b_800CDA90( work );
+        s07b_800CC89C( work, 4 );
+        work->field_850 &= ~1;
+    }
+
+    s07b_800CB224( work );
+
+    switch ( work->field_A68 )
+    {
+    case 0:
+        if ( chair_alive == 2 )
+        {
+            s07b_800CB6B0( work, -1000, 2000, 32 );
+            work->field_A68++;
+        }
+        break;
+    case 1:
+        s07b_800CB8CC( work );
+        if ( work->field_868 )
+        {
+            s07b_800CB6B0( work, -1000, -1500, 32 );
+            work->field_A68++;
+        }
+        break;
+    case 2:
+        s07b_800CB8CC( work );
+        if ( work->field_868 )
+        {
+            s07b_800CB6B0( work, -1000, 2000, 32 );
+            work->field_A68 = 1;
+        }
+        break;
+    }
+
+    if ( work->field_8F0 == NULL )
+    {
+        work->field_A68 = 0;
+        work->field_850 &= ~0x2000;
+        if ( work->field_AE4[ 0 ] == 0 )
+        {
+            work->field_8EC = 5;
+            work->field_854 = s07b_800CE134;
+        }
+        else
+        {
+            work->field_8EC = 6;
+            work->field_854 = s07b_800CE2A8;
+        }
+        work->field_858 = 0;
+        work->field_A66 = 0;
+        work->field_A64 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+
+    if ( chair_alive != 2 )
+    {
+        work->control.step = DG_ZeroVector;
+    }
+}
 void s07b_800CE2A8( Work *work, int time );
 
 void s07b_800CE134( Work *work, int time )
@@ -1782,7 +1855,71 @@ void s07b_800CF6F0( Work *work, int time )
         s07b_800CC138( work, -1 );
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CF768.s")
+void s07b_800CF768( Work *work, int time )
+{
+    SVECTOR diff;
+
+    if ( time == 0 )
+    {
+        if ( GM_ItemTypes[ GM_Item + 1 ] & 0x2 )
+        {
+            GM_Item = IT_None;
+        }
+        if ( GM_WeaponTypes[ GM_Weapon + 1 ] & 0x200 )
+        {
+            GM_Weapon = WP_None;
+        }
+        s07b_800CC930();
+        work->field_8A0 = 0;
+        OpenCinemaScreen( 1, 30000 );
+        GM_GameStatus |= 0x104A2000;
+        if ( work->body.action2 != 0 )
+        {
+            GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
+        }
+        if ( work->body.action != 1 )
+        {
+            GM_ConfigObjectAction( &work->body, 1, 0, 4 );
+        }
+        GM_VoxQueue( work->field_ABC[ 3 ] );
+        s07b_800CBCE8( work );
+        s07b_800CB068( 0 );
+        s07b_800CB0B4( work, 0 );
+        work->field_850 &= ~1;
+        s07b_800CB224( work );
+        s07b_800CC9E8( work, 0 );
+        work->field_868 = 0;
+    }
+
+    DG_VisibleObjs( work->body.objs );
+
+    if ( !( GM_PlayerStatus & 0x200 ) )
+    {
+        GV_SubVec3( &work->control.mov, &GM_PlayerPosition, &diff );
+        GM_PlayerControl->turn.vy = GV_VecDir2( &diff );
+    }
+
+    switch ( work->field_A64 )
+    {
+    case 0:
+        GM_SnakeCamera.position = work->control.mov;
+        GM_SnakeCamera.track = 3200;
+        if ( GM_VoxEnd() )
+        {
+            work->field_A64++;
+        }
+        break;
+    case 1:
+        s07b_800CBC20( work );
+        work->field_854 = s07b_800CDCAC;
+        work->field_858 = 0;
+        work->field_A66 = 0;
+        work->field_A64 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        break;
+    }
+}
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CF9A0.s")
 #pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D075C.s")
 void OpenCinemaScreen( int type, int time );

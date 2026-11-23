@@ -15,7 +15,8 @@ typedef struct _Work {
     /* 0x7DC */ TARGET *target;
     /* 0x7E0 */ char  pad7E0[ 0x4C ];
     /* 0x82C */ int   field_82C;
-    /* 0x830 */ char  pad830[ 0x8 ];
+    /* 0x830 */ void *weapon;             // NewDesertEagle (s07b_800CA2EC)
+    /* 0x834 */ u_long trigger;           // weapon trigger flags
     /* 0x838 */ short field_838;
     /* 0x83A */ short field_83A;
     /* 0x83C */ void *sepia;              // sepia screen effect (NewSepia_800C5214), s07b_800C4A18
@@ -584,7 +585,95 @@ void s07b_800C5CFC( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800C5DC4.s")
+void s07b_800C7F48( Work *work, int time );
+void s07b_800C6000( Work *work, int time );
+
+void s07b_800C5DC4( Work *work, int time )
+{
+    int i;
+    int trigger;
+    int motion;
+
+    if ( time == 0 )
+    {
+        if ( work->body.action != 0 )
+        {
+            GM_ConfigObjectAction( &work->body, 0, 0, 4 );
+        }
+        motion = 2;
+        if ( work->body.action2 != motion )
+        {
+            GM_ConfigObjectOverride( &work->body, motion, 0, 4, 0x3FE );
+        }
+        work->field_83A = 1;
+        GM_ConfigMotionAdjust( &work->body, work->adjust );
+    }
+
+    s07b_800C4854( work );
+
+    if ( work->field_878 > 3000 )
+    {
+        work->field_854 = s07b_800C7F48;
+        work->field_860 = 0;
+        work->field_8C6 = 0;
+        work->field_8C4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        if ( work->body.action2 != 0 )
+        {
+            GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
+        }
+        GM_ConfigMotionAdjust( &work->body, NULL );
+        for ( i = 0; i < 16; i++ )
+        {
+            work->adjust[ i ] = DG_ZeroVector;
+        }
+        return;
+    }
+
+    if ( work->field_838 == 0 )
+    {
+        work->field_854 = s07b_800C6000;
+        work->field_860 = 0;
+        work->field_8C6 = 0;
+        work->field_8C4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        return;
+    }
+
+    s07b_800C5B14( work, 1 );
+
+    trigger = 1;
+    if ( work->field_83A == 1 )
+    {
+        if ( ++work->field_8C4 > 32 )
+        {
+            motion = 3;
+            if ( work->body.action2 != motion )
+            {
+                GM_ConfigObjectOverride( &work->body, motion, 0, 4, 0x3FE );
+            }
+            trigger = 3;
+            work->field_83A = 2;
+            work->field_8C4 = 0;
+            work->field_838--;
+        }
+    }
+    else if ( work->body.time2 != 0 )
+    {
+        motion = 2;
+        if ( work->body.action2 != motion )
+        {
+            GM_ConfigObjectOverride( &work->body, motion, 0, 4, 0x3FE );
+        }
+        work->field_83A = 1;
+        work->field_8C4 = 0;
+    }
+
+    work->trigger = trigger;
+    work->control.turn.vy = GV_VecDir2( &work->field_870 );
+}
 void s07b_800C6000( Work *work, int time )
 {
     int i;
@@ -1740,7 +1829,84 @@ void s07b_800C9304( Work *work )
         } while ( n_msgs > 0 );
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800C9454.s")
+int s07b_800C47D4( Work *work );
+
+void s07b_800C9454( Work *work, int time )
+{
+    int i;
+
+    if ( time == 0 )
+    {
+        GM_ConfigMotionAdjust( &work->body, work->adjust );
+        work->field_854 = s07b_800C7D88;
+        work->field_860 = 0;
+        work->field_8C6 = 0;
+        work->field_8C4 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+    }
+
+    switch ( work->field_840 )
+    {
+    case 0:
+        if ( s07b_800C46F0( GM_PlayerControl, work->field_8B4[ 2 ], work->field_854 != s07b_800C7C64 ) )
+        {
+            GM_GameStatus |= 0x10000000;
+            if ( work->field_854 == s07b_800C7D88 || work->field_854 == s07b_800C7E98 )
+            {
+                s07b_800C54C0( work, 0 );
+                s07b_800C5554( work->target );
+                GM_ConfigMotionAdjust( &work->body, NULL );
+                for ( i = 0; i < 16; i++ )
+                {
+                    work->adjust[ i ] = DG_ZeroVector;
+                }
+                work->field_854 = s07b_800C7AA8;
+                work->field_860 = 0;
+                work->field_8C6 = 0;
+                work->field_8C4 = 0;
+                work->control.turn.vz = 0;
+                work->control.turn.vx = 0;
+                work->field_846 = 1;
+                work->field_850 |= 0x100;
+                break;
+            }
+        }
+        if ( s07b_800C473C( work ) && work->field_854 != s07b_800C7C64 )
+        {
+            GM_GameStatus |= 0x10000000;
+            if ( work->field_854 == s07b_800C7D88 || work->field_854 == s07b_800C7E98 )
+            {
+                s07b_800C54C0( work, 0 );
+                s07b_800C5554( work->target );
+                work->field_854 = s07b_800C77A8;
+                work->field_860 = 0;
+                work->field_8C6 = 0;
+                work->field_8C4 = 0;
+                work->control.turn.vz = 0;
+                work->control.turn.vx = 0;
+            }
+        }
+        break;
+    case 4:
+        if ( s07b_800C47D4( work ) && work->field_854 != s07b_800C7C64 )
+        {
+            GM_GameStatus |= 0x10000000;
+            if ( work->field_854 == s07b_800C7D88 || work->field_854 == s07b_800C7E98 )
+            {
+                s07b_800C54C0( work, 0 );
+                s07b_800C5554( work->target );
+                work->field_854 = s07b_800C796C;
+                work->field_860 = 0;
+                work->field_8C6 = 0;
+                work->field_8C4 = 0;
+                work->control.turn.vz = 0;
+                work->control.turn.vx = 0;
+            }
+        }
+        break;
+    }
+}
 int  s07b_800C473C( Work *work );
 void s07b_800C77A8( Work *work, int time );
 
@@ -1928,7 +2094,78 @@ int s07b_800CA1FC( Work *work )
     GM_SetPowerTarget( target, 1, -1, life, faint, &DG_ZeroVector );
     return 0;
 }
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CA2EC.s")
+extern u_short desert_damage;
+void *NewDesertEagle( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *trigger, int side );
+
+int s07b_800CA2EC( Work *work )
+{
+    int i;
+    int level;
+
+    work->weapon = NewDesertEagle( &work->control, &work->body, 4, &work->trigger, 2 );
+
+    if ( GCL_GetOption( 'x' ) )
+    {
+        level = GM_GameLevel;
+        if ( level < 0 )
+        {
+            level = 0;
+        }
+        for ( i = 0; i < level; i++ )
+        {
+            GCL_GetNextInt();
+        }
+        desert_damage = GCL_GetNextInt();
+    }
+
+    work->field_838 = 7;
+    work->field_854 = s07b_800C7D88;
+    work->field_860 = 0;
+    work->field_8C6 = 0;
+    work->field_8C4 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    s07b_dword_800E5BB0 = (int)&work->field_84C;
+    NagivateInit( &work->navi, work->control.map->hzd, &work->control.mov );
+
+    work->field_8DC = (u_short *)GV_PadData;
+    work->control.hzd_height = 750;
+    work->field_846 = -1;
+    work->sepia = NULL;
+
+    if ( GCL_GetOption( 'v' ) )
+    {
+        GCL_StrToSV( GCL_NextStr(), (short *)&work->field_8D4 );
+    }
+    if ( GCL_GetOption( 's' ) )
+    {
+        work->field_840 = GCL_StrToInt( GCL_NextStr() );
+    }
+    if ( GCL_GetOption( 'g' ) )
+    {
+        if ( GCL_StrToInt( GCL_NextStr() ) == 1 )
+        {
+            work->field_850 |= 0x400;
+        }
+    }
+    if ( GCL_GetOption( 'm' ) )
+    {
+        work->field_844 = GCL_StrToInt( GCL_NextStr() );
+    }
+    if ( (u_short)work->field_844 == 8 && work->body.action != 8 )
+    {
+        GM_ConfigObjectAction( &work->body, 8, 0, 0 );
+    }
+    if ( GCL_GetOption( 'e' ) )
+    {
+        work->proc_id = GCL_StrToInt( GCL_NextStr() );
+    }
+    else
+    {
+        work->proc_id = -1;
+    }
+    return 0;
+}
 // read the zone names of script option 't' (max 5), or use the two defaults
 void s07b_800CA4FC( Work *work )
 {
