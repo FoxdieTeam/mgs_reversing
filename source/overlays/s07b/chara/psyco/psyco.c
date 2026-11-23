@@ -4,6 +4,7 @@
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/navi.h"
+#include "okajima/bullet.h"
 #include "takabe/cineutil.h"
 #include "menu/menuman.h"
 
@@ -35,8 +36,7 @@ typedef struct _Work {
     /* 0x834 */ void *field_834;          // actor, destroyed in s07b_800D13C4
     /* 0x838 */ void *kogaku;             // optical camouflage actor (NewKogaku2), NULL when off
     /* 0x83C */ int field_83C;            // camouflage state: 10 = on, -1 = off
-    /* 0x840 */ u_short field_840;        // actor address for GV_SendMessage (s07b_800CC138)
-    /* 0x842 */ char pad842[ 0x2 ];
+    /* 0x840 */ int field_840;            // actor address for GV_SendMessage (s07b_800CC138)
     /* 0x844 */ short field_844;
     /* 0x846 */ short field_846;          // < 0: destroy on message 0x10
     /* 0x848 */ int field_848;
@@ -48,7 +48,8 @@ typedef struct _Work {
     /* 0x854 */ void *field_854;
     /* 0x858 */ int field_858;
 
-    /* 0x85C */ char pad85C[ 0x8 ];
+    /* 0x85C */ void *field_85C;          // second mode function, runs instead of field_854 while field_84C bit 2 is set
+    /* 0x860 */ int   field_860;          // time of field_85C
 
     /* 0x864 */ int field_864;
 
@@ -58,9 +59,9 @@ typedef struct _Work {
     /* 0x86E */ short field_86E;
 
     /* 0x870 */ SVECTOR field_870;        // current point (vx, vz), s07b_800CB9E8 picks a different one
-    /* 0x878 */ char pad878[ 0x2 ];
-    /* 0x87A */ short field_87A;
-    /* 0x87C */ char pad87C[ 0x14 ];
+    /* 0x878 */ SVECTOR field_878;
+    /* 0x880 */ SVECTOR field_880;
+    /* 0x888 */ char pad888[ 0x8 ];
 
     /* 0x890 */ SVECTOR pos;
     /* 0x898 */ SVECTOR rot;
@@ -78,9 +79,15 @@ typedef struct _Work {
     /* 0x8F0 */ int *field_8F0;           // counter of an attack; cleared when it runs out (s07b_800CC67C)
     /* 0x8F4 */ MENU_BAR_CONF lifebar;    // colours change with the max vital (s07b_800CD86C)
     /* 0x900 */ int  field_900;           // vital after being clamped (s07b_800D0DD4)
-    /* 0x904 */ char pad904[ 0x154 ];
+    /* 0x904 */ POLY_F4  field_904[ 2 ];   // white screen (s07b_800D195C)
+    /* 0x934 */ POLY_FT4 field_934[ 2 ];   // "hideo_b"
+    /* 0x984 */ POLY_FT4 field_984[ 2 ];   // "hideo_s"
+    /* 0x9D4 */ POLY_FT4 field_9D4[ 2 ];   // "hideo"
+    /* 0xA24 */ POLY_F4  field_A24[ 2 ];   // black screen
+    /* 0xA54 */ DG_TEX  *field_A54;        // "hideo" texture
     /* 0xA58 */ int  field_A58;           // < 2: picture attack goes on to s07b_800CED04 (s07b_800CE660)
-    /* 0xA5C */ char padA5C[ 0x6 ];
+    /* 0xA5C */ int  field_A5C;           // set to 6 when the picture attack ends (s07b_800CED04)
+    /* 0xA60 */ short field_A60;
     /* 0xA62 */ char field_A62;           // set together with field_84C bit 1 (s07b_800CC9E8)
     /* 0xA63 */ char field_A63;           // set to 8 when the s07b_800CBF00 counter runs out
 
@@ -89,11 +96,11 @@ typedef struct _Work {
 
     /* 0xA68 */ short field_A68;          // step of the chair attack (s07b_800CDF40)
     /* 0xA6A */ short field_A6A;          // side 0..2 for the picture/book throw (GV_RandU % 3)
-    /* 0xA6C */ char padA6C[ 0x14 ];
+    /* 0xA6C */ SVECTOR field_A6C;
+    /* 0xA74 */ char padA74[ 0xC ];
     /* 0xA80 */ GV_PAD *pad;             // GV_PadData[ 0 ] or [ 1 ] (second controller), set in s07b_800D1254
-    /* 0xA84 */ char padA84[ 0x4 ];
-    /* 0xA88 */ u_char weapon_lock[ 5 ];  // 20-frame counters that make C4/claymore/grenade/Nikita/Stinger fail (s07b_800CBFB0)
-    /* 0xA8D */ char padA8D[ 0x3 ];
+    /* 0xA84 */ GV_PAD *pad2;            // GV_PadData[ 1 ] (s07b_800D1638)
+    /* 0xA88 */ u_char weapon_lock[ 8 ];  // 20-frame counters that make C4/claymore/grenade/Nikita/Stinger fail (s07b_800CBFB0)
 
     /* 0xA90 */ int      proc_id;
     /* 0xA94 */ NAVIGATE navi;
@@ -142,10 +149,8 @@ int s07b_dword_800C33E0 = 0x00000000;
 int s07b_dword_800C33E4 = 0x00000064;
 int s07b_dword_800C33E8 = 0x0000FC00;
 int s07b_dword_800C33EC = 0x00000000;
-int s07b_dword_800C33F0 = 0x00000000;
-int s07b_dword_800C33F4 = 0x000005DC;
-int s07b_dword_800C33F8 = 0x000002EE;
-int s07b_dword_800C33FC = 0x000000FA;
+short s07b_dword_800C33F0 = 0;
+int s07b_dword_800C33F4[ 3 ] = { 1500, 750, 250 };  // control.hzd_height, indexed by field_8A0
 int s07b_dword_800C3400 = 0x03E8012C;
 int s07b_dword_800C3404 = 0x0000012C;
 
@@ -159,50 +164,6 @@ const char s07b_dword_800E4FC0[] = "胸像１";
 const char s07b_dword_800E4FC8[] = "胸像２";
 
 const char s07b_dword_800E4FD0[] = {0x0, 0x0, 0x0, 0x0};
-
-const int s07b_dword_800E4FD4 = 0x800CD040;
-const int s07b_dword_800E4FD8 = 0x800CD1BC;
-const int s07b_dword_800E4FDC = 0x800CD1A4;
-const int s07b_dword_800E4FE0 = 0x800CD1BC;
-const int s07b_dword_800E4FE4 = 0x800CD1A4;
-const int s07b_dword_800E4FE8 = 0x800CD1BC;
-const int s07b_dword_800E4FEC = 0x800CD1B0;
-const int s07b_dword_800E4FF0 = 0x800CD1BC;
-const int s07b_dword_800E4FF4 = 0x800CD070;
-const int s07b_dword_800E4FF8 = 0x800CD07C;
-const int s07b_dword_800E4FFC = 0x800CD07C;
-const int s07b_dword_800E5000 = 0x800CD07C;
-const int s07b_dword_800E5004 = 0x800CD0F8;
-const int s07b_dword_800E5008 = 0x800CD0DC;
-const int s07b_dword_800E500C = 0x800CD0DC;
-const int s07b_dword_800E5010 = 0x800CD0F8;
-const int s07b_dword_800E5014 = 0x800CD0F8;
-
-const char s07b_dword_800E5018[] = "MANTIS";
-const char s07b_dword_800E5020[] = "マンティス";
-
-const int s07b_dword_800E502C = 0x800CFF7C;
-const int s07b_dword_800E5030 = 0x800D0064;
-const int s07b_dword_800E5034 = 0x800D0178;
-const int s07b_dword_800E5038 = 0x800D035C;
-const int s07b_dword_800E503C = 0x800D035C;
-const int s07b_dword_800E5040 = 0x800D052C;
-const int s07b_dword_800E5044 = 0x800D10C4;
-const int s07b_dword_800E5048 = 0x800D10D4;
-const int s07b_dword_800E504C = 0x800D10E4;
-const int s07b_dword_800E5050 = 0x800D10F4;
-const int s07b_dword_800E5054 = 0x800D1104;
-const int s07b_dword_800E5058 = 0x800D1114;
-const int s07b_dword_800E505C = 0x800D1124;
-const int s07b_dword_800E5060 = 0x800D1134;
-const int s07b_dword_800E5064 = 0x800D1144;
-const int s07b_dword_800E5068 = 0x800D1154;
-const int s07b_dword_800E506C = 0x800D1164;
-
-const char s07b_dword_800E5070[] = "メリル";
-const char s07b_dword_800E5078[] = "hideo_b";
-const char s07b_dword_800E5080[] = "hideo_s";
-const char s07b_dword_800E5088[] = "hideo";
 
 SVECTOR SECTION(".bss") s07b_dword_800E5BE0;
 
@@ -406,15 +367,117 @@ void s07b_800CB264( Work *work )
     GV_SubVec3( &s07b_dword_800E5BB8, &work->control.mov, &diff );
     work->control.turn.vy = GV_VecDir2( &diff );
 }
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CB2A4.s")
+extern int dword_8009F46C;
+void SetPadMask( int mask );
+void ClearPadMask( int mask );
+
+void s07b_800CB2A4( Work *work )
+{
+    int      flags;
+    int      yaw;
+    CONTROL *player;
+
+    s07b_800CB130( work );
+
+    flags = work->field_84C;
+    if ( !( flags & 1 ) )
+    {
+        if ( ( work->pad->press & 0x10 ) && !dword_8009F46C &&
+             !( GM_WeaponTypes[ GM_Weapon + 1 ] & 0x200 ) &&
+             !( GM_ItemTypes[ GM_Item + 1 ] & 0x2 ) &&
+             !( GM_PlayerStatus & 0x800 ) &&
+             ( GM_FirstPerson == 0 || ( GM_FirstPerson == 1 && ( GM_PlayerStatus & 0x400 ) ) ) &&
+             GM_Camera.first_person )
+        {
+            work->field_84C = flags | 1;
+            SetPadMask( ~0x10 );
+            work->field_864 = -1;
+            GM_PlayerStatus |= 0x4000000;
+            if ( GM_PlayerStatus & 0x10000 )
+            {
+                ClearPadMask( 0xF000 );
+            }
+            printf( s07b_dword_800E4F80, work->field_864 );
+        }
+        if ( work->field_864 )
+        {
+            return;
+        }
+        if ( !( work->field_850 & 1 ) )
+        {
+            work->body.objs->flag &= ~0x80;
+            return;
+        }
+    }
+    else
+    {
+        if ( GM_PlayerStatus & 0x10000 )
+        {
+            ClearPadMask( 0xF000 );
+        }
+        else
+        {
+            SetPadMask( 0xF000 );
+        }
+
+        if ( GV_Time % 45 == 0 )
+        {
+            GM_SeSet2( 0, 63, 114 );
+        }
+
+        GM_PlayerBody->objs->flag &= ~0x80;
+
+        GM_SnakeCamera.position.vx = work->body.objs->objs[ 6 ].world.t[ 0 ];
+        GM_SnakeCamera.position.vy = work->body.objs->objs[ 6 ].world.t[ 1 ];
+        GM_SnakeCamera.position.vz = work->body.objs->objs[ 6 ].world.t[ 2 ];
+        GM_SnakeCamera.rotate2 = work->control.rot;
+        GM_SnakeCamera.rotate2.vx = 360;
+        GM_Camera.zoom = 320;
+        GM_SnakeCamera.position.vy += 480;
+
+        yaw = work->control.turn.vy;
+        s07b_800CB224( work );
+        GM_SnakeCamera.rotate2.vy = work->control.turn.vy;
+        work->control.turn.vy = yaw;
+
+        player = GM_PlayerControl;
+        player->step.vx = 0;
+        player->step.vz = 0;
+        player->rot.vx = 0;
+        player->rot.vz = 0;
+        player->turn.vx = 0;
+        player->turn.vz = 0;
+        player->turn.vy = player->rot.vy;
+
+        if ( !( work->pad->status & 0x10 ) || !GM_Camera.first_person )
+        {
+            work->field_84C &= ~1;
+            ClearPadMask( ~0x10 );
+            if ( GM_Camera.first_person )
+            {
+                GM_PlayerBody->objs->flag |= 0x80;
+                GM_SnakeCamera.position = GM_PlayerPosition;
+            }
+            work->field_864 = 1;
+            GM_PlayerStatus &= ~0x4000000;
+            printf( s07b_dword_800E4F94, work->field_864 );
+        }
+        if ( work->field_864 )
+        {
+            return;
+        }
+    }
+
+    work->body.objs->flag |= 0x80;
+}
 void s07b_800CB2A4( Work *work );
-void s07b_800CB6B0( Work *work, short x, short z, short scale )
+void s07b_800CB6B0( Work *work, short x, short z, int scale )
 {
     SVECTOR pos;
 
     work->field_870.vx = x;
     work->field_870.vz = z;
-    if ( scale > 0 )
+    if ( (short)scale > 0 )
     {
         work->field_86E = scale;
     }
@@ -505,7 +568,20 @@ void s07b_800CB8CC( Work *work )
 }
 
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CB9E8.s")
+void s07b_800CB9E8( Work *work, int arg1 )
+{
+    SVECTOR *point;
+    int      count;
+
+    count = work->n_points;
+    point = &work->points[ GV_RandU( 32 ) % count ];
+    while ( point->vx == work->field_870.vx && point->vz == work->field_870.vz )
+    {
+        point = &work->points[ GV_RandU( 32 ) % count ];
+    }
+
+    s07b_800CB6B0( work, point->vx, point->vz, arg1 );
+}
 int s07b_800CBAA4( Work *work )
 {
     SVECTOR diff;
@@ -636,7 +712,7 @@ void s07b_800CBDA0( Work *work )
 {
     if ( !( work->field_850 & 4 ) )
     {
-        work->field_87A = -32;
+        work->field_878.vy = -32;
         work->control.step.vy -= 32;
     }
 }
@@ -740,7 +816,72 @@ void s07b_800CC138( Work *work, int arg1 )
     msg.message[1] = arg1;
     GV_SendMessage( &msg );
 }
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CC174.s")
+void s07b_800CC174( Work *work, int time )
+{
+    int       alt;
+    u_long   *ot;
+    int       i;
+    int       last;
+    POLY_FT4 *poly;
+
+    alt = (short)( GM_Configuration & 0x100 );
+    ot = ( DG_Chanl( 0 ) + 1 )->ot[ GV_Time & 1 ];
+
+    if ( time == 0 )
+    {
+        for ( i = 0; i < 2; i++ )
+        {
+            poly = &work->field_9D4[ i ];
+            if ( !alt )
+            {
+                poly->x0 = poly->x2 = 224;
+                poly->x1 = poly->x3 = 296;
+                poly->y0 = poly->y1 = 8;
+                poly->y2 = poly->y3 = 40;
+            }
+        }
+        addPrim( ot, &work->field_904[ GV_Time & 1 ] );
+    }
+    else
+    {
+        if ( time == 64 )
+        {
+            for ( i = 0; i < 2; i++ )
+            {
+                poly = &work->field_9D4[ i ];
+                if ( !alt )
+                {
+                    poly->x0 = poly->x2 = 260;
+                    poly->x1 = poly->x3 = 296;
+                    poly->y0 = poly->y1 = 8;
+                    poly->y2 = poly->y3 = 24;
+                }
+            }
+        }
+
+        last = ( work->field_A58 != 0 ) ? 127 : 255;
+        if ( time == last )
+        {
+            addPrim( ot, &work->field_904[ GV_Time & 1 ] );
+        }
+        else
+        {
+            if ( !alt )
+            {
+                addPrim( ot, &work->field_9D4[ GV_Time & 1 ] );
+            }
+            else if ( time >= 64 )
+            {
+                addPrim( ot, &work->field_984[ GV_Time & 1 ] );
+            }
+            else
+            {
+                addPrim( ot, &work->field_934[ GV_Time & 1 ] );
+            }
+            addPrim( ot, &work->field_A24[ GV_Time & 1 ] );
+        }
+    }
+}
 extern int *s07b_dword_800E5BB0;
 
 void s07b_800CC468( Work *work )
@@ -770,7 +911,7 @@ void s07b_800CC468( Work *work )
     GM_SnakeCamera.track = work->field_AB4 = GV_NearExp8( work->field_AB4, track );
 }
 
-void s07b_800CC50C( void )
+void s07b_800CC50C( Work *work )
 {
     /* do nothing */
 }
@@ -820,7 +961,15 @@ void s07b_800CC67C( Work *work )
         work->field_8F0 = NULL;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CC6CC.s")
+void s07b_800CC6CC( void )
+{
+    chair_alive = -1;
+    statue_alive = -1;
+    pot_alive = -1;
+    ox_alive = -1;
+    picture_alive = -1;
+    book_alive = -1;
+}
 // floating: bob up and down with the change of a sine wave over GV_Time
 void s07b_800CC704( Work *work )
 {
@@ -979,8 +1128,484 @@ void s07b_800CCBB0( TARGET *target )
     target->force = DG_ZeroVector;
     target->weapon = -1;
 }
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CCBFC.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CCFE4.s")
+void s07b_800CD25C( Work *work, int time );
+void s07b_800CD40C( Work *work, int time );
+void s07b_800CD594( Work *work, int time );
+
+void s07b_800CF304( Work *work, int time );
+
+void s07b_800CCBFC( Work *work )
+{
+    TARGET *target;
+    int     react;
+    PSYOBJ *busts[ 2 ];
+
+    if ( ( work->field_84C & 2 ) || work->field_A63 || ( *s07b_dword_800E5BB0 & 8 ) || GM_Vitality == 0 )
+    {
+        s07b_800CCA80( work );
+        return;
+    }
+
+    target = work->target;
+    target->vital += target->damage;
+    if ( !( target->damaged & 4 ) )
+    {
+        return;
+    }
+
+    if ( GM_PlayerStatus & 0x8000000 )
+    {
+        react = 1;
+        if ( target->a_mode == 2 )
+        {
+            work->field_850 |= 0x1000;
+            react = 0;
+        }
+    }
+    else if ( ++work->field_AB8 == 8 )
+    {
+        react = 1;
+        work->field_AB8 = 0;
+    }
+    else
+    {
+        react = 0;
+    }
+
+    if ( !react && work->field_AE4[ 0 ] && target->a_mode != 2 )
+    {
+        busts[ 0 ] = PSYOBJ_FindObject( GV_StrCode( s07b_dword_800E4FC0 ) );
+        busts[ 1 ] = PSYOBJ_FindObject( GV_StrCode( s07b_dword_800E4FC8 ) );
+        if ( busts[ 0 ] && busts[ 1 ] && ( busts[ 0 ]->flag & 0x100 ) && ( busts[ 1 ]->flag & 0x100 ) )
+        {
+            react = 1;
+            work->field_850 |= 0x400;
+        }
+    }
+
+    if ( work->body.action2 )
+    {
+        GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
+    }
+
+    if ( react )
+    {
+        if ( target->a_mode == 3 )
+        {
+            GM_SeSet( &work->control.mov, 52 );
+            target->vital -= ( (u_short *)&s07b_dword_800C339C )[ 0 ];
+            if ( !( work->field_850 & 2 ) )
+            {
+                work->field_85C = s07b_800CD25C;
+                work->field_860 = 0;
+                work->field_A66 = 0;
+                work->field_A64 = 0;
+                work->control.turn.vz = 0;
+                work->control.turn.vx = 0;
+                work->field_84C |= 4;
+            }
+        }
+        else if ( target->a_mode == 4 )
+        {
+            GM_SeSet( &work->control.mov, 53 );
+            target->vital -= ( (u_short *)&s07b_dword_800C339C )[ 1 ];
+            if ( !( work->field_850 & 2 ) )
+            {
+                work->field_85C = s07b_800CD40C;
+                work->field_860 = 0;
+                work->field_A66 = 0;
+                work->field_A64 = 0;
+                work->control.turn.vz = 0;
+                work->control.turn.vx = 0;
+                work->field_84C |= 4;
+            }
+        }
+        else if ( target->a_mode == 1 )
+        {
+            if ( target->weapon == 5 )
+            {
+                target->vital -= ( (u_short *)&s07b_dword_800C33A0 )[ 1 ];
+            }
+            else
+            {
+                target->vital -= ( (u_short *)&s07b_dword_800C33A0 )[ 0 ];
+            }
+            if ( !( work->field_850 & 2 ) )
+            {
+                work->field_85C = s07b_800CD25C;
+                work->field_860 = 0;
+                work->field_A66 = 0;
+                work->field_A64 = 0;
+                work->control.turn.vz = 0;
+                work->control.turn.vx = 0;
+                work->field_84C |= 4;
+            }
+        }
+        else
+        {
+            target->vital -= ( (u_short *)&s07b_dword_800C33A0 )[ 1 ];
+            if ( !( work->field_850 & 2 ) )
+            {
+                work->field_85C = s07b_800CD40C;
+                work->field_860 = 0;
+                work->field_A66 = 0;
+                work->field_A64 = 0;
+                work->control.turn.vz = 0;
+                work->control.turn.vx = 0;
+                work->field_84C |= 4;
+            }
+        }
+
+        s07b_800CC9E8( work, 8 );
+        s07b_800CBDCC( work, 6 );
+        s07b_800CAD54( work, 136 );
+        s07b_800CCBB0( target );
+
+        if ( target->vital <= 0 && GM_Vitality != 0 && GM_GameOverTimer == 0 )
+        {
+            work->field_854 = s07b_800CF304;
+            work->field_858 = 0;
+            work->field_A66 = 0;
+            work->field_A64 = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            work->field_84C &= ~4;
+        }
+    }
+    else
+    {
+        s07b_800CCA10( work );
+        s07b_800CC9E8( work, 0 );
+        work->field_85C = s07b_800CD594;
+        work->field_860 = 0;
+        work->field_A66 = 0;
+        work->field_A64 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        work->field_84C |= 4;
+        work->field_A68 = target->a_mode;
+        s07b_800CCBB0( target );
+    }
+}
+void s07b_800CED04( Work *work, int time );
+void s07b_800CEFF0( Work *work, int time );
+void s07b_800CDAFC( Work *work, int time );
+
+void s07b_800CCFE4( Work *work )
+{
+    PSYCO_MODE mode;
+    int        phase;
+    short      idx;
+
+    work->field_850 &= ~0x2000;
+    idx = work->field_844 - 2;
+    switch ( idx )
+    {
+    case 0:
+        phase = (u_short)work->field_8EC;
+        switch ( phase )
+        {
+        case 0:
+            mode = s07b_800CED04;
+            break;
+        case 1:
+        case 2:
+        case 3:
+            if ( (u_short)++work->field_8EC == 4 )
+            {
+                s07b_800CB6B0( work, -1000, -1500, 160 );
+                mode = s07b_800CDCAC;
+                s07b_800CBCE8( work );
+                if ( !( work->field_84C & 1 ) )
+                {
+                    work->field_864 = 1;
+                }
+            }
+            else
+            {
+                mode = s07b_800CEFF0;
+            }
+            break;
+        case 5:
+        case 6:
+            s07b_800CB9E8( work, 160 );
+            mode = s07b_800CDCAC;
+            break;
+        case 4:
+        case 7:
+        case 8:
+        default:
+            if ( work->field_854 == s07b_800CDCAC )
+            {
+                mode = s07b_800CDCAC;
+            }
+            else if ( work->field_8F0 )
+            {
+                mode = ( (PSYCO_MODE *)&s07b_dword_800C33AC )[ phase ];
+                work->field_850 |= 0x2000;
+            }
+            else
+            {
+                phase++;
+                if ( phase == 9 )
+                {
+                    phase = work->field_A58 >= 2;
+                }
+                if ( phase == 5 && work->field_AE4[ 0 ] )
+                {
+                    phase = 6;
+                }
+                work->field_8EC = phase;
+                if ( phase == 1 )
+                {
+                    mode = s07b_800CEFF0;
+                }
+                else
+                {
+                    mode = ( (PSYCO_MODE *)&s07b_dword_800C33AC )[ phase ];
+                }
+            }
+            break;
+        }
+        break;
+    case 2:
+    case 4:
+        mode = s07b_800CDAFC;
+        break;
+    case 6:
+        mode = s07b_800CEFF0;
+        break;
+    case 1:
+    case 3:
+    case 5:
+    case 7:
+    default:
+        if ( work->field_8F0 )
+        {
+            mode = work->field_854;
+            work->field_850 |= 0x2000;
+        }
+        else
+        {
+            phase = 9;
+            if ( (u_short)work->field_8EC == 9 )
+            {
+                phase = 10;
+            }
+            work->field_8EC = phase;
+            mode = ( (PSYCO_MODE *)&s07b_dword_800C33AC )[ phase ];
+        }
+        break;
+    }
+
+    work->field_854 = mode;
+    work->field_858 = 0;
+    work->field_A66 = 0;
+    work->field_A64 = 0;
+    work->control.turn.vz = 0;
+    work->control.turn.vx = 0;
+    if ( mode == s07b_800CEFF0 )
+    {
+        work->field_850 |= 0x200;
+    }
+    s07b_800CC9E8( work, 32 );
+}
+
+const char s07b_dword_800E5018[] = "MANTIS";
+const char s07b_dword_800E5020[] = "マンティス";
+
+const int s07b_dword_800E502C = 0x800CFF7C;
+const int s07b_dword_800E5030 = 0x800D0064;
+const int s07b_dword_800E5034 = 0x800D0178;
+const int s07b_dword_800E5038 = 0x800D035C;
+const int s07b_dword_800E503C = 0x800D035C;
+const int s07b_dword_800E5040 = 0x800D052C;
+
+void s07b_800CCFE4( Work *work );
+
+void s07b_800CD25C( Work *work, int time )
+{
+    int action;
+
+    if ( time == 0 )
+    {
+        work->body.objs->flag &= ~0x80;
+        if ( work->field_83C == 10 )
+        {
+            work->field_A64 = 1;
+        }
+
+        s07b_800CBCE8( work );
+        work->field_850 &= ~1;
+
+        action = ( GV_Time & 1 ) ? 20 : 21;
+        work->body.action = -1;
+        if ( work->body.action != action )
+        {
+            GM_ConfigObjectAction( &work->body, action, 0, 4 );
+        }
+
+        s07b_800CC9E8( work, 0 );
+        work->control.step = DG_ZeroVector;
+    }
+
+    if ( work->body.is_end )
+    {
+        s07b_800CCFE4( work );
+        work->field_84C &= ~4;
+        if ( ( ( GM_PlayerStatus & 0x08000000 ) || ( work->field_850 & 0x400 ) ) && GV_RandS( 64 ) > 0 )
+        {
+            if ( work->field_844 == 2 && work->target->vital <= ( (u_short *)&s07b_dword_800C3390 )[ 1 ] )
+            {
+                return;
+            }
+
+            if ( work->field_844 == 4 && work->target->vital <= *(u_short *)&s07b_dword_800C3394 )
+            {
+                return;
+            }
+
+            s07b_800CAD54( work, ( GV_Time & 1 ) ? 134 : 135 );
+        }
+    }
+}
+void s07b_800CD40C( Work *work, int time )
+{
+    if ( time == 0 )
+    {
+        if ( work->field_83C == 10 )
+        {
+            work->field_A64 = 1;
+        }
+
+        s07b_800CBCE8( work );
+        work->body.objs->flag &= ~0x80;
+        work->field_850 &= ~1;
+        if ( work->body.action != 24 )
+        {
+            GM_ConfigObjectAction( &work->body, 24, 0, 4 );
+        }
+
+        s07b_800CC9E8( work, 0 );
+        work->control.step = DG_ZeroVector;
+    }
+
+    if ( work->body.is_end )
+    {
+        s07b_800CCFE4( work );
+        work->field_84C &= ~4;
+        if ( ( GM_PlayerStatus & 0x08000000 ) && GV_RandS( 64 ) >= -15 )
+        {
+            if ( work->field_844 == 2 && work->target->vital <= ( (u_short *)&s07b_dword_800C3390 )[ 1 ] )
+            {
+                return;
+            }
+
+            if ( work->field_844 == 4 && work->target->vital <= *(u_short *)&s07b_dword_800C3394 )
+            {
+                return;
+            }
+
+            s07b_800CAD54( work, ( GV_Time & 1 ) ? 134 : 135 );
+        }
+    }
+}
+
+void s07b_800CD594( Work *work, int time )
+{
+    SVECTOR offset;
+    MATRIX  mat;
+    int     side;
+    int     action;
+    int     color;
+    int     type;
+
+    if ( time == 0 )
+    {
+        work->field_8A0 = 0;
+        GM_SeSetMode( &work->control.mov, 199, 1 );
+        if ( !( work->field_850 & 0x1000 ) )
+        {
+            if ( work->field_AB8 == 1 )
+            {
+                s07b_800CAD54( work, 132 );
+            }
+            else if ( work->field_AB8 == 3 )
+            {
+                s07b_800CAD54( work, 132 );
+            }
+            else if ( work->field_AB8 == 5 )
+            {
+                s07b_800CAD54( work, 133 );
+            }
+        }
+
+        side = !( GV_Time & 1 );
+        work->field_A64 = side;
+        work->field_850 &= ~0x1000;
+        s07b_800CB224( work );
+        work->control.rot = work->control.turn;
+
+        if ( work->field_A68 == 1 )
+        {
+            s07b_800CBE34( work, &mat );
+            color = 0;
+            type = 0;
+            switch ( GM_Weapon )
+            {
+            case 0:
+                break;
+            case 1:
+                if ( GM_Magazine == GM_MagazineMax || GM_Magazine < 3 )
+                {
+                    color = 2;
+                }
+                else
+                {
+                    type = 1;
+                }
+                break;
+            case 9:
+                type = 2;
+                break;
+            }
+            NewBullet( &mat, 1, color, type );
+        }
+        work->field_A68 = 0;
+
+        work->field_A6C = work->field_870;
+        work->field_A6C.pad = work->field_86E;
+        offset.vy = offset.vz = 0;
+        offset.vx = side ? 1400 : -1400;
+        action = side ? 10 : 13;
+        DG_SetPos2( &work->control.mov, &work->control.rot );
+        DG_PutVector( &offset, &work->field_870, 1 );
+        work->field_86E = 224;
+        if ( work->body.action != action )
+        {
+            GM_ConfigObjectAction( &work->body, action, 0, 4 );
+        }
+        work->body.objs->flag &= ~0x80;
+        work->field_850 &= ~1;
+        if ( work->field_83C == 10 )
+        {
+            work->field_A66 = 1;
+        }
+        s07b_800CBCE8( work );
+    }
+
+    s07b_800CB8CC( work );
+    if ( work->field_868 )
+    {
+        work->field_870 = work->field_A6C;
+        work->field_86E = work->field_A6C.pad;
+        s07b_800CCFE4( work );
+        work->field_84C &= ~4;
+        s07b_800CCA10( work );
+        s07b_800CC9E8( work, 8 );
+        work->field_850 |= 0x200;
+    }
+}
 void s07b_800CD86C( Work *work )
 {
     int now;
@@ -1021,10 +1646,46 @@ void s07b_800CD86C( Work *work )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CDA04.s")
+typedef struct { char s[ 7 ]; } NAME7;
+extern NAME7 s07b_dword_800E5BC8;
+
+int s07b_800CDA04( Work *work )
+{
+    MENU_BAR_CONF *lifebar;
+
+    work->field_900 = work->target->vital;
+    s07b_dword_800E5BC8 = *(NAME7 *)s07b_dword_800E5018;
+    work->lifebar.name = (const char *)&s07b_dword_800E5BC8;
+
+    lifebar = &work->lifebar;
+    lifebar->left[ 0 ] = 0x10;
+    lifebar->left[ 1 ] = 0x6F;
+    lifebar->left[ 2 ] = 0x9F;
+    lifebar->right[ 0 ] = 0x1F;
+    lifebar->right[ 1 ] = 0xDF;
+    lifebar->right[ 2 ] = 0x7F;
+    return 0;
+}
 int s07b_800CDA04( Work *work );
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CDA90.s")
+void s07b_800CDA90( Work *work )
+{
+    work->field_8A0 = 0;
+    if ( work->body.action != 1 )
+    {
+        GM_ConfigObjectAction( &work->body, 1, 0, 4 );
+    }
+
+    {
+        int           action = 19;
+        unsigned long mask = 0x3FE;
+
+        if ( work->body.action2 != action )
+        {
+            GM_ConfigObjectOverride( &work->body, action, 0, 4, mask );
+        }
+    }
+}
 void s07b_800CDA90( Work *work );
 void s07b_800CBC20( Work *work );
 void s07b_800CDBA4( Work *work, int time );
@@ -1714,7 +2375,106 @@ void s07b_800CEBAC( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CED04.s")
+void s07b_800CC174( Work *work, int arg1 );
+
+void s07b_800CED04( Work *work, int time )
+{
+    int action;
+    int state;
+    int wait;
+
+    if ( time == 0 )
+    {
+        if ( GV_Time & 1 )
+        {
+            action = 16;
+        }
+        else
+        {
+            action = 17;
+        }
+        if ( work->body.action != action )
+        {
+            GM_ConfigObjectAction( &work->body, action, 0, 4 );
+        }
+        work->field_850 &= ~1;
+        s07b_800CCA10( work );
+        s07b_800CC9E8( work, 0 );
+        s07b_800CAD54( work, 141 );
+        GM_GameStatus |= 0x82000;
+    }
+
+    s07b_800CB224( work );
+
+    state = work->field_A64;
+    switch ( state )
+    {
+    case 0:
+        if ( work->body.is_end )
+        {
+            if ( work->body.action != 1 )
+            {
+                GM_ConfigObjectAction( &work->body, 1, 0, 4 );
+            }
+            s07b_800CB9E8( work, 160 );
+            work->field_A60 = 1;
+            work->field_A64 = 1;
+            GM_AlertMode = 10;
+            work->control.mov.vx = work->field_870.vx;
+            work->control.mov.vz = work->field_870.vz;
+            GM_GameStatus |= 0x100A2000;
+            GV_PauseLevel |= 4;
+            GM_SetSound( 0x01FFFF06, 0 );
+            work->field_850 |= 0x80;
+            if ( work->field_834 )
+            {
+                GV_DestroyOtherActor( work->field_834 );
+            }
+            work->field_834 = NULL;
+            GM_GameStatus &= ~0x20000000;
+        }
+        break;
+    case 1:
+        GM_PlayerStatus |= 0x4000000;
+        s07b_800CC174( work, work->field_A66 );
+        if ( work->field_A58 == 0 )
+        {
+            wait = 256;
+        }
+        else
+        {
+            wait = 128;
+        }
+        if ( work->field_A66 == 0 )
+        {
+            s07b_800CC6CC();
+        }
+        if ( ++work->field_A66 == wait )
+        {
+            s07b_800CCA10( work );
+            GM_AlertMode = 0;
+            work->field_A60 = 0;
+            work->field_A5C = 6;
+            work->field_8EC = state;
+            work->field_A58++;
+            s07b_800CBD4C( work );
+            work->field_850 |= 1;
+            GM_GameStatus &= ~0x100A2000;
+            GV_PauseLevel &= ~4;
+            work->body.objs->flag |= 0x80;
+            work->field_854 = s07b_800CF130;
+            work->field_858 = 0;
+            work->field_A66 = 0;
+            work->field_A64 = 0;
+            work->control.turn.vz = 0;
+            work->control.turn.vx = 0;
+            GM_SetSound( 0x01FFFF03, 0 );
+            work->field_850 &= ~0x80;
+            GM_PlayerStatus &= ~0x4000000;
+        }
+        break;
+    }
+}
 void s07b_800CEFF0( Work *work, int time )
 {
     if ( time == 0 )
@@ -1823,7 +2583,102 @@ void s07b_800CF200( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CF304.s")
+extern int dword_800BDD28;
+extern int dword_8009F444;
+extern int dword_8009F434;
+extern int dword_8009F49C;
+extern int dword_8009F480;
+void *NewFadeInOut( int mode, int shade );
+
+void s07b_800CF304( Work *work, int time )
+{
+    SVECTOR diff;
+    SVECTOR ofs;
+    SVECTOR from;
+    SVECTOR to;
+    int     len;
+
+    if ( time == 0 )
+    {
+        s07b_800CC6CC();
+        GM_SetSound( 0x01FFFF06, 0 );
+        dword_800BDD28 = 0;
+        dword_8009F444 = 0;
+        dword_8009F434 = 0;
+        dword_8009F49C = 0;
+        dword_8009F480 = 0;
+        work->field_84C |= 0x10;
+        GM_GameStatus |= 0x100A0000;
+        GM_PlayerStatus |= 0x4000000;
+        work->field_850 &= ~8;
+        s07b_800CC9E8( work, 0 );
+        s07b_800CBCE8( work );
+        s07b_800CB068( 0 );
+        s07b_800CB0B4( work, 0 );
+        work->body.objs->flag &= ~0x80;
+        if ( work->body.action != 22 )
+        {
+            GM_ConfigObjectAction( &work->body, 22, 0, 4 );
+        }
+        s07b_800CAD54( work, 137 );
+
+        from = work->control.mov;
+        from.vy = 1500;
+        to = GM_PlayerPosition;
+        to.vy = 1500;
+        GV_SubVec3( &from, &to, &diff );
+        len = GV_VecLen3( &diff );
+        GV_LenVec3( &diff, &ofs, len, 1500 );
+        GV_SubVec3( &from, &ofs, &work->field_A6C );
+        work->control.step = DG_ZeroVector;
+    }
+
+    if ( work->body.height < 1000 )
+    {
+        work->field_8A0 = 1;
+    }
+    if ( work->body.height < 500 )
+    {
+        work->field_8A0 = 2;
+    }
+
+    if ( time == 33 || time == 43 || time == 55 )
+    {
+        GM_SeSetMode( &work->control.mov, 51, 1 );
+    }
+
+    GM_Camera.first_person = 1;
+    GM_SnakeCamera.position = work->field_A6C;
+    GV_SubVec3( &work->control.mov, &GM_PlayerPosition, &diff );
+    GM_PlayerControl->turn.vy = GV_VecDir2( &diff );
+    GM_PlayerBody->objs->flag |= 0x80;
+
+    if ( work->field_A64 == 0 )
+    {
+        if ( work->body.is_end )
+        {
+            if ( work->body.action != 23 )
+            {
+                GM_ConfigObjectAction( &work->body, 23, 0, 4 );
+            }
+            work->field_A64++;
+        }
+    }
+    else
+    {
+        if ( work->field_A64 == 32 )
+        {
+            NewFadeInOut( 0, 48 );
+        }
+        if ( ++work->field_A64 == 96 )
+        {
+            work->field_846 = -1;
+            work->field_850 |= 0x10;
+            s07b_800CC138( work, -1 );
+            GM_PlayerStatus &= ~0x4000000;
+        }
+    }
+}
 
 // mode function: reset the animations on the first frame (time == 0)
 void s07b_800CF684( Work *work, int time )
@@ -1920,8 +2775,67 @@ void s07b_800CF768( Work *work, int time )
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CF9A0.s")
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D075C.s")
+void s07b_800CF9A0( Work *work, int time )
+{
+    SVECTOR from;
+    SVECTOR to;
+    int     action;
+
+    if ( time == 0 )
+    {
+        GM_SeSetMode( &work->control.mov, 129, 1 );
+        action = work->body.action;
+        if ( action != 1 )
+        {
+            GM_ConfigObjectAction( &work->body, 1, 0, 4 );
+        }
+        action = 19;
+        if ( work->body.action2 != action )
+        {
+            GM_ConfigObjectOverride( &work->body, action, 0, 4, 0x3FE );
+        }
+        s07b_800CC138( work, 7 );
+    }
+
+    switch ( work->field_A64 )
+    {
+    case 0:
+        GM_PlayerBody->objs->flag |= 0x80;
+        GM_PlayerStatus |= 0x4000000;
+        from = work->control.mov;
+        to.vx = GM_PlayerBody->objs->objs[ 6 ].world.t[ 0 ];
+        to.vy = GM_PlayerBody->objs->objs[ 6 ].world.t[ 1 ];
+        to.vz = GM_PlayerBody->objs->objs[ 6 ].world.t[ 2 ];
+        s07b_800CC578( &from, &to, 4000, &work->control.turn.vy, &GM_PlayerControl->turn.vy );
+        if ( ++work->field_A66 == 120 )
+        {
+            CloseCinemaScreen();
+            GM_Camera.first_person = 0;
+            GM_GameStatus &= ~0x104A2000;
+            if ( work->body.action2 )
+            {
+                GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
+            }
+            work->field_A64++;
+            work->field_A66 = 0;
+        }
+        break;
+    case 1:
+        if ( ++work->field_A66 == 6 )
+        {
+            GM_PlayerStatus &= ~0x4000000;
+            GM_PlayerBody->objs->flag &= ~0x80;
+            GM_GameStatus &= ~0x104A2000;
+            GM_GameStatus |= 0x400000;
+            s07b_800CCA10( work );
+            work->field_846 = 4;
+            work->field_850 |= 0x10;
+            work->field_84C &= ~0x10;
+        }
+        break;
+    }
+}
+#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CFBF8.s")
 void OpenCinemaScreen( int type, int time );
 void CloseCinemaScreen( void );
 
@@ -2002,7 +2916,7 @@ void s07b_800D098C( Work *work, int time )
 }
 void s07b_800CB2A4( Work *work );
 
-void s07b_800D0A4C( Work *work )
+void s07b_800D0A4C( Work *work, int time )
 {
     s07b_800CB2A4( work );
 }
@@ -2045,14 +2959,64 @@ void s07b_800D0A6C( Work *work, int time )
     }
 }
 
-void s07b_800D0B40( void )
+void s07b_800D0B40( Work *work, int time )
 {
     /* do nothing */
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D0B48.s")
+void s07b_800CFBF8( Work *work, int time );
 
-void s07b_800D0C8C( void )
+void s07b_800D0B48( Work *work, int time )
+{
+    int *flags;
+
+    if ( time == 0 )
+    {
+        s07b_800CC138( work, 4 );
+        work->field_854 = s07b_800CDBA4;
+        work->field_858 = 0;
+        work->field_A66 = 0;
+        work->field_A64 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        s07b_800CC89C( work, 1 );
+    }
+
+    s07b_800CCBFC( work );
+    s07b_800CB2A4( work );
+
+    flags = s07b_dword_800E5BB0;
+    if ( ( *flags & 0x1000 ) || work->target->vital <= *(u_short *)&s07b_dword_800C3394 )
+    {
+        GM_GameStatus |= 0x10000000;
+        if ( work->field_84C & 4 )
+        {
+            return;
+        }
+
+        if ( !( *flags & 0x800 ) )
+        {
+            s07b_800CC138( work, 8 );
+        }
+
+        if ( work->target->vital < *(u_short *)&s07b_dword_800C3394 )
+        {
+            work->target->vital = *(u_short *)&s07b_dword_800C3394;
+        }
+
+        work->field_846 = 5;
+        work->field_854 = s07b_800CFBF8;
+        work->field_858 = 0;
+        work->field_A66 = 0;
+        work->field_A64 = 0;
+        work->control.turn.vz = 0;
+        work->control.turn.vx = 0;
+        work->field_84C |= 0x10;
+        work->field_850 |= 0x10;
+    }
+}
+
+void s07b_800D0C8C( Work *work, int time )
 {
     /* do nothing */
 }
@@ -2102,7 +3066,7 @@ void s07b_800D0C94( Work *work, int time )
     }
 }
 
-void s07b_800D0DCC( void )
+void s07b_800D0DCC( Work *work, int time )
 {
     /* do nothing */
 }
@@ -2169,7 +3133,7 @@ void s07b_800D0DD4( Work *work, int time )
 void s07b_800CB2A4( Work *work );
 void s07b_800CCBFC( Work *work );
 
-void s07b_800D0F94( Work *work )
+void s07b_800D0F94( Work *work, int time )
 {
     s07b_800CB2A4( work );
     s07b_800CCBFC( work );
@@ -2195,10 +3159,102 @@ void s07b_800D0FC0( Work *work, int arg1 )
     }
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D105C.s")
+void s07b_800D105C( Work *work )
+{
+    void ( *mode )( Work *, int );
+    int time;
 
-void s07b_800D105C( Work *work );
-void s07b_800CD86C( Work *work );
+    s07b_800CAFC8( work );
+    s07b_800CC50C( work );
+
+    time = work->field_848;
+    if ( time < 160000 )
+    {
+        work->field_848 = time + 1;
+    }
+
+    switch ( work->field_844 )
+    {
+    case 0:
+        s07b_800D098C( work, time );
+        break;
+    case 1:
+        s07b_800D0A4C( work, time );
+        break;
+    case 2:
+        s07b_800D0A6C( work, time );
+        break;
+    case 3:
+        s07b_800D0B40( work, time );
+        break;
+    case 4:
+        s07b_800D0B48( work, time );
+        break;
+    case 5:
+        s07b_800D0C8C( work, time );
+        break;
+    case 6:
+        s07b_800D0C94( work, time );
+        break;
+    case 7:
+        s07b_800D0DCC( work, time );
+        break;
+    case 8:
+        s07b_800D0DD4( work, time );
+        break;
+    case 9:
+        s07b_800D0F94( work, time );
+        break;
+    case 10:
+    game_over:
+        s07b_800D0FC0( work, time );
+        break;
+    }
+
+    if ( GM_GameOverTimer != 0 || GM_Vitality == 0 || ( *s07b_dword_800E5BB0 & 8 ) )
+    {
+        if ( work->field_844 != 10 )
+        {
+            time = 0;
+            work->field_844 = 10;
+            work->field_848 = 1;
+            goto game_over;
+        }
+    }
+
+    s07b_800CC67C( work );
+    s07b_800CBDA0( work );
+    s07b_800CC468( work );
+
+    if ( work->field_84C & 4 )
+    {
+        time = work->field_860;
+        mode = work->field_85C;
+        if ( time < 16000 )
+        {
+            work->field_860 = time + 1;
+        }
+    }
+    else
+    {
+        time = work->field_858;
+        mode = work->field_854;
+        if ( time < 16000 )
+        {
+            work->field_858 = time + 1;
+        }
+    }
+
+    mode( work, time );
+    s07b_800CC704( work );
+    s07b_800CBFB0( work );
+}
+
+const char s07b_dword_800E5070[] = "メリル";
+const char s07b_dword_800E5078[] = "hideo_b";
+const char s07b_dword_800E5080[] = "hideo_s";
+const char s07b_dword_800E5088[] = "hideo";
+
 
 void s07b_800D105C( Work *work );
 void s07b_800CD86C( Work *work );
@@ -2304,12 +3360,84 @@ int s07b_800D1484( Work *work )
     hom = GM_SetHomingTarget( &work->body.objs->objs[ 6 ].world, &work->control );
     work->hom = hom;
     hom->flag = 1;
-    *(u_short *)&s07b_dword_800C33F0 = target->vital;
+    s07b_dword_800C33F0 = target->vital;
     return 0;
 }
 int s07b_800D1484( Work *work );
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D1638.s")
+extern int *s07b_dword_800E5BD8;
+
+void s07b_800D1638( Work *work )
+{
+    int     i;
+    u_char *lock;
+
+    s07b_dword_800E5BD8 = &work->field_84C;
+    work->field_84C = 0;
+    work->field_850 = 0;
+    work->field_870 = DG_ZeroVector;
+    work->field_880 = DG_ZeroVector;
+    work->field_878 = DG_ZeroVector;
+    work->pos = work->control.mov;
+    work->rot = work->control.rot;
+    work->field_A60 = 0;
+    work->field_A62 = 0;
+    work->field_A63 = 0;
+    work->field_A66 = 0;
+    work->field_A64 = 0;
+    work->field_A6A = 0;
+    work->field_A68 = 0;
+    work->field_A6C = DG_ZeroVector;
+    work->pad = &GV_PadData[ 0 ];
+    work->pad2 = &GV_PadData[ 1 ];
+    work->sepia = NULL;
+    work->field_834 = NULL;
+
+    if ( GCL_GetOption( 'm' ) )
+    {
+        work->field_844 = GCL_StrToInt( GCL_NextStr() );
+    }
+    else
+    {
+        work->field_844 = 0;
+    }
+
+    work->field_848 = 0;
+    work->field_846 = -1;
+
+    if ( GCL_GetOption( 'n' ) )
+    {
+        work->field_840 = GCL_StrToInt( GCL_NextStr() );
+    }
+    else
+    {
+        work->field_840 = GV_StrCode( s07b_dword_800E5070 );
+    }
+
+    work->field_83C = -1;
+
+    if ( GCL_GetOption( 'k' ) && GCL_StrToInt( GCL_NextStr() ) )
+    {
+        s07b_800CBD4C( work );
+    }
+
+    if ( GCL_GetOption( 'g' ) && GCL_StrToInt( GCL_NextStr() ) )
+    {
+        work->field_850 |= 0x20;
+    }
+
+    i = 7;
+    lock = (u_char *)work + i;
+    for ( ; i >= 0; i-- )
+    {
+        lock[ 0xA88 ] = 0;
+        lock--;
+    }
+
+    work->field_8A0 = 0;
+    work->control.hzd_height = s07b_dword_800C33F4[ 0 ];
+    work->field_8F0 = NULL;
+}
 void s07b_800D1638( Work *work );
 
 int s07b_800D187C( HZD_PAT *patrol, int *count, SVECTOR *data )
@@ -2355,7 +3483,69 @@ int s07b_800D18E0( Work *work )
     return 0;
 }
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D195C.s")
+void s07b_800D195C( Work *work )
+{
+    DG_TEX   *tex_b;
+    DG_TEX   *tex_s;
+    int       i;
+    POLY_FT4 *poly;
+    POLY_F4  *tile;
+
+    tex_b = DG_GetTexture( GV_StrCode( s07b_dword_800E5078 ) );
+    tex_s = DG_GetTexture( GV_StrCode( s07b_dword_800E5080 ) );
+    work->field_A54 = DG_GetTexture( GV_StrCode( s07b_dword_800E5088 ) );
+
+    for ( i = 0; i < 2; i++ )
+    {
+        poly = &work->field_9D4[ i ];
+        setPolyFT4( poly );
+        poly->r0 = poly->g0 = poly->b0 = 128;
+        poly->x0 = poly->x2 = 224;
+        poly->x1 = poly->x3 = 296;
+        poly->y0 = poly->y1 = 8;
+        poly->y2 = poly->y3 = 40;
+        DG_SetPacketTexture( poly, work->field_A54 );
+        poly->tpage = work->field_A54->tpage;
+        poly->clut = work->field_A54->clut;
+
+        poly = &work->field_934[ i ];
+        setPolyFT4( poly );
+        poly->r0 = poly->g0 = poly->b0 = 128;
+        poly->x0 = poly->x2 = 192;
+        poly->x1 = poly->x3 = 312;
+        poly->y0 = poly->y1 = 8;
+        poly->y2 = poly->y3 = 36;
+        DG_SetPacketTexture4( poly, tex_b );
+
+        poly = &work->field_984[ i ];
+        setPolyFT4( poly );
+        poly->r0 = poly->g0 = poly->b0 = 128;
+        poly->x0 = poly->x2 = 252;
+        poly->x1 = poly->x3 = 312;
+        poly->y0 = poly->y1 = 8;
+        poly->y2 = poly->y3 = 22;
+        DG_SetPacketTexture4( poly, tex_s );
+
+        tile = &work->field_A24[ i ];
+        setPolyF4( tile );
+        tile->r0 = tile->g0 = tile->b0 = 0;
+        tile->x0 = tile->x2 = 0;
+        tile->x1 = tile->x3 = 320;
+        tile->y0 = tile->y1 = 0;
+        tile->y2 = tile->y3 = 224;
+
+        tile = &work->field_904[ i ];
+        tile->r0 = tile->g0 = tile->b0 = 255;
+        setPolyF4( tile );
+        tile->x0 = tile->x2 = 0;
+        tile->x1 = tile->x3 = 320;
+        tile->y0 = tile->y1 = 0;
+        tile->y2 = tile->y3 = 224;
+    }
+
+    work->field_A58 = 0;
+    work->field_A5C = 0;
+}
 void s07b_800D195C( Work *work );
 
 void s07b_800D1C80( Work *work )
