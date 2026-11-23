@@ -12,7 +12,7 @@ int s03d_dword_800C39D0 = 0x0320012C;
 int s03d_dword_800C39D4 = 0x0000012C;
 int s03d_dword_800C39D8 = 0x00000000;
 int s03d_dword_800C39DC = 0x00000000;
-int s03d_dword_800C39E0 = 0x00140013;
+int ActionTable = 0x00140013;
 int s03d_dword_800C39E4 = 0x0016000A;
 short s03d_word_800C39E8[2] = {0x0009, 0x0022};
 short s03d_word_800C39EC[2] = {0x0023, 0x0024};
@@ -36,13 +36,13 @@ short s03d_word_800C3A3C[2] = {0x0012, 0x002B};
 
 int s03d_dword_800C3A40 = 0x00000016;
 
-int s03d_dword_800C3A44 = 0x00FA109A;
+int ThrowPos2 = 0x00FA109A;
 int s03d_dword_800C3A48 = 0x000001F4;
 
-int s03d_dword_800C3A4C = 0x00FA109A;
+int ThrowPos = 0x00FA109A;
 int s03d_dword_800C3A50 = 0x000001F4;
 
-int s03d_dword_800C3A54 = 0x00320000;
+int ThrowStep = 0x00320000;
 int s03d_dword_800C3A58 = 0x000000C8;
 
 int s03d_dword_800C3A5C = 0x0000FF6A;
@@ -68,10 +68,10 @@ int s03d_dword_800C3A94 = 0x800D0D6C;
 int s03d_dword_800C3A98 = 0x800D0DF0;
 int s03d_dword_800C3A9C = 0x800D0E2C;
 
-int s03d_dword_800C3AA0 = 0xFE0C0005;
+int MuzzlePos = 0xFE0C0005;
 int s03d_dword_800C3AA4 = 0x00000050;
 
-int s03d_dword_800C3AA8 = 0x00000400;
+int MuzzleRot = 0x00000400;
 int s03d_dword_800C3AAC = 0x00000000;
 
 int s03d_dword_800C3AB0 = 0x00001F40;

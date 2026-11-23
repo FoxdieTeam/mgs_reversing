@@ -649,7 +649,7 @@ void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 void Enemy_Think( WatcherWork * work );
 void AN_Piyopiyo( SVECTOR *svec );
 void AN_Sleep( SVECTOR *svec );
-void AN_Fog( SVECTOR *svec );
+void AN_PunchFog( SVECTOR *svec );
 void s00a_command_800CB13C( WatcherWork * work );
 void s00a_command_800CC210( WatcherWork * work );
 void s00a_command_800CEB54();

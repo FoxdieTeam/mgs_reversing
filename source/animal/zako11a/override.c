@@ -11,7 +11,7 @@ static SVECTOR BreathPos = {0, -700, 900};
 
 /*---------------------------------------------------------------------------*/
 
-void s11a_800CD198( Work *work, int time )
+void ActOverScoutR( Work *work, int time )
 {
     if ( time == 0 ) SetAction2( work, 9, 4, 0x3FE );
 
@@ -29,7 +29,7 @@ void s11a_800CD198( Work *work, int time )
     }
 }
 
-void s11a_800CD264( Work *work, int time )
+void ActOverScoutL( Work *work, int time )
 {
     if ( time == 0 ) SetAction2( work, 10, 4, 0x3FE );
 
@@ -47,7 +47,7 @@ void s11a_800CD264( Work *work, int time )
     }
 }
 
-void s11a_800CD330( Work *work, int time )
+void ActOverScoutD( Work *work, int time )
 {
     work->vision.length = 3000;
 
@@ -55,7 +55,7 @@ void s11a_800CD330( Work *work, int time )
     if ( !( work->pad.press & 0x4 ) ) UnsetMode( work );
 }
 
-void s11a_800CD3C8( Work *work, int time )
+void ActOverScoutU( Work *work, int time )
 {
     work->vision.length = 3000;
 
@@ -63,7 +63,7 @@ void s11a_800CD3C8( Work *work, int time )
     if ( !( work->pad.press & 0x2000 ) ) UnsetMode( work );
 }
 
-void s11a_800CD460( Work *work, int time )
+void ActOverKushami( Work *work, int time )
 {
     work->vision.length = 0;
 
@@ -80,7 +80,7 @@ void s11a_800CD460( Work *work, int time )
     }
 }
 
-void s11a_800CD514( Work *work, int time )
+void ActOverAkubi( Work *work, int time )
 {
     work->vision.length = 0;
 
@@ -94,7 +94,7 @@ void s11a_800CD514( Work *work, int time )
     }
 }
 
-void s11a_800CD5DC( Work *work, int time )
+void ActOverKatakori( Work *work, int time )
 {
     if ( time == 0 ) SetAction2( work, 23, 4, 0x3FE );
 
@@ -105,7 +105,7 @@ void s11a_800CD5DC( Work *work, int time )
     }
 }
 
-void s11a_800CD680( Work *work, int time )
+void ActOverSenobi( Work *work, int time )
 {
     work->vision.length = 0;
 
@@ -119,7 +119,7 @@ void s11a_800CD680( Work *work, int time )
     }
 }
 
-void s11a_800CD748( Work *work, int time )
+void ActOverInemuri( Work *work, int time )
 {
     SVECTOR pos;
 
@@ -150,7 +150,7 @@ void s11a_800CD748( Work *work, int time )
 
         if ( work->pad.press & 0x1000 )
         {
-            SetMode( work, s11a_800CB964 );
+            SetMode( work, ActWakeup );
             UnsetMode( work );
             return;
         }
@@ -162,7 +162,7 @@ void s11a_800CD748( Work *work, int time )
     }
 }
 
-static void s11a_800CD920( Work *work ) 
+static void PutBreath( Work *work ) 
 {
     MATRIX world;
 
@@ -189,13 +189,13 @@ void s11a_800CD960( Work *work, int time )
              cont == 60 )
         {
             GM_SeSet( &work->control.mov, SE_WET_STEP );
-            s11a_800CD920( work );
+            PutBreath( work );
         }
     }
     else if ( time > 30 && ( time & 0x1 ) )
     {
         GM_SeSet( &work->control.mov, SE_WET_STEP );
-        if ( time > 45 ) s11a_800CD920( work );
+        if ( time > 45 ) PutBreath( work );
     }
 
     if ( !( work->pad.press & 0x800000 ) ) UnsetMode( work );
@@ -215,7 +215,7 @@ void s11a_800CDAA8( Work *work, int time )
          time == 186 )
     {
         GM_SeSet( &work->control.mov, SE_WET_STEP );
-        s11a_800CD920( work );
+        PutBreath( work );
     }
 
     if ( ( time > 186 && work->body.time2 != 0 ) || !( work->pad.press & 0x1000000 ) )
