@@ -149,11 +149,16 @@ typedef struct _Work {
     /* 0xC44 */ short          field_C44;
 } Work;
 
-typedef struct _JDATA {
+typedef struct _JOINT {
     u_short map;
-    u_short count;
-    u_short data[ 8 ][ 2 ];
-} JDATA;
+    u_short zone;
+} JOINT;
+
+typedef struct _JOINT_DATA {
+    u_short map;
+    u_short n_joints;
+    JOINT   joints[ 8 ];
+} JOINT_DATA;
 
 // TODO: check name
 typedef struct _WATCHER {
@@ -164,31 +169,31 @@ typedef struct _WATCHER {
 } WATCHER;
 
 typedef struct _COMMANDER {
-    /* 0x000 */ int     field_0;
-    /* 0x004 */ int     field_4;
-    /* 0x008 */ int     n_watchers;
-    /* 0x00C */ int     time;
-    /* 0x010 */ int     time2;
-    /* 0x014 */ int     alert_time;
-    /* 0x018 */ int     alert_level;
-    /* 0x01C */ int     alert_mode;
-    /* 0x020 */ int     field_20;
-    /* 0x024 */ int     target_addr;
-    /* 0x028 */ int     target_map;
-    /* 0x02C */ SVECTOR target_pos;
-    /* 0x034 */ short   n_zones;
-    /* 0x036 */ short   far_zone;
-    /* 0x038 */ short   zones[ 4 ];
-    /* 0x040 */ int     field_40[ 8 ];
-    /* 0x060 */ int     field_60;
-    /* 0x064 */ MAP    *map;
-    /* 0x068 */ JDATA   jdata;
-    /* 0x08C */ WATCHER watchers[ 8 ];
-    /* 0x10C */ int     field_10C;
-    /* 0x110 */ int     field_110;
-    /* 0x114 */ int     end_proc;
-    /* 0x118 */ int     start_proc;
-    /* 0x11C */ int     start_proc2;
+    /* 0x000 */ int         field_0;
+    /* 0x004 */ int         field_4;
+    /* 0x008 */ int         n_watchers;
+    /* 0x00C */ int         time;
+    /* 0x010 */ int         time2;
+    /* 0x014 */ int         alert_time;
+    /* 0x018 */ int         alert_level;
+    /* 0x01C */ int         alert_mode;
+    /* 0x020 */ int         field_20;
+    /* 0x024 */ int         target_addr;
+    /* 0x028 */ int         target_map;
+    /* 0x02C */ SVECTOR     target_pos;
+    /* 0x034 */ short       n_zones;
+    /* 0x036 */ short       c_reset_pos;
+    /* 0x038 */ short       zones[ 4 ];
+    /* 0x040 */ int         field_40[ 8 ];
+    /* 0x060 */ int         field_60;
+    /* 0x064 */ MAP        *map;
+    /* 0x068 */ JOINT_DATA  joint_data;
+    /* 0x08C */ WATCHER     watchers[ 8 ];
+    /* 0x10C */ int         field_10C;
+    /* 0x110 */ int         field_110;
+    /* 0x114 */ int         end_proc;
+    /* 0x118 */ int         start_proc;
+    /* 0x11C */ int         start_proc2;
 } COMMANDER;
 
 // TODO: check name
@@ -267,6 +272,7 @@ static inline void UnsetMode( Work *work )
 
 /*---------------------------------------------------------------------------*/
 
+#ifndef __ANIMAL_ZAKO11A_ZAKOCOM_C__
 extern SVECTOR   ZAKO11A_TARGET_SIZE;
 extern SVECTOR   ZAKO11A_TARGET_FORCE;
 extern SVECTOR   ZAKO11A_ATTACK_SIZE;
@@ -278,10 +284,11 @@ extern int       ZAKO11A_EYE_LENGTH;
 extern SVECTOR   ZAKO11A_PlayerPosition;
 extern COMMANDER ZAKO11ACommand;
 extern TOP       ZAKO11ATOPCOMMAND;
-extern int       ZAKO11A_Unknown;
 extern int       ZAKO11A_GameFlag;
+extern int       ZAKO11A_GameStatus;
 extern int       ZAKO11A_PlayerAddress;
 extern int       ZAKO11A_PlayerMap;
+#endif // __ANIMAL_ZAKO11A_ZAKOCOM_C__
 
 // zako11a.c
 void *NewZako11A( int name, int where );
@@ -326,6 +333,6 @@ void ZAKO11ASetTopCommAL( int alert );
 void ZAKO11ASetTopCommMD( int mode );
 void ZAKO11ASetGopointLast( void );
 void ZAKO11ASetGopointNoise( void );
-int  ZAKO11AFindRoute( int map, int id );
+int  ZAKO11AGetMapJointZone( int map, int id );
 
 #endif // __MGS_ANIMAL_ZAKO11A_ZAKO_H__

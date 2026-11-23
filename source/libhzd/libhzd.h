@@ -66,7 +66,7 @@ typedef struct {
 #define HZD_SEG_NO_BEHIND     (0x40) /* player lean */
 #define HZD_SEG_NO_DISP_RADAR (0x80) /* radar draw */
 
-#define HZX_FLOOR_DYNAMIC (0x1)
+#define HZD_FLOOR_DYNAMIC (0x1)
 
 #define HZD_FLOOR_RECT (0x1)
 #define HZD_FLOOR_FLAT (0x2)
@@ -193,7 +193,7 @@ void HZD_GetOnlinePoint( SVECTOR *ptp_ptr );
 /* near.c */
 int HZD_NearHazardCheck( HZD_HDL *hzd, SVECTOR *from, int sphere, int chk_flag, int seg_flag );
 void HZD_GetNearHazard( HZD_SEG **segs );
-void HZX_GetNearHazardAtr( char *atrs );
+void HZD_GetNearHazardAtr( char *atrs );
 void HZD_GetNearVector( SVECTOR *vect_ptr );
 
 /* vector.c */

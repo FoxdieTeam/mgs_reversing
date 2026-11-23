@@ -990,7 +990,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
             v1 = target->a_mode;
             if ( v1 == 1 )
             {
-                work->field_C4C = v1;
+                work->field_C4C = 1;
             }
             work->unknown.field_14 = 5;
             target->side = ENEMY_SIDE;
