@@ -254,7 +254,7 @@ void Zako11AActionMain( Work *work )
         ZAKO11A_ExecPutChars( work );
     }
 
-    ZAKO11A_ActionUpdate( work );
+    ZAKO11A_Action( work );
 }
 
 void Zako11APushMove( Work *work )

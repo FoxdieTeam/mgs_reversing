@@ -42,7 +42,7 @@ void ZAKO11E_PutFog_800D7A84( ZakoWork *work )
     svec.vy = mat.t[ 1 ];
     svec.vz = mat.t[ 2 ];
 
-    AN_Fog( &svec );
+    AN_PunchFog( &svec );
 }
 
 extern const char *s11e_dword_800C3690[3];

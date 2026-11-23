@@ -7,7 +7,7 @@
 #include "okajima/bullet.h"
 
 extern void *AN_Breath( MATRIX *world );
-extern void *AN_Fog( SVECTOR *pos );
+extern void *AN_PunchFog( SVECTOR *pos );
 extern void *AN_HeadMark( MATRIX* world, int mark );
 
 static void PutSound( Work *work );
@@ -57,7 +57,7 @@ void ZAKO14_PutFog( Work *work )
     DG_RotatePos( &FogRot );
     ReadRotMatrix( &world );
     DG_COPY_VEC( &pos, (VECTOR *)world.t );
-    AN_Fog( &pos );
+    AN_PunchFog( &pos );
 }
 
 void ZAKO14_PutItem( Work *work )

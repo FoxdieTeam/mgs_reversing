@@ -1753,7 +1753,7 @@ void ENE_PutFog( WatcherWork* work )
     svec.vy = mat.t[ 1 ];
     svec.vz = mat.t[ 2 ];
 
-    AN_Fog( &svec );
+    AN_PunchFog( &svec );
 }
 
 void ENE_PutItem( WatcherWork *work )

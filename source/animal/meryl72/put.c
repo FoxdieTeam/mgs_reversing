@@ -1,7 +1,7 @@
 #include "meryl72.h"
 
 extern void  AN_Breath( MATRIX * ) ;
-extern void  AN_Fog( SVECTOR *pos ) ;
+extern void  AN_PunchFog( SVECTOR *pos ) ;
 extern void  NewBlood( MATRIX *, int ) ;
 extern void *AN_HeadMark( MATRIX* mat, int mark );
 
@@ -37,7 +37,7 @@ void ML72_PutBreath_800CB35C( Meryl72Work *work )
     svec.vy = mat.t[ 1 ];
     svec.vz = mat.t[ 2 ];
 
-    AN_Fog( &svec );
+    AN_PunchFog( &svec );
 }
 
 void ML72_PutMark_800CB3C0( Meryl72Work* work, int mark )

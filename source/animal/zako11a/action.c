@@ -5,28 +5,6 @@
 
 /*---------------------------------------------------------------------------*/
 
-void s11a_800CAF9C( Work *work, int time );
-void s11a_800CB248( Work *work, int time );
-void s11a_800CB2D8( Work *work, int time );
-void s11a_800CB3C0( Work *work, int time );
-void ActReadyGun( Work *work, int time );
-void s11a_800CB534( Work *work, int time );
-void s11a_800CB5E4( Work *work, int time );
-void ActGrenade( Work *work, int time );
-void s11a_800CB88C( Work *work, int time );
-void s11a_800CBA0C( Work *work, int time );
-void s11a_800CBD74( Work *work, int time );
-void s11a_800CC0E8( Work *work, int time );
-void s11a_800CC15C( Work *work, int time );
-void s11a_800CC2AC( Work *work, int time );
-void s11a_800CC424( Work *work, int time );
-void s11a_800CC4EC( Work *work, int time );
-void s11a_800CC5F0( Work *work, int time );
-void s11a_800CC70C( Work *work, int time );
-void s11a_800CCC3C( Work *work, int time );
-void s11a_800CCE1C( Work *work, int time );
-void s11a_800CCF18( Work *work, int time );
-
 short ActionTable[] = {
     19, 20, 10, 22,  9, 34, 35, 36,
     45, 13, 12, 26, 15, 14, 16, 27,
@@ -39,11 +17,13 @@ short ActionTable[] = {
 
 static u_char VibH[] = { 1, 4, 0, 0 };
 static u_char VibL[] = { 255, 4, 0, 0 };
-static SVECTOR s11a_dword_800C34A0 = { -150, 0, 300 };
+static SVECTOR DragStep = { -150, 0, 300 };
+
+static void ShowMotion( Work *work, int time );
 
 /*---------------------------------------------------------------------------*/
 
-int CheckCapture( Work *work )
+static int CheckCapture( Work *work )
 {
     TARGET *target;
 
@@ -52,11 +32,11 @@ int CheckCapture( Work *work )
     {
         if ( target->a_mode == 36 )
         {
-            SetMode( work, s11a_800CBA0C );
+            SetMode( work, ActThrowDown );
         }
         else
         {
-            SetMode( work, s11a_800CBD74 );
+            SetMode( work, ActGrab );
         }
 
         target->damaged = 0;
@@ -66,7 +46,7 @@ int CheckCapture( Work *work )
     return 0;
 }
 
-int CheckDown( Work *work )
+static int CheckDown( Work *work )
 {
     int down;
 
@@ -74,12 +54,12 @@ int CheckDown( Work *work )
     return down != 0;
 }
 
-int VectorSize( SVECTOR *vec )
+static int VectorSize( SVECTOR *vec )
 {
     return ABS( vec->vx ) + ABS( vec->vy ) + ABS( vec->vz );
 }
 
-int CheckPower( Work *work )
+static int CheckPower( Work *work )
 {
     TARGET *target;
 
@@ -93,27 +73,27 @@ int CheckPower( Work *work )
         if ( target->faint <= 0 )
         {
             work->act.field_14 = 1;
-            SetMode( work, s11a_800CC70C );
+            SetMode( work, ActDown );
         }
         else
         {
-            SetMode( work, s11a_800CC5F0 );
+            SetMode( work, ActShrink );
         }
         break;
     case 4:
         work->act.field_14 = 0;
-        SetMode( work, s11a_800CC70C );
+        SetMode( work, ActDown );
         break;
     case 1:
         target->force = DG_ZeroVector;
         if ( target->vital <= 0 )
         {
             work->act.field_14 = 1;
-            SetMode( work, s11a_800CC70C );
+            SetMode( work, ActDown );
         }
         else
         {
-            SetMode( work, s11a_800CC5F0 );
+            SetMode( work, ActShrink );
         }
         break;
     case 2:
@@ -125,17 +105,17 @@ int CheckPower( Work *work )
         {
             work->act.field_14 = 2;
         }
-        SetMode( work, s11a_800CC70C );
+        SetMode( work, ActDown );
         break;
     case 5:
         work->act.field_14 = 3;
-        SetMode( work, s11a_800CC70C );
+        SetMode( work, ActDown );
         break;
     case 8:
-        SetMode( work, s11a_800CC0E8 );
+        SetMode( work, ActBlast );
         break;
     case 9:
-        SetMode( work, s11a_800CC15C );
+        SetMode( work, ActFlash );
         break;
     }
 
@@ -144,7 +124,7 @@ int CheckPower( Work *work )
     return 1;
 }
 
-int CheckStun( Work *work )
+static int CheckStun( Work *work )
 {
     CONTROL *ctrl;
 
@@ -158,14 +138,14 @@ int CheckStun( Work *work )
 
     if ( GM_GameStatus & STATE_STUN )
     {
-        SetMode( work, s11a_800CC15C );
+        SetMode( work, ActFlash );
         return 1;
     }
 
     return 0;
 }
 
-int CheckDamage( Work *work )
+static int CheckDamage( Work *work )
 {
     int capture, power, stun;
 
@@ -181,7 +161,7 @@ int CheckDamage( Work *work )
     return 0;
 }
 
-void s11a_800CA8C8( Work *work )
+static void ResetParam( Work *work )
 {
     SVECTOR *mov;
 
@@ -209,7 +189,7 @@ void s11a_800CA8C8( Work *work )
     work->last_addr = work->next_addr = work->start_addr;
 }
 
-int s11a_800CA99C( int from, int to )
+static int CheckDir( int from, int to )
 {
     int diff;
 
@@ -221,7 +201,7 @@ int s11a_800CA99C( int from, int to )
     return 2;
 }
 
-void ReviseReadyGun( Work *work )
+static void ReviseReadyGun( Work *work )
 {
     int h1, h2, ang, rotx;
 
@@ -242,7 +222,7 @@ void ReviseReadyGun( Work *work )
     }
 }
 
-int AttackForce( Work *work )
+static int AttackForce( Work *work )
 {
     SVECTOR svec;
     SVECTOR rp_shift = { -200, 100, 600 };
@@ -261,7 +241,7 @@ int AttackForce( Work *work )
     return GM_PowerTarget( target );
 }
 
-void s11a_800CAB88( Work *work )
+static void ThrowForce( Work *work )
 {
     TARGET *target;
 
@@ -271,7 +251,7 @@ void s11a_800CAB88( Work *work )
     GM_PowerTarget( target );
 }
 
-int s11a_800CABF0( Work *work )
+static int CheckPad( Work *work )
 {
     int press;
 
@@ -279,55 +259,55 @@ int s11a_800CABF0( Work *work )
 
     if ( press & 0x1 )
     {
-        SetMode2( work, s11a_800CD198 );
+        SetMode2( work, ActOverScoutR );
         return 0;
     }
 
     if ( press & 0x2 )
     {
-        SetMode2( work, s11a_800CD264 );
+        SetMode2( work, ActOverScoutL );
         return 0;
     }
 
     if ( press & 0x4 )
     {
-        SetMode2( work, s11a_800CD330 );
+        SetMode2( work, ActOverScoutD );
         return 0;
     }
 
     if ( press & 0x2000 )
     {
-        SetMode2( work, s11a_800CD3C8 );
+        SetMode2( work, ActOverScoutU );
         return 0;
     }
 
     if ( press & 0x40 )
     {
-        SetMode2( work, s11a_800CD460 );
+        SetMode2( work, ActOverKushami );
         return 0;
     }
 
     if ( press & 0x80 )
     {
-        SetMode2( work, s11a_800CD514 );
+        SetMode2( work, ActOverAkubi );
         return 0;
     }
 
     if ( press & 0x400 )
     {
-        SetMode2( work, s11a_800CD5DC );
+        SetMode2( work, ActOverKatakori );
         return 0;
     }
 
     if ( press & 0x800 )
     {
-        SetMode2( work, s11a_800CD680 );
+        SetMode2( work, ActOverSenobi );
         return 0;
     }
 
     if ( press & 0x200 )
     {
-        SetMode2( work, s11a_800CD748 );
+        SetMode2( work, ActOverInemuri );
         return 0;
     }
 
@@ -345,19 +325,19 @@ int s11a_800CABF0( Work *work )
 
     if ( press & 0x100 )
     {
-        SetMode( work, s11a_800CB248 );
+        SetMode( work, ActThrown );
         return 1;
     }
 
     if ( press & 0x20 )
     {
-        SetMode( work, s11a_800CB2D8 );
+        SetMode( work, ActDiscovery );
         return 1;
     }
 
     if ( press & 0x400000 )
     {
-        SetMode( work, s11a_800CB3C0 );
+        SetMode( work, ActDanbowlKeri );
         return 1;
     }
 
@@ -371,7 +351,9 @@ int s11a_800CABF0( Work *work )
     return 0;
 }
 
-void s11a_800CADF4( Work *work, int time )
+/*---------------------------------------------------------------------------*/
+
+void ActStandStill( Work *work, int time )
 {
     work->target->class |= TARGET_FLAG;
     work->act_status |= 0x1;
@@ -380,7 +362,7 @@ void s11a_800CADF4( Work *work, int time )
 
     if ( time == 0 ) SetAction( work, 0, 4 );
 
-    if ( CheckDamage( work ) || s11a_800CABF0( work ) )
+    if ( CheckDamage( work ) || CheckPad( work ) )
     {
         UnsetMode( work );
         return;
@@ -399,7 +381,7 @@ void s11a_800CADF4( Work *work, int time )
                 SetAction( work, 1, 4 );
             }
 
-            SetMode( work, s11a_800CAF9C );
+            SetMode( work, ActMove );
         }
         else
         {
@@ -410,7 +392,7 @@ void s11a_800CADF4( Work *work, int time )
     work->vision.facedir = work->control.rot.vy;
 }
 
-void s11a_800CAF9C( Work *work, int time )
+void ActMove( Work *work, int time )
 {
     CONTROL *ctrl;
     SVECTOR *vecs;
@@ -426,7 +408,7 @@ void s11a_800CAF9C( Work *work, int time )
         return;
     }
 
-    if ( s11a_800CABF0( work ) )
+    if ( CheckPad( work ) )
     {
         UnsetMode( work );
         return;
@@ -445,7 +427,7 @@ void s11a_800CAF9C( Work *work, int time )
 
     if ( dir < 0 )
     {
-        SetMode( work, s11a_800CADF4 );
+        SetMode( work, ActStandStill );
         UnsetMode( work );
         return;
     }
@@ -467,12 +449,12 @@ void s11a_800CAF9C( Work *work, int time )
 
     if ( dir < 0 )
     {
-        SetMode( work, s11a_800CADF4 );
+        SetMode( work, ActStandStill );
         UnsetMode( work );
         return;
     }
 
-    switch ( s11a_800CA99C( dir, touch ) )
+    switch ( CheckDir( dir, touch ) )
     {
     case 1:
         dir = ( touch - 1024 ) & 4095;
@@ -507,7 +489,7 @@ void s11a_800CAF9C( Work *work, int time )
     work->vision.facedir = work->control.rot.vy;
 }
 
-void s11a_800CB248( Work *work, int time )
+void ActThrown( Work *work, int time )
 {
     if ( time == 0 )
     {
@@ -518,11 +500,11 @@ void s11a_800CB248( Work *work, int time )
     if ( !CheckDamage( work ) && work->body.is_end )
     {
         work->pad.tmp = 0;
-        SetMode( work, s11a_800CC2AC );
+        SetMode( work, ActFaint );
     }
 }
 
-void s11a_800CB2D8( Work *work, int time )
+void ActDiscovery( Work *work, int time )
 {
     CONTROL *ctrl;
 
@@ -537,7 +519,7 @@ void s11a_800CB2D8( Work *work, int time )
     {
         if ( work->body.is_end || !( work->pad.press & 0x20 ) )
         {
-            SetMode( work, s11a_800CADF4 );
+            SetMode( work, ActStandStill );
         }
         else
         {
@@ -549,7 +531,7 @@ void s11a_800CB2D8( Work *work, int time )
     }
 }
 
-void s11a_800CB3C0( Work *work, int time )
+void ActDanbowlKeri( Work *work, int time )
 {
     /* do nothing */
 }
@@ -582,19 +564,19 @@ void ActReadyGun( Work *work, int time )
 
     if ( !( press & 0x30000 ) )
     {
-        SetMode( work, s11a_800CADF4 );
+        SetMode( work, ActStandStill );
         return;
     }
 
     if ( press & 0x40000 )
     {
-        SetModeNoAdjust( work, s11a_800CB534 );
+        SetModeNoAdjust( work, ActShoot );
         return;
     }
 
     if ( press & 0x80000 )
     {
-        SetModeNoAdjust( work, s11a_800CB5E4 );
+        SetModeNoAdjust( work, ActShoot3burst );
         return;
     }
 
@@ -606,7 +588,7 @@ void ActReadyGun( Work *work, int time )
 
     if ( press & 0x200000 )
     {
-        SetModeNoAdjust( work, s11a_800CB88C );
+        SetModeNoAdjust( work, ActPunch );
         return;
     }
 
@@ -614,7 +596,7 @@ void ActReadyGun( Work *work, int time )
     work->vision.facedir = work->control.rot.vy;
 }
 
-void s11a_800CB534( Work *work, int time )
+void ActShoot( Work *work, int time )
 {
     work->target->class |= TARGET_FLAG;
     work->vision.length = ZAKO11A_EYE_LENGTH;
@@ -630,7 +612,7 @@ void s11a_800CB534( Work *work, int time )
     if ( !CheckDamage( work ) ) SetModeNoAdjust( work, ActReadyGun );
 }
 
-void s11a_800CB5E4( Work *work, int time )
+void ActShoot3burst( Work *work, int time )
 {
     SVECTOR *rot;
 
@@ -686,7 +668,7 @@ void ActGrenade( Work *work, int time )
     }
 }
 
-void s11a_800CB88C( Work *work, int time )
+void ActPunch( Work *work, int time )
 {
     work->target->class |= TARGET_FLAG;
     work->vision.length = ZAKO11A_EYE_LENGTH;
@@ -696,7 +678,7 @@ void s11a_800CB88C( Work *work, int time )
         SetAction( work, 8, 0 );
     }
 
-    if ( time == 3 && AttackForce( work ) != 0 )
+    if ( time == 3 && AttackForce( work ) )
     {
         GM_SeSet( &work->control.mov, SE_HIT );
     }
@@ -709,7 +691,7 @@ void s11a_800CB88C( Work *work, int time )
     }
 }
 
-void s11a_800CB964( Work *work, int time )
+void ActWakeup( Work *work, int time )
 {
     work->vision.length = 0;
 
@@ -724,12 +706,12 @@ void s11a_800CB964( Work *work, int time )
         if ( work->body.is_end )
         {
             work->actend = 1;
-            SetMode( work, s11a_800CADF4 );
+            SetMode( work, ActStandStill );
         }
     }
 }
 
-void s11a_800CBA0C( Work *work, int time )
+void ActThrowDown( Work *work, int time )
 {
     TARGET *target;
     CONTROL *control;
@@ -748,7 +730,7 @@ void s11a_800CBA0C( Work *work, int time )
 
     if ( time > 7 && time < 20 )
     {
-        s11a_800CAB88( work );
+        ThrowForce( work );
     }
 
     if ( work->act.motion1 == 31 )
@@ -777,7 +759,7 @@ void s11a_800CBA0C( Work *work, int time )
             }
             else
             {
-                SetMode( work, s11a_800CC2AC );
+                SetMode( work, ActFaint );
             }
         }
     }
@@ -789,12 +771,12 @@ void s11a_800CBA0C( Work *work, int time )
 
         if ( work->target->vital <= 0 )
         {
-            SetMode( work, s11a_800CCE1C );
+            SetMode( work, ActDeath );
         }
         else
         {
             GM_SeSet( &control->mov, SE_V_ENE_THROWN );
-            SetMode( work, s11a_800CC2AC );
+            SetMode( work, ActFaint );
         }
     }
 
@@ -809,17 +791,21 @@ void s11a_800CBA0C( Work *work, int time )
     }
 }
 
-void s11a_800CBCF4( Work *work )
+/*---------------------------------------------------------------------------*/
+
+static void SetDrag( Work *work )
 {
     SVECTOR pos;
 
     work->control.turn = GM_PlayerControl->rot;
     DG_SetPos2( &GM_PlayerPosition, &GM_PlayerControl->rot );
-    DG_PutVector( &s11a_dword_800C34A0, &pos, 1 );
+    DG_PutVector( &DragStep, &pos, 1 );
     GV_SubVec3( &pos, &work->control.mov, &work->control.step );
 }
 
-void s11a_800CBD74( Work *work, int time )
+/*---------------------------------------------------------------------------*/
+
+void ActGrab( Work *work, int time )
 {
     TARGET *target;
     int motion;
@@ -860,7 +846,7 @@ void s11a_800CBD74( Work *work, int time )
 
             work->act.field_14 = 5;
             target->side = ENEMY_SIDE;
-            SetMode( work, s11a_800CC70C );
+            SetMode( work, ActDown );
             target->captured = 0;
         }
     }
@@ -888,7 +874,7 @@ void s11a_800CBD74( Work *work, int time )
         }
 
         work->control.turn = GM_PlayerControl->rot;
-        s11a_800CBCF4( work );
+        SetDrag( work );
         work->field_B5C++;
         break;
     case 38:
@@ -899,18 +885,18 @@ void s11a_800CBD74( Work *work, int time )
         }
 
         work->control.turn = GM_PlayerControl->rot;
-        s11a_800CBCF4( work );
+        SetDrag( work );
         break;
     case 39:
         work->act.field_14 = 4;
         target->side = ENEMY_SIDE;
         target->vital = 0;
-        SetMode( work, s11a_800CC70C );
+        SetMode( work, ActDown );
         return;
     default:
         work->act.field_14 = 5;
         target->side = ENEMY_SIDE;
-        SetMode( work, s11a_800CC70C );
+        SetMode( work, ActDown );
         return;
     }
 
@@ -923,7 +909,7 @@ void s11a_800CBD74( Work *work, int time )
     work->vision.facedir = work->control.rot.vy;
 }
 
-void s11a_800CC0E8( Work *work, int time )
+void ActBlast( Work *work, int time )
 {
     if ( time == 0 )
     {
@@ -932,11 +918,11 @@ void s11a_800CC0E8( Work *work, int time )
 
     if ( work->body.is_end )
     {
-        SetMode( work, s11a_800CCE1C );
+        SetMode( work, ActDeath );
     }
 }
 
-void s11a_800CC15C( Work *work, int time )
+void ActFlash( Work *work, int time )
 {
     CONTROL *control;
     int start;
@@ -979,12 +965,12 @@ void s11a_800CC15C( Work *work, int time )
 
         if ( time >= ( start + 50 ) && work->body.is_end )
         {
-            SetMode( work, s11a_800CC2AC );
+            SetMode( work, ActFaint );
         }
     }
 }
 
-void s11a_800CC2AC( Work *work, int time )
+void ActFaint( Work *work, int time )
 {
     int x;
 
@@ -1015,7 +1001,7 @@ void s11a_800CC2AC( Work *work, int time )
 
     if ( CheckDown( work ) )
     {
-        SetMode( work, s11a_800CC424 );
+        SetMode( work, ActItem );
     }
     else if ( work->field_B5A < time )
     {
@@ -1024,11 +1010,11 @@ void s11a_800CC2AC( Work *work, int time )
             work->target->faint = work->param.faint;
         }
 
-        SetMode( work, s11a_800CC4EC );
+        SetMode( work, ActOgetup );
     }
 }
 
-void s11a_800CC424( Work *work, int time )
+void ActItem( Work *work, int time )
 {
     if ( time == 0 )
     {
@@ -1051,11 +1037,11 @@ void s11a_800CC424( Work *work, int time )
 
     if ( work->body.is_end )
     {
-        SetMode( work, s11a_800CCE1C );
+        SetMode( work, ActDeath );
     }
 }
 
-void s11a_800CC4EC( Work *work, int time )
+void ActOgetup( Work *work, int time )
 {
     work->act.field_1E = 0;
     work->act_status |= 0x8;
@@ -1088,11 +1074,11 @@ void s11a_800CC4EC( Work *work, int time )
 
     if ( work->body.is_end )
     {
-        SetMode( work, s11a_800CADF4 );
+        SetMode( work, ActStandStill );
     }
 }
 
-void s11a_800CC5F0( Work *work, int time )
+void ActShrink( Work *work, int time )
 {
     TARGET *target;
 
@@ -1112,7 +1098,7 @@ void s11a_800CC5F0( Work *work, int time )
             if ( target->a_mode == 3 )
             {
                 GM_SeSet( &work->control.mov, SE_PUNCH_HIT );
-                ZAKO11A_PutFog( work );
+                ZAKO11A_PutDust( work );
             }
             else
             {
@@ -1122,7 +1108,7 @@ void s11a_800CC5F0( Work *work, int time )
 
         if ( work->body.is_end )
         {
-            SetMode( work, s11a_800CADF4 );
+            SetMode( work, ActStandStill );
         }
 
         work->target->class |= TARGET_FLAG;
@@ -1131,7 +1117,7 @@ void s11a_800CC5F0( Work *work, int time )
     }
 }
 
-void s11a_800CC70C( Work *work, int time )
+void ActDown( Work *work, int time )
 {
     ACT *act;
     CONTROL *control;
@@ -1216,7 +1202,7 @@ void s11a_800CC70C( Work *work, int time )
 
         if ( time > 6 && time < 30 )
         {
-            s11a_800CAB88( work );
+            ThrowForce( work );
         }
 
         if ( time < 20 )
@@ -1233,7 +1219,7 @@ void s11a_800CC70C( Work *work, int time )
     case 3:
         if ( time > 6 && time < 30 )
         {
-            s11a_800CAB88( work );
+            ThrowForce( work );
         }
 
         if ( time < 15 )
@@ -1244,7 +1230,7 @@ void s11a_800CC70C( Work *work, int time )
     case 2:
         if ( time > 6 && time < 30 )
         {
-            s11a_800CAB88( work );
+            ThrowForce( work );
         }
 
         if ( time < 20 )
@@ -1274,7 +1260,7 @@ void s11a_800CC70C( Work *work, int time )
         else if ( ( control->mov.vy - control->levels[ 0 ] ) > 3000 )
         {
             work->target->vital = 0;
-            SetMode( work, s11a_800CCC3C );
+            SetMode( work, ActDroppe );
             return;
         }
     }
@@ -1286,16 +1272,16 @@ void s11a_800CC70C( Work *work, int time )
 
         if ( work->target->vital <= 0 )
         {
-            SetMode( work, s11a_800CCE1C );
+            SetMode( work, ActDeath );
         }
         else
         {
-            SetMode( work, s11a_800CC2AC );
+            SetMode( work, ActFaint );
         }
     }
 }
 
-void s11a_800CCC3C( Work *work, int time )
+void ActDroppe( Work *work, int time )
 {
     CONTROL *control;
 
@@ -1335,11 +1321,11 @@ void s11a_800CCC3C( Work *work, int time )
         work->target->force = DG_ZeroVector;
         GM_SeSet( &control->mov, SE_HIT_FLOOR );
         ZAKO11A_PutBlood( work, 6, 1 );
-        SetMode( work, s11a_800CCE1C );
+        SetMode( work, ActDeath );
     }
 }
 
-void s11a_800CCE1C( Work *work, int time )
+void ActDeath( Work *work, int time )
 {
     work->act_status |= 0x40;
 
@@ -1377,10 +1363,12 @@ void s11a_800CCE1C( Work *work, int time )
         work->visible = 1;
     }
 
-    if ( time > 8 ) SetMode( work, s11a_800CCF18 );
+    if ( time > 8 ) SetMode( work, ShowMotion );
 }
 
-void s11a_800CCF18( Work *work, int time )
+/*---------------------------------------------------------------------------*/
+
+static void ShowMotion( Work *work, int time )
 {
     work->act_status |= 0x40;
 
@@ -1394,14 +1382,14 @@ void s11a_800CCF18( Work *work, int time )
 
     if ( ZAKO11ACommand.watchers[ work->param.index ].field_4 == 2 )
     {
-        s11a_800CA8C8( work );
-        SetMode( work, s11a_800CADF4 );
+        ResetParam( work );
+        SetMode( work, ActStandStill );
     }
 }
 
 /*---------------------------------------------------------------------------*/
 
-void ZAKO11A_ActionUpdate( Work *work )
+void ZAKO11A_Action( Work *work )
 {
     ACT *act;
     CONTROL *control;
@@ -1427,8 +1415,8 @@ void ZAKO11A_ActionUpdate( Work *work )
 
     if ( action == NULL )
     {
-        action = s11a_800CADF4;
-        work->action = s11a_800CADF4;
+        action = ActStandStill;
+        work->action = ActStandStill;
     }
 
     action( work, time );

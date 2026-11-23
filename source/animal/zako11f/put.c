@@ -9,7 +9,7 @@
 /*---------------------------------------------------------------------------*/
 
 extern void *AN_Breath( MATRIX *world );
-extern void *AN_Fog( SVECTOR *pos );
+extern void *AN_PunchFog( SVECTOR *pos );
 extern void *AN_HeadMark( MATRIX* world, int mark );
 
 /*---------------------------------------------------------------------------*/
@@ -69,7 +69,7 @@ void ZAKO11F_PutFog(Work *work)
     pos.vy = world.t[ 1 ];
     pos.vz = world.t[ 2 ];
 
-    AN_Fog( &pos );
+    AN_PunchFog( &pos );
 }
 
 void ZAKO11F_PutItem( Work *work )

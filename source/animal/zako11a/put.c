@@ -9,15 +9,16 @@
 /*---------------------------------------------------------------------------*/
 
 extern void *AN_Breath( MATRIX *world );
-extern void *AN_Fog( SVECTOR *pos );
+extern void *AN_PunchFog( SVECTOR *pos );
 extern void *AN_HeadMark( MATRIX* world, int mark );
 
 /*---------------------------------------------------------------------------*/
 
-static void PutSound( Work *work );
+static void PutFootNoise( Work *work );
 static void PutBreath( Work *work );
-static void PutLaserSight( Work *work );
-static void PutBullet( Work *work );
+static void PutSightLine( Work *work );
+static void GunShoot( Work *work );
+static int  UnsetPutChar( Work *work, void ( *putchar )( Work * ) );
 
 static SVECTOR BloodPos = {0, 0, 100};
 static SVECTOR BloodRot = {-1024, 0, 0};
@@ -32,10 +33,10 @@ static char *ItemText[] = {
 };
 
 static void *PutChars[] = {
-    PutSound,
+    PutFootNoise,
     PutBreath,
-    PutLaserSight,
-    PutBullet,
+    PutSightLine,
+    GunShoot,
 };
 
 static SVECTOR BulletPos = {5, -500, 80};
@@ -53,7 +54,7 @@ void ZAKO11A_PutBlood( Work *work, int unit, int count )
     NewBlood( &world, count );
 }
 
-void ZAKO11A_PutFog( Work *work )
+void ZAKO11A_PutDust( Work *work )
 {
     MATRIX world;
     SVECTOR pos;
@@ -63,7 +64,7 @@ void ZAKO11A_PutFog( Work *work )
     DG_RotatePos( &FogRot );
     ReadRotMatrix( &world );
     DG_COPY_VEC( &pos, (VECTOR *)world.t );
-    AN_Fog( &pos );
+    AN_PunchFog( &pos );
 }
 
 void ZAKO11A_PutItem( Work *work )
@@ -142,7 +143,7 @@ void ZAKO11A_PutMark( Work *work, int mark )
 
 /*---------------------------------------------------------------------------*/
 
-static void PutSound( Work *work )
+static void PutFootNoise( Work *work )
 {
     int action, frame, l, r;
 
@@ -253,13 +254,13 @@ static void PutBreath( Work *work )
     }
 }
 
-static void PutLaserSight( Work *work )
+static void PutSightLine( Work *work )
 {
     if ( work->vision.pad != 2 ) return;
     NewLSight( &GM_PlayerPosition, &work->control.mov, MAKE_RGB( 143, 0, 0 ) );
 }
 
-static void PutBullet( Work *work )
+static void GunShoot( Work *work )
 {
     SVECTOR rot;
     MATRIX bullet_pos;
@@ -293,7 +294,7 @@ static void PutBullet( Work *work )
     AN_BulletSmoke( world, 0 );
     AN_FamasFlash( &bullet_pos );
 
-    ZAKO11A_ClearPutChar( work, PutBullet );
+    UnsetPutChar( work, GunShoot );
 }
 
 /*---------------------------------------------------------------------------*/
@@ -314,13 +315,15 @@ int ZAKO11A_SetPutChar( Work *work, int index )
     return 0;
 }
 
-int ZAKO11A_ClearPutChar( Work *work, void *func )
+/*---------------------------------------------------------------------------*/
+
+static int UnsetPutChar( Work *work, void ( *putchar )( Work * ) )
 {
     int i;
     
     for ( i = 0; i < 8; i++ )
     {
-        if ( work->putchar[ i ] == func )
+        if ( work->putchar[ i ] == putchar )
         {
             work->putchar[ i ] = NULL;
             return 1;
@@ -329,6 +332,8 @@ int ZAKO11A_ClearPutChar( Work *work, void *func )
 
     return 0;
 }
+
+/*---------------------------------------------------------------------------*/
 
 void ZAKO11A_ExecPutChars( Work *work )
 {

@@ -28,7 +28,7 @@ static ANIMATION anm_fog_form = {
 
 /*---------------------------------------------------------------------------*/
 
-void AN_Fog( SVECTOR *pos )
+void AN_PunchFog( SVECTOR *pos )
 {
     ANIMATION *anm;
     PRESCRIPT  pre;

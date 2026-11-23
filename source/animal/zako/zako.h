@@ -3,6 +3,11 @@
 
 #include "game/game.h"
 
+/*---------------------------------------------------------------------------*/
+
+#define TARGET_FLAG ( TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH \
+                    | TARGET_SEEK | TARGET_TOUCH )
+
 // TODO: check name
 typedef struct _ACT {
     int     field_00;
@@ -11,7 +16,7 @@ typedef struct _ACT {
     int     field_08;
     SVECTOR field_0C;
     int     field_14;
-    short   field_18;
+    short   motion1;
     short   field_1A;
     short   field_1C;
     short   field_1E;
@@ -87,7 +92,7 @@ typedef struct _Work {
     int             count3;         /* 0xAD0 */
     int             next_node;      /* 0xAD4 could be t_count or l_count */
     PAD             pad;            /* 0xAD8 */
-    char            pad_AEC[0x4];
+    u_long          trigger;        /* 0xAEC */
     void           *subweapon;      /* 0xAF0 */
     char            pad_AF4[0x2];
     short           field_AF6;      /* 0xAF6 */
@@ -118,8 +123,10 @@ typedef struct _Work {
     char            pad_B88[0x8];
     int             sn_dis;         /* 0xB90 */
     int             sn_dir;         /* 0xB94 */
-    char            pad_B98[0x8];
+    int             field_B98;      /* 0xB98 */
+    int             act_status;     /* 0xB9C */
     short           in_grip;        /* 0xBA0 */
+    short           vital_prev;      /* 0xBA2 */
 } Work;
 
 // TODO: check name
@@ -183,6 +190,60 @@ typedef struct _CommanderWork {
 
 /*---------------------------------------------------------------------------*/
 
+static inline void SetAction( Work *work, int action, int interp )
+{
+    extern short ActionTable[];
+
+    work->act.motion1 = action;
+    GM_ConfigObjectAction( &( work->body ), ActionTable[ action ], 0, interp );
+}
+
+static inline void SetAction2( Work *work, int action, int interp, u_long mask )
+{
+    extern short ActionTable[];
+
+    GM_ConfigObjectOverride( &( work->body ), ActionTable[ action ], 0, interp, mask );
+}
+
+static inline void SetMode( Work *work, ACTION action )
+{
+    work->action = action;
+    work->time = 0;
+
+    work->control.turn.vx = work->control.turn.vz = 0;
+    GM_ConfigMotionAdjust( &( work->body ), NULL );
+}
+
+static inline void SetMode2( Work *work, ACTION action )
+{
+    if ( work->action2 == NULL )
+    {
+        work->action2 = action;
+        work->time2 = 0;
+    }
+
+    work->control.turn.vx = work->control.turn.vz = 0;
+    GM_ConfigMotionAdjust( &( work->body ), NULL );
+}
+
+static inline void SetModeNoAdjust( Work *work, ACTION action )
+{
+    work->action = action;
+    work->time = 0;
+
+    work->control.turn.vx = work->control.turn.vz = 0;
+}
+
+static inline void UnsetMode( Work *work )
+{
+    SetAction2( work, 0, 4, 0 );
+    work->action2 = NULL;
+    work->time2 = 0;
+    work->control.turn.vx = work->control.turn.vz = 0;
+}
+
+/*---------------------------------------------------------------------------*/
+
 #ifndef __ANIMAL_ZAKO_ZAKOCOM_C__
 extern SVECTOR   ZAKO_NO_POINT;
 extern SVECTOR   ZAKO_PlayerPosition;
@@ -192,6 +253,7 @@ extern int       ZAKO_GameFlag;
 extern int       ZAKO_GameStatus;
 extern int       ZAKO_PlayerAddress;
 extern int       ZAKO_PlayerMap;
+extern int       ZAKO_VibTime;
 #endif // __ANIMAL_ZAKO_ZAKOCOM_C__
 
 // zako.c

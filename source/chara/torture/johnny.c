@@ -107,7 +107,7 @@ extern int s03c_dword_800C33D8;
 
 void NavigateSetTargetPlayer(NAVIGATE *pAutoMove);
 
-void  AN_Fog(SVECTOR *svec);
+void  AN_PunchFog(SVECTOR *svec);
 void  AN_Sleep( SVECTOR *svec );
 void *AN_HeadMark(MATRIX *mat, int mark);
 
@@ -841,7 +841,7 @@ static void Johnny_800C5168(Work *work)
                 GM_SeSet(&work->control.mov, SE_PUNCH_HIT);
                 GM_SeSet(&work->control.mov, SE_V_ENE_PUNCHED);
 
-                AN_Fog(&work->control.mov);
+                AN_PunchFog(&work->control.mov);
 
                 if (target->faint <= 0)
                 {
@@ -861,7 +861,7 @@ static void Johnny_800C5168(Work *work)
                 GM_SeSet(&work->control.mov, SE_KICK_HIT);
                 GM_SeSet(&work->control.mov, SE_V_ENE_THROWN);
 
-                AN_Fog(&work->control.mov);
+                AN_PunchFog(&work->control.mov);
 
                 if (target->faint <= 0)
                 {
@@ -880,7 +880,7 @@ static void Johnny_800C5168(Work *work)
 
                 work->unkB1C |= 0x400;
 
-                AN_Fog(&work->control.mov);
+                AN_PunchFog(&work->control.mov);
                 GM_SeSet(&work->control.mov, SE_V_ENE_PUNCHED);
             }
             else
@@ -895,7 +895,7 @@ static void Johnny_800C5168(Work *work)
                 work->unkB30.vx *= 4;
                 work->unkB30.vz *= 4;
 
-                AN_Fog(&work->control.mov);
+                AN_PunchFog(&work->control.mov);
                 GM_SeSet(&work->control.mov, SE_V_ENE_THROWN);
             }
         }

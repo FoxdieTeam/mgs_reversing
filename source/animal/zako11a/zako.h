@@ -294,29 +294,48 @@ extern int       ZAKO11A_PlayerMap;
 void *NewZako11A( int name, int where );
 
 // action.c
-void s11a_800CB964( Work *work, int time );
-void ZAKO11A_ActionUpdate( Work *work );
+void ActMove( Work *work, int time );
+void ActThrown( Work *work, int time );
+void ActDiscovery( Work *work, int time );
+void ActDanbowlKeri( Work *work, int time );
+void ActReadyGun( Work *work, int time );
+void ActShoot( Work *work, int time );
+void ActShoot3burst( Work *work, int time );
+void ActGrenade( Work *work, int time );
+void ActPunch( Work *work, int time );
+void ActWakeup( Work *work, int time );
+void ActThrowDown( Work *work, int time );
+void ActGrab( Work *work, int time );
+void ActBlast( Work *work, int time );
+void ActFlash( Work *work, int time );
+void ActFaint( Work *work, int time );
+void ActItem( Work *work, int time );
+void ActOgetup( Work *work, int time );
+void ActShrink( Work *work, int time );
+void ActDown( Work *work, int time );
+void ActDroppe( Work *work, int time );
+void ActDeath( Work *work, int time );
+void ZAKO11A_Action( Work *work );
 
 // override.c
-void s11a_800CD198( Work *work, int time );
-void s11a_800CD264( Work *work, int time );
-void s11a_800CD330( Work *work, int time );
-void s11a_800CD3C8( Work *work, int time );
-void s11a_800CD460( Work *work, int time );
-void s11a_800CD514( Work *work, int time );
-void s11a_800CD5DC( Work *work, int time );
-void s11a_800CD680( Work *work, int time );
-void s11a_800CD748( Work *work, int time );
+void ActOverScoutR( Work *work, int time );
+void ActOverScoutL( Work *work, int time );
+void ActOverScoutD( Work *work, int time );
+void ActOverScoutU( Work *work, int time );
+void ActOverKushami( Work *work, int time );
+void ActOverAkubi( Work *work, int time );
+void ActOverKatakori( Work *work, int time );
+void ActOverSenobi( Work *work, int time );
+void ActOverInemuri( Work *work, int time );
 void s11a_800CD960( Work *work, int time );
 void s11a_800CDAA8( Work *work, int time );
 
 // put.c
 void ZAKO11A_PutBlood( Work *work, int unit, int count );
-void ZAKO11A_PutFog( Work *work );
+void ZAKO11A_PutDust( Work *work );
 void ZAKO11A_PutItem( Work *work );
 void ZAKO11A_PutMark( Work *work, int mark );
 int  ZAKO11A_SetPutChar( Work *work, int index );
-int  ZAKO11A_ClearPutChar( Work *work, void *func );
 void ZAKO11A_ExecPutChars( Work *work );
 
 // zk11aact.c
