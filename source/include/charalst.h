@@ -284,8 +284,8 @@
 #define CHARA_ZAKO              { 0xed87, ? }                       // GV_StrCode("ざこ") animal/zako/zako.c
 #define CHARA_ZAKO10            { 0x31e3, ? }                       // GV_StrCode("ざこ１０") animal/zako10/zako10.c
 #define CHARA_ZAKO10COM         { 0x8e64, ? }                       // GV_StrCode("ざこ１０コマンダー") animal/zako10/zk10com.c
-#define CHARA_ZAKO11A           { 0xa608, ? }                       // GV_StrCode("ざこ１１ａ") animal/zako11a/zako11a.c
-#define CHARA_ZAKO11ACOM        { 0x5efa, ? }                       // GV_StrCode("ざこ１１ａコマンダー") animal/zako11a/zk11acom.c
+#define CHARA_ZAKO11A           { 0xa608, NewZako11A }              // GV_StrCode("ざこ１１ａ") animal/zako11a/zako11a.c
+#define CHARA_ZAKO11ACOM        { 0x5efa, NewZako11ACommander }     // GV_StrCode("ざこ１１ａコマンダー") animal/zako11a/zk11acom.c
 #define CHARA_ZAKO11E           { 0xa60c, NewZako11E }              // GV_StrCode("ざこ１１ｅ") animal/zako11e/zako11e.c
 #define CHARA_ZAKO11ECOM        { 0x5f0a, NewZako11ECommander }     // GV_StrCode("ざこ１１ｅコマンダー") animal/zako11e/zk11ecom.c
 #define CHARA_ZAKO11F           { 0xa60d, NewZako11F }              // GV_StrCode("ざこ１１ｆ") animal/zako11f/zako11f.c
@@ -340,7 +340,7 @@
 #define DEMO_METALGEARLASER     { 0x0020, ? }                       // kojo/mgrexlzr.c
 #define DEMO_UNSHAPEVIEW        { 0x0021, NewFocusView }            // takabe/focus.c
 #define DEMO_GUSMASK            { 0x0022, ? }                       // equip/gmsight.c
-#define DEMO_URINATIONCIRCLE    { 0x0023, ? }                       // okajima/d_bloods.c
+#define DEMO_URINATIONCIRCLE    { 0x0023, NewKetchap_s }            // okajima/d_bloods.c
 #define DEMO_PLASMA2            { 0x0024, ? }                       // okajima/plasma.c
 #define DEMO_BLUR               { 0x0025, NewBlurSet }              // okajima/blur.c
 #define DEMO_STEAMSMOKE         { 0x0026, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
@@ -409,15 +409,16 @@ extern NEWCHARA NewBombLed;                     /* animal/liquid/bombled.c      
 extern NEWCHARA NewMeryl72_800C7BC4;            /* animal/meryl72/meryl72.c     */
 extern NEWCHARA NewNinjaBoss;                   /* animal/ninja/ninja.c         */
 extern NEWCHARA d18a_snake18_800D4E94;          /* animal/snake18/snake18.c     */
+extern NEWCHARA NewZako11A;                     /* animal/zako11a/zako11a.c     */
+extern NEWCHARA NewZako11ACommander;            /* animal/zako11a/zk11acom.c    */
 extern NEWCHARA NewZako11E;                     /* animal/zako11e/zako11e.c     */
 extern NEWCHARA NewZako11ECommander;            /* animal/zako11e/zk11ecom.c    */
 extern NEWCHARA NewZako11F;                     /* animal/zako11f/zako11f.c     */
 extern NEWCHARA NewZako11FCommander;            /* animal/zako11f/zk11fcom.c    */
-extern NEWCHARA NewZako14;                      /* animal/zako11f/zako14.c      */
+extern NEWCHARA NewZako14;                      /* animal/zako14/zako14.c       */
 extern NEWCHARA NewZako14Commander;             /* animal/zako14/zk14com.c      */
 extern NEWCHARA NewBlast;                       /* bullet/blast.c               */
 extern NEWCHARA NewScenarioJirai;               /* bullet/jirai.c               */
-extern NEWCHARA NewHindBoss;                    /* kojo/hind.c                  */
 extern NEWCHARA NewHind;                        /* chara/hind/hind.c            */
 extern NEWCHARA NewHind2;                       /* chara/hind2/hind2.c          */
 extern NEWCHARA NewBelong;                      /* chara/others/belong.c        */
@@ -474,6 +475,7 @@ extern NEWCHARA NewPadVibrationGcl;             /* game/vibrate.c               
 extern NEWCHARA NewVrWindow;                    /* koba/vr/vrwindow.c           */
 extern NEWCHARA NewBloodDrip;                   /* kojo/blooddrp.c              */
 extern NEWCHARA NewFamasLight;                  /* kojo/famaslit.c              */
+extern NEWCHARA NewHindBoss;                    /* kojo/hind.c                  */
 extern NEWCHARA NewInverseLight2;               /* kojo/inverlt2.c              */
 extern NEWCHARA NewM1E1;                        /* kojo/m1e1.c                  */
 extern NEWCHARA NewM1E1Camera;                  /* kojo/m1e1came.c              */
