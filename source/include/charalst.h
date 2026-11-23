@@ -132,7 +132,7 @@
 #define CHARA_M1E1CAME          { 0xd5ec, NewM1E1Camera }           // kojo/m1e1came.c
 #define CHARA_DOLL2             { 0xe448, ? }                       // takabe/doll2.c
 #define CHARA_MEILINGHAIR       { 0x450f, ? }                       // GV_StrCode("メイリン髪") chara/others/hair_m.c
-#define CHARA_MEMPSY            { 0xaf72, ? }                       // chara/psyco/mempsy.c
+#define CHARA_MEMPSY            { 0xaf72, NewMemoryPsycho }         // chara/psyco/mempsy.c
 #define CHARA_MERYL3            { 0xc755, ? }                       // animal/meryl3/meryl3.c
 #define CHARA_MERYL7            { 0x5078, NewEnemyMeryl_800D63A4 }  // enemy/meryl7.c
 #define CHARA_MERYL72           { 0xe271, NewMeryl72_800C7BC4 }     // animal/meryl72/meryl72.c
@@ -193,7 +193,7 @@
 #define CHARA_PRISONOTACON      { 0xbf66, NewPrisonOtacon }         // GV_StrCode("独房オタコン") chara/torture/otacom.c
 #define CHARA_PRISONSNAKE       { 0xa404, NewPrisonSnake }          // GV_StrCode("独房スネーク") chara/torture/sne_03c.c
 #define CHARA_PRISONSNAKE2      { 0x27a2, NewPrisonSnake2 }         // GV_StrCode("独房スネーク２") chara/torture/sne_03c.c
-#define CHARA_PSYCHOMANTIS      { 0xa76f, ? }                       // GV_StrCode("サイコマンティス") chara/psyco/psyco.c
+#define CHARA_PSYCHOMANTIS      { 0xa76f, NewPsychoMantis }         // GV_StrCode("サイコマンティス") chara/psyco/psyco.c
 #define CHARA_PSYCHOMERYL       { 0xf4b0, ? }                       // GV_StrCode("サイコメリル") chara/meryl07b/meryl07b.c
 #define CHARA_PSYOBJ            { 0x710d, NewPsychoObject }         // GV_StrCode("サイコ物体") chara/psyco/psyobj.c
 #define CHARA_PUTHZD            { 0x91aa, ? }                       // takabe/puthzd.c
@@ -425,6 +425,8 @@ extern NEWCHARA NewBelong;                      /* chara/others/belong.c        
 extern NEWCHARA NewFontText;                    /* chara/others/fonttext.c      */
 extern NEWCHARA NewIntrudeCamera;               /* chara/others/intr_cam.c      */
 extern NEWCHARA NewMotionSoundEffect;           /* chara/others/motse.c         */
+extern NEWCHARA NewMemoryPsycho;                /* chara/psyco/mempsy.c         */
+extern NEWCHARA NewPsychoMantis;                /* chara/psyco/psyco.c          */
 extern NEWCHARA NewPsychoObject;                /* chara/psyco/psyobj.c         */
 extern NEWCHARA NewDamageSmoke2;                /* chara/rope/dsmoke2.c         */
 extern NEWCHARA NewLanding;                     /* chara/rope/landing.c         */
