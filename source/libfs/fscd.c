@@ -1,31 +1,26 @@
-#include "libfs.h"
-
 #include <stdio.h>
 #include "mgstype.h"
 #include "mts/mts.h"        // for mts_wait_vbl
-#include "libgv/libgv.h"    // for GV_xxx_MEMORY_TOP
 
-#include "file.cnf"         // defines fs_file_info
-
-/*---------------------------------------------------------------------------*/
+#include "libfs.h"
 
 extern int FS_DiskNum;
 
+#include "file.cnf"
+
 /*---------------------------------------------------------------------------*/
 
-int FS_ResetCdFilePosition(void *buffer)
+int FS_ResetCdFilePosition( void *buffer )
 {
-    int disk_num = FS_CdMakePositionTable(buffer, fs_file_info);
-    printf("Position end\n");
-    if (disk_num >= 0)
-    {
-        printf("DISK %d\n", disk_num);
-        FS_CdStageFileInit(buffer, fs_file_info[FS_FILE_STAGE].pos);
-        FS_MovieFileInit(buffer, fs_file_info[FS_FILE_MOVIE].pos);
-    }
-    else
-    {
-        printf("illegal DISK\n");
+    int disk_num = FS_CdMakePositionTable( buffer, fs_file_info );
+    printf( "Position end\n" );
+
+    if ( disk_num >= 0 ) {
+        printf( "DISK %d\n", disk_num );
+        FS_CdStageFileInit( buffer, fs_file_info[ FS_FILE_STAGE ].pos );
+        FS_MovieFileInit( buffer, fs_file_info[ FS_FILE_MOVIE ].pos );
+    } else {
+        printf( "illegal DISK\n" );
     }
     return disk_num;
 }
