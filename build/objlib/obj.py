@@ -171,48 +171,27 @@ def get_obj_funcs(path, symbols_out=None):
         return None
 
     ret = []
-    all_code = b''.join([x[1] for x in code_blocks])
+    text_size = sum(len(x[1]) for x in code_blocks)
 
-    # sort by offset descending
-    # don't know the size of each xdef so iter reverse
-    xdefs.sort(key=lambda x: x[0], reverse=True)
+    # Each xdef owns the .text bytes from its offset up to the next xdef (or the end
+    # of .text). Those bytes may be spread over several code blocks, e.g. when gcc
+    # emits a jump table into .rdata in the middle of a function.
+    xdefs.sort(key=lambda x: x[0])
 
-    for xdef in xdefs:
-        xdef_off, name = xdef
-        found = False
+    for i, (xdef_off, name) in enumerate(xdefs):
+        end = xdefs[i + 1][0] if i + 1 < len(xdefs) else text_size
         segments = []
 
-        for block_idx, (code_pos, code_block, file_off) in reversed(list(enumerate(code_blocks))):
-            # check if it starts in this code block
-            if xdef_off < code_pos or xdef_off >= code_pos + len(code_block):
-                continue
+        for code_pos, code_block, file_off in code_blocks:
+            lo = max(xdef_off, code_pos)
+            hi = min(end, code_pos + len(code_block))
+            if lo < hi:
+                segments.append((file_off + (lo - code_pos), code_block[lo - code_pos:hi - code_pos]))
 
-            # handle when code is split across code blocks (take all remaining code after this start block)
-            for code_pos2, code_block2, file_off2 in code_blocks[block_idx+1:]:
-                can_take = len(code_block2)
-                code = all_code[code_pos2:code_pos2+can_take]
-                all_code = all_code[0:code_pos2] + all_code[code_pos2+can_take:]
-                if len(code) == 0:
-                    break
-                segments.append((file_off2, code))
-
-            can_take = len(code_block) - (xdef_off - code_pos)
-            code = all_code[xdef_off:xdef_off+can_take]
-            assert len(code) > 0
-            all_code = all_code[0:xdef_off] + all_code[xdef_off+can_take:]
-
-            xdef_file_off = file_off + (xdef_off - code_pos)
-            segments.append((xdef_file_off, code))
-
-            # sort segments by offset ascending
-            segments.sort(key=lambda x: x[0])
-            ret.append((name, segments))
-
-            found = True
-            break
-
-        if not found:
+        if not segments:
             raise Exception('couldnt locate xdef in obj: {} {}'.format(name, path))
+
+        ret.append((name, segments))
 
     # sort funcs by offset ascending
     ret.sort(key=lambda x: x[1][0])
