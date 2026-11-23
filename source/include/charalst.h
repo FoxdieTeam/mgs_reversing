@@ -23,7 +23,7 @@
 #define CHARA_11B_DEMO          { 0xd53c, ? }                       // okajima/11b_demo.c
 #define CHARA_11G_DEMO          { 0x153e, NewStage11GDemo }         // okajima/11g_demo.c
 #define CHARA_9FFD_2ND          { 0x9ffd, GM_SetSecondAvailable }   // game/second.c
-#define CHARA_2D0A_2ND          { 0x2d0a, ? }                       // game/second.c
+#define CHARA_2D0A_2ND          { 0x2d0a, NewSecond }               // game/second.c
 #define CHARA_ABST              { 0x566f, NewAbstract }             // GV_StrCode("アブスト") onoda/abst/abst.c
 #define CHARA_ABST_DEMO1        { 0x4974, NewAbstractDemo1 }        // GV_StrCode("アブストデモ１") onoda/abst/ab_demo1.c
 #define CHARA_ABST_DEMO2        { 0x4975, NewAbstractDemo2 }        // GV_StrCode("アブストデモ２") onoda/abst/ab_demo2.c
@@ -219,7 +219,7 @@
 #define CHARA_SHUTTER           { 0x03d9, NewShutter }              // GV_StrCode("シャッター") takabe/shuter.c
 #define CHARA_SMOKE             { 0x170c, NewSmoke }                // GV_StrCode("煙") enemy/smoke.c
 #define CHARA_SNAKE             { 0x21ca, NewSnake }                // GV_StrCode("スネーク") chara/snake/sna_init.c
-#define CHARA_SNAKE18           { 0x760e, d18a_snake18_800D4E94 }   // GV_StrCode("スネーク１８") animal/snake18/snake18.c
+#define CHARA_SNAKE18           { 0x760e, NewSnake18 }              // GV_StrCode("スネーク１８") animal/snake18/snake18.c
 #define CHARA_SNAKEWARP         { 0x672e, ? }                       // GV_StrCode("スネークワープ") enemy/snwarp.c
 #define CHARA_BUB_D_SN          { 0xc0fe, NewBubbleDSn }            // okajima/bub_d_sn.c
 #define CHARA_SNE17A            { 0xa791, ? }                       // chara/sne17a/sne17a.c (PC-ONLY)
@@ -408,7 +408,7 @@ extern NEWCHARA NewDemoDoll;                    /* animal/doll/doll.c           
 extern NEWCHARA NewBombLed;                     /* animal/liquid/bombled.c      */
 extern NEWCHARA NewMeryl72_800C7BC4;            /* animal/meryl72/meryl72.c     */
 extern NEWCHARA NewNinjaBoss;                   /* animal/ninja/ninja.c         */
-extern NEWCHARA d18a_snake18_800D4E94;          /* animal/snake18/snake18.c     */
+extern NEWCHARA NewSnake18;                     /* animal/snake18/snake18.c     */
 extern NEWCHARA NewZako11A;                     /* animal/zako11a/zako11a.c     */
 extern NEWCHARA NewZako11ACommander;            /* animal/zako11a/zk11acom.c    */
 extern NEWCHARA NewZako11E;                     /* animal/zako11e/zako11e.c     */
@@ -467,6 +467,7 @@ extern NEWCHARA NewTextureLamp;                 /* game/lamp.c                  
 extern NEWCHARA NewMovieGCL;                    /* game/movie.c                 */
 extern NEWCHARA NewPadControl;                  /* game/pad.c                   */
 extern NEWCHARA NewPoint;                       /* game/point.c                 */
+extern NEWCHARA NewSecond;                      /* game/second.c                */
 extern NEWCHARA GM_SetSecondAvailable;          /* game/second.c                */
 extern NEWCHARA NewSelect;                      /* game/select.c                */
 extern NEWCHARA NewSoundTest;                   /* game/sndtst.c                */

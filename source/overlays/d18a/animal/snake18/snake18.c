@@ -2394,7 +2394,7 @@ const char d18a_dword_800DA7F4[] = "snake18.c";
 extern void d18a_snake18_800D4388(GV_ACT *act);
 extern void d18a_snake18_800D46CC(Snake18Work *work);
 
-int d18a_snake18_800D4E94(int arg1, int arg2)
+int NewSnake18(int arg1, int arg2)
 {
     GV_ACT *act = (GV_ACT *)GV_NewActor(4, 0x940);
     if (act == NULL)
