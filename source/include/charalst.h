@@ -23,7 +23,7 @@
 #define CHARA_11B_DEMO          { 0xd53c, ? }                       // okajima/11b_demo.c
 #define CHARA_11G_DEMO          { 0x153e, NewStage11GDemo }         // okajima/11g_demo.c
 #define CHARA_9FFD_2ND          { 0x9ffd, GM_SetSecondAvailable }   // game/second.c
-#define CHARA_2D0A_2ND          { 0x2d0a, ? }                       // game/second.c
+#define CHARA_2D0A_2ND          { 0x2d0a, NewSecond }               // game/second.c
 #define CHARA_ABST              { 0x566f, NewAbstract }             // GV_StrCode("アブスト") onoda/abst/abst.c
 #define CHARA_ABST_DEMO1        { 0x4974, NewAbstractDemo1 }        // GV_StrCode("アブストデモ１") onoda/abst/ab_demo1.c
 #define CHARA_ABST_DEMO2        { 0x4975, NewAbstractDemo2 }        // GV_StrCode("アブストデモ２") onoda/abst/ab_demo2.c
@@ -132,7 +132,7 @@
 #define CHARA_M1E1CAME          { 0xd5ec, NewM1E1Camera }           // kojo/m1e1came.c
 #define CHARA_DOLL2             { 0xe448, ? }                       // takabe/doll2.c
 #define CHARA_MEILINGHAIR       { 0x450f, ? }                       // GV_StrCode("メイリン髪") chara/others/hair_m.c
-#define CHARA_MEMPSY            { 0xaf72, ? }                       // chara/psyco/mempsy.c
+#define CHARA_MEMPSY            { 0xaf72, NewMemoryPsycho }         // chara/psyco/mempsy.c
 #define CHARA_MERYL3            { 0xc755, ? }                       // animal/meryl3/meryl3.c
 #define CHARA_MERYL7            { 0x5078, NewEnemyMeryl_800D63A4 }  // enemy/meryl7.c
 #define CHARA_MERYL72           { 0xe271, NewMeryl72_800C7BC4 }     // animal/meryl72/meryl72.c
@@ -193,7 +193,7 @@
 #define CHARA_PRISONOTACON      { 0xbf66, NewPrisonOtacon }         // GV_StrCode("独房オタコン") chara/torture/otacom.c
 #define CHARA_PRISONSNAKE       { 0xa404, NewPrisonSnake }          // GV_StrCode("独房スネーク") chara/torture/sne_03c.c
 #define CHARA_PRISONSNAKE2      { 0x27a2, NewPrisonSnake2 }         // GV_StrCode("独房スネーク２") chara/torture/sne_03c.c
-#define CHARA_PSYCHOMANTIS      { 0xa76f, ? }                       // GV_StrCode("サイコマンティス") chara/psyco/psyco.c
+#define CHARA_PSYCHOMANTIS      { 0xa76f, NewPsychoMantis }         // GV_StrCode("サイコマンティス") chara/psyco/psyco.c
 #define CHARA_PSYCHOMERYL       { 0xf4b0, ? }                       // GV_StrCode("サイコメリル") chara/meryl07b/meryl07b.c
 #define CHARA_PSYOBJ            { 0x710d, NewPsychoObject }         // GV_StrCode("サイコ物体") chara/psyco/psyobj.c
 #define CHARA_PUTHZD            { 0x91aa, ? }                       // takabe/puthzd.c
@@ -219,7 +219,7 @@
 #define CHARA_SHUTTER           { 0x03d9, NewShutter }              // GV_StrCode("シャッター") takabe/shuter.c
 #define CHARA_SMOKE             { 0x170c, NewSmoke }                // GV_StrCode("煙") enemy/smoke.c
 #define CHARA_SNAKE             { 0x21ca, NewSnake }                // GV_StrCode("スネーク") chara/snake/sna_init.c
-#define CHARA_SNAKE18           { 0x760e, d18a_snake18_800D4E94 }   // GV_StrCode("スネーク１８") animal/snake18/snake18.c
+#define CHARA_SNAKE18           { 0x760e, NewSnake18 }              // GV_StrCode("スネーク１８") animal/snake18/snake18.c
 #define CHARA_SNAKEWARP         { 0x672e, ? }                       // GV_StrCode("スネークワープ") enemy/snwarp.c
 #define CHARA_BUB_D_SN          { 0xc0fe, NewBubbleDSn }            // okajima/bub_d_sn.c
 #define CHARA_SNE17A            { 0xa791, ? }                       // chara/sne17a/sne17a.c (PC-ONLY)
@@ -340,7 +340,7 @@
 #define DEMO_METALGEARLASER     { 0x0020, ? }                       // kojo/mgrexlzr.c
 #define DEMO_UNSHAPEVIEW        { 0x0021, NewFocusView }            // takabe/focus.c
 #define DEMO_GUSMASK            { 0x0022, ? }                       // equip/gmsight.c
-#define DEMO_URINATIONCIRCLE    { 0x0023, ? }                       // okajima/d_bloods.c
+#define DEMO_URINATIONCIRCLE    { 0x0023, NewKetchap_s }            // okajima/d_bloods.c
 #define DEMO_PLASMA2            { 0x0024, ? }                       // okajima/plasma.c
 #define DEMO_BLUR               { 0x0025, NewBlurSet }              // okajima/blur.c
 #define DEMO_STEAMSMOKE         { 0x0026, ? }                       // --> anime/animconv/anime.c (PC-ONLY)
@@ -408,7 +408,7 @@ extern NEWCHARA NewDemoDoll;                    /* animal/doll/doll.c           
 extern NEWCHARA NewBombLed;                     /* animal/liquid/bombled.c      */
 extern NEWCHARA NewMeryl72_800C7BC4;            /* animal/meryl72/meryl72.c     */
 extern NEWCHARA NewNinjaBoss;                   /* animal/ninja/ninja.c         */
-extern NEWCHARA d18a_snake18_800D4E94;          /* animal/snake18/snake18.c     */
+extern NEWCHARA NewSnake18;                     /* animal/snake18/snake18.c     */
 extern NEWCHARA NewZako;                        /* animal/zako/zako.c           */
 extern NEWCHARA NewZakoCommander;               /* animal/zako/zakocom.c        */
 extern NEWCHARA NewZako11A;                     /* animal/zako11a/zako11a.c     */
@@ -421,13 +421,14 @@ extern NEWCHARA NewZako14;                      /* animal/zako14/zako14.c       
 extern NEWCHARA NewZako14Commander;             /* animal/zako14/zk14com.c      */
 extern NEWCHARA NewBlast;                       /* bullet/blast.c               */
 extern NEWCHARA NewScenarioJirai;               /* bullet/jirai.c               */
-extern NEWCHARA NewHindBoss;                    /* kojo/hind.c                  */
 extern NEWCHARA NewHind;                        /* chara/hind/hind.c            */
 extern NEWCHARA NewHind2;                       /* chara/hind2/hind2.c          */
 extern NEWCHARA NewBelong;                      /* chara/others/belong.c        */
 extern NEWCHARA NewFontText;                    /* chara/others/fonttext.c      */
 extern NEWCHARA NewIntrudeCamera;               /* chara/others/intr_cam.c      */
 extern NEWCHARA NewMotionSoundEffect;           /* chara/others/motse.c         */
+extern NEWCHARA NewMemoryPsycho;                /* chara/psyco/mempsy.c         */
+extern NEWCHARA NewPsychoMantis;                /* chara/psyco/psyco.c          */
 extern NEWCHARA NewPsychoObject;                /* chara/psyco/psyobj.c         */
 extern NEWCHARA NewDamageSmoke2;                /* chara/rope/dsmoke2.c         */
 extern NEWCHARA NewLanding;                     /* chara/rope/landing.c         */
@@ -470,6 +471,7 @@ extern NEWCHARA NewTextureLamp;                 /* game/lamp.c                  
 extern NEWCHARA NewMovieGCL;                    /* game/movie.c                 */
 extern NEWCHARA NewPadControl;                  /* game/pad.c                   */
 extern NEWCHARA NewPoint;                       /* game/point.c                 */
+extern NEWCHARA NewSecond;                      /* game/second.c                */
 extern NEWCHARA GM_SetSecondAvailable;          /* game/second.c                */
 extern NEWCHARA NewSelect;                      /* game/select.c                */
 extern NEWCHARA NewSoundTest;                   /* game/sndtst.c                */
@@ -478,6 +480,7 @@ extern NEWCHARA NewPadVibrationGcl;             /* game/vibrate.c               
 extern NEWCHARA NewVrWindow;                    /* koba/vr/vrwindow.c           */
 extern NEWCHARA NewBloodDrip;                   /* kojo/blooddrp.c              */
 extern NEWCHARA NewFamasLight;                  /* kojo/famaslit.c              */
+extern NEWCHARA NewHindBoss;                    /* kojo/hind.c                  */
 extern NEWCHARA NewInverseLight2;               /* kojo/inverlt2.c              */
 extern NEWCHARA NewM1E1;                        /* kojo/m1e1.c                  */
 extern NEWCHARA NewM1E1Camera;                  /* kojo/m1e1came.c              */

@@ -2394,19 +2394,21 @@ const char d18a_dword_800DA7F4[] = "snake18.c";
 extern void d18a_snake18_800D4388(GV_ACT *act);
 extern void d18a_snake18_800D46CC(Snake18Work *work);
 
-int d18a_snake18_800D4E94(int arg1, int arg2)
+void *NewSnake18(int name, int where)
 {
-    GV_ACT *act = (GV_ACT *)GV_NewActor(4, 0x940);
-    if (act == NULL)
+    void *work;
+
+    work = GV_NewActor(GV_ACTOR_PREV, 0x940);
+    if (work == NULL)
     {
-        return 0;
+        return NULL;
     }
-    GV_SetNamedActor(act, d18a_snake18_800D4388, d18a_snake18_800D46CC,
+    GV_SetNamedActor(work, d18a_snake18_800D4388, d18a_snake18_800D46CC,
                      d18a_dword_800DA7F4);
-    if (d18a_snake18_800D4C44((Snake18Work *)act, arg1, arg2) < 0)
+    if (d18a_snake18_800D4C44((Snake18Work *)work, name, where) < 0)
     {
-        GV_DestroyActor(act);
-        return 0;
+        GV_DestroyActor(work);
+        return NULL;
     }
-    return (int)act;
+    return (void *)work;
 }

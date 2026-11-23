@@ -2,9 +2,9 @@
 #include "charalst.h"
 
 CHARA _StageCharacterEntries[] = {
-    CHARA_FADEIO,           /* chara フェードイン・アウト */
-    CHARA_CINEMA,           /* chara シネマスクリーン */
-    CHARA_SPHERE,           /* chara 天球 */
+    CHARA_FADEIO,       /* chara フェードイン・アウト */
+    CHARA_CINEMA,       /* chara シネマスクリーン */
+    CHARA_SPHERE,       /* chara 天球 */
 
     DEMO_FADEIN,
     DEMO_FADEOUT,
