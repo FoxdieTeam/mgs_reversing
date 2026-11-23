@@ -147,7 +147,7 @@ void s00a_command_800CEB54(void)
     EnemyCommand.com_map = GM_PlayerMap;
 }
 
-int s00a_command_800CEBCC( int map_id, int val )
+int GetMapJointZone( int map_id, int val )
 {
     int i;
     A4_STRUCT *unk = &EnemyCommand.field_0xA4;

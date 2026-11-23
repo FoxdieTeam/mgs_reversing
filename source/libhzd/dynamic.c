@@ -94,7 +94,7 @@ int HZD_QueueDynamicFloor( HZD_HDL *hzd, HZD_FLR *flr )
 
     hzd->d_flrs[ index ] = flr;
     hzd->n_d_flrs = index + 1;
-    flr->p4.h |= HZX_FLOOR_DYNAMIC;
+    flr->p4.h |= HZD_FLOOR_DYNAMIC;
     return 0;
 }
 

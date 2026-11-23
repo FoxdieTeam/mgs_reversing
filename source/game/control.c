@@ -250,7 +250,7 @@ retry:
     ctrl->n_touches = i;
 
     HZD_GetNearHazard(ctrl->segs);
-    HZX_GetNearHazardAtr(ctrl->atrs);
+    HZD_GetNearHazardAtr(ctrl->atrs);
     HZD_GetNearVector(ctrl->vecs);
 
     if (!HZD_HazardReaction(ctrl->vecs, i, ctrl->r_sphere, &vec) && !bVar7)

@@ -769,7 +769,7 @@ void s00a_command_800C6FA8( WatcherWork* work, int time )
             v1 = target->a_mode;
             if ( v1 == 1 )
             {
-                work->field_C48 = v1;
+                work->field_C48 = 1;
             }
             work->unknown.field_14 = 5;
             target->side = ENEMY_SIDE;

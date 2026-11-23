@@ -101,7 +101,7 @@ int s14e_800CCCC4( Work *work )
     }
     else
     {
-        route = ZAKO14FindRoute( work->control.map->index, work->target_map );
+        route = ZAKO14GetMapJointZone( work->control.map->index, work->target_map );
         zone = &hzd->def->zones[ route ];
 
         target = ( route << 8 ) | route;
@@ -128,7 +128,7 @@ int s14e_800CCCC4( Work *work )
                 return -1;
             }
 
-            current = ZAKO14FindRoute( work->target_map, ctrl->map->index );
+            current = ZAKO14GetMapJointZone( work->target_map, ctrl->map->index );
             ctrl->map = GM_GetMap( work->target_map );
 
             zone = HZD_GetZone( ctrl->map->hzd, current );

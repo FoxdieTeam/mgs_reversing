@@ -281,11 +281,11 @@
 #define CHARA_WT_AREA2          { 0xa480, NewWaterArea2 }           // GV_StrCode("水領域２") takabe/wt_area2.c
 #define CHARA_WT_OBJ            { 0x69ad, ? }                       // takabe/wt_obj.c (PC-ONLY)
 #define CHARA_WT_VIEW           { 0x8e45, NewWaterView }            // GV_StrCode("水中主観") takabe/wt_view.c
-#define CHARA_ZAKO              { 0xed87, ? }                       // GV_StrCode("ざこ") animal/zako/zako.c
+#define CHARA_ZAKO              { 0xed87, NewZako }                 // GV_StrCode("ざこ") animal/zako/zako.c
 #define CHARA_ZAKO10            { 0x31e3, ? }                       // GV_StrCode("ざこ１０") animal/zako10/zako10.c
 #define CHARA_ZAKO10COM         { 0x8e64, ? }                       // GV_StrCode("ざこ１０コマンダー") animal/zako10/zk10com.c
-#define CHARA_ZAKO11A           { 0xa608, ? }                       // GV_StrCode("ざこ１１ａ") animal/zako11a/zako11a.c
-#define CHARA_ZAKO11ACOM        { 0x5efa, ? }                       // GV_StrCode("ざこ１１ａコマンダー") animal/zako11a/zk11acom.c
+#define CHARA_ZAKO11A           { 0xa608, NewZako11A }              // GV_StrCode("ざこ１１ａ") animal/zako11a/zako11a.c
+#define CHARA_ZAKO11ACOM        { 0x5efa, NewZako11ACommander }     // GV_StrCode("ざこ１１ａコマンダー") animal/zako11a/zk11acom.c
 #define CHARA_ZAKO11E           { 0xa60c, NewZako11E }              // GV_StrCode("ざこ１１ｅ") animal/zako11e/zako11e.c
 #define CHARA_ZAKO11ECOM        { 0x5f0a, NewZako11ECommander }     // GV_StrCode("ざこ１１ｅコマンダー") animal/zako11e/zk11ecom.c
 #define CHARA_ZAKO11F           { 0xa60d, NewZako11F }              // GV_StrCode("ざこ１１ｆ") animal/zako11f/zako11f.c
@@ -294,7 +294,7 @@
 #define CHARA_ZAKO14COM         { 0x8e74, NewZako14Commander }      // GV_StrCode("ざこ１４コマンダー") animal/zako14/zk14com.c
 #define CHARA_ZAKO19            { 0x31ec, ? }                       // GV_StrCode("ざこ１９") animal/zako19/zako19.c
 #define CHARA_ZAKO19COM         { 0x8e88, ? }                       // GV_StrCode("ざこ１９コマンダー") animal/zako19/zk19com.c
-#define CHARA_ZAKOCOM           { 0x7cf7, ? }                       // GV_StrCode("ざこコマンダー") animal/zako/zakocom.c
+#define CHARA_ZAKOCOM           { 0x7cf7, NewZakoCommander }        // GV_StrCode("ざこコマンダー") animal/zako/zakocom.c
 #define CHARA_NINJAPLAY         { 0xb8d4, ? }                       // chara/njaplay/njaplay.c
 #define CHARA_NOBU_WINMNGR      { 0xae06, ? }                       // nobu/vr_slct/winmngr.c
 #define CHARA_LOADREP           { 0xc8ca, ? }                       // nobu/vr/loadrep.c
@@ -409,11 +409,15 @@ extern NEWCHARA NewBombLed;                     /* animal/liquid/bombled.c      
 extern NEWCHARA NewMeryl72_800C7BC4;            /* animal/meryl72/meryl72.c     */
 extern NEWCHARA NewNinjaBoss;                   /* animal/ninja/ninja.c         */
 extern NEWCHARA d18a_snake18_800D4E94;          /* animal/snake18/snake18.c     */
+extern NEWCHARA NewZako;                        /* animal/zako/zako.c           */
+extern NEWCHARA NewZakoCommander;               /* animal/zako/zakocom.c        */
+extern NEWCHARA NewZako11A;                     /* animal/zako11a/zako11a.c     */
+extern NEWCHARA NewZako11ACommander;            /* animal/zako11a/zk11acom.c    */
 extern NEWCHARA NewZako11E;                     /* animal/zako11e/zako11e.c     */
 extern NEWCHARA NewZako11ECommander;            /* animal/zako11e/zk11ecom.c    */
 extern NEWCHARA NewZako11F;                     /* animal/zako11f/zako11f.c     */
 extern NEWCHARA NewZako11FCommander;            /* animal/zako11f/zk11fcom.c    */
-extern NEWCHARA NewZako14;                      /* animal/zako11f/zako14.c      */
+extern NEWCHARA NewZako14;                      /* animal/zako14/zako14.c       */
 extern NEWCHARA NewZako14Commander;             /* animal/zako14/zk14com.c      */
 extern NEWCHARA NewBlast;                       /* bullet/blast.c               */
 extern NEWCHARA NewScenarioJirai;               /* bullet/jirai.c               */

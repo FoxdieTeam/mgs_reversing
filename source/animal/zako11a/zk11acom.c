@@ -1,3 +1,4 @@
+#define __ANIMAL_ZAKO11A_ZAKOCOM_C__
 #include "zako.h"
 
 #include <stdio.h>
@@ -18,7 +19,7 @@ int     ZAKO11A_EYE_LENGTH = 4000;
 SVECTOR SECTION(".bss") ZAKO11A_PlayerPosition;
 COMMANDER SECTION(".bss") ZAKO11ACommand;
 TOP SECTION(".bss") ZAKO11ATOPCOMMAND;
-int SECTION(".bss") ZAKO11A_Unknown;
+int SECTION(".bss") ZAKO11A_GameStatus;
 int SECTION(".bss") ZAKO11A_GameFlag;
 int SECTION(".bss") ZAKO11A_PlayerAddress;
 int SECTION(".bss") ZAKO11A_PlayerMap;
@@ -80,17 +81,17 @@ void ZAKO11ASetGopointNoise( void )
     ZAKO11ACommand.target_map = GM_PlayerMap;
 }
 
-int ZAKO11AFindRoute( int map, int id )
+int ZAKO11AGetMapJointZone( int from, int to )
 {
-    JDATA *list;
+    JOINT_DATA *data;
     int i;
 
-    list = &ZAKO11ACommand.jdata;
-    if ( list->map == map )
+    data = &ZAKO11ACommand.joint_data;
+    if ( data->map == from )
     {
-        for ( i = 0; i < list->count; i++ )
+        for ( i = 0; i < data->n_joints; i++ )
         {
-            if ( list->data[ i ][ 0 ] == id ) return list->data[ i ][ 1 ];
+            if ( data->joints[ i ].map == to ) return data->joints[ i ].zone;
         }
 
         goto not_found;
@@ -104,18 +105,18 @@ not_found:
 
 /*---------------------------------------------------------------------------*/
 
-static int ReadMapJdata( char *opt, JDATA *list )
+static int ReadMapJdata( char *opt, JOINT_DATA *data )
 {
-    int count;
+    int i;
 
-    count = 0;
+    i = 0;
     do {
-        list->data[ count ][ 0 ] = GCL_StrToInt( GCL_NextStr() );
-        list->data[ count ][ 1 ] = GCL_StrToInt( GCL_NextStr() );
-        count++;
+        data->joints[ i ].map = GCL_StrToInt( GCL_NextStr() );
+        data->joints[ i ].zone = GCL_StrToInt( GCL_NextStr() );
+        i++;
     } while ( GCL_NextStr() != NULL );
 
-    return count;
+    return i;
 }
 
 static int ReadZones( char *opt, short *zones )
@@ -137,7 +138,7 @@ static int ReadZones( char *opt, short *zones )
 static void ResetPlayerZone( void )
 {
     ZAKO11ACommand.zones[ 0 ] = HZD_Zone1( GM_PlayerAddress );
-    ZAKO11ACommand.far_zone = 0;
+    ZAKO11ACommand.c_reset_pos = 0;
 }
 
 static int GetTime( int mod )
@@ -740,22 +741,22 @@ static void GetResources( CommanderWork *work, int name, int where )
         fprintf( 1, "zone=%d ", ZAKO11ACommand.zones[ i ] );
     }
 
-    ZAKO11ACommand.far_zone = 0;
-    ZAKO11A_Unknown = 0;
+    ZAKO11ACommand.c_reset_pos = 0;
+    ZAKO11A_GameStatus = 0;
 
     opt = GCL_GetOption( 'j' );
     if ( opt )
     {
-        ZAKO11ACommand.jdata.count = ReadMapJdata( opt, &ZAKO11ACommand.jdata );
+        ZAKO11ACommand.joint_data.n_joints = ReadMapJdata( opt, &ZAKO11ACommand.joint_data );
     }
     else
     {
-        ZAKO11ACommand.jdata.count = 1;
-        ZAKO11ACommand.jdata.data[ 0 ][ 0 ] = 0;
-        ZAKO11ACommand.jdata.data[ 0 ][ 1 ] = 0;
+        ZAKO11ACommand.joint_data.n_joints = 1;
+        ZAKO11ACommand.joint_data.joints[ 0 ].map = 0;
+        ZAKO11ACommand.joint_data.joints[ 0 ].zone = 0;
     }
 
-    ZAKO11ACommand.jdata.map = where;
+    ZAKO11ACommand.joint_data.map = where;
 
     if ( GCL_GetOption( 'e' ) )
     {

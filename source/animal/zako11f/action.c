@@ -165,7 +165,7 @@ int CheckDamage_800C9B6C( Work *work )
     if ( s11i_asiato_800C9840( work ) | s11i_asiato_800C9924( work ) | s11i_asiato_800C9B14( work ) )
     {
         work->target->class = TARGET_AVAIL;
-        s11i_zk11fcom_800D0DD8();
+        ZAKO11FSetFirstDamage();
         return 1;
     }
 

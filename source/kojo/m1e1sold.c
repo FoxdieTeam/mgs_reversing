@@ -1331,7 +1331,7 @@ void s05a_800E0F64(CONTROL *control, HZD_HDL *lpHazard)
     {
         control->n_touches = hazard;
         HZD_GetNearHazard(&control->segs[0]);
-        HZX_GetNearHazardAtr(&control->atrs[0]);
+        HZD_GetNearHazardAtr(&control->atrs[0]);
         HZD_GetNearVector(&control->vecs[0]);
         HZD_HazardReaction(&control->vecs[0], hazard, control->r_sphere, &react);
         control->mov.vx += react.vx;

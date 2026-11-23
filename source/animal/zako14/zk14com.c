@@ -1,3 +1,4 @@
+#define __ANIMAL_ZAKO14_ZAKOCOM_C__
 #include "zako.h"
 
 #include "mts/mts.h" // for fprintf
@@ -16,7 +17,7 @@ int     ZAKO14_EYE_LENGTH = 4000;
 
 COMMANDER SECTION(".bss") ZAKO14Command;
 TOP SECTION(".bss") ZAKO14TOPCOMMAND;
-int SECTION(".bss") ZAKO14_Unknown;
+int SECTION(".bss") ZAKO14_GameStatus;
 int SECTION(".bss") ZAKO14_GameFlag;
 int SECTION(".bss") ZAKO14_PlayerAddress;
 int SECTION(".bss") ZAKO14_PlayerMap;
@@ -80,17 +81,17 @@ void ZAKO14SetGopointNoise( void )
     ZAKO14Command.target_map = GM_PlayerMap;
 }
 
-int ZAKO14FindRoute( int map, int id )
+int ZAKO14GetMapJointZone( int from, int to )
 {
-    JDATA *list;
+    JOINT_DATA *list;
     int i;
 
-    list = &ZAKO14Command.jdata;
-    if ( list->map == map )
+    list = &ZAKO14Command.joint_data;
+    if ( list->map == from )
     {
-        for ( i = 0; i < list->count; i++ )
+        for ( i = 0; i < list->n_joints; i++ )
         {
-            if ( list->data[ i ][ 0 ] == id ) return list->data[ i ][ 1 ];
+            if ( list->joints[ i ].map == to ) return list->joints[ i ].zone;
         }
 
         goto not_found;
@@ -104,18 +105,18 @@ not_found:
 
 /*---------------------------------------------------------------------------*/
 
-static int ReadMapJdata( char *opt, JDATA *list )
+static int ReadMapJdata( char *opt, JOINT_DATA *data )
 {
-    int count;
+    int i;
 
-    count = 0;
+    i = 0;
     do {
-        list->data[ count ][ 0 ] = GCL_StrToInt( GCL_NextStr() );
-        list->data[ count ][ 1 ] = GCL_StrToInt( GCL_NextStr() );
-        count++;
+        data->joints[ i ].map = GCL_StrToInt( GCL_NextStr() );
+        data->joints[ i ].zone = GCL_StrToInt( GCL_NextStr() );
+        i++;
     } while ( GCL_NextStr() != NULL );
 
-    return count;
+    return i;
 }
 
 static int ReadZones( char *opt, short *zones )
@@ -158,7 +159,7 @@ static void ResetPlayerZone( void )
         }
     }
 
-    ZAKO14Command.far_zone = index;
+    ZAKO14Command.c_reset_pos = index;
 }
 
 static int GetTime( int mod )
@@ -800,23 +801,23 @@ static void GetResources( CommanderWork *work, int name, int where )
         ZAKO14Command.zones[ 0 ] = 0;
     }
 
-    ZAKO14Command.far_zone = 0;
+    ZAKO14Command.c_reset_pos = 0;
     ZAKO14Command.field_60 = 0;
-    ZAKO14_Unknown = 0;
+    ZAKO14_GameStatus = 0;
 
     opt = GCL_GetOption( 'j' );
     if ( opt )
     {
-        ZAKO14Command.jdata.count = ReadMapJdata( opt, &ZAKO14Command.jdata );
+        ZAKO14Command.joint_data.n_joints = ReadMapJdata( opt, &ZAKO14Command.joint_data );
     }
     else
     {
-        ZAKO14Command.jdata.count = 1;
-        ZAKO14Command.jdata.data[ 0 ][ 0 ] = 0;
-        ZAKO14Command.jdata.data[ 0 ][ 1 ] = 0;
+        ZAKO14Command.joint_data.n_joints = 1;
+        ZAKO14Command.joint_data.joints[ 0 ].map = 0;
+        ZAKO14Command.joint_data.joints[ 0 ].zone = 0;
     }
 
-    ZAKO14Command.jdata.map = where;
+    ZAKO14Command.joint_data.map = where;
 
     if ( GCL_GetOption( 'e' ) )
     {
