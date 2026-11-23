@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "mgstype.h"
 #include "mts/mts.h"        // for mts_wait_vbl
+#include "libgv/libgv.h"    // for MEM_ADDR
 
 #include "libfs.h"
 
