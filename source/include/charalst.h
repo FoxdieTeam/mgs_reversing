@@ -133,7 +133,7 @@
 #define CHARA_DOLL2             { 0xe448, ? }                       // takabe/doll2.c
 #define CHARA_MEILINGHAIR       { 0x450f, ? }                       // GV_StrCode("メイリン髪") chara/others/hair_m.c
 #define CHARA_MEMPSY            { 0xaf72, NewMemoryPsycho }         // chara/psyco/mempsy.c
-#define CHARA_MERYL3            { 0xc755, ? }                       // animal/meryl3/meryl3.c
+#define CHARA_MERYL3            { 0xc755, NewMeryl3 }               // animal/meryl3/meryl3.c
 #define CHARA_MERYL7            { 0x5078, NewEnemyMeryl_800D63A4 }  // enemy/meryl7.c
 #define CHARA_MERYL72           { 0xe271, NewMeryl72_800C7BC4 }     // animal/meryl72/meryl72.c
 #define CHARA_MGREX             { 0x4754, ? }                       // kojo/mgrex.c
@@ -406,6 +406,7 @@ extern NEWCHARA NewCountdownGcl;                /* --> menu/countdwn.c          
 extern NEWCHARA NewCamera_800CF388;             /* ???/camera.c                 */
 extern NEWCHARA NewDemoDoll;                    /* animal/doll/doll.c           */
 extern NEWCHARA NewBombLed;                     /* animal/liquid/bombled.c      */
+extern NEWCHARA NewMeryl3;                      /* animal/meryl3/meryl3.c       */
 extern NEWCHARA NewMeryl72_800C7BC4;            /* animal/meryl72/meryl72.c     */
 extern NEWCHARA NewNinjaBoss;                   /* animal/ninja/ninja.c         */
 extern NEWCHARA NewSnake18;                     /* animal/snake18/snake18.c     */
