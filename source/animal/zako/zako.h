@@ -5,8 +5,13 @@
 
 /*---------------------------------------------------------------------------*/
 
-#define TARGET_FLAG ( TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH \
-                    | TARGET_SEEK | TARGET_TOUCH )
+#define TARGET_FLAG     ( TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH \
+                        | TARGET_SEEK | TARGET_TOUCH )
+
+#define PUTFOOTNOISE    0
+#define PUTBREATH       1
+#define PUTSIGHTLINE    2
+#define GUNSHOOT        3
 
 // TODO: check name
 typedef struct _ACT {
@@ -53,80 +58,80 @@ typedef struct _PAD {
 struct _Work;
 
 typedef void ( *ACTION )( struct _Work *, int ) ;
-typedef void ( *PUTFUNC )( struct _Work * ) ;
+typedef void ( *PUTCHAR )( struct _Work * ) ;
 
 typedef struct _Work {
-    GV_ACT          actor;          /* 0x000 */
-    CONTROL         control;        /* 0x020 */
-    OBJECT          body;           /* 0x09C */
-    int             lod;            /* 0x180 */
-    DG_DEF         *models[2];      /* 0x184 */
-    MOTION_CONTROL  m_ctrl;         /* 0x18C */
-    MOTION_SEGMENT  m_segs1[17];    /* 0x1DC */
-    MOTION_SEGMENT  m_segs2[17];    /* 0x440 */
-    SVECTOR         rots[16];       /* 0x6A4 */
-    SVECTOR         adjust[16];     /* 0x724 */
-    OBJECT          weapon;         /* 0x7A4 */
-    MATRIX          light[2];       /* 0x888 */
-    ACT             act;            /* 0x8C8 */
-    ACTION          action;         /* 0x8E8 */
-    ACTION          action2;        /* 0x8EC */
-    int             time;           /* 0x8F0 */
-    int             time2;          /* 0x8F4 */
-    int             actend;         /* 0x8F8 */
-    TARGET         *target;         /* 0x8FC */
-    TARGET          attack;         /* 0x900 */
-    TARGET          touch;          /* 0x948 */
-    HOMING         *hom;            /* 0x990 */
-    int             n_nodes;        /* 0x994 */
-    SVECTOR         nodes[32];      /* 0x998 */
-    void           *shadow;         /* 0xA98 */
-    int            *enable_shadow;  /* 0xA9C */
-    void           *glight;         /* 0xAA0 */
-    int            *enable_glight;  /* 0xAA4 */
-    PUTFUNC         putfuncs[8];    /* 0xAA8 */
-    short           think1;         /* 0xAC8 */
-    short           think2;         /* 0xACA */
-    short           think3;         /* 0xACC */
-    short           think4;         /* 0xACE */
-    int             count3;         /* 0xAD0 */
-    int             next_node;      /* 0xAD4 could be t_count or l_count */
-    PAD             pad;            /* 0xAD8 */
-    u_long          trigger;        /* 0xAEC */
-    void           *subweapon;      /* 0xAF0 */
+    GV_ACT          actor;
+    CONTROL         control;
+    OBJECT          body;
+    int             lod;
+    DG_DEF         *models[2];
+    MOTION_CONTROL  m_ctrl;
+    MOTION_SEGMENT  m_segs1[17];
+    MOTION_SEGMENT  m_segs2[17];
+    SVECTOR         rots[16];
+    SVECTOR         adjust[16];
+    OBJECT          weapon;
+    MATRIX          light[2];
+    ACT             act;
+    ACTION          action;
+    ACTION          action2;
+    int             time;
+    int             time2;
+    int             actend;
+    TARGET         *target;
+    TARGET          attack;
+    TARGET          touch;
+    HOMING         *hom;
+    int             n_nodes;
+    SVECTOR         nodes[32];
+    void           *shadow;
+    int            *enable_shadow;
+    void           *glight;
+    int            *enable_glight;
+    PUTCHAR         putchar[8];
+    short           think1;
+    short           think2;
+    short           think3;
+    short           think4;
+    int             count3;
+    int             next_node;
+    PAD             pad;
+    u_long          trigger;
+    void           *subweapon;
     char            pad_AF4[0x2];
-    short           field_AF6;      /* 0xAF6 */
-    short           field_AF8;      /* 0xAF8 */
+    short           field_AF6;
+    short           field_AF8;
     char            pad_AFA[0x6];
-    int             visible;        /* 0xB00 */
-    int             n_dead;         /* 0xB04 */
-    PARAM           param;          /* 0xB08 */
+    int             visible;
+    int             n_dead;
+    PARAM           param;
     char            pad_B1A[0x6];
-    VISION          vision;         /* 0xB20 */
-    int             alert_level;    /* 0xB28 */
-    signed char     modetime[8];    /* 0xB2C */
-    SVECTOR         player_pos;     /* 0xB34 */
-    int             player_dir;     /* 0xB3C */
-    SVECTOR         start_pos;      /* 0xB40 */
-    SVECTOR         target_pos;     /* 0xB48 */
-    int             start_addr;     /* 0xB50 */
-    int             start_map;      /* 0xB54 */
-    int             last_addr;      /* 0xB58 */
-    int             target_addr;    /* 0xB5C */
-    int             target_map;     /* 0xB60 */
-    int             chase_dis;      /* 0xB64 */
-    SVECTOR         current_pos;    /* 0xB68 */
-    int             current_addr;   /* 0xB70 */
-    int             next_addr;      /* 0xB74 */
+    VISION          vision;
+    int             alert_level;
+    signed char     modetime[8];
+    SVECTOR         player_pos;
+    int             player_dir;
+    SVECTOR         start_pos;
+    SVECTOR         target_pos;
+    int             start_addr;
+    int             start_map;
+    int             last_addr;
+    int             target_addr;
+    int             target_map;
+    int             chase_dis;
+    SVECTOR         current_pos;
+    int             current_addr;
+    int             next_addr;
     char            pad_B78[0x8];
-    SVECTOR         next_pos;       /* 0xB80 */
+    SVECTOR         next_pos;
     char            pad_B88[0x8];
-    int             sn_dis;         /* 0xB90 */
-    int             sn_dir;         /* 0xB94 */
-    int             field_B98;      /* 0xB98 */
-    int             act_status;     /* 0xB9C */
-    short           in_grip;        /* 0xBA0 */
-    short           vital_prev;      /* 0xBA2 */
+    int             sn_dis;
+    int             sn_dir;
+    int             field_B98;
+    int             act_status;
+    short           in_grip;
+    short           vital_prev;
 } Work;
 
 // TODO: check name
@@ -149,32 +154,32 @@ typedef struct _JOINT_DATA {
 } JOINT_DATA;
 
 typedef struct _COMMANDER {
-    int             field_0;         /* 0x000 */
-    int             field_4;         /* 0x004 */
-    int             count;           /* 0x008 */
-    int             field_C;         /* 0x00C */
-    int             field_10;        /* 0x010 */
-    int             field_14;        /* 0x014 */
-    int             field_18;        /* 0x018 */
-    int             field_1C;        /* 0x01C */
-    int             field_20;        /* 0x020 */
-    int             target_addr;     /* 0x024 */
-    int             target_map;      /* 0x028 */
-    SVECTOR         target_pos;      /* 0x02C */
-    short           n_zones;         /* 0x034 */
-    short           c_reset_pos;     /* 0x036 */
-    short           zones[4];        /* 0x038 */
-    int             order[8];        /* 0x040 */
-    int             reset_enemy_num; /* 0x060 */
-    MAP            *map;             /* 0x064 */
-    JOINT_DATA      joint_data;      /* 0x068 */
-    WATCHER         watchers[8];     /* 0x08C */
-    int             field_10C;       /* 0x10C */
-    int             field_110;       /* 0x110 */
-    int             sounds[3];       /* 0x114 */
-    int             end_proc;        /* 0x120 */
-    int             procs[8];        /* 0x124 */
-    int             field_144;       /* 0x144 */
+    int             field_0;
+    int             field_4;
+    int             count;
+    int             field_C;
+    int             field_10;
+    int             field_14;
+    int             field_18;
+    int             field_1C;
+    int             field_20;
+    int             target_addr;
+    int             target_map;
+    SVECTOR         target_pos;
+    short           n_zones;
+    short           c_reset_pos;
+    short           zones[4];
+    int             order[8];
+    int             reset_enemy_num;
+    MAP            *map;
+    JOINT_DATA      joint_data;
+    WATCHER         watchers[8];
+    int             field_10C;
+    int             field_110;
+    int             sounds[3];
+    int             end_proc;
+    int             procs[8];
+    int             field_144;
 } COMMANDER;
 
 // TODO: check name
@@ -184,8 +189,8 @@ typedef struct _TOP {
 } TOP;
 
 typedef struct _CommanderWork {
-    /* 0x000 */ GV_ACT actor;
-    /* 0x020 */ char   pad20[ 0x4 ];
+    GV_ACT actor;
+    char   pad_20[ 0x4 ];
 } CommanderWork;
 
 /*---------------------------------------------------------------------------*/
@@ -245,6 +250,12 @@ static inline void UnsetMode( Work *work )
 /*---------------------------------------------------------------------------*/
 
 #ifndef __ANIMAL_ZAKO_ZAKOCOM_C__
+extern SVECTOR   ZAKO_TARGET_SIZE;
+extern SVECTOR   ZAKO_TARGET_FORCE;
+extern SVECTOR   ZAKO_ATTACK_SIZE;
+extern SVECTOR   ZAKO_ATTACK_FORCE;
+extern SVECTOR   ZAKO_TOUCH_SIZE;
+extern SVECTOR   ZAKO_TOUCH_FORCE;
 extern SVECTOR   ZAKO_NO_POINT;
 extern SVECTOR   ZAKO_PlayerPosition;
 extern COMMANDER ZAKOCommand;
@@ -260,14 +271,46 @@ extern int       ZAKO_VibTime;
 void *NewZako( int name, int where );
 
 // action.c
-// ...
+void s03d_800CE12C( Work *work, int time );
+void s03d_800CE318( Work *work, int time );
+void s03d_800CE5B4( Work *work, int time );
+void s03d_800CE644( Work *work, int time );
+void s03d_800CE720( Work *work, int time );
+void s03d_800CE8F4( Work *work, int time );
+void s03d_800CE9E8( Work *work, int time );
+void s03d_800CEB38( Work *work, int time );
+void s03d_800CECBC( Work *work, int time );
+void s03d_800CED94( Work *work, int time );
+void s03d_800CEE3C( Work *work, int time );
+void s03d_800CF194( Work *work, int time );
+void s03d_800CF4D4( Work *work, int time );
+void s03d_800CF548( Work *work, int time );
+void s03d_800CF68C( Work *work, int time );
+void s03d_800CF844( Work *work, int time );
+void s03d_800CF90C( Work *work, int time );
+void s03d_800CFA04( Work *work, int time );
+void s03d_800CFB04( Work *work, int time );
+void s03d_800CFFF0( Work *work, int time );
+void s03d_800D01C4( Work *work, int time );
+void ZAKO_Action( Work *work );
 
 // override.c
-// ...
+void ActOverScoutR( Work *work, int time );
+void ActOverScoutL( Work *work, int time );
+void s03d_800D0754( Work *work, int time );
+void s03d_800D07DC( Work *work, int time );
+void s03d_800D085C( Work *work, int time );
+void s03d_800D08DC( Work *work, int time );
+void s03d_800D0958( Work *work, int time );
+void s03d_800D09D8( Work *work, int time );
 
 // put.c
-void s03d_800D0C90( Work *work, int index );
-int  Zako_800D0EF0( Work *work, int index );
+void ZAKO_PutBlood( Work *work, int unit, int count );
+void ZAKO_PutDust( Work *work );
+void ZAKO_PutItem( Work *work, int type );
+void ZAKO_PutMark( Work *work, int mark );
+int  ZAKO_SetPutChar( Work *work, int index );
+void ZAKO_ExecPutChars( Work *work );
 
 // think.c
 void ZakoThink( Work *work );
@@ -278,7 +321,7 @@ void ZakoPushMove( Work *work );
 
 // zakocom.c
 int  ZAKOSetWorkID( Work *work );
-int  ZAKO_800D4038( void ); /* TODO: name */
+int  ZAKOSetDead( void );
 void ZAKOResetWorkID( int id );
 void ZAKOSetTopCommAL( int alert );
 void ZAKOSetTopCommMD( int mode );

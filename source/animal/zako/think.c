@@ -185,7 +185,7 @@ static int s03d_800D307C(Work *work)
 {
     if (work->count3 == 0)
     {
-        s03d_800D0C90(work, 0);
+        ZAKO_PutMark(work, 0);
         GM_SeSet(&work->control.mov, 0x53);
         NewEyeflash(&work->body.objs->objs[6].world, &work->control.mov, "kirari01", 0);
     }
@@ -205,7 +205,7 @@ static int s03d_800D311C(Work *work)
     if (work->count3 == 0)
     {
         GM_SeSet(&work->control.mov, 0x53);
-        s03d_800D0C90(work, 0);
+        ZAKO_PutMark(work, 0);
     }
     if (work->count3 >= 21)
     {

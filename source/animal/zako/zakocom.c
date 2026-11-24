@@ -2,15 +2,15 @@
 #include "zako.h"
 
 #include <stdio.h>
-#include "mts/mts.h"      // for fprintf
-#include "game/vibrate.h" // for NewPadVibration
+#include "mts/mts.h"         // for fprintf
+#include "game/vibrate.h"    // for NewPadVibration
 #include "takabe/cineutil.h" // for OpenCinemaScreen, etc.
 
 /*---------------------------------------------------------------------------*/
 
 SVECTOR ZAKO_NO_POINT = {30000, 30000, 30000};
 
-int SECTION(".bss") ZAKO_Unknown;
+int SECTION(".bss") ZAKO_NumDead;
 int SECTION(".bss") s03d_dword_800DC2E4;
 TOP SECTION(".bss") ZAKOTOPCOMMAND;
 int SECTION(".bss") ZAKO_GameStatus;
@@ -55,13 +55,13 @@ int ZAKOSetWorkID( Work *work )
     return -1;
 }
 
-int ZAKO_800D4038( void )
+int ZAKOSetDead( void )
 {
-    int v;
+    int n_dead;
 
-    v = ZAKO_Unknown;
-    ZAKO_Unknown++;
-    return v;
+    n_dead = ZAKO_NumDead;
+    ZAKO_NumDead++;
+    return n_dead;
 }
 
 void ZAKOResetWorkID( int index )
@@ -920,7 +920,7 @@ static void GetResources( void *work, int name, int where )
     int i;
     char *opt;
 
-    ZAKO_Unknown = 0;
+    ZAKO_NumDead = 0;
     ZAKO_GameFlag = 0;
 
     ZAKOCommand.field_20 = 0;
