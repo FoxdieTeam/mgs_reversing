@@ -3,54 +3,50 @@
 #include "enemy/enemy.h"
 
 #include <stdio.h>
-#include "mgstype.h"
-#include "mts/mts.h" // for fprintf
-#include "libgv/libgv.h"
-#include "libgcl/libgcl.h"
-#include "libhzd/libhzd.h"
 #include "strcode.h"
-
+#include "mts/mts.h"            // for fprintf
 #include "chara/snake/shadow.h" // for NewHumanShadow2
 #include "enemy/glight.h"       // for NewGunLight
+#include "equip/equip.h"        // for NewKogaku2
+
+/*---------------------------------------------------------------------------*/
 
 // BUG: Should be void GM_ConfigControlRadarparam(CONTROL *, u_short, u_short, u_short, u_short);
 extern void GM_ConfigControlRadarparam(CONTROL *ctrl, u_short dir, u_short dis, int range, u_short r);
 
-/*
-extern ENEMY_COMMAND EnemyCommand;
-extern SVECTOR       ENEMY_TARGET_SIZE;
-extern SVECTOR       ENEMY_TARGET_FORCE;
-extern SVECTOR       ENEMY_ATTACK_SIZE;
-extern SVECTOR       ENEMY_ATTACK_FORCE;
-extern SVECTOR       ENEMY_TOUCH_SIZE;
-extern SVECTOR       ENEMY_TOUCH_FORCE;
-extern SVECTOR       COM_NO_POINT;
-extern int           COM_EYE_LENGTH;
-*/
+extern ZAKO_COMMAND ZAKO11ECommand;
+extern SVECTOR ZAKO11E_TARGET_SIZE;
+extern SVECTOR ZAKO11E_TARGET_FORCE;
+extern SVECTOR ZAKO11E_ATTACK_SIZE;
+extern SVECTOR ZAKO11E_ATTACK_FORCE;
+extern SVECTOR ZAKO11E_TOUCH_SIZE;
+extern SVECTOR ZAKO11E_TOUCH_FORCE;
+extern SVECTOR ZAKO11E_NO_POINT;
+extern int ZAKO11E_EYE_LENGTH;
+extern int ZAKO11E_GameFlag;
 
-extern SVECTOR ZAKO_TARGET_SIZE_800C38CC;
-extern SVECTOR ZAKO_TARGET_FORCE_800C38D4;
-extern SVECTOR ZAKO_ATTACK_SIZE_800C38DC;
-extern SVECTOR ZAKO_ATTACK_FORCE_800C38E4;
-extern SVECTOR ZAKO_TOUCH_SIZE_800C38EC;
-extern SVECTOR ZAKO_TOUCH_FORCE_800C38F4;
+extern void s11e_zk11ecom_800D9A64( int );
+extern int s11e_zk11ecom_800D9A20( ZakoWork *work );
+extern int Zako11EPushMove_800D889C( ZakoWork *work );
+extern int Zako11EActionMain_800D8830( ZakoWork *work );
+extern void ZAKO11E_SetPutChar( ZakoWork *work, int put );
 
-extern int     ZAKO11E_EYE_LENGTH_800C3904;
-extern SVECTOR ZAKO11E_NO_POINT_800C38FC;
+static int s11e_dword_800C35BC[] = {
+    0x00000BB8, 0x00000FA0, 0x00001B58, 0x00001F40, 0x00001F40, 0x00001F40, 0x00001F40, 0x00001F40
+};
 
-extern int  s11e_zk11ecom_800D9A20( ZakoWork *work );
-extern int  Zako11EPushMove_800D889C( ZakoWork *work );
-extern int  Zako11EActionMain_800D8830( ZakoWork *work );
-extern void ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put );
+static u_short s11e_dword_800C35DC[] = {
+    0x012C, 0x000F, 0x001E, 0x003C, 0x005A, 0x0000, 0x7D01, 0x7530,
+};
 
-extern void *NewKogaku2(CONTROL *pCtrl, OBJECT *pObj, int unit);
+/*---------------------------------------------------------------------------*/
 
-void RootFlagCheck_800D34C8( ZakoWork *work )
+static void RootFlagCheck_800D34C8( ZakoWork *work )
 {
     /* do nothing */
 }
 
-void s11e_zako11e_800D34D0( DG_OBJS* objs, DG_DEF* def )
+static void s11e_zako11e_800D34D0( DG_OBJS* objs, DG_DEF* def )
 {
     int i;
     DG_OBJ *obj;
@@ -67,7 +63,7 @@ void s11e_zako11e_800D34D0( DG_OBJS* objs, DG_DEF* def )
     }
 }
 
-void s11e_zako11e_800D354C( ZakoWork *work )
+static void s11e_zako11e_800D354C( ZakoWork *work )
 {
     if ( work->visible )
     {
@@ -101,10 +97,7 @@ void s11e_zako11e_800D354C( ZakoWork *work )
     }
 }
 
-extern int s11e_dword_800DF3B4;
-extern ZAKO_COMMAND ZakoCommand_800DF280;
-
-void ZakoAct_800D3684( ZakoWork *work )
+static void Act( ZakoWork *work )
 {
     VECTOR   vec;
     TARGET  *trgt;
@@ -156,13 +149,13 @@ void ZakoAct_800D3684( ZakoWork *work )
     *work->glight_enable = 0;
     *work->shadow_enable = 0;
 
-    if ( s11e_dword_800DF3B4 == 0xF && ZakoCommand_800DF280.field_0x8C[work->field_B74].field_04 == 1 )
+    if ( ZAKO11E_GameFlag == 0xF && ZAKO11ECommand.field_0x8C[work->field_B74].field_04 == 1 )
     {
          GV_DestroyActor( &( work->actor ) );
     }
 }
 
-void InitTarget_800D3800( ZakoWork *work )
+static void InitTarget_800D3800( ZakoWork *work )
 {
     TARGET *target;
     TARGET *target2;
@@ -173,23 +166,23 @@ void InitTarget_800D3800( ZakoWork *work )
     life   = work->param_life;
     faint  = work->param_faint;
 
-    GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ZAKO_TARGET_SIZE_800C38CC );
-    GM_SetPowerTarget( target, POWER_DECREASE, -1, life, faint, &ZAKO_TARGET_FORCE_800C38D4 );
+    GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, &ZAKO11E_TARGET_SIZE );
+    GM_SetPowerTarget( target, POWER_DECREASE, -1, life, faint, &ZAKO11E_TARGET_FORCE );
     GM_SetCaptureTarget( target, -1, faint, NULL, NULL);
 
     GM_SetC4Target( target, &( work->body.objs->objs[1].world ) );
 
     work->local_data = work->param_life;
     target2 = &work->field_904;
-    GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ZAKO_ATTACK_SIZE_800C38DC );
-    GM_SetPowerTarget( target2, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
+    GM_SetTarget( target2, TARGET_POWER, PLAYER_SIDE, &ZAKO11E_ATTACK_SIZE );
+    GM_SetPowerTarget( target2, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO11E_ATTACK_FORCE );
 
     target2 = &work->field_94C;
-    GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ZAKO_TOUCH_SIZE_800C38EC );
-    GM_SetPowerTarget( target2, POWER_CONST | POWER_EXPLODE, 5, 0, 0, &ZAKO_TOUCH_FORCE_800C38F4 );
+    GM_SetTarget( target2, ( TARGET_TOUCH ), ENEMY_SIDE, &ZAKO11E_TOUCH_SIZE );
+    GM_SetPowerTarget( target2, POWER_CONST | POWER_EXPLODE, 5, 0, 0, &ZAKO11E_TOUCH_FORCE );
 }
 
-void s11e_zako11e_800D3934( ZakoWork* work )
+static void s11e_zako11e_800D3934( ZakoWork* work )
 {
     WatcherUnk *s;
     s = &work->unknown;
@@ -205,7 +198,7 @@ void s11e_zako11e_800D3934( ZakoWork* work )
     work->time2 = 0;
 }
 
-int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
+static int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
 {
     int i;
     int has_kmd;
@@ -272,15 +265,13 @@ int s11e_zako11e_800D3990( ZakoWork* work, int name, int where )
     work->shadow = (void*)NewHumanShadow2( ctrl, body, shadow,  &work->shadow_enable ) ;
     work->glight = NewGunLight( &( body->objs->objs[4].world ), &work->glight_enable ) ;
 
-    ZAKO11E_SetPutChar_800D8004( work, 0 );
+    ZAKO11E_SetPutChar( work, 0 );
     s11e_zako11e_800D3934( work );
 
     return 0;
 }
 
-extern void s11e_zk11ecom_800D9A64( int );
-
-void s11e_zako11e_800D3BD8( ZakoWork* work )
+static void s11e_zako11e_800D3BD8( ZakoWork* work )
 {
     s11e_zk11ecom_800D9A64( work->field_B74 );
     GM_FreeControl( &( work->control ) );
@@ -303,12 +294,12 @@ void s11e_zako11e_800D3BD8( ZakoWork* work )
     }
 }
 
-void ZakoDie_800D3C84( ZakoWork* work )
+static void Die( ZakoWork* work )
 {
     s11e_zako11e_800D3BD8( work );
 }
 
-int ReadNodes_800D3CA4( ZakoWork* work )
+static int ReadNodes_800D3CA4( ZakoWork* work )
 {
     int i;
     HZD_PAT *patrol;
@@ -333,7 +324,7 @@ int ReadNodes_800D3CA4( ZakoWork* work )
     return 0;
 }
 
-int s11e_zako11e_800D3D40( char *opt, short* s )
+static int s11e_zako11e_800D3D40( char *opt, short* s )
 {
     int i;
     unsigned char *res;
@@ -347,7 +338,7 @@ int s11e_zako11e_800D3D40( char *opt, short* s )
     return i;
 }
 
-int s11e_zako11e_800D3D98( char *opt, int* l )
+static int s11e_zako11e_800D3D98( char *opt, int* l )
 {
     int i;
     unsigned char *res;
@@ -361,9 +352,7 @@ int s11e_zako11e_800D3D98( char *opt, int* l )
     return i;
 }
 
-extern unsigned short s11e_dword_800C35DC[8];
-
-int s11e_zako11e_800D3DF0( ZakoWork *work )
+static int s11e_zako11e_800D3DF0( ZakoWork *work )
 {
     int i;
     char *opt;
@@ -405,9 +394,7 @@ int s11e_zako11e_800D3DF0( ZakoWork *work )
     return 0;
 }
 
-extern int s11e_dword_800C35BC[8];
-
-void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
+static void GetResources( ZakoWork *work, int name, int where )
 {
     int addr;
     char *opt;
@@ -491,7 +478,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
         work->param_area = GCL_StrToInt( ( char* )opt );
     }
 
-    if ( work->param_area == 'S' ) ZAKO11E_SetPutChar_800D8004( work, PUTBREATH ) ; /* 白い息はく */
+    if ( work->param_area == 'S' ) ZAKO11E_SetPutChar( work, PUTBREATH ) ; /* 白い息はく */
     work->scale = 4096 ;            /* スケール */
 
     if ( ( opt = GCL_GetOption( 's' ) ) != NULL ) work->scale += GCL_StrToInt( ( char* )opt );
@@ -542,8 +529,8 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->field_B94 = 0;
     work->pad.sound = 0;
     work->pad.time  = 0;
-    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904;
-    work->field_BA4 = ZAKO11E_NO_POINT_800C38FC;
+    work->vision.length = ZAKO11E_EYE_LENGTH;
+    work->field_BA4 = ZAKO11E_NO_POINT;
     work->subweapon = 0;
 
 
@@ -561,7 +548,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->field_BA3 =  7;
     work->field_BA0 = -1;
 
-    GM_ConfigControlRadarparam( &work->control , 0, 0x200, ZAKO11E_EYE_LENGTH_800C3904, 0 );
+    GM_ConfigControlRadarparam( &work->control , 0, 0x200, ZAKO11E_EYE_LENGTH, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap;
     addr = HZD_GetAddress( work->control.map->hzd, &( work->control.mov ), -1 );
@@ -573,8 +560,7 @@ void ZakoGetResources_800D3EC8( ZakoWork *work, int name, int where )
     work->field_C1C = work->start_pos;
 }
 
-extern void ZakoAct_800D3684();
-extern void ZakoDie_800D3C84();
+/*---------------------------------------------------------------------------*/
 
 void *NewZako11E( int name, int where, int argc, char **argv )
 {
@@ -582,8 +568,8 @@ void *NewZako11E( int name, int where, int argc, char **argv )
 
     work = GV_NewActor( GV_ACTOR_PREV, sizeof( ZakoWork ) ) ;
     if ( work != NULL ) {
-        GV_SetNamedActor( &( work->actor ), ZakoAct_800D3684, ZakoDie_800D3C84, "zako11e.c" );
-        ZakoGetResources_800D3EC8( work, name, where );
+        GV_SetNamedActor( &( work->actor ), Act, Die, "zako11e.c" );
+        GetResources( work, name, where );
     }
     return (void *)work ;
 }

@@ -400,6 +400,7 @@ typedef struct _ZAKO_COMMAND
     int       field_0x118;
     int       field_0x11C;
     int       field_0x120;
+    int       field_0x124;
 } ZAKO_COMMAND;
 
 //command.c

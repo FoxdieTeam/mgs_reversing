@@ -1353,7 +1353,6 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
 {% elif OVERLAY == "s11e" %}
     include "{{OBJ_DIR}}\stage\s11e.obj", overlay
     include "{{OBJ_DIR}}\game\lamp.obj", overlay
-
     include "{{OBJ_DIR}}\enemy\watcher.obj", overlay
     include "{{OBJ_DIR}}\enemy\check.obj", overlay
     include "{{OBJ_DIR}}\enemy\action.obj", overlay
@@ -1372,22 +1371,13 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\boxkeri.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11e\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\animal\zako11e\zako11e.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11e\action.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11e\override.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11e\put.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11e\overlay3.obj", overlay
-
     include "{{OBJ_DIR}}\animal\zako11e\zk11eact.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11e\think.obj", overlay
     include "{{OBJ_DIR}}\animal\zako11e\zk11ecom.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s11e\overlay4.obj", overlay
-
     include "{{OBJ_DIR}}\takabe\tex_scrl.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\gas_efct.obj", overlay
