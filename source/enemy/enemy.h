@@ -646,10 +646,11 @@ void ActOverScoutD_800C85DC( WatcherWork *work, int time );
 #define TH3_ATTACK_GRENADE 0x18 //?
 #define TH3_ATTACK_HANDGUN 0x15
 
+void *AN_Piyopiyo( SVECTOR *pos );
+void *AN_Sleep( SVECTOR *pos );
+void *AN_PunchFog( SVECTOR *pos );
+
 void Enemy_Think( WatcherWork * work );
-void AN_Piyopiyo( SVECTOR *svec );
-void AN_Sleep( SVECTOR *svec );
-void AN_PunchFog( SVECTOR *svec );
 void s00a_command_800CB13C( WatcherWork * work );
 void s00a_command_800CC210( WatcherWork * work );
 void s00a_command_800CEB54();

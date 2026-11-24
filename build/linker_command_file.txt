@@ -982,24 +982,13 @@ overlay_bss group   file("{{OBJ_DIR}}\{{OVERLAY}}_{{OVERLAY_SUFFIX}}_bss.bin")
     include "{{OBJ_DIR}}\enemy\wall.obj", overlay
     include "{{OBJ_DIR}}\enemy\asioto.obj", overlay
     include "{{OBJ_DIR}}\enemy\glight.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s07a\overlay2.obj", overlay
-
     include "{{OBJ_DIR}}\enemy\meryl7.obj", overlay
     include "{{OBJ_DIR}}\enemy\dymc_seg.obj", overlay
-    include "{{OBJ_DIR}}\enemy\merylcheck.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s07a\overlay3.obj", overlay
-
-    include "{{OBJ_DIR}}\enemy\merylaction.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s07a\overlay4.obj", overlay
-
-    include "{{OBJ_DIR}}\enemy\merylenemy.obj", overlay
-    include "{{OBJ_DIR}}\enemy\merylthink.obj", overlay
-
-    include "{{OBJ_DIR}}\overlays\s07a\overlay5.obj", overlay
-
+    include "{{OBJ_DIR}}\enemy\mlaction.obj", overlay
+    include "{{OBJ_DIR}}\enemy\mlput.obj", overlay
+    include "{{OBJ_DIR}}\enemy\mlover.obj", overlay
+    include "{{OBJ_DIR}}\enemy\mlact.obj", overlay
+    include "{{OBJ_DIR}}\enemy\mlthink.obj", overlay
     include "{{OBJ_DIR}}\takabe\thing.obj", overlay
     include "{{OBJ_DIR}}\takabe\mosaic.obj", overlay
     include "{{OBJ_DIR}}\takabe\mirror.obj", overlay

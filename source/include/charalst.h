@@ -134,8 +134,8 @@
 #define CHARA_MEILINGHAIR       { 0x450f, ? }                       // GV_StrCode("メイリン髪") chara/others/hair_m.c
 #define CHARA_MEMPSY            { 0xaf72, NewMemoryPsycho }         // chara/psyco/mempsy.c
 #define CHARA_MERYL3            { 0xc755, NewMeryl3 }               // animal/meryl3/meryl3.c
-#define CHARA_MERYL7            { 0x5078, NewEnemyMeryl_800D63A4 }  // enemy/meryl7.c
-#define CHARA_MERYL72           { 0xe271, NewMeryl72_800C7BC4 }     // animal/meryl72/meryl72.c
+#define CHARA_MERYL7            { 0x5078, NewMeryl7 }               // enemy/meryl7.c
+#define CHARA_MERYL72           { 0xe271, NewMeryl72 }              // animal/meryl72/meryl72.c
 #define CHARA_MGREX             { 0x4754, ? }                       // kojo/mgrex.c
 #define CHARA_MG_DEMO1          { 0x954b, ? }                       // takabe/mg_demo1.c
 #define CHARA_MI24HIND          { 0x1787, NewHindBoss }             // kojo/hind.c
@@ -407,7 +407,7 @@ extern NEWCHARA NewCamera_800CF388;             /* ???/camera.c                 
 extern NEWCHARA NewDemoDoll;                    /* animal/doll/doll.c           */
 extern NEWCHARA NewBombLed;                     /* animal/liquid/bombled.c      */
 extern NEWCHARA NewMeryl3;                      /* animal/meryl3/meryl3.c       */
-extern NEWCHARA NewMeryl72_800C7BC4;            /* animal/meryl72/meryl72.c     */
+extern NEWCHARA NewMeryl72;                     /* animal/meryl72/meryl72.c     */
 extern NEWCHARA NewNinjaBoss;                   /* animal/ninja/ninja.c         */
 extern NEWCHARA NewSnake18;                     /* animal/snake18/snake18.c     */
 extern NEWCHARA NewZako;                        /* animal/zako/zako.c           */
@@ -455,7 +455,7 @@ extern NEWCHARA NewDemoAsiato;                  /* enemy/demoasi.c              
 extern NEWCHARA NewDemoKage;                    /* enemy/demokage.c             */
 extern NEWCHARA NewDemoKatana;                  /* enemy/katana.c               */
 extern NEWCHARA NewKikenKun;                    /* enemy/kiken.c                */
-extern NEWCHARA NewEnemyMeryl_800D63A4;         /* enemy/meryl7.c               */
+extern NEWCHARA NewMeryl7;                      /* enemy/meryl7.c               */
 extern NEWCHARA NewMovingObject;                /* enemy/object.c               */
 extern NEWCHARA NewSearchlight;                 /* enemy/searchli.c             */
 extern NEWCHARA NewSmoke;                       /* enemy/smoke.c                */

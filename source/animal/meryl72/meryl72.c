@@ -650,7 +650,7 @@ int Meryl72GetResources_800C7738( Meryl72Work *work, int arg1, int arg2 )
     return 0;
 }
 
-void *NewMeryl72_800C7BC4( int arg0, int arg1 )
+void *NewMeryl72( int arg0, int arg1 )
 {
     Meryl72Work *work;
 
