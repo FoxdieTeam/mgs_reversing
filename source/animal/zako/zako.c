@@ -1,4 +1,4 @@
-#include "animal/zako/zako.h"
+#include "zako.h"
 
 #include "strcode.h"
 #include "mts/mts.h" // for fprintf
@@ -17,21 +17,13 @@
 #define WEAPON_FLAG ( DG_FLAG_TEXT | DG_FLAG_TRANS | DG_FLAG_SHADE \
                     | DG_FLAG_GBOUND | DG_FLAG_ONEPIECE )
 
-#define TARGET_FLAG ( TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH \
-                    | TARGET_SEEK | TARGET_TOUCH )
+/*---------------------------------------------------------------------------*/
+
+static SVECTOR NoPoint = {30000, 30000, 30000};
 
 /*---------------------------------------------------------------------------*/
 
-static SVECTOR s03d_dword_800C39A8 = {30000, 30000, 30000};
-
-extern SVECTOR s03d_dword_800C39B0;
-extern SVECTOR s03d_dword_800C39B8;
-extern SVECTOR s03d_dword_800C39C0;
-extern SVECTOR s03d_dword_800C39C8;
-
-/*---------------------------------------------------------------------------*/
-
-void Zako_800CCAB0( DG_OBJS *objs, DG_DEF *def )
+static void SwapModel( DG_OBJS *objs, DG_DEF *def )
 {
     DG_OBJ *obj;
     int i;
@@ -49,64 +41,59 @@ void Zako_800CCAB0( DG_OBJS *objs, DG_DEF *def )
     }
 }
 
-void s03d_800CCB2C(Work *work)
+static void CheckVisible( Work *work )
 {
-    if (work->visible != 0)
+    if ( work->visible )
     {
-        if ( GM_GameStatus & STATE_CAM_CHANGE || GM_Camera.first_person )
+        if ( ( GM_GameStatus & STATE_CAM_CHANGE ) || GM_Camera.first_person )
         {
-            if (work->lod != 1)
+            if ( work->lod != 1 )
             {
                 work->lod = 1;
-                Zako_800CCAB0(work->body.objs, work->models[1]);
+                SwapModel( work->body.objs, work->models[ 1 ] );
             }
         }
         else
         {
-            if (work->lod != 0)
+            if ( work->lod != 0 )
             {
                 work->lod = 0;
-                Zako_800CCAB0(work->body.objs, work->models[0]);
+                SwapModel( work->body.objs, work->models[ 0 ] );
             }
         }
 
-        DG_VisibleObjs(work->body.objs);
-        DG_VisibleObjs(work->weapon.objs);
+        DG_VisibleObjs( work->body.objs );
+        DG_VisibleObjs( work->weapon.objs );
         *work->enable_shadow = 1;
         *work->enable_glight = 1;
     }
     else
     {
-        DG_InvisibleObjs(work->body.objs);
-        DG_InvisibleObjs(work->weapon.objs);
+        DG_InvisibleObjs( work->body.objs );
+        DG_InvisibleObjs( work->weapon.objs );
         *work->enable_shadow = 0;
         *work->enable_glight = 0;
     }
 }
 
-static void Act(Work *work)
+static void Act( Work *work )
 {
-    CONTROL *control;
+    GM_ActControl( &work->control );
+    GM_ActObject2( &work->body );
+    DG_GetLightMatrix2( &work->control.mov, work->light );
 
-    control = &work->control;
+    ZakoActionMain( work );
+    GM_MoveTarget( work->target, &work->control.mov );
 
-    GM_ActControl(control);
-    GM_ActObject2(&work->body);
-
-    DG_GetLightMatrix2(&control->mov, work->light);
-
-    ZakoActionMain(work);
-    GM_MoveTarget(work->target, &control->mov);
-
-    if (ZAKO_GameFlag == 13 && ZAKOCommand.watchers[work->param.index].field_4 == 1)
+    if ( ZAKO_GameFlag == 13 && ZAKOCommand.watchers[ work->param.index ].field_4 == 1 )
     {
-        GV_DestroyActor(work);
+        GV_DestroyActor( work );
     }
 
-    s03d_800CCB2C(work);
+    CheckVisible( work );
 }
 
-void Zako_800CCCF4( Work *work )
+static void InitTarget( Work *work )
 {
     TARGET *trg;
     int life, faint;
@@ -115,16 +102,16 @@ void Zako_800CCCF4( Work *work )
     life = work->param.life;
     faint = work->param.faint;
 
-    GM_SetTarget( trg, TARGET_FLAG, ENEMY_SIDE, &s03d_dword_800C39B0 );
-    GM_SetPowerTarget( trg, 1, -1, life, faint, &s03d_dword_800C39B8 );
+    GM_SetTarget( trg, TARGET_FLAG, ENEMY_SIDE, &ZAKO_TARGET_SIZE );
+    GM_SetPowerTarget( trg, 1, -1, life, faint, &ZAKO_TARGET_FORCE );
     GM_SetCaptureTarget( trg, -1, faint, NULL, NULL );
     GM_SetC4Target( trg, &work->body.objs->objs[ 1 ].world );
 
-    GM_SetTarget( &work->attack, TARGET_POWER, PLAYER_SIDE, &s03d_dword_800C39C0 );
-    GM_SetPowerTarget( &work->attack, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &s03d_dword_800C39C8 );
+    GM_SetTarget( &work->attack, TARGET_POWER, PLAYER_SIDE, &ZAKO_ATTACK_SIZE );
+    GM_SetPowerTarget( &work->attack, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO_ATTACK_FORCE );
 }
 
-void Zako_800CCDE0(Work *work)
+static void InitAction( Work *work )
 {
     ACT *act;
 
@@ -140,7 +127,7 @@ void Zako_800CCDE0(Work *work)
     work->time2 = 0;
 }
 
-int s03d_800CCE3C( Work *work, int name, int where )
+static int InitState( Work *work, int name, int where )
 {
     SVECTOR indices;
     CONTROL *control;
@@ -174,7 +161,7 @@ int s03d_800CCE3C( Work *work, int name, int where )
 
     for ( i = 0; i < 0; i++ )
     {
-        work->putfuncs[ i ] = NULL;
+        work->putchar[ i ] = NULL;
     }
 
     indices.vx = 0;
@@ -184,12 +171,12 @@ int s03d_800CCE3C( Work *work, int name, int where )
     work->shadow = NewHumanShadow2( control, body, indices, &work->enable_shadow );
     work->glight = NewGunLight( &body->objs->objs[ 4 ].world, &work->enable_glight );
 
-    Zako_800D0EF0( work, 0 );
-    Zako_800CCDE0( work );
+    ZAKO_SetPutChar( work, PUTFOOTNOISE );
+    InitAction( work );
     return 0;
 }
 
-void Die(Work *work)
+static void Die(Work *work)
 {
     ZAKOResetWorkID(work->param.index);
     GM_FreeControl(&work->control);
@@ -201,56 +188,55 @@ void Die(Work *work)
     GM_ResetHomingTarget(work->hom);
 }
 
-int s03d_800CD0C8(Work *work)
+static int ReadNodes( Work *work )
 {
-    PARAM   *param;
+    PARAM *param;
     HZD_PAT *patrol;
     HZD_PTP *points;
-    int      i;
+    int i;
 
     param = &work->param;
 
     patrol = work->control.map->hzd->def->routes;
-    patrol += param->roots[param->c_root];
+    patrol += param->roots[ param->c_root ];
 
     work->n_nodes = patrol->n_points;
-
-    if (work->n_nodes <= 0)
-    {
-        return -1;
-    }
+    if ( work->n_nodes <= 0 ) return -1;
 
     points = patrol->points;
-    for (i = 0; i < work->n_nodes; i++)
+    for ( i = 0; i < work->n_nodes; i++ )
     {
-        work->nodes[i].vx = points->x;
-        work->nodes[i].vy = points->y;
-        work->nodes[i].vz = points->z;
-        work->nodes[i].pad = points->command;
+        work->nodes[ i ].vx = points->x;
+        work->nodes[ i ].vy = points->y;
+        work->nodes[ i ].vz = points->z;
+        work->nodes[ i ].pad = points->command;
         points++;
     }
+
     return 0;
 }
 
-int Zako_800CD16C(char *opt, char *out)
+static int ReadChars( char *opt, char *out )
 {
-    int count = 0;
+    int i;
     char *str;
 
-    while ((str = GCL_NextStr()) != NULL)
+    i = 0;
+    while ( ( str = GCL_NextStr() ) != NULL )
     {
-        *out++ = GCL_StrToInt(str);
-        count++;
+        *out++ = GCL_StrToInt( str );
+        i++;
     }
-    return count;
+
+    return i;
 }
 
-void s03d_800CD1C4( Work *work, int name, int where )
+static void GetResources( Work *work, int name, int where )
 {
     char *opt;
     int i;
-    
-    s03d_800CCE3C( work, name, where );
+
+    InitState( work, name, where );
 
     work->param.index = ZAKOSetWorkID( work );
     if ( work->param.index < 0 )
@@ -258,14 +244,14 @@ void s03d_800CD1C4( Work *work, int name, int where )
         fprintf( 0, "Err not enough work !!\n" );
     }
 
-    work->n_dead = ZAKO_800D4038();
+    work->n_dead = ZAKOSetDead();
     work->param.roots[ 0 ] = 0;
     work->param.c_root = 0;
 
     opt = GCL_GetOption( 'r' );
     if ( opt != NULL )
     {
-        if ( Zako_800CD16C( opt, work->param.roots ) > 3 )
+        if ( ReadChars( opt, work->param.roots ) > 3 )
         {
             fprintf( 0, "Err Err Err Change Root Num Over !!\n" );
         }
@@ -324,7 +310,7 @@ void s03d_800CD1C4( Work *work, int name, int where )
     opt = GCL_GetOption( 'n' );
     if ( opt != NULL )
     {
-        if ( Zako_800CD16C( opt, work->param.defends ) > 3 )
+        if ( ReadChars( opt, work->param.defends ) > 3 )
         {
             fprintf( 0, "Err Err Err Change Defend Num Over !!\n" );
         }
@@ -339,7 +325,7 @@ void s03d_800CD1C4( Work *work, int name, int where )
 
     if ( work->param.area == 'S' )
     {
-        Zako_800D0EF0( work, 1 );
+        ZAKO_SetPutChar( work, PUTBREATH );
     }
 
     fprintf( 0, "Life=%d Faint=%d Blood=%c Area=%c \n",
@@ -348,7 +334,7 @@ void s03d_800CD1C4( Work *work, int name, int where )
              work->param.blood,
              work->param.area );
 
-    if ( s03d_800CD0C8( work ) < 0 )
+    if ( ReadNodes( work ) < 0 )
     {
         fprintf( 1, "watchar.c : action point Err\n" );
     }
@@ -356,7 +342,7 @@ void s03d_800CD1C4( Work *work, int name, int where )
     work->target = GM_AllocTarget();
     if ( work->target != NULL )
     {
-        Zako_800CCCF4( work );
+        InitTarget( work );
     }
 
     work->think1 = 0;
@@ -374,7 +360,7 @@ void s03d_800CD1C4( Work *work, int name, int where )
     work->vision.length = 4000;
     work->pad.sound = 0;
     work->pad.time = 0;
-    work->player_pos = s03d_dword_800C39A8;
+    work->player_pos = NoPoint;
     work->subweapon = NULL;
     work->control.mov = work->nodes[ 0 ];
     work->field_AF6 = 0;
@@ -409,7 +395,7 @@ void *NewZako( int name, int where )
     if ( work != NULL )
     {
         GV_SetNamedActor( work, Act, Die, "zako.c" );
-        s03d_800CD1C4( work, name, where );
+        GetResources( work, name, where );
     }
     return (void *)work;
 }

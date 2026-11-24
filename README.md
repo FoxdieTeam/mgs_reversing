@@ -255,13 +255,13 @@ Individual overlay progress:
             <td><b>s03d</b></td>
             <td>101 KB</td>
             <td>Holding Cell</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s03dr</b></td>
             <td>101 KB</td>
             <td>Holding Cell (RED)</td>
-            <td>🚧 Work in progress</td>
+            <td><b>✔️ 100% decompiled!</b></td>
         </tr>
         <tr>
             <td><b>s03e</b></td>
