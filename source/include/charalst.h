@@ -45,7 +45,7 @@
 #define CHARA_BUBBLE            { 0x1a02, NewBubbleS }              // GV_StrCode("泡") okajima/bubble_s.c
 #define CHARA_B_SELECT          { 0x93b6, ? }                       // onoda/brf/b_select.c
 #define CHARA_C4WIRE            { 0x7eca, NewWire }                 // GV_StrCode("ワイヤ") onoda/s04b/wire.c
-#define CHARA_CAMERA            { 0x6e90, NewCamera_800D67F8 }      // GV_StrCode("カメラ") enemy/camera.c
+#define CHARA_CAMERA            { 0x6e90, NewCameraSet }            // GV_StrCode("カメラ") enemy/camera.c
 #define CHARA_CAMERA2           { 0x56cc, NewCamera2Set }           // GV_StrCode("カメラ２") enemy/camera2.c
 #define CHARA_CAMERAGUN         { 0xa9c5, NewGunCamera }            // GV_StrCode("カメラ付随ガン") okajima/guncame.c
 #define CHARA_CAMERASHAKE       { 0x7bc2, NewCameraShake }          // GV_StrCode("カメラ揺らし") takabe/camshake.c
@@ -57,7 +57,7 @@
 #define CHARA_CINEMA            { 0x7a05, NewCinemaScreenSet }      // GV_StrCode("シネマスクリーン") takabe/cinema.c
 #define CHARA_CLAYMORE          { 0x3c0c, NewScenarioJirai }        // GV_StrCode("クレイモア地雷") bullet/jirai.c
 #define CHARA_COMMANDER         { 0xc6d7, NewCommander }            // GV_StrCode("コマンダー") enemy/command.c
-#define CHARA_CONTAINER         { 0xcc45, s15c_dyncon_800D8C9C }    // GV_StrCode("コンテナ") okajima/valcan/dyncon.c
+#define CHARA_CONTAINER         { 0xcc45, NewDynamicContainer }     // GV_StrCode("コンテナ") okajima/valcan/dyncon.c
 #define CHARA_COUNTDOWN         { 0x22c6, ? }                       // GV_StrCode("カウントダウン") enemy/timer.c
 #define CHARA_COUNTDOWN2        { 0xeced, NewCountdownGcl }         // GV_StrCode("カウントダウンタイマー") --> menu/countdwn.c
 #define CHARA_CRANE             { 0xa3fb, NewCrane }                // GV_StrCode("クレーン") okajima/crane.c
@@ -114,9 +114,9 @@
 #define CHARA_ITEM              { 0x8767, NewItem }                 // GV_StrCode("アイテム") game/item.c
 #define CHARA_JEEPSCROLL        { 0x6a48, NewJeepScroll }           // GV_StrCode("ジープスクロール") takabe/jeep_srl.c
 #define CHARA_JEEPDRUM          { 0xa27e, NewJeepDrum }             // GV_StrCode("ジープ戦ドラム") takabe/jeep/jdrum.c
-#define CHARA_B757_ED_TELOP     { 0xb757, EdTelop_800C4F18 }        // takabe/ed_telop.c (?)
+#define CHARA_JIMAKUDISP        { 0xb757, NewJimakuDisplay }        // GV_StrCode("字幕表示") takabe/ed_telop.c
 #define CHARA_JOHNNY            { 0x1ef9, NewJohnny }               // GV_StrCode("ジョニー") chara/torture/johnny.c
-#define CHARA_JPEG              { 0x81c7, NewCamera_800CF388 }      // GV_StrCode("ＪＰＥＧ") camera.c
+#define CHARA_JPEG              { 0x81c7, NewJpeg }                 // GV_StrCode("ＪＰＥＧ") camera.c
 #define CHARA_JPEGCAMERA        { 0x4f02, ? }                       // GV_StrCode("ＪＰＥＧカメラ")
 #define CHARA_KEY_ITEM          { 0xc6ac, NewKeyItem }              // okajima/key_item.c
 #define CHARA_KIKENKUN          { 0x52bf, NewKikenKun }             // GV_StrCode("危険君") enemy/kiken.c
@@ -141,7 +141,7 @@
 #define CHARA_MI24HIND          { 0x1787, NewHindBoss }             // kojo/hind.c
 #define CHARA_MINENE            { 0xb30a, ? }                       // enemy/minene.c
 #define CHARA_MIRROR            { 0xc218, NewMirror }               // takabe/mirror.c
-#define CHARA_SAFETY            { 0xa2b5, Safety_800C47A0 }         // safety.c
+#define CHARA_SAFETY            { 0xa2b5, NewSafetyCheck }          // safety.c
 #define CHARA_MODELDOT          { 0x7acf, ? }                       // GV_StrCode("モデルドット") okajima/photo/model_dt.c (PC-ONLY)
 #define CHARA_MONITOR1          { 0x6d78, NewMonitor1 }             // GV_StrCode("モニタ１") takabe/monitor1.c
 #define CHARA_MOSAIC            { 0x0065, NewMosaicSet }            // GV_StrCode("モザイク") takabe/mosaic.c
@@ -403,7 +403,7 @@ extern NEWCHARA AN_CaterpillerSmoke2;           /* --> anime/animconv/anime.c   
 extern NEWCHARA s08c_800C4194;                  /* --> anime/animconv/anime.c   */
 extern NEWCHARA NewRope;                        /* --> chara/rope/rope.c        */
 extern NEWCHARA NewCountdownGcl;                /* --> menu/countdwn.c          */
-extern NEWCHARA NewCamera_800CF388;             /* ???/camera.c                 */
+extern NEWCHARA NewJpeg;                        /* ???/camera.c                 */
 extern NEWCHARA NewDemoDoll;                    /* animal/doll/doll.c           */
 extern NEWCHARA NewBombLed;                     /* animal/liquid/bombled.c      */
 extern NEWCHARA NewMeryl3;                      /* animal/meryl3/meryl3.c       */
@@ -448,7 +448,7 @@ extern NEWCHARA NewTorture;                     /* chara/torture/torture.c      
 extern NEWCHARA NewWake;                        /* chara/wake/wake.c            */
 extern NEWCHARA NewAsiatoKun;                   /* enemy/asiato.c               */
 extern NEWCHARA NewAsiotoKun;                   /* enemy/asioto.c               */
-extern NEWCHARA NewCamera_800D67F8;             /* enemy/camera.c               */
+extern NEWCHARA NewCameraSet;                   /* enemy/camera.c               */
 extern NEWCHARA NewCamera2Set;                  /* enemy/camera.c               */
 extern NEWCHARA NewCommander;                   /* enemy/command.c              */
 extern NEWCHARA NewDemoAsiato;                  /* enemy/demoasi.c              */
@@ -532,7 +532,7 @@ extern NEWCHARA NewSubRoom_800C815C;            /* okajima/sub_room.c           
 extern NEWCHARA NewUji;                         /* okajima/uji.c                */
 extern NEWCHARA NewElevatorCrow;                /* okajima/valcan/ele_crow.c    */
 extern NEWCHARA NewCrow;                        /* okajima/valcan/crow.c        */
-extern NEWCHARA s15c_dyncon_800D8C9C;           /* okajima/valcan/dyncon.c      */
+extern NEWCHARA NewDynamicContainer;            /* okajima/valcan/dyncon.c      */
 extern NEWCHARA NewWallSpark;                   /* okajima/wall_spa.c           */
 extern NEWCHARA NewWolf2;                       /* okajima/wolf/wolf2.c         */
 extern NEWCHARA NewAbstractChange;              /* onoda/abst/ab_ch.c           */
@@ -540,7 +540,7 @@ extern NEWCHARA NewAbstractDemo1;               /* onoda/abst/ab_demo1.c        
 extern NEWCHARA NewAbstractDemo2;               /* onoda/abst/ab_demo2.c        */
 extern NEWCHARA NewAbstract;                    /* onoda/abst/abst.c            */
 extern NEWCHARA NewCdChange;                    /* onoda/change/change.c        */
-extern NEWCHARA Safety_800C47A0;                /* onoda/change/safety.c (?)    */
+extern NEWCHARA NewSafetyCheck;                 /* onoda/change/safety.c (?)    */
 extern NEWCHARA NewDemoSelect;                  /* onoda/demosel/demosel.c      */
 extern NEWCHARA NewOpen;                        /* onoda/open/open.c            */
 extern NEWCHARA NewOption;                      /* onoda/option/opt.c           */
@@ -561,7 +561,7 @@ extern NEWCHARA NewDummyWall;                   /* takabe/dummy_wl.c            
 extern NEWCHARA NewDynamicFloorSet;             /* takabe/dymc_flr.c            */
 extern NEWCHARA NewDynamicWallSet;              /* takabe/dymc_seg.c            */
 extern NEWCHARA NewEndingTelop;                 /* takabe/ed_telop.c            */
-extern NEWCHARA EdTelop_800C4F18;               /* takabe/ed_telop.c (?)        */
+extern NEWCHARA NewJimakuDisplay;               /* takabe/ed_telop.c            */
 extern NEWCHARA NewElectricDamage;              /* takabe/elc_damg.c            */
 extern NEWCHARA NewElectricFloor;               /* takabe/elc_flr.c             */
 extern NEWCHARA NewElevator;                    /* takabe/elevator.c            */

@@ -2264,7 +2264,7 @@ int CameraGetResources_800CE6EC(Work *work, int map)
     return 0;
 }
 
-void *NewCamera_800CF388(int name, int where, int argc, char **argv)
+void *NewJpeg(int name, int where, int argc, char **argv)
 {
     Work *work;
 

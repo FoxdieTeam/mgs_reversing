@@ -12,12 +12,11 @@
 /* in safechk.obj */
 extern int SafetyCheck( int, int, int );
 
-int Safety_800C45F8( int lba, int timeout )
+int SafeCheck( int lba, int timeout )
 {
     CdlLOC loc;
-    char   result[8];
-    int    start;
-    int    open;
+    char result[8];
+    int start;
 
     printf( "SafeCheckStart\n" );
     CdIntToPos( lba, &loc );
@@ -44,8 +43,7 @@ int Safety_800C45F8( int lba, int timeout )
         CdControlB( CdlNop, NULL, result );
         CdControlB( CdlNop, NULL, result );
 
-        open = result[0] & ( CdlStatShellOpen | CdlStatError );
-        if ( !open )
+        if ( !(result[ 0 ] & ( CdlStatShellOpen | CdlStatError )) )
         {
             printf( "TRY END\n" );
             break;
@@ -58,7 +56,7 @@ int Safety_800C45F8( int lba, int timeout )
     return 1;
 }
 
-void Safety_800C4714( void )
+void SafetyReset( void )
 {
     char param;
 
@@ -68,13 +66,13 @@ void Safety_800C4714( void )
     while ( !CdControl( CdlDemute, NULL, NULL ) );
 }
 
-void Safety_800C476C( int timeout )
+static void CheckStage( int timeout )
 {
-    Safety_800C45F8( fs_file_info[FS_FILE_STAGE].pos, timeout );
-    Safety_800C4714();
+    SafeCheck( fs_file_info[ FS_FILE_STAGE ].pos, timeout );
+    SafetyReset();
 }
 
-int Safety_800C47A0( void )
+int NewSafetyCheck( void )
 {
     int timeout;
 
@@ -84,6 +82,6 @@ int Safety_800C47A0( void )
         timeout = GCL_GetNextInt() * 60;
     }
 
-    Safety_800C476C( timeout );
+    CheckStage( timeout );
     return 1;
 }

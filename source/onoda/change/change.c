@@ -543,8 +543,8 @@ static void change_800C3CD0( Work *work )
 
             printf( "THIS IS PS DISC!!\n" );
 
-            Safety_800C45F8( 16, 600 );
-            Safety_800C4714();
+            SafeCheck( 16, 600 );
+            SafetyReset();
 
             alloc = GV_Malloc( 8192 );
             status = FS_ResetCdFilePosition( alloc );
