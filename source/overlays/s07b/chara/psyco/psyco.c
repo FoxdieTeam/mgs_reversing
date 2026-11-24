@@ -38,17 +38,17 @@ typedef struct _Work {
     /* 0x83C */ int field_83C;            // camouflage state: 10 = on, -1 = off
     /* 0x840 */ int field_840;            // actor address for GV_SendMessage (s07b_800CC138)
     /* 0x844 */ short field_844;
-    /* 0x846 */ short field_846;          // < 0: destroy on message 0x10
+    /* 0x846 */ short field_846;          // next field_844 when field_850 flag 0x10 is set; < 0: run proc_id and destroy (s07b_800CAFC8)
     /* 0x848 */ int field_848;
 
     /* 0x84C */ int field_84C;
 
-    /* 0x850 */ int field_850;            // flags (bit 2 checked in s07b_800CBDA0)
+    /* 0x850 */ int field_850;            // flags (0x4 checked in s07b_800CBDA0)
 
     /* 0x854 */ void *field_854;
     /* 0x858 */ int field_858;
 
-    /* 0x85C */ void *field_85C;          // second mode function, runs instead of field_854 while field_84C bit 2 is set
+    /* 0x85C */ void *field_85C;          // second mode function, runs instead of field_854 while field_84C flag 0x4 is set
     /* 0x860 */ int   field_860;          // time of field_85C
 
     /* 0x864 */ int field_864;
@@ -66,7 +66,7 @@ typedef struct _Work {
     /* 0x890 */ SVECTOR pos;
     /* 0x898 */ SVECTOR rot;
 
-    /* 0x8A0 */ int field_8A0;            // cleared in s07b_800CDA90
+    /* 0x8A0 */ int field_8A0;            // height level 0..2: index of s07b_dword_800C33F4 (control.hzd_height)
 
     /* 0x8A4 */ int     n_points;
     /* 0x8A8 */ SVECTOR points[ 8 ];
@@ -78,7 +78,7 @@ typedef struct _Work {
 
     /* 0x8F0 */ int *field_8F0;           // counter of an attack; cleared when it runs out (s07b_800CC67C)
     /* 0x8F4 */ MENU_BAR_CONF lifebar;    // colours change with the max vital (s07b_800CD86C)
-    /* 0x900 */ int  field_900;           // vital after being clamped (s07b_800D0DD4)
+    /* 0x900 */ int  field_900;           // shown life, drops towards target->vital (s07b_800CD86C)
     /* 0x904 */ POLY_F4  field_904[ 2 ];   // white screen (s07b_800D195C)
     /* 0x934 */ POLY_FT4 field_934[ 2 ];   // "hideo_b"
     /* 0x984 */ POLY_FT4 field_984[ 2 ];   // "hideo_s"
@@ -88,7 +88,7 @@ typedef struct _Work {
     /* 0xA58 */ int  field_A58;           // < 2: picture attack goes on to s07b_800CED04 (s07b_800CE660)
     /* 0xA5C */ int  field_A5C;           // set to 6 when the picture attack ends (s07b_800CED04)
     /* 0xA60 */ short field_A60;
-    /* 0xA62 */ char field_A62;           // set together with field_84C bit 1 (s07b_800CC9E8)
+    /* 0xA62 */ char field_A62;           // set together with field_84C flag 0x2 (s07b_800CC9E8)
     /* 0xA63 */ char field_A63;           // set to 8 when the s07b_800CBF00 counter runs out
 
     /* 0xA64 */ short field_A64;
@@ -97,7 +97,8 @@ typedef struct _Work {
     /* 0xA68 */ short field_A68;          // step of the chair attack (s07b_800CDF40)
     /* 0xA6A */ short field_A6A;          // side 0..2 for the picture/book throw (GV_RandU % 3)
     /* 0xA6C */ SVECTOR field_A6C;
-    /* 0xA74 */ char padA74[ 0xC ];
+    /* 0xA74 */ SVECTOR field_A74;        // player head position for the camera (s07b_800CFBF8)
+    /* 0xA7C */ char padA7C[ 0x4 ];
     /* 0xA80 */ GV_PAD *pad;             // GV_PadData[ 0 ] or [ 1 ] (second controller), set in s07b_800D1254
     /* 0xA84 */ GV_PAD *pad2;            // GV_PadData[ 1 ] (s07b_800D1638)
     /* 0xA88 */ u_char weapon_lock[ 8 ];  // 20-frame counters that make C4/claymore/grenade/Nikita/Stinger fail (s07b_800CBFB0)
@@ -1414,12 +1415,6 @@ void s07b_800CCFE4( Work *work )
 const char s07b_dword_800E5018[] = "MANTIS";
 const char s07b_dword_800E5020[] = "マンティス";
 
-const int s07b_dword_800E502C = 0x800CFF7C;
-const int s07b_dword_800E5030 = 0x800D0064;
-const int s07b_dword_800E5034 = 0x800D0178;
-const int s07b_dword_800E5038 = 0x800D035C;
-const int s07b_dword_800E503C = 0x800D035C;
-const int s07b_dword_800E5040 = 0x800D052C;
 
 void s07b_800CCFE4( Work *work );
 
@@ -2835,7 +2830,309 @@ void s07b_800CF9A0( Work *work, int time )
         break;
     }
 }
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800CFBF8.s")
+int GM_StreamStatus( void );
+
+static inline int s07b_VecDist( SVECTOR *a, SVECTOR *b, SVECTOR *diff )
+{
+    GV_SubVec3( a, b, diff );
+    return GV_VecLen3( diff );
+}
+
+void s07b_800CFBF8( Work *work, int time )
+{
+    MATRIX  mat;
+    SVECTOR from;
+    SVECTOR to;
+    SVECTOR ofs;
+    SVECTOR vec[ 3 ];
+    int     i;
+    int     meryl_zone;
+    int     snake_zone;
+
+    if ( time == 0 )
+    {
+        if ( GM_ItemTypes[ GM_Item + 1 ] & 0x2 )
+        {
+            GM_Item = IT_None;
+        }
+        if ( GM_WeaponTypes[ GM_Weapon + 1 ] & 0x200 )
+        {
+            GM_Weapon = WP_None;
+        }
+        GM_GameStatus |= 0x104A2000;
+        GM_PlayerStatus |= 0x4000000;
+        s07b_800CCA10( work );
+        s07b_800CC9E8( work, 0 );
+        if ( work->body.action2 )
+        {
+            GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
+        }
+        if ( work->body.action != 1 )
+        {
+            GM_ConfigObjectAction( &work->body, 1, 0, 4 );
+        }
+        work->control.step = DG_ZeroVector;
+        s07b_800CB068( 0 );
+        s07b_800CB0B4( work, 0 );
+        OpenCinemaScreen( 1, 30000 );
+        s07b_800CC930();
+
+        vec[ 1 ] = GM_PlayerPosition;
+        vec[ 1 ].vy = 0;
+        vec[ 2 ] = s07b_dword_800E5BB8;
+        vec[ 2 ].vy = 0;
+        if ( s07b_VecDist( &vec[ 1 ], &vec[ 2 ], &vec[ 0 ] ) < 2501 )
+        {
+            meryl_zone = 0;
+            if ( s07b_dword_800E5BB8.vx < -5500 )
+            {
+                meryl_zone = 1;
+            }
+            else if ( s07b_dword_800E5BB8.vx > 4000 )
+            {
+                meryl_zone = 2;
+            }
+            else if ( s07b_dword_800E5BB8.vz < -3250 )
+            {
+                meryl_zone = 3;
+            }
+            else if ( s07b_dword_800E5BB8.vz > 3250 )
+            {
+                meryl_zone = 4;
+            }
+
+            snake_zone = 0;
+            if ( GM_PlayerPosition.vx < -5500 )
+            {
+                snake_zone = 1;
+            }
+            else if ( GM_PlayerPosition.vx > 4000 )
+            {
+                snake_zone = 2;
+            }
+            else if ( GM_PlayerPosition.vz < -3250 )
+            {
+                snake_zone = 3;
+            }
+            else if ( GM_PlayerPosition.vz > 3250 )
+            {
+                snake_zone = 4;
+            }
+
+            if ( meryl_zone == snake_zone && meryl_zone != 0 )
+            {
+                work->field_850 |= 0x800;
+            }
+        }
+    }
+
+    if ( time < 64 )
+    {
+        return;
+    }
+
+    if ( time == 64 )
+    {
+        s07b_800CC514( 0, 2 );
+        work->field_850 &= ~0x20;
+    }
+
+    sna_act_helper2_helper2_80033054( GV_StrCode( s07b_dword_800E5020 ), &work->adjust[ 6 ] );
+    if ( GM_VoxCodeEnd( work->field_ABC[ 0 ] ) )
+    {
+        GM_ConfigMotionAdjust( &work->body, NULL );
+        for ( i = 0; i < 16; i++ )
+        {
+            work->adjust[ i ] = DG_ZeroVector;
+        }
+    }
+
+    switch ( work->field_A64 )
+    {
+    case 0:
+        if ( work->field_A66 == 0 )
+        {
+            if ( work->body.action != 0 )
+            {
+                GM_ConfigObjectAction( &work->body, 0, 0, 4 );
+            }
+            GM_VoxQueue( work->field_ABC[ 0 ] );
+            work->field_A66 = 1;
+        }
+        else if ( GM_StreamStatus() == 2 )
+        {
+            GM_ConfigMotionAdjust( &work->body, work->adjust );
+            s07b_800CC138( work, 5 );
+            work->field_A64 = 1;
+            work->field_A66 = 0;
+            work->field_A6C.vx = work->body.objs->objs[ 6 ].world.t[ 0 ];
+            work->field_A6C.vy = work->body.objs->objs[ 6 ].world.t[ 1 ];
+            work->field_A6C.vz = work->body.objs->objs[ 6 ].world.t[ 2 ];
+            work->field_A74.vx = GM_PlayerBody->objs->objs[ 6 ].world.t[ 0 ];
+            work->field_A74.vy = GM_PlayerBody->objs->objs[ 6 ].world.t[ 1 ];
+            work->field_A74.vz = GM_PlayerBody->objs->objs[ 6 ].world.t[ 2 ];
+        }
+        break;
+
+    case 1:
+        if ( !( work->field_850 & 0x800 ) )
+        {
+            s07b_800CC578( &work->field_A6C, &work->field_A74, 2000, &work->control.turn.vy, &GM_PlayerControl->turn.vy );
+            GM_SnakeCamera.rotate2.vx = -160;
+            GM_SnakeCamera.position.vy -= 750;
+        }
+        else
+        {
+            GM_Camera.first_person = 1;
+            s07b_800CC970( &DG_ZeroVector, &work->control.mov, 2000 );
+            GM_SnakeCamera.position.vy = 1500;
+            GM_SnakeCamera.rotate2.vy = GV_VecDir2( &work->control.mov );
+        }
+        s07b_800CC790( work, 1 );
+        if ( ++work->field_A66 == 194 )
+        {
+            if ( work->body.action != 19 )
+            {
+                GM_ConfigObjectAction( &work->body, 19, 0, 4 );
+            }
+        }
+        if ( work->field_A66 >= 195 )
+        {
+            s07b_800CB264( work );
+        }
+        if ( work->field_A66 == 245 )
+        {
+            work->field_A64 = 2;
+        }
+        break;
+
+    case 2:
+        if ( !( work->field_850 & 0x800 ) )
+        {
+            from = s07b_dword_800E5BB8;
+            to.vx = GM_PlayerBody->objs->objs[ 6 ].world.t[ 0 ];
+            to.vy = GM_PlayerBody->objs->objs[ 6 ].world.t[ 1 ];
+            to.vz = GM_PlayerBody->objs->objs[ 6 ].world.t[ 2 ];
+            ofs.vz = ofs.vy = 0;
+            ofs.vx = 2000;
+            ReadRotMatrix( &mat );
+            DG_SetPos2( &to, &GM_PlayerControl->rot );
+            DG_RotVector( &ofs, &ofs, 1 );
+            GV_AddVec3( &to, &ofs, &to );
+            DG_SetPos( &mat );
+            s07b_800CC578( &from, &to, 2000, NULL, NULL );
+            GM_SnakeCamera.rotate2.vx = 300;
+            GM_SnakeCamera.position.vy += 750;
+        }
+        else
+        {
+            GM_Camera.first_person = 1;
+            s07b_800CC970( &DG_ZeroVector, &s07b_dword_800E5BB8, 1000 );
+            GM_SnakeCamera.position.vy = 1500;
+            GM_SnakeCamera.rotate2.vx = 720;
+            GM_SnakeCamera.rotate2.vy = GV_VecDir2( &s07b_dword_800E5BB8 );
+        }
+        s07b_800CC790( work, 0 );
+        s07b_800CC790( work, 1 );
+        if ( ++work->field_A66 == 294 )
+        {
+            *s07b_dword_800E5BB0 |= 0x200;
+        }
+        if ( work->field_A66 == 354 )
+        {
+            work->field_A6C = s07b_dword_800E5BB8;
+            work->field_A64 = 3;
+        }
+        break;
+
+    case 3:
+    case 4:
+        if ( !( work->field_850 & 0x800 ) )
+        {
+            from = work->field_A6C;
+            to.vx = GM_PlayerBody->objs->objs[ 6 ].world.t[ 0 ];
+            to.vy = GM_PlayerBody->objs->objs[ 6 ].world.t[ 1 ];
+            to.vz = GM_PlayerBody->objs->objs[ 6 ].world.t[ 2 ];
+            ofs.vx = 2000;
+            ofs.vy = 0;
+            ofs.vz = 300;
+            ReadRotMatrix( &mat );
+            DG_SetPos2( &to, &GM_PlayerControl->rot );
+            DG_RotVector( &ofs, &ofs, 1 );
+            GV_AddVec3( &to, &ofs, &to );
+            DG_SetPos( &mat );
+            s07b_800CC578( &from, &to, 1000, NULL, NULL );
+            GM_SnakeCamera.rotate2.vx = -420;
+            GM_SnakeCamera.position.vy -= 300;
+        }
+        else
+        {
+            GM_Camera.first_person = 1;
+            s07b_800CC970( &DG_ZeroVector, &s07b_dword_800E5BB8, 750 );
+            GM_SnakeCamera.position.vy = 1500;
+            GM_SnakeCamera.rotate2.vy = GV_VecDir2( &s07b_dword_800E5BB8 );
+        }
+        s07b_800CC790( work, 0 );
+        s07b_800CC790( work, 1 );
+        if ( work->field_A64 == 3 )
+        {
+            if ( !( *s07b_dword_800E5BB0 & 0x200 ) )
+            {
+                GM_VoxQueue( work->field_ABC[ 1 ] );
+                work->field_A64 = 4;
+                work->field_A66 = 0;
+            }
+        }
+        else if ( ++work->field_A66 == 58 )
+        {
+            work->field_A64 = 5;
+            work->field_A66 = 0;
+        }
+        break;
+
+    case 5:
+        if ( !( work->field_850 & 0x800 ) )
+        {
+            *s07b_dword_800E5BB0 |= 0x2000;
+            from.vx = GM_PlayerBody->objs->objs[ 6 ].world.t[ 0 ];
+            from.vy = GM_PlayerBody->objs->objs[ 6 ].world.t[ 1 ];
+            from.vz = GM_PlayerBody->objs->objs[ 6 ].world.t[ 2 ];
+            ofs.vx = ofs.vy = 0;
+            ofs.vz = 1000;
+            ReadRotMatrix( &mat );
+            DG_SetPos2( &from, &GM_PlayerControl->rot );
+            DG_RotVector( &ofs, &to, 1 );
+            GV_AddVec3( &from, &to, &to );
+            DG_SetPos( &mat );
+            s07b_800CC970( &DG_ZeroVector, &s07b_dword_800E5BB8, 1500 );
+            s07b_800CC578( &from, &to, 1500, &GM_PlayerControl->turn.vy, NULL );
+        }
+        else
+        {
+            GM_Camera.first_person = 1;
+            s07b_800CC970( &DG_ZeroVector, &GM_PlayerPosition, 750 );
+            GM_SnakeCamera.position.vy = 1500;
+            GM_SnakeCamera.rotate2.vy = GV_VecDir2( &GM_PlayerPosition );
+        }
+        s07b_800CC790( work, 0 );
+        GM_PlayerBody->objs->flag &= ~0x80;
+        if ( GM_VoxCodeEnd( work->field_ABC[ 1 ] ) )
+        {
+            s07b_800CCA10( work );
+            work->field_846 = 6;
+            work->field_850 |= 0x30;
+            GCL_ExecProc( work->field_ACC[ 4 ], NULL );
+            *s07b_dword_800E5BB0 |= 0x400;
+            GM_GameStatus = ( GM_GameStatus & ~0x104A2000 ) | 0x400000;
+            CloseCinemaScreen();
+            GM_PlayerStatus &= ~0x4000000;
+            work->body.objs->flag &= ~0x80;
+            work->field_84C &= ~0x10;
+            GM_Camera.first_person = 0;
+        }
+        break;
+    }
+}
 void OpenCinemaScreen( int type, int time );
 void CloseCinemaScreen( void );
 

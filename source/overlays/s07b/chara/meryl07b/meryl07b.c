@@ -28,9 +28,9 @@ typedef struct _Work {
     /* 0x840 */ u_short field_840;        // 2 or 3: s07b_800C50D8 sends "go_motion"
     /* 0x842 */ char  pad842[ 0x2 ];
     /* 0x844 */ short field_844;
-    /* 0x846 */ short field_846;          // < 0: run proc_id on message 0x100 (s07b_800C500C)
+    /* 0x846 */ short field_846;          // next field_844 when field_850 flag 0x100 is set; < 0: run proc_id instead (s07b_800C500C)
     /* 0x848 */ int   field_848;
-    /* 0x84C */ int   field_84C;          // flags (bit 1 cleared when field_8C2 runs out)
+    /* 0x84C */ int   field_84C;          // flags (0x2 cleared by s07b_800C54E8 when field_8C2 runs out, s07b_800C5514)
     /* 0x850 */ int   field_850;          // flags (0x20000 set by s07b_800C473C)
     /* 0x854 */ void  ( *field_854 )( struct _Work *, int );   // current mode function (s07b_800C9B24)
     /* 0x858 */ char  pad858[ 0x8 ];
@@ -43,7 +43,7 @@ typedef struct _Work {
     /* 0x87C */ NAVIGATE navi;
     /* 0x89C */ MENU_BAR_CONF lifebar;
     /* 0x8A8 */ int   lifebar_rest;       // shown life, drops towards target->vital (s07b_800C7604)
-    /* 0x8AC */ int   lifebar_xpos;       // script option h (default 16)
+    /* 0x8AC */ int   lifebar_xpos;       // script option 'h' x y (default 16, 40)
     /* 0x8B0 */ int   lifebar_ypos;
     /* 0x8B4 */ u_short field_8B4[ 5 ];   // HZD zone names, script option 't' (s07b_800CA4FC)
     /* 0x8BE */ short field_8BE;
