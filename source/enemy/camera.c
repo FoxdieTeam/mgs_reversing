@@ -1095,7 +1095,7 @@ void CameraDie_800D678C(Work *work)
     GM_FreeTarget(work->target);
 }
 
-void *NewCamera_800D67F8(int name, int where, int argc, char **argv)
+void *NewCameraSet(int name, int where, int argc, char **argv)
 {
     Work *work;
 

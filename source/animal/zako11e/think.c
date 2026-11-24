@@ -1,24 +1,48 @@
 #include "enemy/enemy.h"
+
 #include "enemy/eyeflash.h"     // for NewEyeflash
 
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+/*---------------------------------------------------------------------------*/
 
-#include "libgv/libgv.h"
-#include "libhzd/libhzd.h"
-#include "game/game.h"
+#define ATTACKNEAR_DIS 800
 
-extern int     ZAKOCOM_PlayerAddress_800DF3B8;
-extern SVECTOR ZAKOCOM_PlayerPosition_800DF278;
-extern int     ZAKOCOM_PlayerMap_800DF3BC;
-extern ZAKO_COMMAND ZakoCommand_800DF280;
+extern int ZAKO11E_SetGoPointLast_800D9A9C();
+extern int s11e_zk11ecom_800D9B60( int map_id, int val );
+extern void ZAKO11E_PutMark( ZakoWork *work, int mark );
+
+extern ZAKO_COMMAND ZAKO11ECommand;
+extern SVECTOR ZAKO11E_PlayerPosition;
+extern int ZAKO11E_PlayerAddress;
+extern int ZAKO11E_PlayerMap;
+extern int ZAKO11E_GameFlag;
+
+static SVECTOR s11e_dword_800C36B4[] = {
+    {5750, 0, -1000},
+    {6250, 0, 500},
+    {5750, 0, 2000}
+};
+
+static int s11e_dword_800C36CC[ 4 ][ 16 ] = {
+    {1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 2, 1, 1, 1, 1, 0},
+    {1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 2, 1, 1, 1, 1, 0},
+    {1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 2, 1, 1, 1, 1, 0},
+    {1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 2, 1, 1, 1, 1, 0}
+};
+
+static int s11e_dword_800C37CC[ 4 ][ 16 ] = {
+    {2, 10, 10, 2, 2, 10, 10, 2, 2, 5, 5, 5, 2, 0, 11, 0},
+    {0, 9, 9, 0, 0, 8, 8, 11, 11, 0, 0, 2, 0, 11, 9, 0},
+    {11, 3, 3, 1, 1, 9, 9, 1, 1, 6, 6, 0, 11, 9, 2, 0},
+    {9, 2, 2, 5, 5, 0, 0, 3, 3, 11, 11, 11, 9, 2, 0, 0}
+};
+
+/*---------------------------------------------------------------------------*/
 
 void s11e_zk11ecom_800D89A0( ZakoWork* work )
 {
-    work->target_addr = ZAKOCOM_PlayerAddress_800DF3B8;
-    work->target_pos  = ZAKOCOM_PlayerPosition_800DF278;
-    work->target_map  = ZAKOCOM_PlayerMap_800DF3BC;
+    work->target_addr = ZAKO11E_PlayerAddress;
+    work->target_pos  = ZAKO11E_PlayerPosition;
+    work->target_map  = ZAKO11E_PlayerMap;
 }
 
 void s11e_zk11ecom_800D89E8( ZakoWork* work )
@@ -71,8 +95,6 @@ int s11e_zk11ecom_800D8ACC( SVECTOR* arg0, SVECTOR* arg1 )
     svec.vy = 0;
     return GV_VecDir2(&svec);
 }
-
-extern int s11e_zk11ecom_800D9B60( int map_id, int val );
 
 int s11e_zk11ecom_800D8B04( ZakoWork *work )
 {
@@ -164,13 +186,11 @@ int s11e_zk11ecom_800D8B04( ZakoWork *work )
     return GV_VecDir2( target_pos );
 }
 
-extern void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark );
-
 int s11e_zk11ecom_800D8DC4( ZakoWork* work )
 {
     if ( work->count3 == 0 )
     {
-        ZAKO11E_PutMark_800D7C10( work, 0 );
+        ZAKO11E_PutMark( work, 0 );
         GM_SeSet( &work->control.mov, SE_EXCLAMATION );
         NewEyeflash( &work->body.objs->objs[6].world, &work->control.mov, "kirari01", 0 );
     }
@@ -190,7 +210,7 @@ int s11e_zk11ecom_800D8E64( ZakoWork* work )
     if ( work->count3 == 0 )
     {
         GM_SeSet( &work->control.mov, SE_EXCLAMATION );
-        ZAKO11E_PutMark_800D7C10( work, 0 );
+        ZAKO11E_PutMark( work, 0 );
     }
 
     if ( work->count3 > 20 )
@@ -319,8 +339,6 @@ int s11e_zk11ecom_800D90F4( ZakoWork *work )
     return 0;
 }
 
-extern SVECTOR s11e_dword_800C36B4[];
-
 int s11e_zk11ecom_800D9150( ZakoWork *work )
 {
     work->pad.press |= 0x10000;
@@ -410,18 +428,6 @@ int s11e_zk11ecom_800D9334( ZakoWork *work )
     return 0;
 }
 
-typedef struct ACTIONPATTERN
-{
-    int set;
-} ACTIONPATTERN;
-
-//extern int s11e_dword_800C36CC[ 2 ][ 16 ];
-extern ACTIONPATTERN s11e_dword_800C36CC[ 16 ][ 16 ];
-extern int s11e_dword_800DF3B4;
-
-
-#define ATTACKNEAR_DIS 800
-
 int s11e_zk11ecom_800D937C( ZakoWork *work )
 {
     work->pad.press |= 0x10000; //SP_WEAPON?
@@ -435,8 +441,8 @@ int s11e_zk11ecom_800D937C( ZakoWork *work )
 
     if ( work->count3 > 24 )
     {
-        //int nextset = ActionPattern[ ZAKO11A_GameFlag ][ ID ].set ;
-        int nextset = s11e_dword_800C36CC[ work->field_B74 ][ s11e_dword_800DF3B4 ].set;
+        //int nextset = ActionPattern[ ZAKO11E_GameFlag ][ ID ].set ;
+        int nextset = s11e_dword_800C36CC[ work->field_B74 ][ ZAKO11E_GameFlag ];
         switch ( nextset )
         {
         case 0:
@@ -464,14 +470,11 @@ int s11e_zk11ecom_800D937C( ZakoWork *work )
     return 0;
 }
 
-
-extern ACTIONPATTERN s11e_dword_800C37CC[ 16 ][ 16 ];
-
 int s11e_zk11ecom_800D94C0( ZakoWork *work )
 {
     work->pad.press |= 0x10000;
     work->pad.dir = work->sn_dir;
-    work->field_B78 = s11e_dword_800C37CC[ work->field_B74 ][ s11e_dword_800DF3B4 ].set;
+    work->field_B78 = s11e_dword_800C37CC[ work->field_B74 ][ ZAKO11E_GameFlag ];
     return 15;
 }
 
@@ -496,7 +499,7 @@ void s11e_zk11ecom_800D9560( ZakoWork *work )
         if ( s11e_zk11ecom_800D8DC4( work ) )
         {
             s11e_zk11ecom_800D8A44( work );
-            if ( ZakoCommand_800DF280.mode == TOP_COMM_TRAVEL )
+            if ( ZAKO11ECommand.mode == TOP_COMM_TRAVEL )
             {
                 work->pad.sound = 240;
             }
@@ -528,8 +531,6 @@ void s11e_zk11ecom_800D9560( ZakoWork *work )
         }
     }
 }
-
-extern int ZAKO11E_SetGoPointLast_800D9A9C();
 
 void s11e_zk11ecom_800D9654( ZakoWork *work ) {
     int res;
@@ -694,6 +695,8 @@ void s11e_zk11ecom_800D9928( ZakoWork *work )
     }
 }
 
+/*---------------------------------------------------------------------------*/
+
 void Zako11EThink_800D99B8( ZakoWork* work )
 {
     work->pad.dir   = -1;
@@ -706,7 +709,7 @@ void Zako11EThink_800D99B8( ZakoWork* work )
         s11e_zk11ecom_800D9928( work );
     }
 
-    if ( s11e_dword_800DF3B4 > 0 )
+    if ( ZAKO11E_GameFlag > 0 )
     {
         work->alert_level = 0xFF;
         return;

@@ -465,7 +465,7 @@ extern void s15c_dyncon_800D6528(void *work);
 extern int  s15c_dyncon_800D8A9C(DynCon *work, int arg);
 extern const char s15c_dword_800E2E30[];
 
-GV_ACT *s15c_dyncon_800D8C9C(int name, int where)
+GV_ACT *NewDynamicContainer(int name, int where)
 {
     DynCon *work;
 

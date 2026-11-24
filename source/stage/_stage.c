@@ -183,7 +183,7 @@ CHARA _StageCharacterEntries[] = {
     { 0x8767, NULL },   //  CHARA_ITEM,         /* chara アイテム */
     { 0x6a48, NULL },   //  CHARA_JEEPSCROLL,   /* chara ジープスクロール */
     { 0xa27e, NULL },   //  CHARA_JEEPDRUM,     /* chara ジープ戦ドラム */
-    { 0xb757, NULL },   //  CHARA_B757_ED_TELOP,
+    { 0xb757, NULL },   //  CHARA_JIMAKUDISP,   /* chara 字幕表示 */
     { 0x1ef9, NULL },   //  CHARA_JOHNNY,       /* chara ジョニー */
     { 0x81c7, NULL },   //  CHARA_JPEG,         /* chara ＪＰＥＧ */
     { 0x4f02, NULL },   //  CHARA_JPEGCAMERA,   /* chara ＪＰＥＧカメラ */

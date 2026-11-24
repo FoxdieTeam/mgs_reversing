@@ -1,15 +1,86 @@
 #include "enemy/enemy.h"
 
-#include "mgstype.h"
-#include "libgv/libgv.h"
-#include "libdg/libdg.h"
-#include "libgcl/libgcl.h"
-#include "game/game.h"
-#include "game/item.h"
 #include "game/vibrate.h"
-#include "okajima/bullet.h"
 
-/*** Inlines *****************************************************************/
+/*---------------------------------------------------------------------------*/
+
+extern void s11e_zk11ecom_800D4DD4( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D57A0( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D5B04( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D638C( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D5E78( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D5EEC( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D6F68( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7034( ZakoWork *work, int time );
+extern void ActOverScoutD_800D7100( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7198( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D6F68( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7034( ZakoWork *work, int time );
+extern void ActOverScoutD_800D7100( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7198( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7230( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D72E4( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D73AC( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7450( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7518( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7730( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D7878( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D506C( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D50FC( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D51E4( ZakoWork *work, int time );
+extern void ActReadyGun_800D51EC( ZakoWork *work, int time );
+extern int s11e_zk11ecom_800D47D4( int, int ) ;
+extern void s11e_zk11ecom_800D603C( ZakoWork *work, int time ) ;
+extern void ReviseReadyGun_800D4828( ZakoWork *work );
+extern void s11e_zk11ecom_800D5360( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D5410( ZakoWork *work, int time );
+extern void ActGrenade_800D54C8( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D5620( ZakoWork *work, int time );
+extern int AttackForce_800D48B0( ZakoWork * work );
+extern void s11e_zk11ecom_800D603C( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D6BD8( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D49C0( ZakoWork *work );
+extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D61B4( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D627C( ZakoWork *work, int time );
+extern int s11e_zk11ecom_800D43E8( ZakoWork *work );
+extern void s11e_zk11ecom_800D69F8( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D6CE8( ZakoWork *work, int time );
+extern void s11e_zk11ecom_800D4700( ZakoWork *work );
+
+extern void ZAKO11E_PutBlood( ZakoWork *work, int, int );
+extern void ZAKO11E_PutDust( ZakoWork *work );
+extern void ZAKO11E_PutItem( ZakoWork *work );
+extern int ZAKO11E_SetPutChar( ZakoWork *work, int put );
+
+extern ZAKO_COMMAND ZAKO11ECommand;
+
+extern SVECTOR ZAKO11E_TARGET_SIZE;
+extern SVECTOR ZAKO11E_TARGET_FORCE;
+extern SVECTOR ZAKO11E_ATTACK_SIZE;
+extern SVECTOR ZAKO11E_ATTACK_FORCE;
+extern SVECTOR ZAKO11E_TOUCH_SIZE;
+extern SVECTOR ZAKO11E_TOUCH_FORCE;
+extern SVECTOR ZAKO11E_NO_POINT;
+extern int ZAKO11E_EYE_LENGTH;
+
+short ActTable_800C35EC[] = {
+    0x0013, 0x0014, 0x000A, 0x0016, 0x0009, 0x0022, 0x0023, 0x0024,
+    0x002D, 0x000D, 0x000C, 0x001A, 0x000F, 0x000E, 0x0010, 0x001B,
+    0x0008, 0x002E, 0x0013, 0x0015, 0x001E, 0x001F, 0x0020, 0x0021,
+    0x0025, 0x0013, 0x0013, 0x0019, 0x0005, 0x0002, 0x002A, 0x0004,
+    0x0027, 0x0028, 0x0006, 0x0007, 0x0026, 0x0003, 0x0029, 0x0011,
+    0x0012, 0x002B, 0x0017, 0x0018, 0x001C, 0x001D, 0x0000, 0x0001,
+    0x0033, 0x0011, 0x0012, 0x002B, 0x0016
+};
+
+static u_char s11e_dword_800C3658[] = {1, 4, 0, 0};
+static u_char s11e_dword_800C365C[] = {255, 4, 0, 0};
+
+static SVECTOR s11e_dword_800C3660 = {-150, 0, 300};
+
+/*---------------------------------------------------------------------------*/
 
 static inline void UnsetMode( ZakoWork *work )
 {
@@ -56,33 +127,7 @@ static inline void UnsetAction2( ZakoWork *work )
     GV_DestroyOtherActor( work->subweapon );
 }
 
-/*****************************************************************************/
-
-extern SVECTOR ZAKO11E_NO_POINT_800C38FC;
-extern int     ZAKO11E_EYE_LENGTH_800C3904;
-extern ZAKO_COMMAND ZakoCommand_800DF280;
-
-extern void s11e_zk11ecom_800D4DD4( ZakoWork *work, int time );
-
-extern void s11e_zk11ecom_800D57A0( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D5B04( ZakoWork *work, int time );
-
-extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D638C( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D5E78( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D5EEC( ZakoWork *work, int time );
-
-extern SVECTOR ZAKO_TARGET_SIZE_800C38CC;
-extern SVECTOR ZAKO_TARGET_FORCE_800C38D4;
-extern SVECTOR ZAKO_ATTACK_SIZE_800C38DC;
-extern SVECTOR ZAKO_ATTACK_FORCE_800C38E4;
-extern SVECTOR ZAKO_TOUCH_SIZE_800C38EC;
-extern SVECTOR ZAKO_TOUCH_FORCE_800C38F4;
-
-extern int     ZAKO11E_EYE_LENGTH_800C3904;
-extern SVECTOR ZAKO11E_NO_POINT_800C38FC;
-
-
+/*---------------------------------------------------------------------------*/
 
 int s11e_zk11ecom_800D435C( ZakoWork *work )
 {
@@ -105,7 +150,7 @@ int s11e_zk11ecom_800D435C( ZakoWork *work )
     return 0;
 }
 
-int s11e_zk11ecom_800D43E8( ZakoWork* work )
+int s11e_zk11ecom_800D43E8( ZakoWork *work )
 {
     int check;
     check = work->target->damaged & 0x20;
@@ -206,7 +251,7 @@ int CheckDamage_800D46A0( ZakoWork * work )
     return 0;
 }
 
-void s11e_zk11ecom_800D4700( ZakoWork* work )
+void s11e_zk11ecom_800D4700( ZakoWork *work )
 {
     int addr;
     CONTROL *ctrl;
@@ -229,7 +274,7 @@ void s11e_zk11ecom_800D4700( ZakoWork* work )
     work->target_pos  = work->start_pos;
 
     work->vision.angle = 512;
-    work->vision.length    = ZAKO11E_EYE_LENGTH_800C3904;
+    work->vision.length    = ZAKO11E_EYE_LENGTH;
     work->alert_level      = 0;
     work->vision.facedir   = 0;
     work->pad.sound        = 0;
@@ -257,7 +302,7 @@ int s11e_zk11ecom_800D47D4( int dir, int dist )
     return 2 ;
 }
 
-void ReviseReadyGun_800D4828( ZakoWork* work )
+void ReviseReadyGun_800D4828( ZakoWork *work )
 {
     int trans;
     int rotx;
@@ -304,34 +349,10 @@ void s11e_zk11ecom_800D49C0( ZakoWork *work )
     TARGET* target;
 
     target = &work->field_904;
-    GM_SetPowerTarget( target, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO_ATTACK_FORCE_800C38E4 );
+    GM_SetPowerTarget( target, POWER_CONST | POWER_EXPLODE, 5, 0, 3, &ZAKO11E_ATTACK_FORCE );
     GM_MoveTarget( target, &work->control.mov );
     GM_PowerTarget( target );
 }
-
-extern void s11e_zk11ecom_800D6F68( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D7034( ZakoWork *work, int time );
-extern void ActOverScoutD_800D7100( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D7198( ZakoWork *work, int time );
-
-extern void s11e_zk11ecom_800D6F68( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D7034( ZakoWork *work, int time );
-extern void ActOverScoutD_800D7100( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D7198( ZakoWork *work, int time );
-
-extern void s11e_zk11ecom_800D7230( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D72E4( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D73AC( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D7450( ZakoWork *work, int time );
-
-extern void s11e_zk11ecom_800D7518( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D7730( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D7878( ZakoWork *work, int time );
-
-extern void s11e_zk11ecom_800D506C( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D50FC( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D51E4( ZakoWork *work, int time );
-extern void ActReadyGun_800D51EC( ZakoWork *work, int time );
 
 int CheckPad_800D4A28( ZakoWork *work )
 {
@@ -431,17 +452,17 @@ int CheckPad_800D4A28( ZakoWork *work )
     return 0;
 }
 
-void ActStandStill_800D4C2C(ZakoWork* work, int time )
+void ActStandStill_800D4C2C(ZakoWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
     work->act_status |= 1;
 
-    if ( ZakoCommand_800DF280.mode == TOP_COMM_TRAVEL )
+    if ( ZAKO11ECommand.mode == TOP_COMM_TRAVEL )
     {
         work->target->class |= TARGET_C4 ;
     }
 
-    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
+    work->vision.length = ZAKO11E_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -477,9 +498,7 @@ void ActStandStill_800D4C2C(ZakoWork* work, int time )
     work->vision.facedir =work->control.rot.vy;
 }
 
-extern int s11e_zk11ecom_800D47D4( int, int ) ;
-
-void s11e_zk11ecom_800D4DD4( ZakoWork* work, int time )
+void s11e_zk11ecom_800D4DD4( ZakoWork *work, int time )
 {
     int x, z;
     int s0;
@@ -493,12 +512,12 @@ void s11e_zk11ecom_800D4DD4( ZakoWork* work, int time )
 
     SetTargetClass( work->target, TARGET_FLAG );
 
-    if ( ZakoCommand_800DF280.mode == TOP_COMM_TRAVEL )
+    if ( ZAKO11ECommand.mode == TOP_COMM_TRAVEL )
     {
         work->target->class |= TARGET_C4 ;
     }
 
-    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
+    work->vision.length = ZAKO11E_EYE_LENGTH ;
 
     if ( CheckDamage_800D46A0( work ) || CheckPad_800D4A28( work ) )
     {
@@ -590,9 +609,7 @@ void s11e_zk11ecom_800D4DD4( ZakoWork* work, int time )
     work->vision.facedir = work->control.rot.vy;
 }
 
-extern void s11e_zk11ecom_800D603C( ZakoWork* work, int time ) ;
-
-void s11e_zk11ecom_800D506C( ZakoWork* work, int time )
+void s11e_zk11ecom_800D506C( ZakoWork *work, int time )
 {
     if ( time == 0 )
     {
@@ -613,7 +630,7 @@ void s11e_zk11ecom_800D50FC( ZakoWork *work, int time )
 
     ctrl = &( work->control );
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
+    work->vision.length = ZAKO11E_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -637,23 +654,16 @@ void s11e_zk11ecom_800D50FC( ZakoWork *work, int time )
     work->vision.facedir = work->control.rot.vy;
 }
 
-void s11e_zk11ecom_800D51E4(ZakoWork* work, int time )
+void s11e_zk11ecom_800D51E4(ZakoWork *work, int time )
 {
-
+    /* do nothing */
 }
 
-extern void ReviseReadyGun_800D4828( ZakoWork* work );
-extern void s11e_zk11ecom_800D5360( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D5410( ZakoWork *work, int time );
-extern void ActGrenade_800D54C8( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D5620( ZakoWork *work, int time );
-
-
-void ActReadyGun_800D51EC( ZakoWork* work, int time )
+void ActReadyGun_800D51EC( ZakoWork *work, int time )
 {
     int press;
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
+    work->vision.length = ZAKO11E_EYE_LENGTH ;
     press = work->pad.press;
 
     if ( time == 0 )
@@ -709,17 +719,15 @@ void ActReadyGun_800D51EC( ZakoWork* work, int time )
     work->vision.facedir = work->control.rot.vy;
 }
 
-extern int ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int put ); //ZAKO11E_SetPutChar
-
-void s11e_zk11ecom_800D5360( ZakoWork* work, int time )
+void s11e_zk11ecom_800D5360( ZakoWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
+    work->vision.length = ZAKO11E_EYE_LENGTH ;
 
     if ( time == 0 )
     {
         SetAction( work, ACTION4, 0 ) ;
-        ZAKO11E_SetPutChar_800D8004( work, 3 ) ;
+        ZAKO11E_SetPutChar( work, 3 ) ;
         GM_ConfigMotionAdjust( &( work->body ), work->adjust ) ;
     }
 
@@ -733,15 +741,15 @@ void s11e_zk11ecom_800D5360( ZakoWork* work, int time )
     SetZakoModeFields( work, ActReadyGun_800D51EC );
 }
 
-void s11e_zk11ecom_800D5410( ZakoWork* work, int time )
+void s11e_zk11ecom_800D5410( ZakoWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
+    work->vision.length = ZAKO11E_EYE_LENGTH ;
 
     if ( work->pad.press & 0x80000 )
     {
         SetAction( work, ACTION4, 0 );
-        ZAKO11E_SetPutChar_800D8004( work, GUNSHOOT );
+        ZAKO11E_SetPutChar( work, GUNSHOOT );
     }
 
     work->control.turn.vy = work->pad.dir;
@@ -753,10 +761,10 @@ void s11e_zk11ecom_800D5410( ZakoWork* work, int time )
     SetZakoModeFields( work, ActReadyGun_800D51EC );
 }
 
-void ActGrenade_800D54C8( ZakoWork* work, int time )
+void ActGrenade_800D54C8( ZakoWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG ) ;
-    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;         /* 視力 */
+    work->vision.length = ZAKO11E_EYE_LENGTH ;         /* 視力 */
 
     if ( time == 0 )
     {
@@ -793,12 +801,10 @@ void ActGrenade_800D54C8( ZakoWork* work, int time )
     }
 }
 
-extern int AttackForce_800D48B0( ZakoWork * work );
-
-void s11e_zk11ecom_800D5620( ZakoWork* work, int time )
+void s11e_zk11ecom_800D5620( ZakoWork *work, int time )
 {
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
+    work->vision.length = ZAKO11E_EYE_LENGTH ;
 
     if ( time == 0 )
     {
@@ -826,7 +832,7 @@ void s11e_zk11ecom_800D5620( ZakoWork* work, int time )
     }
 }
 
-void s11e_zk11ecom_800D56F8( ZakoWork* work, int time )
+void s11e_zk11ecom_800D56F8( ZakoWork *work, int time )
 {
     work->vision.length = 0;
 
@@ -849,13 +855,7 @@ void s11e_zk11ecom_800D56F8( ZakoWork* work, int time )
     }
 }
 
-extern void s11e_zk11ecom_800D603C( ZakoWork* work, int time );
-extern void s11e_zk11ecom_800D6BD8( ZakoWork* work, int time );
-
-extern void s11e_zk11ecom_800D49C0( ZakoWork *work );
-extern void ZAKO11E_PutBlood_800D7A14( ZakoWork *, int, int ); //ZK11E_PutBlood_800D7A14
-
-void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
+void s11e_zk11ecom_800D57A0( ZakoWork *work, int time )
 {
     CONTROL *ctrl;
     TARGET  *target;
@@ -885,7 +885,7 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
             {
                 GM_SeSet( &ctrl->mov, SE_V_ENE_PUNCHED ) ;
                 GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
-                ZAKO11E_PutBlood_800D7A14( work, 6, 0 ) ;
+                ZAKO11E_PutBlood( work, 6, 0 ) ;
                 GM_SetNoise( 0x64, 4, &work->control.mov ) ;
             }
             else if ( ctrl->mov.vy - ctrl->levels[0] > 3000 )
@@ -913,7 +913,7 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
             GM_SeSet( &ctrl->mov, SE_V_ENE_PUNCHED ) ;
             GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
             GM_SetNoise( 0x64, 4, &work->control.mov ) ;
-            ZAKO11E_PutBlood_800D7A14( work, 6, 1 ) ;
+            ZAKO11E_PutBlood( work, 6, 1 ) ;
 
             if ( work->target->vital <= 0 )
             {
@@ -936,9 +936,7 @@ void s11e_zk11ecom_800D57A0( ZakoWork* work, int time )
     }
 }
 
-extern SVECTOR s11e_dword_800C3660;
-
-void s11e_zk11ecom_800D5A84( ZakoWork* work )
+void s11e_zk11ecom_800D5A84( ZakoWork *work )
 {
     SVECTOR  svec;
 
@@ -947,11 +945,6 @@ void s11e_zk11ecom_800D5A84( ZakoWork* work )
     DG_PutVector(&s11e_dword_800C3660, &svec, 1);
     GV_SubVec3(&svec, &work->control.mov, &work->control.step);
 }
-
-extern unsigned char s11e_dword_800C3658;
-extern unsigned char s11e_dword_800C365C;
-
-extern void s11e_zk11ecom_800D649C( ZakoWork *work, int time );
 
 void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
 {
@@ -979,7 +972,7 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
 
     if ( target->damaged & TARGET_POWER )
     {
-        ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
+        ZAKO11E_PutBlood( work, 5, 0 );
         GM_SeSet( &work->control.mov, SE_V_ENE_GRABBED );
         target->force = DG_ZeroVector;
         target->damage = 0;
@@ -1016,8 +1009,8 @@ void s11e_zk11ecom_800D5B04( ZakoWork *work, int time )
 
         if ( s2 == 0x30 && !( work->field_B5C & 7  ) )
         {
-            NewPadVibration( &s11e_dword_800C3658, 1);
-            NewPadVibration( &s11e_dword_800C365C, 2);
+            NewPadVibration( s11e_dword_800C3658, 1 );
+            NewPadVibration( s11e_dword_800C365C, 2 );
         }
         work->control.turn = GM_PlayerControl->rot;
         s11e_zk11ecom_800D5A84( work );
@@ -1116,11 +1109,6 @@ void s11e_zk11ecom_800D5EEC( ZakoWork *work, int time )
     }
 }
 
-extern void s11e_zk11ecom_800D61B4( ZakoWork *work, int time );
-extern void s11e_zk11ecom_800D627C( ZakoWork *work, int time );
-
-extern int s11e_zk11ecom_800D43E8( ZakoWork* work );
-
 void s11e_zk11ecom_800D603C( ZakoWork *work, int time )
 {
     int x;
@@ -1171,8 +1159,6 @@ void s11e_zk11ecom_800D603C( ZakoWork *work, int time )
     }
 }
 
-extern void ZAKO11E_PutItem_800D7AE8( ZakoWork *work );
-
 void s11e_zk11ecom_800D61B4( ZakoWork *work, int time )
 {
     if ( time == 0 )
@@ -1190,7 +1176,7 @@ void s11e_zk11ecom_800D61B4( ZakoWork *work, int time )
 
     if ( time == 4 )
     {
-        ZAKO11E_PutItem_800D7AE8( work );
+        ZAKO11E_PutItem( work );
     }
 
     if ( work->body.is_end )
@@ -1199,7 +1185,7 @@ void s11e_zk11ecom_800D61B4( ZakoWork *work, int time )
     }
 }
 
-void s11e_zk11ecom_800D627C( ZakoWork* work, int time )
+void s11e_zk11ecom_800D627C( ZakoWork *work, int time )
 {
     work->unknown.field_1E = 0;
     work->act_status |= 0x08;
@@ -1237,15 +1223,13 @@ void s11e_zk11ecom_800D627C( ZakoWork* work, int time )
     }
 }
 
-extern void ZAKO11E_PutFog_800D7A84( ZakoWork * );
-
-void s11e_zk11ecom_800D638C( ZakoWork* work, int time )
+void s11e_zk11ecom_800D638C( ZakoWork *work, int time )
 {
     TARGET* target;
 
     work->unknown.field_1E = 0;
     SetTargetClass( work->target, TARGET_FLAG );
-    work->vision.length = ZAKO11E_EYE_LENGTH_800C3904 ;
+    work->vision.length = ZAKO11E_EYE_LENGTH ;
     work->act_status |= 0x08;
 
     if ( CheckDamage_800D46A0( work ) )
@@ -1262,11 +1246,11 @@ void s11e_zk11ecom_800D638C( ZakoWork* work, int time )
         if ( target->a_mode == 3 )
         {
             GM_SeSet( &work->control.mov, SE_PUNCH_HIT );
-            ZAKO11E_PutFog_800D7A84( work );
+            ZAKO11E_PutDust( work );
         }
         else
         {
-            ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
+            ZAKO11E_PutBlood( work, 5, 0 );
 
         }
     }
@@ -1276,8 +1260,6 @@ void s11e_zk11ecom_800D638C( ZakoWork* work, int time )
         SetZakoMode( work, ActStandStill_800D4C2C ) ;
     }
 }
-
-extern void s11e_zk11ecom_800D69F8( ZakoWork *work, int time );
 
 void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
 {
@@ -1301,7 +1283,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
             GM_SeSet( &ctrl->mov, SE_PUNCH_HIT );
             SetAction( work, ACTION34, ACTINTERP );
             GM_SeSet( &ctrl->mov, SE_V_ENE_PUNCHED );
-            ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
+            ZAKO11E_PutBlood( work, 5, 0 );
             work->field_B5A = 17;
             break;
         case 1:
@@ -1310,16 +1292,16 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
             {
                 if ( GM_Weapon == WP_Rifle )
                 {
-                    ZAKO11E_PutBlood_800D7A14( work, 6, 2 );
+                    ZAKO11E_PutBlood( work, 6, 2 );
                 }
                 else
                 {
-                    ZAKO11E_PutBlood_800D7A14( work, 6, 1 );
+                    ZAKO11E_PutBlood( work, 6, 1 );
                 }
             }
             else
             {
-                ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
+                ZAKO11E_PutBlood( work, 5, 0 );
 
             }
             GM_SeSet( &ctrl->mov, SE_V_ENE_PUNCHED );
@@ -1328,13 +1310,13 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
         case 3:
             GM_SeSet( &ctrl->mov, SE_ENEMY_DAMAGE );
             SetAction( work, ACTION35, ACTINTERP );
-            ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
+            ZAKO11E_PutBlood( work, 5, 0 );
             work->field_B5A = 17;
             break;
         case 2:
             GM_SeSet( &ctrl->mov, SE_V_ENE_THROWN );
             SetAction( work, ACTION36, ACTINTERP );
-            ZAKO11E_PutBlood_800D7A14( work, 5, 0 );
+            ZAKO11E_PutBlood( work, 5, 0 );
             work->field_B5A = 22;
             break;
         case 4:
@@ -1423,7 +1405,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
         {
             GM_SeSet( &ctrl->mov, SE_HIT_FLOOR ) ;
             GM_SetNoise( 0x64, 4, &ctrl->mov ) ;
-            ZAKO11E_PutBlood_800D7A14( work, 6, 0 ) ;
+            ZAKO11E_PutBlood( work, 6, 0 ) ;
         }
         else
         {
@@ -1451,7 +1433,7 @@ void s11e_zk11ecom_800D649C( ZakoWork *work, int time )
     }
 }
 
-void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
+void s11e_zk11ecom_800D69F8( ZakoWork *work, int time )
 {
     CONTROL *ctrl;
 
@@ -1497,12 +1479,10 @@ void s11e_zk11ecom_800D69F8( ZakoWork* work, int time )
         work->unknown.field_1E = 1;
         work->target->force = DG_ZeroVector;
         GM_SeSet( &ctrl->mov, SE_HIT_FLOOR );
-        ZAKO11E_PutBlood_800D7A14( work, 6, 1 );
+        ZAKO11E_PutBlood( work, 6, 1 );
         SetZakoMode( work, s11e_zk11ecom_800D6BD8 );
     }
 }
-
-extern void s11e_zk11ecom_800D6CE8( ZakoWork *work, int time );
 
 void s11e_zk11ecom_800D6BD8( ZakoWork *work, int time )
 {
@@ -1530,7 +1510,7 @@ void s11e_zk11ecom_800D6BD8( ZakoWork *work, int time )
 
     if ( time == 4 )
     {
-        ZAKO11E_PutItem_800D7AE8( work );
+        ZAKO11E_PutItem( work );
     }
 
     if ( time & 2 )
@@ -1548,8 +1528,6 @@ void s11e_zk11ecom_800D6BD8( ZakoWork *work, int time )
     }
 }
 
-extern void s11e_zk11ecom_800D4700( ZakoWork* work );
-
 void s11e_zk11ecom_800D6CE8( ZakoWork *work, int time )
 {
     work->act_status |= 0x40;
@@ -1557,8 +1535,8 @@ void s11e_zk11ecom_800D6CE8( ZakoWork *work, int time )
     if ( time == 0 )
     {
         work->visible = 0;
-        work->control.mov = ZAKO11E_NO_POINT_800C38FC;
-        ZakoCommand_800DF280.field_0x8C[ work->field_B74 ].field_04 = 1;
+        work->control.mov = ZAKO11E_NO_POINT;
+        ZAKO11ECommand.field_0x8C[ work->field_B74 ].field_04 = 1;
 
         if ( !work->field_C4C )
         {
@@ -1566,7 +1544,7 @@ void s11e_zk11ecom_800D6CE8( ZakoWork *work, int time )
         }
     }
 
-    if ( ZakoCommand_800DF280.field_0x8C[ work->field_B74 ].field_04 == 2 )
+    if ( ZAKO11ECommand.field_0x8C[ work->field_B74 ].field_04 == 2 )
     {
         s11e_zk11ecom_800D4700( work );
         SetZakoMode( work, ActStandStill_800D4C2C) ;

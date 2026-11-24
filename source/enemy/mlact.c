@@ -1,9 +1,6 @@
 #include "enemy/enemy.h"
 
-#include "mgstype.h"
-#include "libgv/libgv.h"
-#include "libhzd/libhzd.h"
-#include "game/game.h"
+/*---------------------------------------------------------------------------*/
 
 #define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 
@@ -18,6 +15,12 @@ extern int sna_current_item_8004FB38(void);
 // in enemy/asiato.c
 extern int AsiatoCheck( HZD_HDL *, SVECTOR * );
 extern int SearchNearAsiato( HZD_HDL *, SVECTOR *, short, short, short );
+
+extern void Meryl7Think( WatcherWork * );
+extern void MERYL_ExecPutChar( WatcherWork* work );
+extern void s07a_meryl_unk_800D952C( WatcherWork *work );
+
+/*---------------------------------------------------------------------------*/
 
 // Identical to s00a_command_800C9878
 void s07a_meryl_unk_800DA948( WatcherWork* work )
@@ -363,9 +366,7 @@ void s07a_meryl_unk_800DAFD8( WatcherWork* work )
     }
 }
 
-extern void MerylThink_800DF3A0( WatcherWork * );
-extern void MERYL_ExecPutChar( WatcherWork* work );
-extern void s07a_meryl_unk_800D952C( WatcherWork *work );
+/*---------------------------------------------------------------------------*/
 
 void MerylActionMain( WatcherWork *work )
 {
@@ -375,7 +376,7 @@ void MerylActionMain( WatcherWork *work )
         s07a_meryl_unk_800DAFD8(work);
         s07a_meryl_unk_800DAEAC(work);
         s07a_meryl_unk_800DAF00(work);
-        MerylThink_800DF3A0(work);
+        Meryl7Think(work);
         MERYL_ExecPutChar(work);
     }
 

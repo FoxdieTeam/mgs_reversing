@@ -177,7 +177,7 @@ char * roll_ending2_800C5DC0(char *dst, char *src, int count)
     return src;
 }
 
-char * roll_ending2_800C5E54(char *dst, char *src, int count)
+char * uncompress_rle(char *dst, char *src, int count)
 {
     int i;
 
@@ -194,7 +194,7 @@ char * roll_ending2_800C5E54(char *dst, char *src, int count)
     return roll_ending2_800C5DC0(dst, src, count);
 }
 
-void roll_ending2_800C5EAC(short *dst, char *indices, short *src, int count)
+void uncompress_indexed(short *dst, char *indices, short *src, int count)
 {
     int i;
     int index;
@@ -520,12 +520,12 @@ int Ending2_800C677C(Work *work)
 
 int * roll_ending2_800C6814(void *arg0, void *arg1, int arg2)
 {
-    return (int *)roll_ending2_800C5E54(arg0, arg1, arg2);
+    return (int *)uncompress_rle(arg0, arg1, arg2);
 }
 
 void roll_ending2_800C6834(u_short *arg0, void *arg1, void *arg2, int arg3)
 {
-    return roll_ending2_800C5EAC(arg0, arg1, arg2, arg3);
+    return uncompress_indexed(arg0, arg1, arg2, arg3);
 }
 
 void roll_ending2_800C6854(u_short *dst, char *indices, u_short *src, int count)

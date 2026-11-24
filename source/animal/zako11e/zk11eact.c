@@ -8,8 +8,8 @@
 
 #define SEGMENT_ATR ( HZD_SEG_NO_PLAYER )
 
-extern ZAKO_COMMAND ZakoCommand_800DF280;
-extern int          ZAKO11E_EYE_LENGTH_800C3904;
+extern ZAKO_COMMAND ZAKO11ECommand;
+extern int          ZAKO11E_EYE_LENGTH;
 
 // in enemy/asiato.c
 extern int AsiatoCheck( HZD_HDL *, SVECTOR * );
@@ -133,7 +133,7 @@ void s11e_zk11ecom_800D8370( ZakoWork *work )
     {
         if ( ( GV_DiffVec3( &work->field_BA4, &GM_PlayerPosition ) > 50 ) || ( work->field_BAC != GM_WhereList[0]->rot.vy ) )
         {
-            if ( ZakoCommand_800DF280.mode != TOP_COMM_ALERT )
+            if ( ZAKO11ECommand.mode != TOP_COMM_ALERT )
             {
                 work->field_BA4 = GM_PlayerPosition;
                 work->field_BAC = GM_WhereList[0]->rot.vy;
@@ -193,7 +193,7 @@ void s11e_zk11ecom_800D8544( ZakoWork* work )
     work->field_BA2 = 0;
     s11e_zk11ecom_800D81F0( work );
 
-    if ( ZakoCommand_800DF280.mode != TOP_COMM_ALERT )
+    if ( ZAKO11ECommand.mode != TOP_COMM_ALERT )
     {
         s11e_zk11ecom_800D810C( work );
         s11e_zk11ecom_800D8370( work );
@@ -266,10 +266,10 @@ void s11e_zk11ecom_800D8668( ZakoWork* work )
         return;
     }
 
-    if ( ZakoCommand_800DF280.field_0x0C % ZakoCommand_800DF280.field_0x08 == work->field_B74 )
+    if ( ZAKO11ECommand.field_0x0C % ZAKO11ECommand.field_0x08 == work->field_B74 )
     {
         //ridiculous, but its the only way it matches
-        if ( ZAKO11E_EYE_LENGTH_800C3904 + 2000 >= dis )
+        if ( ZAKO11E_EYE_LENGTH + 2000 >= dis )
         {
             if ( 2000 >= diff )
             {
@@ -318,7 +318,7 @@ void s11e_zk11ecom_800D8668( ZakoWork* work )
 
 extern void Zako11EThink_800D99B8( ZakoWork * );
 extern void s11e_zk11ecom_800D6DDC( ZakoWork * );
-extern void ZAKO11E_ExecPutChar_800D8080( ZakoWork* work );
+extern void ZAKO11E_ExecPutChar( ZakoWork* work );
 
 void Zako11EActionMain_800D8830( ZakoWork *work )
 {
@@ -329,7 +329,7 @@ void Zako11EActionMain_800D8830( ZakoWork *work )
         s11e_zk11ecom_800D8544( work );
         s11e_zk11ecom_800D8598( work );
         Zako11EThink_800D99B8( work );
-        ZAKO11E_ExecPutChar_800D8080( work );
+        ZAKO11E_ExecPutChar( work );
     }
 
     s11e_zk11ecom_800D6DDC( work );

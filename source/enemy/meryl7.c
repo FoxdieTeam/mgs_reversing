@@ -1,17 +1,13 @@
 #include "enemy/enemy.h"
 
 #include <stdio.h>
-#include "mgstype.h"
-#include "mts/mts.h" // for fprintf
-#include "libgv/libgv.h"
-#include "libhzd/libhzd.h"
-#include "libgcl/libgcl.h"
-#include "game/game.h"
 #include "strcode.h"
-
+#include "mts/mts.h"            // for fprintf
 #include "chara/snake/shadow.h" // for NewHumanShadow2
 #include "enemy/dymc_seg.h"     // for NewDynamicSegment
 #include "enemy/glight.h"       // for NewGunLight
+
+/*---------------------------------------------------------------------------*/
 
 extern ENEMY_COMMAND EnemyCommand;
 extern SVECTOR       ENEMY_TARGET_SIZE;
@@ -22,6 +18,22 @@ extern SVECTOR       ENEMY_TOUCH_SIZE;
 extern SVECTOR       ENEMY_TOUCH_FORCE;
 extern SVECTOR       COM_NO_POINT;
 extern int           COM_EYE_LENGTH;
+
+/*---------------------------------------------------------------------------*/
+
+static int s07a_dword_800C35F8[] = {
+    2500, 3500, 4000, 5000, 5500, 5600, 5700, 5800
+};
+
+static u_short s07a_dword_800C3618[] = {
+    450, 15, 30, 60, 90, 0, 32001, 30000
+};
+
+static int *SECTION(".bss") s07a_dword_800E3650;
+static int *SECTION(".bss") s07a_dword_800E3654;
+static int SECTION(".bss") s07a_dword_800E3658;
+
+/*---------------------------------------------------------------------------*/
 
 /*  Modified version of RootFlagCheck_800C3EE8
     (last two switch cases removed)
@@ -197,9 +209,6 @@ int s07a_meryl7_800D5564( SVECTOR* svec )
 
     return 1;
 }
-
-extern int *s07a_dword_800E3650;
-extern int *s07a_dword_800E3654;
 
 void s07a_meryl7_800D55A8(WatcherWork *work )
 {
@@ -475,8 +484,6 @@ int s07a_meryl7_800D5CA4( char *opt, int* l )
     return i;
 }
 
-extern unsigned short s07a_dword_800C3618[];
-
 int s07a_meryl7_800D5CFC( WatcherWork* work )
 {
     int i;
@@ -562,20 +569,16 @@ void s07a_meryl7_800D5E34( WatcherWork *work )
     NewDynamicSegment( GV_StrCode( "女子トイレ" ), &min, &max, 3000, 3000, flag, &s07a_dword_800E3654 );
 }
 
-extern int s07a_dword_800C35F8[8];
-extern int s07a_dword_800E3658;
-
 void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
 {
     SVECTOR svec;
-    int addr;
     char *opt;
     int i;
 
     s07a_meryl7_800D5908( work, name, where ) ;
     work->field_B78 = s00a_command_800CEA2C( work ) ;
 
-    if ( work->field_B78  << 24 < 0  )
+    if ( work->field_B78 << 24 < 0  )
     {
        printf( "Err not enough work !!\n" ) ;
     }
@@ -586,28 +589,28 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     opt = GCL_GetOption( 'r' );
     if ( opt )
     {
-        work->param_root = GCL_StrToInt( ( char* )opt );
+        work->param_root = GCL_StrToInt( opt );
     }
 
     work->param_life = 192;
     opt = GCL_GetOption( 'l' );
     if ( opt )
     {
-        work->param_life = GCL_StrToInt( ( char* )opt );
+        work->param_life = GCL_StrToInt( opt );
     }
 
     work->param_faint = 10;
     opt = GCL_GetOption( 'f' );
     if ( opt )
     {
-        work->param_faint = GCL_StrToInt( ( char* )opt );
+        work->param_faint = GCL_StrToInt( opt );
     }
 
     work->param_blood = 65;
     opt = GCL_GetOption( 'b' );
     if ( opt )
     {
-        work->param_blood = GCL_StrToInt( ( char* )opt );
+        work->param_blood = GCL_StrToInt( opt );
     }
 
     work->field_B81 = 0xFF;
@@ -615,7 +618,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     opt = GCL_GetOption('g');
     if ( opt )
     {
-        work->field_B81 = GCL_StrToInt( ( char* )opt );
+        work->field_B81 = GCL_StrToInt( opt );
     }
     if ( work->param_blood == 'Z' )
     {
@@ -650,7 +653,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     opt = GCL_GetOption( 'n' );
     if ( opt )
     {
-        GCL_StrToSV( ( char* )opt, (short *)&svec );
+        GCL_StrToSV( opt, (short *)&svec );
         if ( svec.vy < 0x7530 )
         {
             work->field_B7C = HZD_GetAddress( work->control.map->hzd, &svec, -1 );
@@ -665,13 +668,13 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     opt = GCL_GetOption( 'a' );
     if (opt != 0)
     {
-        work->param_area = GCL_StrToInt( ( char* )opt );
+        work->param_area = GCL_StrToInt( opt );
     }
 
     if ( work->param_area == 'S' ) MERYL_SetPutChar( work, PUTBREATH ) ; /* 白い息はく */
     work->scale = 4096 ;            /* スケール */
 
-    if ( ( opt = GCL_GetOption( 's' ) ) != NULL ) work->scale += GCL_StrToInt( ( char* )opt );
+    if ( ( opt = GCL_GetOption( 's' ) ) != NULL ) work->scale += GCL_StrToInt( opt );
     work->param_item = 1;
 
     //fprintf(0,"Life=%d Faint=%d Blood=%c Area=%c \n",
@@ -706,7 +709,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
 
     work->alert_level = 0;
     work->visible = 1;
-    work->vision.angle = 0x200;
+    work->vision.angle = 512;
     work->vision.facedir = 0;
     work->field_B94 = 0;
     work->pad.sound = 0;
@@ -714,7 +717,7 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
     work->vision.length = COM_EYE_LENGTH;
     work->field_BA4 = COM_NO_POINT;
 
-    work->subweapon = 0;
+    work->subweapon = NULL;
 
     work->control.mov = work->nodes[ 0 ] ;
     work->param_c_root = work->param_root;
@@ -735,19 +738,17 @@ void EnemyMerylGetResources_800D5F24( WatcherWork *work, int name, int where )
         work->field_BA3 |= 0x10;
     }
 
-    GM_ConfigControlRadarparam( &work->control, 0, 0x200, COM_EYE_LENGTH, 0 );
+    GM_ConfigControlRadarparam( &work->control, 0, 512, COM_EYE_LENGTH, 0 );
     work->start_pos = work->nodes[ 0 ] ;
     work->start_map = GM_CurrentMap;
-    addr = HZD_GetAddress( work->control.map->hzd, &( work->control.mov ), -1 );
-
-    work->start_addr = addr;
-    work->field_C08 = addr;
-    work->field_BF0 = addr;
-
+    work->field_BF0 = work->field_C08 = work->start_addr =
+        HZD_GetAddress( work->control.map->hzd, &( work->control.mov ), -1 );
     work->field_C14 = work->start_pos;
 }
 
-void *NewEnemyMeryl_800D63A4( int name, int where, int argc, char **argv )
+/*---------------------------------------------------------------------------*/
+
+void *NewMeryl7( int name, int where, int argc, char **argv )
 {
     WatcherWork *work ;
 

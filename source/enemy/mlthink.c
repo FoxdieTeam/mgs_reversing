@@ -1,16 +1,11 @@
 #include "enemy/enemy.h"
-#include "enemy/eyeflash.h"     // for NewEyeflash
 
 #include <stdio.h>
-#include <sys/types.h>
-#include <libgte.h>
-#include <libgpu.h>
+#include "mts/mts.h"        // for fprintf
+#include "enemy/asiato.h"
+#include "enemy/eyeflash.h" // for NewEyeflash
 
-#include "mgstype.h"
-#include "mts/mts.h" // for fprintf
-#include "libgv/libgv.h"
-#include "libhzd/libhzd.h"
-#include "game/game.h"
+/*---------------------------------------------------------------------------*/
 
 #define SEGMENT_ATR ( HZD_SEG_NO_NAVIGATE )
 
@@ -25,16 +20,58 @@ extern int           COM_SHOOTRANGE;
 extern int           COM_PlayerAddress;
 extern int           COM_PlayerMap;
 
-
-void MERYL_PutMark( WatcherWork *work, int mark );
+extern void MERYL_PutMark( WatcherWork *work, int mark );
+extern void s07a_meryl_unk_800DBD54( WatcherWork *work );
+extern int  s07a_meryl_unk_800DCD58(WatcherWork* work);
+extern int  s07a_meryl_unk_800DCF78( WatcherWork* work );
+extern void s07a_meryl_unk_800DE810( WatcherWork *work );
+extern int  DirectTrace_800DCE48( WatcherWork *, int );
 
 #define T_NOISE 0
 
-// in enemy/asiato.c
-extern void AsiatoPos( signed char, SVECTOR * );
-extern int NextAsiato( HZD_HDL *, signed char, SVECTOR * );
-extern void CleanAsiato(void);
-extern char NearAsiato(void);
+u_short s07a_dword_800C36E8[] = {
+    100, 50, 25, 10
+};
+
+int s07a_dword_800C36F0[] = {
+    0,
+    0x1,
+    0x2,
+    0x4,
+    0x2000,
+    0x40,
+    0x80,
+    0x200,
+    0x400,
+    0x800,
+    0x100,
+    0x800000,
+    0x1000000,
+    0,
+    0,
+    0,
+    0,
+    0x1,
+    0x2,
+    0x4,
+    0x2000,
+    0x40,
+    0x80,
+    0x200,
+    0x400,
+    0x800,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0x1F
+};
+
+SVECTOR s07a_dword_800C3770 = {7500, 0, -20000};
+SVECTOR s07a_dword_800C3778 = {4500, 0, -7500};
+
+/*---------------------------------------------------------------------------*/
 
 // Identical to s00a_command_800CAACC
 void s07a_meryl_unk_800DB340( WatcherWork* work )
@@ -245,8 +282,6 @@ void s07a_meryl_unk_800DB88C( WatcherWork* work )
     work->target_map = work->control.map->index;
 }
 
-//everything before this probably not in think.c
-
 // Identical to EnemyResetThink_800CB224
 void s07a_meryl_unk_800DB8EC( WatcherWork* work )
 {
@@ -257,8 +292,6 @@ void s07a_meryl_unk_800DB8EC( WatcherWork* work )
     work->field_B4C = 0;
     work->pad.mode = 0;
 }
-
-extern SVECTOR s07a_dword_800C3770;
 
 void s07a_meryl_unk_800DB908( WatcherWork* work )
 {
@@ -277,8 +310,6 @@ void s07a_meryl_unk_800DB908( WatcherWork* work )
     work->target_pos.vz = zone->z;
     work->target_map = COM_PlayerMap;
 }
-
-extern SVECTOR s07a_dword_800C3778;
 
 void s07a_meryl_unk_800DB9B8( WatcherWork* work )
 {
@@ -398,8 +429,6 @@ void s07a_meryl_unk_800DBC08( WatcherWork *work )
     work->count3 = 0;
     work->pad.mode = 1;
 }
-
-extern void s07a_meryl_unk_800DBD54( WatcherWork *work );
 
 void s07a_meryl_unk_800DBC78( WatcherWork* work )
 {
@@ -623,8 +652,6 @@ int s07a_meryl_unk_800DC00C( WatcherWork *work )
     return 0;
 }
 
-extern int s07a_meryl_unk_800DCD58(WatcherWork* work);
-
 void s07a_meryl_unk_800DC0DC( WatcherWork* work )
 {
     switch ( work->think3 )
@@ -654,8 +681,6 @@ void s07a_meryl_unk_800DC0DC( WatcherWork* work )
         }
     }
 }
-
-extern int s07a_meryl_unk_800DCF78( WatcherWork* work ) ;
 
 void s07a_meryl_unk_800DC18C( WatcherWork* work )
 {
@@ -711,8 +736,6 @@ void s07a_meryl_unk_800DC214( WatcherWork *work )
 
     work->alert_level = 0;
 }
-
-extern void s07a_meryl_unk_800DE810( WatcherWork *work );
 
 void s07a_meryl_unk_800DC310( WatcherWork *work )
 {
@@ -944,11 +967,6 @@ int s07a_meryl_unk_800DC7CC( WatcherWork *work )
     work->start_addr = HZD_GetAddress( map->hzd, &work->start_pos, -1 );
     return 0;
 }
-
-extern unsigned short s07a_dword_800C36E8[4];
-extern int s07a_dword_800C36F0[32];
-
-extern int DirectTrace_800DCE48( WatcherWork *, int );
 
 int s07a_meryl_unk_800DC8F0( WatcherWork *work )
 {
@@ -2832,8 +2850,9 @@ void s07a_meryl_unk_800DF234( WatcherWork *work )
     }
 }
 
+/*---------------------------------------------------------------------------*/
 
-void MerylThink_800DF3A0( WatcherWork* work )
+void Meryl7Think( WatcherWork* work )
 {
     work->pad.dir = -1;
     work->pad.press = 0;

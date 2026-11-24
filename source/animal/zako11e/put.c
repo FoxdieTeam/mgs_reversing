@@ -1,26 +1,50 @@
 #include "enemy/enemy.h"
 
-#include "mgstype.h"
-#include "libgv/libgv.h"
-#include "libdg/libdg.h"
-#include "libgcl/libgcl.h"
-#include "game/game.h"
+#include "anime/animconv/anime.h"
+#include "enemy/l_sight.h"
 #include "game/item.h"
 #include "game/vibrate.h"
+#include "okajima/blood.h"
 #include "okajima/bullet.h"
 
-extern ZAKO_COMMAND ZakoCommand_800DF280;
+/*---------------------------------------------------------------------------*/
 
-extern SVECTOR s11e_dword_800C3670;
-extern SVECTOR s11e_dword_800C3678;
-extern SVECTOR s11e_dword_800C3680;
-extern SVECTOR s11e_dword_800C3688;
+extern void AN_Breath( MATRIX *world );
 
-extern void    NewBlood( MATRIX *, int );
+extern ZAKO_COMMAND ZAKO11ECommand;
 
-void ZAKO11E_PutBlood_800D7A14( ZakoWork* work, int obj_idx, int count )
+static void PutFootNoise( ZakoWork *work );
+static void PutBreath( ZakoWork *work );
+static void PutSightLine( ZakoWork *work );
+static void GunShoot( ZakoWork *work );
+static int  UnsetPutChar( ZakoWork *work, void *putchar );
+
+static SVECTOR s11e_dword_800C3670 = {0, 0, 100};
+static SVECTOR s11e_dword_800C3678 = {-1024, 0, 0};
+static SVECTOR s11e_dword_800C3680 = {0, 0, 100};
+static SVECTOR s11e_dword_800C3688 = {-1024, 0, 0};
+
+static char *s11e_dword_800C3690[] = {
+    "RATION",
+    "SOCOM/BULLET * 12",
+    "FA-MAS/BULLET * 25"
+};
+
+static void *s11e_dword_800C369C[] = {
+    PutFootNoise,
+    PutBreath,
+    PutSightLine,
+    GunShoot
+};
+
+static SVECTOR s11e_dword_800C36AC = {5, -500, 80};
+
+/*---------------------------------------------------------------------------*/
+
+void ZAKO11E_PutBlood( ZakoWork *work, int obj_idx, int count )
 {
     MATRIX mat;
+
     DG_SetPos( &work->body.objs->objs[ obj_idx ].world );
     DG_MovePos( &s11e_dword_800C3670 );
     DG_RotatePos( &s11e_dword_800C3678 );
@@ -28,7 +52,7 @@ void ZAKO11E_PutBlood_800D7A14( ZakoWork* work, int obj_idx, int count )
     NewBlood( &mat, count );
 }
 
-void ZAKO11E_PutFog_800D7A84( ZakoWork *work )
+void ZAKO11E_PutDust( ZakoWork *work )
 {
     MATRIX mat;
     SVECTOR svec;
@@ -45,58 +69,57 @@ void ZAKO11E_PutFog_800D7A84( ZakoWork *work )
     AN_PunchFog( &svec );
 }
 
-extern const char *s11e_dword_800C3690[3];
-
-void ZAKO11E_PutItem_800D7AE8( ZakoWork* work )
+void ZAKO11E_PutItem( ZakoWork *work )
 {
-    int rand;
-    SVECTOR svec;
-    CONTROL *ctrl;
+    SVECTOR step;
     ITEM_INFO item;
+    CONTROL *ctrl;
 
-    svec = work->unknown.field_0C;
-    rand = 10;
+    step = work->unknown.field_0C;
     ctrl = &work->control;
-    svec.vx += GV_RandU( rand );
-    svec.vy += 100;
-    rand = GV_RandU( rand );
-    svec.vz += rand;
-    rand = GV_RandU( 4 );
+
+    step.vx += GV_RandU( 10 );
+    step.vy += 100;
+    step.vz += GV_RandU( 10 );
+
+    GV_RandU( 4 );
 
     switch ( work->field_B74 )
     {
     case 0:
-        item.type   = 4;
-        item.id     = IT_Ration;
+        item.message = s11e_dword_800C3690[0];
+        item.type = 4;
+        item.id = IT_Ration;
         item.num = 1;
-        item.message  = s11e_dword_800C3690[0];
         break;
     case 1:
     case 2:
     case 3:
-            if ( GM_FamasFlag < 0 )
-            {
-                item.type   = 2;
-                item.message  = s11e_dword_800C3690[1];
-                item.id     = WP_Socom;
-                item.num = 12;
-            }
-            else
-            {
-                item.type = 2;
-                item.id = WP_Famas;
-                item.message  = s11e_dword_800C3690[2];
-                item.num = 25;
-            }
-            break;
+        if ( GM_FamasFlag < 0 )
+        {
+            item.message = s11e_dword_800C3690[1];
+            item.type = 2;
+            item.id = WP_Socom;
+            item.num = 12;
+        }
+        else
+        {
+            item.message = s11e_dword_800C3690[2];
+            item.type = 2;
+            item.id = WP_Famas;
+            item.num = 25;
+        }
+        break;
     }
+
     item.time = 900;
-    NewItemPut( &ctrl->mov, &svec, &item );
+    NewItemPut( &ctrl->mov, &step, &item );
 }
 
-void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark )
+void ZAKO11E_PutMark( ZakoWork *work, int mark )
 {
     MATRIX *mat;
+
     if ( !( work->control.map->index & GM_PlayerMap ) )
     {
         return;
@@ -117,7 +140,9 @@ void ZAKO11E_PutMark_800D7C10( ZakoWork *work, int mark )
     work->mark_time = 30;
 }
 
-void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
+/*---------------------------------------------------------------------------*/
+
+static void PutFootNoise( ZakoWork *work )
 {
     int a1, a3;
     int a2;
@@ -153,13 +178,11 @@ void ZAKO11E_PutSound_800D7CAC( ZakoWork* work )
     }
 }
 
-extern void  NewLSight( SVECTOR *from, SVECTOR *to, int color ) ;
-extern void  AN_Breath( MATRIX * );
-
-void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
+static void PutBreath( ZakoWork *work )
 {
     int frame;
-    if ( ZakoCommand_800DF280.mode == TOP_COMM_ALERT )
+
+    if ( ZAKO11ECommand.mode == TOP_COMM_ALERT )
     {
         return;
     }
@@ -205,7 +228,7 @@ void ZAKO11E_PutBreath_800D7D44( ZakoWork *work, int arg1 )
     }
 }
 
-void s11e_zk11ecom_800D7E8C( ZakoWork* work )
+static void PutSightLine( ZakoWork *work )
 {
     if ( work->vision.field_B92 == 2 )
     {
@@ -213,14 +236,7 @@ void s11e_zk11ecom_800D7E8C( ZakoWork* work )
     }
 }
 
-extern SVECTOR s11e_dword_800C36AC;
-
-extern void AN_BulletSmoke( MATRIX *, int );
-extern void AN_FamasFlash( MATRIX * );
-
-extern int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func );
-
-void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
+static void GunShoot( ZakoWork *work )
 {
     MATRIX* mat;
     SVECTOR svec;
@@ -252,12 +268,12 @@ void ZAKO11E_PutBulletEx_800D7EC8( ZakoWork *work )
     GM_SeSetMode( &work->control.mov, SE_ENEMY_SHOT, GM_SEMODE_BOMB );
     AN_BulletSmoke( mat, 0 );
     AN_FamasFlash( &local_mat );
-    ZAKO11E_ClearPutChar_800D804C( work, ZAKO11E_PutBulletEx_800D7EC8 );
+    UnsetPutChar( work, GunShoot );
 }
 
-extern void *s11e_dword_800C369C[];
+/*---------------------------------------------------------------------------*/
 
-int ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int idx )
+int ZAKO11E_SetPutChar( ZakoWork *work, int index )
 {
     int i;
 
@@ -265,20 +281,22 @@ int ZAKO11E_SetPutChar_800D8004( ZakoWork *work, int idx )
     {
         if ( work->field_B00[ i ] == NULL )
         {
-            work->field_B00[ i ] = s11e_dword_800C369C[ idx ];
+            work->field_B00[ i ] = s11e_dword_800C369C[ index ];
             return 1;
         }
     }
     return 0;
 }
 
-int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func )
+/*---------------------------------------------------------------------------*/
+
+static int UnsetPutChar( ZakoWork *work, void *putchar )
 {
     int i;
 
     for ( i = 0 ; i < 8 ; i++ )
     {
-        if ( work->field_B00[ i ] == func )
+        if ( work->field_B00[ i ] == putchar )
         {
             work->field_B00[ i ] = 0;
             return 1;
@@ -287,7 +305,9 @@ int ZAKO11E_ClearPutChar_800D804C( ZakoWork *work, void *func )
     return 0;
 }
 
-void ZAKO11E_ExecPutChar_800D8080( ZakoWork* work )
+/*---------------------------------------------------------------------------*/
+
+void ZAKO11E_ExecPutChar( ZakoWork *work )
 {
     int i;
 
@@ -295,8 +315,8 @@ void ZAKO11E_ExecPutChar_800D8080( ZakoWork* work )
     {
         if ( work->field_B00[i] )
         {
-            ZAKOPUTFUNC func = work->field_B00[i];
-            func( work );
+            ZAKOPUTFUNC putchar = work->field_B00[i];
+            putchar( work );
         }
     }
 }

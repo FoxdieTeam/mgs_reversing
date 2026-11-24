@@ -1,15 +1,15 @@
 #include "enemy/enemy.h"
 
-#include "mgstype.h"
-#include "libgv/libgv.h"
-#include "libdg/libdg.h"
-#include "libgcl/libgcl.h"
-#include "game/game.h"
-#include "game/item.h"
-#include "game/vibrate.h"
-#include "okajima/bullet.h"
+/*---------------------------------------------------------------------------*/
 
-/*** Inlines *****************************************************************/
+extern void AN_Unknown_800C3B7C( MATRIX *world );
+extern void s11e_zk11ecom_800D56F8( ZakoWork *work, int time );
+
+extern ZAKO_COMMAND ZAKO11ECommand;
+
+static SVECTOR s11e_dword_800C3668 = {0, -700, 900};
+
+/*---------------------------------------------------------------------------*/
 
 static inline void UnsetMode( ZakoWork *work )
 {
@@ -56,13 +56,9 @@ static inline void UnsetAction2( ZakoWork *work )
     GV_DestroyOtherActor( work->subweapon );
 }
 
-/*****************************************************************************/
+/*---------------------------------------------------------------------------*/
 
-extern ZAKO_COMMAND ZakoCommand_800DF280;
-
-void s11e_zk11ecom_800D56F8( ZakoWork* work, int time );
-
-void s11e_zk11ecom_800D6F68( ZakoWork* work, int time )
+void s11e_zk11ecom_800D6F68( ZakoWork *work, int time )
 {
     if ( time == 0 )
     {
@@ -86,7 +82,7 @@ void s11e_zk11ecom_800D6F68( ZakoWork* work, int time )
     }
 }
 
-void s11e_zk11ecom_800D7034( ZakoWork* work, int time)
+void s11e_zk11ecom_800D7034( ZakoWork *work, int time)
 {
     if ( time == 0 )
     {
@@ -110,7 +106,7 @@ void s11e_zk11ecom_800D7034( ZakoWork* work, int time)
     }
 }
 
-void ActOverScoutD_800D7100( ZakoWork* work, int time )
+void ActOverScoutD_800D7100( ZakoWork *work, int time )
 {
     work->vision.length = 3000;
 
@@ -125,7 +121,7 @@ void ActOverScoutD_800D7100( ZakoWork* work, int time )
     }
 }
 
-void s11e_zk11ecom_800D7198( ZakoWork* work, int time )
+void s11e_zk11ecom_800D7198( ZakoWork *work, int time )
 {
     work->vision.length = 3000;
 
@@ -140,7 +136,7 @@ void s11e_zk11ecom_800D7198( ZakoWork* work, int time )
     }
 }
 
-void s11e_zk11ecom_800D7230( ZakoWork* work, int time )
+void s11e_zk11ecom_800D7230( ZakoWork *work, int time )
 {
     work->vision.length = 0;
 
@@ -157,7 +153,7 @@ void s11e_zk11ecom_800D7230( ZakoWork* work, int time )
     }
 }
 
-void s11e_zk11ecom_800D72E4( ZakoWork* work, int time )
+void s11e_zk11ecom_800D72E4( ZakoWork *work, int time )
 {
     work->vision.length = 0;
 
@@ -178,7 +174,7 @@ void s11e_zk11ecom_800D72E4( ZakoWork* work, int time )
     }
 }
 
-void s11e_zk11ecom_800D73AC( ZakoWork* work, int time )
+void s11e_zk11ecom_800D73AC( ZakoWork *work, int time )
 {
     if ( time == 0 )
     {
@@ -192,7 +188,7 @@ void s11e_zk11ecom_800D73AC( ZakoWork* work, int time )
     }
 }
 
-void s11e_zk11ecom_800D7450( ZakoWork* work, int time )
+void s11e_zk11ecom_800D7450( ZakoWork *work, int time )
 {
     work->vision.length = 0;
 
@@ -266,10 +262,7 @@ void s11e_zk11ecom_800D7518( ZakoWork *work, int time )
     }
 }
 
-extern void AN_Unknown_800C3B7C( MATRIX *matrix );
-extern SVECTOR s11e_dword_800C3668;
-
-void s11e_zk11ecom_800D76F0( ZakoWork* work )
+void s11e_zk11ecom_800D76F0( ZakoWork *work )
 {
     MATRIX mat;
 
