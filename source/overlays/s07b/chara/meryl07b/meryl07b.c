@@ -1,8 +1,10 @@
+#include <stdio.h>
 #include "game/game.h"
 #include "game/vibrate.h"
 #include "game/navi.h"
 #include "menu/menuman.h"
 #include "chara/snake/shadow.h"
+#include "anime/animconv/anime.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -526,7 +528,7 @@ void s07b_800C52B8( Work *work )
         break;
     case 3:
         GM_VoxQueueDelay( work->field_8E4[ 3 ], 4 );
-        printf( s07b_dword_800E4B78, work->field_8E4[ 3 ] );
+        printf( (char *)s07b_dword_800E4B78, work->field_8E4[ 3 ] );
         break;
     }
 }

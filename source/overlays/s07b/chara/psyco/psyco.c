@@ -7,6 +7,7 @@
 #include "okajima/bullet.h"
 #include "takabe/cineutil.h"
 #include "menu/menuman.h"
+#include "chara/snake/sna_init.h"
 
 /*---------------------------------------------------------------------------*/
 
@@ -337,7 +338,7 @@ void s07b_800CB130( Work *work )
         }
         s07b_800CB0B4( work, 0 );
         s07b_800CB068( 0 );
-        printf( s07b_dword_800E4F5C );
+        printf( (char *)s07b_dword_800E4F5C );
     }
     else
     {
@@ -348,7 +349,7 @@ void s07b_800CB130( Work *work )
         work->body.objs->flag |= 0x80;
         s07b_800CB0B4( work, 1 );
         s07b_800CB068( 1 );
-        printf( s07b_dword_800E4F70 );
+        printf( (char *)s07b_dword_800E4F70 );
     }
 }
 void s07b_800CB224( Work *work )
@@ -398,7 +399,7 @@ void s07b_800CB2A4( Work *work )
             {
                 ClearPadMask( 0xF000 );
             }
-            printf( s07b_dword_800E4F80, work->field_864 );
+            printf( (char *)s07b_dword_800E4F80, work->field_864 );
         }
         if ( work->field_864 )
         {
@@ -461,7 +462,7 @@ void s07b_800CB2A4( Work *work )
             }
             work->field_864 = 1;
             GM_PlayerStatus &= ~0x4000000;
-            printf( s07b_dword_800E4F94, work->field_864 );
+            printf( (char *)s07b_dword_800E4F94, work->field_864 );
         }
         if ( work->field_864 )
         {
@@ -958,7 +959,7 @@ void s07b_800CC67C( Work *work )
 {
     if ( work->field_8F0 && *work->field_8F0 <= 0 )
     {
-        printf( s07b_dword_800E4FB4 );
+        printf( (char *)s07b_dword_800E4FB4 );
         work->field_8F0 = NULL;
     }
 }
