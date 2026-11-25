@@ -3557,8 +3557,51 @@ const char s07b_dword_800E5088[] = "hideo";
 void s07b_800D105C( Work *work );
 void s07b_800CD86C( Work *work );
 
-#pragma INCLUDE_ASM("asm/overlays/s07b/s07b_800D1254.s")
-void s07b_800D1254( Work *work );
+void s07b_800D1254( Work *work )
+{
+    int      mask;
+    TARGET  *target;
+    TARGET  *target2;
+
+    mask = ( (u_char)work->field_850 >> 7 ) ? 0 : 6;
+    if ( GV_PauseLevel & mask )
+    {
+        return;
+    }
+
+    if ( GM_PlayerStatus & 0x08000000 )
+    {
+        work->pad = &GV_PadData[ 1 ];
+    }
+    else
+    {
+        work->pad = &GV_PadData[ 0 ];
+    }
+
+    GM_ActMotion( &work->body );
+    work->control.hzd_height = work->control.levels[ 0 ] + s07b_dword_800C33F4[ work->field_8A0 ];
+    GM_ActControl( &work->control );
+    s07b_800CAE00( work );
+    GM_ActObject( &work->body );
+    DG_GetLightMatrix2( &work->control.mov, work->light );
+    GM_MoveTarget( work->target, &work->control.mov );
+
+    // The loop notes of this do/while keep the height store before the target load (gcc sched barrier)
+    do {
+        work->control.height = work->body.height;
+    } while ( 0 );
+
+    target = work->target;
+    work->control.turn.vz = 0;
+    s07b_dword_800C33F0 = target->vital;
+    s07b_800D105C( work );
+
+    target2 = work->target;
+    target2->force = work->control.step;
+    GM_PushTarget( target2 );
+    s07b_800CD86C( work );
+    s07b_dword_800E5BE0 = work->control.mov;
+}
 
 extern int dword_800BDD28;
 extern int dword_8009F444;
