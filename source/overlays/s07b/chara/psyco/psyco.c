@@ -1,6 +1,7 @@
 #include "chara/psyco/psyco.h"
 
 #include <stdio.h>
+#include <string.h>
 #include "libgcl/libgcl.h"
 #include "game/game.h"
 #include "game/navi.h"
@@ -31,35 +32,35 @@ typedef struct _Work {
     /* 0x7D8 */ void *shadow;             // NewHumanShadow2 (s07b_800CAF54)
     /* 0x7DC */ int *shadow_enable;       // 0 while camouflaged, 1 otherwise
     /* 0x7E0 */ TARGET *target;
-    /* 0x7E4 */ char pad7E4[ 0x48 ];
+    /* 0x7E4 */ TARGET attack;
     /* 0x82C */ HOMING *hom;
     /* 0x830 */ void *sepia;              // sepia screen effect (NewSepia_800C5214), s07b_800CB0B4
     /* 0x834 */ void *field_834;          // actor, destroyed in s07b_800D13C4
     /* 0x838 */ void *kogaku;             // optical camouflage actor (NewKogaku2), NULL when off
-    /* 0x83C */ int field_83C;            // camouflage state: 10 = on, -1 = off
-    /* 0x840 */ int field_840;            // actor address for GV_SendMessage (s07b_800CC138)
-    /* 0x844 */ short field_844;
-    /* 0x846 */ short field_846;          // next field_844 when field_850 flag 0x10 is set; < 0: run proc_id and destroy (s07b_800CAFC8)
+    /* 0x83C */ int kogaku_state;         // 10 = on, -1 = off
+    /* 0x840 */ int meryl_name;           // GV_SendMessage address (s07b_800CC138)
+    /* 0x844 */ short state;
+    /* 0x846 */ short next_state;         // taken when field_850 flag 0x10 is set; < 0: run proc_id and destroy (s07b_800CAFC8)
     /* 0x848 */ int field_848;
 
     /* 0x84C */ int field_84C;
 
     /* 0x850 */ int field_850;            // flags (0x4 checked in s07b_800CBDA0)
 
-    /* 0x854 */ void *field_854;
-    /* 0x858 */ int field_858;
+    /* 0x854 */ void *action;
+    /* 0x858 */ int time;
 
-    /* 0x85C */ void *field_85C;          // second mode function, runs instead of field_854 while field_84C flag 0x4 is set
-    /* 0x860 */ int   field_860;          // time of field_85C
+    /* 0x85C */ void *action2;           // runs instead of action while field_84C flag 0x4 is set
+    /* 0x860 */ int   time2;
 
     /* 0x864 */ int field_864;
 
-    /* 0x868 */ int field_868;            // 1 when touching a wall or close to field_870 (s07b_800CB8CC)
-    /* 0x86C */ short field_86C;          // turn direction step while in s07b_800CDCAC (s07b_800CB8CC)
+    /* 0x868 */ int arrived;              // touching a wall or close to point (s07b_800CB8CC)
+    /* 0x86C */ short turn_step;          // while in s07b_800CDCAC (s07b_800CB8CC)
 
     /* 0x86E */ short field_86E;
 
-    /* 0x870 */ SVECTOR field_870;        // current point (vx, vz), s07b_800CB9E8 picks a different one
+    /* 0x870 */ SVECTOR point;           // (vx, vz), s07b_800CB9E8 picks the next one
     /* 0x878 */ SVECTOR field_878;
     /* 0x880 */ SVECTOR field_880;
     /* 0x888 */ char pad888[ 0x8 ];
@@ -67,7 +68,7 @@ typedef struct _Work {
     /* 0x890 */ SVECTOR pos;
     /* 0x898 */ SVECTOR rot;
 
-    /* 0x8A0 */ int field_8A0;            // height level 0..2: index of s07b_dword_800C33F4 (control.hzd_height)
+    /* 0x8A0 */ int height_level;         // 0..2: index of s07b_dword_800C33F4 (control.hzd_height)
 
     /* 0x8A4 */ int     n_points;
     /* 0x8A8 */ SVECTOR points[ 8 ];
@@ -77,31 +78,31 @@ typedef struct _Work {
     /* 0x8EC */ short field_8EC;
     /* 0x8EE */ short field_8EE;
 
-    /* 0x8F0 */ int *field_8F0;           // counter of an attack; cleared when it runs out (s07b_800CC67C)
+    /* 0x8F0 */ int *object_alive;        // *_alive of the thrown object (chara/psyco)
     /* 0x8F4 */ MENU_BAR_CONF lifebar;    // colours change with the max vital (s07b_800CD86C)
-    /* 0x900 */ int  field_900;           // shown life, drops towards target->vital (s07b_800CD86C)
-    /* 0x904 */ POLY_F4  field_904[ 2 ];   // white screen (s07b_800D195C)
-    /* 0x934 */ POLY_FT4 field_934[ 2 ];   // "hideo_b"
-    /* 0x984 */ POLY_FT4 field_984[ 2 ];   // "hideo_s"
-    /* 0x9D4 */ POLY_FT4 field_9D4[ 2 ];   // "hideo"
-    /* 0xA24 */ POLY_F4  field_A24[ 2 ];   // black screen
-    /* 0xA54 */ DG_TEX  *field_A54;        // "hideo" texture
-    /* 0xA58 */ int  field_A58;           // < 2: picture attack goes on to s07b_800CED04 (s07b_800CE660)
+    /* 0x900 */ int  lifebar_rest;        // drops towards target->vital (s07b_800CD86C)
+    /* 0x904 */ POLY_F4  white_screen[ 2 ];
+    /* 0x934 */ POLY_FT4 hideo_b[ 2 ];
+    /* 0x984 */ POLY_FT4 hideo_s[ 2 ];
+    /* 0x9D4 */ POLY_FT4 hideo[ 2 ];
+    /* 0xA24 */ POLY_F4  black_screen[ 2 ];
+    /* 0xA54 */ DG_TEX  *hideo_tex;
+    /* 0xA58 */ int  picture_count;       // finished picture attacks; < 2: goes on to s07b_800CED04
     /* 0xA5C */ int  field_A5C;           // set to 6 when the picture attack ends (s07b_800CED04)
     /* 0xA60 */ short field_A60;
-    /* 0xA62 */ char field_A62;           // set together with field_84C flag 0x2 (s07b_800CC9E8)
-    /* 0xA63 */ char field_A63;           // set to 8 when the s07b_800CBF00 counter runs out
+    /* 0xA62 */ char blink_timer;         // set together with field_84C flag 0x2 (s07b_800CC9E8)
+    /* 0xA63 */ char class_timer;         // target class timer, 8 when the s07b_800CBF00 counter runs out
 
     /* 0xA64 */ short field_A64;
     /* 0xA66 */ short field_A66;
 
-    /* 0xA68 */ short field_A68;          // step of the chair attack (s07b_800CDF40)
-    /* 0xA6A */ short field_A6A;          // side 0..2 for the picture/book throw (GV_RandU % 3)
-    /* 0xA6C */ SVECTOR field_A6C;
-    /* 0xA74 */ SVECTOR field_A74;        // player head position for the camera (s07b_800CFBF8)
+    /* 0xA68 */ short chair_step;         // s07b_800CDF40
+    /* 0xA6A */ short throw_side;         // 0..2 for the picture/book throw
+    /* 0xA6C */ SVECTOR head_pos;
+    /* 0xA74 */ SVECTOR player_head_pos;
     /* 0xA7C */ char padA7C[ 0x4 ];
-    /* 0xA80 */ GV_PAD *pad;             // GV_PadData[ 0 ] or [ 1 ] (second controller), set in s07b_800D1254
-    /* 0xA84 */ GV_PAD *pad2;            // GV_PadData[ 1 ] (s07b_800D1638)
+    /* 0xA80 */ GV_PAD *pad1;             // GV_PadData[ 0 ], or [ 1 ] with the second controller
+    /* 0xA84 */ GV_PAD *pad2;             // GV_PadData[ 1 ]
     /* 0xA88 */ u_char weapon_lock[ 8 ];  // 20-frame counters that make C4/claymore/grenade/Nikita/Stinger fail (s07b_800CBFB0)
 
     /* 0xA90 */ int      proc_id;
@@ -113,7 +114,7 @@ typedef struct _Work {
     /* 0xAE4 */ char     field_AE4[ 4 ];
 } Work;
 
-// thrown objects (chara/psyco/*.c); Work.field_8F0 points at their *_alive flag
+// thrown objects (chara/psyco/*.c); Work.object_alive points at their *_alive flag
 extern int book_alive;
 extern int chair_alive;
 extern int ox_alive;
@@ -152,7 +153,7 @@ int s07b_dword_800C33E4 = 0x00000064;
 int s07b_dword_800C33E8 = 0x0000FC00;
 int s07b_dword_800C33EC = 0x00000000;
 short s07b_dword_800C33F0 = 0;
-int s07b_dword_800C33F4[ 3 ] = { 1500, 750, 250 };  // control.hzd_height, indexed by field_8A0
+int s07b_dword_800C33F4[ 3 ] = { 1500, 750, 250 };  // control.hzd_height, indexed by height_level
 int s07b_dword_800C3400 = 0x03E8012C;
 int s07b_dword_800C3404 = 0x0000012C;
 
@@ -268,7 +269,7 @@ void s07b_800CAFC8( Work *work )
     if ( work->field_850 & 0x10 )
     {
         work->field_850 &= ~0x10;
-        if ( work->field_846 < 0 )
+        if ( work->next_state < 0 )
         {
             if ( work->proc_id >= 0 )
             {
@@ -281,7 +282,7 @@ void s07b_800CAFC8( Work *work )
         }
         else
         {
-            work->field_844 = work->field_846;
+            work->state = work->next_state;
             work->field_848 = 0;
         }
     }
@@ -384,7 +385,7 @@ void s07b_800CB2A4( Work *work )
     flags = work->field_84C;
     if ( !( flags & 1 ) )
     {
-        if ( ( work->pad->press & 0x10 ) && !dword_8009F46C &&
+        if ( ( work->pad1->press & 0x10 ) && !dword_8009F46C &&
              !( GM_WeaponTypes[ GM_Weapon + 1 ] & 0x200 ) &&
              !( GM_ItemTypes[ GM_Item + 1 ] & 0x2 ) &&
              !( GM_PlayerStatus & 0x800 ) &&
@@ -451,7 +452,7 @@ void s07b_800CB2A4( Work *work )
         player->turn.vz = 0;
         player->turn.vy = player->rot.vy;
 
-        if ( !( work->pad->status & 0x10 ) || !GM_Camera.first_person )
+        if ( !( work->pad1->status & 0x10 ) || !GM_Camera.first_person )
         {
             work->field_84C &= ~1;
             ClearPadMask( ~0x10 );
@@ -477,8 +478,8 @@ void s07b_800CB6B0( Work *work, short x, short z, int scale )
 {
     SVECTOR pos;
 
-    work->field_870.vx = x;
-    work->field_870.vz = z;
+    work->point.vx = x;
+    work->point.vz = z;
     if ( (short)scale > 0 )
     {
         work->field_86E = scale;
@@ -515,20 +516,20 @@ void s07b_800CB770( Work *work )
     GV_SubVec3( &to, &from, &diff );
     len = GV_VecLen3( &diff );
 
-    work->field_868 = 0;
+    work->arrived = 0;
     if ( dist < work->field_86E )
     {
         work->control.step = diff;
-        work->field_868 = 1;
+        work->arrived = 1;
     }
     else
     {
         GV_LenVec3( &diff, &work->control.step, len, work->field_86E );
     }
 
-    if ( work->field_854 == s07b_800CDCAC )
+    if ( work->action == s07b_800CDCAC )
     {
-        work->control.turn.vy = ( work->control.turn.vy + ( work->field_86C - 1 ) * 1024 ) & 0xFFF;
+        work->control.turn.vy = ( work->control.turn.vy + ( work->turn_step - 1 ) * 1024 ) & 0xFFF;
     }
 }
 void s07b_800CDCAC( Work *work, int time );
@@ -541,31 +542,31 @@ void s07b_800CB8CC( Work *work )
     int     len;
 
     from = work->control.mov;
-    to = work->field_870;
+    to = work->point;
     to.vy = 0;
     from.vy = 0;
     GV_SubVec3( &to, &from, &diff );
     len = GV_VecLen3( &diff );
 
-    work->field_868 = 0;
+    work->arrived = 0;
     if ( work->control.n_touches )
     {
-        work->field_868 = 1;
+        work->arrived = 1;
     }
 
     if ( len < work->field_86E )
     {
         work->control.step = diff;
-        work->field_868 = 1;
+        work->arrived = 1;
     }
     else
     {
         GV_LenVec3( &diff, &work->control.step, len, work->field_86E );
     }
 
-    if ( work->field_854 == s07b_800CDCAC )
+    if ( work->action == s07b_800CDCAC )
     {
-        work->control.turn.vy = ( work->control.turn.vy + ( work->field_86C - 1 ) * 1024 ) & 0xFFF;
+        work->control.turn.vy = ( work->control.turn.vy + ( work->turn_step - 1 ) * 1024 ) & 0xFFF;
     }
 }
 
@@ -577,7 +578,7 @@ void s07b_800CB9E8( Work *work, int arg1 )
 
     count = work->n_points;
     point = &work->points[ GV_RandU( 32 ) % count ];
-    while ( point->vx == work->field_870.vx && point->vz == work->field_870.vz )
+    while ( point->vx == work->point.vx && point->vz == work->point.vz )
     {
         point = &work->points[ GV_RandU( 32 ) % count ];
     }
@@ -623,22 +624,22 @@ void s07b_800CBB38( Work *work )
     u_short    idx;
     PSYCO_MODE mode;
 
-    switch ( work->field_844 )
+    switch ( work->state )
     {
     case 2:
     case 9:
         idx = work->field_8EC;
-        if ( idx == 5 && work->field_8F0 == NULL )
+        if ( idx == 5 && work->object_alive == NULL )
         {
             idx = 6;
         }
-        else if ( idx == 6 && work->field_8F0 == NULL )
+        else if ( idx == 6 && work->object_alive == NULL )
         {
             idx = 7;
         }
         work->field_8EC = idx;
-        work->field_854 = ( (PSYCO_MODE *)&s07b_dword_800C33AC )[ idx ];
-        work->field_858 = 0;
+        work->action = ( (PSYCO_MODE *)&s07b_dword_800C33AC )[ idx ];
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -653,8 +654,8 @@ void s07b_800CBB38( Work *work )
     default:
         return;
     }
-    work->field_854 = mode;
-    work->field_858 = 0;
+    work->action = mode;
+    work->time = 0;
     work->field_A66 = 0;
     work->field_A64 = 0;
     work->control.turn.vz = 0;
@@ -688,14 +689,14 @@ extern void *NewKogaku2( CONTROL *control, OBJECT *object, int num_parent );
 // optical camouflage off
 void s07b_800CBCE8( Work *work )
 {
-    if ( work->field_83C != -1 )
+    if ( work->kogaku_state != -1 )
     {
         if ( work->kogaku )
         {
             GV_DestroyActor( work->kogaku );
         }
         work->kogaku = NULL;
-        work->field_83C = -1;
+        work->kogaku_state = -1;
         *work->shadow_enable = 1;
     }
 }
@@ -703,10 +704,10 @@ void s07b_800CBCE8( Work *work )
 // optical camouflage on
 void s07b_800CBD4C( Work *work )
 {
-    if ( work->field_83C != 10 )
+    if ( work->kogaku_state != 10 )
     {
         work->kogaku = NewKogaku2( &work->control, &work->body, 6 );
-        work->field_83C = 10;
+        work->kogaku_state = 10;
         *work->shadow_enable = 0;
     }
 }
@@ -768,7 +769,7 @@ void s07b_800CBF00( Work *work, u_char *counter, u_char limit, int *done, int st
         {
             *done = 1;
             *counter = 0;
-            work->field_A63 = 8;
+            work->class_timer = 8;
         }
     }
 }
@@ -790,7 +791,7 @@ void s07b_800CBFB0( Work *work )
         return;
     }
 
-    if ( work->field_844 == 0 )
+    if ( work->state == 0 )
     {
         dword_800BDD28 = 0;
         dword_8009F444 = 0;
@@ -812,7 +813,7 @@ void s07b_800CC138( Work *work, int arg1 )
 {
     GV_MSG msg;
 
-    msg.address = work->field_840;
+    msg.address = work->meryl_name;
     msg.message_len = 2;
     msg.message[0] = 0x491D;
     msg.message[1] = arg1;
@@ -833,7 +834,7 @@ void s07b_800CC174( Work *work, int time )
     {
         for ( i = 0; i < 2; i++ )
         {
-            poly = &work->field_9D4[ i ];
+            poly = &work->hideo[ i ];
             if ( !alt )
             {
                 poly->x0 = poly->x2 = 224;
@@ -842,7 +843,7 @@ void s07b_800CC174( Work *work, int time )
                 poly->y2 = poly->y3 = 40;
             }
         }
-        addPrim( ot, &work->field_904[ GV_Time & 1 ] );
+        addPrim( ot, &work->white_screen[ GV_Time & 1 ] );
     }
     else
     {
@@ -850,7 +851,7 @@ void s07b_800CC174( Work *work, int time )
         {
             for ( i = 0; i < 2; i++ )
             {
-                poly = &work->field_9D4[ i ];
+                poly = &work->hideo[ i ];
                 if ( !alt )
                 {
                     poly->x0 = poly->x2 = 260;
@@ -861,26 +862,26 @@ void s07b_800CC174( Work *work, int time )
             }
         }
 
-        last = ( work->field_A58 != 0 ) ? 127 : 255;
+        last = ( work->picture_count != 0 ) ? 127 : 255;
         if ( time == last )
         {
-            addPrim( ot, &work->field_904[ GV_Time & 1 ] );
+            addPrim( ot, &work->white_screen[ GV_Time & 1 ] );
         }
         else
         {
             if ( !alt )
             {
-                addPrim( ot, &work->field_9D4[ GV_Time & 1 ] );
+                addPrim( ot, &work->hideo[ GV_Time & 1 ] );
             }
             else if ( time >= 64 )
             {
-                addPrim( ot, &work->field_984[ GV_Time & 1 ] );
+                addPrim( ot, &work->hideo_s[ GV_Time & 1 ] );
             }
             else
             {
-                addPrim( ot, &work->field_934[ GV_Time & 1 ] );
+                addPrim( ot, &work->hideo_b[ GV_Time & 1 ] );
             }
-            addPrim( ot, &work->field_A24[ GV_Time & 1 ] );
+            addPrim( ot, &work->black_screen[ GV_Time & 1 ] );
         }
     }
 }
@@ -957,10 +958,10 @@ void s07b_800CC578( SVECTOR *pos, SVECTOR *target, int len, short *dir_back, sho
 }
 void s07b_800CC67C( Work *work )
 {
-    if ( work->field_8F0 && *work->field_8F0 <= 0 )
+    if ( work->object_alive && *work->object_alive <= 0 )
     {
         printf( (char *)s07b_dword_800E4FB4 );
-        work->field_8F0 = NULL;
+        work->object_alive = NULL;
     }
 }
 void s07b_800CC6CC( void )
@@ -1064,14 +1065,14 @@ void s07b_800CC970( SVECTOR *from, SVECTOR *base, int dist )
 }
 void s07b_800CC9E8( Work *work, int arg1 )
 {
-    work->field_A62 = arg1;
+    work->blink_timer = arg1;
     work->field_84C |= 2;
     work->target->class &= ~0x94;
 }
 // end of the state started by s07b_800CC9E8
 void s07b_800CCA10( Work *work )
 {
-    work->field_A62 = 0;
+    work->blink_timer = 0;
     work->field_84C &= ~2;
     work->field_850 &= ~0x200;
     work->target->class |= 0x9C;
@@ -1080,14 +1081,14 @@ void s07b_800CCA10( Work *work )
         work->body.objs->flag &= ~0x80;
     }
 }
-// blink timer (field_A62) and target class timer (field_A63)
+// blink timer (blink_timer) and target class timer (class_timer)
 void s07b_800CCA80( Work *work )
 {
-    if ( work->field_A62 )
+    if ( work->blink_timer )
     {
         if ( !( work->field_850 & 0x200 ) )
         {
-            if ( work->field_A62 & 3 )
+            if ( work->blink_timer & 3 )
             {
                 DG_VisibleObjs( work->body.objs );
             }
@@ -1096,7 +1097,7 @@ void s07b_800CCA80( Work *work )
                 DG_InvisibleObjs( work->body.objs );
             }
         }
-        if ( --work->field_A62 == 0 )
+        if ( --work->blink_timer == 0 )
         {
             if ( !( work->field_850 & 0x200 ) )
             {
@@ -1106,9 +1107,9 @@ void s07b_800CCA80( Work *work )
         }
     }
 
-    if ( work->field_A63 )
+    if ( work->class_timer )
     {
-        if ( --work->field_A63 == 0 )
+        if ( --work->class_timer == 0 )
         {
             if ( !( work->field_84C & 2 ) )
             {
@@ -1142,7 +1143,7 @@ void s07b_800CCBFC( Work *work )
     int     react;
     PSYOBJ *busts[ 2 ];
 
-    if ( ( work->field_84C & 2 ) || work->field_A63 || ( *s07b_dword_800E5BB0 & 8 ) || GM_Vitality == 0 )
+    if ( ( work->field_84C & 2 ) || work->class_timer || ( *s07b_dword_800E5BB0 & 8 ) || GM_Vitality == 0 )
     {
         s07b_800CCA80( work );
         return;
@@ -1198,8 +1199,8 @@ void s07b_800CCBFC( Work *work )
             target->vital -= ( (u_short *)&s07b_dword_800C339C )[ 0 ];
             if ( !( work->field_850 & 2 ) )
             {
-                work->field_85C = s07b_800CD25C;
-                work->field_860 = 0;
+                work->action2 = s07b_800CD25C;
+                work->time2 = 0;
                 work->field_A66 = 0;
                 work->field_A64 = 0;
                 work->control.turn.vz = 0;
@@ -1213,8 +1214,8 @@ void s07b_800CCBFC( Work *work )
             target->vital -= ( (u_short *)&s07b_dword_800C339C )[ 1 ];
             if ( !( work->field_850 & 2 ) )
             {
-                work->field_85C = s07b_800CD40C;
-                work->field_860 = 0;
+                work->action2 = s07b_800CD40C;
+                work->time2 = 0;
                 work->field_A66 = 0;
                 work->field_A64 = 0;
                 work->control.turn.vz = 0;
@@ -1234,8 +1235,8 @@ void s07b_800CCBFC( Work *work )
             }
             if ( !( work->field_850 & 2 ) )
             {
-                work->field_85C = s07b_800CD25C;
-                work->field_860 = 0;
+                work->action2 = s07b_800CD25C;
+                work->time2 = 0;
                 work->field_A66 = 0;
                 work->field_A64 = 0;
                 work->control.turn.vz = 0;
@@ -1248,8 +1249,8 @@ void s07b_800CCBFC( Work *work )
             target->vital -= ( (u_short *)&s07b_dword_800C33A0 )[ 1 ];
             if ( !( work->field_850 & 2 ) )
             {
-                work->field_85C = s07b_800CD40C;
-                work->field_860 = 0;
+                work->action2 = s07b_800CD40C;
+                work->time2 = 0;
                 work->field_A66 = 0;
                 work->field_A64 = 0;
                 work->control.turn.vz = 0;
@@ -1265,8 +1266,8 @@ void s07b_800CCBFC( Work *work )
 
         if ( target->vital <= 0 && GM_Vitality != 0 && GM_GameOverTimer == 0 )
         {
-            work->field_854 = s07b_800CF304;
-            work->field_858 = 0;
+            work->action = s07b_800CF304;
+            work->time = 0;
             work->field_A66 = 0;
             work->field_A64 = 0;
             work->control.turn.vz = 0;
@@ -1278,14 +1279,14 @@ void s07b_800CCBFC( Work *work )
     {
         s07b_800CCA10( work );
         s07b_800CC9E8( work, 0 );
-        work->field_85C = s07b_800CD594;
-        work->field_860 = 0;
+        work->action2 = s07b_800CD594;
+        work->time2 = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         work->field_84C |= 4;
-        work->field_A68 = target->a_mode;
+        work->chair_step = target->a_mode;
         s07b_800CCBB0( target );
     }
 }
@@ -1300,7 +1301,7 @@ void s07b_800CCFE4( Work *work )
     short      idx;
 
     work->field_850 &= ~0x2000;
-    idx = work->field_844 - 2;
+    idx = work->state - 2;
     switch ( idx )
     {
     case 0:
@@ -1337,11 +1338,11 @@ void s07b_800CCFE4( Work *work )
         case 7:
         case 8:
         default:
-            if ( work->field_854 == s07b_800CDCAC )
+            if ( work->action == s07b_800CDCAC )
             {
                 mode = s07b_800CDCAC;
             }
-            else if ( work->field_8F0 )
+            else if ( work->object_alive )
             {
                 mode = ( (PSYCO_MODE *)&s07b_dword_800C33AC )[ phase ];
                 work->field_850 |= 0x2000;
@@ -1351,7 +1352,7 @@ void s07b_800CCFE4( Work *work )
                 phase++;
                 if ( phase == 9 )
                 {
-                    phase = work->field_A58 >= 2;
+                    phase = work->picture_count >= 2;
                 }
                 if ( phase == 5 && work->field_AE4[ 0 ] )
                 {
@@ -1382,9 +1383,9 @@ void s07b_800CCFE4( Work *work )
     case 5:
     case 7:
     default:
-        if ( work->field_8F0 )
+        if ( work->object_alive )
         {
-            mode = work->field_854;
+            mode = work->action;
             work->field_850 |= 0x2000;
         }
         else
@@ -1400,8 +1401,8 @@ void s07b_800CCFE4( Work *work )
         break;
     }
 
-    work->field_854 = mode;
-    work->field_858 = 0;
+    work->action = mode;
+    work->time = 0;
     work->field_A66 = 0;
     work->field_A64 = 0;
     work->control.turn.vz = 0;
@@ -1413,8 +1414,6 @@ void s07b_800CCFE4( Work *work )
     s07b_800CC9E8( work, 32 );
 }
 
-const char s07b_dword_800E5018[] = "MANTIS";
-const char s07b_dword_800E5020[] = "マンティス";
 
 
 void s07b_800CCFE4( Work *work );
@@ -1426,7 +1425,7 @@ void s07b_800CD25C( Work *work, int time )
     if ( time == 0 )
     {
         work->body.objs->flag &= ~0x80;
-        if ( work->field_83C == 10 )
+        if ( work->kogaku_state == 10 )
         {
             work->field_A64 = 1;
         }
@@ -1451,12 +1450,12 @@ void s07b_800CD25C( Work *work, int time )
         work->field_84C &= ~4;
         if ( ( ( GM_PlayerStatus & 0x08000000 ) || ( work->field_850 & 0x400 ) ) && GV_RandS( 64 ) > 0 )
         {
-            if ( work->field_844 == 2 && work->target->vital <= ( (u_short *)&s07b_dword_800C3390 )[ 1 ] )
+            if ( work->state == 2 && work->target->vital <= ( (u_short *)&s07b_dword_800C3390 )[ 1 ] )
             {
                 return;
             }
 
-            if ( work->field_844 == 4 && work->target->vital <= *(u_short *)&s07b_dword_800C3394 )
+            if ( work->state == 4 && work->target->vital <= *(u_short *)&s07b_dword_800C3394 )
             {
                 return;
             }
@@ -1469,7 +1468,7 @@ void s07b_800CD40C( Work *work, int time )
 {
     if ( time == 0 )
     {
-        if ( work->field_83C == 10 )
+        if ( work->kogaku_state == 10 )
         {
             work->field_A64 = 1;
         }
@@ -1492,12 +1491,12 @@ void s07b_800CD40C( Work *work, int time )
         work->field_84C &= ~4;
         if ( ( GM_PlayerStatus & 0x08000000 ) && GV_RandS( 64 ) >= -15 )
         {
-            if ( work->field_844 == 2 && work->target->vital <= ( (u_short *)&s07b_dword_800C3390 )[ 1 ] )
+            if ( work->state == 2 && work->target->vital <= ( (u_short *)&s07b_dword_800C3390 )[ 1 ] )
             {
                 return;
             }
 
-            if ( work->field_844 == 4 && work->target->vital <= *(u_short *)&s07b_dword_800C3394 )
+            if ( work->state == 4 && work->target->vital <= *(u_short *)&s07b_dword_800C3394 )
             {
                 return;
             }
@@ -1518,7 +1517,7 @@ void s07b_800CD594( Work *work, int time )
 
     if ( time == 0 )
     {
-        work->field_8A0 = 0;
+        work->height_level = 0;
         GM_SeSetMode( &work->control.mov, 199, 1 );
         if ( !( work->field_850 & 0x1000 ) )
         {
@@ -1542,7 +1541,7 @@ void s07b_800CD594( Work *work, int time )
         s07b_800CB224( work );
         work->control.rot = work->control.turn;
 
-        if ( work->field_A68 == 1 )
+        if ( work->chair_step == 1 )
         {
             s07b_800CBE34( work, &mat );
             color = 0;
@@ -1567,15 +1566,15 @@ void s07b_800CD594( Work *work, int time )
             }
             NewBullet( &mat, 1, color, type );
         }
-        work->field_A68 = 0;
+        work->chair_step = 0;
 
-        work->field_A6C = work->field_870;
-        work->field_A6C.pad = work->field_86E;
+        work->head_pos = work->point;
+        work->head_pos.pad = work->field_86E;
         offset.vy = offset.vz = 0;
         offset.vx = side ? 1400 : -1400;
         action = side ? 10 : 13;
         DG_SetPos2( &work->control.mov, &work->control.rot );
-        DG_PutVector( &offset, &work->field_870, 1 );
+        DG_PutVector( &offset, &work->point, 1 );
         work->field_86E = 224;
         if ( work->body.action != action )
         {
@@ -1583,7 +1582,7 @@ void s07b_800CD594( Work *work, int time )
         }
         work->body.objs->flag &= ~0x80;
         work->field_850 &= ~1;
-        if ( work->field_83C == 10 )
+        if ( work->kogaku_state == 10 )
         {
             work->field_A66 = 1;
         }
@@ -1591,10 +1590,10 @@ void s07b_800CD594( Work *work, int time )
     }
 
     s07b_800CB8CC( work );
-    if ( work->field_868 )
+    if ( work->arrived )
     {
-        work->field_870 = work->field_A6C;
-        work->field_86E = work->field_A6C.pad;
+        work->point = work->head_pos;
+        work->field_86E = work->head_pos.pad;
         s07b_800CCFE4( work );
         work->field_84C &= ~4;
         s07b_800CCA10( work );
@@ -1615,7 +1614,7 @@ void s07b_800CD86C( Work *work )
         {
             now = 0;
         }
-        rest = work->field_900;
+        rest = work->lifebar_rest;
         if ( rest < now )
         {
             rest = now;
@@ -1632,26 +1631,25 @@ void s07b_800CD86C( Work *work )
         {
             if ( diff >= 64 )
             {
-                work->field_900 -= 64;
+                work->lifebar_rest -= 64;
             }
             else
             {
-                work->field_900 -= diff;
+                work->lifebar_rest -= diff;
             }
         }
     }
 }
 
-typedef struct { char s[ 7 ]; } NAME7;
-extern NAME7 s07b_dword_800E5BC8;
+extern char psyco_name[ 16 ];
 
 int s07b_800CDA04( Work *work )
 {
     MENU_BAR_CONF *lifebar;
 
-    work->field_900 = work->target->vital;
-    s07b_dword_800E5BC8 = *(NAME7 *)s07b_dword_800E5018;
-    work->lifebar.name = (const char *)&s07b_dword_800E5BC8;
+    work->lifebar_rest = work->target->vital;
+    strcpy( psyco_name, "MANTIS" );
+    work->lifebar.name = psyco_name;
 
     lifebar = &work->lifebar;
     lifebar->left[ 0 ] = 0x10;
@@ -1662,11 +1660,13 @@ int s07b_800CDA04( Work *work )
     lifebar->right[ 2 ] = 0x7F;
     return 0;
 }
+
+const char s07b_dword_800E5020[] = "マンティス";
 int s07b_800CDA04( Work *work );
 
 void s07b_800CDA90( Work *work )
 {
-    work->field_8A0 = 0;
+    work->height_level = 0;
     if ( work->body.action != 1 )
     {
         GM_ConfigObjectAction( &work->body, 1, 0, 4 );
@@ -1702,8 +1702,8 @@ void s07b_800CDAFC( Work *work, int time )
         {
             GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
         }
-        work->field_854 = s07b_800CDBA4;
-        work->field_858 = 0;
+        work->action = s07b_800CDBA4;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -1718,7 +1718,7 @@ void s07b_800CDBA4( Work *work, int time )
 {
     if ( time == 0 )
     {
-        work->field_8A0 = 0;
+        work->height_level = 0;
         if ( work->body.action != 1 )
         {
             GM_ConfigObjectAction( &work->body, 1, 0, 4 );
@@ -1730,22 +1730,22 @@ void s07b_800CDBA4( Work *work, int time )
 
     if ( *s07b_dword_800E5BB0 & 4 )
     {
-        switch ( work->field_844 )
+        switch ( work->state )
         {
         case 0:
-            work->field_854 = s07b_800CDAFC;
+            work->action = s07b_800CDAFC;
             break;
         case 4:
         case 6:
             work->field_8EC = 1;
-            work->field_854 = s07b_800CEBAC;
+            work->action = s07b_800CEBAC;
             break;
         default:
             s07b_800CB9E8( work, 160 );
-            work->field_854 = s07b_800CDCAC;
+            work->action = s07b_800CDCAC;
             break;
         }
-        work->field_858 = 0;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -1758,14 +1758,14 @@ void s07b_800CDCAC( Work *work, int time )
 
     if ( time == 0 )
     {
-        work->field_8A0 = 0;
+        work->height_level = 0;
         if ( work->body.action2 != 0 )
         {
             GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
         }
 
-        work->field_86C = s07b_800CBAA4( work );
-        switch ( work->field_86C )
+        work->turn_step = s07b_800CBAA4( work );
+        switch ( work->turn_step )
         {
         case 1:
             act = 2;
@@ -1800,7 +1800,7 @@ void s07b_800CDCAC( Work *work, int time )
         work->field_86E += 4;
     }
 
-    if ( work->field_844 == 8 )
+    if ( work->state == 8 )
     {
         work->body.objs->flag |= 0x80;
     }
@@ -1820,7 +1820,7 @@ void s07b_800CDCAC( Work *work, int time )
         break;
     case 1:
         s07b_800CB770( work );
-        if ( work->field_868 || work->field_858 >= 180 )
+        if ( work->arrived || work->time >= 180 )
         {
             act = work->body.action - 1;
             if ( work->body.action != act )
@@ -1846,7 +1846,7 @@ void s07b_800CDCAC( Work *work, int time )
         work->control.step.vy += 34;
     }
 
-    if ( work->field_844 == 3 )
+    if ( work->state == 3 )
     {
         GM_SnakeCamera.position = work->control.mov;
     }
@@ -1860,12 +1860,12 @@ void s07b_800CDF40( Work *work, int time )
 {
     if ( time == 0 )
     {
-        if ( work->field_8F0 == NULL && !( work->field_850 & 0x2000 ) )
+        if ( work->object_alive == NULL && !( work->field_850 & 0x2000 ) )
         {
-            work->field_A68 = 0;
+            work->chair_step = 0;
             s07b_800CAD54( work, 0x81 );
             NewPsychoChair();
-            work->field_8F0 = &chair_alive;
+            work->object_alive = &chair_alive;
         }
         s07b_800CDA90( work );
         s07b_800CC89C( work, 4 );
@@ -1874,48 +1874,48 @@ void s07b_800CDF40( Work *work, int time )
 
     s07b_800CB224( work );
 
-    switch ( work->field_A68 )
+    switch ( work->chair_step )
     {
     case 0:
         if ( chair_alive == 2 )
         {
             s07b_800CB6B0( work, -1000, 2000, 32 );
-            work->field_A68++;
+            work->chair_step++;
         }
         break;
     case 1:
         s07b_800CB8CC( work );
-        if ( work->field_868 )
+        if ( work->arrived )
         {
             s07b_800CB6B0( work, -1000, -1500, 32 );
-            work->field_A68++;
+            work->chair_step++;
         }
         break;
     case 2:
         s07b_800CB8CC( work );
-        if ( work->field_868 )
+        if ( work->arrived )
         {
             s07b_800CB6B0( work, -1000, 2000, 32 );
-            work->field_A68 = 1;
+            work->chair_step = 1;
         }
         break;
     }
 
-    if ( work->field_8F0 == NULL )
+    if ( work->object_alive == NULL )
     {
-        work->field_A68 = 0;
+        work->chair_step = 0;
         work->field_850 &= ~0x2000;
         if ( work->field_AE4[ 0 ] == 0 )
         {
             work->field_8EC = 5;
-            work->field_854 = s07b_800CE134;
+            work->action = s07b_800CE134;
         }
         else
         {
             work->field_8EC = 6;
-            work->field_854 = s07b_800CE2A8;
+            work->action = s07b_800CE2A8;
         }
-        work->field_858 = 0;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -1933,23 +1933,23 @@ void s07b_800CE134( Work *work, int time )
 {
     if ( time == 0 )
     {
-        if ( work->field_8F0 == NULL && !( work->field_850 & 0x2000 ) )
+        if ( work->object_alive == NULL && !( work->field_850 & 0x2000 ) )
         {
             s07b_800CAD54( work, 0x81 );
             NewPsychoStatue();
-            work->field_8F0 = &statue_alive;
+            work->object_alive = &statue_alive;
             s07b_800CB6B0( work, -1000, -1500, 96 );
         }
         s07b_800CC89C( work, 4 );
-        work->field_868 = 0;
+        work->arrived = 0;
         s07b_800CDA90( work );
         work->field_850 &= ~1;
     }
 
-    if ( work->field_A64 == 0 && work->field_868 == 0 )
+    if ( work->field_A64 == 0 && work->arrived == 0 )
     {
         s07b_800CB8CC( work );
-        if ( work->field_868 )
+        if ( work->arrived )
         {
             if ( work->body.action2 != 0 )
             {
@@ -1965,16 +1965,16 @@ void s07b_800CE134( Work *work, int time )
 
     s07b_800CB224( work );
 
-    if ( work->field_8F0 == NULL )
+    if ( work->object_alive == NULL )
     {
         work->field_8EC = 6;
-        work->field_854 = s07b_800CE2A8;
-        work->field_858 = 0;
+        work->action = s07b_800CE2A8;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        work->field_8F0 = NULL;
+        work->object_alive = NULL;
         work->field_850 &= ~0x2000;
     }
 }
@@ -1984,14 +1984,14 @@ void s07b_800CE2A8( Work *work, int time )
 {
     if ( time == 0 )
     {
-        if ( work->field_8F0 == NULL && !( work->field_850 & 0x2000 ) )
+        if ( work->object_alive == NULL && !( work->field_850 & 0x2000 ) )
         {
             s07b_800CAD54( work, 0x81 );
             NewPsychoPot();
-            work->field_8F0 = &pot_alive;
+            work->object_alive = &pot_alive;
             s07b_800CB6B0( work, -1000, -1500, 96 );
         }
-        work->field_868 = 0;
+        work->arrived = 0;
         s07b_800CDA90( work );
         s07b_800CC89C( work, 4 );
         work->field_850 &= ~1;
@@ -1999,10 +1999,10 @@ void s07b_800CE2A8( Work *work, int time )
 
     s07b_800CB224( work );
 
-    if ( work->field_A64 == 0 && work->field_868 == 0 )
+    if ( work->field_A64 == 0 && work->arrived == 0 )
     {
         s07b_800CB8CC( work );
-        if ( work->field_868 )
+        if ( work->arrived )
         {
             if ( work->body.action2 != 0 )
             {
@@ -2016,7 +2016,7 @@ void s07b_800CE2A8( Work *work, int time )
         }
     }
 
-    if ( work->field_8F0 == NULL )
+    if ( work->object_alive == NULL )
     {
         work->field_8EC = 7;
         work->field_850 &= ~0x2000;
@@ -2024,13 +2024,13 @@ void s07b_800CE2A8( Work *work, int time )
         {
             GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
         }
-        work->field_854 = s07b_800CE43C;
-        work->field_858 = 0;
+        work->action = s07b_800CE43C;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        work->field_8F0 = NULL;
+        work->object_alive = NULL;
     }
 }
 void s07b_800CED04( Work *work, int time );
@@ -2041,13 +2041,13 @@ void s07b_800CE43C( Work *work, int time )
 
     if ( time == 0 )
     {
-        if ( work->field_8F0 == NULL && !( work->field_850 & 0x2000 ) )
+        if ( work->object_alive == NULL && !( work->field_850 & 0x2000 ) )
         {
             s07b_800CAD54( work, 0x81 );
             NewPsychoOx();
-            work->field_8F0 = &ox_alive;
+            work->object_alive = &ox_alive;
         }
-        work->field_868 = 0;
+        work->arrived = 0;
         s07b_800CB6B0( work, 0, 500, 96 );
         s07b_800CDA90( work );
         work->control.turn.vy = 0;
@@ -2057,12 +2057,12 @@ void s07b_800CE43C( Work *work, int time )
 
     s07b_800CB224( work );
 
-    if ( work->field_A64 == 0 && work->field_868 == 0 )
+    if ( work->field_A64 == 0 && work->arrived == 0 )
     {
         s07b_800CB770( work );
-        if ( work->field_868 )
+        if ( work->arrived )
         {
-            work->field_8A0 = 1;
+            work->height_level = 1;
             if ( work->body.action2 != 0 )
             {
                 GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
@@ -2075,22 +2075,22 @@ void s07b_800CE43C( Work *work, int time )
         }
     }
 
-    if ( work->field_8F0 == NULL )
+    if ( work->object_alive == NULL )
     {
         work->field_8EC = 8;
-        work->field_8F0 = NULL;
+        work->object_alive = NULL;
         work->field_850 &= ~0x2000;
         if ( work->body.action2 != 0 )
         {
             GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
         }
 
-        work->field_A6A = GV_RandU( 64 ) % 3;
-        if ( work->field_A6A == 0 )
+        work->throw_side = GV_RandU( 64 ) % 3;
+        if ( work->throw_side == 0 )
         {
             x = -5000;
         }
-        else if ( work->field_A6A == 1 )
+        else if ( work->throw_side == 1 )
         {
             x = -500;
         }
@@ -2100,8 +2100,8 @@ void s07b_800CE43C( Work *work, int time )
         }
         s07b_800CB6B0( work, x, -1250, 160 );
 
-        work->field_854 = s07b_800CDCAC;
-        work->field_858 = 0;
+        work->action = s07b_800CDCAC;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -2110,7 +2110,7 @@ void s07b_800CE43C( Work *work, int time )
         {
             GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
         }
-        work->field_8F0 = NULL;
+        work->object_alive = NULL;
     }
 }
 void s07b_800CEFF0( Work *work, int time );
@@ -2121,20 +2121,20 @@ void s07b_800CE660( Work *work, int time )
 
     if ( time == 0 )
     {
-        if ( work->field_8F0 == NULL && book_alive <= 0 && !( work->field_850 & 0x2000 ) )
+        if ( work->object_alive == NULL && book_alive <= 0 && !( work->field_850 & 0x2000 ) )
         {
             s07b_800CAD54( work, 0x81 );
-            NewPsychoPicture( work->field_A6A );
-            NewPsychoBook( work->field_A6A );
-            work->field_8F0 = &picture_alive;
+            NewPsychoPicture( work->throw_side );
+            NewPsychoBook( work->throw_side );
+            work->object_alive = &picture_alive;
         }
 
-        work->field_868 = 0;
-        if ( work->field_A6A == 0 )
+        work->arrived = 0;
+        if ( work->throw_side == 0 )
         {
             x = -5000;
         }
-        else if ( work->field_A6A == 1 )
+        else if ( work->throw_side == 1 )
         {
             x = -500;
         }
@@ -2151,12 +2151,12 @@ void s07b_800CE660( Work *work, int time )
 
     s07b_800CB224( work );
 
-    if ( work->field_A64 == 0 && work->field_868 == 0 )
+    if ( work->field_A64 == 0 && work->arrived == 0 )
     {
         s07b_800CB8CC( work );
-        if ( work->field_868 )
+        if ( work->arrived )
         {
-            work->field_8A0 = 1;
+            work->height_level = 1;
             if ( work->body.action2 != 0 )
             {
                 GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
@@ -2169,26 +2169,26 @@ void s07b_800CE660( Work *work, int time )
         }
     }
 
-    if ( work->field_8F0 == NULL )
+    if ( work->object_alive == NULL )
     {
         work->field_850 &= ~0x2000;
-        work->field_A6A = 0;
+        work->throw_side = 0;
         if ( work->body.action2 != 0 )
         {
             GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
         }
-        work->field_8F0 = NULL;
-        if ( work->field_A58 < 2 )
+        work->object_alive = NULL;
+        if ( work->picture_count < 2 )
         {
             work->field_8EC = 0;
-            work->field_854 = s07b_800CED04;
+            work->action = s07b_800CED04;
         }
         else
         {
             work->field_8EC = 1;
-            work->field_854 = s07b_800CEFF0;
+            work->action = s07b_800CEFF0;
         }
-        work->field_858 = 0;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -2202,7 +2202,7 @@ void s07b_800CE85C( Work *work, int time )
 {
     if ( time == 0 )
     {
-        if ( work->field_8F0 == NULL && !( work->field_850 & 0x2000 ) )
+        if ( work->object_alive == NULL && !( work->field_850 & 0x2000 ) )
         {
             s07b_800CAD54( work, 0x81 );
             NewPsychoPot();
@@ -2211,9 +2211,9 @@ void s07b_800CE85C( Work *work, int time )
                 NewPsychoStatue();
             }
             NewPsychoOx();
-            work->field_8F0 = &pot_alive;
+            work->object_alive = &pot_alive;
         }
-        work->field_868 = 0;
+        work->arrived = 0;
         work->field_850 &= ~1;
         s07b_800CB6B0( work, -500, -1250, 96 );
         s07b_800CDA90( work );
@@ -2222,10 +2222,10 @@ void s07b_800CE85C( Work *work, int time )
 
     s07b_800CB224( work );
 
-    if ( work->field_A64 == 0 && work->field_868 == 0 )
+    if ( work->field_A64 == 0 && work->arrived == 0 )
     {
         s07b_800CB8CC( work );
-        if ( work->field_868 )
+        if ( work->arrived )
         {
             if ( work->body.action2 != 0 )
             {
@@ -2239,7 +2239,7 @@ void s07b_800CE85C( Work *work, int time )
         }
     }
 
-    if ( work->field_8F0 == NULL )
+    if ( work->object_alive == NULL )
     {
         work->field_8EC = 10;
         work->field_850 &= ~0x2000;
@@ -2247,8 +2247,8 @@ void s07b_800CE85C( Work *work, int time )
         {
             GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
         }
-        work->field_854 = s07b_800CEA18;
-        work->field_858 = 0;
+        work->action = s07b_800CEA18;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -2261,15 +2261,15 @@ void s07b_800CEA18( Work *work, int time )
 {
     if ( time == 0 )
     {
-        if ( work->field_8F0 == NULL && !( work->field_850 & 0x2000 ) )
+        if ( work->object_alive == NULL && !( work->field_850 & 0x2000 ) )
         {
             s07b_800CAD54( work, 0x81 );
             NewPsychoChair();
             NewPsychoPicture( 1 );
             NewPsychoBook( 1 );
-            work->field_8F0 = &chair_alive;
+            work->object_alive = &chair_alive;
         }
-        work->field_868 = 0;
+        work->arrived = 0;
         work->field_850 &= ~1;
         s07b_800CB6B0( work, -500, -1250, 96 );
         s07b_800CDA90( work );
@@ -2277,10 +2277,10 @@ void s07b_800CEA18( Work *work, int time )
 
     s07b_800CB224( work );
 
-    if ( work->field_A64 == 0 && work->field_868 == 0 )
+    if ( work->field_A64 == 0 && work->arrived == 0 )
     {
         s07b_800CB8CC( work );
-        if ( work->field_868 )
+        if ( work->arrived )
         {
             if ( work->body.action2 != 0 )
             {
@@ -2294,7 +2294,7 @@ void s07b_800CEA18( Work *work, int time )
         }
     }
 
-    if ( work->field_8F0 == NULL )
+    if ( work->object_alive == NULL )
     {
         work->field_8EC = 9;
         work->field_850 &= ~0x2000;
@@ -2302,8 +2302,8 @@ void s07b_800CEA18( Work *work, int time )
         {
             GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
         }
-        work->field_854 = s07b_800CE85C;
-        work->field_858 = 0;
+        work->action = s07b_800CE85C;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -2340,7 +2340,7 @@ void s07b_800CEBAC( Work *work, int time )
     if ( work->body.is_end )
     {
         work->field_8EC++;
-        switch ( work->field_844 )
+        switch ( work->state )
         {
         case 2:
             if ( (u_short)work->field_8EC == 4 )
@@ -2363,8 +2363,8 @@ void s07b_800CEBAC( Work *work, int time )
         default:
             return;
         }
-        work->field_854 = mode;
-        work->field_858 = 0;
+        work->action = mode;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -2416,8 +2416,8 @@ void s07b_800CED04( Work *work, int time )
             work->field_A60 = 1;
             work->field_A64 = 1;
             GM_AlertMode = 10;
-            work->control.mov.vx = work->field_870.vx;
-            work->control.mov.vz = work->field_870.vz;
+            work->control.mov.vx = work->point.vx;
+            work->control.mov.vz = work->point.vz;
             GM_GameStatus |= 0x100A2000;
             GV_PauseLevel |= 4;
             GM_SetSound( 0x01FFFF06, 0 );
@@ -2433,7 +2433,7 @@ void s07b_800CED04( Work *work, int time )
     case 1:
         GM_PlayerStatus |= 0x4000000;
         s07b_800CC174( work, work->field_A66 );
-        if ( work->field_A58 == 0 )
+        if ( work->picture_count == 0 )
         {
             wait = 256;
         }
@@ -2452,14 +2452,14 @@ void s07b_800CED04( Work *work, int time )
             work->field_A60 = 0;
             work->field_A5C = 6;
             work->field_8EC = state;
-            work->field_A58++;
+            work->picture_count++;
             s07b_800CBD4C( work );
             work->field_850 |= 1;
             GM_GameStatus &= ~0x100A2000;
             GV_PauseLevel &= ~4;
             work->body.objs->flag |= 0x80;
-            work->field_854 = s07b_800CF130;
-            work->field_858 = 0;
+            work->action = s07b_800CF130;
+            work->time = 0;
             work->field_A66 = 0;
             work->field_A64 = 0;
             work->control.turn.vz = 0;
@@ -2499,8 +2499,8 @@ void s07b_800CEFF0( Work *work, int time )
         GM_SeSetMode( &work->control.mov, 0xB3, 1 );
         DG_InvisibleObjs( work->body.objs );
         s07b_800CB9E8( work, 160 );
-        work->field_854 = s07b_800CDCAC;
-        work->field_858 = 0;
+        work->action = s07b_800CDCAC;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -2522,7 +2522,7 @@ void s07b_800CF130( Work *work, int time )
             GM_ConfigObjectAction( &work->body, 1, 0, 4 );
         }
         work->field_850 |= 1;
-        if ( work->field_844 == 2 )
+        if ( work->state == 2 )
         {
             s07b_800CAD54( work, 0x80 );
         }
@@ -2532,8 +2532,8 @@ void s07b_800CF130( Work *work, int time )
     s07b_800CB224( work );
     if ( time == *(u_short *)&s07b_dword_800C33A8 )
     {
-        work->field_854 = s07b_800CF200;
-        work->field_858 = 0;
+        work->action = s07b_800CF200;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -2571,8 +2571,8 @@ void s07b_800CF200( Work *work, int time )
         {
             work->field_864 = 1;
         }
-        work->field_854 = s07b_800CEBAC;
-        work->field_858 = 0;
+        work->action = s07b_800CEBAC;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -2625,17 +2625,17 @@ void s07b_800CF304( Work *work, int time )
         GV_SubVec3( &from, &to, &diff );
         len = GV_VecLen3( &diff );
         GV_LenVec3( &diff, &ofs, len, 1500 );
-        GV_SubVec3( &from, &ofs, &work->field_A6C );
+        GV_SubVec3( &from, &ofs, &work->head_pos );
         work->control.step = DG_ZeroVector;
     }
 
     if ( work->body.height < 1000 )
     {
-        work->field_8A0 = 1;
+        work->height_level = 1;
     }
     if ( work->body.height < 500 )
     {
-        work->field_8A0 = 2;
+        work->height_level = 2;
     }
 
     if ( time == 33 || time == 43 || time == 55 )
@@ -2644,7 +2644,7 @@ void s07b_800CF304( Work *work, int time )
     }
 
     GM_Camera.first_person = 1;
-    GM_SnakeCamera.position = work->field_A6C;
+    GM_SnakeCamera.position = work->head_pos;
     GV_SubVec3( &work->control.mov, &GM_PlayerPosition, &diff );
     GM_PlayerControl->turn.vy = GV_VecDir2( &diff );
     GM_PlayerBody->objs->flag |= 0x80;
@@ -2668,7 +2668,7 @@ void s07b_800CF304( Work *work, int time )
         }
         if ( ++work->field_A64 == 96 )
         {
-            work->field_846 = -1;
+            work->next_state = -1;
             work->field_850 |= 0x10;
             s07b_800CC138( work, -1 );
             GM_PlayerStatus &= ~0x4000000;
@@ -2689,7 +2689,7 @@ void s07b_800CF684( Work *work, int time )
         {
             GM_ConfigObjectAction( &work->body, 1, 0, 4 );
         }
-        work->field_8A0 = 0;
+        work->height_level = 0;
     }
 }
 
@@ -2721,7 +2721,7 @@ void s07b_800CF768( Work *work, int time )
             GM_Weapon = WP_None;
         }
         s07b_800CC930();
-        work->field_8A0 = 0;
+        work->height_level = 0;
         OpenCinemaScreen( 1, 30000 );
         GM_GameStatus |= 0x104A2000;
         if ( work->body.action2 != 0 )
@@ -2739,7 +2739,7 @@ void s07b_800CF768( Work *work, int time )
         work->field_850 &= ~1;
         s07b_800CB224( work );
         s07b_800CC9E8( work, 0 );
-        work->field_868 = 0;
+        work->arrived = 0;
     }
 
     DG_VisibleObjs( work->body.objs );
@@ -2762,8 +2762,8 @@ void s07b_800CF768( Work *work, int time )
         break;
     case 1:
         s07b_800CBC20( work );
-        work->field_854 = s07b_800CDCAC;
-        work->field_858 = 0;
+        work->action = s07b_800CDCAC;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -2824,7 +2824,7 @@ void s07b_800CF9A0( Work *work, int time )
             GM_GameStatus &= ~0x104A2000;
             GM_GameStatus |= 0x400000;
             s07b_800CCA10( work );
-            work->field_846 = 4;
+            work->next_state = 4;
             work->field_850 |= 0x10;
             work->field_84C &= ~0x10;
         }
@@ -2966,19 +2966,19 @@ void s07b_800CFBF8( Work *work, int time )
             s07b_800CC138( work, 5 );
             work->field_A64 = 1;
             work->field_A66 = 0;
-            work->field_A6C.vx = work->body.objs->objs[ 6 ].world.t[ 0 ];
-            work->field_A6C.vy = work->body.objs->objs[ 6 ].world.t[ 1 ];
-            work->field_A6C.vz = work->body.objs->objs[ 6 ].world.t[ 2 ];
-            work->field_A74.vx = GM_PlayerBody->objs->objs[ 6 ].world.t[ 0 ];
-            work->field_A74.vy = GM_PlayerBody->objs->objs[ 6 ].world.t[ 1 ];
-            work->field_A74.vz = GM_PlayerBody->objs->objs[ 6 ].world.t[ 2 ];
+            work->head_pos.vx = work->body.objs->objs[ 6 ].world.t[ 0 ];
+            work->head_pos.vy = work->body.objs->objs[ 6 ].world.t[ 1 ];
+            work->head_pos.vz = work->body.objs->objs[ 6 ].world.t[ 2 ];
+            work->player_head_pos.vx = GM_PlayerBody->objs->objs[ 6 ].world.t[ 0 ];
+            work->player_head_pos.vy = GM_PlayerBody->objs->objs[ 6 ].world.t[ 1 ];
+            work->player_head_pos.vz = GM_PlayerBody->objs->objs[ 6 ].world.t[ 2 ];
         }
         break;
 
     case 1:
         if ( !( work->field_850 & 0x800 ) )
         {
-            s07b_800CC578( &work->field_A6C, &work->field_A74, 2000, &work->control.turn.vy, &GM_PlayerControl->turn.vy );
+            s07b_800CC578( &work->head_pos, &work->player_head_pos, 2000, &work->control.turn.vy, &GM_PlayerControl->turn.vy );
             GM_SnakeCamera.rotate2.vx = -160;
             GM_SnakeCamera.position.vy -= 750;
         }
@@ -3041,7 +3041,7 @@ void s07b_800CFBF8( Work *work, int time )
         }
         if ( work->field_A66 == 354 )
         {
-            work->field_A6C = s07b_dword_800E5BB8;
+            work->head_pos = s07b_dword_800E5BB8;
             work->field_A64 = 3;
         }
         break;
@@ -3050,7 +3050,7 @@ void s07b_800CFBF8( Work *work, int time )
     case 4:
         if ( !( work->field_850 & 0x800 ) )
         {
-            from = work->field_A6C;
+            from = work->head_pos;
             to.vx = GM_PlayerBody->objs->objs[ 6 ].world.t[ 0 ];
             to.vy = GM_PlayerBody->objs->objs[ 6 ].world.t[ 1 ];
             to.vz = GM_PlayerBody->objs->objs[ 6 ].world.t[ 2 ];
@@ -3120,7 +3120,7 @@ void s07b_800CFBF8( Work *work, int time )
         if ( GM_VoxCodeEnd( work->field_ABC[ 1 ] ) )
         {
             s07b_800CCA10( work );
-            work->field_846 = 6;
+            work->next_state = 6;
             work->field_850 |= 0x30;
             GCL_ExecProc( work->field_ACC[ 4 ], NULL );
             *s07b_dword_800E5BB0 |= 0x400;
@@ -3178,7 +3178,7 @@ void s07b_800D0774( Work *work, int time )
         GM_GameStatus = ( GM_GameStatus & ~0x104A2000 ) | 0x400000;
         s07b_800CCA10( work );
         CloseCinemaScreen();
-        work->field_846 = 8;
+        work->next_state = 8;
         work->field_850 |= 0x20;
         work->field_84C &= ~0x10;
         work->field_850 |= 0x10;
@@ -3188,8 +3188,8 @@ void s07b_800D098C( Work *work, int time )
 {
     if ( time == 0 )
     {
-        work->field_854 = s07b_800CDBA4;
-        work->field_858 = 0;
+        work->action = s07b_800CDBA4;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -3201,9 +3201,9 @@ void s07b_800D098C( Work *work, int time )
 
     if ( ( *s07b_dword_800E5BB0 & 0x1008 ) == 0x1000 && GM_GameOverTimer == 0 )
     {
-        work->field_846 = 1;
-        work->field_854 = s07b_800CF6F0;
-        work->field_858 = 0;
+        work->next_state = 1;
+        work->action = s07b_800CF6F0;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -3227,8 +3227,8 @@ void s07b_800D0A6C( Work *work, int time )
 {
     if ( time == 0 )
     {
-        work->field_854 = s07b_800CED04;
-        work->field_858 = 0;
+        work->action = s07b_800CED04;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -3243,11 +3243,11 @@ void s07b_800D0A6C( Work *work, int time )
         GM_GameStatus |= 0x10000000;
         if ( !( work->field_84C & 4 ) )
         {
-            work->field_846 = 3;
+            work->next_state = 3;
             work->field_850 |= 0x10;
             s07b_800CC6CC();
-            work->field_854 = s07b_800CF768;
-            work->field_858 = 0;
+            work->action = s07b_800CF768;
+            work->time = 0;
             work->field_A66 = 0;
             work->field_A64 = 0;
             work->control.turn.vz = 0;
@@ -3271,8 +3271,8 @@ void s07b_800D0B48( Work *work, int time )
     if ( time == 0 )
     {
         s07b_800CC138( work, 4 );
-        work->field_854 = s07b_800CDBA4;
-        work->field_858 = 0;
+        work->action = s07b_800CDBA4;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -3302,9 +3302,9 @@ void s07b_800D0B48( Work *work, int time )
             work->target->vital = *(u_short *)&s07b_dword_800C3394;
         }
 
-        work->field_846 = 5;
-        work->field_854 = s07b_800CFBF8;
-        work->field_858 = 0;
+        work->next_state = 5;
+        work->action = s07b_800CFBF8;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -3326,8 +3326,8 @@ void s07b_800D0C94( Work *work, int time )
 {
     if ( time == 0 )
     {
-        work->field_854 = s07b_800CDBA4;
-        work->field_858 = 0;
+        work->action = s07b_800CDBA4;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -3351,9 +3351,9 @@ void s07b_800D0C94( Work *work, int time )
             {
                 work->target->vital = ( (u_short *)&s07b_dword_800C3394 )[ 1 ];
             }
-            work->field_846 = 7;
-            work->field_854 = s07b_800D0774;
-            work->field_858 = 0;
+            work->next_state = 7;
+            work->action = s07b_800D0774;
+            work->time = 0;
             work->field_A66 = 0;
             work->field_A64 = 0;
             work->control.turn.vz = 0;
@@ -3382,10 +3382,10 @@ void s07b_800D0DD4( Work *work, int time )
         if ( work->target->vital > data[ 3 ] )
         {
             work->target->vital = data[ 3 ];
-            work->field_900 = data[ 3 ];
+            work->lifebar_rest = data[ 3 ];
         }
-        work->field_854 = s07b_800CEFF0;
-        work->field_858 = 0;
+        work->action = s07b_800CEFF0;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -3406,7 +3406,7 @@ void s07b_800D0DD4( Work *work, int time )
 
     if ( work->target->vital <= *(u_short *)&s07b_dword_800C3398 && !( work->field_84C & 4 ) )
     {
-        work->field_846 = 9;
+        work->next_state = 9;
         work->field_850 |= 0x10;
         s07b_800CBCE8( work );
         if ( !( work->field_84C & 1 ) )
@@ -3416,8 +3416,8 @@ void s07b_800D0DD4( Work *work, int time )
         }
         s07b_800CB6B0( work, -500, -1250, 160 );
         s07b_800CCA10( work );
-        work->field_854 = s07b_800CDCAC;
-        work->field_858 = 0;
+        work->action = s07b_800CDCAC;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -3446,8 +3446,8 @@ void s07b_800D0FC0( Work *work, int arg1 )
         work->field_864 = 1;
         work->field_84C &= ~0x4;
         DG_VisibleObjs( GM_PlayerBody->objs );
-        work->field_854 = s07b_800CF684;
-        work->field_858 = 0;
+        work->action = s07b_800CF684;
+        work->time = 0;
         work->field_A66 = 0;
         work->field_A64 = 0;
         work->control.turn.vz = 0;
@@ -3471,7 +3471,7 @@ void s07b_800D105C( Work *work )
         work->field_848 = time + 1;
     }
 
-    switch ( work->field_844 )
+    switch ( work->state )
     {
     case 0:
         s07b_800D098C( work, time );
@@ -3511,10 +3511,10 @@ void s07b_800D105C( Work *work )
 
     if ( GM_GameOverTimer != 0 || GM_Vitality == 0 || ( *s07b_dword_800E5BB0 & 8 ) )
     {
-        if ( work->field_844 != 10 )
+        if ( work->state != 10 )
         {
             time = 0;
-            work->field_844 = 10;
+            work->state = 10;
             work->field_848 = 1;
             goto game_over;
         }
@@ -3526,20 +3526,20 @@ void s07b_800D105C( Work *work )
 
     if ( work->field_84C & 4 )
     {
-        time = work->field_860;
-        mode = work->field_85C;
+        time = work->time2;
+        mode = work->action2;
         if ( time < 16000 )
         {
-            work->field_860 = time + 1;
+            work->time2 = time + 1;
         }
     }
     else
     {
-        time = work->field_858;
-        mode = work->field_854;
+        time = work->time;
+        mode = work->action;
         if ( time < 16000 )
         {
-            work->field_858 = time + 1;
+            work->time = time + 1;
         }
     }
 
@@ -3571,15 +3571,15 @@ void s07b_800D1254( Work *work )
 
     if ( GM_PlayerStatus & 0x08000000 )
     {
-        work->pad = &GV_PadData[ 1 ];
+        work->pad1 = &GV_PadData[ 1 ];
     }
     else
     {
-        work->pad = &GV_PadData[ 0 ];
+        work->pad1 = &GV_PadData[ 0 ];
     }
 
     GM_ActMotion( &work->body );
-    work->control.hzd_height = work->control.levels[ 0 ] + s07b_dword_800C33F4[ work->field_8A0 ];
+    work->control.hzd_height = work->control.levels[ 0 ] + s07b_dword_800C33F4[ work->height_level ];
     GM_ActControl( &work->control );
     s07b_800CAE00( work );
     GM_ActObject( &work->body );
@@ -3716,46 +3716,46 @@ void s07b_800D1638( Work *work )
     s07b_dword_800E5BD8 = &work->field_84C;
     work->field_84C = 0;
     work->field_850 = 0;
-    work->field_870 = DG_ZeroVector;
+    work->point = DG_ZeroVector;
     work->field_880 = DG_ZeroVector;
     work->field_878 = DG_ZeroVector;
     work->pos = work->control.mov;
     work->rot = work->control.rot;
     work->field_A60 = 0;
-    work->field_A62 = 0;
-    work->field_A63 = 0;
+    work->blink_timer = 0;
+    work->class_timer = 0;
     work->field_A66 = 0;
     work->field_A64 = 0;
-    work->field_A6A = 0;
-    work->field_A68 = 0;
-    work->field_A6C = DG_ZeroVector;
-    work->pad = &GV_PadData[ 0 ];
+    work->throw_side = 0;
+    work->chair_step = 0;
+    work->head_pos = DG_ZeroVector;
+    work->pad1 = &GV_PadData[ 0 ];
     work->pad2 = &GV_PadData[ 1 ];
     work->sepia = NULL;
     work->field_834 = NULL;
 
     if ( GCL_GetOption( 'm' ) )
     {
-        work->field_844 = GCL_StrToInt( GCL_NextStr() );
+        work->state = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {
-        work->field_844 = 0;
+        work->state = 0;
     }
 
     work->field_848 = 0;
-    work->field_846 = -1;
+    work->next_state = -1;
 
     if ( GCL_GetOption( 'n' ) )
     {
-        work->field_840 = GCL_StrToInt( GCL_NextStr() );
+        work->meryl_name = GCL_StrToInt( GCL_NextStr() );
     }
     else
     {
-        work->field_840 = GV_StrCode( s07b_dword_800E5070 );
+        work->meryl_name = GV_StrCode( s07b_dword_800E5070 );
     }
 
-    work->field_83C = -1;
+    work->kogaku_state = -1;
 
     if ( GCL_GetOption( 'k' ) && GCL_StrToInt( GCL_NextStr() ) )
     {
@@ -3775,9 +3775,9 @@ void s07b_800D1638( Work *work )
         lock--;
     }
 
-    work->field_8A0 = 0;
+    work->height_level = 0;
     work->control.hzd_height = s07b_dword_800C33F4[ 0 ];
-    work->field_8F0 = NULL;
+    work->object_alive = NULL;
 }
 void s07b_800D1638( Work *work );
 
@@ -3834,22 +3834,22 @@ void s07b_800D195C( Work *work )
 
     tex_b = DG_GetTexture( GV_StrCode( s07b_dword_800E5078 ) );
     tex_s = DG_GetTexture( GV_StrCode( s07b_dword_800E5080 ) );
-    work->field_A54 = DG_GetTexture( GV_StrCode( s07b_dword_800E5088 ) );
+    work->hideo_tex = DG_GetTexture( GV_StrCode( s07b_dword_800E5088 ) );
 
     for ( i = 0; i < 2; i++ )
     {
-        poly = &work->field_9D4[ i ];
+        poly = &work->hideo[ i ];
         setPolyFT4( poly );
         poly->r0 = poly->g0 = poly->b0 = 128;
         poly->x0 = poly->x2 = 224;
         poly->x1 = poly->x3 = 296;
         poly->y0 = poly->y1 = 8;
         poly->y2 = poly->y3 = 40;
-        DG_SetPacketTexture( poly, work->field_A54 );
-        poly->tpage = work->field_A54->tpage;
-        poly->clut = work->field_A54->clut;
+        DG_SetPacketTexture( poly, work->hideo_tex );
+        poly->tpage = work->hideo_tex->tpage;
+        poly->clut = work->hideo_tex->clut;
 
-        poly = &work->field_934[ i ];
+        poly = &work->hideo_b[ i ];
         setPolyFT4( poly );
         poly->r0 = poly->g0 = poly->b0 = 128;
         poly->x0 = poly->x2 = 192;
@@ -3858,7 +3858,7 @@ void s07b_800D195C( Work *work )
         poly->y2 = poly->y3 = 36;
         DG_SetPacketTexture4( poly, tex_b );
 
-        poly = &work->field_984[ i ];
+        poly = &work->hideo_s[ i ];
         setPolyFT4( poly );
         poly->r0 = poly->g0 = poly->b0 = 128;
         poly->x0 = poly->x2 = 252;
@@ -3867,7 +3867,7 @@ void s07b_800D195C( Work *work )
         poly->y2 = poly->y3 = 22;
         DG_SetPacketTexture4( poly, tex_s );
 
-        tile = &work->field_A24[ i ];
+        tile = &work->black_screen[ i ];
         setPolyF4( tile );
         tile->r0 = tile->g0 = tile->b0 = 0;
         tile->x0 = tile->x2 = 0;
@@ -3875,7 +3875,7 @@ void s07b_800D195C( Work *work )
         tile->y0 = tile->y1 = 0;
         tile->y2 = tile->y3 = 224;
 
-        tile = &work->field_904[ i ];
+        tile = &work->white_screen[ i ];
         tile->r0 = tile->g0 = tile->b0 = 255;
         setPolyF4( tile );
         tile->x0 = tile->x2 = 0;
@@ -3884,7 +3884,7 @@ void s07b_800D195C( Work *work )
         tile->y2 = tile->y3 = 224;
     }
 
-    work->field_A58 = 0;
+    work->picture_count = 0;
     work->field_A5C = 0;
 }
 void s07b_800D195C( Work *work );
