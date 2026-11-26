@@ -11,9 +11,6 @@
 /* end-of-table marker */
 #define CHARA_END               { 0, NULL }
 
-// NOTE: These names should be kept in sync with the CHARAID_xxx defines
-// in charaid.h as those are aliases for the 'class_id' field constants.
-
 // TODO: We don't really need the source path listed for CHARA entries
 // with decompiled functions (listing it next to the extern declaration
 // is enough). Please don't remove the GV_StrCode("...") part, though.
