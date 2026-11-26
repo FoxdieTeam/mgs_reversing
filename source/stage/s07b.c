@@ -5,7 +5,7 @@ CHARA _StageCharacterEntries[] = {
     CHARA_ASIOTOKUN,    /* chara 足音君 */
     CHARA_FADEIO,       /* chara フェードイン・アウト */
     CHARA_PSYCHOMANTIS, /* chara サイコマンティス */
-    { 0xf4b0, (NEWCHARA *)0x800ca8f8 }, //  CHARA_PSYCHOMERYL,  /* chara サイコメリル */
+    CHARA_PSYCHOMERYL,  /* chara サイコメリル */
     CHARA_MEMPSY,
     CHARA_PSYOBJ,       /* chara サイコ物体 */
     CHARA_TEXTURE,      /* chara テクスチャ */

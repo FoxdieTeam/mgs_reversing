@@ -21,7 +21,7 @@ typedef struct _Work {
     /* 0x698 */ SVECTOR rots[ 16 ];
     /* 0x718 */ SVECTOR adjust[ 16 ];
     /* 0x798 */ MATRIX light[ 2 ];
-    /* 0x7D8 */ void *shadow;             // destroyed in s07b_800CA0F0
+    /* 0x7D8 */ void *shadow;             // destroyed in Die
     /* 0x7DC */ TARGET *target;
     /* 0x7E0 */ char  pad7E0[ 0x4C ];
     /* 0x82C */ int   field_82C;
@@ -47,7 +47,7 @@ typedef struct _Work {
     /* 0x878 */ int   field_878;          // < 2001: s07b_800C7E98 switches to s07b_800C7D88
     /* 0x87C */ NAVIGATE navi;
     /* 0x89C */ MENU_BAR_CONF lifebar;
-    /* 0x8A8 */ int   lifebar_rest;       // shown life, drops towards target->vital (s07b_800C7604)
+    /* 0x8A8 */ int   lifebar_rest;       // shown life, drops towards target->vital (DrawLifebar)
     /* 0x8AC */ int   lifebar_xpos;       // script option 'h' x y (default 16, 40)
     /* 0x8B0 */ int   lifebar_ypos;
     /* 0x8B4 */ u_short zones[ 5 ];       // HZD zone names, script option 't'
@@ -75,10 +75,8 @@ int s07b_dword_800C32F8 = 0x000001C0;
 int s07b_dword_800C32FC = 0x000002EE;
 int s07b_dword_800C3300 = 0x000000FA;
 int s07b_dword_800C3304 = 0x000004FF;
-int s07b_dword_800C3308 = 0x00000000;
-int s07b_dword_800C330C = 0x00000064;
-int s07b_dword_800C3310 = 0x0000FC00;
-int s07b_dword_800C3314 = 0x00000000;
+static SVECTOR blood_pos = { 0, 0, 100 };
+static SVECTOR blood_rot = { -1024, 0, 0 };
 int s07b_dword_800C3318 = 0xFE8E0014;
 int s07b_dword_800C331C = 0x0000003C;
 int s07b_dword_800C3320 = 0x00000000;
@@ -110,7 +108,7 @@ int SECTION(".bss") s07b_dword_800E5BDC;
 /*---------------------------------------------------------------------------*/
 
 // is the character inside the HZD event zone 'name'? (loop as in chara/snake/sna_init.c)
-int s07b_800C46F0( CONTROL *control, int name, int check )
+static int s07b_800C46F0( CONTROL *control, int name, int check )
 {
     int      i;
     u_short *zone;
@@ -131,13 +129,13 @@ int s07b_800C46F0( CONTROL *control, int name, int check )
 
     return 0;
 }
-void s07b_800C77A8( Work *work, int time );
-void s07b_800C796C( Work *work, int time );
+static void s07b_800C77A8( Work *work, int time );
+static void s07b_800C796C( Work *work, int time );
 
 // is Snake inside the zone zones[1]? (only checked outside first person view)
-void s07b_800C77A8( Work *work, int time );
+static void s07b_800C77A8( Work *work, int time );
 
-int s07b_800C473C( Work *work )
+static int s07b_800C473C( Work *work )
 {
     CONTROL **control;
     int       zone;
@@ -162,7 +160,7 @@ int s07b_800C473C( Work *work )
 }
 
 // is Snake inside the zone zones[4] with item 17 equipped?
-int s07b_800C47D4( Work *work )
+static int s07b_800C47D4( Work *work )
 {
     CONTROL **control;
     int       zone;
@@ -180,7 +178,7 @@ int s07b_800C47D4( Work *work )
     return s07b_800C46F0( *control, zone, check ) != 0;
 }
 // distance and direction to the player, refresh the navigation address
-void s07b_800C4854( Work *work )
+static void s07b_800C4854( Work *work )
 {
     SVECTOR diff;
     SVECTOR pos;
@@ -201,7 +199,7 @@ void s07b_800C4854( Work *work )
 
     work->navi.addr = HZD_GetAddress( work->control.map->hzd, &work->control.mov, work->navi.addr );
 }
-void s07b_800C4974( Work *work )
+static void s07b_800C4974( Work *work )
 {
     int diff;
 
@@ -216,7 +214,7 @@ void s07b_800C4974( Work *work )
     }
     work->control.turn.vz = diff;
 }
-void s07b_800C49CC( int arg0 )
+static void s07b_800C49CC( int arg0 )
 {
     GV_MSG msg;
 
@@ -229,7 +227,8 @@ void s07b_800C49CC( int arg0 )
 extern void *NewSepia_800C5214( void );
 
 // sepia screen effect on/off (not switched on while item 5 or 6 is equipped)
-void s07b_800C4A18( Work *work, int on )
+// Possibly SetSepia
+static void s07b_800C4A18( Work *work, int on )
 {
     if ( on )
     {
@@ -247,7 +246,7 @@ void s07b_800C4A18( Work *work, int on )
         work->sepia = NULL;
     }
 }
-void s07b_800C4A94( Work *work )
+static void s07b_800C4A94( Work *work )
 {
     if ( work->fade == 0 )
     {
@@ -285,7 +284,7 @@ extern int dword_8009F46C;
 void SetPadMask( int mask );
 void ClearPadMask( int mask );
 
-void s07b_800C4B58( Work *work )
+static void s07b_800C4B58( Work *work )
 {
     int      flags;
     CONTROL *player;
@@ -359,9 +358,9 @@ void s07b_800C4B58( Work *work )
         }
     }
 }
-void s07b_800C5B14( Work *work, int arg1 );
+static void s07b_800C5B14( Work *work, int arg1 );
 
-void s07b_800C4E90( Work *work )
+static void s07b_800C4E90( Work *work )
 {
     SVECTOR diff;
     int     dir;
@@ -393,18 +392,19 @@ void s07b_800C4E90( Work *work )
 extern void *NewBlood( MATRIX *world, int count );
 
 // blood effect at model part 'part'
-void s07b_800C4F50( Work *work, int part )
+static void PutBlood( Work *work, int part )
 {
     MATRIX world;
 
     DG_SetPos( &work->body.objs->objs[ part ].world );
-    DG_MovePos( (SVECTOR *)&s07b_dword_800C3308 );
-    DG_RotatePos( (SVECTOR *)&s07b_dword_800C3310 );
+    DG_MovePos( &blood_pos );
+    DG_RotatePos( &blood_rot );
     ReadRotMatrix( &world );
     NewBlood( &world, 1 );
 }
 // muzzle flash at model part 4 (pattern as in chara/meryl07b/desert.c)
-void s07b_800C4FB8( Work *work )
+// Possibly PutMuzzleFlash
+static void s07b_800C4FB8( Work *work )
 {
     MATRIX  world;
     DG_OBJ *obj;
@@ -417,7 +417,8 @@ void s07b_800C4FB8( Work *work )
 }
 extern short s07b_dword_800C33F0;
 
-void s07b_800C500C( Work *work )
+// Possibly ExecProc
+static void s07b_800C500C( Work *work )
 {
     GCL_ARGS args;
     long     argv[4];
@@ -445,7 +446,7 @@ void s07b_800C500C( Work *work )
         }
     }
 }
-void s07b_800C50D8( Work *work )
+static void s07b_800C50D8( Work *work )
 {
     GV_MSG msg;
 
@@ -462,7 +463,7 @@ void s07b_800C50D8( Work *work )
         GV_SendMessage( &msg );
     }
 }
-void s07b_800C5160( int arg0, int arg1 )
+static void s07b_800C5160( int arg0, int arg1 )
 {
     GV_MSG msg;
 
@@ -477,7 +478,7 @@ void s07b_800C5160( int arg0, int arg1 )
         GV_SendMessage( &msg );
     }
 }
-void s07b_800C51DC( Work *work )
+static void s07b_800C51DC( Work *work )
 {
     GV_MSG msg;
 
@@ -504,7 +505,8 @@ void s07b_800C51DC( Work *work )
         GV_SendMessage( &msg );
     }
 }
-void s07b_800C52B8( Work *work )
+// Possibly PlayVoice
+static void s07b_800C52B8( Work *work )
 {
     GM_VoxInit();
     if ( GM_Vitality == 0 )
@@ -531,9 +533,9 @@ void s07b_800C52B8( Work *work )
 }
 
 
-void s07b_800C7C64( Work *work, int time );
+static void s07b_800C7C64( Work *work, int time );
 
-void s07b_800C53A0( Work *work )
+static void s07b_800C53A0( Work *work )
 {
     if ( (u_short)work->state < 2 )
     {
@@ -560,28 +562,28 @@ void s07b_800C53A0( Work *work )
         }
     }
 }
-void s07b_800C5490( void )
+static void s07b_800C5490( void )
 {
     if ( GM_GameOverTimer == 0 && GM_Vitality != 0 )
     {
         GM_GameOverTimer = -2;
     }
 }
-void s07b_800C54C0( Work *work, int time )
+static void s07b_800C54C0( Work *work, int time )
 {
     work->field_8C2 = time;
     work->flags |= 2;
     work->target->class &= ~0x96;
 }
 
-void s07b_800C54E8( Work *work )
+static void s07b_800C54E8( Work *work )
 {
     work->field_8C2 = 0;
     work->flags &= ~2;
     work->target->class |= 0x9E;
 }
 
-void s07b_800C5514( Work *work )
+static void s07b_800C5514( Work *work )
 {
     if ( work->field_8C2 != 0 )
     {
@@ -591,23 +593,24 @@ void s07b_800C5514( Work *work )
         }
     }
 }
-void s07b_800C5554( TARGET *target )
+static void s07b_800C5554( TARGET *target )
 {
     target->a_mode = 0;
     target->damage = 0;
     target->damaged &= ~0x86;
     target->force = DG_ZeroVector;
 }
-void s07b_800C714C( Work *work, int time );
-void s07b_800C61D8( Work *work, int time );
-void s07b_800C60F0( Work *work, int time );
-void s07b_800C627C( Work *work, int time );
-void s07b_800C73F0( Work *work, int time );
-void s07b_800C63F4( Work *work, int time );
-void s07b_800C6B8C( Work *work, int time );
-void s07b_800C6538( Work *work, int time );
+static void s07b_800C714C( Work *work, int time );
+static void s07b_800C61D8( Work *work, int time );
+static void s07b_800C60F0( Work *work, int time );
+static void s07b_800C627C( Work *work, int time );
+static void s07b_800C73F0( Work *work, int time );
+static void s07b_800C63F4( Work *work, int time );
+static void s07b_800C6B8C( Work *work, int time );
+static void s07b_800C6538( Work *work, int time );
 
-void s07b_800C5598( Work *work )
+// Possibly CheckDamage
+static void s07b_800C5598( Work *work )
 {
     TARGET *target;
     int     status;
@@ -712,7 +715,7 @@ void s07b_800C5598( Work *work )
                     work->control.turn.vz = 0;
                     work->control.turn.vx = 0;
                 }
-                s07b_800C4F50( work, 6 );
+                PutBlood( work, 6 );
                 GM_SeSet( &work->control.mov, 138 );
             }
             else
@@ -724,7 +727,7 @@ void s07b_800C5598( Work *work )
                 work->field_8C4 = 0;
                 work->control.turn.vz = 0;
                 work->control.turn.vx = 0;
-                s07b_800C4F50( work, 6 );
+                PutBlood( work, 6 );
             }
             if ( work->body.action2 )
             {
@@ -735,7 +738,7 @@ void s07b_800C5598( Work *work )
         {
             if ( target->damage > 0 )
             {
-                s07b_800C4F50( work, 6 );
+                PutBlood( work, 6 );
             }
             GM_SeSet( &work->control.mov, 138 );
             if ( target->vital <= 0 && GM_Vitality != 0 )
@@ -823,7 +826,7 @@ reset:
         }
     }
 }
-void s07b_800C5B14( Work *work, int both )
+static void s07b_800C5B14( Work *work, int both )
 {
     SVECTOR diff;
     SVECTOR from;
@@ -866,9 +869,9 @@ void s07b_800C5B14( Work *work, int both )
         adjust[ 7 ].vx = GV_NearExp4( adjust[ 7 ].vx, dir );
     }
 }
-void s07b_800C5DC4( Work *work, int time );
+static void s07b_800C5DC4( Work *work, int time );
 
-void s07b_800C5CFC( Work *work, int time )
+static void s07b_800C5CFC( Work *work, int time )
 {
     int action;
 
@@ -901,10 +904,10 @@ void s07b_800C5CFC( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-void s07b_800C7F48( Work *work, int time );
-void s07b_800C6000( Work *work, int time );
+static void s07b_800C7F48( Work *work, int time );
+static void s07b_800C6000( Work *work, int time );
 
-void s07b_800C5DC4( Work *work, int time )
+static void s07b_800C5DC4( Work *work, int time )
 {
     int i;
     int trigger;
@@ -990,7 +993,7 @@ void s07b_800C5DC4( Work *work, int time )
     work->trigger = trigger;
     work->control.turn.vy = GV_VecDir2( &work->turn_dir );
 }
-void s07b_800C6000( Work *work, int time )
+static void s07b_800C6000( Work *work, int time )
 {
     int i;
     int act;
@@ -1025,13 +1028,13 @@ void s07b_800C6000( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-void s07b_800C7F48( Work *work, int time );
-void s07b_800C7D88( Work *work, int time );
+static void s07b_800C7F48( Work *work, int time );
+static void s07b_800C7D88( Work *work, int time );
 
-void s07b_800C8140( Work *work, int time );
-void s07b_800C8510( Work *work, int time );
+static void s07b_800C8140( Work *work, int time );
+static void s07b_800C8510( Work *work, int time );
 
-void s07b_800C60F0( Work *work, int time )
+static void s07b_800C60F0( Work *work, int time )
 {
     void ( *mode )( Work *, int );
     int act;
@@ -1072,9 +1075,9 @@ void s07b_800C60F0( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-void s07b_800C6634( Work *work, int time );
+static void s07b_800C6634( Work *work, int time );
 
-void s07b_800C61D8( Work *work, int time )
+static void s07b_800C61D8( Work *work, int time )
 {
     if ( time == 0 )
     {
@@ -1099,9 +1102,9 @@ void s07b_800C61D8( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-void s07b_800C52B8( Work *work );
+static void s07b_800C52B8( Work *work );
 
-void s07b_800C627C( Work *work, int time )
+static void s07b_800C627C( Work *work, int time )
 {
     int dir;
 
@@ -1157,9 +1160,9 @@ void s07b_800C627C( Work *work, int time )
     work->control.step.vx += work->knockback.vx;
     work->control.step.vz += work->knockback.vz;
 }
-void s07b_800C52B8( Work *work );
+static void s07b_800C52B8( Work *work );
 
-void s07b_800C63F4( Work *work, int time )
+static void s07b_800C63F4( Work *work, int time )
 {
     if ( time == 0 )
     {
@@ -1209,7 +1212,7 @@ void s07b_800C63F4( Work *work, int time )
         work->field_8C8 = 2;
     }
 }
-void s07b_800C6538( Work *work, int time )
+static void s07b_800C6538( Work *work, int time )
 {
     TARGET *target;
 
@@ -1252,12 +1255,12 @@ void s07b_800C6538( Work *work, int time )
         GM_SeSetMode( &work->control.mov, SE_DOWN0002, GM_SEMODE_BOMB );
     }
 }
-void s07b_800C73F0( Work *work, int time );
-void s07b_800C6964( Work *work, int time );
+static void s07b_800C73F0( Work *work, int time );
+static void s07b_800C6964( Work *work, int time );
 
 void AN_Piyopiyo( SVECTOR *svec );
 
-void s07b_800C6634( Work *work, int time )
+static void s07b_800C6634( Work *work, int time )
 {
     SVECTOR pos;
     int     action;
@@ -1370,7 +1373,7 @@ dead:
         work->flags &= ~0x1000;
     }
 }
-void s07b_800C6964( Work *work, int time )
+static void s07b_800C6964( Work *work, int time )
 {
     void ( *mode )( Work *, int );
     int act;
@@ -1423,11 +1426,11 @@ void s07b_800C6964( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-void s07b_800C6D80( Work *work, int time );
-void s07b_800C6E54( Work *work, int time );
+static void s07b_800C6D80( Work *work, int time );
+static void s07b_800C6E54( Work *work, int time );
 
-void s07b_800C6C5C( Work *work, int time );
-void s07b_800C7040( Work *work, int time );
+static void s07b_800C6C5C( Work *work, int time );
+static void s07b_800C7040( Work *work, int time );
 
 static inline int s07b_SetMode( Work *work, void *mode )
 {
@@ -1440,7 +1443,7 @@ static inline int s07b_SetMode( Work *work, void *mode )
     return 1;
 }
 
-int s07b_800C6AA4( Work *work, int action )
+static int s07b_800C6AA4( Work *work, int action )
 {
     int current;
 
@@ -1469,9 +1472,9 @@ int s07b_800C6AA4( Work *work, int action )
 
     return 0;
 }
-int s07b_800C6AA4( Work *work, int action );
+static int s07b_800C6AA4( Work *work, int action );
 
-void s07b_800C6B8C( Work *work, int time )
+static void s07b_800C6B8C( Work *work, int time )
 {
     if ( time == 0 )
     {
@@ -1496,7 +1499,7 @@ void s07b_800C6B8C( Work *work, int time )
     }
     s07b_800C6AA4( work, -1 );
 }
-void s07b_800C6C5C( Work *work, int time )
+static void s07b_800C6C5C( Work *work, int time )
 {
     SVECTOR vec;
 
@@ -1542,9 +1545,9 @@ void s07b_800C6C5C( Work *work, int time )
         work->flags2 &= ~4;
     }
 }
-void s07b_800C6E54( Work *work, int time );
+static void s07b_800C6E54( Work *work, int time );
 
-void s07b_800C6D80( Work *work, int time )
+static void s07b_800C6D80( Work *work, int time )
 {
     if ( time == 0 )
     {
@@ -1578,9 +1581,9 @@ void s07b_800C6D80( Work *work, int time )
     }
     s07b_800C6AA4( work, 0x26 );
 }
-void s07b_800C73F0( Work *work, int time );
+static void s07b_800C73F0( Work *work, int time );
 
-void s07b_800C6E54( Work *work, int time )
+static void s07b_800C6E54( Work *work, int time )
 {
     SVECTOR vec;
 
@@ -1648,7 +1651,7 @@ void s07b_800C6E54( Work *work, int time )
         }
     }
 }
-void s07b_800C7040( Work *work, int time )
+static void s07b_800C7040( Work *work, int time )
 {
     SVECTOR pos;
     MATRIX  rot;
@@ -1685,7 +1688,7 @@ void s07b_800C7040( Work *work, int time )
         GV_SubVec3( &pos, &work->control.mov, &work->control.step );
     }
 }
-void s07b_800C714C( Work *work, int time )
+static void s07b_800C714C( Work *work, int time )
 {
     SVECTOR rot;
 
@@ -1768,7 +1771,7 @@ void s07b_800C714C( Work *work, int time )
         break;
     }
 }
-void s07b_800C73F0( Work *work, int time )
+static void s07b_800C73F0( Work *work, int time )
 {
     SVECTOR rot;
 
@@ -1823,7 +1826,7 @@ void s07b_800C73F0( Work *work, int time )
         work->field_8C4 = 1;
     }
 }
-void s07b_800C7604( Work *work )
+static void DrawLifebar( Work *work )
 {
     int now;
     int rest;
@@ -1862,7 +1865,7 @@ void s07b_800C7604( Work *work )
     }
 }
 
-int s07b_800C76C8( Work *work )
+static int SetLifebar( Work *work )
 {
     MENU_BAR_CONF *bar;
 
@@ -1891,9 +1894,9 @@ int s07b_800C76C8( Work *work )
 }
 
 const char s07b_dword_800E4BA8[] = {0x0, 0x0, 0x0, 0x0};
-void s07b_800C7AA8( Work *work, int time );
+static void s07b_800C7AA8( Work *work, int time );
 
-void s07b_800C77A8( Work *work, int time )
+static void s07b_800C77A8( Work *work, int time )
 {
     int r;
     int i;
@@ -1953,7 +1956,7 @@ void s07b_800C77A8( Work *work, int time )
     s07b_800C4E90( work );
 }
 
-void s07b_800C796C( Work *work, int time )
+static void s07b_800C796C( Work *work, int time )
 {
     int i;
 
@@ -2001,7 +2004,7 @@ static inline int s07b_Negate( short value )
     return -value;
 }
 
-void s07b_800C7AA8( Work *work, int time )
+static void s07b_800C7AA8( Work *work, int time )
 {
     SVECTOR dir;
 
@@ -2049,11 +2052,11 @@ void s07b_800C7AA8( Work *work, int time )
         break;
     }
 }
-void s07b_800C4854( Work *work );
-void s07b_800C7D88( Work *work, int time );
+static void s07b_800C4854( Work *work );
+static void s07b_800C7D88( Work *work, int time );
 
 
-void s07b_800C7C64( Work *work, int time )
+static void s07b_800C7C64( Work *work, int time )
 {
     int idx;
 
@@ -2091,9 +2094,9 @@ void s07b_800C7C64( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-void s07b_800C7E98( Work *work, int time );
+static void s07b_800C7E98( Work *work, int time );
 
-void s07b_800C7D88( Work *work, int time )
+static void s07b_800C7D88( Work *work, int time )
 {
     int i;
 
@@ -2134,10 +2137,10 @@ void s07b_800C7D88( Work *work, int time )
     s07b_800C4E90( work );
     s07b_800C53A0( work );
 }
-void s07b_800C4854( Work *work );
-void s07b_800C7D88( Work *work, int time );
+static void s07b_800C4854( Work *work );
+static void s07b_800C7D88( Work *work, int time );
 
-void s07b_800C7E98( Work *work, int time )
+static void s07b_800C7E98( Work *work, int time )
 {
     if ( time == 0 )
     {
@@ -2164,7 +2167,7 @@ void s07b_800C7E98( Work *work, int time )
     GM_ZoneNavi( &work->navi, &work->control );
     s07b_800C4974( work );
 }
-void s07b_800C7F48( Work *work, int time )
+static void s07b_800C7F48( Work *work, int time )
 {
     if ( time == 0 )
     {
@@ -2196,7 +2199,7 @@ void s07b_800C7F48( Work *work, int time )
         GM_ZoneNavi( &work->navi, &work->control );
     }
 }
-void s07b_800C8010( Work *work, int time )
+static void s07b_800C8010( Work *work, int time )
 {
     int action;
     int act;
@@ -2246,7 +2249,7 @@ void s07b_800C8010( Work *work, int time )
         }
     }
 }
-void s07b_800C8140( Work *work, int time )
+static void s07b_800C8140( Work *work, int time )
 {
     int level;
 
@@ -2272,7 +2275,7 @@ void s07b_800C8140( Work *work, int time )
         {
             GM_SeSetMode( &work->control.mov, SE_SHOT_M02, GM_SEMODE_BOMB );
             s07b_800C4FB8( work );
-            s07b_800C4F50( work, 6 );
+            PutBlood( work, 6 );
             level = GM_GameLevel;
             if ( level < 0 )
             {
@@ -2376,7 +2379,7 @@ const char s07b_dword_800E4BC0[] = {0x0, 0x0, 0x0, 0x0};
 
 int sna_ration_available_8004FB4C( void );
 
-void s07b_800C8510( Work *work, int time )
+static void s07b_800C8510( Work *work, int time )
 {
     SVECTOR vec;
     TARGET  target;
@@ -2519,7 +2522,7 @@ void s07b_800C8510( Work *work, int time )
 void OpenCinemaScreen( int type, int time );
 void CloseCinemaScreen( void );
 
-void s07b_800C89E0( Work *work, int time )
+static void s07b_800C89E0( Work *work, int time )
 {
     if ( time == 0 )
     {
@@ -2572,7 +2575,7 @@ void s07b_800C89E0( Work *work, int time )
 }
 void *NewBlurSet( int, int, int ); /* in okajima/blur.c */
 
-void s07b_800C8BB4( Work *work, int time )
+static void s07b_800C8BB4( Work *work, int time )
 {
     int counter;
 
@@ -2682,9 +2685,9 @@ void s07b_800C8BB4( Work *work, int time )
         break;
     }
 }
-void s07b_800C4E90( Work *work );
+static void s07b_800C4E90( Work *work );
 
-void s07b_800C8F9C( Work *work, int time )
+static void s07b_800C8F9C( Work *work, int time )
 {
     if ( time == 0 && work->body.action != 19 )
     {
@@ -2708,7 +2711,7 @@ void s07b_800C8F9C( Work *work, int time )
         s07b_800C4E90( work );
     }
 }
-void s07b_800C9044( Work *work, int time )
+static void s07b_800C9044( Work *work, int time )
 {
     SVECTOR dir;
     int action;
@@ -2789,7 +2792,7 @@ void s07b_800C9044( Work *work, int time )
         break;
     }
 }
-void s07b_800C9304( Work *work )
+static void s07b_800C9304( Work *work )
 {
     int     n_msgs;
     GV_MSG *msg;
@@ -2842,9 +2845,9 @@ void s07b_800C9304( Work *work )
         } while ( n_msgs > 0 );
     }
 }
-int s07b_800C47D4( Work *work );
+static int s07b_800C47D4( Work *work );
 
-void s07b_800C9454( Work *work, int time )
+static void s07b_800C9454( Work *work, int time )
 {
     int i;
 
@@ -2920,10 +2923,10 @@ void s07b_800C9454( Work *work, int time )
         break;
     }
 }
-int  s07b_800C473C( Work *work );
-void s07b_800C77A8( Work *work, int time );
+static int  s07b_800C473C( Work *work );
+static void s07b_800C77A8( Work *work, int time );
 
-void s07b_800C96B8( Work *work )
+static void s07b_800C96B8( Work *work )
 {
     if ( s07b_800C473C( work ) )
     {
@@ -2942,12 +2945,12 @@ void s07b_800C96B8( Work *work )
         }
     }
 }
-void s07b_800C4B58( Work *work );
+static void s07b_800C4B58( Work *work );
 
 extern int dword_8009F470;
-void s07b_800C8BB4( Work *work, int time );
+static void s07b_800C8BB4( Work *work, int time );
 
-void s07b_800C9738( Work *work, int time )
+static void s07b_800C9738( Work *work, int time )
 {
     int i;
 
@@ -3001,18 +3004,18 @@ void s07b_800C9738( Work *work, int time )
 
     s07b_800C4B58( work );
 }
-void s07b_800C4B58( Work *work );
+static void s07b_800C4B58( Work *work );
 
-void s07b_800C9954( Work *work )
+static void s07b_800C9954( Work *work )
 {
     if ( GM_Vitality != 0 && GM_GameOverTimer == 0 )
     {
         s07b_800C4B58( work );
     }
 }
-void s07b_800C5CFC( Work *work, int time );
+static void s07b_800C5CFC( Work *work, int time );
 
-void s07b_800C9994( Work *work, int time )
+static void s07b_800C9994( Work *work, int time )
 {
     int i;
 
@@ -3037,9 +3040,9 @@ void s07b_800C9994( Work *work, int time )
         s07b_800C54E8( work );
     }
 }
-void s07b_800C8010( Work *work, int time );
+static void s07b_800C8010( Work *work, int time );
 
-void s07b_800C9A58( Work *work, int time )
+static void s07b_800C9A58( Work *work, int time )
 {
     int i;
 
@@ -3064,9 +3067,9 @@ void s07b_800C9A58( Work *work, int time )
         s07b_800C5554( work->target );
     }
 }
-void s07b_800C8F9C( Work *work, int time );
+static void s07b_800C8F9C( Work *work, int time );
 
-void s07b_800C9B24( Work *work, int time )
+static void s07b_800C9B24( Work *work, int time )
 {
     if ( GM_Vitality != 0 && GM_GameOverTimer == 0 && time == 0 )
     {
@@ -3079,9 +3082,9 @@ void s07b_800C9B24( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-void s07b_800C9044( Work *work, int time );
+static void s07b_800C9044( Work *work, int time );
 
-void s07b_800C9B94( Work *work, int time )
+static void s07b_800C9B94( Work *work, int time )
 {
     int i;
 
@@ -3105,7 +3108,7 @@ void s07b_800C9B94( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-void s07b_800C9C74( Work *work, int time )
+static void s07b_800C9C74( Work *work, int time )
 {
     int i;
 
@@ -3131,9 +3134,10 @@ void s07b_800C9C74( Work *work, int time )
         s07b_dword_800E5BC0 = 0;
     }
 }
-void s07b_800C5598( Work *work );
+static void s07b_800C5598( Work *work );
 
-void s07b_800C9D44( Work *work )
+// Possibly Think
+static void s07b_800C9D44( Work *work )
 {
     int   time;
     int   step;
@@ -3255,9 +3259,9 @@ const char s07b_dword_800E4BE8[] = "meryl";
 const char s07b_dword_800E4BF0[] = "mel_07b";
 const char s07b_dword_800E4BF8[] = "meryl07b.c";
 
-void s07b_800C9D44( Work *work );
+static void s07b_800C9D44( Work *work );
 
-void s07b_800C9F50( Work *work )
+static void Act( Work *work )
 {
     TARGET *target;
     int     height;
@@ -3301,7 +3305,7 @@ void s07b_800C9F50( Work *work )
     target = work->target;
     target->force = work->control.step;
     GM_PushTarget( target );
-    s07b_800C7604( work );
+    DrawLifebar( work );
 
     work->control.step.vy += work->knockback.vy;
     work->control.turn.vx &= 0xFFF;
@@ -3310,7 +3314,7 @@ void s07b_800C9F50( Work *work )
         work->control.turn.vx -= 4096;
     }
 }
-void s07b_800CA0F0( Work *work )
+static void Die( Work *work )
 {
     GCL_ARGS args;
     long     data[ 4 ];
@@ -3352,7 +3356,7 @@ void s07b_800CA0F0( Work *work )
     CloseCinemaScreen();
     GM_VoxInit();
 }
-int s07b_800CA1FC( Work *work )
+static int InitTarget( Work *work )
 {
     int     life;
     int     faint;
@@ -3388,7 +3392,7 @@ int s07b_800CA1FC( Work *work )
 extern u_short desert_damage;
 void *NewDesertEagle( CONTROL *root_ctrl, OBJECT *root_obj, int unit, u_long *trigger, int side );
 
-int s07b_800CA2EC( Work *work )
+static int s07b_800CA2EC( Work *work )
 {
     int i;
     int level;
@@ -3458,7 +3462,7 @@ int s07b_800CA2EC( Work *work )
     return 0;
 }
 // read the zone names of script option 't' (max 5), or use the two defaults
-void s07b_800CA4FC( Work *work )
+static void s07b_800CA4FC( Work *work )
 {
     int      i;
     u_short *out;
@@ -3485,7 +3489,7 @@ void s07b_800CA4FC( Work *work )
     }
 }
 // read the numbers of script option 'c' (max 19)
-void s07b_800CA584( Work *work )
+static void s07b_800CA584( Work *work )
 {
     int   i;
     int  *out;
@@ -3508,7 +3512,7 @@ void s07b_800CA584( Work *work )
 }
 
 // read the numbers of script option 'r' (max 11)
-void s07b_800CA5FC( Work *work )
+static void s07b_800CA5FC( Work *work )
 {
     int   i;
     int  *out;
@@ -3531,7 +3535,7 @@ void s07b_800CA5FC( Work *work )
 }
 
 // read the numbers of script option 'f' (max 8)
-void s07b_800CA674( Work *work )
+static void s07b_800CA674( Work *work )
 {
     int   i;
     int  *out;
@@ -3554,7 +3558,7 @@ void s07b_800CA674( Work *work )
 }
 extern void *NewPadManager( void );
 
-int s07b_800CA6EC( Work *work, int name, int where )
+static int GetResources( Work *work, int name, int where )
 {
     CONTROL *control;
     OBJECT  *body;
@@ -3591,12 +3595,12 @@ int s07b_800CA6EC( Work *work, int name, int where )
         return -1;
     }
 
-    if ( s07b_800CA1FC( work ) < 0 )
+    if ( InitTarget( work ) < 0 )
     {
         return -1;
     }
 
-    if ( s07b_800C76C8( work ) < 0 )
+    if ( SetLifebar( work ) < 0 )
     {
         return -1;
     }
@@ -3620,11 +3624,11 @@ int s07b_800CA6EC( Work *work, int name, int where )
     NewPadManager();
     return 0;
 }
-void s07b_800C9F50( Work *work );
-void s07b_800CA0F0( Work *work );
-int  s07b_800CA6EC( Work *work, int name, int where );
+static void Act( Work *work );
+static void Die( Work *work );
+static int  GetResources( Work *work, int name, int where );
 
-void *s07b_800CA8F8( int name, int where )
+void *NewPsychoMeryl( int name, int where )
 {
     Work *work;
 
@@ -3634,8 +3638,8 @@ void *s07b_800CA8F8( int name, int where )
         return NULL;
     }
 
-    GV_SetNamedActor( work, s07b_800C9F50, s07b_800CA0F0, s07b_dword_800E4BF8 );
-    if ( s07b_800CA6EC( work, name, where ) < 0 )
+    GV_SetNamedActor( work, Act, Die, s07b_dword_800E4BF8 );
+    if ( GetResources( work, name, where ) < 0 )
     {
         GV_DestroyActor( work );
         return NULL;
