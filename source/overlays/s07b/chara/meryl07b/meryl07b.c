@@ -7,6 +7,8 @@
 #include "chara/snake/shadow.h"
 #include "anime/animconv/anime.h"
 
+#define TARGET_FLAG ( TARGET_AVAIL | TARGET_CAPTURE | TARGET_POWER | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH )
+
 /*---------------------------------------------------------------------------*/
 
 typedef struct _Work {
@@ -31,10 +33,10 @@ typedef struct _Work {
     /* 0x840 */ u_short field_840;        // 2 or 3: s07b_800C50D8 sends "go_motion"
     /* 0x842 */ char  pad842[ 0x2 ];
     /* 0x844 */ short state;
-    /* 0x846 */ short next_state;         // taken when field_850 flag 0x100 is set; < 0: run proc_id instead (s07b_800C500C)
+    /* 0x846 */ short next_state;         // taken when flags2 flag 0x100 is set; < 0: run proc_id instead (s07b_800C500C)
     /* 0x848 */ int   field_848;
-    /* 0x84C */ int   field_84C;          // flags (0x2 cleared by s07b_800C54E8 when field_8C2 runs out, s07b_800C5514)
-    /* 0x850 */ int   field_850;          // flags (0x20000 set by s07b_800C473C)
+    /* 0x84C */ int   flags;          // 0x2 cleared by s07b_800C54E8 when field_8C2 runs out (s07b_800C5514)
+    /* 0x850 */ int   flags2;         // 0x20000 set by s07b_800C473C
     /* 0x854 */ void  ( *action )( struct _Work *, int );
     /* 0x858 */ char  pad858[ 0x8 ];
     /* 0x860 */ int   time;
@@ -152,7 +154,7 @@ int s07b_800C473C( Work *work )
 
     if ( s07b_800C46F0( *control, zone, check ) )
     {
-        work->field_850 |= 0x20000;
+        work->flags2 |= 0x20000;
         return 1;
     }
 
@@ -254,26 +256,26 @@ void s07b_800C4A94( Work *work )
 
     if ( work->fade > 0 )
     {
-        if ( work->field_84C & 1 )
+        if ( work->flags & 1 )
         {
             return;
         }
         if ( --work->fade == 0 )
         {
-            work->body.objs->flag &= ~0x80;
+            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
             s07b_800C4A18( work, 0 );
             s07b_800C49CC( 0 );
         }
     }
     else
     {
-        if ( !( work->field_84C & 1 ) )
+        if ( !( work->flags & 1 ) )
         {
             return;
         }
         if ( ++work->fade == 0 )
         {
-            work->body.objs->flag |= 0x80;
+            work->body.objs->flag |= DG_FLAG_INVISIBLE;
             s07b_800C4A18( work, 1 );
             s07b_800C49CC( 1 );
         }
@@ -290,21 +292,21 @@ void s07b_800C4B58( Work *work )
 
     s07b_800C4A94( work );
 
-    flags = work->field_84C;
+    flags = work->flags;
     if ( !( flags & 1 ) )
     {
         if ( ( work->field_8DC[ 1 ] & 0x10 ) && !dword_8009F46C &&
              !( GM_WeaponTypes[ GM_Weapon + 1 ] & 0x200 ) &&
              !( GM_ItemTypes[ GM_Item + 1 ] & 0x2 ) &&
-             !( GM_PlayerStatus & 0x800 ) &&
-             ( GM_FirstPerson == 0 || ( GM_FirstPerson == 1 && ( GM_PlayerStatus & 0x400 ) ) ) &&
+             !( GM_PlayerStatus & PLAYER_ATTACK ) &&
+             ( GM_FirstPerson == 0 || ( GM_FirstPerson == 1 && ( GM_PlayerStatus & PLAYER_STILL_WATCH ) ) ) &&
              GM_Camera.first_person )
         {
-            work->field_84C = flags | 1;
+            work->flags = flags | 1;
             SetPadMask( ~0x10 );
             work->fade = -1;
-            GM_PlayerStatus |= 0x4000000;
-            if ( GM_PlayerStatus & 0x10000 )
+            GM_PlayerStatus |= PLAYER_NOT_SIGHT;
+            if ( GM_PlayerStatus & PLAYER_CAUTION )
             {
                 ClearPadMask( 0xF000 );
             }
@@ -312,7 +314,7 @@ void s07b_800C4B58( Work *work )
     }
     else
     {
-        if ( GM_PlayerStatus & 0x10000 )
+        if ( GM_PlayerStatus & PLAYER_CAUTION )
         {
             ClearPadMask( 0xF000 );
         }
@@ -321,7 +323,7 @@ void s07b_800C4B58( Work *work )
             SetPadMask( 0xF000 );
         }
 
-        GM_PlayerBody->objs->flag &= ~0x80;
+        GM_PlayerBody->objs->flag &= ~DG_FLAG_INVISIBLE;
 
         GM_SnakeCamera.position.vx = work->body.objs->objs[ 6 ].world.t[ 0 ];
         GM_SnakeCamera.position.vy = work->body.objs->objs[ 6 ].world.t[ 1 ];
@@ -345,15 +347,15 @@ void s07b_800C4B58( Work *work )
 
         if ( !( work->field_8DC[ 0 ] & 0x10 ) || !GM_Camera.first_person )
         {
-            work->field_84C &= ~1;
+            work->flags &= ~1;
             ClearPadMask( ~0x10 );
             if ( GM_Camera.first_person )
             {
-                GM_PlayerBody->objs->flag |= 0x80;
+                GM_PlayerBody->objs->flag |= DG_FLAG_INVISIBLE;
                 GM_SnakeCamera.position = GM_PlayerPosition;
             }
             work->fade = 1;
-            GM_PlayerStatus &= ~0x4000000;
+            GM_PlayerStatus &= ~PLAYER_NOT_SIGHT;
         }
     }
 }
@@ -420,9 +422,9 @@ void s07b_800C500C( Work *work )
     GCL_ARGS args;
     long     argv[4];
 
-    if ( work->field_850 & 0x100 )
+    if ( work->flags2 & 0x100 )
     {
-        work->field_850 &= ~0x100;
+        work->flags2 &= ~0x100;
         if ( work->next_state < 0 )
         {
             if ( work->proc_id >= 0 && GM_Vitality != 0 && GM_GameOverTimer == 0 )
@@ -479,7 +481,7 @@ void s07b_800C51DC( Work *work )
 {
     GV_MSG msg;
 
-    if ( GM_Vitality != 0 && (u_short)( work->field_840 - 2 ) < 2 )
+    if ( GM_Vitality != 0 && ( work->field_840 > 1 && work->field_840 < 4 ) )
     {
         s07b_800C5160( 0, 30 );
         msg.address = GV_StrCode( s07b_dword_800E4B4C );
@@ -535,7 +537,7 @@ void s07b_800C53A0( Work *work )
 {
     if ( (u_short)work->state < 2 )
     {
-        if ( !( GM_PlayerStatus & 1 ) )
+        if ( !( GM_PlayerStatus & PLAYER_WATCH ) )
         {
             work->field_8C0 = 0;
             return;
@@ -568,14 +570,14 @@ void s07b_800C5490( void )
 void s07b_800C54C0( Work *work, int time )
 {
     work->field_8C2 = time;
-    work->field_84C |= 2;
+    work->flags |= 2;
     work->target->class &= ~0x96;
 }
 
 void s07b_800C54E8( Work *work )
 {
     work->field_8C2 = 0;
-    work->field_84C &= ~2;
+    work->flags &= ~2;
     work->target->class |= 0x9E;
 }
 
@@ -612,14 +614,14 @@ void s07b_800C5598( Work *work )
     int     mode;
     int     i;
 
-    if ( work->field_84C & 2 )
+    if ( work->flags & 2 )
     {
         s07b_800C5514( work );
         return;
     }
 
     status = GM_GameStatus;
-    if ( status & 0x10000000 )
+    if ( status & STATE_PADRELEASE )
     {
         if ( work->target->damage > 0 )
         {
@@ -632,7 +634,7 @@ void s07b_800C5598( Work *work )
     target = work->target;
     if ( target->damaged & 4 )
     {
-        if ( !( work->field_850 & 1 ) )
+        if ( !( work->flags2 & 1 ) )
         {
             mode = target->a_mode;
             if ( mode == 3 )
@@ -665,7 +667,7 @@ void s07b_800C5598( Work *work )
                     work->control.turn.vz = 0;
                     work->control.turn.vx = 0;
                 }
-                GM_SeSet( &work->control.mov, 52 );
+                GM_SeSet( &work->control.mov, SE_PUNCHIT1 );
                 GM_SeSet( &work->control.mov, 138 );
             }
             else if ( mode == 4 )
@@ -678,7 +680,7 @@ void s07b_800C5598( Work *work )
                 work->field_8C4 = 0;
                 work->control.turn.vz = 0;
                 work->control.turn.vx = 0;
-                GM_SeSet( &work->control.mov, 53 );
+                GM_SeSet( &work->control.mov, SE_KICKHIT1 );
                 GM_SeSet( &work->control.mov, 139 );
             }
             else if ( mode == 1 )
@@ -739,7 +741,7 @@ void s07b_800C5598( Work *work )
             if ( target->vital <= 0 && GM_Vitality != 0 )
             {
                 GM_VoxInit();
-                work->field_84C |= 8;
+                work->flags |= 8;
                 if ( work->field_840 < 2 || work->field_840 == 4 )
                 {
                     GM_VoxQueueDelay( work->voices[ 11 + GV_RandU( 8 ) % 3 ], 4 );
@@ -761,14 +763,14 @@ void s07b_800C5598( Work *work )
         GM_VoxInit();
         work->target->class &= ~0x20;
 reset:
-        work->field_84C &= ~0x10;
+        work->flags &= ~0x10;
         GM_ConfigMotionAdjust( &work->body, NULL );
         for ( i = 0; i < 16; i++ )
         {
             work->adjust[ i ] = DG_ZeroVector;
         }
         s07b_800C5554( target );
-        work->field_850 &= ~4;
+        work->flags2 &= ~4;
         if ( target->vital <= 0 )
         {
             s07b_800C5490();
@@ -786,9 +788,9 @@ reset:
             work->control.turn.vx = 0;
             s07b_800C5554( target );
         }
-        else if ( !( work->field_850 & 4 ) )
+        else if ( !( work->flags2 & 4 ) )
         {
-            work->field_850 |= 4;
+            work->flags2 |= 4;
             GM_VoxInit();
             work->target->captured = 1;
             work->field_82C = 0;
@@ -804,7 +806,7 @@ reset:
             GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
         }
     }
-    else if ( ( status & 2 ) && !( work->field_850 & 1 ) )
+    else if ( ( status & STATE_STUN ) && !( work->flags2 & 1 ) )
     {
         s07b_800C5554( target );
         GM_VoxInit();
@@ -1011,7 +1013,7 @@ void s07b_800C6000( Work *work, int time )
     }
     if ( time == 126 )
     {
-        GM_SeSetMode( &work->control.mov, 0x2F, 1 );
+        GM_SeSetMode( &work->control.mov, SE_RELOAD01, GM_SEMODE_BOMB );
     }
     if ( work->body.time2 )
     {
@@ -1084,7 +1086,7 @@ void s07b_800C61D8( Work *work, int time )
     }
     if ( time == 36 )
     {
-        GM_SeSetMode( &work->control.mov, 0x33, 1 );
+        GM_SeSetMode( &work->control.mov, SE_DOWN0002, GM_SEMODE_BOMB );
     }
     if ( work->body.is_end )
     {
@@ -1113,10 +1115,10 @@ void s07b_800C627C( Work *work, int time )
         work->control.turn.vy = dir;
         work->control.rot.vy = dir;
         s07b_800C54C0( work, 0 );
-        GM_SeSetMode( &work->control.mov, 0x8B, 1 );
+        GM_SeSetMode( &work->control.mov, 0x8B, GM_SEMODE_BOMB );
         if ( work->target->vital <= 0 )
         {
-            work->field_84C |= 8;
+            work->flags |= 8;
             if ( work->field_840 == 2 || work->field_840 == 3 )
             {
                 s07b_800C52B8( work );
@@ -1144,7 +1146,7 @@ void s07b_800C627C( Work *work, int time )
 
     if ( time == 16 )
     {
-        GM_SeSetMode( &work->control.mov, 0x33, 1 );
+        GM_SeSetMode( &work->control.mov, SE_DOWN0002, GM_SEMODE_BOMB );
     }
 
     if ( time > 16 )
@@ -1177,22 +1179,22 @@ void s07b_800C63F4( Work *work, int time )
 
     if ( time == 20 )
     {
-        GM_SeSetMode( &work->control.mov, 0x33, 1 );
+        GM_SeSetMode( &work->control.mov, SE_DOWN0002, GM_SEMODE_BOMB );
         if ( work->target->vital <= 0 )
         {
-            work->field_84C |= 8;
+            work->flags |= 8;
             if ( work->field_840 == 2 || work->field_840 == 3 )
             {
                 s07b_800C52B8( work );
             }
             else
             {
-                GM_SeSetMode( &work->control.mov, 0x8B, 1 );
+                GM_SeSetMode( &work->control.mov, 0x8B, GM_SEMODE_BOMB );
             }
         }
         else
         {
-            GM_SeSetMode( &work->control.mov, 0x8A, 1 );
+            GM_SeSetMode( &work->control.mov, 0x8A, GM_SEMODE_BOMB );
         }
     }
 
@@ -1242,12 +1244,12 @@ void s07b_800C6538( Work *work, int time )
 
     if ( time == 53 )
     {
-        GM_SeSetMode( &work->control.mov, 0x51, 1 );
+        GM_SeSetMode( &work->control.mov, SE_HIZA01, GM_SEMODE_BOMB );
     }
 
     if ( time == 75 )
     {
-        GM_SeSetMode( &work->control.mov, 0x33, 1 );
+        GM_SeSetMode( &work->control.mov, SE_DOWN0002, GM_SEMODE_BOMB );
     }
 }
 void s07b_800C73F0( Work *work, int time );
@@ -1264,12 +1266,12 @@ void s07b_800C6634( Work *work, int time )
     if ( time == 0 )
     {
         s07b_800C54C0( work, 0 );
-        if ( ( ( (u_char *)&work->field_84C )[ 1 ] & 1 ) || (u_short)work->state == 6 )
+        if ( ( ( (u_char *)&work->flags )[ 1 ] & 1 ) || (u_short)work->state == 6 )
         {
             s07b_dword_800E5BC0++;
         }
-        work->field_850 |= 1;
-        work->field_84C |= 4;
+        work->flags2 |= 1;
+        work->flags |= 4;
 
         switch ( work->field_8C8 )
         {
@@ -1315,14 +1317,14 @@ void s07b_800C6634( Work *work, int time )
                 AN_Piyopiyo( &pos );
                 work->field_8C4 = 160;
             }
-            work->field_84C |= 0x1000;
+            work->flags |= 0x1000;
             if ( work->target->vital <= 0 )
             {
                 goto dead;
             }
             if ( work->field_840 == 2 || work->field_840 == 3 )
             {
-                GM_SeSetMode( &work->control.mov, 140, 1 );
+                GM_SeSetMode( &work->control.mov, 140, GM_SEMODE_BOMB );
             }
         }
         else
@@ -1333,7 +1335,7 @@ void s07b_800C6634( Work *work, int time )
         if ( work->target->vital <= 0 )
         {
 dead:
-            work->field_84C |= 8;
+            work->flags |= 8;
             if ( work->field_840 < 2 || work->field_840 == 4 )
             {
                 GM_VoxInit();
@@ -1352,9 +1354,9 @@ dead:
         }
     }
 
-    if ( (u_short)work->state == 6 && ( work->field_84C & 0x1000 ) )
+    if ( (u_short)work->state == 6 && ( work->flags & 0x1000 ) )
     {
-        work->field_84C |= 0x800;
+        work->flags |= 0x800;
     }
     else if ( time >= work->field_8C4 )
     {
@@ -1364,8 +1366,8 @@ dead:
         work->field_8C4 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        work->field_850 &= ~1;
-        work->field_84C &= ~0x1000;
+        work->flags2 &= ~1;
+        work->flags &= ~0x1000;
     }
 }
 void s07b_800C6964( Work *work, int time )
@@ -1390,7 +1392,7 @@ void s07b_800C6964( Work *work, int time )
 
     if ( work->body.is_end )
     {
-        work->field_84C &= ~4;
+        work->flags &= ~4;
         work->field_8C8 = 0;
         if ( work->field_840 == 3 )
         {
@@ -1478,7 +1480,7 @@ void s07b_800C6B8C( Work *work, int time )
             GM_ConfigObjectAction( &work->body, 15, 0, 4 );
         }
         work->control.turn.vy = GM_PlayerControl->turn.vy;
-        GM_SeSetMode( &work->control.mov, 0xBE, 1 );
+        GM_SeSetMode( &work->control.mov, 0xBE, GM_SEMODE_BOMB );
     }
 
     if ( ++work->field_82C > 50 )
@@ -1510,12 +1512,12 @@ void s07b_800C6C5C( Work *work, int time )
 
     if ( time == 10 )
     {
-        GM_SeSetMode( &work->control.mov, 0x51, 1 );
+        GM_SeSetMode( &work->control.mov, SE_HIZA01, GM_SEMODE_BOMB );
     }
 
     if ( time == 34 )
     {
-        GM_SeSetMode( &work->control.mov, 0x33, 1 );
+        GM_SeSetMode( &work->control.mov, SE_DOWN0002, GM_SEMODE_BOMB );
     }
 
     if ( work->control.height < 500 )
@@ -1537,7 +1539,7 @@ void s07b_800C6C5C( Work *work, int time )
         work->field_8C4 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        work->field_850 &= ~4;
+        work->flags2 &= ~4;
     }
 }
 void s07b_800C6E54( Work *work, int time );
@@ -1550,7 +1552,7 @@ void s07b_800C6D80( Work *work, int time )
         {
             GM_ConfigObjectAction( &work->body, 16, 0, 4 );
         }
-        GM_SeSetMode( &work->control.mov, 0xBE, 1 );
+        GM_SeSetMode( &work->control.mov, 0xBE, GM_SEMODE_BOMB );
         work->field_82C = 0;
     }
 
@@ -1593,10 +1595,10 @@ void s07b_800C6E54( Work *work, int time )
         work->target->captured = 0;
         s07b_800C5554( work->target );
         work->target->class |= 0x20;
-        GM_GameStatus |= 0x10000000;
-        work->field_84C |= 8;
+        GM_GameStatus |= STATE_PADRELEASE;
+        work->flags |= 8;
         s07b_800C5490();
-        GM_SeSetMode( &work->control.mov, 0xBF, 1 );
+        GM_SeSetMode( &work->control.mov, 0xBF, GM_SEMODE_BOMB );
         if ( work->field_840 == 2 || work->field_840 == 3 )
         {
             GM_VoxQueueDelay( work->voices[ 13 ], 4 );
@@ -1605,12 +1607,12 @@ void s07b_800C6E54( Work *work, int time )
 
     if ( time == 58 )
     {
-        GM_SeSetMode( &work->control.mov, 0x51, 1 );
+        GM_SeSetMode( &work->control.mov, SE_HIZA01, GM_SEMODE_BOMB );
     }
 
     if ( time == 71 )
     {
-        GM_SeSetMode( &work->control.mov, 0x33, 1 );
+        GM_SeSetMode( &work->control.mov, SE_DOWN0002, GM_SEMODE_BOMB );
     }
 
     if ( time >= 49 && time < 60 )
@@ -1639,7 +1641,7 @@ void s07b_800C6E54( Work *work, int time )
         work->field_8C4 = 0;
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
-        work->field_850 &= ~4;
+        work->flags2 &= ~4;
         if ( work->field_840 < 2 || work->field_840 == 4 )
         {
             s07b_800C52B8( work );
@@ -1689,14 +1691,14 @@ void s07b_800C714C( Work *work, int time )
 
     if ( time == 0 )
     {
-        GM_SeSetMode( &work->control.mov, 139, 1 );
+        GM_SeSetMode( &work->control.mov, 139, GM_SEMODE_BOMB );
         if ( work->body.action != 32 )
         {
             GM_ConfigObjectAction( &work->body, 32, 0, 4 );
         }
-        work->field_84C |= 0xC;
+        work->flags |= 0xC;
         s07b_800C54C0( work, 0 );
-        GM_GameStatus |= 0x10000000;
+        GM_GameStatus |= STATE_PADRELEASE;
         s07b_800C52B8( work );
         if ( GM_Vitality != 0 )
         {
@@ -1713,7 +1715,7 @@ void s07b_800C714C( Work *work, int time )
         }
         GM_ConfigMotionAdjust( &work->body, work->adjust );
         s07b_800C4854( work );
-        if ( !( GM_PlayerStatus & 0x340 ) )
+        if ( !( GM_PlayerStatus & (PLAYER_DOWNED | PLAYER_DAMAGED | PLAYER_GROUND) ) )
         {
             GM_PlayerControl->turn.vy = GV_VecDir2( &work->turn_dir ) + 0x800;
         }
@@ -1737,11 +1739,11 @@ void s07b_800C714C( Work *work, int time )
 
     if ( time == 53 )
     {
-        GM_SeSetMode( &work->control.mov, 81, 1 );
+        GM_SeSetMode( &work->control.mov, SE_HIZA01, GM_SEMODE_BOMB );
     }
     if ( time == 70 )
     {
-        GM_SeSetMode( &work->control.mov, 51, 1 );
+        GM_SeSetMode( &work->control.mov, SE_DOWN0002, GM_SEMODE_BOMB );
     }
 
     switch ( work->field_8C4 )
@@ -1772,9 +1774,9 @@ void s07b_800C73F0( Work *work, int time )
 
     if ( time == 0 )
     {
-        work->field_84C |= 0xC;
+        work->flags |= 0xC;
         s07b_800C54C0( work, 0 );
-        GM_GameStatus |= 0x10000000;
+        GM_GameStatus |= STATE_PADRELEASE;
         if ( GM_Vitality != 0 )
         {
             if ( GM_ItemTypes[ GM_Item + 1 ] & 0x2 )
@@ -1790,7 +1792,7 @@ void s07b_800C73F0( Work *work, int time )
         }
         GM_ConfigMotionAdjust( &work->body, work->adjust );
         s07b_800C4854( work );
-        if ( !( GM_PlayerStatus & 0x340 ) )
+        if ( !( GM_PlayerStatus & (PLAYER_DOWNED | PLAYER_DAMAGED | PLAYER_GROUND) ) )
         {
             GM_PlayerControl->turn.vy = GV_VecDir2( &work->turn_dir ) + 0x800;
         }
@@ -1827,7 +1829,7 @@ void s07b_800C7604( Work *work )
     int rest;
     int diff;
 
-    if ( !( work->field_850 & 0x400 ) )
+    if ( !( work->flags2 & 0x400 ) )
     {
         return;
     }
@@ -1937,9 +1939,9 @@ void s07b_800C77A8( Work *work, int time )
             work->control.turn.vx = 0;
             break;
         }
-        work->field_850 &= ~0x20000;
+        work->flags2 &= ~0x20000;
         s07b_800C54E8( work );
-        GM_GameStatus &= ~0x10000000;
+        GM_GameStatus &= ~STATE_PADRELEASE;
         GM_ConfigMotionAdjust( &work->body, NULL );
         for ( i = 0; i < 16; i++ )
         {
@@ -1982,7 +1984,7 @@ void s07b_800C796C( Work *work, int time )
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         s07b_800C54E8( work );
-        GM_GameStatus &= ~0x10000000;
+        GM_GameStatus &= ~STATE_PADRELEASE;
         GM_ConfigMotionAdjust( &work->body, NULL );
         for ( i = 0; i < 16; i++ )
         {
@@ -2021,7 +2023,7 @@ void s07b_800C7AA8( Work *work, int time )
     switch ( work->field_8C4 )
     {
     case 0:
-        if ( !( GM_PlayerStatus & 0x2204 ) && work->navi_reached == 0 &&
+        if ( !( GM_PlayerStatus & (PLAYER_GAME_OVER | PLAYER_DOWNED | PLAYER_ACT_ONLY) ) && work->navi_reached == 0 &&
              GM_PlayerPosition.vz > work->control.mov.vz )
         {
             dir = work->turn_dir;
@@ -2033,7 +2035,7 @@ void s07b_800C7AA8( Work *work, int time )
         if ( NavigateGetTargetDist( &work->navi, &work->control.mov ) < 500 )
         {
             work->field_8C4 = 1;
-            GM_GameStatus &= ~0x10000000;
+            GM_GameStatus &= ~STATE_PADRELEASE;
             s07b_800C54E8( work );
             if ( work->body.action != 24 )
             {
@@ -2220,7 +2222,7 @@ void s07b_800C8010( Work *work, int time )
             {
                 work->field_8C8 = 2;
             }
-            work->field_84C |= 4;
+            work->flags |= 4;
         }
         s07b_800C54C0( work, 0 );
     }
@@ -2230,13 +2232,13 @@ void s07b_800C8010( Work *work, int time )
     {
         if ( time == 36 )
         {
-            GM_SeSetMode( &work->control.mov, 0x33, 1 );
+            GM_SeSetMode( &work->control.mov, SE_DOWN0002, GM_SEMODE_BOMB );
         }
         if ( work->body.action == action && work->body.is_end )
         {
             work->field_86E = 1;
             work->field_8C8 = 2;
-            work->field_84C |= 4;
+            work->flags |= 4;
             if ( work->body.action != 8 )
             {
                 GM_ConfigObjectAction( &work->body, 8, 0, 4 );
@@ -2250,7 +2252,7 @@ void s07b_800C8140( Work *work, int time )
 
     if ( time == 0 )
     {
-        work->field_850 &= ~1;
+        work->flags2 &= ~1;
         if ( work->body.action != 21 )
         {
             GM_ConfigObjectAction( &work->body, 21, 0, 4 );
@@ -2268,7 +2270,7 @@ void s07b_800C8140( Work *work, int time )
     case 0:
         if ( work->field_8C6 == 24 && ++work->field_8C8 == 2 )
         {
-            GM_SeSetMode( &work->control.mov, 73, 1 );
+            GM_SeSetMode( &work->control.mov, SE_SHOT_M02, GM_SEMODE_BOMB );
             s07b_800C4FB8( work );
             s07b_800C4F50( work, 6 );
             level = GM_GameLevel;
@@ -2284,13 +2286,13 @@ void s07b_800C8140( Work *work, int time )
                 if ( GM_Vitality != 0 )
                 {
                     GM_VoxQueueDelay( work->voices[ 3 ], 4 );
-                    GM_GameStatus |= 0x10000000;
+                    GM_GameStatus |= STATE_PADRELEASE;
                 }
                 GM_GameOverTimer = -2;
             }
             else
             {
-                GM_SeSetMode( &work->control.mov, 139, 1 );
+                GM_SeSetMode( &work->control.mov, 139, GM_SEMODE_BOMB );
             }
             work->field_8C4 = 1;
             work->field_8C8 = 0;
@@ -2312,15 +2314,15 @@ void s07b_800C8140( Work *work, int time )
     case 2:
         if ( work->field_8C6 == 57 )
         {
-            GM_SeSetMode( &work->control.mov, 81, 1 );
+            GM_SeSetMode( &work->control.mov, SE_HIZA01, GM_SEMODE_BOMB );
         }
         if ( work->field_8C6 == 108 )
         {
-            GM_SeSetMode( &work->control.mov, 51, 1 );
+            GM_SeSetMode( &work->control.mov, SE_DOWN0002, GM_SEMODE_BOMB );
         }
         if ( work->body.is_end )
         {
-            work->field_84C |= 4;
+            work->flags |= 4;
             if ( work->body.action != 23 )
             {
                 GM_ConfigObjectAction( &work->body, 23, 0, 4 );
@@ -2354,10 +2356,10 @@ void s07b_800C8140( Work *work, int time )
         {
             s07b_800C4E90( work );
             s07b_800C54E8( work );
-            work->field_84C &= ~4;
+            work->flags &= ~4;
             work->target->class &= ~0x20;
             work->field_8C6 = -1;
-            work->field_850 &= ~4;
+            work->flags2 &= ~4;
             if ( work->body.action != 21 )
             {
                 GM_ConfigObjectAction( &work->body, 21, 0, 4 );
@@ -2405,14 +2407,14 @@ void s07b_800C8510( Work *work, int time )
             work->control.turn.vx = 0;
             return;
         }
-        work->field_84C |= 0x10;
+        work->flags |= 0x10;
         s07b_800C5160( 0, 2 );
         GM_ConfigMotionAdjust( &work->body, work->adjust );
         work->navi.target_next = -1;
     }
 
     s07b_800C4854( work );
-    GM_GameStatus |= 0x10000000;
+    GM_GameStatus |= STATE_PADRELEASE;
     sna_act_helper2_helper2_80033054( work->control.name, &work->adjust[ 6 ] );
 
     switch ( work->field_8C4 )
@@ -2427,7 +2429,7 @@ void s07b_800C8510( Work *work, int time )
         break;
     case 1:
         s07b_800C4E90( work );
-        if ( !( GM_PlayerStatus & 0x4 ) )
+        if ( !( GM_PlayerStatus & PLAYER_ACT_ONLY ) )
         {
             work->field_8C4++;
         }
@@ -2447,20 +2449,20 @@ void s07b_800C8510( Work *work, int time )
             GM_ConfigObjectAction( &work->body, 28, 0, 4 );
         }
         work->field_8C6++;
-        if ( !( GM_PlayerStatus & 0x800300 ) && GM_Vitality > 0 )
+        if ( !( GM_PlayerStatus & (PLAYER_INVINCIBLE | PLAYER_DOWNED | PLAYER_DAMAGED) ) && GM_Vitality > 0 )
         {
             if ( work->field_8C6 == 100 )
             {
-                GM_SeSetMode( &work->control.mov, 189, 1 );
+                GM_SeSetMode( &work->control.mov, 189, GM_SEMODE_BOMB );
             }
             if ( work->field_8C6 == 102 )
             {
                 vec.vz = vec.vy = vec.vx = 2000;
-                GM_SetTarget( &target, 4, 2, &vec );
-                GM_SetPowerTarget( &target, 3, 4, 16, 1, &DG_ZeroVector );
+                GM_SetTarget( &target, TARGET_POWER, ENEMY_SIDE, &vec );
+                GM_SetPowerTarget( &target, POWER_CONST, 4, 16, 1, &DG_ZeroVector );
                 GM_MoveTarget( &target, &work->control.mov );
                 GM_PowerTarget( &target );
-                GM_SeSetMode( &work->control.mov, 176, 1 );
+                GM_SeSetMode( &work->control.mov, 176, GM_SEMODE_BOMB );
                 if ( !sna_ration_available_8004FB4C() && GM_Vitality < 17 )
                 {
                     GCL_ExecProc( work->field_930[ 9 ], NULL );
@@ -2469,7 +2471,7 @@ void s07b_800C8510( Work *work, int time )
         }
         if ( work->body.is_end )
         {
-            work->field_84C &= ~0x10;
+            work->flags &= ~0x10;
             GM_VoxInit();
             GM_VoxQueueDelay( work->voices[ GV_RandU( 8 ) % 2 + 9 ], 4 );
             if ( work->body.action != 24 )
@@ -2503,13 +2505,13 @@ void s07b_800C8510( Work *work, int time )
                 work->control.turn.vx = 0;
                 break;
             }
-            work->field_850 &= ~0x20000;
+            work->flags2 &= ~0x20000;
             GM_ConfigMotionAdjust( &work->body, NULL );
             for ( i = 0; i < 16; i++ )
             {
                 work->adjust[ i ] = DG_ZeroVector;
             }
-            GM_GameStatus &= ~0x10000000;
+            GM_GameStatus &= ~STATE_PADRELEASE;
         }
         break;
     }
@@ -2529,7 +2531,7 @@ void s07b_800C89E0( Work *work, int time )
         {
             GM_Weapon = WP_None;
         }
-        GM_GameStatus |= 0x104A2000;
+        GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
         s07b_800C54C0( work, 0 );
         if ( work->body.action != 26 )
         {
@@ -2563,8 +2565,8 @@ void s07b_800C89E0( Work *work, int time )
         work->control.turn.vz = 0;
         work->control.turn.vx = 0;
         s07b_800C54E8( work );
-        GM_GameStatus &= ~0x2000;
-        work->field_850 |= 0x400;
+        GM_GameStatus &= ~STATE_RADIO_OFF;
+        work->flags2 |= 0x400;
         CloseCinemaScreen();
     }
 }
@@ -2582,7 +2584,7 @@ void s07b_800C8BB4( Work *work, int time )
             GM_ConfigObjectAction( &work->body, 25, 0, 4 );
         }
         NavigateSetTarget( &work->navi, work->control.map->hzd, &work->navi_target );
-        GM_GameStatus |= 0x104A2000;
+        GM_GameStatus |= STATE_PADRELEASE | STATE_PAUSE_ONLY;
         OpenCinemaScreen( 1, 10000 );
     }
 
@@ -2620,7 +2622,7 @@ void s07b_800C8BB4( Work *work, int time )
             {
                 GM_Item = IT_None;
             }
-            work->field_850 &= ~0x400;
+            work->flags2 &= ~0x400;
             GCL_ExecProc( work->field_930[ 3 ], NULL );
             work->control.turn.vy = 0x800;
             if ( work->body.action != 31 )
@@ -2653,7 +2655,7 @@ void s07b_800C8BB4( Work *work, int time )
         }
         if ( counter == 88 )
         {
-            GM_SeSetMode( &work->control.mov, 9, 1 );
+            GM_SeSetMode( &work->control.mov, SE_KAMAE01, GM_SEMODE_BOMB );
         }
         if ( work->body.is_end )
         {
@@ -2675,7 +2677,7 @@ void s07b_800C8BB4( Work *work, int time )
         if ( ++work->field_8C6 == 60 )
         {
             work->next_state = -1;
-            work->field_850 |= 0x100;
+            work->flags2 |= 0x100;
         }
         break;
     }
@@ -2693,7 +2695,7 @@ void s07b_800C8F9C( Work *work, int time )
     {
         if ( work->body.is_end )
         {
-            work->field_84C &= ~4;
+            work->flags &= ~4;
             if ( work->body.action != 0 )
             {
                 GM_ConfigObjectAction( &work->body, 0, 0, 4 );
@@ -2715,7 +2717,7 @@ void s07b_800C9044( Work *work, int time )
     {
         s07b_800C54E8( work );
         action = work->body.action;
-        work->field_850 &= ~0x405;
+        work->flags2 &= ~0x405;
         if ( action != 10 && action != 14 )
         {
             if ( action != 10 )
@@ -2732,7 +2734,7 @@ void s07b_800C9044( Work *work, int time )
     case 0:
         s07b_800C4854( work );
         s07b_800C4E90( work );
-        if ( work->field_84C & 0x200 )
+        if ( work->flags & 0x200 )
         {
             dir = work->turn_dir;
             dir.vx *= -1;
@@ -2767,18 +2769,18 @@ void s07b_800C9044( Work *work, int time )
     case 2:
         if ( ++work->field_8C6 == 64 )
         {
-            work->field_84C &= ~0x200;
+            work->flags &= ~0x200;
         }
-        if ( work->field_84C & 0x2000 )
+        if ( work->flags & 0x2000 )
         {
-            work->body.objs->flag |= 0x80;
+            work->body.objs->flag |= DG_FLAG_INVISIBLE;
         }
-        if ( work->field_84C & 0x400 )
+        if ( work->flags & 0x400 )
         {
-            work->body.objs->flag &= ~0x80;
+            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
             work->next_state = 6;
-            work->field_850 |= 0x500;
-            work->field_84C &= ~0x3404;
+            work->flags2 |= 0x500;
+            work->flags &= ~0x3404;
             s07b_800C5554( work->target );
             work->target->class &= ~0x20;
             work->target->class |= 2;
@@ -2791,7 +2793,7 @@ void s07b_800C9304( Work *work )
 {
     int     n_msgs;
     GV_MSG *msg;
-    int     val;
+    short   val;
     int     none;
     int     flag;
     int     act;
@@ -2814,25 +2816,25 @@ void s07b_800C9304( Work *work )
             {
             case 0x491D:
                 val = msg->message[ 1 ];
-                if ( (u_short)( val + 1 ) < 10 )
+                if ( val >= -1 && val <= 8 )
                 {
                     work->next_state = val;
-                    work->field_850 |= 0x100;
+                    work->flags2 |= 0x100;
                 }
                 break;
             case 0xA7DE:
                 work->next_state = none;
-                work->field_850 |= 0x100;
+                work->flags2 |= 0x100;
                 break;
             case 0x5E8B:
-                work->field_850 |= flag;
+                work->flags2 |= flag;
                 if ( work->body.action != act )
                 {
                     GM_ConfigObjectAction( &work->body, 24, 0, 4 );
                 }
                 break;
             case 0x9A1F:
-                work->field_850 &= ~0x10000;
+                work->flags2 &= ~0x10000;
                 break;
             }
             n_msgs--;
@@ -2862,7 +2864,7 @@ void s07b_800C9454( Work *work, int time )
     case 0:
         if ( s07b_800C46F0( GM_PlayerControl, work->zones[ 2 ], work->action != s07b_800C7C64 ) )
         {
-            GM_GameStatus |= 0x10000000;
+            GM_GameStatus |= STATE_PADRELEASE;
             if ( work->action == s07b_800C7D88 || work->action == s07b_800C7E98 )
             {
                 s07b_800C54C0( work, 0 );
@@ -2879,13 +2881,13 @@ void s07b_800C9454( Work *work, int time )
                 work->control.turn.vz = 0;
                 work->control.turn.vx = 0;
                 work->next_state = 1;
-                work->field_850 |= 0x100;
+                work->flags2 |= 0x100;
                 break;
             }
         }
         if ( s07b_800C473C( work ) && work->action != s07b_800C7C64 )
         {
-            GM_GameStatus |= 0x10000000;
+            GM_GameStatus |= STATE_PADRELEASE;
             if ( work->action == s07b_800C7D88 || work->action == s07b_800C7E98 )
             {
                 s07b_800C54C0( work, 0 );
@@ -2902,7 +2904,7 @@ void s07b_800C9454( Work *work, int time )
     case 4:
         if ( s07b_800C47D4( work ) && work->action != s07b_800C7C64 )
         {
-            GM_GameStatus |= 0x10000000;
+            GM_GameStatus |= STATE_PADRELEASE;
             if ( work->action == s07b_800C7D88 || work->action == s07b_800C7E98 )
             {
                 s07b_800C54C0( work, 0 );
@@ -2925,7 +2927,7 @@ void s07b_800C96B8( Work *work )
 {
     if ( s07b_800C473C( work ) )
     {
-        GM_GameStatus |= 0x10000000;
+        GM_GameStatus |= STATE_PADRELEASE;
 
         if ( work->body.action == 24 )
         {
@@ -2970,17 +2972,17 @@ void s07b_800C9738( Work *work, int time )
 
         if ( work->zone_time >= 300 &&
              ( work->action == s07b_800C7D88 || work->action == s07b_800C7E98 ) &&
-             ( GM_Camera.first_person == 0 || ( GM_FirstPerson != 0 && ( GM_PlayerStatus & 0x40000 ) ) ) &&
-             !( GM_PlayerStatus & 0x300 ) && dword_8009F470 == 0 &&
+             ( GM_Camera.first_person == 0 || ( GM_FirstPerson != 0 && ( GM_PlayerStatus & PLAYER_MOVE_WATCH ) ) ) &&
+             !( GM_PlayerStatus & (PLAYER_DOWNED | PLAYER_DAMAGED) ) && dword_8009F470 == 0 &&
              s07b_800C46F0( GM_PlayerControl, work->zones[ 3 ], 1 ) &&
              GM_GameOverTimer == 0 && GM_Vitality != 0 )
         {
             work->zone_time = 0;
             work->next_state = 3;
-            work->field_850 |= 0x100;
+            work->flags2 |= 0x100;
             s07b_800C54C0( work, 0 );
             s07b_800C5554( work->target );
-            GM_GameStatus |= 0x10000000;
+            GM_GameStatus |= STATE_PADRELEASE;
             GM_ConfigMotionAdjust( &work->body, NULL );
 
             for ( i = 0; i < 16; i++ )
@@ -3021,7 +3023,7 @@ void s07b_800C9994( Work *work, int time )
         {
             work->adjust[ i ] = DG_ZeroVector;
         }
-        work->field_850 |= 0x400;
+        work->flags2 |= 0x400;
         if ( work->body.action2 != 0 )
         {
             GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
@@ -3090,7 +3092,7 @@ void s07b_800C9B94( Work *work, int time )
         {
             work->adjust[ i ] = DG_ZeroVector;
         }
-        work->field_84C &= ~4;
+        work->flags &= ~4;
         if ( work->body.action2 != 0 )
         {
             GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
@@ -3114,7 +3116,7 @@ void s07b_800C9C74( Work *work, int time )
         {
             work->adjust[ i ] = DG_ZeroVector;
         }
-        work->field_84C &= ~4;
+        work->flags &= ~4;
         if ( work->body.action2 != 0 )
         {
             GM_ConfigObjectOverride( &work->body, 0, 0, 4, 0 );
@@ -3143,7 +3145,7 @@ void s07b_800C9D44( Work *work )
     void ( *mode )( Work *, int );
 
     s07b_800C9304( work );
-    if ( work->field_850 & 0x10000 )
+    if ( work->flags2 & 0x10000 )
     {
         return;
     }
@@ -3244,7 +3246,7 @@ void s07b_800C9D44( Work *work )
 
         if ( se )
         {
-            GM_SeSetMode( &work->control.mov, se, 1 );
+            GM_SeSetMode( &work->control.mov, se, GM_SEMODE_BOMB );
         }
     }
 }
@@ -3260,7 +3262,7 @@ void s07b_800C9F50( Work *work )
     TARGET *target;
     int     height;
 
-    if ( GM_PlayerStatus & 0x08000000 )
+    if ( GM_PlayerStatus & PLAYER_SECOND_CONTROLLER )
     {
         work->field_8DC = (u_short *)&GV_PadData[ 1 ];
     }
@@ -3364,7 +3366,7 @@ int s07b_800CA1FC( Work *work )
     {
         life = GM_VitalityMax;
     }
-    if ( (u_short)( work->field_840 - 1 ) < 2 )
+    if ( work->field_840 > 0 && work->field_840 < 3 )
     {
         life = s07b_dword_800C32F8;
     }
@@ -3374,13 +3376,13 @@ int s07b_800CA1FC( Work *work )
     }
     target = GM_AllocTarget();
     work->target = target;
-    GM_SetTarget( target, 0x9F, 2, (SVECTOR *)&s07b_dword_800C3328 );
+    GM_SetTarget( target, TARGET_FLAG, ENEMY_SIDE, (SVECTOR *)&s07b_dword_800C3328 );
     faint = 20;
     if ( work->field_840 == 3 )
     {
         faint = 12;
     }
-    GM_SetPowerTarget( target, 1, -1, life, faint, &DG_ZeroVector );
+    GM_SetPowerTarget( target, POWER_DECREASE, -1, life, faint, &DG_ZeroVector );
     return 0;
 }
 extern u_short desert_damage;
@@ -3414,7 +3416,7 @@ int s07b_800CA2EC( Work *work )
     work->field_8C4 = 0;
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
-    s07b_dword_800E5BB0 = (int)&work->field_84C;
+    s07b_dword_800E5BB0 = (int)&work->flags;
     NagivateInit( &work->navi, work->control.map->hzd, &work->control.mov );
 
     work->field_8DC = (u_short *)GV_PadData;
@@ -3434,7 +3436,7 @@ int s07b_800CA2EC( Work *work )
     {
         if ( GCL_StrToInt( GCL_NextStr() ) == 1 )
         {
-            work->field_850 |= 0x400;
+            work->flags2 |= 0x400;
         }
     }
     if ( GCL_GetOption( 'm' ) )
