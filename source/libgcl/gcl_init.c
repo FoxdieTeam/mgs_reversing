@@ -21,8 +21,7 @@ int SECTION(".sbss") dword_800AB994; // padding
  */
 static int GCL_InitFunc( void *top, int id )
 {
-    if ( id == scenerio_code )
-    {
+    if( id == scenerio_code ){
         GCL_LoadScript( top );
     }
 

@@ -3,8 +3,7 @@
 
 #include "libgcl.h"
 
-enum
-{
+enum {
     OP_END,
     OP_MNS, OP_NOT, OP_NEG,
     OP_ADD, OP_SUB, OP_MUL, OP_DIV, OP_MOD,
@@ -16,8 +15,7 @@ enum
 
 static int calc( int op, int value1, int value2 )
 {
-    switch ( op )
-    {
+    switch( op ){
     case OP_MNS: return -value2;
     case OP_NOT: return !value2;
     case OP_NEG: return ~value2;
@@ -57,41 +55,28 @@ int GCL_Expr( char *data, int *value )
 
     p = data;
 
-    for ( ;; )
-    {
+    for( ;; ){
         type = *p;
-        if ( type == GCL_OP )
-        {
-            int op;
 
+        if( type == GCL_OP ){
+            int op;
             op = p[ 1 ];
-            if ( op == OP_END )
-            {
-                if ( value != NULL )
-                {
+            if( op == OP_END ){
+                if( value != NULL ){
                     *value = sp[ -1 ].value;
                 }
-
                 return sp[ -1 ].value;
-            }
-            else if ( op == OP_SET )
-            {
+            } else if( op == OP_SET ){
                 GCL_SetVar( sp[ -2 ].ptr, sp[ -1 ].value );
                 sp[ -2 ].value = sp[ -1 ].value;
-            }
-            else
-            {
+            } else {
                 sp[ -2 ].value = calc( op, sp[ -2 ].value, sp[ -1 ].value );
                 sp[ -2 ].ptr = NULL;
             }
-
             sp--;
             p += sizeof(short);
-        }
-        else
-        {
+        } else {
             int val;
-
             sp->ptr = p;
             p = GCL_GetNextValue( p, &type, &val );
             sp->value = val;

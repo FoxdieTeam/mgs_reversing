@@ -16,30 +16,21 @@ EXEC_IF:
 EXEC_ELSE:
     p = GCL_GetNextValue( p, &type, (int *)&block );
 
-    if ( res )
-    {
+    if( res ){
         GCL_ExecBlock( block, NULL );
-    }
-    else
-    {
+    } else {
         p = GCL_GetNextValue( p, &type, &res );
-        if ( p != NULL )
-        {
+        if( p != NULL ){
             type >>= 16;
             p = (char *)res;
-
-            if ( type == 'e' )
-            {
+            if( type == 'e' ){
                 res = 1;
                 goto EXEC_ELSE;
-            }
-            else if ( type == 'i' )
-            {
+            } else if( type == 'i' ){
                 goto EXEC_IF;
             }
         }
     }
-
     return GCL_OK;
 }
 
@@ -61,11 +52,9 @@ static int GCL_Command_foreach( char *top )
     char *block;
 
     p = argbuf;
-    for ( ;; )
-    {
+    for( ;; ){
         top = GCL_GetNextValue( top, &type, &value );
-        if ( ( type & 0xFF ) == GCL_OPTION )
-        {
+        if( ( type & 0xFF ) == GCL_OPTION ){
             break;
         }
         *p++ = value;
@@ -77,8 +66,7 @@ static int GCL_Command_foreach( char *top )
     arg.argc = 1;
     arg.argv = argbuf;
 
-    for ( i = p - argbuf; i > 0; i-- )
-    {
+    for( i = p - argbuf; i > 0; i-- ){
         GCL_ExecBlock( block, &arg );
         arg.argv++;
     }
