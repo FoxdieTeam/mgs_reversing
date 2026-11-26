@@ -59,8 +59,8 @@ void DeleteChain(
     if(*(void**)((char*)lpDelete + sizeof(void*)) == lpManeger)
         *(void**)lpManeger = *(void**)lpDelete;
     else
-        *(void**)*(void**)
-            ((char*)lpDelete + sizeof(void*)) = *(void**)lpDelete;
+        *(void**)(*(void**)
+            ((char*)lpDelete + sizeof(void*))) = *(void**)lpDelete;
 
     InitChain(lpDelete);
 }

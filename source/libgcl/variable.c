@@ -1,8 +1,9 @@
 #include <stdio.h>
-#include "mgstype.h"
+#include <stdlib.h>
+
 #include "libgcl.h"
 
-#include "game/game.h"
+#include "game/game.h"      // for linkvar.h, etc.
 #include "menu/menuman.h"   // for RadioMemory
 
 short        linkvarbuf[ MAX_LINKVARBUF ];
@@ -44,45 +45,39 @@ typedef struct SAVE_FILE
 
 /*---------------------------------------------------------------------------*/
 
-void GCL_SaveLinkVar(short *gameVar)
+void GCL_SaveLinkVar( short *ptr )
 {
     char *addr;
     int   offset;
 
     addr = (char *)sv_linkvarbuf;
-    offset = (char *)gameVar - (char *)linkvarbuf;
-    *(short *)(addr + offset) = *gameVar;
+    offset = (char *)ptr - (char *)linkvarbuf;
+    *(short *)(addr + offset) = *ptr;
 }
 
-// Used for save files
-static unsigned int crc32(int len, unsigned char *ptr)
+static unsigned int calc_crc32( int len, void *data )
 {
-    unsigned int  crc;
-    int           counter;
+    unsigned int i, j;
+    unsigned int r;
+    char *p;
 
-    crc = 0xffffffff;
-    if (len != 0)
-    {
-        do {
-            crc ^= *ptr++;
-            counter = 8;
+    r = 0xFFFFFFFF;
+    p = data;
 
-            do {
-                if ((crc & 1) != 0)
-                {
-                    crc = crc >> 1 ^ 0xedb88320;
-                }
-                else
-                {
-                    crc = crc >> 1;
-                }
-            } while (--counter != 0);
-        } while (--len != 0);
+    for( i = len; i != 0 ; i-- ){
+        r ^= *p++;
+        for( j = 8; j != 0; j-- ){
+            if( r & 1 ){
+                r = ( r >> 1 ) ^ 0xEDB88320;
+            } else {
+                r >>= 1;
+            }
+        }
     }
-    return ~crc;
+    return r ^ 0xFFFFFFFF;
 }
 
-int GCL_MakeSaveFile(char *save_buf)
+int GCL_MakeSaveFile( char *save_buf )
 {
     typedef struct { short f[sizeof(radio_memory) / sizeof(short)]; } RdMem;
 
@@ -98,29 +93,29 @@ int GCL_MakeSaveFile(char *save_buf)
 
     GM_LastSaveHours = GM_PlayTimeHours;
     GM_LastSaveSeconds = GM_PlayTimeSeconds;
-    SAVE_LINKVAR(sv_linkvarbuf, GM_LastSaveHours) = GM_PlayTimeHours;
-    SAVE_LINKVAR(sv_linkvarbuf, GM_LastSaveSeconds) = GM_PlayTimeSeconds;
-    SAVE_LINKVAR(sv_linkvarbuf, GM_SaveCount) = GM_SaveCount;
+    SAVE_LINKVAR( sv_linkvarbuf, GM_LastSaveHours ) = GM_PlayTimeHours;
+    SAVE_LINKVAR( sv_linkvarbuf, GM_LastSaveSeconds ) = GM_PlayTimeSeconds;
+    SAVE_LINKVAR( sv_linkvarbuf, GM_SaveCount ) = GM_SaveCount;
 
     save_data->padding[0] = 0;
     save_data->padding[1] = 0;
     save_data->padding[2] = 0;
 
-    strcpy(save_data->stage_name, stage_name);
-    GM_GetAreaHistory(save_data->area_history);
+    strcpy( save_data->stage_name, stage_name );
+    GM_GetAreaHistory( save_data->area_history );
 
-    memcpy(save_data->linkvar, sv_linkvarbuf, 0xC0);
-    memcpy(save_data->varbuf, sv_var_buf, 1024 * sizeof(short));
+    memcpy( save_data->linkvar, sv_linkvarbuf, 0xC0 );
+    memcpy( save_data->varbuf, sv_var_buf, 1024 * sizeof(short) );
 
     *(RdMem *)&save_data->radio_memory = *(RdMem *)&radio_memory;
 
     save_file->size = (void *)save_data + sizeof(SAVE_DATA) - (void *)save_buf;
-    save_file->checksum = crc32(sizeof(SAVE_DATA), (char *)save_data); // size 0xA38
+    save_file->checksum = calc_crc32( sizeof(SAVE_DATA), save_data );
 
     return save_file->size;
 }
 
-int GCL_SetLoadFile(char *save_buf)
+int GCL_SetLoadFile( char *save_buf )
 {
     typedef struct { short f[sizeof(radio_memory) / sizeof(short)]; } RdMem;
 
@@ -130,24 +125,22 @@ int GCL_SetLoadFile(char *save_buf)
     save_file = (SAVE_FILE *)save_buf;
     save_data = &save_file->data;
 
-    if ((save_data->version != SAVE_VERSION) || (save_data->version2 != SAVE_VERSION2))
-    {
+    if( ( save_data->version != SAVE_VERSION ) || ( save_data->version2 != SAVE_VERSION2 ) ){
         printf("SAVE DATA VERSION ERROR!!\n");
     }
-    if (save_file->checksum != crc32(sizeof(SAVE_DATA), (char *)save_data))
-    {
+    if( save_file->checksum != calc_crc32( sizeof(SAVE_DATA), save_data ) ){
         printf("CRC ERROR !!\n");
         return 0;
     }
 
     gTotalFrameTime = save_data->totalFrameTime;
-    strcpy(stage_name, save_data->stage_name);
-    GM_SetAreaHistory(save_data->area_history);
+    strcpy( stage_name, save_data->stage_name );
+    GM_SetAreaHistory( save_data->area_history );
 
-    memcpy(sv_linkvarbuf, save_data->linkvar, 0xC0);
-    memcpy(sv_var_buf, save_data->varbuf, 1024 * sizeof(short));
-    memcpy(linkvarbuf, save_data->linkvar, 0xC0);
-    memcpy(var_buf, save_data->varbuf, 1024 * sizeof(short));
+    memcpy( sv_linkvarbuf, save_data->linkvar, 0xC0 );
+    memcpy( sv_var_buf, save_data->varbuf, 1024 * sizeof(short) );
+    memcpy( linkvarbuf, save_data->linkvar, 0xC0 );
+    memcpy( var_buf, save_data->varbuf, 1024 * sizeof(short) );
 
     *(RdMem *)&radio_memory = *(RdMem *)&save_data->radio_memory;
 
@@ -209,42 +202,33 @@ char *GCL_GetVar( char *top, int *type_p, int *value_p )
     char *ptr;
 
     gcl_var = GCL_GetLong( top );
-    gcl_code = GCL_GetVarTypeCode(gcl_var);
+    gcl_code = GCL_GetVarTypeCode( gcl_var );
 
     *type_p = gcl_code;
-    if (GCL_IsGameStateVar(gcl_var))
-    {
+    if( GCL_IsGameStateVar( gcl_var ) ){
         ptr = (char *)linkvarbuf;
-    }
-    else
-    {
+    } else {
         ptr = (char *)&var_buf;
     }
-    ptr += GCL_GetVarOffset(gcl_var);
-    switch (gcl_code)
-    {
+    ptr += GCL_GetVarOffset( gcl_var );
+
+    switch( gcl_code ){
     case GCL_SHORT: // $w:
     case GCL_STRID: // $s:
     case GCL_PROCID:
-        if (gcl_code == GCL_SHORT)
-        {
+        if( gcl_code == GCL_SHORT ){
             *value_p = *(short *)ptr;
-        }
-        else
-        {
+        } else {
             *value_p = *(unsigned short *)ptr;
         }
         break;
-
     case GCL_BYTE: // $b:
     case GCL_CHAR: // $c:
         *value_p = (unsigned char)*ptr;
         break;
-
     case GCL_BOOL: // $f:
-        *value_p = (*ptr & GCL_GetFlagBitFlag(gcl_var)) != 0;
+        *value_p = ( *ptr & GCL_GetFlagBitFlag( gcl_var ) ) != 0;
         break;
-
     default:
         break;
     }
@@ -257,42 +241,34 @@ char *GCL_SetVar( char *top, int value )
     char *ptr;
     char  bitFlag;
 
-    gcl_var = GCL_GetLong(top);
-    gcl_code = GCL_GetVarTypeCode(gcl_var);
-    if (GCL_IsGameStateVar(gcl_var))
-    {
+    gcl_var = GCL_GetLong( top );
+    gcl_code = GCL_GetVarTypeCode( gcl_var );
+
+    if( GCL_IsGameStateVar( gcl_var ) ){
         ptr = (char *)linkvarbuf;
-    }
-    else
-    {
+    } else {
         ptr = (char *)&var_buf;
     }
-    ptr += GCL_GetVarOffset(gcl_var);
-    switch (gcl_code)
-    {
+    ptr += GCL_GetVarOffset( gcl_var );
+
+    switch( gcl_code ){
     case GCL_SHORT: // $w:
     case GCL_STRID: // $s:
     case GCL_PROCID:
         *(unsigned short *)ptr = value;
         break;
-
     case GCL_BYTE: // $b:
     case GCL_CHAR: // $c:
         *ptr = value;
         break;
-
     case GCL_BOOL: // $f:
-        bitFlag = GCL_GetFlagBitFlag(gcl_var);
-        if (value)
-        {
+        bitFlag = GCL_GetFlagBitFlag( gcl_var );
+        if( value ){
             *ptr |= bitFlag;
-        }
-        else
-        {
+        } else {
             *ptr &= ~(char)bitFlag;
         }
         break;
-
     default:
         break;
     }
@@ -305,42 +281,34 @@ char *GCL_VarSaveBuffer( char *top )
     char *ptr;
     char  bitFlag;
 
-    GCL_GetVar(top, &gcl_code, &value);
-    gcl_var = GCL_GetLong(top);
-    gcl_code = GCL_GetVarTypeCode(gcl_var);
-    if (GCL_IsGameStateVar(gcl_var))
-    {
+    GCL_GetVar( top, &gcl_code, &value );
+    gcl_var = GCL_GetLong( top );
+    gcl_code = GCL_GetVarTypeCode( gcl_var );
+
+    if( GCL_IsGameStateVar( gcl_var ) ){
         ptr = (char *)sv_linkvarbuf;
-    }
-    else
-    {
+    } else {
         ptr = (char *)&sv_var_buf;
     }
-    ptr += GCL_GetVarOffset(gcl_var);
-    switch (gcl_code)
-    {
+    ptr += GCL_GetVarOffset( gcl_var );
+
+    switch( gcl_code ){
     case GCL_SHORT: // $w:
     case GCL_STRID: // $s:
     case GCL_PROCID:
         *(short *)ptr = (short)value;
         break;
-
     case GCL_BYTE: // $b:
     case GCL_CHAR: // $c:
         *ptr = (char)value;
         break;
-
     case GCL_BOOL: // $f:
-        bitFlag = GCL_GetFlagBitFlag(gcl_var);
-        if (value)
-        {
+        bitFlag = GCL_GetFlagBitFlag( gcl_var );
+        if( value ){
             *ptr |= bitFlag;
-        }
-        else
-        {
+        } else {
             *ptr &= ~bitFlag;
         }
-
     case GCL_VECTOR:
     case GCL_STRING:
     default:

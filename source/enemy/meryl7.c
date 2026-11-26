@@ -36,9 +36,9 @@ static int SECTION(".bss") s07a_dword_800E3658;
 /*---------------------------------------------------------------------------*/
 
 /*  Modified version of RootFlagCheck_800C3EE8
-    (last two switch cases removed)
+    (last two switch cases removed) */
 
-    ルート変更フラグチェック
+/*  ルート変更フラグチェック
     指定フラグが立てば次のルートへ変更
     ここではコマンダーに変更ルートをセットする
     変更後の各敵兵はポイントアクションの時にルート変更する

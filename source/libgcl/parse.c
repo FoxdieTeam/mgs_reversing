@@ -1,7 +1,7 @@
-#include "libgcl.h"
-
 #include <stdio.h>
-#include "mgstype.h"
+#include <stdlib.h>
+
+#include "libgcl.h"
 
 /*** $gp ***/
 int   *SECTION(".sbss") argstack_p;
@@ -17,6 +17,8 @@ void GCL_SetArgTop( char *top )
     next_str_ptr = top;
 }
 
+/*---------------------------------------------------------------------------*/
+
 char *GCL_GetNextValue( char *top, int *type_p, int *value_p )
 {
     int type, size;
@@ -26,15 +28,13 @@ char *GCL_GetNextValue( char *top, int *type_p, int *value_p )
     type = *p;
     p++;
 
-    if ( GCL_TAG( type ) == GCL_VAR )
-    {
+    if( GCL_TAG( type ) == GCL_VAR ){
         return GCL_GetVar( top, type_p, value_p );
     }
 
     *type_p = type;
 
-    switch ( type )
-    {
+    switch( type ){
     case GCL_END:
         p = NULL;
         break;
@@ -90,6 +90,8 @@ char *GCL_GetNextValue( char *top, int *type_p, int *value_p )
     return p;
 }
 
+/*---------------------------------------------------------------------------*/
+
 static void GCL_InitArgStack(void)
 {
     argstack_p = argbuffer;
@@ -100,16 +102,14 @@ void *GCL_SetArgStack( GCL_ARGS *args )
     int *org, *argv;
     int i;
 
-    if ( args == NULL )
-    {
+    if( args == NULL ){
         return NULL;
     }
 
     org = argstack_p;
     argv = (int *)( args->argv + ( args->argc - 1 ) );
 
-    for ( i = args->argc; i > 0; i-- )
-    {
+    for( i = args->argc; i > 0; i-- ){
         *argstack_p++ = *argv--;
     }
 
@@ -119,8 +119,7 @@ void *GCL_SetArgStack( GCL_ARGS *args )
 
 void GCL_UnsetArgStack( void *stack )
 {
-    if ( stack != NULL )
-    {
+    if( stack != NULL ){
         argstack_p = stack;
     }
 }
@@ -129,6 +128,8 @@ int GCL_GetArgs( int argno )
 {
     return argstack_p[ -( argno + 1 ) ];
 }
+
+/*---------------------------------------------------------------------------*/
 
 static void GCL_InitCommandLineBuffer( void )
 {
@@ -145,22 +146,20 @@ void GCL_UnsetCommandLine( void )
     commandline_p--;
 }
 
+/*---------------------------------------------------------------------------*/
+
 char *GCL_GetOption( char c )
 {
     char *p;
-
     p = commandline_p[ -1 ];
 
-    for ( ;; )
-    {
+    for( ;; ){
         int type, value;
 
         p = GCL_GetNextValue( p, &type, &value );
-        if ( type == GCL_END ) return NULL;
-        if ( ( type & 0xFF ) == GCL_OPTION )
-        {
-            if ( ( type >> 16 ) == c )
-            {
+        if( type == GCL_END ) return NULL;
+        if( ( type & 0xFF ) == GCL_OPTION ){
+            if( ( type >> 16 ) == c ){
                 next_str_ptr = (char *)value;
                 return (char *)value;
             }
@@ -180,8 +179,7 @@ int GCL_StrToSV( char *ptr, short *vec )
 {
     int i, type, value;
 
-    for ( i = 0; i < 3; i++ )
-    {
+    for( i = 0; i < 3; i++ ){
         ptr = GCL_GetNextValue( ptr, &type, &value );
         vec[ i ] = value;
     }
@@ -194,21 +192,17 @@ char *GCL_GetString( char *ptr )
 {
     int type, value;
 
-    if ( ( next_str_ptr = GCL_GetNextValue( ptr, &type, &value ) ) == NULL )
-    {
+    if( ( next_str_ptr = GCL_GetNextValue( ptr, &type, &value ) ) == NULL ){
         return NULL;
     }
-
     return (char *)value;
 }
 
 char *GCL_NextStr( void )
 {
-    if ( *next_str_ptr == GCL_END || *next_str_ptr == GCL_OPTION )
-    {
+    if( *next_str_ptr == GCL_END || *next_str_ptr == GCL_OPTION ){
         return NULL;
     }
-
     return next_str_ptr;
 }
 
@@ -224,14 +218,15 @@ void GCL_GetNextSV( short *vec )
 
 void GCL_SkipCommand( char *ptr )
 {
-    for ( ;; )
-    {
+    for( ;; ){
         int type, value;
 
         ptr = GCL_GetNextValue( ptr, &type, &value );
-        if ( type == GCL_END ) break;
+        if( type == GCL_END ) break;
     }
 }
+
+/*---------------------------------------------------------------------------*/
 
 void GCL_ParseInit( void )
 {

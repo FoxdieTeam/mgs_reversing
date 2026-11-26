@@ -7,8 +7,6 @@
 #define __MGS_LIBGCL_H__
 
 #include <sys/types.h>
-#include <libgte.h>     // for SVECTOR
-#include <libgpu.h>
 #include "mgstype.h"
 
 /*---------------------------------------------------------------------------*/
@@ -145,12 +143,12 @@ void GCL_StartDaemon( void );
 void GCL_ResetSystem( void );
 
 /* command.c */
-int  GCL_AddCommMulti( GCL_COMMANDDEF *def );
-int  GCL_Command( char *ptr );
+int GCL_AddCommMulti( GCL_COMMANDDEF *def );
+int GCL_Command( char *ptr );
 void GCL_ForceExecProc( int proc_id, GCL_ARGS *arg );
-int  GCL_ExecProc( int proc_id, GCL_ARGS *arg );
-int  GCL_LoadScript( char *datatop );
-int  GCL_ExecBlock( char *top, GCL_ARGS *arg );
+int GCL_ExecProc( int proc_id, GCL_ARGS *arg );
+int GCL_LoadScript( char *datatop );
+int GCL_ExecBlock( char *top, GCL_ARGS *arg );
 void GCL_ExecScript( void );
 
 /* basic.c */
@@ -160,31 +158,31 @@ void GCL_InitBasicCommands( void );
 int GCL_Expr( char *data, int *value );
 
 /* parse.c */
-void  GCL_SetArgTop( char *top );
+void GCL_SetArgTop( char *top );
 char *GCL_GetNextValue( char *top, int *type_p, int *value_p );
 void *GCL_SetArgStack( GCL_ARGS *args );
-void  GCL_UnsetArgStack( void *stack );
-int   GCL_GetArgs( int argno );
-void  GCL_SetCommandLine( char *argtop );
-void  GCL_UnsetCommandLine( void );
+void GCL_UnsetArgStack( void *stack );
+int GCL_GetArgs( int argno );
+void GCL_SetCommandLine( char *argtop );
+void GCL_UnsetCommandLine( void );
 char *GCL_GetOption( char c );
-int   GCL_StrToInt( char *ptr );
-int   GCL_StrToSV( char *ptr, short *vec );
+int GCL_StrToInt( char *ptr );
+int GCL_StrToSV( char *ptr, short *vec );
 char *GCL_GetString( char *ptr );
 char *GCL_NextStr( void );
-int   GCL_GetNextInt( void );
-void  GCL_GetNextSV( short *vec );
-void  GCL_SkipCommand( char *ptr );
-void  GCL_ParseInit( void );
+int GCL_GetNextInt( void );
+void GCL_GetNextSV( short *vec );
+void GCL_SkipCommand( char *ptr );
+void GCL_ParseInit( void );
 
 /* variable.c */
-void  GCL_SaveLinkVar( short *ptr );
-int   GCL_MakeSaveFile( char *ptr );
-int   GCL_SetLoadFile( char *ptr );
-void  GCL_InitVar( void );
-void  GCL_InitClearVar( void );
-void  GCL_SaveVar( void );
-void  GCL_RestoreVar( void );
+void GCL_SaveLinkVar( short *ptr );
+int GCL_MakeSaveFile( char *ptr );
+int GCL_SetLoadFile( char *ptr );
+void GCL_InitVar( void );
+void GCL_InitClearVar( void );
+void GCL_SaveVar( void );
+void GCL_RestoreVar( void );
 char *GCL_GetVar( char *top, int *type_p, int *value_p );
 char *GCL_SetVar( char *top, int value );
 char *GCL_VarSaveBuffer( char *top );

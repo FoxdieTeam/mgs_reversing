@@ -10,3 +10,6 @@ b8f30f69fdcc2123b24c526f230f780a8dff8a15
 
 # force-overlay-load-on-boot.lua: trim trailing whitespace
 980632cf7147aba12784bf2c83e12c0ed55c0e85
+
+# libgcl: trim prototype whitespace
+c7b15d2517b3e8c4ff4ec1db46bbeb3981e44876

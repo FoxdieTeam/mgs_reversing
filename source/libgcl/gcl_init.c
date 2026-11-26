@@ -1,6 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "libgcl.h"
-#include "mgstype.h"
-#include "strcode.h"        // for GCX_* defs
 #include "libgv/libgv.h"    // for GV_SetLoader
 
 int SECTION(".sbss") scenerio_code;
@@ -20,8 +21,7 @@ int SECTION(".sbss") dword_800AB994; // padding
  */
 static int GCL_InitFunc( void *top, int id )
 {
-    if ( id == scenerio_code )
-    {
+    if( id == scenerio_code ){
         GCL_LoadScript( top );
     }
 
