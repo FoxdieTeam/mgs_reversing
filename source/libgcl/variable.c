@@ -1,8 +1,9 @@
 #include <stdio.h>
-#include "mgstype.h"
+#include <stdlib.h>
+
 #include "libgcl.h"
 
-#include "game/game.h"
+#include "game/game.h"      // for linkvar.h, etc.
 #include "menu/menuman.h"   // for RadioMemory
 
 short        linkvarbuf[ MAX_LINKVARBUF ];

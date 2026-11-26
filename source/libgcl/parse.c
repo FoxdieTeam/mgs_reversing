@@ -1,7 +1,7 @@
-#include "libgcl.h"
-
 #include <stdio.h>
-#include "mgstype.h"
+#include <stdlib.h>
+
+#include "libgcl.h"
 
 /*** $gp ***/
 int   *SECTION(".sbss") argstack_p;

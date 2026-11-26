@@ -1,7 +1,7 @@
-#include "libgcl.h"
-
 #include <stdio.h>
-#include "mgstype.h"
+#include <stdlib.h>
+
+#include "libgcl.h"
 #include "game/game.h"
 
 static GCL_SCRIPT current_script;

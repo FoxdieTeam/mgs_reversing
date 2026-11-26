@@ -7,8 +7,6 @@
 #define __MGS_LIBGCL_H__
 
 #include <sys/types.h>
-#include <libgte.h>     // for SVECTOR
-#include <libgpu.h>
 #include "mgstype.h"
 
 /*---------------------------------------------------------------------------*/

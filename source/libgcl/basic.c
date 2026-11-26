@@ -1,6 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "libgcl.h"
-#include "mgstype.h"
-#include "strcode.h"
 
 static int GCL_Command_if( char *top )
 {

@@ -1,5 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "libgcl.h"
-#include "mgstype.h"
 
 enum
 {

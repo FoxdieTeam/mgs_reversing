@@ -1,6 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "libgcl.h"
-#include "mgstype.h"
-#include "strcode.h"        // for GCX_* defs
 #include "libgv/libgv.h"    // for GV_SetLoader
 
 int SECTION(".sbss") scenerio_code;
