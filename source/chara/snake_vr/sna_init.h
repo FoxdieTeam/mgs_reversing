@@ -85,16 +85,21 @@ typedef struct Target_Data
     unsigned int field_1C;
 } Target_Data;
 
-typedef struct ACTPACK
-{
-    ACTSTILL   *still;       /*  静止モーション      */
-    ACTMOVE    *move;        /*  移動モーション      */
-    ACTTRANS   *trans;       /*  遷移モーション      */
-    ACTDAMAGE  *damage;      /*  ダメージモーション  */
-    ACTATTACK  *attack;      /*	攻撃モーション		*/
-    u_char     *special1;    /*  特殊モーション１    */
-    u_char     *special2;    /*  特殊モーション２    */
-} ACTPACK;
+// TODO: memleak shows this defined just before NoneStill/etc. static
+// arrays (in sna_init.c) but we need this for SnaInitWork which has
+// to be public.
+
+typedef struct ACTPACK {
+    ACTSTILL    *still ;        /*      静止モーション          */
+    ACTMOVE     *move ;         /*      移動モーション          */
+    ACTTRANS    *trans ;        /*      遷移モーション          */
+    ACTDAMAGE   *damage ;       /*      ダメージモーション      */
+    ACTATTACK   *attack ;       /*      攻撃モーション          */
+    u_char      *special1 ;     /*      特殊モーション１        */
+    u_char      *special2 ;     /*      特殊モーション２        */
+} ACTPACK ;
+
+/*----------------------------------------------------------------------*/
 
 typedef enum
 {
