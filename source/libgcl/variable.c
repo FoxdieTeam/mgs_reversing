@@ -55,27 +55,26 @@ void GCL_SaveLinkVar( short *ptr )
     *(short *)(addr + offset) = *ptr;
 }
 
-// Used for save files
-static unsigned int crc32( int len, unsigned char *ptr )
+static unsigned int calc_crc32( int len, void *data )
 {
-    unsigned int  crc;
-    int           counter;
+    unsigned int i, j;
+    unsigned int r;
+    char *p;
 
-    crc = 0xffffffff;
-    if( len != 0 ){
-        do {
-            crc ^= *ptr++;
-            counter = 8;
-            do {
-                if( ( crc & 1 ) != 0 ){
-                    crc = crc >> 1 ^ 0xedb88320;
-                } else {
-                    crc = crc >> 1;
-                }
-            } while( --counter != 0 );
-        } while( --len != 0 );
+    r = 0xFFFFFFFF;
+    p = data;
+
+    for( i = len; i != 0 ; i-- ){
+        r ^= *p++;
+        for( j = 8; j != 0; j-- ){
+            if( r & 1 ){
+                r = ( r >> 1 ) ^ 0xEDB88320;
+            } else {
+                r >>= 1;
+            }
+        }
     }
-    return ~crc;
+    return r ^ 0xFFFFFFFF;
 }
 
 int GCL_MakeSaveFile( char *save_buf )
@@ -111,7 +110,7 @@ int GCL_MakeSaveFile( char *save_buf )
     *(RdMem *)&save_data->radio_memory = *(RdMem *)&radio_memory;
 
     save_file->size = (void *)save_data + sizeof(SAVE_DATA) - (void *)save_buf;
-    save_file->checksum = crc32( sizeof(SAVE_DATA), (char *)save_data );
+    save_file->checksum = calc_crc32( sizeof(SAVE_DATA), save_data );
 
     return save_file->size;
 }
@@ -129,7 +128,7 @@ int GCL_SetLoadFile( char *save_buf )
     if( ( save_data->version != SAVE_VERSION ) || ( save_data->version2 != SAVE_VERSION2 ) ){
         printf("SAVE DATA VERSION ERROR!!\n");
     }
-    if( save_file->checksum != crc32( sizeof(SAVE_DATA), (char *)save_data ) ){
+    if( save_file->checksum != calc_crc32( sizeof(SAVE_DATA), save_data ) ){
         printf("CRC ERROR !!\n");
         return 0;
     }
