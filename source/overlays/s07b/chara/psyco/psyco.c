@@ -9,6 +9,43 @@
 #include "takabe/cineutil.h"
 #include "menu/menuman.h"
 #include "chara/snake/sna_init.h"
+#include "chara/snake/shadow.h"
+#include "equip/equip.h"
+#include "okajima/blood.h"
+#include "takabe/fadeio.h"
+#include "takabe/sepia.h"
+#include "game/strctrl.h"
+#include "strcode.h"
+
+extern int book_alive;
+extern int chair_alive;
+extern int ox_alive;
+extern int picture_alive;
+extern int pot_alive;
+extern int statue_alive;
+void *NewPsychoBook( int side );
+void *NewPsychoChair( void );
+void *NewPsychoOx( void );
+void *NewPsychoPicture( int side );
+void *NewPsychoPot( void );
+void *NewPsychoSonic( MATRIX *world, int dir, int speed, int vital );
+void *NewPsychoStatue( void );
+extern void *NewPadManager( void );
+extern SVECTOR s07b_dword_800E5BB8;
+extern int dword_8009F46C;
+void SetPadMask( int mask );
+void ClearPadMask( int mask );
+extern int dword_800BDD28;
+extern int dword_8009F434;
+extern int dword_8009F444;
+extern int dword_8009F474;
+extern int dword_8009F480;
+extern int dword_8009F49C;
+extern int amissile_alive_8009F490;
+extern int *s07b_dword_800E5BB0;
+extern int dword_8009F470;
+extern char psyco_name[ 16 ];
+extern int *s07b_dword_800E5BD8;
 
 /*---------------------------------------------------------------------------*/
 
@@ -116,20 +153,31 @@ typedef struct _Work {
     /* 0xAE4 */ char     field_AE4[ 4 ];
 } Work;
 
+static void s07b_800CB0B4( Work *work, int );
+static void s07b_800CDCAC( Work *work, int time );
+static void s07b_800CF130( Work *work, int time );
+static void s07b_800CF9A0( Work *work, int time );
+static void s07b_800CB8CC( Work *work );
+static void s07b_800CD25C( Work *work, int time );
+static void s07b_800CD40C( Work *work, int time );
+static void s07b_800CD594( Work *work, int time );
+static void s07b_800CF304( Work *work, int time );
+static void s07b_800CED04( Work *work, int time );
+static void s07b_800CEFF0( Work *work, int time );
+static void s07b_800CDAFC( Work *work, int time );
+static void s07b_800CBC20( Work *work );
+static void s07b_800CDBA4( Work *work, int time );
+static void s07b_800CB9E8( Work *work, int arg1 );
+static void s07b_800CEBAC( Work *work, int time );
+static void s07b_800CE134( Work *work, int time );
+static void s07b_800CE2A8( Work *work, int time );
+static void s07b_800CE43C( Work *work, int time );
+static void s07b_800CEA18( Work *work, int time );
+static void s07b_800CF200( Work *work, int time );
+static void DrawLifebar( Work *work );
+static void Die( Work *work );
+
 // thrown objects (chara/psyco/*.c); Work.object_alive points at their *_alive flag
-extern int book_alive;
-extern int chair_alive;
-extern int ox_alive;
-extern int picture_alive;
-extern int pot_alive;
-extern int statue_alive;
-void *NewPsychoBook( int side );
-void *NewPsychoChair( void );
-void *NewPsychoOx( void );
-void *NewPsychoPicture( int side );
-void *NewPsychoPot( void );
-void *NewPsychoSonic( MATRIX *world, int dir, int speed, int vital );
-void *NewPsychoStatue( void );
 
 int s07b_dword_800C3390 = 0x01900388;
 int s07b_dword_800C3394 = 0x00F00140;
@@ -173,8 +221,6 @@ const char s07b_dword_800E4FD0[] = {0x0, 0x0, 0x0, 0x0};
 SVECTOR SECTION(".bss") s07b_dword_800E5BE0;
 
 /*---------------------------------------------------------------------------*/
-
-extern void *NewPadManager( void );
 
 /*---------------------------------------------------------------------------*/
 
@@ -250,8 +296,6 @@ static void s07b_800CAE00( Work *work )
     DG_SetPos2( pos, rot );
 }
 
-extern void *NewHumanShadow2( CONTROL *root_ctrl, OBJECT *root_obj, SVECTOR units, int **enabled );
-
 // create Mantis's shadow (same pattern as animal/meryl72/meryl72.c)
 static void InitShadow( Work *work )
 {
@@ -297,12 +341,10 @@ static void s07b_800CB068( int arg0 )
 
     msg.address = 0xC4C3;
     msg.message_len = 2;
-    msg.message[0] = arg0 ? 0xD182 : 0x6B;
+    msg.message[0] = arg0 ? HASH_ON2 : HASH_OFF2;
     msg.message[1] = 0x400;
     GV_SendMessage( &msg );
 }
-
-extern void *NewSepia_800C5214( void );
 
 // sepia screen effect on/off (not switched on while item 5 or 6 is equipped)
 // Possibly SetSepia
@@ -310,7 +352,7 @@ static void s07b_800CB0B4( Work *work, int on )
 {
     if ( on )
     {
-        if ( GM_Item != 5 && GM_Item != 6 && !work->sepia )
+        if ( GM_Item != IT_NVG && GM_Item != IT_ThermG && !work->sepia )
         {
             work->sepia = NewSepia_800C5214();
         }
@@ -324,7 +366,6 @@ static void s07b_800CB0B4( Work *work, int on )
         work->sepia = NULL;
     }
 }
-static void s07b_800CB0B4( Work *work, int );
 
 static void s07b_800CB130( Work *work )
 {
@@ -340,7 +381,7 @@ static void s07b_800CB130( Work *work )
         }
         if ( !( work->flags2 & 1 ) )
         {
-            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+            DG_VisibleObjs( work->body.objs );
         }
         s07b_800CB0B4( work, 0 );
         s07b_800CB068( 0 );
@@ -352,7 +393,7 @@ static void s07b_800CB130( Work *work )
         {
             return;
         }
-        work->body.objs->flag |= DG_FLAG_INVISIBLE;
+        DG_InvisibleObjs( work->body.objs );
         s07b_800CB0B4( work, 1 );
         s07b_800CB068( 1 );
         printf( (char *)s07b_dword_800E4F70 );
@@ -366,8 +407,6 @@ static void s07b_800CB224( Work *work )
     work->control.turn.vy = GV_VecDir2( &diff );
 }
 
-extern SVECTOR s07b_dword_800E5BB8;
-
 static void s07b_800CB264( Work *work )
 {
     SVECTOR diff;
@@ -375,9 +414,6 @@ static void s07b_800CB264( Work *work )
     GV_SubVec3( &s07b_dword_800E5BB8, &work->control.mov, &diff );
     work->control.turn.vy = GV_VecDir2( &diff );
 }
-extern int dword_8009F46C;
-void SetPadMask( int mask );
-void ClearPadMask( int mask );
 
 static void s07b_800CB2A4( Work *work )
 {
@@ -398,12 +434,12 @@ static void s07b_800CB2A4( Work *work )
              GM_Camera.first_person )
         {
             work->flags = flags | 1;
-            SetPadMask( ~0x10 );
+            SetPadMask( ~PAD_X );
             work->field_864 = -1;
             GM_PlayerStatus |= PLAYER_NOT_SIGHT;
             if ( GM_PlayerStatus & PLAYER_CAUTION )
             {
-                ClearPadMask( 0xF000 );
+                ClearPadMask( PAD_UDLR );
             }
             printf( (char *)s07b_dword_800E4F80, work->field_864 );
         }
@@ -413,7 +449,7 @@ static void s07b_800CB2A4( Work *work )
         }
         if ( !( work->flags2 & 1 ) )
         {
-            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+            DG_VisibleObjs( work->body.objs );
             return;
         }
     }
@@ -421,11 +457,11 @@ static void s07b_800CB2A4( Work *work )
     {
         if ( GM_PlayerStatus & PLAYER_CAUTION )
         {
-            ClearPadMask( 0xF000 );
+            ClearPadMask( PAD_UDLR );
         }
         else
         {
-            SetPadMask( 0xF000 );
+            SetPadMask( PAD_UDLR );
         }
 
         if ( GV_Time % 45 == 0 )
@@ -433,7 +469,7 @@ static void s07b_800CB2A4( Work *work )
             GM_SeSet2( 0, 63, SE_MASK0002 );
         }
 
-        GM_PlayerBody->objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs( GM_PlayerBody->objs );
 
         GM_SnakeCamera.position.vx = work->body.objs->objs[ 6 ].world.t[ 0 ];
         GM_SnakeCamera.position.vy = work->body.objs->objs[ 6 ].world.t[ 1 ];
@@ -460,10 +496,10 @@ static void s07b_800CB2A4( Work *work )
         if ( !( work->pad1->status & PAD_X ) || !GM_Camera.first_person )
         {
             work->flags &= ~1;
-            ClearPadMask( ~0x10 );
+            ClearPadMask( ~PAD_X );
             if ( GM_Camera.first_person )
             {
-                GM_PlayerBody->objs->flag |= DG_FLAG_INVISIBLE;
+                DG_InvisibleObjs( GM_PlayerBody->objs );
                 GM_SnakeCamera.position = GM_PlayerPosition;
             }
             work->field_864 = 1;
@@ -476,9 +512,8 @@ static void s07b_800CB2A4( Work *work )
         }
     }
 
-    work->body.objs->flag |= DG_FLAG_INVISIBLE;
+    DG_InvisibleObjs( work->body.objs );
 }
-static void s07b_800CB2A4( Work *work );
 // Possibly SetNaviTarget
 static void s07b_800CB6B0( Work *work, short x, short z, int scale )
 {
@@ -501,7 +536,6 @@ static void s07b_800CB6B0( Work *work, short x, short z, int scale )
     work->navi.addr = HZD_GetAddress( work->control.map->hzd, &pos, work->navi.addr );
     GM_ZoneNavi( &work->navi, &work->control );
 }
-static void s07b_800CDCAC( Work *work, int time );
 
 static void s07b_800CB770( Work *work )
 {
@@ -538,7 +572,6 @@ static void s07b_800CB770( Work *work )
         work->control.turn.vy = ( work->control.turn.vy + ( work->turn_step - 1 ) * 1024 ) & 0xFFF;
     }
 }
-static void s07b_800CDCAC( Work *work, int time );
 
 static void s07b_800CB8CC( Work *work )
 {
@@ -575,7 +608,6 @@ static void s07b_800CB8CC( Work *work )
         work->control.turn.vy = ( work->control.turn.vy + ( work->turn_step - 1 ) * 1024 ) & 0xFFF;
     }
 }
-
 
 static void s07b_800CB9E8( Work *work, int arg1 )
 {
@@ -620,9 +652,7 @@ static int s07b_800CBAA4( Work *work )
     }
     return 2;
 }
-static void s07b_800CF130( Work *work, int time );
 
-static void s07b_800CF9A0( Work *work, int time );
 typedef void ( *PSYCO_MODE )( Work *, int );
 
 static void s07b_800CBB38( Work *work )
@@ -667,7 +697,6 @@ static void s07b_800CBB38( Work *work )
     work->control.turn.vz = 0;
     work->control.turn.vx = 0;
 }
-static void s07b_800CB8CC( Work *work );
 
 static void s07b_800CBC20( Work *work )
 {
@@ -690,7 +719,6 @@ static void s07b_800CBC20( Work *work )
     s07b_800CB8CC( work );
     s07b_800CB224( work );
 }
-extern void *NewKogaku2( CONTROL *control, OBJECT *object, int num_parent );
 
 // optical camouflage off
 // Possibly KogakuOff
@@ -727,14 +755,13 @@ static void s07b_800CBDA0( Work *work )
         work->control.step.vy -= 32;
     }
 }
-extern void *NewBlood( MATRIX *world, int count );
 
 // blood effect at model part 'part'
-static void PutBlood( Work *work, int part )
+static void PutBlood( Work *work, int unit )
 {
     MATRIX world;
 
-    DG_SetPos( &work->body.objs->objs[ part ].world );
+    DG_SetPos( &work->body.objs->objs[ unit ].world );
     DG_MovePos( (SVECTOR *)&s07b_dword_800C33E0 );
     DG_RotatePos( (SVECTOR *)&s07b_dword_800C33E8 );
     ReadRotMatrix( &world );
@@ -781,13 +808,6 @@ static void s07b_800CBF00( Work *work, u_char *counter, u_char limit, int *done,
         }
     }
 }
-extern int dword_800BDD28;
-extern int dword_8009F434;
-extern int dword_8009F444;
-extern int dword_8009F474;
-extern int dword_8009F480;
-extern int dword_8009F49C;
-extern int amissile_alive_8009F490;
 
 static void s07b_800CBFB0( Work *work )
 {
@@ -823,7 +843,7 @@ static void s07b_800CC138( Work *work, int arg1 )
 
     msg.address = work->meryl_name;
     msg.message_len = 2;
-    msg.message[0] = 0x491D;
+    msg.message[0] = HASH_MODE;
     msg.message[1] = arg1;
     GV_SendMessage( &msg );
 }
@@ -835,7 +855,7 @@ static void s07b_800CC174( Work *work, int time )
     int       last;
     POLY_FT4 *poly;
 
-    alt = (short)( GM_Configuration & 0x100 );
+    alt = (short)( GM_Configuration & GM_CONFIG_ENGLISH );
     ot = ( DG_Chanl( 0 ) + 1 )->ot[ GV_Time & 1 ];
 
     if ( time == 0 )
@@ -893,7 +913,6 @@ static void s07b_800CC174( Work *work, int time )
         }
     }
 }
-extern int *s07b_dword_800E5BB0;
 
 static void s07b_800CC468( Work *work )
 {
@@ -933,7 +952,7 @@ static void s07b_800CC514( int arg0, int arg1 )
 
     msg.address = GV_StrCode( s07b_dword_800E4FA8 );
     msg.message_len = 4;
-    msg.message[0] = 0x3238;
+    msg.message[0] = HASH_STANCE;
     msg.message[1] = arg0;
     msg.message[2] = -1;
     msg.message[3] = arg1;
@@ -1034,20 +1053,16 @@ static void s07b_800CC8D4( Work *work )
 {
     if ( work->kogaku )
     {
-        if ( GM_Item == 6 )
+        if ( GM_Item == IT_ThermG )
         {
-            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+            DG_VisibleObjs( work->body.objs );
         }
         else
         {
-            work->body.objs->flag |= DG_FLAG_INVISIBLE;
+            DG_InvisibleObjs( work->body.objs );
         }
     }
 }
-extern int dword_8009F470;
-extern int dword_8009F480;
-extern int amissile_alive_8009F490;
-extern int dword_8009F49C;
 
 static void s07b_800CC930( void )
 {
@@ -1075,7 +1090,7 @@ static void s07b_800CC9E8( Work *work, int arg1 )
 {
     work->blink_timer = arg1;
     work->flags |= 2;
-    work->target->class &= ~0x94;
+    work->target->class &= ~( TARGET_POWER | TARGET_SEEK | TARGET_TOUCH );
 }
 // end of the state started by s07b_800CC9E8
 static void s07b_800CCA10( Work *work )
@@ -1083,10 +1098,10 @@ static void s07b_800CCA10( Work *work )
     work->blink_timer = 0;
     work->flags &= ~2;
     work->flags2 &= ~0x200;
-    work->target->class |= 0x9C;
+    work->target->class |= TARGET_POWER | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH;
     if ( !( work->flags2 & 1 ) )
     {
-        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs( work->body.objs );
     }
 }
 // blink timer (blink_timer) and target class timer (class_timer)
@@ -1121,12 +1136,12 @@ static void s07b_800CCA80( Work *work )
         {
             if ( !( work->flags & 2 ) )
             {
-                work->target->class |= 0x9C;
+                work->target->class |= TARGET_POWER | TARGET_PUSH | TARGET_SEEK | TARGET_TOUCH;
             }
         }
         else
         {
-            work->target->class &= ~0x94;
+            work->target->class &= ~( TARGET_POWER | TARGET_SEEK | TARGET_TOUCH );
         }
     }
 }
@@ -1135,15 +1150,10 @@ static void s07b_800CCBB0( TARGET *target )
     target->a_mode = 0;
     target->damage = 0;
     target->faint = 0;
-    target->damaged &= ~0x84;
+    target->damaged &= ~( TARGET_POWER | TARGET_TOUCH );
     target->force = DG_ZeroVector;
     target->weapon = -1;
 }
-static void s07b_800CD25C( Work *work, int time );
-static void s07b_800CD40C( Work *work, int time );
-static void s07b_800CD594( Work *work, int time );
-
-static void s07b_800CF304( Work *work, int time );
 
 static void s07b_800CCBFC( Work *work )
 {
@@ -1159,7 +1169,7 @@ static void s07b_800CCBFC( Work *work )
 
     target = work->target;
     target->vital += target->damage;
-    if ( !( target->damaged & 4 ) )
+    if ( !( target->damaged & TARGET_POWER ) )
     {
         return;
     }
@@ -1298,9 +1308,6 @@ static void s07b_800CCBFC( Work *work )
         s07b_800CCBB0( target );
     }
 }
-static void s07b_800CED04( Work *work, int time );
-static void s07b_800CEFF0( Work *work, int time );
-static void s07b_800CDAFC( Work *work, int time );
 
 static void s07b_800CCFE4( Work *work )
 {
@@ -1422,17 +1429,13 @@ static void s07b_800CCFE4( Work *work )
     s07b_800CC9E8( work, 32 );
 }
 
-
-
-static void s07b_800CCFE4( Work *work );
-
 static void s07b_800CD25C( Work *work, int time )
 {
     int action;
 
     if ( time == 0 )
     {
-        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs( work->body.objs );
         if ( work->kogaku_state == 10 )
         {
             work->field_A64 = 1;
@@ -1482,7 +1485,7 @@ static void s07b_800CD40C( Work *work, int time )
         }
 
         s07b_800CBCE8( work );
-        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs( work->body.objs );
         work->flags2 &= ~1;
         if ( work->body.action != 24 )
         {
@@ -1589,7 +1592,7 @@ static void s07b_800CD594( Work *work, int time )
         {
             GM_ConfigObjectAction( &work->body, action, 0, 4 );
         }
-        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs( work->body.objs );
         work->flags2 &= ~1;
         if ( work->kogaku_state == 10 )
         {
@@ -1650,8 +1653,6 @@ static void DrawLifebar( Work *work )
     }
 }
 
-extern char psyco_name[ 16 ];
-
 static int SetLifebar( Work *work )
 {
     MENU_BAR_CONF *lifebar;
@@ -1671,7 +1672,6 @@ static int SetLifebar( Work *work )
 }
 
 const char s07b_dword_800E5020[] = "マンティス";
-static int SetLifebar( Work *work );
 
 static void s07b_800CDA90( Work *work )
 {
@@ -1691,9 +1691,6 @@ static void s07b_800CDA90( Work *work )
         }
     }
 }
-static void s07b_800CDA90( Work *work );
-static void s07b_800CBC20( Work *work );
-static void s07b_800CDBA4( Work *work, int time );
 
 static void s07b_800CDAFC( Work *work, int time )
 {
@@ -1719,9 +1716,6 @@ static void s07b_800CDAFC( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-static void s07b_800CB9E8( Work *work, int arg1 );
-static void s07b_800CEBAC( Work *work, int time );
-static void s07b_800CDCAC( Work *work, int time );
 
 static void s07b_800CDBA4( Work *work, int time )
 {
@@ -1811,7 +1805,7 @@ static void s07b_800CDCAC( Work *work, int time )
 
     if ( work->state == 8 )
     {
-        work->body.objs->flag |= DG_FLAG_INVISIBLE;
+        DG_InvisibleObjs( work->body.objs );
     }
 
     switch ( work->field_A64 )
@@ -1862,8 +1856,6 @@ static void s07b_800CDCAC( Work *work, int time )
 
     s07b_800CC8D4( work );
 }
-static void s07b_800CE134( Work *work, int time );
-static void s07b_800CE2A8( Work *work, int time );
 
 // Possibly ThrowChair
 void s07b_800CDF40( Work *work, int time )
@@ -1937,7 +1929,6 @@ void s07b_800CDF40( Work *work, int time )
         work->control.step = DG_ZeroVector;
     }
 }
-static void s07b_800CE2A8( Work *work, int time );
 
 // Possibly ThrowStatue
 static void s07b_800CE134( Work *work, int time )
@@ -1989,7 +1980,6 @@ static void s07b_800CE134( Work *work, int time )
         work->flags2 &= ~0x2000;
     }
 }
-static void s07b_800CE43C( Work *work, int time );
 
 // Possibly ThrowPot
 static void s07b_800CE2A8( Work *work, int time )
@@ -2045,7 +2035,6 @@ static void s07b_800CE2A8( Work *work, int time )
         work->object_alive = NULL;
     }
 }
-static void s07b_800CED04( Work *work, int time );
 
 // Possibly ThrowOx
 static void s07b_800CE43C( Work *work, int time )
@@ -2126,7 +2115,6 @@ static void s07b_800CE43C( Work *work, int time )
         work->object_alive = NULL;
     }
 }
-static void s07b_800CEFF0( Work *work, int time );
 
 // Possibly ThrowPictureBook
 void s07b_800CE660( Work *work, int time )
@@ -2209,8 +2197,6 @@ void s07b_800CE660( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-static void s07b_800CEA18( Work *work, int time );
-
 
 // Possibly ThrowPotStatueOx
 static void s07b_800CE85C( Work *work, int time )
@@ -2232,7 +2218,7 @@ static void s07b_800CE85C( Work *work, int time )
         work->flags2 &= ~1;
         s07b_800CB6B0( work, -500, -1250, 96 );
         s07b_800CDA90( work );
-        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs( work->body.objs );
     }
 
     s07b_800CB224( work );
@@ -2270,7 +2256,6 @@ static void s07b_800CE85C( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-static void s07b_800CE85C( Work *work, int time );
 
 // Possibly ThrowChairPictureBook
 static void s07b_800CEA18( Work *work, int time )
@@ -2326,9 +2311,6 @@ static void s07b_800CEA18( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-static void s07b_800CDCAC( Work *work, int time );
-static void s07b_800CDAFC( Work *work, int time );
-static void s07b_800CEFF0( Work *work, int time );
 
 // Possibly SonicAttack
 static void s07b_800CEBAC( Work *work, int time )
@@ -2388,7 +2370,6 @@ static void s07b_800CEBAC( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-static void s07b_800CC174( Work *work, int arg1 );
 
 static void s07b_800CED04( Work *work, int time )
 {
@@ -2474,7 +2455,7 @@ static void s07b_800CED04( Work *work, int time )
             work->flags2 |= 1;
             GM_GameStatus &= ~(STATE_PADRELEASE | STATE_MENU_DISABLE | STATE_LIFE_OFF | STATE_RADIO_OFF);
             GV_PauseLevel &= ~4;
-            work->body.objs->flag |= DG_FLAG_INVISIBLE;
+            DG_InvisibleObjs( work->body.objs );
             work->action = s07b_800CF130;
             work->time = 0;
             work->field_A66 = 0;
@@ -2527,7 +2508,6 @@ static void s07b_800CEFF0( Work *work, int time )
         work->hom->flag = 0;
     }
 }
-static void s07b_800CF200( Work *work, int time );
 
 static void s07b_800CF130( Work *work, int time )
 {
@@ -2557,7 +2537,6 @@ static void s07b_800CF130( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-static void s07b_800CEBAC( Work *work, int time );
 
 // blink (visible every other frame) for 16 frames
 static void s07b_800CF200( Work *work, int time )
@@ -2596,12 +2575,6 @@ static void s07b_800CF200( Work *work, int time )
         work->control.turn.vx = 0;
     }
 }
-extern int dword_800BDD28;
-extern int dword_8009F444;
-extern int dword_8009F434;
-extern int dword_8009F49C;
-extern int dword_8009F480;
-void *NewFadeInOut( int mode, int shade );
 
 static void s07b_800CF304( Work *work, int time )
 {
@@ -2628,7 +2601,7 @@ static void s07b_800CF304( Work *work, int time )
         s07b_800CBCE8( work );
         s07b_800CB068( 0 );
         s07b_800CB0B4( work, 0 );
-        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs( work->body.objs );
         if ( work->body.action != 22 )
         {
             GM_ConfigObjectAction( &work->body, 22, 0, 4 );
@@ -2664,7 +2637,7 @@ static void s07b_800CF304( Work *work, int time )
     GM_SnakeCamera.position = work->head_pos;
     GV_SubVec3( &work->control.mov, &GM_PlayerPosition, &diff );
     GM_PlayerControl->turn.vy = GV_VecDir2( &diff );
-    GM_PlayerBody->objs->flag |= DG_FLAG_INVISIBLE;
+    DG_InvisibleObjs( GM_PlayerBody->objs );
 
     if ( work->field_A64 == 0 )
     {
@@ -2813,7 +2786,7 @@ static void s07b_800CF9A0( Work *work, int time )
     switch ( work->field_A64 )
     {
     case 0:
-        GM_PlayerBody->objs->flag |= DG_FLAG_INVISIBLE;
+        DG_InvisibleObjs( GM_PlayerBody->objs );
         GM_PlayerStatus |= PLAYER_NOT_SIGHT;
         from = work->control.mov;
         to.vx = GM_PlayerBody->objs->objs[ 6 ].world.t[ 0 ];
@@ -2837,7 +2810,7 @@ static void s07b_800CF9A0( Work *work, int time )
         if ( ++work->field_A66 == 6 )
         {
             GM_PlayerStatus &= ~PLAYER_NOT_SIGHT;
-            GM_PlayerBody->objs->flag &= ~DG_FLAG_INVISIBLE;
+            DG_VisibleObjs( GM_PlayerBody->objs );
             GM_GameStatus &= ~(STATE_PADRELEASE | STATE_PAUSE_ONLY);
             GM_GameStatus |= STATE_RADAR_OFF;
             s07b_800CCA10( work );
@@ -2848,7 +2821,6 @@ static void s07b_800CF9A0( Work *work, int time )
         break;
     }
 }
-int GM_StreamStatus( void );
 
 static inline int s07b_VecDist( SVECTOR *a, SVECTOR *b, SVECTOR *diff )
 {
@@ -3133,7 +3105,7 @@ static void s07b_800CFBF8( Work *work, int time )
             GM_SnakeCamera.rotate2.vy = GV_VecDir2( &GM_PlayerPosition );
         }
         s07b_800CC790( work, 0 );
-        GM_PlayerBody->objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs( GM_PlayerBody->objs );
         if ( GM_VoxCodeEnd( work->field_ABC[ 1 ] ) )
         {
             s07b_800CCA10( work );
@@ -3144,15 +3116,13 @@ static void s07b_800CFBF8( Work *work, int time )
             GM_GameStatus = ( GM_GameStatus & ~(STATE_PADRELEASE | STATE_PAUSE_ONLY) ) | STATE_RADAR_OFF;
             CloseCinemaScreen();
             GM_PlayerStatus &= ~PLAYER_NOT_SIGHT;
-            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+            DG_VisibleObjs( work->body.objs );
             work->flags &= ~0x10;
             GM_Camera.first_person = 0;
         }
         break;
     }
 }
-void OpenCinemaScreen( int type, int time );
-void CloseCinemaScreen( void );
 
 static void s07b_800D0774( Work *work, int time )
 {
@@ -3180,7 +3150,7 @@ static void s07b_800D0774( Work *work, int time )
         work->flags2 &= ~0x20;
         OpenCinemaScreen( 1, 30000 );
         work->control.step = DG_ZeroVector;
-        work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+        DG_VisibleObjs( work->body.objs );
         s07b_800CB068( 0 );
         s07b_800CB0B4( work, 0 );
         GM_VoxQueue( work->field_ABC[ 2 ] );
@@ -3229,16 +3199,11 @@ static void s07b_800D098C( Work *work, int time )
         work->flags2 |= 0x10;
     }
 }
-static void s07b_800CB2A4( Work *work );
 
 static void s07b_800D0A4C( Work *work, int time )
 {
     s07b_800CB2A4( work );
 }
-static void s07b_800CED04( Work *work, int time );
-static void s07b_800CF768( Work *work, int time );
-static void s07b_800CCBFC( Work *work );
-static void s07b_800CC6CC( void );
 
 static void s07b_800D0A6C( Work *work, int time )
 {
@@ -3278,8 +3243,6 @@ static void s07b_800D0B40( Work *work, int time )
 {
     /* do nothing */
 }
-
-static void s07b_800CFBF8( Work *work, int time );
 
 static void s07b_800D0B48( Work *work, int time )
 {
@@ -3336,9 +3299,6 @@ static void s07b_800D0C8C( Work *work, int time )
     /* do nothing */
 }
 
-
-static void s07b_800D0774( Work *work, int time );
-
 static void s07b_800D0C94( Work *work, int time )
 {
     if ( time == 0 )
@@ -3386,9 +3346,6 @@ static void s07b_800D0DCC( Work *work, int time )
     /* do nothing */
 }
 
-static void s07b_800CB2A4( Work *work );
-static void s07b_800CCBFC( Work *work );
-
 static void s07b_800D0DD4( Work *work, int time )
 {
     u_short *data;
@@ -3428,7 +3385,7 @@ static void s07b_800D0DD4( Work *work, int time )
         s07b_800CBCE8( work );
         if ( !( work->flags & 1 ) )
         {
-            work->body.objs->flag &= ~DG_FLAG_INVISIBLE;
+            DG_VisibleObjs( work->body.objs );
             work->field_864 = 1;
         }
         s07b_800CB6B0( work, -500, -1250, 160 );
@@ -3445,8 +3402,6 @@ static void s07b_800D0DD4( Work *work, int time )
 
     s07b_800CB2A4( work );
 }
-static void s07b_800CB2A4( Work *work );
-static void s07b_800CCBFC( Work *work );
 
 static void s07b_800D0F94( Work *work, int time )
 {
@@ -3571,10 +3526,6 @@ const char s07b_dword_800E5078[] = "hideo_b";
 const char s07b_dword_800E5080[] = "hideo_s";
 const char s07b_dword_800E5088[] = "hideo";
 
-
-static void s07b_800D105C( Work *work );
-static void DrawLifebar( Work *work );
-
 static void Act( Work *work )
 {
     int      mask;
@@ -3621,10 +3572,6 @@ static void Act( Work *work )
     s07b_dword_800E5BE0 = work->control.mov;
 }
 
-extern int dword_800BDD28;
-extern int dword_8009F444;
-extern int dword_8009F434;
-
 static void Die( Work *work )
 {
     s07b_800CBCE8( work );
@@ -3654,7 +3601,6 @@ static void Die( Work *work )
     GM_ResetHomingTarget( work->hom );
     GM_VoxInit();
 }
-static void Die( Work *work );
 
 static int InitTarget( Work *work )
 {
@@ -3722,9 +3668,6 @@ static int InitTarget( Work *work )
     s07b_dword_800C33F0 = target->vital;
     return 0;
 }
-static int InitTarget( Work *work );
-
-extern int *s07b_dword_800E5BD8;
 
 static void s07b_800D1638( Work *work )
 {
@@ -3797,7 +3740,6 @@ static void s07b_800D1638( Work *work )
     work->control.hzd_height = s07b_dword_800C33F4[ 0 ];
     work->object_alive = NULL;
 }
-static void s07b_800D1638( Work *work );
 
 static int s07b_800D187C( HZD_PAT *patrol, int *count, SVECTOR *data )
 {
@@ -3905,7 +3847,6 @@ static void s07b_800D195C( Work *work )
     work->picture_count = 0;
     work->field_A5C = 0;
 }
-static void s07b_800D195C( Work *work );
 
 static void s07b_800D1C80( Work *work )
 {

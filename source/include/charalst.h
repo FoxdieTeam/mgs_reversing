@@ -424,13 +424,13 @@ extern NEWCHARA NewBlast;                       /* bullet/blast.c               
 extern NEWCHARA NewScenarioJirai;               /* bullet/jirai.c               */
 extern NEWCHARA NewHind;                        /* chara/hind/hind.c            */
 extern NEWCHARA NewHind2;                       /* chara/hind2/hind2.c          */
+extern NEWCHARA NewPsychoMeryl;                 /* chara/meryl07b/meryl07b.c    */
 extern NEWCHARA NewBelong;                      /* chara/others/belong.c        */
 extern NEWCHARA NewFontText;                    /* chara/others/fonttext.c      */
 extern NEWCHARA NewIntrudeCamera;               /* chara/others/intr_cam.c      */
 extern NEWCHARA NewMotionSoundEffect;           /* chara/others/motse.c         */
 extern NEWCHARA NewMemoryPsycho;                /* chara/psyco/mempsy.c         */
 extern NEWCHARA NewPsychoMantis;                /* chara/psyco/psyco.c          */
-extern NEWCHARA NewPsychoMeryl;                 /* chara/meryl07b/meryl07b.c    */
 extern NEWCHARA NewPsychoObject;                /* chara/psyco/psyobj.c         */
 extern NEWCHARA NewDamageSmoke2;                /* chara/rope/dsmoke2.c         */
 extern NEWCHARA NewLanding;                     /* chara/rope/landing.c         */
