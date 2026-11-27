@@ -14,7 +14,7 @@ typedef struct _Work {
     int     count;
 } Work;
 
-static int pot_alive = 0;
+int pot_alive = 0; // also read by psyco.c (Work.field_8F0)
 
 static int CheckHit( PSYOBJ *obj, SVECTOR dir )
 {

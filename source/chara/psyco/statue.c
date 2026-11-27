@@ -14,7 +14,7 @@ typedef struct _Work {
     int     count;
 } Work;
 
-static int statue_alive = 0;
+int statue_alive = 0; // also read by psyco.c (Work.field_8F0)
 
 static int Idle( Work *work, PSYOBJ *obj, int time, int i )
 {

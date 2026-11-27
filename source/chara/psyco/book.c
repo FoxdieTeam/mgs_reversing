@@ -13,7 +13,7 @@ typedef struct _Work {
     int     side;
 } Work;
 
-static int book_alive = 0;
+int book_alive = 0; // also read by psyco.c
 
 static int Idle( Work *work, PSYOBJ *obj, int time, int index )
 {

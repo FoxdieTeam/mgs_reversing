@@ -194,7 +194,7 @@
 #define CHARA_PRISONSNAKE       { 0xa404, NewPrisonSnake }          // GV_StrCode("独房スネーク") chara/torture/sne_03c.c
 #define CHARA_PRISONSNAKE2      { 0x27a2, NewPrisonSnake2 }         // GV_StrCode("独房スネーク２") chara/torture/sne_03c.c
 #define CHARA_PSYCHOMANTIS      { 0xa76f, NewPsychoMantis }         // GV_StrCode("サイコマンティス") chara/psyco/psyco.c
-#define CHARA_PSYCHOMERYL       { 0xf4b0, ? }                       // GV_StrCode("サイコメリル") chara/meryl07b/meryl07b.c
+#define CHARA_PSYCHOMERYL       { 0xf4b0, NewPsychoMeryl }          // GV_StrCode("サイコメリル") chara/meryl07b/meryl07b.c
 #define CHARA_PSYOBJ            { 0x710d, NewPsychoObject }         // GV_StrCode("サイコ物体") chara/psyco/psyobj.c
 #define CHARA_PUTHZD            { 0x91aa, ? }                       // takabe/puthzd.c
 #define CHARA_PILOTLAMP         { 0x169c, NewPilotLamp }            // GV_StrCode("パイロットランプ") okajima/p_lamp.c
@@ -424,6 +424,7 @@ extern NEWCHARA NewBlast;                       /* bullet/blast.c               
 extern NEWCHARA NewScenarioJirai;               /* bullet/jirai.c               */
 extern NEWCHARA NewHind;                        /* chara/hind/hind.c            */
 extern NEWCHARA NewHind2;                       /* chara/hind2/hind2.c          */
+extern NEWCHARA NewPsychoMeryl;                 /* chara/meryl07b/meryl07b.c    */
 extern NEWCHARA NewBelong;                      /* chara/others/belong.c        */
 extern NEWCHARA NewFontText;                    /* chara/others/fonttext.c      */
 extern NEWCHARA NewIntrudeCamera;               /* chara/others/intr_cam.c      */

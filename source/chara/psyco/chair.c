@@ -15,7 +15,7 @@ typedef struct _Work {
     char    unused[ 4 ];
 } Work;
 
-static int chair_alive = 0;
+int chair_alive = 0; // also read by psyco.c (Work.field_8F0)
 
 static int UpdateStep( PSYOBJ *obj, int time )
 {
